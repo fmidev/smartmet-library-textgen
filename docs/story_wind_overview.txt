@@ -7,7 +7,52 @@
 Tarina kuvailee tuuliennustetta yhden tai useamman päivän mittaiselle
 jaksolle. Parhaiten tarina soveltuu ensimmäisille 1-3 päivälle.
 
+Tarinan yleismuoto on
+
+ -# [seuraavaan aamuun asti], [sitä seuraavaan aamuun asti], [kukin loppuvuorokausi]
+
+Ensimmäisen osan aikamäärittelyt saadaan muuttujista
+\code
+textgen::[kappale]::story::wind_overview::starthour = [0-23]
+textgen::[kappale]::story::wind_overview::endhour = [0-23]
+textgen::[kappale]::story::wind_overview::maxstarthour = [0-23]
+textgen::[kappale]::story::wind_overview::minendhour = [0-23]
+\endcode
+Tyypilliset asetukset ovat
+\code
+textgen::[kappale]::story::wind_overview::starthour = 6
+textgen::[kappale]::story::wind_overview::maxstarthour = 0
+textgen::[kappale]::story::wind_overview::endhour = 6
+\endcode
+Tällöin kerrottaisiin huomisaamuun asti aina keskiyöhön saakka,
+tämän jälkeen aletaan kertoa tulevasta päivästä.
+
+Samoja asetuksia käytetään myös seuraaville päiville. Koska jaksot
+usein loppuvat iltaan, on ehkä järkevää käyttää lisäasetusta
+\code
+textgen::[kappale]::story::wind_overview::minendhour = 18
+\endcode
+Tällöin viimeisen päivän tuulet saattavat kattaa esimerkiksi vain ajan
+06-18.
+
+
+
+
 \section section_weather_overview_algorithm Algoritmit
+
+\section section_weather_overview_speeds Tuuliluokat
+
+Vakiintuneen käytännön mukaan eri tuuliluokat ovat
+
+<table border="0">
+<tr><td>0 m/s</td><td>tyyntä</td><td>lugnt</td></tr>
+<tr><td>1-3 m/s</td><td>heikkoa tuulta</td><td>svag vind</td></tr>
+<tr><td>4-7 m/s</td><td>kohtalaista tuulta</td><td>måttlig vind</td></tr>
+<tr><td>8-13 m/s</td><td>navakkaa tuulta</td><td>frisk vind</td></tr>
+<tr><td>14-20 m/s</td><td>kovaa tuulta</td><td>hård vind</td></tr>
+<tr><td>21-32 m/s</td><td>myrskyä</td><td>storm</td></tr>
+<tr><td>32- m/s</td><td>hirmumyrskyä</td><td>orkan</td></tr>
+</table>
 
 \section section_weather_overview_fraasit Tarvittavat fraasit
 
@@ -45,5 +90,155 @@ Tarvittavat fraasit ovat
  - "N-puoleiseksi tuuleksi", N=1-8
  - "N-na", N=1-7
  - "N-alkaen", N=1-7
+
+Oleelliset fraasit ovat eri kielillä
+
+<table>
+<tr>
+<td>metriä sekunnissa</td>
+<td>meter i sekunden</td>
+<td>meters per second</td>
+</tr>
+<tr>
+<td>tyyntä</td>
+<td>lugnt</td>
+<td></td>
+</tr>
+<tr>
+<td>heikkoa</td>
+<td>svag</td>
+<td></td>
+<tr>
+<td>kohtalaista</td>
+<td>måttlig</td>
+<td></td>
+</tr>
+<tr>
+<td>navakkaa</td>
+<td>frisk</td>
+<td></td>
+</tr>
+<tr>
+<td>kovaa</td>
+<td>hård</td>
+<td></td>
+</tr>
+<tr>
+<td>myrskyä</td>
+<td>storm</td>
+<td></td>
+</tr>
+<tr>
+<td>hirmumyrskyä</td>
+<td>orkan</td>
+<td></td>
+</tr>
+<tr>
+<td>tyyneksi</td>
+<td>till lugnt</td>
+<td></td>
+</tr>
+<tr>
+<td>heikoksi</td>
+<td>till svag</td>
+<td></td>
+</tr>
+<tr>
+<td>kohtalaiseksi</td>
+<td>till måttlig</td>
+<td></td>
+</tr>
+<tr>
+<td>navakaksi</td>
+<td>till frisk</td>
+<td></td>
+</tr>
+<tr>
+<td>kovaksi</td>
+<td>till hård</td>
+<td></td>
+</tr>
+<tr>
+<td>myrskyksi</td>
+<td>till storm</td>
+<td></td>
+</tr>
+<tr>
+<td>hirmumyrskyksi</td>
+<td>till orkan</td>
+<td></td>
+</tr>
+<tr>
+<td>tuuli</td>
+<td>vinden</td>
+<td></td>
+</tr>
+<tr>
+<td>tuulta</td>
+<td>vind</td>
+<td></td>
+</tr>
+<tr>
+<td>yöllä</td>
+<td>på natten</td>
+<td></td>
+</tr>
+<tr>
+<td>tuuli tyyntyy</td>
+<td>avtar vinden helt</td>
+<td></td>
+</tr>
+<tr>
+<td>tuuli heikkenee</td>
+<td>avtar vinden</td>
+<td></td>
+</tr>
+<tr>
+<td>tuuli voimistuu</td>
+<td>tilltar vinden</td>
+<td></td>
+</tr>
+<tr>
+<td>edelleen</td>
+<td>fortfarande</td>
+<td></td>
+</tr>
+<tr>
+<td>heikkenevää</td>
+<td>avtagande</td>
+<td></td>
+</tr>
+<tr>
+<td>voimistuvaa</td>
+<td>tilltagande</td>
+<td></td>
+</tr>
+<tr>
+<td>suunnaltaan vaihtelevaa</td>
+<td>varierande</td>
+<td></td>
+</tr>
+<tr>
+<td>pohjoistuulta ...</td>
+<td>nordlig vind ...</td>
+<td>northern wind ...</td>
+</tr>
+<tr>
+<td>pohjoistuuleksi ...</td>
+<td>nordlig vind ...</td>
+<td></td>
+</tr>
+<tr>
+<td>pohjoisen puoleista tuulta ...</td>
+<td>vind omkring nord ...</td>
+<td></td>
+</tr>
+<tr>
+<td>pohjoisen puoleiseksi tuuleksi ...</td>
+<td>vind omkring nord ...</td>
+<td></td>
+</tr>
+</table>
+ 
 
 */
