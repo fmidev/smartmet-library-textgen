@@ -26,6 +26,7 @@ namespace MathTools
    */
   // ----------------------------------------------------------------------
 
+  inline
   double mean(double arg1, double arg2)
   {
 	return (arg1+arg2)/2;
@@ -37,6 +38,7 @@ namespace MathTools
    */
   // ----------------------------------------------------------------------
 
+  inline
   double mean(double arg1, double arg2, double arg3)
   {
 	return (arg1+arg2+arg3)/3;
@@ -48,6 +50,7 @@ namespace MathTools
    */
   // ----------------------------------------------------------------------
 
+  inline
   double mean(double arg1, double arg2, double arg3, double arg4)
   {
 	return (arg1+arg2+arg3+arg4)/4;
