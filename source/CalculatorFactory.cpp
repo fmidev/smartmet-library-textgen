@@ -12,6 +12,7 @@
 #include "PercentageCalculator.h"
 #include "RangeAcceptor.h"
 #include "SumCalculator.h"
+#include "TrendCalculator.h"
 #include "WeatherAnalysisError.h"
 
 #include "boost/lexical_cast.hpp"
@@ -51,6 +52,8 @@ namespace WeatherAnalysis
 		  return shared_ptr<Calculator>(new SumCalculator);
 		case Percentage:
 		  return shared_ptr<Calculator>(new PercentageCalculator);
+		case Trend:
+		  return shared_ptr<Calculator>(new TrendCalculator);
 		}
 
 	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
