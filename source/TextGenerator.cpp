@@ -249,11 +249,11 @@ namespace TextGen
 
 				const string dayvar = defaultvar+"::day"+NFmiStringTools::Convert(day);
 
-				const bool hasday = Settings::isset(dayvar+"::contents");
+				const bool hasday = Settings::isset(dayvar+"::content");
 
 				doc << make_contents(hasday ?
-									 Settings::require_string(dayvar+"::contents") :
-									 Settings::require_string(defaultvar+"::contents"),
+									 Settings::require_string(dayvar+"::content") :
+									 Settings::require_string(defaultvar+"::content"),
 									 hasday ? dayvar : defaultvar,
 									 itsPimple->itsForecastTime,
 									 itsPimple->itsSources,
