@@ -22,23 +22,26 @@ namespace PrecipitationStoryTest
   TextGen::PlainTextFormatter formatter;
   
 
-  void require(const TextGen::Story & theStory,
-			   const string & theLanguage,
-			   const string & theName,
-			   const string & theExpected)
+  string require(const TextGen::Story & theStory,
+				 const string & theLanguage,
+				 const string & theName,
+				 const string & theExpected)
   {
 	dict->init(theLanguage);
 	formatter.dictionary(dict);
 
 	TextGen::Paragraph para = theStory.makeStory(theName);
-	const string value = para.realize(formatter);
+	const string result = para.realize(formatter);
 
-	if(value != theExpected)
-	  {
-		const string msg = value + " <> " + theExpected;
-		TEST_FAILED(msg.c_str());
-	  }
+	if(result != theExpected)
+	  return (result + " < > " + theExpected);
+	else
+	  return "";
   }
+
+#define REQUIRE(story,lan,name,expected) \
+result = require(story,lan,name,expected); \
+if(!result.empty()) TEST_FAILED(result.c_str());
 
   // ----------------------------------------------------------------------
   /*!
@@ -60,21 +63,22 @@ namespace PrecipitationStoryTest
 	PrecipitationStory story(time1,sources,area,period,"total");
 
 	const string fun = "precipitation_total";
+	string result;
 
 	NFmiSettings::Set("total::fake::mean","0.1,0");
-	require(story,"fi",fun,"Sadesumma 0 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman 0 millimeter.");
-	require(story,"en",fun,"Total precipitation 0 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma 0 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 0 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 0 millimeters.");
 
 	NFmiSettings::Set("total::fake::mean","0.5,0");
-	require(story,"fi",fun,"Sadesumma 1 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman 1 millimeter.");
-	require(story,"en",fun,"Total precipitation 1 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma 1 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 1 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 1 millimeters.");
 
 	NFmiSettings::Set("total::fake::mean","10,0");
-	require(story,"fi",fun,"Sadesumma 10 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman 10 millimeter.");
-	require(story,"en",fun,"Total precipitation 10 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma 10 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 10 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 10 millimeters.");
 
 	TEST_PASSED();
   }
@@ -99,38 +103,39 @@ namespace PrecipitationStoryTest
 	PrecipitationStory story(time1,sources,area,period,"range");
 
 	const string fun = "precipitation_range";
+	string result;
 
 	NFmiSettings::Set("range::maxrain","20");
 
 	NFmiSettings::Set("range::fake::minimum","0,0");
 	NFmiSettings::Set("range::fake::maximum","0,0");
-	require(story,"fi",fun,"Sadesumma 0 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman 0 millimeter.");
-	require(story,"en",fun,"Total precipitation 0 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma 0 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 0 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 0 millimeters.");
 
 	NFmiSettings::Set("range::fake::minimum","5,0");
 	NFmiSettings::Set("range::fake::maximum","5,0");
-	require(story,"fi",fun,"Sadesumma 5 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman 5 millimeter.");
-	require(story,"en",fun,"Total precipitation 5 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma 5 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 5 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 5 millimeters.");
 
 	NFmiSettings::Set("range::fake::minimum","5,0");
 	NFmiSettings::Set("range::fake::maximum","10,0");
-	require(story,"fi",fun,"Sadesumma 5...10 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman 5...10 millimeter.");
-	require(story,"en",fun,"Total precipitation 5...10 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma 5...10 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 5...10 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 5...10 millimeters.");
 
 	NFmiSettings::Set("range::fake::minimum","15,0");
 	NFmiSettings::Set("range::fake::maximum","25,0");
-	require(story,"fi",fun,"Sadesumma 15...25 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman 15...25 millimeter.");
-	require(story,"en",fun,"Total precipitation 15...25 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma 15...25 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 15...25 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 15...25 millimeters.");
 
 	NFmiSettings::Set("range::fake::minimum","25,0");
 	NFmiSettings::Set("range::fake::maximum","30,0");
-	require(story,"fi",fun,"Sadesumma yli 20 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman över 20 millimeter.");
-	require(story,"en",fun,"Total precipitation over 20 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma yli 20 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman över 20 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation over 20 millimeters.");
 
 	TEST_PASSED();
   }
@@ -154,6 +159,8 @@ namespace PrecipitationStoryTest
 	WeatherPeriod period(time1,time2);
 	PrecipitationStory story(time1,sources,area,period,"classification");
 
+	string result;
+
 	const string fun = "precipitation_classification";
 	NFmiSettings::Set("classification::classes","0...2,2...5,5...10,10...20");
 	NFmiSettings::Set("classification::max_some_places","30");
@@ -165,73 +172,73 @@ namespace PrecipitationStoryTest
 	NFmiSettings::Set("classification::fake::mean","0,0");
 	NFmiSettings::Set("classification::fake::maximum","0,0");
 	NFmiSettings::Set("classification::fake::percentage","0,0");
-	require(story,"fi",fun,"Sadesumma 0 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman 0 millimeter.");
-	require(story,"en",fun,"Total precipitation 0 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma 0 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 0 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 0 millimeters.");
 
 	NFmiSettings::Set("classification::fake::minimum","0,0");
 	NFmiSettings::Set("classification::fake::mean","1,0");
 	NFmiSettings::Set("classification::fake::maximum","2,0");
 	NFmiSettings::Set("classification::fake::percentage","0,0");
-	require(story,"fi",fun,"Sadesumma 0...2 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman 0...2 millimeter.");
-	require(story,"en",fun,"Total precipitation 0...2 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma 0...2 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 0...2 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 0...2 millimeters.");
 
 	NFmiSettings::Set("classification::fake::minimum","0,0");
 	NFmiSettings::Set("classification::fake::mean","4,0");
 	NFmiSettings::Set("classification::fake::maximum","6,0");
 	NFmiSettings::Set("classification::fake::percentage","0,0");
-	require(story,"fi",fun,"Sadesumma 2...5 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman 2...5 millimeter.");
-	require(story,"en",fun,"Total precipitation 2...5 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma 2...5 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 2...5 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 2...5 millimeters.");
 
 	NFmiSettings::Set("classification::fake::minimum","0,0");
 	NFmiSettings::Set("classification::fake::mean","4,0");
 	NFmiSettings::Set("classification::fake::maximum","6,0");
 	NFmiSettings::Set("classification::fake::percentage","40,0");
-	require(story,"fi",fun,"Sadesumma 2...5 millimetriä, paikoin enemmän.");
-	require(story,"sv",fun,"Nederbördssumman 2...5 millimeter, lokalt mera.");
-	require(story,"en",fun,"Total precipitation 2...5 millimeters, more in some places.");
+	REQUIRE(story,"fi",fun,"Sadesumma 2...5 millimetriä, paikoin enemmän.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 2...5 millimeter, lokalt mera.");
+	REQUIRE(story,"en",fun,"Total precipitation 2...5 millimeters, more in some places.");
 
 	NFmiSettings::Set("classification::fake::minimum","0,0");
 	NFmiSettings::Set("classification::fake::mean","4,0");
 	NFmiSettings::Set("classification::fake::maximum","6,0");
 	NFmiSettings::Set("classification::fake::percentage","80,0");
-	require(story,"fi",fun,"Sadesumma 2...5 millimetriä, monin paikoin enemmän.");
-	require(story,"sv",fun,"Nederbördssumman 2...5 millimeter, flerstädes mera.");
-	require(story,"en",fun,"Total precipitation 2...5 millimeters, more in many places.");
+	REQUIRE(story,"fi",fun,"Sadesumma 2...5 millimetriä, monin paikoin enemmän.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 2...5 millimeter, flerstädes mera.");
+	REQUIRE(story,"en",fun,"Total precipitation 2...5 millimeters, more in many places.");
 
 	NFmiSettings::Set("classification::fake::minimum","0,0");
 	NFmiSettings::Set("classification::fake::mean","15,0");
 	NFmiSettings::Set("classification::fake::maximum","20,0");
 	NFmiSettings::Set("classification::fake::percentage","0,0");
-	require(story,"fi",fun,"Sadesumma 10...20 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman 10...20 millimeter.");
-	require(story,"en",fun,"Total precipitation 10...20 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma 10...20 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 10...20 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 10...20 millimeters.");
 
 	NFmiSettings::Set("classification::fake::minimum","0,0");
 	NFmiSettings::Set("classification::fake::mean","15,0");
 	NFmiSettings::Set("classification::fake::maximum","25,0");
 	NFmiSettings::Set("classification::fake::percentage","10,0");
-	require(story,"fi",fun,"Sadesumma 10...20 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman 10...20 millimeter.");
-	require(story,"en",fun,"Total precipitation 10...20 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma 10...20 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 10...20 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 10...20 millimeters.");
 
 	NFmiSettings::Set("classification::fake::minimum","0,0");
 	NFmiSettings::Set("classification::fake::mean","15,0");
 	NFmiSettings::Set("classification::fake::maximum","25,0");
 	NFmiSettings::Set("classification::fake::percentage","40,0");
-	require(story,"fi",fun,"Sadesumma paikoin yli 20 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman lokalt över 20 millimeter.");
-	require(story,"en",fun,"Total precipitation in some places over 20 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma paikoin yli 20 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman lokalt över 20 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation in some places over 20 millimeters.");
 
 	NFmiSettings::Set("classification::fake::minimum","0,0");
 	NFmiSettings::Set("classification::fake::mean","15,0");
 	NFmiSettings::Set("classification::fake::maximum","25,0");
 	NFmiSettings::Set("classification::fake::percentage","80,0");
-	require(story,"fi",fun,"Sadesumma monin paikoin yli 20 millimetriä.");
-	require(story,"sv",fun,"Nederbördssumman flerstädes över 20 millimeter.");
-	require(story,"en",fun,"Total precipitation in many places over 20 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma monin paikoin yli 20 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman flerstädes över 20 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation in many places over 20 millimeters.");
 
 	TEST_PASSED();
   }
@@ -258,6 +265,7 @@ namespace PrecipitationStoryTest
 	NFmiSettings::Set("pop_twodays::day::maxstarthour","6");
 	NFmiSettings::Set("pop_twodays::day::minendhour","18");
 	NFmiSettings::Set("pop_twodays::precision","10");
+	NFmiSettings::Set("pop_twodays::limit","10");
 	NFmiSettings::Set("pop_twodays::comparison::significantly_greater","50");
 	NFmiSettings::Set("pop_twodays::comparison::greater","30");
 	NFmiSettings::Set("pop_twodays::comparison::somewhat_greater","10");
@@ -273,9 +281,9 @@ namespace PrecipitationStoryTest
 	  PrecipitationStory story(time1,sources,area,period,"pop_twodays");
 	  
 	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","10,0");
-	  require(story,"fi",fun,"Sateen todennäköisyys on 10%.");
-	  require(story,"sv",fun,"Sannolikheten för nederbörd är 10%.");
-	  require(story,"en",fun,"Probability of precipitation is 10%.");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 10%.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 10%.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 10%.");
 	  
 	}
 
@@ -288,9 +296,24 @@ namespace PrecipitationStoryTest
 	  PrecipitationStory story(time1,sources,area,period,"pop_twodays");
 	  
 	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","20,0");
-	  require(story,"fi",fun,"Sateen todennäköisyys on 20%.");
-	  require(story,"sv",fun,"Sannolikheten för nederbörd är 20%.");
-	  require(story,"en",fun,"Probability of precipitation is 20%.");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 20%.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 20%.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 20%.");
+	  
+	}
+
+	// Another 1-day forecast with small PoP
+
+	{
+	  NFmiTime time1(2003,6,3,6,0);
+	  NFmiTime time2(2003,6,4,6,0);
+	  WeatherPeriod period(time1,time2);
+	  PrecipitationStory story(time1,sources,area,period,"pop_twodays");
+	  
+	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","0,0");
+	  REQUIRE(story,"fi",fun,"");
+	  REQUIRE(story,"sv",fun,"");
+	  REQUIRE(story,"en",fun,"");
 	  
 	}
 
@@ -304,46 +327,59 @@ namespace PrecipitationStoryTest
 	  
 	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
 	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","50,0");
-	  require(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna sama.");
-	  require(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon densamma.");
-	  require(story,"en",fun,"Probability of precipitation is 50%, tomorrow the same.");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna sama.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon densamma.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 50%, tomorrow the same.");
 
-	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
-	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","0,0");
-	  require(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna huomattavasti pienempi.");
-	  require(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon betydligt mindre.");
-	  require(story,"en",fun,"Probability of precipitation is 50%, tomorrow significantly smaller.");
+	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","60,0");
+	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","10,0");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 60%, huomenna huomattavasti pienempi.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 60%, i morgon betydligt mindre.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 60%, tomorrow significantly smaller.");
 
 	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
 	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","20,0");
-	  require(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna pienempi.");
-	  require(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon mindre.");
-	  require(story,"en",fun,"Probability of precipitation is 50%, tomorrow smaller.");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna pienempi.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon mindre.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 50%, tomorrow smaller.");
 
 	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
 	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","40,0");
-	  require(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna hieman pienempi.");
-	  require(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon något mindre.");
-	  require(story,"en",fun,"Probability of precipitation is 50%, tomorrow somewhat smaller.");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna hieman pienempi.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon något mindre.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 50%, tomorrow somewhat smaller.");
 
 	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
 	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","60,0");
-	  require(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna hieman suurempi.");
-	  require(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon något större.");
-	  require(story,"en",fun,"Probability of precipitation is 50%, tomorrow somewhat greater.");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna hieman suurempi.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon något större.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 50%, tomorrow somewhat greater.");
 
 	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
 	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","80,0");
-	  require(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna suurempi.");
-	  require(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon större.");
-	  require(story,"en",fun,"Probability of precipitation is 50%, tomorrow greater.");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna suurempi.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon större.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 50%, tomorrow greater.");
 
 	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
 	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","100,0");
-	  require(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna huomattavasti suurempi.");
-	  require(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon betydligt större.");
-	  require(story,"en",fun,"Probability of precipitation is 50%, tomorrow significantly greater.");
-	  
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna huomattavasti suurempi.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon betydligt större.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 50%, tomorrow significantly greater.");
+
+
+	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
+	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","0,0");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 50%.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 50%.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 50%.");
+
+	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","0,0");
+	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","50,0");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on huomenna 50%.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är i morgon 50%.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is tomorrow 50%.");
+
 	}
 
 	TEST_PASSED();
