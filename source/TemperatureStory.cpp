@@ -7,6 +7,7 @@
 
 #include "TemperatureStory.h"
 #include "Paragraph.h"
+#include "Sentence.h"
 #include "TextGenError.h"
 
 using namespace WeatherAnalysis;
@@ -82,6 +83,69 @@ namespace TextGen
 
 	throw TextGenError("TemperatureStory cannot make story "+theName);
 
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generate story on mean temperature
+   *
+   * \return The generated paragraph
+   */
+  // ----------------------------------------------------------------------
+  
+  Paragraph TemperatureStory::mean() const
+  {
+	Paragraph paragraph;
+	Sentence sentence;
+	sentence << "keskilämpötila"
+			 << 10
+			 << "astetta";
+	paragraph << sentence;
+	return paragraph;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generate story on mean maximum temperature
+   *
+   * Throws if the weather period does not evenly divide into 24 hour
+   * segments.
+   *
+   * \return The story
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph TemperatureStory::meanmax() const
+  {
+	Paragraph paragraph;
+	Sentence sentence;
+	sentence << "keskimääräinen ylin lämpötila"
+			 << 20
+			 << "astetta";
+	paragraph << sentence;
+	return paragraph;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generate story on mean minimum temperature
+   *
+   * Throws if the weather period does not evenly divide into 24 hour
+   * segments.
+   *
+   * \return The story
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph TemperatureStory::meanmin() const
+  {
+	Paragraph paragraph;
+	Sentence sentence;
+	sentence << "keskimääräinen alin lämpötila"
+			 << 5
+			 << "astetta";
+	paragraph << sentence;
+	return paragraph;
   }
 
 

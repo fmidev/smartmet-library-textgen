@@ -7,6 +7,7 @@
 
 #include "PrecipitationStory.h"
 #include "Paragraph.h"
+#include "Sentence.h"
 #include "TextGenError.h"
 
 using namespace WeatherAnalysis;
@@ -75,6 +76,26 @@ namespace TextGen
 	throw TextGenError("PrecipitationStory cannot make story "+theName);
 
   }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generate story on total precipitation
+   *
+   * \return The story
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph PrecipitationStory::total() const
+  {
+	Paragraph paragraph;
+	Sentence sentence;
+	sentence << "sadesumma"
+			 << 10
+			 << "millimetriä";
+	paragraph << sentence;
+	return paragraph;
+  }
+
 
 
 } // namespace TextGen
