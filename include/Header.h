@@ -38,6 +38,8 @@ namespace TextGen
 	virtual std::string suffix() const;
 
 	Header & operator<<(const Glyph & theGlyph);
+	Header & operator<<(const std::string & thePhrase);
+	Header & operator<<(int theNumber);
 
   }; // class Header
 

@@ -8,6 +8,8 @@
 #include "Header.h"
 
 #include "Dictionary.h"
+#include "Number.h"
+#include "Phrase.h"
 #include "PlainTextFormatter.h"
 #include "TextGenError.h"
 
@@ -45,21 +47,6 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Adding a glyph to a header
-   *
-   * \param theGlyph The glyph to be added
-   * \result The header added to
-   */
-  // ----------------------------------------------------------------------
-
-  Header & Header::operator<<(const Glyph & theGlyph)
-  {
-	itsData.push_back(theGlyph.clone());
-	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Return the prefix for headers
    *
    * The prefix for headers is always an empty string
@@ -86,6 +73,53 @@ namespace TextGen
   std::string Header::suffix() const
   {
 	return "";
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Adding a glyph to a header
+   *
+   * \param theGlyph The glyph to be added
+   * \result The header added to
+   */
+  // ----------------------------------------------------------------------
+
+  Header & Header::operator<<(const Glyph & theGlyph)
+  {
+	itsData.push_back(theGlyph.clone());
+	return *this;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Add a phrase to a header with automatic conversion
+   *
+   * \param thePhrase The string initializer for the phrase
+   * \return The header added to
+   */
+  // ----------------------------------------------------------------------
+
+  Header & Header::operator<<(const string & thePhrase)
+  {
+	shared_ptr<Phrase> phrase(new Phrase(thePhrase));
+	itsData.push_back(phrase);
+	return *this;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Add a number to a header with automatic conversion
+   *
+   * \param thePhrase The integer initializer for the number
+   * \return The header added to
+   */
+  // ----------------------------------------------------------------------
+
+  Header & Header::operator<<(int theNumber)
+  {
+	shared_ptr<Number<int> > number(new Number<int>(theNumber));
+	itsData.push_back(number);
+	return *this;
   }
 
 } // namespace TextGen
