@@ -36,6 +36,7 @@ namespace TextGen
 #endif
 
 	virtual void dictionary(const boost::shared_ptr<Dictionary> & theDict) = 0;
+	virtual void variable(const std::string & theVariable) = 0;
 
 	virtual std::string format(const Glyph & theGlyph) const = 0;
 

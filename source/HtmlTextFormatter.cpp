@@ -35,6 +35,25 @@ namespace TextGen
   
   // ----------------------------------------------------------------------
   /*!
+   * \brief Set the variable to be used while formatting
+   *
+   * The variable and its subvariables may be used to control the
+   * details of the text formatter.
+   *
+   * The variable can be accessed with NFmiSettings::instance().isset()
+   * and other methods.
+   *
+   * \param theVariable The variable name
+   */
+  // ----------------------------------------------------------------------
+  
+  void HtmlTextFormatter::variable(const string & theVariable)
+  {
+	itsVariable = theVariable;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Format a glyph
    *
    * \param theGlyph The glyph

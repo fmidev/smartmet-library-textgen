@@ -32,6 +32,25 @@ namespace TextGen
   {
 	itsDictionary = theDict;
   }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Set the variable to be used while formatting
+   *
+   * The variable and its subvariables may be used to control the
+   * details of the text formatter.
+   *
+   * The variable can be accessed with NFmiSettings::instance().isset()
+   * and other methods.
+   *
+   * \param theVariable The variable name
+   */
+  // ----------------------------------------------------------------------
+  
+  void PlainTextFormatter::variable(const string & theVariable)
+  {
+	itsVariable = theVariable;
+  }
   
   // ----------------------------------------------------------------------
   /*!
