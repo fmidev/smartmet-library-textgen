@@ -67,8 +67,8 @@ namespace TextGenErrorTest
 int main(void)
 {
   cout << endl
-	   << "TextGenErrorTest tester" << endl
-	   << "=======================" << endl;
+	   << "TextGenError tester" << endl
+	   << "===================" << endl;
   TextGenErrorTest::tests t;
   return t.run();
 }
