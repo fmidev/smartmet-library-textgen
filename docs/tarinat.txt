@@ -449,9 +449,9 @@ textgen::[kappale]::story::precipitation_classification::classlimits = [range1,r
 \endcode
 Teksti valitaan seuraavalla logiikalla
 
-  -# Kaikista luokista haetaan maksimi sadem‰‰r‰ X
-  -# Jos sadesumman maksimi on yli X
-     -# Jos sadesumman minimi on yli X palautetaan fraasi 1
+  -# Kaikista luokista haetaan maksimi sadem‰‰r‰ MAXRAIN
+  -# Jos sadesumman maksimi on yli MAXRAIN
+     -# Jos sadesumman minimi on yli MAXRAIN palautetaan fraasi 1
      -# Jos sadesumma ylitt‰‰ asetetun raja-arvon \c maxlimit2 riitt‰v‰n
         monessa pisteess‰, palautetaan fraasi 2.
      -# Jos sadesumma ylitt‰‰ asetetun raja-arvon \c maxlimit1 riitt‰v‰n
