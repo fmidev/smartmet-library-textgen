@@ -9,8 +9,8 @@ Tarinat ovat muotoa
 
   -# "Päivälämpötila on A...B astetta."
   -# "Päivälämpötila on noin A...B astetta."
-  -# "Päivälämpötila on alussa A...B astetta, lopussa C...D astetta."
-  -# "Yölämpötila on alussa A...B astetta, lopussa C...D astetta."
+  -# "Päivälämpötila on aluksi A...B astetta, lopuksi C...D astetta."
+  -# "Yölämpötila on aluksi A...B astetta, lopuksi C...D astetta."
   -# "Yölämpötila on A...B astetta."
   -# "Yölämpötila on noin A...B astetta."
   -# "Päivälämpötila on A...B astetta, yölämpötila C...D astetta."
