@@ -999,7 +999,7 @@ INSERT INTO translation_sv VALUES ('4-aamuun','till torsdag morgon',200305120913
 INSERT INTO translation_sv VALUES ('5-aamuun','till fredag morgon',20030512091327,'mheiskan');
 INSERT INTO translation_sv VALUES ('monin paikoin enemmän','flerstädes mera',20030611141221,'mheiskan');
 INSERT INTO translation_sv VALUES ('paikoin enemmän','lokalt mera',20030523084541,'mheiskan');
-INSERT INTO translation_sv VALUES ('monin paikoin','flersädes',20030611141213,'mheiskan');
+INSERT INTO translation_sv VALUES ('monin paikoin','flerstädes',20030611144814,'mheiskan');
 INSERT INTO translation_sv VALUES ('paikoin','lokalt',20030523084518,'mheiskan');
 INSERT INTO translation_sv VALUES ('odotettavissa','utsikter',20030513092904,'mheiskan');
 INSERT INTO translation_sv VALUES ('keskilämpötila','medeltemperaturen',20030516130805,'mheiskan');
