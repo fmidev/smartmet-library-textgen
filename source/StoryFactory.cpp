@@ -84,7 +84,7 @@ namespace TextGen
 		  return story.makeStory(theName);
 		}
 
-	  throw TextGenError("StoryFactory: Unrecognized story "+theName);
+	  throw TextGenError("StoryFactory: Unrecognized story '"+theName+"'");
 	}
 
   } // namespace StoryFactory
