@@ -98,7 +98,7 @@ namespace WeatherAnalysis
 
 	const string filename = Settings::require_string("textgen::areas::map::"+theName);
 
-	if(!FileExists(filename))
+	if(!NFmiFileSystem::FileExists(filename))
 	  throw WeatherAnalysisError("The map for area "+theName+" is missing: "+filename);
 	
 	ifstream in(filename.c_str(), ios::in);

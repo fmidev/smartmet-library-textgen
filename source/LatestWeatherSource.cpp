@@ -65,13 +65,13 @@ namespace
 	const string varname = "textgen::"+theName;
 	const string queryname = Settings::optional_string(varname,theName);
 
-	if(FileExists(queryname))
+	if(NFmiFileSystem::FileExists(queryname))
 	  return queryname;
 
-	if(!DirectoryExists(queryname))
+	if(!NFmiFileSystem::DirectoryExists(queryname))
 	  throw WeatherAnalysisError("No directory named '"+queryname+"' containing querydata found");
 
-	string newestfile = NewestFile(queryname);
+	string newestfile = NFmiFileSystem::NewestFile(queryname);
 	if(newestfile.empty())
 	  throw WeatherAnalysisError("Directory '"+queryname+"' does not contain any querydata");
 
@@ -132,7 +132,7 @@ namespace WeatherAnalysis
 
 	// Associated filename
 	const string filename = complete_filename(theName);
-	const time_t modtime = FileModificationTime(filename);
+	const time_t modtime = NFmiFileSystem::FileModificationTime(filename);
 
 	// See if we have a cached result
 	typedef Pimple::container_type::iterator iterator;
