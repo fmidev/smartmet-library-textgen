@@ -22,6 +22,7 @@ namespace WeatherAnalysis
 	virtual ~WeatherPeriodGenerator() { }
 	virtual bool undivided() const = 0;
 	virtual size_type size() const = 0;
+	virtual WeatherPeriod period() const = 0;
 	virtual WeatherPeriod period(size_type thePeriod) const = 0;
 
   }; // class WeatherPeriodGenerator

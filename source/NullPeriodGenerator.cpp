@@ -70,6 +70,19 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Return the minimal period covered by the generator
+   *
+   * \return The minimal period
+   */
+  // ----------------------------------------------------------------------
+
+  WeatherPeriod NullPeriodGenerator::period() const
+  {
+	return itsMainPeriod;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Return the desired subperiod
    *
    * Throws if anything but the first period is requested, since by
