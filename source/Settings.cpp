@@ -97,6 +97,33 @@ namespace Settings
 	  }
   }
   
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Require the boolean value of the given variable
+   *
+   * Throws if the variable is not set or if the value is not
+   * "true" or "false" (as strings).
+   *
+   * \param theName The variable name
+   * \return The integer value
+   */
+  // ----------------------------------------------------------------------
+  
+  bool require_bool(const std::string & theName)
+  {
+	const string value = require(theName);
+
+	const string msg = theName+" value '"+value+"' is not true/false";
+
+	if(value == "true")
+	  return true;
+	if(value == "false")
+	  return false;
+
+	throw runtime_error(msg);
+  }
+  
   // ----------------------------------------------------------------------
   /*!
    * \brief Require the double value of the given variable
@@ -260,4 +287,3 @@ namespace Settings
 }
 
 // ======================================================================
-

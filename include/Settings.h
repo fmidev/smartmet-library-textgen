@@ -29,6 +29,7 @@ namespace Settings
   std::string require(const std::string & theName);
   std::string require_string(const std::string & theName);
   int require_int(const std::string & theName);
+  bool require_bool(const std::string & theName);
   double require_double(const std::string & theName);
   int require_hour(const std::string & theName);
   int require_days(const std::string & theName);
