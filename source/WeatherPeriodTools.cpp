@@ -112,6 +112,7 @@ namespace WeatherAnalysis
 	 * \endcode
 	 *
 	 * \param thePeriod The main period
+	 * \param theNumber The ordinal of the period
 	 * \param theStartHour The normal start hour of the subperiod
 	 * \param theEndHour The normal end hour of the subperiod
 	 * \return The number of acceptable subperiods in the period
