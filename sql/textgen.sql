@@ -1,11 +1,11 @@
--- MySQL dump 9.07
+-- MySQL dump 9.09
 --
 -- Host: mimir    Database: textgen
 ---------------------------------------------------------
--- Server version	3.23.56-log
+-- Server version	3.23.58-log
 
 --
--- Table structure for table 'languages'
+-- Table structure for table `languages`
 --
 
 CREATE TABLE languages (
@@ -18,7 +18,7 @@ CREATE TABLE languages (
 ) TYPE=MyISAM COMMENT='The languages defined for the textgen library';
 
 --
--- Dumping data for table 'languages'
+-- Dumping data for table `languages`
 --
 
 INSERT INTO languages VALUES ('fi','translation_fi',1,'Finnish',1);
@@ -32,7 +32,7 @@ INSERT INTO languages VALUES ('es','translation_es',0,'Spanish',1);
 INSERT INTO languages VALUES ('sonera','translation_sonera',1,'Sonera',0);
 
 --
--- Table structure for table 'translation_en'
+-- Table structure for table `translation_en`
 --
 
 CREATE TABLE translation_en (
@@ -44,7 +44,7 @@ CREATE TABLE translation_en (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'translation_en'
+-- Dumping data for table `translation_en`
 --
 
 INSERT INTO translation_en VALUES ('huomattavasti lämpimämpi','significantly warmer',20031018005924,'mheiskan');
@@ -503,9 +503,36 @@ INSERT INTO translation_en VALUES ('huomenna päivällä','tomorrow during the day'
 INSERT INTO translation_en VALUES ('huomisiltana','tomorrow evening',20031021141445,'mheiskan');
 INSERT INTO translation_en VALUES ('1-aamuna','on Monday morning',20031021142830,'mheiskan');
 INSERT INTO translation_en VALUES ('7-aamupäivästä alkaen','from Sunday before noon',20031021142850,'mheiskan');
+INSERT INTO translation_en VALUES ('B1:lle','for Bay of Bothnia',20031028080912,'mheiskan');
+INSERT INTO translation_en VALUES ('B2:lle','for the Quark',20031028080918,'mheiskan');
+INSERT INTO translation_en VALUES ('B3:lle','for Sea of Bothnia',20031028080926,'mheiskan');
+INSERT INTO translation_en VALUES ('B4:lle','for Sea of Archipelago and Sea of Åland',20031028080938,'mheiskan');
+INSERT INTO translation_en VALUES ('B5:lle','for Gulf of Finland',20031028080952,'mheiskan');
+INSERT INTO translation_en VALUES ('B6:lle','for Gulf of Riga',20031028081000,'mheiskan');
+INSERT INTO translation_en VALUES ('B7:lle','for Northern Baltic Proper',20031028081009,'mheiskan');
+INSERT INTO translation_en VALUES ('B8:lle','for Middle Baltic Proper',20031028081017,'mheiskan');
+INSERT INTO translation_en VALUES ('B9:lle','for Southeastern Baltic Proper',20031028081034,'mheiskan');
+INSERT INTO translation_en VALUES ('B10:lle','for Southern Baltic Proper',20031028081044,'mheiskan');
+INSERT INTO translation_en VALUES ('B11:lle','for Arkona Sea',20031028081051,'mheiskan');
+INSERT INTO translation_en VALUES ('B12:lle','for Öresund and the Belts',20031028081100,'mheiskan');
+INSERT INTO translation_en VALUES ('B13:lle','for Kattegatt',20031028081108,'mheiskan');
+INSERT INTO translation_en VALUES ('B1N:lle','for Northern Bay of Bothnia',20031028081120,'mheiskan');
+INSERT INTO translation_en VALUES ('B1S:lle','for Southern Bay of Bothnia',20031028081129,'mheiskan');
+INSERT INTO translation_en VALUES ('B3N:lle','for Northern Bothnian Sea',20031028081140,'mheiskan');
+INSERT INTO translation_en VALUES ('B3S:lle','for Southern Bothnian Sea',20031028081151,'mheiskan');
+INSERT INTO translation_en VALUES ('B4E:lle','for Sea of Archipelago',20031028081159,'mheiskan');
+INSERT INTO translation_en VALUES ('B4W:lle','for Sea of Åland',20031028081207,'mheiskan');
+INSERT INTO translation_en VALUES ('B5E:lle','for Eastern Gulf of Finland',20031028081218,'mheiskan');
+INSERT INTO translation_en VALUES ('B5W:lle','for Western Gulf of Finland',20031028081226,'mheiskan');
+INSERT INTO translation_en VALUES ('B7E:lle','for Northeastern Baltic Proper',20031028081238,'mheiskan');
+INSERT INTO translation_en VALUES ('B7W:lle','for Northwestern Baltic Proper',20031028081249,'mheiskan');
+INSERT INTO translation_en VALUES ('B8E:lle','for Middle Baltic Proper',20031028081259,'mheiskan');
+INSERT INTO translation_en VALUES ('B8W:lle','for Gotland Sea',20031028081308,'mheiskan');
+INSERT INTO translation_en VALUES ('B10N:lle','for Öland Sea',20031028081318,'mheiskan');
+INSERT INTO translation_en VALUES ('B10S:lle','for Bornholm Sea',20031028081327,'mheiskan');
 
 --
--- Table structure for table 'translation_fi'
+-- Table structure for table `translation_fi`
 --
 
 CREATE TABLE translation_fi (
@@ -517,7 +544,7 @@ CREATE TABLE translation_fi (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'translation_fi'
+-- Dumping data for table `translation_fi`
 --
 
 INSERT INTO translation_fi VALUES ('lämpötila','lämpötila',20030616145653,'mheiskan');
@@ -943,6 +970,7 @@ INSERT INTO translation_fi VALUES ('4-aamusta alkaen','torstaiaamusta alkaen',20
 INSERT INTO translation_fi VALUES ('5-aamusta alkaen','perjantaiaamusta alkaen',20031021133721,'mheiskan');
 INSERT INTO translation_fi VALUES ('6-aamusta alkaen','lauantaiaamusta alkaen',20031021133729,'mheiskan');
 INSERT INTO translation_fi VALUES ('7-aamusta alkaen','sunnuntaiaamusta alkaen',20031021133738,'mheiskan');
+INSERT INTO translation_fi VALUES ('B1:lle','Perämerelle',20031028075723,'mheiskan');
 INSERT INTO translation_fi VALUES ('1-iltana','maanantai-iltana',20031021133923,'mheiskan');
 INSERT INTO translation_fi VALUES ('2-iltana','tiistai-iltana',20031021133930,'mheiskan');
 INSERT INTO translation_fi VALUES ('3-iltana','keskiviikkoiltana',20031021133941,'mheiskan');
@@ -976,9 +1004,35 @@ INSERT INTO translation_fi VALUES ('huomisaamupäivästä alkaen','huomisaamupäiväs
 INSERT INTO translation_fi VALUES ('huomisillasta alkaen','huomisillasta alkaen',20031021134705,'mheiskan');
 INSERT INTO translation_fi VALUES ('huomenna päivällä','huomenna päivällä',20031021134720,'mheiskan');
 INSERT INTO translation_fi VALUES ('huomisiltana','huomisiltana',20031021134825,'mheiskan');
+INSERT INTO translation_fi VALUES ('B2:lle','Merenkurkkuun',20031028075756,'mheiskan');
+INSERT INTO translation_fi VALUES ('B3:lle','Selkämerelle',20031028075805,'mheiskan');
+INSERT INTO translation_fi VALUES ('B4:lle','Saaristo- ja Ahvenanmerelle',20031028075817,'mheiskan');
+INSERT INTO translation_fi VALUES ('B5:lle','Suomenlahdelle',20031028075849,'mheiskan');
+INSERT INTO translation_fi VALUES ('B6:lle','Riianlahdelle',20031028075834,'mheiskan');
+INSERT INTO translation_fi VALUES ('B7:lle','Pohjois-Itämerelle',20031028075904,'mheiskan');
+INSERT INTO translation_fi VALUES ('B8:lle','Keski-Itämerelle',20031028075913,'mheiskan');
+INSERT INTO translation_fi VALUES ('B9:lle','Kaakkois-Itämerelle',20031028075921,'mheiskan');
+INSERT INTO translation_fi VALUES ('B10:lle','Etelä-Itämerelle',20031028075930,'mheiskan');
+INSERT INTO translation_fi VALUES ('B11:lle','Arkonanmerelle',20031028075938,'mheiskan');
+INSERT INTO translation_fi VALUES ('B12:lle','Öresundiin ja Belteille',20031028075949,'mheiskan');
+INSERT INTO translation_fi VALUES ('B13:lle','Kattegattiin',20031028075959,'mheiskan');
+INSERT INTO translation_fi VALUES ('B1N:lle','Perämeren pohjoisosaan',20031028080009,'mheiskan');
+INSERT INTO translation_fi VALUES ('B1S:lle','Perämeren eteläosaan',20031028080041,'mheiskan');
+INSERT INTO translation_fi VALUES ('B3N:lle','Selkämeren pohjoisosaan',20031028080037,'mheiskan');
+INSERT INTO translation_fi VALUES ('B3S:lle','Selkämeren eteläosaan',20031028080054,'mheiskan');
+INSERT INTO translation_fi VALUES ('B4E:lle','Saaristomerelle',20031028080104,'mheiskan');
+INSERT INTO translation_fi VALUES ('B4W:lle','Ahvenanmerelle',20031028080112,'mheiskan');
+INSERT INTO translation_fi VALUES ('B5E:lle','Suomenlahden itäosaan',20031028080122,'mheiskan');
+INSERT INTO translation_fi VALUES ('B5W:lle','Suomenlahden länsiosaan',20031028080129,'mheiskan');
+INSERT INTO translation_fi VALUES ('B7E:lle','Pohjois-Itämeren itäosaan',20031028080140,'mheiskan');
+INSERT INTO translation_fi VALUES ('B7W:lle','Pohjois-Itämeren länsiosaan',20031028080158,'mheiskan');
+INSERT INTO translation_fi VALUES ('B8E:lle','Keski-Itämerelle',20031028080210,'mheiskan');
+INSERT INTO translation_fi VALUES ('B8W:lle','Gotlanninmerelle',20031028080218,'mheiskan');
+INSERT INTO translation_fi VALUES ('B10N:lle','Oolanninmerelle',20031028080230,'mheiskan');
+INSERT INTO translation_fi VALUES ('B10S:lle','Bornholminmerelle',20031028080238,'mheiskan');
 
 --
--- Table structure for table 'translation_sonera'
+-- Table structure for table `translation_sonera`
 --
 
 CREATE TABLE translation_sonera (
@@ -990,7 +1044,7 @@ CREATE TABLE translation_sonera (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'translation_sonera'
+-- Dumping data for table `translation_sonera`
 --
 
 INSERT INTO translation_sonera VALUES ('1-aamusta','200',20030609184324,'mheiskan');
@@ -1345,7 +1399,7 @@ INSERT INTO translation_sonera VALUES ('ahvenanmaa:lle','308',20030619131050,'mh
 INSERT INTO translation_sonera VALUES ('ja','546',20030715083607,'mheiskan');
 
 --
--- Table structure for table 'translation_sv'
+-- Table structure for table `translation_sv`
 --
 
 CREATE TABLE translation_sv (
@@ -1357,7 +1411,7 @@ CREATE TABLE translation_sv (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'translation_sv'
+-- Dumping data for table `translation_sv`
 --
 
 INSERT INTO translation_sv VALUES ('1-na kello','måndag klockan',20030611143708,'mheiskan');
@@ -1816,4 +1870,31 @@ INSERT INTO translation_sv VALUES ('huomisaamupäivästä alkaen','från i morgon fö
 INSERT INTO translation_sv VALUES ('huomisillasta alkaen','från i morgon kväll',20031021140248,'mheiskan');
 INSERT INTO translation_sv VALUES ('huomenna päivällä','i morgon på dagen',20031021140259,'mheiskan');
 INSERT INTO translation_sv VALUES ('huomisiltana','i morgon kväll',20031021140309,'mheiskan');
+INSERT INTO translation_sv VALUES ('B1:lle','för Bottenviken',20031028080321,'mheiskan');
+INSERT INTO translation_sv VALUES ('B2:lle','för Kvarken',20031028080327,'mheiskan');
+INSERT INTO translation_sv VALUES ('B3:lle','för Bottenhavet',20031028080334,'mheiskan');
+INSERT INTO translation_sv VALUES ('B4:lle','för Skärgårdshavet och Ålands hav',20031028080347,'mheiskan');
+INSERT INTO translation_sv VALUES ('B5:lle','för Finska viken',20031028080403,'mheiskan');
+INSERT INTO translation_sv VALUES ('B6:lle','för Rigabukten',20031028080410,'mheiskan');
+INSERT INTO translation_sv VALUES ('B7:lle','för Norra Östersjön',20031028080420,'mheiskan');
+INSERT INTO translation_sv VALUES ('B8:lle','för Mellersta Östersjön',20031028080453,'mheiskan');
+INSERT INTO translation_sv VALUES ('B9:lle','för Sydöstra Östersjön',20031028080445,'mheiskan');
+INSERT INTO translation_sv VALUES ('B10:lle','för Södra Östersjön',20031028080526,'mheiskan');
+INSERT INTO translation_sv VALUES ('B11:lle','för Arkona havet',20031028080518,'mheiskan');
+INSERT INTO translation_sv VALUES ('B12:lle','för Öresund och Bälten',20031028080543,'mheiskan');
+INSERT INTO translation_sv VALUES ('B13:lle','för Kattegatt',20031028080550,'mheiskan');
+INSERT INTO translation_sv VALUES ('B1N:lle','för Norra Bottenviken',20031028080601,'mheiskan');
+INSERT INTO translation_sv VALUES ('B1S:lle','för Södra Bottenviken',20031028080609,'mheiskan');
+INSERT INTO translation_sv VALUES ('B3N:lle','för Norra Bottenhavet',20031028080618,'mheiskan');
+INSERT INTO translation_sv VALUES ('B3S:lle','för Södra Bottenhavet',20031028080629,'mheiskan');
+INSERT INTO translation_sv VALUES ('B4E:lle','för Skärgårdshavet',20031028080641,'mheiskan');
+INSERT INTO translation_sv VALUES ('B4W:lle','för Ålands hav',20031028080649,'mheiskan');
+INSERT INTO translation_sv VALUES ('B5E:lle','för Östra Finska viken',20031028080659,'mheiskan');
+INSERT INTO translation_sv VALUES ('B5W:lle','för Västra Finska viken',20031028080710,'mheiskan');
+INSERT INTO translation_sv VALUES ('B7E:lle','för Östra delen av Norra Östersjön',20031028080725,'mheiskan');
+INSERT INTO translation_sv VALUES ('B7W:lle','för Västra delen av Norra Östersjön',20031028080736,'mheiskan');
+INSERT INTO translation_sv VALUES ('B8E:lle','för Mellersta Östersjön',20031028080753,'mheiskan');
+INSERT INTO translation_sv VALUES ('B8W:lle','för Gotlands farvatten',20031028080806,'mheiskan');
+INSERT INTO translation_sv VALUES ('B10N:lle','för Ölands farvatten',20031028080817,'mheiskan');
+INSERT INTO translation_sv VALUES ('B10S:lle','för Bornholmshavet',20031028080828,'mheiskan');
 
