@@ -10,8 +10,12 @@
 #include "Document.h"
 #include "Glyph.h"
 #include "Header.h"
+#include "Integer.h"
+#include "IntegerRange.h"
 #include "Paragraph.h"
+#include "Phrase.h"
 #include "Sentence.h"
+#include "TextGenError.h"
 
 #include "boost/lexical_cast.hpp"
 
@@ -20,6 +24,22 @@ using namespace boost;
 
 namespace
 {
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Check number validity for Sonera
+   *
+   * Throws if the number is out of range -100...1000
+   *
+   * \param theNumber The number to test
+   */
+  // ----------------------------------------------------------------------
+
+  void sonera_check(int theNumber)
+  {
+    if(theNumber < -100 || theNumber > 100)
+      throw TextGen::TextGenError("SoneraTextFormatter supports only numbers -100...100");
+  }
 
   // ----------------------------------------------------------------------
   /*!
@@ -58,6 +78,29 @@ namespace
 		  theFormatter.format(**it);
 	  }
   }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief A helper for realizing Sonera numbers
+   */
+  // ----------------------------------------------------------------------
+
+  template <typename Container>
+  void sonera_realize(int theNumber,
+					  Container & theContainer,
+					  const TextGen::Dictionary & theDictionary)
+  {
+	static TextGen::Phrase miinus("miinus");
+
+	ostringstream os;
+
+	sonera_check(theNumber);
+	if(theNumber < 0)
+	  theContainer.push_back(miinus.realize(theDictionary));
+	os << abs(theNumber);
+	theContainer.push_back(os.str());
+  }
+
 }
 
 namespace TextGen
@@ -174,6 +217,43 @@ namespace TextGen
 	static string dummy("glyph");
 	string tmp = theGlyph.realize(*itsDictionary);
 	itsParts.push_back(tmp);
+	return dummy;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit an integer number
+   */
+  // ----------------------------------------------------------------------
+
+  string SoneraTextFormatter::visit(const Integer & theInteger) const
+  {
+	static string dummy("integer");
+
+	sonera_realize(theInteger.value(), itsParts, *itsDictionary);
+
+	return dummy;
+  }
+  
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit an integer range
+   */
+  // ----------------------------------------------------------------------
+
+  string SoneraTextFormatter::visit(const IntegerRange & theRange) const
+  {
+	static string dummy("integerrange");
+
+	static Phrase viiva("viiva");
+	sonera_realize(theRange.startValue(), itsParts, *itsDictionary);
+	if(theRange.startValue() != theRange.endValue())
+	  {
+		itsParts.push_back(viiva.realize(*itsDictionary));
+		sonera_realize(theRange.endValue(), itsParts, *itsDictionary);
+	  }
+
 	return dummy;
   }
   

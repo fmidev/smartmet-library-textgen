@@ -10,6 +10,8 @@
 #include "Document.h"
 #include "Glyph.h"
 #include "Header.h"
+#include "Integer.h"
+#include "IntegerRange.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "TextFormatterTools.h"
@@ -78,6 +80,29 @@ namespace TextGen
 	return theGlyph.realize(*itsDictionary);
   }
   
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit an integer number
+   */
+  // ----------------------------------------------------------------------
+
+  string HtmlTextFormatter::visit(const Integer & theInteger) const
+  {
+	return theInteger.realize(*itsDictionary);
+  }
+  
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit an integer range
+   */
+  // ----------------------------------------------------------------------
+
+  string HtmlTextFormatter::visit(const IntegerRange & theRange) const
+  {
+	return theRange.realize(*itsDictionary);
+  }
+
   // ----------------------------------------------------------------------
   /*!
    * \brief Visit a sentence

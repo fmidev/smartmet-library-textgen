@@ -10,9 +10,14 @@
 #include "Document.h"
 #include "Glyph.h"
 #include "Header.h"
+#include "Integer.h"
+#include "IntegerRange.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "TextFormatterTools.h"
+
+#include <sstream>
+#include <string>
 
 using namespace std;
 using namespace boost;
@@ -46,6 +51,29 @@ namespace TextGen
 	return theGlyph.realize(itsDictionary);
   }
   
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit an integer number
+   */
+  // ----------------------------------------------------------------------
+
+  string DebugTextFormatter::visit(const Integer & theInteger) const
+  {
+	return theInteger.realize(itsDictionary);
+  }
+  
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit an integer range
+   */
+  // ----------------------------------------------------------------------
+
+  string DebugTextFormatter::visit(const IntegerRange & theRange) const
+  {
+	return theRange.realize(itsDictionary);
+  }
+
   // ----------------------------------------------------------------------
   /*!
    * \brief Visit a sentence
