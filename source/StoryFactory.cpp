@@ -8,8 +8,10 @@
 #include "StoryFactory.h"
 #include "AnalysisSources.h"
 #include "Delimiter.h"
+#include "FrostStory.h"
 #include "Paragraph.h"
 #include "PrecipitationStory.h"
+#include "RelativeHumidityStory.h"
 #include "TemperatureStory.h"
 #include "TextGenError.h"
 
@@ -62,6 +64,18 @@ namespace TextGen
 	  if(PrecipitationStory::hasStory(theName))
 		{
 		  PrecipitationStory story(theSources,theArea,thePeriod,theVariable);
+		  return story.makeStory(theName);
+		}
+
+	  if(FrostStory::hasStory(theName))
+		{
+		  FrostStory story(theSources,theArea,thePeriod,theVariable);
+		  return story.makeStory(theName);
+		}
+
+	  if(RelativeHumidityStory::hasStory(theName))
+		{
+		  RelativeHumidityStory story(theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 
