@@ -34,6 +34,7 @@ namespace TextGen
 
 	Paragraph create(const AnalysisSources & theSources,
 					 const WeatherArea & theArea,
+					 const WeatherPeriod & thePeriod,
 					 const string & theName)
 	{
 	  if(theName == "none")
@@ -44,13 +45,13 @@ namespace TextGen
 
 	  if(TemperatureStory::hasStory(theName))
 		{
-		  TemperatureStory story(theSources,theArea);
+		  TemperatureStory story(theSources,theArea,thePeriod);
 		  return story.makeStory(theName);
 		}
 
 	  if(PrecipitationStory::hasStory(theName))
 		{
-		  PrecipitationStory story(theSources,theArea);
+		  PrecipitationStory story(theSources,theArea,thePeriod);
 		  return story.makeStory(theName);
 		}
 

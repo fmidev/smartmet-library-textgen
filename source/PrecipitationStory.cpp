@@ -31,13 +31,16 @@ namespace TextGen
    *
    * \param theSources The analysis sources
    * \param theArea The area to be analyzed
+   * \param thePeriod The time interval to be analyzed
    */
   // ----------------------------------------------------------------------
   
   PrecipitationStory::PrecipitationStory(const AnalysisSources & theSources,
-									 const WeatherArea & theArea)
+										 const WeatherArea & theArea,
+										 const WeatherPeriod & thePeriod)
 	: itsSources(theSources)
 	, itsArea(theArea)
+	, itsPeriod(thePeriod)
   {
   }
   

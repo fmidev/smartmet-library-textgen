@@ -17,6 +17,7 @@
 
 #include "AnalysisSources.h"
 #include "WeatherArea.h"
+#include "WeatherPeriod.h"
 
 namespace TextGen
 {
@@ -29,7 +30,8 @@ namespace TextGen
 
 	~PrecipitationStory();
 	PrecipitationStory(const WeatherAnalysis::AnalysisSources & theSources,
-					 const WeatherAnalysis::WeatherArea & theArea);
+					   const WeatherAnalysis::WeatherArea & theArea,
+					   const WeatherAnalysis::WeatherPeriod & thePeriod);
 
 	static bool hasStory(const std::string & theName);
 	Paragraph makeStory(const std::string & theName) const;
@@ -43,7 +45,9 @@ namespace TextGen
 	PrecipitationStory & operator=(const PrecipitationStory & theStory);
 
 	const WeatherAnalysis::AnalysisSources & itsSources;
-	WeatherAnalysis::WeatherArea itsArea;
+	const WeatherAnalysis::WeatherArea & itsArea;
+	const WeatherAnalysis::WeatherPeriod & itsPeriod;
+	
 
   }; // class PrecipitationStory
 }

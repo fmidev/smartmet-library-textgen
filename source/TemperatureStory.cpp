@@ -6,9 +6,14 @@
 // ======================================================================
 
 #include "TemperatureStory.h"
+#include "GridForecaster.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "TextGenError.h"
+#include "WeatherFunction.h"
+#include "WeatherLimits.h"
+#include "WeatherParameter.h"
+#include "WeatherResult.h"
 
 using namespace WeatherAnalysis;
 using namespace std;
@@ -30,14 +35,16 @@ namespace TextGen
    * \brief Constructor
    *
    * \param theSources The analysis sources
-   * \param theArea The area to be analyzed
-   */
+   * \param theArea The area to be analyzed 
+  */
   // ----------------------------------------------------------------------
   
   TemperatureStory::TemperatureStory(const AnalysisSources & theSources,
-									 const WeatherArea & theArea)
+									 const WeatherArea & theArea,
+									 const WeatherPeriod & thePeriod)
 	: itsSources(theSources)
 	, itsArea(theArea)
+	, itsPeriod(thePeriod)
   {
   }
   
@@ -97,8 +104,11 @@ namespace TextGen
   {
 	Paragraph paragraph;
 	Sentence sentence;
+
+	const int value = 10;
+
 	sentence << "keskilämpötila"
-			 << 10
+			 << value
 			 << "astetta";
 	paragraph << sentence;
 	return paragraph;

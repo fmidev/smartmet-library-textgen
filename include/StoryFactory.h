@@ -20,6 +20,7 @@ namespace WeatherAnalysis
 {
   class AnalysisSources;
   class WeatherArea;
+  class WeatherPeriod;
 }
 
 namespace TextGen
@@ -30,6 +31,7 @@ namespace TextGen
   {
 	Paragraph create(const WeatherAnalysis::AnalysisSources & theSources,
 					 const WeatherAnalysis::WeatherArea & theArea,
+					 const WeatherAnalysis::WeatherPeriod & thePeriod,
 					 const std::string & theName);
 
   } // namespace StoryFactory
