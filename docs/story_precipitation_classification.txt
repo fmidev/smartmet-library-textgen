@@ -29,16 +29,16 @@ Englanniksi
   -# "Total precipitation in some places over N millimeters."
   -# "Total precipitation 0 millimeters."
   -# "Total precipitation N...M millimeters."
-  -# "Total precipitation N...M millimeters, more in some places."
   -# "Total precipitation N...M millimeters, more in many places."
+  -# "Total precipitation N...M millimeters, more in some places."
 
 P‰‰ttelyss‰ k‰ytet‰‰n muuttujina alueen minimi- ja maksimisadesummaa,
 sek‰ optionaalisia muuttujia
 \code
-textgen::[kappale]::story::precipitation_classification::maxlimit1 = [0-100]
-textgen::[kappale]::story::precipitation_classification::maxlimit2 = [0-100]
-textgen::[kappale]::story::precipitation_classification::limit1 = [0-100]
-textgen::[kappale]::story::precipitation_classification::limit2 = [0-100]
+textgen::[kappale]::story::precipitation_classification::max_some_places = [0-100]
+textgen::[kappale]::story::precipitation_classification::max_many_places = [0-100]
+textgen::[kappale]::story::precipitation_classification::some_places = [0-100]
+textgen::[kappale]::story::precipitation_classification::many_places = [0-100]
 textgen::[kappale]::story::precipitation_classification::classes = [range1,range2,...]
 \endcode
 Teksti valitaan seuraavalla logiikalla
@@ -46,9 +46,9 @@ Teksti valitaan seuraavalla logiikalla
   -# Kaikista luokista haetaan maksimi sadem‰‰r‰ MAXCLASS
   -# Jos sadesumman maksimi on yli MAXCLASS
      -# Jos sadesumman minimi on yli MAXCLASS palautetaan fraasi 1
-     -# Jos sadesumma ylitt‰‰ asetetun raja-arvon \c maxlimit2 riitt‰v‰n
+     -# Jos sadesumma ylitt‰‰ asetetun raja-arvon \c max_many_places riitt‰v‰n
         monessa pisteess‰, palautetaan fraasi 2.
-     -# Jos sadesumma ylitt‰‰ asetetun raja-arvon \c maxlimit1 riitt‰v‰n
+     -# Jos sadesumma ylitt‰‰ asetetun raja-arvon \c max_some_places riitt‰v‰n
         monessa pisteess‰, palautetaan fraasi 3.
      -# Muutoin palautetaan fraasi 5!!!
   -# Jos sadesumman maksimi on 0, palautetaan fraasi 4.
@@ -56,9 +56,9 @@ Teksti valitaan seuraavalla logiikalla
   -# Muodostetaan sadeluokka keskiarvon perusteella. Jos useampi luokka
      on mahdollinen, valitaan se niist‰ ensimm‰inen.
   -# Jos maksimi kuuluu samaan luokkaa, palautetaan fraasi 5.
-  -# Jos alueellinen ylitysprosentti ylitt‰‰ rajan \c limit2, palautetaan
+  -# Jos alueellinen ylitysprosentti ylitt‰‰ rajan \c many_places, palautetaan
      fraasi 6. Jos rajaa ei ole asetettu, ei fraasia 6 koskaan palauteta.
-  -# Jos alueellinen ylitysprosentti ylitt‰‰ rajan \c limit1, palautetaan
+  -# Jos alueellinen ylitysprosentti ylitt‰‰ rajan \c some_places, palautetaan
      fraasi 7. Jos rajaa ei ole asetettu, ei fraasia 7 koskaan palauteta.
   -# Palautetaan fraasi 5.
 

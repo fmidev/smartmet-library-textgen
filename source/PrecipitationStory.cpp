@@ -402,8 +402,8 @@ namespace TextGen
 
 	if(maxresult.value() > maxrainlimit)
 	  {
-		const string variable1 = itsVar + "::maxlimit1";
-		const string variable2 = itsVar + "::maxlimit2";
+		const string variable1 = itsVar + "::max_some_places";
+		const string variable2 = itsVar + "::max_many_places";
 
 		int phrase = 1;
 
@@ -488,8 +488,8 @@ namespace TextGen
 	if(maxresult.value() > hilimit)
 	  {
 
-		const string variable1 = itsVar + "::limit1";
-		const string variable2 = itsVar + "::limit2";
+		const string variable1 = itsVar + "::some_places";
+		const string variable2 = itsVar + "::many_places";
 
 		int phrase = 1;
 

@@ -156,10 +156,10 @@ namespace PrecipitationStoryTest
 
 	const string fun = "precipitation_classification";
 	NFmiSettings::instance().set("classification::classes","0...2,2...5,5...10,10...20");
-	NFmiSettings::instance().set("classification::maxlimit1","30");
-	NFmiSettings::instance().set("classification::maxlimit2","70");
-	NFmiSettings::instance().set("classification::limit1","30");
-	NFmiSettings::instance().set("classification::limit2","70");
+	NFmiSettings::instance().set("classification::max_some_places","30");
+	NFmiSettings::instance().set("classification::max_many_places","70");
+	NFmiSettings::instance().set("classification::some_places","30");
+	NFmiSettings::instance().set("classification::many_places","70");
 
 	NFmiSettings::instance().set("classification::fake::minimum","0,1");
 	NFmiSettings::instance().set("classification::fake::mean","0,1");
