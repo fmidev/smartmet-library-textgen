@@ -12,6 +12,7 @@
 #include <sstream>
 #include <memory>
 #include <cassert>
+#include <stdexcept>
 
 // forward declaration(s)
 
@@ -46,52 +47,45 @@ protected:
   // only for output, not for input
   virtual int_type pbackfail(int_type = CharTraits::eof())
   {
-	assert( false);
-	return (CharTraits::eof()); 
+	throw std::runtime_error("MessageLoggerStream::pbackfail not available");
   }
   
   // only for output, not for input
   virtual int showmanyc()
   {
-	assert( false);
-	return 0; 
+	throw std::runtime_error("MessageLoggerStream::showmanyc not available");
   }
   
   // only for output, not for input
   virtual int_type underflow()
   {
-	assert(false);
-	return (CharTraits::eof()); 
+	throw std::runtime_error("MessageLoggerStream::underflow not available");
   }
 	
   // only for output, not for input
   virtual int_type uflow()
   {
-	assert( false);
-	return (CharTraits::eof()); 
+	throw std::runtime_error("MessageLoggerStream::uflow not available");
   }
 	
   // only for output, not for input
   virtual std::streamsize xsgetn(char_type * _S, std::streamsize _N)
   {
-	assert( false);
-	return 0; 
+	throw std::runtime_error("MessageLoggerStream::xsgetn not available");
   }
 	
   // we don't allow positioning
   virtual pos_type seekoff(off_type, std::ios_base::seekdir,
 						   std::ios_base::openmode = std::ios_base::in | std::ios_base::out)
   {
-	assert( false);
-	return (std::streampos( _BADOFF)); 
+	throw std::runtime_error("MessageLoggerStream::seekoff not available");
   }
 	
   // we don't allow positioning
   virtual pos_type seekpos(pos_type,
 						   std::ios_base::openmode = std::ios_base::in | std::ios_base::out)
   {
-	assert( false);
-	return (std::streampos( _BADOFF)); 
+	throw std::runtime_error("MessageLoggerStream::seekpos not available");
   }
 	
 	// output functions
@@ -100,7 +94,7 @@ protected:
   virtual int sync()
   {
 	itsOwnerStream->onNewMessage(GetStreamBuffer().str());
-	itsStreamBuffer = std::auto_ptr<StringStream>(new StringStream);
+	itsStreamBuffer.reset(new StringStream);
 	return 0; 
   }
 
@@ -187,7 +181,7 @@ protected:
 	, itsStreamBuf()
   {
 	itsStreamBuf.itsOwnerStream = this;
-	init( & itsStreamBuf);
+	this->init( & itsStreamBuf);
 	itsStreamBuf.pubsetbuf( NULL, 0);
   }
 
