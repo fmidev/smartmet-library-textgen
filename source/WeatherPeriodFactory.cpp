@@ -42,6 +42,25 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Create period from now to now
+   *
+   * There are no required variables are
+   *
+   * \param theTime The local reference time
+   * \param theVariable The variable containing optional extra settings
+   * \return The period
+   */
+  // ----------------------------------------------------------------------
+
+  WeatherPeriod period_now(const NFmiTime & theTime,
+						   const string & theVariable)
+  {
+	WeatherPeriod period(theTime,theTime);
+	return period;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Create period from now until some given time
    *
    * Required variables are
@@ -172,6 +191,8 @@ namespace TextGen
 	{
 	  const string var = theVariable + "::type";
 	  const string type = Settings::require_string(var);
+	  if(type == "now")
+		return period_now(theTime,theVariable);
 	  if(type == "until")
 		return period_until(theTime,theVariable);
 	  if(type == "from_until")

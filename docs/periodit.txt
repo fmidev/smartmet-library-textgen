@@ -17,6 +17,11 @@ Tällöin factory olettaa, että esimerkiksi muuttuja \c textgen::period::type
 on asetettu. Muut vaaditut muuttujat riippuvat periodin tyypistä, ja
 on dokumentoitu kunkin periodityypin dokumentaatiossa.
 
+\subsection sec_period_now Periodityyppi "now"
+
+Periodin alku- ja loppuaika asetetaan annettuun aikaan.  Periodi on
+hyödyllinen lähinnä otsikkojen generoinnissa, esim. otsikon
+"report_area" kanssa.
 
 \subsection sec_period_until Periodityyppi "until"
 
