@@ -2,8 +2,13 @@
 
 \mainpage textgen Tekstigeneraattori
 
-\section johdanto_kap Johdanto
+\section sec_johdanto Johdanto
 
 Tänne tulee tekstigeneraattorin dokumentaation etusivu.
+
+\section sec_sanakirjat Sanakirjat
+
+\ref page_sanakirjat sivulla kuvataan sanakirjojen toimintaa ja niiden
+suunniteltua käyttötapaa.
 
 */
