@@ -1,8 +1,8 @@
--- MySQL dump 8.22
+-- MySQL dump 9.07
 --
--- Host: localhost    Database: textgen
+-- Host: mimir    Database: textgen
 ---------------------------------------------------------
--- Server version	3.23.56
+-- Server version	3.23.56-log
 
 --
 -- Table structure for table 'languages'
@@ -19,7 +19,6 @@ CREATE TABLE languages (
 --
 -- Dumping data for table 'languages'
 --
-
 
 INSERT INTO languages VALUES ('fi','translation_fi',1,'Finnish');
 INSERT INTO languages VALUES ('en','translation_en',1,'English');
@@ -45,7 +44,6 @@ CREATE TABLE translation_en (
 --
 -- Dumping data for table 'translation_en'
 --
-
 
 INSERT INTO translation_en VALUES ('kaakko','south east',20030121123504,'mheiskan');
 INSERT INTO translation_en VALUES ('etelä','south',20030121123510,'mheiskan');
@@ -477,6 +475,14 @@ INSERT INTO translation_en VALUES ('varsinais-suomi:lle','for Finland Proper',20
 INSERT INTO translation_en VALUES ('huomattavasti suurempi','significantly greater',20030604080106,'mheiskan');
 INSERT INTO translation_en VALUES ('huomattavasti pienempi','significantly smaller',20030604080116,'mheiskan');
 INSERT INTO translation_en VALUES ('rannikolla','the coastal area',20030605180511,'mheiskan');
+INSERT INTO translation_en VALUES ('metriä sekunnissa','meters per second',20030608231121,'mheiskan');
+INSERT INTO translation_en VALUES ('1-alkaen','from Monday onwards',20030608231638,'mheiskan');
+INSERT INTO translation_en VALUES ('2-alkaen','from Tuesday onwards',20030608231651,'mheiskan');
+INSERT INTO translation_en VALUES ('3-alkaen','from Wednesday onwards',20030608231700,'mheiskan');
+INSERT INTO translation_en VALUES ('4-alkaen','from Thursday onwards',20030608231710,'mheiskan');
+INSERT INTO translation_en VALUES ('5-alkaen','from Friday onwards',20030608231747,'mheiskan');
+INSERT INTO translation_en VALUES ('6-alkaen','from Saturday onwards',20030608231731,'mheiskan');
+INSERT INTO translation_en VALUES ('7-alkaen','from Sunday onwards',20030608231742,'mheiskan');
 
 --
 -- Table structure for table 'translation_fi'
@@ -493,7 +499,6 @@ CREATE TABLE translation_fi (
 --
 -- Dumping data for table 'translation_fi'
 --
-
 
 INSERT INTO translation_fi VALUES ('etelä','etelä',20030425093031,'mheiskan');
 INSERT INTO translation_fi VALUES ('lounas','lounas',20030425093028,'mheiskan');
@@ -925,6 +930,14 @@ INSERT INTO translation_fi VALUES ('varsinais-suomi:lle','Varsinais-Suomeen',200
 INSERT INTO translation_fi VALUES ('huomattavasti suurempi','huomattavasti suurempi',20030604075444,'mheiskan');
 INSERT INTO translation_fi VALUES ('huomattavasti pienempi','huomattavasti pienempi',20030604075651,'mheiskan');
 INSERT INTO translation_fi VALUES ('rannikolla','rannikolla',20030605180424,'mheiskan');
+INSERT INTO translation_fi VALUES ('metriä sekunnissa','metriä sekunnissa',20030608231012,'mheiskan');
+INSERT INTO translation_fi VALUES ('1-alkaen','maanantaista alkaen',20030608231330,'mheiskan');
+INSERT INTO translation_fi VALUES ('2-alkaen','tiistaista alkaen',20030608231338,'mheiskan');
+INSERT INTO translation_fi VALUES ('3-alkaen','keskiviikosta alkaen',20030608231348,'mheiskan');
+INSERT INTO translation_fi VALUES ('4-alkaen','torstaista alkaen',20030608231356,'mheiskan');
+INSERT INTO translation_fi VALUES ('6-alkaen','lauantaista alkaen',20030608231421,'mheiskan');
+INSERT INTO translation_fi VALUES ('5-alkaen','perjantaista alkaen',20030608231432,'mheiskan');
+INSERT INTO translation_fi VALUES ('7-alkaen','sunnuntaista alkaen',20030608231441,'mheiskan');
 
 --
 -- Table structure for table 'translation_sv'
@@ -941,7 +954,6 @@ CREATE TABLE translation_sv (
 --
 -- Dumping data for table 'translation_sv'
 --
-
 
 INSERT INTO translation_sv VALUES ('huomattavasti suurempi','betydligt större',20030604080038,'mheiskan');
 INSERT INTO translation_sv VALUES ('etelä','syd',20030425093707,'mheiskan');
@@ -1373,4 +1385,12 @@ INSERT INTO translation_sv VALUES ('varsinais-suomi:lle','för Egentliga Finland'
 INSERT INTO translation_sv VALUES ('osterbotten:lle','för Österbotten',20030604071816,'mheiskan');
 INSERT INTO translation_sv VALUES ('huomattavasti pienempi','betydligt mindre',20030604080048,'mheiskan');
 INSERT INTO translation_sv VALUES ('rannikolla','vid kusten',20030605180441,'mheiskan');
+INSERT INTO translation_sv VALUES ('metriä sekunnissa','meter i sekund',20030608231039,'mheiskan');
+INSERT INTO translation_sv VALUES ('1-alkaen','från måndag',20030608231512,'mheiskan');
+INSERT INTO translation_sv VALUES ('2-alkaen','från tisdag',20030608231521,'mheiskan');
+INSERT INTO translation_sv VALUES ('3-alkaen','från onsdag',20030608231531,'mheiskan');
+INSERT INTO translation_sv VALUES ('4-alkaen','från torsdag',20030608231540,'mheiskan');
+INSERT INTO translation_sv VALUES ('5-alkaen','från fredag',20030608231549,'mheiskan');
+INSERT INTO translation_sv VALUES ('6-alkaen','från lördag',20030608231559,'mheiskan');
+INSERT INTO translation_sv VALUES ('7-alkaen','från söndag',20030608231608,'mheiskan');
 
