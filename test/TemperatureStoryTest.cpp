@@ -63,8 +63,8 @@ namespace TemperatureStoryTest
 
 	NFmiSettings::Set("day::day::starthour","6");
 	NFmiSettings::Set("day::day::endhour","18");
-	NFmiSettings::Set("day::night::starthour","6");
-	NFmiSettings::Set("day::night::endhour","18");
+	NFmiSettings::Set("day::night::starthour","18");
+	NFmiSettings::Set("day::night::endhour","6");
 
 	NFmiSettings::Set("day::comparison::significantly_higher","5");
 	NFmiSettings::Set("day::comparison::higher","3");
@@ -126,9 +126,9 @@ namespace TemperatureStoryTest
 	NFmiSettings::Set("day::fake::night::inland::min","10,0");
 	NFmiSettings::Set("day::fake::night::inland::max","10,0");
 
-	require(story,"fi",fun,"Päivän ylin lämpötila on noin 16 astetta, rannikolla huomattavasti alempi. Yön alin lämpötila on sunnuntain vastaisena yönä noin 10 astetta.");
-	require(story,"sv",fun,"Dagens högsta temperatur är cirka 16 grader, vid kusten betydligt lägre. Nattens lägsta temperatur är natten mot söndagen cirka 10 grader.");
-	require(story,"en",fun,"The maximum day temperature is about 16 degrees, on the coastal area significantly lower. The minimum night temperature is on Sunday night about 10 degrees.");
+	require(story,"fi",fun,"Päivän ylin lämpötila on noin 16 astetta, rannikolla huomattavasti alempi. Yön alin lämpötila on noin 10 astetta.");
+	require(story,"sv",fun,"Dagens högsta temperatur är cirka 16 grader, vid kusten betydligt lägre. Nattens lägsta temperatur är cirka 10 grader.");
+	require(story,"en",fun,"The maximum day temperature is about 16 degrees, on the coastal area significantly lower. The minimum night temperature is about 10 degrees.");
 
 	NFmiSettings::Set("day::fake::day::coast::mean","-10,0");
 	NFmiSettings::Set("day::fake::day::coast::min","-12,0");
@@ -138,9 +138,9 @@ namespace TemperatureStoryTest
 	NFmiSettings::Set("day::fake::night::coast::min","7,0");
 	NFmiSettings::Set("day::fake::night::coast::max","7,0");
 
-	require(story,"fi",fun,"Päivän ylin lämpötila on noin 16 astetta, rannikolla -12...-8 astetta. Yön alin lämpötila on sunnuntain vastaisena yönä noin 10 astetta, rannikolla alempi.");
-	require(story,"sv",fun,"Dagens högsta temperatur är cirka 16 grader, vid kusten -12...-8 grader. Nattens lägsta temperatur är natten mot söndagen cirka 10 grader, vid kusten lägre.");
-	require(story,"en",fun,"The maximum day temperature is about 16 degrees, on the coastal area -12...-8 degrees. The minimum night temperature is on Sunday night about 10 degrees, on the coastal area lower.");
+	require(story,"fi",fun,"Päivän ylin lämpötila on noin 16 astetta, rannikolla -12...-8 astetta. Yön alin lämpötila on noin 10 astetta, rannikolla alempi.");
+	require(story,"sv",fun,"Dagens högsta temperatur är cirka 16 grader, vid kusten -12...-8 grader. Nattens lägsta temperatur är cirka 10 grader, vid kusten lägre.");
+	require(story,"en",fun,"The maximum day temperature is about 16 degrees, on the coastal area -12...-8 degrees. The minimum night temperature is about 10 degrees, on the coastal area lower.");
 
 	TEST_PASSED();
 
