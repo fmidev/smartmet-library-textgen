@@ -18,7 +18,6 @@
 #ifndef WEATHERANALYSIS_MASKSOURCE_H
 #define WEATHERANALYSIS_MASKSOURCE_H
 
-#include "boost/shared_ptr.hpp"
 #include <string>
 
 class NFmiIndexMask;
