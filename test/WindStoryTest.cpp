@@ -469,6 +469,203 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	}
 
+	// SAME THING ALL OVER AGAIN, BUT WITH VARIABLE WINDS
+
+
+	// Test 1-day forecasts
+	{
+	  const WeatherPeriod period(time1,time2);
+	  WindStory story(time1,sources,area,period,"a");
+
+	  NFmiSettings::instance().set("a::fake::day1::speed::mean","1,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::minimum","0,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::maximum","2,0");
+
+	  NFmiSettings::instance().set("a::today::phrases","none,today,tomorrow,weekday");
+
+	  NFmiSettings::instance().set("a::fake::day1::direction::mean","0,50");
+	  REQUIRE(story,"fi",fun,"Suunnaltaan vaihtelevaa tuulta 0...2 m/s.");
+	  REQUIRE(story,"sv",fun,"Varierande vind 0...2 m/s.");
+	  REQUIRE(story,"en",fun,"Variable wind 0...2 m/s.");
+
+	  NFmiSettings::instance().set("a::today::phrases","today,tomorrow,weekday");
+
+	  NFmiSettings::instance().set("a::fake::day1::direction::mean","0,50");
+	  REQUIRE(story,"fi",fun,"Tänään suunnaltaan vaihtelevaa tuulta 0...2 m/s.");
+	  REQUIRE(story,"sv",fun,"I dag varierande vind 0...2 m/s.");
+	  REQUIRE(story,"en",fun,"Today variable wind 0...2 m/s.");
+
+	}
+
+	// Test 1-day forecast for tomorrow
+
+	{
+	  const WeatherPeriod period(time2,time3);
+	  WindStory story(time1,sources,area,period,"a");
+
+	  NFmiSettings::instance().set("a::fake::day1::speed::mean","1,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::minimum","0,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::maximum","2,0");
+	  NFmiSettings::instance().set("a::fake::day1::direction::mean","0,50");
+
+	  NFmiSettings::instance().set("a::today::phrases","none,today,tomorrow,weekday");
+	  REQUIRE(story,"fi",fun,"Huomenna suunnaltaan vaihtelevaa tuulta 0...2 m/s.");
+	  REQUIRE(story,"sv",fun,"I morgon varierande vind 0...2 m/s.");
+	  REQUIRE(story,"en",fun,"Tomorrow variable wind 0...2 m/s.");
+
+	  NFmiSettings::instance().set("a::today::phrases","today,tomorrow,weekday");
+	  REQUIRE(story,"fi",fun,"Huomenna suunnaltaan vaihtelevaa tuulta 0...2 m/s.");
+	  REQUIRE(story,"sv",fun,"I morgon varierande vind 0...2 m/s.");
+	  REQUIRE(story,"en",fun,"Tomorrow variable wind 0...2 m/s.");
+
+	}
+
+	// Test 1-day forecast for a later day
+
+	{
+	  const WeatherPeriod period(time3,time4);
+	  WindStory story(time1,sources,area,period,"a");
+
+	  NFmiSettings::instance().set("a::fake::day1::speed::mean","1,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::minimum","0,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::maximum","2,0");
+	  NFmiSettings::instance().set("a::fake::day1::direction::mean","0,50");
+
+	  NFmiSettings::instance().set("a::today::phrases","none,today,tomorrow,weekday");
+	  REQUIRE(story,"fi",fun,"Tiistaina suunnaltaan vaihtelevaa tuulta 0...2 m/s.");
+	  REQUIRE(story,"sv",fun,"På tisdagen varierande vind 0...2 m/s.");
+	  REQUIRE(story,"en",fun,"On Tuesday variable wind 0...2 m/s.");
+
+	}
+
+	// Test 2-day forecast starting today
+
+	{
+	  const WeatherPeriod period(time1,time3);
+	  WindStory story(time1,sources,area,period,"a");
+
+	  NFmiSettings::instance().set("a::today::phrases","none,today,tomorrow,weekday");
+	  NFmiSettings::instance().set("a::next_day::phrases","tomorrow,following_day,weekday");
+	  NFmiSettings::instance().set("a::days::phrases","none,today,tomorrow,followingday,weekday");
+
+	  NFmiSettings::instance().set("a::fake::day1::speed::mean","1,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::minimum","0,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::maximum","2,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::mean","3,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::minimum","4,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::maximum","5,0");
+
+	  NFmiSettings::instance().set("a::fake::day1::direction::mean","0,50");
+	  NFmiSettings::instance().set("a::fake::day2::direction::mean","90,50");
+	  NFmiSettings::instance().set("a::fake::days1-2::direction::mean","45,50");
+	  REQUIRE(story,"fi",fun,"Suunnaltaan vaihtelevaa tuulta 0...2 m/s, huomenna 4...5 m/s.");
+	  REQUIRE(story,"sv",fun,"Varierande vind 0...2 m/s, i morgon 4...5 m/s.");
+	  REQUIRE(story,"en",fun,"Variable wind 0...2 m/s, tomorrow 4...5 m/s.");
+
+	}
+
+	// Test 3-day forecast starting today
+
+	{
+	  const WeatherPeriod period(time1,time4);
+	  WindStory story(time1,sources,area,period,"a");
+
+	  NFmiSettings::instance().set("a::today::phrases","none,today,tomorrow,weekday");
+	  NFmiSettings::instance().set("a::next_day::phrases","tomorrow,following_day,weekday");
+	  NFmiSettings::instance().set("a::days::phrases","none,today,tomorrow,followingday,weekday");
+
+	  // W1<>W2<>W3
+
+	  NFmiSettings::instance().set("a::fake::day1::speed::minimum","0,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::mean","1,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::maximum","2,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::minimum","3,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::mean","4,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::maximum","5,0");
+	  NFmiSettings::instance().set("a::fake::day3::speed::minimum","6,0");
+	  NFmiSettings::instance().set("a::fake::day3::speed::mean","7,0");
+	  NFmiSettings::instance().set("a::fake::day3::speed::maximum","8,0");
+
+	  NFmiSettings::instance().set("a::fake::day1::direction::mean","0,50");
+	  NFmiSettings::instance().set("a::fake::day2::direction::mean","90,50");
+	  NFmiSettings::instance().set("a::fake::day3::direction::mean","180,50");
+	  NFmiSettings::instance().set("a::fake::days1-2::direction::mean","45,50");
+	  NFmiSettings::instance().set("a::fake::days2-3::direction::mean","135,50");
+	  NFmiSettings::instance().set("a::fake::days1-3::direction::mean","90,50");
+	  REQUIRE(story,"fi",fun,"Suunnaltaan vaihtelevaa tuulta 0...2 m/s, huomenna 3...5 m/s, tiistaina 6...8 m/s.");
+	  REQUIRE(story,"sv",fun,"Varierande vind 0...2 m/s, i morgon 3...5 m/s, på tisdagen 6...8 m/s.");
+	  REQUIRE(story,"en",fun,"Variable wind 0...2 m/s, tomorrow 3...5 m/s, on Tuesday 6...8 m/s.");
+
+	  // W1==W2<>W3
+
+	  NFmiSettings::instance().set("a::fake::day1::speed::minimum","0,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::mean","1,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::maximum","2,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::minimum","0,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::mean","1,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::maximum","2,0");
+	  NFmiSettings::instance().set("a::fake::day3::speed::minimum","6,0");
+	  NFmiSettings::instance().set("a::fake::day3::speed::mean","7,0");
+	  NFmiSettings::instance().set("a::fake::day3::speed::maximum","8,0");
+
+	  NFmiSettings::instance().set("a::fake::day1::direction::mean","0,50");
+	  NFmiSettings::instance().set("a::fake::day2::direction::mean","90,50");
+	  NFmiSettings::instance().set("a::fake::day3::direction::mean","180,50");
+	  NFmiSettings::instance().set("a::fake::days1-2::direction::mean","45,50");
+	  NFmiSettings::instance().set("a::fake::days2-3::direction::mean","135,50");
+	  NFmiSettings::instance().set("a::fake::days1-3::direction::mean","90,50");
+	  REQUIRE(story,"fi",fun,"Suunnaltaan vaihtelevaa tuulta 0...2 m/s, tiistaina 6...8 m/s.");
+	  REQUIRE(story,"sv",fun,"Varierande vind 0...2 m/s, på tisdagen 6...8 m/s.");
+	  REQUIRE(story,"en",fun,"Variable wind 0...2 m/s, on Tuesday 6...8 m/s.");
+
+	  // W1<>W2==W3
+
+	  NFmiSettings::instance().set("a::fake::day1::speed::minimum","0,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::mean","1,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::maximum","2,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::minimum","3,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::mean","4,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::maximum","5,0");
+	  NFmiSettings::instance().set("a::fake::day3::speed::minimum","3,0");
+	  NFmiSettings::instance().set("a::fake::day3::speed::mean","4,0");
+	  NFmiSettings::instance().set("a::fake::day3::speed::maximum","5,0");
+
+	  NFmiSettings::instance().set("a::fake::day1::direction::mean","0,50");
+	  NFmiSettings::instance().set("a::fake::day2::direction::mean","90,50");
+	  NFmiSettings::instance().set("a::fake::day3::direction::mean","180,50");
+	  NFmiSettings::instance().set("a::fake::days1-2::direction::mean","45,50");
+	  NFmiSettings::instance().set("a::fake::days2-3::direction::mean","135,50");
+	  NFmiSettings::instance().set("a::fake::days1-3::direction::mean","90,50");
+
+	  REQUIRE(story,"fi",fun,"Suunnaltaan vaihtelevaa tuulta 0...2 m/s, maanantaista alkaen 3...5 m/s.");
+	  REQUIRE(story,"sv",fun,"Varierande vind 0...2 m/s, från måndagen 3...5 m/s.");
+	  REQUIRE(story,"en",fun,"Variable wind 0...2 m/s, from Monday onwards 3...5 m/s.");
+
+	  // W1==W2==W3
+
+	  NFmiSettings::instance().set("a::fake::day1::speed::minimum","0,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::mean","1,0");
+	  NFmiSettings::instance().set("a::fake::day1::speed::maximum","2,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::minimum","0,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::mean","1,0");
+	  NFmiSettings::instance().set("a::fake::day2::speed::maximum","2,0");
+	  NFmiSettings::instance().set("a::fake::day3::speed::minimum","0,0");
+	  NFmiSettings::instance().set("a::fake::day3::speed::mean","1,0");
+	  NFmiSettings::instance().set("a::fake::day3::speed::maximum","2,0");
+
+	  NFmiSettings::instance().set("a::fake::day1::direction::mean","0,50");
+	  NFmiSettings::instance().set("a::fake::day2::direction::mean","90,50");
+	  NFmiSettings::instance().set("a::fake::day3::direction::mean","180,50");
+	  NFmiSettings::instance().set("a::fake::days1-2::direction::mean","45,50");
+	  NFmiSettings::instance().set("a::fake::days2-3::direction::mean","135,50");
+	  NFmiSettings::instance().set("a::fake::days1-3::direction::mean","90,50");
+
+	  REQUIRE(story,"fi",fun,"Suunnaltaan vaihtelevaa tuulta 0...2 m/s.");
+	  REQUIRE(story,"sv",fun,"Varierande vind 0...2 m/s.");
+	  REQUIRE(story,"en",fun,"Variable wind 0...2 m/s.");
+
+	}
+
 	TEST_PASSED();
   }
 
