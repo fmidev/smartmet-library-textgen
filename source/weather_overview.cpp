@@ -404,7 +404,7 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Calculates index for rain in the table at \ref page_rain_oneday
+   * \brief Calculates index for rain in the first table at \ref page_rain_oneday
    *
    * If forecast length is N+1, the start index for that forecast length is
    * the arithmetic sum of 24+23+...+24-N+1. The sum is then (a1+an)*n/2
@@ -441,6 +441,22 @@ namespace
 	const int an = 24-n+1;
 	const int sn = ((a1+an)*n)/2;
 	return (sn + theStartHour + 1);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief  Calculates index for rain in the second table at \ref page_rain_oneday
+   *
+   * \param theStartHour The start hour of the rain
+   * \param theEndHour The end hour of the rain
+   * \return The index for the rain
+   */
+  // ----------------------------------------------------------------------
+
+  int one_day_rain_unique_index(int theStartHour, int theEndHour)
+  {
+	const int tmp = one_day_rain_index(theStartHour,theEndHour);
+	return one_day_forecasts[tmp];
   }
 
 }
