@@ -6,7 +6,7 @@
 // ======================================================================
 
 #include "PeriodPhraseFactory.h"
-#include "NFmiTime.h"
+#include "HourPeriodGenerator.h"
 #include "Sentence.h"
 #include "Settings.h"
 #include "TextGenError.h"
@@ -15,14 +15,17 @@
 #include "WeekdayTools.h"
 
 #include "NFmiStringTools.h"
+#include "NFmiTime.h"
+
+#include "boost/lexical_cast.hpp"
 
 using WeatherAnalysis::WeatherPeriod;
 using namespace TextGen::TimeTools;
+using namespace boost;
 using namespace std;
 
 namespace
 {
-
   // ----------------------------------------------------------------------
   /*!
    * \brief Reorganizes preferred phrases
@@ -399,8 +402,9 @@ namespace TextGen
 			return (sentence << from_weekday(thePeriod.localStartTime()));
 		  else if(*it == "tomorrow")
 			{
-			  if(isNextDay(theForecastTime,thePeriod.localStartTime()))
-				return (sentence << "huomisesta alkaen");
+			  // Sonera-sanakirjasta puuttuu "huomisesta alkaen"
+			  // if(isNextDay(theForecastTime,thePeriod.localStartTime()))
+			  // return (sentence << "huomisesta alkaen");
 			}
 		  else
 			throw TextGenError("PeriodPhrasefactory::next_days does not accept phrase "+*it);
@@ -427,6 +431,156 @@ namespace TextGen
 		return next_days(theVariable,theForecastTime,thePeriod);
 	  else
 		return next_day(theVariable,theForecastTime,thePeriod);
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return sentence describing period of type "days"
+	 *
+	 * \param theVariable The Settings variable containing extra details
+	 * \param theForecastTime The forecast time
+	 * \param thePeriod The time period itself
+	 */
+	// ----------------------------------------------------------------------
+	
+	Sentence days(const string & theVariable,
+				  const NFmiTime & theForecastTime,
+				  const WeatherPeriod & thePeriod)
+	{
+	  using WeekdayTools::from_weekday;
+	  using WeekdayTools::on_weekday;
+	  using WeatherAnalysis::HourPeriodGenerator;
+
+	  Sentence sentence;
+
+	  const string defaults("none,today,tomorrow,followingday,weekday");
+
+	  const string var = theVariable + "::days::phrases";
+	  string preferences = Settings::optional_string(var,"");
+
+	  HourPeriodGenerator hours(thePeriod,theVariable);
+	  const int ndays = hours.size();
+
+	  if(ndays==0)
+		return sentence;
+	  
+	  const string nvar = var + "::days" + lexical_cast<string>(ndays);
+	  preferences = Settings::optional_string(var,preferences);
+	  list<string> order = reorder_preferences(preferences,defaults);
+
+	  // the first day may not be the same as thePeriod.localStartTime
+	  // due to starthour etc settings
+
+	  const NFmiTime starttime = hours.period(1).localStartTime();
+
+	  if(ndays==1)
+		{
+		  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+			{
+			  if(*it == "none")
+				return sentence;
+			  else if(*it == "today")
+				{
+				  if(isSameDay(theForecastTime, starttime))
+					return (sentence << "tänään");
+				}
+			  else if(*it == "tomorrow")
+				{
+				  if(isNextDay(theForecastTime, starttime))
+					return (sentence << "huomenna");
+				}
+			  else if(*it == "followingday")
+				;
+			  else if(*it == "weekday")
+				{
+				  return (sentence << on_weekday(starttime));
+				}
+			  else
+				throw TextGenError("PeriodPhrasefactory::days does not accept phrase "+*it);
+			}
+		}
+	  else if(ndays==2)
+		{
+		  NFmiTime nextday(starttime);
+		  nextday.ChangeByDays(1);
+		  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+			{
+			  if(*it == "none")
+				return sentence;
+			  else if(*it == "today")
+				{
+				  if(isSameDay(theForecastTime,starttime))
+					{
+					  sentence << "tänään" << "ja";
+					  for(list<string>::const_iterator jt=order.begin();
+						  jt!=order.end();
+						  ++jt)
+						{
+						  if(*jt == "tomorrow")
+							return (sentence << "huomenna");
+						  if(*jt == "followingday")
+							return (sentence << "seuraavana päivänä");
+						  if(*jt == "weekday")
+							return (sentence << on_weekday(starttime));
+						}
+					}
+				}
+			  else if(*it == "tomorrow")
+				{
+				  if(isNextDay(theForecastTime, starttime))
+					{
+					  sentence << "huomenna" << "ja";
+					  for(list<string>::const_iterator jt=order.begin();
+						  jt!=order.end();
+						  ++jt)
+						{
+						  if(*jt == "followingday")
+							return (sentence << "seuraavana päivänä");
+						  if(*jt == "weekday")
+							return (sentence << on_weekday(starttime));
+						}
+					}
+				}
+			  else if(*it == "followingday")
+				;
+			  else if(*it == "weekday")
+				{
+				  sentence << on_weekday(starttime)
+						   << "ja"
+						   << on_weekday(nextday);
+				  return sentence;
+				}
+			  else
+				throw TextGenError("PeriodPhrasefactory::days does not accept phrase "+*it);
+			}
+		}
+	  else
+		{
+		  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+			{
+			  if(*it == "none")
+				return sentence;
+			  else if(*it == "today")
+				;
+			  else if(*it == "tomorrow")
+				{
+				  // Sonera-sanakirjasta puuttuu "huomisesta alkaen"
+				  // if(isNextDay(theForecastTime, starttime))
+				  // return (sentence << "huomisesta alkaen");
+				}
+			  else if(*it == "followingday")
+				;
+			  else if(*it == "weekday")
+				{
+				  return (sentence << from_weekday(starttime));
+				}
+			  else
+				throw TextGenError("PeriodPhrasefactory::days does not accept phrase "+*it);
+			}
+		}
+
+	  throw TextGenError("PeriodPhrasefactory::days run out of options");
+
 	}
 
   } // namespace anonymous
@@ -474,6 +628,9 @@ namespace TextGen
 
 	  if(theType == "remaining_days")
 		return remaining_days(theVariable,theForecastTime,thePeriod);
+
+	  if(theType == "days")
+		return days(theVariable,theForecastTime,thePeriod);
 
 	  throw TextGenError("PeriodPhraseFactory::create does not recognize type "+theType);
 	}

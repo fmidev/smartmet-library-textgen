@@ -456,9 +456,12 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period1,"sv","Från söndagen.");
 	REQUIRE(mode,var,ftime,period1,"en","From Sunday onwards.");
 
-	REQUIRE(mode,var,ftime,period2,"fi","Huomisesta alkaen.");
-	REQUIRE(mode,var,ftime,period2,"sv","Från i morgon.");
-	REQUIRE(mode,var,ftime,period2,"en","Starting tomorrow.");
+	// REQUIRE(mode,var,ftime,period2,"fi","Huomisesta alkaen.");
+	// REQUIRE(mode,var,ftime,period2,"sv","Från i morgon.");
+	// REQUIRE(mode,var,ftime,period2,"en","Starting tomorrow.");
+	REQUIRE(mode,var,ftime,period2,"fi","Maanantaista alkaen.");
+	REQUIRE(mode,var,ftime,period2,"sv","Från måndagen.");
+	REQUIRE(mode,var,ftime,period2,"en","From Monday onwards.");
 
 	NFmiSettings::instance().set(phrasesvar,"weekday");
 	REQUIRE(mode,var,ftime,period2,"fi","Maanantaista alkaen.");
@@ -466,9 +469,12 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period2,"en","From Monday onwards.");
 
 	NFmiSettings::instance().set(phrasesvar,"tomorrow");
-	REQUIRE(mode,var,ftime,period2,"fi","Huomisesta alkaen.");
-	REQUIRE(mode,var,ftime,period2,"sv","Från i morgon.");
-	REQUIRE(mode,var,ftime,period2,"en","Starting tomorrow.");
+	// REQUIRE(mode,var,ftime,period2,"fi","Huomisesta alkaen.");
+	// REQUIRE(mode,var,ftime,period2,"sv","Från i morgon.");
+	// REQUIRE(mode,var,ftime,period2,"en","Starting tomorrow.");
+	REQUIRE(mode,var,ftime,period2,"fi","Maanantaista alkaen.");
+	REQUIRE(mode,var,ftime,period2,"sv","Från måndagen.");
+	REQUIRE(mode,var,ftime,period2,"en","From Monday onwards.");
 
 	TEST_PASSED();
   }
