@@ -671,6 +671,28 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test WindStory::simple_overview
+   */
+  // ----------------------------------------------------------------------
+
+  void wind_simple_overview()
+  {
+	TEST_NOT_IMPLEMENTED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test WindStory::overview
+   */
+  // ----------------------------------------------------------------------
+
+  void wind_overview()
+  {
+	TEST_NOT_IMPLEMENTED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -687,6 +709,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	void test(void)
 	{
 	  TEST(wind_daily_ranges);
+	  TEST(wind_simple_overview);
+	  TEST(wind_overview);
 	}
 
   }; // class tests
