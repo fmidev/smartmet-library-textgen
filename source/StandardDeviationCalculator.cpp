@@ -10,6 +10,8 @@
 
 #include "NFmiGlobals.h"
 
+#include <cmath>
+
 using namespace boost;
 
 namespace WeatherAnalysis
@@ -60,7 +62,7 @@ namespace WeatherAnalysis
 	if(itsCounter<2)
 	  return kFloatMissing;
 	else
-	  return (itsSquaredSum-itsSum*itsSum/itsCounter)/(itsCounter-1);
+	  return sqrt((itsSquaredSum-itsSum*itsSum/itsCounter)/(itsCounter-1));
   }
   
   // ----------------------------------------------------------------------
