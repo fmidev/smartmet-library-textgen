@@ -326,7 +326,7 @@ namespace TextGen
 				if(strength.value() < weak_limit)
 				  sentence << "vähäisiä kuuroja";
 				else if(strength.value() >= hard_limit)
-				  sentence << "ajoittain" << "voimakkaita kuuroja";
+				  sentence << "voimakkaita kuuroja";
 				else
 				  sentence << "sadetta";	// "sadekuuroja" prompti puuttuu!
 			  }
@@ -335,7 +335,7 @@ namespace TextGen
 				if(strength.value() < weak_limit)
 				  sentence << "heikkoa sadetta";
 				else if(strength.value() >= hard_limit)
-				  sentence << "ajoittain" << "runsasta sadetta";
+				  sentence << "runsasta sadetta";
 				else
 				  sentence << "sadetta";
 			  }
@@ -373,7 +373,7 @@ namespace TextGen
 				if(strength.value() < weak_limit)
 				  sentence << "vähäistä lumisadetta";
 				else if(strength.value() >= hard_limit)
-				  sentence << "ajoittain" << "sakeaa lumisadetta";
+				  sentence << "sakeaa lumisadetta";
 				else
 				  sentence << "lumisadetta";
 			  }
@@ -401,7 +401,7 @@ namespace TextGen
 				if(strength.value() < weak_limit)
 				  sentence << "heikkoa";
 				else if(strength.value() >= hard_limit)
-				  sentence << "ajoittain" << "kovaa";
+				  sentence << "kovaa";
 				if(water.value() >= snow.value())
 				  sentence << "vesi-" << "tai" << "lumisadetta";
 				else
