@@ -1431,7 +1431,7 @@ namespace TextGen
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
 			 << phrase1
-			 << WeekdayTools::until_weekday_morning(day2.localStartTime())
+			 << WeekdayTools::until_weekday_evening(day2.localStartTime())
 			 << "asti"
 			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
 			 << "sadetta";
