@@ -59,7 +59,7 @@ namespace TextGen
 	const int precision   = Settings::require_percentage(itsVar+"::precision");
 	const int severelimit = Settings::require_percentage(itsVar+"::severe_frost_limit");
 	const int normallimit = Settings::require_percentage(itsVar+"::frost_limit");
-	const int obvious_frost = Settings::require_percentage(itsVar+"::obvious_frost_limit");
+	const int obvious_frost = Settings::optional_percentage(itsVar+"::obvious_frost_limit",90);
 
 	const int nights = WeatherPeriodTools::countPeriods(itsPeriod,
 														starthour,
