@@ -1674,14 +1674,17 @@ namespace TextGen
 		return paragraph;
 	  }
 
-	// process each day separately
+	// process sequences of similar days
 
 	HourPeriodGenerator generator(rainperiod, itsVar+"::day");
 
 	const int n = generator.size();
 
+	RainPeriods dummy;
 	vector<RainPeriods> overlaps;
 	vector<RainPeriods> inclusives;
+	overlaps.push_back(dummy);
+	inclusives.push_back(dummy);
 
 	for(int day=1; day<=n; day++)
 	  {
@@ -1697,70 +1700,106 @@ namespace TextGen
 
 	for(int day=1; day<=n; day++)
 	  {
-		const RainPeriods::size_type noverlap = overlaps[day-1].size();
-		const RainPeriods::size_type ninclusive = inclusives[day-1].size();
+		const RainPeriods::size_type noverlap = overlaps[day].size();
+		const RainPeriods::size_type ninclusive = inclusives[day].size();
 
 		log << "Day " << day << " overlap   : " << noverlap << endl;
 		log << "Day " << day << " inclusive : " << ninclusive << endl;
 
-		if(ninclusive==noverlap) // all rains within the same day
+		if(noverlap==0)
 		  {
-			if(ninclusive==0)
+			// find sequence of non-rainy days, report all at once
+			int day2 = day;
+			for(; day2<n; day2++)
 			  {
-				// find sequence of non-rainy days, report all at once
-				int day2 = day;
-				for(; day2<n; day2++)
-				  {
-					if(overlaps[day2].size()!=0 || inclusives[day2].size()!=0)
-					  break;
-				  }
-				
-				WeatherPeriod period(generator.period(day).localStartTime(),
-									 generator.period(day2).localEndTime());
-				
-				if(day != day2)
-				  log << "Cloudiness only for days " << day << '-' << day2 << endl;
-				else
-				  log << "Cloudiness only for day " << day << endl;
-				
-				CloudinessStory story(itsForecastTime,
-									  itsSources,
-									  itsArea,
-									  period,
-									  itsVar);
-				
-				paragraph << story.makeStory("cloudiness_overview");
-				day = day2;
+				if(overlaps[day2+1].size()!=0 || inclusives[day2+1].size()!=0)
+				  break;
 			  }
 			
-			else if(ninclusive==1)
-			  {
-				paragraph << one_inclusive_rain(itsForecastTime,
-												itsSources,
-												itsArea,
-												generator.period(day),
-												itsVar,
-												inclusives[day-1].front(),
-												day);
-			  }
+			WeatherPeriod period(generator.period(day).localStartTime(),
+								 generator.period(day2).localEndTime());
+			
+			if(day != day2)
+			  log << "Cloudiness only for days " << day << '-' << day2 << endl;
 			else
-			  {
+			  log << "Cloudiness only for day " << day << endl;
+			
+			CloudinessStory story(itsForecastTime,
+								  itsSources,
+								  itsArea,
+								  period,
+								  itsVar);
+			
+			paragraph << story.makeStory("cloudiness_overview");
+			day = day2;
+		  }
+
+		else if(ninclusive==1 && noverlap==1)
+		  {
+			paragraph << one_inclusive_rain(itsForecastTime,
+											itsSources,
+											itsArea,
+											generator.period(day),
+											itsVar,
+											inclusives[day].front(),
+											day);
+		  }
+		else if(ninclusive==noverlap)
+		  {
 				paragraph << many_inclusive_rains(itsForecastTime,
 												  itsSources,
 												  itsArea,
 												  generator.period(day),
 												  itsVar,
-												  inclusives[day-1]);
-			  }
+												  inclusives[day]);
+		  }
+		else if(ninclusive==0 && noverlap==1 &&
+				overlaps[day+1].size()==1 && inclusives[day+1].size()==0)
+		  {
+			WeatherPeriod period(generator.period(day).localStartTime(),
+								 generator.period(day+1).localEndTime());
+			paragraph << one_twoday_inclusive_rain(itsForecastTime,
+												   itsSources,
+												   itsArea,
+												   period,
+												   itsVar,
+												   inclusives[day].front(),
+												   day);
+			day++;
 		  }
 		else
 		  {
+			// seek end of rainy days
+			// find sequence of non-rainy days, report all at once
+			int day2 = day;
+			for(; day2<n; day2++)
+			  {
+				// found end if there is a non-rainy day
+				if(overlaps[day2+1].size()==0)
+				  break;
+				// found end if there is a 1-rain inclusive day
+				if(overlaps[day2+1].size()==1 && inclusives[day2+1].size()==1)
+				  break;
+			  }
+			
+			WeatherPeriod period(generator.period(day).localStartTime(),
+								 generator.period(day2).localEndTime());
+			
 			Sentence s;
-			s << "ajoittain sateista";
-			paragraph << s;
+			if(day==day2)
+			  {
+				s << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, period)
+				  << "ajoittain sateista";
+			  }
+			else
+			  {
+				s << WeekdayTools::from_weekday(period.localStartTime())
+				  << "ajoittain sateista";
+			  }
+			day = day2;
 		  }
 	  }
-
+	
 	log << paragraph;
 	return paragraph;
   }
