@@ -8,6 +8,15 @@
  * \class TextGen::SoneraTextFormatter
  *
  * \brief Glyph visitor generating Sonera tailored output
+ *
+ * The text formatter utilizes the following variables
+ * \code
+ * textgen::soneraformatter::pause::paragraph = [number]
+ * textgen::soneraformatter::pause::header = [number]
+ * textgen::soneraformatter::pause::sentence = [number]
+ * textgen::soneraformatter::pause::delimiter = [number]
+ * \endcode
+ * If a variable is not set, no pause phrase is output.
  */
 // ======================================================================
 
@@ -21,6 +30,7 @@
 #include "Paragraph.h"
 #include "Phrase.h"
 #include "Sentence.h"
+#include "Settings.h"
 #include "TextGenError.h"
 
 #include "boost/lexical_cast.hpp"
@@ -68,6 +78,25 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Add the given pause prompt
+   *
+   * \param theVar The variable containing the optional pause
+   * \param theList The prompt list
+   */
+  // ----------------------------------------------------------------------
+
+  void addpause(const std::string & theVar,
+				list<string> & theList)
+  {
+	if(Settings::isset(theVar))
+	  {
+		const int num = Settings::require_int(theVar);
+		theList.push_back(lexical_cast<string>(num));
+	  }
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief A helper function for containers
    */
   // ----------------------------------------------------------------------
@@ -78,10 +107,14 @@ namespace
 					  const TextGen::TextFormatter & theFormatter,
 					  list<string> & theList)
   {
+	static const string var = "textgen::soneraformatter::pause::delimiter";
+
 	for( ; it!=end; ++it)
 	  {
 		if( !((*it)->isDelimiter()))
 		  theFormatter.format(**it);
+		else
+		  addpause(var,theList);
 	  }
   }
 
@@ -273,6 +306,10 @@ namespace TextGen
   {
 	static string dummy("sentence");
 	sonera_realize(theSentence.begin(), theSentence.end(), *this, itsParts);
+
+	static const string var = "textgen::soneraformatter::pause::sentence";
+	addpause(var,itsParts);
+
 	return dummy;
   }
   
@@ -286,6 +323,10 @@ namespace TextGen
   {
 	static string dummy("paragraph");
 	sonera_realize(theParagraph.begin(), theParagraph.end(), *this, itsParts);
+
+	static const string var = "textgen::soneraformatter::pause::paragraph";
+	addpause(var,itsParts);
+
 	return dummy;
   }
   
@@ -299,6 +340,10 @@ namespace TextGen
   {
 	static string dummy("header");
 	sonera_realize(theHeader.begin(), theHeader.end(), *this, itsParts);
+
+	static const string var = "textgen::soneraformatter::pause::header";
+	addpause(var,itsParts);
+
 	return dummy;
   }
   
