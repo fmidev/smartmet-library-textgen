@@ -1,8 +1,8 @@
--- MySQL dump 9.07
+-- MySQL dump 8.22
 --
--- Host: mimir    Database: textgen
+-- Host: localhost    Database: textgen
 ---------------------------------------------------------
--- Server version	3.23.56-log
+-- Server version	3.23.56
 
 --
 -- Table structure for table 'languages'
@@ -19,6 +19,7 @@ CREATE TABLE languages (
 --
 -- Dumping data for table 'languages'
 --
+
 
 INSERT INTO languages VALUES ('fi','translation_fi',1,'Finnish');
 INSERT INTO languages VALUES ('en','translation_en',1,'English');
@@ -44,6 +45,7 @@ CREATE TABLE translation_en (
 --
 -- Dumping data for table 'translation_en'
 --
+
 
 INSERT INTO translation_en VALUES ('kaakko','south east',20030121123504,'mheiskan');
 INSERT INTO translation_en VALUES ('etelä','south',20030121123510,'mheiskan');
@@ -151,8 +153,8 @@ INSERT INTO translation_en VALUES ('päivän ylin lämpötila','the maximum day temp
 INSERT INTO translation_en VALUES ('yön alin lämpötila','the minimum night temperature',20030526141500,'mheiskan');
 INSERT INTO translation_en VALUES ('päivien ylin lämpötila','daily maximum temperature',20030527112502,'mheiskan');
 INSERT INTO translation_en VALUES ('öiden alin lämpötila','nightly minimum temperature',20030527112513,'mheiskan');
-INSERT INTO translation_en VALUES ('päivälämpötila','daily maximum temperature',20030527112534,'mheiskan');
-INSERT INTO translation_en VALUES ('yölämpötila','daily minimum temperature',20030527112544,'mheiskan');
+INSERT INTO translation_en VALUES ('päivälämpötila','daily temperature',20030607125914,'mheiskan');
+INSERT INTO translation_en VALUES ('yölämpötila','nightly temperature',20030607125923,'mheiskan');
 INSERT INTO translation_en VALUES ('aluksi','in the beginning',20030527112550,'mheiskan');
 INSERT INTO translation_en VALUES ('lopuksi','in the end',20030527112556,'mheiskan');
 INSERT INTO translation_en VALUES ('100','100',20030527133702,'mheiskan');
@@ -491,6 +493,7 @@ CREATE TABLE translation_fi (
 --
 -- Dumping data for table 'translation_fi'
 --
+
 
 INSERT INTO translation_fi VALUES ('etelä','etelä',20030425093031,'mheiskan');
 INSERT INTO translation_fi VALUES ('lounas','lounas',20030425093028,'mheiskan');
@@ -938,6 +941,7 @@ CREATE TABLE translation_sv (
 --
 -- Dumping data for table 'translation_sv'
 --
+
 
 INSERT INTO translation_sv VALUES ('huomattavasti suurempi','betydligt större',20030604080038,'mheiskan');
 INSERT INTO translation_sv VALUES ('etelä','syd',20030425093707,'mheiskan');
