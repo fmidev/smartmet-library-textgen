@@ -956,7 +956,6 @@ CREATE TABLE translation_sv (
 -- Dumping data for table 'translation_sv'
 --
 
-INSERT INTO translation_sv VALUES ('1-na kello','måndag klockan',20030611142436,'mheiskan');
 INSERT INTO translation_sv VALUES ('huomattavasti lämpimämpi','betydligt varmare',20030525185952,'mheiskan');
 INSERT INTO translation_sv VALUES ('lämpimämpi','varmare',20030525185939,'mheiskan');
 INSERT INTO translation_sv VALUES ('seuraava yö','följande natt',20030525190121,'mheiskan');
@@ -1239,12 +1238,6 @@ INSERT INTO translation_sv VALUES ('keskiyöstä alkaen','från midnatten',20030609
 INSERT INTO translation_sv VALUES ('prosenttia','procent',20030610080942,'mheiskan');
 INSERT INTO translation_sv VALUES ('ajoittain','tidvis',20030611115214,'mheiskan');
 INSERT INTO translation_sv VALUES ('2-na kello','tisdag klockan',20030611142457,'mheiskan');
-INSERT INTO translation_sv VALUES ('2-viikonpäivänä','tiistaina',20030611141958,'mheiskan');
-INSERT INTO translation_sv VALUES ('3-viikonpäivänä','keskiviikkona',20030611142007,'mheiskan');
-INSERT INTO translation_sv VALUES ('4-viikonpäivänä','torstaina',20030611142014,'mheiskan');
-INSERT INTO translation_sv VALUES ('5-viikonpäivänä','perjantaina',20030611142047,'mheiskan');
-INSERT INTO translation_sv VALUES ('6-viikonpäivänä','lauantaina',20030611142057,'mheiskan');
-INSERT INTO translation_sv VALUES ('7-viikonpäivänä','sunnuntaina',20030611142105,'mheiskan');
 INSERT INTO translation_sv VALUES ('3-na kello','onsdag klockan',20030611142505,'mheiskan');
 INSERT INTO translation_sv VALUES ('4-na kello','torsdag klockan',20030611142511,'mheiskan');
 INSERT INTO translation_sv VALUES ('5-na kello','fredag klockan',20030611142519,'mheiskan');
