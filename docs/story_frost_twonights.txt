@@ -2,7 +2,9 @@
 
 \page page_story_frost_twonights Tarina "frost_twonights"
 
-Tarina on tyhjä marraskuusta maaliskuun loppuun!
+Tarina on tyhjä marraskuusta maaliskuun loppuun! Lisäksi, jos
+ankaran hallan todennäköisyys on kumpanakin päivänä 100%, lienee
+halla niin päivän selvää, ettei siitä kannata mainita erikseen.
 
 Jos jakson pituus on nolla yötä, palautetaan tyhjä tarina.
 

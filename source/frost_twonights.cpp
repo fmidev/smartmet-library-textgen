@@ -110,11 +110,17 @@ namespace TextGen
 		const int value = to_precision(frost.value(),precision);
 		const int severevalue = to_precision(severefrost.value(),precision);
 
-		if(severevalue >= severelimit)
-		  paragraph << severe_frost_sentence(night1,severevalue);
-		else if(value >= normallimit)
-		  paragraph << frost_sentence(night1,value);
-
+		if(severevalue == 100)
+		  {
+			log << "Severe frost probability 100% implies the forecast is obvious!";
+		  }
+		else
+		  {
+			if(severevalue >= severelimit)
+			  paragraph << severe_frost_sentence(night1,severevalue);
+			else if(value >= normallimit)
+			  paragraph << frost_sentence(night1,value);
+		  }
 	  }
 	else
 	  {
@@ -166,7 +172,12 @@ namespace TextGen
 		// severe+frost		"Ankaran ..., seuraavana yönä hallan todennäköisyys on y%."
 		// severe+severe	"Ankaran ..., seuraavana yönä y%/sama."
 
-		if(severevalue1 >= severelimit)		// severe + ?
+
+		if(severevalue1==100 && severevalue2==100)
+		  {
+			log << "Severe frost probability 100% implies the forecast is obvious!";
+		  }
+		else if(severevalue1 >= severelimit)		// severe + ?
 		  {
 			Sentence sentence;
 			sentence << severe_frost_sentence(night1,severevalue1)
@@ -196,7 +207,6 @@ namespace TextGen
 						 << "huomattavasti lämpimämpi";
 			  }
 			paragraph << sentence;
-			
 		  }
 		else if(value1 >= normallimit)				// frost + ?
 		  {
