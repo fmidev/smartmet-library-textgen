@@ -37,7 +37,7 @@ namespace
 	shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
-	  *sentence << Delimiter("\176C");
+	  *sentence << Delimiter("\260C");
 	else if(opt == "phrase")
 	  *sentence << "astetta";
 	else
