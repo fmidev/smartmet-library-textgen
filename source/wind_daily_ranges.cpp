@@ -15,6 +15,7 @@
 #include "Sentence.h"
 #include "Settings.h"
 #include "WeatherResult.h"
+#include "WeatherResultTools.h"
 #include "WeekdayTools.h"
 #include "WindStoryTools.h"
 
@@ -44,6 +45,11 @@ namespace TextGen
 
 	using WeekdayTools::on_weekday;
 	using WeekdayTools::from_weekday;
+
+	using WeatherResultTools::min;
+	using WeatherResultTools::max;
+	using WeatherResultTools::mean;
+	using WeatherResultTools::isSimilarRange;
 
 	// Establish options
 
@@ -77,7 +83,7 @@ namespace TextGen
 	vector<WeatherResult> directions;
 	vector<WindDirectionAccuracy> accuracies;
 
-	for(int day=1; day<=min(ndays,3); day++)
+	for(int day=1; day<=std::min(ndays,3); day++)
 	  {
 		const WeatherPeriod period(periodgenerator.period(day));
 
@@ -164,11 +170,11 @@ namespace TextGen
 	
 		  const WindDirectionAccuracy accuracy12 = direction_accuracy(direction12.error(),itsVar);
 
-		  const bool similar_speeds = similar_speed_range(minspeeds[0],
-														  maxspeeds[0],
-														  minspeeds[1],
-														  maxspeeds[1],
-														  itsVar);
+		  const bool similar_speeds = isSimilarRange(minspeeds[0],
+													 maxspeeds[0],
+													 minspeeds[1],
+													 maxspeeds[1],
+													 itsVar);
 
 		  if(accuracy12 != bad_accuracy ||
 			 (accuracies[0] == bad_accuracy &&
@@ -182,9 +188,9 @@ namespace TextGen
 														  itsVar,
 														  itsForecastTime,
 														  days12)
-						   << directed_speed_sentence(minspeed(minspeeds[0],minspeeds[1]),
-													  maxspeed(maxspeeds[0],maxspeeds[1]),
-													  meanspeed(meanspeeds[0],meanspeeds[1]),
+						   << directed_speed_sentence(min(minspeeds[0],minspeeds[1]),
+													  max(maxspeeds[0],maxspeeds[1]),
+													  mean(meanspeeds[0],meanspeeds[1]),
 													  direction12,
 													  itsVar);
 				}
@@ -248,14 +254,14 @@ namespace TextGen
 
 		  // various useful subperiods
 
-		  const WeatherPeriod days13(periods[0].localStartTime(),
-									 periods[2].localEndTime());
+		  const WeatherPeriod days123(periods[0].localStartTime(),
+									  periods[2].localEndTime());
 		  const WeatherPeriod days12(periods[0].localStartTime(),
 									 periods[1].localEndTime());
 		  const WeatherPeriod days23(periods[1].localStartTime(),
 									 periods[2].localEndTime());
 
-		  const WeatherResult direction13 =
+		  const WeatherResult direction123 =
 			forecaster.analyze(itsVar+"::fake::days1-3::direction::mean",
 							   itsSources,
 							   WindDirection,
@@ -263,7 +269,7 @@ namespace TextGen
 							   Mean,
 							   Mean,
 							   itsArea,
-							   HourPeriodGenerator(days13,itsVar+"::day"));
+							   HourPeriodGenerator(days123,itsVar+"::day"));
 
 		  const WeatherResult direction12 =
 			forecaster.analyze(itsVar+"::fake::days1-2::direction::mean",
@@ -285,31 +291,34 @@ namespace TextGen
 							   itsArea,
 							   HourPeriodGenerator(days23,itsVar+"::day"));
 
-		  const WindDirectionAccuracy accuracy13 = direction_accuracy(direction13.error(),itsVar);
+		  const WindDirectionAccuracy accuracy123 = direction_accuracy(direction123.error(),itsVar);
 		  const WindDirectionAccuracy accuracy12 = direction_accuracy(direction12.error(),itsVar);
 		  const WindDirectionAccuracy accuracy23 = direction_accuracy(direction23.error(),itsVar);
 
-		  const bool similar_speeds12 = similar_speed_range(minspeeds[0],
-															maxspeeds[0],
-															minspeeds[1],
-															maxspeeds[1],
-															itsVar);
+		  const bool similar_speeds12 = isSimilarRange(minspeeds[0],
+													   maxspeeds[0],
+													   minspeeds[1],
+													   maxspeeds[1],
+													   itsVar);
 
-		  const bool similar_speeds23 = similar_speed_range(minspeeds[1],
-															maxspeeds[1],
-															minspeeds[2],
-															maxspeeds[2],
-															itsVar);
+		  const bool similar_speeds23 = isSimilarRange(minspeeds[1],
+													   maxspeeds[1],
+													   minspeeds[2],
+													   maxspeeds[2],
+													   itsVar);
+
+		  const bool similar_speeds13 = isSimilarRange(minspeeds[0],
+													   maxspeeds[0],
+													   minspeeds[2],
+													   maxspeeds[2],
+													   itsVar);
+
 		  // All pairs 1&2,2&3 and 1&3 must be similar
-		  const bool similar_speeds13 = (similar_speeds12 &&
-										 similar_speeds23 &&
-										 similar_speed_range(minspeeds[0],
-															 maxspeeds[0],
-															 minspeeds[2],
-															 maxspeeds[2],
-															 itsVar));
+		  const bool similar_speeds123 = (similar_speeds12 &&
+										  similar_speeds23 &&
+										  similar_speeds13);
 
-		  if(accuracy13 != bad_accuracy ||
+		  if(accuracy123 != bad_accuracy ||
 			 (accuracies[0] == bad_accuracy &&
 			  accuracies[1] == bad_accuracy &&
 			  accuracies[2] == bad_accuracy))
@@ -323,15 +332,15 @@ namespace TextGen
 						 << directed_speed_sentence(minspeeds[0],
 													maxspeeds[0],
 													meanspeeds[0],
-													direction13,
+													direction123,
 													itsVar);
 				}
-			  else if(!similar_speeds13)
+			  else if(!similar_speeds123)
 				{
-				  sentence << directed_speed_sentence(minspeed(minspeeds[0],minspeeds[1]),
-													  maxspeed(maxspeeds[0],maxspeeds[1]),
-													  meanspeed(meanspeeds[0],meanspeeds[1]),
-													  direction13,
+				  sentence << directed_speed_sentence(min(minspeeds[0],minspeeds[1]),
+													  max(maxspeeds[0],maxspeeds[1]),
+													  mean(meanspeeds[0],meanspeeds[1]),
+													  direction123,
 													  itsVar);
 				}
 			  else
@@ -339,15 +348,15 @@ namespace TextGen
 				  sentence << PeriodPhraseFactory::create("days",
 														  itsVar,
 														  itsForecastTime,
-														  days13)
-						   << directed_speed_sentence(minspeed(minspeeds[0],minspeeds[1],minspeeds[2]),
-													  maxspeed(maxspeeds[0],maxspeeds[1],maxspeeds[2]),
-													  meanspeed(meanspeeds[0],meanspeeds[1],maxspeeds[2]),
-													  direction13,
+														  days123)
+						   << directed_speed_sentence(min(minspeeds[0],minspeeds[1],minspeeds[2]),
+													  max(maxspeeds[0],maxspeeds[1],maxspeeds[2]),
+													  mean(meanspeeds[0],meanspeeds[1],maxspeeds[2]),
+													  direction123,
 													  itsVar);
 				}
 
-			  if(!similar_speeds13)
+			  if(!similar_speeds123)
 				{
 				  
 				  // second day
@@ -359,9 +368,9 @@ namespace TextGen
 																itsVar,
 																itsForecastTime,
 																periods[1])
-								 << speed_range_sentence(minspeed(minspeeds[1],minspeeds[2]),
-														 maxspeed(maxspeeds[1],maxspeeds[2]),
-														 meanspeed(meanspeeds[1],meanspeeds[2]),
+								 << speed_range_sentence(min(minspeeds[1],minspeeds[2]),
+														 max(maxspeeds[1],maxspeeds[2]),
+														 mean(meanspeeds[1],meanspeeds[2]),
 														 itsVar);
 					  else
 						sentence << PeriodPhraseFactory::create("next_day",
@@ -404,19 +413,19 @@ namespace TextGen
 													direction12,
 													itsVar);
 				}
-			  else if(!similar_speeds13)
+			  else if(!similar_speeds123)
 				{
-				  sentence << directed_speed_sentence(minspeed(minspeeds[0],minspeeds[1]),
-													  maxspeed(maxspeeds[0],maxspeeds[1]),
-													  meanspeed(meanspeeds[0],meanspeeds[1]),
+				  sentence << directed_speed_sentence(min(minspeeds[0],minspeeds[1]),
+													  max(maxspeeds[0],maxspeeds[1]),
+													  mean(meanspeeds[0],meanspeeds[1]),
 													  direction12,
 													  itsVar);
 				}
 			  else
 				{
-				  sentence << directed_speed_sentence(minspeed(minspeeds[0],minspeeds[1],minspeeds[2]),
-													  maxspeed(maxspeeds[0],maxspeeds[1],maxspeeds[2]),
-													  meanspeed(meanspeeds[0],meanspeeds[1],maxspeeds[2]),
+				  sentence << directed_speed_sentence(min(minspeeds[0],minspeeds[1],minspeeds[2]),
+													  max(maxspeeds[0],maxspeeds[1],maxspeeds[2]),
+													  mean(meanspeeds[0],meanspeeds[1],maxspeeds[2]),
 													  direction12,
 													  itsVar);
 				}
@@ -435,9 +444,9 @@ namespace TextGen
 													 meanspeeds[1],
 													 itsVar);
 				  else
-					sentence << speed_range_sentence(minspeed(minspeeds[1],minspeeds[2]),
-													 maxspeed(maxspeeds[1],maxspeeds[2]),
-													 meanspeed(meanspeeds[1],meanspeeds[2]),
+					sentence << speed_range_sentence(min(minspeeds[1],minspeeds[2]),
+													 max(maxspeeds[1],maxspeeds[2]),
+													 mean(meanspeeds[1],meanspeeds[2]),
 													 itsVar);
 				}
 
@@ -473,16 +482,16 @@ namespace TextGen
 													meanspeeds[0],
 													directions[0],
 													itsVar);
-			  else if(!similar_speeds13)
-				sentence << directed_speed_sentence(minspeed(minspeeds[0],minspeeds[1]),
-													maxspeed(maxspeeds[0],maxspeeds[1]),
-													meanspeed(meanspeeds[0],meanspeeds[1]),
+			  else if(!similar_speeds123)
+				sentence << directed_speed_sentence(min(minspeeds[0],minspeeds[1]),
+													max(maxspeeds[0],maxspeeds[1]),
+													mean(meanspeeds[0],meanspeeds[1]),
 													directions[0],
 													itsVar);
 			  else
-				sentence << directed_speed_sentence(minspeed(minspeeds[0],minspeeds[1],minspeeds[2]),
-													maxspeed(maxspeeds[0],maxspeeds[1],maxspeeds[2]),
-													meanspeed(meanspeeds[0],meanspeeds[1],maxspeeds[2]),
+				sentence << directed_speed_sentence(min(minspeeds[0],minspeeds[1],minspeeds[2]),
+													max(maxspeeds[0],maxspeeds[1],maxspeeds[2]),
+													mean(meanspeeds[0],meanspeeds[1],maxspeeds[2]),
 													directions[0],
 													itsVar);
 
@@ -502,9 +511,9 @@ namespace TextGen
 			  if(!similar_speeds12)
 				{
 				  if(similar_speeds23)
-					sentence << speed_range_sentence(minspeed(minspeeds[1],minspeeds[2]),
-													 maxspeed(maxspeeds[1],maxspeeds[2]),
-													 meanspeed(meanspeeds[1],meanspeeds[2]),
+					sentence << speed_range_sentence(min(minspeeds[1],minspeeds[2]),
+													 max(maxspeeds[1],maxspeeds[2]),
+													 mean(meanspeeds[1],meanspeeds[2]),
 													 itsVar);
 				  else
 					sentence << speed_range_sentence(minspeeds[1],
@@ -536,15 +545,15 @@ namespace TextGen
 													  periods[0]);
 			  sentence << direction_sentence(directions[0],itsVar);
 
-			  if(similar_speeds13)
-				sentence << speed_range_sentence(minspeed(minspeeds[0],minspeeds[1],minspeeds[2]),
-												 maxspeed(maxspeeds[0],maxspeeds[1],maxspeeds[2]),
-												 meanspeed(meanspeeds[0],meanspeeds[1],meanspeeds[2]),
+			  if(similar_speeds123)
+				sentence << speed_range_sentence(min(minspeeds[0],minspeeds[1],minspeeds[2]),
+												 max(maxspeeds[0],maxspeeds[1],maxspeeds[2]),
+												 mean(meanspeeds[0],meanspeeds[1],meanspeeds[2]),
 												 itsVar);
 			  else if(similar_speeds12)
-				sentence << speed_range_sentence(minspeed(minspeeds[0],minspeeds[1]),
-												 maxspeed(maxspeeds[0],maxspeeds[1]),
-												 meanspeed(meanspeeds[0],meanspeeds[1]),
+				sentence << speed_range_sentence(min(minspeeds[0],minspeeds[1]),
+												 max(maxspeeds[0],maxspeeds[1]),
+												 mean(meanspeeds[0],meanspeeds[1]),
 												 itsVar);
 			  else
 				sentence << speed_range_sentence(minspeeds[0],
@@ -563,9 +572,9 @@ namespace TextGen
 			  if(!similar_speeds12)
 				{
 				  if(similar_speeds23)
-					sentence << speed_range_sentence(minspeed(minspeeds[1],minspeeds[2]),
-													 maxspeed(maxspeeds[1],maxspeeds[2]),
-													 meanspeed(meanspeeds[1],meanspeeds[2]),
+					sentence << speed_range_sentence(min(minspeeds[1],minspeeds[2]),
+													 max(maxspeeds[1],maxspeeds[2]),
+													 mean(meanspeeds[1],meanspeeds[2]),
 													 itsVar);
 				  else
 					sentence << speed_range_sentence(minspeeds[1],

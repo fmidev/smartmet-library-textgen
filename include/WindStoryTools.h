@@ -36,39 +36,6 @@ namespace TextGen
 	  };
 
 
-	const WeatherAnalysis::WeatherResult
-	minspeed(const WeatherAnalysis::WeatherResult & theSpeed1,
-			 const WeatherAnalysis::WeatherResult & theSpeed2);
-	
-	const WeatherAnalysis::WeatherResult
-	maxspeed(const WeatherAnalysis::WeatherResult & theSpeed1,
-			 const WeatherAnalysis::WeatherResult & theSpeed2);
-	
-	const WeatherAnalysis::WeatherResult
-	meanspeed(const WeatherAnalysis::WeatherResult & theSpeed1,
-			  const WeatherAnalysis::WeatherResult & theSpeed2);
-	
-	const WeatherAnalysis::WeatherResult
-	minspeed(const WeatherAnalysis::WeatherResult & theSpeed1,
-			 const WeatherAnalysis::WeatherResult & theSpeed2,
-			 const WeatherAnalysis::WeatherResult & theSpeed3);
-
-	const WeatherAnalysis::WeatherResult
-	maxspeed(const WeatherAnalysis::WeatherResult & theSpeed1,
-			 const WeatherAnalysis::WeatherResult & theSpeed2,
-			 const WeatherAnalysis::WeatherResult & theSpeed3);
-	
-	const WeatherAnalysis::WeatherResult
-	meanspeed(const WeatherAnalysis::WeatherResult & theSpeed1,
-			  const WeatherAnalysis::WeatherResult & theSpeed2,
-			  const WeatherAnalysis::WeatherResult & theSpeed3);
-	
-	bool similar_speed_range(const WeatherAnalysis::WeatherResult & theMinSpeed1,
-							 const WeatherAnalysis::WeatherResult & theMaxSpeed1,
-							 const WeatherAnalysis::WeatherResult & theMinSpeed2,
-							 const WeatherAnalysis::WeatherResult & theMaxSpeed2,
-							 const std::string & theVariable);
-
 	WindDirectionAccuracy direction_accuracy(double theAccuracy,
 											 const std::string & theVariable);
 

@@ -18,50 +18,6 @@ namespace WindStoryToolsTest
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Test WindStoryTools::minspeed
-   */
-  // ----------------------------------------------------------------------
-
-  void minspeed()
-  {
-	TEST_NOT_IMPLEMENTED();
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test WindStoryTools::maxspeed
-   */
-  // ----------------------------------------------------------------------
-
-  void maxspeed()
-  {
-	TEST_NOT_IMPLEMENTED();
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test WindStoryTools::meanspeed
-   */
-  // ----------------------------------------------------------------------
-
-  void meanspeed()
-  {
-	TEST_NOT_IMPLEMENTED();
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test WindStoryTools::similar_speed_range
-   */
-  // ----------------------------------------------------------------------
-
-  void similar_speed_range()
-  {
-	TEST_NOT_IMPLEMENTED();
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Test WindStoryTools::direction_accuracy
    */
   // ----------------------------------------------------------------------
@@ -133,10 +89,6 @@ namespace WindStoryToolsTest
 	//! Main test suite
 	void test(void)
 	{
-	  TEST(minspeed);
-	  TEST(maxspeed);
-	  TEST(meanspeed);
-	  TEST(similar_speed_range);
 	  TEST(direction_accuracy);
 	  TEST(direction8th);
 	  TEST(direction_sentence);
