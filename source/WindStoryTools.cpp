@@ -295,7 +295,8 @@ namespace TextGen
 	  else
 		{
 		  sentence << IntegerRange(FmiRound(theMinSpeed.value()),
-								   FmiRound(theMaxSpeed.value()));
+								   FmiRound(theMaxSpeed.value()),
+								   "-");
 		}
 	  sentence << *UnitFactory::create(MetersPerSecond);
 	  
