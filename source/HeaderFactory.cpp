@@ -149,13 +149,14 @@ namespace
 	string tmp = lexical_cast<string>(thePeriod.localStartTime().GetWeekday());
 
 	if(starthour == 6)
-	  tmp += "-aamusta alkavan";
+	  tmp += "-aamusta";
 	else if(starthour == 18)
-	  tmp += "-illasta alkavan";
+	  tmp += "-illasta";
 	else
 	  throw TextGenError("HeaderFactory:: several_days start time must be 06 or 18");
 
 	header << tmp;
+	header << "alkavan";
 
 	const NFmiTime & startTime = thePeriod.localStartTime();
 	const NFmiTime & endTime = thePeriod.localEndTime();
