@@ -176,7 +176,13 @@ namespace TextGen
 			{
 			  if(similar_speeds)
 				{
-				  sentence << directed_speed_sentence(minspeed(minspeeds[0],minspeeds[1]),
+				  WeatherPeriod days12(periods[0].localStartTime(),
+									   periods[1].localEndTime());
+				  sentence << PeriodPhraseFactory::create("days",
+														  itsVar,
+														  itsForecastTime,
+														  days12)
+						   << directed_speed_sentence(minspeed(minspeeds[0],minspeeds[1]),
 													  maxspeed(maxspeeds[0],maxspeeds[1]),
 													  meanspeed(meanspeeds[0],meanspeeds[1]),
 													  direction12,
@@ -330,7 +336,11 @@ namespace TextGen
 				}
 			  else
 				{
-				  sentence << directed_speed_sentence(minspeed(minspeeds[0],minspeeds[1],minspeeds[2]),
+				  sentence << PeriodPhraseFactory::create("days",
+														  itsVar,
+														  itsForecastTime,
+														  days13)
+						   << directed_speed_sentence(minspeed(minspeeds[0],minspeeds[1],minspeeds[2]),
 													  maxspeed(maxspeeds[0],maxspeeds[1],maxspeeds[2]),
 													  meanspeed(meanspeeds[0],meanspeeds[1],maxspeeds[2]),
 													  direction13,
