@@ -425,6 +425,21 @@ INSERT INTO translation_en VALUES ('tienpintalämpötila','the road temperature',2
 INSERT INTO translation_en VALUES ('ensimmäisen 12 tunnin sademäärä','total precipitation for the first 12 hours',20031006131148,'mheiskan');
 INSERT INTO translation_en VALUES ('seuraavan 12 tunnin','for the following 12 hours',20031006131203,'mheiskan');
 INSERT INTO translation_en VALUES ('seuraavan 24 tunnin sademäärä','total precipitation for the next 24 hours',20031006131221,'mheiskan');
+INSERT INTO translation_en VALUES ('tiet ovat','the roads are',20031016120237,'mheiskan');
+INSERT INTO translation_en VALUES ('teillä on','the roads are',20031016120245,'mheiskan');
+INSERT INTO translation_en VALUES ('jäisiä','icy',20031016120249,'mheiskan');
+INSERT INTO translation_en VALUES ('osittain jäisiä','partly icy',20031016120257,'mheiskan');
+INSERT INTO translation_en VALUES ('kuuraa','covered by frost',20031016120304,'mheiskan');
+INSERT INTO translation_en VALUES ('sohjoa','covered by slush',20031016120311,'mheiskan');
+INSERT INTO translation_en VALUES ('lunta','covered by snow',20031016120319,'mheiskan');
+INSERT INTO translation_en VALUES ('märkiä','wet',20031016120324,'mheiskan');
+INSERT INTO translation_en VALUES ('kosteita','moist',20031016120330,'mheiskan');
+INSERT INTO translation_en VALUES ('kuivia','dry',20031016120337,'mheiskan');
+INSERT INTO translation_en VALUES ('kuuraisia','covered by frost',20031016120346,'mheiskan');
+INSERT INTO translation_en VALUES ('sohjoisia','covered by slush',20031016120353,'mheiskan');
+INSERT INTO translation_en VALUES ('lumisia','covered by snow',20031016120359,'mheiskan');
+INSERT INTO translation_en VALUES ('tiet ovat (sivulause)','',20031016120406,'mheiskan');
+INSERT INTO translation_en VALUES ('yleisesti','generally',20031016120413,'mheiskan');
 
 --
 -- Table structure for table 'translation_fi'
@@ -820,6 +835,21 @@ INSERT INTO translation_fi VALUES ('tienpintalämpötila','tienpintalämpötila',200
 INSERT INTO translation_fi VALUES ('ensimmäisen 12 tunnin sademäärä','ensimmäisen 12 tunnin sademäärä',20031006130904,'mheiskan');
 INSERT INTO translation_fi VALUES ('seuraavan 12 tunnin','seuraavan 12 tunnin',20031006130919,'mheiskan');
 INSERT INTO translation_fi VALUES ('seuraavan 24 tunnin sademäärä','seuraavan 24 tunnin sademäärä',20031006130935,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiet ovat','tiet ovat',20031016115832,'mheiskan');
+INSERT INTO translation_fi VALUES ('teillä on','teillä on',20031016115840,'mheiskan');
+INSERT INTO translation_fi VALUES ('jäisiä','jäisiä',20031016115847,'mheiskan');
+INSERT INTO translation_fi VALUES ('osittain jäisiä','osittain jäisiä',20031016115855,'mheiskan');
+INSERT INTO translation_fi VALUES ('kuuraa','kuuraa',20031016115900,'mheiskan');
+INSERT INTO translation_fi VALUES ('sohjoa','sohjoa',20031016115906,'mheiskan');
+INSERT INTO translation_fi VALUES ('lunta','lunta',20031016115912,'mheiskan');
+INSERT INTO translation_fi VALUES ('märkiä','märkiä',20031016115918,'mheiskan');
+INSERT INTO translation_fi VALUES ('kosteita','kosteita',20031016115924,'mheiskan');
+INSERT INTO translation_fi VALUES ('kuivia','kuivia',20031016115929,'mheiskan');
+INSERT INTO translation_fi VALUES ('kuuraisia','kuuraisia',20031016115935,'mheiskan');
+INSERT INTO translation_fi VALUES ('sohjoisia','sohjoisia',20031016115941,'mheiskan');
+INSERT INTO translation_fi VALUES ('lumisia','lumisia',20031016115947,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiet ovat (sivulause)','tiet ovat',20031016115955,'mheiskan');
+INSERT INTO translation_fi VALUES ('yleisesti','yleisesti',20031016120004,'mheiskan');
 
 --
 -- Table structure for table 'translation_sonera'
@@ -1582,4 +1612,19 @@ INSERT INTO translation_sv VALUES ('tienpintalämpötila','vägtemperaturen',200310
 INSERT INTO translation_sv VALUES ('ensimmäisen 12 tunnin sademäärä','nederbördssumman för de första 12 timmar',20031006131109,'mheiskan');
 INSERT INTO translation_sv VALUES ('seuraavan 12 tunnin','för de följande 12 timmar',20031006131020,'mheiskan');
 INSERT INTO translation_sv VALUES ('seuraavan 24 tunnin sademäärä','nederbördssumman för de följande 24 timmar',20031006132434,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiet ovat','vägarna är',20031016120023,'mheiskan');
+INSERT INTO translation_sv VALUES ('teillä on','vägarna är',20031016120032,'mheiskan');
+INSERT INTO translation_sv VALUES ('jäisiä','isiga',20031016120037,'mheiskan');
+INSERT INTO translation_sv VALUES ('osittain jäisiä','delvis isiga',20031016120045,'mheiskan');
+INSERT INTO translation_sv VALUES ('kuuraa','täckta av rimfrost',20031016120057,'mheiskan');
+INSERT INTO translation_sv VALUES ('sohjoa','täckta av snösörja',20031016120108,'mheiskan');
+INSERT INTO translation_sv VALUES ('lunta','täckta av snö',20031016120124,'mheiskan');
+INSERT INTO translation_sv VALUES ('märkiä','våta',20031016120132,'mheiskan');
+INSERT INTO translation_sv VALUES ('kosteita','fuktiga',20031016120137,'mheiskan');
+INSERT INTO translation_sv VALUES ('kuivia','torra',20031016120142,'mheiskan');
+INSERT INTO translation_sv VALUES ('kuuraisia','täckta av rimfrost',20031016120150,'mheiskan');
+INSERT INTO translation_sv VALUES ('sohjoisia','täckta av snösörja',20031016120159,'mheiskan');
+INSERT INTO translation_sv VALUES ('lumisia','täckta av snö',20031016120206,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiet ovat (sivulause)','',20031016120214,'mheiskan');
+INSERT INTO translation_sv VALUES ('yleisesti','allmänt',20031016120221,'mheiskan');
 
