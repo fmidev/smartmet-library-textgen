@@ -155,8 +155,7 @@ namespace
 
 	header << "sääennuste"
 		   << theArea.name()+":lle"
-		   << WeekdayTools::on_weekday(thePeriod.localStartTime())
-		   << "kello"
+		   << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
 		   << Number<int>(starthour)
 		   << "o'clock";
 
