@@ -1,0 +1,66 @@
+// ======================================================================
+/*!
+ * \file
+ * \brief Implementation of class WeatherResult
+ */
+// ======================================================================
+
+#include "WeatherResult.h"
+#include <cassert>
+
+namespace WeatherAnalysis
+{
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Constructor
+   *
+   * Construction is possible only by explicitly stating the
+   * value and accuracy, or by copy constructing. The void
+   * constructor is intentionally disabled.
+   *
+   * \param theValue The value part of the result
+   * \param theAccuracy The accuracy part of the result
+   */
+  // ----------------------------------------------------------------------
+
+  WeatherResult::WeatherResult(float theValue, float theAccuracy)
+	: itsValue(theValue)
+	, itsAccuracy(theAccuracy)
+  {
+	assert(theAccuracy>=0 && theAccuracy<=1);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Value accessor
+   *
+   * Returns the value part of the result
+   *
+   * \return The value part of the result
+   */
+  // ----------------------------------------------------------------------
+
+  float WeatherResult::value() const
+  {
+	return itsValue;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Accuracy accessor
+   *
+   * Returns the accuracy part of the result
+   *
+   * \return The accuracy part of the result
+   */
+  // ----------------------------------------------------------------------
+
+  float WeatherResult::accuracy() const
+  {
+	return itsAccuracy;
+  }
+
+} // namespace WeatherAnalysis
+
+// ======================================================================
