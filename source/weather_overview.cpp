@@ -49,10 +49,10 @@ namespace TextGen
 	WeatherPeriod rainperiod(itsPeriod.localStartTime(),
 							 TimeTools::dayEnd(itsPeriod.localEndTime()));
 
-	RainPeriods rainperiods = analyze(itsSources,
-									  itsArea,
-									  itsPeriod,
-									  itsVar);
+	RainPeriods rainperiods = PrecipitationPeriodTools::analyze(itsSources,
+																itsArea,
+																itsPeriod,
+																itsVar);
 
 	log << "Found " << rainperiods.size() << " rainy periods" << endl;
 
@@ -94,8 +94,8 @@ namespace TextGen
 
 	for(int day=1; day<=n; day++)
 	  {
-		const RainPeriods::size_type noverlap = overlaps[day].size();
-		const RainPeriods::size_type ninclusive = inclusives[day].size();
+		const RainPeriods::size_type noverlap = overlaps[day-1].size();
+		const RainPeriods::size_type ninclusive = inclusives[day-1].size();
 
 		if(noverlap==0)
 		  {
@@ -105,7 +105,7 @@ namespace TextGen
 				int day2 = day;
 				for(; day2<n; day2++)
 				  {
-					if(overlaps[day2+1].size()!=0 || inclusives[day2+1].size()!=0)
+					if(overlaps[day2].size()!=0 || inclusives[day2].size()!=0)
 					  break;
 				  }
 				
@@ -142,7 +142,7 @@ namespace TextGen
 		else
 		  {
 			Sentence s;
-			s << "sateista";
+			s << "ajoittain sateista";
 			paragraph << s;
 		  }
 	  }
