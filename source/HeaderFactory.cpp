@@ -198,7 +198,7 @@ namespace
 	const int starthour = thePeriod.localStartTime().GetHour();
 	const int startday = thePeriod.localStartTime().GetWeekday();
 
-	header << "Sääennuste"
+	header << "sääennuste"
 		   << theArea.name()+":lle"
 		   << lexical_cast<string>(startday)+"-na"
 		   << "kello"
