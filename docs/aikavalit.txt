@@ -57,7 +57,7 @@ Kellonaikojen tulee olla 06 tai 18, jolloin tarkenteet ovat aamu tai ilta.
 </dd>
 <dt><code>header_five_days</code></dt>
 <dd>
-Esim. <em>Odotettavissa seuraavan viiden vuorokauden aikana</em>.
+Esim. <em>Tiistaiaamusta alkavan viiden vuorokauden s‰‰</em>.
 </dd>
 </dl>
 \endhtmlonly
