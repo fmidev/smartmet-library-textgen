@@ -41,7 +41,7 @@ namespace TextGen
 	{
 	  std::ostringstream os;
 #ifdef OLDGCC
-	  os << std::ios::fixed << std::setprecision(1) << theValue;
+	  os << std::setprecision(1) << theValue;
 #else
 	  os << std::fixed << std::setprecision(1) << theValue;
 #endif
@@ -61,7 +61,7 @@ namespace TextGen
 	{
 	  std::ostringstream os;
 #ifdef OLDGCC
-	  os << std::ios::fixed << std::setprecision(1) << theValue;
+	  os << std::setprecision(1) << theValue;
 #else
 	  os << std::fixed << std::setprecision(1) << theValue;
 #endif
