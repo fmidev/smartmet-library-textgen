@@ -16,8 +16,9 @@
  *
  */
 // ======================================================================
-#ifdef _MSC_VER
-#pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta (liian pitkä nimi >255 merkkiä joka johtuu 'puretuista' STL-template nimistä)
+
+#ifdef OLD_MSC
+#pragma warning(disable : 4786)
 #endif
 
 #include "boost/shared_ptr.hpp"

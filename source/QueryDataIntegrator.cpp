@@ -15,7 +15,7 @@
  */
 // ======================================================================
 
-#ifdef _MSC_VER
+#ifdef OLD_MSC
 #pragma warning(disable : 4786) // STL name length warnings off
 #endif
 
