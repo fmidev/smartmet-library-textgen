@@ -8,4 +8,64 @@ Tarina kertoo yhden tai useamman p‰iv‰n mittaisen jakson
 pilvisyydest‰. Parhaiten tarina soveltuu ensimm‰isille 1-3
 p‰iv‰lle.
 
+Yhden p‰iv‰n osalta tarina koostuu seuraavista tarinoista:
+
+ -# [enimm‰kseen] pilvist‰
+ -# [enimm‰kseen] puolipilvist‰
+ -# [enimm‰kseen] selke‰‰
+ -# pilvist‰ tai puolipilvist‰
+ -# selke‰‰ tai puolipilvist‰
+ -# pilvistyv‰‰
+ -# selkenev‰‰
+ -# vaihtelevaa pilvisyytt‰
+
+Kahden tai useamman p‰iv‰n ennusteet koostuvat samoista
+tarinoista. Jos per‰kk‰isille p‰iville osuu sama tarina,
+mainitaan se vain kerran.
+
+Esimerkkej‰:
+
+ -# T‰n‰‰n ja huomenna enimm‰kseen pilvist‰, keskiviikkona selkenev‰‰.
+ -# T‰n‰‰n pilvistyv‰‰, huomisesta alkaen vaihtelevaa pilvisyytt‰.
+
+\section section_cloudiness_overview_algorithm Algoritmit
+
+Algoritmin k‰ytt‰m‰t muuttujat ovat
+\code
+::story::cloudiness_overview::single_class_limit = [0-100]  (=90)
+::story::cloudiness_overview::mostly_class_limit = [0-100]  (=80)
+::story::cloudiness_overview::no_class_limit = [0-100]      (=20)
+::story::cloudiness_overview::trend_limit = [0-100]         (=80)
+\endcode
+
+Yksitt‰isen p‰iv‰n pilvisyystyyppi m‰‰ritell‰‰n seuraavasti:
+
+-# Lasketaan kunkin luokan prosenttiosuus
+-# Jos pilvist‰ on v‰hint‰‰n \c single_class_limit, "pilvist‰"
+-# Jos selke‰‰ on v‰hint‰‰n \c single_class_limit, "selke‰‰"
+-# Jos puolipilvist‰ on v‰hint‰‰n \c single_class_limit, "puolipilvist‰"
+-# Jos pilvist‰ on v‰hint‰‰n \c mostly_class_limit, "enimm‰kseen pilvist‰"
+-# Jos selke‰‰ on v‰hint‰‰n \c mostly_class_limit, "enimm‰kseen selke‰‰"
+-# Jos puolipilvist‰ on v‰hint‰‰n \c mostly_class_limit, "enimm‰kseen puolipilvist‰"
+-# Jos selke‰‰ on alle \c no_class_limit, "pilvist‰ tai puolipilvist‰"
+-# Jos pilvist‰ on alle \c no_class_limit, "selke‰‰ tai puolipilvist‰"
+-# Jos lis‰‰ntyv‰ trendi on v‰hint‰‰n \c trend_limit, "pilvistyv‰‰"
+-# Jos v‰henev‰ trendi on v‰hint‰‰n \c trend_limit, "selkenev‰‰"
+-# "vaihtelevaa pilvisyytt‰"
+
+\section section_cloudiness_overview_phrases Tarvittavat fraasit
+
+Tarvittavat fraasit ovat
+
+ - "enimm‰kseen"
+ - "pilvist‰"
+ - "puolipilvist‰"
+ - "selke‰‰"
+ - "tai"
+ - "pilvistyv‰‰"
+ - "selkenev‰‰"
+ - "vaihtelevaa pilvisyytt‰"
+
+Lis‰ksi tarvitaan tyypilliset aikafraasit.
+
 */
