@@ -23,6 +23,8 @@ namespace WeatherAnalysis
 
   SumCalculator::SumCalculator()
 	: itsAcceptor(new DefaultAcceptor())
+	, itsCounter(0)
+	, itsSum(0)
   {
   }
 
