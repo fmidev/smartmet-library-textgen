@@ -40,42 +40,42 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td>1.</td>
 <td bgcolor="cyan" colspan="1"> </td>
 <td colspan="23"> </td>
-<td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>2.</td>
 <td colspan="1"> </td>
 <td bgcolor="cyan" colspan="1"> </td>
 <td colspan="22"> </td>
-<td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>3.</td>
 <td colspan="2"> </td>
 <td bgcolor="cyan" colspan="1"> </td>
 <td colspan="21"> </td>
-<td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>4.</td>
 <td colspan="3"> </td>
 <td bgcolor="cyan" colspan="1"> </td>
 <td colspan="20"> </td>
-<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>5.</td>
 <td colspan="4"> </td>
 <td bgcolor="cyan" colspan="1"> </td>
 <td colspan="19"> </td>
-<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>6.</td>
 <td colspan="5"> </td>
 <td bgcolor="cyan" colspan="1"> </td>
 <td colspan="18"> </td>
-<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>7.</td>
@@ -206,35 +206,35 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td>25.</td>
 <td align="center" bgcolor="cyan" colspan="2">0-2</td>
 <td colspan="22"> </td>
-<td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>26.</td>
 <td colspan="1"> </td>
 <td align="center" bgcolor="cyan" colspan="2">1-3</td>
 <td colspan="21"> </td>
-<td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>27.</td>
 <td colspan="2"> </td>
 <td align="center" bgcolor="cyan" colspan="2">2-4</td>
 <td colspan="20"> </td>
-<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>28.</td>
 <td colspan="3"> </td>
 <td align="center" bgcolor="cyan" colspan="2">3-5</td>
 <td colspan="19"> </td>
-<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>29.</td>
 <td colspan="4"> </td>
 <td align="center" bgcolor="cyan" colspan="2">4-6</td>
 <td colspan="18"> </td>
-<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>30.</td>
@@ -365,28 +365,28 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td>48.</td>
 <td align="center" bgcolor="cyan" colspan="3">0-3</td>
 <td colspan="21"> </td>
-<td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>49.</td>
 <td colspan="1"> </td>
 <td align="center" bgcolor="cyan" colspan="3">1-4</td>
 <td colspan="20"> </td>
-<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>50.</td>
 <td colspan="2"> </td>
 <td align="center" bgcolor="cyan" colspan="3">2-5</td>
 <td colspan="19"> </td>
-<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>51.</td>
 <td colspan="3"> </td>
 <td align="center" bgcolor="cyan" colspan="3">3-6</td>
 <td colspan="18"> </td>
-<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>52.</td>
@@ -517,28 +517,28 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td>70.</td>
 <td align="center" bgcolor="cyan" colspan="4">0-4</td>
 <td colspan="20"></td>
-<td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>71.</td>
 <td colspan="1"> </td>
 <td align="center" bgcolor="cyan" colspan="4">1-5</td>
 <td colspan="19"> </td>
-<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>72.</td>
 <td colspan="2"> </td>
 <td align="center" bgcolor="cyan" colspan="4">2-6</td>
 <td colspan="18"> </td>
-<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>73.</td>
 <td colspan="3"> </td>
 <td align="center" bgcolor="cyan" colspan="4">3-7</td>
 <td colspan="17"> </td>
-<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>74.</td>
@@ -662,21 +662,21 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td>91.</td>
 <td align="center" bgcolor="cyan" colspan="5">0-5</td>
 <td colspan="19"> </td>
-<td>Yöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Yöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>92.</td>
 <td colspan="1"> </td>
 <td align="center" bgcolor="cyan" colspan="5">1-6</td>
 <td colspan="18"> </td>
-<td>Yöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Yöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>93.</td>
 <td colspan="2"> </td>
 <td align="center" bgcolor="cyan" colspan="5">2-7</td>
 <td colspan="17"> </td>
-<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td>
+<td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>94.</td>
@@ -800,49 +800,49 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td>111.</td>
 <td align="center" bgcolor="cyan" colspan="6">0-6</td>
 <td colspan="18"> </td>
-<td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>112.</td>
 <td colspan="1"> </td>
 <td align="center" bgcolor="cyan" colspan="6">1-7</td>
 <td colspan="17"> </td>
-<td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>113.</td>
 <td colspan="2"> </td>
 <td align="center" bgcolor="cyan" colspan="6">2-8</td>
 <td colspan="16"> </td>
-<td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>114.</td>
 <td colspan="3"> </td>
 <td align="center" bgcolor="cyan" colspan="6">3-9</td>
 <td colspan="15"> </td>
-<td>Aamulla [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Aamulla [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>115.</td>
 <td colspan="4"> </td>
 <td align="center" bgcolor="cyan" colspan="6">4-10</td>
 <td colspan="14"> </td>
-<td>Aamulla [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Aamulla [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>116.</td>
 <td colspan="5"> </td>
 <td align="center" bgcolor="cyan" colspan="6">5-11</td>
 <td colspan="13"> </td>
-<td>Aamulla [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Aamulla [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>117.</td>
 <td colspan="6"> </td>
 <td align="center" bgcolor="cyan" colspan="6">6-12</td>
 <td colspan="12"> </td>
-<td>Aamulla [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Aamulla [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>118.</td>
@@ -931,56 +931,56 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td>130.</td>
 <td align="center" bgcolor="cyan" colspan="7">0-7</td>
 <td colspan="17"> </td>
-<td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>131.</td>
 <td colspan="1"> </td>
 <td align="center" bgcolor="cyan" colspan="7">1-8</td>
 <td colspan="16"> </td>
-<td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>132.</td>
 <td colspan="2"> </td>
 <td align="center" bgcolor="cyan" colspan="7">2-9</td>
 <td colspan="15"> </td>
-<td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>133.</td>
 <td colspan="3"> </td>
 <td align="center" bgcolor="cyan" colspan="7">3-10</td>
 <td colspan="14"> </td>
-<td>[Paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>[Paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>134.</td>
 <td colspan="4"> </td>
 <td align="center" bgcolor="cyan" colspan="7">4-11</td>
 <td colspan="13"> </td>
-<td>Aamulla [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Aamulla [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>135.</td>
 <td colspan="5"> </td>
 <td align="center" bgcolor="cyan" colspan="7">5-12</td>
 <td colspan="12"> </td>
-<td>Aamulla [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Aamulla [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>136.</td>
 <td colspan="6"> </td>
 <td align="center" bgcolor="cyan" colspan="7">6-13</td>
 <td colspan="11"> </td>
-<td>Aamusta alkaen [paikoin] [sadetta], iltapäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Aamusta alkaen [paikoin] [sadetta], iltapäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>137.</td>
 <td colspan="7"> </td>
 <td align="center" bgcolor="cyan" colspan="7">7-14</td>
 <td colspan="10"> </td>
-<td>Aamusta alkaen [paikoin] [sadetta], iltapäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Aamusta alkaen [paikoin] [sadetta], iltapäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>138.</td>
@@ -1055,35 +1055,35 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td>148.</td>
 <td align="center" bgcolor="cyan" colspan="8">0-8</td>
 <td colspan="16"> </td>
-<td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>149.</td>
 <td colspan="1"> </td>
 <td align="center" bgcolor="cyan" colspan="8">1-9</td>
 <td colspan="15"> </td>
-<td>Yöllä [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Yöllä [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>150.</td>
 <td colspan="2"> </td>
 <td align="center" bgcolor="cyan" colspan="8">2-10</td>
 <td colspan="14"> </td>
-<td>Yöllä [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Yöllä [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>151.</td>
 <td colspan="3"> </td>
 <td align="center" bgcolor="cyan" colspan="8">3-11</td>
 <td colspan="13"> </td>
-<td>Yöllä [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>Yöllä [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>152.</td>
 <td colspan="4"> </td>
 <td align="center" bgcolor="cyan" colspan="8">4-12</td>
 <td colspan="12"> </td>
-<td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>153.</td>
@@ -1172,28 +1172,28 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td>165.</td>
 <td align="center" bgcolor="cyan" colspan="9">0-9</td>
 <td colspan="15"> </td>
-<td>[Paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>[Paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>166.</td>
 <td colspan="1"> </td>
 <td align="center" bgcolor="cyan" colspan="9">1-10</td>
 <td colspan="14"> </td>
-<td>[Paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>[Paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>167.</td>
 <td colspan="2"> </td>
 <td align="center" bgcolor="cyan" colspan="9">2-11</td>
 <td colspan="13"> </td>
-<td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>168.</td>
 <td colspan="3"> </td>
 <td align="center" bgcolor="cyan" colspan="9">3-12</td>
 <td colspan="12"> </td>
-<td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>169.</td>
@@ -1282,21 +1282,21 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td>181.</td>
 <td align="center" bgcolor="cyan" colspan="10">0-10</td>
 <td colspan="14"> </td>
-<td>[Paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>[Paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>182.</td>
 <td colspan="1"> </td>
 <td align="center" bgcolor="cyan" colspan="10">1-11</td>
 <td colspan="13"> </td>
-<td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>183.</td>
 <td colspan="2"> </td>
 <td align="center" bgcolor="cyan" colspan="10">2-12</td>
 <td colspan="12"> </td>
-<td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>184.</td>
@@ -1392,7 +1392,7 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td colspan="1"> </td>
 <td align="center" bgcolor="cyan" colspan="11">1-12</td>
 <td colspan="12"> </td>
-<td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>198.</td>
@@ -1481,7 +1481,7 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td>210.</td>
 <td align="center" bgcolor="cyan" colspan="12">0-12</td>
 <td colspan="12"> </td>
-<td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td>
+<td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td>
 </tr>
 <tr>
 <td>211.</td>
@@ -2095,16 +2095,16 @@ Alla on lueteltu kaikki uniikit tarinat numeroituina.
 
 \htmlonly
 <table cellpadding="1" cellspacing="0" border="1">
-<tr><td>1.</td><td>Aamulla [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää], poutaa</td></tr>
-<tr><td>2.</td><td>Aamulla [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td></tr>
+<tr><td>1.</td><td>Aamulla [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>2.</td><td>Aamulla [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
 <tr><td>3.</td><td>Aamupäivällä [paikoin] [sadetta], iltapäivästä alkaen poutaa</td></tr>
 <tr><td>4.</td><td>Aamupäivästä alkaen [paikoin] [sadetta], illalla poutaa</td></tr>
 <tr><td>5.</td><td>Aamupäivästä alkaen [paikoin] [sadetta]</td></tr>
 <tr><td>6.</td><td>Aamusta alkaen [paikoin] [sadetta], illalla poutaa</td></tr>
-<tr><td>7.</td><td>Aamusta alkaen [paikoin] [sadetta], iltapäivästä alkaen [enimmäkseen selkeää], poutaa</td></tr>
+<tr><td>7.</td><td>Aamusta alkaen [paikoin] [sadetta], iltapäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
 <tr><td>8.</td><td>Aamusta alkaen [paikoin] [sadetta], iltapäivästä alkaen poutaa</td></tr>
 <tr><td>9.</td><td>Aamusta alkaen [paikoin] [sadetta]</td></tr>
-<tr><td>10.</td><td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td></tr>
+<tr><td>10.</td><td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td></tr>
 <tr><td>11.</td><td>[Enimmäkseen selkeää], aamulla [paikoin] [sadetta]</td></tr>
 <tr><td>12.</td><td>[Enimmäkseen selkeää], aamupäivällä [paikoin] [sadetta]</td></tr>
 <tr><td>13.</td><td>[Enimmäkseen selkeää], illalla [paikoin] [sadetta]</td></tr>
@@ -2118,19 +2118,19 @@ Alla on lueteltu kaikki uniikit tarinat numeroituina.
 <tr><td>21.</td><td>Iltapäivästä alkaen [paikoin] [sadetta]</td></tr>
 <tr><td>22.</td><td>Keskipäivästä alkaen [paikoin] [sadetta], illalla poutaa</td></tr>
 <tr><td>23.</td><td>Keskipäivästä alkaen [paikoin] [sadetta]</td></tr>
-<tr><td>24.</td><td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td></tr>
-<tr><td>25.</td><td>[Paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää], poutaa</td></tr>
+<tr><td>24.</td><td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>25.</td><td>[Paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
 <tr><td>26.</td><td>[Paikoin] [sadetta], illalla poutaa</td></tr>
 <tr><td>27.</td><td>[Paikoin] [sadetta], iltapäivästä alkaen poutaa</td></tr>
 <tr><td>28.</td><td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää],  poutaa</td></tr>
-<tr><td>29.</td><td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td></tr>
+<tr><td>29.</td><td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
 <tr><td>30.</td><td>[Paikoin] [sadetta]</td></tr>
 <tr><td>31.</td><td>Päivällä [paikoin] [sadetta], iltapäivästä alkaen poutaa</td></tr>
 <tr><td>32.</td><td>Päivällä [paikoin] [sadetta]</td></tr>
-<tr><td>33.</td><td>Yöllä [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää], poutaa</td></tr>
-<tr><td>34.</td><td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää], poutaa</td></tr>
-<tr><td>35.</td><td>Yöllä [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää], poutaa</td></tr>
-<tr><td>36.</td><td>Yöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää], poutaa</td></tr>
+<tr><td>33.</td><td>Yöllä [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>34.</td><td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>35.</td><td>Yöllä [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>36.</td><td>Yöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td></tr>
 </table>
 \endhtmlonly
 
