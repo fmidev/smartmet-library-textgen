@@ -43,15 +43,18 @@ namespace TextGen
    * \param theSources The analysis sources
    * \param theArea The area to be analyzed
    * \param thePeriod The time interval to be analyzed
+   * \param theVariable The associated configuration variable
    */
   // ----------------------------------------------------------------------
   
   PrecipitationStory::PrecipitationStory(const AnalysisSources & theSources,
 										 const WeatherArea & theArea,
-										 const WeatherPeriod & thePeriod)
+										 const WeatherPeriod & thePeriod,
+										 const string & theVariable)
 	: itsSources(theSources)
 	, itsArea(theArea)
 	, itsPeriod(thePeriod)
+	, itsVariable(theVariable)
   {
   }
   
@@ -178,7 +181,7 @@ namespace TextGen
 
 	// optionaalinen maksimisade
 	int rainlimit = -1;
-	const string variable = "textgen::story::precipitation_range::maxrain";
+	const string variable = itsVariable + "::maxrain";
 	if(NFmiSettings::instance().isset(variable))
 	  {
 		const string varvalue = NFmiSettings::instance().value(variable);

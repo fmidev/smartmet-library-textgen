@@ -32,7 +32,8 @@ namespace TextGen
 	Paragraph create(const WeatherAnalysis::AnalysisSources & theSources,
 					 const WeatherAnalysis::WeatherArea & theArea,
 					 const WeatherAnalysis::WeatherPeriod & thePeriod,
-					 const std::string & theName);
+					 const std::string & theName,
+					 const std::string & theVariable);
 
   } // namespace StoryFactory
 } // namespace TextGen

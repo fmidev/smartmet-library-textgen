@@ -173,10 +173,12 @@ namespace TextGen
 				iter != contents.end();
 				++iter)
 			  {
+				const string storyvar = "textgen::"+*it+"::story::"+*iter;
 				Paragraph p = StoryFactory::create(itsPimple->itsSources,
 												   theArea,
 												   period,
-												   *iter);
+												   *iter,
+												   storyvar);
 				paragraph << p;
 			  }
 			doc << paragraph;

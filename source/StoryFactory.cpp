@@ -29,13 +29,15 @@ namespace TextGen
 	 * \param theSources The associated analysis sources
 	 * \param theArea The area for which to generate the story
 	 * \param theName The story to create
+	 * \param theVariable The configuration variable prefix
 	 */
 	// ----------------------------------------------------------------------
 
 	Paragraph create(const AnalysisSources & theSources,
 					 const WeatherArea & theArea,
 					 const WeatherPeriod & thePeriod,
-					 const string & theName)
+					 const string & theName,
+					 const string & theVariable)
 	{
 	  if(theName == "none")
 		{
@@ -45,13 +47,13 @@ namespace TextGen
 
 	  if(TemperatureStory::hasStory(theName))
 		{
-		  TemperatureStory story(theSources,theArea,thePeriod);
+		  TemperatureStory story(theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 
 	  if(PrecipitationStory::hasStory(theName))
 		{
-		  PrecipitationStory story(theSources,theArea,thePeriod);
+		  PrecipitationStory story(theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 

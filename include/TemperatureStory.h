@@ -34,7 +34,8 @@ namespace TextGen
 	~TemperatureStory();
 	TemperatureStory(const WeatherAnalysis::AnalysisSources & theSources,
 					 const WeatherAnalysis::WeatherArea & theArea,
-					 const WeatherAnalysis::WeatherPeriod & thePeriod);
+					 const WeatherAnalysis::WeatherPeriod & thePeriod,
+					 const std::string & theVariable);
 
 	static bool hasStory(const std::string & theName);
 	Paragraph makeStory(const std::string & theName) const;
@@ -52,6 +53,7 @@ namespace TextGen
 	const WeatherAnalysis::AnalysisSources & itsSources;
 	const WeatherAnalysis::WeatherArea & itsArea;
 	const WeatherAnalysis::WeatherPeriod & itsPeriod;
+	const std::string & itsVariable;
 
   }; // class TemperatureStory
 }

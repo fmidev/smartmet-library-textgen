@@ -37,15 +37,19 @@ namespace TextGen
    *
    * \param theSources The analysis sources
    * \param theArea The area to be analyzed 
+   * \param thePeriod The period to be analyzed
+   * \param theVariable The associated configuration variable
   */
   // ----------------------------------------------------------------------
   
   TemperatureStory::TemperatureStory(const AnalysisSources & theSources,
 									 const WeatherArea & theArea,
-									 const WeatherPeriod & thePeriod)
+									 const WeatherPeriod & thePeriod,
+									 const string & theVariable)
 	: itsSources(theSources)
 	, itsArea(theArea)
 	, itsPeriod(thePeriod)
+	, itsVariable(theVariable)
   {
   }
   
