@@ -92,6 +92,15 @@ namespace TextGen
 							   itsArea,
 							   morning);
 
+		WeatherResult meanspeed
+		  = forecaster.analyze(itsVar+"::fake::until_morning::speed::mean",
+							   itsSources,
+							   WindSpeed,
+							   Mean,
+							   Mean,
+							   itsArea,
+							   morning);
+
 		WeatherResult direction
 		  = forecaster.analyze(itsVar+"::fake::until_morning::direction",
 							   itsSources,
@@ -103,10 +112,12 @@ namespace TextGen
 
 		log << "WindSpeed Minimum(Mean) until_morning  = " << minspeed << endl;
 		log << "WindSpeed Maximum(Mean) until_morning  = " << maxspeed << endl;
+		log << "WindSpeed Mean(Mean) until_morning  = " << meanspeed << endl;
 		log << "WindDirection Mean(Mean) until_morning  = " << direction << endl;
 
 		sentence << directed_speed_sentence(minspeed,
 											maxspeed,
+											meanspeed,
 											direction,
 											itsVar);
 		paragraph << sentence;
@@ -142,6 +153,15 @@ namespace TextGen
 							   itsArea,
 							   day);
 
+		WeatherResult meanspeed
+		  = forecaster.analyze(itsVar+"::fake::until_tonight::speed::mean",
+							   itsSources,
+							   WindSpeed,
+							   Mean,
+							   Mean,
+							   itsArea,
+							   day);
+
 		WeatherResult direction
 		  = forecaster.analyze(itsVar+"::fake::until_tonight::direction",
 							   itsSources,
@@ -153,6 +173,7 @@ namespace TextGen
 
 		log << "WindSpeed Minimum(Mean) until_tonight  = " << minspeed << endl;
 		log << "WindSpeed Maximum(Mean) until_tonight  = " << maxspeed << endl;
+		log << "WindSpeed Mean(Mean) until_tonight  = " << meanspeed << endl;
 		log << "WindDirection Mean(Mean) until_tonight  = " << direction << endl;
 
 		sentence << PeriodPhraseFactory::create("until_tonight",
@@ -162,6 +183,7 @@ namespace TextGen
 		
 		sentence << directed_speed_sentence(minspeed,
 											maxspeed,
+											meanspeed,
 											direction,
 											itsVar);
 
@@ -195,6 +217,15 @@ namespace TextGen
 							   itsArea,
 							   night);
 
+		meanspeed
+		  = forecaster.analyze(itsVar+"::fake::tonight::speed::mean",
+							   itsSources,
+							   WindSpeed,
+							   Mean,
+							   Mean,
+							   itsArea,
+							   night);
+
 		direction
 		  = forecaster.analyze(itsVar+"::fake::tonight::direction",
 							   itsSources,
@@ -206,6 +237,7 @@ namespace TextGen
 
 		log << "WindSpeed Minimum(Mean) tonight  = " << minspeed << endl;
 		log << "WindSpeed Maximum(Mean) tonight  = " << maxspeed << endl;
+		log << "WindSpeed Mean(Mean) tonight  = " << meanspeed << endl;
 		log << "WindDirection Mean(Mean) tonight  = " << direction << endl;
 
 		sentence << PeriodPhraseFactory::create("tonight",
@@ -215,6 +247,7 @@ namespace TextGen
 
 		sentence << directed_speed_sentence(minspeed,
 											maxspeed,
+											meanspeed,
 											direction,
 											itsVar);
 
@@ -247,6 +280,15 @@ namespace TextGen
 							   itsArea,
 							   remainder);
 
+		WeatherResult meanspeed
+		  = forecaster.analyze(itsVar+"::fake::remaining_days::speed::mean",
+							   itsSources,
+							   WindSpeed,
+							   Mean,
+							   Mean,
+							   itsArea,
+							   remainder);
+
 		WeatherResult direction
 		  = forecaster.analyze(itsVar+"::fake::remaining_days::direction",
 							   itsSources,
@@ -258,6 +300,7 @@ namespace TextGen
 
 		log << "WindSpeed Minimum(Mean) remaining_days  = " << minspeed << endl;
 		log << "WindSpeed Maximum(Mean) remaining_days  = " << maxspeed << endl;
+		log << "WindSpeed Mean(Mean) remaining_days  = " << meanspeed << endl;
 		log << "WindDirection Mean(Mean) remaining_days  = " << direction << endl;
 
 		Sentence sentence;
@@ -268,6 +311,7 @@ namespace TextGen
 
 		sentence << directed_speed_sentence(minspeed,
 											maxspeed,
+											meanspeed,
 											direction,
 											itsVar);
 
