@@ -3618,7 +3618,7 @@ Yhdistelmiä on yhteensä 576 kappaletta.
 <td colspan="21">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="14">21-11</td>
 <td colspan="13">&nbsp;</td>
-<td>Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna keskpäivästä alkaen poutaa, [enimmäkseen selkeää]</td>
+<td>Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]</td>
 </tr>
 <tr>
 <td>516.</td>
@@ -4070,36 +4070,35 @@ Alla on lueteltu kaikki uniikit tarinat numeroituina.
 <tr><td>17.</td><td>Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
 <tr><td>18.</td><td>Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa</td></tr>
 <tr><td>19.</td><td>Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
-<tr><td>20.</td><td>Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna keskpäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
-<tr><td>21.</td><td>Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]</td></tr>
-<tr><td>22.</td><td>Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]</td></tr>
-<tr><td>23.</td><td>Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
-<tr><td>24.</td><td>Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa</td></tr>
-<tr><td>25.</td><td>Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
-<tr><td>26.</td><td>Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]</td></tr>
-<tr><td>27.</td><td>Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td></tr>
-<tr><td>28.</td><td>Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]</td></tr>
-<tr><td>29.</td><td>Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
-<tr><td>30.</td><td>Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]</td></tr>
-<tr><td>31.</td><td>Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa</td></tr>
-<tr><td>32.</td><td>Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
-<tr><td>33.</td><td>Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [paikoin] [sadetta]</td></tr>
-<tr><td>34.</td><td>Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td></tr>
-<tr><td>35.</td><td>Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td></tr>
-<tr><td>36.</td><td>Tänään ja huomenna [paikoin] [sadetta]</td></tr>
-<tr><td>37.</td><td>Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
-<tr><td>38.</td><td>Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]</td></tr>
-<tr><td>39.</td><td>Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa</td></tr>
-<tr><td>40.</td><td>Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
-<tr><td>41.</td><td>Tänään keskipäivästä alkaen [paikoin] [sadetta]</td></tr>
-<tr><td>42.</td><td>Tänään keskipäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td></tr>
-<tr><td>43.</td><td>Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td></tr>
-<tr><td>44.</td><td>Tänään [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
-<tr><td>45.</td><td>Tänään [paikoin] [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]</td></tr>
-<tr><td>46.</td><td>Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]</td></tr>
-<tr><td>47.</td><td>Tänään [paikoin] [sadetta], huomenna illalla poutaa</td></tr>
-<tr><td>48.</td><td>Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa</td></tr>
-<tr><td>49.</td><td>Tänään [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
+<tr><td>20.</td><td>Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]</td></tr>
+<tr><td>21.</td><td>Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]</td></tr>
+<tr><td>22.</td><td>Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
+<tr><td>23.</td><td>Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa</td></tr>
+<tr><td>24.</td><td>Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
+<tr><td>25.</td><td>Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]</td></tr>
+<tr><td>26.</td><td>Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td></tr>
+<tr><td>27.</td><td>Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]</td></tr>
+<tr><td>28.</td><td>Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
+<tr><td>29.</td><td>Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]</td></tr>
+<tr><td>30.</td><td>Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa</td></tr>
+<tr><td>31.</td><td>Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
+<tr><td>32.</td><td>Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [paikoin] [sadetta]</td></tr>
+<tr><td>33.</td><td>Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td></tr>
+<tr><td>34.</td><td>Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td></tr>
+<tr><td>35.</td><td>Tänään ja huomenna [paikoin] [sadetta]</td></tr>
+<tr><td>36.</td><td>Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
+<tr><td>37.</td><td>Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]</td></tr>
+<tr><td>38.</td><td>Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa</td></tr>
+<tr><td>39.</td><td>Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
+<tr><td>40.</td><td>Tänään keskipäivästä alkaen [paikoin] [sadetta]</td></tr>
+<tr><td>41.</td><td>Tänään keskipäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td></tr>
+<tr><td>42.</td><td>Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td></tr>
+<tr><td>43.</td><td>Tänään [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
+<tr><td>44.</td><td>Tänään [paikoin] [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]</td></tr>
+<tr><td>45.</td><td>Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]</td></tr>
+<tr><td>46.</td><td>Tänään [paikoin] [sadetta], huomenna illalla poutaa</td></tr>
+<tr><td>47.</td><td>Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa</td></tr>
+<tr><td>48.</td><td>Tänään [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
 </table>
 \endhtmlonly
 
