@@ -34,7 +34,7 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief A structure for storing one day rain dispatch information
+   * \brief A structure for storing rain dispatch information
    *
    * The phrases are time phrases to be passed onto the story generating
    * subroutines. Either one or both may be empty strings.
