@@ -53,9 +53,7 @@ namespace
 	  throw WeatherAnalysisError("Trying to search unnamed querydata");
 
 	const string varname = "textgen::"+theName;
-	const string queryname = (Settings::isset(varname) ?
-							  Settings::require_string(varname) :
-							  theName);
+	const string queryname = Settings::optional_string(varname,theName);
 
 	if(FileExists(queryname))
 	  return queryname;

@@ -267,9 +267,7 @@ namespace TextGen
 	// optionaalinen maksimisade
 
 	const string variable = itsVariable + "::maxrain";
-	const int rainlimit = (Settings::isset(variable) ?
-						   Settings::require_int(variable) :
-						   -1);
+	const int rainlimit = Settings::optional_int(variable,-1);
 
 	if(minrain.value() >= rainlimit && rainlimit>0)
 	  {
@@ -395,13 +393,8 @@ namespace TextGen
 														  DefaultAcceptor(),
 														  limits);
 										
-			const int limit1 = (Settings::isset(variable1) ?
-								Settings::require_int(variable1) :
-								-1);
-
-			const int limit2 = (Settings::isset(variable2) ?
-								Settings::require_int(variable2) :
-								-1);
+			const int limit1 = Settings::optional_int(variable1,-1);
+			const int limit2 = Settings::optional_int(variable2,-1);
 			
 			if(probresult.value() == kFloatMissing)
 			  phrase = 1;
@@ -481,13 +474,8 @@ namespace TextGen
 													  DefaultAcceptor(),
 													  limits);
 
-		const int limit1 = (Settings::isset(variable1) ?
-							Settings::require_int(variable1) :
-							-1);
-		
-		const int limit2 = (Settings::isset(variable2) ?
-							Settings::require_int(variable2) :
-							-1);
+		const int limit1 = Settings::optional_int(variable1,-1);
+		const int limit2 = Settings::optional_int(variable2,-1);
 			
 		if(probresult.value() == kFloatMissing)
 		  phrase = 1;
