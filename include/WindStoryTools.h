@@ -43,6 +43,10 @@ namespace TextGen
 	  };
 
 
+	bool similar_speed_range(int theMinSpeed1, int theMaxSpeed1,
+							 int theMinSpeed2, int theMaxSpeed2,
+							 const std::string & theVariable);
+
 	WindDirectionAccuracy direction_accuracy(double theAccuracy,
 											 const std::string & theVariable);
 

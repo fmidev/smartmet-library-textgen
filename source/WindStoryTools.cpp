@@ -27,6 +27,35 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Test if two wind speed ranges are close enough to be the same
+	 *
+	 * \param theMinSpeed1 The first range minimum
+	 * \param theMaxSpeed1 The first range maximum
+	 * \param theMinSpeed2 The second range minimum
+	 * \param theMaxSpeed2 The second range maximum
+	 * \param theVariable The variable containing similarity limits
+	 * \return True if the intervals are close enough
+	 */
+	// ----------------------------------------------------------------------
+
+	bool similar_speed_range(int theMinSpeed1,
+							 int theMaxSpeed1,
+							 int theMinSpeed2,
+							 int theMaxSpeed2,
+							 const string & theVariable)
+	{
+	  using Settings::optional_int;
+
+	  const int same_minimum = optional_int(theVariable+"::same::minimum",0);
+	  const int same_maximum = optional_int(theVariable+"::same::maximum",0);
+
+	  return(abs(theMinSpeed1-theMinSpeed2) <= same_minimum &&
+			 abs(theMaxSpeed1-theMaxSpeed2) <= same_maximum);
+	  
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Calculate the wind direction accuracy class
 	 *
 	 * \param theAccuracy The accuracy
