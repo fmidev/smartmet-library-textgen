@@ -111,7 +111,7 @@ protected:
 
 	  // we don't use a buffer - we forward everything
 	  assert( buffer == NULL && n == 0);
-	  setp( NULL, NULL);
+	  this->setp( NULL, NULL);
 
 	  return this; 
 	}
@@ -174,11 +174,7 @@ class MessageLoggerStream
 {
 
   typedef MessageLoggerStreambuf<char_type, CharTraits> handler_streambuf_type;
-#ifdef UNIX
-  friend class handler_streambuf_type;
-#else
   friend class MessageLoggerStreambuf<char_type, CharTraits>;
-#endif
 
   typedef std::basic_ostream<char_type, CharTraits> base_class;
 
