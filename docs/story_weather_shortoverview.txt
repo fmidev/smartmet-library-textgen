@@ -131,7 +131,7 @@ Olkoon N1 päivien lukumäärä jolloin Ri >= \c rainy_limit ja
 N2 lukumäärä jolloin Ri >= \c mostly_rainy_limit. Sadetarina
 generoidaan tällöin seuraavasti:
 
-  -# Jos N1 == N2, "poutaa"
+  -# Jos N1 == N2 == 0, "poutaa"
   -# Jos N1 == 1 && N2 == 1, "[viikonpäivänä] [sadetta]"
   -# Jos N1 == 0 && N2 == 1, "[viikonpäivänä] paikoin [sadetta]"
   -# Jos Ri >= \c rainy_limit vähintään \c unstable_limit päivistä, "sää on epävakaista"
