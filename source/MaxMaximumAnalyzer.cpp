@@ -34,24 +34,35 @@ namespace WeatherAnalysis
   /*!
    * \brief Analyze parameter maximum over area and time
    *
+   * If theInterval is < 0, an invalid result is returned.
+   * If theInterval is 0, no subintervals are created and
+   * theSubModifier is ignored.
+   *
    * \param theSources Analysis sources
    * \param theLimits Analysis limits, not used
    * \param thePeriod Analysis period
    * \param theArea Analysis area
    * \param theDataName The name of the data file
    * \param theParameterName The name of the parameter
+   * \param theInterval The sub interval in hours
+   * \param theSubModifier The modifier for the sub interval
    * \return The analysis result
    */
   // ----------------------------------------------------------------------
 
   WeatherResult
   MaxMaximumAnalyzer::analyze(const AnalysisSources & theSources,
-						   const WeatherLimits & theLimits,
-						   const WeatherPeriod & thePeriod,
-						   const WeatherArea & theArea,
-						   const std::string & theDataName,
-						   const std::string & theParameterName) const
+							  const WeatherLimits & theLimits,
+							  const WeatherPeriod & thePeriod,
+							  const WeatherArea & theArea,
+							  const std::string & theDataName,
+							  const std::string & theParameterName,
+							  int theInterval,
+							  NFmiDataModifier & theSubModifier) const
   {
+	// Safety against bad loop
+	if(theInterval<0)
+	  return WeatherResult(kFloatMissing,0);
 
 	// Establish the data
 
@@ -88,11 +99,13 @@ namespace WeatherAnalysis
 		NFmiDataModifierMax timemodifier;
 
 		float result = NFmiDataIntegrator::Integrate(qi,
-													 *mask,
-													 spacemodifier,
 													 thePeriod.utcStartTime(),
 													 thePeriod.utcEndTime(),
-													 timemodifier);
+													 theInterval,
+													 theSubModifier,
+													 timemodifier,
+													 *mask,
+													 spacemodifier);
 
 		if(result == kFloatMissing)
 		  return WeatherResult(kFloatMissing,0);
@@ -109,6 +122,8 @@ namespace WeatherAnalysis
 		float result = NFmiDataIntegrator::Integrate(qi,
 													 thePeriod.utcStartTime(),
 													 thePeriod.utcEndTime(),
+													 theInterval,
+													 theSubModifier,
 													 timemodifier);
 
 		return WeatherResult(result,1);

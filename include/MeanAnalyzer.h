@@ -34,7 +34,10 @@ namespace WeatherAnalysis
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea,
 								  const std::string & theDataName,
-								  const std::string & theParameterName) const;
+								  const std::string & theParameterName,
+								  int theInterval,
+								  NFmiDataModifier & theSubModifier) const;
+
   }; // class MeanAnalyzer
 
 } // namespace WeatherAnalysis
