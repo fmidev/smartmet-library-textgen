@@ -189,6 +189,7 @@ namespace TextGen
 				 << "on"
 				 << val
 				 << Delimiter("%");
+		paragraph << sentence;
 	  }
 	else if(frost_value >= normallimit)
 	  {
@@ -197,6 +198,7 @@ namespace TextGen
 				 << "on"
 				 << val
 				 << Delimiter("%");
+		paragraph << sentence;
 	  }
 
 	return paragraph;
@@ -265,6 +267,7 @@ namespace TextGen
 				 << "on"
 				 << val
 				 << Delimiter("%");
+		paragraph << sentence;
 	  }
 	else if(frost_value >= normallimit)
 	  {
@@ -273,6 +276,7 @@ namespace TextGen
 				 << "on"
 				 << val
 				 << Delimiter("%");
+		paragraph << sentence;
 	  }
 
 	return paragraph;
@@ -367,6 +371,7 @@ namespace TextGen
 				 << "on"
 				 << range
 				 << Delimiter("%");
+		paragraph << sentence;
 	  }
 	else if(frost_max > normallimit)
 	  {
@@ -375,6 +380,7 @@ namespace TextGen
 				 << "on"
 				 << range
 				 << Delimiter("%");
+		paragraph << sentence;
 	  }
 
 	return paragraph;
