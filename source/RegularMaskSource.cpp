@@ -169,7 +169,7 @@ namespace WeatherAnalysis
 										 const std::string & theData,
 										 const WeatherSource & theWeatherSource) const
   {
-	const NFmiSvgPath svg = theArea.path();
+	const NFmiSvgPath & svg = theArea.path();
 	const float radius = theArea.radius();
 
 	shared_ptr<NFmiStreamQueryData> qdata = theWeatherSource.data(theData);
@@ -177,11 +177,10 @@ namespace WeatherAnalysis
 	if(!qd->IsGrid())
 	  throw WeatherAnalysisError("The data in "+theData+" is not gridded - cannot generate mask for it");
 
-	NFmiIndexMask * areamask = new NFmiIndexMask(MaskExpand(qd->GridInfo(),
-															svg,
-															radius));
-	mask_type sharedmask(areamask);
-	return sharedmask;
+	mask_type areamask(new NFmiIndexMask(MaskExpand(qd->GridInfo(),
+													svg,
+													radius)));
+	return areamask;
   }
 
   // ----------------------------------------------------------------------
