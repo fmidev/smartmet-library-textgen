@@ -77,11 +77,11 @@ yö-periodi alkaa piakkoin.
 \subsection sec_periodifraasit_next_night "next_night"
 
 Periodi käsittää yön, ilman päiväsaikaan kuuluvia hetkiä, joista
-kerrotaan erikseen ennen tätä osuutta. Yö ei välttämättä ole ensi yö,
-mutta vastuu sopivan fraasin valinnasta on käyttäjällä.
+kerrotaan erikseen ennen tätä osuutta.
 
  -# Jos prefer_phrase_weekday, "viikonpäivän vastaisena yönä"
  -# Jos prefer_phrase_followingnight, "seuraavana yönä"
+ -# Jos ennustuspäivä+1 <> periodin loppumispäivä, "viikonpäivänän vastaisena yänä"
  -# Jos prefer_phrase_tonight, "ensi yönä"
  -# Jos prefer_phrase_atnight, "yöllä"
  -# "yöllä"

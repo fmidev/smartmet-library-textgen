@@ -175,6 +175,8 @@ namespace TextGen
 		sentence << night_against_weekday(thePeriod.localEndTime());
 	  else if(optional_bool(theVariable+"::prefer_phrase_followingnight",false))
 		sentence << "seuraavana yönä";
+	  else if(!is_next_day(theForecastTime, thePeriod.localEndTime()))
+		sentence << night_against_weekday(thePeriod.localEndTime());
 	  else if(optional_bool(theVariable+"::prefer_phrase_tonight",false))
 		sentence << "ensi yönä";
 	  else if(optional_bool(theVariable+"::prefer_phrase_atnight",false))
