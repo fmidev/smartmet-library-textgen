@@ -188,6 +188,8 @@ namespace TextGen
 	  return true;
 	if(theName == "temperature_weekly_minmax")
 	  return true;
+	if(theName == "temperature_weekly_averages")
+	  return true;
 	return false;
   }
   
@@ -216,6 +218,8 @@ namespace TextGen
 	  return nightlymin();
 	if(theName == "temperature_weekly_minmax")
 	  return weekly_minmax();
+	if(theName == "temperature_weekly_averages")
+	  return weekly_averages();
 
 	throw TextGenError("TemperatureStory cannot make story "+theName);
 
@@ -682,9 +686,6 @@ namespace TextGen
    *
    * \see page_temperature_weekly_minmax
    *
-   * \todo Make sure the logic in the functions is correct. That is,
-   *       do we return the minimum/maximum of the time mean of
-   *       minimum and maximum temperatures.
    */
   // ----------------------------------------------------------------------
 
@@ -799,6 +800,124 @@ namespace TextGen
 		sentence << temperature_phrase(nightmin,nightmean,nightmax,
 									   nightmininterval,night_interval_zero);
 	  }
+
+	paragraph << sentence;
+
+	return paragraph;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generate story on several day mean day/night temperatures
+   *
+   * \return The story
+   *
+   * \see page_temperature_weekly_averages
+   *
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph TemperatureStory::weekly_averages() const
+  {
+	using namespace Settings;
+
+	Paragraph paragraph;
+
+	const int daymininterval = optional_int(itsVar+"::day::mininterval",2);
+	const int nightmininterval = optional_int(itsVar+"::night::mininterval",2);
+	const bool day_interval_zero = optional_bool(itsVar+"::day::always_interval_zero",false);
+	const bool night_interval_zero = optional_bool(itsVar+"::night::always_interval_zero",false);
+
+	const HourPeriodGenerator days(itsPeriod,itsVar+"::day");
+	const HourPeriodGenerator nights(itsPeriod,itsVar+"::night");
+
+	GridForecaster forecaster;
+
+	const WeatherResult dayminresult
+	  = forecaster.analyze(itsVar+"::fake::day::minimum",
+						   itsSources,
+						   Temperature,
+						   Minimum,
+						   Mean,
+						   Mean,
+						   itsArea,
+						   days);
+
+	const WeatherResult daymaxresult
+	  = forecaster.analyze(itsVar+"::fake::day::maximum",
+						   itsSources,
+						   Temperature,
+						   Maximum,
+						   Mean,
+						   Mean,
+						   itsArea,
+						   days);
+
+	const WeatherResult daymeanresult
+	  = forecaster.analyze(itsVar+"::fake::day::mean",
+						   itsSources,
+						   Temperature,
+						   Mean,
+						   Mean,
+						   Mean,
+						   itsArea,
+						   days);
+
+	const WeatherResult nightminresult
+	  = forecaster.analyze(itsVar+"::fake::night::minimum",
+						   itsSources,
+						   Temperature,
+						   Minimum,
+						   Mean,
+						   Mean,
+						   itsArea,
+						   nights);
+
+	const WeatherResult nightmaxresult
+	  = forecaster.analyze(itsVar+"::fake::night::maximum",
+						   itsSources,
+						   Temperature,
+						   Maximum,
+						   Mean,
+						   Mean,
+						   itsArea,
+						   nights);
+
+	const WeatherResult nightmeanresult
+	  = forecaster.analyze(itsVar+"::fake::night::mean",
+						   itsSources,
+						   Temperature,
+						   Mean,
+						   Mean,
+						   Mean,
+						   itsArea,
+						   nights);
+
+
+	if(dayminresult.value() == kFloatMissing ||
+	   daymaxresult.value() == kFloatMissing ||
+	   daymeanresult.value() == kFloatMissing ||
+	   nightminresult.value() == kFloatMissing ||
+	   nightmaxresult.value() == kFloatMissing ||
+	   nightmeanresult.value() == kFloatMissing)
+	  throw TextGenError("Daily maximum and nightly minimum not available");
+
+	const int daymin  = FmiRound(dayminresult.value());
+	const int daymax  = FmiRound(daymaxresult.value());
+	const int daymean = FmiRound(daymeanresult.value());
+	const int nightmin  = FmiRound(nightminresult.value());
+	const int nightmax  = FmiRound(nightmaxresult.value());
+	const int nightmean = FmiRound(nightmeanresult.value());
+
+	Sentence sentence;
+	sentence << "päivälämpötila"
+			 << "on"
+			 << temperature_phrase(daymin,daymean,daymax,
+								   daymininterval,day_interval_zero)
+			 << Delimiter(",")
+			 << "yölämpötila"
+			 << temperature_phrase(nightmin,nightmean,nightmax,
+								   nightmininterval,night_interval_zero);
 
 	paragraph << sentence;
 
