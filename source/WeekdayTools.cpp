@@ -125,6 +125,22 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Return the "N-alkaen" phrase
+	 *
+	 * \param theTime The time
+	 * \return The "N-alkaen" phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	string from_weekday(const NFmiTime & theTime)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-alkaen");
+	  return out;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Return the "N-aamusta" phrase
 	 *
 	 * \param theTime The time

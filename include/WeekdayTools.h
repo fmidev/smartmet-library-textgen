@@ -30,6 +30,7 @@ namespace TextGen
 	std::string until_weekday_morning(const NFmiTime & theTime);
 	std::string until_weekday_evening(const NFmiTime & theTime);
 	std::string until_weekday_time(const NFmiTime & theTime);
+	std::string from_weekday(const NFmiTime & theTime);
 	std::string from_weekday_morning(const NFmiTime & theTime);
 	std::string from_weekday_evening(const NFmiTime & theTime);
 	std::string from_weekday_time(const NFmiTime & theTime);
