@@ -1,27 +1,30 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace TimeTools
+ * \brief Interface of namespace WeatherAnalysis::TimeTools
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TIMETOOLS_H
-#define TEXTGEN_TIMETOOLS_H
+#ifndef WEATHERANALYSIS_TIMETOOLS_H
+#define WEATHERANALYSIS_TIMETOOLS_H
 
 class NFmiTime;
 
-namespace TextGen
+namespace WeatherAnalysis
 {
   namespace TimeTools
   {
+	
+	NFmiTime toLocalTime(const NFmiTime & theUtcTime);
+	NFmiTime toUtcTime(const NFmiTime & theLocalTime);
 
 	bool isSameDay(const NFmiTime & theDate1, const NFmiTime & theDate2);
 	bool isNextDay(const NFmiTime & theDate1, const NFmiTime & theDate2);
 	bool isSeveralDays(const NFmiTime & theDate1, const NFmiTime & theDate2);
 
   }
-} // namespace TextGen
+} // namespace WeatherAnalysis
 
-#endif // TEXTGEN_TIMETOOLS_H
+#endif // WEATHERANALYSIS_TIMETOOLS_H
 
 // ======================================================================

@@ -15,7 +15,7 @@ namespace TimeToolsTest
 
   void is_same_day()
   {
-	using TextGen::TimeTools::isSameDay;
+	using WeatherAnalysis::TimeTools::isSameDay;
 
 	NFmiTime date(2003,07,11);
 
@@ -39,7 +39,7 @@ namespace TimeToolsTest
 
   void is_next_day()
   {
-	using TextGen::TimeTools::isNextDay;
+	using WeatherAnalysis::TimeTools::isNextDay;
 
 	NFmiTime date(2003,07,11);
 	
@@ -61,7 +61,7 @@ namespace TimeToolsTest
 
   void is_several_days()
   {
-	using TextGen::TimeTools::isSeveralDays;
+	using WeatherAnalysis::TimeTools::isSeveralDays;
 
 	NFmiTime date(2003,07,11);
 	

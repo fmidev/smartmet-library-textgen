@@ -26,48 +26,12 @@
 // ======================================================================
 
 #include "WeatherPeriod.h"
+#include "TimeTools.h"
 #include "WeatherAnalysisError.h"
 #include <cassert>
-#include <ctime>
 
 namespace WeatherAnalysis
 {
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Convert local time to UTC time using current TZ
-   *
-   * \param theLocalTime The local time
-   * \return The UTC time
-   */
-  // ----------------------------------------------------------------------
-
-  NFmiTime toutc(const NFmiTime & theLocalTime)
-  {
-	::tm tlocal;
-	tlocal.tm_sec   = theLocalTime.GetSec();
-	tlocal.tm_min   = theLocalTime.GetMin();
-	tlocal.tm_hour  = theLocalTime.GetHour();
-	tlocal.tm_mday  = theLocalTime.GetDay();
-	tlocal.tm_mon   = theLocalTime.GetMonth()-1;
-	tlocal.tm_year  = theLocalTime.GetYear()-1900;
-	tlocal.tm_wday  = -1;
-	tlocal.tm_yday  = -1;
-	tlocal.tm_isdst = -1;
-
-	::time_t tsec = mktime(&tlocal);
-
-	::tm * tutc = ::gmtime(&tsec);
-
-	NFmiTime out(tutc->tm_year + 1900,
-				 tutc->tm_mon + 1,
-				 tutc->tm_mday,
-				 tutc->tm_hour,
-				 tutc->tm_min,
-				 tutc->tm_sec);
-	
-	return out;
-  }
 
   // ----------------------------------------------------------------------
   /*!
@@ -97,8 +61,8 @@ namespace WeatherAnalysis
 							   const NFmiTime & theLocalEndTime)
 	: itsLocalStartTime(theLocalStartTime)
 	, itsLocalEndTime(theLocalEndTime)
-	, itsUtcStartTime(toutc(theLocalStartTime))
-	, itsUtcEndTime(toutc(theLocalEndTime))
+	, itsUtcStartTime(TimeTools::toUtcTime(theLocalStartTime))
+	, itsUtcEndTime(TimeTools::toUtcTime(theLocalEndTime))
   {
 	if(theLocalEndTime.IsLessThan(theLocalStartTime))
 	  throw WeatherAnalysisError("WeatherPeriod: end time must be after start time");

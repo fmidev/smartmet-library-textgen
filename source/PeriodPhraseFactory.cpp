@@ -29,7 +29,7 @@
 #include "boost/lexical_cast.hpp"
 
 using WeatherAnalysis::WeatherPeriod;
-using namespace TextGen::TimeTools;
+using namespace WeatherAnalysis::TimeTools;
 using namespace boost;
 using namespace std;
 
