@@ -175,6 +175,7 @@ namespace TextGen
 											 *this,
 											 "\n\n",
 											 "");
+	ret += '\n';
 	return ret;
   }
 
