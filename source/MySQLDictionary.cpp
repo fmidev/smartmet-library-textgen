@@ -233,8 +233,6 @@ namespace textgen
   /*!
    * \brief Test if the given phrase is in the dictionary
    *
-   * Throws TextGenError if the dictionary has not been initialized.
-   *
    * \param theKey The key of the phrase
    * \return True if the phrase is in the dictionary.
    */
@@ -242,8 +240,6 @@ namespace textgen
 
   bool MySQLDictionary::contains(const std::string & theKey) const
   {
-	if(!itsPimple->itsInitialized)
-	  throw TextGenError("Error: MySQLDictionary::contains() called before init()");
 	return (itsPimple->itsData.find(theKey) != itsPimple->itsData.end());
   }
 

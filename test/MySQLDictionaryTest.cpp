@@ -100,12 +100,8 @@ namespace MySQLDictionaryTest
 	using namespace textgen;
 	MySQLDictionary dict;
 
-	try
-	  {
-		dict.contains("foobar");
-		TEST_FAILED("contains() should throw before init()");
-	  }
-	catch(const TextGenError & e) { }
+	if(dict.contains("foobar"))
+	  TEST_FAILED("contains(foobar) should have failed");
 
 	dict.init("fi");
 	if(dict.contains("foobar"))
