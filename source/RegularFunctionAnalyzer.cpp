@@ -149,8 +149,9 @@ namespace WeatherAnalysis
 
 	// Establish the data
 
+	const string default_forecast = Settings::optional_string("textgen::default_forecast","");
 	const string datavar = theDataName + '_' + data_type_name(theDataType);
-	const string dataname = Settings::require_string(datavar);
+	const string dataname = Settings::optional_string(datavar,default_forecast);
 
 	// Get the data into use
 
