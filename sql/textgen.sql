@@ -403,6 +403,7 @@ INSERT INTO translation_en VALUES ('saapuu','approaches',20030616155930,'mheiska
 INSERT INTO translation_en VALUES ('sää muuttuu sateisemmaksi','the weather is becoming rainier',20030616155926,'mheiskan');
 INSERT INTO translation_en VALUES ('alue','the area',20030616155912,'mheiskan');
 INSERT INTO translation_en VALUES ('pohjanmaa:lle','for Ostrobothnia',20030618094358,'mheiskan');
+INSERT INTO translation_en VALUES ('suomi:lle','for Finland',20030618101519,'mheiskan');
 
 --
 -- Table structure for table 'translation_fi'
@@ -776,6 +777,7 @@ INSERT INTO translation_fi VALUES ('viileää','viileää',20030616141705,'mheiskan'
 INSERT INTO translation_fi VALUES ('virtaa','virtaa',20030616141710,'mheiskan');
 INSERT INTO translation_fi VALUES ('vähän','vähän',20030616141716,'mheiskan');
 INSERT INTO translation_fi VALUES ('kylmempää','kylmempää',20030616141741,'mheiskan');
+INSERT INTO translation_fi VALUES ('suomi:lle','Suomeen',20030618101451,'mheiskan');
 
 --
 -- Table structure for table 'translation_sonera'
@@ -1514,4 +1516,5 @@ INSERT INTO translation_sv VALUES ('saapuu','rör sig',20030616145500,'mheiskan')
 INSERT INTO translation_sv VALUES ('sää muuttuu sateisemmaksi','vädret blir regnigare',20030616145515,'mheiskan');
 INSERT INTO translation_sv VALUES ('alue','området',20030616145528,'mheiskan');
 INSERT INTO translation_sv VALUES ('pohjanmaa:lle','för Österbotten',20030618094336,'mheiskan');
+INSERT INTO translation_sv VALUES ('suomi:lle','för Finland',20030618101506,'mheiskan');
 
