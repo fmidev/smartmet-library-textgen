@@ -21,7 +21,7 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \class TextGen::ParagraphPimple
+   * \class ParagraphPimple
    * \brief Implementation hiding pimple for class Paragraph
    */
   // ----------------------------------------------------------------------
