@@ -444,6 +444,54 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Return sentence describing period of type "remaining_day"
+	 *
+	 * \param thePeriod The time period
+	 *
+	 * \see \ref sec_periodifraasit_remaining_day
+	 */
+	// ----------------------------------------------------------------------
+	
+	Sentence remaining_day(const WeatherPeriod & thePeriod)
+	{
+	  static const char * phrases[24] =
+		{
+		  "",						// 00
+		  "",						// 01
+		  "",						// 02
+		  "aamuyöstä alkaen",		// 03
+		  "aamuyöstä alkaen",		// 04
+		  "aamuyöstä alkaen",		// 05
+		  "aamusta alkaen",			// 06
+		  "aamusta alkaen",			// 07
+		  "aamusta alkaen",			// 08
+		  "aamupäivästä alkaen",	// 09
+		  "aamupäivästä alkaen",	// 10
+		  "keskipäivästä alkaen",	// 11
+		  "keskipäivästä alkaen",	// 12
+		  "iltapäivästä alkaen",	// 13
+		  "iltapäivästä alkaen",	// 14
+		  "iltapäivästä alkaen",	// 15
+		  "iltapäivästä alkaen",	// 16
+		  "iltapäivästä alkaen",	// 17
+		  "illasta alkaen",			// 18
+		  "illasta alkaen",			// 19
+		  "illasta alkaen",			// 20
+		  "illasta alkaen",			// 21
+		  "yöstä alkaen",			// 22
+		  "yöstä alkaen"			// 23
+		};
+
+	  const int hour = thePeriod.localStartTime().GetHour();
+
+	  Sentence sentence;
+	  sentence << phrases[hour];
+	  return sentence;
+
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Return sentence describing period of type "days"
 	 *
 	 * \param theVariable The Settings variable containing extra details
@@ -646,6 +694,9 @@ namespace TextGen
 
 	  if(theType == "days")
 		return days(theVariable,theForecastTime,thePeriod);
+
+	  if(theType == "remaining_day")
+		return remaining_day(thePeriod);
 
 	  throw TextGenError("PeriodPhraseFactory::create does not recognize type "+theType);
 	}

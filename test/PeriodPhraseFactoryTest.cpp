@@ -660,6 +660,77 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	TEST_PASSED();
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test PeriodPhraseFactory::create("remaining_day");
+   */
+  // ----------------------------------------------------------------------
+
+  void remaining_day()
+  {
+	using WeatherAnalysis::WeatherPeriod;
+
+	const NFmiTime ftime(2003,06,29);
+
+	const NFmiTime hour00(2003,06,29,0);
+	const NFmiTime hour01(2003,06,29,1);
+	const NFmiTime hour02(2003,06,29,2);
+	const NFmiTime hour03(2003,06,29,3);
+	const NFmiTime hour04(2003,06,29,4);
+	const NFmiTime hour05(2003,06,29,5);
+	const NFmiTime hour06(2003,06,29,6);
+	const NFmiTime hour07(2003,06,29,7);
+	const NFmiTime hour08(2003,06,29,8);
+	const NFmiTime hour09(2003,06,29,9);
+	const NFmiTime hour10(2003,06,29,10);
+	const NFmiTime hour11(2003,06,29,11);
+	const NFmiTime hour12(2003,06,29,12);
+	const NFmiTime hour13(2003,06,29,13);
+	const NFmiTime hour14(2003,06,29,14);
+	const NFmiTime hour15(2003,06,29,15);
+	const NFmiTime hour16(2003,06,29,16);
+	const NFmiTime hour17(2003,06,29,17);
+	const NFmiTime hour18(2003,06,29,18);
+	const NFmiTime hour19(2003,06,29,19);
+	const NFmiTime hour20(2003,06,29,20);
+	const NFmiTime hour21(2003,06,29,21);
+	const NFmiTime hour22(2003,06,29,22);
+	const NFmiTime hour23(2003,06,29,23);
+	const NFmiTime hour24(2003,06,30,0);
+
+	const string mode = "remaining_day";
+	const string var = mode;
+
+	string result;
+
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour00,hour24),"fi","");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour01,hour24),"fi","");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour02,hour24),"fi","");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour03,hour24),"fi","Aamuyöstä alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour04,hour24),"fi","Aamuyöstä alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour05,hour24),"fi","Aamuyöstä alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour06,hour24),"fi","Aamusta alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour07,hour24),"fi","Aamusta alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour08,hour24),"fi","Aamusta alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour09,hour24),"fi","Aamupäivästä alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour10,hour24),"fi","Aamupäivästä alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour11,hour24),"fi","Keskipäivästä alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour12,hour24),"fi","Keskipäivästä alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour13,hour24),"fi","Iltapäivästä alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour14,hour24),"fi","Iltapäivästä alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour15,hour24),"fi","Iltapäivästä alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour16,hour24),"fi","Iltapäivästä alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour17,hour24),"fi","Iltapäivästä alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour18,hour24),"fi","Illasta alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour19,hour24),"fi","Illasta alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour20,hour24),"fi","Illasta alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour21,hour24),"fi","Illasta alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour22,hour24),"fi","Yöstä alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour23,hour24),"fi","Yöstä alkaen.");
+	
+	TEST_PASSED();
+  }
+
 
   // ----------------------------------------------------------------------
   /*!
@@ -686,6 +757,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  TEST(next_day);
 	  TEST(next_days);
 	  TEST(days);
+	  TEST(remaining_day);
 	}
 
   }; // class tests

@@ -219,6 +219,49 @@ useamman vuorokauden ajan.
  -# Muutoin
     -# Palauta \c next_days paluuarvo
 
+\subsection sec_periodifraasit_remaining_day "remaining_day"
+
+Periodi kattaa loppupäivän ilman varsinaista päivätarkennetta.
+Usein käytetään yhdistelmää "today" + "remaining_day", jolloin
+saadaan aikaiseksi fraaseja tyyliin "tänään iltapäivästä alkaen"
+
+Fraasit valitaan seuraavan taulukon mukaisesti periodin alkamisajan
+perusteella
+
+\htmlonly
+<table align="center" border="1">
+<tr><th>Tunti</th><th>Fraasi</th></tr>
+<tr><td>00</td><td>-</td></tr>
+<tr><td>01</td><td>-</td></tr>
+<tr><td>02</td><td>-</td></tr>
+<tr><td>03</td><td>aamuyöstä alkaen</td></tr>
+<tr><td>04</td><td>aamuyöstä alkaen</td></tr>
+<tr><td>05</td><td>aamuyöstä alkaen</td></tr>
+<tr><td>06</td><td>aamusta alkaen</td></tr>
+<tr><td>07</td><td>aamusta alkaen</td></tr>
+<tr><td>08</td><td>aamusta alkaen</td></tr>
+<tr><td>09</td><td>aamupäivästä alkaen</td></tr>
+<tr><td>10</td><td>aamupäivästä alkaen</td></tr>
+<tr><td>11</td><td>keskipäivästä alkaen</td></tr>
+<tr><td>12</td><td>keskipäivästä alkaen</td></tr>
+<tr><td>13</td><td>iltapäivästä alkaen</td></tr>
+<tr><td>14</td><td>iltapäivästä alkaen</td></tr>
+<tr><td>15</td><td>iltapäivästä alkaen</td></tr>
+<tr><td>16</td><td>iltapäivästä alkaen</td></tr>
+<tr><td>17</td><td>iltapäivästä alkaen</td></tr>
+<tr><td>18</td><td>illasta alkaen</td></tr>
+<tr><td>19</td><td>illasta alkaen</td></tr>
+<tr><td>20</td><td>illasta alkaen</td></tr>
+<tr><td>21</td><td>illasta alkaen</td></tr>
+<tr><td>22</td><td>yöstä alkaen</td></tr>
+<tr><td>23</td><td>yöstä alkaen</td></tr>
+</table>
+\endhtmlonly
+On kuitenkin huomattava, että taulukon loppuosaa tulisi käyttää vain
+erittäin harvoin, kyseisen päivän ennusteita ei tulisi enää kertoa
+kovin myöhään samana päivänä. Käytännössä viimeisin sopiva kellonaika
+lienee jossain illansuussa.
+
 */
 
 
