@@ -67,12 +67,13 @@ namespace
 	const int endhour = thePeriod.localEndTime().GetHour();
 	string tmp = lexical_cast<string>(thePeriod.localEndTime().GetWeekday());
 	if(endhour == 6)
-	  tmp += "-aamuun asti";
+	  tmp += "-aamuun";
 	else if(endhour == 18)
-	  tmp += "-iltaan asti";
+	  tmp += "-iltaan";
 	else
 	  throw TextGenError("HeaderFactory: until end time must be 06 or 18");
 	header << tmp;
+	header << "asti";
 
 	return header;
   }
