@@ -10,7 +10,10 @@
 
 #include "NFmiGlobals.h"
 
+#include <cmath>
+
 using namespace boost;
+using namespace std;
 
 namespace WeatherAnalysis
 {
@@ -24,16 +27,17 @@ namespace WeatherAnalysis
   ModMeanCalculator::ModMeanCalculator(int theModulo)
 	: itsAcceptor(new DefaultAcceptor())
 	, itsModulo(theModulo)
-	, itsSum1(0)
-	, itsSum2(0)
-	, itsCounter1(0)
-	, itsCounter2(0)
+	, itsCounter(0)
+	, itsSum(0)
+	, itsPreviousDirection(kFloatMissing)
   {
   }
 
   // ----------------------------------------------------------------------
   /*!
    * \brief Integrate a new value
+   *
+   * Uses the Mitsuta algorithm.
    *
    * \param theValue
    */
@@ -43,15 +47,21 @@ namespace WeatherAnalysis
   {
 	if(itsAcceptor->accept(theValue))
 	  {
-		if(theValue < itsModulo)
+		++itsCounter;
+		if(itsCounter==1)
 		  {
-			itsCounter1++;
-			itsSum1 += theValue;
+			itsSum = theValue;
+			itsPreviousDirection = theValue;
 		  }
 		else
 		  {
-			itsCounter2++;
-			itsSum2 += theValue;
+			const float diff = theValue - itsPreviousDirection;
+			float dir = itsPreviousDirection + diff;
+			if(diff < -itsModulo/2)
+			  dir += itsModulo;
+			else if(diff > itsModulo/2)
+			  dir -= itsModulo;
+			itsSum += dir;
 		  }
 	  }
   }
@@ -66,23 +76,13 @@ namespace WeatherAnalysis
 
   float ModMeanCalculator::operator()() const
   {
-	if(itsCounter1+itsCounter2==0)
+	if(itsCounter==0)
 	  return kFloatMissing;
-	if(itsCounter1==0)
-	  return itsSum2/itsCounter2;
-	if(itsCounter2==0)
-	  return itsSum1/itsCounter1;
 
-	const float mean1 = itsSum1/itsCounter1;
-	const float mean2 = itsSum2/itsCounter2;
-
-	if(mean2-mean1 < itsModulo/2)
-	  return (itsSum1+itsSum2)/(itsCounter1+itsCounter2);
-
-	const float mean = (itsSum2+itsModulo*itsCounter2+itsSum1)/(itsCounter1+itsCounter2);
-
-	return (mean<itsModulo ? mean : mean-itsModulo);
-
+	// Floats do not support %, it is an integer operator
+	float mean = itsSum/itsCounter;
+	mean -= itsModulo*floor(mean/itsModulo);
+	return mean;
   }
   
   // ----------------------------------------------------------------------
@@ -117,10 +117,9 @@ namespace WeatherAnalysis
 
   void ModMeanCalculator::reset()
   {
-	itsCounter1 = 0;
-	itsCounter2 = 0;
-	itsSum1 = 0;
-	itsSum2 = 0;
+	itsCounter = 0;
+	itsSum = 0;
+	itsPreviousDirection = kFloatMissing;
   }
 
 } // namespace WeatherAnalysis

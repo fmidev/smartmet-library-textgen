@@ -9,6 +9,15 @@
  *
  * \brief Modular mean intergator
  *
+ * The modular mean is calculated using the Mitsuta algorithm
+ * for wind direction means.
+ *
+ * Reference: Mori, Y., 1986.<br>
+ * <em>Evaluation of Several Single-Pass Estimators of the Mean and
+ *     the Standard Deviation of Wind Direction.</em><br>
+ * J Climate Appl. Metro., 25, 1387-1397.
+ *
+ * Some information can also be found with Google (Mitsuta wind direction).
  */
 // ======================================================================
 
@@ -38,10 +47,10 @@ namespace WeatherAnalysis
 
 	boost::shared_ptr<Acceptor> itsAcceptor;
 	const int itsModulo;
-	float itsSum1;
-	float itsSum2;
-	long itsCounter1;
-	long itsCounter2;
+
+	float itsCounter;
+	float itsSum;
+	float itsPreviousDirection;
 
   }; // class ModMeanCalculator
 
