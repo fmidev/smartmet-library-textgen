@@ -49,6 +49,7 @@ textgen::[kappale]::story::temperature_weekly_minmax::night::maxstarthour = [0-2
 textgen::[kappale]::story::temperature_weekly_minmax::night::minendhour = [0-23]
 \endcode
 Tyypillisiä asetuksia ovat esimerkiksi seuraavat
+\code
 textgen::[kappale]::story::temperature_weekly_minmax::day::starthour = 6
 textgen::[kappale]::story::temperature_weekly_minmax::day::endhour = 18
 textgen::[kappale]::story::temperature_weekly_minmax::night::starthour = 18
