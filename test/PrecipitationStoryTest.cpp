@@ -439,6 +439,187 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test PrecipitationStory::pop_days
+   */
+  // ----------------------------------------------------------------------
+
+  void pop_days()
+  {
+	using namespace std;
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	WeatherArea area("25,60");
+
+	const string fun = "pop_days";
+
+	string result;
+
+	NFmiSettings::Set("pop_days::day::starthour","6");
+	NFmiSettings::Set("pop_days::day::endhour","18");
+	NFmiSettings::Set("pop_days::precision","10");
+	NFmiSettings::Set("pop_days::minimum","10");
+	NFmiSettings::Set("pop_days::maximum","90");
+	NFmiSettings::Set("pop_days::comparison::significantly_greater","50");
+	NFmiSettings::Set("pop_days::comparison::greater","30");
+	NFmiSettings::Set("pop_days::comparison::somewhat_greater","10");
+	NFmiSettings::Set("pop_days::comparison::somewhat_smaller","10");
+	NFmiSettings::Set("pop_days::comparison::smaller","30");
+	NFmiSettings::Set("pop_days::comparison::significantly_smaller","50");
+
+	// 1-day forecasts
+	{
+	  NFmiTime time1(2003,6,3,6,0);
+	  NFmiTime time2(2003,6,4,6,0);
+	  WeatherPeriod period(time1,time2);
+	  PrecipitationStory story(time1,sources,area,period,"pop_days");
+	  
+	  NFmiSettings::Set("pop_days::fake::day1::meanmean","0,0");
+	  NFmiSettings::Set("pop_days::fake::day1::meanmax","40,0");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 20%.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 20%.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 20%.");
+	  
+	}
+
+	// Another 1-day forecast, because 17 < 18 (minendhour)
+
+	{
+	  NFmiTime time1(2003,6,3,6,0);
+	  NFmiTime time2(2003,6,4,17,0);
+	  WeatherPeriod period(time1,time2);
+	  PrecipitationStory story(time1,sources,area,period,"pop_days");
+	  
+	  NFmiSettings::Set("pop_days::fake::day1::meanmean","20,0");
+	  NFmiSettings::Set("pop_days::fake::day1::meanmax","40,0");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 30%.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 30%.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 30%.");
+	  
+	}
+
+	// Another 1-day forecast with small PoP
+
+	{
+	  NFmiTime time1(2003,6,3,6,0);
+	  NFmiTime time2(2003,6,4,6,0);
+	  WeatherPeriod period(time1,time2);
+	  PrecipitationStory story(time1,sources,area,period,"pop_days");
+	  
+	  NFmiSettings::Set("pop_days::fake::day1::meanmean","0,0");
+	  NFmiSettings::Set("pop_days::fake::day1::meanmax","0,0");
+	  REQUIRE(story,"fi",fun,"");
+	  REQUIRE(story,"sv",fun,"");
+	  REQUIRE(story,"en",fun,"");
+	  
+	}
+
+	// Another 1-day forecast with large PoP
+
+	{
+	  NFmiTime time1(2003,6,3,6,0);
+	  NFmiTime time2(2003,6,4,6,0);
+	  WeatherPeriod period(time1,time2);
+	  PrecipitationStory story(time1,sources,area,period,"pop_days");
+	  
+	  NFmiSettings::Set("pop_days::fake::day1::meanmean","90,0");
+	  NFmiSettings::Set("pop_days::fake::day1::meanmax","100,0");
+	  REQUIRE(story,"fi",fun,"");
+	  REQUIRE(story,"sv",fun,"");
+	  REQUIRE(story,"en",fun,"");
+	  
+	}
+
+	// 2-day forecasts
+
+	{
+	  NFmiTime time1(2003,6,3,6,0);
+	  NFmiTime time2(2003,6,4,18,0);
+	  WeatherPeriod period(time1,time2);
+	  PrecipitationStory story(time1,sources,area,period,"pop_days");
+	  
+	  NFmiSettings::Set("pop_days::fake::day1::meanmean","50,0");
+	  NFmiSettings::Set("pop_days::fake::day1::meanmax","50,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmean","50,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmax","50,0");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna sama.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon densamma.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 50%, tomorrow the same.");
+
+	  NFmiSettings::Set("pop_days::fake::day1::meanmean","60,0");
+	  NFmiSettings::Set("pop_days::fake::day1::meanmax","60,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmean","10,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmax","10,0");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 60%, huomenna huomattavasti pienempi.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 60%, i morgon betydligt mindre.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 60%, tomorrow significantly smaller.");
+
+	  NFmiSettings::Set("pop_days::fake::day1::meanmean","50,0");
+	  NFmiSettings::Set("pop_days::fake::day1::meanmax","50,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmean","20,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmax","20,0");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna pienempi.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon mindre.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 50%, tomorrow smaller.");
+
+	  NFmiSettings::Set("pop_days::fake::day1::meanmean","50,0");
+	  NFmiSettings::Set("pop_days::fake::day1::meanmax","50,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmean","40,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmax","40,0");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna hieman pienempi.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon något mindre.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 50%, tomorrow somewhat smaller.");
+
+	  NFmiSettings::Set("pop_days::fake::day1::meanmean","50,0");
+	  NFmiSettings::Set("pop_days::fake::day1::meanmax","50,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmean","60,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmax","60,0");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna hieman suurempi.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon något större.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 50%, tomorrow somewhat greater.");
+
+	  NFmiSettings::Set("pop_days::fake::day1::meanmean","50,0");
+	  NFmiSettings::Set("pop_days::fake::day1::meanmax","50,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmean","80,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmax","80,0");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna suurempi.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon större.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 50%, tomorrow greater.");
+
+	  NFmiSettings::Set("pop_days::fake::day1::meanmean","40,0");
+	  NFmiSettings::Set("pop_days::fake::day1::meanmax","40,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmean","90,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmax","90,0");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 40%, huomenna huomattavasti suurempi.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 40%, i morgon betydligt större.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 40%, tomorrow significantly greater.");
+
+
+	  NFmiSettings::Set("pop_days::fake::day1::meanmean","50,0");
+	  NFmiSettings::Set("pop_days::fake::day1::meanmax","50,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmean","0,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmax","0,0");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 50%.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 50%.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is 50%.");
+
+	  NFmiSettings::Set("pop_days::fake::day1::meanmean","0,0");
+	  NFmiSettings::Set("pop_days::fake::day1::meanmax","0,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmean","50,0");
+	  NFmiSettings::Set("pop_days::fake::day2::meanmax","50,0");
+	  REQUIRE(story,"fi",fun,"Sateen todennäköisyys on huomenna 50%.");
+	  REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är i morgon 50%.");
+	  REQUIRE(story,"en",fun,"Probability of precipitation is tomorrow 50%.");
+
+	}
+
+	TEST_PASSED();
+
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Test PrecipitationStory::daily_sums()
    */
   // ----------------------------------------------------------------------
@@ -586,6 +767,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  TEST(precipitation_sums);
 	  TEST(precipitation_daily_sums);
 	  TEST(pop_twodays);
+	  TEST(pop_days);
 	}
 
   }; // class tests

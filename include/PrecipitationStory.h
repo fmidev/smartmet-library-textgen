@@ -44,6 +44,7 @@ namespace TextGen
 	const Paragraph range(void) const;
 	const Paragraph classification(void) const;
 	const Paragraph pop_twodays(void) const;
+	const Paragraph pop_days(void) const;
 	const Paragraph sums(void) const;
 	const Paragraph daily_sums(void) const;
 

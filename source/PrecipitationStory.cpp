@@ -77,6 +77,8 @@ namespace TextGen
 	  return true;
 	if(theName == "precipitation_daily_sums")
 	  return true;
+	if(theName == "pop_days")
+	  return true;
 	if(theName == "pop_twodays")
 	  return true;
 	return false;
@@ -105,6 +107,8 @@ namespace TextGen
 	  return sums();
 	if(theName == "precipitation_daily_sums")
 	  return daily_sums();
+	if(theName == "pop_days")
+	  return pop_days();
 	if(theName == "pop_twodays")
 	  return pop_twodays();
 

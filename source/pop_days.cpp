@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of method TextGen::PrecipitationStory::pop_twodays
+ * \brief Implementation of method TextGen::PrecipitationStory::pop_days
  */
 // ======================================================================
 
@@ -20,6 +20,7 @@
 #include "TextGenError.h"
 #include "UnitFactory.h"
 #include "WeatherResult.h"
+#include "WeatherResultTools.h"
 #include "PeriodPhraseFactory.h"
 
 #include "boost/lexical_cast.hpp"
@@ -39,15 +40,16 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph PrecipitationStory::pop_twodays() const
+  const Paragraph PrecipitationStory::pop_days() const
   {
-	MessageLogger log("PrecipitationStory::pop_twodays");
+	MessageLogger log("PrecipitationStory::pop_days");
 
 	using MathTools::to_precision;
 
 	Paragraph paragraph;
 
-	const int limit     = Settings::require_percentage(itsVar+"::limit");
+	const int minimum   = Settings::optional_percentage(itsVar+"::minimum",10);
+	const int maximum   = Settings::optional_percentage(itsVar+"::maximum",100);
 	const int precision = Settings::require_percentage(itsVar+"::precision");
 
 	const int limit_significantly_greater = Settings::require_percentage(itsVar+"::comparison::significantly_greater");
@@ -71,24 +73,36 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	WeatherResult result = forecaster.analyze(itsVar+"::fake::day1::maximum",
-											  itsSources,
-											  PrecipitationProbability,
-											  Maximum,
-											  Maximum,
-											  itsArea,
-											  firstperiod);
+	WeatherResult pop1max = forecaster.analyze(itsVar+"::fake::day1::meanmax",
+											   itsSources,
+											   PrecipitationProbability,
+											   Mean,
+											   Maximum,
+											   itsArea,
+											   firstperiod);
+
+	WeatherResult pop1mean = forecaster.analyze(itsVar+"::fake::day1::meanmean",
+											   itsSources,
+											   PrecipitationProbability,
+											   Mean,
+											   Mean,
+											   itsArea,
+											   firstperiod);
 	
-	if(result.value() == kFloatMissing)
+	if(pop1max.value() == kFloatMissing || pop1mean.value() == kFloatMissing)
 	  throw TextGenError("PrecipitationProbability not available");
 
-	log << "PoP Maximum(Maximum) for day 1 " << result << endl;
+	WeatherResult result1 = WeatherResultTools::mean(pop1max,pop1mean);
 
-	const int pop1 = to_precision(result.value(),precision);
+	log << "PoP Mean(Maximum) for day 1 " << pop1mean << endl
+		<< "PoP Mean(Mean) for day 1 " << pop1max << endl
+		<< "Pop for day 1 is the mean value " << result1 << endl;
+
+	const int pop1 = to_precision(result1.value(),precision);
 
 	Sentence sentence;
 
-	if(pop1 >= limit)
+	if(pop1 >= minimum && pop1 <= maximum)
 	  {
 		sentence << "sateen todennäköisyys"
 				 << "on"
@@ -104,22 +118,34 @@ namespace TextGen
 	  {
 		WeatherPeriod secondperiod = generator.period(2);
 
-		WeatherResult result2 = forecaster.analyze(itsVar+"::fake::day2::maximum",
+		WeatherResult pop2max = forecaster.analyze(itsVar+"::fake::day2::meanmax",
 												   itsSources,
 												   PrecipitationProbability,
-												   Maximum,
+												   Mean,
 												   Maximum,
 												   itsArea,
 												   secondperiod);
 		
-		if(result2.value() == kFloatMissing)
+		WeatherResult pop2mean = forecaster.analyze(itsVar+"::fake::day2::meanmean",
+													itsSources,
+													PrecipitationProbability,
+													Mean,
+													Mean,
+													itsArea,
+													secondperiod);
+	
+		if(pop2max.value() == kFloatMissing || pop2mean.value() == kFloatMissing)
 		  throw TextGenError("PrecipitationProbability not available");
+		
+		WeatherResult result2 = WeatherResultTools::mean(pop2max,pop2mean);
 
-		log << "PoP Maximum(Maximum) for day 2 " << result2 << endl;
+		log << "PoP Mean(Maximum) for day 2 " << pop2mean << endl
+			<< "PoP Mean(Mean) for day 2 " << pop2max << endl
+			<< "Pop for day 2 is the mean value " << result2 << endl;
 
 		const int pop2 = to_precision(result2.value(),precision);
 
-		if(pop2 >= limit)
+		if(pop2 >= minimum && pop2 <= maximum)
 		  {
 			if(sentence.empty())
 			  {
