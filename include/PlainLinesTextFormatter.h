@@ -24,6 +24,8 @@ namespace TextGen
 	PlainLinesTextFormatter() { }
 
 	virtual ~PlainLinesTextFormatter() { }
+
+	using PlainTextFormatter::visit;
 	virtual std::string visit(const Paragraph & theParagraph) const;
 
   }; // class PlainLinesTextFormatter
