@@ -39,7 +39,8 @@ namespace TextGen
 		VariableCloudiness		//!< vaihtelevaa pilvisyyttä
 	  };
 
-	std::pair<CloudinessType,bool> similar(CloudinessType theType1, CloudinessType theType2);
+
+	std::pair<CloudinessType,bool> similartype(CloudinessType theType1, CloudinessType theType2);
 
 
   } // namespace CloudinessStoryTools

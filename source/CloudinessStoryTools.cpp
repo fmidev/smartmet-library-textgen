@@ -40,8 +40,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	std::pair<CloudinessType,bool> similar(CloudinessType theType1,
-										   CloudinessType theType2)
+	std::pair<CloudinessType,bool> similartype(CloudinessType theType1,
+											   CloudinessType theType2)
 	{
 	  static std::pair<CloudinessType,bool> notsimilar =
 		std::make_pair(VariableCloudiness,false);
