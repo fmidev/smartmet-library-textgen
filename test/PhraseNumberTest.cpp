@@ -18,7 +18,7 @@ namespace PhraseNumberTest
 	static std::string tostring(const Value & theValue)
 	{
 	  std::ostringstream os;
-	  os << std::fixed << std::setprecision(2) << theValue;
+	  os << std::ios::fixed << std::setprecision(2) << theValue;
 	  return os.str();
 	}
   };
