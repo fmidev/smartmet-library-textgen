@@ -185,8 +185,6 @@ namespace TextGen
    * Sample story: "Sadesumma 10 millimetriä."
    *
    * \return The story
-   *
-   * \todo Should filter out rains less than 0.1 mm in the summation
    */
   // ----------------------------------------------------------------------
 
@@ -230,10 +228,8 @@ namespace TextGen
    * Sample story 3: "Sadesumma 1-5 millimetriä."		(otherwise)
    *
    * where LIMIT is the value of textgen::precipitation_range::maxrain
-
-   * \return The story
    *
-   * \todo Should filter out rains less than 0.1 mm in the summation
+   * \return The story
    */
   // ----------------------------------------------------------------------
 
@@ -312,8 +308,6 @@ namespace TextGen
    *
    * \return The story
    *
-   * \todo Should filter out rains less than 0.1 mm in the summation
-   * \bug Should not return phrase 1 when minimum is below N!
    */
   // ----------------------------------------------------------------------
 
