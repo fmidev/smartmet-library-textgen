@@ -153,9 +153,9 @@ namespace TextGen
 		it != paragraphs.end();
 		++it)
 	  {
-		const string periodtype = settings.require("textgen::"+*it+"::period");
+		const string periodvar = settings.require("textgen::"+*it+"::period");
 		const WeatherPeriod period = WeatherPeriodFactory::create(time(),
-																  periodtype);
+																  periodvar);
 		const string headertype = settings.require("textgen::"+*it+"::header");
 		if(!headertype.empty())
 		  {
