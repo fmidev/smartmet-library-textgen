@@ -5,10 +5,6 @@
  */
 // ======================================================================
 
-#ifdef OLD_MSC
-#pragma warning(disable : 4786)
-#endif
-
 #include "BasicDictionary.h"
 #include "TextGenError.h"
 

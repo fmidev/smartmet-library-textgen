@@ -40,10 +40,6 @@
  */
 // ----------------------------------------------------------------------
 
-#ifdef OLD_MSC
-#pragma warning(disable : 4786) // poistaa VC++ k‰‰nt‰j‰n STL varoituksia
-#endif
-
 #include "MySQLDictionary.h"
 #include "Settings.h"
 #include "TextGenError.h"

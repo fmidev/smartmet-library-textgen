@@ -17,10 +17,6 @@
  */
 // ======================================================================
 
-#ifdef OLD_MSC
-#pragma warning(disable : 4786) // poistaa VC++ k‰‰nt‰j‰n STL varoituksia
-#endif
-
 #include "UserWeatherSource.h"
 #include "IdGenerator.h"
 #include "WeatherAnalysisError.h"

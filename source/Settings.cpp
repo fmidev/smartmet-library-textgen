@@ -12,10 +12,6 @@
  */
 // ----------------------------------------------------------------------
 
-#ifdef OLD_MSC
-#pragma warning(disable : 4786) // poistaa VC++ k‰‰nt‰j‰n STL varoituksia
-#endif
-
 // boost included laitettava ennen newbase:n NFmiGlobals-includea,
 // muuten MSVC:ss‰ min max m‰‰rittelyt jo tehty
 

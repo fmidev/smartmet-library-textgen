@@ -15,10 +15,6 @@
  */
 // ======================================================================
 
-#ifdef OLD_MSC
-#pragma warning(disable : 4786) // STL name length warnings off
-#endif
-
 #include "QueryDataIntegrator.h"
 #include "Calculator.h"
 #include "QueryDataTools.h"

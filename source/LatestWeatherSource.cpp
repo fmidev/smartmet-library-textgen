@@ -15,10 +15,6 @@
  */
 // ======================================================================
 
-#ifdef OLD_MSC
-#pragma warning(disable : 4786)
-#endif
-
 #include "LatestWeatherSource.h"
 #include "IdGenerator.h"
 #include "Settings.h"

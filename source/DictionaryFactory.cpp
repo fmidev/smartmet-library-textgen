@@ -22,10 +22,6 @@
  */
 // ======================================================================
 
-#ifdef OLD_MSC
-#pragma warning(disable : 4786)
-#endif
-
 #include "DictionaryFactory.h"
 #include "NullDictionary.h"
 #include "BasicDictionary.h"
