@@ -11,7 +11,7 @@
 #include "GridForecaster.h"
 #include "MathTools.h"
 #include "NullPeriodGenerator.h"
-#include "Number.h"
+#include "NumberFactory.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "Settings.h"
@@ -163,7 +163,7 @@ namespace TextGen
 	sentence << "alin suhteellinen kosteus"
 			 << "on"
 			 << WeekdayTools::on_weekday(firstperiod.localStartTime())
-			 << Number<int>(humidity1)
+			 << *NumberFactory::create(humidity1)
 			 << Delimiter("%");
 
 	if(days==2)

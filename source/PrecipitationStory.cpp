@@ -10,7 +10,7 @@
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "NullPeriodGenerator.h"
-#include "NumberRange.h"
+#include "NumberFactory.h"
 #include "Paragraph.h"
 #include "RangeAcceptor.h"
 #include "Sentence.h"
@@ -214,10 +214,8 @@ namespace TextGen
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Total precipitation not available");
 
-	Number<int> num = FmiRound(result.value());
-
 	sentence << "sadesumma"
-			 << num
+			 << *NumberFactory::create(FmiRound(result.value()))
 			 << "millimetriä";
 	paragraph << sentence;
 	return paragraph;
@@ -269,26 +267,25 @@ namespace TextGen
 	   maxresult.value() == kFloatMissing)
 	  throw TextGenError("Total precipitation not available");
 
-	Number<int> minrain = FmiRound(minresult.value());
-	Number<int> maxrain = FmiRound(maxresult.value());
-	NumberRange<Number<int> > rainrange(minrain,maxrain);
+	const int minrain = FmiRound(minresult.value());
+	const int maxrain = FmiRound(maxresult.value());
 
 	// optionaalinen maksimisade
 
 	const string variable = itsVar + "::maxrain";
 	const int rainlimit = Settings::optional_int(variable,-1);
 
-	if(minrain.value() >= rainlimit && rainlimit>0)
+	if(minrain >= rainlimit && rainlimit>0)
 	  {
 		sentence << "sadesumma"
 				 << "yli"
-				 << rainlimit
+				 << *NumberFactory::create(rainlimit)
 				 << "millimetriä";
 	  }
 	else
 	  {
 		sentence << "sadesumma"
-				 << rainrange
+				 << *NumberFactory::create(minrain,maxrain)
 				 << "millimetriä";
 	  }
 
@@ -460,7 +457,7 @@ namespace TextGen
 	const int hilimit = it->second;
 
 	sentence << "sadesumma"
-			 << NumberRange<Number<int> >(lolimit,hilimit)
+			 << *NumberFactory::create(lolimit,hilimit)
 			 << "millimetriä";
 	
 	// Lisää tarvittaessa "paikoin enemmän" tai "monin paikoin enemmän" perään

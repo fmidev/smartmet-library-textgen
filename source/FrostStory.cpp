@@ -11,8 +11,7 @@
 #include "GridForecaster.h"
 #include "MathTools.h"
 #include "NullPeriodGenerator.h"
-#include "Number.h"
-#include "NumberRange.h"
+#include "NumberFactory.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "Settings.h"
@@ -50,7 +49,7 @@ namespace
 	sentence << "ankaran hallan todennäköisyys"
 			 << "on"
 			 << WeekdayTools::night_against_weekday(thePeriod.localEndTime())
-			 << Number<int>(theProbability)
+			 << *NumberFactory::create(theProbability)
 			 << Delimiter("%");
 	return sentence;
   }
@@ -73,7 +72,7 @@ namespace
 	sentence << "hallan todennäköisyys"
 			 << "on"
 			 << WeekdayTools::night_against_weekday(thePeriod.localEndTime())
-			 << Number<int>(theProbability)
+			 << *NumberFactory::create(theProbability)
 			 << Delimiter("%");
 	return sentence;
   }
@@ -227,19 +226,17 @@ namespace TextGen
 
 	if(severe_frost_value >= severelimit)
 	  {
-		Number<int> val(severe_frost_value);
 		sentence << "ankaran hallan todennäköisyys"
 				 << "on"
-				 << val
+				 << *NumberFactory::create(severe_frost_value)
 				 << Delimiter("%");
 		paragraph << sentence;
 	  }
 	else if(frost_value >= normallimit)
 	  {
-		Number<int> val(frost_value);
 		sentence << "hallan todennäköisyys"
 				 << "on"
-				 << val
+				 << *NumberFactory::create(frost_value)
 				 << Delimiter("%");
 		paragraph << sentence;
 	  }
@@ -307,19 +304,17 @@ namespace TextGen
 
 	if(severe_frost_value >= severelimit)
 	  {
-		Number<int> val(severe_frost_value);
 		sentence << "ankaran hallan todennäköisyys"
 				 << "on"
-				 << val
+				 << *NumberFactory::create(severe_frost_value)
 				 << Delimiter("%");
 		paragraph << sentence;
 	  }
 	else if(frost_value >= normallimit)
 	  {
-		Number<int> val(frost_value);
 		sentence << "hallan todennäköisyys"
 				 << "on"
-				 << val
+				 << *NumberFactory::create(frost_value)
 				 << Delimiter("%");
 		paragraph << sentence;
 	  }
@@ -413,19 +408,17 @@ namespace TextGen
 
 	if(severe_frost_max >= severelimit)
 	  {
-		NumberRange<Number<int> > range(severe_frost_min,severe_frost_max);
 		sentence << "ankaran hallan todennäköisyys"
 				 << "on"
-				 << range
+				 << *NumberFactory::create(severe_frost_min,severe_frost_max)
 				 << Delimiter("%");
 		paragraph << sentence;
 	  }
 	else if(frost_max >= normallimit)
 	  {
-		NumberRange<Number<int> > range(frost_min,frost_max);
 		sentence << "hallan todennäköisyys"
 				 << "on"
-				 << range
+				 << *NumberFactory::create(frost_min,frost_max)
 				 << Delimiter("%");
 		paragraph << sentence;
 	  }
@@ -562,7 +555,7 @@ namespace TextGen
 			if(severevalue2 >= severelimit)
 			  {
 				sentence << "seuraavana yönä"
-						 << Number<int>(severevalue2)
+						 << *NumberFactory::create(severevalue2)
 						 << Delimiter("%");
 			  }
 			else if(value2 >= normallimit)
@@ -570,7 +563,7 @@ namespace TextGen
 				sentence << "seuraavana yönä"
 						 << "hallan todennäköisyys"
 						 << "on"
-						 << Number<int>(value2)
+						 << *NumberFactory::create(value2)
 						 << Delimiter("%");
 			  }
 			else
@@ -593,13 +586,13 @@ namespace TextGen
 				sentence << "seuraavana yönä"
 						 << "ankaran hallan todennäköisyys"
 						 << "on"
-						 << Number<int>(severevalue2)
+						 << *NumberFactory::create(severevalue2)
 						 << Delimiter("%");
 			  }
 			else if(value2 >= normallimit)
 			  {
 				sentence << "seuraavana yönä"
-						 << Number<int>(value2)
+						 << *NumberFactory::create(value2)
 						 << Delimiter("%");
 			  }
 			else

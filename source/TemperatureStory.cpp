@@ -11,8 +11,7 @@
 #include "GridForecaster.h"
 #include "HourPeriodGenerator.h"
 #include "NullPeriodGenerator.h"
-#include "Number.h"
-#include "NumberRange.h"
+#include "NumberFactory.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "Settings.h"
@@ -110,13 +109,13 @@ namespace
 
 	if(range)
 	  {
-		sentence << NumberRange<Number<int> >(theMinimum,theMaximum)
+		sentence << *NumberFactory::create(theMinimum,theMaximum)
 				 << "astetta";
 	  }
 	else
 	  {
 		sentence << "noin"
-				 << Number<int>(theMean)
+				 << *NumberFactory::create(theMean)
 				 << "astetta";
 	  }
 
@@ -255,10 +254,8 @@ namespace TextGen
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean temperature not available");
 
-	Number<int> num = FmiRound(result.value());
-
 	sentence << "keskilämpötila"
-			 << num
+			 << *NumberFactory::create(FmiRound(result.value()))
 			 << "astetta";
 	
 	paragraph << sentence;
@@ -296,10 +293,8 @@ namespace TextGen
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean daily maximum temperature not available");
 
-	Number<int> num = FmiRound(result.value());
-
 	sentence << "keskimääräinen ylin lämpötila"
-			 << num
+			 << *NumberFactory::create(FmiRound(result.value()))
 			 << "astetta";
 	paragraph << sentence;
 	return paragraph;
@@ -339,10 +334,8 @@ namespace TextGen
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean daily minimum temperature not available");
 
-	Number<int> num = FmiRound(result.value());
-
 	sentence << "keskimääräinen alin lämpötila"
-			 << num
+			 << *NumberFactory::create(FmiRound(result.value()))
 			 << "astetta";
 	paragraph << sentence;
 	return paragraph;
@@ -792,7 +785,7 @@ namespace TextGen
 	if(emphasize_night_minimum)
 	  {
 		sentence << "noin"
-				 << Number<int>(nightmin)
+				 << *NumberFactory::create(nightmin)
 				 << "astetta";
 	  }
 	else
