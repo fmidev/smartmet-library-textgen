@@ -7,6 +7,7 @@
 
 #include "TemperatureAnalyzer.h"
 #include "AnalysisSources.h"
+#include "FunctionAnalyzerFactory.h"
 #include "MaskSource.h"
 #include "WeatherAnalysisError.h"
 #include "WeatherArea.h"
@@ -14,10 +15,6 @@
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
 #include "WeatherSource.h"
-
-#include "MaximumAnalyzer.h"
-#include "MinimumAnalyzer.h"
-#include "MeanAnalyzer.h"
 
 #include "NFmiDataIntegrator.h"
 #include "NFmiDataModifierMax.h"
@@ -91,40 +88,11 @@ namespace WeatherAnalysis
 		mask = msource->mask(theArea,dataname,*wsource);
 	  }
 
-	switch(theFunction)
-	  {
-	  case Maximum:
-		{
-		  MaximumAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  theLimits,
-								  thePeriod,
-								  theArea,
-								  varname,
-								  parname);
-		}
-	  case Minimum:
-		{
-		  MinimumAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  theLimits,
-								  thePeriod,
-								  theArea,
-								  varname,
-								  parname);
-		}
-	  case Mean:
-		{
-		  MeanAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  theLimits,
-								  thePeriod,
-								  theArea,
-								  varname,
-								  parname);
-		}
-	  }
-	return WeatherResult(kFloatMissing,0);
+	std::auto_ptr<FunctionAnalyzer> analyzer = FunctionAnalyzerFactory::create(theFunction);
+
+	return analyzer->analyze(theSources,theLimits,thePeriod,theArea,
+							 varname,parname);
+
   }
 
 } // namespace WeatherAnalysis
