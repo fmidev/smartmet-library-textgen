@@ -3,7 +3,6 @@
 #include "Integer.h"
 #include "Delimiter.h"
 #include "Sentence.h"
-#include "TheDictionary.h"
 
 #include <iostream>
 #include <stdexcept>
