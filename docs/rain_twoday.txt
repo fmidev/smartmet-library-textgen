@@ -403,28 +403,28 @@ Yhdistelmiä on yhteensä 576 kappaletta.
 <td colspan="2">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="27">2-5</td>
 <td colspan="19">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-aamuun asti, tiistaina [enimmäkseen selkeää]</td>
+<td>Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td>
 </tr>
 <tr>
 <td>54.</td>
 <td colspan="2">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="28">2-6</td>
 <td colspan="18">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-aamuun asti, tiistaina [enimmäkseen selkeää]</td>
+<td>Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td>
 </tr>
 <tr>
 <td>55.</td>
 <td colspan="2">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="29">2-7</td>
 <td colspan="17">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-aamuun asti, tiistaina [enimmäkseen selkeää]</td>
+<td>Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td>
 </tr>
 <tr>
 <td>56.</td>
 <td colspan="2">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="30">2-8</td>
 <td colspan="16">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-aamuun asti, tiistaina [enimmäkseen selkeää]</td>
+<td>Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td>
 </tr>
 <tr>
 <td>57.</td>
@@ -570,28 +570,28 @@ Yhdistelmiä on yhteensä 576 kappaletta.
 <td colspan="3">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="26">3-5</td>
 <td colspan="19">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-aamuun asti, tiistaina [enimmäkseen selkeää]</td>
+<td>Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td>
 </tr>
 <tr>
 <td>78.</td>
 <td colspan="3">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="27">3-6</td>
 <td colspan="18">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-aamuun asti, tiistaina [enimmäkseen selkeää]</td>
+<td>Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td>
 </tr>
 <tr>
 <td>79.</td>
 <td colspan="3">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="28">3-7</td>
 <td colspan="17">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-aamuun asti, tiistaina [enimmäkseen selkeää]</td>
+<td>Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td>
 </tr>
 <tr>
 <td>80.</td>
 <td colspan="3">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="29">3-8</td>
 <td colspan="16">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-aamuun asti, tiistaina [enimmäkseen selkeää]</td>
+<td>Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td>
 </tr>
 <tr>
 <td>81.</td>
@@ -654,42 +654,42 @@ Yhdistelmiä on yhteensä 576 kappaletta.
 <td colspan="3">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="38">3-17</td>
 <td colspan="7">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-iltaan asti</td>
+<td>Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>90.</td>
 <td colspan="3">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="39">3-18</td>
 <td colspan="6">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-iltaan asti</td>
+<td>Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>91.</td>
 <td colspan="3">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="40">3-19</td>
 <td colspan="5">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-iltaan asti</td>
+<td>Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>92.</td>
 <td colspan="3">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="41">3-20</td>
 <td colspan="4">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-iltaan asti</td>
+<td>Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>93.</td>
 <td colspan="3">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="42">3-21</td>
 <td colspan="3">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-iltaan asti</td>
+<td>Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>94.</td>
 <td colspan="3">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="43">3-22</td>
 <td colspan="2">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-iltaan asti</td>
+<td>Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>95.</td>
@@ -737,28 +737,28 @@ Yhdistelmiä on yhteensä 576 kappaletta.
 <td colspan="4">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="25">4-5</td>
 <td colspan="19">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-aamuun asti, tiistaina [enimmäkseen selkeää]</td>
+<td>Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td>
 </tr>
 <tr>
 <td>102.</td>
 <td colspan="4">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="26">4-6</td>
 <td colspan="18">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-aamuun asti, tiistaina [enimmäkseen selkeää]</td>
+<td>Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td>
 </tr>
 <tr>
 <td>103.</td>
 <td colspan="4">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="27">4-7</td>
 <td colspan="17">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-aamuun asti, tiistaina [enimmäkseen selkeää]</td>
+<td>Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td>
 </tr>
 <tr>
 <td>104.</td>
 <td colspan="4">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="28">4-8</td>
 <td colspan="16">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-aamuun asti, tiistaina [enimmäkseen selkeää]</td>
+<td>Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td>
 </tr>
 <tr>
 <td>105.</td>
@@ -821,42 +821,42 @@ Yhdistelmiä on yhteensä 576 kappaletta.
 <td colspan="4">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="37">4-17</td>
 <td colspan="7">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-iltaan asti</td>
+<td>Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>114.</td>
 <td colspan="4">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="38">4-18</td>
 <td colspan="6">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-iltaan asti</td>
+<td>Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>115.</td>
 <td colspan="4">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="39">4-19</td>
 <td colspan="5">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-iltaan asti</td>
+<td>Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>116.</td>
 <td colspan="4">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="40">4-20</td>
 <td colspan="4">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-iltaan asti</td>
+<td>Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>117.</td>
 <td colspan="4">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="41">4-21</td>
 <td colspan="3">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-iltaan asti</td>
+<td>Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>118.</td>
 <td colspan="4">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="42">4-22</td>
 <td colspan="2">&nbsp;</td>
-<td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-iltaan asti</td>
+<td>Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>119.</td>
@@ -4064,8 +4064,8 @@ Alla on lueteltu kaikki uniikit tarinat numeroituina.
 <tr><td>11.</td><td>Tänään aamusta alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
 <tr><td>12.</td><td>Tänään aamusta alkaen [sadetta] tiistai-aamuun asti, tiistaina [enimmäkseen selkeää]</td></tr>
 <tr><td>13.</td><td>Tänään aamusta alkaen [sadetta] tiistai-iltaan asti</td></tr>
-<tr><td>14.</td><td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-aamuun asti, tiistaina [enimmäkseen selkeää]</td></tr>
-<tr><td>15.</td><td>Tänään aamuyöstä alkaen [paikoin] [sadetta] tiistai-iltaan asti</td></tr>
+<tr><td>14.</td><td>Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]</td></tr>
+<tr><td>15.</td><td>Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]</td></tr>
 <tr><td>16.</td><td>Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]</td></tr>
 <tr><td>17.</td><td>Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]</td></tr>
 <tr><td>18.</td><td>Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa</td></tr>
