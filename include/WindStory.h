@@ -50,7 +50,7 @@ namespace TextGen
 	WindStory(const WindStory & theStory);
 	WindStory & operator=(const WindStory & theStory);
 
-	Paragraph short_overview() const;
+	Paragraph simple_overview() const;
 	Paragraph overview() const;
 
 	const NFmiTime itsForecastTime;
