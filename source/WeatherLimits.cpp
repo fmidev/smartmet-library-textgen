@@ -172,7 +172,27 @@ namespace WeatherAnalysis
 	return true;
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Equality comparison
+   *
+   * \param theLimits The limits to compare with
+   * \return True if the limits are equal
+   */
+  // ----------------------------------------------------------------------
+
+  bool WeatherLimits::operator==(const WeatherLimits & theLimits) const
+  {
+	return (itHasLowerLimit == theLimits.itHasLowerLimit &&
+			itHasUpperLimit == theLimits.itHasUpperLimit &&
+			itsLowerLimitExact == theLimits.itsLowerLimitExact &&
+			itsUpperLimitExact == theLimits.itsUpperLimitExact &&
+			itsLowerLimit == theLimits.itsLowerLimit &&
+			itsUpperLimit == theLimits.itsUpperLimit);
+  }
+
 
 } // namespace WeatherAnalysis
+
 
 // ======================================================================

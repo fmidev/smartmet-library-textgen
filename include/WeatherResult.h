@@ -48,6 +48,14 @@ namespace WeatherAnalysis
 
 } // namespace WeatherAnalysis
 
+// Free functions
+
+bool operator==(const WeatherAnalysis::WeatherResult & theLhs,
+				const WeatherAnalysis::WeatherResult & theRhs);
+
+bool operator!=(const WeatherAnalysis::WeatherResult & theLhs,
+				const WeatherAnalysis::WeatherResult & theRhs);
+
 #endif // WEATHERANALYSIS_WEATHERRESULT_H
 
 // ======================================================================

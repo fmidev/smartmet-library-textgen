@@ -61,6 +61,9 @@ namespace WeatherAnalysis
 
 	bool inLimits(float theValue) const;
 
+	bool operator==(const WeatherLimits & theFact) const;
+	bool operator!=(const WeatherLimits & theFact) const;
+
   private:
 	
 	bool itHasLowerLimit;

@@ -63,4 +63,37 @@ namespace WeatherAnalysis
 
 } // namespace WeatherAnalysis
 
+// ----------------------------------------------------------------------
+/*!
+ * \brief Equality comparison for WeatherResult
+ *
+ * \param theLhs The first result
+ * \param theRhs The second result
+ * \return True if the results are equal
+ */
+// ----------------------------------------------------------------------
+
+bool operator==(const WeatherAnalysis::WeatherResult & theLhs,
+				const WeatherAnalysis::WeatherResult & theRhs)
+{
+  return (theLhs.value() == theRhs.value() &&
+		  theLhs.accuracy() == theRhs.accuracy());
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Inequality comparison for WeatherResult
+ *
+ * \param theLhs The first result
+ * \param theRhs The second result
+ * \return True if the results are not equal
+ */
+// ----------------------------------------------------------------------
+
+bool operator!=(const WeatherAnalysis::WeatherResult & theLhs,
+				const WeatherAnalysis::WeatherResult & theRhs)
+{
+  return !(theLhs == theRhs);
+}
+
 // ======================================================================
