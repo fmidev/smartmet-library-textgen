@@ -21,7 +21,12 @@ namespace TextGen
 	/*!
 	 * \brief Create a text formatter of given type
 	 *
-	 * \param theType The type of the text formatter (null|basic|mysql)
+	 * The available formatters are
+	 *
+	 *    - plain for plain text
+	 *    - html for html
+	 *
+	 * \param theType The type of the text formatter
 	 * \return An uninitialized text formatter
 	 */
 	// ----------------------------------------------------------------------
