@@ -4,6 +4,11 @@
  * \brief Implementation of namespace Settings
  */
 // ======================================================================
+#ifdef _MSC_VER
+#pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta (liian pitk‰ nimi >255 merkki‰ joka johtuu 'puretuista' STL-template nimist‰)
+#endif
+
+#include "boost/lexical_cast.hpp" // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ss‰ min max m‰‰rittelyt jo tehty
 
 #include "Settings.h"
 #include "WeatherResult.h"
@@ -11,7 +16,6 @@
 #include "NFmiStringTools.h"
 #include "NFmiTime.h"
 
-#include "boost/lexical_cast.hpp"
 #include <cctype>	// for std::isdigit
 #include <list>
 #include <stdexcept>
@@ -91,7 +95,7 @@ namespace Settings
 		int val = lexical_cast<int>(value);
 		return val;
 	  }
-	catch(exception & e)
+	catch(exception & )
 	  {
 		throw runtime_error(theName + " value " + value + " is not an integer");
 	  }
@@ -143,7 +147,7 @@ namespace Settings
 		double val = lexical_cast<double>(value);
 		return val;
 	  }
-	catch(exception & e)
+	catch(exception & )
 	  {
 		throw runtime_error(theName + " value " + value + " is not a double");
 	  }
@@ -249,7 +253,7 @@ namespace Settings
 		return NFmiTime(yy,mm,dd,hh,mi);
 
 	  }
-	catch(exception & e)
+	catch(exception & )
 	  {
 		throw runtime_error(msg);
 	  }
@@ -279,7 +283,7 @@ namespace Settings
 		const float accuracy = lexical_cast<float>(values.back());
 		return WeatherAnalysis::WeatherResult(result,accuracy);
 	  }
-	catch(exception & e)
+	catch(exception & )
 	  {
 		throw runtime_error(msg);
 	  }
