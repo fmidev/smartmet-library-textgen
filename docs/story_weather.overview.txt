@@ -13,8 +13,8 @@ Alla olevassa taulukossa on kaikki mahdolliset tapaukset, joissa
 yksi sade alkaa ja loppuu saman p‰iv‰n aikana. Yhdistelmien lukum‰‰r‰
 on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 
+\htmlonly
 <table bgcolor="khaki" cellpadding="1" cellspacing="0" border="1">
-<tbody>
 <tr>
 <th>00</th>
 <th>01</th>
@@ -1875,7 +1875,7 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td align="center" bgcolor="cyan" colspan="24">0-24</td>
 <td>?</td>
 </tr>
-</tbody>
 </table>
+\endhtmlonly
 
 */
