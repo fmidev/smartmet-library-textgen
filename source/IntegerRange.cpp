@@ -40,7 +40,8 @@ namespace TextGen
   // ----------------------------------------------------------------------
 
   IntegerRange::IntegerRange(int theStartValue, int theEndValue)
-	: itsStartValue(theStartValue)
+	: itsRangeSeparator("...")
+	, itsStartValue(theStartValue)
 	, itsEndValue(theEndValue)
   {
   }
@@ -71,7 +72,7 @@ namespace TextGen
 	std::ostringstream os;
 	os << itsStartValue;
 	if(itsStartValue != itsEndValue)
-	  os << "..." << itsEndValue;
+	  os << itsRangeSeparator << itsEndValue;
 	return os.str();
   }
 
@@ -98,6 +99,35 @@ namespace TextGen
   bool IntegerRange::isDelimiter() const
   {
 	return false;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Set the range separator string
+   *
+   * The default value set by the constructor is "...", but for example
+   * for wind speeds it is customary to use "-".
+   *
+   * \param theSeparator The separator string
+   */
+  // ----------------------------------------------------------------------
+
+  void IntegerRange::rangeSeparator(const std::string & theSeparator)
+  {
+	itsRangeSeparator = theSeparator;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the range separator string
+   *
+   * \return The range separator string
+   */
+  // ----------------------------------------------------------------------
+
+  const std::string & IntegerRange::rangeSeparator() const
+  {
+	return itsRangeSeparator;
   }
 
   // ----------------------------------------------------------------------

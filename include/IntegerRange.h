@@ -32,12 +32,16 @@ namespace TextGen
 	virtual std::string realize(const TextFormatter & theFormatter) const;
 
 	virtual bool isDelimiter() const;
+
+	void rangeSeparator(const std::string & theSeparator);
+	const std::string & rangeSeparator() const;
 	int startValue() const;
 	int endValue() const;
 
   private:
 
 	IntegerRange();
+	std::string itsRangeSeparator;
 	int itsStartValue;
 	int itsEndValue;
 
