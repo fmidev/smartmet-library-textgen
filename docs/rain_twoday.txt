@@ -7,7 +7,7 @@ sade alkaa ensimmäisenä päivänä ja loppuu seuraavana päivänä.
 Yhdistelmiä on yhteensä 576 kappaletta.
 
 \htmlonly
-<table bgcolor="#99ff99" cellpadding="1" cellspacing="0" border="1">
+<table cellpadding="1" cellspacing="0" border="1">
 <tr>
 <th><font size="-2">nro</font></th>
 <th><font size="-2">00</font></th>

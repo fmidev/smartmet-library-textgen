@@ -7,7 +7,7 @@ yksi sade alkaa ja loppuu saman p‰iv‰n aikana. Yhdistelmien lukum‰‰r‰
 on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 
 \htmlonly
-<table bgcolor="#99ff99" cellpadding="1" cellspacing="0" border="1">
+<table cellpadding="1" cellspacing="0" border="1">
 <tr>
 <th>nro</th>
 <th>00</th>
@@ -2094,7 +2094,7 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 Alla on lueteltu kaikki uniikit tarinat numeroituina.
 
 \htmlonly
-<table bgcolor="#99ff99" cellpadding="1" cellspacing="0" border="1">
+<table cellpadding="1" cellspacing="0" border="1">
 <tr><td>1.</td><td>Aamulla [paikoin] [sadetta], aamup‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td></tr>
 <tr><td>2.</td><td>Aamulla [paikoin] [sadetta], keskip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td></tr>
 <tr><td>3.</td><td>Aamup‰iv‰ll‰ [paikoin] [sadetta], iltap‰iv‰st‰ alkaen poutaa</td></tr>
