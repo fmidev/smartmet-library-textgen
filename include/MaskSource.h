@@ -27,6 +27,7 @@ class NFmiPoint;
 namespace WeatherAnalysis
 {
   class MapSource;
+  class WeatherArea;
   class WeatherSource;
 
   class MaskSource
@@ -38,11 +39,11 @@ namespace WeatherAnalysis
 
 	virtual ~MaskSource();
 
-	virtual mask_type mask(const std::string & theArea,
+	virtual mask_type mask(const WeatherArea & theArea,
 						   const std::string & theData,
 						   const WeatherSource & theWeatherSource) const = 0;
 
-	virtual masks_type masks(const std::string & theArea,
+	virtual masks_type masks(const WeatherArea & theArea,
 							 const std::string & theData,
 							 const WeatherSource & theWeatherSource) const = 0;
 
