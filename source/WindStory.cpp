@@ -64,6 +64,8 @@ namespace TextGen
 	  return true;
 	if(theName == "wind_simple_overview")
 	  return true;
+	if(theName == "wind_daily_ranges")
+	  return true;
 	return false;
   }
   
@@ -84,6 +86,8 @@ namespace TextGen
 	  return overview();
 	if(theName == "wind_simple_overview")
 	  return simple_overview();
+	if(theName == "wind_daily_ranges")
+	  return daily_ranges();
 	throw TextGenError("WindStory cannot make story "+theName);
   }
 
