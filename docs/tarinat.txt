@@ -128,8 +128,8 @@ Ruotsiksi
 
 Englanniksi
 
-  -# "The maximum temperature on Weekday is about x degrees"
-  -# "The maximum temperature on Weekday is x...y degrees"
+  -# "The maximum day temperature on Weekday is about x degrees"
+  -# "The maximum day temperature on Weekday is x...y degrees"
 
 Sivulauseessa jatketaan tarvittaessa
 
@@ -235,8 +235,8 @@ Ruotsiksi
 
 Englanniksi
 
-  -# "The minimum temperature on Weekday night is about x degrees"
-  -# "The minimum temperature on Weekday night is x...y degrees"
+  -# "The minimum night temperature on Weekday night is about x degrees"
+  -# "The minimum night temperature on Weekday night is x...y degrees"
 
   -# ", seuraavana yönä huomattavasti korkeampi"
   -# ", seuraavana yönä korkeampi"
