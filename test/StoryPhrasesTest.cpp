@@ -150,6 +150,59 @@ namespace StoryPhrasesTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test TemperatureStory::weekly_minmax()
+   */
+  // ----------------------------------------------------------------------
+
+  void temperature_weekly_minmax()
+  {
+	require("päivien ylin lämpötila");
+	require("öiden alin lämpötila");
+	require("on");
+	require("noin");
+	require("astetta");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test TemperatureStory::weekly_averages()
+   */
+  // ----------------------------------------------------------------------
+
+  void temperature_weekly_averages()
+  {
+	require("päivälämpötila");
+	require("yölämpötila");
+	require("on");
+	require("noin");
+	require("astetta");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test TemperatureStory::weekly_averages_trend()
+   */
+  // ----------------------------------------------------------------------
+
+  void temperature_weekly_averages_trend()
+  {
+	require("päivälämpötila");
+	require("yölämpötila");
+	require("on");
+	require("noin");
+	require("astetta");
+	require("aluksi");
+	require("lopuksi");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief PrecipitationStory::total() requirements
    */
   // ----------------------------------------------------------------------
@@ -302,6 +355,9 @@ namespace StoryPhrasesTest
 	  TEST(temperature_meanmin);
 	  TEST(temperature_dailymax);
 	  TEST(temperature_nightlymin);
+	  TEST(temperature_weekly_minmax);
+	  TEST(temperature_weekly_averages);
+	  TEST(temperature_weekly_averages_trend);
 
 	  TEST(precipitation_total);
 	  TEST(precipitation_range);
