@@ -134,8 +134,11 @@ namespace TextGen
 
   Sentence & Sentence::operator<<(const string & thePhrase)
   {
-	shared_ptr<Phrase> phrase(new Phrase(thePhrase));
-	itsData.push_back(phrase);
+	if(!thePhrase.empty())
+	  {
+		shared_ptr<Phrase> phrase(new Phrase(thePhrase));
+		itsData.push_back(phrase);
+	  }
 	return *this;
   }
 
