@@ -7,6 +7,7 @@
 
 #include "StoryFactory.h"
 #include "AnalysisSources.h"
+#include "Delimiter.h"
 #include "Paragraph.h"
 #include "PrecipitationStory.h"
 #include "TemperatureStory.h"
@@ -43,6 +44,12 @@ namespace TextGen
 	  if(theName == "none")
 		{
 		  Paragraph paragraph;
+		  return paragraph;
+		}
+	  if(theName == "break")
+		{
+		  Paragraph paragraph;
+		  paragraph << Delimiter("\n");
 		  return paragraph;
 		}
 
