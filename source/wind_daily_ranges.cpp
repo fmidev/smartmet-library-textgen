@@ -502,7 +502,8 @@ namespace TextGen
 			  
 			  if(!similar_speeds23)
 				{
-				  sentence << PeriodPhraseFactory::create("next_day",
+				  sentence << Delimiter(",")
+						   << PeriodPhraseFactory::create("next_day",
 														  itsVar,
 														  itsForecastTime,
 														  periods[2])
