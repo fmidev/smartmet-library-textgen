@@ -126,6 +126,190 @@ p‰iv‰n algoritmista.
   -# Muuten samanlaisia p‰ivi‰ on v‰hint‰‰n kolme, muttei loppuun asti
     -# Yhdistet‰‰n aikafraasit "alkaen"-tyyppiseksi
 
+\subsection subsection_cloudiness_overview_similarity Tarinoiden samanlaisuus
+
+Kahden p‰iv‰n pilvisyyskuvaus voi olla niin samankaltainen, ett‰
+ne kannattaa yhdist‰‰ yhdeksi ennusteen selkeytt‰miseksi.
+
+Alla on lueteltu kaikki mahdolliset tarinat. Tarinat on lueteltu
+suunnilleen j‰rjestyksess‰ pilvisest‰ selke‰‰n yhdistelyn
+hahmottamiseksi.
+
+ -# pilvist‰
+ -# pilvistyv‰‰
+ -# enimm‰kseen pilvist‰
+ -# pilvist‰ tai puolipilvist‰
+ -# enimm‰kseen puolipilvist‰
+ -# vaihtelevaa pilvisyytt‰
+ -# puolipilvist‰
+ -# selke‰‰ tai puolipilvist‰
+ -# enimm‰kseen selke‰‰
+ -# selkenev‰‰
+ -# selke‰‰
+
+Alla olevassa taulukossa pystysarake esitt‰‰ ensimm‰isen p‰iv‰n
+pilvisyytt‰, vaakasarake toisen p‰iv‰n pilvisyytt‰. N‰ille
+on mahdollista k‰ytt‰‰ taulukon mukaisia yhdistelmi‰.
+
+<table border="1" cellspacing="0" cellpadding="1">
+<tr>
+<td></td><td>pilvist‰</td><td>pilvistyv‰‰</td><td>enimm‰kseen pilvist‰</td><td>pilvist‰ tai puolipilvist‰</td><td>enimm‰kseen puolipilvist‰</td><td>vaihtelevaa pilvisyytt‰</td><td>puolipilvist‰</td><td>selke‰‰ tai puolipilvist‰</td><td>enimm‰kseen selke‰‰</td><td>selkenev‰‰</td><td>selke‰‰ </td></tr>
+<tr>
+<td>pilvist‰</td>
+<td>=</td>
+<td>-</td>
+<td>enimm‰kseen pilvist‰</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>pilvistyv‰‰</td>
+<td>pilvistyv‰‰</td>
+<td>=</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>enimm‰kseen pilvist‰</td>
+<td>enimm‰kseen pilvist‰</td>
+<td>-</td>
+<td>=</td>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>-</td>
+<td>-</td>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>=</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>enimm‰kseen puolipilvist‰</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>=</td>
+<td>-</td>
+<td>enimm‰kseen puolipilvist‰</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>=</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>puolipilvist‰</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>enimm‰kseen puolipilvist‰</td>
+<td>-</td>
+<td>=</td>
+<td>selke‰‰ tai puolipilvist‰</td>
+<td>enimm‰kseen selke‰‰</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>selke‰‰ tai puolipilvist‰</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>selke‰‰ tai puolipilvist‰</td>
+<td>=</td>
+<td>enimm‰kseen selke‰‰</td>
+<td>-</td>
+<td>selke‰‰ tai puolipilvist‰</td>
+</tr>
+<tr>
+<td>enimm‰kseen selke‰‰</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>enimm‰kseen selke‰‰</td>
+<td>=</td>
+<td>-</td>
+<td>enimm‰kseen selke‰‰</td>
+</tr>
+<tr>
+<td>selkenev‰‰</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>=</td>
+<td>selkenev‰‰</td>
+</tr>
+<tr>
+<td>selke‰‰</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>enimm‰kseen selke‰‰</td>
+<td>-</td>
+<td>=</td>
+</tr>
+</table>
+
 \section section_cloudiness_overview_phrases Tarvittavat fraasit
 
 Tarvittavat fraasit ovat
