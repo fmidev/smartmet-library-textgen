@@ -21,18 +21,18 @@ Englanniksi
 
 Jos intervalli on pienempi kuin
 \code
-textgen::[kappale]::story::temperature_weekly_minmax::mininterval = [1-]
+textgen::[kappale]::story::temperature_weekly_minmax::mininterval = [1-] (default=2)
 \endcode
 typistetään intervalli yhdeksi noin-lukemaksi.
 Jos muuttuja
 \code
-textgen::[kappale]::story::temperature_weekly_minmax::always_interval_zero = [bool]
+textgen::[kappale]::story::temperature_weekly_minmax::always_interval_zero = [bool] (default = false)
 \endcode
 on true, intervallit joihin lukema 0 kuuluu esitetään aina
 intervallina, jos ala- ja ylärajat eroavat asteenkaan.
 Jos muuttuja
 \code
-textgen::[kappale]::story::temperature_weekly_minmax::emphasize_night_minimum = [bool]
+textgen::[kappale]::story::temperature_weekly_minmax::emphasize_night_minimum = [bool] (default=false)
 \endcode
 arvo on true, ei yön alimmalle lämpötilalle esitetä ylärajaa.
 
@@ -54,6 +54,17 @@ textgen::[kappale]::story::temperature_weekly_minmax::day::starthour = 6
 textgen::[kappale]::story::temperature_weekly_minmax::day::endhour = 18
 textgen::[kappale]::story::temperature_weekly_minmax::night::starthour = 18
 textgen::[kappale]::story::temperature_weekly_minmax::night::endhour = 6
+\endcode
+
+Laskujen tulokset voi korvata muuttujilla
+\code
+textgen::[kappale]::story::temperature_weekly_minmax::day::minimum = [result]
+textgen::[kappale]::story::temperature_weekly_minmax::day::maximum = [result]
+textgen::[kappale]::story::temperature_weekly_minmax::day::mean = [result]
+
+textgen::[kappale]::story::temperature_weekly_minmax::night::minimum = [result]
+textgen::[kappale]::story::temperature_weekly_minmax::night:maximum = [result]
+textgen::[kappale]::story::temperature_weekly_minmax::night::mean = [result]
 \endcode
 
 Tarvittavat fraasit ovat
