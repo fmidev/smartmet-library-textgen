@@ -34,9 +34,9 @@ namespace TextGen
 	static bool hasStory(const std::string & theName);
 	Paragraph makeStory(const std::string & theName) const;
 
-	Paragraph total(void) const;
-
   private:
+
+	Paragraph total(void) const;
 
 	PrecipitationStory();
 	PrecipitationStory(const PrecipitationStory & theStory);

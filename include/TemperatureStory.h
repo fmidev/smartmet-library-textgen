@@ -9,6 +9,7 @@
  *
  * \brief Generates stories on temperature
  *
+ * \see page_tarinat
  */
 // ======================================================================
 
@@ -36,11 +37,11 @@ namespace TextGen
 	static bool hasStory(const std::string & theName);
 	Paragraph makeStory(const std::string & theName) const;
 
+  private:
+
 	Paragraph mean(void) const;
 	Paragraph meanmax(void) const;
 	Paragraph meanmin(void) const;
-
-  private:
 
 	TemperatureStory();
 	TemperatureStory(const TemperatureStory & theStory);
