@@ -192,6 +192,8 @@ namespace TextGen
 	 * \code
 	 * ::shower_limit = [0-100] (=80)
 	 * \endcode
+	 *
+	 * \todo "sadekuuroja" prompti pitää lisätä
 	 */
 	// ----------------------------------------------------------------------
 
@@ -323,7 +325,7 @@ namespace TextGen
 				else if(strength.value() >= hard_limit)
 				  sentence << "ajoittain" << "voimakkaita kuuroja";
 				else
-				  sentence << "sadetta";	// Sopiva prompti puuttuu!!!
+				  sentence << "sadetta";	// "sadekuuroja" prompti puuttuu!
 			  }
 			else
 			  {
@@ -345,7 +347,10 @@ namespace TextGen
 		case WATER_SLEET:
 		  {
 			log << "Rain type is WATER_SLEET" << endl;
-			sentence << "räntä-" << "tai" << "vesisadetta";
+			if(water.value() >= sleet.value())
+			  sentence << "vesi-" << "tai" << "räntäsadetta";
+			else
+			  sentence << "räntä-" << "tai" << "vesisadetta";
 			break;
 		  }
 		case SNOW:
@@ -354,7 +359,7 @@ namespace TextGen
 			if(has_showers)
 			  {
 				if(strength.value() < weak_limit)
-				  sentence << "lumikuuroja";	// Sopiva prompti puuttuu!
+				  sentence << "lumikuuroja";	// Sopiva prompti "vähäisiä lumikuuroja" puuttuu!
 				else if(strength.value() >= hard_limit)
 				  sentence << "sakeita lumikuuroja";
 				else
@@ -394,7 +399,10 @@ namespace TextGen
 				  sentence << "heikkoa";
 				else if(strength.value() >= hard_limit)
 				  sentence << "ajoittain" << "kovaa";
-				sentence << "vesi-" << "tai" << "lumisadetta";
+				if(water.value() >= snow.value())
+				  sentence << "vesi-" << "tai" << "lumisadetta";
+				else
+				  sentence << "lumi-" << "tai" << "vesisadetta";
 			  }
 			break;
 		  }
@@ -417,7 +425,12 @@ namespace TextGen
 				else if(strength.value() >= hard_limit)
 				  sentence << "sakeaa lumisadetta" << "tai" << "räntäsadetta";
 				else
-				  sentence << "räntä-" << "tai" << "lumisadetta";
+				  {
+					if(snow.value() >= sleet.value())
+					  sentence << "lumi-" << "tai" << "räntäsadetta";
+					else
+					  sentence << "räntä-" << "tai" << "lumisadetta";
+				  }
 			  }
 			break;
 		  }
