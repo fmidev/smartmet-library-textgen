@@ -290,6 +290,96 @@ namespace StoryPhrasesTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief WindStory::overview() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void wind_overview()
+  {
+	require("m/s");
+	require("metriä sekunnissa");
+	require("tyyntä");
+	require("heikkoa");
+	require("kohtalaista");
+	require("navakkaa");
+	require("kovaa");
+	require("myrskyä");
+	require("hirmumyrskyä");
+	require("tyyneksi");
+	require("heikoksi");
+	require("kohtalaiseksi");
+	require("navakaksi");
+	require("kovaksi");
+	require("myrskyksi");
+	require("hirmumyrskyksi");
+	require("tuuli");
+	require("tuulta");
+	require("yöllä");
+	require("tuuli tyyntyy");
+	require("tuuli heikkenee");
+	require("tuuli voimistuu");
+	require("edelleen");
+	require("heikkenevää");
+	require("voimistuvaa");
+	require("suunnaltaan vaihtelevaa");
+
+	require("1-tuulta","pohjoistuulta");
+	require("2-tuulta","koillistuulta");
+	require("3-tuulta","itätuulta");
+	require("4-tuulta","kaakkoistuulta");
+	require("5-tuulta","etelätuulta");
+	require("6-tuulta","lounaistuulta");
+	require("7-tuulta","länsituulta");
+	require("8-tuulta","luoteistuulta");
+
+	require("1-tuuleksi","pohjoistuuleksi");
+	require("2-tuuleksi","koillistuuleksi");
+	require("3-tuuleksi","itätuuleksi");
+	require("4-tuuleksi","kaakkoistuuleksi");
+	require("5-tuuleksi","etelätuuleksi");
+	require("6-tuuleksi","lounaistuuleksi");
+	require("7-tuuleksi","länsituuleksi");
+	require("8-tuuleksi","luoteistuuleksi");
+
+	require("1-puoleista tuulta","pohjoisen puoleista tuulta");
+	require("2-puoleista tuulta","koillisen puoleista tuulta");
+	require("3-puoleista tuulta","idän puoleista tuulta");
+	require("4-puoleista tuulta","kaakon puoleista tuulta");
+	require("5-puoleista tuulta","etelän puoleista tuulta");
+	require("6-puoleista tuulta","lounaan puoleista tuulta");
+	require("7-puoleista tuulta","lännen puoleista tuulta");
+	require("8-puoleista tuulta","luoteen puoleista tuulta");
+
+	require("1-puoleiseksi tuuleksi","pohjoisen puoleiseksi tuuleksi");
+	require("2-puoleiseksi tuuleksi","koillisen puoleiseksi tuuleksi");
+	require("3-puoleiseksi tuuleksi","idän puoleiseksi tuuleksi");
+	require("4-puoleiseksi tuuleksi","kaakon puoleiseksi tuuleksi");
+	require("5-puoleiseksi tuuleksi","etelän puoleiseksi tuuleksi");
+	require("6-puoleiseksi tuuleksi","lounaan puoleiseksi tuuleksi");
+	require("7-puoleiseksi tuuleksi","lännen puoleiseksi tuuleksi");
+	require("8-puoleiseksi tuuleksi","luoteen puoleiseksi tuuleksi");
+
+	require("1-na","maanantaina");
+	require("2-na","tiistaina");
+	require("3-na","keskiviikkona");
+	require("4-na","torstaina");
+	require("5-na","perjantaina");
+	require("6-na","lauantaina");
+	require("7-na","sunnuntaina");
+
+	require("1-alkaen","maanantaista alkaen");
+	require("2-alkaen","tiistaista alkaen");
+	require("3-alkaen","keskiviikosta alkaen");
+	require("4-alkaen","torstaista alkaen");
+	require("5-alkaen","perjantaista alkaen");
+	require("6-alkaen","lauantaista alkaen");
+	require("7-alkaen","sunnuntaista alkaen");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief FrostStory::mean() requirements
    */
   // ----------------------------------------------------------------------
@@ -401,6 +491,8 @@ namespace StoryPhrasesTest
 	  TEST(precipitation_classification);
 
 	  TEST(weather_shortoverview);
+
+	  TEST(wind_overview);
 
 	  TEST(frost_mean);
 	  TEST(frost_maximum);
