@@ -7,6 +7,7 @@
 
 #include "WeatherResult.h"
 #include <cassert>
+#include <iostream>
 
 namespace WeatherAnalysis
 {
@@ -94,6 +95,29 @@ bool operator!=(const WeatherAnalysis::WeatherResult & theLhs,
 				const WeatherAnalysis::WeatherResult & theRhs)
 {
   return !(theLhs == theRhs);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Output operator for WeatherResult
+ *
+ * This is intended for logging results to MessageLogger instances.
+ *
+ * \param theResult The result to output
+ * \param theOutput The output stream
+ * \return The output stream
+ */
+// ----------------------------------------------------------------------
+
+std::ostream & operator<<(std::ostream & theOutput,
+						  const WeatherAnalysis::WeatherResult & theResult)
+{
+  theOutput << '('
+			<< theResult.value()
+			<< ','
+			<< theResult.accuracy()
+			<< ')';
+  return theOutput;
 }
 
 // ======================================================================

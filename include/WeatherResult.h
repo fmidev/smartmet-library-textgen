@@ -21,6 +21,8 @@
 #ifndef WEATHERANALYSIS_WEATHERRESULT_H
 #define WEATHERANALYSIS_WEATHERRESULT_H
 
+#include <iosfwd>
+
 namespace WeatherAnalysis
 {
   class WeatherResult
@@ -55,6 +57,10 @@ bool operator==(const WeatherAnalysis::WeatherResult & theLhs,
 
 bool operator!=(const WeatherAnalysis::WeatherResult & theLhs,
 				const WeatherAnalysis::WeatherResult & theRhs);
+
+std::ostream & operator<<(std::ostream & theOutput,
+						  const WeatherAnalysis::WeatherResult & theResult);
+
 
 #endif // WEATHERANALYSIS_WEATHERRESULT_H
 
