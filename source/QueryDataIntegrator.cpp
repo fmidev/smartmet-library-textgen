@@ -255,10 +255,14 @@ namespace WeatherAnalysis
 	  if(theIndexMask.empty())
 		return kFloatMissing;
 	  
-	  if(!QueryDataTools::firstTime(theQI,theStartTime))
-		return kFloatMissing;
+	  unsigned long startindex, endindex;
 
-	  const unsigned long timeindex = theQI.TimeIndex();
+	  if(!QueryDataTools::findIndices(theQI,
+									  theStartTime,
+									  theEndTime,
+									  startindex,
+									  endindex))
+		return kFloatMissing;
 
 	  for(NFmiIndexMask::const_iterator it = theIndexMask.begin();
 		  it != theIndexMask.end();
@@ -266,7 +270,7 @@ namespace WeatherAnalysis
 		{
 		  theTimeCalculator.reset();
 		  
-		  theQI.TimeIndex(timeindex);
+		  theQI.TimeIndex(startindex);
 		  
 		  do
 			{
@@ -279,7 +283,7 @@ namespace WeatherAnalysis
 			  
 			  theTimeCalculator(tmp);
 			}
-		  while(theQI.NextTime() && theQI.Time()<=theEndTime);
+		  while(theQI.NextTime() && theQI.TimeIndex()<endindex);
 		  
 		  const float timeresult = theTimeCalculator();
 		  theSpaceCalculator(timeresult);

@@ -15,7 +15,14 @@ namespace WeatherAnalysis
 {
   namespace QueryDataTools
   {
-	bool firstTime(NFmiFastQueryInfo & theQI,const NFmiTime & theTime);
+	bool findIndices(NFmiFastQueryInfo & theQI,
+					 const NFmiTime & theStartTime,
+					 const NFmiTime & theEndTime,
+					 unsigned long & theStartIndex,
+					 unsigned long & theEndIndex);
+
+	bool firstTime(NFmiFastQueryInfo & theQI,
+				   const NFmiTime & theTime);
   }
 }
 

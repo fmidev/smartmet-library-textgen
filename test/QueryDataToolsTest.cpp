@@ -37,6 +37,40 @@ namespace QueryDataToolsTest
 	TEST_PASSED();
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test QueryDataTools::findIndices
+   */
+  // ----------------------------------------------------------------------
+
+  void findIndices()
+  {
+	using WeatherAnalysis::QueryDataTools::findIndices;
+
+	// The data has timesteps from 200308140600 to 200308220900
+	NFmiStreamQueryData qd;
+	if(!qd.ReadData("data/skandinavia_pinta.sqd"))
+	  throw runtime_error("Reading data/skandinavia_pinta.sqd failed");
+
+	NFmiFastQueryInfo * qi = qd.QueryInfoIter();
+
+	unsigned long startindex, endindex;
+
+	if(!findIndices(*qi,
+					NFmiTime(2003,8,15),
+					NFmiTime(2003,8,16),
+					startindex,
+					endindex))
+	  TEST_FAILED("Should succeed for 15.08.2003-16.08.2003");
+
+	if(startindex != 21)
+	  TEST_FAILED("Failed to get start index 21 for 15.08.2003 00:00");
+	if(endindex != 21 + 25)
+	  TEST_FAILED("Failed to get end index 46 for 16.08.2003 00:00");
+
+	TEST_PASSED();
+  }
+
   //! The actual test driver
   class tests : public tframe::tests
   {
@@ -50,6 +84,7 @@ namespace QueryDataToolsTest
 	void test(void)
 	{
 	  TEST(firstTime);
+	  TEST(findIndices);
 	}
 
   }; // class tests
