@@ -38,7 +38,7 @@ namespace
   // ----------------------------------------------------------------------
 
   TextGen::Header header_none(const WeatherPeriod & thePeriod,
-							   const string & theVariable)
+							  const string & theVariable)
   {
 	using namespace TextGen;
 	Header header;
