@@ -497,6 +497,22 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   */
+  // ----------------------------------------------------------------------
+
+  Sentence cloudiness_phrase(const AnalysisSources & theSources,
+							 const WeatherArea & theArea,
+							 const WeatherPeriod & thePeriod,
+							 const string & theVar,
+							 int theDay)
+  {
+	Sentence s;
+	s << "enimmäkseen" << "pilvistä";
+	return s;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Generate the "in some place places" story
    *
    * The used variables are
@@ -602,11 +618,14 @@ namespace TextGen
 		// [Aamulla] [paikoin] [sadetta], [aamulla] [enimmäkseen selkeää] ja poutaa
 	  case 2:
 		{
+		  WeatherPeriod cperiod(theRainPeriod.localEndTime(),
+								thePeriod.localEndTime());
 		  s << one_day_cases[idx].phrase1;
 		  s << in_places(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase2;
+		  s << cloudiness_phrase(theSources,theArea,cperiod,theVar,theDay);
 		  s << "enimmäkseen" << "selkeää";
 		  s << "ja" << "poutaa";
 		  break;
@@ -625,7 +644,7 @@ namespace TextGen
 		// [Enimmäkseen selkeää], [aamulla] [paikoin] [sadetta]
 	  case 4:
 		{
-		  s << "enimmäkseen" << "selkeää";
+		  s << cloudiness_phrase(theSources,theArea,thePeriod,theVar,theDay);
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase1;
 		  s << in_places(theSources,theArea,theRainPeriod,theVar,theDay);
