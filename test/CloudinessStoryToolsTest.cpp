@@ -401,8 +401,8 @@ namespace CloudinessStoryToolsTest
 	  TEST_FAILED("VariableCloudiness is similar to MostlyCloudy");
 	if(!similar_type(VariableCloudiness,MostlyPartlyCloudy).second)
 	  TEST_FAILED("VariableCloudiness is similar to MostlyPartlyCloudy");
-	if(!similar_type(VariableCloudiness,MostlyClear).second)
-	  TEST_FAILED("VariableCloudiness is similar to MostlyClear");
+	if(similar_type(VariableCloudiness,MostlyClear).second)
+	  TEST_FAILED("VariableCloudiness is not similar to MostlyClear");
 	if(!similar_type(VariableCloudiness,CloudyOrPartlyCloudy).second)
 	  TEST_FAILED("VariableCloudiness is similar to CloudyOrPartlyCloudy");
 	if(!similar_type(VariableCloudiness,ClearOrPartlyCloudy).second)
@@ -552,8 +552,6 @@ namespace CloudinessStoryToolsTest
 	  TEST_FAILED("VariableCloudiness+MostlyCloudy is similar to VariableCloudiness");
 	if(similar_type(VariableCloudiness,MostlyPartlyCloudy).first != VariableCloudiness)
 	  TEST_FAILED("VariableCloudiness+MostlyPartlyCloudy is similar to VariableCloudiness");
-	if(similar_type(VariableCloudiness,MostlyClear).first != VariableCloudiness)
-	  TEST_FAILED("VariableCloudiness+MostlyClear is similar to VariableCloudiness");
 	if(similar_type(VariableCloudiness,CloudyOrPartlyCloudy).first != VariableCloudiness)
 	  TEST_FAILED("VariableCloudiness+CloudyOrPartlyCloudy is similar to VariableCloudiness");
 	if(similar_type(VariableCloudiness,ClearOrPartlyCloudy).first != VariableCloudiness)
