@@ -45,9 +45,9 @@ namespace WeatherAnalysis
 
   void SumCalculator::operator()(float theValue)
   {
+	++itsCounter;
 	if(itsAcceptor->accept(theValue))
 	  {
-		++itsCounter;
 		itsSum += theValue;
 	  }
   }
@@ -62,7 +62,10 @@ namespace WeatherAnalysis
 
   float SumCalculator::operator()() const
   {
-	return itsSum;
+	if(itsCounter == 0)
+	  return kFloatMissing;
+	else
+	  return itsSum;
   }
   
   // ----------------------------------------------------------------------
