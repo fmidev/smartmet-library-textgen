@@ -1120,7 +1120,7 @@ INSERT INTO translation_sv VALUES ('tuuli voimistuu','tilltar vinden',2003061113
 INSERT INTO translation_sv VALUES ('vaihtelevaa pilvisyyttä','växlande molnighet',20030530082653,'mheiskan');
 INSERT INTO translation_sv VALUES ('vesisadetta','regn',20030530082705,'mheiskan');
 INSERT INTO translation_sv VALUES ('voimakkaita kuuroja','kraftiga skuror',20030530082717,'mheiskan');
-INSERT INTO translation_sv VALUES ('vähäisiä kuuroja','enstaka skuror',20030530082727,'mheiskan');
+INSERT INTO translation_sv VALUES ('vähäisiä kuuroja','enstaka skurar',20030611140910,'mheiskan');
 INSERT INTO translation_sv VALUES ('vähäistä lumisadetta','lätt snöfall',20030530082738,'mheiskan');
 INSERT INTO translation_sv VALUES ('poutaa','uppehåll',20030530083254,'mheiskan');
 INSERT INTO translation_sv VALUES ('sakeita lumikuuroja','täta snöbyar',20030530083311,'mheiskan');
