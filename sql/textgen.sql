@@ -1097,7 +1097,7 @@ INSERT INTO translation_sv VALUES ('7-puoleista tuulta','vind omkring väst',2003
 INSERT INTO translation_sv VALUES ('8-puoleista tuulta','vind omkring nordväst',20030530080138,'mheiskan');
 INSERT INTO translation_sv VALUES ('ajoittain lumisadetta','tidvis snöfall',20030530082257,'mheiskan');
 INSERT INTO translation_sv VALUES ('ajoittain sadetta','tidvis regn',20030530082311,'mheiskan');
-INSERT INTO translation_sv VALUES ('ajoittain sateista','tidvis regnig',20030530082322,'mheiskan');
+INSERT INTO translation_sv VALUES ('ajoittain sateista','tidvis regnigt',20030611133456,'mheiskan');
 INSERT INTO translation_sv VALUES ('ajoittain ukkosta','tidvis åska',20030530082330,'mheiskan');
 INSERT INTO translation_sv VALUES ('heikkoa sadetta','lätt regn',20030530082339,'mheiskan');
 INSERT INTO translation_sv VALUES ('lumikuuroja','snöbyar',20030530082351,'mheiskan');
