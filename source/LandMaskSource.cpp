@@ -150,7 +150,9 @@ namespace WeatherAnalysis
    * \brief Create a new weather area
    *
    * \param theArea The area
+   * \param theData The data name
    * \param theWeatherSource The weather source
+   * \param useLandMask True if land mask is to be used
    * \return The mask
    */
   // ----------------------------------------------------------------------
@@ -195,6 +197,7 @@ namespace WeatherAnalysis
    * Note that default constructor is disabled on purpose.
    *
    * \param theMapSource The sharable map source
+   * \param theLandMapName The name of the land map
    * \param theExpansionDistance The fixed expansion distance for each area
    */
   // ----------------------------------------------------------------------

@@ -148,6 +148,7 @@ namespace WeatherAnalysis
    * \brief Create a new weather area
    *
    * \param theArea The area
+   * \param theData The data name
    * \param theWeatherSource The weather source
    * \return The mask
    */

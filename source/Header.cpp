@@ -105,7 +105,7 @@ namespace TextGen
   /*!
    * \brief Add a number to a header with automatic conversion
    *
-   * \param thePhrase The integer initializer for the number
+   * \param theNumber The integer initializer for the number
    * \return The header added to
    */
   // ----------------------------------------------------------------------

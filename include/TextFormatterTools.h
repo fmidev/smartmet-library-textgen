@@ -23,9 +23,11 @@ namespace TextGen
 	/*!
 	 * \brief Realize the given Glyphs and join them
 	 *
-	 * \param theBegin The begin iterator
-	 * \param theEnd The end iterator
-	 * \param theSeparator The string joining the parts
+	 * \param it The begin iterator
+	 * \param end The end iterator
+	 * \param theFormatter The text formatter
+	 * \param thePrefix The string joining prefix
+	 * \param theSuffix The string joining prefix
 	 * \return The realized string
 	 */
 	// ----------------------------------------------------------------------

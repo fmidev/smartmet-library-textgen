@@ -133,7 +133,7 @@ namespace TextGen
   /*!
    * \brief Add a number to a sentence with automatic conversion
    *
-   * \param thePhrase The integer initializer for the number
+   * \param theNumber The integer initializer for the number
    * \return The sentence added to
    */
   // ----------------------------------------------------------------------
