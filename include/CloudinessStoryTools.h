@@ -8,6 +8,9 @@
 #ifndef TEXTGEN_CLOUDINESSSTORYTOOLS_H
 #define TEXTGEN_CLOUDINESSSTORYTOOLS_H
 
+#include <string>
+#include <utility>
+
 namespace TextGen
 {
   namespace CloudinessStoryTools
@@ -35,6 +38,8 @@ namespace TextGen
 		IncreasingCloudiness,	//!< pilvistyvää
 		VariableCloudiness		//!< vaihtelevaa pilvisyyttä
 	  };
+
+	std::pair<CloudinessType,bool> similar(CloudinessType theType1, CloudinessType theType2);
 
 
   } // namespace CloudinessStoryTools
