@@ -156,13 +156,8 @@ private:
 };
 
 
-#ifdef UNIX
 template<class char_type ,
 		 class CharTraits>
-#else
-template<class char_type = char,
-		 class CharTraits = std::char_traits<char_type> >
-#endif
 class MessageLoggerStream 
   : public std::basic_ostream<char_type, CharTraits>
 {
