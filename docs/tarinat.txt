@@ -13,7 +13,7 @@
  <li>\ref page_story_temperature_dailymax</li>
  <li>\ref page_story_temperature_nightlymin</li>
  <li>\ref page_story_temperature_weekly_minmax</li>
- <li>\ref page_story_temperature_weekly_averages (puuttuu)</li>
+ <li>\ref page_story_temperature_weekly_averages</li>
  <li>\ref page_story_temperature_weekly_averages_trend (puuttuu)</li>
  </ol>
 <li>\ref sec_precipitationstory</li>
