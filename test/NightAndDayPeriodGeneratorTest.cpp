@@ -5,7 +5,7 @@
 
 using namespace std;
 
-namespace WeatherPeriodToolsTest
+namespace NightAndDayPeriodGeneratorTest
 {
 
   // ----------------------------------------------------------------------
@@ -171,7 +171,7 @@ namespace WeatherPeriodToolsTest
 
   }; // class tests
 
-} // namespace WeatherPeriodToolsTest
+} // namespace NightAndDayPeriodGeneratorTest
 
 
 int main(void)
@@ -179,6 +179,6 @@ int main(void)
   cout << endl
 	   << "NightAndDayPeriodGenerator tester" << endl
 	   << "=================================" << endl;
-  WeatherPeriodToolsTest::tests t;
+  NightAndDayPeriodGeneratorTest::tests t;
   return t.run();
 }
