@@ -33,11 +33,8 @@ namespace WeatherAnalysis
 	  Minimum,
 	  Mean,
 	  StandardDeviation,
-	  Probability,
-	  MaxMinimum,
-	  MinMaximum,
-	  MeanMinimum,
-	  MeanMaximum
+	  Probability
+
 	}; // enum Weatherfunction
 
 } // namespace WeatherAnalysis
