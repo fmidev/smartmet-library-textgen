@@ -26,8 +26,6 @@ namespace WeatherAnalysis
   enum WeatherParameter
 	{
 	  Temperature,
-	  MaxTemperature,
-	  MinTemperature,
 	  Precipitation,
 	  Frost,
 	  SevereFrost,
