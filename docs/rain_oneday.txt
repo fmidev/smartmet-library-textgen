@@ -2124,14 +2124,13 @@ Alla on lueteltu kaikki uniikit tarinat numeroituina.
 <tr><td>27.</td><td>[Paikoin] [sadetta], illalla poutaa</td></tr>
 <tr><td>28.</td><td>[Paikoin] [sadetta], iltapäivästä alkaen poutaa</td></tr>
 <tr><td>29.</td><td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
-<tr><td>30.</td><td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää],  poutaa</td></tr>
-<tr><td>31.</td><td>[Paikoin] [sadetta]</td></tr>
-<tr><td>32.</td><td>Päivällä [paikoin] [sadetta], iltapäivästä alkaen poutaa</td></tr>
-<tr><td>33.</td><td>Päivällä [paikoin] [sadetta]</td></tr>
-<tr><td>34.</td><td>Yöllä [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
-<tr><td>35.</td><td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
-<tr><td>36.</td><td>Yöllä [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
-<tr><td>37.</td><td>Yöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>30.</td><td>[Paikoin] [sadetta]</td></tr>
+<tr><td>31.</td><td>Päivällä [paikoin] [sadetta], iltapäivästä alkaen poutaa</td></tr>
+<tr><td>32.</td><td>Päivällä [paikoin] [sadetta]</td></tr>
+<tr><td>33.</td><td>Yöllä [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>34.</td><td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>35.</td><td>Yöllä [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>36.</td><td>Yöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td></tr>
 </table>
 \endhtmlonly
 
