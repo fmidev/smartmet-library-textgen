@@ -43,12 +43,12 @@ Aikafraasit ovat tyyppi‰ \ref sec_periodifraasit_today ja
 \ref sec_periodifraasit_next_day. Niihin liittyvi‰ asetuksia
 kontrolloidaan muuttujilla
 \code
-textgen::[kappale]::story::relativehumidity_lowest::today::timephrases
-textgen::[kappale]::story::relativehumidity_lowest::next_day::timephrases
+textgen::[kappale]::story::relativehumidity_lowest::today::phrases
+textgen::[kappale]::story::relativehumidity_lowest::next_day::phrases
 \endcode
 Tyypillisi‰ asetuksia ovat esimerkiksi
 \code
-textgen::[kappale]::story::relativehumidity_lowest::next_day::timephrases = followingday
+textgen::[kappale]::story::relativehumidity_lowest::next_day::phrases = followingday
 \endcode
 
 P‰iv‰n m‰‰ritelm‰ saadaan muuttujista
@@ -102,7 +102,7 @@ Tarvittavat fraasit ovat
  - "pienempi" 
  - "huomattavasti pienempi"
 
-Lis‰ksi tarvitaan periodifraasit \ref sec_periodifreaasit_today ja
+Lis‰ksi tarvitaan periodifraasit \ref sec_periodifraasit_today ja
 \ref sec_periodifraasit_next_day.
 
 Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:

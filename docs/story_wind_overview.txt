@@ -54,11 +54,11 @@ Mahdolliset tarinat tällä "jatketulle" yöjaksolle ovat
 Aikafraasin tyyppi on \ref sec_periodifraasit_until_morning, jota
 kontrolloidaan muuttujalla
 \code
-textgen::[kappale]::story::wind_overview::until_morning::timephrases
+textgen::[kappale]::story::wind_overview::until_morning::phrases
 \endcode
 Sopiva arvo muuttujalle on esimerkiksi
 \code
-textgen::[kappale]::story::wind_overview::until_morning::timephrases = atnight,weekday
+textgen::[kappale]::story::wind_overview::until_morning::phrases = atnight,weekday
 \endcode
 koska fraasia "ensi yönä" (tonight) ei välttämättä haluta käyttää,
 "yöllä" (atnight) sopinee tilanteeseen paremmin.
@@ -99,11 +99,11 @@ muuttujalla
 Aikafraasin tyyppi on \ref sec_periodifraasit_until_tonight, jota
 kontrolloidaan muuttujalla
 \code
-textgen::[kappale]::story::wind_overview::until_tonight::timephrases
+textgen::[kappale]::story::wind_overview::until_tonight::phrases
 \endcode
 Suositeltava arvo on esimerkiksi
 \code
-textgen::[kappale]::story::wind_overview::until_tonight::timephrases = atday,weekday
+textgen::[kappale]::story::wind_overview::until_tonight::phrases = atday,weekday
 \endcode
 
 Lisäksi tuotetaan sivulause yön tuulesta, joka on muotoa
@@ -118,11 +118,11 @@ Lisäksi tuotetaan sivulause yön tuulesta, joka on muotoa
 Sivulaiseen aikafraasi on tyyppiä \ref sec_periodifraasit_tonight,
 jota kontrolloidaan muuttujalla
 \code
-textgen::[kappale]::story::wind_overview::tonight::timephrases
+textgen::[kappale]::story::wind_overview::tonight::phrases
 \endcode
 Suositeltava arvo on esimerkiksi
 \code
-textgen::[kappale]::story::wind_overview::tonight::timephrases = atnight,weekday
+textgen::[kappale]::story::wind_overview::tonight::phrases = atnight,weekday
 \endcode
 Tässä yhteydessä olisi myös mahdollista käyttää fraasia "ensi yönä"
 (tonight), joka ei ollut suositeltavaa päiväosan puuttuessa.
@@ -153,11 +153,11 @@ Toisen päivän tarinan muoto on
 Aikafraasi on tyyppiä \ref sec_periodifraasit_next_day, jota kontrolloidaan
 muuttujalla
 \code
-textgen::[kappale]::story::wind_overview::next_day::timephrases
+textgen::[kappale]::story::wind_overview::next_day::phrases
 \endcode
 Suositeltava arvo on esimerkiksi
 \code
-textgen::[kappale]::story::wind_overview::next_day::timephrases = tomorrow,followingday
+textgen::[kappale]::story::wind_overview::next_day::phrases = tomorrow,followingday
 \endcode
 
 \subsection subsection_wind_overview_partx Loput päivät
@@ -179,11 +179,11 @@ Tästä loppuajasta kerrotaan yhdelle virkkeellä tai sivulauseella.
 Aikafraasi on tyyppiä \ref sec_periodifraasit_next_days, jota kontrolloidaan
 muuttujalla
 \code
-textgen::[kappale]::story::wind_overview::next_days::timephrases
+textgen::[kappale]::story::wind_overview::next_days::phrases
 \endcode
 Suositeltava arvo on esimerkiksi
 \code
-textgen::[kappale]::story::wind_overview::next_days::timephrases = tomorrow,weekday
+textgen::[kappale]::story::wind_overview::next_days::phrases = tomorrow,weekday
 \endcode
 
 \section section_wind_overview_algorithm Algoritmit

@@ -166,7 +166,7 @@ namespace TextGen
 	  using WeekdayTools::on_weekday;
 	  Sentence sentence;
 
-	  const string var = theVariable + "::until_tonight::timephrases";
+	  const string var = theVariable + "::until_tonight::phrases";
 	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("none,today,atday,weekday");
 	  list<string> order = reorder_preferences(preferences,defaults);
@@ -214,7 +214,7 @@ namespace TextGen
 	  using WeekdayTools::night_against_weekday;
 	  Sentence sentence;
 
-	  const string var = theVariable + "::until_morning::timephrases";
+	  const string var = theVariable + "::until_morning::phrases";
 	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("none,tonight,atnight,weekday");
 	  list<string> order = reorder_preferences(preferences,defaults);
@@ -262,7 +262,7 @@ namespace TextGen
 	  using WeekdayTools::on_weekday;
 	  Sentence sentence;
 
-	  const string var = theVariable + "::today::timephrases";
+	  const string var = theVariable + "::today::phrases";
 	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("none,today,tomorrow,atday,weekday");
 	  list<string> order = reorder_preferences(preferences,defaults);
@@ -315,7 +315,7 @@ namespace TextGen
 	  using WeekdayTools::night_against_weekday;
 	  Sentence sentence;
 
-	  const string var = theVariable + "::tonight::timephrases";
+	  const string var = theVariable + "::tonight::phrases";
 	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("none,tonight,atnight,weekday");
 	  list<string> order = reorder_preferences(preferences,defaults);
@@ -363,7 +363,7 @@ namespace TextGen
 	  using WeekdayTools::night_against_weekday;
 	  Sentence sentence;
 
-	  const string var = theVariable + "::next_night::timephrases";
+	  const string var = theVariable + "::next_night::phrases";
 	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("tonight,atnight,followingnight,weekday");
 	  list<string> order = reorder_preferences(preferences,defaults);
@@ -408,7 +408,7 @@ namespace TextGen
 	  using WeekdayTools::on_weekday;
 	  Sentence sentence;
 
-	  const string var = theVariable + "::next_day::timephrases";
+	  const string var = theVariable + "::next_day::phrases";
 	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("tomorrow,followingday,weekday");
 	  list<string> order = reorder_preferences(preferences,defaults);
@@ -448,7 +448,7 @@ namespace TextGen
 	  using WeekdayTools::from_weekday;
 	  Sentence sentence;
 
-	  const string var = theVariable + "::next_days::timephrases";
+	  const string var = theVariable + "::next_days::phrases";
 	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("tomorrow,weekday");
 	  list<string> order = reorder_preferences(preferences,defaults);

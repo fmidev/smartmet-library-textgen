@@ -51,13 +51,13 @@ Aikafraasit ovat tyyppejä \ref sec_periodifraasit_tonight ja
 \ref sec_periodifraasit_next_night. Niihin liittyviä asetuksia
 kontrolloidaan muuttujilla
 \code
-textgen::[kappale]::story::temperature_nightlymin::tonight::timephrases
-textgen::[kappale]::story::temperature_nightlymin::next_night::timephrases
+textgen::[kappale]::story::temperature_nightlymin::tonight::phrases
+textgen::[kappale]::story::temperature_nightlymin::next_night::phrases
 \endcode
 Tyypillisiä asetuksia ovat esimerkiksi
 \code
-textgen::[kappale]::story::temperature_nightlymin::tonight::timephrases = tonight
-textgen::[kappale]::story::temperature_nightlymin::next_night::timephrases = followingnight
+textgen::[kappale]::story::temperature_nightlymin::tonight::phrases = tonight
+textgen::[kappale]::story::temperature_nightlymin::next_night::phrases = followingnight
 \endcode
 
 Komparatiivin valinta perustuu muuttujiin

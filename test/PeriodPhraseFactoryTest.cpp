@@ -63,7 +63,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	const string mode = "until_tonight";
 	const string var = mode;
-	const string phrasesvar = var+"::"+mode+"::timephrases";
+	const string phrasesvar = var+"::"+mode+"::phrases";
 
 	const NFmiTime ftime(day1);
 	const WeatherAnalysis::WeatherPeriod period1(day1,day2);
@@ -132,7 +132,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	const string mode = "until_morning";
 	const string var = mode;
-	const string phrasesvar = var+"::"+mode+"::timephrases";
+	const string phrasesvar = var+"::"+mode+"::phrases";
 
 	const NFmiTime ftime(day1);
 	const WeatherAnalysis::WeatherPeriod period1(day1,day2);
@@ -201,7 +201,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	const string mode = "today";
 	const string var = mode;
-	const string phrasesvar = var+"::"+mode+"::timephrases";
+	const string phrasesvar = var+"::"+mode+"::phrases";
 
 	const NFmiTime ftime(day1);
 	const WeatherAnalysis::WeatherPeriod period1(day1,day2);
@@ -267,7 +267,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	const string mode = "tonight";
 	const string var = mode;
-	const string phrasesvar = var+"::"+mode+"::timephrases";
+	const string phrasesvar = var+"::"+mode+"::phrases";
 
 	const NFmiTime ftime(day1);
 	const WeatherAnalysis::WeatherPeriod period1(day1,day2);
@@ -335,7 +335,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	const string mode = "next_night";
 	const string var = mode;
-	const string phrasesvar = var+"::"+mode+"::timephrases";
+	const string phrasesvar = var+"::"+mode+"::phrases";
 
 	const NFmiTime ftime(day1);
 	const WeatherAnalysis::WeatherPeriod period(day1,day2);
@@ -384,7 +384,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	const string mode = "next_day";
 	const string var = mode;
-	const string phrasesvar = var+"::"+mode+"::timephrases";
+	const string phrasesvar = var+"::"+mode+"::phrases";
 
 	const NFmiTime ftime(day1);
 	const WeatherAnalysis::WeatherPeriod period1(day1,day2);
@@ -444,7 +444,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	const string mode = "next_days";
 	const string var = mode;
-	const string phrasesvar = var+"::"+mode+"::timephrases";
+	const string phrasesvar = var+"::"+mode+"::phrases";
 
 	const NFmiTime ftime(day1);
 	const WeatherAnalysis::WeatherPeriod period1(day1,day2);
