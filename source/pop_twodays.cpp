@@ -9,6 +9,7 @@
 #include "DefaultAcceptor.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
+#include "HourPeriodGenerator.h"
 #include "Integer.h"
 #include "MathTools.h"
 #include "MessageLogger.h"
@@ -18,7 +19,6 @@
 #include "Settings.h"
 #include "TextGenError.h"
 #include "UnitFactory.h"
-#include "WeatherPeriodTools.h"
 #include "WeatherResult.h"
 #include "PeriodPhraseFactory.h"
 
@@ -47,12 +47,6 @@ namespace TextGen
 
 	Paragraph paragraph;
 
-	const int starthour = Settings::optional_hour(itsVar+"::day::starthour",0);
-	const int endhour = Settings::optional_hour(itsVar+"::day::endhour",0);
-
-	const int maxstarthour = Settings::optional_hour(itsVar+"::day::maxstarthour",starthour);
-	const int minendhour   = Settings::optional_hour(itsVar+"::day::minendhour",endhour);
-
 	const int limit     = Settings::require_percentage(itsVar+"::limit");
 	const int precision = Settings::require_percentage(itsVar+"::precision");
 
@@ -63,11 +57,9 @@ namespace TextGen
 	const int limit_somewhat_greater = Settings::require_percentage(itsVar+"::comparison::somewhat_greater");
 	const int limit_somewhat_smaller = Settings::require_percentage(itsVar+"::comparison::somewhat_smaller");
 
-	const int days = WeatherPeriodTools::countPeriods(itsPeriod,
-													  starthour,
-													  endhour,
-													  maxstarthour,
-													  minendhour);
+	HourPeriodGenerator generator(itsPeriod,itsVar+"::day");
+
+	const int days = generator.size();
 
 	if(days<=0)
 	  {
@@ -75,12 +67,7 @@ namespace TextGen
 		return paragraph;
 	  }
 
-	WeatherPeriod firstperiod = WeatherPeriodTools::getPeriod(itsPeriod,
-															  1,
-															  starthour,
-															  endhour,
-															  maxstarthour,
-															  minendhour);
+	WeatherPeriod firstperiod = generator.period(1);
 
 	GridForecaster forecaster;
 
@@ -115,12 +102,7 @@ namespace TextGen
 
 	if(days>=2)
 	  {
-		WeatherPeriod secondperiod = WeatherPeriodTools::getPeriod(itsPeriod,
-																   2,
-																   starthour,
-																   endhour,
-																   maxstarthour,
-																   minendhour);
+		WeatherPeriod secondperiod = generator.period(2);
 
 		WeatherResult result2 = forecaster.analyze(itsVar+"::fake::day2::maximum",
 												   itsSources,
