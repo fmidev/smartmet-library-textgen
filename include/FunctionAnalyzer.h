@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of abstract class WeatherAnalysis::FunctionAnalyzer
+ * \brief Interface of class WeatherAnalysis::FunctionAnalyzer
  */
 // ======================================================================
 /*!
@@ -17,6 +17,8 @@
 
 #include <string>
 
+class NFmiDataModifier;
+
 namespace WeatherAnalysis
 {
   class AnalysisSources;
@@ -31,12 +33,24 @@ namespace WeatherAnalysis
 
 	virtual ~FunctionAnalyzer() { }
 
+	// Note! Has default implementation
 	virtual WeatherResult analyze(const AnalysisSources & theSources,
 								  const WeatherLimits & theLimits,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea,
 								  const std::string & theDataName,
-								  const std::string & theParameterName) const = 0;
+								  const std::string & theParameterName) const;
+
+	// Has no default implementation
+	virtual WeatherResult analyze(const AnalysisSources & theSources,
+								  const WeatherLimits & theLimits,
+								  const WeatherPeriod & thePeriod,
+								  const WeatherArea & theArea,
+								  const std::string & theDataName,
+								  const std::string & theParameterName,
+								  int theInterval,
+								  NFmiDataModifier & theSubModifier) const = 0;
+
   }; // class FunctionAnalyzer
 
 } // namespace WeatherAnalysis
