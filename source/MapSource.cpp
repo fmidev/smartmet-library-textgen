@@ -99,7 +99,7 @@ namespace WeatherAnalysis
 	const string filename = Settings::require_string("textgen::areas::map::"+theName);
 
 	if(!FileExists(filename))
-	  throw WeatherAnalysisError("Map "+theName+" has no respective SVG file");
+	  throw WeatherAnalysisError("The map for area "+theName+" is missing: "+filename);
 	
 	ifstream in(filename.c_str(), ios::in);
 	if(!in)
