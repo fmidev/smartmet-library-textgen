@@ -421,6 +421,7 @@ INSERT INTO translation_en VALUES ('tiepiiri-turku:lle','for Turku road district
 INSERT INTO translation_en VALUES ('tiepiiri-uusimaa:lle','for Uusimaa road district',20031002143923,'mheiskan');
 INSERT INTO translation_en VALUES ('tiepiiri-vaasa:lle','for Vaasa road district',20031002143933,'mheiskan');
 INSERT INTO translation_en VALUES ('tiepiiri-yla-lappi:lle','for Upper Lapland',20031002143944,'mheiskan');
+INSERT INTO translation_en VALUES ('tienpintalämpötila','the road temperature',20031003004916,'mheiskan');
 
 --
 -- Table structure for table 'translation_fi'
@@ -812,6 +813,7 @@ INSERT INTO translation_fi VALUES ('tiepiiri-turku:lle','Turun tiepiiriin',20031
 INSERT INTO translation_fi VALUES ('tiepiiri-uusimaa:lle','Uudenmaan tiepiiriin',20031002143145,'mheiskan');
 INSERT INTO translation_fi VALUES ('tiepiiri-vaasa:lle','Vaasan tiepiiriin',20031002143155,'mheiskan');
 INSERT INTO translation_fi VALUES ('tiepiiri-yla-lappi:lle','Ylä-Lappiin',20031002143205,'mheiskan');
+INSERT INTO translation_fi VALUES ('tienpintalämpötila','tienpintalämpötila',20031003004659,'mheiskan');
 
 --
 -- Table structure for table 'translation_sonera'
@@ -1570,4 +1572,5 @@ INSERT INTO translation_sv VALUES ('tiepiiri-turku:lle','för Åbo vägdistrikt',20
 INSERT INTO translation_sv VALUES ('tiepiiri-uusimaa:lle','för Nylands vägdistrikt',20031002143529,'mheiskan');
 INSERT INTO translation_sv VALUES ('tiepiiri-vaasa:lle','för Vasa vägdistrikt',20031002143539,'mheiskan');
 INSERT INTO translation_sv VALUES ('tiepiiri-yla-lappi:lle','för Övre Lappland',20031002143550,'mheiskan');
+INSERT INTO translation_sv VALUES ('tienpintalämpötila','vägtemperaturen',20031003004823,'mheiskan');
 
