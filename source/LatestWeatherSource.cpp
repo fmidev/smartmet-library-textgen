@@ -7,12 +7,12 @@
 
 #include "LatestWeatherSource.h"
 #include "IdGenerator.h"
+#include "WeatherAnalysisError.h"
 #include "NFmiFileSystem.h"
 #include "NFmiQueryData.h"
 #include "NFmiSettings.h"
 #include <cassert>
 #include <map>
-#include <stdexcept>
 
 using namespace std;
 
@@ -45,8 +45,10 @@ namespace
 
   string complete_filename(const string & theName)
   {
+	using namespace WeatherAnalysis;
+
 	if(theName.empty())
-	  throw runtime_error("Trying to search unnamed querydata");
+	  throw WeatherAnalysisError("Trying to search unnamed querydata");
 
 	string queryname;
 
@@ -57,17 +59,17 @@ namespace
 	  queryname = theName;
 
 	if(queryname.empty())
-	  throw runtime_error("The setting "+varname+" has no value");
+	  throw WeatherAnalysisError("The setting "+varname+" has no value");
 
 	if(FileExists(queryname))
 	  return queryname;
 
 	if(!DirectoryExists(queryname))
-	  throw runtime_error("No directory named "+queryname+" containing querydata found");
+	  throw WeatherAnalysisError("No directory named "+queryname+" containing querydata found");
 
 	string newestfile = NewestFile(queryname);
 	if(newestfile.empty())
-	  throw runtime_error("Directory "+queryname+" does not contain any querydata");
+	  throw WeatherAnalysisError("Directory "+queryname+" does not contain any querydata");
 
 	string fullname = queryname;
 	const char lastchar = fullname[fullname.size()-1];
@@ -145,7 +147,7 @@ namespace WeatherAnalysis
 	boost::shared_ptr<NFmiQueryData> data(new NFmiQueryData);
 	ifstream in(filename.c_str(), ios::in|ios::binary);
 	if(!in)
-	  throw runtime_error("Failed to open "+filename+" for reading");
+	  throw WeatherAnalysisError("Failed to open "+filename+" for reading");
 	in >> *data;
 	in.close();
 
@@ -177,7 +179,7 @@ namespace WeatherAnalysis
 	typedef Pimple::container_type::const_iterator const_iterator;
 	const_iterator it = itsPimple->itsData.find(theName);
 	if(it == itsPimple->itsData.end())
-	  throw runtime_error("No data named "+theName+" stored in LatestWeatherSource");
+	  throw WeatherAnalysisError("No data named "+theName+" stored in LatestWeatherSource");
 
 	return it->second.itsId;
   }

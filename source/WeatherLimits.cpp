@@ -6,8 +6,8 @@
 // ======================================================================
 
 #include "WeatherLimits.h"
+#include "WeatherAnalysisError.h"
 #include <cassert>
-#include <stdexcept>
 
 namespace WeatherAnalysis
 {
@@ -108,7 +108,7 @@ namespace WeatherAnalysis
 	if(itHasLowerLimit)
 	  return itsLowerLimit;
 
-	throw std::runtime_error("WeatherLimits:: Trying to access lower limit which is not set");
+	throw WeatherAnalysisError("WeatherLimits:: Trying to access lower limit which is not set");
   }
 
   // ----------------------------------------------------------------------
@@ -127,7 +127,7 @@ namespace WeatherAnalysis
 	if(itHasUpperLimit)
 	  return itsUpperLimit;
 
-	throw std::runtime_error("WeatherLimits:: Trying to access upper limit which is not set");
+	throw WeatherAnalysisError("WeatherLimits:: Trying to access upper limit which is not set");
   }
 
   // ----------------------------------------------------------------------

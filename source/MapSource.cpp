@@ -6,13 +6,13 @@
 // ======================================================================
 
 #include "MapSource.h"
+#include "WeatherAnalysisError.h"
 #include "NFmiFileSystem.h"
 #include "NFmiSettings.h"
 #include "NFmiSvgPath.h"
 #include <cassert>
 #include <fstream>
 #include <map>
-#include <stdexcept>
 
 using namespace std;
 
@@ -74,22 +74,22 @@ namespace WeatherAnalysis
 	const string varname = "textgen::mappath";
 
 	if(!NFmiSettings::instance().isset(varname))
-	  throw runtime_error("textgen::mappath is not set in fmi.conf");
+	  throw WeatherAnalysisError("textgen::mappath is not set in fmi.conf");
 
 	const string path = NFmiSettings::instance().value(varname);
 
 	const string filename = FileComplete(theName+".svg",path);
 
 	if(!FileExists(filename))
-	  throw runtime_error("Map "+theName+" has no respective SVG file");
+	  throw WeatherAnalysisError("Map "+theName+" has no respective SVG file");
 	
 	ifstream in(filename.c_str(), ios::in);
 	if(!in)
-	  throw runtime_error("Could not open "+filename+" for reading");
+	  throw WeatherAnalysisError("Could not open "+filename+" for reading");
 	NFmiSvgPath svg;
 	in >> svg;
 	if(svg.empty())
-	  throw runtime_error("Failed to read SVG data in "+filename);
+	  throw WeatherAnalysisError("Failed to read SVG data in "+filename);
 
 	typedef Pimple::storage_type::value_type value_type;
 

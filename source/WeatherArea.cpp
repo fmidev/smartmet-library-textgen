@@ -6,7 +6,7 @@
 // ======================================================================
 
 #include "WeatherArea.h"
-#include <stdexcept>
+#include "WeatherAnalysisError.h"
 
 namespace WeatherAnalysis
 {
@@ -76,7 +76,7 @@ namespace WeatherAnalysis
   {
 	if(itsNamed)
 	  return itsName;
-	throw std::runtime_error("Trying to access name of weather point");
+	throw WeatherAnalysisError("Trying to access name of weather point");
   }
 
   // ----------------------------------------------------------------------
@@ -91,7 +91,7 @@ namespace WeatherAnalysis
   {
 	if(!itsNamed)
 	  return itsPoint;
-	throw std::runtime_error("Trying to coordinate of named weather area");
+	throw WeatherAnalysisError("Trying to coordinate of named weather area");
   }
 
 } // namespace WeatherAnalysis

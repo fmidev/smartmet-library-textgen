@@ -8,6 +8,7 @@
 #include "TemperatureAnalyzer.h"
 #include "AnalysisSources.h"
 #include "MaskSource.h"
+#include "WeatherAnalysisError.h"
 #include "WeatherArea.h"
 #include "WeatherLimits.h"
 #include "WeatherPeriod.h"
@@ -18,8 +19,6 @@
 #include "NFmiDataModifierMax.h"
 #include "NFmiSettings.h"
 #include "NFmiFastQueryInfo.h"
-
-#include <stdexcept>
 
 using namespace std;
 using namespace boost;
@@ -34,9 +33,11 @@ namespace
 
   string temperature_forecast_source()
   {
+	using namespace WeatherAnalysis;
+
 	const string varname = "textgen::temperature_forecast";
 	if(!NFmiSettings::instance().isset(varname))
-	  throw runtime_error("No temperature source defined in "+varname);
+	  throw WeatherAnalysisError("No temperature source defined in "+varname);
 
 	const string source = NFmiSettings::instance().value(varname);
 	return source;
@@ -73,7 +74,7 @@ namespace WeatherAnalysis
 	NFmiFastQueryInfo qi(qd.get());
 
 	if(!qi.Param(kFmiTemperature))
-	  throw runtime_error("Temperature not available in dataname");
+	  throw WeatherAnalysisError("Temperature not available in dataname");
 
 	MaskSource::mask_type mask;
 	if(theArea.isNamed())
