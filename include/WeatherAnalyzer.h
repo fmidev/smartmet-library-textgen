@@ -37,7 +37,7 @@ namespace WeatherAnalysis
 	virtual WeatherResult analyze(const WeatherParameter & theParameter,
 								  const WeatherFunction & theFunction,
 								  const WeatherPeriod & thePeriod,
-								  const WeatherArea & theArea) = 0;
+								  const WeatherArea & theArea) const = 0;
   }; // class WeatherAnalyzer
 
 } // namespace WeatherAnalysis
