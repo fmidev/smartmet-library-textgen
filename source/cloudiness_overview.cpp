@@ -122,10 +122,10 @@ namespace TextGen
 		log << "Cloudiness Mean(Percentage(clear))       " << daystr << " = " << clear_percentage << endl;
 		log << "Cloudiness Mean(Trend) " << daystr << " = " << trend << endl;
 
-		CloudinessType ctype = cloudinesstype(itsVar,
-											  cloudy_percentage.value(),
-											  clear_percentage.value(),
-											  trend.value());
+		CloudinessType ctype = cloudiness_type(itsVar,
+											   cloudy_percentage.value(),
+											   clear_percentage.value(),
+											   trend.value());
 
 		periods.push_back(period);
 		types.push_back(ctype);
@@ -149,7 +149,7 @@ namespace TextGen
 		  {
 			CommonCloudiness tmp(VariableCloudiness,false);
 			while(endday+1 < periods.size() &&
-				  (tmp = similartype(types,startday,endday+1)).second)
+				  (tmp = similar_type(types,startday,endday+1)).second)
 			  {
 				cloudiness = tmp.first;
 				++endday;
@@ -176,7 +176,7 @@ namespace TextGen
 												itsVar,
 												itsForecastTime,
 												fullperiod)
-				 << cloudinessphrase(cloudiness);
+				 << cloudiness_phrase(cloudiness);
 	  }
 	paragraph << sentence;
 

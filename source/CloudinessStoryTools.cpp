@@ -40,10 +40,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	CloudinessType cloudinesstype(const std::string & theVar,
-								  double theCloudyPercentage,
-								  double theClearPercentage,
-								  double theTrend)
+	CloudinessType cloudiness_type(const std::string & theVar,
+								   double theCloudyPercentage,
+								   double theClearPercentage,
+								   double theTrend)
 	{
 	  using namespace Settings;
 
@@ -99,8 +99,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	CommonCloudiness similartype(CloudinessType theType1,
-								 CloudinessType theType2)
+	CommonCloudiness similar_type(CloudinessType theType1,
+								  CloudinessType theType2)
 	{
 	  static std::pair<CloudinessType,bool> notsimilar(VariableCloudiness,false);
 
@@ -351,9 +351,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	CommonCloudiness similartype(const std::vector<CloudinessType> & theTypes)
+	CommonCloudiness similar_type(const std::vector<CloudinessType> & theTypes)
 	{
-	  return similartype(theTypes,0,theTypes.size()-1);
+	  return similar_type(theTypes,0,theTypes.size()-1);
 	}
 
 	// ----------------------------------------------------------------------
@@ -373,9 +373,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	CommonCloudiness similartype(const std::vector<CloudinessType> & theTypes,
-								 unsigned int theStart,
-								 unsigned int theEnd)
+	CommonCloudiness similar_type(const std::vector<CloudinessType> & theTypes,
+								  unsigned int theStart,
+								  unsigned int theEnd)
 	{
 	  // handle zero types case
 	  if(theTypes.empty() || theEnd<theStart)
@@ -387,22 +387,22 @@ namespace TextGen
 
 	  // handle two type case
 	  if(theEnd == theStart+1)
-		return similartype(theTypes[theStart],theTypes[theEnd]);
+		return similar_type(theTypes[theStart],theTypes[theEnd]);
 
 	  // merge adjacent pairs, if any merge fails, so does the
 	  // entire merge and we abort
 
-	  std::vector<CloudinessType> similartypes;
+	  std::vector<CloudinessType> similar_types;
 	  for(unsigned int i=theStart; i<theEnd; i++)
 		{
-		  CommonCloudiness tmp = similartype(theTypes[i],theTypes[i+1]);
+		  CommonCloudiness tmp = similar_type(theTypes[i],theTypes[i+1]);
 		  if(!tmp.second)
 			return CommonCloudiness(VariableCloudiness,false);
-		  similartypes.push_back(tmp.first);
+		  similar_types.push_back(tmp.first);
 		}
 
 	  // recursion
-	  return similartype(similartypes);
+	  return similar_type(similar_types);
 	}
 
 	// ----------------------------------------------------------------------
@@ -414,7 +414,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	Sentence cloudinessphrase(CloudinessType theType)
+	Sentence cloudiness_phrase(CloudinessType theType)
 	{
 	  Sentence sentence;
 	  switch(theType)

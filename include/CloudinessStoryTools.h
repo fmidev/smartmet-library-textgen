@@ -42,22 +42,22 @@ namespace TextGen
 		VariableCloudiness		//!< vaihtelevaa pilvisyyttä
 	  };
 
-	CloudinessType cloudinesstype(const std::string & theVar,
-								  double theCloudyPercentage,
-								  double theClearPercentage,
-								  double theTrend);
+	CloudinessType cloudiness_type(const std::string & theVar,
+								   double theCloudyPercentage,
+								   double theClearPercentage,
+								   double theTrend);
 
 	typedef std::pair<CloudinessType,bool> CommonCloudiness;
 
-	CommonCloudiness similartype(CloudinessType theType1, CloudinessType theType2);
+	CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2);
 
-	CommonCloudiness similartype(const std::vector<CloudinessType> & theTypes);
+	CommonCloudiness similar_type(const std::vector<CloudinessType> & theTypes);
 
-	CommonCloudiness similartype(const std::vector<CloudinessType> & theTypes,
+	CommonCloudiness similar_type(const std::vector<CloudinessType> & theTypes,
 								 unsigned int theStart,
 								 unsigned int theEnd);
 
-	Sentence cloudinessphrase(CloudinessType theType);
+	Sentence cloudiness_phrase(CloudinessType theType);
 
 
   } // namespace CloudinessStoryTools
