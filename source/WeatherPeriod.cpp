@@ -58,7 +58,39 @@ namespace WeatherAnalysis
 	return itsEndTime;
   }
 
-
 } // namespace WeatherAnalysis
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Equality comparison for WeatherAnalysis::WeatherPeriod
+ *
+ * \param theLhs The left hand side
+ * \param theRhs The right hand side
+ * \return True if the periods are equal
+ */
+// ----------------------------------------------------------------------
+
+bool operator==(const WeatherAnalysis::WeatherPeriod & theLhs,
+				const WeatherAnalysis::WeatherPeriod & theRhs)
+{
+  return(theLhs.startTime() == theRhs.startTime() &&
+		 theLhs.endTime() == theRhs.endTime());
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Inequality comparison for WeatherAnalysis::WeatherPeriod
+ *
+ * \param theLhs The left hand side
+ * \param theRhs The right hand side
+ * \return True if the periods are not equal
+ */
+// ----------------------------------------------------------------------
+
+bool operator!=(const WeatherAnalysis::WeatherPeriod & theLhs,
+				const WeatherAnalysis::WeatherPeriod & theRhs)
+{
+  return !(theLhs == theRhs);
+}
 
 // ======================================================================

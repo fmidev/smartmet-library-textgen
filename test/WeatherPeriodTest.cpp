@@ -24,13 +24,13 @@ namespace WeatherPeriodTest
 	TEST_PASSED();
   }
 
-  //! Test accessors()
+  //! Test accessors
   void accessors(void)
   {
 	using namespace WeatherAnalysis;
 
-	NFmiTime time1;
-	NFmiTime time2;
+	NFmiTime time1(1999,1,1);
+	NFmiTime time2(2003,12,31);
 
 	WeatherPeriod period(time1,time2);
 	if(!period.startTime().IsEqual(time1))
@@ -39,6 +39,42 @@ namespace WeatherPeriodTest
 	  TEST_FAILED("endTime() accessor failed");
 
 	TEST_PASSED();
+  }
+
+  //! Test comparisons
+  void comparisons(void)
+  {
+	using namespace WeatherAnalysis;
+
+	NFmiTime time1(1999,1,1);
+	NFmiTime time2(2003,12,31);
+	NFmiTime time3(2004,1,1);
+
+	WeatherPeriod period1(time1,time2);
+	WeatherPeriod period2(time1,time3);
+	WeatherPeriod period3(time2,time3);
+
+	if(!(period1==period1))
+	  TEST_FAILED("period1==period1 test failed");
+	if(period1!=period1)
+	  TEST_FAILED("period1!=period1 test failed");
+
+	if(period1==period2)
+	  TEST_FAILED("period1==period2 test failed");
+	if(period1==period3)
+	  TEST_FAILED("period1==period3 test failed");
+	if(period2==period3)
+	  TEST_FAILED("period2==period3 test failed");
+
+	if(!(period1!=period2))
+	  TEST_FAILED("period1!=period2 test failed");
+	if(!(period1!=period3))
+	  TEST_FAILED("period1!=period3 test failed");
+	if(!(period2!=period3))
+	  TEST_FAILED("period2!=period3 test failed");
+
+	TEST_PASSED();
+
   }
 
   //! The actual test driver
@@ -55,6 +91,7 @@ namespace WeatherPeriodTest
 	{
 	  TEST(structors);
 	  TEST(accessors);
+	  TEST(comparisons);
 	}
 
   }; // class tests

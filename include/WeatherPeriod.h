@@ -49,12 +49,23 @@ namespace WeatherAnalysis
 
   private:
 
+	WeatherPeriod();
+
 	NFmiTime itsStartTime;
 	NFmiTime itsEndTime;
 
   }; // class WeatherPeriod
 
 } // namespace WeatherAnalysis
+
+
+// Free functions
+
+bool operator==(const WeatherAnalysis::WeatherPeriod & theLhs,
+				const WeatherAnalysis::WeatherPeriod & theRhs);
+
+bool operator!=(const WeatherAnalysis::WeatherPeriod & theLhs,
+				const WeatherAnalysis::WeatherPeriod & theRhs);
 
 #endif // WEATHERANALYSIS_WEATHERPERIOD_H
 
