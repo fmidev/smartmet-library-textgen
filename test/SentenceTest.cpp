@@ -192,7 +192,9 @@ namespace SentenceTest
 	if(s3.realize() != "South east 12, south 13")
 	  TEST_FAILED("realization of kaakko 12, etelä 13 in English failed");
 
-	if(s3.realize(*dict) != "Kaakko 12, etelä 13")
+	Sentence s4;
+	s4 << "kaakko" << 12 << "," << "etelä" << 13;
+	if(s4.realize(*dict) != "Kaakko 12, etelä 13")
 	  TEST_FAILED("realization of kaakko 12, etelä 13 in Finnish failed");
 
   }

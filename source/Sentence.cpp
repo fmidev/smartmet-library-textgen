@@ -9,6 +9,7 @@
 #include "Dictionary.h"
 #include "PhraseWord.h"
 #include "PhraseNumber.h"
+#include "PhraseSeparator.h"
 #include "TheDictionary.h"
 #include <cctype>
 #include <clocale>
@@ -205,6 +206,11 @@ namespace TextGen
   /*!
    * \brief Adding a phrase to a sentence
    *
+   * The string is assumed to be the constructor argument for a PhraseWord,
+   * unless the string is recognized to be a word separator.
+   *
+   * The only currently recognized separator is ','
+   * 
    * \param thePhrase to be added
    * \result The sentence added to
    */
@@ -212,7 +218,13 @@ namespace TextGen
 
   Sentence & Sentence::operator<<(const std::string & thePhrase)
   {
-	Phrase * tmp = new PhraseWord(thePhrase);
+	Phrase * tmp;
+
+	if(thePhrase == ",")
+	  tmp = new PhraseSeparator(thePhrase);
+	else
+	  tmp = new PhraseWord(thePhrase);
+
 	itsPimple->itsData.push_back(tmp);
 	return *this;
   }
