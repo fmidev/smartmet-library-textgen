@@ -1067,7 +1067,7 @@ INSERT INTO translation_sv VALUES ('vahvistuu','förstärks',20030609135141,'mheis
 INSERT INTO translation_sv VALUES ('korkeapaine','högtrycket',20030609143428,'mheiskan');
 INSERT INTO translation_sv VALUES ('matalapaine','lågtrycket',20030609143419,'mheiskan');
 INSERT INTO translation_sv VALUES ('m/s','m/s',20030527151922,'mheiskan');
-INSERT INTO translation_sv VALUES ('tyyntä','vindstilla',20030530120626,'mheiskan');
+INSERT INTO translation_sv VALUES ('tyyntä','lugnt',20030611140833,'mheiskan');
 INSERT INTO translation_sv VALUES ('heikkoa','svag',20030530074033,'mheiskan');
 INSERT INTO translation_sv VALUES ('kohtalaista','måttlig',20030530074101,'mheiskan');
 INSERT INTO translation_sv VALUES ('navakkaa','frisk',20030530074108,'mheiskan');
