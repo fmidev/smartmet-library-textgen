@@ -941,7 +941,7 @@ INSERT INTO translation_sv VALUES ('lämpimämpi','varmare',20030525185939,'mheisk
 INSERT INTO translation_sv VALUES ('seuraava yö','följande natt',20030525190121,'mheiskan');
 INSERT INTO translation_sv VALUES ('seuraavana yönä','följande natt',20030525185634,'mheiskan');
 INSERT INTO translation_sv VALUES ('on','är',20030525185521,'mheiskan');
-INSERT INTO translation_sv VALUES ('ankaran hallan todennäköisyys','sannolikheten för stark nattfrost',20030525185422,'mheiskan');
+INSERT INTO translation_sv VALUES ('ankaran hallan todennäköisyys','sannolikheten för sträng nattfrost',20030611133909,'mheiskan');
 INSERT INTO translation_sv VALUES ('hallan todennäköisyys','sannolikheten för nattfrost',20030525185132,'mheiskan');
 INSERT INTO translation_sv VALUES ('7-vastaisena yönä','natten mot söndagen',20030611112255,'mheiskan');
 INSERT INTO translation_sv VALUES ('6-vastaisena yönä','natten mot lördagen',20030611112253,'mheiskan');
