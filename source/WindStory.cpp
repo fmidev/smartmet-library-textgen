@@ -64,6 +64,8 @@ namespace TextGen
   {
 	if(theName == "wind_overview")
 	  return true;
+	if(theName == "wind_short_overview")
+	  return true;
 	return false;
   }
   
@@ -82,7 +84,26 @@ namespace TextGen
   {
 	if(theName == "wind_overview")
 	  return overview();
+	if(theName == "wind_short_overview")
+	  return short_overview();
 	throw TextGenError("WindStory cannot make story "+theName);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return wind short_overview story
+   *
+   * \return Paragraph containing the story
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph WindStory::short_overview() const
+  {
+	MessageLogger log("WeatherStory::short_overview");
+
+	Paragraph paragraph;
+	log << paragraph;
+	return paragraph;
   }
 
   // ----------------------------------------------------------------------
