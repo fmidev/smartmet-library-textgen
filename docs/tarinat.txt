@@ -24,9 +24,9 @@
  <li>\ref sec_story_frost_range</li>
  <li>\ref sec_story_frost_maxtwonights</li>
  </ol>
-<li>\ref sec_relative_humidity_story</li>
+<li>\ref sec_relativehumidity_story</li>
  <ol>
- <li>\ref sec_story_relative_humidity_lowest</li>
+ <li>\ref sec_story_relativehumidity_lowest</li>
  </ol>
 </ol>
 
@@ -462,14 +462,14 @@ Käytetyt fraasit ovat
  - "lämpimämpi"
  - "huomattavasti lämpimämpi"
 
-\section sec_relative_humidity_story RelativeHumidityStory luokka
+\section sec_relativehumidity_story RelativeHumidityStory luokka
 
 TextGen::RelativeHumidityStory luokka hallitsee suhteelliseen
 kosteuteen liittyvät tarinat.
 
-\subsection sec_story_relative_humidity_lowest "relative_humidity_lowest"
+\subsection sec_story_relativehumidity_lowest "relativehumidity_lowest"
 
-Tarina \c relative_humidity_lowest on muotoa
+Tarina \c relativehumidity_lowest on muotoa
 
  -# "Alin suhteellinen kosteus on viikonpäivänä x%"
     -# ", viikonpäivänä suurempi."
@@ -501,12 +501,32 @@ ole yhden vuorokauden ennusteissa.
 
 Ensimmäisestä vuorokaudesta ei kerrota mitään, jos sen alkuaika on vähintään
 \code
-textgen::[kappale]::story::relative_humidity_lowest::maxstarthour = [0-23]
+textgen::[kappale]::story::relativehumidity_lowest::maxstarthour = [0-23]
 \endcode
 Toisesta vuorokaudesta ei kerrota mitään, jos sen loppu on yli
 \code
-textgen::[kappale]::story::relative_humidity_lowest::minendhour = [0-23]
+textgen::[kappale]::story::relativehumidity_lowest::minendhour = [0-23]
 \endcode
+
+Suhteellinen kosteus pyöristetään tarkkuuteen
+\code
+textgen::[kappale]::story::relativehumidity_lowest::precision = [0-100]
+\endcode
+
+Erotuksen suuruus päätellään seuraavista rajoista
+\code
+textgen::[kappale]::story::relativehumidity_lowest::greater = 20
+textgen::[kappale]::story::relativehumidity_lowest::somewhat_greater = 10
+textgen::[kappale]::story::relativehumidity_lowest::somewhat_smaller = 10
+textgen::[kappale]::story::relativehumidity_lowest::smaller = 20
+\endcode
+seuraavasti tuloksista \c humidity2 ja \c humidity1
+
+ -# Jos \c humidity2 - \c humidity1 >= \c greater, valitaan "suurempi"
+ -# Jos \c humidity2 - \c humidity1 >= \c somewhat_greater, valitaan "hieman suurempi"
+ -# Jos \c humidity1 - \c humidity2 >= \c smaller, valitaan "pienempi"
+ -# Jos \c humidity1 - \c humidity2 >= \c somewhat_smaller, valitaan "hieman pienempi"
+ -# Muuten valitaan "sama"
 
 Tarvittavat fraasit ovat
 
