@@ -88,6 +88,7 @@ Suunnan fraasi valitaan seuraavasti
 Kaksi tuulensuuntaa katsotaan samoiksi, jos ilmansuunta on sama
 väli-ilmansuunnan tarkkuudella, ja kummankin suunnan tarkkuus on vähintään
 \c variable. Yhteiseksi suunnaksi valitaan heikompitarkkuuksinen suunta.
+Vaihtoehtoisesti kaksi suunnaltaan vaihtelevaa tuulta on aina samoja.
 
 \section section_wind_daily_ranges_fakes Tulosten testaaminen
 
