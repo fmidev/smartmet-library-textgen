@@ -21,9 +21,9 @@ Sivulauseessa jatketaan tarvittaessa
 
   -# ", seuraavana päivänä huomattavasti korkeampi"
   -# ", seuraavana päivänä korkeampi"
-  -# ", seuraavana päivänä vähän korkeampi"
+  -# ", seuraavana päivänä hieman korkeampi"
   -# ", seuraavana päivänä suunnilleen sama"
-  -# ", seuraavana päivänä vähän alempi"
+  -# ", seuraavana päivänä hieman alempi"
   -# ", seuraavana päivänä alempi"
   -# ", seuraavana päivänä huomattavasti alempi"
 
@@ -31,9 +31,9 @@ tai
 
   -# ", viikonpäivänä huomattavasti korkeampi"
   -# ", viikonpäivänä korkeampi"
-  -# ", viikonpäivänä vähän korkeampi"
+  -# ", viikonpäivänä hieman korkeampi"
   -# ", viikonpäivänä suunnilleen sama"
-  -# ", viikonpäivänä vähän alempi"
+  -# ", viikonpäivänä hieman alempi"
   -# ", viikonpäivänä alempi"
   -# ", viikonpäivänä huomattavasti alempi"
 
@@ -100,6 +100,9 @@ Jos intervallin pituus on vähintään \c mininterval, sanotaan intervalli,
 muuten keskiarvo. Poikkeuksena jos nolla kuuluu intervalliin ja
 \c always_interval_zero on true, sanotaan aina intervalli.
 
+\c mininterval muuttujan oletusarvo on 2, \c always_interval_zero
+muuttujan false.
+
 Päivän määritelmä saadaan muuttujista
 \code
 textgen::[kappale]::story::temperature_dailymax::starthour = [0-23]
@@ -122,6 +125,16 @@ Tällöin päivän maksimi kerrottaisiin aina kello kahteentoista
 saakka, vaikka jakso alkaakin jo kello kuusi. Loppupäästä sen
 sijaan tarvitsee harvemmin joustaa.
 
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+textgen::[kappale]::story::temperature_dailymax::fake::day1::mean = [result]
+textgen::[kappale]::story::temperature_dailymax::fake::day1::minimum = [result]
+textgen::[kappale]::story::temperature_dailymax::fake::day1::maximum = [result]
+textgen::[kappale]::story::temperature_dailymax::fake::day2::mean = [result]
+...
+\endcode
+
+
 Tarvittavat fraasit ovat
 
  - "päivän ylin lämpötila"
@@ -132,10 +145,10 @@ Tarvittavat fraasit ovat
  - "seuraavana päivänä"
  - "huomattavasti korkeampi"
  - "korkeampi"
- - "vähän korkeampi"
+ - "hieman korkeampi"
  - "suunnilleen sama"
- - "vähän matalampi"
- - "matalampi"
- - "huomattavasti matalampi"
+ - "hieman alempi"
+ - "alempi"
+ - "huomattavasti alempi"
 
 */
