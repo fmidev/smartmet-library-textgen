@@ -287,6 +287,22 @@ namespace Settings
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Return optional string valued variable, or the given value
+   *
+   * \param theName The variable name
+   * \param theDefault The value to return if the variable is not set
+   * \return The optional value
+   */
+  // ----------------------------------------------------------------------
+
+  std::string optional_int(const std::string & theName,
+						   const std::string & theDefault)
+  {
+	return (isset(theName) ? require_string(theName) : theDefault);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Return optional integer valued variable, or the given value
    *
    * \param theName The variable name

@@ -37,6 +37,7 @@ namespace Settings
   NFmiTime require_time(const std::string & theName);
   WeatherAnalysis::WeatherResult require_result(const std::string & theName);
 
+  std::string optional_string(const std::string & theName, const std::string & theDefault);
   int optional_int(const std::string & theName, int theDefault);
   bool optional_bool(const std::string & theName, bool theDefault);
   double optional_double(const std::string & theName, double theDefault);
