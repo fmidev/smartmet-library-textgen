@@ -1,8 +1,6 @@
 #include "regression/tframe.h"
 #include "MathTools.h"
 
-using namespace std;
-
 namespace MathToolsTest
 {
 
@@ -63,6 +61,72 @@ namespace MathToolsTest
 
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test MathTools::min()
+   */
+  // ----------------------------------------------------------------------
+
+  void min()
+  {
+	if(MathTools::min(0,1) != 0)
+	  TEST_FAILED("min(0,1) failed to return 0");
+	if(MathTools::min(4,2) != 2)
+	  TEST_FAILED("min(4,2) failed to return 2");
+
+	if(MathTools::min(1,2,3) != 1)
+	  TEST_FAILED("min(1,2,3) failed to return 1");
+	if(MathTools::min(5,3,1) != 1)
+	  TEST_FAILED("min(5,3,1) failed to return 1");
+	if(MathTools::min(5,1,3) != 1)
+	  TEST_FAILED("min(5,1,3) failed to return 1");
+
+	if(MathTools::min(1,2,3,4) != 1)
+	  TEST_FAILED("min(1,2,3,4) failed to return 1");
+	if(MathTools::min(2,3,4,1) != 1)
+	  TEST_FAILED("min(2,3,4,1) failed to return 1");
+	if(MathTools::min(3,4,1,2) != 1)
+	  TEST_FAILED("min(3,4,1,2) failed to return 1");
+	if(MathTools::min(4,1,2,1) != 1)
+	  TEST_FAILED("min(4,1,2,1) failed to return 1");
+
+	TEST_PASSED();
+
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test MathTools::max()
+   */
+  // ----------------------------------------------------------------------
+
+  void max()
+  {
+	if(MathTools::max(0,1) != 1)
+	  TEST_FAILED("max(0,1) failed to return 1");
+	if(MathTools::max(4,2) != 4)
+	  TEST_FAILED("max(4,2) failed to return 4");
+
+	if(MathTools::max(1,2,3) != 3)
+	  TEST_FAILED("max(1,2,3) failed to return 3");
+	if(MathTools::max(5,3,1) != 5)
+	  TEST_FAILED("max(5,3,1) failed to return 5");
+	if(MathTools::max(5,1,3) != 5)
+	  TEST_FAILED("max(5,1,3) failed to return 5");
+
+	if(MathTools::max(1,2,3,4) != 4)
+	  TEST_FAILED("max(1,2,3,4) failed to return 4");
+	if(MathTools::max(2,3,4,1) != 4)
+	  TEST_FAILED("max(2,3,4,1) failed to return 4");
+	if(MathTools::max(3,4,1,2) != 4)
+	  TEST_FAILED("max(3,4,1,2) failed to return 4");
+	if(MathTools::max(4,1,2,1) != 4)
+	  TEST_FAILED("max(4,1,2,1) failed to return 4");
+
+	TEST_PASSED();
+
+  }
+
   //! The actual test driver
   class tests : public tframe::tests
   {
@@ -77,6 +141,8 @@ namespace MathToolsTest
 	{
 	  TEST(to_precision);
 	  TEST(mean);
+	  TEST(min);
+	  TEST(max);
 	}
 
   }; // class tests
@@ -86,6 +152,7 @@ namespace MathToolsTest
 
 int main(void)
 {
+  using namespace std;
   cout << endl
 	   << "MathTools tester" << endl
 	   << "================" << endl;
