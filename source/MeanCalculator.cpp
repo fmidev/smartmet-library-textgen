@@ -23,6 +23,8 @@ namespace WeatherAnalysis
 
   MeanCalculator::MeanCalculator()
 	: itsAcceptor(new DefaultAcceptor())
+	, itsCounter(0)
+	, itsSum(0)
   {
   }
 

@@ -23,6 +23,8 @@ namespace WeatherAnalysis
 
   MaximumCalculator::MaximumCalculator()
 	: itsAcceptor(new DefaultAcceptor())
+	, itsCounter(0)
+	, itsMaximum(kFloatMissing)
   {
   }
 

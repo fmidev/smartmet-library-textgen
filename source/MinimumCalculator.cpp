@@ -23,6 +23,8 @@ namespace WeatherAnalysis
 
   MinimumCalculator::MinimumCalculator()
 	: itsAcceptor(new DefaultAcceptor())
+	, itsCounter(0)
+	, itsMinimum(kFloatMissing)
   {
   }
 
