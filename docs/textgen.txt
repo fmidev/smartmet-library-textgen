@@ -21,11 +21,11 @@ sek‰ niiden muuntamista tekstiksi.
 \ref page_aikavalit sivulla kuvataan, miten eri vuorokauden ajat
 nimet‰‰n tekstigeneraattorissa.
 
-\section sec_tarinat S‰‰periodit
+\section sec_periodit S‰‰periodit
 
 \ref page_periodit sivulla kuvataan, miten s‰‰periodeja luodaan.
 
-\section sec_tarinat Otsikot
+\section sec_otsikot Otsikot
 
 \ref page_otsikot sivulla kuvataan, miten otsikoita luodaan
 

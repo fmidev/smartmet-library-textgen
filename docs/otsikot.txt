@@ -1,5 +1,5 @@
 /*!
-\page page_headerit Otsikot
+\page page_otsikot Otsikot
 
 \section sec_headerfactory HeaderFactory namespace
 
