@@ -62,22 +62,22 @@ namespace TemperatureStoryTest
 	const string fun = "temperature_mean";
 
 	NFmiSettings::Set("mean::fake::mean","0.1,0");
-	require(story,"fi",fun,"Keskilämpötila 0\260C.");
+	require(story,"fi",fun,"Keskilämpötila 0 astetta.");
 	require(story,"sv",fun,"Medeltemperaturen 0 grader.");
 	require(story,"en",fun,"Mean temperature 0 degrees.");
 
 	NFmiSettings::Set("mean::fake::mean","0.5,0");
-	require(story,"fi",fun,"Keskilämpötila 1\260C.");
+	require(story,"fi",fun,"Keskilämpötila 1 astetta.");
 	require(story,"sv",fun,"Medeltemperaturen 1 grader.");
 	require(story,"en",fun,"Mean temperature 1 degrees.");
 
 	NFmiSettings::Set("mean::fake::mean","10,0");
-	require(story,"fi",fun,"Keskilämpötila 10\260C.");
+	require(story,"fi",fun,"Keskilämpötila 10 astetta.");
 	require(story,"sv",fun,"Medeltemperaturen 10 grader.");
 	require(story,"en",fun,"Mean temperature 10 degrees.");
 
 	NFmiSettings::Set("mean::fake::mean","-10.5,0");
-	require(story,"fi",fun,"Keskilämpötila -11\260C.");
+	require(story,"fi",fun,"Keskilämpötila -11 astetta.");
 	require(story,"sv",fun,"Medeltemperaturen -11 grader.");
 	require(story,"en",fun,"Mean temperature -11 degrees.");
 
@@ -107,7 +107,7 @@ namespace TemperatureStoryTest
 
 	NFmiSettings::Set("meanmax::fake::mean","0.1,0");
 	require(story,"fi",fun,"Keskimääräinen ylin lämpötila 0 astetta.");
-	require(story,"sv",fun,"Den maximi temperaturen i medeltal 0 grader.");
+	require(story,"sv",fun,"Maximitemperaturen i medeltal 0 grader.");
 	require(story,"en",fun,"Mean maximum temperature 0 degrees.");
 
 	NFmiSettings::Set("meanmax::fake::mean","0.5,0");
@@ -188,17 +188,18 @@ namespace TemperatureStoryTest
 	WeatherArea area("dummy");
 	const string fun = "temperature_dailymax";
 
-	NFmiSettings::Set("dailymax::significantly_higher","6");
-	NFmiSettings::Set("dailymax::higher","4");
-	NFmiSettings::Set("dailymax::somewhat_higher","2");
-	NFmiSettings::Set("dailymax::somewhat_lower","2");
-	NFmiSettings::Set("dailymax::lower","4");
-	NFmiSettings::Set("dailymax::significantly_lower","6");
+	NFmiSettings::Set("dailymax::comparison::significantly_higher","6");
+	NFmiSettings::Set("dailymax::comparison::higher","4");
+	NFmiSettings::Set("dailymax::comparison::somewhat_higher","2");
+	NFmiSettings::Set("dailymax::comparison::somewhat_lower","2");
+	NFmiSettings::Set("dailymax::comparison::lower","4");
+	NFmiSettings::Set("dailymax::comparison::significantly_lower","6");
 	NFmiSettings::Set("dailymax::mininterval","2");
 	NFmiSettings::Set("dailymax::always_interval_zero","true");
-	NFmiSettings::Set("dailymax::starthour","6");
-	NFmiSettings::Set("dailymax::endhour","18");
-	NFmiSettings::Set("dailymax::prefer_daynames","false");
+	NFmiSettings::Set("dailymax::day::starthour","6");
+	NFmiSettings::Set("dailymax::day::endhour","18");
+	NFmiSettings::Set("dailymax::today::phrases","weekday");
+	NFmiSettings::Set("dailymax::next_day::phrases","followingday");
 
 	// Test the part concerning day 1
 	{
@@ -513,6 +514,7 @@ int main(void)
 
   dict = TextGen::DictionaryFactory::create("multimysql");
 
+  NFmiSettings::Init();
   NFmiSettings::Set("textgen::units::celsius::format","phrase");
 
   dict->init("fi");

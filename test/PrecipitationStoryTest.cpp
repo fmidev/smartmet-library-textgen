@@ -271,13 +271,14 @@ int main(void)
 	   << "PrecipitationStory tests" << endl
 	   << "========================" << endl;
 
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::units::millimeters::format","phrase");
+
   dict = TextGen::DictionaryFactory::create("multimysql");
 
   dict->init("fi");
   dict->init("sv");
   dict->init("en");
-
-  NFmiSettings::Set("textgen::units::millimeters::format","phrase");
 
   tests t;
   return t.run();
