@@ -84,7 +84,7 @@ namespace TextGen
 		const string daystr = "day"+lexical_cast<string>(day);
 
 		const WeatherResult minspeed =
-		  forecaster.analyze(itsVar+"::fake::speed::"+daystr+"::minimum",
+		  forecaster.analyze(itsVar+"::fake::"+daystr+"::speed::minimum",
 							 itsSources,
 							 WindSpeed,
 							 Minimum,
@@ -93,7 +93,7 @@ namespace TextGen
 							 period);
 
 		const WeatherResult maxspeed =
-		  forecaster.analyze(itsVar+"::fake::speed::"+daystr+"::maximum",
+		  forecaster.analyze(itsVar+"::fake::"+daystr+"::speed::maximum",
 							 itsSources,
 							 WindSpeed,
 							 Maximum,
@@ -102,7 +102,7 @@ namespace TextGen
 							 period);
 
 		const WeatherResult meanspeed =
-		  forecaster.analyze(itsVar+"::fake::speed::"+daystr+"::mean",
+		  forecaster.analyze(itsVar+"::fake::"+daystr+"::speed::mean",
 							 itsSources,
 							 WindSpeed,
 							 Mean,
@@ -111,7 +111,7 @@ namespace TextGen
 							 period);
 
 		const WeatherResult direction =
-		  forecaster.analyze(itsVar+"::fake::direction::"+daystr+"::mean",
+		  forecaster.analyze(itsVar+"::fake::"+daystr+"::direction::mean",
 							 itsSources,
 							 WindDirection,
 							 Mean,
@@ -153,7 +153,7 @@ namespace TextGen
 		  Sentence sentence;
 
 		  const WeatherResult direction =
-			forecaster.analyze(itsVar+"::fake::speed::days1-2::mean",
+			forecaster.analyze(itsVar+"::fake::days1-2::speed::mean",
 							   itsSources,
 							   WindDirection,
 							   Mean,
@@ -254,7 +254,7 @@ namespace TextGen
 									 periods[2].localEndTime());
 
 		  const WeatherResult direction13 =
-			forecaster.analyze(itsVar+"::fake::speed::days1-3::mean",
+			forecaster.analyze(itsVar+"::fake::days1-3::speed::mean",
 							   itsSources,
 							   WindDirection,
 							   Mean,
@@ -264,7 +264,7 @@ namespace TextGen
 							   HourPeriodGenerator(days13,itsVar+"::day"));
 
 		  const WeatherResult direction12 =
-			forecaster.analyze(itsVar+"::fake::speed::days1-2::mean",
+			forecaster.analyze(itsVar+"::fake::days1-2::speed::mean",
 							   itsSources,
 							   WindDirection,
 							   Mean,
@@ -274,7 +274,7 @@ namespace TextGen
 							   HourPeriodGenerator(days12,itsVar+"::day"));
 
 		  const WeatherResult direction23 =
-			forecaster.analyze(itsVar+"::fake::speed::days2-3::mean",
+			forecaster.analyze(itsVar+"::fake::days2-3::speed::mean",
 							   itsSources,
 							   WindDirection,
 							   Mean,
