@@ -77,10 +77,10 @@ namespace TextGen
 	class Pimple;
 	boost::shared_ptr<Pimple> itsPimple;
 
-  }; // class BasicDictionary
+  }; // class MySQLDictionary
 
 } // namespace TextGen
 
-#endif // TEXTGEN_BASICDICTIONARY_H
+#endif // TEXTGEN_MYSQLDICTIONARY_H
 
 // ======================================================================
