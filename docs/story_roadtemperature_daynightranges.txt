@@ -42,15 +42,12 @@ textgen::[kappale]::story::roadtemperature_daynightranges::tonight::phrases
 
 Valinta yksitt‰isen arvon ja intervallin v‰lill‰ tehd‰‰n perustuen muuttujiin
 \code
-textgen::[kappale]::story::roadtemperature_daynightranges::mininterval = [1-]
-textgen::[kappale]::story::roadtemperature_daynightranges::always_interval_zero = [bool]
+textgen::[kappale]::story::roadtemperature_daynightranges::mininterval = [1-] (=2)
+textgen::[kappale]::story::roadtemperature_daynightranges::always_interval_zero = [bool] (=false)
 \endcode
 Jos intervallin pituus on v‰hint‰‰n \c mininterval, sanotaan intervalli,
 muuten keskiarvo. Poikkeuksena jos nolla kuuluu intervalliin ja
 \c always_interval_zero on true, sanotaan aina intervalli.
-
-\c mininterval muuttujan oletusarvo on 2, \c always_interval_zero
-muuttujan false.
 
 Yˆn ja p‰iv‰n m‰‰ritelm‰t saadaan muuttujista
 \code
@@ -67,10 +64,10 @@ olevan sama p‰iv‰n loppuajan kanssa.
 
 Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
 \code
+textgen::[kappale]::story::roadtemperature_daynightranges::fake::day1::mean = [result]
+textgen::[kappale]::story::roadtemperature_daynightranges::fake::day::minimum = [result]
+textgen::[kappale]::story::roadtemperature_daynightranges::fake::day1::maximum = [result]
 textgen::[kappale]::story::roadtemperature_daynightranges::fake::night1::mean = [result]
-textgen::[kappale]::story::roadtemperature_daynightranges::fake::night1::minimum = [result]
-textgen::[kappale]::story::roadtemperature_daynightranges::fake::night1::maximum = [result]
-textgen::[kappale]::story::roadtemperature_daynightranges::fake::night2::mean = [result]
 ...
 \endcode
 
