@@ -92,7 +92,8 @@ K‰ytetyt fraasit ovat
 \subsection sec_header_report_area Header tyyppi "report_area"
 
 Tuottaa headerin tyyppi‰ "S‰‰ennuste Uudellemaalle tiistaina kello 18".
-Kellonaika otetaan jakson alkuajasta.
+Kellonaika otetaan jakson alkuajasta. Erityisen hyvin tyyppi sopinee
+yhteen periodityypin "now" kanssa.
 
 Mahdolliset headerit ovat
 
