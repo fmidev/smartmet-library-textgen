@@ -42,8 +42,8 @@ namespace SoneraTest
   void phrases()
   {
 
-	if(dict->size() != 479-200+1)
-	  TEST_FAILED("Sonera dictionary should have phrases 200-479");
+	if(dict->size() != 545-200+1)
+	  TEST_FAILED("Sonera dictionary should have phrases 200-545");
 
 	require("1-aamusta","200");
 	require("1-aamuun","201");
@@ -325,11 +325,77 @@ namespace SoneraTest
 	require("5-na kello","477");
 	require("6-na kello","478");
 	require("7-na kello","479");
+	require("ei suuria muutoksia säässä","480");
+	require("sää selkenee","481");
+	require("sää muuttuu epävakaisemmaksi","482");
+	require("sateinen sää jatkuu","483");
+	require("sää muuttuu sateisemmaksi","484");
+	require("epävakainen sää jatkuu","485");
+	require("sää lauhtuu","486");
+	require("sää on enimmäkseen poutaista","487");
+	require("sää poutaantuu","488");
+	require("sää muuttuu helteiseksi","489");
+	require("sää lämpenee","490");
+	require("sää viilenee","491");
+	require("sää muuttuu koleaksi","492");
+	require("sää kylmenee","493");
+	require("helteinen sää jatkuu","494");
+	require("lämmin sää jatkuu","495");
+	require("viileä sää jatkuu","496");
+	require("kolea sää jatkuu","497");
+	require("kylmä sää jatkuu","498");
+	require("virtaa","499");
+	require("tilapäisesti","500");
+	require("lämmintä","501");
+	require("kylmää","502");
+	require("viileää","503");
+	require("viileämpää","504");
+	require("lämpimämpää","505");
+	require("kylmempää","506");
+	require("hyvin","507");
+	require("vähän","508");
+	require("ilmaa","509");
+	require("Suomeen","510");
+	require("maan","511");
+	require("eteläosiin","512");
+	require("keskiosiin","513");
+	require("pohjoisosiin","514");
+	require("itäosiin","515");
+	require("länsiosiin","516");
+	require("etelä-","517");
+	require("keski-","518");
+	require("pohjois-","519");
+	require("itä-","520");
+	require("länsi-","521");
+	require("kuivempaa","522");
+	require("kosteampaa","523");
+	require("sadealueita","524");
+	require("Suomen yli","525");
+	require("Etelä-Suomen yli","526");
+	require("Keski-Suomen yli","527");
+	require("Pohjois-Suomen yli","528");
+	require("Itä-Suomen yli","529");
+	require("Länsi-Suomen yli","530");
+	require("Lounais-Suomen yli","531");
+	require("Kaakkois-Suomen yli","532");
+	require("uusi","533");
+	require("saapuu","534");
+	require("alue","535");
+	require("sateineen","536");
+	require("sadealueineen","537");
+	require("hajanaisine sadealueineen","538");
+	require("sateen todennäköisyys","539");
+	require("kuurosateen todennäköisyys","540");
+	require("ukkosen todennäköisyys","541");
+	require("kuuluu","542");
+	require("pakkanen jatkuu","543");
+	require("pakkanen kiristyy","544");
+	require("pakkanen heikkenee","545");
 	
 	TEST_PASSED();
   }
-
-
+  
+  
   //! The actual test driver
   class tests : public tframe::tests
   {
@@ -338,15 +404,15 @@ namespace SoneraTest
 	{
 	  return "\n\t";
 	}
-
+	
 	//! Main test suite
 	void test(void)
 	{
 	  TEST(phrases);
 	}
-
+	
   }; // class tests
-
+  
 } // namespace SoneraTest
 
 
@@ -355,10 +421,10 @@ int main(void)
   cout << endl
 	   << "SoneraPhrases requirements" << endl
 	   << "==========================" << endl;
-
+  
   SoneraTest::dict = TextGen::DictionaryFactory::create("mysql");
   SoneraTest::dict->init("sonera");
-
+  
   SoneraTest::tests t;
   return t.run();
 }
