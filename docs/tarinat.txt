@@ -113,7 +113,7 @@ TextGen::FrostStory luokka hallitsee hallaan liittyv‰t tarinat.
 TextGen::RelativeHumidityStory luokka hallitsee suhteelliseen
 kosteuteen liittyv‰t tarinat.
 
-\section sec_roadstory
+\section sec_roadstory RoadStory luokka
 
 TextGen::RoadStory luokka hallitsee ties‰‰h‰n liittyv‰t tarinat.
 
