@@ -100,7 +100,7 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \biref Return the language
+   * \brief Return the language
    *
    * An empty string is returned if no language has been initialized.
    *
