@@ -38,7 +38,7 @@ namespace
    */
   // ----------------------------------------------------------------------
   
-#if !defined(UNIX) || defined(OLDGCC)
+#if !defined(UNIX)
   
   time_t my_timegm(struct ::tm * t)
   {
@@ -147,7 +147,7 @@ namespace WeatherAnalysis
 	  utc.tm_yday = -1;
 	  utc.tm_isdst = -1;
 
-#if defined(UNIX) && !defined(OLDGCC)
+#if defined(UNIX)
 	  ::time_t epochtime = ::timegm(&utc);  // timegm is a GNU extension
 #else
 	  ::time_t epochtime = my_timegm(&utc);
