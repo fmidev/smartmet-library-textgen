@@ -30,6 +30,7 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 
 	Paragraph create(const AnalysisSources & theSources,
+					 const WeatherArea & theArea,
 					 const string & theName)
 	{
 	  throw TextGenError("StoryFactory: Unrecognized story "+theName);
