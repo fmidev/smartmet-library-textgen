@@ -31,11 +31,6 @@ textgen::[kappale]::story::wind_overview::night::endhour = 6
 Tällöin kerrottaisiin huomisaamuun asti aina keskiyöhön saakka,
 tämän jälkeen aletaan kertoa tulevasta päivästä.
 
-Samoja asetuksia käytetään myös seuraaville päiville. On huomattava,
-että tutkittava jakso saattaa päättyä \c night::starthour muuttujan
-määrittelemään yön alkamisajankohtaan. Tällöin saatetaan viimeisenä
-päivänä kertoa tuulesta vain tähän hetkeen saakka.
-
 \subsection subsection_wind_overview_part1 Ensimmäinen päivä
 
 Jos päivä on mennyt liian pitkälle, eli kello on yli
