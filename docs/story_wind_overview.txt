@@ -13,12 +13,12 @@ Tarinan yleismuoto on
 
 Ensimmäisen osan aikamäärittelyt saadaan muuttujista
 \code
-textgen::[kappale]::story::wind_overview::day::starthour = [0-23]
-textgen::[kappale]::story::wind_overview::day::maxstarthour = [0-23]
-textgen::[kappale]::story::wind_overview::night::starthour = [0-23]
-textgen::[kappale]::story::wind_overview::night::maxstarthour = [0-23]
-textgen::[kappale]::story::wind_overview::night::endhour = [0-23]
-textgen::[kappale]::story::wind_overview::night::minendhour = [0-23]
+textgen::[kappale]::story::wind_overview::day::starthour = [0-23] (6)
+textgen::[kappale]::story::wind_overview::day::maxstarthour = [0-23] (starthour)
+textgen::[kappale]::story::wind_overview::night::starthour = [0-23] (18)
+textgen::[kappale]::story::wind_overview::night::maxstarthour = [0-23] (starthour)
+textgen::[kappale]::story::wind_overview::night::endhour = [0-23] (06)
+textgen::[kappale]::story::wind_overview::night::minendhour = [0-23] (endhour)
 \endcode
 Tyypilliset asetukset ovat
 \code
@@ -197,7 +197,7 @@ Nopeuden vaihteluväli saadaan laskemalla aikakeskiarvojen minimi ja maksimi.
 
 Muuttujan
 \code
-textgen::[kappale]::story::wind_overview::range_limit = [0-]
+textgen::[kappale]::story::wind_overview::range_limit = [0-] (0)
 \endcode
 arvo on keskituulen raja, jonka alapuolella tuulesta kerrotaan
 vaihteluväli. Arvo nolla käytännössä siis tarkoittaisi, ettei
