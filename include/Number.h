@@ -50,7 +50,7 @@ namespace TextGen
 	{ return theFormatter.visit(*this); }
 
 	virtual bool isDelimiter() const
-	{ return true; }
+	{ return false; }
 
   private:
 
