@@ -118,8 +118,8 @@ namespace
 	endtime.ChangeByDays(1);
 	endtime.SetHour(0);
 
-	if(thePeriod.localStartTime().IsLessThan(endtime))
-	  endtime = thePeriod.localStartTime();
+	if(thePeriod.localEndTime().IsLessThan(endtime))
+	  endtime = thePeriod.localEndTime();
 
 	return WeatherPeriod(starttime,endtime);
 
@@ -250,7 +250,7 @@ namespace TextGen
 	if(days>2)
 	  throw TextGenError("relativehumidity_lowest cannot handle "+lexical_cast<string>(days)+" days");
 
-	const bool start_tomorrow = (itsPeriod.localStartTime().GetHour() < maxstarthour);
+	const bool start_tomorrow = (itsPeriod.localStartTime().GetHour() > maxstarthour);
 
 	WeatherPeriod firstperiod = first_period(itsPeriod,start_tomorrow);
 
