@@ -41,56 +41,117 @@ namespace BasicDictionaryTest
 	TEST_PASSED();
   }
 
-  //! Test interface functionality
-  void interface(void)
+  //! Test init()
+  void init(void)
   {
 	using namespace textgen;
-
-	// Should succeed
 	BasicDictionary dict;
-	dict.init("some language");
 
-	// Should succeed
+	// Should do nothing
+	dict.init("foobar");
 	if(!dict.empty())
-	  TEST_FAILED("empty() returned false on empty dictionary");
+	  TEST_FAILED("dict should be empty after init");
 
-	//! Should be zero
+	TEST_PASSED();
+  }
+
+  //! Test insert()
+  void insert(void)
+  {
+	using namespace textgen;
+	BasicDictionary dict;
+
+	dict.insert("foo","bar");
+	if(dict.empty())
+	  TEST_FAILED("dict should not be empty after insert");
+	if(dict.size()!=1)
+	  TEST_FAILED("dict size should be 1 after 1 insert");
+	dict.insert("bar","foo");
+	if(dict.size()!=2)
+	  TEST_FAILED("dict size should be 2 after2 inserts");
+	dict.insert("foo","foo");
+	if(dict.size()!=2)
+	  TEST_FAILED("dict size should not change after duplicate insert");
+
+	TEST_PASSED();
+
+  }
+
+  //! Test empty
+  void empty(void)
+  {
+	using namespace textgen;
+	BasicDictionary dict;
+
+	if(!dict.empty())
+	  TEST_FAILED("empty() should return true after construction");
+	dict.insert("foo","bar");
+	if(dict.empty())
+	  TEST_FAILED("empty() should return false after insert");
+
+	TEST_PASSED();
+	
+  }
+
+  //! Test size
+  void size(void)
+  {
+	using namespace textgen;
+	BasicDictionary dict;
+
 	if(dict.size()!=0)
-	  TEST_FAILED("size()<>0 on empty directory");
+	  TEST_FAILED("size() should return 0 after construction");
+	dict.insert("foo","bar");
+	if(dict.size()!=1)
+	  TEST_FAILED("size() should return 1 after 1 insert");
+	dict.insert("bar","foo");
+	if(dict.size()!=2)
+	  TEST_FAILED("size() should return 2 after 2 inserts");
 
-	// Should fail
-	if(dict.contains("keyword"))
-	  TEST_FAILED("contains() succeeded on an empty dictionary");
+	TEST_PASSED();
 
-	// Should throw
+  }
+
+  //! Test contains
+  void contains(void)
+  {
+	using namespace textgen;
+	BasicDictionary dict;
+
+	if(dict.contains("foo"))
+	  TEST_FAILED("contains() should return false for empty dictionary");
+	dict.insert("foo","bar");
+	if(!dict.contains("foo"))
+	  TEST_FAILED("contains(foo) returned false after insert(foo,bar)");
+	if(dict.contains("bar"))
+	  TEST_FAILED("contains(bar) returned true after insert(foo,bar)");
+
+	TEST_PASSED();
+  }
+
+  //! Test find()
+  void find(void)
+  {
+	using namespace textgen;
+	BasicDictionary dict;
+
 	try
 	  {
-		string word = dict.find("keyword");
-		TEST_FAILED("find() should throw on empty dictionary");
+		dict.find("foo");
+		TEST_FAILED("find() should throw for empty dictionary");
 	  }
 	catch(...) { }
 
-	// Should succeed
-	dict.insert("keyword","phrase");
+	dict.insert("foo","bar");
+	if(dict.find("foo") != "bar")
+	  TEST_FAILED("find(foo) should return bar after insert(foo,bar)");
 
-	if(dict.empty())
-	  TEST_FAILED("empty() should return false after insert()");
-
-	if(dict.size()!=1)
-	  TEST_FAILED("size()!=1 after one insert()");
-
-	// Should succeed
-	if(!dict.contains("keyword"))
-	  TEST_FAILED("contains(keyword) should succeed after insert(keyword,phrase)");
-
-	// Should succeed
-	if(dict.find("keyword") != "phrase")
-	  TEST_FAILED("find(keyword) should succeed after insert(keyword,phrase)");
-
-	// Should fail silently
-	dict.insert("keyword","wrong phrase");
-	if(dict.find("keyword") != "phrase")
-	  TEST_FAILED("second insert(keyword,phrase) should have failed");
+	try
+	  {
+		dict.find("bar");
+		TEST_FAILED("find(bar) should throw after insert(foo,bar)");
+	  }
+	catch(...) { }
 
 	TEST_PASSED();
   }
@@ -108,7 +169,12 @@ namespace BasicDictionaryTest
 	void test(void)
 	{
 	  TEST(structors);
-	  TEST(interface);
+	  TEST(init);
+	  TEST(insert);
+	  TEST(empty);
+	  TEST(size);
+	  TEST(contains);
+	  TEST(find);
 	}
 
   }; // class tests
