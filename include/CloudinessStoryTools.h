@@ -14,6 +14,8 @@
 
 namespace TextGen
 {
+  class Sentence;
+
   namespace CloudinessStoryTools
   {
 	// ----------------------------------------------------------------------
@@ -55,6 +57,7 @@ namespace TextGen
 								 unsigned int theStart,
 								 unsigned int theEnd);
 
+	Sentence cloudinessphrase(CloudinessType theType);
 
 
   } // namespace CloudinessStoryTools

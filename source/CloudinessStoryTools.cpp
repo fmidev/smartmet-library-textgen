@@ -18,6 +18,7 @@
 
 #include "CloudinessStoryTools.h"
 #include "Settings.h"
+#include "Sentence.h"
 
 namespace TextGen
 {
@@ -402,6 +403,55 @@ namespace TextGen
 
 	  // recursion
 	  return similartype(similartypes);
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Returns cloudiness phrase for given cloudiness type
+	 *
+	 * \param theType The cloudiness type
+	 * \return The respective cloudiness phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	Sentence cloudinessphrase(CloudinessType theType)
+	{
+	  Sentence sentence;
+	  switch(theType)
+		{
+		case MostlyCloudy:
+		  sentence << "enimmäkseen";
+		case Cloudy:
+		  sentence << "pilvistä";
+		  break;
+		case MostlyPartlyCloudy:
+		  sentence << "enimmäkseen";
+		case PartlyCloudy:
+		  sentence << "puolipilvistä";
+		  break;
+		case MostlyClear:
+		  sentence << "enimmäkseen";
+		case Clear:
+		  sentence << "selkeää";
+		  break;
+		case CloudyOrPartlyCloudy:
+		  sentence << "pilvistä" << "tai" << "puolipilvistä";
+		  break;
+		case ClearOrPartlyCloudy:
+		  sentence << "selkeää" << "tai" << "puolipilvistä";
+		  break;
+		case DecreasingCloudiness:
+		  sentence << "selkenevää";
+		  break;
+		case IncreasingCloudiness:
+		  sentence << "pilvistyvää";
+		  break;
+		case VariableCloudiness:
+		  sentence << "vaihtelevaa pilvisyyttä";
+		  break;
+		}
+	  return sentence;
+
 	}
 
 
