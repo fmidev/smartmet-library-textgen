@@ -35,25 +35,16 @@ namespace TextGen
 					 const WeatherArea & theArea,
 					 const string & theName)
 	{
-	  if(theName == "temperature_mean")
+	  if(TemperatureStory::hasStory(theName))
 		{
 		  TemperatureStory story(theSources,theArea);
-		  return story.mean();
+		  return story.makeStory(theName);
 		}
-	  if(theName == "temperature_meanmax")
-		{
-		  TemperatureStory story(theSources,theArea);
-		  return story.meanmax();
-		}
-	  if(theName == "temperature_meanmin")
-		{
-		  TemperatureStory story(theSources,theArea);
-		  return story.meanmin();
-		}
-	  if(theName == "precipitation_total")
+
+	  if(PrecipitationStory::hasStory(theName))
 		{
 		  PrecipitationStory story(theSources,theArea);
-		  return story.total();
+		  return story.makeStory(theName);
 		}
 
 	  throw TextGenError("StoryFactory: Unrecognized story "+theName);
