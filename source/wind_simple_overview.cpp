@@ -34,7 +34,7 @@ namespace TextGen
 
   Paragraph WindStory::simple_overview() const
   {
-	MessageLogger log("WeatherStory::short_overview");
+	MessageLogger log("WeatherStory::simple_overview");
 
 	// Establish options
 
