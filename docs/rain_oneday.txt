@@ -2135,4 +2135,18 @@ Alla on lueteltu kaikki uniikit tarinat numeroituina.
 </table>
 \endhtmlonly
 
+Taulukko voidaan edellen yksinkertaistaa alla olevaan muotoon.
+Taulukon aikafraaseihin tulee sijoittaa vain yll‰olevan taulukon
+mukaisia yhdistelmi‰. Joissakin tapauksissa lauseen ensimm‰inen
+aikafraasi voi myˆs olla tyhj‰, jolloin lause viittaa l‰hinn‰
+kyseiseen p‰iv‰‰n tai suurimpaan osaa siit‰.
+
+\htmlonly
+[Aamulla] [paikoin] [sadetta]
+[Aamulla] [paikoin] [sadetta], [aamulla] [enimm‰kseen selke‰‰] ja poutaa
+[Aamulla] [paikoin] [sadetta], [aamulla] poutaa
+[Enimm‰kseen selke‰‰], [aamulla] [paikoin] [sadetta]
+</table>
+\endhtmlonly
+
 */
