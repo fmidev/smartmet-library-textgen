@@ -154,7 +154,6 @@ namespace WeatherAnalysis
 								  theTimeAcceptor,
 								  theTester);
 		}
-	  case Pressure:
 	  case WindDirection:
 		break;
 	  }
