@@ -13,6 +13,8 @@
 #include "Paragraph.h"
 #include "Sentence.h"
 
+#include "boost/lexical_cast.hpp"
+
 using namespace std;
 using namespace boost;
 
@@ -129,7 +131,7 @@ namespace TextGen
 
 	const int max_words_on_line = 19;	// specified by Sonera
 
-	int lines = 0;
+	int lines = 1;
 	int words_on_line = 0;
 	string ret;
 	for(container_type::const_iterator it = itsParts.begin();
@@ -144,6 +146,8 @@ namespace TextGen
 				++lines;
 				words_on_line = 0;
 			  }
+			if(words_on_line==0)
+			  ret += 'r' + lexical_cast<string>(lines) + ',';
 			ret += padzeros(*it,3);
 			ret += ',';
 			++words_on_line;
