@@ -195,6 +195,22 @@ namespace TextGen
 
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Set a new forecast data
+   *
+   * \param theSources new data
+   */
+  // ----------------------------------------------------------------------
+  void TextGenerator::sources(const AnalysisSources & theSources)
+  {
+	itsPimple->itsSources = theSources;
+  }
+
+
 } // namespace TextGen
 
 // ======================================================================
+
+
+
