@@ -59,9 +59,9 @@ namespace TextGen
 		{
 		  sonera_check(theNumber);
 		  if(theNumber < 0)
-			*sentence << "miinus" << -theNumber;
+			*sentence << "miinus" << Number<int>(-theNumber);
 		  else
-			*sentence << theNumber;
+			*sentence << Number<int>(theNumber);
 		}
 	  else
 		throw TextGenError("Numberformatter '"+formatter+"' is unknown");
