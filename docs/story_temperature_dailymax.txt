@@ -51,12 +51,12 @@ Aikafraasit ovat tyyppejä \ref sec_periodifraasit_today ja
 \ref sec_periodifraasit_next_day. Niihin liittyviä asetuksia
 kontrolloidaan muuttujilla
 \code
-textgen::[kappale]::story::temperature_dailymax::day1::timephrases
-textgen::[kappale]::story::temperature_dailymax::day2::timephrases
+textgen::[kappale]::story::temperature_dailymax::today::timephrases
+textgen::[kappale]::story::temperature_dailymax::next_day::timephrases
 \endcode
 Tyypillisiä asetuksia ovat esimerkiksi
 \code
-textgen::[kappale]::story::temperature_dailymax::day2::timephrases = followingday
+textgen::[kappale]::story::temperature_dailymax::next_day::timephrases = followingday
 \endcode
 
 Komparatiivin valinta perustuu muuttujiin

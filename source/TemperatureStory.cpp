@@ -445,7 +445,7 @@ namespace TextGen
 	sentence << "päivän ylin lämpötila"
 			 << "on"
 			 << PeriodPhraseFactory::create("today",
-											itsVar+"::day1",
+											itsVar,
 											itsForecastTime,
 											period)
 			 << temperature_phrase(min1,mean1,max1,mininterval,interval_zero);
@@ -517,7 +517,7 @@ namespace TextGen
 		if(p==2)
 		  {
 			sentence << PeriodPhraseFactory::create("next_day",
-													itsVar+"::day2",
+													itsVar,
 													itsForecastTime,
 													period);
 			sentence << temperature_comparison(mean1,mean2,itsVar);
@@ -622,7 +622,7 @@ namespace TextGen
 	sentence << "yön alin lämpötila"
 			 << "on"
 			 << PeriodPhraseFactory::create("tonight",
-											itsVar+"::night1",
+											itsVar,
 											itsForecastTime,
 											period)
 			 << temperature_phrase(min1,mean1,max1,mininterval,interval_zero);
@@ -693,7 +693,7 @@ namespace TextGen
 		if(p==2)
 		  {
 			sentence << PeriodPhraseFactory::create("next_night",
-													itsVar+"::night2",
+													itsVar,
 													itsForecastTime,
 													period);
 			sentence << temperature_comparison(mean1,mean2,itsVar);

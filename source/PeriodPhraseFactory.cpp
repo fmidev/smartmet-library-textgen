@@ -166,7 +166,8 @@ namespace TextGen
 	  using WeekdayTools::on_weekday;
 	  Sentence sentence;
 
-	  const string preferences = Settings::optional_string(theVariable,"");
+	  const string var = theVariable + "::until_tonight::timephrases";
+	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("none,today,atday,weekday");
 	  list<string> order = reorder_preferences(preferences,defaults);
 
@@ -213,7 +214,8 @@ namespace TextGen
 	  using WeekdayTools::night_against_weekday;
 	  Sentence sentence;
 
-	  const string preferences = Settings::optional_string(theVariable,"");
+	  const string var = theVariable + "::until_morning::timephrases";
+	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("none,tonight,atnight,weekday");
 	  list<string> order = reorder_preferences(preferences,defaults);
 
@@ -260,7 +262,8 @@ namespace TextGen
 	  using WeekdayTools::on_weekday;
 	  Sentence sentence;
 
-	  const string preferences = Settings::optional_string(theVariable,"");
+	  const string var = theVariable + "::today::timephrases";
+	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("none,today,tomorrow,atday,weekday");
 	  list<string> order = reorder_preferences(preferences,defaults);
 
@@ -312,7 +315,8 @@ namespace TextGen
 	  using WeekdayTools::night_against_weekday;
 	  Sentence sentence;
 
-	  const string preferences = Settings::optional_string(theVariable,"");
+	  const string var = theVariable + "::tonight::timephrases";
+	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("none,tonight,atnight,weekday");
 	  list<string> order = reorder_preferences(preferences,defaults);
 
@@ -359,7 +363,8 @@ namespace TextGen
 	  using WeekdayTools::night_against_weekday;
 	  Sentence sentence;
 
-	  const string preferences = Settings::optional_string(theVariable,"");
+	  const string var = theVariable + "::next_night::timephrases";
+	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("tonight,atnight,followingnight,weekday");
 	  list<string> order = reorder_preferences(preferences,defaults);
 
@@ -403,7 +408,8 @@ namespace TextGen
 	  using WeekdayTools::on_weekday;
 	  Sentence sentence;
 
-	  const string preferences = Settings::optional_string(theVariable,"");
+	  const string var = theVariable + "::next_day::timephrases";
+	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("tomorrow,followingday,weekday");
 	  list<string> order = reorder_preferences(preferences,defaults);
 
@@ -442,7 +448,8 @@ namespace TextGen
 	  using WeekdayTools::from_weekday;
 	  Sentence sentence;
 
-	  const string preferences = Settings::optional_string(theVariable,"");
+	  const string var = theVariable + "::next_days::timephrases";
+	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("tomorrow,weekday");
 	  list<string> order = reorder_preferences(preferences,defaults);
 
@@ -504,31 +511,29 @@ namespace TextGen
 					const NFmiTime & theForecastTime,
 					const WeatherPeriod & thePeriod)
 	{
-	  const string var = theVariable + "::timephrases";
-
 	  if(theType == "until_tonight")
-		return until_tonight(var,theForecastTime,thePeriod);
+		return until_tonight(theVariable,theForecastTime,thePeriod);
 
 	  if(theType == "until_morning")
-		return until_morning(var,theForecastTime,thePeriod);
+		return until_morning(theVariable,theForecastTime,thePeriod);
 
 	  if(theType == "today")
-		return today(var,theForecastTime,thePeriod);
+		return today(theVariable,theForecastTime,thePeriod);
 
 	  if(theType == "tonight")
-		return tonight(var,theForecastTime,thePeriod);
+		return tonight(theVariable,theForecastTime,thePeriod);
 
 	  if(theType == "next_night")
-		return next_night(var,theForecastTime,thePeriod);
+		return next_night(theVariable,theForecastTime,thePeriod);
 
 	  if(theType == "next_day")
-		return next_day(var,theForecastTime,thePeriod);
+		return next_day(theVariable,theForecastTime,thePeriod);
 
 	  if(theType == "next_days")
-		return next_days(var,theForecastTime,thePeriod);
+		return next_days(theVariable,theForecastTime,thePeriod);
 
 	  if(theType == "remaining_days")
-		return remaining_days(var,theForecastTime,thePeriod);
+		return remaining_days(theVariable,theForecastTime,thePeriod);
 
 	  throw TextGenError("PeriodPhraseFactory::create does not recognize type "+theType);
 	}

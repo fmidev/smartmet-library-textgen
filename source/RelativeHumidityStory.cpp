@@ -169,7 +169,7 @@ namespace TextGen
 	sentence << "alin suhteellinen kosteus"
 			 << "on"
 			 << PeriodPhraseFactory::create("today",
-											itsVar+"::day1",
+											itsVar,
 											itsForecastTime,
 											firstperiod)
 			 << Integer(humidity1)
@@ -201,7 +201,7 @@ namespace TextGen
 
 		sentence << Delimiter(",")
 				 << PeriodPhraseFactory::create("next_day",
-												itsVar+"::day2",
+												itsVar,
 												itsForecastTime,
 												secondperiod);
 		if(humidity2 - humidity1 >= limit_significantly_greater)

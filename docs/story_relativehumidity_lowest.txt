@@ -43,12 +43,12 @@ Aikafraasit ovat tyyppi‰ \ref sec_periodifraasit_today ja
 \ref sec_periodifraasit_next_day. Niihin liittyvi‰ asetuksia
 kontrolloidaan muuttujilla
 \code
-textgen::[kappale]::story::relativehumidity_lowest::day1::timephrases
-textgen::[kappale]::story::relativehumidity_lowest::day2::timephrases
+textgen::[kappale]::story::relativehumidity_lowest::today::timephrases
+textgen::[kappale]::story::relativehumidity_lowest::next_day::timephrases
 \endcode
 Tyypillisi‰ asetuksia ovat esimerkiksi
 \code
-textgen::[kappale]::story::relativehumidity_lowest::day2::timephrases = followingday
+textgen::[kappale]::story::relativehumidity_lowest::next_day::timephrases = followingday
 \endcode
 
 P‰iv‰n m‰‰ritelm‰ saadaan muuttujista

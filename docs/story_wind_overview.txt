@@ -38,8 +38,8 @@ päivänä kertoa tuulesta vain tähän hetkeen saakka.
 
 \subsection subsection_wind_overview_part1 Ensimmäinen päivä
 
-Jos päivä on mennyt liian pitkälle, eli kello on yli \c
-day::maxstarthour, kerrotaan tuuli ensi aamuun saakka. Mukana on siis
+Jos päivä on mennyt liian pitkälle, eli kello on yli
+\c day::maxstarthour, kerrotaan tuuli ensi aamuun saakka. Mukana on siis
 sekä jäljellä oleva päivä että yö.
 
 Mahdolliset tarinat tällä "jatketulle" yöjaksolle ovat
@@ -51,13 +51,17 @@ Mahdolliset tarinat tällä "jatketulle" yöjaksolle ovat
   -# "[Ajanjaksona] hirmumyrskyä."
   -# "[Ajanjaksona] [suuntatuulta] X...Y m/s."
 
-Mahdolliset aikajaksot ovat
-
-  -# "viikonpäivän vastaisena yönä"
-  -# "yöllä"
-
-Erityisesti siis fraasia "ensi yönä" ei haluta käyttää, "yöllä" on
-parempi koska jakso on jo käytännössä menossa.
+Aikafraasin tyyppi on \ref sec_periodifraasit_until_morning, jota
+kontrolloidaan muuttujalla
+\code
+textgen::[kappale]::story::wind_overview::until_morning::timephrases
+\endcode
+Sopiva arvo muuttujalle on esimerkiksi
+\code
+textgen::[kappale]::story::wind_overview::until_morning::timephrases = atnight,weekday
+\endcode
+koska fraasia "ensi yönä" (tonight) ei välttämättä haluta käyttää,
+"yöllä" (atnight) sopinee tilanteeseen paremmin.
 
 Mahdolliset voimakkuudet ovat
  
@@ -89,7 +93,20 @@ Suunnan ja nopeuden laskeminen eri jaksoille käsitellään jatkossa
 erikseen.
 
 Jos päivä on tarpeeksi pitkä käsiteltäväksi, käsitellään se kuten yö
-edellä. Lisäksi tuotetaan sivulause yön tuulesta, joka on muotoa
+edellä. Tällöin aikafraasi on kuitenkin tyyppiä
+\ref sec_periodifraasit_until_tonight, jota kontrolloidaan
+muuttujalla
+Aikafraasin tyyppi on \ref sec_periodifraasit_until_tonight, jota
+kontrolloidaan muuttujalla
+\code
+textgen::[kappale]::story::wind_overview::until_tonight::timephrases
+\endcode
+Suositeltava arvo on esimerkiksi
+\code
+textgen::[kappale]::story::wind_overview::until_tonight::timephrases = atday,weekday
+\endcode
+
+Lisäksi tuotetaan sivulause yön tuulesta, joka on muotoa
 
   -# ", [ajanjaksona] [voimakasta] [suuntatuulta]."
   -# ", [ajanjaksona] tuuli heikkenee."
@@ -98,24 +115,21 @@ edellä. Lisäksi tuotetaan sivulause yön tuulesta, joka on muotoa
   -# ", [ajanjaksona] [suuntatuulta]."
   -# ", [ajanjaksona] [suuntatuulta] X...Y m/s."
 
-Mahdolliset aikajaksot päiväosalle ovat tällöin
-
-  -# "viikonpäivänä"
-  -# "tänään"
-  -# "päivällä"
-  -# ""
-
-Mahdolliset aikajaksot yöosalle ovat
-
-  -# "viikonpäivän vastaisena yönä"
-  -# "seuraavana yönä"
-  -# "ensi yönä"
-  -# "yöllä"
-
-Mukana on siis myös "ensi yönä", mitä ei käytetty pelkän yön tarinassa.
+Sivulaiseen aikafraasi on tyyppiä \ref sec_periodifraasit_tonight,
+jota kontrolloidaan muuttujalla
+\code
+textgen::[kappale]::story::wind_overview::tonight::timephrases
+\endcode
+Suositeltava arvo on esimerkiksi
+\code
+textgen::[kappale]::story::wind_overview::tonight::timephrases = atnight,weekday
+\endcode
+Tässä yhteydessä olisi myös mahdollista käyttää fraasia "ensi yönä"
+(tonight), joka ei ollut suositeltavaa päiväosan puuttuessa.
 
 Lisäksi on mahdollista, että päivän ja yön tuulet ovat niin
-samanlaisia, ettei sivulausetta ole lainkaan.
+samanlaisia, ettei sivulausetta ole lainkaan. Tällöin ei käytetä
+aikafraasia ollenkaan.
 
 \subsection subsection_wind_overview_part2 Toinen päivä
 
@@ -136,11 +150,15 @@ Toisen päivän tarinan muoto on
   -# "[Ajanjaksona] [voimakasta] [suuntatuulta]."
   -# "[Ajanjaksona] [voimakkaaksi] [heikkenevää/voimistuvaa] [suuntatuulta]."
 
-missä aikajakso on jokin seuraavista
-
-  -# "viikonpäivänä"
-  -# "seuraavana päivänä"
-  -# "huomenna"
+Aikafraasi on tyyppiä \ref sec_periodifraasit_next_day, jota kontrolloidaan
+muuttujalla
+\code
+textgen::[kappale]::story::wind_overview::next_day::timephrases
+\endcode
+Suositeltava arvo on esimerkiksi
+\code
+textgen::[kappale]::story::wind_overview::next_day::timephrases = tomorrow,followingday
+\endcode
 
 \subsection subsection_wind_overview_partx Loput päivät
 
@@ -158,10 +176,15 @@ Tästä loppuajasta kerrotaan yhdelle virkkeellä tai sivulauseella.
   -# "[ajanjaksosta alkaen] ajoittain [voimakasta] tuulta."
   -# "[ajanjaksosta alkaen] ajoittain [voimakasta] [suuntatuulta]."
 
-missä mahdolliset aikajaksot ovat
-
-  -# "viikonpäivästä alkaen"
-  -# "huomisesta alkaen"
+Aikafraasi on tyyppiä \ref sec_periodifraasit_next_days, jota kontrolloidaan
+muuttujalla
+\code
+textgen::[kappale]::story::wind_overview::next_days::timephrases
+\endcode
+Suositeltava arvo on esimerkiksi
+\code
+textgen::[kappale]::story::wind_overview::next_days::timephrases = tomorrow,weekday
+\endcode
 
 \section section_wind_overview_algorithm Algoritmit
 
@@ -202,29 +225,9 @@ Jos jäljellä on vain jatkettu yöjakso
   -# Jos luokka on hirmumyrskyä, "Hirmumyrskyä."
   -# Muutoin "[Voimakasta] [suuntatuulta]."
 
-Lisäksi tarinan eteen laitetaan mahdollinen aikamääre
-
-  -# Jos ennustusaika on samaa vuorokautta kuin jakson alkamisaika, "yöllä"
-  -# Muutoin "viikonpäivän vastaisena yönä"
-
 Jos jäljellä on sekä päivä- että yöjakso, käsitellään päiväjakso kuten
 edellä. Lisäksi talletetaan jatkoa varten laskettu nopeusluokka ja
 suuntaluokka.
-
-Päiväjakson eteen valitaan aikamääre seuraavasti
-
-  -# Jos ennustuspäivä on eri kuin jakson alkamispäivä, "viikonpäivänä"
-  -# Jos muuttuja \c day1::prefer_phrase_today on true, "tänään"
-  -# Jos muuttuja \c day1::prefer_phrase_day on true, "päivällä"
-  -# Muutoin ""
-
-Yöjakson eteen valitaan aikamääre seuraavasti
-
-  -# Jos yö alkaa ennustuspäivänä
-     -# Jos \c night1::prefer_phrase_next_night on true, "ensi yönä"
-     -# Muutoin "yöllä"
-  -# Jos muuttuja \c night:1::prefer_phrase_next_night on true, "seuraavana yönä"
-  -# Muutoin "viikonpäivän vastaisena yönä"
 
 Yötarina generoidaan aikamääreen perään seuraavasti:
 
@@ -243,13 +246,6 @@ Viimeisin mainittu nopeusluokka ja suuntaluokka otetaan talteen
 seuraavan jakson käsittelyä varten.
 
 \subsection subsection_wind_overview_algorithm_part2 Toinen päivä
-
-Toisen päivän ennuste aloitetaan aikamääreellä seuraavasti
-
-  -# Jos \c day2::prefer_phrase_weekday on true, "viikonpäivänä"
-  -# Jos \c day2::prefer_phrase_next_day on true, "seuraavana päivänä"
-  -# Jos päivä alkaa ennustushetkestä seuraavana päivänä, "huomenna"
-  -# Muutoin "seuraavana päivänä"
 
 Itse tarinaosuus generoidaan seuraavasti
 
@@ -282,12 +278,6 @@ Itse tarinaosuus generoidaan seuraavasti
 
 Tässä tapauksessa jakson pituus ylittänee 24 tuntia, ja tuulesta pitää
 kertoa yhteenvetomaisesti verrattuna ensimmäiseen päivään ja yöhön.
-
-Tarina aloitetaan aikamääreellä seuraavasti
-
-  -# Jos \c day2::prefer_phrase_weekday on true, "viikonpäivästä lähtien"
-  -# Jos päivä alkaa ennustushetkestä seuraavana päivänä, "huomisesta lähtien"
-  -# Muutoin "viikonpäivästä lähtien"
 
  -# Lasketaan nopeusluokka ja suuntaluokka
  -# Jos nopeusluokka on hyvä
@@ -351,8 +341,13 @@ Tarvittavat fraasit ovat
  - "N-tuuleksi", N=1-8
  - "N-puoleista tuulta", N=1-8
  - "N-puoleiseksi tuuleksi", N=1-8
- - "N-na", N=1-7
- - "N-alkaen", N=1-7
+
+Lisäksi tarvitaan periodifraasit
+\ref sec_periodifraasit_until_tonight,
+\ref sec_periodifraasit_until_morning,
+\ref sec_periodifraasit_tonight,
+\ref sec_periodifraasit_next_day ja
+\ref sec_periodifraasit_next_days.
 
 Oleelliset fraasit ovat eri kielillä
 
