@@ -8,12 +8,11 @@
 #include "FunctionAnalyzer.h"
 
 #include "AnalysisSources.h"
+#include "NullCalculator.h"
 #include "WeatherArea.h"
 #include "WeatherLimits.h"
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
-
-#include "NFmiDataModifierDummy.h"
 
 using namespace std;
 
@@ -43,7 +42,7 @@ namespace WeatherAnalysis
 							const string & theParameterName) const
   {
 	// This is static since this is a dummy, avoids repeated creation
-	static NFmiDataModifierDummy dummy;
+	static NullCalculator dummy;
 
 	// The 0-interval implies the interval is meaningless, and hence dummy
 	return analyze(theSources,

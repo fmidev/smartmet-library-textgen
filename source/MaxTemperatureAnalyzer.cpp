@@ -7,10 +7,9 @@
 
 #include "MaxTemperatureAnalyzer.h"
 #include "AnalysisSources.h"
+#include "MaximumCalculator.h"
 #include "RegularFunctionAnalyzer.h"
 #include "WeatherResult.h"
-
-#include "NFmiDataModifierMax.h"
 
 using namespace std;
 using namespace boost;
@@ -44,12 +43,12 @@ namespace WeatherAnalysis
 
 	auto_ptr<FunctionAnalyzer> analyzer(new RegularFunctionAnalyzer(theAreaFunction,theTimeFunction));
 
-	NFmiDataModifierMax modifier;
+	MaximumCalculator maxcalculator;
 	const int one_day = 24;
 
 	return analyzer->analyze(theSources,theLimits,thePeriod,theArea,
 							 varname,parname,
-							 one_day,modifier);
+							 one_day,maxcalculator);
   }
 
 } // namespace WeatherAnalysis

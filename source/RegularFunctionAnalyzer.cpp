@@ -8,7 +8,8 @@
 #include "RegularFunctionAnalyzer.h"
 
 #include "AnalysisSources.h"
-#include "DataModifierFactory.h"
+#include "QueryDataIntegrator.h"
+#include "CalculatorFactory.h"
 #include "MaskSource.h"
 #include "WeatherAnalysisError.h"
 #include "WeatherArea.h"
@@ -16,7 +17,6 @@
 #include "WeatherResult.h"
 #include "WeatherSource.h"
 
-#include "NFmiDataIntegrator.h"
 #include "NFmiEnumConverter.h"
 #include "NFmiFastQueryInfo.h"
 #include "NFmiQueryData.h"
@@ -53,7 +53,7 @@ namespace WeatherAnalysis
    *
    * If theInterval is < 0, an invalid result is returned.
    * If theInterval is 0, no subintervals are created and
-   * theSubModifier is ignored.
+   * theSubCalculator is ignored.
    *
    * \param theSources Analysis sources
    * \param theLimits Analysis limits, not used
@@ -62,7 +62,7 @@ namespace WeatherAnalysis
    * \param theDataName The name of the data file
    * \param theParameterName The name of the parameter
    * \param theInterval The sub interval in hours
-   * \param theSubModifier The modifier for the sub interval
+   * \param theSubCalculator The integrator for the sub interval
    * \return The analysis result
    */
   // ----------------------------------------------------------------------
@@ -75,7 +75,7 @@ namespace WeatherAnalysis
 								   const std::string & theDataName,
 								   const std::string & theParameterName,
 								   int theInterval,
-								   NFmiDataModifier & theSubModifier) const
+								   Calculator & theSubCalculator) const
   {
 	// Safety against bad loop
 	if(theInterval<0)
@@ -112,17 +112,17 @@ namespace WeatherAnalysis
 
 		// Result
 
-		shared_ptr<NFmiDataModifier> spacemod = DataModifierFactory::create(itsAreaFunction);
-		shared_ptr<NFmiDataModifier> timemod = DataModifierFactory::create(itsTimeFunction);
+		shared_ptr<Calculator> spacemod = CalculatorFactory::create(itsAreaFunction);
+		shared_ptr<Calculator> timemod = CalculatorFactory::create(itsTimeFunction);
 
-		float result = NFmiDataIntegrator::Integrate(qi,
-													 thePeriod.utcStartTime(),
-													 thePeriod.utcEndTime(),
-													 theInterval,
-													 theSubModifier,
-													 *timemod,
-													 *mask,
-													 *spacemod);
+		float result = QueryDataIntegrator::Integrate(qi,
+													  thePeriod.utcStartTime(),
+													  thePeriod.utcEndTime(),
+													  theInterval,
+													  theSubCalculator,
+													  *timemod,
+													  *mask,
+													  *spacemod);
 
 		if(result == kFloatMissing)
 		  return WeatherResult(kFloatMissing,0);
@@ -135,15 +135,15 @@ namespace WeatherAnalysis
 		if(!(qi.Location(theArea.point())))
 		  throw WeatherAnalysisError("Could not set desired coordinate in "+dataname);
 
-		shared_ptr<NFmiDataModifier> timemod = DataModifierFactory::create(itsTimeFunction);
+		shared_ptr<Calculator> timemod = CalculatorFactory::create(itsTimeFunction);
 
-		float result = NFmiDataIntegrator::Integrate(qi,
-													 thePeriod.utcStartTime(),
-													 thePeriod.utcEndTime(),
-													 theInterval,
-													 theSubModifier,
-													 *timemod);
-
+		float result = QueryDataIntegrator::Integrate(qi,
+													  thePeriod.utcStartTime(),
+													  thePeriod.utcEndTime(),
+													  theInterval,
+													  theSubCalculator,
+													  *timemod);
+		
 		return WeatherResult(result,1);
 
 	  }

@@ -17,11 +17,10 @@
 
 #include <string>
 
-class NFmiDataModifier;
-
 namespace WeatherAnalysis
 {
   class AnalysisSources;
+  class Calculator;
   class WeatherArea;
   class WeatherLimits;
   class WeatherPeriod;
@@ -49,7 +48,7 @@ namespace WeatherAnalysis
 								  const std::string & theDataName,
 								  const std::string & theParameterName,
 								  int theInterval,
-								  NFmiDataModifier & theSubModifier) const = 0;
+								  Calculator & theSubCalculator) const = 0;
 
   }; // class FunctionAnalyzer
 
