@@ -42,7 +42,7 @@ suosituimmuusjärjestyksen. Mahdolliset nimet on lueteltu alla
 <tr><td>atday</td><td>päivällä</td></tr>
 <tr><td>atnight</td><td>yöllä</td></tr>
 <tr><td>followingday</td><td>seuraavana päivänä</td></tr>
-<tr><td>followingnight</td></td>seuraavana yönä</td></tr>
+<tr><td>followingnight</td><td>seuraavana yönä</td></tr>
 <tr><td>none<td></td>-</td></tr>
 </table>
 
