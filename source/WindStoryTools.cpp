@@ -311,7 +311,7 @@ namespace TextGen
 	 *
 	 * \param theMinSpeed The minimum speed
 	 * \param theMaxSpeed The maximum speed
-	 * \param theMaxSpeed The mean speed
+	 * \param theMeanSpeed The mean speed
 	 * \param theDirection The direction
 	 * \param theVariable The control variable
 	 * \return The sentence

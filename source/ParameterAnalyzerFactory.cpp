@@ -47,7 +47,7 @@ namespace WeatherAnalysis
 	/*!
 	 * \brief Create a parameter analyzer for given parameter type
 	 *
-	 * \param theType The type of the text formatter
+	 * \param theParameter The parameter to be analyzed
 	 * \return An uninitialized text formatter
 	 */
 	// ----------------------------------------------------------------------
