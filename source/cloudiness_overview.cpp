@@ -50,6 +50,9 @@ namespace TextGen
 	const int clear = optional_percentage(itsVar+"::clear",40);
 	const int cloudy = optional_percentage(itsVar+"::cloudy",70);
 
+	const bool merge_same = optional_bool(itsVar+"::merge_same",true);
+	const bool merge_similar = optional_bool(itsVar+"::merge_similar",true);
+
 	// Calculate the percentages for each day in the period
 	// We do not allow forecasts longer than 3 days in order
 	// to limit the complexity of the algorithm.
@@ -136,14 +139,29 @@ namespace TextGen
 	Sentence sentence;
 	while(startday < periods.size())
 	  {
-		// seek the end for a sequence of similar days
+		// seek the end for a sequence of similar days,
+		// simultaneously establishing the merged cloudiness type
+
 		unsigned int endday = startday;
-		
-		CommonCloudiness tmp(VariableCloudiness,false);
-		while(endday+1 < periods.size() &&
-			  (tmp = similartype(types,startday,endday+1)).second)
+		CloudinessType cloudiness = types[startday];
+
+		if(merge_similar)
 		  {
-			++endday;
+			CommonCloudiness tmp(VariableCloudiness,false);
+			while(endday+1 < periods.size() &&
+				  (tmp = similartype(types,startday,endday+1)).second)
+			  {
+				cloudiness = tmp.first;
+				++endday;
+			  }
+		  }
+		else if(merge_same)
+		  {
+			while(endday+1 < periods.size() &&
+				  types[endday+1] == types[startday])
+			  {
+				++endday;
+			  }
 		  }
 
 		// generate sentence for the found period
@@ -158,7 +176,7 @@ namespace TextGen
 												itsVar,
 												itsForecastTime,
 												fullperiod)
-				 << cloudinessphrase(tmp.first);
+				 << cloudinessphrase(cloudiness);
 	  }
 	paragraph << sentence;
 
