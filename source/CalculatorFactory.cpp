@@ -10,6 +10,7 @@
 #include "MaximumCalculator.h"
 #include "MeanCalculator.h"
 #include "MinimumCalculator.h"
+#include "NullCalculator.h"
 #include "PercentageCalculator.h"
 #include "RangeAcceptor.h"
 #include "SumCalculator.h"
@@ -57,6 +58,8 @@ namespace WeatherAnalysis
 		  return shared_ptr<Calculator>(new CountCalculator);
 		case Trend:
 		  return shared_ptr<Calculator>(new TrendCalculator);
+		case NullFunction:
+		  return shared_ptr<Calculator>(new NullCalculator);
 		}
 
 	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
@@ -84,6 +87,7 @@ namespace WeatherAnalysis
 		case Minimum:
 		case Sum:
 		case Trend:
+		case NullFunction:
 		  return create(theFunction);
 		case Percentage:
 		  {
