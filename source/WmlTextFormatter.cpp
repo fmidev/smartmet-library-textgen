@@ -135,7 +135,7 @@ namespace TextGen
 		out << "<p";
 		if(!tags.empty())
 		  out << ' ' << tags;
-		out << '>' << tmp << "</p>";
+		out << '>' << tmp << "<br/></p>";
 	  }
 	return out.str();
   }
@@ -164,14 +164,15 @@ namespace TextGen
 	ostringstream out;
 
 	if(level==1)
-	  out << "<b>" 
+	  out << "<p><b>" 
 		  << text
 		  << (colon ? ":" : "")
-		  << "</b><br/><br/>";
+		  << "</b><br/></p>";
 	else if (level==2)
-	  out << text
+	  out << "<p>"
+		  << text
 		  << (colon ? ":" : "")
-		  << "<br/>";
+		  << "</p>";
 
 	return out.str();
   }
