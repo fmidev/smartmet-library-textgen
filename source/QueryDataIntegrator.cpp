@@ -255,14 +255,18 @@ namespace WeatherAnalysis
 	  if(theIndexMask.empty())
 		return kFloatMissing;
 	  
+	  if(!QueryDataTools::firstTime(theQI,theStartTime))
+		return kFloatMissing;
+
+	  const unsigned long timeindex = theQI.TimeIndex();
+
 	  for(NFmiIndexMask::const_iterator it = theIndexMask.begin();
 		  it != theIndexMask.end();
 		  ++it)
 		{
 		  theTimeCalculator.reset();
 		  
-		  if(!QueryDataTools::firstTime(theQI,theStartTime))
-			return kFloatMissing;
+		  theQI.TimeIndex(timeindex);
 		  
 		  do
 			{
@@ -380,7 +384,7 @@ namespace WeatherAnalysis
 		  ++it)
 		{
 		  theMainTimeCalculator.reset();
-		  
+
 		  for(unsigned int i=1; i<thePeriods.size(); i++)
 			{
 			  WeatherPeriod period = thePeriods.period(i);
