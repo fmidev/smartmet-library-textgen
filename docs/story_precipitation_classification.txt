@@ -39,7 +39,7 @@ textgen::[kappale]::story::precipitation_classification::maxlimit1 = [0-100]
 textgen::[kappale]::story::precipitation_classification::maxlimit2 = [0-100]
 textgen::[kappale]::story::precipitation_classification::limit1 = [0-100]
 textgen::[kappale]::story::precipitation_classification::limit2 = [0-100]
-textgen::[kappale]::story::precipitation_classification::classlimits = [range1,range2,...]
+textgen::[kappale]::story::precipitation_classification::classes = [range1,range2,...]
 \endcode
 Teksti valitaan seuraavalla logiikalla
 
