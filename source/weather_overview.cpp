@@ -84,17 +84,18 @@ namespace TextGen
 		RainPeriods overlap = overlappingPeriods(rainperiods,period);
 		RainPeriods inclusive = inclusivePeriods(rainperiods,period);
 
+		log << "Day " << day << " overlapping rains = " << overlap.size() << endl;
+		log << "Day " << day << " inclusive rains = " << inclusive.size() << endl;
+
 		overlaps.push_back(overlap);
 		inclusives.push_back(inclusive);
+
 	  }
 
 	for(int day=1; day<=n; day++)
 	  {
 		const RainPeriods::size_type noverlap = overlaps[day].size();
 		const RainPeriods::size_type ninclusive = inclusives[day].size();
-
-		log << "Day " << day << " overlapping rains = " << noverlap << endl;
-		log << "Day " << day << " inclusive rains = " << ninclusive << endl;
 
 		if(noverlap==0)
 		  {
@@ -109,13 +110,19 @@ namespace TextGen
 				  }
 				
 				WeatherPeriod period(generator.period(day).localStartTime(),
-										   generator.period(day2).localEndTime());
+									 generator.period(day2).localEndTime());
 				
+				if(day != day2)
+				  log << "Cloudiness only for days " << day << '-' << day2 << endl;
+				else
+				  log << "Cloudiness only for day " << day << endl;
+
 				CloudinessStory story(itsForecastTime,
 									  itsSources,
 									  itsArea,
 									  period,
 									  itsVar);
+
 				paragraph << story.makeStory("cloudiness_overview");
 				day = day2;
 			  }
