@@ -43,9 +43,11 @@ namespace TextGen
 
   private:
 
-	Paragraph mean(void) const;
-	Paragraph meanmax(void) const;
-	Paragraph meanmin(void) const;
+	Paragraph mean() const;
+	Paragraph meanmax() const;
+	Paragraph meanmin() const;
+	Paragraph dailymax() const;
+	Paragraph nightlymin() const;
 
 	TemperatureStory();
 	TemperatureStory(const TemperatureStory & theStory);
