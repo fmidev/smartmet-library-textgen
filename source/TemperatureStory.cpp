@@ -109,7 +109,6 @@ namespace TextGen
 	Sentence sentence;
 
 	GridForecaster forecaster;
-
 	WeatherResult result = forecaster.analyze(itsSources,
 											  Temperature,
 											  Mean,
@@ -145,8 +144,22 @@ namespace TextGen
   {
 	Paragraph paragraph;
 	Sentence sentence;
+
+	GridForecaster forecaster;
+	WeatherResult result = forecaster.analyze(itsSources,
+											  MaxTemperature,
+											  Mean,
+											  WeatherLimits(),
+											  itsPeriod,
+											  itsArea);
+
+	if(result.value() == kFloatMissing)
+	  throw TextGenError("Mean daily maximum temperature not available");
+
+	Number<int> num = FmiRound(result.value());
+
 	sentence << "keskimääräinen ylin lämpötila"
-			 << 20
+			 << num
 			 << "astetta";
 	paragraph << sentence;
 	return paragraph;
@@ -167,8 +180,22 @@ namespace TextGen
   {
 	Paragraph paragraph;
 	Sentence sentence;
+
+	GridForecaster forecaster;
+	WeatherResult result = forecaster.analyze(itsSources,
+											  MinTemperature,
+											  Mean,
+											  WeatherLimits(),
+											  itsPeriod,
+											  itsArea);
+
+	if(result.value() == kFloatMissing)
+	  throw TextGenError("Mean daily minimum temperature not available");
+
+	Number<int> num = FmiRound(result.value());
+
 	sentence << "keskimääräinen alin lämpötila"
-			 << 5
+			 << num
 			 << "astetta";
 	paragraph << sentence;
 	return paragraph;
