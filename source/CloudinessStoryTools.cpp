@@ -220,10 +220,10 @@ namespace TextGen
 			  case MostlyPartlyCloudy:
 			  case PartlyCloudy:
 			  case ClearOrPartlyCloudy:
-			  case MostlyClear:
 				return CommonCloudiness(VariableCloudiness,true);
 			  case Cloudy:
 			  case Clear:
+			  case MostlyClear:
 			  case DecreasingCloudiness:
 				return notsimilar;
 			  }
