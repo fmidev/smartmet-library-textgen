@@ -472,9 +472,13 @@ luettavuuden takia tarvitaan algoritmi, joka yhdist‰‰ kaksi vierekk‰ist‰
 aikaintervallia, jos niiden kelit ovat riitt‰v‰n samankaltaisia.
 
 M‰‰ritelm‰:
+\htmlonly
 <blockquote>
+\endhtmlonly
 Kaksi keli‰ ovat samoja, jos niist‰ kerrottaisiin samalla tekstill‰.
+\htmlonly
 </blockquote>
+\endhtmlonly
 N‰in olisi mahdollista saada algoritmi, jolla kelej‰ vertailtaisiin
 suoraan kunkin kelin prosenttiosuuden mukaan. Kuitenkin mahdolliset
 algoritmimuutokset voi tehd‰ huomattavasti turvallisemmin, jos
@@ -572,7 +576,7 @@ Esimerkiksi
 <li>Huomisaamuna X, p‰iv‰ll‰ Y, illasta alkaen Z
 <li>Illasta alkaen X, huomisaamusta alkaen Y, illalla Z.
 <li>Huomenna illasta alkaen X, tiistaiaamuna Y, p‰iv‰ll‰ Z
-</il>
+</ul>
 
 Ruotsiksi fraasit ovat
 
