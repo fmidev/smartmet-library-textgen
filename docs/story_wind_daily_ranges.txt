@@ -72,10 +72,10 @@ ajan ja paikan yli. Suunnan laatuindeksin mukaisesti suunnan
 tarkkuutta heikennet‰‰n ensin "suunnan puoleiseksi tuuleksi", ja sen
 j‰lkeen "suunnaltaan vaihtelevaksi tuuleksi".
 
-Vaadittua laatua kontrolloidaan muuttujilla
+Vaadittua laatua (suunnan keskihajonta) kontrolloidaan muuttujilla
 \code
-textgen::[kappale]::story::wind_daily_ranges::direction::accurate (= 0.8)
-textgen::[kappale]::story::wind_daily_ranges::direction::variable (= 0.4)
+textgen::[kappale]::story::wind_daily_ranges::direction::accurate (= 22.5)
+textgen::[kappale]::story::wind_daily_ranges::direction::variable (= 45)
 \endcode
 Oletusarvot on annettu suluissa.
 
