@@ -153,60 +153,6 @@ namespace SentenceTest
 
   }
 
-  //! Test realize()
-  void realize(void)
-  {
-	using namespace TextGen;
-
-#if 0
-	shared_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
-	finnish->init("fi");
-
-	shared_ptr<Dictionary> english = DictionaryFactory::create("mysql");
-	english->init("en");
-	
-	Sentence s1;
-	if(!s1.realize(*english).empty())
-	  TEST_FAILED("realization of empty sentence not empty");
-
-	s1 << "kaakko";
-	if(s1.realize(*english) != "South east.")
-	  TEST_FAILED("realization of kaakko in English failed");
-
-	s1 << "etelä";
-	if(s1.realize(*english) != "South east south.")
-	  TEST_FAILED("realization of kaakko etelä in English failed");
-
-	if(s1.realize(*finnish) != "Kaakko etelä.")
-	  TEST_FAILED("realization of kaakko etelä in Finnish failed");
-
-	Sentence s2;
-	s2 << "kaakko" << 12;
-	if(s2.realize(*english) != "South east 12.")
-	  TEST_FAILED("realization of kaakko 12 in English failed");
-
-	if(s2.realize(*finnish) != "Kaakko 12.")
-	  TEST_FAILED("realization of kaakko 12 in Finnish failed");
-
-	TEST_PASSED();
-
-	Sentence s3;
-	s3 << "kaakko" << 12 << Delimiter(",") << "etelä" << 13;
-	if(s3.realize(*english) != "South east 12, south 13")
-	  TEST_FAILED("realization of kaakko 12, etelä 13 in English failed");
-
-	Sentence s4;
-	s4 << "kaakko" << 12 << "," << "etelä" << 13;
-	if(s4.realize(*finnish) != "Kaakko 12, etelä 13")
-	  TEST_FAILED("realization of kaakko 12, etelä 13 in Finnish failed");
-
-	TEST_PASSED();
-#endif
-
-	TEST_NOT_IMPLEMENTED();
-
-  }
-
   //! The actual test driver
   class tests : public tframe::tests
   {
@@ -223,7 +169,6 @@ namespace SentenceTest
 	  TEST(empty);
 	  TEST(size);
 	  TEST(appending);
-	  TEST(realize);
 	}
 
   }; // class tests

@@ -133,45 +133,6 @@ namespace ParagraphTest
 
   }
 
-  //! Test realize()
-  void realize(void)
-  {
-	using namespace TextGen;
-
-#if 0
-	shared_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
-	finnish->init("fi");
-
-	shared_ptr<Dictionary> english = DictionaryFactory::create("mysql");
-	english->init("en");
-	
-	Sentence s1;
-	Sentence s2;
-	s1 << "kaakko";
-	s2 << "etelä";
-
-	Paragraph p1;
-	if(!p1.realize(*english).empty())
-	  TEST_FAILED("realization of empty paragraph not empty");
-
-	p1 << s1;
-	if(p1.realize(*english) != "South east.")
-	  TEST_FAILED("realization of kaakko in English failed");
-
-	p1 << s2;
-	if(p1.realize(*english) != "South east. South.")
-	  TEST_FAILED("realization of kaakko etelä in English failed");
-
-	if(p1.realize(*finnish) != "Kaakko. Etelä.")
-	  TEST_FAILED("realization of kaakko etelä in Finnish failed");
-
-	TEST_PASSED();
-#endif
-
-	TEST_NOT_IMPLEMENTED();
-
-  }
-
   //! The actual test driver
   class tests : public tframe::tests
   {
@@ -188,7 +149,6 @@ namespace ParagraphTest
 	  TEST(empty);
 	  TEST(size);
 	  TEST(appending);
-	  TEST(realize);
 	}
 
   }; // class tests
