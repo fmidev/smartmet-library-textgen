@@ -32,11 +32,11 @@ Englanniksi
 Tarina soveltuu yhden/kahden vuorokauden ennusteisiin. Sivulausetta ei
 ole yhden vuorokauden ennusteissa.
 
-Ensimm‰isest‰ vuorokaudesta ei kerrota mit‰‰n, jos sen alkuaika on v‰hint‰‰n
+Ensimm‰isest‰ vuorokaudesta ei kerrota mit‰‰n, jos sen alkuaika on yli
 \code
 textgen::[kappale]::story::relativehumidity_lowest::maxstarthour = [0-23]
 \endcode
-Toisesta vuorokaudesta ei kerrota mit‰‰n, jos sen loppu on yli
+Toisesta vuorokaudesta ei kerrota mit‰‰n, jos sen loppu on alle
 \code
 textgen::[kappale]::story::relativehumidity_lowest::minendhour = [0-23]
 \endcode
