@@ -164,7 +164,7 @@ namespace WeatherAnalysis
 	 * \param theMaximum1 The first range maximum
 	 * \param theMinimum2 The second range minimum
 	 * \param theMaximum2 The second range maximum
-	 * \param theVariable The variable containing similarity limits
+	 * \param theVar The variable containing similarity limits
 	 * \return True if the intervals are close enough
 	 */
 	// ----------------------------------------------------------------------
