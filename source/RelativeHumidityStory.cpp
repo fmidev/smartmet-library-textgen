@@ -57,7 +57,7 @@ namespace TextGen
 	: itsSources(theSources)
 	, itsArea(theArea)
 	, itsPeriod(thePeriod)
-	, itsVariable(theVariable)
+	, itsVar(theVariable)
   {
   }
   
@@ -111,20 +111,20 @@ namespace TextGen
 
 	Paragraph paragraph;
 
-	const int starthour = Settings::optional_hour(itsVariable+"::starthour",0);
-	const int endhour = Settings::optional_hour(itsVariable+"::endhour",0);
+	const int starthour = Settings::optional_hour(itsVar+"::starthour",0);
+	const int endhour = Settings::optional_hour(itsVar+"::endhour",0);
 
-	const int maxstarthour = Settings::optional_hour(itsVariable+"::maxstarthour",starthour);
-	const int minendhour   = Settings::optional_hour(itsVariable+"::minendhour",endhour);
+	const int maxstarthour = Settings::optional_hour(itsVar+"::maxstarthour",starthour);
+	const int minendhour   = Settings::optional_hour(itsVar+"::minendhour",endhour);
 
-	const int precision    = Settings::require_percentage(itsVariable+"::precision");
+	const int precision    = Settings::require_percentage(itsVar+"::precision");
 
-	const int limit_significantly_greater = Settings::require_percentage(itsVariable+"::significantly_greater");
-	const int limit_significantly_smaller = Settings::require_percentage(itsVariable+"::significantly_smaller");
-	const int limit_greater = Settings::require_percentage(itsVariable+"::greater");
-	const int limit_smaller = Settings::require_percentage(itsVariable+"::smaller");
-	const int limit_somewhat_greater = Settings::require_percentage(itsVariable+"::somewhat_greater");
-	const int limit_somewhat_smaller = Settings::require_percentage(itsVariable+"::somewhat_smaller");
+	const int limit_significantly_greater = Settings::require_percentage(itsVar+"::significantly_greater");
+	const int limit_significantly_smaller = Settings::require_percentage(itsVar+"::significantly_smaller");
+	const int limit_greater = Settings::require_percentage(itsVar+"::greater");
+	const int limit_smaller = Settings::require_percentage(itsVar+"::smaller");
+	const int limit_somewhat_greater = Settings::require_percentage(itsVar+"::somewhat_greater");
+	const int limit_somewhat_smaller = Settings::require_percentage(itsVar+"::somewhat_smaller");
 
 	const int days = WeatherPeriodTools::countPeriods(itsPeriod,
 													  starthour,
@@ -141,7 +141,7 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	WeatherResult result = forecaster.analyze(itsVariable+"::fake::day1::minimum",
+	WeatherResult result = forecaster.analyze(itsVar+"::fake::day1::minimum",
 											  itsSources,
 											  RelativeHumidity,
 											  Minimum,
@@ -171,7 +171,7 @@ namespace TextGen
 																   maxstarthour,
 																   minendhour);
 
-		WeatherResult result2 = forecaster.analyze(itsVariable+"::fake::day2::minimum",
+		WeatherResult result2 = forecaster.analyze(itsVar+"::fake::day2::minimum",
 												   itsSources,
 												   RelativeHumidity,
 												   Minimum,

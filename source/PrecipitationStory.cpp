@@ -130,7 +130,7 @@ namespace TextGen
 	: itsSources(theSources)
 	, itsArea(theArea)
 	, itsPeriod(thePeriod)
-	, itsVariable(theVariable)
+	, itsVar(theVariable)
   {
   }
   
@@ -196,9 +196,9 @@ namespace TextGen
 	GridForecaster forecaster;
 
 	RangeAcceptor rainlimits;
-	rainlimits.lowerLimit(Settings::optional_double(itsVariable+"::minrain",0));
+	rainlimits.lowerLimit(Settings::optional_double(itsVar+"::minrain",0));
 	
-	WeatherResult result = forecaster.analyze(itsVariable+"::fake::mean",
+	WeatherResult result = forecaster.analyze(itsVar+"::fake::mean",
 											  itsSources,
 											  Precipitation,
 											  Mean,
@@ -241,9 +241,9 @@ namespace TextGen
 	GridForecaster forecaster;
 
 	RangeAcceptor rainlimits;
-	rainlimits.lowerLimit(Settings::optional_double(itsVariable+"::minrain",0));
+	rainlimits.lowerLimit(Settings::optional_double(itsVar+"::minrain",0));
 
-	WeatherResult minresult = forecaster.analyze(itsVariable+"::fake::minimum",
+	WeatherResult minresult = forecaster.analyze(itsVar+"::fake::minimum",
 												 itsSources,
 												 Precipitation,
 												 Minimum,
@@ -252,7 +252,7 @@ namespace TextGen
 												 itsArea,
 												 rainlimits);
 
-	WeatherResult maxresult = forecaster.analyze(itsVariable+"::fake::maximum",
+	WeatherResult maxresult = forecaster.analyze(itsVar+"::fake::maximum",
 												 itsSources,
 												 Precipitation,
 												 Maximum,
@@ -271,7 +271,7 @@ namespace TextGen
 
 	// optionaalinen maksimisade
 
-	const string variable = itsVariable + "::maxrain";
+	const string variable = itsVar + "::maxrain";
 	const int rainlimit = Settings::optional_int(variable,-1);
 
 	if(minrain.value() >= rainlimit && rainlimit>0)
@@ -319,11 +319,11 @@ namespace TextGen
 	GridForecaster forecaster;
 
 	RangeAcceptor rainlimits;
-	rainlimits.lowerLimit(Settings::optional_double(itsVariable+"::minrain",0));
+	rainlimits.lowerLimit(Settings::optional_double(itsVar+"::minrain",0));
 
 	// Gather the results
 
-	WeatherResult minresult = forecaster.analyze(itsVariable+"::fake::minimum",
+	WeatherResult minresult = forecaster.analyze(itsVar+"::fake::minimum",
 												 itsSources,
 												 Precipitation,
 												 Minimum,
@@ -332,7 +332,7 @@ namespace TextGen
 												 itsArea,
 												 rainlimits);
 
-	WeatherResult meanresult = forecaster.analyze(itsVariable+"::fake::mean",
+	WeatherResult meanresult = forecaster.analyze(itsVar+"::fake::mean",
 												  itsSources,
 												  Precipitation,
 												  Mean,
@@ -341,7 +341,7 @@ namespace TextGen
 												  itsArea,
 												  rainlimits);
 	
-	WeatherResult maxresult = forecaster.analyze(itsVariable+"::fake::maximum",
+	WeatherResult maxresult = forecaster.analyze(itsVar+"::fake::maximum",
 												 itsSources,
 												 Precipitation,
 												 Maximum,
@@ -358,7 +358,7 @@ namespace TextGen
 
 	// Parse the classes
 
-	const string classvariable = itsVariable + "::classes";
+	const string classvariable = itsVar + "::classes";
 	list<pair<int,int> > classes = parse_classes(classvariable);
 
 	// Establish the maximum rain amount in the classes
@@ -381,8 +381,8 @@ namespace TextGen
 
 	if(maxresult.value() > maxrainlimit)
 	  {
-		const string variable1 = itsVariable + "::maxlimit1";
-		const string variable2 = itsVariable + "::maxlimit2";
+		const string variable1 = itsVar + "::maxlimit1";
+		const string variable2 = itsVar + "::maxlimit2";
 
 		int phrase = 1;
 
@@ -391,7 +391,7 @@ namespace TextGen
 			RangeAcceptor percentagelimits;
 			percentagelimits.lowerLimit(maxrainlimit);
 
-			WeatherResult probresult = forecaster.analyze(itsVariable+"::fake::percentage",
+			WeatherResult probresult = forecaster.analyze(itsVar+"::fake::percentage",
 														  itsSources,
 														  Precipitation,
 														  Percentage,
@@ -450,7 +450,7 @@ namespace TextGen
 	  }
 
 	if(it==classes.end())
-	  throw TextGenError(itsVariable + " has gaps in the ranges");
+	  throw TextGenError(itsVar + " has gaps in the ranges");
 
 	const int lolimit = it->first;
 	const int hilimit = it->second;
@@ -464,15 +464,15 @@ namespace TextGen
 	if(maxresult.value() > hilimit)
 	  {
 
-		const string variable1 = itsVariable + "::limit1";
-		const string variable2 = itsVariable + "::limit2";
+		const string variable1 = itsVar + "::limit1";
+		const string variable2 = itsVar + "::limit2";
 
 		int phrase = 1;
 
 		RangeAcceptor percentagelimits;
 		percentagelimits.lowerLimit(hilimit);
 
-		WeatherResult probresult = forecaster.analyze(itsVariable+"::fake::percentage",
+		WeatherResult probresult = forecaster.analyze(itsVar+"::fake::percentage",
 													  itsSources,
 													  Precipitation,
 													  Percentage,

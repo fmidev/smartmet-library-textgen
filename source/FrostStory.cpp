@@ -111,7 +111,7 @@ namespace TextGen
 	: itsSources(theSources)
 	, itsArea(theArea)
 	, itsPeriod(thePeriod)
-	, itsVariable(theVariable)
+	, itsVar(theVariable)
   {
   }
   
@@ -178,9 +178,9 @@ namespace TextGen
 	Paragraph paragraph;
 	Sentence sentence;
 
-	const string var1 = itsVariable+"::precision";
-	const string var2 = itsVariable+"::severe_frost_limit";
-	const string var3 = itsVariable+"::frost_limit";
+	const string var1 = itsVar+"::precision";
+	const string var2 = itsVar+"::severe_frost_limit";
+	const string var3 = itsVar+"::frost_limit";
 
 	const int precision = Settings::require_percentage(var1);
 	const int severelimit = Settings::require_percentage(var2);
@@ -188,7 +188,7 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	WeatherResult frost = forecaster.analyze(itsVariable+"::fake::mean",
+	WeatherResult frost = forecaster.analyze(itsVar+"::fake::mean",
 											 itsSources,
 											 Frost,
 											 Mean,
@@ -206,7 +206,7 @@ namespace TextGen
 
 	// Severe frost
 
-	WeatherResult severefrost = forecaster.analyze(itsVariable+"::fake::severe_mean",
+	WeatherResult severefrost = forecaster.analyze(itsVar+"::fake::severe_mean",
 												   itsSources,
 												   SevereFrost,
 												   Mean,
@@ -258,9 +258,9 @@ namespace TextGen
 	Paragraph paragraph;
 	Sentence sentence;
 
-	const string var1 = itsVariable+"::precision";
-	const string var2 = itsVariable+"::severe_frost_limit";
-	const string var3 = itsVariable+"::frost_limit";
+	const string var1 = itsVar+"::precision";
+	const string var2 = itsVar+"::severe_frost_limit";
+	const string var3 = itsVar+"::frost_limit";
 
 	const int precision = Settings::require_percentage(var1);
 	const int severelimit = Settings::require_percentage(var2);
@@ -268,7 +268,7 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	WeatherResult frost = forecaster.analyze(itsVariable+"::fake::maximum",
+	WeatherResult frost = forecaster.analyze(itsVar+"::fake::maximum",
 											 itsSources,
 											 Frost,
 											 Maximum,
@@ -286,7 +286,7 @@ namespace TextGen
 
 	// Severe frost
 
-	WeatherResult severefrost = forecaster.analyze(itsVariable+"::fake::severe_maximum",
+	WeatherResult severefrost = forecaster.analyze(itsVar+"::fake::severe_maximum",
 												   itsSources,
 												   SevereFrost,
 												   Maximum,
@@ -338,9 +338,9 @@ namespace TextGen
 	Paragraph paragraph;
 	Sentence sentence;
 
-	const string var1 = itsVariable+"::precision";
-	const string var2 = itsVariable+"::severe_frost_limit";
-	const string var3 = itsVariable+"::frost_limit";
+	const string var1 = itsVar+"::precision";
+	const string var2 = itsVar+"::severe_frost_limit";
+	const string var3 = itsVar+"::frost_limit";
 
 	const int precision = Settings::require_percentage(var1);
 	const int severelimit = Settings::require_percentage(var2);
@@ -348,7 +348,7 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	WeatherResult maxfrost = forecaster.analyze(itsVariable+"::fake::maximum",
+	WeatherResult maxfrost = forecaster.analyze(itsVar+"::fake::maximum",
 												itsSources,
 												Frost,
 												Maximum,
@@ -366,7 +366,7 @@ namespace TextGen
 
 	// Minimum frost
 
-	WeatherResult minfrost = forecaster.analyze(itsVariable+"::fake::minimum",
+	WeatherResult minfrost = forecaster.analyze(itsVar+"::fake::minimum",
 												itsSources,
 												Frost,
 												Minimum,
@@ -379,7 +379,7 @@ namespace TextGen
 
 	// Maximum severe frost
 
-	WeatherResult maxseverefrost = forecaster.analyze(itsVariable+"::fake::severe_maximum",
+	WeatherResult maxseverefrost = forecaster.analyze(itsVar+"::fake::severe_maximum",
 													  itsSources,
 													  SevereFrost,
 													  Maximum,
@@ -390,7 +390,7 @@ namespace TextGen
 	if(maxseverefrost.value() == kFloatMissing)
 	  throw TextGenError("Maximum SevereFrost is not available");
 
-	WeatherResult minseverefrost = forecaster.analyze(itsVariable+"::fake::severe_minimum",
+	WeatherResult minseverefrost = forecaster.analyze(itsVar+"::fake::severe_minimum",
 													  itsSources,
 													  SevereFrost,
 													  Minimum,
@@ -443,14 +443,14 @@ namespace TextGen
 
 	Paragraph paragraph;
 
-	const int starthour    = Settings::require_hour(itsVariable+"::starthour");
-	const int endhour      = Settings::require_hour(itsVariable+"::endhour");
-	const int maxstarthour = Settings::optional_hour(itsVariable+"::maxstarthour",starthour);
-	const int minendhour   = Settings::optional_hour(itsVariable+"::minendhour",endhour);
+	const int starthour    = Settings::require_hour(itsVar+"::starthour");
+	const int endhour      = Settings::require_hour(itsVar+"::endhour");
+	const int maxstarthour = Settings::optional_hour(itsVar+"::maxstarthour",starthour);
+	const int minendhour   = Settings::optional_hour(itsVar+"::minendhour",endhour);
 
-	const int precision   = Settings::require_percentage(itsVariable+"::precision");
-	const int severelimit = Settings::require_percentage(itsVariable+"::severe_frost_limit");
-	const int normallimit = Settings::require_percentage(itsVariable+"::frost_limit");
+	const int precision   = Settings::require_percentage(itsVar+"::precision");
+	const int severelimit = Settings::require_percentage(itsVar+"::severe_frost_limit");
+	const int normallimit = Settings::require_percentage(itsVar+"::frost_limit");
 
 	const int nights = WeatherPeriodTools::countPeriods(itsPeriod,
 														starthour,
@@ -472,7 +472,7 @@ namespace TextGen
 														 maxstarthour,
 														 minendhour);
 
-	WeatherResult frost = forecaster.analyze(itsVariable+"::fake::day1::mean",
+	WeatherResult frost = forecaster.analyze(itsVar+"::fake::day1::mean",
 											 itsSources,
 											 Frost,
 											 Mean,
@@ -480,7 +480,7 @@ namespace TextGen
 											 night1,
 											 itsArea);
 
-	WeatherResult severefrost = forecaster.analyze(itsVariable+"::fake::day1::severe_mean",
+	WeatherResult severefrost = forecaster.analyze(itsVar+"::fake::day1::severe_mean",
 												   itsSources,
 												   SevereFrost,
 												   Mean,
@@ -512,7 +512,7 @@ namespace TextGen
 															 maxstarthour,
 															 minendhour);
 
-		WeatherResult frost2 = forecaster.analyze(itsVariable+"::fake::day2::mean",
+		WeatherResult frost2 = forecaster.analyze(itsVar+"::fake::day2::mean",
 												  itsSources,
 												  Frost,
 												  Mean,
@@ -520,7 +520,7 @@ namespace TextGen
 												  night2,
 												  itsArea);
 
-		WeatherResult severefrost2 = forecaster.analyze(itsVariable+"::fake::day2::severe_mean",
+		WeatherResult severefrost2 = forecaster.analyze(itsVar+"::fake::day2::severe_mean",
 														itsSources,
 														SevereFrost,
 														Mean,

@@ -49,7 +49,7 @@ namespace TextGen
   
   void HtmlTextFormatter::variable(const string & theVariable)
   {
-	itsVariable = theVariable;
+	itsVar = theVariable;
   }
 
   // ----------------------------------------------------------------------

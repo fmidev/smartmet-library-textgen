@@ -49,7 +49,7 @@ namespace TextGen
   
   void PlainTextFormatter::variable(const string & theVariable)
   {
-	itsVariable = theVariable;
+	itsVar = theVariable;
   }
   
   // ----------------------------------------------------------------------

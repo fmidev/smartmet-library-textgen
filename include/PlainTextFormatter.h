@@ -37,7 +37,7 @@ namespace TextGen
   private:
 
 	boost::shared_ptr<Dictionary> itsDictionary;
-	std::string itsVariable;
+	std::string itsVar;
 
   }; // class PlainTextFormatter
 } // namespace TextGen

@@ -51,7 +51,7 @@ namespace TextGen
 	: itsSources(theSources)
 	, itsArea(theArea)
 	, itsPeriod(thePeriod)
-	, itsVariable(theVariable)
+	, itsVar(theVariable)
   {
   }
   
@@ -126,7 +126,7 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	WeatherResult result = forecaster.analyze(itsVariable+"::fake::mean",
+	WeatherResult result = forecaster.analyze(itsVar+"::fake::mean",
 											  itsSources,
 											  Temperature,
 											  Mean,
@@ -167,7 +167,7 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	WeatherResult result = forecaster.analyze(itsVariable+"::fake::mean",
+	WeatherResult result = forecaster.analyze(itsVar+"::fake::mean",
 											  itsSources,
 											  MaxTemperature,
 											  Mean,
@@ -207,7 +207,7 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	WeatherResult result = forecaster.analyze(itsVariable+"::fake::mean",
+	WeatherResult result = forecaster.analyze(itsVar+"::fake::mean",
 											  itsSources,
 											  MinTemperature,
 											  Mean,
@@ -245,22 +245,22 @@ namespace TextGen
 	Paragraph paragraph;
 
 #if 0
-	const int starthour    = require_hour(itsVariable+"::starthour");
-	const int endhour      = require_hour(itsVariable+"::endhour");
-	const int maxstarthour = optional_hour(itsVariable+"::maxstarthour",starthour);
-	const int minendhour   = optional_hour(itsVariable+"::minendhour",endhour);
+	const int starthour    = require_hour(itsVar+"::starthour");
+	const int endhour      = require_hour(itsVar+"::endhour");
+	const int maxstarthour = optional_hour(itsVar+"::maxstarthour",starthour);
+	const int minendhour   = optional_hour(itsVar+"::minendhour",endhour);
 
-	const int mininterval  = optional_int(itsVariable+"::mininterval",1);
-	const bool interval_zero = optional_bool(itsVariable+"::always_interval_zero",false);
+	const int mininterval  = optional_int(itsVar+"::mininterval",1);
+	const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
 
-	const bool prefer_dayname = optional_bool(itsVariable+"::prefer_dayname",false);
+	const bool prefer_dayname = optional_bool(itsVar+"::prefer_dayname",false);
 
-	const int limit_significantly_greater = require_percentage(itsVariable+"::significantly_greater");
-	const int limit_significantly_smaller = require_percentage(itsVariable+"::significantly_smaller");
-	const int limit_greater = require_percentage(itsVariable+"::greater");
-	const int limit_smaller = require_percentage(itsVariable+"::smaller");
-	const int limit_somewhat_greater = require_percentage(itsVariable+"::somewhat_greater");
-	const int limit_somewhat_smaller = require_percentage(itsVariable+"::somewhat_smaller");
+	const int limit_significantly_greater = require_percentage(itsVar+"::significantly_greater");
+	const int limit_significantly_smaller = require_percentage(itsVar+"::significantly_smaller");
+	const int limit_greater = require_percentage(itsVar+"::greater");
+	const int limit_smaller = require_percentage(itsVar+"::smaller");
+	const int limit_somewhat_greater = require_percentage(itsVar+"::somewhat_greater");
+	const int limit_somewhat_smaller = require_percentage(itsVar+"::somewhat_smaller");
 
 	const int days = countPeriods(itsPeriod,
 								  starthour,
@@ -281,7 +281,6 @@ namespace TextGen
 	sentence << "päivän ylin lämpötila"
 			 << "on";
 	  
-
 	paragraph << sentence;
 #endif
 	return paragraph;
@@ -307,22 +306,22 @@ namespace TextGen
 	Paragraph paragraph;
 
 #if 0
-	const int starthour    = require_hour(itsVariable+"::starthour");
-	const int endhour      = require_hour(itsVariable+"::endhour");
-	const int maxstarthour = optional_hour(itsVariable+"::maxstarthour",starthour);
-	const int minendhour   = optional_hour(itsVariable+"::minendhour",endhour);
+	const int starthour    = require_hour(itsVar+"::starthour");
+	const int endhour      = require_hour(itsVar+"::endhour");
+	const int maxstarthour = optional_hour(itsVar+"::maxstarthour",starthour);
+	const int minendhour   = optional_hour(itsVar+"::minendhour",endhour);
 
-	const int mininterval  = optional_int(itsVariable+"::mininterval",1);
-	const bool interval_zero = optional_bool(itsVariable+"::always_interval_zero",false);
+	const int mininterval  = optional_int(itsVar+"::mininterval",1);
+	const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
 
-	const bool prefer_dayname = optional_bool(itsVariable+"::prefer_dayname",false);
+	const bool prefer_dayname = optional_bool(itsVar+"::prefer_dayname",false);
 
-	const int limit_significantly_greater = require_percentage(itsVariable+"::significantly_greater");
-	const int limit_significantly_smaller = require_percentage(itsVariable+"::significantly_smaller");
-	const int limit_greater = require_percentage(itsVariable+"::greater");
-	const int limit_smaller = require_percentage(itsVariable+"::smaller");
-	const int limit_somewhat_greater = require_percentage(itsVariable+"::somewhat_greater");
-	const int limit_somewhat_smaller = require_percentage(itsVariable+"::somewhat_smaller");
+	const int limit_significantly_greater = require_percentage(itsVar+"::significantly_greater");
+	const int limit_significantly_smaller = require_percentage(itsVar+"::significantly_smaller");
+	const int limit_greater = require_percentage(itsVar+"::greater");
+	const int limit_smaller = require_percentage(itsVar+"::smaller");
+	const int limit_somewhat_greater = require_percentage(itsVar+"::somewhat_greater");
+	const int limit_somewhat_smaller = require_percentage(itsVar+"::somewhat_smaller");
 
 	const int days = countPeriods(itsPeriod,
 								  starthour,

@@ -52,7 +52,7 @@ namespace TextGen
 	const WeatherAnalysis::AnalysisSources & itsSources;
 	const WeatherAnalysis::WeatherArea & itsArea;
 	const WeatherAnalysis::WeatherPeriod & itsPeriod;
-	const std::string itsVariable;
+	const std::string itsVar;
 
   }; // class RelativeHumidityStory
 }
