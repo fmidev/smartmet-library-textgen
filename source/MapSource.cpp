@@ -28,9 +28,28 @@ namespace WeatherAnalysis
   class MapSource::Pimple
   {
   public:
+	Pimple();
 	typedef map<string,NFmiSvgPath> storage_type;
 	storage_type itsData;
+	string itsSearchPath;
   };
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief The pimple constructor
+   */
+  // ----------------------------------------------------------------------
+
+  MapSource::Pimple::Pimple()
+	: itsData()
+	, itsSearchPath(".")
+  {
+	if(NFmiSettings::instance().isset("textgen::mappath"))
+	  {
+		itsSearchPath += ':';
+		itsSearchPath += NFmiSettings::instance().value("textgen::mappath");
+	  }
+  }
 
   // ----------------------------------------------------------------------
   /*!
@@ -71,14 +90,7 @@ namespace WeatherAnalysis
 
 	// Must read from file
 
-	const string varname = "textgen::mappath";
-
-	if(!NFmiSettings::instance().isset(varname))
-	  throw WeatherAnalysisError("textgen::mappath is not set in fmi.conf");
-
-	const string path = NFmiSettings::instance().value(varname);
-
-	const string filename = FileComplete(theName+".svg",path);
+	const string filename = FileComplete(theName+".svg",itsPimple->itsSearchPath);
 
 	if(!FileExists(filename))
 	  throw WeatherAnalysisError("Map "+theName+" has no respective SVG file");
