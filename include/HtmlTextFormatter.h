@@ -23,7 +23,6 @@ namespace TextGen
   public:
 	virtual ~HtmlTextFormatter() { }
 	virtual void dictionary(const boost::shared_ptr<Dictionary> & theDict);
-	virtual const std::string & result() const;
 
 	virtual std::string format(const Glyph & theGlyph) const;
 

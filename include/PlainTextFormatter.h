@@ -23,7 +23,6 @@ namespace TextGen
   public:
 	virtual ~PlainTextFormatter() { }
 	virtual void dictionary(const boost::shared_ptr<Dictionary> & theDict);
-	virtual const std::string & result() const;
 
 	virtual std::string format(const Glyph & theGlyph) const;
 
