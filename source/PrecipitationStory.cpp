@@ -197,13 +197,17 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
+	RangeAcceptor rainlimits;
+	rainlimits.lowerLimit(Settings::optional_double(itsVariable+"::minrain",0));
+	
 	WeatherResult result = forecaster.analyze(itsVariable+"::fake::mean",
 											  itsSources,
 											  Precipitation,
 											  Mean,
 											  Sum,
 											  itsPeriod,
-											  itsArea);
+											  itsArea,
+											  rainlimits);
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Total precipitation not available");
@@ -240,13 +244,17 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
+	RangeAcceptor rainlimits;
+	rainlimits.lowerLimit(Settings::optional_double(itsVariable+"::minrain",0));
+
 	WeatherResult minresult = forecaster.analyze(itsVariable+"::fake::minimum",
 												 itsSources,
 												 Precipitation,
 												 Minimum,
 												 Sum,
 												 itsPeriod,
-												 itsArea);
+												 itsArea,
+												 rainlimits);
 
 	WeatherResult maxresult = forecaster.analyze(itsVariable+"::fake::maximum",
 												 itsSources,
@@ -254,7 +262,8 @@ namespace TextGen
 												 Maximum,
 												 Sum,
 												 itsPeriod,
-												 itsArea);
+												 itsArea,
+												 rainlimits);
 
 	if(minresult.value() == kFloatMissing ||
 	   maxresult.value() == kFloatMissing)
@@ -315,6 +324,9 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
+	RangeAcceptor rainlimits;
+	rainlimits.lowerLimit(Settings::optional_double(itsVariable+"::minrain",0));
+
 	// Gather the results
 
 	WeatherResult minresult = forecaster.analyze(itsVariable+"::fake::minimum",
@@ -323,7 +335,8 @@ namespace TextGen
 												 Minimum,
 												 Sum,
 												 itsPeriod,
-												 itsArea);
+												 itsArea,
+												 rainlimits);
 
 	WeatherResult meanresult = forecaster.analyze(itsVariable+"::fake::mean",
 												  itsSources,
@@ -331,7 +344,8 @@ namespace TextGen
 												  Mean,
 												  Sum,
 												  itsPeriod,
-												  itsArea);
+												  itsArea,
+												  rainlimits);
 	
 	WeatherResult maxresult = forecaster.analyze(itsVariable+"::fake::maximum",
 												 itsSources,
@@ -339,7 +353,8 @@ namespace TextGen
 												 Maximum,
 												 Sum,
 												 itsPeriod,
-												 itsArea);
+												 itsArea,
+												 rainlimits);
 
 	// Check for invalid results
 	if(minresult.value() == kFloatMissing ||
@@ -379,8 +394,8 @@ namespace TextGen
 
 		if(minresult.value() < maxrainlimit)
 		  {
-			RangeAcceptor limits;
-			limits.lowerLimit(maxrainlimit);
+			RangeAcceptor percentagelimits;
+			percentagelimits.lowerLimit(maxrainlimit);
 
 			WeatherResult probresult = forecaster.analyze(itsVariable+"::fake::percentage",
 														  itsSources,
@@ -389,9 +404,9 @@ namespace TextGen
 														  Sum,
 														  itsPeriod,
 														  itsArea,
+														  rainlimits,
 														  DefaultAcceptor(),
-														  DefaultAcceptor(),
-														  limits);
+														  percentagelimits);
 										
 			const int limit1 = Settings::optional_int(variable1,-1);
 			const int limit2 = Settings::optional_int(variable2,-1);
@@ -460,8 +475,8 @@ namespace TextGen
 
 		int phrase = 1;
 
-		RangeAcceptor limits;
-		limits.lowerLimit(hilimit);
+		RangeAcceptor percentagelimits;
+		percentagelimits.lowerLimit(hilimit);
 
 		WeatherResult probresult = forecaster.analyze(itsVariable+"::fake::percentage",
 													  itsSources,
@@ -470,9 +485,9 @@ namespace TextGen
 													  Sum,
 													  itsPeriod,
 													  itsArea,
+													  rainlimits,
 													  DefaultAcceptor(),
-													  DefaultAcceptor(),
-													  limits);
+													  percentagelimits);
 
 		const int limit1 = Settings::optional_int(variable1,-1);
 		const int limit2 = Settings::optional_int(variable2,-1);

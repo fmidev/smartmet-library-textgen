@@ -557,6 +557,13 @@ Käytetyt fraasit ovat
   - "sadesumma"
   - "millimetriä"
 
+Sadesummaan eivät periaatteessa kuulu liian pienet tunnin sademäärät.
+Summasta voi filtteröidä pois nämä liian pienet sateet muuttujan
+\code
+textgen::[kappale]::story::precipitation_total::minrain = [0-X]
+\endcode
+avulla
+
 Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
 \code
 # Mean(Sum(Precipitation)):
@@ -582,6 +589,13 @@ Englanniksi
   -# "Total precipitation over N millimeters."
   -# "Total precipitation N millimeters."
   -# "Total precipitation N...M millimeters."
+
+Sadesummaan eivät periaatteessa kuulu liian pienet tunnin sademäärät.
+Summasta voi filtteröidä pois nämä liian pienet sateet muuttujan
+\code
+textgen::[kappale]::story::precipitation_range::minrain = [0-X]
+\endcode
+avulla.
 
 Päättelyssä käytetään muuttujina alueen minimi- ja maksimisadesummaa,
 sekä optionaalista muuttujaa
@@ -682,6 +696,13 @@ Käytetyt fraasit ovat
 PS. Tarinan nimi ei ole \c precipitation_class, koska
 koodauskonventioiden mukaan PrecipitationStory luokkaan tulisi metodi
 nimeltä class, joka ei ole sallittua.
+
+Sadesummaan eivät periaatteessa kuulu liian pienet tunnin sademäärät.
+Summasta voi filtteröidä pois nämä liian pienet sateet muuttujan
+\code
+textgen::[kappale]::story::precipitation_range::minrain = [0-X]
+\endcode
+avulla.
 
 Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
 \code
