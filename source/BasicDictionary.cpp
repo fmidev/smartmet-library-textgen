@@ -94,6 +94,31 @@ namespace textgen
 	itsData.insert(StorageType::value_type(theKey,thePhrase));
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * Return the size of the dictionary
+   *
+   * \return The size of the dictionary
+   */
+  // ----------------------------------------------------------------------
+
+  BasicDictionary::size_type BasicDictionary::size(void) const
+  {
+	return itsData.size();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * Test if the dictionary is empty
+   *
+   * \return True if the dictionary is empty
+   */
+  // ----------------------------------------------------------------------
+
+  bool BasicDictionary::empty(void) const
+  {
+	return itsData.empty();
+  }
 
 } // namespace textgen
 

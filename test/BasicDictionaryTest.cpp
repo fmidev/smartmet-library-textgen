@@ -50,6 +50,14 @@ namespace BasicDictionaryTest
 	BasicDictionary dict;
 	dict.init("some language");
 
+	// Should succeed
+	if(!dict.empty())
+	  TEST_FAILED("empty() returned false on empty dictionary");
+
+	//! Should be zero
+	if(dict.size()!=0)
+	  TEST_FAILED("size()<>0 on empty directory");
+
 	// Should fail
 	if(dict.contains("keyword"))
 	  TEST_FAILED("contains() succeeded on an empty dictionary");
@@ -64,6 +72,12 @@ namespace BasicDictionaryTest
 
 	// Should succeed
 	dict.insert("keyword","phrase");
+
+	if(dict.empty())
+	  TEST_FAILED("empty() should return false after insert()");
+
+	if(dict.size()!=1)
+	  TEST_FAILED("size()!=1 after one insert()");
 
 	// Should succeed
 	if(!dict.contains("keyword"))

@@ -36,6 +36,8 @@ namespace textgen
   {
   public:
 
+	typedef unsigned long size_type;
+
 	// Compiler generated:
 	//
 	// Dictionary();
@@ -47,6 +49,9 @@ namespace textgen
 	virtual bool contains(const std::string & theKey) const = 0;
 	virtual const std::string & find(const std::string & theKey) const = 0;
 	virtual void insert(const std::string & theKey, const std::string & thePhrase) = 0;
+
+	virtual size_type size(void) const = 0;
+	virtual bool empty(void) const = 0;
 
   }; // class Dictionary
 
