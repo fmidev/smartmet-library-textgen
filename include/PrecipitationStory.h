@@ -43,6 +43,7 @@ namespace TextGen
 	Paragraph total(void) const;
 	Paragraph range(void) const;
 	Paragraph classification(void) const;
+	Paragraph pop_twodays(void) const;
 
 	PrecipitationStory();
 	PrecipitationStory(const PrecipitationStory & theStory);
