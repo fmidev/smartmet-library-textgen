@@ -4102,4 +4102,30 @@ Alla on lueteltu kaikki uniikit tarinat numeroituina.
 </table>
 \endhtmlonly
 
+Taulukko voidaan edellen yksinkertaistaa alla olevaan muotoon.
+Taulukon aikafraaseihin tulee sijoittaa vain yll‰olevan taulukon
+mukaisia yhdistelmi‰.
+
+\htmlonly
+<table cellpadding="1" cellspacing="0" border="1">
+<tr><td>1.</td>T‰n‰‰n [aamusta alkaen] [paikoin] [sadetta]</td></tr>
+<tr><td>2.</td>T‰n‰‰n [aamusta alkaen] [paikoin] [sadetta], huomenna [aamusta alkaen] poutaa</td></tr>
+<tr><td>3.</td>T‰n‰‰n [aamusta alkaen] [paikoin] [sadetta], huomenna [aamusta alkaen] poutaa, [enimm‰kseen selke‰‰]</td></tr>
+<tr><td>4.</td>T‰n‰‰n [aamusta alkaen] [paikoin] [sadetta], huomenna [enimm‰kseen selke‰‰]</td></tr>
+<tr><td>5.</td>T‰n‰‰n [aamusta alkaen] tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimm‰kseen selke‰‰]</td></tr>
+<tr><td>6.</td>T‰n‰‰n [aamusta alkaen] tiistai-iltaan asti [paikoin] [sadetta]</td></tr>
+<tr><td>7.</td>T‰n‰‰n [enimm‰kseen selke‰‰], [aamulla] ja [yˆll‰] [paikoin] [sadetta]. Huomenna [enimm‰kseen selke‰‰]</td></tr>
+<tr><td>8.</td>T‰n‰‰n [enimm‰kseen selke‰‰], [aamusta alkaen] [paikoin] [sadetta]</td></tr>
+<tr><td>9.</td>T‰n‰‰n [enimm‰kseen selke‰‰], [aamusta alkaen] [paikoin] [sadetta]. Huomenna [aamusta alkaen] poutaa</td></tr>
+<tr><td>10.</td>T‰n‰‰n [enimm‰kseen selke‰‰], [aamusta alkaen] [paikoin] [sadetta]. Huomenna [aamusta alkaen] poutaa, [enimm‰kseen selke‰‰]</td></tr>
+<tr><td>11.</td>T‰n‰‰n [enimm‰kseen selke‰‰], [aamusta alkaen] tiistai-iltaan asti [paikoin] [sadetta]</td></tr>
+<tr><td>12.</td>T‰n‰‰n [enimm‰kseen selke‰‰], [aamulla] [paikoin] [sadetta]. Huomenna [enimm‰kseen selke‰‰]</td></tr>
+<tr><td>13.</td>T‰n‰‰n [paikoin] [sadetta], huomenna [aamulla] poutaa</td></tr>
+<tr><td>14.</td>T‰n‰‰n [paikoin] [sadetta], huomenna [aamusta alkaen] poutaa</td></tr>
+<tr><td>15.</td>T‰n‰‰n [paikoin] [sadetta], huomenna [aamusta alkaen] poutaa, [enimm‰kseen selke‰‰]</td></tr>
+<tr><td>16.</td>T‰n‰‰n [paikoin] [sadetta], huomenna [enimm‰kseen selke‰‰]</td></tr>
+<tr><td>17.</td>T‰n‰‰n ja huomenna [paikoin] [sadetta]</td></tr>
+</table>
+\endhtmlonly
+
 */
