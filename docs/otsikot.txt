@@ -10,6 +10,7 @@
   <li>\ref page_header_several_days</li>
   <li>\ref page_header_report_time</li>
   <li>\ref page_header_report_area</li>
+  <li>\ref page_header_report_location</li>
  </ol>
 </ol>
 
