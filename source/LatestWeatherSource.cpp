@@ -28,7 +28,7 @@ namespace
   {
 	time_t itsTime;
 	string itsFilename;
-	long itsId;
+	WeatherAnalysis::WeatherId itsId;
 	boost::shared_ptr<NFmiQueryData> itsData;
   };
 
@@ -171,7 +171,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  long LatestWeatherSource::id(const std::string & theName) const
+  WeatherId LatestWeatherSource::id(const std::string & theName) const
   {
 	// See if we have a stored result
 	typedef Pimple::container_type::const_iterator const_iterator;

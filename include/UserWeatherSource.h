@@ -33,7 +33,7 @@ namespace WeatherAnalysis
 
 	UserWeatherSource();
 	virtual boost::shared_ptr<NFmiQueryData> data(const std::string & theName) const;
-	virtual long id(const std::string & theName) const;
+	virtual WeatherId id(const std::string & theName) const;
 
 	void insert(const std::string & theName,
 				boost::shared_ptr<NFmiQueryData> theData) const;

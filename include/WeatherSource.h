@@ -28,13 +28,15 @@ class NFmiQueryData;
 
 namespace WeatherAnalysis
 {
+  typedef long WeatherId;
+
   class WeatherSource
   {
   public:
 
 	virtual ~WeatherSource() { }
 	virtual boost::shared_ptr<NFmiQueryData> data(const std::string & theName) const = 0;
-	virtual long id(const std::string & theName) const = 0;
+	virtual WeatherId id(const std::string & theName) const = 0;
 
   }; // class WeatherSource
 

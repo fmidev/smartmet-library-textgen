@@ -28,7 +28,7 @@ namespace WeatherAnalysis
 	typedef map<string,boost::shared_ptr<NFmiQueryData> > container_type;
 	container_type itsData;
 
-	typedef map<string,long> id_container_type;
+	typedef map<string,WeatherId> id_container_type;
 	id_container_type itsIdData;
 
   };
@@ -75,7 +75,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  long UserWeatherSource::id(const std::string & theName) const
+  WeatherId UserWeatherSource::id(const std::string & theName) const
   {
 	// See if we have a stored result
 	typedef Pimple::id_container_type::const_iterator const_iterator;
@@ -107,7 +107,7 @@ namespace WeatherAnalysis
 	}
 
 	{
-	  long id = IdGenerator::generate();
+	  WeatherId id = IdGenerator::generate();
 	  typedef Pimple::id_container_type::value_type value_type;
 	  itsPimple->itsIdData.insert(value_type(theName,id));
 	}
