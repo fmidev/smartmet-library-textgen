@@ -1,0 +1,119 @@
+/*!
+
+\page page_story_temperature_dailymax "temperature_dailymax"
+
+\c temperature_dailymax tarina on muotoa
+
+  -# "Päivän ylin lämpötila on viikonpäivänä noin x astetta"
+  -# "Päivän ylin lämpötila on viikonpäivänä x...y astetta"
+
+Ruotsiksi
+
+  -# "Dagens högsta temperatur är på veckodag cirka x grader"
+  -# "Dagens högsta temperatur är på veckodag x...y grader"
+
+Englanniksi
+
+  -# "The maximum day temperature on Weekday is about x degrees"
+  -# "The maximum day temperature on Weekday is x...y degrees"
+
+Sivulauseessa jatketaan tarvittaessa
+
+  -# ", seuraavana päivänä huomattavasti korkeampi"
+  -# ", seuraavana päivänä korkeampi"
+  -# ", seuraavana päivänä vähän korkeampi"
+  -# ", seuraavana päivänä suunnilleen sama"
+  -# ", seuraavana päivänä vähän alempi"
+  -# ", seuraavana päivänä alempi"
+  -# ", seuraavana päivänä huomattavasti alempi"
+
+tai 
+
+  -# ", viikonpäivänä huomattavasti korkeampi"
+  -# ", viikonpäivänä korkeampi"
+  -# ", viikonpäivänä vähän korkeampi"
+  -# ", viikonpäivänä suunnilleen sama"
+  -# ", viikonpäivänä vähän alempi"
+  -# ", viikonpäivänä alempi"
+  -# ", viikonpäivänä huomattavasti alempi"
+
+jos muuttujan
+\code
+textgen::[kappale]::story::temperature_dailymax::prefer_dayname = [bool]
+\endcode
+arvo on true.
+
+Ruotsiksi lauseet ovat
+
+  -# ", på följande dag betydligt högre."
+  -# ", på följande dag högre."
+  -# ", på följande dag något högre."
+  -# ", på följande dag ungefär densamma."
+  -# ", på följande dag något lägre."
+  -# ", på följande dag lägre."
+  -# ", på följande dag betydligt lägre."
+
+tai alkuosana on "på veckodag"
+
+Englanniksi lauseet ovat
+
+  -# ", the following day significantly higher."
+  -# ", the following day higher."
+  -# ", the following day somewhat higher."
+  -# ", the following day about the same."
+  -# ", the following day somewhat lower."
+  -# ", the following day lower."
+  -# ", the following day significantly lower."
+
+Komparatiivin valinta perustuu muuttujiin
+\code
+textgen::[kappale]::story::temperature_dailymax::significantly_greater = [N]
+textgen::[kappale]::story::temperature_dailymax::greater = [N]
+textgen::[kappale]::story::temperature_dailymax::somewhat_greater = [N]
+textgen::[kappale]::story::temperature_dailymax::somewhat_smaller = [N]
+textgen::[kappale]::story::temperature_dailymax::smaller = [N]
+textgen::[kappale]::story::temperature_dailymax::significantly_smaller = [N]
+\endcode
+ja laskettuihin lämpötilaväleihin. Jos ensimmäisen päivän ylin on
+A1...A2 ja seuraavan B1...B2 valitaan
+
+  -# Fraasi 1, jos B2-A2 >= \c significantly_greater
+  -# Fraasi 2, jos B2-A2 >= \c greater
+  -# Fraasi 3, jos B2-A2 >= \c somewhat_greater
+  -# Fraasi 7, jos B2-A2 >= \c significantly_smaller
+  -# Fraasi 6, jos B2-A2 >= \c smaller
+  -# Fraasi 5, jos B2-A2 >= \c somewhat_smaller
+  -# Fraasi 4 muutoin
+
+Jos päiviä on useampia, luetellaan jatkossa jokaiselle päivälle päivän
+ylin sivulauseena seuraavasti
+
+  - ", viikonpäivänä noin x astetta"
+  - ", viikonpäivänä x...y astetta"
+
+Valinta yksittäisen arvon ja intervallin välillä tehdään perustuen muuttujiin
+\code
+textgen::[kappale]::story::temperature_dailymax::mininterval = [1-]
+textgen::[kappale]::story::temperature_dailymax::always_interval_zero = [bool]
+\endcode
+Jos intervallin pituus on vähintään \c mininterval, sanotaan intervalli,
+muuten keskiarvo. Poikkeuksena jos nolla kuuluu intervalliin ja
+\c always_interval_zero on true, sanotaan aina intervalli.
+
+Tarvittavat fraasit ovat
+
+ - "päivän ylin lämpötila"
+ - "on"
+ - "N-na", N=1-7
+ - "noin"
+ - "astetta"
+ - "seuraavana päivänä"
+ - "huomattavasti korkeampi"
+ - "korkeampi"
+ - "vähän korkeampi"
+ - "suunnilleen sama"
+ - "vähän matalampi"
+ - "matalampi"
+ - "huomattavasti matalampi"
+
+*/

@@ -1,0 +1,82 @@
+/*!
+
+\page page_story_relativehumidity_lowest "relativehumidity_lowest"
+
+Tarina \c relativehumidity_lowest on muotoa
+
+ -# "Alin suhteellinen kosteus on viikonpäivänä x%"
+    -# ", viikonpäivänä suurempi."
+    -# ", viikonpäivänä hieman suurempi."
+    -# ", viikonpäivänä sama."
+    -# ", viikonpäivänä hieman pienempi."
+    -# ", viikonpäivänä pienempi."
+
+Ruotsiksi
+
+ -# "Den lägsta relativa fuktigheten är på veckodag x%"
+    -# ", på veckodag större."
+    -# ", på veckodag något större."
+    -# ", på veckodag densamma."
+    -# ", på veckodag något mindre."
+    -# ", på veckodag mindre."
+
+Englanniksi
+
+ -# "The smallest relative humidity on weekday is x%"
+    -# ", on weekday greater."
+    -# ", on weekday somewhat greater."
+    -# ", on weekday the same."
+    -# ", on weekday somewhat smaller."
+    -# ", on weekday smaller."
+
+Tarina soveltuu yhden/kahden vuorokauden ennusteisiin. Sivulausetta ei
+ole yhden vuorokauden ennusteissa.
+
+Ensimmäisestä vuorokaudesta ei kerrota mitään, jos sen alkuaika on vähintään
+\code
+textgen::[kappale]::story::relativehumidity_lowest::maxstarthour = [0-23]
+\endcode
+Toisesta vuorokaudesta ei kerrota mitään, jos sen loppu on yli
+\code
+textgen::[kappale]::story::relativehumidity_lowest::minendhour = [0-23]
+\endcode
+
+Suhteellinen kosteus pyöristetään tarkkuuteen
+\code
+textgen::[kappale]::story::relativehumidity_lowest::precision = [0-100]
+\endcode
+
+Erotuksen suuruus päätellään seuraavista rajoista
+\code
+textgen::[kappale]::story::relativehumidity_lowest::greater = 20
+textgen::[kappale]::story::relativehumidity_lowest::somewhat_greater = 10
+textgen::[kappale]::story::relativehumidity_lowest::somewhat_smaller = 10
+textgen::[kappale]::story::relativehumidity_lowest::smaller = 20
+\endcode
+seuraavasti tuloksista \c humidity2 ja \c humidity1
+
+ -# Jos \c humidity2 - \c humidity1 >= \c greater, valitaan "suurempi"
+ -# Jos \c humidity2 - \c humidity1 >= \c somewhat_greater, valitaan "hieman suurempi"
+ -# Jos \c humidity1 - \c humidity2 >= \c smaller, valitaan "pienempi"
+ -# Jos \c humidity1 - \c humidity2 >= \c somewhat_smaller, valitaan "hieman pienempi"
+ -# Muuten valitaan "sama"
+
+Tarvittavat fraasit ovat
+
+ - "alin suhteellinen kosteus"
+ - "on"
+ - "N-na", N=1.7 (maanantaina, tiistaina jne)
+ - "suurempi"
+ - "hieman suurempi"
+ - "sama"
+ - "hieman pienempi"
+ - "pienempi" 
+
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+# Minimum(Minimum(Temperature)):
+textgen::[kappale]::story::relativehumidity_lowest::fake::day1::minimum = [result]
+textgen::[kappale]::story::relativehumidity_lowest::fake::day2::minimum = [result]
+\endcode
+
+*/
