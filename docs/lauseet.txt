@@ -43,6 +43,11 @@ s << "kaakko" << 12;
 cout << s.realize(dict);
 \endcode
 
+Kaupunkien nimille on olemassa oma tyyppinsä TextGen::LocationPhrase.
+Fraasi palauttaa itsensä kapitalisoituna takaisin, paitsi jos
+sanakirjasta löytyy fraasille oikea käännös. Fraasista kapitalisoidaan
+kukin erillinen sana, sekä kaikki väliviivalla erotellut osat.
+
 Kokonaisia kappaleita luodaan seuraavasti
 \code
 TextGen::Paragraph p;
