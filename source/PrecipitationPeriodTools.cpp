@@ -92,6 +92,45 @@ namespace WeatherAnalysis
 	  return periods;
 	}
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Merge large scale precipitation periods
+	 *
+	 * The function merges precipitation periods which can
+	 * be considered to belong into the same large scale
+	 * precipitation. The basic criteria is that the interval
+	 * between the periods must be short enough, and that
+	 * atleast one of the periods must be long enough to be
+	 * considered large scale.
+	 *
+	 * The idea is to avoid reporting on multiple rain periods
+	 * when the rain is in principle coming from the same
+	 * precipitation system.
+	 *
+	 * The algorithm is controlled with variables
+	 * \code
+	 * ::rainyperiod::minimum_large_rain_length = <1->      (default = 8)
+	 * ::rainyperiod::maximum_large_rain_interval = <1->  (default = 1)
+	 * \endcode
+	 * Variable \c minimum_large_rain_length is the required rain period
+	 * length for the rain to be considered large scale. Variable
+	 * \c maximum_large_rain_interval is then the maximum time interval
+	 * between any other period for that period to be joined into
+	 * the same large scale rain.
+	 *
+	 * \param thePeriods The rainy periods to be merged
+	 * \param theVar The variable controlling the algorithm
+	 * \return Sorted list of rainy periods
+	 *
+	 */
+	// ----------------------------------------------------------------------
+
+	RainPeriods mergeLargeRainPeriods(const RainPeriods & thePeriods,
+									  const std::string & theVar)
+	{
+	  RainPeriods periods;
+	  return periods;
+	}
 
   } // namespace PrecipitationPeriodTools
 } // namespace WeatherAnalysis
