@@ -379,6 +379,7 @@ namespace TextGen
 			  if(is_next_day(theForecastTime,thePeriod.localEndTime()))
 				return (sentence << "ensi yönä");
 			}
+		  else
 			throw TextGenError("PeriodPhrasefactory::next_night does not accept phrase "+*it);
 		}
 
