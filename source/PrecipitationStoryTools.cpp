@@ -66,7 +66,7 @@ namespace TextGen
 
 	RainType raintype(bool water, bool sleet, bool snow)
 	{
-	  return RainType(snow<<3 | sleet<<2 | water);
+	  return RainType(snow<<2 | sleet<<1 | water);
 	}
 
   }
@@ -309,11 +309,13 @@ namespace TextGen
 		{
 		case NONE:
 		  {
+			log << "Rain type is NONE" << endl;
 			sentence << "sadetta";
 			break;
 		  }
 		case WATER:
 		  {
+			log << "Rain type is WATER" << endl;
 			if(has_showers)
 			  {
 				if(strength.value() < weak_limit)
@@ -336,16 +338,19 @@ namespace TextGen
 		  }
 		case SLEET:
 		  {
+			log << "Rain type is SLEET" << endl;
 			sentence << "räntäsadetta";
 			break;
 		  }
 		case WATER_SLEET:
 		  {
+			log << "Rain type is WATER_SLEET" << endl;
 			sentence << "räntä-" << "tai" << "vesisadetta";
 			break;
 		  }
 		case SNOW:
 		  {
+			log << "Rain type is SNOW" << endl;
 			if(has_showers)
 			  {
 				if(strength.value() < weak_limit)
@@ -369,6 +374,11 @@ namespace TextGen
 		case SNOW_WATER:
 		case SNOW_SLEET_WATER:
 		  {
+			if(raintype(has_water,has_sleet,has_snow) == SNOW_WATER)
+			  log << "Rain type is SNOW_WATER" << endl;
+			else
+			  log << "Rain type is SNOW_SLEET_WATER" << endl;
+
 			if(has_showers)
 			  {
 				if(strength.value() < weak_limit)
@@ -390,6 +400,7 @@ namespace TextGen
 		  }
 		case SNOW_SLEET:
 		  {
+			log << "Rain type is SNOW_SLEET" << endl;
 			if(has_showers)
 			  {
 				if(strength.value() < weak_limit)
@@ -411,6 +422,8 @@ namespace TextGen
 			break;
 		  }
 		}
+
+	  log << sentence;
 
 	  return sentence;
 	}
