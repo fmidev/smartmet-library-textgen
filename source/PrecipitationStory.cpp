@@ -197,7 +197,8 @@ namespace TextGen
 	GridForecaster forecaster;
 	WeatherResult result = forecaster.analyze(itsSources,
 											  Precipitation,
-											  MeanSum,
+											  Mean,
+											  Sum,
 											  WeatherLimits(),
 											  itsPeriod,
 											  itsArea);
@@ -239,14 +240,16 @@ namespace TextGen
 
 	WeatherResult minresult = forecaster.analyze(itsSources,
 												 Precipitation,
-												 MinSum,
+												 Minimum,
+												 Sum,
 												 WeatherLimits(),
 												 itsPeriod,
 												 itsArea);
 
 	WeatherResult maxresult = forecaster.analyze(itsSources,
 												 Precipitation,
-												 MaxSum,
+												 Maximum,
+												 Sum,
 												 WeatherLimits(),
 												 itsPeriod,
 												 itsArea);
@@ -323,21 +326,24 @@ namespace TextGen
 	// Gather the results
 	WeatherResult minresult = forecaster.analyze(itsSources,
 												 Precipitation,
-												 MinSum,
+												 Minimum,
+												 Sum,
 												 limits,
 												 itsPeriod,
 												 itsArea);
 
 	WeatherResult meanresult = forecaster.analyze(itsSources,
 												  Precipitation,
-												  MeanSum,
+												  Mean,
+												  Sum,
 												  limits,
 												  itsPeriod,
 												  itsArea);
 	
 	WeatherResult maxresult = forecaster.analyze(itsSources,
 												 Precipitation,
-												 MaxSum,
+												 Maximum,
+												 Sum,
 												 limits,
 												 itsPeriod,
 												 itsArea);
@@ -387,6 +393,7 @@ namespace TextGen
 			WeatherResult probresult = forecaster.analyze(itsSources,
 														  Precipitation,
 														  Percentage,
+														  Sum,
 														  limits,
 														  itsPeriod,
 														  itsArea);
@@ -468,7 +475,8 @@ namespace TextGen
 #if 0
 		WeatherResult probresult = forecaster.analyze(itsSources,
 													  Precipitation,
-													  Probability,
+													  Percentage,
+													  Sum,
 													  limits,
 													  itsPeriod,
 													  itsArea);

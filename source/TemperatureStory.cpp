@@ -116,6 +116,7 @@ namespace TextGen
 	WeatherResult result = forecaster.analyze(itsSources,
 											  Temperature,
 											  Mean,
+											  Mean,
 											  WeatherLimits(),
 											  itsPeriod,
 											  itsArea);
@@ -153,6 +154,7 @@ namespace TextGen
 	WeatherResult result = forecaster.analyze(itsSources,
 											  MaxTemperature,
 											  Mean,
+											  Mean,
 											  WeatherLimits(),
 											  itsPeriod,
 											  itsArea);
@@ -188,6 +190,7 @@ namespace TextGen
 	GridForecaster forecaster;
 	WeatherResult result = forecaster.analyze(itsSources,
 											  MinTemperature,
+											  Mean,
 											  Mean,
 											  WeatherLimits(),
 											  itsPeriod,
