@@ -19,6 +19,7 @@
 #include "RelativeHumidityAnalyzer.h"
 #include "SevereFrostAnalyzer.h"
 #include "TemperatureAnalyzer.h"
+#include "WindDirectionAnalyzer.h"
 #include "WindSpeedAnalyzer.h"
 
 namespace WeatherAnalysis
@@ -155,7 +156,20 @@ namespace WeatherAnalysis
 								  theTester);
 		}
 	  case WindDirection:
-		break;
+		{
+		  WindDirectionAnalyzer analyzer;
+		  return analyzer.analyze(theSources,
+								  Forecast,
+								  theAreaFunction,
+								  theTimeFunction,
+								  theSubTimeFunction,
+								  theArea,
+								  thePeriods,
+								  theAreaAcceptor,
+								  theTimeAcceptor,
+								  theTester);
+		}
+
 	  }
 	// should never reach this place
 	return WeatherResult(kFloatMissing,0);
