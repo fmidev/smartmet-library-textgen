@@ -161,11 +161,11 @@ namespace TextGen
 	Header create(const WeatherPeriod & thePeriod,
 				  const std::string & theName)
 	{
-	  if(theName == "header_until")
+	  if(theName == "until")
 		return header_until(thePeriod);
-	  if(theName == "header_from_until")
+	  if(theName == "from_until")
 		return header_from_until(thePeriod);
-	  if(theName == "header_five_days")
+	  if(theName == "five_days")
 		return header_five_days(thePeriod);
 	  throw TextGenError("HeaderFactory does not recognize header type "+theName);
 	}
