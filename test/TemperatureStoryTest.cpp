@@ -369,6 +369,62 @@ namespace TemperatureStoryTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test TemperatureStory::weekly_minmax()
+   */
+  // ----------------------------------------------------------------------
+
+  void temperature_weekly_minmax()
+  {
+	using namespace std;
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	WeatherArea area("dummy");
+	NFmiTime time1(2000,1,1);
+	NFmiTime time2(2000,1,5);
+	WeatherPeriod period(time1,time2);
+	TemperatureStory story(time1,sources,area,period,"test");
+
+	const string fun = "temperature_weekly_minmax";
+
+	NFmiSettings::instance().set("test::day::starthour","6");
+	NFmiSettings::instance().set("test::day::endhour","18");
+	NFmiSettings::instance().set("test::night::starthour","18");
+	NFmiSettings::instance().set("test::night::endhour","6");
+
+	NFmiSettings::instance().set("test::fake::day::minimum","10,1");
+	NFmiSettings::instance().set("test::fake::day::mean","12,1");
+	NFmiSettings::instance().set("test::fake::day::maximum","15,1");
+	NFmiSettings::instance().set("test::fake::night::minimum","2,1");
+	NFmiSettings::instance().set("test::fake::night::mean","4,1");
+	NFmiSettings::instance().set("test::fake::night::maximum","5,1");
+	require(story,"fi",fun,"Päivien ylin lämpötila on 10...15 astetta, öiden alin lämpötila 2...5 astetta.");
+	require(story,"sv",fun,"Dagstemperaturerna är 10...15 grader, natttemperaturerna 2...5 grader.");
+	require(story,"en",fun,"Daily maximum temperature is 10...15 degrees, nightly minimum temperature 2...5 degrees.");
+
+	NFmiSettings::instance().set("test::night::mininterval","4");
+	require(story,"fi",fun,"Päivien ylin lämpötila on 10...15 astetta, öiden alin lämpötila noin 4 astetta.");
+	require(story,"sv",fun,"Dagstemperaturerna är 10...15 grader, natttemperaturerna cirka 4 grader.");
+	require(story,"en",fun,"Daily maximum temperature is 10...15 degrees, nightly minimum temperature about 4 degrees.");
+
+	NFmiSettings::instance().set("test::day::mininterval","6");
+	NFmiSettings::instance().set("test::night::mininterval","2");
+	require(story,"fi",fun,"Päivien ylin lämpötila on noin 12 astetta, öiden alin lämpötila 2...5 astetta.");
+	require(story,"sv",fun,"Dagstemperaturerna är cirka 12 grader, natttemperaturerna 2...5 grader.");
+	require(story,"en",fun,"Daily maximum temperature is about 12 degrees, nightly minimum temperature 2...5 degrees.");
+
+	NFmiSettings::instance().set("test::emphasize_night_minimum","true");
+	require(story,"fi",fun,"Päivien ylin lämpötila on noin 12 astetta, öiden alin lämpötila noin 2 astetta.");
+	require(story,"sv",fun,"Dagstemperaturerna är cirka 12 grader, natttemperaturerna cirka 2 grader.");
+	require(story,"en",fun,"Daily maximum temperature is about 12 degrees, nightly minimum temperature about 2 degrees.");
+
+	TEST_PASSED();
+  }
+
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -388,6 +444,7 @@ namespace TemperatureStoryTest
 	  TEST(temperature_meanmax);
 	  TEST(temperature_meanmin);
 	  TEST(temperature_dailymax);
+	  TEST(temperature_weekly_minmax);
 	}
 
   }; // class tests
