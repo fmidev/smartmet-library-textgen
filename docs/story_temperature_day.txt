@@ -46,19 +46,20 @@ textgen::[kappale]::story::temperature_day::comparison::significantly_lower = [N
 
 Algoritmi on
 
- -# Jos päivän ylimmän ja yön alimman lämpötilan ero on alle \c day_night_limit,
-    ei päivästä ja yöstä kerrota erikseen. Rannikosta saatetaan kuitenkin kertoa
-    vielä erikseen.
- -# Jos sisämaan ja rannikon ero on vähintään \c coast_numeric_limit, annetaan kummankin
-    alueen lämpötila numeroina. Merkittävistä lämpötilaeroista saadaan näin
-    tarkempi tieto.
- -# Jos alueen lämpötila on alle \c coast_not_below, ei rannikosta ja sisämaasta kerrota
-    erikseen.
+ -# Jos päivän ylimmän ja yön alimman lämpötilan ero on alle
+    \c day_night_limit, ei päivästä ja yöstä kerrota erikseen.
+    Rannikosta saatetaan kuitenkin kertoa vielä erikseen.
+ -# Jos sisämaan ja rannikon ero on vähintään \c coast_numeric_limit,
+    annetaan kummankin alueen lämpötila numeroina. Merkittävistä
+    lämpötilaeroista saadaan näin tarkempi tieto.
+ -# Jos alueen lämpötila on alle \c coast_not_below, ei rannikosta ja
+    sisämaasta kerrota erikseen.
  -# Jos ero on vähintään \c coast_limit, vertaillaan lämpötiloja sanallisesti
     \c comparison muuttujan rajojen mukaisesti.
     
-Aikafraasit ovat tyyppiä \ref sec_periodifraasit_today ja \ref sec_periodifraasit_tonight
-Niihin liittyviä asetuksia kontrolloidaan muuttujilla
+Aikafraasit ovat tyyppiä \ref sec_periodifraasit_today ja
+\ref sec_periodifraasit_tonight Niihin liittyviä asetuksia
+kontrolloidaan muuttujilla
 \code
 textgen::[kappale]::story::temperature_day::today::phrases
 textgen::[kappale]::story::temperature_day::tonight::phrases
@@ -142,9 +143,5 @@ Tarvittavat fraasit ovat
  - "rannikolla"
 
 plus tarvittavat periodifraasit \ref sec_periodifraasit_today ja \ref sec_periodifraasit_tonight sivuilta.
-
-  -# "Päivän ylin lämpötila on [viikonpäivänä] [x...y] astetta, [sivulause].
-     Yön alin lämpötila on [viikonpäivän vastaisena yönä] [x...y]
-     astetta , [sivulause]."
 
 */
