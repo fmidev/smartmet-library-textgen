@@ -255,6 +255,41 @@ namespace StoryPhrasesTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief WeatherStory::shortoverview() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void weather_shortoverview()
+  {
+	require("enimm‰kseen");
+	require("selke‰‰");
+	require("puolipilvist‰");
+	require("pilvist‰");
+	require("vaihtelevaa pilvisyytt‰");
+	require("poutaa");
+	require("paikoin");
+	require("sadetta");
+	require("ajoittain sateista");
+	require("s‰‰ on ep‰vakaista");
+	require("tai");
+	require("r‰nt‰sadetta");
+	require("lumisadetta");
+	require("vesi-");
+	require("lumi-");
+
+	require("1-na","maanantaina");
+	require("2-na","tiistaina");
+	require("3-na","keskiviikkona");
+	require("4-na","torstaina");
+	require("5-na","perjantaina");
+	require("6-na","lauantaina");
+	require("7-na","sunnuntaina");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief FrostStory::mean() requirements
    */
   // ----------------------------------------------------------------------
@@ -364,6 +399,8 @@ namespace StoryPhrasesTest
 	  TEST(precipitation_total);
 	  TEST(precipitation_range);
 	  TEST(precipitation_classification);
+
+	  TEST(weather_shortoverview);
 
 	  TEST(frost_mean);
 	  TEST(frost_maximum);
