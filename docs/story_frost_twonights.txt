@@ -35,12 +35,21 @@ palautetaan fraasi 3. Muuten jos hallan todennäköisyys on vähintään
 Todennäköisyydet pyöristetään muuttujan \c precision tarkkuuteen.
 Yleensä käytetään tarkkuutta 10.
 
-Yö määritellään ajanjaksoksi välillä
+Yön määritelmä saadaan muuttujista
 \code
-textgen::[kappale]::story::frost_twonights::starthour = [0-23]
-textgen::[kappale]::story::frost_twonights::endhour = [0-23]
+textgen::[kappale]::story::relativehumidity_lowest::starthour = [0-23]
+textgen::[kappale]::story::relativehumidity_lowest::endhour = [0-23]
+textgen::[kappale]::story::relativehumidity_lowest::maxstarthour = [0-23]
+textgen::[kappale]::story::relativehumidity_lowest::minendhour = [0-23]
 \endcode
-missä starthour > endhour (esim 18 > 06).
+Päivän normaali aikaväli on \c starthour - \c endhour. Jos periodi on
+lyhyempi kuin mitä nämä asetukset vaativat, voidaan niissä joustaa
+muuttujien \c maxstarthour - \c minendhour rajoissa. Joustorajan
+puuttuessa ei joustoa sallita ollenkaan.
+
+Yölle ei ole annettu hallan yhteydessä minkäänlaista oletusmääritelmää,
+kuten 18-06, koska hallan kohdalla mielenkiintoinen aikaväli voi hyvinkin
+olla suurempi. Näin vastuu oikean aikavälin määrittelystä jää käyttäjälle.
 
 Jos jakson pituus on kaksi yötä tai useampia öitä, palautetaan jokin
 alla olevista tarinoista. Ainoastaan kahdesta ensimmäisestä yöstä

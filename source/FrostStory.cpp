@@ -17,6 +17,7 @@
 #include "TextGenError.h"
 #include "WeatherFunction.h"
 #include "WeatherParameter.h"
+#include "WeatherPeriodTools.h"
 #include "WeatherResult.h"
 
 #include "boost/lexical_cast.hpp"
@@ -47,71 +48,6 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Return the first night start hour >= the given time
-   *
-   * \param theTime The reference time
-   * \param theStartHour The hour when nights start
-   */
-  // ----------------------------------------------------------------------
-
-  NFmiTime night_start(const NFmiTime & theTime, int theStartHour)
-  {
-	NFmiTime ret(theTime);
-	ret.SetHour(theStartHour);
-	if(ret.IsLessThan(theTime))
-	  ret.ChangeByDays(1);
-	return ret;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the night end time for the given start time
-   *
-   * \param theTime The night start time
-   * \param theEndHour The night end hour
-   */
-  // ----------------------------------------------------------------------
-
-  NFmiTime night_end(const NFmiTime & theTime, int theEndHour)
-  {
-	NFmiTime ret(theTime);
-	if(theEndHour <= theTime.GetHour())
-	  ret.ChangeByDays(1);
-	ret.SetHour(theEndHour);
-	return ret;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Count the number of nights in the given period
-   *
-   * \param thePeriod The period
-   * \param theStartHour The start hour of nights
-   * \param theEndHour The end hour of nights
-   * \return The number of nights
-   */
-  // ----------------------------------------------------------------------
-
-  int night_count(const WeatherPeriod & thePeriod,
-				  int theStartHour,
-				  int theEndHour)
-  {
-	int days = 0;
-
-	NFmiTime start = night_start(thePeriod.localStartTime(),theStartHour);
-	NFmiTime end = night_end(start,theEndHour);
-
-	while(!thePeriod.localEndTime().IsLessThan(end))
-	  {
-		++days;
-		start = night_start(end,theStartHour);
-		end = night_end(start,theEndHour);
-	  }
-	return days;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Return phrase "viikonpäivän vastaisena yönä" for the period
    *
    * \param thePeriod The night period
@@ -124,37 +60,6 @@ namespace
 	string ret = lexical_cast<string>(thePeriod.localEndTime().GetWeekday());
 	ret += "-vastaisena yönä";
 	return ret;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the desired night period
-   *
-   * \param thePeriod The period from which to get the night
-   * \param theStartHour The night start hour
-   * \param theEndHour The night end hour
-   * \param theNight Which night to get, 1 = first
-   * \return The desired period
-   */
-  // ----------------------------------------------------------------------
-
-  WeatherPeriod night(const WeatherPeriod & thePeriod,
-					  int theStartHour,
-					  int theEndHour,
-					  int theNight)
-  {
-	if(theNight<1)
-	  throw TextGen::TextGenError("FrostStory: Cannot request night < 1 from night()");
-
-	NFmiTime start = night_start(thePeriod.localStartTime(),theStartHour);
-	NFmiTime end = night_end(start,theEndHour);
-
-	while(--theNight > 0)
-	  {
-		start = night_start(end,theStartHour);
-		end = night_end(start,theEndHour);
-	  }
-	return WeatherPeriod(start,end);
   }
 
   // ----------------------------------------------------------------------
@@ -557,16 +462,23 @@ namespace TextGen
   
   Paragraph FrostStory::twonights() const
   {
+
 	Paragraph paragraph;
 
-	const int starthour   = Settings::require_hour(itsVariable+"::starthour");
-	const int endhour     = Settings::require_hour(itsVariable+"::endhour");
+	const int starthour    = Settings::require_hour(itsVariable+"::starthour");
+	const int endhour      = Settings::require_hour(itsVariable+"::endhour");
+	const int maxstarthour = Settings::optional_hour(itsVariable+"::maxstarthour",starthour);
+	const int minendhour   = Settings::optional_hour(itsVariable+"::minendhour",endhour);
 
 	const int precision   = Settings::require_percentage(itsVariable+"::precision");
 	const int severelimit = Settings::require_percentage(itsVariable+"::severe_frost_limit");
 	const int normallimit = Settings::require_percentage(itsVariable+"::frost_limit");
 
-	const int nights = night_count(itsPeriod,starthour,endhour);
+	const int nights = WeatherPeriodTools::countPeriods(itsPeriod,
+														starthour,
+														endhour,
+														maxstarthour,
+														minendhour);
 
 	if(nights==0)
 	  return paragraph;
@@ -575,7 +487,12 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	WeatherPeriod night1 = night(itsPeriod,starthour,endhour,1);
+	WeatherPeriod night1 = WeatherPeriodTools::getPeriod(itsPeriod,
+														 1,
+														 starthour,
+														 endhour,
+														 maxstarthour,
+														 minendhour);
 
 	WeatherResult frost = forecaster.analyze(itsVariable+"::fake::day1::mean",
 											 itsSources,
@@ -610,7 +527,12 @@ namespace TextGen
 	else
 	  {
 
-		WeatherPeriod night2 = night(itsPeriod,starthour,endhour,2);
+		WeatherPeriod night2 = WeatherPeriodTools::getPeriod(itsPeriod,
+															 2,
+															 starthour,
+															 endhour,
+															 maxstarthour,
+															 minendhour);
 
 		WeatherResult frost2 = forecaster.analyze(itsVariable+"::fake::day2::mean",
 												  itsSources,
