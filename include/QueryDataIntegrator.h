@@ -37,21 +37,10 @@ namespace WeatherAnalysis
 					const NFmiTime & theEndTime,
 					Calculator & theTimeCalculator);
 	
-	// Integrate over time with subintervals w/ current location/param/level
-	
-	float Integrate(NFmiFastQueryInfo & theQI,
-					const NFmiTime & theStartTime,
-					const NFmiTime & theEndTime,
-					int theInterval,
-					Calculator & theSubTimeCalculator,
-					Calculator & theMainTimeCalculator);
-
 	// Integrate over time with subinterval generator w/ current location/param/level
 	
 	float Integrate(NFmiFastQueryInfo & theQI,
-					const NFmiTime & theStartTime,
-					const NFmiTime & theEndTime,
-					const WeatherPeriodGenerator & theGenerator,
+					const WeatherPeriodGenerator & thePeriods,
 					Calculator & theSubTimeCalculator,
 					Calculator & theMainTimeCalculator);
 	
@@ -88,23 +77,10 @@ namespace WeatherAnalysis
 					const NFmiTime & theEndTime,
 					Calculator & theTimeCalculator);
 	
-	// Integrate over time, time and grid with current param & level
-	
-	float Integrate(NFmiFastQueryInfo & theQI,
-					const NFmiTime & theStartTime,
-					const NFmiTime & theEndTime,
-					int theInterval,
-					Calculator & theSubTimeCalculator,
-					Calculator & theMainTimeCalculator,
-					const NFmiIndexMask & theIndexMask,
-					Calculator & theSpaceCalculator);
-
 	// Integrate over time, sub time and grid with current param & level
 	
 	float Integrate(NFmiFastQueryInfo & theQI,
-					const NFmiTime & theStartTime,
-					const NFmiTime & theEndTime,
-					const WeatherPeriodGenerator & theGenerator,
+					const WeatherPeriodGenerator & thePeriods,
 					Calculator & theSubTimeCalculator,
 					Calculator & theMainTimeCalculator,
 					const NFmiIndexMask & theIndexMask,

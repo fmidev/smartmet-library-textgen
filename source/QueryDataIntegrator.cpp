@@ -97,75 +97,6 @@ namespace WeatherAnalysis
 	
 	// ----------------------------------------------------------------------
 	/*!
-	 * \brief Integrate over time with subintervals
-	 *
-	 * Integrate over time with current location, parameter and level.
-	 * The time interval is divided into subintervals and are integrated
-	 * separately.
-	 *
-	 * If the start time does not exist in the data, a missing value
-	 * is returned.
-	 *
-	 * If the given interval is negative, a missing value is returned.
-	 * If the interval is zero, no subintervals are created and
-	 * the sub modifier is ignored.
-	 *
-	 * \param theQI The query info
-	 * \param theStartTime The start time of the integration.
-	 * \param theEndTime The end time of the integration.
-	 * \param theInterval The sub interval in hours
-	 * \param theSubTimeCalculator The calculator for accumulating the subresult
-	 * \param theMainTimeCalculator The calculator for subresults
-	 * \return The accumulation result
-	 */
-	// ----------------------------------------------------------------------
-	
-	float Integrate(NFmiFastQueryInfo & theQI,
-					const NFmiTime & theStartTime,
-					const NFmiTime & theEndTime,
-					int theInterval,
-					Calculator & theSubTimeCalculator,
-					Calculator & theMainTimeCalculator)
-	{
-	  // Safety against bad loop
-	  if(theInterval<0)
-		return kFloatMissing;
-	  // Default case
-	  if(theInterval==0)
-		return Integrate(theQI,theStartTime,theEndTime,theMainTimeCalculator);
-	  
-	  theMainTimeCalculator.reset();
-	  
-	  NFmiTime time1(theStartTime);
-	  
-	  if(!first_integration_time(theQI,time1))
-		return kFloatMissing;
-	  
-	  do
-		{
-		  NFmiTime time2(time1);
-		  time2.ChangeByHours(theInterval);
-		  
-		  theSubTimeCalculator.reset();
-		  
-		  do
-			{
-			  const float tmp = theQI.FloatValue();
-			  theSubTimeCalculator(tmp);
-			}
-		  while(theQI.NextTime() && theQI.Time()<time2);
-		  
-		  const float subresult = theSubTimeCalculator();
-		  theMainTimeCalculator(subresult);
-		  
-		}
-	  while(theQI.IsValidTime() && theQI.Time()<theEndTime);
-	  
-	  return theMainTimeCalculator();
-	}
-
-	// ----------------------------------------------------------------------
-	/*!
 	 * \brief Integrate over time with subinterval generator
 	 *
 	 * Integrate over time with current location, parameter and level.
@@ -179,9 +110,7 @@ namespace WeatherAnalysis
 	 * If no subintervals can be created, a missing value is returned.
 	 *
 	 * \param theQI The query info
-	 * \param theStartTime The start time of the integration.
-	 * \param theEndTime The end time of the integration.
-	 * \param theGenerator The subperiod generator
+	 * \param thePeriods The subperiod generator
 	 * \param theSubTimeCalculator The calculator for accumulating the subresult
 	 * \param theMainTimeCalculator The calculator for subresults
 	 * \return The accumulation result
@@ -189,21 +118,27 @@ namespace WeatherAnalysis
 	// ----------------------------------------------------------------------
 	
 	float Integrate(NFmiFastQueryInfo & theQI,
-					const NFmiTime & theStartTime,
-					const NFmiTime & theEndTime,
-					const WeatherPeriodGenerator & theGenerator,
+					const WeatherPeriodGenerator & thePeriods,
 					Calculator & theSubTimeCalculator,
 					Calculator & theMainTimeCalculator)
 	{
+	  if(thePeriods.undivided())
+		{
+		  return Integrate(theQI,
+						   thePeriods.period(1).utcStartTime(),
+						   thePeriods.period(1).utcEndTime(),
+						   theMainTimeCalculator);
+		}
+
 	  // Safety against bad loop
-	  if(theGenerator.size() <= 0)
+	  if(thePeriods.size() <= 0)
 		return kFloatMissing;
-	  
+
 	  theMainTimeCalculator.reset();
 
-	  for(unsigned int i=1; i<theGenerator.size(); i++)
+	  for(unsigned int i=1; i<thePeriods.size(); i++)
 		{
-		  WeatherPeriod period = theGenerator.period(i);
+		  WeatherPeriod period = thePeriods.period(i);
 
 		  if(!first_integration_time(theQI,period.utcStartTime()))
 			return kFloatMissing;
@@ -221,7 +156,6 @@ namespace WeatherAnalysis
 		  theMainTimeCalculator(subresult);
 		  
 		}
-	  while(theQI.IsValidTime() && theQI.Time()<=theEndTime);
 	  
 	  return theMainTimeCalculator();
 	}
@@ -423,109 +357,6 @@ namespace WeatherAnalysis
 	
 	// ----------------------------------------------------------------------
 	/*!
-	 * \brief Integrate over time, time and space
-	 *
-	 * Integrate over time and space with current parameter and level.
-	 * Note that the integration order is different from the Integrate
-	 * command where the order of time and space arguments are reversed.
-	 * Here time integration is performed first, then space integration.
-	 * Also, the time integration is split into two parts with separate
-	 * modifiers. For example, one may divide a 5 day period into 24 hour
-	 * segments, and then calculate the mean of 24 hour maximums in time,
-	 * and then mean in space again.
-	 *
-	 * If the start time does not exist in the data, a missing value
-	 * is returned.
-	 *
-	 * If the given interval is negative, a missing value is returned.
-	 * If the interval is zero, no subintervals are created and
-	 * the sub modifier is ignored.
-	 *
-	 * \param theQI The query info
-	 * \param theStartTime The start time of the integration.
-	 * \param theEndTime The end time of the integration.
-	 * \param theInterval The number of hours in a single interval
-	 * \param theSubTimeCalculator The calculator for accumulating sub periods
-	 * \param theMainTimeCalculator The calculator for accumulating sub period results
-	 * \param theIndexMask The mask containing the space indices
-	 * \param theSpaceCalculator The calculator for accumulating the space result
-	 * \return The accumulation result
-	 */
-	// ----------------------------------------------------------------------
-	
-	float Integrate(NFmiFastQueryInfo & theQI,
-					const NFmiTime & theStartTime,
-					const NFmiTime & theEndTime,
-					int theInterval,
-					Calculator & theSubTimeCalculator,
-					Calculator & theMainTimeCalculator,
-					const NFmiIndexMask & theIndexMask,
-					Calculator & theSpaceCalculator)
-	{
-	  // Safety against bad loop
-	  if(theInterval<0)
-		return kFloatMissing;
-	  
-	  // Don't create subintervals unless necessary
-	  if(theInterval==0)
-		return Integrate(theQI,
-						 theStartTime,theEndTime,theMainTimeCalculator,
-						 theIndexMask,theSpaceCalculator);
-	  
-	  theSpaceCalculator.reset();
-	  
-	  if(theIndexMask.empty())
-		return kFloatMissing;
-	  
-	  for(NFmiIndexMask::const_iterator it = theIndexMask.begin();
-		  it != theIndexMask.end();
-		  ++it)
-		{
-		  theMainTimeCalculator.reset();
-		  
-		  NFmiTime time1(theStartTime);
-		  
-		  if(!first_integration_time(theQI,time1))
-			return kFloatMissing;
-		  
-		  do
-			{
-			  NFmiTime time2(time1);
-			  time2.ChangeByHours(theInterval);
-			  
-			  theSubTimeCalculator.reset();
-			  
-			  do
-				{
-				  // possible -1 is handled by IndexFloatValue
-				  const unsigned long idx = theQI.Index(theQI.ParamIndex(),
-														*it,
-														theQI.LevelIndex(),
-														theQI.TimeIndex());
-				  const float tmp = theQI.GetFloatValue(idx);
-				  
-				  theSubTimeCalculator(tmp);
-				}
-			  while(theQI.NextTime() && theQI.Time()<time2);
-			  
-			  const float subtimeresult = theSubTimeCalculator();
-			  theMainTimeCalculator(subtimeresult);
-			  
-			  time1 = time2;
-			  
-			}
-		  
-		  while(theQI.IsValidTime() && theQI.Time()<theEndTime);
-		  
-		  const float timeresult = theMainTimeCalculator();
-		  theSpaceCalculator(timeresult);
-		}
-	  
-	  return theSpaceCalculator();
-	}
-
-	// ----------------------------------------------------------------------
-	/*!
 	 * \brief Integrate over time, subtime, time and space
 	 *
 	 * Integrate over time and space with current parameter and level.
@@ -536,9 +367,7 @@ namespace WeatherAnalysis
 	 * modifiers. The parts are generated by the given WeatherPeriodGenerator.
 	 *
 	 * \param theQI The query info
-	 * \param theStartTime The start time of the integration.
-	 * \param theEndTime The end time of the integration.
-	 * \param theGenerator The weather period generator
+	 * \param thePeriods The weather period generator
 	 * \param theSubTimeCalculator The calculator for accumulating sub periods
 	 * \param theMainTimeCalculator The calculator for accumulating sub period results
 	 * \param theIndexMask The mask containing the space indices
@@ -548,16 +377,24 @@ namespace WeatherAnalysis
 	// ----------------------------------------------------------------------
 	
 	float Integrate(NFmiFastQueryInfo & theQI,
-					const NFmiTime & theStartTime,
-					const NFmiTime & theEndTime,
-					const WeatherPeriodGenerator & theGenerator,
+					const WeatherPeriodGenerator & thePeriods,
 					Calculator & theSubTimeCalculator,
 					Calculator & theMainTimeCalculator,
 					const NFmiIndexMask & theIndexMask,
 					Calculator & theSpaceCalculator)
 	{
+	  if(thePeriods.undivided())
+		{
+		  return Integrate(theQI,
+						   thePeriods.period(1).utcStartTime(),
+						   thePeriods.period(1).utcEndTime(),
+						   theMainTimeCalculator,
+						   theIndexMask,
+						   theSpaceCalculator);
+		}
+
 	  // Safety against bad loop
-	  if(theGenerator.size()<=0)
+	  if(thePeriods.size()<=0)
 		return kFloatMissing;
 	  
 	  theSpaceCalculator.reset();
@@ -571,9 +408,9 @@ namespace WeatherAnalysis
 		{
 		  theMainTimeCalculator.reset();
 		  
-		  for(unsigned int i=1; i<theGenerator.size(); i++)
+		  for(unsigned int i=1; i<thePeriods.size(); i++)
 			{
-			  WeatherPeriod period = theGenerator.period(i);
+			  WeatherPeriod period = thePeriods.period(i);
 
 			  if(!first_integration_time(theQI,period.utcStartTime()))
 				return kFloatMissing;
@@ -597,8 +434,6 @@ namespace WeatherAnalysis
 			  theMainTimeCalculator(subtimeresult);
 			  
 			}
-		  
-		  while(theQI.IsValidTime() && theQI.Time()<theEndTime);
 		  
 		  const float timeresult = theMainTimeCalculator();
 		  theSpaceCalculator(timeresult);
