@@ -187,7 +187,7 @@ namespace TextGen
 	Header create(const WeatherPeriod & thePeriod,
 				  const std::string & theVariable)
 	{
-	  const string type = NFmiSettings::instance().require(theVariable);
+	  const string type = NFmiSettings::instance().require(theVariable+"::type");
 
 	  if(type == "none")
 		return header_none(thePeriod,theVariable);
