@@ -389,7 +389,6 @@ namespace TextGen
 			WeatherLimits limits;
 			limits.lowerLimit(maxrainlimit);
 
-#if 0
 			WeatherResult probresult = forecaster.analyze(itsSources,
 														  Precipitation,
 														  Percentage,
@@ -397,9 +396,6 @@ namespace TextGen
 														  limits,
 														  itsPeriod,
 														  itsArea);
-#endif
-			WeatherResult probresult(kFloatMissing,0);
-
 
 			int limit1 = -1;
 			int limit2 = -2;
@@ -472,7 +468,6 @@ namespace TextGen
 		WeatherLimits limits;
 		limits.lowerLimit(hilimit);
 
-#if 0
 		WeatherResult probresult = forecaster.analyze(itsSources,
 													  Precipitation,
 													  Percentage,
@@ -480,9 +475,6 @@ namespace TextGen
 													  limits,
 													  itsPeriod,
 													  itsArea);
-#endif
-		WeatherResult probresult(kFloatMissing,0);
-
 		int limit1 = -1;
 		int limit2 = -2;
 			
