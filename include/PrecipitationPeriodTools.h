@@ -21,11 +21,17 @@ namespace WeatherAnalysis
   
   namespace PrecipitationPeriodTools
   {
+	typedef std::list<NFmiTime> RainTimes;
+	typedef std::list<WeatherPeriod> RainPeriods;
 
-	std::list<NFmiTime> findRainTimes(const AnalysisSources & theSources,
-									  const WeatherArea & theArea,
-									  const WeatherPeriod & thePeriod,
-									  const std::string & theVar);
+	RainTimes findRainTimes(const AnalysisSources & theSources,
+							const WeatherArea & theArea,
+							const WeatherPeriod & thePeriod,
+							const std::string & theVar);
+
+	RainPeriods findRainPeriods(const RainTimes & theTimes,
+								const std::string & theVar);
+
 
   } // namespace PrecipitationPeriodTools
 } // namespace WeatherAnalysis

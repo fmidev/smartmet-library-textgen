@@ -38,8 +38,8 @@ namespace WeatherAnalysis
 	 *
 	 * The variables controlling the algorithm are
 	 * \code
-	 * ::minimum_rain = <0->     (default = 0.1)
-	 * ::minimum_area = <0-100>  (default = 20)
+	 * ::rainytime::minimum_rain = <0->     (default = 0.1)
+	 * ::rainytime::minimum_area = <0-100>  (default = 20)
 	 * \endcode
 	 * The first variable is the required rain amount in a single
 	 * point for the point to be considered rainy. Variable
@@ -55,15 +55,42 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	std::list<NFmiTime> findRainTimes(const AnalysisSources & theSources,
-									  const WeatherArea & theArea,
-									  const WeatherPeriod & thePeriod,
-									  const std::string & theVar)
+	RainTimes findRainTimes(const AnalysisSources & theSources,
+							const WeatherArea & theArea,
+							const WeatherPeriod & thePeriod,
+							const std::string & theVar)
 	{
-	  list<NFmiTime> times;
+	  RainTimes times;
 	  return times;
 	}
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Join rainy times into rain periods
+	 *
+	 * The variables controlling the algorithm are
+	 * \code
+	 * ::rainyperiod::maximum_interval = <1->  (default = 1)
+	 * \endcode
+	 * Variable \c maximum_interval determines the maximum allowed
+	 * separation between any two rainy moments in time for them
+	 * to be considered to belong into the same rain period.
+	 * Typically one might use a value like 3 hours, but the default
+	 * is nonetheless 1 hour. This forces the used to make a
+	 * conscious choice on the maximum separation.
+	 *
+	 * \param theTimes The rainy times to be joined
+	 * \param theVar The variable controlling the algorithm
+	 * \return Sorted list of rainy periods
+	 */
+	// ----------------------------------------------------------------------
+
+	RainPeriods findRainPeriods(const RainTimes & theTimes,
+								const std::string & theVar)
+	{
+	  RainPeriods periods;
+	  return periods;
+	}
 
 
   } // namespace PrecipitationPeriodTools
