@@ -984,7 +984,7 @@ INSERT INTO translation_sv VALUES ('odotettavissa','utsikter',20030513092904,'mh
 INSERT INTO translation_sv VALUES ('keskilämpötila','medeltemperaturen',20030516130805,'mheiskan');
 INSERT INTO translation_sv VALUES ('keskimääräinen ylin lämpötila','den maximi temperaturen i medeltal',20030611133554,'mheiskan');
 INSERT INTO translation_sv VALUES ('keskimääräinen alin lämpötila','den minimi temperaturen i medeltal',20030611133559,'mheiskan');
-INSERT INTO translation_sv VALUES ('sadesumma','nederbördsumman',20030516130852,'mheiskan');
+INSERT INTO translation_sv VALUES ('sadesumma','nederbördssumman',20030611133958,'mheiskan');
 INSERT INTO translation_sv VALUES ('astetta','grader',20030516130900,'mheiskan');
 INSERT INTO translation_sv VALUES ('millimetriä','millimeter',20030516134954,'mheiskan');
 INSERT INTO translation_sv VALUES ('1-aamusta','från måndag morgon',20030519080542,'mheiskan');
