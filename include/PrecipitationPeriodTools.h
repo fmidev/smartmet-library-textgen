@@ -31,7 +31,15 @@ namespace WeatherAnalysis
 						const WeatherPeriod & thePeriod,
 						const std::string & theVar);
 
-	// Utility functions used by above
+	// Extract parts of rainy periods
+
+	RainPeriods overlappingPeriods(const RainPeriods & thePeriods,
+								   const WeatherPeriod & thePeriod);
+
+	RainPeriods inclusivePeriods(const RainPeriods & thePeriods,
+								 const WeatherPeriod & thePeriod);
+
+	// Utility functions used by analyze
 	
 	RainTimes findRainTimes(const AnalysisSources & theSources,
 							const WeatherArea & theArea,

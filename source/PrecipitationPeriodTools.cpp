@@ -72,6 +72,60 @@ namespace WeatherAnalysis
 	  return periods3;
 	}
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Extract all rains overlapping given period
+	 *
+	 * \param thePeriods The periods from which to extract
+	 * \param thePeriod The period to extract
+	 * \return The periods in thePeriods which overlap thePeriod
+	 */
+	// ----------------------------------------------------------------------
+
+	RainPeriods overlappingPeriods(const RainPeriods & thePeriods,
+								   const WeatherPeriod & thePeriod)
+	{
+	  RainPeriods out;
+	  for(RainPeriods::const_iterator it = thePeriods.begin();
+		  it != thePeriods.end();
+		  ++it)
+		{
+		  if(it->localStartTime() < thePeriod.localEndTime() &&
+			 it->localEndTime() > thePeriod.localStartTime())
+			{
+			  out.push_back(*it);
+			}
+		}
+	  return out;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Extract all rains inclusive for the given period
+	 *
+	 * \param thePeriods The periods from which to extract
+	 * \param thePeriod The period to extract
+	 * \return The periods in thePeriods which are inclusive to thePeriod
+	 */
+	// ----------------------------------------------------------------------
+
+	RainPeriods inclusivePeriods(const RainPeriods & thePeriods,
+								 const WeatherPeriod & thePeriod)
+	{
+	  RainPeriods out;
+	  for(RainPeriods::const_iterator it = thePeriods.begin();
+		  it != thePeriods.end();
+		  ++it)
+		{
+		  if(it->localStartTime() >= thePeriod.localStartTime() &&
+			 it->localEndTime() <= thePeriod.localEndTime())
+			{
+			  out.push_back(*it);
+			}
+		}
+	  return out;
+	}
+
 
 	// ----------------------------------------------------------------------
 	/*!

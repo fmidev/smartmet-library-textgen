@@ -189,6 +189,108 @@ namespace PrecipitationPeriodToolsTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test PrecpitationPeriodTools::overlappingPeriods
+   */
+  // ----------------------------------------------------------------------
+
+  void overlappingPeriods()
+  {
+	using namespace WeatherAnalysis;
+
+	PrecipitationPeriodTools::RainPeriods periods;
+	periods.push_back(WeatherPeriod(NFmiTime(2003,9,1,10),
+									NFmiTime(2003,9,1,13)));
+	periods.push_back(WeatherPeriod(NFmiTime(2003,9,2,10),
+									NFmiTime(2003,9,2,13)));
+	periods.push_back(WeatherPeriod(NFmiTime(2003,9,2,18),
+									NFmiTime(2003,9,2,19)));
+	periods.push_back(WeatherPeriod(NFmiTime(2003,9,3,18),
+									NFmiTime(2003,9,3,19)));
+	periods.push_back(WeatherPeriod(NFmiTime(2003,9,3,18),
+									NFmiTime(2003,9,4,04)));
+	periods.push_back(WeatherPeriod(NFmiTime(2003,9,4,18),
+									NFmiTime(2003,9,6,04)));
+
+	WeatherPeriod day1(NFmiTime(2003,9,1),NFmiTime(2003,9,2));
+	if(PrecipitationPeriodTools::overlappingPeriods(periods,day1).size() != 1)
+	  TEST_FAILED("Failed to get exactly one period for day 1");
+
+	WeatherPeriod day2(NFmiTime(2003,9,2),NFmiTime(2003,9,3));
+	if(PrecipitationPeriodTools::overlappingPeriods(periods,day2).size() != 2)
+	  TEST_FAILED("Failed to get exactly two periods for day 2");
+
+	WeatherPeriod day3(NFmiTime(2003,9,3),NFmiTime(2003,9,4));
+	if(PrecipitationPeriodTools::overlappingPeriods(periods,day3).size() != 2)
+	  TEST_FAILED("Failed to get exactly two periods for day 3");
+
+	WeatherPeriod day4(NFmiTime(2003,9,4),NFmiTime(2003,9,5));
+	if(PrecipitationPeriodTools::overlappingPeriods(periods,day4).size() != 2)
+	  TEST_FAILED("Failed to get exactly two periods for day 4");
+
+	WeatherPeriod day5(NFmiTime(2003,9,5),NFmiTime(2003,9,6));
+	if(PrecipitationPeriodTools::overlappingPeriods(periods,day5).size() != 1)
+	  TEST_FAILED("Failed to get exactly one period for day 5");
+
+	WeatherPeriod day6(NFmiTime(2003,9,6),NFmiTime(2003,9,7));
+	if(PrecipitationPeriodTools::overlappingPeriods(periods,day6).size() != 1)
+	  TEST_FAILED("Failed to get exactly one period for day 6");
+												  
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test PrecpitationPeriodTools::inclusivePeriods
+   */
+  // ----------------------------------------------------------------------
+
+  void inclusivePeriods()
+  {
+	using namespace WeatherAnalysis;
+
+	PrecipitationPeriodTools::RainPeriods periods;
+	periods.push_back(WeatherPeriod(NFmiTime(2003,9,1,10),
+									NFmiTime(2003,9,1,13)));
+	periods.push_back(WeatherPeriod(NFmiTime(2003,9,2,10),
+									NFmiTime(2003,9,2,13)));
+	periods.push_back(WeatherPeriod(NFmiTime(2003,9,2,18),
+									NFmiTime(2003,9,2,19)));
+	periods.push_back(WeatherPeriod(NFmiTime(2003,9,3,18),
+									NFmiTime(2003,9,3,19)));
+	periods.push_back(WeatherPeriod(NFmiTime(2003,9,3,18),
+									NFmiTime(2003,9,4,04)));
+	periods.push_back(WeatherPeriod(NFmiTime(2003,9,4,18),
+									NFmiTime(2003,9,6,04)));
+
+	WeatherPeriod day1(NFmiTime(2003,9,1),NFmiTime(2003,9,2));
+	if(PrecipitationPeriodTools::inclusivePeriods(periods,day1).size() != 1)
+	  TEST_FAILED("Failed to get exactly one period for day 1");
+
+	WeatherPeriod day2(NFmiTime(2003,9,2),NFmiTime(2003,9,3));
+	if(PrecipitationPeriodTools::inclusivePeriods(periods,day2).size() != 2)
+	  TEST_FAILED("Failed to get exactly two periods for day 2");
+
+	WeatherPeriod day3(NFmiTime(2003,9,3),NFmiTime(2003,9,4));
+	if(PrecipitationPeriodTools::inclusivePeriods(periods,day3).size() != 1)
+	  TEST_FAILED("Failed to get exactly one period for day 3");
+
+	WeatherPeriod day4(NFmiTime(2003,9,4),NFmiTime(2003,9,5));
+	if(PrecipitationPeriodTools::inclusivePeriods(periods,day4).size() != 0)
+	  TEST_FAILED("Failed to get exactly zero periods for day 4");
+
+	WeatherPeriod day5(NFmiTime(2003,9,5),NFmiTime(2003,9,6));
+	if(PrecipitationPeriodTools::inclusivePeriods(periods,day5).size() != 0)
+	  TEST_FAILED("Failed to get exactly zero periods for day 5");
+
+	WeatherPeriod day6(NFmiTime(2003,9,6),NFmiTime(2003,9,7));
+	if(PrecipitationPeriodTools::inclusivePeriods(periods,day6).size() != 0)
+	  TEST_FAILED("Failed to get exactly zero periods for day 6");
+												  
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Test PrecipitationPeriodTools::mergeNigthlyRainPeriods
    */
   // ----------------------------------------------------------------------
@@ -213,6 +315,8 @@ namespace PrecipitationPeriodToolsTest
 	  TEST(findRainTimes);
 	  TEST(findRainPeriods);
 	  TEST(mergeNightlyRainPeriods);
+	  TEST(overlappingPeriods);
+	  TEST(inclusivePeriods);
 	}
 
   }; // class tests
