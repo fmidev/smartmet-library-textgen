@@ -152,7 +152,7 @@ namespace TextGen
 		{
 		  Sentence sentence;
 
-		  const WeatherResult direction =
+		  const WeatherResult direction12 =
 			forecaster.analyze(itsVar+"::fake::days1-2::direction::mean",
 							   itsSources,
 							   WindDirection,
@@ -162,7 +162,7 @@ namespace TextGen
 							   itsArea,
 							   periodgenerator);
 	
-		  const WindDirectionAccuracy accuracy = direction_accuracy(direction.error(),itsVar);
+		  const WindDirectionAccuracy accuracy12 = direction_accuracy(direction12.error(),itsVar);
 
 		  const bool similar_speeds = similar_speed_range(minspeeds[0],
 														  maxspeeds[0],
@@ -170,7 +170,7 @@ namespace TextGen
 														  maxspeeds[1],
 														  itsVar);
 
-		  if(accuracy != bad_accuracy ||
+		  if(accuracy12 != bad_accuracy ||
 			 (accuracies[0] == bad_accuracy &&
 			  accuracies[1] == bad_accuracy))
 			{
@@ -179,7 +179,7 @@ namespace TextGen
 				  sentence << directed_speed_sentence(minspeed(minspeeds[0],minspeeds[1]),
 													  maxspeed(maxspeeds[0],maxspeeds[1]),
 													  meanspeed(meanspeeds[0],meanspeeds[1]),
-													  direction,
+													  direction12,
 													  itsVar);
 				}
 			  else
@@ -191,7 +191,7 @@ namespace TextGen
 						   << directed_speed_sentence(minspeeds[0],
 													  maxspeeds[0],
 													  meanspeeds[0],
-													  directions[0],
+													  direction12,
 													  itsVar)
 						   << Delimiter(",")
 						   << PeriodPhraseFactory::create("next_day",
