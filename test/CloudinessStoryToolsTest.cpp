@@ -1,9 +1,9 @@
 #include "regression/tframe.h"
-#include "Dictionary.h"
-#include "DictionaryFactory.h"
+#include "DebugDictionary.h"
 #include "CloudinessStoryTools.h"
-
 #include "NFmiSettings.h"
+#include "PlainTextFormatter.h"
+#include "Sentence.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -14,7 +14,6 @@ using namespace boost;
 
 namespace CloudinessStoryToolsTest
 {
-  shared_ptr<TextGen::Dictionary> dict;
 
   // ----------------------------------------------------------------------
   /*!
@@ -586,6 +585,45 @@ namespace CloudinessStoryToolsTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test CloudinessStoryTools::cloudinessphrase()
+   */
+  // ----------------------------------------------------------------------
+
+  void cloudinessphrase()
+  {
+	using namespace TextGen;
+	using namespace TextGen::CloudinessStoryTools;
+
+	TextGen::PlainTextFormatter formatter;
+	shared_ptr<Dictionary> dict(new TextGen::DebugDictionary);
+	formatter.dictionary(dict);
+
+	string result, expected;
+	Sentence sentence;
+
+#define PHRASETEST(input,output)	\
+expected = output; \
+sentence = CloudinessStoryTools::cloudinessphrase(input); \
+if((result = sentence.realize(formatter)) != expected) \
+TEST_FAILED("Conversion of "+string(#input)+" to "+#output+" incorrect: "+result);
+
+	PHRASETEST(Cloudy,"Pilvist‰.");
+	PHRASETEST(PartlyCloudy,"Puolipilvist‰.");
+	PHRASETEST(Clear,"Selke‰‰.");
+	PHRASETEST(MostlyCloudy,"Enimm‰kseen pilvist‰.");
+	PHRASETEST(MostlyPartlyCloudy,"Enimm‰kseen puolipilvist‰.");
+	PHRASETEST(MostlyClear,"Enimm‰kseen selke‰‰.");
+	PHRASETEST(CloudyOrPartlyCloudy,"Pilvist‰ tai puolipilvist‰.");
+	PHRASETEST(ClearOrPartlyCloudy,"Selke‰‰ tai puolipilvist‰.");
+	PHRASETEST(DecreasingCloudiness,"Selkenev‰‰.");
+	PHRASETEST(IncreasingCloudiness,"Pilvistyv‰‰.");
+	PHRASETEST(VariableCloudiness,"Vaihtelevaa pilvisyytt‰.");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -603,6 +641,7 @@ namespace CloudinessStoryToolsTest
 	{
 	  TEST(cloudinesstype);
 	  TEST(similartype);
+	  TEST(cloudinessphrase);
 	}
 
   }; // class tests
@@ -617,8 +656,6 @@ int main(void)
   cout << endl
 	   << "CloudinessStoryTools tests" << endl
 	   << "==========================" << endl;
-
-  dict = TextGen::DictionaryFactory::create("null");
 
   tests t;
   return t.run();
