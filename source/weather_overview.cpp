@@ -557,11 +557,12 @@ namespace TextGen
 									 theForecastTime,
 									 thePeriod);
 
+	// start & end times of the rain
 	const int rainstarthour = theRainPeriod.localStartTime().GetHour();
 	const int rainendhour = theRainPeriod.localEndTime().GetHour()+1;
 
+	// mapping onto the four basic cases
 	const int idx = one_day_rain_unique_index(rainstarthour,rainendhour);
-
 	const int phrase = one_day_cases[idx].index;
 
 	switch(phrase)
