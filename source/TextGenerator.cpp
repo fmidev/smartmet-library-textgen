@@ -24,8 +24,10 @@
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "RegularMaskSource.h"
+#include "SectionTag.h"
 #include "Settings.h"
 #include "StoryFactory.h"
+#include "StoryTag.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
 #include "WeatherPeriodFactory.h"
@@ -161,6 +163,8 @@ namespace TextGen
 		it != paragraphs.end();
 		++it)
 	  {
+		doc << SectionTag("textgen::"+*it);
+
 		const string periodvar = "textgen::"+*it+"::period";
 		const WeatherPeriod period = WeatherPeriodFactory::create(time(),
 																  periodvar);
@@ -179,6 +183,7 @@ namespace TextGen
 				++iter)
 			  {
 				const string storyvar = "textgen::"+*it+"::story::"+*iter;
+				paragraph << StoryTag(storyvar);
 				Paragraph p = StoryFactory::create(itsPimple->itsForecastTime,
 												   itsPimple->itsSources,
 												   theArea,
