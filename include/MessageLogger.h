@@ -15,7 +15,7 @@
  * {
  *   MessageLogger::open("my.log");
  *   MessageLogger log("main");
- *   log << "Starting the work\n";
+ *   log << "Starting the work" << std::endl;
  *   ...
  *
  * }
@@ -36,11 +36,11 @@
 #ifndef MESSAGELOGGER_H
 #define MESSAGELOGGER_H
 
-#include <iostream>
-#include <string>
 #include <stdexcept>
 
-class MessageLogger
+#include "MessageLoggerStream.h"
+
+class MessageLogger : public MessageLoggerStream<>
 {
 
 public:
@@ -48,15 +48,12 @@ public:
   ~MessageLogger();
   MessageLogger(const std::string & theFunction);
 
-  template <typename T>
-  MessageLogger & operator<<(const T & theObject)
-  {
-	if(itsOutput != 0)
-	  *itsOutput << std::string(itsDepth,'.')
-				 << theObject;
-  }
+  virtual void onNewMessage(const string_type & theMessage);
 
   static void open(const std::string & theFilename);
+  static void indent(char theChar) { itsIndentChar = theChar; }
+  static void indentstep(unsigned int theStep) { itsIndentStep = theStep; }
+  static void timestamp(bool theFlag) { itsTimeStampOn = theFlag; }
 
 private:
 
@@ -65,9 +62,12 @@ private:
   MessageLogger & operator=(const MessageLogger & theLogger);
 
   std::string itsFunction;
-
   static unsigned long itsDepth;
   static std::ostream * itsOutput;
+  static char itsIndentChar;
+  static unsigned int itsIndentStep;
+  static bool itsTimeStampOn;
+
 
 }; // MessageLogger
 
