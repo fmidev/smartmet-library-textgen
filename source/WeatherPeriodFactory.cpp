@@ -63,6 +63,50 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Get the given hour setting
+   *
+   * Throws if the value is not in range 0-23
+   *
+   * \param theVariable The variable name
+   * \return The integer
+   */
+  // ----------------------------------------------------------------------
+
+  int require_hour(const string & theVariable)
+  {
+	using namespace TextGen;
+
+	const int value = require_int(theVariable);
+	if(value>=0 && value<24)
+	  return value;
+
+	throw TextGenError("The value of variable "+theVariable+" is not in range 0-23");
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Get the given days setting
+   *
+   * Throws if the value is not >= 0
+   *
+   * \param theVariable The variable name
+   * \return The integer
+   */
+  // ----------------------------------------------------------------------
+
+  int require_days(const string & theVariable)
+  {
+	using namespace TextGen;
+
+	const int value = require_int(theVariable);
+	if(value>=0)
+	  return value;
+
+	throw TextGenError("The value of variable "+theVariable+" is not >= 0");
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Create period from now until some given time
    *
    * Required variables are
@@ -89,9 +133,9 @@ namespace
   WeatherPeriod period_until(const NFmiTime & theTime,
 							 const string & theVariable)
   {
-	const int days       = require_int(theVariable+"::days");
-	const int endhour    = require_int(theVariable+"::endhour");
-	const int switchhour = require_int(theVariable+"::switchhour");
+	const int days       = require_days(theVariable+"::days");
+	const int endhour    = require_hour(theVariable+"::endhour");
+	const int switchhour = require_hour(theVariable+"::switchhour");
 
 	NFmiTime start(round_up(theTime));
 
@@ -139,11 +183,11 @@ namespace
   WeatherPeriod period_from_until(const NFmiTime & theTime,
 								  const string & theVariable)
   {
-	const int startday   = require_int(theVariable+"::startday");
-	const int starthour  = require_int(theVariable+"::starthour");
-	const int switchhour = require_int(theVariable+"::switchhour");
-	const int days       = require_int(theVariable+"::days");
-	const int endhour    = require_int(theVariable+"::endhour");
+	const int startday   = require_days(theVariable+"::startday");
+	const int starthour  = require_hour(theVariable+"::starthour");
+	const int switchhour = require_hour(theVariable+"::switchhour");
+	const int days       = require_days(theVariable+"::days");
+	const int endhour    = require_hour(theVariable+"::endhour");
 
 	NFmiTime start(round_up(theTime));
 	start.ChangeByDays(startday);
