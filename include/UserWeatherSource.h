@@ -20,13 +20,14 @@
 #ifndef WEATHERANALYSIS_USERWEATHERSOURCE_H
 #define WEATHERANALYSIS_USERWEATHERSOURCE_H
 
+#include "WeatherSource.h"
 #include "boost/shared_ptr.hpp"
 
 class NFmiQueryData;
 
 namespace WeatherAnalysis
 {
-  class UserWeatherSource
+  class UserWeatherSource : public WeatherSource
   {
   public:
 
