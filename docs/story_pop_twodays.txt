@@ -39,6 +39,11 @@ Tarina soveltuu yhden/kahden vuorokauden ennusteisiin. Sivulausetta ei
 ole yhden vuorokauden ennusteissa. Kolmannesta tai sitä seuraavista päivistä
 ei kerrota mitään.
 
+Jos jonkin päivän sateen todennäköisyys alittaa asetetun rajan,
+ei kyseisestä päivästä kerrota mitään. Jäljelle jää siis vain
+joko tyhjä tarina, tai tarina muotoa "Sateen todennäköisyys on
+[viikonpäivänä] X%."
+
 Aikafraasit ovat tyyppiä \ref sec_periodifraasit_today ja
 \ref sec_periodifraasit_next_day. Niihin liittyviä asetuksia
 kontrolloidaan muuttujilla
@@ -70,6 +75,11 @@ Sateen todennäköisyys pyöristetään tarkkuuteen
 \code
 textgen::[kappale]::story::pop_twodays::precision = [0-100]
 \endcode
+Sateen todennäköisyyden täytyy olla vähintään
+\code
+textgen::[kappale]::story::pop_twodays::limit = [0-100]
+\endcode
+ennen kuin todennäköisyydestä kerrotaan.
 
 Erotuksen suuruus päätellään seuraavista rajoista
 \code
