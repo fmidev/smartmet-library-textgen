@@ -8,10 +8,13 @@
 #include "PrecipitationStory.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
+#include "HourPeriodGenerator.h"
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
+#include "PeriodPhraseFactory.h"
+#include "PrecipitationStoryTools.h"
 #include "RangeAcceptor.h"
 #include "Sentence.h"
 #include "Settings.h"
@@ -19,6 +22,7 @@
 #include "TimeTools.h"
 #include "UnitFactory.h"
 #include "WeatherResult.h"
+#include "WeatherResultTools.h"
 
 #include "boost/lexical_cast.hpp"
 
@@ -43,8 +47,144 @@ namespace TextGen
   {
 	MessageLogger log("PrecipitationStory::daily_sums");
 
+	const double minrain = Settings::optional_double(itsVar+"::minrain",0);
+	const int mininterval = Settings::optional_int(itsVar+"::mininterval",1);
+
 	Paragraph paragraph;
 
+	GridForecaster forecaster;
+
+	// All the days
+
+	HourPeriodGenerator generator(itsPeriod,itsVar);
+
+	// Filter out too small hourly precipitation from the sum
+
+	RangeAcceptor rainlimits;
+	rainlimits.lowerLimit(minrain);
+
+	// Calculate daily results
+
+	vector<WeatherPeriod> periods;
+	vector<WeatherResult> minima;
+	vector<WeatherResult> maxima;
+	vector<WeatherResult> means;
+
+	for(unsigned int day=1; day<=periods.size(); day++)
+	  {
+		WeatherPeriod period = generator.period(day);
+
+		const string fake = itsVar+"::fake::day"+lexical_cast<string>(day);
+
+		WeatherResult minresult = forecaster.analyze(fake+"::minimum",
+													 itsSources,
+													 Precipitation,
+													 Minimum,
+													 Sum,
+													 itsArea,
+													 period,
+													 DefaultAcceptor(),
+													 rainlimits);
+		
+		WeatherResult maxresult = forecaster.analyze(fake+"::maximum",
+													 itsSources,
+													 Precipitation,
+													 Maximum,
+													 Sum,
+													 itsArea,
+													 period,
+													 DefaultAcceptor(),
+													 rainlimits);
+
+		WeatherResult meanresult = forecaster.analyze(fake+"::mean",
+													  itsSources,
+													  Precipitation,
+													  Mean,
+													  Sum,
+													  itsArea,
+													  period,
+													  DefaultAcceptor(),
+													  rainlimits);
+		
+		log << "Precipitation Minimum(Sum) for day " << day << " = " << minresult << endl;
+		log << "Precipitation Maximum(Sum) for day " << day << " = " << maxresult << endl;
+		log << "Precipitation Mean(Sum) for day " << day << " = " << meanresult << endl;
+		
+		if(minresult.value() == kFloatMissing ||
+		   maxresult.value() == kFloatMissing ||
+		   meanresult.value() == kFloatMissing)
+		  throw TextGenError("Total precipitation not available");
+
+		periods.push_back(period);
+		minima.push_back(minresult);
+		maxima.push_back(maxresult);
+		means.push_back(meanresult);
+		
+	  }
+
+	// Generate a single sentence from the results
+
+	Sentence sentence;
+
+	bool same_enabled = true;
+	unsigned int last = 99999;
+
+	for(unsigned int i=0; i<periods.size(); i++)
+	  {
+		if(FmiRound(maxima[i].value()) > 0)
+		  {
+			if(i==0)
+			  {
+				sentence << "sadesumma"
+						 << "on"
+						 << PeriodPhraseFactory::create("today",
+														itsVar,
+														itsForecastTime,
+														periods[i])
+						 << PeriodPhraseFactory::create("remaining_day",
+														itsVar,
+														itsForecastTime,
+														periods[i])
+						 << PrecipitationStoryTools::sum_phrase(minima[i],
+																maxima[i],
+																means[i],
+																mininterval);
+			  }
+		  else
+			{
+			  if(sentence.empty())
+				sentence << "sadesumma" << "on";
+			  else
+				sentence << Delimiter(",");
+			  sentence << PeriodPhraseFactory::create("next_day",
+													  itsVar,
+													  itsForecastTime,
+													  periods[i]);
+			  
+			  if(same_enabled &&
+				 WeatherResultTools::isSimilarRange(minima[last],maxima[last],
+													minima[i],maxima[i],
+													itsVar))
+				{
+				  sentence << "sama";
+				  same_enabled = false;
+				}
+			  else
+				{
+				  sentence << PrecipitationStoryTools::sum_phrase(minima[i],
+																  maxima[i],
+																  means[i],
+																  mininterval);
+				}
+			}
+
+			last = i;
+
+		  }
+	  }
+
+	paragraph << sentence;
+	
 	log << paragraph;
 	return paragraph;
 
