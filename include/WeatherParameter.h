@@ -25,7 +25,8 @@ namespace WeatherAnalysis
 	  WindSpeed,
 	  WindDirection,
 	  Thunder,
-	  RoadTemperature
+	  RoadTemperature,
+	  RoadCondition
 
 	}; // enum WeatherParameter
 
