@@ -1,5 +1,6 @@
 #include "regression/tframe.h"
 #include "MapSource.h"
+#include "NFmiSettings.h"
 #include "NFmiSvgPath.h"
 
 using namespace std;
@@ -15,13 +16,13 @@ namespace MapSourceTest
 	MapSource maps;
 
 	// should succeed
-	const NFmiSvgPath & uusimaa = maps.getMap("maatalous/uusimaa");
+	const NFmiSvgPath & uusimaa = maps.getMap("uusimaa");
 	if(uusimaa.empty())
 	  TEST_FAILED("getMap returned empty SVG for uusimaa");
 
 	// should succeed and have same address
-	const NFmiSvgPath & kymenlaakso1 = maps.getMap("maatalous/kymenlaakso");
-	const NFmiSvgPath & kymenlaakso2 = maps.getMap("maatalous/kymenlaakso");
+	const NFmiSvgPath & kymenlaakso1 = maps.getMap("kymenlaakso");
+	const NFmiSvgPath & kymenlaakso2 = maps.getMap("kymenlaakso");
 	if(&kymenlaakso1 != &kymenlaakso2)
 	  TEST_FAILED("getMap should return same map for save map name");
 
@@ -44,17 +45,17 @@ namespace MapSourceTest
 	using namespace WeatherAnalysis;
 
 	MapSource maps1;
-	const NFmiSvgPath & uusimaa1 = maps1.getMap("maatalous/uusimaa");
+	const NFmiSvgPath & uusimaa1 = maps1.getMap("uusimaa");
 
 	MapSource maps2(maps1);
-	const NFmiSvgPath & uusimaa2 = maps2.getMap("maatalous/uusimaa");
+	const NFmiSvgPath & uusimaa2 = maps2.getMap("uusimaa");
 
 	if(&uusimaa1 != &uusimaa2)
 	  TEST_FAILED("Copy constructed MapSource returns different address maps");
 
 	MapSource maps3;
 	maps3 = maps1;
-	const NFmiSvgPath & uusimaa3 = maps3.getMap("maatalous/uusimaa");
+	const NFmiSvgPath & uusimaa3 = maps3.getMap("uusimaa");
 	if(&uusimaa1 != &uusimaa3)
 	  TEST_FAILED("MapSource copied with = returns different address maps");
 
@@ -87,6 +88,12 @@ int main(void)
   cout << endl
 	   << "MapSource tester" << endl
 	   << "================" << endl;
+
+  NFmiSettings::Init();
+  const string mapdir = NFmiSettings::Require<string>("textgen::mappath");
+  NFmiSettings::Set("textgen::areas::map::uusimaa",mapdir+"/maatalous/uusimaa.svg");
+  NFmiSettings::Set("textgen::areas::map::kymenlaakso",mapdir+"/maatalous/kymenlaakso.svg");
+  
   MapSourceTest::tests t;
   return t.run();
 }

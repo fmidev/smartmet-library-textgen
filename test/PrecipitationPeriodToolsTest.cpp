@@ -58,8 +58,8 @@ namespace PrecipitationPeriodToolsTest
 	AnalysisSources sources;
 	shared_ptr<UserWeatherSource> weathersource(new UserWeatherSource());
 	weathersource->insert("data",theQD);
-	NFmiSettings::Set("textgen::precipitation_forecast","data");
 
+	NFmiSettings::Set("textgen::precipitation_forecast","data");
 
 	shared_ptr<MapSource> mapsource(new MapSource());
 	shared_ptr<MaskSource> masksource(new RegularMaskSource(mapsource,10));
@@ -69,7 +69,7 @@ namespace PrecipitationPeriodToolsTest
 
 	{
 	  RainTimes times = findRainTimes(sources,
-									  WeatherArea("data/uusimaa"),
+									  WeatherArea("uusimaa"),
 									  period,
 									  "");
 	  if(times.size() != 60)
@@ -79,7 +79,7 @@ namespace PrecipitationPeriodToolsTest
 
 	{
 	  RainTimes times = findRainTimes(sources,
-									  WeatherArea("data/ahvenanmaa"),
+									  WeatherArea("ahvenanmaa"),
 									  period,
 									  "");
 	  if(times.size() != 55)
@@ -89,7 +89,7 @@ namespace PrecipitationPeriodToolsTest
 
 	{
 	  RainTimes times = findRainTimes(sources,
-									  WeatherArea("data/pohjois-lappi"),
+									  WeatherArea("pohjois-lappi"),
 									  period,
 									  "");
 	  if(times.size() != 1)
@@ -139,7 +139,7 @@ namespace PrecipitationPeriodToolsTest
 
 	{
 	  RainTimes times = findRainTimes(sources,
-									  WeatherArea("data/uusimaa"),
+									  WeatherArea("uusimaa"),
 									  period,
 									  "");
 
@@ -154,7 +154,7 @@ namespace PrecipitationPeriodToolsTest
 	
 	{
 	  RainTimes times = findRainTimes(sources,
-									  WeatherArea("data/ahvenanmaa"),
+									  WeatherArea("ahvenanmaa"),
 									  period,
 									  "");
 	  
@@ -170,7 +170,7 @@ namespace PrecipitationPeriodToolsTest
 	
 	{
 	  RainTimes times = findRainTimes(sources,
-									  WeatherArea("data/pohjois-lappi"),
+									  WeatherArea("pohjois-lappi"),
 									  period,
 									  "");
 	  
@@ -330,6 +330,12 @@ int main(void)
 	   << "PrecipitationPeriodTools tester" << endl
 	   << "===============================" << endl;
 
+  NFmiSettings::Init();
+  const string mapdir = NFmiSettings::Require<string>("textgen::mappath");
+  NFmiSettings::Set("textgen::areas::map::uusimaa",mapdir+"/maatalous/uusimaa.svg");
+  NFmiSettings::Set("textgen::areas::map::ahvenanmaa",mapdir+"/maatalous/ahvenanmaa.svg");
+  NFmiSettings::Set("textgen::areas::map::pohjois-lappi",mapdir+"/maatalous/pohjois-lappi.svg");
+  
   PrecipitationPeriodToolsTest::read_querydata("data/skandinavia_pinta.sqd");
 
   PrecipitationPeriodToolsTest::tests t;
