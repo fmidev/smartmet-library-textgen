@@ -52,6 +52,7 @@ Tarvittavat fraasit ovat
 
  - "alin suhteellinen kosteus"
  - "on"
+ - "rannikolla"
 
 Lisäksi tarvitaan periodifraasit \ref sec_periodifraasit_today.
 
