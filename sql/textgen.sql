@@ -1166,7 +1166,7 @@ INSERT INTO translation_sv VALUES ('5-puoleiseksi tuuleksi','vind omkring syd',2
 INSERT INTO translation_sv VALUES ('6-puoleiseksi tuuleksi','vind omkring sydväst',20030530100652,'mheiskan');
 INSERT INTO translation_sv VALUES ('7-puoleiseksi tuuleksi','vind omkring väst',20030530100701,'mheiskan');
 INSERT INTO translation_sv VALUES ('8-puoleiseksi tuuleksi','vind omkring nordväst',20030530100710,'mheiskan');
-INSERT INTO translation_sv VALUES ('tuuli tyyntyy','vinden avtar helt',20030611132455,'mheiskan');
+INSERT INTO translation_sv VALUES ('tuuli tyyntyy','avtar vinden helt',20030611202653,'mheiskan');
 INSERT INTO translation_sv VALUES ('tyyneksi','till lugnt',20030611112113,'mheiskan');
 INSERT INTO translation_sv VALUES ('viiva','till',20030530101345,'mheiskan');
 INSERT INTO translation_sv VALUES ('lumi-','snö',20030530102944,'mheiskan');
