@@ -25,7 +25,7 @@
  </ol>
 <li>\ref sec_cloudinesstory</li>
  <ol>
- <li>\ref page_story_cloudiness_overview (puuttuu)</li>
+ <li>\ref page_story_cloudiness_overview</li>
  </ol>
 <li>\ref sec_weatherstory</li>
  <ol>
