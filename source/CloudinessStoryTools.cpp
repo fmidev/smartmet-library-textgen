@@ -175,9 +175,9 @@ namespace TextGen
 			  case MostlyCloudy:
 			  case MostlyPartlyCloudy:
 			  case PartlyCloudy:
-			  case ClearOrPartlyCloudy:
 				return CommonCloudiness(CloudyOrPartlyCloudy,true);
 			  case VariableCloudiness:
+			  case ClearOrPartlyCloudy:
 				return CommonCloudiness(VariableCloudiness,true);
 			  case Clear:
 			  case MostlyClear:
