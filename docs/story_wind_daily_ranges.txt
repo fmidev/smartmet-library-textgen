@@ -155,6 +155,12 @@ päivälle on välttämättä sanottava viikonpäivän nimi. Näissä kohdissa
 \c viikonpäivänä on merkitty ilman optionaalisuuteen viittaavia
 hakasulkuja.
 
+Lisäksi joillakin meteorologeilla on käytäntönä laittaa tuulen nopeus
+jälkimmäiselle päivälle, jos kahden päivän nopeudet ovat yhtä suuria.
+Tämä on mahdollista toteuttaa tulevaisuudessa optiona, jos niin halutaan.
+Tällöin tulee kuitenkin huomata kolmen päivän erikoistapaukset, esimerkiksi
+kun kaikkien kolmen päivän nopeus on sama.
+
 \section section_wind_daily_ranges_fraasit Tarvittavat fraasit
 
 Tarvittavat fraasit ovat
