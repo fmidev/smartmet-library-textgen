@@ -199,6 +199,21 @@ namespace HeaderPhrasesTest
 	require("uusimaa:lle","Uudellemaalle");
 	require("varsinais-suomi:lle","Varsinais-Suomeen");
 
+	require("tiepiiri-hame:lle","Hämeen tiepiiriin");
+	require("tiepiiri-kaakkois-lappi:lle","Kaakkois-Lappiin");
+	require("tiepiiri-kaakkois-suomi:lle","Kaakkois-Suomen tiepiiriin");
+	require("tiepiiri-kasivarsi:lle","Käsivarteen");
+	require("tiepiiri-keski-lappi:lle","Keski-Lappiin");
+	require("tiepiiri-keski-suomi:lle","Keski-Suomen tiepiiriin");
+	require("tiepiiri-lounais-lappi:lle","Lounais-Lappiin");
+	require("tiepiiri-oulu-ita:lle","Oulun tiepiirin itäosaan");
+	require("tiepiiri-oulu-lansi:lle","Oulun tiepiirin länsiosaan");
+	require("tiepiiri-savo-karjala:lle","Savo-Karjalan tiepiiriin");
+	require("tiepiiri-turku:lle","Turun tiepiiriin");
+	require("tiepiiri-uusimaa:lle","Uudenmaan tiepiiriin");
+	require("tiepiiri-vaasa:lle","Vaasan tiepiiriin");
+	require("tiepiiri-yla-lappi:lle","Ylä-Lappiin");
+
 	TEST_PASSED();
   }
 
