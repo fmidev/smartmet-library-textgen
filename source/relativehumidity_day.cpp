@@ -48,7 +48,7 @@ namespace TextGen
 
 	Paragraph paragraph;
 
-	HourPeriodGenerator generator(itsPeriod,itsVar);
+	HourPeriodGenerator generator(itsPeriod,itsVar+"::day");
 
 	// Too late for this day? Return empty story then
 	if(generator.size() == 0)
