@@ -319,11 +319,13 @@ namespace StoryPhrasesTest
   {
 	require("alin suhteellinen kosteus");
 	require("on");
+	require("huomattavasti suurempi");
 	require("suurempi");
 	require("hieman suurempi");
 	require("sama");
 	require("hieman pienempi");
 	require("pienempi");
+	require("huomattavasti pienempi");
 
 	require("1-na","maanantaina");
 	require("2-na","tiistaina");

@@ -239,6 +239,8 @@ namespace TextGen
 	const int minendhour   = Settings::require_hour(var2);
 	const int precision    = Settings::require_percentage(var3);
 
+	const int limit_significantly_greater = Settings::require_percentage(itsVariable+"::significantly_greater");
+	const int limit_significantly_smaller = Settings::require_percentage(itsVariable+"::significantly_smaller");
 	const int limit_greater = Settings::require_percentage(itsVariable+"::greater");
 	const int limit_smaller = Settings::require_percentage(itsVariable+"::smaller");
 	const int limit_somewhat_greater = Settings::require_percentage(itsVariable+"::somewhat_greater");
@@ -295,10 +297,14 @@ namespace TextGen
 
 		sentence << Delimiter(",")
 				 << on_weekday(secondperiod);
-		if(humidity2 - humidity1 >= limit_greater)
+		if(humidity2 - humidity1 >= limit_significantly_greater)
+		  sentence << "huomattavasti suurempi";
+		else if(humidity2 - humidity1 >= limit_greater)
 		  sentence << "suurempi";
 		else if(humidity2 - humidity1 >= limit_somewhat_greater)
 		  sentence << "hieman suurempi";
+		else if(humidity1 - humidity2 >= limit_significantly_smaller)
+		  sentence << "huomattavasti pienempi";
 		else if(humidity1 - humidity2 >= limit_smaller)
 		  sentence << "pienempi";
 		else if(humidity1 - humidity2 >= limit_somewhat_smaller)
