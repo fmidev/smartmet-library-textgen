@@ -105,6 +105,7 @@ namespace TextGen
 											 theHeader.end(),
 											 " ",
 											 *this);
+	TextFormatterTools::capitalize(ret);
 	if(!ret.empty())
 	  ret += ':';
 	

@@ -104,10 +104,12 @@ namespace TextGen
   string HtmlTextFormatter::visit(const Header & theHeader) const
   {
 	string ret = "<h1>";
-	ret +=  TextFormatterTools::realize(theHeader.begin(),
-										theHeader.end(),
-										" ",
-										*this);
+	string text = TextFormatterTools::realize(theHeader.begin(),
+											  theHeader.end(),
+											  " ",
+											  *this);
+	TextFormatterTools::capitalize(text);
+	ret += text;
 	ret += "</h1>";
 	return ret;
   }
