@@ -105,22 +105,6 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Set the range separator string
-   *
-   * The default value set by the constructor is "...", but for example
-   * for wind speeds it is customary to use "-".
-   *
-   * \param theSeparator The separator string
-   */
-  // ----------------------------------------------------------------------
-
-  void IntegerRange::rangeSeparator(const std::string & theSeparator)
-  {
-	itsRangeSeparator = theSeparator;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Return the range separator string
    *
    * \return The range separator string

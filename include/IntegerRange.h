@@ -21,7 +21,7 @@ namespace TextGen
   public:
 
 	virtual ~IntegerRange();
-	explicit IntegerRange(int theStartValue, int theEndValue, const std::string & theSeparator = "...");
+	explicit IntegerRange(int theStartValue, int theEndValue, const std::string & theSeparator = "-");
 #ifdef NO_COMPILER_GENERATED
 	IntegerRange(const IntegerRange & theIntegerRange);
 	IntegerRange & operator=(const IntegerRange & theIntegerRange);
@@ -33,7 +33,6 @@ namespace TextGen
 
 	virtual bool isDelimiter() const;
 
-	void rangeSeparator(const std::string & theSeparator);
 	const std::string & rangeSeparator() const;
 	int startValue() const;
 	int endValue() const;
