@@ -43,6 +43,14 @@ namespace TextGen
 
 	Paragraph paragraph;
 
+	const int forecast_month = itsForecastTime.GetMonth();
+	if(forecast_month > 10 || forecast_month < 4)
+	  {
+		log << "Frost is not reported from November to March!";
+		log << paragraph;
+		return paragraph;
+	  }
+
 	const int starthour    = Settings::require_hour(itsVar+"::night::starthour");
 	const int endhour      = Settings::require_hour(itsVar+"::night::endhour");
 	const int maxstarthour = Settings::optional_hour(itsVar+"::night::maxstarthour",starthour);
