@@ -7,9 +7,7 @@
 /*!
  * \class MessageLoggerStream
  *
- * Output stream services for MessageLogger.
- *
- * All code copied from CUJ February 2003, code by John Torjo.
+ * \brief Output stream services for MessageLogger.
  *
  */
 // ======================================================================
@@ -173,7 +171,7 @@ private:
 
 // ----------------------------------------------------------------------
 /*!
- * Rrepresents a stream that holds a message until it's full,
+ * Represents a stream that holds a message until it's full,
  * and then, calls an Event function - onNewMessage
  *
  * A message is full when the stream buffer is flushed. 
@@ -181,6 +179,9 @@ private:
  *
  * Usage: Derive your class from this, and implement the PROTECTED
  * onNewMessage function
+ *
+ * All code copied from CUJ February 2003, code by John Torjo.
+ *
  */
 // ----------------------------------------------------------------------
 
