@@ -39,7 +39,7 @@ namespace WeatherAnalysis
 
 	  MeanSum,
 	  MaxSum,
-	  MinSum,
+	  MinSum
 
 	}; // enum Weatherfunction
 
