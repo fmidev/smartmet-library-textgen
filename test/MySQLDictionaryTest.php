@@ -32,7 +32,7 @@ for($i=0; $i<count($languages); $i++)
 	{
 	  $lang1 = $languages[$i];
 	  $lang2 = $languages[$j];
-	  echo "$lang1 includes $lang2............";
+	  echo "$lang2 includes $lang1............";
 	  
 	  $keys1 = $keywords["$lang1"];
 	  $keys2 = $keywords["$lang2"];
@@ -49,6 +49,7 @@ for($i=0; $i<count($languages); $i++)
 	}
     }
 }
+echo "\n";
 
 
 function GetLanguages()
