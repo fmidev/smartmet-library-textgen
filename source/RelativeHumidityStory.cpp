@@ -216,6 +216,7 @@ namespace TextGen
 	  }
 
 	paragraph << sentence;
+	log << paragraph;
 	return paragraph;
   }
 

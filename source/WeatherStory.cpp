@@ -304,6 +304,7 @@ namespace TextGen
 		paragraph << c_sentence;
 	  }
 
+	log << paragraph;
 	return paragraph;
   }
 
@@ -358,6 +359,7 @@ namespace TextGen
 		paragraph << sentence;
 	  }
 
+	log << paragraph;
 	return paragraph;
   }
 

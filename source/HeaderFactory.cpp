@@ -41,8 +41,10 @@ namespace
   TextGen::Header header_none(const WeatherPeriod & thePeriod,
 							  const string & theVariable)
   {
+	MessageLogger log("header_none");
 	using namespace TextGen;
 	Header header;
+	log << header;
 	return header;
   }
 
@@ -62,6 +64,7 @@ namespace
   TextGen::Header header_until(const WeatherPeriod & thePeriod,
 							   const string & theVariable)
   {
+	MessageLogger log("header_until");
 	using namespace TextGen;
 	Header header;
 
@@ -69,6 +72,7 @@ namespace
 		   << WeekdayTools::until_weekday_time(thePeriod.localEndTime())
 		   << "asti";
 
+	log << header;
 	return header;
   }
 
@@ -88,6 +92,7 @@ namespace
   TextGen::Header header_from_until(const WeatherPeriod & thePeriod,
 									const string & theVariable)
   {
+	MessageLogger log("header_from_until");
 	using namespace TextGen;
 	Header header;
 
@@ -95,6 +100,7 @@ namespace
 		   << WeekdayTools::from_weekday_time(thePeriod.localStartTime())
 		   << WeekdayTools::until_weekday_time(thePeriod.localEndTime());
 
+	log << header;
 	return header;
   }
 
@@ -114,6 +120,7 @@ namespace
   TextGen::Header header_several_days(const WeatherPeriod & thePeriod,
 									  const string & theVariable)
   {
+	MessageLogger log("header_several_days");
 	using namespace TextGen;
 	Header header;
 
@@ -128,6 +135,7 @@ namespace
 		   << "alkavan"
 		   << lexical_cast<string>(days) + "-vuorokauden s‰‰";
 
+	log << header;
 	return header;
   }
 
@@ -146,6 +154,7 @@ namespace
 									 const WeatherPeriod & thePeriod,
 									 const string & theVariable)
   {
+	MessageLogger log("header_report_area");
 	using namespace TextGen;
 
 	Header header;
@@ -161,6 +170,7 @@ namespace
 		   << Number<int>(starthour)
 		   << "o'clock";
 
+	log << header;
 	return header;
   }
 

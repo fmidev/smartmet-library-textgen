@@ -224,6 +224,7 @@ namespace TextGen
 			 << *NumberFactory::create(FmiRound(result.value()))
 			 << *UnitFactory::create(Millimeters);
 	paragraph << sentence;
+	log << paragraph;
 	return paragraph;
   }
 
@@ -301,6 +302,7 @@ namespace TextGen
 	  }
 
 	paragraph << sentence;
+	log << paragraph;
 	return paragraph;
   }
 
@@ -446,6 +448,7 @@ namespace TextGen
 					 << maxrainlimit
 					 << *UnitFactory::create(Millimeters);
 			paragraph << sentence;
+			log << paragraph;
 			return paragraph;
 		  }
 
@@ -525,6 +528,7 @@ namespace TextGen
 	  }
 
 	paragraph << sentence;
+	log << paragraph;
 	return paragraph;
 
   }

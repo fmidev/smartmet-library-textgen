@@ -6,6 +6,9 @@
 // ======================================================================
 
 #include "MessageLogger.h"
+
+#include "DebugTextFormatter.h"
+
 #include <fstream>
 #include <iomanip>
 
@@ -130,6 +133,25 @@ void MessageLogger::open(const string & theFilename)
   if(!(*itsOutput))
 	throw std::runtime_error("MessageLogger failed to open '"+theFilename+"' for writing");
   
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Convenience operator for textgen library
+ *
+ * This really should not be here, it couples the generic MessageLogger
+ * class to the DebugTextFormatter and Glyph classes. However, any
+ * other solution seems inconvenient for the user.
+ *
+ */
+// ----------------------------------------------------------------------
+
+MessageLogger & MessageLogger::operator<<(const TextGen::Glyph & theGlyph)
+{
+  static TextGen::DebugTextFormatter formatter;
+  if(itsOutput != 0)
+	*this << "Return: " << formatter.format(theGlyph) << endl;
+  return *this;
 }
 
 // ======================================================================

@@ -265,6 +265,7 @@ namespace TextGen
 			 << *UnitFactory::create(DegreesCelsius);
 	
 	paragraph << sentence;
+	log << paragraph;
 	return paragraph;
   }
 
@@ -307,6 +308,7 @@ namespace TextGen
 			 << *NumberFactory::create(FmiRound(result.value()))
 			 << *UnitFactory::create(DegreesCelsius);
 	paragraph << sentence;
+	log << paragraph;
 	return paragraph;
   }
 
@@ -352,6 +354,7 @@ namespace TextGen
 			 << *NumberFactory::create(FmiRound(result.value()))
 			 << *UnitFactory::create(DegreesCelsius);
 	paragraph << sentence;
+	log << paragraph;
 	return paragraph;
   }
 
@@ -527,6 +530,7 @@ namespace TextGen
 	  }
 
 	paragraph << sentence;
+	log << paragraph;
 	return paragraph;
 
   }
@@ -702,6 +706,7 @@ namespace TextGen
 	  }
 
 	paragraph << sentence;
+	log << paragraph;
 	return paragraph;
 
   }
@@ -840,7 +845,7 @@ namespace TextGen
 	  }
 
 	paragraph << sentence;
-
+	log << paragraph;
 	return paragraph;
   }
 
@@ -968,7 +973,7 @@ namespace TextGen
 								   nightmininterval,night_interval_zero);
 
 	paragraph << sentence;
-
+	log << paragraph;
 	return paragraph;
   }
 

@@ -211,7 +211,10 @@ namespace TextGen
 	// Quick exit if the mean is zero
 	
 	if(frost.value() == 0)
-	  return paragraph;
+	  {
+		log << paragraph;
+		return paragraph;
+	  }
 
 	// Severe frost
 
@@ -249,6 +252,7 @@ namespace TextGen
 		paragraph << sentence;
 	  }
 
+	log << paragraph;
 	return paragraph;
   }
 
@@ -295,7 +299,10 @@ namespace TextGen
 	// Quick exit if the mean is zero
 	
 	if(frost.value() == 0)
-	  return paragraph;
+	  {
+		log << paragraph;
+		return paragraph;
+	  }
 
 	// Severe frost
 
@@ -333,6 +340,7 @@ namespace TextGen
 		paragraph << sentence;
 	  }
 
+	log << paragraph;
 	return paragraph;
   }
 
@@ -377,7 +385,10 @@ namespace TextGen
 	// Quick exit if maximum frost probability is zero
 	
 	if(maxfrost.value() == 0)
-	  return paragraph;
+	  {
+		log << paragraph;
+		return paragraph;
+	  }
 
 	// Minimum frost
 
@@ -445,6 +456,7 @@ namespace TextGen
 		paragraph << sentence;
 	  }
 
+	log << paragraph;
 	return paragraph;
   }
 
@@ -480,7 +492,10 @@ namespace TextGen
 														minendhour);
 
 	if(nights==0)
-	  return paragraph;
+	  {
+		log << paragraph;
+		return paragraph;
+	  }
 
 	// Calculate frost probability
 
@@ -644,6 +659,7 @@ namespace TextGen
 
 	  }
 
+	log << paragraph;
 	return paragraph;
   }
 

@@ -98,6 +98,7 @@ namespace TextGen
 	MessageLogger log("WeatherStory::overview");
 
 	Paragraph paragraph;
+	log << paragraph;
 	return paragraph;
   }
 
