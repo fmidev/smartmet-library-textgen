@@ -2,7 +2,7 @@
 
 \page page_story_frost_twonights Tarina "frost_twonights"
 
-Tarina on tyhjä marraskuusta maaliskuun loppuun! Lisäksi, jos
+Tarina on tyhjä lokakuun puolivälistä maaliskuun loppuun! Lisäksi, jos
 ankaran hallan todennäköisyys on kumpanakin päivänä hyvin korkea, lienee
 halla niin päivän selvää, ettei siitä kannata mainita erikseen.
 
