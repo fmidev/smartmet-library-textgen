@@ -90,8 +90,8 @@ namespace WeatherAnalysis
 		float result = NFmiDataIntegrator::Integrate(qi,
 													 *mask,
 													 spacemodifier,
-													 thePeriod.startTime(),
-													 thePeriod.endTime(),
+													 thePeriod.utcStartTime(),
+													 thePeriod.utcEndTime(),
 													 timemodifier);
 
 		if(result == kFloatMissing)
@@ -107,8 +107,8 @@ namespace WeatherAnalysis
 
 		NFmiDataModifierMax timemodifier;
 		float result = NFmiDataIntegrator::Integrate(qi,
-													 thePeriod.startTime(),
-													 thePeriod.endTime(),
+													 thePeriod.utcStartTime(),
+													 thePeriod.utcEndTime(),
 													 timemodifier);
 
 		return WeatherResult(result,1);

@@ -89,8 +89,8 @@ namespace WeatherAnalysis
 		NFmiDataModifierMin timemodifier;
 
 		float result = NFmiDataIntegrator::Integrate(qi,
-													 thePeriod.startTime(),
-													 thePeriod.endTime(),
+													 thePeriod.utcStartTime(),
+													 thePeriod.utcEndTime(),
 													 timemodifier,
 													 *mask,
 													 spacemodifier);
@@ -108,8 +108,8 @@ namespace WeatherAnalysis
 
 		NFmiDataModifierMin timemodifier;
 		float result = NFmiDataIntegrator::Integrate(qi,
-													 thePeriod.startTime(),
-													 thePeriod.endTime(),
+													 thePeriod.utcStartTime(),
+													 thePeriod.utcEndTime(),
 													 timemodifier);
 
 		return WeatherResult(result,1);
