@@ -24,9 +24,9 @@ namespace TextGen
   class Document : public GlyphContainer
   {
   public:
-	~Document();
-	Document();
+	virtual ~Document() { }
 #ifdef NO_COMPILER_GENERATED
+	Document();
 	Document(const Document & theDocument);
 	Document & operator=(const Document & theDocument);
 #endif

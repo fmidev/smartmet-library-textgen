@@ -24,9 +24,9 @@ namespace TextGen
   class Header : public GlyphContainer
   {
   public:
-	~Header();
-	Header();
+	virtual ~Header() { }
 #ifdef NO_COMPILER_GENERATED
+	Header();
 	Header(const Header & theHeader);
 	Header & operator=(const Header & theHeader);
 #endif
