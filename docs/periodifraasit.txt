@@ -1,0 +1,120 @@
+/*!
+\page page_periodifraasit Periodifraasit
+
+\section sec_periodifraasit_intro Johdanto
+
+Periodifraasit ovat fraaseja, jotka kuvaavat jotain
+periodia. Tyypillisesti kyse on jostain lähiajankohdasta, eli
+esimerkiksi meneillään olevasta päivästä, ensi yöstä tai huomisesta.
+
+\section sec_periodifraasit_periodphrasefactory PeriodPhraseFactory
+
+TextGen::PeriodPhraseFactory namespacen create-metodi luo
+TextGen::Sentence objekteja, jossa on olennaiset periodia kuvaavat
+fraasit. Pääsääntöisesti virkkeessä on vain yksi fraasi, eli virke on
+tarkoitettu liitettäväksi johonkin toiseen virkkeeseen operator<<
+metodin avulla.
+
+Create-metodin API on
+\code
+TextGen::Sentence create(const std::string & theType,
+                         const std::string & theVariable,
+                         const NFmiTime & theForecastTime,
+                         const WeatherAnalysis::WeatherPeriod & thePeriod);
+\endcode
+Muuttuja \c theVariable on prefiksi \c theType tyyppisen fraasin
+generoimiseen tarvittaville muuttujille. Yleensä \c theVariable on
+muotoa \c textgen::[kappale]::[tarina]::[periodi].
+
+\subsection sec_periodifraasit_muuttujat Muuttujat
+
+Kaikki tekstigeneraattorin muuttujat ovat yleensä muotoa
+\c textgen::[kappale]::[tarina]::[periodi]::[muuttuja].
+
+Alla on lueteltu halutun fraasin mukaan lueteltuna muuttujat, jotka
+kontrolloivat fraasin generointia. Muuttujat ovat
+prioriteettijärjestyksessä, eli valittu fraasi valitaan alla olevassa
+järjestyksessä.
+<table>
+<tr><td>viikonpäivänä</td><td>prefer_phrase_weekday</td></tr>
+<tr><td>viikonpäivän vastaisena yönä</td><td>prefer_phrase_weekday</td></tr>
+<tr><td>viikonpäivästä alkaen</td><td>prefer_phrase_weekday</td></tr>
+<tr><td>tänään</td><td>prefer_phrase_today</td></tr>
+<tr><td>ensi yönä</td><td>prefer_phrase_tonight</td></tr>
+<tr><td>seuraavana päivänä</td><td>prefer_phrase_followingday</td></tr>
+<tr><td>seuraavana yönä</td><td>prefer_phrase_followingnight</td></tr>
+<tr><td>huomenna</td><td>prefer_phrase_tomorrow</td></tr>
+<tr><td>huomisesta alkaen</td><td>prefer_phrase_tomorrow</td></tr>
+<tr><td>päivällä</td><td>prefer_phrase_atday</td></tr>
+<tr><td>yöllä</td><td>prefer_phrase_atnight</td></tr>
+</table>
+Kunkin ajanjakson generoiva aliohjelma päättelee itse, mitkä fraasit
+ovat mahdollisia ja siten mitkä muuttuja-arvot testataan.
+
+\subsection sec_periodifraasit_until_tonight "until_tonight"
+
+Periodi käsittää meneillään olevan päivän iltaan asti.
+
+ -# Jos ennustushetki <> periodin alkamispäivä, "viikonpäivänä"
+ -# Jos prefer_phrase_weekday, "viikonpäivänä"
+ -# Jos prefer_phrase_today, "tänään"
+ -# Jos prefer_phrase_atday, "päivällä"
+ -# ""
+
+\subsection sec_periodifraasit_until_morning "until_morning"
+
+Periodi käsittää jakson seuraavaan aamuun asti, sisältäen
+mahdollisesti muutaman tunnin meneillään olevaa päivää. Jaksoa
+käytetään tyypillisesti, kun päivä on jo niin pitkällä, että
+yö-periodi alkaa piakkoin.
+
+ -# Jos prefer_phrase_weekday, "viikonpäivän vastaisena yönä"
+ -# Jos prefer_phrase_tonight, "ensi yönä"
+ -# Jos prefer_phrase_atnight, "yöllä"
+ -# ""
+
+\subsection sec_periodifraasit_next_night "next_night"
+
+Periodi käsittää yön, ilman päiväsaikaan kuuluvia hetkiä, joista
+kerrotaan erikseen ennen tätä osuutta. Yö ei välttämättä ole ensi yö,
+mutta vastuu sopivan fraasin valinnasta on käyttäjällä.
+
+ -# Jos prefer_phrase_weekday, "viikonpäivän vastaisena yönä"
+ -# Jos prefer_phrase_followingnight, "seuraavana yönä"
+ -# Jos prefer_phrase_tonight, "ensi yönä"
+ -# Jos prefer_phrase_atnight, "yöllä"
+ -# "yöllä"
+
+\subsection sec_periodifraasit_next_day "next_day"
+
+Periodi kattaa jakson seuraavasta aamusta iltaan, tai koko seuraavan
+vuorokauden.
+
+ -# Jos prefer_phrase_weekday, "viikonpäivänä"
+ -# Jos prefer_phrase_followingday, "seuraavana päivänä"
+ -# Jos prefer_phrase_tomorrow, "huomenna"
+ -# "huomenna"
+
+\subsection sec_periodifraasit_next_days "next_days"
+
+Periodi kattaa jakson seuraavasta aamusta eteenpäin vähintään kahden
+vuorokauden ajan (mahdollisesti hieman alle 48h).
+
+ -# Jos prefer_phrase_weekday, "viikonpäivästä alkaen"
+ -# Jos prefer_phrase_tomorrow, "huomisesta alkaen"
+ -# "huomisesta alkaen"
+
+\subsection sec_periodifraasit_remaining_days "remaining_days"
+
+Periodi kattaa jakson seuraavasta aamusta eteenpäin, yhden tai
+useamman vuorokauden ajan.
+
+ -# Jos pituus = 1 vuorokausi
+    -# Palauta \c next_day paluuarvo
+ -# Muutoin
+    -# Palauta \c next_days paluuarvo
+
+*/
+
+
+
