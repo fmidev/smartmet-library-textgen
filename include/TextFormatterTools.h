@@ -4,6 +4,13 @@
  * \brief Interface of namespace TextFormatterTools
  */
 // ======================================================================
+/*!
+ * \namespace TextGen::TextFormatterTools
+ *
+ * \brief Common utility functions for actual TextFormatter classes
+ *
+ */
+// ======================================================================
 
 #ifndef TEXTGEN_TEXTFORMATTERTOOLS_H
 #define TEXTGEN_TEXTFORMATTERTOOLS_H
