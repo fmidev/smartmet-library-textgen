@@ -81,7 +81,7 @@ kerrotaan erikseen ennen tätä osuutta.
 
  -# Jos prefer_phrase_weekday, "viikonpäivän vastaisena yönä"
  -# Jos prefer_phrase_followingnight, "seuraavana yönä"
- -# Jos ennustuspäivä+1 <> periodin loppumispäivä, "viikonpäivänän vastaisena yänä"
+ -# Jos ennustuspäivä+1 <> periodin loppumispäivä, "viikonpäivän vastaisena yänä"
  -# Jos prefer_phrase_tonight, "ensi yönä"
  -# Jos prefer_phrase_atnight, "yöllä"
  -# "yöllä"
