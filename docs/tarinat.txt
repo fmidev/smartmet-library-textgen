@@ -22,6 +22,10 @@
  <li>\ref page_story_precipitation_range</li>
  <li>\ref page_story_precipitation_classification</li>
  </ol>
+<li>\ref sec_cloudinessstory</li>
+ <ol>
+ <li>\ref page_story_cloudiness_overview</li>
+ </ol>
 <li>\ref sec_weatherstory</li>
  <ol>
  <li>\ref page_story_weather_shortoverview (olomuoto toteuttamatta)</li>
