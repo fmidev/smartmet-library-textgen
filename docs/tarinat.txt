@@ -4,6 +4,7 @@
 <ol>
 <li>\ref sec_tarina</li>
 <li>\ref sec_storyfactory</li>
+<li>\ref sec_specialstory</li>
 <li>\ref sec_temperaturestory</li>
  <ol>
  <li>\ref sec_story_temperature_mean</li>
@@ -27,6 +28,13 @@ mit‰‰n kerrottavaa, tai se voi koostua yhdest‰ tai useammasta virkkeest‰.
 
 TextGen::StoryFactory namespace sis‰lt‰‰ create funktion,
 jolla voidaan luoda erikseen nimettyj‰ tarinoita.
+
+\section sec_specialstory Erikoistarinat
+
+Kaksi normaalista poikkeavaa tarinaa ovat "none", joka palauttaa tyhj‰n
+Paragraph objektin, sek‰ "break", joka palauttaa Paragraph objektin
+joka sis‰lt‰‰ vain yhden Delimiter objektin. Delimiter objektin
+sis‰ltˆ on newline-merkki.
 
 \section sec_temperaturestory TemperatureStory luokka
 
