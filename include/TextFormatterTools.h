@@ -47,18 +47,23 @@ namespace TextGen
 						const std::string & theSuffix)
 	{
 	  std::string ret, tmp;
+	  bool wasbreak = false;
 	  for( ; it!=end; ++it)
 		{
 		  bool isdelim = (*it)->isDelimiter();
 
 		  tmp = theFormatter.format(**it);	// iterator -> shared_ptr -> object
 		  if(tmp.empty())
-			continue;
-		  if(!ret.empty() && !isdelim)
-			ret += thePrefix;
-		  ret += tmp;
-		  if(!isdelim)
-			ret += theSuffix;
+			wasbreak = false;
+		  else
+			{
+			  if(!ret.empty() && !isdelim && !wasbreak)
+				ret += thePrefix;
+			  ret += tmp;
+			  if(!isdelim)
+				ret += theSuffix;
+			  wasbreak = (isdelim && tmp=="\n");
+			}
 		}
 	  return ret;
 	}
