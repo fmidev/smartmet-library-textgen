@@ -68,6 +68,8 @@ namespace TextGen
   
   bool WeatherStory::hasStory(const string & theName)
   {
+	if(theName == "weather_overview")
+	  return true;
 	if(theName == "weather_shortoverview")
 	  return true;
 	if(theName == "weather_thunderprobability")
@@ -88,6 +90,8 @@ namespace TextGen
   
   Paragraph WeatherStory::makeStory(const string & theName) const
   {
+	if(theName == "weather_overview")
+	  return overview();
 	if(theName == "weather_shortoverview")
 	  return shortoverview();
 	if(theName == "weather_thunderprobability")

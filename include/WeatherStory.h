@@ -41,6 +41,7 @@ namespace TextGen
 
   private:
 
+	Paragraph overview() const;
 	Paragraph shortoverview() const;
 	Paragraph thunderprobability() const;
 
