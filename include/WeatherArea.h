@@ -9,16 +9,15 @@
  *
  * \brief Representation of an area to be analyzed
  *
- * The area is represented by name alone. The management
- * of area polygons and masks is done elsewhere.
- *
- *
+ * The area is represented either by a name or by
+ * the coordinates of a single point.
  */
 // ======================================================================
 
 #ifndef WEATHERANALYSIS_WEATHERAREA_H
 #define WEATHERANALYSIS_WEATHERAREA_H
 
+#include "NFmiPoint.h"
 #include <string>
 
 namespace WeatherAnalysis
@@ -34,14 +33,20 @@ namespace WeatherAnalysis
 #endif
 
 	WeatherArea(const std::string & theName);
+	WeatherArea(const NFmiPoint & thePoint);
+	
+	bool isNamed() const;
 
 	const std::string & name() const;
+	const NFmiPoint & point() const;
 
   private:
 
 	WeatherArea();
 
+	bool itsNamed;
 	std::string itsName;
+	NFmiPoint itsPoint;
 
   }; // class WeatherArea
 
