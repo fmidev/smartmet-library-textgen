@@ -17,8 +17,6 @@
 
 #include "WeatherFunction.h"
 
-class NFmiPoint;
-
 namespace WeatherAnalysis
 {
   class AnalysisSources;
