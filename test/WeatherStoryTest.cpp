@@ -48,7 +48,132 @@ namespace WeatherStoryTest
 
   void short_overview()
   {
-	TEST_NOT_IMPLEMENTED();
+	using namespace std;
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	WeatherArea area("dummy");
+
+	const string fun = "weather_shortoverview";
+
+	NFmiTime time1(2003,6,1);
+	NFmiTime time2(2003,6,4);
+	WeatherPeriod period(time1,time2);
+	WeatherStory story(time1,sources,area,period,"a");
+
+	
+	NFmiSettings::instance().set("a::cloudiness::clear","40");
+	NFmiSettings::instance().set("a::cloudiness::cloudy","70");
+	NFmiSettings::instance().set("a::cloudiness::single_limit","60");
+	NFmiSettings::instance().set("a::cloudiness::double_limit","20");
+	NFmiSettings::instance().set("a::precipitation::rainy","1");
+	NFmiSettings::instance().set("a::precipitation::partly_rainy","0.1");
+	NFmiSettings::instance().set("a::precipitation::unstable","50");
+
+	// Test cloudiness phrases
+	{
+	  NFmiSettings::instance().set("a::fake::day1::precipitation","0,1");
+	  NFmiSettings::instance().set("a::fake::day2::precipitation","0,1");
+	  NFmiSettings::instance().set("a::fake::day3::precipitation","0,1");
+	  
+	  NFmiSettings::instance().set("a::fake::clear_percentage","70,1");
+	  NFmiSettings::instance().set("a::fake::cloudy_percentage","20,1");
+	  require(story,"fi",fun,"Enimmäkseen selkeää, poutaa.");
+	  require(story,"sv",fun,"Mestadels klart, uppehåll.");
+	  require(story,"en",fun,"Mostly sunny, clear.");
+	  
+	  NFmiSettings::instance().set("a::fake::clear_percentage","20,1");
+	  NFmiSettings::instance().set("a::fake::cloudy_percentage","70,1");
+	  require(story,"fi",fun,"Enimmäkseen pilvistä, poutaa.");
+	  require(story,"sv",fun,"Mestadels mulet, uppehåll.");
+	  require(story,"en",fun,"Mostly cloudy, clear.");
+
+	  NFmiSettings::instance().set("a::fake::clear_percentage","20,1");
+	  NFmiSettings::instance().set("a::fake::cloudy_percentage","20,1");
+	  require(story,"fi",fun,"Enimmäkseen puolipilvistä, poutaa.");
+	  require(story,"sv",fun,"Mestadels halvmulet, uppehåll.");
+	  require(story,"en",fun,"Mostly partly cloudy, clear.");
+
+	  NFmiSettings::instance().set("a::fake::clear_percentage","10,1");
+	  NFmiSettings::instance().set("a::fake::cloudy_percentage","40,1");
+	  require(story,"fi",fun,"Enimmäkseen pilvistä tai puolipilvistä, poutaa.");
+	  require(story,"sv",fun,"Mestadels mulet eller halvmulet, uppehåll.");
+	  require(story,"en",fun,"Mostly cloudy or partly cloudy, clear.");
+
+	  NFmiSettings::instance().set("a::fake::clear_percentage","40,1");
+	  NFmiSettings::instance().set("a::fake::cloudy_percentage","10,1");
+	  require(story,"fi",fun,"Enimmäkseen selkeää tai puolipilvistä, poutaa.");
+	  require(story,"sv",fun,"Mestadels klart eller halvmulet, uppehåll.");
+	  require(story,"en",fun,"Mostly sunny or partly cloudy, clear.");
+
+	  NFmiSettings::instance().set("a::fake::clear_percentage","30,1");
+	  NFmiSettings::instance().set("a::fake::cloudy_percentage","30,1");
+	  require(story,"fi",fun,"Vaihtelevaa pilvisyyttä, poutaa.");
+	  require(story,"sv",fun,"Växlande molnighet, uppehåll.");
+	  require(story,"en",fun,"Variable cloudiness, clear.");
+
+	}
+
+	// Test rain phrases
+	{
+	  NFmiSettings::instance().set("a::fake::clear_percentage","30,1");
+	  NFmiSettings::instance().set("a::fake::cloudy_percentage","30,1");
+
+	  NFmiSettings::instance().set("a::fake::day1::precipitation","0,1");
+	  NFmiSettings::instance().set("a::fake::day2::precipitation","0,1");
+	  NFmiSettings::instance().set("a::fake::day3::precipitation","0,1");
+	  require(story,"fi",fun,"Vaihtelevaa pilvisyyttä, poutaa.");
+	  require(story,"sv",fun,"Växlande molnighet, uppehåll.");
+	  require(story,"en",fun,"Variable cloudiness, clear.");
+
+	  NFmiSettings::instance().set("a::fake::day1::precipitation","0.2,1");
+	  NFmiSettings::instance().set("a::fake::day2::precipitation","0,1");
+	  NFmiSettings::instance().set("a::fake::day3::precipitation","0,1");
+	  require(story,"fi",fun,"Vaihtelevaa pilvisyyttä, sunnuntaina paikoin sadetta.");
+	  require(story,"sv",fun,"Växlande molnighet, på söndag lokalt regn.");
+	  require(story,"en",fun,"Variable cloudiness, on Sunday in some places rain.");
+
+	  NFmiSettings::instance().set("a::fake::day1::precipitation","2,1");
+	  NFmiSettings::instance().set("a::fake::day2::precipitation","0,1");
+	  NFmiSettings::instance().set("a::fake::day3::precipitation","0,1");
+	  require(story,"fi",fun,"Vaihtelevaa pilvisyyttä, sunnuntaina sadetta.");
+	  require(story,"sv",fun,"Växlande molnighet, på söndag regn.");
+	  require(story,"en",fun,"Variable cloudiness, on Sunday rain.");
+
+	  NFmiSettings::instance().set("a::fake::day1::precipitation","0,1");
+	  NFmiSettings::instance().set("a::fake::day2::precipitation","2,1");
+	  NFmiSettings::instance().set("a::fake::day3::precipitation","0,1");
+	  require(story,"fi",fun,"Vaihtelevaa pilvisyyttä, maanantaina sadetta.");
+	  require(story,"sv",fun,"Växlande molnighet, på måndag regn.");
+	  require(story,"en",fun,"Variable cloudiness, on Monday rain.");
+
+	  NFmiSettings::instance().set("a::fake::day1::precipitation","0.1,1");
+	  NFmiSettings::instance().set("a::fake::day2::precipitation","2,1");
+	  NFmiSettings::instance().set("a::fake::day3::precipitation","0,1");
+	  require(story,"fi",fun,"Vaihtelevaa pilvisyyttä, ajoittain sateista.");
+	  require(story,"sv",fun,"Växlande molnighet, tidvis regnig.");
+	  require(story,"en",fun,"Variable cloudiness, intermittent rain.");
+
+	  NFmiSettings::instance().set("a::fake::day1::precipitation","2,1");
+	  NFmiSettings::instance().set("a::fake::day2::precipitation","2,1");
+	  NFmiSettings::instance().set("a::fake::day3::precipitation","0,1");
+	  require(story,"fi",fun,"Sää on epävakaista.");
+	  require(story,"sv",fun,"Ostadigt väder.");
+	  require(story,"en",fun,"The weather is unstable.");
+
+	  NFmiSettings::instance().set("a::fake::day1::precipitation","2,1");
+	  NFmiSettings::instance().set("a::fake::day2::precipitation","2,1");
+	  NFmiSettings::instance().set("a::fake::day3::precipitation","2,1");
+	  require(story,"fi",fun,"Sää on epävakaista.");
+	  require(story,"sv",fun,"Ostadigt väder.");
+	  require(story,"en",fun,"The weather is unstable.");
+
+	}
+
+
+	TEST_PASSED();
+
   }
 
   // ----------------------------------------------------------------------
