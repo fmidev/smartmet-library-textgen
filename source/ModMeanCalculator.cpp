@@ -55,8 +55,8 @@ namespace WeatherAnalysis
 		  }
 		else
 		  {
-			const float diff = theValue - itsPreviousDirection;
-			float dir = itsPreviousDirection + diff;
+			const double diff = theValue - itsPreviousDirection;
+			double dir = itsPreviousDirection + diff;
 			if(diff < -itsModulo/2)
 			  dir += itsModulo;
 			else if(diff > itsModulo/2)
@@ -82,7 +82,7 @@ namespace WeatherAnalysis
 	  return kFloatMissing;
 
 	// Floats do not support %, it is an integer operator
-	float mean = itsSum/itsCounter;
+	double mean = itsSum/itsCounter;
 	mean -= itsModulo*floor(mean/itsModulo);
 	return mean;
   }

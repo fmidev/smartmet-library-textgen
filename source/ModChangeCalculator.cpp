@@ -44,7 +44,7 @@ namespace WeatherAnalysis
 	  {
 		if(itsCounter>0)
 		  {
-			const float diff = theValue - itsLastValue;
+			const double diff = theValue - itsLastValue;
 			if(diff < -itsModulo/2)
 			  itsCumulativeChange += diff + itsModulo;
 			else if(diff > itsModulo/2)

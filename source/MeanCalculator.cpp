@@ -58,7 +58,7 @@ namespace WeatherAnalysis
 	if(itsCounter==0)
 	  return kFloatMissing;
 	else
-	  return itsSum/static_cast<float>(itsCounter);
+	  return itsSum/static_cast<double>(itsCounter);
   }
   
   // ----------------------------------------------------------------------

@@ -40,8 +40,8 @@ namespace WeatherAnalysis
 	const int itsModulo;
 
 	long itsCounter;
-	float itsCumulativeChange;
-	float itsLastValue;
+	double itsCumulativeChange;
+	double itsLastValue;
 
   }; // class ModChangeCalculator
 

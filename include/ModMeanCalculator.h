@@ -49,8 +49,8 @@ namespace WeatherAnalysis
 	const int itsModulo;
 
 	long itsCounter;
-	float itsSum;
-	float itsPreviousDirection;
+	double itsSum;
+	double itsPreviousDirection;
 
   }; // class ModMeanCalculator
 

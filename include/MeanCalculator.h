@@ -36,7 +36,7 @@ namespace WeatherAnalysis
 
 	boost::shared_ptr<Acceptor> itsAcceptor;
 	long itsCounter;
-	float itsSum;
+	double itsSum;
 
   }; // class MeanCalculator
 
