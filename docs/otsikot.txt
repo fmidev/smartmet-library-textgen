@@ -28,8 +28,9 @@ Mahdolliset headerit ovat
 Käytetyt fraasit ovat
 
   - "odotettavissa"
-  - "N-aamuun asti", missä N=1-7
-  - "N-iltaan asti", missä N=1-7
+  - "asti"
+  - "N-aamuun", missä N=1-7
+  - "N-iltaan", missä N=1-7
 
 \subsection sec_header_from_until Header tyyppi "from_until"
 
