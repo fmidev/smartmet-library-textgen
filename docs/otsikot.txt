@@ -58,10 +58,15 @@ Tuottaa headerin tyyppi‰ "Tiistaiaamusta alkavan viiden vuorokauden s‰‰".
 Kellonaikojen tulee olla 06 tai 18. Jakson kokonaispituuden tulee olla
 N*24 tuntia, miss‰ N=2..10.
 
-K‰ytetyt fraasit ovat
+Mahdolliset headerit ovat
+
+  -# "Maanantaiaamusta alkavan N-vuorokauden s‰‰" + viikonp‰iv‰variaatiot
+  -# "Maanantaiillasta alkavan N-vuorokauden s‰‰" + viikonp‰iv‰variaatiot
+
+miss‰ N=2-10. K‰ytetyt fraasit ovat
 
   - "N-aamusta alkavan", miss‰ N=1-7
   - "N-illasta alkavan", miss‰ N=1-7
-  - "N-vuorokauden s‰‰", miss‰ N=1-10
+  - "N-vuorokauden s‰‰", miss‰ N=2-10
 
 */
