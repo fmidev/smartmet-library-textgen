@@ -284,8 +284,9 @@ palautetaan fraasi 3. Muuten jos hallan todennäköisyys on vähintään
 
 Käytetyt fraasit ovat
 
- - "hallan todennäköisyys on"
- - "ankaran hallan todennäköisyys on"
+ - "hallan todennäköisyys"
+ - "ankaran hallan todennäköisyys"
+ - "on"
 
 \subsection sec_story_frost_maximum "frost_maximum"
 
@@ -394,9 +395,9 @@ Käytetyt fraasit ovat
  - "hallan todennäköisyys"
  - "ankaran hallan todennäköisyys"
  - "on"
- - "viikonpäivän vastaisena yönä"
+ - "N-vastaisena yönä", N=1-7
  - "seuraavana yönä"
- - "seuraava yö on"
+ - "seuraava yö"
  - "lämpimämpi"
  - "huomattavasti lämpimämpi"
 
@@ -448,7 +449,8 @@ textgen::[kappale]::story::relative_humidity_lowest::minendhour = [0-23]
 
 Tarvittavat fraasit ovat
 
- - "Alin suhteellinen kosteus on"
+ - "alin suhteellinen kosteus"
+ - "on"
  - "N-na", N=1.7 (maanantaina, tiistaina jne)
  - "suurempi"
  - "hieman suurempi"
