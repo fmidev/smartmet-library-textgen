@@ -753,4 +753,34 @@ Tarvittavat fraasit ovat eri kielillä
 </table>
 \endhtmlonly
 
+Lisäksi tarvitaan aikafraasit
+
+\htmlonly
+<table border="1" align="center">
+<tr><th>avainsana</th><th>fi</th><th>sv</th><th>en</th></tr>
+<tr><td>N-aamuna</td><td>maanantaiaamuna</td><td>på måndag morgon</td><td>on Monday morning</td></tr>
+<tr><td>N-aamupäivästä alkaen</td><td>maanantaiaamupäivästä alkaen</td><td>från måndag förmiddag</td><td>from Monday before noon</td></tr>
+<tr><td>N-aamusta alkaen</td><td>maanantaiaamusta alkaen</td><td>från måndag morgon</td><td>from Monday morning</td></tr>
+<tr><td>N-iltana</td><td>maanantai-iltana</td><td>på måndag kväll</td><td>on Monday evening</td></tr>
+<tr><td>N-illasta alkaen</td><td>maanantai-illasta alkaen</td><td>från måndag kväll</td><td>from Monday evening</td></tr>
+<tr><td>N-päivällä</td><td>maanantaina päivällä</td><td>på måndag på dagen</td><td>on Monday during the day</td></tr>
+<tr><td>N-vastaisena yönä</td><td>tiistain vastaisena yönä</td><td>natten mot tisdagen</td><td>on Tuesday night</td></tr>
+<tr><td>N-vastaisesta yöstä alkaen</td><td>tiistain vastaisesta yöstä alkaen</td><td>från natten mot tisdag</td><td>from Tuesday night</td></tr>
+<tr><td>aamulla</td><td>aamulla</td><td>på morgonen</td><td>in the morning</td></tr>
+<tr><td>aamusta alkaen</td><td>aamusta alkaen</td><td>från morgonen</td><td>from the morning</td></tr>
+<tr><td>päivällä</td><td>päivällä</td><td>på dagen</td><td>during the day</td></tr>
+<tr><td>aamupäivästä alkaen</td><td>aamupäivästä alkaen</td><td>från förmiddagen</td><td>from before noon</td></tr>
+<tr><td>illalla</td><td>illalla</td><td>på kvällen</td><td>in the evening</td></tr>
+<tr><td>illasta alkaen</td><td>illasta alkaen</td><td>från kvällen</td><td>from the evening</td></tr>
+<tr><td>yöllä</td><td>yöllä</td><td>på natten</td><td>at night</td></tr>
+<tr><td>yöstä alkaen</td><td>yöstä alkaen</td><td>från natten</td><td>from the night</td></tr>
+<tr><td>huomisaamuna</td><td>huomisaamuna</td><td>i morgon bitti</td><td>tomorrow morning</td></tr>
+<tr><td>huomisaamusta alkaen</td><td>huomisaamusta alkaen</td><td>från morgon bitti</td><td>from tomorrow morning</td></tr>
+<tr><td>huomisaamupäivästä alkaen</td><td>huomisaamupäivästä alkaen</td><td>från i morgon förmiddag</td><td>from tomorrow before noon</td></tr>
+<tr><td>huomisillasta alkaen</td><td>huomisillasta alkaen</td><td>från i morgon kväll</td><td>from tomorrow evening</td></tr>
+<tr><td>huomenna päivällä</td><td>huomenna päivällä</td><td>i morgon på dagen</td><td>tomorrow during the day</td></tr>
+<tr><td>huomisiltana</td><td>huomisiltana</td><td>i morgon kväll</td><td>tomorrow evening</td></tr>
+</table>
+\endhtmlonly
+
 */
