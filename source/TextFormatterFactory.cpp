@@ -6,6 +6,7 @@
 // ======================================================================
 
 #include "TextFormatterFactory.h"
+#include "DebugTextFormatter.h"
 #include "PlainTextFormatter.h"
 #include "PlainLinesTextFormatter.h"
 #include "HtmlTextFormatter.h"
@@ -43,6 +44,8 @@ namespace TextGen
 		return shared_ptr<TextFormatter>(new HtmlTextFormatter());
 	  if(theType == "sonera")
 		return shared_ptr<TextFormatter>(new SoneraTextFormatter());
+	  if(theType == "debug")
+		return shared_ptr<TextFormatter>(new DebugTextFormatter());
 	  throw TextGenError("Error: Unknown text formatter type "+theType);
 	}
 
