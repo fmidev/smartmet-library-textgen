@@ -47,7 +47,7 @@ namespace TextGen
 	const int forecast_day = itsForecastTime.GetDay();
 	if(forecast_month > 10 ||
 	   forecast_month < 4 ||
-	   (forecast_month == 10 && forecast_day>15))
+	   (forecast_month == 10 && forecast_day>17))
 	  {
 		log << "Frost is not reported from after October 15th until 31st of March!";
 		log << paragraph;
