@@ -569,7 +569,7 @@ namespace TextGen
 	  case 1:
 		{
 		  s << one_day_cases[idx].phrase1;
-		  s << "paikoin";
+		  s << in_places(theSources,theArea,theRainPeriod,theVar,1);
 		  s << "sadetta";
 		  break;
 		}
@@ -577,7 +577,7 @@ namespace TextGen
 	  case 2:
 		{
 		  s << one_day_cases[idx].phrase1;
-		  s << "paikoin";
+		  s << in_places(theSources,theArea,theRainPeriod,theVar,1);
 		  s << "sadetta";
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase2;
@@ -589,7 +589,7 @@ namespace TextGen
 	  case 3:
 		{
 		  s << one_day_cases[idx].phrase1;
-		  s << "paikoin";
+		  s << in_places(theSources,theArea,theRainPeriod,theVar,1);
 		  s << "sadetta";
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase2;
@@ -602,7 +602,7 @@ namespace TextGen
 		  s << "enimmäkseen" << "selkeää";
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase1;
-		  s << "paikoin";
+		  s << in_places(theSources,theArea,theRainPeriod,theVar,1);
 		  s << "sadetta";
 		  break;
 		}
