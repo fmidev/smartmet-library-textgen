@@ -218,6 +218,8 @@ namespace TextGen
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Total precipitation not available");
 
+	log << "Precipitation Mean(Sum) " << result << endl;
+
 	sentence << "sadesumma"
 			 << *NumberFactory::create(FmiRound(result.value()))
 			 << *UnitFactory::create(Millimeters);
@@ -272,6 +274,9 @@ namespace TextGen
 	if(minresult.value() == kFloatMissing ||
 	   maxresult.value() == kFloatMissing)
 	  throw TextGenError("Total precipitation not available");
+
+	log << "Precipitation Minimum(Sum) " << minresult << endl;
+	log << "Precipitation Maximum(Sum) " << maxresult << endl;
 
 	const int minrain = FmiRound(minresult.value());
 	const int maxrain = FmiRound(maxresult.value());
@@ -365,6 +370,10 @@ namespace TextGen
 	   meanresult.value() == kFloatMissing)
 	  throw TextGenError("Total precipitation not available");
 
+	log << "Precipitation Minimum(Sum) " << minresult << endl;
+	log << "Precipitation Mean(Sum) " << meanresult << endl;
+	log << "Precipitation Maximum(Sum) " << maxresult << endl;
+
 	// Parse the classes
 
 	const string classvariable = itsVar + "::classes";
@@ -411,6 +420,8 @@ namespace TextGen
 														  DefaultAcceptor(),
 														  percentagelimits);
 										
+			log << "Precipitation Percentage(Sum) " << probresult << endl;
+
 			const int limit1 = Settings::optional_int(variable1,-1);
 			const int limit2 = Settings::optional_int(variable2,-1);
 			
@@ -491,6 +502,8 @@ namespace TextGen
 													  rainlimits,
 													  DefaultAcceptor(),
 													  percentagelimits);
+
+		log << "Precipitation Percentage(Sum) " << probresult << endl;
 
 		const int limit1 = Settings::optional_int(variable1,-1);
 		const int limit2 = Settings::optional_int(variable2,-1);

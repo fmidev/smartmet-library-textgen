@@ -160,6 +160,8 @@ namespace TextGen
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("RelativeHumidity not available");
 
+	log << "RelativeHumidity Minimum(Minimum) for day 1 " << result << endl;
+
 	const int humidity1 = to_precision(result.value(),precision);
 
 	Sentence sentence;
@@ -189,6 +191,8 @@ namespace TextGen
 		
 		if(result2.value() == kFloatMissing)
 		  throw TextGenError("RelativeHumidity not available");
+
+		log << "RelativeHumidity Minimum(Minimum) for day 2 " << result2 << endl;
 
 		const int humidity2 = to_precision(result2.value(),precision);
 

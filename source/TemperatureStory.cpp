@@ -258,6 +258,8 @@ namespace TextGen
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean temperature not available");
 
+	log << "Temperature Mean(Mean) = " << result << endl;
+
 	sentence << "keskilämpötila"
 			 << *NumberFactory::create(FmiRound(result.value()))
 			 << *UnitFactory::create(DegreesCelsius);
@@ -298,6 +300,8 @@ namespace TextGen
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean daily maximum temperature not available");
+
+	log << "Temperature Mean(Mean(Maximum())) = " << result << endl;
 
 	sentence << "keskimääräinen ylin lämpötila"
 			 << *NumberFactory::create(FmiRound(result.value()))
@@ -341,6 +345,8 @@ namespace TextGen
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean daily minimum temperature not available");
+
+	log << "Temperature Mean(Mean(Minimum())) = " << result << endl;
 
 	sentence << "keskimääräinen alin lämpötila"
 			 << *NumberFactory::create(FmiRound(result.value()))
@@ -425,6 +431,10 @@ namespace TextGen
 	   meanresult.value() == kFloatMissing)
 	  throw TextGenError("TemperatureStory: MaxTemperature is not available");
 
+	log << "Temperature Minimum(Maximum) day 1 = " << minresult << endl;
+	log << "Temperature Mean(Maximum) day 1 = " << meanresult << endl;
+	log << "Temperature Maximum(Maximum) day 1 = " << maxresult << endl;
+
 	const int min1 = FmiRound(minresult.value());
 	const int max1 = FmiRound(maxresult.value());
 	const int mean1 = FmiRound(meanresult.value());
@@ -478,6 +488,11 @@ namespace TextGen
 		   maxresult.value() == kFloatMissing ||
 		   meanresult.value() == kFloatMissing)
 		  throw TextGenError("TemperatureStory: MaxTemperature is not available for day "+lexical_cast<string>(p));
+
+
+		log << "Temperature Minimum(Maximum) day " << p << " = " << minresult << endl;
+		log << "Temperature Mean(Maximum) day " << p << " = " << meanresult << endl;
+		log << "Temperature Maximum(Maximum) day " << p << " = " << maxresult << endl;
 		
 		const int min2  = FmiRound(minresult.value());
 		const int max2  = FmiRound(maxresult.value());
@@ -592,6 +607,10 @@ namespace TextGen
 	   meanresult.value() == kFloatMissing)
 	  throw TextGenError("TemperatureStory: MinTemperature is not available");
 
+	log << "Temperature Minimum(Minimum) night 1 = " << minresult << endl;
+	log << "Temperature Mean(Minimum) night 1 = " << meanresult << endl;
+	log << "Temperature Maximum(Minimum) night 1 = " << maxresult << endl;
+	
 	const int min1 = FmiRound(minresult.value());
 	const int max1 = FmiRound(maxresult.value());
 	const int mean1 = FmiRound(meanresult.value());
@@ -646,6 +665,10 @@ namespace TextGen
 		   meanresult.value() == kFloatMissing)
 		  throw TextGenError("TemperatureStory: MinTemperature is not available for night "+lexical_cast<string>(p));
 		
+		log << "Temperature Minimum(Minimum) night " << p << " = " << minresult << endl;
+		log << "Temperature Mean(Minimum) night " << p << " = " << meanresult << endl;
+		log << "Temperature Maximum(Minimum) night " << p << " = " << maxresult << endl;
+
 		const int min2  = FmiRound(minresult.value());
 		const int max2  = FmiRound(maxresult.value());
 		const int mean2 = FmiRound(meanresult.value());
@@ -782,6 +805,14 @@ namespace TextGen
 	   nightmeanresult.value() == kFloatMissing)
 	  throw TextGenError("Daily maximum and nightly minimum not available");
 
+	log << "Temperature Minimum(Mean(Maximum)) = " << dayminresult << endl;
+	log << "Temperature Mean(Mean(Maximum)) = " << daymeanresult << endl;
+	log << "Temperature Maximum(Mean(Maximum)) = " << daymaxresult << endl;
+
+	log << "Temperature Minimum(Mean(Minimum)) = " << nightminresult << endl;
+	log << "Temperature Mean(Mean(Minimum)) = " << nightmeanresult << endl;
+	log << "Temperature Maximum(Mean(Minimum)) = " << nightmaxresult << endl;
+
 	const int daymin  = FmiRound(dayminresult.value());
 	const int daymax  = FmiRound(daymaxresult.value());
 	const int daymean = FmiRound(daymeanresult.value());
@@ -910,6 +941,14 @@ namespace TextGen
 	   nightmaxresult.value() == kFloatMissing ||
 	   nightmeanresult.value() == kFloatMissing)
 	  throw TextGenError("Daily maximum and nightly minimum not available");
+
+	log << "Temperature Minimum(Mean(Maximum)) = " << dayminresult << endl;
+	log << "Temperature Mean(Mean(Maximum)) = " << daymeanresult << endl;
+	log << "Temperature Maximum(Mean(Maximum)) = " << daymaxresult << endl;
+
+	log << "Temperature Minimum(Mean(Minimum)) = " << nightminresult << endl;
+	log << "Temperature Mean(Mean(Minimum)) = " << nightmeanresult << endl;
+	log << "Temperature Maximum(Mean(Minimum)) = " << nightmaxresult << endl;
 
 	const int daymin  = FmiRound(dayminresult.value());
 	const int daymax  = FmiRound(daymaxresult.value());

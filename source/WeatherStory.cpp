@@ -200,6 +200,9 @@ namespace TextGen
 	  if(n1result.value() == kFloatMissing ||
 		 n3result.value() == kFloatMissing)
 		throw TextGenError("Cloudiness not available");
+
+	  log << "Cloudiness clear  Mean(Mean) = " << n1result << endl;
+	  log << "Cloudiness cloudy Mean(Mean) = " << n3result << endl;
 	  
 	  // n1+n2+n3 = 100
 	  const float n1 = n1result.value();
@@ -258,6 +261,8 @@ namespace TextGen
 
 		  if(result.value() == kFloatMissing)
 			throw TextGenError("Precipitation not available");
+
+		  log << "Precipitation Mean(Sum) day " << i << " = " << result << endl;
 
 		  if(result.value() >= r_rainy)
 			{
@@ -336,6 +341,8 @@ namespace TextGen
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Thunder is not available");
+
+	log << "Thunder Mean(Maximum) = " << result << endl;
 
 	const int probability = MathTools::to_precision(result.value(),
 													precision);

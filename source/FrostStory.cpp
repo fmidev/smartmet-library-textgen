@@ -206,6 +206,8 @@ namespace TextGen
 	if(frost.value() == kFloatMissing)
 	  throw TextGenError("Frost is not available");
 
+	log << "Frost Mean(Maximum) is " << frost << endl;
+
 	// Quick exit if the mean is zero
 	
 	if(frost.value() == 0)
@@ -220,6 +222,8 @@ namespace TextGen
 												   Maximum,
 												   itsArea,
 												   itsPeriod);
+
+	log << "SevereFrost Mean(Maximum) is " << severefrost << endl;
 
 	if(severefrost.value() == kFloatMissing)
 	  throw TextGenError("SevereFrost is not available");
@@ -286,6 +290,8 @@ namespace TextGen
 	if(frost.value() == kFloatMissing)
 	  throw TextGenError("Frost is not available");
 
+	log << "Frost Maximum(Maximum) is " << frost << endl;
+
 	// Quick exit if the mean is zero
 	
 	if(frost.value() == 0)
@@ -303,6 +309,8 @@ namespace TextGen
 
 	if(severefrost.value() == kFloatMissing)
 	  throw TextGenError("SevereFrost is not available");
+
+	log << "SevereFrost Maximum(Maximum) is " << severefrost << endl;
 
 	const int frost_value = to_precision(frost.value(),precision);
 
@@ -384,6 +392,9 @@ namespace TextGen
 	if(minfrost.value() == kFloatMissing)
 	  throw TextGenError("Minimum Frost is not available");
 
+	log << "Frost Maximum(Maximum) is " << maxfrost << endl;
+	log << "Frost Minimum(Maximum) is " << minfrost << endl;
+
 	// Maximum severe frost
 
 	WeatherResult maxseverefrost = forecaster.analyze(itsVar+"::fake::severe_maximum",
@@ -407,6 +418,9 @@ namespace TextGen
 
 	if(minseverefrost.value() == kFloatMissing)
 	  throw TextGenError("Minimum SevereFrost is not available");
+
+	log << "SevereFrost Maximum(Maximum) is " << maxseverefrost << endl;
+	log << "SevereFrost Minimum(Maximum) is " << minseverefrost << endl;
 
 	const int frost_min = to_precision(minfrost.value(),precision);
 	const int frost_max = to_precision(maxfrost.value(),precision);
@@ -498,6 +512,9 @@ namespace TextGen
 	if(frost.value()==kFloatMissing || severefrost.value()==kFloatMissing)
 	  throw TextGenError("Frost is not available");
 
+	log << "Frost Mean(Maximum) for day 1 " << frost << endl;
+	log << "SevereFrost Mean(Maximum) for day 1 " << severefrost << endl;
+
 	if(nights==1)
 	  {
 		const int value = to_precision(frost.value(),precision);
@@ -538,6 +555,9 @@ namespace TextGen
 		if(frost2.value()==kFloatMissing || severefrost2.value()==kFloatMissing)
 		  throw TextGenError("Frost is not available");
 
+		log << "Frost Mean(Maximum) for day 2 " << frost2 << endl;
+		log << "SevereFrost Mean(Maximum) for day 2 " << severefrost2 << endl;
+		
 		const int value1 = to_precision(frost.value(),precision);
 		const int severevalue1 = to_precision(severefrost.value(),precision);
 
