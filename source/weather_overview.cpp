@@ -8,22 +8,29 @@
 #include "WeatherStory.h"
 #include "CloudinessStory.h"
 #include "Delimiter.h"
+#include "GridForecaster.h"
 #include "HourPeriodGenerator.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "PrecipitationPeriodTools.h"
+#include "RangeAcceptor.h"
 #include "Sentence.h"
+#include "Settings.h"
+#include "TextGenError.h"
 #include "TimeTools.h"
+#include "WeatherResult.h"
 
+#include "boost/lexical_cast.hpp"
 #include <vector>
 
 using namespace WeatherAnalysis;
+using namespace boost;
 using namespace std;
 
 namespace
 {
-  
+
   // ----------------------------------------------------------------------
   /*!
    * \brief A structure for storing one day rain dispatch information
@@ -435,7 +442,7 @@ namespace
   int one_day_rain_index(int theStartHour, int theEndHour)
   {
 	if(theEndHour <= theStartHour)
-	  throw runtime_error("Internal error in weather_overview: end hour must be greater than start hour");
+	  throw TextGen::TextGenError("Internal error in weather_overview: end hour must be greater than start hour");
 
 	const int n = theEndHour-theStartHour-1;
 	const int a1 = 24;
@@ -467,16 +474,81 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Generate the "in some place places" story
+   *
+   * The used variables are
+   * \code
+   * ::minrain      = [0-X]    (=0.1)
+   * ::places::many = [0-100]  (=90)
+   * ::places::some = [0-100]  (=70)
+   * \endcode
+   *
+   * That is,
+   *  - If percentage >= 90, then use ""
+   *  - If percentage >= 70, then use "in many places"
+   *  - Else use "in some places"
+   *
+   * \param theSources The analysis sources
+   * \param theArea The area to be analyzed
+   * \param thePeriod The rainy period to be analyzed
+   * \param theVar The control variable
+   */
+  // ----------------------------------------------------------------------
+
+  Sentence in_places(const AnalysisSources & theSources,
+					 const WeatherArea & theArea,
+					 const WeatherPeriod & thePeriod,
+					 const string & theVar,
+					 int theDay)
+  {
+	using namespace Settings;
+
+	const int many_places = optional_percentage(theVar+"places::many",90);
+	const int some_places = optional_percentage(theVar+"places::some",70);
+	const double minrain  = optional_double(theVar+"::minrain",0.1);
+
+	GridForecaster forecaster;
+
+    RangeAcceptor rainlimits;
+    rainlimits.lowerLimit(minrain);
+
+	const string day = lexical_cast<string>(theDay);
+    WeatherResult result = forecaster.analyze(theVar+"::fake::day"+day+"::places",
+                                              theSources,
+											  Precipitation,
+                                              Percentage,
+                                              Maximum,
+                                              theArea,
+                                              thePeriod,
+                                              rainlimits);
+    if(result.value() == kFloatMissing)
+	  throw TextGenError("Total precipitation not available");
+	
+	Sentence s;
+	if(result.value() >= many_places)
+	  ;
+	else if(result.value() >= some_places)
+	  s << "monin paikoin";
+	else
+	  s << "paikoin";
+
+	return s;
+	
+  }
+
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Generator story on a day with a single inclusive rain
    */
   // ----------------------------------------------------------------------
 
   Sentence one_inclusive_rain(const NFmiTime & theForecastTime,
-							   const AnalysisSources & theSources,
-							   const WeatherArea & theArea,
-							   const WeatherPeriod & thePeriod,
-							   const string & theVar,
-							   const WeatherPeriod & theRainPeriod)
+							  const AnalysisSources & theSources,
+							  const WeatherArea & theArea,
+							  const WeatherPeriod & thePeriod,
+							  const string & theVar,
+							  const WeatherPeriod & theRainPeriod)
   {
 	Sentence s;
 	s << PeriodPhraseFactory::create("days",
@@ -535,7 +607,7 @@ namespace TextGen
 		  break;
 		}
 	  default:
-		throw runtime_error("Internal error in weather_overview::one_inclusive_rain");
+		throw TextGenError("Internal error in weather_overview::one_inclusive_rain");
 	  }
 	return s;
   }
