@@ -58,8 +58,8 @@ Nopeuden vaihteluv‰li saadaan laskemalla aikakeskiarvojen minimi ja maksimi.
 Kaksi tuulennopeutta katsotaan samoiksi, jos minimit ja maksimit poikkeavat
 enint‰‰n alla olevien lukujen verran.
 \code
-textgen::[kappale]::story::wind_daily_ranges::same::minimum = [0-] (1)
-textgen::[kappale]::story::wind_daily_ranges::same::maximum = [0-] (1)
+textgen::[kappale]::story::wind_daily_ranges::same::minimum = [0-] (0)
+textgen::[kappale]::story::wind_daily_ranges::same::maximum = [0-] (0)
 \endcode
 Useampi nopeus katsotaan samoiksi, jos kaikki parit katsotaan samoiksi.
 Yhteinen nopeusintervalli saadaan poimimalla intervalleista minimi
