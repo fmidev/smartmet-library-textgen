@@ -172,6 +172,37 @@ namespace WeatherAnalysis
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Convert UTC time to Epoch seconds
+	 *
+	 * \param theUtcTime The UTC time
+	 * \return The epoch seconds
+	 */
+	// ----------------------------------------------------------------------
+	
+	::time_t toEpochTime(const NFmiTime & theUtcTime)
+	{
+	  // The UTC time
+	  struct ::tm utc;
+	  utc.tm_sec = theUtcTime.GetSec();
+	  utc.tm_min = theUtcTime.GetMin();
+	  utc.tm_hour = theUtcTime.GetHour();
+	  utc.tm_mday = theUtcTime.GetDay();
+	  utc.tm_mon = theUtcTime.GetMonth()-1;        // tm months start from 0
+	  utc.tm_year = theUtcTime.GetYear()-1900;     // tm years start from 1900
+	  utc.tm_wday = -1;
+	  utc.tm_yday = -1;
+	  utc.tm_isdst = -1;
+
+#if defined(UNIX)
+	  ::time_t epochtime = ::timegm(&utc);  // timegm is a GNU extension
+#else
+	  ::time_t epochtime = my_timegm(&utc);
+#endif
+	  return epochtime;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Test if the dates are the same
 	 *
 	 * \param theDate1 The first date
