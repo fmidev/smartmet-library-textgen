@@ -22,6 +22,7 @@
 #ifndef WEATHERANALYSIS_WEATHERSOURCE_H
 #define WEATHERANALYSIS_WEATHERSOURCE_H
 
+#include <string>
 #include "boost/shared_ptr.hpp"
 
 class NFmiQueryData;
