@@ -69,13 +69,13 @@ Tarina muodostetaan seuraavasti:
  -# Jos joko rannikko tai sisämaa puuttuu, palautetaan tarina muotoa
     "Alin suhteellinen kosteus on [viikonpäivänä] x%"
  -# Jos rannikon ja sisämaan välinen ero alittaa asetetun
-    rajan \c coastlimit rajan, palautetaan tarina muotoa
+    rajan \c coast_limit rajan, palautetaan tarina muotoa
     "Alin suhteellinen kosteus on [viikonpäivänä] x%"
  -# Palautetaan "Alin suhteellinen kosteus on [viikonpäivänä] x%, rannikolla y%"
 
 Käytetyt muuttujat ovat
 \code
-textgen::[kappale]::story::relativehumidity_day::coastlimit = [0-100] (= 30%)
+textgen::[kappale]::story::relativehumidity_day::coast_limit = [0-100] (= 30%)
 \endcode
 
 

@@ -66,7 +66,7 @@ namespace TextGen
 	// The options
 
 	const int precision = Settings::optional_percentage(itsVar+"::precision",10);
-	const int coastlimit = Settings::optional_percentage(itsVar+"::coastlimit",30);
+	const int coastlimit = Settings::optional_percentage(itsVar+"::coast_limit",30);
 
 	GridForecaster forecaster;
 
