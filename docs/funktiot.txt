@@ -7,6 +7,7 @@
 <li>\ref sec_maximum</li>
 <li>\ref sec_minimum</li>
 <li>\ref sec_sum</li>
+<li>\ref sec_count</li>
 <li>\ref sec_percentage</li>
 <li>\ref sec_trend</li>
 </ol>
@@ -24,6 +25,8 @@ tunnistamat funktiot.
 \section sec_minimum "Minimum"
 
 \section sec_sum "Sum"
+
+\section sec_count "Count"
 
 \section sec_percentage "Percentage"
 
