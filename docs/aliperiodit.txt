@@ -35,4 +35,8 @@ tai jos relevantin päivän muuttujaa ei ole asetettu, käytetään muuttujaa
 textgen::part1::content
 \endcode
 
+Aliperiodeille soveltuvat lähinnä tarinat muotoa parameter_day. Muutkin
+tarinat saattavat toimia, mutta niitä ei yleensä ole vartavasten suunniteltu
+alle 24 tunnin jaksoille.
+
 */

@@ -51,6 +51,7 @@
  </ol>
 <li>\ref sec_relativehumidity_story</li>
  <ol>
+ <li>\ref page_story_relativehumidity_day (puuttuu)</li>
  <li>\ref page_story_relativehumidity_lowest</li>
  </ol>
 <li>\ref sec_roadstory</li>
