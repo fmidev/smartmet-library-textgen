@@ -42,17 +42,24 @@ namespace WeatherAnalysis
 	WeatherPeriod & operator=(const WeatherPeriod & thePeriod);
 #endif
 
-	WeatherPeriod(const NFmiTime & theStartTime, const NFmiTime & theEndTime);
+	WeatherPeriod(const NFmiTime & theLocalStartTime,
+				  const NFmiTime & theLocalEndTime);
 
-	const NFmiTime & startTime() const;
-	const NFmiTime & endTime() const;
+	const NFmiTime & localStartTime() const;
+	const NFmiTime & localEndTime() const;
+
+	const NFmiTime & utcStartTime() const;
+	const NFmiTime & utcEndTime() const;
 
   private:
 
 	WeatherPeriod();
 
-	NFmiTime itsStartTime;
-	NFmiTime itsEndTime;
+	NFmiTime itsLocalStartTime;
+	NFmiTime itsLocalEndTime;
+
+	NFmiTime itsUtcStartTime;
+	NFmiTime itsUtcEndTime;
 
   }; // class WeatherPeriod
 
