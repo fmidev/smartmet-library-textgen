@@ -53,7 +53,8 @@ namespace TextGen
 	const int maxstarthour = Settings::optional_hour(itsVar+"::day::maxstarthour",starthour);
 	const int minendhour   = Settings::optional_hour(itsVar+"::day::minendhour",endhour);
 
-	const int precision    = Settings::require_percentage(itsVar+"::precision");
+	const int limit     = Settings::require_percentage(itsVar+"::limit");
+	const int precision = Settings::require_percentage(itsVar+"::precision");
 
 	const int limit_significantly_greater = Settings::require_percentage(itsVar+"::comparison::significantly_greater");
 	const int limit_significantly_smaller = Settings::require_percentage(itsVar+"::comparison::significantly_smaller");
@@ -94,14 +95,17 @@ namespace TextGen
 
 	Sentence sentence;
 
-	sentence << "sateen todennäköisyys"
-			 << "on"
-			 << PeriodPhraseFactory::create("today",
-											itsVar,
-											itsForecastTime,
-											firstperiod)
-			 << Integer(pop1)
-			 << *UnitFactory::create(Percent);
+	if(pop1 >= limit)
+	  {
+		sentence << "sateen todennäköisyys"
+				 << "on"
+				 << PeriodPhraseFactory::create("today",
+												itsVar,
+												itsForecastTime,
+												firstperiod)
+				 << Integer(pop1)
+				 << *UnitFactory::create(Percent);
+	  }
 
 	if(days==2)
 	  {
@@ -127,26 +131,42 @@ namespace TextGen
 
 		const int pop2 = to_precision(result2.value(),precision);
 
-		sentence << Delimiter(",")
-				 << PeriodPhraseFactory::create("next_day",
-												itsVar,
-												itsForecastTime,
-												secondperiod);
-		if(pop2 - pop1 >= limit_significantly_greater)
-		  sentence << "huomattavasti suurempi";
-		else if(pop2 - pop1 >= limit_greater)
-		  sentence << "suurempi";
-		else if(pop2 - pop1 >= limit_somewhat_greater)
-		  sentence << "hieman suurempi";
-		else if(pop1 - pop2 >= limit_significantly_smaller)
-		  sentence << "huomattavasti pienempi";
-		else if(pop1 - pop2 >= limit_smaller)
-		  sentence << "pienempi";
-		else if(pop1 - pop2 >= limit_somewhat_smaller)
-		  sentence << "hieman pienempi";
-		else
-		  sentence << "sama";
-
+		if(pop2 >= limit)
+		  {
+			if(sentence.empty())
+			  {
+				sentence << "sateen todennäköisyys"
+						 << "on"
+						 << PeriodPhraseFactory::create("today",
+														itsVar,
+														itsForecastTime,
+														secondperiod)
+						 << Integer(pop2)
+						 << *UnitFactory::create(Percent);
+			  }
+			else
+			  {
+				sentence << Delimiter(",")
+						 << PeriodPhraseFactory::create("next_day",
+														itsVar,
+														itsForecastTime,
+														secondperiod);
+				if(pop2 - pop1 >= limit_significantly_greater)
+				  sentence << "huomattavasti suurempi";
+				else if(pop2 - pop1 >= limit_greater)
+				  sentence << "suurempi";
+				else if(pop2 - pop1 >= limit_somewhat_greater)
+				  sentence << "hieman suurempi";
+				else if(pop1 - pop2 >= limit_significantly_smaller)
+				  sentence << "huomattavasti pienempi";
+				else if(pop1 - pop2 >= limit_smaller)
+				  sentence << "pienempi";
+				else if(pop1 - pop2 >= limit_somewhat_smaller)
+				  sentence << "hieman pienempi";
+				else
+				  sentence << "sama";
+			  }
+		  }
 	  }
 
 	paragraph << sentence;
