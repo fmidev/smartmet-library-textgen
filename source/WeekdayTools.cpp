@@ -28,13 +28,14 @@ namespace TextGen
 
 	string on_weekday(const NFmiTime & theTime)
 	{
-	  const string out = lexical_cast<string>(theTime.GetWeekday())+"-na";
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-na");
 	  return out;
 	}
 
 	// ----------------------------------------------------------------------
 	/*!
-	 * \brief Return the "N-vastaisena yönä" description
+	 * \brief Return the "N-vastaisena yönä" phrase
 	 *
 	 * \param theTime The time
 	 * \return The "N-vastaisena yönä" phrase
@@ -43,7 +44,72 @@ namespace TextGen
 
 	string night_against_weekday(const NFmiTime & theTime)
 	{
-	  const string out = lexical_cast<string>(theTime.GetWeekday())+"-vastaisena yönä";
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-vastaisena yönä");
+	  return out;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return the "N-aamuun" phrase
+	 *
+	 * \param theTime The time
+	 * \return The "N-aamuun" phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	string until_weekday_morning(const NFmiTime & theTime)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-aamuun");
+	  return out;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return the "N-iltaan" phrase
+	 *
+	 * \param theTime The time
+	 * \return The "N-iltaan" phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	string until_weekday_evening(const NFmiTime & theTime)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-iltaan");
+	  return out;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return the "N-aamusta" phrase
+	 *
+	 * \param theTime The time
+	 * \return The "N-aamusta" phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	string from_weekday_morning(const NFmiTime & theTime)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-aamusta");
+	  return out;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return the "N-illasta" phrase
+	 *
+	 * \param theTime The time
+	 * \return The "N-illasta" phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	string from_weekday_evening(const NFmiTime & theTime)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-illasta");
 	  return out;
 	}
 
