@@ -44,6 +44,7 @@ namespace SoneraTest
 
 	require("o'clock","");
 	require("pohjanmaa:lle","402");
+	require("ahvenanmaa:lle","308");
 
 	require("1-aamusta","200");
 	require("1-aamuun","201");
@@ -394,11 +395,12 @@ namespace SoneraTest
 
 	// extras:
 	// pohjanmaa:lle == osterbotten::lle
+	// ahvenanmaa:lle == aland::lle
 	// o'clock = <empty>
 
-	const int extras = 2;
+	const int extras = 3;
 	if(dict->size() != 545-200+1+extras)
-	  TEST_FAILED("Sonera dictionary should have 348 phrases");
+	  TEST_FAILED("Sonera dictionary should have 349 phrases");
 	
 	TEST_PASSED();
   }
