@@ -117,7 +117,7 @@ namespace TextGen
 	  }
 
 	Sentence sentence;
-	if(maxima[0] + maxima[1] < 1)
+	if(maxima[0]==0 && maxima[1]==0)
 	  {
 		sentence << "seuraavan 24 tunnin sademäärä"
 				 << "on"
@@ -128,7 +128,7 @@ namespace TextGen
 	  {
 		sentence << "ensimmäisen 12 tunnin sademäärä"
 				 << "on";
-		if(maxima[0]-minima[0] < mininterval)
+		if(maxima[0]-minima[0] < mininterval && means[0]!=0)
 		  {
 			if(means[0] > 0)
 			  sentence << "noin";
@@ -139,7 +139,7 @@ namespace TextGen
 		sentence << *UnitFactory::create(Millimeters)
 				 << Delimiter(",")
 				 << "seuraavan 12 tunnin";
-		if(maxima[1]-minima[1] < mininterval)
+		if(maxima[1]-minima[1] < mininterval && means[0]!=0)
 		  {
 			if(means[1] > 0)
 			  sentence << "noin";
