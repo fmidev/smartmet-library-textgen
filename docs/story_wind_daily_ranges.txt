@@ -13,6 +13,7 @@ Suuntaluokat ovat k‰ytˆss‰.
 Tarinan yleismuoto on
 
  -# [Viikonp‰iv‰n‰] [suuntatuulta] X...Y m/s
+ -# [Viikonp‰iv‰n‰] [suuntatuulta] noin X m/s
 
 jota toistetaan kullekin p‰iv‰lle eteenp‰in. Tuulet kerrotaan vain
 p‰iv‰jaksoille, jota konfiguroidaan muuttujilla.
@@ -30,6 +31,12 @@ textgen::[kappale]::story::wind_daily_ranges::day::endhour = 21
 textgen::[kappale]::story::wind_daily_ranges::day::minendhour = 18
 \endcode
 P‰iv‰ on siis venytetty maanviljelijˆiden tarpeisiin.
+
+Tuuli-intervalli typistet‰‰n yhteen lukuun (keskiarvo), jos
+intervalli on pienempi kuin
+\code
+textgen::[kappale]::story::wind_daily_ranges::mininterval = [0-] (0)
+\endcode
 
 \section section_wind_daily_ranges_aikafraasit Aikafraasit
 
@@ -65,6 +72,19 @@ Suunnan fraasi valitaan seuraavasti
   -# Jos laatu >= \c accurate, "N-tuulta"
   -# Jos laatu >= \c variable, "N-puoleista tuulta"
   -# Muutoin "suunnaltaan vaihtelevaa tuulta"
+
+\section section_wind_daily_ranges_fakes Tulosten testaaminen
+
+Kullekin p‰iv‰jaksolle lasketaan kunkin pisteen ajallisista keskiarvoista
+alueellinen minimi, keskiarvo ja maksimi. N‰it‰ tuloksia voi
+v‰‰rent‰‰ testaamista varten muuttujilla
+\code
+textgen::[kappale]::story::wind_daily_ranges::fake::day1::mean = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::day1::minimum = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::day1::maximum = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::day2::mean = [result]
+...
+\endcode
 
 \section section_wind_daily_ranges_fraasit Tarvittavat fraasit
 
