@@ -456,7 +456,7 @@ Teksti valitaan seuraavalla logiikalla
         monessa pisteessä, palautetaan fraasi 2.
      -# Jos sadesumma ylittää asetetun raja-arvon \c maxlimit1 riittävän
         monessa pisteessä, palautetaan fraasi 3.
-     -# Palautetaan fraasi 1. TÄSSÄ PITÄISI PALAUTTAA JOTAIN MUUTA!!
+     -# Muutoin palautetaan fraasi 5!!!
   -# Jos sadesumman maksimi on 0, palautetaan fraasi 4.
   -# Lasketaan sadesumman keskiarvo ja maksimi.
   -# Muodostetaan sadeluokka keskiarvon perusteella. Jos useampi luokka
