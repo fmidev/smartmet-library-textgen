@@ -7,8 +7,10 @@
 
 #include "TemperatureStory.h"
 #include "DefaultAcceptor.h"
+#include "Delimiter.h"
 #include "GridForecaster.h"
 #include "Number.h"
+#include "NumberRange.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "Settings.h"
@@ -17,9 +19,116 @@
 #include "WeatherParameter.h"
 #include "WeatherPeriodTools.h"
 #include "WeatherResult.h"
+#include "WeekdayTools.h"
+
+#include "boost/lexical_cast.hpp"
 
 using namespace WeatherAnalysis;
+using namespace boost;
 using namespace std;
+
+namespace
+{
+  
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return temperature comparison phrase
+   *
+   * \param theMin1 The first minimum
+   * \param theMax1 The first maximum
+   * \param theMin2 The second minimum
+   * \param theMax2 The second maximum
+   * \param theVariable The variable containing the limits
+   */
+  // ----------------------------------------------------------------------
+
+  string temperature_comparison(int theMin1,
+								int theMax1,
+								int theMin2,
+								int theMax2,
+								const string & theVariable)
+  {
+	using namespace Settings;
+
+	const int significantly_greater = require_percentage(theVariable+"::significantly_greater");
+	const int significantly_smaller = require_percentage(theVariable+"::significantly_smaller");
+	const int greater = require_percentage(theVariable+"::greater");
+	const int smaller = require_percentage(theVariable+"::smaller");
+	const int somewhat_greater = require_percentage(theVariable+"::somewhat_greater");
+	const int somewhat_smaller = require_percentage(theVariable+"::somewhat_smaller");
+
+	if(theMax2 - theMax1 >= significantly_greater)
+	  return "huomattavasti korkeampi";
+	if(theMax2 - theMax1 >= greater)
+	  return "korkeampi";
+	if(theMax2 - theMax1 >= somewhat_greater)
+	  return "hieman korkeampi";
+	if(theMax1 - theMax2 >= significantly_smaller)
+	  return "huomattavasti alempi";
+	if(theMax1 - theMax2 >= smaller)
+	  return "alempi";
+	if(theMax1 - theMax2 >= somewhat_smaller)
+	  return "hieman alempi";
+	return "suunnilleen sama";
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return temperature sentence
+   *
+   * Possible sentences are
+   *
+   *  - "noin x astetta"
+   *  - "x...y astetta";
+   *
+   * \param theMinimum The minimum temperature
+   * \param theMean The mean temperature
+   * \param theMaximum The maximum temperature
+   * \param theMinInterval The minimum interval limit
+   * \param theZeroFlag True if zero is always intervalled
+   * \return The sentence
+   */
+  // ----------------------------------------------------------------------
+
+  TextGen::Sentence temperature_phrase(int theMinimum,
+									   int theMean,
+									   int theMaximum,
+									   int theMinInterval,
+									   bool theZeroFlag)
+  {
+	using namespace TextGen;
+	Sentence sentence;
+
+	bool range = true;
+
+	if(theMinimum == theMaximum)
+	  range = false;
+	else if(theMaximum - theMinimum >= theMinInterval)
+	  range = true;
+	else if(theMinimum <= 0 && theMaximum >= 0)
+	  range = true;
+	else
+	  range = false;
+
+	if(range)
+	  {
+		sentence << NumberRange<Number<int> >(theMinimum,theMaximum)
+				 << "astetta";
+	  }
+	else
+	  {
+		sentence << "noin"
+				 << Number<int>(theMean)
+				 << "astetta";
+	  }
+
+	return sentence;
+  }
+
+} // namespace anonymous
+
+
+
 
 namespace TextGen
 {
@@ -244,23 +353,16 @@ namespace TextGen
 
 	Paragraph paragraph;
 
-#if 0
 	const int starthour    = require_hour(itsVar+"::starthour");
 	const int endhour      = require_hour(itsVar+"::endhour");
 	const int maxstarthour = optional_hour(itsVar+"::maxstarthour",starthour);
 	const int minendhour   = optional_hour(itsVar+"::minendhour",endhour);
 
-	const int mininterval  = optional_int(itsVar+"::mininterval",1);
+	const int mininterval = optional_int(itsVar+"::mininterval",2);
 	const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
 
 	const bool prefer_dayname = optional_bool(itsVar+"::prefer_dayname",false);
 
-	const int limit_significantly_greater = require_percentage(itsVar+"::significantly_greater");
-	const int limit_significantly_smaller = require_percentage(itsVar+"::significantly_smaller");
-	const int limit_greater = require_percentage(itsVar+"::greater");
-	const int limit_smaller = require_percentage(itsVar+"::smaller");
-	const int limit_somewhat_greater = require_percentage(itsVar+"::somewhat_greater");
-	const int limit_somewhat_smaller = require_percentage(itsVar+"::somewhat_smaller");
 
 	const int days = countPeriods(itsPeriod,
 								  starthour,
@@ -269,7 +371,7 @@ namespace TextGen
 								  minendhour);
 
 
-	WeatherPeriod period = getperiod(itsPeriod,
+	WeatherPeriod period = getPeriod(itsPeriod,
 									 1,
 									 starthour,
 									 endhour,
@@ -277,12 +379,124 @@ namespace TextGen
 									 minendhour);
 
 
+	GridForecaster forecaster;
+
+	WeatherResult minresult = forecaster.analyze(itsVar+"::fake::day1::minimum",
+												 itsSources,
+												 MaxTemperature,
+												 Minimum,
+												 Maximum,
+												 period,
+												 itsArea);
+
+	WeatherResult meanresult = forecaster.analyze(itsVar+"::fake::day1::mean",
+												  itsSources,
+												  MaxTemperature,
+												  Mean,
+												  Maximum,
+												  period,
+												  itsArea);
+
+	WeatherResult maxresult = forecaster.analyze(itsVar+"::fake::day1::maximum",
+												 itsSources,
+												 MaxTemperature,
+												 Maximum,
+												 Maximum,
+												 period,
+												 itsArea);
+
+	if(minresult.value() == kFloatMissing ||
+	   maxresult.value() == kFloatMissing ||
+	   meanresult.value() == kFloatMissing)
+	  throw TextGenError("TemperatureStory: MaxTemperature is not available");
+
+	const int min1 = FmiRound(minresult.value());
+	const int max1 = FmiRound(maxresult.value());
+	const int mean1 = FmiRound(meanresult.value());
+
 	Sentence sentence;
 	sentence << "päivän ylin lämpötila"
-			 << "on";
-	  
+			 << "on"
+			 << WeekdayTools::on_weekday(period.localStartTime())
+			 << temperature_phrase(min1,mean1,max1,mininterval,interval_zero);
+
+	// Remaining days
+
+	for(int p=2; p<=days; p++)
+	  {
+		period = getPeriod(itsPeriod,
+						   p,
+						   starthour,
+						   endhour,
+						   maxstarthour,
+						   minendhour);
+		
+		const string var = (itsVar
+							+ "::fake::day"
+							+ lexical_cast<string>(p));
+
+		minresult = forecaster.analyze(var+"::minimum",
+									   itsSources,
+									   MaxTemperature,
+									   Minimum,
+									   Maximum,
+									   period,
+									   itsArea);
+		
+		maxresult = forecaster.analyze(var+"::maximum",
+									   itsSources,
+									   MaxTemperature,
+									   Maximum,
+									   Maximum,
+									   period,
+									   itsArea);
+
+		meanresult = forecaster.analyze(var+"::mean",
+										itsSources,
+										MaxTemperature,
+										Mean,
+										Maximum,
+										period,
+										itsArea);
+		
+		if(minresult.value() == kFloatMissing ||
+		   maxresult.value() == kFloatMissing ||
+		   meanresult.value() == kFloatMissing)
+		  throw TextGenError("TemperatureStory: MaxTemperature is not available for day "+lexical_cast<string>(p));
+		
+		const int min2  = FmiRound(minresult.value());
+		const int max2  = FmiRound(maxresult.value());
+		const int mean2 = FmiRound(meanresult.value());
+		
+		// For second day:
+		//
+		// "seuraavana päivänä [komparatiivi]" tai
+		// "[viikonpäivänä] [komparatiivi]"
+		//
+		// For third and so on
+		//
+		// "[viikonpäivänä] [noin x|x...y] astetta"
+		
+		sentence << Delimiter(",");
+		
+		if(p==2)
+		  {
+			if(prefer_dayname)
+			  sentence << WeekdayTools::on_weekday(period.localStartTime());
+			else
+			  sentence << "seuraavana päivänä";
+			sentence << temperature_comparison(min1,max1,min2,max2,itsVar);
+		  }
+		else
+		  {
+			sentence << WeekdayTools::on_weekday(period.localStartTime())
+					 << temperature_phrase(min2,mean2,max2,mininterval,interval_zero);
+
+		  }
+		
+	  }
+
 	paragraph << sentence;
-#endif
 	return paragraph;
 
   }
@@ -337,11 +551,7 @@ namespace TextGen
 									 maxstarthour,
 									 minendhour);
 
-
-	Sentence sentence;
-	sentence << "yön alin lämpötila"
-			 << "on";
-	  
+								  
 
 	paragraph << sentence;
 #endif
