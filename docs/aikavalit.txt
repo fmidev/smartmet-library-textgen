@@ -16,20 +16,50 @@ annetaan ennusteen tekoaika paikallista aikaa ja s‰‰jakson nimi,
 paluuarvona on TextGen::WeatherPeriod objekti.
 
 T‰ll‰ hetkell‰ tunnistettuja periodeja ovat
+\htmlonly
 <dl>
-<dt>\c farmer_until_tomorrow_evening</dt>
+<dt><code>farmer_until_tomorrow_evening</code></dt>
 <dd>Alkaa annetusta hetkest‰, p‰‰ttyy huomiseen iltaan, tai jos kello on
     yli 12, sit‰ seuraavaan iltaan.
 </dd>
-<dt>\c farmer_from_tomorrow_evening</dt>
-<dd>Alkaa siit‰ mihin \c farmer_until_tomorrow_evening p‰‰ttyy,
+<dt><code>farmer_from_tomorrow_evening</code></dt>
+<dd>Alkaa siit‰ mihin <code>farmer_until_tomorrow_evening</code> p‰‰ttyy,
     ja jatkuu nelj‰nnen p‰iv‰n aamuun. Periodissa on siis
     ensimm‰inen illasta seuraavat 3 kokonaista vuorokautta plus
     seuraava p‰iv‰ aamuun asti.
 </dd>
-<dt>\c farmer_five_days</dt>
+<dt><code>farmer_five_days</code></dt>
 <dd>Alkaa seuraavasta 06-ajasta, p‰‰ttyy aamuun viiden vuorokauden
     p‰‰st‰.</dd>
 </dl>
+\endhtmlonly
+
+\section sec_headerfactory HeaderFactory namespace
+
+TextGen::HeaderFactory namespace sis‰lt‰‰ create funktion,
+jolla voidaan luoda erikseen nimettyj‰ otsikoita. Funktiolle
+annetaan s‰‰periodi (TextGen::WeatherPeriod, sek‰ otsikon tyyppi).
+Paluuarvona on TextGen::Header objekti.
+
+T‰ll‰ hetkell‰ tunnistettuja tyyppej‰ ovat
+\htmlonly
+<dl>
+<dt><code>header_until</code></dt>
+<dd>
+Esim. <em>Odotettavissa tiistai-iltaan asti</em>. Viikonp‰iv‰ riippuu
+periodin loppuhetkest‰, samoin itse hetken tarkenne. Loppukellonajan
+tulee olla 06 tai 18, jolloin tarkenne on vastaavasti aamu tai ilta.
+</dd>
+<dt><code>header_from_until</code></dt>
+<dd>
+Esim. <em>Odotettavissa tiistai-illasta torstaiaamuun</em>.
+Kellonaikojen tulee olla 06 tai 18, jolloin tarkenteet ovat aamu tai ilta.
+</dd>
+<dt><code>header_five_days</code></dt>
+<dd>
+Esim. <em>Odotettavissa seuraavan viiden vuorokauden aikana</em>.
+</dd>
+</dl>
+\endhtmlonly
 
 */
