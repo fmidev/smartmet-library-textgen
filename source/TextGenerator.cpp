@@ -153,7 +153,7 @@ namespace TextGen
 		it != paragraphs.end();
 		++it)
 	  {
-		const string periodvar = settings.require("textgen::"+*it+"::period");
+		const string periodvar = "textgen::"+*it+"::period";
 		const WeatherPeriod period = WeatherPeriodFactory::create(time(),
 																  periodvar);
 
