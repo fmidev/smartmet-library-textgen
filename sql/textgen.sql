@@ -422,6 +422,9 @@ INSERT INTO translation_en VALUES ('tiepiiri-uusimaa:lle','for Uusimaa road dist
 INSERT INTO translation_en VALUES ('tiepiiri-vaasa:lle','for Vaasa road district',20031002143933,'mheiskan');
 INSERT INTO translation_en VALUES ('tiepiiri-yla-lappi:lle','for Upper Lapland',20031002143944,'mheiskan');
 INSERT INTO translation_en VALUES ('tienpintalämpötila','the road temperature',20031003004916,'mheiskan');
+INSERT INTO translation_en VALUES ('ensimmäisen 12 tunnin sademäärä','total precipitation for the first 12 hours',20031006131148,'mheiskan');
+INSERT INTO translation_en VALUES ('seuraavan 12 tunnin','for the following 12 hours',20031006131203,'mheiskan');
+INSERT INTO translation_en VALUES ('seuraavan 24 tunnin sademäärä','total precipitation for the next 24 hours',20031006131221,'mheiskan');
 
 --
 -- Table structure for table 'translation_fi'
@@ -814,6 +817,9 @@ INSERT INTO translation_fi VALUES ('tiepiiri-uusimaa:lle','Uudenmaan tiepiiriin'
 INSERT INTO translation_fi VALUES ('tiepiiri-vaasa:lle','Vaasan tiepiiriin',20031002143155,'mheiskan');
 INSERT INTO translation_fi VALUES ('tiepiiri-yla-lappi:lle','Ylä-Lappiin',20031002143205,'mheiskan');
 INSERT INTO translation_fi VALUES ('tienpintalämpötila','tienpintalämpötila',20031003004659,'mheiskan');
+INSERT INTO translation_fi VALUES ('ensimmäisen 12 tunnin sademäärä','ensimmäisen 12 tunnin sademäärä',20031006130904,'mheiskan');
+INSERT INTO translation_fi VALUES ('seuraavan 12 tunnin','seuraavan 12 tunnin',20031006130919,'mheiskan');
+INSERT INTO translation_fi VALUES ('seuraavan 24 tunnin sademäärä','seuraavan 24 tunnin sademäärä',20031006130935,'mheiskan');
 
 --
 -- Table structure for table 'translation_sonera'
@@ -1573,4 +1579,7 @@ INSERT INTO translation_sv VALUES ('tiepiiri-uusimaa:lle','för Nylands vägdistri
 INSERT INTO translation_sv VALUES ('tiepiiri-vaasa:lle','för Vasa vägdistrikt',20031002143539,'mheiskan');
 INSERT INTO translation_sv VALUES ('tiepiiri-yla-lappi:lle','för Övre Lappland',20031002143550,'mheiskan');
 INSERT INTO translation_sv VALUES ('tienpintalämpötila','vägtemperaturen',20031003004823,'mheiskan');
+INSERT INTO translation_sv VALUES ('ensimmäisen 12 tunnin sademäärä','nederbördssumman för de första 12 timmar',20031006131109,'mheiskan');
+INSERT INTO translation_sv VALUES ('seuraavan 12 tunnin','för de följande 12 timmar',20031006131020,'mheiskan');
+INSERT INTO translation_sv VALUES ('seuraavan 24 tunnin sademäärä','nederbördssumman för de följande 24 timmar',20031006132434,'mheiskan');
 
