@@ -24,6 +24,8 @@ namespace WeatherAnalysis
 
 	NFmiTime dayStart(const NFmiTime & theDate);
 	NFmiTime dayEnd(const NFmiTime & theDate);
+	NFmiTime nextDay(const NFmiTime & theDate);
+	NFmiTime addHours(const NFmiTime & theDate, int theHours);
 
   }
 } // namespace WeatherAnalysis

@@ -275,6 +275,42 @@ namespace WeatherAnalysis
 	  return tmp;
 	}
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Round the given time up to the next start of day
+	 *
+	 * Note: DD.MM.YYYY 00:00:00 does NOT remain the same, the date
+	 * always increases by one.
+	 *
+	 * \param theDate The time to round
+	 * \return The rounded date
+	 */
+	// ----------------------------------------------------------------------
+
+	NFmiTime nextDay(const NFmiTime & theDate)
+	{
+	  NFmiTime tmp(dayStart(theDate));
+	  tmp.ChangeByDays(1);
+	  return tmp;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Add the given number of hours to the given time
+	 *
+	 * \param theDate The date to add to
+	 * \param theHours The number of hours to add
+	 * \return The new date
+	 */
+	// ----------------------------------------------------------------------
+
+	NFmiTime addHours(const NFmiTime & theDate, int theHours)
+	{
+	  NFmiTime tmp(theDate);
+	  tmp.ChangeByHours(theHours);
+	  return tmp;
+	}
+
   } // namespace TimeTools
 } // namespace WeatherAnalysis
 
