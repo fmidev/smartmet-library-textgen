@@ -4,9 +4,8 @@
 
 \section section_cloudiness_overview_story Tarinan muoto
 
-Tarina kertoo yhden tai useamman päivän mittaisen jakson
-pilvisyydestä. Parhaiten tarina soveltuu ensimmäisille 1-3
-päivälle.
+Tarina kertoo 1-3 päivän mittaisen jakson pilvisyydestä. Parhaiten
+tarina soveltuu ensimmäisille ennustettaville päiville.
 
 Yhden päivän osalta tarina koostuu seuraavista tarinoista:
 
