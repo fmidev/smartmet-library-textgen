@@ -44,6 +44,11 @@ namespace WeatherAnalysis
 	: itsData()
 	, itsSearchPath(".")
   {
+	if(NFmiSettings::instance().isset("textgenapp::mappath"))
+	  {
+		itsSearchPath += ':';
+		itsSearchPath += NFmiSettings::instance().value("textgenapp::mappath");
+	  }
 	if(NFmiSettings::instance().isset("textgen::mappath"))
 	  {
 		itsSearchPath += ':';
