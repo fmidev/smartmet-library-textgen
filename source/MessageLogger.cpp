@@ -22,6 +22,7 @@ ostream * MessageLogger::itsOutput = 0;
 
 MessageLogger::~MessageLogger()
 {
+  if(itsOutput != 0)
 	*itsOutput << string(--itsDepth,'.')
 			   << "[Entering "
 			   << itsFunction
@@ -40,11 +41,12 @@ MessageLogger::~MessageLogger()
 MessageLogger::MessageLogger(const string & theFunction)
   : itsFunction(theFunction)
 {
-  *itsOutput << string(itsDepth++,'.')
-			 << "[Leaving "
-			 << itsFunction
-			 << ']'
-			 << endl;
+  if(itsOutput != 0)
+	*itsOutput << string(itsDepth++,'.')
+			   << "[Leaving "
+			   << itsFunction
+			   << ']'
+			   << endl;
 }
 
 // ----------------------------------------------------------------------
@@ -58,6 +60,11 @@ MessageLogger::MessageLogger(const string & theFunction)
 void MessageLogger::open(const string & theFilename)
 {
   delete itsOutput;
+  itsOutput = 0;
+
+  if(theFilename.empty())
+	return;
+
   itsOutput = new ofstream(theFilename.c_str(), ios::out);
   if(itsOutput == 0)
 	throw std::runtime_error("MessageLogger could not allocate a new output stream");

@@ -51,10 +51,9 @@ public:
   template <typename T>
   MessageLogger & operator<<(const T & theObject)
   {
-	if(itsOutput == 0)
-	  throw std::runtime_error("MessageLogger not opened");
-	*itsOutput << std::string(itsDepth,'.')
-			   << theObject;
+	if(itsOutput != 0)
+	  *itsOutput << std::string(itsDepth,'.')
+				 << theObject;
   }
 
   static void open(const std::string & theFilename);
