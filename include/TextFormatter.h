@@ -20,12 +20,12 @@
 namespace TextGen
 {
   class Dictionary;
+  class Document;
   class Glyph;
   class GlyphContainer;
-  class Sentence;
-  class Paragraph;
   class Header;
-  class Document;
+  class Paragraph;
+  class Sentence;
 
   class TextFormatter
   {
