@@ -295,7 +295,7 @@ namespace TextGen
 		  else if(optional_bool(theVariable+"::prefer_phrase_followingday",false))
 			sentence << "seuraavana päivänä";
 		  else
-			sentence << "seuraavana päivänä";
+			sentence << "huomenna";
 		}
 	  else
 		{

@@ -122,7 +122,7 @@ vuorokauden.
    -# Jos prefer_phrase_tomorrow, "huomenna"
    -# Jos prefer_phrase_weekday, "viikonpäivänä"
    -# Jos prefer_phrase_followingday, "seuraavana päivänä"
-   -# "seuraavana päivänä"
+   -# "huomenna"
  -# Muutoin
    -# Jos prefer_phrase_weekday, "viikonpäivänä"
    -# Jos prefer_phrase_followingday, "seuraavana päivänä"
