@@ -149,6 +149,10 @@ namespace TextGen
 			++words_on_line;
 		  }
 	  }
+
+	if(words_on_line>0)
+	  ret += ";\n";
+
 	return ret;
 
   }
