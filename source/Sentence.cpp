@@ -64,36 +64,6 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Return the prefix for sentences
-   *
-   * The prefix for sentences is always the space character
-   *
-   * \return The space character
-   */
-  // ----------------------------------------------------------------------
-  
-  std::string Sentence::prefix() const
-  {
-	return " ";
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the suffix for sentences
-   *
-   * The suffix for sentences is always an empty string
-   *
-   * \return An empty string
-   */
-  // ----------------------------------------------------------------------
-  
-  std::string Sentence::suffix() const
-  {
-	return "";
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Add a sentence to the end of this sentence
    *
    * \param theSentence The sentence to be added

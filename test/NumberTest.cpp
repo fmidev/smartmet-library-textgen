@@ -67,22 +67,6 @@ namespace NumberTest
 	TEST_PASSED();
   }
 
-  //! Test separator()
-  void separator(void)
-  {
-	using namespace TextGen;
-
-	Number<int> s(0);
-
-	if(s.prefix() != " ")
-	  TEST_FAILED("Word prefix for numbers must be space");
-	if(s.suffix() != "")
-	  TEST_FAILED("Word prefix for numbers must be empty");
-
-	TEST_PASSED();
-  }
-
-
   //! Test realize() for ints
   void realize_int(void)
   {
@@ -212,7 +196,6 @@ namespace NumberTest
 	void test(void)
 	{
 	  TEST(structors);
-	  TEST(separator);
 	  TEST(realize_int);
 	  TEST(realize_float);
 	  TEST(realize_traits);

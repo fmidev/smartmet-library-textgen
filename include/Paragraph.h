@@ -37,8 +37,6 @@ namespace TextGen
 	virtual boost::shared_ptr<Glyph> clone() const;
 	virtual std::string realize(const Dictionary & theDictionary) const;
 	virtual std::string realize(const TextFormatter & theFormatter) const;
-	virtual std::string prefix() const;
-	virtual std::string suffix() const;
 
 	Paragraph & operator<<(const Paragraph & theParagraph);
 	Paragraph & operator<<(const Glyph & theGlyph);

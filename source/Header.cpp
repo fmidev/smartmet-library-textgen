@@ -61,36 +61,6 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Return the prefix for headers
-   *
-   * The prefix for headers is always an empty string
-   *
-   * \return An empty string
-   */
-  // ----------------------------------------------------------------------
-  
-  std::string Header::prefix() const
-  {
-	return "";
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the suffix for headers
-   *
-   * The suffix for headers is always an empty string
-   *
-   * \return An empty string
-   */
-  // ----------------------------------------------------------------------
-  
-  std::string Header::suffix() const
-  {
-	return "";
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Adding a glyph to a header
    *
    * \param theGlyph The glyph to be added

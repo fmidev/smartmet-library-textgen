@@ -49,9 +49,6 @@ namespace TextGen
 	virtual std::string realize(const TextFormatter & theFormatter) const
 	{ return theFormatter.visit(*this); }
 
-	virtual std::string prefix() const { return " "; }
-	virtual std::string suffix() const { return ""; }
-
   private:
 
 	Number();

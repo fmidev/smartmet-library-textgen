@@ -29,22 +29,6 @@ namespace DelimiterTest
 	TEST_PASSED();
   }
 
-  //! Test separator()
-  void separator(void)
-  {
-	using namespace TextGen;
-
-	Delimiter s(",");
-
-	if(s.prefix() != "")
-	  TEST_FAILED("Word prefix for delimiters must be an empty string");
-	if(s.suffix() != "")
-	  TEST_FAILED("Word suffix for delimiters must be an empty string");
-
-	TEST_PASSED();
-  }
-
-
   //! Test realize()
   void realize(void)
   {
@@ -75,7 +59,6 @@ namespace DelimiterTest
 	void test(void)
 	{
 	  TEST(structors);
-	  TEST(separator);
 	  TEST(realize);
 	}
 

@@ -79,36 +79,6 @@ namespace TextGen
 	return theFormatter.visit(*this);
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the prefix for delimiters
-   *
-   * The prefix for delimiters is always an empty string
-   *
-   * \return An empty string
-   */
-  // ----------------------------------------------------------------------
-  
-  std::string Delimiter::prefix() const
-  {
-	return "";
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the suffix for delimiters
-   *
-   * The suffix for delimiters is always an empty string
-   *
-   * \return An empty string
-   */
-  // ----------------------------------------------------------------------
-  
-  std::string Delimiter::suffix() const
-  {
-	return "";
-  }
-
 } // namespace TextGen
 
 // ======================================================================

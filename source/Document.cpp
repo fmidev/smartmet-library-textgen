@@ -59,36 +59,6 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Return the prefix for documents
-   *
-   * The prefix for documents is always the space character
-   *
-   * \return The space character
-   */
-  // ----------------------------------------------------------------------
-  
-  std::string Document::prefix() const
-  {
-	return " ";
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the suffix for documents
-   *
-   * The suffix for documents is always an empty string
-   *
-   * \return An empty string
-   */
-  // ----------------------------------------------------------------------
-  
-  std::string Document::suffix() const
-  {
-	return "";
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Add a document to the end of this document
    *
    * \param theDocument The document to be added

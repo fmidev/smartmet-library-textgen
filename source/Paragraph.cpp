@@ -60,37 +60,6 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Return the prefix for paragraphs
-   *
-   * The prefix for paragraphs is always an empty string
-   *
-   * \return An empty string
-   */
-  // ----------------------------------------------------------------------
-  
-  std::string Paragraph::prefix() const
-  {
-	return "";
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the suffix for paragraphs
-   *
-   * The suffix for paragraphs is always an empty string
-   *
-   * \return An empty string
-   */
-  // ----------------------------------------------------------------------
-  
-  std::string Paragraph::suffix() const
-  {
-	return "";
-  }
-
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Add a paragraph to the end of this paragraph
    *
    * \param theParagraph The paragraph to be added

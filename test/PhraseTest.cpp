@@ -29,21 +29,6 @@ namespace PhraseTest
 	TEST_PASSED();
   }
 
-  //! Test separator()
-  void separator(void)
-  {
-	using namespace TextGen;
-
-	Phrase s(std::string("foobar"));
-
-	if(s.prefix() != " ")
-	  TEST_FAILED("Word prefix for regular words must be space");
-	if(s.suffix() != "")
-	  TEST_FAILED("Word suffix for regular words must be empty");
-
-	TEST_PASSED();
-  }
-
 
   //! Test realize()
   void realize(void)
@@ -81,7 +66,6 @@ namespace PhraseTest
 	void test(void)
 	{
 	  TEST(structors);
-	  TEST(separator);
 	  TEST(realize);
 	}
 

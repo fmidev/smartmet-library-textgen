@@ -77,36 +77,6 @@ namespace TextGen
 	return theFormatter.visit(*this);
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the prefix for phrases
-   *
-   * The prefix for phrases is always the space character
-   *
-   * \return The space character
-   */
-  // ----------------------------------------------------------------------
-  
-  std::string Phrase::prefix() const
-  {
-	return " ";
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the suffix for phrases
-   *
-   * The suffix for phrases is always an empty string
-   *
-   * \return An empty string
-   */
-  // ----------------------------------------------------------------------
-  
-  std::string Phrase::suffix() const
-  {
-	return "";
-  }
-
 } // namespace TextGen
 
 // ======================================================================
