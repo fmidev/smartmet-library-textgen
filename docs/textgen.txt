@@ -34,6 +34,11 @@ nimet‰‰n tekstigeneraattorissa.
 \ref page_tarinat sivulla kuvataan, miten yksitt‰isist‰ s‰‰parametreista
 generoidaan teksti‰.
 
+\section sec_periodifraasit Periodifraasit
+
+\ref page_periodifraasit sivulla kuvataan, miten yksitt‰isi‰
+aikajaksoja kuvaavia fraaseja luodaan.
+
 \section sec_funktiot Funktiot
 
 \ref page_funktiot sivulla kuvataan, mit‰ funktioita analyysiosio
