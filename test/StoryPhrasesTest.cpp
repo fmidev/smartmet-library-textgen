@@ -99,10 +99,11 @@ namespace StoryPhrasesTest
 	require("seuraavana päivänä");
 	require("huomattavasti korkeampi");
 	require("korkeampi");
-	require("vähän korkeampi");
+	require("hieman korkeampi");
 	require("suunnilleen sama");
-	require("vähän matalampi");
-	require("huomattavasti matalampi");
+	require("hieman alempi");
+	require("alempi");
+	require("huomattavasti alempi");
 
 	require("1-na","maanantaina");
 	require("2-na","tiistaina");
@@ -130,10 +131,11 @@ namespace StoryPhrasesTest
 	require("seuraavana yönä");
 	require("huomattavasti korkeampi");
 	require("korkeampi");
-	require("vähän korkeampi");
+	require("hieman korkeampi");
 	require("suunnilleen sama");
-	require("vähän matalampi");
-	require("huomattavasti matalampi");
+	require("hieman alempi");
+	require("alempi");
+	require("huomattavasti alempi");
 
 	require("1-vastaisena yönä","maanantain vastaisena yönä");
 	require("2-vastaisena yönä","tiistain vastaisena yönä");
