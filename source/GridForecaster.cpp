@@ -13,6 +13,8 @@
 #include "WeatherResult.h"
 
 #include "TemperatureAnalyzer.h"
+#include "MaxTemperatureAnalyzer.h"
+#include "MinTemperatureAnalyzer.h"
 
 namespace WeatherAnalysis
 {
@@ -43,6 +45,16 @@ namespace WeatherAnalysis
 	  case Temperature:
 		{
 		  TemperatureAnalyzer analyzer;
+		  return analyzer.analyze(theSources,theFunction,theLimits,thePeriod,theArea);
+		}
+	  case MaxTemperature:
+		{
+		  MaxTemperatureAnalyzer analyzer;
+		  return analyzer.analyze(theSources,theFunction,theLimits,thePeriod,theArea);
+		}
+	  case MinTemperature:
+		{
+		  MinTemperatureAnalyzer analyzer;
 		  return analyzer.analyze(theSources,theFunction,theLimits,thePeriod,theArea);
 		}
 	  case Pressure:
