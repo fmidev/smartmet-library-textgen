@@ -17,6 +17,8 @@
 
 #include <string>
 
+class NFmiTime;
+
 namespace Settings
 {
   bool isset(const std::string & theName);
@@ -27,6 +29,7 @@ namespace Settings
   int require_hour(const std::string & theName);
   int require_days(const std::string & theName);
   int require_percentage(const std::string & theName);
+  NFmiTime require_time(const std::string & theName);
 
 } // namespace Settings
 

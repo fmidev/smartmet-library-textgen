@@ -7,9 +7,10 @@
 
 #include "Settings.h"
 #include "NFmiSettings.h"
+#include "NFmiTime.h"
 
 #include "boost/lexical_cast.hpp"
-
+#include <cctype>	// for std::isdigit
 #include <stdexcept>
 
 using namespace std;
@@ -174,8 +175,57 @@ namespace Settings
 	  return value;
 	throw runtime_error(theName+": value "+lexical_cast<string>(value)+" is not 0-100");
   }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Require the time value of the given variable
+   *
+   * Throws if the variable is not of the form YYYYMMDDHHMI
+   *
+   * \param theName The variable name
+   * \return The integer value
+   */
+  // ----------------------------------------------------------------------
   
-  
+  NFmiTime require_time(const std::string & theName)
+  {
+	const string value = require_string(theName);
+
+	const string msg = theName+" value "+value+" is not of form YYYYMMDDHHMI";
+
+	if(value.size() != 12)
+	  throw runtime_error(msg);
+
+	for(string::const_iterator it=value.begin(); it!=value.end(); ++it)
+	  if(!isdigit(*it))
+		throw runtime_error(msg);
+
+	try
+	  {
+		const int yy = lexical_cast<int>(value.substr(0,4));
+		const int mm = lexical_cast<int>(value.substr(4,2));
+		const int dd = lexical_cast<int>(value.substr(6,2));
+		const int hh = lexical_cast<int>(value.substr(8,2));
+		const int mi = lexical_cast<int>(value.substr(10,2));
+
+		if(mm<1 || mm>12) throw runtime_error(msg);
+		if(dd<1 || dd>31) throw runtime_error(msg);
+		if(hh<0 || hh>23) throw runtime_error(msg);
+		if(mi<0 || mi>59) throw runtime_error(msg);
+
+		if(dd > NFmiTime::DaysInMonth(mm,yy))
+		  throw runtime_error(msg);
+
+		return NFmiTime(yy,mm,dd,hh,mi);
+
+	  }
+	catch(exception & e)
+	  {
+		throw runtime_error(msg);
+	  }
+
+  }
+
 }
 
 // ======================================================================
