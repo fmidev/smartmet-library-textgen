@@ -117,6 +117,7 @@ namespace TextGen
 		
 		if(p==1)
 		  {
+			sentence << "tienpintalämpötila" << "on";
 			if(isday)
 			  sentence << PeriodPhraseFactory::create("today",
 													  itsVar,
@@ -127,7 +128,6 @@ namespace TextGen
 													  itsVar,
 													  itsForecastTime,
 													  period);
-			sentence << "tienpintalämpötila" << "on";
 		  }
 		else
 		  {

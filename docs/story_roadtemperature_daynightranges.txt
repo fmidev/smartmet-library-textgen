@@ -4,9 +4,9 @@
 
 \c roadtemperature_daynightranges tarina on muotoa
 
-  -# Tänään päivällä tienpintalämpötila on x...y astetta, yöllä x...y astetta,
+  -# Tienpintalämpötila on tänään päivällä x...y astetta, yöllä x...y astetta,
      huomenna päivällä x...y astetta, yöllä x...y astetta, jne
-  -# Ensi yönä tienpintalämpötila on x...y astetta, huomenna päivällä
+  -# Tienpintalämpötila on ensi yönä x...y astetta, huomenna päivällä
      x...y astetta, yöllä x...y astetta, jne
 
 Ensimmäisessä osassa, joka on siis päivä tai yö, mainitaan siis
@@ -15,9 +15,9 @@ vain luetellaan lämpötilaintervalleja.
 
 Ruotsiksi lauseet ovat
 
-  -# "I dag kväll vägtemperaturen är x...y grader, på natten x...y grader,
+  -# "Vägtemperaturen är i dag x...y grader, på natten x...y grader,
       i morgon på dagen x...y grader, på natten x...y grader, osv
-  -# "Nästa natten vägtemperaturen är x...y grader, i morgon på dagen
+  -# "Vägtemperaturen är nästa natten x...y grader, i morgon på dagen
       x...y grader, på natten x...y grader, osv
 
 Tarinassa kerrotaan enintään
