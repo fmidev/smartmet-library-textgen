@@ -127,12 +127,27 @@ Lis‰ksi tarvitaan muuttujaa
 textgen::[kappale]::story::weather_shortoverview::precipitation::unstable = [0-] (=50)
 \endcode
 
-Sadefraasi generoidaan seuraavasti:
+Olkoon N1 p‰ivien lukum‰‰r‰ jolloin Ri >= \c rainy_limit ja
+N2 lukum‰‰r‰ jolloin Ri >= \c mostly_rainy_limit. Sadetarina
+generoidaan t‰llˆin seuraavasti:
 
-  -# Jos vain yhten‰ p‰iv‰n‰ Ri >= \c rainy_limit, "[viikonp‰iv‰n‰] [sadetta]"
-  -# Jos vain yhten‰ p‰iv‰n‰ Ri >= \c mostly_rainy_limit, "[viikonp‰iv‰n‰] paikoin [sadetta]"
+  -# Jos N1 == N2, "poutaa"
+  -# Jos N1 == 1 && N2 == 1, "[viikonp‰iv‰n‰] [sadetta]"
+  -# Jos N1 == 0 && N2 == 1, "[viikonp‰iv‰n‰] paikoin [sadetta]"
   -# Jos Ri >= \c rainy_limit v‰hint‰‰n \c unstable_limit p‰ivist‰, "s‰‰ on ep‰vakaista"
   -# Muuten "ajoittain sateista"
+
+\section section_weather_shortoverview_fakes Tulosten testaus
+
+Analyysitulokset voi korvata regressiotesteiss‰ muuttujilla
+\code
+textgen::[kappale]::story::weather_shortoverview::fake::clear_percentage = [result]
+textgen::[kappale]::story::weather_shortoverview::fake::cloudy_percentage = [result]
+
+textgen::[kappale]::story::weather_shortoverview::fake::day1::precipitation = [result]
+textgen::[kappale]::story::weather_shortoverview::fake::day2::precipitation = [result]
+...
+\endcode
 
 \section section_weather_shortoverview_fraasit Tarvittavat fraasit
 
