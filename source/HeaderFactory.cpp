@@ -10,6 +10,8 @@
 #include "WeatherPeriod.h"
 #include "TextGenError.h"
 
+#include "NFmiSettings.h"
+
 #include "boost/lexical_cast.hpp"
 
 using namespace WeatherAnalysis;
@@ -25,17 +27,37 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Return empty header
+   *
+   * \param thePeriod The weather period
+   * \param theVariable The variable for extra settings
+   * \return The header
+   */
+  // ----------------------------------------------------------------------
+
+  TextGen::Header header_none(const WeatherPeriod & thePeriod,
+							   const string & theVariable)
+  {
+	using namespace TextGen;
+	Header header;
+	return header;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Return header of type "Odotettavissa tiistai-iltaan asti"
    *
    * Note that the ending time must be either 06 or 18 local time,
    * otherwise an exception is thrown.
    *
    * \param thePeriod The weather period
+   * \param theVariable The variable for extra settings
    * \return The header
    */
   // ----------------------------------------------------------------------
 
-  TextGen::Header header_until(const WeatherPeriod & thePeriod)
+  TextGen::Header header_until(const WeatherPeriod & thePeriod,
+							   const string & theVariable)
   {
 	using namespace TextGen;
 	Header header;
@@ -63,11 +85,13 @@ namespace
    * otherwise an exception is thrown.
    *
    * \param thePeriod The weather period
+   * \param theVariable The variable for extra settings
    * \return The header
    */
   // ----------------------------------------------------------------------
 
-  TextGen::Header header_from_until(const WeatherPeriod & thePeriod)
+  TextGen::Header header_from_until(const WeatherPeriod & thePeriod,
+									const string & theVariable)
   {
 	using namespace TextGen;
 	Header header;
@@ -107,11 +131,13 @@ namespace
    * The period start time must be 06 or 18.
    *
    * \param thePeriod The weather period
+   * \param theVariable The variable for extra settings
    * \return The header
    */
   // ----------------------------------------------------------------------
 
-  TextGen::Header header_five_days(const WeatherPeriod & thePeriod)
+  TextGen::Header header_five_days(const WeatherPeriod & thePeriod,
+								   const string & theVariable)
   {
 	using namespace TextGen;
 	Header header;
@@ -153,21 +179,25 @@ namespace TextGen
 	 * \see page_aikavalit
 	 *
 	 * \param thePeriod The relevant weather period
-	 * \param theName The name of the desired header type
+	 * \param theName The variable
 	 * \return The generated header
 	 */
 	// ----------------------------------------------------------------------
 
 	Header create(const WeatherPeriod & thePeriod,
-				  const std::string & theName)
+				  const std::string & theVariable)
 	{
-	  if(theName == "until")
-		return header_until(thePeriod);
-	  if(theName == "from_until")
-		return header_from_until(thePeriod);
-	  if(theName == "five_days")
-		return header_five_days(thePeriod);
-	  throw TextGenError("HeaderFactory does not recognize header type "+theName);
+	  const string type = NFmiSettings::instance().require(theVariable);
+
+	  if(type == "none")
+		return header_none(thePeriod,theVariable);
+	  if(type == "until")
+		return header_until(thePeriod,theVariable);
+	  if(type == "from_until")
+		return header_from_until(thePeriod,theVariable);
+	  if(type == "five_days")
+		return header_five_days(thePeriod,theVariable);
+	  throw TextGenError("HeaderFactory does not recognize header type "+type);
 	}
 
   } // namespace HeaderFactory
