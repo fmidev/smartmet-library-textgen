@@ -40,7 +40,7 @@
  */
 // ----------------------------------------------------------------------
 
-#ifdef _MSC_VER
+#ifdef OLD_MSC
 #pragma warning(disable : 4786) // poistaa VC++ k‰‰nt‰j‰n STL varoituksia
 #endif
 
@@ -229,7 +229,7 @@ namespace TextGen
 		  }
 	  }
 
-	catch(const TextGenError & e)
+	catch(...)
 	  {
 		if(result) mysql_free_result(result);
 		mysql_close(&mysql);
