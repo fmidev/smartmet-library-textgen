@@ -28,11 +28,16 @@ namespace TextGen
   class SentencePimple
   {
   public:
-	~SentencePimple() { }
-	SentencePimple() : itsData() { }
-
 	typedef list<Phrase *> storage_type;
 	storage_type itsData;
+
+	~SentencePimple()
+	{
+	  for(storage_type::iterator it=itsData.begin(); it!=itsData.end(); ++it)
+		delete *it;
+	}
+
+	SentencePimple() : itsData() { }
 
   }; // class SentencePimple
 
