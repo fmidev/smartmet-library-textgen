@@ -195,7 +195,7 @@ namespace TextGen
 			std::string keyword(row[0],lengths[0]);
 			std::string translation(row[1],lengths[1]);
 
-			if(!keyword.empty() && !translation.empty())
+			if(!keyword.empty())
 			  itsPimple->itsData.insert(Pimple::value_type(keyword,translation));
 		  }
 	  }
