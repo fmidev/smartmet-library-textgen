@@ -7,11 +7,14 @@
 
 #include "CloudinessStory.h"
 #include "CloudinessStoryTools.h"
+#include "Delimiter.h"
 #include "GridForecaster.h"
 #include "HourPeriodGenerator.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
+#include "PeriodPhraseFactory.h"
 #include "RangeAcceptor.h"
+#include "Sentence.h"
 #include "Settings.h"
 #include "WeatherResult.h"
 
@@ -126,6 +129,38 @@ namespace TextGen
 
 	  }
 
+	// Now 'periods' contains the period for each day
+	// and 'types' contains the weather type for each day.
+
+	unsigned int startday = 0;
+	Sentence sentence;
+	while(startday < periods.size())
+	  {
+		// seek the end for a sequence of similar days
+		unsigned int endday = startday;
+		
+		CommonCloudiness tmp(VariableCloudiness,false);
+		while(endday+1 < periods.size() &&
+			  (tmp = similartype(types,startday,endday+1)).second)
+		  {
+			++endday;
+		  }
+
+		// generate sentence for the found period
+
+		WeatherPeriod fullperiod(periods[startday].localStartTime(),
+								 periods[endday].localEndTime());
+
+		if(!sentence.empty())
+		  sentence << Delimiter(",");
+
+		sentence << PeriodPhraseFactory::create("days",
+												itsVar,
+												itsForecastTime,
+												fullperiod)
+				 << cloudinessphrase(tmp.first);
+	  }
+	paragraph << sentence;
 
 	log << paragraph;
 	return paragraph;
