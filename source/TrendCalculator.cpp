@@ -75,10 +75,6 @@ namespace WeatherAnalysis
 	  return kFloatMissing;
 	else if(itsCounter>1)
 	  return (itsPositiveChanges+itsZeroChanges/2.0)/(itsCounter-1.0)*100;
-	else if(itsPositiveChanges>0)
-	  return 100.0;
-	else if(itsNegativeChanges>0)
-	  return -100.0;
 	else
 	  return 0.0;
   }
