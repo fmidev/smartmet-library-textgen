@@ -2148,5 +2148,9 @@ kyseiseen päivään tai suurimpaan osaa siitä.
 <tr><td>4.</td><td>[Enimmäkseen selkeää], [aamulla] [paikoin] [sadetta]</td></tr>
 </table>
 \endhtmlonly
+Kohdassa 4 sade on niin lyhyt, että pilvisyyttä analysoidaan
+käytännössä koko päivän ajalta. Kohdassa 2 sade tapahtuu
+yöllä/aamupäivällä niin, että pilvisyys kiinnostaa vasta sateen
+jälkeiseltä ajalta.
 
 */
