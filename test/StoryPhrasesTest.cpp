@@ -116,6 +116,26 @@ namespace StoryPhrasesTest
 
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief PrecipitationStory::classification() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void precipitation_classification()
+  {
+	require("sadesumma");
+	require("paikoin");
+	require("monin paikoin");
+	require("yli");
+	require("millimetriä");
+	require("paikoin enemmän");
+	require("monin paikoin enemmän");
+
+	TEST_PASSED();
+
+  }
+
 
 
   //! The actual test driver
@@ -136,6 +156,7 @@ namespace StoryPhrasesTest
 
 	  TEST(precipitation_total);
 	  TEST(precipitation_range);
+	  TEST(precipitation_classification);
 
 	}
 
