@@ -2,6 +2,7 @@
 #include "ModStandardDeviationCalculator.h"
 #include "NFmiGlobals.h"
 
+#include <cmath>
 #include <iostream>
 #include <string>
 
