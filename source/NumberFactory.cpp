@@ -42,28 +42,31 @@ namespace TextGen
 	 * \brief Create an integer
 	 *
 	 * \param theNumber The integer
-	 * \return The glyph
+	 * \return The sentence
 	 */
 	// ----------------------------------------------------------------------
 	
-	boost::shared_ptr<Glyph> create(int theNumber)
+	boost::shared_ptr<Sentence> create(int theNumber)
 	{
 	  const string formatter = Settings::optional_string("textgen::numberformatter","default");
+
+	  shared_ptr<Sentence> sentence(new Sentence);
 	  
 	  if(formatter == "default")
-		return shared_ptr<Number<int> >(new Number<int>(theNumber));
-	  if(formatter == "sonera")
+		*sentence << Number<int>(theNumber);
+
+	  else if(formatter == "sonera")
 		{
 		  sonera_check(theNumber);
-		  shared_ptr<Sentence> s(new Sentence);
 		  if(theNumber < 0)
-			*s << "miinus" << -theNumber;
+			*sentence << "miinus" << -theNumber;
 		  else
-			*s << theNumber;
-		  return s;
+			*sentence << theNumber;
 		}
-	  
-	  throw TextGenError("Numberformatter '"+formatter+"' is unknown");
+	  else
+		throw TextGenError("Numberformatter '"+formatter+"' is unknown");
+
+	  return sentence;
 	}
 	
 	// ----------------------------------------------------------------------
@@ -72,40 +75,36 @@ namespace TextGen
 	 *
 	 * \param theLoLimit The lower limit
 	 * \param theHiLimit The upper limit
-	 * \return The glyph
+	 * \return The sentence
 	 */
 	// ----------------------------------------------------------------------
 	
-	boost::shared_ptr<Glyph> create(int theLoLimit, int theHiLimit)
+	boost::shared_ptr<Sentence> create(int theLoLimit, int theHiLimit)
 	{
 	  if(theLoLimit == theHiLimit)
 		return create(theLoLimit);
 	  
 	  const string formatter = Settings::optional_string("textgen::numberformatter","default");
 	  
+	  shared_ptr<Sentence> sentence(new Sentence);
+
 	  if(formatter == "default")
 		{
 		  typedef NumberRange<Number<int> > IntRange;
-		  return shared_ptr<IntRange>(new IntRange(theLoLimit,theHiLimit));
+		  *sentence << IntRange(theLoLimit,theHiLimit);
 		}
 	  
-	  if(formatter == "sonera")
+	  else if(formatter == "sonera")
 		{
-		  sonera_check(theLoLimit);
-		  sonera_check(theHiLimit);
-		  shared_ptr<Sentence> s(new Sentence);
-		  if(theLoLimit < 0)
-			*s << "miinus" << -theLoLimit;
-		  else
-			*s << theLoLimit;
-		  if(theHiLimit < 0)
-			*s << "miinus" << -theHiLimit;
-		  else
-			*s << theHiLimit;
-		  return s;
+		  *sentence << *create(theLoLimit)
+					<< "viiva"
+					<< *create(theHiLimit);
 		}
-	  
-	  throw TextGenError("Numberformatter '"+formatter+"' is unknown");
+	  else
+		throw TextGenError("Numberformatter '"+formatter+"' is unknown");
+
+	  return sentence;
+
 	}
 	
 
