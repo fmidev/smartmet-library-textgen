@@ -43,7 +43,7 @@ namespace WeatherAnalysis
 	  case Temperature:
 		{
 		  TemperatureAnalyzer analyzer;
-		  return analyzer.forecast(theSources,theFunction,theLimits,thePeriod,theArea);
+		  return analyzer.analyze(theSources,theFunction,theLimits,thePeriod,theArea);
 		}
 	  case Pressure:
 	  case WindSpeed:
