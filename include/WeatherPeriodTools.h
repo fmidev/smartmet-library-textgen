@@ -15,6 +15,8 @@ namespace WeatherAnalysis
   namespace WeatherPeriodTools
   {
 
+	int hours(const WeatherPeriod & thePeriod);
+
 	int countPeriods(const WeatherPeriod & thePeriod,
 					 int theStartHour,
 					 int theEndHour);

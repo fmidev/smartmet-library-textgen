@@ -38,6 +38,20 @@ namespace WeatherAnalysis
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Calculate the length of the period in hours
+	 *
+	 * \param thePeriod The period
+	 * \return The length of the period in hours
+	 */
+	// ----------------------------------------------------------------------
+
+	int hours(const WeatherPeriod & thePeriod)
+	{
+	  return thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime());
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Count the number of specified subperiods in the period
 	 *
 	 * \param thePeriod The main period

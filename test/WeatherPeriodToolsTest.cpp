@@ -10,6 +10,17 @@ namespace WeatherPeriodToolsTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test WeatherPeriodTools::hours
+   */
+  // ----------------------------------------------------------------------
+
+  void hours(void)
+  {
+	TEST_NOT_IMPLEMENTED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Test WeatherPeriodTools::countPeriods
    */
   // ----------------------------------------------------------------------
@@ -169,6 +180,7 @@ namespace WeatherPeriodToolsTest
 	//! Main test suite
 	void test(void)
 	{
+	  TEST(hours);
 	  TEST(countperiods);
 	  TEST(getperiod);
 	}
