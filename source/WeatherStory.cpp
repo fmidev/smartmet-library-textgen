@@ -118,7 +118,8 @@ namespace TextGen
 	using namespace WeatherPeriodTools;
 
 	Paragraph paragraph;
-	Sentence sentence;
+	Sentence c_sentence;
+	Sentence r_sentence;
 
 	const bool c_fullrange = optional_bool(itsVar+"::cloudiness::fullrange",true);
 	const int c_starthour = optional_hour(itsVar+"::cloudiness::starthour",0);
@@ -196,20 +197,22 @@ namespace TextGen
 	  const float n2 = 100-n1-n3;
 		  
 	  if(n1 >= c_single_limit)
-		sentence << "enimmäkseen" << "selkeää";
+		c_sentence << "enimmäkseen" << "selkeää";
 	  else if(n2 >= c_single_limit)
-		sentence << "enimmäkseen" << "puolipilvistä";
+		c_sentence << "enimmäkseen" << "puolipilvistä";
 	  else if(n3 >= c_single_limit)
-		sentence << "enimmäkseen" << "pilvistä";
+		c_sentence << "enimmäkseen" << "pilvistä";
 	  else if(n1 < c_double_limit)
-		sentence << "enimmäkseen" << "pilvistä" << "tai" << "puolipilvistä";
+		c_sentence << "enimmäkseen" << "pilvistä" << "tai" << "puolipilvistä";
 	  else if(n3 < c_double_limit)
-		sentence << "enimmäkseen" << "selkeää" << "tai" << "puolipilvistä";
+		c_sentence << "enimmäkseen" << "selkeää" << "tai" << "puolipilvistä";
 	  else
-		sentence << "vaihtelevaa pilvisyyttä";
+		c_sentence << "vaihtelevaa pilvisyyttä";
 	}
 
-	// Append sentence on rain
+	// Sentence on rain
+
+	bool unstable_weather = false;
 
 	{
 	  typedef vector<WeatherResult> container;
@@ -220,9 +223,6 @@ namespace TextGen
 									r_maxstarthour,
 									r_minendhour);
 	  
-	  if(generator.size() >= 1)
-		sentence << Delimiter(",");
-
 	  WeatherPeriod last_rainy_period = generator.period(1);
 	  WeatherPeriod last_partly_rainy_period = generator.period(1);
 
@@ -263,22 +263,32 @@ namespace TextGen
 		}
 
 	  if(rainy_days == 0 && partly_rainy_days == 0)
-		sentence << "poutaa";
+		r_sentence << "poutaa";
 	  else if(rainy_days == 1 && partly_rainy_days == 1)
-		sentence << WeekdayTools::on_weekday(last_rainy_period.localStartTime())
+		r_sentence << WeekdayTools::on_weekday(last_rainy_period.localStartTime())
 				 << "sadetta";
 	  else if(rainy_days == 0 && partly_rainy_days == 1)
-		sentence << WeekdayTools::on_weekday(last_partly_rainy_period.localStartTime())
+		r_sentence << WeekdayTools::on_weekday(last_partly_rainy_period.localStartTime())
 				 << "paikoin"
 				 << "sadetta";
 	  else if(100*static_cast<float>(rainy_days)/days >= r_unstable)
-		sentence << "sää on epävakaista";
+		{
+		  r_sentence << "sää on epävakaista";
+		  unstable_weather = true;
+		}
 	  else
-		sentence << "ajoittain sateista";
+		r_sentence << "ajoittain sateista";
 
 	}
 
-	paragraph << sentence;
+	if(unstable_weather)
+	  paragraph << r_sentence;
+	else
+	  {
+		c_sentence << Delimiter(",") << r_sentence;
+		paragraph << c_sentence;
+	  }
+
 	return paragraph;
   }
 
