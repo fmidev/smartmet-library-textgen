@@ -182,7 +182,7 @@ namespace TextGen
 
 	const int severe_frost_value = round_to_precision(severefrost.value(),precision);
 
-	if(severe_frost_value > severelimit)
+	if(severe_frost_value >= severelimit)
 	  {
 		Number<int> val(severe_frost_value);
 		sentence << "ankaran hallan todennäköisyys"
@@ -190,7 +190,7 @@ namespace TextGen
 				 << val
 				 << Delimiter("%");
 	  }
-	else if(frost_value > normallimit)
+	else if(frost_value >= normallimit)
 	  {
 		Number<int> val(frost_value);
 		sentence << "hallan todennäköisyys"
@@ -258,7 +258,7 @@ namespace TextGen
 
 	const int severe_frost_value = round_to_precision(severefrost.value(),precision);
 
-	if(severe_frost_value > severelimit)
+	if(severe_frost_value >= severelimit)
 	  {
 		Number<int> val(severe_frost_value);
 		sentence << "ankaran hallan todennäköisyys"
@@ -266,7 +266,7 @@ namespace TextGen
 				 << val
 				 << Delimiter("%");
 	  }
-	else if(frost_value > normallimit)
+	else if(frost_value >= normallimit)
 	  {
 		Number<int> val(frost_value);
 		sentence << "hallan todennäköisyys"
