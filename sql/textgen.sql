@@ -1156,7 +1156,7 @@ INSERT INTO translation_sv VALUES ('enimmäkseen','mestadels',20030530120204,'mhe
 INSERT INTO translation_sv VALUES ('hirmumyrskyä','orkan',20030530120244,'mheiskan');
 INSERT INTO translation_sv VALUES ('hirmumyrskyksi','till orkan',20030611112202,'mheiskan');
 INSERT INTO translation_sv VALUES ('räntäsadetta','snö blandat regn',20030530120447,'mheiskan');
-INSERT INTO translation_sv VALUES ('edelleen','tillsvidare',20030530120805,'mheiskan');
+INSERT INTO translation_sv VALUES ('edelleen','fortfarande',20030611120738,'mheiskan');
 INSERT INTO translation_sv VALUES ('sääennuste','väderraport',20030604064107,'mheiskan');
 INSERT INTO translation_sv VALUES ('kello','klockan',20030604064113,'mheiskan');
 INSERT INTO translation_sv VALUES ('o\'clock','',20030604064118,'mheiskan');
