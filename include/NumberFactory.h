@@ -24,9 +24,13 @@
 
 namespace TextGen
 {
-  boost::shared_ptr<Glyph> create(int theNumber);
-  boost::shared_ptr<Glyph> create(int theLoLimit, int theHiLimit);
+  namespace NumberFactory
+  {
 
+	boost::shared_ptr<Glyph> create(int theNumber);
+	boost::shared_ptr<Glyph> create(int theLoLimit, int theHiLimit);
+
+  } // namespace NumberFactory
 } // namespace TextGen
 
 #endif // TEXTGEN_NUMBERFACTORY_H
