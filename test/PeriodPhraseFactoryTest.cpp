@@ -381,9 +381,9 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	string result;
 
-	REQUIRE(mode,var,ftime,period1,"fi","Sunnuntaina.");
-	REQUIRE(mode,var,ftime,period1,"sv","På söndagen.");
-	REQUIRE(mode,var,ftime,period1,"en","On Sunday.");
+	REQUIRE(mode,var,ftime,period1,"fi","Seuraavana päivänä.");
+	REQUIRE(mode,var,ftime,period1,"sv","Följande dag.");
+	REQUIRE(mode,var,ftime,period1,"en","The following day.");
 
 	REQUIRE(mode,var,ftime,period2,"fi","Huomenna.");
 	REQUIRE(mode,var,ftime,period2,"sv","I morgon.");
