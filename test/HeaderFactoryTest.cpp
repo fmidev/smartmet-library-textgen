@@ -204,7 +204,7 @@ namespace HeaderFactoryTest
 	result = require("fi",area,period,var,"Sääennuste Uudellemaalle sunnuntaina kello 6:");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"Väderraport för Nyland på söndag klockan 6:");
+	result = require("sv",area,period,var,"Väderraport för Nyland söndag klockan 6:");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period,var,"Weather report for Uusimaa on Sunday 6 o'clock:");

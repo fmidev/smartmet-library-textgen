@@ -131,28 +131,28 @@ namespace WeatherStoryTest
 	  NFmiSettings::instance().set("a::fake::day2::precipitation","0,1");
 	  NFmiSettings::instance().set("a::fake::day3::precipitation","0,1");
 	  require(story,"fi",fun,"Vaihtelevaa pilvisyyttä, sunnuntaina paikoin sadetta.");
-	  require(story,"sv",fun,"Växlande molnighet, på söndag lokalt regn.");
+	  require(story,"sv",fun,"Växlande molnighet, på söndagen lokalt regn.");
 	  require(story,"en",fun,"Variable cloudiness, on Sunday in some places rain.");
 
 	  NFmiSettings::instance().set("a::fake::day1::precipitation","2,1");
 	  NFmiSettings::instance().set("a::fake::day2::precipitation","0,1");
 	  NFmiSettings::instance().set("a::fake::day3::precipitation","0,1");
 	  require(story,"fi",fun,"Vaihtelevaa pilvisyyttä, sunnuntaina sadetta.");
-	  require(story,"sv",fun,"Växlande molnighet, på söndag regn.");
+	  require(story,"sv",fun,"Växlande molnighet, på söndagen regn.");
 	  require(story,"en",fun,"Variable cloudiness, on Sunday rain.");
 
 	  NFmiSettings::instance().set("a::fake::day1::precipitation","0,1");
 	  NFmiSettings::instance().set("a::fake::day2::precipitation","2,1");
 	  NFmiSettings::instance().set("a::fake::day3::precipitation","0,1");
 	  require(story,"fi",fun,"Vaihtelevaa pilvisyyttä, maanantaina sadetta.");
-	  require(story,"sv",fun,"Växlande molnighet, på måndag regn.");
+	  require(story,"sv",fun,"Växlande molnighet, på måndagen regn.");
 	  require(story,"en",fun,"Variable cloudiness, on Monday rain.");
 
 	  NFmiSettings::instance().set("a::fake::day1::precipitation","0.1,1");
 	  NFmiSettings::instance().set("a::fake::day2::precipitation","2,1");
 	  NFmiSettings::instance().set("a::fake::day3::precipitation","0,1");
 	  require(story,"fi",fun,"Vaihtelevaa pilvisyyttä, ajoittain sateista.");
-	  require(story,"sv",fun,"Växlande molnighet, tidvis regnig.");
+	  require(story,"sv",fun,"Växlande molnighet, tidvis regnigt.");
 	  require(story,"en",fun,"Variable cloudiness, intermittent rain.");
 
 	  NFmiSettings::instance().set("a::fake::day1::precipitation","2,1");
