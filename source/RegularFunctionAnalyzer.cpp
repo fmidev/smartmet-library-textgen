@@ -233,21 +233,17 @@ namespace WeatherAnalysis
 		return WeatherResult(result,error);
 
 	  }
-	else
-	  {
-		if(!(qi.Location(theArea.point())))
-		  throw WeatherAnalysisError("Could not set desired coordinate in "+dataname);
 
-		float result = QueryDataIntegrator::Integrate(qi,
-													  thePeriods,
-													  *subtimemod,
-													  *timemod);
-		
-		return WeatherResult(result,0);
+	if(!(qi.Location(theArea.point())))
+	  throw WeatherAnalysisError("Could not set desired coordinate in "+dataname);
 
-	  }
+	float result = QueryDataIntegrator::Integrate(qi,
+												  thePeriods,
+												  *subtimemod,
+												  *timemod);
+	
+	return WeatherResult(result,0);
 
-	return WeatherResult(kFloatMissing,0);
   }
 
 
