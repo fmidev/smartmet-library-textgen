@@ -142,6 +142,57 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test PrecipitationStory::sums()
+   */
+  // ----------------------------------------------------------------------
+
+  void precipitation_sums()
+  {
+	using namespace std;
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	WeatherArea area("dummy");
+	NFmiTime time1(2000,1,1);
+	NFmiTime time2(2000,1,3);
+	WeatherPeriod period(time1,time2);
+	PrecipitationStory story(time1,sources,area,period,"sums");
+
+	const string fun = "precipitation_sums";
+	string result;
+
+	NFmiSettings::Set("sums::mininterval","3");
+
+	NFmiSettings::Set("sums::fake::period1::minimum","0,0");
+	NFmiSettings::Set("sums::fake::period1::maximum","0,0");
+	NFmiSettings::Set("sums::fake::period1::mean","0,0");
+	NFmiSettings::Set("sums::fake::period2::minimum","0,0");
+	NFmiSettings::Set("sums::fake::period2::maximum","0,0");
+	NFmiSettings::Set("sums::fake::period2::mean","0,0");
+	REQUIRE(story,"fi",fun,"Seuraavan 24 tunnin sademäärä on 0 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman för de följande 24 timmar är 0 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation for the next 24 hours is 0 millimeters.");
+
+	NFmiSettings::Set("sums::fake::period2::minimum","5,0");
+	NFmiSettings::Set("sums::fake::period2::maximum","10,0");
+	NFmiSettings::Set("sums::fake::period2::mean","8,0");
+	REQUIRE(story,"fi",fun,"Ensimmäisen 12 tunnin sademäärä on 0 millimetriä, seuraavan 12 tunnin 5...10 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman för de första 12 timmar är 0 millimeter, för de följande 12 timmar 5...10 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation for the first 12 hours is 0 millimeters, for the following 12 hours 5...10 millimeters.");
+
+	NFmiSettings::Set("sums::fake::period1::minimum","0,0");
+	NFmiSettings::Set("sums::fake::period1::maximum","2,0");
+	NFmiSettings::Set("sums::fake::period1::mean","1,0");
+	REQUIRE(story,"fi",fun,"Ensimmäisen 12 tunnin sademäärä on noin 1 millimetriä, seuraavan 12 tunnin 5...10 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman för de första 12 timmar är cirka 1 millimeter, för de följande 12 timmar 5...10 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation for the first 12 hours is about 1 millimeters, for the following 12 hours 5...10 millimeters.");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Test PrecipitationStory::classification()
    */
   // ----------------------------------------------------------------------
@@ -406,6 +457,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  TEST(precipitation_total);
 	  TEST(precipitation_range);
 	  TEST(precipitation_classification);
+	  TEST(precipitation_sums);
 	  TEST(pop_twodays);
 	}
 

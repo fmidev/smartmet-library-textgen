@@ -73,6 +73,8 @@ namespace TextGen
 	  return true;
 	if(theName == "precipitation_classification")
 	  return true;
+	if(theName == "precipitation_sums")
+	  return true;
 	if(theName == "pop_twodays")
 	  return true;
 	return false;
@@ -97,6 +99,8 @@ namespace TextGen
 	  return range();
 	if(theName == "precipitation_classification")
 	  return classification();
+	if(theName == "precipitation_sums")
+	  return sums();
 	if(theName == "pop_twodays")
 	  return pop_twodays();
 
