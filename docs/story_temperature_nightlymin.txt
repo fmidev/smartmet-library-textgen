@@ -98,6 +98,28 @@ Jos intervallin pituus on vähintään \c mininterval, sanotaan intervalli,
 muuten keskiarvo. Poikkeuksena jos nolla kuuluu intervalliin ja
 \c always_interval_zero on true, sanotaan aina intervalli.
 
+Yön määritelmä saadaan muuttujista
+\code
+textgen::[kappale]::story::temperature_nightlymin::starthour = [0-23]
+textgen::[kappale]::story::temperature_nightlymin::endhour = [0-23]
+textgen::[kappale]::story::temperature_nightlymin::maxstarthour = [0-23]
+textgen::[kappale]::story::temperature_nightlymin::minendhour = [0-23]
+\endcode
+Yön normaali aikaväli on \c starthour - \c endhour. Jos periodi on
+lyhyempi kuin mitä nämä asetukset vaativat, voidaan niissä joustaa
+muuttujien \c maxstarthour - \c minendhour rajoissa. Joustorajan
+puuttuessa ei joustoa sallita ollenkaan.
+
+Määritelmät voivat olla esimerkiksi muotoa
+\code
+textgen::[kappale]::story::temperature_nightlymin::starthour    = 18
+textgen::[kappale]::story::temperature_nightlymin::endhour      = 06
+textgen::[kappale]::story::temperature_nightlymin::maxstarthour = 01
+\endcode
+Tällöin yön minimi kerrottaisiin aina kello yhteen saakka yöllä,
+vaikka jakso alkaakin jo edellisenä iltana kello 18. Loppupäästä sen
+sijaan tarvitsee harvemmin joustaa.
+
 Tarvittavat fraasit ovat
 
  - "yön alin lämpötila"

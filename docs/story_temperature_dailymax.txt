@@ -100,6 +100,28 @@ Jos intervallin pituus on vähintään \c mininterval, sanotaan intervalli,
 muuten keskiarvo. Poikkeuksena jos nolla kuuluu intervalliin ja
 \c always_interval_zero on true, sanotaan aina intervalli.
 
+Päivän määritelmä saadaan muuttujista
+\code
+textgen::[kappale]::story::temperature_dailymax::starthour = [0-23]
+textgen::[kappale]::story::temperature_dailymax::endhour = [0-23]
+textgen::[kappale]::story::temperature_dailymax::maxstarthour = [0-23]
+textgen::[kappale]::story::temperature_dailymax::minendhour = [0-23]
+\endcode
+Päivän normaali aikaväli on \c starthour - \c endhour. Jos periodi on
+lyhyempi kuin mitä nämä asetukset vaativat, voidaan niissä joustaa
+muuttujien \c maxstarthour - \c minendhour rajoissa. Joustorajan
+puuttuessa ei joustoa sallita ollenkaan.
+
+Määritelmät voivat olla esimerkiksi muotoa
+\code
+textgen::[kappale]::story::temperature_dailymax::starthour    = 6
+textgen::[kappale]::story::temperature_dailymax::endhour      = 18
+textgen::[kappale]::story::temperature_dailymax::maxstarthour = 12
+\endcode
+Tällöin päivän maksimi kerrottaisiin aina kello kahteentoista
+saakka, vaikka jakso alkaakin jo kello kuusi. Loppupäästä sen
+sijaan tarvitsee harvemmin joustaa.
+
 Tarvittavat fraasit ovat
 
  - "päivän ylin lämpötila"
