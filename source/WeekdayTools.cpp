@@ -6,6 +6,7 @@
 // ======================================================================
 
 #include "WeekdayTools.h"
+#include "TextGenError.h"
 #include "NFmiTime.h"
 #include "boost/lexical_cast.hpp"
 
@@ -83,6 +84,30 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Return the "N-aamuun" or "N-iltaan" phrase
+	 *
+	 * \param theTime The time
+	 * \return The phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	string until_weekday_time(const NFmiTime & theTime)
+	{
+	  const int hour = theTime.GetHour();
+	  if(hour == 6)
+		return until_weekday_morning(theTime);
+	  else if(hour == 18)
+		return until_weekday_evening(theTime);
+	  else
+		{
+		  const string msg = "WeekdayTools::until_weekday_time: Cannot generate -aamuun or -iltaan phrase for hour "+lexical_cast<int>(hour);
+		  throw TextGenError(msg);
+		}
+	}
+
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Return the "N-aamusta" phrase
 	 *
 	 * \param theTime The time
@@ -112,6 +137,30 @@ namespace TextGen
 						  +"-illasta");
 	  return out;
 	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return the "N-aamusta" or "N-illasta" phrase
+	 *
+	 * \param theTime The time
+	 * \return The phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	string from_weekday_time(const NFmiTime & theTime)
+	{
+	  const int hour = theTime.GetHour();
+	  if(hour == 6)
+		return from_weekday_morning(theTime);
+	  else if(hour == 18)
+		return from_weekday_evening(theTime);
+	  else
+		{
+		  const string msg = "WeekdayTools::from_weekday_time: Cannot generate -aamusta or -illasta phrase for hour "+lexical_cast<int>(hour);
+		  throw TextGenError(msg);
+		}
+	}
+
 
   } // namespace WeekdayTools
 } // namespace TextGen

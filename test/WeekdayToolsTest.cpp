@@ -200,6 +200,57 @@ namespace WeekdayToolsTest
 	TEST_PASSED();
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test WeekdayTools::until_weekday_time()
+   */
+  // ----------------------------------------------------------------------
+
+  void until_weekday_time()
+  {
+	using namespace TextGen;
+
+	if(WeekdayTools::until_weekday_time(NFmiTime(2003,6,1,6)) != "7-aamuun")
+	  TEST_FAILED("June 1 2003 06:00 should return '7-aamuun'");
+
+	if(WeekdayTools::until_weekday_time(NFmiTime(2003,6,1,18)) != "7-iltaan")
+	  TEST_FAILED("June 1 2003 18:00 should return '7-iltaan'");
+
+	try
+	  {
+		WeekdayTools::until_weekday_time(NFmiTime(2003,6,1));
+		TEST_FAILED("June 1 2003 00:00 should throw");
+	  }
+	catch(...)
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test WeekdayTools::from_weekday_time()
+   */
+  // ----------------------------------------------------------------------
+
+  void from_weekday_time()
+  {
+	using namespace TextGen;
+
+	if(WeekdayTools::from_weekday_time(NFmiTime(2003,6,1,6)) != "7-aamusta")
+	  TEST_FAILED("June 1 2003 06:00 should return '7-aamusta'");
+
+	if(WeekdayTools::from_weekday_time(NFmiTime(2003,6,1,18)) != "7-illasta")
+	  TEST_FAILED("June 1 2003 18:00 should return '7-illasta'");
+
+	try
+	  {
+		WeekdayTools::from_weekday_time(NFmiTime(2003,6,1));
+		TEST_FAILED("June 1 2003 00:00 should throw");
+	  }
+	catch(...)
+
+	TEST_PASSED();
+  }
 
   //! The actual test driver
   class tests : public tframe::tests
@@ -219,6 +270,8 @@ namespace WeekdayToolsTest
 	  TEST(until_weekday_evening);
 	  TEST(from_weekday_morning);
 	  TEST(from_weekday_evening);
+	  TEST(until_weekday_time);
+	  TEST(from_weekday_time);
 	}
 
   }; // class tests
