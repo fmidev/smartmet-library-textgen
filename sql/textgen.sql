@@ -1026,8 +1026,8 @@ INSERT INTO translation_sv VALUES ('päivän ylin lämpötila','dagens högsta temper
 INSERT INTO translation_sv VALUES ('yön alin lämpötila','nattens lägsta temperatur',20030526140732,'mheiskan');
 INSERT INTO translation_sv VALUES ('noin','cirka',20030526140819,'mheiskan');
 INSERT INTO translation_sv VALUES ('seuraavana päivänä','följande dag',20030611132651,'mheiskan');
-INSERT INTO translation_sv VALUES ('päivien ylin lämpötila','dagstemperaturerna',20030527112302,'mheiskan');
-INSERT INTO translation_sv VALUES ('öiden alin lämpötila','nattemperaturerna',20030611133805,'mheiskan');
+INSERT INTO translation_sv VALUES ('päivien ylin lämpötila','dagens maximi temperaturer',20030611140340,'mheiskan');
+INSERT INTO translation_sv VALUES ('öiden alin lämpötila','nattens minimi temperaturer',20030611140502,'mheiskan');
 INSERT INTO translation_sv VALUES ('aluksi','i början',20030527112321,'mheiskan');
 INSERT INTO translation_sv VALUES ('lopuksi','i slutet',20030527112326,'mheiskan');
 INSERT INTO translation_sv VALUES ('päivälämpötila','dagstemperaturen',20030527112401,'mheiskan');
