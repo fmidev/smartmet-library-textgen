@@ -56,9 +56,9 @@ namespace WeatherAnalysis
    * theSubCalculator is ignored.
    *
    * \param theSources Analysis sources
-   * \param theLimits Analysis limits, not used
    * \param thePeriod Analysis period
    * \param theArea Analysis area
+   * \param theAcceptor The data acceptor
    * \param theDataName The name of the data file
    * \param theParameterName The name of the parameter
    * \param theInterval The sub interval in hours
@@ -69,9 +69,9 @@ namespace WeatherAnalysis
 
   WeatherResult
   RegularFunctionAnalyzer::analyze(const AnalysisSources & theSources,
-								   const WeatherLimits & theLimits,
 								   const WeatherPeriod & thePeriod,
 								   const WeatherArea & theArea,
+								   const Acceptor & theAcceptor,
 								   const std::string & theDataName,
 								   const std::string & theParameterName,
 								   int theInterval,

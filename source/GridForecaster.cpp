@@ -6,9 +6,9 @@
 // ======================================================================
 
 #include "GridForecaster.h"
+#include "Acceptor.h"
 #include "AnalysisSources.h"
 #include "WeatherArea.h"
-#include "WeatherLimits.h"
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
 
@@ -28,7 +28,7 @@ namespace WeatherAnalysis
    * \param theParameter The weather phenomenon to analyze
    * \param theAreaFunction The area function
    * \param theTimeFunction The time function
-   * \param theLimits The associated limits
+   * \param theAcceptor The weather data acceptor
    * \param thePeriod The time period to analyze
    * \param theArea The name of the area to analyze
    * \return The result of the analysis
@@ -40,9 +40,9 @@ namespace WeatherAnalysis
 						  const WeatherParameter & theParameter,
 						  const WeatherFunction & theAreaFunction,
 						  const WeatherFunction & theTimeFunction,
-						  const WeatherLimits & theLimits,
 						  const WeatherPeriod & thePeriod,
-						  const WeatherArea & theArea) const
+						  const WeatherArea & theArea,
+						  const Acceptor & theAcceptor) const
   {
 	switch(theParameter)
 	  {
@@ -52,9 +52,9 @@ namespace WeatherAnalysis
 		  return analyzer.analyze(theSources,
 								  theAreaFunction,
 								  theTimeFunction,
-								  theLimits,
 								  thePeriod,
-								  theArea);
+								  theArea,
+								  theAcceptor);
 		}
 	  case MaxTemperature:
 		{
@@ -62,9 +62,9 @@ namespace WeatherAnalysis
 		  return analyzer.analyze(theSources,
 								  theAreaFunction,
 								  theTimeFunction,
-								  theLimits,
 								  thePeriod,
-								  theArea);
+								  theArea,
+								  theAcceptor);
 		}
 	  case MinTemperature:
 		{
@@ -72,9 +72,9 @@ namespace WeatherAnalysis
 		  return analyzer.analyze(theSources,
 								  theAreaFunction,
 								  theTimeFunction,
-								  theLimits,
 								  thePeriod,
-								  theArea);
+								  theArea,
+								  theAcceptor);
 		}
 	  case Precipitation:
 		{
@@ -82,9 +82,9 @@ namespace WeatherAnalysis
 		  return analyzer.analyze(theSources,
 								  theAreaFunction,
 								  theTimeFunction,
-								  theLimits,
 								  thePeriod,
-								  theArea);
+								  theArea,
+								  theAcceptor);
 		}
 
 	  case Pressure:

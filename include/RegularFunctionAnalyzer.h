@@ -41,9 +41,9 @@ namespace WeatherAnalysis
 							const WeatherFunction & theTimeFunction);
 
 	virtual WeatherResult analyze(const AnalysisSources & theSources,
-								  const WeatherLimits & theLimits,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea,
+								  const Acceptor & theAcceptor,
 								  const std::string & theDataName,
 								  const std::string & theParameterName,
 								  int theInterval,

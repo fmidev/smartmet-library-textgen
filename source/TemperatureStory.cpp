@@ -6,13 +6,13 @@
 // ======================================================================
 
 #include "TemperatureStory.h"
+#include "DefaultAcceptor.h"
 #include "GridForecaster.h"
 #include "Number.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "TextGenError.h"
 #include "WeatherFunction.h"
-#include "WeatherLimits.h"
 #include "WeatherParameter.h"
 #include "WeatherResult.h"
 
@@ -117,9 +117,9 @@ namespace TextGen
 											  Temperature,
 											  Mean,
 											  Mean,
-											  WeatherLimits(),
 											  itsPeriod,
-											  itsArea);
+											  itsArea,
+											  DefaultAcceptor());
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean temperature not available");
@@ -155,9 +155,9 @@ namespace TextGen
 											  MaxTemperature,
 											  Mean,
 											  Mean,
-											  WeatherLimits(),
 											  itsPeriod,
-											  itsArea);
+											  itsArea,
+											  DefaultAcceptor());
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean daily maximum temperature not available");
@@ -192,9 +192,9 @@ namespace TextGen
 											  MinTemperature,
 											  Mean,
 											  Mean,
-											  WeatherLimits(),
 											  itsPeriod,
-											  itsArea);
+											  itsArea,
+											  DefaultAcceptor());
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean daily minimum temperature not available");

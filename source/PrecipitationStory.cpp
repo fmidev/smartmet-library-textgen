@@ -6,14 +6,15 @@
 // ======================================================================
 
 #include "PrecipitationStory.h"
+#include "DefaultAcceptor.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "NumberRange.h"
 #include "Paragraph.h"
+#include "RangeAcceptor.h"
 #include "Sentence.h"
 #include "TextGenError.h"
 #include "WeatherFunction.h"
-#include "WeatherLimits.h"
 #include "WeatherResult.h"
 
 #include "NFmiSettings.h"
@@ -199,9 +200,9 @@ namespace TextGen
 											  Precipitation,
 											  Mean,
 											  Sum,
-											  WeatherLimits(),
 											  itsPeriod,
-											  itsArea);
+											  itsArea,
+											  DefaultAcceptor());
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Total precipitation not available");
@@ -242,17 +243,17 @@ namespace TextGen
 												 Precipitation,
 												 Minimum,
 												 Sum,
-												 WeatherLimits(),
 												 itsPeriod,
-												 itsArea);
+												 itsArea,
+												 DefaultAcceptor());
 
 	WeatherResult maxresult = forecaster.analyze(itsSources,
 												 Precipitation,
 												 Maximum,
 												 Sum,
-												 WeatherLimits(),
 												 itsPeriod,
-												 itsArea);
+												 itsArea,
+												 DefaultAcceptor());
 
 	if(minresult.value() == kFloatMissing ||
 	   maxresult.value() == kFloatMissing)
@@ -321,32 +322,32 @@ namespace TextGen
 	const NFmiSettings & settings = NFmiSettings::instance();
 
 	// Common limits for all intergals
-	WeatherLimits limits;
+	DefaultAcceptor acceptor;
 
 	// Gather the results
 	WeatherResult minresult = forecaster.analyze(itsSources,
 												 Precipitation,
 												 Minimum,
 												 Sum,
-												 limits,
 												 itsPeriod,
-												 itsArea);
+												 itsArea,
+												 acceptor);
 
 	WeatherResult meanresult = forecaster.analyze(itsSources,
 												  Precipitation,
 												  Mean,
 												  Sum,
-												  limits,
 												  itsPeriod,
-												  itsArea);
+												  itsArea,
+												  acceptor);
 	
 	WeatherResult maxresult = forecaster.analyze(itsSources,
 												 Precipitation,
 												 Maximum,
 												 Sum,
-												 limits,
 												 itsPeriod,
-												 itsArea);
+												 itsArea,
+												 acceptor);
 
 	// Check for invalid results
 	if(minresult.value() == kFloatMissing ||
@@ -386,16 +387,16 @@ namespace TextGen
 
 		if(minresult.value() < maxrainlimit)
 		  {
-			WeatherLimits limits;
+			RangeAcceptor limits;
 			limits.lowerLimit(maxrainlimit);
 
 			WeatherResult probresult = forecaster.analyze(itsSources,
 														  Precipitation,
 														  Percentage,
 														  Sum,
-														  limits,
 														  itsPeriod,
-														  itsArea);
+														  itsArea,
+														  DefaultAcceptor());
 
 			int limit1 = -1;
 			int limit2 = -2;
@@ -465,16 +466,16 @@ namespace TextGen
 
 		int phrase = 1;
 
-		WeatherLimits limits;
+		RangeAcceptor limits;
 		limits.lowerLimit(hilimit);
 
 		WeatherResult probresult = forecaster.analyze(itsSources,
 													  Precipitation,
 													  Percentage,
 													  Sum,
-													  limits,
 													  itsPeriod,
-													  itsArea);
+													  itsArea,
+													  DefaultAcceptor());
 		int limit1 = -1;
 		int limit2 = -2;
 			

@@ -22,14 +22,9 @@
 
 namespace WeatherAnalysis
 {
-  class WeatherLimits;
-
   namespace CalculatorFactory
   {
 	boost::shared_ptr<Calculator> create(WeatherFunction theFunction);
-
-	boost::shared_ptr<Calculator> create(WeatherFunction theFunction,
-										 const WeatherLimits & theLimits);
 
   } // namespace CalculatorFactory
 } // namespace WeatherAnalysis

@@ -24,9 +24,9 @@ namespace WeatherAnalysis
    * \param theSources Analysis sources
    * \param theAreaFunction The area function to analyze
    * \param theTimeFunction The time function to analyze
-   * \param theLimits The optional limits for the function
    * \param thePeriod The time period
    * \param theArea The area
+   * \param theAcceptor The acceptor for data
    */
   // ----------------------------------------------------------------------
   
@@ -34,9 +34,9 @@ namespace WeatherAnalysis
   MaxTemperatureAnalyzer::analyze(const AnalysisSources & theSources,
 								  const WeatherFunction & theAreaFunction,
 								  const WeatherFunction & theTimeFunction,
-								  const WeatherLimits & theLimits,
 								  const WeatherPeriod & thePeriod,
-								  const WeatherArea & theArea) const
+								  const WeatherArea & theArea,
+								  const Acceptor & theAcceptor) const
   {
 	const string varname = "textgen::temperature_forecast";
 	const string parname = "Temperature";
@@ -46,7 +46,7 @@ namespace WeatherAnalysis
 	MaximumCalculator maxcalculator;
 	const int one_day = 24;
 
-	return analyzer->analyze(theSources,theLimits,thePeriod,theArea,
+	return analyzer->analyze(theSources,thePeriod,theArea,theAcceptor,
 							 varname,parname,
 							 one_day,maxcalculator);
   }

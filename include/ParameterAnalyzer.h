@@ -19,9 +19,9 @@
 
 namespace WeatherAnalysis
 {
+  class Acceptor;
   class AnalysisSources;
   class WeatherArea;
-  class WeatherLimits;
   class WeatherPeriod;
   class WeatherResult;
 
@@ -34,9 +34,9 @@ namespace WeatherAnalysis
 	virtual WeatherResult analyze(const AnalysisSources & theSources,
 								  const WeatherFunction & theAreaFunction,
 								  const WeatherFunction & theTimeFunction,
-								  const WeatherLimits & theLimits,
 								  const WeatherPeriod & thePeriod,
-								  const WeatherArea & theArea) const = 0;
+								  const WeatherArea & theArea,
+								  const Acceptor & theAcceptor) const = 0;
   }; // class ParameterAnalyzer
 
 } // namespace WeatherAnalysis

@@ -23,26 +23,26 @@ namespace WeatherAnalysis
    * \param theSources Analysis sources
    * \param theAreaFunction The area function to analyze
    * \param theTimeFunction The time function to analyze
-   * \param theLimits The optional limits for the function
    * \param thePeriod The time period
    * \param theArea The area
+   * \param theAcceptor The acceptor for data
    */
   // ----------------------------------------------------------------------
   
   WeatherResult
   PrecipitationAnalyzer::analyze(const AnalysisSources & theSources,
-							   const WeatherFunction & theAreaFunction,
-							   const WeatherFunction & theTimeFunction,
-								 const WeatherLimits & theLimits,
+								 const WeatherFunction & theAreaFunction,
+								 const WeatherFunction & theTimeFunction,
 								 const WeatherPeriod & thePeriod,
-								 const WeatherArea & theArea) const
+								 const WeatherArea & theArea,
+								 const Acceptor & theAcceptor) const
   {
 	const string varname = "textgen::precipitation_forecast";
 	const string parname = "Precipitation1h";
 
 	auto_ptr<FunctionAnalyzer> analyzer(new RegularFunctionAnalyzer(theAreaFunction,theTimeFunction));
 
-	return analyzer->analyze(theSources,theLimits,thePeriod,theArea,
+	return analyzer->analyze(theSources,thePeriod,theArea,theAcceptor,
 							 varname,parname);
 
   }

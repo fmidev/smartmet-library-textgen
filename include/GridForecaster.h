@@ -24,9 +24,9 @@
 
 namespace WeatherAnalysis
 {
+  class Acceptor;
   class AnalysisSources;
   class WeatherArea;
-  class WeatherLimits;
   class WeatherPeriod;
   class WeatherResult;
 
@@ -38,9 +38,9 @@ namespace WeatherAnalysis
 								  const WeatherParameter & theParameter,
 								  const WeatherFunction & theAreaFunction,
 								  const WeatherFunction & theTimeFunction,
-								  const WeatherLimits & theLimits,
 								  const WeatherPeriod & thePeriod,
-								  const WeatherArea & theArea) const;
+								  const WeatherArea & theArea,
+								  const Acceptor & theAcceptor) const;
 
   }; // class GridForecaster
 

@@ -21,7 +21,6 @@
 
 #include "WeatherArea.h"
 #include "WeatherFunction.h"
-#include "WeatherLimits.h"
 #include "WeatherParameter.h"
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
@@ -40,15 +39,13 @@ namespace WeatherAnalysis
 				WeatherFunction theFunction,
 				const WeatherPeriod & thePeriod,
 				const WeatherArea & theArea,
-				const WeatherResult & theResult,
-				const WeatherLimits & theLimits = WeatherLimits());
+				const WeatherResult & theResult);
 
 	WeatherParameter parameter() const;
 	WeatherFunction function() const;
 	const WeatherPeriod & period() const;
 	const WeatherArea & area() const;
 	const WeatherResult & result() const;
-	const WeatherLimits & limits() const;
 
   private:
 
@@ -59,7 +56,6 @@ namespace WeatherAnalysis
 	WeatherPeriod itsPeriod;
 	WeatherArea itsArea;
 	WeatherResult itsResult;
-	WeatherLimits itsLimits;
 
   }; // class WeatherFact
 

@@ -43,7 +43,7 @@ namespace WeatherAnalysis
 		if(itsCounter == 0)
 		  itsMinimum = theValue;
 		else
-		  itsMinimum = std::max(itsMinimum,theValue);
+		  itsMinimum = std::min(itsMinimum,theValue);
 		++itsCounter;
 	  }
   }

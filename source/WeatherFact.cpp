@@ -34,7 +34,6 @@ namespace WeatherAnalysis
 	, itsPeriod(theFact.itsPeriod)
 	, itsArea(theFact.itsArea)
 	, itsResult(theFact.itsResult)
-	, itsLimits(theFact.itsLimits)
   {
   }
 
@@ -47,7 +46,6 @@ namespace WeatherAnalysis
    * \param thePeriod The weather analysis period
    * \param theArea The weather analysis area
    * \param theResult The weather analysis result
-   * \param theLimits The weather analysis limits
    */
   // ----------------------------------------------------------------------
 
@@ -55,14 +53,12 @@ namespace WeatherAnalysis
 						   WeatherFunction theFunction,
 						   const WeatherPeriod & thePeriod,
 						   const WeatherArea & theArea,
-						   const WeatherResult & theResult,
-						   const WeatherLimits & theLimits)
+						   const WeatherResult & theResult)
 	: itsParameter(theParameter)
 	, itsFunction(theFunction)
 	, itsPeriod(thePeriod)
 	, itsArea(theArea)
 	, itsResult(theResult)
-	, itsLimits(theLimits)
   {
   }
 
@@ -84,7 +80,6 @@ namespace WeatherAnalysis
 		itsPeriod = theFact.itsPeriod;
 		itsArea = theFact.itsArea;
 		itsResult = theFact.itsResult;
-		itsLimits = theFact.itsLimits;
 	  }
 	return *this;
   }
@@ -154,19 +149,6 @@ namespace WeatherAnalysis
 	return itsResult;
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Limits accessor
-   *
-   * \return The weather analysis limits
-   */
-  // ----------------------------------------------------------------------
-
-  const WeatherLimits & WeatherFact::limits() const
-  {
-	return itsLimits;
-  }
-
 } // namespace WeatherAnalysis
 
 // ----------------------------------------------------------------------
@@ -186,8 +168,7 @@ bool operator==(const WeatherAnalysis::WeatherFact & theLhs,
 		  theLhs.function() == theRhs.function() &&
 		  theLhs.period() == theRhs.period() &&
 		  theLhs.area() == theRhs.area() &&
-		  theLhs.result() == theRhs.result() &&
-		  theLhs.limits() == theRhs.limits());
+		  theLhs.result() == theRhs.result());
 }
 
 // ----------------------------------------------------------------------

@@ -7,10 +7,10 @@
 
 #include "FunctionAnalyzer.h"
 
+#include "Acceptor.h"
 #include "AnalysisSources.h"
 #include "NullCalculator.h"
 #include "WeatherArea.h"
-#include "WeatherLimits.h"
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
 
@@ -21,10 +21,10 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Regular analyzis interface
+   * \brief Regular analysis interface
    *
    * \param theSources The analysis sources
-   * \param theLimits The analysis limits
+   * \param theAcceptor The data acceptor
    * \param thePeriod The analysis period
    * \param theArea The analysis area
    * \param theDataName The name of the data
@@ -35,9 +35,9 @@ namespace WeatherAnalysis
 
   WeatherResult
   FunctionAnalyzer::analyze(const AnalysisSources & theSources,
-							const WeatherLimits & theLimits,
 							const WeatherPeriod & thePeriod,
 							const WeatherArea & theArea,
+							const Acceptor & theAcceptor,
 							const string & theDataName,
 							const string & theParameterName) const
   {
@@ -46,9 +46,9 @@ namespace WeatherAnalysis
 
 	// The 0-interval implies the interval is meaningless, and hence dummy
 	return analyze(theSources,
-				   theLimits,
 				   thePeriod,
 				   theArea,
+				   theAcceptor,
 				   theDataName,
 				   theParameterName,
 				   0,
