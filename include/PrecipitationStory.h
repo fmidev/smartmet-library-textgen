@@ -39,6 +39,7 @@ namespace TextGen
   private:
 
 	Paragraph total(void) const;
+	Paragraph range(void) const;
 
 	PrecipitationStory();
 	PrecipitationStory(const PrecipitationStory & theStory);
