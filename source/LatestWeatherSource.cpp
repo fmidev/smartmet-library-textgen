@@ -69,11 +69,11 @@ namespace
 	  return queryname;
 
 	if(!DirectoryExists(queryname))
-	  throw WeatherAnalysisError("No directory named "+queryname+" containing querydata found");
+	  throw WeatherAnalysisError("No directory named '"+queryname+"' containing querydata found");
 
 	string newestfile = NewestFile(queryname);
 	if(newestfile.empty())
-	  throw WeatherAnalysisError("Directory "+queryname+" does not contain any querydata");
+	  throw WeatherAnalysisError("Directory '"+queryname+"' does not contain any querydata");
 
 	string fullname = queryname;
 	const char lastchar = fullname[fullname.size()-1];
