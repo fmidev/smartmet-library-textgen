@@ -6,34 +6,13 @@
 // ======================================================================
 
 #include "UserWeatherSource.h"
+#include "IdGenerator.h"
 #include "NFmiQueryData.h"
 #include <cassert>
 #include <map>
 #include <stdexcept>
 
 using namespace std;
-
-namespace
-{
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief ID number generator
-   *
-   * The assumption here is that we never really need so many IDs
-   * that long would not be sufficient to guarantee uniqueness.
-   *
-   * \return The next free ID
-   */
-  // ----------------------------------------------------------------------
-
-  long id_generator()
-  {
-	static long id;
-	return ++id;
-  }
-
-}
 
 namespace WeatherAnalysis
 {
@@ -128,7 +107,7 @@ namespace WeatherAnalysis
 	}
 
 	{
-	  long id = id_generator();
+	  long id = IdGenerator::generate();
 	  typedef Pimple::id_container_type::value_type value_type;
 	  itsPimple->itsIdData.insert(value_type(theName,id));
 	}

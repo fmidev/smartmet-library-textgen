@@ -6,6 +6,7 @@
 // ======================================================================
 
 #include "LatestWeatherSource.h"
+#include "IdGenerator.h"
 #include "NFmiFileSystem.h"
 #include "NFmiQueryData.h"
 #include "NFmiSettings.h"
@@ -17,24 +18,6 @@ using namespace std;
 
 namespace
 {
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief ID number generator
-   *
-   * The assumption here is that we never really need so many IDs
-   * that long would not be sufficient to guarantee uniqueness.
-   *
-   * \return The next free ID
-   */
-  // ----------------------------------------------------------------------
-
-  long id_generator()
-	{
-	  static long id;
-	  return ++id;
-	}
-
   // ----------------------------------------------------------------------
   /*!
    * \brief Cached query data container
@@ -167,7 +150,7 @@ namespace WeatherAnalysis
 	in.close();
 
 	WeatherDataStruct newdata;
-	newdata.itsId = id_generator();
+	newdata.itsId = IdGenerator::generate();
 	newdata.itsTime = modtime;
 	newdata.itsFilename = filename;
 	newdata.itsData = data;
