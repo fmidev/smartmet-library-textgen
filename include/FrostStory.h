@@ -44,6 +44,7 @@ namespace TextGen
 
 	Paragraph mean() const;
 	Paragraph maximum() const;
+	Paragraph range() const;
 	Paragraph maxtwonights() const;
 
 	FrostStory();
