@@ -30,6 +30,7 @@
 #include "PrecipitationProbabilityAnalyzer.h"
 #include "PrecipitationTypeAnalyzer.h"
 #include "RelativeHumidityAnalyzer.h"
+#include "RoadConditionAnalyzer.h"
 #include "RoadTemperatureAnalyzer.h"
 #include "SevereFrostAnalyzer.h"
 #include "TemperatureAnalyzer.h"
@@ -85,6 +86,8 @@ namespace WeatherAnalysis
 		  return ReturnType(new PrecipitationProbabilityAnalyzer);
 		case RoadTemperature:
 		  return ReturnType(new RoadTemperatureAnalyzer);
+		case RoadCondition:
+		  return ReturnType(new RoadConditionAnalyzer);
 	  }
 
 	  // Should never reach this place
