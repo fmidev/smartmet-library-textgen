@@ -24,6 +24,28 @@ using namespace std;
 namespace TextGen
 {
 
+  namespace
+  {
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief The various road conditions
+	 */
+	// ----------------------------------------------------------------------
+
+	enum RoadCondition
+	  {
+		DRY,
+		MOIST,
+		WET,
+		SLUSH,
+		FROST,
+		PARTLY_ICY,
+		ICY,
+		SNOW
+	  };
+
+  }
+
   // ----------------------------------------------------------------------
   /*!
    * \brief Generate story on road conditions
