@@ -457,7 +457,7 @@ namespace TextGen
 
 	  const string var = theVariable + "::days::phrases";
 	  string preferences = Settings::optional_string(var,"");
-
+	  
 	  HourPeriodGenerator hours(thePeriod,theVariable);
 	  const int ndays = hours.size();
 
