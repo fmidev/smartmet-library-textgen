@@ -43,7 +43,7 @@ namespace TextGen
 
 	enum RoadConditionType
 	  {
-		DRY,
+		DRY = 1,
 		MOIST,
 		WET,
 		SLUSH,
@@ -53,7 +53,8 @@ namespace TextGen
 		SNOW
 	  };
 
-	const int different_conditions = SNOW+1;
+	const int min_condition = DRY;
+	const int max_condition = SNOW;
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -113,17 +114,17 @@ namespace TextGen
 	  { }
 
 	  ConditionPercentages()
-		: itsPercentages(different_conditions,0)
+		: itsPercentages(max_condition-min_condition+1,0)
 	  { }
 
 	  const double & operator[](int i) const
 	  {
-		return itsPercentages[i];
+		return itsPercentages[i-1];
 	  }
 
 	  double & operator[](int i)
 	  {
-		return itsPercentages[i];
+		return itsPercentages[i-1];
 	  }
 
 	private:
@@ -152,7 +153,7 @@ namespace TextGen
 	  GridForecaster forecaster;
 
 	  ConditionPercentages percentages;
-	  for(int i=0; i<different_conditions; i++)
+	  for(int i=min_condition; i<=max_condition; i++)
 		{
 		  const RoadConditionType c = RoadConditionType(i);
 
@@ -195,8 +196,8 @@ namespace TextGen
 	RoadConditionType
 	find_most_general_condition(const ConditionPercentages & thePercentages)
 	{
-	  int ibest = 0;
-	  for(int i=1; i<different_conditions; i++)
+	  int ibest = min_condition;
+	  for(int i=min_condition+1; i<=max_condition; i++)
 		{
 		  if(thePercentages[i] > thePercentages[ibest])
 			ibest = i;
@@ -455,7 +456,7 @@ namespace TextGen
 
 	  map<int,RoadConditionType> someplacestypes;
 
-	  for(int i=0; i<different_conditions; i++)
+	  for(int i=min_condition; i<=max_condition; i++)
 		{
 		  const RoadConditionType condition = RoadConditionType(i);
 		  
