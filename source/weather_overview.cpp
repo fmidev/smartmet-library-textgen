@@ -108,13 +108,13 @@ namespace TextGen
 					  break;
 				  }
 				
-				WeatherPeriod cloudyperiod(generator.period(day).localStartTime(),
+				WeatherPeriod period(generator.period(day).localStartTime(),
 										   generator.period(day2).localEndTime());
 				
 				CloudinessStory story(itsForecastTime,
 									  itsSources,
 									  itsArea,
-									  cloudyperiod,
+									  period,
 									  itsVar);
 				paragraph << story.makeStory("cloudiness_overview");
 				day = day2;
