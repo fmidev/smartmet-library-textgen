@@ -25,6 +25,7 @@
 <li>\ref sec_weatherstory</li>
  <ol>
  <li>\ref page_story_weather_shortoverview (olomuoto toteuttamatta)</li>
+ <li>\ref page_story_weather_thunderprobability</li>
  </ol>
 <li>\ref sec_windstory</li>
  <ol>
