@@ -50,6 +50,11 @@ namespace TextGen
 								   const std::string & theVar,
 								   int theDay);
 
+	const Sentence sum_phrase(int theMinimum,
+							  int theMaximum,
+							  int theMean,
+							  int theMinInterval);
+
   } // namespace PrecipitationStoryTools
 } // namespace TextGen
 

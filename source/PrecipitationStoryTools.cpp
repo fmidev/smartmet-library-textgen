@@ -19,11 +19,14 @@
 #include "PrecipitationStoryTools.h"
 #include "AnalysisSources.h"
 #include "GridForecaster.h"
+#include "Integer.h"
+#include "IntegerRange.h"
 #include "MessageLogger.h"
 #include "RangeAcceptor.h"
 #include "Settings.h"
 #include "Sentence.h"
 #include "TextGenError.h"
+#include "UnitFactory.h"
 #include "ValueAcceptor.h"
 #include "WeatherResult.h"
 
@@ -502,6 +505,45 @@ namespace TextGen
 	  return s;
 	
 	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Generate a sum phrase from sum values
+	 *
+	 * \param theMinimum The minimum rain sum
+	 * \param theMaximum The maximum rain sum
+	 * \param theMean The mean rain sum
+	 * \param theMinInterval The minimum allowed interval
+	 * \return The sum phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	const Sentence sum_phrase(int theMinimum,
+							  int theMaximum,
+							  int theMean,
+							  int theMinInterval)
+	{
+	  Sentence sentence;
+	  
+	  if(theMinimum==0 && theMaximum==0)
+		{
+		  sentence << 0;
+		}
+	  else if(theMaximum-theMinimum < theMinInterval && theMean!=0)
+		{
+		  sentence << "noin" << theMean;
+		}
+	  else
+		{
+		  sentence << IntegerRange(theMinimum,theMaximum);
+		}
+
+	  sentence << *UnitFactory::create(Millimeters);
+
+	  return sentence;
+
+	}
+
 
   } // namespace PrecipitationStoryTools
 } // namespace TextGen

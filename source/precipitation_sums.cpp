@@ -8,10 +8,9 @@
 #include "PrecipitationStory.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
-#include "Integer.h"
-#include "IntegerRange.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
+#include "PrecipitationStoryTools.h"
 #include "RangeAcceptor.h"
 #include "Sentence.h"
 #include "Settings.h"
@@ -121,33 +120,25 @@ namespace TextGen
 	  {
 		sentence << "seuraavan 24 tunnin sademäärä"
 				 << "on"
-				 << 0
-				 << *UnitFactory::create(Millimeters);
+				 << PrecipitationStoryTools::sum_phrase(0,
+														0,
+														0,
+														mininterval);
 	  }
 	else
 	  {
 		sentence << "ensimmäisen 12 tunnin sademäärä"
-				 << "on";
-		if(maxima[0]-minima[0] < mininterval && means[0]!=0)
-		  {
-			if(means[0] > 0)
-			  sentence << "noin";
-			sentence << Integer(means[0]);
-		  }
-		else
-		  sentence << IntegerRange(minima[0],maxima[0]);
-		sentence << *UnitFactory::create(Millimeters)
+				 << "on"
+				 << PrecipitationStoryTools::sum_phrase(minima[0],
+														maxima[0],
+														means[0],
+														mininterval)
 				 << Delimiter(",")
-				 << "seuraavan 12 tunnin";
-		if(maxima[1]-minima[1] < mininterval && means[0]!=0)
-		  {
-			if(means[1] > 0)
-			  sentence << "noin";
-			sentence << Integer(means[1]);
-		  }
-		else
-		  sentence << IntegerRange(minima[1],maxima[1]);
-		sentence << *UnitFactory::create(Millimeters);
+				 << "seuraavan 12 tunnin"
+				 << PrecipitationStoryTools::sum_phrase(minima[1],
+														maxima[1],
+														means[1],
+														mininterval);
 	  }
 
 	paragraph << sentence;
