@@ -10,8 +10,11 @@
 #include "WeatherPeriod.h"
 #include "TextGenError.h"
 
-using namespace WeatherAnalysis;
+#include "boost/lexical_cast.hpp"
 
+using namespace WeatherAnalysis;
+using namespace std;
+using namespace boost;
 
 // ======================================================================
 //				IMPLEMENTATION HIDING FUNCTIONS
@@ -36,6 +39,19 @@ namespace
   {
 	using namespace TextGen;
 	Header header;
+
+	header << "odotettavissa";
+
+	const int endhour = thePeriod.localEndTime().GetHour();
+	string tmp = lexical_cast<string>(thePeriod.localEndTime().GetWeekday());
+	if(endhour == 6)
+	  tmp += "-aamuun asti";
+	else if(endhour == 18)
+	  tmp += "-iltaan asti";
+	else
+	  throw TextGenError("HeaderFactory: header_until end time must be 06 or 18");
+	header << tmp;
+
 	return header;
   }
 
@@ -55,6 +71,32 @@ namespace
   {
 	using namespace TextGen;
 	Header header;
+
+	const int starthour = thePeriod.localStartTime().GetHour();
+	const int endhour = thePeriod.localEndTime().GetHour();
+
+	header << "odotettavissa";
+
+	string tmp = lexical_cast<string>(thePeriod.localStartTime().GetWeekday());
+	if(starthour == 6)
+	  tmp += "-aamusta";
+	else if(starthour == 18)
+	  tmp += "-illasta";
+	else
+	  throw TextGenError("HeaderFactory: header_from_until start time must be 06 or 18");
+
+	header << tmp;
+
+	tmp = lexical_cast<string>(thePeriod.localEndTime().GetWeekday());
+	if(endhour == 6)
+	  tmp += "-aamuun";
+	else if(endhour == 18)
+	  tmp += "-iltaan";
+	else
+	  throw TextGenError("HeaderFactory: header_from_until end time must be 06 or 18");
+
+	header << tmp;
+
 	return header;
   }
 
@@ -62,7 +104,7 @@ namespace
   /*!
    * \brief Return header of type "Odotettavissa seuraavan viiden vuorokauden aikana"
    *
-   * The given weather period is not used at the moment.
+   * The period start time must be 06 or 18.
    *
    * \param thePeriod The weather period
    * \return The header
@@ -73,6 +115,21 @@ namespace
   {
 	using namespace TextGen;
 	Header header;
+
+	const int starthour = thePeriod.localStartTime().GetHour();
+
+	string tmp = lexical_cast<string>(thePeriod.localStartTime().GetWeekday());
+
+	if(starthour == 6)
+	  tmp += "-aamusta alkavan";
+	else if(starthour == 18)
+	  tmp += "-illasta alkavan";
+	else
+	  throw TextGenError("HeaderFactory:: header_five_days start time must be 06 or 18");
+
+	header << tmp;
+	header << "alkavan 5vrkn sää";
+
 	return header;
   }
 
