@@ -412,10 +412,14 @@ Tarina valitaan perustuen muuttujiin
 \code
 textgen::[kappale]::story::frost_maxtwonights::severe_frost_limit = [0-100]
 textgen::[kappale]::story::frost_maxtwonights::frost_limit = [0-100]
+textgen::[kappale]::story::frost_maxtwonights::precision = [0-100]
 \endcode
 Jos ankaran hallan todennäköisyys on vähintään \c severe_frost_limit,
 palautetaan fraasi 3. Muuten jos hallan todennäköisyys on vähintään
 \c frost_limit, palautetaan fraasi 2. Muuten palautetaan tyhjä tarina.
+
+Todennäköisyydet pyöristetään muuttujan \c precision tarkkuuteen.
+Yleensä käytetään tarkkuutta 10.
 
 Jos jakson pituus on kaksi yötä, palautetaan jokin tarinoista
 
