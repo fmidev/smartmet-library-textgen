@@ -81,37 +81,37 @@ namespace WeatherStoryTest
 	  NFmiSettings::Set("a::fake::cloudy_percentage","20,0");
 	  require(story,"fi",fun,"Enimmäkseen selkeää, poutaa.");
 	  require(story,"sv",fun,"Mestadels klart, uppehåll.");
-	  require(story,"en",fun,"Mostly sunny, clear.");
+	  require(story,"en",fun,"Mostly sunny, fair weather.");
 	  
 	  NFmiSettings::Set("a::fake::clear_percentage","20,0");
 	  NFmiSettings::Set("a::fake::cloudy_percentage","70,0");
 	  require(story,"fi",fun,"Enimmäkseen pilvistä, poutaa.");
 	  require(story,"sv",fun,"Mestadels mulet, uppehåll.");
-	  require(story,"en",fun,"Mostly cloudy, clear.");
+	  require(story,"en",fun,"Mostly cloudy, fair weather.");
 
 	  NFmiSettings::Set("a::fake::clear_percentage","20,0");
 	  NFmiSettings::Set("a::fake::cloudy_percentage","20,0");
 	  require(story,"fi",fun,"Enimmäkseen puolipilvistä, poutaa.");
 	  require(story,"sv",fun,"Mestadels halvmulet, uppehåll.");
-	  require(story,"en",fun,"Mostly partly cloudy, clear.");
+	  require(story,"en",fun,"Mostly partly cloudy, fair weather.");
 
 	  NFmiSettings::Set("a::fake::clear_percentage","10,0");
 	  NFmiSettings::Set("a::fake::cloudy_percentage","40,0");
 	  require(story,"fi",fun,"Enimmäkseen pilvistä tai puolipilvistä, poutaa.");
 	  require(story,"sv",fun,"Mestadels mulet eller halvmulet, uppehåll.");
-	  require(story,"en",fun,"Mostly cloudy or partly cloudy, clear.");
+	  require(story,"en",fun,"Mostly cloudy or partly cloudy, fair weather.");
 
 	  NFmiSettings::Set("a::fake::clear_percentage","40,0");
 	  NFmiSettings::Set("a::fake::cloudy_percentage","10,0");
 	  require(story,"fi",fun,"Enimmäkseen selkeää tai puolipilvistä, poutaa.");
 	  require(story,"sv",fun,"Mestadels klart eller halvmulet, uppehåll.");
-	  require(story,"en",fun,"Mostly sunny or partly cloudy, clear.");
+	  require(story,"en",fun,"Mostly sunny or partly cloudy, fair weather.");
 
 	  NFmiSettings::Set("a::fake::clear_percentage","30,0");
 	  NFmiSettings::Set("a::fake::cloudy_percentage","30,0");
 	  require(story,"fi",fun,"Vaihtelevaa pilvisyyttä, poutaa.");
 	  require(story,"sv",fun,"Växlande molnighet, uppehåll.");
-	  require(story,"en",fun,"Variable cloudiness, clear.");
+	  require(story,"en",fun,"Variable cloudiness, fair weather.");
 
 	}
 
@@ -125,7 +125,7 @@ namespace WeatherStoryTest
 	  NFmiSettings::Set("a::fake::day3::precipitation","0,0");
 	  require(story,"fi",fun,"Vaihtelevaa pilvisyyttä, poutaa.");
 	  require(story,"sv",fun,"Växlande molnighet, uppehåll.");
-	  require(story,"en",fun,"Variable cloudiness, clear.");
+	  require(story,"en",fun,"Variable cloudiness, fair weather.");
 
 	  NFmiSettings::Set("a::fake::day1::precipitation","0.2,0");
 	  NFmiSettings::Set("a::fake::day2::precipitation","0,0");
