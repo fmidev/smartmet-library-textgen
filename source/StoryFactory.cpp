@@ -13,6 +13,7 @@
 
 #include "StoryFactory.h"
 #include "AnalysisSources.h"
+#include "CloudinessStory.h"
 #include "Delimiter.h"
 #include "FrostStory.h"
 #include "Paragraph.h"
@@ -70,6 +71,12 @@ namespace TextGen
 	  if(PrecipitationStory::hasStory(theName))
 		{
 		  PrecipitationStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
+		  return story.makeStory(theName);
+		}
+
+	  if(CloudinessStory::hasStory(theName))
+		{
+		  CloudinessStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 
