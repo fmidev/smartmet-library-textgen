@@ -31,6 +31,7 @@ namespace WeatherAnalysis
 	  Precipitation,
 	  Frost,
 	  SevereFrost,
+	  RelativeHumidity,
 	  Pressure,
 	  WindSpeed,
 	  WindDirection
