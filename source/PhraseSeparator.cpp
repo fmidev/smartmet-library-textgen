@@ -39,7 +39,7 @@ namespace TextGen
   /*!
    * \brief Constructor
    *
-   * \param theWord The word
+   * \param theSeparator The word
    */
   // ----------------------------------------------------------------------
 
