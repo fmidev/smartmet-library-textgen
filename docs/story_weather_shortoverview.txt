@@ -85,6 +85,12 @@ Pilvisyyskuvaus valitaan seuraavasti
  -# Jos N3 > N1 && N2+N3 >= \c double_limit, "enimm‰kseen pilvist‰ tai puolipilvist‰"
  -# Muutoin "vaihtelevaa pilvisyytt‰"
 
+Ongelmakohta: Pilvisyytt‰ tuskin kerrottaisiin sille p‰iv‰lle, jolle
+sataa. Samalla logiikalla sen ei ehk‰ tulisi olla
+prosenttilaskuissakaan mukana. Eli, periaatteessa voisi olla
+"enimm‰kseen selke‰‰, viikonp‰iv‰n‰ sadetta". Pilvisyystarinan tulisi
+siis tavallaan tiet‰‰, miten sateesta kerrotaan.
+
 \subsection section_weather_shortoverview_precipitation Sade
 
 Sateen osalta tarkastellaan enimm‰kseen yksitt‰isi‰ vuorokausia.
