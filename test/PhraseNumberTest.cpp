@@ -3,6 +3,7 @@
 #include "TheDictionary.h"
 #include "PhraseNumber.h"
 
+#include <cmath>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -26,6 +27,22 @@ namespace PhraseNumberTest
 	  return os.str();
 	}
   };
+
+
+  // Round to degree multiples
+  template <typename Value, int Mult>
+  struct MyAdvancedTraits
+  {
+	static std::string tostring(const Value & theValue)
+	{
+	  std::ostringstream os;
+	  int value = static_cast<int>(std::floor(theValue/Mult+0.5)*Mult);
+	  value %= 360;
+	  os << value;
+	  return os.str();
+	}
+  };
+
 
   //! Test structors
   void structors(void)
@@ -134,6 +151,40 @@ namespace PhraseNumberTest
 	TEST_PASSED();
   }
 
+  //! Test realize() for advanced traits
+  void realize_advanced_traits(void)
+  {
+	using namespace TextGen;
+
+	typedef PhraseNumber<float,MyAdvancedTraits<float,45> > MyNumber;
+	
+	MyNumber n1(10);
+	if(n1.realize() != "0")
+	  TEST_FAILED("realization of float(10) failed");
+	
+	MyNumber n2(22.4);
+	if(n2.realize() != "0")
+	  TEST_FAILED("realization of float(22.4) failed");
+
+	MyNumber n3(22.5);
+	if(n3.realize() != "45")
+	  TEST_FAILED("realization of float(22.5) failed");
+	
+	MyNumber n4(181);
+	if(n4.realize() != "180")
+	  TEST_FAILED("realization of float(181) failed");
+	
+	MyNumber n5(320);
+	if(n5.realize() != "315")
+	  TEST_FAILED("realization of float(320) failed");
+	
+	MyNumber n6(350);
+	if(n6.realize() != "0")
+	  TEST_FAILED("realization of float(350) failed");
+	
+	TEST_PASSED();
+  }
+
   //! The actual test driver
   class tests : public tframe::tests
   {
@@ -150,6 +201,7 @@ namespace PhraseNumberTest
 	  TEST(realize_int);
 	  TEST(realize_float);
 	  TEST(realize_traits);
+	  TEST(realize_advanced_traits);
 	}
 
   }; // class tests
