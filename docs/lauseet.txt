@@ -72,6 +72,23 @@ cout << p.realize();
 Viikonpäivien numerointi on tässä sama kuin newbase kirjaston
 aikaluokissa.
 
+\section sec_valimerkit Välimerkit
+
+TextGen::PhraseSeparator luokka esittää välimerkkiä.
+Välimerkki annetaan konstruktorissa. Luokan realize
+metodi palauttaa konstruktorissa annetun merkkijonon
+takaisin. Keskeinen piirre on, että wordseparator
+metodi palauttaa tyhjän merkkijonon, jolloin TextGen::Sentence
+luokka osaa yhdistää välimerkin suoraan edelliseen sanaan kiinni.
+
+Esimerkiksi
+\code
+Sentence s;
+s << "kaakko" << 12 << PhraseSeparator(",") << "etelä" << 13;
+cout << s.realize();
+\endcode
+palauttaisi merkkijonon "Kaakko 12, etelä 13."
+
 \section sec_edistyneet_numerot Numeroiden modifiointi
 
 TextGen::PhraseNumber on templaatti, joka ottaa argumenttina
