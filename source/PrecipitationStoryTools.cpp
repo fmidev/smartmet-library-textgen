@@ -168,7 +168,7 @@ namespace TextGen
 							 const string & theVar,
 							 int theDay)
 	{
-	  MessageLogger log("PrecipitationStoryTools::places_phrase");
+	  MessageLogger log("PrecipitationStoryTools::strength_phrase");
 	  
 	  using namespace Settings;
 	  
