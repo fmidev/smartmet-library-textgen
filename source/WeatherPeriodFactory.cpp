@@ -126,6 +126,7 @@ namespace
    * - On Monday 13:00 the period Monday 13:00 - Wednesday 18:00
    *
    * \param theTime The local reference time
+   * \param theVariable The variable containing optional extra settings
    * \return The period
    */
   // ----------------------------------------------------------------------
@@ -176,6 +177,7 @@ namespace
    * - On Monday 13:00 the period Wednesday 18:00 - Friday 06:00
    *
    * \param theTime The local reference time
+   * \param theVariable The variable containing optional extra settings
    * \return The period
    */
   // ----------------------------------------------------------------------
