@@ -34,6 +34,7 @@
 #include "WeatherAnalysisError.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
+#include "WeatherPeriodTools.h"
 #include "WeatherSource.h"
 
 #include "boost/shared_ptr.hpp"
@@ -201,6 +202,85 @@ namespace WeatherAnalysis
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Merge nigthly rain periods
+	 *
+	 * The function merges rain periods which are separated by
+	 * relatively short no-rain periods during the night.
+	 *
+	 * The idea is that reporting the timing of nightly rains
+	 * is not that important, we probably prefer to say the
+	 * rain is intermittent.
+	 *
+	 * The algorithm is controlled with variables
+	 * \code
+	 * ::rainyperiod::night::starthour = <0-23>       (default = 21)
+	 * ::rainyperiod::night::endhour = <0-23>         (default = 9)
+	 * ::rainyperiod::night::maximum_interval = <1->  (default = 1)
+	 * \endcode
+	 * If a no-rain period is at most \c maximum_interval hours
+	 * long, and the period falls completely within the given
+	 * hours, the two surrounding rain periods are collapsed into
+	 * one.
+	 *
+	 * Note the default value for \c maximum_interval is only 1,
+	 * this in practise means no rains are merged. A sensible
+	 * value when merging is desired is something of the order
+	 * of 5 hours. Naturally it does not make sense to define
+	 * a maximum length longer than the night itself, then no
+	 * merge can ever occur.
+	 *
+	 * \param thePeriods The periods to be merged
+	 * \param theVar The control variable
+	 * \return The merged periods
+	 */
+	// ----------------------------------------------------------------------
+
+	RainPeriods mergeNightlyRainPeriods(const RainPeriods & thePeriods,
+										const std::string theVar)
+	{
+	  // Quick exit if there are no no-rain periods between rain periods
+	  if(thePeriods.size() <= 1)
+		return thePeriods;
+
+	  // Establish the settings
+
+	  const string var = theVar+"::rainyperiod::night::";
+	  const int starthour = Settings::optional_hour(var+"starthour",21);
+	  const int endhour = Settings::optional_hour(var+"endhour",9);
+	  const int maximum_interval = Settings::optional_int(var+"maximum_interval",1);
+	  RainPeriods periods;
+
+	  // We start with the first period, then merge the next one
+	  // to it if possible. When it is no longer possible to merge,
+	  // we move on to the next period and continue.
+
+	  RainPeriods::const_iterator it = thePeriods.begin();
+	  WeatherPeriod lastperiod = *it;
+
+	  for(++it; it!=thePeriods.end(); ++it)
+		{
+		  WeatherPeriod norain(lastperiod.localEndTime(),it->localStartTime());
+		  const int length = WeatherPeriodTools::hours(norain);
+		  if(length <= maximum_interval &&
+			 WeatherPeriodTools::countPeriods(norain,starthour,endhour) == 1)
+			{
+			  lastperiod = WeatherPeriod(lastperiod.localStartTime(),
+										 it->localEndTime());
+			}
+		  else
+			{
+			  periods.push_back(lastperiod);
+			  lastperiod = *it;
+			}
+		}
+	  periods.push_back(lastperiod);
+
+	  return periods;
+
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Merge large scale precipitation periods
 	 *
 	 * The function merges precipitation periods which can
@@ -235,8 +315,7 @@ namespace WeatherAnalysis
 	RainPeriods mergeLargeRainPeriods(const RainPeriods & thePeriods,
 									  const std::string & theVar)
 	{
-	  RainPeriods periods;
-	  return periods;
+	  return thePeriods;
 	}
 
   } // namespace PrecipitationPeriodTools

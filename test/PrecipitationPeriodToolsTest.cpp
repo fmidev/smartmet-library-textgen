@@ -187,6 +187,16 @@ namespace PrecipitationPeriodToolsTest
 	TEST_PASSED();
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test PrecipitationPeriodTools::mergeNigthlyRainPeriods
+   */
+  // ----------------------------------------------------------------------
+
+  void mergeNightlyRainPeriods()
+  {
+	TEST_NOT_IMPLEMENTED();
+  }
 
   //! The actual test driver
   class tests : public tframe::tests
@@ -202,6 +212,7 @@ namespace PrecipitationPeriodToolsTest
 	{
 	  TEST(findRainTimes);
 	  TEST(findRainPeriods);
+	  TEST(mergeNightlyRainPeriods);
 	}
 
   }; // class tests

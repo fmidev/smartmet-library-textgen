@@ -32,6 +32,9 @@ namespace WeatherAnalysis
 	RainPeriods findRainPeriods(const RainTimes & theTimes,
 								const std::string & theVar);
 
+	RainPeriods mergeNightlyRainPeriods(const RainPeriods & theTimes,
+										const std::string & theVar);
+
 	RainPeriods mergeLargeRainPeriods(const RainPeriods & thePeriods,
 									  const std::string & theVar);
 
