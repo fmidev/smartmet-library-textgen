@@ -58,13 +58,13 @@ namespace TextGen
 	/*!
 	 * \brief Calculate the wind direction accuracy class
 	 *
-	 * \param theAccuracy The accuracy
+	 * \param theError The error estimate for the wind direction
 	 * \param theVariable The control variable
 	 * \return The accuracy class
 	 */
 	// ----------------------------------------------------------------------
 	
-	WindDirectionAccuracy direction_accuracy(double theAccuracy,
+	WindDirectionAccuracy direction_accuracy(double theError,
 											 const string & theVariable)
 	{
 	  using Settings::optional_double;
@@ -72,8 +72,8 @@ namespace TextGen
 	  const double accurate_limit = optional_double(theVariable+"::direction::accurate",22.5);
 	  const double variable_limit = optional_double(theVariable+"::direction::variable_limit",45);
 	  
-	  if(theAccuracy>=accurate_limit) return good_accuracy;
-	  if(theAccuracy>=variable_limit) return moderate_accuracy;
+	  if(theError<=accurate_limit) return good_accuracy;
+	  if(theError<=variable_limit) return moderate_accuracy;
 	  return bad_accuracy;
 	  
 	}
