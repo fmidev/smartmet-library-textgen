@@ -28,6 +28,8 @@
 #include "NullAcceptor.h"
 #include "DefaultAcceptor.h"
 
+#include <string>
+
 class NFmiPoint;
 
 namespace WeatherAnalysis
@@ -52,6 +54,17 @@ namespace WeatherAnalysis
 								  const Acceptor & theAreaAcceptor = DefaultAcceptor(),
 								  const Acceptor & theTimeAcceptor = DefaultAcceptor(),
 								  const Acceptor & theTester = NullAcceptor()) const = 0;
+
+	virtual WeatherResult analyze(const std::string & theFakeVariable,
+								  const AnalysisSources & theSources,
+								  const WeatherParameter & theParameter,
+								  const WeatherFunction & theAreaFunction,
+								  const WeatherFunction & theTimeFunction,
+								  const WeatherPeriod & thePeriod,
+								  const WeatherArea & theArea,
+								  const Acceptor & theAreaAcceptor = DefaultAcceptor(),
+								  const Acceptor & theTimeAcceptor = DefaultAcceptor(),
+								  const Acceptor & theTester = NullAcceptor()) const;
 
   }; // class WeatherAnalyzer
 

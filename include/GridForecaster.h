@@ -34,6 +34,8 @@ namespace WeatherAnalysis
   {
   public:
 
+	using WeatherForecaster::analyze;
+
 	virtual WeatherResult analyze(const AnalysisSources & theSources,
 								  const WeatherParameter & theParameter,
 								  const WeatherFunction & theAreaFunction,
