@@ -6,14 +6,17 @@
 // ======================================================================
 
 #include "CalculatorFactory.h"
+#include "ChangeCalculator.h"
 #include "CountCalculator.h"
 #include "MaximumCalculator.h"
 #include "MeanCalculator.h"
 #include "MinimumCalculator.h"
 #include "ModMeanCalculator.h"
+#include "ModStandardDeviationCalculator.h"
 #include "NullCalculator.h"
 #include "PercentageCalculator.h"
 #include "RangeAcceptor.h"
+#include "StandardDeviationCalculator.h"
 #include "SumCalculator.h"
 #include "TrendCalculator.h"
 #include "WeatherAnalysisError.h"
@@ -59,8 +62,12 @@ namespace WeatherAnalysis
 		  return shared_ptr<Calculator>(new CountCalculator);
 		case Trend:
 		  return shared_ptr<Calculator>(new TrendCalculator);
+		case Change:
+		  return shared_ptr<Calculator>(new ChangeCalculator);
 		case NullFunction:
 		  return shared_ptr<Calculator>(new NullCalculator);
+		case StandardDeviation:
+		  return shared_ptr<Calculator>(new StandardDeviationCalculator);
 		}
 
 	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
@@ -84,6 +91,8 @@ namespace WeatherAnalysis
 		{
 		case Mean:
 		  return shared_ptr<Calculator>(new ModMeanCalculator(theModulo));
+		case StandardDeviation:
+		  return shared_ptr<Calculator>(new ModStandardDeviationCalculator(theModulo));
 		case Percentage:
 		  return shared_ptr<Calculator>(new PercentageCalculator);
 		case Count:
@@ -99,6 +108,8 @@ namespace WeatherAnalysis
 		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Trend analyzer");
 		case Sum:
 		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Sum analyzer");
+		case Change:
+		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Change analyzer");
 		}
 
 	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
@@ -124,8 +135,10 @@ namespace WeatherAnalysis
 		case Mean:
 		case Maximum:
 		case Minimum:
+		case StandardDeviation:
 		case Sum:
 		case Trend:
+		case Change:
 		case NullFunction:
 		  return create(theFunction);
 		case Percentage:
@@ -167,8 +180,10 @@ namespace WeatherAnalysis
 		case Mean:
 		case Maximum:
 		case Minimum:
+		case StandardDeviation:
 		case Sum:
 		case Trend:
+		case Change:
 		case NullFunction:
 		  return create(theFunction,theModulo);
 		case Percentage:
