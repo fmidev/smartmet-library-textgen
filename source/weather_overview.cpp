@@ -1209,30 +1209,6 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Generate the "sadetta" phrases
-   *
-   * \param theSources The analysis sources
-   * \param theArea The area to be analyzed
-   * \param thePeriod The rainy period to be analyzed
-   * \param theVar The control variable
-   * \param theDay The day in question
-   * \return The phrase
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence rain_phrase(const AnalysisSources & theSources,
-					   const WeatherArea & theArea,
-					   const WeatherPeriod & thePeriod,
-					   const string & theVar,
-					   int theDay)
-  {
-	Sentence s;
-	s << "sadetta";
-	return s;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Generator story on a day with a single inclusive rain
    */
   // ----------------------------------------------------------------------
@@ -1246,7 +1222,7 @@ namespace TextGen
 							  int theDay)
   {
 	using namespace CloudinessStoryTools;
-	using namespace PrecipitationStoryTools;
+	using PrecipitationStoryTools::rain_phrase;
 
 	Sentence s;
 	s << PeriodPhraseFactory::create("days",
@@ -1268,44 +1244,40 @@ namespace TextGen
 		// [Aamulla] [paikoin] [sadetta]
 	  case 1:
 		{
-		  s << one_day_cases[idx].phrase1;
-		  s << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
-		  s << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
+		  s << one_day_cases[idx].phrase1
+			<< rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
 		// [Aamulla] [paikoin] [sadetta], [aamulla] [enimmäkseen selkeää] ja poutaa
 	  case 2:
 		{
-		  WeatherPeriod cperiod(theRainPeriod.localEndTime(),
-								thePeriod.localEndTime());
-		  s << one_day_cases[idx].phrase1;
-		  s << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
-		  s << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
-		  s << Delimiter(",");
-		  s << one_day_cases[idx].phrase2;
-		  s << cloudiness_phrase(theSources,theArea,cperiod,theVar,theDay);
-		  s << "ja" << "poutaa";
+		  WeatherPeriod cloudyperiod(theRainPeriod.localEndTime(),
+									 thePeriod.localEndTime());
+		  s << one_day_cases[idx].phrase1
+			<< rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			<< Delimiter(",")
+			<< one_day_cases[idx].phrase2
+			<< cloudiness_phrase(theSources,theArea,cloudyperiod,theVar,theDay)
+			<< "ja" << "poutaa";
 		  break;
 		}
 		// [Aamulla] [paikoin] [sadetta], [aamulla] poutaa
 	  case 3:
 		{
-		  s << one_day_cases[idx].phrase1;
-		  s << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
-		  s << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
-		  s << Delimiter(",");
-		  s << one_day_cases[idx].phrase2;
-		  s << "poutaa";
+		  s << one_day_cases[idx].phrase1
+			<< rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			<< Delimiter(",")
+			<< one_day_cases[idx].phrase2
+			<< "poutaa";
 		  break;
 		}
 		// [Enimmäkseen selkeää], [aamulla] [paikoin] [sadetta]
 	  case 4:
 		{
-		  s << cloudiness_phrase(theSources,theArea,thePeriod,theVar,theDay);
-		  s << Delimiter(",");
-		  s << one_day_cases[idx].phrase1;
-		  s << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
-		  s << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
+		  s << cloudiness_phrase(theSources,theArea,thePeriod,theVar,theDay)
+			<< Delimiter(",")
+			<< one_day_cases[idx].phrase1
+			<< rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
 	  default:
@@ -1329,7 +1301,7 @@ namespace TextGen
 									  int theDay)
   {
 	using CloudinessStoryTools::cloudiness_phrase;
-	using PrecipitationStoryTools::places_phrase;
+	using PrecipitationStoryTools::rain_phrase;
 
 	// start & end times of the rain
 	int rainstarthour = theRainPeriod.localStartTime().GetHour();
@@ -1368,8 +1340,7 @@ namespace TextGen
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
 			 << phrase1
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta";
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
 		// Tänään [aamusta alkaen] [paikoin] [sadetta], huomenna [aamusta alkaen] poutaa
@@ -1377,8 +1348,7 @@ namespace TextGen
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
 			 << phrase1
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta"
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
 			 << Delimiter(",")
 			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
 			 << phrase2
@@ -1390,8 +1360,7 @@ namespace TextGen
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
 			 << phrase1
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta"
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
 			 << Delimiter(",")
 			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
 			 << phrase2
@@ -1405,8 +1374,7 @@ namespace TextGen
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
 			 << phrase1
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta"
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
 			 << Delimiter(",")
 			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
 			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
@@ -1419,8 +1387,7 @@ namespace TextGen
 			 << phrase1
 			 << WeekdayTools::until_weekday_morning(day2.localStartTime())
 			 << "asti"
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta"
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
 			 << Delimiter(",")
 			 << WeekdayTools::on_weekday(day2.localStartTime())
 			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
@@ -1433,8 +1400,7 @@ namespace TextGen
 			 << phrase1
 			 << WeekdayTools::until_weekday_evening(day2.localStartTime())
 			 << "asti"
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta";
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
 		// Tänään [enimmäkseen selkeää], [aamulla] ja [yöllä] [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
@@ -1446,8 +1412,7 @@ namespace TextGen
 			 << phrase1;
 		  if(phrase2 != "")
 			s1 << "ja" << phrase2;
-		  s1 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta";
+		  s1 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 
 		  s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
 			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
@@ -1460,8 +1425,7 @@ namespace TextGen
 			 << cloudiness_phrase(theSources,theArea,before_rain,theVar,theDay)
 			 << Delimiter(",")
 			 << phrase1
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta";
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
 		// Tänään [enimmäkseen selkeää], [aamusta alkaen] [paikoin] [sadetta]. Huomenna [aamusta alkaen] poutaa
@@ -1471,8 +1435,7 @@ namespace TextGen
 			 << cloudiness_phrase(theSources,theArea,before_rain,theVar,theDay)
 			 << Delimiter(",")
 			 << phrase1
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta";
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
 			 << phrase2
 			 << "poutaa";
@@ -1485,8 +1448,7 @@ namespace TextGen
 			 << cloudiness_phrase(theSources,theArea,before_rain,theVar,theDay)
 			 << Delimiter(",")
 			 << phrase1
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta";
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
 			 << phrase2
 			 << "poutaa"
@@ -1503,8 +1465,7 @@ namespace TextGen
 			 << phrase1
 			 << WeekdayTools::until_weekday_evening(day2.localStartTime())
 			 << "asti"
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta";
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
 		// Tänään [enimmäkseen selkeää], [aamulla] [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
@@ -1514,8 +1475,7 @@ namespace TextGen
 			 << cloudiness_phrase(theSources,theArea,before_rain,theVar,theDay)
 			 << Delimiter(",")
 			 << phrase1
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta";
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
 			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
 		  break;
@@ -1524,8 +1484,7 @@ namespace TextGen
 	  case 13:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta"
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
 			 << Delimiter(",")
 			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
 			 << phrase2
@@ -1536,8 +1495,7 @@ namespace TextGen
 	  case 14:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta"
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
 			 << Delimiter(",")
 			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
 			 << phrase2
@@ -1548,8 +1506,7 @@ namespace TextGen
 	  case 15:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta"
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
 			 << Delimiter(",")
 			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
 			 << phrase2
@@ -1562,8 +1519,7 @@ namespace TextGen
 	  case 16:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay+1)
-			 << "sadetta"
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay+1)
 			 << Delimiter(",")
 			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
 			 << phrase2
@@ -1576,8 +1532,7 @@ namespace TextGen
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
 			 << "ja"
 			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
-			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
-			 << "sadetta";
+			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
 	  default:
