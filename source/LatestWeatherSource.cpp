@@ -10,6 +10,7 @@
 #include "NFmiQueryData.h"
 #include "NFmiSettings.h"
 #include <cassert>
+#include <map>
 #include <stdexcept>
 
 using namespace std;
