@@ -61,6 +61,32 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Return the coast mask source
+   *
+   * \return The coast mask source
+   */
+  // ----------------------------------------------------------------------
+
+  boost::shared_ptr<MaskSource> AnalysisSources::getCoastMaskSource() const
+  {
+	return itsCoastMaskSource;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the inland mask source
+   *
+   * \return The inland mask source
+   */
+  // ----------------------------------------------------------------------
+
+  boost::shared_ptr<MaskSource> AnalysisSources::getInlandMaskSource() const
+  {
+	return itsInlandMaskSource;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Set the weather source
    *
    * \param theSource The weather source
@@ -96,6 +122,32 @@ namespace WeatherAnalysis
   void AnalysisSources::setLandMaskSource(const boost::shared_ptr<MaskSource> & theSource)
   {
 	itsLandMaskSource = theSource;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Set the coast mask source
+   *
+   * \param theSource The coast mask source
+   */
+  // ----------------------------------------------------------------------
+
+  void AnalysisSources::setCoastMaskSource(const boost::shared_ptr<MaskSource> & theSource)
+  {
+	itsCoastMaskSource = theSource;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Set the inland mask source
+   *
+   * \param theSource The inland mask source
+   */
+  // ----------------------------------------------------------------------
+
+  void AnalysisSources::setInlandMaskSource(const boost::shared_ptr<MaskSource> & theSource)
+  {
+	itsInlandMaskSource = theSource;
   }
 
 } // namespace WeatherAnalysis
