@@ -14,8 +14,6 @@
 
 #include "RoadStoryTools.h"
 
-using namespace std;
-
 namespace TextGen
 {
   namespace RoadStoryTools
