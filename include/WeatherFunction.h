@@ -29,6 +29,7 @@ namespace WeatherAnalysis
 
   enum WeatherFunction
 	{
+	  NullFunction,
 	  Mean,
 	  Maximum,
 	  Minimum,
