@@ -16,12 +16,7 @@
 #ifndef TEXTGEN_FROSTSTORY_H
 #define TEXTGEN_FROSTSTORY_H
 
-#include "AnalysisSources.h"
-
 #include "Story.h"
-#include "WeatherArea.h"
-#include "WeatherPeriod.h"
-
 #include <string>
 
 class NFmiTime;
