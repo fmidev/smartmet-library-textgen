@@ -22,7 +22,7 @@
 #include "WeatherParameter.h"
 #include "WeatherPeriodTools.h"
 #include "WeatherResult.h"
-#include "WeekdayTools.h"
+#include "PeriodPhraseFactory.h"
 
 #include "boost/lexical_cast.hpp"
 
@@ -168,7 +168,10 @@ namespace TextGen
 
 	sentence << "alin suhteellinen kosteus"
 			 << "on"
-			 << WeekdayTools::on_weekday(firstperiod.localStartTime())
+			 << PeriodPhraseFactory::create("today",
+											itsVar+"::day1",
+											itsForecastTime,
+											firstperiod)
 			 << Integer(humidity1)
 			 << *UnitFactory::create(Percent);
 
@@ -197,7 +200,10 @@ namespace TextGen
 		const int humidity2 = to_precision(result2.value(),precision);
 
 		sentence << Delimiter(",")
-				 << WeekdayTools::on_weekday(secondperiod.localStartTime());
+				 << PeriodPhraseFactory::create("next_day",
+												itsVar+"::day2",
+												itsForecastTime,
+												secondperiod);
 		if(humidity2 - humidity1 >= limit_significantly_greater)
 		  sentence << "huomattavasti suurempi";
 		else if(humidity2 - humidity1 >= limit_greater)

@@ -22,23 +22,26 @@ namespace RelativeHumidityStoryTest
   TextGen::PlainTextFormatter formatter;
   
 
-  void require(const TextGen::Story & theStory,
-			   const string & theLanguage,
-			   const string & theName,
-			   const string & theExpected)
+  string require(const TextGen::Story & theStory,
+				 const string & theLanguage,
+				 const string & theName,
+				 const string & theExpected)
   {
 	dict->init(theLanguage);
 	formatter.dictionary(dict);
 
 	TextGen::Paragraph para = theStory.makeStory(theName);
-	const string value = para.realize(formatter);
+	const string result = para.realize(formatter);
 
-	if(value != theExpected)
-	  {
-		const string msg = value + " <> " + theExpected;
-		TEST_FAILED(msg.c_str());
-	  }
+	if(result != theExpected)
+	  return (result + " < > " + theExpected);
+	else
+	  return "";
   }
+
+#define REQUIRE(story,lang,name,expected) \
+result = require(story,lang,name,expected); \
+if(!result.empty()) TEST_FAILED(result.c_str());
 
   // ----------------------------------------------------------------------
   /*!
@@ -56,6 +59,8 @@ namespace RelativeHumidityStoryTest
 	WeatherArea area("dummy");
 
 	const string fun = "relativehumidity_lowest";
+
+	string result;
 
 	NFmiSettings::instance().set("lowest::maxstarthour","6");
 	NFmiSettings::instance().set("lowest::minendhour","18");
@@ -75,9 +80,9 @@ namespace RelativeHumidityStoryTest
 	  RelativeHumidityStory story(time1,sources,area,period,"lowest");
 	  
 	  NFmiSettings::instance().set("lowest::fake::day1::minimum","10,1");
-	  require(story,"fi",fun,"Alin suhteellinen kosteus on tiistaina 10%.");
-	  require(story,"sv",fun,"Den lägsta relativa fuktigheten är på tisdagen 10%.");
-	  require(story,"en",fun,"The smallest relative humidity is on Tuesday 10%.");
+	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 10%.");
+	  REQUIRE(story,"sv",fun,"Den lägsta relativa fuktigheten är 10%.");
+	  REQUIRE(story,"en",fun,"The smallest relative humidity is 10%.");
 	  
 	}
 
@@ -90,9 +95,9 @@ namespace RelativeHumidityStoryTest
 	  RelativeHumidityStory story(time1,sources,area,period,"lowest");
 	  
 	  NFmiSettings::instance().set("lowest::fake::day1::minimum","20,1");
-	  require(story,"fi",fun,"Alin suhteellinen kosteus on tiistaina 20%.");
-	  require(story,"sv",fun,"Den lägsta relativa fuktigheten är på tisdagen 20%.");
-	  require(story,"en",fun,"The smallest relative humidity is on Tuesday 20%.");
+	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 20%.");
+	  REQUIRE(story,"sv",fun,"Den lägsta relativa fuktigheten är 20%.");
+	  REQUIRE(story,"en",fun,"The smallest relative humidity is 20%.");
 	  
 	}
 
@@ -106,45 +111,45 @@ namespace RelativeHumidityStoryTest
 	  
 	  NFmiSettings::instance().set("lowest::fake::day1::minimum","50,1");
 	  NFmiSettings::instance().set("lowest::fake::day2::minimum","50,1");
-	  require(story,"fi",fun,"Alin suhteellinen kosteus on tiistaina 50%, keskiviikkona sama.");
-	  require(story,"sv",fun,"Den lägsta relativa fuktigheten är på tisdagen 50%, på onsdagen densamma.");
-	  require(story,"en",fun,"The smallest relative humidity is on Tuesday 50%, on Wednesday the same.");
+	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 50%, huomenna sama.");
+	  REQUIRE(story,"sv",fun,"Den lägsta relativa fuktigheten är 50%, i morgon densamma.");
+	  REQUIRE(story,"en",fun,"The smallest relative humidity is 50%, tomorrow the same.");
 
 	  NFmiSettings::instance().set("lowest::fake::day1::minimum","50,1");
 	  NFmiSettings::instance().set("lowest::fake::day2::minimum","0,1");
-	  require(story,"fi",fun,"Alin suhteellinen kosteus on tiistaina 50%, keskiviikkona huomattavasti pienempi.");
-	  require(story,"sv",fun,"Den lägsta relativa fuktigheten är på tisdagen 50%, på onsdagen betydligt mindre.");
-	  require(story,"en",fun,"The smallest relative humidity is on Tuesday 50%, on Wednesday significantly smaller.");
+	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 50%, huomenna huomattavasti pienempi.");
+	  REQUIRE(story,"sv",fun,"Den lägsta relativa fuktigheten är 50%, i morgon betydligt mindre.");
+	  REQUIRE(story,"en",fun,"The smallest relative humidity is 50%, tomorrow significantly smaller.");
 
 	  NFmiSettings::instance().set("lowest::fake::day1::minimum","50,1");
 	  NFmiSettings::instance().set("lowest::fake::day2::minimum","20,1");
-	  require(story,"fi",fun,"Alin suhteellinen kosteus on tiistaina 50%, keskiviikkona pienempi.");
-	  require(story,"sv",fun,"Den lägsta relativa fuktigheten är på tisdagen 50%, på onsdagen mindre.");
-	  require(story,"en",fun,"The smallest relative humidity is on Tuesday 50%, on Wednesday smaller.");
+	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 50%, huomenna pienempi.");
+	  REQUIRE(story,"sv",fun,"Den lägsta relativa fuktigheten är 50%, i morgon mindre.");
+	  REQUIRE(story,"en",fun,"The smallest relative humidity is 50%, tomorrow smaller.");
 
 	  NFmiSettings::instance().set("lowest::fake::day1::minimum","50,1");
 	  NFmiSettings::instance().set("lowest::fake::day2::minimum","40,1");
-	  require(story,"fi",fun,"Alin suhteellinen kosteus on tiistaina 50%, keskiviikkona hieman pienempi.");
-	  require(story,"sv",fun,"Den lägsta relativa fuktigheten är på tisdagen 50%, på onsdagen något mindre.");
-	  require(story,"en",fun,"The smallest relative humidity is on Tuesday 50%, on Wednesday somewhat smaller.");
+	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 50%, huomenna hieman pienempi.");
+	  REQUIRE(story,"sv",fun,"Den lägsta relativa fuktigheten är 50%, i morgon något mindre.");
+	  REQUIRE(story,"en",fun,"The smallest relative humidity is 50%, tomorrow somewhat smaller.");
 
 	  NFmiSettings::instance().set("lowest::fake::day1::minimum","50,1");
 	  NFmiSettings::instance().set("lowest::fake::day2::minimum","60,1");
-	  require(story,"fi",fun,"Alin suhteellinen kosteus on tiistaina 50%, keskiviikkona hieman suurempi.");
-	  require(story,"sv",fun,"Den lägsta relativa fuktigheten är på tisdagen 50%, på onsdagen något större.");
-	  require(story,"en",fun,"The smallest relative humidity is on Tuesday 50%, on Wednesday somewhat greater.");
+	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 50%, huomenna hieman suurempi.");
+	  REQUIRE(story,"sv",fun,"Den lägsta relativa fuktigheten är 50%, i morgon något större.");
+	  REQUIRE(story,"en",fun,"The smallest relative humidity is 50%, tomorrow somewhat greater.");
 
 	  NFmiSettings::instance().set("lowest::fake::day1::minimum","50,1");
 	  NFmiSettings::instance().set("lowest::fake::day2::minimum","80,1");
-	  require(story,"fi",fun,"Alin suhteellinen kosteus on tiistaina 50%, keskiviikkona suurempi.");
-	  require(story,"sv",fun,"Den lägsta relativa fuktigheten är på tisdagen 50%, på onsdagen större.");
-	  require(story,"en",fun,"The smallest relative humidity is on Tuesday 50%, on Wednesday greater.");
+	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 50%, huomenna suurempi.");
+	  REQUIRE(story,"sv",fun,"Den lägsta relativa fuktigheten är 50%, i morgon större.");
+	  REQUIRE(story,"en",fun,"The smallest relative humidity is 50%, tomorrow greater.");
 
 	  NFmiSettings::instance().set("lowest::fake::day1::minimum","50,1");
 	  NFmiSettings::instance().set("lowest::fake::day2::minimum","100,1");
-	  require(story,"fi",fun,"Alin suhteellinen kosteus on tiistaina 50%, keskiviikkona huomattavasti suurempi.");
-	  require(story,"sv",fun,"Den lägsta relativa fuktigheten är på tisdagen 50%, på onsdagen betydligt större.");
-	  require(story,"en",fun,"The smallest relative humidity is on Tuesday 50%, on Wednesday significantly greater.");
+	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 50%, huomenna huomattavasti suurempi.");
+	  REQUIRE(story,"sv",fun,"Den lägsta relativa fuktigheten är 50%, i morgon betydligt större.");
+	  REQUIRE(story,"en",fun,"The smallest relative humidity is 50%, tomorrow significantly greater.");
 	  
 	}
 

@@ -4,40 +4,52 @@
 
 Tarina \c relativehumidity_lowest on muotoa
 
- -# "Alin suhteellinen kosteus on viikonpäivänä x%"
-    -# ", viikonpäivänä huomattavasti suurempi."
-    -# ", viikonpäivänä suurempi."
-    -# ", viikonpäivänä hieman suurempi."
-    -# ", viikonpäivänä sama."
-    -# ", viikonpäivänä hieman pienempi."
-    -# ", viikonpäivänä pienempi."
-    -# ", viikonpäivänä huomattavasti pienempi."
+ -# "Alin suhteellinen kosteus on [viikonpäivänä] x%"
+    -# ", [viikonpäivänä] huomattavasti suurempi."
+    -# ", [viikonpäivänä] suurempi."
+    -# ", [viikonpäivänä] hieman suurempi."
+    -# ", [viikonpäivänä] sama."
+    -# ", [viikonpäivänä] hieman pienempi."
+    -# ", [viikonpäivänä] pienempi."
+    -# ", [viikonpäivänä] huomattavasti pienempi."
 
 Ruotsiksi
 
- -# "Den lägsta relativa fuktigheten är på veckodag x%"
-    -# ", på veckodag betydligt större."
-    -# ", på veckodag större."
-    -# ", på veckodag något större."
-    -# ", på veckodag densamma."
-    -# ", på veckodag något mindre."
-    -# ", på veckodag mindre."
-    -# ", på veckodag betydligt mindre."
+ -# "Den lägsta relativa fuktigheten är [på veckodag] x%"
+    -# ", [på veckodag] betydligt större."
+    -# ", [på veckodag] större."
+    -# ", [på veckodag] något större."
+    -# ", [på veckodag] densamma."
+    -# ", [på veckodag] något mindre."
+    -# ", [på veckodag] mindre."
+    -# ", [på veckodag] betydligt mindre."
 
 Englanniksi
 
- -# "The smallest relative humidity on weekday is x%"
-    -# ", on weekday significantly greater."
-    -# ", on weekday greater."
-    -# ", on weekday somewhat greater."
-    -# ", on weekday the same."
-    -# ", on weekday somewhat smaller."
-    -# ", on weekday smaller."
-    -# ", on weekday significantly smaller."
+ -# "The smallest relative humidity [on weekday] is x%"
+    -# ", [on weekday] significantly greater."
+    -# ", [on weekday] greater."
+    -# ", [on weekday] somewhat greater."
+    -# ", [on weekday] the same."
+    -# ", [on weekday] somewhat smaller."
+    -# ", [on weekday] smaller."
+    -# ", [on weekday] significantly smaller."
 
 Tarina soveltuu yhden/kahden vuorokauden ennusteisiin. Sivulausetta ei
 ole yhden vuorokauden ennusteissa. Kolmannesta tai sitä seuraavista päivistä
 ei kerrota mitään.
+
+Aikafraasit ovat tyyppiä \ref sec_periodifraasit_today ja
+\ref sec_periodifraasit_next_day. Niihin liittyviä asetuksia
+kontrolloidaan muuttujilla
+\code
+textgen::[kappale]::story::relativehumidity_lowest::day1::*
+textgen::[kappale]::story::relativehumidity_lowest::day2::*
+\endcode
+Tyypillisiä asetuksia ovat esimerkiksi
+\code
+textgen::[kappale]::story::relativehumidity_lowest::day2::prefer_phrase_followingday = true
+\endcode
 
 Päivän määritelmä saadaan muuttujista
 \code
@@ -82,7 +94,6 @@ Tarvittavat fraasit ovat
 
  - "alin suhteellinen kosteus"
  - "on"
- - "N-na", N=1.7 (maanantaina, tiistaina jne)
  - "huomattavasti suurempi"
  - "suurempi"
  - "hieman suurempi"
