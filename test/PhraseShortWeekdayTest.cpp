@@ -64,25 +64,25 @@ namespace PhraseShortWeekdayTest
 	PhraseShortWeekday w7(7);
 	PhraseShortWeekday w8(8);
 	
-	if(w0.realize() != "Sun") TEST_FAILED("0 should be Sun in English");
-	if(w1.realize() != "Mon") TEST_FAILED("1 should be Mon in English");
-	if(w2.realize() != "Tue") TEST_FAILED("2 should be Tue in English");
-	if(w3.realize() != "Wed") TEST_FAILED("3 should be Wed in English");
-	if(w4.realize() != "Thu") TEST_FAILED("4 should be Thu in English");
-	if(w5.realize() != "Fri") TEST_FAILED("5 should be Fri in English");
-	if(w6.realize() != "Sat") TEST_FAILED("6 should be Sat in English");
-	if(w7.realize() != "Sun") TEST_FAILED("7 should be Sun in English");
-	if(w8.realize() != "Mon") TEST_FAILED("8 should be Mon in English");
+	if(w0.realize() != "sun") TEST_FAILED("0 should be sun in English");
+	if(w1.realize() != "mon") TEST_FAILED("1 should be mon in English");
+	if(w2.realize() != "tue") TEST_FAILED("2 should be tue in English");
+	if(w3.realize() != "wed") TEST_FAILED("3 should be wed in English");
+	if(w4.realize() != "thu") TEST_FAILED("4 should be thu in English");
+	if(w5.realize() != "fri") TEST_FAILED("5 should be fri in English");
+	if(w6.realize() != "sat") TEST_FAILED("6 should be sat in English");
+	if(w7.realize() != "sun") TEST_FAILED("7 should be sun in English");
+	if(w8.realize() != "mon") TEST_FAILED("8 should be mon in English");
 
-	if(w0.realize(*dict) != "Su") TEST_FAILED("0 should be Su in Finnish");
-	if(w1.realize(*dict) != "Ma") TEST_FAILED("1 should be Ma in Finnish");
-	if(w2.realize(*dict) != "Ti") TEST_FAILED("2 should be Ti in Finnish");
-	if(w3.realize(*dict) != "Ke") TEST_FAILED("3 should be Ke in Finnish");
-	if(w4.realize(*dict) != "To") TEST_FAILED("4 should be To in Finnish");
-	if(w5.realize(*dict) != "Pe") TEST_FAILED("5 should be Pe in Finnish");
-	if(w6.realize(*dict) != "La") TEST_FAILED("6 should be La in Finnish");
-	if(w7.realize(*dict) != "Su") TEST_FAILED("7 should be Su in Finnish");
-	if(w8.realize(*dict) != "Ma") TEST_FAILED("8 should be Ma in Finnish");
+	if(w0.realize(*dict) != "su") TEST_FAILED("0 should be su in Finnish");
+	if(w1.realize(*dict) != "ma") TEST_FAILED("1 should be ma in Finnish");
+	if(w2.realize(*dict) != "ti") TEST_FAILED("2 should be ti in Finnish");
+	if(w3.realize(*dict) != "ke") TEST_FAILED("3 should be ke in Finnish");
+	if(w4.realize(*dict) != "to") TEST_FAILED("4 should be to in Finnish");
+	if(w5.realize(*dict) != "pe") TEST_FAILED("5 should be pe in Finnish");
+	if(w6.realize(*dict) != "la") TEST_FAILED("6 should be la in Finnish");
+	if(w7.realize(*dict) != "su") TEST_FAILED("7 should be su in Finnish");
+	if(w8.realize(*dict) != "ma") TEST_FAILED("8 should be ma in Finnish");
 
 	TEST_PASSED();
 
