@@ -238,6 +238,120 @@ namespace PrecipitationStoryTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test PrecipitationStory::pop_twodays
+   */
+  // ----------------------------------------------------------------------
+
+  void pop_twodays()
+  {
+	using namespace std;
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	WeatherArea area("dummy");
+
+	const string fun = "pop_twodays";
+
+	string result;
+
+	NFmiSettings::Set("pop_twodays::day::maxstarthour","6");
+	NFmiSettings::Set("pop_twodays::day::minendhour","18");
+	NFmiSettings::Set("pop_twodays::precision","10");
+	NFmiSettings::Set("pop_twodays::comparison::significantly_greater","50");
+	NFmiSettings::Set("pop_twodays::comparison::greater","30");
+	NFmiSettings::Set("pop_twodays::comparison::somewhat_greater","10");
+	NFmiSettings::Set("pop_twodays::comparison::somewhat_smaller","10");
+	NFmiSettings::Set("pop_twodays::comparison::smaller","30");
+	NFmiSettings::Set("pop_twodays::comparison::significantly_smaller","50");
+
+	// 1-day forecasts
+	{
+	  NFmiTime time1(2003,6,3,6,0);
+	  NFmiTime time2(2003,6,4,6,0);
+	  WeatherPeriod period(time1,time2);
+	  PrecipitationStory story(time1,sources,area,period,"pop_twodays");
+	  
+	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","10,0");
+	  require(story,"fi",fun,"Sateen todennäköisyys on 10%.");
+	  require(story,"sv",fun,"Sannolikheten för nederbörd är 10%.");
+	  require(story,"en",fun,"Probability of precipitation is 10%.");
+	  
+	}
+
+	// Another 1-day forecast, because 17 < 18 (minendhour)
+
+	{
+	  NFmiTime time1(2003,6,3,6,0);
+	  NFmiTime time2(2003,6,4,17,0);
+	  WeatherPeriod period(time1,time2);
+	  PrecipitationStory story(time1,sources,area,period,"pop_twodays");
+	  
+	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","20,0");
+	  require(story,"fi",fun,"Sateen todennäköisyys on 20%.");
+	  require(story,"sv",fun,"Sannolikheten för nederbörd är 20%.");
+	  require(story,"en",fun,"Probability of precipitation is 20%.");
+	  
+	}
+
+	// 2-day forecasts
+
+	{
+	  NFmiTime time1(2003,6,3,6,0);
+	  NFmiTime time2(2003,6,4,18,0);
+	  WeatherPeriod period(time1,time2);
+	  PrecipitationStory story(time1,sources,area,period,"pop_twodays");
+	  
+	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
+	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","50,0");
+	  require(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna sama.");
+	  require(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon densamma.");
+	  require(story,"en",fun,"Probability of precipitation is 50%, tomorrow the same.");
+
+	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
+	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","0,0");
+	  require(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna huomattavasti pienempi.");
+	  require(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon betydligt mindre.");
+	  require(story,"en",fun,"Probability of precipitation is 50%, tomorrow significantly smaller.");
+
+	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
+	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","20,0");
+	  require(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna pienempi.");
+	  require(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon mindre.");
+	  require(story,"en",fun,"Probability of precipitation is 50%, tomorrow smaller.");
+
+	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
+	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","40,0");
+	  require(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna hieman pienempi.");
+	  require(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon något mindre.");
+	  require(story,"en",fun,"Probability of precipitation is 50%, tomorrow somewhat smaller.");
+
+	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
+	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","60,0");
+	  require(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna hieman suurempi.");
+	  require(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon något större.");
+	  require(story,"en",fun,"Probability of precipitation is 50%, tomorrow somewhat greater.");
+
+	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
+	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","80,0");
+	  require(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna suurempi.");
+	  require(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon större.");
+	  require(story,"en",fun,"Probability of precipitation is 50%, tomorrow greater.");
+
+	  NFmiSettings::Set("pop_twodays::fake::day1::maximum","50,0");
+	  NFmiSettings::Set("pop_twodays::fake::day2::maximum","100,0");
+	  require(story,"fi",fun,"Sateen todennäköisyys on 50%, huomenna huomattavasti suurempi.");
+	  require(story,"sv",fun,"Sannolikheten för nederbörd är 50%, i morgon betydligt större.");
+	  require(story,"en",fun,"Probability of precipitation is 50%, tomorrow significantly greater.");
+	  
+	}
+
+	TEST_PASSED();
+
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -256,6 +370,7 @@ namespace PrecipitationStoryTest
 	  TEST(precipitation_total);
 	  TEST(precipitation_range);
 	  TEST(precipitation_classification);
+	  TEST(pop_twodays);
 	}
 
   }; // class tests
