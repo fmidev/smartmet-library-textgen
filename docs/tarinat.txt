@@ -24,7 +24,7 @@
  </ol>
 <li>\ref sec_weatherstory</li>
  <ol>
- <li>\ref page_story_weather_shortoverview (puuttuu)</li>
+ <li>\ref page_story_weather_shortoverview (olomuoto toteuttamatta)</li>
  </ol>
 <li>\ref sec_windstory</li>
  <ol>
