@@ -2,6 +2,8 @@
 #include "NumberFactory.h"
 #include "DictionaryFactory.h"
 #include "PlainTextFormatter.h"
+#include "Sentence.h"
+
 #include "NFmiSettings.h"
 
 #include <iostream>
