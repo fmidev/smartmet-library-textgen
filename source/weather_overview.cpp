@@ -101,29 +101,15 @@ namespace TextGen
 		overlaps.push_back(overlap);
 		inclusives.push_back(inclusive);
 
-		for(RainPeriods::const_iterator it=overlap.begin();
-			it!=overlap.end();
-			it++)
-		  {
-			log << "Day " << day << " overlap: "
-				<< it->localStartTime() << " ... " << it->localEndTime()
-				<< endl;
-		  }
-
-		for(RainPeriods::const_iterator it=inclusive.begin();
-			it!=inclusive.end();
-			it++)
-		  {
-			log << "Day " << day << " inclusive: "
-				<< it->localStartTime() << " ... " << it->localEndTime()
-				<< endl;
-		  }
 	  }
 
 	for(int day=1; day<=n; day++)
 	  {
 		const RainPeriods::size_type noverlap = overlaps[day-1].size();
 		const RainPeriods::size_type ninclusive = inclusives[day-1].size();
+
+		log << "Day " << day << " overlap   : " << noverlap << endl;
+		log << "Day " << day << " inclusive : " << ninclusive << endl;
 
 		if(ninclusive==noverlap) // all rains within the same day
 		  {
