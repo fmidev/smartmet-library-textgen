@@ -1154,7 +1154,7 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief  Calculates index for rain in the second table at \ref page_rain_oneday
+   * \brief Calculates index for rain in the second table at \ref page_rain_oneday
    *
    * \param theStartHour The start hour of the rain
    * \param theEndHour The end hour of the rain
@@ -1167,6 +1167,38 @@ namespace
 	const int tmp = one_day_rain_index(theStartHour,theEndHour);
 	return one_day_forecasts[tmp];
   }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Calculates index for rain in the first table at \ref page_rain_twoday
+   *
+   * \param theStartHour The start hour of the rain
+   * \param theEndHour The end hour of the rain
+   * \return The index for the rain
+   */
+  // ----------------------------------------------------------------------
+
+  int two_day_rain_index(int theStartHour, int theEndHour)
+  {
+	return (theStartHour*24 + theEndHour);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Calculates index for rain in the second table at \ref page_rain_twoday
+   *
+   * \param theStartHour The start hour of the rain
+   * \param theEndHour The end hour of the rain
+   * \return The index for the rain
+   */
+  // ----------------------------------------------------------------------
+
+  int two_day_rain_unique_index(int theStartHour, int theEndHour)
+  {
+	const int tmp = two_day_rain_index(theStartHour,theEndHour);
+	return two_day_forecasts[tmp];
+  }
+
 
 }
 
