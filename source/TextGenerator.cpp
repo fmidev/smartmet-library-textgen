@@ -172,6 +172,7 @@ namespace TextGen
 			  {
 				Paragraph p = StoryFactory::create(itsPimple->itsSources,
 												   theArea,
+												   period,
 												   *it);
 				paragraph << p;
 			  }
