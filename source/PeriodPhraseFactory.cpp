@@ -10,78 +10,18 @@
 #include "Sentence.h"
 #include "Settings.h"
 #include "TextGenError.h"
+#include "TimeTools.h"
 #include "WeatherPeriod.h"
 #include "WeekdayTools.h"
 
 #include "NFmiStringTools.h"
 
 using WeatherAnalysis::WeatherPeriod;
+using namespace TextGen::TimeTools;
 using namespace std;
 
 namespace
 {
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test if the dates are the same
-   *
-   * \param theDate1 The first date
-   * \param theDate2 The second date
-   * \return True if the dates are the same
-   */
-  // ----------------------------------------------------------------------
-
-  bool is_same_day(const NFmiTime & theDate1,
-				   const NFmiTime & theDate2)
-  {
-	return(theDate1.GetDay() == theDate2.GetDay() &&
-		   theDate1.GetMonth() == theDate2.GetMonth() &&
-		   theDate1.GetYear() == theDate2.GetYear());
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test if the second day is the day after the first
-   *
-   * \param theDate1 The first date
-   * \param theDate2 The second date
-   * \return True if date1+1==date2
-   */
-  // ----------------------------------------------------------------------
-
-  bool is_next_day(const NFmiTime & theDate1,
-				   const NFmiTime & theDate2)
-  {
-	NFmiTime date1(theDate1);
-	date1.ChangeByDays(1);
-
-	return(date1.GetDay() == theDate2.GetDay() &&
-		   date1.GetMonth() == theDate2.GetMonth() &&
-		   date1.GetYear() == theDate2.GetYear());
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test if the period covers several days
-   *
-   * Note that a period that ends at 00:00 the next day is not considered
-   * to span several days, the end hour must be atleast 01:00 if the period
-   * ends the day after the start date.
-   *
-   * \param theDate1 The first date
-   * \param theDate2 The second date
-   * \return True if the period covers several days
-   */
-  // ----------------------------------------------------------------------
-
-  bool is_several_days(const NFmiTime & theDate1,
-					   const NFmiTime & theDate2)
-  {
-	if(is_same_day(theDate1,theDate2))
-	  return false;
-	if(is_next_day(theDate1,theDate2) && theDate2.GetHour()==0)
-	  return false;
-	return true;
-  }
 
   // ----------------------------------------------------------------------
   /*!
@@ -175,17 +115,17 @@ namespace TextGen
 		{
 		  if(*it == "none")
 			{
-			  if(is_same_day(theForecastTime, thePeriod.localStartTime()))
+			  if(isSameDay(theForecastTime, thePeriod.localStartTime()))
 				return sentence;
 			}
 		  else if(*it == "atday")
 			{
-			  if(is_same_day(theForecastTime, thePeriod.localStartTime()))
+			  if(isSameDay(theForecastTime, thePeriod.localStartTime()))
 				return (sentence << "päivällä");
 			}
 		  else if(*it == "today")
 			{
-			  if(is_same_day(theForecastTime, thePeriod.localStartTime()))
+			  if(isSameDay(theForecastTime, thePeriod.localStartTime()))
 				return(sentence << "tänään");
 			}
 		  else if(*it == "weekday")
@@ -223,17 +163,17 @@ namespace TextGen
 		{
 		  if(*it == "none")
 			{
-			  if(is_next_day(theForecastTime, thePeriod.localEndTime()))
+			  if(isNextDay(theForecastTime, thePeriod.localEndTime()))
 				return sentence;
 			}
 		  else if(*it == "atnight")
 			{
-			  if(is_next_day(theForecastTime, thePeriod.localEndTime()))
+			  if(isNextDay(theForecastTime, thePeriod.localEndTime()))
 				return (sentence << "yöllä");
 			}
 		  else if(*it == "tonight")
 			{
-			  if(is_next_day(theForecastTime, thePeriod.localEndTime()))
+			  if(isNextDay(theForecastTime, thePeriod.localEndTime()))
 				return(sentence << "ensi yönä");
 			}
 		  else if(*it == "weekday")
@@ -273,22 +213,22 @@ namespace TextGen
 			return (sentence << on_weekday(thePeriod.localStartTime()));
 		  else if(*it == "atday")
 			{
-			  if(is_same_day(theForecastTime,thePeriod.localStartTime()))
+			  if(isSameDay(theForecastTime,thePeriod.localStartTime()))
 				return (sentence << "päivällä");
 			}
 		  else if(*it == "none")
 			{
-			  if(is_same_day(theForecastTime,thePeriod.localStartTime()))
+			  if(isSameDay(theForecastTime,thePeriod.localStartTime()))
 				return sentence;
 			}
 		  else if(*it == "today")
 			{
-			  if(is_same_day(theForecastTime,thePeriod.localStartTime()))
+			  if(isSameDay(theForecastTime,thePeriod.localStartTime()))
 				return (sentence << "tänään");
 			}
 		  else if(*it == "tomorrow")
 			{
-			  if(is_next_day(theForecastTime,thePeriod.localStartTime()))
+			  if(isNextDay(theForecastTime,thePeriod.localStartTime()))
 				return (sentence << "huomenna");
 			}
 		  else
@@ -326,17 +266,17 @@ namespace TextGen
 			return (sentence << night_against_weekday(thePeriod.localEndTime()));
 		  else if(*it == "atnight")
 			{
-			  if(is_next_day(theForecastTime,thePeriod.localEndTime()))
+			  if(isNextDay(theForecastTime,thePeriod.localEndTime()))
 				return (sentence << "yöllä");
 			}
 		  else if(*it == "none")
 			{
-			  if(is_next_day(theForecastTime,thePeriod.localEndTime()))
+			  if(isNextDay(theForecastTime,thePeriod.localEndTime()))
 				return sentence;
 			}
 		  else if(*it == "tonight")
 			{
-			  if(is_next_day(theForecastTime,thePeriod.localEndTime()))
+			  if(isNextDay(theForecastTime,thePeriod.localEndTime()))
 				return (sentence << "ensi yönä");
 			}
 		  else
@@ -376,12 +316,12 @@ namespace TextGen
 			return (sentence << "seuraavana yönä");
 		  else if(*it == "atnight")
 			{
-			  if(is_next_day(theForecastTime,thePeriod.localEndTime()))
+			  if(isNextDay(theForecastTime,thePeriod.localEndTime()))
 				return (sentence << "yöllä");
 			}
 		  else if(*it == "tonight")
 			{
-			  if(is_next_day(theForecastTime,thePeriod.localEndTime()))
+			  if(isNextDay(theForecastTime,thePeriod.localEndTime()))
 				return (sentence << "ensi yönä");
 			}
 		  else
@@ -421,7 +361,7 @@ namespace TextGen
 			return (sentence << "seuraavana päivänä");
 		  else if(*it == "tomorrow")
 			{
-			  if(is_next_day(theForecastTime,thePeriod.localStartTime()))
+			  if(isNextDay(theForecastTime,thePeriod.localStartTime()))
 				return (sentence << "huomenna");
 			}
 		  else
@@ -459,7 +399,7 @@ namespace TextGen
 			return (sentence << from_weekday(thePeriod.localStartTime()));
 		  else if(*it == "tomorrow")
 			{
-			  if(is_next_day(theForecastTime,thePeriod.localStartTime()))
+			  if(isNextDay(theForecastTime,thePeriod.localStartTime()))
 				return (sentence << "huomisesta alkaen");
 			}
 		  else
@@ -483,7 +423,7 @@ namespace TextGen
 							const NFmiTime & theForecastTime,
 							const WeatherPeriod & thePeriod)
 	{
-	  if(is_several_days(thePeriod.localStartTime(),thePeriod.localEndTime()))
+	  if(isSeveralDays(thePeriod.localStartTime(),thePeriod.localEndTime()))
 		return next_days(theVariable,theForecastTime,thePeriod);
 	  else
 		return next_day(theVariable,theForecastTime,thePeriod);
