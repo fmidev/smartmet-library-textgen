@@ -19,7 +19,8 @@
  *
  * Sentence s;
  * s += "lämpötila";
- * s += "kaakko";
+ * s += PhraseWord("kaakko");
+ * s += PhraseNumber<int>(12);
  * cout << s.realize(*dict) << endl;
  *
  * TheDictionary::instance().dictionary(DictionaryFactory::create("mysql"));
@@ -34,6 +35,7 @@
 #ifndef TEXTGEN_SENTENCE_H
 #define TEXTGEN_SENTENCE_H
 
+#include "Phrase.h"
 #include <memory>
 #include <string>
 
@@ -49,13 +51,15 @@ namespace TextGen
 	~Sentence();
 	Sentence();
 	Sentence(const Sentence & theSentence);
+	Sentence(const Phrase & thePhrase);
 	Sentence(const std::string & thePhrase);
 	Sentence & operator=(const Sentence & theSentence);
 
 	void swap(Sentence & theSentence);
 
-	Sentence & operator+=(const std::string & thePhrase);
 	Sentence & operator+=(const Sentence & theSentence);
+	Sentence & operator+=(const Phrase & thePhrase);
+	Sentence & operator+=(const std::string & thePhrase);
 
 	std::string realize() const;
 	std::string realize(const Dictionary & theDictionary) const;
@@ -72,6 +76,8 @@ namespace TextGen
   // Free operators
 
   Sentence operator+(const Sentence & theLhs, const Sentence & theRhs);
+  Sentence operator+(const Sentence & theLhs, const Phrase & theRhs);
+  Sentence operator+(const Phrase & theLhs, const Sentence & theRhs);
   Sentence operator+(const Sentence & theLhs, const std::string & theRhs);
   Sentence operator+(const std::string & theLhs, const Sentence & theRhs);
 
