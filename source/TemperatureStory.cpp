@@ -19,6 +19,7 @@
 #include "Sentence.h"
 #include "Settings.h"
 #include "TextGenError.h"
+#include "TemperatureStoryTools.h"
 #include "UnitFactory.h"
 #include "WeatherFunction.h"
 #include "WeatherParameter.h"
@@ -29,107 +30,9 @@
 #include "boost/lexical_cast.hpp"
 
 using namespace WeatherAnalysis;
+using namespace TextGen::TemperatureStoryTools;
 using namespace boost;
 using namespace std;
-
-namespace
-{
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return temperature comparison phrase
-   *
-   * \param theMean1 The first mean
-   * \param theMean2 The second mean
-   * \param theVariable The variable containing the limits
-   */
-  // ----------------------------------------------------------------------
-
-  string temperature_comparison(int theMean1,
-								int theMean2,
-								const string & theVariable)
-  {
-	using namespace Settings;
-
-	const int significantly_higher = require_percentage(theVariable+"::comparison::significantly_higher");
-	const int significantly_lower = require_percentage(theVariable+"::comparison::significantly_lower");
-	const int higher = require_percentage(theVariable+"::comparison::higher");
-	const int lower = require_percentage(theVariable+"::comparison::lower");
-	const int somewhat_higher = require_percentage(theVariable+"::comparison::somewhat_higher");
-	const int somewhat_lower = require_percentage(theVariable+"::comparison::somewhat_lower");
-
-	if(theMean2 - theMean1 >= significantly_higher)
-	  return "huomattavasti korkeampi";
-	if(theMean2 - theMean1 >= higher)
-	  return "korkeampi";
-	if(theMean2 - theMean1 >= somewhat_higher)
-	  return "hieman korkeampi";
-	if(theMean1 - theMean2 >= significantly_lower)
-	  return "huomattavasti alempi";
-	if(theMean1 - theMean2 >= lower)
-	  return "alempi";
-	if(theMean1 - theMean2 >= somewhat_lower)
-	  return "hieman alempi";
-	return "suunnilleen sama";
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return temperature sentence
-   *
-   * Possible sentences are
-   *
-   *  - "noin x astetta"
-   *  - "x...y astetta";
-   *
-   * \param theMinimum The minimum temperature
-   * \param theMean The mean temperature
-   * \param theMaximum The maximum temperature
-   * \param theMinInterval The minimum interval limit
-   * \param theZeroFlag True if zero is always intervalled
-   * \return The sentence
-   */
-  // ----------------------------------------------------------------------
-
-  TextGen::Sentence temperature_phrase(int theMinimum,
-									   int theMean,
-									   int theMaximum,
-									   int theMinInterval,
-									   bool theZeroFlag)
-  {
-	using namespace TextGen;
-	Sentence sentence;
-
-	bool range = true;
-
-	if(theMinimum == theMaximum)
-	  range = false;
-	else if(theMaximum - theMinimum >= theMinInterval)
-	  range = true;
-	else if(theMinimum <= 0 && theMaximum >= 0)
-	  range = true;
-	else
-	  range = false;
-
-	if(range)
-	  {
-		sentence << IntegerRange(theMinimum,theMaximum)
-				 << *UnitFactory::create(DegreesCelsius);
-	  }
-	else
-	  {
-		sentence << "noin"
-				 << Integer(theMean)
-				 << *UnitFactory::create(DegreesCelsius);
-	  }
-
-	return sentence;
-  }
-
-} // namespace anonymous
-
-
-
 
 namespace TextGen
 {
@@ -448,7 +351,7 @@ namespace TextGen
 											itsVar,
 											itsForecastTime,
 											period)
-			 << temperature_phrase(min1,mean1,max1,mininterval,interval_zero);
+			 << temperature_sentence(min1,mean1,max1,mininterval,interval_zero);
 
 	// Remaining days
 
@@ -520,12 +423,12 @@ namespace TextGen
 													itsVar,
 													itsForecastTime,
 													period);
-			sentence << temperature_comparison(mean1,mean2,itsVar);
+			sentence << temperature_comparison_phrase(mean1,mean2,itsVar);
 		  }
 		else
 		  {
 			sentence << WeekdayTools::on_weekday(period.localStartTime())
-					 << temperature_phrase(min2,mean2,max2,mininterval,interval_zero);
+					 << temperature_sentence(min2,mean2,max2,mininterval,interval_zero);
 
 		  }
 		
@@ -625,7 +528,7 @@ namespace TextGen
 											itsVar,
 											itsForecastTime,
 											period)
-			 << temperature_phrase(min1,mean1,max1,mininterval,interval_zero);
+			 << temperature_sentence(min1,mean1,max1,mininterval,interval_zero);
 
 	// Remaining nights
 
@@ -696,12 +599,12 @@ namespace TextGen
 													itsVar,
 													itsForecastTime,
 													period);
-			sentence << temperature_comparison(mean1,mean2,itsVar);
+			sentence << temperature_comparison_phrase(mean1,mean2,itsVar);
 		  }
 		else
 		  {
 			sentence << WeekdayTools::night_against_weekday(period.localEndTime())
-					 << temperature_phrase(min2,mean2,max2,mininterval,interval_zero);
+					 << temperature_sentence(min2,mean2,max2,mininterval,interval_zero);
 
 		  }
 		
@@ -830,8 +733,8 @@ namespace TextGen
 	Sentence sentence;
 	sentence << "päivien ylin lämpötila"
 			 << "on"
-			 << temperature_phrase(daymin,daymean,daymax,
-								   daymininterval,day_interval_zero)
+			 << temperature_sentence(daymin,daymean,daymax,
+									 daymininterval,day_interval_zero)
 			 << Delimiter(",")
 			 << "öiden alin lämpötila";
 	if(emphasize_night_minimum)
@@ -842,8 +745,8 @@ namespace TextGen
 	  }
 	else
 	  {
-		sentence << temperature_phrase(nightmin,nightmean,nightmax,
-									   nightmininterval,night_interval_zero);
+		sentence << temperature_sentence(nightmin,nightmean,nightmax,
+										 nightmininterval,night_interval_zero);
 	  }
 
 	paragraph << sentence;
@@ -967,12 +870,12 @@ namespace TextGen
 	Sentence sentence;
 	sentence << "päivälämpötila"
 			 << "on"
-			 << temperature_phrase(daymin,daymean,daymax,
-								   daymininterval,day_interval_zero)
+			 << temperature_sentence(daymin,daymean,daymax,
+									 daymininterval,day_interval_zero)
 			 << Delimiter(",")
 			 << "yölämpötila"
-			 << temperature_phrase(nightmin,nightmean,nightmax,
-								   nightmininterval,night_interval_zero);
+			 << temperature_sentence(nightmin,nightmean,nightmax,
+									 nightmininterval,night_interval_zero);
 
 	paragraph << sentence;
 	log << paragraph;
