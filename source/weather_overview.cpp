@@ -15,6 +15,7 @@
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "PrecipitationPeriodTools.h"
+#include "PrecipitationStoryTools.h"
 #include "RangeAcceptor.h"
 #include "Sentence.h"
 #include "Settings.h"
@@ -1231,79 +1232,6 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Generate the "in some place places" story
-   *
-   * The used variables are
-   * \code
-   * ::minrain      = [0-X]    (=0.1)
-   * ::places::many = [0-100]  (=90)
-   * ::places::some = [0-100]  (=70)
-   * \endcode
-   *
-   * That is,
-   *  - If percentage >= 90, then use ""
-   *  - If percentage >= 70, then use "in many places"
-   *  - Else use "in some places"
-   *
-   * \param theSources The analysis sources
-   * \param theArea The area to be analyzed
-   * \param thePeriod The rainy period to be analyzed
-   * \param theVar The control variable
-   * \param theDay The day in question
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence in_places(const AnalysisSources & theSources,
-					 const WeatherArea & theArea,
-					 const WeatherPeriod & thePeriod,
-					 const string & theVar,
-					 int theDay)
-  {
-	MessageLogger log("weather_overview::in_places");
-
-	using namespace Settings;
-
-	const int many_places = optional_percentage(theVar+"places::many",90);
-	const int some_places = optional_percentage(theVar+"places::some",50);
-	const double minrain  = optional_double(theVar+"::minrain",0.1);
-
-	GridForecaster forecaster;
-
-    RangeAcceptor rainlimits;
-    rainlimits.lowerLimit(minrain);
-
-	const string day = lexical_cast<string>(theDay);
-    WeatherResult result = forecaster.analyze(theVar+"::fake::day"+day+"::places",
-                                              theSources,
-											  Precipitation,
-                                              Percentage,
-                                              Maximum,
-                                              theArea,
-                                              thePeriod,
-											  DefaultAcceptor(),
-											  DefaultAcceptor(),
-                                              rainlimits);
-
-	log << "Precipitation percentage: " << result.value() << endl;
-
-    if(result.value() == kFloatMissing)
-	  throw TextGenError("Precipitation percentage not available");
-	
-	Sentence s;
-	if(result.value() >= many_places)
-	  ;
-	else if(result.value() >= some_places)
-	  s << "monin paikoin";
-	else
-	  s << "paikoin";
-
-	return s;
-	
-  }
-
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Generator story on a day with a single inclusive rain
    */
   // ----------------------------------------------------------------------
@@ -1317,6 +1245,7 @@ namespace TextGen
 							  int theDay)
   {
 	using namespace CloudinessStoryTools;
+	using namespace PrecipitationStoryTools;
 
 	Sentence s;
 	s << PeriodPhraseFactory::create("days",
@@ -1339,7 +1268,7 @@ namespace TextGen
 	  case 1:
 		{
 		  s << one_day_cases[idx].phrase1;
-		  s << in_places(theSources,theArea,theRainPeriod,theVar,theDay);
+		  s << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
@@ -1349,7 +1278,7 @@ namespace TextGen
 		  WeatherPeriod cperiod(theRainPeriod.localEndTime(),
 								thePeriod.localEndTime());
 		  s << one_day_cases[idx].phrase1;
-		  s << in_places(theSources,theArea,theRainPeriod,theVar,theDay);
+		  s << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase2;
@@ -1361,7 +1290,7 @@ namespace TextGen
 	  case 3:
 		{
 		  s << one_day_cases[idx].phrase1;
-		  s << in_places(theSources,theArea,theRainPeriod,theVar,theDay);
+		  s << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase2;
@@ -1374,7 +1303,7 @@ namespace TextGen
 		  s << cloudiness_phrase(theSources,theArea,thePeriod,theVar,theDay);
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase1;
-		  s << in_places(theSources,theArea,theRainPeriod,theVar,theDay);
+		  s << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
