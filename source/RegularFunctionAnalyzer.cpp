@@ -32,6 +32,7 @@
 #include "boost/shared_ptr.hpp"
 #include "boost/lexical_cast.hpp"
 #include <string>
+#include <sstream>
 
 using namespace std;
 using namespace boost;
@@ -236,7 +237,18 @@ namespace WeatherAnalysis
 	  }
 
 	if(!(qi.Location(theArea.point())))
-	  throw WeatherAnalysisError("Could not set desired coordinate in "+dataname);
+	  {
+			  ostringstream msg;
+			  msg << "Could not set desired coordinate ("
+				  << theArea.point().X()
+				  << ','
+				  << theArea.point().Y()
+				  << ')';
+			  if(theArea.isNamed())
+				msg << " named " << theArea.name();
+			  msg << " in " << dataname;
+			  throw WeatherAnalysisError(msg.str());
+	  }
 
 	float result = QueryDataIntegrator::Integrate(qi,
 												  thePeriods,

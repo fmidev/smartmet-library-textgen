@@ -39,6 +39,7 @@
 #include "WeatherPeriodTools.h"
 #include "WeatherSource.h"
 
+#include <sstream>
 
 using namespace std;
 using namespace boost;
@@ -206,7 +207,18 @@ namespace WeatherAnalysis
 	  else
 		{
 		  if(!(qi.Location(theArea.point())))
-			throw WeatherAnalysisError("Could not set desired coordinate in "+dataname);
+			{
+			  ostringstream msg;
+			  msg << "Could not set desired coordinate ("
+				  << theArea.point().X()
+				  << ','
+				  << theArea.point().Y()
+				  << ')';
+			  if(theArea.isNamed())
+				msg << " named " << theArea.name();
+			  msg << " in " << dataname;
+			  throw WeatherAnalysisError(msg.str());
+			}
 
 		  do
 			{
