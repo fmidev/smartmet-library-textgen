@@ -20,23 +20,11 @@
 #include "GridForecaster.h"
 #include "Acceptor.h"
 #include "AnalysisSources.h"
+#include "ParameterAnalyzerFactory.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
 #include "WeatherPeriodGenerator.h"
 #include "WeatherResult.h"
-
-#include "CloudinessAnalyzer.h"
-#include "FrostAnalyzer.h"
-#include "PrecipitationAnalyzer.h"
-#include "PrecipitationFormAnalyzer.h"
-#include "PrecipitationProbabilityAnalyzer.h"
-#include "PrecipitationTypeAnalyzer.h"
-#include "RelativeHumidityAnalyzer.h"
-#include "SevereFrostAnalyzer.h"
-#include "TemperatureAnalyzer.h"
-#include "ThunderAnalyzer.h"
-#include "WindDirectionAnalyzer.h"
-#include "WindSpeedAnalyzer.h"
 
 #include "boost/shared_ptr.hpp"
 
@@ -75,89 +63,20 @@ namespace WeatherAnalysis
 						  const Acceptor & theTimeAcceptor,
 						  const Acceptor & theTester) const
   {
-	typedef shared_ptr<ParameterAnalyzer> Analyzer;
 
-	Analyzer analyzer;
+	shared_ptr<ParameterAnalyzer> analyzer;
+	analyzer = ParameterAnalyzerFactory::create(theParameter);
 
-	switch(theParameter)
-	  {
-	  case Temperature:
-		{
-		  analyzer = Analyzer(new TemperatureAnalyzer);
-		  break;
-		}
-	  case Precipitation:
-		{
-		  analyzer = Analyzer(new PrecipitationAnalyzer);
-		  break;
-		}
-	  case Cloudiness:
-		{
-		  analyzer = Analyzer(new CloudinessAnalyzer);
-		  break;
-		}
-	  case Frost:
-		{
-		  analyzer = Analyzer(new FrostAnalyzer);
-		  break;
-		}
-	  case SevereFrost:
-		{
-		  analyzer = Analyzer(new SevereFrostAnalyzer);
-		  break;
-		}
-	  case RelativeHumidity:
-		{
-		  analyzer = Analyzer(new RelativeHumidityAnalyzer);
-		  break;
-		}
-	  case WindSpeed:
-		{
-		  analyzer = Analyzer(new WindSpeedAnalyzer);
-		  break;
-		}
-	  case WindDirection:
-		{
-		  analyzer = Analyzer(new WindDirectionAnalyzer);
-		  break;
-		}
-	  case Thunder:
-		{
-		  analyzer = Analyzer(new ThunderAnalyzer);
-		  break;
-		}
-	  case PrecipitationType:
-		{
-		  analyzer = Analyzer(new PrecipitationTypeAnalyzer);
-		  break;
-		}
-	  case PrecipitationForm:
-		{
-		  analyzer = Analyzer(new PrecipitationFormAnalyzer);
-		  break;
-		}
-	  case PrecipitationProbability:
-		{
-		  analyzer = Analyzer(new PrecipitationProbabilityAnalyzer);
-		  break;
-		}
-
-	  }
-
-	if(analyzer.get() != 0)
-	  return analyzer->analyze(theSources,
-							   Forecast,
-							   theAreaFunction,
-							   theTimeFunction,
-							   theSubTimeFunction,
-							   theArea,
-							   thePeriods,
-							   theAreaAcceptor,
-							   theTimeAcceptor,
-							   theTester);
-
-	// should never reach this place
-	return WeatherResult(kFloatMissing,0);
+	return analyzer->analyze(theSources,
+							 Forecast,
+							 theAreaFunction,
+							 theTimeFunction,
+							 theSubTimeFunction,
+							 theArea,
+							 thePeriods,
+							 theAreaAcceptor,
+							 theTimeAcceptor,
+							 theTester);
   }
 
 
