@@ -330,7 +330,7 @@ namespace WeatherAnalysis
 		  {
 			itsRadius = NFmiStringTools::Convert<float>(words[1]);
 		  }
-		catch(exception & e)
+		catch(...)
 		  {
 			throw WeatherAnalysisError("Expecting a valid radius after the ':' character in WeatherArea '"+theSpecs+"'");
 		  }
@@ -383,7 +383,7 @@ namespace WeatherAnalysis
 			vector<float> tmp = NFmiStringTools::Split<vector<float> >(spec);
 			itsPoint = NFmiPoint(tmp[0],tmp[1]);
 		  }
-		catch(exception & e)
+		catch(...)
 		  {
 			throw WeatherAnalysisError("Location '"+spec+"' has no known coordinates");
 		  }
