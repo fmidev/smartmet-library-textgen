@@ -152,11 +152,11 @@ namespace TextGen
 		// nada+frost		"Hallan todennäköisyys on tiistain vastaisena yönä x%."
 		// nada+severe		"Ankaran hallan todennäköisyys on tiistain vastaisena yönä x%."
 		// frost+nada		"Hallan ..., seuraava yö on lämpimämpi."
-		// frost+frost		"Hallan ..., seuraavana yönä y%."
+		// frost+frost		"Hallan ..., seuraavana yönä y%/sama."
 		// frost+severe		"Hallan ..., seuraavana yönä ankaran hallan todennäköisyys on y%."
 		// severe+nada		"Ankaran ..., seuraava yö on huomattavasti lämpimämpi."
 		// severe+frost		"Ankaran ..., seuraavana yönä hallan todennäköisyys on y%."
-		// severe+severe	"Ankaran ..., seuraavana yönä y%."
+		// severe+severe	"Ankaran ..., seuraavana yönä y%/sama."
 
 		if(severevalue1 >= severelimit)		// severe + ?
 		  {
@@ -166,9 +166,12 @@ namespace TextGen
 			
 			if(severevalue2 >= severelimit)
 			  {
-				sentence << "seuraavana yönä"
-						 << Integer(severevalue2)
-						 << *UnitFactory::create(Percent);
+				sentence << "seuraavana yönä";
+				if(severevalue1 == severevalue2)
+				  sentence << "sama";
+				else
+				  sentence << Integer(severevalue2)
+						   << *UnitFactory::create(Percent);
 			  }
 			else if(value2 >= normallimit)
 			  {
@@ -203,9 +206,12 @@ namespace TextGen
 			  }
 			else if(value2 >= normallimit)
 			  {
-				sentence << "seuraavana yönä"
-						 << Integer(value2)
-						 << *UnitFactory::create(Percent);
+				sentence << "seuraavana yönä";
+				if(value1 == value2)
+				  sentence << "sama";
+				else
+				  sentence << Integer(value2)
+						   << *UnitFactory::create(Percent);
 			  }
 			else
 			  {

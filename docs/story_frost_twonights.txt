@@ -57,9 +57,11 @@ kerrotaan, ei seuraavista päivistä!
 
  -# "Hallan todennäköisyys on viikonpäivän vastaisena yönä x%"
     -# + ", seuraavana yönä ankaran hallan todennäköisyys on x%."
+    -# + ", seuraavana yönä sama."
     -# + ", seuraavana yönä x%."
     -# + ", seuraava yö on lämpimämpi."
  -# "Ankaran hallan todennäköisyys on viikonpäivän vastaisena yönä x%"
+    -# + ", seuraavana yönä sama."
     -# + ", seuraavana yönä x%."
     -# + ", seuraavana yönä hallan todennäköisyys on x%."
     -# + ", "seuraava yö on huomattavasti lämpimämpi."
@@ -68,9 +70,11 @@ Ruotsiksi
 
  -# "Sannolikheten för nattfrost är natten mot veckodag x%",
     -# + ", följande natt sannolikheten för stark nattfrost är x%."
+    -# + ", följande natt densamma."
     -# + ", följande natt x%."
     -# + ", följande natt är varmare."
  -# "Sannolikheten för stark nattfrost är natten mot veckodag x%",
+    -# + ", följande natt densamma."
     -# + ", följande natt x%".
     -# + ", följande natt sannolikheten för nattfrost är x%".
     -# + ", följande natt är betydligt varmare."
@@ -79,9 +83,11 @@ Englanniksi
 
  -# "Probability of frost is on Monday night x%",
     -# + ", the following night probability of severe frost is x%",
+    -# + ", the following night the same."
     -# + ", the following night x%."
     -# + ", the following night is warmer."
  -# "Probability of severe frost is on Monday night x%",
+    -# + ", the following night the same."
     -# + ", the following night x%".
     -# + ", the following night probability of frost is x%."
     -# + ", the following night is significantly warmer."
@@ -102,6 +108,7 @@ Käytetyt fraasit ovat
  - "on"
  - "N-vastaisena yönä", N=1-7
  - "seuraavana yönä"
+ - "sama"
  - "seuraava yö"
  - "lämpimämpi"
  - "huomattavasti lämpimämpi"

@@ -503,16 +503,17 @@ namespace StoryPhrasesTest
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief FrostStory::maxtwonights() requirements
+   * \brief FrostStory::twonights() requirements
    */
   // ----------------------------------------------------------------------
 
-  void frost_maxtwonights()
+  void frost_twonights()
   {
 	require("hallan todennäköisyys");
 	require("ankaran hallan todennäköisyys");
 	require("on");
 	require("seuraavana yönä");
+	require("sama");
 	require("seuraava yö");
 	require("lämpimämpi");
 	require("huomattavasti lämpimämpi");
@@ -592,7 +593,7 @@ namespace StoryPhrasesTest
 
 	  TEST(frost_mean);
 	  TEST(frost_maximum);
-	  TEST(frost_maxtwonights);
+	  TEST(frost_twonights);
 
 	  TEST(relative_humidity_lowest);
 

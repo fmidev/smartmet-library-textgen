@@ -278,6 +278,22 @@ namespace FrostStoryTest
 	  require(story,"sv",fun,"");
 	  require(story,"en",fun,"");
 
+	  NFmiSettings::instance().set("twonights::fake::day1::mean","30,0");
+	  NFmiSettings::instance().set("twonights::fake::day1::severe_mean","0,0");
+	  NFmiSettings::instance().set("twonights::fake::day2::mean","30,0");
+	  NFmiSettings::instance().set("twonights::fake::day2::severe_mean","0,0");
+	  require(story,"fi",fun,"Hallan todennäköisyys on keskiviikon vastaisena yönä 30%, seuraavana yönä sama.");
+	  require(story,"sv",fun,"Sannolikheten för nattfrost är natten mot onsdagen 30%, följande natt densamma.");
+	  require(story,"en",fun,"Probability of frost is on Wednesday night 30%, the following night the same.");
+
+	  NFmiSettings::instance().set("twonights::fake::day1::mean","30,0");
+	  NFmiSettings::instance().set("twonights::fake::day1::severe_mean","0,0");
+	  NFmiSettings::instance().set("twonights::fake::day2::mean","40,0");
+	  NFmiSettings::instance().set("twonights::fake::day2::severe_mean","0,0");
+	  require(story,"fi",fun,"Hallan todennäköisyys on keskiviikon vastaisena yönä 30%, seuraavana yönä 40%.");
+	  require(story,"sv",fun,"Sannolikheten för nattfrost är natten mot onsdagen 30%, följande natt 40%.");
+	  require(story,"en",fun,"Probability of frost is on Wednesday night 30%, the following night 40%.");
+
 	  NFmiSettings::instance().set("twonights::fake::day1::mean","20,0");
 	  NFmiSettings::instance().set("twonights::fake::day1::severe_mean","0,0");
 	  NFmiSettings::instance().set("twonights::fake::day2::mean","0,0");
