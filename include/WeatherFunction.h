@@ -29,10 +29,13 @@ namespace WeatherAnalysis
 
   enum WeatherFunction
 	{
-	  Maximum,
-	  Minimum,
-	  Mean
-
+	  Mean,
+	  MaxMaximum,
+	  MeanMaximum,
+	  MinMaximum,
+	  MaxMinimum,
+	  MeanMinimum,
+	  MinMinimum
 	}; // enum Weatherfunction
 
 } // namespace WeatherAnalysis

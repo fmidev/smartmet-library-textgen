@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class MaximumAnalyzer
+ * \brief Implementation of class MaxMaximumAnalyzer
  */
 // ======================================================================
 
-#include "MaximumAnalyzer.h"
+#include "MaxMaximumAnalyzer.h"
 #include "AnalysisSources.h"
 #include "MaskSource.h"
 #include "WeatherAnalysisError.h"
@@ -16,7 +16,6 @@
 
 #include "NFmiDataIntegrator.h"
 #include "NFmiDataModifierMax.h"
-#include "NFmiDataModifierStandardDeviation.h"
 #include "NFmiEnumConverter.h"
 #include "NFmiFastQueryInfo.h"
 #include "NFmiQueryData.h"
@@ -33,7 +32,7 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Analyze parameter maximum value
+   * \brief Analyze parameter maximum over area and time
    *
    * \param theSources Analysis sources
    * \param theLimits Analysis limits, not used
@@ -46,7 +45,7 @@ namespace WeatherAnalysis
   // ----------------------------------------------------------------------
 
   WeatherResult
-  MaximumAnalyzer::analyze(const AnalysisSources & theSources,
+  MaxMaximumAnalyzer::analyze(const AnalysisSources & theSources,
 						   const WeatherLimits & theLimits,
 						   const WeatherPeriod & thePeriod,
 						   const WeatherArea & theArea,
@@ -98,23 +97,7 @@ namespace WeatherAnalysis
 		if(result == kFloatMissing)
 		  return WeatherResult(kFloatMissing,0);
 
-		NFmiDataModifierMax timemodifier2;
-		NFmiDataModifierStandardDeviation spacemodifier2;
-
-		float sdev = NFmiDataIntegrator::Integrate(qi,
-												   thePeriod.startTime(),
-												   thePeriod.endTime(),
-												   timemodifier2,
-												   *mask,
-												   spacemodifier2);
-
-		if(sdev==kFloatMissing)
-		  return WeatherResult(result,1);
-
-		if(sdev<=1)
-		  return WeatherResult(result,1);
-
-		return WeatherResult(result,1/sdev);
+		return WeatherResult(result,1);
 
 	  }
 	else

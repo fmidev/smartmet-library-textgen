@@ -6,9 +6,13 @@
 // ======================================================================
 
 #include "FunctionAnalyzerFactory.h"
-#include "MaximumAnalyzer.h"
-#include "MinimumAnalyzer.h"
 #include "MeanAnalyzer.h"
+#include "MaxMaximumAnalyzer.h"
+#include "MeanMaximumAnalyzer.h"
+#include "MinMaximumAnalyzer.h"
+#include "MaxMinimumAnalyzer.h"
+#include "MeanMinimumAnalyzer.h"
+#include "MinMinimumAnalyzer.h"
 #include "WeatherAnalysisError.h"
 
 namespace WeatherAnalysis
@@ -26,12 +30,20 @@ namespace WeatherAnalysis
 	{
 	  switch(theFunction)
 		{
-		case Maximum:
-		  return std::auto_ptr<FunctionAnalyzer>(new MaximumAnalyzer);
-		case Minimum:
-		  return std::auto_ptr<FunctionAnalyzer>(new MinimumAnalyzer);
 		case Mean:
 		  return std::auto_ptr<FunctionAnalyzer>(new MeanAnalyzer);
+		case MaxMaximum:
+		  return std::auto_ptr<FunctionAnalyzer>(new MaxMaximumAnalyzer);
+		case MeanMaximum:
+		  return std::auto_ptr<FunctionAnalyzer>(new MeanMaximumAnalyzer);
+		case MinMaximum:
+		  return std::auto_ptr<FunctionAnalyzer>(new MinMaximumAnalyzer);
+		case MaxMinimum:
+		  return std::auto_ptr<FunctionAnalyzer>(new MaxMinimumAnalyzer);
+		case MeanMinimum:
+		  return std::auto_ptr<FunctionAnalyzer>(new MeanMinimumAnalyzer);
+		case MinMinimum:
+		  return std::auto_ptr<FunctionAnalyzer>(new MinMinimumAnalyzer);
 		}
 	  throw WeatherAnalysisError("FunctionAnalyzerFactory does not support requested function");
 	}

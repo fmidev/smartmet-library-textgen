@@ -1,19 +1,19 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class MaximumAnalyzer
+ * \brief Interface of class MeanMinimumAnalyzer
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::MaximumAnalyzer
+ * \class WeatherAnalysis::MeanMinimumAnalyzer
  *
- * \brief Maximum analysis
+ * \brief Maximum in space of time maxima
  *
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_MAXIMUMANALYZER_H
-#define WEATHERANALYSIS_MAXIMUMANALYZER_H
+#ifndef WEATHERANALYSIS_MEANMINIMUMANALYZER_H
+#define WEATHERANALYSIS_MEANMINIMUMANALYZER_H
 
 #include "FunctionAnalyzer.h"
 
@@ -25,7 +25,7 @@ namespace WeatherAnalysis
   class WeatherPeriod;
   class WeatherResult;
 
-  class MaximumAnalyzer : public FunctionAnalyzer
+  class MeanMinimumAnalyzer : public FunctionAnalyzer
   {
   public:
 
@@ -35,10 +35,10 @@ namespace WeatherAnalysis
 								  const WeatherArea & theArea,
 								  const std::string & theDataName,
 								  const std::string & theParameterName) const;
-  }; // class MaximumAnalyzer
+  }; // class MeanMinimumAnalyzer
 
 } // namespace WeatherAnalysis
 
-#endif // WEATHERANALYSIS_MAXIMUMANALYZER_H
+#endif // WEATHERANALYSIS_MEANMINIMUMANALYZER_H
 
 // ======================================================================
