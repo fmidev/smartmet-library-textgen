@@ -91,9 +91,9 @@ mutta vastuu sopivan fraasin valinnasta on käyttäjällä.
 Periodi kattaa jakson seuraavasta aamusta iltaan, tai koko seuraavan
 vuorokauden.
 
- -# Jos ennustuspäivä+1 <> periodin alkamispäivä, "viikonpäivänä"
  -# Jos prefer_phrase_weekday, "viikonpäivänä"
  -# Jos prefer_phrase_followingday, "seuraavana päivänä"
+ -# Jos ennustuspäivä+1 <> periodin alkamispäivä, "viikonpäivänä"
  -# Jos prefer_phrase_tomorrow, "huomenna"
  -# "huomenna"
 
