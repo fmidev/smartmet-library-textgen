@@ -487,7 +487,10 @@ namespace TextGen
 		  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 			{
 			  if(*it == "none")
-				return sentence;
+				{
+				  if(isSameDay(theForecastTime, starttime))
+					return sentence;
+				}
 			  else if(*it == "today")
 				{
 				  if(isSameDay(theForecastTime, starttime))
@@ -515,7 +518,10 @@ namespace TextGen
 		  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 			{
 			  if(*it == "none")
-				return sentence;
+				{
+				  if(isSameDay(theForecastTime,starttime))
+					return sentence;
+				}
 			  else if(*it == "today")
 				{
 				  if(isSameDay(theForecastTime,starttime))

@@ -260,9 +260,9 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  NFmiSettings::Set("a::fake::day1::direction::mean","0,0");
 	  NFmiSettings::Set("a::fake::day2::direction::mean","90,0");
 	  NFmiSettings::Set("a::fake::days1-2::direction::mean","45,30");
-	  REQUIRE(story,"fi",fun,"Koillisen puoleista tuulta 0...2 m/s.");
-	  REQUIRE(story,"sv",fun,"Vind omkring nordost 0...2 m/s.");
-	  REQUIRE(story,"en",fun,"Approximately northeasterly wind 0...2 m/s.");
+	  REQUIRE(story,"fi",fun,"Huomenna ja seuraavana päivänä koillisen puoleista tuulta 0...2 m/s.");
+	  REQUIRE(story,"sv",fun,"I morgon och följande dag vind omkring nordost 0...2 m/s.");
+	  REQUIRE(story,"en",fun,"Tomorrow and the following day approximately northeasterly wind 0...2 m/s.");
 
 	  NFmiSettings::Set("a::days::phrases","today,tomorrow,followingday,weekday,none");
 	  REQUIRE(story,"fi",fun,"Huomenna ja seuraavana päivänä koillisen puoleista tuulta 0...2 m/s.");
