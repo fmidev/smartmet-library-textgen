@@ -92,7 +92,7 @@ namespace WeatherAnalysis
 	if(itsFinder.Empty())
 	  {
 		string filename = Settings::require_string("textgen::coordinates");
-		itsFinder.AddFile(filename);
+		itsFinder.AddFile(filename,false);
 	  }
 
 	NFmiPoint point = itsFinder.Find(theLocation);
