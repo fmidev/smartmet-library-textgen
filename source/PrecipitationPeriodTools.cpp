@@ -19,9 +19,9 @@
 
 #include "PrecipitationPeriodTools.h"
 
-#include "newbase/NFmiFastQueryInfo.h"
-#include "newbase/NFmiQueryData.h"
-#include "newbase/NFmiTime.h"
+#include "NFmiFastQueryInfo.h"
+#include "NFmiQueryData.h"
+#include "NFmiTime.h"
 
 #include "AnalysisSources.h"
 #include "MaskSource.h"

@@ -24,8 +24,8 @@
 #include "Settings.h"
 #include "WeatherAnalysisError.h"
 
-#include "newbase/NFmiFileSystem.h"
-#include "newbase/NFmiQueryData.h"
+#include "NFmiFileSystem.h"
+#include "NFmiQueryData.h"
 
 #include <cassert>
 #include <map>

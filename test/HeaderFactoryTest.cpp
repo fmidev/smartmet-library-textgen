@@ -7,7 +7,7 @@
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
 
-#include "newbase/NFmiSettings.h"
+#include "NFmiSettings.h"
 
 #include <iostream>
 #include <stdexcept>

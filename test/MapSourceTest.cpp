@@ -1,6 +1,6 @@
 #include "regression/tframe.h"
 #include "MapSource.h"
-#include "newbase/NFmiSvgPath.h"
+#include "NFmiSvgPath.h"
 
 using namespace std;
 

@@ -5,8 +5,8 @@
 #include "Sentence.h"
 #include "WeatherPeriod.h"
 
-#include "newbase/NFmiSettings.h"
-#include "newbase/NFmiTime.h"
+#include "NFmiSettings.h"
+#include "NFmiTime.h"
 
 #include <iostream>
 #include <stdexcept>

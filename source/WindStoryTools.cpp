@@ -21,7 +21,7 @@
 #include "UnitFactory.h"
 #include "WeatherResult.h"
 
-#include "newbase/NFmiGlobals.h"
+#include "NFmiGlobals.h"
 
 #include "boost/lexical_cast.hpp"
 

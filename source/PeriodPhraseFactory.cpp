@@ -23,8 +23,8 @@
 #include "WeatherPeriod.h"
 #include "WeekdayTools.h"
 
-#include "newbase/NFmiStringTools.h"
-#include "newbase/NFmiTime.h"
+#include "NFmiStringTools.h"
+#include "NFmiTime.h"
 
 #include "boost/lexical_cast.hpp"
 

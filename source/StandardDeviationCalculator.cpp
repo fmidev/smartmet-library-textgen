@@ -19,7 +19,7 @@
 #include "StandardDeviationCalculator.h"
 #include "DefaultAcceptor.h"
 
-#include "newbase/NFmiGlobals.h"
+#include "NFmiGlobals.h"
 
 #include <cmath>
 

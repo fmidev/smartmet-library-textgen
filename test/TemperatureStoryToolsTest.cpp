@@ -3,7 +3,7 @@
 #include "DictionaryFactory.h"
 #include "TemperatureStoryTools.h"
 
-#include "newbase/NFmiSettings.h"
+#include "NFmiSettings.h"
 
 #include <iostream>
 #include <stdexcept>

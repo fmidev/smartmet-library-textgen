@@ -20,8 +20,8 @@
 
 #include "QueryDataTools.h"
 
-#include "newbase/NFmiFastQueryInfo.h"
-#include "newbase/NFmiTime.h"
+#include "NFmiFastQueryInfo.h"
+#include "NFmiTime.h"
 
 namespace WeatherAnalysis
 {

@@ -1,6 +1,6 @@
 #include "regression/tframe.h"
 #include "TimeTools.h"
-#include "newbase/NFmiTime.h"
+#include "NFmiTime.h"
 
 using namespace std;
 

@@ -1,7 +1,7 @@
 #include "regression/tframe.h"
 #include "WeatherPeriodTools.h"
 #include "WeatherPeriod.h"
-#include "newbase/NFmiTime.h"
+#include "NFmiTime.h"
 
 using namespace std;
 

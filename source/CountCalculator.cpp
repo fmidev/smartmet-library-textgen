@@ -16,7 +16,7 @@
 #include "DefaultAcceptor.h"
 #include "NullAcceptor.h"
 
-#include "newbase/NFmiGlobals.h"
+#include "NFmiGlobals.h"
 
 using namespace boost;
 

@@ -24,7 +24,7 @@
 #include "WeatherPeriod.h"
 #include "WeatherAnalysisError.h"
 
-#include "newbase/NFmiTime.h"
+#include "NFmiTime.h"
 
 
 using namespace std;

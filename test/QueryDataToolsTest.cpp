@@ -1,7 +1,7 @@
 #include "regression/tframe.h"
 #include "QueryDataTools.h"
 
-#include "newbase/NFmiStreamQueryData.h"
+#include "NFmiStreamQueryData.h"
 #include <stdexcept>
 
 using namespace std;

@@ -19,7 +19,7 @@
 // ======================================================================
 
 #include "TimeTools.h"
-#include "newbase/NFmiTime.h"
+#include "NFmiTime.h"
 
 #include <ctime>
 

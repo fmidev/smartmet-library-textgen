@@ -8,7 +8,7 @@
 #ifndef WEATHERANALYSIS_WEATHERAREA_H
 #define WEATHERANALYSIS_WEATHERAREA_H
 
-#include "newbase/NFmiPoint.h"
+#include "NFmiPoint.h"
 #include <string>
 
 namespace WeatherAnalysis

@@ -24,7 +24,7 @@
 #include "UserWeatherSource.h"
 #include "IdGenerator.h"
 #include "WeatherAnalysisError.h"
-#include "newbase/NFmiQueryData.h"
+#include "NFmiQueryData.h"
 #include <cassert>
 #include <map>
 

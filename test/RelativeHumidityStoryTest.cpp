@@ -6,7 +6,7 @@
 #include "RelativeHumidityStory.h"
 #include "Story.h"
 
-#include "newbase/NFmiSettings.h"
+#include "NFmiSettings.h"
 
 #include <iostream>
 #include <stdexcept>

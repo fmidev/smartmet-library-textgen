@@ -1,6 +1,6 @@
 #include "regression/tframe.h"
 #include "MeanCalculator.h"
-#include "newbase/NFmiGlobals.h"
+#include "NFmiGlobals.h"
 
 #include <iostream>
 #include <string>

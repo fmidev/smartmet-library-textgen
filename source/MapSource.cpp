@@ -19,8 +19,8 @@
 #include "Settings.h"
 #include "WeatherAnalysisError.h"
 
-#include "newbase/NFmiFileSystem.h"
-#include "newbase/NFmiSvgPath.h"
+#include "NFmiFileSystem.h"
+#include "NFmiSvgPath.h"
 
 #include <cassert>
 #include <fstream>

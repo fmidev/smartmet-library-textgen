@@ -23,7 +23,7 @@
 #include "Settings.h"
 #include "TextGenError.h"
 
-#include "newbase/NFmiTime.h"
+#include "NFmiTime.h"
 
 using namespace WeatherAnalysis;
 using namespace std;
