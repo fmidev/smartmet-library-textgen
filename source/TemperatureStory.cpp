@@ -7,6 +7,7 @@
 
 #include "TemperatureStory.h"
 #include "GridForecaster.h"
+#include "Number.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "TextGenError.h"
@@ -97,6 +98,8 @@ namespace TextGen
    * \brief Generate story on mean temperature
    *
    * \return The generated paragraph
+   *
+   * \todo Is throwing the best way to handle missing results?
    */
   // ----------------------------------------------------------------------
   
@@ -105,11 +108,24 @@ namespace TextGen
 	Paragraph paragraph;
 	Sentence sentence;
 
-	const int value = 10;
+	GridForecaster forecaster;
+
+	WeatherResult result = forecaster.analyze(itsSources,
+											  Temperature,
+											  Mean,
+											  WeatherLimits(),
+											  itsPeriod,
+											  itsArea);
+
+	if(result.value() == kFloatMissing)
+	  throw TextGenError("Mean temperature not available");
+
+	Number<int> num = FmiRound(result.value());
 
 	sentence << "keskilämpötila"
-			 << value
+			 << num
 			 << "astetta";
+	
 	paragraph << sentence;
 	return paragraph;
   }
