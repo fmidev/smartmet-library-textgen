@@ -1698,13 +1698,13 @@ Yhdistelmi‰ on yhteens‰ 576 kappaletta.
 <td colspan="9">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="38">9-23</td>
 <td colspan="1">&nbsp;</td>
-<td>T‰n‰‰n aamup‰iv‰st‰ alkaen [paikoin] [sadetta></td>
+<td>T‰n‰‰n aamup‰iv‰st‰ alkaen [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>240.</td>
 <td colspan="9">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="39">9-24</td>
-<td>T‰n‰‰n aamup‰iv‰st‰ alkaen [paikoin] [sadetta></td>
+<td>T‰n‰‰n aamup‰iv‰st‰ alkaen [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>241.</td>
@@ -1865,13 +1865,13 @@ Yhdistelmi‰ on yhteens‰ 576 kappaletta.
 <td colspan="10">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="37">10-23</td>
 <td colspan="1">&nbsp;</td>
-<td>T‰n‰‰n aamup‰iv‰st‰ alkaen [paikoin] [sadetta></td>
+<td>T‰n‰‰n aamup‰iv‰st‰ alkaen [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>264.</td>
 <td colspan="10">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="38">10-24</td>
-<td>T‰n‰‰n aamup‰iv‰st‰ alkaen [paikoin] [sadetta></td>
+<td>T‰n‰‰n aamup‰iv‰st‰ alkaen [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>265.</td>
@@ -2700,13 +2700,13 @@ Yhdistelmi‰ on yhteens‰ 576 kappaletta.
 <td colspan="15">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="32">15-23</td>
 <td colspan="1">&nbsp;</td>
-<td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta></td>
+<td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>384.</td>
 <td colspan="15">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="33">15-24</td>
-<td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta></td>
+<td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>385.</td>
@@ -2867,13 +2867,13 @@ Yhdistelmi‰ on yhteens‰ 576 kappaletta.
 <td colspan="16">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="31">16-23</td>
 <td colspan="1">&nbsp;</td>
-<td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta></td>
+<td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>408.</td>
 <td colspan="16">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="32">16-24</td>
-<td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta></td>
+<td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>409.</td>
@@ -3034,13 +3034,13 @@ Yhdistelmi‰ on yhteens‰ 576 kappaletta.
 <td colspan="17">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="30">17-23</td>
 <td colspan="1">&nbsp;</td>
-<td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta></td>
+<td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>432.</td>
 <td colspan="17">&nbsp;</td>
 <td align="center" bgcolor="#ccffff" colspan="31">17-24</td>
-<td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta></td>
+<td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta]</td>
 </tr>
 <tr>
 <td>433.</td>
@@ -4055,7 +4055,7 @@ Alla on lueteltu kaikki uniikit tarinat numeroituina.
 <tr><td>2.</td><td>T‰n‰‰n aamup‰iv‰st‰ alkaen [paikoin] [sadetta], huomenna [enimm‰kseen selke‰‰]</td></tr>
 <tr><td>3.</td><td>T‰n‰‰n aamup‰iv‰st‰ alkaen [paikoin] [sadetta], huomenna iltap‰iv‰st‰ alkaen poutaa</td></tr>
 <tr><td>4.</td><td>T‰n‰‰n aamup‰iv‰st‰ alkaen [paikoin] [sadetta], huomenna keskip‰iv‰st‰ alkaen poutaa, [enimm‰kseen selke‰‰]</td></tr>
-<tr><td>5.</td><td>T‰n‰‰n aamup‰iv‰st‰ alkaen [paikoin] [sadetta></td></tr>
+<tr><td>5.</td><td>T‰n‰‰n aamup‰iv‰st‰ alkaen [paikoin] [sadetta]</td></tr>
 <tr><td>6.</td><td>T‰n‰‰n aamup‰iv‰st‰ alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimm‰kseen selke‰‰]</td></tr>
 <tr><td>7.</td><td>T‰n‰‰n aamup‰iv‰st‰ alkaen tiistai-iltaan asti [paikoin] [sadetta]</td></tr>
 <tr><td>8.</td><td>T‰n‰‰n aamusta alkaen [paikoin] [sadetta], huomenna aamup‰iv‰st‰ alkaen poutaa, [enimm‰kseen selke‰‰]</td></tr>
@@ -4082,7 +4082,7 @@ Alla on lueteltu kaikki uniikit tarinat numeroituina.
 <tr><td>29.</td><td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta], huomenna [enimm‰kseen selke‰‰]</td></tr>
 <tr><td>30.</td><td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta], huomenna iltap‰iv‰st‰ alkaen poutaa</td></tr>
 <tr><td>31.</td><td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta], huomenna keskip‰iv‰st‰ alkaen poutaa, [enimm‰kseen selke‰‰]</td></tr>
-<tr><td>32.</td><td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta></td></tr>
+<tr><td>32.</td><td>T‰n‰‰n iltap‰iv‰st‰ alkaen [paikoin] [sadetta]</td></tr>
 <tr><td>33.</td><td>T‰n‰‰n iltap‰iv‰st‰ alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimm‰kseen selke‰‰]</td></tr>
 <tr><td>34.</td><td>T‰n‰‰n iltap‰iv‰st‰ alkaen tiistai-iltaan asti [paikoin] [sadetta]</td></tr>
 <tr><td>35.</td><td>T‰n‰‰n ja huomenna [paikoin] [sadetta]</td></tr>
