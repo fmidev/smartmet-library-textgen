@@ -48,7 +48,7 @@ namespace TextGen
    * The variable and its subvariables may be used to control the
    * details of the text formatter.
    *
-   * The variable can be accessed with NFmiSettings::instance().isset()
+   * The variable can be accessed with NFmiSettings::IsSet()
    * and other methods.
    *
    * \param theVariable The variable name

@@ -74,7 +74,7 @@ int main(void)
 
   dict = TextGen::DictionaryFactory::create("null");
 
-  NFmiSettings::instance().set("textgen::units::celsius::format","phrase");
+  NFmiSettings::Set("textgen::units::celsius::format","phrase");
 
   tests t;
   return t.run();

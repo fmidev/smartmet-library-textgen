@@ -61,22 +61,22 @@ namespace TemperatureStoryTest
 
 	const string fun = "temperature_mean";
 
-	NFmiSettings::instance().set("mean::fake::mean","0.1,0");
+	NFmiSettings::Set("mean::fake::mean","0.1,0");
 	require(story,"fi",fun,"Keskilämpötila 0\260C.");
 	require(story,"sv",fun,"Medeltemperaturen 0 grader.");
 	require(story,"en",fun,"Mean temperature 0 degrees.");
 
-	NFmiSettings::instance().set("mean::fake::mean","0.5,0");
+	NFmiSettings::Set("mean::fake::mean","0.5,0");
 	require(story,"fi",fun,"Keskilämpötila 1\260C.");
 	require(story,"sv",fun,"Medeltemperaturen 1 grader.");
 	require(story,"en",fun,"Mean temperature 1 degrees.");
 
-	NFmiSettings::instance().set("mean::fake::mean","10,0");
+	NFmiSettings::Set("mean::fake::mean","10,0");
 	require(story,"fi",fun,"Keskilämpötila 10\260C.");
 	require(story,"sv",fun,"Medeltemperaturen 10 grader.");
 	require(story,"en",fun,"Mean temperature 10 degrees.");
 
-	NFmiSettings::instance().set("mean::fake::mean","-10.5,0");
+	NFmiSettings::Set("mean::fake::mean","-10.5,0");
 	require(story,"fi",fun,"Keskilämpötila -11\260C.");
 	require(story,"sv",fun,"Medeltemperaturen -11 grader.");
 	require(story,"en",fun,"Mean temperature -11 degrees.");
@@ -105,22 +105,22 @@ namespace TemperatureStoryTest
 
 	const string fun = "temperature_meanmax";
 
-	NFmiSettings::instance().set("meanmax::fake::mean","0.1,0");
+	NFmiSettings::Set("meanmax::fake::mean","0.1,0");
 	require(story,"fi",fun,"Keskimääräinen ylin lämpötila 0 astetta.");
 	require(story,"sv",fun,"Den maximi temperaturen i medeltal 0 grader.");
 	require(story,"en",fun,"Mean maximum temperature 0 degrees.");
 
-	NFmiSettings::instance().set("meanmax::fake::mean","0.5,0");
+	NFmiSettings::Set("meanmax::fake::mean","0.5,0");
 	require(story,"fi",fun,"Keskimääräinen ylin lämpötila 1 astetta.");
 	require(story,"sv",fun,"Den maximi temperaturen i medeltal 1 grader.");
 	require(story,"en",fun,"Mean maximum temperature 1 degrees.");
 
-	NFmiSettings::instance().set("meanmax::fake::mean","10,0");
+	NFmiSettings::Set("meanmax::fake::mean","10,0");
 	require(story,"fi",fun,"Keskimääräinen ylin lämpötila 10 astetta.");
 	require(story,"sv",fun,"Den maximi temperaturen i medeltal 10 grader.");
 	require(story,"en",fun,"Mean maximum temperature 10 degrees.");
 
-	NFmiSettings::instance().set("meanmax::fake::mean","-10.5,0");
+	NFmiSettings::Set("meanmax::fake::mean","-10.5,0");
 	require(story,"fi",fun,"Keskimääräinen ylin lämpötila -11 astetta.");
 	require(story,"sv",fun,"Den maximi temperaturen i medeltal -11 grader.");
 	require(story,"en",fun,"Mean maximum temperature -11 degrees.");
@@ -149,22 +149,22 @@ namespace TemperatureStoryTest
 
 	const string fun = "temperature_meanmin";
 
-	NFmiSettings::instance().set("meanmin::fake::mean","0.1,0");
+	NFmiSettings::Set("meanmin::fake::mean","0.1,0");
 	require(story,"fi",fun,"Keskimääräinen alin lämpötila 0 astetta.");
 	require(story,"sv",fun,"Den minimi temperaturen i medeltal 0 grader.");
 	require(story,"en",fun,"Mean minimum temperature 0 degrees.");
 
-	NFmiSettings::instance().set("meanmin::fake::mean","0.5,0");
+	NFmiSettings::Set("meanmin::fake::mean","0.5,0");
 	require(story,"fi",fun,"Keskimääräinen alin lämpötila 1 astetta.");
 	require(story,"sv",fun,"Den minimi temperaturen i medeltal 1 grader.");
 	require(story,"en",fun,"Mean minimum temperature 1 degrees.");
 
-	NFmiSettings::instance().set("meanmin::fake::mean","10,0");
+	NFmiSettings::Set("meanmin::fake::mean","10,0");
 	require(story,"fi",fun,"Keskimääräinen alin lämpötila 10 astetta.");
 	require(story,"sv",fun,"Den minimi temperaturen i medeltal 10 grader.");
 	require(story,"en",fun,"Mean minimum temperature 10 degrees.");
 
-	NFmiSettings::instance().set("meanmin::fake::mean","-10.5,0");
+	NFmiSettings::Set("meanmin::fake::mean","-10.5,0");
 	require(story,"fi",fun,"Keskimääräinen alin lämpötila -11 astetta.");
 	require(story,"sv",fun,"Den minimi temperaturen i medeltal -11 grader.");
 	require(story,"en",fun,"Mean minimum temperature -11 degrees.");
@@ -188,17 +188,17 @@ namespace TemperatureStoryTest
 	WeatherArea area("dummy");
 	const string fun = "temperature_dailymax";
 
-	NFmiSettings::instance().set("dailymax::significantly_higher","6");
-	NFmiSettings::instance().set("dailymax::higher","4");
-	NFmiSettings::instance().set("dailymax::somewhat_higher","2");
-	NFmiSettings::instance().set("dailymax::somewhat_lower","2");
-	NFmiSettings::instance().set("dailymax::lower","4");
-	NFmiSettings::instance().set("dailymax::significantly_lower","6");
-	NFmiSettings::instance().set("dailymax::mininterval","2");
-	NFmiSettings::instance().set("dailymax::always_interval_zero","true");
-	NFmiSettings::instance().set("dailymax::starthour","6");
-	NFmiSettings::instance().set("dailymax::endhour","18");
-	NFmiSettings::instance().set("dailymax::prefer_daynames","false");
+	NFmiSettings::Set("dailymax::significantly_higher","6");
+	NFmiSettings::Set("dailymax::higher","4");
+	NFmiSettings::Set("dailymax::somewhat_higher","2");
+	NFmiSettings::Set("dailymax::somewhat_lower","2");
+	NFmiSettings::Set("dailymax::lower","4");
+	NFmiSettings::Set("dailymax::significantly_lower","6");
+	NFmiSettings::Set("dailymax::mininterval","2");
+	NFmiSettings::Set("dailymax::always_interval_zero","true");
+	NFmiSettings::Set("dailymax::starthour","6");
+	NFmiSettings::Set("dailymax::endhour","18");
+	NFmiSettings::Set("dailymax::prefer_daynames","false");
 
 	// Test the part concerning day 1
 	{
@@ -207,51 +207,51 @@ namespace TemperatureStoryTest
 	  WeatherPeriod period(time1,time2);
 	  TemperatureStory story(time1,sources,area,period,"dailymax");
 	
-	  NFmiSettings::instance().set("dailymax::fake::day1::minimum","5,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::mean","5,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::maximum","5,0");
+	  NFmiSettings::Set("dailymax::fake::day1::minimum","5,0");
+	  NFmiSettings::Set("dailymax::fake::day1::mean","5,0");
+	  NFmiSettings::Set("dailymax::fake::day1::maximum","5,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina noin 5 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen cirka 5 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday about 5 degrees.");
 
-	  NFmiSettings::instance().set("dailymax::fake::day1::minimum","5,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::mean","6,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::maximum","6,0");
+	  NFmiSettings::Set("dailymax::fake::day1::minimum","5,0");
+	  NFmiSettings::Set("dailymax::fake::day1::mean","6,0");
+	  NFmiSettings::Set("dailymax::fake::day1::maximum","6,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina noin 6 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen cirka 6 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday about 6 degrees.");
 
-	  NFmiSettings::instance().set("dailymax::fake::day1::minimum","5,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::mean","6,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::maximum","7,0");
+	  NFmiSettings::Set("dailymax::fake::day1::minimum","5,0");
+	  NFmiSettings::Set("dailymax::fake::day1::mean","6,0");
+	  NFmiSettings::Set("dailymax::fake::day1::maximum","7,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees.");
 
-	  NFmiSettings::instance().set("dailymax::fake::day1::minimum","0,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::mean","0,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::maximum","0,0");
+	  NFmiSettings::Set("dailymax::fake::day1::minimum","0,0");
+	  NFmiSettings::Set("dailymax::fake::day1::mean","0,0");
+	  NFmiSettings::Set("dailymax::fake::day1::maximum","0,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina noin 0 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen cirka 0 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday about 0 degrees.");
 
-	  NFmiSettings::instance().set("dailymax::fake::day1::minimum","0,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::mean","0,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::maximum","1,0");
+	  NFmiSettings::Set("dailymax::fake::day1::minimum","0,0");
+	  NFmiSettings::Set("dailymax::fake::day1::mean","0,0");
+	  NFmiSettings::Set("dailymax::fake::day1::maximum","1,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 0...1 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 0...1 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 0...1 degrees.");
 
-	  NFmiSettings::instance().set("dailymax::fake::day1::minimum","-1,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::mean","0,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::maximum","0,0");
+	  NFmiSettings::Set("dailymax::fake::day1::minimum","-1,0");
+	  NFmiSettings::Set("dailymax::fake::day1::mean","0,0");
+	  NFmiSettings::Set("dailymax::fake::day1::maximum","0,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina -1...0 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen -1...0 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday -1...0 degrees.");
 
-	  NFmiSettings::instance().set("dailymax::fake::day1::minimum","-1,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::mean","0,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::maximum","1,0");
+	  NFmiSettings::Set("dailymax::fake::day1::minimum","-1,0");
+	  NFmiSettings::Set("dailymax::fake::day1::mean","0,0");
+	  NFmiSettings::Set("dailymax::fake::day1::maximum","1,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina -1...1 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen -1...1 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday -1...1 degrees.");
@@ -265,70 +265,70 @@ namespace TemperatureStoryTest
 	  WeatherPeriod period(time1,time2);
 	  TemperatureStory story(time1,sources,area,period,"dailymax");
 	
-	  NFmiSettings::instance().set("dailymax::fake::day1::minimum","5,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::mean","6,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::maximum","7,0");
+	  NFmiSettings::Set("dailymax::fake::day1::minimum","5,0");
+	  NFmiSettings::Set("dailymax::fake::day1::mean","6,0");
+	  NFmiSettings::Set("dailymax::fake::day1::maximum","7,0");
 
 	  // change 0 degrees
-	  NFmiSettings::instance().set("dailymax::fake::day2::minimum","5,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::mean","6,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::maximum","7,0");
+	  NFmiSettings::Set("dailymax::fake::day2::minimum","5,0");
+	  NFmiSettings::Set("dailymax::fake::day2::mean","6,0");
+	  NFmiSettings::Set("dailymax::fake::day2::maximum","7,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä suunnilleen sama.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag ungefär densamma.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day about the same.");
 
 	  // change 1 degrees
-	  NFmiSettings::instance().set("dailymax::fake::day2::minimum","6,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::mean","7,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::maximum","8,0");
+	  NFmiSettings::Set("dailymax::fake::day2::minimum","6,0");
+	  NFmiSettings::Set("dailymax::fake::day2::mean","7,0");
+	  NFmiSettings::Set("dailymax::fake::day2::maximum","8,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä suunnilleen sama.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag ungefär densamma.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day about the same.");
 
 	  // change 2 degrees
-	  NFmiSettings::instance().set("dailymax::fake::day2::minimum","7,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::mean","8,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::maximum","9,0");
+	  NFmiSettings::Set("dailymax::fake::day2::minimum","7,0");
+	  NFmiSettings::Set("dailymax::fake::day2::mean","8,0");
+	  NFmiSettings::Set("dailymax::fake::day2::maximum","9,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä hieman korkeampi.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag något högre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day somewhat higher.");
 
 	  // change 4 degrees
-	  NFmiSettings::instance().set("dailymax::fake::day2::minimum","9,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::mean","10,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::maximum","11,0");
+	  NFmiSettings::Set("dailymax::fake::day2::minimum","9,0");
+	  NFmiSettings::Set("dailymax::fake::day2::mean","10,0");
+	  NFmiSettings::Set("dailymax::fake::day2::maximum","11,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä korkeampi.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag högre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day higher.");
 
 	  // change 6 degrees
-	  NFmiSettings::instance().set("dailymax::fake::day2::minimum","11,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::mean","12,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::maximum","13,0");
+	  NFmiSettings::Set("dailymax::fake::day2::minimum","11,0");
+	  NFmiSettings::Set("dailymax::fake::day2::mean","12,0");
+	  NFmiSettings::Set("dailymax::fake::day2::maximum","13,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä huomattavasti korkeampi.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag betydligt högre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day significantly higher.");
 
 	  // change - 2 degrees
-	  NFmiSettings::instance().set("dailymax::fake::day2::minimum","3,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::mean","4,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::maximum","5,0");
+	  NFmiSettings::Set("dailymax::fake::day2::minimum","3,0");
+	  NFmiSettings::Set("dailymax::fake::day2::mean","4,0");
+	  NFmiSettings::Set("dailymax::fake::day2::maximum","5,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä hieman alempi.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag något lägre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day somewhat lower.");
 
 	  // change -4 degrees
-	  NFmiSettings::instance().set("dailymax::fake::day2::minimum","1,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::mean","2,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::maximum","3,0");
+	  NFmiSettings::Set("dailymax::fake::day2::minimum","1,0");
+	  NFmiSettings::Set("dailymax::fake::day2::mean","2,0");
+	  NFmiSettings::Set("dailymax::fake::day2::maximum","3,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä alempi.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag lägre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day lower.");
 
 	  // change -6 degrees
-	  NFmiSettings::instance().set("dailymax::fake::day2::minimum","-1,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::mean","0,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::maximum","1,0");
+	  NFmiSettings::Set("dailymax::fake::day2::minimum","-1,0");
+	  NFmiSettings::Set("dailymax::fake::day2::mean","0,0");
+	  NFmiSettings::Set("dailymax::fake::day2::maximum","1,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä huomattavasti alempi.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag betydligt lägre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day significantly lower.");
@@ -342,21 +342,21 @@ namespace TemperatureStoryTest
 	  WeatherPeriod period(time1,time2);
 	  TemperatureStory story(time1,sources,area,period,"dailymax");
 	
-	  NFmiSettings::instance().set("dailymax::fake::day1::minimum","5,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::mean","6,0");
-	  NFmiSettings::instance().set("dailymax::fake::day1::maximum","7,0");
+	  NFmiSettings::Set("dailymax::fake::day1::minimum","5,0");
+	  NFmiSettings::Set("dailymax::fake::day1::mean","6,0");
+	  NFmiSettings::Set("dailymax::fake::day1::maximum","7,0");
 
-	  NFmiSettings::instance().set("dailymax::fake::day2::minimum","5,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::mean","6,0");
-	  NFmiSettings::instance().set("dailymax::fake::day2::maximum","7,0");
+	  NFmiSettings::Set("dailymax::fake::day2::minimum","5,0");
+	  NFmiSettings::Set("dailymax::fake::day2::mean","6,0");
+	  NFmiSettings::Set("dailymax::fake::day2::maximum","7,0");
 
-	  NFmiSettings::instance().set("dailymax::fake::day3::minimum","8,0");
-	  NFmiSettings::instance().set("dailymax::fake::day3::mean","10,0");
-	  NFmiSettings::instance().set("dailymax::fake::day3::maximum","12,0");
+	  NFmiSettings::Set("dailymax::fake::day3::minimum","8,0");
+	  NFmiSettings::Set("dailymax::fake::day3::mean","10,0");
+	  NFmiSettings::Set("dailymax::fake::day3::maximum","12,0");
 
-	  NFmiSettings::instance().set("dailymax::fake::day4::minimum","3,0");
-	  NFmiSettings::instance().set("dailymax::fake::day4::mean","4,0");
-	  NFmiSettings::instance().set("dailymax::fake::day4::maximum","4,0");
+	  NFmiSettings::Set("dailymax::fake::day4::minimum","3,0");
+	  NFmiSettings::Set("dailymax::fake::day4::mean","4,0");
+	  NFmiSettings::Set("dailymax::fake::day4::maximum","4,0");
 
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä suunnilleen sama, tiistaina 8...12 astetta, keskiviikkona noin 4 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag ungefär densamma, på tisdagen 8...12 grader, på onsdagen cirka 4 grader.");
@@ -388,33 +388,33 @@ namespace TemperatureStoryTest
 
 	const string fun = "temperature_weekly_minmax";
 
-	NFmiSettings::instance().set("weekly_minmax::day::starthour","6");
-	NFmiSettings::instance().set("weekly_minmax::day::endhour","18");
-	NFmiSettings::instance().set("weekly_minmax::night::starthour","18");
-	NFmiSettings::instance().set("weekly_minmax::night::endhour","6");
+	NFmiSettings::Set("weekly_minmax::day::starthour","6");
+	NFmiSettings::Set("weekly_minmax::day::endhour","18");
+	NFmiSettings::Set("weekly_minmax::night::starthour","18");
+	NFmiSettings::Set("weekly_minmax::night::endhour","6");
 
-	NFmiSettings::instance().set("weekly_minmax::fake::day::minimum","10,0");
-	NFmiSettings::instance().set("weekly_minmax::fake::day::mean","12,0");
-	NFmiSettings::instance().set("weekly_minmax::fake::day::maximum","15,0");
-	NFmiSettings::instance().set("weekly_minmax::fake::night::minimum","2,0");
-	NFmiSettings::instance().set("weekly_minmax::fake::night::mean","4,0");
-	NFmiSettings::instance().set("weekly_minmax::fake::night::maximum","5,0");
+	NFmiSettings::Set("weekly_minmax::fake::day::minimum","10,0");
+	NFmiSettings::Set("weekly_minmax::fake::day::mean","12,0");
+	NFmiSettings::Set("weekly_minmax::fake::day::maximum","15,0");
+	NFmiSettings::Set("weekly_minmax::fake::night::minimum","2,0");
+	NFmiSettings::Set("weekly_minmax::fake::night::mean","4,0");
+	NFmiSettings::Set("weekly_minmax::fake::night::maximum","5,0");
 	require(story,"fi",fun,"Päivien ylin lämpötila on 10...15 astetta, öiden alin lämpötila 2...5 astetta.");
 	require(story,"sv",fun,"Dagens maximi temperaturer är 10...15 grader, nattens minimi temperaturer 2...5 grader.");
 	require(story,"en",fun,"Daily maximum temperature is 10...15 degrees, nightly minimum temperature 2...5 degrees.");
 
-	NFmiSettings::instance().set("weekly_minmax::night::mininterval","4");
+	NFmiSettings::Set("weekly_minmax::night::mininterval","4");
 	require(story,"fi",fun,"Päivien ylin lämpötila on 10...15 astetta, öiden alin lämpötila noin 4 astetta.");
 	require(story,"sv",fun,"Dagens maximi temperaturer är 10...15 grader, nattens minimi temperaturer cirka 4 grader.");
 	require(story,"en",fun,"Daily maximum temperature is 10...15 degrees, nightly minimum temperature about 4 degrees.");
 
-	NFmiSettings::instance().set("weekly_minmax::day::mininterval","6");
-	NFmiSettings::instance().set("weekly_minmax::night::mininterval","2");
+	NFmiSettings::Set("weekly_minmax::day::mininterval","6");
+	NFmiSettings::Set("weekly_minmax::night::mininterval","2");
 	require(story,"fi",fun,"Päivien ylin lämpötila on noin 12 astetta, öiden alin lämpötila 2...5 astetta.");
 	require(story,"sv",fun,"Dagens maximi temperaturer är cirka 12 grader, nattens minimi temperaturer 2...5 grader.");
 	require(story,"en",fun,"Daily maximum temperature is about 12 degrees, nightly minimum temperature 2...5 degrees.");
 
-	NFmiSettings::instance().set("weekly_minmax::emphasize_night_minimum","true");
+	NFmiSettings::Set("weekly_minmax::emphasize_night_minimum","true");
 	require(story,"fi",fun,"Päivien ylin lämpötila on noin 12 astetta, öiden alin lämpötila noin 2 astetta.");
 	require(story,"sv",fun,"Dagens maximi temperaturer är cirka 12 grader, nattens minimi temperaturer cirka 2 grader.");
 	require(story,"en",fun,"Daily maximum temperature is about 12 degrees, nightly minimum temperature about 2 degrees.");
@@ -443,28 +443,28 @@ namespace TemperatureStoryTest
 
 	const string fun = "temperature_weekly_averages";
 
-	NFmiSettings::instance().set("weekly_averages::day::starthour","6");
-	NFmiSettings::instance().set("weekly_averages::day::endhour","18");
-	NFmiSettings::instance().set("weekly_averages::night::starthour","18");
-	NFmiSettings::instance().set("weekly_averages::night::endhour","6");
+	NFmiSettings::Set("weekly_averages::day::starthour","6");
+	NFmiSettings::Set("weekly_averages::day::endhour","18");
+	NFmiSettings::Set("weekly_averages::night::starthour","18");
+	NFmiSettings::Set("weekly_averages::night::endhour","6");
 
-	NFmiSettings::instance().set("weekly_averages::fake::day::minimum","10,0");
-	NFmiSettings::instance().set("weekly_averages::fake::day::mean","12,0");
-	NFmiSettings::instance().set("weekly_averages::fake::day::maximum","15,0");
-	NFmiSettings::instance().set("weekly_averages::fake::night::minimum","2,0");
-	NFmiSettings::instance().set("weekly_averages::fake::night::mean","4,0");
-	NFmiSettings::instance().set("weekly_averages::fake::night::maximum","5,0");
+	NFmiSettings::Set("weekly_averages::fake::day::minimum","10,0");
+	NFmiSettings::Set("weekly_averages::fake::day::mean","12,0");
+	NFmiSettings::Set("weekly_averages::fake::day::maximum","15,0");
+	NFmiSettings::Set("weekly_averages::fake::night::minimum","2,0");
+	NFmiSettings::Set("weekly_averages::fake::night::mean","4,0");
+	NFmiSettings::Set("weekly_averages::fake::night::maximum","5,0");
 	require(story,"fi",fun,"Päivälämpötila on 10...15 astetta, yölämpötila 2...5 astetta.");
 	require(story,"sv",fun,"Dagstemperaturen är 10...15 grader, nattemperaturen 2...5 grader.");
 	require(story,"en",fun,"Daily temperature is 10...15 degrees, nightly temperature 2...5 degrees.");
 
-	NFmiSettings::instance().set("weekly_averages::night::mininterval","4");
+	NFmiSettings::Set("weekly_averages::night::mininterval","4");
 	require(story,"fi",fun,"Päivälämpötila on 10...15 astetta, yölämpötila noin 4 astetta.");
 	require(story,"sv",fun,"Dagstemperaturen är 10...15 grader, nattemperaturen cirka 4 grader.");
 	require(story,"en",fun,"Daily temperature is 10...15 degrees, nightly temperature about 4 degrees.");
 
-	NFmiSettings::instance().set("weekly_averages::day::mininterval","6");
-	NFmiSettings::instance().set("weekly_averages::night::mininterval","2");
+	NFmiSettings::Set("weekly_averages::day::mininterval","6");
+	NFmiSettings::Set("weekly_averages::night::mininterval","2");
 	require(story,"fi",fun,"Päivälämpötila on noin 12 astetta, yölämpötila 2...5 astetta.");
 	require(story,"sv",fun,"Dagstemperaturen är cirka 12 grader, nattemperaturen 2...5 grader.");
 	require(story,"en",fun,"Daily temperature is about 12 degrees, nightly temperature 2...5 degrees.");
@@ -513,7 +513,7 @@ int main(void)
 
   dict = TextGen::DictionaryFactory::create("multimysql");
 
-  NFmiSettings::instance().set("textgen::units::celsius::format","phrase");
+  NFmiSettings::Set("textgen::units::celsius::format","phrase");
 
   dict->init("fi");
   dict->init("sv");

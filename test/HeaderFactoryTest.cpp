@@ -54,7 +54,7 @@ namespace HeaderFactoryTest
 	using namespace WeatherAnalysis;
 
 	string var = "variable";
-	NFmiSettings::instance().set(var+"::type","none");
+	NFmiSettings::Set(var+"::type","none");
 
 	WeatherArea area("");
 	WeatherPeriod period(NFmiTime(2003,6,1),NFmiTime(2003,6,2));
@@ -84,7 +84,7 @@ namespace HeaderFactoryTest
 	using namespace WeatherAnalysis;
 
 	string var = "variable";
-	NFmiSettings::instance().set(var+"::type","until");
+	NFmiSettings::Set(var+"::type","until");
 
 	WeatherArea area("");
 	WeatherPeriod period1(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,2,6));
@@ -124,7 +124,7 @@ namespace HeaderFactoryTest
 	using namespace WeatherAnalysis;
 
 	string var = "variable";
-	NFmiSettings::instance().set(var+"::type","from_until");
+	NFmiSettings::Set(var+"::type","from_until");
 
 	WeatherArea area("");
 	WeatherPeriod period1(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,2,6));
@@ -164,7 +164,7 @@ namespace HeaderFactoryTest
 	using namespace WeatherAnalysis;
 
 	string var = "variable";
-	NFmiSettings::instance().set(var+"::type","several_days");
+	NFmiSettings::Set(var+"::type","several_days");
 
 	WeatherArea area("");
 	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,3,6));
@@ -194,7 +194,7 @@ namespace HeaderFactoryTest
 	using namespace WeatherAnalysis;
 
 	string var = "variable";
-	NFmiSettings::instance().set(var+"::type","report_area");
+	NFmiSettings::Set(var+"::type","report_area");
 
 	WeatherArea area("uusimaa");
 	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,3,6));

@@ -34,12 +34,12 @@ namespace UnitFactoryTest
 
 	shared_ptr<Sentence> unit;
 
-	NFmiSettings::instance().set("textgen::units::celsius::format","SI");
+	NFmiSettings::Set("textgen::units::celsius::format","SI");
 	unit = create(DegreesCelsius);
 	if(unit->realize(formatter) != "\260C.")
 	  TEST_FAILED("create() failed to realize \260C.");
 
-	NFmiSettings::instance().set("textgen::units::celsius::format","phrase");
+	NFmiSettings::Set("textgen::units::celsius::format","phrase");
 	unit = create(DegreesCelsius);
 	if(unit->realize(formatter) != "Astetta.")
 	  TEST_FAILED("create() failed to realize Astetta.");
@@ -67,12 +67,12 @@ namespace UnitFactoryTest
 
 	shared_ptr<Sentence> unit;
 
-	NFmiSettings::instance().set("textgen::units::meterspersecond::format","SI");
+	NFmiSettings::Set("textgen::units::meterspersecond::format","SI");
 	unit = create(MetersPerSecond);
 	if(unit->realize(formatter) != "M/s.")
 	  TEST_FAILED("create() failed to realize M/s.");
 
-	NFmiSettings::instance().set("textgen::units::meterspersecond::format","phrase");
+	NFmiSettings::Set("textgen::units::meterspersecond::format","phrase");
 	unit = create(MetersPerSecond);
 	if(unit->realize(formatter) != "Metriä sekunnissa.")
 	  TEST_FAILED("create() failed to realize Metriä sekunnissa.");
@@ -100,12 +100,12 @@ namespace UnitFactoryTest
 
 	shared_ptr<Sentence> unit;
 
-	NFmiSettings::instance().set("textgen::units::millimeters::format","SI");
+	NFmiSettings::Set("textgen::units::millimeters::format","SI");
 	unit = create(Millimeters);
 	if(unit->realize(formatter) != "Mm.")
 	  TEST_FAILED("create() failed to realize Mm.");
 
-	NFmiSettings::instance().set("textgen::units::millimeters::format","phrase");
+	NFmiSettings::Set("textgen::units::millimeters::format","phrase");
 	unit = create(Millimeters);
 	if(unit->realize(formatter) != "Millimetriä.")
 	  TEST_FAILED("create() failed to realize Millimetriä.");
@@ -133,12 +133,12 @@ namespace UnitFactoryTest
 
 	shared_ptr<Sentence> unit;
 
-	NFmiSettings::instance().set("textgen::units::percent::format","SI");
+	NFmiSettings::Set("textgen::units::percent::format","SI");
 	unit = create(Percent);
 	if(unit->realize(formatter) != "%.")
 	  TEST_FAILED("create() failed to realize %.");
 
-	NFmiSettings::instance().set("textgen::units::percent::format","phrase");
+	NFmiSettings::Set("textgen::units::percent::format","phrase");
 	unit = create(Percent);
 	if(unit->realize(formatter) != "Prosenttia.")
 	  TEST_FAILED("create() failed to realize Prosenttia.");

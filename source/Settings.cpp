@@ -47,7 +47,7 @@ namespace Settings
   
   bool isset(const std::string & theName)
   {
-	return NFmiSettings::instance().isset(theName);
+	return NFmiSettings::IsSet(theName);
   }
   
   // ----------------------------------------------------------------------
@@ -63,9 +63,7 @@ namespace Settings
   
   std::string require(const std::string & theName)
   {
-	if(!NFmiSettings::instance().isset(theName))
-	  throw runtime_error("The variable "+theName+" is required");
-	return NFmiSettings::instance().value(theName);
+	return NFmiSettings::Require<string>(theName.c_str());
   }
   
   // ----------------------------------------------------------------------
@@ -100,18 +98,8 @@ namespace Settings
   
   int require_int(const std::string & theName)
   {
-	const string value = require(theName);
-	try
-	  {
-		int val = lexical_cast<int>(value);
-		return val;
-	  }
-	catch(exception & )
-	  {
-		throw runtime_error(theName + " value " + value + " is not an integer");
-	  }
-  }
-  
+	return NFmiSettings::Require<int>(theName.c_str());
+  }  
 
   // ----------------------------------------------------------------------
   /*!
@@ -127,16 +115,7 @@ namespace Settings
   
   bool require_bool(const std::string & theName)
   {
-	const string value = require(theName);
-
-	const string msg = theName+" value '"+value+"' is not true/false";
-
-	if(value == "true")
-	  return true;
-	if(value == "false")
-	  return false;
-
-	throw runtime_error(msg);
+	return NFmiSettings::Require<bool>(theName.c_str());
   }
   
   // ----------------------------------------------------------------------
@@ -152,16 +131,7 @@ namespace Settings
   
   double require_double(const std::string & theName)
   {
-	const string value = require(theName);
-	try
-	  {
-		double val = lexical_cast<double>(value);
-		return val;
-	  }
-	catch(exception & )
-	  {
-		throw runtime_error(theName + " value " + value + " is not a double");
-	  }
+	return NFmiSettings::Require<double>(theName.c_str());
   }
   
   // ----------------------------------------------------------------------
@@ -177,10 +147,7 @@ namespace Settings
   
   int require_hour(const std::string & theName)
   {
-	const int value = require_int(theName);
-	if(value>=0 && value<24)
-	  return value;
-	throw runtime_error(theName+": value "+lexical_cast<string>(value)+" is not 0-23");
+	return NFmiSettings::RequireRange<int>(theName.c_str(),0,23);
   }
   
   // ----------------------------------------------------------------------
@@ -196,10 +163,8 @@ namespace Settings
   
   int require_days(const std::string & theName)
   {
-	const int value = require_int(theName);
-	if(value>=0)
-	  return value;
-	throw runtime_error(theName+": value "+lexical_cast<string>(value)+" is not >= 0");
+	const int maxdays = 100000;
+	return NFmiSettings::RequireRange<int>(theName.c_str(),0,maxdays);
   }
 
   // ----------------------------------------------------------------------
@@ -215,10 +180,7 @@ namespace Settings
   
   int require_percentage(const std::string & theName)
   {
-	const int value = require_int(theName);
-	if(value>=0 && value<=100)
-	  return value;
-	throw runtime_error(theName+": value "+lexical_cast<string>(value)+" is not 0-100");
+	return NFmiSettings::RequireRange<int>(theName.c_str(),0,100);
   }
 
   // ----------------------------------------------------------------------
@@ -234,7 +196,7 @@ namespace Settings
   
   NFmiTime require_time(const std::string & theName)
   {
-	const string value = require_string(theName);
+	const string value = require_string(theName.c_str());
 
 	const string msg = theName+" value "+value+" is not of form YYYYMMDDHHMI";
 
@@ -282,7 +244,7 @@ namespace Settings
 
   WeatherAnalysis::WeatherResult require_result(const std::string & theName)
   {
-	const string value = require_string(theName);
+	const string value = require_string(theName.c_str());
 
 	const string msg(theName+" value "+value+" is not of form A,B");
 	try
@@ -313,7 +275,7 @@ namespace Settings
   std::string optional_string(const std::string & theName,
 							  const std::string & theDefault)
   {
-	return (isset(theName) ? require_string(theName) : theDefault);
+	return NFmiSettings::Optional<string>(theName.c_str(),theDefault);
   }
 
   // ----------------------------------------------------------------------
@@ -328,7 +290,7 @@ namespace Settings
 
   int optional_int(const std::string & theName, int theDefault)
   {
-	return (isset(theName) ? require_int(theName) : theDefault);
+	return NFmiSettings::Optional<int>(theName.c_str(),theDefault);
   }
 
   // ----------------------------------------------------------------------
@@ -343,7 +305,7 @@ namespace Settings
 
   bool optional_bool(const std::string & theName, bool theDefault)
   {
-	return (isset(theName) ? require_bool(theName) : theDefault);
+	return NFmiSettings::Optional<bool>(theName.c_str(),theDefault);
   }
 
   // ----------------------------------------------------------------------
@@ -358,7 +320,7 @@ namespace Settings
 
   double optional_double(const std::string & theName, double theDefault)
   {
-	return (isset(theName) ? require_double(theName) : theDefault);
+	return NFmiSettings::Optional<double>(theName.c_str(),theDefault);
   }
 
   // ----------------------------------------------------------------------
@@ -373,7 +335,7 @@ namespace Settings
 
   int optional_hour(const std::string & theName, int theDefault)
   {
-	return (isset(theName) ? require_hour(theName) : theDefault);
+	return NFmiSettings::OptionalRange<int>(theName.c_str(),theDefault,0,23);
   }
 
   // ----------------------------------------------------------------------
@@ -388,7 +350,7 @@ namespace Settings
 
   int optional_percentage(const std::string & theName, int theDefault)
   {
-	return (isset(theName) ? require_percentage(theName) : theDefault);
+	return NFmiSettings::OptionalRange<int>(theName.c_str(),theDefault,0,100);
   }
 
 }

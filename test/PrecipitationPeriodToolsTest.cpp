@@ -58,7 +58,7 @@ namespace PrecipitationPeriodToolsTest
 	AnalysisSources sources;
 	shared_ptr<UserWeatherSource> weathersource(new UserWeatherSource());
 	weathersource->insert("data",theQD);
-	NFmiSettings::instance().set("textgen::precipitation_forecast","data");
+	NFmiSettings::Set("textgen::precipitation_forecast","data");
 
 
 	shared_ptr<MapSource> mapsource(new MapSource());
@@ -125,7 +125,7 @@ namespace PrecipitationPeriodToolsTest
 	AnalysisSources sources;
 	shared_ptr<UserWeatherSource> weathersource(new UserWeatherSource());
 	weathersource->insert("data",theQD);
-	NFmiSettings::instance().set("textgen::precipitation_forecast","data");
+	NFmiSettings::Set("textgen::precipitation_forecast","data");
 
 
 	shared_ptr<MapSource> mapsource(new MapSource());
@@ -134,8 +134,8 @@ namespace PrecipitationPeriodToolsTest
 	sources.setMapSource(mapsource);
 	sources.setMaskSource(masksource);
 
-	NFmiSettings::instance().set("a::rainyperiod::maximum_interval","1");
-	NFmiSettings::instance().set("b::rainyperiod::maximum_interval","3");
+	NFmiSettings::Set("a::rainyperiod::maximum_interval","1");
+	NFmiSettings::Set("b::rainyperiod::maximum_interval","3");
 
 	{
 	  RainTimes times = findRainTimes(sources,
