@@ -1140,6 +1140,7 @@ INSERT INTO translation_sonera VALUES ('pakkanen jatkuu','543',20030616135430,'m
 INSERT INTO translation_sonera VALUES ('pakkanen kiristyy','544',20030616135437,'mheiskan');
 INSERT INTO translation_sonera VALUES ('pakkanen heikkenee','545',20030616135443,'mheiskan');
 INSERT INTO translation_sonera VALUES ('o\'clock','',20030618094022,'mheiskan');
+INSERT INTO translation_sonera VALUES ('pohjanmaa:lle','402',20030618094554,'mheiskan');
 
 --
 -- Table structure for table 'translation_sv'
