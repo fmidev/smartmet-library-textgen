@@ -21,6 +21,7 @@
  <ol>
  <li>\ref sec_story_frost_mean</li>
  <li>\ref sec_story_frost_maximum</li>
+ <li>\ref sec_story_frost_range</li>
  <li>\ref sec_story_frost_maxtwonights</li>
  </ol>
 <li>\ref sec_relative_humidity_story</li>
@@ -255,7 +256,7 @@ TextGen::FrostStory luokka hallitsee hallaan liittyvät tarinat.
 
 Aikavälin hallan todennäköisyyksistä valitaan keskiarvo tekstiä varten.
 
-\c frost_maximum tarina on muotoa
+\c frost_mean tarina on muotoa
 
  -# ""
  -# "Hallan todennäköisyys on N%."
@@ -277,10 +278,14 @@ Tarina valitaan perustuen muuttujiin
 \code
 textgen::[kappale]::story::frost_mean::severe_frost_limit = [0-100]
 textgen::[kappale]::story::frost_mean::frost_limit = [0-100]
+textgen::[kappale]::story::frost_mean::precision = [0-100]
 \endcode
 Jos ankaran hallan todennäköisyys on vähintään \c severe_frost_limit,
 palautetaan fraasi 3. Muuten jos hallan todennäköisyys on vähintään
 \c frost_limit, palautetaan fraasi 2. Muuten palautetaan tyhjä tarina.
+
+Todennäköisyydet pyöristetään muuttujan \c precision tarkkuuteen.
+Yleisimmin käytettäneen tarkkuutta 10.
 
 Käytetyt fraasit ovat
 
@@ -314,10 +319,66 @@ Tarina valitaan perustuen muuttujiin
 \code
 textgen::[kappale]::story::frost_maximum::severe_frost_limit = [0-100]
 textgen::[kappale]::story::frost_maximum::frost_limit = [0-100]
+textgen::[kappale]::story::frost_mean::precision = [0-100]
 \endcode
 Jos ankaran hallan todennäköisyys on vähintään \c severe_frost_limit,
 palautetaan fraasi 3. Muuten jos hallan todennäköisyys on vähintään
 \c frost_limit, palautetaan fraasi 2. Muuten palautetaan tyhjä tarina.
+
+Todennäköisyydet pyöristetään muuttujan \c precision tarkkuuteen.
+Yleisimmin käytettäneen tarkkuutta 10.
+
+Käytetyt fraasit ovat
+
+ - "hallan todennäköisyys"
+ - "ankaran hallan todennäköisyys"
+ - "on"
+
+\subsection sec_story_frost_range "frost_range"
+
+Aikavälin hallan todennäköisyyksistä valitaan minimi ja maksimi
+tekstiä varten.
+
+\c frost_range tarina on muotoa
+
+ -# ""
+ -# "Hallan todennäköisyys on N%."
+ -# "Ankaran hallan todennäköisyys on N%".
+ -# "Hallan todennäköisyys on N-M%."
+ -# "Ankaran hallan todennäköisyys on N-M%."
+
+Ruotsiksi
+
+ -# ""
+ -# "Sannolikheten för nattfrost är N%."
+ -# "Sannolikheten för stark nattforst är N%".
+ -# "Sannolikheten för nattfrost är N-M%."
+ -# "Sannolikheten för stark nattforst är N-M%".
+
+Englanniksi
+
+ -# ""
+ -# "Probability of frost is N%."
+ -# "Probability of severe frost is N%".
+ -# "Probability of frost is N-M%."
+ -# "Probability of severe frost is N-M%".
+
+Tarina valitaan perustuen muuttujiin
+\code
+textgen::[kappale]::story::frost_maximum::severe_frost_limit = [0-100]
+textgen::[kappale]::story::frost_maximum::frost_limit = [0-100]
+textgen::[kappale]::story::frost_mean::precision = [0-100]
+\endcode
+Jos ankaran hallan todennäköisyys on vähintään \c severe_frost_limit,
+palautetaan fraasi 3. Muuten jos hallan todennäköisyys on vähintään
+\c frost_limit, palautetaan fraasi 2. Muuten palautetaan tyhjä tarina.
+
+Todennäköisyydet pyöristetään muuttujan \c precision tarkkuuteen.
+Yleisimmin käytettäneen tarkkuutta 10.
+
+Jos pyöristetyt minimi- ja maksimitodennäköisyydet ovat samoja,
+sanotaan vain yksi lukema eikä lukuväliä. Poikkeuksena jos maksimi
+on nolla palautetaan tyhjä fraasi.
 
 Käytetyt fraasit ovat
 
