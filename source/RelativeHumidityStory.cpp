@@ -11,6 +11,7 @@
 #include "Number.h"
 #include "Paragraph.h"
 #include "Sentence.h"
+#include "Settings.h"
 #include "TextGenError.h"
 #include "WeatherFunction.h"
 #include "WeatherParameter.h"
@@ -100,6 +101,15 @@ namespace TextGen
   Paragraph RelativeHumidityStory::lowest() const
   {
 	Paragraph paragraph;
+
+#if 0
+	const string var1 = itsVariable + "::maxstarthour";
+	const string var2 = itsVariable + "::minendhour";
+
+	const int maxstarthour = Settings::require_hour(var1);
+	const int minendhour   = Settings::require_hour(var2);
+#endif
+
 	return paragraph;
   }
 

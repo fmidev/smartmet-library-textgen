@@ -13,11 +13,11 @@
 #include "Paragraph.h"
 #include "RangeAcceptor.h"
 #include "Sentence.h"
+#include "Settings.h"
 #include "TextGenError.h"
 #include "WeatherFunction.h"
 #include "WeatherResult.h"
 
-#include "NFmiSettings.h"
 #include "NFmiStringTools.h"
 
 #include "boost/lexical_cast.hpp"
@@ -46,7 +46,7 @@ namespace
    
   list<pair<int,int> > parse_classes(const std::string & theVariable)
   {
-	const string value = NFmiSettings::instance().require(theVariable);
+	const string value = Settings::require(theVariable);
 
 	if(value.empty())
 	  throw TextGenError(theVariable + " value must not be empty");
@@ -261,13 +261,11 @@ namespace TextGen
 	NumberRange<Number<int> > rainrange(minrain,maxrain);
 
 	// optionaalinen maksimisade
-	int rainlimit = -1;
+
 	const string variable = itsVariable + "::maxrain";
-	if(NFmiSettings::instance().isset(variable))
-	  {
-		const string varvalue = NFmiSettings::instance().value(variable);
-		rainlimit = lexical_cast<int>(varvalue);
-	  }
+	const int rainlimit = (Settings::isset(variable) ?
+						   Settings::require_int(variable) :
+						   -1);
 
 	if(minrain.value() >= rainlimit && rainlimit>0)
 	  {
@@ -313,10 +311,6 @@ namespace TextGen
 	Sentence sentence;
 
 	GridForecaster forecaster;
-
-	// Simplify code with alias
-
-	const NFmiSettings & settings = NFmiSettings::instance();
 
 	// Gather the results
 	WeatherResult minresult = forecaster.analyze(itsSources,
@@ -390,19 +384,13 @@ namespace TextGen
 														  DefaultAcceptor(),
 														  limits);
 
-			int limit1 = -1;
-			int limit2 = -2;
-			
-			if(settings.isset(variable1))
-			  {
-				const string value = settings.value(variable1);
-				limit1 = lexical_cast<int>(value);
-			  }
-			if(settings.isset(variable2))
-			  {
-				const string value = settings.value(variable2);
-				limit2 = lexical_cast<int>(value);
-			  }
+			const int limit1 = (Settings::isset(variable1) ?
+								Settings::require_int(variable1) :
+								-1);
+
+			const int limit2 = (Settings::isset(variable2) ?
+								Settings::require_int(variable2) :
+								-1);
 			
 			if(probresult.value() == kFloatMissing)
 			  phrase = 1;
@@ -470,19 +458,13 @@ namespace TextGen
 													  DefaultAcceptor(),
 													  limits);
 
-		int limit1 = -1;
-		int limit2 = -1;
-			
-		if(settings.isset(variable1))
-		  {
-			const string value = settings.value(variable1);
-			limit1 = lexical_cast<int>(value);
-		  }
-		if(settings.isset(variable2))
-		  {
-			const string value = settings.value(variable2);
-			limit2 = lexical_cast<int>(value);
-		  }
+		const int limit1 = (Settings::isset(variable1) ?
+							Settings::require_int(variable1) :
+							-1);
+		
+		const int limit2 = (Settings::isset(variable2) ?
+							Settings::require_int(variable2) :
+							-1);
 			
 		if(probresult.value() == kFloatMissing)
 		  phrase = 1;

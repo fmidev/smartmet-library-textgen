@@ -7,10 +7,9 @@
 
 #include "HeaderFactory.h"
 #include "Header.h"
+#include "Settings.h"
 #include "WeatherPeriod.h"
 #include "TextGenError.h"
-
-#include "NFmiSettings.h"
 
 #include "boost/lexical_cast.hpp"
 
@@ -201,7 +200,7 @@ namespace TextGen
 	Header create(const WeatherPeriod & thePeriod,
 				  const std::string & theVariable)
 	{
-	  const string type = NFmiSettings::instance().require(theVariable+"::type");
+	  const string type = Settings::require_string(theVariable+"::type");
 
 	  if(type == "none")
 		return header_none(thePeriod,theVariable);

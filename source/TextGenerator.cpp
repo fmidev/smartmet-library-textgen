@@ -11,21 +11,19 @@
 #include "Header.h"
 #include "HeaderFactory.h"
 #include "LandMaskSource.h"
+#include "LatestWeatherSource.h"
 #include "MapSource.h"
 #include "MaskSource.h"
 #include "Paragraph.h"
 #include "RegularMaskSource.h"
+#include "Settings.h"
 #include "StoryFactory.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
 #include "WeatherPeriodFactory.h"
-#include "LatestWeatherSource.h"
 
-#include "NFmiSettings.h"
 #include "NFmiStringTools.h"
 #include "NFmiTime.h"
-
-#include "boost/lexical_cast.hpp"
 
 using namespace WeatherAnalysis;
 using namespace std;
@@ -61,14 +59,13 @@ namespace TextGen
 
   TextGenerator::Pimple::Pimple()
   {
-	const string str_expansion_distance = NFmiSettings::instance().require("textgen::mask::expansion_distance");
-	const double expansion_distance = lexical_cast<double>(str_expansion_distance);
+	const double expansion_distance = Settings::require_double("textgen::mask::expansion_distance");
 
 	shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
 	shared_ptr<MapSource> mapsource(new MapSource());
 	shared_ptr<MaskSource> masksource(new RegularMaskSource(mapsource,
 															expansion_distance));
-	const string land_name = NFmiSettings::instance().require("textgen::mask::land");
+	const string land_name = Settings::require_string("textgen::mask::land");
 	shared_ptr<MaskSource> landsource(new LandMaskSource(mapsource,
 														 land_name,
 														 expansion_distance));
@@ -147,9 +144,8 @@ namespace TextGen
 
   Document TextGenerator::generate(const WeatherArea & theArea) const
   {
-	const NFmiSettings & settings = NFmiSettings::instance();
 
-	const list<string> paragraphs = NFmiStringTools::SplitWords(settings.require("textgen::sections"));
+	const list<string> paragraphs = NFmiStringTools::SplitWords(Settings::require_string("textgen::sections"));
 
 	Document doc;
 	for(list<string>::const_iterator it = paragraphs.begin();
@@ -165,7 +161,7 @@ namespace TextGen
 		if(!header.empty())
 		  doc << header;
 
-		const list<string> contents = NFmiStringTools::SplitWords(settings.require("textgen::"+*it+"::content"));
+		const list<string> contents = NFmiStringTools::SplitWords(Settings::require("textgen::"+*it+"::content"));
 		if(!contents.empty())
 		  {
 			Paragraph paragraph;

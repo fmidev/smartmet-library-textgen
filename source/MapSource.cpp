@@ -6,10 +6,12 @@
 // ======================================================================
 
 #include "MapSource.h"
+#include "Settings.h"
 #include "WeatherAnalysisError.h"
+
 #include "NFmiFileSystem.h"
-#include "NFmiSettings.h"
 #include "NFmiSvgPath.h"
+
 #include <cassert>
 #include <fstream>
 #include <map>
@@ -44,10 +46,10 @@ namespace WeatherAnalysis
 	: itsData()
 	, itsSearchPath(".")
   {
-	if(NFmiSettings::instance().isset("textgen::mappath"))
+	if(Settings::isset("textgen::mappath"))
 	  {
 		itsSearchPath += ':';
-		itsSearchPath += NFmiSettings::instance().value("textgen::mappath");
+		itsSearchPath += Settings::require_string("textgen::mappath");
 	  }
   }
 
@@ -68,7 +70,7 @@ namespace WeatherAnalysis
    *
    * The name is the subpath to the actual map data, apart from the
    * SVG suffix. The initial path is determined by the variable
-   * textgen::mappath in fmi.conf used by NFmiSettings.
+   * textgen::mappath in fmi.conf used by NFmiSettings
    *
    * This will throw if the given map does not exist.
    *

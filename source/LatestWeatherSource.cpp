@@ -7,10 +7,12 @@
 
 #include "LatestWeatherSource.h"
 #include "IdGenerator.h"
+#include "Settings.h"
 #include "WeatherAnalysisError.h"
+
 #include "NFmiFileSystem.h"
 #include "NFmiQueryData.h"
-#include "NFmiSettings.h"
+
 #include <cassert>
 #include <map>
 
@@ -50,16 +52,10 @@ namespace
 	if(theName.empty())
 	  throw WeatherAnalysisError("Trying to search unnamed querydata");
 
-	string queryname;
-
 	const string varname = "textgen::"+theName;
-	if(NFmiSettings::instance().isset(varname))
-	  queryname = NFmiSettings::instance().value(varname);
-	else
-	  queryname = theName;
-
-	if(queryname.empty())
-	  throw WeatherAnalysisError("The setting "+varname+" has no value");
+	const string queryname = (Settings::isset(varname) ?
+							  Settings::require_string(varname) :
+							  theName);
 
 	if(FileExists(queryname))
 	  return queryname;

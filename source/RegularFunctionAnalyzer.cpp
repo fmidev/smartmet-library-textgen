@@ -11,6 +11,7 @@
 #include "QueryDataIntegrator.h"
 #include "CalculatorFactory.h"
 #include "MaskSource.h"
+#include "Settings.h"
 #include "WeatherAnalysisError.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
@@ -20,7 +21,6 @@
 #include "NFmiEnumConverter.h"
 #include "NFmiFastQueryInfo.h"
 #include "NFmiQueryData.h"
-#include "NFmiSettings.h"
 
 #include "boost/shared_ptr.hpp"
 #include <string>
@@ -96,9 +96,7 @@ namespace WeatherAnalysis
 
 	// Establish the data
 
-	if(!NFmiSettings::instance().isset(theDataName))
-	  throw WeatherAnalysisError("No "+theDataName+" defined in settings");
-	string dataname = NFmiSettings::instance().value(theDataName);
+	string dataname = Settings::require_string(theDataName);
 
 	// Get the data into use
 

@@ -6,9 +6,8 @@
 // ======================================================================
 
 #include "MySQLDictionary.h"
+#include "Settings.h"
 #include "TextGenError.h"
-
-#include "NFmiSettings.h"
 
 #include <map>
 #include <mysql.h>
@@ -109,20 +108,11 @@ namespace TextGen
 
 	// Establish the settings for TextGen
 
-	std::string host = NFmiSettings::instance().value("textgen::host");
-	std::string user = NFmiSettings::instance().value("textgen::user");
-	std::string passwd = NFmiSettings::instance().value("textgen::passwd");
-	std::string database = NFmiSettings::instance().value("textgen::database");
+	std::string host     = Settings::require_string("textgen::host");
+	std::string user     = Settings::require_string("textgen::user");
+	std::string passwd   = Settings::require_string("textgen::passwd");
+	std::string database = Settings::require_string("textgen::database");
 
-	if(host.empty())
-	  throw TextGenError("Error: textgen::host not defined in configuration file");
-	if(user.empty())
-	  throw TextGenError("Error: textgen::user not defined in configuration file");
-	if(passwd.empty())
-	  throw TextGenError("Error: textgen::passwd not defined in configuration file");
-	if(database.empty())
-	  throw TextGenError("Error: textgen::database not defined in configuration file");
-	  
 	// Establish the connection
 
 	MYSQL mysql;
