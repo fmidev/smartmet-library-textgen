@@ -296,7 +296,7 @@ INSERT INTO translation_en VALUES ('uusimaa:lle','for Uusimaa',20030604071651,'m
 INSERT INTO translation_en VALUES ('varsinais-suomi:lle','for Finland Proper',20030604071709,'mheiskan');
 INSERT INTO translation_en VALUES ('huomattavasti suurempi','significantly greater',20030604080106,'mheiskan');
 INSERT INTO translation_en VALUES ('huomattavasti pienempi','significantly smaller',20030604080116,'mheiskan');
-INSERT INTO translation_en VALUES ('rannikolla','the coastal area',20030605180511,'mheiskan');
+INSERT INTO translation_en VALUES ('rannikolla','on the coastal area',20040719132338,'mheiskan');
 INSERT INTO translation_en VALUES ('metriä sekunnissa','meters per second',20030608231121,'mheiskan');
 INSERT INTO translation_en VALUES ('1-alkaen','from Monday onwards',20030608231638,'mheiskan');
 INSERT INTO translation_en VALUES ('2-alkaen','from Tuesday onwards',20030608231651,'mheiskan');
