@@ -50,6 +50,12 @@
  * a closepath, but in that case the radius is always positive to
  * indicate a circular area around the moveto point.
  *
+ * Each WeatherArea may also be marked to be a subarea of the
+ * actual specified area. For example, one may specify that
+ * the actual area is the coastal area within the area polygon.
+ * It is then up to the user to utilize this information, for
+ * example by choosing to use CoastMaskSource instead of RegularMaskSource.
+ *
  * Implementation note:
  *
  * Each WeatherArea will contain a sort key based on the
@@ -114,7 +120,8 @@ namespace WeatherAnalysis
 
   WeatherArea::WeatherArea(const std::string & theSpecs,
 						   const std::string & theName)
-	: itsPointFlag()
+	: itsType(Full)
+	, itsPointFlag()
 	, itsNamedFlag(true)
 	, itsName(theName)
 	, itsPoint(kFloatMissing,kFloatMissing)
@@ -138,7 +145,8 @@ namespace WeatherAnalysis
   // ----------------------------------------------------------------------
 
   WeatherArea::WeatherArea(const std::string & theSpecs)
-	: itsPointFlag()
+	: itsType(Full)
+	, itsPointFlag()
 	, itsNamedFlag(false)
 	, itsName()
 	, itsPoint(kFloatMissing,kFloatMissing)
@@ -162,7 +170,8 @@ namespace WeatherAnalysis
 
   WeatherArea::WeatherArea(const NFmiPoint & thePoint,
 						   float theRadius)
-	: itsPointFlag(theRadius == 0)
+	: itsType(Full)
+	, itsPointFlag(theRadius == 0)
 	, itsNamedFlag(false)
 	, itsName()
 	, itsPoint(thePoint)
@@ -194,7 +203,8 @@ namespace WeatherAnalysis
   WeatherArea::WeatherArea(const NFmiPoint & thePoint,
 						   const std::string & theName,
 						   float theRadius)
-	: itsPointFlag(theRadius == 0)
+	: itsType(Full)
+	, itsPointFlag(theRadius == 0)
 	, itsNamedFlag(true)
 	, itsName(theName)
 	, itsPoint(thePoint)
@@ -297,6 +307,32 @@ namespace WeatherAnalysis
   float WeatherArea::radius() const
   {
 	return itsRadius;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Type accessor
+   *
+   * \return The type of the desired area
+   */
+  // ----------------------------------------------------------------------
+
+  WeatherArea::Type WeatherArea::type() const
+  {
+	return itsType;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Change the type of the area
+   *
+   * \param theType The desired area subtype
+   */
+  // ----------------------------------------------------------------------
+
+  void WeatherArea::type(Type theType)
+  {
+	itsType = theType;
   }
 
   // ----------------------------------------------------------------------

@@ -19,6 +19,16 @@ namespace WeatherAnalysis
   {
   public:
 
+	enum Type
+	  {
+		Full,
+		Land,
+		Coast,
+		Inland
+	  };
+
+  public:
+
 #ifdef NO_COMPILER_GENERATED
 	~WeatherArea();
 	WeatherArea(const WeatherArea & theArea);
@@ -45,6 +55,9 @@ namespace WeatherAnalysis
 	const NFmiSvgPath & path() const;
 	float radius() const;
 
+	Type type() const;
+	void type(Type theType);
+
 	bool operator<(const WeatherArea & theOther) const;
 	bool operator==(const WeatherArea & theOther) const;
 	bool operator!=(const WeatherArea & theOther) const;
@@ -54,6 +67,7 @@ namespace WeatherAnalysis
 	WeatherArea();
 	void parse_specs(const std::string & theSpecs);
 
+	Type itsType;
 	bool itsPointFlag;
 	bool itsNamedFlag;
 
