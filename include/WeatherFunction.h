@@ -34,8 +34,10 @@ namespace WeatherAnalysis
 	  Maximum,
 	  Minimum,
 	  Sum,
+	  StandardDeviation,
 	  Percentage,
 	  Count,
+	  Change,
 	  Trend
 
 	}; // enum Weatherfunction
