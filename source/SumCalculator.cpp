@@ -62,10 +62,7 @@ namespace WeatherAnalysis
 
   float SumCalculator::operator()() const
   {
-	if(itsCounter==0)
-	  return kFloatMissing;
-	else
-	  return itsSum;
+	return itsSum;
   }
   
   // ----------------------------------------------------------------------

@@ -24,8 +24,8 @@ namespace SumCalculatorTest
 
 	SumCalculator calc;
 
-	if(calc() != kFloatMissing)
-	  TEST_FAILED("Should return kFloatMissing after 0 inserts");
+	if(calc() != 0)
+	  TEST_FAILED("Should return 0 after 0 inserts");
 
 	calc(1);
 	if(calc() != 1)
