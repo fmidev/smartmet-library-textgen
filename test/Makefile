@@ -27,11 +27,11 @@ clean:
 
 test: $(PROG)
 	@echo Running tests:
-	@for prog in $(PHPPROG); do \
-	 php -q $$prog; \
-	done
 	@for prog in $(PROG); do \
 	 ./$$prog; \
+	done
+	@for prog in $(PHPPROG); do \
+	 php -q $$prog; \
 	done
 
 $(PROG) : % : %.cpp ../libtextgen.a
