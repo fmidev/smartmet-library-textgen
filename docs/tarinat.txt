@@ -10,6 +10,8 @@
  <li>\ref sec_story_temperature_mean</li>
  <li>\ref sec_story_temperature_meanmax</li>
  <li>\ref sec_story_temperature_meanmin</li>
+ <li>\ref sec_story_temperature_dailymax</li>
+ <li>\ref sec_story_temperature_nightlymin</li>
  </ol>
 <li>\ref sec_precipitationstory</li>
  <ol>
@@ -36,10 +38,12 @@ Tarina on yksittäinen kappale, joka sisältää yksittäiseen sääparametriin
 liittyvän kuvauksen. Kappale voi olla tyhjä jos parametrista ei ole
 mitään kerrottavaa, tai se voi koostua yhdestä tai useammasta virkkeestä.
 
+
 \section sec_storyfactory StoryFactory namespace
 
 TextGen::StoryFactory namespace sisältää create funktion,
 jolla voidaan luoda erikseen nimettyjä tarinoita.
+
 
 \section sec_specialstory Erikoistarinat
 
@@ -108,6 +112,218 @@ Käytetyt fraasit ovat
 
   - "keskimääräinen alin lämpötila"
   - "astetta"
+
+
+\subsection sec_story_temperature_dailymax "temperature_dailymax"
+
+\c temperature_dailymax tarina on muotoa
+
+  -# "Päivän ylin lämpötila on viikonpäivänä noin x astetta"
+  -# "Päivän ylin lämpötila on viikonpäivänä x...y astetta"
+
+Ruotsiksi
+
+  -# "Dagens högsta temperatur är på veckodag cirka x grader"
+  -# "Dagens högsta temperatur är på veckodag x...y grader"
+
+Englanniksi
+
+  -# "The maximum temperature on Weekday is about x degrees"
+  -# "The maximum temperature on Weekday is x...y degrees"
+
+Sivulauseessa jatketaan tarvittaessa
+
+  -# ", seuraavana päivänä huomattavasti korkeampi"
+  -# ", seuraavana päivänä korkeampi"
+  -# ", seuraavana päivänä vähän korkeampi"
+  -# ", seuraavana päivänä suunnilleen sama"
+  -# ", seuraavana päivänä vähän alempi"
+  -# ", seuraavana päivänä alempi"
+  -# ", seuraavana päivänä huomattavasti alempi"
+
+tai 
+
+  -# ", viikonpäivänä huomattavasti korkeampi"
+  -# ", viikonpäivänä korkeampi"
+  -# ", viikonpäivänä vähän korkeampi"
+  -# ", viikonpäivänä suunnilleen sama"
+  -# ", viikonpäivänä vähän alempi"
+  -# ", viikonpäivänä alempi"
+  -# ", viikonpäivänä huomattavasti alempi"
+
+jos muuttujan
+\code
+textgen::[kappale]::story::temperature_dailymax::prefer_dayname = [bool]
+\endcode
+arvo on true.
+
+Ruotsiksi lauseet ovat
+
+  -# ", på följande dag betydligt högre."
+  -# ", på följande dag högre."
+  -# ", på följande dag något högre."
+  -# ", på följande dag ungefär densamma."
+  -# ", på följande dag något lägre."
+  -# ", på följande dag lägre."
+  -# ", på följande dag betydligt lägre."
+
+tai alkuosana on "på veckodag"
+
+Englanniksi lauseet ovat
+
+  -# ", the following day significantly higher."
+  -# ", the following day higher."
+  -# ", the following day somewhat higher."
+  -# ", the following day about the same."
+  -# ", the following day somewhat lower."
+  -# ", the following day lower."
+  -# ", the following day significantly lower."
+
+Komparatiivin valinta perustuu muuttujiin
+\code
+textgen::[kappale]::story::temperature_dailymax::significantly_greater = [N]
+textgen::[kappale]::story::temperature_dailymax::greater = [N]
+textgen::[kappale]::story::temperature_dailymax::somewhat_greater = [N]
+textgen::[kappale]::story::temperature_dailymax::somewhat_smaller = [N]
+textgen::[kappale]::story::temperature_dailymax::smaller = [N]
+textgen::[kappale]::story::temperature_dailymax::significantly_smaller = [N]
+\endcode
+ja laskettuihin lämpötilaväleihin. Jos ensimmäisen päivän ylin on
+A1...A2 ja seuraavan B1...B2 valitaan
+
+  -# Fraasi 1, jos B2-A2 >= \c significantly_greater
+  -# Fraasi 2, jos B2-A2 >= \c greater
+  -# Fraasi 3, jos B2-A2 >= \c somewhat_greater
+  -# Fraasi 7, jos B2-A2 >= \c significantly_smaller
+  -# Fraasi 6, jos B2-A2 >= \c smaller
+  -# Fraasi 5, jos B2-A2 >= \c somewhat_smaller
+  -# Fraasi 4 muutoin
+
+Jos päiviä on useampia, luetellaan jatkossa jokaiselle päivälle päivän
+ylin sivulauseena seuraavasti
+
+  - ", viikonpäivänä noin x astetta"
+  - ", viikonpäivänä x...y astetta"
+
+Tarvittavat fraasit ovat
+
+ - "päivän ylin lämpötila"
+ - "on"
+ - "N-na", N=1-7
+ - "noin"
+ - "astetta"
+ - "seuraavana päivänä"
+ - "huomattavasti korkeampi"
+ - "korkeampi"
+ - "vähän korkeampi"
+ - "suunnilleen sama"
+ - "vähän matalampi"
+ - "matalampi"
+ - "huomattavasti matalampi"
+
+\subsection sec_story_temperature_nightlymin "temperature_nightlymin"
+
+\c temperature_nightlymin tarina on muotoa
+
+  -# "Yön alin lämpötila on viikonpäivän vastaisena yönä noin x astetta"
+  -# "Yän alin lämpötila on viikonpäivän vastaisena yönä x...y astetta"
+
+Ruotsiksi
+
+  -# "Dagens lägsta temperatur är på natten mot veckodag cirka x grader"
+  -# "Dagens lägsta temperatur är på natten mot veckodag x...y grader"
+
+Englanniksi
+
+  -# "The minimum temperature on Weekday night is about x degrees"
+  -# "The minimum temperature on Weekday night is x...y degrees"
+
+  -# ", seuraavana yönä huomattavasti korkeampi"
+  -# ", seuraavana yönä korkeampi"
+  -# ", seuraavana yönä vähän korkeampi"
+  -# ", seuraavana yönä suunnilleen sama"
+  -# ", seuraavana yönä vähän alempi"
+  -# ", seuraavana yönä alempi"
+  -# ", seuraavana yönä huomattavasti alempi"
+
+tai 
+
+  -# ", viikonpäivän vastaisena yönä huomattavasti korkeampi"
+  -# ", viikonpäivän vastaisena yönä korkeampi"
+  -# ", viikonpäivän vastaisena yönä vähän korkeampi"
+  -# ", viikonpäivän vastaisena yönä suunnilleen sama"
+  -# ", viikonpäivän vastaisena yönä vähän alempi"
+  -# ", viikonpäivän vastaisena yönä alempi"
+  -# ", viikonpäivän vastaisena yönä huomattavasti alempi"
+
+jos muuttujan
+\code
+textgen::[kappale]::story::temperature_nightlymin::prefer_dayname = [bool]
+\endcode
+arvo on true.
+
+Ruotsiksi lauseet ovat
+
+  -# ", på följande natt betydligt högre."
+  -# ", på följande natt högre."
+  -# ", på följande natt något högre."
+  -# ", på följande natt ungefär densamma."
+  -# ", på följande natt något lägre."
+  -# ", på följande natt lägre."
+  -# ", på följande natt betydligt lägre."
+
+tai alkuosana on "på veckodag"
+
+Englanniksi lauseet ovat
+
+  -# ", the following night significantly higher."
+  -# ", the following night higher."
+  -# ", the following night somewhat higher."
+  -# ", the following night about the same."
+  -# ", the following night somewhat lower."
+  -# ", the following night lower."
+  -# ", the following night significantly lower."
+
+Komparatiivin valinta perustuu muuttujiin
+\code
+textgen::[kappale]::story::temperature_nightlymin::significantly_greater = [N]
+textgen::[kappale]::story::temperature_nightlymin::greater = [N]
+textgen::[kappale]::story::temperature_nightlymin::somewhat_greater = [N]
+textgen::[kappale]::story::temperature_nightlymin::somewhat_smaller = [N]
+textgen::[kappale]::story::temperature_nightlymin::smaller = [N]
+textgen::[kappale]::story::temperature_nightlymin::significantly_smaller = [N]
+\endcode
+ja laskettuihin lämpötilaväleihin. Jos ensimmäisen yön alin on
+A1...A2 ja seuraavan B1...B2 valitaan
+
+  -# Fraasi 1, jos B2-A2 >= \c significantly_greater
+  -# Fraasi 2, jos B2-A2 >= \c greater
+  -# Fraasi 3, jos B2-A2 >= \c somewhat_greater
+  -# Fraasi 7, jos B2-A2 >= \c significantly_smaller
+  -# Fraasi 6, jos B2-A2 >= \c smaller
+  -# Fraasi 5, jos B2-A2 >= \c somewhat_smaller
+  -# Fraasi 4 muutoin
+
+Jos öitä on useampia, luetellaan jatkossa jokaiselle yölle yön alin
+sivulauseena seuraavasti
+
+  - ", viikonpäivän vastaisena yönä noin x astetta"
+  - ", viikonpäivän vastaisena yönä x...y astetta"
+
+Tarvittavat fraasit ovat
+
+ - "yön alin lämpötila"
+ - "on"
+ - "N-na", N=1-7
+ - "N-vastaisena yönä"
+ - "noin"
+ - "astetta"
+ - "seuraavana yönä"
+ - "korkeampi"
+ - "vähän korkeampi"
+ - "suunnilleen sama"
+ - "vähän matalampi"
+ - "matalampi"
 
 \section sec_precipitationstory PrecipitationStory luokka
 
