@@ -44,6 +44,7 @@
  </ol>
 <li>\ref sec_froststory</li>
  <ol>
+ <li>\ref page_story_frost_day (puuttuu)</li>
  <li>\ref page_story_frost_mean</li>
  <li>\ref page_story_frost_maximum</li>
  <li>\ref page_story_frost_range</li>
