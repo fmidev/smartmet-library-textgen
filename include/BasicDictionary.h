@@ -57,8 +57,8 @@ namespace textgen
 	// BasicDictionary(const BasicDictionary & theDict);
 	// BasicDictionary & operator=(const BasicDictionary & theDict);
 
-	virtual ~BasicDictionary() { }
-	virtual void init(const std::string & theLanguage) { }
+	virtual ~BasicDictionary();
+	virtual void init(const std::string & theLanguage);
 	virtual bool contains(const std::string & theKey) const;
 	virtual const std::string & find(const std::string & theKey) const;
 	virtual void insert(const std::string & theKey, const std::string & thePhrase);

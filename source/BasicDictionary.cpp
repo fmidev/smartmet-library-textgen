@@ -13,6 +13,36 @@ namespace textgen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Destructor
+   *
+   * The destructor does nothing special.
+   */
+  // ----------------------------------------------------------------------
+
+  BasicDictionary::~BasicDictionary()
+  {
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Initialize with given lanlguage (does nothing)
+   *
+   * Initializing BasicDictionary does nothing, the method is defined
+   * only to satisfy the abstract Dictionary interface. It is expected
+   * that the user fills the BasicDictionary by himself using the insert
+   * method.
+   *
+   * The method is not inlined since the due to polymorphic usage
+   * the compiler is unlikely to see the empty implementation.
+   */
+  // ----------------------------------------------------------------------
+
+  void BasicDictionary::init(const std::string & theLanguage)
+  {
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Test if the given phrase is in the dictionary
    *
    * \param theKey The key of the phrase
