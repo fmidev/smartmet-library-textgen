@@ -54,7 +54,7 @@ namespace WeatherAnalysis
    * The variable is expected to contain definitions for
    * \code
    * [variable]::starthour = [0-23] (= 0)
-   * [variable]::interval    = [2|3|4|6|8|12|24]
+   * [variable]::interval    = [1|2|3|4|6|8|12|24]
    * [variable]::mininterval = [0-24] (= interval)
    * \endcode
    **
@@ -96,8 +96,8 @@ namespace WeatherAnalysis
   {
 	if( (24 % itsInterval) != 0)
 	  throw WeatherAnalysisError("IntervalPeriodGenerator: Interval must divide 24 evenly");
-	if(itsInterval < 2)
-	  throw WeatherAnalysisError("IntervalPeriodGenerator: Interval must be atleast 2 hours");
+	if(itsInterval < 1)
+	  throw WeatherAnalysisError("IntervalPeriodGenerator: Interval must be atleast 1 hour");
 
 	if(itsMinimumInterval < 1)
 	  throw WeatherAnalysisError("IntervalPeriodGenerator: Minimum interval must be atleast 1 hour");
