@@ -118,7 +118,7 @@ namespace WeatherAnalysis
 	, itsNamedFlag(true)
 	, itsName(theName)
 	, itsPoint(kFloatMissing,kFloatMissing)
-	, itsPolygon()
+	, itsPolygon(new NFmiSvgPath())
 	, itsRadius(0)
 	, itsSortKey(theName+'='+theSpecs)
   {
@@ -142,7 +142,7 @@ namespace WeatherAnalysis
 	, itsNamedFlag(false)
 	, itsName()
 	, itsPoint(kFloatMissing,kFloatMissing)
-	, itsPolygon()
+	, itsPolygon(new NFmiSvgPath())
 	, itsRadius(0)
 	, itsSortKey(theSpecs)
   {
@@ -166,7 +166,7 @@ namespace WeatherAnalysis
 	, itsNamedFlag(false)
 	, itsName()
 	, itsPoint(thePoint)
-	, itsPolygon()
+	, itsPolygon(new NFmiSvgPath())
 	, itsRadius(theRadius)
 	, itsSortKey(NFmiStringTools::Convert(thePoint.X()) +
 				 ',' +
@@ -176,7 +176,7 @@ namespace WeatherAnalysis
 	if(theRadius < 0)
 	  throw WeatherAnalysisError("A weather point cannot have a negative expansion radius");
 	if(theRadius > 0)
-	  make_point_path(itsPolygon,thePoint);
+	  make_point_path(*itsPolygon,thePoint);
   }
 
   // ----------------------------------------------------------------------
@@ -198,7 +198,7 @@ namespace WeatherAnalysis
 	, itsNamedFlag(true)
 	, itsName(theName)
 	, itsPoint(thePoint)
-	, itsPolygon()
+	, itsPolygon(new NFmiSvgPath())
 	, itsRadius(theRadius)
 	, itsSortKey(theName +
 				 '=' +
@@ -210,7 +210,7 @@ namespace WeatherAnalysis
 	if(theRadius < 0)
 	  throw WeatherAnalysisError("A weather point cannot have a negative expansion radius");
 	if(theRadius > 0)
-	  make_point_path(itsPolygon,thePoint);
+	  make_point_path(*itsPolygon,thePoint);
   }
 
   // ----------------------------------------------------------------------
@@ -279,9 +279,11 @@ namespace WeatherAnalysis
 
   const NFmiSvgPath & WeatherArea::path() const
   {
-	if(!itsPointFlag)
-	  return itsPolygon;
-	throw WeatherAnalysisError("Trying to access path of a point");
+	if(itsPointFlag)
+	  throw WeatherAnalysisError("Trying to access path of a point");
+	if(itsPolygon.get() == 0)
+	  throw WeatherAnalysisError("Internal polygon allocation error in WeatherArea");
+	return *itsPolygon;
   }
 
   // ----------------------------------------------------------------------
@@ -359,10 +361,10 @@ namespace WeatherAnalysis
 		ifstream in(filename.c_str(), ios::in);
 		if(!in)
 		  throw WeatherAnalysisError("Could not open map file '"+filename+"' for reading");
-		in >> itsPolygon;
+		in >> *itsPolygon;
 		in.close();
 
-		if(itsPolygon.empty())
+		if(itsPolygon->empty())
 		  throw WeatherAnalysisError("Map file '"+filename+"' does not contain an acceptable SVG path");
 		return;
 	  }
@@ -391,7 +393,7 @@ namespace WeatherAnalysis
 
 	itsPointFlag = (itsRadius == 0);
 	if(!itsPointFlag)
-	  make_point_path(itsPolygon,itsPoint);
+	  make_point_path(*itsPolygon,itsPoint);
 
   }
  

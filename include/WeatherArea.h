@@ -10,6 +10,7 @@
 
 #include "NFmiPoint.h"
 #include "NFmiSvgPath.h"
+#include "boost/shared_ptr.hpp"
 #include <string>
 
 namespace WeatherAnalysis
@@ -58,7 +59,8 @@ namespace WeatherAnalysis
 
 	std::string itsName;
 	NFmiPoint itsPoint;
-	NFmiSvgPath itsPolygon;
+	// By using shared pointers copying WeatherArea is much faster
+	boost::shared_ptr<NFmiSvgPath> itsPolygon;
 	float itsRadius;
 
 	std::string itsSortKey;		// for sorting purposes only
