@@ -8,6 +8,7 @@
   <li>\ref page_header_until</li>
   <li>\ref page_header_from_until</li>
   <li>\ref page_header_several_days</li>
+  <li>\ref page_header_report_time</li>
   <li>\ref page_header_report_area</li>
  </ol>
 </ol>

@@ -186,6 +186,37 @@ namespace
 	return header;
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return report header for forecast time
+   *
+   * \param theArea The area (must not be a point)
+   * \param thePeriod The time period (only start time is relevant)
+   * \param theVariable The variable for extra settings
+   * \return The header
+   */
+  // ----------------------------------------------------------------------
+
+  TextGen::Header header_report_time(const WeatherArea & theArea,
+									 const WeatherPeriod & thePeriod,
+									 const string & theVariable)
+  {
+	MessageLogger log("header_report_area");
+	using namespace TextGen;
+
+	Header header;
+
+	const int starthour = thePeriod.localStartTime().GetHour();
+
+	header << "sääennuste"
+		   << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
+		   << Integer(starthour)
+		   << "o'clock";
+
+	log << header;
+	return header;
+  }
+
 } // namespace anonymous
 
 // ======================================================================
@@ -230,6 +261,8 @@ namespace TextGen
 		return header_several_days(thePeriod,theVariable);
 	  if(type == "report_area")
 		return header_report_area(theArea,thePeriod,theVariable);
+	  if(type == "report_time")
+		return header_report_time(theArea,thePeriod,theVariable);
 
 	  throw TextGenError("HeaderFactory does not recognize header type "+type);
 	}

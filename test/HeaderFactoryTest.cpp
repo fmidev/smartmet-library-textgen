@@ -215,6 +215,36 @@ namespace HeaderFactoryTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test HeaderFactory::create() with type "report_time"
+   */
+  // ----------------------------------------------------------------------
+
+  void header_report_time()
+  {
+	using namespace WeatherAnalysis;
+
+	string var = "variable";
+	NFmiSettings::Set(var+"::type","report_time");
+
+	WeatherArea area("25,60:30","uusimaa");
+	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,3,6));
+
+	string result;
+
+	result = require("fi",area,period,var,"Sääennuste sunnuntaina kello 6");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("sv",area,period,var,"Väderrapport söndag klockan 6");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("en",area,period,var,"Weather report on Sunday 6 o'clock");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -234,6 +264,7 @@ namespace HeaderFactoryTest
 	  TEST(header_until);
 	  TEST(header_from_until);
 	  TEST(header_several_days);
+	  TEST(header_report_time);
 	  TEST(header_report_area);
 	}
 
