@@ -21,7 +21,7 @@
  <li>\ref page_story_precipitation_total</li>
  <li>\ref page_story_precipitation_range</li>
  <li>\ref page_story_precipitation_classification</li>
- <li>\ref page_story_pop_twodays (toteuttamatta)</li>
+ <li>\ref page_story_pop_twodays</li>
  </ol>
 <li>\ref sec_cloudinesstory</li>
  <ol>
@@ -29,7 +29,7 @@
  </ol>
 <li>\ref sec_weatherstory</li>
  <ol>
- <li>\ref page_story_weather_overview (olomuoto toteuttamatta)</li>
+ <li>\ref page_story_weather_overview</li>
  <li>\ref page_story_weather_shortoverview (olomuoto toteuttamatta)</li>
  <li>\ref page_story_weather_thunderprobability</li>
  </ol>
@@ -52,7 +52,8 @@
  </ol>
 <li>\ref sec_roadstory</li>
  <ol>
- <li>\ref page_story_roadtemperature_daynightranges (puuttuu)</li>
+ <li>\ref page_story_roadtemperature_daynightranges</li>
+ <li>\ref page_story_roadcondition_overview</li>
  </ol>
 </ol>
 
