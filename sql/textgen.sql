@@ -1185,7 +1185,7 @@ INSERT INTO translation_sv VALUES ('varsinais-suomi:lle','för Egentliga Finland'
 INSERT INTO translation_sv VALUES ('osterbotten:lle','för Österbotten',20030604071816,'mheiskan');
 INSERT INTO translation_sv VALUES ('huomattavasti pienempi','betydligt mindre',20030604080048,'mheiskan');
 INSERT INTO translation_sv VALUES ('rannikolla','vid kusten',20030605180441,'mheiskan');
-INSERT INTO translation_sv VALUES ('metriä sekunnissa','meter i sekund',20030608231039,'mheiskan');
+INSERT INTO translation_sv VALUES ('metriä sekunnissa','meter i sekunden',20030611141128,'mheiskan');
 INSERT INTO translation_sv VALUES ('1-alkaen','från måndagen',20030611133006,'mheiskan');
 INSERT INTO translation_sv VALUES ('2-alkaen','från tisdagen',20030611133009,'mheiskan');
 INSERT INTO translation_sv VALUES ('3-alkaen','från onsdagen',20030611133017,'mheiskan');
