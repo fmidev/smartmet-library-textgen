@@ -49,6 +49,7 @@ namespace TextGen
 
 	const double minrain = Settings::optional_double(itsVar+"::minrain",0);
 	const int mininterval = Settings::optional_int(itsVar+"::mininterval",1);
+	const bool ignore_fair_days = Settings::optional_bool(itsVar+"::ignore_fair_days",true);
 
 	Paragraph paragraph;
 
@@ -56,7 +57,7 @@ namespace TextGen
 
 	// All the days
 
-	HourPeriodGenerator generator(itsPeriod,itsVar);
+	HourPeriodGenerator generator(itsPeriod,itsVar+"::day");
 
 	// Filter out too small hourly precipitation from the sum
 
@@ -70,7 +71,9 @@ namespace TextGen
 	vector<WeatherResult> maxima;
 	vector<WeatherResult> means;
 
-	for(unsigned int day=1; day<=periods.size(); day++)
+	const unsigned int ndays = generator.size();
+
+	for(unsigned int day=1; day<=ndays; day++)
 	  {
 		WeatherPeriod period = generator.period(day);
 
@@ -131,8 +134,9 @@ namespace TextGen
 
 	for(unsigned int i=0; i<periods.size(); i++)
 	  {
-		if(FmiRound(maxima[i].value()) > 0)
+		if(!ignore_fair_days || FmiRound(maxima[i].value()) > 0)
 		  {
+			const bool empty = sentence.empty();
 			if(i==0)
 			  {
 				sentence << "sadesumma"
@@ -152,7 +156,7 @@ namespace TextGen
 			  }
 		  else
 			{
-			  if(sentence.empty())
+			  if(empty)
 				sentence << "sadesumma" << "on";
 			  else
 				sentence << Delimiter(",");
@@ -162,6 +166,7 @@ namespace TextGen
 													  periods[i]);
 			  
 			  if(same_enabled &&
+				 !empty &&
 				 WeatherResultTools::isSimilarRange(minima[last],maxima[last],
 													minima[i],maxima[i],
 													itsVar))

@@ -439,6 +439,132 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test PrecipitationStory::daily_sums()
+   */
+  // ----------------------------------------------------------------------
+
+  void precipitation_daily_sums()
+  {
+	using namespace std;
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	WeatherArea area("dummy");
+	NFmiTime time1(2000,1,1);
+	NFmiTime time2(2000,1,3);
+	NFmiTime time3(2000,1,4);
+
+	const string fun = "precipitation_daily_sums";
+	string result;
+
+	NFmiSettings::Set("daily_sums::mininterval","3");
+
+	NFmiSettings::Set("daily_sums::day::starthour","0");
+	NFmiSettings::Set("daily_sums::day::maxstarthour","12");
+	NFmiSettings::Set("daily_sums::day::endhour","0");
+	NFmiSettings::Set("daily_sums::today::phrases","today,tomorrow");
+
+	// 2-day forecasts, zero rains not ignored
+	{
+	  NFmiSettings::Set("daily_sums::ignore_fair_days","false");
+	  WeatherPeriod period(time1,time2);
+	  
+	  PrecipitationStory story(time1,sources,area,period,"daily_sums");
+	  
+	  NFmiSettings::Set("daily_sums::fake::day1::minimum","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day1::maximum","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day1::mean","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::minimum","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::maximum","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::mean","0,0");
+	  REQUIRE(story,"fi",fun,"Sadesumma on tänään 0 millimetriä, huomenna sama.");
+	  REQUIRE(story,"sv",fun,"Nederbördssumman är i dag 0 millimeter, i morgon densamma.");
+	  REQUIRE(story,"en",fun,"Total precipitation is today 0 millimeters, tomorrow the same.");
+	  
+	  NFmiSettings::Set("daily_sums::fake::day2::minimum","5,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::maximum","10,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::mean","8,0");
+	  REQUIRE(story,"fi",fun,"Sadesumma on tänään 0 millimetriä, huomenna 5-10 millimetriä.");
+	  REQUIRE(story,"sv",fun,"Nederbördssumman är i dag 0 millimeter, i morgon 5-10 millimeter.");
+	  REQUIRE(story,"en",fun,"Total precipitation is today 0 millimeters, tomorrow 5-10 millimeters.");
+	  
+	  NFmiSettings::Set("daily_sums::fake::day1::minimum","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day1::maximum","2,0");
+	  NFmiSettings::Set("daily_sums::fake::day1::mean","1,0");
+	  REQUIRE(story,"fi",fun,"Sadesumma on tänään noin 1 millimetriä, huomenna 5-10 millimetriä.");
+	  REQUIRE(story,"sv",fun,"Nederbördssumman är i dag cirka 1 millimeter, i morgon 5-10 millimeter.");
+	  REQUIRE(story,"en",fun,"Total precipitation is today about 1 millimeters, tomorrow 5-10 millimeters.");
+
+	  NFmiSettings::Set("daily_sums::fake::day2::minimum","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::maximum","2,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::mean","1,0");
+	  REQUIRE(story,"fi",fun,"Sadesumma on tänään noin 1 millimetriä, huomenna sama.");
+	  REQUIRE(story,"sv",fun,"Nederbördssumman är i dag cirka 1 millimeter, i morgon densamma.");
+	  REQUIRE(story,"en",fun,"Total precipitation is today about 1 millimeters, tomorrow the same.");
+
+	  NFmiSettings::Set("daily_sums::fake::day2::minimum","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::maximum","2,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::mean","1,0");
+	  REQUIRE(story,"fi",fun,"Sadesumma on tänään noin 1 millimetriä, huomenna sama.");
+	  REQUIRE(story,"sv",fun,"Nederbördssumman är i dag cirka 1 millimeter, i morgon densamma.");
+	  REQUIRE(story,"en",fun,"Total precipitation is today about 1 millimeters, tomorrow the same.");
+	  
+	}
+
+	// 2-day forecasts, zero rains ignored
+	{
+	  NFmiSettings::Set("daily_sums::ignore_fair_days","true");
+	  WeatherPeriod period(time1,time2);
+	  
+	  PrecipitationStory story(time1,sources,area,period,"daily_sums");
+	  
+	  NFmiSettings::Set("daily_sums::fake::day1::minimum","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day1::maximum","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day1::mean","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::minimum","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::maximum","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::mean","0,0");
+	  REQUIRE(story,"fi",fun,"");
+	  REQUIRE(story,"sv",fun,"");
+	  REQUIRE(story,"en",fun,"");
+	  
+	  NFmiSettings::Set("daily_sums::fake::day2::minimum","5,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::maximum","10,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::mean","8,0");
+	  REQUIRE(story,"fi",fun,"Sadesumma on huomenna 5-10 millimetriä.");
+	  REQUIRE(story,"sv",fun,"Nederbördssumman är i morgon 5-10 millimeter.");
+	  REQUIRE(story,"en",fun,"Total precipitation is tomorrow 5-10 millimeters.");
+	  
+	  NFmiSettings::Set("daily_sums::fake::day1::minimum","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day1::maximum","2,0");
+	  NFmiSettings::Set("daily_sums::fake::day1::mean","1,0");
+	  REQUIRE(story,"fi",fun,"Sadesumma on tänään noin 1 millimetriä, huomenna 5-10 millimetriä.");
+	  REQUIRE(story,"sv",fun,"Nederbördssumman är i dag cirka 1 millimeter, i morgon 5-10 millimeter.");
+	  REQUIRE(story,"en",fun,"Total precipitation is today about 1 millimeters, tomorrow 5-10 millimeters.");
+
+	  NFmiSettings::Set("daily_sums::fake::day2::minimum","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::maximum","2,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::mean","1,0");
+	  REQUIRE(story,"fi",fun,"Sadesumma on tänään noin 1 millimetriä, huomenna sama.");
+	  REQUIRE(story,"sv",fun,"Nederbördssumman är i dag cirka 1 millimeter, i morgon densamma.");
+	  REQUIRE(story,"en",fun,"Total precipitation is today about 1 millimeters, tomorrow the same.");
+
+	  NFmiSettings::Set("daily_sums::fake::day2::minimum","0,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::maximum","2,0");
+	  NFmiSettings::Set("daily_sums::fake::day2::mean","1,0");
+	  REQUIRE(story,"fi",fun,"Sadesumma on tänään noin 1 millimetriä, huomenna sama.");
+	  REQUIRE(story,"sv",fun,"Nederbördssumman är i dag cirka 1 millimeter, i morgon densamma.");
+	  REQUIRE(story,"en",fun,"Total precipitation is today about 1 millimeters, tomorrow the same.");
+	  
+	}
+
+	TEST_PASSED();
+  }
+	
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -458,6 +584,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  TEST(precipitation_range);
 	  TEST(precipitation_classification);
 	  TEST(precipitation_sums);
+	  TEST(precipitation_daily_sums);
 	  TEST(pop_twodays);
 	}
 
