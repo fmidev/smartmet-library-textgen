@@ -36,8 +36,8 @@ namespace UnitFactoryTest
 
 	NFmiSettings::instance().set("textgen::units::celsius::format","SI");
 	unit = create(DegreesCelsius);
-	if(unit->realize(formatter) != "\176C.")
-	  TEST_FAILED("create() failed to realize \176C.");
+	if(unit->realize(formatter) != "\260C.")
+	  TEST_FAILED("create() failed to realize \260C.");
 
 	NFmiSettings::instance().set("textgen::units::celsius::format","phrase");
 	unit = create(DegreesCelsius);
