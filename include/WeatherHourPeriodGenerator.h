@@ -22,6 +22,8 @@
 #include "WeatherPeriodGenerator.h"
 #include "WeatherPeriod.h"
 
+#include <string>
+
 namespace WeatherAnalysis
 {
   class WeatherPeriod;
@@ -36,6 +38,9 @@ namespace WeatherAnalysis
 							   int theEndHour,
 							   int theMaxStartHour,
 							   int theMinEndHour);
+
+	WeatherHourPeriodGenerator(const WeatherPeriod & theMainPeriod,
+							   const std::string & theVariable);
 
 	virtual ~WeatherHourPeriodGenerator() { }
 	virtual size_type size() const;
