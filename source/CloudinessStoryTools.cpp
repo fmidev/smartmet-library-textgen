@@ -392,7 +392,7 @@ namespace TextGen
 	  // entire merge and we abort
 
 	  std::vector<CloudinessType> similartypes;
-	  for(unsigned int i=theStart; i<=theEnd; i++)
+	  for(unsigned int i=theStart; i<theEnd; i++)
 		{
 		  CommonCloudiness tmp = similartype(theTypes[i],theTypes[i+1]);
 		  if(!tmp.second)

@@ -564,6 +564,22 @@ namespace CloudinessStoryToolsTest
 	if(similartype(VariableCloudiness,VariableCloudiness).first != VariableCloudiness)
 	  TEST_FAILED("VariableCloudiness+VariableCloudiness is similar to VariableCloudiness");
 
+	// test combinations
+
+	std::vector<CloudinessType> vec;
+	vec.push_back(PartlyCloudy);
+	vec.push_back(MostlyPartlyCloudy);
+	if(similartype(vec).first != MostlyPartlyCloudy)
+	  TEST_FAILED("PartlyCloudy+MostlyPartlyCloudy = MostlyPartlyCloudy");
+
+	vec.push_back(MostlyClear);
+	if(similartype(vec).first != ClearOrPartlyCloudy)
+	  TEST_FAILED("PartlyCloudy+MostlyPartlyCloudy+MostlyClear = ClearOrPartlyCloudy");
+	
+	vec.push_back(MostlyCloudy);
+	if(similartype(vec).first != VariableCloudiness)
+	  TEST_FAILED("PartlyCloudy+MostlyPartlyCloudy+MostlyClear+MostlyCloudy = VariableCloudiness");
+
 
 	TEST_PASSED();
   }
