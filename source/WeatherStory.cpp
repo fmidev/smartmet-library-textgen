@@ -6,10 +6,23 @@
 // ======================================================================
 
 #include "WeatherStory.h"
+#include "Delimiter.h"
+#include "GridForecaster.h"
+#include "HourPeriodGenerator.h"
+#include "NullPeriodGenerator.h"
 #include "Paragraph.h"
+#include "RangeAcceptor.h"
+#include "Sentence.h"
 #include "Settings.h"
 #include "TextGenError.h"
 #include "WeatherPeriodTools.h"
+#include "WeatherResult.h"
+#include "WeekdayTools.h"
+
+#include "boost/shared_ptr.hpp"
+#include "boost/lexical_cast.hpp"
+
+#include <vector>
 
 using namespace WeatherAnalysis;
 using namespace boost;
@@ -94,6 +107,8 @@ namespace TextGen
    * \return The story
    *
    * \see page_weather_shortoverview
+   *
+   * \todo Precipitation form output is missing
    */
   // ----------------------------------------------------------------------
 
@@ -103,8 +118,8 @@ namespace TextGen
 	using namespace WeatherPeriodTools;
 
 	Paragraph paragraph;
+	Sentence sentence;
 
-#if 0
 	const bool c_fullrange = optional_bool(itsVar+"::cloudiness::fullrange",true);
 	const int c_starthour = optional_hour(itsVar+"::cloudiness::starthour",0);
 	const int c_endhour = optional_hour(itsVar+"::cloudiness::endhour",0);
@@ -124,8 +139,146 @@ namespace TextGen
 
 	const double r_rainy = optional_double(itsVar+"::precipitation::rainy",1);
 	const double r_partly_rainy = optional_double(itsVar+"::precipitation::partly_rainy",0.1);
-	const int c_unstable = optional_percentage(itsVar+"::cloudiness::unstable",50);
-#endif
+	const int r_unstable = optional_percentage(itsVar+"::precipitation::unstable",50);
+
+	GridForecaster forecaster;
+
+	// Generate cloudiness story first
+
+	{
+	  RangeAcceptor n1limits, n3limits;
+	  n1limits.upperLimit(c_clear);
+	  n3limits.lowerLimit(c_cloudy);
+
+	  shared_ptr<WeatherPeriodGenerator> periods;
+	  if(c_fullrange)
+		periods = shared_ptr<WeatherPeriodGenerator>(new NullPeriodGenerator(itsPeriod));
+	  else
+		periods = shared_ptr<WeatherPeriodGenerator>(new HourPeriodGenerator(itsPeriod,
+																			 c_starthour,
+																			 c_endhour,
+																			 c_maxstarthour,
+																			 c_minendhour));
+
+	  const WeatherResult n1result
+		= forecaster.analyze(itsVar+"::fake::clear_percentage",
+							 itsSources,
+							 Cloudiness,
+							 Mean,
+							 (c_fullrange ? Percentage : Mean),
+							 (c_fullrange ? NullFunction : Percentage),
+							 itsArea,
+							 *periods,
+							 DefaultAcceptor(),
+							 DefaultAcceptor(),
+							 n1limits);
+		  
+	  const WeatherResult n3result
+		= forecaster.analyze(itsVar+"::fake::cloudy_percentage",
+							 itsSources,
+							 Cloudiness,
+							 Mean,
+							 (c_fullrange ? Percentage : Mean),
+							 (c_fullrange ? NullFunction : Percentage),
+							 itsArea,
+							 *periods,
+							 DefaultAcceptor(),
+							 DefaultAcceptor(),
+							 n3limits);
+		  
+	  if(n1result.value() == kFloatMissing ||
+		 n3result.value() == kFloatMissing)
+		throw TextGenError("Cloudiness not available");
+	  
+	  // n1+n2+n3 = 100
+	  const float n1 = n1result.value();
+	  const float n3 = n3result.value();
+	  const float n2 = 100-n1-n3;
+		  
+	  if(n1 >= c_single_limit)
+		sentence << "enimmäkseen" << "selkeää";
+	  else if(n2 >= c_single_limit)
+		sentence << "enimmäkseen" << "puolipilvistä";
+	  else if(n3 >= c_single_limit)
+		sentence << "enimmäkseen" << "pilvistä";
+	  else if(n1 < c_double_limit)
+		sentence << "enimmäkseen" << "pilvistä" << "tai" << "puolipilvistä";
+	  else if(n3 < c_double_limit)
+		sentence << "enimmäkseen" << "selkeää" << "tai" << "puolipilvistä";
+	  else
+		sentence << "vaihtelevaa pilvisyyttä";
+	}
+
+	// Append sentence on rain
+
+	{
+	  typedef vector<WeatherResult> container;
+	  container results;
+	  HourPeriodGenerator generator(itsPeriod,
+									r_starthour,
+									r_endhour,
+									r_maxstarthour,
+									r_minendhour);
+	  
+	  if(generator.size() >= 1)
+		sentence << Delimiter(",");
+
+	  WeatherPeriod last_rainy_period = generator.period(1);
+	  WeatherPeriod last_partly_rainy_period = generator.period(1);
+
+	  const int days = generator.size();
+	  int rainy_days = 0;
+	  int partly_rainy_days = 0;
+
+	  for(HourPeriodGenerator::size_type i=1; i<=generator.size(); i++)
+		{
+		  WeatherPeriod period = generator.period(i);
+
+		  const string day = "day"+lexical_cast<string>(i);
+		  const string var = itsVar+"::fake::"+day+"::precipitation";
+
+		  const WeatherResult result
+			= forecaster.analyze(var,
+								 itsSources,
+								 Precipitation,
+								 Mean,
+								 Sum,
+								 itsArea,
+								 period);
+
+		  if(result.value() == kFloatMissing)
+			throw TextGenError("Precipitation not available");
+
+		  if(result.value() >= r_rainy)
+			{
+			  ++rainy_days;
+			  last_rainy_period = period;
+			}
+		  if(result.value() >= r_partly_rainy)
+			{
+			  ++partly_rainy_days;
+			  last_partly_rainy_period = period;}
+
+		  results.push_back(result);
+		}
+
+	  if(rainy_days == 0 && partly_rainy_days == 0)
+		sentence << "poutaa";
+	  else if(rainy_days == 1 && partly_rainy_days == 1)
+		sentence << WeekdayTools::on_weekday(last_rainy_period.localStartTime())
+				 << "sadetta";
+	  else if(rainy_days == 0 && partly_rainy_days == 1)
+		sentence << WeekdayTools::on_weekday(last_partly_rainy_period.localStartTime())
+				 << "paikoin"
+				 << "sadetta";
+	  else if(100*static_cast<float>(rainy_days)/days >= r_unstable)
+		sentence << "sää on epävakaista";
+	  else
+		sentence << "ajoittain sateista";
+
+	}
+
+	paragraph << sentence;
 	return paragraph;
   }
 
