@@ -9,6 +9,7 @@
 #include "DefaultAcceptor.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
+#include "NullPeriodGenerator.h"
 #include "NumberRange.h"
 #include "Paragraph.h"
 #include "RangeAcceptor.h"
@@ -206,8 +207,8 @@ namespace TextGen
 											  Precipitation,
 											  Mean,
 											  Sum,
-											  itsPeriod,
 											  itsArea,
+											  itsPeriod,
 											  rainlimits);
 
 	if(result.value() == kFloatMissing)
@@ -251,8 +252,8 @@ namespace TextGen
 												 Precipitation,
 												 Minimum,
 												 Sum,
-												 itsPeriod,
 												 itsArea,
+												 itsPeriod,
 												 rainlimits);
 
 	WeatherResult maxresult = forecaster.analyze(itsVar+"::fake::maximum",
@@ -260,8 +261,8 @@ namespace TextGen
 												 Precipitation,
 												 Maximum,
 												 Sum,
-												 itsPeriod,
 												 itsArea,
+												 itsPeriod,
 												 rainlimits);
 
 	if(minresult.value() == kFloatMissing ||
@@ -331,8 +332,8 @@ namespace TextGen
 												 Precipitation,
 												 Minimum,
 												 Sum,
-												 itsPeriod,
 												 itsArea,
+												 itsPeriod,
 												 rainlimits);
 
 	WeatherResult meanresult = forecaster.analyze(itsVar+"::fake::mean",
@@ -340,8 +341,8 @@ namespace TextGen
 												  Precipitation,
 												  Mean,
 												  Sum,
-												  itsPeriod,
 												  itsArea,
+												  itsPeriod,
 												  rainlimits);
 	
 	WeatherResult maxresult = forecaster.analyze(itsVar+"::fake::maximum",
@@ -349,8 +350,8 @@ namespace TextGen
 												 Precipitation,
 												 Maximum,
 												 Sum,
-												 itsPeriod,
 												 itsArea,
+												 itsPeriod,
 												 rainlimits);
 
 	// Check for invalid results
@@ -399,8 +400,8 @@ namespace TextGen
 														  Precipitation,
 														  Percentage,
 														  Sum,
-														  itsPeriod,
 														  itsArea,
+														  itsPeriod,
 														  rainlimits,
 														  DefaultAcceptor(),
 														  percentagelimits);
@@ -480,8 +481,8 @@ namespace TextGen
 													  Precipitation,
 													  Percentage,
 													  Sum,
-													  itsPeriod,
 													  itsArea,
+													  itsPeriod,
 													  rainlimits,
 													  DefaultAcceptor(),
 													  percentagelimits);

@@ -10,11 +10,10 @@
 #include "AnalysisSources.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
+#include "WeatherPeriodGenerator.h"
 #include "WeatherResult.h"
 
 #include "FrostAnalyzer.h"
-#include "MaxTemperatureAnalyzer.h"
-#include "MinTemperatureAnalyzer.h"
 #include "PrecipitationAnalyzer.h"
 #include "RelativeHumidityAnalyzer.h"
 #include "SevereFrostAnalyzer.h"
@@ -31,8 +30,9 @@ namespace WeatherAnalysis
    * \param theParameter The weather phenomenon to analyze
    * \param theAreaFunction The area function
    * \param theTimeFunction The time function
-   * \param thePeriod The time period to analyze
+   * \param theSubTimeFunction The time function for subperiods
    * \param theArea The name of the area to analyze
+   * \param thePeriods The time period to analyze
    * \param theAreaAcceptor The weather data acceptor in area integration
    * \param theTimeAcceptor The weather data acceptor in time integration
    * \param theTester The acceptor for Percentage calculations
@@ -45,8 +45,9 @@ namespace WeatherAnalysis
 						  const WeatherParameter & theParameter,
 						  const WeatherFunction & theAreaFunction,
 						  const WeatherFunction & theTimeFunction,
-						  const WeatherPeriod & thePeriod,
+						  const WeatherFunction & theSubTimeFunction,
 						  const WeatherArea & theArea,
+						  const WeatherPeriodGenerator & thePeriods,
 						  const Acceptor & theAreaAcceptor,
 						  const Acceptor & theTimeAcceptor,
 						  const Acceptor & theTester) const
@@ -60,34 +61,9 @@ namespace WeatherAnalysis
 								  Forecast,
 								  theAreaFunction,
 								  theTimeFunction,
-								  thePeriod,
+								  theSubTimeFunction,
 								  theArea,
-								  theAreaAcceptor,
-								  theTimeAcceptor,
-								  theTester);
-		}
-	  case MaxTemperature:
-		{
-		  MaxTemperatureAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  Forecast,
-								  theAreaFunction,
-								  theTimeFunction,
-								  thePeriod,
-								  theArea,
-								  theAreaAcceptor,
-								  theTimeAcceptor,
-								  theTester);
-		}
-	  case MinTemperature:
-		{
-		  MinTemperatureAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  Forecast,
-								  theAreaFunction,
-								  theTimeFunction,
-								  thePeriod,
-								  theArea,
+								  thePeriods,
 								  theAreaAcceptor,
 								  theTimeAcceptor,
 								  theTester);
@@ -99,8 +75,9 @@ namespace WeatherAnalysis
 								  Forecast,
 								  theAreaFunction,
 								  theTimeFunction,
-								  thePeriod,
+								  theSubTimeFunction,
 								  theArea,
+								  thePeriods,
 								  theAreaAcceptor,
 								  theTimeAcceptor,
 								  theTester);
@@ -112,8 +89,9 @@ namespace WeatherAnalysis
 								  Forecast,
 								  theAreaFunction,
 								  theTimeFunction,
-								  thePeriod,
+								  theSubTimeFunction,
 								  theArea,
+								  thePeriods,
 								  theAreaAcceptor,
 								  theTimeAcceptor,
 								  theTester);
@@ -125,8 +103,9 @@ namespace WeatherAnalysis
 								  Forecast,
 								  theAreaFunction,
 								  theTimeFunction,
-								  thePeriod,
+								  theSubTimeFunction,
 								  theArea,
+								  thePeriods,
 								  theAreaAcceptor,
 								  theTimeAcceptor,
 								  theTester);
@@ -138,8 +117,9 @@ namespace WeatherAnalysis
 								  Forecast,
 								  theAreaFunction,
 								  theTimeFunction,
-								  thePeriod,
+								  theSubTimeFunction,
 								  theArea,
+								  thePeriods,
 								  theAreaAcceptor,
 								  theTimeAcceptor,
 								  theTester);
@@ -152,6 +132,7 @@ namespace WeatherAnalysis
 	// should never reach this place
 	return WeatherResult(kFloatMissing,0);
   }
+
 
 } // namespace WeatherAnalysis
 

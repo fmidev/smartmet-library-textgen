@@ -10,6 +10,7 @@
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "MathTools.h"
+#include "NullPeriodGenerator.h"
 #include "Number.h"
 #include "Paragraph.h"
 #include "Sentence.h"
@@ -149,8 +150,8 @@ namespace TextGen
 											  RelativeHumidity,
 											  Minimum,
 											  Minimum,
-											  firstperiod,
-											  itsArea);
+											  itsArea,
+											  firstperiod);
 	
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("RelativeHumidity not available");
@@ -179,8 +180,8 @@ namespace TextGen
 												   RelativeHumidity,
 												   Minimum,
 												   Minimum,
-												   secondperiod,
-												   itsArea);
+												   itsArea,
+												   secondperiod);
 		
 		if(result2.value() == kFloatMissing)
 		  throw TextGenError("RelativeHumidity not available");

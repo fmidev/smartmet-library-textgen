@@ -72,19 +72,17 @@ namespace WeatherAnalysis
   // ----------------------------------------------------------------------
 
   RegularFunctionAnalyzer::RegularFunctionAnalyzer(const WeatherFunction & theAreaFunction,
-												   const WeatherFunction & theTimeFunction)
+												   const WeatherFunction & theTimeFunction,
+												   const WeatherFunction & theSubTimeFunction)
 	: itsAreaFunction(theAreaFunction)
 	, itsTimeFunction(theTimeFunction)
+	, itsSubTimeFunction(theSubTimeFunction)
   {
   }
 
   // ----------------------------------------------------------------------
   /*!
    * \brief Analyze area and time functions
-   *
-   * If theInterval is < 0, an invalid result is returned.
-   * If theInterval is 0, no subintervals are created and
-   * theSubCalculator is ignored.
    *
    * Note that theTester argument is associated to both itsAreaCalculator
    * and itsTimeCalculator. Naturally the association is real only
@@ -97,15 +95,14 @@ namespace WeatherAnalysis
    *
    * \param theSources Analysis sources
    * \param theDataType Analysis data type
-   * \param thePeriod Analysis period
    * \param theArea Analysis area
+   * \param thePeriod Analysis period
+   * \param theGenerator Analysis subperiod generator
    * \param theAreaAcceptor The data acceptor in area integration
    * \param theTimeAcceptor The data acceptor in space integration
    * \param theTester The data tester for Percentage calculations
    * \param theDataName The name of the data file
    * \param theParameterName The name of the parameter
-   * \param theInterval The sub interval in hours
-   * \param theSubCalculator The integrator for the sub interval
    * \return The analysis result
    */
   // ----------------------------------------------------------------------
@@ -113,19 +110,14 @@ namespace WeatherAnalysis
   WeatherResult
   RegularFunctionAnalyzer::analyze(const AnalysisSources & theSources,
 								   const WeatherDataType & theDataType,
-								   const WeatherPeriod & thePeriod,
 								   const WeatherArea & theArea,
+								   const WeatherPeriodGenerator & thePeriods,
 								   const Acceptor & theAreaAcceptor,
 								   const Acceptor & theTimeAcceptor,
 								   const Acceptor & theTester,
 								   const std::string & theDataName,
-								   const std::string & theParameterName,
-								   int theInterval,
-								   Calculator & theSubCalculator) const
+								   const std::string & theParameterName) const
   {
-	// Safety against bad loop
-	if(theInterval<0)
-	  return WeatherResult(kFloatMissing,0);
 
 	// Establish the data
 
@@ -159,15 +151,15 @@ namespace WeatherAnalysis
 
 		shared_ptr<Calculator> spacemod = CalculatorFactory::create(itsAreaFunction,theTester);
 		shared_ptr<Calculator> timemod = CalculatorFactory::create(itsTimeFunction,theTester);
+		shared_ptr<Calculator> subtimemod = CalculatorFactory::create(itsSubTimeFunction,theTester);
 
 		spacemod->acceptor(theAreaAcceptor);
 		timemod->acceptor(theTimeAcceptor);
+		subtimemod->acceptor(theTimeAcceptor);
 
 		float result = QueryDataIntegrator::Integrate(qi,
-													  thePeriod.utcStartTime(),
-													  thePeriod.utcEndTime(),
-													  theInterval,
-													  theSubCalculator,
+													  thePeriods,
+													  *subtimemod,
 													  *timemod,
 													  *mask,
 													  *spacemod);
@@ -184,13 +176,13 @@ namespace WeatherAnalysis
 		  throw WeatherAnalysisError("Could not set desired coordinate in "+dataname);
 
 		shared_ptr<Calculator> timemod = CalculatorFactory::create(itsTimeFunction,theTester);
+		shared_ptr<Calculator> subtimemod = CalculatorFactory::create(itsSubTimeFunction,theTester);
 		timemod->acceptor(theTimeAcceptor);
+		subtimemod->acceptor(theTimeAcceptor);
 
 		float result = QueryDataIntegrator::Integrate(qi,
-													  thePeriod.utcStartTime(),
-													  thePeriod.utcEndTime(),
-													  theInterval,
-													  theSubCalculator,
+													  thePeriods,
+													  *subtimemod,
 													  *timemod);
 		
 		return WeatherResult(result,1);

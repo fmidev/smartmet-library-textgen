@@ -29,6 +29,7 @@ namespace WeatherAnalysis
   class WeatherArea;
   class WeatherLimits;
   class WeatherPeriod;
+  class WeatherPeriodGenerator;
   class WeatherResult;
 
   class RegularFunctionAnalyzer : public FunctionAnalyzer
@@ -38,24 +39,26 @@ namespace WeatherAnalysis
 	virtual ~RegularFunctionAnalyzer() { }
 
 	RegularFunctionAnalyzer(const WeatherFunction & theAreaFunction,
-							const WeatherFunction & theTimeFunction);
+							const WeatherFunction & theTimeFunction,
+							const WeatherFunction & theSubTimeFunction);
 
-	virtual WeatherResult analyze(const AnalysisSources & theSources,
-								  const WeatherDataType & theDataType,
-								  const WeatherPeriod & thePeriod,
-								  const WeatherArea & theArea,
-								  const Acceptor & theAreaAcceptor,
-								  const Acceptor & theTimeAcceptor,
-								  const Acceptor & theTester,
-								  const std::string & theDataName,
-								  const std::string & theParameterName,
-								  int theInterval,
-								  Calculator & theSubCalculator) const;
+	virtual WeatherResult
+	analyze(const AnalysisSources & theSources,
+			const WeatherDataType & theDataType,
+			const WeatherArea & theArea,
+			const WeatherPeriodGenerator & thePeriods,
+			const Acceptor & theAreaAcceptor,
+			const Acceptor & theTimeAcceptor,
+			const Acceptor & theTester,
+			const std::string & theDataName,
+			const std::string & theParameterName) const;
+
   private:
 
 	RegularFunctionAnalyzer();
-	WeatherFunction itsAreaFunction;
-	WeatherFunction itsTimeFunction;
+	const WeatherFunction itsAreaFunction;
+	const WeatherFunction itsTimeFunction;
+	const WeatherFunction itsSubTimeFunction;
 
   }; // class RegularFunctionAnalyzer
 

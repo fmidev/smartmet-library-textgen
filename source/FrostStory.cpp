@@ -10,6 +10,7 @@
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "MathTools.h"
+#include "NullPeriodGenerator.h"
 #include "Number.h"
 #include "NumberRange.h"
 #include "Paragraph.h"
@@ -196,8 +197,8 @@ namespace TextGen
 											 Frost,
 											 Mean,
 											 Maximum,
-											 itsPeriod,
-											 itsArea);
+											 itsArea,
+											 itsPeriod);
 
 	if(frost.value() == kFloatMissing)
 	  throw TextGenError("Frost is not available");
@@ -214,8 +215,8 @@ namespace TextGen
 												   SevereFrost,
 												   Mean,
 												   Maximum,
-												   itsPeriod,
-												   itsArea);
+												   itsArea,
+												   itsPeriod);
 
 	if(severefrost.value() == kFloatMissing)
 	  throw TextGenError("SevereFrost is not available");
@@ -276,8 +277,8 @@ namespace TextGen
 											 Frost,
 											 Maximum,
 											 Maximum,
-											 itsPeriod,
-											 itsArea);
+											 itsArea,
+											 itsPeriod);
 
 	if(frost.value() == kFloatMissing)
 	  throw TextGenError("Frost is not available");
@@ -294,8 +295,8 @@ namespace TextGen
 												   SevereFrost,
 												   Maximum,
 												   Maximum,
-												   itsPeriod,
-												   itsArea);
+												   itsArea,
+												   itsPeriod);
 
 	if(severefrost.value() == kFloatMissing)
 	  throw TextGenError("SevereFrost is not available");
@@ -356,8 +357,8 @@ namespace TextGen
 												Frost,
 												Maximum,
 												Maximum,
-												itsPeriod,
-												itsArea);
+												itsArea,
+												itsPeriod);
 
 	if(maxfrost.value() == kFloatMissing)
 	  throw TextGenError("Maximum Frost is not available");
@@ -374,8 +375,8 @@ namespace TextGen
 												Frost,
 												Minimum,
 												Maximum,
-												itsPeriod,
-												itsArea);
+												itsArea,
+												itsPeriod);
 
 	if(minfrost.value() == kFloatMissing)
 	  throw TextGenError("Minimum Frost is not available");
@@ -387,8 +388,8 @@ namespace TextGen
 													  SevereFrost,
 													  Maximum,
 													  Maximum,
-													  itsPeriod,
-													  itsArea);
+													  itsArea,
+													  itsPeriod);
 
 	if(maxseverefrost.value() == kFloatMissing)
 	  throw TextGenError("Maximum SevereFrost is not available");
@@ -398,8 +399,8 @@ namespace TextGen
 													  SevereFrost,
 													  Minimum,
 													  Maximum,
-													  itsPeriod,
-													  itsArea);
+													  itsArea,
+													  itsPeriod);
 
 	if(minseverefrost.value() == kFloatMissing)
 	  throw TextGenError("Minimum SevereFrost is not available");
@@ -480,16 +481,16 @@ namespace TextGen
 											 Frost,
 											 Mean,
 											 Maximum,
-											 night1,
-											 itsArea);
+											 itsArea,
+											 night1);
 
 	WeatherResult severefrost = forecaster.analyze(itsVar+"::fake::day1::severe_mean",
 												   itsSources,
 												   SevereFrost,
 												   Mean,
 												   Maximum,
-												   night1,
-												   itsArea);
+												   itsArea,
+												   night1);
 	
 	if(frost.value()==kFloatMissing || severefrost.value()==kFloatMissing)
 	  throw TextGenError("Frost is not available");
@@ -520,16 +521,16 @@ namespace TextGen
 												  Frost,
 												  Mean,
 												  Maximum,
-												  night2,
-												  itsArea);
+												  itsArea,
+												  night2);
 
 		WeatherResult severefrost2 = forecaster.analyze(itsVar+"::fake::day2::severe_mean",
 														itsSources,
 														SevereFrost,
 														Mean,
 														Maximum,
-														night2,
-														itsArea);
+														itsArea,
+														night2);
 		
 		if(frost2.value()==kFloatMissing || severefrost2.value()==kFloatMissing)
 		  throw TextGenError("Frost is not available");

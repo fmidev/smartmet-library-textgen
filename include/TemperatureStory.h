@@ -51,6 +51,7 @@ namespace TextGen
 	Paragraph meanmin() const;
 	Paragraph dailymax() const;
 	Paragraph nightlymin() const;
+	Paragraph weekly_minmax() const;
 
 	TemperatureStory();
 	TemperatureStory(const TemperatureStory & theStory);

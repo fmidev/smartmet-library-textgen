@@ -9,6 +9,8 @@
 #include "DefaultAcceptor.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
+#include "HourPeriodGenerator.h"
+#include "NullPeriodGenerator.h"
 #include "Number.h"
 #include "NumberRange.h"
 #include "Paragraph.h"
@@ -184,6 +186,8 @@ namespace TextGen
 	  return true;
 	if(theName == "temperature_nightlymin")
 	  return true;
+	if(theName == "temperature_weekly_minmax")
+	  return true;
 	return false;
   }
   
@@ -210,6 +214,8 @@ namespace TextGen
 	  return dailymax();
 	if(theName == "temperature_nightlymin")
 	  return nightlymin();
+	if(theName == "temperature_weekly_minmax")
+	  return weekly_minmax();
 
 	throw TextGenError("TemperatureStory cannot make story "+theName);
 
@@ -239,8 +245,8 @@ namespace TextGen
 											  Temperature,
 											  Mean,
 											  Mean,
-											  itsPeriod,
-											  itsArea);
+											  itsArea,
+											  itsPeriod);
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean temperature not available");
@@ -259,9 +265,6 @@ namespace TextGen
   /*!
    * \brief Generate story on mean maximum temperature
    *
-   * Throws if the weather period does not evenly divide into 24 hour
-   * segments.
-   *
    * \return The story
    *
    * \see page_temperature_meanmax
@@ -275,13 +278,16 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
+	HourPeriodGenerator periods(itsPeriod,06,18,06,18);
+
 	WeatherResult result = forecaster.analyze(itsVar+"::fake::mean",
 											  itsSources,
-											  MaxTemperature,
+											  Temperature,
 											  Mean,
 											  Mean,
-											  itsPeriod,
-											  itsArea);
+											  Maximum,
+											  itsArea,
+											  periods);
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean daily maximum temperature not available");
@@ -315,13 +321,16 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
+	HourPeriodGenerator periods(itsPeriod,18,06,18,06);
+
 	WeatherResult result = forecaster.analyze(itsVar+"::fake::mean",
 											  itsSources,
-											  MinTemperature,
+											  Temperature,
 											  Mean,
 											  Mean,
-											  itsPeriod,
-											  itsArea);
+											  Minimum,
+											  itsArea,
+											  periods);
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean daily minimum temperature not available");
@@ -382,27 +391,27 @@ namespace TextGen
 
 	WeatherResult minresult = forecaster.analyze(itsVar+"::fake::day1::minimum",
 												 itsSources,
-												 MaxTemperature,
+												 Temperature,
 												 Minimum,
 												 Maximum,
-												 period,
-												 itsArea);
+												 itsArea,
+												 period);
 
 	WeatherResult meanresult = forecaster.analyze(itsVar+"::fake::day1::mean",
 												  itsSources,
-												  MaxTemperature,
+												  Temperature,
 												  Mean,
 												  Maximum,
-												  period,
-												  itsArea);
+												  itsArea,
+												  period);
 
 	WeatherResult maxresult = forecaster.analyze(itsVar+"::fake::day1::maximum",
 												 itsSources,
-												 MaxTemperature,
+												 Temperature,
 												 Maximum,
 												 Maximum,
-												 period,
-												 itsArea);
+												 itsArea,
+												 period);
 
 	if(minresult.value() == kFloatMissing ||
 	   maxresult.value() == kFloatMissing ||
@@ -429,34 +438,34 @@ namespace TextGen
 						   endhour,
 						   maxstarthour,
 						   minendhour);
-		
+
 		const string var = (itsVar
 							+ "::fake::day"
 							+ lexical_cast<string>(p));
 
 		minresult = forecaster.analyze(var+"::minimum",
 									   itsSources,
-									   MaxTemperature,
+									   Temperature,
 									   Minimum,
 									   Maximum,
-									   period,
-									   itsArea);
+									   itsArea,
+									   period);
 		
 		maxresult = forecaster.analyze(var+"::maximum",
 									   itsSources,
-									   MaxTemperature,
+									   Temperature,
 									   Maximum,
 									   Maximum,
-									   period,
-									   itsArea);
+									   itsArea,
+									   period);
 
 		meanresult = forecaster.analyze(var+"::mean",
 										itsSources,
-										MaxTemperature,
+										Temperature,
 										Mean,
 										Maximum,
-										period,
-										itsArea);
+										itsArea,
+										period);
 		
 		if(minresult.value() == kFloatMissing ||
 		   maxresult.value() == kFloatMissing ||
@@ -547,27 +556,27 @@ namespace TextGen
 
 	WeatherResult minresult = forecaster.analyze(itsVar+"::fake::night1::minimum",
 												 itsSources,
-												 MinTemperature,
+												 Temperature,
 												 Minimum,
-												 Maximum,
-												 period,
-												 itsArea);
+												 Minimum,
+												 itsArea,
+												 period);
 
 	WeatherResult meanresult = forecaster.analyze(itsVar+"::fake::night1::mean",
 												  itsSources,
-												  MinTemperature,
+												  Temperature,
 												  Mean,
-												  Maximum,
-												  period,
-												  itsArea);
+												  Minimum,
+												  itsArea,
+												  period);
 
 	WeatherResult maxresult = forecaster.analyze(itsVar+"::fake::night1::maximum",
 												 itsSources,
-												 MinTemperature,
+												 Temperature,
 												 Maximum,
-												 Maximum,
-												 period,
-												 itsArea);
+												 Minimum,
+												 itsArea,
+												 period);
 
 	if(minresult.value() == kFloatMissing ||
 	   maxresult.value() == kFloatMissing ||
@@ -601,27 +610,27 @@ namespace TextGen
 
 		minresult = forecaster.analyze(var+"::minimum",
 									   itsSources,
-									   MinTemperature,
+									   Temperature,
 									   Minimum,
-									   Maximum,
-									   period,
-									   itsArea);
+									   Minimum,
+									   itsArea,
+									   period);
 		
 		maxresult = forecaster.analyze(var+"::maximum",
 									   itsSources,
-									   MinTemperature,
+									   Temperature,
 									   Maximum,
-									   Maximum,
-									   period,
-									   itsArea);
+									   Minimum,
+									   itsArea,
+									   period);
 
 		meanresult = forecaster.analyze(var+"::mean",
 										itsSources,
-										MinTemperature,
+										Temperature,
 										Mean,
-										Maximum,
-										period,
-										itsArea);
+										Minimum,
+										itsArea,
+										period);
 		
 		if(minresult.value() == kFloatMissing ||
 		   maxresult.value() == kFloatMissing ||
@@ -665,7 +674,44 @@ namespace TextGen
 
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generate story on several day minmax temperatures
+   *
+   * \return The story§
+   *
+   * \see page_temperature_weekly_minmax
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph TemperatureStory::weekly_minmax() const
+  {
+	using namespace Settings;
+
+	Paragraph paragraph;
+
+#if 0
+	const int mininterval = optional_int(itsVar+"::mininterval",2);
+	const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
+	const bool emphasize_night_minimum = optional_bool(itsVar+"::emphasize_night_minimum",false);
+
+	HourPeriodGenerator days(itsPeriod,itsVar+"::day");
+	HourPeriodGenerator nights(itsPeriod,itsVar+"::night");
+
+	GridForecaster forecaster;
+
+	WeatherResult dayminresult = forecaster.analyze(itsVar+"::fake::day::minimum",
+													itsSources,
+													Temperature,
+													Minimum,
+													Maximum,
+													NullFunction,
+													itsArea,
+													days);
+#endif
+	return paragraph;
+  }
+
 } // namespace TextGen
   
 // ======================================================================
-  

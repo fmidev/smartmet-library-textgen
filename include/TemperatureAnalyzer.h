@@ -21,7 +21,7 @@ namespace WeatherAnalysis
 {
   class AnalyzerSources;
   class WeatherArea;
-  class WeatherPeriod;
+  class WeatherPeriodGenerator;
   class WeatherResult;
 
   class TemperatureAnalyzer : public ParameterAnalyzer
@@ -32,8 +32,9 @@ namespace WeatherAnalysis
 								  const WeatherDataType & theDataType,
 								  const WeatherFunction & theAreaFunction,
 								  const WeatherFunction & theTimeFunction,
-								  const WeatherPeriod & thePeriod,
+								  const WeatherFunction & theSubTimeFunction,
 								  const WeatherArea & theArea,
+								  const WeatherPeriodGenerator & thePeriods,
 								  const Acceptor & theAreaAcceptor,
 								  const Acceptor & theTimeAcceptor,
 								  const Acceptor & theTester = NullAcceptor()) const;
