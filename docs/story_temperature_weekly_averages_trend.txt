@@ -65,8 +65,6 @@ Tarinassa esitetään aina ensin päivälämpötila, sitten yölämpötila.
 Jos jommassa kummassa pystytään suorittamaan aikajako "aluksi"- ja
 "lopuksi"-jaksoihin, tarina koostuu kahdesta virkkeestä.
 
-<font color="red">Logiikka aikajakoon puuttuu.</font>
-
 Tarvittavat fraasit ovat
 
   - "päivälämpötila"
