@@ -29,6 +29,7 @@ class NFmiPoint;
 
 namespace WeatherAnalysis
 {
+  class AnalysisSources;
   class WeatherArea;
   class WeatherLimits;
   class WeatherPeriod;
@@ -40,13 +41,15 @@ namespace WeatherAnalysis
 
 	virtual ~WeatherAnalyzer() = 0;
 
-	virtual WeatherResult analyze(const WeatherParameter & theParameter,
+	virtual WeatherResult analyze(const AnalysisSources & theSources,
+								  const WeatherParameter & theParameter,
 								  const WeatherFunction & theFunction,
 								  const WeatherLimits & theLimits,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea) const = 0;
 
-	virtual WeatherResult analyze(const WeatherParameter & theParameter,
+	virtual WeatherResult analyze(const AnalysisSources & theSources,
+								  const WeatherParameter & theParameter,
 								  const WeatherFunction & theFunction,
 								  const WeatherLimits & theLimits,
 								  const WeatherPeriod & thePeriod,

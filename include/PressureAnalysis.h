@@ -19,6 +19,7 @@
 
 namespace WeatherAnalysis
 {
+  class AnalysisSources;
   class WeatherArea;
   class WeatherLimits;
   class WeatherPeriod;
@@ -26,12 +27,14 @@ namespace WeatherAnalysis
 
   namespace PressureAnalysis
   {
-	WeatherResult forecast(const WeatherFunction & theFunction,
+	WeatherResult forecast(const AnalysisSources & theSources,
+						   const WeatherFunction & theFunction,
 						   const WeatherLimits & theLimits,
 						   const WeatherPeriod & thePeriod,
 						   const WeatherArea & theArea);
 
-	WeatherResult forecast(const WeatherFunction & theFunction,
+	WeatherResult forecast(const AnalysisSources & theSources,
+						   const WeatherFunction & theFunction,
 						   const WeatherLimits & theLimits,
 						   const WeatherPeriod & thePeriod,
 						   const NFmiPoint & thePoint);

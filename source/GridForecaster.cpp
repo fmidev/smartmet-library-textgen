@@ -6,6 +6,7 @@
 // ======================================================================
 
 #include "GridForecaster.h"
+#include "AnalysisSources.h"
 #include "WeatherArea.h"
 #include "WeatherLimits.h"
 #include "WeatherPeriod.h"
@@ -32,7 +33,8 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  WeatherResult GridForecaster::analyze(const WeatherParameter & theParameter,
+  WeatherResult GridForecaster::analyze(const AnalysisSources & theSources,
+										const WeatherParameter & theParameter,
 										const WeatherFunction & theFunction,
 										const WeatherLimits & theLimits,
 										const WeatherPeriod & thePeriod,
@@ -41,13 +43,13 @@ namespace WeatherAnalysis
 	switch(theParameter)
 	  {
 	  case Temperature:
-		return TemperatureAnalysis::forecast(theFunction,theLimits,thePeriod,theArea);
+		return TemperatureAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,theArea);
 	  case Pressure:
-		return PressureAnalysis::forecast(theFunction,theLimits,thePeriod,theArea);
+		return PressureAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,theArea);
 	  case WindSpeed:
-		return WindSpeedAnalysis::forecast(theFunction,theLimits,thePeriod,theArea);
+		return WindSpeedAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,theArea);
 	  case WindDirection:
-		return WindDirectionAnalysis::forecast(theFunction,theLimits,thePeriod,theArea);
+		return WindDirectionAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,theArea);
 	  }
 	// should never reach this place
 	return WeatherResult(kFloatMissing,0);
@@ -66,7 +68,8 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  WeatherResult GridForecaster::analyze(const WeatherParameter & theParameter,
+  WeatherResult GridForecaster::analyze(const AnalysisSources & theSources,
+										const WeatherParameter & theParameter,
 										const WeatherFunction & theFunction,
 										const WeatherLimits & theLimits,
 										const WeatherPeriod & thePeriod,
@@ -75,13 +78,13 @@ namespace WeatherAnalysis
 	switch(theParameter)
 	  {
 	  case Temperature:
-		return TemperatureAnalysis::forecast(theFunction,theLimits,thePeriod,thePoint);
+		return TemperatureAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,thePoint);
 	  case Pressure:
-		return PressureAnalysis::forecast(theFunction,theLimits,thePeriod,thePoint);
+		return PressureAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,thePoint);
 	  case WindSpeed:
-		return WindSpeedAnalysis::forecast(theFunction,theLimits,thePeriod,thePoint);
+		return WindSpeedAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,thePoint);
 	  case WindDirection:
-		return WindDirectionAnalysis::forecast(theFunction,theLimits,thePeriod,thePoint);
+		return WindDirectionAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,thePoint);
 	  }
 	// should never reach this place
 	return WeatherResult(kFloatMissing,0);
