@@ -8,7 +8,7 @@
 #include "PrecipitationStory.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
-#include "Number.h"
+#include "NumberRange.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "TextGenError.h"
@@ -177,7 +177,8 @@ namespace TextGen
 	  throw TextGenError("Total precipitation not available");
 
 	Number<int> minrain = FmiRound(minresult.value());
-	Number<int> maxrain = FmiRound(minresult.value());
+	Number<int> maxrain = FmiRound(maxresult.value());
+	NumberRange<Number<int> > rainrange(minrain,maxrain);
 
 	// optionaalinen maksimisade
 	int rainlimit = -1;
@@ -195,18 +196,10 @@ namespace TextGen
 				 << rainlimit
 				 << "millimetriä";
 	  }
-	else if(minrain.value() == maxrain.value())
+	else
 	  {
 		sentence << "sadesumma"
-				 << minrain
-				 << "millimetriä";
-	  }
-	else 
-	  {
-		sentence << "sadesumma"
-				 << minrain
-				 << Delimiter("-")
-				 << maxrain
+				 << rainrange
 				 << "millimetriä";
 	  }
 
