@@ -61,7 +61,6 @@ namespace textgen
 	TheDictionary(const Dictionary & theDict);
 	TheDictionary & operator=(const TheDictionary & theDict);
 
-	static void create();
 	std::auto_ptr<Dictionary> itsDictionary;
 
   }; // class Dictionary
