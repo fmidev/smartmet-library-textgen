@@ -141,6 +141,7 @@ namespace WeatherAnalysis
 	 * \endcode
 	 *
 	 * \param thePeriod The main period
+	 * \param theNumber The index of the period to be generated (1...N)
 	 * \param theStartHour The normal start hour of the subperiod
 	 * \param theEndHour The normal end hour of the subperiod
 	 * \param theMaxStartHour The maximum start hour of the subperiod
