@@ -28,6 +28,7 @@ namespace WeatherAnalysis
    * \param theArea The analysis area
    * \param theAreaAcceptor The data acceptor in area integration
    * \param theTimeAcceptor The data acceptor in time integration
+   * \param theTester The data tester for Percentage calculations
    * \param theDataName The name of the data
    * \param theParameterName The parameter name
    * \return The analysis result
