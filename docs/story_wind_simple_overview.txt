@@ -45,8 +45,8 @@ sekä jäljellä oleva päivä että yö.
 
 Mahdolliset tarinat tällä "jatketulle" yöjaksolle ovat
 
-  -# "[Ajanjaksona] X...Y m/s."
-  -# "[Ajanjaksona] [suuntatuulta] X...Y m/s."
+  -# "[Ajanjaksona] X-Y m/s."
+  -# "[Ajanjaksona] [suuntatuulta] X-Y m/s."
 
 Aikafraasin tyyppi on \ref sec_periodifraasit_until_morning, jota
 kontrolloidaan muuttujalla
@@ -79,7 +79,7 @@ textgen::[kappale]::story::wind_simple_overview::until_tonight::phrases = atday,
 
 Lisäksi tuotetaan sivulause yön tuulesta, joka on muotoa
 
-  -# ", [ajanjaksona] [suuntatuulta] X...Y m/s."
+  -# ", [ajanjaksona] [suuntatuulta] X-Y m/s."
 
 Sivulaiseen aikafraasi on tyyppiä \ref sec_periodifraasit_tonight,
 jota kontrolloidaan muuttujalla
@@ -101,7 +101,7 @@ tuntia, eli voidaan puhua pelkästään seuraavasta päivästä.
 Toisesta päivästä voidaan kertoa omana virkkeenään, tai sivulauseena.
 Toisen päivän tarinan muoto on
 
-  -# "[Ajanjaksona] [suuntatuulta] X...Y m/s."
+  -# "[Ajanjaksona] [suuntatuulta] X-Y m/s."
 
 Aikafraasi on tyyppiä \ref sec_periodifraasit_next_day, jota kontrolloidaan
 muuttujalla
@@ -118,7 +118,7 @@ textgen::[kappale]::story::wind_simple_overview::next_day::phrases = tomorrow,fo
 Tässä tapauksessa tutkittavan aikavälin loppuaika on yli 24 tuntia.
 Tästä loppuajasta kerrotaan yhdelle virkkeellä tai sivulauseella.
 
-  -# "[Ajanjaksosta alkaen] [suuntatuulta] X...Y m/s."
+  -# "[Ajanjaksosta alkaen] [suuntatuulta] X-Y m/s."
 
 Aikafraasi on tyyppiä \ref sec_periodifraasit_next_days, jota kontrolloidaan
 muuttujalla

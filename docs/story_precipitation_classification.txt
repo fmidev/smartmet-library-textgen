@@ -8,9 +8,9 @@
   -# "Sadesumma monin paikoin yli N millimetriä."
   -# "Sadesumma paikoin yli N millimetriä."
   -# "Sadesumma 0 millimetriä."
-  -# "Sadesumma N...M millimetriä."
-  -# "Sadesumma N...M millimetriä, paikoin enemmän."
-  -# "Sadesumma N...M millimetriä, monin paikoin enemmän."
+  -# "Sadesumma N-M millimetriä."
+  -# "Sadesumma N-M millimetriä, paikoin enemmän."
+  -# "Sadesumma N-M millimetriä, monin paikoin enemmän."
 
 Ruotsiksi
 
@@ -18,9 +18,9 @@ Ruotsiksi
   -# "Nederbördsumman på många håll över N millimeter."
   -# "Nederbördsumman lokat över N millimeter."
   -# "Nederbördsumman 0 millimeter."
-  -# "Nederbördsumman N...M millimeter."
-  -# "Nederbördsumman N...M millimeter, lokalt mera."
-  -# "Nederbördsumman N...M millimeter, mera på många håll."
+  -# "Nederbördsumman N-M millimeter."
+  -# "Nederbördsumman N-M millimeter, lokalt mera."
+  -# "Nederbördsumman N-M millimeter, mera på många håll."
 
 Englanniksi
 
@@ -28,9 +28,9 @@ Englanniksi
   -# "Total precipitation in many places over N millimeters."
   -# "Total precipitation in some places over N millimeters."
   -# "Total precipitation 0 millimeters."
-  -# "Total precipitation N...M millimeters."
-  -# "Total precipitation N...M millimeters, more in many places."
-  -# "Total precipitation N...M millimeters, more in some places."
+  -# "Total precipitation N-M millimeters."
+  -# "Total precipitation N-M millimeters, more in many places."
+  -# "Total precipitation N-M millimeters, more in some places."
 
 Päättelyssä käytetään muuttujina alueen minimi- ja maksimisadesummaa,
 sekä optionaalisia muuttujia

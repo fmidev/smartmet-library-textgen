@@ -46,7 +46,7 @@ Mahdolliset tarinat tällä "jatketulle" yöjaksolle ovat
   -# "[Ajanjaksona] [voimakasta] [suuntatuulta]."
   -# "[Ajanjaksona] myrskyä."
   -# "[Ajanjaksona] hirmumyrskyä."
-  -# "[Ajanjaksona] [suuntatuulta] X...Y m/s."
+  -# "[Ajanjaksona] [suuntatuulta] X-Y m/s."
 
 Aikafraasin tyyppi on \ref sec_periodifraasit_until_morning, jota
 kontrolloidaan muuttujalla
@@ -110,7 +110,7 @@ Lisäksi tuotetaan sivulause yön tuulesta, joka on muotoa
   -# ", [ajanjaksona] tuuli [heikkenee/voimistuu] [voimakkaaksi]."
   -# ", [ajanjaksona] tuuli [heikkenee/voimistuu] [voimakkaaksi] [suuntatuuleksi]."
   -# ", [ajanjaksona] [suuntatuulta]."
-  -# ", [ajanjaksona] [suuntatuulta] X...Y m/s."
+  -# ", [ajanjaksona] [suuntatuulta] X-Y m/s."
 
 Sivulaiseen aikafraasi on tyyppiä \ref sec_periodifraasit_tonight,
 jota kontrolloidaan muuttujalla
@@ -226,7 +226,7 @@ Suunnan fraasi valitaan seuraavasti
 Jos jäljellä on vain jatkettu yöjakso
 
   -# Lasketaan nopeuden keskiarvo ja suunta
-  -# Jos keskiarvo alittaa rajan \c range_limit, "[suuntatuulta] X...Y m/s."
+  -# Jos keskiarvo alittaa rajan \c range_limit, "[suuntatuulta] X-Y m/s."
   -# Lasketaan nopeusluokka
   -# Jos luokka on tyyntä, "Tyyntä."
   -# Jos luokka on heikkoa tuulta, "Heikkoa tuulta."
@@ -240,7 +240,7 @@ suuntaluokka.
 
 Yötarina generoidaan aikamääreen perään seuraavasti:
 
-  -# Jos keskituuli alittaa rajan \c range_limit, "[suuntatuulta] X...Y m/s."
+  -# Jos keskituuli alittaa rajan \c range_limit, "[suuntatuulta] X-Y m/s."
   -# Jos nopeusluokka ja suuntaluokka on sama, ei yöstä kerrota erikseen.
   -# Jos nopeus on sama, "[suuntatuulta]."
   -# Jos nopeusluokka kasvaa
@@ -259,8 +259,8 @@ seuraavan jakson käsittelyä varten.
 Itse tarinaosuus generoidaan seuraavasti
 
   -# Jos keskituuli alittaa rajan \c range_limit
-     -# Jos suunta on sama kuin aiemmin, "X...Y m/s"
-     -# Muutoin "[suuntatuulta] X...Y m/s"
+     -# Jos suunta on sama kuin aiemmin, "X-Y m/s"
+     -# Muutoin "[suuntatuulta] X-Y m/s"
   -# Jos yksi luokka riittää kuvaamaan nopeutta
      -# Jos tuuli voimistuu
         -# Jos luokka on heikkoa tuulta, "heikkoa tuulta"

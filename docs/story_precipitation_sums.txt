@@ -4,17 +4,17 @@
 
 \c precipitation_sums tarina on muotoa
 
-  -# "Ensimmäisen 12 tunnin sademäärä on X...Y millimetriä, seuraavan 12 tunnin X...Y millimetriä."
+  -# "Ensimmäisen 12 tunnin sademäärä on X-Y millimetriä, seuraavan 12 tunnin X-Y millimetriä."
   -# "Seuraavan 24 tunnin sademäärä on 0 millimetriä."
 
 Ruotsiksi
 
-  -# "Nederbördssumman för de första 12 timmar är X...Y millimeter, för de följande 12 timmar X...Y millimeter."
+  -# "Nederbördssumman för de första 12 timmar är X-Y millimeter, för de följande 12 timmar X-Y millimeter."
   -# "Nederbördssumman för de följande 24 timmar är 0 millimeter."
 
 Englanniksi
 
-  -# "Total precipitation for the first 12 hours is X...Y millimeters, for the following 12 hours X...Y millimeters."
+  -# "Total precipitation for the first 12 hours is X-Y millimeters, for the following 12 hours X-Y millimeters."
   -# "Total precipitation for the next 24 hours is 0 millimeters."
 
 Käytetyt fraasit ovat

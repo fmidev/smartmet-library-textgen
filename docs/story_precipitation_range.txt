@@ -6,19 +6,19 @@
 
   -# "Sadesumma on yli N millimetriä."
   -# "Sadesumma on N millimetriä."
-  -# "Sadesumma on N...M millimetriä."
+  -# "Sadesumma on N-M millimetriä."
 
 Ruotsiksi
 
   -# "Nederbördsumman är över N millimeter."
   -# "Nederbördsumman är N millimeter."
-  -# "Nederbördsumman är N...M millimeter."
+  -# "Nederbördsumman är N-M millimeter."
 
 Englanniksi
 
   -# "Total precipitation is over N millimeters."
   -# "Total precipitation is N millimeters."
-  -# "Total precipitation is N...M millimeters."
+  -# "Total precipitation is N-M millimeters."
 
 Sadesummaan eivät periaatteessa kuulu liian pienet tunnin sademäärät.
 Summasta voi filtteröidä pois nämä liian pienet sateet muuttujan

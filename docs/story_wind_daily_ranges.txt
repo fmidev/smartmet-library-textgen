@@ -13,7 +13,7 @@ Suuntaluokat ovat k‰ytˆss‰.
 
 Tarinan yleismuoto on
 
- -# [Viikonp‰iv‰n‰] [suuntatuulta] X...Y m/s
+ -# [Viikonp‰iv‰n‰] [suuntatuulta] X-Y m/s
  -# [Viikonp‰iv‰n‰] [suuntatuulta] noin X m/s
 
 jota toistetaan kullekin p‰iv‰lle eteenp‰in. Toiston v‰ltt‰miseksi
@@ -131,35 +131,35 @@ textgen::[kappale]::story::wind_daily_ranges::fake::days1-3::direction::mean = [
 
 \section section_wind_daily_ranges_algoritmi Algoritmit
 
--# Jos p‰ivi‰ on 1, [T‰n‰‰n] [it‰tuulta] [X...Y m/s]
+-# Jos p‰ivi‰ on 1, [T‰n‰‰n] [it‰tuulta] [X-Y m/s]
 -# Jos p‰ivi‰ on 2
    -# Jos D(D1,D2) on laadukas tai D1,D2 ovat suunnaltaan vaihtelevia
-      -# Jos W1==W2, [T‰n‰‰n ja huomenna] [it‰tuulta] [X...Y m/s]
-      -# Jos W1<>W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s]
+      -# Jos W1==W2, [T‰n‰‰n ja huomenna] [it‰tuulta] [X-Y m/s]
+      -# Jos W1<>W2, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰n‰] [X-Y m/s]
    -# Jos D(D1,D2) ei ole laadukas
-      -# Jos W1==W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta]
-      -# Jos W1<>W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta] [X...Y m/s]
+      -# Jos W1==W2, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta]
+      -# Jos W1<>W2, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta] [X-Y m/s]
 -# Muuten p‰ivi‰ on 3, loppuja p‰ivi‰ ei huomioida
    -# Jos D(D1,D2,D3) on laadukas tai D1,D2,D3 ovat suunnaltaan vaihtelevia
-      -# Jos W1==W2==W3, [Viikonp‰iv‰st‰ alkaen] [it‰tuulta] [X...Y m/s]
-      -# Jos W1==W2<>W3, [It‰tuulta] [X...Y m/s], viikonp‰iv‰n‰ [X...Y m/s]
-      -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰st‰ alkaen] [X...Y m/s]
-      -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s]
+      -# Jos W1==W2==W3, [Viikonp‰iv‰st‰ alkaen] [it‰tuulta] [X-Y m/s]
+      -# Jos W1==W2<>W3, [It‰tuulta] [X-Y m/s], viikonp‰iv‰n‰ [X-Y m/s]
+      -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰st‰ alkaen] [X-Y m/s]
+      -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰n‰] [X-Y m/s], [viikonp‰iv‰n‰] [X-Y m/s]
    -# Jos D(D1,D2) on laadukas tai D1,D2 ovat suunnaltaan vaihtelevia
-      -# Jos W1==W2==W3, [It‰tuulta] [X...Y m/s], viikonp‰iv‰n‰ [l‰nsituulta]
-      -# Jos W1==W2<>W3, [It‰tuulta] [X...Y m/s], viikonp‰iv‰n‰ [l‰nsituulta] [X...Y m/s]
-      -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta]
-      -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta] [X...Y m/s]
+      -# Jos W1==W2==W3, [It‰tuulta] [X-Y m/s], viikonp‰iv‰n‰ [l‰nsituulta]
+      -# Jos W1==W2<>W3, [It‰tuulta] [X-Y m/s], viikonp‰iv‰n‰ [l‰nsituulta] [X-Y m/s]
+      -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰n‰] [X-Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta]
+      -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰n‰] [X-Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta] [X-Y m/s]
    -# Jos D(D2,D3) on laadukas tai D2,D3 ovat suunnaltaan vaihtelevia
-      -# Jos W1==W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰st‰ alkaen] [l‰nsituulta]
-      -# Jos W1==W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta], [viikonp‰iv‰n‰] [X...Y m/s]
-      -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰st‰ alkaen] [l‰nsituulta] [X...Y m/s]
-      -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s]
+      -# Jos W1==W2==W3, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰st‰ alkaen] [l‰nsituulta]
+      -# Jos W1==W2<>W3, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta], [viikonp‰iv‰n‰] [X-Y m/s]
+      -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰st‰ alkaen] [l‰nsituulta] [X-Y m/s]
+      -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta] [X-Y m/s], [viikonp‰iv‰n‰] [X-Y m/s]
    -# Muuten D1<>D2 ja D2<>D3 (muttei v‰ltt‰m‰tt‰ D1<>D3)
-      -# Jos W1==W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta], [viikonp‰iv‰n‰] [etel‰tuulta]
-      -# Jos W1==W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta], [viikonp‰iv‰n‰] [etel‰tuulta] [X...Y m/s]
-      -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta] [X...Y m/s], [viikonp‰iv‰n‰] [etel‰tuulta]
-      -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta] [X...Y m/s], [viikonp‰iv‰n‰] [etel‰tuulta] [X...Y m/s]
+      -# Jos W1==W2==W3, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta], [viikonp‰iv‰n‰] [etel‰tuulta]
+      -# Jos W1==W2<>W3, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta], [viikonp‰iv‰n‰] [etel‰tuulta] [X-Y m/s]
+      -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta] [X-Y m/s], [viikonp‰iv‰n‰] [etel‰tuulta]
+      -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X-Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta] [X-Y m/s], [viikonp‰iv‰n‰] [etel‰tuulta] [X-Y m/s]
 
 Ensimm‰isen p‰iv‰n tyyppi on \ref sec_periodifraasit_today, seuraavien
 p‰ivien tyyppi on \ref sec_periodifraasit_next_day tai
