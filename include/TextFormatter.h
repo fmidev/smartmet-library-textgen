@@ -23,6 +23,9 @@ namespace TextGen
   class Paragraph;
   class Sentence;
 
+  class SectionTag;
+  class StoryTag;
+
   class TextFormatter
   {
   public:
@@ -32,7 +35,6 @@ namespace TextGen
 #endif
 
 	virtual void dictionary(const boost::shared_ptr<Dictionary> & theDict) = 0;
-	virtual void variable(const std::string & theVariable) = 0;
 
 	virtual std::string format(const Glyph & theGlyph) const = 0;
 
@@ -44,6 +46,9 @@ namespace TextGen
 	virtual std::string visit(const Paragraph & theParagraph) const = 0;
 	virtual std::string visit(const Header & theHeader) const = 0;
 	virtual std::string visit(const Document & theDocument) const = 0;
+
+	virtual std::string visit(const SectionTag & theSectionTag) const = 0;
+	virtual std::string visit(const StoryTag & theStoryTag) const = 0;
 
   }; // class TextFormatter
 } // namespace TextGen

@@ -29,8 +29,10 @@
 #include "IntegerRange.h"
 #include "Paragraph.h"
 #include "Phrase.h"
+#include "SectionTag.h"
 #include "Sentence.h"
 #include "Settings.h"
+#include "StoryTag.h"
 #include "TextGenError.h"
 
 #include "boost/lexical_cast.hpp"
@@ -156,7 +158,7 @@ namespace TextGen
 	, itsParts()
 	, itsDepth(0)
 	, itsDictionary()
-	, itsVar()
+	, itsSectionVar()
   {
   }
 
@@ -173,25 +175,6 @@ namespace TextGen
 	itsDictionary = theDict;
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the variable to be used while formatting
-   *
-   * The variable and its subvariables may be used to control the
-   * details of the text formatter.
-   *
-   * The variable can be accessed with Settings::isset()
-   * and other methods.
-   *
-   * \param theVariable The variable name
-   */
-  // ----------------------------------------------------------------------
-  
-  void SoneraTextFormatter::variable(const string & theVariable)
-  {
-	itsVar = theVariable;
-  }
-  
   // ----------------------------------------------------------------------
   /*!
    * \brief Format a glyph
@@ -360,8 +343,30 @@ namespace TextGen
 	return dummy;
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit a section tag
+   */
+  // ----------------------------------------------------------------------
+
+  string SoneraTextFormatter::visit(const SectionTag & theSection) const
+  {
+	itsSectionVar = theSection.realize(*itsDictionary);
+	return "";
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit a story tag
+   */
+  // ----------------------------------------------------------------------
+
+  string SoneraTextFormatter::visit(const StoryTag & theStory) const
+  {
+	itsStoryVar = theStory.realize(*itsDictionary);
+	return "";
+  }
+
 } // namespace TextGen
   
 // ======================================================================
-  
-  

@@ -19,7 +19,9 @@
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "Paragraph.h"
+#include "SectionTag.h"
 #include "Sentence.h"
+#include "StoryTag.h"
 #include "TextFormatterTools.h"
 
 #include <sstream>
@@ -149,8 +151,30 @@ namespace TextGen
 	return ret;
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit a section tag
+   */
+  // ----------------------------------------------------------------------
+
+  string DebugTextFormatter::visit(const SectionTag & theSection) const
+  {
+	itsSectionVar = theSection.realize(itsDictionary);
+	return "";
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit a story tag
+   */
+  // ----------------------------------------------------------------------
+
+  string DebugTextFormatter::visit(const StoryTag & theStory) const
+  {
+	itsStoryVar = theStory.realize(itsDictionary);
+	return "";
+  }
+
 } // namespace TextGen
   
 // ======================================================================
-  
-  

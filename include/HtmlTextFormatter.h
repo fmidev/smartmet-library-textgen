@@ -17,7 +17,6 @@ namespace TextGen
   public:
 	virtual ~HtmlTextFormatter() { }
 	virtual void dictionary(const boost::shared_ptr<Dictionary> & theDict);
-	virtual void variable(const std::string & theVariable);
 
 	virtual std::string format(const Glyph & theGlyph) const;
 
@@ -30,10 +29,14 @@ namespace TextGen
 	virtual std::string visit(const Header & theHeader) const;
 	virtual std::string visit(const Document & theDocument) const;
 
+	virtual std::string visit(const SectionTag & theSectionTag) const;
+	virtual std::string visit(const StoryTag & theStoryTag) const;
+
   private:
 
 	boost::shared_ptr<Dictionary> itsDictionary;
-	std::string itsVar;
+	mutable std::string itsSectionVar;
+	mutable std::string itsStoryVar;
 
   }; // class HtmlTextFormatter
 } // namespace TextGen

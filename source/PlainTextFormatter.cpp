@@ -19,7 +19,9 @@
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "Paragraph.h"
+#include "SectionTag.h"
 #include "Sentence.h"
+#include "StoryTag.h"
 #include "TextFormatterTools.h"
 
 using namespace std;
@@ -41,25 +43,6 @@ namespace TextGen
 	itsDictionary = theDict;
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the variable to be used while formatting
-   *
-   * The variable and its subvariables may be used to control the
-   * details of the text formatter.
-   *
-   * The variable can be accessed with Settings::isset()
-   * and other methods.
-   *
-   * \param theVariable The variable name
-   */
-  // ----------------------------------------------------------------------
-  
-  void PlainTextFormatter::variable(const string & theVariable)
-  {
-	itsVar = theVariable;
-  }
-  
   // ----------------------------------------------------------------------
   /*!
    * \brief Format a glyph
@@ -177,6 +160,30 @@ namespace TextGen
 											 "");
 	ret += '\n';
 	return ret;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit a section tag
+   */
+  // ----------------------------------------------------------------------
+
+  string PlainTextFormatter::visit(const SectionTag & theSection) const
+  {
+	itsSectionVar = theSection.realize(*itsDictionary);
+	return "";
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit a story tag
+   */
+  // ----------------------------------------------------------------------
+
+  string PlainTextFormatter::visit(const StoryTag & theStory) const
+  {
+	itsStoryVar = theStory.realize(*itsDictionary);
+	return "";
   }
 
 } // namespace TextGen

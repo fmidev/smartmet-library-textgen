@@ -19,8 +19,13 @@
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "Paragraph.h"
+#include "SectionTag.h"
 #include "Sentence.h"
+#include "Settings.h"
+#include "StoryTag.h"
 #include "TextFormatterTools.h"
+
+#include "boost/lexical_cast.hpp"
 
 using namespace std;
 using namespace boost;
@@ -41,25 +46,6 @@ namespace TextGen
 	itsDictionary = theDict;
   }
   
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the variable to be used while formatting
-   *
-   * The variable and its subvariables may be used to control the
-   * details of the text formatter.
-   *
-   * The variable can be accessed with NFmiSettings::IsSet()
-   * and other methods.
-   *
-   * \param theVariable The variable name
-   */
-  // ----------------------------------------------------------------------
-  
-  void HtmlTextFormatter::variable(const string & theVariable)
-  {
-	itsVar = theVariable;
-  }
-
   // ----------------------------------------------------------------------
   /*!
    * \brief Format a glyph
@@ -155,16 +141,20 @@ namespace TextGen
   
   string HtmlTextFormatter::visit(const Header & theHeader) const
   {
-	string ret = "<h1>";
+	const int level = Settings::optional_int(itsSectionVar+"::header::html::level",1);
+
+	ostringstream out;
+	out << "<h" << level << '>';
+
 	string text = TextFormatterTools::realize(theHeader.begin(),
 											  theHeader.end(),
 											  *this,
 											  " ",
 											  "");
 	TextFormatterTools::capitalize(text);
-	ret += text;
-	ret += "</h1>";
-	return ret;
+
+	out << text << "</h" << level << '>';
+	return out.str();
   }
   
   // ----------------------------------------------------------------------
@@ -185,8 +175,30 @@ namespace TextGen
 	return ret;
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit a section tag
+   */
+  // ----------------------------------------------------------------------
+
+  string HtmlTextFormatter::visit(const SectionTag & theSection) const
+  {
+	itsSectionVar = theSection.realize(*itsDictionary);
+	return "";
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit a story tag
+   */
+  // ----------------------------------------------------------------------
+
+  string HtmlTextFormatter::visit(const StoryTag & theStory) const
+  {
+	itsStoryVar = theStory.realize(*itsDictionary);
+	return "";
+  }
+
 } // namespace TextGen
   
 // ======================================================================
-  
-  
