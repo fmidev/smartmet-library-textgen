@@ -105,10 +105,10 @@ Kullekin p‰iv‰jaksolle lasketaan kunkin pisteen ajallisista keskiarvoista
 alueellinen minimi, keskiarvo ja maksimi. N‰it‰ tuloksia voi
 v‰‰rent‰‰ testaamista varten muuttujilla
 \code
-textgen::[kappale]::story::wind_daily_ranges::fake::day1::mean = [result]
-textgen::[kappale]::story::wind_daily_ranges::fake::day1::minimum = [result]
-textgen::[kappale]::story::wind_daily_ranges::fake::day1::maximum = [result]
-textgen::[kappale]::story::wind_daily_ranges::fake::day2::mean = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::day1::speed::mean = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::day1::speed::minimum = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::day1::speed::maximum = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::day1::direction::mean = [result]
 ...
 \endcode
 
