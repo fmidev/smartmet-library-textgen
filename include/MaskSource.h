@@ -38,7 +38,7 @@ namespace WeatherAnalysis
 	typedef boost::shared_ptr<NFmiIndexMask> mask_type;
 	typedef boost::shared_ptr<NFmiIndexMaskSource> masks_type;
 
-	virtual ~MaskSource();
+	virtual ~MaskSource() {}
 
 	virtual mask_type mask(const WeatherArea & theArea,
 						   const std::string & theData,
