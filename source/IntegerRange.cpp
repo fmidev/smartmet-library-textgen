@@ -39,8 +39,10 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  IntegerRange::IntegerRange(int theStartValue, int theEndValue)
-	: itsRangeSeparator("...")
+  IntegerRange::IntegerRange(int theStartValue,
+							 int theEndValue,
+							 const std::string & theSeparator)
+	: itsRangeSeparator(theSeparator)
 	, itsStartValue(theStartValue)
 	, itsEndValue(theEndValue)
   {

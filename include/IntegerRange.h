@@ -21,7 +21,7 @@ namespace TextGen
   public:
 
 	virtual ~IntegerRange();
-	explicit IntegerRange(int theStartValue, int theEndValue);
+	explicit IntegerRange(int theStartValue, int theEndValue, const std::string & theSeparator = "...");
 #ifdef NO_COMPILER_GENERATED
 	IntegerRange(const IntegerRange & theIntegerRange);
 	IntegerRange & operator=(const IntegerRange & theIntegerRange);
