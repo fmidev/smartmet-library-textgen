@@ -1133,7 +1133,7 @@ INSERT INTO translation_sv VALUES ('päivällä','på dagen',20030530082518,'mheiska
 INSERT INTO translation_sv VALUES ('runsasta sadetta','kraftigt regn',20030611140629,'mheiskan');
 INSERT INTO translation_sv VALUES ('sadetta','regn',20030530082540,'mheiskan');
 INSERT INTO translation_sv VALUES ('sakeaa lumisadetta','snöyra',20030530082549,'mheiskan');
-INSERT INTO translation_sv VALUES ('selkenevää','uppklarn',20030530082558,'mheiskan');
+INSERT INTO translation_sv VALUES ('selkenevää','uppklarnande',20030611144706,'mheiskan');
 INSERT INTO translation_sv VALUES ('selkeää','klart',20030530082605,'mheiskan');
 INSERT INTO translation_sv VALUES ('tai','eller',20030530082610,'mheiskan');
 INSERT INTO translation_sv VALUES ('tuuli heikkenee','avtar vinden',20030611132442,'mheiskan');
