@@ -11,9 +11,11 @@
 #include "Number.h"
 #include "Paragraph.h"
 #include "Sentence.h"
+#include "Settings.h"
 #include "TextGenError.h"
 #include "WeatherFunction.h"
 #include "WeatherParameter.h"
+#include "WeatherPeriodTools.h"
 #include "WeatherResult.h"
 
 using namespace WeatherAnalysis;
@@ -70,6 +72,10 @@ namespace TextGen
 	  return true;
 	if(theName == "temperature_meanmin")
 	  return true;
+	if(theName == "temperature_dailymax")
+	  return true;
+	if(theName == "temperature_nightlymin")
+	  return true;
 	return false;
   }
   
@@ -92,6 +98,10 @@ namespace TextGen
 	  return meanmax();
 	if(theName == "temperature_meanmin")
 	  return meanmin();
+	if(theName == "temperature_dailymax")
+	  return dailymax();
+	if(theName == "temperature_nightlymin")
+	  return nightlymin();
 
 	throw TextGenError("TemperatureStory cannot make story "+theName);
 
@@ -104,6 +114,8 @@ namespace TextGen
    * \return The generated paragraph
    *
    * \todo Is throwing the best way to handle missing results?
+   *
+   * \see page_temperature_mean
    */
   // ----------------------------------------------------------------------
   
@@ -143,6 +155,8 @@ namespace TextGen
    * segments.
    *
    * \return The story
+   *
+   * \see page_temperature_meanmax
    */
   // ----------------------------------------------------------------------
 
@@ -181,6 +195,8 @@ namespace TextGen
    * segments.
    *
    * \return The story
+   *
+   * \see page_temperature_meanmin
    */
   // ----------------------------------------------------------------------
 
@@ -211,6 +227,128 @@ namespace TextGen
 	return paragraph;
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generate story on daily maximum temperature
+   *
+   * \return The story
+   *
+   * \see page_temperature_dailymax
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph TemperatureStory::dailymax() const
+  {
+	using namespace Settings;
+	using namespace WeatherPeriodTools;
+
+	Paragraph paragraph;
+
+#if 0
+	const int starthour    = require_hour(itsVariable+"::starthour");
+	const int endhour      = require_hour(itsVariable+"::endhour");
+	const int maxstarthour = optional_hour(itsVariable+"::maxstarthour",starthour);
+	const int minendhour   = optional_hour(itsVariable+"::minendhour",endhour);
+
+	const int mininterval  = optional_int(itsVariable+"::mininterval",1);
+	const bool interval_zero = optional_bool(itsVariable+"::always_interval_zero",false);
+
+	const bool prefer_dayname = optional_bool(itsVariable+"::prefer_dayname",false);
+
+	const int limit_significantly_greater = require_percentage(itsVariable+"::significantly_greater");
+	const int limit_significantly_smaller = require_percentage(itsVariable+"::significantly_smaller");
+	const int limit_greater = require_percentage(itsVariable+"::greater");
+	const int limit_smaller = require_percentage(itsVariable+"::smaller");
+	const int limit_somewhat_greater = require_percentage(itsVariable+"::somewhat_greater");
+	const int limit_somewhat_smaller = require_percentage(itsVariable+"::somewhat_smaller");
+
+	const int days = countPeriods(itsPeriod,
+								  starthour,
+								  endhour,
+								  maxstarthour,
+								  minendhour);
+
+
+	WeatherPeriod period = getperiod(itsPeriod,
+									 1,
+									 starthour,
+									 endhour,
+									 maxstarthour,
+									 minendhour);
+
+
+	Sentence sentence;
+	sentence << "päivän ylin lämpötila"
+			 << "on";
+	  
+
+	paragraph << sentence;
+#endif
+	return paragraph;
+
+  }
+
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generate story on nightly minimum temperature
+   *
+   * \return The story
+   *
+   * \see page_temperature_nightlymin
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph TemperatureStory::nightlymin() const
+  {
+	using namespace Settings;
+	using namespace WeatherPeriodTools;
+
+	Paragraph paragraph;
+
+#if 0
+	const int starthour    = require_hour(itsVariable+"::starthour");
+	const int endhour      = require_hour(itsVariable+"::endhour");
+	const int maxstarthour = optional_hour(itsVariable+"::maxstarthour",starthour);
+	const int minendhour   = optional_hour(itsVariable+"::minendhour",endhour);
+
+	const int mininterval  = optional_int(itsVariable+"::mininterval",1);
+	const bool interval_zero = optional_bool(itsVariable+"::always_interval_zero",false);
+
+	const bool prefer_dayname = optional_bool(itsVariable+"::prefer_dayname",false);
+
+	const int limit_significantly_greater = require_percentage(itsVariable+"::significantly_greater");
+	const int limit_significantly_smaller = require_percentage(itsVariable+"::significantly_smaller");
+	const int limit_greater = require_percentage(itsVariable+"::greater");
+	const int limit_smaller = require_percentage(itsVariable+"::smaller");
+	const int limit_somewhat_greater = require_percentage(itsVariable+"::somewhat_greater");
+	const int limit_somewhat_smaller = require_percentage(itsVariable+"::somewhat_smaller");
+
+	const int days = countPeriods(itsPeriod,
+								  starthour,
+								  endhour,
+								  maxstarthour,
+								  minendhour);
+
+
+	WeatherPeriod period = getperiod(itsPeriod,
+									 1,
+									 starthour,
+									 endhour,
+									 maxstarthour,
+									 minendhour);
+
+
+	Sentence sentence;
+	sentence << "yön alin lämpötila"
+			 << "on";
+	  
+
+	paragraph << sentence;
+#endif
+	return paragraph;
+
+  }
 
 } // namespace TextGen
   
