@@ -7,7 +7,7 @@
 
 #include "TemperatureAnalyzer.h"
 #include "AnalysisSources.h"
-#include "FunctionAnalyzerFactory.h"
+#include "RegularFunctionAnalyzer.h"
 #include "WeatherResult.h"
 
 using namespace std;
@@ -21,7 +21,8 @@ namespace WeatherAnalysis
    * \brief Analyze temperature in an area
    *
    * \param theSources Analysis sources
-   * \param theFunction The function to analyze
+   * \param theAreaFunction The area function to analyze
+   * \param theTimeFunction The time function to analyze
    * \param theLimits The optional limits for the function
    * \param thePeriod The time period
    * \param theArea The area
@@ -30,7 +31,8 @@ namespace WeatherAnalysis
   
   WeatherResult
   TemperatureAnalyzer::analyze(const AnalysisSources & theSources,
-							   const WeatherFunction & theFunction,
+							   const WeatherFunction & theAreaFunction,
+							   const WeatherFunction & theTimeFunction,
 							   const WeatherLimits & theLimits,
 							   const WeatherPeriod & thePeriod,
 							   const WeatherArea & theArea) const
@@ -38,7 +40,7 @@ namespace WeatherAnalysis
 	const string varname = "textgen::temperature_forecast";
 	const string parname = "Temperature";
 
-	shared_ptr<FunctionAnalyzer> analyzer = FunctionAnalyzerFactory::create(theFunction);
+	auto_ptr<FunctionAnalyzer> analyzer(new RegularFunctionAnalyzer(theAreaFunction,theTimeFunction));
 
 	return analyzer->analyze(theSources,theLimits,thePeriod,theArea,
 							 varname,parname);
