@@ -65,6 +65,8 @@ textgen::[kappale]::story::relativehumidity_day::fake::inland::minimum = [result
 Tarina muodostetaan seuraavasti:
 
  -# Lasketaan mean(min(rh)) alueelle, rannikolle ja sisämaahan
+ -# Jos joko rannikko tai sisämaa puuttuu, palautetaan tarina muotoa
+    "Alin suhteellinen kosteus on [viikonpäivänä] x%"
  -# Jos rannikon ja sisämaan välinen ero alittaa asetetun
     rajan \c coastlimit rajan, palautetaan tarina muotoa
     "Alin suhteellinen kosteus on [viikonpäivänä] x%"
