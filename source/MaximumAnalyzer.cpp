@@ -111,8 +111,10 @@ namespace WeatherAnalysis
 		if(sdev==kFloatMissing)
 		  return WeatherResult(result,1);
 
+		if(sdev<=1)
+		  return WeatherResult(result,1);
+
 		return WeatherResult(result,1/sdev);
-		
 
 	  }
 	else
