@@ -8,6 +8,8 @@
 #include "MySQLDictionary.h"
 #include "TextGenError.h"
 
+#include "NFmiSettings.h"
+
 #include <map>
 #include <mysql.h>
 
@@ -122,17 +124,31 @@ namespace textgen
 
 	// Establish the settings for textgen
 
-	const char * host = "mimir.weatherproof.fi";
-	const char * user = "mheiskan";
-	const char * passwd = "hp48sx";
-	const char * database = "textgen";
+	std::string host = NFmiSettings::instance().value("textgen::host");
+	std::string user = NFmiSettings::instance().value("textgen::user");
+	std::string passwd = NFmiSettings::instance().value("textgen::passwd");
+	std::string database = NFmiSettings::instance().value("textgen::database");
 
+	if(host.empty())
+	  throw TextGenError("Error: textgen::host not defined in configuration file");
+	if(user.empty())
+	  throw TextGenError("Error: textgen::user not defined in configuration file");
+	if(passwd.empty())
+	  throw TextGenError("Error: textgen::passwd not defined in configuration file");
+	if(database.empty())
+	  throw TextGenError("Error: textgen::database not defined in configuration file");
+	  
 	// Establish the connection
 
 	MYSQL mysql;
 	mysql_init(&mysql);
-	if(!mysql_real_connect(&mysql,host,user,passwd,database,0,NULL,0))
-	  throw TextGenError("Error: Failed to connect to MySQL database");
+	if(!mysql_real_connect(&mysql,
+						   host.c_str(),
+						   user.c_str(),
+						   passwd.c_str(),
+						   database.c_str(),
+						   0,NULL,0))
+	  throw TextGenError("Error: Failed to connect to "+database+" database");
 
 	MYSQL_RES * result;
 	MYSQL_ROW row;
