@@ -74,6 +74,33 @@ yö-periodi alkaa piakkoin.
  -# Jos prefer_phrase_atnight, "yöllä"
  -# ""
 
+\subsection sec_periodifraasit_today "today"
+
+Periodi käsittää jonkin päiväjakson, mahdollisesti kokonaisen vuorokauden.
+Usein jakso on meneillään oleva päivä, mutta ei aina.
+
+ -# Jos ennustuspäivä = periodin alkamispäivä
+    -# Jos prefer_phrase_today, "tänään"
+    -# Jos prefer_phrase_atday, "päivällä"
+    -# Jos prefer_phrase_weekday, "viikonpäivänä"
+    -# ""
+ -# Jos ennustuspäivä+1 = periodin alkamispäivä
+    -# Jos prefer_phrase_tomorrow, "huomenna"
+    -# Jos prefer_phrase_weekday, "viikonpäivänä"
+    -# "huomenna"
+ -# Muutoin "viikonpäivänä"
+
+\subsection sec_periodifraasit_tonight "tonight"
+
+Periodi käsittää jonkin yöjakson. Usein jakso on ensi yö, mutta ei aina.
+
+ -# Jos ennustuspäivä+1 = periodin loppumispäivä
+   -# Jos prefer_phrase_tonight, "ensi yönä"
+   -# Jos prefer_phrase_atnight, "yöllä"
+   -# Jos prefer_phrase_weekday, "viikonpäivän vastaisena yönä"
+   -# ""
+ -# Muutoin "viikonpäivän vastaisena yönä"
+
 \subsection sec_periodifraasit_next_night "next_night"
 
 Periodi käsittää yön, ilman päiväsaikaan kuuluvia hetkiä, joista

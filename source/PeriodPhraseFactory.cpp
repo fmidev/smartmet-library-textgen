@@ -155,6 +155,87 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Return sentence describing period of type "today"
+	 *
+	 * \param theVariable The Settings variable containing extra details
+	 * \param theForecastTime The forecast time
+	 * \param thePeriod The time period itself
+	 */
+	// ----------------------------------------------------------------------
+	
+	Sentence today(const string & theVariable,
+				   const NFmiTime & theForecastTime,
+				   const WeatherPeriod & thePeriod)
+	{
+	  using Settings::optional_bool;
+	  using WeekdayTools::on_weekday;
+	  Sentence sentence;
+
+	  if(is_same_day(theForecastTime, thePeriod.localStartTime()))
+		{
+		  if(optional_bool(theVariable+"::prefer_phrase_today",false))
+			sentence << "tänään";
+		  else if(optional_bool(theVariable+"::prefer_phrase_atday",false))
+			sentence << "päivällä";
+		  else if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
+			sentence << on_weekday(thePeriod.localStartTime());
+		  else
+			;
+		}
+	  else if(is_next_day(theForecastTime, thePeriod.localStartTime()))
+		{
+		  if(optional_bool(theVariable+"::prefer_phrase_tomorrow",false))
+			sentence << "huomenna";
+		  else if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
+			sentence << on_weekday(thePeriod.localStartTime());
+		  else
+			sentence << "huomenna";
+		}
+	  else
+		{
+		  sentence << on_weekday(thePeriod.localStartTime());
+		}
+
+	  return sentence;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return sentence describing period of type "tonight"
+	 *
+	 * \param theVariable The Settings variable containing extra details
+	 * \param theForecastTime The forecast time
+	 * \param thePeriod The time period itself
+	 */
+	// ----------------------------------------------------------------------
+	
+	Sentence tonight(const string & theVariable,
+					 const NFmiTime & theForecastTime,
+					 const WeatherPeriod & thePeriod)
+	{
+	  using Settings::optional_bool;
+	  using WeekdayTools::night_against_weekday;
+	  Sentence sentence;
+
+	  if(is_next_day(theForecastTime, thePeriod.localEndTime()))
+		{
+		  if(optional_bool(theVariable+"::prefer_phrase_tonight",false))
+			sentence << "ensi yönä";
+		  else if(optional_bool(theVariable+"::prefer_phrase_atnight",false))
+			sentence << "yöllä";
+		  else if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
+			sentence << night_against_weekday(thePeriod.localStartTime());
+		  else
+			;
+		}
+	  else
+		sentence << night_against_weekday(thePeriod.localStartTime());
+
+	  return sentence;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Return sentence describing period of type "next_night"
 	 *
 	 * \param theVariable The Settings variable containing extra details
@@ -296,6 +377,12 @@ namespace TextGen
 
 	  if(theType == "until_morning")
 		return until_morning(theVariable,theForecastTime,thePeriod);
+
+	  if(theType == "today")
+		return today(theVariable,theForecastTime,thePeriod);
+
+	  if(theType == "tonight")
+		return tonight(theVariable,theForecastTime,thePeriod);
 
 	  if(theType == "next_night")
 		return next_night(theVariable,theForecastTime,thePeriod);
