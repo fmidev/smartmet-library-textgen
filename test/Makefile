@@ -16,7 +16,7 @@ CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
 INCLUDES = -I ../include \
 	-I ../../../../../include/regression \
 	-I /usr/include/mysql
-LIBS = -L .. -ltextgen -lmysqlclient
+LIBS = -L .. -ltextgen -L /usr/lib/mysql -lmysqlclient
 
 all: $(PROG)
 clean:
