@@ -61,6 +61,7 @@ namespace TextGen
 
 	virtual ~BasicDictionary();
 	virtual void init(const std::string & theLanguage);
+	virtual const std::string & language(void) const;
 	virtual bool contains(const std::string & theKey) const;
 	virtual const std::string & find(const std::string & theKey) const;
 	virtual void insert(const std::string & theKey, const std::string & thePhrase);
@@ -72,6 +73,7 @@ namespace TextGen
 
 	typedef std::map<std::string,std::string> StorageType;
 	StorageType itsData;
+	std::string itsLanguage;
 
   }; // class BasicDictionary
 

@@ -80,13 +80,18 @@ namespace TextGen
 	// NullDictionary & operator=(const NullDictionary & theDict);
 
 	virtual ~NullDictionary() { } 
-	virtual void init(const std::string & theLanguage) { }
+	virtual void init(const std::string & theLanguage) { itsLanguage=theLanguage; }
+	virtual const std::string & language(void) const { return itsLanguage; }
 	virtual bool contains(const std::string & theKey) const { return false; }
 	virtual const std::string & find(const std::string & theKey) const;
 	virtual void insert(const std::string & theKey, const std::string & thePhrase);
 
 	virtual size_type size(void) const { return 0; }
 	virtual bool empty(void) const { return true; }
+
+  private:
+
+	std::string itsLanguage;
 
   }; // class NullDictionary
 

@@ -25,7 +25,7 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Initialize with given lanlguage (does nothing)
+   * \brief Initialize with given language
    *
    * Initializing BasicDictionary does nothing, the method is defined
    * only to satisfy the abstract Dictionary interface. It is expected
@@ -39,6 +39,22 @@ namespace TextGen
 
   void BasicDictionary::init(const std::string & theLanguage)
   {
+	itsLanguage = theLanguage;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the language
+   *
+   * An empty string is returned if no language has been initialized.
+   *
+   * \return The language
+   */
+  // ----------------------------------------------------------------------
+
+  const std::string & BasicDictionary::language(void) const
+  {
+	return itsLanguage;
   }
 
   // ----------------------------------------------------------------------

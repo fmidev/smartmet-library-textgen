@@ -100,6 +100,21 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \biref Return the language
+   *
+   * An empty string is returned if no language has been initialized.
+   *
+   * \return The Language
+   */
+  // ----------------------------------------------------------------------
+
+  const std::string & MySQLDictionary::language(void) const
+  {
+	return itsPimple->itsLanguage;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Initialize with given language
    *
    * Initializing the MySQLDictionary involves connecting to the MySQL

@@ -46,6 +46,7 @@ namespace TextGen
 
 	virtual ~Dictionary() { }
 	virtual void init(const std::string & theLanguage) = 0;
+	virtual const std::string & language(void) const = 0;
 	virtual bool contains(const std::string & theKey) const = 0;
 	virtual const std::string & find(const std::string & theKey) const = 0;
 	virtual void insert(const std::string & theKey, const std::string & thePhrase) = 0;

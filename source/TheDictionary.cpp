@@ -81,6 +81,23 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Return the language
+   *
+   * This will throw if no dictionary has been set.
+   *
+   * \return The language
+   */
+  // ----------------------------------------------------------------------
+
+  const std::string & TheDictionary::language(void) const
+  {
+	if(!itsDictionary.get())
+	  throw TextGenError("Cannot use TheDictionary::language() before ::dictionary()");
+	return itsDictionary->language();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Test if the given phrase is in the dictionary
    *
    * \param theKey The key of the phrase
