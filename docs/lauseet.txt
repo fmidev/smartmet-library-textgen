@@ -1,7 +1,7 @@
 /*!
 \page page_lauseet Lauseiden rakentaminen
 
-\section sec_lause_interface API
+\section sec_lause_interface Peruskäyttö
 
 TextGen::Paragraph on tekstiobjekti, josta lopullinen teksti
 generoidaan.  TextGen::Paragraph koostuu listasta TextGen::Sentence
@@ -71,5 +71,77 @@ cout << p.realize();
 \endcode
 Viikonpäivien numerointi on tässä sama kuin newbase kirjaston
 aikaluokissa.
+
+\section sec_edistyneet_numerot Numeroiden modifiointi
+
+TextGen::PhraseNumber on templaatti, joka ottaa argumenttina
+sekä esitetyn luvun tyypin, että policy-luokan, jossa on
+staattinen tostring metodi konversiota varten.
+
+Esimerkiksi integerit ovat käytännössä luokka
+\code
+PhraseNumber<int, DefaultNumberTraits<int> >
+\endcode
+missä oletusarovinen DefaultNumberTraits on
+\code
+template <typename Value>
+struct DefaultNumberTraits
+{
+      static std::string tostring(const Value & theValue)
+      {
+        std::ostringstream os;
+        os << theValue;
+        return os.str();
+      }
+};
+\endcode
+Integerit tulostuvat siis normaalisti, kuten suurin osa muistakin
+tyypeistä.
+
+Float ja double tyypit ovat spesialisoituja templaatteja, esim.
+\code
+template <>
+struct DefaultNumberTraits<float>
+{
+      static std::string tostring(float theValue)
+      {
+        std::ostringstream os;
+        os << std::fixed << std::setprecision(1) << theValue;
+        std::string ret = os.str();
+        if(ret.size() > 2)
+              if(ret.substr(ret.size()-2,2) == ".0")
+                return ret.substr(0,ret.size()-2);
+        return ret;
+      }
+};
+\endcode
+Floatit tulostuvat siis yhden desimaalin tarkkuudella, mutta mahdollinen
+".0" loppu karsitaan pois.
+
+Omien numerotyyppien määrittely onnistuu määrittelemällä sopiva
+traits-luokka, sekä tekemällä sopiva typedef käytön helpottamiseksi.
+Esimerkiksi alla on traits-luokka, joka soveltuu tuulen suunnan
+pyöristämiseen lähimpään 45 asteeseen.
+\code
+template <typename Value, int Mult>
+struct WindDirectionTraits
+{
+      static std::string tostring(const Value & theValue)
+      {
+        std::ostringstream os;
+        int value = static_cast<int>(std::floor(theValue/Mult+0.5)*Mult);
+        value %= 360;
+        os << value;
+        return os.str();
+      }
+};
+\endcode
+Esimerkiksi seuraava koodi tulostaa lukemat 45 ja 0.
+\code
+typedef TextGen::PhraseNumber<float, WindDirectionTraits<float,45> > PhraseWDir45
+
+cout << PhraseWDir45(30).realize() << endl
+     << PhraseWDir45(359).realize() << endl;
+\endcode
 
 */
