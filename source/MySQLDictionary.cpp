@@ -9,7 +9,7 @@
 #include "TextGenError.h"
 
 #include <map>
-#include <sqlplus.hh>
+#include <mysql.h>
 
 namespace textgen
 {
@@ -122,50 +122,92 @@ namespace textgen
 
 	// Establish the settings for textgen
 
-	std::string host = "mimir.weatherproof.fi";
-	std::string user = "mheiskan";
-	std::string passwd = "hp48sx";
-	std::string database = "textgen";
+	const char * host = "mimir.weatherproof.fi";
+	const char * user = "mheiskan";
+	const char * passwd = "hp48sx";
+	const char * database = "textgen";
 
 	// Establish the connection
 
-	Connection con(use_exceptions);
-	if(!con.connect(database.c_str(), host.c_str(), user.c_str(), passwd.c_str()))
-	  throw TextGenError("Error: Could not connect to language database");
+	MYSQL mysql;
+	mysql_init(&mysql);
+	if(!mysql_real_connect(&mysql,host,user,passwd,database,0,NULL,0))
+	  throw TextGenError("Error: Failed to connect to MySQL database");
 
-	// Fetch the languages
-
-	Query query = con.query();
-	query << "select translationtable, active from languages"
-		  << " where isocode = '" << theLanguage << "'";
-	
-	Result res = query.store();
-
-	if(res.size()!=1)
-	  throw TextGenError("Error: Language "+theLanguage+" is not in the languages database");
-	
-	Row row(*res.begin());
-
-	if(!static_cast<int>(row["active"]))
-	  throw TextGenError("Error: Language "+theLanguage+" is not active");
-
-	std::string translationtable(row["translationtable"]);
-
-	// Fetch the translations
-
-	query = con.query();
-	query << "select keyword,translation from " << translationtable;
-
-	res = query.store();
-
-	Result::const_iterator it;
-	for(it=res.begin(); it!=res.end(); ++it)
+	MYSQL_RES * result;
+	MYSQL_ROW row;
+	try
 	  {
-		row = *it;
-		const char * const keyword = row[0];
-		const char * const translation = row[1];
-		itsPimple->itsData.insert(MySQLDictionaryPimple::value_type(keyword,translation));
+		std::string query = "select translationtable, active from languages";
+		query += " where isocode = '";
+		query += theLanguage;
+		query += "'";
+
+		mysql_query(&mysql,query.c_str());
+
+		if(mysql_errno(&mysql))
+		  throw TextGenError("Error: Error occurred while querying languages table");
+
+		result = mysql_store_result(&mysql);
+		if(result==NULL)
+		  throw TextGenError("Error: Error occurred while reading languages table");
+
+		unsigned int num_rows = mysql_num_rows(result);
+		if(num_rows == 0)
+		  throw TextGenError("Error: Language " + theLanguage + " is not among the supported languages");
+
+		if(num_rows != 1)
+		  throw TextGenError("Error: Obtained multiple matches for language " + theLanguage);
+
+		row = mysql_fetch_row(result);
+		if(row == NULL)
+		  throw TextGenError("Error: Error occurred while reading information on language " + theLanguage);
+
+		unsigned long * lengths = mysql_fetch_lengths(result);
+		std::string translationtable(row[0],lengths[0]);
+		std::string active(row[1],lengths[1]);
+
+		if(active != "1")
+		  throw TextGenError("Error: Language "+theLanguage+" is not active");
+		if(translationtable.empty())
+		  throw TextGenError("Error: Language "+theLanguage+" has no translationtable");
+
+		// Prepare for reading translationtable
+
+		mysql_free_result(result);
+		result = 0;
+
+		query = "select keyword, translation from " + translationtable;
+
+		mysql_query(&mysql,query.c_str());
+
+		if(mysql_errno(&mysql))
+		  throw TextGenError("Error: Error occurred while querying " + translationtable + " table");
+
+		result = mysql_store_result(&mysql);
+		if(result==NULL)
+		  throw TextGenError("Error: Error occurred while reading " + translationtable + " table");
+
+		while(row=mysql_fetch_row(result))
+		  {
+			unsigned long * lengths = mysql_fetch_lengths(result);
+			std::string keyword(row[0],lengths[0]);
+			std::string translation(row[1],lengths[1]);
+
+			if(!keyword.empty() && !translation.empty())
+			  itsPimple->itsData.insert(MySQLDictionaryPimple::value_type(keyword,translation));
+		  }
 	  }
+
+	catch(const TextGenError & e)
+	  {
+		if(result) mysql_free_result(result);
+		mysql_close(&mysql);
+		throw;
+	  }
+
+	if(result) mysql_free_result(result);
+	mysql_close(&mysql);
 
 	itsPimple->itsInitialized = true;
 

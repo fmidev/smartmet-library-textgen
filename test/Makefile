@@ -15,10 +15,8 @@ CC = g++
 CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
 INCLUDES = -I ../include \
 	-I ../../../../../include/regression \
-	-I /usr/include/mysql \
-	-I /usr/include/sqlplus
-LIBS = -L .. -ltextgen -lsqlplus
-# LIBS = -L .. -lsqlplus
+	-I /usr/include/mysql
+LIBS = -L .. -ltextgen -lmysqlclient
 
 all: $(PROG)
 clean:
