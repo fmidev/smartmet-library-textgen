@@ -8,4 +8,28 @@ nimi‰. Kaikki kellonajat ovat paikallista aikaa.
 
 <img src="docs/aikavalit.php">
 
+\section sec_periodfactory WeatherPeriodFactory namespace
+
+TextGen::WeatherPeriodFactory namespace sis‰lt‰‰ create funktion,
+jolla voidaan luoda erikseen nimettyj‰ s‰‰jaksoja. Funktiolle
+annetaan ennusteen tekoaika paikallista aikaa ja s‰‰jakson nimi,
+paluuarvona on TextGen::WeatherPeriod objekti.
+
+T‰ll‰ hetkell‰ tunnistettuja periodeja ovat
+<dl>
+<dt>\c farmer_until_tomorrow_evening</dt>
+<dd>Alkaa annetusta hetkest‰, p‰‰ttyy huomiseen iltaan, tai jos kello on
+    yli 12, sit‰ seuraavaan iltaan.
+</dd>
+<dt>\c farmer_from_tomorrow_evening</dt>
+<dd>Alkaa siit‰ mihin \c farmer_until_tomorrow_evening p‰‰ttyy,
+    ja jatkuu nelj‰nnen p‰iv‰n aamuun. Periodissa on siis
+    ensimm‰inen illasta seuraavat 3 kokonaista vuorokautta plus
+    seuraava p‰iv‰ aamuun asti.
+</dd>
+<dt>\c farmer_five_days</dt>
+<dd>Alkaa seuraavasta 06-ajasta, p‰‰ttyy aamuun viiden vuorokauden
+    p‰‰st‰.</dd>
+</dl>
+
 */
