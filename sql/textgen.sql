@@ -1168,7 +1168,7 @@ INSERT INTO translation_sv VALUES ('hame:lle','för Tavastland',20030604065925,'m
 INSERT INTO translation_sv VALUES ('kainuu:lle','för Kajanaland',20030604070357,'mheiskan');
 INSERT INTO translation_sv VALUES ('keski-pohjanmaa:lle','för Mellersta Österbotten',20030604070321,'mheiskan');
 INSERT INTO translation_sv VALUES ('keski-suomi:lle','för Mellersta Finland',20030604070323,'mheiskan');
-INSERT INTO translation_sv VALUES ('koillismaa:lle','för Koillismaa',20030604065533,'mheiskan');
+INSERT INTO translation_sv VALUES ('koillismaa:lle','för Kajanaland',20030611140208,'mheiskan');
 INSERT INTO translation_sv VALUES ('kymenlaakso:lle','för Kymmenedalen',20030604070305,'mheiskan');
 INSERT INTO translation_sv VALUES ('lansi-lappi:lle','för Västra Lappland',20030604070905,'mheiskan');
 INSERT INTO translation_sv VALUES ('nyland:lle','för Nyland',20030604065559,'mheiskan');
