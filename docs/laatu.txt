@@ -27,6 +27,12 @@ Laatu m‰‰ritell‰‰n p‰‰asiassa alueelliseksi suureeksi, ajassa integroinnilla
 ei katsota olevan mit‰‰n vaikutusta. Ainoa poikkeus on trendi, joka
 m‰‰ritelm‰n mukaisesti on aikafunktio.
 
+<font color="red">Toistaiseksi analysaattorit eiv‰t laske laatua
+kunkin tuloksen yhteyteen, vaan k‰ytt‰j‰n on laskettava laatu
+itse k‰ytt‰en jotain sopivaa funktioyhdistelm‰‰.</font>
+N‰in on teht‰v‰, kunnes on varmuudella selv‰‰, miten laatu tullaan
+laskemaan eri parametri- ja funktioyhdistelmille. N‰in ei viel‰ ole.
+
 \section sec_laatu_funktiot Laadun tulkinta eri funktioille
 
 Suurin osa tekstigeneraattorin suorittamista analyyseista on
@@ -63,7 +69,6 @@ N‰ille yhdistelmille laatu m‰‰ritell‰‰n seuraavasti:
  -# Minimille laatu on kyseisen trendiminimin (heikoin) laatu
  -# Maksimille laatu on kyseisen trendimaksimin (heikoin) laatu
  -# Keskiarvolle laatu on
-
 
 */
 
