@@ -15,6 +15,10 @@
 #include "WeatherResult.h"
 #include "WeatherSource.h"
 
+#include "MaximumAnalyzer.h"
+#include "MinimumAnalyzer.h"
+#include "MeanAnalyzer.h"
+
 #include "NFmiDataIntegrator.h"
 #include "NFmiDataModifierMax.h"
 #include "NFmiSettings.h"
@@ -61,12 +65,16 @@ namespace WeatherAnalysis
   // ----------------------------------------------------------------------
   
   WeatherResult
-  TemperatureAnalyzer::forecast(const AnalysisSources & theSources,
-								const WeatherFunction & theFunction,
-								const WeatherLimits & theLimits,
-								const WeatherPeriod & thePeriod,
-								const WeatherArea & theArea) const
+  TemperatureAnalyzer::analyze(const AnalysisSources & theSources,
+							   const WeatherFunction & theFunction,
+							   const WeatherLimits & theLimits,
+							   const WeatherPeriod & thePeriod,
+							   const WeatherArea & theArea) const
   {
+	const string varname = "textgen::temperature_forecast";
+	const string parname = "Temperature";
+
+
 	const string dataname = temperature_forecast_source();
 
 	shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
@@ -86,13 +94,35 @@ namespace WeatherAnalysis
 	switch(theFunction)
 	  {
 	  case Maximum:
-		break;
+		{
+		  MaximumAnalyzer analyzer;
+		  return analyzer.analyze(theSources,
+								  theLimits,
+								  thePeriod,
+								  theArea,
+								  varname,
+								  parname);
+		}
 	  case Minimum:
-		break;
+		{
+		  MinimumAnalyzer analyzer;
+		  return analyzer.analyze(theSources,
+								  theLimits,
+								  thePeriod,
+								  theArea,
+								  varname,
+								  parname);
+		}
 	  case Mean:
-		break;
-	  case Probability:
-		break;
+		{
+		  MeanAnalyzer analyzer;
+		  return analyzer.analyze(theSources,
+								  theLimits,
+								  thePeriod,
+								  theArea,
+								  varname,
+								  parname);
+		}
 	  }
 	return WeatherResult(kFloatMissing,0);
   }
