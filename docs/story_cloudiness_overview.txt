@@ -321,6 +321,11 @@ on mahdollista k‰ytt‰‰ taulukon mukaisia yhdistelmi‰.
 <td>=</td>
 </tr>
 </table>
+Esimerkiksi "vaihtelevaa pilvisyytt‰" ja "pilvistyv‰‰" yhdistet‰‰n fraasiksi
+"vaihtelevaa pilvisyytt‰". Kuitenkin fraasit "vaihtelevaa pilvisyytt‰" ja
+"selkenev‰‰" pidet‰‰n tarkoituksellisesti erill‰‰n, koska selkeneminen
+on yleens‰ oleellinen muutos parempaan s‰‰h‰n, eik‰ siihen v‰lt‰m‰tt‰
+liity sateen osalta mit‰‰n muutakaan raportoitavaa.
 
 Kolmen tai useamman p‰iv‰n pilvisyys katsotaan samaksi, jos jokaiset
 kaksi per‰kk‰ist‰ p‰iv‰‰ voidaan yhdist‰‰, ja n‰iden tulokset voidaan
