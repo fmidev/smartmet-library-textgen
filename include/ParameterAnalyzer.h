@@ -32,7 +32,8 @@ namespace WeatherAnalysis
 	virtual ~ParameterAnalyzer() { }
 
 	virtual WeatherResult analyze(const AnalysisSources & theSources,
-								  const WeatherFunction & theFunction,
+								  const WeatherFunction & theAreaFunction,
+								  const WeatherFunction & theTimeFunction,
 								  const WeatherLimits & theLimits,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea) const = 0;
