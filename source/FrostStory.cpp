@@ -149,7 +149,8 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	WeatherResult frost = forecaster.analyze(itsSources,
+	WeatherResult frost = forecaster.analyze(itsVariable+"::fake::mean",
+											 itsSources,
 											 Frost,
 											 Mean,
 											 Maximum,
@@ -166,7 +167,8 @@ namespace TextGen
 
 	// Severe frost
 
-	WeatherResult severefrost = forecaster.analyze(itsSources,
+	WeatherResult severefrost = forecaster.analyze(itsVariable+"::fake::severe_mean",
+												   itsSources,
 												   SevereFrost,
 												   Mean,
 												   Maximum,
@@ -223,7 +225,8 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	WeatherResult frost = forecaster.analyze(itsSources,
+	WeatherResult frost = forecaster.analyze(itsVariable+"::fake::maximum",
+											 itsSources,
 											 Frost,
 											 Maximum,
 											 Maximum,
@@ -240,7 +243,8 @@ namespace TextGen
 
 	// Severe frost
 
-	WeatherResult severefrost = forecaster.analyze(itsSources,
+	WeatherResult severefrost = forecaster.analyze(itsVariable+"::fake::severe_maximum",
+												   itsSources,
 												   SevereFrost,
 												   Maximum,
 												   Maximum,
@@ -297,7 +301,8 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	WeatherResult maxfrost = forecaster.analyze(itsSources,
+	WeatherResult maxfrost = forecaster.analyze(itsVariable+"::fake::maximum",
+												itsSources,
 												Frost,
 												Maximum,
 												Maximum,
@@ -314,7 +319,8 @@ namespace TextGen
 
 	// Minimum frost
 
-	WeatherResult minfrost = forecaster.analyze(itsSources,
+	WeatherResult minfrost = forecaster.analyze(itsVariable+"::fake::minimum",
+												itsSources,
 												Frost,
 												Minimum,
 												Maximum,
@@ -326,7 +332,8 @@ namespace TextGen
 
 	// Maximum severe frost
 
-	WeatherResult maxseverefrost = forecaster.analyze(itsSources,
+	WeatherResult maxseverefrost = forecaster.analyze(itsVariable+"::fake::severe_maximum",
+													  itsSources,
 													  SevereFrost,
 													  Maximum,
 													  Maximum,
@@ -336,7 +343,8 @@ namespace TextGen
 	if(maxseverefrost.value() == kFloatMissing)
 	  throw TextGenError("Maximum SevereFrost is not available");
 
-	WeatherResult minseverefrost = forecaster.analyze(itsSources,
+	WeatherResult minseverefrost = forecaster.analyze(itsVariable+"::fake::severe_minimum",
+													  itsSources,
 													  SevereFrost,
 													  Minimum,
 													  Maximum,

@@ -113,7 +113,9 @@ namespace TextGen
 	Sentence sentence;
 
 	GridForecaster forecaster;
-	WeatherResult result = forecaster.analyze(itsSources,
+
+	WeatherResult result = forecaster.analyze(itsVariable+"::fake::mean",
+											  itsSources,
 											  Temperature,
 											  Mean,
 											  Mean,
@@ -150,7 +152,9 @@ namespace TextGen
 	Sentence sentence;
 
 	GridForecaster forecaster;
-	WeatherResult result = forecaster.analyze(itsSources,
+
+	WeatherResult result = forecaster.analyze(itsVariable+"::fake::mean",
+											  itsSources,
 											  MaxTemperature,
 											  Mean,
 											  Mean,
@@ -186,7 +190,9 @@ namespace TextGen
 	Sentence sentence;
 
 	GridForecaster forecaster;
-	WeatherResult result = forecaster.analyze(itsSources,
+
+	WeatherResult result = forecaster.analyze(itsVariable+"::fake::mean",
+											  itsSources,
 											  MinTemperature,
 											  Mean,
 											  Mean,

@@ -255,7 +255,8 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	WeatherResult result = forecaster.analyze(itsSources,
+	WeatherResult result = forecaster.analyze(itsVariable+"::fake::day1::minimum",
+											  itsSources,
 											  RelativeHumidity,
 											  Minimum,
 											  Minimum,
@@ -279,7 +280,8 @@ namespace TextGen
 	  {
 		WeatherPeriod secondperiod = second_period(itsPeriod,firstperiod);
 
-		WeatherResult result2 = forecaster.analyze(itsSources,
+		WeatherResult result2 = forecaster.analyze(itsVariable+"::fake::day2::minimum",
+												   itsSources,
 												   RelativeHumidity,
 												   Minimum,
 												   Minimum,

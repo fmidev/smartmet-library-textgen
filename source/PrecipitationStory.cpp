@@ -196,7 +196,9 @@ namespace TextGen
 	Sentence sentence;
 
 	GridForecaster forecaster;
-	WeatherResult result = forecaster.analyze(itsSources,
+
+	WeatherResult result = forecaster.analyze(itsVariable+"::fake::mean",
+											  itsSources,
 											  Precipitation,
 											  Mean,
 											  Sum,
@@ -238,14 +240,16 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	WeatherResult minresult = forecaster.analyze(itsSources,
+	WeatherResult minresult = forecaster.analyze(itsVariable+"::fake::minimum",
+												 itsSources,
 												 Precipitation,
 												 Minimum,
 												 Sum,
 												 itsPeriod,
 												 itsArea);
 
-	WeatherResult maxresult = forecaster.analyze(itsSources,
+	WeatherResult maxresult = forecaster.analyze(itsVariable+"::fake::maximum",
+												 itsSources,
 												 Precipitation,
 												 Maximum,
 												 Sum,
@@ -314,21 +318,25 @@ namespace TextGen
 	GridForecaster forecaster;
 
 	// Gather the results
-	WeatherResult minresult = forecaster.analyze(itsSources,
+
+	WeatherResult minresult = forecaster.analyze(itsVariable+"::fake::minimum",
+												 itsSources,
 												 Precipitation,
 												 Minimum,
 												 Sum,
 												 itsPeriod,
 												 itsArea);
 
-	WeatherResult meanresult = forecaster.analyze(itsSources,
+	WeatherResult meanresult = forecaster.analyze(itsVariable+"::fake::mean",
+												  itsSources,
 												  Precipitation,
 												  Mean,
 												  Sum,
 												  itsPeriod,
 												  itsArea);
 	
-	WeatherResult maxresult = forecaster.analyze(itsSources,
+	WeatherResult maxresult = forecaster.analyze(itsVariable+"::fake::maximum",
+												 itsSources,
 												 Precipitation,
 												 Maximum,
 												 Sum,
@@ -376,7 +384,8 @@ namespace TextGen
 			RangeAcceptor limits;
 			limits.lowerLimit(maxrainlimit);
 
-			WeatherResult probresult = forecaster.analyze(itsSources,
+			WeatherResult probresult = forecaster.analyze(itsVariable+"::fake::percentage",
+														  itsSources,
 														  Precipitation,
 														  Percentage,
 														  Sum,
@@ -385,7 +394,7 @@ namespace TextGen
 														  DefaultAcceptor(),
 														  DefaultAcceptor(),
 														  limits);
-
+										
 			const int limit1 = (Settings::isset(variable1) ?
 								Settings::require_int(variable1) :
 								-1);
@@ -461,7 +470,8 @@ namespace TextGen
 		RangeAcceptor limits;
 		limits.lowerLimit(hilimit);
 
-		WeatherResult probresult = forecaster.analyze(itsSources,
+		WeatherResult probresult = forecaster.analyze(itsVariable+"::fake::percentage",
+													  itsSources,
 													  Precipitation,
 													  Percentage,
 													  Sum,
