@@ -1738,8 +1738,8 @@ INSERT INTO translation_sv VALUES ('tienpintalämpötila','vägtemperaturen',200310
 INSERT INTO translation_sv VALUES ('ensimmäisen 12 tunnin sademäärä','nederbördssumman för de första 12 timmar',20031006131109,'mheiskan');
 INSERT INTO translation_sv VALUES ('seuraavan 12 tunnin','för de följande 12 timmar',20031006131020,'mheiskan');
 INSERT INTO translation_sv VALUES ('seuraavan 24 tunnin sademäärä','nederbördssumman för de följande 24 timmar',20031006132434,'mheiskan');
-INSERT INTO translation_sv VALUES ('tiet ovat','vägarna är',20031016120023,'mheiskan');
-INSERT INTO translation_sv VALUES ('teillä on','vägarna är',20031016120032,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiet ovat','är vägarna',20031022163847,'mheiskan');
+INSERT INTO translation_sv VALUES ('teillä on','är vägarna',20031022163839,'mheiskan');
 INSERT INTO translation_sv VALUES ('jäisiä','isiga',20031016120037,'mheiskan');
 INSERT INTO translation_sv VALUES ('osittain jäisiä','delvis isiga',20031016120045,'mheiskan');
 INSERT INTO translation_sv VALUES ('kuuraa','täckta av rimfrost',20031016120057,'mheiskan');
