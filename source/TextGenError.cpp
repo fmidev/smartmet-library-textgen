@@ -7,7 +7,7 @@
 
 #include "TextGenError.h"
 
-namespace textgen
+namespace TextGen
 {
   
   // ----------------------------------------------------------------------
@@ -36,6 +36,6 @@ namespace textgen
 	return itsError.c_str();
   }
 
-} // namespace textgen
+} // namespace TextGen
 
 // ======================================================================

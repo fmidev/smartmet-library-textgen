@@ -12,7 +12,7 @@ namespace MySQLDictionaryTest
   //! Test structors
   void structors(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 
 	{
 	  // Should succeed
@@ -45,7 +45,7 @@ namespace MySQLDictionaryTest
 
   void init(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	MySQLDictionary dict;
 
 	// Should succeed
@@ -65,7 +65,7 @@ namespace MySQLDictionaryTest
   //! Test empty() method
   void empty(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	MySQLDictionary dict;
 
 	if(!dict.empty())
@@ -81,7 +81,7 @@ namespace MySQLDictionaryTest
   //! Test size() method
   void size(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	MySQLDictionary dict;
 
 	if(dict.size()!=0)
@@ -97,7 +97,7 @@ namespace MySQLDictionaryTest
   //! Test contains() method
   void contains(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	MySQLDictionary dict;
 
 	if(dict.contains("foobar"))
@@ -115,7 +115,7 @@ namespace MySQLDictionaryTest
   //! Test find() method
   void find(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	MySQLDictionary dict;
 
 	try
@@ -147,7 +147,7 @@ namespace MySQLDictionaryTest
   //! Test insert
   void insert(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	MySQLDictionary dict;
 
 	try

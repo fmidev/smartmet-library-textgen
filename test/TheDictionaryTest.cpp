@@ -12,7 +12,7 @@ namespace TheDictionaryTest
   //! Test instance() method
   void instance(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 
 	// instance() should succeed and return a NullDictionary
 	if(!TheDictionary::instance().empty())
@@ -24,7 +24,7 @@ namespace TheDictionaryTest
   //! Test dictionary() method
   void dictionary(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 
 	TheDictionary::instance().dictionary(DictionaryFactory::create("null"));
 	TheDictionary::instance().dictionary(DictionaryFactory::create("basic"));
@@ -38,7 +38,7 @@ namespace TheDictionaryTest
 
   void init(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 
 	TheDictionary::instance().dictionary(DictionaryFactory::create("null"));
 
@@ -60,7 +60,7 @@ namespace TheDictionaryTest
   //! Test empty() method
   void empty(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 
 	TheDictionary::instance().dictionary(DictionaryFactory::create("null"));
 
@@ -81,7 +81,7 @@ namespace TheDictionaryTest
   //! Test size() method
   void size(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 
 	TheDictionary::instance().dictionary(DictionaryFactory::create("null"));
 
@@ -102,7 +102,7 @@ namespace TheDictionaryTest
   //! Test contains() method
   void contains(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 
 	TheDictionary::instance().dictionary(DictionaryFactory::create("null"));
 
@@ -125,7 +125,7 @@ namespace TheDictionaryTest
   //! Test find() method
   void find(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 
 	TheDictionary::instance().dictionary(DictionaryFactory::create("null"));
 
@@ -166,7 +166,7 @@ namespace TheDictionaryTest
   //! Test insert
   void insert(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 
 	TheDictionary::instance().dictionary(DictionaryFactory::create("null"));
 

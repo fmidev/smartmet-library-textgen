@@ -8,7 +8,7 @@
 #include "BasicDictionary.h"
 #include "TextGenError.h"
 
-namespace textgen
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -120,6 +120,6 @@ namespace textgen
 	return itsData.empty();
   }
 
-} // namespace textgen
+} // namespace TextGen
 
 // ======================================================================

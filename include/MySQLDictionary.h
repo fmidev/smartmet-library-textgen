@@ -5,7 +5,7 @@
  */
 // ======================================================================
 /*!
- * \class textgen::MySQLDictionary
+ * \class TextGen::MySQLDictionary
  *
  * \brief Provides dictionary services
  *
@@ -17,7 +17,7 @@
  *
  * Sample usage:
  * \code
- * using namespace textgen;
+ * using namespace TextGen;
  *
  * MySQLDictionary finnish;
  * finnish.init("fi");
@@ -48,7 +48,7 @@
 #include <memory>
 #include <string>
 
-namespace textgen
+namespace TextGen
 {
   class MySQLDictionary : public Dictionary
   {
@@ -76,7 +76,7 @@ namespace textgen
 
   }; // class BasicDictionary
 
-} // namespace textgen
+} // namespace TextGen
 
 #endif // TEXTGEN_BASICDICTIONARY_H
 

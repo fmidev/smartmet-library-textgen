@@ -7,7 +7,7 @@
 
 #include "TheDictionary.h"
 
-namespace textgen
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -148,6 +148,6 @@ namespace textgen
 	return itsDictionary->empty();
   }
 
-} // namespace textgen
+} // namespace TextGen
 
 // ----------------------------------------------------------------------

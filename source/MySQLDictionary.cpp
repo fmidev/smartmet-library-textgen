@@ -13,7 +13,7 @@
 #include <map>
 #include <mysql.h>
 
-namespace textgen
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -122,7 +122,7 @@ namespace textgen
 	itsPimple->itsInitialized = false;
 	itsPimple->itsData.clear();
 
-	// Establish the settings for textgen
+	// Establish the settings for TextGen
 
 	std::string host = NFmiSettings::instance().value("textgen::host");
 	std::string user = NFmiSettings::instance().value("textgen::user");
@@ -311,6 +311,6 @@ namespace textgen
 	return itsPimple->itsData.empty();
   }
 
-} // namespace textgen
+} // namespace TextGen
 
 // ======================================================================

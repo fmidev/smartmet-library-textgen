@@ -12,7 +12,7 @@ namespace DictionaryFactoryTest
   //! Test create
   void create(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 
 	// Should succeed
 	std::auto_ptr<Dictionary> dict1 = DictionaryFactory::create("null");

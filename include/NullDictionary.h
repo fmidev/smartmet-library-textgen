@@ -5,7 +5,7 @@
  */
 // ======================================================================
 /*!
- * \class textgen::NullDictionary
+ * \class TextGen::NullDictionary
  *
  * \brief Provides a dummy dictionary service
  *
@@ -65,7 +65,7 @@
 
 #include <string>
 
-namespace textgen
+namespace TextGen
 {
   class NullDictionary : public Dictionary
   {
@@ -90,7 +90,7 @@ namespace textgen
 
   }; // class NullDictionary
 
-} // namespace textgen
+} // namespace TextGen
 
 #endif // TEXTGEN_NULLDICTIONARY_H
 

@@ -12,7 +12,7 @@ namespace TextGenErrorTest
   //! Test throwing exceptions
   void throwing(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	try
 	  {
 		throw TextGenError("This must be catched");
@@ -26,7 +26,7 @@ namespace TextGenErrorTest
   //! Test the message content comes through
   void what(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 
 	string message = "The message";
 	try

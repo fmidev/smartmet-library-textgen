@@ -5,7 +5,7 @@
  */
 // ======================================================================
 /*!
- * \class textgen::BasicDictionary
+ * \class TextGen::BasicDictionary
  *
  * \brief Provides dictionary services
  *
@@ -19,7 +19,7 @@
  *
  * Sample usage:
  * \code
- * using namespace textgen;
+ * using namespace TextGen;
  *
  * BasicDictionary finnish;
  * finnish.insert("good morning","huomenta");
@@ -45,7 +45,7 @@
 #include <map>
 #include <string>
 
-namespace textgen
+namespace TextGen
 {
   class BasicDictionary : public Dictionary
   {
@@ -75,7 +75,7 @@ namespace textgen
 
   }; // class BasicDictionary
 
-} // namespace textgen
+} // namespace TextGen
 
 #endif // TEXTGEN_BASICDICTIONARY_H
 

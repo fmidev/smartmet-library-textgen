@@ -11,7 +11,7 @@
 #include "MySQLDictionary.h"
 #include "TextGenError.h"
 
-namespace textgen
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -34,6 +34,6 @@ namespace textgen
 	throw TextGenError("Error: Unknown dictionary type "+theType);
   }
  
-} // namespace textgen
+} // namespace TextGen
 
 // ======================================================================

@@ -28,7 +28,7 @@
 #include "Dictionary.h"
 #include <memory>
 
-namespace textgen
+namespace TextGen
 {
   namespace DictionaryFactory
   {
@@ -36,7 +36,7 @@ namespace textgen
 	std::auto_ptr<Dictionary> create(const std::string & theType);
 
   } // namespace DictionaryFactory
-} // namespace textgen
+} // namespace TextGen
 
 #endif // TEXTGEN_DICTIONARYFACTORY_H
 

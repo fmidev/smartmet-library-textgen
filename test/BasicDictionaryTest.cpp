@@ -12,7 +12,7 @@ namespace BasicDictionaryTest
   //! Test structors
   void structors(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 
 	{
 	  // Should succeed
@@ -44,7 +44,7 @@ namespace BasicDictionaryTest
   //! Test init()
   void init(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	BasicDictionary dict;
 
 	// Should do nothing
@@ -58,7 +58,7 @@ namespace BasicDictionaryTest
   //! Test insert()
   void insert(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	BasicDictionary dict;
 
 	dict.insert("foo","bar");
@@ -80,7 +80,7 @@ namespace BasicDictionaryTest
   //! Test empty
   void empty(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	BasicDictionary dict;
 
 	if(!dict.empty())
@@ -96,7 +96,7 @@ namespace BasicDictionaryTest
   //! Test size
   void size(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	BasicDictionary dict;
 
 	if(dict.size()!=0)
@@ -115,7 +115,7 @@ namespace BasicDictionaryTest
   //! Test contains
   void contains(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	BasicDictionary dict;
 
 	if(dict.contains("foo"))
@@ -132,7 +132,7 @@ namespace BasicDictionaryTest
   //! Test find()
   void find(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	BasicDictionary dict;
 
 	try

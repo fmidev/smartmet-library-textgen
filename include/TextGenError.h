@@ -5,9 +5,9 @@
  */
 // ======================================================================
 /*!
- * \class textgen::TextGenError
+ * \class TextGen::TextGenError
  *
- * \brief The generic exception thrown by textgen library
+ * \brief The generic exception thrown by TextGen library
  *
  */
 // ======================================================================
@@ -18,7 +18,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace textgen
+namespace TextGen
 {
   class TextGenError : public std::exception
   {
@@ -30,7 +30,7 @@ namespace textgen
 	std::string itsError;
 
   }; // class TextGenError
-} // namespace textgen
+} // namespace TextGen
 
 #endif // TEXTGEN_TEXTGENERROR_H
 

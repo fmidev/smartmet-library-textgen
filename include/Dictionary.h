@@ -5,7 +5,7 @@
  */
 // ======================================================================
 /*!
- * \class textgen::Dictionary
+ * \class TextGen::Dictionary
  *
  * \brief Provides dictionary services
  *
@@ -30,7 +30,7 @@
 #include <map>
 #include <string>
 
-namespace textgen
+namespace TextGen
 {
   class Dictionary
   {
@@ -55,7 +55,7 @@ namespace textgen
 
   }; // class Dictionary
 
-} // namespace textgen
+} // namespace TextGen
 
 #endif // TEXTGEN_DICTIONARY_H
 

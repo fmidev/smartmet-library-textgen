@@ -12,7 +12,7 @@ namespace NullDictionaryTest
   //! Test structors
   void structors(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 
 	{
 	  // Should succeed
@@ -44,7 +44,7 @@ namespace NullDictionaryTest
   //! Test init()
   void init(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	NullDictionary dict;
 
 	// Should do nothing
@@ -58,7 +58,7 @@ namespace NullDictionaryTest
   //! Test insert()
   void insert(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	NullDictionary dict;
 
 	try
@@ -75,7 +75,7 @@ namespace NullDictionaryTest
   //! Test empty
   void empty(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	NullDictionary dict;
 
 	if(!dict.empty())
@@ -88,7 +88,7 @@ namespace NullDictionaryTest
   //! Test size
   void size(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	NullDictionary dict;
 
 	if(dict.size()!=0)
@@ -101,7 +101,7 @@ namespace NullDictionaryTest
   //! Test contains
   void contains(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	NullDictionary dict;
 
 	if(dict.contains("foo"))
@@ -113,7 +113,7 @@ namespace NullDictionaryTest
   //! Test find()
   void find(void)
   {
-	using namespace textgen;
+	using namespace TextGen;
 	NullDictionary dict;
 
 	try
