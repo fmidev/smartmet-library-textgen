@@ -15,12 +15,10 @@
 #ifndef WEATHERANALYZER_TEMPERATUREANALYZER_H
 #define WEATHERANALYZER_TEMPERATUREANALYZER_H
 
-#include "WeatherFunction.h"
 #include "ParameterAnalyzer.h"
 
 namespace WeatherAnalysis
 {
-  class Acceptor;
   class AnalyzerSources;
   class WeatherArea;
   class WeatherPeriod;
@@ -35,7 +33,8 @@ namespace WeatherAnalysis
 								  const WeatherFunction & theTimeFunction,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea,
-								  const Acceptor & theAcceptor) const;
+								  const Acceptor & theAcceptor,
+								  const Acceptor & theTester = NullAcceptor()) const;
   };
 }
 

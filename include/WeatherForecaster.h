@@ -48,7 +48,8 @@ namespace WeatherAnalysis
 								  const WeatherFunction & theTimeFunction,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea,
-								  const Acceptor & theAcceptor) const = 0;
+								  const Acceptor & theAcceptor = DefaultAcceptor(),
+								  const Acceptor & theTester = NullAcceptor()) const = 0;
 
   }; // class WeatherForecaster
 

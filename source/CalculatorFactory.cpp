@@ -56,6 +56,30 @@ namespace WeatherAnalysis
 	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
 	}
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Create an calculator suitable for the given WeatherFunction
+	 *
+	 * Throws if there is no suitable data modifier.
+	 *
+	 * \param theFunction The weather function
+	 * \param theTester The tester for Percentage calculations
+	 * \return The data modifier
+	 */
+	// ----------------------------------------------------------------------
+
+	shared_ptr<Calculator> create(WeatherFunction theFunction,
+								  const Acceptor & theTester)
+	{
+	  if(theFunction != Percentage)
+		return create(theFunction);
+
+	  shared_ptr<PercentageCalculator> tmp(new PercentageCalculator);
+	  tmp->condition(theTester);
+	  return tmp;
+	}
+
+
   } // namespace CalculatorFactory
 } // namespace WeatherAnalysis
 

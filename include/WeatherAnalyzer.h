@@ -24,12 +24,13 @@
 
 #include "WeatherParameter.h"
 #include "WeatherFunction.h"
+#include "NullAcceptor.h"
+#include "DefaultAcceptor.h"
 
 class NFmiPoint;
 
 namespace WeatherAnalysis
 {
-  class Acceptor;
   class AnalysisSources;
   class WeatherArea;
   class WeatherPeriod;
@@ -47,7 +48,8 @@ namespace WeatherAnalysis
 								  const WeatherFunction & theTimeFunction,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea,
-								  const Acceptor & theAcceptor) const = 0;
+								  const Acceptor & theAcceptor = DefaultAcceptor(),
+								  const Acceptor & theTester = NullAcceptor()) const = 0;
 
   }; // class WeatherAnalyzer
 

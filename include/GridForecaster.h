@@ -40,7 +40,8 @@ namespace WeatherAnalysis
 								  const WeatherFunction & theTimeFunction,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea,
-								  const Acceptor & theAcceptor) const;
+								  const Acceptor & theAcceptor = DefaultAcceptor(),
+								  const Acceptor & theTester = NullAcceptor()) const;
 
   }; // class GridForecaster
 

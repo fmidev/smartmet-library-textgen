@@ -38,6 +38,7 @@ namespace WeatherAnalysis
 							const WeatherPeriod & thePeriod,
 							const WeatherArea & theArea,
 							const Acceptor & theAcceptor,
+							const Acceptor & theTester,
 							const string & theDataName,
 							const string & theParameterName) const
   {
@@ -49,6 +50,7 @@ namespace WeatherAnalysis
 				   thePeriod,
 				   theArea,
 				   theAcceptor,
+				   theTester,
 				   theDataName,
 				   theParameterName,
 				   0,

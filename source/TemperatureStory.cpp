@@ -118,8 +118,7 @@ namespace TextGen
 											  Mean,
 											  Mean,
 											  itsPeriod,
-											  itsArea,
-											  DefaultAcceptor());
+											  itsArea);
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean temperature not available");
@@ -156,8 +155,7 @@ namespace TextGen
 											  Mean,
 											  Mean,
 											  itsPeriod,
-											  itsArea,
-											  DefaultAcceptor());
+											  itsArea);
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean daily maximum temperature not available");
@@ -193,8 +191,7 @@ namespace TextGen
 											  Mean,
 											  Mean,
 											  itsPeriod,
-											  itsArea,
-											  DefaultAcceptor());
+											  itsArea);
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Mean daily minimum temperature not available");

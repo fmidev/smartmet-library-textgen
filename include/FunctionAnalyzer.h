@@ -37,6 +37,7 @@ namespace WeatherAnalysis
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea,
 								  const Acceptor & theAcceptor,
+								  const Acceptor & theTester,
 								  const std::string & theDataName,
 								  const std::string & theParameterName) const;
 
@@ -45,6 +46,7 @@ namespace WeatherAnalysis
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea,
 								  const Acceptor & theAcceptor,
+								  const Acceptor & theTester,
 								  const std::string & theDataName,
 								  const std::string & theParameterName,
 								  int theInterval,

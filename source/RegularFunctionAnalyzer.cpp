@@ -55,10 +55,20 @@ namespace WeatherAnalysis
    * If theInterval is 0, no subintervals are created and
    * theSubCalculator is ignored.
    *
+   * Note that theTester argument is associated to both itsAreaCalculator
+   * and itsTimeCalculator. Naturally the association is real only
+   * for functions which require the tester. At the moment Percentage
+   * is the only such function.
+   *
+   * It is assumed that the space and time functions are never both
+   * Percentage, hence atmost one Acceptor is needed for Percentage
+   * calculations.
+   *
    * \param theSources Analysis sources
    * \param thePeriod Analysis period
    * \param theArea Analysis area
    * \param theAcceptor The data acceptor
+   * \param theTester The data tester for Percentage calculations
    * \param theDataName The name of the data file
    * \param theParameterName The name of the parameter
    * \param theInterval The sub interval in hours
@@ -72,6 +82,7 @@ namespace WeatherAnalysis
 								   const WeatherPeriod & thePeriod,
 								   const WeatherArea & theArea,
 								   const Acceptor & theAcceptor,
+								   const Acceptor & theTester,
 								   const std::string & theDataName,
 								   const std::string & theParameterName,
 								   int theInterval,
@@ -112,8 +123,8 @@ namespace WeatherAnalysis
 
 		// Result
 
-		shared_ptr<Calculator> spacemod = CalculatorFactory::create(itsAreaFunction);
-		shared_ptr<Calculator> timemod = CalculatorFactory::create(itsTimeFunction);
+		shared_ptr<Calculator> spacemod = CalculatorFactory::create(itsAreaFunction,theTester);
+		shared_ptr<Calculator> timemod = CalculatorFactory::create(itsTimeFunction,theTester);
 
 		float result = QueryDataIntegrator::Integrate(qi,
 													  thePeriod.utcStartTime(),
@@ -135,7 +146,7 @@ namespace WeatherAnalysis
 		if(!(qi.Location(theArea.point())))
 		  throw WeatherAnalysisError("Could not set desired coordinate in "+dataname);
 
-		shared_ptr<Calculator> timemod = CalculatorFactory::create(itsTimeFunction);
+		shared_ptr<Calculator> timemod = CalculatorFactory::create(itsTimeFunction,theTester);
 
 		float result = QueryDataIntegrator::Integrate(qi,
 													  thePeriod.utcStartTime(),

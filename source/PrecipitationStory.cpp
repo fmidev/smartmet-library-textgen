@@ -201,8 +201,7 @@ namespace TextGen
 											  Mean,
 											  Sum,
 											  itsPeriod,
-											  itsArea,
-											  DefaultAcceptor());
+											  itsArea);
 
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Total precipitation not available");
@@ -244,16 +243,14 @@ namespace TextGen
 												 Minimum,
 												 Sum,
 												 itsPeriod,
-												 itsArea,
-												 DefaultAcceptor());
+												 itsArea);
 
 	WeatherResult maxresult = forecaster.analyze(itsSources,
 												 Precipitation,
 												 Maximum,
 												 Sum,
 												 itsPeriod,
-												 itsArea,
-												 DefaultAcceptor());
+												 itsArea);
 
 	if(minresult.value() == kFloatMissing ||
 	   maxresult.value() == kFloatMissing)
@@ -321,33 +318,27 @@ namespace TextGen
 
 	const NFmiSettings & settings = NFmiSettings::instance();
 
-	// Common limits for all intergals
-	DefaultAcceptor acceptor;
-
 	// Gather the results
 	WeatherResult minresult = forecaster.analyze(itsSources,
 												 Precipitation,
 												 Minimum,
 												 Sum,
 												 itsPeriod,
-												 itsArea,
-												 acceptor);
+												 itsArea);
 
 	WeatherResult meanresult = forecaster.analyze(itsSources,
 												  Precipitation,
 												  Mean,
 												  Sum,
 												  itsPeriod,
-												  itsArea,
-												  acceptor);
+												  itsArea);
 	
 	WeatherResult maxresult = forecaster.analyze(itsSources,
 												 Precipitation,
 												 Maximum,
 												 Sum,
 												 itsPeriod,
-												 itsArea,
-												 acceptor);
+												 itsArea);
 
 	// Check for invalid results
 	if(minresult.value() == kFloatMissing ||
@@ -396,7 +387,8 @@ namespace TextGen
 														  Sum,
 														  itsPeriod,
 														  itsArea,
-														  DefaultAcceptor());
+														  DefaultAcceptor(),
+														  limits);
 
 			int limit1 = -1;
 			int limit2 = -2;
@@ -475,9 +467,11 @@ namespace TextGen
 													  Sum,
 													  itsPeriod,
 													  itsArea,
-													  DefaultAcceptor());
+													  DefaultAcceptor(),
+													  limits);
+
 		int limit1 = -1;
-		int limit2 = -2;
+		int limit2 = -1;
 			
 		if(settings.isset(variable1))
 		  {
@@ -503,6 +497,7 @@ namespace TextGen
 		  sentence << Delimiter(",") << "paikoin enemmän";
 		else if(phrase==3)
 		  sentence << Delimiter(",") << "monin paikoin enemmän";
+
 	  }
 
 	paragraph << sentence;
