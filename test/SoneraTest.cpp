@@ -42,6 +42,9 @@ namespace SoneraTest
   void phrases()
   {
 
+	if(dict->size() != 479-200+1)
+	  TEST_FAILED("Sonera dictionary should have phrases 200-479");
+
 	require("1-aamusta","200");
 	require("1-aamuun","201");
 	require("1-alkaen","202");
