@@ -1796,6 +1796,7 @@ namespace TextGen
 				s << WeekdayTools::from_weekday(period.localStartTime())
 				  << "ajoittain sateista";
 			  }
+			paragraph << s;
 			day = day2;
 		  }
 	  }
