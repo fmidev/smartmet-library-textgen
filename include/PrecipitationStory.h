@@ -15,12 +15,16 @@
 #ifndef TEXTGEN_PRECIPITATIONSTORY_H
 #define TEXTGEN_PRECIPITATIONSTORY_H
 
-#include "AnalysisSources.h"
 #include "Story.h"
-#include "WeatherArea.h"
-#include "WeatherPeriod.h"
 
 class NFmiTime;
+
+namespace WeatherAnalysis
+{
+  class AnalysisSources;
+  class WeatherArea;
+  class WeatherPeriod;
+}
 
 namespace TextGen
 {
