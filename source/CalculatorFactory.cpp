@@ -6,14 +6,14 @@
 // ======================================================================
 
 #include "CalculatorFactory.h"
-#include "WeatherLimits.h"
-#include "WeatherAnalysisError.h"
-
+#include "MaximumCalculator.h"
 #include "MeanCalculator.h"
 #include "MinimumCalculator.h"
-#include "MaximumCalculator.h"
-#include "SumCalculator.h"
+#include "PercentageCalculator.h"
 #include "RangeAcceptor.h"
+#include "SumCalculator.h"
+#include "WeatherAnalysisError.h"
+#include "WeatherLimits.h"
 
 #include "boost/lexical_cast.hpp"
 
@@ -50,6 +50,8 @@ namespace WeatherAnalysis
 		  return shared_ptr<Calculator>(new MinimumCalculator);
 		case Sum:
 		  return shared_ptr<Calculator>(new SumCalculator);
+		case Percentage:
+		  return shared_ptr<Calculator>(new PercentageCalculator);
 		}
 
 	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
