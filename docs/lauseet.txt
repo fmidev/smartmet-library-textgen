@@ -52,5 +52,18 @@ p << s1 << s2;
 cout << p.realize();
 \endcode
 joka tulostaisi "Wed south east 12. Thu north west 13.".
+Seuraava koodi voi kuitenkin olla käytännöllisempää, koska
+viikonpäivätekstiä ei tarvitse itse laskea.
+\code
+Paragraph p;
+Sentence s1;
+s1 << PhraseShortWeekend(3) << "kaakko" << 12;
+Sentence s2;
+s2 << PhraseShortWeekend(4) << "luode" << 13;
+p << s1 << s2;
+cout << p.realize();
+\endcode
+Viikonpäivien numerointi on tässä sama kuin newbase kirjaston
+aikaluokissa.
 
 */
