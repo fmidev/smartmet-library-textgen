@@ -19,7 +19,6 @@
 #include "HeaderFactory.h"
 #include "LandMaskSource.h"
 #include "LatestWeatherSource.h"
-#include "MapSource.h"
 #include "MaskSource.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
@@ -69,19 +68,13 @@ namespace TextGen
 
   TextGenerator::Pimple::Pimple()
   {
-	const double expansion_distance = Settings::require_double("textgen::mask::expansion_distance");
-
 	shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
-	shared_ptr<MapSource> mapsource(new MapSource());
-	shared_ptr<MaskSource> masksource(new RegularMaskSource(mapsource,
-															expansion_distance));
+	shared_ptr<MaskSource> masksource(new RegularMaskSource());
+									  
 	const string land_name = Settings::require_string("textgen::mask::land");
-	shared_ptr<MaskSource> landsource(new LandMaskSource(mapsource,
-														 land_name,
-														 expansion_distance));
+	shared_ptr<MaskSource> landsource(new LandMaskSource(land_name));
 	
 	itsSources.setWeatherSource(weathersource);
-	itsSources.setMapSource(mapsource);
 	itsSources.setMaskSource(masksource);
 	itsSources.setLandMaskSource(landsource);
 

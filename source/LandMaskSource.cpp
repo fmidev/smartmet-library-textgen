@@ -21,7 +21,6 @@
 
 #include "LandMaskSource.h"
 
-#include "MapSource.h"
 #include "WeatherAnalysisError.h"
 #include "WeatherArea.h"
 #include "WeatherSource.h"
@@ -83,7 +82,6 @@ namespace WeatherAnalysis
   class LandMaskSource::Pimple
   {
   public:
-	shared_ptr<MapSource> itsMapSource;
 	double itsExpansionDistance;
 	string itsLandMapName;
 
@@ -177,7 +175,8 @@ namespace WeatherAnalysis
 									  const WeatherSource & theWeatherSource,
 									  bool useLandMask)
   {
-	const NFmiSvgPath & svg = itsMapSource->getMap(theArea.name());
+	const NFmiSvgPath svg = theArea.path();
+	const float radius = theArea.radius();
 
 	shared_ptr<NFmiQueryData> qd = theWeatherSource.data(theData);
 	if(!qd->IsGrid())
@@ -185,7 +184,7 @@ namespace WeatherAnalysis
 
 	NFmiIndexMask * areamask = new NFmiIndexMask(MaskExpand(qd->GridInfo(),
 															svg,
-															itsExpansionDistance));
+															radius));
 
 	if(useLandMask)
 	  {
@@ -208,21 +207,13 @@ namespace WeatherAnalysis
   /*!
    * \brief Constructor
    *
-   * Note that default constructor is disabled on purpose.
-   *
-   * \param theMapSource The sharable map source
    * \param theLandMapName The name of the land map
-   * \param theExpansionDistance The fixed expansion distance for each area
    */
   // ----------------------------------------------------------------------
 
-  LandMaskSource::LandMaskSource(const boost::shared_ptr<MapSource> theMapSource,
-								 const std::string & theLandMapName,
-								 double theExpansionDistance)
+  LandMaskSource::LandMaskSource(const std::string & theLandMapName)
 	: itsPimple(new Pimple())
   {
-	itsPimple->itsMapSource = theMapSource;
-	itsPimple->itsExpansionDistance = theExpansionDistance;
 	itsPimple->itsLandMapName = theLandMapName;
   }
   
@@ -241,7 +232,7 @@ namespace WeatherAnalysis
 					   const std::string & theData,
 					   const WeatherSource & theWeatherSource) const
   {
-	if(!theArea.isNamed())
+	if(theArea.isPoint())
 	  throw WeatherAnalysisError("Trying to generate mask for point");
 
 	// Establish the ID for the data

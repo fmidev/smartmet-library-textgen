@@ -19,9 +19,7 @@ namespace WeatherAnalysis
 	typedef MaskSource::mask_type mask_type;
 	typedef MaskSource::masks_type masks_type;
 
-	LandMaskSource(const boost::shared_ptr<MapSource> theMapSource,
-				   const std::string & theLandMapName,
-				   double theExpansionDistance = 0.0);
+	LandMaskSource(const std::string & theLandMapName);
 
 	virtual const mask_type mask(const WeatherArea & theArea,
 								 const std::string & theData,

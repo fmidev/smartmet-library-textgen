@@ -21,7 +21,6 @@
 
 #include "RegularMaskSource.h"
 
-#include "MapSource.h"
 #include "WeatherAnalysisError.h"
 #include "WeatherArea.h"
 #include "WeatherSource.h"
@@ -83,9 +82,6 @@ namespace WeatherAnalysis
   class RegularMaskSource::Pimple
   {
   public:
-	shared_ptr<MapSource> itsMapSource;
-	double itsExpansionDistance;
-
 	typedef map<WeatherAreaAndID,mask_type> mask_storage;
 	typedef map<WeatherAreaAndID,masks_type> masks_storage;
 
@@ -173,7 +169,8 @@ namespace WeatherAnalysis
 										 const std::string & theData,
 										 const WeatherSource & theWeatherSource) const
   {
-	const NFmiSvgPath & svg = itsMapSource->getMap(theArea.name());
+	const NFmiSvgPath svg = theArea.path();
+	const float radius = theArea.radius();
 
 	shared_ptr<NFmiQueryData> qd = theWeatherSource.data(theData);
 	if(!qd->IsGrid())
@@ -181,7 +178,7 @@ namespace WeatherAnalysis
 
 	NFmiIndexMask * areamask = new NFmiIndexMask(MaskExpand(qd->GridInfo(),
 															svg,
-															itsExpansionDistance));
+															radius));
 	mask_type sharedmask(areamask);
 	return sharedmask;
   }
@@ -189,20 +186,12 @@ namespace WeatherAnalysis
   // ----------------------------------------------------------------------
   /*!
    * \brief Constructor
-   *
-   * Note that default constructor is disabled on purpose.
-   *
-   * \param theMapSource The sharable map source
-   * \param theExpansionDistance The fixed expansion distance for each area
    */
   // ----------------------------------------------------------------------
 
-  RegularMaskSource::RegularMaskSource(const boost::shared_ptr<MapSource> theMapSource,
-									   double theExpansionDistance)
+  RegularMaskSource::RegularMaskSource()
 	: itsPimple(new Pimple())
   {
-	itsPimple->itsMapSource = theMapSource;
-	itsPimple->itsExpansionDistance = theExpansionDistance;
   }
   
   // ----------------------------------------------------------------------
@@ -220,7 +209,7 @@ namespace WeatherAnalysis
 						  const std::string & theData,
 						  const WeatherSource & theWeatherSource) const
   {
-	if(!theArea.isNamed())
+	if(theArea.isPoint())
 	  throw WeatherAnalysisError("Trying to generate mask for point");
 
 	// Establish the ID for the data

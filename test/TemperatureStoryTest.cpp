@@ -53,7 +53,7 @@ namespace TemperatureStoryTest
 	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
-	WeatherArea area("dummy");
+	WeatherArea area("25,60");
 	NFmiTime time1(2000,1,1);
 	NFmiTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
@@ -97,7 +97,7 @@ namespace TemperatureStoryTest
 	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
-	WeatherArea area("dummy");
+	WeatherArea area("25,60");
 	NFmiTime time1(2000,1,1);
 	NFmiTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
@@ -141,7 +141,7 @@ namespace TemperatureStoryTest
 	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
-	WeatherArea area("dummy");
+	WeatherArea area("25,60");
 	NFmiTime time1(2000,1,1);
 	NFmiTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
@@ -185,7 +185,7 @@ namespace TemperatureStoryTest
 	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
-	WeatherArea area("dummy");
+	WeatherArea area("25,60");
 	const string fun = "temperature_dailymax";
 
 	NFmiSettings::Set("dailymax::comparison::significantly_higher","6");
@@ -381,7 +381,7 @@ namespace TemperatureStoryTest
 	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
-	WeatherArea area("dummy");
+	WeatherArea area("25,60");
 	NFmiTime time1(2000,1,1);
 	NFmiTime time2(2000,1,5);
 	WeatherPeriod period(time1,time2);
@@ -436,7 +436,7 @@ namespace TemperatureStoryTest
 	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
-	WeatherArea area("dummy");
+	WeatherArea area("25,60");
 	NFmiTime time1(2000,1,1);
 	NFmiTime time2(2000,1,5);
 	WeatherPeriod period(time1,time2);

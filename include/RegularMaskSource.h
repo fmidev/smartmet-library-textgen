@@ -19,8 +19,7 @@ namespace WeatherAnalysis
 	typedef MaskSource::mask_type mask_type;
 	typedef MaskSource::masks_type masks_type;
 
-	RegularMaskSource(const boost::shared_ptr<MapSource> theMapSource,
-					  double theExpansionDistance = 0.0);
+	RegularMaskSource();
 
 	virtual const mask_type mask(const WeatherArea & theArea,
 								 const std::string & theData,
@@ -31,8 +30,6 @@ namespace WeatherAnalysis
 								   const WeatherSource & theWeatherSource) const;
 
   private:
-
-	RegularMaskSource();
 
 	class Pimple;
 	boost::shared_ptr<Pimple> itsPimple;

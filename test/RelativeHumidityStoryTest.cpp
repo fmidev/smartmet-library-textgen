@@ -56,7 +56,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
-	WeatherArea area("dummy");
+	WeatherArea area("25,60");
 
 	const string fun = "relativehumidity_lowest";
 

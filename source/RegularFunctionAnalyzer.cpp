@@ -186,7 +186,7 @@ namespace WeatherAnalysis
 	timemod->acceptor(theTimeAcceptor);
 	subtimemod->acceptor(theTimeAcceptor);
 
-	if(theArea.isNamed())
+	if(!theArea.isPoint())
 	  {
 		shared_ptr<MaskSource> msource = theSources.getMaskSource();
 		MaskSource::mask_type mask = msource->mask(theArea,dataname,*wsource);

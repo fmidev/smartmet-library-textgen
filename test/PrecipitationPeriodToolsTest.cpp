@@ -2,8 +2,8 @@
 #include "PrecipitationPeriodTools.h"
 #include "AnalysisSources.h"
 #include "RegularMaskSource.h"
+#include "Settings.h"
 #include "UserWeatherSource.h"
-#include "MapSource.h"
 #include "MaskSource.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
@@ -61,15 +61,18 @@ namespace PrecipitationPeriodToolsTest
 
 	NFmiSettings::Set("textgen::precipitation_forecast","data");
 
-	shared_ptr<MapSource> mapsource(new MapSource());
-	shared_ptr<MaskSource> masksource(new RegularMaskSource(mapsource,10));
+	shared_ptr<MaskSource> masksource(new RegularMaskSource());
 	sources.setWeatherSource(weathersource);
-	sources.setMapSource(mapsource);
 	sources.setMaskSource(masksource);
+
+	const string mappath = Settings::require_string("textgen::mappath");
+	const string uusimaa = mappath + "/sonera/uusimaa.svg:10";
+	const string ahvenanmaa = mappath + "/sonera/ahvenanmaa.svg:10";
+	const string pohjoislappi = mappath + "/sonera/pohjois-lappi.svg:10";
 
 	{
 	  RainTimes times = findRainTimes(sources,
-									  WeatherArea("uusimaa"),
+									  WeatherArea(uusimaa,"uusimaa"),
 									  period,
 									  "");
 	  if(times.size() != 60)
@@ -79,7 +82,7 @@ namespace PrecipitationPeriodToolsTest
 
 	{
 	  RainTimes times = findRainTimes(sources,
-									  WeatherArea("ahvenanmaa"),
+									  WeatherArea(ahvenanmaa,"ahvenanmaa"),
 									  period,
 									  "");
 	  if(times.size() != 55)
@@ -89,7 +92,7 @@ namespace PrecipitationPeriodToolsTest
 
 	{
 	  RainTimes times = findRainTimes(sources,
-									  WeatherArea("pohjois-lappi"),
+									  WeatherArea(pohjoislappi,"pohjois-lappi"),
 									  period,
 									  "");
 	  if(times.size() != 1)
@@ -128,18 +131,21 @@ namespace PrecipitationPeriodToolsTest
 	NFmiSettings::Set("textgen::precipitation_forecast","data");
 
 
-	shared_ptr<MapSource> mapsource(new MapSource());
-	shared_ptr<MaskSource> masksource(new RegularMaskSource(mapsource,10));
+	shared_ptr<MaskSource> masksource(new RegularMaskSource());
 	sources.setWeatherSource(weathersource);
-	sources.setMapSource(mapsource);
 	sources.setMaskSource(masksource);
 
 	NFmiSettings::Set("a::rainyperiod::maximum_interval","1");
 	NFmiSettings::Set("b::rainyperiod::maximum_interval","3");
 
+	const string mappath = Settings::require_string("textgen::mappath");
+	const string uusimaa = mappath + "/sonera/uusimaa.svg:10";
+	const string ahvenanmaa = mappath + "/sonera/ahvenanmaa.svg:10";
+	const string pohjoislappi = mappath + "/sonera/pohjois-lappi.svg:10";
+
 	{
 	  RainTimes times = findRainTimes(sources,
-									  WeatherArea("uusimaa"),
+									  WeatherArea(uusimaa,"uusimaa"),
 									  period,
 									  "");
 
@@ -154,7 +160,7 @@ namespace PrecipitationPeriodToolsTest
 	
 	{
 	  RainTimes times = findRainTimes(sources,
-									  WeatherArea("ahvenanmaa"),
+									  WeatherArea(ahvenanmaa,"ahvenanmaa"),
 									  period,
 									  "");
 	  
@@ -170,7 +176,7 @@ namespace PrecipitationPeriodToolsTest
 	
 	{
 	  RainTimes times = findRainTimes(sources,
-									  WeatherArea("pohjois-lappi"),
+									  WeatherArea(pohjoislappi,"pohjois-lappi"),
 									  period,
 									  "");
 	  
@@ -331,10 +337,6 @@ int main(void)
 	   << "===============================" << endl;
 
   NFmiSettings::Init();
-  const string mapdir = NFmiSettings::Require<string>("textgen::mappath");
-  NFmiSettings::Set("textgen::areas::map::uusimaa",mapdir+"/sonera/uusimaa.svg");
-  NFmiSettings::Set("textgen::areas::map::ahvenanmaa",mapdir+"/sonera/ahvenanmaa.svg");
-  NFmiSettings::Set("textgen::areas::map::pohjois-lappi",mapdir+"/sonera/pohjois-lappi.svg");
   
   PrecipitationPeriodToolsTest::read_querydata("data/skandinavia_pinta.sqd");
 

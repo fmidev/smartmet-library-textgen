@@ -53,7 +53,7 @@ namespace FrostStoryTest
 	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
-	WeatherArea area("dummy");
+	WeatherArea area("25,60");
 	NFmiTime time1(2000,1,1);
 	NFmiTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
@@ -105,7 +105,7 @@ namespace FrostStoryTest
 	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
-	WeatherArea area("dummy");
+	WeatherArea area("25,60");
 	NFmiTime time1(2000,1,1);
 	NFmiTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
@@ -157,7 +157,7 @@ namespace FrostStoryTest
 	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
-	WeatherArea area("dummy");
+	WeatherArea area("25,60");
 	NFmiTime time1(2000,1,1);
 	NFmiTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
@@ -225,7 +225,7 @@ namespace FrostStoryTest
 	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
-	WeatherArea area("dummy");
+	WeatherArea area("25,60");
 
 	const string fun = "frost_twonights";
 

@@ -53,7 +53,7 @@ namespace WeatherStoryTest
 	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
-	WeatherArea area("dummy");
+	WeatherArea area("25,60");
 
 	const string fun = "weather_shortoverview";
 
@@ -189,7 +189,7 @@ namespace WeatherStoryTest
 	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
-	WeatherArea area("dummy");
+	WeatherArea area("25,60");
 
 	const string fun = "weather_thunderprobability";
 

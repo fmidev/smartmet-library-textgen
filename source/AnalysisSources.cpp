@@ -13,7 +13,6 @@
 // ======================================================================
 
 #include "AnalysisSources.h"
-#include "MapSource.h"
 #include "MaskSource.h"
 #include "WeatherSource.h"
 #include "boost/shared_ptr.hpp"
@@ -32,19 +31,6 @@ namespace WeatherAnalysis
   boost::shared_ptr<WeatherSource> AnalysisSources::getWeatherSource() const
   {
 	return itsWeatherSource;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the map source
-   *
-   * \return The map source
-   */
-  // ----------------------------------------------------------------------
-
-  boost::shared_ptr<MapSource> AnalysisSources::getMapSource() const
-  {
-	return itsMapSource;
   }
 
   // ----------------------------------------------------------------------
@@ -84,19 +70,6 @@ namespace WeatherAnalysis
   void AnalysisSources::setWeatherSource(const boost::shared_ptr<WeatherSource> & theSource)
   {
 	itsWeatherSource = theSource;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the map source
-   *
-   * \param theSource The map source
-   */
-  // ----------------------------------------------------------------------
-
-  void AnalysisSources::setMapSource(const boost::shared_ptr<MapSource> & theSource)
-  {
-	itsMapSource = theSource;
   }
 
   // ----------------------------------------------------------------------

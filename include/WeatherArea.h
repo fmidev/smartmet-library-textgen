@@ -9,6 +9,7 @@
 #define WEATHERANALYSIS_WEATHERAREA_H
 
 #include "NFmiPoint.h"
+#include "NFmiSvgPath.h"
 #include <string>
 
 namespace WeatherAnalysis
@@ -23,23 +24,40 @@ namespace WeatherAnalysis
 	WeatherArea & operator=(const WeatherArea & theArea);
 #endif
 
-	WeatherArea(const std::string & theName);
-	WeatherArea(const NFmiPoint & thePoint);
-	
+	WeatherArea(const std::string & theSpecs);
+
+	WeatherArea(const std::string & theSpecs,
+				const std::string & theName);
+
+	WeatherArea(const NFmiPoint & thePoint,
+				float theRadius = 0);
+
+	WeatherArea(const NFmiPoint & thePoint,
+				const std::string & theName,
+				float theRadius = 0);
+
+	bool isPoint() const;
 	bool isNamed() const;
 
 	const std::string & name() const;
 	const NFmiPoint & point() const;
+	const NFmiSvgPath & path() const;
+	float radius() const;
 
 	bool operator<(const WeatherArea & theOther) const;
 
   private:
 
 	WeatherArea();
+	void parse_specs(const std::string & theSpecs);
 
-	bool itsNamed;
+	bool itsPointFlag;
+	bool itsNamedFlag;
+
 	std::string itsName;
 	NFmiPoint itsPoint;
+	NFmiSvgPath itsPolygon;
+	float itsRadius;
 
   }; // class WeatherArea
 
