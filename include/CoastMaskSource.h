@@ -47,14 +47,6 @@ namespace WeatherAnalysis
 							 const std::string & theData,
 							 const WeatherSource & theWeatherSource) const;
 
-	virtual masks_type masks(const NFmiPoint & thePoint,
-							 const std::string & theData,
-							 const WeatherSource & theWeatherSource) const;
-
-	// Not available in base class:
-
-	void coast(const std::string & theCoastName, double theDistance) const;
-
   private:
 
 	CoastMaskSource();
