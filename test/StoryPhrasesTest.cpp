@@ -580,6 +580,29 @@ namespace StoryPhrasesTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief RelativeHumidityStory::day() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void relative_humidity_day()
+  {
+	require("alin suhteellinen kosteus");
+	require("on");
+	require("rannikolla");
+
+	require("1-na","maanantaina");
+	require("2-na","tiistaina");
+	require("3-na","keskiviikkona");
+	require("4-na","torstaina");
+	require("5-na","perjantaina");
+	require("6-na","lauantaina");
+	require("7-na","sunnuntaina");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief RoadStory::daynightranges requirements
    */
   // ----------------------------------------------------------------------
@@ -662,6 +685,7 @@ namespace StoryPhrasesTest
 	  TEST(frost_twonights);
 
 	  TEST(relative_humidity_lowest);
+	  TEST(relative_humidity_day);
 
 	  TEST(roadtemperature_daynightranges);
 	  TEST(roadcondition_overview);
