@@ -27,7 +27,7 @@
  <li>\ref page_story_frost_mean</li>
  <li>\ref page_story_frost_maximum</li>
  <li>\ref page_story_frost_range</li>
- <li>\ref page_story_frost_maxtwonights (puuttuu)</li>
+ <li>\ref page_story_frost_twonights</li>
  </ol>
 <li>\ref sec_relativehumidity_story</li>
  <ol>
