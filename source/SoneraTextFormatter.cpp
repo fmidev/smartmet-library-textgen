@@ -35,6 +35,8 @@
 #include "StoryTag.h"
 #include "TextGenError.h"
 
+#include "NFmiStringTools.h"
+
 #include "boost/lexical_cast.hpp"
 
 using namespace std;
@@ -237,8 +239,9 @@ namespace TextGen
   string SoneraTextFormatter::visit(const Glyph & theGlyph) const
   {
 	static string dummy("glyph");
-	string tmp = theGlyph.realize(*itsDictionary);
-	itsParts.push_back(tmp);
+	string tokens = theGlyph.realize(*itsDictionary);
+	list<string> numbers = NFmiStringTools::SplitWords(tokens);
+	copy(numbers.begin(),numbers.end(),back_inserter(itsParts));
 	return dummy;
   }
 
