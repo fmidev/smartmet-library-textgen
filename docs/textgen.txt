@@ -34,4 +34,9 @@ nimet‰‰n tekstigeneraattorissa.
 \ref page_tarinat sivulla kuvataan, miten yksitt‰isist‰ s‰‰parametreista
 generoidaan teksti‰.
 
+\section sec_funktiot Funktiot
+
+\ref page_funktiot sivulla kuvataan, mit‰ funktioita analyysiosio
+voi laskea, sek‰ miten tulosten laatu m‰‰ritell‰‰n.
+
 */
