@@ -454,7 +454,7 @@ namespace TextGen
 	  // List all "someplaces" types that occur in order of importance
 	  // The set may include firsttype, if no condition occurs in many places
 
-	  map<int,RoadConditionType> someplacestypes;
+	  map<int,RoadConditionType,std::greater<int> > someplacestypes;
 
 	  for(int i=min_condition; i<=max_condition; i++)
 		{
