@@ -421,6 +421,13 @@ palautetaan fraasi 3. Muuten jos hallan todennäköisyys on vähintään
 Todennäköisyydet pyöristetään muuttujan \c precision tarkkuuteen.
 Yleensä käytetään tarkkuutta 10.
 
+Yö määritellään ajanjaksoksi välillä
+\code
+textgen::[kappale]::story::frost_maxtwonights::starthour = [0-23]
+textgen::[kappale]::story::frost_maxtwonights::endhour = [0-23]
+\endcode
+missä starthour > endhour (esim 18 > 06).
+
 Jos jakson pituus on kaksi yötä, palautetaan jokin tarinoista
 
  -# "Hallan todennäköisyys on viikonpäivän vastaisena yönä x%"
