@@ -41,6 +41,8 @@ namespace TextGen
 	
   private:
 	
+	Paragraph daynightranges() const;
+
 	RoadStory();
 	RoadStory(const RoadStory & theStory);
 	RoadStory & operator=(const RoadStory & theStory);
