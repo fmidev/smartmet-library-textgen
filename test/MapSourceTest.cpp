@@ -91,8 +91,8 @@ int main(void)
 
   NFmiSettings::Init();
   const string mapdir = NFmiSettings::Require<string>("textgen::mappath");
-  NFmiSettings::Set("textgen::areas::map::uusimaa",mapdir+"/maatalous/uusimaa.svg");
-  NFmiSettings::Set("textgen::areas::map::kymenlaakso",mapdir+"/maatalous/kymenlaakso.svg");
+  NFmiSettings::Set("textgen::areas::map::uusimaa",mapdir+"/sonera/uusimaa.svg");
+  NFmiSettings::Set("textgen::areas::map::kymenlaakso",mapdir+"/sonera/kymenlaakso.svg");
   
   MapSourceTest::tests t;
   return t.run();

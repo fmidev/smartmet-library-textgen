@@ -332,9 +332,9 @@ int main(void)
 
   NFmiSettings::Init();
   const string mapdir = NFmiSettings::Require<string>("textgen::mappath");
-  NFmiSettings::Set("textgen::areas::map::uusimaa",mapdir+"/maatalous/uusimaa.svg");
-  NFmiSettings::Set("textgen::areas::map::ahvenanmaa",mapdir+"/maatalous/ahvenanmaa.svg");
-  NFmiSettings::Set("textgen::areas::map::pohjois-lappi",mapdir+"/maatalous/pohjois-lappi.svg");
+  NFmiSettings::Set("textgen::areas::map::uusimaa",mapdir+"/sonera/uusimaa.svg");
+  NFmiSettings::Set("textgen::areas::map::ahvenanmaa",mapdir+"/sonera/ahvenanmaa.svg");
+  NFmiSettings::Set("textgen::areas::map::pohjois-lappi",mapdir+"/sonera/pohjois-lappi.svg");
   
   PrecipitationPeriodToolsTest::read_querydata("data/skandinavia_pinta.sqd");
 
