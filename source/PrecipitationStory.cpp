@@ -176,11 +176,16 @@ namespace TextGen
 	Number<int> minrain = FmiRound(minresult.value());
 	Number<int> maxrain = FmiRound(minresult.value());
 
+	// optionaalinen maksimisade
+	int rainlimit = -1;
 	const string variable = "textgen::story::precipitation_range::maxrain";
-	const string varvalue = NFmiSettings::instance().require(variable);
-	const int rainlimit = lexical_cast<int>(varvalue);
+	if(NFmiSettings::instance().isset(variable))
+	  {
+		const string varvalue = NFmiSettings::instance().value(variable);
+		rainlimit = lexical_cast<int>(varvalue);
+	  }
 
-	if(minrain.value() >= rainlimit)
+	if(minrain.value() >= rainlimit && rainlimit>0)
 	  {
 		sentence << "sadesumma"
 				 << "yli"
