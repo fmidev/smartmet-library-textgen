@@ -27,6 +27,7 @@ namespace TextGen
 	 * Throws if the given name is not recognized.
 	 *
 	 * \param theSources The associated analysis sources
+	 * \param theArea The area for which to generate the story
 	 * \param theName The story to create
 	 */
 	// ----------------------------------------------------------------------
