@@ -127,24 +127,40 @@ namespace WeatherAnalysis
 
   boost::shared_ptr<NFmiQueryData> LatestWeatherSource::data(const std::string & theName) const
   {
+	// Age limit for checking for new query data is 1 minute
+	const int agelimit = 1*60;
+
 	// The constructor should guarantee valid pimple
 	assert(itsPimple.get() != 0);
+
+	// See if we have a cached result
+	typedef Pimple::container_type::iterator iterator;
+	iterator it = itsPimple->itsData.find(theName);
+
+	if(it != itsPimple->itsData.end())
+	  {
+		// If the cached data is new enough, return it
+
+		if(time(NULL) - it->second.itsTime < agelimit)
+		  return it->second.itsData;
+
+	  }
 
 	// Associated filename
 	const string filename = complete_filename(theName);
 	const time_t modtime = NFmiFileSystem::FileModificationTime(filename);
 
-	// See if we have a cached result
-	typedef Pimple::container_type::iterator iterator;
-	iterator it = itsPimple->itsData.find(theName);
+	// See if the cached data is outdated. It is outdated if the
+	// directory contains a newer file, or if the file itself
+	// has been modified
+
+	if(it != itsPimple->itsData.end() &&
+	   (it->second.itsFilename == filename ||  it->second.itsTime >= modtime))
+	  return it->second.itsData;
+
+	// Erase the aged data
 	if(it != itsPimple->itsData.end())
-	  {
-		// See if the cached data is outdated
-		if(it->second.itsFilename != filename ||  it->second.itsTime < modtime)
-		  itsPimple->itsData.erase(it);
-		else
-		  return it->second.itsData;
-	  }
+	  itsPimple->itsData.erase(it);
 
 	// Read the new data
 
