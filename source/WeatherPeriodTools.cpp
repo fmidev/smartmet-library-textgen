@@ -29,6 +29,26 @@ namespace WeatherAnalysis
 	 * \param thePeriod The main period
 	 * \param theStartHour The normal start hour of the subperiod
 	 * \param theEndHour The normal end hour of the subperiod
+	 * \return The number of acceptable subperiods in the period
+	 */
+	// ----------------------------------------------------------------------
+
+	int countPeriods(const WeatherPeriod & thePeriod,
+					 int theStartHour,
+					 int theEndHour)
+	{
+	  return countPeriods(thePeriod,
+						  theStartHour, theEndHour,
+						  theStartHour, theEndHour);
+	}
+	  
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Count the number of specified subperiods in the period
+	 *
+	 * \param thePeriod The main period
+	 * \param theStartHour The normal start hour of the subperiod
+	 * \param theEndHour The normal end hour of the subperiod
 	 * \param theMaxStartHour The maximum start hour of the subperiod
 	 * \param theMinEndHour The minimum end hour of the subperiod
 	 * \return The number of acceptable subperiods in the period
@@ -84,7 +104,34 @@ namespace WeatherAnalysis
 	
 	// ----------------------------------------------------------------------
 	/*!
-	 * \brief Count the number of specified subperiods in the period
+	 * \brief Return the desired subperiod
+	 *
+	 * Each subperiod is of the form
+	 * \code
+	 *  theStartHour...theMaxStartHour - theMinEndHour...theEndHour
+	 * \endcode
+	 *
+	 * \param thePeriod The main period
+	 * \param theStartHour The normal start hour of the subperiod
+	 * \param theEndHour The normal end hour of the subperiod
+	 * \return The number of acceptable subperiods in the period
+	 */
+	// ----------------------------------------------------------------------
+
+
+	WeatherPeriod getPeriod(const WeatherPeriod & thePeriod,
+							int theNumber,
+							int theStartHour,
+							int theEndHour)
+	{
+	  return getPeriod(thePeriod, theNumber,
+					   theStartHour, theEndHour,
+					   theStartHour, theEndHour);
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return the desired subperiod
 	 *
 	 * Each subperiod is of the form
 	 * \code
@@ -106,6 +153,7 @@ namespace WeatherAnalysis
 							int theEndHour,
 							int theMaxStartHour,
 							int theMinEndHour)
+
 	{
 	  const string msg = "WeatherPeriodTools: Cannot extract subperiod "+lexical_cast<string>(theNumber);
 
