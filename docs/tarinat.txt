@@ -24,11 +24,11 @@
  </ol>
 <li>\ref sec_weatherstory</li>
  <ol>
- <li>\ref page_story_weather_shortoverview</li>
+ <li>\ref page_story_weather_shortoverview (puuttuu)</li>
  </ol>
 <li>\ref sec_windstory</li>
  <ol>
- <li>\ref page_story_wind_overview</li>
+ <li>\ref page_story_wind_overview (puuttuu)</li>
  </ol>
 <li>\ref sec_froststory</li>
  <ol>
