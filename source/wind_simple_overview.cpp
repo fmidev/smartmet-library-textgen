@@ -101,6 +101,10 @@ namespace TextGen
 							   itsArea,
 							   morning);
 
+		log << "WindSpeed Minimum(Mean) until_morning  = " << minspeed << endl;
+		log << "WindSpeed Maximum(Mean) until_morning  = " << maxspeed << endl;
+		log << "WindDirection Mean(Mean) until_morning  = " << direction << endl;
+
 		sentence << directed_speed_sentence(minspeed,
 											maxspeed,
 											direction,
@@ -146,6 +150,10 @@ namespace TextGen
 							   Mean,
 							   itsArea,
 							   day);
+
+		log << "WindSpeed Minimum(Mean) until_tonight  = " << minspeed << endl;
+		log << "WindSpeed Maximum(Mean) until_tonight  = " << maxspeed << endl;
+		log << "WindDirection Mean(Mean) until_tonight  = " << direction << endl;
 
 		sentence << PeriodPhraseFactory::create("until_tonight",
 												itsVar,
@@ -196,6 +204,10 @@ namespace TextGen
 							   itsArea,
 							   night);
 
+		log << "WindSpeed Minimum(Mean) tonight  = " << minspeed << endl;
+		log << "WindSpeed Maximum(Mean) tonight  = " << maxspeed << endl;
+		log << "WindDirection Mean(Mean) tonight  = " << direction << endl;
+
 		sentence << PeriodPhraseFactory::create("tonight",
 												itsVar,
 												itsForecastTime,
@@ -243,6 +255,10 @@ namespace TextGen
 							   Mean,
 							   itsArea,
 							   remainder);
+
+		log << "WindSpeed Minimum(Mean) remaining_days  = " << minspeed << endl;
+		log << "WindSpeed Maximum(Mean) remaining_days  = " << maxspeed << endl;
+		log << "WindDirection Mean(Mean) remaining_days  = " << direction << endl;
 
 		Sentence sentence;
 		sentence << PeriodPhraseFactory::create("remaining_days",
