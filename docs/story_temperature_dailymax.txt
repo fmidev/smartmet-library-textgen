@@ -4,66 +4,60 @@
 
 \c temperature_dailymax tarina on muotoa
 
-  -# "Päivän ylin lämpötila on viikonpäivänä noin x astetta"
-  -# "Päivän ylin lämpötila on viikonpäivänä x...y astetta"
+  -# "Päivän ylin lämpötila on [viikonpäivänä] noin x astetta"
+  -# "Päivän ylin lämpötila on [viikonpäivänä] x...y astetta"
 
 Ruotsiksi
 
-  -# "Dagens högsta temperatur är på veckodag cirka x grader"
-  -# "Dagens högsta temperatur är på veckodag x...y grader"
+  -# "Dagens högsta temperatur är [på veckodag] cirka x grader"
+  -# "Dagens högsta temperatur är [på veckodag] x...y grader"
 
 Englanniksi
 
-  -# "The maximum day temperature on Weekday is about x degrees"
-  -# "The maximum day temperature on Weekday is x...y degrees"
+  -# "The maximum day temperature [on Weekday] is about x degrees"
+  -# "The maximum day temperature [on Weekday] is x...y degrees"
 
 Sivulauseessa jatketaan tarvittaessa
 
-  -# ", seuraavana päivänä huomattavasti korkeampi"
-  -# ", seuraavana päivänä korkeampi"
-  -# ", seuraavana päivänä hieman korkeampi"
-  -# ", seuraavana päivänä suunnilleen sama"
-  -# ", seuraavana päivänä hieman alempi"
-  -# ", seuraavana päivänä alempi"
-  -# ", seuraavana päivänä huomattavasti alempi"
-
-tai 
-
-  -# ", viikonpäivänä huomattavasti korkeampi"
-  -# ", viikonpäivänä korkeampi"
-  -# ", viikonpäivänä hieman korkeampi"
-  -# ", viikonpäivänä suunnilleen sama"
-  -# ", viikonpäivänä hieman alempi"
-  -# ", viikonpäivänä alempi"
-  -# ", viikonpäivänä huomattavasti alempi"
-
-jos muuttujan
-\code
-textgen::[kappale]::story::temperature_dailymax::prefer_dayname = [bool]
-\endcode
-arvo on true.
+  -# ", [seuraavana päivänä] huomattavasti korkeampi"
+  -# ", [seuraavana päivänä] korkeampi"
+  -# ", [seuraavana päivänä] hieman korkeampi"
+  -# ", [seuraavana päivänä] suunnilleen sama"
+  -# ", [seuraavana päivänä] hieman alempi"
+  -# ", [seuraavana päivänä] alempi"
+  -# ", [seuraavana päivänä] huomattavasti alempi"
 
 Ruotsiksi lauseet ovat
 
-  -# ", på följande dag betydligt högre."
-  -# ", på följande dag högre."
-  -# ", på följande dag något högre."
-  -# ", på följande dag ungefär densamma."
-  -# ", på följande dag något lägre."
-  -# ", på följande dag lägre."
-  -# ", på följande dag betydligt lägre."
-
-tai alkuosana on "på veckodag"
+  -# ", [på följande dag] betydligt högre."
+  -# ", [på följande dag] högre."
+  -# ", [på följande dag] något högre."
+  -# ", [på följande dag] ungefär densamma."
+  -# ", [på följande dag] något lägre."
+  -# ", [på följande dag] lägre."
+  -# ", [på följande dag] betydligt lägre."
 
 Englanniksi lauseet ovat
 
-  -# ", the following day significantly higher."
-  -# ", the following day higher."
-  -# ", the following day somewhat higher."
-  -# ", the following day about the same."
-  -# ", the following day somewhat lower."
-  -# ", the following day lower."
-  -# ", the following day significantly lower."
+  -# ", [the following day] significantly higher."
+  -# ", [the following day] higher."
+  -# ", [the following day] somewhat higher."
+  -# ", [the following day] about the same."
+  -# ", [the following day] somewhat lower."
+  -# ", [the following day] lower."
+  -# ", [the following day] significantly lower."
+
+Aikafraasit ovat tyyppejä \ref sec_periodifraasit_until_tonight ja
+\ref sec_periodifraasit_next_day. Niihin liittyviä asetuksia
+kontrolloidaan muuttujilla
+\code
+textgen::[kappale]::story::temperature_dailymax::day1::*
+textgen::[kappale]::story::temperature_dailymax::day2::*
+\endcode
+Tyypillisiä asetuksia ovat esimerkiksi
+\code
+textgen::[kappale]::story::temperature_dailymax::day2::prefer_phrase_followingday = true
+\endcode
 
 Komparatiivin valinta perustuu muuttujiin
 \code
@@ -139,10 +133,8 @@ Tarvittavat fraasit ovat
 
  - "päivän ylin lämpötila"
  - "on"
- - "N-na", N=1-7
  - "noin"
  - "astetta"
- - "seuraavana päivänä"
  - "huomattavasti korkeampi"
  - "korkeampi"
  - "hieman korkeampi"
@@ -150,5 +142,8 @@ Tarvittavat fraasit ovat
  - "hieman alempi"
  - "alempi"
  - "huomattavasti alempi"
+
+plus tarvittavat periodifraasit \ref sec_periodifraasit_until_tonight ja
+\ref sec_periodifraasit_next_day sivuilta.
 
 */

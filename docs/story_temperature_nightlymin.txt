@@ -4,66 +4,60 @@
 
 \c temperature_nightlymin tarina on muotoa
 
-  -# "yön alin lämpötila on viikonpäivän vastaisena yönä noin x astetta"
-  -# "yön alin lämpötila on viikonpäivän vastaisena yönä x...y astetta"
+  -# "yön alin lämpötila on [viikonpäivän vastaisena yönä] noin x astetta"
+  -# "yön alin lämpötila on [viikonpäivän vastaisena yönä] x...y astetta"
 
 Ruotsiksi
 
-  -# "Dagens högsta temperatur är på natten mot veckodag cirka x grader"
-  -# "Dagens högsta temperatur är på natten mot veckodag x...y grader"
+  -# "Dagens högsta temperatur är [på natten mot veckodag] cirka x grader"
+  -# "Dagens högsta temperatur är [på natten mot veckodag] x...y grader"
 
 Englanniksi
 
-  -# "The maximum day temperature on Weekday night is about x degrees"
-  -# "The maximum day temperature on Weekday night is x...y degrees"
+  -# "The maximum day temperature [on Weekday night] is about x degrees"
+  -# "The maximum day temperature [on Weekday night] is x...y degrees"
 
 Sivulauseessa jatketaan tarvittaessa
 
-  -# ", seuraavana yönä huomattavasti korkeampi"
-  -# ", seuraavana yönä korkeampi"
-  -# ", seuraavana yönä hieman korkeampi"
-  -# ", seuraavana yönä suunnilleen sama"
-  -# ", seuraavana yönä hieman alempi"
-  -# ", seuraavana yönä alempi"
-  -# ", seuraavana yönä huomattavasti alempi"
-
-tai 
-
-  -# ", viikonpäivän vastaisena yönä huomattavasti korkeampi"
-  -# ", viikonpäivän vastaisena yönä korkeampi"
-  -# ", viikonpäivän vastaisena yönä hieman korkeampi"
-  -# ", viikonpäivän vastaisena yönä suunnilleen sama"
-  -# ", viikonpäivän vastaisena yönä hieman alempi"
-  -# ", viikonpäivän vastaisena yönä alempi"
-  -# ", viikonpäivän vastaisena yönä huomattavasti alempi"
-
-jos muuttujan
-\code
-textgen::[kappale]::story::temperature_nightlymin::prefer_dayname = [bool]
-\endcode
-arvo on true.
+  -# ", [seuraavana yönä] huomattavasti korkeampi"
+  -# ", [seuraavana yönä] korkeampi"
+  -# ", [seuraavana yönä] hieman korkeampi"
+  -# ", [seuraavana yönä] suunnilleen sama"
+  -# ", [seuraavana yönä] hieman alempi"
+  -# ", [seuraavana yönä] alempi"
+  -# ", [seuraavana yönä] huomattavasti alempi"
 
 Ruotsiksi lauseet ovat
 
-  -# ", på följande natt betydligt högre."
-  -# ", på följande natt högre."
-  -# ", på följande natt något högre."
-  -# ", på följande natt ungefär densamma."
-  -# ", på följande natt något lägre."
-  -# ", på följande natt lägre."
-  -# ", på följande natt betydligt lägre."
-
-tai alkuosana on "på veckodag"
+  -# ", [på följande natt] betydligt högre."
+  -# ", [på följande natt] högre."
+  -# ", [på följande natt] något högre."
+  -# ", [på följande natt] ungefär densamma."
+  -# ", [på följande natt] något lägre."
+  -# ", [på följande natt] lägre."
+  -# ", [på följande natt] betydligt lägre."
 
 Englanniksi lauseet ovat
 
-  -# ", the following night significantly higher."
-  -# ", the following night higher."
-  -# ", the following night somewhat higher."
-  -# ", the following night about the same."
-  -# ", the following night somewhat lower."
-  -# ", the following night lower."
-  -# ", the following night significantly lower."
+  -# ", [the following night] significantly higher."
+  -# ", [the following night] higher."
+  -# ", [the following night] somewhat higher."
+  -# ", [the following night] about the same."
+  -# ", [the following night] somewhat lower."
+  -# ", [the following night] lower."
+  -# ", [the following night] significantly lower."
+
+Aikafraasit ovat tyyppejä \ref sec_periodifraasit_next_night.
+Niihin liittyviä asetuksia kontrolloidaan muuttujilla
+\code
+textgen::[kappale]::story::temperature_nightlymin::night1::*
+textgen::[kappale]::story::temperature_nightlymin::night2::*
+\endcode
+Tyypillisiä asetuksia ovat esimerkiksi
+\code
+textgen::[kappale]::story::temperature_nightlymin::night1::prefer_phrase_tonight = true
+textgen::[kappale]::story::temperature_nightlymin::night2::prefer_phrase_followingnight = true
+\endcode
 
 Komparatiivin valinta perustuu muuttujiin
 \code
@@ -139,10 +133,8 @@ Tarvittavat fraasit ovat
 
  - "yön alin lämpötila"
  - "on"
- - "N-na", N=1-7
  - "noin"
  - "astetta"
- - "seuraavana yönä"
  - "huomattavasti korkeampi"
  - "korkeampi"
  - "hieman korkeampi"
@@ -150,5 +142,7 @@ Tarvittavat fraasit ovat
  - "hieman alempi"
  - "alempi"
  - "huomattavasti alempi"
+
+plus tarvittavat periodifraasit \ref sec_periodifraasit_next_night.
 
 */

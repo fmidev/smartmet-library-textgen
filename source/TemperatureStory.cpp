@@ -15,6 +15,7 @@
 #include "MessageLogger.h"
 #include "NullPeriodGenerator.h"
 #include "Paragraph.h"
+#include "PeriodPhraseFactory.h"
 #include "Sentence.h"
 #include "Settings.h"
 #include "TextGenError.h"
@@ -386,9 +387,6 @@ namespace TextGen
 	const int mininterval = optional_int(itsVar+"::mininterval",2);
 	const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
 
-	const bool prefer_dayname = optional_bool(itsVar+"::prefer_dayname",false);
-
-
 	const int days = countPeriods(itsPeriod,
 								  starthour,
 								  endhour,
@@ -446,7 +444,10 @@ namespace TextGen
 	Sentence sentence;
 	sentence << "päivän ylin lämpötila"
 			 << "on"
-			 << WeekdayTools::on_weekday(period.localStartTime())
+			 << PeriodPhraseFactory::create("until_tonight",
+											itsVar+"::day1",
+											itsForecastTime,
+											period)
 			 << temperature_phrase(min1,mean1,max1,mininterval,interval_zero);
 
 	// Remaining days
@@ -515,10 +516,10 @@ namespace TextGen
 		
 		if(p==2)
 		  {
-			if(prefer_dayname)
-			  sentence << WeekdayTools::on_weekday(period.localStartTime());
-			else
-			  sentence << "seuraavana päivänä";
+			sentence << PeriodPhraseFactory::create("next_day",
+													itsVar+"::day2",
+													itsForecastTime,
+													period);
 			sentence << temperature_comparison(mean1,mean2,itsVar);
 		  }
 		else
@@ -563,9 +564,6 @@ namespace TextGen
 
 	const int mininterval = optional_int(itsVar+"::mininterval",2);
 	const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
-
-	const bool prefer_dayname = optional_bool(itsVar+"::prefer_dayname",false);
-
 
 	const int nights = countPeriods(itsPeriod,
 									starthour,
@@ -623,7 +621,10 @@ namespace TextGen
 	Sentence sentence;
 	sentence << "yön alin lämpötila"
 			 << "on"
-			 << WeekdayTools::night_against_weekday(period.localEndTime())
+			 << PeriodPhraseFactory::create("next_night",
+											itsVar+"::night1",
+											itsForecastTime,
+											period)
 			 << temperature_phrase(min1,mean1,max1,mininterval,interval_zero);
 
 	// Remaining nights
@@ -691,10 +692,10 @@ namespace TextGen
 		
 		if(p==2)
 		  {
-			if(prefer_dayname)
-			  sentence << WeekdayTools::night_against_weekday(period.localEndTime());
-			else
-			  sentence << "seuraavana yönä";
+			sentence << PeriodPhraseFactory::create("next_night",
+													itsVar+"::night2",
+													itsForecastTime,
+													period);
 			sentence << temperature_comparison(mean1,mean2,itsVar);
 		  }
 		else
