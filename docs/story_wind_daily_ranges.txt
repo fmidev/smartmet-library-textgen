@@ -15,8 +15,10 @@ Tarinan yleismuoto on
  -# [Viikonp‰iv‰n‰] [suuntatuulta] X...Y m/s
  -# [Viikonp‰iv‰n‰] [suuntatuulta] noin X m/s
 
-jota toistetaan kullekin p‰iv‰lle eteenp‰in. Tuulet kerrotaan vain
-p‰iv‰jaksoille, jota konfiguroidaan muuttujilla.
+jota toistetaan kullekin p‰iv‰lle eteenp‰in. Toiston v‰ltt‰miseksi
+osia tai p‰ivi‰ saatetaan yhdistell‰.
+
+Tuulet kerrotaan vain p‰iv‰jaksoille, jota konfiguroidaan muuttujilla.
 \code
 textgen::[kappale]::story::wind_daily_ranges::day::starthour = [0-23] (6)
 textgen::[kappale]::story::wind_daily_ranges::day::maxstarthour = [0-23] (starthour)
@@ -53,6 +55,16 @@ textgen::[kappale]::story::wind_daily_ranges::next_day::phrases
 
 Nopeuden vaihteluv‰li saadaan laskemalla aikakeskiarvojen minimi ja maksimi.
 
+Kaksi tuulennopeutta katsotaan samoiksi, jos minimit ja maksimit poikkeavat
+enint‰‰n alla olevien lukujen verran.
+\code
+textgen::[kappale]::story::wind_daily_ranges::same::minimum = [0-] (1)
+textgen::[kappale]::story::wind_daily_ranges::same::maximum = [0-] (1)
+\endcode
+Useampi nopeus katsotaan samoiksi, jos kaikki parit katsotaan samoiksi.
+Yhteinen nopeusintervalli saadaan poimimalla intervalleista minimi
+ja maksimi uusiksi intervallirajoiksi.
+
 \section section_wind_daily_ranges_winddirection Tuulen suunta
 
 Kunkin aikav‰lin tuulen suunta saadaan laskemalla suunnan keskiarvo
@@ -73,6 +85,10 @@ Suunnan fraasi valitaan seuraavasti
   -# Jos laatu >= \c variable, "N-puoleista tuulta"
   -# Muutoin "suunnaltaan vaihtelevaa tuulta"
 
+Kaksi tuulensuuntaa katsotaan samoiksi, jos ilmansuunta on sama
+v‰li-ilmansuunnan tarkkuudella, ja kummankin suunnan tarkkuus on v‰hint‰‰n
+\c variable. Yhteiseksi suunnaksi valitaan heikompitarkkuuksinen suunta.
+
 \section section_wind_daily_ranges_fakes Tulosten testaaminen
 
 Kullekin p‰iv‰jaksolle lasketaan kunkin pisteen ajallisista keskiarvoista
@@ -85,6 +101,24 @@ textgen::[kappale]::story::wind_daily_ranges::fake::day1::maximum = [result]
 textgen::[kappale]::story::wind_daily_ranges::fake::day2::mean = [result]
 ...
 \endcode
+
+\section section_wind_daily_ranges_algoritmi Algoritmit
+
+-# Lasketaan nopeudet Wi ja suunnat Di kaikille p‰iville.
+-# Jos p‰ivi‰ on 1
+  -# [T‰n‰‰n] [koillistuulta] [X...Y m/s].
+-# Jos p‰ivi‰ on 2
+  -# Jos W1<>W2 ja D1<>D2,
+     "[T‰n‰‰n] [suuntatuulta] [X...Y m/s], [huomenna] [suuntatuulta] [X...Y m/s]."
+  -# Jos W1<>W2 ja D1==D2,
+     "[T‰n‰‰n] [suuntatuulta] [X...Y m/s], [huomenna] [X...Y m/s]."
+  -# Jos W1==W3 ja D1<>D2,
+     "[T‰n‰‰n] [suuntatuulta] [X...Y m/s], [huomenna] [suuntatuulta]."
+  -# Jos W1==W2 ja D1==D2 (aina),
+     "[T‰n‰‰n ja huomenna] [koillistuulta] [X...Y m/s]."
+
+Ensimm‰isen p‰iv‰n tyyppi on \ref sec_periodifraasit_today, seuraavien
+p‰ivien tyyppi on \ref sec_periodifraasit_next_day.
 
 \section section_wind_daily_ranges_fraasit Tarvittavat fraasit
 
