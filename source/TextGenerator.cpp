@@ -14,14 +14,17 @@
 
 #include "TextGenerator.h"
 #include "AnalysisSources.h"
+#include "CoastMaskSource.h"
 #include "Document.h"
 #include "Header.h"
 #include "HeaderFactory.h"
 #include "HourPeriodGenerator.h"
+#include "InlandMaskSource.h"
 #include "LandMaskSource.h"
 #include "LatestWeatherSource.h"
 #include "MaskSource.h"
 #include "MessageLogger.h"
+#include "NullMaskSource.h"
 #include "Paragraph.h"
 #include "RegularMaskSource.h"
 #include "SectionTag.h"
@@ -121,14 +124,35 @@ namespace TextGen
   TextGenerator::Pimple::Pimple()
   {
 	shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
-	shared_ptr<MaskSource> masksource(new RegularMaskSource());
-									  
-	const string land_name = Settings::require_string("textgen::mask::land");
-	shared_ptr<MaskSource> landsource(new LandMaskSource(land_name));
-	
 	itsSources.setWeatherSource(weathersource);
+
+	typedef shared_ptr<MaskSource> mask_source;
+
+	mask_source masksource(new RegularMaskSource());
 	itsSources.setMaskSource(masksource);
-	itsSources.setLandMaskSource(landsource);
+
+	// land mask is optional - by default the area is land so the source can be shared
+	const string land_name = Settings::optional_string("textgen::mask::land","");
+	if(land_name.empty())
+	  itsSources.setLandMaskSource(masksource);
+	else
+	  itsSources.setLandMaskSource(mask_source(new LandMaskSource(WeatherArea(land_name))));
+
+	// coast mask is optional - by default there is no coast
+	const string coast_name = Settings::optional_string("textgen::mask::coast","");
+	if(coast_name.empty())
+	  {
+		mask_source nullsource(new NullMaskSource);
+		itsSources.setCoastMaskSource(nullsource);
+		itsSources.setInlandMaskSource(nullsource);
+	  }
+	else
+	  {
+		const WeatherArea coast(coast_name);
+		itsSources.setCoastMaskSource(mask_source(new CoastMaskSource(coast)));
+		itsSources.setInlandMaskSource(mask_source(new InlandMaskSource(coast)));
+	  }
+
 
   }
 
