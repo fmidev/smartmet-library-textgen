@@ -7,6 +7,7 @@
 
 #include "TextFormatterFactory.h"
 #include "PlainTextFormatter.h"
+#include "PlainLinesTextFormatter.h"
 #include "HtmlTextFormatter.h"
 #include "TextGenError.h"
 
@@ -35,6 +36,8 @@ namespace TextGen
 	{
 	  if(theType == "plain")
 		return shared_ptr<TextFormatter>(new PlainTextFormatter());
+	  if(theType == "plainlines")
+		return shared_ptr<TextFormatter>(new PlainLinesTextFormatter());
 	  if(theType == "html")
 		return shared_ptr<TextFormatter>(new HtmlTextFormatter());
 	  throw TextGenError("Error: Unknown text formatter type "+theType);
