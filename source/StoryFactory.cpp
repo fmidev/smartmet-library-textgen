@@ -36,6 +36,12 @@ namespace TextGen
 					 const WeatherArea & theArea,
 					 const string & theName)
 	{
+	  if(theName == "none")
+		{
+		  Paragraph paragraph;
+		  return paragraph;
+		}
+
 	  if(TemperatureStory::hasStory(theName))
 		{
 		  TemperatureStory story(theSources,theArea);
