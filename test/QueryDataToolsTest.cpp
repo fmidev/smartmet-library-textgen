@@ -39,6 +39,34 @@ namespace QueryDataToolsTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test QueryDataTools::lastTime
+   */
+  // ----------------------------------------------------------------------
+
+  void lastTime()
+  {
+	using WeatherAnalysis::QueryDataTools::lastTime;
+
+	NFmiStreamQueryData qd;
+	if(!qd.ReadData("data/skandinavia_pinta.sqd"))
+	  throw runtime_error("Reading data/skandinavia_pinta.sqd failed");
+
+	NFmiFastQueryInfo * qi = qd.QueryInfoIter();
+
+	if(!lastTime(*qi,NFmiTime(1999,1,1)))
+	  TEST_FAILED("Should succeed for 1.1.1999");
+
+	if(!lastTime(*qi,NFmiTime(2003,8,15)))
+	  TEST_FAILED("Should succeed for 15.08.2003");
+
+	if(lastTime(*qi,NFmiTime(2030,1,1)))
+	  TEST_FAILED("Should fail for 1.1.2030");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Test QueryDataTools::findIndices
    */
   // ----------------------------------------------------------------------
@@ -84,6 +112,7 @@ namespace QueryDataToolsTest
 	void test(void)
 	{
 	  TEST(firstTime);
+	  TEST(lastTime);
 	  TEST(findIndices);
 	}
 

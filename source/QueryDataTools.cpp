@@ -58,32 +58,10 @@ namespace WeatherAnalysis
 	{
 	  const unsigned long invalid = static_cast<unsigned long>(-1);
 
-	  theStartIndex = invalid;
-	  theEndIndex = invalid;
-
-	  theQI.FirstTime();
-	  do
-		{
-		  if(theQI.IsValidTime() && theQI.ValidTime()>=theStartTime)
-			{
-			  theStartIndex = theQI.TimeIndex();
-			  break;
-			}
-		}
-	  while(theQI.NextTime());
-
-	  if(theStartIndex == invalid)
-		return false;
-
-	  do
-		{
-		  if(theQI.IsValidTime() && theQI.ValidTime()>theEndTime)
-			{
-			  theEndIndex = theQI.TimeIndex();
-			  break;
-			}
-		}
-	  while(theQI.NextTime());
+	  firstTime(theQI,theStartTime);
+	  theStartIndex = theQI.TimeIndex();
+	  lastTime(theQI,theEndTime);
+	  theEndIndex = theQI.TimeIndex();
 
 	  return (theStartIndex != invalid && theEndIndex != invalid);
 
@@ -109,13 +87,67 @@ namespace WeatherAnalysis
 				   const NFmiTime & theTime)
 	{
 	  theQI.FirstTime();
-	  do
+	  unsigned long idx1 = theQI.TimeIndex();
+	  theQI.LastTime();
+	  unsigned long idx2 = theQI.TimeIndex();
+
+	  while(idx1 != idx2)
 		{
-		  if(theQI.IsValidTime() && theQI.ValidTime()>=theTime)
-			return true;
+		  unsigned long idx = (idx1+idx2)/2;
+		  if(!theQI.TimeIndex(idx))
+			return false;
+		  if(!theQI.IsValidTime())
+			return false;
+		  if(theQI.ValidTime()>=theTime)
+			idx2 = idx;
+		  else
+			idx1 = idx+1;
 		}
-	  while(theQI.NextTime());
-	  return false;
+	  theQI.TimeIndex(idx1);
+	  return(theQI.IsValidTime() && theQI.ValidTime()>=theTime);
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Set the last integration time
+	 *
+	 * This effectively sets active the last time greater than
+	 * to the given time. If there is no such time, false is returned.
+	 *
+	 * This is needed because newbase does not provide an equivalent
+	 * interface.
+	 *
+	 * \param theQI The query info
+	 * \param theTime The time to set
+	 * \return True if the time was set succesfully
+	 */
+	// ----------------------------------------------------------------------
+	
+	bool lastTime(NFmiFastQueryInfo & theQI,
+				  const NFmiTime & theTime)
+	{
+	  theQI.FirstTime();
+	  unsigned long idx1 = theQI.TimeIndex();
+	  theQI.LastTime();
+	  unsigned long idx2 = theQI.TimeIndex();
+
+	  NFmiTime now;
+	  while(idx1 != idx2)
+		{
+		  unsigned long idx = (idx1+idx2)/2;
+		  if(!theQI.TimeIndex(idx))
+			return false;
+		  now = theQI.ValidTime();
+
+		  if(!theQI.IsValidTime())
+			return false;
+		  if(theQI.ValidTime()>theTime)
+			idx2 = idx;
+		  else
+			idx1 = idx+1;
+		}
+	  theQI.TimeIndex(idx1);
+	  return(theQI.IsValidTime() && theQI.ValidTime()>=theTime);
 	}
 	
   } // namespace QueryDataTools
