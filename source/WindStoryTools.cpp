@@ -6,6 +6,7 @@
 // ======================================================================
 
 #include "WindStoryTools.h"
+#include "Integer.h"
 #include "IntegerRange.h"
 #include "Sentence.h"
 #include "Settings.h"
@@ -27,6 +28,60 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Return smaller wind speed result
+	 *
+	 * \param theSpeed1 The first wind speed
+	 * \param theSpeed2 The second wind speed
+	 * \return The smaller wind speed
+	 */
+	// ----------------------------------------------------------------------
+
+	WeatherResult minspeed(const WeatherResult & theSpeed1,
+						   const WeatherResult & theSpeed2)
+	{
+	  WeatherResult result(min(theSpeed1.value(),theSpeed2.value()),
+						   max(theSpeed1.error(),theSpeed2.error()));
+	  return result;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return greater wind speed result
+	 *
+	 * \param theSpeed1 The first wind speed
+	 * \param theSpeed2 The second wind speed
+	 * \return The greater wind speed
+	 */
+	// ----------------------------------------------------------------------
+
+	WeatherResult maxspeed(const WeatherResult & theSpeed1,
+						   const WeatherResult & theSpeed2)
+	{
+	  WeatherResult result(max(theSpeed1.value(),theSpeed2.value()),
+						   max(theSpeed1.error(),theSpeed2.error()));
+	  return result;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return mean wind speed result
+	 *
+	 * \param theSpeed1 The first wind speed
+	 * \param theSpeed2 The second wind speed
+	 * \return The mean wind speed
+	 */
+	// ----------------------------------------------------------------------
+
+	WeatherResult meanspeed(const WeatherResult & theSpeed1,
+							const WeatherResult & theSpeed2)
+	{
+	  WeatherResult result((theSpeed1.value()+theSpeed2.value())/2,
+						   max(theSpeed1.error(),theSpeed2.error()));
+	  return result;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Test if two wind speed ranges are close enough to be the same
 	 *
 	 * \param theMinSpeed1 The first range minimum
@@ -38,10 +93,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	bool similar_speed_range(int theMinSpeed1,
-							 int theMaxSpeed1,
-							 int theMinSpeed2,
-							 int theMaxSpeed2,
+	bool similar_speed_range(const WeatherResult & theMinSpeed1,
+							 const WeatherResult & theMaxSpeed1,
+							 const WeatherResult & theMinSpeed2,
+							 const WeatherResult & theMaxSpeed2,
 							 const string & theVariable)
 	{
 	  using Settings::optional_int;
@@ -49,8 +104,13 @@ namespace TextGen
 	  const int same_minimum = optional_int(theVariable+"::same::minimum",0);
 	  const int same_maximum = optional_int(theVariable+"::same::maximum",0);
 
-	  return(abs(theMinSpeed1-theMinSpeed2) <= same_minimum &&
-			 abs(theMaxSpeed1-theMaxSpeed2) <= same_maximum);
+	  const int minspeed1 = FmiRound(theMinSpeed1.value());
+	  const int maxspeed1 = FmiRound(theMaxSpeed1.value());
+	  const int minspeed2 = FmiRound(theMinSpeed2.value());
+	  const int maxspeed2 = FmiRound(theMaxSpeed2.value());
+
+	  return(abs(minspeed1-minspeed2) <= same_minimum &&
+			 abs(maxspeed1-maxspeed2) <= same_maximum);
 	  
 	}
 
@@ -130,6 +190,7 @@ namespace TextGen
 	 *
 	 * \param theMinSpeed The minimum speed
 	 * \param theMaxSpeed The maximum speed
+	 * \param theMeanSpeed The mean speed
 	 * \param theVariable The control variable
 	 * \return The sentence
 	 */
@@ -137,14 +198,26 @@ namespace TextGen
 	
 	Sentence speed_range_sentence(const WeatherResult & theMinSpeed,
 								  const WeatherResult & theMaxSpeed,
+								  const WeatherResult & theMeanSpeed,
 								  const string & theVariable)
 	{
+	  using Settings::optional_int;
+
 	  Sentence sentence;
+
+	  const int mininterval = optional_int(theVariable+"::mininterval",0);
 	  
-	  IntegerRange range(FmiRound(theMinSpeed.value()),
-						 FmiRound(theMaxSpeed.value()));
-	  
-	  sentence << range << *UnitFactory::create(MetersPerSecond);
+	  if(theMaxSpeed.value()-theMinSpeed.value() <= mininterval)
+		{
+		  sentence << "noin"
+				   << Integer(FmiRound(theMeanSpeed.value()));
+		}
+	  else
+		{
+		  sentence << IntegerRange(FmiRound(theMinSpeed.value()),
+								   FmiRound(theMaxSpeed.value()));
+		}
+	  sentence << *UnitFactory::create(MetersPerSecond);
 	  
 	  return sentence;
 	  
@@ -158,6 +231,7 @@ namespace TextGen
 	 *
 	 * \param theMinSpeed The minimum speed
 	 * \param theMaxSpeed The maximum speed
+	 * \param theMaxSpeed The mean speed
 	 * \param theDirection The direction
 	 * \param theVariable The control variable
 	 * \return The sentence
@@ -166,13 +240,18 @@ namespace TextGen
 	
 	Sentence directed_speed_sentence(const WeatherResult & theMinSpeed,
 									 const WeatherResult & theMaxSpeed,
+									 const WeatherResult & theMeanSpeed,
 									 const WeatherResult & theDirection,
 									 const string & theVariable)
 	{
 	  Sentence sentence;
 
-	  sentence << direction_sentence(theDirection,theVariable)
-			   << speed_range_sentence(theMinSpeed,theMaxSpeed,theVariable);
+	  sentence << direction_sentence(theDirection,
+									 theVariable)
+			   << speed_range_sentence(theMinSpeed,
+									   theMaxSpeed,
+									   theMeanSpeed,
+									   theVariable);
 	  
 	  return sentence;
 	  
