@@ -2142,10 +2142,11 @@ aikafraasi voi myˆs olla tyhj‰, jolloin lause viittaa l‰hinn‰
 kyseiseen p‰iv‰‰n tai suurimpaan osaa siit‰.
 
 \htmlonly
-[Aamulla] [paikoin] [sadetta]
-[Aamulla] [paikoin] [sadetta], [aamulla] [enimm‰kseen selke‰‰] ja poutaa
-[Aamulla] [paikoin] [sadetta], [aamulla] poutaa
-[Enimm‰kseen selke‰‰], [aamulla] [paikoin] [sadetta]
+<table cellpadding="1" cellspacing="0" border="1">
+<tr><td>1.</td><td>[Aamulla] [paikoin] [sadetta]</td></tr>
+<tr><td>2.</td><td>[Aamulla] [paikoin] [sadetta], [aamulla] [enimm‰kseen selke‰‰] ja poutaa</td></tr>
+<tr><td>3.</td><td>[Aamulla] [paikoin] [sadetta], [aamulla] poutaa</td></tr>
+<tr><td>4.</td><td>[Enimm‰kseen selke‰‰], [aamulla] [paikoin] [sadetta]</td></tr>
 </table>
 \endhtmlonly
 
