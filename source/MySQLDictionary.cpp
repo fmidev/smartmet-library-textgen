@@ -160,7 +160,7 @@ namespace TextGen
 						   0,NULL,0))
 	  throw TextGenError("Error: Failed to connect to "+database+" database");
 
-	MYSQL_RES * result;
+	MYSQL_RES * result=0;
 	MYSQL_ROW row;
 	try
 	  {
@@ -172,7 +172,7 @@ namespace TextGen
 		mysql_query(&mysql,query.c_str());
 
 		if(mysql_errno(&mysql))
-		  throw TextGenError("Error: Error occurred while querying languages table");
+			throw TextGenError(std::string("Error: Error occurred while querying languages table:\n") + query);
 
 		result = mysql_store_result(&mysql);
 		if(result==NULL)
