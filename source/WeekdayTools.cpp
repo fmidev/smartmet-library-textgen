@@ -36,6 +36,22 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Return the "N-na kello" description based on the given time
+	 *
+	 * \param theTime The time of the day
+	 * \return The "N-na kello" phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	string on_weekday_time(const NFmiTime & theTime)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-na kello");
+	  return out;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Return the "N-vastaisena yönä" phrase
 	 *
 	 * \param theTime The time
