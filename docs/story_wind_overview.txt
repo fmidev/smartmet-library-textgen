@@ -211,6 +211,18 @@ ajan ja paikan yli. Suunnan laatuindeksin mukaisesti suunnan
 tarkkuutta heikennetään ensin "suunnan puoleiseksi tuuleksi", ja sen
 jälkeen "suunnaltaan vaihtelevaksi tuuleksi".
 
+Vaadittua laatua kontrolloidaan muuttujilla
+\code
+textgen::[kappale]::story::wind_overview::direction::accurate (= 0.8)
+textgen::[kappale]::story::wind_overview::direction::variable (= 0.4)
+\endcode
+Oletusarvot on annettu suluissa.
+
+Suunnan fraasi valitaan seuraavasti
+
+  -# Jos laatu >= \c accurate, "N-tuulta"
+  -# Jos laatu >= \c variable, "N-puoleista tuulta"
+  -# Muutoin "suunnaltaan vaihtelevaa tuulta"
 
 \subsection subsection_wind_overview_algorithm_part1 Ensimmäinen päivä
 
