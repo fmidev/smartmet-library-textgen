@@ -1,8 +1,8 @@
--- MySQL dump 8.22
+-- MySQL dump 9.07
 --
--- Host: localhost    Database: textgen
+-- Host: mimir    Database: textgen
 ---------------------------------------------------------
--- Server version	3.23.56
+-- Server version	3.23.56-log
 
 --
 -- Table structure for table 'languages'
@@ -20,7 +20,6 @@ CREATE TABLE languages (
 --
 -- Dumping data for table 'languages'
 --
-
 
 INSERT INTO languages VALUES ('fi','translation_fi',1,'Finnish',1);
 INSERT INTO languages VALUES ('en','translation_en',1,'English',1);
@@ -47,7 +46,6 @@ CREATE TABLE translation_en (
 --
 -- Dumping data for table 'translation_en'
 --
-
 
 INSERT INTO translation_en VALUES ('huomattavasti lämpimämpi','significantly warmer',20030525190018,'mheiskan');
 INSERT INTO translation_en VALUES ('lämpimämpi','warmer',20030525190008,'mheiskan');
@@ -408,6 +406,7 @@ INSERT INTO translation_en VALUES ('pohjanmaa:lle','for Ostrobothnia',2003061809
 INSERT INTO translation_en VALUES ('suomi:lle','for Finland',20030618101519,'mheiskan');
 INSERT INTO translation_en VALUES ('ahvenanmaa:lle','for Åland',20030619130810,'mheiskan');
 INSERT INTO translation_en VALUES ('huomisesta alkaen','starting tomorrow',20030629012915,'mheiskan');
+INSERT INTO translation_en VALUES ('ja','and',20030715083549,'mheiskan');
 
 --
 -- Table structure for table 'translation_fi'
@@ -424,7 +423,6 @@ CREATE TABLE translation_fi (
 --
 -- Dumping data for table 'translation_fi'
 --
-
 
 INSERT INTO translation_fi VALUES ('lämpötila','lämpötila',20030616145653,'mheiskan');
 INSERT INTO translation_fi VALUES ('huomattavasti lämpimämpi','huomattavasti lämpimämpi',20030525185918,'mheiskan');
@@ -785,6 +783,7 @@ INSERT INTO translation_fi VALUES ('kylmempää','kylmempää',20030616141741,'mheis
 INSERT INTO translation_fi VALUES ('suomi:lle','Suomeen',20030618101451,'mheiskan');
 INSERT INTO translation_fi VALUES ('ahvenanmaa:lle','Ahvenanmaalle',20030619130734,'mheiskan');
 INSERT INTO translation_fi VALUES ('huomisesta alkaen','huomisesta alkaen',20030629012837,'mheiskan');
+INSERT INTO translation_fi VALUES ('ja','ja',20030715083522,'mheiskan');
 
 --
 -- Table structure for table 'translation_sonera'
@@ -801,7 +800,6 @@ CREATE TABLE translation_sonera (
 --
 -- Dumping data for table 'translation_sonera'
 --
-
 
 INSERT INTO translation_sonera VALUES ('1-aamusta','200',20030609184324,'mheiskan');
 INSERT INTO translation_sonera VALUES ('1-aamuun','201',20030609184324,'mheiskan');
@@ -1152,6 +1150,7 @@ INSERT INTO translation_sonera VALUES ('pakkanen heikkenee','545',20030616135443
 INSERT INTO translation_sonera VALUES ('o\'clock','',20030618094022,'mheiskan');
 INSERT INTO translation_sonera VALUES ('pohjanmaa:lle','402',20030618094554,'mheiskan');
 INSERT INTO translation_sonera VALUES ('ahvenanmaa:lle','308',20030619131050,'mheiskan');
+INSERT INTO translation_sonera VALUES ('ja','546',20030715083607,'mheiskan');
 
 --
 -- Table structure for table 'translation_sv'
@@ -1168,7 +1167,6 @@ CREATE TABLE translation_sv (
 --
 -- Dumping data for table 'translation_sv'
 --
-
 
 INSERT INTO translation_sv VALUES ('1-na kello','måndag klockan',20030611143708,'mheiskan');
 INSERT INTO translation_sv VALUES ('huomattavasti lämpimämpi','betydligt varmare',20030525185952,'mheiskan');
@@ -1529,4 +1527,5 @@ INSERT INTO translation_sv VALUES ('pohjanmaa:lle','för Österbotten',20030618094
 INSERT INTO translation_sv VALUES ('suomi:lle','för Finland',20030618101506,'mheiskan');
 INSERT INTO translation_sv VALUES ('ahvenanmaa:lle','för Åland',20030619130748,'mheiskan');
 INSERT INTO translation_sv VALUES ('huomisesta alkaen','från i morgon',20030629012854,'mheiskan');
+INSERT INTO translation_sv VALUES ('ja','och',20030715083534,'mheiskan');
 
