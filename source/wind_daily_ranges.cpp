@@ -57,8 +57,16 @@ namespace TextGen
 
 	// All day periods
 
-	const HourPeriodGenerator periodgenerator(itsPeriod,itsVar);
+	const HourPeriodGenerator periodgenerator(itsPeriod,itsVar+"::day");
 	const int ndays = periodgenerator.size();
+
+	log << "Period covers " << ndays << " days" << endl;
+
+	if(ndays<=0)
+	  {
+		log << paragraph;
+		return paragraph;
+	  }
 
 	// Calculate wind speeds for max 3 days
 
@@ -69,7 +77,7 @@ namespace TextGen
 	vector<WeatherResult> directions;
 	vector<WindDirectionAccuracy> accuracies;
 
-	for(int day=1; day<min(ndays,3); day++)
+	for(int day=1; day<=min(ndays,3); day++)
 	  {
 		const WeatherPeriod period(periodgenerator.period(day));
 
@@ -185,6 +193,7 @@ namespace TextGen
 													  meanspeeds[0],
 													  directions[0],
 													  itsVar)
+						   << Delimiter(",")
 						   << PeriodPhraseFactory::create("next_day",
 														  itsVar,
 														  itsForecastTime,
@@ -252,7 +261,7 @@ namespace TextGen
 							   Mean,
 							   Mean,
 							   itsArea,
-							   HourPeriodGenerator(days13,itsVar));
+							   HourPeriodGenerator(days13,itsVar+"::day"));
 
 		  const WeatherResult direction12 =
 			forecaster.analyze(itsVar+"::fake::speed::days1-2::mean",
@@ -262,7 +271,7 @@ namespace TextGen
 							   Mean,
 							   Mean,
 							   itsArea,
-							   HourPeriodGenerator(days12,itsVar));
+							   HourPeriodGenerator(days12,itsVar+"::day"));
 
 		  const WeatherResult direction23 =
 			forecaster.analyze(itsVar+"::fake::speed::days2-3::mean",
@@ -272,7 +281,7 @@ namespace TextGen
 							   Mean,
 							   Mean,
 							   itsArea,
-							   HourPeriodGenerator(days23,itsVar));
+							   HourPeriodGenerator(days23,itsVar+"::day"));
 
 		  const WindDirectionAccuracy accuracy13 = direction_accuracy(direction13.error(),itsVar);
 		  const WindDirectionAccuracy accuracy12 = direction_accuracy(direction12.error(),itsVar);
