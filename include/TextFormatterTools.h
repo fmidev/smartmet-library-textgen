@@ -40,11 +40,16 @@ namespace TextGen
 	  std::string ret, tmp;
 	  for( ; it!=end; ++it)
 		{
+		  bool isdelim = (*it)->isDelimiter();
+
 		  tmp = theFormatter.format(**it);	// iterator -> shared_ptr -> object
-		  if(tmp.empty()) continue;
-		  if(!ret.empty()) ret += thePrefix;
+		  if(tmp.empty())
+			continue;
+		  if(!ret.empty() && !isdelim)
+			ret += thePrefix;
 		  ret += tmp;
-		  ret += theSuffix;
+		  if(!isdelim)
+			ret += theSuffix;
 		}
 	  return ret;
 	}
