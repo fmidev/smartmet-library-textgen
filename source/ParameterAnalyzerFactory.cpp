@@ -97,6 +97,10 @@ namespace WeatherAnalysis
 		case WaveHeight:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::waveheight",
 														 "SigWaveHeight"));
+
+		case RoadWarning:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::roadwarning",
+														 "RoadWarning"));
 		  
 	  }
 

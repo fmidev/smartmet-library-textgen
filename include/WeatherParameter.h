@@ -28,7 +28,8 @@ namespace WeatherAnalysis
 	  RoadTemperature,
 	  RoadCondition,
 	  WaveHeight,
-	  WaveDirection
+	  WaveDirection,
+	  RoadWarning
 
 	}; // enum WeatherParameter
 
