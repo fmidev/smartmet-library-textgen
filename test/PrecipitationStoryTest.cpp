@@ -262,8 +262,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	string result;
 
-	NFmiSettings::Set("pop_twodays::day::maxstarthour","6");
-	NFmiSettings::Set("pop_twodays::day::minendhour","18");
+	NFmiSettings::Set("pop_twodays::day::starthour","6");
+	NFmiSettings::Set("pop_twodays::day::endhour","18");
 	NFmiSettings::Set("pop_twodays::precision","10");
 	NFmiSettings::Set("pop_twodays::limit","10");
 	NFmiSettings::Set("pop_twodays::comparison::significantly_greater","50");
