@@ -329,6 +329,13 @@ INSERT INTO translation_en VALUES ('iltayöstä alkaen','from the late evening',20
 INSERT INTO translation_en VALUES ('keskiyöstä alkaen','from midnight',20030609100123,'mheiskan');
 INSERT INTO translation_en VALUES ('prosenttia','percent',20030610080955,'mheiskan');
 INSERT INTO translation_en VALUES ('ajoittain','occasional',20030611115230,'mheiskan');
+INSERT INTO translation_en VALUES ('1-na kello','on Monday',20030611142549,'mheiskan');
+INSERT INTO translation_en VALUES ('2-na kello','on Tuesday',20030611142554,'mheiskan');
+INSERT INTO translation_en VALUES ('3-na kello','on Wednesday',20030611142603,'mheiskan');
+INSERT INTO translation_en VALUES ('4-na kello','on Thursday',20030611142614,'mheiskan');
+INSERT INTO translation_en VALUES ('5-na kello','on Friday',20030611142621,'mheiskan');
+INSERT INTO translation_en VALUES ('6-na kello','on Saturday',20030611142626,'mheiskan');
+INSERT INTO translation_en VALUES ('7-na kello','on Sunday',20030611142632,'mheiskan');
 
 --
 -- Table structure for table 'translation_fi'
@@ -628,6 +635,13 @@ INSERT INTO translation_fi VALUES ('6-suunnasta','lounaasta',20030609115725,'mhe
 INSERT INTO translation_fi VALUES ('7-suunnasta','lännestä',20030609115731,'mheiskan');
 INSERT INTO translation_fi VALUES ('prosenttia','prosenttia',20030610080930,'mheiskan');
 INSERT INTO translation_fi VALUES ('ajoittain','ajoittain',20030611115201,'mheiskan');
+INSERT INTO translation_fi VALUES ('1-na kello','maanantaina kello',20030611142255,'mheiskan');
+INSERT INTO translation_fi VALUES ('2-na kello','tiistaina kello',20030611142301,'mheiskan');
+INSERT INTO translation_fi VALUES ('3-na kello','keskiviikkona kello',20030611142308,'mheiskan');
+INSERT INTO translation_fi VALUES ('4-na kello','torstaina kello',20030611142315,'mheiskan');
+INSERT INTO translation_fi VALUES ('5-na kello','perjantaina kello',20030611142327,'mheiskan');
+INSERT INTO translation_fi VALUES ('6-na kello','lauantaina kello',20030611142335,'mheiskan');
+INSERT INTO translation_fi VALUES ('7-na kello','sunnuntaina kello',20030611142353,'mheiskan');
 
 --
 -- Table structure for table 'translation_sonera'
@@ -918,6 +932,13 @@ INSERT INTO translation_sonera VALUES ('yöstä alkaen','469',20030609184324,'mhei
 INSERT INTO translation_sonera VALUES ('öiden alin lämpötila','470',20030609184324,'mheiskan');
 INSERT INTO translation_sonera VALUES ('prosenttia','471',20030610081011,'mheiskan');
 INSERT INTO translation_sonera VALUES ('ajoittain','472',20030611115327,'mheiskan');
+INSERT INTO translation_sonera VALUES ('1-na kello','473',20030611142839,'mheiskan');
+INSERT INTO translation_sonera VALUES ('2-na kello','474',20030611142844,'mheiskan');
+INSERT INTO translation_sonera VALUES ('3-na kello','475',20030611142849,'mheiskan');
+INSERT INTO translation_sonera VALUES ('4-na kello','476',20030611142856,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-na kello','477',20030611142902,'mheiskan');
+INSERT INTO translation_sonera VALUES ('6-na kello','478',20030611142908,'mheiskan');
+INSERT INTO translation_sonera VALUES ('7-na kello','479',20030611142914,'mheiskan');
 
 --
 -- Table structure for table 'translation_sv'
@@ -935,7 +956,7 @@ CREATE TABLE translation_sv (
 -- Dumping data for table 'translation_sv'
 --
 
-INSERT INTO translation_sv VALUES ('lämpötila','temperatur',20030609123418,'mheiskan');
+INSERT INTO translation_sv VALUES ('1-na kello','måndag klockan',20030611142436,'mheiskan');
 INSERT INTO translation_sv VALUES ('huomattavasti lämpimämpi','betydligt varmare',20030525185952,'mheiskan');
 INSERT INTO translation_sv VALUES ('lämpimämpi','varmare',20030525185939,'mheiskan');
 INSERT INTO translation_sv VALUES ('seuraava yö','följande natt',20030525190121,'mheiskan');
@@ -1217,4 +1238,16 @@ INSERT INTO translation_sv VALUES ('iltayöstä alkaen','från förnatten',200306090
 INSERT INTO translation_sv VALUES ('keskiyöstä alkaen','från midnatten',20030609095654,'mheiskan');
 INSERT INTO translation_sv VALUES ('prosenttia','procent',20030610080942,'mheiskan');
 INSERT INTO translation_sv VALUES ('ajoittain','tidvis',20030611115214,'mheiskan');
+INSERT INTO translation_sv VALUES ('2-na kello','tisdag klockan',20030611142457,'mheiskan');
+INSERT INTO translation_sv VALUES ('2-viikonpäivänä','tiistaina',20030611141958,'mheiskan');
+INSERT INTO translation_sv VALUES ('3-viikonpäivänä','keskiviikkona',20030611142007,'mheiskan');
+INSERT INTO translation_sv VALUES ('4-viikonpäivänä','torstaina',20030611142014,'mheiskan');
+INSERT INTO translation_sv VALUES ('5-viikonpäivänä','perjantaina',20030611142047,'mheiskan');
+INSERT INTO translation_sv VALUES ('6-viikonpäivänä','lauantaina',20030611142057,'mheiskan');
+INSERT INTO translation_sv VALUES ('7-viikonpäivänä','sunnuntaina',20030611142105,'mheiskan');
+INSERT INTO translation_sv VALUES ('3-na kello','onsdag klockan',20030611142505,'mheiskan');
+INSERT INTO translation_sv VALUES ('4-na kello','torsdag klockan',20030611142511,'mheiskan');
+INSERT INTO translation_sv VALUES ('5-na kello','fredag klockan',20030611142519,'mheiskan');
+INSERT INTO translation_sv VALUES ('6-na kello','lördag klockan',20030611142527,'mheiskan');
+INSERT INTO translation_sv VALUES ('7-na kello','söndag klockan',20030611142534,'mheiskan');
 
