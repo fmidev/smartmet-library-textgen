@@ -348,7 +348,6 @@ namespace TextGen
 			case FROST:
 			  sentence << "paikoin" << "kuuraa";
 			  break;
-			  break;
 			case SNOW:
 			  sentence << "paikoin" << "lunta";
 			  break;
