@@ -45,6 +45,8 @@ namespace WeatherAnalysis
 	float radius() const;
 
 	bool operator<(const WeatherArea & theOther) const;
+	bool operator==(const WeatherArea & theOther) const;
+	bool operator!=(const WeatherArea & theOther) const;
 
   private:
 
@@ -59,18 +61,11 @@ namespace WeatherAnalysis
 	NFmiSvgPath itsPolygon;
 	float itsRadius;
 
+	std::string itsSortKey;		// for sorting purposes only
+	
   }; // class WeatherArea
 
 } // namespace WeatherAnalysis
-
-
-// Free functions
-
-bool operator==(const WeatherAnalysis::WeatherArea & theLhs,
-				const WeatherAnalysis::WeatherArea & theRhs);
-
-bool operator!=(const WeatherAnalysis::WeatherArea & theLhs,
-				const WeatherAnalysis::WeatherArea & theRhs);
 
 #endif // WEATHERANALYSIS_WEATHERAREA_H
 

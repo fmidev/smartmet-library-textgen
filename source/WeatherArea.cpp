@@ -46,9 +46,16 @@
  * }
  * \endcode
  *
- * Note that the path may consists of a single moveto command, but in
- * that case the radius is always positive to indicate a circular
- * area around the moveto point.
+ * Note that the path may consist of a single moveto followed by
+ * a closepath, but in that case the radius is always positive to
+ * indicate a circular area around the moveto point.
+ *
+ * Implementation note:
+ *
+ * Each WeatherArea will contain a sort key based on the
+ * arguments given in the constructor. This allows one to place
+ * the objects into an associative container.
+ *
  */
 // ======================================================================
 
@@ -62,6 +69,33 @@
 #include "NFmiStringTools.h"
 
 using namespace std;
+
+namespace
+{
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Create a path for a point
+   *
+   * Note that the closepath is required so that NFmiIndexMask
+   * will calculate distances from the edges (a null edge here)
+   * properly.
+   */
+  // ----------------------------------------------------------------------
+
+  void make_point_path(NFmiSvgPath & thePath,
+					   const NFmiPoint & thePoint)
+  {
+	NFmiSvgPath::Element element1(NFmiSvgPath::kElementMoveto,
+								  thePoint.X(),
+								  thePoint.Y());
+	NFmiSvgPath::Element element2(NFmiSvgPath::kElementClosePath,
+								  0,
+								  0);
+	thePath.push_back(element1);
+	thePath.push_back(element2);
+  }
+
+}
 
 namespace WeatherAnalysis
 {
@@ -86,6 +120,7 @@ namespace WeatherAnalysis
 	, itsPoint(kFloatMissing,kFloatMissing)
 	, itsPolygon()
 	, itsRadius(0)
+	, itsSortKey(theName+'='+theSpecs)
   {
 	parse_specs(theSpecs);
   }
@@ -109,6 +144,7 @@ namespace WeatherAnalysis
 	, itsPoint(kFloatMissing,kFloatMissing)
 	, itsPolygon()
 	, itsRadius(0)
+	, itsSortKey(theSpecs)
   {
 	parse_specs(theSpecs);
   }
@@ -132,16 +168,15 @@ namespace WeatherAnalysis
 	, itsPoint(thePoint)
 	, itsPolygon()
 	, itsRadius(theRadius)
+	, itsSortKey(NFmiStringTools::Convert(thePoint.X()) +
+				 ',' +
+				 NFmiStringTools::Convert(thePoint.Y()) +
+				 (theRadius == 0 ? "" : ":" +  NFmiStringTools::Convert(theRadius)))
   {
 	if(theRadius < 0)
 	  throw WeatherAnalysisError("A weather point cannot have a negative expansion radius");
 	if(theRadius > 0)
-	  {
-		NFmiSvgPath::Element element(NFmiSvgPath::kElementMoveto,
-									 thePoint.X(),
-									 thePoint.Y());
-		itsPolygon.push_back(element);
-	  }
+	  make_point_path(itsPolygon,thePoint);
   }
 
   // ----------------------------------------------------------------------
@@ -165,16 +200,17 @@ namespace WeatherAnalysis
 	, itsPoint(thePoint)
 	, itsPolygon()
 	, itsRadius(theRadius)
+	, itsSortKey(theName +
+				 '=' +
+				 NFmiStringTools::Convert(thePoint.X()) +
+				 ',' +
+				 NFmiStringTools::Convert(thePoint.Y()) +
+				 (theRadius == 0 ? "" : ":" +  NFmiStringTools::Convert(theRadius)))
   {
 	if(theRadius < 0)
 	  throw WeatherAnalysisError("A weather point cannot have a negative expansion radius");
 	if(theRadius > 0)
-	  {
-		NFmiSvgPath::Element element(NFmiSvgPath::kElementMoveto,
-									 thePoint.X(),
-									 thePoint.Y());
-		itsPolygon.push_back(element);
-	  }
+	  make_point_path(itsPolygon,thePoint);
   }
 
   // ----------------------------------------------------------------------
@@ -259,40 +295,6 @@ namespace WeatherAnalysis
   float WeatherArea::radius() const
   {
 	return itsRadius;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Lexical less-than comparison for WeatherAnalysis::WeatherArea
-   *
-   * This is implemented solely for the benefit of putting WeatherArea
-   * objects into standard associative containers. For example, MaskSource
-   * objects need a std::map mapping a WeatherArea to a NFmiIndexMask
-   * or a NFmiIndexMaskSource object.
-   *
-   * \param theOther The area to compare with
-   * \return True if \c this is lexicographically less than theOther
-   */
-  // ----------------------------------------------------------------------
-
-  bool WeatherArea::operator<(const WeatherArea & theOther) const
-  {
-	// we choose named < not named
-	
-	if(isNamed())
-	  {
-		if(!theOther.isNamed())
-		  return true;
-		return (name() < theOther.name());
-	  }
-
-	// unnamed points can be compared too
-
-	if(isPoint() && theOther.isPoint())
-	  return (point() < theOther.point());
-
-	throw WeatherAnalysisError("Attempt to compare incomparable weather areas");
-
   }
 
   // ----------------------------------------------------------------------
@@ -389,62 +391,58 @@ namespace WeatherAnalysis
 
 	itsPointFlag = (itsRadius == 0);
 	if(!itsPointFlag)
-	  {
-		NFmiSvgPath::Element element(NFmiSvgPath::kElementMoveto,
-									 itsPoint.X(),
-									 itsPoint.Y());
-		itsPolygon.push_back(element);
-	  }
+	  make_point_path(itsPolygon,itsPoint);
+
   }
  
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Lexical less-than comparison for WeatherAnalysis::WeatherArea
+   *
+   * This is implemented solely for the benefit of putting WeatherArea
+   * objects into standard associative containers. For example, MaskSource
+   * objects need a std::map mapping a WeatherArea to a NFmiIndexMask
+   * or a NFmiIndexMaskSource object.
+   *
+   * \param theOther The area to compare with
+   * \return True if \c this is lexicographically less than theOther
+   */
+  // ----------------------------------------------------------------------
+
+  bool WeatherArea::operator<(const WeatherArea & theOther) const
+  {
+	return itsSortKey < theOther.itsSortKey;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Equality comparison for WeatherAnalysis::WeatherArea
+   *
+   * \param theOther The area to compare with
+   * \return True if \c this is lexicographically less than theOther
+   */
+  // ----------------------------------------------------------------------
+
+  bool WeatherArea::operator==(const WeatherArea & theOther) const
+  {
+	return itsSortKey == theOther.itsSortKey;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Inequality comparison for WeatherAnalysis::WeatherArea
+   *
+   * \param theOther The area to compare with
+   * \return True if \c this is lexicographically less than theOther
+   */
+  // ----------------------------------------------------------------------
+
+  bool WeatherArea::operator!=(const WeatherArea & theOther) const
+  {
+	return itsSortKey != theOther.itsSortKey;
+  }
+
 
 } // namespace WeatherAnalysis
-
-// ----------------------------------------------------------------------
-/*!
- * \brief Equality comparison for WeatherAnalysis::WeatherArea
- *
- * \param theLhs The left hand side
- * \param theRhs The right hand side
- * \return True if the areas are equal
- */
-// ----------------------------------------------------------------------
-
-bool operator==(const WeatherAnalysis::WeatherArea & theLhs,
-				const WeatherAnalysis::WeatherArea & theRhs)
-{
-  if(theLhs.isNamed())
-	{
-	  if(theRhs.isNamed())
-		return (theLhs.name() == theRhs.name());
-	  return false;
-	}
-
-  if(theLhs.isPoint())
-	{
-	  if(theRhs.isPoint())
-		return false;
-	  return (theLhs.point() == theRhs.point());
-	}
-
-  return false;
-  
-}
-
-// ----------------------------------------------------------------------
-/*!
- * \brief Inequality comparison for WeatherAnalysis::WeatherArea
- *
- * \param theLhs The left hand side
- * \param theRhs The right hand side
- * \return True if the areas are not equal
- */
-// ----------------------------------------------------------------------
-
-bool operator!=(const WeatherAnalysis::WeatherArea & theLhs,
-				const WeatherAnalysis::WeatherArea & theRhs)
-{
-  return !(theLhs == theRhs);
-}
 
 // ======================================================================

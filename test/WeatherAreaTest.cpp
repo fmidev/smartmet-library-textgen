@@ -92,16 +92,16 @@ namespace WeatherAreaTest
 
 	if(area1==area2)
 	  TEST_FAILED("area1==area2 test failed");
-	if(!(area1==area3))
+	if(area1!=area3)
 	  TEST_FAILED("area1!=area3 test failed");
-	if(!(area1==area4))
-	  TEST_FAILED("area1!=area4 test failed");
-	if(!(area1==area5))
-	  TEST_FAILED("area1!=area5 test failed");
+	if(area1==area4)
+	  TEST_FAILED("area1==area4 test failed");
+	if(area1==area5)
+	  TEST_FAILED("area1==area5 test failed");
 	if(area1==area6)
 	  TEST_FAILED("area1==area6 test failed");
-	if(!(area2==area6))
-	  TEST_FAILED("area2!=area6 test failed");
+	if(area2==area6)
+	  TEST_FAILED("area2==area6 test failed");
 
 	TEST_PASSED();
 
