@@ -217,7 +217,7 @@ INSERT INTO translation_en VALUES ('melko selke‰‰','partly clear',20030530082920
 INSERT INTO translation_en VALUES ('miinus','minus',20030530082926,'mheiskan');
 INSERT INTO translation_en VALUES ('pilvistyv‰‰','increasing cloudiness',20030530082936,'mheiskan');
 INSERT INTO translation_en VALUES ('pilvist‰','cloudy',20030530082944,'mheiskan');
-INSERT INTO translation_en VALUES ('poutaa','clear',20030530082952,'mheiskan');
+INSERT INTO translation_en VALUES ('poutaa','fair weather',20031113101848,'mheiskan');
 INSERT INTO translation_en VALUES ('puolipilvist‰','partly cloudy',20030530083003,'mheiskan');
 INSERT INTO translation_en VALUES ('runsasta sadetta','heavy rain',20030530083012,'mheiskan');
 INSERT INTO translation_en VALUES ('sadetta','rain',20030530083018,'mheiskan');
