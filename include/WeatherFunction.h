@@ -32,7 +32,8 @@ namespace WeatherAnalysis
 	  Mean,
 	  Maximum,
 	  Minimum,
-	  Sum
+	  Sum,
+	  Percentage
 
 	}; // enum Weatherfunction
 
