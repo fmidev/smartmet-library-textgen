@@ -12,7 +12,7 @@
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
 
-#include "TemperatureAnalysis.h"
+#include "TemperatureAnalyzer.h"
 
 namespace WeatherAnalysis
 {
@@ -42,7 +42,7 @@ namespace WeatherAnalysis
 	  {
 	  case Temperature:
 		{
-		  TemperatureAnalysis analyzer;
+		  TemperatureAnalyzer analyzer;
 		  return analyzer.forecast(theSources,theFunction,theLimits,thePeriod,theArea);
 		}
 	  case Pressure:

@@ -64,7 +64,7 @@ namespace WeatherAnalysis
 								const WeatherFunction & theFunction,
 								const WeatherLimits & theLimits,
 								const WeatherPeriod & thePeriod,
-								const WeatherArea & theArea)
+								const WeatherArea & theArea) const
   {
 	const string dataname = temperature_forecast_source();
 
