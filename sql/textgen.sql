@@ -47,7 +47,7 @@ CREATE TABLE translation_en (
 -- Dumping data for table 'translation_en'
 --
 
-INSERT INTO translation_en VALUES ('huomattavasti lämpimämpi','significantly warmer',20030525190018,'mheiskan');
+INSERT INTO translation_en VALUES ('huomattavasti lämpimämpi','significantly warmer',20031018005924,'mheiskan');
 INSERT INTO translation_en VALUES ('lämpimämpi','warmer',20030525190008,'mheiskan');
 INSERT INTO translation_en VALUES ('seuraava yö','the following night',20030525185818,'mheiskan');
 INSERT INTO translation_en VALUES ('seuraavana yönä','the following night',20030525185658,'mheiskan');
@@ -440,6 +440,9 @@ INSERT INTO translation_en VALUES ('sohjoisia','covered by slush',20031016120353
 INSERT INTO translation_en VALUES ('lumisia','covered by snow',20031016120359,'mheiskan');
 INSERT INTO translation_en VALUES ('tiet ovat (sivulause)','',20031016120406,'mheiskan');
 INSERT INTO translation_en VALUES ('yleisesti','generally',20031016120413,'mheiskan');
+INSERT INTO translation_en VALUES ('kanta-hame:lle','for Tavastia Proper',20031018005701,'mheiskan');
+INSERT INTO translation_en VALUES ('ita-uusimaa:lle','for Eastern Uusimaa',20031018005757,'mheiskan');
+INSERT INTO translation_en VALUES ('lappi:lle','for Lapland',20031018005935,'mheiskan');
 
 --
 -- Table structure for table 'translation_fi'
@@ -1630,4 +1633,7 @@ INSERT INTO translation_sv VALUES ('sohjoisia','täckta av snösörja',200310161201
 INSERT INTO translation_sv VALUES ('lumisia','täckta av snö',20031016120206,'mheiskan');
 INSERT INTO translation_sv VALUES ('tiet ovat (sivulause)','',20031016120214,'mheiskan');
 INSERT INTO translation_sv VALUES ('yleisesti','allmänt',20031016120221,'mheiskan');
+INSERT INTO translation_sv VALUES ('kanta-hame:lle','för Egentliga Tavastland',20031018005606,'mheiskan');
+INSERT INTO translation_sv VALUES ('ita-uusimaa:lle','för Östra Nyland',20031018005619,'mheiskan');
+INSERT INTO translation_sv VALUES ('lappi:lle','för Lappland',20031018005630,'mheiskan');
 
