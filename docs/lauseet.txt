@@ -1,0 +1,56 @@
+/*!
+\page page_lauseet Lauseiden rakentaminen
+
+\section sec_lause_interface API
+
+Paragraph on tekstiobjekti, josta lopullinen teksti generoidaan.
+Paragraph koostuu listasta Sentence objekteja, joka puolestaan
+koostuu listasta polymorfisia Phrase objekteja.
+
+Phrase objekteihin kuuluvat esim. PhraseWord, eli sanakirjasta
+löytyvä sana, PhraseNumber<T>, joka esittää numeroa, ja
+PhraseShortWeekday, joka kuvastaa viikonpäivää lyhyessä muodossa.
+
+Virkkeitä voi rakentaa seuraavaan tyyliin
+\code
+TheDictionary::instance().dictionary(DictionaryFactory::create("mysql"));
+TheDictionary::init("en");
+
+Sentence s;
+s << PhraseWord("kaakko");
+s << PhraseNumber<int>(12);
+cout << s.realize();
+\endcode
+joka tulostaa tekstin "South east 12.".
+
+Koodi
+\code
+Sentence s;
+s << PhraseWord("luode") << PhraseNumber<float>(12.33333333333);
+cout << s.realize();
+\endcode
+tulostaa "South east 12.3.", eli numeroilla on siis jonkinlainen
+oletusarvoinen esitystarkkuus. Tarkkuutta voi muuttaa käyttämällä
+PhraseNumber luokan toista templaattiparametria traits-tyylisesti.
+
+Stringeille ja integereille on olemassa oletusmuunnos PhraseWord
+ja PhraseNumber<int> tyylisiksi, eli myös seuraava toimii.
+\code
+Sentence s;
+s << "kaakko" << 12;
+cout << s.realize();
+\endcode
+
+Kokonaisia tekstejä luodaan seuraavasti
+\code
+Paragraph p;
+Sentence s1;
+s1 << "ke" << "kaakko" << 12;
+Sentence s2;
+s2 << "to" << "luode" << 13;
+p << s1 << s2;
+cout << p.realize();
+\endcode
+joka tulostaisi "Wed south east 12. Thu north west 13.".
+
+*/

@@ -11,4 +11,9 @@ Tänne tulee tekstigeneraattorin dokumentaation etusivu.
 \ref page_sanakirjat sivulla kuvataan sanakirjojen toimintaa ja niiden
 suunniteltua käyttötapaa.
 
+\section sec_lauseet Lauseiden rakentaminen
+
+\ref page_lauseet sivulla kuvataan lauseiden ja kappaleiden rakentamista,
+sekä niiden muuntamista tekstiksi.
+
 */
