@@ -17,6 +17,7 @@
 #include "Document.h"
 #include "Header.h"
 #include "HeaderFactory.h"
+#include "HourPeriodGenerator.h"
 #include "LandMaskSource.h"
 #include "LatestWeatherSource.h"
 #include "MaskSource.h"
@@ -40,6 +41,57 @@ using namespace boost;
 
 namespace TextGen
 {
+
+  namespace
+  {
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Generate contents from given contents list
+	 *
+	 * \param theContents The string with content variables
+	 * \param theVar The control variable prefix
+	 * \param theForecastTime The forecast time
+	 * \param theSources The analysis sources
+	 * \param theArea The weather area
+	 * \param thePeriod The weather period
+	 * \return A paragraph
+	 */
+	// ----------------------------------------------------------------------
+
+	const Paragraph make_contents(const string & theContents,
+								  const string & theVar,
+								  const NFmiTime & theForecastTime,
+								  const AnalysisSources & theSources,
+								  const WeatherArea & theArea,
+								  const WeatherPeriod & thePeriod)
+	{
+	  const vector<string> contents = NFmiStringTools::Split(theContents);
+
+	  Paragraph paragraph;
+
+	  for(vector<string>::const_iterator iter = contents.begin(); iter != contents.end(); ++iter)
+		{
+		  const string storyvar = theVar+"::story::"+*iter;
+		  paragraph << StoryTag(storyvar);
+		  Paragraph p = StoryFactory::create(theForecastTime,
+											 theSources,
+											 theArea,
+											 thePeriod,
+											 *iter,
+											 storyvar);
+		  paragraph << p;
+		}
+
+	  return paragraph;
+
+	}
+
+
+  } // namespace anonymous
+
+
+
 
   // ----------------------------------------------------------------------
   /*!
@@ -133,11 +185,16 @@ namespace TextGen
    *    -# Generate period from textgen::name::period
    *    -# Generate header from textgen::name::header, if it exists
    *    -# Initialize output paragraph
-   *    -# For each story name in textgen::name::content
-   *        -# Generate the story
-   *        -# Append the story to the output paragraph
    *    -# Append the header to the document
-   *    -# Append the paragraph to the document
+   *    -# If there are no subperiods
+   *       -# For each story name in textgen::name::content
+   *           -# Generate the story
+   *           -# Append the story to the output paragraph
+   *       -# Append the paragraph to the document
+   *    -# Else for each subperiod
+   *       -# For each story name in textgen::name::dayX::content
+   *           -# Generate the story
+   *           -# Append the story to the output paragraph
    * -# Return the document
    *
    * \param theArea The weather area
@@ -167,25 +224,42 @@ namespace TextGen
 		if(!header.empty())
 		  doc << header;
 
-		const vector<string> contents = NFmiStringTools::Split(Settings::require("textgen::"+*it+"::content"));
-		if(!contents.empty())
+		const bool subs = Settings::optional_bool("textgen::"+*it+"::subperiods",false);
+
+		if(!subs)
 		  {
-			Paragraph paragraph;
-			for(vector<string>::const_iterator iter = contents.begin();
-				iter != contents.end();
-				++iter)
+			const string contents = Settings::require("textgen::"+*it+"::content");
+			doc << make_contents(contents,
+								 "textgen::"+*it,
+								 itsPimple->itsForecastTime,
+								 itsPimple->itsSources,
+								 theArea,
+								 period);
+		  }
+		else
+		  {
+			// Generate subparagraphs for each day
+			HourPeriodGenerator generator(period,"textgen::"+*it+"::subperiod::day");
+			
+			const string defaultvar = "textgen::"+*it;
+			
+			for(HourPeriodGenerator::size_type day=1; day<=generator.size(); day++)
 			  {
-				const string storyvar = "textgen::"+*it+"::story::"+*iter;
-				paragraph << StoryTag(storyvar);
-				Paragraph p = StoryFactory::create(itsPimple->itsForecastTime,
-												   itsPimple->itsSources,
-												   theArea,
-												   period,
-												   *iter,
-												   storyvar);
-				paragraph << p;
+				const WeatherPeriod subperiod = generator.period(day);
+
+				const string dayvar = defaultvar+"::day"+NFmiStringTools::Convert(day);
+
+				const bool hasday = Settings::isset(dayvar+"::contents");
+
+				doc << make_contents(hasday ?
+									 Settings::require_string(dayvar+"::contents") :
+									 Settings::require_string(defaultvar+"::contents"),
+									 hasday ? dayvar : defaultvar,
+									 itsPimple->itsForecastTime,
+									 itsPimple->itsSources,
+									 theArea,
+									 subperiod);
 			  }
-			doc << paragraph;
 		  }
 	  }
 
