@@ -7,6 +7,7 @@
 
 #include "WeatherStory.h"
 #include "CloudinessStory.h"
+#include "CloudinessStoryTools.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "HourPeriodGenerator.h"
@@ -481,6 +482,7 @@ namespace TextGen
    * \param thePeriod The rainy period to be analyzed
    * \param theVar The control variable
    * \param theDay The day in question
+   * \return The phrase
    */
   // ----------------------------------------------------------------------
 
@@ -497,6 +499,14 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Generate the "enimmäkseen pilvistä" phrases
+   *
+   * \param theSources The analysis sources
+   * \param theArea The area to be analyzed
+   * \param thePeriod The rainy period to be analyzed
+   * \param theVar The control variable
+   * \param theDay The day in question
+   * \return The phrase
    */
   // ----------------------------------------------------------------------
 
@@ -506,8 +516,62 @@ namespace TextGen
 							 const string & theVar,
 							 int theDay)
   {
+	using namespace Settings;
+
+    const int clear = optional_percentage(theVar+"::clear",40);
+    const int cloudy = optional_percentage(theVar+"::cloudy",70);
+
+	RangeAcceptor cloudylimits;
+	cloudylimits.lowerLimit(cloudy);
+	
+	RangeAcceptor clearlimits;
+	clearlimits.upperLimit(clear);
+
+    GridForecaster forecaster;
+
+	const string daystr = "day"+lexical_cast<string>(theDay);
+
+	const WeatherResult cloudy_percentage =
+	  forecaster.analyze(theVar+"::fake::"+daystr+"::cloudy",
+						 theSources,
+						 Cloudiness,
+						 Mean,
+						 Percentage,
+						 theArea,
+						 thePeriod,
+						 DefaultAcceptor(),
+						 DefaultAcceptor(),
+						 cloudylimits);
+
+	const WeatherResult clear_percentage =
+	  forecaster.analyze(theVar+"::fake::"+daystr+"::clear",
+						 theSources,
+						 Cloudiness,
+						 Mean,
+						 Percentage,
+						 theArea,
+						 thePeriod,
+						 DefaultAcceptor(),
+						 DefaultAcceptor(),
+						 clearlimits);
+
+	const WeatherResult trend =
+	  forecaster.analyze(theVar+"::fake::"+daystr+"::trend",
+						 theSources,
+						 Cloudiness,
+						 Mean,
+						 Trend,
+						 theArea,
+						 thePeriod);
+
+	CloudinessStoryTools::CloudinessType ctype =
+	  CloudinessStoryTools::cloudiness_type(theVar,
+											cloudy_percentage.value(),
+											clear_percentage.value(),
+											trend.value());
+
 	Sentence s;
-	s << "enimmäkseen" << "pilvistä";
+	s << CloudinessStoryTools::cloudiness_phrase(ctype);
 	return s;
   }
 
