@@ -74,15 +74,15 @@ Merkitään näin saatuja prosenttiosuuksia luvuilla N1, N2 ja N3, ja oletetaan
 muuttujat
 \code
 textgen::[kappale]::story::weather_shortoverview::cloudiness::single_limit = [50-100] (=60)
-textgen::[kappale]::story::weather_shortoverview::cloudiness::double_limit = [50-100] (=80)
+textgen::[kappale]::story::weather_shortoverview::cloudiness::double_limit = [50-100] (=20)
 \endcode
 Pilvisyyskuvaus valitaan seuraavasti
 
  -# Jos N1 >= \c single_limit, "enimmäkseen selkeää"
  -# Jos N2 >= \c single_limit, "enimmäkseen puolipilvistä"
  -# Jos N3 >= \c single_limit, "enimmäkseen pilvistä"
- -# Jos N1 > N3 && N1+N2 >= \c double_limit, "enimmäkseen selkeää tai puolipilviustä"
- -# Jos N3 > N1 && N2+N3 >= \c double_limit, "enimmäkseen pilvistä tai puolipilvistä"
+ -# Jos N1 < \c double_limit, "enimmäkseen pilvistä tai puolipilvistä"
+ -# Jos N3 < \c double_limit, "enimmäkseen selkeää tai puolipilviustä"
  -# Muutoin "vaihtelevaa pilvisyyttä"
 
 Ongelmakohta: Pilvisyyttä tuskin kerrottaisiin sille päivälle, jolle
@@ -116,15 +116,15 @@ nimenomaan päiväsaika.
 Kullekin yksittäiselle vuorokaudelle lasketaan sadesummat R1,R2,...RN.
 Näihin liittyen käytetään asetuksia
 \code
-textgen::[kappale]::story::weather_shortoverview::precipitation::rainy_limit = [0-] (=1)
-textgen::[kappale]::story::weather_shortoverview::precipitation::partly_rainy_limit = [0-] (=0.1)
+textgen::[kappale]::story::weather_shortoverview::precipitation::rainy = [0-] (=1)
+textgen::[kappale]::story::weather_shortoverview::precipitation::partly_rainy = [0-] (=0.1)
 \endcode
 Näiden perusteella päätellään onko päivä sateinen, vai tuleeko sadetta
 vain paikoin. Alueellisella jakaumalla ei siis ole mitään osuutta asiaan!
 
 Lisäksi tarvitaan muuttujaa
 \code
-textgen::[kappale]::story::weather_shortoverview::precipitation::unstable_limit = [0-] (=50)
+textgen::[kappale]::story::weather_shortoverview::precipitation::unstable = [0-] (=50)
 \endcode
 
 Sadefraasi generoidaan seuraavasti:
