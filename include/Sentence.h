@@ -12,6 +12,22 @@
  * of phrases and provide means for translating it by using a
  * dictionary.
  *
+ * Sample code:
+ * \code
+ * std::auto_ptr<Dictionary> dict(DictionaryFactory::create("mysql"));
+ * dict->init("fi");
+ *
+ * Sentence s;
+ * s += "lämpötila";
+ * s += "kaakko";
+ * cout << s.realize(*dict) << endl;
+ *
+ * TheDictionary::instance().dictionary(DictionaryFactory::create("mysql"));
+ * TheDictionary::instance().init("en");
+ *
+ * cout << s.realize() << endl;
+ *
+ * \endcode
  */
 // ======================================================================
 
