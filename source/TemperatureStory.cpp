@@ -82,6 +82,8 @@ namespace TextGen
 	  return true;
 	if(theName == "temperature_weekly_averages")
 	  return true;
+	if(theName == "temperature_day")
+	  return true;
 	return false;
   }
   
@@ -112,6 +114,8 @@ namespace TextGen
 	  return weekly_minmax();
 	if(theName == "temperature_weekly_averages")
 	  return weekly_averages();
+	if(theName == "temperature_day")
+	  return day();
 
 	throw TextGenError("TemperatureStory cannot make story "+theName);
 
