@@ -31,10 +31,13 @@ namespace TextGen
   {
   public:
 	virtual ~TextFormatter() { }
+#ifdef NO_COMPILER_GENERATED
 	TextFormatter() { }
+#endif
+
 	virtual void dictionary(const boost::shared_ptr<Dictionary> & theDict) = 0;
 
-	virtual std::string format(const Glyph & theGlyph) const;
+	virtual std::string format(const Glyph & theGlyph) const = 0;
 
 	// override for all composites
 	virtual std::string visit(const Glyph & theGlyph) const = 0;
