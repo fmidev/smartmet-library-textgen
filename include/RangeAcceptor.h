@@ -28,8 +28,8 @@ namespace WeatherAnalysis
 	virtual boost::shared_ptr<Acceptor> clone() const;
 
 	RangeAcceptor();
-	void lowerLimit(float theLoLimit);
-	void upperLimit(float theUpperLimit);
+	void lowerLimit(float theLimit);
+	void upperLimit(float theLimit);
 
   private:
 

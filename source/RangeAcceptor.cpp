@@ -64,9 +64,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  void RangeAcceptor::lowerLimit(float theValue)
+  void RangeAcceptor::lowerLimit(float theLimit)
   {
-	itsLoLimit = theValue;
+	itsLoLimit = theLimit;
   }
 
   // ----------------------------------------------------------------------
@@ -77,9 +77,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  void RangeAcceptor::upperLimit(float theValue)
+  void RangeAcceptor::upperLimit(float theLimit)
   {
-	itsHiLimit = theValue;
+	itsHiLimit = theLimit;
   }
 
 } // namespace WeatherAnalysis
