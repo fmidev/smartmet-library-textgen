@@ -22,11 +22,12 @@
 #ifndef TEXTGEN_NUMBERFACTORY_H
 #define TEXTGEN_NUMBERFACTORY_H
 
-#include "Sentence.h"
 #include "boost/shared_ptr.hpp"
 
 namespace TextGen
 {
+  class Sentence;
+
   namespace NumberFactory
   {
 
