@@ -6,9 +6,14 @@
 // ======================================================================
 
 #include "PrecipitationStory.h"
+#include "GridForecaster.h"
+#include "Number.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "TextGenError.h"
+#include "WeatherFunction.h"
+#include "WeatherLimits.h"
+#include "WeatherResult.h"
 
 using namespace WeatherAnalysis;
 using namespace std;
@@ -85,6 +90,9 @@ namespace TextGen
    * \brief Generate story on total precipitation
    *
    * \return The story
+   *
+   * \todo Should tell range instead of a single value.
+   * \todo Should filter out rains less than 0.1 mm in the summation
    */
   // ----------------------------------------------------------------------
 
@@ -92,8 +100,22 @@ namespace TextGen
   {
 	Paragraph paragraph;
 	Sentence sentence;
+
+	GridForecaster forecaster;
+	WeatherResult result = forecaster.analyze(itsSources,
+											  Precipitation,
+											  MeanSum,
+											  WeatherLimits(),
+											  itsPeriod,
+											  itsArea);
+
+	if(result.value() == kFloatMissing)
+	  throw TextGenError("Total precipitation not available");
+
+	Number<int> num = FmiRound(result.value());
+
 	sentence << "sadesumma"
-			 << 10
+			 << num
 			 << "millimetriä";
 	paragraph << sentence;
 	return paragraph;
