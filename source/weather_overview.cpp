@@ -1583,11 +1583,6 @@ namespace TextGen
 
 	using namespace PrecipitationPeriodTools;
 
-	if(itsArea.name() == "tiepiiri-kasivarsi")
-	  {
-		log << "Käsivarsi!!!" << endl;
-	  }
-
 	Paragraph paragraph;
 
 	// we want the last day to extend up to midnight regardless
