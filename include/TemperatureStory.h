@@ -18,6 +18,8 @@
 #include "AnalysisSources.h"
 #include "WeatherArea.h"
 
+#include <string>
+
 namespace TextGen
 {
   class Paragraph;
@@ -30,6 +32,9 @@ namespace TextGen
 	~TemperatureStory();
 	TemperatureStory(const WeatherAnalysis::AnalysisSources & theSources,
 					 const WeatherAnalysis::WeatherArea & theArea);
+
+	static bool hasStory(const std::string & theName);
+	Paragraph makeStory(const std::string & theName) const;
 
 	Paragraph mean(void) const;
 	Paragraph meanmax(void) const;

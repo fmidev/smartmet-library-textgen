@@ -31,6 +31,9 @@ namespace TextGen
 	PrecipitationStory(const WeatherAnalysis::AnalysisSources & theSources,
 					 const WeatherAnalysis::WeatherArea & theArea);
 
+	static bool hasStory(const std::string & theName);
+	Paragraph makeStory(const std::string & theName) const;
+
 	Paragraph total(void) const;
 
   private:
