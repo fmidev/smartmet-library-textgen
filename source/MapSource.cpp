@@ -96,7 +96,8 @@ namespace WeatherAnalysis
 
 	// Must read from file
 
-	const string filename = Settings::require_string("textgen::areas::map::"+theName);
+	const string default_filename = Settings::require_string("textgen::mappath")+"/"+theName+".svg";
+	const string filename = Settings::optional_string("textgen::areas::map::"+theName,default_filename);
 
 	if(!NFmiFileSystem::FileExists(filename))
 	  throw WeatherAnalysisError("The map for area "+theName+" is missing: "+filename);
