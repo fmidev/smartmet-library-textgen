@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of namespace TemperatureAnalysis
+ * \brief Implementation of class TemperatureAnalysis
  */
 // ======================================================================
 
@@ -45,45 +45,41 @@ namespace
 
 namespace WeatherAnalysis
 {
-  namespace TemperatureAnalysis
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Analyze temperature in an area
+   *
+   * \param theSources Analysis sources
+   * \param theFunction The function to analyze
+   * \param theLimits The optional limits for the function
+   * \param thePeriod The time period
+   * \param theArea The area
+   */
+  // ----------------------------------------------------------------------
+  
+  WeatherResult TemperatureAnalysis::forecast(const AnalysisSources & theSources,
+											  const WeatherFunction & theFunction,
+											  const WeatherLimits & theLimits,
+											  const WeatherPeriod & thePeriod,
+											  const WeatherArea & theArea)
   {
+	const string source = temperature_forecast_source();
+	
+	switch(theFunction)
+	  {
+	  case Maximum:
+		break;
+	  case Minimum:
+		break;
+	  case Mean:
+		break;
+	  case Probability:
+		break;
+	  }
+	return WeatherResult(kFloatMissing,0);
+  }
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Analyze temperature in an area
-	 *
-	 * \param theSources Analysis sources
-	 * \param theFunction The function to analyze
-	 * \param theLimits The optional limits for the function
-	 * \param thePeriod The time period
-	 * \param theArea The area
-	 */
-	// ----------------------------------------------------------------------
-
-	WeatherResult forecast(const AnalysisSources & theSources,
-						   const WeatherFunction & theFunction,
-						   const WeatherLimits & theLimits,
-						   const WeatherPeriod & thePeriod,
-						   const WeatherArea & theArea)
-	{
-	  const string source = temperature_forecast_source();
-
-	  switch(theFunction)
-		{
-		case Maximum:
-		  break;
-		case Minimum:
-		  break;
-		case Mean:
-		  break;
-		case Probability:
-		  break;
-		}
-	  return WeatherResult(kFloatMissing,0);
-	}
-
-
-  } // namespace TemperatureAnalysis
 } // namespace WeatherAnalysis
 
 // ======================================================================

@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace WindDirectionAnalysis
+ * \brief Interface of class WindDirectionAnalysis
  */
 // ======================================================================
 /*!
- * \namespace WeatherAnalysis::WindDirectionAnalysis
+ * \class WeatherAnalysis::WindDirectionAnalysis
  *
  * \brief WindDirection analysis functions
  *
@@ -27,14 +27,16 @@ namespace WeatherAnalysis
   class WeatherPeriod;
   class WeatherResult;
 
-  namespace WindDirectionAnalysis
+  class WindDirectionAnalysis
   {
-	WeatherResult forecast(const AnalysisSources & theSources,
-						   const WeatherFunction & theFunction,
-						   const WeatherLimits & theLimits,
-						   const WeatherPeriod & thePeriod,
-						   const WeatherArea & theArea);
-  }
+  public:
+
+	static WeatherResult forecast(const AnalysisSources & theSources,
+								  const WeatherFunction & theFunction,
+								  const WeatherLimits & theLimits,
+								  const WeatherPeriod & thePeriod,
+								  const WeatherArea & theArea);
+  };
 }
 
 #endif // WEATHERANALYSIS_WINDDIRECTIONANALYSIS_H

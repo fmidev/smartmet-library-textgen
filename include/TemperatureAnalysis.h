@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace TemperatureAnalysis
+ * \brief Interface of class TemperatureAnalysis
  */
 // ======================================================================
 /*!
- * \namespace WeatherAnalysis::TemperatureAnalysis
+ * \class WeatherAnalysis::TemperatureAnalysis
  *
  * \brief Temperature analysis functions
  *
@@ -27,14 +27,16 @@ namespace WeatherAnalysis
   class WeatherPeriod;
   class WeatherResult;
 
-  namespace TemperatureAnalysis
+  class TemperatureAnalysis
   {
-	WeatherResult forecast(const AnalysisSources & theSources,
-						   const WeatherFunction & theFunction,
-						   const WeatherLimits & theLimits,
-						   const WeatherPeriod & thePeriod,
-						   const WeatherArea & theArea);
-  }
+  public:
+
+	static WeatherResult forecast(const AnalysisSources & theSources,
+								  const WeatherFunction & theFunction,
+								  const WeatherLimits & theLimits,
+								  const WeatherPeriod & thePeriod,
+								  const WeatherArea & theArea);
+  };
 }
 
 #endif // WEATHERANALYSIS_TEMPERATUREANALYSIS_H

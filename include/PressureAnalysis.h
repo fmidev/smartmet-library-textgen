@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace PressureAnalysis
+ * \brief Interface of class PressureAnalysis
  */
 // ======================================================================
 /*!
- * \namespace WeatherAnalysis::PressureAnalysis
+ * \class WeatherAnalysis::PressureAnalysis
  *
  * \brief Pressure analysis functions
  *
@@ -27,14 +27,16 @@ namespace WeatherAnalysis
   class WeatherPeriod;
   class WeatherResult;
 
-  namespace PressureAnalysis
+  class PressureAnalysis
   {
-	WeatherResult forecast(const AnalysisSources & theSources,
-						   const WeatherFunction & theFunction,
-						   const WeatherLimits & theLimits,
-						   const WeatherPeriod & thePeriod,
-						   const WeatherArea & theArea);
-  }
+  public:
+
+	static WeatherResult forecast(const AnalysisSources & theSources,
+								  const WeatherFunction & theFunction,
+								  const WeatherLimits & theLimits,
+								  const WeatherPeriod & thePeriod,
+								  const WeatherArea & theArea);
+  };
 }
 
 #endif // WEATHERANALYSIS_PRESSUREANALYSIS_H
