@@ -976,9 +976,9 @@ INSERT INTO translation_sv VALUES ('2-aamuun','till tisdag morgon',2003051209130
 INSERT INTO translation_sv VALUES ('3-aamuun','till onsdag morgon',20030512091310,'mheiskan');
 INSERT INTO translation_sv VALUES ('4-aamuun','till torsdag morgon',20030512091318,'mheiskan');
 INSERT INTO translation_sv VALUES ('5-aamuun','till fredag morgon',20030512091327,'mheiskan');
-INSERT INTO translation_sv VALUES ('monin paikoin enemmän','på många håll mera',20030523084556,'mheiskan');
+INSERT INTO translation_sv VALUES ('monin paikoin enemmän','flerstädes mera',20030611141221,'mheiskan');
 INSERT INTO translation_sv VALUES ('paikoin enemmän','lokalt mera',20030523084541,'mheiskan');
-INSERT INTO translation_sv VALUES ('monin paikoin','på många håll',20030523084527,'mheiskan');
+INSERT INTO translation_sv VALUES ('monin paikoin','flersädes',20030611141213,'mheiskan');
 INSERT INTO translation_sv VALUES ('paikoin','lokalt',20030523084518,'mheiskan');
 INSERT INTO translation_sv VALUES ('odotettavissa','utsikter',20030513092904,'mheiskan');
 INSERT INTO translation_sv VALUES ('keskilämpötila','medeltemperaturen',20030516130805,'mheiskan');
