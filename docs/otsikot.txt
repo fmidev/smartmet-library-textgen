@@ -23,7 +23,7 @@ kanssa.
 Mahdolliset headerit ovat
 
   -# "Odotettavissa maanantaiaamuun asti" + viikonpäivävariaatiot
-  -# "Odotettavissa maanantaiiltaan asti" + viikonpäivävariaatiot
+  -# "Odotettavissa maanantai-iltaan asti" + viikonpäivävariaatiot
 
 Käytetyt fraasit ovat
 
