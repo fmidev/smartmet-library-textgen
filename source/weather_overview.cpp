@@ -413,6 +413,595 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Table from page \ref page_rain_twoday
+   *
+   * All possible one day rains mapped onto 48 unique cases
+   */
+  // ----------------------------------------------------------------------
+
+  int two_day_forecasts[577] =
+	{
+	  0,  // place holder to get indices to start from 1
+	  45, // 1. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 2. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 3. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 4. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  44, // 5. Tänään [paikoin] [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
+	  44, // 6. Tänään [paikoin] [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
+	  44, // 7. Tänään [paikoin] [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
+	  44, // 8. Tänään [paikoin] [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
+	  43, // 9. Tänään [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  43, // 10. Tänään [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  48, // 11. Tänään [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  48, // 12. Tänään [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  47, // 13. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 14. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 15. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 16. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  46, // 17. Tänään [paikoin] [sadetta], huomenna illalla poutaa
+	  46, // 18. Tänään [paikoin] [sadetta], huomenna illalla poutaa
+	  46, // 19. Tänään [paikoin] [sadetta], huomenna illalla poutaa
+	  46, // 20. Tänään [paikoin] [sadetta], huomenna illalla poutaa
+	  35, // 21. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 22. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 23. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 24. Tänään ja huomenna [paikoin] [sadetta]
+	  45, // 25. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 26. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 27. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 28. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  44, // 29. Tänään [paikoin] [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
+	  44, // 30. Tänään [paikoin] [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
+	  44, // 31. Tänään [paikoin] [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
+	  44, // 32. Tänään [paikoin] [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
+	  43, // 33. Tänään [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  43, // 34. Tänään [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  48, // 35. Tänään [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  48, // 36. Tänään [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  47, // 37. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 38. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 39. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 40. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  46, // 41. Tänään [paikoin] [sadetta], huomenna illalla poutaa
+	  46, // 42. Tänään [paikoin] [sadetta], huomenna illalla poutaa
+	  46, // 43. Tänään [paikoin] [sadetta], huomenna illalla poutaa
+	  46, // 44. Tänään [paikoin] [sadetta], huomenna illalla poutaa
+	  35, // 45. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 46. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 47. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 48. Tänään ja huomenna [paikoin] [sadetta]
+	  45, // 49. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 50. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 51. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 52. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  14, // 53. Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  14, // 54. Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  14, // 55. Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  14, // 56. Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  43, // 57. Tänään [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  43, // 58. Tänään [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  48, // 59. Tänään [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  48, // 60. Tänään [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  47, // 61. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 62. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 63. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 64. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  46, // 65. Tänään [paikoin] [sadetta], huomenna illalla poutaa
+	  46, // 66. Tänään [paikoin] [sadetta], huomenna illalla poutaa
+	  46, // 67. Tänään [paikoin] [sadetta], huomenna illalla poutaa
+	  46, // 68. Tänään [paikoin] [sadetta], huomenna illalla poutaa
+	  35, // 69. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 70. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 71. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 72. Tänään ja huomenna [paikoin] [sadetta]
+	  45, // 73. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 74. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 75. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 76. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  14, // 77. Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  14, // 78. Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  14, // 79. Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  14, // 80. Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  43, // 81. Tänään [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  43, // 82. Tänään [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  48, // 83. Tänään [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  48, // 84. Tänään [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  47, // 85. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 86. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 87. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 88. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  15, // 89. Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  15, // 90. Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  15, // 91. Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  15, // 92. Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  15, // 93. Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  15, // 94. Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  35, // 95. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 96. Tänään ja huomenna [paikoin] [sadetta]
+	  45, // 97. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 98. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 99. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  45, // 100. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  14, // 101. Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  14, // 102. Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  14, // 103. Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  14, // 104. Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  43, // 105. Tänään [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  43, // 106. Tänään [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  48, // 107. Tänään [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  48, // 108. Tänään [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  47, // 109. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 110. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 111. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  47, // 112. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  15, // 113. Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  15, // 114. Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  15, // 115. Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  15, // 116. Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  15, // 117. Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  15, // 118. Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  35, // 119. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 120. Tänään ja huomenna [paikoin] [sadetta]
+	  9, //  121. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  9, //  122. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  9, //  123. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  9, //  124. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  12, // 125. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  12, // 126. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  12, // 127. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  12, // 128. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  8, //  129. Tänään aamusta alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  8, //  130. Tänään aamusta alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  11, // 131. Tänään aamusta alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  11, // 132. Tänään aamusta alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  10, // 133. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  10, // 134. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  10, // 135. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  10, // 136. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  13, // 137. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 138. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 139. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 140. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 141. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 142. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  35, // 143. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 144. Tänään ja huomenna [paikoin] [sadetta]
+	  9, //  145. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  9, //  146. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  9, //  147. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  9, //  148. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  12, // 149. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  12, // 150. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  12, // 151. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  12, // 152. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  8, //  153. Tänään aamusta alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  8, //  154. Tänään aamusta alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  11, // 155. Tänään aamusta alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  11, // 156. Tänään aamusta alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  10, // 157. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  10, // 158. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  10, // 159. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  13, // 160. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 161. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 162. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 163. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 164. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 165. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 166. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  35, // 167. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 168. Tänään ja huomenna [paikoin] [sadetta]
+	  9, //  169. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  9, //  170. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  9, //  171. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  9, //  172. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  12, // 173. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  12, // 174. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  12, // 175. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  12, // 176. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  8, //  177. Tänään aamusta alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  8, //  178. Tänään aamusta alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  11, // 179. Tänään aamusta alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  11, // 180. Tänään aamusta alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  10, // 181. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  10, // 182. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  10, // 183. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  10, // 184. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  13, // 185. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 186. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 187. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 188. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 189. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 190. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  35, // 191. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 192. Tänään ja huomenna [paikoin] [sadetta]
+	  9, //  193. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  9, //  194. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  9, //  195. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  9, //  196. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  12, // 197. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  12, // 198. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  12, // 199. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  12, // 200. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  8, //  201. Tänään aamusta alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  8, //  202. Tänään aamusta alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  11, // 203. Tänään aamusta alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  11, // 204. Tänään aamusta alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  10, // 205. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  10, // 206. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  10, // 207. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  10, // 208. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  13, // 209. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 210. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 211. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 212. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 213. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  13, // 214. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  35, // 215. Tänään ja huomenna [paikoin] [sadetta]
+	  35, // 216. Tänään ja huomenna [paikoin] [sadetta]
+	  2, //  217. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  2, //  218. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  2, //  219. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  2, //  220. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  6, //  221. Tänään aamupäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  6, //  222. Tänään aamupäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  6, //  223. Tänään aamupäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  6, //  224. Tänään aamupäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  1, //  225. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  1, //  226. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  4, //  227. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  4, //  228. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  3, //  229. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  3, //  230. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  3, //  231. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  3, //  232. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  7, //  233. Tänään aamupäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  7, //  234. Tänään aamupäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  7, //  235. Tänään aamupäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  7, //  236. Tänään aamupäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  7, //  237. Tänään aamupäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  7, //  238. Tänään aamupäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  5, //  239. Tänään aamupäivästä alkaen [paikoin] [sadetta>
+	  5, //  240. Tänään aamupäivästä alkaen [paikoin] [sadetta>
+	  2, //  241. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  2, //  242. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  2, //  243. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  2, //  244. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  6, //  245. Tänään aamupäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  6, //  246. Tänään aamupäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  6, //  247. Tänään aamupäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  6, //  248. Tänään aamupäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  1, //  249. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  1, //  250. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  4, //  251. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  4, //  252. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  3, //  253. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  3, //  254. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  3, //  255. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  3, //  256. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  7, //  257. Tänään aamupäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  7, //  258. Tänään aamupäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  7, //  259. Tänään aamupäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  7, //  260. Tänään aamupäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  7, //  261. Tänään aamupäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  7, //  262. Tänään aamupäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  5, //  263. Tänään aamupäivästä alkaen [paikoin] [sadetta>
+	  5, //  264. Tänään aamupäivästä alkaen [paikoin] [sadetta>
+	  37, // 265. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  37, // 266. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  37, // 267. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  37, // 268. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  41, // 269. Tänään keskipäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  41, // 270. Tänään keskipäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  41, // 271. Tänään keskipäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  41, // 272. Tänään keskipäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  36, // 273. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  36, // 274. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  39, // 275. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  39, // 276. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  38, // 277. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  38, // 278. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  38, // 279. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  38, // 280. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  42, // 281. Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  42, // 282. Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  42, // 283. Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  42, // 284. Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  42, // 285. Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  42, // 286. Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  40, // 287. Tänään keskipäivästä alkaen [paikoin] [sadetta]
+	  40, // 288. Tänään keskipäivästä alkaen [paikoin] [sadetta]
+	  37, // 289. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  37, // 290. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  37, // 291. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  37, // 292. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  41, // 293. Tänään keskipäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  41, // 294. Tänään keskipäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  41, // 295. Tänään keskipäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  41, // 296. Tänään keskipäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  36, // 297. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  36, // 298. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  39, // 299. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  39, // 300. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  38, // 301. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  38, // 302. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  38, // 303. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  38, // 304. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  42, // 305. Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  42, // 306. Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  42, // 307. Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  42, // 308. Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  42, // 309. Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  42, // 310. Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  40, // 311. Tänään keskipäivästä alkaen [paikoin] [sadetta]
+	  40, // 312. Tänään keskipäivästä alkaen [paikoin] [sadetta]
+	  29, // 313. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 314. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 315. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 316. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  33, // 317. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 318. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 319. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 320. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  28, // 321. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  28, // 322. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  31, // 323. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  31, // 324. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  30, // 325. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 326. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 327. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 328. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  34, // 329. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 330. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 331. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 332. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 333. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 334. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  40, // 335. Tänään keskipäivästä alkaen [paikoin] [sadetta]
+	  40, // 336. Tänään keskipäivästä alkaen [paikoin] [sadetta]
+	  29, // 337. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 338. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 339. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 340. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  33, // 341. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 342. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 343. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 344. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  28, // 345. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  28, // 346. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  31, // 347. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  31, // 348. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  30, // 349. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 350. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 351. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 352. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  34, // 353. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 354. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 355. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 356. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 357. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 358. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  40, // 359. Tänään keskipäivästä alkaen [paikoin] [sadetta]
+	  40, // 360. Tänään keskipäivästä alkaen [paikoin] [sadetta]
+	  29, // 361. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 362. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 363. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 364. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  33, // 365. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 366. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 367. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 368. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  28, // 369. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  28, // 370. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  31, // 371. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  31, // 372. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  30, // 373. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 374. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 375. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 376. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  34, // 377. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 378. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 379. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 380. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 381. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 382. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  32, // 383. Tänään iltapäivästä alkaen [paikoin] [sadetta>
+	  32, // 384. Tänään iltapäivästä alkaen [paikoin] [sadetta>
+	  29, // 385. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 386. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 387. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 388. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  33, // 389. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 390. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 391. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 392. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  28, // 393. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  28, // 394. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  31, // 395. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  31, // 396. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  30, // 397. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 398. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 399. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 400. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  34, // 401. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 402. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 403. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 404. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 405. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 406. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  32, // 407. Tänään iltapäivästä alkaen [paikoin] [sadetta>
+	  32, // 408. Tänään iltapäivästä alkaen [paikoin] [sadetta>
+	  29, // 409. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 410. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 411. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  29, // 412. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  33, // 413. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 414. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 415. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  33, // 416. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  28, // 417. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  28, // 418. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  31, // 419. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  31, // 420. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  30, // 421. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 422. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 423. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  30, // 424. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  34, // 425. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 426. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 427. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 428. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 429. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  34, // 430. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  32, // 431. Tänään iltapäivästä alkaen [paikoin] [sadetta>
+	  32, // 432. Tänään iltapäivästä alkaen [paikoin] [sadetta>
+	  16, // 433. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 434. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 435. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 436. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 437. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 438. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 439. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 440. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  17, // 441. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  17, // 442. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  19, // 443. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  19, // 444. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  18, // 445. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  18, // 446. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  18, // 447. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  18, // 448. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  21, // 449. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 450. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 451. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 452. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 453. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 454. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  20, // 455. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]
+	  20, // 456. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]
+	  16, // 457. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 458. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 459. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 460. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 461. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 462. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 463. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 464. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  17, // 465. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  17, // 466. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  19, // 467. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  19, // 468. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  18, // 469. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  18, // 470. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  18, // 471. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  18, // 472. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  21, // 473. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 474. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 475. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 476. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 477. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 478. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  20, // 479. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]
+	  20, // 480. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]
+	  16, // 481. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 482. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 483. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 484. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 485. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 486. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 487. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 488. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  17, // 489. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  17, // 490. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  19, // 491. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  17, // 492. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  18, // 493. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  18, // 494. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  18, // 495. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  18, // 496. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  21, // 497. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 498. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 499. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 500. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 501. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 502. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  20, // 503. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]
+	  20, // 504. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]
+	  16, // 505. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 506. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 507. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 508. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 509. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 510. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 511. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  16, // 512. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  17, // 513. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  17, // 514. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  19, // 515. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  19, // 516. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  18, // 517. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  18, // 518. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  18, // 519. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  18, // 520. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  21, // 521. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 522. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 523. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 524. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 525. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  21, // 526. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  20, // 527. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]
+	  20, // 528. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]
+	  27, // 529. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  27, // 530. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  27, // 531. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  27, // 532. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  27, // 533. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  27, // 534. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  27, // 535. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  27, // 536. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  22, // 537. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  22, // 538. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  24, // 539. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  24, // 540. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  23, // 541. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  23, // 542. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  23, // 543. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  23, // 544. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  26, // 545. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  26, // 546. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  26, // 547. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  26, // 548. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  26, // 549. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  26, // 550. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  25, // 551. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]
+	  25, // 552. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]
+	  27, // 553. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  27, // 554. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  27, // 555. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  27, // 556. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  27, // 557. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  27, // 558. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  27, // 559. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  27, // 560. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  22, // 561. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  22, // 562. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  24, // 563. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  24, // 564. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  23, // 565. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  23, // 566. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  23, // 567. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  23, // 568. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  26, // 569. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  26, // 570. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  26, // 571. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  26, // 572. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  26, // 573. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  26, // 574. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  25, // 575. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]
+	  25  // 576. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]
+	};
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Calculates index for rain in the first table at \ref page_rain_oneday
    *
    * If forecast length is N+1, the start index for that forecast length is
