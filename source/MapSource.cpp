@@ -21,6 +21,7 @@
 
 #include "NFmiFileSystem.h"
 #include "NFmiSvgPath.h"
+#include "NFmiSvgTools.h"
 
 #include <cassert>
 #include <fstream>
@@ -143,7 +144,7 @@ namespace WeatherAnalysis
 	Pimple::storage_type::const_iterator it = itsPimple->itsData.begin();
 	Pimple::storage_type::const_iterator endIter = itsPimple->itsData.end();
 	for( ; it != endIter; ++it)
-	  if(it->second.isInside(theLatlon))
+	  if(NFmiSvgTools::IsInside(it->second,theLatlon))
 		return it->first;
 	
 	return "";
