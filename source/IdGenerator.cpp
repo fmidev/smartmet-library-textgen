@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class IdGenerator
+ * \brief Interface of class WeatherAnalysis::IdGenerator
  */
 // ======================================================================
 

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class FrostAnalyzer
+ * \brief Interface of class WeatherAnalysis::FrostAnalyzer
  */
 // ======================================================================
 /*!

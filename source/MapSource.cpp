@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class MapSource
+ * \brief Implementation of class WeatherAnalysis::MapSource
  */
 // ======================================================================
 

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherLimits
+ * \brief Implementation of class WeatherAnalysis::WeatherLimits
  */
 // ======================================================================
 

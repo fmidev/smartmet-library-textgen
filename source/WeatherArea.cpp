@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherArea
+ * \brief Implementation of class WeatherAnalysis::WeatherArea
  */
 // ======================================================================
 

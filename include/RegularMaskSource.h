@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class RegularMaskSource
+ * \brief Interface of class WeatherAnalysis::RegularMaskSource
  */
 // ======================================================================
 /*!

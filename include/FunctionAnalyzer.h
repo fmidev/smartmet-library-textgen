@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of abstract class FunctionAnalyzer
+ * \brief Interface of abstract class WeatherAnalysis::FunctionAnalyzer
  */
 // ======================================================================
 /*!

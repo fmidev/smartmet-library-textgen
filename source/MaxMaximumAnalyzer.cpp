@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class MaxMaximumAnalyzer
+ * \brief Implementation of class WeatherAnalysis::MaxMaximumAnalyzer
  */
 // ======================================================================
 

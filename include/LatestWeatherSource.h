@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class LatestWeatherSource
+ * \brief Interface of class WeatherAnalysis::LatestWeatherSource
  */
 // ======================================================================
 /*!

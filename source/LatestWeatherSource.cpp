@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class LatestWeatherSource
+ * \brief Implementation of class WeatherAnalysis::LatestWeatherSource
  */
 // ======================================================================
 

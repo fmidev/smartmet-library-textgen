@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherFact
+ * \brief Implementation of class WeatherAnalysis::WeatherFact
  */
 // ======================================================================
 

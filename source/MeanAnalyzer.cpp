@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class MeanAnalyzer
+ * \brief Implementation of class WeatherAnalysis::MeanAnalyzer
  */
 // ======================================================================
 

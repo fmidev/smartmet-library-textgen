@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of abstract class WeatherStatistician
+ * \brief Interface of abstract class WeatherAnalysis::WeatherStatistician
  */
 // ======================================================================
 /*!

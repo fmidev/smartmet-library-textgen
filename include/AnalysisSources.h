@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class AnalysisSources
+ * \brief Interface of class WeatherAnalysis::AnalysisSources
  */
 // ======================================================================
 /*!

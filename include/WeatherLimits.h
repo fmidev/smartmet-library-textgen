@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherLimits
+ * \brief Interface of class WeatherAnalysis::WeatherLimits
  */
 // ======================================================================
 /*!

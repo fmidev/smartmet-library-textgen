@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Enumeration of WeatherFunction
+ * \brief Enumeration of WeatherAnalysis::WeatherFunction
  */
 // ======================================================================
 /*!

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of abstract class WeatherObserver
+ * \brief Interface of abstract class WeatherAnalysis::WeatherObserver
  */
 // ======================================================================
 /*!

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace FunctionAnalyzerFactory
+ * \brief Interface of namespace WeatherAnalysis::FunctionAnalyzerFactory
  */
 // ======================================================================
 /*!

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class GridForecaster
+ * \brief Interface of class WeatherAnalysis::GridForecaster
  */
 // ======================================================================
 /*!

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class MinMinimumAnalyzer
+ * \brief Interface of class WeatherAnalysis::MinMinimumAnalyzer
  */
 // ======================================================================
 /*!

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of abstract class ParameterAnalyzer
+ * \brief Interface of abstract class WeatherAnalysis::ParameterAnalyzer
  */
 // ======================================================================
 /*!
