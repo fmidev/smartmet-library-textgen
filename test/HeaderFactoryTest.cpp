@@ -92,22 +92,22 @@ namespace HeaderFactoryTest
 
 	string result;
 
-	result = require("fi",area,period1,var,"Odotettavissa maanantaiaamuun asti:");
+	result = require("fi",area,period1,var,"Odotettavissa maanantaiaamuun asti");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period1,var,"Utsikter till måndag morgon:");
+	result = require("sv",area,period1,var,"Utsikter till måndag morgon");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("en",area,period1,var,"Expected weather until Monday morning:");
+	result = require("en",area,period1,var,"Expected weather until Monday morning");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("fi",area,period2,var,"Odotettavissa maanantai-iltaan asti:");
+	result = require("fi",area,period2,var,"Odotettavissa maanantai-iltaan asti");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period2,var,"Utsikter till måndag kväll:");
+	result = require("sv",area,period2,var,"Utsikter till måndag kväll");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("en",area,period2,var,"Expected weather until Monday evening:");
+	result = require("en",area,period2,var,"Expected weather until Monday evening");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	TEST_PASSED();
@@ -132,22 +132,22 @@ namespace HeaderFactoryTest
 
 	string result;
 
-	result = require("fi",area,period1,var,"Odotettavissa sunnuntaiaamusta maanantaiaamuun:");
+	result = require("fi",area,period1,var,"Odotettavissa sunnuntaiaamusta maanantaiaamuun");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period1,var,"Utsikter från söndag morgon till måndag morgon:");
+	result = require("sv",area,period1,var,"Utsikter från söndag morgon till måndag morgon");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("en",area,period1,var,"Expected weather from Sunday morning until Monday morning:");
+	result = require("en",area,period1,var,"Expected weather from Sunday morning until Monday morning");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("fi",area,period2,var,"Odotettavissa sunnuntaiaamusta maanantai-iltaan:");
+	result = require("fi",area,period2,var,"Odotettavissa sunnuntaiaamusta maanantai-iltaan");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period2,var,"Utsikter från söndag morgon till måndag kväll:");
+	result = require("sv",area,period2,var,"Utsikter från söndag morgon till måndag kväll");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("en",area,period2,var,"Expected weather from Sunday morning until Monday evening:");
+	result = require("en",area,period2,var,"Expected weather from Sunday morning until Monday evening");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	TEST_PASSED();
@@ -171,13 +171,13 @@ namespace HeaderFactoryTest
 
 	string result;
 
-	result = require("fi",area,period,var,"Sunnuntaiaamusta alkavan kahden vuorokauden sää:");
+	result = require("fi",area,period,var,"Sunnuntaiaamusta alkavan kahden vuorokauden sää");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"Från söndag morgon för de följande två dygnen:");
+	result = require("sv",area,period,var,"Från söndag morgon för de följande två dygnen");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("en",area,period,var,"From Sunday morning for the next two days:");
+	result = require("en",area,period,var,"From Sunday morning for the next two days");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	TEST_PASSED();
@@ -201,13 +201,13 @@ namespace HeaderFactoryTest
 
 	string result;
 
-	result = require("fi",area,period,var,"Sääennuste Uudellemaalle sunnuntaina kello 6:");
+	result = require("fi",area,period,var,"Sääennuste Uudellemaalle sunnuntaina kello 6");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"Väderrapport för Nyland söndag klockan 6:");
+	result = require("sv",area,period,var,"Väderrapport för Nyland söndag klockan 6");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("en",area,period,var,"Weather report for Uusimaa on Sunday 6 o'clock:");
+	result = require("en",area,period,var,"Weather report for Uusimaa on Sunday 6 o'clock");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	TEST_PASSED();
