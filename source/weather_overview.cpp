@@ -24,6 +24,44 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Generator story on a day with a single inclusive rain
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph one_inclusive_rain(const NFmiTime & theForecastTime,
+							   const AnalysisSources & theSources,
+							   const WeatherArea & theArea,
+							   const WeatherPeriod & thePeriod,
+							   const string & theVar,
+							   const WeatherPeriod & theRainPeriod)
+  {
+	Paragraph p;
+	Sentence s;
+	s << "ajoittain sateista";
+	p << s;
+	return p;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generate story on a day with many inclusive rains
+   */
+  // ----------------------------------------------------------------------
+   
+  Sentence many_inclusive_rains(const NFmiTime & theForecastTime,
+								const AnalysisSources & theSources,
+								const WeatherArea & theArea,
+								const WeatherPeriod & thePeriod,
+								const string & theVar,
+								const PrecipitationPeriodTools::RainPeriods & theRainPeriods)
+  {
+	Sentence s;
+	s << "ajoittain sateista";
+	return s;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Generate overview on weather
    *
    * \return The story
@@ -140,18 +178,24 @@ namespace TextGen
 				paragraph << story.makeStory("cloudiness_overview");
 				day = day2;
 			  }
-
+			
 			else if(ninclusive==1)
 			  {
-				Sentence s;
-				s << "sadetta";
-				paragraph << s;
+				paragraph << one_inclusive_rain(itsForecastTime,
+												itsSources,
+												itsArea,
+												generator.period(day),
+												itsVar,
+												inclusives[day-1].front());
 			  }
 			else
 			  {
-				Sentence s;
-				s << "ajoittain sateista";
-				paragraph << s;
+				paragraph << many_inclusive_rains(itsForecastTime,
+												  itsSources,
+												  itsArea,
+												  generator.period(day),
+												  itsVar,
+												  inclusives[day-1]);
 			  }
 		  }
 		else
