@@ -110,9 +110,9 @@ namespace WeatherAnalysis
 	}
 
 	{
-	  WeatherId id = IdGenerator::generate();
+	  WeatherId newid = IdGenerator::generate();
 	  typedef Pimple::id_container_type::value_type value_type;
-	  itsPimple->itsIdData.insert(value_type(theName,id));
+	  itsPimple->itsIdData.insert(value_type(theName,newid));
 	}
 
   }
