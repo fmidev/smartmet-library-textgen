@@ -1,0 +1,9 @@
+/*!
+
+\mainpage textgen Tekstigeneraattori
+
+\section johdanto_kap Johdanto
+
+Tänne tulee tekstigeneraattorin dokumentaation etusivu.
+
+*/
