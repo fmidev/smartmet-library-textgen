@@ -99,13 +99,13 @@ namespace TextGen
 
 	Paragraph paragraph;
 
-	// Separate generators for day and night
+	// Separate generators for day and night.
 
 	HourPeriodGenerator daygenerator(itsPeriod,itsVar+"::day");
 	HourPeriodGenerator nightgenerator(itsPeriod,itsVar+"::night");
 
 	const bool hasday = (daygenerator.size() > 0);
-	const bool hasnight = (daygenerator.size() > 0);
+	const bool hasnight = (nightgenerator.size() > 0);
 
 	// Too late? Return empty story then
 
@@ -170,17 +170,17 @@ namespace TextGen
 	  {
 		WeatherPeriod period = daygenerator.period(1);
 
-		log << "Results for area:" << endl;
+		log << "Day results for area:" << endl;
 		calculate_mean_min_max(log,forecaster,
 							   itsVar+"::fake::day::area",itsSources,itsArea,period,Maximum,
 							   areameanday,areaminday,areamaxday);
 
-		log << "Results for coast:" << endl;
+		log << "Day results for coast:" << endl;
 		calculate_mean_min_max(log,forecaster,
 							   itsVar+"::fake::day::coast",itsSources,coast,period,Maximum,
 							   coastmeanday,coastminday,coastmaxday);
 
-		log << "Results for inland:" << endl;
+		log << "Day results for inland:" << endl;
 		calculate_mean_min_max(log,forecaster,
 							   itsVar+"::fake::day::inland",itsSources,inland,period,Maximum,
 							   inlandmeanday,inlandminday,inlandmaxday);
@@ -193,17 +193,17 @@ namespace TextGen
 	  {
 		WeatherPeriod period = nightgenerator.period(1);
 
-		log << "Results for area:" << endl;
+		log << "Night results for area:" << endl;
 		calculate_mean_min_max(log,forecaster,
 							   itsVar+"::fake::night::area",itsSources,itsArea,period,Minimum,
 							   areameannight,areaminnight,areamaxnight);
 
-		log << "Results for coast:" << endl;
+		log << "Night results for coast:" << endl;
 		calculate_mean_min_max(log,forecaster,
 							   itsVar+"::fake::night::coast",itsSources,coast,period,Minimum,
 							   coastmeannight,coastminnight,coastmaxnight);
 
-		log << "Results for inland:" << endl;
+		log << "Night results for inland:" << endl;
 		calculate_mean_min_max(log,forecaster,
 							   itsVar+"::fake::night::inland",itsSources,inland,period,Minimum,
 							   inlandmeannight,inlandminnight,inlandmaxnight);
