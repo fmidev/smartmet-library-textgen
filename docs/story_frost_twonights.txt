@@ -37,10 +37,10 @@ Yleensä käytetään tarkkuutta 10.
 
 Yön määritelmä saadaan muuttujista
 \code
-textgen::[kappale]::story::relativehumidity_lowest::night::starthour = [0-23]
-textgen::[kappale]::story::relativehumidity_lowest::night::endhour = [0-23]
-textgen::[kappale]::story::relativehumidity_lowest::night::maxstarthour = [0-23]
-textgen::[kappale]::story::relativehumidity_lowest::night::minendhour = [0-23]
+textgen::[kappale]::story::frost_twonights::night::starthour = [0-23]
+textgen::[kappale]::story::frost_twonights::night::endhour = [0-23]
+textgen::[kappale]::story::frost_twonights::night::maxstarthour = [0-23]
+textgen::[kappale]::story::frost_twonights::night::minendhour = [0-23]
 \endcode
 Päivän normaali aikaväli on \c starthour - \c endhour. Jos periodi on
 lyhyempi kuin mitä nämä asetukset vaativat, voidaan niissä joustaa
