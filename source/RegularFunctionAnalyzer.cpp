@@ -192,8 +192,23 @@ namespace WeatherAnalysis
 
 	if(!theArea.isPoint())
 	  {
-		shared_ptr<MaskSource> msource = theSources.getMaskSource();
-		MaskSource::mask_type mask = msource->mask(theArea,dataname,*wsource);
+		MaskSource::mask_type mask;
+		
+		switch(theArea.type())
+		  {
+		  case WeatherArea::Full:
+			mask = theSources.getMaskSource()->mask(theArea,dataname,*wsource);
+			break;
+		  case WeatherArea::Land:
+			mask = theSources.getLandMaskSource()->mask(theArea,dataname,*wsource);
+			break;
+		  case WeatherArea::Coast:
+			mask = theSources.getCoastMaskSource()->mask(theArea,dataname,*wsource);
+			break;
+		  case WeatherArea::Inland:
+			mask = theSources.getInlandMaskSource()->mask(theArea,dataname,*wsource);
+			break;
+		  }
 
 		// Result
 
