@@ -19,6 +19,7 @@
 #include "RelativeHumidityAnalyzer.h"
 #include "SevereFrostAnalyzer.h"
 #include "TemperatureAnalyzer.h"
+#include "ThunderAnalyzer.h"
 #include "WindDirectionAnalyzer.h"
 #include "WindSpeedAnalyzer.h"
 
@@ -158,6 +159,20 @@ namespace WeatherAnalysis
 	  case WindDirection:
 		{
 		  WindDirectionAnalyzer analyzer;
+		  return analyzer.analyze(theSources,
+								  Forecast,
+								  theAreaFunction,
+								  theTimeFunction,
+								  theSubTimeFunction,
+								  theArea,
+								  thePeriods,
+								  theAreaAcceptor,
+								  theTimeAcceptor,
+								  theTester);
+		}
+	  case Thunder:
+		{
+		  ThunderAnalyzer analyzer;
 		  return analyzer.analyze(theSources,
 								  Forecast,
 								  theAreaFunction,

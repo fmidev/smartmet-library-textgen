@@ -32,7 +32,8 @@ namespace WeatherAnalysis
 	  SevereFrost,
 	  RelativeHumidity,
 	  WindSpeed,
-	  WindDirection
+	  WindDirection,
+	  Thunder
 
 	}; // enum WeatherParameter
 
