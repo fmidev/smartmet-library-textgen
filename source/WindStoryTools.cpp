@@ -297,7 +297,7 @@ namespace TextGen
 		}
 	  else
 		{
-		  sentence << IntegerRange(minvalue,maxvalue,"-");
+		  sentence << IntegerRange(minvalue,maxvalue);
 		}
 	  sentence << *UnitFactory::create(MetersPerSecond);
 	  
