@@ -78,26 +78,41 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period2,"sv","På måndagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Monday.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_today","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atday","false");
+	NFmiSettings::instance().set(var+"::timephrases","weekday");
 	REQUIRE(mode,var,ftime,period1,"fi","Sunnuntaina.");
 	REQUIRE(mode,var,ftime,period1,"sv","På söndagen.");
 	REQUIRE(mode,var,ftime,period1,"en","On Sunday.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_today","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atday","false");
+	REQUIRE(mode,var,ftime,period2,"fi","Maanantaina.");
+	REQUIRE(mode,var,ftime,period2,"sv","På måndagen.");
+	REQUIRE(mode,var,ftime,period2,"en","On Monday.");
+
+	NFmiSettings::instance().set(var+"::timephrases","today");
 	REQUIRE(mode,var,ftime,period1,"fi","Tänään.");
 	REQUIRE(mode,var,ftime,period1,"sv","I dag.");
 	REQUIRE(mode,var,ftime,period1,"en","Today.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_today","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atday","true");
+	REQUIRE(mode,var,ftime,period2,"fi","Maanantaina.");
+	REQUIRE(mode,var,ftime,period2,"sv","På måndagen.");
+	REQUIRE(mode,var,ftime,period2,"en","On Monday.");
+
+	NFmiSettings::instance().set(var+"::timephrases","atday");
 	REQUIRE(mode,var,ftime,period1,"fi","Päivällä.");
 	REQUIRE(mode,var,ftime,period1,"sv","På dagen.");
 	REQUIRE(mode,var,ftime,period1,"en","During the day.");
+
+	REQUIRE(mode,var,ftime,period2,"fi","Maanantaina.");
+	REQUIRE(mode,var,ftime,period2,"sv","På måndagen.");
+	REQUIRE(mode,var,ftime,period2,"en","On Monday.");
+
+	NFmiSettings::instance().set(var+"::timephrases","none");
+	REQUIRE(mode,var,ftime,period1,"fi","");
+	REQUIRE(mode,var,ftime,period1,"sv","");
+	REQUIRE(mode,var,ftime,period1,"en","");
+
+	REQUIRE(mode,var,ftime,period2,"fi","Maanantaina.");
+	REQUIRE(mode,var,ftime,period2,"sv","På måndagen.");
+	REQUIRE(mode,var,ftime,period2,"en","On Monday.");
 
 	TEST_PASSED();
   }
@@ -131,26 +146,41 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_tonight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atnight","false");
+	NFmiSettings::instance().set(var+"::timephrases","weekday");
 	REQUIRE(mode,var,ftime,period1,"fi","Maanantain vastaisena yönä.");
 	REQUIRE(mode,var,ftime,period1,"sv","Natten mot måndagen.");
 	REQUIRE(mode,var,ftime,period1,"en","On Monday night.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_tonight","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atnight","false");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yönä.");
+	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
+	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
+
+	NFmiSettings::instance().set(var+"::timephrases","tonight");
 	REQUIRE(mode,var,ftime,period1,"fi","Ensi yönä.");
 	REQUIRE(mode,var,ftime,period1,"sv","I natt.");
 	REQUIRE(mode,var,ftime,period1,"en","At night.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_tonight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atnight","true");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yönä.");
+	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
+	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
+
+	NFmiSettings::instance().set(var+"::timephrases","atnight");
 	REQUIRE(mode,var,ftime,period1,"fi","Yöllä.");
 	REQUIRE(mode,var,ftime,period1,"sv","På natten.");
 	REQUIRE(mode,var,ftime,period1,"en","At night.");
+
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yönä.");
+	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
+	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
+
+	NFmiSettings::instance().set(var+"::timephrases","none");
+	REQUIRE(mode,var,ftime,period1,"fi","");
+	REQUIRE(mode,var,ftime,period1,"sv","");
+	REQUIRE(mode,var,ftime,period1,"en","");
+
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yönä.");
+	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
+	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
 	TEST_PASSED();
   }
@@ -184,38 +214,38 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period2,"sv","I morgon.");
 	REQUIRE(mode,var,ftime,period2,"en","Tomorrow.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_today","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atday","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
+	NFmiSettings::instance().set(var+"::timephrases","today");
 	REQUIRE(mode,var,ftime,period1,"fi","Tänään.");
 	REQUIRE(mode,var,ftime,period1,"sv","I dag.");
 	REQUIRE(mode,var,ftime,period1,"en","Today.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_today","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atday","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
-	REQUIRE(mode,var,ftime,period1,"fi","Päivällä.");
-	REQUIRE(mode,var,ftime,period1,"sv","På dagen.");
-	REQUIRE(mode,var,ftime,period1,"en","During the day.");
-
-	NFmiSettings::instance().set(var+"::prefer_phrase_today","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atday","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","true");
-	REQUIRE(mode,var,ftime,period1,"fi","Sunnuntaina.");
-	REQUIRE(mode,var,ftime,period1,"sv","På söndagen.");
-	REQUIRE(mode,var,ftime,period1,"en","On Sunday.");
-
-	NFmiSettings::instance().set(var+"::prefer_phrase_tomorrow","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
 	REQUIRE(mode,var,ftime,period2,"fi","Huomenna.");
 	REQUIRE(mode,var,ftime,period2,"sv","I morgon.");
 	REQUIRE(mode,var,ftime,period2,"en","Tomorrow.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_tomorrow","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","true");
+	NFmiSettings::instance().set(var+"::timephrases","atday");
+	REQUIRE(mode,var,ftime,period1,"fi","Päivällä.");
+	REQUIRE(mode,var,ftime,period1,"sv","På dagen.");
+	REQUIRE(mode,var,ftime,period1,"en","During the day.");
+
+	NFmiSettings::instance().set(var+"::timephrases","weekday");
+	REQUIRE(mode,var,ftime,period1,"fi","Sunnuntaina.");
+	REQUIRE(mode,var,ftime,period1,"sv","På söndagen.");
+	REQUIRE(mode,var,ftime,period1,"en","On Sunday.");
+
 	REQUIRE(mode,var,ftime,period2,"fi","Maanantaina.");
 	REQUIRE(mode,var,ftime,period2,"sv","På måndagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Monday.");
+
+	NFmiSettings::instance().set(var+"::timephrases","tomorrow");
+	REQUIRE(mode,var,ftime,period1,"fi","");
+	REQUIRE(mode,var,ftime,period1,"sv","");
+	REQUIRE(mode,var,ftime,period1,"en","");
+
+	REQUIRE(mode,var,ftime,period2,"fi","Huomenna.");
+	REQUIRE(mode,var,ftime,period2,"sv","I morgon.");
+	REQUIRE(mode,var,ftime,period2,"en","Tomorrow.");
+
 
 	TEST_PASSED();
   }
@@ -245,58 +275,45 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period1,"sv","");
 	REQUIRE(mode,var,ftime,period1,"en","");
 
-	REQUIRE(mode,var,ftime,period2,"fi","Maanantain vastaisena yönä.");
-	REQUIRE(mode,var,ftime,period2,"sv","Natten mot måndagen.");
-	REQUIRE(mode,var,ftime,period2,"en","On Monday night.");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yönä.");
+	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
+	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_tonight","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atnight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
+	NFmiSettings::instance().set(var+"::timephrases","tonight");
 	REQUIRE(mode,var,ftime,period1,"fi","Ensi yönä.");
 	REQUIRE(mode,var,ftime,period1,"sv","I natt.");
 	REQUIRE(mode,var,ftime,period1,"en","At night.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_tonight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atnight","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yönä.");
+	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
+	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
+
+	NFmiSettings::instance().set(var+"::timephrases","atnight");
 	REQUIRE(mode,var,ftime,period1,"fi","Yöllä.");
 	REQUIRE(mode,var,ftime,period1,"sv","På natten.");
 	REQUIRE(mode,var,ftime,period1,"en","At night.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_tonight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atnight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","true");
-	REQUIRE(mode,var,ftime,period1,"fi","Sunnuntain vastaisena yönä.");
-	REQUIRE(mode,var,ftime,period1,"sv","Natten mot söndagen.");
-	REQUIRE(mode,var,ftime,period1,"en","On Sunday night.");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yönä.");
+	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
+	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_tonight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atnight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
-	REQUIRE(mode,var,ftime,period2,"fi","Maanantain vastaisena yönä.");
-	REQUIRE(mode,var,ftime,period2,"sv","Natten mot måndagen.");
-	REQUIRE(mode,var,ftime,period2,"en","On Monday night.");
+	NFmiSettings::instance().set(var+"::timephrases","weekday");
+	REQUIRE(mode,var,ftime,period1,"fi","Maanantain vastaisena yönä.");
+	REQUIRE(mode,var,ftime,period1,"sv","Natten mot måndagen.");
+	REQUIRE(mode,var,ftime,period1,"en","On Monday night.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_tonight","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atnight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
-	REQUIRE(mode,var,ftime,period2,"fi","Maanantain vastaisena yönä.");
-	REQUIRE(mode,var,ftime,period2,"sv","Natten mot måndagen.");
-	REQUIRE(mode,var,ftime,period2,"en","On Monday night.");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yönä.");
+	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
+	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_tonight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atnight","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
-	REQUIRE(mode,var,ftime,period2,"fi","Maanantain vastaisena yönä.");
-	REQUIRE(mode,var,ftime,period2,"sv","Natten mot måndagen.");
-	REQUIRE(mode,var,ftime,period2,"en","On Monday night.");
+	NFmiSettings::instance().set(var+"::timephrases","none");
+	REQUIRE(mode,var,ftime,period1,"fi","");
+	REQUIRE(mode,var,ftime,period1,"sv","");
+	REQUIRE(mode,var,ftime,period1,"en","");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_tonight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atnight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","true");
-	REQUIRE(mode,var,ftime,period2,"fi","Maanantain vastaisena yönä.");
-	REQUIRE(mode,var,ftime,period2,"sv","Natten mot måndagen.");
-	REQUIRE(mode,var,ftime,period2,"en","On Monday night.");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yönä.");
+	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
+	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
 	TEST_PASSED();
   }
@@ -320,38 +337,26 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	string result;
 
-	REQUIRE(mode,var,ftime,period,"fi","Yöllä.");
-	REQUIRE(mode,var,ftime,period,"sv","På natten.");
-	REQUIRE(mode,var,ftime,period,"en","At night.");
-
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_followingnight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_tonight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atnight","false");
-	REQUIRE(mode,var,ftime,period,"fi","Maanantain vastaisena yönä.");
-	REQUIRE(mode,var,ftime,period,"sv","Natten mot måndagen.");
-	REQUIRE(mode,var,ftime,period,"en","On Monday night.");
-
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_followingnight","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_tonight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atnight","false");
-	REQUIRE(mode,var,ftime,period,"fi","Seuraavana yönä.");
-	REQUIRE(mode,var,ftime,period,"sv","Följande natt.");
-	REQUIRE(mode,var,ftime,period,"en","The following night.");
-
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_followingnight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_tonight","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atnight","false");
 	REQUIRE(mode,var,ftime,period,"fi","Ensi yönä.");
 	REQUIRE(mode,var,ftime,period,"sv","I natt.");
 	REQUIRE(mode,var,ftime,period,"en","At night.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_followingnight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_tonight","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_atnight","true");
+	NFmiSettings::instance().set(var+"::timephrases","weekday");
+	REQUIRE(mode,var,ftime,period,"fi","Maanantain vastaisena yönä.");
+	REQUIRE(mode,var,ftime,period,"sv","Natten mot måndagen.");
+	REQUIRE(mode,var,ftime,period,"en","On Monday night.");
+
+	NFmiSettings::instance().set(var+"::timephrases","followingnight");
+	REQUIRE(mode,var,ftime,period,"fi","Seuraavana yönä.");
+	REQUIRE(mode,var,ftime,period,"sv","Följande natt.");
+	REQUIRE(mode,var,ftime,period,"en","The following night.");
+
+	NFmiSettings::instance().set(var+"::timephrases","tonight");
+	REQUIRE(mode,var,ftime,period,"fi","Ensi yönä.");
+	REQUIRE(mode,var,ftime,period,"sv","I natt.");
+	REQUIRE(mode,var,ftime,period,"en","At night.");
+
+	NFmiSettings::instance().set(var+"::timephrases","atnight");
 	REQUIRE(mode,var,ftime,period,"fi","Yöllä.");
 	REQUIRE(mode,var,ftime,period,"sv","På natten.");
 	REQUIRE(mode,var,ftime,period,"en","At night.");
@@ -389,23 +394,29 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period2,"sv","I morgon.");
 	REQUIRE(mode,var,ftime,period2,"en","Tomorrow.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_followingday","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_tomorrow","false");
+	NFmiSettings::instance().set(var+"::timephrases","weekday");
+	REQUIRE(mode,var,ftime,period1,"fi","Sunnuntaina.");
+	REQUIRE(mode,var,ftime,period1,"sv","På söndagen.");
+	REQUIRE(mode,var,ftime,period1,"en","On Sunday.");
+
 	REQUIRE(mode,var,ftime,period2,"fi","Maanantaina.");
 	REQUIRE(mode,var,ftime,period2,"sv","På måndagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Monday.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_followingday","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_tomorrow","false");
+	NFmiSettings::instance().set(var+"::timephrases","followingday");
+	REQUIRE(mode,var,ftime,period1,"fi","Seuraavana päivänä.");
+	REQUIRE(mode,var,ftime,period1,"sv","Följande dag.");
+	REQUIRE(mode,var,ftime,period1,"en","The following day.");
+
 	REQUIRE(mode,var,ftime,period2,"fi","Seuraavana päivänä.");
 	REQUIRE(mode,var,ftime,period2,"sv","Följande dag.");
 	REQUIRE(mode,var,ftime,period2,"en","The following day.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_followingday","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_tomorrow","true");
+	NFmiSettings::instance().set(var+"::timephrases","tomorrow");
+	REQUIRE(mode,var,ftime,period1,"fi","Seuraavana päivänä.");
+	REQUIRE(mode,var,ftime,period1,"sv","Följande dag.");
+	REQUIRE(mode,var,ftime,period1,"en","The following day.");
+
 	REQUIRE(mode,var,ftime,period2,"fi","Huomenna.");
 	REQUIRE(mode,var,ftime,period2,"sv","I morgon.");
 	REQUIRE(mode,var,ftime,period2,"en","Tomorrow.");
@@ -442,14 +453,12 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period2,"sv","Från i morgon.");
 	REQUIRE(mode,var,ftime,period2,"en","Starting tomorrow.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","true");
-	NFmiSettings::instance().set(var+"::prefer_phrase_tomorrow","false");
+	NFmiSettings::instance().set(var+"::timephrases","weekday");
 	REQUIRE(mode,var,ftime,period2,"fi","Maanantaista alkaen.");
 	REQUIRE(mode,var,ftime,period2,"sv","Från måndagen.");
 	REQUIRE(mode,var,ftime,period2,"en","From Monday onwards.");
 
-	NFmiSettings::instance().set(var+"::prefer_phrase_weekday","false");
-	NFmiSettings::instance().set(var+"::prefer_phrase_tomorrow","true");
+	NFmiSettings::instance().set(var+"::timephrases","tomorrow");
 	REQUIRE(mode,var,ftime,period2,"fi","Huomisesta alkaen.");
 	REQUIRE(mode,var,ftime,period2,"sv","Från i morgon.");
 	REQUIRE(mode,var,ftime,period2,"en","Starting tomorrow.");

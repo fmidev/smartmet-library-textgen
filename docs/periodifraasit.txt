@@ -28,38 +28,41 @@ muotoa \c textgen::[kappale]::[tarina]::[periodi].
 
 \subsection sec_periodifraasit_muuttujat Muuttujat
 
-Kaikki tekstigeneraattorin muuttujat ovat yleensä muotoa
-\c textgen::[kappale]::[tarina]::[periodi]::[muuttuja].
-
-Alla on lueteltu halutun fraasin mukaan lueteltuna muuttujat, jotka
-kontrolloivat fraasin generointia. Muuttujat ovat
-prioriteettijärjestyksessä, eli valittu fraasi valitaan alla olevassa
-järjestyksessä.
+Periodifraaseja kontrolloidaan muuttujilla muotoa
+\code
+textgen::[kappale]::[tarina]::[periodi] = [preferenssijärjestys].
+\endcode
+Muuttujan arvo on lista nimiä, joka määrittelee eri fraasien
+suosituimmuusjärjestyksen. Mahdolliset nimet on lueteltu alla
 <table>
-<tr><td>viikonpäivänä</td><td>prefer_phrase_weekday</td></tr>
-<tr><td>viikonpäivän vastaisena yönä</td><td>prefer_phrase_weekday</td></tr>
-<tr><td>viikonpäivästä alkaen</td><td>prefer_phrase_weekday</td></tr>
-<tr><td>tänään</td><td>prefer_phrase_today</td></tr>
-<tr><td>ensi yönä</td><td>prefer_phrase_tonight</td></tr>
-<tr><td>seuraavana päivänä</td><td>prefer_phrase_followingday</td></tr>
-<tr><td>seuraavana yönä</td><td>prefer_phrase_followingnight</td></tr>
-<tr><td>huomenna</td><td>prefer_phrase_tomorrow</td></tr>
-<tr><td>huomisesta alkaen</td><td>prefer_phrase_tomorrow</td></tr>
-<tr><td>päivällä</td><td>prefer_phrase_atday</td></tr>
-<tr><td>yöllä</td><td>prefer_phrase_atnight</td></tr>
+<tr><td>weekday</td><td>viikonpäivänä, viikonpäivän vastaisena yönä, viikonpäivästä alkaen</td></tr>
+<tr><td>today</td><td>tänään</td></tr>
+<tr><td>tonight</td><td>ensi yönä</td></tr>
+<tr><td>tomorrow</td><td>huomenna, huomisesta alkaen</td></tr>
+<tr><td>atday</td><td>päivällä</td></tr>
+<tr><td>atnight</td><td>yöllä</td></tr>
+<tr><td>followingday</td><td>seuraavana päivänä</td></tr>
+<tr><td>followingnight</td></td>seuraavana yönä</td></tr>
+<tr><td>none<td></td>-</td></tr>
 </table>
-Kunkin ajanjakson generoiva aliohjelma päättelee itse, mitkä fraasit
-ovat mahdollisia ja siten mitkä muuttuja-arvot testataan.
+
+Kukin tarina määrittelee kullekin sisältämälleen ajanjaksolle tyylin,
+esim. today ja next_day. Näillä on kullakin oletusarvoinen järjestys
+kullekin fraasille. Käyttäjän määrittelemällä järjestyksellä on
+preferenssi oletusarvoon nähden.
 
 \subsection sec_periodifraasit_until_tonight "until_tonight"
 
-Periodi käsittää meneillään olevan päivän iltaan asti.
+Periodi käsittää meneillään olevan päivän iltaan asti. Mahdolliset
+fraasit oletusjärjestyksessä ovat
 
- -# Jos ennustushetki <> periodin alkamispäivä, "viikonpäivänä"
- -# Jos prefer_phrase_weekday, "viikonpäivänä"
- -# Jos prefer_phrase_today, "tänään"
- -# Jos prefer_phrase_atday, "päivällä"
- -# ""
+ -# none (*)
+ -# today (*)
+ -# atday (*)
+ -# weekday
+
+Asteriskilla merkittyihin fraaseihin liittyy lisäehtoja ennustushetken
+suhteen.
 
 \subsection sec_periodifraasit_until_morning "until_morning"
 
@@ -68,75 +71,87 @@ mahdollisesti muutaman tunnin meneillään olevaa päivää. Jaksoa
 käytetään tyypillisesti, kun päivä on jo niin pitkällä, että
 yö-periodi alkaa piakkoin.
 
- -# Jos ennustuspäivä+1 <> periodin loppumispäivä, "viikonpäivän vastaisena yönä"
- -# Jos prefer_phrase_weekday, "viikonpäivän vastaisena yönä"
- -# Jos prefer_phrase_tonight, "ensi yönä"
- -# Jos prefer_phrase_atnight, "yöllä"
- -# ""
+Mahdolliset fraasit oletusjärjestyksessä ovat
+
+ -# none (*)
+ -# tonight (*)
+ -# atnight (*)
+ -# weekday
+
+Asteriskilla merkittyihin fraaseihin liittyy lisäehtoja ennustushetken
+suhteen.
 
 \subsection sec_periodifraasit_today "today"
 
 Periodi käsittää jonkin päiväjakson, mahdollisesti kokonaisen vuorokauden.
 Usein jakso on meneillään oleva päivä, mutta ei aina.
 
- -# Jos ennustuspäivä = periodin alkamispäivä
-    -# Jos prefer_phrase_today, "tänään"
-    -# Jos prefer_phrase_atday, "päivällä"
-    -# Jos prefer_phrase_weekday, "viikonpäivänä"
-    -# ""
- -# Jos ennustuspäivä+1 = periodin alkamispäivä
-    -# Jos prefer_phrase_tomorrow, "huomenna"
-    -# Jos prefer_phrase_weekday, "viikonpäivänä"
-    -# "huomenna"
- -# Muutoin "viikonpäivänä"
+Mahdolliset fraasit oletusjärjestyksessä ovat
+
+ -# none (*)
+ -# today (*)
+ -# tomorrow (*)
+ -# atday (*)
+ -# weekday
+
+Asteriskilla merkittyihin fraaseihin liittyy lisäehtoja ennustushetken
+suhteen.
 
 \subsection sec_periodifraasit_tonight "tonight"
 
 Periodi käsittää jonkin yöjakson. Usein jakso on ensi yö, mutta ei aina.
 
- -# Jos ennustuspäivä+1 = periodin loppumispäivä
-   -# Jos prefer_phrase_tonight, "ensi yönä"
-   -# Jos prefer_phrase_atnight, "yöllä"
-   -# Jos prefer_phrase_weekday, "viikonpäivän vastaisena yönä"
-   -# ""
- -# Muutoin "viikonpäivän vastaisena yönä"
+Mahdolliset fraasit oletusjärjestyksessä ovat
+
+ -# none (*)
+ -# tonight (*)
+ -# atnight (*)
+ -# weekday
+
+Asteriskilla merkittyihin fraaseihin liittyy lisäehtoja ennustushetken
+suhteen.
 
 \subsection sec_periodifraasit_next_night "next_night"
 
 Periodi käsittää yön, ilman päiväsaikaan kuuluvia hetkiä, joista
 kerrotaan erikseen ennen tätä osuutta.
 
- -# Jos prefer_phrase_weekday, "viikonpäivän vastaisena yönä"
- -# Jos prefer_phrase_followingnight, "seuraavana yönä"
- -# Jos ennustuspäivä+1 <> periodin loppumispäivä, "viikonpäivän vastaisena yänä"
- -# Jos prefer_phrase_tonight, "ensi yönä"
- -# Jos prefer_phrase_atnight, "yöllä"
- -# "yöllä"
+Mahdolliset fraasit oletusjärjestyksessä ovat
+
+ -# tonight (*)
+ -# atnight (*)
+ -# followingnight
+ -# weekday
+
+Asteriskilla merkittyihin fraaseihin liittyy lisäehtoja ennustushetken
+suhteen.
 
 \subsection sec_periodifraasit_next_day "next_day"
 
 Periodi kattaa jakson seuraavasta aamusta iltaan, tai koko seuraavan
 vuorokauden.
 
- -# Jos ennustuspäivä+1 == periodin alkamispäivä
-   -# Jos prefer_phrase_tomorrow, "huomenna"
-   -# Jos prefer_phrase_weekday, "viikonpäivänä"
-   -# Jos prefer_phrase_followingday, "seuraavana päivänä"
-   -# "huomenna"
- -# Muutoin
-   -# Jos prefer_phrase_weekday, "viikonpäivänä"
-   -# Jos prefer_phrase_followingday, "seuraavana päivänä"
-   -# "seuraavana päivänä"
+Mahdolliset fraasit oletusjärjestyksessä ovat
+
+ -# tomorrow (*)
+ -# followingday
+ -# weekday
+
+Asteriskilla merkittyihin fraaseihin liittyy lisäehtoja ennustushetken
+suhteen.
 
 \subsection sec_periodifraasit_next_days "next_days"
 
 Periodi kattaa jakson seuraavasta aamusta eteenpäin vähintään kahden
 vuorokauden ajan (mahdollisesti hieman alle 48h).
 
- -# Jos ennustuspäivä+1 <> periodin alkamispäivä, "viikonpäivästä alkaen"
- -# Jos prefer_phrase_weekday, "viikonpäivästä alkaen"
- -# Jos prefer_phrase_tomorrow, "huomisesta alkaen"
- -# "huomisesta alkaen"
+Mahdolliset fraasit oletusjärjestyksessä ovat
+
+ -# tomorrow (*)
+ -# weekday
+
+Asteriskilla merkittyihin fraaseihin liittyy lisäehtoja ennustushetken
+suhteen.
 
 \subsection sec_periodifraasit_remaining_days "remaining_days"
 

@@ -13,6 +13,8 @@
 #include "WeatherPeriod.h"
 #include "WeekdayTools.h"
 
+#include "NFmiStringTools.h"
+
 using WeatherAnalysis::WeatherPeriod;
 using namespace std;
 
@@ -80,6 +82,64 @@ namespace
 	  return false;
 	return true;
   }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Reorganizes preferred phrases
+   *
+   * The input strings contain preferred word orders such as
+   * \code
+   * today,tomorrow,weekday
+   * \endcode
+   * This function makes sure the output contains exactly those
+   * words given in the second input parameter. However, the
+   * first parameter may specify a different preferred ordering
+   * for the variables.
+   *
+   * For example, given two parameters
+   * \code
+   * foo,atnight,bar,weekday
+   * tonight,atnight,followingnight,weekday
+   * \endcode
+   * the output would be
+   * \code
+   * atnight,weekday,tonight,followingnight
+   * \endcode
+   *
+   * \param thePreference The preferred order
+   * \param theDefault The default order
+   * \return List of words
+   */
+  // ----------------------------------------------------------------------
+
+  list<string> reorder_preferences(const string & thePreference,
+								   const string & theDefault)
+  {
+	const list<string> preferences = NFmiStringTools::SplitWords(thePreference);
+	const list<string> defaults = NFmiStringTools::SplitWords(theDefault);
+
+	// fast special case
+	if(preferences.empty()) return defaults;
+
+	typedef list<string>::const_iterator const_iterator;
+
+	list<string> output;
+
+	// first the allowed ones from preferences in correct order
+	for(const_iterator it=preferences.begin(); it!=preferences.end(); ++it)
+	  {
+		if(find(defaults.begin(),defaults.end(),*it) != defaults.end())
+		  if(find(output.begin(),output.end(),*it) == output.end())
+			output.push_back(*it);
+	  }
+	// then the remaining defaults
+	for(const_iterator jt=defaults.begin(); jt!=defaults.end(); ++jt)
+	  {
+		if(find(output.begin(),output.end(),*jt) == output.end())
+			output.push_back(*jt);
+	  }
+	return output;
+  }
   
 }
 
@@ -103,22 +163,37 @@ namespace TextGen
 						   const NFmiTime & theForecastTime,
 						   const WeatherPeriod & thePeriod)
 	{
-	  using Settings::optional_bool;
 	  using WeekdayTools::on_weekday;
 	  Sentence sentence;
 
-	  if(!is_same_day(theForecastTime, thePeriod.localStartTime()))
-		sentence << on_weekday(thePeriod.localStartTime());
-	  else if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
-		sentence << on_weekday(thePeriod.localStartTime());
-	  else if(optional_bool(theVariable+"::prefer_phrase_today",false))
-		sentence << "tänään";
-	  else if(optional_bool(theVariable+"::prefer_phrase_atday",false))
-		sentence << "päivällä";
-	  else
-		;
+	  const string preferences = Settings::optional_string(theVariable,"");
+	  const string defaults("none,today,atday,weekday");
+	  list<string> order = reorder_preferences(preferences,defaults);
 
-	  return sentence;
+	  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+		{
+		  if(*it == "none")
+			{
+			  if(is_same_day(theForecastTime, thePeriod.localStartTime()))
+				return sentence;
+			}
+		  else if(*it == "atday")
+			{
+			  if(is_same_day(theForecastTime, thePeriod.localStartTime()))
+				return (sentence << "päivällä");
+			}
+		  else if(*it == "today")
+			{
+			  if(is_same_day(theForecastTime, thePeriod.localStartTime()))
+				return(sentence << "tänään");
+			}
+		  else if(*it == "weekday")
+			return (sentence << on_weekday(thePeriod.localStartTime()));
+		  else
+			throw TextGenError("PeriodPhraseFactory::until_tonight does not accept phrase "+*it);
+		}
+
+	  throw TextGenError("PeriodPhrasefactory::until_tonight run out of options");
 	}
 
 	// ----------------------------------------------------------------------
@@ -135,22 +210,37 @@ namespace TextGen
 						   const NFmiTime & theForecastTime,
 						   const WeatherPeriod & thePeriod)
 	{
-	  using Settings::optional_bool;
 	  using WeekdayTools::night_against_weekday;
 	  Sentence sentence;
-	  
-	  if(!is_next_day(theForecastTime, thePeriod.localEndTime()))
-		sentence << night_against_weekday(thePeriod.localEndTime());
-	  else if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
-		sentence << night_against_weekday(thePeriod.localEndTime());
-	  else if(optional_bool(theVariable+"::prefer_phrase_tonight",false))
-		sentence << "ensi yönä";
-	  else if(optional_bool(theVariable+"::prefer_phrase_atnight",false))
-		sentence << "yöllä";
-	  else
-		;
-	  
-	  return sentence;
+
+	  const string preferences = Settings::optional_string(theVariable,"");
+	  const string defaults("none,tonight,atnight,weekday");
+	  list<string> order = reorder_preferences(preferences,defaults);
+
+	  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+		{
+		  if(*it == "none")
+			{
+			  if(is_next_day(theForecastTime, thePeriod.localEndTime()))
+				return sentence;
+			}
+		  else if(*it == "atnight")
+			{
+			  if(is_next_day(theForecastTime, thePeriod.localEndTime()))
+				return (sentence << "yöllä");
+			}
+		  else if(*it == "tonight")
+			{
+			  if(is_next_day(theForecastTime, thePeriod.localEndTime()))
+				return(sentence << "ensi yönä");
+			}
+		  else if(*it == "weekday")
+			return (sentence << night_against_weekday(thePeriod.localEndTime()));
+		  else
+			throw TextGenError("PeriodPhrasefactory::until_morning does not accept phrase "+*it);
+		}
+
+	  throw TextGenError("PeriodPhrasefactory::until_morning run out of options");
 	}
 
 	// ----------------------------------------------------------------------
@@ -167,36 +257,42 @@ namespace TextGen
 				   const NFmiTime & theForecastTime,
 				   const WeatherPeriod & thePeriod)
 	{
-	  using Settings::optional_bool;
 	  using WeekdayTools::on_weekday;
 	  Sentence sentence;
 
-	  if(is_same_day(theForecastTime, thePeriod.localStartTime()))
+	  const string preferences = Settings::optional_string(theVariable,"");
+	  const string defaults("none,today,tomorrow,atday,weekday");
+	  list<string> order = reorder_preferences(preferences,defaults);
+
+	  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 		{
-		  if(optional_bool(theVariable+"::prefer_phrase_today",false))
-			sentence << "tänään";
-		  else if(optional_bool(theVariable+"::prefer_phrase_atday",false))
-			sentence << "päivällä";
-		  else if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
-			sentence << on_weekday(thePeriod.localStartTime());
+		  if(*it == "weekday")
+			return (sentence << on_weekday(thePeriod.localStartTime()));
+		  else if(*it == "atday")
+			{
+			  if(is_same_day(theForecastTime,thePeriod.localStartTime()))
+				return (sentence << "päivällä");
+			}
+		  else if(*it == "none")
+			{
+			  if(is_same_day(theForecastTime,thePeriod.localStartTime()))
+				return sentence;
+			}
+		  else if(*it == "today")
+			{
+			  if(is_same_day(theForecastTime,thePeriod.localStartTime()))
+				return (sentence << "tänään");
+			}
+		  else if(*it == "tomorrow")
+			{
+			  if(is_next_day(theForecastTime,thePeriod.localStartTime()))
+				return (sentence << "huomenna");
+			}
 		  else
-			;
-		}
-	  else if(is_next_day(theForecastTime, thePeriod.localStartTime()))
-		{
-		  if(optional_bool(theVariable+"::prefer_phrase_tomorrow",false))
-			sentence << "huomenna";
-		  else if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
-			sentence << on_weekday(thePeriod.localStartTime());
-		  else
-			sentence << "huomenna";
-		}
-	  else
-		{
-		  sentence << on_weekday(thePeriod.localStartTime());
+			throw TextGenError("PeriodPhrasefactory::today does not accept phrase "+*it);
 		}
 
-	  return sentence;
+	  throw TextGenError("PeriodPhrasefactory::today run out of options");
 	}
 
 	// ----------------------------------------------------------------------
@@ -213,25 +309,37 @@ namespace TextGen
 					 const NFmiTime & theForecastTime,
 					 const WeatherPeriod & thePeriod)
 	{
-	  using Settings::optional_bool;
 	  using WeekdayTools::night_against_weekday;
 	  Sentence sentence;
 
-	  if(is_next_day(theForecastTime, thePeriod.localEndTime()))
-		{
-		  if(optional_bool(theVariable+"::prefer_phrase_tonight",false))
-			sentence << "ensi yönä";
-		  else if(optional_bool(theVariable+"::prefer_phrase_atnight",false))
-			sentence << "yöllä";
-		  else if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
-			sentence << night_against_weekday(thePeriod.localStartTime());
-		  else
-			;
-		}
-	  else
-		sentence << night_against_weekday(thePeriod.localStartTime());
+	  const string preferences = Settings::optional_string(theVariable,"");
+	  const string defaults("none,tonight,atnight,weekday");
+	  list<string> order = reorder_preferences(preferences,defaults);
 
-	  return sentence;
+	  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+		{
+		  if(*it == "weekday")
+			return (sentence << night_against_weekday(thePeriod.localEndTime()));
+		  else if(*it == "atnight")
+			{
+			  if(is_next_day(theForecastTime,thePeriod.localEndTime()))
+				return (sentence << "yöllä");
+			}
+		  else if(*it == "none")
+			{
+			  if(is_next_day(theForecastTime,thePeriod.localEndTime()))
+				return sentence;
+			}
+		  else if(*it == "tonight")
+			{
+			  if(is_next_day(theForecastTime,thePeriod.localEndTime()))
+				return (sentence << "ensi yönä");
+			}
+		  else
+			throw TextGenError("PeriodPhrasefactory::tonight does not accept phrase "+*it);
+		}
+
+	  throw TextGenError("PeriodPhrasefactory::tonight run out of options");
 	}
 
 	// ----------------------------------------------------------------------
@@ -248,24 +356,33 @@ namespace TextGen
 						const NFmiTime & theForecastTime,
 						const WeatherPeriod & thePeriod)
 	{
-	  using Settings::optional_bool;
 	  using WeekdayTools::night_against_weekday;
 	  Sentence sentence;
 
-	  if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
-		sentence << night_against_weekday(thePeriod.localEndTime());
-	  else if(optional_bool(theVariable+"::prefer_phrase_followingnight",false))
-		sentence << "seuraavana yönä";
-	  else if(!is_next_day(theForecastTime, thePeriod.localEndTime()))
-		sentence << night_against_weekday(thePeriod.localEndTime());
-	  else if(optional_bool(theVariable+"::prefer_phrase_tonight",false))
-		sentence << "ensi yönä";
-	  else if(optional_bool(theVariable+"::prefer_phrase_atnight",false))
-		sentence << "yöllä";
-	  else
-		sentence << "yöllä";
+	  const string preferences = Settings::optional_string(theVariable,"");
+	  const string defaults("tonight,atnight,followingnight,weekday");
+	  list<string> order = reorder_preferences(preferences,defaults);
 
-	  return sentence;
+	  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+		{
+		  if(*it == "weekday")
+			return (sentence << night_against_weekday(thePeriod.localEndTime()));
+		  else if(*it == "followingnight")
+			return (sentence << "seuraavana yönä");
+		  else if(*it == "atnight")
+			{
+			  if(is_next_day(theForecastTime,thePeriod.localEndTime()))
+				return (sentence << "yöllä");
+			}
+		  else if(*it == "tonight")
+			{
+			  if(is_next_day(theForecastTime,thePeriod.localEndTime()))
+				return (sentence << "ensi yönä");
+			}
+			throw TextGenError("PeriodPhrasefactory::next_night does not accept phrase "+*it);
+		}
+
+	  throw TextGenError("PeriodPhrasefactory::next_night run out of options");
 	}
 
 	// ----------------------------------------------------------------------
@@ -282,32 +399,29 @@ namespace TextGen
 					  const NFmiTime & theForecastTime,
 					  const WeatherPeriod & thePeriod)
 	{
-	  using Settings::optional_bool;
 	  using WeekdayTools::on_weekday;
 	  Sentence sentence;
 
-	  if(is_next_day(theForecastTime, thePeriod.localStartTime()))
+	  const string preferences = Settings::optional_string(theVariable,"");
+	  const string defaults("tomorrow,followingday,weekday");
+	  list<string> order = reorder_preferences(preferences,defaults);
+
+	  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 		{
-		  if(optional_bool(theVariable+"::prefer_phrase_tomorrow",false))
-			sentence << "huomenna";
-		  else if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
-			sentence << on_weekday(thePeriod.localStartTime());
-		  else if(optional_bool(theVariable+"::prefer_phrase_followingday",false))
-			sentence << "seuraavana päivänä";
+		  if(*it == "weekday")
+			return (sentence << on_weekday(thePeriod.localStartTime()));
+		  else if(*it == "followingday")
+			return (sentence << "seuraavana päivänä");
+		  else if(*it == "tomorrow")
+			{
+			  if(is_next_day(theForecastTime,thePeriod.localStartTime()))
+				return (sentence << "huomenna");
+			}
 		  else
-			sentence << "huomenna";
+			throw TextGenError("PeriodPhrasefactory::next_day does not accept phrase "+*it);
 		}
-	  else
-		{
-		  if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
-			sentence << on_weekday(thePeriod.localStartTime());
-		  else if(optional_bool(theVariable+"::prefer_phrase_followingday",false))
-			sentence << "seuraavana päivänä";
-		  else
-			sentence << "seuraavana päivänä";
-		}
-	  
-	  return sentence;
+
+	  throw TextGenError("PeriodPhrasefactory::next_day run out of options");
 	}
 
 	// ----------------------------------------------------------------------
@@ -324,20 +438,27 @@ namespace TextGen
 					   const NFmiTime & theForecastTime,
 					   const WeatherPeriod & thePeriod)
 	{
-	  using Settings::optional_bool;
 	  using WeekdayTools::from_weekday;
 	  Sentence sentence;
 
-	  if(!is_next_day(theForecastTime, thePeriod.localStartTime()))
-		sentence << from_weekday(thePeriod.localStartTime());
-	  else if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
-		sentence << from_weekday(thePeriod.localStartTime());
-	  else if(optional_bool(theVariable+"::prefer_phrase_tomorrow",false))
-		sentence << "huomisesta alkaen";
-	  else
-		sentence << "huomisesta alkaen";
+	  const string preferences = Settings::optional_string(theVariable,"");
+	  const string defaults("tomorrow,weekday");
+	  list<string> order = reorder_preferences(preferences,defaults);
 
-	  return sentence;
+	  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+		{
+		  if(*it == "weekday")
+			return (sentence << from_weekday(thePeriod.localStartTime()));
+		  else if(*it == "tomorrow")
+			{
+			  if(is_next_day(theForecastTime,thePeriod.localStartTime()))
+				return (sentence << "huomisesta alkaen");
+			}
+		  else
+			throw TextGenError("PeriodPhrasefactory::next_days does not accept phrase "+*it);
+		}
+
+	  throw TextGenError("PeriodPhrasefactory::next_days run out of options");
 	}
 
 	// ----------------------------------------------------------------------
@@ -382,29 +503,31 @@ namespace TextGen
 					const NFmiTime & theForecastTime,
 					const WeatherPeriod & thePeriod)
 	{
+	  const string var = theVariable + "::timephrases";
+
 	  if(theType == "until_tonight")
-		return until_tonight(theVariable,theForecastTime,thePeriod);
+		return until_tonight(var,theForecastTime,thePeriod);
 
 	  if(theType == "until_morning")
-		return until_morning(theVariable,theForecastTime,thePeriod);
+		return until_morning(var,theForecastTime,thePeriod);
 
 	  if(theType == "today")
-		return today(theVariable,theForecastTime,thePeriod);
+		return today(var,theForecastTime,thePeriod);
 
 	  if(theType == "tonight")
-		return tonight(theVariable,theForecastTime,thePeriod);
+		return tonight(var,theForecastTime,thePeriod);
 
 	  if(theType == "next_night")
-		return next_night(theVariable,theForecastTime,thePeriod);
+		return next_night(var,theForecastTime,thePeriod);
 
 	  if(theType == "next_day")
-		return next_day(theVariable,theForecastTime,thePeriod);
+		return next_day(var,theForecastTime,thePeriod);
 
 	  if(theType == "next_days")
-		return next_days(theVariable,theForecastTime,thePeriod);
+		return next_days(var,theForecastTime,thePeriod);
 
 	  if(theType == "remaining_days")
-		return remaining_days(theVariable,theForecastTime,thePeriod);
+		return remaining_days(var,theForecastTime,thePeriod);
 
 	  throw TextGenError("PeriodPhraseFactory::create does not recognize type "+theType);
 	}
