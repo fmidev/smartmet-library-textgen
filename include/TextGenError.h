@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class TextGenError
+ * \brief Interface of class TextGen::TextGenError
  */
 // ======================================================================
 /*!

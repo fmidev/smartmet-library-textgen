@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TheDictionary
+ * \brief Implementation of class TextGen::TheDictionary
  */
 // ======================================================================
 

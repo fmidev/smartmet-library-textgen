@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of namespace DictionaryFactory
+ * \brief Implementation of namespace TextGen::DictionaryFactory
  */
 // ======================================================================
 

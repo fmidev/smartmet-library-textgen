@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class PhraseShortWeekday
+ * \brief Implementation of class TextGen::PhraseShortWeekday
  */
 // ======================================================================
 

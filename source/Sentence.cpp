@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class Sentence
+ * \brief Implementation of class TextGen::Sentence
  */
 // ======================================================================
 

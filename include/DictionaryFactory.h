@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of DictionaryFactor namespace
+ * \brief Interface of TextGen::DictionaryFactory namespace
  */
 // ======================================================================
 /*!
- * \namespace DictionaryFactory
+ * \namespace TextGen::DictionaryFactory
  *
  * \brief Dictionary creation services
  *

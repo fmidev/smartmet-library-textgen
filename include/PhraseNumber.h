@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class PhraseNumber
+ * \brief Interface of class TextGen::PhraseNumber
  */
 // ======================================================================
 /*!

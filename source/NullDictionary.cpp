@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class NullDictionary
+ * \brief Implementation of class TextGen::NullDictionary
  */
 // ======================================================================
 

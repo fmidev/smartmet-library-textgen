@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class PhraseWord
+ * \brief Implementation of class TextGen::PhraseWord
  */
 // ======================================================================
 

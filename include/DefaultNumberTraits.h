@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Default tostring conversions for various numbers
+ * \brief Interface of class TextGen::DefaultNumberTraits
  */
 // ======================================================================
 /*!
@@ -33,7 +33,7 @@ namespace TextGen
 	}
   };
 
-  // Floats with 1 decimal precision, unless not needed
+  //! Default traits for float type
   template <>
   struct DefaultNumberTraits<float>
   {
@@ -53,7 +53,7 @@ namespace TextGen
 	}
   };
 
-  // Doubles with 1 decimal precision
+  //! Default traits for double type
   template <>
   struct DefaultNumberTraits<double>
   {

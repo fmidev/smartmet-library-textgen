@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class Paragraph
+ * \brief Implementation of class TextGen::Paragraph
  */
 // ======================================================================
 
