@@ -102,6 +102,9 @@ Tarvittavat fraasit ovat
  - "pienempi" 
  - "huomattavasti pienempi"
 
+Lisäksi tarvitaan periodifraasit \ref sec_periodifreaasit_today ja
+\ref sec_periodifraasit_next_day.
+
 Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
 \code
 # Minimum(Minimum(Temperature)):
