@@ -8,6 +8,7 @@
 #include <string>
 
 using namespace std;
+using namespace boost;
 
 namespace ParagraphTest
 {
@@ -138,10 +139,10 @@ namespace ParagraphTest
 	using namespace TextGen;
 
 #if 0
-	auto_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
+	shared_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
 	finnish->init("fi");
 
-	auto_ptr<Dictionary> english = DictionaryFactory::create("mysql");
+	shared_ptr<Dictionary> english = DictionaryFactory::create("mysql");
 	english->init("en");
 	
 	Sentence s1;

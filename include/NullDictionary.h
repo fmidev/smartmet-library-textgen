@@ -24,7 +24,7 @@
  * For example, a singleton providing global dictionary services
  * could have an attribute
  * \code
- *   std::auto_ptr<Dictionary>
+ *   boost::shared_ptr<Dictionary>
  * \endcode
  * and could have a constructor and methods like
  * \code

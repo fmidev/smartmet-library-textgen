@@ -59,7 +59,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  void TheDictionary::dictionary(std::auto_ptr<Dictionary> theDict)
+  void TheDictionary::dictionary(boost::shared_ptr<Dictionary> theDict)
   {
 	itsDictionary = theDict;
   }

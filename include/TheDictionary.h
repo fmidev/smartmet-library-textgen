@@ -31,6 +31,7 @@
 #define TEXTGEN_THEDICTIONARY_H
 
 #include "Dictionary.h"
+#include "boost/shared_ptr.hpp"
 #include <memory>
 #include <string>
 
@@ -44,7 +45,7 @@ namespace TextGen
 
 	static TheDictionary & instance();
 
-	void dictionary(std::auto_ptr<Dictionary> theDict);
+	void dictionary(boost::shared_ptr<Dictionary> theDict);
 
 	virtual void init(const std::string & theLanguage);
 	virtual const std::string & language(void) const;
@@ -62,7 +63,7 @@ namespace TextGen
 	TheDictionary(const Dictionary & theDict);
 	TheDictionary & operator=(const TheDictionary & theDict);
 
-	std::auto_ptr<Dictionary> itsDictionary;
+	boost::shared_ptr<Dictionary> itsDictionary;
 
   }; // class Dictionary
 

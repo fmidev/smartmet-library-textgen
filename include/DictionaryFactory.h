@@ -14,9 +14,9 @@
  *
  * For example,
  * \code
- * std::auto_ptr<Dictionary> dict1 = DictionaryFactory::create("null");
- * std::auto_ptr<Dictionary> dict2 = DictionaryFactory::create("basic");
- * std::auto_ptr<Dictionary> dict3 = DictionaryFactory::create("mysql");
+ * boost::shared_ptr<Dictionary> dict1 = DictionaryFactory::create("null");
+ * boost::shared_ptr<Dictionary> dict2 = DictionaryFactory::create("basic");
+ * boost::shared_ptr<Dictionary> dict3 = DictionaryFactory::create("mysql");
  * \endcode
  *
  */
@@ -26,14 +26,13 @@
 #define TEXTGEN_DICTIONARYFACTORY_H
 
 #include "Dictionary.h"
-#include <memory>
+#include "boost/shared_ptr.hpp"
 
 namespace TextGen
 {
   namespace DictionaryFactory
   {
-
-	std::auto_ptr<Dictionary> create(const std::string & theType);
+	boost::shared_ptr<Dictionary> create(const std::string & theType);
 
   } // namespace DictionaryFactory
 } // namespace TextGen

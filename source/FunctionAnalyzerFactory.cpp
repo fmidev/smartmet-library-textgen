@@ -26,24 +26,24 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 	
-	std::auto_ptr<FunctionAnalyzer> create(const WeatherFunction & theFunction)
+	boost::shared_ptr<FunctionAnalyzer> create(const WeatherFunction & theFunction)
 	{
 	  switch(theFunction)
 		{
 		case Mean:
-		  return std::auto_ptr<FunctionAnalyzer>(new MeanAnalyzer);
+		  return boost::shared_ptr<FunctionAnalyzer>(new MeanAnalyzer);
 		case MaxMaximum:
-		  return std::auto_ptr<FunctionAnalyzer>(new MaxMaximumAnalyzer);
+		  return boost::shared_ptr<FunctionAnalyzer>(new MaxMaximumAnalyzer);
 		case MeanMaximum:
-		  return std::auto_ptr<FunctionAnalyzer>(new MeanMaximumAnalyzer);
+		  return boost::shared_ptr<FunctionAnalyzer>(new MeanMaximumAnalyzer);
 		case MinMaximum:
-		  return std::auto_ptr<FunctionAnalyzer>(new MinMaximumAnalyzer);
+		  return boost::shared_ptr<FunctionAnalyzer>(new MinMaximumAnalyzer);
 		case MaxMinimum:
-		  return std::auto_ptr<FunctionAnalyzer>(new MaxMinimumAnalyzer);
+		  return boost::shared_ptr<FunctionAnalyzer>(new MaxMinimumAnalyzer);
 		case MeanMinimum:
-		  return std::auto_ptr<FunctionAnalyzer>(new MeanMinimumAnalyzer);
+		  return boost::shared_ptr<FunctionAnalyzer>(new MeanMinimumAnalyzer);
 		case MinMinimum:
-		  return std::auto_ptr<FunctionAnalyzer>(new MinMinimumAnalyzer);
+		  return boost::shared_ptr<FunctionAnalyzer>(new MinMinimumAnalyzer);
 		}
 	  throw WeatherAnalysisError("FunctionAnalyzerFactory does not support requested function");
 	}

@@ -45,7 +45,7 @@
 
 #include "Dictionary.h"
 
-#include <memory>
+#include "boost/shared_ptr.hpp"
 #include <string>
 
 namespace TextGen
@@ -58,8 +58,10 @@ namespace TextGen
 
 	virtual ~MySQLDictionary();
 	MySQLDictionary();
+#ifdef NO_COMPILER_OPTIMIZE
 	MySQLDictionary(const MySQLDictionary & theDict);
 	MySQLDictionary & operator=(const MySQLDictionary & theDict);
+#endif
 
 	virtual void init(const std::string & theLanguage);
 	virtual const std::string & language(void) const;
@@ -73,7 +75,7 @@ namespace TextGen
   private:
 
 	class Pimple;
-	std::auto_ptr<Pimple> itsPimple;
+	boost::shared_ptr<Pimple> itsPimple;
 
   }; // class BasicDictionary
 

@@ -17,13 +17,13 @@
 
 #include "FunctionAnalyzer.h"
 #include "WeatherFunction.h"
-#include <memory>
+#include "boost/shared_ptr.hpp"
 
 namespace WeatherAnalysis
 {
   namespace FunctionAnalyzerFactory
   {
-	std::auto_ptr<FunctionAnalyzer> create(const WeatherFunction & theFunction);
+	boost::shared_ptr<FunctionAnalyzer> create(const WeatherFunction & theFunction);
   } // namespace FunctionAnalyzerFactory
 } // namespace WeatherAnalysis
 

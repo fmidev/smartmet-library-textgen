@@ -11,6 +11,8 @@
 #include "MySQLDictionary.h"
 #include "TextGenError.h"
 
+using namespace boost;
+
 namespace TextGen
 {
 
@@ -23,14 +25,14 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  std::auto_ptr<Dictionary> DictionaryFactory::create(const std::string & theType)
+  shared_ptr<Dictionary> DictionaryFactory::create(const std::string & theType)
   {
 	if(theType == "null")
-	  return std::auto_ptr<Dictionary>(new NullDictionary());
+	  return shared_ptr<Dictionary>(new NullDictionary());
 	if(theType == "basic")
-	  return std::auto_ptr<Dictionary>(new BasicDictionary());
+	  return shared_ptr<Dictionary>(new BasicDictionary());
 	if(theType == "mysql")
-	  return std::auto_ptr<Dictionary>(new MySQLDictionary());
+	  return shared_ptr<Dictionary>(new MySQLDictionary());
 	throw TextGenError("Error: Unknown dictionary type "+theType);
   }
  

@@ -48,12 +48,13 @@ namespace PhraseTest
   //! Test realize()
   void realize(void)
   {
+	using namespace boost;
 	using namespace TextGen;
 
-	auto_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
+	shared_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
 	finnish->init("fi");
 
-	auto_ptr<Dictionary> english = DictionaryFactory::create("mysql");
+	shared_ptr<Dictionary> english = DictionaryFactory::create("mysql");
 	english->init("en");
 	
 	Phrase s1("kaakko");;

@@ -38,7 +38,7 @@ namespace WeatherAnalysis
 	const string varname = "textgen::temperature_forecast";
 	const string parname = "Temperature";
 
-	std::auto_ptr<FunctionAnalyzer> analyzer = FunctionAnalyzerFactory::create(theFunction);
+	shared_ptr<FunctionAnalyzer> analyzer = FunctionAnalyzerFactory::create(theFunction);
 
 	return analyzer->analyze(theSources,theLimits,thePeriod,theArea,
 							 varname,parname);

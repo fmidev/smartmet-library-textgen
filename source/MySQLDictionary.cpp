@@ -64,38 +64,8 @@ namespace TextGen
 
   MySQLDictionary::MySQLDictionary()
 	: Dictionary()
+	, itsPimple(new Pimple())
   {
-	itsPimple.reset(new Pimple());
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Copy constructor
-   *
-   * \param theDict The dictionary to copy
-   */
-  // ----------------------------------------------------------------------
-
-  MySQLDictionary::MySQLDictionary(const MySQLDictionary & theDict)
-	: Dictionary()
-  {
-	itsPimple.reset(new Pimple(*theDict.itsPimple));
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Assignment operator
-   *
-   * \param theDict The dictionary to copy
-   * \return The dictionary assigned to
-   */
-  // ----------------------------------------------------------------------
-
-  MySQLDictionary & MySQLDictionary::operator=(const MySQLDictionary & theDict)
-  {
-	if(this != &theDict)
-	  itsPimple.reset(new Pimple(*theDict.itsPimple));
-	return *this;
   }
 
   // ----------------------------------------------------------------------
