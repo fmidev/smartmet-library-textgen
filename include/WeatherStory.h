@@ -46,6 +46,8 @@ namespace TextGen
 
   private:
 
+	Paragraph shortoverview() const;
+
 	WeatherStory();
 	WeatherStory(const WeatherStory & theStory);
 	WeatherStory & operator=(const WeatherStory & theStory);
