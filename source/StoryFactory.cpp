@@ -15,6 +15,7 @@
 #include "TemperatureStory.h"
 #include "TextGenError.h"
 #include "WeatherStory.h"
+#include "WindStory.h"
 
 #include "NFmiTime.h"
 
@@ -69,6 +70,12 @@ namespace TextGen
 	  if(WeatherStory::hasStory(theName))
 		{
 		  WeatherStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
+		  return story.makeStory(theName);
+		}
+
+	  if(WindStory::hasStory(theName))
+		{
+		  WindStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 
