@@ -27,8 +27,16 @@ namespace WeatherAnalysis
   namespace CalculatorFactory
   {
 	boost::shared_ptr<Calculator> create(WeatherFunction theFunction);
+
+	boost::shared_ptr<Calculator> create(WeatherFunction theFunction,
+										 int theModulo);
+
 	boost::shared_ptr<Calculator> create(WeatherFunction theFunction,
 										 const Acceptor & theTester);
+
+	boost::shared_ptr<Calculator> create(WeatherFunction theFunction,
+										 const Acceptor & theTester,
+										 int theModulo);
 
   } // namespace CalculatorFactory
 } // namespace WeatherAnalysis

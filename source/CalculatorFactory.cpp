@@ -10,6 +10,7 @@
 #include "MaximumCalculator.h"
 #include "MeanCalculator.h"
 #include "MinimumCalculator.h"
+#include "ModMeanCalculator.h"
 #include "NullCalculator.h"
 #include "PercentageCalculator.h"
 #include "RangeAcceptor.h"
@@ -67,6 +68,43 @@ namespace WeatherAnalysis
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Create a modular calculator suitable for the given WeatherFunction
+	 *
+	 * Throws if there is no suitable data modifier.
+	 *
+	 * \param theFunction The weather function
+	 * \return The data modifier
+	 */
+	// ----------------------------------------------------------------------
+
+	shared_ptr<Calculator> create(WeatherFunction theFunction, int theModulo)
+	{
+	  switch(theFunction)
+		{
+		case Mean:
+		  return shared_ptr<Calculator>(new ModMeanCalculator(theModulo));
+		case Percentage:
+		  return shared_ptr<Calculator>(new PercentageCalculator);
+		case Count:
+		  return shared_ptr<Calculator>(new CountCalculator);
+		case NullFunction:
+		  return shared_ptr<Calculator>(new NullCalculator);
+
+		case Maximum:
+		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Maximum analyzer");
+		case Minimum:
+		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Minimum analyzer");
+		case Trend:
+		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Trend analyzer");
+		case Sum:
+		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Sum analyzer");
+		}
+
+	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Create an calculator suitable for the given WeatherFunction
 	 *
 	 * Throws if there is no suitable data modifier.
@@ -89,6 +127,48 @@ namespace WeatherAnalysis
 		case Trend:
 		case NullFunction:
 		  return create(theFunction);
+		case Percentage:
+		  {
+			shared_ptr<PercentageCalculator> tmp(new PercentageCalculator);
+			tmp->condition(theTester);
+			return tmp;
+		  }
+		case Count:
+		  {
+			shared_ptr<CountCalculator> tmp(new CountCalculator);
+			tmp->condition(theTester);
+			return tmp;
+		  }
+		}
+	  
+	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Create a modular calculator suitable for the given WeatherFunction
+	 *
+	 * Throws if there is no suitable data modifier.
+	 *
+	 * \param theFunction The weather function
+	 * \param theTester The tester for Percentage calculations
+	 * \return The data modifier
+	 */
+	// ----------------------------------------------------------------------
+
+	shared_ptr<Calculator> create(WeatherFunction theFunction,
+								  const Acceptor & theTester,
+								  int theModulo)
+	{
+	  switch(theFunction)
+		{
+		case Mean:
+		case Maximum:
+		case Minimum:
+		case Sum:
+		case Trend:
+		case NullFunction:
+		  return create(theFunction,theModulo);
 		case Percentage:
 		  {
 			shared_ptr<PercentageCalculator> tmp(new PercentageCalculator);
