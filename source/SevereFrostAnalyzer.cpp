@@ -42,7 +42,7 @@ namespace WeatherAnalysis
 							   const Acceptor & theTester) const
   {
 	const string varname = "textgen::severefrost_forecast";
-	const string parname = "SevereFrost";
+	const string parname = "SevereFrostProbability";
 
 	auto_ptr<FunctionAnalyzer> analyzer(new RegularFunctionAnalyzer(theAreaFunction,theTimeFunction));
 
