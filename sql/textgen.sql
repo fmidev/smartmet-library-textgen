@@ -402,6 +402,7 @@ INSERT INTO translation_en VALUES ('Lounais-Suomen yli','over Southwestern Finla
 INSERT INTO translation_en VALUES ('saapuu','approaches',20030616155930,'mheiskan');
 INSERT INTO translation_en VALUES ('sää muuttuu sateisemmaksi','the weather is becoming rainier',20030616155926,'mheiskan');
 INSERT INTO translation_en VALUES ('alue','the area',20030616155912,'mheiskan');
+INSERT INTO translation_en VALUES ('pohjanmaa:lle','for Ostrobothnia',20030618094358,'mheiskan');
 
 --
 -- Table structure for table 'translation_fi'
@@ -730,6 +731,7 @@ INSERT INTO translation_fi VALUES ('kosteampaa','kosteampaa',20030616141057,'mhe
 INSERT INTO translation_fi VALUES ('kuivempaa','kuivempaa',20030616141102,'mheiskan');
 INSERT INTO translation_fi VALUES ('kuuluu','kuuluu',20030616141109,'mheiskan');
 INSERT INTO translation_fi VALUES ('kuurosateen todennäköisyys','kuurosateen todennäköisyys',20030616141121,'mheiskan');
+INSERT INTO translation_fi VALUES ('pohjanmaa:lle','Pohjanmaalle',20030618094302,'mheiskan');
 INSERT INTO translation_fi VALUES ('kylmä sää jatkuu','kylmä sää jatkuu',20030616141144,'mheiskan');
 INSERT INTO translation_fi VALUES ('kylmää','kylmää',20030616141150,'mheiskan');
 INSERT INTO translation_fi VALUES ('Lounais-Suomen yli','Lounais-Suomen yli',20030616141200,'mheiskan');
@@ -1510,4 +1512,5 @@ INSERT INTO translation_sv VALUES ('Lounais-Suomen yli','över Sydvästra Finland'
 INSERT INTO translation_sv VALUES ('saapuu','rör sig',20030616145500,'mheiskan');
 INSERT INTO translation_sv VALUES ('sää muuttuu sateisemmaksi','vädret blir regnigare',20030616145515,'mheiskan');
 INSERT INTO translation_sv VALUES ('alue','området',20030616145528,'mheiskan');
+INSERT INTO translation_sv VALUES ('pohjanmaa:lle','för Österbotten',20030618094336,'mheiskan');
 
