@@ -37,6 +37,7 @@
 <li>\ref sec_windstory</li>
  <ol>
  <li>\ref page_story_wind_daily_ranges</li>
+ <li>\ref page_story_wind_summary</li>
  <li>\ref page_story_wind_simple_overview (puuttuu)</li>
  <li>\ref page_story_wind_overview (puuttuu)</li>
  </ol>
