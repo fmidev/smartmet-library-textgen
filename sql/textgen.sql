@@ -1072,7 +1072,7 @@ INSERT INTO translation_sv VALUES ('heikkoa','svag',20030530074033,'mheiskan');
 INSERT INTO translation_sv VALUES ('kohtalaista','måttlig',20030530074101,'mheiskan');
 INSERT INTO translation_sv VALUES ('navakkaa','frisk',20030530074108,'mheiskan');
 INSERT INTO translation_sv VALUES ('kovaa','hård',20030530074114,'mheiskan');
-INSERT INTO translation_sv VALUES ('myrskyä','stormig',20030530074121,'mheiskan');
+INSERT INTO translation_sv VALUES ('myrskyä','storm',20030611133248,'mheiskan');
 INSERT INTO translation_sv VALUES ('tuulta','vind',20030530074131,'mheiskan');
 INSERT INTO translation_sv VALUES ('suunnaltaan vaihtelevaa','varierande',20030530074823,'mheiskan');
 INSERT INTO translation_sv VALUES ('1-tuulta','nordlig vind',20030530074832,'mheiskan');
