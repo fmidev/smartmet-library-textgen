@@ -27,8 +27,7 @@ namespace PeriodPhraseFactoryTest
 				 const string & theLanguage,
 				 const string & theResult)
   {
-	using TextGen::Sentence;
-	using TextGen::PeriodPhraseFactory;
+	using namespace TextGen;
 
 	dict->init(theLanguage);
 	formatter.dictionary(dict);
