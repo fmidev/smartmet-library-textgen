@@ -142,7 +142,7 @@ namespace WeatherAnalysis
 	  do
 		{
 		  NFmiTime time2(time1);
-		  time1.ChangeByHours(theInterval);
+		  time2.ChangeByHours(theInterval);
 		  
 		  theSubTimeCalculator.reset();
 		  
