@@ -33,7 +33,8 @@ namespace WeatherAnalysis
 								  const WeatherFunction & theTimeFunction,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea,
-								  const Acceptor & theAcceptor,
+								  const Acceptor & theAreaAcceptor,
+								  const Acceptor & theTimeAcceptor,
 								  const Acceptor & theTester = NullAcceptor()) const;
   };
 }

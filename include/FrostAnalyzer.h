@@ -33,9 +33,12 @@ namespace WeatherAnalysis
 	virtual WeatherResult analyze(const AnalysisSources & theSources,
 								  const WeatherFunction & theAreaFunction,
 								  const WeatherFunction & theTimeFunction,
-								  const WeatherLimits & theLimits,
 								  const WeatherPeriod & thePeriod,
-								  const WeatherArea & theArea) const;
+								  const WeatherArea & theArea,
+								  const Acceptor & theAreaAcceptor,
+								  const Acceptor & theTimeAcceptor,
+								  const Acceptor & theTester = NullAcceptor()) const;
+
   };
 }
 

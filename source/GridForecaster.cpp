@@ -30,7 +30,8 @@ namespace WeatherAnalysis
    * \param theTimeFunction The time function
    * \param thePeriod The time period to analyze
    * \param theArea The name of the area to analyze
-   * \param theAcceptor The weather data acceptor
+   * \param theAreaAcceptor The weather data acceptor in area integration
+   * \param theTimeAcceptor The weather data acceptor in time integration
    * \param theTester The acceptor for Percentage calculations
    * \return The result of the analysis
    */
@@ -43,7 +44,8 @@ namespace WeatherAnalysis
 						  const WeatherFunction & theTimeFunction,
 						  const WeatherPeriod & thePeriod,
 						  const WeatherArea & theArea,
-						  const Acceptor & theAcceptor,
+						  const Acceptor & theAreaAcceptor,
+						  const Acceptor & theTimeAcceptor,
 						  const Acceptor & theTester) const
   {
 	switch(theParameter)
@@ -56,7 +58,8 @@ namespace WeatherAnalysis
 								  theTimeFunction,
 								  thePeriod,
 								  theArea,
-								  theAcceptor,
+								  theAreaAcceptor,
+								  theTimeAcceptor,
 								  theTester);
 		}
 	  case MaxTemperature:
@@ -67,7 +70,8 @@ namespace WeatherAnalysis
 								  theTimeFunction,
 								  thePeriod,
 								  theArea,
-								  theAcceptor,
+								  theAreaAcceptor,
+								  theTimeAcceptor,
 								  theTester);
 		}
 	  case MinTemperature:
@@ -78,7 +82,8 @@ namespace WeatherAnalysis
 								  theTimeFunction,
 								  thePeriod,
 								  theArea,
-								  theAcceptor,
+								  theAreaAcceptor,
+								  theTimeAcceptor,
 								  theTester);
 		}
 	  case Precipitation:
@@ -89,7 +94,8 @@ namespace WeatherAnalysis
 								  theTimeFunction,
 								  thePeriod,
 								  theArea,
-								  theAcceptor,
+								  theAreaAcceptor,
+								  theTimeAcceptor,
 								  theTester);
 		}
 

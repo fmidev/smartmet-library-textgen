@@ -24,9 +24,10 @@ namespace WeatherAnalysis
    * \brief Regular analysis interface
    *
    * \param theSources The analysis sources
-   * \param theAcceptor The data acceptor
    * \param thePeriod The analysis period
    * \param theArea The analysis area
+   * \param theAreaAcceptor The data acceptor in area integration
+   * \param theTimeAcceptor The data acceptor in time integration
    * \param theDataName The name of the data
    * \param theParameterName The parameter name
    * \return The analysis result
@@ -37,7 +38,8 @@ namespace WeatherAnalysis
   FunctionAnalyzer::analyze(const AnalysisSources & theSources,
 							const WeatherPeriod & thePeriod,
 							const WeatherArea & theArea,
-							const Acceptor & theAcceptor,
+							const Acceptor & theAreaAcceptor,
+							const Acceptor & theTimeAcceptor,
 							const Acceptor & theTester,
 							const string & theDataName,
 							const string & theParameterName) const
@@ -49,7 +51,8 @@ namespace WeatherAnalysis
 	return analyze(theSources,
 				   thePeriod,
 				   theArea,
-				   theAcceptor,
+				   theAreaAcceptor,
+				   theTimeAcceptor,
 				   theTester,
 				   theDataName,
 				   theParameterName,

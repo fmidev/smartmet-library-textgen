@@ -26,7 +26,8 @@ namespace WeatherAnalysis
    * \param theTimeFunction The time function to analyze
    * \param thePeriod The time period
    * \param theArea The area
-   * \param theAcceptor The acceptor for data
+   * \param theAreaAcceptor The acceptor for data in area integrals
+   * \param theTimeAcceptor The acceptor for data in time integrals
    * \param theTester The optional acceptor for Percentage calculations
    */
   // ----------------------------------------------------------------------
@@ -37,7 +38,8 @@ namespace WeatherAnalysis
 								  const WeatherFunction & theTimeFunction,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea,
-								  const Acceptor & theAcceptor,
+								  const Acceptor & theAreaAcceptor,
+								  const Acceptor & theTimeAcceptor,
 								  const Acceptor & theTester) const
   {
 	const string varname = "textgen::temperature_forecast";
@@ -49,7 +51,7 @@ namespace WeatherAnalysis
 	const int one_day = 24;
 
 	return analyzer->analyze(theSources,thePeriod,theArea,
-							 theAcceptor,theTester,
+							 theAreaAcceptor,theTimeAcceptor,theTester,
 							 varname,parname,
 							 one_day,mincalculator);
   }

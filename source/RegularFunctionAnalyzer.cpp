@@ -67,7 +67,8 @@ namespace WeatherAnalysis
    * \param theSources Analysis sources
    * \param thePeriod Analysis period
    * \param theArea Analysis area
-   * \param theAcceptor The data acceptor
+   * \param theAreaAcceptor The data acceptor in area integration
+   * \param theTimeAcceptor The data acceptor in space integration
    * \param theTester The data tester for Percentage calculations
    * \param theDataName The name of the data file
    * \param theParameterName The name of the parameter
@@ -81,7 +82,8 @@ namespace WeatherAnalysis
   RegularFunctionAnalyzer::analyze(const AnalysisSources & theSources,
 								   const WeatherPeriod & thePeriod,
 								   const WeatherArea & theArea,
-								   const Acceptor & theAcceptor,
+								   const Acceptor & theAreaAcceptor,
+								   const Acceptor & theTimeAcceptor,
 								   const Acceptor & theTester,
 								   const std::string & theDataName,
 								   const std::string & theParameterName,
@@ -126,6 +128,9 @@ namespace WeatherAnalysis
 		shared_ptr<Calculator> spacemod = CalculatorFactory::create(itsAreaFunction,theTester);
 		shared_ptr<Calculator> timemod = CalculatorFactory::create(itsTimeFunction,theTester);
 
+		spacemod->acceptor(theAreaAcceptor);
+		timemod->acceptor(theTimeAcceptor);
+
 		float result = QueryDataIntegrator::Integrate(qi,
 													  thePeriod.utcStartTime(),
 													  thePeriod.utcEndTime(),
@@ -147,6 +152,7 @@ namespace WeatherAnalysis
 		  throw WeatherAnalysisError("Could not set desired coordinate in "+dataname);
 
 		shared_ptr<Calculator> timemod = CalculatorFactory::create(itsTimeFunction,theTester);
+		timemod->acceptor(theTimeAcceptor);
 
 		float result = QueryDataIntegrator::Integrate(qi,
 													  thePeriod.utcStartTime(),
