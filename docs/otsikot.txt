@@ -22,8 +22,15 @@ kanssa.
 
 Mahdolliset headerit ovat
 
-  -# "Odotettavissa maanantaiaamuun asti" + viikonpäivävariaatiot
-  -# "Odotettavissa maanantai-iltaan asti" + viikonpäivävariaatiot
+  -# "Odotettavissa maanantaiaamuun asti" + variaatiot
+
+Ruotsiksi
+
+  -# "Utsikter till måndag morgon" + variaatiot
+
+Englanniksi
+
+  -# "Expected weather until Monday morning" + variaatiot
 
 Käytetyt fraasit ovat
 
@@ -40,10 +47,15 @@ Käytetään yleensä vastaavan periodityypin "from_until" kanssa.
 
 Mahdolliset headerit ovat
 
-  -# "Odotettavista maanantaiaamusta maanantaiaamuun" + viikonpäivävariaatiot
-  -# "Odotettavista maanantaiaamusta maanantaiiltaan" + viikonpäivävariaatiot
-  -# "Odotettavista maanantai-illasta maanantaiaamuun" + viikonpäivävariaatiot
-  -# "Odotettavista maanantai-illasta maanantai-iltaan" + viikonpäivävariaatiot
+  -# "Odotettavissa maanantaiaamusta maanantaiaamuun" + variaatiot
+
+Ruotsiksi
+
+  -# "Utsikter från måndag morgon till måndag morgon" + variaatiot
+
+Englanniksi
+
+  -# "Expected weather from Monday morning until Monday morning" + variaatiot
 
 Käytetyt fraasit ovat
 
@@ -61,10 +73,17 @@ N*24 tuntia, missä N=2..10.
 
 Mahdolliset headerit ovat
 
-  -# "Maanantaiaamusta alkavan N-vuorokauden sää" + viikonpäivävariaatiot
-  -# "Maanantai-illasta alkavan N-vuorokauden sää" + viikonpäivävariaatiot
+  -# "Maanantaiaamusta alkavan viiden vuorokauden sää" + variaatiot
 
-missä N=2-10. Käytetyt fraasit ovat
+Ruotsiksi
+
+  -# "Från måndag morgon för de följande fem dygnen" + variaatiot
+
+Englanniksi
+
+  -# "From Monday morning for the next five days" + variaatiot
+
+Käytetyt fraasit ovat
 
   - "N-aamusta alkavan", missä N=1-7
   - "N-illasta alkavan", missä N=1-7

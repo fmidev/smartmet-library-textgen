@@ -45,7 +45,15 @@ TextGen::TemperatureStory luokka hallitsee lämpötilaan liittyvät tarinat.
 
 \c temperature_mean tarina on muotoa
 
-  - "Keskilämpötila N astetta."
+  -# "Keskilämpötila N astetta."
+
+Ruotsiksi
+
+  -# "Medeltemperaturen N grader."
+
+Englanniksi
+
+  -# "Mean temperature N degrees."
 
 Käytetyt fraasit ovat
 
@@ -56,7 +64,15 @@ Käytetyt fraasit ovat
 
 \c temperature_meanmax tarina on muotoa
 
-  - "Keskimääräinen ylin lämpötila N astetta."
+  -# "Keskimääräinen ylin lämpötila N astetta."
+
+Ruotsiksi
+
+  -# "Den högsta temperaturen i medeltal N grader."
+
+Englanniksi
+
+  -# "Mean maximum temperature N degrees."
 
 Käytetyt fraasit ovat
 
@@ -67,7 +83,15 @@ Käytetyt fraasit ovat
 
 \c temperature_meanmin tarina on muotoa
 
-  - "Keskimääräinen alin lämpötila N astetta."
+  -# "Keskimääräinen alin lämpötila N astetta."
+
+Ruotsiksi
+
+  -# "Den lägsta temperaturen i medeltal N grader."
+
+Englanniksi
+
+  -# "Mean minimum temperature N degrees."
 
 Käytetyt fraasit ovat
 
@@ -78,11 +102,23 @@ Käytetyt fraasit ovat
 
 TextGen::PrecipitationStory luokka hallitsee sateeseen liittyvät tarinat.
 
+Yksi keskeinen ongelma on se, miten sadesumma määritellään. Esimerkiksi
+kun puhutaan alueen keskimääräisestä sadesummasta, pitäisikö laskuihin ottaa
+vain ne pisteet joissa oikeasti sataa edes jonkin verran, vai kaikki pisteet?
+
 \subsection sec_story_precipitation_total "precipitation_total"
 
 \c precipitation_total tarina on muotoa
 
-  - "Sadesumma N millimetriä."
+  -# "Sadesumma N millimetriä."
+
+Ruotsiksi
+
+  -# "Nederbördsumman N millimeter."
+
+Englanniksi
+
+  -# "Total precipitation N millimeters."
 
 Käytetyt fraasit ovat
 
@@ -96,6 +132,18 @@ Käytetyt fraasit ovat
   -# "Sadesumma yli N millimetriä."
   -# "Sadesumma N millimetriä."
   -# "Sadesumma N...M millimetriä."
+
+Ruotsiksi
+
+  -# "Nederbördsumman över N millimeter."
+  -# "Nederbördsumman N millimeter."
+  -# "Nederbördsumman N...M millimeter."
+
+Englanniksi
+
+  -# "Total precipitation over N millimeters."
+  -# "Total precipitation N millimeters."
+  -# "Total precipitation N...M millimeters."
 
 Päättelyssä käytetään muuttujina alueen minimi- ja maksimisadesummaa,
 sekä optionaalista muuttujaa
@@ -122,32 +170,71 @@ Käytetyt fraasit ovat
   -# "Sadesumma paikoin yli N millimetriä."
   -# "Sadesumma 0 millimetriä."
   -# "Sadesumma N...M millimetriä."
+  -# "Sadesumma N...M millimetriä, paikoin enemmän."
+  -# "Sadesumma N...M millimetriä, monin paikoin enemmän."
+
+Ruotsiksi
+
+  -# "Nederbördsumman över N millimeter."
+  -# "Nederbördsumman på många håll över N millimeter."
+  -# "Nederbördsumman lokat över N millimeter."
+  -# "Nederbördsumman 0 millimeter."
+  -# "Nederbördsumman N...M millimeter."
+  -# "Nederbördsumman N...M millimeter, lokalt mera."
+  -# "Nederbördsumman N...M millimeter, mera på många håll."
+
+Englanniksi
+
+  -# "Total precipitation over N millimeters."
+  -# "Total precipitation in many places over N millimeters."
+  -# "Total precipitation in some places over N millimeters."
+  -# "Total precipitation 0 millimeters."
+  -# "Total precipitation N...M millimeters."
+  -# "Total precipitation N...M millimeters, more in some places."
+  -# "Total precipitation N...M millimeters, more in many places."
 
 Päättelyssä käytetään muuttujina alueen minimi- ja maksimisadesummaa,
 sekä optionaalisia muuttujia
 \code
-textgen::[kappale]::story::precipitation_classification::manyplaces_limit = [0-100]
-textgen::[kappale]::story::precipitation_classification::classlimits = A,B,C,D,E,F,...X
+textgen::[kappale]::story::precipitation_classification::maxlimit1 = [0-100]
+textgen::[kappale]::story::precipitation_classification::maxlimit2 = [0-100]
+textgen::[kappale]::story::precipitation_classification::limit1 = [0-100]
+textgen::[kappale]::story::precipitation_classification::limit2 = [0-100]
+textgen::[kappale]::story::precipitation_classification::classlimits = [range1,range2,...]
 \endcode
 Teksti valitaan seuraavalla logiikalla
 
+  -# Kaikista luokista haetaan maksimi sademäärä X
   -# Jos sadesumman maksimi on yli X
      -# Jos sadesumman minimi on yli X palautetaan fraasi 1
-     -# Jos sadesumma ylittää asetetun raja-arvon \c manyplaces_limit riittävän monessa
-        pisteessä, palautetaan fraasi 2.
-     -# Palautetaan fraasi 3.
+     -# Jos sadesumma ylittää asetetun raja-arvon \c maxlimit2 riittävän
+        monessa pisteessä, palautetaan fraasi 2.
+     -# Jos sadesumma ylittää asetetun raja-arvon \c maxlimit1 riittävän
+        monessa pisteessä, palautetaan fraasi 3.
+     -# Palautetaan fraasi 1.
   -# Jos sadesumman maksimi on 0, palautetaan fraasi 4.
-  -# Lasketaan sadesumman keskiarvo, palautetaan fraasi 5 muuttujaan \c classlimits perustuen.
+  -# Lasketaan sadesumman keskiarvo ja maksimi.
+  -# Muodostetaan sadeluokka keskiarvon perusteella. Jos useampi luokka
+     on mahdollinen, valitaan se niistä ensimmäinen.
+  -# Jos maksimi kuuluu samaan luokkaa, palautetaan fraasi 5.
+  -# Jos alueellinen ylitysprosentti ylittää rajan \c limit2, palautetaan
+     fraasi 6. Jos rajaa ei ole asetettu, ei fraasia 6 koskaan palauteta.
+  -# Jos alueellinen ylitysprosentti ylittää rajan \c limit1, palautetaan
+     fraasi 7. Jos rajaa ei ole asetettu, ei fraasia 7 koskaan palauteta.
+  -# Palautetaan fraasi 5.
 
 Käytetyt fraasit ovat
 
   - "sadesumma"
-  - "monin paikoin"
   - "paikoin"
+  - "monin paikoin"
   - "yli"
   - "millimetriä"
+  - "paikoin enemmän"
+  - "monin paikoin enemmän"
 
-PS. Tarinan nimi ei ole \c precipitation_class, koska koodauskonventioiden mukaan
-PrecipitationStory luokkaan tulisi metodi nimeltä class, joka ei ole sallittua.
+PS. Tarinan nimi ei ole \c precipitation_class, koska
+koodauskonventioiden mukaan PrecipitationStory luokkaan tulisi metodi
+nimeltä class, joka ei ole sallittua.
 
 */
