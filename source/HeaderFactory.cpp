@@ -256,3 +256,5 @@ namespace TextGen
 
   } // namespace HeaderFactory
 } // namespace TextGen
+
+// ======================================================================
