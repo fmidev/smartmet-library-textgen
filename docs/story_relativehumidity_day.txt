@@ -45,7 +45,7 @@ Oletusarvoisesti asetukset määräytyvät suoraan itse periodin pituudesta.
 
 Suhteellinen kosteus pyöristetään tarkkuuteen
 \code
-textgen::[kappale]::story::relativehumidity_day::precision = [0-100]
+textgen::[kappale]::story::relativehumidity_day::precision = [0-100] (= 10%)
 \endcode
 
 Tarvittavat fraasit ovat
