@@ -662,8 +662,9 @@ namespace TextGen
 									 thePeriod);
 
 	// start & end times of the rain
-	const int rainstarthour = theRainPeriod.localStartTime().GetHour();
-	const int rainendhour = theRainPeriod.localEndTime().GetHour()+1;
+	int rainstarthour = theRainPeriod.localStartTime().GetHour();
+	int rainendhour = theRainPeriod.localEndTime().GetHour() + 1;
+	if(rainendhour==1) rainendhour = 24;
 
 	// mapping onto the four basic cases
 	const int idx = one_day_rain_unique_index(rainstarthour,rainendhour);
