@@ -44,7 +44,6 @@ namespace WeatherAnalysis
 	Pimple();
 	typedef map<string,NFmiSvgPath> storage_type;
 	storage_type itsData;
-	string itsSearchPath;
   };
 
   // ----------------------------------------------------------------------
@@ -55,13 +54,7 @@ namespace WeatherAnalysis
 
   MapSource::Pimple::Pimple()
 	: itsData()
-	, itsSearchPath(".")
   {
-	if(Settings::isset("textgen::mappath"))
-	  {
-		itsSearchPath += ':';
-		itsSearchPath += Settings::require_string("textgen::mappath");
-	  }
   }
 
   // ----------------------------------------------------------------------
@@ -103,7 +96,7 @@ namespace WeatherAnalysis
 
 	// Must read from file
 
-	const string filename = FileComplete(theName+".svg",itsPimple->itsSearchPath);
+	const string filename = Settings::require_string("textgen::areas::map::"+theName);
 
 	if(!FileExists(filename))
 	  throw WeatherAnalysisError("Map "+theName+" has no respective SVG file");
