@@ -189,25 +189,25 @@ namespace FrostStoryTest
 	NFmiSettings::Set("range::fake::maximum","60,0");
 	NFmiSettings::Set("range::fake::severe_minimum","0,0");
 	NFmiSettings::Set("range::fake::severe_maximum","0,0");
-	require(story,"fi",fun,"Hallan todennäköisyys on 40...60%.");
-	require(story,"sv",fun,"Sannolikheten för nattfrost är 40...60%.");
-	require(story,"en",fun,"Probability of frost is 40...60%.");
+	require(story,"fi",fun,"Hallan todennäköisyys on 40-60%.");
+	require(story,"sv",fun,"Sannolikheten för nattfrost är 40-60%.");
+	require(story,"en",fun,"Probability of frost is 40-60%.");
 
 	NFmiSettings::Set("range::fake::minimum","50,0");
 	NFmiSettings::Set("range::fake::maximum","70,0");
 	NFmiSettings::Set("range::fake::severe_minimum","10,0");
 	NFmiSettings::Set("range::fake::severe_maximum","20,0");
-	require(story,"fi",fun,"Hallan todennäköisyys on 50...70%.");
-	require(story,"sv",fun,"Sannolikheten för nattfrost är 50...70%.");
-	require(story,"en",fun,"Probability of frost is 50...70%.");
+	require(story,"fi",fun,"Hallan todennäköisyys on 50-70%.");
+	require(story,"sv",fun,"Sannolikheten för nattfrost är 50-70%.");
+	require(story,"en",fun,"Probability of frost is 50-70%.");
 
 	NFmiSettings::Set("range::fake::minimum","40,0");
 	NFmiSettings::Set("range::fake::maximum","60,0");
 	NFmiSettings::Set("range::fake::severe_minimum","30,0");
 	NFmiSettings::Set("range::fake::severe_maximum","40,0");
-	require(story,"fi",fun,"Ankaran hallan todennäköisyys on 30...40%.");
-	require(story,"sv",fun,"Sannolikheten för sträng nattfrost är 30...40%.");
-	require(story,"en",fun,"Probability of severe frost is 30...40%.");
+	require(story,"fi",fun,"Ankaran hallan todennäköisyys on 30-40%.");
+	require(story,"sv",fun,"Sannolikheten för sträng nattfrost är 30-40%.");
+	require(story,"en",fun,"Probability of severe frost is 30-40%.");
 
 	TEST_PASSED();
   }
