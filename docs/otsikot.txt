@@ -1,118 +1,22 @@
 /*!
 \page page_otsikot Otsikot
 
+<ol>
+ <li>\ref sec_headerfactory</li>
+ <ol>
+  <li>\ref page_header_none</li>
+  <li>\ref page_header_until</li>
+  <li>\ref page_header_from_until</li>
+  <li>\ref page_header_several_days</li>
+  <li>\ref page_header_report_area</li>
+ </ol>
+</ol>
+
 \section sec_headerfactory HeaderFactory namespace
 
 TextGen::HeaderFactory namespace sisältää create funktion,
 jolla voidaan luoda erikseen nimettyjä otsikoita. Funktiolle
-annetaan sääperiodi (TextGen::WeatherPeriod, sekä otsikon tyyppi).
+annetaan alueen mimi, sääperiodi sekä otsikon tyyppi.
 Paluuarvona on TextGen::Header objekti.
-
-\subsection sec_header_none Header tyyppi "none"
-
-Tuottaa tyhjän headerin. Käytetään, jos jonkin kappaleen eteen
-ei haluta otsikkoa.
-
-\subsection sec_header_until Header tyyppi "until"
-
-Tuottaa headerin tyyppiä "Odotettavissa tiistai-iltaan asti".
-Loppukellonajan tulee olla 06 tai 18, jolloin tarkenne on vastaavasti
-aamu tai ilta. Tätä käytetään yleensä vastaavan periodityypin "until"
-kanssa.
-
-Mahdolliset headerit ovat
-
-  -# "Odotettavissa maanantaiaamuun asti" + variaatiot
-
-Ruotsiksi
-
-  -# "Utsikter till måndag morgon" + variaatiot
-
-Englanniksi
-
-  -# "Expected weather until Monday morning" + variaatiot
-
-Käytetyt fraasit ovat
-
-  - "odotettavissa"
-  - "asti"
-  - "N-aamuun", missä N=1-7
-  - "N-iltaan", missä N=1-7
-
-\subsection sec_header_from_until Header tyyppi "from_until"
-
-Tuottaa headerin tyyppiä "Odotettavissa tiistai-illasta torstaiaamuun".
-Kellonaikojen tulee olla 06 tai 18, jolloin tarkenteet ovat aamu tai ilta.
-Käytetään yleensä vastaavan periodityypin "from_until" kanssa.
-
-Mahdolliset headerit ovat
-
-  -# "Odotettavissa maanantaiaamusta maanantaiaamuun" + variaatiot
-
-Ruotsiksi
-
-  -# "Utsikter från måndag morgon till måndag morgon" + variaatiot
-
-Englanniksi
-
-  -# "Expected weather from Monday morning until Monday morning" + variaatiot
-
-Käytetyt fraasit ovat
-
-  - "odotettavissa"
-  - "N-aamusta", missä N=1-7
-  - "N-illasta", missä N=1-7
-  - "N-aamuun", missä N=1-7
-  - "N-iltaan", missä N=1-7
-
-\subsection sec_header_several_days Header tyyppi "several_days"
-
-Tuottaa headerin tyyppiä "Tiistaiaamusta alkavan viiden vuorokauden sää".
-Kellonaikojen tulee olla 06 tai 18. Jakson kokonaispituuden tulee olla
-N*24 tuntia, missä N=2..10.
-
-Mahdolliset headerit ovat
-
-  -# "Maanantaiaamusta alkavan viiden vuorokauden sää" + variaatiot
-
-Ruotsiksi
-
-  -# "Från måndag morgon för de följande fem dygnen" + variaatiot
-
-Englanniksi
-
-  -# "From Monday morning for the next five days" + variaatiot
-
-Käytetyt fraasit ovat
-
-  - "N-aamusta alkavan", missä N=1-7
-  - "N-illasta alkavan", missä N=1-7
-  - "N-vuorokauden sää", missä N=2-10
-
-\subsection sec_header_report_area Header tyyppi "report_area"
-
-Tuottaa headerin tyyppiä "Sääennuste Uudellemaalle tiistaina kello 18".
-Kellonaika otetaan jakson alkuajasta. Erityisen hyvin tyyppi sopinee
-yhteen periodityypin "now" kanssa.
-
-Mahdolliset headerit ovat
-
-  -# "Sääennuste alueelle N-na kello K".
-
-Ruotsiksi
-
-  -# "Väderraport för omrodet N-na klockan K."
-
-Englanniksi
-
-  -# "Weather report for area N-na K o'clock."
-
-Käytetyt fraasit ovat
-
-  -# "sääennuste"
-  -# "alue:lle", alue = alueen nimi
-  -# "N-na", N=1..7
-  -# "kello"
-  -# "o'clock"
 
 */
