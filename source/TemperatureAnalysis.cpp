@@ -76,8 +76,6 @@ namespace WeatherAnalysis
 		  break;
 		case Mean:
 		  break;
-		case StandardDeviation:
-		  break;
 		case Probability:
 		  break;
 		}
