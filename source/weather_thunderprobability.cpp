@@ -51,7 +51,7 @@ namespace TextGen
 	WeatherResult result = forecaster.analyze(itsVar+"::fake::probability",
 											 itsSources,
 											 Thunder,
-											 Mean,
+											 Maximum,
 											 Maximum,
 											 itsArea,
 											 itsPeriod);
