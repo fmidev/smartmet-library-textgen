@@ -40,6 +40,8 @@ namespace WeatherAnalysis
 	const std::string & name() const;
 	const NFmiPoint & point() const;
 
+	bool operator<(const WeatherArea & theOther) const;
+
   private:
 
 	WeatherArea();
@@ -60,11 +62,6 @@ bool operator==(const WeatherAnalysis::WeatherArea & theLhs,
 
 bool operator!=(const WeatherAnalysis::WeatherArea & theLhs,
 				const WeatherAnalysis::WeatherArea & theRhs);
-
-// Lexical comparison for the benefit of set/map
-
-bool operator<(const WeatherAnalysis::WeatherArea & theLhs,
-			   const WeatherAnalysis::WeatherArea & theRhs);
 
 #endif // WEATHERANALYSIS_WEATHERAREA_H
 

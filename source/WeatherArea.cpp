@@ -94,6 +94,38 @@ namespace WeatherAnalysis
 	throw WeatherAnalysisError("Trying to coordinate of named weather area");
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Lexical less-than comparison for WeatherAnalysis::WeatherArea
+   *
+   * This is implemented solely for the benefit of putting WeatherArea
+   * objects into standard associative containers. For example, MaskSource
+   * objects need a std::map mapping a WeatherArea to a NFmiIndexMask
+   * or a NFmiIndexMaskSource object.
+   *
+   * \param theOther The area to compare with
+   * \return True if \c this is lexicographically less than theOther
+   */
+  // ----------------------------------------------------------------------
+
+  bool WeatherArea::operator<(const WeatherArea & theOther) const
+  {
+	// we choose named < not named
+	
+	if(isNamed())
+	  {
+		if(!theOther.isNamed())
+		  return true;
+		return (name() < theOther.name());
+	  }
+	else
+	  {
+		if(theOther.isNamed())
+		  return false;
+		return (point() < theOther.point());
+	  }
+  }
+
 } // namespace WeatherAnalysis
 
 // ----------------------------------------------------------------------
@@ -137,40 +169,6 @@ bool operator!=(const WeatherAnalysis::WeatherArea & theLhs,
 				const WeatherAnalysis::WeatherArea & theRhs)
 {
   return !(theLhs == theRhs);
-}
-
-// ----------------------------------------------------------------------
-/*!
- * \brief Lexical less-than comparison for WeatherAnalysis::WeatherArea
- *
- * This is implemented solely for the benefit of putting WeatherArea
- * objects into standard associative containers. For example, MaskSource
- * objects need a std::map mapping a WeatherArea to a NFmiIndexMask
- * or a NFmiIndexMaskSource object.
- *
- * \param theLhs The left hand side
- * \param theRhs The right hand side
- * \return True if the first area is lexically less than the second
- */
-// ----------------------------------------------------------------------
-
-bool operator<(const WeatherAnalysis::WeatherArea & theLhs,
-			   const WeatherAnalysis::WeatherArea & theRhs)
-{
-  // we choose named < not named
-
-  if(theLhs.isNamed())
-	{
-	  if(!theRhs.isNamed())
-		return true;
-	  return (theLhs.name() < theRhs.name());
-	}
-  else
-	{
-	  if(theRhs.isNamed())
-		return false;
-	  
-	}
 }
 
 // ======================================================================
