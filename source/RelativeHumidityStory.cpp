@@ -16,6 +16,7 @@
 #include "TextGenError.h"
 #include "WeatherFunction.h"
 #include "WeatherParameter.h"
+#include "WeatherPeriodTools.h"
 #include "WeatherResult.h"
 
 #include "boost/lexical_cast.hpp"
@@ -60,92 +61,6 @@ namespace
 	return out;
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Determine the number of acceptable days in the period
-   *
-   * \param thePeriod The time period
-   * \param theMaxStartHour The maximum start hour
-   * \param theMinEndHour The minimum end hour
-   * \return The number of days
-   */
-  // ----------------------------------------------------------------------
-
-  int day_count(const WeatherPeriod & thePeriod,
-				int theMaxStartHour,
-				int theMinEndHour)
-  {
-	NFmiTime t(thePeriod.localStartTime());
-	int count = 0;
-
-	if(t.GetHour() <= theMaxStartHour)
-	  ++count;
-	t.ChangeByDays(1);
-	t.SetHour(theMinEndHour);
-
-	while(!thePeriod.localEndTime().IsLessThan(t))
-	  {
-		++count;
-		t.ChangeByDays(1);
-	  }
-	return count;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Determine the first weather period for lowest()
-   *
-   * \param thePeriod The period
-   * \param theFlag True, if the period should start tomorrow
-   * \return The period
-   */
-  // ----------------------------------------------------------------------
-
-  WeatherPeriod first_period(const WeatherPeriod & thePeriod,
-							 bool theFlag)
-  {
-	NFmiTime starttime(thePeriod.localStartTime());
-	if(theFlag)
-	  {
-		starttime.ChangeByDays(1);
-		starttime.SetHour(0);
-	  }
-	NFmiTime endtime(starttime);
-	endtime.ChangeByDays(1);
-	endtime.SetHour(0);
-
-	if(thePeriod.localEndTime().IsLessThan(endtime))
-	  endtime = thePeriod.localEndTime();
-
-	return WeatherPeriod(starttime,endtime);
-
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Determine the second weather period for lowest()
-   *
-   * \param thePeriod The full period from which to extract
-   * \param theFirstPeriod The previously extracted period
-   * \return The second period
-   */
-  // ----------------------------------------------------------------------
-
-  WeatherPeriod second_period(const WeatherPeriod & thePeriod,
-							  const WeatherPeriod & theFirstPeriod)
-  {
-	NFmiTime starttime(theFirstPeriod.localStartTime());
-	starttime.ChangeByDays(1);
-	starttime.SetHour(0);
-
-	NFmiTime endtime(starttime);
-	endtime.ChangeByDays(1);
-
-	if(thePeriod.localEndTime().IsLessThan(endtime))
-	  endtime = thePeriod.localEndTime();
-
-	return WeatherPeriod(starttime,endtime);
-  }
 }
 
 
@@ -231,13 +146,13 @@ namespace TextGen
   {
 	Paragraph paragraph;
 
-	const string var1 = itsVariable + "::maxstarthour";
-	const string var2 = itsVariable + "::minendhour";
-	const string var3 = itsVariable + "::precision";
+	const int starthour = Settings::optional_hour(itsVariable+"::starthour",0);
+	const int endhour = Settings::optional_hour(itsVariable+"::endhour",0);
 
-	const int maxstarthour = Settings::require_hour(var1);
-	const int minendhour   = Settings::require_hour(var2);
-	const int precision    = Settings::require_percentage(var3);
+	const int maxstarthour = Settings::optional_hour(itsVariable+"::maxstarthour",starthour);
+	const int minendhour   = Settings::optional_hour(itsVariable+"::minendhour",endhour);
+
+	const int precision    = Settings::require_percentage(itsVariable+"::precision");
 
 	const int limit_significantly_greater = Settings::require_percentage(itsVariable+"::significantly_greater");
 	const int limit_significantly_smaller = Settings::require_percentage(itsVariable+"::significantly_smaller");
@@ -246,14 +161,18 @@ namespace TextGen
 	const int limit_somewhat_greater = Settings::require_percentage(itsVariable+"::somewhat_greater");
 	const int limit_somewhat_smaller = Settings::require_percentage(itsVariable+"::somewhat_smaller");
 
-	const int days = day_count(itsPeriod, maxstarthour, minendhour);
+	const int days = WeatherPeriodTools::countPeriods(itsPeriod,
+													  starthour,
+													  endhour,
+													  maxstarthour,
+													  minendhour);
 
-	if(days>2)
-	  throw TextGenError("relativehumidity_lowest cannot handle "+lexical_cast<string>(days)+" days");
-
-	const bool start_tomorrow = (itsPeriod.localStartTime().GetHour() > maxstarthour);
-
-	WeatherPeriod firstperiod = first_period(itsPeriod,start_tomorrow);
+	WeatherPeriod firstperiod = WeatherPeriodTools::getPeriod(itsPeriod,
+															  1,
+															  starthour,
+															  endhour,
+															  maxstarthour,
+															  minendhour);
 
 	GridForecaster forecaster;
 
@@ -280,7 +199,12 @@ namespace TextGen
 
 	if(days==2)
 	  {
-		WeatherPeriod secondperiod = second_period(itsPeriod,firstperiod);
+		WeatherPeriod secondperiod = WeatherPeriodTools::getPeriod(itsPeriod,
+																   2,
+																   starthour,
+																   endhour,
+																   maxstarthour,
+																   minendhour);
 
 		WeatherResult result2 = forecaster.analyze(itsVariable+"::fake::day2::minimum",
 												   itsSources,

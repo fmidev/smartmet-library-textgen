@@ -36,16 +36,23 @@ Englanniksi
     -# ", on weekday significantly smaller."
 
 Tarina soveltuu yhden/kahden vuorokauden ennusteisiin. Sivulausetta ei
-ole yhden vuorokauden ennusteissa.
+ole yhden vuorokauden ennusteissa. Kolmannesta tai sit‰ seuraavista p‰ivist‰
+ei kerrota mit‰‰n.
 
-Ensimm‰isest‰ vuorokaudesta ei kerrota mit‰‰n, jos sen alkuaika on yli
+P‰iv‰n m‰‰ritelm‰ saadaan muuttujista
 \code
+textgen::[kappale]::story::relativehumidity_lowest::starthour = [0-23]
+textgen::[kappale]::story::relativehumidity_lowest::endhour = [0-23]
 textgen::[kappale]::story::relativehumidity_lowest::maxstarthour = [0-23]
-\endcode
-Toisesta vuorokaudesta ei kerrota mit‰‰n, jos sen loppu on alle
-\code
 textgen::[kappale]::story::relativehumidity_lowest::minendhour = [0-23]
 \endcode
+P‰iv‰n normaali aikav‰li on \c starthour - \c endhour. Jos periodi on
+lyhyempi kuin mit‰ n‰m‰ asetukset vaativat, voidaan niiss‰ joustaa
+muuttujien \c maxstarthour - \c minendhour rajoissa. Joustorajan
+puuttuessa ei joustoa sallita ollenkaan.
+
+Oletusarvoisesti \c starthour = 0 ja \c endhour = 0. Joustorajat ovat
+optionaalisia.
 
 Suhteellinen kosteus pyˆristet‰‰n tarkkuuteen
 \code
