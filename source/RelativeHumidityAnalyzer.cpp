@@ -21,6 +21,7 @@ namespace WeatherAnalysis
    * \brief Analyze relative humidity in an area
    *
    * \param theSources Analysis sources
+   * \param theDataType The source type to be used
    * \param theAreaFunction The area function to analyze
    * \param theTimeFunction The time function to analyze
    * \param thePeriod The time period
