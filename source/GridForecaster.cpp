@@ -56,43 +56,6 @@ namespace WeatherAnalysis
 	return WeatherResult(kFloatMissing,0);
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Analyze weather forecast for given location
-   *
-   * \param theSources Analysis sources
-   * \param theParameter The weather phenomenon to analyze
-   * \param theFunction The function to calculate
-   * \param theLimits The associated limits
-   * \param thePeriod The time period to analyze
-   * \param thePoint The location to analyze
-   * \return The result of the analysis
-   */
-  // ----------------------------------------------------------------------
-
-  WeatherResult GridForecaster::analyze(const AnalysisSources & theSources,
-										const WeatherParameter & theParameter,
-										const WeatherFunction & theFunction,
-										const WeatherLimits & theLimits,
-										const WeatherPeriod & thePeriod,
-										const NFmiPoint & thePoint) const
-  {
-	switch(theParameter)
-	  {
-	  case Temperature:
-		return TemperatureAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,thePoint);
-	  case Pressure:
-		return PressureAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,thePoint);
-	  case WindSpeed:
-		return WindSpeedAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,thePoint);
-	  case WindDirection:
-		return WindDirectionAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,thePoint);
-	  }
-	// should never reach this place
-	return WeatherResult(kFloatMissing,0);
-  }
-
-
 } // namespace WeatherAnalysis
 
 // ======================================================================

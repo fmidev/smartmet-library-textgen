@@ -41,13 +41,6 @@ namespace WeatherAnalysis
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea) const;
 
-	virtual WeatherResult analyze(const AnalysisSources & theSources,
-								  const WeatherParameter & theParameter,
-								  const WeatherFunction & theFunction,
-								  const WeatherLimits & theLimits,
-								  const WeatherPeriod & thePeriod,
-								  const NFmiPoint & thePoint) const;
-
   }; // class GridForecaster
 
 } // namespace WeatherAnalysis

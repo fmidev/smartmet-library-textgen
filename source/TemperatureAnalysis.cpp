@@ -84,68 +84,6 @@ namespace WeatherAnalysis
 	  return WeatherResult(kFloatMissing,0);
 	}
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Analyze temperature at given point
-	 *
-	 * \param theSources Analysis sources
-	 * \param theFunction The function to analyze
-	 * \param theLimits The optional limits for the function
-	 * \param thePeriod The time period
-	 * \param thePoint The point
-	 */
-	// ----------------------------------------------------------------------
-
-	WeatherResult forecast(const AnalysisSources & theSources,
-						   const WeatherFunction & theFunction,
-						   const WeatherLimits & theLimits,
-						   const WeatherPeriod & thePeriod,
-						   const NFmiPoint & thePoint)
-	{
-	  const string source = temperature_forecast_source();
-
-	  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	  boost::shared_ptr<NFmiQueryData> qd = wsource->data(source);
-	  NFmiFastQueryInfo qi(qd.get());
-
-	  qi.First();
-	  if(!qi.Location(thePoint))
-		throw runtime_error("Trying to analyze temperature for point outside data area");
-	  
-	  boost::shared_ptr<MaskSource> msource = theSources.getLandMaskSource();
-	  MaskSource::masks_type masks = msource->masks(thePoint,
-													source,
-													*wsource);
-
-	  const NFmiMetTime start_time(thePeriod.startTime());
-	  const NFmiMetTime end_time(thePeriod.endTime());
-
-	  switch(theFunction)
-		{
-		case Maximum:
-		  {
-			NFmiDataModifierMax modifier;
-			float result = NFmiDataIntegrator::Integrate(qi,
-														 start_time,
-														 end_time,
-														 modifier);
-			if(result==kFloatMissing)
-			  return WeatherResult(kFloatMissing,0);
-			else
-			  return WeatherResult(result,1);
-			break;
-		  }
-		case Minimum:
-		  break;
-		case Mean:
-		  break;
-		case StandardDeviation:
-		  break;
-		case Probability:
-		  break;
-		}
-	  return WeatherResult(kFloatMissing,0);
-	}
 
   } // namespace TemperatureAnalysis
 } // namespace WeatherAnalysis

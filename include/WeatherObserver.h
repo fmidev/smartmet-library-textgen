@@ -48,13 +48,6 @@ namespace WeatherAnalysis
 								  const WeatherLimits & theLimits,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea) const = 0;
-
-	virtual WeatherResult analyze(const AnalysisSources & theSources,
-								  const WeatherParameter & theParameter,
-								  const WeatherFunction & theFunction,
-								  const WeatherLimits & theLimits,
-								  const WeatherPeriod & thePeriod,
-								  const NFmiPoint & thePoint) const = 0;
   }; // class WeatherObserver
 
 } // namespace WeatherAnalysis

@@ -34,12 +34,6 @@ namespace WeatherAnalysis
 						   const WeatherLimits & theLimits,
 						   const WeatherPeriod & thePeriod,
 						   const WeatherArea & theArea);
-
-	WeatherResult forecast(const AnalysisSources & theSources,
-						   const WeatherFunction & theFunction,
-						   const WeatherLimits & theLimits,
-						   const WeatherPeriod & thePeriod,
-						   const NFmiPoint & thePoint);
   }
 }
 
