@@ -120,6 +120,62 @@ namespace TimeToolsTest
 	TEST_PASSED();
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test TimeTools::toUtcTime()
+   */
+  // ----------------------------------------------------------------------
+
+  void toutctime()
+  {
+	using WeatherAnalysis::TimeTools::toUtcTime;
+
+	putenv("TZ=Europe/Helsinki");
+	tzset();
+	if(!toUtcTime(NFmiTime(2003,11,7,12)).IsEqual(NFmiTime(2003,11,7,10)))
+	  TEST_FAILED("Failed to convert 7.11.2003 12:00 FIN to 10:00 UTC");
+	if(!toUtcTime(NFmiTime(2003,9,7,12)).IsEqual(NFmiTime(2003,9,7,9)))
+	  TEST_FAILED("Failed to convert 7.9.2003 12:00 FIN to 9:00 UTC");
+
+	putenv("TZ=Europe/Stockholm");
+	tzset();
+	if(!toUtcTime(NFmiTime(2003,11,7,12)).IsEqual(NFmiTime(2003,11,7,11)))
+	  TEST_FAILED("Failed to convert 7.11.2003 12:00 SWE to 11:00 UTC");
+	if(!toUtcTime(NFmiTime(2003,9,7,12)).IsEqual(NFmiTime(2003,9,7,10)))
+	  TEST_FAILED("Failed to convert 7.9.2003 12:00 SWE to 10:00 UTC");
+
+	TEST_PASSED();
+
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test TimeTools::toLocalTime()
+   */
+  // ----------------------------------------------------------------------
+
+  void tolocaltime()
+  {
+	using WeatherAnalysis::TimeTools::toLocalTime;
+
+	putenv("TZ=Europe/Helsinki");
+	tzset();
+	if(!toLocalTime(NFmiTime(2003,11,7,12)).IsEqual(NFmiTime(2003,11,7,14)))
+	  TEST_FAILED("Failed to convert 7.11.2003 12:00 UTC to 14:00 UTC");
+	if(!toLocalTime(NFmiTime(2003,9,7,12)).IsEqual(NFmiTime(2003,9,7,15)))
+	  TEST_FAILED("Failed to convert 7.9.2003 12:00 UTC to 15:00 UTC");
+
+	putenv("TZ=Europe/Stockholm");
+	tzset();
+	if(!toLocalTime(NFmiTime(2003,11,7,12)).IsEqual(NFmiTime(2003,11,7,13)))
+	  TEST_FAILED("Failed to convert 7.11.2003 12:00 UTC to 13:00 SWE");
+	if(!toLocalTime(NFmiTime(2003,9,7,12)).IsEqual(NFmiTime(2003,9,7,14)))
+	  TEST_FAILED("Failed to convert 7.9.2003 12:00 UTC to 14:00 UTC");
+
+	TEST_PASSED();
+
+  }
+
   //! The actual test driver
   class tests : public tframe::tests
   {
@@ -137,6 +193,10 @@ namespace TimeToolsTest
 	  TEST(is_several_days);
 	  TEST(day_start);
 	  TEST(day_end);
+
+	  TEST(toutctime);
+	  TEST(tolocaltime);
+
 	}
 
   }; // class tests
