@@ -1,0 +1,86 @@
+/*!
+
+\page page_story_wind_daily_ranges Tarina "wind_daily_ranges"
+
+\section section_wind_daily_ranges_story Tarinan muoto
+
+Tarina kuvailee tuuliennustetta yhden tai useamman päivän mittaiselle
+jaksolle. Parhaiten tarina soveltuu ensimmäisille 1-3 päivälle.
+
+Tarinassa ei käytetä nopeusluokkia algoritmin yksinkertaistamiseksi.
+Suuntaluokat ovat käytössä.
+
+Tarinan yleismuoto on
+
+ -# [Viikonpäivänä] [suuntatuulta] X...Y m/s
+
+jota toistetaan kullekin päivälle eteenpäin. Tuulet kerrotaan vain
+päiväjaksoille, jota konfiguroidaan muuttujilla.
+\code
+textgen::[kappale]::story::wind_daily_ranges::day::starthour = [0-23] (6)
+textgen::[kappale]::story::wind_daily_ranges::day::maxstarthour = [0-23] (starthour)
+textgen::[kappale]::story::wind_daily_ranges::day::endhour = [0-23] (18)
+textgen::[kappale]::story::wind_daily_ranges::day::minendhour = [0-23] (endhour)
+\endcode
+Tyypilliset asetukset esimerkiksi maanviljelijöille ovat
+\code
+textgen::[kappale]::story::wind_daily_ranges::day::starthour = 4
+textgen::[kappale]::story::wind_daily_ranges::day::maxstarthour = 12
+textgen::[kappale]::story::wind_daily_ranges::day::endhour = 21
+textgen::[kappale]::story::wind_daily_ranges::day::minendhour = 18
+\endcode
+Päivä on siis venytetty maanviljelijöiden tarpeisiin.
+
+\section section_wind_daily_ranges_aikafraasit Aikafraasit
+
+Ensimmäisen päivän aikafraasi on muotoa
+\ref sec_periodifraasit_today, seuraavien päivien muotoa
+\ref sec_periodifraasit_next_day.
+Vastaavat muuttujat ovat
+\code
+textgen::[kappale]::story::wind_daily_ranges::today::phrases
+textgen::[kappale]::story::wind_daily_ranges::next_day::phrases
+\endcode
+
+\section section_wind_daily_ranges_windspeed Tuulen nopeus
+
+Nopeuden vaihteluväli saadaan laskemalla aikakeskiarvojen minimi ja maksimi.
+
+\section section_wind_daily_ranges_winddirection Tuulen suunta
+
+Kunkin aikavälin tuulen suunta saadaan laskemalla suunnan keskiarvo
+ajan ja paikan yli. Suunnan laatuindeksin mukaisesti suunnan
+tarkkuutta heikennetään ensin "suunnan puoleiseksi tuuleksi", ja sen
+jälkeen "suunnaltaan vaihtelevaksi tuuleksi".
+
+Vaadittua laatua kontrolloidaan muuttujilla
+\code
+textgen::[kappale]::story::wind_daily_ranges::direction::accurate (= 0.8)
+textgen::[kappale]::story::wind_daily_ranges::direction::variable (= 0.4)
+\endcode
+Oletusarvot on annettu suluissa.
+
+Suunnan fraasi valitaan seuraavasti
+
+  -# Jos laatu >= \c accurate, "N-tuulta"
+  -# Jos laatu >= \c variable, "N-puoleista tuulta"
+  -# Muutoin "suunnaltaan vaihtelevaa tuulta"
+
+\section section_wind_daily_ranges_fraasit Tarvittavat fraasit
+
+Tarvittavat fraasit ovat
+
+ - "m/s"
+ - "metriä sekunnissa"
+ - "tuulta"
+ - "suunnaltaan vaihtelevaa"
+ - "N-tuulta", N=1-8
+ - "N-tuuleksi", N=1-8
+ - "N-puoleista tuulta", N=1-8
+ - "N-puoleiseksi tuuleksi", N=1-8
+
+Lisäksi tarvitaan periodifraasit
+\ref sec_periodifraasit_today ja
+\ref sec_periodifraasit_next_day.
+
+*/
