@@ -108,7 +108,7 @@ namespace TextGen
 	  Sentence sentence;
 
 	  const int n = direction8th(theDirection.value());
-	  switch(direction_accuracy(theDirection.accuracy(),theVariable))
+	  switch(direction_accuracy(theDirection.error(),theVariable))
 		{
 		case good_accuracy:
 		  sentence << lexical_cast<string>(n)+"-tuulta";

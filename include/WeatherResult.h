@@ -9,8 +9,8 @@
  *
  * \brief A storage class for an analysis result and its accuracy
  *
- * An analysis results consists of a value and an associated accuracy
- * in range 0-1, where 1 indicates best possible accuracy.
+ * An analysis results consists of a value and an associated error
+ * estimate. 0 error indicates an accurate result.
  *
  * This class provides storage only, creation and interpretation
  * is left for external classes and functions.
@@ -35,18 +35,16 @@ namespace WeatherAnalysis
 	WeatherResult & operator=(const WeatherResult & theResult);
 #endif
 
-	WeatherResult(float theValue, float theAccuracy);
-	WeatherResult(const WeatherResult & theValue,
-				  const WeatherResult & theAccuracy);
+	WeatherResult(float theValue, float theError);
 
 	float value() const;
-	float accuracy() const;
+	float error() const;
 
   private:
 
 	WeatherResult();
 	float itsValue;
-	float itsAccuracy;
+	float itsError;
 
   }; // class WeatherResult
 

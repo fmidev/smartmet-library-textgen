@@ -29,8 +29,8 @@ namespace WeatherResultTest
 	WeatherResult result(1,0.5);
 	if(result.value() != 1)
 	  TEST_FAILED("value() accessor failed");
-	if(result.accuracy() != 0.5)
-	  TEST_FAILED("accuracy() accessor failed");
+	if(result.error() != 0.5)
+	  TEST_FAILED("error() accessor failed");
 
 	TEST_PASSED();
   }

@@ -21,35 +21,15 @@ namespace WeatherAnalysis
    * constructor is intentionally disabled.
    *
    * \param theValue The value part of the result
-   * \param theAccuracy The accuracy part of the result
+   * \param theError The error part of the result
    */
   // ----------------------------------------------------------------------
 
-  WeatherResult::WeatherResult(float theValue, float theAccuracy)
+  WeatherResult::WeatherResult(float theValue, float theError)
 	: itsValue(theValue)
-	, itsAccuracy(theAccuracy)
+	, itsError(theError)
   {
-	assert(itsAccuracy>=0);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   *
-   * The first result contains the value, the second the accuracy.
-   * The accuracy of each input result is ignored.
-   *
-   * \param theValue The value part of the result
-   * \param theAccuracy The accuracy part of the result
-   */
-  // ----------------------------------------------------------------------
-
-  WeatherResult::WeatherResult(const WeatherResult & theValue,
-							   const WeatherResult & theAccuracy)
-	: itsValue(theValue.value())
-	, itsAccuracy(theAccuracy.value())
-  {
-	assert(itsAccuracy>=0);
+	assert(itsError>=0);
   }
 
   // ----------------------------------------------------------------------
@@ -69,17 +49,17 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Accuracy accessor
+   * \brief Error accessor
    *
-   * Returns the accuracy part of the result
+   * Returns the error part of the result
    *
-   * \return The accuracy part of the result
+   * \return The error part of the result
    */
   // ----------------------------------------------------------------------
 
-  float WeatherResult::accuracy() const
+  float WeatherResult::error() const
   {
-	return itsAccuracy;
+	return itsError;
   }
 
 } // namespace WeatherAnalysis
@@ -98,7 +78,7 @@ bool operator==(const WeatherAnalysis::WeatherResult & theLhs,
 				const WeatherAnalysis::WeatherResult & theRhs)
 {
   return (theLhs.value() == theRhs.value() &&
-		  theLhs.accuracy() == theRhs.accuracy());
+		  theLhs.error() == theRhs.error());
 }
 
 // ----------------------------------------------------------------------
@@ -135,7 +115,7 @@ std::ostream & operator<<(std::ostream & theOutput,
   theOutput << '('
 			<< theResult.value()
 			<< ','
-			<< theResult.accuracy()
+			<< theResult.error()
 			<< ')';
   return theOutput;
 }
