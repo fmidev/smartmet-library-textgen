@@ -6,11 +6,14 @@
 // ======================================================================
 
 #include "Settings.h"
+#include "WeatherResult.h"
 #include "NFmiSettings.h"
+#include "NFmiStringTools.h"
 #include "NFmiTime.h"
 
 #include "boost/lexical_cast.hpp"
 #include <cctype>	// for std::isdigit
+#include <list>
 #include <stdexcept>
 
 using namespace std;
@@ -226,6 +229,34 @@ namespace Settings
 
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Require a WeatherResult value from the given variable
+   *
+   * \param theName The variable name
+   * \return The result
+   */
+  // ----------------------------------------------------------------------
+
+  WeatherAnalysis::WeatherResult require_result(const std::string & theName)
+  {
+	const string value = require_string(theName);
+
+	const string msg(theName+" value "+value+" is not of form A,B");
+	try
+	  {
+		list<string> values = NFmiStringTools::SplitWords(value);
+		if(values.size() != 2)
+		  throw runtime_error(msg);
+		const float result = lexical_cast<float>(values.front());
+		const float accuracy = lexical_cast<float>(values.back());
+		return WeatherAnalysis::WeatherResult(result,accuracy);
+	  }
+	catch(exception & e)
+	  {
+		throw runtime_error(msg);
+	  }
+  }
 }
 
 // ======================================================================

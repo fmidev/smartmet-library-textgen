@@ -18,6 +18,10 @@
 #include <string>
 
 class NFmiTime;
+namespace WeatherAnalysis
+{
+  class WeatherResult;
+}
 
 namespace Settings
 {
@@ -30,6 +34,7 @@ namespace Settings
   int require_days(const std::string & theName);
   int require_percentage(const std::string & theName);
   NFmiTime require_time(const std::string & theName);
+  WeatherAnalysis::WeatherResult require_result(const std::string & theName);
 
 } // namespace Settings
 
