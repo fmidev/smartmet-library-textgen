@@ -1583,6 +1583,11 @@ namespace TextGen
 
 	using namespace PrecipitationPeriodTools;
 
+	if(itsArea.name() == "tiepiiri-kasivarsi")
+	  {
+		log << "Käsivarsi!!!" << endl;
+	  }
+
 	Paragraph paragraph;
 
 	// we want the last day to extend up to midnight regardless
@@ -1717,6 +1722,7 @@ namespace TextGen
 												  inclusives[day]);
 		  }
 		else if(ninclusive==0 && noverlap==1 &&
+				day+1 <= n &&
 				overlaps[day+1].size()==1 && inclusives[day+1].size()==0)
 		  {
 			WeatherPeriod period(generator.period(day).localStartTime(),
@@ -1726,7 +1732,7 @@ namespace TextGen
 												   itsArea,
 												   period,
 												   itsVar,
-												   inclusives[day].front(),
+												   overlaps[day].front(),
 												   day);
 			day++;
 		  }
