@@ -60,6 +60,17 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Returns false since paragraph is not a separator
+   */
+  // ----------------------------------------------------------------------
+
+  bool Paragraph::isDelimiter() const
+  {
+	return false;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Add a paragraph to the end of this paragraph
    *
    * \param theParagraph The paragraph to be added

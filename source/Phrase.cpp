@@ -77,6 +77,17 @@ namespace TextGen
 	return theFormatter.visit(*this);
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Returns false since phrase is not a separator
+   */
+  // ----------------------------------------------------------------------
+
+  bool Phrase::isDelimiter() const
+  {
+	return false;
+  }
+
 } // namespace TextGen
 
 // ======================================================================

@@ -61,6 +61,17 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Returns false since header is not a separator
+   */
+  // ----------------------------------------------------------------------
+
+  bool Header::isDelimiter() const
+  {
+	return false;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Adding a glyph to a header
    *
    * \param theGlyph The glyph to be added

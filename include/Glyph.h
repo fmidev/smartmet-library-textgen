@@ -32,6 +32,7 @@ namespace TextGen
 	virtual boost::shared_ptr<Glyph> clone() const = 0;
 	virtual std::string realize(const Dictionary & theDictionary) const = 0;
 	virtual std::string realize(const TextFormatter & theFormatter) const = 0;
+	virtual bool isDelimiter() const = 0;
 
   protected:
 

@@ -64,6 +64,17 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Returns false since sentence is not a separator
+   */
+  // ----------------------------------------------------------------------
+
+  bool Sentence::isDelimiter() const
+  {
+	return false;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Add a sentence to the end of this sentence
    *
    * \param theSentence The sentence to be added

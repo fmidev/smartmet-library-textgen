@@ -59,6 +59,17 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Returns false since document is not a separator
+   */
+  // ----------------------------------------------------------------------
+
+  bool Document::isDelimiter() const
+  {
+	return false;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Add a document to the end of this document
    *
    * \param theDocument The document to be added

@@ -49,6 +49,9 @@ namespace TextGen
 	virtual std::string realize(const TextFormatter & theFormatter) const
 	{ return theFormatter.visit(*this); }
 
+	virtual bool isDelimiter() const
+	{ return true; }
+
   private:
 
 	Number();
