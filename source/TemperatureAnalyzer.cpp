@@ -27,7 +27,6 @@ namespace WeatherAnalysis
    * \param theSubTimeFunction The subtime function to analyze
    * \param theArea The area
    * \param thePeriods The time period generator
-   * \param theGenerator The time subperiod generator
    * \param theAreaAcceptor The acceptor for data in area integrals
    * \param theTimeAcceptor The acceptor for data in time integrals
    * \param theTester The optional acceptor for Percentage calculations

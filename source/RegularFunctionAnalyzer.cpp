@@ -68,6 +68,7 @@ namespace WeatherAnalysis
    *
    * \param theAreaFunction The area function
    * \param theTimeFunction The time function
+   * \param theSubTimeFunction The time function for subperiods
    */
   // ----------------------------------------------------------------------
 
@@ -96,8 +97,7 @@ namespace WeatherAnalysis
    * \param theSources Analysis sources
    * \param theDataType Analysis data type
    * \param theArea Analysis area
-   * \param thePeriod Analysis period
-   * \param theGenerator Analysis subperiod generator
+   * \param thePeriods Analysis periods
    * \param theAreaAcceptor The data acceptor in area integration
    * \param theTimeAcceptor The data acceptor in space integration
    * \param theTester The data tester for Percentage calculations
