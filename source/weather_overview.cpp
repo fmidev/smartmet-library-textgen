@@ -22,6 +22,7 @@
 #include "TextGenError.h"
 #include "TimeTools.h"
 #include "WeatherResult.h"
+#include "WeekdayTools.h"
 
 #include "boost/lexical_cast.hpp"
 #include <vector>
@@ -1311,6 +1312,280 @@ namespace TextGen
 		throw TextGenError("Internal error in weather_overview::one_inclusive_rain");
 	  }
 	return s;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generator story on two days with one inclusive rain
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph one_twoday_inclusive_rain(const NFmiTime & theForecastTime,
+									  const AnalysisSources & theSources,
+									  const WeatherArea & theArea,
+									  const WeatherPeriod & thePeriod,
+									  const string & theVar,
+									  const WeatherPeriod & theRainPeriod,
+									  int theDay)
+  {
+	using CloudinessStoryTools::cloudiness_phrase;
+	using PrecipitationStoryTools::places_phrase;
+
+	// start & end times of the rain
+	int rainstarthour = theRainPeriod.localStartTime().GetHour();
+	int rainendhour = theRainPeriod.localEndTime().GetHour() + 1;
+	if(rainendhour==1) rainendhour = 24;
+
+	// mapping onto the seventeen basic cases
+	const int idx = two_day_rain_unique_index(rainstarthour,rainendhour);
+	const int phrase = two_day_cases[idx].index;
+	const char * phrase1 = two_day_cases[idx].phrase1;
+	const char * phrase2 = two_day_cases[idx].phrase2;
+
+	// days 1 and 2
+	const WeatherPeriod day1(TimeTools::dayStart(theRainPeriod.localStartTime()),
+							 TimeTools::dayEnd(theRainPeriod.localStartTime()));
+	const WeatherPeriod day2(TimeTools::nextDay(day1.localStartTime()),
+							 TimeTools::nextDay(day1.localEndTime()));
+
+	// the period before the rain
+	const NFmiTime before_rain_start(TimeTools::dayStart(theRainPeriod.localStartTime()));
+	const NFmiTime before_rain_end(theRainPeriod.localStartTime());
+	const WeatherPeriod before_rain(before_rain_start,before_rain_end);
+
+	// the period after the rain
+	const NFmiTime after_rain_start(TimeTools::addHours(theRainPeriod.localEndTime(),1));
+	const NFmiTime after_rain_end(TimeTools::dayEnd(after_rain_start));
+	const WeatherPeriod after_rain(after_rain_start,after_rain_end);
+
+	Paragraph paragraph;
+	Sentence s1;
+	Sentence s2;
+	switch(phrase)
+	  {
+		// T‰n‰‰n [aamusta alkaen] [paikoin] [sadetta]
+	  case 1:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << phrase1
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta";
+		  break;
+		}
+		// T‰n‰‰n [aamusta alkaen] [paikoin] [sadetta], huomenna [aamusta alkaen] poutaa
+	  case 2:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << phrase1
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta"
+			 << Delimiter(",")
+			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+			 << phrase2
+			 << "poutaa";
+		  break;
+		}
+		// T‰n‰‰n [aamusta alkaen] [paikoin] [sadetta], huomenna [aamusta alkaen] poutaa, [enimm‰kseen selke‰‰]
+	  case 3:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << phrase1
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta"
+			 << Delimiter(",")
+			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+			 << phrase2
+			 << "poutaa"
+			 << Delimiter(",")
+			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
+		  break;
+		}
+		// T‰n‰‰n [aamusta alkaen] [paikoin] [sadetta], huomenna [enimm‰kseen selke‰‰]
+	  case 4:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << phrase1
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta"
+			 << Delimiter(",")
+			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
+		  break;
+		}
+		// T‰n‰‰n [aamusta alkaen] tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimm‰kseen selke‰‰]
+	  case 5:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << phrase1
+			 << WeekdayTools::until_weekday_morning(day2.localStartTime())
+			 << "asti"
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta"
+			 << Delimiter(",")
+			 << WeekdayTools::on_weekday(day2.localStartTime())
+			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
+		  break;
+		}
+		// T‰n‰‰n [aamusta alkaen] tiistai-iltaan asti [paikoin] [sadetta]
+	  case 6:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << phrase1
+			 << WeekdayTools::until_weekday_morning(day2.localStartTime())
+			 << "asti"
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta";
+		  break;
+		}
+		// T‰n‰‰n [enimm‰kseen selke‰‰], [aamulla] ja [yˆll‰] [paikoin] [sadetta]. Huomenna [enimm‰kseen selke‰‰]
+	  case 7:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << cloudiness_phrase(theSources,theArea,before_rain,theVar,theDay)
+			 << Delimiter(",")
+			 << phrase1;
+		  if(phrase2 != "")
+			s1 << "ja" << phrase2;
+		  s1 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta";
+
+		  s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
+		  break;
+		}
+		// T‰n‰‰n [enimm‰kseen selke‰‰], [aamusta alkaen] [paikoin] [sadetta]
+	  case 8:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << cloudiness_phrase(theSources,theArea,before_rain,theVar,theDay)
+			 << Delimiter(",")
+			 << phrase1
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta";
+		  break;
+		}
+		// T‰n‰‰n [enimm‰kseen selke‰‰], [aamusta alkaen] [paikoin] [sadetta]. Huomenna [aamusta alkaen] poutaa
+	  case 9:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << cloudiness_phrase(theSources,theArea,before_rain,theVar,theDay)
+			 << Delimiter(",")
+			 << phrase1
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta";
+		  s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+			 << phrase2
+			 << "poutaa";
+		  break;
+		}
+		// T‰n‰‰n [enimm‰kseen selke‰‰], [aamusta alkaen] [paikoin] [sadetta]. Huomenna [aamusta alkaen] poutaa, [enimm‰kseen selke‰‰]
+	  case 10:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << cloudiness_phrase(theSources,theArea,before_rain,theVar,theDay)
+			 << Delimiter(",")
+			 << phrase1
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta";
+		  s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+			 << phrase2
+			 << "poutaa"
+			 << Delimiter(",")
+			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
+		  break;
+		}
+		// T‰n‰‰n [enimm‰kseen selke‰‰], [aamusta alkaen] tiistai-iltaan asti [paikoin] [sadetta]
+	  case 11:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << cloudiness_phrase(theSources,theArea,before_rain,theVar,theDay)
+			 << Delimiter(",")
+			 << phrase1
+			 << WeekdayTools::until_weekday_evening(day2.localStartTime())
+			 << "asti"
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta";
+		  break;
+		}
+		// T‰n‰‰n [enimm‰kseen selke‰‰], [aamulla] [paikoin] [sadetta]. Huomenna [enimm‰kseen selke‰‰]
+	  case 12:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << cloudiness_phrase(theSources,theArea,before_rain,theVar,theDay)
+			 << Delimiter(",")
+			 << phrase1
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta";
+		  s2 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
+		  break;
+		}
+		// T‰n‰‰n [paikoin] [sadetta], huomenna [aamulla] poutaa
+	  case 13:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta"
+			 << Delimiter(",")
+			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+			 << phrase2
+			 << "poutaa";
+		  break;
+		}
+		// T‰n‰‰n [paikoin] [sadetta], huomenna [aamusta alkaen] poutaa
+	  case 14:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta"
+			 << Delimiter(",")
+			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+			 << phrase2
+			 << "poutaa";
+		  break;
+		}
+		// T‰n‰‰n [paikoin] [sadetta], huomenna [aamusta alkaen] poutaa, [enimm‰kseen selke‰‰]
+	  case 15:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta"
+			 << Delimiter(",")
+			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+			 << phrase2
+			 << "poutaa"
+			 << Delimiter(",")
+			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
+		  break;
+		}
+		// T‰n‰‰n [paikoin] [sadetta], huomenna [enimm‰kseen selke‰‰]
+	  case 16:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay+1)
+			 << "sadetta"
+			 << Delimiter(",")
+			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+			 << phrase2
+			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
+		  break;
+		}
+		// T‰n‰‰n ja huomenna [paikoin] [sadetta]
+	  case 17:
+		{
+		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
+			 << "ja"
+			 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day2)
+			 << places_phrase(theSources,theArea,theRainPeriod,theVar,theDay)
+			 << "sadetta";
+		  break;
+		}
+	  default:
+		throw TextGenError("Internal error in weather_overview::one_twoday_inclusive_rain");
+	  }
+
+	paragraph << s1 << s2;
+	return paragraph;
   }
 
   // ----------------------------------------------------------------------
