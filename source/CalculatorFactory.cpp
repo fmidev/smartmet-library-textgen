@@ -6,6 +6,7 @@
 // ======================================================================
 
 #include "CalculatorFactory.h"
+#include "CountCalculator.h"
 #include "MaximumCalculator.h"
 #include "MeanCalculator.h"
 #include "MinimumCalculator.h"
@@ -52,6 +53,8 @@ namespace WeatherAnalysis
 		  return shared_ptr<Calculator>(new SumCalculator);
 		case Percentage:
 		  return shared_ptr<Calculator>(new PercentageCalculator);
+		case Count:
+		  return shared_ptr<Calculator>(new CountCalculator);
 		case Trend:
 		  return shared_ptr<Calculator>(new TrendCalculator);
 		}
@@ -74,12 +77,29 @@ namespace WeatherAnalysis
 	shared_ptr<Calculator> create(WeatherFunction theFunction,
 								  const Acceptor & theTester)
 	{
-	  if(theFunction != Percentage)
-		return create(theFunction);
-
-	  shared_ptr<PercentageCalculator> tmp(new PercentageCalculator);
-	  tmp->condition(theTester);
-	  return tmp;
+	  switch(theFunction)
+		{
+		case Mean:
+		case Maximum:
+		case Minimum:
+		case Sum:
+		case Trend:
+		  return create(theFunction);
+		case Percentage:
+		  {
+			shared_ptr<PercentageCalculator> tmp(new PercentageCalculator);
+			tmp->condition(theTester);
+			return tmp;
+		  }
+		case Count:
+		  {
+			shared_ptr<CountCalculator> tmp(new CountCalculator);
+			tmp->condition(theTester);
+			return tmp;
+		  }
+		}
+	  
+	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
 	}
 
 
