@@ -302,6 +302,7 @@ namespace TextGen
    * \return The story
    *
    * \todo Should filter out rains less than 0.1 mm in the summation
+   * \bug Should not return phrase 1 when minimum is below N!
    */
   // ----------------------------------------------------------------------
 
@@ -382,6 +383,7 @@ namespace TextGen
 														  itsPeriod,
 														  itsArea,
 														  DefaultAcceptor(),
+														  DefaultAcceptor(),
 														  limits);
 
 			const int limit1 = (Settings::isset(variable1) ?
@@ -399,7 +401,7 @@ namespace TextGen
 			else if(probresult.value() >= limit1)
 			  phrase = 2;
 			else
-			  phrase = 1;
+			  phrase = 1;	// BUG BUG BUG! BAD PHRASE!
 		  }
 
 		sentence << "sadesumma";
@@ -455,6 +457,7 @@ namespace TextGen
 													  Sum,
 													  itsPeriod,
 													  itsArea,
+													  DefaultAcceptor(),
 													  DefaultAcceptor(),
 													  limits);
 
