@@ -24,51 +24,34 @@ yksitt‰isiin p‰iviin, ja yksitt‰inen p‰iv‰ edelleen p‰iv‰‰n ja yˆhˆn jne.
 \section sec_laatu_laskeminen Laadun laskeminen
 
 Laatu m‰‰ritell‰‰n p‰‰asiassa alueelliseksi suureeksi, ajassa integroinnilla
-ei katsota olevan mit‰‰n vaikutusta. Ainoa poikkeus on trendi, joka
-m‰‰ritelm‰n mukaisesti on aikafunktio.
-
-<b>Toistaiseksi analysaattorit eiv‰t laske laatua
-kunkin tuloksen yhteyteen, vaan k‰ytt‰j‰n on laskettava laatu
-itse k‰ytt‰en jotain sopivaa funktioyhdistelm‰‰.</b>
-N‰in on teht‰v‰, kunnes on varmuudella selv‰‰, miten laatu tullaan
-laskemaan eri parametri- ja funktioyhdistelmille. N‰in ei viel‰ ole.
+ei katsota olevan mit‰‰n vaikutusta. Laatua mitataan suoraan virhearviolla,
+eli laadun yksikkˆ riippuu suureesta. Kaikille laatusuureille on kuitenkin
+yhteist‰, ett‰ 0 tarkoittaa tarkkaa tulosta.
 
 \section sec_laatu_funktiot Laadun tulkinta eri funktioille
 
 Suurin osa tekstigeneraattorin suorittamista analyyseista on
 yhdistelm‰ alue- ja aikaintegraatioita, j‰lkimm‰inen ensin
 suoritettuna. Kaikki laatu katsotaan kohdistuvan alueelliseen
-integrointiin, eli pisteintegroinnin laatu on aina 1.
+integrointiin, eli pisteintegroinnin virhearvio on aina 0.
 
-Seuraaville funktioille laatu on aina 1:
+Seuraaville funktioille virhearvio on aina 0:
 
  -# \c Maximum
  -# \c Minimum
  -# \c Sum
+ -# \c StandardDeviation
  -# \c Percentage
  -# \c Count
+ -# \c Trend
+ -# \c Change
 
-J‰ljelle j‰‰v‰t siis \c Mean ja \c Tren. 
+J‰ljelle j‰‰v‰t siis ainoastaan \c Mean.
 
-\subsection sec_laatu_mean Keskiarvon laatu
+\c Mean funktiolle virhearvio on alueellinen keskihajonta.
 
-Keskiarvon laatu lasketaan ainoastaan alueintegroinnin yhteydess‰.
-Laatu on sama kuin suureen keskihajonta.
-
-\subsection sec_laatu_trend Trendin laatu
-
-Trendin laatu on se prosenttiosuus datan muutoksista, joka vie
-dataa oikeaan trendin suuntaan. Nolla-muutoksista puolet lasketaan
-kuuluviksi oikeansuuntaisiksi, jotta tuloksissa ei olisi biasia
-trendittˆm‰‰n suuntaan parametreilla, joiden lukuarvot muuttuvat
-askeleittain.
-
-Trendist‰ voidaan j‰rkev‰sti laskea keskiarvo, minimi ja maksimi.
-N‰ille yhdistelmille laatu m‰‰ritell‰‰n seuraavasti:
-
- -# Minimille laatu on kyseisen trendiminimin (heikoin) laatu
- -# Maksimille laatu on kyseisen trendimaksimin (heikoin) laatu
- -# Keskiarvolle laatu on
+On kuitenkin huomattava, ett‰ teksti‰ generoidessa \c Trend on
+hyv‰ laadun mittari ajalliselle \c Change funktiolle.
 
 */
 
