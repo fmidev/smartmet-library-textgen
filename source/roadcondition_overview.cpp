@@ -1048,10 +1048,11 @@ namespace TextGen
 		sentence << sentences[i];
 		paragraph << sentence;
 
-		i = j;
-
 		// update the last mentioned date
 		last_mentioned_date = periods[i].localStartTime();
+
+		// and move on to the next periods
+		i = j;
 
 	  }
 
