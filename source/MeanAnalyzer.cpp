@@ -41,6 +41,8 @@ namespace WeatherAnalysis
    * \param theDataName The name of the data file
    * \param theParameterName The name of the parameter
    * \return The analysis result
+   *
+   * \todo Returning quality = 1 is not correct
    */
   // ----------------------------------------------------------------------
 
