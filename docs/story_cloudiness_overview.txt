@@ -76,7 +76,7 @@ Tuloksia voi testata käyttämällä apumuuttujia
 ::fake::day1::clear  = [result]
 ::fake::day1::trend  = [result]
 \endcode
-and so on for days 2 onwards.
+Seuraavien päivien tulokset voi asettaa vastaavasti.
 
 \section section_cloudiness_overview_phrases Tarvittavat fraasit
 
