@@ -349,29 +349,43 @@ namespace TextGen
 
 			  if(!similar_speeds13)
 				{
-				  sentence << Delimiter(",");
-				  if(similar_speeds12)
-					sentence << on_weekday(periods[2].localStartTime());
-				  else if(similar_speeds23)
-					sentence << PeriodPhraseFactory::create("next_days",
-															itsVar,
-															itsForecastTime,
-															periods[1]);
-				  else
-					sentence << PeriodPhraseFactory::create("next_day",
-															itsVar,
-															itsForecastTime,
-															periods[1]);
-				  if(similar_speeds23)
-					sentence << speed_range_sentence(minspeed(minspeeds[1],minspeeds[2]),
-													 maxspeed(maxspeeds[1],maxspeeds[2]),
-													 meanspeed(meanspeeds[1],meanspeeds[2]),
-													 itsVar);
-				  else
-					sentence << speed_range_sentence(minspeeds[2],
-													 maxspeeds[2],
-													 meanspeeds[2],
-													 itsVar);
+				  
+				  // second day
+				  if(!similar_speeds12)
+					{
+					  sentence << Delimiter(",");
+					  if(similar_speeds23)
+						sentence << PeriodPhraseFactory::create("next_days",
+																itsVar,
+																itsForecastTime,
+																periods[1])
+								 << speed_range_sentence(minspeed(minspeeds[1],minspeeds[2]),
+														 maxspeed(maxspeeds[1],maxspeeds[2]),
+														 meanspeed(meanspeeds[1],meanspeeds[2]),
+														 itsVar);
+					  else
+						sentence << PeriodPhraseFactory::create("next_day",
+																itsVar,
+																itsForecastTime,
+																periods[1])
+								 << speed_range_sentence(minspeeds[1],
+														 maxspeeds[1],
+														 meanspeeds[1],
+														 itsVar);
+					}
+				  // third day
+				  if(!similar_speeds23)
+					{
+					  sentence << Delimiter(",")
+							   << PeriodPhraseFactory::create("next_day",
+															  itsVar,
+															  itsForecastTime,
+															  periods[2])
+							   << speed_range_sentence(minspeeds[2],
+													   maxspeeds[2],
+													   meanspeeds[2],
+													   itsVar);
+					}
 				}
 			}
 		  else if(accuracy12 != bad_accuracy ||
