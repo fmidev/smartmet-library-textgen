@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class DebugTextFormatter
+ * \brief Interface of class TextGen::DebugTextFormatter
  */
 // ======================================================================
 /*!

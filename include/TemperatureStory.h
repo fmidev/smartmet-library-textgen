@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class TemperatureStory
+ * \brief Interface of class TextGen::TemperatureStory
  */
 // ======================================================================
 /*!

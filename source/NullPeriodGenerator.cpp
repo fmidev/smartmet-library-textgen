@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class NullPeriodGenerator
+ * \brief Implementation of class WeatherAnalysis::NullPeriodGenerator
  */
 // ======================================================================
 

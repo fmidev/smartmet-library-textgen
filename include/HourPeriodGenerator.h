@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class HourPeriodGenerator
+ * \brief Interface of class WeatherAnalysis::HourPeriodGenerator
  */
 // ======================================================================
 /*!

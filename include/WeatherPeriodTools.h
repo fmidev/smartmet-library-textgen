@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace WeatherPeriodTools
+ * \brief Interface of namespace WeatherAnalysis::WeatherPeriodTools
  */
 // ======================================================================
 /*!

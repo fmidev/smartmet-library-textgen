@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class AndAcceptor
+ * \brief Implementation of class WeatherAnalysis::AndAcceptor
  */
 // ======================================================================
 

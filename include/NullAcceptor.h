@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class NullAcceptor
+ * \brief Interface of class WeatherAnalysis::NullAcceptor
  */
 // ======================================================================
 /*!

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of TextGen::TextFormatterFactory namespace
+ * \brief Interface of namespace TextGen::TextFormatterFactory
  */
 // ======================================================================
 /*!

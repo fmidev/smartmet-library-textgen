@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of namespace HeaderFactory
+ * \brief Implementation of namespace TextGen::HeaderFactory
  */
 // ======================================================================
 

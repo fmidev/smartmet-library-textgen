@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class SoneraTextFormatter
+ * \brief Implementation of class TextGen::SoneraTextFormatter
  */
 // ======================================================================
 

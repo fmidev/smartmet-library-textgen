@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class HtmlTextFormatter
+ * \brief Interface of class TextGen::HtmlTextFormatter
  */
 // ======================================================================
 /*!

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of the TextGen::BasicDictionary class
+ * \brief Interface of class TextGen::BasicDictionary
  */
 // ======================================================================
 /*!

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief An abstract interface for a period generator
+ * \brief Interface of abstract class WeatherAnalysis::WeatherPeriodGenerator
  */
 // ======================================================================
 /*!

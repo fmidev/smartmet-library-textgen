@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class OrAcceptor
+ * \brief Implementation of class WeatherAnalysis::OrAcceptor
  */
 // ======================================================================
 

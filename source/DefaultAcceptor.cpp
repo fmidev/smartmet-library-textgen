@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class DefaultAcceptor
+ * \brief Implementation of class WeatherAnalysis::DefaultAcceptor
  */
 // ======================================================================
 

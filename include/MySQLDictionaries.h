@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of the TextGen::MySQLDictionaries class
+ * \brief Interface of class TextGen::MySQLDictionaries
  */
 // ======================================================================
 /*!

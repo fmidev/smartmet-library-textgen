@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class PlainTextFormatter
+ * \brief Interface of class TextGen::PlainTextFormatter
  */
 // ======================================================================
 /*!

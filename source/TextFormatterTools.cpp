@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of namespace TextFormatterTools
+ * \brief Implementation of namespace TextGen::TextFormatterTools
  */
 // ======================================================================
 

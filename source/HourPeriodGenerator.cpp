@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class HourPeriodGenerator
+ * \brief Implementation of class WeatherAnalysis::HourPeriodGenerator
  */
 // ======================================================================
 

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class TemplateAcceptor
+ * \brief Interface of class WeatherAnalysis::TemplateAcceptor
  */
 // ======================================================================
 /*!

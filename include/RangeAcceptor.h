@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class RangeAcceptor
+ * \brief Interface of class WeatherAnalysis::RangeAcceptor
  */
 // ======================================================================
 /*!
