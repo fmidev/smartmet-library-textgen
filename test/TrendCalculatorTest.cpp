@@ -1,7 +1,7 @@
 #include "regression/tframe.h"
 #include "TrendCalculator.h"
 #include "newbase/NFmiGlobals.h"
-
+#include "boost/lexical_cast.hpp"
 #include <iostream>
 #include <string>
 
@@ -33,31 +33,37 @@ namespace TrendCalculatorTest
 
 	calc(2);
 	if(calc() != 100)
-	  TEST_FAILED("Failed to return 100 for [1,2]");
+	  TEST_FAILED("Failed to return 100 for [1,2], got "+lexical_cast<string>(calc()));
 
 	calc(3);
 	if(calc() != 100)
-	  TEST_FAILED("Failed to return 100 for [1,2,3]");
+	  TEST_FAILED("Failed to return 100 for [1,2,3], got "+lexical_cast<string>(calc()));
 
 	calc(4);
 	if(calc() != 100)
-	  TEST_FAILED("Failed to return 100 for [1,2,3,4]");
+	  TEST_FAILED("Failed to return 100 for [1,2,3,4], got "+lexical_cast<string>(calc()));
 
 	calc(3);
-	if(calc() != 75)
-	  TEST_FAILED("Failed to return 75 for [1,2,3,4,3]");
+	if(calc() != 50)
+	  TEST_FAILED("Failed to return 50 for [1,2,3,4,3], got "+lexical_cast<string>(calc()));
 
 	calc(2);
-	if(calc() != 60)
-	  TEST_FAILED("Failed to return 60 for [1,2,3,4,3,2]");
+	if(calc() != 20)
+	  TEST_FAILED("Failed to return 20 for [1,2,3,4,3,2], got "+lexical_cast<string>(calc()));
 
 	calc(1);
-	if(calc() != 50)
-	  TEST_FAILED("Failed to return 50 for [1,2,3,4,3,2,1]");
+	if(calc() != 0)
+	  TEST_FAILED("Failed to return 0 for [1,2,3,4,3,2,1], got "+lexical_cast<string>(calc()));
 
 	calc(1);
-	if(calc() != 50)
-	  TEST_FAILED("Failed to return 50 for [1,2,3,4,3,2,1,1]");
+	if(calc() != 0)
+	  TEST_FAILED("Failed to return 0 for [1,2,3,4,3,2,1,1], got "+lexical_cast<string>(calc()));
+
+
+	calc(0);
+	if(calc() != -12.5)
+	  TEST_FAILED("Failed to return -12.5 for [1,2,3,4,3,2,1,1,0], got "+lexical_cast<string>(calc()));
+
 
 	TEST_PASSED();
   }

@@ -30,10 +30,10 @@ namespace WeatherAnalysis
 
 	boost::shared_ptr<Acceptor> itsAcceptor;
 
-	unsigned long itsCounter;
-	unsigned long itsPositiveChanges;
-	unsigned long itsNegativeChanges;
-	unsigned long itsZeroChanges;
+	long itsCounter;
+	long itsPositiveChanges;
+	long itsNegativeChanges;
+	long itsZeroChanges;
 
 	float itsLastValue;
 

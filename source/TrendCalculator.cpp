@@ -80,10 +80,10 @@ namespace WeatherAnalysis
 
 	if(itsCounter<1)
 	  return kFloatMissing;
-	else if(itsCounter>1)
-	  return (itsPositiveChanges+itsZeroChanges/2.0)/(itsCounter-1.0)*100;
-	else
+	else if(itsCounter==1)
 	  return 0.0;
+	else
+	  return (itsPositiveChanges-itsNegativeChanges)/(itsCounter-1.0)*100;
   }
   
   // ----------------------------------------------------------------------
