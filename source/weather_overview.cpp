@@ -690,7 +690,6 @@ namespace TextGen
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase2;
 		  s << cloudiness_phrase(theSources,theArea,cperiod,theVar,theDay);
-		  s << "enimmäkseen" << "selkeää";
 		  s << "ja" << "poutaa";
 		  break;
 		}
