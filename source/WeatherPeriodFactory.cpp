@@ -225,7 +225,7 @@ namespace TextGen
 	 * \see page_aikavalit
 	 *
 	 * \param theTime The reference time
-	 * \param theName The name of the weather type
+	 * \param theVariable The name of the variable describing the period
 	 * \return The desired weather period
 	 */
 	// ----------------------------------------------------------------------

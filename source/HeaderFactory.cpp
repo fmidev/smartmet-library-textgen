@@ -191,7 +191,7 @@ namespace TextGen
 	 * \see page_aikavalit
 	 *
 	 * \param thePeriod The relevant weather period
-	 * \param theName The variable
+	 * \param theVariable The variable
 	 * \return The generated header
 	 */
 	// ----------------------------------------------------------------------
