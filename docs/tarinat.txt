@@ -90,7 +90,9 @@ K‰ytetyt fraasit ovat
 
 P‰‰ttelyss‰ k‰ytet‰‰n muuttujina alueen minimi- ja maksimisadesummaa,
 sek‰ optionaalista muuttujaa
-"textgen::[kappale]::story::precipitation_range::maxrain".
+\code
+textgen::[kappale]::story::precipitation_range::maxrain
+\endcode
 
 Jos muuttujan arvo on asetettu lukemaksi X ja minimisadesumma on
 v‰hint‰‰n X, palautetaan tarina 1. Jos minimi ja maksimi ovat samoja,
