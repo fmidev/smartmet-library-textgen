@@ -80,7 +80,7 @@ Käytetyt fraasit ovat
   - "sadesumma"
   - "millimetriä"
 
-\subsection sec_story_precipitation_total "precipitation_range"
+\subsection sec_story_precipitation_range "precipitation_range"
 
 \c precipitation_range tarina on muotoa
 
