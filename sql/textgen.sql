@@ -1,8 +1,8 @@
--- MySQL dump 9.07
+-- MySQL dump 8.22
 --
--- Host: mimir    Database: textgen
+-- Host: localhost    Database: textgen
 ---------------------------------------------------------
--- Server version	3.23.56-log
+-- Server version	3.23.56
 
 --
 -- Table structure for table 'languages'
@@ -13,6 +13,7 @@ CREATE TABLE languages (
   translationtable varchar(20) NOT NULL default '',
   active tinyint(1) NOT NULL default '0',
   name varchar(20) NOT NULL default '',
+  full tinyint(1) NOT NULL default '1',
   PRIMARY KEY  (isocode)
 ) TYPE=MyISAM COMMENT='The languages defined for the textgen library';
 
@@ -20,14 +21,16 @@ CREATE TABLE languages (
 -- Dumping data for table 'languages'
 --
 
-INSERT INTO languages VALUES ('fi','translation_fi',1,'Finnish');
-INSERT INTO languages VALUES ('en','translation_en',1,'English');
-INSERT INTO languages VALUES ('sv','translation_sv',1,'Swedish');
-INSERT INTO languages VALUES ('de','translation_de',0,'German');
-INSERT INTO languages VALUES ('fr','translation_fr',0,'French');
-INSERT INTO languages VALUES ('it','translation_it',0,'Italian');
-INSERT INTO languages VALUES ('ru','translation_ru',0,'Russian');
-INSERT INTO languages VALUES ('es','translation_es',0,'Spanish');
+
+INSERT INTO languages VALUES ('fi','translation_fi',1,'Finnish',1);
+INSERT INTO languages VALUES ('en','translation_en',1,'English',1);
+INSERT INTO languages VALUES ('sv','translation_sv',1,'Swedish',1);
+INSERT INTO languages VALUES ('de','translation_de',0,'German',1);
+INSERT INTO languages VALUES ('fr','translation_fr',0,'French',1);
+INSERT INTO languages VALUES ('it','translation_it',0,'Italian',1);
+INSERT INTO languages VALUES ('ru','translation_ru',0,'Russian',1);
+INSERT INTO languages VALUES ('es','translation_es',0,'Spanish',1);
+INSERT INTO languages VALUES ('sonera','translation_sonera',1,'Sonera',0);
 
 --
 -- Table structure for table 'translation_en'
@@ -44,6 +47,7 @@ CREATE TABLE translation_en (
 --
 -- Dumping data for table 'translation_en'
 --
+
 
 INSERT INTO translation_en VALUES ('huomattavasti lämpimämpi','significantly warmer',20030525190018,'mheiskan');
 INSERT INTO translation_en VALUES ('lämpimämpi','warmer',20030525190008,'mheiskan');
@@ -342,6 +346,7 @@ CREATE TABLE translation_fi (
 -- Dumping data for table 'translation_fi'
 --
 
+
 INSERT INTO translation_fi VALUES ('lämpötila','lämpötila',20030609123334,'mheiskan');
 INSERT INTO translation_fi VALUES ('huomattavasti lämpimämpi','huomattavasti lämpimämpi',20030525185918,'mheiskan');
 INSERT INTO translation_fi VALUES ('lämpimämpi','lämpimämpi',20030525185904,'mheiskan');
@@ -624,6 +629,295 @@ INSERT INTO translation_fi VALUES ('6-suunnasta','lounaasta',20030609115725,'mhe
 INSERT INTO translation_fi VALUES ('7-suunnasta','lännestä',20030609115731,'mheiskan');
 
 --
+-- Table structure for table 'translation_sonera'
+--
+
+CREATE TABLE translation_sonera (
+  keyword varchar(32) NOT NULL default '',
+  translation varchar(255) NOT NULL default '',
+  modtime timestamp(14) NOT NULL,
+  user varchar(32) default '',
+  PRIMARY KEY  (keyword)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'translation_sonera'
+--
+
+
+INSERT INTO translation_sonera VALUES ('1-aamusta','200',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('1-aamuun','201',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('1-alkaen','202',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('1-illasta','203',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('1-iltaan','204',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('1-na','205',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('1-puoleiseksi tuuleksi','206',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('1-puoleista tuulta','207',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('1-suunnasta','208',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('1-suuntaan','209',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('1-tuuleksi','210',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('1-tuulta','211',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('1-vastaisena yönä','212',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('2-aamusta','213',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('2-aamuun','214',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('2-alkaen','215',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('2-illasta','216',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('2-iltaan','217',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('2-na','218',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('2-puoleiseksi tuuleksi','219',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('2-puoleista tuulta','220',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('2-suunnasta','221',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('2-suuntaan','222',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('2-tuuleksi','223',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('2-tuulta','224',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('2-vastaisena yönä','225',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('3-aamusta','226',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('3-aamuun','227',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('3-alkaen','228',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('3-illasta','229',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('3-iltaan','230',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('3-na','231',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('3-puoleiseksi tuuleksi','232',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('3-puoleista tuulta','233',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('3-suunnasta','234',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('3-suuntaan','235',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('3-tuuleksi','236',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('3-tuulta','237',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('3-vastaisena yönä','238',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('4-aamusta','239',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('4-aamuun','240',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('4-alkaen','241',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('4-illasta','242',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('4-iltaan','243',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('4-na','244',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('4-puoleiseksi tuuleksi','245',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('4-puoleista tuulta','246',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('4-suunnasta','247',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('4-suuntaan','248',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('4-tuuleksi','249',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('4-tuulta','250',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('4-vastaisena yönä','251',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-aamusta','252',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-aamuun','253',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-alkaen','254',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-illasta','255',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-iltaan','256',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-na','257',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-puoleiseksi tuuleksi','258',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-puoleista tuulta','259',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-suunnasta','260',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-suuntaan','261',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-tuuleksi','262',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-tuulta','263',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-vastaisena yönä','264',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('5-vuorokauden sää','265',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('6-aamusta','266',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('6-aamuun','267',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('6-alkaen','268',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('6-illasta','269',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('6-iltaan','270',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('6-na','271',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('6-puoleiseksi tuuleksi','272',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('6-puoleista tuulta','273',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('6-suunnasta','274',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('6-suuntaan','275',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('6-tuuleksi','276',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('6-tuulta','277',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('6-vastaisena yönä','278',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('7-aamusta','279',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('7-aamuun','280',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('7-alkaen','281',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('7-illasta','282',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('7-iltaan','283',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('7-na','284',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('7-puoleiseksi tuuleksi','285',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('7-puoleista tuulta','286',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('7-suunnasta','287',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('7-suuntaan','288',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('7-tuuleksi','289',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('7-tuulta','290',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('7-vastaisena yönä','291',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('8-puoleiseksi tuuleksi','292',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('8-puoleista tuulta','293',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('8-suunnasta','294',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('8-suuntaan','295',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('8-tuuleksi','296',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('8-tuulta','297',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('aamulla','298',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('aamupäivällä','299',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('aamupäivästä alkaen','300',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('aamusta alkaen','301',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('aamuyöllä','302',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('aamuyöstä alkaen','303',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('ajoittain lumisadetta','304',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('ajoittain sadetta','305',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('ajoittain sateista','306',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('ajoittain ukkosta','307',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('aland:lle','308',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('alempi','309',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('alin suhteellinen kosteus','310',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('alkavan','311',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('alueen yli','312',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('aluksi','313',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('ankaran hallan todennäköisyys','314',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('astetta','315',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('asti','316',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('edelleen','317',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('enimmäkseen','318',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('ensi yönä','319',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('etela-karjala:lle','320',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('etela-pohjanmaa:lle','321',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('etela-savo:lle','322',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('hallan todennäköisyys','323',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('hame:lle','324',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('heikkenevää','325',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('heikkoa sadetta','326',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('heikkoa','327',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('heikoksi','328',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('hieman alempi','329',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('hieman korkeampi','330',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('hieman pienempi','331',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('hieman suurempi','332',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('hirmumyrskyksi','333',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('hirmumyrskyä','334',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('huomattavasti alempi','335',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('huomattavasti korkeampi','336',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('huomattavasti lämpimämpi','337',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('huomattavasti pienempi','338',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('huomattavasti suurempi','339',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('huomenna','340',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('huomisaamuna','341',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('illalla','342',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('illasta alkaen','343',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('iltapäivällä','344',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('iltapäivästä alkaen','345',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('iltayöllä','346',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('iltayöstä alkaen','347',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('kainuu:lle','348',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('kello','349',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('keski-pohjanmaa:lle','350',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('keski-suomi:lle','351',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('keskilämpötila','352',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('keskimääräinen alin lämpötila','353',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('keskimääräinen ylin lämpötila','354',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('keskipäivällä','355',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('keskipäivästä alkaen','356',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('keskiyöllä','357',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('keskiyöstä alkaen','358',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('kohtalaiseksi','359',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('kohtalaista','360',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('koillismaa:lle','361',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('korkeampi','362',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('korkeapaine','363',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('korkeapaineen alue','364',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('kosteammaksi','365',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('kovaa','366',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('kovaksi','367',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('kuivemmaksi','368',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('kymenlaakso:lle','369',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('laaja','370',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('lansi-lappi:lle','371',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('leviää','372',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('liikkuu','373',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('loittonee','374',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('lopuksi','375',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('lumi-','376',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('lumikuuroja','377',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('lumisadetta','378',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('lähestyy','379',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('lämpenee','380',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('lämpimämpi','381',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('lämpötila','382',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('m/s','383',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('mahdollisesti ukkosta','384',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('matalapaine','385',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('matalapaineen alue','386',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('melko selkeää','387',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('metriä sekunnissa','388',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('miinus','389',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('millimetriä','390',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('monin paikoin enemmän','391',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('monin paikoin','392',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('muuttuu','393',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('myrskyksi','394',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('myrskyä','395',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('navakaksi','396',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('navakkaa','397',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('noin','398',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('nyland:lle','399',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('odotettavissa','400',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('on','401',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('osterbotten:lle','402',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('paijat-hame:lle','403',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('paikoin enemmän','404',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('paikoin','405',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('pienempi','406',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('pilvistyvää','407',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('pilvistä','408',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('pirkanmaa:lle','409',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('pohjois-karjala:lle','410',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('pohjois-lappi:lle','411',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('pohjois-pohjanmaa:lle','412',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('pohjois-savo:lle','413',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('poutaa','414',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('puolipilvistä','415',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('päivien ylin lämpötila','416',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('päivällä','417',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('päivälämpötila','418',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('päivän ylin lämpötila','419',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('rannikolla','420',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('runsasta sadetta','421',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('räntä-','422',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('räntäsadetta','423',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('sadealue','424',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('sadesumma','425',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('sadetta','426',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('sakeaa lumisadetta','427',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('sakeita lumikuuroja','428',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('sama','429',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('satakunta:lle','430',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('selkenevää','431',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('selkeää','432',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('seuraava yö','433',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('seuraavana päivänä','434',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('seuraavana yönä','435',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('suunnaltaan vaihtelevaa','436',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('suunnilleen sama','437',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('suurempi','438',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('syvenee','439',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('sää on epävakaista','440',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('sää','441',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('sääennuste','442',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('tai','443',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('tuuli heikkenee','444',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('tuuli tyyntyy','445',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('tuuli voimistuu','446',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('tuuli','447',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('tuulta','448',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('tyyneksi','449',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('tyyntä','450',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('tänään','451',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('uusimaa:lle','452',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('vahvistuu','453',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('vaihtelevaa pilvisyyttä','454',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('varsinais-suomi:lle','455',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('vesi-','456',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('vesisadetta','457',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('viilenee','458',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('viiva','459',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('voimakkaita kuuroja','460',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('voimistuvaa','461',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('vähäisiä kuuroja','462',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('vähäistä lumisadetta','463',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('yli','464',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('ylihuomenna','465',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('yöllä','466',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('yölämpötila','467',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('yön alin lämpötila','468',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('yöstä alkaen','469',20030609184324,'mheiskan');
+INSERT INTO translation_sonera VALUES ('öiden alin lämpötila','470',20030609184324,'mheiskan');
+
+--
 -- Table structure for table 'translation_sv'
 --
 
@@ -638,6 +932,7 @@ CREATE TABLE translation_sv (
 --
 -- Dumping data for table 'translation_sv'
 --
+
 
 INSERT INTO translation_sv VALUES ('lämpötila','temperatur',20030609123418,'mheiskan');
 INSERT INTO translation_sv VALUES ('huomattavasti lämpimämpi','betydligt varmare',20030525185952,'mheiskan');
