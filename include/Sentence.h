@@ -53,6 +53,7 @@ namespace TextGen
 	Sentence(const Sentence & theSentence);
 	Sentence(const Phrase & thePhrase);
 	Sentence(const std::string & thePhrase);
+	Sentence(int theValue);
 	Sentence & operator=(const Sentence & theSentence);
 
 	void swap(Sentence & theSentence);
@@ -60,10 +61,12 @@ namespace TextGen
 	Sentence & operator+=(const Sentence & theSentence);
 	Sentence & operator+=(const Phrase & thePhrase);
 	Sentence & operator+=(const std::string & thePhrase);
+	Sentence & operator+=(int theValue);
 
 	Sentence & operator<<(const Sentence & theSentence);
 	Sentence & operator<<(const Phrase & thePhrase);
 	Sentence & operator<<(const std::string & thePhrase);
+	Sentence & operator<<(int theValue);
 
 	std::string realize() const;
 	std::string realize(const Dictionary & theDictionary) const;
@@ -84,6 +87,8 @@ namespace TextGen
   Sentence operator+(const Phrase & theLhs, const Sentence & theRhs);
   Sentence operator+(const Sentence & theLhs, const std::string & theRhs);
   Sentence operator+(const std::string & theLhs, const Sentence & theRhs);
+  Sentence operator+(const Sentence & theLhs, int theRhs);
+  Sentence operator+(int theLhs, const Sentence & theRhs);
 
   void swap(Sentence & theLhs, Sentence & theRhs);
 

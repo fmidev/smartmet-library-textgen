@@ -1,7 +1,8 @@
 #include "tframe.h"
 #include "DictionaryFactory.h"
-#include "TheDictionary.h"
+#include "PhraseNumber.h"
 #include "Sentence.h"
+#include "TheDictionary.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -115,7 +116,28 @@ namespace SentenceTest
 
 	  s1 += s1;
 	  if(s1.size() != 8)
-		TEST_FAILED("size after abcd += abcd is not 10");
+		TEST_FAILED("size after abcd += abcd is not 8");
+	}
+
+	{
+	  Sentence s1(1);
+
+	  Sentence s2(2);
+	  s1 += s2;
+	  if(s1.size() != 2)
+		TEST_FAILED("size after 1 += 2 is not 2");
+
+	  s1 += PhraseNumber<float>(3.0);
+	  if(s1.size() != 3)
+		TEST_FAILED("size after 12 += 3 is not 3");
+
+	  s1 += 4;
+	  if(s1.size() != 4)
+		TEST_FAILED("size after 123 += 4 is not 4");
+
+	  s1 += s1;
+	  if(s1.size() != 8)
+		TEST_FAILED("size after 1234 += 1234 is not 8");
 	}
 
 	{
@@ -136,7 +158,29 @@ namespace SentenceTest
 
 	  s3 = s3 + s3;
 	  if(s3.size()!=8)
-		TEST_FAILED("size after abcd+abcd is not 10");
+		TEST_FAILED("size after abcd+abcd is not 8");
+
+	}
+
+	{
+	  Sentence s1(1);
+	  Sentence s2(2);
+
+	  Sentence s3 = s1+s2;
+	  if(s3.size()!=2)
+		TEST_FAILED("size after 1+2 is not 2");
+
+	  s3 = s3 + PhraseNumber<int>(3);
+	  if(s3.size()!=3)
+		TEST_FAILED("size after 12+3 is not 3");
+	  
+	  s3 = s3 + 4;
+	  if(s3.size()!=4)
+		TEST_FAILED("size after 123+4 is not 4");
+
+	  s3 = s3 + s3;
+	  if(s3.size()!=8)
+		TEST_FAILED("size after 1234+1234 is not 8");
 
 	}
 
@@ -149,29 +193,53 @@ namespace SentenceTest
   {
 	using namespace TextGen;
 
-	Sentence s1("a");
-	
-	Sentence s2("b");
-	s1 << s2;
-	if(s1.size() != 2)
-	  TEST_FAILED("size after a << b is not 2");
-	
-	s1 << string("c");
-	if(s1.size() != 3)
-	  TEST_FAILED("size after ab << c is not 3");
-	
-	s1 << "d";
-	if(s1.size() != 4)
-	  TEST_FAILED("size after abc << d is not 4");
-	
-	s1 << s1;
-	if(s1.size() != 8)
-	  TEST_FAILED("size after abcd << abcd is not 10");
+	{
+	  Sentence s1("a");
+	  
+	  Sentence s2("b");
+	  s1 << s2;
+	  if(s1.size() != 2)
+		TEST_FAILED("size after a << b is not 2");
+	  
+	  s1 << string("c");
+	  if(s1.size() != 3)
+		TEST_FAILED("size after ab << c is not 3");
+	  
+	  s1 << "d";
+	  if(s1.size() != 4)
+		TEST_FAILED("size after abc << d is not 4");
+	  
+	  s1 << s1;
+	  if(s1.size() != 8)
+		TEST_FAILED("size after abcd << abcd is not 8");
+	  
+	  Sentence s("a");
+	  s << "b" << "c" << "d" << "e";
+	  if(s.size() != 5)
+		TEST_FAILED("size after a << b << c << d << e is not 5");
+	}
 
-	Sentence s("a");
-	s << "b" << "c" << "d" << "e";
-	if(s.size() != 5)
-	  TEST_FAILED("size after a << b << c << d << e is not 5");
+	{
+	  Sentence s1(PhraseNumber<int>(1));
+	  
+	  Sentence s2(2);
+	  s1 << s2;
+	  if(s1.size() != 2)
+		TEST_FAILED("size after 1 << 2 is not 2");
+	  
+	  s1 << 3;
+	  if(s1.size() != 3)
+		TEST_FAILED("size after 12 << 3 is not 3");
+	  
+	  s1 << s1;
+	  if(s1.size() != 6)
+		TEST_FAILED("size after 123 << 123 is not 6");
+	  
+	  Sentence s;
+	  s << 1 << 2 << 3 << 4 << 5;
+	  if(s.size() != 5)
+		TEST_FAILED("size after << 1 << 2 << 3 << 4 << 5 is not 5");
+	}
 
 	TEST_PASSED();
 
@@ -202,6 +270,17 @@ namespace SentenceTest
 
 	if(s1.realize(*dict) != "Kaakko etelä.")
 	  TEST_FAILED("realization of kaakko etelä in Finnish failed");
+
+	Sentence s2;
+	s2 << "kaakko" << 12;
+	if(s2.realize() != "South east 12.")
+	  {
+		cout << "'" << s1.realize() << "'" << endl;
+		TEST_FAILED("realization of kaakko 12 in English failed");
+	  }
+
+	if(s2.realize(*dict) != "Kaakko 12.")
+	  TEST_FAILED("realization of kaakko 12 in Finnish failed");
 
 	TEST_PASSED();
 
