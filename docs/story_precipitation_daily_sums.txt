@@ -41,7 +41,12 @@ erotus on alle
 textgen::[kappale]::story::precipitation_daily_sums::mininterval = [0-X] (=1)
 \endcode
 Jos keskiarvo on nolla, mutta maksimi poikkeaa nollasta, kerrotaan
-sadesumma aina intervallina 0-X.
+sadesumma aina intervallina 0-X. Jos myös maksimi on nolla,
+jätetään päivän sadesumma kokonaan kertomatta, jos muuttujan
+\code
+textgen::[kappale]::story::precipitation_daily_sums::ignore_fair_days = [bool] (=true)
+\endcode
+arvo on \c true.
 
 Päivän määritelmä otetaan muuttujista
 \code
