@@ -45,18 +45,6 @@ CREATE TABLE translation_en (
 -- Dumping data for table 'translation_en'
 --
 
-INSERT INTO translation_en VALUES ('kaakko','south east',20030121123504,'mheiskan');
-INSERT INTO translation_en VALUES ('etelä','south',20030121123510,'mheiskan');
-INSERT INTO translation_en VALUES ('lounas','south west',20030121123522,'mheiskan');
-INSERT INTO translation_en VALUES ('länsi','west',20030121123527,'mheiskan');
-INSERT INTO translation_en VALUES ('luode','north east',20030121123534,'mheiskan');
-INSERT INTO translation_en VALUES ('ma','mon',20030413194958,'mheiskan');
-INSERT INTO translation_en VALUES ('ti','tue',20030413195005,'mheiskan');
-INSERT INTO translation_en VALUES ('ke','wed',20030413195018,'mheiskan');
-INSERT INTO translation_en VALUES ('to','thu',20030413195029,'mheiskan');
-INSERT INTO translation_en VALUES ('pe','fri',20030413195038,'mheiskan');
-INSERT INTO translation_en VALUES ('la','sat',20030413195044,'mheiskan');
-INSERT INTO translation_en VALUES ('su','sun',20030413195049,'mheiskan');
 INSERT INTO translation_en VALUES ('lämpötila','temperature',20030425094042,'mheiskan');
 INSERT INTO translation_en VALUES ('huomattavasti lämpimämpi','significantly warmer',20030525190018,'mheiskan');
 INSERT INTO translation_en VALUES ('lämpimämpi','warmer',20030525190008,'mheiskan');
@@ -85,7 +73,6 @@ INSERT INTO translation_en VALUES ('4-na','on Thursday',20030525141830,'mheiskan
 INSERT INTO translation_en VALUES ('3-na','on Wednesday',20030525141824,'mheiskan');
 INSERT INTO translation_en VALUES ('2-na','on Tuesday',20030525141818,'mheiskan');
 INSERT INTO translation_en VALUES ('1-na','on Monday',20030525141812,'mheiskan');
-INSERT INTO translation_en VALUES ('itä','east',20030523163125,'mheiskan');
 INSERT INTO translation_en VALUES ('odotettavissa','expected weather',20030513092821,'mheiskan');
 INSERT INTO translation_en VALUES ('7-illasta','from Sunday evening',20030512123320,'mheiskan');
 INSERT INTO translation_en VALUES ('1-illasta','from Monday evening',20030512090938,'mheiskan');
@@ -101,7 +88,7 @@ INSERT INTO translation_en VALUES ('3-aamuun','until Wednesday morning',20030512
 INSERT INTO translation_en VALUES ('4-aamuun','until Thursday morning',20030512091439,'mheiskan');
 INSERT INTO translation_en VALUES ('5-aamuun','until Friday morning',20030512091449,'mheiskan');
 INSERT INTO translation_en VALUES ('6-aamuun','until Saturday morning',20030512091457,'mheiskan');
-INSERT INTO translation_en VALUES ('pohjoinen','north',20030522114216,'mheiskan');
+INSERT INTO translation_en VALUES ('sää','the weather',20030609120411,'mheiskan');
 INSERT INTO translation_en VALUES ('keskilämpötila','mean temperature',20030516130932,'mheiskan');
 INSERT INTO translation_en VALUES ('keskimääräinen ylin lämpötila','mean maximum temperature',20030516130946,'mheiskan');
 INSERT INTO translation_en VALUES ('keskimääräinen alin lämpötila','mean minimum temperature',20030516130957,'mheiskan');
@@ -522,18 +509,7 @@ CREATE TABLE translation_fi (
 -- Dumping data for table 'translation_fi'
 --
 
-INSERT INTO translation_fi VALUES ('etelä','etelä',20030425093031,'mheiskan');
-INSERT INTO translation_fi VALUES ('lounas','lounas',20030425093028,'mheiskan');
-INSERT INTO translation_fi VALUES ('länsi','länsi',20030425093024,'mheiskan');
-INSERT INTO translation_fi VALUES ('lämpötila','lämpötila',20030425093016,'mheiskan');
-INSERT INTO translation_fi VALUES ('ma','ma',20030425093223,'mheiskan');
-INSERT INTO translation_fi VALUES ('ti','ti',20030425093226,'mheiskan');
-INSERT INTO translation_fi VALUES ('ke','ke',20030425093231,'mheiskan');
-INSERT INTO translation_fi VALUES ('to','to',20030425093235,'mheiskan');
-INSERT INTO translation_fi VALUES ('pe','pe',20030425093238,'mheiskan');
-INSERT INTO translation_fi VALUES ('la','la',20030425093242,'mheiskan');
-INSERT INTO translation_fi VALUES ('su','su',20030425093304,'mheiskan');
-INSERT INTO translation_fi VALUES ('luode','luode',20030425102405,'mheiskan');
+INSERT INTO translation_fi VALUES ('lämpötila','lämpötila',20030609121043,'mheiskan');
 INSERT INTO translation_fi VALUES ('huomattavasti lämpimämpi','huomattavasti lämpimämpi',20030525185918,'mheiskan');
 INSERT INTO translation_fi VALUES ('lämpimämpi','lämpimämpi',20030525185904,'mheiskan');
 INSERT INTO translation_fi VALUES ('seuraava yö','seuraava yö',20030525190103,'mheiskan');
@@ -583,7 +559,6 @@ INSERT INTO translation_fi VALUES ('astetta','astetta',20030516130441,'mheiskan'
 INSERT INTO translation_fi VALUES ('sadesumma','sadesumma',20030516130449,'mheiskan');
 INSERT INTO translation_fi VALUES ('millimetriä','millimetriä',20030516134926,'mheiskan');
 INSERT INTO translation_fi VALUES ('alkavan','alkavan',20030522133353,'mheiskan');
-INSERT INTO translation_fi VALUES ('pohjoinen','pohjoinen',20030522125620,'mheiskan');
 INSERT INTO translation_fi VALUES ('1-aamusta','maanantaiaamusta',20030519080431,'mheiskan');
 INSERT INTO translation_fi VALUES ('2-aamusta','tiistaiaamusta',20030519080435,'mheiskan');
 INSERT INTO translation_fi VALUES ('3-aamusta','keskiviikkoaamusta',20030519080437,'mheiskan');
@@ -618,7 +593,6 @@ INSERT INTO translation_fi VALUES ('noin','noin',20030526134946,'mheiskan');
 INSERT INTO translation_fi VALUES ('seuraavana päivänä','seuraavana päivänä',20030526135021,'mheiskan');
 INSERT INTO translation_fi VALUES ('huomattavasti korkeampi','huomattavasti korkeampi',20030526135141,'mheiskan');
 INSERT INTO translation_fi VALUES ('korkeampi','korkeampi',20030526135202,'mheiskan');
-INSERT INTO translation_fi VALUES ('itä','itä',20030526141152,'mheiskan');
 INSERT INTO translation_fi VALUES ('suunnilleen sama','suunnilleen sama',20030526135221,'mheiskan');
 INSERT INTO translation_fi VALUES ('hieman alempi','hieman alempi',20030526141054,'mheiskan');
 INSERT INTO translation_fi VALUES ('alempi','alempi',20030526140053,'mheiskan');
@@ -633,7 +607,6 @@ INSERT INTO translation_fi VALUES ('97','97',20030527133610,'mheiskan');
 INSERT INTO translation_fi VALUES ('98','98',20030527133610,'mheiskan');
 INSERT INTO translation_fi VALUES ('99','99',20030527133610,'mheiskan');
 INSERT INTO translation_fi VALUES ('100','100',20030527133610,'mheiskan');
-INSERT INTO translation_fi VALUES ('kaakko','kaakko',20030527112218,'mheiskan');
 INSERT INTO translation_fi VALUES ('lopuksi','lopuksi',20030527112142,'mheiskan');
 INSERT INTO translation_fi VALUES ('aluksi','aluksi',20030527112137,'mheiskan');
 INSERT INTO translation_fi VALUES ('yölämpötila','yölämpötila',20030527112132,'mheiskan');
@@ -982,6 +955,40 @@ INSERT INTO translation_fi VALUES ('iltapäivästä alkaen','iltapäivästä alkaen',2
 INSERT INTO translation_fi VALUES ('illasta alkaen','illasta alkaen',20030609095031,'mheiskan');
 INSERT INTO translation_fi VALUES ('iltayöstä alkaen','iltayöstä alkaen',20030609095039,'mheiskan');
 INSERT INTO translation_fi VALUES ('keskiyöstä alkaen','keskiyöstä alkaen',20030609095047,'mheiskan');
+INSERT INTO translation_fi VALUES ('sää','sää',20030609115345,'mheiskan');
+INSERT INTO translation_fi VALUES ('matalapaine','matalapaine',20030609115359,'mheiskan');
+INSERT INTO translation_fi VALUES ('korkeapaine','korkeapaine',20030609115405,'mheiskan');
+INSERT INTO translation_fi VALUES ('vahvistuu','vahvistuu',20030609115413,'mheiskan');
+INSERT INTO translation_fi VALUES ('syvenee','syvenee',20030609115418,'mheiskan');
+INSERT INTO translation_fi VALUES ('matalapaineen alue','matalapaineen alue',20030609115427,'mheiskan');
+INSERT INTO translation_fi VALUES ('korkeapaineen alue','korkeapaineen alue',20030609115434,'mheiskan');
+INSERT INTO translation_fi VALUES ('laaja','laaja',20030609115437,'mheiskan');
+INSERT INTO translation_fi VALUES ('lähestyy','lähestyy',20030609115443,'mheiskan');
+INSERT INTO translation_fi VALUES ('loittonee','loittonee',20030609115449,'mheiskan');
+INSERT INTO translation_fi VALUES ('leviää','leviää',20030609115453,'mheiskan');
+INSERT INTO translation_fi VALUES ('sadealue','sadealue',20030609115458,'mheiskan');
+INSERT INTO translation_fi VALUES ('lämpenee','lämpenee',20030609115506,'mheiskan');
+INSERT INTO translation_fi VALUES ('viilenee','viilenee',20030609115511,'mheiskan');
+INSERT INTO translation_fi VALUES ('muuttuu','muuttuu',20030609115519,'mheiskan');
+INSERT INTO translation_fi VALUES ('kuivemmaksi','kuivemmaksi',20030609115524,'mheiskan');
+INSERT INTO translation_fi VALUES ('kosteammaksi','kosteammaksi',20030609115530,'mheiskan');
+INSERT INTO translation_fi VALUES ('liikkuu','liikkuu',20030609115547,'mheiskan');
+INSERT INTO translation_fi VALUES ('alueen yli','alueen yli',20030609115553,'mheiskan');
+INSERT INTO translation_fi VALUES ('1-suuntaan','pohjoiseen',20030609115601,'mheiskan');
+INSERT INTO translation_fi VALUES ('2-suuntaan','koilliseen',20030609115608,'mheiskan');
+INSERT INTO translation_fi VALUES ('3-suuntaan','itään',20030609115614,'mheiskan');
+INSERT INTO translation_fi VALUES ('4-suuntaan','kaakkoon',20030609115620,'mheiskan');
+INSERT INTO translation_fi VALUES ('5-suuntaan','etelään',20030609115626,'mheiskan');
+INSERT INTO translation_fi VALUES ('6-suuntaan','lounaaseen',20030609115633,'mheiskan');
+INSERT INTO translation_fi VALUES ('7-suuntaan','länteen',20030609115638,'mheiskan');
+INSERT INTO translation_fi VALUES ('8-suuntaan','luoteeseen',20030609115644,'mheiskan');
+INSERT INTO translation_fi VALUES ('1-suunnasta','pohjoisesta',20030609115650,'mheiskan');
+INSERT INTO translation_fi VALUES ('2-suunnasta','koillisesta',20030609115658,'mheiskan');
+INSERT INTO translation_fi VALUES ('3-suunnasta','idästä',20030609115703,'mheiskan');
+INSERT INTO translation_fi VALUES ('4-suunnasta','kaakosta',20030609115709,'mheiskan');
+INSERT INTO translation_fi VALUES ('5-suunnasta','etelästä',20030609115717,'mheiskan');
+INSERT INTO translation_fi VALUES ('6-suunnasta','lounaasta',20030609115725,'mheiskan');
+INSERT INTO translation_fi VALUES ('7-suunnasta','lännestä',20030609115731,'mheiskan');
 
 --
 -- Table structure for table 'translation_sv'
@@ -999,19 +1006,7 @@ CREATE TABLE translation_sv (
 -- Dumping data for table 'translation_sv'
 --
 
-INSERT INTO translation_sv VALUES ('huomattavasti suurempi','betydligt större',20030604080038,'mheiskan');
-INSERT INTO translation_sv VALUES ('etelä','syd',20030425093707,'mheiskan');
-INSERT INTO translation_sv VALUES ('lounas','sydväst',20030425093717,'mheiskan');
-INSERT INTO translation_sv VALUES ('länsi','väst',20030425093723,'mheiskan');
-INSERT INTO translation_sv VALUES ('lämpötila','temperatur',20030425093755,'mheiskan');
-INSERT INTO translation_sv VALUES ('ma','mån',20030425093924,'mheiskan');
-INSERT INTO translation_sv VALUES ('ti','tis',20030425093920,'mheiskan');
-INSERT INTO translation_sv VALUES ('ke','ons',20030425093935,'mheiskan');
-INSERT INTO translation_sv VALUES ('to','tor',20030425093942,'mheiskan');
-INSERT INTO translation_sv VALUES ('pe','fre',20030425093950,'mheiskan');
-INSERT INTO translation_sv VALUES ('la','lör',20030425093958,'mheiskan');
-INSERT INTO translation_sv VALUES ('su','sön',20030425094007,'mheiskan');
-INSERT INTO translation_sv VALUES ('luode','nordväst',20030425102506,'mheiskan');
+INSERT INTO translation_sv VALUES ('lämpötila','temperaturen',20030609121108,'mheiskan');
 INSERT INTO translation_sv VALUES ('huomattavasti lämpimämpi','betydligt varmare',20030525185952,'mheiskan');
 INSERT INTO translation_sv VALUES ('lämpimämpi','varmare',20030525185939,'mheiskan');
 INSERT INTO translation_sv VALUES ('seuraava yö','följande natt',20030525190121,'mheiskan');
@@ -1039,7 +1034,6 @@ INSERT INTO translation_sv VALUES ('4-na','på torsdag',20030525141726,'mheiskan'
 INSERT INTO translation_sv VALUES ('3-na','på onsdag',20030525141717,'mheiskan');
 INSERT INTO translation_sv VALUES ('2-na','på tisdag',20030525141712,'mheiskan');
 INSERT INTO translation_sv VALUES ('1-na','på måndag',20030525141702,'mheiskan');
-INSERT INTO translation_sv VALUES ('itä','ost',20030523163138,'mheiskan');
 INSERT INTO translation_sv VALUES ('7-illasta','från söndag kväll',20030512123219,'mheiskan');
 INSERT INTO translation_sv VALUES ('1-illasta','från måndag kväll',20030512090759,'mheiskan');
 INSERT INTO translation_sv VALUES ('2-illasta','från tisdag kväll',20030512090809,'mheiskan');
@@ -1072,7 +1066,7 @@ INSERT INTO translation_sv VALUES ('5-aamusta','från fredag morgon',200305190806
 INSERT INTO translation_sv VALUES ('6-aamusta','från lördag morgon',20030519080622,'mheiskan');
 INSERT INTO translation_sv VALUES ('7-aamusta','från söndag morgon',20030519080633,'mheiskan');
 INSERT INTO translation_sv VALUES ('alkavan','',20030522133418,'mheiskan');
-INSERT INTO translation_sv VALUES ('pohjoinen','nord',20030522125705,'mheiskan');
+INSERT INTO translation_sv VALUES ('huomattavasti suurempi','betydligt större',20030609120615,'mheiskan');
 INSERT INTO translation_sv VALUES ('2-vuorokauden sää','för de följande två dygnen',20030520101007,'mheiskan');
 INSERT INTO translation_sv VALUES ('3-vuorokauden sää','för de följande tre dygnen',20030520101018,'mheiskan');
 INSERT INTO translation_sv VALUES ('4-vuorokauden sää','för de följande fyra dygnen',20030520101031,'mheiskan');
@@ -1416,7 +1410,7 @@ INSERT INTO translation_sv VALUES ('koillismaa:lle','för Koillismaa',20030604065
 INSERT INTO translation_sv VALUES ('kymenlaakso:lle','för Kymmenedalen',20030604070305,'mheiskan');
 INSERT INTO translation_sv VALUES ('lansi-lappi:lle','för Västra Lappland',20030604070905,'mheiskan');
 INSERT INTO translation_sv VALUES ('nyland:lle','för Nyland',20030604065559,'mheiskan');
-INSERT INTO translation_sv VALUES ('kaakko','sydost',20030604071915,'mheiskan');
+INSERT INTO translation_sv VALUES ('sää','vädret',20030609120400,'mheiskan');
 INSERT INTO translation_sv VALUES ('paijat-hame:lle','för Päijänne-Tavastland',20030604070831,'mheiskan');
 INSERT INTO translation_sv VALUES ('pirkanmaa:lle','för Birkaland',20030604070438,'mheiskan');
 INSERT INTO translation_sv VALUES ('pohjois-karjala:lle','för Norra Karelen',20030604070412,'mheiskan');
