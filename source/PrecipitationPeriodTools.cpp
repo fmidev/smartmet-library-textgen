@@ -155,7 +155,7 @@ namespace WeatherAnalysis
 	 * is nonetheless 1 hour. This forces the used to make a
 	 * conscious choice on the maximum separation.
 	 *
-	 * \param theTimes The rainy times to be joined
+	 * \param theTimes The rainy times to be joined (must be sorted)
 	 * \param theVar The variable controlling the algorithm
 	 * \return Sorted list of rainy periods
 	 */
@@ -165,6 +165,37 @@ namespace WeatherAnalysis
 								const std::string & theVar)
 	{
 	  RainPeriods periods;
+
+	  // Establish the settings
+
+	  const int maximum_interval = Settings::optional_int(theVar+"::rainyperiod::maximum_interval",1);
+
+	  // Handle special cases
+
+	  if(theTimes.empty())
+		return periods;
+
+	  // Initialize current period to consist of first time only
+	  RainTimes::const_iterator it = theTimes.begin();
+	  NFmiTime first_time = *it;
+	  NFmiTime last_time = first_time;
+
+	  // Then append new times until interval becomes too long,
+	  // at which point we save the period and start a new one.
+
+	  for(++it; it!=theTimes.end(); ++it)
+		{
+		  if(it->DifferenceInHours(last_time) > maximum_interval)
+			{
+			  WeatherPeriod period(first_time,last_time);
+			  periods.push_back(period);
+			  first_time = *it;
+			}
+		  last_time = *it;
+		}
+	  WeatherPeriod period(first_time,last_time);
+	  periods.push_back(period);
+
 	  return periods;
 	}
 
