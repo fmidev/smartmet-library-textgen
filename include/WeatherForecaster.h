@@ -39,6 +39,8 @@ namespace WeatherAnalysis
   {
   public:
 
+	virtual ~WeatherForecaster() = 0;
+
 	virtual WeatherResult analyze(const WeatherParameter & theParameter,
 								  const WeatherFunction & theFunction,
 								  const WeatherLimits & theLimits,
