@@ -10,6 +10,7 @@
 #include "HourPeriodGenerator.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
+#include "PeriodPhraseFactory.h"
 #include "PrecipitationPeriodTools.h"
 #include "Sentence.h"
 #include "TimeTools.h"
@@ -37,6 +38,10 @@ namespace TextGen
   {
 	Paragraph p;
 	Sentence s;
+	s << PeriodPhraseFactory::create("days",
+									 theVar,
+									 theForecastTime,
+									 thePeriod);
 	s << "ajoittain sateista";
 	p << s;
 	return p;
@@ -56,6 +61,10 @@ namespace TextGen
 								const PrecipitationPeriodTools::RainPeriods & theRainPeriods)
   {
 	Sentence s;
+	s << PeriodPhraseFactory::create("days",
+									 theVar,
+									 theForecastTime,
+									 thePeriod);
 	s << "ajoittain sateista";
 	return s;
   }
