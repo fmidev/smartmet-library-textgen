@@ -536,7 +536,7 @@ namespace TextGen
 						  if(*jt == "followingday")
 							return (sentence << "seuraavana päivänä");
 						  if(*jt == "weekday")
-							return (sentence << on_weekday(starttime));
+							return (sentence << on_weekday(nextday));
 						}
 					}
 				}
@@ -552,7 +552,7 @@ namespace TextGen
 						  if(*jt == "followingday")
 							return (sentence << "seuraavana päivänä");
 						  if(*jt == "weekday")
-							return (sentence << on_weekday(starttime));
+							return (sentence << on_weekday(nextday));
 						}
 					}
 				}
