@@ -89,7 +89,7 @@ namespace Settings
 	  }
 	catch(exception & e)
 	  {
-		throw runtime_error(theName + ": " + e.what());
+		throw runtime_error(theName + " value " + value + " is not an integer");
 	  }
   }
   
@@ -114,7 +114,7 @@ namespace Settings
 	  }
 	catch(exception & e)
 	  {
-		throw runtime_error(theName + ": " + e.what());
+		throw runtime_error(theName + " value " + value + " is not a double");
 	  }
   }
   
@@ -155,6 +155,26 @@ namespace Settings
 	  return value;
 	throw runtime_error(theName+": value "+lexical_cast<string>(value)+" is not >= 0");
   }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Require the percentage value of the given variable
+   *
+   * Throws if the variable is not set or if the value is not 0-100.
+   *
+   * \param theName The variable name
+   * \return The integer value
+   */
+  // ----------------------------------------------------------------------
+  
+  int require_percentage(const std::string & theName)
+  {
+	const int value = require_int(theName);
+	if(value>=0 && value<=100)
+	  return value;
+	throw runtime_error(theName+": value "+lexical_cast<string>(value)+" is not 0-100");
+  }
+  
   
 }
 

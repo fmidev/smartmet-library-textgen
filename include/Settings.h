@@ -26,6 +26,7 @@ namespace Settings
   double require_double(const std::string & theName);
   int require_hour(const std::string & theName);
   int require_days(const std::string & theName);
+  int require_percentage(const std::string & theName);
 
 } // namespace Settings
 
