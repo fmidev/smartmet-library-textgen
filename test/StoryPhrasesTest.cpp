@@ -578,6 +578,24 @@ namespace StoryPhrasesTest
 	TEST_PASSED();
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief RoadStory::daynightranges requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void roadtemperature_daynightranges()
+  {
+	require("tienpintalämpötila");
+	require("on");
+	require("noin");
+	require("astetta");
+	require("päivällä");
+	require("yöllä");
+
+	TEST_PASSED();
+  }
+
 
 
   //! The actual test driver
@@ -617,6 +635,8 @@ namespace StoryPhrasesTest
 	  TEST(frost_twonights);
 
 	  TEST(relative_humidity_lowest);
+
+	  TEST(roadtemperature_daynightranges);
 
 	}
 
