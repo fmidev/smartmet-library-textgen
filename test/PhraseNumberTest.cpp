@@ -68,6 +68,19 @@ namespace PhraseNumberTest
 	TEST_PASSED();
   }
 
+  //! Test wordseparator()
+  void wordseparator(void)
+  {
+	using namespace TextGen;
+
+	PhraseNumber<int> s(0);
+
+	if(s.wordseparator() != " ")
+	  TEST_FAILED("Word separator for numbers must be space");
+
+	TEST_PASSED();
+  }
+
 
   //! Test realize() for ints
   void realize_int(void)
@@ -198,6 +211,7 @@ namespace PhraseNumberTest
 	void test(void)
 	{
 	  TEST(structors);
+	  TEST(wordseparator);
 	  TEST(realize_int);
 	  TEST(realize_float);
 	  TEST(realize_traits);

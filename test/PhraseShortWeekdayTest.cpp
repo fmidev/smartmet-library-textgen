@@ -30,6 +30,18 @@ namespace PhraseShortWeekdayTest
 	TEST_PASSED();
   }
 
+  //! Test wordseparator()
+  void wordseparator(void)
+  {
+	using namespace TextGen;
+
+	PhraseShortWeekday s(0);
+
+	if(s.wordseparator() != " ")
+	  TEST_FAILED("Word separator for weekdays must be space");
+
+	TEST_PASSED();
+  }
 
   //! Test realize()
   void realize(void)
@@ -89,6 +101,7 @@ namespace PhraseShortWeekdayTest
 	void test(void)
 	{
 	  TEST(structors);
+	  TEST(wordseparator);
 	  TEST(realize);
 	}
 

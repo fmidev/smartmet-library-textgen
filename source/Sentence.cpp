@@ -271,7 +271,7 @@ namespace TextGen
 		if(word.empty())
 		  continue;
 		if(!ret.empty())
-		  ret += ' ';
+		  ret += (*it)->wordseparator();
 		ret += word;
 	  }
 

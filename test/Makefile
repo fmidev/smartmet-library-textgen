@@ -1,4 +1,4 @@
-PROG = $(patsubst %Test.cpp,%,$(wildcard *.cpp))
+PROG = $(patsubst %.cpp,%,$(wildcard *.cpp))
 # OBS = $(wildcard ../obj/*.o)
 
 MAINFLAGS = -Wall -W -Wno-unused-parameter
@@ -29,6 +29,6 @@ test: $(PROG)
 	./$$prog; \
 	done
 
-$(PROG) : % : %Test.cpp ../libtextgen.a
-	$(CC) $(CFLAGS) -o $@ $@Test.cpp $(INCLUDES) $(LIBS)
+$(PROG) : % : %.cpp ../libtextgen.a
+	$(CC) $(CFLAGS) -o $@ $@.cpp $(INCLUDES) $(LIBS)
 

@@ -1,13 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::PhraseWord
+ * \brief Implementation of class TextGen::PhraseSeparator
  */
 // ======================================================================
 
-#include "PhraseWord.h"
-#include "Dictionary.h"
-#include "TheDictionary.h"
+#include "PhraseSeparator.h"
 
 using namespace std;
 
@@ -19,7 +17,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  PhraseWord::~PhraseWord()
+  PhraseSeparator::~PhraseSeparator()
   {
   }
 
@@ -31,9 +29,9 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  std::auto_ptr<Phrase> PhraseWord::clone() const
+  std::auto_ptr<Phrase> PhraseSeparator::clone() const
   {
-	Phrase * tmp = new PhraseWord(*this);
+	Phrase * tmp = new PhraseSeparator(*this);
 	return auto_ptr<Phrase>(tmp);
   }
  
@@ -45,8 +43,8 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  PhraseWord::PhraseWord(const std::string & theWord)
-	: itsWord(theWord)
+  PhraseSeparator::PhraseSeparator(const std::string & theSeparator)
+	: itsSeparator(theSeparator)
   {
   }
 
@@ -54,40 +52,46 @@ namespace TextGen
   /*!
    * \brief Return the word separator
    *
-   * \return The space character
+   * \return An empty string
    */
   // ----------------------------------------------------------------------
 
-  std::string PhraseWord::wordseparator() const
+  std::string PhraseSeparator::wordseparator() const
   {
-	return(" ");
+	return("");
   }
 
   // ----------------------------------------------------------------------
   /*!
    * \brief Realize using global dictionary
    *
+   * Note that the dictionary is not needed in the implementation,
+   * the returned string is always the one given in the constructor.
+   *
    * \return The realized string
    */
   // ----------------------------------------------------------------------
 
-  std::string PhraseWord::realize() const
+  std::string PhraseSeparator::realize() const
   {
-	return realize(TheDictionary::instance());
+	return itsSeparator;
   }
 
   // ----------------------------------------------------------------------
   /*!
    * \brief Realize using the given dictionary
    *
+   * Note that the dictionary is not needed in the implementation,
+   * the returned string is always the one given in the constructor.
+   *
    * \param theDictionary The dictionary to realize with
    * \return The realized string
    */
   // ----------------------------------------------------------------------
 
-  std::string PhraseWord::realize(const Dictionary & theDictionary) const
+  std::string PhraseSeparator::realize(const Dictionary & theDictionary) const
   {
-	return theDictionary.find(itsWord);
+	return itsSeparator;
   }
 
 } // namespace TextGen

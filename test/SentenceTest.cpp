@@ -1,6 +1,7 @@
 #include "tframe.h"
 #include "DictionaryFactory.h"
 #include "PhraseNumber.h"
+#include "PhraseSeparator.h"
 #include "Sentence.h"
 #include "TheDictionary.h"
 
@@ -179,15 +180,20 @@ namespace SentenceTest
 	Sentence s2;
 	s2 << "kaakko" << 12;
 	if(s2.realize() != "South east 12.")
-	  {
-		cout << "'" << s1.realize() << "'" << endl;
-		TEST_FAILED("realization of kaakko 12 in English failed");
-	  }
+	  TEST_FAILED("realization of kaakko 12 in English failed");
 
 	if(s2.realize(*dict) != "Kaakko 12.")
 	  TEST_FAILED("realization of kaakko 12 in Finnish failed");
 
 	TEST_PASSED();
+
+	Sentence s3;
+	s3 << "kaakko" << 12 << PhraseSeparator(",") << "etelä" << 13;
+	if(s3.realize() != "South east 12, south 13")
+	  TEST_FAILED("realization of kaakko 12, etelä 13 in English failed");
+
+	if(s3.realize(*dict) != "Kaakko 12, etelä 13")
+	  TEST_FAILED("realization of kaakko 12, etelä 13 in Finnish failed");
 
   }
 

@@ -30,6 +30,7 @@ namespace TextGen
 
 	virtual ~Phrase() { }
 	virtual std::auto_ptr<Phrase> clone() const = 0;
+	virtual std::string wordseparator() const = 0;
 	virtual std::string realize() const = 0;
 	virtual std::string realize(const Dictionary & theDictionary) const = 0;
 

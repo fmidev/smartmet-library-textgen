@@ -30,6 +30,19 @@ namespace PhraseWordTest
 	TEST_PASSED();
   }
 
+  //! Test wordseparator()
+  void wordseparator(void)
+  {
+	using namespace TextGen;
+
+	PhraseWord s(std::string("foobar"));
+
+	if(s.wordseparator() != " ")
+	  TEST_FAILED("Word separator for regular words must be space");
+
+	TEST_PASSED();
+  }
+
 
   //! Test realize()
   void realize(void)
@@ -66,6 +79,7 @@ namespace PhraseWordTest
 	void test(void)
 	{
 	  TEST(structors);
+	  TEST(wordseparator);
 	  TEST(realize);
 	}
 

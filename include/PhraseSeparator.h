@@ -1,17 +1,18 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class TextGen::PhraseShortWeekday
+ * \brief Interface of class TextGen::PhraseSeparator
  */
 // ======================================================================
 /*!
- * \class TextGen::PhraseShortWeekday
- * \brief Representation of a dictionary word
+ * \class TextGen::PhraseSeparator
+ * \brief Representation of a sentence separator, such as ","
+ *
  */
 // ======================================================================
 
-#ifndef TEXTGEN_PHRASESHORTWEEKDAY_H
-#define TEXTGEN_PHRASESHORTWEEKDAY_H
+#ifndef TEXTGEN_PHRASESEPARATOR_H
+#define TEXTGEN_PHRASESEPARATOR_H
 
 #include "Phrase.h"
 #include <string>
@@ -20,15 +21,15 @@ namespace TextGen
 {
   class Dictionary;
 
-  class PhraseShortWeekday : public Phrase
+  class PhraseSeparator : public Phrase
   {
   public:
 
-	virtual ~PhraseShortWeekday();
-	PhraseShortWeekday(int theDay);
+	virtual ~PhraseSeparator();
+	PhraseSeparator(const std::string & theSeparator);
 #ifdef NO_COMPILER_GENERATED
-	PhraseShortWeekday(const PhraseShortWeekday & thePhrase);
-	PhraseShortWeekday & operator=(const PhraseShortWeekday & thePhrase);
+	PhraseSeparator(const PhraseSeparator & thePhrase);
+	PhraseSeparator & operator=(const PhraseSeparator & thePhrase);
 #endif
 	virtual std::auto_ptr<Phrase> clone() const;
 
@@ -38,14 +39,14 @@ namespace TextGen
 
   private:
 
-	PhraseShortWeekday();
+	PhraseSeparator();
 
-	int itsDay;
+	std::string itsSeparator;
 
-  }; // class PhraseShortWeekday
+  }; // class PhraseSeparator
 
 } // namespace TextGen
 
-#endif // TEXTGEN_PHRASESHORTWEEKDAY_H
+#endif // TEXTGEN_PHRASESEPARATOR_H
 
 // ======================================================================

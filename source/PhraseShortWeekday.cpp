@@ -62,6 +62,19 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Return the word separator
+   *
+   * \return The space character
+   */
+  // ----------------------------------------------------------------------
+
+  std::string PhraseShortWeekday::wordseparator() const
+  {
+	return(" ");
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Realize using global dictionary
    *
    * \return The realized string
