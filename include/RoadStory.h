@@ -42,6 +42,7 @@ namespace TextGen
   private:
 	
 	Paragraph daynightranges() const;
+	Paragraph condition_overview() const;
 
 	RoadStory();
 	RoadStory(const RoadStory & theStory);

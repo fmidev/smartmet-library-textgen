@@ -70,6 +70,8 @@ namespace TextGen
   {
 	if(theName == "roadtemperature_daynightranges")
 	  return true;
+	if(theName == "roadcondition_overview")
+	  return true;
 	return false;
   }
   
@@ -88,6 +90,8 @@ namespace TextGen
   {
 	if(theName == "roadtemperature_daynightranges")
 	  return daynightranges();
+	if(theName == "roadcondition_overview")
+	  return condition_overview();
 	throw TextGenError("RoadStory cannot make story "+theName);
 
   }
