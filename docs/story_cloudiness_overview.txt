@@ -309,6 +309,8 @@ on mahdollista k‰ytt‰‰ taulukon mukaisia yhdistelmi‰.
 <td>=</td>
 </tr>
 </table>
+Kolmen tai useamman p‰iv‰n pilvisyys katsotaan samaksi, jos jokaiset
+kaksi per‰kk‰ist‰ p‰iv‰‰ voidaan yhdist‰‰, ja tulos on aina sama.
 
 \section section_cloudiness_overview_phrases Tarvittavat fraasit
 
