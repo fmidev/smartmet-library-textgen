@@ -19,13 +19,27 @@
 
 #include "PrecipitationPeriodTools.h"
 
+#include "newbase/NFmiFastQueryInfo.h"
+#include "newbase/NFmiQueryData.h"
 #include "newbase/NFmiTime.h"
 
 #include "AnalysisSources.h"
+#include "MaskSource.h"
+#include "PercentageCalculator.h"
+#include "QueryDataIntegrator.h"
+#include "QueryDataTools.h"
+#include "RangeAcceptor.h"
+#include "Settings.h"
+#include "TimeTools.h"
+#include "WeatherAnalysisError.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
+#include "WeatherSource.h"
+
+#include "boost/shared_ptr.hpp"
 
 using namespace std;
+using namespace boost;
 
 namespace WeatherAnalysis
 {
@@ -39,7 +53,7 @@ namespace WeatherAnalysis
 	 * The variables controlling the algorithm are
 	 * \code
 	 * ::rainytime::minimum_rain = <0->     (default = 0.1)
-	 * ::rainytime::minimum_area = <0-100>  (default = 20)
+	 * ::rainytime::minimum_area = <0-100>  (default = 10)
 	 * \endcode
 	 * The first variable is the required rain amount in a single
 	 * point for the point to be considered rainy. Variable
@@ -60,7 +74,69 @@ namespace WeatherAnalysis
 							const WeatherPeriod & thePeriod,
 							const std::string & theVar)
 	{
+	  // Establish the settings
+
+	  const double minimum_rain = Settings::optional_double(theVar+"::rainytime::minimum_rain",0.1);
+	  const double minimum_area = Settings::optional_double(theVar+"::rainytime::minimum_area",10);
+
+	  // Establish the data
+	  const string datavar = "textgen::precipitation_forecast";
+	  const string dataname = Settings::require_string(datavar);
+
+	  // Get the data into use
+	  
+	  shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+	  shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	  NFmiFastQueryInfo qi(qd.get());
+
+    // Try activating the parameter
+
+	  if(!qi.Param(kFmiPrecipitation1h))
+		throw WeatherAnalysisError("Precipitation1h is not available in "+dataname);
+
+    // Handle points and areas separately
+
+	  if(!QueryDataTools::firstTime(qi,thePeriod.utcStartTime()))
+		 throw WeatherAnalysisError("The required time period is not available in "+dataname);
+
 	  RainTimes times;
+
+	  if(theArea.isNamed())
+		{
+		  shared_ptr<MaskSource> msource = theSources.getMaskSource();
+		  MaskSource::mask_type mask = msource->mask(theArea,dataname,*wsource);
+		  RangeAcceptor acceptor;
+		  acceptor.lowerLimit(minimum_rain);
+		  PercentageCalculator calculator;
+		  calculator.condition(acceptor);
+
+		  do
+			{
+			  const float tmp = QueryDataIntegrator::Integrate(qi,
+															   *mask,
+															   calculator);
+			  if(tmp != kFloatMissing && tmp >= minimum_area)
+				times.push_back(TimeTools::toLocalTime(qi.Time()));
+			}
+		  while(qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
+		  
+
+		}
+	  else
+		{
+		  if(!(qi.Location(theArea.point())))
+			throw WeatherAnalysisError("Could not set desired coordinate in "+dataname);
+
+		  do
+			{
+			  const float tmp = qi.FloatValue();
+			  if(tmp != kFloatMissing && tmp >= minimum_rain)
+				times.push_back(TimeTools::toLocalTime(qi.Time()));
+			}
+		  while(qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
+
+		}
+	  
 	  return times;
 	}
 
