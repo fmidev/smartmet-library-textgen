@@ -474,7 +474,7 @@ namespace TextGen
 		return sentence;
 	  
 	  const string nvar = var + "::days" + lexical_cast<string>(ndays);
-	  preferences = Settings::optional_string(var,preferences);
+	  preferences = Settings::optional_string(nvar,preferences);
 	  list<string> order = reorder_preferences(preferences,defaults);
 
 	  // the first day may not be the same as thePeriod.localStartTime
