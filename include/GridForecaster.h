@@ -24,9 +24,10 @@
 
 namespace WeatherAnalysis
 {
-  class WeatherResult;
-  class WeatherPeriod;
   class WeatherArea;
+  class WeatherLimits;
+  class WeatherPeriod;
+  class WeatherResult;
 
   class GridForecaster : public WeatherForecaster
   {
@@ -34,13 +35,16 @@ namespace WeatherAnalysis
 
 	virtual WeatherResult analyze(const WeatherParameter & theParameter,
 								  const WeatherFunction & theFunction,
+								  const WeatherLimits & theLimits,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea) const;
 
 	virtual WeatherResult analyze(const WeatherParameter & theParameter,
 								  const WeatherFunction & theFunction,
+								  const WeatherLimits & theLimits,
 								  const WeatherPeriod & thePeriod,
 								  const NFmiPoint & thePoint) const;
+
   }; // class GridForecaster
 
 } // namespace WeatherAnalysis
