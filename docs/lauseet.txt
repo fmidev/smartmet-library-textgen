@@ -63,9 +63,9 @@ viikonpäivätekstiä ei tarvitse itse laskea.
 \code
 TextGen::Paragraph p;
 TextGen::Sentence s1;
-s1 << TextGen::PhraseShortWeekend(3) << "kaakko" << 12;
+s1 << TextGen::PhraseShortWeekday(3) << "kaakko" << 12;
 Sentence s2;
-s2 << TextGen::PhraseShortWeekend(4) << "luode" << 13;
+s2 << TextGen::PhraseShortWeekday(4) << "luode" << 13;
 p << s1 << s2;
 cout << p.realize();
 \endcode
