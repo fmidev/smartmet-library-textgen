@@ -940,8 +940,10 @@ namespace TextGen
 	// the period we wish to analyze is at most 30 hours,
 	// but of course must not exceed the period length itself
 
+	const int maxhours = Settings::optional_int(itsVar+"::maxhours",30);
+
 	const NFmiTime time1(itsPeriod.localStartTime());
-	NFmiTime time2 = TimeTools::addHours(time1,30);
+	NFmiTime time2 = TimeTools::addHours(time1,maxhours);
 	if(itsPeriod.localEndTime().IsLessThan(time2))
 	  time2 = itsPeriod.localEndTime();
 

@@ -54,6 +54,13 @@ saman asian ("Teillä on lunta").
 Keleistä kolme ensimmäistä (jäinen, osittain jäinen, kuura) ovat
 tärkeämpiä kuin muut kelit.
 
+Ennuste kattaa vain ensimmäiset 30 tuntia. Pituutta voi muuttaa muuttujalla
+\code
+::maxhours = [0-N] (=30)
+\endcode
+mutta käytännössä pituus on ylhäältä rajattu tiesäämallin rajatun
+pituuden takia. Järkevä maksimi on noin 30 tuntia.
+
 \section section_roadcondition_oneperiod Yhden jakson keli
 
 Oletetaan seuraavat määritelmät
