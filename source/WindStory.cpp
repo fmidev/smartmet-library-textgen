@@ -61,6 +61,8 @@ namespace TextGen
   
   bool WindStory::hasStory(const string & theName)
   {
+	if(theName == "wind_overview")
+	  return true;
 	return false;
   }
   
@@ -77,7 +79,23 @@ namespace TextGen
   
   Paragraph WindStory::makeStory(const string & theName) const
   {
+	if(theName == "wind_overview")
+	  return overview();
 	throw TextGenError("WindStory cannot make story "+theName);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return wind overview story
+   *
+   * \return Paragraph containing the story
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph WindStory::overview() const
+  {
+	Paragraph paragraph;
+	return paragraph;
   }
 
 } // namespace TextGen

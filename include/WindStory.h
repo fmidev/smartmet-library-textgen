@@ -50,6 +50,8 @@ namespace TextGen
 	WindStory(const WindStory & theStory);
 	WindStory & operator=(const WindStory & theStory);
 
+	Paragraph overview() const;
+
 	const NFmiTime itsForecastTime;
 	const WeatherAnalysis::AnalysisSources & itsSources;
 	const WeatherAnalysis::WeatherArea & itsArea;
