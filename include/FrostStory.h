@@ -17,6 +17,7 @@
 #define TEXTGEN_FROSTSTORY_H
 
 #include "AnalysisSources.h"
+#include "Story.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
 
@@ -26,19 +27,19 @@ namespace TextGen
 {
   class Paragraph;
 
-  class FrostStory
+  class FrostStory : public Story
   {
 
   public:
 
-	~FrostStory();
+	virtual ~FrostStory();
 	FrostStory(const WeatherAnalysis::AnalysisSources & theSources,
 			   const WeatherAnalysis::WeatherArea & theArea,
 			   const WeatherAnalysis::WeatherPeriod & thePeriod,
 			   const std::string & theVariable);
 
 	static bool hasStory(const std::string & theName);
-	Paragraph makeStory(const std::string & theName) const;
+	virtual Paragraph makeStory(const std::string & theName) const;
 
   private:
 
