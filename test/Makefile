@@ -15,8 +15,9 @@ CC = g++
 CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
 INCLUDES = -I ../include \
 	-I ../../../../../include/regression \
+	-I $(includedir)/newbase \
 	-I /usr/include/mysql
-LIBS = -L .. -ltextgen -L /usr/lib/mysql -lmysqlclient
+LIBS = -L .. -ltextgen -L ../../../../../lib -lnewbase -L /usr/lib/mysql -lmysqlclient
 
 all: $(PROG)
 clean:
