@@ -18,6 +18,32 @@ using namespace boost;
 
 namespace
 {
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Pad a number with leading zeros
+   *
+   * \param theString The string to pad
+   * \param theCount The desired string size
+   */
+  // ----------------------------------------------------------------------
+
+  string padzeros(const string & theString, unsigned int theCount)
+  {
+	if(theString.size() >= theCount)
+	  return theString;
+
+	string ret(theCount-theString.size(),'0');
+	ret += theString;
+	return ret;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief A helper function for containers
+   */
+  // ----------------------------------------------------------------------
+
   template <typename Iterator>
   void sonera_realize(Iterator it,
 					  Iterator end,
@@ -101,6 +127,10 @@ namespace TextGen
 	if(itsDepth>0)
 	  return dummy;
 
+	const int max_words_on_line = 19;	// specified by Sonera
+
+	int lines = 0;
+	int words_on_line = 0;
 	string ret;
 	for(container_type::const_iterator it = itsParts.begin();
 		it != itsParts.end();
@@ -108,9 +138,15 @@ namespace TextGen
 	  {
 		if(!it->empty())
 		  {
-			if(!ret.empty())
-			  ret += ",";
-			ret += *it;
+			if(words_on_line >= max_words_on_line)
+			  {
+				ret += ";\n";
+				++lines;
+				words_on_line = 0;
+			  }
+			ret += padzeros(*it,3);
+			ret += ',';
+			++words_on_line;
 		  }
 	  }
 	return ret;
