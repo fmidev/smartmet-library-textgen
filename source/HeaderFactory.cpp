@@ -9,9 +9,10 @@
 #include "Header.h"
 #include "Number.h"
 #include "Settings.h"
+#include "TextGenError.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
-#include "TextGenError.h"
+#include "WeekdayTools.h"
 
 #include "boost/lexical_cast.hpp"
 
@@ -63,18 +64,9 @@ namespace
 	using namespace TextGen;
 	Header header;
 
-	header << "odotettavissa";
-
-	const int endhour = thePeriod.localEndTime().GetHour();
-	string tmp = lexical_cast<string>(thePeriod.localEndTime().GetWeekday());
-	if(endhour == 6)
-	  tmp += "-aamuun";
-	else if(endhour == 18)
-	  tmp += "-iltaan";
-	else
-	  throw TextGenError("HeaderFactory: until end time must be 06 or 18");
-	header << tmp;
-	header << "asti";
+	header << "odotettavissa"
+		   << WeekdayTools::until_weekday_time(thePeriod.localEndTime())
+		   << "asti";
 
 	return header;
   }
@@ -98,30 +90,9 @@ namespace
 	using namespace TextGen;
 	Header header;
 
-	const int starthour = thePeriod.localStartTime().GetHour();
-	const int endhour = thePeriod.localEndTime().GetHour();
-
-	header << "odotettavissa";
-
-	string tmp = lexical_cast<string>(thePeriod.localStartTime().GetWeekday());
-	if(starthour == 6)
-	  tmp += "-aamusta";
-	else if(starthour == 18)
-	  tmp += "-illasta";
-	else
-	  throw TextGenError("HeaderFactory: from_until start time must be 06 or 18");
-
-	header << tmp;
-
-	tmp = lexical_cast<string>(thePeriod.localEndTime().GetWeekday());
-	if(endhour == 6)
-	  tmp += "-aamuun";
-	else if(endhour == 18)
-	  tmp += "-iltaan";
-	else
-	  throw TextGenError("HeaderFactory: from_until end time must be 06 or 18");
-
-	header << tmp;
+	header << "odotettavissa"
+		   << WeekdayTools::from_weekday_time(thePeriod.localStartTime())
+		   << WeekdayTools::until_weekday_time(thePeriod.localEndTime());
 
 	return header;
   }
@@ -145,31 +116,16 @@ namespace
 	using namespace TextGen;
 	Header header;
 
-	const int starthour = thePeriod.localStartTime().GetHour();
-
-	string tmp = lexical_cast<string>(thePeriod.localStartTime().GetWeekday());
-
-	if(starthour == 6)
-	  tmp += "-aamusta";
-	else if(starthour == 18)
-	  tmp += "-illasta";
-	else
-	  throw TextGenError("HeaderFactory:: several_days start time must be 06 or 18");
-
-	header << tmp;
-	header << "alkavan";
-
 	const NFmiTime & startTime = thePeriod.localStartTime();
 	const NFmiTime & endTime = thePeriod.localEndTime();
 	const long diff = endTime.DifferenceInHours(startTime);
+	const long days = diff/24;
 
 	if(diff % 24 != 0)
 	  throw TextGenError("HeaderFactory:: several_days must be N*24 hours long");
-	const long days = diff/24;
-	tmp = lexical_cast<string>(days);
-	tmp += "-vuorokauden s‰‰";
-
-	header << tmp;
+	header << WeekdayTools::from_weekday_time(thePeriod.localStartTime())
+		   << "alkavan"
+		   << lexical_cast<string>(days) + "-vuorokauden s‰‰";
 
 	return header;
   }
@@ -196,11 +152,10 @@ namespace
 	  throw TextGenError("Cannot generate report_area title for an unnamed point");
 
 	const int starthour = thePeriod.localStartTime().GetHour();
-	const int startday = thePeriod.localStartTime().GetWeekday();
 
 	header << "s‰‰ennuste"
 		   << theArea.name()+":lle"
-		   << lexical_cast<string>(startday)+"-na"
+		   << WeekdayTools::on_weekday(thePeriod.localStartTime())
 		   << "kello"
 		   << Number<int>(starthour)
 		   << "o'clock";
