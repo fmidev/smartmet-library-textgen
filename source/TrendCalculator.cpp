@@ -24,8 +24,10 @@ namespace WeatherAnalysis
   TrendCalculator::TrendCalculator()
 	: itsAcceptor(new DefaultAcceptor())
 	, itsCounter(0)
-	, itsStartValue(kFloatMissing)
-	, itsEndValue(kFloatMissing)
+	, itsPositiveChanges(0)
+	, itsNegativeChanges(0)
+	, itsZeroChanges(0)
+	, itsLastValue(kFloatMissing)
   {
   }
 
@@ -41,11 +43,17 @@ namespace WeatherAnalysis
   {
 	if(itsAcceptor->accept(theValue))
 	  {
-		if(itsCounter==0)
-		  itsStartValue = theValue;
-		else
-		  itsEndValue = theValue;
+		if(itsCounter>0)
+		  {
+			if(theValue>itsLastValue)
+			  ++itsPositiveChanges;
+			else if(theValue<itsLastValue)
+			  ++itsNegativeChanges;
+			else
+			  ++itsZeroChanges;
+		  }
 		++itsCounter;
+		itsLastValue = theValue;
 	  }
   }
 
@@ -59,12 +67,20 @@ namespace WeatherAnalysis
 
   float TrendCalculator::operator()() const
   {
-	if(itsCounter<2 ||
-	   itsStartValue==kFloatMissing ||
-	   itsEndValue==kFloatMissing)
+
+	// The total number of numbers is one greater than number of changes,
+	// hence the -1 in the divisor itsCounter-1
+
+	if(itsCounter<1)
 	  return kFloatMissing;
+	else if(itsCounter>1)
+	  return (itsPositiveChanges+itsZeroChanges/2.0)/(itsCounter-1.0)*100;
+	else if(itsPositiveChanges>0)
+	  return 100.0;
+	else if(itsNegativeChanges>0)
+	  return -100.0;
 	else
-	  return (itsEndValue-itsStartValue);
+	  return 0.0;
   }
   
   // ----------------------------------------------------------------------
@@ -100,8 +116,10 @@ namespace WeatherAnalysis
   void TrendCalculator::reset()
   {
 	itsCounter = 0;
-	itsStartValue = kFloatMissing;
-	itsEndValue = kFloatMissing;
+	itsPositiveChanges = 0;
+	itsNegativeChanges = 0;
+	itsZeroChanges = 0;
+	itsLastValue = kFloatMissing;
   }
 
 } // namespace WeatherAnalysis

@@ -36,10 +36,13 @@ namespace WeatherAnalysis
   private:
 
 	boost::shared_ptr<Acceptor> itsAcceptor;
-	
-	long itsCounter;
-	float itsStartValue;
-	float itsEndValue;
+
+	unsigned long itsCounter;
+	unsigned long itsPositiveChanges;
+	unsigned long itsNegativeChanges;
+	unsigned long itsZeroChanges;
+
+	float itsLastValue;
 
   }; // class TrendCalculator
 
