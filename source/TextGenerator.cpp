@@ -19,6 +19,7 @@
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
 #include "WeatherPeriodFactory.h"
+#include "LatestWeatherSource.h"
 
 #include "NFmiSettings.h"
 #include "NFmiStringTools.h"
@@ -63,6 +64,7 @@ namespace TextGen
 	const string str_expansion_distance = NFmiSettings::instance().require("textgen::mask::expansion_distance");
 	const double expansion_distance = lexical_cast<double>(str_expansion_distance);
 
+	shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
 	shared_ptr<MapSource> mapsource(new MapSource());
 	shared_ptr<MaskSource> masksource(new RegularMaskSource(mapsource,
 															expansion_distance));
@@ -71,6 +73,7 @@ namespace TextGen
 														 land_name,
 														 expansion_distance));
 	
+	itsSources.setWeatherSource(weathersource);
 	itsSources.setMapSource(mapsource);
 	itsSources.setMaskSource(masksource);
 	itsSources.setLandMaskSource(landsource);
