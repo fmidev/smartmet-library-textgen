@@ -86,6 +86,68 @@ namespace StoryPhrasesTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief TemperatureStory::dailymax() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void temperature_dailymax()
+  {
+	require("päivän ylin lämpötila");
+	require("on");
+	require("noin");
+	require("astetta");
+	require("seuraavana päivänä");
+	require("huomattavasti korkeampi");
+	require("korkeampi");
+	require("vähän korkeampi");
+	require("suunnilleen sama");
+	require("vähän matalampi");
+	require("huomattavasti matalampi");
+
+	require("1-na","maanantaina");
+	require("2-na","tiistaina");
+	require("3-na","keskiviikkona");
+	require("4-na","torstaina");
+	require("5-na","perjantaina");
+	require("6-na","lauantaina");
+	require("7-na","sunnuntaina");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief TemperatureStory::nightlymin() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void temperature_nightlymin()
+  {
+	require("yön alin lämpötila");
+	require("on");
+	require("noin");
+	require("astetta");
+	require("seuraavana yönä");
+	require("huomattavasti korkeampi");
+	require("korkeampi");
+	require("vähän korkeampi");
+	require("suunnilleen sama");
+	require("vähän matalampi");
+	require("huomattavasti matalampi");
+
+	require("1-vastaisena yönä","maanantain vastaisena yönä");
+	require("2-vastaisena yönä","tiistain vastaisena yönä");
+	require("3-vastaisena yönä","keskiviikon vastaisena yönä");
+	require("4-vastaisena yönä","torstain vastaisena yönä");
+	require("5-vastaisena yönä","perjantain vastaisena yönä");
+	require("6-vastaisena yönä","lauantain vastaisena yönä");
+	require("7-vastaisena yönä","sunnuntain vastaisena yönä");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief PrecipitationStory::total() requirements
    */
   // ----------------------------------------------------------------------
@@ -236,6 +298,8 @@ namespace StoryPhrasesTest
 	  TEST(temperature_mean);
 	  TEST(temperature_meanmax);
 	  TEST(temperature_meanmin);
+	  TEST(temperature_dailymax);
+	  TEST(temperature_nightlymin);
 
 	  TEST(precipitation_total);
 	  TEST(precipitation_range);
