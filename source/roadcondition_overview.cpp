@@ -997,6 +997,14 @@ namespace TextGen
 			<< realization
 			<< endl;
 
+
+		for(int j=min_condition; j<=max_condition; j++)
+		  log << '\t'
+			  << condition_name(RoadConditionType(j))
+			  << '\t'
+			  << result[j]
+			  << " %"
+			  << endl;
 	  }
 
 	// Algorithm:
