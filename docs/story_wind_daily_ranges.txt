@@ -126,6 +126,7 @@ päivien tyyppi on \ref sec_periodifraasit_next_day.
 Tarvittavat fraasit ovat
 
  - "m/s"
+ - "noin"
  - "metriä sekunnissa"
  - "tuulta"
  - "suunnaltaan vaihtelevaa"
