@@ -1,0 +1,130 @@
+// ======================================================================
+/*!
+ * \file
+ * \brief Implementation of class WeatherAnalysis::ModStandardDeviationCalculator
+ */
+// ======================================================================
+
+#include "ModStandardDeviationCalculator.h"
+#include "DefaultAcceptor.h"
+
+#include "NFmiGlobals.h"
+
+#include <cmath>
+
+using namespace boost;
+using namespace std;
+
+namespace WeatherAnalysis
+{
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Constructor
+   */
+  // ----------------------------------------------------------------------
+
+  ModStandardDeviationCalculator::ModStandardDeviationCalculator(int theModulo)
+	: itsAcceptor(new DefaultAcceptor())
+	, itsModulo(theModulo)
+	, itsCounter(0)
+	, itsSum(0)
+	, itsSquaredSum(0)
+	, itsPreviousDirection(kFloatMissing)
+  {
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Integrate a new value
+   *
+   * Uses the Mitsuta algorithm.
+   *
+   * \param theValue
+   */
+  // ----------------------------------------------------------------------
+
+  void ModStandardDeviationCalculator::operator()(float theValue)
+  {
+	if(itsAcceptor->accept(theValue))
+	  {
+		++itsCounter;
+		if(itsCounter==1)
+		  {
+			itsSum = theValue;
+			itsSquaredSum = theValue*theValue;
+			itsPreviousDirection = theValue;
+		  }
+		else
+		  {
+			const float diff = theValue - itsPreviousDirection;
+			float dir = itsPreviousDirection + diff;
+			if(diff < -itsModulo/2)
+			  dir += itsModulo;
+			else if(diff > itsModulo/2)
+			  dir -= itsModulo;
+			itsSum += dir;
+			itsSquaredSum += dir*dir;
+
+			itsPreviousDirection = dir;
+		  }
+	  }
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the integrated value
+   *
+   * \return The integrated mean value
+   */
+  // ----------------------------------------------------------------------
+
+  float ModStandardDeviationCalculator::operator()() const
+  {
+	if(itsCounter<1)
+	  return kFloatMissing;
+	else
+	  return sqrt((itsSquaredSum-itsSum*itsSum/itsCounter)/itsCounter);
+  }
+  
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Set the internal acceptor
+   *
+   * \param theAcceptor The acceptor to be used
+   */
+  // ----------------------------------------------------------------------
+
+  void ModStandardDeviationCalculator::acceptor(const Acceptor & theAcceptor)
+  {
+	itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Clone
+   */
+  // ----------------------------------------------------------------------
+
+  boost::shared_ptr<Calculator> ModStandardDeviationCalculator::clone() const
+  {
+	return boost::shared_ptr<Calculator>(new ModStandardDeviationCalculator(*this));
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Reset
+   */
+  // ----------------------------------------------------------------------
+
+  void ModStandardDeviationCalculator::reset()
+  {
+	itsCounter = 0;
+	itsSum = 0;
+	itsSquaredSum = 0;
+	itsPreviousDirection = kFloatMissing;
+  }
+
+} // namespace WeatherAnalysis
+
+// ======================================================================
