@@ -78,6 +78,54 @@ Tuloksia voi testata k‰ytt‰m‰ll‰ apumuuttujia
 \endcode
 Seuraavien p‰ivien tulokset voi asettaa vastaavasti.
 
+\subsection subsection_cloudiness_overview_oneday Yksi p‰iv‰
+
+Yhdelle p‰iv‰lle yll‰ oleva algoritmi k‰y sellaisenaan.
+
+\subsection subsection_cloudiness_overview_twodays Kaksi p‰iv‰‰
+
+-# Generoidaan kummankin p‰iv‰n tarina erikseen ilman aikafraaseja
+-# Jos tarina on eri, lis‰t‰‰n aikafraasit ja yhdistet‰‰n tarinat.
+-# Muuten yhdistet‰‰n aikafraasit "ja"-sanalla yhteisen tarinan eteen.
+
+Esimerkiksi:
+
+ - "T‰n‰‰n selke‰‰, huomenna pilvistyv‰‰."
+ - "T‰n‰‰n ja huomenna pilvist‰."
+
+\subsection subsection_cloudiness_overview_threedays Kolme p‰iv‰‰
+
+-# Generoidaan kaikkien p‰ivien tarina erikseen ilman aikafraaseja
+-# Jos kahden ensimm‰isen p‰iv‰n tarina on sama, yhdistet‰‰n
+   niiden aikafraasit "ja"-fraasilla yhteisen tarinan eteen,
+   kolmas p‰iv‰ liitet‰‰n per‰‰n omalla aikafraasillaan.
+-# Jos kahden viimeisen p‰iv‰n tarina on sama, yhdistet‰‰n
+   niiden aikafraasit "alkaen" tyyppiseksi, ensimm‰inen
+   p‰iv‰ saa oman aikafraasinsa.
+-# Muuten kustakin p‰iv‰st‰ kerrotaan erikseen.
+
+Esimerkiksi:
+
+  - "T‰n‰‰n ja huomenna pilvist‰, torstaina enimm‰kseen selke‰‰."
+  - "T‰n‰‰n pilvistyv‰‰, huomisesta alkaen enimm‰kseen pilvist‰."
+  - "T‰n‰‰n pilvist‰, huomenna selke‰‰, torstaina pilvistyv‰‰."
+
+T‰m‰ on itse asiassa erikoistapaus seuraavasta useamman
+p‰iv‰n algoritmista.
+
+\subsection subsection_cloudiness_overview_severaldays Useampi p‰iv‰
+
+-# Generoidaan kaikkien p‰ivien tarina erikseen ilman aikafraaseja
+-# Luupataan tarinoiden yli
+  -# Jos seuraava tarina on erilainen kuin luupattavan p‰iv‰n
+    -# Generoidaan sille oma aikafraasi tarinan eteen
+  -# Muuten jos samanlaiset p‰iv‰t jatkuvat loppuun asti
+    -# Generoidaan "alkaen"-tyyppinen aikafraasi tarinalle
+  -# Muuten jos samanlaisia p‰ivi‰ on vain kaksi
+    -# Yhdistet‰‰n aikafraasit "ja"-sanalla
+  -# Muuten samanlaisia p‰ivi‰ on v‰hint‰‰n kolme, muttei loppuun asti
+    -# Yhdistet‰‰n aikafraasit "alkaen"-tyyppiseksi
+
 \section section_cloudiness_overview_phrases Tarvittavat fraasit
 
 Tarvittavat fraasit ovat
