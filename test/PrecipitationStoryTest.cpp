@@ -61,17 +61,17 @@ namespace PrecipitationStoryTest
 
 	const string fun = "precipitation_total";
 
-	NFmiSettings::instance().set("total::fake::mean","0.1,1");
+	NFmiSettings::instance().set("total::fake::mean","0.1,0");
 	require(story,"fi",fun,"Sadesumma 0 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman 0 millimeter.");
 	require(story,"en",fun,"Total precipitation 0 millimeters.");
 
-	NFmiSettings::instance().set("total::fake::mean","0.5,1");
+	NFmiSettings::instance().set("total::fake::mean","0.5,0");
 	require(story,"fi",fun,"Sadesumma 1 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman 1 millimeter.");
 	require(story,"en",fun,"Total precipitation 1 millimeters.");
 
-	NFmiSettings::instance().set("total::fake::mean","10,1");
+	NFmiSettings::instance().set("total::fake::mean","10,0");
 	require(story,"fi",fun,"Sadesumma 10 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman 10 millimeter.");
 	require(story,"en",fun,"Total precipitation 10 millimeters.");
@@ -102,32 +102,32 @@ namespace PrecipitationStoryTest
 
 	NFmiSettings::instance().set("range::maxrain","20");
 
-	NFmiSettings::instance().set("range::fake::minimum","0,1");
-	NFmiSettings::instance().set("range::fake::maximum","0,1");
+	NFmiSettings::instance().set("range::fake::minimum","0,0");
+	NFmiSettings::instance().set("range::fake::maximum","0,0");
 	require(story,"fi",fun,"Sadesumma 0 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman 0 millimeter.");
 	require(story,"en",fun,"Total precipitation 0 millimeters.");
 
-	NFmiSettings::instance().set("range::fake::minimum","5,1");
-	NFmiSettings::instance().set("range::fake::maximum","5,1");
+	NFmiSettings::instance().set("range::fake::minimum","5,0");
+	NFmiSettings::instance().set("range::fake::maximum","5,0");
 	require(story,"fi",fun,"Sadesumma 5 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman 5 millimeter.");
 	require(story,"en",fun,"Total precipitation 5 millimeters.");
 
-	NFmiSettings::instance().set("range::fake::minimum","5,1");
-	NFmiSettings::instance().set("range::fake::maximum","10,1");
+	NFmiSettings::instance().set("range::fake::minimum","5,0");
+	NFmiSettings::instance().set("range::fake::maximum","10,0");
 	require(story,"fi",fun,"Sadesumma 5...10 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman 5...10 millimeter.");
 	require(story,"en",fun,"Total precipitation 5...10 millimeters.");
 
-	NFmiSettings::instance().set("range::fake::minimum","15,1");
-	NFmiSettings::instance().set("range::fake::maximum","25,1");
+	NFmiSettings::instance().set("range::fake::minimum","15,0");
+	NFmiSettings::instance().set("range::fake::maximum","25,0");
 	require(story,"fi",fun,"Sadesumma 15...25 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman 15...25 millimeter.");
 	require(story,"en",fun,"Total precipitation 15...25 millimeters.");
 
-	NFmiSettings::instance().set("range::fake::minimum","25,1");
-	NFmiSettings::instance().set("range::fake::maximum","30,1");
+	NFmiSettings::instance().set("range::fake::minimum","25,0");
+	NFmiSettings::instance().set("range::fake::maximum","30,0");
 	require(story,"fi",fun,"Sadesumma yli 20 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman över 20 millimeter.");
 	require(story,"en",fun,"Total precipitation over 20 millimeters.");
@@ -161,74 +161,74 @@ namespace PrecipitationStoryTest
 	NFmiSettings::instance().set("classification::some_places","30");
 	NFmiSettings::instance().set("classification::many_places","70");
 
-	NFmiSettings::instance().set("classification::fake::minimum","0,1");
-	NFmiSettings::instance().set("classification::fake::mean","0,1");
-	NFmiSettings::instance().set("classification::fake::maximum","0,1");
-	NFmiSettings::instance().set("classification::fake::percentage","0,1");
+	NFmiSettings::instance().set("classification::fake::minimum","0,0");
+	NFmiSettings::instance().set("classification::fake::mean","0,0");
+	NFmiSettings::instance().set("classification::fake::maximum","0,0");
+	NFmiSettings::instance().set("classification::fake::percentage","0,0");
 	require(story,"fi",fun,"Sadesumma 0 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman 0 millimeter.");
 	require(story,"en",fun,"Total precipitation 0 millimeters.");
 
-	NFmiSettings::instance().set("classification::fake::minimum","0,1");
-	NFmiSettings::instance().set("classification::fake::mean","1,1");
-	NFmiSettings::instance().set("classification::fake::maximum","2,1");
-	NFmiSettings::instance().set("classification::fake::percentage","0,1");
+	NFmiSettings::instance().set("classification::fake::minimum","0,0");
+	NFmiSettings::instance().set("classification::fake::mean","1,0");
+	NFmiSettings::instance().set("classification::fake::maximum","2,0");
+	NFmiSettings::instance().set("classification::fake::percentage","0,0");
 	require(story,"fi",fun,"Sadesumma 0...2 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman 0...2 millimeter.");
 	require(story,"en",fun,"Total precipitation 0...2 millimeters.");
 
-	NFmiSettings::instance().set("classification::fake::minimum","0,1");
-	NFmiSettings::instance().set("classification::fake::mean","4,1");
-	NFmiSettings::instance().set("classification::fake::maximum","6,1");
-	NFmiSettings::instance().set("classification::fake::percentage","0,1");
+	NFmiSettings::instance().set("classification::fake::minimum","0,0");
+	NFmiSettings::instance().set("classification::fake::mean","4,0");
+	NFmiSettings::instance().set("classification::fake::maximum","6,0");
+	NFmiSettings::instance().set("classification::fake::percentage","0,0");
 	require(story,"fi",fun,"Sadesumma 2...5 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman 2...5 millimeter.");
 	require(story,"en",fun,"Total precipitation 2...5 millimeters.");
 
-	NFmiSettings::instance().set("classification::fake::minimum","0,1");
-	NFmiSettings::instance().set("classification::fake::mean","4,1");
-	NFmiSettings::instance().set("classification::fake::maximum","6,1");
-	NFmiSettings::instance().set("classification::fake::percentage","40,1");
+	NFmiSettings::instance().set("classification::fake::minimum","0,0");
+	NFmiSettings::instance().set("classification::fake::mean","4,0");
+	NFmiSettings::instance().set("classification::fake::maximum","6,0");
+	NFmiSettings::instance().set("classification::fake::percentage","40,0");
 	require(story,"fi",fun,"Sadesumma 2...5 millimetriä, paikoin enemmän.");
 	require(story,"sv",fun,"Nederbördssumman 2...5 millimeter, lokalt mera.");
 	require(story,"en",fun,"Total precipitation 2...5 millimeters, more in some places.");
 
-	NFmiSettings::instance().set("classification::fake::minimum","0,1");
-	NFmiSettings::instance().set("classification::fake::mean","4,1");
-	NFmiSettings::instance().set("classification::fake::maximum","6,1");
-	NFmiSettings::instance().set("classification::fake::percentage","80,1");
+	NFmiSettings::instance().set("classification::fake::minimum","0,0");
+	NFmiSettings::instance().set("classification::fake::mean","4,0");
+	NFmiSettings::instance().set("classification::fake::maximum","6,0");
+	NFmiSettings::instance().set("classification::fake::percentage","80,0");
 	require(story,"fi",fun,"Sadesumma 2...5 millimetriä, monin paikoin enemmän.");
 	require(story,"sv",fun,"Nederbördssumman 2...5 millimeter, flerstädes mera.");
 	require(story,"en",fun,"Total precipitation 2...5 millimeters, more in many places.");
 
-	NFmiSettings::instance().set("classification::fake::minimum","0,1");
-	NFmiSettings::instance().set("classification::fake::mean","15,1");
-	NFmiSettings::instance().set("classification::fake::maximum","20,1");
-	NFmiSettings::instance().set("classification::fake::percentage","0,1");
+	NFmiSettings::instance().set("classification::fake::minimum","0,0");
+	NFmiSettings::instance().set("classification::fake::mean","15,0");
+	NFmiSettings::instance().set("classification::fake::maximum","20,0");
+	NFmiSettings::instance().set("classification::fake::percentage","0,0");
 	require(story,"fi",fun,"Sadesumma 10...20 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman 10...20 millimeter.");
 	require(story,"en",fun,"Total precipitation 10...20 millimeters.");
 
-	NFmiSettings::instance().set("classification::fake::minimum","0,1");
-	NFmiSettings::instance().set("classification::fake::mean","15,1");
-	NFmiSettings::instance().set("classification::fake::maximum","25,1");
-	NFmiSettings::instance().set("classification::fake::percentage","10,1");
+	NFmiSettings::instance().set("classification::fake::minimum","0,0");
+	NFmiSettings::instance().set("classification::fake::mean","15,0");
+	NFmiSettings::instance().set("classification::fake::maximum","25,0");
+	NFmiSettings::instance().set("classification::fake::percentage","10,0");
 	require(story,"fi",fun,"Sadesumma 10...20 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman 10...20 millimeter.");
 	require(story,"en",fun,"Total precipitation 10...20 millimeters.");
 
-	NFmiSettings::instance().set("classification::fake::minimum","0,1");
-	NFmiSettings::instance().set("classification::fake::mean","15,1");
-	NFmiSettings::instance().set("classification::fake::maximum","25,1");
-	NFmiSettings::instance().set("classification::fake::percentage","40,1");
+	NFmiSettings::instance().set("classification::fake::minimum","0,0");
+	NFmiSettings::instance().set("classification::fake::mean","15,0");
+	NFmiSettings::instance().set("classification::fake::maximum","25,0");
+	NFmiSettings::instance().set("classification::fake::percentage","40,0");
 	require(story,"fi",fun,"Sadesumma paikoin yli 20 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman lokalt över 20 millimeter.");
 	require(story,"en",fun,"Total precipitation in some places over 20 millimeters.");
 
-	NFmiSettings::instance().set("classification::fake::minimum","0,1");
-	NFmiSettings::instance().set("classification::fake::mean","15,1");
-	NFmiSettings::instance().set("classification::fake::maximum","25,1");
-	NFmiSettings::instance().set("classification::fake::percentage","80,1");
+	NFmiSettings::instance().set("classification::fake::minimum","0,0");
+	NFmiSettings::instance().set("classification::fake::mean","15,0");
+	NFmiSettings::instance().set("classification::fake::maximum","25,0");
+	NFmiSettings::instance().set("classification::fake::percentage","80,0");
 	require(story,"fi",fun,"Sadesumma monin paikoin yli 20 millimetriä.");
 	require(story,"sv",fun,"Nederbördssumman flerstädes över 20 millimeter.");
 	require(story,"en",fun,"Total precipitation in many places over 20 millimeters.");
