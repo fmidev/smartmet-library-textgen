@@ -27,9 +27,9 @@ namespace TextGen
   class Sentence : public GlyphContainer
   {
   public:
-	~Sentence();
-	Sentence();
+	virtual ~Sentence() { }
 #ifdef NO_COMPILER_GENERATED
+	Sentence();
 	Sentence(const Sentence & theSentence);
 	Sentence & operator=(const Sentence & theSentence);
 #endif

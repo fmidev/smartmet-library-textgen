@@ -27,8 +27,8 @@ namespace TextGen
   class Paragraph : public GlyphContainer
   {
   public:
+	virtual ~Paragraph() { }
 #ifdef NO_COMPILER_GENERATED
-	~Paragraph();
 	Paragraph();
 	Paragraph(const Paragraph & theParagraph);
 	Paragraph & operator=(const Paragraph & theParagraph);
@@ -40,6 +40,7 @@ namespace TextGen
 	virtual std::string prefix() const;
 	virtual std::string suffix() const;
 
+	Paragraph & operator<<(const Paragraph & theParagraph);
 	Paragraph & operator<<(const Glyph & theGlyph);
 
   }; // class Paragraph

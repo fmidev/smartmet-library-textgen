@@ -6,10 +6,14 @@
 // ======================================================================
 
 #include "Sentence.h"
+
 #include "Dictionary.h"
 #include "Number.h"
 #include "Phrase.h"
+#include "PlainTextFormatter.h"
+#include "TextFormatter.h"
 #include "TextGenError.h"
+
 #include <algorithm>
 
 using namespace std;
@@ -41,7 +45,21 @@ namespace TextGen
 
   std::string Sentence::realize(const Dictionary & theDictionary) const
   {
-	throw TextGenError("Sentence::realize should not be called");
+	throw TextGenError("Sentence::realize(Dictionary) should not be called");
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the text for the sentence
+   *
+   * \param theFormatter The formatter
+   * \return The text
+   */
+  // ----------------------------------------------------------------------
+
+  std::string Sentence::realize(const TextFormatter & theFormatter) const
+  {
+	return theFormatter.visit(*this);
   }
 
   // ----------------------------------------------------------------------
@@ -86,7 +104,11 @@ namespace TextGen
   Sentence & Sentence::operator<<(const Sentence & theSentence)
   {
 	if(this != &theSentence)
-	  copy(itsData.begin(), itsData.end(), back_inserter(itsData));
+	  {
+		copy(theSentence.itsData.begin(),
+			 theSentence.itsData.end(),
+			 back_inserter(itsData));
+	  }
 	else
 	  {
 		storage_type tmp(itsData);

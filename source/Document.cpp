@@ -6,7 +6,9 @@
 // ======================================================================
 
 #include "Document.h"
+
 #include "Dictionary.h"
+#include "PlainTextFormatter.h"
 #include "TextGenError.h"
 
 using namespace std;
@@ -38,7 +40,7 @@ namespace TextGen
 
   std::string Document::realize(const Dictionary & theDictionary) const
   {
-	throw TextGenError("Document::realize should not be called");
+	throw TextGenError("Document::realize(Dictionary) should not be called");
   }
 
   // ----------------------------------------------------------------------
@@ -69,6 +71,31 @@ namespace TextGen
   std::string Document::suffix() const
   {
 	return "";
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Add a document to the end of this document
+   *
+   * \param theDocument The document to be added
+   * \result The document added to
+   */
+  // ----------------------------------------------------------------------
+
+  Document & Document::operator<<(const Document & theDocument)
+  {
+	if(this != &theDocument)
+	  {
+		copy(theDocument.itsData.begin(),
+			 theDocument.itsData.end(),
+			 back_inserter(itsData));
+	  }
+	else
+	  {
+		storage_type tmp(itsData);
+		copy(tmp.begin(),tmp.end(), back_inserter(itsData));
+	  }
+	return *this;
   }
 
   // ----------------------------------------------------------------------

@@ -6,7 +6,9 @@
 // ======================================================================
 
 #include "Header.h"
+
 #include "Dictionary.h"
+#include "PlainTextFormatter.h"
 #include "TextGenError.h"
 
 using namespace std;
@@ -38,7 +40,7 @@ namespace TextGen
 
   std::string Header::realize(const Dictionary & theDictionary) const
   {
-	throw TextGenError("Header::realize should not be called");
+	throw TextGenError("Header::realize(Dictionary) should not be called");
   }
 
   // ----------------------------------------------------------------------

@@ -6,7 +6,10 @@
 // ======================================================================
 
 #include "Paragraph.h"
+
 #include "Dictionary.h"
+#include "PlainTextFormatter.h"
+#include "TextFormatter.h"
 #include "TextGenError.h"
 
 using namespace std;
@@ -37,8 +40,22 @@ namespace TextGen
   // ----------------------------------------------------------------------
 
   std::string Paragraph::realize(const Dictionary & theDictionary) const
+  { 
+	throw TextGenError("Paragraph::realize(Dictionary) should not be called");
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the text for the sentence
+   *
+   * \param theFormatter The formatter
+   * \return The text
+   */
+  // ----------------------------------------------------------------------
+
+  std::string Paragraph::realize(const TextFormatter & theFormatter) const
   {
-	throw TextGenError("Paragraph::realize should not be called");
+	return theFormatter.visit(*this);
   }
 
   // ----------------------------------------------------------------------
@@ -71,6 +88,31 @@ namespace TextGen
 	return "";
   }
 
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Add a paragraph to the end of this paragraph
+   *
+   * \param theParagraph The paragraph to be added
+   * \result The paragraph added to
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph & Paragraph::operator<<(const Paragraph & theParagraph)
+  {
+	if(this != &theParagraph)
+	  {
+		copy(theParagraph.itsData.begin(),
+			 theParagraph.itsData.end(),
+			 back_inserter(itsData));
+	  }
+	else
+	  {
+		storage_type tmp(itsData);
+		copy(tmp.begin(),tmp.end(), back_inserter(itsData));
+	  }
+	return *this;
+  }
 
   // ----------------------------------------------------------------------
   /*!
