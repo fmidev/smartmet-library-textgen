@@ -144,6 +144,39 @@ namespace SentenceTest
 
   }
 
+  //! Test operator<<
+  void appending(void)
+  {
+	using namespace TextGen;
+
+	Sentence s1("a");
+	
+	Sentence s2("b");
+	s1 << s2;
+	if(s1.size() != 2)
+	  TEST_FAILED("size after a << b is not 2");
+	
+	s1 << string("c");
+	if(s1.size() != 3)
+	  TEST_FAILED("size after ab << c is not 3");
+	
+	s1 << "d";
+	if(s1.size() != 4)
+	  TEST_FAILED("size after abc << d is not 4");
+	
+	s1 << s1;
+	if(s1.size() != 8)
+	  TEST_FAILED("size after abcd << abcd is not 10");
+
+	Sentence s("a");
+	s << "b" << "c" << "d" << "e";
+	if(s.size() != 5)
+	  TEST_FAILED("size after a << b << c << d << e is not 5");
+
+	TEST_PASSED();
+
+  }
+
   //! Test realize()
   void realize(void)
   {
@@ -190,6 +223,7 @@ namespace SentenceTest
 	  TEST(empty);
 	  TEST(size);
 	  TEST(adding);
+	  TEST(appending);
 	  TEST(realize);
 	}
 

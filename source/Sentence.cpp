@@ -205,6 +205,48 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Adding a sentence to a sentence
+   *
+   * \param theSentence to be added
+   * \result The sentence added to
+   */
+  // ----------------------------------------------------------------------
+
+  Sentence & Sentence::operator<<(const Sentence & theSentence)
+  {
+	return operator+=(theSentence);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Adding a phrase to a sentence
+   *
+   * \param thePhrase to be added
+   * \result The sentence added to
+   */
+  // ----------------------------------------------------------------------
+
+  Sentence & Sentence::operator<<(const Phrase & thePhrase)
+  {
+	return operator+=(thePhrase);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Adding a phrase to a sentence
+   *
+   * \param thePhrase to be added
+   * \result The sentence added to
+   */
+  // ----------------------------------------------------------------------
+
+  Sentence & Sentence::operator<<(const std::string & thePhrase)
+  {
+	return operator+=(thePhrase);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Return the text for the sentence
    *
    * The global singleton dictionary is used for the realization

@@ -160,6 +160,34 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Adding a sentence to a paragraph
+   *
+   * \param theSentence The sentence to be added
+   * \result The paragraph added to
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph & Paragraph::operator<<(const Sentence & theSentence)
+  {
+	return operator+=(theSentence);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Adding a paragraph to the end of a paragraph
+   *
+   * \param theParagraph The paragraph to be added
+   * \result The paragraph added to
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph & Paragraph::operator<<(const Paragraph & theParagraph)
+  {
+	return operator+=(theParagraph);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Return the text for the paragraph
    *
    * The global singleton dictionary is used for the realization

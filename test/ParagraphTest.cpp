@@ -138,6 +138,38 @@ namespace ParagraphTest
 
   }
 
+  //! Test operator<<
+  void appending(void)
+  {
+	using namespace TextGen;
+
+	Sentence s1("a");
+	Sentence s2("b");
+
+	Paragraph p1(s1);
+	Paragraph p2(s2);
+	
+	p1 << p2;
+	if(p1.size() != 2)
+	  TEST_FAILED("size after a << b is not 2");
+	
+	p1 << Sentence("c");
+	if(p1.size() != 3)
+	  TEST_FAILED("size after ab << c is not 3");
+	
+	p1 << p1;
+	if(p1.size() != 6)
+	  TEST_FAILED("size after abc << abc is not 6");
+
+	Paragraph p;
+	p << s1 << s2 << Sentence("foobar");
+	if(p.size() != 3)
+	  TEST_FAILED("size after << b << c << d is not 3");
+
+	TEST_PASSED();
+
+  }
+
   //! Test realize()
   void realize(void)
   {
@@ -187,6 +219,7 @@ namespace ParagraphTest
 	  TEST(empty);
 	  TEST(size);
 	  TEST(adding);
+	  TEST(appending);
 	  TEST(realize);
 	}
 

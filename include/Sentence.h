@@ -61,6 +61,10 @@ namespace TextGen
 	Sentence & operator+=(const Phrase & thePhrase);
 	Sentence & operator+=(const std::string & thePhrase);
 
+	Sentence & operator<<(const Sentence & theSentence);
+	Sentence & operator<<(const Phrase & thePhrase);
+	Sentence & operator<<(const std::string & thePhrase);
+
 	std::string realize() const;
 	std::string realize(const Dictionary & theDictionary) const;
 
