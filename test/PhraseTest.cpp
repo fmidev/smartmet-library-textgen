@@ -42,12 +42,12 @@ namespace PhraseTest
 	shared_ptr<Dictionary> english = DictionaryFactory::create("mysql");
 	english->init("en");
 	
-	Phrase s1("kaakko");;
-	if(s1.realize(*english) != "south east")
-	  TEST_FAILED("realization of kaakko in English failed");
+	Phrase s1("lämpötila");;
+	if(s1.realize(*english) != "temperature")
+	  TEST_FAILED("realization of lämpötila in English failed");
 
-	if(s1.realize(*finnish) != "kaakko")
-	  TEST_FAILED("realization of kaakko in Finnish failed");
+	if(s1.realize(*finnish) != "lämpötila")
+	  TEST_FAILED("realization of lämpötila in Finnish failed");
 
 	TEST_PASSED();
 

@@ -122,8 +122,8 @@ namespace MySQLDictionaryTest
 	dict.init("fi");
 	if(dict.contains("foobar"))
 	  TEST_FAILED("contains(foobar) should have failed");
-	if(!dict.contains("l‰nsi"))
-	  TEST_FAILED("contains(l‰nsi) should have succeeded");
+	if(!dict.contains("s‰‰"))
+	  TEST_FAILED("contains(s‰‰) should have succeeded");
 
 	TEST_PASSED();
   }
@@ -150,12 +150,12 @@ namespace MySQLDictionaryTest
 	  }
 	catch(const TextGenError & e) { }
 
-	if(dict.find("l‰nsi") != "l‰nsi")
-	  TEST_FAILED("find(l‰nsi) should have returned l‰nsi");
+	if(dict.find("s‰‰") != "s‰‰")
+	  TEST_FAILED("find(s‰‰) should have returned s‰‰");
 
 	dict.init("en");
-	if(dict.find("l‰nsi") != "west")
-	  TEST_FAILED("find(l‰nsi) should have returned west");
+	if(dict.find("s‰‰") != "the weather")
+	  TEST_FAILED("find(s‰‰) should have returned the weather");
 
 	TEST_PASSED();
   }

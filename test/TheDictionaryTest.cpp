@@ -116,8 +116,8 @@ namespace TheDictionaryTest
 	TheDictionary::instance().init("fi");
 	if(TheDictionary::instance().contains("foobar"))
 	  TEST_FAILED("contains(foobar) should have failed");
-	if(!TheDictionary::instance().contains("länsi"))
-	  TEST_FAILED("contains(länsi) should have succeeded");
+	if(!TheDictionary::instance().contains("sää"))
+	  TEST_FAILED("contains(sää) should have succeeded");
 
 	TEST_PASSED();
   }
@@ -153,12 +153,12 @@ namespace TheDictionaryTest
 	  }
 	catch(const TextGenError & e) { }
 
-	if(TheDictionary::instance().find("länsi") != "länsi")
-	  TEST_FAILED("find(länsi) should have returned länsi");
+	if(TheDictionary::instance().find("lämpötila") != "lämpötila")
+	  TEST_FAILED("find(lämpötila) should have returned lämpötila");
 
 	TheDictionary::instance().init("en");
-	if(TheDictionary::instance().find("länsi") != "west")
-	  TEST_FAILED("find(länsi) should have returned west");
+	if(TheDictionary::instance().find("lämpötila") != "temperature")
+	  TEST_FAILED("find(lämpötila) should have returned temperature");
 
 	TEST_PASSED();
   }
