@@ -91,6 +91,6 @@ Tarvittavat fraasit ovat
  - "selkenev‰‰"
  - "vaihtelevaa pilvisyytt‰"
 
-Lis‰ksi tarvitaan tyypilliset aikafraasit.
+Lis‰ksi tarvitaan aikafraasit \c today, \c next_day ja \c next_days.
 
 */
