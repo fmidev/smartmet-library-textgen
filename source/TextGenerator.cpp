@@ -169,14 +169,14 @@ namespace TextGen
 		if(!contents.empty())
 		  {
 			Paragraph paragraph;
-			for(list<string>::const_iterator it = contents.begin();
-				it != contents.end();
-				++it)
+			for(list<string>::const_iterator iter = contents.begin();
+				iter != contents.end();
+				++iter)
 			  {
 				Paragraph p = StoryFactory::create(itsPimple->itsSources,
 												   theArea,
 												   period,
-												   *it);
+												   *iter);
 				paragraph << p;
 			  }
 			doc << paragraph;
