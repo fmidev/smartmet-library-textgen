@@ -205,6 +205,15 @@ ylin sivulauseena seuraavasti
   - ", viikonpäivänä noin x astetta"
   - ", viikonpäivänä x...y astetta"
 
+Valinta yksittäisen arvon ja intervallin välillä tehdään perustuen muuttujiin
+\code
+textgen::[kappale]::story::temperature_dailymax::mininterval = [1-]
+textgen::[kappale]::story::temperature_dailymax::always_interval_zero = [bool]
+\endcode
+Jos intervallin pituus on vähintään \c mininterval, sanotaan intervalli,
+muuten keskiarvo. Poikkeuksena jos nolla kuuluu intervalliin ja
+\c always_interval_zero on true, sanotaan aina intervalli.
+
 Tarvittavat fraasit ovat
 
  - "päivän ylin lämpötila"
@@ -309,6 +318,15 @@ sivulauseena seuraavasti
 
   - ", viikonpäivän vastaisena yönä noin x astetta"
   - ", viikonpäivän vastaisena yönä x...y astetta"
+
+Valinta yksittäisen arvon ja intervallin välillä tehdään perustuen muuttujiin
+\code
+textgen::[kappale]::story::temperature_nightlymin::mininterval = [1-]
+textgen::[kappale]::story::temperature_nightlymin::always_interval_zero = [bool]
+\endcode
+Jos intervallin pituus on vähintään \c mininterval, sanotaan intervalli,
+muuten keskiarvo. Poikkeuksena jos nolla kuuluu intervalliin ja
+\c always_interval_zero on true, sanotaan aina intervalli.
 
 Tarvittavat fraasit ovat
 
@@ -438,7 +456,7 @@ Teksti valitaan seuraavalla logiikalla
         monessa pisteessä, palautetaan fraasi 2.
      -# Jos sadesumma ylittää asetetun raja-arvon \c maxlimit1 riittävän
         monessa pisteessä, palautetaan fraasi 3.
-     -# Palautetaan fraasi 1.
+     -# Palautetaan fraasi 1. TÄSSÄ PITÄISI PALAUTTAA JOTAIN MUUTA!!
   -# Jos sadesumman maksimi on 0, palautetaan fraasi 4.
   -# Lasketaan sadesumman keskiarvo ja maksimi.
   -# Muodostetaan sadeluokka keskiarvon perusteella. Jos useampi luokka
