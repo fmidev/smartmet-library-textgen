@@ -38,7 +38,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Paragraph WindStory::daily_ranges() const
+  const Paragraph WindStory::daily_ranges() const
   {
 	MessageLogger log("WeatherStory::daily_ranges");
 

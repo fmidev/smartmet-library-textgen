@@ -35,7 +35,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string on_weekday(const NFmiTime & theTime)
+	const string on_weekday(const NFmiTime & theTime)
 	{
 	  const string out = (lexical_cast<string>(theTime.GetWeekday())
 						  +"-na");
@@ -51,7 +51,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string on_weekday_time(const NFmiTime & theTime)
+	const string on_weekday_time(const NFmiTime & theTime)
 	{
 	  const string out = (lexical_cast<string>(theTime.GetWeekday())
 						  +"-na kello");
@@ -67,7 +67,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string night_against_weekday(const NFmiTime & theTime)
+	const string night_against_weekday(const NFmiTime & theTime)
 	{
 	  const string out = (lexical_cast<string>(theTime.GetWeekday())
 						  +"-vastaisena yönä");
@@ -83,7 +83,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string until_weekday_morning(const NFmiTime & theTime)
+	const string until_weekday_morning(const NFmiTime & theTime)
 	{
 	  const string out = (lexical_cast<string>(theTime.GetWeekday())
 						  +"-aamuun");
@@ -99,7 +99,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string until_weekday_evening(const NFmiTime & theTime)
+	const string until_weekday_evening(const NFmiTime & theTime)
 	{
 	  const string out = (lexical_cast<string>(theTime.GetWeekday())
 						  +"-iltaan");
@@ -115,7 +115,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string until_weekday_time(const NFmiTime & theTime)
+	const string until_weekday_time(const NFmiTime & theTime)
 	{
 	  const int hour = theTime.GetHour();
 	  if(hour == 6)
@@ -139,7 +139,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string from_weekday(const NFmiTime & theTime)
+	const string from_weekday(const NFmiTime & theTime)
 	{
 	  const string out = (lexical_cast<string>(theTime.GetWeekday())
 						  +"-alkaen");
@@ -155,7 +155,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string from_weekday_morning(const NFmiTime & theTime)
+	const string from_weekday_morning(const NFmiTime & theTime)
 	{
 	  const string out = (lexical_cast<string>(theTime.GetWeekday())
 						  +"-aamusta");
@@ -171,7 +171,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string from_weekday_evening(const NFmiTime & theTime)
+	const string from_weekday_evening(const NFmiTime & theTime)
 	{
 	  const string out = (lexical_cast<string>(theTime.GetWeekday())
 						  +"-illasta");
@@ -187,7 +187,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string from_weekday_time(const NFmiTime & theTime)
+	const string from_weekday_time(const NFmiTime & theTime)
 	{
 	  const int hour = theTime.GetHour();
 	  if(hour == 6)

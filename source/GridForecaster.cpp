@@ -51,7 +51,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  WeatherResult
+  const WeatherResult
   GridForecaster::analyze(const AnalysisSources & theSources,
 						  const WeatherParameter & theParameter,
 						  const WeatherFunction & theAreaFunction,

@@ -69,7 +69,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  std::string IntegerRange::realize(const Dictionary & theDictionary) const
+  const std::string IntegerRange::realize(const Dictionary & theDictionary) const
   {
 	std::ostringstream os;
 	os << itsStartValue;
@@ -87,7 +87,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  std::string IntegerRange::realize(const TextFormatter & theFormatter) const
+  const std::string IntegerRange::realize(const TextFormatter & theFormatter) const
   {
 	return theFormatter.visit(*this);
   }

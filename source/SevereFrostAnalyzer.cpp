@@ -41,7 +41,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
   
-  WeatherResult
+  const WeatherResult
   SevereFrostAnalyzer::analyze(const AnalysisSources & theSources,
 							   const WeatherDataType & theDataType,
 							   const WeatherFunction & theAreaFunction,

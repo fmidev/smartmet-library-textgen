@@ -97,7 +97,7 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 	
-	NFmiTime toUtcTime(const NFmiTime & theLocalTime)
+	const NFmiTime toUtcTime(const NFmiTime & theLocalTime)
 	{
 	  ::tm tlocal;
 	  tlocal.tm_sec   = theLocalTime.GetSec();
@@ -133,7 +133,7 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 	
-	NFmiTime toLocalTime(const NFmiTime & theUtcTime)
+	const NFmiTime toLocalTime(const NFmiTime & theUtcTime)
 	{
 	  // The UTC time
 	  struct ::tm utc;
@@ -246,7 +246,7 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	NFmiTime dayStart(const NFmiTime & theDate)
+	const NFmiTime dayStart(const NFmiTime & theDate)
 	{
 	  return NFmiTime(theDate.GetYear(),
 					  theDate.GetMonth(),
@@ -267,7 +267,7 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	NFmiTime dayEnd(const NFmiTime & theDate)
+	const NFmiTime dayEnd(const NFmiTime & theDate)
 	{
 	  NFmiTime tmp(dayStart(theDate));
 	  if(!tmp.IsEqual(theDate))
@@ -287,7 +287,7 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	NFmiTime nextDay(const NFmiTime & theDate)
+	const NFmiTime nextDay(const NFmiTime & theDate)
 	{
 	  NFmiTime tmp(dayStart(theDate));
 	  tmp.ChangeByDays(1);
@@ -304,7 +304,7 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	NFmiTime addHours(const NFmiTime & theDate, int theHours)
+	const NFmiTime addHours(const NFmiTime & theDate, int theHours)
 	{
 	  NFmiTime tmp(theDate);
 	  tmp.ChangeByHours(theHours);

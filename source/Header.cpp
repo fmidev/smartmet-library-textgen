@@ -47,7 +47,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  std::string Header::realize(const Dictionary & theDictionary) const
+  const std::string Header::realize(const Dictionary & theDictionary) const
   {
 	throw TextGenError("Header::realize(Dictionary) should not be called");
   }
@@ -61,7 +61,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  std::string Header::realize(const TextFormatter & theFormatter) const
+  const std::string Header::realize(const TextFormatter & theFormatter) const
   {
 	return theFormatter.visit(*this);
   }

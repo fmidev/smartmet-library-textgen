@@ -38,7 +38,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Paragraph CloudinessStory::overview() const
+  const Paragraph CloudinessStory::overview() const
   {
 	MessageLogger log("CloudinessStory::overview");
 

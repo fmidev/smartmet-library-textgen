@@ -30,13 +30,13 @@ namespace WeatherAnalysis
 
 	virtual ~MaskSource() {}
 
-	virtual mask_type mask(const WeatherArea & theArea,
-						   const std::string & theData,
-						   const WeatherSource & theWeatherSource) const = 0;
-
-	virtual masks_type masks(const WeatherArea & theArea,
-							 const std::string & theData,
-							 const WeatherSource & theWeatherSource) const = 0;
+	virtual const mask_type mask(const WeatherArea & theArea,
+								 const std::string & theData,
+								 const WeatherSource & theWeatherSource) const = 0;
+	
+	virtual const masks_type masks(const WeatherArea & theArea,
+								   const std::string & theData,
+								   const WeatherSource & theWeatherSource) const = 0;
 
   }; // class MaskSource
 

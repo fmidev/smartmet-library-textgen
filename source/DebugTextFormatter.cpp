@@ -41,7 +41,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string DebugTextFormatter::format(const Glyph & theGlyph) const
+  const string DebugTextFormatter::format(const Glyph & theGlyph) const
   {
 	return theGlyph.realize(*this);
   }
@@ -54,7 +54,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string DebugTextFormatter::visit(const Glyph & theGlyph) const
+  const string DebugTextFormatter::visit(const Glyph & theGlyph) const
   {
 	return theGlyph.realize(itsDictionary);
   }
@@ -65,7 +65,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string DebugTextFormatter::visit(const Integer & theInteger) const
+  const string DebugTextFormatter::visit(const Integer & theInteger) const
   {
 	return theInteger.realize(itsDictionary);
   }
@@ -77,7 +77,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string DebugTextFormatter::visit(const IntegerRange & theRange) const
+  const string DebugTextFormatter::visit(const IntegerRange & theRange) const
   {
 	return theRange.realize(itsDictionary);
   }
@@ -88,7 +88,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string DebugTextFormatter::visit(const Sentence & theSentence) const
+  const string DebugTextFormatter::visit(const Sentence & theSentence) const
   {
 	string ret = TextFormatterTools::realize(theSentence.begin(),
 											 theSentence.end(),
@@ -107,7 +107,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string DebugTextFormatter::visit(const Paragraph & theParagraph) const
+  const string DebugTextFormatter::visit(const Paragraph & theParagraph) const
   {
 	string ret = TextFormatterTools::realize(theParagraph.begin(),
 											 theParagraph.end(),
@@ -122,7 +122,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string DebugTextFormatter::visit(const Header & theHeader) const
+  const string DebugTextFormatter::visit(const Header & theHeader) const
   {
     string ret = TextFormatterTools::realize(theHeader.begin(),
 											 theHeader.end(),
@@ -141,7 +141,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string DebugTextFormatter::visit(const Document & theDocument) const
+  const string DebugTextFormatter::visit(const Document & theDocument) const
   {
 	string ret = TextFormatterTools::realize(theDocument.begin(),
 											 theDocument.end(),
@@ -157,7 +157,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string DebugTextFormatter::visit(const SectionTag & theSection) const
+  const string DebugTextFormatter::visit(const SectionTag & theSection) const
   {
 	itsSectionVar = theSection.realize(itsDictionary);
 	return "";
@@ -169,7 +169,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string DebugTextFormatter::visit(const StoryTag & theStory) const
+  const string DebugTextFormatter::visit(const StoryTag & theStory) const
   {
 	itsStoryVar = theStory.realize(itsDictionary);
 	return "";

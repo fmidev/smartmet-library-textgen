@@ -127,7 +127,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
    
-  std::string MapSource::findMapName(const NFmiPoint & theLatlon) const
+  const std::string MapSource::findMapName(const NFmiPoint & theLatlon) const
   {
 	// Safety check, constructor should always initialize properly
 	assert(itsPimple.get() != 0);

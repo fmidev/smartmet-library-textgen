@@ -25,11 +25,11 @@ namespace TextGen
 											   int theMean2,
 											   const std::string & theVariable);
 
-	TextGen::Sentence temperature_sentence(int theMinimum,
-										   int theMean,
-										   int theMaximum,
-										   int theMinInterval,
-										   bool theZeroFlag);
+	const TextGen::Sentence temperature_sentence(int theMinimum,
+												 int theMean,
+												 int theMaximum,
+												 int theMinInterval,
+												 bool theZeroFlag);
 
   } // namespace TemperatureStoryTools
 } // namespace TextGen

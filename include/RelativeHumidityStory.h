@@ -37,11 +37,11 @@ namespace TextGen
 						  const std::string & theVariable);
 	
 	static bool hasStory(const std::string & theName);
-	virtual Paragraph makeStory(const std::string & theName) const;
+	virtual const Paragraph makeStory(const std::string & theName) const;
 
   private:
 
-	Paragraph lowest() const;
+	const Paragraph lowest() const;
 
 	RelativeHumidityStory();
 	RelativeHumidityStory(const RelativeHumidityStory & theStory);

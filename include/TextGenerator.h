@@ -38,7 +38,7 @@ namespace TextGen
 	void time(const NFmiTime & theForecastTime);
 	void sources(const WeatherAnalysis::AnalysisSources & theSources);
 
-	Document generate(const WeatherAnalysis::WeatherArea & theArea) const;
+	const Document generate(const WeatherAnalysis::WeatherArea & theArea) const;
 
   private:
 

@@ -63,7 +63,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  std::string Phrase::realize(const Dictionary & theDictionary) const
+  const std::string Phrase::realize(const Dictionary & theDictionary) const
   {
 	return theDictionary.find(itsWord);
   }
@@ -77,7 +77,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  std::string Phrase::realize(const TextFormatter & theFormatter) const
+  const std::string Phrase::realize(const TextFormatter & theFormatter) const
   {
 	return theFormatter.visit(*this);
   }

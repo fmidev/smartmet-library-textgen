@@ -33,7 +33,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  Paragraph TemperatureStory::mean() const
+  const Paragraph TemperatureStory::mean() const
   {
 	MessageLogger log("TemperatureStory::mean");
 

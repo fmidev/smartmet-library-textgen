@@ -39,7 +39,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  Paragraph RelativeHumidityStory::lowest() const
+  const Paragraph RelativeHumidityStory::lowest() const
   {
 	MessageLogger log("RelativeHumidityStory::lowest");
 

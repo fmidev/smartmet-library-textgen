@@ -88,7 +88,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------.
   
-  Paragraph WeatherStory::makeStory(const string & theName) const
+  const Paragraph WeatherStory::makeStory(const string & theName) const
   {
 	if(theName == "weather_overview")
 	  return overview();

@@ -152,7 +152,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Document TextGenerator::generate(const WeatherArea & theArea) const
+  const Document TextGenerator::generate(const WeatherArea & theArea) const
   {
 	MessageLogger log("TextGenerator::generate");
 

@@ -67,7 +67,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  std::string SectionTag::realize(const Dictionary & theDictionary) const
+  const std::string SectionTag::realize(const Dictionary & theDictionary) const
   {
 	return itsName;
   }
@@ -81,7 +81,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  std::string SectionTag::realize(const TextFormatter & theFormatter) const
+  const std::string SectionTag::realize(const TextFormatter & theFormatter) const
   {
 	return theFormatter.visit(*this);
   }

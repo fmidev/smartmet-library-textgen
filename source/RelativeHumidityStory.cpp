@@ -84,7 +84,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------.
   
-  Paragraph RelativeHumidityStory::makeStory(const string & theName) const
+  const Paragraph RelativeHumidityStory::makeStory(const string & theName) const
   {
 	if(theName == "relativehumidity_lowest")
 	  return lowest();

@@ -70,7 +70,7 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  string padzeros(const string & theString, unsigned int theCount)
+  const string padzeros(const string & theString, unsigned int theCount)
   {
 	if(theString.size() >= theCount)
 	  return theString;
@@ -185,7 +185,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string SoneraTextFormatter::format(const Glyph & theGlyph) const
+  const string SoneraTextFormatter::format(const Glyph & theGlyph) const
   {
 	static string dummy("dummy");
 
@@ -236,7 +236,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string SoneraTextFormatter::visit(const Glyph & theGlyph) const
+  const string SoneraTextFormatter::visit(const Glyph & theGlyph) const
   {
 	static string dummy("glyph");
 	string tokens = theGlyph.realize(*itsDictionary);
@@ -251,7 +251,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string SoneraTextFormatter::visit(const Integer & theInteger) const
+  const string SoneraTextFormatter::visit(const Integer & theInteger) const
   {
 	static string dummy("integer");
 
@@ -267,7 +267,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string SoneraTextFormatter::visit(const IntegerRange & theRange) const
+  const string SoneraTextFormatter::visit(const IntegerRange & theRange) const
   {
 	static string dummy("integerrange");
 
@@ -288,7 +288,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string SoneraTextFormatter::visit(const Sentence & theSentence) const
+  const string SoneraTextFormatter::visit(const Sentence & theSentence) const
   {
 	static string dummy("sentence");
 	const container_type::size_type oldsize = itsParts.size();
@@ -309,7 +309,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string SoneraTextFormatter::visit(const Paragraph & theParagraph) const
+  const string SoneraTextFormatter::visit(const Paragraph & theParagraph) const
   {
 	static string dummy("paragraph");
 	const container_type::size_type oldsize = itsParts.size();
@@ -330,7 +330,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string SoneraTextFormatter::visit(const Header & theHeader) const
+  const string SoneraTextFormatter::visit(const Header & theHeader) const
   {
 	static string dummy("header");
 	const container_type::size_type oldsize = itsParts.size();
@@ -351,7 +351,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string SoneraTextFormatter::visit(const Document & theDocument) const
+  const string SoneraTextFormatter::visit(const Document & theDocument) const
   {
 	static string dummy("document");
 	sonera_realize(theDocument.begin(), theDocument.end(), *this, itsParts);
@@ -364,7 +364,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string SoneraTextFormatter::visit(const SectionTag & theSection) const
+  const string SoneraTextFormatter::visit(const SectionTag & theSection) const
   {
 	itsSectionVar = theSection.realize(*itsDictionary);
 	return "";
@@ -376,7 +376,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string SoneraTextFormatter::visit(const StoryTag & theStory) const
+  const string SoneraTextFormatter::visit(const StoryTag & theStory) const
   {
 	itsStoryVar = theStory.realize(*itsDictionary);
 	return "";

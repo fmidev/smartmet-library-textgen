@@ -54,7 +54,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string WmlTextFormatter::format(const Glyph & theGlyph) const
+  const string WmlTextFormatter::format(const Glyph & theGlyph) const
   {
 	return theGlyph.realize(*this);
   }
@@ -67,7 +67,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string WmlTextFormatter::visit(const Glyph & theGlyph) const
+  const string WmlTextFormatter::visit(const Glyph & theGlyph) const
   {
 	return theGlyph.realize(*itsDictionary);
   }
@@ -78,7 +78,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string WmlTextFormatter::visit(const Integer & theInteger) const
+  const string WmlTextFormatter::visit(const Integer & theInteger) const
   {
 	return theInteger.realize(*itsDictionary);
   }
@@ -90,7 +90,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string WmlTextFormatter::visit(const IntegerRange & theRange) const
+  const string WmlTextFormatter::visit(const IntegerRange & theRange) const
   {
 	return theRange.realize(*itsDictionary);
   }
@@ -101,7 +101,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string WmlTextFormatter::visit(const Sentence & theSentence) const
+  const string WmlTextFormatter::visit(const Sentence & theSentence) const
   {
 	string ret = TextFormatterTools::realize(theSentence.begin(),
 											 theSentence.end(),
@@ -120,7 +120,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string WmlTextFormatter::visit(const Paragraph & theParagraph) const
+  const string WmlTextFormatter::visit(const Paragraph & theParagraph) const
   {
 	const string tags = Settings::optional_string(itsSectionVar+"::paragraph::wml::tags","");
 
@@ -146,7 +146,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string WmlTextFormatter::visit(const Header & theHeader) const
+  const string WmlTextFormatter::visit(const Header & theHeader) const
   {
 	const bool colon = Settings::optional_bool(itsSectionVar+"::header::colon",false);
 	const int level = Settings::optional_int(itsSectionVar+"::header::wml::level",1);
@@ -183,7 +183,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string WmlTextFormatter::visit(const Document & theDocument) const
+  const string WmlTextFormatter::visit(const Document & theDocument) const
   {
 	return TextFormatterTools::realize(theDocument.begin(),
 									   theDocument.end(),
@@ -198,7 +198,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string WmlTextFormatter::visit(const SectionTag & theSection) const
+  const string WmlTextFormatter::visit(const SectionTag & theSection) const
   {
 	itsSectionVar = theSection.realize(*itsDictionary);
 	return "";
@@ -210,7 +210,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string WmlTextFormatter::visit(const StoryTag & theStory) const
+  const string WmlTextFormatter::visit(const StoryTag & theStory) const
   {
 	itsStoryVar = theStory.realize(*itsDictionary);
 	return "";

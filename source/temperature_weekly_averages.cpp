@@ -35,7 +35,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Paragraph TemperatureStory::weekly_averages() const
+  const Paragraph TemperatureStory::weekly_averages() const
   {
 	MessageLogger log("TemperatureStory::weekly_averages");
 

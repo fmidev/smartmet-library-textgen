@@ -33,7 +33,7 @@ namespace WeatherAnalysis
 	virtual ~WeatherAnalyzer() { }
 
 	// derivatives override
-	virtual WeatherResult
+	virtual const WeatherResult
 	analyze(const AnalysisSources & theSources,
 			const WeatherParameter & theParameter,
 			const WeatherFunction & theAreaFunction,
@@ -46,7 +46,7 @@ namespace WeatherAnalysis
 			const Acceptor & theTester = NullAcceptor()) const = 0;
 
 	// has default implementation
-	virtual WeatherResult
+	virtual const WeatherResult
 	analyze(const AnalysisSources & theSources,
 			const WeatherParameter & theParameter,
 			const WeatherFunction & theAreaFunction,
@@ -58,7 +58,7 @@ namespace WeatherAnalysis
 			const Acceptor & theTester = NullAcceptor()) const;
 
 	// has default implementation
-	virtual WeatherResult
+	virtual const WeatherResult
 	analyze(const std::string & theFakeVariable,
 			const AnalysisSources & theSources,
 			const WeatherParameter & theParameter,
@@ -72,7 +72,7 @@ namespace WeatherAnalysis
 			const Acceptor & theTester = NullAcceptor()) const;
 
 	// has default implementation
-	virtual WeatherResult
+	virtual const WeatherResult
 	analyze(const std::string & theFakeVariable,
 			const AnalysisSources & theSources,
 			const WeatherParameter & theParameter,

@@ -615,10 +615,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	Sentence create(const string & theType,
-					const string & theVariable,
-					const NFmiTime & theForecastTime,
-					const WeatherPeriod & thePeriod)
+	const Sentence create(const string & theType,
+						  const string & theVariable,
+						  const NFmiTime & theForecastTime,
+						  const WeatherPeriod & thePeriod)
 	{
 	  if(theType == "until_tonight")
 		return until_tonight(theVariable,theForecastTime,thePeriod);

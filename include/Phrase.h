@@ -26,8 +26,8 @@ namespace TextGen
 	Phrase & operator=(const Phrase & thePhrase);
 #endif
 	virtual boost::shared_ptr<Glyph> clone() const;
-	virtual std::string realize(const Dictionary & theDictionary) const;
-	virtual std::string realize(const TextFormatter & theFormatter) const;
+	virtual const std::string realize(const Dictionary & theDictionary) const;
+	virtual const std::string realize(const TextFormatter & theFormatter) const;
 	virtual bool isDelimiter() const;
 
   private:

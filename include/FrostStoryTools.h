@@ -19,11 +19,11 @@ namespace TextGen
 
   namespace FrostStoryTools
   {
-	Sentence frost_sentence(const WeatherAnalysis::WeatherPeriod & thePeriod,
-							int theProbability);
+	const Sentence frost_sentence(const WeatherAnalysis::WeatherPeriod & thePeriod,
+								  int theProbability);
 
-	Sentence severe_frost_sentence(const WeatherAnalysis::WeatherPeriod & thePeriod,
-								   int theProbability);
+	const Sentence severe_frost_sentence(const WeatherAnalysis::WeatherPeriod & thePeriod,
+										 int theProbability);
 
   } // namespace FrostStoryTools
 } // namespace TextGen

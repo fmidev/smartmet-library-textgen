@@ -52,7 +52,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string PlainTextFormatter::format(const Glyph & theGlyph) const
+  const string PlainTextFormatter::format(const Glyph & theGlyph) const
   {
 	return theGlyph.realize(*this);
   }
@@ -65,7 +65,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string PlainTextFormatter::visit(const Glyph & theGlyph) const
+  const string PlainTextFormatter::visit(const Glyph & theGlyph) const
   {
 	return theGlyph.realize(*itsDictionary);
   }
@@ -76,7 +76,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string PlainTextFormatter::visit(const Integer & theInteger) const
+  const string PlainTextFormatter::visit(const Integer & theInteger) const
   {
 	return theInteger.realize(*itsDictionary);
   }
@@ -88,7 +88,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string PlainTextFormatter::visit(const IntegerRange & theRange) const
+  const string PlainTextFormatter::visit(const IntegerRange & theRange) const
   {
 	return theRange.realize(*itsDictionary);
   }
@@ -99,7 +99,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string PlainTextFormatter::visit(const Sentence & theSentence) const
+  const string PlainTextFormatter::visit(const Sentence & theSentence) const
   {
 	string ret = TextFormatterTools::realize(theSentence.begin(),
 											 theSentence.end(),
@@ -118,7 +118,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string PlainTextFormatter::visit(const Paragraph & theParagraph) const
+  const string PlainTextFormatter::visit(const Paragraph & theParagraph) const
   {
 	string ret = TextFormatterTools::realize(theParagraph.begin(),
 											 theParagraph.end(),
@@ -133,7 +133,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string PlainTextFormatter::visit(const Header & theHeader) const
+  const string PlainTextFormatter::visit(const Header & theHeader) const
   {
 	const bool colon = Settings::optional_bool(itsSectionVar+"::header::colon",false);
 
@@ -154,7 +154,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  string PlainTextFormatter::visit(const Document & theDocument) const
+  const string PlainTextFormatter::visit(const Document & theDocument) const
   {
 	string ret = TextFormatterTools::realize(theDocument.begin(),
 											 theDocument.end(),
@@ -171,7 +171,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string PlainTextFormatter::visit(const SectionTag & theSection) const
+  const string PlainTextFormatter::visit(const SectionTag & theSection) const
   {
 	itsSectionVar = theSection.realize(*itsDictionary);
 	return "";
@@ -183,7 +183,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string PlainTextFormatter::visit(const StoryTag & theStory) const
+  const string PlainTextFormatter::visit(const StoryTag & theStory) const
   {
 	itsStoryVar = theStory.realize(*itsDictionary);
 	return "";

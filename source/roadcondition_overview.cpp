@@ -141,7 +141,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	ConditionPercentages
+	const ConditionPercentages
 	calculate_percentages(const WeatherPeriod & thePeriod,
 						  int thePeriodIndex,
 						  const WeatherAnalysis::AnalysisSources & theSources,
@@ -249,11 +249,11 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	Sentence condition_phrase(RoadConditionType theType,
-							  double thePercentage,
-							  int theGenerallyLimit,
-							  int theManyPlacesLimit,
-							  int theSomePlacesLimit)
+	const Sentence condition_phrase(RoadConditionType theType,
+									double thePercentage,
+									int theGenerallyLimit,
+									int theManyPlacesLimit,
+									int theSomePlacesLimit)
 	{
 	  const char * places_phrase =  condition_places_phrase(theType,thePercentage,
 															theGenerallyLimit,
@@ -289,8 +289,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	Sentence second_places_sentence(RoadConditionType thePrimaryType,
-									RoadConditionType theSecondaryType)
+	const Sentence second_places_sentence(RoadConditionType thePrimaryType,
+										  RoadConditionType theSecondaryType)
 	{
 	  Sentence sentence;
 	  switch(thePrimaryType)
@@ -421,8 +421,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	Sentence condition_sentence(const ConditionPercentages & thePercentages,
-								const string & theVar)
+	const Sentence condition_sentence(const ConditionPercentages & thePercentages,
+									  const string & theVar)
 	{
 	  Sentence sentence;
 
@@ -542,8 +542,8 @@ namespace TextGen
    * \see page_roadcondition_overview
    */
   // ----------------------------------------------------------------------
-
-  Paragraph RoadStory::condition_overview() const
+  
+  const Paragraph RoadStory::condition_overview() const
   {
 	MessageLogger log("RoadStory::condition_overview");
 

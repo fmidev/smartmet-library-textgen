@@ -87,11 +87,11 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	Sentence rain_phrase(const WeatherAnalysis::AnalysisSources & theSources,
-						 const WeatherAnalysis::WeatherArea & theArea,
-						 const WeatherAnalysis::WeatherPeriod & thePeriod,
-						 const std::string & theVar,
-						 int theDay)
+	const Sentence rain_phrase(const WeatherAnalysis::AnalysisSources & theSources,
+							   const WeatherAnalysis::WeatherArea & theArea,
+							   const WeatherAnalysis::WeatherPeriod & thePeriod,
+							   const std::string & theVar,
+							   int theDay)
 	{
 	  Sentence s;
 	  s << places_phrase(theSources,theArea,thePeriod,theVar,theDay)
@@ -124,11 +124,11 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	Sentence places_phrase(const AnalysisSources & theSources,
-						   const WeatherArea & theArea,
-						   const WeatherPeriod & thePeriod,
-						   const string & theVar,
-						   int theDay)
+	const Sentence places_phrase(const AnalysisSources & theSources,
+								 const WeatherArea & theArea,
+								 const WeatherPeriod & thePeriod,
+								 const string & theVar,
+								 int theDay)
 	{
 	  MessageLogger log("PrecipitationStoryTools::places_phrase");
 	  
@@ -197,11 +197,11 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	Sentence type_phrase(const AnalysisSources & theSources,
-						 const WeatherArea & theArea,
-						 const WeatherPeriod & thePeriod,
-						 const string & theVar,
-						 int theDay)
+	const Sentence type_phrase(const AnalysisSources & theSources,
+							   const WeatherArea & theArea,
+							   const WeatherPeriod & thePeriod,
+							   const string & theVar,
+							   int theDay)
 	{
 	  MessageLogger log("PrecipitationStoryTools::type_phrase");
 
@@ -465,11 +465,11 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	Sentence strength_phrase(const AnalysisSources & theSources,
-							 const WeatherArea & theArea,
-							 const WeatherPeriod & thePeriod,
-							 const string & theVar,
-							 int theDay)
+	const Sentence strength_phrase(const AnalysisSources & theSources,
+								   const WeatherArea & theArea,
+								   const WeatherPeriod & thePeriod,
+								   const string & theVar,
+								   int theDay)
 	{
 	  MessageLogger log("PrecipitationStoryTools::strength_phrase");
 	  

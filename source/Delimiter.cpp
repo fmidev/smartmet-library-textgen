@@ -66,7 +66,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  std::string Delimiter::realize(const Dictionary & theDictionary) const
+  const std::string Delimiter::realize(const Dictionary & theDictionary) const
   {
 	return itsSeparator;
   }
@@ -80,7 +80,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  std::string Delimiter::realize(const TextFormatter & theFormatter) const
+  const std::string Delimiter::realize(const TextFormatter & theFormatter) const
   {
 	return theFormatter.visit(*this);
   }

@@ -42,7 +42,7 @@ namespace
    */
   // ----------------------------------------------------------------------
    
-  list<pair<int,int> > parse_classes(const std::string & theVariable)
+  const list<pair<int,int> > parse_classes(const std::string & theVariable)
   {
 	using namespace TextGen;
 
@@ -122,7 +122,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Paragraph PrecipitationStory::classification() const
+  const Paragraph PrecipitationStory::classification() const
   {
 	MessageLogger log("PrecipitationStory::classification");
 

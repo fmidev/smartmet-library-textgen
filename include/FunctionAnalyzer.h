@@ -33,7 +33,7 @@ namespace WeatherAnalysis
 
 	virtual ~FunctionAnalyzer() { }
 
-	virtual WeatherResult
+	virtual WeatherResult const
 	analyze(const AnalysisSources & theSources,
 			const WeatherDataType & theDataType,
 			const WeatherArea & theArea,

@@ -26,34 +26,34 @@ namespace WeatherAnalysis
 
 	// The main function
 
-	RainPeriods analyze(const AnalysisSources & theSources,
-						const WeatherArea & theArea,
-						const WeatherPeriod & thePeriod,
-						const std::string & theVar);
+	const RainPeriods analyze(const AnalysisSources & theSources,
+							  const WeatherArea & theArea,
+							  const WeatherPeriod & thePeriod,
+							  const std::string & theVar);
 
 	// Extract parts of rainy periods
 
-	RainPeriods overlappingPeriods(const RainPeriods & thePeriods,
-								   const WeatherPeriod & thePeriod);
+	const RainPeriods overlappingPeriods(const RainPeriods & thePeriods,
+										 const WeatherPeriod & thePeriod);
 
-	RainPeriods inclusivePeriods(const RainPeriods & thePeriods,
-								 const WeatherPeriod & thePeriod);
+	const RainPeriods inclusivePeriods(const RainPeriods & thePeriods,
+									   const WeatherPeriod & thePeriod);
 
 	// Utility functions used by analyze
 	
-	RainTimes findRainTimes(const AnalysisSources & theSources,
-							const WeatherArea & theArea,
-							const WeatherPeriod & thePeriod,
-							const std::string & theVar);
+	const RainTimes findRainTimes(const AnalysisSources & theSources,
+								  const WeatherArea & theArea,
+								  const WeatherPeriod & thePeriod,
+								  const std::string & theVar);
 
-	RainPeriods findRainPeriods(const RainTimes & theTimes,
-								const std::string & theVar);
-
-	RainPeriods mergeNightlyRainPeriods(const RainPeriods & thePeriods,
-										const std::string & theVar);
-
-	RainPeriods mergeLargeRainPeriods(const RainPeriods & thePeriods,
+	const RainPeriods findRainPeriods(const RainTimes & theTimes,
 									  const std::string & theVar);
+
+	const RainPeriods mergeNightlyRainPeriods(const RainPeriods & thePeriods,
+											  const std::string & theVar);
+
+	const RainPeriods mergeLargeRainPeriods(const RainPeriods & thePeriods,
+											const std::string & theVar);
 
   } // namespace PrecipitationPeriodTools
 } // namespace WeatherAnalysis

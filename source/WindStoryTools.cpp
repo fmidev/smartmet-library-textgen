@@ -44,8 +44,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	WeatherResult minspeed(const WeatherResult & theSpeed1,
-						   const WeatherResult & theSpeed2)
+	const WeatherResult minspeed(const WeatherResult & theSpeed1,
+								 const WeatherResult & theSpeed2)
 	{
 	  WeatherResult result(min(theSpeed1.value(),theSpeed2.value()),
 						   max(theSpeed1.error(),theSpeed2.error()));
@@ -62,8 +62,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	WeatherResult maxspeed(const WeatherResult & theSpeed1,
-						   const WeatherResult & theSpeed2)
+	const WeatherResult maxspeed(const WeatherResult & theSpeed1,
+								 const WeatherResult & theSpeed2)
 	{
 	  WeatherResult result(max(theSpeed1.value(),theSpeed2.value()),
 						   max(theSpeed1.error(),theSpeed2.error()));
@@ -80,8 +80,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	WeatherResult meanspeed(const WeatherResult & theSpeed1,
-							const WeatherResult & theSpeed2)
+	const WeatherResult meanspeed(const WeatherResult & theSpeed1,
+								  const WeatherResult & theSpeed2)
 	{
 	  WeatherResult result(MathTools::mean(theSpeed1.value(),theSpeed2.value()),
 						   max(theSpeed1.error(),theSpeed2.error()));
@@ -98,10 +98,10 @@ namespace TextGen
 	 * \return The smaller wind speed
 	 */
 	// ----------------------------------------------------------------------
-
-	WeatherResult minspeed(const WeatherResult & theSpeed1,
-						   const WeatherResult & theSpeed2,
-						   const WeatherResult & theSpeed3)
+	
+	const WeatherResult minspeed(const WeatherResult & theSpeed1,
+								 const WeatherResult & theSpeed2,
+								 const WeatherResult & theSpeed3)
 	{
 	  WeatherResult result(MathTools::min(theSpeed1.value(),
 										  theSpeed2.value(),
@@ -123,9 +123,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	WeatherResult maxspeed(const WeatherResult & theSpeed1,
-						   const WeatherResult & theSpeed2,
-						   const WeatherResult & theSpeed3)
+	const WeatherResult maxspeed(const WeatherResult & theSpeed1,
+								 const WeatherResult & theSpeed2,
+								 const WeatherResult & theSpeed3)
 	{
 	  WeatherResult result(MathTools::max(theSpeed1.value(),
 										  theSpeed2.value(),
@@ -147,9 +147,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	WeatherResult meanspeed(const WeatherResult & theSpeed1,
-							const WeatherResult & theSpeed2,
-							const WeatherResult & theSpeed3)
+	const WeatherResult meanspeed(const WeatherResult & theSpeed1,
+								  const WeatherResult & theSpeed2,
+								  const WeatherResult & theSpeed3)
 	{
 	  WeatherResult result(MathTools::mean(theSpeed1.value(),
 										   theSpeed2.value(),
@@ -242,8 +242,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	Sentence direction_sentence(const WeatherResult & theDirection,
-								const string & theVariable)
+	const Sentence direction_sentence(const WeatherResult & theDirection,
+									  const string & theVariable)
 	{
 	  Sentence sentence;
 
@@ -276,10 +276,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	Sentence speed_range_sentence(const WeatherResult & theMinSpeed,
-								  const WeatherResult & theMaxSpeed,
-								  const WeatherResult & theMeanSpeed,
-								  const string & theVariable)
+	const Sentence speed_range_sentence(const WeatherResult & theMinSpeed,
+										const WeatherResult & theMaxSpeed,
+										const WeatherResult & theMeanSpeed,
+										const string & theVariable)
 	{
 	  using Settings::optional_int;
 
@@ -320,11 +320,11 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	Sentence directed_speed_sentence(const WeatherResult & theMinSpeed,
-									 const WeatherResult & theMaxSpeed,
-									 const WeatherResult & theMeanSpeed,
-									 const WeatherResult & theDirection,
-									 const string & theVariable)
+	const Sentence directed_speed_sentence(const WeatherResult & theMinSpeed,
+										   const WeatherResult & theMaxSpeed,
+										   const WeatherResult & theMeanSpeed,
+										   const WeatherResult & theDirection,
+										   const string & theVariable)
 	{
 	  Sentence sentence;
 

@@ -30,7 +30,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  Paragraph FrostStory::mean() const
+  const Paragraph FrostStory::mean() const
   {
 	MessageLogger log("FrostStory::mean");
 

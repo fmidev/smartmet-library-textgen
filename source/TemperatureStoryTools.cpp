@@ -82,11 +82,11 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	TextGen::Sentence temperature_sentence(int theMinimum,
-										   int theMean,
-										   int theMaximum,
-										   int theMinInterval,
-										   bool theZeroFlag)
+	const TextGen::Sentence temperature_sentence(int theMinimum,
+												 int theMean,
+												 int theMaximum,
+												 int theMinInterval,
+												 bool theZeroFlag)
 	{
 	  Sentence sentence;
 	  

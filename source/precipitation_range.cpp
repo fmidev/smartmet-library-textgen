@@ -39,7 +39,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Paragraph PrecipitationStory::range() const
+  const Paragraph PrecipitationStory::range() const
   {
 	MessageLogger log("PrecipitationStory::range");
 

@@ -86,7 +86,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------.
   
-  Paragraph RoadStory::makeStory(const string & theName) const
+  const Paragraph RoadStory::makeStory(const string & theName) const
   {
 	if(theName == "roadtemperature_daynightranges")
 	  return daynightranges();

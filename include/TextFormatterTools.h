@@ -32,11 +32,11 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 
 	template<typename Iterator>
-	std::string realize(Iterator it,
-						Iterator end,
-						const TextFormatter & theFormatter,
-						const std::string & thePrefix,
-						const std::string & theSuffix)
+	const std::string realize(Iterator it,
+							  Iterator end,
+							  const TextFormatter & theFormatter,
+							  const std::string & thePrefix,
+							  const std::string & theSuffix)
 	{
 	  std::string ret, tmp;
 	  for( ; it!=end; ++it)

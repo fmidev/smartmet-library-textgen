@@ -212,9 +212,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	Header create(const WeatherArea & theArea,
-				  const WeatherPeriod & thePeriod,
-				  const std::string & theVariable)
+	const Header create(const WeatherArea & theArea,
+						const WeatherPeriod & thePeriod,
+						const std::string & theVariable)
 	{
 	  MessageLogger log("HeaderFactory::create");
 

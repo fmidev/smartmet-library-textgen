@@ -35,7 +35,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  Paragraph FrostStory::twonights() const
+  const Paragraph FrostStory::twonights() const
   {
 	MessageLogger log("FrostStory::twonights");
 

@@ -24,7 +24,7 @@ namespace WeatherAnalysis
 
 	using WeatherAnalyzer::analyze;
 
-	virtual WeatherResult
+	virtual const WeatherResult
 	analyze(const AnalysisSources & theSources,
 			const WeatherParameter & theParameter,
 			const WeatherFunction & theAreaFunction,

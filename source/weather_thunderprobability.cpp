@@ -34,7 +34,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Paragraph WeatherStory::thunderprobability() const
+  const Paragraph WeatherStory::thunderprobability() const
   {
 	MessageLogger log("WeatherStory::thunderprobability");
 

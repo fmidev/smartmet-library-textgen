@@ -39,7 +39,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Paragraph TemperatureStory::nightlymin() const
+  const Paragraph TemperatureStory::nightlymin() const
   {
 	MessageLogger log("TemperatureStory::nightlymin");
 

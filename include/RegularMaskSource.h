@@ -22,13 +22,13 @@ namespace WeatherAnalysis
 	RegularMaskSource(const boost::shared_ptr<MapSource> theMapSource,
 					  double theExpansionDistance = 0.0);
 
-	virtual mask_type mask(const WeatherArea & theArea,
-						   const std::string & theData,
-						   const WeatherSource & theWeatherSource) const;
+	virtual const mask_type mask(const WeatherArea & theArea,
+								 const std::string & theData,
+								 const WeatherSource & theWeatherSource) const;
 
-	virtual masks_type masks(const WeatherArea & theArea,
-							 const std::string & theData,
-							 const WeatherSource & theWeatherSource) const;
+	virtual const masks_type masks(const WeatherArea & theArea,
+								   const std::string & theData,
+								   const WeatherSource & theWeatherSource) const;
 
   private:
 

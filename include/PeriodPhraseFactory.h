@@ -19,10 +19,10 @@ namespace TextGen
   namespace PeriodPhraseFactory
   {
 
-	Sentence create(const std::string & theType,
-					const std::string & theVariable,
-					const NFmiTime & theForecastTime,
-					const WeatherAnalysis::WeatherPeriod & thePeriod);
+	const Sentence create(const std::string & theType,
+						  const std::string & theVariable,
+						  const NFmiTime & theForecastTime,
+						  const WeatherAnalysis::WeatherPeriod & thePeriod);
 
   } // namespace PeriodPhraseFactory
 

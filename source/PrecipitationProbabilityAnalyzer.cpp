@@ -40,7 +40,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
   
-  WeatherResult
+  const WeatherResult
   PrecipitationProbabilityAnalyzer::analyze(const AnalysisSources & theSources,
 											const WeatherDataType & theDataType,
 											const WeatherFunction & theAreaFunction,

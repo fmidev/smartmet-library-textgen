@@ -60,10 +60,10 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	RainPeriods analyze(const AnalysisSources & theSources,
-						const WeatherArea & theArea,
-						const WeatherPeriod & thePeriod,
-						const std::string & theVar)
+	const RainPeriods analyze(const AnalysisSources & theSources,
+							  const WeatherArea & theArea,
+							  const WeatherPeriod & thePeriod,
+							  const std::string & theVar)
 	{
 	  RainTimes times = findRainTimes(theSources,theArea,thePeriod,theVar);
 	  RainPeriods periods1 = findRainPeriods(times,theVar);
@@ -82,8 +82,8 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	RainPeriods overlappingPeriods(const RainPeriods & thePeriods,
-								   const WeatherPeriod & thePeriod)
+	const RainPeriods overlappingPeriods(const RainPeriods & thePeriods,
+										 const WeatherPeriod & thePeriod)
 	{
 	  RainPeriods out;
 	  for(RainPeriods::const_iterator it = thePeriods.begin();
@@ -109,8 +109,8 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	RainPeriods inclusivePeriods(const RainPeriods & thePeriods,
-								 const WeatherPeriod & thePeriod)
+	const RainPeriods inclusivePeriods(const RainPeriods & thePeriods,
+									   const WeatherPeriod & thePeriod)
 	{
 	  RainPeriods out;
 	  for(RainPeriods::const_iterator it = thePeriods.begin();
@@ -150,10 +150,10 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	RainTimes findRainTimes(const AnalysisSources & theSources,
-							const WeatherArea & theArea,
-							const WeatherPeriod & thePeriod,
-							const std::string & theVar)
+	const RainTimes findRainTimes(const AnalysisSources & theSources,
+								  const WeatherArea & theArea,
+								  const WeatherPeriod & thePeriod,
+								  const std::string & theVar)
 	{
 	  // Establish the settings
 
@@ -242,8 +242,8 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	RainPeriods findRainPeriods(const RainTimes & theTimes,
-								const std::string & theVar)
+	const RainPeriods findRainPeriods(const RainTimes & theTimes,
+									  const std::string & theVar)
 	{
 	  RainPeriods periods;
 
@@ -315,8 +315,8 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	RainPeriods mergeNightlyRainPeriods(const RainPeriods & thePeriods,
-										const std::string & theVar)
+	const RainPeriods mergeNightlyRainPeriods(const RainPeriods & thePeriods,
+											  const std::string & theVar)
 	{
 	  // Quick exit if there are no no-rain periods between rain periods
 	  if(thePeriods.size() <= 1)
@@ -392,8 +392,8 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	RainPeriods mergeLargeRainPeriods(const RainPeriods & thePeriods,
-									  const std::string & theVar)
+	const RainPeriods mergeLargeRainPeriods(const RainPeriods & thePeriods,
+											const std::string & theVar)
 	{
 	  return thePeriods;
 	}

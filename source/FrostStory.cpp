@@ -91,7 +91,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------.
   
-  Paragraph FrostStory::makeStory(const string & theName) const
+  const Paragraph FrostStory::makeStory(const string & theName) const
   {
 	if(theName == "frost_mean")
 	  return mean();

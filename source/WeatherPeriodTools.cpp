@@ -148,10 +148,10 @@ namespace WeatherAnalysis
 	// ----------------------------------------------------------------------
 
 
-	WeatherPeriod getPeriod(const WeatherPeriod & thePeriod,
-							int theNumber,
-							int theStartHour,
-							int theEndHour)
+	const WeatherPeriod getPeriod(const WeatherPeriod & thePeriod,
+								  int theNumber,
+								  int theStartHour,
+								  int theEndHour)
 	{
 	  return getPeriod(thePeriod, theNumber,
 					   theStartHour, theEndHour,
@@ -177,12 +177,12 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	WeatherPeriod getPeriod(const WeatherPeriod & thePeriod,
-							int theNumber,
-							int theStartHour,
-							int theEndHour,
-							int theMaxStartHour,
-							int theMinEndHour)
+	const WeatherPeriod getPeriod(const WeatherPeriod & thePeriod,
+								  int theNumber,
+								  int theStartHour,
+								  int theEndHour,
+								  int theMaxStartHour,
+								  int theMinEndHour)
 
 	{
 	  const string msg = "WeatherPeriodTools: Cannot extract subperiod "+lexical_cast<string>(theNumber);

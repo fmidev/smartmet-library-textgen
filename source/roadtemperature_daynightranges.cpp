@@ -36,7 +36,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Paragraph RoadStory::daynightranges() const
+  const Paragraph RoadStory::daynightranges() const
   {
 	MessageLogger log("RoadStory::daynightranges");
 

@@ -46,7 +46,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Paragraph WeatherStory::shortoverview() const
+  const Paragraph WeatherStory::shortoverview() const
   {
 	MessageLogger log("WeatherStory::shortoverview");
 
