@@ -118,8 +118,8 @@ namespace TextGen
 							 itsArea,
 							 period);
 
-		log << "Cloudiness Mean(Percentage(cloudy))      " << daystr << " = " << cloudy_percentage << endl;
-		log << "Cloudiness Mean(Percentage(clear))       " << daystr << " = " << clear_percentage << endl;
+		log << "Cloudiness Mean(Percentage(cloudy)) " << daystr << " = " << cloudy_percentage << endl;
+		log << "Cloudiness Mean(Percentage(clear)) " << daystr << " = " << clear_percentage << endl;
 		log << "Cloudiness Mean(Trend) " << daystr << " = " << trend << endl;
 
 		CloudinessType ctype = cloudiness_type(itsVar,
