@@ -13,6 +13,7 @@
 #include "WeatherPeriodGenerator.h"
 #include "WeatherResult.h"
 
+#include "CloudinessAnalyzer.h"
 #include "FrostAnalyzer.h"
 #include "PrecipitationAnalyzer.h"
 #include "RelativeHumidityAnalyzer.h"
@@ -71,6 +72,20 @@ namespace WeatherAnalysis
 	  case Precipitation:
 		{
 		  PrecipitationAnalyzer analyzer;
+		  return analyzer.analyze(theSources,
+								  Forecast,
+								  theAreaFunction,
+								  theTimeFunction,
+								  theSubTimeFunction,
+								  theArea,
+								  thePeriods,
+								  theAreaAcceptor,
+								  theTimeAcceptor,
+								  theTester);
+		}
+	  case Cloudiness:
+		{
+		  CloudinessAnalyzer analyzer;
 		  return analyzer.analyze(theSources,
 								  Forecast,
 								  theAreaFunction,
