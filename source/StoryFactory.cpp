@@ -8,6 +8,8 @@
 #include "StoryFactory.h"
 #include "AnalysisSources.h"
 #include "Paragraph.h"
+#include "PrecipitationStory.h"
+#include "TemperatureStory.h"
 #include "TextGenError.h"
 
 using namespace WeatherAnalysis;
@@ -33,6 +35,27 @@ namespace TextGen
 					 const WeatherArea & theArea,
 					 const string & theName)
 	{
+	  if(theName == "temperature_mean")
+		{
+		  TemperatureStory story(theSources,theArea);
+		  return story.mean();
+		}
+	  if(theName == "temperature_meanmax")
+		{
+		  TemperatureStory story(theSources,theArea);
+		  return story.meanmax();
+		}
+	  if(theName == "temperature_meanmin")
+		{
+		  TemperatureStory story(theSources,theArea);
+		  return story.meanmin();
+		}
+	  if(theName == "precipitation_total")
+		{
+		  PrecipitationStory story(theSources,theArea);
+		  return story.total();
+		}
+
 	  throw TextGenError("StoryFactory: Unrecognized story "+theName);
 	}
 
