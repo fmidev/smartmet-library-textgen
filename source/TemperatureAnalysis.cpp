@@ -50,7 +50,7 @@ namespace WeatherAnalysis
 
 	// ----------------------------------------------------------------------
 	/*!
-	 * \param Analyze temperature in an area
+	 * \brief Analyze temperature in an area
 	 *
 	 * \param theSources Analysis sources
 	 * \param theFunction The function to analyze
@@ -86,7 +86,7 @@ namespace WeatherAnalysis
 
 	// ----------------------------------------------------------------------
 	/*!
-	 * \param Analyze temperature at given point
+	 * \brief Analyze temperature at given point
 	 *
 	 * \param theSources Analysis sources
 	 * \param theFunction The function to analyze

@@ -24,6 +24,7 @@ namespace WeatherAnalysis
   /*!
    * \brief Analyze weather forecast for area
    *
+   * \param theSources Analysis sources
    * \param theParameter The weather phenomenon to analyze
    * \param theFunction The function to calculate
    * \param theLimits The associated limits
@@ -59,6 +60,7 @@ namespace WeatherAnalysis
   /*!
    * \brief Analyze weather forecast for given location
    *
+   * \param theSources Analysis sources
    * \param theParameter The weather phenomenon to analyze
    * \param theFunction The function to calculate
    * \param theLimits The associated limits
