@@ -17,7 +17,7 @@
 
 #include "boost/shared_ptr.hpp"
 
-namespace AnalysisSources
+namespace WeatherAnalysis
 {
   class MapSource;
   class MaskSource;
@@ -46,7 +46,7 @@ namespace AnalysisSources
 
   }; // class AnalysisSources
 
-} // namespace AnalysisSources
+} // namespace WeatherAnalysis
 
 #endif // WEATHERANALYSIS_ANALYSISSOURCES_H
 

@@ -11,7 +11,7 @@
 #include "WeatherSource.h"
 #include "boost/shared_ptr.hpp"
 
-namespace AnalysisSources
+namespace WeatherAnalysis
 {
 
   // ----------------------------------------------------------------------
@@ -118,7 +118,7 @@ namespace AnalysisSources
 	itsLandMaskSource = theSource;
   }
 
-} // namespace AnalysisSources
+} // namespace WeatherAnalysis
 
 // ======================================================================
 
