@@ -13,6 +13,7 @@
  *
  */
 // ======================================================================
+#include "boost/lexical_cast.hpp"
 
 #include "PeriodPhraseFactory.h"
 #include "HourPeriodGenerator.h"
@@ -26,7 +27,6 @@
 #include "NFmiStringTools.h"
 #include "NFmiTime.h"
 
-#include "boost/lexical_cast.hpp"
 
 using WeatherAnalysis::WeatherPeriod;
 using namespace WeatherAnalysis::TimeTools;
