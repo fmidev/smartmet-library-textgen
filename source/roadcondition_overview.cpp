@@ -6,6 +6,7 @@
 // ======================================================================
 
 #include "RoadStory.h"
+#include "DebugTextFormatter.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "MessageLogger.h"
@@ -531,6 +532,393 @@ namespace TextGen
 	  return sentence;
 	}
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Test if the period describes a morning
+	 *
+	 * The periods are morning, day, evening, night
+	 */
+	// ----------------------------------------------------------------------
+
+	bool is_morning(const WeatherPeriod & thePeriod, const string & theVar)
+	{
+	  using Settings::require_hour;
+
+	  const int starthour = require_hour(theVar+"::morning::starthour");
+	  const int endhour = require_hour(theVar+"::day::starthour");
+
+	  const NFmiTime & starttime = thePeriod.localStartTime();
+	  const NFmiTime & endtime = thePeriod.localEndTime();
+
+	  if(!TimeTools::isSameDay(starttime,endtime))
+		return false;
+
+	  if(starttime.GetHour() < starthour ||	starttime.GetHour() > endhour)
+		return false;
+
+	  if(endtime.GetHour() < starthour || endtime.GetHour() > endhour)
+		return false;
+
+	  return true;
+
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Test if the period describes a day
+	 *
+	 * The periods are morning, day, evening, night
+	 */
+	// ----------------------------------------------------------------------
+
+	bool is_day(const WeatherPeriod & thePeriod, const string & theVar)
+	{
+	  using Settings::require_hour;
+
+	  const int starthour = require_hour(theVar+"::day::starthour");
+	  const int endhour = require_hour(theVar+"::evening::starthour");
+
+	  const NFmiTime & starttime = thePeriod.localStartTime();
+	  const NFmiTime & endtime = thePeriod.localEndTime();
+
+	  if(!TimeTools::isSameDay(starttime,endtime))
+		return false;
+
+	  if(starttime.GetHour() < starthour ||	starttime.GetHour() > endhour)
+		return false;
+
+	  if(endtime.GetHour() < starthour || endtime.GetHour() > endhour)
+		return false;
+
+	  return true;
+
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Test if the period describes an evening
+	 *
+	 * The periods are morning, day, evening, night
+	 */
+	// ----------------------------------------------------------------------
+
+	bool is_evening(const WeatherPeriod & thePeriod, const string & theVar)
+	{
+	  using Settings::require_hour;
+
+	  const int starthour = require_hour(theVar+"::evening::starthour");
+	  const int endhour = require_hour(theVar+"::night::starthour");
+
+	  const NFmiTime & starttime = thePeriod.localStartTime();
+	  const NFmiTime & endtime = thePeriod.localEndTime();
+
+	  if(!TimeTools::isSameDay(starttime,endtime))
+		return false;
+
+	  if(starttime.GetHour() < starthour ||	starttime.GetHour() > endhour)
+		return false;
+
+	  if(endtime.GetHour() < starthour || endtime.GetHour() > endhour)
+		return false;
+
+	  return true;
+
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Test if the period describes a night
+	 *
+	 * The periods are morning, day, evening, night
+	 */
+	// ----------------------------------------------------------------------
+
+	bool is_night(const WeatherPeriod & thePeriod, const string & theVar)
+	{
+	  using Settings::require_hour;
+
+	  const int starthour = require_hour(theVar+"::night::starthour");
+	  const int endhour = require_hour(theVar+"::morning::starthour");
+
+	  const NFmiTime & starttime = thePeriod.localStartTime();
+	  const NFmiTime & endtime = thePeriod.localEndTime();
+
+	  if(!TimeTools::isNextDay(starttime,endtime))
+		return false;
+
+	  if(starttime.GetHour() < starthour && starttime.GetHour() > endhour)
+		return false;
+
+	  if(endtime.GetHour() < starthour && endtime.GetHour() > endhour)
+		return false;
+
+	  return true;
+
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Generate a timephrase for a period some weekday
+	 */
+	// ----------------------------------------------------------------------
+
+	const Sentence during_period_phrase_weekday(const WeatherPeriod & thePeriod,
+												const string & theVar)
+	{
+	  const int startdaynumber = thePeriod.localStartTime().GetWeekday();
+	  const int enddaynumber = thePeriod.localEndTime().GetWeekday();
+
+	  const string startday = lexical_cast<string>(startdaynumber);
+	  const string endday = lexical_cast<string>(enddaynumber);
+
+	  Sentence sentence;
+	  if(is_morning(thePeriod,theVar))
+		sentence << startday+"-aamuna";
+	  else if(is_day(thePeriod,theVar))
+		sentence << startday+"-päivällä";
+	  else if(is_evening(thePeriod,theVar))
+		sentence << startday+"-iltana";
+	  else if(is_night(thePeriod,theVar))
+		sentence << endday+"-vastaisena yönä";
+	  else
+		{
+		  ostringstream msg;
+		  msg << "roadcondition overview: "
+			  << "Could not classify period "
+			  << thePeriod.localStartTime()
+			  << " ... "
+			  << thePeriod.localEndTime()
+			  << " as morning, day, evening or night";
+		  throw TextGenError(msg.str());
+		}
+
+	  return sentence;
+
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Generate a timephrase for a period tomorrow
+	 */
+	// ----------------------------------------------------------------------
+
+	const Sentence during_period_phrase_tomorrow(const WeatherPeriod & thePeriod,
+												 const string & theVar)
+	{
+	  Sentence sentence;
+	  if(is_morning(thePeriod,theVar))
+		sentence << "huomisaamuna";
+	  else if(is_day(thePeriod,theVar))
+		sentence << "huomenna päivällä";
+	  else if(is_evening(thePeriod,theVar))
+		sentence << "huomisiltana";
+	  else if(is_night(thePeriod,theVar))
+		return during_period_phrase_weekday(thePeriod,theVar);
+	  else
+		{
+		  ostringstream msg;
+		  msg << "roadcondition overview: "
+			  << "Could not classify period "
+			  << thePeriod.localStartTime()
+			  << " ... "
+			  << thePeriod.localEndTime()
+			  << " as morning, day, evening or night";
+		  throw TextGenError(msg.str());
+		}
+
+	  return sentence;
+
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Generate a timephrase for a period today
+	 */
+	// ----------------------------------------------------------------------
+
+	const Sentence during_period_phrase_today(const WeatherPeriod & thePeriod,
+											  const string & theVar)
+	{
+	  Sentence sentence;
+	  if(is_morning(thePeriod,theVar))
+		sentence << "aamulla";
+	  else if(is_day(thePeriod,theVar))
+		sentence << "päivällä";
+	  else if(is_evening(thePeriod,theVar))
+		sentence << "illalla";
+	  else if(is_night(thePeriod,theVar))
+		sentence << "yöllä";
+	  else
+		{
+		  ostringstream msg;
+		  msg << "roadcondition overview: "
+			  << "Could not classify period "
+			  << thePeriod.localStartTime()
+			  << " ... "
+			  << thePeriod.localEndTime()
+			  << " as morning, day, evening or night";
+		  throw TextGenError(msg.str());
+		}
+
+	  return sentence;
+
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Generate a timephrase for a period
+	 */
+	// ----------------------------------------------------------------------
+
+	const Sentence during_period_phrase(const WeatherPeriod & thePeriod,
+										const NFmiTime & theLastTime,
+										const NFmiTime & theForecastTime,
+										const string & theVar)
+	{
+	  if(TimeTools::isSameDay(theLastTime,thePeriod.localStartTime()))
+		return during_period_phrase_today(thePeriod,theVar);
+
+	  if(TimeTools::isSameDay(theForecastTime,thePeriod.localStartTime()))
+		return during_period_phrase_today(thePeriod,theVar);
+
+	  if(TimeTools::isNextDay(theForecastTime,thePeriod.localStartTime()))
+		return during_period_phrase_tomorrow(thePeriod,theVar);
+
+	  return during_period_phrase_weekday(thePeriod,theVar);
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Generate a timephrase for a period starting some weekday
+	 */
+	// ----------------------------------------------------------------------
+
+	const Sentence starting_period_phrase_weekday(const WeatherPeriod & thePeriod,
+												  const string & theVar)
+	{
+	  const int startdaynumber = thePeriod.localStartTime().GetWeekday();
+	  const int enddaynumber = thePeriod.localEndTime().GetWeekday();
+
+	  const string startday = lexical_cast<string>(startdaynumber);
+	  const string endday = lexical_cast<string>(enddaynumber);
+
+	  Sentence sentence;
+	  if(is_morning(thePeriod,theVar))
+		sentence << startday+"-aamusta alkaen";
+	  else if(is_day(thePeriod,theVar))
+		sentence << startday+"-aamupäivästä alkaen";
+	  else if(is_evening(thePeriod,theVar))
+		sentence << startday+"-illasta alkaen";
+	  else if(is_night(thePeriod,theVar))
+		sentence << endday+"-vastaisesta yöstä alkaen";
+	  else
+		{
+		  ostringstream msg;
+		  msg << "roadcondition overview: "
+			  << "Could not classify period "
+			  << thePeriod.localStartTime()
+			  << " ... "
+			  << thePeriod.localEndTime()
+			  << " as morning, day, evening or night";
+		  throw TextGenError(msg.str());
+		}
+
+	  return sentence;
+
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Generate a timephrase for a period starting tomorrow
+	 */
+	// ----------------------------------------------------------------------
+
+	const Sentence starting_period_phrase_tomorrow(const WeatherPeriod & thePeriod,
+												   const string & theVar)
+	{
+	  Sentence sentence;
+	  if(is_morning(thePeriod,theVar))
+		sentence << "huomisaamusta alkaen";
+	  else if(is_day(thePeriod,theVar))
+		sentence << "huomisaamupäivästä alkaen";
+	  else if(is_evening(thePeriod,theVar))
+		sentence << "huomisillasta alkaen";
+	  else if(is_night(thePeriod,theVar))
+		return starting_period_phrase_weekday(thePeriod,theVar);
+	  else
+		{
+		  ostringstream msg;
+		  msg << "roadcondition overview: "
+			  << "Could not classify period "
+			  << thePeriod.localStartTime()
+			  << " ... "
+			  << thePeriod.localEndTime()
+			  << " as morning, day, evening or night";
+		  throw TextGenError(msg.str());
+		}
+
+	  return sentence;
+
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Generate a timephrase for a period starting today
+	 */
+	// ----------------------------------------------------------------------
+
+	const Sentence starting_period_phrase_today(const WeatherPeriod & thePeriod,
+												const string & theVar)
+	{
+	  Sentence sentence;
+	  if(is_morning(thePeriod,theVar))
+		sentence << "aamusta alkaen";
+	  else if(is_day(thePeriod,theVar))
+		sentence << "aamupäivästä alkaen";
+	  else if(is_evening(thePeriod,theVar))
+		sentence << "illasta alkaen";
+	  else if(is_night(thePeriod,theVar))
+		sentence << "yöstä alkaen";
+	  else
+		{
+		  ostringstream msg;
+		  msg << "roadcondition overview: "
+			  << "Could not classify period "
+			  << thePeriod.localStartTime()
+			  << " ... "
+			  << thePeriod.localEndTime()
+			  << " as morning, day, evening or night";
+		  throw TextGenError(msg.str());
+		}
+
+	  return sentence;
+
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Generate a timephrase for a starting period
+	 */
+	// ----------------------------------------------------------------------
+
+	const Sentence starting_period_phrase(const WeatherPeriod & thePeriod,
+										  const NFmiTime & theLastTime,
+										  const NFmiTime & theForecastTime,
+										  const string & theVar)
+	{
+
+	  if(TimeTools::isSameDay(theLastTime,thePeriod.localStartTime()))
+		return starting_period_phrase_today(thePeriod,theVar);
+
+	  if(TimeTools::isSameDay(theForecastTime,thePeriod.localStartTime()))
+		return starting_period_phrase_today(thePeriod,theVar);
+
+	  if(TimeTools::isNextDay(theForecastTime,thePeriod.localStartTime()))
+		return starting_period_phrase_tomorrow(thePeriod,theVar);
+
+	  return starting_period_phrase_weekday(thePeriod,theVar);
+	}
+
   }
 
   // ----------------------------------------------------------------------
@@ -572,20 +960,88 @@ namespace TextGen
 		return paragraph;
 	  }
 
-	vector<WeatherPeriod> periods;
-	vector<ConditionPercentages> percentages;
+	// Calculate the percentages, initial sentences and their
+	// dummy realizations
 
+	vector<WeatherPeriod> periods;
+	vector<Sentence> sentences;
+	vector<string> realizations;
+
+	DebugTextFormatter formatter;
+
+	log << "Individual period results:" << endl;
 	for(unsigned int i=1; i<=generator.size(); i++)
 	  {
 		const WeatherPeriod period = generator.period(i);
 
-		ConditionPercentages result = calculate_percentages(period,
-															i,
-															itsSources,
-															itsArea,
-															itsVar);
+		const ConditionPercentages result = calculate_percentages(period,
+																  i,
+																  itsSources,
+																  itsArea,
+																  itsVar);
+
+		const Sentence sentence = condition_sentence(result,itsVar);
+		const string realization = formatter.format(sentence);
+
 		periods.push_back(period);
-		percentages.push_back(result);
+		sentences.push_back(sentence);
+		realizations.push_back(realization);
+
+		log << period.localStartTime()
+			<< " ... "
+			<< period.localEndTime()
+			<< ": "
+			<< realization
+			<< endl;
+
+	  }
+
+	// Algorithm:
+	// For each start period
+	//   Find the number of similar periods
+	//   Generate common text for the periods
+	//   Skip the similar periods
+	// Next
+
+	// Some old date guaranteed to be different than any
+	// period to be handled:
+
+	NFmiTime last_mentioned_date(1970,1,1);
+
+	for(unsigned int i=0; i<periods.size(); i++)
+	  {
+		// Common periods will be inclusive range i...j
+
+		unsigned int j;
+		for(j=i; j<periods.size()-1; j++)
+		  if(realizations[i] != realizations[j+1])
+			break;
+
+		// Generate the text
+		
+		Sentence sentence;
+		if(i==j)
+		  {
+			sentence << during_period_phrase(periods[i],
+											 last_mentioned_date,
+											 itsForecastTime,
+											 itsVar);
+		  }
+		else
+		  {
+			sentence << starting_period_phrase(periods[i],
+											   last_mentioned_date,
+											   itsForecastTime,
+											   itsVar);
+		  }
+		sentence << sentences[i];
+		paragraph << sentence;
+
+		i = j;
+
+		// update the last mentioned date
+		last_mentioned_date = periods[i].localStartTime();
+
 	  }
 
 	log << paragraph;
