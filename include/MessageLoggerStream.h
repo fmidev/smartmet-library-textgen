@@ -184,15 +184,23 @@ private:
  */
 // ----------------------------------------------------------------------
 
+#ifdef UNIX
+template<class char_type ,
+		 class CharTraits>
+#else
 template<class char_type = char,
 		 class CharTraits = std::char_traits<char_type> >
+#endif
 class MessageLoggerStream 
   : public std::basic_ostream<char_type, CharTraits>
 {
 
   typedef MessageLoggerStreambuf<char_type, CharTraits> handler_streambuf_type;
-//  friend class handler_streambuf_type; // t‰m‰ ei mene jostain syyst‰ MSVC:ss‰ l‰pi, valittaaa ett‰: 'handler_streambuf_type' : redefinition; different basic types
-  friend class MessageLoggerStreambuf<char_type, CharTraits>;  // siten edellisen quickfix on, ett‰ esitell‰‰n frendi t‰ll‰ lailla
+#ifdef UNIX
+  friend class handler_streambuf_type;
+#else
+  friend class MessageLoggerStreambuf<char_type, CharTraits>;
+#endif
 
   typedef std::basic_ostream<char_type, CharTraits> base_class;
 
