@@ -45,12 +45,6 @@ namespace TextGen
 							   const std::string & theVar,
 							   int theDay);
 
-	const Sentence strength_phrase(const WeatherAnalysis::AnalysisSources & theSources,
-								   const WeatherAnalysis::WeatherArea & theArea,
-								   const WeatherAnalysis::WeatherPeriod & thePeriod,
-								   const std::string & theVar,
-								   int theDay);
-
 	const Sentence sum_phrase(const WeatherAnalysis::WeatherResult & theMinimum,
 							  const WeatherAnalysis::WeatherResult & theMaximum,
 							  const WeatherAnalysis::WeatherResult & theMean,

@@ -446,68 +446,6 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
-	 * \brief Generate the strength phrase for a rain
-	 *
-	 * The used variables are
-	 * \code
-	 * ::weak = [0-X]  (=0.3)
-	 * ::hard = [0-X]  (=3.0)
-	 * \endcode
-	 *
-	 * That is,
-	 *  - If max intensity < 0.3, then use "heikkoa"
-	 *  - If max intensity >= 3.0, then use "ajoittain kovaa"
-	 *  - Else use ""
-	 *
-	 * \param theSources The analysis sources
-	 * \param theArea The area to be analyzed
-	 * \param thePeriod The rainy period to be analyzed
-	 * \param theVar The control variable
-	 * \param theDay The day in question
-	 * \return The "in places" description
-	 */
-	// ----------------------------------------------------------------------
-	
-	const Sentence strength_phrase(const AnalysisSources & theSources,
-								   const WeatherArea & theArea,
-								   const WeatherPeriod & thePeriod,
-								   const string & theVar,
-								   int theDay)
-	{
-	  MessageLogger log("PrecipitationStoryTools::strength_phrase");
-	  
-	  using namespace Settings;
-	  
-	  const double weak_limit = optional_double(theVar+"::weak",0.3);
-	  const double hard_limit = optional_double(theVar+"::hard",3.0);
-	  
-	  GridForecaster forecaster;
-	  
-	  const string day = lexical_cast<string>(theDay);
-	  WeatherResult result = forecaster.analyze(theVar+"::fake::day"+day+"::strength",
-												theSources,
-												Precipitation,
-												Maximum,
-												Maximum,
-												theArea,
-												thePeriod);
-	  
-	  log << "Precipitation maximum: " << result.value() << endl;
-	  
-	  if(result.value() == kFloatMissing)
-		throw TextGenError("Precipitation maximum not available");
-	  
-	  Sentence s;
-	  if(result.value() < weak_limit)
-		s << "heikkoa";
-	  else if(result.value() >= hard_limit)
-		s << "ajoittain" << "kovaa";
-	  return s;
-	
-	}
-
-	// ----------------------------------------------------------------------
-	/*!
 	 * \brief Generate a sum phrase from sum values
 	 *
 	 * \param theMinimum The minimum rain sum
