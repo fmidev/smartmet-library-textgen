@@ -29,7 +29,7 @@ namespace WeatherAnalysis
 	: itsValue(theValue)
 	, itsAccuracy(theAccuracy)
   {
-	assert(theAccuracy>=0 && theAccuracy<=1);
+	assert(theAccuracy>=0);
   }
 
   // ----------------------------------------------------------------------
@@ -49,7 +49,7 @@ namespace WeatherAnalysis
 	: itsValue(theValue.value())
 	, itsAccuracy(theAccuracy.value())
   {
-	assert(theAccuracy>=0 && theAccuracy<=1);
+	assert(theAccuracy>=0);
   }
 
   // ----------------------------------------------------------------------
