@@ -36,9 +36,14 @@
 #ifndef MESSAGELOGGER_H
 #define MESSAGELOGGER_H
 
+#include "MessageLoggerStream.h"
+
 #include <stdexcept>
 
-#include "MessageLoggerStream.h"
+namespace TextGen
+{
+  class Glyph;
+}
 
 class MessageLogger : public MessageLoggerStream<>
 {
@@ -55,6 +60,8 @@ public:
   static void indentstep(unsigned int theStep) { itsIndentStep = theStep; }
   static void timestamp(bool theFlag) { itsTimeStampOn = theFlag; }
 
+  MessageLogger & operator<<(const TextGen::Glyph & theGlyph);
+
 private:
 
   MessageLogger();
@@ -67,7 +74,6 @@ private:
   static char itsIndentChar;
   static unsigned int itsIndentStep;
   static bool itsTimeStampOn;
-
 
 }; // MessageLogger
 
