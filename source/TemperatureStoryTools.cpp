@@ -103,7 +103,7 @@ namespace TextGen
 	  
 	  if(range)
 		{
-		  sentence << IntegerRange(theMinimum,theMaximum)
+		  sentence << IntegerRange(theMinimum,theMaximum,"...")
 				   << *UnitFactory::create(DegreesCelsius);
 		}
 	  else
