@@ -34,7 +34,7 @@ namespace StoryPhrasesTest
   }
 			   
 
-	void require(const string & theKey)
+  void require(const string & theKey)
   {
 	require(theKey,theKey);
   }
@@ -596,7 +596,34 @@ namespace StoryPhrasesTest
 	TEST_PASSED();
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief RoadStory::condition_overview requirements
+   */
+  // ----------------------------------------------------------------------
 
+  void roadcondition_overview()
+  {
+	require("tiet ovat");
+	require("teillä on");
+	require("jäisiä");
+	require("osittain jäisiä");
+	require("kuuraa");
+	require("sohjoa");
+	require("lunta");
+	require("märkiä");
+	require("kosteita");
+	require("kuivia");
+	require("kuuraisia");
+	require("sohjoisia");
+	require("lumisia");
+	require("tiet ovat (sivulause)", "tiet ovat");
+	require("yleisesti");
+	require("monin paikoin");
+	require("paikoin");
+
+	TEST_PASSED();
+  }
 
   //! The actual test driver
   class tests : public tframe::tests
@@ -637,6 +664,7 @@ namespace StoryPhrasesTest
 	  TEST(relative_humidity_lowest);
 
 	  TEST(roadtemperature_daynightranges);
+	  TEST(roadcondition_overview);
 
 	}
 
