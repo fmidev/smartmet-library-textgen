@@ -39,6 +39,10 @@ using namespace boost;
 
 namespace
 {
+  //! A static instance to avoid construction costs
+
+  NFmiEnumConverter converter;
+
   // ----------------------------------------------------------------------
   /*!
    * \brief Return data type as string
@@ -162,7 +166,6 @@ namespace WeatherAnalysis
 
 	// Try activating the parameter
 
-	NFmiEnumConverter converter;
 	FmiParameterName param = FmiParameterName(converter.ToEnum(theParameterName));
 	if(param == kFmiBadParameter)
 	  throw WeatherAnalysisError("Parameter "+theParameterName+" is not defined in newbase");
