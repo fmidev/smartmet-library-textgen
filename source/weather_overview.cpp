@@ -1633,13 +1633,23 @@ namespace TextGen
 	// we want the last day to extend up to midnight regardless
 	// of the actual period length, otherwise we risk badly
 	// formed forecasts when using full-day descriptions. If the end
-	// hour is too early, we ignore the last day fully
+	// hour is too early, we ignore the last day fully. Also, we do not
+	// want to analyze any times before the first period, which we'd
+	// get if we used itsPeriod start time as the start time. Hence we
+	// need some trickery...
 
+	// extended end time
 	const NFmiTime endtime = (itsPeriod.localEndTime().GetHour() < 12 ?
 							  TimeTools::dayStart(itsPeriod.localEndTime()) :
 							  TimeTools::dayEnd(itsPeriod.localEndTime()));
 
-	WeatherPeriod rainperiod(itsPeriod.localStartTime(), endtime);
+	// valid generator for all days
+	HourPeriodGenerator generator(WeatherPeriod(itsPeriod.localStartTime(),
+												endtime),
+								  itsVar+"::day");
+
+	// minimal inclusive period
+	WeatherPeriod rainperiod = generator.period();
 
 	RainPeriods rainperiods = PrecipitationPeriodTools::analyze(itsSources,
 																itsArea,
@@ -1675,8 +1685,6 @@ namespace TextGen
 	  }
 
 	// process sequences of similar days
-
-	HourPeriodGenerator generator(rainperiod, itsVar+"::day");
 
 	const int n = generator.size();
 
