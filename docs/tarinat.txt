@@ -22,7 +22,7 @@
  <li>\ref page_story_precipitation_range</li>
  <li>\ref page_story_precipitation_classification</li>
  </ol>
-<li>\ref sec_cloudinessstory</li>
+<li>\ref sec_cloudinesstory</li>
  <ol>
  <li>\ref page_story_cloudiness_overview (puuttuu)</li>
  </ol>
@@ -79,6 +79,11 @@ TextGen::PrecipitationStory luokka hallitsee sateeseen liittyv‰t tarinat.
 Yksi keskeinen ongelma on se, miten sadesumma m‰‰ritell‰‰n. Esimerkiksi
 kun puhutaan alueen keskim‰‰r‰isest‰ sadesummasta, pit‰isikˆ laskuihin ottaa
 vain ne pisteet joissa oikeasti sataa edes jonkin verran, vai kaikki pisteet?
+
+\section sec_cloudinesstory CloudinessStory luokka
+
+TextGen::CloudinessStory luokka hallitsee pelk‰st‰‰n pilvisyyteen
+liittyv‰t tarinat.
 
 \section sec_weatherstory WeatherStory luokka
 
