@@ -74,7 +74,7 @@ namespace TextGen
 	vector<WeatherPeriod> periods;
 	vector<CloudinessType> types;
 
-	for(int day=1; day<ndays; day++)
+	for(int day=1; day<=ndays; day++)
 	  {
 		const WeatherPeriod period(periodgenerator.period(day));
 		const string daystr = "day"+lexical_cast<string>(day);
@@ -177,6 +177,8 @@ namespace TextGen
 												itsForecastTime,
 												fullperiod)
 				 << cloudiness_phrase(cloudiness);
+
+		startday = endday + 1;
 	  }
 	paragraph << sentence;
 
