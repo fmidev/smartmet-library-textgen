@@ -9,6 +9,7 @@
 #include "NullDictionary.h"
 #include "BasicDictionary.h"
 #include "MySQLDictionary.h"
+#include "MySQLDictionaries.h"
 #include "TextGenError.h"
 
 using namespace boost;
@@ -33,6 +34,9 @@ namespace TextGen
 	  return shared_ptr<Dictionary>(new BasicDictionary());
 	if(theType == "mysql")
 	  return shared_ptr<Dictionary>(new MySQLDictionary());
+	if(theType == "mysqls")
+	  return shared_ptr<Dictionary>(new MySQLDictionaries());
+	  
 	throw TextGenError("Error: Unknown dictionary type "+theType);
   }
  
