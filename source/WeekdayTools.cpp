@@ -5,10 +5,11 @@
  */
 // ======================================================================
 
+#include "boost/lexical_cast.hpp" // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ss‰ min max m‰‰rittelyt jo tehty
+
 #include "WeekdayTools.h"
 #include "TextGenError.h"
 #include "NFmiTime.h"
-#include "boost/lexical_cast.hpp"
 
 using namespace std;
 using namespace boost;
