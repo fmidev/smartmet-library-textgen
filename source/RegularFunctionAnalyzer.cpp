@@ -201,7 +201,7 @@ namespace WeatherAnalysis
 		if(result == kFloatMissing)
 		  return WeatherResult(kFloatMissing,0);
 
-		return WeatherResult(result,1);
+		return WeatherResult(result,0);
 
 	  }
 	else
@@ -214,7 +214,7 @@ namespace WeatherAnalysis
 													  *subtimemod,
 													  *timemod);
 		
-		return WeatherResult(result,1);
+		return WeatherResult(result,0);
 
 	  }
 
