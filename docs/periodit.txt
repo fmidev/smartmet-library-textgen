@@ -44,7 +44,7 @@ saadaan
 - Maanantaina klo 11:01 periodi Maanantai 12:00 - Keskiviikko 18:00
 
 
-\subsection sec_period_until Periodityyppi "from_until"
+\subsection sec_period_from_until Periodityyppi "from_until"
 
 Periodin muodostamiseen vaaditaan muuttujat
 \code
