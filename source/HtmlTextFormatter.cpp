@@ -122,15 +122,22 @@ namespace TextGen
   
   string HtmlTextFormatter::visit(const Paragraph & theParagraph) const
   {
+	const string tags = Settings::optional_string(itsSectionVar+"::paragraph::html::tags","");
+
 	string tmp = TextFormatterTools::realize(theParagraph.begin(),
 											 theParagraph.end(),
 											 *this,
 											 " ",
 											 "");
-	if(tmp.empty())
-	  return tmp;
-	else
-	  return "<p>"+tmp+"</p>";
+	ostringstream out;
+	if(!tmp.empty())
+	  {
+		out << "<p";
+		if(!tags.empty())
+		  out << ' ' << tags;
+		out << '>' << tmp << "</p>";
+	  }
+	return out.str();
   }
   
   // ----------------------------------------------------------------------
@@ -143,6 +150,7 @@ namespace TextGen
   {
 	const bool colon = Settings::optional_bool(itsSectionVar+"::header::colon",false);
 	const int level = Settings::optional_int(itsSectionVar+"::header::html::level",1);
+	const string tags = Settings::optional_string(itsSectionVar+"::header::html::tags","");
 
 	string text = TextFormatterTools::realize(theHeader.begin(),
 											  theHeader.end(),
@@ -155,7 +163,10 @@ namespace TextGen
 	  return "";
 
 	ostringstream out;
-	out << "<h" << level << '>'
+	out << "<h" << level;
+	if(!tags.empty())
+	  out << ' ' << tags;
+	out << '>'
 		<< text
 		<< (colon ? ":" : "")
 		<< "</h" << level << '>';
@@ -170,14 +181,21 @@ namespace TextGen
   
   string HtmlTextFormatter::visit(const Document & theDocument) const
   {
-	string ret = "<div>";
-	ret += TextFormatterTools::realize(theDocument.begin(),
+	const string tags = Settings::optional_string("textgen::document::html::tags","");
+
+	ostringstream out;
+	if(tags.empty())
+	  out << "<div>";
+	else
+	  out << "<div " << tags << '>';
+
+	out << TextFormatterTools::realize(theDocument.begin(),
 									   theDocument.end(),
 									   *this,
 									   "\n\n",
 									   "");
-	ret += "</div>";
-	return ret;
+	out << "</div>";
+	return out.str();
   }
 
   // ----------------------------------------------------------------------
