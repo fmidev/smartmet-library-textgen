@@ -71,7 +71,7 @@ namespace
 	else if(endhour == 18)
 	  tmp += "-iltaan asti";
 	else
-	  throw TextGenError("HeaderFactory: header_until end time must be 06 or 18");
+	  throw TextGenError("HeaderFactory: until end time must be 06 or 18");
 	header << tmp;
 
 	return header;
@@ -107,7 +107,7 @@ namespace
 	else if(starthour == 18)
 	  tmp += "-illasta";
 	else
-	  throw TextGenError("HeaderFactory: header_from_until start time must be 06 or 18");
+	  throw TextGenError("HeaderFactory: from_until start time must be 06 or 18");
 
 	header << tmp;
 
@@ -117,7 +117,7 @@ namespace
 	else if(endhour == 18)
 	  tmp += "-iltaan";
 	else
-	  throw TextGenError("HeaderFactory: header_from_until end time must be 06 or 18");
+	  throw TextGenError("HeaderFactory: from_until end time must be 06 or 18");
 
 	header << tmp;
 
@@ -128,7 +128,8 @@ namespace
   /*!
    * \brief Return header of type "Odotettavissa seuraavan viiden vuorokauden aikana"
    *
-   * The period start time must be 06 or 18.
+   * The period start time must be 06 or 18. The period length must be
+   * a multiple of 24.
    *
    * \param thePeriod The weather period
    * \param theVariable The variable for extra settings
@@ -136,7 +137,7 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  TextGen::Header header_five_days(const WeatherPeriod & thePeriod,
+  TextGen::Header header_several_days(const WeatherPeriod & thePeriod,
 								   const string & theVariable)
   {
 	using namespace TextGen;
@@ -151,10 +152,21 @@ namespace
 	else if(starthour == 18)
 	  tmp += "-illasta alkavan";
 	else
-	  throw TextGenError("HeaderFactory:: header_five_days start time must be 06 or 18");
+	  throw TextGenError("HeaderFactory:: several_days start time must be 06 or 18");
 
 	header << tmp;
-	header << "alkavan 5vrkn s‰‰";
+
+	const NFmiTime & startTime = thePeriod.localStartTime();
+	const NFmiTime & endTime = thePeriod.localEndTime();
+	const long diff = endTime.DifferenceInHours(startTime);
+
+	if(diff % 24 != 0)
+	  throw TextGenError("HeaderFactory:: several_days must be N*24 hours long");
+	const long days = diff/24;
+	tmp = lexical_cast<string>(days);
+	tmp += "-vuorokauden s‰‰";
+
+	header << tmp;
 
 	return header;
   }
@@ -195,8 +207,8 @@ namespace TextGen
 		return header_until(thePeriod,theVariable);
 	  if(type == "from_until")
 		return header_from_until(thePeriod,theVariable);
-	  if(type == "five_days")
-		return header_five_days(thePeriod,theVariable);
+	  if(type == "several_days")
+		return header_several_days(thePeriod,theVariable);
 	  throw TextGenError("HeaderFactory does not recognize header type "+type);
 	}
 
