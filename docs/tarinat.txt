@@ -50,6 +50,10 @@
  <ol>
  <li>\ref page_story_relativehumidity_lowest</li>
  </ol>
+<li>\ref sec_roadstory</li>
+ <ol>
+ <li>\ref page_story_roadtemperature_daynightranges</li>
+ </ol>
 </ol>
 
 \section sec_tarina Mik‰ on tarina
@@ -103,5 +107,9 @@ TextGen::FrostStory luokka hallitsee hallaan liittyv‰t tarinat.
 
 TextGen::RelativeHumidityStory luokka hallitsee suhteelliseen
 kosteuteen liittyv‰t tarinat.
+
+\section sec_roadstory
+
+TextGen::RoadStory luokka hallitsee ties‰‰h‰n liittyv‰t tarinat.
 
 */

@@ -1,0 +1,79 @@
+/*!
+
+\page page_story_roadtemperature_daynightranges Tarina "roadtemperature_daynightranges"
+
+\c roadtemperature_daynightranges tarina on muotoa
+
+  -# Tänään päivällä tienpintalämpötila on x...y astetta, yöllä x...y astetta,
+     huomenna päivällä x...y astetta, yöllä x...y astetta, jne
+  -# Ensi yönä tienpintalämpötila on x...y astetta, huomenna päivällä
+     x...y astetta, yöllä x...y astetta, jne
+
+Ensimmäisessä osassa, joka on siis päivä tai yö, mainitaan siis
+tienpintalämpötila ensimmäisen ja ainoan kerran, jatkossa
+vain luetellaan lämpötilaintervalleja.
+
+Ruotsiksi lauseet ovat
+
+  -# "I dag kväll vägtemperaturen är x...y grader, på natten x...y grader,
+      i morgon på dagen x...y grader, på natten x...y grader, osv
+  -# "Nästa natten vägtemperaturen är x...y grader, i morgon på dagen
+      x...y grader, på natten x...y grader, osv
+
+Aikafraasit ovat tyyppiä \ref sec_periodifraasit_today ja \ref
+sec_periodifraasit_tonight. Niihin liittyviä asetuksia kontrolloidaan
+muuttujilla
+
+\code
+textgen::[kappale]::story::roadtemperature_daynightranges::today::phrases
+textgen::[kappale]::story::roadtemperature_daynightranges::tonight::phrases
+\endcode
+
+Valinta yksittäisen arvon ja intervallin välillä tehdään perustuen muuttujiin
+\code
+textgen::[kappale]::story::roadtemperature_daynightranges::mininterval = [1-]
+textgen::[kappale]::story::roadtemperature_daynightranges::always_interval_zero = [bool]
+\endcode
+Jos intervallin pituus on vähintään \c mininterval, sanotaan intervalli,
+muuten keskiarvo. Poikkeuksena jos nolla kuuluu intervalliin ja
+\c always_interval_zero on true, sanotaan aina intervalli.
+
+\c mininterval muuttujan oletusarvo on 2, \c always_interval_zero
+muuttujan false.
+
+Yön ja päivän määritelmät saadaan muuttujista
+\code
+textgen::[kappale]::story::roadtemperature_daynightranges::day::starthour = [0-23]
+textgen::[kappale]::story::roadtemperature_daynightranges::day::endhour = [0-23]
+textgen::[kappale]::story::roadtemperature_daynightranges::night::endhour = [0-23]
+textgen::[kappale]::story::roadtemperature_daynightranges::day::maxstarthour = [0-23]
+textgen::[kappale]::story::roadtemperature_daynightranges::day::minendhour = [0-23]
+textgen::[kappale]::story::roadtemperature_daynightranges::night::maxstarthour = [0-23]
+textgen::[kappale]::story::roadtemperature_daynightranges::night::minendhour = [0-23]
+\endcode
+Erityisesti on huomattava, että yön alkuaikaa ei ole määritelty, sen oletetaan
+olevan sama päivän loppuajan kanssa.
+
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+textgen::[kappale]::story::roadtemperature_daynightranges::fake::night1::mean = [result]
+textgen::[kappale]::story::roadtemperature_daynightranges::fake::night1::minimum = [result]
+textgen::[kappale]::story::roadtemperature_daynightranges::fake::night1::maximum = [result]
+textgen::[kappale]::story::roadtemperature_daynightranges::fake::night2::mean = [result]
+...
+\endcode
+
+
+Tarvittavat fraasit ovat
+
+ - "tienpintalämpötila"
+ - "on"
+ - "noin"
+ - "astetta"
+ - "päivällä"
+ - "yöllä"
+
+plus tarvittavat periodifraasit \ref sec_periodifraasit_today
+\ref sec_periodifraasit_tonight.
+
+*/
