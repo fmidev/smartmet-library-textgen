@@ -31,7 +31,6 @@ namespace WeatherAnalysis
    * \param theMainPeriod The period to iterate
    * \param theDayStartHour The start hour of each day
    * \param theDayEndHour The end hour of each day
-   * \param theNightEndHour The end hour of each day
    * \param theDayMaxStartHour The maximum delayed start hour of each day
    * \param theDayMinEndHour The minimum early end hour of each day
    * \param theNightMaxStartHour The maximum delayed start hour of each night
@@ -42,7 +41,6 @@ namespace WeatherAnalysis
   NightAndDayPeriodGenerator::NightAndDayPeriodGenerator(const WeatherPeriod & theMainPeriod,
 														 int theDayStartHour,
 														 int theDayEndHour,
-														 int theNightEndHour,
 														 int theDayMaxStartHour,
 														 int theDayMinEndHour,
 														 int theNightMaxStartHour,
@@ -50,7 +48,6 @@ namespace WeatherAnalysis
 	: itsMainPeriod(theMainPeriod)
 	, itsDayStartHour(theDayStartHour)
 	, itsDayEndHour(theDayEndHour)
-	, itsNightEndHour(theNightEndHour)
 	, itsDayMaxStartHour(theDayMaxStartHour)
 	, itsDayMinEndHour(theDayMinEndHour)
 	, itsNightMaxStartHour(theNightMaxStartHour)
@@ -67,7 +64,6 @@ namespace WeatherAnalysis
    * \code
    * [variable]::day::starthour = [0-23]
    * [variable]::day::endhour = [0-23]
-   * [variable]::night::endhour = [0-23]
    * \endcode
    * The variables
    * \code
@@ -88,11 +84,10 @@ namespace WeatherAnalysis
 	: itsMainPeriod(theMainPeriod)
 	, itsDayStartHour(Settings::require_hour(theVariable+"::day::starthour"))
 	, itsDayEndHour(Settings::require_hour(theVariable+"::day::endhour"))
-	, itsNightEndHour(Settings::require_hour(theVariable+"::night::endhour"))
 	, itsDayMaxStartHour(Settings::optional_hour(theVariable+"::day::maxstarthour",itsDayStartHour))
 	, itsDayMinEndHour(Settings::optional_hour(theVariable+"::day::minendhour",itsDayEndHour))
 	, itsNightMaxStartHour(Settings::optional_hour(theVariable+"::night::maxstarthour",itsDayEndHour))
-	, itsNightMinEndHour(Settings::optional_hour(theVariable+"::night::minendhour",itsNightEndHour))
+	, itsNightMinEndHour(Settings::optional_hour(theVariable+"::night::minendhour",itsDayStartHour))
   {
 	init();
   }
@@ -115,7 +110,7 @@ namespace WeatherAnalysis
 
 	const int nights = countPeriods(itsMainPeriod,
 									itsDayEndHour,
-									itsNightEndHour,
+									itsDayStartHour,
 									itsNightMaxStartHour,
 									itsNightMinEndHour);
 	
@@ -133,7 +128,7 @@ namespace WeatherAnalysis
 		itsPeriods.push_back(getPeriod(itsMainPeriod,
 									   n,
 									   itsDayEndHour,
-									   itsNightEndHour,
+									   itsDayStartHour,
 									   itsNightMaxStartHour,
 									   itsNightMinEndHour));
 	  }

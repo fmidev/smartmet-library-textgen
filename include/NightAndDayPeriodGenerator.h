@@ -26,7 +26,6 @@ namespace WeatherAnalysis
 	NightAndDayPeriodGenerator(const WeatherPeriod & theMainPeriod,
 							   int theDayStartHour,
 							   int theDayEndHour,
-							   int theNightEndHour,
 							   int theDayMaxStartHour,
 							   int theDayMinEndHour,
 							   int theNightMaxStartHour,
@@ -49,7 +48,6 @@ namespace WeatherAnalysis
 	const WeatherPeriod itsMainPeriod;
 	const int itsDayStartHour;
 	const int itsDayEndHour;
-	const int itsNightEndHour;
 	const int itsDayMaxStartHour;
 	const int itsDayMinEndHour;
 	const int itsNightMaxStartHour;

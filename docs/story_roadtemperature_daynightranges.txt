@@ -53,14 +53,14 @@ Yön ja päivän määritelmät saadaan muuttujista
 \code
 textgen::[kappale]::story::roadtemperature_daynightranges::day::starthour = [0-23]
 textgen::[kappale]::story::roadtemperature_daynightranges::day::endhour = [0-23]
-textgen::[kappale]::story::roadtemperature_daynightranges::night::endhour = [0-23]
 textgen::[kappale]::story::roadtemperature_daynightranges::day::maxstarthour = [0-23]
 textgen::[kappale]::story::roadtemperature_daynightranges::day::minendhour = [0-23]
 textgen::[kappale]::story::roadtemperature_daynightranges::night::maxstarthour = [0-23]
 textgen::[kappale]::story::roadtemperature_daynightranges::night::minendhour = [0-23]
 \endcode
-Erityisesti on huomattava, että yön alkuaikaa ei ole määritelty, sen oletetaan
-olevan sama päivän loppuajan kanssa.
+Erityisesti on huomattava, että yön alku- ja loppuaikaa ei ole
+määritelty, ne ovat implisiittisesti määriteltyjä päiväaikojen
+perusteella.
 
 Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
 \code
