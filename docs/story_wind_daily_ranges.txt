@@ -111,25 +111,38 @@ textgen::[kappale]::story::wind_daily_ranges::fake::day1::speed::maximum = [resu
 textgen::[kappale]::story::wind_daily_ranges::fake::day1::direction::mean = [result]
 ...
 \endcode
+Lis‰ksi tulevat erikoistapaukset p‰iville 1-2, p‰iville 2-3 ja p‰iville 1-3
+\code
+textgen::[kappale]::story::wind_daily_ranges::fake::days1-2::speed::mean = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::days1-2::speed::minimum = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::days1-2::speed::maximum = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::days1-2::direction::mean = [result]
+
+textgen::[kappale]::story::wind_daily_ranges::fake::days2-3::speed::mean = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::days2-3::speed::minimum = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::days2-3::speed::maximum = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::days2-3::direction::mean = [result]
+
+textgen::[kappale]::story::wind_daily_ranges::fake::days1-3::speed::mean = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::days1-3::speed::minimum = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::days1-3::speed::maximum = [result]
+textgen::[kappale]::story::wind_daily_ranges::fake::days1-3::direction::mean = [result]
+\endcode
 
 \section section_wind_daily_ranges_algoritmi Algoritmit
 
 -# Jos p‰ivi‰ on 1, [T‰n‰‰n] [it‰tuulta] [X...Y m/s]
 -# Jos p‰ivi‰ on 2
-   -# Jos D(D1,D2) on laadukas
+   -# Jos D(D1,D2) on laadukas tai D1,D2 ovat suunnaltaan vaihtelevia
       -# Jos W1==W2, [It‰tuulta] [X...Y m/s]
       -# Jos W1<>W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [X...Y m/s]
    -# Jos D(D1,D2) ei ole laadukas
-      -# Jos D1 ja D2 ovat suunnaltaan vaihtelevia
-        -# Jos W1==W2, [Suunnaltaan vaihtelevaa tuulta] [X...Y m/s]
-        -# Jos W1<>W2, [T‰n‰‰n] [suunnaltaan vaihtelevaa tuulta] [X...Y m/s], [huomenna] [X...Y m/s]
-      -# Muutoin
-        -# Jos W1==W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta]
-        -# Jos W1<>W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta] [X...Y m/s]
+      -# Jos W1==W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta]
+      -# Jos W1<>W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta] [X...Y m/s]
 -# Muuten p‰ivi‰ on 3, loppuja p‰ivi‰ ei huomioida
-   -# Jos D(D1,D2,D3) on laadukas
+   -# Jos D(D1,D2,D3) on laadukas tai D1,D2,D3 ovat suunnaltaan vaihtelevia
       -# Jos W1==W2==W3, [It‰tuulta] [X...Y m/s]
-      -# Jos W1==W2<>W3, [X...Y m/s], viikonp‰iv‰n‰ [X...Y m/s]
+      -# Jos W1==W2<>W3, [It‰tuulta] [X...Y m/s], viikonp‰iv‰n‰ [X...Y m/s]
       -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰st‰ alkaen] [X...Y m/s]
       -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s]
    -# Jos D(D1,D2) on laadukas
@@ -142,11 +155,6 @@ textgen::[kappale]::story::wind_daily_ranges::fake::day1::direction::mean = [res
       -# Jos W1==W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰st‰ alkaen] [l‰nsituulta] [X...Y m/s]
       -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta], [viikonp‰iv‰n‰] [X...Y m/s]
       -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s]
-   -# Jos D1,D2 ja D3 ovat suunnaltaan vaihtelevia
-      -# Jos W1==W2==W3, [Suunnaltaan vaihtelevaa tuulta] [X...Y m/s]
-      -# Jos W1==W2<>W3, [Suunnaltaan vaihtelevaa tuulta] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s]
-      -# Jos W1<>W2==W3, [T‰n‰‰n] [suunnaltaan vaihtelevaa tuulta] [X...Y m/s], [viikonp‰iv‰st‰ alkaen] [X...Y m/s]
-      -# Jos W1<>W2<>W3, [T‰n‰‰n] [suunnaltaan vaihtelevaa tuulta] [X...Y m/s], [huomenna] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s]
    -# Muuten D1<>D2 ja D2<>D3 (muttei v‰ltt‰m‰tt‰ D1<>D3)
       -# Jos W1==W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta], [viikonp‰iv‰n‰] [etel‰tuulta]
       -# Jos W1==W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta], [viikonp‰iv‰n‰] [etel‰tuulta] [X...Y m/s]
