@@ -11,7 +11,8 @@
  *
  * The class divides the entire time interval into equal size
  * subintervals. The first interval starts at the desired
- * start hour.
+ * start hour. The interval length must divide 24 or must be divisible
+ * by 24.
  */
 // ----------------------------------------------------------------------
 
@@ -54,8 +55,8 @@ namespace WeatherAnalysis
    * The variable is expected to contain definitions for
    * \code
    * [variable]::starthour = [0-23] (= 0)
-   * [variable]::interval    = [0|1|2|3|4|6|8|12|24]
-   * [variable]::mininterval = [0-24] (= interval)
+   * [variable]::interval    = [0|1|2|3|4|6|8|12|24|N*24]
+   * [variable]::mininterval = [0-X] (= interval)
    * \endcode
    **
    * \param theMainPeriod The period to iterate
@@ -94,8 +95,8 @@ namespace WeatherAnalysis
 
   void IntervalPeriodGenerator::init()
   {
-	if( (itsInterval != 0) && (24 % itsInterval) != 0)
-	  throw WeatherAnalysisError("IntervalPeriodGenerator: Interval must divide 24 evenly");
+	if( (itsInterval != 0) && (24 % itsInterval != 0 && itsInterval % 24 != 0) )
+	  throw WeatherAnalysisError("IntervalPeriodGenerator: Interval must divide 24 evenly or be divisible by 24");
 	if(itsInterval < 0)
 	  throw WeatherAnalysisError("IntervalPeriodGenerator: Interval length must be positive");
 
@@ -125,10 +126,16 @@ namespace WeatherAnalysis
 		if(diff >= itsMinimumInterval)
 		  itsPeriods.push_back(WeatherPeriod(starttime,endtime));
 
-		if(itsInterval>0)
-		  time.ChangeByHours(itsInterval);
-		else
+		if(itsInterval<=0)
 		  time.ChangeByHours(1);
+		else
+		  {
+			// Do not advance N*24 hours but 24 hours until we reach start of data
+			if(itsPeriods.empty() && itsInterval>=24)
+			  time.ChangeByHours(24);
+			else
+			  time.ChangeByHours(itsInterval);
+		  }
 	  }
 
   }

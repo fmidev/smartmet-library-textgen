@@ -150,6 +150,28 @@ namespace IntervalPeriodGeneratorTest
 
 	}
 
+	{
+	  // A simple several day period from 0 to 24
+	  WeatherPeriod period(NFmiTime(2000,1,1,0,0),
+						   NFmiTime(2000,1,11,0,0));
+	  
+	  {
+		// 1-2, 2-3, 3-4, ... 9-10, 10-11
+		IntervalPeriodGenerator generator(period,0,24,24);
+
+		if(generator.size() != 10)
+		  TEST_FAILED("24h divides 10 days into 10 intervals");
+	  }
+
+	  {
+		// 1-4, 4-7, 7-10
+		IntervalPeriodGenerator generator(period,0,3*24,3*24);
+		if(generator.size() != 3)
+		  TEST_FAILED("72h divides 10 days into 3 intervals");
+	  }
+
+	}
+
 	TEST_PASSED();
 
   }
@@ -235,6 +257,38 @@ namespace IntervalPeriodGeneratorTest
 		  TEST_FAILED("Failed to generate period 4");
 
 	  }
+	}
+
+
+	{
+	  // A simple several day period from 0 to 24
+	  WeatherPeriod period(NFmiTime(2000,1,1,0,0),
+						   NFmiTime(2000,1,11,0,0));
+	  
+	  {
+		IntervalPeriodGenerator generator(period,0,24,24);
+
+		WeatherPeriod p = generator.period(1);
+		if(p != WeatherPeriod(NFmiTime(2000,1,1,0,0),NFmiTime(2000,1,2,0,0)))
+		  TEST_FAILED("Failed to generate day period 1");
+
+		p = generator.period(3);
+		if(p != WeatherPeriod(NFmiTime(2000,1,3,0,0),NFmiTime(2000,1,4,0,0)))
+		  TEST_FAILED("Failed to generate day period 3");
+	  }
+
+	  {
+		IntervalPeriodGenerator generator(period,0,3*24,3*24);
+
+		WeatherPeriod p = generator.period(1);
+		if(p != WeatherPeriod(NFmiTime(2000,1,1,0,0),NFmiTime(2000,1,4,0,0)))
+		  TEST_FAILED("Failed to generate 3-day period 1");
+
+		p = generator.period(3);
+		if(p != WeatherPeriod(NFmiTime(2000,1,7,0,0),NFmiTime(2000,1,10,0,0)))
+		  TEST_FAILED("Failed to generate 3-day period 3");
+	  }
+
 	}
 
 	TEST_PASSED();
