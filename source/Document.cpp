@@ -45,6 +45,20 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Return the text for the document
+   *
+   * \param theFormatter The formatter
+   * \return The text
+   */
+  // ----------------------------------------------------------------------
+
+  std::string Document::realize(const TextFormatter & theFormatter) const
+  {
+	return theFormatter.visit(*this);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Return the prefix for documents
    *
    * The prefix for documents is always the space character

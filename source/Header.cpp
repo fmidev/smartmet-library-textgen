@@ -47,6 +47,20 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Return the text for the header
+   *
+   * \param theFormatter The formatter
+   * \return The text
+   */
+  // ----------------------------------------------------------------------
+
+  std::string Header::realize(const TextFormatter & theFormatter) const
+  {
+	return theFormatter.visit(*this);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Return the prefix for headers
    *
    * The prefix for headers is always an empty string
