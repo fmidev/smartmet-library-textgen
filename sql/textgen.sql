@@ -443,6 +443,12 @@ INSERT INTO translation_en VALUES ('yleisesti','generally',20031016120413,'mheis
 INSERT INTO translation_en VALUES ('kanta-hame:lle','for Tavastia Proper',20031018005701,'mheiskan');
 INSERT INTO translation_en VALUES ('ita-uusimaa:lle','for Eastern Uusimaa',20031018005757,'mheiskan');
 INSERT INTO translation_en VALUES ('lappi:lle','for Lapland',20031018005935,'mheiskan');
+INSERT INTO translation_en VALUES ('lapin-laani:lle','for the province of Lapland',20031018012150,'mheiskan');
+INSERT INTO translation_en VALUES ('oulun-laani:lle','for the province of Oulu',20031018012205,'mheiskan');
+INSERT INTO translation_en VALUES ('ita-suomen-laani:lle','for the province of Eastern Finland',20031018012225,'mheiskan');
+INSERT INTO translation_en VALUES ('lansi-suomen-laani:lle','for the province of Western Finland',20031018012238,'mheiskan');
+INSERT INTO translation_en VALUES ('etela-suomen-laani:lle','for the province of Southern Finland',20031018012254,'mheiskan');
+INSERT INTO translation_en VALUES ('ahvenanmaan-laani:lle','for the province of Åland',20031018012308,'mheiskan');
 
 --
 -- Table structure for table 'translation_fi'
@@ -856,6 +862,12 @@ INSERT INTO translation_fi VALUES ('yleisesti','yleisesti',20031016120004,'mheis
 INSERT INTO translation_fi VALUES ('lappi:lle','Lappiin',20031017154730,'mrauhala');
 INSERT INTO translation_fi VALUES ('ita-uusimaa:lle','Itä-Uudellemaalle',20031017154820,'mrauhala');
 INSERT INTO translation_fi VALUES ('kanta-hame:lle','Kanta-Hämeeseen',20031017154949,'mrauhala');
+INSERT INTO translation_fi VALUES ('lapin-laani:lle','Lapin lääniin',20031018011743,'mheiskan');
+INSERT INTO translation_fi VALUES ('oulun-laani:lle','Oulun lääniin',20031018011754,'mheiskan');
+INSERT INTO translation_fi VALUES ('ita-suomen-laani:lle','Itä-Suomen lääniin',20031018011810,'mheiskan');
+INSERT INTO translation_fi VALUES ('lansi-suomen-laani:lle','Länsi-Suomen lääniin',20031018011825,'mheiskan');
+INSERT INTO translation_fi VALUES ('etela-suomen-laani:lle','Etelä-Suomen lääniin',20031018011843,'mheiskan');
+INSERT INTO translation_fi VALUES ('ahvenanmaan-laani:lle','Ahvenanmaan lääniin',20031018011859,'mheiskan');
 
 --
 -- Table structure for table 'translation_sonera'
@@ -1636,4 +1648,10 @@ INSERT INTO translation_sv VALUES ('yleisesti','allmänt',20031016120221,'mheiska
 INSERT INTO translation_sv VALUES ('kanta-hame:lle','för Egentliga Tavastland',20031018005606,'mheiskan');
 INSERT INTO translation_sv VALUES ('ita-uusimaa:lle','för Östra Nyland',20031018005619,'mheiskan');
 INSERT INTO translation_sv VALUES ('lappi:lle','för Lappland',20031018005630,'mheiskan');
+INSERT INTO translation_sv VALUES ('lapin-laani:lle','för Lapplands län',20031018011931,'mheiskan');
+INSERT INTO translation_sv VALUES ('oulun-laani:lle','för Uleåborgs län',20031018011946,'mheiskan');
+INSERT INTO translation_sv VALUES ('ita-suomen-laani:lle','för Östra Finlands län',20031018012003,'mheiskan');
+INSERT INTO translation_sv VALUES ('lansi-suomen-laani:lle','för Västra Finlands län',20031018012018,'mheiskan');
+INSERT INTO translation_sv VALUES ('etela-suomen-laani:lle','för Södra Finlands län',20031018012039,'mheiskan');
+INSERT INTO translation_sv VALUES ('ahvenanmaan-laani:lle','för Ålands län',20031018012054,'mheiskan');
 
