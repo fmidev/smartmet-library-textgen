@@ -3,7 +3,7 @@
 \page page_story_frost_twonights Tarina "frost_twonights"
 
 Tarina on tyhjä marraskuusta maaliskuun loppuun! Lisäksi, jos
-ankaran hallan todennäköisyys on kumpanakin päivänä 100%, lienee
+ankaran hallan todennäköisyys on kumpanakin päivänä hyvin korkea, lienee
 halla niin päivän selvää, ettei siitä kannata mainita erikseen.
 
 Jos jakson pituus on nolla yötä, palautetaan tyhjä tarina.
@@ -30,11 +30,14 @@ Tarina valitaan perustuen muuttujiin
 \code
 textgen::[kappale]::story::frost_twonights::severe_frost_limit = [0-100]
 textgen::[kappale]::story::frost_twonights::frost_limit = [0-100]
+textgen::[kappale]::story::frost_twonights::obvious_frost = [0-100] (=90)
 textgen::[kappale]::story::frost_twonights::precision = [0-100]
 \endcode
 Jos ankaran hallan todennäköisyys on vähintään \c severe_frost_limit,
 palautetaan fraasi 3. Muuten jos hallan todennäköisyys on vähintään
 \c frost_limit, palautetaan fraasi 2. Muuten palautetaan tyhjä tarina.
+Jos ankaran hallan todennäköisyys on yli \c obvious_frost, tarina
+voi jäädä kokonaan tyhjäksi. (Katso sivun alun selitystä.)
 
 Todennäköisyydet pyöristetään muuttujan \c precision tarkkuuteen.
 Yleensä käytetään tarkkuutta 10.

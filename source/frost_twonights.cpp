@@ -59,6 +59,7 @@ namespace TextGen
 	const int precision   = Settings::require_percentage(itsVar+"::precision");
 	const int severelimit = Settings::require_percentage(itsVar+"::severe_frost_limit");
 	const int normallimit = Settings::require_percentage(itsVar+"::frost_limit");
+	const int obvious_frost = Settings::require_percentage(itsVar+"::obvious_frost_limit");
 
 	const int nights = WeatherPeriodTools::countPeriods(itsPeriod,
 														starthour,
@@ -110,7 +111,7 @@ namespace TextGen
 		const int value = to_precision(frost.value(),precision);
 		const int severevalue = to_precision(severefrost.value(),precision);
 
-		if(severevalue == 100)
+		if(severevalue > obvious_frost)
 		  {
 			log << "Severe frost probability 100% implies the forecast is obvious!";
 		  }
@@ -173,7 +174,7 @@ namespace TextGen
 		// severe+severe	"Ankaran ..., seuraavana yönä y%/sama."
 
 
-		if(severevalue1==100 && severevalue2==100)
+		if(severevalue1 > obvious_frost && severevalue2 > obvious_frost)
 		  {
 			log << "Severe frost probability 100% implies the forecast is obvious!";
 		  }
