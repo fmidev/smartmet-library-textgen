@@ -7,7 +7,7 @@ Ajanjakson täytyy olla vähintään 2 vuorokautta.
 Tarinat ovat muotoa
 
   -# "Päivien ylin lämpötila on A...B astetta, öiden alin lämpötila C...D astetta."
-  -# "Päivien ylin lämpötila on noin X astetta, öiden alin lömpötila noin Y astetta."
+  -# "Päivien ylin lämpötila on noin X astetta, öiden alin lämpötila noin Y astetta."
 
 Ruotsiksi
 
@@ -21,12 +21,14 @@ Englanniksi
 
 Jos intervalli on pienempi kuin
 \code
-textgen::[kappale]::story::temperature_weekly_minmax::mininterval = [1-] (default=2)
+textgen::[kappale]::story::temperature_weekly_minmax::day::mininterval = [1-] (default=2)
+textgen::[kappale]::story::temperature_weekly_minmax::night::mininterval = [1-] (default=2)
 \endcode
 typistetään intervalli yhdeksi noin-lukemaksi.
 Jos muuttuja
 \code
-textgen::[kappale]::story::temperature_weekly_minmax::always_interval_zero = [bool] (default = false)
+textgen::[kappale]::story::temperature_weekly_minmax::day::always_interval_zero = [bool] (default = false)
+textgen::[kappale]::story::temperature_weekly_minmax::night::always_interval_zero = [bool] (default = false)
 \endcode
 on true, intervallit joihin lukema 0 kuuluu esitetään aina
 intervallina, jos ala- ja ylärajat eroavat asteenkaan.
@@ -58,13 +60,13 @@ textgen::[kappale]::story::temperature_weekly_minmax::night::endhour = 6
 
 Laskujen tulokset voi korvata muuttujilla
 \code
-textgen::[kappale]::story::temperature_weekly_minmax::day::minimum = [result]
-textgen::[kappale]::story::temperature_weekly_minmax::day::maximum = [result]
-textgen::[kappale]::story::temperature_weekly_minmax::day::mean = [result]
+textgen::[kappale]::story::temperature_weekly_minmax::fake::day::minimum = [result]
+textgen::[kappale]::story::temperature_weekly_minmax::fake::day::maximum = [result]
+textgen::[kappale]::story::temperature_weekly_minmax::fake::day::mean = [result]
 
-textgen::[kappale]::story::temperature_weekly_minmax::night::minimum = [result]
-textgen::[kappale]::story::temperature_weekly_minmax::night:maximum = [result]
-textgen::[kappale]::story::temperature_weekly_minmax::night::mean = [result]
+textgen::[kappale]::story::temperature_weekly_minmax::fake::night::minimum = [result]
+textgen::[kappale]::story::temperature_weekly_minmax::fake::night:maximum = [result]
+textgen::[kappale]::story::temperature_weekly_minmax::fake::night:mean = [result]
 \endcode
 
 Tarvittavat fraasit ovat
