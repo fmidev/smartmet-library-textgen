@@ -1,0 +1,11 @@
+LIB = textgen
+
+INCLUDES = -I $(includedir) -I $(includedir)/newbase -I /usr/include/mysql
+CFLAGS = -DUNIX $(INCLUDES) -ansi -w2 -Werror -wd981,383,193,488,1418,869,444,810,279
+
+CC = /usr/local/intel/compiler70/ia32/bin/icc
+
+# Common library compiling template
+
+include ../../makefiles/makefile.lib
+
