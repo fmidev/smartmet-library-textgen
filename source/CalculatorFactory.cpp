@@ -73,6 +73,7 @@ namespace WeatherAnalysis
 	 * Throws if there is no suitable data modifier.
 	 *
 	 * \param theFunction The weather function
+	 * \param theModulo The modulo value
 	 * \return The data modifier
 	 */
 	// ----------------------------------------------------------------------
@@ -152,6 +153,7 @@ namespace WeatherAnalysis
 	 *
 	 * \param theFunction The weather function
 	 * \param theTester The tester for Percentage calculations
+	 * \param theModulo The modulo value
 	 * \return The data modifier
 	 */
 	// ----------------------------------------------------------------------
