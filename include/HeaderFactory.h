@@ -24,6 +24,7 @@
 
 namespace WeatherAnalysis
 {
+  class WeatherArea;
   class WeatherPeriod;
 }
 
@@ -34,7 +35,8 @@ namespace TextGen
 
   namespace HeaderFactory
   {
-	Header create(const WeatherAnalysis::WeatherPeriod & thePeriod,
+	Header create(const WeatherAnalysis::WeatherArea & theArea,
+				  const WeatherAnalysis::WeatherPeriod & thePeriod,
 				  const std::string & theVariable);
 
   } // namespace HeaderFactory

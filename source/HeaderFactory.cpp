@@ -7,7 +7,9 @@
 
 #include "HeaderFactory.h"
 #include "Header.h"
+#include "Number.h"
 #include "Settings.h"
+#include "WeatherArea.h"
 #include "WeatherPeriod.h"
 #include "TextGenError.h"
 
@@ -138,7 +140,7 @@ namespace
   // ----------------------------------------------------------------------
 
   TextGen::Header header_several_days(const WeatherPeriod & thePeriod,
-								   const string & theVariable)
+									  const string & theVariable)
   {
 	using namespace TextGen;
 	Header header;
@@ -172,6 +174,40 @@ namespace
 	return header;
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return report header for specific area
+   *
+   * \param theArea The area (must not be a point)
+   * \param thePeriod The time period (only start time is relevant)
+   * \param theVariable The variable for extra settings
+   * \return The header
+   */
+  // ----------------------------------------------------------------------
+
+  TextGen::Header header_report_area(const WeatherArea & theArea,
+									 const WeatherPeriod & thePeriod,
+									 const string & theVariable)
+  {
+	using namespace TextGen;
+	Header header;
+
+	if(!theArea.isNamed())
+	  throw TextGenError("Cannot generate report_area title for an unnamed point");
+
+	const int starthour = thePeriod.localStartTime().GetHour();
+	const int startday = thePeriod.localStartTime().GetWeekday();
+
+	header << "Sääennuste"
+		   << theArea.name()+":lle"
+		   << lexical_cast<string>(startday)+"-na"
+		   << "kello"
+		   << Number<int>(starthour)
+		   << "o'clock";
+
+	return header;
+  }
+
 } // namespace anonymous
 
 // ======================================================================
@@ -191,13 +227,15 @@ namespace TextGen
 	 *
 	 * \see page_aikavalit
 	 *
+	 * \param theArea The area concerned
 	 * \param thePeriod The relevant weather period
 	 * \param theVariable The variable
 	 * \return The generated header
 	 */
 	// ----------------------------------------------------------------------
 
-	Header create(const WeatherPeriod & thePeriod,
+	Header create(const WeatherArea & theArea,
+				  const WeatherPeriod & thePeriod,
 				  const std::string & theVariable)
 	{
 	  const string type = Settings::require_string(theVariable+"::type");
@@ -210,6 +248,9 @@ namespace TextGen
 		return header_from_until(thePeriod,theVariable);
 	  if(type == "several_days")
 		return header_several_days(thePeriod,theVariable);
+	  if(type == "report_area")
+		return header_report_area(theArea,thePeriod,theVariable);
+
 	  throw TextGenError("HeaderFactory does not recognize header type "+type);
 	}
 

@@ -157,7 +157,7 @@ namespace TextGen
 																  periodvar);
 
 		const string headervar = "textgen::"+*it+"::header";
-		Header header = HeaderFactory::create(period,headervar);
+		Header header = HeaderFactory::create(theArea,period,headervar);
 		if(!header.empty())
 		  doc << header;
 
