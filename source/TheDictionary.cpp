@@ -54,7 +54,7 @@ namespace textgen
    * be used. Normally one would use this in association with
    * DictionaryFactory::create.
    *
-   * \param The dictionary to take into use
+   * \param theDict The dictionary to take into use
    */
   // ----------------------------------------------------------------------
 
