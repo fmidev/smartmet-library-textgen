@@ -2,8 +2,7 @@
 
 \page page_story_temperature_weekly_minmax Tarina "temperature_weekly_minmax"
 
-Ajanjakson täytyy olla vähintään 2 vuorokautta. Alkamis- ja loppumisaikojen
-täytyy olla 06 tai 18.
+Ajanjakson täytyy olla vähintään 2 vuorokautta.
 
 Tarinat ovat muotoa
 
@@ -36,6 +35,25 @@ Jos muuttuja
 textgen::[kappale]::story::temperature_weekly_minmax::emphasize_night_minimum = [bool]
 \endcode
 arvo on true, ei yön alimmalle lämpötilalle esitetä ylärajaa.
+
+Päivät ja yöt määritellään seuraavien muuttujien mukaan:
+\code
+textgen::[kappale]::story::temperature_weekly_minmax::day::starthour = [0-23]
+textgen::[kappale]::story::temperature_weekly_minmax::day::endhour = [0-23]
+textgen::[kappale]::story::temperature_weekly_minmax::day::maxstarthour = [0-23]
+textgen::[kappale]::story::temperature_weekly_minmax::day::minendhour = [0-23]
+
+textgen::[kappale]::story::temperature_weekly_minmax::night::starthour = [0-23]
+textgen::[kappale]::story::temperature_weekly_minmax::night::endhour = [0-23]
+textgen::[kappale]::story::temperature_weekly_minmax::night::maxstarthour = [0-23]
+textgen::[kappale]::story::temperature_weekly_minmax::night::minendhour = [0-23]
+\endcode
+Tyypillisiä asetuksia ovat esimerkiksi seuraavat
+textgen::[kappale]::story::temperature_weekly_minmax::day::starthour = 6
+textgen::[kappale]::story::temperature_weekly_minmax::day::endhour = 18
+textgen::[kappale]::story::temperature_weekly_minmax::night::starthour = 18
+textgen::[kappale]::story::temperature_weekly_minmax::night::endhour = 6
+\endcode
 
 Tarvittavat fraasit ovat
 
