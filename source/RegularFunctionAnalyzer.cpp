@@ -201,7 +201,29 @@ namespace WeatherAnalysis
 		if(result == kFloatMissing)
 		  return WeatherResult(kFloatMissing,0);
 
-		return WeatherResult(result,0);
+		if(itsAreaFunction != Mean)
+		  return WeatherResult(result,0);
+
+		// Calculate standard deviation for the mean
+
+		if(!itIsModulo)
+		  spacemod = CalculatorFactory::create(StandardDeviation,theTester);
+		else
+		  spacemod = CalculatorFactory::create(StandardDeviation,theTester,itsModulo);
+		spacemod->acceptor(theAreaAcceptor);
+		
+		float error = QueryDataIntegrator::Integrate(qi,
+													 thePeriods,
+													 *subtimemod,
+													 *timemod,
+													 *mask,
+													 *spacemod);
+
+		// This would happen if the area covers one point only
+		if(error == kFloatMissing)
+		  return WeatherResult(result,0);
+
+		return WeatherResult(result,error);
 
 	  }
 	else
