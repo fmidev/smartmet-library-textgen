@@ -41,6 +41,100 @@ namespace StoryPhrasesTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test generic time phrases
+   */
+  // ----------------------------------------------------------------------
+
+  void timephrases()
+  {
+	require("tänään");
+	require("huomenna");
+	require("ylihuomenna");
+	require("ensi yönä");
+	require("huomisaamuna");
+	require("päivällä");
+
+	require("yöllä");
+	require("aamuyöllä");
+	require("aamulla");
+	require("aamupäivällä");
+	require("keskipäivällä");
+	require("iltapäivällä");
+	require("illalla");
+	require("iltayöllä");
+	require("keskiyöllä");
+
+	require("yöstä alkaen");
+	require("aamuyöstä alkaen");
+	require("aamusta alkaen");
+	require("aamupäivästä alkaen");
+	require("keskipäivästä alkaen");
+	require("iltapäivästä alkaen");
+	require("illasta alkaen");
+	require("iltayöstä alkaen");
+	require("keskiyöstä alkaen");
+
+	require("1-na","maanantaina");
+	require("2-na","tiistaina");
+	require("3-na","keskiviikkona");
+	require("4-na","torstaina");
+	require("5-na","perjantaina");
+	require("6-na","lauantaina");
+	require("7-na","sunnuntaina");
+
+	require("1-aamuun","maanantaiaamuun");
+	require("2-aamuun","tiistaiaamuun");
+	require("3-aamuun","keskiviikkoaamuun");
+	require("4-aamuun","torstaiaamuun");
+	require("5-aamuun","perjantaiaamuun");
+	require("6-aamuun","lauantaiaamuun");
+	require("7-aamuun","sunnuntaiaamuun");
+
+	require("1-iltaan","maanantai-iltaan");
+	require("2-iltaan","tiistai-iltaan");
+	require("3-iltaan","keskiviikkoiltaan");
+	require("4-iltaan","torstai-iltaan");
+	require("5-iltaan","perjantai-iltaan");
+	require("6-iltaan","lauantai-iltaan");
+	require("7-iltaan","sunnuntai-iltaan");
+
+	require("1-alkaen","maanantaista alkaen");
+	require("2-alkaen","tiistaista alkaen");
+	require("3-alkaen","keskiviikosta alkaen");
+	require("4-alkaen","torstaista alkaen");
+	require("5-alkaen","perjantaista alkaen");
+	require("6-alkaen","lauantaista alkaen");
+	require("7-alkaen","sunnuntaista alkaen");
+
+	require("1-aamusta","maanantaiaamusta");
+	require("2-aamusta","tiistaiaamusta");
+	require("3-aamusta","keskiviikkoaamusta");
+	require("4-aamusta","torstaiaamusta");
+	require("5-aamusta","perjantaiaamusta");
+	require("6-aamusta","lauantaiaamusta");
+	require("7-aamusta","sunnuntaiaamusta");
+
+	require("1-illasta","maanantai-illasta");
+	require("2-illasta","tiistai-illasta");
+	require("3-illasta","keskiviikkoillasta");
+	require("4-illasta","torstai-illasta");
+	require("5-illasta","perjantai-illasta");
+	require("6-illasta","lauantai-illasta");
+	require("7-illasta","sunnuntai-illasta");
+
+	require("1-vastaisena yönä","maanantain vastaisena yönä");
+	require("2-vastaisena yönä","tiistain vastaisena yönä");
+	require("3-vastaisena yönä","keskiviikon vastaisena yönä");
+	require("4-vastaisena yönä","torstain vastaisena yönä");
+	require("5-vastaisena yönä","perjantain vastaisena yönä");
+	require("6-vastaisena yönä","lauantain vastaisena yönä");
+	require("7-vastaisena yönä","sunnuntain vastaisena yönä");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief TemperatureStory::mean() requirements
    */
   // ----------------------------------------------------------------------
@@ -477,6 +571,8 @@ namespace StoryPhrasesTest
 	//! Main test suite
 	void test(void)
 	{
+	  TEST(timephrases);
+
 	  TEST(temperature_mean);
 	  TEST(temperature_meanmax);
 	  TEST(temperature_meanmin);
