@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::Header
+ * \brief Implementation of class TextGen::Document
  */
 // ======================================================================
 
-#include "Header.h"
+#include "Document.h"
 #include "Dictionary.h"
 #include "TextGenError.h"
 
@@ -21,69 +21,69 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  shared_ptr<Glyph> Header::clone() const
+  shared_ptr<Glyph> Document::clone() const
   {
-	shared_ptr<Glyph> ret(new Header(*this));
+	shared_ptr<Glyph> ret(new Document(*this));
 	return ret;
   }
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Return the text for the header
+   * \brief Return the text for the document
    *
    * \param theDictionary The dictionary to be used
    * \return The text
    */
   // ----------------------------------------------------------------------
 
-  std::string Header::realize(const Dictionary & theDictionary) const
+  std::string Document::realize(const Dictionary & theDictionary) const
   {
-	throw TextGenError("Header::realize should not be called");
+	throw TextGenError("Document::realize should not be called");
   }
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Adding a glyph to a header
+   * \brief Return the prefix for documents
+   *
+   * The prefix for documents is always the space character
+   *
+   * \return The space character
+   */
+  // ----------------------------------------------------------------------
+  
+  std::string Document::prefix() const
+  {
+	return " ";
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the suffix for documents
+   *
+   * The suffix for documents is always an empty string
+   *
+   * \return An empty string
+   */
+  // ----------------------------------------------------------------------
+  
+  std::string Document::suffix() const
+  {
+	return "";
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Add a glyph to a document
    *
    * \param theGlyph The glyph to be added
-   * \result The header added to
+   * \result The document added to
    */
   // ----------------------------------------------------------------------
 
-  Header & Header::operator<<(const Glyph & theGlyph)
+  Document & Document::operator<<(const Glyph & theGlyph)
   {
 	itsData.push_back(theGlyph.clone());
 	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the prefix for headers
-   *
-   * The prefix for headers is always an empty string
-   *
-   * \return An empty string
-   */
-  // ----------------------------------------------------------------------
-  
-  std::string Header::prefix() const
-  {
-	return "";
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the suffix for headers
-   *
-   * The suffix for headers is always an empty string
-   *
-   * \return An empty string
-   */
-  // ----------------------------------------------------------------------
-  
-  std::string Header::suffix() const
-  {
-	return "";
   }
 
 } // namespace TextGen

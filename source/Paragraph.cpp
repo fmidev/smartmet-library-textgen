@@ -7,169 +7,24 @@
 
 #include "Paragraph.h"
 #include "Dictionary.h"
-#include "Sentence.h"
-#include "TheDictionary.h"
-#include <algorithm>
-#include <cctype>
-#include <clocale>
-#include <list>
+#include "TextGenError.h"
 
 using namespace std;
+using namespace boost;
 
 namespace TextGen
 {
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Implementation hiding pimple for class Paragraph
+   * \brief Return a clone
    */
   // ----------------------------------------------------------------------
 
-  class Paragraph::Pimple
+  shared_ptr<Glyph> Paragraph::clone() const
   {
-  public:
-	~Pimple() { }
-	Pimple() : itsData() { }
-
-	typedef list<Sentence> storage_type;
-	storage_type itsData;
-
-  }; // class Pimple
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Destructor
-   */
-  // ----------------------------------------------------------------------
-
-  Paragraph::~Paragraph()
-  {
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
-
-  Paragraph::Paragraph()
-  {
-	itsPimple.reset(new Pimple());
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Copy constructor
-   *
-   * \param theParagraph The sentence to be copied
-   */
-  // ----------------------------------------------------------------------
-
-  Paragraph::Paragraph(const Paragraph & theParagraph)
-  {
-	itsPimple.reset(new Pimple(*theParagraph.itsPimple));
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   *
-   * \param theSentence The initial sentence
-   */
-  // ----------------------------------------------------------------------
-
-  Paragraph::Paragraph(const Sentence & theSentence)
-  {
-	itsPimple.reset(new Pimple());
-	*this << theSentence;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Assignment operator
-   *
-   * \param theParagraph The sentence to be copied
-   * \return The paragraph assigned to
-   */
-  // ----------------------------------------------------------------------
-
-  Paragraph & Paragraph::operator=(const Paragraph & theParagraph)
-  {
-	if(this != &theParagraph)
-	  itsPimple.reset(new Pimple(*theParagraph.itsPimple));
-	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief swap method
-   *
-   * \param theParagraph The paragraph to swap contents with
-   */
-  // ----------------------------------------------------------------------
-
-  void Paragraph::swap(Paragraph & theParagraph)
-  {
-	Pimple * a = itsPimple.release();
-	Pimple * b = theParagraph.itsPimple.release();
-	itsPimple.reset(b);
-	theParagraph.itsPimple.reset(a);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Adding a sentence to a paragraph
-   *
-   * \param theSentence The sentence to be added
-   * \result The paragraph added to
-   */
-  // ----------------------------------------------------------------------
-
-  Paragraph & Paragraph::operator<<(const Sentence & theSentence)
-  {
-	itsPimple->itsData.push_back(theSentence);
-	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Adding a paragraph to the end of a paragraph
-   *
-   * \param theParagraph The paragraph to be added
-   * \result The paragraph added to
-   */
-  // ----------------------------------------------------------------------
-
-  Paragraph & Paragraph::operator<<(const Paragraph & theParagraph)
-  {
-	if(this != &theParagraph)
-	  {
-		copy(theParagraph.itsPimple->itsData.begin(),
-			 theParagraph.itsPimple->itsData.end(),
-			 back_inserter(itsPimple->itsData));
-	  }
-	else
-	  {
-		// safety against x << x;
-		Paragraph tmp(theParagraph);
-		*this << tmp;
-	  }
-	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the paragraph
-   *
-   * The global singleton dictionary is used for the realization
-   *
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
-
-  std::string Paragraph::realize() const
-  {
-	return realize(TheDictionary::instance());
+	shared_ptr<Glyph> ret(new Paragraph(*this));
+	return ret;
   }
 
   // ----------------------------------------------------------------------
@@ -183,67 +38,53 @@ namespace TextGen
 
   std::string Paragraph::realize(const Dictionary & theDictionary) const
   {
-	string ret;
-
-	typedef Pimple::storage_type::const_iterator Iterator;
-	for(Iterator it=itsPimple->itsData.begin();
-		it!=itsPimple->itsData.end();
-		++it)
-	  {
-		const string words = it->realize(theDictionary);
-		if(words.empty())
-		  continue;
-		if(!ret.empty())
-		  ret += ' ';
-		ret += words;
-	  }
-
-	return ret;
+	throw TextGenError("Paragraph::realize should not be called");
   }
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Test if the paragraph is empty
+   * \brief Return the prefix for paragraphs
    *
-   * \return True if the paragraph is empty
+   * The prefix for paragraphs is always an empty string
+   *
+   * \return An empty string
    */
   // ----------------------------------------------------------------------
-
-  bool Paragraph::empty() const
+  
+  std::string Paragraph::prefix() const
   {
-	return itsPimple->itsData.empty();
+	return "";
   }
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Return the size of the paragraph (sentence count)
+   * \brief Return the suffix for paragraphs
    *
-   * \return The size
+   * The suffix for paragraphs is always an empty string
+   *
+   * \return An empty string
    */
   // ----------------------------------------------------------------------
-
-  size_t Paragraph::size() const
+  
+  std::string Paragraph::suffix() const
   {
-	return itsPimple->itsData.size();
+	return "";
   }
-
-  // ======================================================================
-  //			FREE OPERATORS
-  // ======================================================================
 
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Swapping two paragraphs
+   * \brief Adding a glyph to a paragraph
    *
-   * \param theLhs The first paragraph
-   * \param theRhs The second paragraph
+   * \param theGlyph The glyph to be added
+   * \result The paragraph added to
    */
   // ----------------------------------------------------------------------
 
-  void swap(Paragraph & theLhs, Paragraph & theRhs)
+  Paragraph & Paragraph::operator<<(const Glyph & theGlyph)
   {
-	theLhs.swap(theRhs);
+	itsData.push_back(theGlyph.clone());
+	return *this;
   }
 
 } // namespace TextGen

@@ -7,256 +7,27 @@
 
 #include "Sentence.h"
 #include "Dictionary.h"
-#include "PhraseWord.h"
-#include "PhraseNumber.h"
-#include "PhraseSeparator.h"
-#include "TheDictionary.h"
-#include <cctype>
-#include <clocale>
-#include <list>
+#include "Number.h"
+#include "Phrase.h"
+#include "TextGenError.h"
+#include <algorithm>
 
 using namespace std;
+using namespace boost;
 
 namespace TextGen
 {
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Implementation hiding pimple for class Sentence
+   * \brief Return a clone
    */
   // ----------------------------------------------------------------------
 
-  class Sentence::Pimple
+  shared_ptr<Glyph> Sentence::clone() const
   {
-  public:
-	typedef list<Phrase *> storage_type;
-	storage_type itsData;
-
-	~Pimple()
-	{
-	  for(storage_type::iterator it=itsData.begin(); it!=itsData.end(); ++it)
-		delete *it;
-	}
-
-	Pimple() : itsData() { }
-
-  }; // class Pimple
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Destructor
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence::~Sentence()
-  {
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence::Sentence()
-  {
-	itsPimple.reset(new Pimple());
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Copy constructor
-   *
-   * \param theSentence The sentence to be copied
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence::Sentence(const Sentence & theSentence)
-  {
-	itsPimple.reset(new Pimple());
-	*this << theSentence;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   *
-   * \param thePhrase The initial phrase
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence::Sentence(const Phrase & thePhrase)
-  {
-	itsPimple.reset(new Pimple());
-	*this << thePhrase;
-  }
-
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   *
-   * \param thePhrase The initial phrase
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence::Sentence(const std::string & thePhrase)
-  {
-	itsPimple.reset(new Pimple());
-	*this << PhraseWord(thePhrase);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   *
-   * \param theValue The value starting the phrase
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence::Sentence(int theValue)
-  {
-	itsPimple.reset(new Pimple());
-	*this << PhraseNumber<int>(theValue);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Assignment operator
-   *
-   * \param theSentence The sentence to be copied
-   * \return The sentence assigned to
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence & Sentence::operator=(const Sentence & theSentence)
-  {
-	if(this != &theSentence)
-	  {
-		itsPimple.reset(new Pimple);
-		*this << theSentence;
-	  }
-	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief swap method
-   *
-   * \param theSentence The sentence to swap contents with
-   */
-  // ----------------------------------------------------------------------
-
-  void Sentence::swap(Sentence & theSentence)
-  {
-	Pimple * a = itsPimple.release();
-	Pimple * b = theSentence.itsPimple.release();
-	itsPimple.reset(b);
-	theSentence.itsPimple.reset(a);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Adding a sentence to a sentence
-   *
-   * \param theSentence to be added
-   * \result The sentence added to
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence & Sentence::operator<<(const Sentence & theSentence)
-  {
-	if(this != &theSentence)
-	  {
-		for(Pimple::storage_type::const_iterator it=theSentence.itsPimple->itsData.begin();
-			it!=theSentence.itsPimple->itsData.end();
-			++it)
-		  {
-			Phrase * tmp = *it;
-			*this << *(tmp->clone().release());
-		  }
-	  }
-	else
-	  {
-		// safety against x << x;
-		Sentence tmp(theSentence);
-		*this << tmp;
-	  }
-	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Adding a phrase to a sentence
-   *
-   * \param thePhrase to be added
-   * \result The sentence added to
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence & Sentence::operator<<(const Phrase & thePhrase)
-  {
-	Phrase * tmp = thePhrase.clone().release();
-	itsPimple->itsData.push_back(tmp);
-	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Adding a phrase to a sentence
-   *
-   * The string is assumed to be the constructor argument for a PhraseWord,
-   * unless the string is recognized to be a word separator.
-   *
-   * The only currently recognized separator is ','
-   * 
-   * \param thePhrase to be added
-   * \result The sentence added to
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence & Sentence::operator<<(const std::string & thePhrase)
-  {
-	Phrase * tmp;
-
-	if(thePhrase == ",")
-	  tmp = new PhraseSeparator(thePhrase);
-	else
-	  tmp = new PhraseWord(thePhrase);
-
-	itsPimple->itsData.push_back(tmp);
-	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Adding a value to a sentence
-   *
-   * \param theValue The value to be added
-   * \result The sentence added to
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence & Sentence::operator<<(int theValue)
-  {
-	Phrase * tmp = new PhraseNumber<int>(theValue);
-	itsPimple->itsData.push_back(tmp);
-	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the sentence
-   *
-   * The global singleton dictionary is used for the realization
-   *
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
-
-  std::string Sentence::realize() const
-  {
-	return realize(TheDictionary::instance());
+	shared_ptr<Glyph> ret(new Sentence(*this));
+	return ret;
   }
 
   // ----------------------------------------------------------------------
@@ -270,79 +41,105 @@ namespace TextGen
 
   std::string Sentence::realize(const Dictionary & theDictionary) const
   {
-	string ret;
+	throw TextGenError("Sentence::realize should not be called");
+  }
 
-	typedef Pimple::storage_type::const_iterator Iterator;
-	for(Iterator it=itsPimple->itsData.begin();
-		it!=itsPimple->itsData.end();
-		++it)
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the prefix for sentences
+   *
+   * The prefix for sentences is always the space character
+   *
+   * \return The space character
+   */
+  // ----------------------------------------------------------------------
+  
+  std::string Sentence::prefix() const
+  {
+	return " ";
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the suffix for sentences
+   *
+   * The suffix for sentences is always an empty string
+   *
+   * \return An empty string
+   */
+  // ----------------------------------------------------------------------
+  
+  std::string Sentence::suffix() const
+  {
+	return "";
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Add a sentence to the end of this sentence
+   *
+   * \param theSentence The sentence to be added
+   * \result The sentence added to
+   */
+  // ----------------------------------------------------------------------
+
+  Sentence & Sentence::operator<<(const Sentence & theSentence)
+  {
+	if(this != &theSentence)
+	  copy(itsData.begin(), itsData.end(), back_inserter(itsData));
+	else
 	  {
-		const string & word = (*it)->realize(theDictionary);
-		if(word.empty())
-		  continue;
-		if(!ret.empty())
-		  ret += (*it)->wordseparator();
-		ret += word;
+		storage_type tmp(itsData);
+		copy(tmp.begin(),tmp.end(), back_inserter(itsData));
 	  }
-
-	if(ret.empty())
-	  return ret;
-
-	// capitalize
-
-	setlocale(LC_ALL, "Finnish");
-	ret[0] = ::toupper(ret[0]);
-	setlocale(LC_ALL, "C");
-
-	// Punctuate
-
-	ret += '.';
-	return ret;
+	return *this;
   }
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Test if the sentence is empty
+   * \brief Add a glyph to a sentence
    *
-   * \return True if the sentence is empty
+   * \param theGlyph The glyph to be added
+   * \result The sentence added to
    */
   // ----------------------------------------------------------------------
 
-  bool Sentence::empty() const
+  Sentence & Sentence::operator<<(const Glyph & theGlyph)
   {
-	return itsPimple->itsData.empty();
+	itsData.push_back(theGlyph.clone());
+	return *this;
   }
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Return the size of the sentence (phrase count)
+   * \brief Add a phrase to a sentence with automatic conversion
    *
-   * \return The size
+   * \param thePhrase The string initializer for the phrase
+   * \return The sentence added to
    */
   // ----------------------------------------------------------------------
 
-  size_t Sentence::size() const
+  Sentence & Sentence::operator<<(const string & thePhrase)
   {
-	return itsPimple->itsData.size();
+	shared_ptr<Phrase> phrase(new Phrase(thePhrase));
+	itsData.push_back(phrase);
+	return *this;
   }
-
-  // ======================================================================
-  //			FREE OPERATORS
-  // ======================================================================
-
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Swapping two sentences
+   * \brief Add a number to a sentence with automatic conversion
    *
-   * \param theLhs The first sentence
-   * \param theRhs The second sentence
+   * \param thePhrase The integer initializer for the number
+   * \return The sentence added to
    */
   // ----------------------------------------------------------------------
 
-  void swap(Sentence & theLhs, Sentence & theRhs)
+  Sentence & Sentence::operator<<(int theNumber)
   {
-	theLhs.swap(theRhs);
+	shared_ptr<Number<int> > number(new Number<int>(theNumber));
+	itsData.push_back(number);
+	return *this;
   }
 
 } // namespace TextGen

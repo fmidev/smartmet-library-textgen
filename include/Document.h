@@ -1,50 +1,49 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class TextGen::Phrase
+ * \brief Interface of class TextGen::Document
  */
 // ======================================================================
 /*!
- * \class TextGen::Phrase
- * \brief Representation of a dictionary word
+ * \class TextGen::Document
+ *
+ * \brief A sequence of glyphs forming a document
+ *
  */
 // ======================================================================
 
-#ifndef TEXTGEN_PHRASE_H
-#define TEXTGEN_PHRASE_H
+#ifndef TEXTGEN_DOCUMENT_H
+#define TEXTGEN_DOCUMENT_H
 
-#include "Glyph.h"
+#include "GlyphContainer.h"
+#include "boost/shared_ptr.hpp"
 #include <string>
 
 namespace TextGen
 {
-  class Dictionary;
-
-  class Phrase : public Glyph
+  class Document : public GlyphContainer
   {
   public:
-
-	virtual ~Phrase();
-	Phrase(const std::string & theWord);
+	~Document();
+	Document();
 #ifdef NO_COMPILER_GENERATED
-	Phrase(const Phrase & thePhrase);
-	Phrase & operator=(const Phrase & thePhrase);
+	Document(const Document & theDocument);
+	Document & operator=(const Document & theDocument);
 #endif
+
 	virtual boost::shared_ptr<Glyph> clone() const;
 	virtual std::string realize(const Dictionary & theDictionary) const;
 	virtual std::string realize(const TextFormatter & theFormatter) const;
 	virtual std::string prefix() const;
 	virtual std::string suffix() const;
 
-  private:
+	Document & operator<<(const Document & theDocument);
+	Document & operator<<(const Glyph & theGlyph);
 
-	Phrase();
-	std::string itsWord;
-
-  }; // class Phrase
+  }; // class Document
 
 } // namespace TextGen
 
-#endif // TEXTGEN_PHRASE_H
+#endif // TEXTGEN_DOCUMENT_H
 
 // ======================================================================

@@ -18,45 +18,31 @@
 #ifndef TEXTGEN_PARAGRAPH_H
 #define TEXTGEN_PARAGRAPH_H
 
-#include <memory>
+#include "GlyphContainer.h"
+#include "boost/shared_ptr.hpp"
 #include <string>
 
 namespace TextGen
 {
-  class Dictionary;
-  class Sentence;
-  
-  class Paragraph
+  class Paragraph : public GlyphContainer
   {
   public:
+#ifdef NO_COMPILER_GENERATED
 	~Paragraph();
 	Paragraph();
 	Paragraph(const Paragraph & theParagraph);
-	Paragraph(const Sentence & theSentence);
 	Paragraph & operator=(const Paragraph & theParagraph);
-	
-	void swap(Paragraph & theParagraph);
+#endif
 
-	Paragraph & operator<<(const Paragraph & theParagraph);
-	Paragraph & operator<<(const Sentence & theSentence);
+	virtual boost::shared_ptr<Glyph> clone() const;
+	virtual std::string realize(const Dictionary & theDictionary) const;
+	virtual std::string realize(const TextFormatter & theFormatter) const;
+	virtual std::string prefix() const;
+	virtual std::string suffix() const;
 
-	std::string realize() const;
-	std::string realize(const Dictionary & theDictionary) const;
-
-	bool empty() const;
-	size_t size() const;
-
-  private:
-
-	class Pimple;
-	std::auto_ptr<Pimple> itsPimple;
+	Paragraph & operator<<(const Glyph & theGlyph);
 
   }; // class Paragraph
-
-  // Free operators
-
-  void swap(Paragraph & theLhs, Paragraph & theRhs);
-
 
 } // namespace TextGen
 

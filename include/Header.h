@@ -6,11 +6,8 @@
 // ======================================================================
 /*!
  * \class TextGen::Header
- * \brief Representation of a header.
  *
- * The responsibility of the Header class is to store a sequence
- * of phrases and provide means for translating it by using a
- * dictionary.
+ * \brief A sequence of glyphs forming a header
  *
  */
 // ======================================================================
@@ -18,50 +15,31 @@
 #ifndef TEXTGEN_HEADER_H
 #define TEXTGEN_HEADER_H
 
-#include "Phrase.h"
-#include <memory>
+#include "GlyphContainer.h"
+#include "boost/shared_ptr.hpp"
 #include <string>
 
 namespace TextGen
 {
-  class Dictionary;
-
-  class Header
+  class Header : public GlyphContainer
   {
   public:
-
 	~Header();
 	Header();
+#ifdef NO_COMPILER_GENERATED
 	Header(const Header & theHeader);
-	Header(const Phrase & thePhrase);
-	Header(const std::string & thePhrase);
-	Header(int theValue);
 	Header & operator=(const Header & theHeader);
+#endif
 
-	void swap(Header & theHeader);
+	virtual boost::shared_ptr<Glyph> clone() const;
+	virtual std::string realize(const Dictionary & theDictionary) const;
+	virtual std::string realize(const TextFormatter & theFormatter) const;
+	virtual std::string prefix() const;
+	virtual std::string suffix() const;
 
-	Header & operator<<(const Header & theHeader);
-	Header & operator<<(const Phrase & thePhrase);
-	Header & operator<<(const std::string & thePhrase);
-	Header & operator<<(int theValue);
-
-	std::string realize() const;
-	std::string realize(const Dictionary & theDictionary) const;
-
-	bool empty() const;
-	size_t size() const;
-
-  private:
-
-	class Pimple;
-	std::auto_ptr<Pimple> itsPimple;
+	Header & operator<<(const Glyph & theGlyph);
 
   }; // class Header
-
-  // Free operators
-
-  void swap(Header & theLhs, Header & theRhs);
-
 
 } // namespace TextGen
 

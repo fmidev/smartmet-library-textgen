@@ -6,79 +6,46 @@
 // ======================================================================
 /*!
  * \class TextGen::Sentence
- * \brief Representation of a sentence.
  *
- * The responsibility of the Sentence class is to store a sequence
- * of phrases and provide means for translating it by using a
- * dictionary.
+ * \brief A sequence of sentences.
  *
- * Sample code:
- * \code
- * std::auto_ptr<Dictionary> dict(DictionaryFactory::create("mysql"));
- * dict->init("fi");
+ * The responsibility of the Sentence class is to contain
+ * a list of sentences, which can then be converted into text.
  *
- * Sentence s;
- * s += "lämpötila";
- * s += PhraseWord("kaakko");
- * s += PhraseNumber<int>(12);
- * cout << s.realize(*dict) << endl;
- *
- * TheDictionary::instance().dictionary(DictionaryFactory::create("mysql"));
- * TheDictionary::instance().init("en");
- *
- * cout << s.realize() << endl;
- *
- * \endcode
  */
 // ======================================================================
 
 #ifndef TEXTGEN_SENTENCE_H
 #define TEXTGEN_SENTENCE_H
 
-#include "Phrase.h"
-#include <memory>
+#include "GlyphContainer.h"
+#include "boost/shared_ptr.hpp"
 #include <string>
 
 namespace TextGen
 {
-  class Dictionary;
-
-  class Sentence
+  class Sentence : public GlyphContainer
   {
   public:
-
 	~Sentence();
 	Sentence();
+#ifdef NO_COMPILER_GENERATED
 	Sentence(const Sentence & theSentence);
-	Sentence(const Phrase & thePhrase);
-	Sentence(const std::string & thePhrase);
-	Sentence(int theValue);
 	Sentence & operator=(const Sentence & theSentence);
+#endif
 
-	void swap(Sentence & theSentence);
+	virtual boost::shared_ptr<Glyph> clone() const;
+	virtual std::string realize(const Dictionary & theDictionary) const;
+	virtual std::string realize(const TextFormatter & theFormatter) const;
+	virtual std::string prefix() const;
+	virtual std::string suffix() const;
 
 	Sentence & operator<<(const Sentence & theSentence);
-	Sentence & operator<<(const Phrase & thePhrase);
+	Sentence & operator<<(const Glyph & theGlyph);
 	Sentence & operator<<(const std::string & thePhrase);
-	Sentence & operator<<(int theValue);
-
-	std::string realize() const;
-	std::string realize(const Dictionary & theDictionary) const;
-
-	bool empty() const;
-	size_t size() const;
-
-  private:
-
-	class Pimple;
-	std::auto_ptr<Pimple> itsPimple;
+	Sentence & operator<<(int theNumber);
 
   }; // class Sentence
-
-  // Free operators
-
-  void swap(Sentence & theLhs, Sentence & theRhs);
-
 
 } // namespace TextGen
 
