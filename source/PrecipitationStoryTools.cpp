@@ -41,6 +41,31 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Generate the generic rain description story
+	 *
+	 * \param theSources The analysis sources
+	 * \param theArea The area to be analyzed
+	 * \param thePeriod The rainy period to be analyzed
+	 * \param theVar The control variable
+	 * \param theDay The day in question
+	 * \return The rain description story
+	 */
+	// ----------------------------------------------------------------------
+
+	Sentence rain_phrase(const WeatherAnalysis::AnalysisSources & theSources,
+						 const WeatherAnalysis::WeatherArea & theArea,
+						 const WeatherAnalysis::WeatherPeriod & thePeriod,
+						 const std::string & theVar,
+						 int theDay)
+	{
+	  Sentence s;
+	  s << places_phrase(theSources,theArea,thePeriod,theVar,theDay)
+		<< "sadetta";
+	  return s;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Generate the "in some place places" story
 	 *
 	 * The used variables are
@@ -60,6 +85,7 @@ namespace TextGen
 	 * \param thePeriod The rainy period to be analyzed
 	 * \param theVar The control variable
 	 * \param theDay The day in question
+	 * \return The "in places" description
 	 */
 	// ----------------------------------------------------------------------
 	
