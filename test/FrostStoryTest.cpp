@@ -347,6 +347,79 @@ namespace FrostStoryTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test FrostStory::day()
+   */
+  // ----------------------------------------------------------------------
+
+  void frost_day()
+  {
+	using namespace std;
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	WeatherArea area("25,60");
+	NFmiTime time1(2000,6,1,18);
+	NFmiTime time2(2000,6,2,6);
+	WeatherPeriod period(time1,time2);
+	FrostStory story(time1,sources,area,period,"day");
+
+	const string fun = "frost_day";
+
+	NFmiSettings::Set("day::night::starthour","18");
+	NFmiSettings::Set("day::night::endhour","6");
+
+	NFmiSettings::Set("day::precision","10");
+	NFmiSettings::Set("day::frost_limit","50");
+	NFmiSettings::Set("day::severe_frost_limit","30");
+
+	NFmiSettings::Set("day::fake::area::frost","0,0");
+	NFmiSettings::Set("day::fake::area::severe_frost","0,0");
+	NFmiSettings::Set("day::fake::coast::value","0,0");
+	NFmiSettings::Set("day::fake::inland::value","0,0");
+	require(story,"fi",fun,"");
+	require(story,"sv",fun,"");
+	require(story,"en",fun,"");
+
+	NFmiSettings::Set("day::fake::area::frost","60,0");
+	NFmiSettings::Set("day::fake::area::severe_frost","0,0");
+	NFmiSettings::Set("day::fake::coast::value","60,0");
+	NFmiSettings::Set("day::fake::inland::value","60,0");
+	require(story,"fi",fun,"Hallan todennäköisyys on 60%.");
+	require(story,"sv",fun,"Sannolikheten för nattfrost är 60%.");
+	require(story,"en",fun,"Probability of frost is 60%.");
+
+	NFmiSettings::Set("day::fake::area::frost","60,0");
+	NFmiSettings::Set("day::fake::area::severe_frost","40,0");
+	NFmiSettings::Set("day::fake::coast::value","40,0");
+	NFmiSettings::Set("day::fake::inland::value","40,0");
+	require(story,"fi",fun,"Ankaran hallan todennäköisyys on 40%.");
+	require(story,"sv",fun,"Sannolikheten för sträng nattfrost är 40%.");
+	require(story,"en",fun,"Probability of severe frost is 40%.");
+
+	NFmiSettings::Set("day::fake::area::frost","60,0");
+	NFmiSettings::Set("day::fake::area::severe_frost","40,0");
+	NFmiSettings::Set("day::fake::coast::value","10,0");
+	NFmiSettings::Set("day::fake::inland::value","60,0");
+	require(story,"fi",fun,"Ankaran hallan todennäköisyys on 60%, rannikolla 10%.");
+	require(story,"sv",fun,"Sannolikheten för sträng nattfrost är 60%, vid kusten 10%.");
+	require(story,"en",fun,"Probability of severe frost is 60%, on the coastal area 10%.");
+
+	NFmiSettings::Set("day::fake::area::frost","60,0");
+	NFmiSettings::Set("day::fake::area::severe_frost","90,0");
+	NFmiSettings::Set("day::fake::coast::value","90,0");
+	NFmiSettings::Set("day::fake::inland::value","90,0");
+	require(story,"fi",fun,"");
+	require(story,"sv",fun,"");
+	require(story,"en",fun,"");
+
+
+	TEST_PASSED();
+  }
+
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -366,6 +439,7 @@ namespace FrostStoryTest
 	  TEST(frost_maximum);
 	  TEST(frost_range);
 	  TEST(frost_twonights);
+	  TEST(frost_day);
 	}
 
   }; // class tests

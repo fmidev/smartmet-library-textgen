@@ -38,6 +38,7 @@ namespace TextGen
 	const Paragraph maximum() const;
 	const Paragraph range() const;
 	const Paragraph twonights() const;
+	const Paragraph day() const;
 
 	FrostStory();
 	FrostStory(const FrostStory & theStory);

@@ -12,21 +12,18 @@ Jos jakson pituus on yksi yö, palautetaan jokin tarinoista
 
  -# ""
  -# "[Hallan todennäköisyys] on [ensi yönä] N%."
- -# "[Hallan todennäköisyys] on [ensi yönä] rannikolla N%."
  -# "[Hallan todennäköisyys] on [ensi yönä] N%, rannikolla M%."
 
 Ruotsiksi
 
  -# ""
  -# "[Sannolikheten för nattfrost] är [i natt] N%."
- -# "[Sannolikheten för nattfrost] är [i natt] vid kusten N%."
  -# "[Sannolikheten för nattfrost] är [i natt] N%, vid kusten M%."
 
 Englanniksi
 
  -# ""
  -# "[Probability of frost] is [at night] N%."
- -# "[Probability of frost] is [at night] at the coast N%."
  -# "[Probability of frost] is [at night] N%, at the coast M%."
 
 Fraasin "hallan todennäköisyys" tilalle voi tulla myös "ankaran hallan
@@ -79,10 +76,8 @@ Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
 \code
 textgen::[kappale]::story::frost_day::fake::area::frost = [result]
 textgen::[kappale]::story::frost_day::fake::area::severe_frost = [result]
-textgen::[kappale]::story::frost_day::fake::coast::frost = [result]
-textgen::[kappale]::story::frost_day::fake::coast::severe_frost = [result]
-textgen::[kappale]::story::frost_day::fake::inland::frost = [result]
-textgen::[kappale]::story::frost_day::fake::inland::severe_frost = [result]
+textgen::[kappale]::story::frost_day::fake::coast::value = [result]
+textgen::[kappale]::story::frost_day::fake::inland::value = [result]
 \endcode
 
 Käytetyt fraasit ovat

@@ -77,6 +77,8 @@ namespace TextGen
 	  return true;
 	if(theName == "frost_twonights")
 	  return true;
+	if(theName == "frost_day")
+	  return true;
 	return false;
   }
   
@@ -101,6 +103,8 @@ namespace TextGen
 	  return range();
 	if(theName == "frost_twonights")
 	  return twonights();
+	if(theName == "frost_day")
+	  return day();
 
 	throw TextGenError("FrostStory cannot make story "+theName);
 
