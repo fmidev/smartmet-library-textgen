@@ -112,17 +112,17 @@ namespace TemperatureStoryTest
 
 	NFmiSettings::Set("meanmax::fake::mean","0.5,0");
 	require(story,"fi",fun,"Keskimääräinen ylin lämpötila 1 astetta.");
-	require(story,"sv",fun,"Den maximi temperaturen i medeltal 1 grader.");
+	require(story,"sv",fun,"Maximitemperaturen i medeltal 1 grader.");
 	require(story,"en",fun,"Mean maximum temperature 1 degrees.");
 
 	NFmiSettings::Set("meanmax::fake::mean","10,0");
 	require(story,"fi",fun,"Keskimääräinen ylin lämpötila 10 astetta.");
-	require(story,"sv",fun,"Den maximi temperaturen i medeltal 10 grader.");
+	require(story,"sv",fun,"Maximitemperaturen i medeltal 10 grader.");
 	require(story,"en",fun,"Mean maximum temperature 10 degrees.");
 
 	NFmiSettings::Set("meanmax::fake::mean","-10.5,0");
 	require(story,"fi",fun,"Keskimääräinen ylin lämpötila -11 astetta.");
-	require(story,"sv",fun,"Den maximi temperaturen i medeltal -11 grader.");
+	require(story,"sv",fun,"Maximitemperaturen i medeltal -11 grader.");
 	require(story,"en",fun,"Mean maximum temperature -11 degrees.");
 
 	TEST_PASSED();
@@ -151,22 +151,22 @@ namespace TemperatureStoryTest
 
 	NFmiSettings::Set("meanmin::fake::mean","0.1,0");
 	require(story,"fi",fun,"Keskimääräinen alin lämpötila 0 astetta.");
-	require(story,"sv",fun,"Den minimi temperaturen i medeltal 0 grader.");
+	require(story,"sv",fun,"Minimitemperaturen i medeltal 0 grader.");
 	require(story,"en",fun,"Mean minimum temperature 0 degrees.");
 
 	NFmiSettings::Set("meanmin::fake::mean","0.5,0");
 	require(story,"fi",fun,"Keskimääräinen alin lämpötila 1 astetta.");
-	require(story,"sv",fun,"Den minimi temperaturen i medeltal 1 grader.");
+	require(story,"sv",fun,"Minimitemperaturen i medeltal 1 grader.");
 	require(story,"en",fun,"Mean minimum temperature 1 degrees.");
 
 	NFmiSettings::Set("meanmin::fake::mean","10,0");
 	require(story,"fi",fun,"Keskimääräinen alin lämpötila 10 astetta.");
-	require(story,"sv",fun,"Den minimi temperaturen i medeltal 10 grader.");
+	require(story,"sv",fun,"Minimitemperaturen i medeltal 10 grader.");
 	require(story,"en",fun,"Mean minimum temperature 10 degrees.");
 
 	NFmiSettings::Set("meanmin::fake::mean","-10.5,0");
 	require(story,"fi",fun,"Keskimääräinen alin lämpötila -11 astetta.");
-	require(story,"sv",fun,"Den minimi temperaturen i medeltal -11 grader.");
+	require(story,"sv",fun,"Minimitemperaturen i medeltal -11 grader.");
 	require(story,"en",fun,"Mean minimum temperature -11 degrees.");
 
 	TEST_PASSED();

@@ -1215,8 +1215,8 @@ INSERT INTO translation_sv VALUES ('monin paikoin','flerstädes',20030611144814,'
 INSERT INTO translation_sv VALUES ('paikoin','lokalt',20030523084518,'mheiskan');
 INSERT INTO translation_sv VALUES ('odotettavissa','utsikter',20030513092904,'mheiskan');
 INSERT INTO translation_sv VALUES ('keskilämpötila','medeltemperaturen',20030516130805,'mheiskan');
-INSERT INTO translation_sv VALUES ('keskimääräinen ylin lämpötila','den maximi temperaturen i medeltal',20030611133554,'mheiskan');
-INSERT INTO translation_sv VALUES ('keskimääräinen alin lämpötila','den minimi temperaturen i medeltal',20030611133559,'mheiskan');
+INSERT INTO translation_sv VALUES ('keskimääräinen ylin lämpötila','maximitemperaturen i medeltal',20030919093929,'mheiskan');
+INSERT INTO translation_sv VALUES ('keskimääräinen alin lämpötila','minimitemperaturen i medeltal',20030919093925,'mheiskan');
 INSERT INTO translation_sv VALUES ('sadesumma','nederbördssumman',20030611133958,'mheiskan');
 INSERT INTO translation_sv VALUES ('astetta','grader',20030516130900,'mheiskan');
 INSERT INTO translation_sv VALUES ('millimetriä','millimeter',20030516134954,'mheiskan');
