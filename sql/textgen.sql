@@ -1027,11 +1027,11 @@ INSERT INTO translation_sv VALUES ('yön alin lämpötila','nattens lägsta temperat
 INSERT INTO translation_sv VALUES ('noin','cirka',20030526140819,'mheiskan');
 INSERT INTO translation_sv VALUES ('seuraavana päivänä','följande dag',20030611132651,'mheiskan');
 INSERT INTO translation_sv VALUES ('päivien ylin lämpötila','dagstemperaturerna',20030527112302,'mheiskan');
-INSERT INTO translation_sv VALUES ('öiden alin lämpötila','natttemperaturerna',20030527112313,'mheiskan');
+INSERT INTO translation_sv VALUES ('öiden alin lämpötila','nattemperaturerna',20030611133805,'mheiskan');
 INSERT INTO translation_sv VALUES ('aluksi','i början',20030527112321,'mheiskan');
 INSERT INTO translation_sv VALUES ('lopuksi','i slutet',20030527112326,'mheiskan');
 INSERT INTO translation_sv VALUES ('päivälämpötila','dagstemperaturen',20030527112401,'mheiskan');
-INSERT INTO translation_sv VALUES ('yölämpötila','natttemperaturen',20030527112410,'mheiskan');
+INSERT INTO translation_sv VALUES ('yölämpötila','nattemperaturen',20030611133734,'mheiskan');
 INSERT INTO translation_sv VALUES ('8-suunnasta','från sydväst',20030609135640,'mheiskan');
 INSERT INTO translation_sv VALUES ('7-suunnasta','västerifrån',20030609135632,'mheiskan');
 INSERT INTO translation_sv VALUES ('6-suunnasta','från sydväst',20030609135625,'mheiskan');
