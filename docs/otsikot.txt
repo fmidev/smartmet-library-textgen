@@ -20,16 +20,48 @@ Loppukellonajan tulee olla 06 tai 18, jolloin tarkenne on vastaavasti
 aamu tai ilta. T‰t‰ k‰ytet‰‰n yleens‰ vastaavan periodityypin "until"
 kanssa.
 
+Mahdolliset headerit ovat
+
+  -# "Odotettavissa maanantaiaamuun asti" + viikonp‰iv‰variaatiot
+  -# "Odotettavissa maanantaiiltaan asti" + viikonp‰iv‰variaatiot
+
+K‰ytetyt fraasit ovat
+
+  - "odotettavissa"
+  - "N-aamuun asti", miss‰ N=1-7
+  - "N-iltaan asti", miss‰ N=1-7
+
 \subsection sec_header_from_until Header tyyppi "from_until"
 
 Tuottaa headerin tyyppi‰ "Odotettavissa tiistai-illasta torstaiaamuun".
 Kellonaikojen tulee olla 06 tai 18, jolloin tarkenteet ovat aamu tai ilta.
 K‰ytet‰‰n yleens‰ vastaavan periodityypin "from_until" kanssa.
 
+Mahdolliset headerit ovat
+
+  -# "Odotettavista maanantaiaamusta maanantaiaamuun" + viikonp‰iv‰variaatiot
+  -# "Odotettavista maanantaiaamusta maanantaiiltaan" + viikonp‰iv‰variaatiot
+  -# "Odotettavista maanantai-illasta maanantaiaamuun" + viikonp‰iv‰variaatiot
+  -# "Odotettavista maanantai-illasta maanantai-iltaan" + viikonp‰iv‰variaatiot
+
+K‰ytetyt fraasit ovat
+
+  - "odotettavissa"
+  - "N-aamusta", miss‰ N=1-7
+  - "N-illasta", miss‰ N=1-7
+  - "N-aamuun", miss‰ N=1-7
+  - "N-iltaan", miss‰ N=1-7
+
 \subsection sec_header_several_days Header tyyppi "several_days"
 
 Tuottaa headerin tyyppi‰ "Tiistaiaamusta alkavan viiden vuorokauden s‰‰".
 Kellonaikojen tulee olla 06 tai 18. Jakson kokonaispituuden tulee olla
 N*24 tuntia, miss‰ N=2..10.
+
+K‰ytetyt fraasit ovat
+
+  - "N-aamusta alkavan", miss‰ N=1-7
+  - "N-illasta alkavan", miss‰ N=1-7
+  - "N-vuorokauden s‰‰", miss‰ N=1-10
 
 */
