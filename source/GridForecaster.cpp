@@ -28,6 +28,9 @@
 #include "CloudinessAnalyzer.h"
 #include "FrostAnalyzer.h"
 #include "PrecipitationAnalyzer.h"
+#include "PrecipitationFormAnalyzer.h"
+#include "PrecipitationProbabilityAnalyzer.h"
+#include "PrecipitationTypeAnalyzer.h"
 #include "RelativeHumidityAnalyzer.h"
 #include "SevereFrostAnalyzer.h"
 #include "TemperatureAnalyzer.h"
@@ -185,6 +188,48 @@ namespace WeatherAnalysis
 	  case Thunder:
 		{
 		  ThunderAnalyzer analyzer;
+		  return analyzer.analyze(theSources,
+								  Forecast,
+								  theAreaFunction,
+								  theTimeFunction,
+								  theSubTimeFunction,
+								  theArea,
+								  thePeriods,
+								  theAreaAcceptor,
+								  theTimeAcceptor,
+								  theTester);
+		}
+	  case PrecipitationType:
+		{
+		  PrecipitationTypeAnalyzer analyzer;
+		  return analyzer.analyze(theSources,
+								  Forecast,
+								  theAreaFunction,
+								  theTimeFunction,
+								  theSubTimeFunction,
+								  theArea,
+								  thePeriods,
+								  theAreaAcceptor,
+								  theTimeAcceptor,
+								  theTester);
+		}
+	  case PrecipitationForm:
+		{
+		  PrecipitationFormAnalyzer analyzer;
+		  return analyzer.analyze(theSources,
+								  Forecast,
+								  theAreaFunction,
+								  theTimeFunction,
+								  theSubTimeFunction,
+								  theArea,
+								  thePeriods,
+								  theAreaAcceptor,
+								  theTimeAcceptor,
+								  theTester);
+		}
+	  case PrecipitationProbability:
+		{
+		  PrecipitationProbabilityAnalyzer analyzer;
 		  return analyzer.analyze(theSources,
 								  Forecast,
 								  theAreaFunction,

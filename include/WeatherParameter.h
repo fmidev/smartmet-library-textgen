@@ -15,6 +15,9 @@ namespace WeatherAnalysis
 	{
 	  Temperature,
 	  Precipitation,
+	  PrecipitationType,
+	  PrecipitationForm,
+	  PrecipitationProbability,
 	  Cloudiness,
 	  Frost,
 	  SevereFrost,
