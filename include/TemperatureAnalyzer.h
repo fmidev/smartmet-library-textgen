@@ -30,11 +30,11 @@ namespace WeatherAnalysis
   {
   public:
 
-	virtual WeatherResult forecast(const AnalysisSources & theSources,
-								   const WeatherFunction & theFunction,
-								   const WeatherLimits & theLimits,
-								   const WeatherPeriod & thePeriod,
-								   const WeatherArea & theArea) const;
+	virtual WeatherResult analyze(const AnalysisSources & theSources,
+								  const WeatherFunction & theFunction,
+								  const WeatherLimits & theLimits,
+								  const WeatherPeriod & thePeriod,
+								  const WeatherArea & theArea) const;
   };
 }
 

@@ -29,13 +29,13 @@ namespace WeatherAnalysis
   {
   public:
 
-	virtual ~ParameterAnalyzer() = 0;
+	virtual ~ParameterAnalyzer() { }
 
-	virtual WeatherResult forecast(const AnalysisSources & theSources,
-								   const WeatherFunction & theFunction,
-								   const WeatherLimits & theLimits,
-								   const WeatherPeriod & thePeriod,
-								   const WeatherArea & theArea) const = 0;
+	virtual WeatherResult analyze(const AnalysisSources & theSources,
+								  const WeatherFunction & theFunction,
+								  const WeatherLimits & theLimits,
+								  const WeatherPeriod & thePeriod,
+								  const WeatherArea & theArea) const = 0;
   }; // class ParameterAnalyzer
 
 } // namespace WeatherAnalysis
