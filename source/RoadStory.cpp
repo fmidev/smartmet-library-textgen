@@ -68,7 +68,7 @@ namespace TextGen
   
   bool RoadStory::hasStory(const string & theName)
   {
-	if(theName == "daynightranges")
+	if(theName == "roadtemperature_daynightranges")
 	  return true;
 	return false;
   }
@@ -86,7 +86,7 @@ namespace TextGen
   
   Paragraph RoadStory::makeStory(const string & theName) const
   {
-	if(theName == "daynightranges")
+	if(theName == "roadtemperature_daynightranges")
 	  return daynightranges();
 	throw TextGenError("RoadStory cannot make story "+theName);
 
