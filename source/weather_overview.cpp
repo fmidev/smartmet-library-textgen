@@ -56,6 +56,20 @@ namespace TextGen
 
 	log << "Found " << rainperiods.size() << " rainy periods" << endl;
 
+	{
+	  for(RainPeriods::const_iterator it=rainperiods.begin();
+		  it!=rainperiods.end();
+		  it++)
+		{
+		  log << "Period: "
+			  << it->localStartTime()
+			  << " ... "
+			  << it->localEndTime()
+			  << endl;
+		}
+	}
+
+
 	if(rainperiods.size() == 0)
 	  {
 		CloudinessStory story(itsForecastTime,
@@ -84,12 +98,26 @@ namespace TextGen
 		RainPeriods overlap = overlappingPeriods(rainperiods,period);
 		RainPeriods inclusive = inclusivePeriods(rainperiods,period);
 
-		log << "Day " << day << " overlapping rains = " << overlap.size() << endl;
-		log << "Day " << day << " inclusive rains = " << inclusive.size() << endl;
-
 		overlaps.push_back(overlap);
 		inclusives.push_back(inclusive);
 
+		for(RainPeriods::const_iterator it=overlap.begin();
+			it!=overlap.end();
+			it++)
+		  {
+			log << "Day " << day << " overlap: "
+				<< it->localStartTime() << " ... " << it->localEndTime()
+				<< endl;
+		  }
+
+		for(RainPeriods::const_iterator it=inclusive.begin();
+			it!=inclusive.end();
+			it++)
+		  {
+			log << "Day " << day << " inclusive: "
+				<< it->localStartTime() << " ... " << it->localEndTime()
+				<< endl;
+		  }
 	  }
 
 	for(int day=1; day<=n; day++)
@@ -97,7 +125,7 @@ namespace TextGen
 		const RainPeriods::size_type noverlap = overlaps[day-1].size();
 		const RainPeriods::size_type ninclusive = inclusives[day-1].size();
 
-		if(noverlap==0)
+		if(ninclusive==noverlap) // all rains within the same day
 		  {
 			if(ninclusive==0)
 			  {
@@ -116,16 +144,17 @@ namespace TextGen
 				  log << "Cloudiness only for days " << day << '-' << day2 << endl;
 				else
 				  log << "Cloudiness only for day " << day << endl;
-
+				
 				CloudinessStory story(itsForecastTime,
 									  itsSources,
 									  itsArea,
 									  period,
 									  itsVar);
-
+				
 				paragraph << story.makeStory("cloudiness_overview");
 				day = day2;
 			  }
+
 			else if(ninclusive==1)
 			  {
 				Sentence s;
