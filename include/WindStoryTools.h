@@ -52,6 +52,18 @@ namespace TextGen
 	WeatherAnalysis::WeatherResult meanspeed(const WeatherAnalysis::WeatherResult & theSpeed1,
 											 const WeatherAnalysis::WeatherResult & theSpeed2);
 
+	WeatherAnalysis::WeatherResult minspeed(const WeatherAnalysis::WeatherResult & theSpeed1,
+											const WeatherAnalysis::WeatherResult & theSpeed2,
+											const WeatherAnalysis::WeatherResult & theSpeed3);
+
+	WeatherAnalysis::WeatherResult maxspeed(const WeatherAnalysis::WeatherResult & theSpeed1,
+											const WeatherAnalysis::WeatherResult & theSpeed2,
+											const WeatherAnalysis::WeatherResult & theSpeed3);
+	
+	WeatherAnalysis::WeatherResult meanspeed(const WeatherAnalysis::WeatherResult & theSpeed1,
+											 const WeatherAnalysis::WeatherResult & theSpeed2,
+											 const WeatherAnalysis::WeatherResult & theSpeed3);
+
 	bool similar_speed_range(const WeatherAnalysis::WeatherResult & theMinSpeed1,
 							 const WeatherAnalysis::WeatherResult & theMaxSpeed1,
 							 const WeatherAnalysis::WeatherResult & theMinSpeed2,

@@ -8,6 +8,7 @@
 #include "WindStoryTools.h"
 #include "Integer.h"
 #include "IntegerRange.h"
+#include "MathTools.h"
 #include "Sentence.h"
 #include "Settings.h"
 #include "UnitFactory.h"
@@ -75,8 +76,80 @@ namespace TextGen
 	WeatherResult meanspeed(const WeatherResult & theSpeed1,
 							const WeatherResult & theSpeed2)
 	{
-	  WeatherResult result((theSpeed1.value()+theSpeed2.value())/2,
+	  WeatherResult result(MathTools::mean(theSpeed1.value(),theSpeed2.value()),
 						   max(theSpeed1.error(),theSpeed2.error()));
+	  return result;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return smallest wind speed result
+	 *
+	 * \param theSpeed1 The first wind speed
+	 * \param theSpeed2 The second wind speed
+	 * \param theSpeed3 The third wind speed
+	 * \return The smaller wind speed
+	 */
+	// ----------------------------------------------------------------------
+
+	WeatherResult minspeed(const WeatherResult & theSpeed1,
+						   const WeatherResult & theSpeed2,
+						   const WeatherResult & theSpeed3)
+	{
+	  WeatherResult result(MathTools::min(theSpeed1.value(),
+										  theSpeed2.value(),
+										  theSpeed3.value()),
+						   MathTools::max(theSpeed1.error(),
+										  theSpeed2.error(),
+										  theSpeed3.error()));
+	  return result;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return greatest wind speed result
+	 *
+	 * \param theSpeed1 The first wind speed
+	 * \param theSpeed2 The second wind speed
+	 * \param theSpeed3 The third wind speed
+	 * \return The greater wind speed
+	 */
+	// ----------------------------------------------------------------------
+
+	WeatherResult maxspeed(const WeatherResult & theSpeed1,
+						   const WeatherResult & theSpeed2,
+						   const WeatherResult & theSpeed3)
+	{
+	  WeatherResult result(MathTools::max(theSpeed1.value(),
+										  theSpeed2.value(),
+										  theSpeed3.value()),
+						   MathTools::max(theSpeed1.error(),
+										  theSpeed2.error(),
+										  theSpeed3.error()));
+	  return result;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return mean wind speed result
+	 *
+	 * \param theSpeed1 The first wind speed
+	 * \param theSpeed2 The second wind speed
+	 * \param theSpeed3 The third wind speed
+	 * \return The mean wind speed
+	 */
+	// ----------------------------------------------------------------------
+
+	WeatherResult meanspeed(const WeatherResult & theSpeed1,
+							const WeatherResult & theSpeed2,
+							const WeatherResult & theSpeed3)
+	{
+	  WeatherResult result(MathTools::mean(theSpeed1.value(),
+										   theSpeed2.value(),
+										   theSpeed3.value()),
+						   MathTools::max(theSpeed1.error(),
+										  theSpeed2.error(),
+										  theSpeed3.error()));
 	  return result;
 	}
 
