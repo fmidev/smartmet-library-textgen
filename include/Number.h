@@ -52,6 +52,9 @@ namespace TextGen
 	virtual bool isDelimiter() const
 	{ return false; }
 
+	value_type value() const
+	{ return itsNumber; }
+
   private:
 
 	Number();

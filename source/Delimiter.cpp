@@ -90,6 +90,19 @@ namespace TextGen
 	return true;
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the delimiter as is without realization
+   *
+   * \return The delimiter string
+   */
+  // ----------------------------------------------------------------------
+
+  const string & Delimiter::value() const
+  {
+	return itsSeparator;
+  }
+
 } // namespace TextGen
 
 // ======================================================================

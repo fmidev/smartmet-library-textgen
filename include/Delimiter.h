@@ -35,6 +35,8 @@ namespace TextGen
 	virtual std::string realize(const TextFormatter & theFormatter) const;
 	virtual bool isDelimiter() const;
 
+	const std::string & value() const;
+
   private:
 
 	Delimiter();
