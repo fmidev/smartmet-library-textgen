@@ -13,7 +13,7 @@
  * in local time and a name of a conventional weather period, produce
  * the conventional weather period as a WeatherPeriod object.
  *
- * \see ref_page_aikavalit
+ * \see page_aikavalit
  * 
  */
 // ======================================================================
