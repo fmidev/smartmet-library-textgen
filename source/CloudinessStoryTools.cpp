@@ -123,7 +123,7 @@ namespace TextGen
 			  case DecreasingCloudiness:
 			  case IncreasingCloudiness:
 			  case VariableCloudiness:
-				break;
+				return notsimilar;
 			  }
 		  }
 		case IncreasingCloudiness:
@@ -143,7 +143,7 @@ namespace TextGen
 			  case CloudyOrPartlyCloudy:
 			  case ClearOrPartlyCloudy:
 			  case DecreasingCloudiness:
-				break;
+				return notsimilar;
 			  }
 		  }
 		case MostlyCloudy:
@@ -163,7 +163,7 @@ namespace TextGen
 			  case DecreasingCloudiness:
 			  case IncreasingCloudiness:
 			  case VariableCloudiness:
-				break;
+				return notsimilar;
 			  }
 		  }
 		case CloudyOrPartlyCloudy:
@@ -183,7 +183,7 @@ namespace TextGen
 			  case MostlyClear:
 			  case DecreasingCloudiness:
 			  case IncreasingCloudiness:
-				break;
+				return notsimilar;
 			  }
 		  }
 		case MostlyPartlyCloudy:
@@ -205,7 +205,7 @@ namespace TextGen
 				return CommonCloudiness(ClearOrPartlyCloudy,true);
 			  case DecreasingCloudiness:
 			  case IncreasingCloudiness:
-				break;
+				return notsimilar;
 			  }
 		  }
 		case VariableCloudiness:
@@ -224,7 +224,7 @@ namespace TextGen
 			  case Cloudy:
 			  case Clear:
 			  case DecreasingCloudiness:
-				break;
+				return notsimilar;
 			  }
 		  }
 		case PartlyCloudy:
@@ -247,7 +247,7 @@ namespace TextGen
 				return CommonCloudiness(ClearOrPartlyCloudy,true);
 			  case DecreasingCloudiness:
 			  case IncreasingCloudiness:
-				break;
+				return notsimilar;
 			  }
 		  }
 		case ClearOrPartlyCloudy:
@@ -267,7 +267,7 @@ namespace TextGen
 			  case Cloudy:
 			  case DecreasingCloudiness:
 			  case IncreasingCloudiness:
-				break;
+				return notsimilar;
 			  }
 		  }
 		case MostlyClear:
@@ -287,7 +287,7 @@ namespace TextGen
 			  case DecreasingCloudiness:
 			  case IncreasingCloudiness:
 			  case VariableCloudiness:
-				break;
+				return notsimilar;
 			  }
 		  }
 		case DecreasingCloudiness:
@@ -306,7 +306,7 @@ namespace TextGen
 			  case ClearOrPartlyCloudy:
 			  case IncreasingCloudiness:
 			  case VariableCloudiness:
-				break;
+				return notsimilar;
 			  }
 		  }
 		case Clear:
@@ -317,17 +317,17 @@ namespace TextGen
 				return CommonCloudiness(Clear,true);
 			  case MostlyPartlyCloudy:
 			  case PartlyCloudy:
-			  case CloudyOrPartlyCloudy:
+			  case ClearOrPartlyCloudy:
 				return CommonCloudiness(ClearOrPartlyCloudy,true);
 			  case MostlyClear:
 				return CommonCloudiness(MostlyClear,true);
+			  case CloudyOrPartlyCloudy:
 			  case Cloudy:
 			  case MostlyCloudy:
-			  case ClearOrPartlyCloudy:
 			  case DecreasingCloudiness:
 			  case IncreasingCloudiness:
 			  case VariableCloudiness:
-				break;
+				return notsimilar;
 			  }
 		  }
 		}

@@ -156,7 +156,266 @@ namespace CloudinessStoryToolsTest
 
   void similartype()
   {
-	TEST_NOT_IMPLEMENTED();
+	using namespace TextGen;
+	using namespace TextGen::CloudinessStoryTools;
+
+	// these tests hardcode the table in the documentation
+	// of the cloudiness_overview story
+
+	if(!similartype(Cloudy,Cloudy).second)
+	  TEST_FAILED("Cloudy is similar to Cloudy");
+	if(!similartype(Cloudy,PartlyCloudy).second)
+	  TEST_FAILED("Cloudy is similar to PartlyCloudy");
+	if(similartype(Cloudy,Clear).second)
+	  TEST_FAILED("Cloudy is not similar to Clear");
+	if(!similartype(Cloudy,MostlyCloudy).second)
+	  TEST_FAILED("Cloudy is similar to MostlyCloudy");
+	if(!similartype(Cloudy,MostlyPartlyCloudy).second)
+	  TEST_FAILED("Cloudy is similar to MostlyPartlyCloudy");
+	if(similartype(Cloudy,MostlyClear).second)
+	  TEST_FAILED("Cloudy is not similar to MostlyClear");
+	if(!similartype(Cloudy,CloudyOrPartlyCloudy).second)
+	  TEST_FAILED("Cloudy is similar to CloudyOrPartlyCloudy");
+	if(similartype(Cloudy,ClearOrPartlyCloudy).second)
+	  TEST_FAILED("Cloudy is not similar to ClearOrPartlyCloudy");
+	if(similartype(Cloudy,DecreasingCloudiness).second)
+	  TEST_FAILED("Cloudy is not similar to DecreasingCloudiness");
+	if(similartype(Cloudy,IncreasingCloudiness).second)
+	  TEST_FAILED("Cloudy is not similar to IncreasingCloudiness");
+	if(similartype(Cloudy,VariableCloudiness).second)
+	  TEST_FAILED("Cloudy is not similar to VariableCloudiness");
+
+	if(!similartype(PartlyCloudy,Cloudy).second)
+	  TEST_FAILED("PartlyCloudy is similar to Cloudy");
+	if(!similartype(PartlyCloudy,PartlyCloudy).second)
+	  TEST_FAILED("PartlyCloudy is similar to PartlyCloudy");
+	if(!similartype(PartlyCloudy,Clear).second)
+	  TEST_FAILED("PartlyCloudy is similar to Clear");
+	if(!similartype(PartlyCloudy,MostlyCloudy).second)
+	  TEST_FAILED("PartlyCloudy is similar to MostlyCloudy");
+	if(!similartype(PartlyCloudy,MostlyPartlyCloudy).second)
+	  TEST_FAILED("PartlyCloudy is similar to MostlyPartlyCloudy");
+	if(!similartype(PartlyCloudy,MostlyClear).second)
+	  TEST_FAILED("PartlyCloudy is similar to MostlyClear");
+	if(!similartype(PartlyCloudy,CloudyOrPartlyCloudy).second)
+	  TEST_FAILED("PartlyCloudy is similar to CloudyOrPartlyCloudy");
+	if(!similartype(PartlyCloudy,ClearOrPartlyCloudy).second)
+	  TEST_FAILED("PartlyCloudy is similar to ClearOrPartlyCloudy");
+	if(similartype(PartlyCloudy,DecreasingCloudiness).second)
+	  TEST_FAILED("PartlyCloudy is not similar to DecreasingCloudiness");
+	if(similartype(PartlyCloudy,IncreasingCloudiness).second)
+	  TEST_FAILED("PartlyCloudy is not similar to IncreasingCloudiness");
+	if(!similartype(PartlyCloudy,VariableCloudiness).second)
+	  TEST_FAILED("PartlyCloudy is similar to VariableCloudiness");
+
+	if(similartype(Clear,Cloudy).second)
+	  TEST_FAILED("Clear is not similar to Cloudy");
+	if(!similartype(Clear,PartlyCloudy).second)
+	  TEST_FAILED("Clear is similar to PartlyCloudy");
+	if(!similartype(Clear,Clear).second)
+	  TEST_FAILED("Clear is similar to Clear");
+	if(similartype(Clear,MostlyCloudy).second)
+	  TEST_FAILED("Clear is not similar to MostlyCloudy");
+	if(!similartype(Clear,MostlyPartlyCloudy).second)
+	  TEST_FAILED("Clear is similar to MostlyPartlyCloudy");
+	if(!similartype(Clear,MostlyClear).second)
+	  TEST_FAILED("Clear is similar to MostlyClear");
+	if(similartype(Clear,CloudyOrPartlyCloudy).second)
+	  TEST_FAILED("Clear is not similar to CloudyOrPartlyCloudy");
+	if(!similartype(Clear,ClearOrPartlyCloudy).second)
+	  TEST_FAILED("Clear is similar to ClearOrPartlyCloudy");
+	if(similartype(Clear,DecreasingCloudiness).second)
+	  TEST_FAILED("Clear is not similar to DecreasingCloudiness");
+	if(similartype(Clear,IncreasingCloudiness).second)
+	  TEST_FAILED("Clear is not similar to IncreasingCloudiness");
+	if(similartype(Clear,VariableCloudiness).second)
+	  TEST_FAILED("Clear is not similar to VariableCloudiness");
+
+	if(!similartype(MostlyCloudy,Cloudy).second)
+	  TEST_FAILED("MostlyCloudy is similar to Cloudy");
+	if(!similartype(MostlyCloudy,PartlyCloudy).second)
+	  TEST_FAILED("MostlyCloudy is similar to PartlyCloudy");
+	if(similartype(MostlyCloudy,Clear).second)
+	  TEST_FAILED("MostlyCloudy is not similar to Clear");
+	if(!similartype(MostlyCloudy,MostlyCloudy).second)
+	  TEST_FAILED("MostlyCloudy is similar to MostlyCloudy");
+	if(!similartype(MostlyCloudy,MostlyPartlyCloudy).second)
+	  TEST_FAILED("MostlyCloudy is similar to MostlyPartlyCloudy");
+	if(similartype(MostlyCloudy,MostlyClear).second)
+	  TEST_FAILED("MostlyCloudy is not similar to MostlyClear");
+	if(!similartype(MostlyCloudy,CloudyOrPartlyCloudy).second)
+	  TEST_FAILED("MostlyCloudy is similar to CloudyOrPartlyCloudy");
+	if(similartype(MostlyCloudy,ClearOrPartlyCloudy).second)
+	  TEST_FAILED("MostlyCloudy is not similar to ClearOrPartlyCloudy");
+	if(similartype(MostlyCloudy,DecreasingCloudiness).second)
+	  TEST_FAILED("MostlyCloudy is not similar to DecreasingCloudiness");
+	if(similartype(MostlyCloudy,IncreasingCloudiness).second)
+	  TEST_FAILED("MostlyCloudy is not similar to IncreasingCloudiness");
+	if(similartype(MostlyCloudy,VariableCloudiness).second)
+	  TEST_FAILED("MostlyCloudy is not similar to VariableCloudiness");
+
+	if(!similartype(MostlyPartlyCloudy,Cloudy).second)
+	  TEST_FAILED("MostlyPartlyCloudy is similar to Cloudy");
+	if(!similartype(MostlyPartlyCloudy,PartlyCloudy).second)
+	  TEST_FAILED("MostlyPartlyCloudy is similar to PartlyCloudy");
+	if(!similartype(MostlyPartlyCloudy,Clear).second)
+	  TEST_FAILED("MostlyPartlyCloudy is similar to Clear");
+	if(!similartype(MostlyPartlyCloudy,MostlyCloudy).second)
+	  TEST_FAILED("MostlyPartlyCloudy is similar to MostlyCloudy");
+	if(!similartype(MostlyPartlyCloudy,MostlyPartlyCloudy).second)
+	  TEST_FAILED("MostlyPartlyCloudy is similar to MostlyPartlyCloudy");
+	if(!similartype(MostlyPartlyCloudy,MostlyClear).second)
+	  TEST_FAILED("MostlyPartlyCloudy is similar to MostlyClear");
+	if(!similartype(MostlyPartlyCloudy,CloudyOrPartlyCloudy).second)
+	  TEST_FAILED("MostlyPartlyCloudy is similar to CloudyOrPartlyCloudy");
+	if(!similartype(MostlyPartlyCloudy,ClearOrPartlyCloudy).second)
+	  TEST_FAILED("MostlyPartlyCloudy is similar to ClearOrPartlyCloudy");
+	if(similartype(MostlyPartlyCloudy,DecreasingCloudiness).second)
+	  TEST_FAILED("MostlyPartlyCloudy is not similar to DecreasingCloudiness");
+	if(similartype(MostlyPartlyCloudy,IncreasingCloudiness).second)
+	  TEST_FAILED("MostlyPartlyCloudy is not similar to IncreasingCloudiness");
+	if(!similartype(MostlyPartlyCloudy,VariableCloudiness).second)
+	  TEST_FAILED("MostlyPartlyCloudy is similar to VariableCloudiness");
+
+	if(similartype(MostlyClear,Cloudy).second)
+	  TEST_FAILED("MostlyClear is not similar to Cloudy");
+	if(!similartype(MostlyClear,PartlyCloudy).second)
+	  TEST_FAILED("MostlyClear is similar to PartlyCloudy");
+	if(!similartype(MostlyClear,Clear).second)
+	  TEST_FAILED("MostlyClear is similar to Clear");
+	if(similartype(MostlyClear,MostlyCloudy).second)
+	  TEST_FAILED("MostlyClear is not similar to MostlyCloudy");
+	if(!similartype(MostlyClear,MostlyPartlyCloudy).second)
+	  TEST_FAILED("MostlyClear is similar to MostlyPartlyCloudy");
+	if(!similartype(MostlyClear,MostlyClear).second)
+	  TEST_FAILED("MostlyClear is similar to MostlyClear");
+	if(similartype(MostlyClear,CloudyOrPartlyCloudy).second)
+	  TEST_FAILED("MostlyClear is not similar to CloudyOrPartlyCloudy");
+	if(!similartype(MostlyClear,ClearOrPartlyCloudy).second)
+	  TEST_FAILED("MostlyClear is similar to ClearOrPartlyCloudy");
+	if(similartype(MostlyClear,DecreasingCloudiness).second)
+	  TEST_FAILED("MostlyClear is not similar to DecreasingCloudiness");
+	if(similartype(MostlyClear,IncreasingCloudiness).second)
+	  TEST_FAILED("MostlyClear is not similar to IncreasingCloudiness");
+	if(similartype(MostlyClear,VariableCloudiness).second)
+	  TEST_FAILED("MostlyClear is not similar to VariableCloudiness");
+
+	if(!similartype(CloudyOrPartlyCloudy,Cloudy).second)
+	  TEST_FAILED("CloudyOrPartlyCloudy is similar to Cloudy");
+	if(!similartype(CloudyOrPartlyCloudy,PartlyCloudy).second)
+	  TEST_FAILED("CloudyOrPartlyCloudy is similar to PartlyCloudy");
+	if(similartype(CloudyOrPartlyCloudy,Clear).second)
+	  TEST_FAILED("CloudyOrPartlyCloudy is not similar to Clear");
+	if(!similartype(CloudyOrPartlyCloudy,MostlyCloudy).second)
+	  TEST_FAILED("CloudyOrPartlyCloudy is similar to MostlyCloudy");
+	if(!similartype(CloudyOrPartlyCloudy,MostlyPartlyCloudy).second)
+	  TEST_FAILED("CloudyOrPartlyCloudy is similar to MostlyPartlyCloudy");
+	if(similartype(CloudyOrPartlyCloudy,MostlyClear).second)
+	  TEST_FAILED("CloudyOrPartlyCloudy is not similar to MostlyClear");
+	if(!similartype(CloudyOrPartlyCloudy,CloudyOrPartlyCloudy).second)
+	  TEST_FAILED("CloudyOrPartlyCloudy is similar to CloudyOrPartlyCloudy");
+	if(!similartype(CloudyOrPartlyCloudy,ClearOrPartlyCloudy).second)
+	  TEST_FAILED("CloudyOrPartlyCloudy is similar to ClearOrPartlyCloudy");
+	if(similartype(CloudyOrPartlyCloudy,DecreasingCloudiness).second)
+	  TEST_FAILED("CloudyOrPartlyCloudy is not similar to DecreasingCloudiness");
+	if(similartype(CloudyOrPartlyCloudy,IncreasingCloudiness).second)
+	  TEST_FAILED("CloudyOrPartlyCloudy is not similar to IncreasingCloudiness");
+	if(!similartype(CloudyOrPartlyCloudy,VariableCloudiness).second)
+	  TEST_FAILED("CloudyOrPartlyCloudy is similar to VariableCloudiness");
+
+	if(similartype(ClearOrPartlyCloudy,Cloudy).second)
+	  TEST_FAILED("ClearOrPartlyCloudy is not similar to Cloudy");
+	if(!similartype(ClearOrPartlyCloudy,PartlyCloudy).second)
+	  TEST_FAILED("ClearOrPartlyCloudy is similar to PartlyCloudy");
+	if(!similartype(ClearOrPartlyCloudy,Clear).second)
+	  TEST_FAILED("ClearOrPartlyCloudy is similar to Clear");
+	if(!similartype(ClearOrPartlyCloudy,MostlyCloudy).second)
+	  TEST_FAILED("ClearOrPartlyCloudy is similar to MostlyCloudy");
+	if(!similartype(ClearOrPartlyCloudy,MostlyPartlyCloudy).second)
+	  TEST_FAILED("ClearOrPartlyCloudy is similar to MostlyPartlyCloudy");
+	if(!similartype(ClearOrPartlyCloudy,MostlyClear).second)
+	  TEST_FAILED("ClearOrPartlyCloudy is similar to MostlyClear");
+	if(!similartype(ClearOrPartlyCloudy,CloudyOrPartlyCloudy).second)
+	  TEST_FAILED("ClearOrPartlyCloudy is similar to CloudyOrPartlyCloudy");
+	if(!similartype(ClearOrPartlyCloudy,ClearOrPartlyCloudy).second)
+	  TEST_FAILED("ClearOrPartlyCloudy is similar to ClearOrPartlyCloudy");
+	if(similartype(ClearOrPartlyCloudy,DecreasingCloudiness).second)
+	  TEST_FAILED("ClearOrPartlyCloudy is not similar to DecreasingCloudiness");
+	if(similartype(ClearOrPartlyCloudy,IncreasingCloudiness).second)
+	  TEST_FAILED("ClearOrPartlyCloudy is not similar to IncreasingCloudiness");
+	if(!similartype(ClearOrPartlyCloudy,VariableCloudiness).second)
+	  TEST_FAILED("ClearOrPartlyCloudy is similar to VariableCloudiness");
+
+	if(similartype(DecreasingCloudiness,Cloudy).second)
+	  TEST_FAILED("DecreasingCloudiness is not similar to Cloudy");
+	if(similartype(DecreasingCloudiness,PartlyCloudy).second)
+	  TEST_FAILED("DecreasingCloudiness is not similar to PartlyCloudy");
+	if(!similartype(DecreasingCloudiness,Clear).second)
+	  TEST_FAILED("DecreasingCloudiness is similar to Clear");
+	if(similartype(DecreasingCloudiness,MostlyCloudy).second)
+	  TEST_FAILED("DecreasingCloudiness is not similar to MostlyCloudy");
+	if(similartype(DecreasingCloudiness,MostlyPartlyCloudy).second)
+	  TEST_FAILED("DecreasingCloudiness is not similar to MostlyPartlyCloudy");
+	if(!similartype(DecreasingCloudiness,MostlyClear).second)
+	  TEST_FAILED("DecreasingCloudiness is similar to MostlyClear");
+	if(similartype(DecreasingCloudiness,CloudyOrPartlyCloudy).second)
+	  TEST_FAILED("DecreasingCloudiness is not similar to CloudyOrPartlyCloudy");
+	if(similartype(DecreasingCloudiness,ClearOrPartlyCloudy).second)
+	  TEST_FAILED("DecreasingCloudiness is not similar to ClearOrPartlyCloudy");
+	if(!similartype(DecreasingCloudiness,DecreasingCloudiness).second)
+	  TEST_FAILED("DecreasingCloudiness is similar to DecreasingCloudiness");
+	if(similartype(DecreasingCloudiness,IncreasingCloudiness).second)
+	  TEST_FAILED("DecreasingCloudiness is not similar to IncreasingCloudiness");
+	if(similartype(DecreasingCloudiness,VariableCloudiness).second)
+	  TEST_FAILED("DecreasingCloudiness is not similar to VariableCloudiness");
+
+	if(!similartype(IncreasingCloudiness,Cloudy).second)
+	  TEST_FAILED("IncreasingCloudiness is similar to Cloudy");
+	if(similartype(IncreasingCloudiness,PartlyCloudy).second)
+	  TEST_FAILED("IncreasingCloudiness is not similar to PartlyCloudy");
+	if(similartype(IncreasingCloudiness,Clear).second)
+	  TEST_FAILED("IncreasingCloudiness is not similar to Clear");
+	if(!similartype(IncreasingCloudiness,MostlyCloudy).second)
+	  TEST_FAILED("IncreasingCloudiness is similar to MostlyCloudy");
+	if(similartype(IncreasingCloudiness,MostlyPartlyCloudy).second)
+	  TEST_FAILED("IncreasingCloudiness is not similar to MostlyPartlyCloudy");
+	if(similartype(IncreasingCloudiness,MostlyClear).second)
+	  TEST_FAILED("IncreasingCloudiness is not similar to MostlyClear");
+	if(similartype(IncreasingCloudiness,CloudyOrPartlyCloudy).second)
+	  TEST_FAILED("IncreasingCloudiness is not similar to CloudyOrPartlyCloudy");
+	if(similartype(IncreasingCloudiness,ClearOrPartlyCloudy).second)
+	  TEST_FAILED("IncreasingCloudiness is not similar to ClearOrPartlyCloudy");
+	if(similartype(IncreasingCloudiness,DecreasingCloudiness).second)
+	  TEST_FAILED("IncreasingCloudiness is not similar to DecreasingCloudiness");
+	if(!similartype(IncreasingCloudiness,IncreasingCloudiness).second)
+	  TEST_FAILED("IncreasingCloudiness is similar to IncreasingCloudiness");
+	if(!similartype(IncreasingCloudiness,VariableCloudiness).second)
+	  TEST_FAILED("IncreasingCloudiness is similar to VariableCloudiness");
+
+	if(similartype(VariableCloudiness,Cloudy).second)
+	  TEST_FAILED("VariableCloudiness is not similar to Cloudy");
+	if(!similartype(VariableCloudiness,PartlyCloudy).second)
+	  TEST_FAILED("VariableCloudiness is similar to PartlyCloudy");
+	if(similartype(VariableCloudiness,Clear).second)
+	  TEST_FAILED("VariableCloudiness is not similar to Clear");
+	if(!similartype(VariableCloudiness,MostlyCloudy).second)
+	  TEST_FAILED("VariableCloudiness is similar to MostlyCloudy");
+	if(!similartype(VariableCloudiness,MostlyPartlyCloudy).second)
+	  TEST_FAILED("VariableCloudiness is similar to MostlyPartlyCloudy");
+	if(!similartype(VariableCloudiness,MostlyClear).second)
+	  TEST_FAILED("VariableCloudiness is similar to MostlyClear");
+	if(!similartype(VariableCloudiness,CloudyOrPartlyCloudy).second)
+	  TEST_FAILED("VariableCloudiness is similar to CloudyOrPartlyCloudy");
+	if(!similartype(VariableCloudiness,ClearOrPartlyCloudy).second)
+	  TEST_FAILED("VariableCloudiness is similar to ClearOrPartlyCloudy");
+	if(similartype(VariableCloudiness,DecreasingCloudiness).second)
+	  TEST_FAILED("VariableCloudiness is not similar to DecreasingCloudiness");
+	if(!similartype(VariableCloudiness,IncreasingCloudiness).second)
+	  TEST_FAILED("VariableCloudiness is similar to IncreasingCloudiness");
+	if(!similartype(VariableCloudiness,VariableCloudiness).second)
+	  TEST_FAILED("VariableCloudiness is similar to VariableCloudiness");
+
+	TEST_PASSED();
   }
 
   // ----------------------------------------------------------------------
