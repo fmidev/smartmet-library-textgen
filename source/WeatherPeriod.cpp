@@ -80,7 +80,7 @@ namespace WeatherAnalysis
 	, itsUtcStartTime(toutc(theLocalStartTime))
 	, itsUtcEndTime(toutc(theLocalEndTime))
   {
-	if(!theLocalEndTime.IsLessThan(theLocalStartTime))
+	if(theLocalEndTime.IsLessThan(theLocalStartTime))
 	  throw WeatherAnalysisError("WeatherPeriod: end time must be after start time");
   }
 
