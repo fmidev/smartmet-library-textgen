@@ -39,6 +39,38 @@ namespace WeekdayToolsTest
 	TEST_PASSED();
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test WeekdayTools::on_weekday_time()
+   */
+  // ----------------------------------------------------------------------
+
+  void on_weekday_time()
+  {
+	using namespace TextGen;
+
+	if(WeekdayTools::on_weekday_time(NFmiTime(2003,6,1)) != "7-na kello")
+	  TEST_FAILED("June 1 2003 should return '7-na kello'");
+	if(WeekdayTools::on_weekday_time(NFmiTime(2003,6,2)) != "1-na kello")
+	  TEST_FAILED("June 2 2003 should return '1-na kello'");
+	if(WeekdayTools::on_weekday_time(NFmiTime(2003,6,3)) != "2-na kello")
+	  TEST_FAILED("June 3 2003 should return '2-na kello'");
+	if(WeekdayTools::on_weekday_time(NFmiTime(2003,6,4)) != "3-na kello")
+	  TEST_FAILED("June 4 2003 should return '3-na kello'");
+	if(WeekdayTools::on_weekday_time(NFmiTime(2003,6,5)) != "4-na kello")
+	  TEST_FAILED("June 5 2003 should return '4-na kello'");
+	if(WeekdayTools::on_weekday_time(NFmiTime(2003,6,6)) != "5-na kello")
+	  TEST_FAILED("June 6 2003 should return '5-na kello'");
+	if(WeekdayTools::on_weekday_time(NFmiTime(2003,6,7)) != "6-na kello")
+	  TEST_FAILED("June 7 2003 should return '6-na kello'");
+	if(WeekdayTools::on_weekday_time(NFmiTime(2003,6,8)) != "7-na kello")
+	  TEST_FAILED("June 8 2003 should return '7-na kello'");
+	if(WeekdayTools::on_weekday_time(NFmiTime(2003,6,9)) != "1-na kello")
+	  TEST_FAILED("June 9 2003 should return '1-na kello'");
+
+	TEST_PASSED();
+  }
+
 
   // ----------------------------------------------------------------------
   /*!
@@ -265,6 +297,7 @@ namespace WeekdayToolsTest
 	void test(void)
 	{
 	  TEST(on_weekday);
+	  TEST(on_weekday_time);
 	  TEST(night_against_weekday);
 	  TEST(until_weekday_morning);
 	  TEST(until_weekday_evening);
