@@ -20,6 +20,7 @@ imageline($img,0,$dy,$width,$dy,$black);
 imageline($img,0,2*$dy,$width,2*$dy,$black);
 imageline($img,0,3*$dy,$width,3*$dy,$black);
 imageline($img,0,4*$dy,$width/2,4*$dy,$black);
+imageline($img,$width*3/4,4*$dy,$width,4*$dy,$black);
 
 imageline($img,0,0,0,4*$dy,$black);			// 06
 imageline($img,3*$dx,$dy,3*$dx,4*$dy,$black);		// 09
@@ -28,9 +29,9 @@ imageline($img,6*$dx,2*$dy,6*$dx,3*$dy,$black);		// 12
 imageline($img,7*$dx,3*$dy,7*$dx,4*$dy,$black);		// 13
 imageline($img,12*$dx,0,12*$dx,4*$dy,$black);		// 18
 imageline($img,16*$dx,$dy,16*$dx,3*$dy,$black);		// 22
-imageline($img,18*$dx,2*$dy,18*$dx,3*$dy,$black);	// 00
+imageline($img,18*$dx,2*$dy,18*$dx,4*$dy,$black);	// 00
 imageline($img,21*$dx,2*$dy,21*$dx,3*$dy,$black);	// 03
-imageline($img,24*$dx,0,24*$dx,3*$dy,$black);		// 06
+imageline($img,24*$dx,0,24*$dx,4*$dy,$black);		// 06
 
 # Tekstit
 
@@ -57,6 +58,7 @@ ImageCenteredText($img,$size,1.5*$dx,3.5*$dy,$black,$font,"Aamu");
 ImageCenteredText($img,$size,4*$dx,3.5*$dy,$black,$font,"Aamupäivä");
 ImageCenteredText($img,$size,6*$dx,3.5*$dy,$black,$font,"Keskipäivä");
 ImageCenteredText($img,$size,9.5*$dx,3.5*$dy,$black,$font,"Iltapäivä");
+ImageCenteredText($img,$size,21*$dx,3.5*$dy,$black,$font,"Yö");
 
 $yoffset = 20;
 $xoffset = 20;
