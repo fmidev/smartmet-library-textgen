@@ -32,16 +32,16 @@ namespace ModMeanCalculatorTest
 	  TEST_FAILED("Failed mean(1) = 1");
 
 	calc(9);
-	if(calc() != (1+-1)/2.0)
+	if(calc() != (1-1)/2.0)
 	  TEST_FAILED("Failed mean(1,9) = 0");
 
 	calc(7);
-	if(calc() != 9)
+	if(calc() != (11+9+7)/3.0)
 	  TEST_FAILED("Failed mean(1,9,7) = 9");
 
 	calc(3);
-	if(calc() != 0)
-	  TEST_FAILED("Failed mean(1,9,7,3) = 0");
+	if(calc() != (11+9+7+3)/4.0)
+	  TEST_FAILED("Failed mean(1,9,7,3) = 7.5");
 
 	TEST_PASSED();
   }

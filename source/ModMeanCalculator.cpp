@@ -62,6 +62,8 @@ namespace WeatherAnalysis
 			else if(diff > itsModulo/2)
 			  dir -= itsModulo;
 			itsSum += dir;
+
+			itsPreviousDirection = dir;
 		  }
 	  }
   }
