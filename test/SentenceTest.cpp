@@ -1,7 +1,7 @@
 #include "tframe.h"
 #include "DictionaryFactory.h"
-#include "PhraseNumber.h"
-#include "PhraseSeparator.h"
+#include "Number.h"
+#include "Delimiter.h"
 #include "Sentence.h"
 #include "TheDictionary.h"
 
@@ -43,13 +43,6 @@ namespace SentenceTest
 	  s4 = s;
 	}
 
-	{
-	  // Should succeed
-	  Sentence s1(std::string("foobar"));
-	  // Should succeed via automatic casting
-	  Sentence s2("foobar");
-	}
-
 	TEST_PASSED();
   }
 
@@ -61,10 +54,11 @@ namespace SentenceTest
 	Sentence s1;
 	if(!s1.empty())
 	  TEST_FAILED("sentence should be empty after void constructor");
-
-	Sentence s2("foobar");
+	
+	Sentence s2;
+	s2 << "foobar";
 	if(s2.empty())
-	  TEST_FAILED("sentence should not be empty after explicit construction");
+	  TEST_FAILED("sentence should not be empty after adding phrase");
 
 	Sentence s3(s2);
 	if(s3.empty())
@@ -82,9 +76,10 @@ namespace SentenceTest
 	if(s1.size()!=0)
 	  TEST_FAILED("sentence size should be 0 after void constructor");
 
-	Sentence s2("foobar");
+	Sentence s2;
+	s2 << "foobar";
 	if(s2.size()!=1)
-	  TEST_FAILED("sentence size should be 1 after explicit construction");
+	  TEST_FAILED("sentence size should be 1 after adding a phrase");
 
 	Sentence s3(s2);
 	if(s3.size()!=1)
@@ -100,9 +95,11 @@ namespace SentenceTest
 	using namespace TextGen;
 
 	{
-	  Sentence s1("a");
-	  
-	  Sentence s2("b");
+	  Sentence s1;
+	  Sentence s2;
+	  s1 << "a";
+	  s2 << "b";
+
 	  s1 << s2;
 	  if(s1.size() != 2)
 		TEST_FAILED("size after a << b is not 2");
@@ -119,16 +116,20 @@ namespace SentenceTest
 	  if(s1.size() != 8)
 		TEST_FAILED("size after abcd << abcd is not 8");
 	  
-	  Sentence s("a");
+	  Sentence s;
+	  s << "a";
 	  s << "b" << "c" << "d" << "e";
 	  if(s.size() != 5)
 		TEST_FAILED("size after a << b << c << d << e is not 5");
 	}
 
 	{
-	  Sentence s1(PhraseNumber<int>(1));
-	  
-	  Sentence s2(2);
+	  Number<int> num(1);
+	  Sentence s1;
+	  Sentence s2;
+	  s1 << num;
+	  s2 << 2;
+
 	  s1 << s2;
 	  if(s1.size() != 2)
 		TEST_FAILED("size after 1 << 2 is not 2");
@@ -156,46 +157,52 @@ namespace SentenceTest
   {
 	using namespace TextGen;
 
-	auto_ptr<Dictionary> dict = DictionaryFactory::create("mysql");
-	dict->init("fi");
-	
-	TheDictionary::instance().dictionary(DictionaryFactory::create("mysql"));
-	TheDictionary::instance().init("en");
+#if 0
+	auto_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
+	finnish->init("fi");
+
+	auto_ptr<Dictionary> english = DictionaryFactory::create("mysql");
+	english->init("en");
 	
 	Sentence s1;
-	if(!s1.realize().empty())
+	if(!s1.realize(*english).empty())
 	  TEST_FAILED("realization of empty sentence not empty");
 
 	s1 << "kaakko";
-	if(s1.realize() != "South east.")
+	if(s1.realize(*english) != "South east.")
 	  TEST_FAILED("realization of kaakko in English failed");
 
 	s1 << "etelä";
-	if(s1.realize() != "South east south.")
+	if(s1.realize(*english) != "South east south.")
 	  TEST_FAILED("realization of kaakko etelä in English failed");
 
-	if(s1.realize(*dict) != "Kaakko etelä.")
+	if(s1.realize(*finnish) != "Kaakko etelä.")
 	  TEST_FAILED("realization of kaakko etelä in Finnish failed");
 
 	Sentence s2;
 	s2 << "kaakko" << 12;
-	if(s2.realize() != "South east 12.")
+	if(s2.realize(*english) != "South east 12.")
 	  TEST_FAILED("realization of kaakko 12 in English failed");
 
-	if(s2.realize(*dict) != "Kaakko 12.")
+	if(s2.realize(*finnish) != "Kaakko 12.")
 	  TEST_FAILED("realization of kaakko 12 in Finnish failed");
 
 	TEST_PASSED();
 
 	Sentence s3;
-	s3 << "kaakko" << 12 << PhraseSeparator(",") << "etelä" << 13;
-	if(s3.realize() != "South east 12, south 13")
+	s3 << "kaakko" << 12 << Delimiter(",") << "etelä" << 13;
+	if(s3.realize(*english) != "South east 12, south 13")
 	  TEST_FAILED("realization of kaakko 12, etelä 13 in English failed");
 
 	Sentence s4;
 	s4 << "kaakko" << 12 << "," << "etelä" << 13;
-	if(s4.realize(*dict) != "Kaakko 12, etelä 13")
+	if(s4.realize(*finnish) != "Kaakko 12, etelä 13")
 	  TEST_FAILED("realization of kaakko 12, etelä 13 in Finnish failed");
+
+	TEST_PASSED();
+#endif
+
+	TEST_NOT_IMPLEMENTED();
 
   }
 

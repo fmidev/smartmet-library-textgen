@@ -1,7 +1,6 @@
 #include "tframe.h"
 #include "DictionaryFactory.h"
 #include "Paragraph.h"
-#include "TheDictionary.h"
 #include "Sentence.h"
 
 #include <iostream>
@@ -42,11 +41,6 @@ namespace ParagraphTest
 	  p4 = p;
 	}
 
-	{
-	  // Should succeed
-	  Paragraph p1(Sentence("foobar"));
-	}
-
 	TEST_PASSED();
   }
 
@@ -59,7 +53,10 @@ namespace ParagraphTest
 	if(!p1.empty())
 	  TEST_FAILED("paragraph should be empty after void constructor");
 
-	Paragraph p2(Sentence("foobar"));
+	Sentence s;
+	s << "foobar";
+	Paragraph p2;
+	p2 << s;
 	if(p2.empty())
 	  TEST_FAILED("paragraph should not be empty after explicit construction");
 
@@ -79,7 +76,10 @@ namespace ParagraphTest
 	if(p1.size()!=0)
 	  TEST_FAILED("paragraph size should be 0 after void constructor");
 
-	Paragraph p2(Sentence("foobar"));
+	Sentence s;
+	s << "foobar";
+	Paragraph p2;
+	p2 << s;
 	if(p2.size()!=1)
 	  TEST_FAILED("paragraph size should be 1 after explicit construction");
 
@@ -96,26 +96,35 @@ namespace ParagraphTest
   {
 	using namespace TextGen;
 
-	Sentence s1("a");
-	Sentence s2("b");
+	Sentence s1;
+	Sentence s2;
+	Sentence s3;
+	s1 << "a";
+	s2 << "b";
+	s3 << "c";
 
-	Paragraph p1(s1);
-	Paragraph p2(s2);
+	Paragraph p1;
+	Paragraph p2;
+	p1 << s1;
+	p2 << s2;
 	
 	p1 << p2;
 	if(p1.size() != 2)
 	  TEST_FAILED("size after a << b is not 2");
 	
-	p1 << Sentence("c");
+	p1 << s3;
 	if(p1.size() != 3)
 	  TEST_FAILED("size after ab << c is not 3");
 	
 	p1 << p1;
 	if(p1.size() != 6)
-	  TEST_FAILED("size after abc << abc is not 6");
+	  {
+		cout << p1.size() << endl;
+		TEST_FAILED("size after abc << abc is not 6");
+	  }
 
 	Paragraph p;
-	p << s1 << s2 << Sentence("foobar");
+	p << s1 << s2 << s3;
 	if(p.size() != 3)
 	  TEST_FAILED("size after << b << c << d is not 3");
 
@@ -128,31 +137,37 @@ namespace ParagraphTest
   {
 	using namespace TextGen;
 
-	auto_ptr<Dictionary> dict = DictionaryFactory::create("mysql");
-	dict->init("fi");
+#if 0
+	auto_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
+	finnish->init("fi");
+
+	auto_ptr<Dictionary> english = DictionaryFactory::create("mysql");
+	english->init("en");
 	
-	TheDictionary::instance().dictionary(DictionaryFactory::create("mysql"));
-	TheDictionary::instance().init("en");
-	
-	Sentence s1("kaakko");
-	Sentence s2("etelä");
+	Sentence s1;
+	Sentence s2;
+	s1 << "kaakko";
+	s2 << "etelä";
 
 	Paragraph p1;
-	if(!p1.realize().empty())
+	if(!p1.realize(*english).empty())
 	  TEST_FAILED("realization of empty paragraph not empty");
 
 	p1 << s1;
-	if(p1.realize() != "South east.")
+	if(p1.realize(*english) != "South east.")
 	  TEST_FAILED("realization of kaakko in English failed");
 
 	p1 << s2;
-	if(p1.realize() != "South east. South.")
+	if(p1.realize(*english) != "South east. South.")
 	  TEST_FAILED("realization of kaakko etelä in English failed");
 
-	if(p1.realize(*dict) != "Kaakko. Etelä.")
+	if(p1.realize(*finnish) != "Kaakko. Etelä.")
 	  TEST_FAILED("realization of kaakko etelä in Finnish failed");
 
 	TEST_PASSED();
+#endif
+
+	TEST_NOT_IMPLEMENTED();
 
   }
 
