@@ -1,6 +1,6 @@
 #include "tframe.h"
 #include "DictionaryFactory.h"
-#include "Number.h"
+#include "Integer.h"
 #include "Delimiter.h"
 #include "Sentence.h"
 #include "TheDictionary.h"
@@ -125,7 +125,7 @@ namespace SentenceTest
 	}
 
 	{
-	  Number<int> num(1);
+	  Integer num(1);
 	  Sentence s1;
 	  Sentence s2;
 	  s1 << num;
