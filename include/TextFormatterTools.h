@@ -54,12 +54,13 @@ namespace TextGen
 
 		  tmp = theFormatter.format(**it);	// iterator -> shared_ptr -> object
 		  if(tmp.empty())
-			wasbreak = false;
+			wasbreak = true;
 		  else
 			{
 			  if(!ret.empty() && !isdelim && !wasbreak)
 				ret += thePrefix;
-			  ret += tmp;
+			  if(!(wasbreak && isdelim && tmp=="\n"))
+				ret += tmp;
 			  if(!isdelim)
 				ret += theSuffix;
 			  wasbreak = (isdelim && tmp=="\n");
