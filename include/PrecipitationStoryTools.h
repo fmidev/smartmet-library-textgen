@@ -17,6 +17,7 @@ namespace WeatherAnalysis
   class AnalysisSources;
   class WeatherArea;
   class WeatherPeriod;
+  class WeatherResult;
 }
 
 namespace TextGen
@@ -50,9 +51,9 @@ namespace TextGen
 								   const std::string & theVar,
 								   int theDay);
 
-	const Sentence sum_phrase(int theMinimum,
-							  int theMaximum,
-							  int theMean,
+	const Sentence sum_phrase(const WeatherAnalysis::WeatherResult & theMinimum,
+							  const WeatherAnalysis::WeatherResult & theMaximum,
+							  const WeatherAnalysis::WeatherResult & theMean,
 							  int theMinInterval);
 
   } // namespace PrecipitationStoryTools

@@ -518,24 +518,28 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const Sentence sum_phrase(int theMinimum,
-							  int theMaximum,
-							  int theMean,
+	const Sentence sum_phrase(const WeatherResult & theMinimum,
+							  const WeatherResult & theMaximum,
+							  const WeatherResult & theMean,
 							  int theMinInterval)
 	{
 	  Sentence sentence;
 	  
-	  if(theMinimum==0 && theMaximum==0)
+	  const int minimum = FmiRound(theMinimum.value());
+	  const int maximum = FmiRound(theMaximum.value());
+	  const int mean = FmiRound(theMean.value());
+
+	  if(minimum==0 && maximum==0)
 		{
 		  sentence << 0;
 		}
-	  else if(theMaximum-theMinimum < theMinInterval && theMean!=0)
+	  else if(maximum-minimum < theMinInterval && mean!=0)
 		{
-		  sentence << "noin" << theMean;
+		  sentence << "noin" << mean;
 		}
 	  else
 		{
-		  sentence << IntegerRange(theMinimum,theMaximum);
+		  sentence << IntegerRange(minimum,maximum);
 		}
 
 	  sentence << *UnitFactory::create(Millimeters);

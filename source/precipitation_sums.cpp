@@ -63,9 +63,9 @@ namespace TextGen
 	RangeAcceptor rainlimits;
 	rainlimits.lowerLimit(minrain);
 
-	vector<int> minima;
-	vector<int> maxima;
-	vector<int> means;
+	vector<WeatherResult> minima;
+	vector<WeatherResult> maxima;
+	vector<WeatherResult> means;
 
 	for(vector<int>::size_type i = 0; i<periods.size(); i++)
 	  {
@@ -110,20 +110,18 @@ namespace TextGen
 		   meanresult.value() == kFloatMissing)
 		  throw TextGenError("Total precipitation not available");
 
-		minima.push_back(FmiRound(minresult.value()));
-		maxima.push_back(FmiRound(maxresult.value()));
-		means.push_back(FmiRound(meanresult.value()));
+		minima.push_back(minresult);
+		maxima.push_back(maxresult);
+		means.push_back(meanresult);
 	  }
 
 	Sentence sentence;
-	if(maxima[0]==0 && maxima[1]==0)
+	if(FmiRound(maxima[0].value())==0 && FmiRound(maxima[1].value())==0)
 	  {
+		const WeatherResult zero(0,0);
 		sentence << "seuraavan 24 tunnin sademäärä"
 				 << "on"
-				 << PrecipitationStoryTools::sum_phrase(0,
-														0,
-														0,
-														mininterval);
+				 << PrecipitationStoryTools::sum_phrase(zero,zero,zero,mininterval);
 	  }
 	else
 	  {
