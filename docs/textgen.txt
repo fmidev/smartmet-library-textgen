@@ -21,4 +21,9 @@ sekä niiden muuntamista tekstiksi.
 \ref page_aikavalit sivulla kuvataan, miten eri vuorokauden ajat
 nimetään tekstigeneraattorissa.
 
+\section sec_tarinat Tarinat
+
+\ref page_tarinat sivulla kuvataan, miten yksittäisistä sääparametreista
+generoidaan tekstiä.
+
 */

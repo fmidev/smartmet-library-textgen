@@ -1,0 +1,25 @@
+/*!
+\page page_tarinat Tarinat
+
+\section sec_tarina Mik‰ on tarina
+
+Tarina on yksitt‰inen kappale, joka sis‰lt‰‰ yksitt‰iseen s‰‰parametriin
+liittyv‰n kuvauksen. Kappale voi olla tyhj‰ jos parametrista ei ole
+mit‰‰n kerrottavaa, tai se voi koostua yhdest‰ tai useammasta virkkeest‰.
+
+\section sec_storyfactory StoryFactory namespace
+
+TextGen::StoryFactory namespace sis‰lt‰‰ create funktion,
+jolla voidaan luoda erikseen nimettyj‰ tarinoita.
+
+\section sec_temperaturestory TemperatureStory luokka
+
+TextGen::TemperatureStory luokka hallitsee l‰mpˆtilaan liittyv‰t tarinat
+mean, meanmax, meanmin.
+
+\section sec_precipitationstory PrecipitationStory luokka
+
+TextGen::PrecipitationStory luokka hallitsee sateeseen liittyv‰t tarinat,
+joita on t‰ll‰ hetkell‰ vain yksi: total.
+
+*/
