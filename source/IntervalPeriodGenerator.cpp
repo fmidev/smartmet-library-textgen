@@ -54,7 +54,7 @@ namespace WeatherAnalysis
    * The variable is expected to contain definitions for
    * \code
    * [variable]::starthour = [0-23] (= 0)
-   * [variable]::interval    = [1|2|3|4|6|8|12|24]
+   * [variable]::interval    = [0|1|2|3|4|6|8|12|24]
    * [variable]::mininterval = [0-24] (= interval)
    * \endcode
    **
@@ -94,15 +94,15 @@ namespace WeatherAnalysis
 
   void IntervalPeriodGenerator::init()
   {
-	if( (24 % itsInterval) != 0)
+	if( (itsInterval != 0) && (24 % itsInterval) != 0)
 	  throw WeatherAnalysisError("IntervalPeriodGenerator: Interval must divide 24 evenly");
-	if(itsInterval < 1)
-	  throw WeatherAnalysisError("IntervalPeriodGenerator: Interval must be atleast 1 hour");
+	if(itsInterval < 0)
+	  throw WeatherAnalysisError("IntervalPeriodGenerator: Interval length must be positive");
 
-	if(itsMinimumInterval < 1)
-	  throw WeatherAnalysisError("IntervalPeriodGenerator: Minimum interval must be atleast 1 hour");
+	if(itsMinimumInterval < 0)
+	  throw WeatherAnalysisError("IntervalPeriodGenerator: Minimum interval must be positive");
 	if(itsMinimumInterval > itsInterval)
-	  throw WeatherAnalysisError("IntervalPeriodGenerator: Minimum interval must be in range 1-interval");
+	  throw WeatherAnalysisError("IntervalPeriodGenerator: Minimum interval must be in range 1-interval or be zero");
 
 	// Now we can generate the periods in advance
 
@@ -125,7 +125,10 @@ namespace WeatherAnalysis
 		if(diff >= itsMinimumInterval)
 		  itsPeriods.push_back(WeatherPeriod(starttime,endtime));
 
-		time.ChangeByHours(itsInterval);
+		if(itsInterval>0)
+		  time.ChangeByHours(itsInterval);
+		else
+		  time.ChangeByHours(1);
 	  }
 
   }
