@@ -120,8 +120,12 @@ textgen::[kappale]::story::wind_daily_ranges::fake::day1::direction::mean = [res
       -# Jos W1==W2, [It‰tuulta] [X...Y m/s]
       -# Jos W1<>W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [X...Y m/s]
    -# Jos D(D1,D2) ei ole laadukas
-      -# Jos W1==W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta]
-      -# Jos W1<>W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta] [X...Y m/s]
+      -# Jos D1 ja D2 ovat suunnaltaan vaihtelevia
+        -# Jos W1==W2, [Suunnaltaan vaihtelevaa tuulta] [X...Y m/s]
+        -# Jos W1<>W2, [T‰n‰‰n] [suunnaltaan vaihtelevaa tuulta] [X...Y m/s], [huomenna] [X...Y m/s]
+      -# Muutoin
+        -# Jos W1==W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta]
+        -# Jos W1<>W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta] [X...Y m/s]
 -# Muuten p‰ivi‰ on 3, loppuja p‰ivi‰ ei huomioida
    -# Jos D(D1,D2,D3) on laadukas
       -# Jos W1==W2==W3, [It‰tuulta] [X...Y m/s]
@@ -138,6 +142,11 @@ textgen::[kappale]::story::wind_daily_ranges::fake::day1::direction::mean = [res
       -# Jos W1==W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰st‰ alkaen] [l‰nsituulta] [X...Y m/s]
       -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta], [viikonp‰iv‰n‰] [X...Y m/s]
       -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s]
+   -# Jos D1,D2 ja D3 ovat suunnaltaan vaihtelevia
+      -# Jos W1==W2==W3, [Suunnaltaan vaihtelevaa tuulta] [X...Y m/s]
+      -# Jos W1==W2<>W3, [Suunnaltaan vaihtelevaa tuulta] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s]
+      -# Jos W1<>W2==W3, [T‰n‰‰n] [suunnaltaan vaihtelevaa tuulta] [X...Y m/s], [viikonp‰iv‰st‰ alkaen] [X...Y m/s]
+      -# Jos W1<>W2<>W3, [T‰n‰‰n] [suunnaltaan vaihtelevaa tuulta] [X...Y m/s], [huomenna] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s]
    -# Muuten D1<>D2 ja D2<>D3 (muttei v‰ltt‰m‰tt‰ D1<>D3)
       -# Jos W1==W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta], [viikonp‰iv‰n‰] [etel‰tuulta]
       -# Jos W1==W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta], [viikonp‰iv‰n‰] [etel‰tuulta] [X...Y m/s]
