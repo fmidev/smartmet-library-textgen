@@ -10,6 +10,7 @@
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "HourPeriodGenerator.h"
+#include "MessageLogger.h"
 #include "NullPeriodGenerator.h"
 #include "NumberFactory.h"
 #include "Paragraph.h"
@@ -239,6 +240,8 @@ namespace TextGen
   
   Paragraph TemperatureStory::mean() const
   {
+	MessageLogger log("TemperatureStory::mean");
+
 	Paragraph paragraph;
 	Sentence sentence;
 
@@ -275,6 +278,8 @@ namespace TextGen
 
   Paragraph TemperatureStory::meanmax() const
   {
+	MessageLogger log("TemperatureStory::meanmax");
+
 	Paragraph paragraph;
 	Sentence sentence;
 
@@ -316,6 +321,8 @@ namespace TextGen
 
   Paragraph TemperatureStory::meanmin() const
   {
+	MessageLogger log("TemperatureStory::meanmin");
+
 	Paragraph paragraph;
 	Sentence sentence;
 
@@ -354,6 +361,8 @@ namespace TextGen
 
   Paragraph TemperatureStory::dailymax() const
   {
+	MessageLogger log("TemperatureStory::dailymax");
+
 	using namespace Settings;
 	using namespace WeatherPeriodTools;
 
@@ -520,6 +529,8 @@ namespace TextGen
 
   Paragraph TemperatureStory::nightlymin() const
   {
+	MessageLogger log("TemperatureStory::nightlymin");
+
 	using namespace Settings;
 	using namespace WeatherPeriodTools;
 
@@ -685,6 +696,8 @@ namespace TextGen
 
   Paragraph TemperatureStory::weekly_minmax() const
   {
+	MessageLogger log("TemperatureStory::weekly_minmax");
+
 	using namespace Settings;
 
 	Paragraph paragraph;
@@ -813,6 +826,8 @@ namespace TextGen
 
   Paragraph TemperatureStory::weekly_averages() const
   {
+	MessageLogger log("TemperatureStory::weekly_averages");
+
 	using namespace Settings;
 
 	Paragraph paragraph;

@@ -14,6 +14,7 @@
 #include "LatestWeatherSource.h"
 #include "MapSource.h"
 #include "MaskSource.h"
+#include "MessageLogger.h"
 #include "Paragraph.h"
 #include "RegularMaskSource.h"
 #include "Settings.h"
@@ -144,6 +145,7 @@ namespace TextGen
 
   Document TextGenerator::generate(const WeatherArea & theArea) const
   {
+	MessageLogger log("TextGenerator::generate");
 
 	const list<string> paragraphs = NFmiStringTools::SplitWords(Settings::require_string("textgen::sections"));
 

@@ -7,6 +7,7 @@
 
 #include "HeaderFactory.h"
 #include "Header.h"
+#include "MessageLogger.h"
 #include "Number.h"
 #include "Settings.h"
 #include "TextGenError.h"
@@ -146,6 +147,7 @@ namespace
 									 const string & theVariable)
   {
 	using namespace TextGen;
+
 	Header header;
 
 	if(!theArea.isNamed())
@@ -192,6 +194,8 @@ namespace TextGen
 				  const WeatherPeriod & thePeriod,
 				  const std::string & theVariable)
 	{
+	  MessageLogger log("HeaderFactory::create");
+
 	  const string type = Settings::require_string(theVariable+"::type");
 
 	  if(type == "none")

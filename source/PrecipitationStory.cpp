@@ -9,6 +9,7 @@
 #include "DefaultAcceptor.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
+#include "MessageLogger.h"
 #include "NullPeriodGenerator.h"
 #include "NumberFactory.h"
 #include "Paragraph.h"
@@ -195,6 +196,8 @@ namespace TextGen
 
   Paragraph PrecipitationStory::total() const
   {
+	MessageLogger log("PrecipitationStory::total");
+
 	Paragraph paragraph;
 	Sentence sentence;
 
@@ -238,6 +241,8 @@ namespace TextGen
 
   Paragraph PrecipitationStory::range() const
   {
+	MessageLogger log("PrecipitationStory::range");
+
 	Paragraph paragraph;
 	Sentence sentence;
 
@@ -315,6 +320,8 @@ namespace TextGen
 
   Paragraph PrecipitationStory::classification() const
   {
+	MessageLogger log("PrecipitationStory::classification");
+
 	Paragraph paragraph;
 	Sentence sentence;
 

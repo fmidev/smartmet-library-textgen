@@ -10,6 +10,7 @@
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "MathTools.h"
+#include "MessageLogger.h"
 #include "NullPeriodGenerator.h"
 #include "NumberFactory.h"
 #include "Paragraph.h"
@@ -112,6 +113,8 @@ namespace TextGen
   
   Paragraph RelativeHumidityStory::lowest() const
   {
+	MessageLogger log("RelativeHumidityStory::lowest");
+
 	using MathTools::to_precision;
 
 	Paragraph paragraph;

@@ -6,6 +6,7 @@
 // ======================================================================
 
 #include "WindStory.h"
+#include "MessageLogger.h"
 #include "Paragraph.h"
 #include "TextGenError.h"
 
@@ -94,6 +95,8 @@ namespace TextGen
 
   Paragraph WindStory::overview() const
   {
+	MessageLogger log("WeatherStory::overview");
+
 	Paragraph paragraph;
 	return paragraph;
   }

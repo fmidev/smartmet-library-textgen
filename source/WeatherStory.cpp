@@ -10,6 +10,7 @@
 #include "GridForecaster.h"
 #include "HourPeriodGenerator.h"
 #include "MathTools.h"
+#include "MessageLogger.h"
 #include "NullPeriodGenerator.h"
 #include "NumberFactory.h"
 #include "Paragraph.h"
@@ -121,6 +122,8 @@ namespace TextGen
 
   Paragraph WeatherStory::shortoverview() const
   {
+	MessageLogger log("WeatherStory::shortoverview");
+
 	using namespace Settings;
 	using namespace WeatherPeriodTools;
 
@@ -311,6 +314,8 @@ namespace TextGen
 
   Paragraph WeatherStory::thunderprobability() const
   {
+	MessageLogger log("WeatherStory::thunderprobability");
+
 	using namespace Settings;
 	using namespace WeatherPeriodTools;
 

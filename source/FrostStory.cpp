@@ -10,6 +10,7 @@
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "MathTools.h"
+#include "MessageLogger.h"
 #include "NullPeriodGenerator.h"
 #include "NumberFactory.h"
 #include "Paragraph.h"
@@ -177,6 +178,8 @@ namespace TextGen
   
   Paragraph FrostStory::mean() const
   {
+	MessageLogger log("FrostStory::mean");
+
 	using MathTools::to_precision;
 
 	Paragraph paragraph;
@@ -255,6 +258,8 @@ namespace TextGen
   
   Paragraph FrostStory::maximum() const
   {
+	MessageLogger log("FrostStory::maximum");
+
 	using MathTools::to_precision;
 
 	Paragraph paragraph;
@@ -333,6 +338,8 @@ namespace TextGen
   
   Paragraph FrostStory::range() const
   {
+	MessageLogger log("FrostStory::range");
+
 	using MathTools::to_precision;
 
 	Paragraph paragraph;
@@ -437,6 +444,8 @@ namespace TextGen
   
   Paragraph FrostStory::twonights() const
   {
+	MessageLogger log("FrostStory::twonights");
+
 	using MathTools::to_precision;
 
 	Paragraph paragraph;
