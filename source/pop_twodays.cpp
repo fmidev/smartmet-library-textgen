@@ -69,6 +69,12 @@ namespace TextGen
 													  maxstarthour,
 													  minendhour);
 
+	if(days<=0)
+	  {
+		log << paragraph;
+		return paragraph;
+	  }
+
 	WeatherPeriod firstperiod = WeatherPeriodTools::getPeriod(itsPeriod,
 															  1,
 															  starthour,
@@ -107,7 +113,7 @@ namespace TextGen
 				 << *UnitFactory::create(Percent);
 	  }
 
-	if(days==2)
+	if(days>=2)
 	  {
 		WeatherPeriod secondperiod = WeatherPeriodTools::getPeriod(itsPeriod,
 																   2,
