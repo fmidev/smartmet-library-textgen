@@ -6,6 +6,7 @@
 // ======================================================================
 
 #include "TheDictionary.h"
+#include "TextGenError.h"
 
 namespace TextGen
 {
@@ -73,6 +74,8 @@ namespace TextGen
 
   void TheDictionary::init(const std::string & theLanguage)
   {
+	if(!itsDictionary.get())
+	  throw TextGenError("Cannot use TheDictionary::init() before ::dictionary()");
 	itsDictionary->init(theLanguage);
   }
 
@@ -87,6 +90,8 @@ namespace TextGen
 
   bool TheDictionary::contains(const std::string & theKey) const
   {
+	if(!itsDictionary.get())
+	  throw TextGenError("Cannot use TheDictionary::contains() before ::dictionary()");
 	return itsDictionary->contains(theKey);
   }
 
@@ -104,6 +109,8 @@ namespace TextGen
 
   const std::string & TheDictionary::find(const std::string & theKey) const
   {
+	if(!itsDictionary.get())
+	  throw TextGenError("Cannot use TheDictionary::find() before ::dictionary()");
 	return itsDictionary->find(theKey);
   }
 
@@ -119,6 +126,8 @@ namespace TextGen
   void TheDictionary::insert(const std::string & theKey,
 						  const std::string & thePhrase)
   {
+	if(!itsDictionary.get())
+	  throw TextGenError("Cannot use TheDictionary::insert() before ::dictionary()");
 	itsDictionary->insert(theKey,thePhrase);
   }
 
@@ -132,6 +141,8 @@ namespace TextGen
 
   TheDictionary::size_type TheDictionary::size(void) const
   {
+	if(!itsDictionary.get())
+	  throw TextGenError("Cannot use TheDictionary::size() before ::dictionary()");
 	return itsDictionary->size();
   }
 
@@ -145,6 +156,8 @@ namespace TextGen
 
   bool TheDictionary::empty(void) const
   {
+	if(!itsDictionary.get())
+	  throw TextGenError("Cannot use TheDictionary::empty() before ::dictionary()");
 	return itsDictionary->empty();
   }
 
