@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::MaxMaximumAnalyzer
+ * \brief Implementation of class WeatherAnalysis::MeanMinimumAnalyzer
  */
 // ======================================================================
 
-#include "MaxMaximumAnalyzer.h"
+#include "MeanMinimumAnalyzer.h"
 #include "AnalysisSources.h"
 #include "MaskSource.h"
 #include "WeatherAnalysisError.h"
@@ -15,7 +15,8 @@
 #include "WeatherSource.h"
 
 #include "NFmiDataIntegrator.h"
-#include "NFmiDataModifierMax.h"
+#include "NFmiDataModifierMin.h"
+#include "NFmiDataModifierAvg.h"
 #include "NFmiEnumConverter.h"
 #include "NFmiFastQueryInfo.h"
 #include "NFmiQueryData.h"
@@ -32,7 +33,7 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Analyze parameter maximum over area and time
+   * \brief Analyze parameter area mean of time minimums
    *
    * \param theSources Analysis sources
    * \param theLimits Analysis limits, not used
@@ -45,7 +46,7 @@ namespace WeatherAnalysis
   // ----------------------------------------------------------------------
 
   WeatherResult
-  MaxMaximumAnalyzer::analyze(const AnalysisSources & theSources,
+  MeanMinimumAnalyzer::analyze(const AnalysisSources & theSources,
 						   const WeatherLimits & theLimits,
 						   const WeatherPeriod & thePeriod,
 						   const WeatherArea & theArea,
@@ -84,15 +85,15 @@ namespace WeatherAnalysis
 
 		// Result
 
-		NFmiDataModifierMax spacemodifier;
-		NFmiDataModifierMax timemodifier;
+		NFmiDataModifierAvg spacemodifier;
+		NFmiDataModifierMin timemodifier;
 
 		float result = NFmiDataIntegrator::Integrate(qi,
-													 *mask,
-													 spacemodifier,
 													 thePeriod.startTime(),
 													 thePeriod.endTime(),
-													 timemodifier);
+													 timemodifier,
+													 *mask,
+													 spacemodifier);
 
 		if(result == kFloatMissing)
 		  return WeatherResult(kFloatMissing,0);
@@ -105,7 +106,7 @@ namespace WeatherAnalysis
 		if(!(qi.Location(theArea.point())))
 		  throw WeatherAnalysisError("Could not set desired coordinate in "+dataname);
 
-		NFmiDataModifierMax timemodifier;
+		NFmiDataModifierMin timemodifier;
 		float result = NFmiDataIntegrator::Integrate(qi,
 													 thePeriod.startTime(),
 													 thePeriod.endTime(),

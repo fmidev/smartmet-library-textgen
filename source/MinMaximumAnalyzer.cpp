@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::MaxMaximumAnalyzer
+ * \brief Implementation of class WeatherAnalysis::MinMaximumAnalyzer
  */
 // ======================================================================
 
-#include "MaxMaximumAnalyzer.h"
+#include "MinMaximumAnalyzer.h"
 #include "AnalysisSources.h"
 #include "MaskSource.h"
 #include "WeatherAnalysisError.h"
@@ -16,6 +16,7 @@
 
 #include "NFmiDataIntegrator.h"
 #include "NFmiDataModifierMax.h"
+#include "NFmiDataModifierMin.h"
 #include "NFmiEnumConverter.h"
 #include "NFmiFastQueryInfo.h"
 #include "NFmiQueryData.h"
@@ -32,7 +33,7 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Analyze parameter maximum over area and time
+   * \brief Analyze parameter area minima of time maxima
    *
    * \param theSources Analysis sources
    * \param theLimits Analysis limits, not used
@@ -45,7 +46,7 @@ namespace WeatherAnalysis
   // ----------------------------------------------------------------------
 
   WeatherResult
-  MaxMaximumAnalyzer::analyze(const AnalysisSources & theSources,
+  MinMaximumAnalyzer::analyze(const AnalysisSources & theSources,
 						   const WeatherLimits & theLimits,
 						   const WeatherPeriod & thePeriod,
 						   const WeatherArea & theArea,
@@ -84,15 +85,15 @@ namespace WeatherAnalysis
 
 		// Result
 
-		NFmiDataModifierMax spacemodifier;
+		NFmiDataModifierMin spacemodifier;
 		NFmiDataModifierMax timemodifier;
 
 		float result = NFmiDataIntegrator::Integrate(qi,
-													 *mask,
-													 spacemodifier,
 													 thePeriod.startTime(),
 													 thePeriod.endTime(),
-													 timemodifier);
+													 timemodifier,
+													 *mask,
+													 spacemodifier);
 
 		if(result == kFloatMissing)
 		  return WeatherResult(kFloatMissing,0);
