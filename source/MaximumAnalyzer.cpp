@@ -14,6 +14,9 @@
 #include "WeatherResult.h"
 #include "WeatherSource.h"
 
+#include "NFmiDataIntegrator.h"
+#include "NFmiDataModifierMax.h"
+#include "NFmiDataModifierStandardDeviation.h"
 #include "NFmiEnumConverter.h"
 #include "NFmiFastQueryInfo.h"
 #include "NFmiQueryData.h"
@@ -80,12 +83,52 @@ namespace WeatherAnalysis
 		shared_ptr<MaskSource> msource = theSources.getMaskSource();
 		MaskSource::mask_type mask = msource->mask(theArea,dataname,*wsource);
 
+		// Result
+
+		NFmiDataModifierMax spacemodifier1;
+		NFmiDataModifierMax timemodifier1;
+
+		float result = NFmiDataIntegrator::Integrate(qi,
+													 *mask,
+													 spacemodifier1,
+													 thePeriod.startTime(),
+													 thePeriod.endTime(),
+													 timemodifier1);
+
+		if(result == kFloatMissing)
+		  return WeatherResult(kFloatMissing,0);
+
+		NFmiDataModifierMax timemodifier2;
+		NFmiDataModifierStandardDeviation spacemodifier2;
+
+		float sdev = NFmiDataIntegrator::Integrate(qi,
+												   thePeriod.startTime(),
+												   thePeriod.endTime(),
+												   timemodifier2,
+												   *mask,
+												   spacemodifier2);
+
+		if(sdev==kFloatMissing)
+		  return WeatherResult(result,1);
+
+		return WeatherResult(result,1/sdev);
+		
+
 	  }
 	else
 	  {
-	  }
-	
+		if(!(qi.Location(theArea.point())))
+		  throw WeatherAnalysisError("Could not set desired coordinate in "+dataname);
 
+		NFmiDataModifierMax timemodifier;
+		float result = NFmiDataIntegrator::Integrate(qi,
+													 thePeriod.startTime(),
+													 thePeriod.endTime(),
+													 timemodifier);
+
+		return WeatherResult(result,1);
+
+	  }
 
 	return WeatherResult(kFloatMissing,0);
   }
