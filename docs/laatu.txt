@@ -1,0 +1,71 @@
+/*!
+\page page_laatu Laatu
+
+\section sec_laatu_intro Johdanto
+
+Kuhunkin analysoituun tulokseen voidaan liittää jonkinlainen laatua
+mittaava luku. Tällä sivulla selvitetään laadun suunniteltu
+käyttötarkoitus, sen laskeminen eri parametereille ja funktioille,
+sekä laadun räätälöinti eri tarkoituksiin.
+
+\section sec_laatu_tarkoitus Käyttötarkoitus
+
+Laadulla on seuraavat käyttötarkoitukset
+
+  -# Alueelliset ennusteet voidaan jakaa automaattisesti pienempiin
+     osiin, jos lasketuilla tuloksilla on heikko laatu.
+  -# Ajalliset ennusteet voidaan jakaa automaattisesti lyhempiin
+     jaksoihin, jos lasketuilla tuloksilla on heikko laatu.
+
+Esimerkiksi Suomi voidaan jakaa edelleen Etelä-, Keski- ja
+Pohjois-Suomeen.  Useamman päivän jakso taas voidaan jakaa
+yksittäisiin päiviin, ja yksittäinen päivä edelleen päivään ja yöhön jne.
+
+\section sec_laatu_laskeminen Laadun laskeminen
+
+Laatu määritellään pääasiassa alueelliseksi suureeksi, ajassa integroinnilla
+ei katsota olevan mitään vaikutusta. Ainoa poikkeus on trendi, joka
+määritelmän mukaisesti on aikafunktio.
+
+\section sec_laatu_funktiot Laadun tulkinta eri funktioille
+
+Suurin osa tekstigeneraattorin suorittamista analyyseista on
+yhdistelmä alue- ja aikaintegraatioita, jälkimmäinen ensin
+suoritettuna. Kaikki laatu katsotaan kohdistuvan alueelliseen
+integrointiin, eli pisteintegroinnin laatu on aina 1.
+
+Seuraaville funktioille laatu on aina 1:
+
+ -# \c Maximum
+ -# \c Minimum
+ -# \c Sum
+ -# \c Percentage
+ -# \c Count
+
+Jäljelle jäävät siis \c Mean ja \c Tren. 
+
+\subsection sec_laatu_mean Keskiarvon laatu
+
+Keskiarvon laatu lasketaan ainoastaan alueintegroinnin yhteydessä.
+Laatu on sama kuin suureen keskihajonta.
+
+\subsection sec_laatu_trend Trendin laatu
+
+Trendin laatu on se prosenttiosuus datan muutoksista, joka vie
+dataa oikeaan trendin suuntaan. Nolla-muutoksista puolet lasketaan
+kuuluviksi oikeansuuntaisiksi, jotta tuloksissa ei olisi biasia
+trendittömään suuntaan parametreilla, joiden lukuarvot muuttuvat
+askeleittain.
+
+Trendistä voidaan järkevästi laskea keskiarvo, minimi ja maksimi.
+Näille yhdistelmille laatu määritellään seuraavasti:
+
+ -# Minimille laatu on kyseisen trendiminimin (heikoin) laatu
+ -# Maksimille laatu on kyseisen trendimaksimin (heikoin) laatu
+ -# Keskiarvolle laatu on
+
+
+*/
+
+
+

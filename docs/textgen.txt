@@ -39,6 +39,10 @@ generoidaan tekstiä.
 \ref page_periodifraasit sivulla kuvataan, miten yksittäisiä
 aikajaksoja kuvaavia fraaseja luodaan.
 
+\section sec_laatu Laatu
+
+\ref page_laatu sivulla kuvataan laadun merkitystä ja sen laskemista.
+
 \section sec_funktiot Funktiot
 
 \ref page_funktiot sivulla kuvataan, mitä funktioita analyysiosio
