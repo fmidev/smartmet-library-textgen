@@ -41,7 +41,7 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  struct one_day_data
+  struct rain_dispatch_data
   {
 	int index;
 	const char * phrase1;
@@ -57,7 +57,7 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  one_day_data one_day_cases[37] =
+  rain_dispatch_data one_day_cases[37] =
 	{
 	  { 0, "", ""},
 	  { 2, "aamulla", "aamupäivästä alkaen" },
@@ -409,6 +409,117 @@ namespace
 	  30,	// 298. [Paikoin] [sadetta]
 	  30,	// 299. [Paikoin] [sadetta]
 	  30	// 300. [Paikoin] [sadetta]
+	};
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Second table from page \ref page_rain_twoday
+   *
+   * All 48 unique one day rains mapped onto 17 different reduced
+   * cases with two time phrase parameters
+   */
+  // ----------------------------------------------------------------------
+
+  rain_dispatch_data two_day_cases[49] =
+	{
+	  // empty placeholder to get indices to start from 1
+	  { 0, "", ""},
+	  // 1. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  { 3, "aamupäivästä alkaen", "aamupäivästä alkaen" },
+	  // 2. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  { 4, "aamupäivästä alkaen", "" },
+	  // 3. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  { 2, "aamupäivästä alkaen", "iltapäivästä alkaen" },
+	  // 4. Tänään aamupäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  { 3, "aamupäivästä alkaen", "keskipäivästä alkaen" },
+	  // 5. Tänään aamupäivästä alkaen [paikoin] [sadetta]
+	  { 1, "aamupäivästä alkaen", "" },
+	  // 6. Tänään aamupäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  { 5, "aamupäivästä alkaen", "" },
+	  // 7. Tänään aamupäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  { 6, "aamupäivästä alkaen", "" },
+	  // 8. Tänään aamusta alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  { 3, "aamusta alkaen", "aamupäivästä alkaen" },
+	  // 9. Tänään aamusta alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  { 4, "aamusta alkaen", "" },
+	  // 10. Tänään aamusta alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  { 2, "aamusta alkaen", "iltapäivästä alkaen" },
+	  // 11. Tänään aamusta alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  { 3, "aamusta alkaen", "keskipäivästä alkaen" },
+	  // 12. Tänään aamusta alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  { 5, "aamusta alkaen", "" },
+	  // 13. Tänään aamusta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  { 6, "aamusta alkaen", "" },
+	  // 14. Tänään aamuyöstä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  { 5, "aamutöstä alkaen", "" },
+	  // 15. Tänään aamuyöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  { 6, "aamuyöstä alkaen", "" },
+	  // 16. Tänään [enimmäkseen selkeää], illalla ja yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  { 7, "illalla", "yöllä" },
+	  // 17. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  { 10, "illasta alkaen", "aamupäivästä alkaen" },
+	  // 18. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  { 9, "illasta alkaen", "iltapäivästä alkaen" },
+	  // 19. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  { 10, "illasta alkaen", "keskipäivästä alkaen" },
+	  // 20. Tänään [enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]
+	  { 8, "illasta alkaen", "" },
+	  // 21. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  { 11, "illasta alkaen", "" },
+	  // 22. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  { 10, "iltayöstä alkaen", "aamupäivästä alkaen" },
+	  // 23. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna iltapäivästä alkaen poutaa
+	  { 9, "iltayöstä alkaen", "iltapäivästä alkaen" },
+	  // 24. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  { 10, "iltayöstä alkaen", "keskipäivästä alkaen" },
+	  // 25. Tänään [enimmäkseen selkeää], iltayöstä alkaen [paikoin] [sadetta]
+	  { 8, "iltayöstä alkaen", "" },
+	  // 26. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  { 11, "iltayöstä alkaen", "" },
+	  // 27. Tänään [enimmäkseen selkeää], yöllä [paikoin] [sadetta]. Huomenna [enimmäkseen selkeää]
+	  { 7, "yöllä", "" },
+	  // 28. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  { 3, "iltapäivästä alkaen", "aamupäivästä alkaen" },
+	  // 29. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  { 4, "iltapäivästä alkaen", "" },
+	  // 30. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  { 2, "iltapäivästä alkaen", "iltapäivästä alkaen" },
+	  // 31. Tänään iltapäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  { 3, "iltapäivästä alkaen", "keskipäivästä alkaen" },
+	  // 32. Tänään iltapäivästä alkaen [paikoin] [sadetta]
+	  { 1, "iltapäivästä alkaen", "" },
+	  // 33. Tänään iltapäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  { 5, "iltapäivästä alkaen", "" },
+	  // 34. Tänään iltapäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  { 6, "iltapäivästä alkaen", "" },
+	  // 35. Tänään ja huomenna [paikoin] [sadetta]
+	  { 17, "", "" },
+	  // 36. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  { 3, "keskipäivästä alkaen", "aamupäivästä alkaen" },
+	  // 37. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  { 4, "keskipäivästä alkaen", "" },
+	  // 38. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  { 2, "keskipäivästä alkaen", "iltapäivästä alkaen" },
+	  // 39. Tänään keskipäivästä alkaen [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  { 3, "keskipäivästä alkaen", "keskipäivästä alkaen" },
+	  // 40. Tänään keskipäivästä alkaen [paikoin] [sadetta]
+	  { 1, "keskipäivästä alkaen", "" },
+	  // 41. Tänään keskipäivästä alkaen tiistai-aamuun asti [paikoin] [sadetta], tiistaina [enimmäkseen selkeää]
+	  { 5, "keskipäivästä alkaen", "" },
+	  // 42. Tänään keskipäivästä alkaen tiistai-iltaan asti [paikoin] [sadetta]
+	  { 6, "keskipäivästä alkaen", "" },
+	  // 43. Tänään [paikoin] [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  { 15, "aamupäivästä alkaen", "" },
+	  // 44. Tänään [paikoin] [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
+	  { 15, "aamusta alkaen", "" },
+	  // 45. Tänään [paikoin] [sadetta], huomenna [enimmäkseen selkeää]
+	  { 16, "", "" },
+	  // 46. Tänään [paikoin] [sadetta], huomenna illalla poutaa
+	  { 13, "illalla", "" },
+	  // 47. Tänään [paikoin] [sadetta], huomenna iltapäivästä alkaen poutaa
+	  { 14, "iltapäivästä alkaen", "" },
+	  // 48. Tänään [paikoin] [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
+	  { 15, "keskipäivästä alkaen", "" }
 	};
 
   // ----------------------------------------------------------------------
