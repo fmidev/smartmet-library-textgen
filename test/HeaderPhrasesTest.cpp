@@ -59,7 +59,7 @@ namespace HeaderPhrasesTest
 
 	require("1-iltaan","maanantai-iltaan");
 	require("2-iltaan","tiistai-iltaan");
-	require("3-iltaan","keskiviikko-iltaan");
+	require("3-iltaan","keskiviikkoiltaan");
 	require("4-iltaan","torstai-iltaan");
 	require("5-iltaan","perjantai-iltaan");
 	require("6-iltaan","lauantai-iltaan");
@@ -91,7 +91,7 @@ namespace HeaderPhrasesTest
 
 	require("1-illasta","maanantai-illasta");
 	require("2-illasta","tiistai-illasta");
-	require("3-illasta","keskiviikko-illasta");
+	require("3-illasta","keskiviikkoillasta");
 	require("4-illasta","torstai-illasta");
 	require("5-illasta","perjantai-illasta");
 	require("6-illasta","lauantai-illasta");
@@ -107,7 +107,7 @@ namespace HeaderPhrasesTest
 
 	require("1-iltaan","maanantai-iltaan");
 	require("2-iltaan","tiistai-iltaan");
-	require("3-iltaan","keskiviikko-iltaan");
+	require("3-iltaan","keskiviikkoiltaan");
 	require("4-iltaan","torstai-iltaan");
 	require("5-iltaan","perjantai-iltaan");
 	require("6-iltaan","lauantai-iltaan");
@@ -125,21 +125,23 @@ namespace HeaderPhrasesTest
 
   void header_several_days()
   {
-	require("1-aamusta alkavan","maanantaiaamusta alkavan");
-	require("2-aamusta alkavan","tiistaiaamusta alkavan");
-	require("3-aamusta alkavan","keskiviikkoaamusta alkavan");
-	require("4-aamusta alkavan","torstaiaamusta alkavan");
-	require("5-aamusta alkavan","perjantaiaamusta alkavan");
-	require("6-aamusta alkavan","lauantaiaamusta alkavan");
-	require("7-aamusta alkavan","sunnuntaiaamusta alkavan");
+	require("1-aamusta","maanantaiaamusta");
+	require("2-aamusta","tiistaiaamusta");
+	require("3-aamusta","keskiviikkoaamusta");
+	require("4-aamusta","torstaiaamusta");
+	require("5-aamusta","perjantaiaamusta");
+	require("6-aamusta","lauantaiaamusta");
+	require("7-aamusta","sunnuntaiaamusta");
 
-	require("1-illasta alkavan","maanantai-illasta alkavan");
-	require("2-illasta alkavan","tiistai-illasta alkavan");
-	require("3-illasta alkavan","keskiviikkoillasta alkavan");
-	require("4-illasta alkavan","torstai-illasta alkavan");
-	require("5-illasta alkavan","perjantai-illasta alkavan");
-	require("6-illasta alkavan","lauantai-illasta alkavan");
-	require("7-illasta alkavan","sunnuntai-illasta alkavan");
+	require("1-illasta","maanantai-illasta");
+	require("2-illasta","tiistai-illasta");
+	require("3-illasta","keskiviikkoillasta");
+	require("4-illasta","torstai-illasta");
+	require("5-illasta","perjantai-illasta");
+	require("6-illasta","lauantai-illasta");
+	require("7-illasta","sunnuntai-illasta");
+
+	require("alkavan");
 
 	require("2-vuorokauden sää","kahden vuorokauden sää");
 	require("3-vuorokauden sää","kolmen vuorokauden sää");
