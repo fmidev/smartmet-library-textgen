@@ -136,6 +136,89 @@ namespace StoryPhrasesTest
 
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief FrostStory::mean() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void frost_mean()
+  {
+	require("hallan todennäköisyys");
+	require("ankaran hallan todennäköisyys");
+	require("on");
+	TEST_PASSED();
+
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief FrostStory::maximum() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void frost_maximum()
+  {
+	require("hallan todennäköisyys");
+	require("ankaran hallan todennäköisyys");
+	require("on");
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief FrostStory::maxtwonights() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void frost_maxtwonights()
+  {
+	require("hallan todennäköisyys");
+	require("ankaran hallan todennäköisyys");
+	require("on");
+	require("seuraavana yönä");
+	require("seuraava yö");
+	require("lämpimämpi");
+	require("huomattavasti lämpimämpi");
+
+	require("1-vastaisena yönä","maanantain vastaisena yönä");
+	require("2-vastaisena yönä","tiistain vastaisena yönä");
+	require("3-vastaisena yönä","keskiviikon vastaisena yönä");
+	require("4-vastaisena yönä","torstain vastaisena yönä");
+	require("5-vastaisena yönä","perjantain vastaisena yönä");
+	require("6-vastaisena yönä","lauantain vastaisena yönä");
+	require("7-vastaisena yönä","sunnuntain vastaisena yönä");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief RelativeHumidityStory::lowest() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void relative_humidity_lowest()
+  {
+	require("alin suhteellinen kosteus");
+	require("on");
+	require("suurempi");
+	require("hieman suurempi");
+	require("sama");
+	require("hieman pienempi");
+	require("pienempi");
+
+	require("1-na","maanantaina");
+	require("2-na","tiistaina");
+	require("3-na","keskiviikkona");
+	require("4-na","torstaina");
+	require("5-na","perjantaina");
+	require("6-na","lauantaina");
+	require("7-na","sunnuntaina");
+
+	TEST_PASSED();
+  }
+
 
 
   //! The actual test driver
@@ -157,6 +240,12 @@ namespace StoryPhrasesTest
 	  TEST(precipitation_total);
 	  TEST(precipitation_range);
 	  TEST(precipitation_classification);
+
+	  TEST(frost_mean);
+	  TEST(frost_maximum);
+	  TEST(frost_maxtwonights);
+
+	  TEST(relative_humidity_lowest);
 
 	}
 
