@@ -22,16 +22,13 @@ using namespace boost;
 
 namespace PrecipitationPeriodToolsTest
 {
-  shared_ptr<NFmiQueryData> theQD;
+  shared_ptr<NFmiStreamQueryData> theQD;
 
   void read_querydata(const std::string & theFilename)
   {
-	std::ifstream input(theFilename.c_str(),ios::in);
-	if(!input)
+	theQD.reset(new NFmiStreamQueryData());
+	if(!theQD->ReadData(theFilename.c_str()))
 	  throw runtime_error("Failed to read "+theFilename);
-	theQD = shared_ptr<NFmiQueryData>(new NFmiQueryData);
-	input >> *theQD;
-
   }
   
   // ----------------------------------------------------------------------
@@ -46,7 +43,7 @@ namespace PrecipitationPeriodToolsTest
 	using namespace WeatherAnalysis::PrecipitationPeriodTools;
 	using WeatherAnalysis::PrecipitationPeriodTools::findRainTimes;
 
-	NFmiFastQueryInfo q(theQD.get());
+	NFmiFastQueryInfo q(*theQD->QueryInfoIter());
 	q.First();
 
 	NFmiTime time1 = q.Time();
@@ -116,7 +113,7 @@ namespace PrecipitationPeriodToolsTest
 	using WeatherAnalysis::PrecipitationPeriodTools::findRainTimes;
 	using WeatherAnalysis::PrecipitationPeriodTools::findRainPeriods;
 
-	NFmiFastQueryInfo q(theQD.get());
+	NFmiFastQueryInfo q(*theQD->QueryInfoIter());
 	q.First();
 
 	NFmiTime time1 = q.Time();
