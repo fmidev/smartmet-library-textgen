@@ -1,4 +1,5 @@
 PROG = $(patsubst %Test.cpp,%,$(wildcard *.cpp))
+# OBS = $(wildcard ../obj/*.o)
 
 MAINFLAGS = -Wall -W -Wno-unused-parameter
 
@@ -12,8 +13,12 @@ DIFFICULTFLAGS = -Weffc++ -Wunreachable-code -Wredundant-decls
 
 CC = g++
 CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
-INCLUDES = -I ../include -I ../../../../../include/regression
-LIBS = -L .. -ltextgen
+INCLUDES = -I ../include \
+	-I ../../../../../include/regression \
+	-I /usr/include/mysql \
+	-I /usr/include/sqlplus
+LIBS = -L .. -ltextgen -lsqlplus
+# LIBS = -L .. -lsqlplus
 
 all: $(PROG)
 clean:
