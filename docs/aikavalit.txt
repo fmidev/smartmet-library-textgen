@@ -90,26 +90,28 @@ jolla voidaan luoda erikseen nimettyj‰ otsikoita. Funktiolle
 annetaan s‰‰periodi (TextGen::WeatherPeriod, sek‰ otsikon tyyppi).
 Paluuarvona on TextGen::Header objekti.
 
-T‰ll‰ hetkell‰ tunnistettuja tyyppej‰ ovat
-\htmlonly
-<dl>
-<dt><code>header_until</code></dt>
-<dd>
-Esim. <em>Odotettavissa tiistai-iltaan asti</em>. Viikonp‰iv‰ riippuu
-periodin loppuhetkest‰, samoin itse hetken tarkenne. Loppukellonajan
-tulee olla 06 tai 18, jolloin tarkenne on vastaavasti aamu tai ilta.
-</dd>
-<dt><code>header_from_until</code></dt>
-<dd>
-Esim. <em>Odotettavissa tiistai-illasta torstaiaamuun</em>.
-Kellonaikojen tulee olla 06 tai 18, jolloin tarkenteet ovat aamu tai ilta.
-</dd>
-<dt><code>header_five_days</code></dt>
-<dd>
-Esim. <em>Tiistaiaamusta alkavan viiden vuorokauden s‰‰</em>.
-</dd>
-</dl>
-\endhtmlonly
+\subsection sec_header_none Header tyyppi "none"
 
+Tuottaa tyhj‰n headerin. K‰ytet‰‰n, jos jonkin kappaleen eteen
+ei haluta otsikkoa.
+
+\subsection sec_header_until Header tyyppi "until"
+
+Tuottaa headerin tyyppi‰ "Odotettavissa tiistai-iltaan asti".
+Loppukellonajan tulee olla 06 tai 18, jolloin tarkenne on vastaavasti
+aamu tai ilta. T‰t‰ k‰ytet‰‰n yleens‰ vastaavan periodityypin "until"
+kanssa.
+
+\subsection sec_header_from_until Header tyyppi "from_until"
+
+Tuottaa headerin tyyppi‰ "Odotettavissa tiistai-illasta torstaiaamuun".
+Kellonaikojen tulee olla 06 tai 18, jolloin tarkenteet ovat aamu tai ilta.
+K‰ytet‰‰n yleens‰ vastaavan periodityypin "from_until" kanssa.
+
+\subsection sec_header_several_days Header tyyppi "several_days"
+
+Tuottaa headerin tyyppi‰ "Tiistaiaamusta alkavan viiden vuorokauden s‰‰".
+Kellonaikojen tulee olla 06 tai 18. Jakson kokonaispituuden tulee olla
+N*24 tuntia, miss‰ N=2..10.
 
 */
