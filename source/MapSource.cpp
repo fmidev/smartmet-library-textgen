@@ -120,21 +120,33 @@ namespace WeatherAnalysis
 	return itsPimple->itsData.insert(value_type(theName,svg)).first->second;
 
   }
-
-	std::string MapSource::findMapName(const NFmiPoint & theLatlon) const
-	{
-		// Safety check, constructor should always initialize properly
-		assert(itsPimple.get() != 0);
-
-		string mapName;
-		Pimple::storage_type::const_iterator it = itsPimple->itsData.begin();
-		Pimple::storage_type::const_iterator endIter = itsPimple->itsData.end();
-		for( ; it != endIter; ++it)
-			if((*it).second.isInside(theLatlon))
-				return (*it).first; // palautetaan sen alueen nimi, mihin piste osui 1. sis‰‰n
-
-		return mapName;
-	}
+  
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Find map containing the desired point
+   *
+   * \bug This should also find the searchpath for all SVG files, not just
+   *       the cached maps.
+   *
+   * \param theLatLon The point to be searched
+   * \return The name of the area containing the point, or empty string
+   */
+  // ----------------------------------------------------------------------
+   
+  std::string MapSource::findMapName(const NFmiPoint & theLatlon) const
+  {
+	// Safety check, constructor should always initialize properly
+	assert(itsPimple.get() != 0);
+	
+	string mapName;
+	Pimple::storage_type::const_iterator it = itsPimple->itsData.begin();
+	Pimple::storage_type::const_iterator endIter = itsPimple->itsData.end();
+	for( ; it != endIter; ++it)
+	  if(it->second.isInside(theLatlon))
+		return it->first; // palautetaan sen alueen nimi, mihin piste osui 1. sis‰‰n
+	
+	return mapName;
+  }
 
 
 } // namespace WeatherAnalysis
