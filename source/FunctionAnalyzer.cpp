@@ -24,6 +24,7 @@ namespace WeatherAnalysis
    * \brief Regular analysis interface
    *
    * \param theSources The analysis sources
+   * \param theDataType The data type to be analyzed (forecast, obs..)
    * \param thePeriod The analysis period
    * \param theArea The analysis area
    * \param theAreaAcceptor The data acceptor in area integration
@@ -37,6 +38,7 @@ namespace WeatherAnalysis
 
   WeatherResult
   FunctionAnalyzer::analyze(const AnalysisSources & theSources,
+							const WeatherDataType & theDataType,
 							const WeatherPeriod & thePeriod,
 							const WeatherArea & theArea,
 							const Acceptor & theAreaAcceptor,
@@ -50,6 +52,7 @@ namespace WeatherAnalysis
 
 	// The 0-interval implies the interval is meaningless, and hence dummy
 	return analyze(theSources,
+				   theDataType,
 				   thePeriod,
 				   theArea,
 				   theAreaAcceptor,

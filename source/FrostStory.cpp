@@ -383,6 +383,17 @@ namespace TextGen
   Paragraph FrostStory::maxtwonights() const
   {
 	Paragraph paragraph;
+
+#if 0
+	const int starthour   = Settings::require_hour(itsVariable+"::starthour");
+	const int endhour     = Settings::require_hour(itsVariable+"::endhour");
+
+	const int precision   = Settings::require_percentage(itsVariable+"::precision");
+	const int severelimit = Settings::require_percentage(itsVariable+"::severe_forst_limit");
+	const int normallimit = Settings::require_percentage(itsVariable+"::frost_limit");
+#endif
+
+
 	return paragraph;
   }
 

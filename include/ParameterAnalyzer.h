@@ -16,6 +16,7 @@
 #define WEATHERANALYSIS_PARAMETERANALYZER_H
 
 #include "NullAcceptor.h"
+#include "WeatherDataType.h"
 #include "WeatherFunction.h"
 
 namespace WeatherAnalysis
@@ -32,6 +33,7 @@ namespace WeatherAnalysis
 	virtual ~ParameterAnalyzer() { }
 
 	virtual WeatherResult analyze(const AnalysisSources & theSources,
+								  const WeatherDataType & theDataType,
 								  const WeatherFunction & theAreaFunction,
 								  const WeatherFunction & theTimeFunction,
 								  const WeatherPeriod & thePeriod,

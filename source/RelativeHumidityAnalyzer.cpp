@@ -33,6 +33,7 @@ namespace WeatherAnalysis
   
   WeatherResult
   RelativeHumidityAnalyzer::analyze(const AnalysisSources & theSources,
+									const WeatherDataType & theDataType,
 									const WeatherFunction & theAreaFunction,
 									const WeatherFunction & theTimeFunction,
 									const WeatherPeriod & thePeriod,
@@ -41,12 +42,13 @@ namespace WeatherAnalysis
 									const Acceptor & theTimeAcceptor,
 									const Acceptor & theTester) const
   {
-	const string varname = "textgen::relativehumidity_forecast";
+	const string varname = "textgen::relativehumidity";
 	const string parname = "Humidity";
 
 	auto_ptr<FunctionAnalyzer> analyzer(new RegularFunctionAnalyzer(theAreaFunction,theTimeFunction));
 	
-	return analyzer->analyze(theSources,thePeriod,theArea,
+	return analyzer->analyze(theSources,theDataType,
+							 thePeriod,theArea,
 							 theAreaAcceptor,theTimeAcceptor,theTester,
 							 varname,parname);
 

@@ -21,6 +21,7 @@ namespace WeatherAnalysis
    * \brief Analyze temperature in an area
    *
    * \param theSources Analysis sources
+   * \param theDataType The source type to be used
    * \param theAreaFunction The area function to analyze
    * \param theTimeFunction The time function to analyze
    * \param thePeriod The time period
@@ -33,6 +34,7 @@ namespace WeatherAnalysis
   
   WeatherResult
   TemperatureAnalyzer::analyze(const AnalysisSources & theSources,
+							   const WeatherDataType & theDataType,
 							   const WeatherFunction & theAreaFunction,
 							   const WeatherFunction & theTimeFunction,
 							   const WeatherPeriod & thePeriod,
@@ -41,12 +43,13 @@ namespace WeatherAnalysis
 							   const Acceptor & theTimeAcceptor,
 							   const Acceptor & theTester) const
   {
-	const string varname = "textgen::temperature_forecast";
+	const string varname = "textgen::temperature";
 	const string parname = "Temperature";
 
 	auto_ptr<FunctionAnalyzer> analyzer(new RegularFunctionAnalyzer(theAreaFunction,theTimeFunction));
 
-	return analyzer->analyze(theSources,thePeriod,theArea,
+	return analyzer->analyze(theSources,theDataType,
+							 thePeriod,theArea,
 							 theAreaAcceptor,theTimeAcceptor,theTester,
 							 varname,parname);
 

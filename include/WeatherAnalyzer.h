@@ -22,6 +22,7 @@
 #ifndef WEATHERANALYSIS_WEATHERANALYZER_H
 #define WEATHERANALYSIS_WEATHERANALYZER_H
 
+#include "WeatherDataType.h"
 #include "WeatherParameter.h"
 #include "WeatherFunction.h"
 #include "NullAcceptor.h"

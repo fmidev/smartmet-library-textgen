@@ -15,6 +15,7 @@
 #ifndef WEATHERANALYSIS_FUNCTIONANALYZER_H
 #define WEATHERANALYSIS_FUNCTIONANALYZER_H
 
+#include "WeatherDataType.h"
 #include <string>
 
 namespace WeatherAnalysis
@@ -34,6 +35,7 @@ namespace WeatherAnalysis
 
 	// Note! Has default implementation
 	virtual WeatherResult analyze(const AnalysisSources & theSources,
+								  const WeatherDataType & theDataType,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea,
 								  const Acceptor & theAreaAcceptor,
@@ -44,6 +46,7 @@ namespace WeatherAnalysis
 
 	// Has no default implementation
 	virtual WeatherResult analyze(const AnalysisSources & theSources,
+								  const WeatherDataType & theDataType,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea,
 								  const Acceptor & theAreaAcceptor,

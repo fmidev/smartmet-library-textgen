@@ -57,6 +57,7 @@ namespace WeatherAnalysis
 		{
 		  TemperatureAnalyzer analyzer;
 		  return analyzer.analyze(theSources,
+								  Forecast,
 								  theAreaFunction,
 								  theTimeFunction,
 								  thePeriod,
@@ -69,6 +70,7 @@ namespace WeatherAnalysis
 		{
 		  MaxTemperatureAnalyzer analyzer;
 		  return analyzer.analyze(theSources,
+								  Forecast,
 								  theAreaFunction,
 								  theTimeFunction,
 								  thePeriod,
@@ -81,6 +83,7 @@ namespace WeatherAnalysis
 		{
 		  MinTemperatureAnalyzer analyzer;
 		  return analyzer.analyze(theSources,
+								  Forecast,
 								  theAreaFunction,
 								  theTimeFunction,
 								  thePeriod,
@@ -93,6 +96,7 @@ namespace WeatherAnalysis
 		{
 		  PrecipitationAnalyzer analyzer;
 		  return analyzer.analyze(theSources,
+								  Forecast,
 								  theAreaFunction,
 								  theTimeFunction,
 								  thePeriod,
@@ -105,6 +109,7 @@ namespace WeatherAnalysis
 		{
 		  FrostAnalyzer analyzer;
 		  return analyzer.analyze(theSources,
+								  Forecast,
 								  theAreaFunction,
 								  theTimeFunction,
 								  thePeriod,
@@ -117,6 +122,7 @@ namespace WeatherAnalysis
 		{
 		  SevereFrostAnalyzer analyzer;
 		  return analyzer.analyze(theSources,
+								  Forecast,
 								  theAreaFunction,
 								  theTimeFunction,
 								  thePeriod,
@@ -129,6 +135,7 @@ namespace WeatherAnalysis
 		{
 		  RelativeHumidityAnalyzer analyzer;
 		  return analyzer.analyze(theSources,
+								  Forecast,
 								  theAreaFunction,
 								  theTimeFunction,
 								  thePeriod,

@@ -28,6 +28,37 @@
 using namespace std;
 using namespace boost;
 
+namespace
+{
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return data type as string
+   *
+   * \param theDataType The data type
+   * \return The string
+   */
+  // ----------------------------------------------------------------------
+
+  const char * data_type_name(const WeatherAnalysis::WeatherDataType & theDataType)
+  {
+	using namespace WeatherAnalysis;
+
+	switch(theDataType)
+	  {
+	  case Forecast:
+		return "forecast";
+	  case Observation:
+		return "observation";
+	  case Climatology:
+		return "climatology";
+	  }
+
+	throw WeatherAnalysisError("Unrecognized WeatherDataType in RegularFunctionAnalyzer");
+  }
+
+} // namespace anonymous
+
+
 namespace WeatherAnalysis
 {
 
@@ -65,6 +96,7 @@ namespace WeatherAnalysis
    * calculations.
    *
    * \param theSources Analysis sources
+   * \param theDataType Analysis data type
    * \param thePeriod Analysis period
    * \param theArea Analysis area
    * \param theAreaAcceptor The data acceptor in area integration
@@ -80,6 +112,7 @@ namespace WeatherAnalysis
 
   WeatherResult
   RegularFunctionAnalyzer::analyze(const AnalysisSources & theSources,
+								   const WeatherDataType & theDataType,
 								   const WeatherPeriod & thePeriod,
 								   const WeatherArea & theArea,
 								   const Acceptor & theAreaAcceptor,
@@ -96,7 +129,8 @@ namespace WeatherAnalysis
 
 	// Establish the data
 
-	string dataname = Settings::require_string(theDataName);
+	const string datavar = theDataName + '_' + data_type_name(theDataType);
+	const string dataname = Settings::require_string(datavar);
 
 	// Get the data into use
 
