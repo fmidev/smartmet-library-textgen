@@ -12,6 +12,13 @@
 #include <utility>
 #include <vector>
 
+namespace WeatherAnalysis
+{
+  class AnalysisSources;
+  class WeatherArea;
+  class WeatherPeriod;
+}
+
 namespace TextGen
 {
   class Sentence;
@@ -58,6 +65,12 @@ namespace TextGen
 								 unsigned int theEnd);
 
 	Sentence cloudiness_phrase(CloudinessType theType);
+
+	Sentence cloudiness_phrase(const WeatherAnalysis::AnalysisSources & theSources,
+							   const WeatherAnalysis::WeatherArea & theArea,
+							   const WeatherAnalysis::WeatherPeriod & thePeriod,
+							   const std::string & theVar,
+							   int theDay);
 
 
   } // namespace CloudinessStoryTools

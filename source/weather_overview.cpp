@@ -1231,90 +1231,6 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Generate the "enimmäkseen pilvistä" phrases
-   *
-   * \param theSources The analysis sources
-   * \param theArea The area to be analyzed
-   * \param thePeriod The rainy period to be analyzed
-   * \param theVar The control variable
-   * \param theDay The day in question
-   * \return The phrase
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence cloudiness_phrase(const AnalysisSources & theSources,
-							 const WeatherArea & theArea,
-							 const WeatherPeriod & thePeriod,
-							 const string & theVar,
-							 int theDay)
-  {
-	MessageLogger log("weather_overview::cloudiness_phrase");
-
-	using namespace Settings;
-
-    const int clear = optional_percentage(theVar+"::clear",40);
-    const int cloudy = optional_percentage(theVar+"::cloudy",70);
-
-	RangeAcceptor cloudylimits;
-	cloudylimits.lowerLimit(cloudy);
-	
-	RangeAcceptor clearlimits;
-	clearlimits.upperLimit(clear);
-
-    GridForecaster forecaster;
-
-	const string daystr = "day"+lexical_cast<string>(theDay);
-
-	const WeatherResult cloudy_percentage =
-	  forecaster.analyze(theVar+"::fake::"+daystr+"::cloudy",
-						 theSources,
-						 Cloudiness,
-						 Mean,
-						 Percentage,
-						 theArea,
-						 thePeriod,
-						 DefaultAcceptor(),
-						 DefaultAcceptor(),
-						 cloudylimits);
-
-	const WeatherResult clear_percentage =
-	  forecaster.analyze(theVar+"::fake::"+daystr+"::clear",
-						 theSources,
-						 Cloudiness,
-						 Mean,
-						 Percentage,
-						 theArea,
-						 thePeriod,
-						 DefaultAcceptor(),
-						 DefaultAcceptor(),
-						 clearlimits);
-
-	const WeatherResult trend =
-	  forecaster.analyze(theVar+"::fake::"+daystr+"::trend",
-						 theSources,
-						 Cloudiness,
-						 Mean,
-						 Trend,
-						 theArea,
-						 thePeriod);
-
-	log << "Cloudiness Mean(Percentage(cloudy)) " << daystr << " = " << cloudy_percentage << endl;
-	log << "Cloudiness Mean(Percentage(clear)) " << daystr << " = " << clear_percentage << endl;
-	log << "Cloudiness Mean(Trend) " << daystr << " = " << trend << endl;
-	
-	CloudinessStoryTools::CloudinessType ctype =
-	  CloudinessStoryTools::cloudiness_type(theVar,
-											cloudy_percentage.value(),
-											clear_percentage.value(),
-											trend.value());
-
-	Sentence s;
-	s << CloudinessStoryTools::cloudiness_phrase(ctype);
-	return s;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Generate the "in some place places" story
    *
    * The used variables are
@@ -1400,6 +1316,8 @@ namespace TextGen
 							  const WeatherPeriod & theRainPeriod,
 							  int theDay)
   {
+	using namespace CloudinessStoryTools;
+
 	Sentence s;
 	s << PeriodPhraseFactory::create("days",
 									 theVar,
