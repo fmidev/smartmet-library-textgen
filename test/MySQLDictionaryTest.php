@@ -3,7 +3,7 @@
 echo "MySQLDictionary keyword validity tester\n";
 echo "=======================================\n";
 
-$link = mysql_connect("mimir.weatherproof.fi",
+$link = mysql_connect("mimir",
 		      "textgen",
 		      "w1w2w3") or die("Could not connect to mimir");
 mysql_select_db("textgen") or die("Could not select textgen database");
@@ -54,7 +54,7 @@ for($i=0; $i<count($languages); $i++)
 function GetLanguages()
 {
   $languages = array();
-  $query = "SELECT translationtable FROM languages WHERE active=1";
+  $query = "SELECT translationtable FROM languages WHERE active=1 AND full=1";
   $result = mysql_query($query) or die("languages query failed");
   while($line = mysql_fetch_array($result,MYSQL_ASSOC))
     {
