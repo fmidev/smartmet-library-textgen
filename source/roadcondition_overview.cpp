@@ -109,6 +109,10 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 	/*!
 	 * \brief Calculate road condition percentages for given period
+	 *
+	 * \todo Optimize the integration loop so that you first calculate
+	 *       the minimum and maximum road condition, or possibly just
+	 *       the maximum, and then loop over those values only.
 	 */
 	// ----------------------------------------------------------------------
 
