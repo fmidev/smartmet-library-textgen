@@ -453,7 +453,7 @@ namespace
 	  // 13. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
 	  { 6, "aamusta alkaen", "" },
 	  // 14. Tänään aamuyöstä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  { 5, "aamutöstä alkaen", "" },
+	  { 5, "aamuyöstä alkaen", "" },
 	  // 15. Tänään aamuyöstä alkaen tiistai-iltaan asti [sadetta]
 	  { 6, "aamuyöstä alkaen", "" },
 	  // 16. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
