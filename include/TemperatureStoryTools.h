@@ -4,13 +4,6 @@
  * \brief Interface of namespace TextGen::TemperatureStoryTools
  */
 // ======================================================================
-/*!
- * \namespace TextGen::TemperatureStoryTools
- *
- * \brief Common utilities for TemperatureStory methods
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_TEMPERATURESTORYTOOLS_H
 #define TEXTGEN_TEMPERATURESTORYTOOLS_H

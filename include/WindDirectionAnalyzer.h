@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::WindDirectionAnalyzer
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::WindDirectionAnalyzer
- *
- * \brief WindDirection analysis functions
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYZER_WINDDIRECTIONANALYZER_H
 #define WEATHERANALYZER_WINDDIRECTIONANALYZER_H

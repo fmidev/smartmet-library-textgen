@@ -4,16 +4,6 @@
  * \brief Interface of class TextGen::Paragraph
  */
 // ======================================================================
-/*!
- * \class TextGen::Paragraph
- *
- * \brief A sequence of sentences.
- *
- * The responsibility of the Paragraph class is to contain
- * a list of sentences, which can then be converted into text.
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_PARAGRAPH_H
 #define TEXTGEN_PARAGRAPH_H

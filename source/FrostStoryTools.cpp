@@ -4,6 +4,13 @@
  * \brief Implementation of namespace TextGen::FrostStoryTools
  */
 // ======================================================================
+/*!
+ * \namespace TextGen::FrostStoryTools
+ *
+ * \brief Common utilities for FrostStory methods
+ *
+ */
+// ======================================================================
 
 #include "FrostStoryTools.h"
 #include "Integer.h"

@@ -4,16 +4,6 @@
  * \brief Interface of class TextGen::Sentence
  */
 // ======================================================================
-/*!
- * \class TextGen::Sentence
- *
- * \brief A sequence of sentences.
- *
- * The responsibility of the Sentence class is to contain
- * a list of sentences, which can then be converted into text.
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_SENTENCE_H
 #define TEXTGEN_SENTENCE_H

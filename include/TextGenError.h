@@ -4,13 +4,6 @@
  * \brief Interface of class TextGen::TextGenError
  */
 // ======================================================================
-/*!
- * \class TextGen::TextGenError
- *
- * \brief The generic exception thrown by TextGen library
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_TEXTGENERROR_H
 #define TEXTGEN_TEXTGENERROR_H

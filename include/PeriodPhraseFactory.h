@@ -4,15 +4,6 @@
  * \brief Interface of namespace TextGen::PeriodPhraseFactory
  */
 // ======================================================================
-/*!
- * \namespace TextGen::PeriodPhraseFactory
- *
- * \brief Tools for generating phrases to describe periods
- *
- * \see page_periodifraasit
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_PERIODPHRASEFACTORY_H
 #define TEXTGEN_PERIODPHRASEFACTORY_H

@@ -4,14 +4,6 @@
  * \brief Interface of class WeatherAnalysis::NullPeriodGenerator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::NullPeriodGenerator
- *
- * \brief Generates a sequence of periods
- *
- * This class always returns the main period as is.
- */
-// ----------------------------------------------------------------------
 
 #ifndef WEATHERANALYSIS_NULLPERIODGENERATOR_H
 #define WEATHERANALYSIS_NULLPERIODGENERATOR_H

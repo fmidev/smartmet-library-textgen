@@ -4,14 +4,6 @@
  * \brief Interface of class TextGen::WindStory
  */
 // ======================================================================
-/*!
- * \class TextGen::WindStory
- *
- * \brief Generates stories on wind speed and direction
- *
- * \see page_tarinat
- */
-// ======================================================================
 
 #ifndef TEXTGEN_WINDSTORY_H
 #define TEXTGEN_WINDSTORY_H

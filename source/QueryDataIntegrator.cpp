@@ -1,13 +1,22 @@
-
 // ======================================================================
 /*!
  * \file
  * \brief Implementation of namespace WeatherAnalysis::QueryDataIntegrator
  */
 // ======================================================================
+/*!
+ * \namespace WeatherAnalysis::QueryDataIntegrator
+ *
+ * \brief Functions for integrating query data
+ *
+ * The QueryDataIntegrator namespace defines several methods
+ * for performing data integration in space and time.
+ *
+ */
+// ======================================================================
 
 #ifdef _MSC_VER
- #pragma warning(disable : 4786) // STL name length warnings off
+#pragma warning(disable : 4786) // STL name length warnings off
 #endif
 
 #include "QueryDataIntegrator.h"

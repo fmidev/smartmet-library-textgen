@@ -4,6 +4,12 @@
  * \brief Implementation of class TextGen::Delimiter
  */
 // ======================================================================
+/*!
+ * \class TextGen::Delimiter
+ * \brief Representation of a sentence delimiter, such as ","
+ *
+ */
+// ======================================================================
 
 #include "Delimiter.h"
 #include "TextFormatter.h"

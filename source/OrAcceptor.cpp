@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::OrAcceptor
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::OrAcceptor
+ *
+ * \brief OrAcceptor combines two Acceptors with a logical OR
+ *
+ */
+// ======================================================================
 
 #include "OrAcceptor.h"
 

@@ -4,6 +4,14 @@
  * \brief Implementation of class TextGen::FrostStory
  */
 // ======================================================================
+/*!
+ * \class TextGen::FrostStory
+ *
+ * \brief Generates stories on frost
+ *
+ * \see page_tarinat
+ */
+// ======================================================================
 
 #include "FrostStory.h"
 #include "AnalysisSources.h"

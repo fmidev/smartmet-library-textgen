@@ -4,6 +4,15 @@
  * \brief Implementation of class WeatherAnalysis::WeatherArea
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::WeatherArea
+ *
+ * \brief Representation of an area to be analyzed
+ *
+ * The area is represented either by a name or by
+ * the coordinates of a single point.
+ */
+// ======================================================================
 
 #include "WeatherArea.h"
 #include "WeatherAnalysisError.h"

@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::NullAcceptor
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::NullAcceptor
+ *
+ * \brief Acceptor is a class which accepts everything but kFloatMissing
+ *
+ */
+// ======================================================================
 
 #include "NullAcceptor.h"
 #include "newbase/NFmiGlobals.h"

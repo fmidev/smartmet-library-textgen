@@ -4,6 +4,11 @@
  * \brief Implementation of class TextGen::Integer
  */
 // ======================================================================
+/*!
+ * \class TextGen::Integer
+ * \brief Representation of a generic integer
+ */
+// ======================================================================
 
 #include "Integer.h"
 #include "Dictionary.h"

@@ -4,6 +4,12 @@
  * \brief Implementation of namespace TextGen::StoryFactory
  */
 // ======================================================================
+/*!
+ * \namespace TextGen::StoryFactory
+ *
+ * \brief Generates brief paragraphs of desired type
+ */
+// ======================================================================
 
 #include "StoryFactory.h"
 #include "AnalysisSources.h"

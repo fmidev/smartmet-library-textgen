@@ -4,6 +4,12 @@
  * \brief Implementation of class TextGen::SoneraTextFormatter
  */
 // ======================================================================
+/*!
+ * \class TextGen::SoneraTextFormatter
+ *
+ * \brief Glyph visitor generating Sonera tailored output
+ */
+// ======================================================================
 
 #include "SoneraTextFormatter.h"
 #include "Dictionary.h"

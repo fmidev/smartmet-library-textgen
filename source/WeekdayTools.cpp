@@ -4,6 +4,13 @@
  * \brief Implementation of namespace TextGen::WeekdayTools
  */
 // ======================================================================
+/*!
+ * \namespace TextGen::WeekdayTools
+ *
+ * \brief Tools for generating weekday phrases
+ *
+ */
+// ----------------------------------------------------------------------
 
 #include "boost/lexical_cast.hpp" // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ss‰ min max m‰‰rittelyt jo tehty
 

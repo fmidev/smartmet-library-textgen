@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::WindDirectionAnalyzer
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::WindDirectionAnalyzer
+ *
+ * \brief WindDirection analysis functions
+ *
+ */
+// ======================================================================
 
 #include "WindDirectionAnalyzer.h"
 #include "AnalysisSources.h"

@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::WeatherAnalysisError
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::WeatherAnalysisError
- *
- * \brief The generic exception thrown by WeatherAnalysis namespace
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_WEATHERANALYSISERROR_H
 #define WEATHERANALYSIS_WEATHERANALYSISERROR_H

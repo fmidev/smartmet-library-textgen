@@ -4,6 +4,14 @@
  * \brief Implementation of class WeatherAnalysis::AndAcceptor
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::AndAcceptor
+ *
+ * \brief AndAcceptor combines two Acceptors with a logical AND
+ *
+ */
+// ======================================================================
+
 
 #include "AndAcceptor.h"
 #include "newbase/NFmiGlobals.h"

@@ -4,17 +4,6 @@
  * \brief Interface of class WeatherAnalysis::StandardDeviationCalculator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::StandardDeviationCalculator
- *
- * \brief StandardDeviation intergator
- *
- * The result is sample standard deviation, not plain population
- * standard deviation because we most often calculate the standard
- * deviation for data which is essentially discrete samples
- * of continuous data.
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_STANDARDDEVIATIONCALCULATOR_H
 #define WEATHERANALYSIS_STANDARDDEVIATIONCALCULATOR_H

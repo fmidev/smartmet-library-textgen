@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::ModChangeCalculator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::ModChangeCalculator
+ *
+ * \brief Modular change intergator
+ *
+ */
+// ======================================================================
 
 #include "ModChangeCalculator.h"
 #include "DefaultAcceptor.h"

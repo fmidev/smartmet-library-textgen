@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::TemperatureAnalyzer
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::TemperatureAnalyzer
+ *
+ * \brief Temperature analysis functions
+ *
+ */
+// ======================================================================
 
 #include "TemperatureAnalyzer.h"
 #include "AnalysisSources.h"

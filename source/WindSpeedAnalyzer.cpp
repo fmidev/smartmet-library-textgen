@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::WindSpeedAnalyzer
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::WindSpeedAnalyzer
+ *
+ * \brief WindSpeed analysis functions
+ *
+ */
+// ======================================================================
 
 #include "WindSpeedAnalyzer.h"
 #include "AnalysisSources.h"

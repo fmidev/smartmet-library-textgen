@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::ModTrendCalculator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::ModTrendCalculator
+ *
+ * \brief ModTrend intergator
+ *
+ */
+// ======================================================================
 
 #include "ModTrendCalculator.h"
 #include "DefaultAcceptor.h"

@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::AnalysisSources
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::AnalysisSources
+ *
+ * \brief Contains weather analysis data sources and caches
+ *
+ */
+// ======================================================================
 
 #include "AnalysisSources.h"
 #include "MapSource.h"

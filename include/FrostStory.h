@@ -4,14 +4,6 @@
  * \brief Interface of class TextGen::FrostStory
  */
 // ======================================================================
-/*!
- * \class TextGen::FrostStory
- *
- * \brief Generates stories on frost
- *
- * \see page_tarinat
- */
-// ======================================================================
 
 #ifndef TEXTGEN_FROSTSTORY_H
 #define TEXTGEN_FROSTSTORY_H

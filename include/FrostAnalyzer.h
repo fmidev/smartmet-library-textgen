@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::FrostAnalyzer
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::FrostAnalyzer
- *
- * \brief Frost analysis functions
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYZER_FROSTANALYZER_H
 #define WEATHERANALYZER_FROSTANALYZER_H

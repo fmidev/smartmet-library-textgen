@@ -4,6 +4,22 @@
  * \brief Implementation of class WeatherAnalysis::ModStandardDeviationCalculator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::ModStandardDeviationCalculator
+ *
+ * \brief Modular standard deviation intergator
+ *
+ * The modular standard deviation is calculated using the Mitsuta algorithm
+ * for wind direction standard deviations.
+ *
+ * Reference: Mori, Y., 1986.<br>
+ * <em>Evaluation of Several Single-Pass Estimators of the StandardDeviation and
+ *     the Standard Deviation of Wind Direction.</em><br>
+ * J Climate Appl. Metro., 25, 1387-1397.
+ *
+ * Some information can also be found with Google (Mitsuta wind direction).
+ */
+// ======================================================================
 
 #include "ModStandardDeviationCalculator.h"
 #include "DefaultAcceptor.h"

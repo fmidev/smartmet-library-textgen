@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::CountCalculator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::CountCalculator
+ *
+ * \brief Count intergator
+ *
+ */
+// ======================================================================
 
 #include "CountCalculator.h"
 #include "DefaultAcceptor.h"

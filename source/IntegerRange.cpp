@@ -4,6 +4,11 @@
  * \brief Implementation of class TextGen::IntegerRange
  */
 // ======================================================================
+/*!
+ * \class TextGen::IntegerRange
+ * \brief Representation of a generic IntegerRange
+ */
+// ======================================================================
 
 #include "IntegerRange.h"
 #include "Dictionary.h"

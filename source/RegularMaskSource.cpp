@@ -4,6 +4,20 @@
  * \brief Implementation of class WeatherAnalysis::RegularMaskSource
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::RegularMaskSource
+ *
+ * \brief Provides mask services to clients
+ *
+ * The RegularMaskSource class provides access to masks calculated from
+ * named SVG paths which represent geographic areas.
+ *
+ * The constructor takes as an optional argument the distance in kilometers
+ * by which each area may be expanded for a grid point to be considered
+ * to be representative for the area. Normally we might use a distance
+ * half the forecast grid spacing.
+ */
+// ======================================================================
 
 #include "RegularMaskSource.h"
 

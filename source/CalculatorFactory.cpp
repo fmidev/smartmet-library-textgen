@@ -4,6 +4,13 @@
  * \brief Implementation of namespace WeatherAnalysis::CalculatorFactory
  */
 // ======================================================================
+/*!
+ * \namespace WeatherAnalysis::CalculatorFactory
+ *
+ * \brief Creating WeatherAnalysis::Calculator objects
+ *
+ */
+// ======================================================================
 
 #include "CalculatorFactory.h"
 #include "ChangeCalculator.h"

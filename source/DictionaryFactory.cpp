@@ -4,6 +4,24 @@
  * \brief Implementation of namespace TextGen::DictionaryFactory
  */
 // ======================================================================
+/*!
+ * \namespace TextGen::DictionaryFactory
+ *
+ * \brief Dictionary creation services
+ *
+ * The responsibility of the DictionaryFactory namespace is to provide
+ * dictionary creation services.
+ *
+ * For example,
+ * \code
+ * boost::shared_ptr<Dictionary> dict1 = DictionaryFactory::create("null");
+ * boost::shared_ptr<Dictionary> dict2 = DictionaryFactory::create("basic");
+ * boost::shared_ptr<Dictionary> dict3 = DictionaryFactory::create("mysql");
+ * \endcode
+ *
+ */
+// ======================================================================
+
 #ifdef _MSC_VER
 #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta (liian pitkä nimi >255 merkkiä joka johtuu 'puretuista' STL-template nimistä)
 #endif

@@ -4,17 +4,6 @@
  * \brief Interface of class TextGen::DebugDictionary
  */
 // ======================================================================
-/*!
- * \class TextGen::DebugDictionary
- *
- * \brief Provides a dummy dictionary service for debugging
- *
- * The debug dictionary returns all keys back phrases - no actual
- * translation is performed.
- *
- * The dictionary is mostly useful for debugging logs.
- */
-// ----------------------------------------------------------------------
 
 #ifndef TEXTGEN_DEBUGDICTIONARY_H
 #define TEXTGEN_DEBUGDICTIONARY_H

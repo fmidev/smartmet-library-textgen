@@ -4,8 +4,21 @@
  * \brief Implementation of class WeatherAnalysis::UserWeatherSource
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::UserWeatherSource
+ *
+ * \brief Weather data source
+ *
+ * In this version of the WeatherSource interface the user
+ * is expected to manually insert all name-data pairs into
+ * the class. This facilitates for example regression testing
+ * with specific data.
+ *
+ */
+// ======================================================================
+
 #ifdef _MSC_VER
-#pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta (liian pitk‰ nimi >255 merkki‰ joka johtuu 'puretuista' STL-template nimist‰)
+#pragma warning(disable : 4786) // poistaa VC++ k‰‰nt‰j‰n STL varoituksia
 #endif
 
 #include "UserWeatherSource.h"

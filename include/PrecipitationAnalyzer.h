@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::PrecipitationAnalyzer
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::PrecipitationAnalyzer
- *
- * \brief Precipitation analysis functions
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYZER_PRECIPITATIONANALYZER_H
 #define WEATHERANALYZER_PRECIPITATIONANALYZER_H

@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::PrecipitationAnalyzer
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::PrecipitationAnalyzer
+ *
+ * \brief Precipitation analysis functions
+ *
+ */
+// ======================================================================
 
 #include "PrecipitationAnalyzer.h"
 #include "AnalysisSources.h"

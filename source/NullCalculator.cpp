@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::NullCalculator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::NullCalculator
+ *
+ * \brief Dummy calculator
+ *
+ */
+// ======================================================================
 
 #include "NullCalculator.h"
 #include "DefaultAcceptor.h"

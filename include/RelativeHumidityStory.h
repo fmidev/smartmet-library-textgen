@@ -4,14 +4,6 @@
  * \brief Interface of class TextGen::RelativeHumidityStory
  */
 // ======================================================================
-/*!
- * \class TextGen::RelativeHumidityStory
- *
- * \brief Generates stories on relativehumidity
- *
- * \see page_tarinat
- */
-// ======================================================================
 
 #ifndef TEXTGEN_RELATIVEHUMIDITYSTORY_H
 #define TEXTGEN_RELATIVEHUMIDITYSTORY_H

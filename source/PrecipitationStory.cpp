@@ -4,6 +4,13 @@
  * \brief Implementation of class TextGen::PrecipitationStory
  */
 // ======================================================================
+/*!
+ * \class TextGen::PrecipitationStory
+ *
+ * \brief Generates stories on precipitation
+ *
+ */
+// ======================================================================
 
 #include "PrecipitationStory.h"
 #include "Paragraph.h"

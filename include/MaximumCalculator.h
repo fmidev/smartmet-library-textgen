@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::MaximumCalculator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::MaximumCalculator
- *
- * \brief Maximum calculator
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_MAXIMUMCALCULATOR_H
 #define WEATHERANALYSIS_MAXIMUMCALCULATOR_H

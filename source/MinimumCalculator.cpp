@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::MinimumCalculator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::MinimumCalculator
+ *
+ * \brief Minimum calculator
+ *
+ */
+// ======================================================================
 
 #include "MinimumCalculator.h"
 #include "DefaultAcceptor.h"

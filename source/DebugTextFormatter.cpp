@@ -4,6 +4,12 @@
  * \brief Implementation of class TextGen::DebugTextFormatter
  */
 // ======================================================================
+/*!
+ * \class TextGen::DebugTextFormatter
+ *
+ * \brief Glyph visitor generating output for debug logs
+ */
+// ======================================================================
 
 #include "DebugTextFormatter.h"
 #include "Dictionary.h"

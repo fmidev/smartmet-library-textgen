@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::TrendCalculator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::TrendCalculator
- *
- * \brief Trend intergator
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_TRENDCALCULATOR_H
 #define WEATHERANALYSIS_TRENDCALCULATOR_H

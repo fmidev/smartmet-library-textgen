@@ -4,6 +4,18 @@
  * \brief Implementation of class WeatherAnalysis::GridForecaster
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::GridForecaster
+ *
+ * \brief Provides forecast analysis services to clients
+ *
+ * The GridForecaster class provides weather forecast analysis
+ * services. All analysis is performed by analyzing the main
+ * grid forecast. Probabilities are calculated by analyzing the
+ * gridded forecasts.
+ *
+ */
+// ======================================================================
 
 #include "GridForecaster.h"
 #include "Acceptor.h"

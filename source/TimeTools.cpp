@@ -4,6 +4,19 @@
  * \brief Implementation of namespace TimeTools
  */
 // ======================================================================
+/*!
+ * \namespace TextGen::TimeTools
+ *
+ * \brief Various NFmiTime related utilities
+ *
+ * This namespace contains functions which depend on NFmiTime but
+ * do not depend on any other textgen library classes or namespaces.
+ *
+ * That is, miscellaneous time utilities which could have been
+ * in newbase too.
+ *
+ */
+// ======================================================================
 
 #include "TimeTools.h"
 #include "newbase/NFmiTime.h"

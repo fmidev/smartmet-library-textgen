@@ -4,12 +4,6 @@
  * \brief Interface of class TextGen::HtmlTextFormatter
  */
 // ======================================================================
-/*!
- * \class TextGen::HtmlTextFormatter
- *
- * \brief Glyph visitor generating HTML output
- */
-// ======================================================================
 
 #ifndef TEXTGEN_HTMLTEXTFORMATTER_H
 #define TEXTGEN_HTMLTEXTFORMATTER_H

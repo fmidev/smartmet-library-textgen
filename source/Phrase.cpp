@@ -4,6 +4,11 @@
  * \brief Implementation of class TextGen::Phrase
  */
 // ======================================================================
+/*!
+ * \class TextGen::Phrase
+ * \brief Representation of a dictionary word
+ */
+// ======================================================================
 
 #include "Phrase.h"
 #include "Dictionary.h"

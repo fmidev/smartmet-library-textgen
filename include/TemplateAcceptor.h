@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::TemplateAcceptor
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::TemplateAcceptor
- *
- * \brief TemplateAcceptor is a templated acceptor
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_TEMPLATEACCEPTOR_H
 #define WEATHERANALYSIS_TEMPLATEACCEPTOR_H

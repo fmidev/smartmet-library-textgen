@@ -4,12 +4,6 @@
  * \brief Interface of class TextGen::Delimiter
  */
 // ======================================================================
-/*!
- * \class TextGen::Delimiter
- * \brief Representation of a sentence delimiter, such as ","
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_DELIMITER_H
 #define TEXTGEN_DELIMITER_H

@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::NullCalculator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::NullCalculator
- *
- * \brief Dummy calculator
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_NULLCALCULATOR_H
 #define WEATHERANALYSIS_NULLCALCULATOR_H

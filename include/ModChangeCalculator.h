@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::ModChangeCalculator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::ModChangeCalculator
- *
- * \brief Modular change intergator
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_MODCHANGECALCULATOR_H
 #define WEATHERANALYSIS_MODCHANGECALCULATOR_H

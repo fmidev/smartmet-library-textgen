@@ -4,8 +4,48 @@
  * \brief Implementation of class TextGen::MySQLDictionaries
  */
 // ======================================================================
+/*!
+ * \class TextGen::MySQLDictionaries
+ *
+ * \brief Provides dictionary services
+ *
+ * The responsibility of the MySQLDictionaries class is to provide natural
+ * language text for the given keyword.
+ *
+ * The dictionary has an initialization method, which fetches the specified
+ * language from the MySQL server, unless it has been fetched already.
+ * In a sence this class is a version of MySQLDictionary which remembers
+ * all used languages. The language in use is changed by using the init command.
+ *
+ * Sample usage:
+ * \code
+ * using namespace TextGen;
+ *
+ * MySQLDictionaries dict;
+ * dict.init("fi");
+ * dict.init("en");
+ *
+ * cout << dict.find("good morning") << endl;
+ * cout << dict.find("good night") << endl;
+ *
+ * if(dict.contains("good night"))
+ *    cout << dict.find("good night") << endl;
+ * \endcode
+ *
+ * Note that find throws if the given keyword does not exist.
+ *
+ * The database address, table name, user name and password
+ * are all specified externally in fmi.conf used by newbase
+ * NFmiSettings class.
+ *
+ * The dictionary can be initialized multiple times. All
+ * initializations are effectively cached for best possible
+ * speed.
+ */
+// ----------------------------------------------------------------------
+
 #ifdef _MSC_VER
-#pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta (liian pitk‰ nimi >255 merkki‰ joka johtuu 'puretuista' STL-template nimist‰)
+#pragma warning(disable : 4786) // poistaa VC++ k‰‰nt‰j‰n STL varoituksia
 #endif
 
 #include "MySQLDictionaries.h"

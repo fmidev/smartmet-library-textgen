@@ -4,13 +4,6 @@
  * \brief Interface of abstract class WeatherAnalysis::ParameterAnalyzer
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::ParameterAnalyzer
- *
- * \brief Parameter analysis functions
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_PARAMETERANALYZER_H
 #define WEATHERANALYSIS_PARAMETERANALYZER_H

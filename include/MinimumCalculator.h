@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::MinimumCalculator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::MinimumCalculator
- *
- * \brief Minimum calculator
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_MINIMUMCALCULATOR_H
 #define WEATHERANALYSIS_MINIMUMCALCULATOR_H

@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::CloudinessAnalyzer
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::CloudinessAnalyzer
- *
- * \brief Cloudiness analysis functions
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYZER_CLOUDINESSANALYZER_H
 #define WEATHERANALYZER_CLOUDINESSANALYZER_H

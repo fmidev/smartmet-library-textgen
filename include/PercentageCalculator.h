@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::PercentageCalculator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::PercentageCalculator
- *
- * \brief Percentage intergator
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_PERCENTAGECALCULATOR_H
 #define WEATHERANALYSIS_PERCENTAGECALCULATOR_H

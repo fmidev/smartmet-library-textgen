@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::IdGenerator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::IdGenerator
- *
- * \brief Provides unique ID generation services
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_IDGENERATOR_H
 #define WEATHERANALYSIS_IDGENERATOR_H

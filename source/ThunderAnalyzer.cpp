@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::ThunderAnalyzer
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::ThunderAnalyzer
+ *
+ * \brief Thunder analysis functions
+ *
+ */
+// ======================================================================
 
 #include "ThunderAnalyzer.h"
 #include "AnalysisSources.h"

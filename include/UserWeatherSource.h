@@ -4,18 +4,6 @@
  * \brief Interface of class WeatherAnalysis::UserWeatherSource
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::UserWeatherSource
- *
- * \brief Weather data source
- *
- * In this version of the WeatherSource interface the user
- * is expected to manually insert all name-data pairs into
- * the class. This facilitates for example regression testing
- * with specific data.
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_USERWEATHERSOURCE_H
 #define WEATHERANALYSIS_USERWEATHERSOURCE_H

@@ -4,6 +4,13 @@
  * \brief Implementation of class TextGen::GlyphContainer
  */
 // ======================================================================
+/*!
+ * \class TextGen::GlyphContainer
+ *
+ * \brief A generic text glyph interface
+ *
+ */
+// ======================================================================
 
 #include "GlyphContainer.h"
 

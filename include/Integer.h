@@ -4,11 +4,6 @@
  * \brief Interface of class TextGen::Integer
  */
 // ======================================================================
-/*!
- * \class TextGen::Integer
- * \brief Representation of a generic integer
- */
-// ======================================================================
 
 #ifndef TEXTGEN_INTEGER_H
 #define TEXTGEN_INTEGER_H

@@ -4,13 +4,6 @@
  * \brief Interface of namespace TextGen::WeekdayTools
  */
 // ----------------------------------------------------------------------
-/*!
- * \namespace TextGen::WeekdayTools
- *
- * \brief Tools for generating weekday phrases
- *
- */
-// ----------------------------------------------------------------------
 
 #ifndef TEXTGEN_WEEKDAYTOOLS_H
 #define TEXTGEN_WEEKDAYTOOLS_H

@@ -4,16 +4,6 @@
  * \brief Interface of class WeatherAnalysis::MapSource
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::MapSource
- *
- * \brief Provides map services to clients
- *
- * The MapSource class provides access to named SVG paths which
- * represent geographic areas.
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_MAPSOURCE_H
 #define WEATHERANALYSIS_MAPSOURCE_H

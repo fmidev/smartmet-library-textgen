@@ -4,6 +4,13 @@
  * \brief Implementation of namespace MathTools
  */
 // ======================================================================
+/*!
+ * \namespace MathTools
+ *
+ * \brief Various mathematical utitity functions
+ *
+ */
+// ======================================================================
 
 #include "MathTools.h"
 

@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::WindSpeedAnalyzer
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::WindSpeedAnalyzer
- *
- * \brief WindSpeed analysis functions
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYZER_WINDSPEEDANALYZER_H
 #define WEATHERANALYZER_WINDSPEEDANALYZER_H

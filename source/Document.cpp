@@ -4,6 +4,13 @@
  * \brief Implementation of class TextGen::Document
  */
 // ======================================================================
+/*!
+ * \class TextGen::Document
+ *
+ * \brief A sequence of glyphs forming a document
+ *
+ */
+// ======================================================================
 
 #include "Document.h"
 

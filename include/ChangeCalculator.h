@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::ChangeCalculator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::ChangeCalculator
- *
- * \brief Change intergator
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_CHANGECALCULATOR_H
 #define WEATHERANALYSIS_CHANGECALCULATOR_H

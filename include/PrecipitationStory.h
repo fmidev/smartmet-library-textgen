@@ -4,13 +4,6 @@
  * \brief Interface of class TextGen::PrecipitationStory
  */
 // ======================================================================
-/*!
- * \class TextGen::PrecipitationStory
- *
- * \brief Generates stories on precipitation
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_PRECIPITATIONSTORY_H
 #define TEXTGEN_PRECIPITATIONSTORY_H

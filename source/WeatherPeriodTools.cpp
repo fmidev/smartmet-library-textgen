@@ -4,8 +4,21 @@
  * \brief Implementation of namespace WeatherAnalysis::WeatherPeriodTools
  */
 // ======================================================================
+/*!
+ * \namespace WeatherAnalysis::WeatherPeriodTools
+ *
+ * \brief Various tools related to WeatherPeriod objects
+ *
+ * The namespace provides tools for extracting subperiods
+ * from weather periods, counting the number of specified
+ * subperiods (for example nights) and so on.
+ */
+// ======================================================================
 
-#include "boost/lexical_cast.hpp" // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ss‰ min max m‰‰rittelyt jo tehty
+// boost included laitettava ennen newbase:n NFmiGlobals-includea,
+// muuten MSVC:ss‰ min max m‰‰rittelyt jo tehty
+
+#include "boost/lexical_cast.hpp"
 
 #include "WeatherPeriodTools.h"
 #include "WeatherPeriod.h"

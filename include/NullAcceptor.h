@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::NullAcceptor
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::NullAcceptor
- *
- * \brief Acceptor is a class which accepts everything but kFloatMissing
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_NULLACCEPTOR_H
 #define WEATHERANALYSIS_NULLACCEPTOR_H

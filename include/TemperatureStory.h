@@ -4,14 +4,6 @@
  * \brief Interface of class TextGen::TemperatureStory
  */
 // ======================================================================
-/*!
- * \class TextGen::TemperatureStory
- *
- * \brief Generates stories on temperature
- *
- * \see page_tarinat
- */
-// ======================================================================
 
 #ifndef TEXTGEN_TEMPERATURESTORY_H
 #define TEXTGEN_TEMPERATURESTORY_H

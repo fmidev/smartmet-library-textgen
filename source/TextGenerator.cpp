@@ -4,6 +4,13 @@
  * \brief Implementation of class TextGen::TextGenerator
  */
 // ======================================================================
+/*!
+ * \class TextGen::TextGenerator
+ *
+ * \brief The main text generator driver
+ *
+ */
+// ======================================================================
 
 #include "TextGenerator.h"
 #include "AnalysisSources.h"

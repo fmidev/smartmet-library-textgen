@@ -4,13 +4,6 @@
  * \brief Interface of class TextGen::GlyphContainer
  */
 // ======================================================================
-/*!
- * \class TextGen::GlyphContainer
- *
- * \brief A generic text glyph interface
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_GLYPHCONTAINER_H
 #define TEXTGEN_GLYPHCONTAINER_H

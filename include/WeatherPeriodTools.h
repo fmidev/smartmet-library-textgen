@@ -4,16 +4,6 @@
  * \brief Interface of namespace WeatherAnalysis::WeatherPeriodTools
  */
 // ======================================================================
-/*!
- * \namespace WeatherAnalysis::WeatherPeriodTools
- *
- * \brief Various tools related to WeatherPeriod objects
- *
- * The namespace provides tools for extracting subperiods
- * from weather periods, counting the number of specified
- * subperiods (for example nights) and so on.
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_WEATHERPERIODTOOLS_H
 #define WEATHERANALYSIS_WEATHERPERIODTOOLS_H

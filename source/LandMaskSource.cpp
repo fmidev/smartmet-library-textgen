@@ -4,6 +4,20 @@
  * \brief Implementation of class WeatherAnalysis::LandMaskSource
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::LandMaskSource
+ *
+ * \brief Provides mask services to clients (masked to remain on land)
+ *
+ * The LandMaskSource class provides access to masks calculated from
+ * named SVG paths which represent geographic areas. This class is
+ * differentiated from RegularMaskSource by the fact that any mask
+ * is restricted from expanding into the sea. The acceptable land
+ * area is specified by giving the name of the land area mask
+ * \em and the distance in kilometers by which it may be expanded.
+ *
+ */
+// ======================================================================
 
 #include "LandMaskSource.h"
 

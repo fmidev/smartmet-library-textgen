@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::TemperatureAnalyzer
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::TemperatureAnalyzer
- *
- * \brief Temperature analysis functions
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYZER_TEMPERATUREANALYZER_H
 #define WEATHERANALYZER_TEMPERATUREANALYZER_H

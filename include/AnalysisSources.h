@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::AnalysisSources
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::AnalysisSources
- *
- * \brief Contains weather analysis data sources and caches
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_ANALYSISSOURCES_H
 #define WEATHERANALYSIS_ANALYSISSOURCES_H

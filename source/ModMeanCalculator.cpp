@@ -4,6 +4,22 @@
  * \brief Implementation of class WeatherAnalysis::ModMeanCalculator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::ModMeanCalculator
+ *
+ * \brief Modular mean intergator
+ *
+ * The modular mean is calculated using the Mitsuta algorithm
+ * for wind direction means.
+ *
+ * Reference: Mori, Y., 1986.<br>
+ * <em>Evaluation of Several Single-Pass Estimators of the Mean and
+ *     the Standard Deviation of Wind Direction.</em><br>
+ * J Climate Appl. Metro., 25, 1387-1397.
+ *
+ * Some information can also be found with Google (Mitsuta wind direction).
+ */
+// ======================================================================
 
 #include "ModMeanCalculator.h"
 #include "DefaultAcceptor.h"

@@ -4,12 +4,6 @@
  * \brief Interface of class TextGen::TextFormatter
  */
 // ======================================================================
-/*!
- * \class TextGen::TextFormatter
- *
- * \brief Abstract interface of a Glyph visitor.
- */
-// ======================================================================
 
 #ifndef TEXTGEN_TEXTFORMATTER_H
 #define TEXTGEN_TEXTFORMATTER_H

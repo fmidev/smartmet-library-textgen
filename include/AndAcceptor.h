@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::AndAcceptor
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::AndAcceptor
- *
- * \brief AndAcceptor combines two Acceptors with a logical AND
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_ANDACCEPTOR_H
 #define WEATHERANALYSIS_ANDACCEPTOR_H

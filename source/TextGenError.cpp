@@ -4,6 +4,13 @@
  * \brief Implementation of class TextGen::TextGenError
  */
 // ======================================================================
+/*!
+ * \class TextGen::TextGenError
+ *
+ * \brief The generic exception thrown by TextGen library
+ *
+ */
+// ======================================================================
 
 #include "TextGenError.h"
 

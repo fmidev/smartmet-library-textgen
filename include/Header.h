@@ -4,13 +4,6 @@
  * \brief Interface of class TextGen::Header
  */
 // ======================================================================
-/*!
- * \class TextGen::Header
- *
- * \brief A sequence of glyphs forming a header
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_HEADER_H
 #define TEXTGEN_HEADER_H

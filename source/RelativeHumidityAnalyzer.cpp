@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::RelativeHumidityAnalyzer
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::RelativeHumidityAnalyzer
+ *
+ * \brief RelativeHumidity analysis functions
+ *
+ */
+// ======================================================================
 
 #include "RelativeHumidityAnalyzer.h"
 #include "AnalysisSources.h"

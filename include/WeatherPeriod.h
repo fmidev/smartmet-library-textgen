@@ -4,26 +4,6 @@
  * \brief Interface of class WeatherAnalysis::WeatherPeriod
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::WeatherPeriod
- *
- * \brief Representation of an analysis time period
- *
- * A WeatherPeriod stores the start and end times of analysis.
- * The start and end times may be equal, but is rarely used.
- *
- * The class is intended for storage only, the provided accessors
- * are to be used externally in actual analysis code.
- *
- * Any additional functions, if any are needed, are to be placed
- * into a new WeatherPeriodTools namespace. It is possible that
- * a function for testing inclusion will be added to such a namespace
- * later on. The intention is to avoid cluttering this small class
- * with a lot of methods, since it is forseeable that all kinds
- * of interval splitting algorithms will also be needed.
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_WEATHERPERIOD_H
 #define WEATHERANALYSIS_WEATHERPERIOD_H

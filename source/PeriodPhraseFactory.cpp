@@ -4,6 +4,15 @@
  * \brief Implementation of namespace TextGen::PeriodPhraseFactory
  */
 // ======================================================================
+/*!
+ * \namespace TextGen::PeriodPhraseFactory
+ *
+ * \brief Tools for generating phrases to describe periods
+ *
+ * \see page_periodifraasit
+ *
+ */
+// ======================================================================
 
 #include "PeriodPhraseFactory.h"
 #include "HourPeriodGenerator.h"

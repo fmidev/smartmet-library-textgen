@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::ChangeCalculator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::ChangeCalculator
+ *
+ * \brief Change intergator
+ *
+ */
+// ======================================================================
 
 #include "ChangeCalculator.h"
 #include "DefaultAcceptor.h"

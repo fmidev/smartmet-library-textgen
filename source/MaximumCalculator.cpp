@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::MaximumCalculator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::MaximumCalculator
+ *
+ * \brief Maximum calculator
+ *
+ */
+// ======================================================================
 
 #include "MaximumCalculator.h"
 #include "DefaultAcceptor.h"

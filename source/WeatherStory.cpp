@@ -4,6 +4,14 @@
  * \brief Implementation of class TextGen::WeatherStory
  */
 // ======================================================================
+/*!
+ * \class TextGen::WeatherStory
+ *
+ * \brief Generates stories on weather
+ *
+ * \see page_tarinat
+ */
+// ======================================================================
 
 #include "WeatherStory.h"
 #include "Paragraph.h"

@@ -4,6 +4,14 @@
  * \brief Implementation of class TextGen::WindStory
  */
 // ======================================================================
+/*!
+ * \class TextGen::WindStory
+ *
+ * \brief Generates stories on wind speed and direction
+ *
+ * \see page_tarinat
+ */
+// ======================================================================
 
 #include "WindStory.h"
 #include "Paragraph.h"

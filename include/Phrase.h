@@ -4,11 +4,6 @@
  * \brief Interface of class TextGen::Phrase
  */
 // ======================================================================
-/*!
- * \class TextGen::Phrase
- * \brief Representation of a dictionary word
- */
-// ======================================================================
 
 #ifndef TEXTGEN_PHRASE_H
 #define TEXTGEN_PHRASE_H

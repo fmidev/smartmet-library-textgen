@@ -4,8 +4,19 @@
  * \brief Implementation of class WeatherAnalysis::NullPeriodGenerator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::NullPeriodGenerator
+ *
+ * \brief Generates a sequence of periods
+ *
+ * This class always returns the main period as is.
+ */
+// ----------------------------------------------------------------------
 
-#include "boost/lexical_cast.hpp" // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ss‰ min max m‰‰rittelyt jo tehty
+// boost included laitettava ennen newbase:n NFmiGlobals-includea,
+// muuten MSVC:ss‰ min max m‰‰rittelyt jo tehty
+
+#include "boost/lexical_cast.hpp"
 
 #include "NullPeriodGenerator.h"
 #include "WeatherAnalysisError.h"

@@ -4,15 +4,6 @@
  * \brief Interface of class WeatherAnalysis::WeatherArea
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::WeatherArea
- *
- * \brief Representation of an area to be analyzed
- *
- * The area is represented either by a name or by
- * the coordinates of a single point.
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_WEATHERAREA_H
 #define WEATHERANALYSIS_WEATHERAREA_H

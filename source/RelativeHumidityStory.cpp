@@ -4,6 +4,14 @@
  * \brief Implementation of class TextGen::RelativeHumidityStory
  */
 // ======================================================================
+/*!
+ * \class TextGen::RelativeHumidityStory
+ *
+ * \brief Generates stories on relativehumidity
+ *
+ * \see page_tarinat
+ */
+// ======================================================================
 
 #include "RelativeHumidityStory.h"
 #include "Paragraph.h"

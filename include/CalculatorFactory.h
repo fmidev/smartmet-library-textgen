@@ -4,13 +4,6 @@
  * \brief Interface of namespace WeatherAnalysis::CalculatorFactory
  */
 // ======================================================================
-/*!
- * \namespace WeatherAnalysis::CalculatorFactory
- *
- * \brief Creating WeatherAnalysis::Calculator objects
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_CALCULATORFACTORY_H
 #define WEATHERANALYSIS_CALCULATORFACTORY_H

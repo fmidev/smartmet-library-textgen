@@ -4,6 +4,17 @@
  * \brief Implementation of class WeatherAnalysis::HourPeriodGenerator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::HourPeriodGenerator
+ *
+ * \brief Generates a sequence of periods
+ *
+ * This class uses WeatherPeriodTools countPeriods and getPeriod
+ * as the basis for generating a sequence of subperiods. Hence
+ * the basic idea is to define the acceptable hour interval in
+ * the constructor, the accessors will then take care of the rest.
+ */
+// ----------------------------------------------------------------------
 
 #include "HourPeriodGenerator.h"
 #include "WeatherPeriodTools.h"

@@ -4,13 +4,6 @@
  * \brief Interface of namespace TextGen::FrostStoryTools
  */
 // ======================================================================
-/*!
- * \namespace TextGen::FrostStoryTools
- *
- * \brief Common utilities for FrostStory methods
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_FROSTSTORYTOOLS_H
 #define TEXTGEN_FROSTSTORYTOOLS_H

@@ -4,16 +4,6 @@
  * \brief Interface of class WeatherAnalysis::Calculator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::Calculator
- *
- * \brief Base class for data calculators
- *
- * This is a text generator specific replacement for the hideous
- * NFmiDataModifier hierarchy. I will not support it any longer (Mika).
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_CALCULATOR_H
 #define WEATHERANALYSIS_CALCULATOR_H

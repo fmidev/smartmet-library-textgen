@@ -4,12 +4,6 @@
  * \brief Interface of class TextGen::DebugTextFormatter
  */
 // ======================================================================
-/*!
- * \class TextGen::DebugTextFormatter
- *
- * \brief Glyph visitor generating output for debug logs
- */
-// ======================================================================
 
 #ifndef TEXTGEN_DEBUGTEXTFORMATTER_H
 #define TEXTGEN_DEBUGTEXTFORMATTER_H

@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::RegularFunctionAnalyzer
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::RegularFunctionAnalyzer
- *
- * \brief Regular function analysis
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_REGULARFUNCTIONANALYZER_H
 #define WEATHERANALYSIS_REGULARFUNCTIONANALYZER_H

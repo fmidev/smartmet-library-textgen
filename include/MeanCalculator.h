@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::MeanCalculator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::MeanCalculator
- *
- * \brief Mean intergator
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_MEANCALCULATOR_H
 #define WEATHERANALYSIS_MEANCALCULATOR_H

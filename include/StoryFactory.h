@@ -4,12 +4,6 @@
  * \brief Interface of namespace TextGen::StoryFactory
  */
 // ======================================================================
-/*!
- * \namespace TextGen::StoryFactory
- *
- * \brief Generates brief paragraphs of desired type
- */
-// ======================================================================
 
 #ifndef TEXTGEN_STORYFACTORY_H
 #define TEXTGEN_STORYFACTORY_H

@@ -4,13 +4,6 @@
  * \brief Interface of class TextGen::Story
  */
 // ======================================================================
-/*!
- * \class TextGen::Story
- *
- * \brief Generates stories on 
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_STORY_H
 #define TEXTGEN_STORY_H

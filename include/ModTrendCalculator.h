@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::ModTrendCalculator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::ModTrendCalculator
- *
- * \brief ModTrend intergator
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_MODTRENDCALCULATOR_H
 #define WEATHERANALYSIS_MODTRENDCALCULATOR_H

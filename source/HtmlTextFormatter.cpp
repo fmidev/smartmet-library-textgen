@@ -4,6 +4,12 @@
  * \brief Implementation of class TextGen::HtmlTextFormatter
  */
 // ======================================================================
+/*!
+ * \class TextGen::HtmlTextFormatter
+ *
+ * \brief Glyph visitor generating HTML output
+ */
+// ======================================================================
 
 #include "HtmlTextFormatter.h"
 #include "Dictionary.h"

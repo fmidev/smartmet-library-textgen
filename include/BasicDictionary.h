@@ -4,38 +4,6 @@
  * \brief Interface of class TextGen::BasicDictionary
  */
 // ======================================================================
-/*!
- * \class TextGen::BasicDictionary
- *
- * \brief Provides dictionary services
- *
- * The responsibility of the BasicDictionary class is to provide natural
- * language text for the given keyword, and to accept inserting
- * new keyword-text pairs.
- *
- * The basic dictionary does not have a real initialization method.
- * Instead, the user is expected to fill the dictionary by using
- * the insert command.
- *
- * Sample usage:
- * \code
- * using namespace TextGen;
- *
- * BasicDictionary finnish;
- * finnish.insert("good morning","huomenta");
- * finnish.insert("good night","hyvää yötä");
- *
- * cout << finnish.find("good morning") << endl;
- * cout << finnish.find("good night") << endl;
- *
- * if(finnish.contains("good night"))
- *    cout << finnish.find("good night") << endl;
- * \endcode
- *
- * Note that find throws if the given keyword does not exist.
- *
- */
-// ----------------------------------------------------------------------
 
 #ifndef TEXTGEN_BASICDICTIONARY_H
 #define TEXTGEN_BASICDICTIONARY_H

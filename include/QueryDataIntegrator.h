@@ -4,16 +4,6 @@
  * \brief Interface of namespace WeatherAnalysis::QueryDataIntegrator
  */
 // ======================================================================
-/*!
- * \namespace WeatherAnalysis::QueryDataIntegrator
- *
- * \brief Functions for integrating query data
- *
- * The QueryDataIntegrator namespace defines several methods
- * for performing data integration in space and time.
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_QUERYDATAINTEGRATOR_H
 #define WEATHERANALYSIS_QUERYDATAINTEGRATOR_H

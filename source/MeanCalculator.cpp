@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::MeanCalculator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::MeanCalculator
+ *
+ * \brief Mean intergator
+ *
+ */
+// ======================================================================
 
 #include "MeanCalculator.h"
 #include "DefaultAcceptor.h"

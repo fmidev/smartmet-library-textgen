@@ -4,13 +4,6 @@
  * \brief Interface of class TextGen::Document
  */
 // ======================================================================
-/*!
- * \class TextGen::Document
- *
- * \brief A sequence of glyphs forming a document
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_DOCUMENT_H
 #define TEXTGEN_DOCUMENT_H

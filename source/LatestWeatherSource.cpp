@@ -4,6 +4,17 @@
  * \brief Implementation of class WeatherAnalysis::LatestWeatherSource
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::LatestWeatherSource
+ *
+ * \brief Weather data source for the latest forecasts
+ *
+ * The LatestWeatherSource class manages shared instances of weather data.
+ * The class makes sure each requested forecast is the latest possible.
+ *
+ */
+// ======================================================================
+
 #ifdef _MSC_VER
 #pragma warning(disable : 4786) // poistaa n kpl VC++ kääntäjän varoitusta (liian pitkä nimi >255 merkkiä joka johtuu 'puretuista' STL-template nimistä)
 #endif

@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::SumCalculator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::SumCalculator
+ *
+ * \brief Sum intergator
+ *
+ */
+// ======================================================================
 
 #include "SumCalculator.h"
 #include "DefaultAcceptor.h"

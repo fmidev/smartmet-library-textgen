@@ -4,6 +4,16 @@
  * \brief Implementation of class WeatherAnalysis::MapSource
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::MapSource
+ *
+ * \brief Provides map services to clients
+ *
+ * The MapSource class provides access to named SVG paths which
+ * represent geographic areas.
+ *
+ */
+// ======================================================================
 
 #include "MapSource.h"
 #include "Settings.h"

@@ -4,6 +4,34 @@
  * \brief Implementation of class MessageLogger
  */
 // ======================================================================
+/*!
+ * \class MessageLogger
+ *
+ * \brief Generic debugging message logger
+ *
+ * Sample use in a main program:
+ * \code
+ * int main()
+ * {
+ *   MessageLogger::open("my.log");
+ *   MessageLogger log("main");
+ *   log << "Starting the work" << std::endl;
+ *   ...
+ *
+ * }
+ * \endcode
+ *
+ * Sample use in a function:
+ * \code
+ * void myfunction()
+ * {
+ *   MessageLogger log("myfunction()");
+ *   log << "calculating some result " << 10 << std::endl;
+ * }
+ * \endcode
+
+ */
+// ======================================================================
 
 #include "MessageLogger.h"
 

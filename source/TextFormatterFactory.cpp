@@ -4,6 +4,22 @@
  * \brief Implementation of namespace TextGen::TextFormatterFactory
  */
 // ======================================================================
+/*!
+ * \namespace TextGen::TextFormatterFactory
+ *
+ * \brief TextFormatter creation services
+ *
+ * The responsibility of the TextFormatterFactory namespace is to provide
+ * TextFormatter creation services.
+ *
+ * For example,
+ * \code
+ * boost::shared_ptr<TextFormatter> form1 = TextFormatterFactory::create("plain");
+ * boost::shared_ptr<TextFormatter> form2 = TextFormatterFactory::create("html");
+ * \endcode
+ *
+ */
+// ======================================================================
 
 #include "TextFormatterFactory.h"
 #include "DebugTextFormatter.h"

@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::RegularFunctionAnalyzer
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::RegularFunctionAnalyzer
+ *
+ * \brief Regular function analysis
+ *
+ */
+// ======================================================================
 
 #include "RegularFunctionAnalyzer.h"
 

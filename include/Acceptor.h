@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::Acceptor
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::Acceptor
- *
- * \brief Acceptor is a class which either accepts or rejects a value
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_ACCEPTOR_H
 #define WEATHERANALYSIS_ACCEPTOR_H

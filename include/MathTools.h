@@ -4,13 +4,6 @@
  * \brief Implementation of namespace MathTools
  */
 // ======================================================================
-/*!
- * \namespace MathTools
- *
- * \brief Various mathematical utitity functions
- *
- */
-// ======================================================================
 
 #ifndef MATHTOOLS_H
 #define MATHTOOLS_H

@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::CloudinessAnalyzer
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::CloudinessAnalyzer
+ *
+ * \brief Cloudiness analysis functions
+ *
+ */
+// ======================================================================
 
 #include "CloudinessAnalyzer.h"
 #include "AnalysisSources.h"

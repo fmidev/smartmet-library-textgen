@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::RelativeHumidityAnalyzer
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::RelativeHumidityAnalyzer
- *
- * \brief RelativeHumidity analysis functions
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYZER_RELATIVEHUMIDITYANALYZER_H
 #define WEATHERANALYZER_RELATIVEHUMIDITYANALYZER_H

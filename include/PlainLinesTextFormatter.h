@@ -4,12 +4,6 @@
  * \brief Interface of class TextGen::PlainLinesTextFormatter
  */
 // ======================================================================
-/*!
- * \class TextGen::PlainLinesTextFormatter
- *
- * \brief Glyph visitor generating normal ASCII output
- */
-// ======================================================================
 
 #ifndef TEXTGEN_PLAINLINESTEXTFORMATTER_H
 #define TEXTGEN_PLAINLINESTEXTFORMATTER_H

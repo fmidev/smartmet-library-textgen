@@ -4,6 +4,19 @@
  * \brief Implementation of class WeatherAnalysis::WeatherResult
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::WeatherResult
+ *
+ * \brief A storage class for an analysis result and its accuracy
+ *
+ * An analysis results consists of a value and an associated error
+ * estimate. 0 error indicates an accurate result.
+ *
+ * This class provides storage only, creation and interpretation
+ * is left for external classes and functions.
+ *
+ */
+// ======================================================================
 
 #include "WeatherResult.h"
 #include <cassert>

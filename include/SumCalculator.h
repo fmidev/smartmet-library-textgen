@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::SumCalculator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::SumCalculator
- *
- * \brief Sum intergator
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_SUMCALCULATOR_H
 #define WEATHERANALYSIS_SUMCALCULATOR_H

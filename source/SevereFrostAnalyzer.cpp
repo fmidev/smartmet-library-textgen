@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::SevereFrostAnalyzer
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::SevereFrostAnalyzer
+ *
+ * \brief SevereFrost analysis functions
+ *
+ */
+// ======================================================================
 
 #include "SevereFrostAnalyzer.h"
 #include "AnalysisSources.h"

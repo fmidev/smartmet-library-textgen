@@ -4,13 +4,6 @@
  * \brief Interface of namespace Settings
  */
 // ----------------------------------------------------------------------
-/*!
- * \namespace Settings
- *
- * \brief Provides parsed and checked access to NFmiSettings
- *
- */
-// ----------------------------------------------------------------------
 
 #ifndef SETTINGS_H
 #define SETTINGS_H

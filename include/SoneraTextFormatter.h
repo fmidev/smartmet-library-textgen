@@ -4,12 +4,6 @@
  * \brief Interface of class TextGen::SoneraTextFormatter
  */
 // ======================================================================
-/*!
- * \class TextGen::SoneraTextFormatter
- *
- * \brief Glyph visitor generating Sonera tailored output
- */
-// ======================================================================
 
 #ifndef TEXTGEN_SONERATEXTFORMATTER_H
 #define TEXTGEN_SONERATEXTFORMATTER_H

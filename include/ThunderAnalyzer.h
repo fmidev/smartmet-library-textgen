@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::ThunderAnalyzer
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::ThunderAnalyzer
- *
- * \brief Thunder analysis functions
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYZER_THUNDERANALYZER_H
 #define WEATHERANALYZER_THUNDERANALYZER_H

@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::OrAcceptor
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::OrAcceptor
- *
- * \brief OrAcceptor combines two Acceptors with a logical OR
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_ORACCEPTOR_H
 #define WEATHERANALYSIS_ORACCEPTOR_H

@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::DefaultAcceptor
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::DefaultAcceptor
+ *
+ * \brief DefaultAcceptor is a class which accepts everything but kFloatMissing
+ *
+ */
+// ======================================================================
 
 #include "DefaultAcceptor.h"
 #include "newbase/NFmiGlobals.h"

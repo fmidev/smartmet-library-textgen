@@ -4,11 +4,6 @@
  * \brief Interface of class TextGen::IntegerRange
  */
 // ======================================================================
-/*!
- * \class TextGen::IntegerRange
- * \brief Representation of a generic IntegerRange
- */
-// ======================================================================
 
 #ifndef TEXTGEN_INTEGERRANGE_H
 #define TEXTGEN_INTEGERRANGE_H

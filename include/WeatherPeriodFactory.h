@@ -4,19 +4,6 @@
  * \brief Interface of namespace TextGen::WeatherPeriodFactory
  */
 // ======================================================================
-/*!
- * \namespace TextGen::WeatherPeriodFactory
- *
- * \brief Producers for suitable weather periods
- *
- * The namespace consists of functions which given a reference time
- * in local time and a name of a conventional weather period, produce
- * the conventional weather period as a WeatherPeriod object.
- *
- * \see page_aikavalit
- * 
- */
-// ======================================================================
 
 #ifndef TEXTGEN_WEATHERPERIODFACTORY_H
 #define TEXTGEN_WEATHERPERIODFACTORY_H

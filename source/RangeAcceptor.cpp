@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::RangeAcceptor
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::RangeAcceptor
+ *
+ * \brief RangeAcceptor accepths a range of values
+ *
+ */
+// ======================================================================
 
 #include "RangeAcceptor.h"
 #include "newbase/NFmiGlobals.h"

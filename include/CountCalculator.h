@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::CountCalculator
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::CountCalculator
- *
- * \brief Count intergator
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_COUNTCALCULATOR_H
 #define WEATHERANALYSIS_COUNTCALCULATOR_H

@@ -4,6 +4,14 @@
  * \brief Implementation of class TextGen::TemperatureStory
  */
 // ======================================================================
+/*!
+ * \class TextGen::TemperatureStory
+ *
+ * \brief Generates stories on temperature
+ *
+ * \see page_tarinat
+ */
+// ======================================================================
 
 #include "TemperatureStory.h"
 #include "Paragraph.h"

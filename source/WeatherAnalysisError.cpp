@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::WeatherAnalysisError
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::WeatherAnalysisError
+ *
+ * \brief The generic exception thrown by WeatherAnalysis namespace
+ *
+ */
+// ======================================================================
 
 #include "WeatherAnalysisError.h"
 

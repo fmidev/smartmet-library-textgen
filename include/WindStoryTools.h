@@ -4,13 +4,6 @@
  * \brief Interface of namespace TextGen::WindStoryTools
  */
 // ======================================================================
-/*!
- * \namespace TextGen::WindStoryTools
- *
- * \brief Utility enumerations and functions for WindStory methods
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_WINDSTORYTOOLS_H
 #define TEXTGEN_WINDSTORYTOOLS_H

@@ -4,6 +4,13 @@
  * \brief Implementation of class TextGen::Header
  */
 // ======================================================================
+/*!
+ * \class TextGen::Header
+ *
+ * \brief A sequence of glyphs forming a header
+ *
+ */
+// ======================================================================
 
 #include "Header.h"
 

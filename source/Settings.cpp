@@ -4,11 +4,22 @@
  * \brief Implementation of namespace Settings
  */
 // ======================================================================
+/*!
+ * \namespace Settings
+ *
+ *†\brief Provides parsed and checked access to NFmiSettings
+ *
+ */
+// ----------------------------------------------------------------------
+
 #ifdef _MSC_VER
-#pragma warning(disable : 4786) // poistaa n kpl VC++ k‰‰nt‰j‰n varoitusta (liian pitk‰ nimi >255 merkki‰ joka johtuu 'puretuista' STL-template nimist‰)
+#pragma warning(disable : 4786) // poistaa VC++ k‰‰nt‰j‰n STL varoituksia
 #endif
 
-#include "boost/lexical_cast.hpp" // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ss‰ min max m‰‰rittelyt jo tehty
+// boost included laitettava ennen newbase:n NFmiGlobals-includea,
+// muuten MSVC:ss‰ min max m‰‰rittelyt jo tehty
+
+#include "boost/lexical_cast.hpp"
 
 #include "Settings.h"
 #include "WeatherResult.h"

@@ -4,6 +4,12 @@
  * \brief Implementation of class TextGen::PlainTextFormatter
  */
 // ======================================================================
+/*!
+ * \class TextGen::PlainLinesTextFormatter
+ *
+ * \brief Glyph visitor generating normal ASCII output
+ */
+// ======================================================================
 
 #include "PlainLinesTextFormatter.h"
 #include "Paragraph.h"

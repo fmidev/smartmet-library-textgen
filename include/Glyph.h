@@ -4,13 +4,6 @@
  * \brief Interface of class TextGen::Glyph
  */
 // ======================================================================
-/*!
- * \class TextGen::Glyph
- *
- * \brief A generic text glyph interface
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_GLYPH_H
 #define TEXTGEN_GLYPH_H

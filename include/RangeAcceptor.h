@@ -4,13 +4,6 @@
  * \brief Interface of class WeatherAnalysis::RangeAcceptor
  */
 // ======================================================================
-/*!
- * \class WeatherAnalysis::RangeAcceptor
- *
- * \brief RangeAcceptor accepths a range of values
- *
- */
-// ======================================================================
 
 #ifndef WEATHERANALYSIS_RANGEACCEPTOR_H
 #define WEATHERANALYSIS_RANGEACCEPTOR_H

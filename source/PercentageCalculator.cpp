@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::PercentageCalculator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::PercentageCalculator
+ *
+ * \brief Percentage intergator
+ *
+ */
+// ======================================================================
 
 #include "PercentageCalculator.h"
 #include "DefaultAcceptor.h"

@@ -4,6 +4,13 @@
  * \brief Implementation of class WeatherAnalysis::TrendCalculator
  */
 // ======================================================================
+/*!
+ * \class WeatherAnalysis::TrendCalculator
+ *
+ * \brief Trend intergator
+ *
+ */
+// ======================================================================
 
 #include "TrendCalculator.h"
 #include "DefaultAcceptor.h"

@@ -4,13 +4,6 @@
  * \brief Interface of class TextGen::TextGenerator
  */
 // ======================================================================
-/*!
- * \class TextGen::TextGenerator
- *
- * \brief The main text generator driver
- *
- */
-// ======================================================================
 
 #ifndef TEXTGEN_TEXTGENERATOR_H
 #define TEXTGEN_TEXTGENERATOR_H

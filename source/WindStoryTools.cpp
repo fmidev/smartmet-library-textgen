@@ -4,6 +4,13 @@
  * \brief Implementation of namespace TextGen::WindStoryTools
  */
 // ======================================================================
+/*!
+ * \namespace TextGen::WindStoryTools
+ *
+ * \brief Utility enumerations and functions for WindStory methods
+ *
+ */
+// ======================================================================
 
 #include "WindStoryTools.h"
 #include "Integer.h"

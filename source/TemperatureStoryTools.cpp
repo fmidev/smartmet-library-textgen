@@ -4,6 +4,13 @@
  * \brief Implementation of namespace TextGen::TemperatureStoryTools
  */
 // ======================================================================
+/*!
+ * \namespace TextGen::TemperatureStoryTools
+ *
+ * \brief Common utilities for TemperatureStory methods
+ *
+ */
+// ======================================================================
 
 #include "TemperatureStoryTools.h"
 #include "Integer.h"

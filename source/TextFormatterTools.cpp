@@ -4,6 +4,13 @@
  * \brief Implementation of namespace TextGen::TextFormatterTools
  */
 // ======================================================================
+/*!
+ * \namespace TextGen::TextFormatterTools
+ *
+ * \brief Common utility functions for actual TextFormatter classes
+ *
+ */
+// ======================================================================
 
 #include "TextFormatterTools.h"
 #include "TextFormatter.h"
