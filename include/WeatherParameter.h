@@ -27,6 +27,7 @@ namespace WeatherAnalysis
 	{
 	  Temperature,
 	  Precipitation,
+	  Cloudiness,
 	  Frost,
 	  SevereFrost,
 	  RelativeHumidity,
