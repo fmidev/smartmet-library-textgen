@@ -1203,14 +1203,14 @@ INSERT INTO translation_sv VALUES ('illalla','på kvällen',20030609095401,'mheisk
 INSERT INTO translation_sv VALUES ('aamupäivällä','på förmiddagen',20030609095412,'mheiskan');
 INSERT INTO translation_sv VALUES ('iltapäivällä','på eftermiddagen',20030609095424,'mheiskan');
 INSERT INTO translation_sv VALUES ('aamuyöllä','på efternatten',20030609095435,'mheiskan');
-INSERT INTO translation_sv VALUES ('keskipäivällä','på middagen',20030609095448,'mheiskan');
+INSERT INTO translation_sv VALUES ('keskipäivällä','på dagen',20030611141008,'mheiskan');
 INSERT INTO translation_sv VALUES ('iltayöllä','på förnatten',20030609095455,'mheiskan');
 INSERT INTO translation_sv VALUES ('keskiyöllä','på midnatten',20030609095504,'mheiskan');
 INSERT INTO translation_sv VALUES ('yöstä alkaen','från natten',20030609095512,'mheiskan');
 INSERT INTO translation_sv VALUES ('aamuyöstä alkaen','från efternatten',20030609095526,'mheiskan');
 INSERT INTO translation_sv VALUES ('aamusta alkaen','från morgonen',20030609095546,'mheiskan');
 INSERT INTO translation_sv VALUES ('aamupäivästä alkaen','från förmiddagen',20030609095559,'mheiskan');
-INSERT INTO translation_sv VALUES ('keskipäivästä alkaen','från middagen',20030609095615,'mheiskan');
+INSERT INTO translation_sv VALUES ('keskipäivästä alkaen','från dagen',20030611141014,'mheiskan');
 INSERT INTO translation_sv VALUES ('iltapäivästä alkaen','från eftermiddagen',20030609095626,'mheiskan');
 INSERT INTO translation_sv VALUES ('illasta alkaen','från kvällen',20030609095635,'mheiskan');
 INSERT INTO translation_sv VALUES ('iltayöstä alkaen','från förnatten',20030609095644,'mheiskan');
