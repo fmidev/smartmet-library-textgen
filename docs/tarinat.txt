@@ -348,6 +348,9 @@ Tarvittavat fraasit ovat
 
 \subsection sec_story_temperature_weekly_minmax "temperature_weekly_minmax"
 
+Ajanjakson täytyy olla vähintään 2 vuorokautta. Alkamis- ja loppumisaikojen
+täytyy olla 06 tai 18.
+
 Tarinat ovat muotoa
 
   -# "Päivien ylin lämpötila on A...B astetta, öiden alin lämpötila C...D astetta."
@@ -390,6 +393,9 @@ Tarvittavat fraasit ovat
 
 \subsection sec_story_temperature_weekly_averages "temperature_weekly_averages"
 
+Ajanjakson täytyy olla vähintään 2 vuorokautta. Alkamis- ja loppumisaikojen
+täytyy olla 06 tai 18.
+
 Tarinat ovat muotoa
 
   -# "Päivälämpötila on A...B astetta, yölämpötila C...D astetta."
@@ -431,6 +437,9 @@ Tarvittavat fraasit ovat
   - "astetta"
 
 \subsection sec_story_temperature_weekly_averages_trend "temperature_weekly_averages_trend"
+
+Ajanjakson täytyy olla vähintään 2 vuorokautta. Alkamis- ja loppumisaikojen
+täytyy olla 06 tai 18.
 
 Tarinat ovat muotoa
 
