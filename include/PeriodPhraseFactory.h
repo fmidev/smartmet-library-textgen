@@ -17,8 +17,13 @@
 #ifndef TEXTGEN_PERIODPHRASEFACTORY_H
 #define TEXTGEN_PERIODPHRASEFACTORY_H
 
+#include <string>
+class NFmiTime;
+namespace WeatherAnalysis { class WeatherPeriod; }
+
 namespace TextGen
 {
+  class Sentence;
 
   namespace PeriodPhraseFactory
   {
@@ -35,4 +40,3 @@ namespace TextGen
 #endif // TEXTGEN_PERIODPHRASEFACTORY_H
 
 // ======================================================================
-
