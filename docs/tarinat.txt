@@ -23,6 +23,10 @@
  <li>\ref sec_story_frost_maximum</li>
  <li>\ref sec_story_frost_maxtwonights</li>
  </ol>
+<li>\ref sec_relative_humidity_story</li>
+ <ol>
+ <li>\ref sec_story_relative_humidity_lowest</li>
+ </ol>
 </ol>
 
 \section sec_tarina Mikä on tarina
@@ -243,7 +247,11 @@ PS. Tarinan nimi ei ole \c precipitation_class, koska
 koodauskonventioiden mukaan PrecipitationStory luokkaan tulisi metodi
 nimeltä class, joka ei ole sallittua.
 
-\subsection sec_story_frost_maximum "frost_mean"
+\section sec_froststory FrostStory luokka
+
+TextGen::FrostStory luokka hallitsee hallaan liittyvät tarinat.
+
+\subsection sec_story_frost_mean "frost_mean"
 
 Aikavälin hallan todennäköisyyksistä valitaan keskiarvo tekstiä varten.
 
@@ -391,5 +399,61 @@ Käytetyt fraasit ovat
  - "seuraava yö on"
  - "lämpimämpi"
  - "huomattavasti lämpimämpi"
+
+\section sec_relative_humidity_story RelativeHumidityStory luokka
+
+TextGen::RelativeHumidityStory luokka hallitsee suhteelliseen
+kosteuteen liittyvät tarinat.
+
+\subsection sec_story_relative_humidity_lowest "relative_humidity_lowest"
+
+Tarina \c relative_humidity_lowest on muotoa
+
+ -# "Alin suhteellinen kosteus on viikonpäivänä x%"
+    -# ", viikonpäivänä suurempi."
+    -# ", viikonpäivänä hieman suurempi."
+    -# ", viikonpäivänä sama."
+    -# ", viikonpäivänä hieman pienempi."
+    -# ", viikonpäivänä pienempi."
+
+Ruotsiksi
+
+ -# "Den lägsta relativa fuktigheten är på veckodag x%"
+    -# ", på veckodag större."
+    -# ", på veckodag något större."
+    -# ", på veckodag densamma."
+    -# ", på veckodag något mindre."
+    -# ", på veckodag mindre."
+
+Englanniksi
+
+ -# "The smallest relative humidity on weekday is x%"
+    -# ", on weekday greater."
+    -# ", on weekday somewhat greater."
+    -# ", on weekday the same."
+    -# ", on weekday somewhat smaller."
+    -# ", on weekday smaller."
+
+Tarina soveltuu yhden/kahden vuorokauden ennusteisiin. Sivulausetta ei
+ole yhden vuorokauden ennusteissa.
+
+Ensimmäisestä vuorokaudesta ei kerrota mitään, jos sen alkuaika on vähintään
+\code
+textgen::[kappale]::story::relative_humidity_lowest::maxstarthour = [0-23]
+\endcode
+Toisesta vuorokaudesta ei kerrota mitään, jos sen loppu on yli
+\code
+textgen::[kappale]::story::relative_humidity_lowest::minendhour = [0-23]
+\endcode
+
+Tarvittavat fraasit ovat
+
+ - "Alin suhteellinen kosteus on"
+ - "N-na", N=1.7 (maanantaina, tiistaina jne)
+ - "suurempi"
+ - "hieman suurempi"
+ - "sama"
+ - "hieman pienempi"
+ - "pienempi" 
 
 */
