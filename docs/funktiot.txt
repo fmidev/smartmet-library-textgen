@@ -11,7 +11,7 @@
 <li>\ref sec_trend</li>
 </ol>
 
-\section sec_funktio_intro
+\section sec_funktio_intro Johdanto
 
 Tiedostossa WeatherFunction.h on m‰‰ritelty enumeraatio
 TextGen::WeatherFunction, jossa on lueteltu s‰‰analysaattorin
