@@ -6,6 +6,7 @@
 
 Tarina kuvailee tuuliennustetta yhden tai useamman p‰iv‰n mittaiselle
 jaksolle. Parhaiten tarina soveltuu ensimm‰isille 1-3 p‰iv‰lle.
+Kolmas p‰iv‰ on viimeinen, jolle kerrotaan ennuste.
 
 Tarinassa ei k‰ytet‰ nopeusluokkia algoritmin yksinkertaistamiseksi.
 Suuntaluokat ovat k‰ytˆss‰.
@@ -16,7 +17,10 @@ Tarinan yleismuoto on
  -# [Viikonp‰iv‰n‰] [suuntatuulta] noin X m/s
 
 jota toistetaan kullekin p‰iv‰lle eteenp‰in. Toiston v‰ltt‰miseksi
-osia tai p‰ivi‰ saatetaan yhdistell‰.
+joko suunta tai nopeus saatetaan j‰tt‰‰ pois. Jos sek‰ suunta ja
+nopeus ovat samoja kuin edellisen‰ p‰iv‰n‰, j‰tet‰‰n joko
+koko p‰iv‰ pois, tai edellisen lauseen aikafraasiksi tulee
+"viikonp‰iv‰st‰ alkaen".
 
 Tuulet kerrotaan vain p‰iv‰jaksoille, jota konfiguroidaan muuttujilla.
 \code
@@ -49,6 +53,11 @@ Vastaavat muuttujat ovat
 \code
 textgen::[kappale]::story::wind_daily_ranges::today::phrases
 textgen::[kappale]::story::wind_daily_ranges::next_day::phrases
+\endcode
+Erikoistapauksena jos lopusta yhdistet‰‰n 2 vuorokautta, k‰ytet‰‰n
+muuttujaa
+\code
+textgen::[kappale]::story::wind_daily_ranges::next_days::phrases
 \endcode
 
 \section section_wind_daily_ranges_windspeed Tuulen nopeus
@@ -85,10 +94,10 @@ Suunnan fraasi valitaan seuraavasti
   -# Jos laatu >= \c variable, "N-puoleista tuulta"
   -# Muutoin "suunnaltaan vaihtelevaa tuulta"
 
-Kaksi tuulensuuntaa katsotaan samoiksi, jos ilmansuunta on sama
-v‰li-ilmansuunnan tarkkuudella, ja kummankin suunnan tarkkuus on v‰hint‰‰n
-\c variable. Yhteiseksi suunnaksi valitaan heikompitarkkuuksinen suunta.
-Vaihtoehtoisesti kaksi suunnaltaan vaihtelevaa tuulta on aina samoja.
+Kahta ilmansuuntaa ei koskaan verrata suoraan kesken‰‰n, koska
+v‰li-ilmansuuntaan pyˆrist‰minen on aiheuttanut merkitt‰v‰‰
+tarkkuush‰viˆt‰. Sen sijaan suunta lasketaan kahdelle tai useammalle
+p‰iv‰lle kokonaisuutena, ja katsotaan onko tuloksen laatu riitt‰v‰.
 
 \section section_wind_daily_ranges_fakes Tulosten testaaminen
 
@@ -105,21 +114,46 @@ textgen::[kappale]::story::wind_daily_ranges::fake::day2::mean = [result]
 
 \section section_wind_daily_ranges_algoritmi Algoritmit
 
--# Lasketaan nopeudet Wi ja suunnat Di kaikille p‰iville.
--# Jos p‰ivi‰ on 1
-  -# [T‰n‰‰n] [koillistuulta] [X...Y m/s].
+-# Jos p‰ivi‰ on 1, [T‰n‰‰n] [it‰tuulta] [X...Y m/s]
 -# Jos p‰ivi‰ on 2
-  -# Jos W1<>W2 ja D1<>D2,
-     "[T‰n‰‰n] [suuntatuulta] [X...Y m/s], [huomenna] [suuntatuulta] [X...Y m/s]."
-  -# Jos W1<>W2 ja D1==D2,
-     "[T‰n‰‰n] [suuntatuulta] [X...Y m/s], [huomenna] [X...Y m/s]."
-  -# Jos W1==W3 ja D1<>D2,
-     "[T‰n‰‰n] [suuntatuulta] [X...Y m/s], [huomenna] [suuntatuulta]."
-  -# Jos W1==W2 ja D1==D2 (aina),
-     "[T‰n‰‰n ja huomenna] [koillistuulta] [X...Y m/s]."
+   -# Jos D(D1,D2) on laadukas
+      -# Jos W1==W2, [It‰tuulta] [X...Y m/s]
+      -# Jos W1<>W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [X...Y m/s]
+   -# Jos D(D1,D2) ei ole laadukas
+      -# Jos W1==W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta]
+      -# Jos W1<>W2, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta] [X...Y m/s]
+-# Muuten p‰ivi‰ on 3, loppuja p‰ivi‰ ei huomioida
+   -# Jos D(D1,D2,D3) on laadukas
+      -# Jos W1==W2==W3, [It‰tuulta] [X...Y m/s]
+      -# Jos W1==W2<>W3, [X...Y m/s], viikonp‰iv‰n‰ [X...Y m/s]
+      -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰st‰ alkaen] [X...Y m/s]
+      -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s]
+   -# Jos D(D1,D2) on laadukas
+      -# Jos W1==W2==W3, [It‰tuulta] [X...Y m/s], viikonp‰iv‰n‰ [l‰nsituulta]
+      -# Jos W1==W2<>W3, [It‰tuulta] [X...Y m/s], viikonp‰iv‰n‰ [l‰nsituulta] [X...Y m/s]
+      -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [X...Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta]
+      -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [X...Y m/s], [viikonp‰iv‰n‰] [l‰nsituulta] [X...Y m/s]
+   -# Jos D(D2,D3) on laadukas
+      -# Jos W1==W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰st‰ alkaen] [l‰nsituulta]
+      -# Jos W1==W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [viikonp‰iv‰st‰ alkaen] [l‰nsituulta] [X...Y m/s]
+      -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta], [viikonp‰iv‰n‰] [X...Y m/s]
+      -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta] [X...Y m/s], [viikonp‰iv‰n‰] [X...Y m/s]
+   -# Muuten D1<>D2 ja D2<>D3 (muttei v‰ltt‰m‰tt‰ D1<>D3)
+      -# Jos W1==W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta], [viikonp‰iv‰n‰] [etel‰tuulta]
+      -# Jos W1==W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta], [viikonp‰iv‰n‰] [etel‰tuulta] [X...Y m/s]
+      -# Jos W1<>W2==W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta] [X...Y m/s], [viikonp‰iv‰n‰] [etel‰tuulta]
+      -# Jos W1<>W2<>W3, [T‰n‰‰n] [it‰tuulta] [X...Y m/s], [huomenna] [l‰nsituulta] [X...Y m/s], [viikonp‰iv‰n‰] [etel‰tuulta] [X...Y m/s]
 
 Ensimm‰isen p‰iv‰n tyyppi on \ref sec_periodifraasit_today, seuraavien
-p‰ivien tyyppi on \ref sec_periodifraasit_next_day.
+p‰ivien tyyppi on \ref sec_periodifraasit_next_day tai
+\ref sec_periodifraasit_next_days.
+
+Erityisesti on huomattava, ett‰ tietyiss‰ kohdissa on j‰tetty
+kokonainen p‰iv‰ v‰list‰, koska suunta ja nopeus ovat olleet
+samanlaisia edellisen p‰iv‰n kanssa. N‰iss‰ tilanteissa seuraavalle
+p‰iv‰lle on v‰ltt‰m‰tt‰ sanottava viikonp‰iv‰n nimi. N‰iss‰ kohdissa
+\c viikonp‰iv‰n‰ on merkitty ilman optionaalisuuteen viittaavia
+hakasulkuja.
 
 \section section_wind_daily_ranges_fraasit Tarvittavat fraasit
 
@@ -136,7 +170,8 @@ Tarvittavat fraasit ovat
  - "N-puoleiseksi tuuleksi", N=1-8
 
 Lis‰ksi tarvitaan periodifraasit
-\ref sec_periodifraasit_today ja
-\ref sec_periodifraasit_next_day.
+\ref sec_periodifraasit_today,
+\ref sec_periodifraasit_next_day ja
+\ref sec_periodifraasit_next_days.
 
 */
