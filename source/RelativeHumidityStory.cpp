@@ -60,10 +60,6 @@ namespace
 	return out;
   }
 
-} // namespace anonymous
-
-namespace
-{
   // ----------------------------------------------------------------------
   /*!
    * \brief Determine the number of acceptable days in the period
@@ -84,13 +80,13 @@ namespace
 
 	if(t.GetHour() <= theMaxStartHour)
 	  ++count;
-	t.ChangeByHours(24);
+	t.ChangeByDays(1);
 	t.SetHour(theMinEndHour);
 
-	while(thePeriod.localEndTime().IsLessThan(t))
+	while(!thePeriod.localEndTime().IsLessThan(t))
 	  {
 		++count;
-		t.ChangeByHours(24);
+		t.ChangeByDays(1);
 	  }
 	return count;
   }
@@ -139,6 +135,9 @@ namespace
 							  const WeatherPeriod & theFirstPeriod)
   {
 	NFmiTime starttime(theFirstPeriod.localStartTime());
+	starttime.ChangeByDays(1);
+	starttime.SetHour(0);
+
 	NFmiTime endtime(starttime);
 	endtime.ChangeByDays(1);
 
@@ -290,9 +289,10 @@ namespace TextGen
 		if(result2.value() == kFloatMissing)
 		  throw TextGenError("RelativeHumidity not available");
 
-		const int humidity2 = round_to_precision(result.value(),precision);
+		const int humidity2 = round_to_precision(result2.value(),precision);
 
-		sentence << on_weekday(secondperiod);
+		sentence << Delimiter(",")
+				 << on_weekday(secondperiod);
 		if(humidity2 - humidity1 >= limit_greater)
 		  sentence << "suurempi";
 		else if(humidity2 - humidity1 >= limit_somewhat_greater)
@@ -300,7 +300,7 @@ namespace TextGen
 		else if(humidity1 - humidity2 >= limit_smaller)
 		  sentence << "pienempi";
 		else if(humidity1 - humidity2 >= limit_somewhat_smaller)
-		  sentence << "hieman_pienempi";
+		  sentence << "hieman pienempi";
 		else
 		  sentence << "sama";
 
