@@ -24,6 +24,15 @@ namespace WeatherAnalysis
 	typedef std::list<NFmiTime> RainTimes;
 	typedef std::list<WeatherPeriod> RainPeriods;
 
+	// The main function
+
+	RainPeriods analyze(const AnalysisSources & theSources,
+						const WeatherArea & theArea,
+						const WeatherPeriod & thePeriod,
+						const std::string & theVar);
+
+	// Utility functions used by above
+	
 	RainTimes findRainTimes(const AnalysisSources & theSources,
 							const WeatherArea & theArea,
 							const WeatherPeriod & thePeriod,
@@ -32,7 +41,7 @@ namespace WeatherAnalysis
 	RainPeriods findRainPeriods(const RainTimes & theTimes,
 								const std::string & theVar);
 
-	RainPeriods mergeNightlyRainPeriods(const RainPeriods & theTimes,
+	RainPeriods mergeNightlyRainPeriods(const RainPeriods & thePeriods,
 										const std::string & theVar);
 
 	RainPeriods mergeLargeRainPeriods(const RainPeriods & thePeriods,

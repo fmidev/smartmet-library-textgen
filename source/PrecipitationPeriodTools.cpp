@@ -49,6 +49,31 @@ namespace WeatherAnalysis
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Analyze rain periods from data
+	 *
+	 * \param theSources The analysis sources
+	 * \param theArea The relevant area
+	 * \param thePeriod The time interval to be analyzed
+	 * \param theVar The variable controlling the algorithm
+	 * \return Sorted list of rainy periods
+	 */
+	// ----------------------------------------------------------------------
+
+	RainPeriods analyze(const AnalysisSources & theSources,
+						const WeatherArea & theArea,
+						const WeatherPeriod & thePeriod,
+						const std::string & theVar)
+	{
+	  RainTimes times = findRainTimes(theSources,theArea,thePeriod,theVar);
+	  RainPeriods periods1 = findRainPeriods(times,theVar);
+	  RainPeriods periods2 = mergeNightlyRainPeriods(periods1,theVar);
+	  RainPeriods periods3 = mergeLargeRainPeriods(periods2,theVar);
+	  return periods3;
+	}
+
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Find all moments when it rains for given area
 	 *
 	 * The variables controlling the algorithm are
