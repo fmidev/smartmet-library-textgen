@@ -23,7 +23,6 @@
 #define WEATHERANALYSIS_REGULARMASKSOURCE_H
 
 #include "MaskSource.h"
-#include "boost/shared_ptr.hpp"
 
 namespace WeatherAnalysis
 {
