@@ -275,7 +275,7 @@ namespace TextGen
 	sonera_realize(theRange.startValue(), itsParts, *itsDictionary);
 	if(theRange.startValue() != theRange.endValue())
 	  {
-		itsParts.push_back(viiva.realize(*itsDictionary));
+		viiva.realize(*this);
 		sonera_realize(theRange.endValue(), itsParts, *itsDictionary);
 	  }
 
