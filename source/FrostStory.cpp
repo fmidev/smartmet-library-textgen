@@ -64,6 +64,12 @@ namespace TextGen
   
   bool FrostStory::hasStory(const string & theName)
   {
+	if(theName == "frost_mean")
+	  return true;
+	if(theName == "frost_maximum")
+	  return true;
+	if(theName == "frost_maxtwonights")
+	  return true;
 	return false;
   }
   
@@ -80,10 +86,59 @@ namespace TextGen
   
   Paragraph FrostStory::makeStory(const string & theName) const
   {
+	if(theName == "frost_mean")
+	  return mean();
+	if(theName == "frost_maximum")
+	  return maximum();
+	if(theName == "frost_maxtwonights")
+	  return maxtwonights();
 
 	throw TextGenError("FrostStory cannot make story "+theName);
 
   }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generate story on mean frost
+   *
+   * \return The generated paragraph
+   */
+  // ----------------------------------------------------------------------
+  
+  Paragraph FrostStory::mean() const
+  {
+	Paragraph paragraph;
+	return paragraph;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generate story on maximum frost
+   *
+   * \return The generated paragraph
+   */
+  // ----------------------------------------------------------------------
+  
+  Paragraph FrostStory::maximum() const
+  {
+	Paragraph paragraph;
+	return paragraph;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generate story on 1/2 night frost
+   *
+   * \return The generated paragraph
+   */
+  // ----------------------------------------------------------------------
+  
+  Paragraph FrostStory::maxtwonights() const
+  {
+	Paragraph paragraph;
+	return paragraph;
+  }
+
 
 } // namespace TextGen
   

@@ -42,6 +42,10 @@ namespace TextGen
 
   private:
 
+	Paragraph mean() const;
+	Paragraph maximum() const;
+	Paragraph maxtwonights() const;
+
 	FrostStory();
 	FrostStory(const FrostStory & theStory);
 	FrostStory & operator=(const FrostStory & theStory);
