@@ -67,22 +67,22 @@ Englanniksi lauseet ovat
 
 Komparatiivin valinta perustuu muuttujiin
 \code
-textgen::[kappale]::story::temperature_dailymax::significantly_greater = [N]
-textgen::[kappale]::story::temperature_dailymax::greater = [N]
-textgen::[kappale]::story::temperature_dailymax::somewhat_greater = [N]
-textgen::[kappale]::story::temperature_dailymax::somewhat_smaller = [N]
-textgen::[kappale]::story::temperature_dailymax::smaller = [N]
-textgen::[kappale]::story::temperature_dailymax::significantly_smaller = [N]
+textgen::[kappale]::story::temperature_dailymax::significantly_higher = [N]
+textgen::[kappale]::story::temperature_dailymax::higher = [N]
+textgen::[kappale]::story::temperature_dailymax::somewhat_higher = [N]
+textgen::[kappale]::story::temperature_dailymax::somewhat_lower = [N]
+textgen::[kappale]::story::temperature_dailymax::lower = [N]
+textgen::[kappale]::story::temperature_dailymax::significantly_lower = [N]
 \endcode
 ja laskettuihin lämpötilaväleihin. Jos ensimmäisen päivän keskiarvo
 on A jae seuraavan B, valitaan
 
-  -# Fraasi 1, jos B-A >= \c significantly_greater
-  -# Fraasi 2, jos B-A >= \c greater
-  -# Fraasi 3, jos B-A >= \c somewhat_greater
-  -# Fraasi 7, jos A-B >= \c significantly_smaller
-  -# Fraasi 6, jos A-B >= \c smaller
-  -# Fraasi 5, jos A-B >= \c somewhat_smaller
+  -# Fraasi 1, jos B-A >= \c significantly_higher
+  -# Fraasi 2, jos B-A >= \c higher
+  -# Fraasi 3, jos B-A >= \c somewhat_higher
+  -# Fraasi 7, jos A-B >= \c significantly_lower
+  -# Fraasi 6, jos A-B >= \c lower
+  -# Fraasi 5, jos A-B >= \c somewhat_lower
   -# Fraasi 4 muutoin
 
 Jos päiviä on useampia, luetellaan jatkossa jokaiselle päivälle päivän

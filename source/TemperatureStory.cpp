@@ -46,24 +46,24 @@ namespace
   {
 	using namespace Settings;
 
-	const int significantly_greater = require_percentage(theVariable+"::significantly_greater");
-	const int significantly_smaller = require_percentage(theVariable+"::significantly_smaller");
-	const int greater = require_percentage(theVariable+"::greater");
-	const int smaller = require_percentage(theVariable+"::smaller");
-	const int somewhat_greater = require_percentage(theVariable+"::somewhat_greater");
-	const int somewhat_smaller = require_percentage(theVariable+"::somewhat_smaller");
+	const int significantly_higher = require_percentage(theVariable+"::significantly_higher");
+	const int significantly_lower = require_percentage(theVariable+"::significantly_lower");
+	const int higher = require_percentage(theVariable+"::higher");
+	const int lower = require_percentage(theVariable+"::lower");
+	const int somewhat_higher = require_percentage(theVariable+"::somewhat_higher");
+	const int somewhat_lower = require_percentage(theVariable+"::somewhat_lower");
 
-	if(theMean2 - theMean1 >= significantly_greater)
+	if(theMean2 - theMean1 >= significantly_higher)
 	  return "huomattavasti korkeampi";
-	if(theMean2 - theMean1 >= greater)
+	if(theMean2 - theMean1 >= higher)
 	  return "korkeampi";
-	if(theMean2 - theMean1 >= somewhat_greater)
+	if(theMean2 - theMean1 >= somewhat_higher)
 	  return "hieman korkeampi";
-	if(theMean1 - theMean2 >= significantly_smaller)
+	if(theMean1 - theMean2 >= significantly_lower)
 	  return "huomattavasti alempi";
-	if(theMean1 - theMean2 >= smaller)
+	if(theMean1 - theMean2 >= lower)
 	  return "alempi";
-	if(theMean1 - theMean2 >= somewhat_smaller)
+	if(theMean1 - theMean2 >= somewhat_lower)
 	  return "hieman alempi";
 	return "suunnilleen sama";
   }
@@ -525,13 +525,6 @@ namespace TextGen
 	const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
 
 	const bool prefer_dayname = optional_bool(itsVar+"::prefer_dayname",false);
-
-	const int limit_significantly_greater = require_percentage(itsVar+"::significantly_greater");
-	const int limit_significantly_smaller = require_percentage(itsVar+"::significantly_smaller");
-	const int limit_greater = require_percentage(itsVar+"::greater");
-	const int limit_smaller = require_percentage(itsVar+"::smaller");
-	const int limit_somewhat_greater = require_percentage(itsVar+"::somewhat_greater");
-	const int limit_somewhat_smaller = require_percentage(itsVar+"::somewhat_smaller");
 
 	const int days = countPeriods(itsPeriod,
 								  starthour,
