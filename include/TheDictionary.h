@@ -56,9 +56,15 @@ namespace TextGen
 	virtual size_type size(void) const;
 	virtual bool empty(void) const;
 
+#ifdef _MSC_VER
+	virtual ~TheDictionary(); // pakko oli siirt‰‰ public:iksi kun MSVC ei muuten k‰‰nn‰ (MSVC bugi?)
   private:
-
+#else
+  private:
 	virtual ~TheDictionary();
+#endif
+
+
 	TheDictionary();
 	TheDictionary(const Dictionary & theDict);
 	TheDictionary & operator=(const TheDictionary & theDict);
