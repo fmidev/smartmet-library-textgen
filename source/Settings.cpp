@@ -284,6 +284,67 @@ namespace Settings
 		throw runtime_error(msg);
 	  }
   }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return optional integer valued variable, or the given value
+   *
+   * \param theName The variable name
+   * \param theDefault The value to return if the variable is not set
+   * \return The optional value
+   */
+  // ----------------------------------------------------------------------
+
+  int optional_int(const std::string & theName, int theDefault)
+  {
+	return (isset(theName) ? require_int(theName) : theDefault);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return optional boolean valued variable, or the given value
+   *
+   * \param theName The variable name
+   * \param theDefault The value to return if the variable is not set
+   * \return The optional value
+   */
+  // ----------------------------------------------------------------------
+
+  bool optional_bool(const std::string & theName, bool theDefault)
+  {
+	return (isset(theName) ? require_bool(theName) : theDefault);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return optional double valued variable, or the given value
+   *
+   * \param theName The variable name
+   * \param theDefault The value to return if the variable is not set
+   * \return The optional value
+   */
+  // ----------------------------------------------------------------------
+
+  double optional_double(const std::string & theName, double theDefault)
+  {
+	return (isset(theName) ? require_double(theName) : theDefault);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return optional percentage valued variable, or the given value
+   *
+   * \param theName The variable name
+   * \param theDefault The value to return if the variable is not set
+   * \return The optional value
+   */
+  // ----------------------------------------------------------------------
+
+  int optional_percentage(const std::string & theName, int theDefault)
+  {
+	return (isset(theName) ? require_percentage(theName) : theDefault);
+  }
+
 }
 
 // ======================================================================
