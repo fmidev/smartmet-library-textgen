@@ -1104,7 +1104,7 @@ INSERT INTO translation_sv VALUES ('melko selkeää','tämligen klart',200305300824
 INSERT INTO translation_sv VALUES ('miinus','minus',20030530082426,'mheiskan');
 INSERT INTO translation_sv VALUES ('pilvistyvää','ökad molnighet',20030530082437,'mheiskan');
 INSERT INTO translation_sv VALUES ('pilvistä','mulet',20030530082452,'mheiskan');
-INSERT INTO translation_sv VALUES ('puolipilvistä','växlande molnighet',20030530082503,'mheiskan');
+INSERT INTO translation_sv VALUES ('puolipilvistä','halvmulet',20030611105726,'mheiskan');
 INSERT INTO translation_sv VALUES ('päivällä','på dagen',20030530082518,'mheiskan');
 INSERT INTO translation_sv VALUES ('runsasta sadetta','krafitgt regn',20030530082533,'mheiskan');
 INSERT INTO translation_sv VALUES ('sadetta','regn',20030530082540,'mheiskan');
