@@ -261,7 +261,7 @@ namespace WeatherAnalysis
 	// ----------------------------------------------------------------------
 
 	RainPeriods mergeNightlyRainPeriods(const RainPeriods & thePeriods,
-										const std::string theVar)
+										const std::string & theVar)
 	{
 	  // Quick exit if there are no no-rain periods between rain periods
 	  if(thePeriods.size() <= 1)
