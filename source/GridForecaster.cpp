@@ -8,16 +8,17 @@
 #include "GridForecaster.h"
 #include "Acceptor.h"
 #include "AnalysisSources.h"
-#include "FrostAnalyzer.h"
-#include "SevereFrostAnalyzer.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
 
-#include "PrecipitationAnalyzer.h"
-#include "TemperatureAnalyzer.h"
+#include "FrostAnalyzer.h"
 #include "MaxTemperatureAnalyzer.h"
 #include "MinTemperatureAnalyzer.h"
+#include "PrecipitationAnalyzer.h"
+#include "RelativeHumidityAnalyzer.h"
+#include "SevereFrostAnalyzer.h"
+#include "TemperatureAnalyzer.h"
 
 namespace WeatherAnalysis
 {
@@ -115,6 +116,18 @@ namespace WeatherAnalysis
 	  case SevereFrost:
 		{
 		  SevereFrostAnalyzer analyzer;
+		  return analyzer.analyze(theSources,
+								  theAreaFunction,
+								  theTimeFunction,
+								  thePeriod,
+								  theArea,
+								  theAreaAcceptor,
+								  theTimeAcceptor,
+								  theTester);
+		}
+	  case RelativeHumidity:
+		{
+		  RelativeHumidityAnalyzer analyzer;
 		  return analyzer.analyze(theSources,
 								  theAreaFunction,
 								  theTimeFunction,
