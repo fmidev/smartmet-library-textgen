@@ -8,12 +8,11 @@
 #ifndef TEXTGEN_TEXTFORMATTERTOOLS_H
 #define TEXTGEN_TEXTFORMATTERTOOLS_H
 
+#include "TextFormatter.h"
 #include <string>
 
 namespace TextGen
 {
-  class TextFormatter;
-
   namespace TextFormatterTools
   {
 	void capitalize(std::string & theString);

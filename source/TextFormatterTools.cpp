@@ -13,7 +13,6 @@
 // ======================================================================
 
 #include "TextFormatterTools.h"
-#include "TextFormatter.h"
 #include <cctype>
 #include <clocale>
 
