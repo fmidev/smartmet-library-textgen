@@ -18,6 +18,39 @@
 #include "NFmiIndexMaskSource.h"
 #include "NFmiTime.h"
 
+namespace
+{
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Set the first integration time
+   *
+   * This effectively sets active the first time greater than or equal
+   * to the given time. If there is no such time, false is returned.
+   *
+   * This is needed because newbase does not provide an equivalent
+   * interface.
+   *
+   * \param theQI The query info
+   * \param theTime The time to set
+   * \return True if the time was set succesfully
+   */
+  // ----------------------------------------------------------------------
+
+  bool first_integration_time(NFmiFastQueryInfo & theQI,
+							  const NFmiTime & theTime)
+  {
+	theQI.FirstTime();
+	do
+	  {
+		if(theQI.IsValidTime() && theQI.ValidTime()>=theTime)
+		  return true;
+	  }
+	while(theQI.NextTime());
+	return false;
+  }
+
+} // namespace anonymous
+
 namespace WeatherAnalysis
 {
   namespace QueryDataIntegrator
@@ -46,8 +79,8 @@ namespace WeatherAnalysis
 					Calculator & theTimeCalculator)
 	{
 	  theTimeCalculator.reset();
-	  
-	  if(!theQI.Time(theStartTime))
+
+	  if(!first_integration_time(theQI,theStartTime))
 		return kFloatMissing;
 	  
 	  do
@@ -103,7 +136,7 @@ namespace WeatherAnalysis
 	  
 	  NFmiTime time1(theStartTime);
 	  
-	  if(!theQI.Time(time1))
+	  if(!first_integration_time(theQI,time1))
 		return kFloatMissing;
 	  
 	  do
@@ -201,7 +234,7 @@ namespace WeatherAnalysis
 	{
 	  theTimeCalculator.reset();
 	  
-	  if(!theQI.Time(theStartTime))
+	  if(!first_integration_time(theQI,theStartTime))
 		return kFloatMissing;
 	  if(theIndexMask.empty())
 		return kFloatMissing;
@@ -257,7 +290,7 @@ namespace WeatherAnalysis
 		{
 		  theTimeCalculator.reset();
 		  
-		  if(!theQI.Time(theStartTime))
+		  if(!first_integration_time(theQI,theStartTime))
 			return kFloatMissing;
 		  
 		  do
@@ -310,7 +343,7 @@ namespace WeatherAnalysis
 	{
 	  theTimeCalculator.reset();
 	  
-	  if(!theQI.Time(theStartTime))
+	  if(!first_integration_time(theQI,theStartTime))
 		return kFloatMissing;
 	  
 	  do
@@ -388,7 +421,7 @@ namespace WeatherAnalysis
 		  
 		  NFmiTime time1(theStartTime);
 		  
-		  if(!theQI.Time(time1))
+		  if(!first_integration_time(theQI,time1))
 			return kFloatMissing;
 		  
 		  do
