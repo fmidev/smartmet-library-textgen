@@ -10,6 +10,7 @@
 
 #include <string>
 #include <utility>
+#include <vector>
 
 namespace TextGen
 {
@@ -44,7 +45,16 @@ namespace TextGen
 								  double theClearPercentage,
 								  double theTrend);
 
-	std::pair<CloudinessType,bool> similartype(CloudinessType theType1, CloudinessType theType2);
+	typedef std::pair<CloudinessType,bool> CommonCloudiness;
+
+	CommonCloudiness similartype(CloudinessType theType1, CloudinessType theType2);
+
+	CommonCloudiness similartype(const std::vector<CloudinessType> & theTypes);
+
+	CommonCloudiness similartype(const std::vector<CloudinessType> & theTypes,
+								 unsigned int theStart,
+								 unsigned int theEnd);
+
 
 
   } // namespace CloudinessStoryTools

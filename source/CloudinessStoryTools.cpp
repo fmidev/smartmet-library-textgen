@@ -98,11 +98,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	std::pair<CloudinessType,bool> similartype(CloudinessType theType1,
-											   CloudinessType theType2)
+	CommonCloudiness similartype(CloudinessType theType1,
+								 CloudinessType theType2)
 	{
-	  static std::pair<CloudinessType,bool> notsimilar =
-		std::make_pair(VariableCloudiness,false);
+	  static std::pair<CloudinessType,bool> notsimilar(VariableCloudiness,false);
 
 	  switch(theType1)
 		{
@@ -111,13 +110,13 @@ namespace TextGen
 			switch(theType2)
 			  {
 			  case Cloudy:
-				return std::make_pair(Cloudy,true);
+				return CommonCloudiness(Cloudy,true);
 			  case MostlyCloudy:
-				return std::make_pair(MostlyCloudy,true);
+				return CommonCloudiness(MostlyCloudy,true);
 			  case CloudyOrPartlyCloudy:
 			  case MostlyPartlyCloudy:
 			  case PartlyCloudy:
-				return std::make_pair(CloudyOrPartlyCloudy,true);
+				return CommonCloudiness(CloudyOrPartlyCloudy,true);
 			  case Clear:
 			  case MostlyClear:
 			  case ClearOrPartlyCloudy:
@@ -134,9 +133,9 @@ namespace TextGen
 			  case IncreasingCloudiness:
 			  case Cloudy:
 			  case MostlyCloudy:
-				return std::make_pair(IncreasingCloudiness,true);
+				return CommonCloudiness(IncreasingCloudiness,true);
 			  case VariableCloudiness:
-				return std::make_pair(VariableCloudiness,true);
+				return CommonCloudiness(VariableCloudiness,true);
 			  case PartlyCloudy:
 			  case Clear:
 			  case MostlyPartlyCloudy:
@@ -153,11 +152,11 @@ namespace TextGen
 			  {
 			  case MostlyCloudy:
 			  case Cloudy:
-				return std::make_pair(MostlyCloudy,true);
+				return CommonCloudiness(MostlyCloudy,true);
 			  case CloudyOrPartlyCloudy:
 			  case MostlyPartlyCloudy:
 			  case PartlyCloudy:
-				return std::make_pair(CloudyOrPartlyCloudy,true);
+				return CommonCloudiness(CloudyOrPartlyCloudy,true);
 			  case Clear:
 			  case MostlyClear:
 			  case ClearOrPartlyCloudy:
@@ -177,9 +176,9 @@ namespace TextGen
 			  case MostlyPartlyCloudy:
 			  case PartlyCloudy:
 			  case ClearOrPartlyCloudy:
-				return std::make_pair(CloudyOrPartlyCloudy,true);
+				return CommonCloudiness(CloudyOrPartlyCloudy,true);
 			  case VariableCloudiness:
-				return std::make_pair(VariableCloudiness,true);
+				return CommonCloudiness(VariableCloudiness,true);
 			  case Clear:
 			  case MostlyClear:
 			  case DecreasingCloudiness:
@@ -193,17 +192,17 @@ namespace TextGen
 			  {
 			  case MostlyPartlyCloudy:
 			  case PartlyCloudy:
-				return std::make_pair(MostlyPartlyCloudy,true);
+				return CommonCloudiness(MostlyPartlyCloudy,true);
 			  case Cloudy:
 			  case MostlyCloudy:
-				return std::make_pair(CloudyOrPartlyCloudy,true);
+				return CommonCloudiness(CloudyOrPartlyCloudy,true);
 			  case CloudyOrPartlyCloudy:
 			  case VariableCloudiness:
-				return std::make_pair(VariableCloudiness,true);
+				return CommonCloudiness(VariableCloudiness,true);
 			  case ClearOrPartlyCloudy:
 			  case MostlyClear:
 			  case Clear:
-				return std::make_pair(ClearOrPartlyCloudy,true);
+				return CommonCloudiness(ClearOrPartlyCloudy,true);
 			  case DecreasingCloudiness:
 			  case IncreasingCloudiness:
 				break;
@@ -221,7 +220,7 @@ namespace TextGen
 			  case PartlyCloudy:
 			  case ClearOrPartlyCloudy:
 			  case MostlyClear:
-				return std::make_pair(VariableCloudiness,true);
+				return CommonCloudiness(VariableCloudiness,true);
 			  case Cloudy:
 			  case Clear:
 			  case DecreasingCloudiness:
@@ -233,19 +232,19 @@ namespace TextGen
 			switch(theType2)
 			  {
 			  case PartlyCloudy:
-				return std::make_pair(PartlyCloudy,true);
+				return CommonCloudiness(PartlyCloudy,true);
 			  case Cloudy:
 			  case MostlyCloudy:
 			  case CloudyOrPartlyCloudy:
-				return std::make_pair(CloudyOrPartlyCloudy,true);
+				return CommonCloudiness(CloudyOrPartlyCloudy,true);
 			  case MostlyPartlyCloudy:
-				return std::make_pair(MostlyPartlyCloudy,true);
+				return CommonCloudiness(MostlyPartlyCloudy,true);
 			  case VariableCloudiness:
-				return std::make_pair(VariableCloudiness,true);
+				return CommonCloudiness(VariableCloudiness,true);
 			  case ClearOrPartlyCloudy:
 			  case MostlyClear:
 			  case Clear:
-				return std::make_pair(ClearOrPartlyCloudy,true);
+				return CommonCloudiness(ClearOrPartlyCloudy,true);
 			  case DecreasingCloudiness:
 			  case IncreasingCloudiness:
 				break;
@@ -260,11 +259,11 @@ namespace TextGen
 			  case PartlyCloudy:
 			  case MostlyClear:
 			  case Clear:
-				return std::make_pair(ClearOrPartlyCloudy,true);
+				return CommonCloudiness(ClearOrPartlyCloudy,true);
 			  case MostlyCloudy:
 			  case CloudyOrPartlyCloudy:
 			  case VariableCloudiness:
-				return std::make_pair(VariableCloudiness,true);
+				return CommonCloudiness(VariableCloudiness,true);
 			  case Cloudy:
 			  case DecreasingCloudiness:
 			  case IncreasingCloudiness:
@@ -277,11 +276,11 @@ namespace TextGen
 			  {
 			  case MostlyClear:
 			  case Clear:
-				return std::make_pair(MostlyClear,true);
+				return CommonCloudiness(MostlyClear,true);
 			  case MostlyPartlyCloudy:
 			  case PartlyCloudy:
 			  case ClearOrPartlyCloudy:
-				return std::make_pair(ClearOrPartlyCloudy,true);
+				return CommonCloudiness(ClearOrPartlyCloudy,true);
 			  case Cloudy:
 			  case MostlyCloudy:
 			  case CloudyOrPartlyCloudy:
@@ -298,7 +297,7 @@ namespace TextGen
 			  case DecreasingCloudiness:
 			  case MostlyClear:
 			  case Clear:
-				return std::make_pair(DecreasingCloudiness,true);
+				return CommonCloudiness(DecreasingCloudiness,true);
 			  case Cloudy:
 			  case PartlyCloudy:
 			  case MostlyCloudy:
@@ -315,13 +314,13 @@ namespace TextGen
 			switch(theType2)
 			  {
 			  case Clear:
-				return std::make_pair(Clear,true);
+				return CommonCloudiness(Clear,true);
 			  case MostlyPartlyCloudy:
 			  case PartlyCloudy:
 			  case CloudyOrPartlyCloudy:
-				return std::make_pair(ClearOrPartlyCloudy,true);
+				return CommonCloudiness(ClearOrPartlyCloudy,true);
 			  case MostlyClear:
-				return std::make_pair(MostlyClear,true);
+				return CommonCloudiness(MostlyClear,true);
 			  case Cloudy:
 			  case MostlyCloudy:
 			  case ClearOrPartlyCloudy:
@@ -338,6 +337,72 @@ namespace TextGen
 
 	}
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Calculate similar cloudiness type for a vector
+	 *
+	 * \param theTypes Vector of cloudiness types
+	 * \return A pair, if second is true then first is the common type.
+	 *         If second is false, value of first is unspecified.
+	 *
+	 * The algorithm is explained at
+	 * \ref subsection_cloudiness_overview_similarity
+	 */
+	// ----------------------------------------------------------------------
+	
+	CommonCloudiness similartype(const std::vector<CloudinessType> & theTypes)
+	{
+	  return similartype(theTypes,0,theTypes.size()-1);
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Calculate similar cloudiness type for a vector
+	 *
+	 * \param theTypes Vector of cloudiness types
+	 * \param theStart The first index of the range to be analyzed
+	 * \param theEnd The end index of the range to be analyzed
+	 * \return A pair, if second is true then first is the common type.
+	 *         If second is false, value of first is unspecified.
+	 *
+	 * Note: The value at theTypes[theEnd] is included in the analysis.
+	 *
+	 * The algorithm is explained at
+	 * \ref subsection_cloudiness_overview_similarity
+	 */
+	// ----------------------------------------------------------------------
+
+	CommonCloudiness similartype(const std::vector<CloudinessType> & theTypes,
+								 unsigned int theStart,
+								 unsigned int theEnd)
+	{
+	  // handle zero types case
+	  if(theTypes.empty() || theEnd<theStart)
+		return CommonCloudiness(VariableCloudiness,false);
+
+	  // handle a single type case
+	  if(theStart==theEnd)
+		return CommonCloudiness(theTypes[theStart],true);
+
+	  // handle two type case
+	  if(theEnd == theStart+1)
+		return similartype(theTypes[theStart],theTypes[theEnd]);
+
+	  // merge adjacent pairs, if any merge fails, so does the
+	  // entire merge and we abort
+
+	  std::vector<CloudinessType> similartypes;
+	  for(unsigned int i=theStart; i<=theEnd; i++)
+		{
+		  CommonCloudiness tmp = similartype(theTypes[i],theTypes[i+1]);
+		  if(!tmp.second)
+			return CommonCloudiness(VariableCloudiness,false);
+		  similartypes.push_back(tmp.first);
+		}
+
+	  // recursion
+	  return similartype(similartypes);
+	}
 
 
   } // namespace CloudinessStoryTools
