@@ -40,8 +40,8 @@ namespace TextGen
 	{
 	  using namespace Settings;
 	  
-	  const double accurate_limit = optional_double(theVariable+"::direction::accurate",0.8);
-	  const double variable_limit = optional_double(theVariable+"::direction::variable_limit",0.4);
+	  const double accurate_limit = optional_double(theVariable+"::direction::accurate",22.5);
+	  const double variable_limit = optional_double(theVariable+"::direction::variable_limit",45);
 	  
 	  if(theAccuracy>=accurate_limit) return good_accuracy;
 	  if(theAccuracy>=variable_limit) return moderate_accuracy;
