@@ -474,6 +474,29 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Generate the "sadetta" phrases
+   *
+   * \param theSources The analysis sources
+   * \param theArea The area to be analyzed
+   * \param thePeriod The rainy period to be analyzed
+   * \param theVar The control variable
+   * \param theDay The day in question
+   */
+  // ----------------------------------------------------------------------
+
+  Sentence rain_phrase(const AnalysisSources & theSources,
+					   const WeatherArea & theArea,
+					   const WeatherPeriod & thePeriod,
+					   const string & theVar,
+					   int theDay)
+  {
+	Sentence s;
+	s << "sadetta";
+	return s;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Generate the "in some place places" story
    *
    * The used variables are
@@ -492,6 +515,7 @@ namespace TextGen
    * \param theArea The area to be analyzed
    * \param thePeriod The rainy period to be analyzed
    * \param theVar The control variable
+   * \param theDay The day in question
    */
   // ----------------------------------------------------------------------
 
@@ -571,8 +595,8 @@ namespace TextGen
 	  case 1:
 		{
 		  s << one_day_cases[idx].phrase1;
-		  s << in_places(theSources,theArea,theRainPeriod,theVar,1);
-		  s << "sadetta";
+		  s << in_places(theSources,theArea,theRainPeriod,theVar,theDay);
+		  s << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
 		// [Aamulla] [paikoin] [sadetta], [aamulla] [enimmäkseen selkeää] ja poutaa
@@ -580,7 +604,7 @@ namespace TextGen
 		{
 		  s << one_day_cases[idx].phrase1;
 		  s << in_places(theSources,theArea,theRainPeriod,theVar,theDay);
-		  s << "sadetta";
+		  s << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase2;
 		  s << "enimmäkseen" << "selkeää";
@@ -592,7 +616,7 @@ namespace TextGen
 		{
 		  s << one_day_cases[idx].phrase1;
 		  s << in_places(theSources,theArea,theRainPeriod,theVar,theDay);
-		  s << "sadetta";
+		  s << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase2;
 		  s << "poutaa";
@@ -605,7 +629,7 @@ namespace TextGen
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase1;
 		  s << in_places(theSources,theArea,theRainPeriod,theVar,theDay);
-		  s << "sadetta";
+		  s << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
 	  default:
