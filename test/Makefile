@@ -30,6 +30,7 @@ test: $(PROG)
 	@for prog in $(PROG); do \
 	 ./$$prog; \
 	done
+	@echo
 	@for prog in $(PHPPROG); do \
 	 php -q $$prog; \
 	done
