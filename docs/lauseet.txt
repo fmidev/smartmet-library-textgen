@@ -3,50 +3,56 @@
 
 \section sec_lause_interface API
 
-Paragraph on tekstiobjekti, josta lopullinen teksti generoidaan.
-Paragraph koostuu listasta Sentence objekteja, joka puolestaan
-koostuu listasta polymorfisia Phrase objekteja.
+TextGen::Paragraph on tekstiobjekti, josta lopullinen teksti
+generoidaan.  TextGen::Paragraph koostuu listasta TextGen::Sentence
+objekteja, joka puolestaan koostuu listasta polymorfisia
+TextGen::Phrase objekteja.
 
-Phrase objekteihin kuuluvat esim. PhraseWord, eli sanakirjasta
-löytyvä sana, PhraseNumber<T>, joka esittää numeroa, ja
-PhraseShortWeekday, joka kuvastaa viikonpäivää lyhyessä muodossa.
+TextGen::Phrase objekteihin kuuluvat esim. TextGen::PhraseWord, eli
+sanakirjasta löytyvä sana, TextGen::PhraseNumber<T>, joka esittää
+numeroa, ja TextGen::PhraseShortWeekday, joka kuvastaa viikonpäivää
+lyhyessä muodossa.
 
 Virkkeitä voi rakentaa seuraavaan tyyliin
 \code
-TheDictionary::instance().dictionary(DictionaryFactory::create("mysql"));
-TheDictionary::init("en");
+TextGen::TheDictionary::instance().dictionary(TextGen::DictionaryFactory::create("mysql"));
+TextGen::TheDictionary::init("en");
 
-Sentence s;
-s << PhraseWord("kaakko");
-s << PhraseNumber<int>(12);
+TextGen::Sentence s;
+s << TextGen::PhraseWord("kaakko");
+s << TextGen::PhraseNumber<int>(12);
 cout << s.realize();
 \endcode
-joka tulostaa tekstin "South east 12.".
-
+joka tulostaa tekstin "South east 12.". Esimerkissä on käytetty TextGen
+namespacea eksplisiittisesti vain Doxygenin tähden, normaalisti
+koodissa olisi jossain kohtaa
+\code
+using namespace TextGen;
+\endcode
 Koodi
 \code
-Sentence s;
-s << PhraseWord("luode") << PhraseNumber<float>(12.33333333333);
+TextGen::Sentence s;
+s << TextGen::PhraseWord("luode") << TextGen::PhraseNumber<float>(12.33333333333);
 cout << s.realize();
 \endcode
 tulostaa "South east 12.3.", eli numeroilla on siis jonkinlainen
 oletusarvoinen esitystarkkuus. Tarkkuutta voi muuttaa käyttämällä
-PhraseNumber luokan toista templaattiparametria traits-tyylisesti.
+TextGen::PhraseNumber luokan toista templaattiparametria traits-tyylisesti.
 
-Stringeille ja integereille on olemassa oletusmuunnos PhraseWord
-ja PhraseNumber<int> tyylisiksi, eli myös seuraava toimii.
+Stringeille ja integereille on olemassa oletusmuunnos TextGen::PhraseWord
+ja TextGen::PhraseNumber<int> tyylisiksi, eli myös seuraava toimii.
 \code
-Sentence s;
+TextGen::Sentence s;
 s << "kaakko" << 12;
 cout << s.realize();
 \endcode
 
 Kokonaisia tekstejä luodaan seuraavasti
 \code
-Paragraph p;
-Sentence s1;
+TextGen::Paragraph p;
+TextGen::Sentence s1;
 s1 << "ke" << "kaakko" << 12;
-Sentence s2;
+TextGen::Sentence s2;
 s2 << "to" << "luode" << 13;
 p << s1 << s2;
 cout << p.realize();
@@ -55,11 +61,11 @@ joka tulostaisi "Wed south east 12. Thu north west 13.".
 Seuraava koodi voi kuitenkin olla käytännöllisempää, koska
 viikonpäivätekstiä ei tarvitse itse laskea.
 \code
-Paragraph p;
-Sentence s1;
-s1 << PhraseShortWeekend(3) << "kaakko" << 12;
+TextGen::Paragraph p;
+TextGen::Sentence s1;
+s1 << TextGen::PhraseShortWeekend(3) << "kaakko" << 12;
 Sentence s2;
-s2 << PhraseShortWeekend(4) << "luode" << 13;
+s2 << TextGen::PhraseShortWeekend(4) << "luode" << 13;
 p << s1 << s2;
 cout << p.realize();
 \endcode
