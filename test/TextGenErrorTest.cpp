@@ -24,7 +24,7 @@ namespace TextGenErrorTest
   }
 
   //! Test the message content comes through
-  void messages(void)
+  void what(void)
   {
 	using namespace textgen;
 
@@ -55,7 +55,7 @@ namespace TextGenErrorTest
 	void test(void)
 	{
 	  TEST(throwing);
-	  TEST(messages);
+	  TEST(what);
 	}
 
 
