@@ -280,7 +280,7 @@ namespace TextGen
 
 	  const int mininterval = optional_int(theVariable+"::mininterval",0);
 	  
-	  if(theMaxSpeed.value()-theMinSpeed.value() <= mininterval)
+	  if(theMaxSpeed.value()-theMinSpeed.value() < mininterval)
 		{
 		  sentence << "noin"
 				   << Integer(FmiRound(theMeanSpeed.value()));
