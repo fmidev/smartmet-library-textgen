@@ -5,7 +5,7 @@
  */
 // ======================================================================
 /*!
- * \class TextGen::PeriodPhraseFactory
+ * \namespace TextGen::PeriodPhraseFactory
  *
  * \brief Tools for generating phrases to describe periods
  *
