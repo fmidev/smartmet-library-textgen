@@ -245,11 +245,11 @@ namespace Settings
 	const string msg(theName+" value "+value+" is not of form A,B");
 	try
 	  {
-		list<string> values = NFmiStringTools::SplitWords(value);
+		vector<string> values = NFmiStringTools::Split(value);
 		if(values.size() != 2)
 		  throw runtime_error(msg);
-		const float result = lexical_cast<float>(values.front());
-		const float accuracy = lexical_cast<float>(values.back());
+		const float result = lexical_cast<float>(values[0]);
+		const float accuracy = lexical_cast<float>(values[1]);
 		return WeatherAnalysis::WeatherResult(result,accuracy);
 	  }
 	catch(exception & )

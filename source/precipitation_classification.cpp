@@ -53,14 +53,14 @@ namespace
 
 	list<pair<int,int> > output;
 
-	list<string> clist = NFmiStringTools::SplitWords(value);
-	for(list<string>::const_iterator it=clist.begin(); it!=clist.end(); ++it)
+	vector<string> clist = NFmiStringTools::Split(value);
+	for(vector<string>::const_iterator it=clist.begin(); it!=clist.end(); ++it)
 	  {
-		list<string> rlist = NFmiStringTools::SplitWords(*it,"...");
+		vector<string> rlist = NFmiStringTools::Split(*it,"...");
 		if(rlist.size() != 2)
 		  throw TextGenError(*it+" is not of form A...B in variable "+theVariable);
-		int lolimit = lexical_cast<int>(rlist.front());
-		int hilimit = lexical_cast<int>(rlist.back());
+		int lolimit = lexical_cast<int>(rlist[0]);
+		int hilimit = lexical_cast<int>(rlist[1]);
 		if(hilimit<=lolimit)
 		  throw TextGenError(*it+" has upper limit <= lower limit in variable "+theVariable);
 

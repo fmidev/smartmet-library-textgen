@@ -156,10 +156,10 @@ namespace TextGen
   {
 	MessageLogger log("TextGenerator::generate");
 
-	const list<string> paragraphs = NFmiStringTools::SplitWords(Settings::require_string("textgen::sections"));
+	const vector<string> paragraphs = NFmiStringTools::Split(Settings::require_string("textgen::sections"));
 
 	Document doc;
-	for(list<string>::const_iterator it = paragraphs.begin();
+	for(vector<string>::const_iterator it = paragraphs.begin();
 		it != paragraphs.end();
 		++it)
 	  {
@@ -174,11 +174,11 @@ namespace TextGen
 		if(!header.empty())
 		  doc << header;
 
-		const list<string> contents = NFmiStringTools::SplitWords(Settings::require("textgen::"+*it+"::content"));
+		const vector<string> contents = NFmiStringTools::Split(Settings::require("textgen::"+*it+"::content"));
 		if(!contents.empty())
 		  {
 			Paragraph paragraph;
-			for(list<string>::const_iterator iter = contents.begin();
+			for(vector<string>::const_iterator iter = contents.begin();
 				iter != contents.end();
 				++iter)
 			  {

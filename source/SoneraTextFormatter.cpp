@@ -240,7 +240,7 @@ namespace TextGen
   {
 	static string dummy("glyph");
 	string tokens = theGlyph.realize(*itsDictionary);
-	list<string> numbers = NFmiStringTools::SplitWords(tokens);
+	vector<string> numbers = NFmiStringTools::Split(tokens);
 	copy(numbers.begin(),numbers.end(),back_inserter(itsParts));
 	return dummy;
   }

@@ -64,19 +64,19 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  list<string> reorder_preferences(const string & thePreference,
-								   const string & theDefault)
+  vector<string> reorder_preferences(const string & thePreference,
+									 const string & theDefault)
   {
-	const list<string> preferences = NFmiStringTools::SplitWords(thePreference);
-	const list<string> defaults = NFmiStringTools::SplitWords(theDefault);
+	const vector<string> preferences = NFmiStringTools::Split(thePreference);
+	const vector<string> defaults = NFmiStringTools::Split(theDefault);
 
 	// fast special case
 	if(preferences.empty()) return defaults;
 
-	typedef list<string>::const_iterator const_iterator;
+	typedef vector<string>::const_iterator const_iterator;
 
-	list<string> output;
-
+	vector<string> output;
+	
 	// first the allowed ones from preferences in correct order
 	for(const_iterator it=preferences.begin(); it!=preferences.end(); ++it)
 	  {
@@ -121,9 +121,9 @@ namespace TextGen
 	  const string var = theVariable + "::until_tonight::phrases";
 	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("none,today,atday,weekday");
-	  list<string> order = reorder_preferences(preferences,defaults);
+	  vector<string> order = reorder_preferences(preferences,defaults);
 
-	  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 		{
 		  if(*it == "none")
 			{
@@ -169,9 +169,9 @@ namespace TextGen
 	  const string var = theVariable + "::until_morning::phrases";
 	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("none,tonight,atnight,weekday");
-	  list<string> order = reorder_preferences(preferences,defaults);
+	  vector<string> order = reorder_preferences(preferences,defaults);
 
-	  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 		{
 		  if(*it == "none")
 			{
@@ -217,9 +217,9 @@ namespace TextGen
 	  const string var = theVariable + "::today::phrases";
 	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("none,today,tomorrow,atday,weekday");
-	  list<string> order = reorder_preferences(preferences,defaults);
+	  vector<string> order = reorder_preferences(preferences,defaults);
 
-	  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 		{
 		  if(*it == "weekday")
 			return (sentence << on_weekday(thePeriod.localStartTime()));
@@ -270,9 +270,9 @@ namespace TextGen
 	  const string var = theVariable + "::tonight::phrases";
 	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("none,tonight,atnight,weekday");
-	  list<string> order = reorder_preferences(preferences,defaults);
+	  vector<string> order = reorder_preferences(preferences,defaults);
 
-	  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 		{
 		  if(*it == "weekday")
 			return (sentence << night_against_weekday(thePeriod.localEndTime()));
@@ -318,9 +318,9 @@ namespace TextGen
 	  const string var = theVariable + "::next_night::phrases";
 	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("tonight,atnight,followingnight,weekday");
-	  list<string> order = reorder_preferences(preferences,defaults);
+	  vector<string> order = reorder_preferences(preferences,defaults);
 
-	  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 		{
 		  if(*it == "weekday")
 			return (sentence << night_against_weekday(thePeriod.localEndTime()));
@@ -363,9 +363,9 @@ namespace TextGen
 	  const string var = theVariable + "::next_day::phrases";
 	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("tomorrow,followingday,weekday");
-	  list<string> order = reorder_preferences(preferences,defaults);
+	  vector<string> order = reorder_preferences(preferences,defaults);
 
-	  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 		{
 		  if(*it == "weekday")
 			return (sentence << on_weekday(thePeriod.localStartTime()));
@@ -403,9 +403,9 @@ namespace TextGen
 	  const string var = theVariable + "::next_days::phrases";
 	  const string preferences = Settings::optional_string(var,"");
 	  const string defaults("tomorrow,weekday");
-	  list<string> order = reorder_preferences(preferences,defaults);
+	  vector<string> order = reorder_preferences(preferences,defaults);
 
-	  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 		{
 		  if(*it == "weekday")
 			return (sentence << from_weekday(thePeriod.localStartTime()));
@@ -523,7 +523,7 @@ namespace TextGen
 	  
 	  const string nvar = var + "::days" + lexical_cast<string>(ndays);
 	  preferences = Settings::optional_string(nvar,preferences);
-	  list<string> order = reorder_preferences(preferences,defaults);
+	  vector<string> order = reorder_preferences(preferences,defaults);
 
 	  // the first day may not be the same as thePeriod.localStartTime
 	  // due to starthour etc settings
@@ -532,7 +532,7 @@ namespace TextGen
 
 	  if(ndays==1)
 		{
-		  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+		  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 			{
 			  if(*it == "none")
 				{
@@ -563,7 +563,7 @@ namespace TextGen
 		{
 		  NFmiTime nextday(starttime);
 		  nextday.ChangeByDays(1);
-		  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+		  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 			{
 			  if(*it == "none")
 				{
@@ -575,7 +575,7 @@ namespace TextGen
 				  if(isSameDay(theForecastTime,starttime))
 					{
 					  sentence << "tänään" << "ja";
-					  for(list<string>::const_iterator jt=order.begin();
+					  for(vector<string>::const_iterator jt=order.begin();
 						  jt!=order.end();
 						  ++jt)
 						{
@@ -593,7 +593,7 @@ namespace TextGen
 				  if(isNextDay(theForecastTime, starttime))
 					{
 					  sentence << "huomenna" << "ja";
-					  for(list<string>::const_iterator jt=order.begin();
+					  for(vector<string>::const_iterator jt=order.begin();
 						  jt!=order.end();
 						  ++jt)
 						{
@@ -619,7 +619,7 @@ namespace TextGen
 		}
 	  else
 		{
-		  for(list<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
+		  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 			{
 			  if(*it == "none")
 				return sentence;
