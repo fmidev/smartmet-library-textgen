@@ -402,6 +402,47 @@ namespace
 	  30	// 300. [Paikoin] [sadetta]
 	};
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Calculates index for rain in the table at \ref page_rain_oneday
+   *
+   * If forecast length is N+1, the start index for that forecast length is
+   * the arithmetic sum of 24+23+...+24-N+1. The sum is then (a1+an)*n/2
+   * where a1=24, an=24-n+1. The final index is then obtained by adding
+   * the starthour, plus one since the indices start at 1.
+   *
+   * For example, if the rain spans 4-6:
+   *  -# n = (6-4)-1 = 1
+   *  -# a1 = 24
+   *  -# an = 24-n+1 = 24
+   *  -# sn = ((a1+an)*n)/2 = ((24+24)*2)/2 = 24
+   *  -# 24+4+1 = 29, the final result
+   *
+   * For example, if the rain spans 5-18:
+   *  -# n = (18-5)-1 = 12
+   *  -# a1 = 24
+   *  -# an = 24-n+1 = 13
+   *  -# sn = ((a1+an)*n)/2 = ((24+13)*12)/2 = 222
+   *  -# 222+5+1 = 228, the final result
+   * 
+   * \param theStartHour The start hour of the rain
+   * \param theEndHour The end hour of the rain
+   * \return The index for the rain
+   */
+  // ----------------------------------------------------------------------
+
+  int one_day_rain_index(int theStartHour, int theEndHour)
+  {
+	if(theEndHour <= theStartHour)
+	  throw runtime_error("Internal error in weather_overview: end hour must be greater than start hour");
+
+	const int n = theEndHour-theStartHour-1;
+	const int a1 = 24;
+	const int an = 24-n+1;
+	const int sn = ((a1+an)*n)/2;
+	return (sn + theStartHour + 1);
+  }
+
 }
 
 namespace TextGen
