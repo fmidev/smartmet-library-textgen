@@ -49,21 +49,23 @@ namespace HeaderPhrasesTest
   {
 	require("odotettavissa");
 
-	require("1-aamuun asti","maanantaiaamuun asti");
-	require("2-aamuun asti","tiistaiaamuun asti");
-	require("3-aamuun asti","keskiviikkoaamuun asti");
-	require("4-aamuun asti","torstaiaamuun asti");
-	require("5-aamuun asti","perjantaiaamuun asti");
-	require("6-aamuun asti","lauantaiaamuun asti");
-	require("7-aamuun asti","sunnuntaiaamuun asti");
+	require("1-aamuun","maanantaiaamuun");
+	require("2-aamuun","tiistaiaamuun");
+	require("3-aamuun","keskiviikkoaamuun");
+	require("4-aamuun","torstaiaamuun");
+	require("5-aamuun","perjantaiaamuun");
+	require("6-aamuun","lauantaiaamuun");
+	require("7-aamuun","sunnuntaiaamuun");
 
-	require("1-iltaan asti","maanantai-iltaan asti");
-	require("2-iltaan asti","tiistai-iltaan asti");
-	require("3-iltaan asti","keskiviikko-iltaan asti");
-	require("4-iltaan asti","torstai-iltaan asti");
-	require("5-iltaan asti","perjantai-iltaan asti");
-	require("6-iltaan asti","lauantai-iltaan asti");
-	require("7-iltaan asti","sunnuntai-iltaan asti");
+	require("1-iltaan","maanantai-iltaan");
+	require("2-iltaan","tiistai-iltaan");
+	require("3-iltaan","keskiviikko-iltaan");
+	require("4-iltaan","torstai-iltaan");
+	require("5-iltaan","perjantai-iltaan");
+	require("6-iltaan","lauantai-iltaan");
+	require("7-iltaan","sunnuntai-iltaan");
+
+	require("asti");
 
 	TEST_PASSED();
 
