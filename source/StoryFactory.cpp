@@ -19,6 +19,7 @@
 #include "Paragraph.h"
 #include "PrecipitationStory.h"
 #include "RelativeHumidityStory.h"
+#include "RoadStory.h"
 #include "TemperatureStory.h"
 #include "TextGenError.h"
 #include "WeatherStory.h"
@@ -101,6 +102,12 @@ namespace TextGen
 	  if(RelativeHumidityStory::hasStory(theName))
 		{
 		  RelativeHumidityStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
+		  return story.makeStory(theName);
+		}
+
+	  if(RoadStory::hasStory(theName))
+		{
+		  RoadStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 
