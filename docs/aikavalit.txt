@@ -12,31 +12,76 @@ nimi‰. Kaikki kellonajat ovat paikallista aikaa.
 
 TextGen::WeatherPeriodFactory namespace sis‰lt‰‰ create funktion,
 jolla voidaan luoda erikseen nimettyj‰ s‰‰jaksoja. Funktiolle
-annetaan ennusteen tekoaika paikallista aikaa ja s‰‰jakson nimi,
-paluuarvona on TextGen::WeatherPeriod objekti.
+annetaan ennusteen tekoaika paikallista aikaa ja s‰‰jaksoa
+kuvaavan muuttujan nimi, paluuarvona on TextGen::WeatherPeriod objekti.
 
-T‰ll‰ hetkell‰ tunnistettuja periodeja ovat
-\htmlonly
-<dl>
-<dt><code>farmer_until_tomorrow_evening</code></dt>
-<dd>Alkaa annetusta hetkest‰, p‰‰ttyy huomiseen iltaan, tai jos kello on
-    yli 12, sit‰ seuraavaan iltaan. Vaihtotuntia klo 12 voi vaihtaa
-    muuttujalla \c textgen::period::until_tomorrow_evening::switchhour
-</dd>
-<dt><code>farmer_from_tomorrow_evening</code></dt>
-<dd>Alkaa siit‰ mihin <code>farmer_until_tomorrow_evening</code> p‰‰ttyy,
-    ja jatkuu nelj‰nnen p‰iv‰n aamuun. Periodissa on siis
-    ensimm‰inen illasta seuraavat 3 kokonaista vuorokautta plus
-    seuraava p‰iv‰ aamuun asti. Vaihtotuntia voi vaihtaa muuttujalla
-    \c textgen::period::from_tomorrow_evening::switchhour
-</dd>
-<dt><code>farmer_five_days</code></dt>
-<dd>Alkaa seuraavasta 06-ajasta, p‰‰ttyy aamuun viiden vuorokauden
-    p‰‰st‰. Vaihtotuntia voi vaihtaa muuttujalla
-    \c textgen::period::five_days::switchhour
-</dd>
-</dl>
-\endhtmlonly
+Esimerkki:
+\code
+NFmiTime t(2003,5,10);
+WeatherPeriod period = WeatherPeriodFactory::create(t,"textgen::period");
+\endcode
+T‰llˆin factory olettaa, ett‰ esimerkiksi muuttuja \c textgen::period::type
+on asetettu. Muut vaaditut muuttujat riippuvat periodin tyypist‰, ja
+on dokumentoitu kunkin periodityypin dokumentaatiossa.
+
+
+\subsection sec_period_until Periodityyppi "until"
+
+Periodin muodostamiseen vaaditaan muuttujat
+\code
+variable::type = until
+variable::days = <integer>
+variable::endhour = <integer>
+variable::switchhour = <integer>
+\endcode
+N‰ist‰ asetuksista saadaan periodin alkuaika yksinkertaisesti
+pyˆrist‰m‰ll‰ annettu aika ylˆsp‰in tasatuntiin. Loppuaika saadaan
+lis‰‰m‰ll‰ ensin alkuaikaan \c variable::days. Jos tuntiosa on
+v‰hint‰‰n \c variable::switchhour, lis‰t‰‰n viel‰ yksi p‰iv‰.
+T‰m‰n j‰lkeen tunti asetetaan arvoon \c variable::endhour.
+
+Esimerkiksi jos
+\code
+variable::days = 1
+variable::endhour = 18
+variable::switchhour = 12
+\endcode
+saadaan
+- Maanantaina klo 11:00 periodi Maanantai 11:00 - Tiistai 18:00
+- Maanantaina klo 11:01 periodi Maanantai 12:00 - Keskiviikko 18:00
+
+
+\subsection sec_period_until Periodityyppi "from_until"
+
+Periodin muodostamiseen vaaditaan muuttujat
+\code
+variable::type = from_until
+variable::startday = <integer>
+variable::starthour = <integer>
+variable::switchhour = <integer>
+variable::days = <integer>
+variable::endhour = <integer>
+\endcode
+N‰ist‰ asetuksista saadaan periodin alkuaika pyˆrist‰m‰ll‰ kello
+ensin ylˆsp‰in tasatuntiin. Sitten lis‰t‰‰n \c variable::startday p‰iviin.
+T‰m‰n j‰lkeen lis‰t‰‰n viel‰ yksi p‰iv‰, jos tunti on v‰hint‰‰n
+\c variable::switchhour. Lopuksi tunnit asetetaan arvoon
+\c variable::starthour.
+
+Loppuaika saadaan lis‰‰m‰ll‰ alkuaikaan \c variable::days p‰iv‰‰,
+ja asettamalla tunteihin arvo \c variable::endhour.
+
+Esimerkiksi jos
+\code
+variable::startday = 1
+variable::starthour = 18
+variable::switchhour = 12
+variable::days = 2
+variable::endhour = 6
+\endcode
+saadaan
+- Maanantaina klo 11:00 periodi Tiistai 18:00 - Torstai 06:00
+- Maanantaina klo 11:01 periodi Keskiviikko 18:00 - Perjantai 06:00
 
 \section sec_headerfactory HeaderFactory namespace
 
@@ -65,5 +110,6 @@ Esim. <em>Tiistaiaamusta alkavan viiden vuorokauden s‰‰</em>.
 </dd>
 </dl>
 \endhtmlonly
+
 
 */
