@@ -6,7 +6,7 @@
 // ======================================================================
 
 #include "NullAcceptor.h"
-#include "NFmiGlobals.h"
+#include "newbase/NFmiGlobals.h"
 
 namespace WeatherAnalysis
 {

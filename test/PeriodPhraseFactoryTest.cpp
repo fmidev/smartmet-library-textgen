@@ -1,12 +1,12 @@
-#include "tframe.h"
+#include "regression/tframe.h"
 #include "PeriodPhraseFactory.h"
 #include "DictionaryFactory.h"
 #include "PlainTextFormatter.h"
 #include "Sentence.h"
 #include "WeatherPeriod.h"
 
-#include "NFmiSettings.h"
-#include "NFmiTime.h"
+#include "newbase/NFmiSettings.h"
+#include "newbase/NFmiTime.h"
 
 #include <iostream>
 #include <stdexcept>

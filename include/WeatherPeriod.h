@@ -28,7 +28,7 @@
 #ifndef WEATHERANALYSIS_WEATHERPERIOD_H
 #define WEATHERANALYSIS_WEATHERPERIOD_H
 
-#include "NFmiTime.h"
+#include "newbase/NFmiTime.h"
 
 namespace WeatherAnalysis
 {

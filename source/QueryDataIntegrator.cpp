@@ -15,10 +15,10 @@
 #include "WeatherPeriod.h"
 #include "WeatherPeriodGenerator.h"
 
-#include "NFmiFastQueryInfo.h"
-#include "NFmiIndexMask.h"
-#include "NFmiIndexMaskSource.h"
-#include "NFmiTime.h"
+#include "newbase/NFmiFastQueryInfo.h"
+#include "newbase/NFmiIndexMask.h"
+#include "newbase/NFmiIndexMaskSource.h"
+#include "newbase/NFmiTime.h"
 
 namespace
 {

@@ -9,7 +9,7 @@
 #include "DefaultAcceptor.h"
 #include "NullAcceptor.h"
 
-#include "NFmiGlobals.h"
+#include "newbase/NFmiGlobals.h"
 
 using namespace boost;
 

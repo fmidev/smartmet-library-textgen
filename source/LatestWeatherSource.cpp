@@ -13,8 +13,8 @@
 #include "Settings.h"
 #include "WeatherAnalysisError.h"
 
-#include "NFmiFileSystem.h"
-#include "NFmiQueryData.h"
+#include "newbase/NFmiFileSystem.h"
+#include "newbase/NFmiQueryData.h"
 
 #include <cassert>
 #include <map>

@@ -6,7 +6,7 @@
 // ======================================================================
 
 #include "TimeTools.h"
-#include "NFmiTime.h"
+#include "newbase/NFmiTime.h"
 
 namespace TextGen
 {

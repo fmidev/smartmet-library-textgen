@@ -7,7 +7,7 @@
 
 #include "MathTools.h"
 
-#include "NFmiGlobals.h"
+#include "newbase/NFmiGlobals.h"
 
 namespace MathTools
 {

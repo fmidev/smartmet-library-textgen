@@ -1,9 +1,9 @@
-#include "tframe.h"
+#include "regression/tframe.h"
 #include "UnitFactory.h"
 #include "DictionaryFactory.h"
 #include "PlainTextFormatter.h"
 #include "Sentence.h"
-#include "NFmiSettings.h"
+#include "newbase/NFmiSettings.h"
 
 #include <iostream>
 #include <stdexcept>

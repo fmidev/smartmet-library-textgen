@@ -18,9 +18,9 @@
 #include "WeatherResult.h"
 #include "WeatherSource.h"
 
-#include "NFmiEnumConverter.h"
-#include "NFmiFastQueryInfo.h"
-#include "NFmiQueryData.h"
+#include "newbase/NFmiEnumConverter.h"
+#include "newbase/NFmiFastQueryInfo.h"
+#include "newbase/NFmiQueryData.h"
 
 #include "boost/shared_ptr.hpp"
 #include "boost/lexical_cast.hpp"

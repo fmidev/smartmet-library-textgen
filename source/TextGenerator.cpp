@@ -23,8 +23,8 @@
 #include "WeatherPeriod.h"
 #include "WeatherPeriodFactory.h"
 
-#include "NFmiStringTools.h"
-#include "NFmiTime.h"
+#include "newbase/NFmiStringTools.h"
+#include "newbase/NFmiTime.h"
 
 using namespace WeatherAnalysis;
 using namespace std;

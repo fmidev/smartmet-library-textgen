@@ -1,6 +1,6 @@
-#include "tframe.h"
+#include "regression/tframe.h"
 #include "WeekdayTools.h"
-#include "NFmiTime.h"
+#include "newbase/NFmiTime.h"
 
 using namespace std;
 

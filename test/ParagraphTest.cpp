@@ -1,4 +1,4 @@
-#include "tframe.h"
+#include "regression/tframe.h"
 #include "DictionaryFactory.h"
 #include "Paragraph.h"
 #include "Sentence.h"

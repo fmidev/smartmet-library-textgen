@@ -14,7 +14,7 @@ CFLAGS = -DUNIX -O0 -g $(MAINFLAGS) $(EXTRAFLAGS) -Werror
 CFLAGS_RELEASE =  -DUNIX -O2 -DNDEBUG $(MAINFLAGS)
 LDFLAGS = -s
 ARFLAGS = -r
-INCLUDES = -I $(includedir) -I $(includedir)/newbase -I /usr/include/mysql
+INCLUDES = -I $(includedir) -I /usr/include/mysql
 LIBS = -L ../../../../lib -lnewbase -L/usr/lib/mysql -lmysqlclient
 
 # Common library compiling template
