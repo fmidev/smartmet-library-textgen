@@ -1,4 +1,5 @@
 PROG = $(patsubst %.cpp,%,$(wildcard *.cpp))
+PHPPROG = $(wildcard *.php)
 # OBS = $(wildcard ../obj/*.o)
 
 MAINFLAGS = -Wall -W -Wno-unused-parameter
@@ -26,8 +27,11 @@ clean:
 
 test: $(PROG)
 	@echo Running tests:
+	@for prog in $(PHPPROG); do \
+	 php -q $$prog; \
+	done
 	@for prog in $(PROG); do \
-	./$$prog; \
+	 ./$$prog; \
 	done
 
 $(PROG) : % : %.cpp ../libtextgen.a
