@@ -127,7 +127,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
    
-  const std::string MapSource::findMapName(const NFmiPoint & theLatlon) const
+  const std::string MapSource::findMapName(const NFmiPoint & theLatLon) const
   {
 	// Safety check, constructor should always initialize properly
 	assert(itsPimple.get() != 0);
@@ -137,7 +137,7 @@ namespace WeatherAnalysis
 	Pimple::storage_type::const_iterator it = itsPimple->itsData.begin();
 	Pimple::storage_type::const_iterator endIter = itsPimple->itsData.end();
 	for( ; it != endIter; ++it)
-	  if(NFmiSvgTools::IsInside(it->second,theLatlon))
+	  if(NFmiSvgTools::IsInside(it->second,theLatLon))
 		return it->first;
 	
 	return "";
