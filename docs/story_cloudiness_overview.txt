@@ -38,16 +38,25 @@ Algoritmin k‰ytt‰m‰t muuttujat ovat
 ::story::cloudiness_overview::mostly_class_limit = [0-100]  (=80)
 ::story::cloudiness_overview::no_class_limit = [0-100]      (=20)
 ::story::cloudiness_overview::trend_limit = [0-100]         (=80)
+::story::cloudiness_overview::merge_same = [true|false]     (=true)
+::story::cloudiness_overview::merge_similar = [true|false]  (=true)
 
 ::story::cloudiness_overview::day::starthour = [0-23]
 ::story::cloudiness_overview::day::endhour = [0-23]
 ::story::cloudiness_overview::day::maxstarthour = [0-23]    (=starthour)
 ::story::cloudiness_overview::day::minendhour = [0-23]      (=minendhour)
+
 \endcode
 Prosenttiluku 40 vastaa pilvisyysluokkaa 3.2, luku 70 pilvisyysluokkaa
 5.6. Paremmat oletusarvot voisivat perustua tarkkoihin lukuihin
 3.5 ja 5.5, mutta helpommin muistettavat rajat lienev‰t t‰ss‰
 tapauksessa parempia.
+
+Jos asetus \c merge_same on \c true, yhdistet‰‰n per‰kk‰iset p‰iv‰t
+joiden pilvisyyskuvaus on sama yhdeksi ainoaksi kuvaukseksi. Jos asetus
+\c merge_similar on \c true, yhdistet‰‰n lis‰ksi myˆs samankaltaiset
+kuvaukset, esimerkiksi "pilvist‰" ja "enimm‰kseen pilvist‰". Asetusta
+\c merge_same ei tarvita, jos \c merge_similar on \c true.
 
 On huomattava, ettei ole j‰rkev‰‰ m‰‰ritell‰ p‰iv‰‰ liian
 lyhyeksi. Muuten voi tulla, tosin harvoin, sellainen
