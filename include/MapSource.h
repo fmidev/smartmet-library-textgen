@@ -12,6 +12,7 @@
 #include <string>
 
 class NFmiSvgPath;
+class NFmiPoint;
 
 namespace WeatherAnalysis
 {
@@ -20,6 +21,7 @@ namespace WeatherAnalysis
   public:
 	MapSource();
 	const NFmiSvgPath & getMap(const std::string & theName) const;
+	std::string findMapName(const NFmiPoint & theLatlon) const;
 
   private:
 
