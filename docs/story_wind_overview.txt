@@ -1,0 +1,49 @@
+/*!
+
+\page page_story_wind_overview Tarina "wind_overview"
+
+\section section_weather_overview_story Tarinan muoto
+
+Tarina kuvailee tuuliennustetta yhden tai useamman päivän mittaiselle
+jaksolle. Parhaiten tarina soveltuu ensimmäisille 1-3 päivälle.
+
+\section section_weather_overview_algorithm Algoritmit
+
+\section section_weather_overview_fraasit Tarvittavat fraasit
+
+Tarvittavat fraasit ovat
+
+ - "m/s"
+ - "metriä sekunnissa"
+ - "tyyntä"
+ - "heikkoa"
+ - "kohtalaista"
+ - "navakkaa"
+ - "kovaa"
+ - "myrskyä"
+ - "hirmumyrskyä"
+ - "tyyneksi"
+ - "heikoksi"
+ - "kohtalaiseksi"
+ - "navakaksi"
+ - "kovaksi"
+ - "myrskyksi"
+ - "hirmumyrskyksi"
+ - "tuuli"
+ - "tuulta"
+ - "yöllä"
+ - "tuuli tyyntyy"
+ - "tuuli heikkenee"
+ - "tuuli voimistuu"
+ - "edelleen"
+ - "heikkenevää"
+ - "voimistuvaa"
+ - "suunnaltaan vaihtelevaa"
+ - "N-tuulta", N=1-8
+ - "N-tuuleksi", N=1-8
+ - "N-puoleista tuulta", N=1-8
+ - "N-puoleiseksi tuuleksi", N=1-8
+ - "N-na", N=1-7
+ - "N-alkaen", N=1-7
+
+*/

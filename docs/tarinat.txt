@@ -26,6 +26,10 @@
  <ol>
  <li>\ref page_story_weather_shortoverview</li>
  </ol>
+<li>\ref sec_windstory</li>
+ <ol>
+ <li>\ref page_story_wind_overview</li>
+ </ol>
 <li>\ref sec_froststory</li>
  <ol>
  <li>\ref page_story_frost_mean</li>
@@ -72,6 +76,10 @@ vain ne pisteet joissa oikeasti sataa edes jonkin verran, vai kaikki pisteet?
 \section sec_weatherstory WeatherStory luokka
 
 TextGen::WeatherStory luokka hallitsee yleiss‰‰h‰n liittyv‰t tarinat.
+
+\section sec_windstory WindStory luokka
+
+TextGen::WindStory luokka hallitsee tuuleen liittyv‰t tarinat.
 
 \section sec_froststory FrostStory luokka
 
