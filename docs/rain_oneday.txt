@@ -2101,36 +2101,37 @@ Alla on lueteltu kaikki uniikit tarinat numeroituina.
 <tr><td>4.</td><td>Aamupäivästä alkaen [paikoin] [sadetta], illalla poutaa</td></tr>
 <tr><td>5.</td><td>Aamupäivästä alkaen [paikoin] [sadetta]</td></tr>
 <tr><td>6.</td><td>Aamusta alkaen [paikoin] [sadetta], illalla poutaa</td></tr>
-<tr><td>7.</td><td>Aamusta alkaen [paikoin] [sadetta], iltapäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
-<tr><td>8.</td><td>Aamusta alkaen [paikoin] [sadetta], iltapäivästä alkaen poutaa</td></tr>
-<tr><td>9.</td><td>Aamusta alkaen [paikoin] [sadetta]</td></tr>
-<tr><td>10.</td><td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td></tr>
-<tr><td>11.</td><td>[Enimmäkseen selkeää], aamulla [paikoin] [sadetta]</td></tr>
-<tr><td>12.</td><td>[Enimmäkseen selkeää], aamupäivällä [paikoin] [sadetta]</td></tr>
-<tr><td>13.</td><td>[Enimmäkseen selkeää], illalla [paikoin] [sadetta]</td></tr>
-<tr><td>14.</td><td>[Enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]</td></tr>
-<tr><td>15.</td><td>[Enimmäkseen selkeää], iltapäivällä [paikoin] [sadetta]</td></tr>
-<tr><td>16.</td><td>[Enimmäkseen selkeää], iltapäivästä alkaen [paikoin] [sadetta]</td></tr>
-<tr><td>17.</td><td>[Enimmäkseen selkeää], iltayöllä [paikoin] [sadetta]</td></tr>
-<tr><td>18.</td><td>[Enimmäkseen selkeää], keskipäivällä [paikoin] [sadetta]</td></tr>
-<tr><td>19.</td><td>[Enimmäkseen selkeää], päivällä [paikoin] [sadetta]</td></tr>
-<tr><td>20.</td><td>Iltapäivällä [paikoin] [sadetta]</td></tr>
-<tr><td>21.</td><td>Iltapäivästä alkaen [paikoin] [sadetta]</td></tr>
-<tr><td>22.</td><td>Keskipäivästä alkaen [paikoin] [sadetta], illalla poutaa</td></tr>
-<tr><td>23.</td><td>Keskipäivästä alkaen [paikoin] [sadetta]</td></tr>
-<tr><td>24.</td><td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td></tr>
-<tr><td>25.</td><td>[Paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
-<tr><td>26.</td><td>[Paikoin] [sadetta], illalla poutaa</td></tr>
-<tr><td>27.</td><td>[Paikoin] [sadetta], iltapäivästä alkaen poutaa</td></tr>
-<tr><td>28.</td><td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää],  poutaa</td></tr>
+<tr><td>7.</td><td>Aamusta alkaen [paikoin] [sadetta], illasta alkaen poutaa</td></tr>
+<tr><td>8.</td><td>Aamusta alkaen [paikoin] [sadetta], iltapäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>9.</td><td>Aamusta alkaen [paikoin] [sadetta], iltapäivästä alkaen poutaa</td></tr>
+<tr><td>10.</td><td>Aamusta alkaen [paikoin] [sadetta]</td></tr>
+<tr><td>11.</td><td>Aamuyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>12.</td><td>[Enimmäkseen selkeää], aamulla [paikoin] [sadetta]</td></tr>
+<tr><td>13.</td><td>[Enimmäkseen selkeää], aamupäivällä [paikoin] [sadetta]</td></tr>
+<tr><td>14.</td><td>[Enimmäkseen selkeää], illalla [paikoin] [sadetta]</td></tr>
+<tr><td>15.</td><td>[Enimmäkseen selkeää], illasta alkaen [paikoin] [sadetta]</td></tr>
+<tr><td>16.</td><td>[Enimmäkseen selkeää], iltapäivällä [paikoin] [sadetta]</td></tr>
+<tr><td>17.</td><td>[Enimmäkseen selkeää], iltapäivästä alkaen [paikoin] [sadetta]</td></tr>
+<tr><td>18.</td><td>[Enimmäkseen selkeää], iltayöllä [paikoin] [sadetta]</td></tr>
+<tr><td>19.</td><td>[Enimmäkseen selkeää], keskipäivällä [paikoin] [sadetta]</td></tr>
+<tr><td>20.</td><td>[Enimmäkseen selkeää], päivällä [paikoin] [sadetta]</td></tr>
+<tr><td>21.</td><td>Iltapäivällä [paikoin] [sadetta]</td></tr>
+<tr><td>22.</td><td>Iltapäivästä alkaen [paikoin] [sadetta]</td></tr>
+<tr><td>23.</td><td>Keskipäivästä alkaen [paikoin] [sadetta], illalla poutaa</td></tr>
+<tr><td>24.</td><td>Keskipäivästä alkaen [paikoin] [sadetta]</td></tr>
+<tr><td>25.</td><td>Keskiyöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>26.</td><td>[Paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>27.</td><td>[Paikoin] [sadetta], illalla poutaa</td></tr>
+<tr><td>28.</td><td>[Paikoin] [sadetta], iltapäivästä alkaen poutaa</td></tr>
 <tr><td>29.</td><td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
-<tr><td>30.</td><td>[Paikoin] [sadetta]</td></tr>
-<tr><td>31.</td><td>Päivällä [paikoin] [sadetta], iltapäivästä alkaen poutaa</td></tr>
-<tr><td>32.</td><td>Päivällä [paikoin] [sadetta]</td></tr>
-<tr><td>33.</td><td>Yöllä [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
-<tr><td>34.</td><td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
-<tr><td>35.</td><td>Yöllä [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
-<tr><td>36.</td><td>Yöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>30.</td><td>[Paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää],  poutaa</td></tr>
+<tr><td>31.</td><td>[Paikoin] [sadetta]</td></tr>
+<tr><td>32.</td><td>Päivällä [paikoin] [sadetta], iltapäivästä alkaen poutaa</td></tr>
+<tr><td>33.</td><td>Päivällä [paikoin] [sadetta]</td></tr>
+<tr><td>34.</td><td>Yöllä [paikoin] [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>35.</td><td>Yöllä [paikoin] [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>36.</td><td>Yöllä [paikoin] [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa</td></tr>
+<tr><td>37.</td><td>Yöllä [paikoin] [sadetta], päivällä [enimmäkseen selkeää] ja poutaa</td></tr>
 </table>
 \endhtmlonly
 
