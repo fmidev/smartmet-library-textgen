@@ -54,8 +54,10 @@ namespace PrecipitationStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("dummy");
-	WeatherPeriod period(NFmiTime(2000,1,1), NFmiTime(2000,1,2));
-	PrecipitationStory story(sources,area,period,"test");
+	NFmiTime time1(2000,1,1);
+	NFmiTime time2(2000,1,2);
+	WeatherPeriod period(time1,time2);
+	PrecipitationStory story(time1,sources,area,period,"test");
 
 	const string fun = "precipitation_total";
 
@@ -91,8 +93,10 @@ namespace PrecipitationStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("dummy");
-	WeatherPeriod period(NFmiTime(2000,1,1), NFmiTime(2000,1,2));
-	PrecipitationStory story(sources,area,period,"test");
+	NFmiTime time1(2000,1,1);
+	NFmiTime time2(2000,1,2);
+	WeatherPeriod period(time1,time2);
+	PrecipitationStory story(time1,sources,area,period,"test");
 
 	const string fun = "precipitation_range";
 
@@ -145,8 +149,10 @@ namespace PrecipitationStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("dummy");
-	WeatherPeriod period(NFmiTime(2000,1,1), NFmiTime(2000,1,2));
-	PrecipitationStory story(sources,area,period,"test");
+	NFmiTime time1(2000,1,1);
+	NFmiTime time2(2000,1,2);
+	WeatherPeriod period(time1,time2);
+	PrecipitationStory story(time1,sources,area,period,"test");
 
 	const string fun = "precipitation_classification";
 	NFmiSettings::instance().set("test::classes","0...2,2...5,5...10,10...20");

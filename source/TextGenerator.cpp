@@ -170,7 +170,8 @@ namespace TextGen
 				++iter)
 			  {
 				const string storyvar = "textgen::"+*it+"::story::"+*iter;
-				Paragraph p = StoryFactory::create(itsPimple->itsSources,
+				Paragraph p = StoryFactory::create(itsPimple->itsForecastTime,
+												   itsPimple->itsSources,
 												   theArea,
 												   period,
 												   *iter,

@@ -20,6 +20,8 @@
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
 
+class NFmiTime;
+
 namespace TextGen
 {
   class Paragraph;
@@ -30,7 +32,8 @@ namespace TextGen
   public:
 
 	virtual ~PrecipitationStory();
-	PrecipitationStory(const WeatherAnalysis::AnalysisSources & theSources,
+	PrecipitationStory(const NFmiTime & theForecastTime,
+					   const WeatherAnalysis::AnalysisSources & theSources,
 					   const WeatherAnalysis::WeatherArea & theArea,
 					   const WeatherAnalysis::WeatherPeriod & thePeriod,
 					   const std::string & theVariable);
@@ -48,6 +51,7 @@ namespace TextGen
 	PrecipitationStory(const PrecipitationStory & theStory);
 	PrecipitationStory & operator=(const PrecipitationStory & theStory);
 
+	const NFmiTime itsForecastTime;
 	const WeatherAnalysis::AnalysisSources & itsSources;
 	const WeatherAnalysis::WeatherArea & itsArea;
 	const WeatherAnalysis::WeatherPeriod & itsPeriod;

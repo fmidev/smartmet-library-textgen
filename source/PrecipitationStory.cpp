@@ -116,6 +116,7 @@ namespace TextGen
   /*!
    * \brief Constructor
    *
+   * \param theForecastTime The forecast time
    * \param theSources The analysis sources
    * \param theArea The area to be analyzed
    * \param thePeriod The time interval to be analyzed
@@ -123,11 +124,13 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  PrecipitationStory::PrecipitationStory(const AnalysisSources & theSources,
+  PrecipitationStory::PrecipitationStory(const NFmiTime & theForecastTime,
+										 const AnalysisSources & theSources,
 										 const WeatherArea & theArea,
 										 const WeatherPeriod & thePeriod,
 										 const string & theVariable)
-	: itsSources(theSources)
+	: itsForecastTime(theForecastTime)
+	, itsSources(theSources)
 	, itsArea(theArea)
 	, itsPeriod(thePeriod)
 	, itsVar(theVariable)

@@ -43,6 +43,7 @@ namespace TextGen
   /*!
    * \brief Constructor
    *
+   * \param theForecastTime The forecast time
    * \param theSources The analysis sources
    * \param theArea The area to be analyzed 
    * \param thePeriod The period to be analyzed
@@ -50,11 +51,13 @@ namespace TextGen
   */
   // ----------------------------------------------------------------------
   
-  RelativeHumidityStory::RelativeHumidityStory(const AnalysisSources & theSources,
+  RelativeHumidityStory::RelativeHumidityStory(const NFmiTime & theForecastTime,
+											   const AnalysisSources & theSources,
 											   const WeatherArea & theArea,
 											   const WeatherPeriod & thePeriod,
 											   const string & theVariable)
-	: itsSources(theSources)
+	: itsForecastTime(theForecastTime)
+	, itsSources(theSources)
 	, itsArea(theArea)
 	, itsPeriod(thePeriod)
 	, itsVar(theVariable)

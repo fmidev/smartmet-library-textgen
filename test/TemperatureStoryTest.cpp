@@ -54,8 +54,10 @@ namespace TemperatureStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("dummy");
-	WeatherPeriod period(NFmiTime(2000,1,1), NFmiTime(2000,1,2));
-	TemperatureStory story(sources,area,period,"test");
+	NFmiTime time1(2000,1,1);
+	NFmiTime time2(2000,1,2);
+	WeatherPeriod period(time1,time2);
+	TemperatureStory story(time1,sources,area,period,"test");
 
 	const string fun = "temperature_mean";
 
@@ -96,8 +98,10 @@ namespace TemperatureStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("dummy");
-	WeatherPeriod period(NFmiTime(2000,1,1), NFmiTime(2000,1,2));
-	TemperatureStory story(sources,area,period,"test");
+	NFmiTime time1(2000,1,1);
+	NFmiTime time2(2000,1,2);
+	WeatherPeriod period(time1,time2);
+	TemperatureStory story(time1,sources,area,period,"test");
 
 	const string fun = "temperature_meanmax";
 
@@ -138,8 +142,10 @@ namespace TemperatureStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("dummy");
-	WeatherPeriod period(NFmiTime(2000,1,1), NFmiTime(2000,1,2));
-	TemperatureStory story(sources,area,period,"test");
+	NFmiTime time1(2000,1,1);
+	NFmiTime time2(2000,1,2);
+	WeatherPeriod period(time1,time2);
+	TemperatureStory story(time1,sources,area,period,"test");
 
 	const string fun = "temperature_meanmin";
 
@@ -196,8 +202,10 @@ namespace TemperatureStoryTest
 
 	// Test the part concerning day 1
 	{
-	  WeatherPeriod period(NFmiTime(2003,6,1), NFmiTime(2003,6,2));
-	  TemperatureStory story(sources,area,period,"test");
+	  NFmiTime time1(2003,6,1);
+	  NFmiTime time2(2003,6,2);
+	  WeatherPeriod period(time1,time2);
+	  TemperatureStory story(time1,sources,area,period,"test");
 	
 	  NFmiSettings::instance().set("test::fake::day1::minimum","5,1");
 	  NFmiSettings::instance().set("test::fake::day1::mean","5,1");
@@ -252,8 +260,10 @@ namespace TemperatureStoryTest
 
 	// Test the part concerning day 2
 	{
-	  WeatherPeriod period(NFmiTime(2003,6,1), NFmiTime(2003,6,3));
-	  TemperatureStory story(sources,area,period,"test");
+	  NFmiTime time1(2003,6,1);
+	  NFmiTime time2(2003,6,3);
+	  WeatherPeriod period(time1,time2);
+	  TemperatureStory story(time1,sources,area,period,"test");
 	
 	  NFmiSettings::instance().set("test::fake::day1::minimum","5,1");
 	  NFmiSettings::instance().set("test::fake::day1::mean","6,1");
@@ -327,8 +337,10 @@ namespace TemperatureStoryTest
 
 	// Test the part concerning days 3 and 4
 	{
-	  WeatherPeriod period(NFmiTime(2003,6,1), NFmiTime(2003,6,5));
-	  TemperatureStory story(sources,area,period,"test");
+	  NFmiTime time1(2003,6,1);
+	  NFmiTime time2(2003,6,5);
+	  WeatherPeriod period(time1,time2);
+	  TemperatureStory story(time1,sources,area,period,"test");
 	
 	  NFmiSettings::instance().set("test::fake::day1::minimum","5,1");
 	  NFmiSettings::instance().set("test::fake::day1::mean","6,1");

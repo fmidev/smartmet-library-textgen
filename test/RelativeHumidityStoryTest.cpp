@@ -69,8 +69,10 @@ namespace RelativeHumidityStoryTest
 
 	// 1-day forecasts
 	{
-	  WeatherPeriod period(NFmiTime(2003,6,3,6,0), NFmiTime(2003,6,4,6,0));
-	  RelativeHumidityStory story(sources,area,period,"test");
+	  NFmiTime time1(2003,6,3,6,0);
+	  NFmiTime time2(2003,6,4,6,0);
+	  WeatherPeriod period(time1,time2);
+	  RelativeHumidityStory story(time1,sources,area,period,"test");
 	  
 	  NFmiSettings::instance().set("test::fake::day1::minimum","10,1");
 	  require(story,"fi",fun,"Alin suhteellinen kosteus on tiistaina 10%.");
@@ -82,8 +84,10 @@ namespace RelativeHumidityStoryTest
 	// Another 1-day forecast, because 17 < 18 (minendhour)
 
 	{
-	  WeatherPeriod period(NFmiTime(2003,6,3,6,0), NFmiTime(2003,6,4,17,0));
-	  RelativeHumidityStory story(sources,area,period,"test");
+	  NFmiTime time1(2003,6,3,6,0);
+	  NFmiTime time2(2003,6,4,17,0);
+	  WeatherPeriod period(time1,time2);
+	  RelativeHumidityStory story(time1,sources,area,period,"test");
 	  
 	  NFmiSettings::instance().set("test::fake::day1::minimum","20,1");
 	  require(story,"fi",fun,"Alin suhteellinen kosteus on tiistaina 20%.");
@@ -95,8 +99,10 @@ namespace RelativeHumidityStoryTest
 	// 2-day forecasts
 
 	{
-	  WeatherPeriod period(NFmiTime(2003,6,3,6,0), NFmiTime(2003,6,4,18,0));
-	  RelativeHumidityStory story(sources,area,period,"test");
+	  NFmiTime time1(2003,6,3,6,0);
+	  NFmiTime time2(2003,6,4,18,0);
+	  WeatherPeriod period(time1,time2);
+	  RelativeHumidityStory story(time1,sources,area,period,"test");
 	  
 	  NFmiSettings::instance().set("test::fake::day1::minimum","50,1");
 	  NFmiSettings::instance().set("test::fake::day2::minimum","50,1");

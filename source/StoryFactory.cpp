@@ -15,6 +15,8 @@
 #include "TemperatureStory.h"
 #include "TextGenError.h"
 
+#include "NFmiTime.h"
+
 using namespace WeatherAnalysis;
 using namespace std;
 
@@ -29,6 +31,7 @@ namespace TextGen
 	 *
 	 * Throws if the given name is not recognized.
 	 *
+	 * \param theForecastTime The forecast time
 	 * \param theSources The associated analysis sources
 	 * \param theArea The area for which to generate the story
 	 * \param thePeriod The period for which to generate the story
@@ -37,7 +40,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	Paragraph create(const AnalysisSources & theSources,
+	Paragraph create(const NFmiTime & theForecastTime,
+					 const AnalysisSources & theSources,
 					 const WeatherArea & theArea,
 					 const WeatherPeriod & thePeriod,
 					 const string & theName,
@@ -51,25 +55,25 @@ namespace TextGen
 
 	  if(TemperatureStory::hasStory(theName))
 		{
-		  TemperatureStory story(theSources,theArea,thePeriod,theVariable);
+		  TemperatureStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 
 	  if(PrecipitationStory::hasStory(theName))
 		{
-		  PrecipitationStory story(theSources,theArea,thePeriod,theVariable);
+		  PrecipitationStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 
 	  if(FrostStory::hasStory(theName))
 		{
-		  FrostStory story(theSources,theArea,thePeriod,theVariable);
+		  FrostStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 
 	  if(RelativeHumidityStory::hasStory(theName))
 		{
-		  RelativeHumidityStory story(theSources,theArea,thePeriod,theVariable);
+		  RelativeHumidityStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 

@@ -54,8 +54,10 @@ namespace FrostStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("dummy");
-	WeatherPeriod period(NFmiTime(2000,1,1), NFmiTime(2000,1,2));
-	FrostStory story(sources,area,period,"test");
+	NFmiTime time1(2000,1,1);
+	NFmiTime time2(2000,1,2);
+	WeatherPeriod period(time1,time2);
+	FrostStory story(time1,sources,area,period,"test");
 
 	const string fun = "frost_mean";
 
@@ -104,8 +106,10 @@ namespace FrostStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("dummy");
-	WeatherPeriod period(NFmiTime(2000,1,1), NFmiTime(2000,1,2));
-	FrostStory story(sources,area,period,"test");
+	NFmiTime time1(2000,1,1);
+	NFmiTime time2(2000,1,2);
+	WeatherPeriod period(time1,time2);
+	FrostStory story(time1,sources,area,period,"test");
 
 	const string fun = "frost_maximum";
 
@@ -154,8 +158,10 @@ namespace FrostStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("dummy");
-	WeatherPeriod period(NFmiTime(2000,1,1), NFmiTime(2000,1,2));
-	FrostStory story(sources,area,period,"test");
+	NFmiTime time1(2000,1,1);
+	NFmiTime time2(2000,1,2);
+	WeatherPeriod period(time1,time2);
+	FrostStory story(time1,sources,area,period,"test");
 
 	const string fun = "frost_range";
 
@@ -232,8 +238,10 @@ namespace FrostStoryTest
 
 	// One night
 	{
-	  WeatherPeriod period(NFmiTime(2003,6,3,12,0), NFmiTime(2003,6,4,12,0));
-	  FrostStory story(sources,area,period,"test");
+	  NFmiTime time1(2003,6,3,12,0);
+	  NFmiTime time2(2003,6,4,12,0);
+	  WeatherPeriod period(time1,time2);
+	  FrostStory story(time1,sources,area,period,"test");
 
 	  NFmiSettings::instance().set("test::fake::day1::mean","10,1");
 	  NFmiSettings::instance().set("test::fake::day1::severe_mean","0,1");
@@ -257,8 +265,10 @@ namespace FrostStoryTest
 
 	// Two nights, nothing on second day
 	{
-	  WeatherPeriod period(NFmiTime(2003,6,3,12,0), NFmiTime(2003,6,5,12,0));
-	  FrostStory story(sources,area,period,"test");
+	  NFmiTime time1(2003,6,3,12,0);
+	  NFmiTime time2(2003,6,5,12,0);
+	  WeatherPeriod period(time1,time2);
+	  FrostStory story(time1,sources,area,period,"test");
 
 	  NFmiSettings::instance().set("test::fake::day1::mean","10,1");
 	  NFmiSettings::instance().set("test::fake::day1::severe_mean","0,1");
@@ -288,8 +298,10 @@ namespace FrostStoryTest
 
 	// First day frost
 	{
-	  WeatherPeriod period(NFmiTime(2003,6,3,12,0), NFmiTime(2003,6,5,12,0));
-	  FrostStory story(sources,area,period,"test");
+	  NFmiTime time1(2003,6,3,12,0);
+	  NFmiTime time2(2003,6,5,12,0);
+	  WeatherPeriod period(time1,time2);
+	  FrostStory story(time1,sources,area,period,"test");
 
 	  NFmiSettings::instance().set("test::fake::day1::mean","20,1");
 	  NFmiSettings::instance().set("test::fake::day1::severe_mean","0,1");

@@ -23,6 +23,8 @@
 
 #include <string>
 
+class NFmiTime;
+
 namespace TextGen
 {
   class Paragraph;
@@ -33,7 +35,8 @@ namespace TextGen
   public:
 
 	virtual ~TemperatureStory();
-	TemperatureStory(const WeatherAnalysis::AnalysisSources & theSources,
+	TemperatureStory(const NFmiTime & theForecastTime,
+					 const WeatherAnalysis::AnalysisSources & theSources,
 					 const WeatherAnalysis::WeatherArea & theArea,
 					 const WeatherAnalysis::WeatherPeriod & thePeriod,
 					 const std::string & theVariable);
@@ -53,6 +56,7 @@ namespace TextGen
 	TemperatureStory(const TemperatureStory & theStory);
 	TemperatureStory & operator=(const TemperatureStory & theStory);
 
+	const NFmiTime itsForecastTime;
 	const WeatherAnalysis::AnalysisSources & itsSources;
 	const WeatherAnalysis::WeatherArea & itsArea;
 	const WeatherAnalysis::WeatherPeriod & itsPeriod;

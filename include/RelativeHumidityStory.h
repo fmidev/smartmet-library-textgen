@@ -23,6 +23,8 @@
 
 #include <string>
 
+class NFmiTime;
+
 namespace TextGen
 {
   class Paragraph;
@@ -33,11 +35,12 @@ namespace TextGen
   public:
 
 	virtual ~RelativeHumidityStory();
-	RelativeHumidityStory(const WeatherAnalysis::AnalysisSources & theSources,
-			   const WeatherAnalysis::WeatherArea & theArea,
-			   const WeatherAnalysis::WeatherPeriod & thePeriod,
-			   const std::string & theVariable);
-
+	RelativeHumidityStory(const NFmiTime & theForecastTime,
+						  const WeatherAnalysis::AnalysisSources & theSources,
+						  const WeatherAnalysis::WeatherArea & theArea,
+						  const WeatherAnalysis::WeatherPeriod & thePeriod,
+						  const std::string & theVariable);
+	
 	static bool hasStory(const std::string & theName);
 	virtual Paragraph makeStory(const std::string & theName) const;
 
@@ -49,6 +52,7 @@ namespace TextGen
 	RelativeHumidityStory(const RelativeHumidityStory & theStory);
 	RelativeHumidityStory & operator=(const RelativeHumidityStory & theStory);
 
+	const NFmiTime itsForecastTime;
 	const WeatherAnalysis::AnalysisSources & itsSources;
 	const WeatherAnalysis::WeatherArea & itsArea;
 	const WeatherAnalysis::WeatherPeriod & itsPeriod;
