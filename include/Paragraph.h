@@ -19,6 +19,7 @@
 #define TEXTGEN_PARAGRAPH_H
 
 #include <memory>
+#include <string>
 
 namespace TextGen
 {
