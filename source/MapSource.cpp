@@ -138,14 +138,15 @@ namespace WeatherAnalysis
 	// Safety check, constructor should always initialize properly
 	assert(itsPimple.get() != 0);
 	
-	string mapName;
+	// Traverse all cached maps, return first one containing given point
+
 	Pimple::storage_type::const_iterator it = itsPimple->itsData.begin();
 	Pimple::storage_type::const_iterator endIter = itsPimple->itsData.end();
 	for( ; it != endIter; ++it)
 	  if(it->second.isInside(theLatlon))
-		return it->first; // palautetaan sen alueen nimi, mihin piste osui 1. sisään
+		return it->first;
 	
-	return mapName;
+	return "";
   }
 
 
