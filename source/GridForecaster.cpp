@@ -38,6 +38,10 @@
 #include "WindDirectionAnalyzer.h"
 #include "WindSpeedAnalyzer.h"
 
+#include "boost/shared_ptr.hpp"
+
+using namespace boost;
+
 namespace WeatherAnalysis
 {
 
@@ -71,178 +75,87 @@ namespace WeatherAnalysis
 						  const Acceptor & theTimeAcceptor,
 						  const Acceptor & theTester) const
   {
+	typedef shared_ptr<ParameterAnalyzer> Analyzer;
+
+	Analyzer analyzer;
+
 	switch(theParameter)
 	  {
 	  case Temperature:
 		{
-		  TemperatureAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  Forecast,
-								  theAreaFunction,
-								  theTimeFunction,
-								  theSubTimeFunction,
-								  theArea,
-								  thePeriods,
-								  theAreaAcceptor,
-								  theTimeAcceptor,
-								  theTester);
+		  analyzer = Analyzer(new TemperatureAnalyzer);
+		  break;
 		}
 	  case Precipitation:
 		{
-		  PrecipitationAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  Forecast,
-								  theAreaFunction,
-								  theTimeFunction,
-								  theSubTimeFunction,
-								  theArea,
-								  thePeriods,
-								  theAreaAcceptor,
-								  theTimeAcceptor,
-								  theTester);
+		  analyzer = Analyzer(new PrecipitationAnalyzer);
+		  break;
 		}
 	  case Cloudiness:
 		{
-		  CloudinessAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  Forecast,
-								  theAreaFunction,
-								  theTimeFunction,
-								  theSubTimeFunction,
-								  theArea,
-								  thePeriods,
-								  theAreaAcceptor,
-								  theTimeAcceptor,
-								  theTester);
+		  analyzer = Analyzer(new CloudinessAnalyzer);
+		  break;
 		}
 	  case Frost:
 		{
-		  FrostAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  Forecast,
-								  theAreaFunction,
-								  theTimeFunction,
-								  theSubTimeFunction,
-								  theArea,
-								  thePeriods,
-								  theAreaAcceptor,
-								  theTimeAcceptor,
-								  theTester);
+		  analyzer = Analyzer(new FrostAnalyzer);
+		  break;
 		}
 	  case SevereFrost:
 		{
-		  SevereFrostAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  Forecast,
-								  theAreaFunction,
-								  theTimeFunction,
-								  theSubTimeFunction,
-								  theArea,
-								  thePeriods,
-								  theAreaAcceptor,
-								  theTimeAcceptor,
-								  theTester);
+		  analyzer = Analyzer(new SevereFrostAnalyzer);
+		  break;
 		}
 	  case RelativeHumidity:
 		{
-		  RelativeHumidityAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  Forecast,
-								  theAreaFunction,
-								  theTimeFunction,
-								  theSubTimeFunction,
-								  theArea,
-								  thePeriods,
-								  theAreaAcceptor,
-								  theTimeAcceptor,
-								  theTester);
+		  analyzer = Analyzer(new RelativeHumidityAnalyzer);
+		  break;
 		}
 	  case WindSpeed:
 		{
-		  WindSpeedAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  Forecast,
-								  theAreaFunction,
-								  theTimeFunction,
-								  theSubTimeFunction,
-								  theArea,
-								  thePeriods,
-								  theAreaAcceptor,
-								  theTimeAcceptor,
-								  theTester);
+		  analyzer = Analyzer(new WindSpeedAnalyzer);
+		  break;
 		}
 	  case WindDirection:
 		{
-		  WindDirectionAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  Forecast,
-								  theAreaFunction,
-								  theTimeFunction,
-								  theSubTimeFunction,
-								  theArea,
-								  thePeriods,
-								  theAreaAcceptor,
-								  theTimeAcceptor,
-								  theTester);
+		  analyzer = Analyzer(new WindDirectionAnalyzer);
+		  break;
 		}
 	  case Thunder:
 		{
-		  ThunderAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  Forecast,
-								  theAreaFunction,
-								  theTimeFunction,
-								  theSubTimeFunction,
-								  theArea,
-								  thePeriods,
-								  theAreaAcceptor,
-								  theTimeAcceptor,
-								  theTester);
+		  analyzer = Analyzer(new ThunderAnalyzer);
+		  break;
 		}
 	  case PrecipitationType:
 		{
-		  PrecipitationTypeAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  Forecast,
-								  theAreaFunction,
-								  theTimeFunction,
-								  theSubTimeFunction,
-								  theArea,
-								  thePeriods,
-								  theAreaAcceptor,
-								  theTimeAcceptor,
-								  theTester);
+		  analyzer = Analyzer(new PrecipitationTypeAnalyzer);
+		  break;
 		}
 	  case PrecipitationForm:
 		{
-		  PrecipitationFormAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  Forecast,
-								  theAreaFunction,
-								  theTimeFunction,
-								  theSubTimeFunction,
-								  theArea,
-								  thePeriods,
-								  theAreaAcceptor,
-								  theTimeAcceptor,
-								  theTester);
+		  analyzer = Analyzer(new PrecipitationFormAnalyzer);
+		  break;
 		}
 	  case PrecipitationProbability:
 		{
-		  PrecipitationProbabilityAnalyzer analyzer;
-		  return analyzer.analyze(theSources,
-								  Forecast,
-								  theAreaFunction,
-								  theTimeFunction,
-								  theSubTimeFunction,
-								  theArea,
-								  thePeriods,
-								  theAreaAcceptor,
-								  theTimeAcceptor,
-								  theTester);
+		  analyzer = Analyzer(new PrecipitationProbabilityAnalyzer);
+		  break;
 		}
 
 	  }
+
+	if(analyzer.get() != 0)
+	  return analyzer->analyze(theSources,
+							   Forecast,
+							   theAreaFunction,
+							   theTimeFunction,
+							   theSubTimeFunction,
+							   theArea,
+							   thePeriods,
+							   theAreaAcceptor,
+							   theTimeAcceptor,
+							   theTester);
+
 	// should never reach this place
 	return WeatherResult(kFloatMissing,0);
   }
