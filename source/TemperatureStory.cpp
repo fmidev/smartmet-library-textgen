@@ -515,35 +515,149 @@ namespace TextGen
 
 	Paragraph paragraph;
 
-#if 0
 	const int starthour    = require_hour(itsVar+"::starthour");
 	const int endhour      = require_hour(itsVar+"::endhour");
 	const int maxstarthour = optional_hour(itsVar+"::maxstarthour",starthour);
 	const int minendhour   = optional_hour(itsVar+"::minendhour",endhour);
 
-	const int mininterval  = optional_int(itsVar+"::mininterval",1);
+	const int mininterval = optional_int(itsVar+"::mininterval",2);
 	const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
 
 	const bool prefer_dayname = optional_bool(itsVar+"::prefer_dayname",false);
 
-	const int days = countPeriods(itsPeriod,
-								  starthour,
-								  endhour,
-								  maxstarthour,
-								  minendhour);
 
+	const int nights = countPeriods(itsPeriod,
+									starthour,
+									endhour,
+									maxstarthour,
+									minendhour);
 
-	WeatherPeriod period = getperiod(itsPeriod,
+	WeatherPeriod period = getPeriod(itsPeriod,
 									 1,
 									 starthour,
 									 endhour,
 									 maxstarthour,
 									 minendhour);
 
-								  
+
+	GridForecaster forecaster;
+
+	WeatherResult minresult = forecaster.analyze(itsVar+"::fake::night1::minimum",
+												 itsSources,
+												 MinTemperature,
+												 Minimum,
+												 Maximum,
+												 period,
+												 itsArea);
+
+	WeatherResult meanresult = forecaster.analyze(itsVar+"::fake::night1::mean",
+												  itsSources,
+												  MinTemperature,
+												  Mean,
+												  Maximum,
+												  period,
+												  itsArea);
+
+	WeatherResult maxresult = forecaster.analyze(itsVar+"::fake::night1::maximum",
+												 itsSources,
+												 MinTemperature,
+												 Maximum,
+												 Maximum,
+												 period,
+												 itsArea);
+
+	if(minresult.value() == kFloatMissing ||
+	   maxresult.value() == kFloatMissing ||
+	   meanresult.value() == kFloatMissing)
+	  throw TextGenError("TemperatureStory: MinTemperature is not available");
+
+	const int min1 = FmiRound(minresult.value());
+	const int max1 = FmiRound(maxresult.value());
+	const int mean1 = FmiRound(meanresult.value());
+
+	Sentence sentence;
+	sentence << "yön alin lämpötila"
+			 << "on"
+			 << WeekdayTools::night_against_weekday(period.localEndTime())
+			 << temperature_phrase(min1,mean1,max1,mininterval,interval_zero);
+
+	// Remaining nights
+
+	for(int p=2; p<=nights; p++)
+	  {
+		period = getPeriod(itsPeriod,
+						   p,
+						   starthour,
+						   endhour,
+						   maxstarthour,
+						   minendhour);
+		
+		const string var = (itsVar
+							+ "::fake::night"
+							+ lexical_cast<string>(p));
+
+		minresult = forecaster.analyze(var+"::minimum",
+									   itsSources,
+									   MinTemperature,
+									   Minimum,
+									   Maximum,
+									   period,
+									   itsArea);
+		
+		maxresult = forecaster.analyze(var+"::maximum",
+									   itsSources,
+									   MinTemperature,
+									   Maximum,
+									   Maximum,
+									   period,
+									   itsArea);
+
+		meanresult = forecaster.analyze(var+"::mean",
+										itsSources,
+										MinTemperature,
+										Mean,
+										Maximum,
+										period,
+										itsArea);
+		
+		if(minresult.value() == kFloatMissing ||
+		   maxresult.value() == kFloatMissing ||
+		   meanresult.value() == kFloatMissing)
+		  throw TextGenError("TemperatureStory: MinTemperature is not available for night "+lexical_cast<string>(p));
+		
+		const int min2  = FmiRound(minresult.value());
+		const int max2  = FmiRound(maxresult.value());
+		const int mean2 = FmiRound(meanresult.value());
+		
+		// For second night:
+		//
+		// "seuraavana yönä [komparatiivi]" tai
+		// "[viikonpäivän vastaisena yönä] [komparatiivi]"
+		//
+		// For third and so on
+		//
+		// "[viikonpäivän vastaisena yönä] [noin x|x...y] astetta"
+		
+		sentence << Delimiter(",");
+		
+		if(p==2)
+		  {
+			if(prefer_dayname)
+			  sentence << WeekdayTools::night_against_weekday(period.localEndTime());
+			else
+			  sentence << "seuraavana yönä";
+			sentence << temperature_comparison(mean1,mean2,itsVar);
+		  }
+		else
+		  {
+			sentence << WeekdayTools::night_against_weekday(period.localEndTime())
+					 << temperature_phrase(min2,mean2,max2,mininterval,interval_zero);
+
+		  }
+		
+	  }
 
 	paragraph << sentence;
-#endif
 	return paragraph;
 
   }

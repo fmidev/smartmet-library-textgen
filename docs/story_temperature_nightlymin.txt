@@ -4,24 +4,26 @@
 
 \c temperature_nightlymin tarina on muotoa
 
-  -# "Yön alin lämpötila on viikonpäivän vastaisena yönä noin x astetta"
-  -# "Yän alin lämpötila on viikonpäivän vastaisena yönä x...y astetta"
+  -# "yön alin lämpötila on viikonpäivän vastaisena yönä noin x astetta"
+  -# "yön alin lämpötila on viikonpäivän vastaisena yönä x...y astetta"
 
 Ruotsiksi
 
-  -# "Dagens lägsta temperatur är på natten mot veckodag cirka x grader"
-  -# "Dagens lägsta temperatur är på natten mot veckodag x...y grader"
+  -# "Dagens högsta temperatur är på natten mot veckodag cirka x grader"
+  -# "Dagens högsta temperatur är på natten mot veckodag x...y grader"
 
 Englanniksi
 
-  -# "The minimum night temperature on Weekday night is about x degrees"
-  -# "The minimum night temperature on Weekday night is x...y degrees"
+  -# "The maximum day temperature on Weekday night is about x degrees"
+  -# "The maximum day temperature on Weekday night is x...y degrees"
+
+Sivulauseessa jatketaan tarvittaessa
 
   -# ", seuraavana yönä huomattavasti korkeampi"
   -# ", seuraavana yönä korkeampi"
-  -# ", seuraavana yönä vähän korkeampi"
+  -# ", seuraavana yönä hieman korkeampi"
   -# ", seuraavana yönä suunnilleen sama"
-  -# ", seuraavana yönä vähän alempi"
+  -# ", seuraavana yönä hieman alempi"
   -# ", seuraavana yönä alempi"
   -# ", seuraavana yönä huomattavasti alempi"
 
@@ -29,9 +31,9 @@ tai
 
   -# ", viikonpäivän vastaisena yönä huomattavasti korkeampi"
   -# ", viikonpäivän vastaisena yönä korkeampi"
-  -# ", viikonpäivän vastaisena yönä vähän korkeampi"
+  -# ", viikonpäivän vastaisena yönä hieman korkeampi"
   -# ", viikonpäivän vastaisena yönä suunnilleen sama"
-  -# ", viikonpäivän vastaisena yönä vähän alempi"
+  -# ", viikonpäivän vastaisena yönä hieman alempi"
   -# ", viikonpäivän vastaisena yönä alempi"
   -# ", viikonpäivän vastaisena yönä huomattavasti alempi"
 
@@ -65,26 +67,26 @@ Englanniksi lauseet ovat
 
 Komparatiivin valinta perustuu muuttujiin
 \code
-textgen::[kappale]::story::temperature_nightlymin::significantly_greater = [N]
-textgen::[kappale]::story::temperature_nightlymin::greater = [N]
-textgen::[kappale]::story::temperature_nightlymin::somewhat_greater = [N]
-textgen::[kappale]::story::temperature_nightlymin::somewhat_smaller = [N]
-textgen::[kappale]::story::temperature_nightlymin::smaller = [N]
-textgen::[kappale]::story::temperature_nightlymin::significantly_smaller = [N]
+textgen::[kappale]::story::temperature_nightlymin::significantly_higher = [N]
+textgen::[kappale]::story::temperature_nightlymin::higher = [N]
+textgen::[kappale]::story::temperature_nightlymin::somewhat_higher = [N]
+textgen::[kappale]::story::temperature_nightlymin::somewhat_lower = [N]
+textgen::[kappale]::story::temperature_nightlymin::lower = [N]
+textgen::[kappale]::story::temperature_nightlymin::significantly_lower = [N]
 \endcode
-ja laskettuihin lämpötilaväleihin. Jos ensimmäisen yön alin on
-A1...A2 ja seuraavan B1...B2 valitaan
+ja laskettuihin lämpötilaväleihin. Jos ensimmäisen yön keskiarvo
+on A jae seuraavan B, valitaan
 
-  -# Fraasi 1, jos B2-A2 >= \c significantly_greater
-  -# Fraasi 2, jos B2-A2 >= \c greater
-  -# Fraasi 3, jos B2-A2 >= \c somewhat_greater
-  -# Fraasi 7, jos B2-A2 >= \c significantly_smaller
-  -# Fraasi 6, jos B2-A2 >= \c smaller
-  -# Fraasi 5, jos B2-A2 >= \c somewhat_smaller
+  -# Fraasi 1, jos B-A >= \c significantly_higher
+  -# Fraasi 2, jos B-A >= \c higher
+  -# Fraasi 3, jos B-A >= \c somewhat_higher
+  -# Fraasi 7, jos A-B >= \c significantly_lower
+  -# Fraasi 6, jos A-B >= \c lower
+  -# Fraasi 5, jos A-B >= \c somewhat_lower
   -# Fraasi 4 muutoin
 
-Jos öitä on useampia, luetellaan jatkossa jokaiselle yölle yön alin
-sivulauseena seuraavasti
+Jos öitä on useampia, luetellaan jatkossa jokaiselle yölle yön
+alin sivulauseena seuraavasti
 
   - ", viikonpäivän vastaisena yönä noin x astetta"
   - ", viikonpäivän vastaisena yönä x...y astetta"
@@ -98,14 +100,17 @@ Jos intervallin pituus on vähintään \c mininterval, sanotaan intervalli,
 muuten keskiarvo. Poikkeuksena jos nolla kuuluu intervalliin ja
 \c always_interval_zero on true, sanotaan aina intervalli.
 
-Yön määritelmä saadaan muuttujista
+\c mininterval muuttujan oletusarvo on 2, \c always_interval_zero
+muuttujan false.
+
+Päivän määritelmä saadaan muuttujista
 \code
 textgen::[kappale]::story::temperature_nightlymin::starthour = [0-23]
 textgen::[kappale]::story::temperature_nightlymin::endhour = [0-23]
 textgen::[kappale]::story::temperature_nightlymin::maxstarthour = [0-23]
 textgen::[kappale]::story::temperature_nightlymin::minendhour = [0-23]
 \endcode
-Yön normaali aikaväli on \c starthour - \c endhour. Jos periodi on
+Päivän normaali aikaväli on \c starthour - \c endhour. Jos periodi on
 lyhyempi kuin mitä nämä asetukset vaativat, voidaan niissä joustaa
 muuttujien \c maxstarthour - \c minendhour rajoissa. Joustorajan
 puuttuessa ei joustoa sallita ollenkaan.
@@ -113,26 +118,37 @@ puuttuessa ei joustoa sallita ollenkaan.
 Määritelmät voivat olla esimerkiksi muotoa
 \code
 textgen::[kappale]::story::temperature_nightlymin::starthour    = 18
-textgen::[kappale]::story::temperature_nightlymin::endhour      = 06
+textgen::[kappale]::story::temperature_nightlymin::endhour      = 6
 textgen::[kappale]::story::temperature_nightlymin::maxstarthour = 01
 \endcode
-Tällöin yön minimi kerrottaisiin aina kello yhteen saakka yöllä,
-vaikka jakso alkaakin jo edellisenä iltana kello 18. Loppupäästä sen
+Tällöin yön minimi kerrottaisiin aina kello yhteen saakka aamulla,
+vaikka jakso alkaakin jo kello kuusi illalla. Loppupäästä sen
 sijaan tarvitsee harvemmin joustaa.
+
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+textgen::[kappale]::story::temperature_nightlymin::fake::night1::mean = [result]
+textgen::[kappale]::story::temperature_nightlymin::fake::night1::minimum = [result]
+textgen::[kappale]::story::temperature_nightlymin::fake::night1::maximum = [result]
+textgen::[kappale]::story::temperature_nightlymin::fake::night2::mean = [result]
+...
+\endcode
+
 
 Tarvittavat fraasit ovat
 
  - "yön alin lämpötila"
  - "on"
  - "N-na", N=1-7
- - "N-vastaisena yönä"
  - "noin"
  - "astetta"
  - "seuraavana yönä"
+ - "huomattavasti korkeampi"
  - "korkeampi"
- - "vähän korkeampi"
+ - "hieman korkeampi"
  - "suunnilleen sama"
- - "vähän matalampi"
- - "matalampi"
+ - "hieman alempi"
+ - "alempi"
+ - "huomattavasti alempi"
 
 */
