@@ -34,18 +34,14 @@ namespace
   /*!
    * \brief Return temperature comparison phrase
    *
-   * \param theMin1 The first minimum
-   * \param theMax1 The first maximum
-   * \param theMin2 The second minimum
-   * \param theMax2 The second maximum
+   * \param theMean1 The first mean
+   * \param theMean2 The second mean
    * \param theVariable The variable containing the limits
    */
   // ----------------------------------------------------------------------
 
-  string temperature_comparison(int theMin1,
-								int theMax1,
-								int theMin2,
-								int theMax2,
+  string temperature_comparison(int theMean1,
+								int theMean2,
 								const string & theVariable)
   {
 	using namespace Settings;
@@ -57,17 +53,17 @@ namespace
 	const int somewhat_greater = require_percentage(theVariable+"::somewhat_greater");
 	const int somewhat_smaller = require_percentage(theVariable+"::somewhat_smaller");
 
-	if(theMax2 - theMax1 >= significantly_greater)
+	if(theMean2 - theMean1 >= significantly_greater)
 	  return "huomattavasti korkeampi";
-	if(theMax2 - theMax1 >= greater)
+	if(theMean2 - theMean1 >= greater)
 	  return "korkeampi";
-	if(theMax2 - theMax1 >= somewhat_greater)
+	if(theMean2 - theMean1 >= somewhat_greater)
 	  return "hieman korkeampi";
-	if(theMax1 - theMax2 >= significantly_smaller)
+	if(theMean1 - theMean2 >= significantly_smaller)
 	  return "huomattavasti alempi";
-	if(theMax1 - theMax2 >= smaller)
+	if(theMean1 - theMean2 >= smaller)
 	  return "alempi";
-	if(theMax1 - theMax2 >= somewhat_smaller)
+	if(theMean1 - theMean2 >= somewhat_smaller)
 	  return "hieman alempi";
 	return "suunnilleen sama";
   }
@@ -485,7 +481,7 @@ namespace TextGen
 			  sentence << WeekdayTools::on_weekday(period.localStartTime());
 			else
 			  sentence << "seuraavana päivänä";
-			sentence << temperature_comparison(min1,max1,min2,max2,itsVar);
+			sentence << temperature_comparison(mean1,mean2,itsVar);
 		  }
 		else
 		  {

@@ -74,15 +74,15 @@ textgen::[kappale]::story::temperature_dailymax::somewhat_smaller = [N]
 textgen::[kappale]::story::temperature_dailymax::smaller = [N]
 textgen::[kappale]::story::temperature_dailymax::significantly_smaller = [N]
 \endcode
-ja laskettuihin lämpötilaväleihin. Jos ensimmäisen päivän ylin on
-A1...A2 ja seuraavan B1...B2 valitaan
+ja laskettuihin lämpötilaväleihin. Jos ensimmäisen päivän keskiarvo
+on A jae seuraavan B, valitaan
 
-  -# Fraasi 1, jos B2-A2 >= \c significantly_greater
-  -# Fraasi 2, jos B2-A2 >= \c greater
-  -# Fraasi 3, jos B2-A2 >= \c somewhat_greater
-  -# Fraasi 7, jos B2-A2 >= \c significantly_smaller
-  -# Fraasi 6, jos B2-A2 >= \c smaller
-  -# Fraasi 5, jos B2-A2 >= \c somewhat_smaller
+  -# Fraasi 1, jos B-A >= \c significantly_greater
+  -# Fraasi 2, jos B-A >= \c greater
+  -# Fraasi 3, jos B-A >= \c somewhat_greater
+  -# Fraasi 7, jos A-B >= \c significantly_smaller
+  -# Fraasi 6, jos A-B >= \c smaller
+  -# Fraasi 5, jos A-B >= \c somewhat_smaller
   -# Fraasi 4 muutoin
 
 Jos päiviä on useampia, luetellaan jatkossa jokaiselle päivälle päivän
