@@ -118,6 +118,9 @@ namespace TextGen
 	// Load new language
 
 	shared_ptr<MySQLDictionary> dict(new MySQLDictionary);
+	if(dict.get() == 0)
+	  throw TextGenError("Failed to allocate a new MySQLDictionary");
+
 	dict->init(theLanguage);
 
 	itsPimple->itsData.insert(Pimple::storage_type::value_type(theLanguage,dict));
