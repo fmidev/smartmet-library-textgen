@@ -15,6 +15,8 @@
 #ifndef WEATHERANALYSIS_FUNCTIONANALYZER_H
 #define WEATHERANALYSIS_FUNCTIONANALYZER_H
 
+#include <string>
+
 namespace WeatherAnalysis
 {
   class AnalysisSources;
