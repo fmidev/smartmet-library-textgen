@@ -70,7 +70,10 @@ namespace WeatherAnalysis
 
 	shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
 	shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
-	// WeatherId id = wsource->id(dataname);
+	NFmiFastQueryInfo qi(qd.get());
+
+	if(!qi.Param(kFmiTemperature))
+	  throw runtime_error("Temperature not available in dataname");
 
 	MaskSource::mask_type mask;
 	if(theArea.isNamed())
