@@ -348,6 +348,21 @@ namespace Settings
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Return optional hour valued variable, or the given value
+   *
+   * \param theName The variable name
+   * \param theDefault The value to return if the variable is not set
+   * \return The optional value
+   */
+  // ----------------------------------------------------------------------
+
+  int optional_hour(const std::string & theName, int theDefault)
+  {
+	return (isset(theName) ? require_hour(theName) : theDefault);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Return optional percentage valued variable, or the given value
    *
    * \param theName The variable name
