@@ -89,9 +89,10 @@ K‰ytetyt fraasit ovat
   -# "Sadesumma N...M millimetri‰."
 
 P‰‰ttelyss‰ k‰ytet‰‰n muuttujina alueen minimi- ja maksimisadesummaa,
-sek‰ optionaalista muuttujaa "variable::maxrain".
+sek‰ optionaalista muuttujaa
+"textgen::[kappale]::story::precipitation_range::maxrain".
 
-Jos "variable::maxrain" on asetettu lukemaksi X ja minimisadesumma on
+Jos muuttujan arvo on asetettu lukemaksi X ja minimisadesumma on
 v‰hint‰‰n X, palautetaan tarina 1. Jos minimi ja maksimi ovat samoja,
 palautetaan tarina 2. Muuten palautetaan tarina 3.
 
