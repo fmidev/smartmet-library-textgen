@@ -161,8 +161,8 @@ namespace WeatherAnalysis
 	// Get the data into use
 
 	shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
-	NFmiFastQueryInfo qi(qd.get());
+	shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
+	NFmiFastQueryInfo * qi = qd->QueryInfoIter();
 
 	// Try activating the parameter
 
@@ -170,7 +170,7 @@ namespace WeatherAnalysis
 	if(param == kFmiBadParameter)
 	  throw WeatherAnalysisError("Parameter "+theParameterName+" is not defined in newbase");
 
-	if(!qi.Param(param))
+	if(!qi->Param(param))
 	  throw WeatherAnalysisError(theParameterName+" is not available in "+dataname);
 	
 	// Handle points and areas separately
@@ -203,7 +203,7 @@ namespace WeatherAnalysis
 		  spacemod = CalculatorFactory::create(itsAreaFunction,theTester,itsModulo);
 		spacemod->acceptor(theAreaAcceptor);
 
-		float result = QueryDataIntegrator::Integrate(qi,
+		float result = QueryDataIntegrator::Integrate(*qi,
 													  thePeriods,
 													  *subtimemod,
 													  *timemod,
@@ -224,7 +224,7 @@ namespace WeatherAnalysis
 		  spacemod = CalculatorFactory::create(StandardDeviation,theTester,itsModulo);
 		spacemod->acceptor(theAreaAcceptor);
 		
-		float error = QueryDataIntegrator::Integrate(qi,
+		float error = QueryDataIntegrator::Integrate(*qi,
 													 thePeriods,
 													 *subtimemod,
 													 *timemod,
@@ -239,7 +239,7 @@ namespace WeatherAnalysis
 
 	  }
 
-	if(!(qi.Location(theArea.point())))
+	if(!(qi->Location(theArea.point())))
 	  {
 			  ostringstream msg;
 			  msg << "Could not set desired coordinate ("
@@ -253,7 +253,7 @@ namespace WeatherAnalysis
 			  throw WeatherAnalysisError(msg.str());
 	  }
 
-	float result = QueryDataIntegrator::Integrate(qi,
+	float result = QueryDataIntegrator::Integrate(*qi,
 												  thePeriods,
 												  *subtimemod,
 												  *timemod);

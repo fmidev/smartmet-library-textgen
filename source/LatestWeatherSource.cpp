@@ -21,7 +21,7 @@
 #include "WeatherAnalysisError.h"
 
 #include "NFmiFileSystem.h"
-#include "NFmiQueryData.h"
+#include "NFmiStreamQueryData.h"
 
 #include <cassert>
 #include <map>
@@ -38,10 +38,11 @@ namespace
 
   struct WeatherDataStruct
   {
-	time_t itsTime;
+	time_t itsModTime;
+	time_t itsLastCheckTime;
 	string itsFilename;
 	WeatherAnalysis::WeatherId itsId;
-	boost::shared_ptr<NFmiQueryData> itsData;
+	boost::shared_ptr<NFmiStreamQueryData> itsData;
   };
 
   // ----------------------------------------------------------------------
@@ -125,7 +126,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<NFmiQueryData> LatestWeatherSource::data(const std::string & theName) const
+  boost::shared_ptr<NFmiStreamQueryData> LatestWeatherSource::data(const std::string & theName) const
   {
 	// Age limit for checking for new query data is 1 minute
 	const int agelimit = 1*60;
@@ -141,21 +142,28 @@ namespace WeatherAnalysis
 	  {
 		// If the cached data is new enough, return it
 
-		if(time(NULL) - it->second.itsTime < agelimit)
+		if(time(NULL) - it->second.itsLastCheckTime < agelimit)
 		  return it->second.itsData;
-
 	  }
 
 	// Associated filename
 	const string filename = complete_filename(theName);
 	const time_t modtime = NFmiFileSystem::FileModificationTime(filename);
 
+	// Update the time we checked the modification time
+
+	if(it != itsPimple->itsData.end())
+	  it->second.itsLastCheckTime = time(NULL);
+
 	// See if the cached data is outdated. It is outdated if the
 	// directory contains a newer file, or if the file itself
-	// has been modified
+	// has been modified. We also require that the new modification
+	// time is atleast 30 seconds old to make sure the file has been
+	// fully created.
 
 	if(it != itsPimple->itsData.end() &&
-	   (it->second.itsFilename == filename ||  it->second.itsTime >= modtime))
+	   (it->second.itsFilename == filename ||  it->second.itsModTime >= modtime) &&
+	   (time(NULL) - modtime > 30))
 	  return it->second.itsData;
 
 	// Erase the aged data
@@ -164,16 +172,14 @@ namespace WeatherAnalysis
 
 	// Read the new data
 
-	boost::shared_ptr<NFmiQueryData> qdata(new NFmiQueryData);
-	ifstream in(filename.c_str(), ios::in|ios::binary);
-	if(!in)
-	  throw WeatherAnalysisError("Failed to open "+filename+" for reading");
-	in >> *qdata;
-	in.close();
+	boost::shared_ptr<NFmiStreamQueryData> qdata(new NFmiStreamQueryData);
+	if(!qdata->ReadData(filename.c_str()))
+	  throw WeatherAnalysisError("Failed to read querydata from "+filename);
 
 	WeatherDataStruct newdata;
 	newdata.itsId = IdGenerator::generate();
-	newdata.itsTime = modtime;
+	newdata.itsModTime = modtime;
+	newdata.itsLastCheckTime = time(NULL);
 	newdata.itsFilename = filename;
 	newdata.itsData = qdata;
 

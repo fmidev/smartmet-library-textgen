@@ -20,11 +20,11 @@ namespace WeatherAnalysis
   public:
 
 	UserWeatherSource();
-	virtual boost::shared_ptr<NFmiQueryData> data(const std::string & theName) const;
+	virtual boost::shared_ptr<NFmiStreamQueryData> data(const std::string & theName) const;
 	virtual WeatherId id(const std::string & theName) const;
 
 	void insert(const std::string & theName,
-				boost::shared_ptr<NFmiQueryData> theData) const;
+				boost::shared_ptr<NFmiStreamQueryData> theData) const;
 
   private:
 

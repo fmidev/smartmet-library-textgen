@@ -172,7 +172,8 @@ namespace WeatherAnalysis
 	const NFmiSvgPath svg = theArea.path();
 	const float radius = theArea.radius();
 
-	shared_ptr<NFmiQueryData> qd = theWeatherSource.data(theData);
+	shared_ptr<NFmiStreamQueryData> qdata = theWeatherSource.data(theData);
+	NFmiQueryData * qd = qdata->QueryData();
 	if(!qd->IsGrid())
 	  throw WeatherAnalysisError("The data in "+theData+" is not gridded - cannot generate mask for it");
 
