@@ -45,6 +45,7 @@ namespace TextGen
 	const Paragraph classification(void) const;
 	const Paragraph pop_twodays(void) const;
 	const Paragraph sums(void) const;
+	const Paragraph daily_sums(void) const;
 
 	PrecipitationStory();
 	PrecipitationStory(const PrecipitationStory & theStory);
