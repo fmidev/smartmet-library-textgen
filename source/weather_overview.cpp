@@ -516,6 +516,8 @@ namespace TextGen
 							 const string & theVar,
 							 int theDay)
   {
+	MessageLogger log("weather_overview::cloudiness_phrase");
+
 	using namespace Settings;
 
     const int clear = optional_percentage(theVar+"::clear",40);
@@ -564,6 +566,10 @@ namespace TextGen
 						 theArea,
 						 thePeriod);
 
+	log << "Cloudiness Mean(Percentage(cloudy)) " << daystr << " = " << cloudy_percentage << endl;
+	log << "Cloudiness Mean(Percentage(clear)) " << daystr << " = " << clear_percentage << endl;
+	log << "Cloudiness Mean(Trend) " << daystr << " = " << trend << endl;
+	
 	CloudinessStoryTools::CloudinessType ctype =
 	  CloudinessStoryTools::cloudiness_type(theVar,
 											cloudy_percentage.value(),
@@ -605,6 +611,8 @@ namespace TextGen
 					 const string & theVar,
 					 int theDay)
   {
+	MessageLogger log("weather_overview::in_places");
+
 	using namespace Settings;
 
 	const int many_places = optional_percentage(theVar+"places::many",90);
@@ -625,6 +633,9 @@ namespace TextGen
                                               theArea,
                                               thePeriod,
                                               rainlimits);
+
+	log << "Precipitation percentage: " << result.value() << endl;
+
     if(result.value() == kFloatMissing)
 	  throw TextGenError("Total precipitation not available");
 	
