@@ -9,10 +9,11 @@
 #include "DefaultAcceptor.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
+#include "Integer.h"
+#include "IntegerRange.h"
 #include "HourPeriodGenerator.h"
 #include "MessageLogger.h"
 #include "NullPeriodGenerator.h"
-#include "NumberFactory.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "Settings.h"
@@ -111,13 +112,13 @@ namespace
 
 	if(range)
 	  {
-		sentence << *NumberFactory::create(theMinimum,theMaximum)
+		sentence << IntegerRange(theMinimum,theMaximum)
 				 << *UnitFactory::create(DegreesCelsius);
 	  }
 	else
 	  {
 		sentence << "noin"
-				 << *NumberFactory::create(theMean)
+				 << Integer(theMean)
 				 << *UnitFactory::create(DegreesCelsius);
 	  }
 
@@ -261,7 +262,7 @@ namespace TextGen
 	log << "Temperature Mean(Mean) = " << result << endl;
 
 	sentence << "keskilämpötila"
-			 << *NumberFactory::create(FmiRound(result.value()))
+			 << Integer(FmiRound(result.value()))
 			 << *UnitFactory::create(DegreesCelsius);
 	
 	paragraph << sentence;
@@ -305,7 +306,7 @@ namespace TextGen
 	log << "Temperature Mean(Mean(Maximum())) = " << result << endl;
 
 	sentence << "keskimääräinen ylin lämpötila"
-			 << *NumberFactory::create(FmiRound(result.value()))
+			 << Integer(FmiRound(result.value()))
 			 << *UnitFactory::create(DegreesCelsius);
 	paragraph << sentence;
 	log << paragraph;
@@ -351,7 +352,7 @@ namespace TextGen
 	log << "Temperature Mean(Mean(Minimum())) = " << result << endl;
 
 	sentence << "keskimääräinen alin lämpötila"
-			 << *NumberFactory::create(FmiRound(result.value()))
+			 << Integer(FmiRound(result.value()))
 			 << *UnitFactory::create(DegreesCelsius);
 	paragraph << sentence;
 	log << paragraph;
@@ -835,7 +836,7 @@ namespace TextGen
 	if(emphasize_night_minimum)
 	  {
 		sentence << "noin"
-				 << *NumberFactory::create(nightmin)
+				 << Integer(nightmin)
 				 << *UnitFactory::create(DegreesCelsius);
 	  }
 	else

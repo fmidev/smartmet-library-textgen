@@ -9,10 +9,11 @@
 #include "DefaultAcceptor.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
+#include "Integer.h"
+#include "IntegerRange.h"
 #include "MathTools.h"
 #include "MessageLogger.h"
 #include "NullPeriodGenerator.h"
-#include "NumberFactory.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "Settings.h"
@@ -51,7 +52,7 @@ namespace
 	sentence << "ankaran hallan todennäköisyys"
 			 << "on"
 			 << WeekdayTools::night_against_weekday(thePeriod.localEndTime())
-			 << *NumberFactory::create(theProbability)
+			 << Integer(theProbability)
 			 << *UnitFactory::create(Percent);
 	return sentence;
   }
@@ -74,7 +75,7 @@ namespace
 	sentence << "hallan todennäköisyys"
 			 << "on"
 			 << WeekdayTools::night_against_weekday(thePeriod.localEndTime())
-			 << *NumberFactory::create(theProbability)
+			 << Integer(theProbability)
 			 << *UnitFactory::create(Percent);
 	return sentence;
   }
@@ -239,7 +240,7 @@ namespace TextGen
 	  {
 		sentence << "ankaran hallan todennäköisyys"
 				 << "on"
-				 << *NumberFactory::create(severe_frost_value)
+				 << Integer(severe_frost_value)
 				 << *UnitFactory::create(Percent);
 		paragraph << sentence;
 	  }
@@ -247,7 +248,7 @@ namespace TextGen
 	  {
 		sentence << "hallan todennäköisyys"
 				 << "on"
-				 << *NumberFactory::create(frost_value)
+				 << Integer(frost_value)
 				 << *UnitFactory::create(Percent);
 		paragraph << sentence;
 	  }
@@ -327,7 +328,7 @@ namespace TextGen
 	  {
 		sentence << "ankaran hallan todennäköisyys"
 				 << "on"
-				 << *NumberFactory::create(severe_frost_value)
+				 << Integer(severe_frost_value)
 				 << *UnitFactory::create(Percent);
 		paragraph << sentence;
 	  }
@@ -335,7 +336,7 @@ namespace TextGen
 	  {
 		sentence << "hallan todennäköisyys"
 				 << "on"
-				 << *NumberFactory::create(frost_value)
+				 << Integer(frost_value)
 				 << *UnitFactory::create(Percent);
 		paragraph << sentence;
 	  }
@@ -443,7 +444,7 @@ namespace TextGen
 	  {
 		sentence << "ankaran hallan todennäköisyys"
 				 << "on"
-				 << *NumberFactory::create(severe_frost_min,severe_frost_max)
+				 << IntegerRange(severe_frost_min,severe_frost_max)
 				 << *UnitFactory::create(Percent);
 		paragraph << sentence;
 	  }
@@ -451,7 +452,7 @@ namespace TextGen
 	  {
 		sentence << "hallan todennäköisyys"
 				 << "on"
-				 << *NumberFactory::create(frost_min,frost_max)
+				 << IntegerRange(frost_min,frost_max)
 				 << *UnitFactory::create(Percent);
 		paragraph << sentence;
 	  }
@@ -600,7 +601,7 @@ namespace TextGen
 			if(severevalue2 >= severelimit)
 			  {
 				sentence << "seuraavana yönä"
-						 << *NumberFactory::create(severevalue2)
+						 << Integer(severevalue2)
 						 << *UnitFactory::create(Percent);
 			  }
 			else if(value2 >= normallimit)
@@ -608,7 +609,7 @@ namespace TextGen
 				sentence << "seuraavana yönä"
 						 << "hallan todennäköisyys"
 						 << "on"
-						 << *NumberFactory::create(value2)
+						 << Integer(value2)
 						 << *UnitFactory::create(Percent);
 			  }
 			else
@@ -631,13 +632,13 @@ namespace TextGen
 				sentence << "seuraavana yönä"
 						 << "ankaran hallan todennäköisyys"
 						 << "on"
-						 << *NumberFactory::create(severevalue2)
+						 << Integer(severevalue2)
 						 << *UnitFactory::create(Percent);
 			  }
 			else if(value2 >= normallimit)
 			  {
 				sentence << "seuraavana yönä"
-						 << *NumberFactory::create(value2)
+						 << Integer(value2)
 						 << *UnitFactory::create(Percent);
 			  }
 			else

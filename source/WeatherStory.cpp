@@ -9,10 +9,10 @@
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "HourPeriodGenerator.h"
+#include "Integer.h"
 #include "MathTools.h"
 #include "MessageLogger.h"
 #include "NullPeriodGenerator.h"
-#include "NumberFactory.h"
 #include "Paragraph.h"
 #include "RangeAcceptor.h"
 #include "Sentence.h"
@@ -354,7 +354,7 @@ namespace TextGen
 		Sentence sentence;
 		sentence << "ukkosen todennäköisyys"
 				 << "on"
-				 << *NumberFactory::create(probability)
+				 << Integer(probability)
 				 << *UnitFactory::create(Percent);
 		paragraph << sentence;
 	  }

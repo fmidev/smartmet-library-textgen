@@ -8,7 +8,7 @@
 #include "Sentence.h"
 
 #include "Dictionary.h"
-#include "NumberFactory.h"
+#include "Integer.h"
 #include "Phrase.h"
 #include "PlainTextFormatter.h"
 #include "TextFormatter.h"
@@ -140,8 +140,7 @@ namespace TextGen
 
   Sentence & Sentence::operator<<(int theNumber)
   {
-	shared_ptr<Sentence> s = NumberFactory::create(theNumber);
-	*this << *s;
+	*this << Integer(theNumber);
 	return *this;
   }
 

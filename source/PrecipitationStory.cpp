@@ -9,9 +9,10 @@
 #include "DefaultAcceptor.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
+#include "Integer.h"
+#include "IntegerRange.h"
 #include "MessageLogger.h"
 #include "NullPeriodGenerator.h"
-#include "NumberFactory.h"
 #include "Paragraph.h"
 #include "RangeAcceptor.h"
 #include "Sentence.h"
@@ -221,7 +222,7 @@ namespace TextGen
 	log << "Precipitation Mean(Sum) " << result << endl;
 
 	sentence << "sadesumma"
-			 << *NumberFactory::create(FmiRound(result.value()))
+			 << Integer(FmiRound(result.value()))
 			 << *UnitFactory::create(Millimeters);
 	paragraph << sentence;
 	log << paragraph;
@@ -291,13 +292,13 @@ namespace TextGen
 	  {
 		sentence << "sadesumma"
 				 << "yli"
-				 << *NumberFactory::create(rainlimit)
+				 << Integer(rainlimit)
 				 << *UnitFactory::create(Millimeters);
 	  }
 	else
 	  {
 		sentence << "sadesumma"
-				 << *NumberFactory::create(minrain,maxrain)
+				 << IntegerRange(minrain,maxrain)
 				 << *UnitFactory::create(Millimeters);
 	  }
 
@@ -479,7 +480,7 @@ namespace TextGen
 	const int hilimit = it->second;
 
 	sentence << "sadesumma"
-			 << *NumberFactory::create(lolimit,hilimit)
+			 << IntegerRange(lolimit,hilimit)
 			 << *UnitFactory::create(Millimeters);
 	
 	// Lisää tarvittaessa "paikoin enemmän" tai "monin paikoin enemmän" perään

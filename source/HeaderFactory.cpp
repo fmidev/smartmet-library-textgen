@@ -7,8 +7,8 @@
 
 #include "HeaderFactory.h"
 #include "Header.h"
+#include "Integer.h"
 #include "MessageLogger.h"
-#include "Number.h"
 #include "Settings.h"
 #include "TextGenError.h"
 #include "WeatherArea.h"
@@ -167,7 +167,7 @@ namespace
 	header << "sääennuste"
 		   << theArea.name()+":lle"
 		   << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
-		   << Number<int>(starthour)
+		   << Integer(starthour)
 		   << "o'clock";
 
 	log << header;

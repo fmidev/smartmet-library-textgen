@@ -9,10 +9,10 @@
 #include "DefaultAcceptor.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
+#include "Integer.h"
 #include "MathTools.h"
 #include "MessageLogger.h"
 #include "NullPeriodGenerator.h"
-#include "NumberFactory.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "Settings.h"
@@ -169,7 +169,7 @@ namespace TextGen
 	sentence << "alin suhteellinen kosteus"
 			 << "on"
 			 << WeekdayTools::on_weekday(firstperiod.localStartTime())
-			 << *NumberFactory::create(humidity1)
+			 << Integer(humidity1)
 			 << *UnitFactory::create(Percent);
 
 	if(days==2)

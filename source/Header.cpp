@@ -8,7 +8,7 @@
 #include "Header.h"
 
 #include "Dictionary.h"
-#include "Number.h"
+#include "Integer.h"
 #include "Phrase.h"
 #include "PlainTextFormatter.h"
 #include "TextGenError.h"
@@ -112,7 +112,7 @@ namespace TextGen
 
   Header & Header::operator<<(int theNumber)
   {
-	shared_ptr<Number<int> > number(new Number<int>(theNumber));
+	shared_ptr<Integer> number(new Integer(theNumber));
 	itsData.push_back(number);
 	return *this;
   }
