@@ -135,6 +135,7 @@ Tarvittavat fraasit ovat
  - "puolipilvist‰"
  - "selke‰‰"
  - "tai"
+ - "ja"
  - "pilvistyv‰‰"
  - "selkenev‰‰"
  - "vaihtelevaa pilvisyytt‰"
