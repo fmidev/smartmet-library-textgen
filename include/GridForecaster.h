@@ -34,7 +34,7 @@ namespace WeatherAnalysis
   {
   public:
 
-	using WeatherAnalyzer::analyze;
+	using WeatherForecaster::analyze;
 
 	virtual WeatherResult
 	analyze(const AnalysisSources & theSources,
