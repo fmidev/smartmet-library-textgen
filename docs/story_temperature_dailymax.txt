@@ -47,7 +47,7 @@ Englanniksi lauseet ovat
   -# ", [the following day] lower."
   -# ", [the following day] significantly lower."
 
-Aikafraasit ovat tyyppejä \ref sec_periodifraasit_until_tonight ja
+Aikafraasit ovat tyyppejä \ref sec_periodifraasit_today ja
 \ref sec_periodifraasit_next_day. Niihin liittyviä asetuksia
 kontrolloidaan muuttujilla
 \code
@@ -143,7 +143,7 @@ Tarvittavat fraasit ovat
  - "alempi"
  - "huomattavasti alempi"
 
-plus tarvittavat periodifraasit \ref sec_periodifraasit_until_tonight ja
+plus tarvittavat periodifraasit \ref sec_periodifraasit_today ja
 \ref sec_periodifraasit_next_day sivuilta.
 
 */

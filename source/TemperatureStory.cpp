@@ -444,7 +444,7 @@ namespace TextGen
 	Sentence sentence;
 	sentence << "päivän ylin lämpötila"
 			 << "on"
-			 << PeriodPhraseFactory::create("until_tonight",
+			 << PeriodPhraseFactory::create("today",
 											itsVar+"::day1",
 											itsForecastTime,
 											period)
@@ -621,7 +621,7 @@ namespace TextGen
 	Sentence sentence;
 	sentence << "yön alin lämpötila"
 			 << "on"
-			 << PeriodPhraseFactory::create("next_night",
+			 << PeriodPhraseFactory::create("tonight",
 											itsVar+"::night1",
 											itsForecastTime,
 											period)

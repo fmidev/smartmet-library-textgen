@@ -47,8 +47,9 @@ Englanniksi lauseet ovat
   -# ", [the following night] lower."
   -# ", [the following night] significantly lower."
 
-Aikafraasit ovat tyyppejä \ref sec_periodifraasit_next_night.
-Niihin liittyviä asetuksia kontrolloidaan muuttujilla
+Aikafraasit ovat tyyppejä \ref sec_periodifraasit_tonight ja
+\ref sec_periodifraasit_next_night. Niihin liittyviä asetuksia
+kontrolloidaan muuttujilla
 \code
 textgen::[kappale]::story::temperature_nightlymin::night1::*
 textgen::[kappale]::story::temperature_nightlymin::night2::*
@@ -143,6 +144,7 @@ Tarvittavat fraasit ovat
  - "alempi"
  - "huomattavasti alempi"
 
-plus tarvittavat periodifraasit \ref sec_periodifraasit_next_night.
+plus tarvittavat periodifraasit \ref sec_periodifraasit_tonight
+\ref sec_periodifraasit_next_night.
 
 */
