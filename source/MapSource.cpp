@@ -25,7 +25,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  class MapSourcePimple
+  class MapSource::Pimple
   {
   public:
 	typedef map<string,NFmiSvgPath> storage_type;
@@ -39,7 +39,7 @@ namespace WeatherAnalysis
   // ----------------------------------------------------------------------
 
   MapSource::MapSource()
-	: itsPimple(new MapSourcePimple)
+	: itsPimple(new Pimple)
   {
   }
 
@@ -64,7 +64,7 @@ namespace WeatherAnalysis
 	assert(itsPimple.get() != 0);
 
 	// See if the result is cached first
-	MapSourcePimple::storage_type::const_iterator it = itsPimple->itsData.find(theName);
+	Pimple::storage_type::const_iterator it = itsPimple->itsData.find(theName);
 
 	if(it != itsPimple->itsData.end())
 	  return it->second;
@@ -91,7 +91,7 @@ namespace WeatherAnalysis
 	if(svg.empty())
 	  throw runtime_error("Failed to read SVG data in "+filename);
 
-	typedef MapSourcePimple::storage_type::value_type value_type;
+	typedef Pimple::storage_type::value_type value_type;
 
 	return itsPimple->itsData.insert(value_type(theName,svg)).first->second;
 

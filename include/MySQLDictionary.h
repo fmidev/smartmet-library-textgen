@@ -72,8 +72,8 @@ namespace TextGen
 
   private:
 
-	class MySQLDictionaryPimple;
-	std::auto_ptr<MySQLDictionaryPimple> itsPimple;
+	class Pimple;
+	std::auto_ptr<Pimple> itsPimple;
 
   }; // class BasicDictionary
 

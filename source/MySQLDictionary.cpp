@@ -23,11 +23,11 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  class MySQLDictionary::MySQLDictionaryPimple
+  class MySQLDictionary::Pimple
   {
   public:
 
-	MySQLDictionaryPimple()
+	Pimple()
 	  : itsInitialized(false)
 	  , itsLanguage()
 	  , itsData()
@@ -40,7 +40,7 @@ namespace TextGen
 	std::string itsLanguage;
 	StorageType itsData;
 
-  }; // class MySQLDictionaryPimple
+  }; // class Pimple
 
   // ----------------------------------------------------------------------
   /*!
@@ -65,7 +65,7 @@ namespace TextGen
   MySQLDictionary::MySQLDictionary()
 	: Dictionary()
   {
-	itsPimple.reset(new MySQLDictionaryPimple());
+	itsPimple.reset(new Pimple());
   }
 
   // ----------------------------------------------------------------------
@@ -79,7 +79,7 @@ namespace TextGen
   MySQLDictionary::MySQLDictionary(const MySQLDictionary & theDict)
 	: Dictionary()
   {
-	itsPimple.reset(new MySQLDictionaryPimple(*theDict.itsPimple));
+	itsPimple.reset(new Pimple(*theDict.itsPimple));
   }
 
   // ----------------------------------------------------------------------
@@ -94,7 +94,7 @@ namespace TextGen
   MySQLDictionary & MySQLDictionary::operator=(const MySQLDictionary & theDict)
   {
 	if(this != &theDict)
-	  itsPimple.reset(new MySQLDictionaryPimple(*theDict.itsPimple));
+	  itsPimple.reset(new Pimple(*theDict.itsPimple));
 	return *this;
   }
 
@@ -226,7 +226,7 @@ namespace TextGen
 			std::string translation(row[1],lengths[1]);
 
 			if(!keyword.empty() && !translation.empty())
-			  itsPimple->itsData.insert(MySQLDictionaryPimple::value_type(keyword,translation));
+			  itsPimple->itsData.insert(Pimple::value_type(keyword,translation));
 		  }
 	  }
 
@@ -274,7 +274,7 @@ namespace TextGen
   {
 	if(!itsPimple->itsInitialized)
 	  throw TextGenError("Error: MySQLDictionary::find() called before init()");
-	MySQLDictionaryPimple::StorageType::const_iterator
+	Pimple::StorageType::const_iterator
 	  it = itsPimple->itsData.find(theKey);
 
 	if(it!=itsPimple->itsData.end())

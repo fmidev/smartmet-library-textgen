@@ -42,7 +42,6 @@
 namespace TextGen
 {
   class Dictionary;
-  class SentencePimple;
 
   class Sentence
   {
@@ -71,7 +70,8 @@ namespace TextGen
 
   private:
 
-	std::auto_ptr<SentencePimple> itsPimple;
+	class Pimple;
+	std::auto_ptr<Pimple> itsPimple;
 
   }; // class Sentence
 

@@ -86,12 +86,12 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  class WeatherSourcePimple
+  class WeatherSource::Pimple
   {
   public:
 	typedef map<string,WeatherDataTriplet> container_type;
 	container_type itsData;
-  }; // class WeatherSourcePimple
+  }; // class WeatherSource::Pimple
 
   // ----------------------------------------------------------------------
   /*!
@@ -105,7 +105,7 @@ namespace WeatherAnalysis
   {
 	if(itsPimple.get() == 0)
 	  {
-		boost::shared_ptr<WeatherSourcePimple> ptr(new WeatherSourcePimple);
+		boost::shared_ptr<Pimple> ptr(new Pimple);
 		itsPimple = ptr;
 	  }
   }
@@ -129,7 +129,7 @@ namespace WeatherAnalysis
 	const time_t modtime = FileModificationTime(filename);
 
 	// See if we have a cached result
-	typedef WeatherSourcePimple::container_type::iterator iterator;
+	typedef Pimple::container_type::iterator iterator;
 	iterator it = itsPimple->itsData.find(theName);
 	if(it != itsPimple->itsData.end())
 	  {
@@ -154,7 +154,7 @@ namespace WeatherAnalysis
 	triplet.itsFilename = filename;
 	triplet.itsData = data;
 
-	typedef WeatherSourcePimple::container_type::value_type value_type;
+	typedef Pimple::container_type::value_type value_type;
 
 	itsPimple->itsData.insert(value_type(theName,triplet));
 

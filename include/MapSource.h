@@ -25,8 +25,6 @@ class NFmiSvgPath;
 
 namespace WeatherAnalysis
 {
-  class MapSourcePimple;
-
   class MapSource
   {
   public:
@@ -35,7 +33,8 @@ namespace WeatherAnalysis
 
   private:
 
-	boost::shared_ptr<MapSourcePimple> itsPimple;
+	class Pimple;
+	boost::shared_ptr<Pimple> itsPimple;
 
   }; // class Mapsource
 

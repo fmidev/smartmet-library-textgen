@@ -23,8 +23,6 @@ class NFmiQueryData;
 
 namespace WeatherAnalysis
 {
-  class WeatherSourcePimple;
-
   class WeatherSource
   {
   public:
@@ -33,7 +31,8 @@ namespace WeatherAnalysis
 	boost::shared_ptr<NFmiQueryData> getData(const std::string & theName) const;
   private:
 
-	static boost::shared_ptr<WeatherSourcePimple> itsPimple;
+	class Pimple;
+	static boost::shared_ptr<Pimple> itsPimple;
 
   }; // class WeatherSource
 

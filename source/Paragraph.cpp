@@ -21,21 +21,20 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \class ParagraphPimple
    * \brief Implementation hiding pimple for class Paragraph
    */
   // ----------------------------------------------------------------------
 
-  class ParagraphPimple
+  class Paragraph::Pimple
   {
   public:
-	~ParagraphPimple() { }
-	ParagraphPimple() : itsData() { }
+	~Pimple() { }
+	Pimple() : itsData() { }
 
 	typedef list<Sentence> storage_type;
 	storage_type itsData;
 
-  }; // class ParagraphPimple
+  }; // class Pimple
 
   // ----------------------------------------------------------------------
   /*!
@@ -55,7 +54,7 @@ namespace TextGen
 
   Paragraph::Paragraph()
   {
-	itsPimple.reset(new ParagraphPimple());
+	itsPimple.reset(new Pimple());
   }
 
   // ----------------------------------------------------------------------
@@ -68,7 +67,7 @@ namespace TextGen
 
   Paragraph::Paragraph(const Paragraph & theParagraph)
   {
-	itsPimple.reset(new ParagraphPimple(*theParagraph.itsPimple));
+	itsPimple.reset(new Pimple(*theParagraph.itsPimple));
   }
 
   // ----------------------------------------------------------------------
@@ -81,7 +80,7 @@ namespace TextGen
 
   Paragraph::Paragraph(const Sentence & theSentence)
   {
-	itsPimple.reset(new ParagraphPimple());
+	itsPimple.reset(new Pimple());
 	*this << theSentence;
   }
 
@@ -97,7 +96,7 @@ namespace TextGen
   Paragraph & Paragraph::operator=(const Paragraph & theParagraph)
   {
 	if(this != &theParagraph)
-	  itsPimple.reset(new ParagraphPimple(*theParagraph.itsPimple));
+	  itsPimple.reset(new Pimple(*theParagraph.itsPimple));
 	return *this;
   }
 
@@ -111,8 +110,8 @@ namespace TextGen
 
   void Paragraph::swap(Paragraph & theParagraph)
   {
-	ParagraphPimple * a = itsPimple.release();
-	ParagraphPimple * b = theParagraph.itsPimple.release();
+	Pimple * a = itsPimple.release();
+	Pimple * b = theParagraph.itsPimple.release();
 	itsPimple.reset(b);
 	theParagraph.itsPimple.reset(a);
   }
@@ -186,7 +185,7 @@ namespace TextGen
   {
 	string ret;
 
-	typedef ParagraphPimple::storage_type::const_iterator Iterator;
+	typedef Pimple::storage_type::const_iterator Iterator;
 	for(Iterator it=itsPimple->itsData.begin();
 		it!=itsPimple->itsData.end();
 		++it)

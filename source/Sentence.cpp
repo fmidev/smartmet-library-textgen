@@ -22,26 +22,25 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \class SentencePimple
    * \brief Implementation hiding pimple for class Sentence
    */
   // ----------------------------------------------------------------------
 
-  class SentencePimple
+  class Sentence::Pimple
   {
   public:
 	typedef list<Phrase *> storage_type;
 	storage_type itsData;
 
-	~SentencePimple()
+	~Pimple()
 	{
 	  for(storage_type::iterator it=itsData.begin(); it!=itsData.end(); ++it)
 		delete *it;
 	}
 
-	SentencePimple() : itsData() { }
+	Pimple() : itsData() { }
 
-  }; // class SentencePimple
+  }; // class Pimple
 
   // ----------------------------------------------------------------------
   /*!
@@ -61,7 +60,7 @@ namespace TextGen
 
   Sentence::Sentence()
   {
-	itsPimple.reset(new SentencePimple());
+	itsPimple.reset(new Pimple());
   }
 
   // ----------------------------------------------------------------------
@@ -74,7 +73,7 @@ namespace TextGen
 
   Sentence::Sentence(const Sentence & theSentence)
   {
-	itsPimple.reset(new SentencePimple());
+	itsPimple.reset(new Pimple());
 	*this << theSentence;
   }
 
@@ -88,7 +87,7 @@ namespace TextGen
 
   Sentence::Sentence(const Phrase & thePhrase)
   {
-	itsPimple.reset(new SentencePimple());
+	itsPimple.reset(new Pimple());
 	*this << thePhrase;
   }
 
@@ -103,7 +102,7 @@ namespace TextGen
 
   Sentence::Sentence(const std::string & thePhrase)
   {
-	itsPimple.reset(new SentencePimple());
+	itsPimple.reset(new Pimple());
 	*this << PhraseWord(thePhrase);
   }
 
@@ -117,7 +116,7 @@ namespace TextGen
 
   Sentence::Sentence(int theValue)
   {
-	itsPimple.reset(new SentencePimple());
+	itsPimple.reset(new Pimple());
 	*this << PhraseNumber<int>(theValue);
   }
 
@@ -134,7 +133,7 @@ namespace TextGen
   {
 	if(this != &theSentence)
 	  {
-		itsPimple.reset(new SentencePimple);
+		itsPimple.reset(new Pimple);
 		*this << theSentence;
 	  }
 	return *this;
@@ -150,8 +149,8 @@ namespace TextGen
 
   void Sentence::swap(Sentence & theSentence)
   {
-	SentencePimple * a = itsPimple.release();
-	SentencePimple * b = theSentence.itsPimple.release();
+	Pimple * a = itsPimple.release();
+	Pimple * b = theSentence.itsPimple.release();
 	itsPimple.reset(b);
 	theSentence.itsPimple.reset(a);
   }
@@ -169,7 +168,7 @@ namespace TextGen
   {
 	if(this != &theSentence)
 	  {
-		for(SentencePimple::storage_type::const_iterator it=theSentence.itsPimple->itsData.begin();
+		for(Pimple::storage_type::const_iterator it=theSentence.itsPimple->itsData.begin();
 			it!=theSentence.itsPimple->itsData.end();
 			++it)
 		  {
@@ -273,7 +272,7 @@ namespace TextGen
   {
 	string ret;
 
-	typedef SentencePimple::storage_type::const_iterator Iterator;
+	typedef Pimple::storage_type::const_iterator Iterator;
 	for(Iterator it=itsPimple->itsData.begin();
 		it!=itsPimple->itsData.end();
 		++it)
