@@ -43,8 +43,7 @@ namespace WeatherAnalysis
 	  {
 		if(itsCounter==0)
 		  itsStartValue = theValue;
-		else
-		  itsEndValue = theValue;
+		itsEndValue = theValue;
 		++itsCounter;
 	  }
   }
@@ -59,7 +58,7 @@ namespace WeatherAnalysis
 
   float ChangeCalculator::operator()() const
   {
-	if(itsCounter<2 ||
+	if(itsCounter<1 ||
 	   itsStartValue==kFloatMissing ||
 	   itsEndValue==kFloatMissing)
 	  return kFloatMissing;

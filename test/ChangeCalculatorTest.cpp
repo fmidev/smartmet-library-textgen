@@ -28,8 +28,8 @@ namespace ChangeCalculatorTest
 	  TEST_FAILED("Should return kFloatMissing after 0 inserts");
 
 	calc(1);
-	if(calc() != kFloatMissing)
-	  TEST_FAILED("Should return kFloatMissing after 1 insert");
+	if(calc() != 0)
+	  TEST_FAILED("Should return 0 after 1 insert");
 
 	calc(2);
 	if(calc() != 2-1)
