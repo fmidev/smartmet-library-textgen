@@ -219,11 +219,7 @@ namespace TextGen
 					   << PeriodPhraseFactory::create("next_day",
 													  itsVar,
 													  itsForecastTime,
-													  periods[1])
-					   << speed_range_sentence(minspeeds[1],
-											   maxspeeds[1],
-											   meanspeeds[1],
-											   itsVar);
+													  periods[1]);
 			  if(similar_speeds)
 				{
 				  sentence << direction_sentence(directions[1],itsVar);
