@@ -36,7 +36,7 @@
 
 namespace TextGen
 {
-  class TheDictionary
+  class TheDictionary : public Dictionary
   {
   public:
 
@@ -46,17 +46,17 @@ namespace TextGen
 
 	void dictionary(std::auto_ptr<Dictionary> theDict);
 
-	void init(const std::string & theLanguage);
-	bool contains(const std::string & theKey) const;
-	const std::string & find(const std::string & theKey) const;
-	void insert(const std::string & theKey, const std::string & thePhrase);
+	virtual void init(const std::string & theLanguage);
+	virtual bool contains(const std::string & theKey) const;
+	virtual const std::string & find(const std::string & theKey) const;
+	virtual void insert(const std::string & theKey, const std::string & thePhrase);
 
-	size_type size(void) const;
-	bool empty(void) const;
+	virtual size_type size(void) const;
+	virtual bool empty(void) const;
 
   private:
 
-	~TheDictionary();
+	virtual ~TheDictionary();
 	TheDictionary();
 	TheDictionary(const Dictionary & theDict);
 	TheDictionary & operator=(const TheDictionary & theDict);
