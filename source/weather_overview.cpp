@@ -7,6 +7,7 @@
 
 #include "WeatherStory.h"
 #include "CloudinessStory.h"
+#include "Delimiter.h"
 #include "HourPeriodGenerator.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
@@ -470,22 +471,73 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Paragraph one_inclusive_rain(const NFmiTime & theForecastTime,
+  Sentence one_inclusive_rain(const NFmiTime & theForecastTime,
 							   const AnalysisSources & theSources,
 							   const WeatherArea & theArea,
 							   const WeatherPeriod & thePeriod,
 							   const string & theVar,
 							   const WeatherPeriod & theRainPeriod)
   {
-	Paragraph p;
 	Sentence s;
 	s << PeriodPhraseFactory::create("days",
 									 theVar,
 									 theForecastTime,
 									 thePeriod);
-	s << "ajoittain sateista";
-	p << s;
-	return p;
+
+	const int rainstarthour = theRainPeriod.localStartTime().GetHour();
+	const int rainendhour = theRainPeriod.localEndTime().GetHour()+1;
+
+	const int idx = one_day_rain_unique_index(rainstarthour,rainendhour);
+
+	const int phrase = one_day_cases[idx].index;
+
+	switch(phrase)
+	  {
+		// [Aamulla] [paikoin] [sadetta]
+	  case 1:
+		{
+		  s << one_day_cases[idx].phrase1;
+		  s << "paikoin";
+		  s << "sadetta";
+		  break;
+		}
+		// [Aamulla] [paikoin] [sadetta], [aamulla] [enimmäkseen selkeää] ja poutaa
+	  case 2:
+		{
+		  s << one_day_cases[idx].phrase1;
+		  s << "paikoin";
+		  s << "sadetta";
+		  s << Delimiter(",");
+		  s << one_day_cases[idx].phrase2;
+		  s << "enimmäkseen" << "selkeää";
+		  s << "ja" << "poutaa";
+		  break;
+		}
+		// [Aamulla] [paikoin] [sadetta], [aamulla] poutaa
+	  case 3:
+		{
+		  s << one_day_cases[idx].phrase1;
+		  s << "paikoin";
+		  s << "sadetta";
+		  s << Delimiter(",");
+		  s << one_day_cases[idx].phrase2;
+		  s << "poutaa";
+		  break;
+		}
+		// [Enimmäkseen selkeää], [aamulla] [paikoin] [sadetta]
+	  case 4:
+		{
+		  s << "enimmäkseen" << "selkeää";
+		  s << Delimiter(",");
+		  s << one_day_cases[idx].phrase1;
+		  s << "paikoin";
+		  s << "sadetta";
+		  break;
+		}
+	  default:
+		throw runtime_error("Internal error in weather_overview::one_inclusive_rain");
+	  }
+	return s;
   }
 
   // ----------------------------------------------------------------------
