@@ -548,7 +548,8 @@ namespace TextGen
 							  const WeatherArea & theArea,
 							  const WeatherPeriod & thePeriod,
 							  const string & theVar,
-							  const WeatherPeriod & theRainPeriod)
+							  const WeatherPeriod & theRainPeriod,
+							  int theDay)
   {
 	Sentence s;
 	s << PeriodPhraseFactory::create("days",
@@ -577,7 +578,7 @@ namespace TextGen
 	  case 2:
 		{
 		  s << one_day_cases[idx].phrase1;
-		  s << in_places(theSources,theArea,theRainPeriod,theVar,1);
+		  s << in_places(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s << "sadetta";
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase2;
@@ -589,7 +590,7 @@ namespace TextGen
 	  case 3:
 		{
 		  s << one_day_cases[idx].phrase1;
-		  s << in_places(theSources,theArea,theRainPeriod,theVar,1);
+		  s << in_places(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s << "sadetta";
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase2;
@@ -602,7 +603,7 @@ namespace TextGen
 		  s << "enimmäkseen" << "selkeää";
 		  s << Delimiter(",");
 		  s << one_day_cases[idx].phrase1;
-		  s << in_places(theSources,theArea,theRainPeriod,theVar,1);
+		  s << in_places(theSources,theArea,theRainPeriod,theVar,theDay);
 		  s << "sadetta";
 		  break;
 		}
@@ -760,7 +761,8 @@ namespace TextGen
 												itsArea,
 												generator.period(day),
 												itsVar,
-												inclusives[day-1].front());
+												inclusives[day-1].front(),
+												day);
 			  }
 			else
 			  {
