@@ -19,9 +19,7 @@ namespace WeatherAnalysis
 	typedef MaskSource::mask_type mask_type;
 	typedef MaskSource::masks_type masks_type;
 
-	CoastMaskSource(const std::string & theCoastMapName,
-					double theCoastDistance,
-					const std::string & theLandMapName);
+	CoastMaskSource(const WeatherArea & theCoast);
 
 	virtual const mask_type mask(const WeatherArea & theArea,
 								 const std::string & theData,
