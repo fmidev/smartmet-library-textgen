@@ -21,22 +21,9 @@
 // ======================================================================
 
 #include "ParameterAnalyzerFactory.h"
+#include "ModuloParameterAnalyzer.h"
+#include "RegularParameterAnalyzer.h"
 #include "WeatherAnalysisError.h"
-
-#include "CloudinessAnalyzer.h"
-#include "FrostAnalyzer.h"
-#include "PrecipitationAnalyzer.h"
-#include "PrecipitationFormAnalyzer.h"
-#include "PrecipitationProbabilityAnalyzer.h"
-#include "PrecipitationTypeAnalyzer.h"
-#include "RelativeHumidityAnalyzer.h"
-#include "RoadConditionAnalyzer.h"
-#include "RoadTemperatureAnalyzer.h"
-#include "SevereFrostAnalyzer.h"
-#include "TemperatureAnalyzer.h"
-#include "ThunderAnalyzer.h"
-#include "WindDirectionAnalyzer.h"
-#include "WindSpeedAnalyzer.h"
 
 using namespace boost;
 
@@ -60,34 +47,49 @@ namespace WeatherAnalysis
 
 	  switch(theParameter)
 		{
-		case Temperature:
-		  return ReturnType(new TemperatureAnalyzer);
-		case Precipitation:
-		  return ReturnType(new PrecipitationAnalyzer);
-		case Cloudiness:
-		  return ReturnType(new CloudinessAnalyzer);
-		case Frost:
-		  return ReturnType(new FrostAnalyzer);
-		case SevereFrost:
-		  return ReturnType(new SevereFrostAnalyzer);
-		case RelativeHumidity:
-		  return ReturnType(new RelativeHumidityAnalyzer);
-		case WindSpeed:
-		  return ReturnType(new WindSpeedAnalyzer);
 		case WindDirection:
-		  return ReturnType(new WindDirectionAnalyzer);
+		  return ReturnType(new ModuloParameterAnalyzer("textgen::winddirection",
+														"WindDirection",
+														360));
+		case Temperature:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::temperature",
+														 "Temperature"));
+		case Precipitation:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::precipitation",
+														 "Precipitation1h"));
+		case Cloudiness:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::cloudiness",
+														 "TotalCloudCover"));
+		case Frost:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::frost",
+														 "FrostProbability"));
+		case SevereFrost:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::severefrost",
+														 "SevereFrostProbability"));
+		case RelativeHumidity:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::relativehumidity",
+														 "Humidity"));
+		case WindSpeed:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::windspeed",
+														 "WindSpeedMS"));
 		case Thunder:
-		  return ReturnType(new ThunderAnalyzer);
+		  return ReturnType(new RegularParameterAnalyzer("textgen::thunder",
+														 "ProbabilityThunderstorm"));
 		case PrecipitationType:
-		  return ReturnType(new PrecipitationTypeAnalyzer);
+		  return ReturnType(new RegularParameterAnalyzer("textgen::precipitationtype",
+														 "PrecipitationType"));
 		case PrecipitationForm:
-		  return ReturnType(new PrecipitationFormAnalyzer);
+		  return ReturnType(new RegularParameterAnalyzer("textgen::precipitationform",
+														 "PrecipitationForm"));
 		case PrecipitationProbability:
-		  return ReturnType(new PrecipitationProbabilityAnalyzer);
+		  return ReturnType(new RegularParameterAnalyzer("textgen::precipitationprobability",
+														 "PoP"));
 		case RoadTemperature:
-		  return ReturnType(new RoadTemperatureAnalyzer);
+		  return ReturnType(new RegularParameterAnalyzer("textgen::roadtemperature",
+														 "RoadTemperature"));
 		case RoadCondition:
-		  return ReturnType(new RoadConditionAnalyzer);
+		  return ReturnType(new RegularParameterAnalyzer("textgen::roadcondition",
+														 "RoadCondition"));
 	  }
 
 	  // Should never reach this place

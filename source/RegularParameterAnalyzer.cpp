@@ -1,18 +1,18 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::TemperatureAnalyzer
+ * \brief Implementation of class WeatherAnalysis::RegularParameterAnalyzer
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::TemperatureAnalyzer
+ * \class WeatherAnalysis::RegularParameterAnalyzer
  *
- * \brief Temperature analysis functions
+ * \brief Regular parameter analysis functions
  *
  */
 // ======================================================================
 
-#include "TemperatureAnalyzer.h"
+#include "RegularParameterAnalyzer.h"
 #include "AnalysisSources.h"
 #include "RegularFunctionAnalyzer.h"
 #include "WeatherResult.h"
@@ -24,8 +24,24 @@ namespace WeatherAnalysis
 {
 
   // ----------------------------------------------------------------------
+  /*
+   * \brief Constructor
+   *
+   * \param theVariable The variable name, usually textgen::parametername
+   * \param theParameter The parameter name
+   */
+  // ----------------------------------------------------------------------
+
+  RegularParameterAnalyzer::RegularParameterAnalyzer(const string & theVariable,
+													 const string & theParameter)
+	: itsVariable(theVariable)
+	, itsParameter(theParameter)
+  {
+  }
+
+  // ----------------------------------------------------------------------
   /*!
-   * \brief Analyze temperature in an area
+   * \brief Analyze a regular parameter (non modulo) in an area
    *
    * \param theSources Analysis sources
    * \param theDataType The source type to be used
@@ -41,26 +57,23 @@ namespace WeatherAnalysis
   // ----------------------------------------------------------------------
   
   const WeatherResult
-  TemperatureAnalyzer::analyze(const AnalysisSources & theSources,
-							   const WeatherDataType & theDataType,
-							   const WeatherFunction & theAreaFunction,
-							   const WeatherFunction & theTimeFunction,
-							   const WeatherFunction & theSubTimeFunction,
-							   const WeatherArea & theArea,
-							   const WeatherPeriodGenerator & thePeriods,
-							   const Acceptor & theAreaAcceptor,
-							   const Acceptor & theTimeAcceptor,
-							   const Acceptor & theTester) const
+  RegularParameterAnalyzer::analyze(const AnalysisSources & theSources,
+									const WeatherDataType & theDataType,
+									const WeatherFunction & theAreaFunction,
+									const WeatherFunction & theTimeFunction,
+									const WeatherFunction & theSubTimeFunction,
+									const WeatherArea & theArea,
+									const WeatherPeriodGenerator & thePeriods,
+									const Acceptor & theAreaAcceptor,
+									const Acceptor & theTimeAcceptor,
+									const Acceptor & theTester) const
   {
-	const string varname = "textgen::temperature";
-	const string parname = "Temperature";
-
 	auto_ptr<FunctionAnalyzer> analyzer(new RegularFunctionAnalyzer(theAreaFunction,theTimeFunction,theSubTimeFunction));
 
 	return analyzer->analyze(theSources,theDataType,
 							 theArea,thePeriods,
 							 theAreaAcceptor,theTimeAcceptor,theTester,
-							 varname,parname);
+							 itsVariable,itsParameter);
 
   }
 

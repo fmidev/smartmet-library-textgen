@@ -1,18 +1,18 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::WindDirectionAnalyzer
+ * \brief Implementation of class WeatherAnalysis::ModuloParameterAnalyzer
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::WindDirectionAnalyzer
+ * \class WeatherAnalysis::ModuloParameterAnalyzer
  *
- * \brief WindDirection analysis functions
+ * \brief Modulo parameter analysis functions
  *
  */
 // ======================================================================
 
-#include "WindDirectionAnalyzer.h"
+#include "ModuloParameterAnalyzer.h"
 #include "AnalysisSources.h"
 #include "RegularFunctionAnalyzer.h"
 #include "WeatherResult.h"
@@ -24,8 +24,27 @@ namespace WeatherAnalysis
 {
 
   // ----------------------------------------------------------------------
+  /*
+   * \brief Constructor
+   *
+   * \param theVariable The variable name, usually textgen::parametername
+   * \param theParameter The parameter name
+   * \param theModulo The modulo value
+   */
+  // ----------------------------------------------------------------------
+
+  ModuloParameterAnalyzer::ModuloParameterAnalyzer(const string & theVariable,
+												   const string & theParameter,
+												   int theModulo)
+	: itsVariable(theVariable)
+	, itsParameter(theParameter)
+	, itsModulo(theModulo)
+  {
+  }
+
+  // ----------------------------------------------------------------------
   /*!
-   * \brief Analyze winddirection in an area
+   * \brief Analyze a regular parameter modulo some value in an area
    *
    * \param theSources Analysis sources
    * \param theDataType The source type to be used
@@ -41,28 +60,25 @@ namespace WeatherAnalysis
   // ----------------------------------------------------------------------
   
   const WeatherResult
-  WindDirectionAnalyzer::analyze(const AnalysisSources & theSources,
-								 const WeatherDataType & theDataType,
-								 const WeatherFunction & theAreaFunction,
-								 const WeatherFunction & theTimeFunction,
-								 const WeatherFunction & theSubTimeFunction,
-								 const WeatherArea & theArea,
-								 const WeatherPeriodGenerator & thePeriods,
-								 const Acceptor & theAreaAcceptor,
-								 const Acceptor & theTimeAcceptor,
-								 const Acceptor & theTester) const
+  ModuloParameterAnalyzer::analyze(const AnalysisSources & theSources,
+									const WeatherDataType & theDataType,
+									const WeatherFunction & theAreaFunction,
+									const WeatherFunction & theTimeFunction,
+									const WeatherFunction & theSubTimeFunction,
+									const WeatherArea & theArea,
+									const WeatherPeriodGenerator & thePeriods,
+									const Acceptor & theAreaAcceptor,
+									const Acceptor & theTimeAcceptor,
+									const Acceptor & theTester) const
   {
-	const string varname = "textgen::winddirection";
-	const string parname = "WindDirection";
-
 	auto_ptr<RegularFunctionAnalyzer> analyzer(new RegularFunctionAnalyzer(theAreaFunction,theTimeFunction,theSubTimeFunction));
 
-	analyzer->modulo(360);
+	analyzer->modulo(itsModulo);
 
 	return analyzer->analyze(theSources,theDataType,
 							 theArea,thePeriods,
 							 theAreaAcceptor,theTimeAcceptor,theTester,
-							 varname,parname);
+							 itsVariable,itsParameter);
 
   }
 

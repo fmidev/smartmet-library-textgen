@@ -1,14 +1,15 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::PrecipitationTypeAnalyzer
+ * \brief Interface of class WeatherAnalysis::ModuloParameterAnalyzer
  */
 // ======================================================================
 
-#ifndef WEATHERANALYZER_PRECIPITATIONTYPEANALYZER_H
-#define WEATHERANALYZER_PRECIPITATIONTYPEANALYZER_H
+#ifndef WEATHERANALYZER_MODULOPARAMETERANALYZER_H
+#define WEATHERANALYZER_MODULOPARAMETERANALYZER_H
 
 #include "ParameterAnalyzer.h"
+#include <string>
 
 namespace WeatherAnalysis
 {
@@ -17,9 +18,13 @@ namespace WeatherAnalysis
   class WeatherPeriodGenerator;
   class WeatherResult;
 
-  class PrecipitationTypeAnalyzer : public ParameterAnalyzer
+  class ModuloParameterAnalyzer : public ParameterAnalyzer
   {
   public:
+
+	ModuloParameterAnalyzer(const std::string & theVariable,
+							const std::string & theParameter,
+							int theModulo);
 
 	virtual const WeatherResult
 	analyze(const AnalysisSources & theSources,
@@ -33,9 +38,17 @@ namespace WeatherAnalysis
 			const Acceptor & theTimeAcceptor,
 			const Acceptor & theTester = NullAcceptor()) const;
 
+  private:
+	
+	ModuloParameterAnalyzer();
+
+	const std::string itsVariable;
+	const std::string itsParameter;
+	const int itsModulo;
+
   };
 }
 
-#endif // WEATHERANALYSIS_PRECIPITATIONTYPEANALYZER_H
+#endif // WEATHERANALYSIS_MODULOPARAMETERANALYZER_H
 
 // ======================================================================
