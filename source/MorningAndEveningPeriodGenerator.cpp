@@ -99,9 +99,9 @@ namespace WeatherAnalysis
 	, itsEveningStartHour(Settings::require_hour(theVariable+"::evening::starthour"))
 	, itsNightStartHour(Settings::require_hour(theVariable+"::night::starthour"))
 	, itsMorningMaxStartHour(Settings::optional_hour(theVariable+"::morning::maxstarthour",itsMorningStartHour))
-	, itsDayMaxStartHour(Settings::optional_hour(theVariable+"::day::maxstarthour",itsDayMaxStartHour))
-	, itsEveningMaxStartHour(Settings::optional_hour(theVariable+"::evening::maxstarthour",itsEveningMaxStartHour))
-	, itsNightMaxStartHour(Settings::optional_hour(theVariable+"::night::maxstarthour",itsNightMaxStartHour))
+	, itsDayMaxStartHour(Settings::optional_hour(theVariable+"::day::maxstarthour",itsDayStartHour))
+	, itsEveningMaxStartHour(Settings::optional_hour(theVariable+"::evening::maxstarthour",itsEveningStartHour))
+	, itsNightMaxStartHour(Settings::optional_hour(theVariable+"::night::maxstarthour",itsNightStartHour))
   {
 	init();
   }
