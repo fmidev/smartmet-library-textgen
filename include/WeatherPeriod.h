@@ -31,6 +31,8 @@ namespace WeatherAnalysis
 	const NFmiTime & utcStartTime() const;
 	const NFmiTime & utcEndTime() const;
 
+	bool operator<(const WeatherPeriod & theRhs) const;
+
   private:
 
 	WeatherPeriod();

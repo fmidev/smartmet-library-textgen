@@ -120,6 +120,26 @@ namespace WeatherAnalysis
 	return itsUtcEndTime;
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Less-than comparison for WeatherAnalysis::WeatherPeriod
+   *
+   * We define < to mean the lexicographic ordering based on the
+   * start time and then the end time.
+   *
+   * \param theRhs The right hand side
+   * \return True if the theLhs < theRhs
+   */
+  // ----------------------------------------------------------------------
+  
+  bool WeatherPeriod::operator<(const WeatherAnalysis::WeatherPeriod & theRhs) const
+  {
+	if(utcStartTime() != theRhs.utcStartTime())
+	  return (utcStartTime() < theRhs.utcStartTime());
+	return (utcEndTime() < theRhs.utcEndTime());
+  }
+
+
 } // namespace WeatherAnalysis
 
 // ----------------------------------------------------------------------
