@@ -57,8 +57,8 @@ namespace WeatherAnalysis
 		  }
 		else
 		  {
-			const float diff = theValue - itsPreviousDirection;
-			float dir = itsPreviousDirection + diff;
+			const double diff = theValue - itsPreviousDirection;
+			double dir = itsPreviousDirection + diff;
 			if(diff < -itsModulo/2)
 			  dir += itsModulo;
 			else if(diff > itsModulo/2)
@@ -84,7 +84,13 @@ namespace WeatherAnalysis
 	if(itsCounter<1)
 	  return kFloatMissing;
 	else
-	  return sqrt((itsSquaredSum-itsSum*itsSum/itsCounter)/itsCounter);
+	  {
+		const double tmp = itsSquaredSum-itsSum*itsSum/itsCounter;
+		if(tmp<0)
+		  return 0.0;
+		else
+		  return sqrt(tmp/itsCounter);
+	  }
   }
   
   // ----------------------------------------------------------------------

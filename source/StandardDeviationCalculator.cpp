@@ -13,6 +13,7 @@
 #include <cmath>
 
 using namespace boost;
+using namespace std;
 
 namespace WeatherAnalysis
 {
@@ -62,7 +63,13 @@ namespace WeatherAnalysis
 	if(itsCounter<2)
 	  return kFloatMissing;
 	else
-	  return sqrt((itsSquaredSum-itsSum*itsSum/itsCounter)/(itsCounter-1));
+	  {
+		const double tmp = itsSquaredSum-itsSum*itsSum/itsCounter;
+		if(tmp < 0)
+		  return 0.0;
+		else
+		  return sqrt(tmp/(itsCounter-1));
+	  }
   }
   
   // ----------------------------------------------------------------------

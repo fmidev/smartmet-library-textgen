@@ -41,8 +41,8 @@ namespace WeatherAnalysis
 
 	boost::shared_ptr<Acceptor> itsAcceptor;
 	long itsCounter;
-	float itsSum;
-	float itsSquaredSum;
+	double itsSum;
+	double itsSquaredSum;
 
   }; // class StandardDeviationCalculator
 

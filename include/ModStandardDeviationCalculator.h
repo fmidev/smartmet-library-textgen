@@ -49,9 +49,9 @@ namespace WeatherAnalysis
 	const int itsModulo;
 
 	long itsCounter;
-	float itsSum;
-	float itsSquaredSum;
-	float itsPreviousDirection;
+	double itsSum;
+	double itsSquaredSum;
+	double itsPreviousDirection;
 
   }; // class ModStandardDeviationCalculator
 
