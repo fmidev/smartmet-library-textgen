@@ -62,6 +62,22 @@ namespace MySQLDictionaryTest
 	TEST_PASSED();
   }
   
+  //! Test language()
+  void language(void)
+  {
+	using namespace TextGen;
+	MySQLDictionary dict;
+
+	if(!dict.language().empty())
+	  TEST_FAILED("language should be empty before init");
+
+	dict.init("fi");
+	if(dict.language() != "fi")
+	  TEST_FAILED("language should match init argument");
+
+	TEST_PASSED();
+  }
+
   //! Test empty() method
   void empty(void)
   {
@@ -184,6 +200,7 @@ namespace MySQLDictionaryTest
 	{
 	  TEST(structors);
 	  TEST(init);
+	  TEST(language);
 	  TEST(empty);
 	  TEST(size);
 	  TEST(contains);

@@ -55,6 +55,22 @@ namespace BasicDictionaryTest
 	TEST_PASSED();
   }
 
+  //! Test language()
+  void language()
+  {
+	using namespace TextGen;
+	BasicDictionary dict;
+
+	if(!dict.language().empty())
+	  TEST_FAILED("language should be empty before init");
+
+	dict.init("fi");
+	if(dict.language() != "fi")
+	  TEST_FAILED("language should match init argument");
+
+	TEST_PASSED();
+  }
+
   //! Test insert()
   void insert(void)
   {
@@ -170,6 +186,7 @@ namespace BasicDictionaryTest
 	{
 	  TEST(structors);
 	  TEST(init);
+	  TEST(language);
 	  TEST(insert);
 	  TEST(empty);
 	  TEST(size);

@@ -55,6 +55,22 @@ namespace NullDictionaryTest
 	TEST_PASSED();
   }
 
+  //! Test language()
+  void language(void)
+  {
+	using namespace TextGen;
+	NullDictionary dict;
+
+	if(!dict.language().empty())
+	  TEST_FAILED("dict.language() should be empty before init");
+
+	dict.init("fi");
+	if(dict.language() != "fi")
+	  TEST_FAILED("dict.language() did not return init argument");
+
+	TEST_PASSED();
+  }
+
   //! Test insert()
   void insert(void)
   {
@@ -140,6 +156,7 @@ namespace NullDictionaryTest
 	{
 	  TEST(structors);
 	  TEST(init);
+	  TEST(language);
 	  TEST(insert);
 	  TEST(empty);
 	  TEST(size);
