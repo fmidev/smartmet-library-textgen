@@ -312,7 +312,7 @@ INSERT INTO translation_en VALUES ('ensi yönä','at night',20030609095732,'mheisk
 INSERT INTO translation_en VALUES ('huomisaamuna','tomorrow morning',20030609095740,'mheiskan');
 INSERT INTO translation_en VALUES ('aamulla','in the morning',20030609095846,'mheiskan');
 INSERT INTO translation_en VALUES ('illalla','in the evening',20030609095853,'mheiskan');
-INSERT INTO translation_en VALUES ('aamupäivällä','before noon',20030609095901,'mheiskan');
+INSERT INTO translation_en VALUES ('aamupäivällä','in the forenoon',20031111073552,'mheiskan');
 INSERT INTO translation_en VALUES ('iltapäivällä','in the afternoon',20030609095911,'mheiskan');
 INSERT INTO translation_en VALUES ('aamuyöllä','after midnight',20030609095920,'mheiskan');
 INSERT INTO translation_en VALUES ('keskipäivällä','at noon',20030609095933,'mheiskan');
@@ -321,7 +321,7 @@ INSERT INTO translation_en VALUES ('keskiyöllä','at midnight',20030609095950,'mh
 INSERT INTO translation_en VALUES ('yöstä alkaen','from tonight',20030609100005,'mheiskan');
 INSERT INTO translation_en VALUES ('aamuyöstä alkaen','from the early morning',20030609100015,'mheiskan');
 INSERT INTO translation_en VALUES ('aamusta alkaen','from the morning',20030609100025,'mheiskan');
-INSERT INTO translation_en VALUES ('aamupäivästä alkaen','from before noon',20030609100034,'mheiskan');
+INSERT INTO translation_en VALUES ('aamupäivästä alkaen','from forenoon',20031111073538,'mheiskan');
 INSERT INTO translation_en VALUES ('keskipäivästä alkaen','from the noon',20030609100044,'mheiskan');
 INSERT INTO translation_en VALUES ('iltapäivästä alkaen','from the afternoon',20030609100056,'mheiskan');
 INSERT INTO translation_en VALUES ('illasta alkaen','from the evening',20030609100104,'mheiskan');
@@ -456,12 +456,12 @@ INSERT INTO translation_en VALUES ('4-aamuna','on Thursday morning',200310211404
 INSERT INTO translation_en VALUES ('5-aamuna','on Friday morning',20031021140408,'mheiskan');
 INSERT INTO translation_en VALUES ('6-aamuna','on Saturday morning',20031021140415,'mheiskan');
 INSERT INTO translation_en VALUES ('7-aamuna','on Sunday morning',20031021140422,'mheiskan');
-INSERT INTO translation_en VALUES ('1-aamupäivästä alkaen','from Monday before noon',20031021140444,'mheiskan');
-INSERT INTO translation_en VALUES ('2-aamupäivästä alkaen','from Tuesday before noon',20031021140453,'mheiskan');
-INSERT INTO translation_en VALUES ('3-aamupäivästä alkaen','from Wednesday before noon',20031021140503,'mheiskan');
-INSERT INTO translation_en VALUES ('4-aamupäivästä alkaen','from Thursday before noon',20031021140513,'mheiskan');
-INSERT INTO translation_en VALUES ('5-aamupäivästä alkaen','from Friday before noon',20031021140530,'mheiskan');
-INSERT INTO translation_en VALUES ('6-aamupäivästä alkaen','from Saturday before noon',20031021140539,'mheiskan');
+INSERT INTO translation_en VALUES ('1-aamupäivästä alkaen','from Monday forenoon',20031111073419,'mheiskan');
+INSERT INTO translation_en VALUES ('2-aamupäivästä alkaen','from Tuesday forenoon',20031111073427,'mheiskan');
+INSERT INTO translation_en VALUES ('3-aamupäivästä alkaen','from Wednesday forenoon',20031111073445,'mheiskan');
+INSERT INTO translation_en VALUES ('4-aamupäivästä alkaen','from Thursday forenoon',20031111073452,'mheiskan');
+INSERT INTO translation_en VALUES ('5-aamupäivästä alkaen','from Friday forenoon',20031111073501,'mheiskan');
+INSERT INTO translation_en VALUES ('6-aamupäivästä alkaen','from Saturday forenoon',20031111073510,'mheiskan');
 INSERT INTO translation_en VALUES ('1-aamusta alkaen','from Monday morning',20031021140553,'mheiskan');
 INSERT INTO translation_en VALUES ('2-aamusta alkaen','from Tuesday morning',20031021140600,'mheiskan');
 INSERT INTO translation_en VALUES ('3-aamusta alkaen','from Wednesday morning',20031021140609,'mheiskan');
@@ -502,7 +502,7 @@ INSERT INTO translation_en VALUES ('huomisillasta alkaen','from tomorrow evening
 INSERT INTO translation_en VALUES ('huomenna päivällä','tomorrow during the day',20031021141434,'mheiskan');
 INSERT INTO translation_en VALUES ('huomisiltana','tomorrow evening',20031021141445,'mheiskan');
 INSERT INTO translation_en VALUES ('1-aamuna','on Monday morning',20031021142830,'mheiskan');
-INSERT INTO translation_en VALUES ('7-aamupäivästä alkaen','from Sunday before noon',20031021142850,'mheiskan');
+INSERT INTO translation_en VALUES ('7-aamupäivästä alkaen','from Sunday forenoon',20031111073524,'mheiskan');
 INSERT INTO translation_en VALUES ('B1:lle','for Bay of Bothnia',20031028080912,'mheiskan');
 INSERT INTO translation_en VALUES ('B2:lle','for the Quark',20031028080918,'mheiskan');
 INSERT INTO translation_en VALUES ('B3:lle','for Sea of Bothnia',20031028080926,'mheiskan');
