@@ -9,9 +9,14 @@
 #include "WeatherPeriod.h"
 #include "TextGenError.h"
 
+#include "NFmiSettings.h"
 #include "NFmiTime.h"
 
+#include "boost/lexical_cast.hpp"
+
 using namespace WeatherAnalysis;
+using namespace std;
+using namespace boost;
 
 // ======================================================================
 //				IMPLEMENTATION HIDING FUNCTIONS
@@ -19,6 +24,77 @@ using namespace WeatherAnalysis;
 
 namespace
 {
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the switch hour for until_tomorrow_evening period
+   */
+  // ----------------------------------------------------------------------
+
+  int switch_until_tomorrow_evening()
+  {
+	using namespace TextGen;
+
+	const string varname = "textgen::period::until_tomorrow_evening::switchhour";
+	if(!NFmiSettings::instance().isset(varname))
+	  return 12;
+
+	string value = NFmiSettings::instance().value(varname);
+	int hour = lexical_cast<int>(value);
+
+	if(hour<0 || hour>=24)
+	  throw TextGenError(varname + " value " +value + " is out of range 0-23");
+
+	return hour;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the switch hour for from_tomorrow_evening period
+   */
+  // ----------------------------------------------------------------------
+
+  int switch_from_tomorrow_evening()
+  {
+	using namespace TextGen;
+
+	const string varname = "textgen::period::from_tomorrow_evening::switchhour";
+	if(!NFmiSettings::instance().isset(varname))
+	  return 12;
+
+	string value = NFmiSettings::instance().value(varname);
+	int hour = lexical_cast<int>(value);
+
+	if(hour<0 || hour>=24)
+	  throw TextGenError(varname + " value " +value + " is out of range 0-23");
+
+	return hour;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the switch hour for five_days period
+   */
+  // ----------------------------------------------------------------------
+
+  int switch_five_days()
+  {
+	using namespace TextGen;
+
+	const string varname = "textgen::period::five_days::switchhour";
+	if(!NFmiSettings::instance().isset(varname))
+	  return 6;
+
+	string value = NFmiSettings::instance().value(varname);
+	int hour = lexical_cast<int>(value);
+
+	if(hour<0 || hour>=24)
+	  throw TextGenError(varname + " value " +value + " is out of range 0-23");
+
+	return hour;
+  }
+  
+
+
   // ----------------------------------------------------------------------
   /*!
    * \brief Round up the given time to full hours
@@ -53,7 +129,10 @@ namespace
 	NFmiTime start(round_up(theTime));
 	// End time is evening at +1 or +2 days
 	NFmiTime end(start);
-	if(start.GetHour() < 12)
+
+	const int switchhour = switch_until_tomorrow_evening();
+
+	if(start.GetHour() < switchhour)
 	  end.ChangeByDays(1);
 	else
 	  end.ChangeByDays(2);
@@ -75,10 +154,16 @@ namespace
 
   WeatherPeriod farmer_from_tomorrow_evening(const NFmiTime & theTime)
   {
-	// Start time is end time of farmer_until_tomorrow_evening
+	// Start time logic is similar to until_tomorrow_evening
 
-	WeatherPeriod previous_period(farmer_until_tomorrow_evening(theTime));
-	NFmiTime start(previous_period.localEndTime());
+	NFmiTime start(round_up(theTime));
+
+	const int switchhour = switch_from_tomorrow_evening();
+	if(start.GetHour() < switchhour)
+	  start.ChangeByDays(1);
+	else
+	  start.ChangeByDays(2);
+	start.SetHour(18);
 
 	// End time is morning at +4 days
 
@@ -104,10 +189,12 @@ namespace
   {
 	// Start time is next 06-hour
 
+	const int switchhour = switch_five_days();
+
 	NFmiTime start(round_up(theTime));
-	if(start.GetHour() > 6)
+	if(start.GetHour() > switchhour)
 	  start.ChangeByDays(1);
-	start.SetHour(6);
+	start.SetHour(switchhour);
 
 	// End time
 	NFmiTime end(start);
