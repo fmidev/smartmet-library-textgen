@@ -277,6 +277,8 @@ int main(void)
   dict->init("sv");
   dict->init("en");
 
+  NFmiSettings::instance().set("textgen::units::millimeters::format","phrase");
+
   tests t;
   return t.run();
 }

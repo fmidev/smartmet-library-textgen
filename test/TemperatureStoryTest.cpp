@@ -62,22 +62,22 @@ namespace TemperatureStoryTest
 	const string fun = "temperature_mean";
 
 	NFmiSettings::instance().set("mean::fake::mean","0.1,1");
-	require(story,"fi",fun,"Keskilämpötila 0 astetta.");
+	require(story,"fi",fun,"Keskilämpötila 0\260C.");
 	require(story,"sv",fun,"Medeltemperaturen 0 grader.");
 	require(story,"en",fun,"Mean temperature 0 degrees.");
 
 	NFmiSettings::instance().set("mean::fake::mean","0.5,1");
-	require(story,"fi",fun,"Keskilämpötila 1 astetta.");
+	require(story,"fi",fun,"Keskilämpötila 1\260C.");
 	require(story,"sv",fun,"Medeltemperaturen 1 grader.");
 	require(story,"en",fun,"Mean temperature 1 degrees.");
 
 	NFmiSettings::instance().set("mean::fake::mean","10,1");
-	require(story,"fi",fun,"Keskilämpötila 10 astetta.");
+	require(story,"fi",fun,"Keskilämpötila 10\260C.");
 	require(story,"sv",fun,"Medeltemperaturen 10 grader.");
 	require(story,"en",fun,"Mean temperature 10 degrees.");
 
 	NFmiSettings::instance().set("mean::fake::mean","-10.5,1");
-	require(story,"fi",fun,"Keskilämpötila -11 astetta.");
+	require(story,"fi",fun,"Keskilämpötila -11\260C.");
 	require(story,"sv",fun,"Medeltemperaturen -11 grader.");
 	require(story,"en",fun,"Mean temperature -11 degrees.");
 
@@ -512,6 +512,8 @@ int main(void)
 	   << "======================" << endl;
 
   dict = TextGen::DictionaryFactory::create("multimysql");
+
+  NFmiSettings::instance().set("textgen::units::celsius::format","phrase");
 
   dict->init("fi");
   dict->init("sv");
