@@ -21,6 +21,8 @@ namespace TextGen
   class PlainTextFormatter : public TextFormatter
   {
   public:
+	PlainTextFormatter() { }
+
 	virtual ~PlainTextFormatter() { }
 	virtual void dictionary(const boost::shared_ptr<Dictionary> & theDict);
 	virtual void variable(const std::string & theVariable);
