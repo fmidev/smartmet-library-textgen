@@ -31,9 +31,9 @@ Englanniksi
 
 Tarina valitaan perustuen muuttujiin
 \code
-textgen::[kappale]::story::frost_maximum::severe_frost_limit = [0-100]
-textgen::[kappale]::story::frost_maximum::frost_limit = [0-100]
-textgen::[kappale]::story::frost_mean::precision = [0-100]
+textgen::[kappale]::story::frost_range::severe_frost_limit = [0-100]
+textgen::[kappale]::story::frost_range::frost_limit = [0-100]
+textgen::[kappale]::story::frost_range::precision = [0-100]
 \endcode
 Jos ankaran hallan todennäköisyys on vähintään \c severe_frost_limit,
 palautetaan fraasi 3. Muuten jos hallan todennäköisyys on vähintään
