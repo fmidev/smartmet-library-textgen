@@ -17,11 +17,69 @@
 // ======================================================================
 
 #include "CloudinessStoryTools.h"
+#include "Settings.h"
 
 namespace TextGen
 {
   namespace CloudinessStoryTools
   {
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Calculate cloudiness type
+	 *
+	 * \param theVar The settings variable controlling the conversion
+	 * \param theCloudyPercentage The percentage of cloudy
+	 * \param theClearPercentage The percentage of clear
+	 * \param theTrend The trend
+	 * \return Respective cloudiness type
+	 *
+	 * \see \ref page_story_cloudiness_overview for the algorithm
+	 *
+	 */
+	// ----------------------------------------------------------------------
+
+	CloudinessType cloudinesstype(const std::string & theVar,
+								  double theCloudyPercentage,
+								  double theClearPercentage,
+								  double theTrend)
+	{
+	  using namespace Settings;
+
+	  const int single_class_limit = optional_percentage(theVar+"::single_class_limit",90);
+	  const int mostly_class_limit = optional_percentage(theVar+"::mostly_class_limit",80);
+	  const int no_class_limit = optional_percentage(theVar+"::no_class_limit",20);
+	  const int trend_limit = optional_percentage(theVar+"::trend_limit",80);
+
+	  const double partlycloudy = 100 - theCloudyPercentage - theClearPercentage;
+
+	  if(theCloudyPercentage >= single_class_limit)
+		return Cloudy;
+	  if(theClearPercentage >= single_class_limit)
+		return Clear;
+	  if(partlycloudy >= single_class_limit)
+		return PartlyCloudy;
+
+	  if(theCloudyPercentage >= mostly_class_limit)
+		return MostlyCloudy;
+	  if(theClearPercentage >= mostly_class_limit)
+		return MostlyClear;
+	  if(partlycloudy >= mostly_class_limit)
+		return MostlyPartlyCloudy;
+
+	  if(theClearPercentage < no_class_limit)
+		return CloudyOrPartlyCloudy;
+	  if(theCloudyPercentage < no_class_limit)
+		return ClearOrPartlyCloudy;
+
+	  if(theTrend >= trend_limit)
+		return IncreasingCloudiness;
+	  if(-theTrend >= trend_limit)
+		return DecreasingCloudiness;
+
+	  return VariableCloudiness;
+
+	}
 
 	// ----------------------------------------------------------------------
 	/*!

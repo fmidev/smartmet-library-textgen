@@ -18,6 +18,17 @@ namespace CloudinessStoryToolsTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test CloudinessStoryTools::cloudinesstype
+   */
+  // ----------------------------------------------------------------------
+
+  void cloudinesstype()
+  {
+	TEST_NOT_IMPLEMENTED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Test CloudinessStoryTools::similartype
    */
   // ----------------------------------------------------------------------
@@ -44,6 +55,7 @@ namespace CloudinessStoryToolsTest
 	//! Main test suite
 	void test(void)
 	{
+	  TEST(cloudinesstype);
 	  TEST(similartype);
 	}
 

@@ -39,6 +39,10 @@ namespace TextGen
 		VariableCloudiness		//!< vaihtelevaa pilvisyyttä
 	  };
 
+	CloudinessType cloudinesstype(const std::string & theVar,
+								  double theCloudyPercentage,
+								  double theClearPercentage,
+								  double theTrend);
 
 	std::pair<CloudinessType,bool> similartype(CloudinessType theType1, CloudinessType theType2);
 
