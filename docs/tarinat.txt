@@ -50,10 +50,8 @@ jolla voidaan luoda erikseen nimettyjä tarinoita.
 
 \section sec_specialstory Erikoistarinat
 
-Kaksi normaalista poikkeavaa tarinaa ovat "none", joka palauttaa tyhjän
-Paragraph objektin, sekä "break", joka palauttaa Paragraph objektin
-joka sisältää vain yhden Delimiter objektin. Delimiter objektin
-sisältö on newline-merkki.
+Normaalista poikkeava tarina on "none", joka palauttaa tyhjän Paragraph
+objektin.
 
 \section sec_temperaturestory TemperatureStory luokka
 
