@@ -233,6 +233,48 @@ namespace WeatherAnalysis
 	return true;
   }
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Round the given time down to the start of the day
+	 *
+	 * Note: In all cases the date part remains the same. That is,
+	 * time 00:00::00 is not assumed to be midnight, but the
+	 * actual desired day start.
+	 *
+	 * \param theDate The time to round
+	 * \return The rounded date
+	 */
+	// ----------------------------------------------------------------------
+
+	NFmiTime dayStart(const NFmiTime & theDate)
+	{
+	  return NFmiTime(theDate.GetYear(),
+					  theDate.GetMonth(),
+					  theDate.GetDay());
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Round the given time up to the end of the day
+	 *
+	 * Note: DD.MM.YYYY 00:00:00 remains the same, in all other
+	 * cases the date increases by one. That is, the time 00:00:00
+	 * is assumed to be the desired midnight, not the start of the
+	 * date.
+	 *
+	 * \param theDate The time to round
+	 * \return The rounded date
+	 */
+	// ----------------------------------------------------------------------
+
+	NFmiTime dayEnd(const NFmiTime & theDate)
+	{
+	  NFmiTime tmp(dayStart(theDate));
+	  if(!tmp.IsEqual(theDate))
+		tmp.ChangeByDays(1);
+	  return tmp;
+	}
+
   } // namespace TimeTools
 } // namespace WeatherAnalysis
 

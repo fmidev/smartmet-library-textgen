@@ -22,6 +22,9 @@ namespace WeatherAnalysis
 	bool isNextDay(const NFmiTime & theDate1, const NFmiTime & theDate2);
 	bool isSeveralDays(const NFmiTime & theDate1, const NFmiTime & theDate2);
 
+	NFmiTime dayStart(const NFmiTime & theDate);
+	NFmiTime dayEnd(const NFmiTime & theDate);
+
   }
 } // namespace WeatherAnalysis
 

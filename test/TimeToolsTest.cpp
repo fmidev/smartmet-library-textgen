@@ -77,6 +77,48 @@ namespace TimeToolsTest
 	TEST_PASSED();
   }
   
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test TimeTools::dayStart()
+   */
+  // ----------------------------------------------------------------------
+
+  void day_start()
+  {
+	using WeatherAnalysis::TimeTools::dayStart;
+	if(!dayStart(NFmiTime(2003,9,29)).IsEqual(NFmiTime(2003,9,29)))
+	  TEST_FAILED("Failed to round down 29.09.2003 00:00");
+	if(!dayStart(NFmiTime(2003,9,29,1)).IsEqual(NFmiTime(2003,9,29)))
+	  TEST_FAILED("Failed to round down 29.09.2003 01:00");
+	if(!dayStart(NFmiTime(2003,9,29,0,1)).IsEqual(NFmiTime(2003,9,29)))
+	  TEST_FAILED("Failed to round down 29.09.2003 00:01");
+	if(!dayStart(NFmiTime(2003,9,29,0,0,1)).IsEqual(NFmiTime(2003,9,29)))
+	  TEST_FAILED("Failed to round down 29.09.2003 00:00:01");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test TimeTools::dayEnd()
+   */
+  // ----------------------------------------------------------------------
+
+  void day_end()
+  {
+	using WeatherAnalysis::TimeTools::dayEnd;
+
+	if(!dayEnd(NFmiTime(2003,9,29)).IsEqual(NFmiTime(2003,9,29)))
+	  TEST_FAILED("Failed to round up 29.09.2003 00:00");
+	if(!dayEnd(NFmiTime(2003,9,29,1)).IsEqual(NFmiTime(2003,9,30)))
+	  TEST_FAILED("Failed to round up 29.09.2003 01:00");
+	if(!dayEnd(NFmiTime(2003,9,29,0,1)).IsEqual(NFmiTime(2003,9,30)))
+	  TEST_FAILED("Failed to round up 29.09.2003 00:01");
+	if(!dayEnd(NFmiTime(2003,9,29,0,0,1)).IsEqual(NFmiTime(2003,9,30)))
+	  TEST_FAILED("Failed to round up 29.09.2003 00:00:01");
+
+	TEST_PASSED();
+  }
 
   //! The actual test driver
   class tests : public tframe::tests
@@ -93,6 +135,8 @@ namespace TimeToolsTest
 	  TEST(is_same_day);
 	  TEST(is_next_day);
 	  TEST(is_several_days);
+	  TEST(day_start);
+	  TEST(day_end);
 	}
 
   }; // class tests
