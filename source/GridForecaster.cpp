@@ -12,10 +12,7 @@
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
 
-#include "PressureAnalysis.h"
 #include "TemperatureAnalysis.h"
-#include "WindDirectionAnalysis.h"
-#include "WindSpeedAnalysis.h"
 
 namespace WeatherAnalysis
 {
@@ -44,13 +41,14 @@ namespace WeatherAnalysis
 	switch(theParameter)
 	  {
 	  case Temperature:
-		return TemperatureAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,theArea);
+		{
+		  TemperatureAnalysis analyzer;
+		  return analyzer.forecast(theSources,theFunction,theLimits,thePeriod,theArea);
+		}
 	  case Pressure:
-		return PressureAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,theArea);
 	  case WindSpeed:
-		return WindSpeedAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,theArea);
 	  case WindDirection:
-		return WindDirectionAnalysis::forecast(theSources,theFunction,theLimits,thePeriod,theArea);
+		break;
 	  }
 	// should never reach this place
 	return WeatherResult(kFloatMissing,0);
