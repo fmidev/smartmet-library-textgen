@@ -30,6 +30,7 @@ namespace TextGen
 	PhraseWord(const PhraseWord & thePhrase);
 	PhraseWord & operator=(const PhraseWord & thePhrase);
 #endif
+	virtual std::auto_ptr<Phrase> clone() const;
 
 	virtual std::string realize() const;
 	virtual std::string realize(const Dictionary & theDictionary) const;

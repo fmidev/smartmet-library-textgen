@@ -36,6 +36,8 @@ namespace TextGen
 	PhraseNumber(const PhraseNumber & thePhrase);
 	PhraseNumber & operator=(const PhraseNumber & thePhrase);
 #endif
+	virtual std::auto_ptr<Phrase> clone() const
+	{ return std::auto_ptr<Phrase>(new PhraseNumber(*this)); }
 
 	virtual std::string realize() const
 	{ return this->tostring(itsNumber); }

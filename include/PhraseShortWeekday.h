@@ -30,6 +30,7 @@ namespace TextGen
 	PhraseShortWeekday(const PhraseShortWeekday & thePhrase);
 	PhraseShortWeekday & operator=(const PhraseShortWeekday & thePhrase);
 #endif
+	virtual std::auto_ptr<Phrase> clone() const;
 
 	virtual std::string realize() const;
 	virtual std::string realize(const Dictionary & theDictionary) const;

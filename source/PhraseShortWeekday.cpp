@@ -49,6 +49,19 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Return a clone
+   *
+   * \return The clone
+   */
+  // ----------------------------------------------------------------------
+
+  std::auto_ptr<Phrase> PhraseShortWeekday::clone() const
+  {
+	return auto_ptr<Phrase>(new PhraseShortWeekday(*this));
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Realize using global dictionary
    *
    * \return The realized string

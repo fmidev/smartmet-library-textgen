@@ -17,6 +17,7 @@
 #ifndef IMAGINE_PHRASE_H
 #define IMAGINE_PHRASE_H
 
+#include <memory>
 #include <string>
 
 namespace TextGen
@@ -28,6 +29,7 @@ namespace TextGen
   public:
 
 	virtual ~Phrase() { }
+	virtual std::auto_ptr<Phrase> clone() const = 0;
 	virtual std::string realize() const = 0;
 	virtual std::string realize(const Dictionary & theDictionary) const = 0;
 

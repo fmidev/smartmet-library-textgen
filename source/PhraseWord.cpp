@@ -25,6 +25,20 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Clone
+   *
+   * \return The clone
+   */
+  // ----------------------------------------------------------------------
+  
+  std::auto_ptr<Phrase> PhraseWord::clone() const
+  {
+	Phrase * tmp = new PhraseWord(*this);
+	return auto_ptr<Phrase>(tmp);
+  }
+ 
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Constructor
    *
    * \param theWord The word
