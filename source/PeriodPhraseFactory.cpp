@@ -286,7 +286,7 @@ namespace TextGen
 	  using WeekdayTools::on_weekday;
 	  Sentence sentence;
 
-	  if(is_next_day(theForecastTime, thePeriod.localEndTime()))
+	  if(is_next_day(theForecastTime, thePeriod.localStartTime()))
 		{
 		  if(optional_bool(theVariable+"::prefer_phrase_tomorrow",false))
 			sentence << "huomenna";
