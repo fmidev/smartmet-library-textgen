@@ -2,6 +2,8 @@
 
 \page page_story_wind_overview Tarina "wind_overview"
 
+Tämä tarina on speksattu kohtuullisesti, mutta toteutus puuttuu.
+
 \section section_wind_overview_story Tarinan muoto
 
 Tarina kuvailee tuuliennustetta yhden tai useamman päivän mittaiselle

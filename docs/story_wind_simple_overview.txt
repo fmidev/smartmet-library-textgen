@@ -2,6 +2,9 @@
 
 \page page_story_wind_simple_overview Tarina "wind_simple_overview"
 
+T‰m‰ tarina ei ole hyvin speksattu, eik‰ sit‰ tule k‰ytt‰‰ ainakaan
+viel‰.
+
 \section section_wind_simple_overview_story Tarinan muoto
 
 Tarina kuvailee tuuliennustetta yhden tai useamman p‰iv‰n mittaiselle
