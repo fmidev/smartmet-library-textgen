@@ -132,10 +132,10 @@ namespace TextGen
 	Sentence r_sentence;
 
 	const bool c_fullrange = optional_bool(itsVar+"::cloudiness::fullrange",true);
-	const int c_starthour = optional_hour(itsVar+"::cloudiness::starthour",0);
-	const int c_endhour = optional_hour(itsVar+"::cloudiness::endhour",0);
-	const int c_maxstarthour = optional_hour(itsVar+"::cloudiness::maxstarthour",c_starthour);
-	const int c_minendhour = optional_hour(itsVar+"::cloudiness::minendhour",c_endhour);
+	const int c_starthour = optional_hour(itsVar+"::cloudiness::day::starthour",0);
+	const int c_endhour = optional_hour(itsVar+"::cloudiness::day::endhour",0);
+	const int c_maxstarthour = optional_hour(itsVar+"::cloudiness::day::maxstarthour",c_starthour);
+	const int c_minendhour = optional_hour(itsVar+"::cloudiness::day::minendhour",c_endhour);
 
 	const int c_clear = optional_percentage(itsVar+"::cloudiness::clear",40);
 	const int c_cloudy = optional_percentage(itsVar+"::cloudiness::cloudy",70);
@@ -143,10 +143,10 @@ namespace TextGen
 	const int c_single_limit = optional_percentage(itsVar+"::cloudiness::single_limit",60);
 	const int c_double_limit = optional_percentage(itsVar+"::cloudiness::double_limit",20);
 
-	const int r_starthour = optional_hour(itsVar+"::precipitation::starthour",0);
-	const int r_endhour = optional_hour(itsVar+"::precipitation::endhour",0);
-	const int r_maxstarthour = optional_hour(itsVar+"::precipitation::maxstarthour",r_starthour);
-	const int r_minendhour = optional_hour(itsVar+"::precipitation::minendhour",r_endhour);
+	const int r_starthour = optional_hour(itsVar+"::precipitation::day::starthour",0);
+	const int r_endhour = optional_hour(itsVar+"::precipitation::day::endhour",0);
+	const int r_maxstarthour = optional_hour(itsVar+"::precipitation::day::maxstarthour",r_starthour);
+	const int r_minendhour = optional_hour(itsVar+"::precipitation::day::minendhour",r_endhour);
 
 	const double r_rainy = optional_double(itsVar+"::precipitation::rainy",1);
 	const double r_partly_rainy = optional_double(itsVar+"::precipitation::partly_rainy",0.1);

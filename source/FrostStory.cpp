@@ -477,10 +477,10 @@ namespace TextGen
 
 	Paragraph paragraph;
 
-	const int starthour    = Settings::require_hour(itsVar+"::starthour");
-	const int endhour      = Settings::require_hour(itsVar+"::endhour");
-	const int maxstarthour = Settings::optional_hour(itsVar+"::maxstarthour",starthour);
-	const int minendhour   = Settings::optional_hour(itsVar+"::minendhour",endhour);
+	const int starthour    = Settings::require_hour(itsVar+"::night::starthour");
+	const int endhour      = Settings::require_hour(itsVar+"::night::endhour");
+	const int maxstarthour = Settings::optional_hour(itsVar+"::night::maxstarthour",starthour);
+	const int minendhour   = Settings::optional_hour(itsVar+"::night::minendhour",endhour);
 
 	const int precision   = Settings::require_percentage(itsVar+"::precision");
 	const int severelimit = Settings::require_percentage(itsVar+"::severe_frost_limit");

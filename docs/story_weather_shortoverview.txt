@@ -45,10 +45,10 @@ textgen::[kappale]::story::weather_shortoverview::cloudiness::fullrange = [boole
 mukaisesti pilvisyys lasketaan joko koko aikavälille, tai pilvisyys lasketaan
 ali-intervalleille
 \code
-textgen::[kappale]::story::weather_shortoverview::cloudiness::starthour = [0-23] (= 0)
-textgen::[kappale]::story::weather_shortoverview::cloudiness::endhour = [0-23] (= 0)
-textgen::[kappale]::story::weather_shortoverview::cloudiness::maxstarthour = [0-23] (= starthour)
-textgen::[kappale]::story::weather_shortoverview::cloudiness::minendhour = [0-23] (= minendhour)
+textgen::[kappale]::story::weather_shortoverview::cloudiness::day::starthour = [0-23] (= 0)
+textgen::[kappale]::story::weather_shortoverview::cloudiness::day::endhour = [0-23] (= 0)
+textgen::[kappale]::story::weather_shortoverview::cloudiness::day::maxstarthour = [0-23] (= starthour)
+textgen::[kappale]::story::weather_shortoverview::cloudiness::day::minendhour = [0-23] (= minendhour)
 \endcode
 Oletusarvojen mukaisesti siis vain kokonaiset vuorokaudet laskettaisiin mukaan.
 Toisille asiakkaille saatettaisiin ottaa mukaan vain päivät, eli klo 06-18.
@@ -97,18 +97,18 @@ Sateen osalta tarkastellaan enimmäkseen yksittäisiä vuorokausia.
 Näin ollen käyttäjän tulee määritellä hyväksytyt vuorokaudet seuraavien
 muuttujien avulla
 \code
-textgen::[kappale]::story::weather_shortoverview::precipitation::starthour = [0-23] (= 0)
-textgen::[kappale]::story::weather_shortoverview::precipitation::endhour = [0-23] (= 0)
-textgen::[kappale]::story::weather_shortoverview::precipitation::maxstarthour = [0-23] (= starthour)
-textgen::[kappale]::story::weather_shortoverview::precipitation::minendhour = [0-23] (= minendhour)
+textgen::[kappale]::story::weather_shortoverview::precipitation::day::starthour = [0-23] (= 0)
+textgen::[kappale]::story::weather_shortoverview::precipitation::day::endhour = [0-23] (= 0)
+textgen::[kappale]::story::weather_shortoverview::precipitation::day::maxstarthour = [0-23] (= starthour)
+textgen::[kappale]::story::weather_shortoverview::precipitation::day::minendhour = [0-23] (= minendhour)
 \endcode
 Oletusarvojen mukaisesti siis vain kokonaiset vuorokaudet laskettaisiin mukaan.
 Järkevämmät joustavat arvot voivat olla esimerkiksi
 \code
-textgen::[kappale]::story::weather_shortoverview::precipitation::starthour = 0
-textgen::[kappale]::story::weather_shortoverview::precipitation::endhour = 0
-textgen::[kappale]::story::weather_shortoverview::precipitation::maxstarthour = 6
-textgen::[kappale]::story::weather_shortoverview::precipitation::minendhour = 18
+textgen::[kappale]::story::weather_shortoverview::precipitation::day::starthour = 0
+textgen::[kappale]::story::weather_shortoverview::precipitation::day::endhour = 0
+textgen::[kappale]::story::weather_shortoverview::precipitation::day::maxstarthour = 6
+textgen::[kappale]::story::weather_shortoverview::precipitation::day::minendhour = 18
 \endcode
 Tällöin myös osittain vajaat päivät otettaisiin huomioon, olennaista olisi
 nimenomaan päiväsaika.

@@ -51,12 +51,12 @@ namespace
   {
 	using namespace Settings;
 
-	const int significantly_higher = require_percentage(theVariable+"::significantly_higher");
-	const int significantly_lower = require_percentage(theVariable+"::significantly_lower");
-	const int higher = require_percentage(theVariable+"::higher");
-	const int lower = require_percentage(theVariable+"::lower");
-	const int somewhat_higher = require_percentage(theVariable+"::somewhat_higher");
-	const int somewhat_lower = require_percentage(theVariable+"::somewhat_lower");
+	const int significantly_higher = require_percentage(theVariable+"::comparison::significantly_higher");
+	const int significantly_lower = require_percentage(theVariable+"::comparison::significantly_lower");
+	const int higher = require_percentage(theVariable+"::comparison::higher");
+	const int lower = require_percentage(theVariable+"::comparison::lower");
+	const int somewhat_higher = require_percentage(theVariable+"::comparison::somewhat_higher");
+	const int somewhat_lower = require_percentage(theVariable+"::comparison::somewhat_lower");
 
 	if(theMean2 - theMean1 >= significantly_higher)
 	  return "huomattavasti korkeampi";
@@ -379,10 +379,10 @@ namespace TextGen
 
 	Paragraph paragraph;
 
-	const int starthour    = require_hour(itsVar+"::starthour");
-	const int endhour      = require_hour(itsVar+"::endhour");
-	const int maxstarthour = optional_hour(itsVar+"::maxstarthour",starthour);
-	const int minendhour   = optional_hour(itsVar+"::minendhour",endhour);
+	const int starthour    = require_hour(itsVar+"::day::starthour");
+	const int endhour      = require_hour(itsVar+"::day::endhour");
+	const int maxstarthour = optional_hour(itsVar+"::day::maxstarthour",starthour);
+	const int minendhour   = optional_hour(itsVar+"::day::minendhour",endhour);
 
 	const int mininterval = optional_int(itsVar+"::mininterval",2);
 	const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
@@ -557,10 +557,10 @@ namespace TextGen
 
 	Paragraph paragraph;
 
-	const int starthour    = require_hour(itsVar+"::starthour");
-	const int endhour      = require_hour(itsVar+"::endhour");
-	const int maxstarthour = optional_hour(itsVar+"::maxstarthour",starthour);
-	const int minendhour   = optional_hour(itsVar+"::minendhour",endhour);
+	const int starthour    = require_hour(itsVar+"::night::starthour");
+	const int endhour      = require_hour(itsVar+"::night::endhour");
+	const int maxstarthour = optional_hour(itsVar+"::night::maxstarthour",starthour);
+	const int minendhour   = optional_hour(itsVar+"::night::minendhour",endhour);
 
 	const int mininterval = optional_int(itsVar+"::mininterval",2);
 	const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);

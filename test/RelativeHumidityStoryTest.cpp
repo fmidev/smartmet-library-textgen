@@ -62,15 +62,15 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	string result;
 
-	NFmiSettings::instance().set("lowest::maxstarthour","6");
-	NFmiSettings::instance().set("lowest::minendhour","18");
+	NFmiSettings::instance().set("lowest::day::maxstarthour","6");
+	NFmiSettings::instance().set("lowest::day::minendhour","18");
 	NFmiSettings::instance().set("lowest::precision","10");
-	NFmiSettings::instance().set("lowest::significantly_greater","50");
-	NFmiSettings::instance().set("lowest::greater","30");
-	NFmiSettings::instance().set("lowest::somewhat_greater","10");
-	NFmiSettings::instance().set("lowest::somewhat_smaller","10");
-	NFmiSettings::instance().set("lowest::smaller","30");
-	NFmiSettings::instance().set("lowest::significantly_smaller","50");
+	NFmiSettings::instance().set("lowest::comparison::significantly_greater","50");
+	NFmiSettings::instance().set("lowest::comparison::greater","30");
+	NFmiSettings::instance().set("lowest::comparison::somewhat_greater","10");
+	NFmiSettings::instance().set("lowest::comparison::somewhat_smaller","10");
+	NFmiSettings::instance().set("lowest::comparison::smaller","30");
+	NFmiSettings::instance().set("lowest::comparison::significantly_smaller","50");
 
 	// 1-day forecasts
 	{

@@ -53,10 +53,10 @@ textgen::[kappale]::story::relativehumidity_lowest::next_day::timephrases = foll
 
 P‰iv‰n m‰‰ritelm‰ saadaan muuttujista
 \code
-textgen::[kappale]::story::relativehumidity_lowest::starthour = [0-23]
-textgen::[kappale]::story::relativehumidity_lowest::endhour = [0-23]
-textgen::[kappale]::story::relativehumidity_lowest::maxstarthour = [0-23]
-textgen::[kappale]::story::relativehumidity_lowest::minendhour = [0-23]
+textgen::[kappale]::story::relativehumidity_lowest::day::starthour = [0-23]
+textgen::[kappale]::story::relativehumidity_lowest::day::endhour = [0-23]
+textgen::[kappale]::story::relativehumidity_lowest::day::maxstarthour = [0-23]
+textgen::[kappale]::story::relativehumidity_lowest::day::minendhour = [0-23]
 \endcode
 P‰iv‰n normaali aikav‰li on \c starthour - \c endhour. Jos periodi on
 lyhyempi kuin mit‰ n‰m‰ asetukset vaativat, voidaan niiss‰ joustaa
@@ -73,12 +73,12 @@ textgen::[kappale]::story::relativehumidity_lowest::precision = [0-100]
 
 Erotuksen suuruus p‰‰tell‰‰n seuraavista rajoista
 \code
-textgen::[kappale]::story::relativehumidity_lowest::significantly_greater = [0-100]
-textgen::[kappale]::story::relativehumidity_lowest::greater = [0-100]
-textgen::[kappale]::story::relativehumidity_lowest::somewhat_greater = [0-100]
-textgen::[kappale]::story::relativehumidity_lowest::somewhat_smaller = [0-100]
-textgen::[kappale]::story::relativehumidity_lowest::smaller = [0-100]
-textgen::[kappale]::story::relativehumidity_lowest::significantly_smaller = [0-100]
+textgen::[kappale]::story::relativehumidity_lowest::comparison::significantly_greater = [0-100]
+textgen::[kappale]::story::relativehumidity_lowest::comparison::greater = [0-100]
+textgen::[kappale]::story::relativehumidity_lowest::comparison::somewhat_greater = [0-100]
+textgen::[kappale]::story::relativehumidity_lowest::comparison::somewhat_smaller = [0-100]
+textgen::[kappale]::story::relativehumidity_lowest::comparison::smaller = [0-100]
+textgen::[kappale]::story::relativehumidity_lowest::comparison::significantly_smaller = [0-100]
 \endcode
 seuraavasti tuloksista \c humidity2 ja \c humidity1
 

@@ -61,12 +61,12 @@ textgen::[kappale]::story::temperature_dailymax::next_day::timephrases = followi
 
 Komparatiivin valinta perustuu muuttujiin
 \code
-textgen::[kappale]::story::temperature_dailymax::significantly_higher = [N]
-textgen::[kappale]::story::temperature_dailymax::higher = [N]
-textgen::[kappale]::story::temperature_dailymax::somewhat_higher = [N]
-textgen::[kappale]::story::temperature_dailymax::somewhat_lower = [N]
-textgen::[kappale]::story::temperature_dailymax::lower = [N]
-textgen::[kappale]::story::temperature_dailymax::significantly_lower = [N]
+textgen::[kappale]::story::temperature_dailymax::comparison::significantly_higher = [N]
+textgen::[kappale]::story::temperature_dailymax::comparison::higher = [N]
+textgen::[kappale]::story::temperature_dailymax::comparison::somewhat_higher = [N]
+textgen::[kappale]::story::temperature_dailymax::comparison::somewhat_lower = [N]
+textgen::[kappale]::story::temperature_dailymax::comparison::lower = [N]
+textgen::[kappale]::story::temperature_dailymax::comparison::significantly_lower = [N]
 \endcode
 ja laskettuihin lämpötilaväleihin. Jos ensimmäisen päivän keskiarvo
 on A jae seuraavan B, valitaan
@@ -99,10 +99,10 @@ muuttujan false.
 
 Päivän määritelmä saadaan muuttujista
 \code
-textgen::[kappale]::story::temperature_dailymax::starthour = [0-23]
-textgen::[kappale]::story::temperature_dailymax::endhour = [0-23]
-textgen::[kappale]::story::temperature_dailymax::maxstarthour = [0-23]
-textgen::[kappale]::story::temperature_dailymax::minendhour = [0-23]
+textgen::[kappale]::story::temperature_dailymax::day::starthour = [0-23]
+textgen::[kappale]::story::temperature_dailymax::day::endhour = [0-23]
+textgen::[kappale]::story::temperature_dailymax::day::maxstarthour = [0-23]
+textgen::[kappale]::story::temperature_dailymax::day::minendhour = [0-23]
 \endcode
 Päivän normaali aikaväli on \c starthour - \c endhour. Jos periodi on
 lyhyempi kuin mitä nämä asetukset vaativat, voidaan niissä joustaa
@@ -111,9 +111,9 @@ puuttuessa ei joustoa sallita ollenkaan.
 
 Määritelmät voivat olla esimerkiksi muotoa
 \code
-textgen::[kappale]::story::temperature_dailymax::starthour    = 6
-textgen::[kappale]::story::temperature_dailymax::endhour      = 18
-textgen::[kappale]::story::temperature_dailymax::maxstarthour = 12
+textgen::[kappale]::story::temperature_dailymax::day::starthour    = 6
+textgen::[kappale]::story::temperature_dailymax::day::endhour      = 18
+textgen::[kappale]::story::temperature_dailymax::day::maxstarthour = 12
 \endcode
 Tällöin päivän maksimi kerrottaisiin aina kello kahteentoista
 saakka, vaikka jakso alkaakin jo kello kuusi. Loppupäästä sen

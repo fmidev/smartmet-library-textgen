@@ -233,8 +233,8 @@ namespace FrostStoryTest
 	NFmiSettings::instance().set("twonights::frost_limit","20");
 	NFmiSettings::instance().set("twonights::severe_frost_limit","10");
 
-	NFmiSettings::instance().set("twonights::starthour","21");
-	NFmiSettings::instance().set("twonights::endhour","09");
+	NFmiSettings::instance().set("twonights::night::starthour","21");
+	NFmiSettings::instance().set("twonights::night::endhour","09");
 
 	// One night
 	{
