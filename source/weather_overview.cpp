@@ -616,7 +616,7 @@ namespace TextGen
 	using namespace Settings;
 
 	const int many_places = optional_percentage(theVar+"places::many",90);
-	const int some_places = optional_percentage(theVar+"places::some",70);
+	const int some_places = optional_percentage(theVar+"places::some",50);
 	const double minrain  = optional_double(theVar+"::minrain",0.1);
 
 	GridForecaster forecaster;
