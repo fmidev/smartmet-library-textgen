@@ -44,6 +44,22 @@ namespace
         return value;
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the "1-na" weekday description for the given period
+   *
+   * \param thePeriod The weather period
+   * \return The phrase
+   */
+  // ----------------------------------------------------------------------
+
+  string on_weekday(const WeatherPeriod & thePeriod)
+  {
+	const int wd = thePeriod.localStartTime().GetWeekday();
+	const string out = lexical_cast<string>(wd)+"-na";
+	return out;
+  }
+
 } // namespace anonymous
 
 namespace
@@ -256,6 +272,7 @@ namespace TextGen
 
 	sentence << "alin suhteellinen kosteus"
 			 << "on"
+			 << on_weekday(firstperiod)
 			 << Number<int>(humidity1)
 			 << Delimiter("%");
 
@@ -275,6 +292,7 @@ namespace TextGen
 
 		const int humidity2 = round_to_precision(result.value(),precision);
 
+		sentence << on_weekday(secondperiod);
 		if(humidity2 - humidity1 >= limit_greater)
 		  sentence << "suurempi";
 		else if(humidity2 - humidity1 >= limit_somewhat_greater)
