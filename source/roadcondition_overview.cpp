@@ -1019,6 +1019,8 @@ namespace TextGen
 
 	NFmiTime last_mentioned_date(1970,1,1);
 
+	Sentence sentence;
+
 	for(unsigned int i=0; i<periods.size(); i++)
 	  {
 		// Common periods will be inclusive range i...j
@@ -1030,7 +1032,14 @@ namespace TextGen
 
 		// Generate the text
 		
-		Sentence sentence;
+		if(TimeTools::isSameDay(last_mentioned_date,periods[i].localStartTime()))
+		  sentence << Delimiter(",");
+		else
+		  {
+			paragraph << sentence;
+			sentence.clear();
+		  }
+
 		if(i==j)
 		  {
 			sentence << during_period_phrase(periods[i],
@@ -1046,7 +1055,6 @@ namespace TextGen
 											   itsVar);
 		  }
 		sentence << sentences[i];
-		paragraph << sentence;
 
 		// update the last mentioned date
 		last_mentioned_date = periods[i].localStartTime();
@@ -1055,6 +1063,7 @@ namespace TextGen
 		i = j;
 
 	  }
+	paragraph << sentence;
 
 	log << paragraph;
 	return paragraph;
