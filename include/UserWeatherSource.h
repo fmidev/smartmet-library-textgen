@@ -32,7 +32,8 @@ namespace WeatherAnalysis
   public:
 
 	UserWeatherSource();
-	virtual boost::shared_ptr<NFmiQueryData> getData(const std::string & theName) const;
+	virtual boost::shared_ptr<NFmiQueryData> data(const std::string & theName) const;
+	virtual long id(const std::string & theName) const;
 
 	void insert(const std::string & theName,
 				boost::shared_ptr<NFmiQueryData> theData) const;
@@ -40,7 +41,7 @@ namespace WeatherAnalysis
   private:
 
 	class Pimple;
-	static boost::shared_ptr<Pimple> itsPimple;
+	boost::shared_ptr<Pimple> itsPimple;
 
   }; // class UserWeatherSource
 

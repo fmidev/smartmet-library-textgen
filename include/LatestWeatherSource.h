@@ -28,12 +28,13 @@ namespace WeatherAnalysis
   public:
 
 	LatestWeatherSource();
-	virtual boost::shared_ptr<NFmiQueryData> getData(const std::string & theName) const;
+	virtual boost::shared_ptr<NFmiQueryData> data(const std::string & theName) const;
+	virtual long id(const std::string & theName) const;
 
   private:
 
 	class Pimple;
-	static boost::shared_ptr<Pimple> itsPimple;
+	boost::shared_ptr<Pimple> itsPimple;
 
   }; // class LatestWeatherSource
 

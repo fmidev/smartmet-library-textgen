@@ -33,7 +33,8 @@ namespace WeatherAnalysis
   public:
 
 	virtual ~WeatherSource() { }
-	virtual boost::shared_ptr<NFmiQueryData> getData(const std::string & theName) const = 0;
+	virtual boost::shared_ptr<NFmiQueryData> data(const std::string & theName) const = 0;
+	virtual long id(const std::string & theName) const = 0;
 
   }; // class WeatherSource
 

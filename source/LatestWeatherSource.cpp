@@ -17,16 +17,35 @@ using namespace std;
 
 namespace
 {
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief ID number generator
+   *
+   * The assumption here is that we never really need so many IDs
+   * that long would not be sufficient to guarantee uniqueness.
+   *
+   * \return The next free ID
+   */
+  // ----------------------------------------------------------------------
+
+  long id_generator()
+	{
+	  static long id;
+	  return ++id;
+	}
+
   // ----------------------------------------------------------------------
   /*!
    * \brief Cached query data container
    */
   // ----------------------------------------------------------------------
 
-  struct WeatherDataTriplet
+  struct WeatherDataStruct
   {
 	time_t itsTime;
 	string itsFilename;
+	long itsId;
 	boost::shared_ptr<NFmiQueryData> itsData;
   };
 
@@ -90,8 +109,9 @@ namespace WeatherAnalysis
   class LatestWeatherSource::Pimple
   {
   public:
-	typedef map<string,WeatherDataTriplet> container_type;
+	typedef map<string,WeatherDataStruct> container_type;
 	container_type itsData;
+
   }; // class LatestWeatherSource::Pimple
 
   // ----------------------------------------------------------------------
@@ -103,12 +123,8 @@ namespace WeatherAnalysis
   // ----------------------------------------------------------------------
 
   LatestWeatherSource::LatestWeatherSource()
+	: itsPimple(new Pimple)
   {
-	if(itsPimple.get() == 0)
-	  {
-		boost::shared_ptr<Pimple> ptr(new Pimple);
-		itsPimple = ptr;
-	  }
   }
 
   // ----------------------------------------------------------------------
@@ -120,7 +136,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<NFmiQueryData> LatestWeatherSource::getData(const std::string & theName) const
+  boost::shared_ptr<NFmiQueryData> LatestWeatherSource::data(const std::string & theName) const
   {
 	// The constructor should guarantee valid pimple
 	assert(itsPimple.get() != 0);
@@ -150,16 +166,37 @@ namespace WeatherAnalysis
 	in >> *data;
 	in.close();
 
-	WeatherDataTriplet triplet;
-	triplet.itsTime = modtime;
-	triplet.itsFilename = filename;
-	triplet.itsData = data;
+	WeatherDataStruct newdata;
+	newdata.itsId = id_generator();
+	newdata.itsTime = modtime;
+	newdata.itsFilename = filename;
+	newdata.itsData = data;
 
 	typedef Pimple::container_type::value_type value_type;
 
-	itsPimple->itsData.insert(value_type(theName,triplet));
+	itsPimple->itsData.insert(value_type(theName,newdata));
 
 	return data;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Get id of desired data
+   *
+   * \param theName The name of the data
+   * \return The ID
+   */
+  // ----------------------------------------------------------------------
+
+  long LatestWeatherSource::id(const std::string & theName) const
+  {
+	// See if we have a stored result
+	typedef Pimple::container_type::const_iterator const_iterator;
+	const_iterator it = itsPimple->itsData.find(theName);
+	if(it == itsPimple->itsData.end())
+	  throw runtime_error("No data named "+theName+" stored in LatestWeatherSource");
+
+	return it->second.itsId;
   }
 
 } // namespace WeatherAnalysis
