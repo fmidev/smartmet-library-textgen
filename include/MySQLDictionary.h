@@ -50,8 +50,6 @@
 
 namespace textgen
 {
-  class MySQLDictionaryPimple;
-
   class MySQLDictionary : public Dictionary
   {
   public:
@@ -73,6 +71,7 @@ namespace textgen
 
   private:
 
+	class MySQLDictionaryPimple;
 	std::auto_ptr<MySQLDictionaryPimple> itsPimple;
 
   }; // class BasicDictionary

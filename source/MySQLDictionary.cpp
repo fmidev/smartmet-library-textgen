@@ -23,7 +23,7 @@ namespace textgen
    */
   // ----------------------------------------------------------------------
 
-  class MySQLDictionaryPimple
+  class MySQLDictionary::MySQLDictionaryPimple
   {
   public:
 
