@@ -33,17 +33,18 @@ namespace TextGen
 	template<typename Iterator>
 	std::string realize(Iterator it,
 						Iterator end,
-						const std::string & theSeparator,
-						const TextFormatter & theFormatter)
+						const TextFormatter & theFormatter,
+						const std::string & thePrefix,
+						const std::string & theSuffix)
 	{
 	  std::string ret, tmp;
 	  for( ; it!=end; ++it)
 		{
 		  tmp = theFormatter.format(**it);	// iterator -> shared_ptr -> object
 		  if(tmp.empty()) continue;
-		  if(!ret.empty()) ret += (*it)->prefix();
+		  if(!ret.empty()) ret += thePrefix;
 		  ret += tmp;
-		  ret += (*it)->suffix();
+		  ret += theSuffix;
 		}
 	  return ret;
 	}

@@ -69,8 +69,9 @@ namespace TextGen
   {
 	string ret = TextFormatterTools::realize(theSentence.begin(),
 											 theSentence.end(),
+											 *this,
 											 " ",
-											 *this);
+											 "");
 	TextFormatterTools::capitalize(ret);
 	TextFormatterTools::punctuate(ret);
 	
@@ -87,9 +88,8 @@ namespace TextGen
   {
 	string ret = TextFormatterTools::realize(theParagraph.begin(),
 											 theParagraph.end(),
-											 " ",
-											 *this);
-	
+											 *this,
+											 " ","");
 	return ret;
   }
   
@@ -101,10 +101,10 @@ namespace TextGen
   
   string PlainTextFormatter::visit(const Header & theHeader) const
   {
-	string ret = TextFormatterTools::realize(theHeader.begin(),
+    string ret = TextFormatterTools::realize(theHeader.begin(),
 											 theHeader.end(),
-											 " ",
-											 *this);
+											 *this,
+											 " ","");
 	TextFormatterTools::capitalize(ret);
 	if(!ret.empty())
 	  ret += ':';
@@ -122,8 +122,9 @@ namespace TextGen
   {
 	string ret = TextFormatterTools::realize(theDocument.begin(),
 											 theDocument.end(),
+											 *this,
 											 "\n\n",
-											 *this);
+											 "");
 	return ret;
   }
 

@@ -69,8 +69,9 @@ namespace TextGen
   {
 	string ret = TextFormatterTools::realize(theSentence.begin(),
 											 theSentence.end(),
+											 *this,
 											 " ",
-											 *this);
+											 "");
 	TextFormatterTools::capitalize(ret);
 	TextFormatterTools::punctuate(ret);
 	
@@ -88,8 +89,9 @@ namespace TextGen
 	string ret = "<p>";
 	ret += TextFormatterTools::realize(theParagraph.begin(),
 									   theParagraph.end(),
+									   *this,
 									   " ",
-									   *this);
+									   "");
 	ret += "</p>";
 	
 	return ret;
@@ -106,8 +108,9 @@ namespace TextGen
 	string ret = "<h1>";
 	string text = TextFormatterTools::realize(theHeader.begin(),
 											  theHeader.end(),
+											  *this,
 											  " ",
-											  *this);
+											  "");
 	TextFormatterTools::capitalize(text);
 	ret += text;
 	ret += "</h1>";
@@ -125,8 +128,9 @@ namespace TextGen
 	string ret = "<div>";
 	ret += TextFormatterTools::realize(theDocument.begin(),
 									   theDocument.end(),
+									   *this,
 									   "\n\n",
-									   *this);
+									   "");
 	ret += "</div>";
 	return ret;
   }
