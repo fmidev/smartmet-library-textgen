@@ -143,6 +143,7 @@ namespace TextGen
 												 Sum,
 												 itsArea,
 												 itsPeriod,
+												 DefaultAcceptor(),
 												 rainlimits);
 
 	WeatherResult meanresult = forecaster.analyze(itsVar+"::fake::mean",
@@ -152,6 +153,7 @@ namespace TextGen
 												  Sum,
 												  itsArea,
 												  itsPeriod,
+												  DefaultAcceptor(),
 												  rainlimits);
 	
 	WeatherResult maxresult = forecaster.analyze(itsVar+"::fake::maximum",
@@ -161,6 +163,7 @@ namespace TextGen
 												 Sum,
 												 itsArea,
 												 itsPeriod,
+												 DefaultAcceptor(),
 												 rainlimits);
 
 	// Check for invalid results

@@ -58,6 +58,7 @@ namespace TextGen
 												 Sum,
 												 itsArea,
 												 itsPeriod,
+												 DefaultAcceptor(),
 												 rainlimits);
 
 	WeatherResult maxresult = forecaster.analyze(itsVar+"::fake::maximum",
@@ -67,6 +68,7 @@ namespace TextGen
 												 Sum,
 												 itsArea,
 												 itsPeriod,
+												 DefaultAcceptor(),
 												 rainlimits);
 
 	if(minresult.value() == kFloatMissing ||

@@ -53,6 +53,7 @@ namespace TextGen
 											  Sum,
 											  itsArea,
 											  itsPeriod,
+											  DefaultAcceptor(),
 											  rainlimits);
 
 	if(result.value() == kFloatMissing)
