@@ -25,6 +25,8 @@
 #include "WeatherParameter.h"
 #include "WeatherFunction.h"
 
+class NFmiPoint;
+
 namespace WeatherAnalysis
 {
   class WeatherResult;
@@ -34,10 +36,16 @@ namespace WeatherAnalysis
   class WeatherAnalyzer
   {
   public:
+
 	virtual WeatherResult analyze(const WeatherParameter & theParameter,
 								  const WeatherFunction & theFunction,
 								  const WeatherPeriod & thePeriod,
 								  const WeatherArea & theArea) const = 0;
+
+	virtual WeatherResult analyze(const WeatherParameter & theParameter,
+								  const WeatherFunction & theFunction,
+								  const WeatherPeriod & thePeriod,
+								  const NFmiPoint & thePoint) const = 0;
   }; // class WeatherAnalyzer
 
 } // namespace WeatherAnalysis
