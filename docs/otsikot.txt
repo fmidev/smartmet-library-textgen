@@ -61,7 +61,7 @@ N*24 tuntia, miss‰ N=2..10.
 Mahdolliset headerit ovat
 
   -# "Maanantaiaamusta alkavan N-vuorokauden s‰‰" + viikonp‰iv‰variaatiot
-  -# "Maanantaiillasta alkavan N-vuorokauden s‰‰" + viikonp‰iv‰variaatiot
+  -# "Maanantai-illasta alkavan N-vuorokauden s‰‰" + viikonp‰iv‰variaatiot
 
 miss‰ N=2-10. K‰ytetyt fraasit ovat
 
