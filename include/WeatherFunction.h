@@ -36,7 +36,10 @@ namespace WeatherAnalysis
 	  MaxMinimum,
 	  MeanMinimum,
 	  MinMinimum,
-	  Sum
+
+	  MeanSum,
+	  MaxSum,
+	  MinSum,
 
 	}; // enum Weatherfunction
 
