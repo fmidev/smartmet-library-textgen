@@ -28,6 +28,7 @@ namespace TextGen
 	 *
 	 * \param theSources The associated analysis sources
 	 * \param theArea The area for which to generate the story
+	 * \param thePeriod The period for which to generate the story
 	 * \param theName The story to create
 	 * \param theVariable The configuration variable prefix
 	 */
