@@ -499,8 +499,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	const NFmiTime ftime(day1);
 	string result;
 
-	NFmiSettings::instance().set("days::starthour","06");
-	NFmiSettings::instance().set("days::endhour","18");
+	NFmiSettings::instance().set("days::day::starthour","06");
+	NFmiSettings::instance().set("days::day::endhour","18");
 
 	// 1 day, starting today
 	{
