@@ -1,6 +1,6 @@
 /*!
 
-\page page_story_precipitation_classification "precipitation_classification"
+\page page_story_precipitation_classification Tarina "precipitation_classification"
 
 \c precipitation_classification tarina on muotoa
 

@@ -1,6 +1,6 @@
 /*!
 
-\page page_story_temperature_weekly_minmax "temperature_weekly_minmax"
+\page page_story_temperature_weekly_minmax Tarina "temperature_weekly_minmax"
 
 Ajanjakson täytyy olla vähintään 2 vuorokautta. Alkamis- ja loppumisaikojen
 täytyy olla 06 tai 18.
