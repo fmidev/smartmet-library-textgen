@@ -313,6 +313,15 @@ namespace SoneraTest
 	require("yön alin lämpötila","468");
 	require("yöstä alkaen","469");
 	require("öiden alin lämpötila","470");
+	require("prosenttia","471");
+	require("ajoittain","472");
+	require("1-na kello","473");
+	require("2-na kello","474");
+	require("3-na kello","475");
+	require("4-na kello","476");
+	require("5-na kello","477");
+	require("6-na kello","478");
+	require("7-na kello","479");
 	
 	TEST_PASSED();
   }
