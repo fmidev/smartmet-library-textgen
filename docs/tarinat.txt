@@ -126,14 +126,13 @@ K‰ytetyt fraasit ovat
 P‰‰ttelyss‰ k‰ytet‰‰n muuttujina alueen minimi- ja maksimisadesummaa,
 sek‰ optionaalisia muuttujia
 \code
-textgen::[kappale]::story::precipitation_classification::maxrain = LIMIT
 textgen::[kappale]::story::precipitation_classification::manyplaces_limit = [0-100]
-textgen::[kappale]::story::precipitation_classification::classlimits = A,B,C,D,E,F,...
+textgen::[kappale]::story::precipitation_classification::classlimits = A,B,C,D,E,F,...X
 \endcode
 Teksti valitaan seuraavalla logiikalla
 
-  -# Jos sadesumman maksimi on yli LIMIT
-     -# Jos sadesumman minimi on yli LIMIT palautetaan fraasi 1
+  -# Jos sadesumman maksimi on yli X
+     -# Jos sadesumman minimi on yli X palautetaan fraasi 1
      -# Jos sadesumma ylitt‰‰ asetetun raja-arvon \c manyplaces_limit riitt‰v‰n monessa
         pisteess‰, palautetaan fraasi 2.
      -# Palautetaan fraasi 3.
