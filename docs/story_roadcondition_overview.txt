@@ -457,47 +457,6 @@ Sama taulukko on ruotsiksi
 </table>
 \endhtmlonly
 
-Kun aikajaksot ovat tyyppiä
-
- -# aamu
- -# päivä
- -# ilta
- -# yö
-
-sopivat aikafraaseiksi
-
-\htmlonly
-<table border="1" align="center">
-<tr>
-<th>tänään</th>
-<th>huomenna</th>
-<th>maanantaina</th>
-</tr>
-<tr>
-<td>aamulla</td>
-<td>huomisaamuna</td>
-<td>maanantaiaamuna</td>
-</tr>
-<tr>
-<td>päivällä</td>
-<td>huomenna aamupäivällä</td>
-<td>maanantaiaamupäivänä</td>
-</tr>
-<tr>
-<td>illalla</td>
-<td>huomisiltana</td>
-<td>maanantai-iltana</td>
-</tr>
-<tr>
-<td>yöllä</td>
-<td>tiistain vastaisena yönä</td>
-<td>tiistain vastaisena yönä</td>
-</tr>
-</table>
-\endhtmlonly
-"Huomisyönä"-fraasi on jätetty tarkoituksella pois hieman
-epämääräisenä käsitteenä.
-
 \section section_roadcondition_manyperiods Useamman jakson keli
 
 Tieliikelaitosta kiinnostavat erityisesti aamu, päivä, ilta ja yöjaksot.
@@ -553,8 +512,28 @@ Mahdollisia tuloksia ovat siis esimerkiksi
 <th>maanantaina</th>
 </tr>
 <tr>
+<td>aamulla</td>
+<td>huomisaamuna</td>
+<td>maanantaiaamuna</td>
+</tr>
+<tr>
+<td>päivällä</td>
+<td>huomenna päivällä</td>
+<td>maanantaina päivällä</td>
+</tr>
+<tr>
+<td>illalla</td>
+<td>huomenna illalla</td>
+<td>maanantaina illalla</td>
+</tr>
+<tr>
+<td>yöllä</td>
+<td>tiistain vastaisena yönä</td>
+<td>tiistain vastaisena yönä</td>
+</tr>
+<tr>
 <td>aamusta alkaen</td>
-<td>huomenna aamusta alkaen</td>
+<td>huomisaamusta alkaen</td>
 <td>maanantaiaamusta alkaen</td>
 </tr>
 <tr>
@@ -568,9 +547,126 @@ Mahdollisia tuloksia ovat siis esimerkiksi
 <td>maanantai-illasta alkaen</td>
 </tr>
 <tr>
-<td>ensi yöstä alkaen</td>
+<td>yöstä alkaen</td>
 <td>tiistain vastaisesta yöstä alkaen</td>
 <td>tiistain vastaisesta yöstä alkaen</td>
+</tr>
+</table>
+\endhtmlonly
+
+Fraaseja käytettäessä tulee muistaa viimeeksi mainittu päivämäärän
+tarkenne, koska fraaseja "huomenna" ja "viikonpäivänä" ei tule
+toistaa. Kun tarkenne on sama, valitaan aikafraasin tyypiksi aina
+"today" tyyppi. Näin ollen aikafraasit tulee valita tällaista
+reduktiota silmällä pitäen.
+
+Esimerkiksi
+<ul>
+<li>Huomisaamuna X, päivällä Y, illasta alkaen Z
+<li>Illasta alkaen X, huomisaamusta alkaen Y, illalla Z.
+<li>Huomenna illasta alkaen X, tiistaiaamuna Y, päivällä Z
+</il>
+
+Ruotsiksi fraasit ovat
+
+\htmlonly
+<table border="1" align="center">
+<tr>
+<th>tänään</th>
+<th>huomenna</th>
+<th>maanantaina</th>
+</tr>
+<tr>
+<td>på morgonen</td>
+<td>i morgon bitti</td>
+<td>på måndag morgon</td>
+</tr>
+<tr>
+<td>på dagen</td>
+<td>i morgon på dagen</td>
+<td>på måndag på dagen</td>
+</tr>
+<tr>
+<td>på kvällen</td>
+<td>i morgon kväll</td>
+<td>på måndag kväll</td>
+</tr>
+<tr>
+<td>på natten</td>
+<td>natten mot tisdagen</td>
+<td>natten mot tisdagen</td>
+</tr>
+<tr>
+<td>från morgonen</td>
+<td>från morgon bitti</td>
+<td>från måndag morgon</td>
+</tr>
+<tr>
+<td>från förmiddagen</td>
+<td>från i morgon förmiddag</td>
+<td>från måndag förmiddag</td>
+</tr>
+<tr>
+<td>från kvällen</td>
+<td>från i morgon kväll</td>
+<td>från måndag kväll</td>
+</tr>
+<tr>
+<td>från natten</td>
+<td>från natten mot tisdag</td>
+<td>från natten mot tisdag</td>
+</tr>
+</table>
+\endhtmlonly
+
+ja englanniksi
+
+\htmlonly
+<table border="1" align="center">
+<tr>
+<th>tänään</th>
+<th>huomenna</th>
+<th>maanantaina</th>
+</tr>
+<tr>
+<td>in the morning</td>
+<td>tomorrow morning</td>
+<td>on Monday morning</td>
+</tr>
+<tr>
+<td>during the day</td>
+<td>tomorrow during the day</td>
+<td>on Monday during the day</td>
+</tr>
+<tr>
+<td>in the evening</td>
+<td>tomorrow evening</td>
+<td>on Monday evening</td>
+</tr>
+<tr>
+<td>at night</td>
+<td>on Tuesday night</td>
+<td>on Tuesday night</td>
+</tr>
+<tr>
+<td>from the morning</td>
+<td>from tomorrow morning</td>
+<td>from Monday morning</td>
+</tr>
+<tr>
+<td>from before noon</td>
+<td>from tomorrow before noon</td>
+<td>from Monday before noon</td>
+</tr>
+<tr>
+<td>from the evening</td>
+<td>from tomorrow evening</td>
+<td>from Monday evening</td>
+</tr>
+<tr>
+<td>from the night</td>
+<td>from tomorrow night</td>
+<td>from Tuesday night</td>
 </tr>
 </table>
 \endhtmlonly
