@@ -7,11 +7,18 @@
 
 #include "TemperatureAnalysis.h"
 #include "AnalysisSources.h"
+#include "MaskSource.h"
 #include "WeatherArea.h"
 #include "WeatherLimits.h"
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
+#include "WeatherSource.h"
+
+#include "NFmiDataIntegrator.h"
+#include "NFmiDataModifierMax.h"
 #include "NFmiSettings.h"
+#include "NFmiFastQueryInfo.h"
+
 #include <stdexcept>
 
 using namespace std;
@@ -73,14 +80,6 @@ namespace WeatherAnalysis
 		  break;
 		case Probability:
 		  break;
-		case MaxMinimum:
-		  break;
-		case MinMaximum:
-		  break;
-		case MeanMinimum:
-		  break;
-		case MeanMaximum:
-		  break;
 		}
 	  return WeatherResult(kFloatMissing,0);
 	}
@@ -105,10 +104,37 @@ namespace WeatherAnalysis
 	{
 	  const string source = temperature_forecast_source();
 
+	  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+	  boost::shared_ptr<NFmiQueryData> qd = wsource->data(source);
+	  NFmiFastQueryInfo qi(qd.get());
+
+	  qi.First();
+	  if(!qi.Location(thePoint))
+		throw runtime_error("Trying to analyze temperature for point outside data area");
+	  
+	  boost::shared_ptr<MaskSource> msource = theSources.getLandMaskSource();
+	  MaskSource::masks_type masks = msource->masks(thePoint,
+													source,
+													*wsource);
+
+	  const NFmiMetTime start_time(thePeriod.startTime());
+	  const NFmiMetTime end_time(thePeriod.endTime());
+
 	  switch(theFunction)
 		{
 		case Maximum:
-		  break;
+		  {
+			NFmiDataModifierMax modifier;
+			float result = NFmiDataIntegrator::Integrate(qi,
+														 start_time,
+														 end_time,
+														 modifier);
+			if(result==kFloatMissing)
+			  return WeatherResult(kFloatMissing,0);
+			else
+			  return WeatherResult(result,1);
+			break;
+		  }
 		case Minimum:
 		  break;
 		case Mean:
@@ -116,14 +142,6 @@ namespace WeatherAnalysis
 		case StandardDeviation:
 		  break;
 		case Probability:
-		  break;
-		case MaxMinimum:
-		  break;
-		case MinMaximum:
-		  break;
-		case MeanMinimum:
-		  break;
-		case MeanMaximum:
 		  break;
 		}
 	  return WeatherResult(kFloatMissing,0);
