@@ -17,6 +17,23 @@ using namespace boost;
 
 namespace TextGen
 {
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Check number validity for Sonera
+   *
+   * Throws if the number is out of range -100...1000
+   *
+   * \param theNumber The number to test
+   */
+  // ----------------------------------------------------------------------
+
+  void sonera_check(int theNumber)
+  {
+	if(theNumber < -100 || theNumber > 100)
+	  throw TextGenError("Numberformatter 'sonera' supports only numbers -100...100");
+  }
+
   namespace NumberFactory
   {
 
@@ -37,9 +54,8 @@ namespace TextGen
 		return shared_ptr<Number<int> >(new Number<int>(theNumber));
 	  if(formatter == "sonera")
 		{
+		  sonera_check(theNumber);
 		  shared_ptr<Sentence> s(new Sentence);
-		  if(theNumber < -100 || theNumber > 100)
-			throw TextGenError("Numberformatter 'sonera' supports only numbers -100...100");
 		  if(theNumber < 0)
 			*s << "miinus" << -theNumber;
 		  else
@@ -75,10 +91,17 @@ namespace TextGen
 	  
 	  if(formatter == "sonera")
 		{
+		  sonera_check(theLoLimit);
+		  sonera_check(theHiLimit);
 		  shared_ptr<Sentence> s(new Sentence);
-		  *s << *create(theLoLimit)
-			 << "viiva"
-			 << *create(theHiLimit);
+		  if(theLoLimit < 0)
+			*s << "miinus" << -theLoLimit;
+		  else
+			*s << theLoLimit;
+		  if(theHiLimit < 0)
+			*s << "miinus" << -theHiLimit;
+		  else
+			*s << theHiLimit;
 		  return s;
 		}
 	  
