@@ -16,6 +16,7 @@
 #include "Sentence.h"
 #include "Settings.h"
 #include "TextGenError.h"
+#include "UnitFactory.h"
 #include "WeatherFunction.h"
 #include "WeatherParameter.h"
 #include "WeatherPeriodTools.h"
@@ -110,13 +111,13 @@ namespace
 	if(range)
 	  {
 		sentence << *NumberFactory::create(theMinimum,theMaximum)
-				 << "astetta";
+				 << *UnitFactory::create(DegreesCelsius);
 	  }
 	else
 	  {
 		sentence << "noin"
 				 << *NumberFactory::create(theMean)
-				 << "astetta";
+				 << *UnitFactory::create(DegreesCelsius);
 	  }
 
 	return sentence;
@@ -256,7 +257,7 @@ namespace TextGen
 
 	sentence << "keskilämpötila"
 			 << *NumberFactory::create(FmiRound(result.value()))
-			 << "astetta";
+			 << *UnitFactory::create(DegreesCelsius);
 	
 	paragraph << sentence;
 	return paragraph;
@@ -295,7 +296,7 @@ namespace TextGen
 
 	sentence << "keskimääräinen ylin lämpötila"
 			 << *NumberFactory::create(FmiRound(result.value()))
-			 << "astetta";
+			 << *UnitFactory::create(DegreesCelsius);
 	paragraph << sentence;
 	return paragraph;
   }
@@ -336,7 +337,7 @@ namespace TextGen
 
 	sentence << "keskimääräinen alin lämpötila"
 			 << *NumberFactory::create(FmiRound(result.value()))
-			 << "astetta";
+			 << *UnitFactory::create(DegreesCelsius);
 	paragraph << sentence;
 	return paragraph;
   }
@@ -786,7 +787,7 @@ namespace TextGen
 	  {
 		sentence << "noin"
 				 << *NumberFactory::create(nightmin)
-				 << "astetta";
+				 << *UnitFactory::create(DegreesCelsius);
 	  }
 	else
 	  {

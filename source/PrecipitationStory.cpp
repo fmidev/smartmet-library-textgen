@@ -16,6 +16,7 @@
 #include "Sentence.h"
 #include "Settings.h"
 #include "TextGenError.h"
+#include "UnitFactory.h"
 #include "WeatherFunction.h"
 #include "WeatherResult.h"
 
@@ -216,7 +217,7 @@ namespace TextGen
 
 	sentence << "sadesumma"
 			 << *NumberFactory::create(FmiRound(result.value()))
-			 << "millimetriä";
+			 << *UnitFactory::create(Millimeters);
 	paragraph << sentence;
 	return paragraph;
   }
@@ -280,13 +281,13 @@ namespace TextGen
 		sentence << "sadesumma"
 				 << "yli"
 				 << *NumberFactory::create(rainlimit)
-				 << "millimetriä";
+				 << *UnitFactory::create(Millimeters);
 	  }
 	else
 	  {
 		sentence << "sadesumma"
 				 << *NumberFactory::create(minrain,maxrain)
-				 << "millimetriä";
+				 << *UnitFactory::create(Millimeters);
 	  }
 
 	paragraph << sentence;
@@ -372,7 +373,7 @@ namespace TextGen
 	  {
 		sentence << "sadesumma"
 				 << 0
-				 << "millimetriä";
+				 << *UnitFactory::create(Millimeters);
 		paragraph << sentence;
 		return paragraph;
 	  }
@@ -425,7 +426,7 @@ namespace TextGen
 			  sentence << "monin paikoin";
 			sentence << "yli"
 					 << maxrainlimit
-					 << "millimetriä";
+					 << *UnitFactory::create(Millimeters);
 			paragraph << sentence;
 			return paragraph;
 		  }
@@ -458,7 +459,7 @@ namespace TextGen
 
 	sentence << "sadesumma"
 			 << *NumberFactory::create(lolimit,hilimit)
-			 << "millimetriä";
+			 << *UnitFactory::create(Millimeters);
 	
 	// Lisää tarvittaessa "paikoin enemmän" tai "monin paikoin enemmän" perään
 

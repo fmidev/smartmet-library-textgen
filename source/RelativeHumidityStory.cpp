@@ -16,6 +16,7 @@
 #include "Sentence.h"
 #include "Settings.h"
 #include "TextGenError.h"
+#include "UnitFactory.h"
 #include "WeatherFunction.h"
 #include "WeatherParameter.h"
 #include "WeatherPeriodTools.h"
@@ -164,7 +165,7 @@ namespace TextGen
 			 << "on"
 			 << WeekdayTools::on_weekday(firstperiod.localStartTime())
 			 << *NumberFactory::create(humidity1)
-			 << Delimiter("%");
+			 << *UnitFactory::create(Percent);
 
 	if(days==2)
 	  {
