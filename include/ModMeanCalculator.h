@@ -48,7 +48,7 @@ namespace WeatherAnalysis
 	boost::shared_ptr<Acceptor> itsAcceptor;
 	const int itsModulo;
 
-	float itsCounter;
+	long itsCounter;
 	float itsSum;
 	float itsPreviousDirection;
 
