@@ -401,20 +401,30 @@ namespace TextGen
 			else if(probresult.value() >= limit1)
 			  phrase = 2;
 			else
-			  phrase = 1;	// BUG BUG BUG! BAD PHRASE!
+			  phrase = 4;
 		  }
 
-		sentence << "sadesumma";
-		if(phrase==2)
-		  sentence << "paikoin";
-		else if(phrase==3)
-		  sentence << "monin paikoin";
-		sentence << "yli"
-				 << maxrainlimit
-				 << "millimetriä";
+		if(phrase<4)
+		  {
+			sentence << "sadesumma";
+			if(phrase==2)
+			  sentence << "paikoin";
+			else if(phrase==3)
+			  sentence << "monin paikoin";
+			sentence << "yli"
+					 << maxrainlimit
+					 << "millimetriä";
+			paragraph << sentence;
+			return paragraph;
+		  }
 
-		paragraph << sentence;
-		return paragraph;
+		// FALLTHROUGH FOR PHRASE 4, WE RETURN N...M INSTEAD!
+
+		// here we forge result to be back within the largest
+		// available rain class
+
+		if(meanresult.value() > maxrainlimit)
+		  meanresult = WeatherResult(maxrainlimit,1);
 
 	  }
 		
