@@ -66,7 +66,7 @@ namespace WeatherAnalysis
   // ----------------------------------------------------------------------
 
   HourPeriodGenerator::HourPeriodGenerator(const WeatherPeriod & theMainPeriod,
-														 const string & theVariable)
+										   const string & theVariable)
 	: itsMainPeriod(theMainPeriod)
 	, itsStartHour(Settings::require_hour(theVariable+"::starthour"))
 	, itsEndHour(Settings::require_hour(theVariable+"::endhour"))
