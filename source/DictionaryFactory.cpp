@@ -34,7 +34,7 @@ namespace TextGen
 	  return shared_ptr<Dictionary>(new BasicDictionary());
 	if(theType == "mysql")
 	  return shared_ptr<Dictionary>(new MySQLDictionary());
-	if(theType == "mysqls")
+	if(theType == "multimysql")
 	  return shared_ptr<Dictionary>(new MySQLDictionaries());
 	  
 	throw TextGenError("Error: Unknown dictionary type "+theType);
