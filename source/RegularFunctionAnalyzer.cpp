@@ -23,6 +23,7 @@
 #include "NFmiQueryData.h"
 
 #include "boost/shared_ptr.hpp"
+#include "boost/lexical_cast.hpp"
 #include <string>
 
 using namespace std;
@@ -78,7 +79,27 @@ namespace WeatherAnalysis
 	: itsAreaFunction(theAreaFunction)
 	, itsTimeFunction(theTimeFunction)
 	, itsSubTimeFunction(theSubTimeFunction)
+	, itIsModulo(false)
+	, itsModulo(-1)
   {
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Set the modulo of the parameter values
+   *
+   * Throws for 0 or negative modulo
+   *
+   * \param theModulo The modulo value
+   */
+  // ----------------------------------------------------------------------
+
+  void RegularFunctionAnalyzer::modulo(int theModulo)
+  {
+	if(theModulo <= 0)
+	  throw WeatherAnalysisError("Trying to analyze data modulo "+lexical_cast<string>(theModulo));
+	itsModulo = theModulo;
+	itIsModulo = true;
   }
 
   // ----------------------------------------------------------------------

@@ -53,12 +53,17 @@ namespace WeatherAnalysis
 			const std::string & theDataName,
 			const std::string & theParameterName) const;
 
+	void modulo(int theModulo);
+
   private:
 
 	RegularFunctionAnalyzer();
 	const WeatherFunction itsAreaFunction;
 	const WeatherFunction itsTimeFunction;
 	const WeatherFunction itsSubTimeFunction;
+
+	bool itIsModulo;
+	int itsModulo;
 
   }; // class RegularFunctionAnalyzer
 
