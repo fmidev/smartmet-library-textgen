@@ -407,6 +407,20 @@ INSERT INTO translation_en VALUES ('suomi:lle','for Finland',20030618101519,'mhe
 INSERT INTO translation_en VALUES ('ahvenanmaa:lle','for Åland',20030619130810,'mheiskan');
 INSERT INTO translation_en VALUES ('huomisesta alkaen','starting tomorrow',20030629012915,'mheiskan');
 INSERT INTO translation_en VALUES ('ja','and',20030715083549,'mheiskan');
+INSERT INTO translation_en VALUES ('tiepiiri-hame:lle','for Tavastia road district',20031002143620,'mheiskan');
+INSERT INTO translation_en VALUES ('tiepiiri-kaakkois-lappi:lle','for South Eastern Lapland',20031002143632,'mheiskan');
+INSERT INTO translation_en VALUES ('tiepiiri-kaakkois-suomi:lle','for South Eastern Finlands road district',20031002143702,'mheiskan');
+INSERT INTO translation_en VALUES ('tiepiiri-kasivarsi:lle','for North Western Lapland',20031002143720,'mheiskan');
+INSERT INTO translation_en VALUES ('tiepiiri-keski-lappi:lle','for Central Lapland',20031002143731,'mheiskan');
+INSERT INTO translation_en VALUES ('tiepiiri-keski-suomi:lle','for Central Finlands road district',20031002143745,'mheiskan');
+INSERT INTO translation_en VALUES ('tiepiiri-lounais-lappi:lle','for South Western Lapland',20031002143805,'mheiskan');
+INSERT INTO translation_en VALUES ('tiepiiri-oulu-ita:lle','for Oulu road districts eastern parts',20031002143823,'mheiskan');
+INSERT INTO translation_en VALUES ('tiepiiri-oulu-lansi:lle','for Oulu road districts western parts',20031002143837,'mheiskan');
+INSERT INTO translation_en VALUES ('tiepiiri-savo-karjala:lle','for Savonia-Karelia road district',20031002143900,'mheiskan');
+INSERT INTO translation_en VALUES ('tiepiiri-turku:lle','for Turku road district',20031002143913,'mheiskan');
+INSERT INTO translation_en VALUES ('tiepiiri-uusimaa:lle','for Uusimaa road district',20031002143923,'mheiskan');
+INSERT INTO translation_en VALUES ('tiepiiri-vaasa:lle','for Vaasa road district',20031002143933,'mheiskan');
+INSERT INTO translation_en VALUES ('tiepiiri-yla-lappi:lle','for Upper Lapland',20031002143944,'mheiskan');
 
 --
 -- Table structure for table 'translation_fi'
@@ -784,6 +798,20 @@ INSERT INTO translation_fi VALUES ('suomi:lle','Suomeen',20030618101451,'mheiska
 INSERT INTO translation_fi VALUES ('ahvenanmaa:lle','Ahvenanmaalle',20030619130734,'mheiskan');
 INSERT INTO translation_fi VALUES ('huomisesta alkaen','huomisesta alkaen',20030629012837,'mheiskan');
 INSERT INTO translation_fi VALUES ('ja','ja',20030715083522,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiepiiri-hame:lle','Hämeen tiepiiriin',20031002142810,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiepiiri-kaakkois-lappi:lle','Kaakkois-Lappiin',20031002142804,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiepiiri-kaakkois-suomi:lle','Kaakkois-Suomen tiepiiriin',20031002142825,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiepiiri-kasivarsi:lle','Käsivarteen',20031002142836,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiepiiri-keski-lappi:lle','Keski-Lappiin',20031002142848,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiepiiri-keski-suomi:lle','Keski-Suomen tiepiiriin',20031002142859,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiepiiri-lounais-lappi:lle','Lounais-Lappiin',20031002143038,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiepiiri-oulu-ita:lle','Oulun tiepiirin itäosaan',20031002143051,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiepiiri-oulu-lansi:lle','Oulun tiepiirin länsiosaan',20031002143103,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiepiiri-savo-karjala:lle','Savo-Karjalan tiepiiriin',20031002143117,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiepiiri-turku:lle','Turun tiepiiriin',20031002143136,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiepiiri-uusimaa:lle','Uudenmaan tiepiiriin',20031002143145,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiepiiri-vaasa:lle','Vaasan tiepiiriin',20031002143155,'mheiskan');
+INSERT INTO translation_fi VALUES ('tiepiiri-yla-lappi:lle','Ylä-Lappiin',20031002143205,'mheiskan');
 
 --
 -- Table structure for table 'translation_sonera'
@@ -1528,4 +1556,18 @@ INSERT INTO translation_sv VALUES ('suomi:lle','för Finland',20030618101506,'mhe
 INSERT INTO translation_sv VALUES ('ahvenanmaa:lle','för Åland',20030619130748,'mheiskan');
 INSERT INTO translation_sv VALUES ('huomisesta alkaen','från i morgon',20030629012854,'mheiskan');
 INSERT INTO translation_sv VALUES ('ja','och',20030715083534,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiepiiri-hame:lle','för Tavastlands vägdistrikt',20031002143233,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiepiiri-kaakkois-lappi:lle','för Sydöstra Lappland',20031002143248,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiepiiri-kaakkois-suomi:lle','för Sydöstra Finlands vägdistrikt',20031002143304,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiepiiri-kasivarsi:lle','för Nordvästra Lappland',20031002143324,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiepiiri-keski-lappi:lle','för Mellersta Lappland',20031002143337,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiepiiri-keski-suomi:lle','för Mellersta Finlands vägdistrikt',20031002143354,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiepiiri-lounais-lappi:lle','för Sydvästra Lappland',20031002143410,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiepiiri-oulu-ita:lle','för Uleåborgs vägdistrikts östra delar',20031002143429,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiepiiri-oulu-lansi:lle','för Uleåborgs vägdistrikts västra delar',20031002143445,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiepiiri-savo-karjala:lle','för Savolax Karelens vägdistrikt',20031002143503,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiepiiri-turku:lle','för Åbo vägdistrikt',20031002143517,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiepiiri-uusimaa:lle','för Nylands vägdistrikt',20031002143529,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiepiiri-vaasa:lle','för Vasa vägdistrikt',20031002143539,'mheiskan');
+INSERT INTO translation_sv VALUES ('tiepiiri-yla-lappi:lle','för Övre Lappland',20031002143550,'mheiskan');
 
