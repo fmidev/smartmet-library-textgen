@@ -364,7 +364,7 @@ namespace TextGen
 	const int severe_frost_min = round_to_precision(minseverefrost.value(),precision);
 	const int severe_frost_max = round_to_precision(maxseverefrost.value(),precision);
 
-	if(severe_frost_max > severelimit)
+	if(severe_frost_max >= severelimit)
 	  {
 		NumberRange<Number<int> > range(severe_frost_min,severe_frost_max);
 		sentence << "ankaran hallan todennäköisyys"
@@ -373,7 +373,7 @@ namespace TextGen
 				 << Delimiter("%");
 		paragraph << sentence;
 	  }
-	else if(frost_max > normallimit)
+	else if(frost_max >= normallimit)
 	  {
 		NumberRange<Number<int> > range(frost_min,frost_max);
 		sentence << "hallan todennäköisyys"
