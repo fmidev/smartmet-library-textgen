@@ -32,7 +32,7 @@ namespace WeatherPeriodToolsTest
 	  {
 		HourPeriodGenerator generator(period,12,18,12,17);
 		if(generator.size() != 1)
-		  TEST_FAILED("Size should be zero - 12-17 does not fit into 12-18(17)");
+		  TEST_FAILED("Size should be one - 12-17 fits into 12-18(17)");
 	  }
 	}
 
@@ -171,8 +171,8 @@ namespace WeatherPeriodToolsTest
 int main(void)
 {
   cout << endl
-	   << "WeatherPeriodTools tester" << endl
-	   << "====================" << endl;
+	   << "HourPeriodGenerator tester" << endl
+	   << "==========================" << endl;
   WeatherPeriodToolsTest::tests t;
   return t.run();
 }
