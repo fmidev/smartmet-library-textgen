@@ -94,8 +94,8 @@ namespace TextGen
 
 	WeatherResult result1 = WeatherResultTools::mean(pop1max,pop1mean);
 
-	log << "PoP Mean(Maximum) for day 1 " << pop1mean << endl
-		<< "PoP Mean(Mean) for day 1 " << pop1max << endl
+	log << "PoP Mean(Mean) for day 1 " << pop1mean << endl
+		<< "PoP Mean(Max) for day 1 " << pop1max << endl
 		<< "Pop for day 1 is the mean value " << result1 << endl;
 
 	const int pop1 = to_precision(result1.value(),precision);
@@ -139,8 +139,8 @@ namespace TextGen
 		
 		WeatherResult result2 = WeatherResultTools::mean(pop2max,pop2mean);
 
-		log << "PoP Mean(Maximum) for day 2 " << pop2mean << endl
-			<< "PoP Mean(Mean) for day 2 " << pop2max << endl
+		log << "PoP Mean(Mean) for day 2 " << pop2mean << endl
+			<< "PoP Mean(Max) for day 2 " << pop2max << endl
 			<< "Pop for day 2 is the mean value " << result2 << endl;
 
 		const int pop2 = to_precision(result2.value(),precision);
