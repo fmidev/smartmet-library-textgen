@@ -20,6 +20,17 @@ Ruotsiksi lauseet ovat
   -# "Nästa natten vägtemperaturen är x...y grader, i morgon på dagen
       x...y grader, på natten x...y grader, osv
 
+Tarinassa kerrotaan enintään
+\code
+textgen::[kappale]::story::roadtemperature_daynightranges::maxperiods = [1-N] (=3)
+\endcode
+päivä/yö jaksosta. Oletusarvo on 3, koska tiesäämalli on varsin lyhyt
+ennuste. 3 periodia kattaa noin 36 tuntia, jonka pitäisi olla riittävän
+lyhyt aika. Varmuuden vuoksi jos jollekin periodille ei saada laskettua
+tarvittavia minimejä ja maksimeja, keskeytetään tarina kyseisen periodin
+kohdalla. Näin saadaan edes 2 periodia, jos jostain syystä esim. yksi
+HIRLAM ajo on jäänyt väliin.
+
 Aikafraasit ovat tyyppiä \ref sec_periodifraasit_today ja \ref
 sec_periodifraasit_tonight. Niihin liittyviä asetuksia kontrolloidaan
 muuttujilla
