@@ -33,9 +33,9 @@ namespace WeatherPeriodTest
 	NFmiTime time2(2003,12,31);
 
 	WeatherPeriod period(time1,time2);
-	if(!period.startTime().IsEqual(time1))
+	if(!period.localStartTime().IsEqual(time1))
 	  TEST_FAILED("startTime() accessor failed");
-	if(!period.endTime().IsEqual(time2))
+	if(!period.localEndTime().IsEqual(time2))
 	  TEST_FAILED("endTime() accessor failed");
 
 	TEST_PASSED();
