@@ -41,6 +41,7 @@ namespace TextGen
 
 	Paragraph total(void) const;
 	Paragraph range(void) const;
+	Paragraph classification(void) const;
 
 	PrecipitationStory();
 	PrecipitationStory(const PrecipitationStory & theStory);
