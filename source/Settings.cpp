@@ -295,8 +295,8 @@ namespace Settings
    */
   // ----------------------------------------------------------------------
 
-  std::string optional_int(const std::string & theName,
-						   const std::string & theDefault)
+  std::string optional_string(const std::string & theName,
+							  const std::string & theDefault)
   {
 	return (isset(theName) ? require_string(theName) : theDefault);
   }
