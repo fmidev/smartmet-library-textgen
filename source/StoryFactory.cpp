@@ -48,12 +48,6 @@ namespace TextGen
 		  Paragraph paragraph;
 		  return paragraph;
 		}
-	  if(theName == "break")
-		{
-		  Paragraph paragraph;
-		  paragraph << Delimiter("\n");
-		  return paragraph;
-		}
 
 	  if(TemperatureStory::hasStory(theName))
 		{
