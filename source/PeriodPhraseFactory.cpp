@@ -286,16 +286,26 @@ namespace TextGen
 	  using WeekdayTools::on_weekday;
 	  Sentence sentence;
 
-	  if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
-		sentence << on_weekday(thePeriod.localStartTime());
-	  else if(optional_bool(theVariable+"::prefer_phrase_followingday",false))
-		sentence << "seuraavana päivänä";
-	  else if(!is_next_day(theForecastTime, thePeriod.localStartTime()))
-		sentence << on_weekday(thePeriod.localStartTime());
-	  else if(optional_bool(theVariable+"::prefer_phrase_tomorrow",false))
-		sentence << "huomenna";
+	  if(is_next_day(theForecastTime, thePeriod.localEndTime()))
+		{
+		  if(optional_bool(theVariable+"::prefer_phrase_tomorrow",false))
+			sentence << "huomenna";
+		  else if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
+			sentence << on_weekday(thePeriod.localStartTime());
+		  else if(optional_bool(theVariable+"::prefer_phrase_followingday",false))
+			sentence << "seuraavana päivänä";
+		  else
+			sentence << "seuraavana päivänä";
+		}
 	  else
-		sentence << "huomenna";
+		{
+		  if(optional_bool(theVariable+"::prefer_phrase_weekday",false))
+			sentence << on_weekday(thePeriod.localStartTime());
+		  else if(optional_bool(theVariable+"::prefer_phrase_followingday",false))
+			sentence << "seuraavana päivänä";
+		  else
+			sentence << "seuraavana päivänä";
+		}
 	  
 	  return sentence;
 	}

@@ -118,11 +118,15 @@ kerrotaan erikseen ennen tätä osuutta.
 Periodi kattaa jakson seuraavasta aamusta iltaan, tai koko seuraavan
 vuorokauden.
 
- -# Jos prefer_phrase_weekday, "viikonpäivänä"
- -# Jos prefer_phrase_followingday, "seuraavana päivänä"
- -# Jos ennustuspäivä+1 <> periodin alkamispäivä, "viikonpäivänä"
- -# Jos prefer_phrase_tomorrow, "huomenna"
- -# "huomenna"
+ -# Jos ennustuspäivä+1 == periodin alkamispäivä
+   -# Jos prefer_phrase_tomorrow, "huomenna"
+   -# Jos prefer_phrase_weekday, "viikonpäivänä"
+   -# Jos prefer_phrase_followingday, "seuraavana päivänä"
+   -# "seuraavana päivänä"
+ -# Muutoin
+   -# Jos prefer_phrase_weekday, "viikonpäivänä"
+   -# Jos prefer_phrase_followingday, "seuraavana päivänä"
+   -# "seuraavana päivänä"
 
 \subsection sec_periodifraasit_next_days "next_days"
 
