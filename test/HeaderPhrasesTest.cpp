@@ -156,6 +156,52 @@ namespace HeaderPhrasesTest
 	TEST_PASSED();
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief HeaderFactory::header_report_area() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void header_report_area()
+  {
+	require("s‰‰ennuste");
+	require("kello");
+	require("o'clock","");
+	
+	require("1-na","maanantaina");
+	require("2-na","tiistaina");
+	require("3-na","keskiviikkona");
+	require("4-na","torstaina");
+	require("5-na","perjantaina");
+	require("6-na","lauantaina");
+	require("7-na","sunnuntaina");
+
+	require("aland:lle","Ahvenanmaalle");
+	require("etela-karjala:lle","Etel‰-Karjalaan");
+	require("etela-pohjanmaa:lle","Etel‰-Pohjanmaalle");
+	require("etela-savo:lle","Etel‰-Savoon");
+	require("hame:lle","H‰meeseen");
+	require("kainuu:lle","Kainuuseen");
+	require("keski-pohjanmaa:lle","Keski-Pohjanmaalle");
+	require("keski-suomi:lle","Keski-Suomeen");
+	require("koillismaa:lle","Koillismaalle");
+	require("kymenlaakso:lle","Kymenlaaksoon");
+	require("lansi-lappi:lle","L‰nsi-Lappiin");
+	require("nyland:lle","Uudellemaalle");
+	require("osterbotten:lle","Pohjanmaalle");
+	require("paijat-hame:lle","P‰ij‰t-H‰meeseen");
+	require("pirkanmaa:lle","Pirkanmaalle");
+	require("pohjois-karjala:lle","Pohjois-Karjalaan");
+	require("pohjois-lappi:lle","Pohjois-Lappiin");
+	require("pohjois-pohjanmaa:lle","Pohjois-Pohjanmaalle");
+	require("pohjois-savo:lle","Pohjois-Savoon");
+	require("satakunta:lle","Satakuntaan");
+	require("uusimaa:lle","Uudellemaalle");
+	require("varsinais-suomi:lle","Varsinais-Suomeen");
+
+	TEST_PASSED();
+  }
+
 
   //! The actual test driver
   class tests : public tframe::tests
@@ -172,6 +218,8 @@ namespace HeaderPhrasesTest
 	  TEST(header_until);
 	  TEST(header_from_until);
 	  TEST(header_several_days);
+	  TEST(header_report_area);
+
 	}
 
   }; // class tests
