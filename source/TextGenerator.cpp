@@ -156,12 +156,11 @@ namespace TextGen
 		const string periodvar = settings.require("textgen::"+*it+"::period");
 		const WeatherPeriod period = WeatherPeriodFactory::create(time(),
 																  periodvar);
-		const string headertype = settings.require("textgen::"+*it+"::header");
-		if(!headertype.empty())
-		  {
-			Header header = HeaderFactory::create(period,headertype);
-			doc << header;
-		  }
+
+		const string headervar = "textgen::"+*it+"::header";
+		Header header = HeaderFactory::create(period,headervar);
+		if(!header.empty())
+		  doc << header;
 
 		const list<string> contents = NFmiStringTools::SplitWords(settings.require("textgen::"+*it+"::content"));
 		if(!contents.empty())
