@@ -360,121 +360,116 @@ Oleelliset fraasit ovat eri kielillä
 <tr>
 <td>tyyntä</td>
 <td>lugnt</td>
-<td></td>
+<td>calm winds</td>
 </tr>
 <tr>
 <td>heikkoa</td>
 <td>svag</td>
-<td></td>
+<td>light</td>
 <tr>
 <td>kohtalaista</td>
 <td>måttlig</td>
-<td></td>
+<td>moderate</td>
 </tr>
 <tr>
 <td>navakkaa</td>
 <td>frisk</td>
-<td></td>
+<td>fresh</td>
 </tr>
 <tr>
 <td>kovaa</td>
 <td>hård</td>
-<td></td>
+<td>strong</td>
 </tr>
 <tr>
 <td>myrskyä</td>
 <td>storm</td>
-<td></td>
+<td>stormy</td>
 </tr>
 <tr>
 <td>hirmumyrskyä</td>
 <td>orkan</td>
-<td></td>
+<td>severe strom</td>
 </tr>
 <tr>
 <td>tyyneksi</td>
 <td>till lugnt</td>
-<td></td>
+<td>calm</td>
 </tr>
 <tr>
 <td>heikoksi</td>
 <td>till svag</td>
-<td></td>
+<td>light</td>
 </tr>
 <tr>
 <td>kohtalaiseksi</td>
 <td>till måttlig</td>
-<td></td>
+<td>moderate</td>
 </tr>
 <tr>
 <td>navakaksi</td>
 <td>till frisk</td>
-<td></td>
+<td>fresh</td>
 </tr>
 <tr>
 <td>kovaksi</td>
 <td>till hård</td>
-<td></td>
+<td>strong</td>
 </tr>
 <tr>
 <td>myrskyksi</td>
 <td>till storm</td>
-<td></td>
+<td>storm</td>
 </tr>
 <tr>
 <td>hirmumyrskyksi</td>
 <td>till orkan</td>
-<td></td>
+<td>severe strom</td>
 </tr>
 <tr>
 <td>tuuli</td>
 <td>vinden</td>
-<td></td>
+<td>wind</td>
 </tr>
 <tr>
 <td>tuulta</td>
 <td>vind</td>
-<td></td>
-</tr>
-<tr>
-<td>yöllä</td>
-<td>på natten</td>
-<td></td>
+<td>wind</td>
 </tr>
 <tr>
 <td>tuuli tyyntyy</td>
 <td>avtar vinden helt</td>
-<td></td>
+<td>the wind becomes calm</td>
 </tr>
 <tr>
 <td>tuuli heikkenee</td>
 <td>avtar vinden</td>
-<td></td>
+<td>the wind weakens to</td>
 </tr>
 <tr>
 <td>tuuli voimistuu</td>
 <td>tilltar vinden</td>
-<td></td>
+<td>the wind strenghtens to</td>
 </tr>
 <tr>
 <td>edelleen</td>
 <td>fortfarande</td>
-<td></td>
+<td>continued</td>
 </tr>
 <tr>
 <td>heikkenevää</td>
 <td>avtagande</td>
-<td></td>
+<td>weakening</td>
 </tr>
 <tr>
 <td>voimistuvaa</td>
 <td>tilltagande</td>
-<td></td>
+<td>strenghtening</td>
 </tr>
 <tr>
 <td>suunnaltaan vaihtelevaa</td>
 <td>varierande</td>
-<td></td>
+<td>variable</td>
 </tr>
 <tr>
 <td>pohjoistuulta ...</td>
@@ -484,17 +479,17 @@ Oleelliset fraasit ovat eri kielillä
 <tr>
 <td>pohjoistuuleksi ...</td>
 <td>nordlig vind ...</td>
-<td></td>
+<td>northerly wind ...</td>
 </tr>
 <tr>
 <td>pohjoisen puoleista tuulta ...</td>
 <td>vind omkring nord ...</td>
-<td></td>
+<td>approximately northerly wind ...</td>
 </tr>
 <tr>
 <td>pohjoisen puoleiseksi tuuleksi ...</td>
 <td>vind omkring nord ...</td>
-<td></td>
+<td>approximately northerly wind ...</td>
 </tr>
 </table>
  
