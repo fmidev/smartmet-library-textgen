@@ -18,7 +18,11 @@ namespace PhraseNumberTest
 	static std::string tostring(const Value & theValue)
 	{
 	  std::ostringstream os;
+#ifdef OLDGCC
 	  os << std::ios::fixed << std::setprecision(2) << theValue;
+#else
+	  os << std::fixed << std::setprecision(2) << theValue;
+#endif
 	  return os.str();
 	}
   };

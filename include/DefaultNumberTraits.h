@@ -39,7 +39,11 @@ namespace TextGen
 	static std::string tostring(float theValue)
 	{
 	  std::ostringstream os;
+#ifdef OLDGCC
 	  os << std::ios::fixed << std::setprecision(1) << theValue;
+#else
+	  os << std::fixed << std::setprecision(1) << theValue;
+#endif
 	  std::string ret = os.str();
 	  if(ret.size() > 2)
 		if(ret.substr(ret.size()-2,2) == ".0")
@@ -55,7 +59,11 @@ namespace TextGen
 	static std::string tostring(double theValue)
 	{
 	  std::ostringstream os;
+#ifdef OLDGCC
 	  os << std::ios::fixed << std::setprecision(1) << theValue;
+#else
+	  os << std::fixed << std::setprecision(1) << theValue;
+#endif
 	  std::string ret = os.str();
 	  if(ret.size() > 2)
 		if(ret.substr(ret.size()-2,2) == ".0")
