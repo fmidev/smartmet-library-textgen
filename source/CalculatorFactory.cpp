@@ -11,8 +11,10 @@
 #include "MaximumCalculator.h"
 #include "MeanCalculator.h"
 #include "MinimumCalculator.h"
+#include "ModChangeCalculator.h"
 #include "ModMeanCalculator.h"
 #include "ModStandardDeviationCalculator.h"
+#include "ModTrendCalculator.h"
 #include "NullCalculator.h"
 #include "PercentageCalculator.h"
 #include "RangeAcceptor.h"
@@ -93,6 +95,11 @@ namespace WeatherAnalysis
 		  return shared_ptr<Calculator>(new ModMeanCalculator(theModulo));
 		case StandardDeviation:
 		  return shared_ptr<Calculator>(new ModStandardDeviationCalculator(theModulo));
+		case Change:
+		  throw shared_ptr<Calculator>(new ModChangeCalculator(theModulo));
+		case Trend:
+		  throw shared_ptr<Calculator>(new ModTrendCalculator(theModulo));
+
 		case Percentage:
 		  return shared_ptr<Calculator>(new PercentageCalculator);
 		case Count:
@@ -104,12 +111,8 @@ namespace WeatherAnalysis
 		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Maximum analyzer");
 		case Minimum:
 		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Minimum analyzer");
-		case Trend:
-		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Trend analyzer");
 		case Sum:
 		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Sum analyzer");
-		case Change:
-		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Change analyzer");
 		}
 
 	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
