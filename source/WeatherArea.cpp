@@ -139,4 +139,38 @@ bool operator!=(const WeatherAnalysis::WeatherArea & theLhs,
   return !(theLhs == theRhs);
 }
 
+// ----------------------------------------------------------------------
+/*!
+ * \brief Lexical less-than comparison for WeatherAnalysis::WeatherArea
+ *
+ * This is implemented solely for the benefit of putting WeatherArea
+ * objects into standard associative containers. For example, MaskSource
+ * objects need a std::map mapping a WeatherArea to a NFmiIndexMask
+ * or a NFmiIndexMaskSource object.
+ *
+ * \param theLhs The left hand side
+ * \param theRhs The right hand side
+ * \return True if the first area is lexically less than the second
+ */
+// ----------------------------------------------------------------------
+
+bool operator<(const WeatherAnalysis::WeatherArea & theLhs,
+			   const WeatherAnalysis::WeatherArea & theRhs)
+{
+  // we choose named < not named
+
+  if(theLhs.isNamed())
+	{
+	  if(!theRhs.isNamed())
+		return true;
+	  return (theLhs.name() < theRhs.name());
+	}
+  else
+	{
+	  if(theRhs.isNamed())
+		return false;
+	  
+	}
+}
+
 // ======================================================================

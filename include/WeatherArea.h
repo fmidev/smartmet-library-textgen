@@ -61,6 +61,11 @@ bool operator==(const WeatherAnalysis::WeatherArea & theLhs,
 bool operator!=(const WeatherAnalysis::WeatherArea & theLhs,
 				const WeatherAnalysis::WeatherArea & theRhs);
 
+// Lexical comparison for the benefit of set/map
+
+bool operator<(const WeatherAnalysis::WeatherArea & theLhs,
+			   const WeatherAnalysis::WeatherArea & theRhs);
+
 #endif // WEATHERANALYSIS_WEATHERAREA_H
 
 // ======================================================================
