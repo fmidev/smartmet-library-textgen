@@ -31,8 +31,7 @@ namespace WeatherAnalysis
 	{
 	  Maximum,
 	  Minimum,
-	  Mean,
-	  Probability
+	  Mean
 
 	}; // enum Weatherfunction
 
