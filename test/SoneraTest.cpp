@@ -392,6 +392,7 @@ namespace SoneraTest
 	require("pakkanen jatkuu","543");
 	require("pakkanen kiristyy","544");
 	require("pakkanen heikkenee","545");
+	require("ja","546");
 
 	// extras:
 	// pohjanmaa:lle == osterbotten::lle
@@ -399,8 +400,8 @@ namespace SoneraTest
 	// o'clock = <empty>
 
 	const int extras = 3;
-	if(dict->size() != 545-200+1+extras)
-	  TEST_FAILED("Sonera dictionary should have 349 phrases");
+	if(dict->size() != 546-200+1+extras)
+	  TEST_FAILED("Sonera dictionary should have 350 phrases");
 	
 	TEST_PASSED();
   }
