@@ -25,6 +25,11 @@ nimet‰‰n tekstigeneraattorissa.
 
 \ref page_periodit sivulla kuvataan, miten s‰‰periodeja luodaan.
 
+\section sec_aliperiodit S‰‰periodin jakaminen p‰iviksi
+
+\ref page_aliperiodit sivulla kuvataan, miten s‰‰periodin voi
+jakaa p‰iv‰kohtaisiksi osiksi.
+
 \section sec_otsikot Otsikot
 
 \ref page_otsikot sivulla kuvataan, miten otsikoita luodaan
