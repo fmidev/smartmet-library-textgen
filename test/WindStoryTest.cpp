@@ -205,9 +205,9 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  REQUIRE(story,"en",fun,"Today and tomorrow approximately northeasterly wind 0...2 m/s.");
 
 	  NFmiSettings::Set("a::days::phrases","today,weekday,tomorrow,followingday,none");
-	  REQUIRE(story,"fi",fun,"Tänään ja sunnuntaina koillisen puoleista tuulta 0...2 m/s.");
-	  REQUIRE(story,"sv",fun,"I dag och på söndagen vind omkring nordost 0...2 m/s.");
-	  REQUIRE(story,"en",fun,"Today and on Sunday approximately northeasterly wind 0...2 m/s.");
+	  REQUIRE(story,"fi",fun,"Tänään ja maanantaina koillisen puoleista tuulta 0...2 m/s.");
+	  REQUIRE(story,"sv",fun,"I dag och på måndagen vind omkring nordost 0...2 m/s.");
+	  REQUIRE(story,"en",fun,"Today and on Monday approximately northeasterly wind 0...2 m/s.");
 
 	}
 
