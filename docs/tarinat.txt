@@ -1,6 +1,22 @@
 /*!
 \page page_tarinat Tarinat
 
+<ol>
+<li>\ref sec_tarina</li>
+<li>\ref sec_storyfactory</li>
+<li>\ref sec_temperaturestory</li>
+ <ol>
+ <li>\ref sec_story_temperature_mean</li>
+ <li>\ref sec_story_temperature_meanmax</li>
+ <li>\ref sec_story_temperature_meanmin</li>
+ </ol>
+<li>\ref sec_precipitationstory</li>
+ <ol>
+ <li>\ref sec_story_precipitation_total</li>
+ <li>\ref sec_story_precipitation_range</li>
+ </ol>
+</ol>
+
 \section sec_tarina Mikä on tarina
 
 Tarina on yksittäinen kappale, joka sisältää yksittäiseen sääparametriin
@@ -14,12 +30,75 @@ jolla voidaan luoda erikseen nimettyjä tarinoita.
 
 \section sec_temperaturestory TemperatureStory luokka
 
-TextGen::TemperatureStory luokka hallitsee lämpötilaan liittyvät tarinat
-mean, meanmax, meanmin.
+TextGen::TemperatureStory luokka hallitsee lämpötilaan liittyvät tarinat.
+
+\subsection sec_story_temperature_mean "temperature_mean"
+
+\c temperature_mean tarina on muotoa
+
+  - "Keskilämpötila N astetta."
+
+Käytetyt fraasit ovat
+
+  - "keskilämpötila"
+  - "astetta"
+
+\subsection sec_story_temperature_meanmax "temperature_meanmax"
+
+\c temperature_meanmax tarina on muotoa
+
+  - "Keskimääräinen ylin lämpötila N astetta."
+
+Käytetyt fraasit ovat
+
+  - "keskimääräinen ylin lämpötila"
+  - "astetta"
+
+\subsection sec_story_temperature_meanmin "temperature_meanmin"
+
+\c temperature_meanmin tarina on muotoa
+
+  - "Keskimääräinen alin lämpötila N astetta."
+
+Käytetyt fraasit ovat
+
+  - "keskimääräinen alin lämpötila"
+  - "astetta"
 
 \section sec_precipitationstory PrecipitationStory luokka
 
-TextGen::PrecipitationStory luokka hallitsee sateeseen liittyvät tarinat,
-joita on tällä hetkellä vain yksi: total.
+TextGen::PrecipitationStory luokka hallitsee sateeseen liittyvät tarinat.
+
+\subsection sec_story_precipitation_total "precipitation_total"
+
+\c precipitation_total tarina on muotoa
+
+  - "Sadesumma N millimetriä."
+
+Käytetyt fraasit ovat
+
+  - "sadesumma"
+  - "millimetriä"
+
+\subsection sec_story_precipitation_total "precipitation_range"
+
+\c precipitation_range tarina on muotoa
+
+  -# "Sadesumma yli N millimetriä."
+  -# "Sadesumma N millimetriä."
+  -# "Sadesumma N...M millimetriä."
+
+Päättelyssä käytetään muuttujina alueen minimi- ja maksimisadesummaa,
+sekä optionaalista muuttujaa "variable::maxrain".
+
+Jos "variable::maxrain" on asetettu lukemaksi X ja minimisadesumma on
+vähintään X, palautetaan tarina 1. Jos minimi ja maksimi ovat samoja,
+palautetaan tarina 2. Muuten palautetaan tarina 3.
+
+Käytetyt fraasit ovat
+
+  - "sadesumma"
+  - "yli"
+  - "millimetriä"
 
 */
