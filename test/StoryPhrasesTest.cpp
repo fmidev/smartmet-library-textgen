@@ -329,6 +329,25 @@ namespace StoryPhrasesTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief PrecipitationStory::sums() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void precipitation_sums()
+  {
+	require("ensimm‰isen 12 tunnin sadem‰‰r‰");
+	require("seuraavan 12 tunnin");
+	require("seuraavan 24 tunnin sadem‰‰r‰");
+	require("on");
+	require("noin");
+	require("millimetri‰");
+
+	TEST_PASSED();
+
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief PrecipitationStory::classification() requirements
    */
   // ----------------------------------------------------------------------
@@ -586,6 +605,7 @@ namespace StoryPhrasesTest
 	  TEST(precipitation_total);
 	  TEST(precipitation_range);
 	  TEST(precipitation_classification);
+	  TEST(precipitation_sums);
 
 	  TEST(weather_shortoverview);
 
