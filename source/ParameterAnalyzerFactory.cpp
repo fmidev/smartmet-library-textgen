@@ -51,6 +51,10 @@ namespace WeatherAnalysis
 		  return ReturnType(new ModuloParameterAnalyzer("textgen::winddirection",
 														"WindDirection",
 														360));
+		case WaveDirection:
+		  return ReturnType(new ModuloParameterAnalyzer("textgen::wavedirection",
+														"WaveDirection",
+														360));
 		case Temperature:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::temperature",
 														 "Temperature"));
@@ -90,6 +94,10 @@ namespace WeatherAnalysis
 		case RoadCondition:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::roadcondition",
 														 "RoadCondition"));
+		case WaveHeight:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::waveheight",
+														 "SigWaveHeight"));
+		  
 	  }
 
 	  // Should never reach this place
