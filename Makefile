@@ -14,10 +14,14 @@ CFLAGS = -DUNIX -O0 -g $(MAINFLAGS) $(EXTRAFLAGS) -Werror
 CFLAGS_RELEASE =  -DUNIX -O2 -DNDEBUG $(MAINFLAGS)
 LDFLAGS = -s
 ARFLAGS = -r
-INCLUDES = -I $(includedir)/newbase
-LIBS = -L ../../../../lib -lnewbase
+INCLUDES = -I $(includedir)/newbase -I /usr/include/mysql -I /usr/include/sqlplus
+LIBS = -L ../../../../lib -lnewbase -l sqlplus
 
 # Common library compiling template
 
 include ../../makefiles/makefile.lib
 
+# The MySQL headers cause a lot of warnings
+
+MySQLDictionary.o: MySQLDictionary.cpp
+	$(CC) -Wno-deprecated $(INCLUDES) -c -o obj/$@ $<
