@@ -40,7 +40,7 @@ namespace WeatherAnalysis
   {
   public:
 
-	virtual ~WeatherStatistician() = 0;
+	virtual ~WeatherStatistician() { }
 
 	virtual WeatherResult analyze(const AnalysisSources & theSources,
 								  const WeatherParameter & theParameter,
