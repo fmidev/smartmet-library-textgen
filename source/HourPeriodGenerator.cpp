@@ -66,8 +66,8 @@ namespace WeatherAnalysis
    * \endcode
    * The variables
    * \code
-   * [variable]::starthour = [0-23]
-   * [variable]::endhour = [0-23]
+   * [variable]::maxstarthour = [0-23]
+   * [variable]::minendhour = [0-23]
    * \endcode
    * are optional.
    *
