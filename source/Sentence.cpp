@@ -75,7 +75,7 @@ namespace TextGen
   Sentence::Sentence(const Sentence & theSentence)
   {
 	itsPimple.reset(new SentencePimple());
-	*this += theSentence;
+	*this << theSentence;
   }
 
   // ----------------------------------------------------------------------
@@ -89,7 +89,7 @@ namespace TextGen
   Sentence::Sentence(const Phrase & thePhrase)
   {
 	itsPimple.reset(new SentencePimple());
-	*this += thePhrase;
+	*this << thePhrase;
   }
 
 
@@ -104,7 +104,7 @@ namespace TextGen
   Sentence::Sentence(const std::string & thePhrase)
   {
 	itsPimple.reset(new SentencePimple());
-	*this += PhraseWord(thePhrase);
+	*this << PhraseWord(thePhrase);
   }
 
   // ----------------------------------------------------------------------
@@ -118,7 +118,7 @@ namespace TextGen
   Sentence::Sentence(int theValue)
   {
 	itsPimple.reset(new SentencePimple());
-	*this += PhraseNumber<int>(theValue);
+	*this << PhraseNumber<int>(theValue);
   }
 
   // ----------------------------------------------------------------------
@@ -135,7 +135,7 @@ namespace TextGen
 	if(this != &theSentence)
 	  {
 		itsPimple.reset(new SentencePimple);
-		*this += theSentence;
+		*this << theSentence;
 	  }
 	return *this;
   }
@@ -158,14 +158,44 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Adding a phrase to a sentence
+   * \brief Adding a sentence to a sentence
    *
-   * \param thePhrase The phrase to be added
+   * \param theSentence to be added
    * \result The sentence added to
    */
   // ----------------------------------------------------------------------
 
-  Sentence & Sentence::operator+=(const Phrase & thePhrase)
+  Sentence & Sentence::operator<<(const Sentence & theSentence)
+  {
+	if(this != &theSentence)
+	  {
+		for(SentencePimple::storage_type::const_iterator it=theSentence.itsPimple->itsData.begin();
+			it!=theSentence.itsPimple->itsData.end();
+			++it)
+		  {
+			Phrase * tmp = *it;
+			*this << *(tmp->clone().release());
+		  }
+	  }
+	else
+	  {
+		// safety against x << x;
+		Sentence tmp(theSentence);
+		*this << tmp;
+	  }
+	return *this;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Adding a phrase to a sentence
+   *
+   * \param thePhrase to be added
+   * \result The sentence added to
+   */
+  // ----------------------------------------------------------------------
+
+  Sentence & Sentence::operator<<(const Phrase & thePhrase)
   {
 	Phrase * tmp = thePhrase.clone().release();
 	itsPimple->itsData.push_back(tmp);
@@ -176,12 +206,12 @@ namespace TextGen
   /*!
    * \brief Adding a phrase to a sentence
    *
-   * \param thePhrase The phrase to be added
+   * \param thePhrase to be added
    * \result The sentence added to
    */
   // ----------------------------------------------------------------------
 
-  Sentence & Sentence::operator+=(const std::string & thePhrase)
+  Sentence & Sentence::operator<<(const std::string & thePhrase)
   {
 	Phrase * tmp = new PhraseWord(thePhrase);
 	itsPimple->itsData.push_back(tmp);
@@ -197,97 +227,11 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Sentence & Sentence::operator+=(int theValue)
+  Sentence & Sentence::operator<<(int theValue)
   {
 	Phrase * tmp = new PhraseNumber<int>(theValue);
 	itsPimple->itsData.push_back(tmp);
 	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Adding a sentence to the end of a sentence
-   *
-   * \param theSentence The sentence to be added
-   * \result The sentence added to
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence & Sentence::operator+=(const Sentence & theSentence)
-  {
-	if(this != &theSentence)
-	  {
-		for(SentencePimple::storage_type::const_iterator it=theSentence.itsPimple->itsData.begin();
-			it!=theSentence.itsPimple->itsData.end();
-			++it)
-		  {
-			Phrase * tmp = *it;
-			*this += *(tmp->clone().release());
-		  }
-	  }
-	else
-	  {
-		// safety against x += x;
-		Sentence tmp(theSentence);
-		*this += tmp;
-	  }
-	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Adding a sentence to a sentence
-   *
-   * \param theSentence to be added
-   * \result The sentence added to
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence & Sentence::operator<<(const Sentence & theSentence)
-  {
-	return operator+=(theSentence);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Adding a phrase to a sentence
-   *
-   * \param thePhrase to be added
-   * \result The sentence added to
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence & Sentence::operator<<(const Phrase & thePhrase)
-  {
-	return operator+=(thePhrase);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Adding a phrase to a sentence
-   *
-   * \param thePhrase to be added
-   * \result The sentence added to
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence & Sentence::operator<<(const std::string & thePhrase)
-  {
-	return operator+=(thePhrase);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Adding a value to a sentence
-   *
-   * \param theValue The value to be added
-   * \result The sentence added to
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence & Sentence::operator<<(int theValue)
-  {
-	return operator+=(theValue);
   }
 
   // ----------------------------------------------------------------------
@@ -376,120 +320,6 @@ namespace TextGen
   //			FREE OPERATORS
   // ======================================================================
 
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Addition of two sentences
-   *
-   * \param theLhs The start of the sentence
-   * \param theRhs The end of the sentence
-   * \return The complete sentence
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence operator+(const Sentence & theLhs, const Sentence & theRhs)
-  {
-	Sentence ret(theLhs);
-	ret += theRhs;
-	return ret;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Addition of a sentence and a phrase
-   *
-   * \param theLhs The sentence
-   * \param theRhs The phrase
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence operator+(const Sentence & theLhs, const Phrase & theRhs)
-  {
-	Sentence ret(theLhs);
-	ret += theRhs;
-	return ret;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Addition of a sentence and a phrase
-   *
-   * \param theLhs The phrase
-   * \param theRhs The sentence
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence operator+(const Phrase & theLhs, const Sentence & theRhs)
-  {
-	Sentence ret(theLhs);
-	ret += theRhs;
-	return ret;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Addition of a sentence and a phrase
-   *
-   * \param theLhs The sentence
-   * \param theRhs The phrase
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence operator+(const Sentence & theLhs, const std::string & theRhs)
-  {
-	Sentence ret(theLhs);
-	ret += theRhs;
-	return ret;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Addition of a sentence and a phrase
-   *
-   * \param theLhs The phrase
-   * \param theRhs The sentence
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence operator+(const std::string & theLhs, const Sentence & theRhs)
-  {
-	Sentence ret(theLhs);
-	ret += theRhs;
-	return ret;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Addition of a sentence and a value
-   *
-   * \param theLhs The sentence
-   * \param theRhs The value
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence operator+(const Sentence & theLhs, int theRhs)
-  {
-	Sentence ret(theLhs);
-	ret += theRhs;
-	return ret;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Addition of a value and a sentence
-   *
-   * \param theLhs The value
-   * \param theRhs The sentence
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence operator+(int theLhs, const Sentence & theRhs)
-  {
-	Sentence ret;
-	ret += PhraseNumber<int>(theLhs);
-	ret += theRhs;
-	return ret;
-  }
 
   // ----------------------------------------------------------------------
   /*!

@@ -38,9 +38,6 @@ namespace TextGen
 	
 	void swap(Paragraph & theParagraph);
 
-	Paragraph & operator+=(const Paragraph & theParagraph);
-	Paragraph & operator+=(const Sentence & theSentence);
-
 	Paragraph & operator<<(const Paragraph & theParagraph);
 	Paragraph & operator<<(const Sentence & theSentence);
 
@@ -57,10 +54,6 @@ namespace TextGen
   }; // class Paragraph
 
   // Free operators
-
-  Paragraph operator+(const Paragraph & theLhs, const Paragraph & theRhs);
-  Paragraph operator+(const Paragraph & theLhs, const Sentence & theRhs);
-  Paragraph operator+(const Sentence & theLhs, const Paragraph & theRhs);
 
   void swap(Paragraph & theLhs, Paragraph & theRhs);
 

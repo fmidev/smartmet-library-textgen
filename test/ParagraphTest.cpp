@@ -91,53 +91,6 @@ namespace ParagraphTest
 
   }
 
-  //! Test operator+= and operator+
-  void adding(void)
-  {
-	using namespace TextGen;
-
-	Sentence s1("a");
-	Sentence s2("b");
-
-	{
-	  Paragraph p1(s1);
-	  Paragraph p2(s2);
-
-	  p1 += p2;
-	  if(p1.size() != 2)
-		TEST_FAILED("size after a += b is not 2");
-
-	  p1 += Sentence("c");
-	  if(p1.size() != 3)
-		TEST_FAILED("size after ab += c is not 3");
-
-	  p1 += p1;
-	  if(p1.size() != 6)
-		TEST_FAILED("size after abc += abc is not 6");
-	}
-
-	{
-	  Paragraph p1(s1);
-	  Paragraph p2(s2);
-
-	  Paragraph p3 = p1+p2;
-	  if(p3.size()!=2)
-		TEST_FAILED("size after a+b is not 2");
-
-	  p3 = p3 + Sentence("c");
-	  if(p3.size()!=3)
-		TEST_FAILED("size after ab+c is not 3");
-	  
-	  p3 = p3 + p3;
-	  if(p3.size()!=6)
-		TEST_FAILED("size after abc+abc is not 6");
-
-	}
-
-	TEST_PASSED();
-
-  }
-
   //! Test operator<<
   void appending(void)
   {
@@ -188,11 +141,11 @@ namespace ParagraphTest
 	if(!p1.realize().empty())
 	  TEST_FAILED("realization of empty paragraph not empty");
 
-	p1 += s1;
+	p1 << s1;
 	if(p1.realize() != "South east.")
 	  TEST_FAILED("realization of kaakko in English failed");
 
-	p1 += s2;
+	p1 << s2;
 	if(p1.realize() != "South east. South.")
 	  TEST_FAILED("realization of kaakko etelä in English failed");
 
@@ -218,7 +171,6 @@ namespace ParagraphTest
 	  TEST(structors);
 	  TEST(empty);
 	  TEST(size);
-	  TEST(adding);
 	  TEST(appending);
 	  TEST(realize);
 	}

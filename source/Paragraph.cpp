@@ -82,7 +82,7 @@ namespace TextGen
   Paragraph::Paragraph(const Sentence & theSentence)
   {
 	itsPimple.reset(new ParagraphPimple());
-	*this += theSentence;
+	*this << theSentence;
   }
 
   // ----------------------------------------------------------------------
@@ -126,7 +126,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Paragraph & Paragraph::operator+=(const Sentence & theSentence)
+  Paragraph & Paragraph::operator<<(const Sentence & theSentence)
   {
 	itsPimple->itsData.push_back(theSentence);
 	return *this;
@@ -141,7 +141,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Paragraph & Paragraph::operator+=(const Paragraph & theParagraph)
+  Paragraph & Paragraph::operator<<(const Paragraph & theParagraph)
   {
 	if(this != &theParagraph)
 	  {
@@ -151,39 +151,11 @@ namespace TextGen
 	  }
 	else
 	  {
-		// safety against x += x;
+		// safety against x << x;
 		Paragraph tmp(theParagraph);
-		*this += tmp;
+		*this << tmp;
 	  }
 	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Adding a sentence to a paragraph
-   *
-   * \param theSentence The sentence to be added
-   * \result The paragraph added to
-   */
-  // ----------------------------------------------------------------------
-
-  Paragraph & Paragraph::operator<<(const Sentence & theSentence)
-  {
-	return operator+=(theSentence);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Adding a paragraph to the end of a paragraph
-   *
-   * \param theParagraph The paragraph to be added
-   * \result The paragraph added to
-   */
-  // ----------------------------------------------------------------------
-
-  Paragraph & Paragraph::operator<<(const Paragraph & theParagraph)
-  {
-	return operator+=(theParagraph);
   }
 
   // ----------------------------------------------------------------------
@@ -260,55 +232,6 @@ namespace TextGen
   //			FREE OPERATORS
   // ======================================================================
 
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Addition of two paragraphs
-   *
-   * \param theLhs The start of the paragraph
-   * \param theRhs The end of the paragraph
-   * \return The complete paragraph
-   */
-  // ----------------------------------------------------------------------
-
-  Paragraph operator+(const Paragraph & theLhs, const Paragraph & theRhs)
-  {
-	Paragraph ret(theLhs);
-	ret += theRhs;
-	return ret;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Addition of a paragraph and a sentence
-   *
-   * \param theLhs The paragraph
-   * \param theRhs The sentence
-   */
-  // ----------------------------------------------------------------------
-
-  Paragraph operator+(const Paragraph & theLhs, const Sentence & theRhs)
-  {
-	Paragraph ret(theLhs);
-	ret += theRhs;
-	return ret;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Addition of a paragraph and a sentence
-   *
-   * \param theLhs The sentence
-   * \param theRhs The paragraph
-   */
-  // ----------------------------------------------------------------------
-
-  Paragraph operator+(const Sentence & theLhs, const Paragraph & theRhs)
-  {
-	Paragraph ret(theLhs);
-	ret += theRhs;
-	return ret;
-  }
 
   // ----------------------------------------------------------------------
   /*!

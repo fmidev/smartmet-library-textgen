@@ -93,101 +93,6 @@ namespace SentenceTest
 
   }
 
-  //! Test operator+= and operator+
-  void adding(void)
-  {
-	using namespace TextGen;
-
-	{
-	  Sentence s1("a");
-
-	  Sentence s2("b");
-	  s1 += s2;
-	  if(s1.size() != 2)
-		TEST_FAILED("size after a += b is not 2");
-
-	  s1 += string("c");
-	  if(s1.size() != 3)
-		TEST_FAILED("size after ab += c is not 3");
-
-	  s1 += "d";
-	  if(s1.size() != 4)
-		TEST_FAILED("size after abc += d is not 4");
-
-	  s1 += s1;
-	  if(s1.size() != 8)
-		TEST_FAILED("size after abcd += abcd is not 8");
-	}
-
-	{
-	  Sentence s1(1);
-
-	  Sentence s2(2);
-	  s1 += s2;
-	  if(s1.size() != 2)
-		TEST_FAILED("size after 1 += 2 is not 2");
-
-	  s1 += PhraseNumber<float>(3.0);
-	  if(s1.size() != 3)
-		TEST_FAILED("size after 12 += 3 is not 3");
-
-	  s1 += 4;
-	  if(s1.size() != 4)
-		TEST_FAILED("size after 123 += 4 is not 4");
-
-	  s1 += s1;
-	  if(s1.size() != 8)
-		TEST_FAILED("size after 1234 += 1234 is not 8");
-	}
-
-	{
-	  Sentence s1("a");
-	  Sentence s2("b");
-
-	  Sentence s3 = s1+s2;
-	  if(s3.size()!=2)
-		TEST_FAILED("size after a+b is not 2");
-
-	  s3 = s3 + string("c");
-	  if(s3.size()!=3)
-		TEST_FAILED("size after ab+c is not 3");
-	  
-	  s3 = s3 + "d";
-	  if(s3.size()!=4)
-		TEST_FAILED("size after abc+d is not 4");
-
-	  s3 = s3 + s3;
-	  if(s3.size()!=8)
-		TEST_FAILED("size after abcd+abcd is not 8");
-
-	}
-
-	{
-	  Sentence s1(1);
-	  Sentence s2(2);
-
-	  Sentence s3 = s1+s2;
-	  if(s3.size()!=2)
-		TEST_FAILED("size after 1+2 is not 2");
-
-	  s3 = s3 + PhraseNumber<int>(3);
-	  if(s3.size()!=3)
-		TEST_FAILED("size after 12+3 is not 3");
-	  
-	  s3 = s3 + 4;
-	  if(s3.size()!=4)
-		TEST_FAILED("size after 123+4 is not 4");
-
-	  s3 = s3 + s3;
-	  if(s3.size()!=8)
-		TEST_FAILED("size after 1234+1234 is not 8");
-
-	}
-
-	TEST_PASSED();
-
-  }
-
   //! Test operator<<
   void appending(void)
   {
@@ -260,11 +165,11 @@ namespace SentenceTest
 	if(!s1.realize().empty())
 	  TEST_FAILED("realization of empty sentence not empty");
 
-	s1 += "kaakko";
+	s1 << "kaakko";
 	if(s1.realize() != "South east.")
 	  TEST_FAILED("realization of kaakko in English failed");
 
-	s1 += "etelä";
+	s1 << "etelä";
 	if(s1.realize() != "South east south.")
 	  TEST_FAILED("realization of kaakko etelä in English failed");
 
@@ -301,7 +206,6 @@ namespace SentenceTest
 	  TEST(structors);
 	  TEST(empty);
 	  TEST(size);
-	  TEST(adding);
 	  TEST(appending);
 	  TEST(realize);
 	}
