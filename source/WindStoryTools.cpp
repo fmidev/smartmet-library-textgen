@@ -287,16 +287,17 @@ namespace TextGen
 
 	  const int mininterval = optional_int(theVariable+"::mininterval",0);
 	  
-	  if(theMaxSpeed.value()-theMinSpeed.value() < mininterval)
+	  const int minvalue = FmiRound(theMinSpeed.value());
+	  const int maxvalue = FmiRound(theMaxSpeed.value());
+
+	  if(maxvalue - minvalue < mininterval)
 		{
 		  sentence << "noin"
 				   << Integer(FmiRound(theMeanSpeed.value()));
 		}
 	  else
 		{
-		  sentence << IntegerRange(FmiRound(theMinSpeed.value()),
-								   FmiRound(theMaxSpeed.value()),
-								   "-");
+		  sentence << IntegerRange(minvalue,maxvalue,"-");
 		}
 	  sentence << *UnitFactory::create(MetersPerSecond);
 	  
