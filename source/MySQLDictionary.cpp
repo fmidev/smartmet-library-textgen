@@ -239,7 +239,7 @@ namespace TextGen
 
 	if(it!=itsPimple->itsData.end())
 	  return it->second;
-	throw TextGenError("Error: MySQLDictionary::find("+theKey+") failed");
+	throw TextGenError("Error: MySQLDictionary::find("+theKey+") failed in language "+itsPimple->itsLanguage);
   }
 
   // ----------------------------------------------------------------------
