@@ -26,7 +26,8 @@ namespace WeatherAnalysis
    *
    * \param theSources Analysis sources
    * \param theParameter The weather phenomenon to analyze
-   * \param theFunction The function to calculate
+   * \param theAreaFunction The area function
+   * \param theTimeFunction The time function
    * \param theLimits The associated limits
    * \param thePeriod The time period to analyze
    * \param theArea The name of the area to analyze
@@ -34,34 +35,56 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  WeatherResult GridForecaster::analyze(const AnalysisSources & theSources,
-										const WeatherParameter & theParameter,
-										const WeatherFunction & theFunction,
-										const WeatherLimits & theLimits,
-										const WeatherPeriod & thePeriod,
-										const WeatherArea & theArea) const
+  WeatherResult
+  GridForecaster::analyze(const AnalysisSources & theSources,
+						  const WeatherParameter & theParameter,
+						  const WeatherFunction & theAreaFunction,
+						  const WeatherFunction & theTimeFunction,
+						  const WeatherLimits & theLimits,
+						  const WeatherPeriod & thePeriod,
+						  const WeatherArea & theArea) const
   {
 	switch(theParameter)
 	  {
 	  case Temperature:
 		{
 		  TemperatureAnalyzer analyzer;
-		  return analyzer.analyze(theSources,theFunction,theLimits,thePeriod,theArea);
+		  return analyzer.analyze(theSources,
+								  theAreaFunction,
+								  theTimeFunction,
+								  theLimits,
+								  thePeriod,
+								  theArea);
 		}
 	  case MaxTemperature:
 		{
 		  MaxTemperatureAnalyzer analyzer;
-		  return analyzer.analyze(theSources,theFunction,theLimits,thePeriod,theArea);
+		  return analyzer.analyze(theSources,
+								  theAreaFunction,
+								  theTimeFunction,
+								  theLimits,
+								  thePeriod,
+								  theArea);
 		}
 	  case MinTemperature:
 		{
 		  MinTemperatureAnalyzer analyzer;
-		  return analyzer.analyze(theSources,theFunction,theLimits,thePeriod,theArea);
+		  return analyzer.analyze(theSources,
+								  theAreaFunction,
+								  theTimeFunction,
+								  theLimits,
+								  thePeriod,
+								  theArea);
 		}
 	  case Precipitation:
 		{
 		  PrecipitationAnalyzer analyzer;
-		  return analyzer.analyze(theSources,theFunction,theLimits,thePeriod,theArea);
+		  return analyzer.analyze(theSources,
+								  theAreaFunction,
+								  theTimeFunction,
+								  theLimits,
+								  thePeriod,
+								  theArea);
 		}
 
 	  case Pressure:
