@@ -36,7 +36,7 @@ namespace WeatherAnalysis
 					 int theMinEndHour);
 
 	WeatherPeriod getPeriod(const WeatherPeriod & thePeriod,
-							int thePeriod,
+							int theNumber,
 							int theStartHour,
 							int theEndHour);
 
