@@ -74,7 +74,7 @@ namespace TextGen
 
   std::string Phrase::realize(const TextFormatter & theFormatter) const
   {
-	return theFormatter.format(*this);
+	return theFormatter.visit(*this);
   }
 
   // ----------------------------------------------------------------------
