@@ -42,6 +42,17 @@ namespace WeatherStoryTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test WeatherStory::short_overview()
+   */
+  // ----------------------------------------------------------------------
+
+  void short_overview()
+  {
+	TEST_NOT_IMPLEMENTED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -57,6 +68,7 @@ namespace WeatherStoryTest
 	//! Main test suite
 	void test(void)
 	{
+	  TEST(short_overview);
 	}
 
   }; // class tests
