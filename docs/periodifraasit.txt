@@ -111,6 +111,62 @@ Mahdolliset fraasit oletusj‰rjestyksess‰ ovat
 Asteriskilla merkittyihin fraaseihin liittyy lis‰ehtoja ennustushetken
 suhteen.
 
+\subsection sec_periodifraasit_days "days"
+
+Periodi k‰sitt‰‰ v‰hint‰‰n yhden p‰iv‰n, mahdollisesti kaksi tai useampia.
+Usein jakso alkaa meneill‰‰n olevasta p‰iv‰st‰, usein huomisesta.
+
+Mahdolliset fraasit oletusj‰rjestyksess‰ ovat
+
+ -# none (*)
+ -# today (*)
+ -# tomorrow (*)
+ -# followingday
+ -# weekday
+
+Fraasien j‰rjestyksen pystyy valitsemaan normaalilla \c ::days::phrases muuttujalla,
+mutta senkin pystyy ylikuormittamaan eri pituisille jaksoille muuttujilla
+\code
+::days::phrases::days1
+::days::phrases::days
+::days::phrases::days
+...
+\endcode
+P‰ivien laskemiseen k‰ytet‰‰n normaaleja muuttujia
+\code
+::day::starthour
+::day::endhour
+::day::maxstarthour
+::day::minendhour
+\endcode
+
+Vastaavat realisoidut fraasit ovat
+
+ -# Jos p‰ivi‰ on yksi
+    -# ""
+    -# "T‰n‰‰n"
+    -# "Huomenna"
+    -# (ei k‰ytet‰)
+    -# "Viikonp‰iv‰n‰"
+ -# Jos p‰ivi‰ on kaksi
+    -# ""
+    -# Riippuu tomorrow,followingday,weekday j‰rjestyksest‰
+       -# "T‰n‰‰n ja huomenna" jos tomorrow
+       -# "T‰n‰‰n ja seuraavana p‰iv‰n‰" jos followingday
+       -# "T‰n‰‰n ja viikonp‰iv‰n‰" jos weekday
+    -# Riippuu followingday,weekday j‰rjestyksest‰
+       -# "Huomenna ja seuraavana p‰iv‰n‰" jos followingday
+       -# "Huomenna ja viikonp‰iv‰n‰" jos weekday
+    -# (ei k‰ytet‰)
+    -# "Viikonp‰iv‰n‰ ja viikonp‰iv‰n‰"
+ -# Jos p‰ivi‰ on kolme tai useampia
+    -# ""
+    -# (ei k‰ytet‰)
+    -# "Huomisesta alkaen"
+    -# (ei k‰ytet‰)
+    -# "Viikonp‰iv‰st‰ alkaen"
+
+
 \subsection sec_periodifraasit_next_night "next_night"
 
 Periodi k‰sitt‰‰ yˆn, ilman p‰iv‰saikaan kuuluvia hetki‰, joista
