@@ -16,4 +16,9 @@ suunniteltua käyttötapaa.
 \ref page_lauseet sivulla kuvataan lauseiden ja kappaleiden rakentamista,
 sekä niiden muuntamista tekstiksi.
 
+\section sec_aikavalit Aikajaksojen määrittelyistä
+
+\ref page_aikavalit sivulla kuvataan, miten eri vuorokauden ajat
+nimetään tekstigeneraattorissa.
+
 */

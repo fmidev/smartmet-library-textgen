@@ -21,6 +21,17 @@ LIBS = -L ../../../../lib -lnewbase -L/usr/lib/mysql -lmysqlclient
 
 include ../../makefiles/makefile.lib
 
+# Extra html installation
+
+EXTRAS = $(wildcard docs/*.php)
+html::
+	@mkdir -p $(prefix)/html/lib/textgen/docs
+	@list='$(EXTRAS)'; \
+	for extra in $$list; do \
+	  echo $(INSTALL_DATA) $$extra $(prefix)/html/lib/textgen/$$extra; \
+	  $(INSTALL_DATA) $$extra $(prefix)/html/lib/textgen/$$extra; \
+	done
+
 # The MySQL headers cause a lot of warnings
 
 MySQLDictionary.o: MySQLDictionary.cpp
