@@ -22,6 +22,7 @@
 #include <stdexcept>
 
 using namespace std;
+using namespace boost;
 
 namespace
 {
@@ -58,14 +59,26 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
   
-  WeatherResult TemperatureAnalysis::forecast(const AnalysisSources & theSources,
-											  const WeatherFunction & theFunction,
-											  const WeatherLimits & theLimits,
-											  const WeatherPeriod & thePeriod,
-											  const WeatherArea & theArea)
+  WeatherResult
+  TemperatureAnalysis::forecast(const AnalysisSources & theSources,
+								const WeatherFunction & theFunction,
+								const WeatherLimits & theLimits,
+								const WeatherPeriod & thePeriod,
+								const WeatherArea & theArea)
   {
-	const string source = temperature_forecast_source();
-	
+	const string dataname = temperature_forecast_source();
+
+	shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+	shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	// WeatherId id = wsource->id(dataname);
+
+	MaskSource::mask_type mask;
+	if(theArea.isNamed())
+	  {
+		shared_ptr<MaskSource> msource = theSources.getMaskSource();
+		mask = msource->mask(theArea,dataname,*wsource);
+	  }
+
 	switch(theFunction)
 	  {
 	  case Maximum:
