@@ -9,6 +9,7 @@
 #include "PlainTextFormatter.h"
 #include "PlainLinesTextFormatter.h"
 #include "HtmlTextFormatter.h"
+#include "SoneraTextFormatter.h"
 #include "TextGenError.h"
 
 using namespace boost;
@@ -40,6 +41,8 @@ namespace TextGen
 		return shared_ptr<TextFormatter>(new PlainLinesTextFormatter());
 	  if(theType == "html")
 		return shared_ptr<TextFormatter>(new HtmlTextFormatter());
+	  if(theType == "sonera")
+		return shared_ptr<TextFormatter>(new SoneraTextFormatter());
 	  throw TextGenError("Error: Unknown text formatter type "+theType);
 	}
 
