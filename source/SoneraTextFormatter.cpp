@@ -288,10 +288,14 @@ namespace TextGen
   string SoneraTextFormatter::visit(const Sentence & theSentence) const
   {
 	static string dummy("sentence");
+	const container_type::size_type oldsize = itsParts.size();
 	sonera_realize(theSentence.begin(), theSentence.end(), *this, itsParts);
 
-	static const string var = "textgen::soneraformatter::pause::sentence";
-	addpause(var,itsParts);
+	if(itsParts.size() > oldsize)
+	  {
+		static const string var = "textgen::soneraformatter::pause::sentence";
+		addpause(var,itsParts);
+	  }
 
 	return dummy;
   }
@@ -305,11 +309,15 @@ namespace TextGen
   string SoneraTextFormatter::visit(const Paragraph & theParagraph) const
   {
 	static string dummy("paragraph");
+	const container_type::size_type oldsize = itsParts.size();
 	sonera_realize(theParagraph.begin(), theParagraph.end(), *this, itsParts);
 
-	static const string var = "textgen::soneraformatter::pause::paragraph";
-	addpause(var,itsParts);
-
+	if(itsParts.size() > oldsize)
+	  {
+		static const string var = "textgen::soneraformatter::pause::paragraph";
+		addpause(var,itsParts);
+	  }
+		
 	return dummy;
   }
   
@@ -322,10 +330,14 @@ namespace TextGen
   string SoneraTextFormatter::visit(const Header & theHeader) const
   {
 	static string dummy("header");
+	const container_type::size_type oldsize = itsParts.size();
 	sonera_realize(theHeader.begin(), theHeader.end(), *this, itsParts);
 
-	static const string var = "textgen::soneraformatter::pause::header";
-	addpause(var,itsParts);
+	if(itsParts.size() > oldsize)
+	  {
+		static const string var = "textgen::soneraformatter::pause::header";
+		addpause(var,itsParts);
+	  }
 
 	return dummy;
   }
