@@ -29,6 +29,8 @@ namespace WeatherAnalysis
 	  MaxTemperature,
 	  MinTemperature,
 	  Precipitation,
+	  Frost,
+	  SevereFrost,
 	  Pressure,
 	  WindSpeed,
 	  WindDirection
