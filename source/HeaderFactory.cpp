@@ -20,6 +20,7 @@
 #include "HeaderFactory.h"
 #include "Header.h"
 #include "Integer.h"
+#include "LocationPhrase.h"
 #include "MessageLogger.h"
 #include "Settings.h"
 #include "TextGenError.h"
@@ -155,7 +156,7 @@ namespace
   /*!
    * \brief Return report header for specific area
    *
-   * \param theArea The area (must not be a point)
+   * \param theArea The named area
    * \param thePeriod The time period (only start time is relevant)
    * \param theVariable The variable for extra settings
    * \return The header
@@ -181,6 +182,35 @@ namespace
 		   << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
 		   << Integer(starthour)
 		   << "o'clock";
+
+	log << header;
+	return header;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return report header for location name
+   *
+   * \param theArea The area (must be named)
+   * \param thePeriod The time period (only start time is relevant)
+   * \param theVariable The variable for extra settings
+   * \return The header
+   */
+  // ----------------------------------------------------------------------
+
+  TextGen::Header header_report_location(const WeatherArea & theArea,
+										 const WeatherPeriod & thePeriod,
+										 const string & theVariable)
+  {
+	MessageLogger log("header_report_location");
+	using namespace TextGen;
+
+	Header header;
+
+	if(!theArea.isNamed())
+	  throw TextGenError("Cannot generate report_location title for an unnamed point");
+
+	header << LocationPhrase(theArea.name());
 
 	log << header;
 	return header;
@@ -263,6 +293,8 @@ namespace TextGen
 		return header_report_area(theArea,thePeriod,theVariable);
 	  if(type == "report_time")
 		return header_report_time(theArea,thePeriod,theVariable);
+	  if(type == "report_location")
+		return header_report_location(theArea,thePeriod,theVariable);
 
 	  throw TextGenError("HeaderFactory does not recognize header type "+type);
 	}

@@ -245,6 +245,36 @@ namespace HeaderFactoryTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test HeaderFactory::create() with type "report_location"
+   */
+  // ----------------------------------------------------------------------
+
+  void header_report_location()
+  {
+	using namespace WeatherAnalysis;
+
+	string var = "variable";
+	NFmiSettings::Set(var+"::type","report_location");
+
+	WeatherArea area("25,60","helsinki");
+	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,3,6));
+
+	string result;
+
+	result = require("fi",area,period,var,"Helsinki");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("sv",area,period,var,"Helsinki");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("en",area,period,var,"Helsinki");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -266,6 +296,7 @@ namespace HeaderFactoryTest
 	  TEST(header_several_days);
 	  TEST(header_report_time);
 	  TEST(header_report_area);
+	  TEST(header_report_location);
 	}
 
   }; // class tests
