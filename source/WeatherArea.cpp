@@ -25,6 +25,9 @@
  * Additionally the area may be given a name for text generation
  * purposes.
  *
+ * For convenience a searchpath textgen::mappath will be used for the SVG polygons,
+ * and a .svg suffix will be tested if necessary.
+ *
  * Usage examples:
  *
  * \code
@@ -52,6 +55,7 @@
 #include "WeatherArea.h"
 // textgen
 #include "LocationSource.h"
+#include "Settings.h"
 #include "WeatherAnalysisError.h"
 // newbase
 #include "NFmiFileSystem.h"
@@ -334,18 +338,30 @@ namespace WeatherAnalysis
 
 	const string & spec = words[0];
 
-	if(NFmiFileSystem::FileExists(spec))
+	const string searchpath = Settings::optional_string("textgen::mappath",".");
+
+	string filename = spec;
+	if(NFmiFileSystem::FileExists(filename))
+	  ;
+	else if(NFmiFileSystem::FileExists(filename = spec + ".svg"))
+	  ;
+	else if(NFmiFileSystem::FileExists(filename = searchpath + '/' + spec))
+	  ;
+	else if(NFmiFileSystem::FileExists(filename = searchpath + '/' + spec + ".svg"))
+	  ;
+
+	if(NFmiFileSystem::FileExists(filename))
 	  {
 		itsPointFlag = false;
 
-		ifstream in(spec.c_str(), ios::in);
+		ifstream in(filename.c_str(), ios::in);
 		if(!in)
-		  throw WeatherAnalysisError("Could not open map file '"+spec+"' for reading");
+		  throw WeatherAnalysisError("Could not open map file '"+filename+"' for reading");
 		in >> itsPolygon;
 		in.close();
 
 		if(itsPolygon.empty())
-		  throw WeatherAnalysisError("Map file '"+spec+"' does not contain an acceptable SVG path");
+		  throw WeatherAnalysisError("Map file '"+filename+"' does not contain an acceptable SVG path");
 		return;
 	  }
 
