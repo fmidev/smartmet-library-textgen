@@ -12,6 +12,7 @@
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
 
+#include "PrecipitationAnalyzer.h"
 #include "TemperatureAnalyzer.h"
 #include "MaxTemperatureAnalyzer.h"
 #include "MinTemperatureAnalyzer.h"
@@ -57,6 +58,12 @@ namespace WeatherAnalysis
 		  MinTemperatureAnalyzer analyzer;
 		  return analyzer.analyze(theSources,theFunction,theLimits,thePeriod,theArea);
 		}
+	  case Precipitation:
+		{
+		  PrecipitationAnalyzer analyzer;
+		  return analyzer.analyze(theSources,theFunction,theLimits,thePeriod,theArea);
+		}
+
 	  case Pressure:
 	  case WindSpeed:
 	  case WindDirection:
