@@ -61,7 +61,7 @@ namespace WeatherAnalysis
    * \param theFunction The function to calculate
    * \param theLimits The associated limits
    * \param thePeriod The time period to analyze
-   * \param theArea The name of the area to analyze
+   * \param thePoint The location to analyze
    * \return The result of the analysis
    */
   // ----------------------------------------------------------------------
