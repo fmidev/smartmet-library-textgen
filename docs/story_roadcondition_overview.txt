@@ -69,6 +69,13 @@ Oletetaan seuraavat määritelmät
 Käytännössä tällöin P = 100-Y, jolloin "yleisesti" ja "paikoin" ovat
 toisensa pois sulkevia. Järkeviä arvoja ovat esim. Y=90, M=50, P=10.
 
+Asetuksia voi kontrolloida muuttujilla
+\code
+textgen::[kappale]::story::roadcondition_overview::generally_limit = [0-100] (=90)
+textgen::[kappale]::story::roadcondition_overview::manyplaces_limit = [0-100] (=50)
+textgen::[kappale]::story::roadcondition_overview::someplaces_limit = [0-100] (=10)
+\endcode
+
 Näin ollen, jos jotain keliä on yleisesti, ovat mahdolliset tapaukset
 jo lueteltu aiemmissa esimerkkilauseissa. Jos yhtä keliä on monin
 paikoin, ja mitään muuta kuin kuivaa ei ole edes paikoin, päädytään
@@ -311,7 +318,7 @@ alla olevan luettelon mukaisesti
 <td>&nbsp;</td>
 </tr>
 <tr>
-<td>Teillä on kuuraa</td>
+<td>Teillä on paikoin kuuraa</td>
 <td>-</td>
 <td>-</td>
 <td>&nbsp;</td>
