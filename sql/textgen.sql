@@ -850,6 +850,9 @@ INSERT INTO translation_fi VALUES ('sohjoisia','sohjoisia',20031016115941,'mheis
 INSERT INTO translation_fi VALUES ('lumisia','lumisia',20031016115947,'mheiskan');
 INSERT INTO translation_fi VALUES ('tiet ovat (sivulause)','tiet ovat',20031016115955,'mheiskan');
 INSERT INTO translation_fi VALUES ('yleisesti','yleisesti',20031016120004,'mheiskan');
+INSERT INTO translation_fi VALUES ('lappi:lle','Lappiin',20031017154730,'mrauhala');
+INSERT INTO translation_fi VALUES ('ita-uusimaa:lle','Itä-Uudellemaalle',20031017154820,'mrauhala');
+INSERT INTO translation_fi VALUES ('kanta-hame:lle','Kanta-Hämeeseen',20031017154949,'mrauhala');
 
 --
 -- Table structure for table 'translation_sonera'
