@@ -141,10 +141,8 @@ namespace TextGen
   
   string HtmlTextFormatter::visit(const Header & theHeader) const
   {
+	const bool colon = Settings::optional_bool(itsSectionVar+"::header::colon",false);
 	const int level = Settings::optional_int(itsSectionVar+"::header::html::level",1);
-
-	ostringstream out;
-	out << "<h" << level << '>';
 
 	string text = TextFormatterTools::realize(theHeader.begin(),
 											  theHeader.end(),
@@ -153,7 +151,14 @@ namespace TextGen
 											  "");
 	TextFormatterTools::capitalize(text);
 
-	out << text << "</h" << level << '>';
+	if(text.empty())
+	  return "";
+
+	ostringstream out;
+	out << "<h" << level << '>'
+		<< text
+		<< (colon ? ":" : "")
+		<< "</h" << level << '>';
 	return out.str();
   }
   

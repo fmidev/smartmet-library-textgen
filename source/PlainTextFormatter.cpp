@@ -21,6 +21,7 @@
 #include "Paragraph.h"
 #include "SectionTag.h"
 #include "Sentence.h"
+#include "Settings.h"
 #include "StoryTag.h"
 #include "TextFormatterTools.h"
 
@@ -134,12 +135,14 @@ namespace TextGen
   
   string PlainTextFormatter::visit(const Header & theHeader) const
   {
+	const bool colon = Settings::optional_bool(itsSectionVar+"::header::colon",false);
+
     string ret = TextFormatterTools::realize(theHeader.begin(),
 											 theHeader.end(),
 											 *this,
 											 " ","");
 	TextFormatterTools::capitalize(ret);
-	if(!ret.empty())
+	if(!ret.empty() && colon)
 	  ret += ':';
 	
 	return ret;
