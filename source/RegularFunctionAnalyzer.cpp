@@ -163,6 +163,21 @@ namespace WeatherAnalysis
 	
 	// Handle points and areas separately
 
+	shared_ptr<Calculator> spacemod, timemod, subtimemod;
+
+	if(!itIsModulo)
+	  {
+		timemod = CalculatorFactory::create(itsTimeFunction,theTester);
+		subtimemod = CalculatorFactory::create(itsSubTimeFunction,theTester);
+	  }
+	else
+	  {
+		timemod = CalculatorFactory::create(itsTimeFunction,theTester,itsModulo);
+		subtimemod = CalculatorFactory::create(itsSubTimeFunction,theTester,itsModulo);
+	  }
+	timemod->acceptor(theTimeAcceptor);
+	subtimemod->acceptor(theTimeAcceptor);
+
 	if(theArea.isNamed())
 	  {
 		shared_ptr<MaskSource> msource = theSources.getMaskSource();
@@ -170,13 +185,11 @@ namespace WeatherAnalysis
 
 		// Result
 
-		shared_ptr<Calculator> spacemod = CalculatorFactory::create(itsAreaFunction,theTester);
-		shared_ptr<Calculator> timemod = CalculatorFactory::create(itsTimeFunction,theTester);
-		shared_ptr<Calculator> subtimemod = CalculatorFactory::create(itsSubTimeFunction,theTester);
-
+		if(!itIsModulo)
+		  spacemod = CalculatorFactory::create(itsAreaFunction,theTester);
+		else
+		  spacemod = CalculatorFactory::create(itsAreaFunction,theTester,itsModulo);
 		spacemod->acceptor(theAreaAcceptor);
-		timemod->acceptor(theTimeAcceptor);
-		subtimemod->acceptor(theTimeAcceptor);
 
 		float result = QueryDataIntegrator::Integrate(qi,
 													  thePeriods,
@@ -195,11 +208,6 @@ namespace WeatherAnalysis
 	  {
 		if(!(qi.Location(theArea.point())))
 		  throw WeatherAnalysisError("Could not set desired coordinate in "+dataname);
-
-		shared_ptr<Calculator> timemod = CalculatorFactory::create(itsTimeFunction,theTester);
-		shared_ptr<Calculator> subtimemod = CalculatorFactory::create(itsSubTimeFunction,theTester);
-		timemod->acceptor(theTimeAcceptor);
-		subtimemod->acceptor(theTimeAcceptor);
 
 		float result = QueryDataIntegrator::Integrate(qi,
 													  thePeriods,
