@@ -78,6 +78,12 @@ Käytetyt fraasit ovat
   - "keskilämpötila"
   - "astetta"
 
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+# Mean(Mean(Temperature)):
+textgen::[kappale]::story::temperature_mean::fake::mean = [result]
+\endcode
+
 \subsection sec_story_temperature_meanmax "temperature_meanmax"
 
 \c temperature_meanmax tarina on muotoa
@@ -96,6 +102,12 @@ Käytetyt fraasit ovat
 
   - "keskimääräinen ylin lämpötila"
   - "astetta"
+
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+# Mean(Mean(MaxTemperature)):
+textgen::[kappale]::story::temperature_meanmax::fake::mean = [result]
+\endcode
 
 \subsection sec_story_temperature_meanmin "temperature_meanmin"
 
@@ -116,6 +128,11 @@ Käytetyt fraasit ovat
   - "keskimääräinen alin lämpötila"
   - "astetta"
 
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+# Mean(Mean(MinTemperature)):
+textgen::[kappale]::story::temperature_meanmin::fake::mean = [result]
+\endcode
 
 \subsection sec_story_temperature_dailymax "temperature_dailymax"
 
@@ -540,6 +557,12 @@ Käytetyt fraasit ovat
   - "sadesumma"
   - "millimetriä"
 
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+# Mean(Sum(Precipitation)):
+textgen::[kappale]::story::precipitation_total::fake::mean = [result]
+\endcode
+
 \subsection sec_story_precipitation_range "precipitation_range"
 
 \c precipitation_range tarina on muotoa
@@ -575,6 +598,14 @@ Käytetyt fraasit ovat
   - "sadesumma"
   - "yli"
   - "millimetriä"
+
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+# Minimum(Sum(Precipitation)):
+textgen::[kappale]::story::precipitation_total::fake::minimum = [result]
+# Maximum(Sum(Precipitation)):
+textgen::[kappale]::story::precipitation_total::fake::maximum = [result]
+\endcode
 
 \subsection sec_story_precipitation_classification "precipitation_classification"
 
@@ -652,6 +683,18 @@ PS. Tarinan nimi ei ole \c precipitation_class, koska
 koodauskonventioiden mukaan PrecipitationStory luokkaan tulisi metodi
 nimeltä class, joka ei ole sallittua.
 
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+# Mean(Sum(Precipitation))
+textgen::[kappale]::story::precipitation_classification::fake::mean = [result]
+# Minimum(Sum(Precipitation))
+textgen::[kappale]::story::precipitation_classification::fake::minimum = [result]
+# Maximum(Sum(Precipitation))
+textgen::[kappale]::story::precipitation_classification::fake::maximum = [result]
+# Percentage(Sum(Precipitation))
+textgen::[kappale]::story::precipitation_classification::fake::percentage = [result]
+\endcode
+
 \section sec_froststory FrostStory luokka
 
 TextGen::FrostStory luokka hallitsee hallaan liittyvät tarinat.
@@ -697,6 +740,14 @@ Käytetyt fraasit ovat
  - "ankaran hallan todennäköisyys"
  - "on"
 
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+# Mean(Maximum(Frost)):
+textgen::[kappale]::story::frost_mean::fake::mean = [result]
+# Mean(Maximum(SevereFrost)):
+textgen::[kappale]::story::frost_mean::fake::severe_mean = [result]
+\endcode
+
 \subsection sec_story_frost_maximum "frost_maximum"
 
 Aikavälin hallan todennäköisyyksistä valitaan maksimi tekstiä varten.
@@ -737,6 +788,14 @@ Käytetyt fraasit ovat
  - "hallan todennäköisyys"
  - "ankaran hallan todennäköisyys"
  - "on"
+
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+# Maximum(Maximum(Frost)):
+textgen::[kappale]::story::frost_maximum::fake::maximum = [result]
+# Maximum(Maximum(SevereFrost)):
+textgen::[kappale]::story::frost_maximum::fake::severe_maximum = [result]
+\endcode
 
 \subsection sec_story_frost_range "frost_range"
 
@@ -789,6 +848,18 @@ Käytetyt fraasit ovat
  - "hallan todennäköisyys"
  - "ankaran hallan todennäköisyys"
  - "on"
+
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+# Maximum(Maximum(Frost)):
+textgen::[kappale]::story::frost_range::fake::maximum = [result]
+# Minimum(Maximum(Frost)):
+textgen::[kappale]::story::frost_range::fake::minimum = [result]
+# Maximum(Maximum(SevereFrost)):
+textgen::[kappale]::story::frost_range::fake::severe_maximum = [result]
+# Minimum(Maximum(SevereFrost)):
+textgen::[kappale]::story::frost_range::fake::severe_minimum = [result]
+\endcode
 
 \subsection sec_story_frost_maxtwonights "frost_maxtwonights"
 
@@ -953,5 +1024,12 @@ Tarvittavat fraasit ovat
  - "sama"
  - "hieman pienempi"
  - "pienempi" 
+
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+# Minimum(Minimum(Temperature)):
+textgen::[kappale]::story::relativehumidity_lowest::fake::day1::minimum = [result]
+textgen::[kappale]::story::relativehumidity_lowest::fake::day2::minimum = [result]
+\endcode
 
 */
