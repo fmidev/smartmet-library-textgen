@@ -130,13 +130,14 @@ namespace textgen
 	// Establish the connection
 
 	Connection con(use_exceptions);
-	con.connect(database.c_str(), host.c_str(), user.c_str(), passwd.c_str());
+	if(!con.connect(database.c_str(), host.c_str(), user.c_str(), passwd.c_str()))
+	  throw TextGenError("Error: Could not connect to language database");
 
 	// Fetch the languages
 
 	Query query = con.query();
 	query << "select translationtable, active from languages"
-		  << " where language = " << theLanguage;
+		  << " where isocode = '" << theLanguage << "'";
 	
 	Result res = query.store();
 
@@ -145,7 +146,7 @@ namespace textgen
 	
 	Row row(*res.begin());
 
-	if(static_cast<int>(row["active"]))
+	if(!static_cast<int>(row["active"]))
 	  throw TextGenError("Error: Language "+theLanguage+" is not active");
 
 	std::string translationtable(row["translationtable"]);
@@ -161,10 +162,12 @@ namespace textgen
 	for(it=res.begin(); it!=res.end(); ++it)
 	  {
 		row = *it;
-		const char * keyword = row[0];
-		const char * translation = row[1];
+		const char * const keyword = row[0];
+		const char * const translation = row[1];
 		itsPimple->itsData.insert(MySQLDictionaryPimple::value_type(keyword,translation));
 	  }
+
+	itsPimple->itsInitialized = true;
 
   }
 
