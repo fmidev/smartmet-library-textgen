@@ -36,6 +36,8 @@ namespace WeatherAnalysis
 #endif
 
 	WeatherResult(float theValue, float theAccuracy);
+	WeatherResult(const WeatherResult & theValue,
+				  const WeatherResult & theAccuracy);
 
 	float value() const;
 	float accuracy() const;

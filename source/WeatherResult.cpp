@@ -34,6 +34,26 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Constructor
+   *
+   * The first result contains the value, the second the accuracy.
+   * The accuracy of each input result is ignored.
+   *
+   * \param theValue The value part of the result
+   * \param theAccuracy The accuracy part of the result
+   */
+  // ----------------------------------------------------------------------
+
+  WeatherResult::WeatherResult(const WeatherResult & theValue,
+							   const WeatherResult & theAccuracy)
+	: itsValue(theValue.value())
+	, itsAccuracy(theAccuracy.value())
+  {
+	assert(theAccuracy>=0 && theAccuracy<=1);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Value accessor
    *
    * Returns the value part of the result
