@@ -82,8 +82,10 @@ namespace WeatherAnalysis
   class LandMaskSource::Pimple
   {
   public:
-	double itsExpansionDistance;
-	string itsLandMapName;
+
+	Pimple(const WeatherArea & theLand);
+
+	const WeatherArea itsLand;
 
 	typedef map<WeatherAreaAndID,mask_type> mask_storage;
 	typedef map<WeatherAreaAndID,masks_type> masks_storage;
@@ -100,10 +102,21 @@ namespace WeatherAnalysis
 
 	mask_type create_mask(const WeatherArea & theArea,
 						  const std::string & theData,
-						  const WeatherSource & theWeatherSource,
-						  bool useLandMask);
+						  const WeatherSource & theWeatherSource);
 
   }; // class LandMaskSource::Pimple
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Pimple constructor
+   */
+  // ----------------------------------------------------------------------
+
+  LandMaskSource::Pimple::Pimple(const WeatherArea & theLand)
+	: itsLand(theLand)
+	, itsMaskStorage()
+	, itsMasksStorage()
+  { }
 
   // ----------------------------------------------------------------------
   /*!
@@ -164,7 +177,6 @@ namespace WeatherAnalysis
    * \param theArea The area
    * \param theData The data name
    * \param theWeatherSource The weather source
-   * \param useLandMask True if land mask is to be used
    * \return The mask
    */
   // ----------------------------------------------------------------------
@@ -172,36 +184,38 @@ namespace WeatherAnalysis
   LandMaskSource::mask_type
   LandMaskSource::Pimple::create_mask(const WeatherArea & theArea,
 									  const std::string & theData,
-									  const WeatherSource & theWeatherSource,
-									  bool useLandMask)
+									  const WeatherSource & theWeatherSource)
   {
-	const NFmiSvgPath svg = theArea.path();
-	const float radius = theArea.radius();
+	// Establish the grid which to mask
 
 	shared_ptr<NFmiStreamQueryData> qdata = theWeatherSource.data(theData);
 	NFmiQueryData * qd = qdata->QueryData();
 	if(!qd->IsGrid())
 	  throw WeatherAnalysisError("The data in "+theData+" is not gridded - cannot generate mask for it");
 
-	NFmiIndexMask * areamask = new NFmiIndexMask(MaskExpand(qd->GridInfo(),
-															svg,
-															radius));
+	// First build the area mask
 
-	if(useLandMask)
-	  {
-		WeatherArea landarea(itsLandMapName);
-		WeatherId id = theWeatherSource.id(theData);
-		mask_type landmask = find(id,landarea);
-		if(landmask.get()==0)
-		  {
-			landmask = create_mask(landarea,theData,theWeatherSource,false);
-			insert(id,landarea,landmask);
-		  }
-		*areamask &= *landmask;
-	  }
+	const NFmiSvgPath svg = theArea.path();
+	const float radius = theArea.radius();
 
-	mask_type sharedmask(areamask);
-	return sharedmask;
+	mask_type areamask(new NFmiIndexMask(MaskExpand(qd->GridInfo(),
+													svg,
+													radius)));
+
+	// Then build the land mask
+
+	const NFmiSvgPath & lsvg = itsLand.path();
+	const float ldistance = itsLand.radius();
+	mask_type landmask(new NFmiIndexMask(MaskExpand(qd->GridInfo(),
+													lsvg,
+													ldistance)));
+
+	// The intersection is the land area
+
+	*areamask &= *landmask;
+
+	return areamask;
+
   }
 
   // ----------------------------------------------------------------------
@@ -212,10 +226,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  LandMaskSource::LandMaskSource(const std::string & theLandMapName)
-	: itsPimple(new Pimple())
+  LandMaskSource::LandMaskSource(const WeatherArea & theLand)
+	: itsPimple(new Pimple(theLand))
   {
-	itsPimple->itsLandMapName = theLandMapName;
   }
   
   // ----------------------------------------------------------------------
@@ -249,7 +262,7 @@ namespace WeatherAnalysis
 
 	// Calculate new mask and cache it
 
-	areamask = itsPimple->create_mask(theArea,theData,theWeatherSource,true);
+	areamask = itsPimple->create_mask(theArea,theData,theWeatherSource);
 	itsPimple->insert(id,theArea,areamask);
 
 	return areamask;
