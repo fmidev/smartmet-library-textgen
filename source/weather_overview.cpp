@@ -632,12 +632,14 @@ namespace TextGen
                                               Maximum,
                                               theArea,
                                               thePeriod,
+											  DefaultAcceptor(),
+											  DefaultAcceptor(),
                                               rainlimits);
 
 	log << "Precipitation percentage: " << result.value() << endl;
 
     if(result.value() == kFloatMissing)
-	  throw TextGenError("Total precipitation not available");
+	  throw TextGenError("Precipitation percentage not available");
 	
 	Sentence s;
 	if(result.value() >= many_places)
