@@ -68,7 +68,6 @@ namespace TextGen
    * \brief Copy constructor
    *
    * \param theSentence The sentence to be copied
-   * \todo What about a(a) ?
    */
   // ----------------------------------------------------------------------
 
