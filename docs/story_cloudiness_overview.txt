@@ -31,6 +31,9 @@ Esimerkkej‰:
 
 Algoritmin k‰ytt‰m‰t muuttujat ovat
 \code
+::story::cloudiness_overview::clear = [0-100] (=40)
+::story::cloudiness_overview::cloudy = [0-100] (=70)
+
 ::story::cloudiness_overview::single_class_limit = [0-100]  (=90)
 ::story::cloudiness_overview::mostly_class_limit = [0-100]  (=80)
 ::story::cloudiness_overview::no_class_limit = [0-100]      (=20)
@@ -41,6 +44,11 @@ Algoritmin k‰ytt‰m‰t muuttujat ovat
 ::story::cloudiness_overview::day::maxstarthour = [0-23]    (=starthour)
 ::story::cloudiness_overview::day::minendhour = [0-23]      (=minendhour)
 \endcode
+Prosenttiluku 40 vastaa pilvisyysluokkaa 3.2, luku 70 pilvisyysluokkaa
+5.6. Paremmat oletusarvot voisivat perustua tarkkoihin lukuihin
+3.5 ja 5.5, mutta helpommin muistettavat rajat lienev‰t t‰ss‰
+tapauksessa parempia.
+
 On huomattava, ettei ole j‰rkev‰‰ m‰‰ritell‰ p‰iv‰‰ liian
 lyhyeksi. Muuten voi tulla, tosin harvoin, sellainen
 tilanne vastaan, ett‰ kahdelle per‰kk‰iselle p‰iv‰lle
@@ -49,6 +57,7 @@ ennustetaan pilvistyv‰‰.
 Yksitt‰isen p‰iv‰n pilvisyystyyppi m‰‰ritell‰‰n seuraavasti:
 
 -# Lasketaan kunkin luokan prosenttiosuus
+  -# Puolipilvisen osuus voidaan laskea kahden muun tyypin osuudesta
 -# Jos pilvist‰ on v‰hint‰‰n \c single_class_limit, "pilvist‰"
 -# Jos selke‰‰ on v‰hint‰‰n \c single_class_limit, "selke‰‰"
 -# Jos puolipilvist‰ on v‰hint‰‰n \c single_class_limit, "puolipilvist‰"
@@ -60,6 +69,14 @@ Yksitt‰isen p‰iv‰n pilvisyystyyppi m‰‰ritell‰‰n seuraavasti:
 -# Jos lis‰‰ntyv‰ trendi on v‰hint‰‰n \c trend_limit, "pilvistyv‰‰"
 -# Jos v‰henev‰ trendi on v‰hint‰‰n \c trend_limit, "selkenev‰‰"
 -# "vaihtelevaa pilvisyytt‰"
+
+Tuloksia voi testata k‰ytt‰m‰ll‰ apumuuttujia
+\code
+::fake::day1::cloudy = [result]
+::fake::day1::clear  = [result]
+::fake::day1::trend  = [result]
+\endcode
+and so on for days 2 onwards.
 
 \section section_cloudiness_overview_phrases Tarvittavat fraasit
 
