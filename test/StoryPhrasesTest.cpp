@@ -320,6 +320,7 @@ namespace StoryPhrasesTest
   void precipitation_range()
   {
 	require("sadesumma");
+	require("on");
 	require("yli");
 	require("millimetriä");
 

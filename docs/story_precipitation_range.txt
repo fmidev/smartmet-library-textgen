@@ -4,21 +4,21 @@
 
 \c precipitation_range tarina on muotoa
 
-  -# "Sadesumma yli N millimetriä."
-  -# "Sadesumma N millimetriä."
-  -# "Sadesumma N...M millimetriä."
+  -# "Sadesumma on yli N millimetriä."
+  -# "Sadesumma on N millimetriä."
+  -# "Sadesumma on N...M millimetriä."
 
 Ruotsiksi
 
-  -# "Nederbördsumman över N millimeter."
-  -# "Nederbördsumman N millimeter."
-  -# "Nederbördsumman N...M millimeter."
+  -# "Nederbördsumman är över N millimeter."
+  -# "Nederbördsumman är N millimeter."
+  -# "Nederbördsumman är N...M millimeter."
 
 Englanniksi
 
-  -# "Total precipitation over N millimeters."
-  -# "Total precipitation N millimeters."
-  -# "Total precipitation N...M millimeters."
+  -# "Total precipitation is over N millimeters."
+  -# "Total precipitation is N millimeters."
+  -# "Total precipitation is N...M millimeters."
 
 Sadesummaan eivät periaatteessa kuulu liian pienet tunnin sademäärät.
 Summasta voi filtteröidä pois nämä liian pienet sateet muuttujan
@@ -40,6 +40,7 @@ palautetaan tarina 2. Muuten palautetaan tarina 3.
 Käytetyt fraasit ovat
 
   - "sadesumma"
+  - "on"
   - "yli"
   - "millimetriä"
 

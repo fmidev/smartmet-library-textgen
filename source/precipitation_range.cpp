@@ -89,6 +89,7 @@ namespace TextGen
 	if(minrain >= rainlimit && rainlimit>0)
 	  {
 		sentence << "sadesumma"
+				 << "on"
 				 << "yli"
 				 << Integer(rainlimit)
 				 << *UnitFactory::create(Millimeters);
@@ -96,6 +97,7 @@ namespace TextGen
 	else
 	  {
 		sentence << "sadesumma"
+				 << "on"
 				 << IntegerRange(minrain,maxrain)
 				 << *UnitFactory::create(Millimeters);
 	  }

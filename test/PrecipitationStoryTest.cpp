@@ -109,33 +109,33 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	NFmiSettings::Set("range::fake::minimum","0,0");
 	NFmiSettings::Set("range::fake::maximum","0,0");
-	REQUIRE(story,"fi",fun,"Sadesumma 0 millimetriä.");
-	REQUIRE(story,"sv",fun,"Nederbördssumman 0 millimeter.");
-	REQUIRE(story,"en",fun,"Total precipitation 0 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma on 0 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman är 0 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation is 0 millimeters.");
 
 	NFmiSettings::Set("range::fake::minimum","5,0");
 	NFmiSettings::Set("range::fake::maximum","5,0");
-	REQUIRE(story,"fi",fun,"Sadesumma 5 millimetriä.");
-	REQUIRE(story,"sv",fun,"Nederbördssumman 5 millimeter.");
-	REQUIRE(story,"en",fun,"Total precipitation 5 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma on 5 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman är 5 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation is 5 millimeters.");
 
 	NFmiSettings::Set("range::fake::minimum","5,0");
 	NFmiSettings::Set("range::fake::maximum","10,0");
-	REQUIRE(story,"fi",fun,"Sadesumma 5...10 millimetriä.");
-	REQUIRE(story,"sv",fun,"Nederbördssumman 5...10 millimeter.");
-	REQUIRE(story,"en",fun,"Total precipitation 5...10 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma on 5...10 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman är 5...10 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation is 5...10 millimeters.");
 
 	NFmiSettings::Set("range::fake::minimum","15,0");
 	NFmiSettings::Set("range::fake::maximum","25,0");
-	REQUIRE(story,"fi",fun,"Sadesumma 15...25 millimetriä.");
-	REQUIRE(story,"sv",fun,"Nederbördssumman 15...25 millimeter.");
-	REQUIRE(story,"en",fun,"Total precipitation 15...25 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma on 15...25 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman är 15...25 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation is 15...25 millimeters.");
 
 	NFmiSettings::Set("range::fake::minimum","25,0");
 	NFmiSettings::Set("range::fake::maximum","30,0");
-	REQUIRE(story,"fi",fun,"Sadesumma yli 20 millimetriä.");
-	REQUIRE(story,"sv",fun,"Nederbördssumman över 20 millimeter.");
-	REQUIRE(story,"en",fun,"Total precipitation over 20 millimeters.");
+	REQUIRE(story,"fi",fun,"Sadesumma on yli 20 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman är över 20 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation is over 20 millimeters.");
 
 	TEST_PASSED();
   }
