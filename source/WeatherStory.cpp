@@ -9,12 +9,15 @@
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "HourPeriodGenerator.h"
+#include "MathTools.h"
 #include "NullPeriodGenerator.h"
+#include "NumberFactory.h"
 #include "Paragraph.h"
 #include "RangeAcceptor.h"
 #include "Sentence.h"
 #include "Settings.h"
 #include "TextGenError.h"
+#include "UnitFactory.h"
 #include "WeatherPeriodTools.h"
 #include "WeatherResult.h"
 #include "WeekdayTools.h"
@@ -78,6 +81,8 @@ namespace TextGen
   {
 	if(theName == "weather_shortoverview")
 	  return true;
+	if(theName == "weather_thunderprobability")
+	  return true;
 	return false;
   }
   
@@ -96,6 +101,8 @@ namespace TextGen
   {
 	if(theName == "weather_shortoverview")
 	  return shortoverview();
+	if(theName == "weather_thunderprobability")
+	  return thunderprobability();
 	throw TextGenError("WeatherStory cannot make story "+theName);
 
   }
@@ -287,6 +294,56 @@ namespace TextGen
 	  {
 		c_sentence << Delimiter(",") << r_sentence;
 		paragraph << c_sentence;
+	  }
+
+	return paragraph;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generate story on thunder probability
+   *
+   * \return The story
+   *
+   * \see page_weather_thunderprobability
+   */
+  // ----------------------------------------------------------------------
+
+  Paragraph WeatherStory::thunderprobability() const
+  {
+	using namespace Settings;
+	using namespace WeatherPeriodTools;
+
+	Paragraph paragraph;
+
+	const int precision = optional_percentage(itsVar+"::precision",10);
+	const int limit = optional_percentage(itsVar+"::limit",10);
+
+	GridForecaster forecaster;
+
+	WeatherResult result = forecaster.analyze(itsVar+"::fake::probability",
+											 itsSources,
+											 Thunder,
+											 Mean,
+											 Maximum,
+											 itsArea,
+											 itsPeriod);
+
+	if(result.value() == kFloatMissing)
+	  throw TextGenError("Thunder is not available");
+
+	const int probability = MathTools::to_precision(result.value(),
+													precision);
+
+
+	if(probability >= limit)
+	  {
+		Sentence sentence;
+		sentence << "ukkosen todennäköisyys"
+				 << "on"
+				 << *NumberFactory::create(probability)
+				 << *UnitFactory::create(Percent);
+		paragraph << sentence;
 	  }
 
 	return paragraph;

@@ -178,6 +178,56 @@ namespace WeatherStoryTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test WeatherStory::thunderprobability()
+   */
+  // ----------------------------------------------------------------------
+
+  void thunderprobability()
+  {
+	using namespace std;
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	WeatherArea area("dummy");
+
+	const string fun = "weather_thunderprobability";
+
+	NFmiTime time1(2003,6,1);
+	NFmiTime time2(2003,6,4);
+	WeatherPeriod period(time1,time2);
+	WeatherStory story(time1,sources,area,period,"b");
+
+	
+	NFmiSettings::instance().set("b::precision","10");
+	NFmiSettings::instance().set("b::limit","10");
+
+	NFmiSettings::instance().set("b::fake::probability","0,1");
+	require(story,"fi",fun,"");
+	require(story,"sv",fun,"");
+	require(story,"en",fun,"");
+
+	NFmiSettings::instance().set("b::fake::probability","5,1");
+	require(story,"fi",fun,"Ukkosen todennäköisyys on 10%.");
+	require(story,"sv",fun,"Sannolikheten för åska är 10%.");
+	require(story,"en",fun,"Probability of thunder is 10%.");
+
+	NFmiSettings::instance().set("b::fake::probability","64,1");
+	require(story,"fi",fun,"Ukkosen todennäköisyys on 60%.");
+	require(story,"sv",fun,"Sannolikheten för åska är 60%.");
+	require(story,"en",fun,"Probability of thunder is 60%.");
+
+	NFmiSettings::instance().set("b::fake::probability","99,1");
+	require(story,"fi",fun,"Ukkosen todennäköisyys on 100%.");
+	require(story,"sv",fun,"Sannolikheten för åska är 100%.");
+	require(story,"en",fun,"Probability of thunder is 100%.");
+	
+	TEST_PASSED();
+
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -194,6 +244,7 @@ namespace WeatherStoryTest
 	void test(void)
 	{
 	  TEST(short_overview);
+	  TEST(thunderprobability);
 	}
 
   }; // class tests
