@@ -9,6 +9,7 @@
 #include "DefaultAcceptor.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
+#include "MathTools.h"
 #include "Number.h"
 #include "Paragraph.h"
 #include "Sentence.h"
@@ -18,51 +19,13 @@
 #include "WeatherParameter.h"
 #include "WeatherPeriodTools.h"
 #include "WeatherResult.h"
+#include "WeekdayTools.h"
 
 #include "boost/lexical_cast.hpp"
 
 using namespace WeatherAnalysis;
 using namespace boost;
 using namespace std;
-
-namespace
-{
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Round the input value to the given integer precision
-   *
-   * \param theValue The floating value
-   * \param thePrecision The precision in range 0-100, should divide 100 evenly
-   * \return The rounded value
-   */
-  // ----------------------------------------------------------------------
-
-  int round_to_precision(float theValue, int thePrecision)
-  {
-        if(thePrecision <=0 || thePrecision > 100)
-          return FmiRound(theValue);
-        const int value = FmiRound(theValue/thePrecision)*thePrecision;
-        return value;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the "1-na" weekday description for the given period
-   *
-   * \param thePeriod The weather period
-   * \return The phrase
-   */
-  // ----------------------------------------------------------------------
-
-  string on_weekday(const WeatherPeriod & thePeriod)
-  {
-	const int wd = thePeriod.localStartTime().GetWeekday();
-	const string out = lexical_cast<string>(wd)+"-na";
-	return out;
-  }
-
-}
-
 
 namespace TextGen
 {
@@ -144,6 +107,8 @@ namespace TextGen
   
   Paragraph RelativeHumidityStory::lowest() const
   {
+	using MathTools::to_precision;
+
 	Paragraph paragraph;
 
 	const int starthour = Settings::optional_hour(itsVariable+"::starthour",0);
@@ -187,13 +152,13 @@ namespace TextGen
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("RelativeHumidity not available");
 
-	const int humidity1 = round_to_precision(result.value(),precision);
+	const int humidity1 = to_precision(result.value(),precision);
 
 	Sentence sentence;
 
 	sentence << "alin suhteellinen kosteus"
 			 << "on"
-			 << on_weekday(firstperiod)
+			 << WeekdayTools::on_weekday(firstperiod.localStartTime())
 			 << Number<int>(humidity1)
 			 << Delimiter("%");
 
@@ -217,10 +182,10 @@ namespace TextGen
 		if(result2.value() == kFloatMissing)
 		  throw TextGenError("RelativeHumidity not available");
 
-		const int humidity2 = round_to_precision(result2.value(),precision);
+		const int humidity2 = to_precision(result2.value(),precision);
 
 		sentence << Delimiter(",")
-				 << on_weekday(secondperiod);
+				 << WeekdayTools::on_weekday(secondperiod.localStartTime());
 		if(humidity2 - humidity1 >= limit_significantly_greater)
 		  sentence << "huomattavasti suurempi";
 		else if(humidity2 - humidity1 >= limit_greater)

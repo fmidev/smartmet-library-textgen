@@ -9,6 +9,7 @@
 #include "DefaultAcceptor.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
+#include "MathTools.h"
 #include "Number.h"
 #include "NumberRange.h"
 #include "Paragraph.h"
@@ -19,6 +20,7 @@
 #include "WeatherParameter.h"
 #include "WeatherPeriodTools.h"
 #include "WeatherResult.h"
+#include "WeekdayTools.h"
 
 #include "boost/lexical_cast.hpp"
 
@@ -28,39 +30,6 @@ using namespace boost;
 
 namespace
 {
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Round the input value to the given integer precision
-   *
-   * \param theValue The floating value
-   * \param thePrecision The precision in range 0-100, should divide 100 evenly
-   * \return The rounded value
-   */
-  // ----------------------------------------------------------------------
-
-  int round_to_precision(float theValue, int thePrecision)
-  {
-	if(thePrecision <=0 || thePrecision > 100)
-	  return FmiRound(theValue);
-	const int value = FmiRound(theValue/thePrecision)*thePrecision;
-	return value;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return phrase "viikonpäivän vastaisena yönä" for the period
-   *
-   * \param thePeriod The night period
-   * \return The phrase
-   */
-  // ----------------------------------------------------------------------
-
-  string night_against_phrase(const WeatherPeriod & thePeriod)
-  {
-	string ret = lexical_cast<string>(thePeriod.localEndTime().GetWeekday());
-	ret += "-vastaisena yönä";
-	return ret;
-  }
 
   // ----------------------------------------------------------------------
   /*!
@@ -75,12 +44,13 @@ namespace
   TextGen::Sentence severe_frost_sentence(const WeatherPeriod & thePeriod,
 										  int theProbability)
   {
-	TextGen::Sentence sentence;
+	using namespace TextGen;
+	Sentence sentence;
 	sentence << "ankaran hallan todennäköisyys"
 			 << "on"
-			 << night_against_phrase(thePeriod)
-			 << TextGen::Number<int>(theProbability)
-			 << TextGen::Delimiter("%");
+			 << WeekdayTools::night_against_weekday(thePeriod.localEndTime())
+			 << Number<int>(theProbability)
+			 << Delimiter("%");
 	return sentence;
   }
 
@@ -97,12 +67,13 @@ namespace
   TextGen::Sentence frost_sentence(const WeatherPeriod & thePeriod,
 								   int theProbability)
   {
-	TextGen::Sentence sentence;
+	using namespace TextGen;
+	Sentence sentence;
 	sentence << "hallan todennäköisyys"
 			 << "on"
-			 << night_against_phrase(thePeriod)
-			 << TextGen::Number<int>(theProbability)
-			 << TextGen::Delimiter("%");
+			 << WeekdayTools::night_against_weekday(thePeriod.localEndTime())
+			 << Number<int>(theProbability)
+			 << Delimiter("%");
 	return sentence;
   }
 
@@ -202,6 +173,8 @@ namespace TextGen
   
   Paragraph FrostStory::mean() const
   {
+	using MathTools::to_precision;
+
 	Paragraph paragraph;
 	Sentence sentence;
 
@@ -244,9 +217,9 @@ namespace TextGen
 	if(severefrost.value() == kFloatMissing)
 	  throw TextGenError("SevereFrost is not available");
 
-	const int frost_value = round_to_precision(frost.value(),precision);
+	const int frost_value = to_precision(frost.value(),precision);
 
-	const int severe_frost_value = round_to_precision(severefrost.value(),precision);
+	const int severe_frost_value = to_precision(severefrost.value(),precision);
 
 	if(severe_frost_value >= severelimit)
 	  {
@@ -280,6 +253,8 @@ namespace TextGen
   
   Paragraph FrostStory::maximum() const
   {
+	using MathTools::to_precision;
+
 	Paragraph paragraph;
 	Sentence sentence;
 
@@ -322,9 +297,9 @@ namespace TextGen
 	if(severefrost.value() == kFloatMissing)
 	  throw TextGenError("SevereFrost is not available");
 
-	const int frost_value = round_to_precision(frost.value(),precision);
+	const int frost_value = to_precision(frost.value(),precision);
 
-	const int severe_frost_value = round_to_precision(severefrost.value(),precision);
+	const int severe_frost_value = to_precision(severefrost.value(),precision);
 
 	if(severe_frost_value >= severelimit)
 	  {
@@ -358,6 +333,8 @@ namespace TextGen
   
   Paragraph FrostStory::range() const
   {
+	using MathTools::to_precision;
+
 	Paragraph paragraph;
 	Sentence sentence;
 
@@ -424,11 +401,11 @@ namespace TextGen
 	if(minseverefrost.value() == kFloatMissing)
 	  throw TextGenError("Minimum SevereFrost is not available");
 
-	const int frost_min = round_to_precision(minfrost.value(),precision);
-	const int frost_max = round_to_precision(maxfrost.value(),precision);
+	const int frost_min = to_precision(minfrost.value(),precision);
+	const int frost_max = to_precision(maxfrost.value(),precision);
 
-	const int severe_frost_min = round_to_precision(minseverefrost.value(),precision);
-	const int severe_frost_max = round_to_precision(maxseverefrost.value(),precision);
+	const int severe_frost_min = to_precision(minseverefrost.value(),precision);
+	const int severe_frost_max = to_precision(maxseverefrost.value(),precision);
 
 	if(severe_frost_max >= severelimit)
 	  {
@@ -462,6 +439,7 @@ namespace TextGen
   
   Paragraph FrostStory::twonights() const
   {
+	using MathTools::to_precision;
 
 	Paragraph paragraph;
 
@@ -515,8 +493,8 @@ namespace TextGen
 
 	if(nights==1)
 	  {
-		const int value = round_to_precision(frost.value(),precision);
-		const int severevalue = round_to_precision(severefrost.value(),precision);
+		const int value = to_precision(frost.value(),precision);
+		const int severevalue = to_precision(severefrost.value(),precision);
 
 		if(severevalue >= severelimit)
 		  paragraph << severe_frost_sentence(night1,severevalue);
@@ -553,11 +531,11 @@ namespace TextGen
 		if(frost2.value()==kFloatMissing || severefrost2.value()==kFloatMissing)
 		  throw TextGenError("Frost is not available");
 
-		const int value1 = round_to_precision(frost.value(),precision);
-		const int severevalue1 = round_to_precision(severefrost.value(),precision);
+		const int value1 = to_precision(frost.value(),precision);
+		const int severevalue1 = to_precision(severefrost.value(),precision);
 
-		const int value2 = round_to_precision(frost2.value(),precision);
-		const int severevalue2 = round_to_precision(severefrost2.value(),precision);
+		const int value2 = to_precision(frost2.value(),precision);
+		const int severevalue2 = to_precision(severefrost2.value(),precision);
 		
 		// We have 9 combinations:
 		//
