@@ -21,6 +21,40 @@
  *
  * NullDictionary will throw a TextGenError when accessing data.
  *
+ * For example, a singleton providing global dictionary services
+ * could have an attribute
+ * \code
+ *   std::auto_ptr<Dictionary>
+ * \endcode
+ * and could have a constructor and methods like
+ * \code
+ * GlobalDictionary::GlobalDictionary()
+ * {
+ *    itsDictionary.reset(new NullDictionary());
+ * }
+ *
+ * GlobalDictionary::find(const std::string & theKey) const
+ * {
+ *   return itsDictionary->find(theKey);
+ * }
+ * \endcode
+ * instead of
+ * \code
+ * GlobalDictionary::GlobalDictionary()
+ *   : itsDictionary()
+ * {
+ * }
+ *
+ * GlobalDictionary::find(const std::string & theKey) const
+ * {
+ *   if(itsDictionary.get())
+ *      return itsDictionary->find(theKey);
+ *   else
+ *      throw TextGenError("Dictionary not initialized");
+ * }
+ * \endcode
+ * That is, we avoid having to test the validity of the pointer
+ * whenever we call any method in the stored Dictionary pointer.
  */
 // ----------------------------------------------------------------------
 
