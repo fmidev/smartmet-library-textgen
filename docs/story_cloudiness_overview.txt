@@ -153,16 +153,28 @@ on mahdollista k‰ytt‰‰ taulukon mukaisia yhdistelmi‰.
 
 <table border="1" cellspacing="0" cellpadding="1">
 <tr>
-<td></td><td>pilvist‰</td><td>pilvistyv‰‰</td><td>enimm‰kseen pilvist‰</td><td>pilvist‰ tai puolipilvist‰</td><td>enimm‰kseen puolipilvist‰</td><td>vaihtelevaa pilvisyytt‰</td><td>puolipilvist‰</td><td>selke‰‰ tai puolipilvist‰</td><td>enimm‰kseen selke‰‰</td><td>selkenev‰‰</td><td>selke‰‰ </td></tr>
+<td></td>
+<td>pilvist‰</td>
+<td>pilvistyv‰‰</td>
+<td>enimm‰kseen pilvist‰</td>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>enimm‰kseen puolipilvist‰</td>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>puolipilvist‰</td>
+<td>selke‰‰ tai puolipilvist‰</td>
+<td>enimm‰kseen selke‰‰</td>
+<td>selkenev‰‰</td>
+<td>selke‰‰</td>
+</tr>
 <tr>
 <td>pilvist‰</td>
 <td>=</td>
 <td>-</td>
 <td>enimm‰kseen pilvist‰</td>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>pilvist‰ tai puolipilvist‰</td>
 <td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
+<td>pilvist‰ tai puolipilvist‰</td>
 <td>-</td>
 <td>-</td>
 <td>-</td>
@@ -172,97 +184,97 @@ on mahdollista k‰ytt‰‰ taulukon mukaisia yhdistelmi‰.
 <td>pilvistyv‰‰</td>
 <td>pilvistyv‰‰</td>
 <td>=</td>
+<td>pilvistyv‰‰</td>
 <td>-</td>
 <td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr>
-<td>enimm‰kseen pilvist‰</td>
-<td>enimm‰kseen pilvist‰</td>
-<td>-</td>
-<td>=</td>
-<td>pilvist‰ tai puolipilvist‰</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr>
-<td>pilvist‰ tai puolipilvist‰</td>
-<td>-</td>
-<td>-</td>
-<td>pilvist‰ tai puolipilvist‰</td>
-<td>=</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr>
-<td>enimm‰kseen puolipilvist‰</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>=</td>
-<td>-</td>
-<td>enimm‰kseen puolipilvist‰</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr>
 <td>vaihtelevaa pilvisyytt‰</td>
 <td>-</td>
 <td>-</td>
 <td>-</td>
 <td>-</td>
 <td>-</td>
+</tr>
+<tr>
+<td>enimm‰kseen pilvist‰</td>
+<td>enimm‰kseen pilvist‰</td>
+<td>-</td>
 <td>=</td>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>-</td>
+<td>pilvist‰ tai puolipilvist‰</td>
 <td>-</td>
 <td>-</td>
 <td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>-</td>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>=</td>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>enimm‰kseen puolipilvist‰</td>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>-</td>
+<td>pilvist‰ tai puolipilvist‰</td>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>=</td>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>enimm‰kseen puolipilvist‰</td>
+<td>selke‰‰ tai puolipilvist‰</td>
+<td>selke‰‰ tai puolipilvist‰</td>
+<td>-</td>
+<td>selke‰‰ tai puolipilvist‰</td>
+</tr>
+<tr>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>-</td>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>=</td>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>vaihtelevaa pilvisyytt‰</td>
 <td>-</td>
 <td>-</td>
 </tr>
 <tr>
 <td>puolipilvist‰</td>
-<td>-</td>
-<td>-</td>
+<td>puolipilvist‰ tai pilvist‰</td>
 <td>-</td>
 <td>pilvist‰ tai puolipilvist‰</td>
+<td>pilvist‰ tai puolipilvist‰</td>
 <td>enimm‰kseen puolipilvist‰</td>
-<td>-</td>
+<td>vaihtelevaa pilvisyytt‰</td>
 <td>=</td>
 <td>selke‰‰ tai puolipilvist‰</td>
-<td>enimm‰kseen selke‰‰</td>
+<td>selke‰‰ tai puolipilvist‰</td>
 <td>-</td>
-<td>-</td>
+<td>selke‰‰ tai puolipilvist‰</td>
 </tr>
 <tr>
 <td>selke‰‰ tai puolipilvist‰</td>
 <td>-</td>
 <td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>vaihtelevaa pilvisyytt‰</td>
+<td>selke‰‰ tai puolipilvist‰</td>
+<td>vaihtelevaa pilvisyytt‰</td>
 <td>selke‰‰ tai puolipilvist‰</td>
 <td>=</td>
-<td>enimm‰kseen selke‰‰</td>
+<td>selke‰‰ tai puolipilvist‰</td>
 <td>-</td>
 <td>selke‰‰ tai puolipilvist‰</td>
 </tr>
@@ -272,10 +284,10 @@ on mahdollista k‰ytt‰‰ taulukon mukaisia yhdistelmi‰.
 <td>-</td>
 <td>-</td>
 <td>-</td>
+<td>selke‰‰ tai puolipilvist‰</td>
 <td>-</td>
-<td>-</td>
-<td>-</td>
-<td>enimm‰kseen selke‰‰</td>
+<td>selke‰‰ tai puolipilvist‰</td>
+<td>selke‰‰ tai puolipilvist‰</td>
 <td>=</td>
 <td>-</td>
 <td>enimm‰kseen selke‰‰</td>
@@ -290,7 +302,7 @@ on mahdollista k‰ytt‰‰ taulukon mukaisia yhdistelmi‰.
 <td>-</td>
 <td>-</td>
 <td>-</td>
-<td>-</td>
+<td>selkenev‰‰</td>
 <td>=</td>
 <td>selkenev‰‰</td>
 </tr>
@@ -300,17 +312,19 @@ on mahdollista k‰ytt‰‰ taulukon mukaisia yhdistelmi‰.
 <td>-</td>
 <td>-</td>
 <td>-</td>
+<td>selke‰‰ tai puolipilvist‰</td>
 <td>-</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
+<td>selke‰‰ tai puolipilvist‰</td>
+<td>selke‰‰ tai puolipilvist‰</td>
 <td>enimm‰kseen selke‰‰</td>
 <td>-</td>
 <td>=</td>
 </tr>
 </table>
+
 Kolmen tai useamman p‰iv‰n pilvisyys katsotaan samaksi, jos jokaiset
-kaksi per‰kk‰ist‰ p‰iv‰‰ voidaan yhdist‰‰, ja tulos on aina sama.
+kaksi per‰kk‰ist‰ p‰iv‰‰ voidaan yhdist‰‰, ja n‰iden tulokset voidaan
+edelleen rekursiivisesti yhdist‰‰ yhdeksi ainoaksi tulokseksi.
 
 \section section_cloudiness_overview_phrases Tarvittavat fraasit
 
