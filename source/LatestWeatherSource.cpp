@@ -141,24 +141,24 @@ namespace WeatherAnalysis
 
 	// Read the new data
 
-	boost::shared_ptr<NFmiQueryData> data(new NFmiQueryData);
+	boost::shared_ptr<NFmiQueryData> qdata(new NFmiQueryData);
 	ifstream in(filename.c_str(), ios::in|ios::binary);
 	if(!in)
 	  throw WeatherAnalysisError("Failed to open "+filename+" for reading");
-	in >> *data;
+	in >> *qdata;
 	in.close();
 
 	WeatherDataStruct newdata;
 	newdata.itsId = IdGenerator::generate();
 	newdata.itsTime = modtime;
 	newdata.itsFilename = filename;
-	newdata.itsData = data;
+	newdata.itsData = qdata;
 
 	typedef Pimple::container_type::value_type value_type;
 
 	itsPimple->itsData.insert(value_type(theName,newdata));
 
-	return data;
+	return qdata;
   }
 
   // ----------------------------------------------------------------------
