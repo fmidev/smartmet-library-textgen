@@ -48,7 +48,9 @@ namespace WeatherAnalysis
 	const string varname = "textgen::winddirection";
 	const string parname = "WindDirection";
 
-	auto_ptr<FunctionAnalyzer> analyzer(new RegularFunctionAnalyzer(theAreaFunction,theTimeFunction,theSubTimeFunction));
+	auto_ptr<RegularFunctionAnalyzer> analyzer(new RegularFunctionAnalyzer(theAreaFunction,theTimeFunction,theSubTimeFunction));
+
+	analyzer->modulo(360);
 
 	return analyzer->analyze(theSources,theDataType,
 							 theArea,thePeriods,
