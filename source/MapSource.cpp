@@ -44,10 +44,10 @@ namespace WeatherAnalysis
 	: itsData()
 	, itsSearchPath(".")
   {
-	if(NFmiSettings::instance().isset("textgen::mapdir"))
+	if(NFmiSettings::instance().isset("textgen::mappath"))
 	  {
 		itsSearchPath += ':';
-		itsSearchPath += NFmiSettings::instance().value("textgen::mapdir");
+		itsSearchPath += NFmiSettings::instance().value("textgen::mappath");
 	  }
   }
 
