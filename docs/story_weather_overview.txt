@@ -913,13 +913,13 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td colspan="4">†</td>
 <td align="center" bgcolor="cyan" colspan="7">4-11</td>
 <td colspan="13">†</td>
-<td>Aamulla [sadetta], puolip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰]</td>
+<td>Aamulla [sadetta], keskip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰]</td>
 </tr>
 <tr>
 <td colspan="5">†</td>
 <td align="center" bgcolor="cyan" colspan="7">5-12</td>
 <td colspan="12">†</td>
-<td>Aamulla [sadetta], puolip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰]</td>
+<td>Aamulla [sadetta], keskip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰]</td>
 </tr>
 <tr>
 <td colspan="6">†</td>
@@ -955,13 +955,13 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td colspan="11">†</td>
 <td align="center" bgcolor="cyan" colspan="7">11-18</td>
 <td colspan="6">†</td>
-<td>Puolip‰iv‰st‰ alkaen [sadetta], illalla poutaa</td>
+<td>Keskip‰iv‰st‰ alkaen [sadetta], illalla poutaa</td>
 </tr>
 <tr>
 <td colspan="12">†</td>
 <td align="center" bgcolor="cyan" colspan="7">12-19</td>
 <td colspan="5">†</td>
-<td>Puolip‰iv‰st‰ alkaen [sadetta], illalla poutaa</td>
+<td>Keskip‰iv‰st‰ alkaen [sadetta], illalla poutaa</td>
 </tr>
 <tr>
 <td colspan="13">†</td>
@@ -1013,13 +1013,13 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td colspan="3">†</td>
 <td align="center" bgcolor="cyan" colspan="8">3-11</td>
 <td colspan="13">†</td>
-<td>Yˆll‰ [sadetta], puolip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
+<td>Yˆll‰ [sadetta], keskip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
 </tr>
 <tr>
 <td colspan="4">†</td>
 <td align="center" bgcolor="cyan" colspan="8">4-12</td>
 <td colspan="12">†</td>
-<td>[Sadetta], puolip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
+<td>[Sadetta], keskip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
 </tr>
 <tr>
 <td colspan="5">†</td>
@@ -1061,13 +1061,13 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td colspan="11">†</td>
 <td align="center" bgcolor="cyan" colspan="8">11-19</td>
 <td colspan="5">†</td>
-<td>Puolip‰iv‰st‰ alkaen [sadetta], illalla poutaa</td>
+<td>Keskip‰iv‰st‰ alkaen [sadetta], illalla poutaa</td>
 </tr>
 <tr>
 <td colspan="12">†</td>
 <td align="center" bgcolor="cyan" colspan="8">12-20</td>
 <td colspan="4">†</td>
-<td>Puolip‰iv‰st‰ alkaen [sadetta], illalla poutaa</td>
+<td>Keskip‰iv‰st‰ alkaen [sadetta], illalla poutaa</td>
 </tr>
 <tr>
 <td colspan="13">†</td>
@@ -1107,13 +1107,13 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td colspan="2">†</td>
 <td align="center" bgcolor="cyan" colspan="9">2-11</td>
 <td colspan="13">†</td>
-<td>[Sadetta], puolip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
+<td>[Sadetta], keskip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
 </tr>
 <tr>
 <td colspan="3">†</td>
 <td align="center" bgcolor="cyan" colspan="9">3-12</td>
 <td colspan="12">†</td>
-<td>[Sadetta], puolip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
+<td>[Sadetta], keskip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
 </tr>
 <tr>
 <td colspan="4">†</td>
@@ -1161,13 +1161,13 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td colspan="11">†</td>
 <td align="center" bgcolor="cyan" colspan="9">11-20</td>
 <td colspan="4">†</td>
-<td>Puolip‰iv‰st‰ alkaen [sadetta], illalla poutaa</td>
+<td>Keskip‰iv‰st‰ alkaen [sadetta], illalla poutaa</td>
 </tr>
 <tr>
 <td colspan="12">†</td>
 <td align="center" bgcolor="cyan" colspan="9">12-21</td>
 <td colspan="3">†</td>
-<td>Puolip‰iv‰st‰ alkaen [sadetta]</td>
+<td>Keskip‰iv‰st‰ alkaen [sadetta]</td>
 </tr>
 <tr>
 <td colspan="13">†</td>
@@ -1195,13 +1195,13 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td colspan="1">†</td>
 <td align="center" bgcolor="cyan" colspan="10">1-11</td>
 <td colspan="13">†</td>
-<td>[Sadetta], puolip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
+<td>[Sadetta], keskip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
 </tr>
 <tr>
 <td colspan="2">†</td>
 <td align="center" bgcolor="cyan" colspan="10">2-12</td>
 <td colspan="12">†</td>
-<td>[Sadetta], puolip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
+<td>[Sadetta], keskip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
 </tr>
 <tr>
 <td colspan="3">†</td>
@@ -1255,13 +1255,13 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td colspan="11">†</td>
 <td align="center" bgcolor="cyan" colspan="10">11-21</td>
 <td colspan="3">†</td>
-<td>Puolip‰iv‰st‰ alkaen [sadetta]</td>
+<td>Keskip‰iv‰st‰ alkaen [sadetta]</td>
 </tr>
 <tr>
 <td colspan="12">†</td>
 <td align="center" bgcolor="cyan" colspan="10">12-22</td>
 <td colspan="2">†</td>
-<td>Puolip‰iv‰st‰ alkaen [sadetta]</td>
+<td>Keskip‰iv‰st‰ alkaen [sadetta]</td>
 </tr>
 <tr>
 <td colspan="13">†</td>
@@ -1277,13 +1277,13 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <tr>
 <td align="center" bgcolor="cyan" colspan="11">0-11</td>
 <td colspan="13">†</td>
-<td>[Sadetta], puolip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰],  poutaa</td>
+<td>[Sadetta], keskip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰],  poutaa</td>
 </tr>
 <tr>
 <td colspan="1">†</td>
 <td align="center" bgcolor="cyan" colspan="11">1-12</td>
 <td colspan="12">†</td>
-<td>[Sadetta], puolip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
+<td>[Sadetta], keskip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
 </tr>
 <tr>
 <td colspan="2">†</td>
@@ -1343,13 +1343,13 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td colspan="11">†</td>
 <td align="center" bgcolor="cyan" colspan="11">11-22</td>
 <td colspan="2">†</td>
-<td>Puolip‰iv‰st‰ alkaen [sadetta]</td>
+<td>Keskip‰iv‰st‰ alkaen [sadetta]</td>
 </tr>
 <tr>
 <td colspan="12">†</td>
 <td align="center" bgcolor="cyan" colspan="11">12-23</td>
 <td colspan="1">†</td>
-<td>Puolip‰iv‰st‰ alkaen [sadetta]</td>
+<td>Keskip‰iv‰st‰ alkaen [sadetta]</td>
 </tr>
 <tr>
 <td colspan="13">†</td>
@@ -1359,13 +1359,13 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <tr>
 <td align="center" bgcolor="cyan" colspan="12">0-12</td>
 <td colspan="12">†</td>
-<td>[Sadetta], puolip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
+<td>[Sadetta], keskip‰iv‰st‰ alkaen [enimm‰kseen selke‰‰], poutaa</td>
 </tr>
 <tr>
 <td colspan="1">†</td>
 <td align="center" bgcolor="cyan" colspan="12">1-13</td>
 <td colspan="11">†</td>
-<td>[Sadetta], puolip‰iv‰st‰ alkaen poutaa</td>
+<td>[Sadetta], keskip‰iv‰st‰ alkaen poutaa</td>
 </tr>
 <tr>
 <td colspan="2">†</td>
@@ -1425,12 +1425,12 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <td colspan="11">†</td>
 <td align="center" bgcolor="cyan" colspan="12">11-23</td>
 <td colspan="1">†</td>
-<td>Puolip‰iv‰st‰ alkaen [sadetta]</td>
+<td>Keskip‰iv‰st‰ alkaen [sadetta]</td>
 </tr>
 <tr>
 <td colspan="12">†</td>
 <td align="center" bgcolor="cyan" colspan="12">12-24</td>
-<td>Puolip‰iv‰st‰ alkaen [sadetta]</td>
+<td>Keskip‰iv‰st‰ alkaen [sadetta]</td>
 </tr>
 <tr>
 <td align="center" bgcolor="cyan" colspan="13">0-13</td>
@@ -1500,7 +1500,7 @@ on aritmeettinen summa 24+23+23+...+1 = (24+1)/2*24 = 300
 <tr>
 <td colspan="11">†</td>
 <td align="center" bgcolor="cyan" colspan="13">11-24</td>
-<td>Puolip‰iv‰st‰ alkaen [sadetta]</td>
+<td>Keskip‰iv‰st‰ alkaen [sadetta]</td>
 </tr>
 <tr>
 <td align="center" bgcolor="cyan" colspan="14">0-14</td>
