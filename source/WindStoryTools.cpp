@@ -67,7 +67,7 @@ namespace TextGen
 	WindDirectionAccuracy direction_accuracy(double theAccuracy,
 											 const string & theVariable)
 	{
-	  using namespace Settings;
+	  using Settings::optional_double;
 	  
 	  const double accurate_limit = optional_double(theVariable+"::direction::accurate",22.5);
 	  const double variable_limit = optional_double(theVariable+"::direction::variable_limit",45);
