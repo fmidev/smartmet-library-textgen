@@ -122,15 +122,15 @@ namespace TextGen
   
   string HtmlTextFormatter::visit(const Paragraph & theParagraph) const
   {
-	string ret = "<p>";
-	ret += TextFormatterTools::realize(theParagraph.begin(),
-									   theParagraph.end(),
-									   *this,
-									   " ",
-									   "");
-	ret += "</p>";
-	
-	return ret;
+	string tmp = TextFormatterTools::realize(theParagraph.begin(),
+											 theParagraph.end(),
+											 *this,
+											 " ",
+											 "");
+	if(tmp.empty())
+	  return tmp;
+	else
+	  return "<p>"+tmp+"</p>";
   }
   
   // ----------------------------------------------------------------------
