@@ -150,7 +150,7 @@ namespace WeatherAnalysis
 #if defined(UNIX) && !defined(OLDGCC)
 	  ::time_t epochtime = ::timegm(&utc);  // timegm is a GNU extension
 #else
-	  ::time_t epochtime = ::my_timegm(&utc);
+	  ::time_t epochtime = my_timegm(&utc);
 #endif
 
 	  // As local time. Note that localtime owns the struct
