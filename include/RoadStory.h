@@ -43,6 +43,7 @@ namespace TextGen
 	
 	const Paragraph daynightranges() const;
 	const Paragraph condition_overview() const;
+	const Paragraph warning_overview() const;
 
 	RoadStory();
 	RoadStory(const RoadStory & theStory);
