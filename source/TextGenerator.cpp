@@ -286,7 +286,6 @@ namespace TextGen
 			  }
 		  }
 	  }
-
 	return doc;
 
   }
