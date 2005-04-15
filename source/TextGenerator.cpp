@@ -253,6 +253,7 @@ namespace TextGen
 		if(!subs)
 		  {
 			const string contents = Settings::require("textgen::"+*it+"::content");
+			log << "contents " << contents << endl;
 			doc << make_contents(contents,
 								 "textgen::"+*it,
 								 itsPimple->itsForecastTime,
