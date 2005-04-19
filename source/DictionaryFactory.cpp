@@ -17,6 +17,7 @@
  * boost::shared_ptr<Dictionary> dict1 = DictionaryFactory::create("null");
  * boost::shared_ptr<Dictionary> dict2 = DictionaryFactory::create("basic");
  * boost::shared_ptr<Dictionary> dict3 = DictionaryFactory::create("mysql");
+ * boost::shared_ptr<Dictionary> dict3 = DictionaryFactory::create("file");
  * \endcode
  *
  */
@@ -25,6 +26,7 @@
 #include "DictionaryFactory.h"
 #include "NullDictionary.h"
 #include "BasicDictionary.h"
+#include "FileDictionary.h"
 #include "MySQLDictionary.h"
 #include "MySQLDictionaries.h"
 #include "TextGenError.h"
@@ -49,6 +51,8 @@ namespace TextGen
 	  return shared_ptr<Dictionary>(new NullDictionary());
 	if(theType == "basic")
 	  return shared_ptr<Dictionary>(new BasicDictionary());
+	if(theType == "file")
+	  return shared_ptr<Dictionary>(new FileDictionary());
 	if(theType == "mysql")
 	  return shared_ptr<Dictionary>(new MySQLDictionary());
 	if(theType == "multimysql")
