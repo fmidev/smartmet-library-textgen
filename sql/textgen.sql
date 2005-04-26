@@ -1,8 +1,8 @@
--- MySQL dump 9.09
+-- MySQL dump 9.11
 --
 -- Host: mimir    Database: textgen
----------------------------------------------------------
--- Server version	3.23.58-log
+-- ------------------------------------------------------
+-- Server version	3.23.58
 
 --
 -- Table structure for table `languages`
@@ -66,7 +66,7 @@ INSERT INTO translation_en VALUES ('hieman pienempi','somewhat smaller',20030525
 INSERT INTO translation_en VALUES ('hieman suurempi','somewhat greater',20030525142225,'mheiskan');
 INSERT INTO translation_en VALUES ('pienempi','smaller',20030525142215,'mheiskan');
 INSERT INTO translation_en VALUES ('suurempi','greater',20030525142206,'mheiskan');
-INSERT INTO translation_en VALUES ('alin suhteellinen kosteus','the smallest relative humidity',20030525185342,'mheiskan');
+INSERT INTO translation_en VALUES ('alin suhteellinen kosteus','the lowest relative humidity',20050426092025,'mheiskan');
 INSERT INTO translation_en VALUES ('7-na','on Sunday',20030525141847,'mheiskan');
 INSERT INTO translation_en VALUES ('6-na','on Saturday',20030525141841,'mheiskan');
 INSERT INTO translation_en VALUES ('5-na','on Friday',20030525141836,'mheiskan');
@@ -530,6 +530,19 @@ INSERT INTO translation_en VALUES ('B8E:lle','for Middle Baltic Proper',20031028
 INSERT INTO translation_en VALUES ('B8W:lle','for Gotland Sea',20031028081308,'mheiskan');
 INSERT INTO translation_en VALUES ('B10N:lle','for Öland Sea',20031028081318,'mheiskan');
 INSERT INTO translation_en VALUES ('B10S:lle','for Bornholm Sea',20031028081327,'mheiskan');
+INSERT INTO translation_en VALUES ('osittain jäisiksi','partly icy',20200503041036,'ilvessal');
+INSERT INTO translation_en VALUES ('kuuraisiksi','be covered by frost',20200503041034,'ilvessal');
+INSERT INTO translation_en VALUES ('keli on','road condition is',20200503041032,'ilvessal');
+INSERT INTO translation_en VALUES ('tienpinnat muuttuvat','roads will be',20200503041030,'ilvessal');
+INSERT INTO translation_en VALUES ('jäisiksi','icy',20200503041037,'ilvessal');
+INSERT INTO translation_en VALUES ('pakkasliukkautta','slippery of frost',20200503041039,'ilvessal');
+INSERT INTO translation_en VALUES ('rännästä ja liukkaista','weakened by slippery road surfaces and sleetfall',20200503041116,'ilvessal');
+INSERT INTO translation_en VALUES ('räntä- tai lumisateesta','weakened by sleet- or snowfall',20200503041111,'ilvessal');
+INSERT INTO translation_en VALUES ('liukkaiksi jäätävästä sateesta','be slippery of icy rain',20200503041112,'ilvessal');
+INSERT INTO translation_en VALUES ('rännästä ja osittain liukkaista','weakened by partly slippery road surfaces and sleetfall',20200503041115,'ilvessal');
+INSERT INTO translation_en VALUES ('sateesta ja osittain liukkaista','weakened by partly slippery road surfaces and rainfall',20200503041118,'ilvessal');
+INSERT INTO translation_en VALUES ('sateesta ja liukkaista','weakened by slippery road surfaces and rainfall',20200503041119,'ilvessal');
+INSERT INTO translation_en VALUES ('normaali','normal',20050308102930,'ilvessal');
 
 --
 -- Table structure for table `translation_fi`
@@ -1030,6 +1043,19 @@ INSERT INTO translation_fi VALUES ('B8E:lle','Keski-Itämerelle',20031028080210,'
 INSERT INTO translation_fi VALUES ('B8W:lle','Gotlanninmerelle',20031028080218,'mheiskan');
 INSERT INTO translation_fi VALUES ('B10N:lle','Oolanninmerelle',20031028080230,'mheiskan');
 INSERT INTO translation_fi VALUES ('B10S:lle','Bornholminmerelle',20031028080238,'mheiskan');
+INSERT INTO translation_fi VALUES ('osittain jäisiksi','osittain jäisiksi',20200503041035,'ilvessal');
+INSERT INTO translation_fi VALUES ('kuuraisiksi','kuuraisiksi',20200503041033,'ilvessal');
+INSERT INTO translation_fi VALUES ('keli on','keli on',20200503041031,'ilvessal');
+INSERT INTO translation_fi VALUES ('tienpinnat muuttuvat','tienpinnat muuttuvat',20200503041012,'ilvessal');
+INSERT INTO translation_fi VALUES ('jäisiksi','jäisiksi',20200503041036,'ilvessal');
+INSERT INTO translation_fi VALUES ('pakkasliukkautta','pakkasliukkautta',20200503041037,'ilvessal');
+INSERT INTO translation_fi VALUES ('rännästä ja liukkaista','huonontunut liukkaista tienpinnoista ja räntäsateesta johtuen',20200503041115,'ilvessal');
+INSERT INTO translation_fi VALUES ('räntä- tai lumisateesta','huonontunut räntä- tai lumisateesta johtuen',20200503041109,'ilvessal');
+INSERT INTO translation_fi VALUES ('liukkaiksi jäätävästä sateesta','liukkaiksi jäätävästä sateesta johtuen',20200503041111,'ilvessal');
+INSERT INTO translation_fi VALUES ('rännästä ja osittain liukkaista','huonontunut osittain liukkaista tienpinnoista ja räntäsateesta johtuen',20200503041113,'ilvessal');
+INSERT INTO translation_fi VALUES ('sateesta ja osittain liukkaista','huonontunut osittain liukkaista tienpinnoista ja vesisateesta johtuen',20200503041117,'ilvessal');
+INSERT INTO translation_fi VALUES ('sateesta ja liukkaista','huonontunut liukkaista tienpinnoista ja vesisateesta johtuen',20200503041118,'ilvessal');
+INSERT INTO translation_fi VALUES ('normaali','normaali',20050308102830,'ilvessal');
 
 --
 -- Table structure for table `translation_sonera`
@@ -1897,4 +1923,17 @@ INSERT INTO translation_sv VALUES ('B8E:lle','för Mellersta Östersjön',200310280
 INSERT INTO translation_sv VALUES ('B8W:lle','för Gotlands farvatten',20031028080806,'mheiskan');
 INSERT INTO translation_sv VALUES ('B10N:lle','för Ölands farvatten',20031028080817,'mheiskan');
 INSERT INTO translation_sv VALUES ('B10S:lle','för Bornholmshavet',20031028080828,'mheiskan');
+INSERT INTO translation_sv VALUES ('kuuraisiksi','täcktat av rimfrost',20200503041033,'ilvessal');
+INSERT INTO translation_sv VALUES ('keli on','väglaget är',20200503041031,'ilvessal');
+INSERT INTO translation_sv VALUES ('tienpinnat muuttuvat','vägarna blir',20200503041029,'ilvessal');
+INSERT INTO translation_sv VALUES ('osittain jäisiksi','delvis isiga',20200503041035,'ilvessal');
+INSERT INTO translation_sv VALUES ('jäisiksi','isiga',20200503041036,'ilvessal');
+INSERT INTO translation_sv VALUES ('pakkasliukkautta','halkiga på grund av frost',20200503041038,'ilvessal');
+INSERT INTO translation_sv VALUES ('rännästä ja liukkaista','försämrad på grund av halkiga vägytor och snöblandat regn',20200503041116,'ilvessal');
+INSERT INTO translation_sv VALUES ('räntä- tai lumisateesta','försämrad på grund av snöblandat regn eller snöfall',20200503041110,'ilvessal');
+INSERT INTO translation_sv VALUES ('liukkaiksi jäätävästä sateesta','halkiga på grund av icigt regn',20200503041111,'ilvessal');
+INSERT INTO translation_sv VALUES ('rännästä ja osittain liukkaista','försämrad på grund av delvis halkiga vägytor och snöblandat regn',20200503041114,'ilvessal');
+INSERT INTO translation_sv VALUES ('sateesta ja osittain liukkaista','försämrad på grund av delvis halkiga vägytor och regn',20200503041118,'ilvessal');
+INSERT INTO translation_sv VALUES ('sateesta ja liukkaista','försämrad på grund av halkiga vägytor och regn',20200503041119,'ilvessal');
+INSERT INTO translation_sv VALUES ('normaali','normal',20050308102945,'ilvessal');
 
