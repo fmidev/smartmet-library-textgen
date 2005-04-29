@@ -25,6 +25,7 @@
 #include "DebugTextFormatter.h"
 #include "PlainTextFormatter.h"
 #include "PlainLinesTextFormatter.h"
+#include "SpeechTextFormatter.h"
 #include "HtmlTextFormatter.h"
 #include "WmlTextFormatter.h"
 #include "SoneraTextFormatter.h"
@@ -59,6 +60,8 @@ namespace TextGen
 		return shared_ptr<TextFormatter>(new PlainLinesTextFormatter());
 	  if(theType == "html")
 		return shared_ptr<TextFormatter>(new HtmlTextFormatter());
+	  if(theType == "speechtext")
+		return shared_ptr<TextFormatter>(new SpeechTextFormatter());
 	  if(theType == "wml")
 		return shared_ptr<TextFormatter>(new WmlTextFormatter());
 	  if(theType == "sonera")
