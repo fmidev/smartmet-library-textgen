@@ -48,6 +48,8 @@ namespace TextGen
 	const bool day_interval_zero = optional_bool(itsVar+"::day::always_interval_zero",false);
 	const bool night_interval_zero = optional_bool(itsVar+"::night::always_interval_zero",false);
 
+	const string rangeseparator = optional_string(itsVar+"::rangeseparator","...");
+
 	const HourPeriodGenerator days(itsPeriod,itsVar+"::day");
 	const HourPeriodGenerator nights(itsPeriod,itsVar+"::night");
 
@@ -141,11 +143,13 @@ namespace TextGen
 	sentence << "päivälämpötila"
 			 << "on"
 			 << temperature_sentence(daymin,daymean,daymax,
-									 daymininterval,day_interval_zero)
+									 daymininterval,day_interval_zero,
+									 rangeseparator)
 			 << Delimiter(",")
 			 << "yölämpötila"
 			 << temperature_sentence(nightmin,nightmean,nightmax,
-									 nightmininterval,night_interval_zero);
+									 nightmininterval,night_interval_zero,
+									 rangeseparator);
 
 	paragraph << sentence;
 	log << paragraph;

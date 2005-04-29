@@ -78,6 +78,7 @@ namespace TextGen
 	 * \param theMaximum The maximum temperature
 	 * \param theMinInterval The minimum interval limit
 	 * \param theZeroFlag True if zero is always intervalled
+	 * \param theRangeSeparator String separating the numbers
 	 * \return The sentence
 	 */
 	// ----------------------------------------------------------------------
@@ -86,7 +87,8 @@ namespace TextGen
 												 int theMean,
 												 int theMaximum,
 												 int theMinInterval,
-												 bool theZeroFlag)
+												 bool theZeroFlag,
+												 const std::string & theRangeSeparator)
 	{
 	  Sentence sentence;
 	  
@@ -103,7 +105,7 @@ namespace TextGen
 	  
 	  if(range)
 		{
-		  sentence << IntegerRange(theMinimum,theMaximum,"...")
+		  sentence << IntegerRange(theMinimum,theMaximum,theRangeSeparator)
 				   << *UnitFactory::create(DegreesCelsius);
 		}
 	  else

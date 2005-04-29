@@ -56,6 +56,8 @@ namespace TextGen
 	const int mininterval = optional_int(itsVar+"::mininterval",2);
 	const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
 
+	const string rangeseparator = optional_string(itsVar+"::rangeseparator","...");
+
 	const int days = countPeriods(itsPeriod,
 								  starthour,
 								  endhour,
@@ -117,7 +119,7 @@ namespace TextGen
 											itsVar,
 											itsForecastTime,
 											period)
-			 << temperature_sentence(min1,mean1,max1,mininterval,interval_zero);
+			 << temperature_sentence(min1,mean1,max1,mininterval,interval_zero,rangeseparator);
 
 	// Remaining days
 
@@ -194,7 +196,7 @@ namespace TextGen
 		else
 		  {
 			sentence << WeekdayTools::on_weekday(period.localStartTime())
-					 << temperature_sentence(min2,mean2,max2,mininterval,interval_zero);
+					 << temperature_sentence(min2,mean2,max2,mininterval,interval_zero,rangeseparator);
 
 		  }
 		

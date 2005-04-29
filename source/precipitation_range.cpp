@@ -43,6 +43,8 @@ namespace TextGen
   {
 	MessageLogger log("PrecipitationStory::range");
 
+	const string rangeseparator = Settings::optional_string(itsVar+"::rangeseparator","-");
+
 	Paragraph paragraph;
 	Sentence sentence;
 
@@ -98,7 +100,7 @@ namespace TextGen
 	  {
 		sentence << "sadesumma"
 				 << "on"
-				 << IntegerRange(minrain,maxrain)
+				 << IntegerRange(minrain,maxrain,rangeseparator)
 				 << *UnitFactory::create(Millimeters);
 	  }
 

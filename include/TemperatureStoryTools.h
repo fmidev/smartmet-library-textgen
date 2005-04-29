@@ -29,7 +29,8 @@ namespace TextGen
 												 int theMean,
 												 int theMaximum,
 												 int theMinInterval,
-												 bool theZeroFlag);
+												 bool theZeroFlag,
+												 const std::string & theRangeSeparator);
 
   } // namespace TemperatureStoryTools
 } // namespace TextGen

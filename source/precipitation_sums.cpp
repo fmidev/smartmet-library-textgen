@@ -44,6 +44,7 @@ namespace TextGen
 
 	const double minrain = Settings::optional_double(itsVar+"::minrain",0);
 	const int mininterval = Settings::optional_int(itsVar+"::mininterval",1);
+	const string rangeseparator = Settings::optional_string(itsVar+"::rangeseparator","-");
 
 	Paragraph paragraph;
 
@@ -121,7 +122,7 @@ namespace TextGen
 		const WeatherResult zero(0,0);
 		sentence << "seuraavan 24 tunnin sademäärä"
 				 << "on"
-				 << PrecipitationStoryTools::sum_phrase(zero,zero,zero,mininterval);
+				 << PrecipitationStoryTools::sum_phrase(zero,zero,zero,mininterval,rangeseparator);
 	  }
 	else
 	  {
@@ -130,13 +131,15 @@ namespace TextGen
 				 << PrecipitationStoryTools::sum_phrase(minima[0],
 														maxima[0],
 														means[0],
-														mininterval)
+														mininterval,
+														rangeseparator)
 				 << Delimiter(",")
 				 << "seuraavan 12 tunnin"
 				 << PrecipitationStoryTools::sum_phrase(minima[1],
 														maxima[1],
 														means[1],
-														mininterval);
+														mininterval,
+														rangeseparator);
 	  }
 
 	paragraph << sentence;

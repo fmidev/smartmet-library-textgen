@@ -126,6 +126,8 @@ namespace TextGen
   {
 	MessageLogger log("PrecipitationStory::classification");
 
+	const string rangeseparator = Settings::optional_string(itsVar+"::rangeseparator","-");
+
 	Paragraph paragraph;
 	Sentence sentence;
 
@@ -279,7 +281,7 @@ namespace TextGen
 	const int hilimit = it->second;
 
 	sentence << "sadesumma"
-			 << IntegerRange(lolimit,hilimit)
+			 << IntegerRange(lolimit,hilimit,rangeseparator)
 			 << *UnitFactory::create(Millimeters);
 	
 	// Lisää tarvittaessa "paikoin enemmän" tai "monin paikoin enemmän" perään

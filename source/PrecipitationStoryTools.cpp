@@ -452,6 +452,7 @@ namespace TextGen
 	 * \param theMaximum The maximum rain sum
 	 * \param theMean The mean rain sum
 	 * \param theMinInterval The minimum allowed interval
+	 * \param theRangeSeparator String separating the numbers
 	 * \return The sum phrase
 	 */
 	// ----------------------------------------------------------------------
@@ -459,7 +460,8 @@ namespace TextGen
 	const Sentence sum_phrase(const WeatherResult & theMinimum,
 							  const WeatherResult & theMaximum,
 							  const WeatherResult & theMean,
-							  int theMinInterval)
+							  int theMinInterval,
+							  const string & theRangeSeparator)
 	{
 	  Sentence sentence;
 	  
@@ -477,7 +479,7 @@ namespace TextGen
 		}
 	  else
 		{
-		  sentence << IntegerRange(minimum,maximum);
+		  sentence << IntegerRange(minimum,maximum,theRangeSeparator);
 		}
 
 	  sentence << *UnitFactory::create(Millimeters);

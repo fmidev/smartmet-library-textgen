@@ -47,6 +47,8 @@ namespace TextGen
 	const int severelimit = Settings::require_percentage(var2);
 	const int normallimit = Settings::require_percentage(var3);
 
+	const string rangeseparator = Settings::optional_string(itsVar+"::rangeseparator","-");
+
 	GridForecaster forecaster;
 
 	WeatherResult maxfrost = forecaster.analyze(itsVar+"::fake::maximum",
@@ -121,7 +123,7 @@ namespace TextGen
 	  {
 		sentence << "ankaran hallan todennäköisyys"
 				 << "on"
-				 << IntegerRange(severe_frost_min,severe_frost_max)
+				 << IntegerRange(severe_frost_min,severe_frost_max,rangeseparator)
 				 << *UnitFactory::create(Percent);
 		paragraph << sentence;
 	  }
@@ -129,7 +131,7 @@ namespace TextGen
 	  {
 		sentence << "hallan todennäköisyys"
 				 << "on"
-				 << IntegerRange(frost_min,frost_max)
+				 << IntegerRange(frost_min,frost_max,rangeseparator)
 				 << *UnitFactory::create(Percent);
 		paragraph << sentence;
 	  }

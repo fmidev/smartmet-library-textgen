@@ -10,7 +10,6 @@
 #include "GridForecaster.h"
 #include "HourPeriodGenerator.h"
 #include "Integer.h"
-#include "IntegerRange.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
@@ -50,6 +49,7 @@ namespace TextGen
 	const double minrain = Settings::optional_double(itsVar+"::minrain",0);
 	const int mininterval = Settings::optional_int(itsVar+"::mininterval",1);
 	const bool ignore_fair_days = Settings::optional_bool(itsVar+"::ignore_fair_days",true);
+	const string rangeseparator = Settings::optional_string(itsVar+"::rangeseparator","-");
 
 	Paragraph paragraph;
 
@@ -152,7 +152,8 @@ namespace TextGen
 						 << PrecipitationStoryTools::sum_phrase(minima[i],
 																maxima[i],
 																means[i],
-																mininterval);
+																mininterval,
+																rangeseparator);
 			  }
 		  else
 			{
@@ -179,7 +180,8 @@ namespace TextGen
 				  sentence << PrecipitationStoryTools::sum_phrase(minima[i],
 																  maxima[i],
 																  means[i],
-																  mininterval);
+																  mininterval,
+																  rangeseparator);
 				}
 			}
 

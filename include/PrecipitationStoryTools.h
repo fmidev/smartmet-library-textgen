@@ -48,7 +48,8 @@ namespace TextGen
 	const Sentence sum_phrase(const WeatherAnalysis::WeatherResult & theMinimum,
 							  const WeatherAnalysis::WeatherResult & theMaximum,
 							  const WeatherAnalysis::WeatherResult & theMean,
-							  int theMinInterval);
+							  int theMinInterval,
+							  const std::string & theRangeSeparator);
 
   } // namespace PrecipitationStoryTools
 } // namespace TextGen

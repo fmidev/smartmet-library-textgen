@@ -125,6 +125,7 @@ namespace TextGen
 	  Sentence sentence;
 
 	  const int mininterval = optional_int(theVariable+"::mininterval",0);
+	  const string rangeseparator = Settings::optional_string(theVariable+"::rangeseparator","-");
 	  
 	  const int minvalue = FmiRound(theMinSpeed.value());
 	  const int maxvalue = FmiRound(theMaxSpeed.value());
@@ -136,7 +137,7 @@ namespace TextGen
 		}
 	  else
 		{
-		  sentence << IntegerRange(minvalue,maxvalue);
+		  sentence << IntegerRange(minvalue,maxvalue,rangeseparator);
 		}
 	  sentence << *UnitFactory::create(MetersPerSecond);
 	  

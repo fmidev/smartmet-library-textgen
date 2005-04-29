@@ -96,6 +96,7 @@ namespace TextGen
 	using MathTools::to_precision;
 	using Settings::optional_int;
 	using Settings::optional_bool;
+	using Settings::optional_string;
 
 	Paragraph paragraph;
 
@@ -129,6 +130,8 @@ namespace TextGen
 
     const int mininterval = optional_int(itsVar+"::mininterval",2);
     const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
+
+	const string rangeseparator = optional_string(itsVar+"::rangeseparator","...");
 
 	// Calculate the results
 
@@ -262,7 +265,8 @@ namespace TextGen
 											 FmiRound((ameanday+ameannight)/2),
 											 max(amaxday,amaxnight),
 											 mininterval,
-											 interval_zero);
+											 interval_zero,
+											 rangeseparator);
 		  }
 		else
 		  {
@@ -272,7 +276,8 @@ namespace TextGen
 											 imean,
 											 max(imaxday,imaxnight),
 											 mininterval,
-											 interval_zero)
+											 interval_zero,
+											 rangeseparator)
 					 << Delimiter(",")
 					 << "rannikolla"
 					 << temperature_comparison_phrase(imean,cmean,itsVar);
@@ -302,16 +307,16 @@ namespace TextGen
 		   ameanday < coast_not_below ||
 		   abs(cmeanday - imeanday) < coast_limit)
 		  {
-			sentence << temperature_sentence(aminday,ameanday,amaxday,mininterval,interval_zero);
+			sentence << temperature_sentence(aminday,ameanday,amaxday,mininterval,interval_zero,rangeseparator);
 		  }
 		else
 		  {
-			sentence << temperature_sentence(iminday,imeanday,imaxday,mininterval,interval_zero)
+			sentence << temperature_sentence(iminday,imeanday,imaxday,mininterval,interval_zero,rangeseparator)
 					 << Delimiter(",")
 					 << "rannikolla";
 
 			if(abs(imeanday-cmeanday) >= coast_numeric_limit)
-			  sentence << temperature_sentence(cminday,cmeanday,cmaxday,mininterval,interval_zero);
+			  sentence << temperature_sentence(cminday,cmeanday,cmaxday,mininterval,interval_zero,rangeseparator);
 			else
 			  sentence << temperature_comparison_phrase(imeanday,cmeanday,itsVar);
 		  }
@@ -339,16 +344,16 @@ namespace TextGen
 		   ameannight < coast_not_below ||
 		   abs(cmeannight - imeannight) < coast_limit)
 		  {
-			sentence << temperature_sentence(aminnight,ameannight,amaxnight,mininterval,interval_zero);
+			sentence << temperature_sentence(aminnight,ameannight,amaxnight,mininterval,interval_zero,rangeseparator);
 		  }
 		else
 		  {
-			sentence << temperature_sentence(iminnight,imeannight,imaxnight,mininterval,interval_zero)
+			sentence << temperature_sentence(iminnight,imeannight,imaxnight,mininterval,interval_zero,rangeseparator)
 					 << Delimiter(",")
 					 << "rannikolla";
 
 			if(abs(imeannight-cmeannight) >= coast_numeric_limit)
-			  sentence << temperature_sentence(cminnight,cmeannight,cmaxnight,mininterval,interval_zero);
+			  sentence << temperature_sentence(cminnight,cmeannight,cmaxnight,mininterval,interval_zero,rangeseparator);
 			else
 			  sentence << temperature_comparison_phrase(imeannight,cmeannight,itsVar);
 		  }

@@ -45,6 +45,7 @@ namespace TextGen
 	const unsigned int maxperiods = optional_int(itsVar+"::maxperiods",3);
 	const unsigned int mininterval = optional_int(itsVar+"::mininterval",2);
 	const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
+	const string rangeseparator = optional_string(itsVar+"::rangeseparator","...");
 
 	Paragraph paragraph;
 	
@@ -146,7 +147,8 @@ namespace TextGen
 																tmean,
 																tmax,
 																mininterval,
-																interval_zero);
+																interval_zero,
+																rangeseparator);
 	  }
 
 	paragraph << sentence;
