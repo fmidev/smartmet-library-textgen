@@ -51,6 +51,7 @@ namespace TextGen
 	const int minimum   = Settings::optional_percentage(itsVar+"::minimum",10);
 	const int maximum   = Settings::optional_percentage(itsVar+"::maximum",100);
 	const int precision = Settings::require_percentage(itsVar+"::precision");
+	const bool negate   = Settings::optional_bool(itsVar+"::negate",false);
 
 	const int limit_significantly_greater = Settings::require_percentage(itsVar+"::comparison::significantly_greater");
 	const int limit_significantly_smaller = Settings::require_percentage(itsVar+"::comparison::significantly_smaller");
@@ -104,13 +105,13 @@ namespace TextGen
 
 	if(pop1 >= minimum && pop1 <= maximum)
 	  {
-		sentence << "sateen todennäköisyys"
+		sentence << (negate ? "poudan todennäköisyys" : "sateen todennäköisyys")
 				 << "on"
 				 << PeriodPhraseFactory::create("today",
 												itsVar,
 												itsForecastTime,
 												firstperiod)
-				 << Integer(pop1)
+				 << (negate ? Integer(100-pop1) : Integer(pop1))
 				 << *UnitFactory::create(Percent);
 	  }
 
@@ -149,13 +150,13 @@ namespace TextGen
 		  {
 			if(sentence.empty())
 			  {
-				sentence << "sateen todennäköisyys"
+				sentence << (negate ? "poudan todennäköisyys" : "sateen todennäköisyys")
 						 << "on"
 						 << PeriodPhraseFactory::create("today",
 														itsVar,
 														itsForecastTime,
 														secondperiod)
-						 << Integer(pop2)
+						 << (negate ? Integer(100-pop2) : Integer(pop2))
 						 << *UnitFactory::create(Percent);
 			  }
 			else
@@ -165,17 +166,19 @@ namespace TextGen
 														itsVar,
 														itsForecastTime,
 														secondperiod);
-				if(pop2 - pop1 >= limit_significantly_greater)
+				int difference = (negate ? (100-pop2)-(100-pop1) : (pop2-pop1));
+
+				if(difference >= limit_significantly_greater)
 				  sentence << "huomattavasti suurempi";
-				else if(pop2 - pop1 >= limit_greater)
+				else if(difference >= limit_greater)
 				  sentence << "suurempi";
-				else if(pop2 - pop1 >= limit_somewhat_greater)
+				else if(difference >= limit_somewhat_greater)
 				  sentence << "hieman suurempi";
-				else if(pop1 - pop2 >= limit_significantly_smaller)
+				else if(-difference >= limit_significantly_smaller)
 				  sentence << "huomattavasti pienempi";
-				else if(pop1 - pop2 >= limit_smaller)
+				else if(-difference >= limit_smaller)
 				  sentence << "pienempi";
-				else if(pop1 - pop2 >= limit_somewhat_smaller)
+				else if(-difference >= limit_somewhat_smaller)
 				  sentence << "hieman pienempi";
 				else
 				  sentence << "sama";

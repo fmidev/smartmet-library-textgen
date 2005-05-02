@@ -12,6 +12,9 @@ Tarina \c pop_days on muotoa
     -# ", [viikonpäivänä] hieman pienempi."
     -# ", [viikonpäivänä] pienempi."
     -# ", [viikonpäivänä] huomattavasti pienempi."
+ -# Poudan todennäköisyys on [viikonpäivänä] x%"
+
+missä viimeistä muotoa käytetään, jos negatointioptio on päällä.
 
 Ruotsiksi
 
@@ -23,6 +26,8 @@ Ruotsiksi
     -# ", [på veckodag] något mindre."
     -# ", [på veckodag] mindre."
     -# ", [på veckodag] betydligt mindre."
+ -# Sannolikheten för ingen nederbörd är [på veckodag] x%"
+ 
 
 Englanniksi
 
@@ -34,6 +39,7 @@ Englanniksi
     -# ", [on weekday] somewhat smaller."
     -# ", [on weekday] smaller."
     -# ", [on weekday] significantly smaller."
+ -# "Probability of no precipitation is [on weekday] x%"
 
 Tarina soveltuu yhden/kahden vuorokauden ennusteisiin. Sivulausetta ei
 ole yhden vuorokauden ennusteissa. Kolmannesta tai sitä seuraavista päivistä
@@ -44,7 +50,7 @@ rajat, ei kyseisestä päivästä kerrota mitään. Jäljelle jää siis vain
 joko tyhjä tarina, tai tarina muotoa "Sateen todennäköisyys on
 [viikonpäivänä] X%."
 
-Todennäköisyys lasketaan seuraavasti:
+Sateen todennäköisyys lasketaan seuraavasti:
 
  -# Lasketaan ajassa maksimi ja sitten alueellinen keskiarvo
  -# Lasketaan ajassa keskiarvo ja sitten alueellinen keskiarvo
@@ -56,6 +62,14 @@ päivästä sataa." Toinen arvo vastaa tulkintaa "Keskimääräinen
 todennäköisyys alueella, että minä tahansa hetkenä sataa."  Ihmisten
 käsitys alueellisesta todennäköisyydestä luultavasti vaihtelee näiden
 kahden tulkinnan välillä, joten niistä otetaan keskiarvo.
+
+Se, onko kyseessä sateen todennäköisyys vain poudan todennäköisyys
+selviää mahdollisen muuttujan
+\code
+textgen::[kappale]::story::pop_days::negate
+\endcode
+arvosta. Arvolla \c true, kyseessä on poudan todennäköisyys. Kaikissa
+muissa tapauksissa kyseessä on sateen todennäköisyys.
 
 Aikafraasit ovat tyyppiä \ref sec_periodifraasit_today ja
 \ref sec_periodifraasit_next_day. Niihin liittyviä asetuksia
@@ -119,6 +133,7 @@ seuraavasti tuloksista \c pop2 ja \c pop1
 Tarvittavat fraasit ovat
 
  - "sateen todennäköisyys"
+ - "poudan todennäköisyys"
  - "on"
  - "huomattavasti suurempi"
  - "suurempi"
