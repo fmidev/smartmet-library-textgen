@@ -120,7 +120,7 @@ namespace TextGen
 
 	  const string var = theVariable + "::until_tonight::phrases";
 	  const string preferences = Settings::optional_string(var,"");
-	  const string defaults("none,today,atday,weekday");
+	  const string defaults("none,today,atday,weekday,none!");
 	  vector<string> order = reorder_preferences(preferences,defaults);
 
 	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
@@ -142,6 +142,8 @@ namespace TextGen
 			}
 		  else if(*it == "weekday")
 			return (sentence << on_weekday(thePeriod.localStartTime()));
+		  else if(*it == "none!")
+			return sentence;
 		  else
 			throw TextGenError("PeriodPhraseFactory::until_tonight does not accept phrase "+*it);
 		}
@@ -168,7 +170,7 @@ namespace TextGen
 
 	  const string var = theVariable + "::until_morning::phrases";
 	  const string preferences = Settings::optional_string(var,"");
-	  const string defaults("none,tonight,atnight,weekday");
+	  const string defaults("none,tonight,atnight,weekday,none!");
 	  vector<string> order = reorder_preferences(preferences,defaults);
 
 	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
@@ -190,6 +192,8 @@ namespace TextGen
 			}
 		  else if(*it == "weekday")
 			return (sentence << night_against_weekday(thePeriod.localEndTime()));
+		  else if(*it == "none!")
+			return sentence;
 		  else
 			throw TextGenError("PeriodPhrasefactory::until_morning does not accept phrase "+*it);
 		}
@@ -216,7 +220,7 @@ namespace TextGen
 
 	  const string var = theVariable + "::today::phrases";
 	  const string preferences = Settings::optional_string(var,"");
-	  const string defaults("none,today,tomorrow,atday,weekday");
+	  const string defaults("none,today,tomorrow,atday,weekday,none!");
 	  vector<string> order = reorder_preferences(preferences,defaults);
 
 	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
@@ -243,6 +247,8 @@ namespace TextGen
 			  if(isNextDay(theForecastTime,thePeriod.localStartTime()))
 				return (sentence << "huomenna");
 			}
+		  else if(*it == "none!")
+			return sentence;
 		  else
 			throw TextGenError("PeriodPhrasefactory::today does not accept phrase "+*it);
 		}
@@ -269,7 +275,7 @@ namespace TextGen
 
 	  const string var = theVariable + "::tonight::phrases";
 	  const string preferences = Settings::optional_string(var,"");
-	  const string defaults("none,tonight,atnight,weekday");
+	  const string defaults("none,tonight,atnight,weekday,none!");
 	  vector<string> order = reorder_preferences(preferences,defaults);
 
 	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
@@ -291,6 +297,8 @@ namespace TextGen
 			  if(isNextDay(theForecastTime,thePeriod.localEndTime()))
 				return (sentence << "ensi yönä");
 			}
+		  else if(*it == "none!")
+			return sentence;
 		  else
 			throw TextGenError("PeriodPhrasefactory::tonight does not accept phrase "+*it);
 		}
@@ -317,7 +325,7 @@ namespace TextGen
 
 	  const string var = theVariable + "::next_night::phrases";
 	  const string preferences = Settings::optional_string(var,"");
-	  const string defaults("tonight,atnight,followingnight,weekday");
+	  const string defaults("tonight,atnight,followingnight,weekday,none!");
 	  vector<string> order = reorder_preferences(preferences,defaults);
 
 	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
@@ -336,6 +344,8 @@ namespace TextGen
 			  if(isNextDay(theForecastTime,thePeriod.localEndTime()))
 				return (sentence << "ensi yönä");
 			}
+		  else if(*it == "none!")
+			return sentence;
 		  else
 			throw TextGenError("PeriodPhrasefactory::next_night does not accept phrase "+*it);
 		}
@@ -362,7 +372,7 @@ namespace TextGen
 
 	  const string var = theVariable + "::next_day::phrases";
 	  const string preferences = Settings::optional_string(var,"");
-	  const string defaults("tomorrow,followingday,weekday");
+	  const string defaults("tomorrow,followingday,weekday,none!");
 	  vector<string> order = reorder_preferences(preferences,defaults);
 
 	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
@@ -376,6 +386,8 @@ namespace TextGen
 			  if(isNextDay(theForecastTime,thePeriod.localStartTime()))
 				return (sentence << "huomenna");
 			}
+		  else if(*it == "none!")
+			return sentence;
 		  else
 			throw TextGenError("PeriodPhrasefactory::next_day does not accept phrase "+*it);
 		}
@@ -402,7 +414,7 @@ namespace TextGen
 
 	  const string var = theVariable + "::next_days::phrases";
 	  const string preferences = Settings::optional_string(var,"");
-	  const string defaults("tomorrow,weekday");
+	  const string defaults("tomorrow,weekday,none!");
 	  vector<string> order = reorder_preferences(preferences,defaults);
 
 	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
@@ -415,6 +427,8 @@ namespace TextGen
 			  // if(isNextDay(theForecastTime,thePeriod.localStartTime()))
 			  // return (sentence << "huomisesta alkaen");
 			}
+		  else if(*it == "none!")
+			return sentence;
 		  else
 			throw TextGenError("PeriodPhrasefactory::next_days does not accept phrase "+*it);
 		}
@@ -510,7 +524,7 @@ namespace TextGen
 
 	  Sentence sentence;
 
-	  const string defaults("none,today,tomorrow,followingday,weekday");
+	  const string defaults("none,today,tomorrow,followingday,weekday,none!");
 
 	  const string var = theVariable + "::days::phrases";
 	  string preferences = Settings::optional_string(var,"");
@@ -555,6 +569,8 @@ namespace TextGen
 				{
 				  return (sentence << on_weekday(starttime));
 				}
+			  else if(*it == "none!")
+				return sentence;
 			  else
 				throw TextGenError("PeriodPhrasefactory::days does not accept phrase "+*it);
 			}
@@ -613,6 +629,8 @@ namespace TextGen
 						   << on_weekday(nextday);
 				  return sentence;
 				}
+			  else if(*it == "none!")
+				return sentence;
 			  else
 				throw TextGenError("PeriodPhrasefactory::days does not accept phrase "+*it);
 			}
@@ -637,6 +655,8 @@ namespace TextGen
 				{
 				  return (sentence << from_weekday(starttime));
 				}
+			  else if(*it == "none!")
+				return sentence;
 			  else
 				throw TextGenError("PeriodPhrasefactory::days does not accept phrase "+*it);
 			}

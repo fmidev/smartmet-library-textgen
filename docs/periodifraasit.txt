@@ -44,6 +44,7 @@ suosituimmuusjärjestyksen. Mahdolliset nimet on lueteltu alla
 <tr><td>followingday</td><td>seuraavana päivänä</td></tr>
 <tr><td>followingnight</td><td>seuraavana yönä</td></tr>
 <tr><td>none<td></td>-</td></tr>
+<tr><td>none!<td></td>-</td></tr>
 </table>
 
 Kukin tarina määrittelee kullekin sisältämälleen ajanjaksolle tyylin,
@@ -60,6 +61,7 @@ fraasit oletusjärjestyksessä ovat
  -# today (*)
  -# atday (*)
  -# weekday
+ -# none!
 
 Asteriskilla merkittyihin fraaseihin liittyy lisäehtoja ennustushetken
 suhteen.
@@ -77,6 +79,7 @@ Mahdolliset fraasit oletusjärjestyksessä ovat
  -# tonight (*)
  -# atnight (*)
  -# weekday
+ -# none!
 
 Asteriskilla merkittyihin fraaseihin liittyy lisäehtoja ennustushetken
 suhteen.
@@ -93,6 +96,7 @@ Mahdolliset fraasit oletusjärjestyksessä ovat
  -# tomorrow (*)
  -# atday (*)
  -# weekday
+ -# none!
 
 Asteriskilla merkittyihin fraaseihin liittyy lisäehtoja ennustushetken
 suhteen.
@@ -107,6 +111,7 @@ Mahdolliset fraasit oletusjärjestyksessä ovat
  -# tonight (*)
  -# atnight (*)
  -# weekday
+ -# none!
 
 Asteriskilla merkittyihin fraaseihin liittyy lisäehtoja ennustushetken
 suhteen.
@@ -123,6 +128,7 @@ Mahdolliset fraasit oletusjärjestyksessä ovat
  -# tomorrow (*)
  -# followingday
  -# weekday
+ -# none!
 
 Fraasien järjestyksen pystyy valitsemaan normaalilla \c ::days::phrases muuttujalla,
 mutta senkin pystyy ylikuormittamaan eri pituisille jaksoille muuttujilla
@@ -178,6 +184,7 @@ Mahdolliset fraasit oletusjärjestyksessä ovat
  -# atnight (*)
  -# followingnight
  -# weekday
+ -# none!
 
 Asteriskilla merkittyihin fraaseihin liittyy lisäehtoja ennustushetken
 suhteen.
@@ -192,6 +199,7 @@ Mahdolliset fraasit oletusjärjestyksessä ovat
  -# tomorrow (*)
  -# followingday
  -# weekday
+ -# none!
 
 Asteriskilla merkittyihin fraaseihin liittyy lisäehtoja ennustushetken
 suhteen.
@@ -205,6 +213,7 @@ Mahdolliset fraasit oletusjärjestyksessä ovat
 
  -# tomorrow (*)
  -# weekday
+ -# none!
 
 Asteriskilla merkittyihin fraaseihin liittyy lisäehtoja ennustushetken
 suhteen.
