@@ -19,6 +19,7 @@ namespace TextGen
   class GlyphContainer;
   class Header;
   class Integer;
+  class Float;
   class IntegerRange;
   class Paragraph;
   class Sentence;
@@ -41,6 +42,7 @@ namespace TextGen
 	// override for all composites
 	virtual const std::string visit(const Glyph & theGlyph) const = 0;
 	virtual const std::string visit(const Integer & theInteger) const = 0;
+	virtual const std::string visit(const Float & theFloat) const = 0;
 	virtual const std::string visit(const IntegerRange & theRange) const = 0;
 	virtual const std::string visit(const Sentence & theSentence) const = 0;
 	virtual const std::string visit(const Paragraph & theParagraph) const = 0;

@@ -14,6 +14,7 @@
 #include "SpeechTextFormatter.h"
 #include "Dictionary.h"
 #include "Document.h"
+#include "Float.h"
 #include "Glyph.h"
 #include "Header.h"
 #include "Integer.h"
@@ -81,6 +82,23 @@ namespace TextGen
 	return theInteger.realize(*itsDictionary);
   }
   
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit a float
+   *
+   * Note: The generator understands only numbers of the form "2,8"
+   */
+  // ----------------------------------------------------------------------
+
+  const string SpeechTextFormatter::visit(const Float & theFloat) const
+  {
+	Float dummy(theFloat.value(),
+				theFloat.precision(),
+				false);
+
+	return dummy.realize(*itsDictionary);
+  }
+
 
   // ----------------------------------------------------------------------
   /*!

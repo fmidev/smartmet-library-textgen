@@ -23,6 +23,7 @@
 #include "SoneraTextFormatter.h"
 #include "Dictionary.h"
 #include "Document.h"
+#include "Float.h"
 #include "Glyph.h"
 #include "Header.h"
 #include "Integer.h"
@@ -258,6 +259,17 @@ namespace TextGen
 	sonera_realize(theInteger.value(), itsParts, *itsDictionary);
 
 	return dummy;
+  }
+  
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit a float
+   */
+  // ----------------------------------------------------------------------
+
+  const string SoneraTextFormatter::visit(const Float & theFloat) const
+  {
+	throw TextGen::TextGenError("Cannot use Floats in Sonera phone service");
   }
   
 

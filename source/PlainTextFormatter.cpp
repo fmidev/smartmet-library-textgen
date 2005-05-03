@@ -14,6 +14,7 @@
 #include "PlainTextFormatter.h"
 #include "Dictionary.h"
 #include "Document.h"
+#include "Float.h"
 #include "Glyph.h"
 #include "Header.h"
 #include "Integer.h"
@@ -81,6 +82,16 @@ namespace TextGen
 	return theInteger.realize(*itsDictionary);
   }
   
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit a float
+   */
+  // ----------------------------------------------------------------------
+
+  const string PlainTextFormatter::visit(const Float & theFloat) const
+  {
+	return theFloat.realize(*itsDictionary);
+  }
 
   // ----------------------------------------------------------------------
   /*!
