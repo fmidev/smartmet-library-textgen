@@ -240,12 +240,18 @@ namespace TextGen
 		doc << SectionTag("textgen::"+*it);
 
 		const string periodvar = "textgen::"+*it+"::period";
-		const WeatherPeriod period = WeatherPeriodFactory::create(time(),
+		const WeatherPeriod period = WeatherPeriodFactory::create(itsPimple->itsForecastTime,
 																  periodvar);
 
 		const string headervar = "textgen::"+*it+"::header";
 
-		log << "periodvar " << periodvar << " headervar " << headervar << endl;
+		log << "TextGenerator::generate periodvar " << periodvar << endl
+			<< "TextGenerator::generate headervar " << headervar << endl
+			<< "TextGenerator::generate period : "
+			<< period.localStartTime() << endl
+			<< " -  "
+			<< period.localEndTime() << endl;
+
 		Header header = HeaderFactory::create(theArea,period,headervar);
 		if(!header.empty())
 		  doc << header;
@@ -255,7 +261,7 @@ namespace TextGen
 		if(!subs)
 		  {
 			const string contents = Settings::require("textgen::"+*it+"::content");
-			log << "contents " << contents << endl;
+			log << "TextGenerator::generate contents " << contents << endl;
 			doc << make_contents(contents,
 								 "textgen::"+*it,
 								 itsPimple->itsForecastTime,
@@ -273,6 +279,12 @@ namespace TextGen
 			for(HourPeriodGenerator::size_type day=1; day<=generator.size(); day++)
 			  {
 				const WeatherPeriod subperiod = generator.period(day);
+
+				log << "TextGenerator::generate subperiod: "
+					<< subperiod.localStartTime()
+					<< " - "
+					<< subperiod.localEndTime()
+					<< endl;
 
 				const string dayvar = defaultvar+"::day"+NFmiStringTools::Convert(day);
 

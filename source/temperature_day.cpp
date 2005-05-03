@@ -118,8 +118,10 @@ namespace TextGen
 
 	// Too many days is an error
 
-	if(daygenerator.size() > 1 || nightgenerator.size() > 1)
+	if(daygenerator.size() > 1)
 	  throw TextGenError("Cannot use temperature_day story for periods longer than 1 day");
+	if(nightgenerator.size() > 1)
+	  throw TextGenError("Cannot use temperature_day story for periods longer than 1 night");
 
 	// The options
 
