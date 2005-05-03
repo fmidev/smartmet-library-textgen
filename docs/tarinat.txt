@@ -64,6 +64,7 @@
 <li>\ref sec_foreststory</li>
  <ol>
  <li>\ref page_story_forestfirewarning_twodays</li>
+ <li>\ref page_story_evaporation_day</li>
  </ol>
 </ol>
 
@@ -122,5 +123,10 @@ kosteuteen liittyv‰t tarinat.
 \section sec_roadstory RoadStory luokka
 
 TextGen::RoadStory luokka hallitsee ties‰‰h‰n liittyv‰t tarinat.
+
+\section sec_foreststory ForestStory luokka
+
+TextGen::ForestStory luokka hallitsee kosteusmalliin ja
+mets‰palovaroituksiin liittyv‰t tarinat.
 
 */

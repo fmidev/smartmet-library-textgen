@@ -42,6 +42,7 @@ namespace TextGen
   private:
 	
 	const Paragraph forestfireindex_twodays() const;
+	const Paragraph evaporation_day() const;
 
 	ForestStory();
 	ForestStory(const ForestStory & theStory);

@@ -105,6 +105,9 @@ namespace WeatherAnalysis
 		case ForestFireIndex:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::forestfireindex",
 														 "ForestFireWarning"));
+		case Evaporation:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::evaporation",
+														 "Evaporation"));
 		  
 	  }
 

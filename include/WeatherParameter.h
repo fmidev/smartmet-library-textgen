@@ -30,7 +30,8 @@ namespace WeatherAnalysis
 	  WaveHeight,
 	  WaveDirection,
 	  RoadWarning,
-	  ForestFireIndex
+	  ForestFireIndex,
+	  Evaporation
 
 	}; // enum WeatherParameter
 

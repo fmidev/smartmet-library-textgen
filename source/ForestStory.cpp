@@ -69,6 +69,8 @@ namespace TextGen
   {
 	if(theName == "forestfireindex_twodays")
 	  return true;
+	if(theName == "evaporation_day")
+	  return true;
 	return false;
   }
   
@@ -87,6 +89,8 @@ namespace TextGen
   {
 	if(theName == "forestfireindex_twodays")
 	  return forestfireindex_twodays();
+	if(theName == "evaporation_day")
+	  return evaporation_day();
 
 	throw TextGenError("ForestStory cannot make story "+theName);
 
