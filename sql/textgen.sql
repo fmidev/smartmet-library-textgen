@@ -976,6 +976,11 @@ INSERT INTO translation_en VALUES ('ylojarvi:lle','for Ylöjärvi',20050428224616,
 INSERT INTO translation_en VALUES ('ypaja:lle','for Ypäjä',20050428224616,'mheiskan');
 INSERT INTO translation_en VALUES ('poudan todennäköisyys','probability of no precipitation',20050503004411,'mheiskan');
 INSERT INTO translation_en VALUES ('metsäpaloindeksi','the forest fire warning index',20050503014444,'mheiskan');
+INSERT INTO translation_en VALUES ('haihdunta on erittäin huono','evaporation is very weak',20050503231613,'mheiskan');
+INSERT INTO translation_en VALUES ('haihdunta on huono','evaporation is weak',20050503231624,'mheiskan');
+INSERT INTO translation_en VALUES ('haihdunta on tyydyttävä','evaporation is satisfactory',20050503231635,'mheiskan');
+INSERT INTO translation_en VALUES ('haihdunta on hyvä','evaporation is good',20050503231645,'mheiskan');
+INSERT INTO translation_en VALUES ('haihdunta on erittäin hyvä','evaporation is very good',20050503231656,'mheiskan');
 
 --
 -- Table structure for table `translation_fi`
@@ -1922,6 +1927,11 @@ INSERT INTO translation_fi VALUES ('ylojarvi:lle','Ylöjärvelle',20050428224616,'
 INSERT INTO translation_fi VALUES ('ypaja:lle','Ypäjälle',20050428224616,'mheiskan');
 INSERT INTO translation_fi VALUES ('poudan todennäköisyys','poudan todennäköisyys',20050503004320,'mheiskan');
 INSERT INTO translation_fi VALUES ('metsäpaloindeksi','metsäpaloindeksi',20050503014339,'mheiskan');
+INSERT INTO translation_fi VALUES ('haihdunta on erittäin huono','haihdunta on erittäin huono',20050503231449,'mheiskan');
+INSERT INTO translation_fi VALUES ('haihdunta on huono','haihdunta on huono',20050503231500,'mheiskan');
+INSERT INTO translation_fi VALUES ('haihdunta on tyydyttävä','haihdunta on tyydyttävä',20050503231513,'mheiskan');
+INSERT INTO translation_fi VALUES ('haihdunta on hyvä','haihdunta on hyvä',20050503231527,'mheiskan');
+INSERT INTO translation_fi VALUES ('haihdunta on erittäin hyvä','haihdunta on erittäin hyvä',20050503231539,'mheiskan');
 
 --
 -- Table structure for table `translation_sonera`
@@ -3235,4 +3245,9 @@ INSERT INTO translation_sv VALUES ('ylojarvi:lle','för Ylöjärvi',20050428224616,
 INSERT INTO translation_sv VALUES ('ypaja:lle','för Ypäjä',20050428224616,'mheiskan');
 INSERT INTO translation_sv VALUES ('poudan todennäköisyys','sannolikheten av ingen nederbörd',20050503004346,'mheiskan');
 INSERT INTO translation_sv VALUES ('metsäpaloindeksi','indexet för skogsbrand',20050503095331,'mheiskan');
+INSERT INTO translation_sv VALUES ('haihdunta on erittäin huono','avdunstning är mycket svag',20050503231730,'mheiskan');
+INSERT INTO translation_sv VALUES ('haihdunta on huono','avdunstning är svag',20050503231741,'mheiskan');
+INSERT INTO translation_sv VALUES ('haihdunta on tyydyttävä','avdunstning är måttlig',20050503231754,'mheiskan');
+INSERT INTO translation_sv VALUES ('haihdunta on hyvä','avdunstning är bra',20050503231806,'mheiskan');
+INSERT INTO translation_sv VALUES ('haihdunta on erittäin hyvä','avdunstning är mycket bra',20050503231821,'mheiskan');
 
