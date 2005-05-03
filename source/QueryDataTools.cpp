@@ -58,9 +58,11 @@ namespace WeatherAnalysis
 	{
 	  const unsigned long invalid = static_cast<unsigned long>(-1);
 
-	  firstTime(theQI,theStartTime);
+	  if(!firstTime(theQI,theStartTime))
+		return false;
 	  theStartIndex = theQI.TimeIndex();
-	  lastTime(theQI,theEndTime);
+	  if(!lastTime(theQI,theEndTime))
+		return false;
 	  theEndIndex = theQI.TimeIndex();
 
 	  return (theStartIndex != invalid && theEndIndex != invalid);
@@ -104,6 +106,7 @@ namespace WeatherAnalysis
 			idx1 = idx+1;
 		}
 	  theQI.TimeIndex(idx1);
+
 	  return(theQI.IsValidTime() && theQI.ValidTime()>=theTime);
 	}
 
