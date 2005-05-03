@@ -975,6 +975,7 @@ INSERT INTO translation_en VALUES ('ylivieska:lle','for Ylivieska',2005042822461
 INSERT INTO translation_en VALUES ('ylojarvi:lle','for Ylöjärvi',20050428224616,'mheiskan');
 INSERT INTO translation_en VALUES ('ypaja:lle','for Ypäjä',20050428224616,'mheiskan');
 INSERT INTO translation_en VALUES ('poudan todennäköisyys','probability of no precipitation',20050503004411,'mheiskan');
+INSERT INTO translation_en VALUES ('metsäpaloindeksi','the forest fire warning index',20050503014444,'mheiskan');
 
 --
 -- Table structure for table `translation_fi`
@@ -1920,6 +1921,7 @@ INSERT INTO translation_fi VALUES ('ylivieska:lle','Ylivieskaan',20050428224616,
 INSERT INTO translation_fi VALUES ('ylojarvi:lle','Ylöjärvelle',20050428224616,'mheiskan');
 INSERT INTO translation_fi VALUES ('ypaja:lle','Ypäjälle',20050428224616,'mheiskan');
 INSERT INTO translation_fi VALUES ('poudan todennäköisyys','poudan todennäköisyys',20050503004320,'mheiskan');
+INSERT INTO translation_fi VALUES ('metsäpaloindeksi','metsäpaloindeksi',20050503014339,'mheiskan');
 
 --
 -- Table structure for table `translation_sonera`
@@ -3232,4 +3234,5 @@ INSERT INTO translation_sv VALUES ('ylivieska:lle','för Ylivieska',2005042822461
 INSERT INTO translation_sv VALUES ('ylojarvi:lle','för Ylöjärvi',20050428224616,'mheiskan');
 INSERT INTO translation_sv VALUES ('ypaja:lle','för Ypäjä',20050428224616,'mheiskan');
 INSERT INTO translation_sv VALUES ('poudan todennäköisyys','sannolikheten av ingen nederbörd',20050503004346,'mheiskan');
+INSERT INTO translation_sv VALUES ('metsäpaloindeksi','indexet för skogsbrand',20050503095331,'mheiskan');
 
