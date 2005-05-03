@@ -61,6 +61,10 @@
  <li>\ref page_story_roadtemperature_daynightranges</li>
  <li>\ref page_story_roadcondition_overview</li>
  </ol>
+<li>\ref sec_foreststory</li>
+ <ol>
+ <li>\ref page_story_forestfirewarning_twodays</li>
+ </ol>
 </ol>
 
 \section sec_tarina Mikä on tarina

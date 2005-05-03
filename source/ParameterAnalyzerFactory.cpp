@@ -102,6 +102,10 @@ namespace WeatherAnalysis
 		  return ReturnType(new RegularParameterAnalyzer("textgen::roadwarning",
 														 "RoadWarning"));
 		  
+		case ForestFireIndex:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::forestfireindex",
+														 "ForestFireWarning"));
+		  
 	  }
 
 	  // Should never reach this place

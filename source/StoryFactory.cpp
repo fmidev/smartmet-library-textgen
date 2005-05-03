@@ -15,6 +15,7 @@
 #include "AnalysisSources.h"
 #include "CloudinessStory.h"
 #include "Delimiter.h"
+#include "ForestStory.h"
 #include "FrostStory.h"
 #include "Paragraph.h"
 #include "PrecipitationStory.h"
@@ -108,6 +109,12 @@ namespace TextGen
 	  if(RoadStory::hasStory(theName))
 		{
 		  RoadStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
+		  return story.makeStory(theName);
+		}
+
+	  if(ForestStory::hasStory(theName))
+		{
+		  ForestStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 
