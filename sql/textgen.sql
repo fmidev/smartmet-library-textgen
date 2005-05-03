@@ -980,7 +980,7 @@ INSERT INTO translation_en VALUES ('haihdunta on erittäin huono','evaporation is
 INSERT INTO translation_en VALUES ('haihdunta on huono','evaporation is weak',20050503231624,'mheiskan');
 INSERT INTO translation_en VALUES ('haihdunta on tyydyttävä','evaporation is satisfactory',20050503231635,'mheiskan');
 INSERT INTO translation_en VALUES ('haihdunta on hyvä','evaporation is good',20050503231645,'mheiskan');
-INSERT INTO translation_en VALUES ('haihdunta on erittäin hyvä','evaporation is very good',20050503231656,'mheiskan');
+INSERT INTO translation_en VALUES ('haihdunta on erinomainen','evaporation is very good',20050504010459,'mheiskan');
 
 --
 -- Table structure for table `translation_fi`
@@ -1931,7 +1931,7 @@ INSERT INTO translation_fi VALUES ('haihdunta on erittäin huono','haihdunta on e
 INSERT INTO translation_fi VALUES ('haihdunta on huono','haihdunta on huono',20050503231500,'mheiskan');
 INSERT INTO translation_fi VALUES ('haihdunta on tyydyttävä','haihdunta on tyydyttävä',20050503231513,'mheiskan');
 INSERT INTO translation_fi VALUES ('haihdunta on hyvä','haihdunta on hyvä',20050503231527,'mheiskan');
-INSERT INTO translation_fi VALUES ('haihdunta on erittäin hyvä','haihdunta on erittäin hyvä',20050503231539,'mheiskan');
+INSERT INTO translation_fi VALUES ('haihdunta on erinomainen','haihdunta on erinomainen',20050504010431,'mheiskan');
 
 --
 -- Table structure for table `translation_sonera`
@@ -3249,5 +3249,5 @@ INSERT INTO translation_sv VALUES ('haihdunta on erittäin huono','avdunstning är
 INSERT INTO translation_sv VALUES ('haihdunta on huono','avdunstning är svag',20050503231741,'mheiskan');
 INSERT INTO translation_sv VALUES ('haihdunta on tyydyttävä','avdunstning är måttlig',20050503231754,'mheiskan');
 INSERT INTO translation_sv VALUES ('haihdunta on hyvä','avdunstning är bra',20050503231806,'mheiskan');
-INSERT INTO translation_sv VALUES ('haihdunta on erittäin hyvä','avdunstning är mycket bra',20050503231821,'mheiskan');
+INSERT INTO translation_sv VALUES ('haihdunta on erinomainen','avdunstning är mycket bra',20050504010534,'mheiskan');
 
