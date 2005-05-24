@@ -36,7 +36,7 @@ INSERT INTO languages VALUES ('sonera','translation_sonera',1,'Sonera',0);
 --
 
 CREATE TABLE translation_en (
-  keyword varchar(32) NOT NULL default '',
+  keyword varchar(50) NOT NULL default '',
   translation varchar(255) NOT NULL default '',
   modtime timestamp(14) NOT NULL,
   user varchar(32) default '',
@@ -981,13 +981,15 @@ INSERT INTO translation_en VALUES ('haihdunta on huono','evaporation is weak',20
 INSERT INTO translation_en VALUES ('haihdunta on tyydyttävä','evaporation is satisfactory',20050503231635,'mheiskan');
 INSERT INTO translation_en VALUES ('haihdunta on hyvä','evaporation is good',20050503231645,'mheiskan');
 INSERT INTO translation_en VALUES ('haihdunta on erinomainen','evaporation is very good',20050504010459,'mheiskan');
+INSERT INTO translation_en VALUES ('metsäpalovaroitus on voimassa','forest fire warning is in effect',20050524203912,'mheiskan');
+INSERT INTO translation_en VALUES ('metsäpalovaroitus ei ole voimassa','forest fire warning is not in effect',20050524204027,'mheiskan');
 
 --
 -- Table structure for table `translation_fi`
 --
 
 CREATE TABLE translation_fi (
-  keyword varchar(32) NOT NULL default '',
+  keyword varchar(50) NOT NULL default '',
   translation varchar(255) NOT NULL default '',
   modtime timestamp(14) NOT NULL,
   user varchar(32) default '',
@@ -1932,6 +1934,8 @@ INSERT INTO translation_fi VALUES ('haihdunta on huono','haihdunta on huono',200
 INSERT INTO translation_fi VALUES ('haihdunta on tyydyttävä','haihdunta on tyydyttävä',20050503231513,'mheiskan');
 INSERT INTO translation_fi VALUES ('haihdunta on hyvä','haihdunta on hyvä',20050503231527,'mheiskan');
 INSERT INTO translation_fi VALUES ('haihdunta on erinomainen','haihdunta on erinomainen',20050504010431,'mheiskan');
+INSERT INTO translation_fi VALUES ('metsäpalovaroitus on voimassa','metsäpalovaroitus on voimassa',20050524203627,'mheiskan');
+INSERT INTO translation_fi VALUES ('metsäpalovaroitus ei ole voimassa','metsäpalovaroitus ei ole voimassa',20050524203820,'mheiskan');
 
 --
 -- Table structure for table `translation_sonera`
@@ -2305,7 +2309,7 @@ INSERT INTO translation_sonera VALUES ('ja','546',20030715083607,'mheiskan');
 --
 
 CREATE TABLE translation_sv (
-  keyword varchar(32) NOT NULL default '',
+  keyword varchar(50) NOT NULL default '',
   translation varchar(255) NOT NULL default '',
   modtime timestamp(14) NOT NULL,
   user varchar(32) default '',
@@ -3250,4 +3254,6 @@ INSERT INTO translation_sv VALUES ('haihdunta on huono','avdunstning är svag',20
 INSERT INTO translation_sv VALUES ('haihdunta on tyydyttävä','avdunstning är måttlig',20050503231754,'mheiskan');
 INSERT INTO translation_sv VALUES ('haihdunta on hyvä','avdunstning är bra',20050503231806,'mheiskan');
 INSERT INTO translation_sv VALUES ('haihdunta on erinomainen','avdunstning är mycket bra',20050504010534,'mheiskan');
+INSERT INTO translation_sv VALUES ('metsäpalovaroitus on voimassa','varning fär skogsbrand är i kraft',20050524204117,'mheiskan');
+INSERT INTO translation_sv VALUES ('metsäpalovaroitus ei ole voimassa','varning för skogsbrand är inte i kraft',20050524204134,'mheiskan');
 
