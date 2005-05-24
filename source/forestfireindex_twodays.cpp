@@ -33,7 +33,7 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Generate story on maximum probability of precipitation
+   * \brief Generate story on forest fire index
    *
    * \return The generated paragraph
    */
