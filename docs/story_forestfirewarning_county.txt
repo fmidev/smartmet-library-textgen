@@ -18,7 +18,7 @@ Varoitus on aluekohtainen. Jos esimerkiksi kyseessä on alue
 koodinimeltä "imatra", joka voi olla määritelty polygoniksi tai
 pisteeksi, saadaan relevantin varoitusalueen koodinumero muuttujasta
 \code
-qdtext::forestfirewarning::imatra::areacode = 9
+qdtext::forestfirewarning::areacodes::imatra = 9
 \endcode
 Käytössä olevat koodinumerot ovat
 \code
