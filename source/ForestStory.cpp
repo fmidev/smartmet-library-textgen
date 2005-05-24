@@ -71,6 +71,8 @@ namespace TextGen
 	  return true;
 	if(theName == "evaporation_day")
 	  return true;
+	if(theName == "forestfirewarning_county")
+	  return true;
 	return false;
   }
   
@@ -91,6 +93,8 @@ namespace TextGen
 	  return forestfireindex_twodays();
 	if(theName == "evaporation_day")
 	  return evaporation_day();
+	if(theName == "forestfirewarning_county")
+	  return forestfirewarning_county();
 
 	throw TextGenError("ForestStory cannot make story "+theName);
 

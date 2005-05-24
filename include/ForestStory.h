@@ -43,6 +43,7 @@ namespace TextGen
 	
 	const Paragraph forestfireindex_twodays() const;
 	const Paragraph evaporation_day() const;
+	const Paragraph forestfirewarning_county() const;
 
 	ForestStory();
 	ForestStory(const ForestStory & theStory);
