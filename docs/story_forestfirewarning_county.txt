@@ -74,7 +74,7 @@ Käytössä olevat koodinumerot ovat
 \endcode
 Metsäpalovaroitukset luetaan hakemistosta
 \code
-textgen::[kappale]::story::forestfirewarning_county::dir
+qdtext::forestfirewarning::directory
 \endcode
 jolle sopiva arvo tällä hetkellä on
 \code
