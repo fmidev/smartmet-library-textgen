@@ -64,7 +64,7 @@
 <li>\ref sec_foreststory</li>
  <ol>
  <li>\ref page_story_forestfirewarning_county</li>
- <li>\ref page_story_forestfirewarning_twodays</li>
+ <li>\ref page_story_forestfireindex_twodays</li>
  <li>\ref page_story_evaporation_day</li>
  </ol>
 </ol>
