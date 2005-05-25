@@ -983,6 +983,8 @@ INSERT INTO translation_en VALUES ('haihdunta on hyvä','evaporation is good',200
 INSERT INTO translation_en VALUES ('haihdunta on erinomainen','evaporation is very good',20050504010459,'mheiskan');
 INSERT INTO translation_en VALUES ('metsäpalovaroitus on voimassa','forest fire warning is in effect',20050524203912,'mheiskan');
 INSERT INTO translation_en VALUES ('metsäpalovaroitus ei ole voimassa','forest fire warning is not in effect',20050524204027,'mheiskan');
+INSERT INTO translation_en VALUES ('luoto:lle','for Luoto',20050525100138,'mheiskan');
+INSERT INTO translation_en VALUES ('kruunupyy:lle','for Kruunupyy',20050525100145,'mheiskan');
 
 --
 -- Table structure for table `translation_fi`
@@ -1936,6 +1938,8 @@ INSERT INTO translation_fi VALUES ('haihdunta on hyvä','haihdunta on hyvä',20050
 INSERT INTO translation_fi VALUES ('haihdunta on erinomainen','haihdunta on erinomainen',20050504010431,'mheiskan');
 INSERT INTO translation_fi VALUES ('metsäpalovaroitus on voimassa','metsäpalovaroitus on voimassa',20050524203627,'mheiskan');
 INSERT INTO translation_fi VALUES ('metsäpalovaroitus ei ole voimassa','metsäpalovaroitus ei ole voimassa',20050524203820,'mheiskan');
+INSERT INTO translation_fi VALUES ('luoto:lle','Luodolle',20050525100048,'mheiskan');
+INSERT INTO translation_fi VALUES ('kruunupyy:lle','Kruunupyyhyn',20050525100108,'mheiskan');
 
 --
 -- Table structure for table `translation_sonera`
@@ -3256,4 +3260,6 @@ INSERT INTO translation_sv VALUES ('haihdunta on hyvä','avdunstning är bra',2005
 INSERT INTO translation_sv VALUES ('haihdunta on erinomainen','avdunstning är mycket bra',20050504010534,'mheiskan');
 INSERT INTO translation_sv VALUES ('metsäpalovaroitus on voimassa','varning fär skogsbrand är i kraft',20050524204117,'mheiskan');
 INSERT INTO translation_sv VALUES ('metsäpalovaroitus ei ole voimassa','varning för skogsbrand är inte i kraft',20050524204134,'mheiskan');
+INSERT INTO translation_sv VALUES ('luoto:lle','för Larsmo',20050525100210,'mheiskan');
+INSERT INTO translation_sv VALUES ('kruunupyy:lle','för Kronby',20050525100221,'mheiskan');
 
