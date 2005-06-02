@@ -31,7 +31,8 @@ namespace WeatherAnalysis
 	  WaveDirection,
 	  RoadWarning,
 	  ForestFireIndex,
-	  Evaporation
+	  Evaporation,
+	  DewPoint
 
 	}; // enum WeatherParameter
 

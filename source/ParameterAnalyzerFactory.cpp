@@ -108,7 +108,10 @@ namespace WeatherAnalysis
 		case Evaporation:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::evaporation",
 														 "Evaporation"));
-		  
+
+		case DewPoint:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::dewpoint",
+														 "DewPoint"));
 	  }
 
 	  // Should never reach this place
