@@ -967,7 +967,7 @@ INSERT INTO translation_en VALUES ('vuolijoki:lle','for Vuolijoki',2005042822461
 INSERT INTO translation_en VALUES ('ylamaa:lle','for Ylämaa',20050428224616,'mheiskan');
 INSERT INTO translation_en VALUES ('ylane:lle','for Yläne',20050428224616,'mheiskan');
 INSERT INTO translation_en VALUES ('yliharma:lle','for Ylihärmä',20050428224616,'mheiskan');
-INSERT INTO translation_en VALUES ('yli-ii:lle','for Yli-Ii',20050428224616,'mheiskan');
+INSERT INTO translation_en VALUES ('yliii:lle','for Yli-Ii',20050608193036,'mheiskan');
 INSERT INTO translation_en VALUES ('ylikiiminki:lle','for Ylikiiminki',20050428224616,'mheiskan');
 INSERT INTO translation_en VALUES ('ylistaro:lle','for Ylistaro',20050428224616,'mheiskan');
 INSERT INTO translation_en VALUES ('ylitornio:lle','for Ylitornio',20050428224616,'mheiskan');
@@ -1922,7 +1922,7 @@ INSERT INTO translation_fi VALUES ('vuolijoki:lle','Vuolijoelle',20050428224616,
 INSERT INTO translation_fi VALUES ('ylamaa:lle','Ylämaalle',20050428224616,'mheiskan');
 INSERT INTO translation_fi VALUES ('ylane:lle','Ylänteen kuntaan',20050428224616,'mheiskan');
 INSERT INTO translation_fi VALUES ('yliharma:lle','Ylihärmään',20050428224616,'mheiskan');
-INSERT INTO translation_fi VALUES ('yli-ii:lle','Yli-Iin kuntaan',20050428224616,'mheiskan');
+INSERT INTO translation_fi VALUES ('yliii:lle','Yli-Iin kuntaan',20050608193011,'mheiskan');
 INSERT INTO translation_fi VALUES ('ylikiiminki:lle','Ylikiiminkiin',20050428224616,'mheiskan');
 INSERT INTO translation_fi VALUES ('ylistaro:lle','Ylistaroon',20050428224616,'mheiskan');
 INSERT INTO translation_fi VALUES ('ylitornio:lle','Ylitornioon',20050428224616,'mheiskan');
@@ -3244,7 +3244,7 @@ INSERT INTO translation_sv VALUES ('vuolijoki:lle','för Vuolijoki',2005042822461
 INSERT INTO translation_sv VALUES ('ylamaa:lle','för Ylämaa',20050428224616,'mheiskan');
 INSERT INTO translation_sv VALUES ('ylane:lle','för Yläne',20050428224616,'mheiskan');
 INSERT INTO translation_sv VALUES ('yliharma:lle','för Ylihärmä',20050428224616,'mheiskan');
-INSERT INTO translation_sv VALUES ('yli-ii:lle','för Yli-Ii',20050428224616,'mheiskan');
+INSERT INTO translation_sv VALUES ('yliii:lle','för Yli-Ii',20050608193050,'mheiskan');
 INSERT INTO translation_sv VALUES ('ylikiiminki:lle','för Ylikiiminki',20050428224616,'mheiskan');
 INSERT INTO translation_sv VALUES ('ylistaro:lle','för Ylistaro',20050428224616,'mheiskan');
 INSERT INTO translation_sv VALUES ('ylitornio:lle','för Övertorneå',20050525104455,'mheiskan');
