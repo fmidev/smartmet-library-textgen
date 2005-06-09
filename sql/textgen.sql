@@ -788,7 +788,7 @@ INSERT INTO translation_en VALUES ('nivala:lle','for Nivala',20050428224616,'mhe
 INSERT INTO translation_en VALUES ('nokia:lle','for Nokia',20050428224616,'mheiskan');
 INSERT INTO translation_en VALUES ('noormarkku:lle','for Noormarkku',20050428224616,'mheiskan');
 INSERT INTO translation_en VALUES ('nousiainen:lle','for Nousiainen',20050428224616,'mheiskan');
-INSERT INTO translation_en VALUES ('nummi-pusula:lle','for Nummi-Pusula',20050428224616,'mheiskan');
+INSERT INTO translation_en VALUES ('nummipusula:lle','for Nummi-Pusula',20050609070259,'mheiskan');
 INSERT INTO translation_en VALUES ('nurmes:lle','for Nurmes',20050428224616,'mheiskan');
 INSERT INTO translation_en VALUES ('nurmijarvi:lle','for Nurmijärvi',20050428224616,'mheiskan');
 INSERT INTO translation_en VALUES ('nurmo:lle','for Nurmo',20050428224616,'mheiskan');
@@ -1743,7 +1743,7 @@ INSERT INTO translation_fi VALUES ('nivala:lle','Nivalaan',20050428224616,'mheis
 INSERT INTO translation_fi VALUES ('nokia:lle','Nokialle',20050428224616,'mheiskan');
 INSERT INTO translation_fi VALUES ('noormarkku:lle','Noormarkkuun',20050428224616,'mheiskan');
 INSERT INTO translation_fi VALUES ('nousiainen:lle','Nousiainesiin',20050428224616,'mheiskan');
-INSERT INTO translation_fi VALUES ('nummi-pusula:lle','Nummi-Pusulaan',20050428224616,'mheiskan');
+INSERT INTO translation_fi VALUES ('nummipusula:lle','Nummi-Pusulaan',20050609070215,'mheiskan');
 INSERT INTO translation_fi VALUES ('nurmes:lle','Nurmekselle',20050428224616,'mheiskan');
 INSERT INTO translation_fi VALUES ('nurmijarvi:lle','Nurmijärvelle',20050428224616,'mheiskan');
 INSERT INTO translation_fi VALUES ('nurmo:lle','Nurmoon',20050428224616,'mheiskan');
@@ -3065,7 +3065,7 @@ INSERT INTO translation_sv VALUES ('nivala:lle','för Nivala',20050428224616,'mhe
 INSERT INTO translation_sv VALUES ('nokia:lle','för Nokia',20050428224616,'mheiskan');
 INSERT INTO translation_sv VALUES ('noormarkku:lle','för Norrmark',20050525102316,'mheiskan');
 INSERT INTO translation_sv VALUES ('nousiainen:lle','för Nousis',20050525102320,'mheiskan');
-INSERT INTO translation_sv VALUES ('nummi-pusula:lle','för Nummi-Pusula',20050428224616,'mheiskan');
+INSERT INTO translation_sv VALUES ('nummipusula:lle','för Nummi-Pusula',20050609070235,'mheiskan');
 INSERT INTO translation_sv VALUES ('nurmes:lle','för Nurmes',20050428224616,'mheiskan');
 INSERT INTO translation_sv VALUES ('nurmijarvi:lle','för Nurmijärvi',20050428224616,'mheiskan');
 INSERT INTO translation_sv VALUES ('nurmo:lle','för Nurmo',20050428224616,'mheiskan');
