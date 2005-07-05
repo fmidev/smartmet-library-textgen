@@ -32,7 +32,8 @@ namespace WeatherAnalysis
 	  RoadWarning,
 	  ForestFireIndex,
 	  Evaporation,
-	  DewPoint
+	  DewPoint,
+	  GustSpeed
 
 	}; // enum WeatherParameter
 

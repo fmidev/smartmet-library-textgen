@@ -112,6 +112,10 @@ namespace WeatherAnalysis
 		case DewPoint:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::dewpoint",
 														 "DewPoint"));
+		case GustSpeed:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::gustspeed",
+														 "GustSpeed"));
+
 	  }
 
 	  // Should never reach this place
