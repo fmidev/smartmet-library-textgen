@@ -8,6 +8,10 @@
   <li>\ref page_header_until</li>
   <li>\ref page_header_from_until</li>
   <li>\ref page_header_several_days</li>
+  <li>\ref page_header_morning</li>
+  <li>\ref page_header_forenoon</li>
+  <li>\ref page_header_afternoon</li>
+  <li>\ref page_header_evening</li>
   <li>\ref page_header_report_time</li>
   <li>\ref page_header_report_area</li>
   <li>\ref page_header_report_location</li>
