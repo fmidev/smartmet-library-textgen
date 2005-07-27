@@ -275,6 +275,174 @@ namespace HeaderFactoryTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test HeaderFactory::create() with type "morning"
+   */
+  // ----------------------------------------------------------------------
+
+  void header_morning()
+  {
+	using namespace WeatherAnalysis;
+
+	string var = "variable";
+	NFmiSettings::Set(var+"::type","morning");
+	NFmiSettings::Set(var+"::weekdays","false");
+
+	WeatherArea area("25,60");
+	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,1,12));
+
+	string result;
+
+	result = require("fi",area,period,var,"Odotettavissa aamulla");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("sv",area,period,var,"Utsikter på morgonen");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("en",area,period,var,"Expected weather in the morning");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+	
+	NFmiSettings::Set(var+"::weekdays","true");
+
+	result = require("fi",area,period,var,"Odotettavissa sunnuntaina aamulla");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("sv",area,period,var,"Utsikter på söndag morgonen");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("en",area,period,var,"Expected weather on Sunday morning");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test HeaderFactory::create() with type "forenoon"
+   */
+  // ----------------------------------------------------------------------
+
+  void header_forenoon()
+  {
+	using namespace WeatherAnalysis;
+
+	string var = "variable";
+	NFmiSettings::Set(var+"::type","forenoon");
+	NFmiSettings::Set(var+"::weekdays","false");
+
+	WeatherArea area("25,60");
+	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,1,12));
+
+	string result;
+
+	result = require("fi",area,period,var,"Odotettavissa aamupäivällä");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("sv",area,period,var,"Utsikter på förmiddagen");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("en",area,period,var,"Expected weather in the forenoon");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+	
+	NFmiSettings::Set(var+"::weekdays","true");
+
+	result = require("fi",area,period,var,"Odotettavissa sunnuntaina aamupäivällä");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("sv",area,period,var,"Utsikter på söndag förmiddagen");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("en",area,period,var,"Expected weather on Sunday forenoon");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test HeaderFactory::create() with type "afternoon"
+   */
+  // ----------------------------------------------------------------------
+
+  void header_afternoon()
+  {
+	using namespace WeatherAnalysis;
+
+	string var = "variable";
+	NFmiSettings::Set(var+"::type","afternoon");
+	NFmiSettings::Set(var+"::weekdays","false");
+
+	WeatherArea area("25,60");
+	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,1,12));
+
+	string result;
+
+	result = require("fi",area,period,var,"Odotettavissa iltapäivällä");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("sv",area,period,var,"Utsikter på eftermiddagen");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("en",area,period,var,"Expected weather in the afternoon");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+	
+	NFmiSettings::Set(var+"::weekdays","true");
+
+	result = require("fi",area,period,var,"Odotettavissa sunnuntaina iltapäivällä");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("sv",area,period,var,"Utsikter på söndag eftermiddagen");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("en",area,period,var,"Expected weather on Sunday afternoon");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test HeaderFactory::create() with type "evening"
+   */
+  // ----------------------------------------------------------------------
+
+  void header_evening()
+  {
+	using namespace WeatherAnalysis;
+
+	string var = "variable";
+	NFmiSettings::Set(var+"::type","evening");
+	NFmiSettings::Set(var+"::weekdays","false");
+
+	WeatherArea area("25,60");
+	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,1,12));
+
+	string result;
+
+	result = require("fi",area,period,var,"Odotettavissa illalla");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("sv",area,period,var,"Utsikter på kvällen");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("en",area,period,var,"Expected weather in the evening");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+	
+	NFmiSettings::Set(var+"::weekdays","true");
+
+	result = require("fi",area,period,var,"Odotettavissa sunnuntaina illalla");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("sv",area,period,var,"Utsikter på söndag kvällen");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("en",area,period,var,"Expected weather on Sunday evening");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -297,6 +465,10 @@ namespace HeaderFactoryTest
 	  TEST(header_report_time);
 	  TEST(header_report_area);
 	  TEST(header_report_location);
+	  TEST(header_morning);
+	  TEST(header_forenoon);
+	  TEST(header_afternoon);
+	  TEST(header_evening);
 	}
 
   }; // class tests

@@ -284,6 +284,136 @@ namespace WeekdayToolsTest
 	TEST_PASSED();
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test WeekdayTools::on_weekday_morning()
+   */
+  // ----------------------------------------------------------------------
+
+  void on_weekday_morning()
+  {
+	using namespace TextGen;
+
+	if(WeekdayTools::on_weekday_morning(NFmiTime(2003,6,1)) != "7-aamulla")
+	  TEST_FAILED("June 1 2003 should return '7-aamulla'");
+	if(WeekdayTools::on_weekday_morning(NFmiTime(2003,6,2)) != "1-aamulla")
+	  TEST_FAILED("June 2 2003 should return '1-aamulla'");
+	if(WeekdayTools::on_weekday_morning(NFmiTime(2003,6,3)) != "2-aamulla")
+	  TEST_FAILED("June 3 2003 should return '2-aamulla'");
+	if(WeekdayTools::on_weekday_morning(NFmiTime(2003,6,4)) != "3-aamulla")
+	  TEST_FAILED("June 4 2003 should return '3-aamulla'");
+	if(WeekdayTools::on_weekday_morning(NFmiTime(2003,6,5)) != "4-aamulla")
+	  TEST_FAILED("June 5 2003 should return '4-aamulla'");
+	if(WeekdayTools::on_weekday_morning(NFmiTime(2003,6,6)) != "5-aamulla")
+	  TEST_FAILED("June 6 2003 should return '5-aamulla'");
+	if(WeekdayTools::on_weekday_morning(NFmiTime(2003,6,7)) != "6-aamulla")
+	  TEST_FAILED("June 7 2003 should return '6-aamulla'");
+	if(WeekdayTools::on_weekday_morning(NFmiTime(2003,6,8)) != "7-aamulla")
+	  TEST_FAILED("June 8 2003 should return '7-aamulla'");
+	if(WeekdayTools::on_weekday_morning(NFmiTime(2003,6,9)) != "1-aamulla")
+	  TEST_FAILED("June 9 2003 should return '1-aamulla'");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test WeekdayTools::on_weekday_forenoon()
+   */
+  // ----------------------------------------------------------------------
+
+  void on_weekday_forenoon()
+  {
+	using namespace TextGen;
+
+	if(WeekdayTools::on_weekday_forenoon(NFmiTime(2003,6,1)) != "7-aamupäivällä")
+	  TEST_FAILED("June 1 2003 should return '7-aamupäivällä'");
+	if(WeekdayTools::on_weekday_forenoon(NFmiTime(2003,6,2)) != "1-aamupäivällä")
+	  TEST_FAILED("June 2 2003 should return '1-aamupäivällä'");
+	if(WeekdayTools::on_weekday_forenoon(NFmiTime(2003,6,3)) != "2-aamupäivällä")
+	  TEST_FAILED("June 3 2003 should return '2-aamupäivällä'");
+	if(WeekdayTools::on_weekday_forenoon(NFmiTime(2003,6,4)) != "3-aamupäivällä")
+	  TEST_FAILED("June 4 2003 should return '3-aamupäivällä'");
+	if(WeekdayTools::on_weekday_forenoon(NFmiTime(2003,6,5)) != "4-aamupäivällä")
+	  TEST_FAILED("June 5 2003 should return '4-aamupäivällä'");
+	if(WeekdayTools::on_weekday_forenoon(NFmiTime(2003,6,6)) != "5-aamupäivällä")
+	  TEST_FAILED("June 6 2003 should return '5-aamupäivällä'");
+	if(WeekdayTools::on_weekday_forenoon(NFmiTime(2003,6,7)) != "6-aamupäivällä")
+	  TEST_FAILED("June 7 2003 should return '6-aamupäivällä'");
+	if(WeekdayTools::on_weekday_forenoon(NFmiTime(2003,6,8)) != "7-aamupäivällä")
+	  TEST_FAILED("June 8 2003 should return '7-aamupäivällä'");
+	if(WeekdayTools::on_weekday_forenoon(NFmiTime(2003,6,9)) != "1-aamupäivällä")
+	  TEST_FAILED("June 9 2003 should return '1-aamupäivällä'");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test WeekdayTools::on_weekday_afternoon()
+   */
+  // ----------------------------------------------------------------------
+
+  void on_weekday_afternoon()
+  {
+	using namespace TextGen;
+
+	if(WeekdayTools::on_weekday_afternoon(NFmiTime(2003,6,1)) != "7-iltapäivällä")
+	  TEST_FAILED("June 1 2003 should return '7-iltapäivällä'");
+	if(WeekdayTools::on_weekday_afternoon(NFmiTime(2003,6,2)) != "1-iltapäivällä")
+	  TEST_FAILED("June 2 2003 should return '1-iltapäivällä'");
+	if(WeekdayTools::on_weekday_afternoon(NFmiTime(2003,6,3)) != "2-iltapäivällä")
+	  TEST_FAILED("June 3 2003 should return '2-iltapäivällä'");
+	if(WeekdayTools::on_weekday_afternoon(NFmiTime(2003,6,4)) != "3-iltapäivällä")
+	  TEST_FAILED("June 4 2003 should return '3-iltapäivällä'");
+	if(WeekdayTools::on_weekday_afternoon(NFmiTime(2003,6,5)) != "4-iltapäivällä")
+	  TEST_FAILED("June 5 2003 should return '4-iltapäivällä'");
+	if(WeekdayTools::on_weekday_afternoon(NFmiTime(2003,6,6)) != "5-iltapäivällä")
+	  TEST_FAILED("June 6 2003 should return '5-iltapäivällä'");
+	if(WeekdayTools::on_weekday_afternoon(NFmiTime(2003,6,7)) != "6-iltapäivällä")
+	  TEST_FAILED("June 7 2003 should return '6-iltapäivällä'");
+	if(WeekdayTools::on_weekday_afternoon(NFmiTime(2003,6,8)) != "7-iltapäivällä")
+	  TEST_FAILED("June 8 2003 should return '7-iltapäivällä'");
+	if(WeekdayTools::on_weekday_afternoon(NFmiTime(2003,6,9)) != "1-iltapäivällä")
+	  TEST_FAILED("June 9 2003 should return '1-iltapäivällä'");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test WeekdayTools::on_weekday_evening()
+   */
+  // ----------------------------------------------------------------------
+
+  void on_weekday_evening()
+  {
+	using namespace TextGen;
+
+	if(WeekdayTools::on_weekday_evening(NFmiTime(2003,6,1)) != "7-illalla")
+	  TEST_FAILED("June 1 2003 should return '7-illalla'");
+	if(WeekdayTools::on_weekday_evening(NFmiTime(2003,6,2)) != "1-illalla")
+	  TEST_FAILED("June 2 2003 should return '1-illalla'");
+	if(WeekdayTools::on_weekday_evening(NFmiTime(2003,6,3)) != "2-illalla")
+	  TEST_FAILED("June 3 2003 should return '2-illalla'");
+	if(WeekdayTools::on_weekday_evening(NFmiTime(2003,6,4)) != "3-illalla")
+	  TEST_FAILED("June 4 2003 should return '3-illalla'");
+	if(WeekdayTools::on_weekday_evening(NFmiTime(2003,6,5)) != "4-illalla")
+	  TEST_FAILED("June 5 2003 should return '4-illalla'");
+	if(WeekdayTools::on_weekday_evening(NFmiTime(2003,6,6)) != "5-illalla")
+	  TEST_FAILED("June 6 2003 should return '5-illalla'");
+	if(WeekdayTools::on_weekday_evening(NFmiTime(2003,6,7)) != "6-illalla")
+	  TEST_FAILED("June 7 2003 should return '6-illalla'");
+	if(WeekdayTools::on_weekday_evening(NFmiTime(2003,6,8)) != "7-illalla")
+	  TEST_FAILED("June 8 2003 should return '7-illalla'");
+	if(WeekdayTools::on_weekday_evening(NFmiTime(2003,6,9)) != "1-illalla")
+	  TEST_FAILED("June 9 2003 should return '1-illalla'");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+
   //! The actual test driver
   class tests : public tframe::tests
   {
@@ -305,6 +435,10 @@ namespace WeekdayToolsTest
 	  TEST(from_weekday_evening);
 	  TEST(until_weekday_time);
 	  TEST(from_weekday_time);
+	  TEST(on_weekday_morning);
+	  TEST(on_weekday_forenoon);
+	  TEST(on_weekday_afternoon);
+	  TEST(on_weekday_evening);
 	}
 
   }; // class tests

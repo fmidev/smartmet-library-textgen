@@ -130,6 +130,38 @@ namespace StoryPhrasesTest
 	require("6-vastaisena yönä","lauantain vastaisena yönä");
 	require("7-vastaisena yönä","sunnuntain vastaisena yönä");
 
+	require("1-aamulla","maanantaina aamulla");
+	require("2-aamulla","tiistaina aamulla");
+	require("3-aamulla","keskiviikkona aamulla");
+	require("4-aamulla","torstaina aamulla");
+	require("5-aamulla","perjantaina aamulla");
+	require("6-aamulla","lauantaina aamulla");
+	require("7-aamulla","sunnuntaina aamulla");
+
+	require("1-aamupäivällä","maanantaina aamupäivällä");
+	require("2-aamupäivällä","tiistaina aamupäivällä");
+	require("3-aamupäivällä","keskiviikkona aamupäivällä");
+	require("4-aamupäivällä","torstaina aamupäivällä");
+	require("5-aamupäivällä","perjantaina aamupäivällä");
+	require("6-aamupäivällä","lauantaina aamupäivällä");
+	require("7-aamupäivällä","sunnuntaina aamupäivällä");
+
+	require("1-iltapäivällä","maanantaina iltapäivällä");
+	require("2-iltapäivällä","tiistaina iltapäivällä");
+	require("3-iltapäivällä","keskiviikkona iltapäivällä");
+	require("4-iltapäivällä","torstaina iltapäivällä");
+	require("5-iltapäivällä","perjantaina iltapäivällä");
+	require("6-iltapäivällä","lauantaina iltapäivällä");
+	require("7-iltapäivällä","sunnuntaina iltapäivällä");
+
+	require("1-illalla","maanantaina illalla");
+	require("2-illalla","tiistaina illalla");
+	require("3-illalla","keskiviikkona illalla");
+	require("4-illalla","torstaina illalla");
+	require("5-illalla","perjantaina illalla");
+	require("6-illalla","lauantaina illalla");
+	require("7-illalla","sunnuntaina illalla");
+
 	TEST_PASSED();
   }
 
