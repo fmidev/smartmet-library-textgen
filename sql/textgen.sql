@@ -1,6 +1,6 @@
 -- MySQL dump 9.11
 --
--- Host: mimir    Database: textgen
+-- Host: base    Database: textgen
 -- ------------------------------------------------------
 -- Server version	3.23.58
 
@@ -985,6 +985,34 @@ INSERT INTO translation_en VALUES ('metsäpalovaroitus on voimassa','forest fire 
 INSERT INTO translation_en VALUES ('metsäpalovaroitus ei ole voimassa','forest fire warning is not in effect',20050524204027,'mheiskan');
 INSERT INTO translation_en VALUES ('luoto:lle','for Luoto',20050525100138,'mheiskan');
 INSERT INTO translation_en VALUES ('kruunupyy:lle','for Kruunupyy',20050525100145,'mheiskan');
+INSERT INTO translation_en VALUES ('1-aamulla','on Monday morning',20050727121835,'mheiskan');
+INSERT INTO translation_en VALUES ('2-aamulla','on Tuesday morning',20050727121841,'mheiskan');
+INSERT INTO translation_en VALUES ('3-aamulla','on Wednesday morning',20050727121847,'mheiskan');
+INSERT INTO translation_en VALUES ('4-aamulla','on Thursday morning',20050727121854,'mheiskan');
+INSERT INTO translation_en VALUES ('5-aamulla','on Friday morning',20050727121900,'mheiskan');
+INSERT INTO translation_en VALUES ('6-aamulla','on Saturday morning',20050727121907,'mheiskan');
+INSERT INTO translation_en VALUES ('7-aamulla','on Sunday morning',20050727121914,'mheiskan');
+INSERT INTO translation_en VALUES ('1-aamupäivällä','on Monday forenoon',20050727121924,'mheiskan');
+INSERT INTO translation_en VALUES ('2-aamupäivällä','on Tuesday forenoon',20050727121931,'mheiskan');
+INSERT INTO translation_en VALUES ('3-aamupäivällä','on Wednesday forenoon',20050727121938,'mheiskan');
+INSERT INTO translation_en VALUES ('4-aamupäivällä','on Thursday forenoon',20050727121948,'mheiskan');
+INSERT INTO translation_en VALUES ('5-aamupäivällä','on Friday forenoon',20050727121955,'mheiskan');
+INSERT INTO translation_en VALUES ('6-aamupäivällä','on Saturday forenoon',20050727122003,'mheiskan');
+INSERT INTO translation_en VALUES ('7-aamupäivällä','on Sunday forenoon',20050727122012,'mheiskan');
+INSERT INTO translation_en VALUES ('1-iltapäivällä','on Monday afternoon',20050727122020,'mheiskan');
+INSERT INTO translation_en VALUES ('2-iltapäivällä','on Tuesday afternoon',20050727122047,'mheiskan');
+INSERT INTO translation_en VALUES ('3-iltapäivällä','on Wednesday afternoon',20050727122055,'mheiskan');
+INSERT INTO translation_en VALUES ('4-iltapäivällä','on Thursday afternoon',20050727122104,'mheiskan');
+INSERT INTO translation_en VALUES ('5-iltapäivällä','on Friday afternoon',20050727122116,'mheiskan');
+INSERT INTO translation_en VALUES ('6-iltapäivällä','on Saturday afternoon',20050727122124,'mheiskan');
+INSERT INTO translation_en VALUES ('7-iltapäivällä','on Sunday afternoon',20050727122132,'mheiskan');
+INSERT INTO translation_en VALUES ('1-illalla','on Monday evening',20050727122138,'mheiskan');
+INSERT INTO translation_en VALUES ('2-illalla','on Tuesday evening',20050727122145,'mheiskan');
+INSERT INTO translation_en VALUES ('3-illalla','on Wednesday evening',20050727122153,'mheiskan');
+INSERT INTO translation_en VALUES ('4-illalla','on Thursday evening',20050727122159,'mheiskan');
+INSERT INTO translation_en VALUES ('5-illalla','on Friday evening',20050727122207,'mheiskan');
+INSERT INTO translation_en VALUES ('6-illalla','on Saturday evening',20050727122213,'mheiskan');
+INSERT INTO translation_en VALUES ('7-illalla','on Sunday evening',20050727122220,'mheiskan');
 
 --
 -- Table structure for table `translation_fi`
@@ -1940,6 +1968,34 @@ INSERT INTO translation_fi VALUES ('metsäpalovaroitus on voimassa','metsäpalovar
 INSERT INTO translation_fi VALUES ('metsäpalovaroitus ei ole voimassa','metsäpalovaroitus ei ole voimassa',20050524203820,'mheiskan');
 INSERT INTO translation_fi VALUES ('luoto:lle','Luodolle',20050525100048,'mheiskan');
 INSERT INTO translation_fi VALUES ('kruunupyy:lle','Kruunupyyhyn',20050525100108,'mheiskan');
+INSERT INTO translation_fi VALUES ('1-aamulla','maanantaina aamulla',20050727121304,'mheiskan');
+INSERT INTO translation_fi VALUES ('2-aamulla','tiistaina aamulla',20050727121311,'mheiskan');
+INSERT INTO translation_fi VALUES ('3-aamulla','keskiviikkona aamulla',20050727121345,'mheiskan');
+INSERT INTO translation_fi VALUES ('4-aamulla','torstaina aamulla',20050727121351,'mheiskan');
+INSERT INTO translation_fi VALUES ('5-aamulla','perjantaina aamulla',20050727121358,'mheiskan');
+INSERT INTO translation_fi VALUES ('6-aamulla','lauantaina aamulla',20050727121406,'mheiskan');
+INSERT INTO translation_fi VALUES ('7-aamulla','sunnuntaina aamulla',20050727121429,'mheiskan');
+INSERT INTO translation_fi VALUES ('1-aamupäivällä','maanantaina aamupäivällä',20050727121441,'mheiskan');
+INSERT INTO translation_fi VALUES ('2-aamupäivällä','tiistaina aamupäivällä',20050727121449,'mheiskan');
+INSERT INTO translation_fi VALUES ('3-aamupäivällä','keskiviikkona aamupäivällä',20050727121500,'mheiskan');
+INSERT INTO translation_fi VALUES ('4-aamupäivällä','torstaina aamupäivällä',20050727121510,'mheiskan');
+INSERT INTO translation_fi VALUES ('5-aamupäivällä','perjantaina aamupäivällä',20050727121520,'mheiskan');
+INSERT INTO translation_fi VALUES ('6-aamupäivällä','lauantaina aamupäivällä',20050727121531,'mheiskan');
+INSERT INTO translation_fi VALUES ('7-aamupäivällä','sunnuntaina aamupäivällä',20050727122835,'mheiskan');
+INSERT INTO translation_fi VALUES ('1-iltapäivällä','maanantaina iltapäivällä',20050727121717,'mheiskan');
+INSERT INTO translation_fi VALUES ('2-iltapäivällä','tiistaina iltapäivällä',20050727121710,'mheiskan');
+INSERT INTO translation_fi VALUES ('3-iltapäivällä','keskiviikkona iltapäivällä',20050727121705,'mheiskan');
+INSERT INTO translation_fi VALUES ('4-iltapäivällä','torstaina iltapäivällä',20050727121659,'mheiskan');
+INSERT INTO translation_fi VALUES ('5-iltapäivällä','perjantaina iltapäivällä',20050727121654,'mheiskan');
+INSERT INTO translation_fi VALUES ('6-iltapäivällä','lauantaina iltapäivällä',20050727121638,'mheiskan');
+INSERT INTO translation_fi VALUES ('7-iltapäivällä','sunnuntaina iltapäivällä',20050727121649,'mheiskan');
+INSERT INTO translation_fi VALUES ('1-illalla','maanantaina illalla',20050727121729,'mheiskan');
+INSERT INTO translation_fi VALUES ('2-illalla','tiistaina illalla',20050727121735,'mheiskan');
+INSERT INTO translation_fi VALUES ('3-illalla','keskiviikkona illalla',20050727121742,'mheiskan');
+INSERT INTO translation_fi VALUES ('4-illalla','torstaina illalla',20050727121749,'mheiskan');
+INSERT INTO translation_fi VALUES ('5-illalla','perjantaina illalla',20050727121756,'mheiskan');
+INSERT INTO translation_fi VALUES ('6-illalla','lauantaina illalla',20050727121802,'mheiskan');
+INSERT INTO translation_fi VALUES ('7-illalla','sunnuntaina illalla',20050727121809,'mheiskan');
 
 --
 -- Table structure for table `translation_sonera`
@@ -3262,4 +3318,32 @@ INSERT INTO translation_sv VALUES ('metsäpalovaroitus on voimassa','varning fär 
 INSERT INTO translation_sv VALUES ('metsäpalovaroitus ei ole voimassa','varning för skogsbrand är inte i kraft',20050524204134,'mheiskan');
 INSERT INTO translation_sv VALUES ('luoto:lle','för Larsmo',20050525100210,'mheiskan');
 INSERT INTO translation_sv VALUES ('kruunupyy:lle','för Kronby',20050525100221,'mheiskan');
+INSERT INTO translation_sv VALUES ('1-aamulla','på måndag morgonen',20050727122308,'mheiskan');
+INSERT INTO translation_sv VALUES ('2-aamulla','på tisdag morgonen',20050727122315,'mheiskan');
+INSERT INTO translation_sv VALUES ('3-aamulla','på onsdag morgonen',20050727122326,'mheiskan');
+INSERT INTO translation_sv VALUES ('4-aamulla','på torsdag morgonen',20050727122335,'mheiskan');
+INSERT INTO translation_sv VALUES ('5-aamulla','på fredag morgonen',20050727122344,'mheiskan');
+INSERT INTO translation_sv VALUES ('6-aamulla','på lördag morgonen',20050727122351,'mheiskan');
+INSERT INTO translation_sv VALUES ('7-aamulla','på söndag morgonen',20050727122359,'mheiskan');
+INSERT INTO translation_sv VALUES ('1-aamupäivällä','på måndag förmiddagen',20050727122423,'mheiskan');
+INSERT INTO translation_sv VALUES ('2-aamupäivällä','på tisdag förmiddagen',20050727122436,'mheiskan');
+INSERT INTO translation_sv VALUES ('3-aamupäivällä','på onsdag förmiddagen',20050727122446,'mheiskan');
+INSERT INTO translation_sv VALUES ('4-aamupäivällä','på torsdag förmiddagen',20050727122455,'mheiskan');
+INSERT INTO translation_sv VALUES ('5-aamupäivällä','på fredag förmiddagen',20050727122505,'mheiskan');
+INSERT INTO translation_sv VALUES ('6-aamupäivällä','på lördag förmiddagen',20050727122516,'mheiskan');
+INSERT INTO translation_sv VALUES ('7-aamupäivällä','på söndag förmiddagen',20050727122526,'mheiskan');
+INSERT INTO translation_sv VALUES ('1-iltapäivällä','på måndag eftermiddagen',20050727122538,'mheiskan');
+INSERT INTO translation_sv VALUES ('2-iltapäivällä','på tisdag eftermiddagen',20050727122549,'mheiskan');
+INSERT INTO translation_sv VALUES ('3-iltapäivällä','på onsdag förmiddagen',20050727122557,'mheiskan');
+INSERT INTO translation_sv VALUES ('4-iltapäivällä','på torsdag förmiddagen',20050727122606,'mheiskan');
+INSERT INTO translation_sv VALUES ('5-iltapäivällä','på fredag förmiddagen',20050727122617,'mheiskan');
+INSERT INTO translation_sv VALUES ('6-iltapäivällä','på lördag förmiddagen',20050727122627,'mheiskan');
+INSERT INTO translation_sv VALUES ('7-iltapäivällä','på söndag eftermiddagen',20050727123121,'mheiskan');
+INSERT INTO translation_sv VALUES ('1-illalla','på måndag kvällen',20050727122646,'mheiskan');
+INSERT INTO translation_sv VALUES ('2-illalla','på tisdag kvällen',20050727122657,'mheiskan');
+INSERT INTO translation_sv VALUES ('3-illalla','på onsdag kvällen',20050727122705,'mheiskan');
+INSERT INTO translation_sv VALUES ('4-illalla','på torsdag kvällen',20050727122713,'mheiskan');
+INSERT INTO translation_sv VALUES ('5-illalla','på fredag kvällen',20050727122720,'mheiskan');
+INSERT INTO translation_sv VALUES ('6-illalla','på lördag kvällen',20050727122727,'mheiskan');
+INSERT INTO translation_sv VALUES ('7-illalla','på söndag kvällen',20050727122734,'mheiskan');
 
