@@ -38,4 +38,4 @@ MySQLDictionary.o: MySQLDictionary.cpp
 	$(CC) -Wno-deprecated $(INCLUDES) -c -o obj/$@ $<
 
 mysqldump:
-	mysqldump -h mimir -u textgen --password=w1w2w3 textgen > sql/textgen.sql
+	mysqldump -h base -u textgen --password=w1w2w3 textgen > sql/textgen.sql
