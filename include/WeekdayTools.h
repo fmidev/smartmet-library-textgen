@@ -27,6 +27,10 @@ namespace TextGen
 	const std::string from_weekday_morning(const NFmiTime & theTime);
 	const std::string from_weekday_evening(const NFmiTime & theTime);
 	const std::string from_weekday_time(const NFmiTime & theTime);
+	const std::string on_weekday_morning(const NFmiTime & theTime);
+	const std::string on_weekday_forenoon(const NFmiTime & theTime);
+	const std::string on_weekday_afternoon(const NFmiTime & theTime);
+	const std::string on_weekday_evening(const NFmiTime & theTime);
 
   } // namespace WeekdayTools
 } // namespace TextGen

@@ -201,6 +201,70 @@ namespace TextGen
 		}
 	}
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return the "N-aamulla" phrase
+	 *
+	 * \param theTime The time
+	 * \return The "N-aamulla" phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	const string on_weekday_morning(const NFmiTime & theTime)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-aamulla");
+	  return out;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return the "N-aamupäivällä" phrase
+	 *
+	 * \param theTime The time
+	 * \return The "N-aamupäivällä" phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	const string on_weekday_forenoon(const NFmiTime & theTime)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-aamupäivällä");
+	  return out;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return the "N-iltapäivällä" phrase
+	 *
+	 * \param theTime The time
+	 * \return The "N-iltapäivällä" phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	const string on_weekday_afternoon(const NFmiTime & theTime)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-iltapäivällä");
+	  return out;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return the "N-illalla" phrase
+	 *
+	 * \param theTime The time
+	 * \return The "N-illalla" phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	const string on_weekday_evening(const NFmiTime & theTime)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-illalla");
+	  return out;
+	}
+
 
   } // namespace WeekdayTools
 } // namespace TextGen
