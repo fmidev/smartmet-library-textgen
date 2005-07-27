@@ -247,6 +247,142 @@ namespace
 	return header;
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return header of type "Odotettavissa maanantaina aamulla"
+   *
+   * \param thePeriod The weather period
+   * \param theVariable The variable for extra settings
+   * \return The header
+   */
+  // ----------------------------------------------------------------------
+
+  TextGen::Header header_morning(const WeatherPeriod & thePeriod,
+								 const string & theVariable)
+  {
+	MessageLogger log("header_morning");
+	using namespace TextGen;
+	Header header;
+
+	const bool weekdays = Settings::optional_bool(theVariable+"::weekdays",false);
+
+	if(!weekdays)
+	  {
+		header << "odotettavissa"
+			   << "aamulla";
+	  }
+	else
+	  {
+		header << "odotettavissa"
+			   << WeekdayTools::on_weekday_morning(thePeriod.localStartTime());
+	  }
+
+	log << header;
+	return header;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return header of type "Odotettavissa maanantaina aamupäivällä"
+   *
+   * \param thePeriod The weather period
+   * \param theVariable The variable for extra settings
+   * \return The header
+   */
+  // ----------------------------------------------------------------------
+
+  TextGen::Header header_forenoon(const WeatherPeriod & thePeriod,
+								  const string & theVariable)
+  {
+	MessageLogger log("header_forenoon");
+	using namespace TextGen;
+	Header header;
+
+	const bool weekdays = Settings::optional_bool(theVariable+"::weekdays",false);
+
+	if(!weekdays)
+	  {
+		header << "odotettavissa"
+			   << "aamupäivällä";
+	  }
+	else
+	  {
+		header << "odotettavissa"
+			   << WeekdayTools::on_weekday_forenoon(thePeriod.localStartTime());
+	  }
+
+	log << header;
+	return header;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return header of type "Odotettavissa maanantaina iltapäivällä"
+   *
+   * \param thePeriod The weather period
+   * \param theVariable The variable for extra settings
+   * \return The header
+   */
+  // ----------------------------------------------------------------------
+
+  TextGen::Header header_afternoon(const WeatherPeriod & thePeriod,
+								   const string & theVariable)
+  {
+	MessageLogger log("header_afternoon");
+	using namespace TextGen;
+	Header header;
+
+	const bool weekdays = Settings::optional_bool(theVariable+"::weekdays",false);
+
+	if(!weekdays)
+	  {
+		header << "odotettavissa"
+			   << "iltapäivällä";
+	  }
+	else
+	  {
+		header << "odotettavissa"
+			   << WeekdayTools::on_weekday_afternoon(thePeriod.localStartTime());
+	  }
+
+	log << header;
+	return header;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return header of type "Odotettavissa maanantaina illalla"
+   *
+   * \param thePeriod The weather period
+   * \param theVariable The variable for extra settings
+   * \return The header
+   */
+  // ----------------------------------------------------------------------
+
+  TextGen::Header header_evening(const WeatherPeriod & thePeriod,
+								 const string & theVariable)
+  {
+	MessageLogger log("header_evening");
+	using namespace TextGen;
+	Header header;
+
+	const bool weekdays = Settings::optional_bool(theVariable+"::weekdays",false);
+
+	if(!weekdays)
+	  {
+		header << "odotettavissa"
+			   << "illalla";
+	  }
+	else
+	  {
+		header << "odotettavissa"
+			   << WeekdayTools::on_weekday_evening(thePeriod.localStartTime());
+	  }
+
+	log << header;
+	return header;
+  }
+
 } // namespace anonymous
 
 // ======================================================================
@@ -295,6 +431,14 @@ namespace TextGen
 		return header_report_time(theArea,thePeriod,theVariable);
 	  if(type == "report_location")
 		return header_report_location(theArea,thePeriod,theVariable);
+	  if(type == "morning")
+		return header_morning(thePeriod,theVariable);
+	  if(type == "forenoon")
+		return header_forenoon(thePeriod,theVariable);
+	  if(type == "afternoon")
+		return header_afternoon(thePeriod,theVariable);
+	  if(type == "evening")
+		return header_evening(thePeriod,theVariable);
 
 	  throw TextGenError("HeaderFactory does not recognize header type "+type);
 	}
