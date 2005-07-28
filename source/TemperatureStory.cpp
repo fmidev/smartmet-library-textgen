@@ -84,6 +84,8 @@ namespace TextGen
 	  return true;
 	if(theName == "temperature_day")
 	  return true;
+	if(theName == "temperature_range")
+	  return true;
 	return false;
   }
   
