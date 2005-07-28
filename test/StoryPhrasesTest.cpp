@@ -729,6 +729,21 @@ namespace StoryPhrasesTest
 	TEST_PASSED();
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief PressureStory::mean requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void pressure_mean()
+  {
+	require("paine");
+	require("on");
+	require("hehtopascalia");
+
+	TEST_PASSED();
+  }
+
   //! The actual test driver
   class tests : public tframe::tests
   {
@@ -774,6 +789,8 @@ namespace StoryPhrasesTest
 
 	  TEST(roadtemperature_daynightranges);
 	  TEST(roadcondition_overview);
+
+	  TEST(pressure_mean);
 
 	}
 
