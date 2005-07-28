@@ -199,6 +199,23 @@ namespace StoryPhrasesTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief DewPointStory::range() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void dewpoint_range()
+  {
+	require("kastepiste");
+	require("on");
+	require("noin");
+	require("astetta");
+
+	TEST_PASSED();
+
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief TemperatureStory::meanmax() requirements
    */
   // ----------------------------------------------------------------------
@@ -720,6 +737,8 @@ namespace StoryPhrasesTest
 	  TEST(temperature_weekly_averages);
 	  TEST(temperature_weekly_averages_trend);
 	  TEST(temperature_range);
+
+	  TEST(dewpoint_range);
 
 	  TEST(precipitation_total);
 	  TEST(precipitation_range);
