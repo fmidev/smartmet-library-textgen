@@ -1,0 +1,37 @@
+/*!
+
+\page page_story_wind_range Tarina "wind_range"
+
+\c wind_range tarina on muotoa
+
+  -# "[Pohjoistuulta] X metriä sekunnissa".
+  -# "[Pohjoistuulta] X...Y metriä sekunnissa".
+
+Fraasin "pohjoistuulta" kohdalle sijoitetaan dataan sopiva fraasi
+muotoa
+
+  -# "pohjoistuulta"
+  -# "pohjoisen puoleista tuulta"
+  -# "suunnaltaan vaihtelevaa tuulta"
+
+Tarinaan liittyviä asetuksia ovat
+\code
+textgen::[kappale]::story::wind_range::mininterval = [1-]
+textgen::[kappale]::story::wind_range::direction::accurate (=22.5)
+textgen::[kappale]::story::wind_range::direction::variable (=45)
+\endcode
+
+Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
+\code
+textgen::[kappale]::story::wind_range::fake::wspd::minimum = [result]
+textgen::[kappale]::story::wind_range::fake::wspd::maximum = [result]
+textgen::[kappale]::story::wind_range::fake::wspd::mean = [result]
+
+textgen::[kappale]::story::wind_range::fake::wdir::mean = [result]
+textgen::[kappale]::story::wind_range::fake::wdir::sdev = [result]
+\endcode
+
+KESKEN KESKEN KESKEN KESKEN KESKEN KESKEN KESKEN KESKEN KESKEN KESKEN 
+
+*/
+
