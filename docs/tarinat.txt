@@ -17,6 +17,10 @@
  <li>\ref page_story_temperature_weekly_averages</li>
  <li>\ref page_story_temperature_weekly_averages_trend (puuttuu)</li>
  </ol>
+<li>\ref sec_dewpointstory</li>
+<ol>
+<li>\ref page_story_dewpoint_range</li>
+</ol>
 <li>\ref sec_precipitationstory</li>
  <ol>
  <li>\ref page_story_precipitation_total</li>
@@ -55,6 +59,7 @@
  <ol>
  <li>\ref page_story_relativehumidity_day</li>
  <li>\ref page_story_relativehumidity_lowest</li>
+ <li>\ref page_story_relativehumidity_range</li>
  </ol>
 <li>\ref sec_roadstory</li>
  <ol>
@@ -66,6 +71,11 @@
  <li>\ref page_story_forestfirewarning_county</li>
  <li>\ref page_story_forestfireindex_twodays</li>
  <li>\ref page_story_evaporation_day</li>
+ </ol>
+</ol>
+<li>\ref sec_pressurestory</li>
+ <ol>
+ <li>\ref page_story_pressure_mean</li>
  </ol>
 </ol>
 
