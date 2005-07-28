@@ -90,7 +90,7 @@ Oletusarvot on annettu suluissa.
 
 Suunnan fraasi valitaan seuraavasti
 
-  -# Jos laatu >= \c accurate, "N-tuulta"
+  -# Jos laatu < \c accurate, "N-tuulta"
   -# Jos laatu >= \c variable, "N-puoleista tuulta"
   -# Muutoin "suunnaltaan vaihtelevaa tuulta"
 
