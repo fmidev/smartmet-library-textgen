@@ -578,6 +578,75 @@ namespace TemperatureStoryTest
 	TEST_PASSED();
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test TemperatureStory::range()
+   */
+  // ----------------------------------------------------------------------
+
+  void temperature_range()
+  {
+	using namespace std;
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	WeatherArea area("25,60");
+	const string fun = "temperature_range";
+
+	NFmiSettings::Set("range::mininterval","2");
+	NFmiSettings::Set("range::always_interval_zero","true");
+
+	NFmiTime time1(2003,6,1);
+	NFmiTime time2(2003,6,2);
+	WeatherPeriod period(time1,time2);
+	TemperatureStory story(time1,sources,area,period,"range");
+	
+	NFmiSettings::Set("range::fake::minimum","5,0");
+	NFmiSettings::Set("range::fake::mean","5,0");
+	NFmiSettings::Set("range::fake::maximum","5,0");
+	require(story,"fi",fun,"Lämpötila on noin 5 astetta.");
+	require(story,"sv",fun,"Temperatur är cirka 5 grader.");
+	require(story,"en",fun,"Temperature is about 5 degrees.");
+	
+	NFmiSettings::Set("range::fake::minimum","5,0");
+	NFmiSettings::Set("range::fake::mean","6,0");
+	NFmiSettings::Set("range::fake::maximum","6,0");
+	require(story,"fi",fun,"Lämpötila on noin 6 astetta.");
+	require(story,"sv",fun,"Temperatur är cirka 6 grader.");
+	require(story,"en",fun,"Temperature is about 6 degrees.");
+	
+	NFmiSettings::Set("range::fake::minimum","5,0");
+	NFmiSettings::Set("range::fake::mean","6,0");
+	NFmiSettings::Set("range::fake::maximum","7,0");
+	require(story,"fi",fun,"Lämpötila on 5...7 astetta.");
+	require(story,"sv",fun,"Temperatur är 5...7 grader.");
+	require(story,"en",fun,"Temperature is 5...7 degrees.");
+	
+	NFmiSettings::Set("range::fake::minimum","0,0");
+	NFmiSettings::Set("range::fake::mean","0,0");
+	NFmiSettings::Set("range::fake::maximum","1,0");
+	require(story,"fi",fun,"Lämpötila on 0...1 astetta.");
+	require(story,"sv",fun,"Temperatur är 0...1 grader.");
+	require(story,"en",fun,"Temperature is 0...1 degrees.");
+	
+	NFmiSettings::Set("range::fake::minimum","-1,0");
+	NFmiSettings::Set("range::fake::mean","0,0");
+	NFmiSettings::Set("range::fake::maximum","0,0");
+	require(story,"fi",fun,"Lämpötila on -1...0 astetta.");
+	require(story,"sv",fun,"Temperatur är -1...0 grader.");
+	require(story,"en",fun,"Temperature is -1...0 degrees.");
+	
+	NFmiSettings::Set("range::fake::minimum","-1,0");
+	NFmiSettings::Set("range::fake::mean","0,0");
+	NFmiSettings::Set("range::fake::maximum","1,0");
+	require(story,"fi",fun,"Lämpötila on -1...1 astetta.");
+	require(story,"sv",fun,"Temperatur är -1...1 grader.");
+	require(story,"en",fun,"Temperature is -1...1 degrees.");
+
+	TEST_PASSED();
+
+  }
 
   // ----------------------------------------------------------------------
   /*!
@@ -603,6 +672,7 @@ namespace TemperatureStoryTest
 	  TEST(temperature_dailymax);
 	  TEST(temperature_weekly_minmax);
 	  TEST(temperature_weekly_averages);
+	  TEST(temperature_range);
 	}
 
   }; // class tests

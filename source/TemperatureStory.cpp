@@ -116,6 +116,8 @@ namespace TextGen
 	  return weekly_averages();
 	if(theName == "temperature_day")
 	  return day();
+	if(theName == "temperature_range")
+	  return range();
 
 	throw TextGenError("TemperatureStory cannot make story "+theName);
 
