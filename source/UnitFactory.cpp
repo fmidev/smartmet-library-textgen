@@ -28,21 +28,26 @@
  * <tr>
  * <td>DegreesCelsius</td>
  * <td>textgen::units::celsius::format</td>
- * <td>phrase/SI</td>
+ * <td>phrase/SI/none</td>
  * </tr>
  * <tr>
  * <td>MetersPerSecond</td>
  * <td>textgen::units::meterspersecond::format</td>
- * <td>phrase/SI</td>
+ * <td>phrase/SI/none</td>
  * </tr>
  * <td>Millimeters</td>
  * <td>textgen::units::millimeters::format</td>
- * <td>phrase/SI</td>
+ * <td>phrase/SI/none</td>
  * </tr>
  * <tr>
  * <td>Percent</td>
  * <td>textgen::units::percent::format</td>
- * <td>phrase/SI</td>
+ * <td>phrase/SI/none</td>
+ * </tr>
+ * <tr>
+ * <td>HectoPascal</td>
+ * <td>textgen::units::hectopascal::format</td>
+ * <td>phrase/SI/none</td>
  * </tr>
  * </table>
  */
@@ -83,6 +88,8 @@ namespace
 	  *sentence << Delimiter("\260C");
 	else if(opt == "phrase")
 	  *sentence << "astetta";
+	else if(opt == "none")
+	  ;
 	else
 	  throw TextGenError("Unknown format "+opt+" in variable "+var);
 
@@ -111,6 +118,8 @@ namespace
 	  *sentence << "m/s";
 	else if(opt == "phrase")
 	  *sentence << "metriä sekunnissa";
+	else if(opt == "none")
+	  ;
 	else
 	  throw TextGenError("Unknown format "+opt+" in variable "+var);
 
@@ -138,6 +147,8 @@ namespace
 	  *sentence << Delimiter("mm");
 	else if(opt == "phrase")
 	  *sentence << "millimetriä";
+	else if(opt == "none")
+	  ;
 	else
 	  throw TextGenError("Unknown format "+opt+" in variable "+var);
 
@@ -165,6 +176,36 @@ namespace
 	  *sentence << Delimiter("%");
 	else if(opt == "phrase")
 	  *sentence << "prosenttia";
+	else if(opt == "none")
+	  ;
+	else
+	  throw TextGenError("Unknown format "+opt+" in variable "+var);
+	return sentence;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the HectoPascal sentence
+   *
+   * \return The sentence
+   */
+  // ----------------------------------------------------------------------
+
+  boost::shared_ptr<TextGen::Sentence> hectopascal()
+  {
+	using namespace TextGen;
+
+	const string var = "textgen::units::hectopascal::format";
+	const string opt = Settings::optional_string(var,"SI");
+
+	shared_ptr<Sentence> sentence(new Sentence);
+
+	if(opt == "SI")
+	  *sentence << Delimiter("hPa");
+	else if(opt == "phrase")
+	  *sentence << "hehtopascalia";
+	else if(opt == "none")
+	  ;
 	else
 	  throw TextGenError("Unknown format "+opt+" in variable "+var);
 	return sentence;
@@ -200,6 +241,8 @@ namespace TextGen
 		  return millimeters();
 		case Percent:
 		  return percent();
+		case HectoPascal:
+		  return hectopascal();
 		}
 
 	  throw TextGenError("UnitFactory::create failed - unknown unit");

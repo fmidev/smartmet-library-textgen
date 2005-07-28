@@ -20,6 +20,7 @@
 #include "FrostStory.h"
 #include "Paragraph.h"
 #include "PrecipitationStory.h"
+#include "PressureStory.h"
 #include "RelativeHumidityStory.h"
 #include "RoadStory.h"
 #include "TemperatureStory.h"
@@ -122,6 +123,12 @@ namespace TextGen
 	  if(DewPointStory::hasStory(theName))
 		{
 		  DewPointStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
+		  return story.makeStory(theName);
+		}
+
+	  if(PressureStory::hasStory(theName))
+		{
+		  PressureStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 

@@ -116,6 +116,10 @@ namespace WeatherAnalysis
 		  return ReturnType(new RegularParameterAnalyzer("textgen::gustspeed",
 														 "GustSpeed"));
 
+		case Pressure:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::pressure",
+														 "Pressure"));
+
 	  }
 
 	  // Should never reach this place

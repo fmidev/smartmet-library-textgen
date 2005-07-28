@@ -43,6 +43,11 @@ namespace UnitFactoryTest
 	unit = create(DegreesCelsius);
 	if(unit->realize(formatter) != "Astetta.")
 	  TEST_FAILED("create() failed to realize Astetta.");
+
+	NFmiSettings::Set("textgen::units::celsius::format","none");
+	unit = create(DegreesCelsius);
+	if(unit->realize(formatter) != "")
+	  TEST_FAILED("create() failed to realize empty celsius.");
 	
 	TEST_PASSED();
 
@@ -77,6 +82,11 @@ namespace UnitFactoryTest
 	if(unit->realize(formatter) != "Metriä sekunnissa.")
 	  TEST_FAILED("create() failed to realize Metriä sekunnissa.");
 	
+	NFmiSettings::Set("textgen::units::meterspersecond::format","none");
+	unit = create(MetersPerSecond);
+	if(unit->realize(formatter) != "")
+	  TEST_FAILED("create() failed to realize empty meterspersecond.");
+	
 	TEST_PASSED();
 
   }
@@ -109,6 +119,11 @@ namespace UnitFactoryTest
 	unit = create(Millimeters);
 	if(unit->realize(formatter) != "Millimetriä.")
 	  TEST_FAILED("create() failed to realize Millimetriä.");
+
+	NFmiSettings::Set("textgen::units::millimeters::format","none");
+	unit = create(Millimeters);
+	if(unit->realize(formatter) != "")
+	  TEST_FAILED("create() failed to realize empty millimeters.");
 	
 	TEST_PASSED();
 
@@ -142,6 +157,49 @@ namespace UnitFactoryTest
 	unit = create(Percent);
 	if(unit->realize(formatter) != "Prosenttia.")
 	  TEST_FAILED("create() failed to realize Prosenttia.");
+
+	NFmiSettings::Set("textgen::units::percent::format","none");
+	unit = create(Percent);
+	if(unit->realize(formatter) != "")
+	  TEST_FAILED("create() failed to realize empty percent.");
+	
+	TEST_PASSED();
+
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test UnitFactory::create(HectoPascal)
+   */
+  // ----------------------------------------------------------------------
+
+  void hectopascal()
+  {
+	using namespace TextGen;
+	using namespace UnitFactory;
+
+	shared_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
+	finnish->init("fi");
+
+	PlainTextFormatter formatter;
+	formatter.dictionary(finnish);
+
+	shared_ptr<Sentence> unit;
+
+	NFmiSettings::Set("textgen::units::hectopascal::format","SI");
+	unit = create(HectoPascal);
+	if(unit->realize(formatter) != "HPa.")
+	  TEST_FAILED("create() failed to realize hPa");
+
+	NFmiSettings::Set("textgen::units::hectopascal::format","phrase");
+	unit = create(HectoPascal);
+	if(unit->realize(formatter) != "Hehtopascalia.")
+	  TEST_FAILED("create() failed to realize hehtopascalia.");
+
+	NFmiSettings::Set("textgen::units::hectopascal::format","none");
+	unit = create(HectoPascal);
+	if(unit->realize(formatter) != "")
+	  TEST_FAILED("create() failed to realize empty hehtopascal.");
 	
 	TEST_PASSED();
 
@@ -163,6 +221,7 @@ namespace UnitFactoryTest
 	  TEST(meterspersecond);
 	  TEST(millimeters);
 	  TEST(percent);
+	  TEST(hectopascal);
 	}
 
   }; // class tests

@@ -19,7 +19,8 @@ namespace TextGen
 	  DegreesCelsius,
 	  MetersPerSecond,
 	  Millimeters,
-	  Percent
+	  Percent,
+	  HectoPascal
 	};
 
   namespace UnitFactory
