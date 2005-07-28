@@ -669,6 +669,21 @@ namespace StoryPhrasesTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief RelativeHumidityStory::range() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void relative_humidity_range()
+  {
+	require("suhteellinen kosteus");
+	require("on");
+	require("noin");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief RoadStory::daynightranges requirements
    */
   // ----------------------------------------------------------------------
@@ -755,6 +770,7 @@ namespace StoryPhrasesTest
 
 	  TEST(relative_humidity_lowest);
 	  TEST(relative_humidity_day);
+	  TEST(relative_humidity_range);
 
 	  TEST(roadtemperature_daynightranges);
 	  TEST(roadcondition_overview);

@@ -72,6 +72,8 @@ namespace TextGen
 	  return true;
 	if(theName == "relativehumidity_day")
 	  return true;
+	if(theName == "relativehumidity_range")
+	  return true;
 	return false;
   }
   
@@ -92,6 +94,8 @@ namespace TextGen
 	  return lowest();
 	if(theName == "relativehumidity_day")
 	  return day();
+	if(theName == "relativehumidity_range")
+	  return range();
 
 	throw TextGenError("RelativeHumidityStory cannot make story "+theName);
 

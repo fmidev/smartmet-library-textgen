@@ -43,6 +43,7 @@ namespace TextGen
 
 	const Paragraph lowest() const;
 	const Paragraph day() const;
+	const Paragraph range() const;
 
 	RelativeHumidityStory();
 	RelativeHumidityStory(const RelativeHumidityStory & theStory);

@@ -158,6 +158,47 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test RelativeHumidityStory::range()
+   */
+  // ----------------------------------------------------------------------
+
+  void relativehumidity_range()
+  {
+	using namespace std;
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	WeatherArea area("25,60");
+	const string fun = "relativehumidity_range";
+
+	NFmiSettings::Set("range::precision","10");
+
+	NFmiTime time1(2003,6,1);
+	NFmiTime time2(2003,6,2);
+	WeatherPeriod period(time1,time2);
+	RelativeHumidityStory story(time1,sources,area,period,"range");
+	
+	NFmiSettings::Set("range::fake::minimum","5,0");
+	NFmiSettings::Set("range::fake::mean","5,0");
+	NFmiSettings::Set("range::fake::maximum","5,0");
+	require(story,"fi",fun,"Suhteellinen kosteus on noin 10%.");
+	require(story,"sv",fun,"Relativ fuktighet är cirka 10%.");
+	require(story,"en",fun,"Relative humidity is about 10%.");
+	
+	NFmiSettings::Set("range::fake::minimum","50,0");
+	NFmiSettings::Set("range::fake::mean","60,0");
+	NFmiSettings::Set("range::fake::maximum","60,0");
+	require(story,"fi",fun,"Suhteellinen kosteus 50-60%.");
+	require(story,"sv",fun,"Relativ fuktighet är 50-60%.");
+	require(story,"en",fun,"Relative humidity is 50-60%.");
+
+	TEST_PASSED();
+
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -174,6 +215,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	void test(void)
 	{
 	  TEST(relativehumidity_lowest);
+	  TEST(relativehumidity_range);
 	}
 
   }; // class tests
