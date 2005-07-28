@@ -9,8 +9,8 @@
 
 Ruotsiksi
 
-  -# "Daggpunkten är cirka X grader."
-  -# "Daggpunkten är X...Y grader."
+  -# "Daggpunkt är cirka X grader."
+  -# "Daggpunkt är X...Y grader."
 
 Englanniksi
 
@@ -26,8 +26,8 @@ Käytetyt fraasit ovat
 Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
 \code
 # Mean(Min(Dewpoint))...Mean(Max(Dewpoint))
-textgen::[kappale]::story::dewpoint_range::fake::min = [result]
-textgen::[kappale]::story::dewpoint_range::fake::max = [result]
+textgen::[kappale]::story::dewpoint_range::fake::minimum = [result]
+textgen::[kappale]::story::dewpoint_range::fake::maximum = [result]
 \endcode
 
 Tarinaan liittyviä muuttujia ovat

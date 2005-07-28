@@ -8,7 +8,7 @@
 
 Ruotsiksi
 
-  -# "Trycket är X hPa."
+  -# "Tryck är X hPa."
 
 Englanniksi
 

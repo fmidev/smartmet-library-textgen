@@ -9,8 +9,8 @@
 
 Ruotsiksi
 
-  -# "Relativa fuktigheten är cirka X%."
-  -# "Relativa fuktigheten är X...Y%."
+  -# "Relativ fuktighet är cirka X%."
+  -# "Relativ fuktighet är X...Y%."
 
 Englanniksi
 
@@ -31,8 +31,8 @@ textgen::[kappale]::story::relativehumidity_range::precision = [0-100]
 Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
 \code
 # Mean(Min(Relativehumidity))...Mean(Max(Relativehumidity))
-textgen::[kappale]::story::relativehumidity_range::fake::min = [result]
-textgen::[kappale]::story::relativehumidity_range::fake::max = [result]
+textgen::[kappale]::story::relativehumidity_range::fake::minimum = [result]
+textgen::[kappale]::story::relativehumidity_range::fake::maximum = [result]
 \endcode
 
 */

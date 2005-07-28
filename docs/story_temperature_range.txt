@@ -9,8 +9,8 @@
 
 Ruotsiksi
 
-  -# "Temperaturen är cirka X grader."
-  -# "Temperaturen är X...Y grader."
+  -# "Temperatur är cirka X grader."
+  -# "Temperatur är X...Y grader."
 
 Englanniksi
 
@@ -26,8 +26,9 @@ Käytetyt fraasit ovat
 Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
 \code
 # Mean(Min(Temperature))...Mean(Max(Temperature))
-textgen::[kappale]::story::temperature_range::fake::min = [result]
-textgen::[kappale]::story::temperature_range::fake::max = [result]
+textgen::[kappale]::story::temperature_range::fake::minimum = [result]
+textgen::[kappale]::story::temperature_range::fake::maximum = [result]
+textgen::[kappale]::story::temperature_range::fake::mean = [result]
 \endcode
 
 Tarinaan liittyviä muuttujia ovat
