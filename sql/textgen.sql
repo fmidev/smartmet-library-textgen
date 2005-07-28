@@ -1013,6 +1013,8 @@ INSERT INTO translation_en VALUES ('4-illalla','on Thursday evening',20050727122
 INSERT INTO translation_en VALUES ('5-illalla','on Friday evening',20050727122207,'mheiskan');
 INSERT INTO translation_en VALUES ('6-illalla','on Saturday evening',20050727122213,'mheiskan');
 INSERT INTO translation_en VALUES ('7-illalla','on Sunday evening',20050727122220,'mheiskan');
+INSERT INTO translation_en VALUES ('kastepiste','dewpoint',20050728130513,'mheiskan');
+INSERT INTO translation_en VALUES ('suhteellinen kosteus','relative humidity',20050728132355,'mheiskan');
 
 --
 -- Table structure for table `translation_fi`
@@ -1996,6 +1998,8 @@ INSERT INTO translation_fi VALUES ('4-illalla','torstaina illalla',2005072712174
 INSERT INTO translation_fi VALUES ('5-illalla','perjantaina illalla',20050727121756,'mheiskan');
 INSERT INTO translation_fi VALUES ('6-illalla','lauantaina illalla',20050727121802,'mheiskan');
 INSERT INTO translation_fi VALUES ('7-illalla','sunnuntaina illalla',20050727121809,'mheiskan');
+INSERT INTO translation_fi VALUES ('kastepiste','kastepiste',20050728130445,'mheiskan');
+INSERT INTO translation_fi VALUES ('suhteellinen kosteus','suhteellinen kosteus',20050728132316,'mheiskan');
 
 --
 -- Table structure for table `translation_sonera`
@@ -3346,4 +3350,6 @@ INSERT INTO translation_sv VALUES ('4-illalla','på torsdag kvällen',200507271227
 INSERT INTO translation_sv VALUES ('5-illalla','på fredag kvällen',20050727122720,'mheiskan');
 INSERT INTO translation_sv VALUES ('6-illalla','på lördag kvällen',20050727122727,'mheiskan');
 INSERT INTO translation_sv VALUES ('7-illalla','på söndag kvällen',20050727122734,'mheiskan');
+INSERT INTO translation_sv VALUES ('kastepiste','daggpunkt',20050728130457,'mheiskan');
+INSERT INTO translation_sv VALUES ('suhteellinen kosteus','relativ fuktighet',20050728132333,'mheiskan');
 
