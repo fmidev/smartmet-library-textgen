@@ -81,6 +81,8 @@ namespace TextGen
 	  return true;
 	if(theName == "pop_twodays")
 	  return true;
+	if(theName == "pop_max")
+	  return true;
 	return false;
   }
   
@@ -111,6 +113,8 @@ namespace TextGen
 	  return pop_days();
 	if(theName == "pop_twodays")
 	  return pop_twodays();
+	if(theName == "pop_max")
+	  return pop_max();
 
 	throw TextGenError("PrecipitationStory cannot make story "+theName);
 

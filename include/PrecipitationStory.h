@@ -40,13 +40,14 @@ namespace TextGen
 
   private:
 
-	const Paragraph total(void) const;
-	const Paragraph range(void) const;
-	const Paragraph classification(void) const;
-	const Paragraph pop_twodays(void) const;
-	const Paragraph pop_days(void) const;
-	const Paragraph sums(void) const;
-	const Paragraph daily_sums(void) const;
+	const Paragraph total() const;
+	const Paragraph range() const;
+	const Paragraph classification() const;
+	const Paragraph pop_twodays() const;
+	const Paragraph pop_days() const;
+	const Paragraph pop_max() const;
+	const Paragraph sums() const;
+	const Paragraph daily_sums() const;
 
 	PrecipitationStory();
 	PrecipitationStory(const PrecipitationStory & theStory);

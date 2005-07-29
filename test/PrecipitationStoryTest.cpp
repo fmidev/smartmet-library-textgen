@@ -620,6 +620,58 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test PrecipitationStory::pop_max
+   */
+  // ----------------------------------------------------------------------
+
+  void pop_max()
+  {
+	using namespace std;
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	WeatherArea area("25,60");
+
+	const string fun = "pop_max";
+
+	string result;
+
+	NFmiSettings::Set("pop_max::precision","10");
+	NFmiSettings::Set("pop_max::minimum","10");
+	NFmiSettings::Set("pop_max::maximum","90");
+
+	NFmiTime time1(2003,6,3,6,0);
+	NFmiTime time2(2003,6,4,6,0);
+	WeatherPeriod period(time1,time2);
+	PrecipitationStory story(time1,sources,area,period,"pop_max");
+	
+	NFmiSettings::Set("pop_max::fake::max","0,0");
+	REQUIRE(story,"fi",fun,"");
+	REQUIRE(story,"sv",fun,"");
+	REQUIRE(story,"en",fun,"");
+	
+	NFmiSettings::Set("pop_max::fake::max","100,0");
+	REQUIRE(story,"fi",fun,"");
+	REQUIRE(story,"sv",fun,"");
+	REQUIRE(story,"en",fun,"");
+	
+	NFmiSettings::Set("pop_max::fake::max","10,0");
+	REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 10%.");
+	REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 10%.");
+	REQUIRE(story,"en",fun,"Probability of precipitation is 10%.");
+	
+	NFmiSettings::Set("pop_max::fake::max","90,0");
+	REQUIRE(story,"fi",fun,"Sateen todennäköisyys on 90%.");
+	REQUIRE(story,"sv",fun,"Sannolikheten för nederbörd är 90%.");
+	REQUIRE(story,"en",fun,"Probability of precipitation is 90%.");
+
+	TEST_PASSED();
+
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Test PrecipitationStory::daily_sums()
    */
   // ----------------------------------------------------------------------
@@ -768,6 +820,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  TEST(precipitation_daily_sums);
 	  TEST(pop_twodays);
 	  TEST(pop_days);
+	  TEST(pop_max);
 	}
 
   }; // class tests

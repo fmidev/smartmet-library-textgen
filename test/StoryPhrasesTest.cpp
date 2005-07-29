@@ -435,6 +435,22 @@ namespace StoryPhrasesTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief PrecipitationStory::pop_max() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void pop_max()
+  {
+	require("sateen todennäköisyys");
+	require("on");
+	require("prosenttia");
+
+	TEST_PASSED();
+
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief WeatherStory::shortoverview() requirements
    */
   // ----------------------------------------------------------------------
@@ -856,6 +872,7 @@ namespace StoryPhrasesTest
 	  TEST(precipitation_range);
 	  TEST(precipitation_classification);
 	  TEST(precipitation_sums);
+	  TEST(pop_max);
 
 	  TEST(weather_shortoverview);
 
