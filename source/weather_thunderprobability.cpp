@@ -59,7 +59,7 @@ namespace TextGen
 	if(result.value() == kFloatMissing)
 	  throw TextGenError("Thunder is not available");
 
-	log << "Thunder Mean(Maximum) = " << result << endl;
+	log << "Thunder Maximum(Maximum) = " << result << endl;
 
 	const int probability = MathTools::to_precision(result.value(),
 													precision);
