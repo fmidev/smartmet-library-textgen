@@ -41,7 +41,7 @@ namespace TextGen
 
   const Paragraph WindStory::daily_ranges() const
   {
-	MessageLogger log("WeatherStory::daily_ranges");
+	MessageLogger log("WindStory::daily_ranges");
 
 	using WeekdayTools::on_weekday;
 	using WeekdayTools::from_weekday;
