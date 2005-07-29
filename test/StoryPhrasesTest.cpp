@@ -560,6 +560,88 @@ namespace StoryPhrasesTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief WindStory::daily_ranges() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void wind_daily_ranges()
+  {
+	require("m/s");
+	require("metriä sekunnissa");
+	require("suunnaltaan vaihtelevaa");
+
+	require("1-tuulta","pohjoistuulta");
+	require("2-tuulta","koillistuulta");
+	require("3-tuulta","itätuulta");
+	require("4-tuulta","kaakkoistuulta");
+	require("5-tuulta","etelätuulta");
+	require("6-tuulta","lounaistuulta");
+	require("7-tuulta","länsituulta");
+	require("8-tuulta","luoteistuulta");
+
+	require("1-puoleista tuulta","pohjoisen puoleista tuulta");
+	require("2-puoleista tuulta","koillisen puoleista tuulta");
+	require("3-puoleista tuulta","idän puoleista tuulta");
+	require("4-puoleista tuulta","kaakon puoleista tuulta");
+	require("5-puoleista tuulta","etelän puoleista tuulta");
+	require("6-puoleista tuulta","lounaan puoleista tuulta");
+	require("7-puoleista tuulta","lännen puoleista tuulta");
+	require("8-puoleista tuulta","luoteen puoleista tuulta");
+
+	require("1-na","maanantaina");
+	require("2-na","tiistaina");
+	require("3-na","keskiviikkona");
+	require("4-na","torstaina");
+	require("5-na","perjantaina");
+	require("6-na","lauantaina");
+	require("7-na","sunnuntaina");
+
+	require("1-alkaen","maanantaista alkaen");
+	require("2-alkaen","tiistaista alkaen");
+	require("3-alkaen","keskiviikosta alkaen");
+	require("4-alkaen","torstaista alkaen");
+	require("5-alkaen","perjantaista alkaen");
+	require("6-alkaen","lauantaista alkaen");
+	require("7-alkaen","sunnuntaista alkaen");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief WindStory::ranges() requirements
+   */
+  // ----------------------------------------------------------------------
+
+  void wind_range()
+  {
+	require("m/s");
+	require("metriä sekunnissa");
+	require("suunnaltaan vaihtelevaa");
+
+	require("1-tuulta","pohjoistuulta");
+	require("2-tuulta","koillistuulta");
+	require("3-tuulta","itätuulta");
+	require("4-tuulta","kaakkoistuulta");
+	require("5-tuulta","etelätuulta");
+	require("6-tuulta","lounaistuulta");
+	require("7-tuulta","länsituulta");
+	require("8-tuulta","luoteistuulta");
+
+	require("1-puoleista tuulta","pohjoisen puoleista tuulta");
+	require("2-puoleista tuulta","koillisen puoleista tuulta");
+	require("3-puoleista tuulta","idän puoleista tuulta");
+	require("4-puoleista tuulta","kaakon puoleista tuulta");
+	require("5-puoleista tuulta","etelän puoleista tuulta");
+	require("6-puoleista tuulta","lounaan puoleista tuulta");
+	require("7-puoleista tuulta","lännen puoleista tuulta");
+	require("8-puoleista tuulta","luoteen puoleista tuulta");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief FrostStory::mean() requirements
    */
   // ----------------------------------------------------------------------
@@ -778,6 +860,8 @@ namespace StoryPhrasesTest
 	  TEST(weather_shortoverview);
 
 	  TEST(wind_overview);
+	  TEST(wind_daily_ranges);
+	  TEST(wind_range);
 
 	  TEST(frost_mean);
 	  TEST(frost_maximum);

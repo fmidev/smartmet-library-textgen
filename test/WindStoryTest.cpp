@@ -671,6 +671,55 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief WindStory::range
+   */
+  // ----------------------------------------------------------------------
+
+  void wind_range()
+  {
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	const WeatherArea area("25,60");
+
+	const string fun = "wind_range";
+
+	const NFmiTime time1(2003,6,1,0,0);
+	const NFmiTime time2(2003,6,2,0,0);
+
+	string result;
+	
+	NFmiSettings::Set("a::day::starthour","6");
+	NFmiSettings::Set("a::day::endhour","18");
+
+	const WeatherPeriod period(time1,time2);
+	WindStory story(time1,sources,area,period,"a");
+	
+	NFmiSettings::Set("a::fake::speed::mean","1,0");
+	NFmiSettings::Set("a::fake::speed::minimum","0,0");
+	NFmiSettings::Set("a::fake::speed::maximum","2,0");
+	
+	NFmiSettings::Set("a::fake::direction::mean","0,0");
+	REQUIRE(story,"fi",fun,"Pohjoistuulta 0-2 m/s.");
+	REQUIRE(story,"sv",fun,"Nordlig vind 0-2 m/s.");
+	REQUIRE(story,"en",fun,"Northerly wind 0-2 m/s.");
+	
+	NFmiSettings::Set("a::fake::direction::mean","0,30");
+	REQUIRE(story,"fi",fun,"Pohjoisen puoleista tuulta 0-2 m/s.");
+	REQUIRE(story,"sv",fun,"Vind omkring nord 0-2 m/s.");
+	REQUIRE(story,"en",fun,"Approximately northerly wind 0-2 m/s.");
+	
+	NFmiSettings::Set("a::fake::direction::mean","0,50");
+	REQUIRE(story,"fi",fun,"Suunnaltaan vaihtelevaa tuulta 0-2 m/s.");
+	REQUIRE(story,"sv",fun,"Varierande vind 0-2 m/s.");
+	REQUIRE(story,"en",fun,"Variable wind 0-2 m/s.");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Test WindStory::simple_overview
    */
   // ----------------------------------------------------------------------
@@ -711,6 +760,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  TEST(wind_daily_ranges);
 	  TEST(wind_simple_overview);
 	  TEST(wind_overview);
+	  TEST(wind_range);
 	}
 
   }; // class tests

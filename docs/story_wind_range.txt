@@ -4,7 +4,7 @@
 
 \c wind_range tarina on muotoa
 
-  -# "[Pohjoistuulta] X metri‰ sekunnissa".
+  -# "[Pohjoistuulta] noin X metri‰ sekunnissa".
   -# "[Pohjoistuulta] X...Y metri‰ sekunnissa".
 
 Fraasin "pohjoistuulta" kohdalle sijoitetaan dataan sopiva fraasi
@@ -14,6 +14,12 @@ muotoa
   -# "pohjoisen puoleista tuulta"
   -# "suunnaltaan vaihtelevaa tuulta"
 
+Tuuli-intervalli typistet‰‰n yhteen lukuun (keskiarvo), jos
+intervalli on pienempi kuin
+\code
+textgen::[kappale]::story::wind_range::mininterval = [0-] (0)
+\endcode
+
 Tarinaan liittyvi‰ asetuksia ovat
 \code
 textgen::[kappale]::story::wind_range::mininterval = [1-]
@@ -21,17 +27,31 @@ textgen::[kappale]::story::wind_range::direction::accurate (=22.5)
 textgen::[kappale]::story::wind_range::direction::variable (=45)
 \endcode
 
+Suunnan fraasi valitaan seuraavasti
+
+  -# Jos laatu < \c accurate, "N-tuulta"
+  -# Jos laatu >= \c variable, "N-puoleista tuulta"
+  -# Muutoin "suunnaltaan vaihtelevaa tuulta"
+
+
 Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
 \code
-textgen::[kappale]::story::wind_range::fake::wspd::minimum = [result]
-textgen::[kappale]::story::wind_range::fake::wspd::maximum = [result]
-textgen::[kappale]::story::wind_range::fake::wspd::mean = [result]
+textgen::[kappale]::story::wind_range::fake::speed::minimum = [result]
+textgen::[kappale]::story::wind_range::fake::speed::maximum = [result]
+textgen::[kappale]::story::wind_range::fake::speed::mean = [result]
 
-textgen::[kappale]::story::wind_range::fake::wdir::mean = [result]
-textgen::[kappale]::story::wind_range::fake::wdir::sdev = [result]
+textgen::[kappale]::story::wind_range::fake::direction::mean = [result]
+textgen::[kappale]::story::wind_range::fake::direction::sdev = [result]
 \endcode
 
-KESKEN KESKEN KESKEN KESKEN KESKEN KESKEN KESKEN KESKEN KESKEN KESKEN 
+Tarvittavat fraasit ovat
+
+ - "noin"
+ - "metri‰ sekunnissa"
+ - "suunnaltaan vaihtelevaa"
+ - "tuulta"
+ - "N-tuulta", N=1-8
+ - "N-puoleista tuulta", N=1-8
 
 */
 
