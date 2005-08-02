@@ -443,6 +443,48 @@ namespace HeaderFactoryTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test HeaderFactory::create() with type "clock_range"
+   */
+  // ----------------------------------------------------------------------
+
+  void header_clock_range()
+  {
+	using namespace WeatherAnalysis;
+
+	string var = "variable";
+	NFmiSettings::Set(var+"::type","clock_range");
+	NFmiSettings::Set(var+"::weekdays","false");
+
+	WeatherArea area("25,60");
+	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,1,12));
+
+	string result;
+
+	result = require("fi",area,period,var,"Odotettavissa kello 6-12");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("sv",area,period,var,"Utsikter klockan 6-12");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("en",area,period,var,"Expected weather 6-12 o'clock");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+	
+	NFmiSettings::Set(var+"::weekdays","true");
+
+	result = require("fi",area,period,var,"Odotettavissa sunnuntaina kello 6-12");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("sv",area,period,var,"Utsikter på söndagen klockan 6-12");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	result = require("en",area,period,var,"Expected weather on Sunday 6-12 o'clock");
+	if(!result.empty()) TEST_FAILED(result.c_str());
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -469,6 +511,7 @@ namespace HeaderFactoryTest
 	  TEST(header_forenoon);
 	  TEST(header_afternoon);
 	  TEST(header_evening);
+	  TEST(header_clock_range);
 	}
 
   }; // class tests

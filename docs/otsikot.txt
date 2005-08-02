@@ -6,6 +6,7 @@
  <ol>
   <li>\ref page_header_none</li>
   <li>\ref page_header_until</li>
+  <li>\ref page_header_clock_range</li>
   <li>\ref page_header_from_until</li>
   <li>\ref page_header_several_days</li>
   <li>\ref page_header_morning</li>

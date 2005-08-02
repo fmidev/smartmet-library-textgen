@@ -20,6 +20,7 @@
 #include "HeaderFactory.h"
 #include "Header.h"
 #include "Integer.h"
+#include "IntegerRange.h"
 #include "LocationPhrase.h"
 #include "MessageLogger.h"
 #include "Settings.h"
@@ -383,6 +384,47 @@ namespace
 	return header;
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return header of type "Odotettavissa maanantaina kello 10-12"
+   *
+   * \param thePeriod The weather period
+   * \param theVariable The variable for extra settings
+   * \return The header
+   */
+  // ----------------------------------------------------------------------
+
+  TextGen::Header header_clock_range(const WeatherPeriod & thePeriod,
+									 const string & theVariable)
+  {
+	MessageLogger log("header_clock_range");
+	using namespace TextGen;
+	Header header;
+
+	const bool weekdays = Settings::optional_bool(theVariable+"::weekdays",false);
+	const int starthour = thePeriod.localStartTime().GetHour();
+	const int endhour = thePeriod.localEndTime().GetHour();
+
+	if(!weekdays)
+	  {
+		header << "odotettavissa"
+			   << "kello"
+			   << IntegerRange(starthour,endhour,"-")
+			   << "o'clock";
+	  }
+	else
+	  {
+		header << "odotettavissa"
+			   << WeekdayTools::on_weekday(thePeriod.localStartTime())
+			   << "kello"
+			   << IntegerRange(starthour,endhour,"-")
+			   << "o'clock";
+	  }
+
+	log << header;
+	return header;
+  }
+
 } // namespace anonymous
 
 // ======================================================================
@@ -439,6 +481,8 @@ namespace TextGen
 		return header_afternoon(thePeriod,theVariable);
 	  if(type == "evening")
 		return header_evening(thePeriod,theVariable);
+	  if(type == "clock_range")
+		return header_clock_range(thePeriod,theVariable);
 
 	  throw TextGenError("HeaderFactory does not recognize header type "+type);
 	}
