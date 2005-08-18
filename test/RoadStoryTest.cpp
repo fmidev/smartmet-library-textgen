@@ -43,6 +43,17 @@ namespace RoadStoryTest
 	TEST_NOT_IMPLEMENTED();
   }
   
+ // ----------------------------------------------------------------------
+  /*!
+   * \brief Test RoadStory::warning_overview()
+   */
+  // ----------------------------------------------------------------------
+
+  void roadwarning_overview()
+  {
+        TEST_NOT_IMPLEMENTED();
+  }
+
 
   // ----------------------------------------------------------------------
   /*!
@@ -63,6 +74,7 @@ namespace RoadStoryTest
 	{
 	  TEST(roadtemperature_daynightranges);
 	  TEST(roadcondition_overview);
+	  TEST(roadwarning_overview);
 	}
 
   }; // class tests
