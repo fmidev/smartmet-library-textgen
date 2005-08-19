@@ -262,9 +262,11 @@ namespace TextGen
 	  Sentence tienpinnat_muuttuvat;
 	  Sentence teilla_on;
 	  Sentence keli_on;
+	  Sentence keli_muuttuu;
 	  tienpinnat_muuttuvat << "tienpinnat muuttuvat" << places_phrase;
 	  teilla_on << "teillä on" << places_phrase;
 	  keli_on << "keli on" <<  places_phrase;
+	  keli_muuttuu << "keli muuttuu" << places_phrase;
 
 	  switch(theType)
 		{
@@ -273,7 +275,7 @@ namespace TextGen
 		case PARTLY_ICING:		return (tienpinnat_muuttuvat << "osittain jäisiksi");
 		case ICING:			return (tienpinnat_muuttuvat << "jäisiksi");
 		case FROSTSLIPPERY:		return (teilla_on << "pakkasliukkautta");
-		case FASTWORSENING:		return (keli_on << "räntä- tai lumisateesta");
+		case FASTWORSENING:		return (keli_muuttuu << "lumisateesta");
 		case ICYRAIN:			return (tienpinnat_muuttuvat << "liukkaiksi jäätävästä sateesta");
 		case SLEET_TO_PARTLY_ICY:	return (keli_on << "rännästä ja osittain liukkaista");
 		case SLEET_TO_ICY:		return (keli_on << "rännästä ja liukkaista");
