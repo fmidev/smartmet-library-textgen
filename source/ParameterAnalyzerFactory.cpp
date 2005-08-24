@@ -114,7 +114,7 @@ namespace WeatherAnalysis
 														 "DewPoint"));
 		case GustSpeed:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::gustspeed",
-														 "GustSpeed"));
+														 "HourlyMaximumGust"));
 
 		case Pressure:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::pressure",
