@@ -48,30 +48,35 @@ protected:
   virtual int_type pbackfail(int_type = CharTraits::eof())
   {
 	throw std::runtime_error("MessageLoggerStream::pbackfail not available");
+	return 0;
   }
   
   // only for output, not for input
   virtual int showmanyc()
   {
 	throw std::runtime_error("MessageLoggerStream::showmanyc not available");
+	return 0;
   }
   
   // only for output, not for input
   virtual int_type underflow()
   {
 	throw std::runtime_error("MessageLoggerStream::underflow not available");
+	return 0;
   }
 	
   // only for output, not for input
   virtual int_type uflow()
   {
 	throw std::runtime_error("MessageLoggerStream::uflow not available");
+	return 0;
   }
 	
   // only for output, not for input
   virtual std::streamsize xsgetn(char_type * _S, std::streamsize _N)
   {
 	throw std::runtime_error("MessageLoggerStream::xsgetn not available");
+	return 0;
   }
 	
   // we don't allow positioning
@@ -79,6 +84,7 @@ protected:
 						   std::ios_base::openmode = std::ios_base::in | std::ios_base::out)
   {
 	throw std::runtime_error("MessageLoggerStream::seekoff not available");
+	return 0;
   }
 	
   // we don't allow positioning
@@ -86,6 +92,7 @@ protected:
 						   std::ios_base::openmode = std::ios_base::in | std::ios_base::out)
   {
 	throw std::runtime_error("MessageLoggerStream::seekpos not available");
+	return 0;
   }
 	
 	// output functions
