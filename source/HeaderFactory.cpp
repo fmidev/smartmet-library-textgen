@@ -29,7 +29,7 @@
 #include "WeatherPeriod.h"
 #include "WeekdayTools.h"
 
-#include "boost/lexical_cast.hpp"
+#include <boost/lexical_cast.hpp>
 
 using namespace WeatherAnalysis;
 using namespace std;

@@ -13,7 +13,7 @@
  *
  */
 // ======================================================================
-#include "boost/lexical_cast.hpp"
+#include <boost/lexical_cast.hpp>
 
 #include "PeriodPhraseFactory.h"
 #include "HourPeriodGenerator.h"

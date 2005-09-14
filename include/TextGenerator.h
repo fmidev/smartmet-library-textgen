@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_TEXTGENERATOR_H
 #define TEXTGEN_TEXTGENERATOR_H
 
-#include "boost/shared_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 #include <string>
 
 class NFmiTime;

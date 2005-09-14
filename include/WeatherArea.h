@@ -10,7 +10,7 @@
 
 #include "NFmiPoint.h"
 #include "NFmiSvgPath.h"
-#include "boost/shared_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 #include <string>
 
 namespace WeatherAnalysis

@@ -9,7 +9,7 @@
 #define WEATHERANALYSIS_MAXIMUMCALCULATOR_H
 
 #include "Calculator.h"
-#include "boost/shared_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 
 namespace WeatherAnalysis
 {

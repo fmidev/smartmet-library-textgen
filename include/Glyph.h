@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_GLYPH_H
 #define TEXTGEN_GLYPH_H
 
-#include "boost/shared_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 #include <string>
 
 namespace TextGen

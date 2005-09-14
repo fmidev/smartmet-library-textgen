@@ -9,7 +9,7 @@
 #define WEATHERANALYSIS_WEATHERSOURCE_H
 
 #include <string>
-#include "boost/shared_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 #include "NFmiStreamQueryData.h"
 
 class NFmiStreamQueryData;

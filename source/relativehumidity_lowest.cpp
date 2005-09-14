@@ -22,7 +22,7 @@
 #include "WeatherResult.h"
 #include "PeriodPhraseFactory.h"
 
-#include "boost/lexical_cast.hpp"
+#include <boost/lexical_cast.hpp>
 
 using namespace WeatherAnalysis;
 using namespace boost;

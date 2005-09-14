@@ -9,7 +9,7 @@
 #define WEATHERANALYSIS_LATESTWEATHERSOURCE_H
 
 #include "WeatherSource.h"
-#include "boost/shared_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 
 namespace WeatherAnalysis
 {

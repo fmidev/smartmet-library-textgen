@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_UNITFACTORY_H
 #define TEXTGEN_UNITFACTORY_H
 
-#include "boost/shared_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 
 namespace TextGen
 {

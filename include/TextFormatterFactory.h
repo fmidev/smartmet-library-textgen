@@ -9,7 +9,7 @@
 #define TEXTGEN_TEXTFORMATTERFACTORY_H
 
 #include "TextFormatter.h"
-#include "boost/shared_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 
 namespace TextGen
 {

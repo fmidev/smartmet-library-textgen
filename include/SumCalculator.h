@@ -10,7 +10,7 @@
 
 #include "Calculator.h"
 #include "Acceptor.h"
-#include "boost/shared_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 
 namespace WeatherAnalysis
 {

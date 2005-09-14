@@ -16,7 +16,7 @@
 // boost included laitettava ennen newbase:n NFmiGlobals-includea,
 // muuten MSVC:ss‰ min max m‰‰rittelyt jo tehty
 
-#include "boost/lexical_cast.hpp"
+#include <boost/lexical_cast.hpp>
 
 #include "NullPeriodGenerator.h"
 #include "WeatherAnalysisError.h"

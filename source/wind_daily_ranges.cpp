@@ -19,7 +19,7 @@
 #include "WeekdayTools.h"
 #include "WindStoryTools.h"
 
-#include "boost/lexical_cast.hpp"
+#include <boost/lexical_cast.hpp>
 
 #include <vector>
 

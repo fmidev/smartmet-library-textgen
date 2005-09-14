@@ -19,7 +19,7 @@
 #include "WeatherResult.h"
 #include "WeekdayTools.h"
 
-#include "boost/lexical_cast.hpp"
+#include <boost/lexical_cast.hpp>
 
 using namespace TextGen::TemperatureStoryTools;
 using namespace WeatherAnalysis;

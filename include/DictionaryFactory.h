@@ -9,7 +9,7 @@
 #define TEXTGEN_DICTIONARYFACTORY_H
 
 #include "Dictionary.h"
-#include "boost/shared_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 
 namespace TextGen
 {

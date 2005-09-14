@@ -9,7 +9,7 @@
 #define WEATHERANALYSIS_ANDACCEPTOR_H
 
 #include "Acceptor.h"
-#include "boost/shared_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 #include <functional>
 
 namespace WeatherAnalysis

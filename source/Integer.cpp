@@ -15,7 +15,7 @@
 #include "TextFormatter.h"
 #include "TextGenError.h"
 
-#include "boost/shared_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 
 #include <sstream>
 

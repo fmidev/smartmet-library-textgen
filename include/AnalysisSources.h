@@ -8,7 +8,7 @@
 #ifndef WEATHERANALYSIS_ANALYSISSOURCES_H
 #define WEATHERANALYSIS_ANALYSISSOURCES_H
 
-#include "boost/shared_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 
 namespace WeatherAnalysis
 {

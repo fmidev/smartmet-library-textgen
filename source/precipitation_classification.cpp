@@ -19,7 +19,7 @@
 #include "WeatherResult.h"
 
 #include "NFmiStringTools.h"
-#include "boost/lexical_cast.hpp"
+#include <boost/lexical_cast.hpp>
 #include <list>
 
 using namespace boost;

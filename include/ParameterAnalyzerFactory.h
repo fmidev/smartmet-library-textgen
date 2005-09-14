@@ -10,7 +10,7 @@
 
 #include "ParameterAnalyzer.h"
 #include "WeatherParameter.h"
-#include "boost/shared_ptr.hpp"
+#include <boost/shared_ptr.hpp>
 
 namespace WeatherAnalysis
 {

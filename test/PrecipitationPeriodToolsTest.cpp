@@ -12,8 +12,8 @@
 #include "NFmiGrid.h"
 #include "NFmiSettings.h"
 
-#include "boost/shared_ptr.hpp"
-#include "boost/lexical_cast.hpp"
+#include <boost/shared_ptr.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <stdexcept>
 

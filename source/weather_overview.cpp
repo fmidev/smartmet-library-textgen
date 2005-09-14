@@ -24,7 +24,7 @@
 #include "WeatherResult.h"
 #include "WeekdayTools.h"
 
-#include "boost/lexical_cast.hpp"
+#include <boost/lexical_cast.hpp>
 #include <vector>
 
 using namespace WeatherAnalysis;
