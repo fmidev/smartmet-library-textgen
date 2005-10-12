@@ -117,8 +117,6 @@ namespace WeatherResultToolsTest
 	WeatherResult result3(3,0);
 	WeatherResult result4(4,0);
 	WeatherResult result5(5,0);
-	WeatherResult result6(6,0);
-	WeatherResult result7(7,0);
 	
 	if(!WeatherResultTools::isSimilarRange(result1,result2,
 										   result1,result2,
