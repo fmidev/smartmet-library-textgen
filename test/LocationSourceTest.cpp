@@ -44,14 +44,14 @@ namespace LocationSourceTest
 
 	try
 	  {
-		NFmiPoint p = LocationSource::instance().coordinates("foobar");
+		LocationSource::instance().coordinates("foobar");
 		TEST_FAILED("Location foobar should not have coordinates");
 	  }
 	catch(...) { }
 
 	try
 	  {
-		NFmiPoint p = LocationSource::instance().coordinates("Helsinki");
+		LocationSource::instance().coordinates("Helsinki");
 	  }
 	catch(...)
 	  { TEST_FAILED("Location Helsinki should have coordinates"); }
