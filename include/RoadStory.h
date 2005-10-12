@@ -45,6 +45,7 @@ namespace TextGen
 	const Paragraph condition_overview() const;
 	const Paragraph warning_overview() const;
 	const Paragraph condition_shortview() const;
+	const Paragraph shortrange() const;
 
 	RoadStory();
 	RoadStory(const RoadStory & theStory);
