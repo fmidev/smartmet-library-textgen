@@ -119,6 +119,9 @@ namespace WeatherAnalysis
 		case Pressure:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::pressure",
 														 "Pressure"));
+		case Fog:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::fog",
+														 "FogIntensity"));
 
 	  }
 

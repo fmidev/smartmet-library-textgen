@@ -34,7 +34,8 @@ namespace WeatherAnalysis
 	  Evaporation,
 	  DewPoint,
 	  GustSpeed,
-	  Pressure
+	  Pressure,
+	  Fog
 
 	}; // enum WeatherParameter
 
