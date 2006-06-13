@@ -13,6 +13,7 @@
 // ======================================================================
 
 #include "TextFormatterTools.h"
+#include "NFmiStringTools.h"
 #include <cctype>
 #include <clocale>
 
@@ -36,12 +37,7 @@ namespace TextGen
 
 	void capitalize(std::string & theString)
 	{
-	  if(!theString.empty())
-		{
-		  setlocale(LC_ALL, "Finnish");
-		  theString[0] = ::toupper(theString[0]);
-		  setlocale(LC_ALL, "C");
-		}
+	  NFmiStringTools::FirstCharToUpper(theString);
 	}
 
 	// ----------------------------------------------------------------------
