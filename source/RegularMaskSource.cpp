@@ -173,11 +173,11 @@ namespace WeatherAnalysis
 	const float radius = theArea.radius();
 
 	shared_ptr<NFmiStreamQueryData> qdata = theWeatherSource.data(theData);
-	NFmiQueryData * qd = qdata->QueryData();
-	if(!qd->IsGrid())
+	NFmiFastQueryInfo * qi = qdata->QueryInfoIter();
+	if(!qi->IsGrid())
 	  throw WeatherAnalysisError("The data in "+theData+" is not gridded - cannot generate mask for it");
 
-	mask_type areamask(new NFmiIndexMask(MaskExpand(qd->GridInfo(),
+	mask_type areamask(new NFmiIndexMask(MaskExpand(*(qi->Grid()),
 													svg,
 													radius)));
 	return areamask;
