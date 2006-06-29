@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::Float
+ * \brief Implementation of class TextGen::Real
  */
 // ======================================================================
 /*!
- * \class TextGen::Float
+ * \class TextGen::Real
  * \brief Representation of a generic floating point number
  */
 // ======================================================================
 
-#include "Float.h"
+#include "Real.h"
 #include "Dictionary.h"
 #include "TextFormatter.h"
 #include "TextGenError.h"
@@ -34,7 +34,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Float::~Float()
+  Real::~Real()
   {
   }
 
@@ -44,10 +44,10 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Float::Float(float theFloat,
-			   int thePrecision,
-			   bool theComma)
-	: itsFloat(theFloat)
+  Real::Real(float theReal,
+			 int thePrecision,
+			 bool theComma)
+	: itsReal(theReal)
 	, itsPrecision(thePrecision)
 	, itsComma(theComma)
   {
@@ -59,27 +59,27 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  shared_ptr<Glyph> Float::clone() const
+  shared_ptr<Glyph> Real::clone() const
   {
-	shared_ptr<Glyph> ret(new Float(*this));
+	shared_ptr<Glyph> ret(new Real(*this));
 	return ret;
   }
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Return the text for the Float
+   * \brief Return the text for the Real
    *
    * \param theDictionary The dictionary to be used
    * \return The text
    */
   // ----------------------------------------------------------------------
 
-  const std::string Float::realize(const Dictionary & theDictionary) const
+  const std::string Real::realize(const Dictionary & theDictionary) const
   {
 	ostringstream os;
 	os << fixed
 	   << setprecision(itsPrecision)
-	   << itsFloat;
+	   << itsReal;
 	string result = os.str();
 	if(!itsComma)
 	  NFmiStringTools::ReplaceChars(result,'.',',');
@@ -95,18 +95,18 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const std::string Float::realize(const TextFormatter & theFormatter) const
+  const std::string Real::realize(const TextFormatter & theFormatter) const
   {
 	return theFormatter.visit(*this);
   }
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Returns false since Float is not a separator
+   * \brief Returns false since Real is not a separator
    */
   // ----------------------------------------------------------------------
 
-  bool Float::isDelimiter() const
+  bool Real::isDelimiter() const
   {
 	return false;
   }
@@ -119,20 +119,20 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  float Float::value() const
+  float Real::value() const
   {
-	return itsFloat;
+	return itsReal;
   }
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Return the precision of the float
+   * \brief Return the precision of the real
    *
    * \return The precision
    */
   // ----------------------------------------------------------------------
 
-  int Float::precision() const
+  int Real::precision() const
   {
 	return itsPrecision;
   }
@@ -145,7 +145,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  bool Float::comma() const
+  bool Real::comma() const
   {
 	return itsComma;
   }

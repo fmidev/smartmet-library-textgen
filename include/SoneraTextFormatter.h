@@ -27,7 +27,7 @@ namespace TextGen
 	// override for all composites
 	virtual const std::string visit(const Glyph & theGlyph) const;
 	virtual const std::string visit(const Integer & theInteger) const;
-	virtual const std::string visit(const Float & theFloat) const;
+	virtual const std::string visit(const Real & theReal) const;
 	virtual const std::string visit(const IntegerRange & theRange) const;
 	virtual const std::string visit(const Sentence & theSentence) const;
 	virtual const std::string visit(const Paragraph & theParagraph) const;

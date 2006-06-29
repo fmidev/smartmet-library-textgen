@@ -1,12 +1,12 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class TextGen::Float
+ * \brief Interface of class TextGen::Real
  */
 // ======================================================================
 
-#ifndef TEXTGEN_FLOAT_H
-#define TEXTGEN_FLOAT_H
+#ifndef TEXTGEN_REAL_H
+#define TEXTGEN_REAL_H
 
 #include "Glyph.h"
 #include <string>
@@ -16,18 +16,18 @@ namespace TextGen
   class Dictionary;
   class TextFormatter;
 
-  class Float : public Glyph
+  class Real : public Glyph
   {
   public:
 
-	virtual ~Float();
-	explicit Float(float theFloat,
-				   int thePrecision = 1,
-				   bool theComma = true);
+	virtual ~Real();
+	explicit Real(float theReal,
+				  int thePrecision = 1,
+				  bool theComma = true);
 
 #ifdef NO_COMPILER_GENERATED
-	Float(const Float & theFloat);
-	Float & operator=(const Float & theFloat);
+	Real(const Real & theReal);
+	Real & operator=(const Real & theReal);
 #endif
 
 	virtual boost::shared_ptr<Glyph> clone() const;
@@ -40,14 +40,14 @@ namespace TextGen
 
   private:
 
-	Float();
-	float itsFloat;
+	Real();
+	float itsReal;
 	int itsPrecision;
 	bool itsComma;
 
-  }; // class Float
-} // namespace Float
+  }; // class Real
+} // namespace Real
 
-#endif // TEXTGEN_FLOAT_H
+#endif // TEXTGEN_REAL_H
 
 // ======================================================================

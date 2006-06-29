@@ -10,7 +10,7 @@
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "HourPeriodGenerator.h"
-#include "Float.h"
+#include "Real.h"
 #include "MathTools.h"
 #include "MessageLogger.h"
 #include "NullPeriodGenerator.h"
@@ -87,7 +87,7 @@ namespace TextGen
 											itsVar,
 											itsForecastTime,
 											firstperiod)
-			 << Float(index1);
+			 << Real(index1);
 
 	if(days>=2)
 	  {
@@ -121,7 +121,7 @@ namespace TextGen
 														itsVar,
 														itsForecastTime,
 														secondperiod)
-						 << Float(index2);
+						 << Real(index2);
 			  }
 			else
 			  {
@@ -134,7 +134,7 @@ namespace TextGen
 				if(index1 == index2)
 				  sentence << "sama";
 				else
-				  sentence << Float(index2);
+				  sentence << Real(index2);
 			  }
 		  }
 	  }

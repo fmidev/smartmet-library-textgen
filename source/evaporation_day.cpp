@@ -7,7 +7,7 @@
 
 #include "ForestStory.h"
 #include "Delimiter.h"
-#include "Float.h"
+#include "Real.h"
 #include "GridForecaster.h"
 #include "HourPeriodGenerator.h"
 #include "MessageLogger.h"
@@ -92,7 +92,7 @@ namespace TextGen
 	  sentence << "haihdunta on erinomainen";
 
 	sentence << Delimiter(",")
-			 << Float(eva)
+			 << Real(eva)
 			 << *UnitFactory::create(Millimeters);
 
 	paragraph << sentence;

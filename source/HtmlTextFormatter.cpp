@@ -14,7 +14,7 @@
 #include "HtmlTextFormatter.h"
 #include "Dictionary.h"
 #include "Document.h"
-#include "Float.h"
+#include "Real.h"
 #include "Glyph.h"
 #include "Header.h"
 #include "Integer.h"
@@ -86,13 +86,13 @@ namespace TextGen
   
   // ----------------------------------------------------------------------
   /*!
-   * \brief Visit a float
+   * \brief Visit a real
    */
   // ----------------------------------------------------------------------
 
-  const string HtmlTextFormatter::visit(const Float & theFloat) const
+  const string HtmlTextFormatter::visit(const Real & theReal) const
   {
-	return theFloat.realize(*itsDictionary);
+	return theReal.realize(*itsDictionary);
   }
 
   // ----------------------------------------------------------------------

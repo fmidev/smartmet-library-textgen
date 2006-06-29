@@ -14,7 +14,7 @@
 #include "WmlTextFormatter.h"
 #include "Dictionary.h"
 #include "Document.h"
-#include "Float.h"
+#include "Real.h"
 #include "Glyph.h"
 #include "Header.h"
 #include "Integer.h"
@@ -90,9 +90,9 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const string WmlTextFormatter::visit(const Float & theFloat) const
+  const string WmlTextFormatter::visit(const Real & theReal) const
   {
-	return theFloat.realize(*itsDictionary);
+	return theReal.realize(*itsDictionary);
   }
 
   // ----------------------------------------------------------------------

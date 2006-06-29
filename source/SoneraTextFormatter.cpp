@@ -23,7 +23,7 @@
 #include "SoneraTextFormatter.h"
 #include "Dictionary.h"
 #include "Document.h"
-#include "Float.h"
+#include "Real.h"
 #include "Glyph.h"
 #include "Header.h"
 #include "Integer.h"
@@ -267,9 +267,9 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const string SoneraTextFormatter::visit(const Float & theFloat) const
+  const string SoneraTextFormatter::visit(const Real & theReal) const
   {
-	throw TextGen::TextGenError("Cannot use Floats in Sonera phone service");
+	throw TextGen::TextGenError("Cannot use Reals in Sonera phone service");
   }
   
 

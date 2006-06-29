@@ -14,7 +14,7 @@
 #include "SpeechTextFormatter.h"
 #include "Dictionary.h"
 #include "Document.h"
-#include "Float.h"
+#include "Real.h"
 #include "Glyph.h"
 #include "Header.h"
 #include "Integer.h"
@@ -90,11 +90,11 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const string SpeechTextFormatter::visit(const Float & theFloat) const
+  const string SpeechTextFormatter::visit(const Real & theReal) const
   {
-	Float dummy(theFloat.value(),
-				theFloat.precision(),
-				false);
+	Real dummy(theReal.value(),
+			   theReal.precision(),
+			   false);
 
 	return dummy.realize(*itsDictionary);
   }
