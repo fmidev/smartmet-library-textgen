@@ -62,12 +62,12 @@ namespace TimeZoneFactoryTest
   {
 	TimeZoneFactory & instance = TimeZoneFactory::instance();
 	
-	ptime utc(date(2006,Jul,19),hours(15));
+	ptime summer(date(2006,Jul,19),hours(15));
 
 	{
 	  time_zone_ptr zone = instance.time_zone_from_region("Europe/Helsinki");
 
-	  local_date_time datetime(utc,zone);
+	  local_date_time datetime(summer,zone);
 
 	  ptime hki = datetime.local_time();
 
@@ -81,7 +81,7 @@ namespace TimeZoneFactoryTest
 	{
 	  time_zone_ptr zone = instance.time_zone_from_region("Europe/Stockholm");
 
-	  local_date_time datetime(utc,zone);
+	  local_date_time datetime(summer,zone);
 
 	  ptime stock = datetime.local_time();
 
@@ -89,6 +89,36 @@ namespace TimeZoneFactoryTest
 
 	  if(timeofday.hours() != 17)
 		TEST_FAILED("Failed to get hour 17 for Stockholm");
+
+	}
+
+	ptime winter(date(2006,Jan,19),hours(15));
+
+	{
+	  time_zone_ptr zone = instance.time_zone_from_region("Europe/Helsinki");
+
+	  local_date_time datetime(winter,zone);
+
+	  ptime hki = datetime.local_time();
+
+	  time_duration timeofday = hki.time_of_day();
+
+	  if(timeofday.hours() != 17)
+		TEST_FAILED("Failed to get hour 17 for Helsinki");
+
+	}
+
+	{
+	  time_zone_ptr zone = instance.time_zone_from_region("Europe/Stockholm");
+
+	  local_date_time datetime(winter,zone);
+
+	  ptime stock = datetime.local_time();
+
+	  time_duration timeofday = stock.time_of_day();
+
+	  if(timeofday.hours() != 16)
+		TEST_FAILED("Failed to get hour 16 for Stockholm");
 
 	}
 
