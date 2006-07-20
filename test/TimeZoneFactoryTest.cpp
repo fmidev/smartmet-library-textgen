@@ -29,7 +29,7 @@ namespace TimeZoneFactoryTest
 	  {
 	  }
 
-	instance.set_region_file("/data/conf/date_time_zonespec.csv");
+	instance.set_region_file("/data/conf/boost/date_time_zonespec.csv");
 
 	try
 	{
