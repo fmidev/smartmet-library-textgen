@@ -14,6 +14,10 @@
 #include <cassert>
 #include <stdexcept>
 
+#ifdef WIN32
+#pragma warning(disable : 4512) // poistaa VC++ k‰‰nt‰j‰n C4512 "assignment operator could not be generated" varoituksen
+#endif
+
 // forward declaration(s)
 
 template<class char_type = char,
@@ -73,7 +77,7 @@ protected:
   }
 	
   // only for output, not for input
-  virtual std::streamsize xsgetn(char_type * _S, std::streamsize _N)
+  virtual std::streamsize xsgetn(char_type * /* _S */ , std::streamsize /* _N */ )
   {
 	throw std::runtime_error("MessageLoggerStream::xsgetn not available");
 	return 0;
