@@ -74,6 +74,8 @@ namespace TextGen
 	  return true;
 	if(theName == "weather_thunderprobability")
 	  return true;
+	if(theName == "weather_thunderprobability_simplified")
+	  return true;
 	return false;
   }
   
@@ -96,6 +98,8 @@ namespace TextGen
 	  return shortoverview();
 	if(theName == "weather_thunderprobability")
 	  return thunderprobability();
+	if(theName == "weather_thunderprobability_simplified")
+	  return thunderprobability_simplified();
 	throw TextGenError("WeatherStory cannot make story "+theName);
 
   }
