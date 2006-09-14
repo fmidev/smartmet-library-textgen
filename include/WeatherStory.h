@@ -44,6 +44,7 @@ namespace TextGen
 	const Paragraph overview() const;
 	const Paragraph shortoverview() const;
 	const Paragraph thunderprobability() const;
+	const Paragraph thunderprobability_simplified() const;
 
 	WeatherStory();
 	WeatherStory(const WeatherStory & theStory);
