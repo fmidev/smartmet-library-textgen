@@ -228,6 +228,52 @@ namespace WeatherStoryTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test WeatherStory::thunderprobability_simplified()
+   */
+  // ----------------------------------------------------------------------
+
+  void thunderprobability_simplified()
+  {
+	using namespace std;
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	WeatherArea area("25,60");
+
+	const string fun = "weather_thunderprobability_simplified";
+
+	NFmiTime time1(2003,6,1);
+	NFmiTime time2(2003,6,4);
+	WeatherPeriod period(time1,time2);
+	WeatherStory story(time1,sources,area,period,"b");
+	
+	NFmiSettings::Set("b::precision","10");
+	NFmiSettings::Set("b::limit","30");
+
+	NFmiSettings::Set("b::fake::probability","15,0");
+	require(story,"fi",fun,"");
+	require(story,"sv",fun,"");
+	require(story,"en",fun,"");
+
+	NFmiSettings::Set("b::fake::probability","50,0");
+	require(story,"fi",fun,"Ukkoskuurot paikoin mahdollisia.");
+	require(story,"sv",fun,"Lokal åskurar möjlika.");
+	require(story,"en",fun,"Possible local thunder showers.");
+
+	NFmiSettings::Set("b::fake::probability","90,0");
+	require(story,"fi",fun,"Ukkoskuurot todennäköisiä.");
+	require(story,"sv",fun,"Åskurar sannolika.");
+	require(story,"en",fun,"Probable thunder showers.");
+	
+	TEST_PASSED();
+
+  }
+
+
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -245,6 +291,7 @@ namespace WeatherStoryTest
 	{
 	  TEST(short_overview);
 	  TEST(thunderprobability);
+      TEST(thunderprobability_simplified);
 	}
 
   }; // class tests
