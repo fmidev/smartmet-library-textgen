@@ -40,7 +40,7 @@ namespace TextGen
 	 * The numbers are fixed by the Ties‰‰-malli, and must not be changed.
 	 */
 	// ----------------------------------------------------------------------
-
+/*
 	enum RoadWarningType
 	  {
 	        NORMAL = 0,
@@ -55,9 +55,25 @@ namespace TextGen
 		RAIN_TO_PARTLY_ICY,
 		RAIN_TO_ICY
 	  };
+*/
+        enum RoadWarningType
+          {
+                NORMAL = 0,
+                FROSTY,
+                ICING,
+                SNOWY,
+                FROSTSLIPPERY,
+                WINDWARNING,
+                WHIRLING,
+                HEAVY_SNOWFALL,
+                FASTWORSENING,
+                SLEET_TO_ICY,
+                RAIN_TO_ICY,
+		ICYRAIN
+          };
 
 	const int min_warning = NORMAL;
-	const int max_warning = RAIN_TO_ICY;
+	const int max_warning = ICYRAIN;
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -71,15 +87,16 @@ namespace TextGen
 		{
 		case NORMAL: return 0;
 		case FROSTY: return 1;
-		case PARTLY_ICING: return 2;
-		case ICING: return 3;
+		case ICING: return 2;
+		case SNOWY: return 3;
 		case FROSTSLIPPERY: return 4;
-		case FASTWORSENING: return 5;
-		case ICYRAIN: return 6;
-		case SLEET_TO_PARTLY_ICY: return 7;
-		case SLEET_TO_ICY: return 8;
-		case RAIN_TO_PARTLY_ICY: return 9;
+		case WINDWARNING: return 5;
+		case WHIRLING: return 6;
+		case HEAVY_SNOWFALL: return 7;
+		case FASTWORSENING: return 8;
+		case SLEET_TO_ICY: return 9;
 		case RAIN_TO_ICY: return 10;
+		case ICYRAIN: return 11;
 		}
 	  throw TextGenError("Unknown road warning in warning_importance");
 	}
@@ -96,15 +113,16 @@ namespace TextGen
 		{
 		case NORMAL: return "normal";
                 case FROSTY: return "frosty";
-                case PARTLY_ICING: return "partly_icing";
-		case ICING: return "icing";
+                case ICING: return "icing";
+		case SNOWY: return "snowy";
 		case FROSTSLIPPERY: return "frostslippery";
+		case WINDWARNING: return "windwarning";
+		case WHIRLING: return "whirling";
+		case HEAVY_SNOWFALL: return "heavy_snowfall";
 		case FASTWORSENING: return "fastworsening";
-		case ICYRAIN: return "icyrain";
-		case SLEET_TO_PARTLY_ICY: return "sleet_to_partly_icy";
 		case SLEET_TO_ICY: return "sleet_to_icy";
-		case RAIN_TO_PARTLY_ICY: return "rain_to_partly_icy";
 		case RAIN_TO_ICY: return "rain_to_icy";
+		case ICYRAIN: return "icyrain";
 		}
 	  throw TextGenError("Unknown road warning in warning_name");
 	}
@@ -256,32 +274,50 @@ namespace TextGen
 	  const char * places_phrase =  warning_places_phrase(theType,thePercentage,
 															theGenerallyLimit,
 															theManyPlacesLimit,
-			
 															theSomePlacesLimit);
-
-	  Sentence tienpinnat_muuttuvat;
-	  Sentence teilla_on;
+ 
+          Sentence tienpinta_muuttuu;
+          Sentence tie_on_muuttumassa;
+          Sentence keli_huononee;
+	  Sentence vaikeuttaa_liikennetta;
 	  Sentence keli_on;
-	  Sentence keli_muuttuu;
-	  tienpinnat_muuttuvat << "tienpinnat muuttuvat" << places_phrase;
-	  teilla_on << "teill‰ on" << places_phrase;
+          tienpinta_muuttuu << "tienpinta muuttuu" << places_phrase;
+          tie_on_muuttumassa << "tie on muuttumassa" << places_phrase;
+          keli_huononee << "keli huononee" <<  places_phrase;
+          vaikeuttaa_liikennetta << "vaikeuttaa liikennett‰" << places_phrase;
 	  keli_on << "keli on" <<  places_phrase;
-	  keli_muuttuu << "keli muuttuu" << places_phrase;
+	  Sentence marka_tienpinta;
+	  Sentence pakkasliukkaus;
+	  Sentence puuskainen_tuuli;
+	  Sentence lumipyry;
+	  Sentence lumisade;
+	  Sentence kelin_huononeminen;
+	  Sentence rantasade;
+	  Sentence alijaahtynyt;
+	  marka_tienpinta << "m‰rk‰" << tienpinta_muuttuu;
+	  pakkasliukkaus << "pakkasliukkaus";
+	  puuskainen_tuuli << "voimakas puuskainen tuuli"; 
+	  lumipyry << "lumipyry";
+	  lumisade << "runsas lumisade";
+	  kelin_huononeminen << "kelin nopea huononeminen";
+	  rantasade << "r‰nt‰sade j‰iselle";
+	  alijaahtynyt << "alij‰‰htynyt sade";
 
-	  switch(theType)
-		{
-		case NORMAL:			return (keli_on << "normaali");
-		case FROSTY:			return (tienpinnat_muuttuvat << "kuuraisiksi");
-		case PARTLY_ICING:		return (tienpinnat_muuttuvat << "osittain j‰isiksi");
-		case ICING:			return (tienpinnat_muuttuvat << "j‰isiksi");
-		case FROSTSLIPPERY:		return (teilla_on << "pakkasliukkautta");
-		case FASTWORSENING:		return (keli_muuttuu << "lumisateesta");
-		case ICYRAIN:			return (tienpinnat_muuttuvat << "liukkaiksi j‰‰t‰v‰st‰ sateesta");
-		case SLEET_TO_PARTLY_ICY:	return (keli_on << "r‰nn‰st‰ ja osittain liukkaista");
-		case SLEET_TO_ICY:		return (keli_on << "r‰nn‰st‰ ja liukkaista");
-		case RAIN_TO_PARTLY_ICY:	return (keli_on << "sateesta ja osittain liukkaista");
-		case RAIN_TO_ICY: 		return (keli_on << "sateesta ja liukkaista");
-		}
+          switch(theType)
+                {
+                case NORMAL:                    return (keli_on << "normaali");
+		case FROSTY:			return (tienpinta_muuttuu << "kuuraiseksi");
+                case ICING:                     return (marka_tienpinta << "j‰iseksi tai osittain j‰iseksi");
+                case SNOWY:              	return (keli_huononee << "lumisateen takia");
+                case FROSTSLIPPERY:             return (pakkasliukkaus << vaikeuttaa_liikennetta);
+		case WINDWARNING:		return (puuskainen_tuuli << vaikeuttaa_liikennetta);
+		case WHIRLING:			return (lumipyry << vaikeuttaa_liikennetta);
+		case HEAVY_SNOWFALL:		return (lumisade << vaikeuttaa_liikennetta);
+                case FASTWORSENING:             return (kelin_huononeminen << vaikeuttaa_liikennetta);
+                case SLEET_TO_ICY:              return (rantasade << vaikeuttaa_liikennetta);
+                case RAIN_TO_ICY:               return (tie_on_muuttumassa << "j‰iseksi vesisateesta johtuen");
+		case ICYRAIN:			return (alijaahtynyt << vaikeuttaa_liikennetta);
+                }
 
 	  // Unreachable
 
@@ -300,95 +336,317 @@ namespace TextGen
 	{
 	  Sentence sentence;
 
-
-	  /*
-	   case RAIN_TO_ICY:
-	   case RAIN_TO_PARTLY_ICY:
-	   case SLEET_TO_ICY:
-	   case SLEET_TO_PARTLY_ICY:
-	   case ICYRAIN:
-	   case FASTWORSENING:
-	   case FROSTSLIPPERY:
-	   case ICING:
-	   case PARTLY_ICING:
-	   case FROSTY:
-	                                                                                                                                                                   */
 	  switch(thePrimaryType)
 		{
-		case RAIN_TO_ICY:
-		case RAIN_TO_PARTLY_ICY:
-		case SLEET_TO_ICY:
-		case SLEET_TO_PARTLY_ICY:
 		case ICYRAIN:
-		case FASTWORSENING:
-		  switch(theSecondaryType)
-			{
-          		     case RAIN_TO_ICY:
-		             case RAIN_TO_PARTLY_ICY:
-		             case SLEET_TO_ICY:
-		             case SLEET_TO_PARTLY_ICY:
-		             case ICYRAIN:
-		             case FASTWORSENING:
-		             case FROSTSLIPPERY:
-				     sentence << "paikoin" << "teill‰ on" << "pakkasliukkautta";
-				     break;
-		             case ICING:
-				     sentence << "paikoin" << "tienpinnat muuttuvat" << "j‰isiksi";
-				     break;
-		             case PARTLY_ICING:
-				     sentence << "paikoin" << "tienpinnat muuttuvat" << "osittain j‰isiksi";
-				     break;
-		             case FROSTY:
-				     sentence << "paikoin" << "tienpinnat muuttuvat" << "kuuraisiksi";
-				     break;
-			     case NORMAL:
-				     break;
-			}
-		  break;
-		case FROSTSLIPPERY:
-		case ICING:
-		  switch(theSecondaryType)
-		  {
-			 case RAIN_TO_ICY:
-			 case RAIN_TO_PARTLY_ICY:
-			 case SLEET_TO_ICY:
-			 case SLEET_TO_PARTLY_ICY:
-			 case ICYRAIN:
-			 case FASTWORSENING:
-			 case FROSTSLIPPERY:
-			 case ICING:
-			  case PARTLY_ICING:
-				  sentence << "paikoin" << "osittain j‰isiksi";
+                 switch(theSecondaryType)
+                        {
+                             case ICYRAIN:
+                             case RAIN_TO_ICY:
+				  sentence << "paikoin" << "tie on muuttumassa" << "j‰iseksi vesisateesta johtuen";
 				  break;
-			 case FROSTY:
-				  sentence << "paikoin" << "kuuraisiksi";
+			     case SLEET_TO_ICY:
+				  sentence << "paikoin" << "r‰nt‰sade j‰iselle tai osittain j‰iselle tienpinnalle" << "vaikeuttaa liikennett‰";
 				  break;
-			 case NORMAL:
+			     case FASTWORSENING:
+				  sentence << "paikoin" << "kelin nopea huononeminen" << "vaikeuttaa liikennett‰";
 				  break;
-		  }
-		  break;
-		case PARTLY_ICING:
-		  switch(theSecondaryType)
-		  {
-          		case RAIN_TO_ICY:
-		        case RAIN_TO_PARTLY_ICY:
-		        case SLEET_TO_ICY:
-		        case SLEET_TO_PARTLY_ICY:
-		        case ICYRAIN:
-		        case FASTWORSENING:
-		        case FROSTSLIPPERY:
-		        case ICING:
-			case PARTLY_ICING:
-			  case FROSTY:
-				  sentence << "paikoin" << "kuuraisiksi";
+			     case HEAVY_SNOWFALL:
+				  sentence << "paikoin" << "runsas lumisade" << "vaikeuttaa liikennett‰";
 				  break;
-			  case NORMAL:
+			     case WHIRLING:
+				  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennett‰";
 				  break;
-		  }
-		  break;
-		case FROSTY:
-		case NORMAL:
-		  break;
+			     case WINDWARNING:
+				  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennett‰";
+				  break;
+			     case FROSTSLIPPERY:
+				  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennett‰";
+				  break;
+			     case SNOWY:
+				  sentence << "paikoin" << "keli huononee" << "lumisateen takia";
+				  break;
+			     case ICING:
+				  sentence << "paikoin" << "m‰rk‰ tienpinta muuttuu" << "j‰iseksi tai osittain j‰iseksi";
+				  break;
+			     case FROSTY:
+				  sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
+				  break;
+                             case NORMAL:
+                                  break;
+                        }
+                  break;
+		  case RAIN_TO_ICY:
+                   switch(theSecondaryType)
+                        {
+                             case ICYRAIN:
+                             case RAIN_TO_ICY:
+                             case SLEET_TO_ICY:
+                                  sentence << "paikoin" << "r‰nt‰sade j‰iselle tai osittain j‰iselle tienpinnalle" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case FASTWORSENING:
+                                  sentence << "paikoin" << "kelin nopea huononeminen" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case HEAVY_SNOWFALL:
+                                  sentence << "paikoin" << "runsas lumisade" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case WHIRLING:
+                                  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case WINDWARNING:
+                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case FROSTSLIPPERY:
+                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case SNOWY:
+                                  sentence << "paikoin" << "keli huononee" << "lumisateen takia";
+                                  break;
+                             case ICING:
+                                  sentence << "paikoin" << "m‰rk‰ tienpinta muuttuu" << "j‰iseksi tai osittain j‰iseksi";
+                                  break;
+                             case FROSTY:
+                                  sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
+                                  break;
+                             case NORMAL:
+                                  break;
+                        }
+                  break;
+		  case SLEET_TO_ICY:
+                   switch(theSecondaryType)
+                        {
+                             case ICYRAIN:
+                             case RAIN_TO_ICY:
+                             case SLEET_TO_ICY:
+                             case FASTWORSENING:
+                                  sentence << "paikoin" << "kelin nopea huononeminen" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case HEAVY_SNOWFALL:
+                                  sentence << "paikoin" << "runsas lumisade" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case WHIRLING:
+                                  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case WINDWARNING:
+                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case FROSTSLIPPERY:
+                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case SNOWY:
+                                  sentence << "paikoin" << "keli huononee" << "lumisateen takia";
+                                  break;
+                             case ICING:
+                                  sentence << "paikoin" << "m‰rk‰ tienpinta muuttuu" << "j‰iseksi tai osittain j‰iseksi";
+                                  break;
+                             case FROSTY:
+                                  sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
+                                  break;
+                             case NORMAL:
+                                  break;
+                        }
+                  break;
+		  case FASTWORSENING:
+                   switch(theSecondaryType)
+                        {
+                             case ICYRAIN:
+                             case RAIN_TO_ICY:
+                             case SLEET_TO_ICY:
+                             case FASTWORSENING:
+                             case HEAVY_SNOWFALL:
+                                  sentence << "paikoin" << "runsas lumisade" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case WHIRLING:
+                                  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case WINDWARNING:
+                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case FROSTSLIPPERY:
+                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case SNOWY:
+                                  sentence << "paikoin" << "keli huononee" << "lumisateen takia";
+                                  break;
+                             case ICING:
+                                  sentence << "paikoin" << "m‰rk‰ tienpinta muuttuu" << "j‰iseksi tai osittain j‰iseksi";
+                                  break;
+                             case FROSTY:
+                                  sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
+                                  break;
+                             case NORMAL:
+                                  break;
+                        }
+                  break;
+		  case HEAVY_SNOWFALL:
+                 switch(theSecondaryType)
+                        {
+                             case ICYRAIN:
+                             case RAIN_TO_ICY:
+                             case SLEET_TO_ICY:
+                             case FASTWORSENING:
+                             case HEAVY_SNOWFALL:
+                             case WHIRLING:
+                                  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case WINDWARNING:
+                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case FROSTSLIPPERY:
+                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case SNOWY:
+                                  sentence << "paikoin" << "keli huononee" << "lumisateen takia";
+                                  break;
+                             case ICING:
+                                  sentence << "paikoin" << "m‰rk‰ tienpinta muuttuu" << "j‰iseksi tai osittain j‰iseksi";
+                                  break;
+                             case FROSTY:
+                                  sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
+                                  break;
+                             case NORMAL:
+                                  break;
+                        }
+                  break;
+		  case WHIRLING:
+                 switch(theSecondaryType)
+                        {
+                             case ICYRAIN:
+                             case RAIN_TO_ICY:
+                             case SLEET_TO_ICY:
+                             case FASTWORSENING:
+                             case HEAVY_SNOWFALL:
+                             case WHIRLING:
+                             case WINDWARNING:
+                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case FROSTSLIPPERY:
+                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case SNOWY:
+                                  sentence << "paikoin" << "keli huononee" << "lumisateen takia";
+                                  break;
+                             case ICING:
+                                  sentence << "paikoin" << "m‰rk‰ tienpinta muuttuu" << "j‰iseksi tai osittain j‰iseksi";
+                                  break;
+                             case FROSTY:
+                                  sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
+                                  break;
+                             case NORMAL:
+                                  break;
+                        }
+                  break;
+		  case WINDWARNING:
+                 switch(theSecondaryType)
+                        {
+                             case ICYRAIN:
+                             case RAIN_TO_ICY:
+                             case SLEET_TO_ICY:
+                             case FASTWORSENING:
+                             case HEAVY_SNOWFALL:
+                             case WHIRLING:
+                             case WINDWARNING:
+                             case FROSTSLIPPERY:
+                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennett‰";
+                                  break;
+                             case SNOWY:
+                                  sentence << "paikoin" << "keli huononee" << "lumisateen takia";
+                                  break;
+                             case ICING:
+                                  sentence << "paikoin" << "m‰rk‰ tienpinta muuttuu" << "j‰iseksi tai osittain j‰iseksi";
+                                  break;
+                             case FROSTY:
+                                  sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
+                                  break;
+                             case NORMAL:
+                                  break;
+                        }
+                  break;
+		  case FROSTSLIPPERY:
+                 switch(theSecondaryType)
+                        {
+                             case ICYRAIN:
+                             case RAIN_TO_ICY:
+                             case SLEET_TO_ICY:
+                             case FASTWORSENING:
+                             case HEAVY_SNOWFALL:
+                             case WHIRLING:
+                             case WINDWARNING:
+                             case FROSTSLIPPERY:
+                             case SNOWY:
+                                  sentence << "paikoin" << "keli huononee" << "lumisateen takia";
+                                  break;
+                             case ICING:
+                                  sentence << "paikoin" << "m‰rk‰ tienpinta muuttuu" << "j‰iseksi tai osittain j‰iseksi";
+                                  break;
+                             case FROSTY:
+                                  sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
+                                  break;
+                             case NORMAL:
+                                  break;
+                        }
+                  break;
+		  case SNOWY:
+                 switch(theSecondaryType)
+                        {
+                             case ICYRAIN:
+                             case RAIN_TO_ICY:
+                             case SLEET_TO_ICY:
+                             case FASTWORSENING:
+                             case HEAVY_SNOWFALL:
+                             case WHIRLING:
+                             case WINDWARNING:
+                             case FROSTSLIPPERY:
+                             case SNOWY:
+                             case ICING:
+                                  sentence << "paikoin" << "m‰rk‰ tienpinta muuttuu" << "j‰iseksi tai osittain j‰iseksi";
+                                  break;
+                             case FROSTY:
+                                  sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
+                                  break;
+                             case NORMAL:
+                                  break;
+                        }
+                  break;
+		 case ICING:
+                 switch(theSecondaryType)
+                        {
+                             case ICYRAIN:
+                             case RAIN_TO_ICY:
+                             case SLEET_TO_ICY:
+                             case FASTWORSENING:
+                             case HEAVY_SNOWFALL:
+                             case WHIRLING:
+                             case WINDWARNING:
+                             case FROSTSLIPPERY:
+                             case SNOWY:
+                             case ICING:
+                             case FROSTY:
+                                  sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
+                                  break;
+                             case NORMAL:
+                                  break;
+                        }
+                  break;
+		  case FROSTY:
+                 switch(theSecondaryType)
+                        {
+                             case ICYRAIN:
+                             case RAIN_TO_ICY:
+                             case SLEET_TO_ICY:
+                             case FASTWORSENING:
+                             case HEAVY_SNOWFALL:
+                             case WHIRLING:
+                             case WINDWARNING:
+                             case FROSTSLIPPERY:
+                             case SNOWY:
+                             case ICING:
+                             case FROSTY:
+                             case NORMAL:
+                                  break;
+                        }
+		   case NORMAL:
+                  break;
 		}
 	  return sentence;
 	}
@@ -488,7 +746,7 @@ namespace TextGen
 								   generally_limit,
 								   manyplaces_limit,
 								   someplaces_limit);
-
+/*
 	  if(someplacestypes.size() > 1)
 		{
 		  RoadWarningType secondtype = (++someplacestypes.begin())->second;
@@ -501,6 +759,7 @@ namespace TextGen
 				sentence << "tai" << "kuuraisiksi";
 			}
 		}
+*/
 	  return sentence;
 	}
 
