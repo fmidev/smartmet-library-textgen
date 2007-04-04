@@ -39,20 +39,15 @@ namespace TextGen
   {
 	MessageLogger log("FrostStory::twonights");
 
-	using MathTools::to_precision;
-
 	Paragraph paragraph;
 
-	const int forecast_month = itsForecastTime.GetMonth();
-	const int forecast_day = itsForecastTime.GetDay();
-	if(forecast_month > 10 ||
-	   forecast_month < 4 ||
-	   (forecast_month == 10 && forecast_day>17))
+	if(!FrostStoryTools::is_frost_season())
 	  {
-		log << "Frost is not reported from after October 15th until 31st of March!";
-		log << paragraph;
+		log << "Frost season is not on";
 		return paragraph;
 	  }
+
+	using MathTools::to_precision;
 
 	const int starthour    = Settings::require_hour(itsVar+"::night::starthour");
 	const int endhour      = Settings::require_hour(itsVar+"::night::endhour");

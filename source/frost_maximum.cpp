@@ -6,6 +6,7 @@
 // ======================================================================
 
 #include "FrostStory.h"
+#include "FrostStoryTools.h"
 #include "GridForecaster.h"
 #include "Integer.h"
 #include "MathTools.h"
@@ -35,9 +36,16 @@ namespace TextGen
   {
 	MessageLogger log("FrostStory::maximum");
 
+	Paragraph paragraph;
+
+	if(!FrostStoryTools::is_frost_season())
+	  {
+		log << "Frost season is not on";
+		return paragraph;
+	  }
+
 	using MathTools::to_precision;
 
-	Paragraph paragraph;
 	Sentence sentence;
 
 	const string var1 = itsVar+"::precision";

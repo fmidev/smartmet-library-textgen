@@ -19,6 +19,8 @@ namespace TextGen
 
   namespace FrostStoryTools
   {
+	bool is_frost_season();
+
 	const Sentence frost_sentence(const WeatherAnalysis::WeatherPeriod & thePeriod,
 								  int theProbability);
 

@@ -15,6 +15,7 @@
 #include "FrostStoryTools.h"
 #include "Integer.h"
 #include "Sentence.h"
+#include "Settings.h"
 #include "UnitFactory.h"
 #include "WeatherPeriod.h"
 #include "WeekdayTools.h"
@@ -25,6 +26,17 @@ namespace TextGen
 {
   namespace FrostStoryTools
   {
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return true if one is allowed to report on frost
+	 */
+	// ----------------------------------------------------------------------
+
+	bool is_frost_season()
+	{
+	  return Settings::require_bool("textgen::frostseason");
+	}
 
 	// ----------------------------------------------------------------------
 	/*!

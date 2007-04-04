@@ -461,6 +461,8 @@ int main(void)
   dict->init("sv");
   dict->init("en");
 
+  NFmiSettings::Set("textgen::frostseason","true");
+
   tests t;
   return t.run();
 }

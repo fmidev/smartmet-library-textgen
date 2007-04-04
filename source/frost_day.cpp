@@ -6,6 +6,7 @@
 // ======================================================================
 
 #include "FrostStory.h"
+#include "FrostStoryTools.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "HourPeriodGenerator.h"
@@ -72,23 +73,16 @@ namespace TextGen
   {
 	MessageLogger log("FrostStory::day");
 
-	using MathTools::to_precision;
-
 	Paragraph paragraph;
 
-	// No frost during winter
-
-	const int forecast_month = itsForecastTime.GetMonth();
-	const int forecast_day = itsForecastTime.GetDay();
-	if(forecast_month > 10 ||
-	   forecast_month < 4 ||
-	   (forecast_month == 10 && forecast_day>17))
+	if(!FrostStoryTools::is_frost_season())
 	  {
-		log << "Frost is not reported from after October 15th until 31st of March!";
-		log << paragraph;
+		log << "Frost season is not on";
 		return paragraph;
 	  }
 	
+	using MathTools::to_precision;
+
 	HourPeriodGenerator generator(itsPeriod,itsVar+"::night");
 
     // Too late for this night? Return empty story then
