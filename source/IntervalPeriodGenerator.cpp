@@ -111,7 +111,7 @@ namespace WeatherAnalysis
 	time.ChangeByDays(-1);
 	time.SetHour(itsStartHour);
 
-	while(time.IsLessThan(itsMainPeriod.localEndTime()))
+	while(time <= itsMainPeriod.localEndTime())
 	  {
 		NFmiTime starttime(time);
 		NFmiTime endtime(time);
