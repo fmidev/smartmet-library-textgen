@@ -194,6 +194,26 @@ namespace WeatherAnalysis
 	return itsPeriods[thePeriod-1];
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test if the given period is day or night
+   */
+  // ----------------------------------------------------------------------
+
+  bool NightAndDayPeriodGenerator::isday(size_type thePeriod) const
+  {
+	if(thePeriod < 1 || thePeriod > itsPeriods.size())
+	  throw WeatherAnalysis::WeatherAnalysisError("NightAndDayPeriodGenerator::isday(): invalid argument");
+
+	const int starthour = itsPeriods[thePeriod-1].localStartTime().GetHour();
+	const int endhour = itsPeriods[thePeriod-1].localEndTime().GetHour();
+
+	return (starthour <= endhour &&
+			starthour >= itsDayMaxStartHour &&
+			endhour <= itsDayMinEndHour);
+  }
+
+
 } // namespace WeatherAnalysis
 
 // ======================================================================
