@@ -54,93 +54,206 @@ namespace TemperatureStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1,6);
-	NFmiTime time2(2000,1,2,6);
-	WeatherPeriod period(time1,time2);
-	TemperatureStory story(time1,sources,area,period,"day");
 
-	const string fun = "temperature_day";
+	// 1 day forecast
 
-	NFmiSettings::Set("day::day::starthour","6");
-	NFmiSettings::Set("day::day::endhour","18");
-	NFmiSettings::Set("day::night::starthour","18");
-	NFmiSettings::Set("day::night::endhour","6");
+	{
+	  NFmiTime time1(2000,1,1,6);
+	  NFmiTime time2(2000,1,2,6);
+	  WeatherPeriod period(time1,time2);
+	  TemperatureStory story(time1,sources,area,period,"day");
+	  
+	  const string fun = "temperature_day";
+	  
+	  NFmiSettings::Set("day::day::starthour","6");
+	  NFmiSettings::Set("day::day::endhour","18");
+	  NFmiSettings::Set("day::night::starthour","18");
+	  NFmiSettings::Set("day::night::endhour","6");
+	  
+	  NFmiSettings::Set("day::comparison::significantly_higher","5");
+	  NFmiSettings::Set("day::comparison::higher","3");
+	  NFmiSettings::Set("day::comparison::somewhat_higher","2");
+	  NFmiSettings::Set("day::comparison::somewhat_lower","2");
+	  NFmiSettings::Set("day::comparison::lower","3");
+	  NFmiSettings::Set("day::comparison::significantly_lower","5");
+	  
+	  
+	  NFmiSettings::Set("day::fake::day1::area::mean","15,0");
+	  NFmiSettings::Set("day::fake::day1::area::min","15,0");
+	  NFmiSettings::Set("day::fake::day1::area::max","15,0");
+	  
+	  NFmiSettings::Set("day::fake::day1::coast::mean","15,0");
+	  NFmiSettings::Set("day::fake::day1::coast::min","15,0");
+	  NFmiSettings::Set("day::fake::day1::coast::max","15,0");
+	  
+	  NFmiSettings::Set("day::fake::day1::inland::mean","15,0");
+	  NFmiSettings::Set("day::fake::day1::inland::min","15,0");
+	  NFmiSettings::Set("day::fake::day1::inland::max","15,0");
+	  
+	  NFmiSettings::Set("day::fake::night1::area::mean","15,0");
+	  NFmiSettings::Set("day::fake::night1::area::min","15,0");
+	  NFmiSettings::Set("day::fake::night1::area::max","15,0");
+	  
+	  NFmiSettings::Set("day::fake::night1::coast::mean","15,0");
+	  NFmiSettings::Set("day::fake::night1::coast::min","15,0");
+	  NFmiSettings::Set("day::fake::night1::coast::max","15,0");
+	  
+	  NFmiSettings::Set("day::fake::night1::inland::mean","15,0");
+	  NFmiSettings::Set("day::fake::night1::inland::min","15,0");
+	  NFmiSettings::Set("day::fake::night1::inland::max","15,0");
+	  
+	  require(story,"fi",fun,"Lämpötila on noin 15 astetta.");
+	  require(story,"sv",fun,"Temperatur är cirka 15 grader.");
+	  require(story,"en",fun,"Temperature is about 15 degrees.");
+	  
+	  NFmiSettings::Set("day::fake::day1::coast::mean","10,0");
+	  NFmiSettings::Set("day::fake::day1::coast::min","8,0");
+	  NFmiSettings::Set("day::fake::day1::coast::max","12,0");
+	  
+	  NFmiSettings::Set("day::fake::day1::inland::mean","16,0");
+	  NFmiSettings::Set("day::fake::day1::inland::min","15,0");
+	  NFmiSettings::Set("day::fake::day1::inland::max","14,0");
+	  
+	  require(story,"fi",fun,"Lämpötila on noin 16 astetta, rannikolla alempi.");
+	  require(story,"sv",fun,"Temperatur är cirka 16 grader, vid kusten lägre.");
+	  require(story,"en",fun,"Temperature is about 16 degrees, on the coastal area lower.");
+	  
+	  NFmiSettings::Set("day::fake::night1::area::mean","10,0");
+	  NFmiSettings::Set("day::fake::night1::area::min","10,0");
+	  NFmiSettings::Set("day::fake::night1::area::max","10,0");
+	  
+	  NFmiSettings::Set("day::fake::night1::coast::mean","10,0");
+	  NFmiSettings::Set("day::fake::night1::coast::min","10,0");
+	  NFmiSettings::Set("day::fake::night1::coast::max","10,0");
+	  
+	  NFmiSettings::Set("day::fake::night1::inland::mean","10,0");
+	  NFmiSettings::Set("day::fake::night1::inland::min","10,0");
+	  NFmiSettings::Set("day::fake::night1::inland::max","10,0");
+	  
+	  require(story,"fi",fun,"Päivän ylin lämpötila on noin 16 astetta, rannikolla huomattavasti alempi. Yön alin lämpötila on noin 10 astetta.");
+	  require(story,"sv",fun,"Dagens högsta temperatur är cirka 16 grader, vid kusten betydligt lägre. Nattens lägsta temperatur är cirka 10 grader.");
+	  require(story,"en",fun,"The maximum day temperature is about 16 degrees, on the coastal area significantly lower. The minimum night temperature is about 10 degrees.");
+	  
+	  NFmiSettings::Set("day::fake::day1::coast::mean","-10,0");
+	  NFmiSettings::Set("day::fake::day1::coast::min","-12,0");
+	  NFmiSettings::Set("day::fake::day1::coast::max","-8,0");
+	  
+	  NFmiSettings::Set("day::fake::night1::coast::mean","7,0");
+	  NFmiSettings::Set("day::fake::night1::coast::min","7,0");
+	  NFmiSettings::Set("day::fake::night1::coast::max","7,0");
+	  
+	  require(story,"fi",fun,"Päivän ylin lämpötila on noin 16 astetta, rannikolla -12...-8 astetta. Yön alin lämpötila on noin 10 astetta, rannikolla alempi.");
+	  require(story,"sv",fun,"Dagens högsta temperatur är cirka 16 grader, vid kusten -12...-8 grader. Nattens lägsta temperatur är cirka 10 grader, vid kusten lägre.");
+	  require(story,"en",fun,"The maximum day temperature is about 16 degrees, on the coastal area -12...-8 degrees. The minimum night temperature is about 10 degrees, on the coastal area lower.");
 
-	NFmiSettings::Set("day::comparison::significantly_higher","5");
-	NFmiSettings::Set("day::comparison::higher","3");
-	NFmiSettings::Set("day::comparison::somewhat_higher","2");
-	NFmiSettings::Set("day::comparison::somewhat_lower","2");
-	NFmiSettings::Set("day::comparison::lower","3");
-	NFmiSettings::Set("day::comparison::significantly_lower","5");
+	}
 
+	// 1 1/2 days
 
-	NFmiSettings::Set("day::fake::day::area::mean","15,0");
-	NFmiSettings::Set("day::fake::day::area::min","15,0");
-	NFmiSettings::Set("day::fake::day::area::max","15,0");
+	{
+	  NFmiTime time1(2000,1,1,6);
+	  NFmiTime time2(2000,1,2,18);
+	  WeatherPeriod period(time1,time2);
+	  TemperatureStory story(time1,sources,area,period,"day");
+	  
+	  const string fun = "temperature_day";
 
-	NFmiSettings::Set("day::fake::day::coast::mean","15,0");
-	NFmiSettings::Set("day::fake::day::coast::min","15,0");
-	NFmiSettings::Set("day::fake::day::coast::max","15,0");
+	  NFmiSettings::Set("day::today::phrases","today,tomorrow,weekday");
+	  
+	  NFmiSettings::Set("day::day::starthour","6");
+	  NFmiSettings::Set("day::day::endhour","18");
+	  NFmiSettings::Set("day::night::starthour","18");
+	  NFmiSettings::Set("day::night::endhour","6");
+	  
+	  NFmiSettings::Set("day::comparison::significantly_higher","5");
+	  NFmiSettings::Set("day::comparison::higher","3");
+	  NFmiSettings::Set("day::comparison::somewhat_higher","2");
+	  NFmiSettings::Set("day::comparison::somewhat_lower","2");
+	  NFmiSettings::Set("day::comparison::lower","3");
+	  NFmiSettings::Set("day::comparison::significantly_lower","5");
+	  
+	  
+	  NFmiSettings::Set("day::fake::day1::area::mean","15,0");
+	  NFmiSettings::Set("day::fake::day1::area::min","15,0");
+	  NFmiSettings::Set("day::fake::day1::area::max","15,0");
+	  
+	  NFmiSettings::Set("day::fake::day1::coast::mean","15,0");
+	  NFmiSettings::Set("day::fake::day1::coast::min","15,0");
+	  NFmiSettings::Set("day::fake::day1::coast::max","15,0");
+	  
+	  NFmiSettings::Set("day::fake::day1::inland::mean","15,0");
+	  NFmiSettings::Set("day::fake::day1::inland::min","15,0");
+	  NFmiSettings::Set("day::fake::day1::inland::max","15,0");
+	  
+	  NFmiSettings::Set("day::fake::night1::area::mean","15,0");
+	  NFmiSettings::Set("day::fake::night1::area::min","15,0");
+	  NFmiSettings::Set("day::fake::night1::area::max","15,0");
+	  
+	  NFmiSettings::Set("day::fake::night1::coast::mean","15,0");
+	  NFmiSettings::Set("day::fake::night1::coast::min","15,0");
+	  NFmiSettings::Set("day::fake::night1::coast::max","15,0");
+	  
+	  NFmiSettings::Set("day::fake::night1::inland::mean","15,0");
+	  NFmiSettings::Set("day::fake::night1::inland::min","15,0");
+	  NFmiSettings::Set("day::fake::night1::inland::max","15,0");
+	  
+	  NFmiSettings::Set("day::fake::day2::area::mean","11,0");
+	  NFmiSettings::Set("day::fake::day2::area::min","10,0");
+	  NFmiSettings::Set("day::fake::day2::area::max","13,0");
+	  
+	  NFmiSettings::Set("day::fake::day2::coast::mean","5,0");
+	  NFmiSettings::Set("day::fake::day2::coast::min","0,0");
+	  NFmiSettings::Set("day::fake::day2::coast::max","15,0");
+	  
+	  NFmiSettings::Set("day::fake::day2::inland::mean","20,0");
+	  NFmiSettings::Set("day::fake::day2::inland::min","15,0");
+	  NFmiSettings::Set("day::fake::day2::inland::max","25,0");
 
-	NFmiSettings::Set("day::fake::day::inland::mean","15,0");
-	NFmiSettings::Set("day::fake::day::inland::min","15,0");
-	NFmiSettings::Set("day::fake::day::inland::max","15,0");
+	  require(story,"fi",fun,"Lämpötila on tänään noin 15 astetta. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
+	  require(story,"sv",fun,"Temperatur är i dag cirka 15 grader. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...15 grader.");
+	  require(story,"en",fun,"Temperature is today about 15 degrees. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...15 degrees.");
+	  
+	  NFmiSettings::Set("day::fake::day1::coast::mean","10,0");
+	  NFmiSettings::Set("day::fake::day1::coast::min","8,0");
+	  NFmiSettings::Set("day::fake::day1::coast::max","12,0");
+	  
+	  NFmiSettings::Set("day::fake::day1::inland::mean","16,0");
+	  NFmiSettings::Set("day::fake::day1::inland::min","15,0");
+	  NFmiSettings::Set("day::fake::day1::inland::max","14,0");
+	  
+	  require(story,"fi",fun,"Lämpötila on tänään noin 16 astetta, rannikolla alempi. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
+	  require(story,"sv",fun,"Temperatur är i dag cirka 16 grader, vid kusten lägre. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...15 grader.");
+	  require(story,"en",fun,"Temperature is today about 16 degrees, on the coastal area lower. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...15 degrees.");
+	  
+	  NFmiSettings::Set("day::fake::night1::area::mean","10,0");
+	  NFmiSettings::Set("day::fake::night1::area::min","10,0");
+	  NFmiSettings::Set("day::fake::night1::area::max","10,0");
+	  
+	  NFmiSettings::Set("day::fake::night1::coast::mean","10,0");
+	  NFmiSettings::Set("day::fake::night1::coast::min","10,0");
+	  NFmiSettings::Set("day::fake::night1::coast::max","10,0");
+	  
+	  NFmiSettings::Set("day::fake::night1::inland::mean","10,0");
+	  NFmiSettings::Set("day::fake::night1::inland::min","10,0");
+	  NFmiSettings::Set("day::fake::night1::inland::max","10,0");
+	  
+	  require(story,"fi",fun,"Päivän ylin lämpötila on tänään noin 16 astetta, rannikolla huomattavasti alempi. Yön alin lämpötila on noin 10 astetta. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
+	  require(story,"sv",fun,"Dagens högsta temperatur är i dag cirka 16 grader, vid kusten betydligt lägre. Nattens lägsta temperatur är cirka 10 grader. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...15 grader.");
+	  require(story,"en",fun,"The maximum day temperature is today about 16 degrees, on the coastal area significantly lower. The minimum night temperature is about 10 degrees. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...15 degrees.");
+	  
+	  NFmiSettings::Set("day::fake::day1::coast::mean","-10,0");
+	  NFmiSettings::Set("day::fake::day1::coast::min","-12,0");
+	  NFmiSettings::Set("day::fake::day1::coast::max","-8,0");
+	  
+	  NFmiSettings::Set("day::fake::night1::coast::mean","7,0");
+	  NFmiSettings::Set("day::fake::night1::coast::min","7,0");
+	  NFmiSettings::Set("day::fake::night1::coast::max","7,0");
+	  
+	  require(story,"fi",fun,"Päivän ylin lämpötila on tänään noin 16 astetta, rannikolla -12...-8 astetta. Yön alin lämpötila on noin 10 astetta, rannikolla alempi. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
+	  require(story,"sv",fun,"Dagens högsta temperatur är i dag cirka 16 grader, vid kusten -12...-8 grader. Nattens lägsta temperatur är cirka 10 grader, vid kusten lägre. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...15 grader.");
+	  require(story,"en",fun,"The maximum day temperature is today about 16 degrees, on the coastal area -12...-8 degrees. The minimum night temperature is about 10 degrees, on the coastal area lower. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...15 degrees.");
 
-	NFmiSettings::Set("day::fake::night::area::mean","15,0");
-	NFmiSettings::Set("day::fake::night::area::min","15,0");
-	NFmiSettings::Set("day::fake::night::area::max","15,0");
-
-	NFmiSettings::Set("day::fake::night::coast::mean","15,0");
-	NFmiSettings::Set("day::fake::night::coast::min","15,0");
-	NFmiSettings::Set("day::fake::night::coast::max","15,0");
-
-	NFmiSettings::Set("day::fake::night::inland::mean","15,0");
-	NFmiSettings::Set("day::fake::night::inland::min","15,0");
-	NFmiSettings::Set("day::fake::night::inland::max","15,0");
-
-	require(story,"fi",fun,"Lämpötila on noin 15 astetta.");
-	require(story,"sv",fun,"Temperatur är cirka 15 grader.");
-	require(story,"en",fun,"Temperature is about 15 degrees.");
-
-	NFmiSettings::Set("day::fake::day::coast::mean","10,0");
-	NFmiSettings::Set("day::fake::day::coast::min","8,0");
-	NFmiSettings::Set("day::fake::day::coast::max","12,0");
-
-	NFmiSettings::Set("day::fake::day::inland::mean","16,0");
-	NFmiSettings::Set("day::fake::day::inland::min","15,0");
-	NFmiSettings::Set("day::fake::day::inland::max","14,0");
-
-	require(story,"fi",fun,"Lämpötila on noin 16 astetta, rannikolla alempi.");
-	require(story,"sv",fun,"Temperatur är cirka 16 grader, vid kusten lägre.");
-	require(story,"en",fun,"Temperature is about 16 degrees, on the coastal area lower.");
-
-	NFmiSettings::Set("day::fake::night::area::mean","10,0");
-	NFmiSettings::Set("day::fake::night::area::min","10,0");
-	NFmiSettings::Set("day::fake::night::area::max","10,0");
-
-	NFmiSettings::Set("day::fake::night::coast::mean","10,0");
-	NFmiSettings::Set("day::fake::night::coast::min","10,0");
-	NFmiSettings::Set("day::fake::night::coast::max","10,0");
-
-	NFmiSettings::Set("day::fake::night::inland::mean","10,0");
-	NFmiSettings::Set("day::fake::night::inland::min","10,0");
-	NFmiSettings::Set("day::fake::night::inland::max","10,0");
-
-	require(story,"fi",fun,"Päivän ylin lämpötila on noin 16 astetta, rannikolla huomattavasti alempi. Yön alin lämpötila on noin 10 astetta.");
-	require(story,"sv",fun,"Dagens högsta temperatur är cirka 16 grader, vid kusten betydligt lägre. Nattens lägsta temperatur är cirka 10 grader.");
-	require(story,"en",fun,"The maximum day temperature is about 16 degrees, on the coastal area significantly lower. The minimum night temperature is about 10 degrees.");
-
-	NFmiSettings::Set("day::fake::day::coast::mean","-10,0");
-	NFmiSettings::Set("day::fake::day::coast::min","-12,0");
-	NFmiSettings::Set("day::fake::day::coast::max","-8,0");
-
-	NFmiSettings::Set("day::fake::night::coast::mean","7,0");
-	NFmiSettings::Set("day::fake::night::coast::min","7,0");
-	NFmiSettings::Set("day::fake::night::coast::max","7,0");
-
-	require(story,"fi",fun,"Päivän ylin lämpötila on noin 16 astetta, rannikolla -12...-8 astetta. Yön alin lämpötila on noin 10 astetta, rannikolla alempi.");
-	require(story,"sv",fun,"Dagens högsta temperatur är cirka 16 grader, vid kusten -12...-8 grader. Nattens lägsta temperatur är cirka 10 grader, vid kusten lägre.");
-	require(story,"en",fun,"The maximum day temperature is about 16 degrees, on the coastal area -12...-8 degrees. The minimum night temperature is about 10 degrees, on the coastal area lower.");
+	}
 
 	TEST_PASSED();
 

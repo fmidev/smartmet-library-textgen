@@ -26,6 +26,8 @@ Mahdollinen sivulause on muotoa
   -# "rannikolla hieman alempi"
   -# "rannikolla alempi"
   -# "rannikolla huomattavasti alempi"
+
+Virkettä toistetaan yhtä monta kertaa kuin datasta löytyy päivä/yö jaksoja.
  
 Fraasien valintaan liittyvät muuttujat ovat
 \code
@@ -102,29 +104,29 @@ textgen::[kappale]::story::temperature_day::night::minendhour   = 6
 
 Tarinan laskennassa generoidut funktiot voi ylikuormittaa seuraavasti:
 \code
-textgen::[kappale]::story::temperature_day::fake::day::area::mean = [result]
-textgen::[kappale]::story::temperature_day::fake::day::area::minimum = [result]
-textgen::[kappale]::story::temperature_day::fake::day::area::maximum = [result]
+textgen::[kappale]::story::temperature_day::fake::day<N>::area::mean = [result]
+textgen::[kappale]::story::temperature_day::fake::day<N>::area::minimum = [result]
+textgen::[kappale]::story::temperature_day::fake::day<N>::area::maximum = [result]
 
-textgen::[kappale]::story::temperature_day::fake::day::coast::mean = [result]
-textgen::[kappale]::story::temperature_day::fake::day::coast::minimum = [result]
-textgen::[kappale]::story::temperature_day::fake::day::coast::maximum = [result]
+textgen::[kappale]::story::temperature_day::fake::day<N>::coast::mean = [result]
+textgen::[kappale]::story::temperature_day::fake::day<N>::coast::minimum = [result]
+textgen::[kappale]::story::temperature_day::fake::day<N>::coast::maximum = [result]
 
-textgen::[kappale]::story::temperature_day::fake::day::inland::mean = [result]
-textgen::[kappale]::story::temperature_day::fake::day::inland::minimum = [result]
-textgen::[kappale]::story::temperature_day::fake::day::inland::maximum = [result]
+textgen::[kappale]::story::temperature_day::fake::day<N>::inland::mean = [result]
+textgen::[kappale]::story::temperature_day::fake::day<N>::inland::minimum = [result]
+textgen::[kappale]::story::temperature_day::fake::day<N>::inland::maximum = [result]
 
-textgen::[kappale]::story::temperature_day::fake::night::area::mean = [result]
-textgen::[kappale]::story::temperature_day::fake::night::area::minimum = [result]
-textgen::[kappale]::story::temperature_day::fake::night::area::maximum = [result]
+textgen::[kappale]::story::temperature_day::fake::night<N>::area::mean = [result]
+textgen::[kappale]::story::temperature_day::fake::night<N>::area::minimum = [result]
+textgen::[kappale]::story::temperature_day::fake::night<N>::area::maximum = [result]
 
-textgen::[kappale]::story::temperature_day::fake::night::coast::mean = [result]
-textgen::[kappale]::story::temperature_day::fake::night::coast::minimum = [result]
-textgen::[kappale]::story::temperature_day::fake::night::coast::maximum = [result]
+textgen::[kappale]::story::temperature_day::fake::night<N>::coast::mean = [result]
+textgen::[kappale]::story::temperature_day::fake::night<N>::coast::minimum = [result]
+textgen::[kappale]::story::temperature_day::fake::night<N>::coast::maximum = [result]
 
-textgen::[kappale]::story::temperature_day::fake::night::inland::mean = [result]
-textgen::[kappale]::story::temperature_day::fake::night::inland::minimum = [result]
-textgen::[kappale]::story::temperature_day::fake::night::inland::maximum = [result]
+textgen::[kappale]::story::temperature_day::fake::night<N>::inland::mean = [result]
+textgen::[kappale]::story::temperature_day::fake::night<N>::inland::minimum = [result]
+textgen::[kappale]::story::temperature_day::fake::night<N>::inland::maximum = [result]
 \endcode
 
 Tarvittavat fraasit ovat
