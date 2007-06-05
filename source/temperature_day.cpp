@@ -115,6 +115,8 @@ namespace TextGen
 		return paragraph;
 	  }
 
+	log << "Period contains " << generator.size() << " days or nights" << endl;
+
 	// The options
 
 	const int day_night_limit = optional_int(itsVar+"::day_night_limit",3);
