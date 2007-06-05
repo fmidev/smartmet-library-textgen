@@ -209,8 +209,8 @@ namespace WeatherAnalysis
 	const int endhour = itsPeriods[thePeriod-1].localEndTime().GetHour();
 
 	return (starthour <= endhour &&
-			starthour >= itsDayMaxStartHour &&
-			endhour <= itsDayMinEndHour);
+			starthour <= itsDayMaxStartHour &&
+			endhour >= itsDayMinEndHour);
   }
 
 
