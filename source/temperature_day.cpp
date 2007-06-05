@@ -143,6 +143,8 @@ namespace TextGen
 	  {
 		++part;
 
+		log << "Sentence " << part << ":" << endl;
+
 		WeatherResult areameanday(kFloatMissing,0);
 		WeatherResult areaminday(kFloatMissing,0);
 		WeatherResult areamaxday(kFloatMissing,0);
