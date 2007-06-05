@@ -178,6 +178,11 @@ namespace TextGen
 			hasday = true;
 
 			WeatherPeriod period = generator.period(periodnum++);
+			log << "Day: "
+				<< period.localStartTime()
+				<< " ... "
+				<< period.localEndTime()
+				<< endl;
 
 			log << "Day results for area:" << endl;
 			calculate_mean_min_max(log,forecaster,
@@ -207,6 +212,12 @@ namespace TextGen
 		  {
 			hasnight = true;
 			WeatherPeriod period = generator.period(periodnum++);
+
+			log << "Night: "
+				<< period.localStartTime()
+				<< " ... "
+				<< period.localEndTime()
+				<< endl;
 
 			log << "Night results for area:" << endl;
 			calculate_mean_min_max(log,forecaster,
