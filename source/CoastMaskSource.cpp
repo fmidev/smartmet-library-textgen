@@ -89,15 +89,15 @@ namespace WeatherAnalysis
 
 	const WeatherArea itsCoast;
 
-	mask_storage itsMaskStorage;
-	masks_storage itsMasksStorage;
+	mutable mask_storage itsMaskStorage;
+	mutable masks_storage itsMasksStorage;
 
 	mask_type find(const WeatherId & theID,
 				   const WeatherArea & theArea) const;
 
 	void insert(const WeatherId & theID,
 				const WeatherArea & theArea,
-				const mask_type & theMask);
+				const mask_type & theMask) const;
 
 	mask_type create_mask(const WeatherArea & theArea,
 						  const std::string & theData,
@@ -158,7 +158,7 @@ namespace WeatherAnalysis
 
   void CoastMaskSource::Pimple::insert(const WeatherId & theID,
 									   const WeatherArea & theArea,
-									   const mask_type & theMask)
+									   const mask_type & theMask) const
   {
 	typedef mask_storage::value_type value_type;
 
@@ -203,11 +203,18 @@ namespace WeatherAnalysis
 	
 	// Then build the coast mask
 
-	const NFmiSvgPath & csvg = itsCoast.path();
-	const float cdistance = itsCoast.radius();
-	mask_type coastmask(new NFmiIndexMask(MaskDistance(*(qi->Grid()),
+	WeatherId id = theWeatherSource.id(theData);
+	mask_type coastmask = find(id,itsCoast);
+	if(coastmask.get() == 0)
+	  {
+		const NFmiSvgPath & csvg = itsCoast.path();
+		const float cdistance = itsCoast.radius();
+		coastmask.reset(new NFmiIndexMask(MaskDistance(*(qi->Grid()),
 													   csvg,
 													   cdistance)));
+		insert(id,itsCoast,coastmask);
+
+	  }
 
 	// The intersection is the coastal area
 	
