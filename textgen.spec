@@ -7,8 +7,7 @@ Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}
-#tarvitaan jotain mysql-kirjastoja, mitä?
-Requires: newbase >= 1.0-1 
+Requires: newbase >= 1.0-1, MySQL-devel-standard >= 5.0.27
 Provides: textgen
 
 %description
