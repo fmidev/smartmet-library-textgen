@@ -26,8 +26,6 @@ make %{_smp_mflags}
 
 %install
 make install prefix="${RPM_BUILD_ROOT}"
-#mkdir -p ${RPM_BUILD_ROOT}/smartmet/src/c++/lib/textgen # nämä kohdat tuottavat virheen: corrupted header file size
-#cp -r . ${RPM_BUILD_ROOT}/smartmet/src/c++/lib/textgen # nämä kohdat tuottavat virheen: corrupted header file size
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -36,7 +34,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,www,www,0775)
 /usr/include/textgen
 /usr/lib/libtextgen.a
-#/smartmet/src/c++/lib/textgen # nämä kohdat tuottavat virheen: corrupted header file size
 
 
 %changelog
