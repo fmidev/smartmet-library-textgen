@@ -14,8 +14,8 @@ CFLAGS = -DUNIX -O0 -g $(MAINFLAGS) $(EXTRAFLAGS) -Werror
 CFLAGS_RELEASE =  -DUNIX -O2 -DNDEBUG $(MAINFLAGS)
 LDFLAGS = 
 ARFLAGS = -r
-INCLUDES = -I $(includedir) -I $(includedir)/newbase -I /usr/include/mysql
-LIBS = -L /data/local/lib -lnewbase -L/usr/lib/mysql -lmysqlclient
+INCLUDES = -I $(includedir) -I $(includedir)/smartmet/newbase -I $(includedir)/mysql
+LIBS = -L $(libdir) -lsmartmet-newbase -Lmysql -lmysqlclient
 
 # Common library compiling template
 
