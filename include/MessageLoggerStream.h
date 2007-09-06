@@ -56,7 +56,7 @@ protected:
   }
   
   // only for output, not for input
-  virtual int showmanyc()
+  virtual std::streamsize showmanyc()
   {
 	throw std::runtime_error("MessageLoggerStream::showmanyc not available");
 	return 0;
