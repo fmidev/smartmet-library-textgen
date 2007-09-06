@@ -1,6 +1,6 @@
 %define LIBNAME textgen
 Summary: textgen library
-Name: smartmet-%{LIBNAME}
+Name: libsmartmet-%{LIBNAME}
 Version: 1.0.1
 Release: 1.el5.fmi
 License: FMI
@@ -8,7 +8,7 @@ Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}
-Requires: smartmet-newbase >= 1.0.1-1, MySQL-devel-standard >= 5.0.27
+BuildPrereq: smartmet-newbase >= 1.0.1-1, mysql-devel
 Provides: %{LIBNAME}
 
 %description
@@ -23,7 +23,7 @@ mkdir $RPM_BUILD_ROOT
 %build
 make clean
 make depend
-make %{_smp_mflags} 
+make %{_smp_mflags} release
 
 %install
 %makeinstall includedir=%{buildroot}%{_includedir}/smartmet

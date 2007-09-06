@@ -15,10 +15,10 @@ DIFFICULTFLAGS = -Weffc++ -Wunreachable-code -Wredundant-decls
 CC = g++
 CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
 INCLUDES = -I ../include \
-	-I ../../../../../include \
-	-I ../../../../../include/newbase \
+	-I /data/local/include \
+	-I /data/local/include/newbase \
 	-I /usr/include/mysql
-LIBS = -L .. -ltextgen -L ../../../../../lib -lnewbase -L /usr/lib/mysql -lmysqlclient -lz
+LIBS = -L .. -ltextgen -L /data/local/lib -lnewbase -L /usr/lib/mysql -lmysqlclient -lz
 
 all: $(PROG)
 clean:
