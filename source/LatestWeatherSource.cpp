@@ -28,23 +28,23 @@
 
 using namespace std;
 
+// ----------------------------------------------------------------------
+/*!
+ * \brief Cached query data container
+ */
+// ----------------------------------------------------------------------
+
+struct WeatherDataStruct
+{
+  time_t itsModTime;
+  time_t itsLastCheckTime;
+  string itsFilename;
+  WeatherAnalysis::WeatherId itsId;
+  boost::shared_ptr<NFmiStreamQueryData> itsData;
+};
+
 namespace
 {
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Cached query data container
-   */
-  // ----------------------------------------------------------------------
-
-  struct WeatherDataStruct
-  {
-	time_t itsModTime;
-	time_t itsLastCheckTime;
-	string itsFilename;
-	WeatherAnalysis::WeatherId itsId;
-	boost::shared_ptr<NFmiStreamQueryData> itsData;
-  };
-
   // ----------------------------------------------------------------------
   /*!
    * \brief Complete the query data name into filename
