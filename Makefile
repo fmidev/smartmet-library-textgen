@@ -51,6 +51,9 @@ objdir = obj
 rpmsourcedir = /smartmet/src/redhat/SOURCES
 rpmerr = "There's no spec file ($(LIB).spec). RPM wasn't created. Please make a spec file or copy and rename it into $(LIB).spec"
 
+rpmversion := $(shell grep "^Version:" $(LIB).spec  | cut -d\  -f 2 | tr . _)
+rpmrelease := $(shell grep "^Release:" $(LIB).spec  | cut -d\  -f 2 | tr . _)
+
 # What to install
 
 LIBFILE = libsmartmet_$(LIB).a
@@ -136,6 +139,9 @@ rpm: clean depend
 	else \
 	  echo $(rpmerr); \
 	fi;
+
+tag:
+	cvs -f tag 'libsmartmet_$(LIB)_$(rpmversion)-$(rpmrelease)' .
 
 headertest:
 	@echo "Checking self-sufficiency of each header:"
