@@ -15,10 +15,9 @@ DIFFICULTFLAGS = -Weffc++ -Wunreachable-code -Wredundant-decls
 CC = g++
 CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
 INCLUDES = -I ../include \
-	-I /data/local/include \
-	-I /data/local/include/newbase \
+	-I /usr/include/smartmet \
 	-I /usr/include/mysql
-LIBS = -L .. -ltextgen -L /data/local/lib -lnewbase -L /usr/lib/mysql -lmysqlclient -lz
+LIBS = -L .. -lsmartmet_textgen -lsmartmet_newbase -L /usr/lib/mysql -lmysqlclient -lz
 
 all: $(PROG)
 clean:
@@ -34,6 +33,6 @@ test: $(PROG)
 	 php -q $$prog; \
 	done
 
-$(PROG) : % : %.cpp ../libtextgen.a
+$(PROG) : % : %.cpp ../libsmartmet_textgen.a
 	$(CC) $(CFLAGS) -o $@ $@.cpp $(INCLUDES) $(LIBS)
 

@@ -1,6 +1,6 @@
-#include "regression/tframe.h"
+#include <regression/tframe.h>
 #include "WeatherResultTools.h"
-#include "NFmiSettings.h"
+#include <newbase/NFmiSettings.h>
 
 #include <iostream>
 #include <stdexcept>

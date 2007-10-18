@@ -1,6 +1,6 @@
-#include "regression/tframe.h"
-#include "NFmiIndexMask.h"
-#include "NFmiStringTools.h"
+#include <regression/tframe.h>
+#include <newbase/NFmiIndexMask.h>
+#include <newbase/NFmiStringTools.h>
 #include "InlandMaskSource.h"
 #include "UserWeatherSource.h"
 #include "WeatherArea.h"

@@ -1,4 +1,4 @@
-#include "regression/tframe.h"
+#include <regression/tframe.h>
 #include "PrecipitationPeriodTools.h"
 #include "AnalysisSources.h"
 #include "RegularMaskSource.h"
@@ -7,10 +7,10 @@
 #include "MaskSource.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
-#include "NFmiStreamQueryData.h"
-#include "NFmiSvgPath.h"
-#include "NFmiGrid.h"
-#include "NFmiSettings.h"
+#include <newbase/NFmiStreamQueryData.h>
+#include <newbase/NFmiSvgPath.h>
+#include <newbase/NFmiGrid.h>
+#include <newbase/NFmiSettings.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/lexical_cast.hpp>

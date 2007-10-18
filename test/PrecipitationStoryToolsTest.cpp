@@ -1,9 +1,9 @@
-#include "regression/tframe.h"
+#include <regression/tframe.h>
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "PrecipitationStoryTools.h"
 
-#include "NFmiSettings.h"
+#include <newbase/NFmiSettings.h>
 
 #include <iostream>
 #include <stdexcept>

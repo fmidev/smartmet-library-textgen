@@ -1,14 +1,14 @@
-#include "regression/tframe.h"
+#include <regression/tframe.h>
 #include "QueryDataIntegrator.h"
 #include "SumCalculator.h"
 #include "MaximumCalculator.h"
 #include "MinimumCalculator.h"
 #include "MeanCalculator.h"
-#include "NFmiIndexMask.h"
-#include "NFmiIndexMaskSource.h"
-#include "NFmiIndexMaskTools.h"
-#include "NFmiStreamQueryData.h"
-#include "NFmiSvgPath.h"
+#include <newbase/NFmiIndexMask.h>
+#include <newbase/NFmiIndexMaskSource.h>
+#include <newbase/NFmiIndexMaskTools.h>
+#include <newbase/NFmiStreamQueryData.h>
+#include <newbase/NFmiSvgPath.h>
 #include <boost/lexical_cast.hpp>
 
 using namespace std;

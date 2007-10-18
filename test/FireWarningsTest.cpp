@@ -1,6 +1,6 @@
-#include "regression/tframe.h"
+#include <regression/tframe.h>
 #include "FireWarnings.h"
-#include "NFmiTime.h"
+#include <newbase/NFmiTime.h>
 
 #include <iostream>
 #include <stdexcept>

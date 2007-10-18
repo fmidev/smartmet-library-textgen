@@ -1,6 +1,6 @@
-#include "regression/tframe.h"
+#include <regression/tframe.h>
 #include "LocationSource.h"
-#include "NFmiPoint.h"
+#include <newbase/NFmiPoint.h>
 
 #include <iostream>
 #include <stdexcept>

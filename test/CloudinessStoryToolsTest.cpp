@@ -1,7 +1,7 @@
-#include "regression/tframe.h"
+#include <regression/tframe.h>
 #include "DebugDictionary.h"
 #include "CloudinessStoryTools.h"
-#include "NFmiSettings.h"
+#include <newbase/NFmiSettings.h>
 #include "PlainTextFormatter.h"
 #include "Sentence.h"
 
