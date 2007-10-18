@@ -42,8 +42,8 @@
 #include "FileDictionary.h"
 #include "Settings.h"
 #include "TextGenError.h"
-#include "NFmiFileSystem.h"
-#include "NFmiStringTools.h"
+#include <newbase/NFmiFileSystem.h>
+#include <newbase/NFmiStringTools.h>
 
 #include <fstream>
 #include <map>

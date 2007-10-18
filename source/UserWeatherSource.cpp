@@ -20,7 +20,7 @@
 #include "UserWeatherSource.h"
 #include "IdGenerator.h"
 #include "WeatherAnalysisError.h"
-#include "NFmiStreamQueryData.h"
+#include <newbase/NFmiStreamQueryData.h>
 #include <cassert>
 #include <map>
 

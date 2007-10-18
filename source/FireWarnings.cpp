@@ -7,9 +7,8 @@
 
 #include "FireWarnings.h"
 #include "WeatherAnalysisError.h"
-// newbase
-#include "NFmiFileSystem.h"
-#include "NFmiStringTools.h"
+#include <newbase/NFmiFileSystem.h>
+#include <newbase/NFmiStringTools.h>
 
 using namespace std;
 

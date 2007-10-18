@@ -19,69 +19,9 @@
 // ======================================================================
 
 #include "TimeTools.h"
-#include "NFmiTime.h"
+#include <newbase/NFmiTime.h>
 
 #include <ctime>
-
-namespace
-{
-
-  // ----------------------------------------------------------------------
-  /*!
-   * A local help subroutine to convert a UTC tm to UTC time_t
-   *
-   * The original C code is by C.A. Lademann and Richard Kettlewell.
-   *
-   * \param t The UTC time as a tm struct
-   * \return The UTC time as a time_t
-   * \bug This has not been verified to work in SGI/Windows
-   */
-  // ----------------------------------------------------------------------
-  
-#if !defined(UNIX)
-  
-  time_t my_timegm(struct ::tm * t)
-  {
-	const int MINUTE = 60;
-	const int HOUR = 60*MINUTE;
-	const int DAY = 24*HOUR;
-	const int YEAR = 365*DAY;
-	
-	const int mon[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-	
-	if(t->tm_year < 70)
-	  return(static_cast<time_t>(-1));
-	
-	int n = t->tm_year + 1900 - 1;
-	time_t epoch = (t->tm_year - 70) * YEAR
-	  + ((n/4-n/100+n/400)-(1969/4-1969/100+1969/400))*DAY;
-	
-	int y = t->tm_year + 1900;
-	int m=0;
-	for(int i=0; i<t->tm_mon; i++)
-	  {
-		epoch += mon[m]*DAY;
-		if(m==1 && y%4==0 && (y%100!=0 || y%400==0))
-		  epoch += DAY;
-		if(++m>11)
-		  {
-			m=0;
-			y++;
-		  }
-	  }
-	
-	epoch += (t->tm_mday-1)*DAY;
-	epoch += t->tm_hour*HOUR;
-	epoch += t->tm_min*MINUTE;
-	epoch += t->tm_sec;
-	
-	return epoch;
-	
-  }
-#endif
-
-} // namespace anonymous
-
 
 namespace WeatherAnalysis
 {
@@ -168,37 +108,6 @@ namespace WeatherAnalysis
 				   local->tm_sec);
 	  
 	  return out;
-	}
-
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Convert UTC time to Epoch seconds
-	 *
-	 * \param theUtcTime The UTC time
-	 * \return The epoch seconds
-	 */
-	// ----------------------------------------------------------------------
-	
-	::time_t toEpochTime(const NFmiTime & theUtcTime)
-	{
-	  // The UTC time
-	  struct ::tm utc;
-	  utc.tm_sec = theUtcTime.GetSec();
-	  utc.tm_min = theUtcTime.GetMin();
-	  utc.tm_hour = theUtcTime.GetHour();
-	  utc.tm_mday = theUtcTime.GetDay();
-	  utc.tm_mon = theUtcTime.GetMonth()-1;        // tm months start from 0
-	  utc.tm_year = theUtcTime.GetYear()-1900;     // tm years start from 1900
-	  utc.tm_wday = -1;
-	  utc.tm_yday = -1;
-	  utc.tm_isdst = -1;
-
-#if defined(UNIX)
-	  ::time_t epochtime = ::timegm(&utc);  // timegm is a GNU extension
-#else
-	  ::time_t epochtime = my_timegm(&utc);
-#endif
-	  return epochtime;
 	}
 
 	// ----------------------------------------------------------------------

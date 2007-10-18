@@ -24,8 +24,8 @@
 #include "LocationSource.h"
 #include "Settings.h"
 #include "WeatherAnalysisError.h"
-#include "NFmiLocationFinder.h"
-#include "NFmiPoint.h"
+#include <newbase/NFmiLocationFinder.h>
+#include <newbase/NFmiPoint.h>
 
 using namespace std;
 

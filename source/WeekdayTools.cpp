@@ -16,7 +16,7 @@
 
 #include "WeekdayTools.h"
 #include "TextGenError.h"
-#include "NFmiTime.h"
+#include <newbase/NFmiTime.h>
 
 using namespace std;
 using namespace boost;

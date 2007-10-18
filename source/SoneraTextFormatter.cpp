@@ -36,7 +36,7 @@
 #include "StoryTag.h"
 #include "TextGenError.h"
 
-#include "NFmiStringTools.h"
+#include <newbase/NFmiStringTools.h>
 
 #include <boost/lexical_cast.hpp>
 

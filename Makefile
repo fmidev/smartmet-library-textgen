@@ -21,7 +21,7 @@ CFLAGS =  -DUNIX -O2 -DNDEBUG $(MAINFLAGS)
 CFLAGS_DEBUG = -DUNIX -O0 -g $(MAINFLAGS) $(EXTRAFLAGS) -Werror
 CFLAGS_PROFILE = -DUNIX -O2 -g -pg -DNDEBUG $(MAINFLAGS)
 
-INCLUDES = -I$(includedir) -I$(includedir)/smartmet/newbase -I$(includedir)/mysql
+INCLUDES = -I$(includedir) -I$(includedir)/smartmet -I$(includedir)/mysql
 LIBS = -L $(libdir) -lsmartmet-newbase -Lmysql -lmysqlclient
 
 # Common library compiling template

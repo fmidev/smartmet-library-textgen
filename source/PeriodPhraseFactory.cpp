@@ -24,8 +24,8 @@
 #include "WeatherPeriod.h"
 #include "WeekdayTools.h"
 
-#include "NFmiStringTools.h"
-#include "NFmiTime.h"
+#include <newbase/NFmiStringTools.h>
+#include <newbase/NFmiTime.h>
 
 
 using WeatherAnalysis::WeatherPeriod;

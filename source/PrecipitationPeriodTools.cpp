@@ -17,13 +17,7 @@
  */
 // ======================================================================
 
-#include <boost/shared_ptr.hpp>
-
 #include "PrecipitationPeriodTools.h"
-
-#include "NFmiFastQueryInfo.h"
-#include "NFmiQueryData.h"
-#include "NFmiTime.h"
 
 #include "AnalysisSources.h"
 #include "MaskSource.h"
@@ -39,6 +33,10 @@
 #include "WeatherPeriodTools.h"
 #include "WeatherSource.h"
 
+#include <newbase/NFmiFastQueryInfo.h>
+#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiTime.h>
+#include <boost/shared_ptr.hpp>
 #include <sstream>
 
 using namespace std;

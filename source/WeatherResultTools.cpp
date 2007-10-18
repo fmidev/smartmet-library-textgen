@@ -15,7 +15,7 @@
 #include "MathTools.h"
 #include "Settings.h"
 
-#include "NFmiGlobals.h"
+#include <newbase/NFmiGlobals.h>
 
 #include <utility>
 

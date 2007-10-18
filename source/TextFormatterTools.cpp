@@ -13,7 +13,7 @@
 // ======================================================================
 
 #include "TextFormatterTools.h"
-#include "NFmiStringTools.h"
+#include <newbase/NFmiStringTools.h>
 #include <cctype>
 #include <clocale>
 

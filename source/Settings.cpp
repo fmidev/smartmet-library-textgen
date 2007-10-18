@@ -19,9 +19,9 @@
 
 #include "Settings.h"
 #include "WeatherResult.h"
-#include "NFmiSettings.h"
-#include "NFmiStringTools.h"
-#include "NFmiTime.h"
+#include <newbase/NFmiSettings.h>
+#include <newbase/NFmiStringTools.h>
+#include <newbase/NFmiTime.h>
 
 #include <cctype>	// for std::isdigit
 #include <list>

@@ -20,8 +20,6 @@ namespace WeatherAnalysis
 	const NFmiTime toLocalTime(const NFmiTime & theUtcTime);
 	const NFmiTime toUtcTime(const NFmiTime & theLocalTime);
 
-	::time_t toEpochTime(const NFmiTime & theUtcTime);
-
 	bool isSameDay(const NFmiTime & theDate1, const NFmiTime & theDate2);
 	bool isNextDay(const NFmiTime & theDate1, const NFmiTime & theDate2);
 	bool isSeveralDays(const NFmiTime & theDate1, const NFmiTime & theDate2);

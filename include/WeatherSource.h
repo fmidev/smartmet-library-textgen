@@ -10,7 +10,7 @@
 
 #include <string>
 #include <boost/shared_ptr.hpp>
-#include "NFmiStreamQueryData.h"
+#include <newbase/NFmiStreamQueryData.h>
 
 class NFmiStreamQueryData;
 

@@ -24,7 +24,7 @@
 #include "ModStandardDeviationCalculator.h"
 #include "DefaultAcceptor.h"
 
-#include "NFmiGlobals.h"
+#include <newbase/NFmiGlobals.h>
 
 #include <cmath>
 

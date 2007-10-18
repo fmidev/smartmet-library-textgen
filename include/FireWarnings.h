@@ -8,7 +8,7 @@
 #ifndef WEATHERANALYSIS_FIREWARNINGS_H
 #define WEATHERANALYSIS_FIREWARNINGS_H
 
-#include "NFmiTime.h"
+#include <newbase/NFmiTime.h>
 #include <string>
 #include <vector>
 

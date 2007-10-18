@@ -20,8 +20,8 @@
 #include "Settings.h"
 #include "WeatherAnalysisError.h"
 
-#include "NFmiFileSystem.h"
-#include "NFmiStreamQueryData.h"
+#include <newbase/NFmiFileSystem.h>
+#include <newbase/NFmiStreamQueryData.h>
 
 #include <cassert>
 #include <map>

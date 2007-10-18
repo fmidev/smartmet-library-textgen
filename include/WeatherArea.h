@@ -8,8 +8,8 @@
 #ifndef WEATHERANALYSIS_WEATHERAREA_H
 #define WEATHERANALYSIS_WEATHERAREA_H
 
-#include "NFmiPoint.h"
-#include "NFmiSvgPath.h"
+#include <newbase/NFmiPoint.h>
+#include <newbase/NFmiSvgPath.h>
 #include <boost/shared_ptr.hpp>
 #include <string>
 

@@ -21,7 +21,7 @@
 #include "WeatherAnalysisError.h"
 #include "WeatherArea.h"
 #include "WeatherSource.h"
-#include "NFmiIndexMask.h"
+#include <newbase/NFmiIndexMask.h>
 
 using namespace std;
 using namespace boost;

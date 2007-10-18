@@ -25,11 +25,11 @@
 #include "WeatherArea.h"
 #include "WeatherSource.h"
 
-#include "NFmiGrid.h"
-#include "NFmiQueryData.h"
-#include "NFmiIndexMask.h"
-#include "NFmiIndexMaskSource.h"
-#include "NFmiIndexMaskTools.h"
+#include <newbase/NFmiGrid.h>
+#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiIndexMask.h>
+#include <newbase/NFmiIndexMaskSource.h>
+#include <newbase/NFmiIndexMaskTools.h>
 
 #include <map>
 

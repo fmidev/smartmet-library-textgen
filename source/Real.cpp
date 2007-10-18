@@ -15,7 +15,7 @@
 #include "TextFormatter.h"
 #include "TextGenError.h"
 
-#include "NFmiStringTools.h"
+#include <newbase/NFmiStringTools.h>
 
 #include <boost/shared_ptr.hpp>
 

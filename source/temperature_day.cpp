@@ -24,7 +24,7 @@
 #include "WeatherResult.h"
 #include "PeriodPhraseFactory.h"
 
-#include "NFmiStringTools.h"
+#include <newbase/NFmiStringTools.h>
 
 #include <boost/lexical_cast.hpp>
 

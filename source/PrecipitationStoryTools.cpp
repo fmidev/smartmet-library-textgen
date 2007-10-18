@@ -30,7 +30,7 @@
 #include "ValueAcceptor.h"
 #include "WeatherResult.h"
 
-#include "NFmiGlobals.h"
+#include <newbase/NFmiGlobals.h>
 
 #include <boost/lexical_cast.hpp>
 
