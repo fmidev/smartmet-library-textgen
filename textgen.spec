@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 1.0.4
+Version: 1.0.5
 Release: 1.el5.fmi
 License: FMI
 Group: Development/Libraries
@@ -35,6 +35,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Nov 23 2007 mheiskan <mika.heiskanen@fmi.fi> - 1.0.5-1.el5.fmi
+- IntegerRange behaviour changed based on YLE:s request
 * Mon Nov 19 2007 mheiskan <mika.heiskanen@fmi.fi> - 1.0.4-1.el5.fmi
 - Linked with newbase 1.0.4-1
 * Thu Nov 15 2007 mheiskan <mika.heiskanen@fmi.fi> - 1.0.3-1.el5.fmi
