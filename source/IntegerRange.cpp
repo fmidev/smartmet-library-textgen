@@ -72,9 +72,13 @@ namespace TextGen
   const std::string IntegerRange::realize(const Dictionary & theDictionary) const
   {
 	std::ostringstream os;
-	os << itsStartValue;
-	if(itsStartValue != itsEndValue)
-	  os << itsRangeSeparator << itsEndValue;
+	if(itsStartValue == itsEndValue)
+	  os << itsStartValue;
+	else if(itsStartValue<0 && itsEndValue<0)
+	  os << itsEndValue << itsRangeSeparator << itsStartValue;
+	else
+	  os << itsStartValue << itsRangeSeparator << itsEndValue;
+
 	return os.str();
   }
 

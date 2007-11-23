@@ -142,9 +142,9 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::night1::coast::min","7,0");
 	  NFmiSettings::Set("day::fake::night1::coast::max","7,0");
 	  
-	  require(story,"fi",fun,"Päivän ylin lämpötila on noin 16 astetta, rannikolla -12...-8 astetta. Yön alin lämpötila on noin 10 astetta, rannikolla alempi.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är cirka 16 grader, vid kusten -12...-8 grader. Nattens lägsta temperatur är cirka 10 grader, vid kusten lägre.");
-	  require(story,"en",fun,"The maximum day temperature is about 16 degrees, on the coastal area -12...-8 degrees. The minimum night temperature is about 10 degrees, on the coastal area lower.");
+	  require(story,"fi",fun,"Päivän ylin lämpötila on noin 16 astetta, rannikolla -8...-12 astetta. Yön alin lämpötila on noin 10 astetta, rannikolla alempi.");
+	  require(story,"sv",fun,"Dagens högsta temperatur är cirka 16 grader, vid kusten -8...-12 grader. Nattens lägsta temperatur är cirka 10 grader, vid kusten lägre.");
+	  require(story,"en",fun,"The maximum day temperature is about 16 degrees, on the coastal area -8...-12 degrees. The minimum night temperature is about 10 degrees, on the coastal area lower.");
 
 	}
 
@@ -249,9 +249,9 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::night1::coast::min","7,0");
 	  NFmiSettings::Set("day::fake::night1::coast::max","7,0");
 	  
-	  require(story,"fi",fun,"Päivän ylin lämpötila on tänään noin 16 astetta, rannikolla -12...-8 astetta. Yön alin lämpötila on noin 10 astetta, rannikolla alempi. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är i dag cirka 16 grader, vid kusten -12...-8 grader. Nattens lägsta temperatur är cirka 10 grader, vid kusten lägre. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...15 grader.");
-	  require(story,"en",fun,"The maximum day temperature is today about 16 degrees, on the coastal area -12...-8 degrees. The minimum night temperature is about 10 degrees, on the coastal area lower. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...15 degrees.");
+	  require(story,"fi",fun,"Päivän ylin lämpötila on tänään noin 16 astetta, rannikolla -8...-12 astetta. Yön alin lämpötila on noin 10 astetta, rannikolla alempi. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
+	  require(story,"sv",fun,"Dagens högsta temperatur är i dag cirka 16 grader, vid kusten -8...-12 grader. Nattens lägsta temperatur är cirka 10 grader, vid kusten lägre. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...15 grader.");
+	  require(story,"en",fun,"The maximum day temperature is today about 16 degrees, on the coastal area -8...-12 degrees. The minimum night temperature is about 10 degrees, on the coastal area lower. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...15 degrees.");
 
 	}
 

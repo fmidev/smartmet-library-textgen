@@ -114,6 +114,10 @@ namespace IntegerRangeTest
 	if(r2.realize(NullDictionary()) != "1-2")
 	  TEST_FAILED("realization of 1,2 failed");
 	
+	IntegerRange r3(-20,-10);
+	if(r3.realize(NullDictionary()) != "-10--20")
+	  TEST_FAILED("realization of -10,-20 failed: "+r3.realize(NullDictionary()));
+	
 	TEST_PASSED();
   }
 
