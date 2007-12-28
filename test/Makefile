@@ -17,7 +17,11 @@ CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
 INCLUDES = -I ../include \
 	-I /usr/include/smartmet \
 	-I /usr/include/mysql
-LIBS = -L .. -lsmartmet_textgen -lsmartmet_newbase -L /usr/lib/mysql -lmysqlclient -lz
+LIBS = -L .. -lsmartmet_textgen \
+	-lsmartmet_newbase \
+	-L /usr/lib64/mysql -lmysqlclient -lz \
+	-lboost_filesystem \
+	-lboost_regex
 
 all: $(PROG)
 clean:
