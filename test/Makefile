@@ -12,6 +12,20 @@ EXTRAFLAGS = -Werror -pedantic -Wpointer-arith -Wcast-qual \
 
 DIFFICULTFLAGS = -Weffc++ -Wunreachable-code -Wredundant-decls
 
+processor := $(shell uname -p)
+
+ifeq ($(origin PREFIX), undefined)
+  PREFIX = /usr
+else
+  PREFIX = $(PREFIX)
+endif
+
+ifeq ($(processor), x86_64)
+  libdir = $(PREFIX)/lib64
+else
+  libdir = $(PREFIX)/lib
+endif
+
 CC = g++
 CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
 INCLUDES = -I ../include \
@@ -19,7 +33,7 @@ INCLUDES = -I ../include \
 	-I /usr/include/mysql
 LIBS = -L .. -lsmartmet_textgen \
 	-lsmartmet_newbase \
-	-L /usr/lib64/mysql -lmysqlclient -lz \
+	-L $(libdir)/mysql -lmysqlclient -lz \
 	-lboost_filesystem \
 	-lboost_regex
 
