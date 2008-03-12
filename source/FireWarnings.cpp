@@ -28,7 +28,7 @@ namespace WeatherAnalysis
   FireWarnings::FireWarnings(const string & theDirectory,
 							 const NFmiTime & theTime)
 	: itsTime(theTime)
-	, itsWarnings(MaxAreaCode,Undefined)
+	, itsWarnings(MaxAreaCode+1,Undefined)
   {
 	if(!NFmiFileSystem::DirectoryExists(theDirectory))
 	  throw WeatherAnalysisError("Directory '"+theDirectory+"' required by class FireWarnings does not exist");
