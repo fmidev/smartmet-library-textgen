@@ -10,7 +10,7 @@ EXTRAFLAGS = -Werror -pedantic -Wpointer-arith -Wcast-qual \
 
 DIFFICULTFLAGS = -Wunreachable-code -Weffc++
 CC = g++
-ARFLAGS = -r
+ARFLAGS = -rs
 
 # Default compiler flags
 
