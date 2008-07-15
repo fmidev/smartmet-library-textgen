@@ -132,12 +132,12 @@ namespace TextGen
 	log << "Temperature Mean(Mean(Minimum)) = " << nightmeanresult << endl;
 	log << "Temperature Maximum(Mean(Minimum)) = " << nightmaxresult << endl;
 
-	const int daymin  = FmiRound(dayminresult.value());
-	const int daymax  = FmiRound(daymaxresult.value());
-	const int daymean = FmiRound(daymeanresult.value());
-	const int nightmin  = FmiRound(nightminresult.value());
-	const int nightmax  = FmiRound(nightmaxresult.value());
-	const int nightmean = FmiRound(nightmeanresult.value());
+	const int daymin  = static_cast<int>(round(dayminresult.value()));
+	const int daymax  = static_cast<int>(round(daymaxresult.value()));
+	const int daymean = static_cast<int>(round(daymeanresult.value()));
+	const int nightmin  = static_cast<int>(round(nightminresult.value()));
+	const int nightmax  = static_cast<int>(round(nightmaxresult.value()));
+	const int nightmean = static_cast<int>(round(nightmeanresult.value()));
 
 	Sentence sentence;
 	sentence << "päivälämpötila"

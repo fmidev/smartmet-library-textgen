@@ -61,7 +61,7 @@ namespace TextGen
 	log << "Temperature Mean(Mean(Minimum())) = " << result << endl;
 
 	sentence << "keskimääräinen alin lämpötila"
-			 << Integer(FmiRound(result.value()))
+			 << Integer(static_cast<int>(round(result.value())))
 			 << *UnitFactory::create(DegreesCelsius);
 	paragraph << sentence;
 	log << paragraph;

@@ -80,8 +80,8 @@ namespace TextGen
 	log << "Precipitation Minimum(Sum) " << minresult << endl;
 	log << "Precipitation Maximum(Sum) " << maxresult << endl;
 
-	const int minrain = FmiRound(minresult.value());
-	const int maxrain = FmiRound(maxresult.value());
+	const int minrain = static_cast<int>(round(minresult.value()));
+	const int maxrain = static_cast<int>(round(maxresult.value()));
 
 	// optionaalinen maksimisade
 

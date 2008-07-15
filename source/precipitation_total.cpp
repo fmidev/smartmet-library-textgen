@@ -62,7 +62,7 @@ namespace TextGen
 	log << "Precipitation Mean(Sum) " << result << endl;
 
 	sentence << "sadesumma"
-			 << Integer(FmiRound(result.value()))
+			 << Integer(static_cast<int>(round(result.value())))
 			 << *UnitFactory::create(Millimeters);
 	paragraph << sentence;
 	log << paragraph;

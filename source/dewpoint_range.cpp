@@ -79,9 +79,9 @@ namespace TextGen
 		<< "DewPoint Mean(Mean(Maximum())) = " << meanresult << endl
 		<< "DewPoint Mean(Max(Maximum())) = "  << maxresult << endl;
 
-	const int tmin  = FmiRound(minresult.value());
-	const int tmax  = FmiRound(maxresult.value());
-	const int tmean = FmiRound(meanresult.value());
+	const int tmin  = static_cast<int>(round(minresult.value()));
+	const int tmax  = static_cast<int>(round(maxresult.value()));
+	const int tmean = static_cast<int>(round(meanresult.value()));
 
 	sentence << "kastepiste"
 			 << "on"

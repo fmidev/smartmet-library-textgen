@@ -23,6 +23,7 @@
 #include <newbase/NFmiGlobals.h>
 
 #include <boost/lexical_cast.hpp>
+#include <cmath>
 
 using namespace WeatherAnalysis;
 using namespace boost;
@@ -127,13 +128,13 @@ namespace TextGen
 	  const int mininterval = optional_int(theVariable+"::mininterval",0);
 	  const string rangeseparator = Settings::optional_string(theVariable+"::rangeseparator","-");
 	  
-	  const int minvalue = FmiRound(theMinSpeed.value());
-	  const int maxvalue = FmiRound(theMaxSpeed.value());
+	  const int minvalue = static_cast<int>(round(theMinSpeed.value()));
+	  const int maxvalue = static_cast<int>(round(theMaxSpeed.value()));
 
 	  if(maxvalue - minvalue < mininterval)
 		{
 		  sentence << "noin"
-				   << Integer(FmiRound(theMeanSpeed.value()));
+				   << Integer(static_cast<int>(round(theMeanSpeed.value())));
 		}
 	  else
 		{

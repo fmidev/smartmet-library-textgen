@@ -134,7 +134,7 @@ namespace TextGen
 
 	for(unsigned int i=0; i<periods.size(); i++)
 	  {
-		if(!ignore_fair_days || FmiRound(maxima[i].value()) > 0)
+		if(!ignore_fair_days || round(maxima[i].value()) > 0)
 		  {
 			const bool empty = sentence.empty();
 			if(i==0)

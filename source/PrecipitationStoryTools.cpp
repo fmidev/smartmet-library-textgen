@@ -31,8 +31,8 @@
 #include "WeatherResult.h"
 
 #include <newbase/NFmiGlobals.h>
-
 #include <boost/lexical_cast.hpp>
+#include <cmath>
 
 using namespace WeatherAnalysis;
 using namespace boost;
@@ -465,9 +465,9 @@ namespace TextGen
 	{
 	  Sentence sentence;
 	  
-	  const int minimum = FmiRound(theMinimum.value());
-	  const int maximum = FmiRound(theMaximum.value());
-	  const int mean = FmiRound(theMean.value());
+	  const int minimum = static_cast<int>(round(theMinimum.value()));
+	  const int maximum = static_cast<int>(round(theMaximum.value()));
+	  const int mean = static_cast<int>(round(theMean.value()));
 
 	  if(minimum==0 && maximum==0)
 		{

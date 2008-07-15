@@ -112,9 +112,9 @@ namespace TextGen
 		log << "Troad Mean(Minimum) " << periodstr << " = " << meanresult << endl;
 		log << "Troad Maximum(Minimum) " << periodstr << " = " << maxresult << endl;
 	
-		const int tmin = FmiRound(minresult.value());
-		const int tmax = FmiRound(maxresult.value());
-		const int tmean = FmiRound(meanresult.value());
+		const int tmin = static_cast<int>(round(minresult.value()));
+		const int tmax = static_cast<int>(round(maxresult.value()));
+		const int tmean = static_cast<int>(round(meanresult.value()));
 		
 		if(p==1)
 		  {

@@ -117,7 +117,7 @@ namespace TextGen
 	  }
 
 	Sentence sentence;
-	if(FmiRound(maxima[0].value())==0 && FmiRound(maxima[1].value())==0)
+	if(round(maxima[0].value())==0 && round(maxima[1].value())==0)
 	  {
 		const WeatherResult zero(0,0);
 		sentence << "seuraavan 24 tunnin sademäärä"

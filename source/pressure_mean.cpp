@@ -56,7 +56,7 @@ namespace TextGen
 
 	log	<< "Pressure Mean(Mean(Maximum())) = " << meanresult << endl;
 
-	const int pmean = FmiRound(meanresult.value());
+	const int pmean = static_cast<int>(round(meanresult.value()));
 
 	sentence << "paine"
 			 << "on"

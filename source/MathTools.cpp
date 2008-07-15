@@ -15,6 +15,7 @@
 #include "MathTools.h"
 
 #include <newbase/NFmiGlobals.h>
+#include <cmath>
 
 namespace MathTools
 {
@@ -32,8 +33,8 @@ namespace MathTools
   int to_precision(float theValue, int thePrecision)
   {
 	if(thePrecision <=0)
-	  return FmiRound(theValue);
-	const int value = FmiRound(theValue/thePrecision)*thePrecision;
+	  return static_cast<int>(round(theValue));
+	const int value = static_cast<int>(round(theValue/thePrecision)*thePrecision);
 	return value;
   }
 

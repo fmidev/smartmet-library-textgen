@@ -241,29 +241,29 @@ namespace TextGen
 
 		// Rounded values
 
-		const int aminday = FmiRound(areaminday.value());
-		const int ameanday = FmiRound(areameanday.value());
-		const int amaxday = FmiRound(areamaxday.value());
+		const int aminday = static_cast<int>(round(areaminday.value()));
+		const int ameanday = static_cast<int>(round(areameanday.value()));
+		const int amaxday = static_cast<int>(round(areamaxday.value()));
 		
-		const int cminday = FmiRound(coastminday.value());
-		const int cmeanday = FmiRound(coastmeanday.value());
-		const int cmaxday = FmiRound(coastmaxday.value());
+		const int cminday = static_cast<int>(round(coastminday.value()));
+		const int cmeanday = static_cast<int>(round(coastmeanday.value()));
+		const int cmaxday = static_cast<int>(round(coastmaxday.value()));
 		
-		const int iminday = FmiRound(inlandminday.value());
-		const int imeanday = FmiRound(inlandmeanday.value());
-		const int imaxday = FmiRound(inlandmaxday.value());
+		const int iminday = static_cast<int>(round(inlandminday.value()));
+		const int imeanday = static_cast<int>(round(inlandmeanday.value()));
+		const int imaxday = static_cast<int>(round(inlandmaxday.value()));
 		
-		const int aminnight = FmiRound(areaminnight.value());
-		const int ameannight = FmiRound(areameannight.value());
-		const int amaxnight = FmiRound(areamaxnight.value());
+		const int aminnight = static_cast<int>(round(areaminnight.value()));
+		const int ameannight = static_cast<int>(round(areameannight.value()));
+		const int amaxnight = static_cast<int>(round(areamaxnight.value()));
 		
-		const int cminnight = FmiRound(coastminnight.value());
-		const int cmeannight = FmiRound(coastmeannight.value());
-		const int cmaxnight = FmiRound(coastmaxnight.value());
+		const int cminnight = static_cast<int>(round(coastminnight.value()));
+		const int cmeannight = static_cast<int>(round(coastmeannight.value()));
+		const int cmaxnight = static_cast<int>(round(coastmaxnight.value()));
 		
-		const int iminnight = FmiRound(inlandminnight.value());
-		const int imeannight = FmiRound(inlandmeannight.value());
-		const int imaxnight = FmiRound(inlandmaxnight.value());
+		const int iminnight = static_cast<int>(round(inlandminnight.value()));
+		const int imeannight = static_cast<int>(round(inlandmeannight.value()));
+		const int imaxnight = static_cast<int>(round(inlandmaxnight.value()));
 		
 		const int bad = static_cast<int>(kFloatMissing);
 		
@@ -288,7 +288,7 @@ namespace TextGen
 			   (abs(cmeanday - imeanday) < coast_limit && abs(cmeannight - imeannight) < coast_limit))
 			  {
 				sentence << temperature_sentence(min(aminday,aminnight),
-												 FmiRound((ameanday+ameannight)/2),
+												 static_cast<int>(round((ameanday+ameannight)/2)),
 												 max(amaxday,amaxnight),
 												 mininterval,
 												 interval_zero,
@@ -296,8 +296,8 @@ namespace TextGen
 			  }
 			else
 			  {
-				const int imean = FmiRound((inlandmeanday.value()+inlandmeannight.value())/2);
-				const int cmean = FmiRound((coastmeanday.value()+coastmeannight.value())/2);
+				const int imean = static_cast<int>(round((inlandmeanday.value()+inlandmeannight.value())/2));
+				const int cmean = static_cast<int>(round((coastmeanday.value()+coastmeannight.value())/2));
 				sentence << temperature_sentence(min(iminday,iminnight),
 												 imean,
 												 max(imaxday,imaxnight),

@@ -108,9 +108,9 @@ namespace TextGen
 	log << "Temperature Mean(Maximum) day 1 = " << meanresult << endl;
 	log << "Temperature Maximum(Maximum) day 1 = " << maxresult << endl;
 
-	const int min1 = FmiRound(minresult.value());
-	const int max1 = FmiRound(maxresult.value());
-	const int mean1 = FmiRound(meanresult.value());
+	const int min1 = static_cast<int>(round(minresult.value()));
+	const int max1 = static_cast<int>(round(maxresult.value()));
+	const int mean1 = static_cast<int>(round(meanresult.value()));
 
 	Sentence sentence;
 	sentence << "päivän ylin lämpötila"
@@ -170,9 +170,9 @@ namespace TextGen
 		log << "Temperature Mean(Maximum) day " << p << " = " << meanresult << endl;
 		log << "Temperature Maximum(Maximum) day " << p << " = " << maxresult << endl;
 		
-		const int min2  = FmiRound(minresult.value());
-		const int max2  = FmiRound(maxresult.value());
-		const int mean2 = FmiRound(meanresult.value());
+		const int min2  = static_cast<int>(round(minresult.value()));
+		const int max2  = static_cast<int>(round(maxresult.value()));
+		const int mean2 = static_cast<int>(round(meanresult.value()));
 		
 		// For second day:
 		//
