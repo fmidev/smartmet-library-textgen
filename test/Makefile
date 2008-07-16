@@ -28,14 +28,19 @@ endif
 
 CC = g++
 CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
+
 INCLUDES = -I ../include \
 	-I /usr/include/smartmet \
 	-I /usr/include/mysql
+
 LIBS = -L .. -lsmartmet_textgen \
 	-lsmartmet_newbase \
-	-L $(libdir)/mysql -lmysqlclient -lz \
-	-lboost_filesystem \
-	-lboost_regex
+	-Wl,-rpath,/usr/local/lib \
+        -L /usr/local/lib \
+        -lboost_regex-gcc41-mt \
+        -lboost_filesystem-gcc41-mt \
+        -lboost_iostreams-gcc41-mt \
+	-L $(libdir)/mysql -lmysqlclient -lz
 
 all: $(PROG)
 clean:
