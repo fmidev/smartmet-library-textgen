@@ -6,9 +6,9 @@ EXTRAFLAGS = -Werror -pedantic -Wpointer-arith -Wcast-qual \
 	-Wcast-align -Wwrite-strings -Wconversion -Winline \
 	-Wctor-dtor-privacy -Wnon-virtual-dtor -Wno-pmf-conversions \
 	-Wsign-promo -Wchar-subscripts -Wold-style-cast \
-	-Wredundant-decls -Wshadow -Woverloaded-virtual
+	-Wredundant-decls -Woverloaded-virtual
 
-DIFFICULTFLAGS = -Wunreachable-code -Weffc++
+DIFFICULTFLAGS = -Wunreachable-code -Weffc++ -Wshadow 
 CC = g++
 ARFLAGS = -rs
 

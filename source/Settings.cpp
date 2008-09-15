@@ -222,7 +222,7 @@ namespace Settings
 		return NFmiTime(yy,mm,dd,hh,mi);
 
 	  }
-	catch(exception & )
+	catch(std::exception & )
 	  {
 		throw runtime_error(msg);
 	  }
@@ -252,7 +252,7 @@ namespace Settings
 		const float accuracy = lexical_cast<float>(values[1]);
 		return WeatherAnalysis::WeatherResult(result,accuracy);
 	  }
-	catch(exception & )
+	catch(std::exception & )
 	  {
 		throw runtime_error(msg);
 	  }

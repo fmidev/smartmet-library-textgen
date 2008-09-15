@@ -35,11 +35,9 @@ INCLUDES = -I ../include \
 
 LIBS = -L .. -lsmartmet_textgen \
 	-lsmartmet_newbase \
-	-Wl,-rpath,/usr/local/lib \
-        -L /usr/local/lib \
-        -lboost_regex-gcc41-mt \
-        -lboost_filesystem-gcc41-mt \
-        -lboost_iostreams-gcc41-mt \
+        -lboost_regex-mt \
+        -lboost_filesystem-mt \
+        -lboost_iostreams-mt \
 	-L $(libdir)/mysql -lmysqlclient -lz
 
 all: $(PROG)
