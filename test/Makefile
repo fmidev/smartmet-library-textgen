@@ -38,7 +38,8 @@ LIBS = -L .. -lsmartmet_textgen \
         -lboost_regex-mt \
         -lboost_filesystem-mt \
         -lboost_iostreams-mt \
-	-L $(libdir)/mysql -lmysqlclient -lz
+	-L $(libdir)/mysql -lmysqlclient \
+	-lz -lbz2 -lpthread
 
 all: $(PROG)
 clean:
