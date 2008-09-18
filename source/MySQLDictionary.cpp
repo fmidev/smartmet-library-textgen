@@ -214,7 +214,7 @@ namespace TextGen
 		if(result==NULL)
 		  throw TextGenError("Error: Error occurred while reading " + translationtable + " table");
 
-		while(row=mysql_fetch_row(result))
+		while((row=mysql_fetch_row(result)))
 		  {
 			unsigned long * lengths = mysql_fetch_lengths(result);
 			std::string keyword(row[0],lengths[0]);
