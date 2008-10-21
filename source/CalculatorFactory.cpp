@@ -103,9 +103,9 @@ namespace WeatherAnalysis
 		case StandardDeviation:
 		  return shared_ptr<Calculator>(new ModStandardDeviationCalculator(theModulo));
 		case Change:
-		  throw shared_ptr<Calculator>(new ModChangeCalculator(theModulo));
+		  return shared_ptr<Calculator>(new ModChangeCalculator(theModulo));
 		case Trend:
-		  throw shared_ptr<Calculator>(new ModTrendCalculator(theModulo));
+		  return shared_ptr<Calculator>(new ModTrendCalculator(theModulo));
 
 		case Percentage:
 		  return shared_ptr<Calculator>(new PercentageCalculator);
