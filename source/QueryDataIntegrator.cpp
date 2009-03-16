@@ -55,7 +55,7 @@ namespace WeatherAnalysis
 	{
 	  theTimeCalculator.reset();
 
-	  if(!QueryDataTools::firstTime(theQI,theStartTime))
+	  if(!QueryDataTools::firstTime(theQI,theStartTime,theEndTime))
 		return kFloatMissing;
 	  
 	  do
@@ -113,7 +113,7 @@ namespace WeatherAnalysis
 		{
 		  WeatherPeriod period = thePeriods.period(i);
 
-		  if(!QueryDataTools::firstTime(theQI,period.utcStartTime()))
+		  if(!QueryDataTools::firstTime(theQI,period.utcStartTime(),period.utcEndTime()))
 			return kFloatMissing;
 		  
 		  theSubTimeCalculator.reset();
@@ -205,7 +205,7 @@ namespace WeatherAnalysis
 	{
 	  theTimeCalculator.reset();
 	  
-	  if(!QueryDataTools::firstTime(theQI,theStartTime))
+	  if(!QueryDataTools::firstTime(theQI,theStartTime,theEndTime))
 		return kFloatMissing;
 	  if(theIndexMask.empty())
 		return kFloatMissing;
@@ -322,7 +322,7 @@ namespace WeatherAnalysis
 	{
 	  theTimeCalculator.reset();
 	  
-	  if(!QueryDataTools::firstTime(theQI,theStartTime))
+	  if(!QueryDataTools::firstTime(theQI,theStartTime,theEndTime))
 		return kFloatMissing;
 	  
 	  do
@@ -393,7 +393,7 @@ namespace WeatherAnalysis
 			{
 			  WeatherPeriod period = thePeriods.period(i);
 
-			  if(!QueryDataTools::firstTime(theQI,period.utcStartTime()))
+			  if(!QueryDataTools::firstTime(theQI,period.utcStartTime(),period.utcEndTime()))
 				return kFloatMissing;
 
 			  theSubTimeCalculator.reset();

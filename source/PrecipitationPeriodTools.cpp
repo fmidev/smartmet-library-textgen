@@ -176,7 +176,7 @@ namespace WeatherAnalysis
 
 	  // Handle points and areas separately
 
-	  if(!QueryDataTools::firstTime(*qi,thePeriod.utcStartTime()))
+	  if(!QueryDataTools::firstTime(*qi,thePeriod.utcStartTime(),thePeriod.utcEndTime()))
 		 throw WeatherAnalysisError("The required time period is not available in "+dataname);
 
 	  RainTimes times;

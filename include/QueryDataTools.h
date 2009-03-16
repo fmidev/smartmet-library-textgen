@@ -22,7 +22,8 @@ namespace WeatherAnalysis
 					 unsigned long & theEndIndex);
 
 	bool firstTime(NFmiFastQueryInfo & theQI,
-				   const NFmiTime & theTime);
+				   const NFmiTime & theTime,
+				   const NFmiTime & theEndTime);
 
 	bool lastTime(NFmiFastQueryInfo & theQI,
 				  const NFmiTime & theTime);

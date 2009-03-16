@@ -58,7 +58,7 @@ namespace WeatherAnalysis
 	{
 	  const unsigned long invalid = static_cast<unsigned long>(-1);
 
-	  if(!firstTime(theQI,theStartTime))
+	  if(!firstTime(theQI,theStartTime,theEndTime))
 		return false;
 	  theStartIndex = theQI.TimeIndex();
 	  if(!lastTime(theQI,theEndTime))
@@ -81,13 +81,19 @@ namespace WeatherAnalysis
 	 *
 	 * \param theQI The query info
 	 * \param theTime The time to set
+	 * \param theEndTime The end time of the desired range
 	 * \return True if the time was set succesfully
 	 */
 	// ----------------------------------------------------------------------
 	
 	bool firstTime(NFmiFastQueryInfo & theQI,
-				   const NFmiTime & theTime)
+				   const NFmiTime & theTime,
+				   const NFmiTime & theEndTime)
 	{
+	  // Abort if endtime is before start of date
+	  if(theQI.TimeDescriptor().FirstTime() > theEndTime)
+		return false;
+
 	  theQI.FirstTime();
 	  unsigned long idx1 = theQI.TimeIndex();
 	  theQI.LastTime();

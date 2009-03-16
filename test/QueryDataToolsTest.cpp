@@ -25,13 +25,13 @@ namespace QueryDataToolsTest
 
 	NFmiFastQueryInfo * qi = qd.QueryInfoIter();
 
-	if(!firstTime(*qi,NFmiTime(1999,1,1)))
-	  TEST_FAILED("Should succeed for 1.1.1999");
+	if(firstTime(*qi,NFmiTime(1999,1,1),NFmiTime(1999,1,2)))
+	  TEST_FAILED("Should fail for 1.1.1999");
 
-	if(!firstTime(*qi,NFmiTime(2003,8,15)))
+	if(!firstTime(*qi,NFmiTime(2003,8,15),NFmiTime(2003,8,16)))
 	  TEST_FAILED("Should succeed for 15.08.2003");
 
-	if(firstTime(*qi,NFmiTime(2030,1,1)))
+	if(firstTime(*qi,NFmiTime(2030,1,1),NFmiTime(2030,1,2)))
 	  TEST_FAILED("Should fail for 1.1.2030");
 
 	TEST_PASSED();
