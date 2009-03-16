@@ -38,6 +38,7 @@ LIBS = -L .. -lsmartmet_textgen \
         -lboost_regex-mt \
         -lboost_filesystem-mt \
         -lboost_iostreams-mt \
+        -lboost_system-mt \
 	-L $(libdir)/mysql -lmysqlclient \
 	-lz -lbz2 -lpthread
 
