@@ -115,13 +115,15 @@ namespace WeatherAnalysis
 		case GustSpeed:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::gustspeed",
 														 "HourlyMaximumGust"));
-
 		case Pressure:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::pressure",
 														 "Pressure"));
 		case Fog:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::fog",
 														 "FogIntensity"));
+		case MaximumWind:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::maximumwind",
+														 "HourlyMaximumWindSpeed"));
 
 	  }
 
