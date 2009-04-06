@@ -9,6 +9,7 @@
 #include "WeatherAnalysisError.h"
 #include <newbase/NFmiFileSystem.h>
 #include <newbase/NFmiStringTools.h>
+#include <fstream>
 
 using namespace std;
 

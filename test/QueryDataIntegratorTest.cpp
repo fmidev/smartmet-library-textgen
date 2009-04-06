@@ -10,6 +10,7 @@
 #include <newbase/NFmiStreamQueryData.h>
 #include <newbase/NFmiSvgPath.h>
 #include <boost/lexical_cast.hpp>
+#include <fstream>
 
 using namespace std;
 using namespace boost;
