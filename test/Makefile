@@ -13,6 +13,7 @@ EXTRAFLAGS = -Werror -pedantic -Wpointer-arith -Wcast-qual \
 DIFFICULTFLAGS = -Weffc++ -Wunreachable-code -Wredundant-decls
 
 processor := $(shell uname -p)
+UNAME_S := $(shell uname -s)
 
 ifeq ($(origin PREFIX), undefined)
   PREFIX = /usr
@@ -29,18 +30,37 @@ endif
 CC = g++
 CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
 
-INCLUDES = -I ../include \
-	-I /usr/include/smartmet \
+# Getting 'regression/tframe.h' on OS X
+#
+ifeq ($(UNAME_S), Darwin)
+  INCLUDES = \
+    -I ../../newbase/test \
+    -I /sw/include \
+    -I /sw/include/mysql \
+    -I ..
+  LIBS = \
+    -L.. -lsmartmet_textgen \
+	-L../../newbase -lsmartmet_newbase \
+    -L/sw/lib -lmysqlclient
+else
+  INCLUDES = \
+    -I /usr/include/smartmet \
 	-I /usr/include/mysql
-
-LIBS = -L .. -lsmartmet_textgen \
+  LIBS = \
+    -L .. -lsmartmet_textgen \
 	-lsmartmet_newbase \
+    -L $(libdir)/mysql -lmysqlclient
+endif
+
+INCLUDES += -I ../include
+
+LIBS += \
         -lboost_regex-mt \
         -lboost_filesystem-mt \
         -lboost_iostreams-mt \
         -lboost_system-mt \
-	-L $(libdir)/mysql -lmysqlclient \
 	-lz -lbz2 -lpthread
+
 
 all: $(PROG)
 clean:

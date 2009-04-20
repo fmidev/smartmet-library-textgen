@@ -14,6 +14,13 @@
 # Windows usage:
 #	Run 'vcvars32.bat' or similar before using us, to give right
 #	env.var. setups for Visual C++ 2008 command line tools & headers.
+#
+# OS X usage:
+#   Source has '#include <newbase/...>'. To be able to deal with these (without
+#   altering the source), do such:
+#
+#       ln -s ../newbase/include newbase
+#
 
 import os.path
 
@@ -99,7 +106,8 @@ elif LINUX:
 elif OSX:
     # Newbase from local CVS
     #
-    env.Append( CPPPATH= [ "../newbase/include" ] )
+    #env.Append( CPPPATH= [ "../newbase/include" ] )
+    env.Append( CPPPATH= [ "." ] )      # 'newbase' must be linked to '../newbase/include'
     env.Append( LIBPATH= [ "../newbase" ] )
 
     # Fink
@@ -111,7 +119,11 @@ env.Append( LIBS= [ "smartmet_newbase" ] )
 
 # mysql support
 
-env.Append( CPPPATH = [ PREFIX+"/include/mysql" ] )
+if LINUX:
+    env.Append( CPPPATH = [ PREFIX+"/include/mysql" ] )
+if OSX:
+    env.Append( CPPPATH = [ "/sw/include/mysql" ] )
+
 env.Append( LIBS = [ "mysql", "mysqlclient" ] )
 
 # Debug settings

@@ -10,6 +10,7 @@
 
 #include <newbase/NFmiPoint.h>
 #include <newbase/NFmiSvgPath.h>
+
 #include <boost/shared_ptr.hpp>
 #include <string>
 
