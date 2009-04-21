@@ -1,22 +1,22 @@
 #
-# SConstruct for building textgen
+# sconstruct for building textgen
 #
-# Usage:
-#       scons [-j 4] [-Q] [debug=1|profile=1] [objdir=<path>]
+# usage:
+#       scons [-j 4] [-q] [debug=1|profile=1] [objdir=<path>]
 #
-# Notes:
-#       The three variants share the same output and object file names;
+# notes:
+#       the three variants share the same output and object file names;
 #       changing from one version to another will cause a full recompile.
-#       This is intentional (instead of keeping, say, out/release/...)
+#       this is intentional (instead of keeping, say, out/release/...)
 #       for compatibility with existing test suite etc. and because normally
 #       different machines are used only for debug/release/profile.
 #
-# Windows usage:
-#	Run 'vcvars32.bat' or similar before using us, to give right
-#	env.var. setups for Visual C++ 2008 command line tools & headers.
+# windows usage:
+#	run 'vcvars32.bat' or similar before using us, to give right
+#	env.var. setups for visual c++ 2008 command line tools & headers.
 #
-# OS X usage:
-#   Source has '#include <newbase/...>'. To be able to deal with these (without
+# os x usage:
+#   source has '#include <newbase/...>'. to be able to deal with these (without
 #   altering the source), do such:
 #
 #       ln -s ../newbase/include newbase
@@ -25,7 +25,7 @@
 import os.path
 
 Help(""" 
-    Usage: scons [-j 4] [-Q] [debug=1|profile=1] [objdir=<path>] [prefix=<path>]
+    Usage: scons [-j 4] [-Q] [debug=1|profile=1] [objdir=<path>] smartmet_textgen[-mt].a|lib
     
     Or just use 'make release|debug|profile', which point right back to us.
 """) 
@@ -46,26 +46,26 @@ OSX=    env["PLATFORM"]=="darwin"
 WINDOWS= env["PLATFORM"]=="win32"
 
 #
-# SCons does not pass env.vars automatically through to executing commands.
-# On Windows, we want it to get them all (Visual C++ 2008).
+# scons does not pass env.vars automatically through to executing commands.
+# on windows, we want it to get them all (visual c++ 2008).
 #
 if WINDOWS:
-    env.Replace( ENV= os.environ )
+    env.replace( ENV= os.environ )
 
 env.Append( CPPPATH= [ "./include" ] )
 
 if WINDOWS: 
-    if env["CC"]=="cl":
-        env.Append( CXXFLAGS= ["/EHsc"] )
+    if env["cc"]=="cl":
+        env.Append( CXXFLAGS= ["/ehsc"] )
 else:
     env.Append( CPPDEFINES= ["UNIX"] )
     env.Append( CXXFLAGS= [
-        # MAINFLAGS from orig. Makefile ('-fPIC' is automatically added by SCons)
+        # mainflags from orig. makefile ('-fpic' is automatically added by scons)
         "-Wall", 
         "-Wno-unused-parameter",
         "-Wno-variadic-macros",
 	    
-	    # DIFFICULTFLAGS from orig. Makefile (flags that cause some choking,
+	    # difficultflags from orig. makefile (flags that cause some choking,
 	    # would be good but not used)
 	    #
 	    #"-Weffc++",
@@ -81,17 +81,17 @@ BOOST_POSTFIX=""
 BOOST_PREFIX=""
 
 if WINDOWS:
-    # Installed from 'boost_1_35_0_setup.exe' from BoostPro Internet page.
+    # installed from 'boost_1_35_0_setup.exe' from boostpro internet page.
     #
-    BOOST_INSTALL_PATH= "D:/Boost/1_35_0"
+    BOOST_INSTALL_PATH= "d:/boost/1_35_0"
     env.Append( CPPPATH= [ BOOST_INSTALL_PATH ] )
     env.Append( LIBPATH= [ BOOST_INSTALL_PATH + "/lib" ] )
-    if DEBUG:
+    if debug:
         BOOST_POSTFIX= "-vc90-mt-gd-1_35"
     else:
         BOOST_POSTFIX= "-vc90-mt-1_35"
         BOOST_PREFIX= "lib"
-    env.Append( LIBS= [ BOOST_PREFIX+"boost_iostreams"+BOOST_POSTFIX,
+    env.Append( libs= [ BOOST_PREFIX+"boost_iostreams"+BOOST_POSTFIX,
                         BOOST_PREFIX+"boost_date_time"+BOOST_POSTFIX ] )
 
 if WINDOWS:
@@ -99,23 +99,21 @@ if WINDOWS:
     env.Append( LIBPATH= [ "../newbase" ] )
 
 elif LINUX:
-    # Newbase from system install
+    # newbase from system install
     #
     env.Append( CPPPATH= [ PREFIX+"/include/smartmet" ] )
 
 elif OSX:
-    # Newbase from local CVS
+    # newbase from local cvs
     #
     #env.Append( CPPPATH= [ "../newbase/include" ] )
     env.Append( CPPPATH= [ "." ] )      # 'newbase' must be linked to '../newbase/include'
     env.Append( LIBPATH= [ "../newbase" ] )
 
-    # Fink
+    # fink
     #
     env.Append( CPPPATH= [ "/sw/include" ] )
     env.Append( LIBPATH= [ "/sw/lib" ] )
-
-env.Append( LIBS= [ "smartmet_newbase" ] )
 
 # mysql support
 
@@ -126,20 +124,20 @@ if OSX:
 
 env.Append( LIBS = [ "mysql", "mysqlclient" ] )
 
-# Debug settings
+# DEBUG settings
 #
 if DEBUG:
     if WINDOWS:
-        if env["CC"]=="cl":
-            env.AppendUnique( CPPDEFINES=["_DEBUG","DEBUG"] )
-            # Debug multithreaded DLL runtime, no opt.
-            env.AppendUnique( CCFLAGS=["/MDd", "/Od"] )
-            # Each obj gets own .PDB so parallel building (-jN) works
-            env.AppendUnique( CCFLAGS=["/Zi", "/Fd${TARGET}.pdb"] )
+        if env["cc"]=="cl":
+            env.Appendunique( CPPDEFINES=["_DEBUG","DEBUG"] )
+            # DEBUG multithreaded dll runtime, no opt.
+            env.Appendunique( CCFLAGS=["/mdd", "/od"] )
+            # each obj gets own .pdb so parallel building (-jn) works
+            env.Appendunique( CCFLAGS=["/zi", "/fd${target}.pdb"] )
     else:
         env.Append( CXXFLAGS=[ "-O0", "-g", "-Werror",
     
-            # EXTRAFLAGS from orig. Makefile (for 'debug' target)
+            # extraflags from orig. makefile (for 'DEBUG' target)
             #
             "-ansi",
             "-Wcast-align",
@@ -156,76 +154,99 @@ if DEBUG:
         ] )
 
 #
-# Release settings
+# release settings
 #
 if RELEASE or PROFILE:
     if WINDOWS:
         if env["CC"]=="cl":
-            # multithreaded DLL runtime, reasonable opt.
-            env.AppendUnique( CCFLAGS=["/MD", "/Ox"] )
+            # multithreaded dll runtime, reasonable opt.
+            env.Appendunique( CCFLAGS=["/md", "/ox"] )
     else:
         env.Append( CPPDEFINES="NDEBUG",
-                    CXXFLAGS= ["-O2",
+                    CXXFLAGS= ["-o2",
  
-            # RELEASEFLAGS from orig. Makefile (for 'release' and 'profile' targets)
+            # releaseflags from orig. makefile (for 'release' and 'profile' targets)
             #
             "-Wuninitialized",
         ] )
 
 
 #
-# Profile settings
+# profile settings
 #
 if PROFILE:
     if WINDOWS:
-        { }     # TBD
+        { }     # tbd
     else: 
         env.Append( CXXFLAGS="-g -pg" )
 
 
+
+
 #---
-# Exceptions to the regular compilation rules (from orig. Makefile)
+# exceptions to the regular compilation rules (from orig. makefile)
 #
-# Note: Samples show 'env.Replace( OBJDIR=... )' to be able to use separate
-#       object dir, but this did not work.    -- AKa 15-Sep-2008
+# note: samples show 'env.replace( objdir=... )' to be able to use separate
+#       object dir, but this did not work.    -- aka 15-sep-2008
 #
-#env.Replace( OBJDIR=OBJDIR )
-#env.Library( "smartmet_textgen", Glob("source/*.cpp") )
 
 objs= []
-shared_objs= []
+objs_mt= []
+
+env_mt = env.Clone()
+
+env.Append( LIBS= [ "smartmet_newbase" ] )
+env.Append( CPPDEFINES="BOOST_DISABLE_THREADS" )
+
+env_mt.Append( LIBS= [ "smartmet_newbase-mt" ] )
+env_mt.Append( CPPDEFINES="FMI_MULTITHREAD" )
+if not WINDOWS:
+    env_mt.Append( CPPDEFINES= "_REENTRANT" )
 
 if WINDOWS:
-    for fn in Glob("source/*.cpp"): 
+    for fn in glob("source/*.cpp"): 
         s= os.path.basename( str(fn) )
-        obj_s= OBJDIR+"/"+ s.replace(".cpp","")
+	obj_s= OBJDIR+"/"+ s.replace(".cpp","")
 
-        objs += env.Object( obj_s, fn )
-        shared_objs += env.SharedObject( obj_s, fn ) 
+        objs += env.object( obj_s, fn )
+        objs_mt += env_mt.object( obj_s+"_mt", fn )
 else:
     if DEBUG:
-        e_O0= env       # No change, anyways
+        e_o0= env       # no change, anyways
+        e_o0_mt= env_mt
+
         e_noerror= env.Clone()
         e_noerror["CXXFLAGS"].remove( "-Werror" )
         e_noerror["CXXFLAGS"].append( "-Wno-error" )
+
+        e_noerror_mt= env_mt.Clone()
+        e_noerror_mt["CXXFLAGS"].remove( "-Werror" )
+        e_noerror_mt["CXXFLAGS"].append( "-Wno-error" )
+
     else:
-        e_O0= env.Clone()
-        e_O0["CXXFLAGS"].remove("-O2")
-        e_O0["CXXFLAGS"].append("-O0")
-        e_O0["CXXFLAGS"].remove("-Wuninitialized")    # not supported without '-O'
+        e_o0= env.Clone()
+        e_o0["CXXFLAGS"].remove("-O2")
+        e_o0["CXXFLAGS"].append("-O0")
+        e_o0["CXXFLAGS"].remove("-Wuninitialized")    # not supported without '-o'
+
+        e_o0_mt= env_mt.Clone()
+        e_o0_mt["CXXFLAGS"].remove("-O2")
+        e_o0_mt["CXXFLAGS"].append("-O0")
+        e_o0_mt["CXXFLAGS"].remove("-Wuninitialized")    # not supported without '-o'
+
         e_noerror= env    # anyways no -Werror
+        e_noerror_mt= env_mt
     
     for fn in Glob("source/*.cpp"): 
         s= os.path.basename( str(fn) )
-        obj_s= OBJDIR+"/"+ s.replace(".cpp","")
-        
+	obj_s= OBJDIR+"/"+ s.replace(".cpp","")
+
         objs += env.Object( obj_s, fn )
-        shared_objs += env.SharedObject( obj_s, fn ) 
+        objs_mt += env_mt.Object( obj_s+"_mt", fn )
 
-
-# Make just the static lib (at least it should be default for just 'scons')
+# make just the static lib (at least it should be default for just 'scons')
 
 env.Library( "smartmet_textgen", objs )
-#env.SharedLibrary( "smartmet_textgen", shared_objs )
+env.Library( "smartmet_textgen-mt", objs_mt )
 
 

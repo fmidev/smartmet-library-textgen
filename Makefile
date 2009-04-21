@@ -36,6 +36,7 @@ rpmrelease := $(shell grep "^Release:" $(LIB).spec  | cut -d\  -f 2 | tr . _)
 # What to install
 
 LIBFILE = libsmartmet_$(LIB).a
+LIBFILE_MT = libsmartmet_$(LIB)-mt.a
 
 # How to install
 
@@ -49,18 +50,21 @@ INSTALL_DATA = install -m 664
 #
 SCONS_FLAGS += objdir=$(objdir) prefix=$(PREFIX)
 
-all release $(LIBFILE):
-	scons $(SCONS_FLAGS) $(LIBFILE)
+all release:
+	scons $(SCONS_FLAGS) $(LIBFILE) $(LIBFILE_MT)
+
+$(LIBFILE) $(LIBFILE_MT):
+	scons $(SCONS_FLAGS) $@
 
 debug:
-	scons $(SCONS_FLAGS) debug=1 $(LIBFILE)
+	scons $(SCONS_FLAGS) debug=1 $(LIBFILE) $(LIBFILE_MT)
 
 profile:
-	scons $(SCONS_FLAGS) profile=1 $(LIBFILE)
+	scons $(SCONS_FLAGS) profile=1 $(LIBFILE) $(LIBFILE_MT)
 
 clean:
 	@#scons -c objdir=$(objdir)
-	-rm -f $(LIBFILE) *~ source/*~ include/*~
+	-rm -f $(LIBFILE) $(LIBFILE_MT) *~ source/*~ include/*~
 	-rm -rf $(objdir)
 
 install:
@@ -72,6 +76,7 @@ install:
 	done
 	@mkdir -p $(libdir)
 	$(INSTALL_DATA) $(LIBFILE) $(libdir)/$(LIBFILE)
+	$(INSTALL_DATA) $(LIBFILE_MT) $(libdir)/$(LIBFILE_MT)
 
 test:
 	cd test && make test
