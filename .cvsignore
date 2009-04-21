@@ -1,3 +1,6 @@
 obj
 .sconsign.dblite
+libsmartmet_textgen.a
+libsmartmet_textgen-mt.a
+
 
