@@ -15,6 +15,8 @@
 using namespace WeatherAnalysis;
 using namespace std;
 
+#if 0
+
 /*
 * Function 
 */
@@ -40,6 +42,8 @@ table= {
     ...
 }
 
+#endif
+
 namespace TextGen
 {
 
@@ -59,6 +63,7 @@ namespace TextGen
     //
 	Paragraph paragraph;
 
+#if 0
 	GridForecaster forecaster;
 
     // TBD: Jotain forecasterista
@@ -84,6 +89,7 @@ namespace TextGen
 	//													itsVar);
 	//paragraph << sentence;
 
+#endif
 	log << paragraph;
 	return paragraph;
   }
