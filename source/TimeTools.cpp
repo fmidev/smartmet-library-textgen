@@ -52,14 +52,15 @@ namespace WeatherAnalysis
 	  
 	  ::time_t tsec = mktime(&tlocal);
 	  
-	  ::tm * tutc = ::gmtime(&tsec);
+	  ::tm tutc;
+	  ::gmtime_r(&tsec,&tutc);
 	  
-	  NFmiTime out(tutc->tm_year + 1900,
-				   tutc->tm_mon + 1,
-				   tutc->tm_mday,
-				   tutc->tm_hour,
-				   tutc->tm_min,
-				   tutc->tm_sec);
+	  NFmiTime out(tutc.tm_year + 1900,
+				   tutc.tm_mon + 1,
+				   tutc.tm_mday,
+				   tutc.tm_hour,
+				   tutc.tm_min,
+				   tutc.tm_sec);
 	  
 	  return out;
 	}
@@ -93,19 +94,17 @@ namespace WeatherAnalysis
 	  ::time_t epochtime = my_timegm(&utc);
 #endif
 
-	  // As local time. Note that localtime owns the struct
-	  // that it will create statically
-	  
-	  struct ::tm * local = ::localtime(&epochtime);
+	  struct ::tm tlocal;
+	  ::localtime_r(&epochtime,&tlocal);
 	  
 	  // And build a NFmiTime from the result
 	  
-	  NFmiTime out(local->tm_year + 1900,
-				   local->tm_mon + 1,
-				   local->tm_mday,
-				   local->tm_hour,
-				   local->tm_min,
-				   local->tm_sec);
+	  NFmiTime out(tlocal.tm_year + 1900,
+				   tlocal.tm_mon + 1,
+				   tlocal.tm_mday,
+				   tlocal.tm_hour,
+				   tlocal.tm_min,
+				   tlocal.tm_sec);
 	  
 	  return out;
 	}
