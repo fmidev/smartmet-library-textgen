@@ -82,13 +82,15 @@ test:
 	cd test && make test
 
 EXTRAS = $(wildcard docs/*.php)
-html::
-	@mkdir -p $(prefix)/html/lib/textgen/docs
+
+html:
+	@mkdir -p /data/local/html/lib/$(LIB)/docs
 	@list='$(EXTRAS)'; \
 	for extra in $$list; do \
-	  echo $(INSTALL_DATA) $$extra $(prefix)/html/lib/textgen/$$extra; \
-	  $(INSTALL_DATA) $$extra $(prefix)/html/lib/textgen/$$extra; \
+	  echo $(INSTALL_DATA) $$extra /data/local/html/lib/textgen/$$extra; \
+	  $(INSTALL_DATA) $$extra /data/local/html/lib/textgen/$$extra; \
 	done
+	doxygen $(LIB).dox
 
 rpm: clean
 	if [ -e $(LIB).spec ]; \
