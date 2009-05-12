@@ -258,12 +258,12 @@ namespace WeatherStoryTest
 
 	NFmiSettings::Set("b::fake::probability","50,0");
 	require(story,"fi",fun,"Ukkoskuurot paikoin mahdollisia.");
-	require(story,"sv",fun,"Lokal åskurar möjlika.");
+	require(story,"sv",fun,"Lokala åskskurar möjliga.");
 	require(story,"en",fun,"Possible local thunder showers.");
 
 	NFmiSettings::Set("b::fake::probability","90,0");
 	require(story,"fi",fun,"Ukkoskuurot todennäköisiä.");
-	require(story,"sv",fun,"Åskurar sannolika.");
+	require(story,"sv",fun,"Åskskurar sannolika.");
 	require(story,"en",fun,"Probable thunder showers.");
 	
 	TEST_PASSED();
