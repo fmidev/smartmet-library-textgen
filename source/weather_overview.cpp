@@ -1561,7 +1561,7 @@ namespace TextGen
 									 theVar,
 									 theForecastTime,
 									 thePeriod);
-	s << "ajoittain sateista";
+	s << "enimmäkseen" << "poutaa";
 	return s;
   }
 
@@ -1753,12 +1753,14 @@ namespace TextGen
 			if(day==day2)
 			  {
 				s << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, period)
-				  << "ajoittain sateista";
+				  << "enimmäkseen"
+				  << "poutaa";
 			  }
 			else
 			  {
 				s << WeekdayTools::from_weekday(period.localStartTime())
-				  << "ajoittain sateista";
+				  << "enimmäkseen"
+				  << "poutaa";
 			  }
 			paragraph << s;
 			day = day2;
