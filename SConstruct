@@ -163,7 +163,7 @@ if RELEASE or PROFILE:
             env.Appendunique( CCFLAGS=["/md", "/ox"] )
     else:
         env.Append( CPPDEFINES="NDEBUG",
-                    CXXFLAGS= ["-o2",
+                    CXXFLAGS= ["-O2",
  
             # releaseflags from orig. makefile (for 'release' and 'profile' targets)
             #
@@ -212,30 +212,27 @@ if WINDOWS:
         objs_mt += env_mt.object( obj_s+"_mt", fn )
 else:
     if DEBUG:
+        e_o0= env.Clone()
+
+        e_o0["CXXFLAGS"].append("-O0")
+
+        e_o0_mt= env_mt.Clone()
+        e_o0_mt["CXXFLAGS"].append("-O0")
+
+        e_noerror= env    # anyways no -Werror
+        e_noerror_mt= env_mt
+
+    else:
         e_o0= env       # no change, anyways
         e_o0_mt= env_mt
 
         e_noerror= env.Clone()
-        e_noerror["CXXFLAGS"].remove( "-Werror" )
         e_noerror["CXXFLAGS"].append( "-Wno-error" )
+        e_noerror["CXXFLAGS"].append( "-Wuninitialized" )
 
         e_noerror_mt= env_mt.Clone()
-        e_noerror_mt["CXXFLAGS"].remove( "-Werror" )
         e_noerror_mt["CXXFLAGS"].append( "-Wno-error" )
-
-    else:
-        e_o0= env.Clone()
-        e_o0["CXXFLAGS"].remove("-O2")
-        e_o0["CXXFLAGS"].append("-O0")
-        e_o0["CXXFLAGS"].remove("-Wuninitialized")    # not supported without '-o'
-
-        e_o0_mt= env_mt.Clone()
-        e_o0_mt["CXXFLAGS"].remove("-O2")
-        e_o0_mt["CXXFLAGS"].append("-O0")
-        e_o0_mt["CXXFLAGS"].remove("-Wuninitialized")    # not supported without '-o'
-
-        e_noerror= env    # anyways no -Werror
-        e_noerror_mt= env_mt
+        e_noerror_mt["CXXFLAGS"].append( "-Wuninitialized" )
     
     for fn in Glob("source/*.cpp"): 
         s= os.path.basename( str(fn) )
