@@ -54,6 +54,10 @@ if WINDOWS:
 
 env.Append( CPPPATH= [ "./include" ] )
 
+# Asko's temporary
+#
+env.Append( CPPPATH= [ "asko/FrostProto", "asko/TempOverviewProto" ] )
+
 if WINDOWS: 
     if env["cc"]=="cl":
         env.Append( CXXFLAGS= ["/ehsc"] )
@@ -234,7 +238,7 @@ else:
         e_noerror_mt["CXXFLAGS"].append( "-Wno-error" )
         e_noerror_mt["CXXFLAGS"].append( "-Wuninitialized" )
     
-    for fn in Glob("source/*.cpp"): 
+    for fn in Glob("source/*.cpp") + Glob("asko/FrostProto/*.cpp") + Glob("asko/TempOverviewProto/*.cpp"): 
         s= os.path.basename( str(fn) )
 	obj_s= OBJDIR+"/"+ s.replace(".cpp","")
 
