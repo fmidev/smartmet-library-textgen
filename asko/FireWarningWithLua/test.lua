@@ -15,6 +15,7 @@ local FireWarnings= assert( m.read )
 
 local DIR= "."     -- in current dir
 
+--
 local function constructors() 
 
     -- 24.5.2005 has data
@@ -49,8 +50,6 @@ local function constructors()
 end
 
 
---
--- Test FireWarnings::state
 --
 local function state()
 

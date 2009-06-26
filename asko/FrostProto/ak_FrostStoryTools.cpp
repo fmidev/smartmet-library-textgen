@@ -53,7 +53,7 @@ namespace TextGen
 										  int theProbability )
 	{
 	  Sentence sentence;
-	  sentence << "ankaran hallan todennŠkšisyys"
+	  sentence << "ankaran hallan todenn\xe4k\xf6isyys"    // SQL key (latin-1)
 			   << "on"
 			   << WeekdayTools::night_against_weekday(thePeriod.localEndTime())
 			   << Integer(theProbability)
@@ -75,7 +75,7 @@ namespace TextGen
 								  int theProbability)
 	{
 	  Sentence sentence;
-	  sentence << "hallan todennŠkšisyys"
+	  sentence << "hallan todenn\xe4k\xf6isyys"    // SQL key (latin-1)
 			   << "on"
 			   << WeekdayTools::night_against_weekday( thePeriod.localEndTime() )
 			   << Integer( theProbability )

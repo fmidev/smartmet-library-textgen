@@ -1,10 +1,7 @@
-PROG = $(patsubst %.cpp,%,$(wildcard *.cpp))
-PHPPROG = $(wildcard *.php)
-# OBS = $(wildcard ../obj/*.o)
 
-# Path up to 'textgen' main level
-#
-TEXTGEN = ../../..
+OBJ = $(patsubst %.cpp,obj/%.o,$(wildcard *.cpp))
+
+TEXTGEN = ../..
 
 MAINFLAGS = -Wall -W -Wno-unused-parameter
 
@@ -16,70 +13,40 @@ EXTRAFLAGS = -Werror -pedantic -Wpointer-arith -Wcast-qual \
 
 DIFFICULTFLAGS = -Weffc++ -Wunreachable-code -Wredundant-decls
 
-processor := $(shell uname -p)
-UNAME_S := $(shell uname -s)
+#CC = g++
+#CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
 
-ifeq ($(origin PREFIX), undefined)
-  PREFIX = /usr
-else
-  PREFIX = $(PREFIX)
-endif
+#PREFIX=/usr
+#ifeq ($(shell uname -p), x86_64)
+#  libdir = $(PREFIX)/lib64
+#else
+#  libdir = $(PREFIX)/lib
+#endif
 
-ifeq ($(processor), x86_64)
-  libdir = $(PREFIX)/lib64
-else
-  libdir = $(PREFIX)/lib
-endif
-
-CC = g++
-CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
-
-# Getting 'regression/tframe.h' on OS X
-#
-ifeq ($(UNAME_S), Darwin)
-  INCLUDES = \
-    -I $(TEXTGEN)/../newbase/test \
-    -I /sw/include \
-    -I /sw/include/mysql \
-    -I ..
-  LIBS = \
-    -L$(TEXTGEN) -lsmartmet_textgen \
-	-L$(TEXTGEN)/../newbase -lsmartmet_newbase \
-    -L/sw/lib -lmysqlclient
-else
-  INCLUDES = \
+INCLUDES = \
     -I /usr/include/smartmet \
-	-I /usr/include/mysql
-  LIBS = \
-    -L $(TEXTGEN) -lsmartmet_textgen \
-	-lsmartmet_newbase \
-    -L $(libdir)/mysql -lmysqlclient
-endif
+	-I /usr/include/mysql \
+	-I $(TEXTGEN)/include
 
-INCLUDES += -I $(TEXTGEN)/include -I ..
+#LIBS = \
+#	-lsmartmet_newbase \
+#    -L $(libdir)/mysql -lmysqlclient
 
-LIBS += \
-        -lboost_regex-mt \
-        -lboost_filesystem-mt \
-        -lboost_iostreams-mt \
-        -lboost_system-mt \
-	-lz -lbz2 -lpthread
+#CPPFLAGS += $(INCLUDES) $(LIBS)
 
+all: $(OBJ)
 
-all: $(PROG)
+test: $(OBJ)
+	cd test && make test
+
+obj/%.o: %.cpp
+	g++ -c -DUNIX -O0 -g $(INCLUDES) -o $@ $<
+
 clean:
-	rm -f $(PROG) *~
+	-rm obj/*.o
 
-test: $(PROG)
-	@echo Running tests:
-	@for prog in $(PROG); do \
-	 ./$$prog; \
-	done
-	@echo
-	@for prog in $(PHPPROG); do \
-	 php -q $$prog; \
-	done
+echo:
+	echo $(OBJ)
 
-$(PROG) : % : %.cpp $(TEXTGEN)/libsmartmet_textgen.a
-	$(CC) $(CFLAGS) -o $@ $@.cpp $(INCLUDES) $(LIBS)
 
+.PROXY: test echo all clean

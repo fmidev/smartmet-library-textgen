@@ -1,94 +1,51 @@
-#include "ak_FrostStory.h"
+--
+-- FrostTest.lua
+--
+-- Runs same test cases as 'textgen/test/FrostStoryTest.cpp' but in Lua.
+--
 
-#include <regression/tframe.h>
-#include "Dictionary.h"
-#include "DictionaryFactory.h"
-#include "Paragraph.h"
-#include "PlainTextFormatter.h"
-#include "Story.h"
+require "TestTools"
 
-#include <newbase/NFmiSettings.h>
+require "dict"
 
-#include <iostream>
-#include <stdexcept>
-#include <string>
+--
+local function frost_mean()
 
-using namespace std;
-using namespace boost;
+	--AnalysisSources sources
+	local area= WeatherArea("25,60")
+	local t1= os.time{ year=2000, month=1, day=1 }
+	local t2= os.time{ year=2000, month=1, day=2 }
 
+	local period= WeatherPeriod(t1,t2)
+	local story= AK_FrostStory( t1, sources, area, period, "mean" )
 
-namespace AK_FrostStoryTest
-{
-  shared_ptr<TextGen::Dictionary> dict;
-  TextGen::PlainTextFormatter formatter;
-  
-  void require( const TextGen::Story & theStory,
-			    const string & theLanguage,
-			    const string & theName,
-			    const string & theExpected )
-  {
-	dict->init(theLanguage);
-	formatter.dictionary(dict);
+	local fun= "frost_mean"
 
-	TextGen::Paragraph para = theStory.makeStory(theName);
-	const string value = para.realize(formatter);
+    local opt= {
+        precision= 10,
+        frost_limit= 20,
+        severe_frost_limit= 10
+    }
 
-	if (value != theExpected) {
-		const string msg = value + " <> " + theExpected;
-		TEST_FAILED(msg.c_str());
-	  }
-  }
+    opt.fake_mean= "0,0"
+    opt.fake_severe_mean= "0,0"
+    require( story, fun, "", "", "" )
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test AK_FrostStory::mean()
-   */
-  // ----------------------------------------------------------------------
+    opt.fake_mean= "10,0"
+    opt.fake_severe_mean= "0,0"
+    require( story, fun, "", "", "" )
 
-  void frost_mean() {
-	using namespace std;
-	using namespace TextGen;
-	using namespace WeatherAnalysis;
+    opt.fake_mean= "20,0"
+    opt.fake_severe_mean= "0,0"
+    require( story, fun, 
+                "Hallan todennäköisyys on 20%.",
+                "Sannolikheten för nattfrost är 20%.",
+                "Probability of frost is 20%." )
 
-	AnalysisSources sources;
-	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
-	WeatherPeriod period(time1,time2);
-	AK_FrostStory story(time1,sources,area,period,"mean");
+    -- ...
+end
 
-	const string fun = "frost_mean";
-
-	NFmiSettings::Set( "mean::precision", "10" );
-	NFmiSettings::Set( "mean::frost_limit", "20" );
-	NFmiSettings::Set( "mean::severe_frost_limit", "10" );
-
-	NFmiSettings::Set( "mean::fake::mean", "0,0" );
-	NFmiSettings::Set( "mean::fake::severe_mean", "0,0" );
-	require( story, "fi", fun, "" );
-	require( story, "sv", fun, "" );
-	require( story, "en", fun, "" );
-
-	NFmiSettings::Set( "mean::fake::mean", "10,0" );
-	NFmiSettings::Set( "mean::fake::severe_mean", "0,0" );
-	require( story, "fi", fun, "" );
-	require( story, "sv", fun, "" );
-	require( story, "en", fun, "" );
-
-	NFmiSettings::Set( "mean::fake::mean", "20,0" );
-	NFmiSettings::Set( "mean::fake::severe_mean", "0,0" );
-	require( story, "fi", fun, "Hallan todennäköisyys on 20%.");
-	require( story, "sv", fun, "Sannolikheten för nattfrost är 20%.");
-	require( story, "en", fun, "Probability of frost is 20%.");
-
-	NFmiSettings::Set( "mean::fake::mean", "20,0" );
-	NFmiSettings::Set( "mean::fake::severe_mean", "10,0" );
-	require( story, "fi", fun, "Ankaran hallan todennäköisyys on 10%." );
-	require( story, "sv", fun, "Sannolikheten för sträng nattfrost är 10%." );
-	require( story, "en", fun, "Probability of severe frost is 10%." );
-
-	TEST_PASSED();
-  }
+...
 
   // ----------------------------------------------------------------------
   /*!
@@ -412,51 +369,16 @@ namespace AK_FrostStoryTest
   }
 
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief The actual test driver
-   */
-  // ----------------------------------------------------------------------
 
-  class tests : public tframe::tests
-  {
-	//! Overridden message separator
-	virtual const char * const error_message_prefix() const
-	{
-	  return "\n\t";
-	}
+--
+-- Actual test
+--
+io.stderr:write( [[
+FrostStory tests
+================
+]] )
 
-	//! Main test suite
-	void test(void)
-	{
-	  TEST(frost_mean);
-	  TEST(frost_maximum);
-	  TEST(frost_range);
-	  TEST(frost_twonights);
-	  TEST(frost_day);
-	}
+mean()
+--...
 
-  }; // class tests
-
-} // namespace FrostStoryTest
-
-
-int main(void)
-{
-  using namespace AK_FrostStoryTest;
-
-  cout << endl
-	   << "AK_FrostStory tests" << endl
-	   << "===================" << endl;
-
-  dict = TextGen::DictionaryFactory::create("multimysql");
-
-  dict->init("fi");
-  dict->init("sv");
-  dict->init("en");
-
-  NFmiSettings::Set("textgen::frostseason","true");
-
-  tests t;
-  return t.run();
-}
+-- done
