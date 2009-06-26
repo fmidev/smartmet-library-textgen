@@ -174,7 +174,7 @@ namespace TextGen
 					 << Delimiter(",");
 			
 			if (severevalue2 >= severelimit) {
-				sentence << "seuraavana yönä";
+				sentence << "seuraavana y\xf6n\xe4";
 				if (severevalue1 == severevalue2) {
 				    sentence << "sama";
 				} else {
@@ -183,16 +183,16 @@ namespace TextGen
                 }
             }
 			else if(value2 >= normallimit) {
-				sentence << "seuraavana yönä"
-						 << "hallan todennäköisyys"
+				sentence << "seuraavana y\xf6n\xe4"
+						 << "hallan todenn\xe4k\xf6isyys"     // SQL key (latin-1)
 						 << "on"
 						 << Integer(value2)
 						 << *UnitFactory::create(Percent);
 			}
 			else {
-				sentence << "seuraava yö"
+				sentence << "seuraava y\xf6"
 						 << "on"
-						 << "huomattavasti lämpimämpi";
+						 << "huomattavasti l\xe4mpim\xe4mpi";
             }
 			paragraph << sentence;
         }
@@ -202,23 +202,23 @@ namespace TextGen
 					 << Delimiter(",");
 
 			if (severevalue2 >= severelimit) {
-				sentence << "seuraavana yönä"
-						 << "ankaran hallan todennäköisyys"
+				sentence << "seuraavana y\xf6n\xe4"
+						 << "ankaran hallan todenn\xe4k\xf6isyys"     // SQL key (latin-1)
 						 << "on"
 						 << Integer(severevalue2)
 						 << *UnitFactory::create(Percent);
             } 
             else if(value2 >= normallimit) {
-				sentence << "seuraavana yönä";
+				sentence << "seuraavana y\xf6n\xe4";
 				if(value1 == value2)
 				  sentence << "sama";
 				else
 				  sentence << Integer(value2)
 						   << *UnitFactory::create(Percent);
             } else {
-				sentence << "seuraava yö"
+				sentence << "seuraava y\xf6"
 						 << "on"
-						 << "lämpimämpi";
+						 << "l\xe4mpim\xe4mpi";
             }
 			paragraph << sentence;
         } else {										// nada + ?

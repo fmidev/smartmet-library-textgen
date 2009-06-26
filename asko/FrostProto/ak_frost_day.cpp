@@ -46,8 +46,8 @@ namespace TextGen
 	{
 	  Sentence sentence;
 	  sentence << (isSevere ?
-				   "ankaran hallan todennäköisyys" :
-				   "hallan todennäköisyys")
+				   "ankaran hallan todenn\xe4k\xf6isyys" :  // SQL dictionary key (Latin-1)
+				   "hallan todenn\xe4k\xf6isyys")           // -''-
 			   << "on"
 			   << PeriodPhraseFactory::create("tonight",
 											  theVar,

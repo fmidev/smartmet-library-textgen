@@ -131,14 +131,14 @@ namespace TextGen
 	const int severe_frost_max = to_precision( maxseverefrost.value(), precision );
 
 	if (severe_frost_max >= severelimit) {
-		sentence << "ankaran hallan todennŠkšisyys"
+		sentence << "ankaran hallan todenn\xe4k\xf6isyys"     // SQL key (latin-1)
 				 << "on"
 				 << IntegerRange(severe_frost_min,severe_frost_max,rangeseparator)
 				 << *UnitFactory::create(Percent);
 		paragraph << sentence;
 
 	} else if (frost_max >= normallimit) {
-		sentence << "hallan todennŠkšisyys"
+		sentence << "hallan todenn\xe4k\xf6isyys"     // SQL key (latin-1)
 				 << "on"
 				 << IntegerRange(frost_min,frost_max,rangeseparator)
 				 << *UnitFactory::create(Percent);

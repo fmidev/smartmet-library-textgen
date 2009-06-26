@@ -19,7 +19,7 @@ namespace AK_FrostStoryToolsTest
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Test FrostStoryTools::frost_sentence
+   * \brief Test AK_FrostStoryTools::frost_sentence
    */
   // ----------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ namespace AK_FrostStoryToolsTest
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Test FrostStoryTools::severe_frost_sentence
+   * \brief Test AK_FrostStoryTools::severe_frost_sentence
    */
   // ----------------------------------------------------------------------
 

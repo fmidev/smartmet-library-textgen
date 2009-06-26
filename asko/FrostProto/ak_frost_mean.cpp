@@ -99,14 +99,14 @@ namespace TextGen
 	const int severe_frost_value = to_precision(severefrost.value(),precision);
 
 	if (severe_frost_value >= severelimit) {
-		sentence << "ankaran hallan todennäköisyys"
+		sentence << "ankaran hallan todenn\xe4k\xf6isyys"     // SQL dictionary key (Latin-1)
 				 << "on"
 				 << Integer(severe_frost_value)
 				 << *UnitFactory::create(Percent);
 		paragraph << sentence;
 
 	} else if(frost_value >= normallimit) {
-		sentence << "hallan todennäköisyys"
+		sentence << "hallan todenn\xe4k\xf6isyys"     // SQL dictionary key (Latin-1)
 				 << "on"
 				 << Integer(frost_value)
 				 << *UnitFactory::create(Percent);
