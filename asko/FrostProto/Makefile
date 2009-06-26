@@ -16,24 +16,12 @@ DIFFICULTFLAGS = -Weffc++ -Wunreachable-code -Wredundant-decls
 #CC = g++
 #CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
 
-#PREFIX=/usr
-#ifeq ($(shell uname -p), x86_64)
-#  libdir = $(PREFIX)/lib64
-#else
-#  libdir = $(PREFIX)/lib
-#endif
-
 INCLUDES = \
     -I /usr/include/smartmet \
 	-I /usr/include/mysql \
 	-I $(TEXTGEN)/include
 
-#LIBS = \
-#	-lsmartmet_newbase \
-#    -L $(libdir)/mysql -lmysqlclient
-
-#CPPFLAGS += $(INCLUDES) $(LIBS)
-
+#---
 all: $(OBJ)
 
 test: $(OBJ)
@@ -49,4 +37,4 @@ echo:
 	echo $(OBJ)
 
 
-.PROXY: test echo all clean
+.PHONY: test echo all clean

@@ -73,4 +73,4 @@ test: $(PROG)
 $(PROG): % : %.cpp ../obj/*.o
 	g++ -DUNIX -O0 -g $(MAINFLAGS) -o $@ $@.cpp $(INCLUDES) $(LIBS)
 
-.PROXY: test echo all clean
+.PHONY: test echo all clean
