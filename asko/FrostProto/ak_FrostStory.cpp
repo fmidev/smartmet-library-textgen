@@ -87,16 +87,11 @@ namespace TextGen
   
   const Paragraph AK_FrostStory::makeStory(const string & theName) const
   {
-	if(theName == "ak_frost_mean")
-	  return mean();
-	if(theName == "ak_frost_maximum")
-	  return maximum();
-	if(theName == "ak_frost_range")
-	  return range();
-	if(theName == "ak_frost_twonights")
-	  return twonights();
-	if(theName == "ak_frost_day")
-	  return day();
+	if (theName == "ak_frost_mean")     return mean();
+	if (theName == "ak_frost_maximum")  return maximum();
+	if (theName == "ak_frost_range")    return range();
+	if (theName == "ak_frost_twonights") return twonights();
+	if (theName == "ak_frost_day")      return day();
 
 	throw TextGenError("AK_FrostStory cannot make story "+theName);
   }

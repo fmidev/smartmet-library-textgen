@@ -17,9 +17,7 @@ namespace TextGen
 {
   class Paragraph;
 
-  class AK_FrostStory : public Story
-  {
-
+  class AK_FrostStory : public Story {
   public:
 	AK_FrostStory( const NFmiTime & theForecastTime,
 			    const WeatherAnalysis::AnalysisSources & theSources,
@@ -32,15 +30,15 @@ namespace TextGen
 	virtual const Paragraph makeStory( const std::string & theName ) const;
 
   private:
-	const Paragraph mean() const;
-	const Paragraph maximum() const;
-	const Paragraph range() const;
-	const Paragraph twonights() const;
-	const Paragraph day() const;
+	Paragraph mean() const;
+	Paragraph maximum() const;
+	Paragraph range() const;
+	Paragraph twonights() const;
+	Paragraph day() const;
 
-	AK_FrostStory();
-	AK_FrostStory( const AK_FrostStory & theStory );
-	AK_FrostStory & operator=( const AK_FrostStory & theStory );
+	AK_FrostStory();   // is not
+	AK_FrostStory( const AK_FrostStory & );   // is not
+	AK_FrostStory & operator=( const AK_FrostStory & );    // is not
 
 	const NFmiTime itsForecastTime;
 	const WeatherAnalysis::AnalysisSources & itsSources;
@@ -48,9 +46,9 @@ namespace TextGen
 	const WeatherAnalysis::WeatherPeriod & itsPeriod;
 	const std::string itsVar;
 
-  }; // class AK_FrostStory
-}
+  };  // AK_FrostStory
+}   // namespace
 
-#endif // TEXTGEN_FROSTSTORY_H
+#endif
 
 // ======================================================================

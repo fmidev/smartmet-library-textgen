@@ -33,7 +33,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph AK_FrostStory::maximum() const
+  Paragraph AK_FrostStory::maximum() const
   {
 	MessageLogger log("AK_FrostStory::maximum");
 
@@ -74,7 +74,7 @@ namespace TextGen
 
 	// Quick exit if the mean is zero
 	
-	if(frost.value() == 0) {
+	if (frost.value() == 0) {
 		log << paragraph;
 		return paragraph;
 	  }
@@ -99,14 +99,14 @@ namespace TextGen
 
 	const int severe_frost_value = to_precision(severefrost.value(),precision);
 
-	if(severe_frost_value >= severelimit) {
+    if (severe_frost_value >= severelimit) {
 		sentence << "ankaran hallan todenn\xe4k\xf6isyys"     // SQL dictionary key (Latin-1)
 				 << "on"
 				 << Integer(severe_frost_value)
 				 << *UnitFactory::create(Percent);
 		paragraph << sentence;
 
-	} else if(frost_value >= normallimit) {
+	} else if (frost_value >= normallimit) {
 		sentence << "hallan todenn\xe4k\xf6isyys"   // SQL dictionary key (Latin-1)
 				 << "on"
 				 << Integer(frost_value)

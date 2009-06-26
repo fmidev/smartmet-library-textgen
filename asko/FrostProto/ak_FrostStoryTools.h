@@ -21,14 +21,13 @@ namespace TextGen
   {
 	bool is_frost_season();
 
-	const Sentence frost_sentence( const WeatherAnalysis::WeatherPeriod & thePeriod,
+	Sentence frost_sentence( const WeatherAnalysis::WeatherPeriod & thePeriod,
 								   int theProbability );
 
-	const Sentence severe_frost_sentence( const WeatherAnalysis::WeatherPeriod & thePeriod,
+	Sentence severe_frost_sentence( const WeatherAnalysis::WeatherPeriod & thePeriod,
 										  int theProbability );
-
-  } // namespace AK_FrostStoryTools
-} // namespace TextGen
+  } // AK_FrostStoryTools
+} // TextGen
 
 #endif // TEXTGEN_FROSTSTORYTOOLS_H
 

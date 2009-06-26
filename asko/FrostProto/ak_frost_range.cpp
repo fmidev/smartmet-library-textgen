@@ -32,7 +32,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph AK_FrostStory::range() const
+  Paragraph AK_FrostStory::range() const
   {
 	MessageLogger log("AK_FrostStory::range");
 

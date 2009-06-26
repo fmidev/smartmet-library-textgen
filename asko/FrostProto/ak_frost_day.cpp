@@ -38,7 +38,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const Sentence plain_frost_sentence( bool isSevere,
+	Sentence plain_frost_sentence( bool isSevere,
 										 int theValue,
 										 const string & theVar,
 										 const NFmiTime & theForecastTime,
@@ -68,7 +68,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph AK_FrostStory::day() const
+  Paragraph AK_FrostStory::day() const
   {
 	MessageLogger log("ak_FrostStory::day");
 
@@ -99,11 +99,11 @@ namespace TextGen
 
 	// The options
 
-	const int precision   = Settings::optional_percentage(itsVar+"::precision",10);
-	const int severelimit = Settings::optional_percentage(itsVar+"::severe_frost_limit",10);
-	const int normallimit = Settings::optional_percentage(itsVar+"::frost_limit",10);
-	const int obvious_frost = Settings::optional_percentage(itsVar+"::obvious_frost_limit",90);
-    const int coastlimit = Settings::optional_percentage(itsVar+"::coastlimit",20);
+	const int precision   = Settings::optional_percentage( itsVar+"::precision", 10 );
+	const int severelimit = Settings::optional_percentage( itsVar+"::severe_frost_limit", 10 );
+	const int normallimit = Settings::optional_percentage( itsVar+"::frost_limit", 10 );
+	const int obvious_frost = Settings::optional_percentage( itsVar+"::obvious_frost_limit", 90 );
+    const int coastlimit = Settings::optional_percentage( itsVar+"::coastlimit", 20 );
 
 	// Calculate frost probability for the area
 
@@ -125,27 +125,26 @@ namespace TextGen
 												  itsArea,
 												  period);
 
-	if(areafrost.value()==kFloatMissing || areasevere.value()==kFloatMissing)
+	if (areafrost.value()==kFloatMissing || areasevere.value()==kFloatMissing) {
 	  throw TextGenError("Frost is not available");
+    }
 
 	log << "Frost Mean(Maximum) for area " << areafrost << endl;
 	log << "SevereFrost Mean(Maximum) for area " << areasevere << endl;
 
 	// Rounded values
 
-	const int areaf = to_precision(areafrost.value(),precision);
-	const int areasf = to_precision(areasevere.value(),precision);
+	const int areaf = to_precision( areafrost.value(), precision );
+	const int areasf = to_precision( areasevere.value(), precision );
 		
 	// Abort if the story is meaningless
 
-	if(areaf < normallimit)
-	  {
+	if (areaf < normallimit) {
 		log << "Frost probability is below the required minimum - no story";
 		return paragraph;
 	  }
 	
-	if(areasf >= obvious_frost)
-	  {
+	if (areasf >= obvious_frost) {
 		log << "Severe frost probability is above the preset maximum - no story";
 		return paragraph;
 	  }
@@ -163,7 +162,7 @@ namespace TextGen
 	// Calculate coastal values
 
     WeatherArea coast = itsArea;
-    coast.type(WeatherArea::Coast);
+    coast.type( WeatherArea::Coast );
 
     WeatherResult coastfrost = forecaster.analyze(itsVar+"::fake::coast::value",
                                                   itsSources,
@@ -175,8 +174,7 @@ namespace TextGen
 
 	// Done if there is no coast
 
-	if(coastfrost.value() == kFloatMissing)
-	  {
+	if (coastfrost.value() == kFloatMissing) {
 		log << "There is no coastal area";
 
 		paragraph << plain_frost_sentence(issevere,
@@ -202,8 +200,7 @@ namespace TextGen
 
 	// Done if there is no inland
 
-	if(inlandfrost.value() == kFloatMissing)
-	  {
+	if (inlandfrost.value() == kFloatMissing) {
 		log << "There is no inland area";
 
 		paragraph << plain_frost_sentence(issevere,
@@ -226,8 +223,7 @@ namespace TextGen
 	const int coastvalue = to_precision(coastfrost.value(),precision);
 
 	// No significant difference
-	if(abs(inlandvalue-coastvalue) < coastlimit)
-	  {
+	if (abs(inlandvalue-coastvalue) < coastlimit) {
 		log << "Difference between coast and inland is small";
 
 		paragraph << plain_frost_sentence(issevere,

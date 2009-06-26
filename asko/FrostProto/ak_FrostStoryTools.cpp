@@ -49,14 +49,14 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	const Sentence severe_frost_sentence( const WeatherPeriod & thePeriod,
+	Sentence severe_frost_sentence( const WeatherPeriod & thePeriod,
 										  int theProbability )
 	{
 	  Sentence sentence;
 	  sentence << "ankaran hallan todenn\xe4k\xf6isyys"    // SQL key (latin-1)
 			   << "on"
-			   << WeekdayTools::night_against_weekday(thePeriod.localEndTime())
-			   << Integer(theProbability)
+			   << WeekdayTools::night_against_weekday( thePeriod.localEndTime() )
+			   << Integer( theProbability )
 			 << *UnitFactory::create(Percent);
 	  return sentence;
 	}
@@ -71,7 +71,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	const Sentence frost_sentence(const WeatherPeriod & thePeriod,
+	Sentence frost_sentence(const WeatherPeriod & thePeriod,
 								  int theProbability)
 	{
 	  Sentence sentence;

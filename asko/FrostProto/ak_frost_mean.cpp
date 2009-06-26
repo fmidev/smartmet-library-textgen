@@ -32,8 +32,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph AK_FrostStory::mean() const
-  {
+  Paragraph AK_FrostStory::mean() const {
 	MessageLogger log("AK_FrostStory::mean");
 
 	using MathTools::to_precision;
@@ -95,7 +94,6 @@ namespace TextGen
     }
 
 	const int frost_value = to_precision(frost.value(),precision);
-
 	const int severe_frost_value = to_precision(severefrost.value(),precision);
 
 	if (severe_frost_value >= severelimit) {
