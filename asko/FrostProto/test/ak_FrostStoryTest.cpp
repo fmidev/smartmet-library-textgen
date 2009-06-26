@@ -58,7 +58,7 @@ void frost_mean() {
 	WeatherPeriod period(time1,time2);
 	AK_FrostStory story(time1,sources,area,period,"mean");
 
-	const string fun = "ak_frost_mean";
+	const string id = "ak_frost_mean";
 
 	NFmiSettings::Set( "mean::precision", "10" );
 	NFmiSettings::Set( "mean::frost_limit", "20" );
@@ -66,27 +66,27 @@ void frost_mean() {
 
 	NFmiSettings::Set( "mean::fake::mean", "0,0" );
 	NFmiSettings::Set( "mean::fake::severe_mean", "0,0" );
-	require( story, FI, fun, "" );
-	require( story, SV, fun, "" );
-	require( story, EN, fun, "" );
+	require( story, FI, id, "" );
+	require( story, SV, id, "" );
+	require( story, EN, id, "" );
 
 	NFmiSettings::Set( "mean::fake::mean", "10,0" );
 	NFmiSettings::Set( "mean::fake::severe_mean", "0,0" );
-	require( story, FI, fun, "" );
-	require( story, SV, fun, "" );
-	require( story, EN, fun, "" );
+	require( story, FI, id, "" );
+	require( story, SV, id, "" );
+	require( story, EN, id, "" );
 
 	NFmiSettings::Set( "mean::fake::mean", "20,0" );
 	NFmiSettings::Set( "mean::fake::severe_mean", "0,0" );
-	require( story, FI, fun, "Hallan todenn\xe4k\xf6isyys on 20%.");
-	require( story, SV, fun, "Sannolikheten f\xf6r nattfrost \xe4r 20%.");
-	require( story, EN, fun, "Probability of frost is 20%.");
+	require( story, FI, id, "Hallan todenn\xe4k\xf6isyys on 20%.");
+	require( story, SV, id, "Sannolikheten f\xf6r nattfrost \xe4r 20%.");
+	require( story, EN, id, "Probability of frost is 20%.");
 
 	NFmiSettings::Set( "mean::fake::mean", "20,0" );
 	NFmiSettings::Set( "mean::fake::severe_mean", "10,0" );
-	require( story, FI, fun, "Ankaran hallan todenn\xe4k\xf6isyys on 10%." );
-	require( story, SV, fun, "Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r 10%." );
-	require( story, EN, fun, "Probability of severe frost is 10%." );
+	require( story, FI, id, "Ankaran hallan todenn\xe4k\xf6isyys on 10%." );
+	require( story, SV, id, "Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r 10%." );
+	require( story, EN, id, "Probability of severe frost is 10%." );
 
 	TEST_PASSED();
 }
@@ -109,7 +109,7 @@ void frost_maximum() {
 	WeatherPeriod period(time1,time2);
 	AK_FrostStory story(time1,sources,area,period,"maximum");
 
-	const string fun = "ak_frost_maximum";
+	const string id = "ak_frost_maximum";
 
 	NFmiSettings::Set( "maximum::precision", "10" );
 	NFmiSettings::Set( "maximum::frost_limit", "20" );
@@ -117,27 +117,27 @@ void frost_maximum() {
 
 	NFmiSettings::Set( "maximum::fake::maximum", "0,0" );
 	NFmiSettings::Set( "maximum::fake::severe_maximum", "0,0" );
-	require( story, FI, fun, "" );
-	require( story, SV, fun, "" );
-	require( story, EN, fun, "" );
+	require( story, FI, id, "" );
+	require( story, SV, id, "" );
+	require( story, EN, id, "" );
 
 	NFmiSettings::Set( "maximum::fake::maximum", "10,0" );
 	NFmiSettings::Set( "maximum::fake::severe_maximum", "0,0" );
-	require( story, FI, fun, "" );
-	require( story, SV, fun, "" );
-	require( story, EN, fun, "" );
+	require( story, FI, id, "" );
+	require( story, SV, id, "" );
+	require( story, EN, id, "" );
 
 	NFmiSettings::Set( "maximum::fake::maximum", "20,0" );
 	NFmiSettings::Set( "maximum::fake::severe_maximum", "0,0" );
-	require(story,FI,fun,"Hallan todenn\xe4k\xf6isyys on 20%.");
-	require(story,SV,fun,"Sannolikheten f\xf6r nattfrost \xe4r 20%.");
-	require(story,EN,fun,"Probability of frost is 20%.");
+	require( story, FI, id, "Hallan todenn\xe4k\xf6isyys on 20%.");
+	require( story, SV, id, "Sannolikheten f\xf6r nattfrost \xe4r 20%.");
+	require( story, EN, id, "Probability of frost is 20%.");
 
 	NFmiSettings::Set("maximum::fake::maximum","20,0");
 	NFmiSettings::Set("maximum::fake::severe_maximum","10,0");
-	require(story,FI,fun,"Ankaran hallan todenn\xe4k\xf6isyys on 10%.");
-	require(story,SV,fun,"Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r 10%.");
-	require(story,EN,fun,"Probability of severe frost is 10%.");
+	require( story, FI, id, "Ankaran hallan todenn\xe4k\xf6isyys on 10%.");
+	require( story, SV, id, "Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r 10%.");
+	require( story, EN, id, "Probability of severe frost is 10%.");
 
 	TEST_PASSED();
 }
@@ -160,7 +160,7 @@ void frost_range() {
 	WeatherPeriod period(time1,time2);
 	AK_FrostStory story(time1,sources,area,period,"range");
 
-	const string fun = "ak_frost_range";
+	const string id = "ak_frost_range";
 
 	NFmiSettings::Set("range::precision","10");
 	NFmiSettings::Set("range::frost_limit","50");
@@ -170,41 +170,41 @@ void frost_range() {
 	NFmiSettings::Set("range::fake::maximum","0,0");
 	NFmiSettings::Set("range::fake::severe_minimum","0,0");
 	NFmiSettings::Set("range::fake::severe_maximum","0,0");
-	require(story,FI,fun,"");
-	require(story,SV,fun,"");
-	require(story,EN,fun,"");
+	require(story,FI,id,"");
+	require(story,SV,id,"");
+	require(story,EN,id,"");
 
 	NFmiSettings::Set("range::fake::minimum","50,0");
 	NFmiSettings::Set("range::fake::maximum","50,0");
 	NFmiSettings::Set("range::fake::severe_minimum","0,0");
 	NFmiSettings::Set("range::fake::severe_maximum","0,0");
-	require(story,FI,fun,"Hallan todenn\xe4k\xf6isyys on 50%.");
-	require(story,SV,fun,"Sannolikheten f\xf6r nattfrost \xe4r 50%.");
-	require(story,EN,fun,"Probability of frost is 50%.");
+	require(story,FI,id,"Hallan todenn\xe4k\xf6isyys on 50%.");
+	require(story,SV,id,"Sannolikheten f\xf6r nattfrost \xe4r 50%.");
+	require(story,EN,id,"Probability of frost is 50%.");
 
 	NFmiSettings::Set("range::fake::minimum","40,0");
 	NFmiSettings::Set("range::fake::maximum","60,0");
 	NFmiSettings::Set("range::fake::severe_minimum","0,0");
 	NFmiSettings::Set("range::fake::severe_maximum","0,0");
-	require(story,FI,fun,"Hallan todenn\xe4k\xf6isyys on 40-60%.");
-	require(story,SV,fun,"Sannolikheten f\xf6r nattfrost \xe4r 40-60%.");
-	require(story,EN,fun,"Probability of frost is 40-60%.");
+	require(story,FI,id,"Hallan todenn\xe4k\xf6isyys on 40-60%.");
+	require(story,SV,id,"Sannolikheten f\xf6r nattfrost \xe4r 40-60%.");
+	require(story,EN,id,"Probability of frost is 40-60%.");
 
 	NFmiSettings::Set("range::fake::minimum","50,0");
 	NFmiSettings::Set("range::fake::maximum","70,0");
 	NFmiSettings::Set("range::fake::severe_minimum","10,0");
 	NFmiSettings::Set("range::fake::severe_maximum","20,0");
-	require(story,FI,fun,"Hallan todenn\xe4k\xf6isyys on 50-70%.");
-	require(story,SV,fun,"Sannolikheten f\xf6r nattfrost \xe4r 50-70%.");
-	require(story,EN,fun,"Probability of frost is 50-70%.");
+	require(story,FI,id,"Hallan todenn\xe4k\xf6isyys on 50-70%.");
+	require(story,SV,id,"Sannolikheten f\xf6r nattfrost \xe4r 50-70%.");
+	require(story,EN,id,"Probability of frost is 50-70%.");
 
 	NFmiSettings::Set("range::fake::minimum","40,0");
 	NFmiSettings::Set("range::fake::maximum","60,0");
 	NFmiSettings::Set("range::fake::severe_minimum","30,0");
 	NFmiSettings::Set("range::fake::severe_maximum","40,0");
-	require(story,FI,fun,"Ankaran hallan todenn\xe4k\xf6isyys on 30-40%.");
-	require(story,SV,fun,"Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r 30-40%.");
-	require(story,EN,fun,"Probability of severe frost is 30-40%.");
+	require(story,FI,id,"Ankaran hallan todenn\xe4k\xf6isyys on 30-40%.");
+	require(story,SV,id,"Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r 30-40%.");
+	require(story,EN,id,"Probability of severe frost is 30-40%.");
 
 	TEST_PASSED();
 }
@@ -223,7 +223,7 @@ void frost_twonights() {
 	AnalysisSources sources;
 	WeatherArea area("25,60");
 
-	const string fun = "ak_frost_twonights";
+	const string id = "ak_frost_twonights";
 
 	NFmiSettings::Set("twonights::precision","10");
 	NFmiSettings::Set("twonights::frost_limit","20");
@@ -241,21 +241,21 @@ void frost_twonights() {
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","10,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
-	  require(story,FI,fun,"");
-	  require(story,SV,fun,"");
-	  require(story,EN,fun,"");
+	  require(story,FI,id,"");
+	  require(story,SV,id,"");
+	  require(story,EN,id,"");
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","20,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
-	  require(story,FI,fun,"Hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 20%.");
-	  require(story,SV,fun,"Sannolikheten f\xf6r nattfrost \xe4r natten mot onsdagen 20%.");
-	  require(story,EN,fun,"Probability of frost is on Wednesday night 20%.");
+	  require(story,FI,id,"Hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 20%.");
+	  require(story,SV,id,"Sannolikheten f\xf6r nattfrost \xe4r natten mot onsdagen 20%.");
+	  require(story,EN,id,"Probability of frost is on Wednesday night 20%.");
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","80,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","20,0");
-	  require(story,FI,fun,"Ankaran hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 20%.");
-	  require(story,SV,fun,"Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r natten mot onsdagen 20%.");
-	  require(story,EN,fun,"Probability of severe frost is on Wednesday night 20%.");
+	  require(story,FI,id,"Ankaran hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 20%.");
+	  require(story,SV,id,"Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r natten mot onsdagen 20%.");
+	  require(story,EN,id,"Probability of severe frost is on Wednesday night 20%.");
 
 	}
 
@@ -270,41 +270,41 @@ void frost_twonights() {
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
 	  NFmiSettings::Set("twonights::fake::day2::mean","0,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
-	  require(story,FI,fun,"");
-	  require(story,SV,fun,"");
-	  require(story,EN,fun,"");
+	  require(story,FI,id,"");
+	  require(story,SV,id,"");
+	  require(story,EN,id,"");
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","30,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
 	  NFmiSettings::Set("twonights::fake::day2::mean","30,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
-	  require(story,FI,fun,"Hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 30%, seuraavana y\xf6n\xe4 sama.");
-	  require(story,SV,fun,"Sannolikheten f\xf6r nattfrost \xe4r natten mot onsdagen 30%, f\xf6ljande natt densamma.");
-	  require(story,EN,fun,"Probability of frost is on Wednesday night 30%, the following night the same.");
+	  require(story,FI,id,"Hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 30%, seuraavana y\xf6n\xe4 sama.");
+	  require(story,SV,id,"Sannolikheten f\xf6r nattfrost \xe4r natten mot onsdagen 30%, f\xf6ljande natt densamma.");
+	  require(story,EN,id,"Probability of frost is on Wednesday night 30%, the following night the same.");
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","30,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
 	  NFmiSettings::Set("twonights::fake::day2::mean","40,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
-	  require(story,FI,fun,"Hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 30%, seuraavana y\xf6n\xe4 40%.");
-	  require(story,SV,fun,"Sannolikheten f\xf6r nattfrost \xe4r natten mot onsdagen 30%, f\xf6ljande natt 40%.");
-	  require(story,EN,fun,"Probability of frost is on Wednesday night 30%, the following night 40%.");
+	  require(story,FI,id,"Hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 30%, seuraavana y\xf6n\xe4 40%.");
+	  require(story,SV,id,"Sannolikheten f\xf6r nattfrost \xe4r natten mot onsdagen 30%, f\xf6ljande natt 40%.");
+	  require(story,EN,id,"Probability of frost is on Wednesday night 30%, the following night 40%.");
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","20,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
 	  NFmiSettings::Set("twonights::fake::day2::mean","0,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
-	  require(story,FI,fun,"Hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 20%, seuraava y\xf6 on l\xe4mpim\xe4mpi.");
-	  require(story,SV,fun,"Sannolikheten f\xf6r nattfrost \xe4r natten mot onsdagen 20%, f\xf6ljande natt \xe4r varmare.");
-	  require(story,EN,fun,"Probability of frost is on Wednesday night 20%, the following night is warmer.");
+	  require(story,FI,id,"Hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 20%, seuraava y\xf6 on l\xe4mpim\xe4mpi.");
+	  require(story,SV,id,"Sannolikheten f\xf6r nattfrost \xe4r natten mot onsdagen 20%, f\xf6ljande natt \xe4r varmare.");
+	  require(story,EN,id,"Probability of frost is on Wednesday night 20%, the following night is warmer.");
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","80,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","20,0");
 	  NFmiSettings::Set("twonights::fake::day2::mean","0,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
-	  require(story,FI,fun,"Ankaran hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 20%, seuraava y\xf6 on huomattavasti l\xe4mpim\xe4mpi.");
-	  require(story,SV,fun,"Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r natten mot onsdagen 20%, f\xf6ljande natt \xe4r betydligt varmare.");
-	  require(story,EN,fun,"Probability of severe frost is on Wednesday night 20%, the following night is significantly warmer.");
+	  require(story,FI,id,"Ankaran hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 20%, seuraava y\xf6 on huomattavasti l\xe4mpim\xe4mpi.");
+	  require(story,SV,id,"Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r natten mot onsdagen 20%, f\xf6ljande natt \xe4r betydligt varmare.");
+	  require(story,EN,id,"Probability of severe frost is on Wednesday night 20%, the following night is significantly warmer.");
 
 	}
 
@@ -320,21 +320,21 @@ void frost_twonights() {
 
 	  NFmiSettings::Set("twonights::fake::day2::mean","0,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
-	  require(story,FI,fun,"Hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 20%, seuraava y\xf6 on l\xe4mpim\xe4mpi.");
-	  require(story,SV,fun,"Sannolikheten f\xf6r nattfrost \xe4r natten mot onsdagen 20%, f\xf6ljande natt \xe4r varmare.");
-	  require(story,EN,fun,"Probability of frost is on Wednesday night 20%, the following night is warmer.");
+	  require(story,FI,id,"Hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 20%, seuraava y\xf6 on l\xe4mpim\xe4mpi.");
+	  require(story,SV,id,"Sannolikheten f\xf6r nattfrost \xe4r natten mot onsdagen 20%, f\xf6ljande natt \xe4r varmare.");
+	  require(story,EN,id,"Probability of frost is on Wednesday night 20%, the following night is warmer.");
 
 	  NFmiSettings::Set("twonights::fake::day2::mean","30,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","00,0");
-	  require(story,FI,fun,"Hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 20%, seuraavana y\xf6n\xe4 30%.");
-	  require(story,SV,fun,"Sannolikheten f\xf6r nattfrost \xe4r natten mot onsdagen 20%, f\xf6ljande natt 30%.");
-	  require(story,EN,fun,"Probability of frost is on Wednesday night 20%, the following night 30%.");
+	  require(story,FI,id,"Hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 20%, seuraavana y\xf6n\xe4 30%.");
+	  require(story,SV,id,"Sannolikheten f\xf6r nattfrost \xe4r natten mot onsdagen 20%, f\xf6ljande natt 30%.");
+	  require(story,EN,id,"Probability of frost is on Wednesday night 20%, the following night 30%.");
 
 	  NFmiSettings::Set("twonights::fake::day2::mean","80,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","20,0");
-	  require(story,FI,fun,"Hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 20%, seuraavana y\xf6n\xe4 ankaran hallan todenn\xe4k\xf6isyys on 20%.");
-	  require(story,SV,fun,"Sannolikheten f\xf6r nattfrost \xe4r natten mot onsdagen 20%, f\xf6ljande natt sannolikheten f\xf6r str\xe4ng nattfrost \xe4r 20%.");
-	  require(story,EN,fun,"Probability of frost is on Wednesday night 20%, the following night probability of severe frost is 20%.");
+	  require(story,FI,id,"Hallan todenn\xe4k\xf6isyys on keskiviikon vastaisena y\xf6n\xe4 20%, seuraavana y\xf6n\xe4 ankaran hallan todenn\xe4k\xf6isyys on 20%.");
+	  require(story,SV,id,"Sannolikheten f\xf6r nattfrost \xe4r natten mot onsdagen 20%, f\xf6ljande natt sannolikheten f\xf6r str\xe4ng nattfrost \xe4r 20%.");
+	  require(story,EN,id,"Probability of frost is on Wednesday night 20%, the following night probability of severe frost is 20%.");
 
 	}
 
@@ -359,7 +359,7 @@ void frost_day() {
 	WeatherPeriod period(time1,time2);
 	AK_FrostStory story(time1,sources,area,period,"day");
 
-	const string fun = "ak_frost_day";
+	const string id = "ak_frost_day";
 
 	NFmiSettings::Set("day::night::starthour","18");
 	NFmiSettings::Set("day::night::endhour","6");
@@ -372,41 +372,41 @@ void frost_day() {
 	NFmiSettings::Set("day::fake::area::severe_frost","0,0");
 	NFmiSettings::Set("day::fake::coast::value","0,0");
 	NFmiSettings::Set("day::fake::inland::value","0,0");
-	require(story,FI,fun,"");
-	require(story,SV,fun,"");
-	require(story,EN,fun,"");
+	require(story,FI,id,"");
+	require(story,SV,id,"");
+	require(story,EN,id,"");
 
 	NFmiSettings::Set("day::fake::area::frost","60,0");
 	NFmiSettings::Set("day::fake::area::severe_frost","0,0");
 	NFmiSettings::Set("day::fake::coast::value","60,0");
 	NFmiSettings::Set("day::fake::inland::value","60,0");
-	require(story,FI,fun,"Hallan todenn\xe4k\xf6isyys on 60%.");
-	require(story,SV,fun,"Sannolikheten f\xf6r nattfrost \xe4r 60%.");
-	require(story,EN,fun,"Probability of frost is 60%.");
+	require(story,FI,id,"Hallan todenn\xe4k\xf6isyys on 60%.");
+	require(story,SV,id,"Sannolikheten f\xf6r nattfrost \xe4r 60%.");
+	require(story,EN,id,"Probability of frost is 60%.");
 
 	NFmiSettings::Set("day::fake::area::frost","60,0");
 	NFmiSettings::Set("day::fake::area::severe_frost","40,0");
 	NFmiSettings::Set("day::fake::coast::value","40,0");
 	NFmiSettings::Set("day::fake::inland::value","40,0");
-	require(story,FI,fun,"Ankaran hallan todenn\xe4k\xf6isyys on 40%.");
-	require(story,SV,fun,"Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r 40%.");
-	require(story,EN,fun,"Probability of severe frost is 40%.");
+	require(story,FI,id,"Ankaran hallan todenn\xe4k\xf6isyys on 40%.");
+	require(story,SV,id,"Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r 40%.");
+	require(story,EN,id,"Probability of severe frost is 40%.");
 
 	NFmiSettings::Set("day::fake::area::frost","60,0");
 	NFmiSettings::Set("day::fake::area::severe_frost","40,0");
 	NFmiSettings::Set("day::fake::coast::value","10,0");
 	NFmiSettings::Set("day::fake::inland::value","60,0");
-	require(story,FI,fun,"Ankaran hallan todenn\xe4k\xf6isyys on 60%, rannikolla 10%.");
-	require(story,SV,fun,"Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r 60%, vid kusten 10%.");
-	require(story,EN,fun,"Probability of severe frost is 60%, on the coastal area 10%.");
+	require(story,FI,id,"Ankaran hallan todenn\xe4k\xf6isyys on 60%, rannikolla 10%.");
+	require(story,SV,id,"Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r 60%, vid kusten 10%.");
+	require(story,EN,id,"Probability of severe frost is 60%, on the coastal area 10%.");
 
 	NFmiSettings::Set("day::fake::area::frost","60,0");
 	NFmiSettings::Set("day::fake::area::severe_frost","90,0");
 	NFmiSettings::Set("day::fake::coast::value","90,0");
 	NFmiSettings::Set("day::fake::inland::value","90,0");
-	require(story,FI,fun,"");
-	require(story,SV,fun,"");
-	require(story,EN,fun,"");
+	require(story,FI,id,"");
+	require(story,SV,id,"");
+	require(story,EN,id,"");
 
 
 	TEST_PASSED();
