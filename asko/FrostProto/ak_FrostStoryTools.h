@@ -5,8 +5,8 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_FROSTSTORYTOOLS_H
-#define TEXTGEN_FROSTSTORYTOOLS_H
+#ifndef TEXTGEN_AK_FROSTSTORYTOOLS_H
+#define TEXTGEN_AK_FROSTSTORYTOOLS_H
 
 namespace WeatherAnalysis
 {

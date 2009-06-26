@@ -46,18 +46,6 @@ LIBS = \
     -lboost_system-mt \
     -lz -lbz2 -lpthread
 
-#ifeq (0,1)
-#    # Local Newbase
-#    #
-#    INCLUDES += -I $(TEXTGEN)/../newbase/include
-#    LIBS += -L $(TEXTGEN)/../newbase -lsmartmet_newbase-mt
-#else
-#    # System Newbase
-#    #
-#    INCLUDES += -I /usr/include/smartmet
-#    LIBS += -L$(libdir) -lsmartmet_newbase
-#endif
-
 #---
 all: $(PROG)
 clean:

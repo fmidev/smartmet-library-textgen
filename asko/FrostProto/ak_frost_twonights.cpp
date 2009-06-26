@@ -184,7 +184,7 @@ namespace TextGen
             }
 			else if(value2 >= normallimit) {
 				sentence << "seuraavana y\xf6n\xe4"
-						 << "hallan __todenn\xe4k\xf6isyys"     // SQL key (latin-1)
+						 << "hallan todenn\xe4k\xf6isyys"     // SQL key (latin-1)
 						 << "on"
 						 << Integer(value2)
 						 << *UnitFactory::create(Percent);
