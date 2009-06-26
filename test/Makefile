@@ -59,7 +59,7 @@ LIBS += \
         -lboost_filesystem-mt \
         -lboost_iostreams-mt \
         -lboost_system-mt \
-	-lz -lbz2 -lpthread
+        -lz -lbz2 -lpthread
 
 
 all: $(PROG)
