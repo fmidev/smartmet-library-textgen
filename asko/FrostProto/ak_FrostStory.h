@@ -30,11 +30,8 @@ namespace TextGen
 	virtual const Paragraph makeStory( const std::string & theName ) const;
 
   private:
-	Paragraph mean() const;
-	Paragraph maximum() const;
-	Paragraph range() const;
-	Paragraph twonights() const;
-	Paragraph day() const;
+	Paragraph overview() const;
+	   // ...
 
 	AK_FrostStory();   // is not
 	AK_FrostStory( const AK_FrostStory & );   // is not
@@ -44,7 +41,7 @@ namespace TextGen
 	const WeatherAnalysis::AnalysisSources & itsSources;
 	const WeatherAnalysis::WeatherArea & itsArea;
 	const WeatherAnalysis::WeatherPeriod & itsPeriod;
-	const std::string itsVar;
+	const std::string itsVar;      // configuration prefix s.a. "overview"
 
   };  // AK_FrostStory
 }   // namespace

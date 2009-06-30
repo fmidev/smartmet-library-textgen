@@ -7,6 +7,8 @@
 
 #include "ak_FrostStory.h"
 
+// These are from 'textgen' includes
+//
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "Paragraph.h"
@@ -14,6 +16,7 @@
 #include "Story.h"
 
 #include <newbase/NFmiSettings.h>
+
 #include <regression/tframe.h>
 
 #include <iostream>
@@ -22,6 +25,8 @@
 
 using namespace std;
 using namespace boost;
+
+#define NEW_SPECS
 
 static TextGen::PlainTextFormatter FI, SV, EN;
 
@@ -32,8 +37,7 @@ void require( const TextGen::Story & story,
 			  const string & story_name,
 			  const string & expected ) {
 
-	TextGen::Paragraph para = story.makeStory( story_name );
-	const string value = para.realize(lang);
+	const string value = story.makeStory( story_name ).realize(lang);
 
 	if (value != expected) {
 		TEST_FAILED( value + " != " + expected );
@@ -47,16 +51,12 @@ void require( const TextGen::Story & story,
   // ----------------------------------------------------------------------
 
 void frost_mean() {
-	using namespace std;
-	using namespace TextGen;
-	using namespace WeatherAnalysis;
-
-	AnalysisSources sources;
-	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
-	WeatherPeriod period(time1,time2);
-	AK_FrostStory story(time1,sources,area,period,"mean");
+	WeatherAnalysis::AnalysisSources sources;
+	WeatherAnalysis::WeatherArea area("25,60");
+	NFmiTime t1(2000,1,1);
+	NFmiTime t2(2000,1,2);
+	WeatherAnalysis::WeatherPeriod period( t1, t2 );
+	TextGen::AK_FrostStory story( t1, sources, area, period, "mean" );
 
 	const string id = "ak_frost_mean";
 
@@ -76,18 +76,118 @@ void frost_mean() {
 	require( story, SV, id, "" );
 	require( story, EN, id, "" );
 
+    //--
+    // Halla 20|30%
+    //
+    // Kaisa wikissä:
+    // <<
+    // Hallan todennäköisyys 10-20% -> sanonta "hallanaroilla alueilla hallanvaara" tai "hallanaroilla alueilla mahdollisesti hallaa" tai "alavilla mailla hallanvaara"
+    // <<
+    //
 	NFmiSettings::Set( "mean::fake::mean", "20,0" );
 	NFmiSettings::Set( "mean::fake::severe_mean", "0,0" );
+#ifdef NEW_SPECS
+	require( story, FI, id, "Hallanaroilla alueilla hallanvaara.");
+	require( story, SV, id, "...TBD...");
+	require( story, EN, id, "...TBD...");
+#else
 	require( story, FI, id, "Hallan todenn\xe4k\xf6isyys on 20%.");
 	require( story, SV, id, "Sannolikheten f\xf6r nattfrost \xe4r 20%.");
 	require( story, EN, id, "Probability of frost is 20%.");
+#endif
 
-	NFmiSettings::Set( "mean::fake::mean", "20,0" );
 	NFmiSettings::Set( "mean::fake::severe_mean", "10,0" );
+#ifdef NEW_SPECS
+	require( story, FI, id, "Hallanaroilla alueilla hallanvaara. Paikoin ankaraa hallaa.");
+	require( story, SV, id, "...TBD...");
+	require( story, EN, id, "...TBD...");
+#else
 	require( story, FI, id, "Ankaran hallan todenn\xe4k\xf6isyys on 10%." );
 	require( story, SV, id, "Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r 10%." );
 	require( story, EN, id, "Probability of severe frost is 10%." );
+#endif
 
+    //--
+    // Halla 30|40%
+    //
+    // Kaisa wikissä:
+    // <<
+    // Hallan todennäköisyys 30-40% -> sanonta "Yön alin lämpötila on ... ja hallanvaara" tai "mahdollisesti hallaa"
+    // <<
+    //
+	NFmiSettings::Set( "mean::fake::mean", "30,0" );
+	NFmiSettings::Set( "mean::fake::severe_mean", "0,0" );
+#ifdef NEW_SPECS
+    require( story, FI, id, "Mahdollisesti hallaa." );
+    // TBD: SV, EN
+#endif
+
+	NFmiSettings::Set( "mean::fake::severe_mean", "10,0" );
+#ifdef NEW_SPECS
+    require( story, FI, id, "Mahdollisesti hallaa, joka paikoin voi olla ankaraa." );
+    // TBD: SV, EN
+#endif
+
+    //--
+    // Halla 50|60%
+    //
+    // Kaisa wikissä:
+    // <<
+    // Hallan todennäköisyys 50-60% -> sanonta "Lämpötila on yöllä ... ja paikoin hallaa tai selkeillä alueilla hallaa"
+    // <<
+    //
+	NFmiSettings::Set( "mean::fake::mean", "50,0" );
+	NFmiSettings::Set( "mean::fake::severe_mean", "0,0" );
+#ifdef NEW_SPECS
+    require( story, FI, id, "Paikoin hallaa tai selkeill\xe4 alueilla hallaa." );
+    // TBD: SV, EN
+#endif
+	NFmiSettings::Set( "mean::fake::severe_mean", "10,0" );
+#ifdef NEW_SPECS
+    require( story, FI, id, "Paikoin hallaa tai selkeillä alueilla hallaa, joka voi olla ankaraa." );
+    // TBD: SV, EN
+#endif
+
+    //--
+    // Halla 70|80%
+    //
+    // Kaisa wikissä:
+    // <<
+    // "...monin paikoin hallaa"
+    // <<
+    //
+	NFmiSettings::Set( "mean::fake::mean", "70,0" );
+	NFmiSettings::Set( "mean::fake::severe_mean", "0,0" );
+#ifdef NEW_SPECS
+    require( story, FI, id, "Monin paikoin hallaa." );
+    // TBD: SV, EN
+#endif
+	NFmiSettings::Set( "mean::fake::severe_mean", "10,0" );
+#ifdef NEW_SPECS
+    require( story, FI, id, "Monin paikoin hallaa, joka voi olla ankaraa." );
+    // TBD: SV, EN
+#endif
+
+    //--
+    // Halla 90|100%
+    //
+    // Kaisa wikissä:
+    // <<
+    // "...yleisesti hallaa"
+    // <<
+    //
+	NFmiSettings::Set( "mean::fake::mean", "90,0" );
+	NFmiSettings::Set( "mean::fake::severe_mean", "0,0" );
+#ifdef NEW_SPECS
+    require( story, FI, id, "Yleisesti hallaa." );
+    // TBD: SV, EN
+#endif
+	NFmiSettings::Set( "mean::fake::severe_mean", "10,0" );
+#ifdef NEW_SPECS
+    require( story, FI, id, "Yleisesti hallaa, joka voi olla ankaraa." );
+    // TBD: SV, EN
+#endif
+    
 	TEST_PASSED();
 }
 
@@ -98,16 +198,12 @@ void frost_mean() {
   // ----------------------------------------------------------------------
 
 void frost_maximum() {
-	using namespace std;
-	using namespace TextGen;
-	using namespace WeatherAnalysis;
-
-	AnalysisSources sources;
-	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
-	WeatherPeriod period(time1,time2);
-	AK_FrostStory story(time1,sources,area,period,"maximum");
+	WeatherAnalysis::AnalysisSources sources;
+	WeatherAnalysis::WeatherArea area("25,60");
+	NFmiTime t1(2000,1,1);
+	NFmiTime t2(2000,1,2);
+	WeatherAnalysis::WeatherPeriod period( t1, t2 );
+	TextGen::AK_FrostStory story( t1, sources, area, period, "maximum" );
 
 	const string id = "ak_frost_maximum";
 
@@ -149,16 +245,13 @@ void frost_maximum() {
   // ----------------------------------------------------------------------
 
 void frost_range() {
-	using namespace std;
-	using namespace TextGen;
-	using namespace WeatherAnalysis;
 
-	AnalysisSources sources;
-	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
-	WeatherPeriod period(time1,time2);
-	AK_FrostStory story(time1,sources,area,period,"range");
+	WeatherAnalysis::AnalysisSources sources;
+	WeatherAnalysis::WeatherArea area("25,60");
+	NFmiTime t1(2000,1,1);
+	NFmiTime t2(2000,1,2);
+	WeatherAnalysis::WeatherPeriod period( t1, t2 );
+	TextGen::AK_FrostStory story( t1, sources, area, period, "range" );
 
 	const string id = "ak_frost_range";
 
@@ -216,12 +309,9 @@ void frost_range() {
   // ----------------------------------------------------------------------
 
 void frost_twonights() {
-	using namespace std;
-	using namespace TextGen;
-	using namespace WeatherAnalysis;
 
-	AnalysisSources sources;
-	WeatherArea area("25,60");
+	WeatherAnalysis::AnalysisSources sources;
+	WeatherAnalysis::WeatherArea area("25,60");
 
 	const string id = "ak_frost_twonights";
 
@@ -234,10 +324,10 @@ void frost_twonights() {
 
 	// One night
 	{
-	  NFmiTime time1(2003,6,3,12,0);
-	  NFmiTime time2(2003,6,4,12,0);
-	  WeatherPeriod period(time1,time2);
-	  AK_FrostStory story( time1,sources,area,period,"twonights" );
+	  NFmiTime t1(2003,6,3,12,0);
+	  NFmiTime t2(2003,6,4,12,0);
+	  WeatherAnalysis::WeatherPeriod period( t1, t2 );
+	  TextGen::AK_FrostStory story( t1, sources, area, period, "twonights" );
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","10,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
@@ -261,10 +351,10 @@ void frost_twonights() {
 
 	// Two nights, nothing on second day
 	{
-	  NFmiTime time1(2003,6,3,12,0);
-	  NFmiTime time2(2003,6,5,12,0);
-	  WeatherPeriod period(time1,time2);
-	  AK_FrostStory story( time1,sources,area,period,"twonights" );
+	  NFmiTime t1(2003,6,3,12,0);
+	  NFmiTime t2(2003,6,5,12,0);
+	  WeatherAnalysis::WeatherPeriod period( t1, t2 );
+	  TextGen::AK_FrostStory story( t1, sources, area, period, "twonights" );
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","10,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
@@ -310,10 +400,10 @@ void frost_twonights() {
 
 	// First day frost
 	{
-	  NFmiTime time1(2003,6,3,12,0);
-	  NFmiTime time2(2003,6,5,12,0);
-	  WeatherPeriod period(time1,time2);
-	  AK_FrostStory story( time1,sources,area,period,"twonights" );
+	  NFmiTime t1(2003,6,3,12,0);
+	  NFmiTime t2(2003,6,5,12,0);
+	  WeatherAnalysis::WeatherPeriod period( t1, t2 );
+	  TextGen::AK_FrostStory story( t1, sources, area, period, "twonights" );
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","20,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
@@ -348,16 +438,13 @@ void frost_twonights() {
   // ----------------------------------------------------------------------
 
 void frost_day() {
-	using namespace std;
-	using namespace TextGen;
-	using namespace WeatherAnalysis;
 
-	AnalysisSources sources;
-	WeatherArea area("25,60");
-	NFmiTime time1(2000,6,1,18);
-	NFmiTime time2(2000,6,2,6);
-	WeatherPeriod period(time1,time2);
-	AK_FrostStory story(time1,sources,area,period,"day");
+	WeatherAnalysis::AnalysisSources sources;
+	WeatherAnalysis::WeatherArea area("25,60");
+	NFmiTime t1(2000,6,1,18);
+	NFmiTime t2(2000,6,2,6);
+	WeatherAnalysis::WeatherPeriod period( t1, t2 );
+	TextGen::AK_FrostStory story( t1, sources, area, period, "day" );
 
 	const string id = "ak_frost_day";
 

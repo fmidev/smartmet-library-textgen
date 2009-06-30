@@ -20,7 +20,7 @@
 #include "WeatherResult.h"
 
 using namespace std;
-using namespace WeatherAnalysis;
+//using namespace WeatherAnalysis;
 
 namespace TextGen
 {
@@ -56,13 +56,13 @@ namespace TextGen
 	const int severelimit = Settings::require_percentage(var2);
 	const int normallimit = Settings::require_percentage(var3);
 
-	GridForecaster forecaster;
+	WeatherAnalysis::GridForecaster forecaster;
 
-	WeatherResult frost = forecaster.analyze( itsVar+"::fake::maximum",
+	WeatherAnalysis::WeatherResult frost = forecaster.analyze( itsVar+"::fake::maximum",
 											 itsSources,
-											 Frost,
-											 Maximum,
-											 Maximum,
+											 WeatherAnalysis::Frost,
+											 WeatherAnalysis::Maximum,
+											 WeatherAnalysis::Maximum,
 											 itsArea,
 											 itsPeriod );
 
@@ -81,11 +81,11 @@ namespace TextGen
 
 	// Severe frost
 
-	WeatherResult severefrost = forecaster.analyze( itsVar+"::fake::severe_maximum",
+	WeatherAnalysis::WeatherResult severefrost = forecaster.analyze( itsVar+"::fake::severe_maximum",
 												   itsSources,
-												   SevereFrost,
-												   Maximum,
-												   Maximum,
+												   WeatherAnalysis::SevereFrost,
+												   WeatherAnalysis::Maximum,
+												   WeatherAnalysis::Maximum,
 												   itsArea,
 												   itsPeriod );
 

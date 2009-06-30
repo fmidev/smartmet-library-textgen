@@ -20,7 +20,7 @@
 #include "WeatherResult.h"
 
 using namespace std;
-using namespace WeatherAnalysis;
+//using namespace WeatherAnalysis;
 
 namespace TextGen
 {
@@ -82,9 +82,9 @@ namespace TextGen
 
 	WeatherResult minfrost = forecaster.analyze( itsVar+"::fake::minimum",
 												itsSources,
-												Frost,
-												Minimum,
-												Maximum,
+												WeatherAnalysis::Frost,
+												WeatherAnalysis::Minimum,
+												WeatherAnalysis::Maximum,
 												itsArea,
 												itsPeriod );
 
@@ -99,9 +99,9 @@ namespace TextGen
 
 	WeatherResult maxseverefrost = forecaster.analyze( itsVar+"::fake::severe_maximum",
 													  itsSources,
-													  SevereFrost,
-													  Maximum,
-													  Maximum,
+													  WeatherAnalysis::SevereFrost,
+													  WeatherAnalysis::Maximum,
+													  WeatherAnalysis::Maximum,
 													  itsArea,
 													  itsPeriod );
 
@@ -111,9 +111,9 @@ namespace TextGen
 
 	WeatherResult minseverefrost = forecaster.analyze( itsVar+"::fake::severe_minimum",
 													  itsSources,
-													  SevereFrost,
-													  Minimum,
-													  Maximum,
+													  WeatherAnalysis::SevereFrost,
+													  WeatherAnalysis::Minimum,
+													  WeatherAnalysis::Maximum,
 													  itsArea,
 													  itsPeriod);
 

@@ -1,13 +1,17 @@
 // ======================================================================
 /*!
- * \file
- * \brief 
+ * \file ak_FrostOverview.cpp
+ * \brief Textgen story for one night (following night, or the night after that)
+ *
+ * Reference: <http://wiki.weatherproof.fi/index.php?title=Textgen:_frost_overview>
  */
 // ======================================================================
 
 #include "ak_FrostStory.h"
 #include "ak_FrostStoryTools.h"
 
+// Textgen headers
+//
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "Integer.h"
@@ -22,21 +26,83 @@
 #include "WeatherResult.h"
 
 using namespace std;
-using namespace WeatherAnalysis;
 using namespace TextGen::AK_FrostStoryTools;
+//using namespace WeatherAnalysis;
+
+
+/*---=== Tools ===---
+*/
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return true if one is allowed to report on frost
+ */
+// ----------------------------------------------------------------------
+
+bool is_frost_season()
+{
+  return Settings::require_bool( "textgen::frostseason" );
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return sentence for severe frost
+ *
+ * \param thePeriod The night period
+ * \param prob_frost Probability of frost
+ * \param prob_severe_frost Probability of severe frost (<= 'prob_frost')
+ * \return The sentence
+ */
+// ----------------------------------------------------------------------
+
+Sentence frost_overview_sentence( const WeatherPeriod & thePeriod,
+                                  int prob_frost,
+                                  int prob_severe_frost ) {
+    Sentence sentence;
+
+    sentence << "ankaran hallan todenn\xe4k\xf6isyys"    // SQL key (latin-1)
+           << "on"
+           << WeekdayTools::night_against_weekday( thePeriod.localEndTime() )
+           << Integer( theProbability )
+         << *UnitFactory::create(Percent);
+  return sentence;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return sentence for frost
+ *
+ * \param thePeriod The night period
+ * \param theProbability The probability
+ * \return The sentence
+ */
+// ----------------------------------------------------------------------
+
+Sentence frost_sentence(const WeatherPeriod & thePeriod,
+                              int theProbability)
+{
+  Sentence sentence;
+  sentence << "hallan todenn\xe4k\xf6isyys"    // SQL key (latin-1)
+           << "on"
+           << WeekdayTools::night_against_weekday( thePeriod.localEndTime() )
+           << Integer( theProbability )
+           << *UnitFactory::create(Percent);
+  return sentence;
+}
+
 
 namespace TextGen
 {
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Generate story on 1/2 night frost
+   * \brief Generate story on one night frost
    *
    * \return The generated paragraph
    */
   // ----------------------------------------------------------------------
   
-  Paragraph AK_FrostStory::twonights() const {
+  Paragraph AK_FrostStory::overview() const {
 	MessageLogger log("AK_FrostStory::twonights");
 
 	Paragraph paragraph;
@@ -58,7 +124,7 @@ namespace TextGen
 	const int normallimit = Settings::require_percentage( itsVar+"::frost_limit" );
 	const int obvious_frost = Settings::optional_percentage( itsVar+"::obvious_frost_limit", 90 );
 
-	const int nights = WeatherPeriodTools::countPeriods( itsPeriod,
+	const int nights = WeatherAnalysis::WeatherPeriodTools::countPeriods( itsPeriod,
 														 starthour,
 														 endhour,
 														 maxstarthour,
@@ -70,28 +136,28 @@ namespace TextGen
 
 	// Calculate frost probability
 
-	GridForecaster forecaster;
+	WeatherAnalysis::GridForecaster forecaster;
 
-	WeatherPeriod night1 = WeatherPeriodTools::getPeriod( itsPeriod,
+	WeatherAnalysis::WeatherPeriod night1 = WeatherAnalysis::WeatherPeriodTools::getPeriod( itsPeriod,
 														  1,
 														  starthour,
 														  endhour,
 														  maxstarthour,
 														  minendhour );
 
-	WeatherResult frost = forecaster.analyze( itsVar+"::fake::day1::mean",
+	WeatherAnalysis::WeatherResult frost = forecaster.analyze( itsVar+"::fake::day1::mean",
 											  itsSources,
-											  Frost,
-											  Mean,
-											  Maximum,
+											  WeatherAnalysis::Frost,
+											  WeatherAnalysis::Mean,
+											  WeatherAnalysis::Maximum,
 											  itsArea,
 											  night1 );
 
-	WeatherResult severefrost = forecaster.analyze( itsVar+"::fake::day1::severe_mean",
+	WeatherAnalysis::WeatherResult severefrost = forecaster.analyze( itsVar+"::fake::day1::severe_mean",
 												    itsSources,
-												    SevereFrost,
-												    Mean,
-												    Maximum,
+												    WeatherAnalysis::SevereFrost,
+												    WeatherAnalysis::Mean,
+												    WeatherAnalysis::Maximum,
 												    itsArea,
 												    night1 );
 	
@@ -116,26 +182,26 @@ namespace TextGen
             }
 	   }
     } else {
-		WeatherPeriod night2 = WeatherPeriodTools::getPeriod( itsPeriod,
+		WeatherAnalysis::WeatherPeriod night2 = WeatherAnalysis::WeatherPeriodTools::getPeriod( itsPeriod,
 															  2,
 															  starthour,
 															  endhour,
 															  maxstarthour,
 															  minendhour );
 
-		WeatherResult frost2 = forecaster.analyze( itsVar+"::fake::day2::mean",
+		WeatherAnalysis::WeatherResult frost2 = forecaster.analyze( itsVar+"::fake::day2::mean",
 												   itsSources,
-												   Frost,
-												   Mean,
-												   Maximum,
+												   WeatherAnalysis::Frost,
+												   WeatherAnalysis::Mean,
+												   WeatherAnalysis::Maximum,
 												   itsArea,
 												   night2 );
 
-		WeatherResult severefrost2 = forecaster.analyze( itsVar+"::fake::day2::severe_mean",
+		WeatherAnalysis::WeatherResult severefrost2 = forecaster.analyze( itsVar+"::fake::day2::severe_mean",
 														 itsSources,
-														 SevereFrost,
-														 Mean,
-														 Maximum,
+														 WeatherAnalysis::SevereFrost,
+														 WeatherAnalysis::Mean,
+														 WeatherAnalysis::Maximum,
 														 itsArea,
 														 night2 );
 		

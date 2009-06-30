@@ -3,6 +3,7 @@
  * \file
  * \brief ..
  */
+ 
 // ======================================================================
 /*!
  * \class TextGen::AK_FrostStory
@@ -20,7 +21,7 @@
 #include "TextGenError.h"
 
 using namespace std;
-using namespace WeatherAnalysis;
+//using namespace WeatherAnalysis;
 
 namespace TextGen
 {
@@ -38,9 +39,9 @@ namespace TextGen
   // ----------------------------------------------------------------------
   
   AK_FrostStory::AK_FrostStory( const NFmiTime & theForecastTime,
-						 const AnalysisSources & theSources,
-						 const WeatherArea & theArea,
-						 const WeatherPeriod & thePeriod,
+						 const WeatherAnalysis::AnalysisSources & theSources,
+						 const WeatherAnalysis::WeatherArea & theArea,
+						 const WeatherAnalysis::WeatherPeriod & thePeriod,
 						 const string & theVariable )
 	: itsForecastTime(theForecastTime)
 	, itsSources(theSources)
@@ -60,11 +61,10 @@ namespace TextGen
   bool AK_FrostStory::hasStory(const string & theName)
   {
     const string known[]= { 
-        "ak_frost_mean", 
-        "ak_frost_maximum", 
-        "ak_frost_range", 
-        "ak_frost_twonights", 
-        "ak_frost_day" };
+        "frost_text_overview",
+        "frost_numeric_overview"
+        // ...
+     };
 
     for( unsigned i=0; i<sizeof(known)/sizeof(known[0]); i++ ) {
         if (theName == known[i]) {
@@ -87,11 +87,9 @@ namespace TextGen
   
   const Paragraph AK_FrostStory::makeStory(const string & theName) const
   {
-	if (theName == "ak_frost_mean")     return mean();
-	if (theName == "ak_frost_maximum")  return maximum();
-	if (theName == "ak_frost_range")    return range();
-	if (theName == "ak_frost_twonights") return twonights();
-	if (theName == "ak_frost_day")      return day();
+	if (theName == "frost_text_overview")      return text_overview();
+	if (theName == "frost_numeric_overview")   return numeric_overview();
+        //...
 
 	throw TextGenError("AK_FrostStory cannot make story "+theName);
   }
