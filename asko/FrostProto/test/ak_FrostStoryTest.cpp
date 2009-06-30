@@ -28,8 +28,6 @@
 using namespace std;
 using namespace boost;
 
-#define NEW_SPECS
-
 static TextGen::PlainTextFormatter FI, SV, EN;
 
 /*
@@ -46,13 +44,32 @@ static void require( const TextGen::Story & story,
     }
 }
 
+/*
+* Set the libaries to think these are the frost results.
+*
+* NOTE: THIS WAY OF TESTING THE SYSTEM IS _FUNDAMENTALLY_FLAWED_. One should
+*       use actual data, certain times and scenarios to run tests, not telling
+*       "don't look at the data, here are the results". This only tests the
+*       latter part of textgen, NOT the whole tube.     --AKa 30-Jun-2009
+*/
+static void fake_results( const char *normal, const char *severe ) {
+    if (normal) {
+        NFmiSettings::Set( FAKE_DAY1_MEAN, normal );
+        NFmiSettings::Set( FAKE_DAY2_MEAN, normal );
+    } else {
+        NFmiSettings::Set( FAKE_DAY1_SEVERE_MEAN, severe );
+        NFmiSettings::Set( FAKE_DAY2_SEVERE_MEAN, severe );
+    }
+}
+
+
   // ----------------------------------------------------------------------
   /*!
    * \brief Test for frost_text_overview()
    */
   // ----------------------------------------------------------------------
 
-static void frost_text_overview() {
+static void overview_text() {
 	WeatherAnalysis::AnalysisSources sources;
 	WeatherAnalysis::WeatherArea area("25,60");
 	NFmiTime t1(2000,1,1);
@@ -60,20 +77,14 @@ static void frost_text_overview() {
 	WeatherAnalysis::WeatherPeriod period( t1, t2 );
 	TextGen::AK_FrostStory story( t1, sources, area, period );
 
-	const string id = "frost_text_overview";
+	const string id = "frost_overview_text";
 
-	NFmiSettings::Set( "precision", "10" );
-	NFmiSettings::Set( "frost_limit", "20" );
-	NFmiSettings::Set( "severe_frost_limit", "10" );
-
-	NFmiSettings::Set( "fake::mean", "0,0" );
-	NFmiSettings::Set( "fake::severe_mean", "0,0" );
+    fake_results( "0,0", "0,0" );
 	require( story, FI, id, "" );
 	require( story, SV, id, "" );
 	require( story, EN, id, "" );
 
-	NFmiSettings::Set( "fake::mean", "10,0" );
-	NFmiSettings::Set( "fake::severe_mean", "0,0" );
+    fake_results( "10,0", "0,0" );
 	require( story, FI, id, "" );
 	require( story, SV, id, "" );
 	require( story, EN, id, "" );
@@ -86,28 +97,15 @@ static void frost_text_overview() {
     // Hallan todennäköisyys 10-20% -> sanonta "hallanaroilla alueilla hallanvaara" tai "hallanaroilla alueilla mahdollisesti hallaa" tai "alavilla mailla hallanvaara"
     // <<
     //
-	NFmiSettings::Set( "fake::mean", "20,0" );
-	NFmiSettings::Set( "fake::severe_mean", "0,0" );
-#ifdef NEW_SPECS
+    fake_results( "20,0", "0,0" );
 	require( story, FI, id, "Hallanaroilla alueilla hallanvaara.");
 	require( story, SV, id, "...TBD...");
 	require( story, EN, id, "...TBD...");
-#else
-	require( story, FI, id, "Hallan todenn\xe4k\xf6isyys on 20%.");
-	require( story, SV, id, "Sannolikheten f\xf6r nattfrost \xe4r 20%.");
-	require( story, EN, id, "Probability of frost is 20%.");
-#endif
 
-	NFmiSettings::Set( "fake::severe_mean", "10,0" );
-#ifdef NEW_SPECS
+    fake_results( NULL, "10,0" );
 	require( story, FI, id, "Hallanaroilla alueilla hallanvaara. Paikoin ankaraa hallaa.");
 	require( story, SV, id, "...TBD...");
 	require( story, EN, id, "...TBD...");
-#else
-	require( story, FI, id, "Ankaran hallan todenn\xe4k\xf6isyys on 10%." );
-	require( story, SV, id, "Sannolikheten f\xf6r str\xe4ng nattfrost \xe4r 10%." );
-	require( story, EN, id, "Probability of severe frost is 10%." );
-#endif
 
     //--
     // Halla 30|40%
@@ -117,18 +115,13 @@ static void frost_text_overview() {
     // Hallan todennäköisyys 30-40% -> sanonta "Yön alin lämpötila on ... ja hallanvaara" tai "mahdollisesti hallaa"
     // <<
     //
-	NFmiSettings::Set( "fake::mean", "30,0" );
-	NFmiSettings::Set( "fake::severe_mean", "0,0" );
-#ifdef NEW_SPECS
+    fake_results( "30,0", "0,0" );
     require( story, FI, id, "Mahdollisesti hallaa." );
     // TBD: SV, EN
-#endif
 
-	NFmiSettings::Set( "fake::severe_mean", "10,0" );
-#ifdef NEW_SPECS
+    fake_results( NULL, "10,0" );
     require( story, FI, id, "Mahdollisesti hallaa, joka paikoin voi olla ankaraa." );
     // TBD: SV, EN
-#endif
 
     //--
     // Halla 50|60%
@@ -138,17 +131,13 @@ static void frost_text_overview() {
     // Hallan todennäköisyys 50-60% -> sanonta "Lämpötila on yöllä ... ja paikoin hallaa tai selkeillä alueilla hallaa"
     // <<
     //
-	NFmiSettings::Set( "fake::mean", "50,0" );
-	NFmiSettings::Set( "fake::severe_mean", "0,0" );
-#ifdef NEW_SPECS
+    fake_results( "50,0", "0,0" );
     require( story, FI, id, "Paikoin hallaa tai selkeill\xe4 alueilla hallaa." );
     // TBD: SV, EN
-#endif
-	NFmiSettings::Set( "fake::severe_mean", "10,0" );
-#ifdef NEW_SPECS
+
+    fake_results( NULL, "10,0" );
     require( story, FI, id, "Paikoin hallaa tai selkeillä alueilla hallaa, joka voi olla ankaraa." );
     // TBD: SV, EN
-#endif
 
     //--
     // Halla 70|80%
@@ -158,17 +147,13 @@ static void frost_text_overview() {
     // "...monin paikoin hallaa"
     // <<
     //
-	NFmiSettings::Set( "fake::mean", "70,0" );
-	NFmiSettings::Set( "fake::severe_mean", "0,0" );
-#ifdef NEW_SPECS
+    fake_results( "70,0", "0,0" );
     require( story, FI, id, "Monin paikoin hallaa." );
     // TBD: SV, EN
-#endif
-	NFmiSettings::Set( "fake::severe_mean", "10,0" );
-#ifdef NEW_SPECS
+
+    fake_results( NULL, "10,0" );
     require( story, FI, id, "Monin paikoin hallaa, joka voi olla ankaraa." );
     // TBD: SV, EN
-#endif
 
     //--
     // Halla 90|100%
@@ -178,17 +163,13 @@ static void frost_text_overview() {
     // "...yleisesti hallaa"
     // <<
     //
-	NFmiSettings::Set( "fake::mean", "90,0" );
-	NFmiSettings::Set( "fake::severe_mean", "0,0" );
-#ifdef NEW_SPECS
+    fake_results( "90,0", "0,0" );
     require( story, FI, id, "Yleisesti hallaa." );
     // TBD: SV, EN
-#endif
-	NFmiSettings::Set( "fake::severe_mean", "10,0" );
-#ifdef NEW_SPECS
+
+    fake_results( NULL, "10,0" );
     require( story, FI, id, "Yleisesti hallaa, joka voi olla ankaraa." );
     // TBD: SV, EN
-#endif
     
 	TEST_PASSED();
 }
@@ -196,11 +177,11 @@ static void frost_text_overview() {
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Test for frost_numeric_overview()
+   * \brief Test for overview_numeric()
    */
   // ----------------------------------------------------------------------
 
-static void frost_numeric_overview() {
+static void overview_numeric() {
 	WeatherAnalysis::AnalysisSources sources;
 	WeatherAnalysis::WeatherArea area("25,60");
 	NFmiTime t1(2000,1,1);
@@ -208,26 +189,19 @@ static void frost_numeric_overview() {
 	WeatherAnalysis::WeatherPeriod period( t1, t2 );
 	TextGen::AK_FrostStory story( t1, sources, area, period );
 
-	const string id = "frost_numeric_overview";
+	const string id = "overview_numeric";
 
-	NFmiSettings::Set( "precision", "10" );
-	NFmiSettings::Set( "frost_limit", "20" );
-	NFmiSettings::Set( "severe_frost_limit", "10" );
-
-	NFmiSettings::Set( "fake::mean", "0,0" );
-	NFmiSettings::Set( "fake::severe_mean", "0,0" );
+    fake_results( "0,0", "0,0" );
 	require( story, FI, id, "" );
 	require( story, SV, id, "" );
 	require( story, EN, id, "" );
 
-	NFmiSettings::Set( "fake::mean", "30,0" );
-	NFmiSettings::Set( "fake::severe_mean", "0,0" );
+    fake_results( "30,0", "0,0" );
 	require( story, FI, id, "..." );   // TBD
 	require( story, SV, id, "..." );
 	require( story, EN, id, "..." );
 
-	NFmiSettings::Set( "fake::mean", "30,0" );
-	NFmiSettings::Set( "fake::severe_mean", "10,0" );
+    fake_results( "30,0", "10,0" );
 	require( story, FI, id, "..." );   // TBD
 	require( story, SV, id, "..." );
 	require( story, EN, id, "..." );
@@ -258,8 +232,8 @@ class tests : public tframe::tests {
 	//! Main test suite
 	//
 	void test() {
-	  TEST( frost_text_overview );
-	  TEST( frost_numeric_overview );
+	  TEST( overview_text );
+	  TEST( overview_numeric );
 	}
 };
 
@@ -277,6 +251,13 @@ static shared_ptr<TextGen::Dictionary> dict( const char *lang ) {
 */
 int main(void)
 {
+	NFmiSettings::Set( SEASON_START, "1.4.2999" );    // year does not count
+	NFmiSettings::Set( SEASON_END, "30.9.2999" );    // year does not count
+
+	NFmiSettings::Set( PRECISION, "10" );
+	//NFmiSettings::Set( "frost_limit", "20" );
+	//NFmiSettings::Set( "severe_frost_limit", "10" );
+
     cout << endl
 	   << "AK_FrostStory tests" << endl
 	   << "===================" << endl;
