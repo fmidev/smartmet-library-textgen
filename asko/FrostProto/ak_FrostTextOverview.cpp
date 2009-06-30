@@ -30,6 +30,37 @@ using namespace std;
 using MathTools::to_precision;
 
 
+/*
+*/
+static string halla_teksti( int prob, bool is_severe ) {
+
+    const char *texts[6][2]= {
+        // 0..5%
+        { "", "" },     // ei mainintaa
+        // 6..25% (10,20)
+        { "hallanaroilla alueilla mahdollisesti hallaa",
+          "hallanaroilla alueilla mahdollisesti ankaraa hallaa" },
+        // 26..45% (30,40)
+        { "mahdollisesti hallaa",
+          "mahdollisesti ankaraa hallaa" },
+        // 46..65% (50,60)
+        { "paikoittain hallaa tai selkeill\xe4 alueilla hallaa",
+          "paikoittain ankaraa hallaa" },
+        // 66..85% (70,80)
+        { "monin paikoin hallaa",
+          "monin paikoin ankaraa hallaa" },
+        // 86..100% (90,100)
+        { "yleisesti hallaa",
+          "yleisesti ankaraa hallaa" }
+    };
+
+    int index= ((prob+14)/20);
+    assert( index<=5 );
+
+    return texts[index][ is_severe ? 1:0 ];
+}
+
+
 namespace TextGen
 {
 
@@ -52,10 +83,8 @@ namespace TextGen
 	  }
 
 #ifdef NIGHT_START_HOUR
-	const int starthour    = require_hour( NIGHT_START_HOUR );
-	const int endhour      = require_hour( NIGHT_END_HOUR );
-	const int maxstarthour = optional_hour( NIGHT_MAX_START_HOUR, starthour );
-	const int minendhour   = optional_hour( NIGHT_MIN_END_HOUR, endhour );
+	const int starthour    = optional_hour( NIGHT_START_HOUR, 18 );
+	const int endhour      = optional_hour( NIGHT_END_HOUR, 8 );
 #endif
 
 	const int precision = require_percentage( PRECISION );
@@ -65,8 +94,8 @@ namespace TextGen
 	const int nights = WeatherAnalysis::WeatherPeriodTools::countPeriods( itsPeriod,
 														 starthour,
 														 endhour,
-														 maxstarthour,
-														 minendhour );
+														 /*max*/starthour,
+														 /*min*/endhour );
 	if (nights==0) {
 		//log << paragraph;     // (ei siinä vielä mitään ole)
 		return paragraph;
@@ -90,10 +119,10 @@ namespace TextGen
 														  last_night ? 2:1,
 														  starthour,
 														  endhour,
-														  maxstarthour,
-														  minendhour );
+														  /*max*/starthour,
+														  /*min*/endhour );
 
-	WeatherAnalysis::WeatherResult frost = forecaster.analyze( string("fake::") + (last_night ? "day2":"day1") +"::mean",
+	WeatherAnalysis::WeatherResult frost = forecaster.analyze( last_night ? DAY2_MEAN:DAY1_MEAN,
 											  itsSources,
 											  WeatherAnalysis::Frost,
 											  WeatherAnalysis::Mean,     // TBD: onko tämä oikein?
@@ -101,7 +130,7 @@ namespace TextGen
 											  itsArea,
 											  some );
 
-	WeatherAnalysis::WeatherResult severefrost = forecaster.analyze( string("fake::") + (last_night ? "day2":"day1") +"::severe_mean",
+	WeatherAnalysis::WeatherResult severefrost = forecaster.analyze( last_night ? DAY2_SEVERE_MEAN:DAY1_SEVERE_MEAN,
 												    itsSources,
 												    WeatherAnalysis::SevereFrost,
 												    WeatherAnalysis::Mean,      // TBD: onko tämä oikein?
@@ -131,6 +160,8 @@ Hallan todennäköisyys 90-100% -> sanonta "yleisesti hallaa"
 	int prob_frost = to_precision( frost.value(), precision );                 // 0|10|20|...|90|100
 	int prob_severe_frost = to_precision( severefrost.value(), precision );    // -''-
 
+    assert( prob_severe_frost <= prob_frost );      // ankaran osuus on mukana tavallisessa hallassa
+
     Sentence sentence;
 
     int frost_low_limit= require_int( FROST_LOW_LIMIT );
@@ -138,30 +169,17 @@ Hallan todennäköisyys 90-100% -> sanonta "yleisesti hallaa"
     if ((prob_frost<=5) || (prob_frost < frost_low_limit)) {
         // Say nothing, we're below the low limit
 
-    } else if (prob_frost<=25) {
-        // Note: Tämä on paras termi, saa kaikki loppumaan "hallaa", johon voi jatkaa
-        //       ", joka paikoin ankaraa".
+    } else if (prob_severe_frost >= prob_frost-10) {
+        // Enough severe frost to only report it
         //
-        sentence << "hallanaroilla alueilla mahdollisesti hallaa";
-
-    } else if (prob_frost<=45) {
-        sentence << "mahdollisesti hallaa";
-
-    } else if (prob_frost<=65) {
-        sentence << "paikoin hallaa tai selkeilä alueilla hallaa";
-
-    } else if (prob_frost<=85) {
-        sentence << "monin paikoin hallaa";
+        sentence << halla_teksti( prob_severe_frost, true );        
 
     } else {
-        sentence << "yleisesti hallaa";
-    }
-
-    if (prob_severe_frost<=5) {
-        // Say nothing, no severe frost
-
-    } else {
-        sentence << "joka paikoin on ankaraa";
+        sentence << halla_teksti( prob_frost, false );
+        
+        if (prob_severe_frost > 5) {
+            sentence << "joka paikoin on ankaraa";
+        }
     }
 
     paragraph << sentence;

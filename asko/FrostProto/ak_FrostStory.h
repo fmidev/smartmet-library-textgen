@@ -27,20 +27,21 @@
 #define LASTNIGHT FROST_OVERVIEW "last_night"
 #define FROST_LOW_LIMIT FROST_OVERVIEW "low_limit"
 
-// TBD: What are these actually for, do we need them?
-//
-#define NIGHT_START_HOUR TEXTGEN "night::starthour"
-#define NIGHT_END_HOUR   TEXTGEN "night::endhour"
-#define NIGHT_MAX_START_HOUR TEXTGEN "night::maxstarthour"
-#define NIGHT_MIN_END_HOUR TEXTGEN "night::minendhour"
+#define NIGHT_START_HOUR TEXTGEN FROST_OVERVIEW "night::starthour"
+#define NIGHT_END_HOUR   TEXTGEN FROST_OVERVIEW "night::endhour"
 
-// TBD: Unsure, what these are for?
+// Testing overrides
 //
-#define FAKE_DAY1_MEAN FROST_OVERVIEW "fake::day1::mean"
-#define FAKE_DAY1_SEVERE_MEAN FROST_OVERVIEW "fake::day1::severe_mean"
+#define DAY1_MEAN FROST_OVERVIEW "test::day1::mean"
+#define DAY1_SEVERE_MEAN FROST_OVERVIEW "test::day1::severe_mean"
 
-#define FAKE_DAY2_MEAN FROST_OVERVIEW "fake::day2::mean"
-#define FAKE_DAY2_SEVERE_MEAN FROST_OVERVIEW "fake::day2::severe_mean"
+#define DAY2_MEAN FROST_OVERVIEW "test::day2::mean"
+#define DAY2_SEVERE_MEAN FROST_OVERVIEW "test::day2::severe_mean"
+
+// Story names
+//
+#define STORY_OVERVIEW_TEXT "overview_text"
+#define STORY_OVERVIEW_NUMERIC "overview_numeric"
 
 
 namespace TextGen

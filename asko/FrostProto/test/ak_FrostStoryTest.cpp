@@ -54,11 +54,11 @@ static void require( const TextGen::Story & story,
 */
 static void fake_results( const char *normal, const char *severe ) {
     if (normal) {
-        NFmiSettings::Set( FAKE_DAY1_MEAN, normal );
-        NFmiSettings::Set( FAKE_DAY2_MEAN, normal );
+        NFmiSettings::Set( DAY1_MEAN, normal );
+        NFmiSettings::Set( DAY2_MEAN, normal );
     } else {
-        NFmiSettings::Set( FAKE_DAY1_SEVERE_MEAN, severe );
-        NFmiSettings::Set( FAKE_DAY2_SEVERE_MEAN, severe );
+        NFmiSettings::Set( DAY1_SEVERE_MEAN, severe );
+        NFmiSettings::Set( DAY2_SEVERE_MEAN, severe );
     }
 }
 
@@ -77,7 +77,7 @@ static void overview_text() {
 	WeatherAnalysis::WeatherPeriod period( t1, t2 );
 	TextGen::AK_FrostStory story( t1, sources, area, period );
 
-	const string id = "frost_overview_text";
+	const string id = STORY_OVERVIEW_TEXT;
 
     fake_results( "0,0", "0,0" );
 	require( story, FI, id, "" );
@@ -189,7 +189,7 @@ static void overview_numeric() {
 	WeatherAnalysis::WeatherPeriod period( t1, t2 );
 	TextGen::AK_FrostStory story( t1, sources, area, period );
 
-	const string id = "overview_numeric";
+	const string id = STORY_OVERVIEW_NUMERIC;
 
     fake_results( "0,0", "0,0" );
 	require( story, FI, id, "" );
@@ -251,16 +251,24 @@ static shared_ptr<TextGen::Dictionary> dict( const char *lang ) {
 */
 int main(void)
 {
-    // This seems to be required; why?
+    // This SHOULD come from '/smartmet/cnf/fmi.conf' automatically, but for some reason
+    // does not seem to.
     //
-    NFmiSettings::Set( TEXTGEN "::host", "xxx" );
+#if 1
+    NFmiSettings::Set( "textgen::host", "base.weatherproof.fi" );
+    NFmiSettings::Set( "textgen::user", "textgen" );
+    NFmiSettings::Set( "textgen::passwd", "w1w2w3" );   // TBD: NOT GOOD TO HAVE PW HERE
+    NFmiSettings::Set( "textgen::database", "textgen" );
     
-	NFmiSettings::Set( SEASON_START, "1.4.2999" );    // year does not count
-	NFmiSettings::Set( SEASON_END, "30.9.2999" );    // year does not count
+    NFmiSettings::Set( "textgen::filedictionaries", "/smartmet/share/textgendata/dictionaries" );
+    NFmiSettings::Set( "textgen::mappath", "/smartmet/share/textgendata/maps" );
+    NFmiSettings::Set( "textgen::coordinates", "/smartmet/share/coordinates/kaikki.txt" );
+#endif
+    
+	NFmiSettings::Set( SEASON_START, "200004010000" );    // year does not count
+	NFmiSettings::Set( SEASON_END,   "200009300000" );    // year does not count
 
 	NFmiSettings::Set( PRECISION, "10" );
-	//NFmiSettings::Set( "frost_limit", "20" );
-	//NFmiSettings::Set( "severe_frost_limit", "10" );
 
     cout << endl
 	   << "AK_FrostStory tests" << endl

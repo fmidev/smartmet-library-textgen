@@ -86,8 +86,8 @@ namespace TextGen
   bool AK_FrostStory::hasStory(const string & theName)
   {
     const string known[]= { 
-        "frost_text_overview",
-        "frost_numeric_overview"
+        STORY_OVERVIEW_TEXT,
+        STORY_OVERVIEW_NUMERIC
         // ...
      };
 
@@ -112,8 +112,8 @@ namespace TextGen
   
   const Paragraph AK_FrostStory::makeStory(const string & theName) const
   {
-	if (theName == "frost_text_overview")      return overview_text();
-	if (theName == "frost_numeric_overview")   return overview_numeric();
+	if (theName == STORY_OVERVIEW_TEXT)      return overview_text();
+	if (theName == STORY_OVERVIEW_NUMERIC)   return overview_numeric();
         //...
 
 	throw TextGenError("AK_FrostStory cannot make story "+theName);

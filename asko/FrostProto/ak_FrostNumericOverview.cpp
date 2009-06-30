@@ -54,10 +54,8 @@ namespace TextGen
     // TBD: Voisiko tämän tehdä jotenkin automaattisemmin?  'NFmiTime':lla on 'isNight'-metodi; mitä se käyttää?
     //
 #ifdef NIGHT_START_HOUR
-	const int starthour    = require_hour( NIGHT_START_HOUR );
-	const int endhour      = require_hour( NIGHT_END_HOUR );
-	const int maxstarthour = optional_hour( NIGHT_MAX_START_HOUR, starthour );
-	const int minendhour   = optional_hour( NIGHT_MIN_END_HOUR, endhour );
+	const int starthour    = optional_hour( NIGHT_START_HOUR, 18 );
+	const int endhour      = optional_hour( NIGHT_END_HOUR, 8 );
 #endif
 
 	const int precision = require_percentage( PRECISION );
@@ -67,8 +65,8 @@ namespace TextGen
 	const int nights = WeatherAnalysis::WeatherPeriodTools::countPeriods( itsPeriod,
 														 starthour,
 														 endhour,
-														 maxstarthour,
-														 minendhour );
+														 /*max*/starthour,
+														 /*min*/endhour );
 	if (nights==0) {
 		//log << paragraph;     // (ei siinä vielä mitään ole)
 		return paragraph;
@@ -92,10 +90,10 @@ namespace TextGen
 														  last_night ? 2:1,
 														  starthour,
 														  endhour,
-														  maxstarthour,
-														  minendhour );
+														  /*max*/starthour,
+														  /*min*/endhour );
 
-	WeatherAnalysis::WeatherResult frost = forecaster.analyze( last_night ? FAKE_DAY2_MEAN:FAKE_DAY1_MEAN,
+	WeatherAnalysis::WeatherResult frost = forecaster.analyze( last_night ? DAY2_MEAN:DAY1_MEAN,
 											  itsSources,
 											  WeatherAnalysis::Frost,
 											  WeatherAnalysis::Mean,     // TBD: onko tämä oikein?
@@ -103,7 +101,7 @@ namespace TextGen
 											  itsArea,
 											  some );
 
-	WeatherAnalysis::WeatherResult severefrost = forecaster.analyze( last_night ? FAKE_DAY2_SEVERE_MEAN:FAKE_DAY1_SEVERE_MEAN,
+	WeatherAnalysis::WeatherResult severefrost = forecaster.analyze( last_night ? DAY2_SEVERE_MEAN:DAY1_SEVERE_MEAN,
 												    itsSources,
 												    WeatherAnalysis::SevereFrost,
 												    WeatherAnalysis::Mean,      // TBD: onko tämä oikein?
@@ -140,15 +138,19 @@ Hallan todennäköisyys 90-100% -> sanonta "yleisesti hallaa"
     if ((prob_frost<=5) || (prob_frost < frost_low_limit)) {
         // Say nothing, we're below the low limit
 
+    } else if (prob_severe_frost >= prob_frost-10) {
+        // Enough severe frost to only report it
+        //
+        sentence << "ankaran hallan todennäköisyys" << Integer(prob_severe_frost) << "%";
+
     } else {
         sentence << "hallan todennäköisyys" << Integer(prob_frost) << "%";
-    }
 
-    if (prob_severe_frost<=5) {
-        // Say nothing, no severe frost
+        if (prob_severe_frost>5) {
+            // Mention that some of the frost is severe
 
-    } else {
-        sentence << "ankaran hallan todennäköisyys" << Integer(prob_severe_frost) << "%";
+            sentence << "ankaran hallan todennäköisyys" << Integer(prob_severe_frost) << "%";
+        }
     }
 
     paragraph << sentence;
