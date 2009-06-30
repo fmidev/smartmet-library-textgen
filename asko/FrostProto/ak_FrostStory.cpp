@@ -23,10 +23,6 @@
 using namespace std;
 //using namespace WeatherAnalysis;
 
-// Prefix for configuration
-//
-const string TEXTGEN= "textgen::";
-
 namespace TextGen
 {
   
@@ -53,13 +49,29 @@ namespace TextGen
 
     /*
     */
-    bool AK_FrostStory::is_frost_season( NFmi) const {
+    bool AK_FrostStory::is_frost_season( NFmiTime t_now ) const {
 
         // Jos hallakauden ulkopuolella (päivämäärärajat) tai jos kasvukausi ei ole vielä
         // alkanut, ei anneta hallatiedotteita.
         //
+        unsigned n1= require_time( SEASON_START ).GetJulianDay();  // is really: day of year
+        unsigned n2= require_time( SEASON_END ).GetJulianDay();
 
-        return require_bool( "frostseason" );
+        unsigned n_now= t_now.GetJulianDay();
+
+        assert( (n1<=365) && (n2<=365) && (n_now<=365) );
+
+        if ((n_now<n1) || (n_now>n2)) {
+            return false;
+        }
+
+        // Tarkista, onko kasvukausi jo alkanut (onko lämpösumma > 0)
+        // Jos ei ole, palautetaan 'false'
+#if 0
+        // TBD...
+#endif
+
+        return true;
     }
 
   // ----------------------------------------------------------------------
@@ -100,8 +112,8 @@ namespace TextGen
   
   const Paragraph AK_FrostStory::makeStory(const string & theName) const
   {
-	if (theName == "frost_text_overview")      return text_overview();
-	if (theName == "frost_numeric_overview")   return numeric_overview();
+	if (theName == "frost_text_overview")      return overview_text();
+	if (theName == "frost_numeric_overview")   return overview_numeric();
         //...
 
 	throw TextGenError("AK_FrostStory cannot make story "+theName);

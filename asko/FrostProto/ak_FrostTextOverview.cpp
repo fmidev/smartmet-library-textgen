@@ -29,10 +29,6 @@ using namespace std;
 
 using MathTools::to_precision;
 
-// Our configuration subpath
-//
-const string CONF_SUBPATH= "frost_overview::";
-
 
 namespace TextGen
 {
@@ -45,8 +41,8 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  Paragraph AK_FrostStory::text_overview() const {
-	MessageLogger log("AK_FrostStory::frost_text_overview");
+  Paragraph AK_FrostStory::overview_text() const {
+	MessageLogger log("AK_FrostStory::frost_overview_text");
 
 	Paragraph paragraph;
 
@@ -55,12 +51,14 @@ namespace TextGen
 		return paragraph;
 	  }
 
-	const int starthour    = require_hour( "night::starthour" );
-	const int endhour      = require_hour( "night::endhour" );
-	const int maxstarthour = optional_hour( "night::maxstarthour",starthour );
-	const int minendhour   = optional_hour( "night::minendhour",endhour );
+#ifdef NIGHT_START_HOUR
+	const int starthour    = require_hour( NIGHT_START_HOUR );
+	const int endhour      = require_hour( NIGHT_END_HOUR );
+	const int maxstarthour = optional_hour( NIGHT_MAX_START_HOUR, starthour );
+	const int minendhour   = optional_hour( NIGHT_MIN_END_HOUR, endhour );
+#endif
 
-	const int precision   = require_percentage( "precision" );
+	const int precision = require_percentage( PRECISION );
 
     // Montako yötä periodissa on? (0/1/2)
     //
@@ -76,7 +74,7 @@ namespace TextGen
 
     // Kumpi öistä on tarkoitus ottaa?
     //
-    const bool last_night= Settings::optional_bool( CONF_SUBPATH +"last_night", false );
+    const bool last_night= Settings::optional_bool( LASTNIGHT, false );
 
     if (last_night && (nights<2)) {
         throw TextGenError( "Asking for second night but period only has one." );
@@ -135,8 +133,7 @@ Hallan todennäköisyys 90-100% -> sanonta "yleisesti hallaa"
 
     Sentence sentence;
 
-    int frost_low_limit= require_int( "frost::lowlimit" );
-    int severe_frost_low_limit= require_int( "severefrost::lowlimit" );
+    int frost_low_limit= require_int( FROST_LOW_LIMIT );
 
     if ((prob_frost<=5) || (prob_frost < frost_low_limit)) {
         // Say nothing, we're below the low limit
@@ -160,7 +157,7 @@ Hallan todennäköisyys 90-100% -> sanonta "yleisesti hallaa"
         sentence << "yleisesti hallaa";
     }
 
-    if ((prob_severe_frost<=5) || (prob_severe_frost < severe_frost_low_limit)) {
+    if (prob_severe_frost<=5) {
         // Say nothing, no severe frost
 
     } else {

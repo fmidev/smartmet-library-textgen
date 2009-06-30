@@ -251,6 +251,10 @@ static shared_ptr<TextGen::Dictionary> dict( const char *lang ) {
 */
 int main(void)
 {
+    // This seems to be required; why?
+    //
+    NFmiSettings::Set( TEXTGEN "::host", "xxx" );
+    
 	NFmiSettings::Set( SEASON_START, "1.4.2999" );    // year does not count
 	NFmiSettings::Set( SEASON_END, "30.9.2999" );    // year does not count
 

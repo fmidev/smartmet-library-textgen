@@ -13,7 +13,35 @@
 
 #include <string>
 
-class NFmiTime;
+#include <newbase/NFmiTime.h>
+
+// Configuration keys
+//
+#define TEXTGEN "textgen::"
+#define FROST_OVERVIEW TEXTGEN "frost_overview::"
+
+#define SEASON_START FROST_OVERVIEW "season_start"
+#define SEASON_END FROST_OVERVIEW "season_end"
+
+#define PRECISION FROST_OVERVIEW "precision"
+#define LASTNIGHT FROST_OVERVIEW "last_night"
+#define FROST_LOW_LIMIT FROST_OVERVIEW "low_limit"
+
+// TBD: What are these actually for, do we need them?
+//
+#define NIGHT_START_HOUR TEXTGEN "night::starthour"
+#define NIGHT_END_HOUR   TEXTGEN "night::endhour"
+#define NIGHT_MAX_START_HOUR TEXTGEN "night::maxstarthour"
+#define NIGHT_MIN_END_HOUR TEXTGEN "night::minendhour"
+
+// TBD: Unsure, what these are for?
+//
+#define FAKE_DAY1_MEAN FROST_OVERVIEW "fake::day1::mean"
+#define FAKE_DAY1_SEVERE_MEAN FROST_OVERVIEW "fake::day1::severe_mean"
+
+#define FAKE_DAY2_MEAN FROST_OVERVIEW "fake::day2::mean"
+#define FAKE_DAY2_SEVERE_MEAN FROST_OVERVIEW "fake::day2::severe_mean"
+
 
 namespace TextGen
 {
@@ -31,11 +59,15 @@ namespace TextGen
 	virtual const Paragraph makeStory( const std::string & theName ) const;
 
   private:
-	Paragraph text_overview() const;
-	Paragraph numeric_overview() const;
+	Paragraph overview_text() const;
+	Paragraph overview_numeric() const;
 	   // ...
 
-    bool is_frost_season() const;
+    bool is_frost_season( NFmiTime t_now ) const;
+    bool is_frost_season() const {
+        NFmiTime t_now;
+        return is_frost_season( t_now );
+    }
 
     const std::string PREFIX;   // configuration prefix ("textgen::")
 
@@ -43,6 +75,7 @@ namespace TextGen
     bool require_bool(const std::string &s)      const { return ::Settings::require_bool(PREFIX+s); }
     int require_hour(const std::string &s)       const { return ::Settings::require_hour(PREFIX+s); }
     int require_percentage(const std::string &s) const { return ::Settings::require_percentage(PREFIX+s); }
+    NFmiTime require_time(const std::string &s) const { return ::Settings::require_time(PREFIX+s); }
 
     bool optional_bool(const std::string &s, bool def) const { return ::Settings::optional_bool(PREFIX+s,def); }
     int optional_hour(const std::string &s, int def)   const { return ::Settings::optional_hour(PREFIX+s,def); }

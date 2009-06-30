@@ -135,7 +135,7 @@ Hallan todennäköisyys 90-100% -> sanonta "yleisesti hallaa"
 
     Sentence sentence;
 
-    int frost_low_limit= require_int( FROST_LOWLIMIT );
+    int frost_low_limit= require_int( FROST_LOW_LIMIT );
 
     if ((prob_frost<=5) || (prob_frost < frost_low_limit)) {
         // Say nothing, we're below the low limit
