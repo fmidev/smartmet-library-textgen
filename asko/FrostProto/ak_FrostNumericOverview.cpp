@@ -1,6 +1,6 @@
 // ======================================================================
 /*!
- * \file ak_FrostOverview.cpp
+ * \file ak_FrostNumericOverview.cpp
  * \brief Textgen story for one night (following night, or the night after that)
  *
  * Reference: <http://wiki.weatherproof.fi/index.php?title=Textgen:_frost_overview>
@@ -8,7 +8,6 @@
 // ======================================================================
 
 #include "ak_FrostStory.h"
-#include "ak_FrostStoryTools.h"
 
 // Textgen headers
 //
@@ -26,69 +25,13 @@
 #include "WeatherResult.h"
 
 using namespace std;
-using namespace TextGen::AK_FrostStoryTools;
 //using namespace WeatherAnalysis;
 
+using MathTools::to_precision;
 
-/*---=== Tools ===---
-*/
-
-// ----------------------------------------------------------------------
-/*!
- * \brief Return true if one is allowed to report on frost
- */
-// ----------------------------------------------------------------------
-
-bool is_frost_season()
-{
-  return Settings::require_bool( "textgen::frostseason" );
-}
-
-// ----------------------------------------------------------------------
-/*!
- * \brief Return sentence for severe frost
- *
- * \param thePeriod The night period
- * \param prob_frost Probability of frost
- * \param prob_severe_frost Probability of severe frost (<= 'prob_frost')
- * \return The sentence
- */
-// ----------------------------------------------------------------------
-
-Sentence frost_overview_sentence( const WeatherPeriod & thePeriod,
-                                  int prob_frost,
-                                  int prob_severe_frost ) {
-    Sentence sentence;
-
-    sentence << "ankaran hallan todenn\xe4k\xf6isyys"    // SQL key (latin-1)
-           << "on"
-           << WeekdayTools::night_against_weekday( thePeriod.localEndTime() )
-           << Integer( theProbability )
-         << *UnitFactory::create(Percent);
-  return sentence;
-}
-
-// ----------------------------------------------------------------------
-/*!
- * \brief Return sentence for frost
- *
- * \param thePeriod The night period
- * \param theProbability The probability
- * \return The sentence
- */
-// ----------------------------------------------------------------------
-
-Sentence frost_sentence(const WeatherPeriod & thePeriod,
-                              int theProbability)
-{
-  Sentence sentence;
-  sentence << "hallan todenn\xe4k\xf6isyys"    // SQL key (latin-1)
-           << "on"
-           << WeekdayTools::night_against_weekday( thePeriod.localEndTime() )
-           << Integer( theProbability )
-           << *UnitFactory::create(Percent);
-  return sentence;
-}
+// Our configuration subpath
+//
+const string CONF_SUBPATH= "frost_overview::";
 
 
 namespace TextGen
@@ -102,198 +45,114 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  Paragraph AK_FrostStory::overview() const {
-	MessageLogger log("AK_FrostStory::twonights");
+  Paragraph AK_FrostStory::numeric_overview() const {
+	MessageLogger log("AK_FrostStory::frost_numeric_overview");
 
 	Paragraph paragraph;
 
-	if (!AK_FrostStoryTools::is_frost_season()) {
+	if (!is_frost_season()) {
 		log << "Frost season is not on";
 		return paragraph;
 	  }
 
-	using MathTools::to_precision;
+	const int starthour    = require_hour( "night::starthour" );
+	const int endhour      = require_hour( "night::endhour" );
+	const int maxstarthour = optional_hour( "night::maxstarthour",starthour );
+	const int minendhour   = optional_hour( "night::minendhour",endhour );
 
-	const int starthour    = Settings::require_hour( itsVar+"::night::starthour" );
-	const int endhour      = Settings::require_hour( itsVar+"::night::endhour" );
-	const int maxstarthour = Settings::optional_hour( itsVar+"::night::maxstarthour",starthour );
-	const int minendhour   = Settings::optional_hour( itsVar+"::night::minendhour",endhour );
+	const int precision   = require_percentage( "precision" );
 
-	const int precision   = Settings::require_percentage( itsVar+"::precision" );
-	const int severelimit = Settings::require_percentage( itsVar+"::severe_frost_limit" );
-	const int normallimit = Settings::require_percentage( itsVar+"::frost_limit" );
-	const int obvious_frost = Settings::optional_percentage( itsVar+"::obvious_frost_limit", 90 );
-
+    // Montako yötä periodissa on? (0/1/2)
+    //
 	const int nights = WeatherAnalysis::WeatherPeriodTools::countPeriods( itsPeriod,
 														 starthour,
 														 endhour,
 														 maxstarthour,
 														 minendhour );
 	if (nights==0) {
-		log << paragraph;
+		//log << paragraph;     // (ei siinä vielä mitään ole)
 		return paragraph;
+    }
+
+    // Kumpi öistä on tarkoitus ottaa?
+    //
+    const bool last_night= Settings::optional_bool( CONF_SUBPATH +"last_night", false );
+
+    if (last_night && (nights<2)) {
+        throw TextGenError( "Asking for second night but period only has one." );
     }
 
 	// Calculate frost probability
 
 	WeatherAnalysis::GridForecaster forecaster;
 
-	WeatherAnalysis::WeatherPeriod night1 = WeatherAnalysis::WeatherPeriodTools::getPeriod( itsPeriod,
-														  1,
+    // TBD: Miksi täällä on tuollaista 'feikkiä'?  --AKa
+    //
+	WeatherAnalysis::WeatherPeriod some = WeatherAnalysis::WeatherPeriodTools::getPeriod( itsPeriod,
+														  last_night ? 2:1,
 														  starthour,
 														  endhour,
 														  maxstarthour,
 														  minendhour );
 
-	WeatherAnalysis::WeatherResult frost = forecaster.analyze( itsVar+"::fake::day1::mean",
+	WeatherAnalysis::WeatherResult frost = forecaster.analyze( string("fake::") + (last_night ? "day2":"day1") +"::mean",
 											  itsSources,
 											  WeatherAnalysis::Frost,
-											  WeatherAnalysis::Mean,
-											  WeatherAnalysis::Maximum,
+											  WeatherAnalysis::Mean,     // TBD: onko tämä oikein?
+											  WeatherAnalysis::Maximum,  // -''-
 											  itsArea,
-											  night1 );
+											  some );
 
-	WeatherAnalysis::WeatherResult severefrost = forecaster.analyze( itsVar+"::fake::day1::severe_mean",
+	WeatherAnalysis::WeatherResult severefrost = forecaster.analyze( string("fake::") + (last_night ? "day2":"day1") +"::severe_mean",
 												    itsSources,
 												    WeatherAnalysis::SevereFrost,
-												    WeatherAnalysis::Mean,
-												    WeatherAnalysis::Maximum,
+												    WeatherAnalysis::Mean,      // TBD: onko tämä oikein?
+												    WeatherAnalysis::Maximum,   // -''-
 												    itsArea,
-												    night1 );
+												    some );
 	
 	if (frost.value()==kFloatMissing || severefrost.value()==kFloatMissing) {
         throw TextGenError("Frost is not available");
     }
 
-	log << "Frost Mean(Maximum) for day 1 " << frost << endl;
-	log << "SevereFrost Mean(Maximum) for day 1 " << severefrost << endl;
+	log << "Frost Mean(Maximum) for day " << (last_night?2:1) << ": " << frost << endl;
+	log << "SevereFrost Mean(Maximum) for day " << (last_night?2:1) << ": " << severefrost << endl;
 
-	if (nights==1) {
-		const int value = to_precision( frost.value(), precision );
-		const int severevalue = to_precision( severefrost.value(), precision );
+/*
+* Tekstuaalisen esityksen teko
+*
+Anna-Kaisalta (wikissä):
+<<
+Hallan todennäköisyys 10-20% -> sanonta "hallanaroilla alueilla hallanvaara" tai "hallanaroilla alueilla mahdollisesti hallaa" tai "alavilla mailla hallanvaara"
+Hallan todennäköisyys 30-40% -> sanonta "Yön alin lämpötila on ... ja hallanvaara" tai "mahdollisesti hallaa"
+Hallan todennäköisyys 50-60% -> sanonta "Lämpötila on yöllä ... ja paikoin hallaa tai selkeillä alueilla hallaa"
+Hallan todennäköisyys 70-80% -> sanonta ""...monin paikoin hallaa"
+Hallan todennäköisyys 90-100% -> sanonta "yleisesti hallaa"
+<<
+*/
+	int prob_frost = to_precision( frost.value(), precision );                 // 0|10|20|...|90|100
+	int prob_severe_frost = to_precision( severefrost.value(), precision );    // -''-
 
-		if (severevalue > obvious_frost) {
-			log << "Severe frost probability 100% implies the forecast is obvious!";
-        } else {
-			if (severevalue >= severelimit) {
-                paragraph << severe_frost_sentence( night1, severevalue );
-            } else if (value >= normallimit) {
-                paragraph << frost_sentence(night1,value);
-            }
-	   }
+    Sentence sentence;
+
+    int frost_low_limit= require_int( "frost::lowlimit" );
+    int severe_frost_low_limit= require_int( "severefrost::lowlimit" );
+
+    if ((prob_frost<=5) || (prob_frost < frost_low_limit)) {
+        // Say nothing, we're below the low limit
+
     } else {
-		WeatherAnalysis::WeatherPeriod night2 = WeatherAnalysis::WeatherPeriodTools::getPeriod( itsPeriod,
-															  2,
-															  starthour,
-															  endhour,
-															  maxstarthour,
-															  minendhour );
-
-		WeatherAnalysis::WeatherResult frost2 = forecaster.analyze( itsVar+"::fake::day2::mean",
-												   itsSources,
-												   WeatherAnalysis::Frost,
-												   WeatherAnalysis::Mean,
-												   WeatherAnalysis::Maximum,
-												   itsArea,
-												   night2 );
-
-		WeatherAnalysis::WeatherResult severefrost2 = forecaster.analyze( itsVar+"::fake::day2::severe_mean",
-														 itsSources,
-														 WeatherAnalysis::SevereFrost,
-														 WeatherAnalysis::Mean,
-														 WeatherAnalysis::Maximum,
-														 itsArea,
-														 night2 );
-		
-		if (frost2.value()==kFloatMissing || severefrost2.value()==kFloatMissing) {
-            throw TextGenError("Frost is not available");
-        }
-
-		log << "Frost Mean(Maximum) for day 2 " << frost2 << endl;
-		log << "SevereFrost Mean(Maximum) for day 2 " << severefrost2 << endl;
-		
-		const int value1 = to_precision( frost.value(), precision );
-		const int severevalue1 = to_precision( severefrost.value(), precision );
-
-		const int value2 = to_precision( frost2.value(), precision );
-		const int severevalue2 = to_precision( severefrost2.value(), precision );
-		
-		// We have 9 combinations:
-		//
-		// nada+nada		""
-		// nada+frost		"Hallan todennäköisyys on tiistain vastaisena yön x%."
-		// nada+severe		"Ankaran hallan todennäköisyys on tiistain vastaisena yönä x%."
-		// frost+nada		"Hallan ..., seuraava yö on lämpimämpi."
-		// frost+frost		"Hallan ..., seuraavana yönä y%/sama."
-		// frost+severe		"Hallan ..., seuraavana yönä ankaran hallan todennäköisyys on y%."
-		// severe+nada		"Ankaran ..., seuraava yö on huomattavasti lämpimämpi."
-		// severe+frost		"Ankaran ..., seuraavana yönä hallan todennäköisyys on y%."
-		// severe+severe	"Ankaran ..., seuraavana yönä y%/sama."
-
-		if (severevalue1 > obvious_frost && severevalue2 > obvious_frost) {
-			log << "Severe frost probability 100% implies the forecast is obvious!";
-		} 
-		else if (severevalue1 >= severelimit) {		// severe + ?
-			Sentence sentence;
-			sentence << severe_frost_sentence( night1, severevalue1 )
-					 << Delimiter(",");
-			
-			if (severevalue2 >= severelimit) {
-				sentence << "seuraavana y\xf6n\xe4";
-				if (severevalue1 == severevalue2) {
-				    sentence << "sama";
-				} else {
-				  sentence << Integer(severevalue2)
-						   << *UnitFactory::create(Percent);
-                }
-            }
-			else if(value2 >= normallimit) {
-				sentence << "seuraavana y\xf6n\xe4"
-						 << "hallan todenn\xe4k\xf6isyys"     // SQL key (latin-1)
-						 << "on"
-						 << Integer(value2)
-						 << *UnitFactory::create(Percent);
-			}
-			else {
-				sentence << "seuraava y\xf6"
-						 << "on"
-						 << "huomattavasti l\xe4mpim\xe4mpi";
-            }
-			paragraph << sentence;
-        }
-		else if (value1 >= normallimit) {				// frost + ?
-			Sentence sentence;
-			sentence << frost_sentence(night1,value1)
-					 << Delimiter(",");
-
-			if (severevalue2 >= severelimit) {
-				sentence << "seuraavana y\xf6n\xe4"
-						 << "ankaran hallan todenn\xe4k\xf6isyys"     // SQL key (latin-1)
-						 << "on"
-						 << Integer(severevalue2)
-						 << *UnitFactory::create(Percent);
-            } 
-            else if(value2 >= normallimit) {
-				sentence << "seuraavana y\xf6n\xe4";
-				if(value1 == value2)
-				  sentence << "sama";
-				else
-				  sentence << Integer(value2)
-						   << *UnitFactory::create(Percent);
-            } else {
-				sentence << "seuraava y\xf6"
-						 << "on"
-						 << "l\xe4mpim\xe4mpi";
-            }
-			paragraph << sentence;
-        } else {										// nada + ?
-			if(severevalue2 >= severelimit) {
-			     paragraph << severe_frost_sentence(night2,severevalue2);
-			} else if (value2 >= normallimit) {
-			     paragraph << frost_sentence(night2,value2);
-            }
-        }
+        sentence << "hallan todennäköisyys" << Integer(prob_frost) << "%";
     }
+
+    if ((prob_severe_frost<=5) || (prob_severe_frost < severe_frost_low_limit)) {
+        // Say nothing, no severe frost
+
+    } else {
+        sentence << "ankaran hallan todennäköisyys" << Integer(severe_frost_low_limit) << "%";
+    }
+
+    paragraph << sentence;
 
 	log << paragraph;
 	return paragraph;

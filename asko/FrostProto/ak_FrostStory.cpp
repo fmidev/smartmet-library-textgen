@@ -23,6 +23,10 @@
 using namespace std;
 //using namespace WeatherAnalysis;
 
+// Prefix for configuration
+//
+const string TEXTGEN= "textgen::";
+
 namespace TextGen
 {
   
@@ -41,14 +45,23 @@ namespace TextGen
   AK_FrostStory::AK_FrostStory( const NFmiTime & theForecastTime,
 						 const WeatherAnalysis::AnalysisSources & theSources,
 						 const WeatherAnalysis::WeatherArea & theArea,
-						 const WeatherAnalysis::WeatherPeriod & thePeriod,
-						 const string & theVariable )
+						 const WeatherAnalysis::WeatherPeriod & thePeriod )
 	: itsForecastTime(theForecastTime)
 	, itsSources(theSources)
 	, itsArea(theArea)
-	, itsPeriod(thePeriod)
-	, itsVar(theVariable) {}
-  
+	, itsPeriod(thePeriod) {}
+
+    /*
+    */
+    bool AK_FrostStory::is_frost_season( NFmi) const {
+
+        // Jos hallakauden ulkopuolella (päivämäärärajat) tai jos kasvukausi ei ole vielä
+        // alkanut, ei anneta hallatiedotteita.
+        //
+
+        return require_bool( "frostseason" );
+    }
+
   // ----------------------------------------------------------------------
   /*!
    * \brief Test whether the given story is known to this class
