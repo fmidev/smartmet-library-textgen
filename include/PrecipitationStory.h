@@ -41,6 +41,7 @@ namespace TextGen
   private:
 
 	const Paragraph total() const;
+	const Paragraph total_day() const;
 	const Paragraph range() const;
 	const Paragraph classification() const;
 	const Paragraph pop_twodays() const;

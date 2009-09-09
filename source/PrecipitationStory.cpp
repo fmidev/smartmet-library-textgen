@@ -69,6 +69,8 @@ namespace TextGen
   {
 	if(theName == "precipitation_total")
 	  return true;
+	if(theName == "precipitation_total_day")
+	  return true;
 	if(theName == "precipitation_range")
 	  return true;
 	if(theName == "precipitation_classification")
@@ -101,6 +103,8 @@ namespace TextGen
   {
 	if(theName == "precipitation_total")
 	  return total();
+	if(theName == "precipitation_total_day")
+	  return total_day();
 	if(theName == "precipitation_range")
 	  return range();
 	if(theName == "precipitation_classification")

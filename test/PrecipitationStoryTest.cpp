@@ -85,6 +85,51 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test PrecipitationStory::total_day()
+   */
+  // ----------------------------------------------------------------------
+
+  void precipitation_total_day()
+  {
+	using namespace std;
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	WeatherArea area("25,60");
+	NFmiTime time1(2000,1,1);
+	NFmiTime time2(2000,1,2);
+	WeatherPeriod period(time1,time2);
+	PrecipitationStory story(time1,sources,area,period,"total_day");
+
+	const string fun = "precipitation_total_day";
+	string result;
+
+	NFmiSettings::Set("total_day::fake::mean","0.0,0");
+	REQUIRE(story,"fi",fun,"Sadesumma 0 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 0 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 0 millimeters.");
+
+	NFmiSettings::Set("total_day::fake::mean","0.1,0");
+	REQUIRE(story,"fi",fun,"Sadesumma alle yksi millimetri.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman under en millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation below one millimeter.");
+
+	NFmiSettings::Set("total_day::fake::mean","0.5,0");
+	REQUIRE(story,"fi",fun,"Sadesumma 1 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 1 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 1 millimeters.");
+
+	NFmiSettings::Set("total_day::fake::mean","10,0");
+	REQUIRE(story,"fi",fun,"Sadesumma 10 millimetriä.");
+	REQUIRE(story,"sv",fun,"Nederbördssumman 10 millimeter.");
+	REQUIRE(story,"en",fun,"Total precipitation 10 millimeters.");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Test PrecipitationStory::range()
    */
   // ----------------------------------------------------------------------
@@ -814,6 +859,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	void test(void)
 	{
 	  TEST(precipitation_total);
+	  TEST(precipitation_total_day);
 	  TEST(precipitation_range);
 	  TEST(precipitation_classification);
 	  TEST(precipitation_sums);
