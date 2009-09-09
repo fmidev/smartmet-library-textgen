@@ -55,10 +55,10 @@ endif
 INCLUDES += -I ../include
 
 LIBS += \
-        -lboost_regex-mt \
-        -lboost_filesystem-mt \
-        -lboost_iostreams-mt \
-        -lboost_system-mt \
+        -lboost_regex \
+        -lboost_filesystem \
+        -lboost_iostreams \
+        -lboost_system \
         -lz -lbz2 -lpthread
 
 
