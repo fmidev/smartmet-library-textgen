@@ -1,15 +1,15 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 9.5.12
+Version: 9.9.9
 Release: 1.el5.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 9.4.21-1
-BuildRequires: boost-devel >= 1.36
+BuildRequires: libsmartmet-newbase >= 9.7.14-1
+BuildRequires: boost-devel >= 1.39
 BuildRequires: mysql-devel
 Provides: %{LIBNAME}
 
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Sep  9 2009 mheiskan <mika.heiskanen@fmi.fi> - 9.9.9-1.el5.fmi
+- Added precipitation_total_day
 * Tue May 12 2009 mheiskan <mika.heiskanen@fmi.fi> - 9.5.12-1.el5.fmi
 - Updated weather_overview story
 * Tue Apr 21 2009 mheiskan <mika.heiskanen@fmi.fi> - 9.4.21-1.el5.fmi
