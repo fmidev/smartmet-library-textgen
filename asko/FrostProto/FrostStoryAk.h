@@ -1,12 +1,15 @@
 // ======================================================================
 /*!
- * \file
- * \brief ...
+ * \file  FrostStoryAk.h
+ * \brief FrostStory version by AKa 2009.
+ *
+ * NOTE: Do NOT rename this to 'FrostStory.cpp'; that already exists under
+ *      TextGen all-in-one 'source/' directory!
  */
 // ======================================================================
 
-#ifndef TEXTGEN_FROSTSTORY_H
-#define TEXTGEN_FROSTSTORY_H
+#ifndef TEXTGEN_FROSTSTORY_AK_H
+#define TEXTGEN_FROSTSTORY_AK_H
 
 #include "Story.h"
 #include "Settings.h"
@@ -17,33 +20,32 @@
 
 // Configuration keys
 //
-#define TEXTGEN         "textgen::"
-#define FROST_OVERVIEW  TEXTGEN "frost_overview::"
+#define FROST_OVERVIEW "frost_overview::"
 
-#define SEASON_START    FROST_OVERVIEW "season_start"
-#define SEASON_END      FROST_OVERVIEW "season_end"
+#define SEASON_START    "season_start"
+#define SEASON_END      "season_end"
 
-#define PRECISION       FROST_OVERVIEW "precision"
-#define SECOND_NIGHT    FROST_OVERVIEW "second_night"     // was: "last_night" (misleading word)
-#define FROST_LOW_LIMIT FROST_OVERVIEW "low_limit"
+#define PRECISION       "precision"
+#define SECOND_NIGHT    "second_night"     // was: "last_night" (misleading word)
+#define FROST_LOW_LIMIT "low_limit"
 
-#define NIGHT_START_HOUR TEXTGEN FROST_OVERVIEW "night::starthour"
-#define NIGHT_END_HOUR   TEXTGEN FROST_OVERVIEW "night::endhour"
+#define NIGHT_START_HOUR "night::starthour"
+#define NIGHT_END_HOUR   "night::endhour"
 
 // Testing overrides
 //
-#define NIGHT1_MEAN       FROST_OVERVIEW "test::night1::mean"     // was: "day1"
-#define NIGHT1_SEVERE_MEAN FROST_OVERVIEW "test::night1::severe_mean"
+#define NIGHT1_MEAN     "test::night1::mean"
+#define NIGHT1_SEVERE_MEAN "test::night1::severe_mean"
 
-#define NIGHT2_MEAN       FROST_OVERVIEW "test::night2::mean"     // was: "day2"
-#define NIGHT2_SEVERE_MEAN FROST_OVERVIEW "test::night2::severe_mean"
+#define NIGHT2_MEAN     "test::night2::mean"
+#define NIGHT2_SEVERE_MEAN "test::night2::severe_mean"
+
+#define T_SUM_MAX       "test::t_sum_max"
 
 // Story names
 //
 #define STORY_OVERVIEW_TEXT    "overview_text"
 #define STORY_OVERVIEW_NUMERIC "overview_numeric"
-
-#define FROST_STORY_OVERVIEW_NUMERIC "FrostStory::frost_overview_numeric"
 
 namespace TextGen
 {
@@ -74,14 +76,9 @@ namespace TextGen
 	   // ...
 
   private:
-    static bool is_frost_season( const NFmiTime &time );
-#if 0
-    bool is_frost_season() const {
-        return is_frost_season( NFmiTime() /*initializes to current time*/ );
-    }
-#endif
+    bool is_frost_season( const NFmiTime &time ) const;
 
-    static const std::string PREFIX;   // configuration prefix ("textgen::")
+    static const std::string PREFIX;   // configuration prefix ("textgen::frost_overview::")
 
     static int require_int(const std::string &s)        { return ::Settings::require_int(PREFIX+s); }
     static bool require_bool(const std::string &s)      { return ::Settings::require_bool(PREFIX+s); }

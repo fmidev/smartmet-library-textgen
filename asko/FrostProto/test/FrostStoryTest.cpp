@@ -3,11 +3,16 @@
 *       frost_text_overview
 *       frost_numeric_overview
 *
+* NOTE: THIS WAY OF TESTING THE SYSTEM IS _FUNDAMENTALLY_FLAWED_. One should
+*       use actual data, certain times and scenarios to run tests, not telling
+*       "don't look at the data, here are the results". This only tests the
+*       latter part of textgen, NOT the whole tube.     --AKa 30-Jun-2009
+*
 * Author:
 *       AKa 26-Jun-2009
 */
 
-#include "FrostStory.h"
+#include "FrostStoryAk.h"
 
 // These are from 'textgen' includes
 //
@@ -46,11 +51,6 @@ static void require( const TextGen::Story &story,
 
 /*
 * Set the libaries to think these are the frost results.
-*
-* NOTE: THIS WAY OF TESTING THE SYSTEM IS _FUNDAMENTALLY_FLAWED_. One should
-*       use actual data, certain times and scenarios to run tests, not telling
-*       "don't look at the data, here are the results". This only tests the
-*       latter part of textgen, NOT the whole tube.     --AKa 30-Jun-2009
 */
 static void fake_results( const char *normal, const char *severe ) {
     if (normal) {
@@ -251,6 +251,8 @@ static shared_ptr<TextGen::Dictionary> dict( const char *lang ) {
 */
 int main(void)
 {
+    const string PREFIX= "textgen::" FROST_OVERVIEW;
+
     // This SHOULD come from '/smartmet/cnf/fmi.conf' automatically, but for some reason
     // does not seem to.
     //
@@ -265,10 +267,10 @@ int main(void)
     NFmiSettings::Set( "textgen::coordinates", "/smartmet/share/coordinates/kaikki.txt" );
 #endif
     
-	NFmiSettings::Set( SEASON_START, "200004010000" );    // year does not count
-	NFmiSettings::Set( SEASON_END,   "200009300000" );    // year does not count
+	NFmiSettings::Set( PREFIX+SEASON_START, "200004010000" );    // year does not count
+	NFmiSettings::Set( PREFIX+SEASON_END,   "200009300000" );    // year does not count
 
-	NFmiSettings::Set( PRECISION, "10" );
+	NFmiSettings::Set( PREFIX+PRECISION, "10" );
 
     cout << endl
 	   << "FrostStory tests" << endl
@@ -279,8 +281,6 @@ int main(void)
 	FI.dictionary( dict("fi") );
 	SV.dictionary( dict("sv") );
 	EN.dictionary( dict("en") );
-
-    NFmiSettings::Set("textgen::frostseason","true");
 
     tests t;
     return t.run();

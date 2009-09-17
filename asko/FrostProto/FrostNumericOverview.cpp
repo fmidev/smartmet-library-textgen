@@ -7,7 +7,7 @@
  */
 // ======================================================================
 
-#include "FrostStory.h"
+#include "FrostStoryAk.h"
 
 // Textgen headers
 //
@@ -43,11 +43,11 @@ namespace TextGen
   // ----------------------------------------------------------------------
   
   Paragraph FrostStory::overview_numeric( const FrostStory &me ) {
-	MessageLogger log( FROST_STORY_OVERVIEW_NUMERIC );
+	MessageLogger log( FROST_OVERVIEW STORY_OVERVIEW_NUMERIC );
 
 	Paragraph paragraph;
 
-	if (!is_frost_season( NFmiMetTime() )) {   // right now
+	if (!me.is_frost_season( NFmiMetTime() )) {   // right now
 		log << "Not frost season.";
 		return paragraph;
 	  }
@@ -96,8 +96,8 @@ namespace TextGen
 	   forecaster.analyze( (night_index==2) ? NIGHT2_MEAN : NIGHT1_MEAN,
 				           me.itsSources,
 						   WeatherAnalysis::Frost,
-				           WeatherAnalysis::Mean,
-				           WeatherAnalysis::Maximum,
+				           WeatherAnalysis::Mean,       // area function
+				           WeatherAnalysis::Maximum,    // time function
 				           me.itsArea,
 						   night_period );
 
@@ -105,8 +105,8 @@ namespace TextGen
 	   forecaster.analyze( (night_index==2) ? NIGHT2_SEVERE_MEAN : NIGHT1_SEVERE_MEAN,
 				           me.itsSources,
 							WeatherAnalysis::SevereFrost,
-							WeatherAnalysis::Mean,
-							WeatherAnalysis::Maximum,
+							WeatherAnalysis::Mean,       // area function
+							WeatherAnalysis::Maximum,    // time function
 				            me.itsArea,
 							night_period );
 	

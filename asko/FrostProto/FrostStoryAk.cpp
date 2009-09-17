@@ -1,7 +1,10 @@
 // ======================================================================
 /*!
- * \file
- * \brief ..
+ * \file  FrostStoryAk.cpp
+ * \brief FrostStory version by AKa 2009.
+ *
+ * NOTE: Do NOT rename this to 'FrostStory.cpp'; that already exists under
+ *      TextGen all-in-one 'source/' directory!
  */
  
 // ======================================================================
@@ -14,11 +17,13 @@
  */
 // ======================================================================
 
-#include "FrostStory.h"
+#include "FrostStoryAk.h"
 
 #include "AnalysisSources.h"
 #include "Paragraph.h"
 #include "TextGenError.h"
+#include "WeatherResult.h"
+#include "GridForecaster.h"
 
 using namespace std;
 
@@ -51,11 +56,11 @@ static my_story::story_f story_func( const string &name ) {
 
 namespace TextGen
 {
-    const string FrostStory::PREFIX= TEXTGEN;   // configuration prefix ("textgen::")
+    const string FrostStory::PREFIX= "textgen::" FROST_OVERVIEW;   // configuration prefix
 
     /*
     */
-    bool FrostStory::is_frost_season( const NFmiTime &time ) {
+    bool FrostStory::is_frost_season( const NFmiTime &time ) const {
 
         // Jos hallakauden ulkopuolella (pŠivŠmŠŠrŠrajat) tai jos kasvukausi ei ole vielŠ
         // alkanut, ei anneta hallatiedotteita.
@@ -69,14 +74,21 @@ namespace TextGen
             return false;   // hallakauden ulkopuolella
         }
 
-        // Tarkista, onko kasvukausi jo alkanut (onko lŠmpšsumma > 0)
+        // Tarkista, onko kasvukausi jo alkanut (lŠmpšsumma > 0 ainakin yhdessŠ alueen pisteessŠ)
         //
         // 652	EffectiveTemperatureSum		kasvukauden lŠmpšsumma
         //
+	   WeatherAnalysis::GridForecaster forecaster;
 
-        //TBD ...
-
-        return true;
+        WeatherAnalysis::WeatherResult tsum_max= 
+            forecaster.analyze( T_SUM_MAX,
+                                itsSources,
+                                WeatherAnalysis::EffectiveTemperatureSum,
+                                WeatherAnalysis::Maximum,   // area function
+                                WeatherAnalysis::Maximum,   // time function
+                                itsArea,
+                                itsPeriod );
+        return tsum_max.value() > 0;
     }
 
   // ----------------------------------------------------------------------
