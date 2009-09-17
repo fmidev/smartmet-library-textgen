@@ -33,7 +33,8 @@ endif
 
 INCLUDES = \
 	-I /usr/include/mysql \
-    -I $(TEXTGEN)/include -I ..
+	-I .. \
+    -I $(TEXTGEN)/include
 
 LIBS = \
     ../obj/*.o \
@@ -58,7 +59,7 @@ test: $(PROG)
 	done
 	@echo
 
-$(PROG): % : %.cpp ../obj/*.o
+$(PROG): % : %.cpp ../obj/*.o ../*.h ../Makefile
 	g++ -DUNIX -O0 -g $(MAINFLAGS) -o $@ $@.cpp $(INCLUDES) $(LIBS)
 
 .PHONY: test echo all clean

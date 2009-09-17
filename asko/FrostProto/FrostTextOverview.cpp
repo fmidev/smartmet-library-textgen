@@ -1,13 +1,13 @@
 // ======================================================================
 /*!
- * \file ak_FrostTextOverview.cpp
+ * \file FrostTextOverview.cpp
  * \brief Textgen story for one night (following night, or the night after that)
  *
  * Reference: <http://wiki.weatherproof.fi/index.php?title=Textgen:_frost_overview>
  */
 // ======================================================================
 
-#include "ak_FrostStory.h"
+#include "FrostStory.h"
 
 // Textgen headers
 //
@@ -25,14 +25,13 @@
 #include "WeatherResult.h"
 
 using namespace std;
-//using namespace WeatherAnalysis;
 
 using MathTools::to_precision;
 
 
 /*
 */
-static string halla_teksti( int prob, bool is_severe ) {
+static string halla_teksti( unsigned prob, bool is_severe ) {
 
     const char *texts[6][2]= {
         // 0..5%
@@ -72,40 +71,38 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  Paragraph AK_FrostStory::overview_text() const {
-	MessageLogger log("AK_FrostStory::frost_overview_text");
+  Paragraph FrostStory::overview_text( const FrostStory &me ) {
+	MessageLogger log("FrostStory::frost_overview_text");
 
 	Paragraph paragraph;
 
-	if (!is_frost_season()) {
-		log << "Frost season is not on";
+	if (!is_frost_season( NFmiTime() )) {
+		log << "Not frost season.";
 		return paragraph;
 	  }
 
-#ifdef NIGHT_START_HOUR
 	const int starthour    = optional_hour( NIGHT_START_HOUR, 18 );
 	const int endhour      = optional_hour( NIGHT_END_HOUR, 8 );
-#endif
 
 	const int precision = require_percentage( PRECISION );
 
     // Montako yötä periodissa on? (0/1/2)
     //
-	const int nights = WeatherAnalysis::WeatherPeriodTools::countPeriods( itsPeriod,
+	const unsigned nights = WeatherAnalysis::WeatherPeriodTools::countPeriods( me.itsPeriod,
 														 starthour,
 														 endhour,
 														 /*max*/starthour,
 														 /*min*/endhour );
 	if (nights==0) {
-		//log << paragraph;     // (ei siinä vielä mitään ole)
+	   log << "Period has no nights.";
 		return paragraph;
     }
 
     // Kumpi öistä on tarkoitus ottaa?
     //
-    const bool last_night= Settings::optional_bool( LASTNIGHT, false );
+    const unsigned night_index= Settings::optional_bool( SECOND_NIGHT, false ) ? 2:1;
 
-    if (last_night && (nights<2)) {
+    if (nights<night_index) {
         throw TextGenError( "Asking for second night but period only has one." );
     }
 
@@ -113,37 +110,38 @@ namespace TextGen
 
 	WeatherAnalysis::GridForecaster forecaster;
 
-    // TBD: Miksi täällä on tuollaista 'feikkiä'?  --AKa
-    //
-	WeatherAnalysis::WeatherPeriod some = WeatherAnalysis::WeatherPeriodTools::getPeriod( itsPeriod,
-														  last_night ? 2:1,
-														  starthour,
-														  endhour,
-														  /*max*/starthour,
-														  /*min*/endhour );
+	WeatherAnalysis::WeatherPeriod night_period = 
+	   WeatherAnalysis::WeatherPeriodTools::getPeriod( me.itsPeriod,
+													  night_index,
+													  starthour,
+													  endhour,
+													  /*max*/starthour,
+													  /*min*/endhour );
 
-	WeatherAnalysis::WeatherResult frost = forecaster.analyze( last_night ? DAY2_MEAN:DAY1_MEAN,
-											  itsSources,
-											  WeatherAnalysis::Frost,
-											  WeatherAnalysis::Mean,     // TBD: onko tämä oikein?
-											  WeatherAnalysis::Maximum,  // -''-
-											  itsArea,
-											  some );
+	WeatherAnalysis::WeatherResult frost = 
+	   forecaster.analyze( (night_index==2) ? NIGHT2_MEAN : NIGHT1_MEAN,
+				           me.itsSources,
+							WeatherAnalysis::Frost,
+							WeatherAnalysis::Mean,
+							WeatherAnalysis::Maximum,
+							me.itsArea,
+							night_period );
 
-	WeatherAnalysis::WeatherResult severefrost = forecaster.analyze( last_night ? DAY2_SEVERE_MEAN:DAY1_SEVERE_MEAN,
-												    itsSources,
-												    WeatherAnalysis::SevereFrost,
-												    WeatherAnalysis::Mean,      // TBD: onko tämä oikein?
-												    WeatherAnalysis::Maximum,   // -''-
-												    itsArea,
-												    some );
+	WeatherAnalysis::WeatherResult severe_frost = 
+	   forecaster.analyze( (night_index==2) ? NIGHT2_SEVERE_MEAN : NIGHT1_SEVERE_MEAN,
+							me.itsSources,
+							WeatherAnalysis::SevereFrost,
+							WeatherAnalysis::Mean,
+							WeatherAnalysis::Maximum,
+							me.itsArea,
+							night_period );
 	
-	if (frost.value()==kFloatMissing || severefrost.value()==kFloatMissing) {
+	if (frost.value()==kFloatMissing || severe_frost.value()==kFloatMissing) {
         throw TextGenError("Frost is not available");
     }
 
-	log << "Frost Mean(Maximum) for day " << (last_night?2:1) << ": " << frost << endl;
-	log << "SevereFrost Mean(Maximum) for day " << (last_night?2:1) << ": " << severefrost << endl;
+	log << "Frost Mean(Maximum) for night " << night_index << ": " << frost << endl;
+	log << "SevereFrost Mean(Maximum) for night " << night_index << ": " << severe_frost << endl;
 
 /*
 * Tekstuaalisen esityksen teko
@@ -157,14 +155,14 @@ Hallan todennäköisyys 70-80% -> sanonta ""...monin paikoin hallaa"
 Hallan todennäköisyys 90-100% -> sanonta "yleisesti hallaa"
 <<
 */
-	int prob_frost = to_precision( frost.value(), precision );                 // 0|10|20|...|90|100
-	int prob_severe_frost = to_precision( severefrost.value(), precision );    // -''-
+	unsigned prob_frost = to_precision( frost.value(), precision );                 // 0|10|20|...|90|100
+	unsigned prob_severe_frost = to_precision( severe_frost.value(), precision );    // -''-
 
     assert( prob_severe_frost <= prob_frost );      // ankaran osuus on mukana tavallisessa hallassa
 
     Sentence sentence;
 
-    int frost_low_limit= require_int( FROST_LOW_LIMIT );
+    unsigned frost_low_limit= require_int( FROST_LOW_LIMIT );
 
     if ((prob_frost<=5) || (prob_frost < frost_low_limit)) {
         // Say nothing, we're below the low limit

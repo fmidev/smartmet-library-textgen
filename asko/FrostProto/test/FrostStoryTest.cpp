@@ -1,5 +1,5 @@
 /*
-* Test for 'AK_FrostStory' stories:
+* Test for 'FrostStory' stories:
 *       frost_text_overview
 *       frost_numeric_overview
 *
@@ -7,7 +7,7 @@
 *       AKa 26-Jun-2009
 */
 
-#include "ak_FrostStory.h"
+#include "FrostStory.h"
 
 // These are from 'textgen' includes
 //
@@ -32,12 +32,12 @@ static TextGen::PlainTextFormatter FI, SV, EN;
 
 /*
 */  
-static void require( const TextGen::Story & story,
+static void require( const TextGen::Story &story,
 			  const TextGen::PlainTextFormatter &lang,
-			  const string & story_name,
-			  const string & expected ) {
+			  const string &story_name,
+			  const string &expected ) {
 
-	const string value = story.makeStory( story_name ).realize(lang);
+	const string value= story.makeStory(story_name).realize(lang);
 
 	if (value != expected) {
 		TEST_FAILED( value + " != " + expected );
@@ -54,11 +54,11 @@ static void require( const TextGen::Story & story,
 */
 static void fake_results( const char *normal, const char *severe ) {
     if (normal) {
-        NFmiSettings::Set( DAY1_MEAN, normal );
-        NFmiSettings::Set( DAY2_MEAN, normal );
+        NFmiSettings::Set( NIGHT1_MEAN, normal );
+        NFmiSettings::Set( NIGHT2_MEAN, normal );
     } else {
-        NFmiSettings::Set( DAY1_SEVERE_MEAN, severe );
-        NFmiSettings::Set( DAY2_SEVERE_MEAN, severe );
+        NFmiSettings::Set( NIGHT1_SEVERE_MEAN, severe );
+        NFmiSettings::Set( NIGHT2_SEVERE_MEAN, severe );
     }
 }
 
@@ -75,7 +75,7 @@ static void overview_text() {
 	NFmiTime t1(2000,1,1);
 	NFmiTime t2(2000,1,2);
 	WeatherAnalysis::WeatherPeriod period( t1, t2 );
-	TextGen::AK_FrostStory story( t1, sources, area, period );
+	TextGen::FrostStory story( t1, sources, area, period );
 
 	const string id = STORY_OVERVIEW_TEXT;
 
@@ -187,7 +187,7 @@ static void overview_numeric() {
 	NFmiTime t1(2000,1,1);
 	NFmiTime t2(2000,1,2);
 	WeatherAnalysis::WeatherPeriod period( t1, t2 );
-	TextGen::AK_FrostStory story( t1, sources, area, period );
+	TextGen::FrostStory story( t1, sources, area, period );
 
 	const string id = STORY_OVERVIEW_NUMERIC;
 
@@ -271,16 +271,16 @@ int main(void)
 	NFmiSettings::Set( PRECISION, "10" );
 
     cout << endl
-	   << "AK_FrostStory tests" << endl
-	   << "===================" << endl;
+	   << "FrostStory tests" << endl
+	   << "================" << endl;
 
-    // NB: SQL configuration needs to be in place in '/smartmet/cnf/fmi.conf'
+    // NOTE: SQL configuration needs to be in place in '/smartmet/cnf/fmi.conf'
 
 	FI.dictionary( dict("fi") );
 	SV.dictionary( dict("sv") );
 	EN.dictionary( dict("en") );
 
-    NFmiSettings::Set("textgen::ak_frostseason","true");
+    NFmiSettings::Set("textgen::frostseason","true");
 
     tests t;
     return t.run();
