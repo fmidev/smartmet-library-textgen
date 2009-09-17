@@ -125,6 +125,10 @@ namespace WeatherAnalysis
 		  return ReturnType(new RegularParameterAnalyzer("textgen::maximumwind",
 														 "HourlyMaximumWindSpeed"));
 
+		case EffectiveTemperatureSum:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::effectivetemperaturesum",
+														 "EffectiveTemperatureSum"));
+
 	  }
 
 	  // Should never reach this place

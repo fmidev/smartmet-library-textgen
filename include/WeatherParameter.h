@@ -36,7 +36,8 @@ namespace WeatherAnalysis
 	  GustSpeed,
 	  Pressure,
 	  Fog,
-	  MaximumWind
+	  MaximumWind,
+	  EffectiveTemperatureSum
 
 	}; // enum WeatherParameter
 
