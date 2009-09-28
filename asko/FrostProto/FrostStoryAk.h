@@ -41,6 +41,7 @@
 #define NIGHT2_SEVERE_MEAN "test::night2::severe_mean"
 
 #define T_SUM_MAX       "test::t_sum_max"
+#define T_MAX           "test::t_max"
 
 // Story names
 //

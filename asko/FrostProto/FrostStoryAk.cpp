@@ -88,7 +88,26 @@ namespace TextGen
                                 WeatherAnalysis::Maximum,   // time function
                                 itsArea,
                                 itsPeriod );
-        return tsum_max.value() > 0;
+        if (tsum_max.value() <= 0) {
+            return false;
+        }
+
+        // Jos koko alueella pakkasta, ei mainita hallasta.
+        //
+        WeatherAnalysis::WeatherResult t_max= 
+            forecaster.analyze( T_MAX,
+                                itsSources,
+                                WeatherAnalysis::Temperature,
+                                WeatherAnalysis::Maximum,   // area function
+                                WeatherAnalysis::Maximum,   // time function
+                                itsArea,
+                                itsPeriod );
+        
+        if (t_max.value() <= 0) {
+            return false;
+        }
+        
+        return true;
     }
 
   // ----------------------------------------------------------------------
