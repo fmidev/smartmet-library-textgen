@@ -9,7 +9,7 @@
  
 // ======================================================================
 /*!
- * \class TextGen::FrostStory
+ * \class TextGen::FrostStoryAk
  *
  * \brief Generates stories on frost
  *
@@ -25,10 +25,14 @@
 #include "WeatherResult.h"
 #include "GridForecaster.h"
 
+#include <newbase/NFmiMetTime.h>
+
+#include <stdio.h>
+
 using namespace std;
 
 struct my_story {
-    typedef TextGen::Paragraph (*story_f)( const TextGen::FrostStory &me );
+    typedef TextGen::Paragraph (*story_f)( const TextGen::FrostStoryAk &me );
 
     const string name;
     const story_f f;
@@ -37,8 +41,8 @@ struct my_story {
 };
 
 static const my_story known_stories[]= {
-    my_story( STORY_OVERVIEW_TEXT, TextGen::FrostStory::overview_text ),
-    my_story( STORY_OVERVIEW_NUMERIC, TextGen::FrostStory::overview_numeric )
+    my_story( STORY_OVERVIEW_TEXT, TextGen::FrostStoryAk::overview_text ),
+    my_story( STORY_OVERVIEW_NUMERIC, TextGen::FrostStoryAk::overview_numeric )
 };
 
 /*
@@ -54,19 +58,27 @@ static my_story::story_f story_func( const string &name ) {
 }  
 
 
+/*
+*/
+static unsigned jday( const string &yyyymmddhhmm ) {
+
+    NFmiMetTime mt(1);   // 1 min stepping
+    mt.FromStr( yyyymmddhhmm+"00", kYYYYMMDDHHMMSS );
+    return mt.GetJulianDay();
+}
+
+
 namespace TextGen
 {
-    const string FrostStory::PREFIX= "textgen::" FROST_OVERVIEW;   // configuration prefix
-
     /*
     */
-    bool FrostStory::is_frost_season( const NFmiTime &time ) const {
+    bool FrostStoryAk::is_frost_season( const NFmiTime &time ) const {
 
         // Jos hallakauden ulkopuolella (päivämäärärajat) tai jos kasvukausi ei ole vielä
         // alkanut, ei anneta hallatiedotteita.
         //
-        unsigned jd_start= require_time(SEASON_START).GetJulianDay();  // is really: day of year
-        unsigned jd_end= require_time(SEASON_END).GetJulianDay();
+        unsigned jd_start= jday( optional_string(PREFIX, SEASON_START, "200003010000") );   // YYYYMMDDHHMM
+        unsigned jd_end= jday( optional_string(PREFIX, SEASON_END, "200010300000") );
 
         unsigned jd= time.GetJulianDay();
 
@@ -119,7 +131,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  bool FrostStory::hasStory(const string &name)
+  bool FrostStoryAk::hasStory(const string &name)
   {
     return story_func(name) != 0;
   }
@@ -135,14 +147,14 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------.
   
-  const Paragraph FrostStory::makeStory(const string &name) const
+  const Paragraph FrostStoryAk::makeStory(const string &name) const
   {
     my_story::story_f f= story_func(name);
     if (f) {
         return f(*this);
     }
 
-    throw TextGenError("FrostStory cannot make story "+name);
+    throw TextGenError("FrostStoryAk cannot make story "+name);
   }
 
 

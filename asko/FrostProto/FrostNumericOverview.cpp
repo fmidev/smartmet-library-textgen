@@ -42,7 +42,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  Paragraph FrostStory::overview_numeric( const FrostStory &me ) {
+  Paragraph FrostStoryAk::overview_numeric( const FrostStoryAk &me ) {
 	MessageLogger log( FROST_OVERVIEW STORY_OVERVIEW_NUMERIC );
 
 	Paragraph paragraph;
@@ -55,10 +55,10 @@ namespace TextGen
     // Yön pituudet on määritelty storyn konffassa (voisihan ne toki laskeakin jostain,
     // ehkä tässä ei kuitenkaan ole tarkkuudella juuri väliä?)
     //
-	const int starthour = optional_hour( NIGHT_START_HOUR, 18 );
-	const int endhour   = optional_hour( NIGHT_END_HOUR, 8 );
+	const int starthour = optional_hour( me.PREFIX, NIGHT_START_HOUR, 18 );
+	const int endhour   = optional_hour( me.PREFIX, NIGHT_END_HOUR, 8 );
 
-	const int precision = require_percentage( PRECISION );
+	const int precision = require_percentage( me.PREFIX, PRECISION );
 
     // Montako yötä periodissa on? (0/1/2)
     //
@@ -134,12 +134,13 @@ Hallan todennäköisyys 90-100% -> sanonta "yleisesti hallaa"
 
     Sentence sentence;
 
-    int frost_low_limit= require_int( FROST_LOW_LIMIT );
+    int frost_low_limit= require_int( me.PREFIX, FROST_LOW_LIMIT );
+    int severe_low_limit= require_int( me.PREFIX, SEVERE_LOW_LIMIT );
 
     if ((prob_frost<=5) || (prob_frost < frost_low_limit)) {
         // Say nothing, we're below the low limit
 
-    } else if (prob_severe_frost >= prob_frost-10) {
+    } else if ((prob_severe_frost >= prob_frost-10) && (prob_severe_frost >= severe_low_limit)) {
         // Enough severe frost to only report it
         //
         sentence << "ankaran hallan todennäköisyys" << Integer(prob_severe_frost) << "%";
@@ -147,7 +148,7 @@ Hallan todennäköisyys 90-100% -> sanonta "yleisesti hallaa"
     } else {
         sentence << "hallan todennäköisyys" << Integer(prob_frost) << "%";
 
-        if (prob_severe_frost>5) {
+        if (prob_severe_frost>severe_low_limit) {
             // Mention that some of the frost is severe
 
             sentence << "ankaran hallan todennäköisyys" << Integer(prob_severe_frost) << "%";

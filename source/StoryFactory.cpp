@@ -18,6 +18,7 @@
 #include "DewPointStory.h"
 #include "ForestStory.h"
 #include "FrostStory.h"
+#include "FrostStoryAk.h"
 #include "Paragraph.h"
 #include "PrecipitationStory.h"
 #include "PressureStory.h"
@@ -99,6 +100,12 @@ namespace TextGen
 	  if(FrostStory::hasStory(theName))
 		{
 		  FrostStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
+		  return story.makeStory(theName);
+		}
+
+	  if(FrostStoryAk::hasStory(theName))  // AKa 30-Sep-2009
+		{
+		  FrostStoryAk story(theForecastTime,theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 

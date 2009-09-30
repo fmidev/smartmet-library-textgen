@@ -71,7 +71,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  Paragraph FrostStory::overview_text( const FrostStory &me ) {
+  Paragraph FrostStoryAk::overview_text( const FrostStoryAk &me ) {
 	MessageLogger log( FROST_OVERVIEW STORY_OVERVIEW_TEXT );
 
 	Paragraph paragraph;
@@ -81,10 +81,10 @@ namespace TextGen
 		return paragraph;
 	  }
 
-	const int starthour    = optional_hour( NIGHT_START_HOUR, 18 );
-	const int endhour      = optional_hour( NIGHT_END_HOUR, 8 );
+	const int starthour    = optional_hour( me.PREFIX, NIGHT_START_HOUR, 18 );
+	const int endhour      = optional_hour( me.PREFIX, NIGHT_END_HOUR, 8 );
 
-	const int precision = require_percentage( PRECISION );
+	const int precision = require_percentage( me.PREFIX, PRECISION );
 
     // Montako yötä periodissa on? (0/1/2)
     //
@@ -162,12 +162,13 @@ Hallan todennäköisyys 90-100% -> sanonta "yleisesti hallaa"
 
     Sentence sentence;
 
-    unsigned frost_low_limit= require_int( FROST_LOW_LIMIT );
+    unsigned frost_low_limit= require_int( me.PREFIX, FROST_LOW_LIMIT );
+    unsigned severe_low_limit= require_int( me.PREFIX, SEVERE_LOW_LIMIT );
 
     if ((prob_frost<=5) || (prob_frost < frost_low_limit)) {
         // Say nothing, we're below the low limit
 
-    } else if (prob_severe_frost >= prob_frost-10) {
+    } else if ((prob_severe_frost >= prob_frost-10) && (prob_severe_frost >= severe_low_limit)) {
         // Enough severe frost to only report it
         //
         sentence << halla_teksti( prob_severe_frost, true );        
@@ -175,7 +176,7 @@ Hallan todennäköisyys 90-100% -> sanonta "yleisesti hallaa"
     } else {
         sentence << halla_teksti( prob_frost, false );
         
-        if (prob_severe_frost > 5) {
+        if (prob_severe_frost > severe_low_limit) {
             sentence << "joka paikoin on ankaraa";
         }
     }
