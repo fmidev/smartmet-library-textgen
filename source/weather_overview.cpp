@@ -1759,8 +1759,7 @@ namespace TextGen
 			else
 			  {
 				s << WeekdayTools::from_weekday(period.localStartTime())
-				  << "enimmäkseen"
-				  << "poutaa";
+				  << "ajoittain sadetta";
 			  }
 			paragraph << s;
 			day = day2;
