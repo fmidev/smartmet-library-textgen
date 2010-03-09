@@ -129,6 +129,42 @@ namespace WeatherAnalysis
 		  return ReturnType(new RegularParameterAnalyzer("textgen::effectivetemperaturesum",
 														 "EffectiveTemperatureSum"));
 
+		case WaterEquivalentOfSnow:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::waterequivalentofsnow",
+														 "WaterEquivalentOfSnow"));
+
+		case NormalMaxTemperatureF02:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
+														 "NormalMaxTemperatureF02"));
+
+		case NormalMaxTemperatureF12:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
+														 "NormalMaxTemperatureF12"));
+
+
+		case NormalMaxTemperatureF37:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
+														 "NormalMaxTemperatureF37"));
+
+
+		case NormalMaxTemperatureF50:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
+														 "NormalMaxTemperatureF50"));
+
+
+		case NormalMaxTemperatureF63:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
+														 "NormalMaxTemperatureF63"));
+
+
+		case NormalMaxTemperatureF88:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
+														 "NormalMaxTemperatureF88"));
+
+
+		case NormalMaxTemperatureF98:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
+														 "NormalMaxTemperatureF98"));
 	  }
 
 	  // Should never reach this place
