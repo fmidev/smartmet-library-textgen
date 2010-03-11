@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 10.1.15
+Version: 10.3.11
 Release: 1.el5.fmi
 License: FMI
 Group: Development/Libraries
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Mar 11 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.3.11-1.el5.fmi
+- Added PrecipitationRate
 * Fri Jan 15 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.1.15-1.el5.fmi
 - Upgrade to boost 1.41
 * Tue May 12 2009 mheiskan <mika.heiskanen@fmi.fi> - 9.5.12-1.el5.fmi

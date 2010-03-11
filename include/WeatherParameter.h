@@ -37,7 +37,16 @@ namespace WeatherAnalysis
 	  Pressure,
 	  Fog,
 	  MaximumWind,
-	  EffectiveTemperatureSum
+	  EffectiveTemperatureSum,
+	  PrecipitationRate,
+	  WaterEquivalentOfSnow,
+	  NormalMaxTemperatureF02,
+	  NormalMaxTemperatureF12,
+	  NormalMaxTemperatureF37,
+	  NormalMaxTemperatureF50,
+	  NormalMaxTemperatureF63,
+	  NormalMaxTemperatureF88,
+	  NormalMaxTemperatureF98,
 
 	}; // enum WeatherParameter
 

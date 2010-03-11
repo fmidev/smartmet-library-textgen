@@ -129,6 +129,9 @@ namespace WeatherAnalysis
 		  return ReturnType(new RegularParameterAnalyzer("textgen::effectivetemperaturesum",
 														 "EffectiveTemperatureSum"));
 
+		case PrecipitationRate:
+		  return ReturnType(new RegularParameterAnalyzer("textgen::precipitationrate",
+														 "PrecipitationRate"));
 		case WaterEquivalentOfSnow:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::waterequivalentofsnow",
 														 "WaterEquivalentOfSnow"));
@@ -165,6 +168,7 @@ namespace WeatherAnalysis
 		case NormalMaxTemperatureF98:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
 														 "NormalMaxTemperatureF98"));
+
 	  }
 
 	  // Should never reach this place
