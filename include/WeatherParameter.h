@@ -46,7 +46,7 @@ namespace WeatherAnalysis
 	  NormalMaxTemperatureF50,
 	  NormalMaxTemperatureF63,
 	  NormalMaxTemperatureF88,
-	  NormalMaxTemperatureF98,
+	  NormalMaxTemperatureF98
 
 	}; // enum WeatherParameter
 
