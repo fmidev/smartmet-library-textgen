@@ -50,6 +50,7 @@ namespace TextGen
 	const Paragraph weekly_averages() const;
 	const Paragraph day() const;
 	const Paragraph range() const;
+	const Paragraph max36hours() const;
 
 	TemperatureStory();
 	TemperatureStory(const TemperatureStory & theStory);
