@@ -25,13 +25,39 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Destructor
+   */
+  // ----------------------------------------------------------------------
+
+  CountCalculator::~CountCalculator()
+  {
+	delete itsCondition;
+	delete itsAcceptor;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Constructor
    */
   // ----------------------------------------------------------------------
 
   CountCalculator::CountCalculator()
-	: itsAcceptor(new DefaultAcceptor())
-	, itsCondition(new NullAcceptor())
+	: itsAcceptor(new DefaultAcceptor)
+	, itsCondition(new NullAcceptor)
+	, itsCounter(0)
+	, itsTotalCounter(0)
+  {
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Copy constructor
+   */
+  // ----------------------------------------------------------------------
+
+  CountCalculator::CountCalculator(const CountCalculator & other)
+	: itsAcceptor(other.itsAcceptor->clone())
+	, itsCondition(other.itsCondition->clone())
 	, itsCounter(0)
 	, itsTotalCounter(0)
   {
@@ -81,7 +107,7 @@ namespace WeatherAnalysis
 
   void CountCalculator::acceptor(const Acceptor & theAcceptor)
   {
-	itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
+	itsAcceptor = theAcceptor.clone();
   }
 
   // ----------------------------------------------------------------------
@@ -94,7 +120,7 @@ namespace WeatherAnalysis
 
   void CountCalculator::condition(const Acceptor & theCondition)
   {
-	itsCondition = shared_ptr<Acceptor>(theCondition.clone());
+	itsCondition = theCondition.clone();
   }
 
   // ----------------------------------------------------------------------
@@ -103,9 +129,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<Calculator> CountCalculator::clone() const
+  Calculator * CountCalculator::clone() const
   {
-	return boost::shared_ptr<Calculator>(new CountCalculator(*this));
+	return new CountCalculator(*this);
   }
 
   // ----------------------------------------------------------------------

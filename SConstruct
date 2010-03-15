@@ -167,13 +167,8 @@ if RELEASE or PROFILE:
             env.Appendunique( CCFLAGS=["/md", "/ox"] )
     else:
         env.Append( CPPDEFINES="NDEBUG",
-                    CXXFLAGS= ["-O2",
- 
-            # releaseflags from orig. makefile (for 'release' and 'profile' targets)
-            #
-            "-Wuninitialized",
-        ] )
-
+                    CXXFLAGS= ["-O2","-Wuninitialized", ]
+	           )
 
 #
 # profile settings
@@ -242,8 +237,9 @@ else:
         s= os.path.basename( str(fn) )
 	obj_s= OBJDIR+"/"+ s.replace(".cpp","")
 
-        objs += env.Object( obj_s, fn )
         objs_mt += env_mt.Object( obj_s+"_mt", fn )
+
+	objs += env.Object( obj_s, fn )
 
 # make just the static lib (at least it should be default for just 'scons')
 

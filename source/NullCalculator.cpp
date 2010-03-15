@@ -16,8 +16,6 @@
 #include "DefaultAcceptor.h"
 #include "WeatherAnalysisError.h"
 
-using namespace boost;
-
 namespace WeatherAnalysis
 {
 
@@ -64,9 +62,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<Calculator> NullCalculator::clone() const
+  Calculator * NullCalculator::clone() const
   {
-	return boost::shared_ptr<Calculator>(new NullCalculator(*this));
+	return new NullCalculator(*this);
   }
 
   // ----------------------------------------------------------------------

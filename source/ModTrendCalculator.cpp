@@ -111,9 +111,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<Calculator> ModTrendCalculator::clone() const
+  Calculator * ModTrendCalculator::clone() const
   {
-	return boost::shared_ptr<Calculator>(new ModTrendCalculator(*this));
+	return new ModTrendCalculator(*this);
   }
 
   // ----------------------------------------------------------------------

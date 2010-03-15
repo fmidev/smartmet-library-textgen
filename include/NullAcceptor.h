@@ -16,9 +16,9 @@ namespace WeatherAnalysis
   {
   public:
 
-	virtual ~NullAcceptor() { }
+	virtual ~NullAcceptor();
 	virtual bool accept(float theValue) const;
-	virtual boost::shared_ptr<Acceptor> clone() const;
+	virtual Acceptor * clone() const;
 
   }; // class NullAcceptor
 } // namespace WeatherAnalysis

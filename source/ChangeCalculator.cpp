@@ -92,9 +92,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<Calculator> ChangeCalculator::clone() const
+  Calculator * ChangeCalculator::clone() const
   {
-	return boost::shared_ptr<Calculator>(new ChangeCalculator(*this));
+	return new ChangeCalculator(*this);
   }
 
   // ----------------------------------------------------------------------

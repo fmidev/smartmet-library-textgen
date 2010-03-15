@@ -102,9 +102,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<Calculator> StandardDeviationCalculator::clone() const
+  Calculator * StandardDeviationCalculator::clone() const
   {
-	return boost::shared_ptr<Calculator>(new StandardDeviationCalculator(*this));
+	return new StandardDeviationCalculator(*this);
   }
 
   // ----------------------------------------------------------------------

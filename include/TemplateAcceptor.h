@@ -26,7 +26,7 @@ namespace WeatherAnalysis
 	  return itsFunctor(theValue);
 	}
 
-	virtual boost::shared_ptr<Acceptor> clone() const
+	virtual Acceptor * clone() const
 	{
 	  return new TemplateAcceptor(*this);
 	}

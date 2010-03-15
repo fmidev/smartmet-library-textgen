@@ -23,7 +23,7 @@ namespace WeatherAnalysis
 	virtual void operator()(float theValue);
 	virtual float operator()() const;
 	virtual void acceptor(const Acceptor & theAcceptor);
-	virtual boost::shared_ptr<Calculator> clone() const;
+	virtual Calculator * clone() const;
 	virtual void reset();
 
   private:

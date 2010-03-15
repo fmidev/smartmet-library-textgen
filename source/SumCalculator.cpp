@@ -87,9 +87,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<Calculator> SumCalculator::clone() const
+  Calculator * SumCalculator::clone() const
   {
-	return boost::shared_ptr<Calculator>(new SumCalculator(*this));
+	return new SumCalculator(*this);
   }
 
   // ----------------------------------------------------------------------

@@ -18,7 +18,7 @@ namespace WeatherAnalysis
 
 	virtual ~RangeAcceptor() { }
 	virtual bool accept(float theValue) const;
-	virtual boost::shared_ptr<Acceptor> clone() const;
+	virtual Acceptor * clone() const;
 
 	RangeAcceptor();
 	void lowerLimit(float theLimit);

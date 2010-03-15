@@ -90,9 +90,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<Calculator> MaximumCalculator::clone() const
+  Calculator * MaximumCalculator::clone() const
   {
-	return boost::shared_ptr<Calculator>(new MaximumCalculator(*this));
+	return new MaximumCalculator(*this);
   }
 
   // ----------------------------------------------------------------------

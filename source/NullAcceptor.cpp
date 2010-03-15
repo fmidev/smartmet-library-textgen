@@ -18,15 +18,18 @@
 namespace WeatherAnalysis
 {
 
+  NullAcceptor::~NullAcceptor()
+  { }
+
   // ----------------------------------------------------------------------
   /*!
    * \brief Clone
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<Acceptor> NullAcceptor::clone() const
+  Acceptor * NullAcceptor::clone() const
   {
-	return boost::shared_ptr<Acceptor>(new NullAcceptor(*this));
+	return new NullAcceptor;
   }
 
   // ----------------------------------------------------------------------
@@ -37,7 +40,7 @@ namespace WeatherAnalysis
    *
    * \param theValue The value to be accepted
    * \return True if the value is accepted
-   */
+   */ 
   // ----------------------------------------------------------------------
 
   bool NullAcceptor::accept(float theValue) const
