@@ -23,9 +23,6 @@
 #include "WeatherPeriodTools.h"
 #include "PositiveValueAcceptor.h"
 #include "ComparativeAcceptor.h"
-#include "FinlandProvinceTools.h"
-#include "ClimatologyTools.h"
-#include "GridClimatology.h"
 
 #include <map>
 #include <newbase/NFmiStringTools.h>
@@ -112,7 +109,6 @@ namespace TextGen
 														 night_frost, 
 														 INLAND_AREA);
 	  
-	  
 	  // if coastal or inland area is missing, read story from story selection table diagonal
 	  if(!(forecast_areas & COASTAL_AREA))
 		categoryCoastal = categoryInland;
@@ -139,9 +135,9 @@ namespace TextGen
 		  if(categoryInland == CAT_NA || categoryInland == CAT_0010 || categoryInland == CAT_FROST)
 			return EMPTY_STORY;
 		  else if(categoryInland == CAT_1020)
-			return SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA;
+			return ALAVILLA_MAILLA_HALLAN_VAARA;
 		  else if(categoryInland == CAT_3040)
-			return SISAMAASSA_MAHDOLLISESTI_HALLAA;
+			return MAHDOLLISESTI_HALLAA;
 		  else if(categoryInland == CAT_5060)
 			return SISAMAASSA_PAIKOIN_HALLAA;
 		  else if(categoryInland == CAT_7080)
@@ -152,7 +148,7 @@ namespace TextGen
 	  else if(categoryCoastal == CAT_1020)
 		{
 		  if(categoryInland == CAT_NA)
-			return RANNIKOLLA_HALLAN_VAARA;
+			return RANNIKOLLA_MAHDOLLISESTI_HALLAA;
 		  else if(categoryInland == CAT_0010 ||categoryInland == CAT_1020)
 			return ALAVILLA_MAILLA_HALLAN_VAARA;
 		  else if(categoryInland == CAT_3040)
@@ -186,14 +182,12 @@ namespace TextGen
 		{
 		  if(categoryInland == CAT_NA || categoryInland == CAT_0010)
 			return RANNIKOLLA_PAIKOIN_HALLAA;
-		  else if(categoryInland == CAT_1020)
-			return (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100) + RANNIKOLLA_PAIKOIN_HALLAA;
-		  else if(categoryInland == CAT_3040 || categoryInland == CAT_5060)
+		  else if(categoryInland == CAT_1020 || categoryInland == CAT_3040 || categoryInland == CAT_5060)
 			return PAIKOIN_HALLAA;
 		  else if(categoryInland == CAT_7080)
 			return MONIN_PAIKOIN_HALLAA;
 		  else if(categoryInland == CAT_90100)
-			return (SISAMAASSA_YLEISESTI_HALLAA*100) + RANNIKOLLA_PAIKOIN_HALLAA;
+			return HALLAA_YLEISESTI;
 		  else if(categoryInland == CAT_FROST)
 			return EMPTY_STORY;
 		}
@@ -206,7 +200,7 @@ namespace TextGen
 		  else if(categoryInland == CAT_3040)
 			return (RANNIKOLLA_MONIN_PAIKOIN_HALLAA*100) + SISAMAASSA_MAHDOLLISESTI_HALLAA;
 		  else if(categoryInland == CAT_5060)
-			return (SISAMAASSA_PAIKOIN_HALLAA*100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA;
+			return PAIKOIN_HALLAA;
 		  else if(categoryInland == CAT_7080)
 			return MONIN_PAIKOIN_HALLAA;
 		  else if(categoryInland == CAT_90100)
@@ -221,12 +215,10 @@ namespace TextGen
 		  else if(categoryInland == CAT_1020)
 			return (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100) + RANNIKOLLA_HALLAA;
 		  else if(categoryInland == CAT_3040)
-			return (SISAMAASSA_MAHDOLLISESTI_HALLAA*100) + RANNIKOLLA_HALLAA;
+			return (RANNIKOLLA_HALLAA*100) + SISAMAASSA_MAHDOLLISESTI_HALLAA;
 		  else if(categoryInland == CAT_5060)
-			return (SISAMAASSA_PAIKOIN_HALLAA*100) + RANNIKOLLA_HALLAA;
-		  else if(categoryInland == CAT_7080)
-			return (SISAMAASSA_MONIN_PAIKOIN_HALLAA*100) + RANNIKOLLA_HALLAA;
-		  else if(categoryInland == CAT_90100)
+			return (RANNIKOLLA_HALLAA*100) + SISAMAASSA_PAIKOIN_HALLAA;
+		  else if(categoryInland == CAT_7080 || categoryInland == CAT_90100)
 			return HALLAA_YLEISESTI;
 		  else if(categoryInland == CAT_FROST)
 			return EMPTY_STORY;
@@ -238,8 +230,8 @@ namespace TextGen
 	  return EMPTY_STORY;
 	}
 	
-	
-	Sentence get_frost_onenight_phrase(const int& phraseId)
+	Sentence get_frost_onenight_phrase(const int& phraseId,
+									   const bool& tellSevereFrostStory)
 	{
 	  Sentence sentence;
 	  
@@ -268,16 +260,26 @@ namespace TextGen
 		case MONIN_PAIKOIN_HALLAA:
 		  {
 			sentence << "monin paikoin" << "hallaa"; 
+			if(tellSevereFrostStory)
+			  {
+				sentence << Delimiter(",");
+				sentence << "joka voi olla ankaraa";
+			  }
 		  }
 		  break;
 		case HALLAA_YLEISESTI:
 		  {
-			sentence << "hallaa" << "yleisesti"; 
+			sentence << "hallaa"; 
+			if(tellSevereFrostStory)
+			  {
+				sentence << Delimiter(",");
+				sentence << "joka voi olla ankaraa";
+			  }
 		  }
 		  break;
 		case YOPAKKASTA:
 		  {
-			sentence << "yöpakkasta";
+			sentence << "";
 		  }
 		  break;
 		case RANNIKOLLA_HALLAN_VAARA:
@@ -298,11 +300,21 @@ namespace TextGen
 		case RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
 		  {
 			sentence << "rannikolla" << "monin paikoin" << "hallaa"; 
+			if(tellSevereFrostStory)
+			  {
+				sentence << Delimiter(",");
+				sentence << "joka voi olla ankaraa";
+			  }
 		  }
 		  break;
 		case RANNIKOLLA_HALLAA:
 		  {
 			sentence << "rannikolla" << "hallaa"; 
+			if(tellSevereFrostStory)
+			  {
+				sentence << Delimiter(",");
+				sentence << "joka voi olla ankaraa";
+			  }
 		  }
 		  break;
 		case SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA:
@@ -323,23 +335,43 @@ namespace TextGen
 		case SISAMAASSA_MONIN_PAIKOIN_HALLAA:
 		  {
 			sentence << "sisämaassa" << "monin paikoin" << "hallaa"; 
+			if(tellSevereFrostStory)
+			  {
+				sentence << Delimiter(",");
+				sentence << "joka voi olla ankaraa";
+			  }
 		  }
 		  break;
 		case SISAMAASSA_YLEISESTI_HALLAA:
 		  {
-			sentence << "sisämaassa" << "yleisesti" << "hallaa"; 
+			sentence << "sisämaassa" << "hallaa"; 
+			if(tellSevereFrostStory)
+			  {
+				sentence << Delimiter(",");
+				sentence << "joka voi olla ankaraa";
+			  }
 		  }
 		  break;
 		case (SISAMAASSA_MONIN_PAIKOIN_HALLAA*100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA:
 		  {
-			sentence << "sisämaassa" << "monin paikoin" << "hallaa" << Delimiter(",") 
-					 << "rannikolla" << "mahdollisesti" << "hallaa";  
+			sentence << "sisämaassa" << "monin paikoin" << "hallaa" << Delimiter(",");
+			if(tellSevereFrostStory)
+			  {
+				sentence << "joka voi olla ankaraa";
+				sentence << Delimiter(",");
+			  }
+			 sentence << "rannikolla" << "mahdollisesti" << "hallaa";  
 		  }
 		  break;
 		case (SISAMAASSA_YLEISESTI_HALLAA*100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA:
 		  {
-			sentence << "sisämaassa" << "yleisesti" << "hallaa" << Delimiter(",") 
-					 << "rannikolla" << "mahdollisesti" << "hallaa";  
+			sentence << "sisämaassa" << "hallaa" << Delimiter(","); 
+			if(tellSevereFrostStory)
+			  {
+				sentence << "joka voi olla ankaraa";
+				sentence << Delimiter(",");
+			  }
+			 sentence << "rannikolla" << "mahdollisesti" << "hallaa";  
 		  }
 		  break;
 		case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100) + RANNIKOLLA_PAIKOIN_HALLAA:
@@ -350,50 +382,79 @@ namespace TextGen
 		  break;
 		case (SISAMAASSA_YLEISESTI_HALLAA*100) + RANNIKOLLA_PAIKOIN_HALLAA:
 		  {
-			sentence << "sisämaassa" << "yleisesti" << "hallaa" << Delimiter(",") 
-					 << "rannikolla" << "monin paikoin" << "hallaa";  
+			sentence << "sisämaassa" << "hallaa" << Delimiter(",");
+			if(tellSevereFrostStory)
+			  {
+				sentence << "joka voi olla ankaraa";
+				sentence << Delimiter(",");
+			  }
+			sentence << "rannikolla" << "monin paikoin" << "hallaa";  
 		  }
 		  break;
 		case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
 		  {
 			sentence << "sisämaassa" << "alavilla mailla" << "hallan vaara" << Delimiter(",") 
-					 << "rannikolla" << "monin paikoin" << "hallaa";  
+					 << "rannikolla" << "monin paikoin" << "hallaa";
+			if(tellSevereFrostStory)
+			  {
+				sentence << Delimiter(",");
+				sentence << "joka voi olla ankaraa";
+			  }  
 		  }
 		  break;
 		case (RANNIKOLLA_MONIN_PAIKOIN_HALLAA*100) + SISAMAASSA_MAHDOLLISESTI_HALLAA:
 		  {
-			sentence << "rannikolla" << "monin paikoin" << "hallaa" << Delimiter(",") 
-					 << "sisämaassa" << "mahdollisesti" << "hallaa";
+			sentence << "rannikolla" << "monin paikoin" << "hallaa" << Delimiter(",");
+			if(tellSevereFrostStory)
+			  {
+				sentence << "joka voi olla ankaraa";
+				sentence << Delimiter(",");
+			  }
+			 sentence << "sisämaassa" << "mahdollisesti" << "hallaa";
 		  }
 		  break;
 		case (SISAMAASSA_PAIKOIN_HALLAA*100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
 		  {
 			sentence << "sisämaassa" << "paikoin" << "hallaa" << Delimiter(",") 
 					 << "rannikolla" << "monin paikoin" << "hallaa";  
+			if(tellSevereFrostStory)
+			  {
+				sentence << Delimiter(",");
+				sentence << "joka voi olla ankaraa";
+			  }
 		  }
 		  break;
 		case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100) + RANNIKOLLA_HALLAA:
 		  {
 			sentence << "sisämaassa" << "alavilla mailla" << "hallan vaara" << Delimiter(",") 
 					 << "rannikolla" << "hallaa";  
+			if(tellSevereFrostStory)
+			  {
+				sentence << Delimiter(",");
+				sentence << "joka voi olla ankaraa";
+			  }
 		  }
 		  break;
 		case (RANNIKOLLA_HALLAA*100) + SISAMAASSA_MAHDOLLISESTI_HALLAA:
 		  {
-			sentence << "rannikolla" << "hallaa" << Delimiter(",") 
-					 << "sisämaassa" << "mahdollisesti" << "hallaa";
+			sentence << "rannikolla" << "hallaa" << Delimiter(",");
+			if(tellSevereFrostStory)
+			  {
+				sentence << "joka voi olla ankaraa";
+				sentence << Delimiter(",");
+			  }
+			sentence << "sisämaassa" << "mahdollisesti" << "hallaa";
 		  }
 		  break;
 		case (RANNIKOLLA_HALLAA*100) + SISAMAASSA_PAIKOIN_HALLAA:
 		  {
-			sentence  << "rannikolla" << "hallaa" << Delimiter(",") 
-					  << "sisämaassa" << "paikoin" << "hallaa";
-		  }
-		  break;
-		case (RANNIKOLLA_HALLAA*100) + SISAMAASSA_MONIN_PAIKOIN_HALLAA:
-		  {
-			sentence  << "rannikolla" << "hallaa" << Delimiter(",") 
-					  << "sisämaassa" << "monin paikoin" << "hallaa";
+			sentence  << "rannikolla" << "hallaa" << Delimiter(",");
+			if(tellSevereFrostStory)
+			  {
+				sentence << "joka voi olla ankaraa";
+				sentence << Delimiter(",");
+			  }
+			sentence << "sisämaassa" << "paikoin" << "hallaa";
 		  }
 		  break;
 		default:
@@ -407,6 +468,8 @@ namespace TextGen
 
 	const Sentence frost_onenight_sentence(const double& coastalFrostProbability, 
 										   const double& inlandFrostProbability, 
+										   const bool& severeFrostCoastal, 
+										   const bool& severeFrostInland, 
 										   const unsigned short& forecast_areas, 
 										   const unsigned short& growing_season_started, 
 										   const unsigned short& night_frost)
@@ -419,14 +482,15 @@ namespace TextGen
 												  growing_season_started, 
 												  night_frost);
 
-	  sentence << get_frost_onenight_phrase(phraseId);
+	  sentence << get_frost_onenight_phrase(phraseId, severeFrostCoastal || severeFrostInland);
 
 	  return sentence;
 	}
 	
 	const bool is_night_frost(MessageLogger& log, 
 							  const std::string& theLogMessage, 
-							  const std::string& theFakeVariable, 
+							  const std::string& theFakeVariable,
+							  const double& theNightFrostLimit,
 							  const GridForecaster& forecaster, 
 							  const AnalysisSources& theSources, 
 							  const WeatherArea& theArea, 
@@ -447,7 +511,7 @@ namespace TextGen
 	  log << NFmiStringTools::Convert(theLogMessage) << nightFrostPercentage << endl;
 
 	  // At least 20% of the area has night frost
-	  bool retval = nightFrostPercentage.value() != kFloatMissing && nightFrostPercentage.value() >= 20.0;
+	  bool retval = nightFrostPercentage.value() != kFloatMissing && nightFrostPercentage.value() >= theNightFrostLimit;
 	  
 	  return retval;
 	}
@@ -469,23 +533,24 @@ namespace TextGen
 	Paragraph paragraph;
 	GridForecaster forecaster;
 
-	/*
-	if(!FrostStoryTools::is_frost_season())
-	  {
-		log << "Frost season is not on";
-		return paragraph;
-	  }
-	*/
-
 	const int starthour    = Settings::require_hour(itsVar+"::night::starthour");
 	const int endhour      = Settings::require_hour(itsVar+"::night::endhour");
-	const double growing_season_percentage = Settings::require_double(itsVar+"::growing_season_percentage");
 	const int maxstarthour = Settings::optional_hour(itsVar+"::night::maxstarthour", starthour);
 	const int minendhour   = Settings::optional_hour(itsVar+"::night::minendhour",endhour);
 
+	const double required_night_frost_percentage = Settings::require_double(itsVar+"::required_night_frost_percentage");
+	const double required_severe_frost_probability = Settings::require_double(itsVar+"::required_severe_frost_probability");
+	std::string parameter_name(itsVar+"::required_growing_season_percentage::default");
+	if(itsArea.isNamed() && (Settings::isset(itsVar+"::required_growing_season_percentage::"+itsArea.name())))
+	  parameter_name = itsVar+"::required_growing_season_percentage::"+itsArea.name();
+
+	const double required_growing_season_percentage = Settings::require_double(parameter_name);
+												 
 	log << "starthour " << starthour << endl;
 	log << "endhour " << endhour << endl;
-	log << "growing_season_percentage " << growing_season_percentage << endl;
+	log << "required_growing_season_percentage " << required_growing_season_percentage << endl;
+	log << "required_night_frost_percentage " << required_night_frost_percentage << endl;
+	log << "required_severe_frost_probability " << required_severe_frost_probability << endl;
 	log << "maxstarthour " << maxstarthour << endl;
 	log << "minendhour " << minendhour << endl;
 
@@ -512,9 +577,8 @@ namespace TextGen
 	WeatherArea inlandArea = itsArea;
 	inlandArea.type(WeatherArea::Inland);
 
-
 	PositiveValueAcceptor positiveValueAcceptor;
-	WeatherResult temperatureSumCoastal = forecaster.analyze(itsVar+"::fake::temperaturesumcoastal::percentage::max",
+	WeatherResult temperatureSumCoastal = forecaster.analyze(itsVar+"::fake::growing_season_percentange::coastal",
 											 itsSources,
 											 EffectiveTemperatureSum,
 											 Percentage,
@@ -525,29 +589,13 @@ namespace TextGen
 											 DefaultAcceptor(),
 											 positiveValueAcceptor);
 
-	log << "EffectiveTemperatureSum_Percentage_Maximum Coastal " << temperatureSumCoastal << endl;
+	log << "actual growing season percentage, coastal: " << temperatureSumCoastal << endl;
 
-	// At least for 1/3 of the area growing season has started
+	// Test if the growing season has started at coastal area
 	bool growingSeasonCoastal = temperatureSumCoastal.value() != kFloatMissing && 
-	  temperatureSumCoastal.value() >= growing_season_percentage;
+	  temperatureSumCoastal.value() >= required_growing_season_percentage;
 
-	/*
-	if(growingSeasonCoastal)
-	  {
-		WeatherResult waterEquivalentOfSnowMeanMeanCoastal = forecaster.analyze(itsVar+"::fake::coastal::waterequivalentofsnowcoastal::mean::mean",
-												   itsSources,
-												   WaterEquivalentOfSnow,
-												   Mean,
-												   Mean,
-												   coastalArea,
-												   night1);
-
-		log << "WaterEquivalentOfSnow_Mean_Mean Coastal " << waterEquivalentOfSnowMeanMeanCoastal << endl;
-
-		growingSeasonCoastal = waterEquivalentOfSnowMeanMeanCoastal.value() < 1.0;
-	  }
-	*/
-	WeatherResult temperatureSumInland = forecaster.analyze(itsVar+"::fake::temperaturesuminland::percentage::max",
+	WeatherResult temperatureSumInland = forecaster.analyze(itsVar+"::fake::growing_season_percentange::inland",
 											 itsSources,
 											 EffectiveTemperatureSum,
 											 Percentage,
@@ -558,29 +606,13 @@ namespace TextGen
 											 DefaultAcceptor(),
 											 positiveValueAcceptor);
 
-	log << "EffectiveTemperatureSum_Percentage_Maximum Inland " << temperatureSumInland << endl;
+	log << "actual growing season percentage, inland: " << temperatureSumInland << endl;
 
-	// at least for 1/3 of the area growing season has started
+	// Test if the growing season has started at inland area
+
 	bool growingSeasonInland = temperatureSumInland.value() != kFloatMissing && 
-	  temperatureSumInland.value() >= growing_season_percentage;
+	  temperatureSumInland.value() >= required_growing_season_percentage; 
 
-	/*
-	if(growingSeasonInland)
-	  {
-		WeatherResult waterEquivalentOfSnowMeanMeanInland = forecaster.analyze(itsVar+"::fake::coastal::waterequivalentofsnowinland::mean::mean",
-												   itsSources,
-												   WaterEquivalentOfSnow,
-												   Minimum,
-												   Minimum,
-												   inlandArea,
-												   night1);
-
-		log << "WaterEquivalentOfSnow_Mean_Mean Inaland " << waterEquivalentOfSnowMeanMeanInland << endl;
-
-		growingSeasonInland = waterEquivalentOfSnowMeanMeanInland.value() < 1.0;
-	  }
-
-	*/
 	unsigned short growing_season_started = 0x0;
 	unsigned short forecast_areas = 0x0;
 	unsigned short night_frost = 0x0;
@@ -610,48 +642,26 @@ namespace TextGen
 	// coastal area is included and growing season has started
 	if((forecast_areas & COASTAL_AREA) && (growing_season_started & COASTAL_AREA))
 	  {
-
-		temperatureMinMinCoastal = forecaster.analyze(itsVar+"::fake::coastal::temperature::min::min",
-												   itsSources,
-												   Temperature,
-												   Minimum,
-												   Minimum,
-												   coastalArea,
-												   night1);
-
-		night_frost |= (temperatureMinMinCoastal.value() < 0 ? COASTAL_AREA : 0x0); 
-
-		log << "Temperature_Minimum_Minimum Coastal: " << temperatureMinMinCoastal << endl;
-
 		bool isNightFrost =  is_night_frost(log, 
-											"Temperature_Percentage_Minimum Coastal: ",
-											itsVar+"::fake::coastal::temperature::percentage::min",
+											"actual night frost percentage, coastal: ",
+											itsVar+"::fake::night_frost_percentage::coastal",
+											required_night_frost_percentage,
 											forecaster, 
 											itsSources, 
 											coastalArea, 
 											night1);
 
 		night_frost |= (isNightFrost ? COASTAL_AREA : 0x0); 
+
 	  }
 
 	// inland area is included and growing season has started
 	if((forecast_areas & INLAND_AREA) && (growing_season_started & INLAND_AREA))
 	  {
-		temperatureMinMinInland = forecaster.analyze(itsVar+"::fake::inland::temperature::min::min",
-												  itsSources,
-												  Temperature,
-												  Minimum,
-												  Minimum,
-												  inlandArea,
-												  night1);
-
-		night_frost |= (temperatureMinMinInland.value() < 0 ? INLAND_AREA : 0x0); 
-
-		log << "Temperature_Minimum_Minimum Inland: " << temperatureMinMinInland << endl;
-
 		bool isNightFrost =  is_night_frost(log, 
-											"Temperature_Percentage_Minimum Inland: ",
-											itsVar+"::fake::coastal::temperature::percentage::min",
+											"actual night frost percentage, inland: ",
+											itsVar+"::fake::night_frost_percentage::inland",
+											required_night_frost_percentage,
 											forecaster, 
 											itsSources, 
 											inlandArea, 
@@ -679,7 +689,7 @@ namespace TextGen
 		   (growing_season_started & COASTAL_AREA) && 
 		   !(night_frost & COASTAL_AREA)) 
 		  {
-			frostMaxMaxCoastal = forecaster.analyze(itsVar+"::fake::coastal::frost::max::max",
+			frostMaxMaxCoastal = forecaster.analyze(itsVar+"::fake::frost_probability::coastal",
 										  itsSources,
 										  Frost,
 										  Maximum,
@@ -692,7 +702,7 @@ namespace TextGen
 			// if frost probability >= 70%, then examine severe frost probabailty
 			if(frostMaxMaxCoastal.value() >= 70.0)
 			  {
-				severeFrostMaxMaxCoastal = forecaster.analyze(itsVar+"::fake::coastal::severefrost::max::max",
+				severeFrostMaxMaxCoastal = forecaster.analyze(itsVar+"::fake::severe_frost_probability::coastal",
 														itsSources,
 														SevereFrost,
 														Maximum,
@@ -710,7 +720,7 @@ namespace TextGen
 		   (growing_season_started & INLAND_AREA) && 
 		   !(night_frost & INLAND_AREA))
 		  {
-			frostMaxMaxInland = forecaster.analyze(itsVar+"::fake::inland::frost::max::max",
+			frostMaxMaxInland = forecaster.analyze(itsVar+"::fake::frost_probability::inland",
 										 itsSources,
 										 Frost,
 										 Maximum,
@@ -723,7 +733,7 @@ namespace TextGen
 			// if frost probability >= 70%, then examine severe frost probabailty
 			if(frostMaxMaxInland.value() >= 70.0)
 			  {
-				severeFrostMaxMaxInland = forecaster.analyze(itsVar+"::fake::inland::severefrost::max::max",
+				severeFrostMaxMaxInland = forecaster.analyze(itsVar+"::fake::severe_frost_probability::inland",
 															 itsSources,
 															 SevereFrost,
 															 Maximum,
@@ -739,10 +749,17 @@ namespace TextGen
 		log << "growing_season_started:  " << growing_season_started << endl;
 		log << "night_frost:  " << night_frost << endl;
 
-		paragraph << frost_onenight_sentence(frostMaxMaxCoastal.value(), 
-											 frostMaxMaxInland.value(), 
-											 forecast_areas, 
-											 growing_season_started, 
+		bool is_severe_frost_coastal = (severeFrostMaxMaxCoastal.value() > required_severe_frost_probability &&
+										severeFrostMaxMaxCoastal.value() <= 100);
+		bool is_severe_frost_inland = (severeFrostMaxMaxInland.value() > required_severe_frost_probability &&
+										severeFrostMaxMaxInland.value() <= 100);
+
+		paragraph << frost_onenight_sentence(frostMaxMaxCoastal.value(),
+											 frostMaxMaxInland.value(),
+											 is_severe_frost_coastal,
+											 is_severe_frost_inland,
+											 forecast_areas,
+											 growing_season_started,
 											 night_frost);
 	  }
 
