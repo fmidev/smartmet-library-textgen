@@ -763,6 +763,222 @@ namespace TemperatureStoryTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test TemperatureStory::max36_hours()
+   */
+  // ----------------------------------------------------------------------
+	struct Max36HoursTestParam 
+	{
+	  Max36HoursTestParam(const char* d1_inlandmin,
+						  const char* d1_inlandmax,
+						  const char* d1_inlandmean,
+						  const char* d1_coastmin,
+						  const char* d1_coastmax,
+						  const char* d1_coastmean,
+						  const char* d1_areamin,
+						  const char* d1_areamax,
+						  const char* d1_areamean,
+
+						  const char* nite_inlandmin,
+						  const char* nite_inlandmax,
+						  const char* nite_inlandmean,
+						  const char* nite_coastmin,
+						  const char* nite_coastmax,
+						  const char* nite_coastmean,
+						  const char* nite_areamin,
+						  const char* nite_areamax,
+						  const char* nite_areamean,
+
+						  const char* d2_inlandmin,
+						  const char* d2_inlandmax,
+						  const char* d2_inlandmean,
+						  const char* d2_coastmin,
+						  const char* d2_coastmax,
+						  const char* d2_coastmean,
+						  const char* d2_areamin,
+						  const char* d2_areamax,
+						  const char* d2_areamean,
+
+						  const char* story)
+	  {
+		t36h_d1_inlandmin = d1_inlandmin;
+		t36h_d1_inlandmax = d1_inlandmax;
+		t36h_d1_inlandmean = d1_inlandmean;
+		t36h_d1_coastmin = d1_coastmin;
+		t36h_d1_coastmax = d1_coastmax;
+		t36h_d1_coastmean = d1_coastmean;
+		t36h_d1_areamin = d1_areamin;
+		t36h_d1_areamax = d1_areamax;
+		t36h_d1_areamean = d1_areamean;
+
+		t36h_nite_inlandmin = nite_inlandmin;
+		t36h_nite_inlandmax = nite_inlandmax;
+		t36h_nite_inlandmean = nite_inlandmean;
+		t36h_nite_coastmin = nite_coastmin;
+		t36h_nite_coastmax = nite_coastmax;
+		t36h_nite_coastmean = nite_coastmean;
+		t36h_nite_areamin = nite_areamin;
+		t36h_nite_areamax = nite_areamax;
+		t36h_nite_areamean = nite_areamean;
+
+		t36h_d2_inlandmin = d2_inlandmin;
+		t36h_d2_inlandmax = d2_inlandmax;
+		t36h_d2_inlandmean = d2_inlandmean;
+		t36h_d2_coastmin = d2_coastmin;
+		t36h_d2_coastmax = d2_coastmax;
+		t36h_d2_coastmean = d2_coastmean;
+		t36h_d2_areamin = d2_areamin;
+		t36h_d2_areamax = d2_areamax;
+		t36h_d2_areamean = d2_areamean;
+
+		t36h_story = story;
+	  }
+
+	  const char* t36h_d1_inlandmin;
+	  const char* t36h_d1_inlandmax;
+	  const char* t36h_d1_inlandmean;
+	  const char* t36h_d1_coastmin;
+	  const char* t36h_d1_coastmax;
+	  const char* t36h_d1_coastmean;
+	  const char* t36h_d1_areamin;
+	  const char* t36h_d1_areamax;
+	  const char* t36h_d1_areamean;
+
+	  const char* t36h_nite_inlandmin;
+	  const char* t36h_nite_inlandmax;
+	  const char* t36h_nite_inlandmean;
+	  const char* t36h_nite_coastmin;
+	  const char* t36h_nite_coastmax;
+	  const char* t36h_nite_coastmean;
+	  const char* t36h_nite_areamin;
+	  const char* t36h_nite_areamax;
+	  const char* t36h_nite_areamean;
+
+	  const char* t36h_d2_inlandmin;
+	  const char* t36h_d2_inlandmax;
+	  const char* t36h_d2_inlandmean;
+	  const char* t36h_d2_coastmin;
+	  const char* t36h_d2_coastmax;
+	  const char* t36h_d2_coastmean;
+	  const char* t36h_d2_areamin;
+	  const char* t36h_d2_areamax;
+	  const char* t36h_d2_areamean;
+
+	  const char* t36h_story;
+	};
+
+	typedef std::map<int, Max36HoursTestParam> Max36HoursTestCases;
+
+  void create_testcases(Max36HoursTestCases& testCases, const string& language)
+  {
+	if(language == "fi")
+	  {
+		// no areas and no periods included
+		/*
+		testCases.insert(make_pair(1,Max36HoursTestParam("32700,0","32700,0","32700,0",
+														 "","","",
+														 "","","",
+														 "32700,0","32700,0","32700,0",
+														 "","","",
+														 "","","",
+														 "32700,0","32700,0","32700,0",
+														 "","","",
+														 "","","",
+														 "")));
+		*/
+		testCases.insert(make_pair(1,Max36HoursTestParam("6.0,0","13.2,0","8.1,0",
+														 "32700,0","32700,0","32700,0",
+														 "32700,0","32700,0","32700,0",
+														 "1.0,0","5.2,0","3.3,0",
+														 "32700,0","32700,0","32700,0",
+														 "32700,0","32700,0","32700,0",
+														 "5.0,0","11.1,0","7.7,0",
+														 "","","",
+														 "","","",
+														 "")));
+
+	  }
+	else if(language == "sv")
+	  {
+	  }
+	else if(language == "en")
+	  {
+	  }
+
+  }
+
+
+  void temperature_max36hours()
+  {
+	using namespace std;
+	using namespace TextGen;
+	using namespace WeatherAnalysis;
+
+	AnalysisSources sources;
+	WeatherArea area("25,60");
+	const string fun = "temperature_max36hours";
+
+	NFmiSettings::Set("max36hours::day::starthour","6");
+	NFmiSettings::Set("max36hours::day::maxstarthour","11");
+	NFmiSettings::Set("max36hours::day::endhour","18");
+	NFmiSettings::Set("max36hours::night::starthour","18");
+	NFmiSettings::Set("max36hours::night::endhour","6");
+	NFmiSettings::Set("textgen::main_forecast", "/home/reponen/work/testdata/200904300654_pal_skandinavia_pinta.sqd");
+
+	NFmiTime time1(2009,5,1,6,0,0);
+	NFmiTime time2(2009,5,3,18,0,0);
+	WeatherPeriod period(time1,time2);
+	TemperatureStory story(time1,sources,area,period,"max36hours");
+
+
+	Max36HoursTestCases testCases;
+	Max36HoursTestCases::iterator iter;
+
+	const char* languages [] = {"fi", "sv", "en"};
+
+	for(int i = 0; i < 3; i++)
+	  {
+		create_testcases(testCases, languages[i]);
+		for(iter = testCases.begin(); iter != testCases.end(); iter++)
+		  {
+			NFmiSettings::Set("max36hours::fake::day1::inland::min",iter->second.t36h_d1_inlandmin);
+			NFmiSettings::Set("max36hours::fake::day1::inland::max",iter->second.t36h_d1_inlandmax);
+			NFmiSettings::Set("max36hours::fake::day1::inland::mean",iter->second.t36h_d1_inlandmean);
+			NFmiSettings::Set("max36hours::fake::day1::coast::min",iter->second.t36h_d1_coastmin);
+			NFmiSettings::Set("max36hours::fake::day1::coast::max",iter->second.t36h_d1_coastmax);
+			NFmiSettings::Set("max36hours::fake::day1::coast::mean",iter->second.t36h_d1_coastmean);
+			NFmiSettings::Set("max36hours::fake::day1::area::min",iter->second.t36h_d1_areamin);
+			NFmiSettings::Set("max36hours::fake::day1::area::max",iter->second.t36h_d1_areamax);
+			NFmiSettings::Set("max36hours::fake::day1::area::mean",iter->second.t36h_d1_areamean);
+
+			NFmiSettings::Set("max36hours::fake::night::inland::min",iter->second.t36h_nite_inlandmin);
+			NFmiSettings::Set("max36hours::fake::night::inland::max",iter->second.t36h_nite_inlandmax);
+			NFmiSettings::Set("max36hours::fake::night::inland::mean",iter->second.t36h_nite_inlandmean);
+			NFmiSettings::Set("max36hours::fake::night::coast::min",iter->second.t36h_nite_coastmin);
+			NFmiSettings::Set("max36hours::fake::night::coast::max",iter->second.t36h_nite_coastmax);
+			NFmiSettings::Set("max36hours::fake::night::coast::mean",iter->second.t36h_nite_coastmean);
+			NFmiSettings::Set("max36hours::fake::night::area::min",iter->second.t36h_nite_areamin);
+			NFmiSettings::Set("max36hours::fake::night::area::max",iter->second.t36h_nite_areamax);
+			NFmiSettings::Set("max36hours::fake::night::area::mean",iter->second.t36h_nite_areamean);
+
+			NFmiSettings::Set("max36hours::fake::day2::inland::min",iter->second.t36h_d2_inlandmin);
+			NFmiSettings::Set("max36hours::fake::day2::inland::max",iter->second.t36h_d2_inlandmax);
+			NFmiSettings::Set("max36hours::fake::day2::inland::mean",iter->second.t36h_d2_inlandmean);
+			NFmiSettings::Set("max36hours::fake::day2::coast::min",iter->second.t36h_d2_coastmin);
+			NFmiSettings::Set("max36hours::fake::day2::coast::max",iter->second.t36h_d2_coastmax);
+			NFmiSettings::Set("max36hours::fake::day2::coast::mean",iter->second.t36h_d2_coastmean);
+			NFmiSettings::Set("max36hours::fake::day2::area::min",iter->second.t36h_d2_areamin);
+			NFmiSettings::Set("max36hours::fake::day2::area::max",iter->second.t36h_d2_areamax);
+			NFmiSettings::Set("max36hours::fake::day2::area::mean",iter->second.t36h_d2_areamean);
+
+			require(story,languages[i],fun,iter->second.t36h_story);
+		  }
+		testCases.clear();
+	  }
+
+	TEST_PASSED();
+  }
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -778,6 +994,8 @@ namespace TemperatureStoryTest
 	//! Main test suite
 	void test(void)
 	{
+	  TEST(temperature_max36hours);
+	  /*
 	  TEST(temperature_day);
 	  TEST(temperature_mean);
 	  TEST(temperature_meanmax);
@@ -786,6 +1004,7 @@ namespace TemperatureStoryTest
 	  TEST(temperature_weekly_minmax);
 	  TEST(temperature_weekly_averages);
 	  TEST(temperature_range);
+	  */
 	}
 
   }; // class tests
