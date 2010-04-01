@@ -14,14 +14,29 @@
 // ======================================================================
 
 #include "SeasonTools.h"
+#include "Settings.h"
+#include "TextGenError.h"
 #include <newbase/NFmiTime.h>
+#include <newbase/NFmiStringTools.h>
 
 #include <ctime>
+
+using namespace Settings;
+using namespace TextGen;
 
 namespace WeatherAnalysis
 {
   namespace SeasonTools
   {
+
+template <class T>
+bool from_string(T& t, 
+                 const std::string& s, 
+                 std::ios_base& (*f)(std::ios_base&))
+{
+  std::istringstream iss(s);
+  return !(iss >> f >> t).fail();
+}
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -92,10 +107,33 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 	
-	bool isSummerHalf(const NFmiTime& theDate)
+	bool isSummerHalf(const NFmiTime& theDate, const string& theVar)
 	{
-	  // may-apr
-	  return(theDate.GetMonth() >= 5 && theDate.GetMonth() <= 10);
+	  // mmdd
+	  string startDateVar(theVar+"::summer::startdate");
+	  string endDateVar(theVar+"::summer::enddate");
+	  string summerStartDate = optional_string(startDateVar, "0501");
+	  string summerEndDate   = optional_string(endDateVar, "1031");
+using namespace Settings;
+
+	  int summerStartMonth = -1, summerStartDay = -1, summerEndMonth = -1, summerEndDay = -1;
+
+	  if(!from_string(summerStartMonth, summerStartDate.substr(0, 2), std::dec) ||
+		 !from_string(summerStartDay, summerStartDate.substr(2, 2), std::dec))
+		throw TextGenError("Variable " + startDateVar + "is not of correct type (mmdd): " + summerStartDate);
+
+	  
+	  if(!from_string(summerEndMonth, summerEndDate.substr(0, 2), std::dec) ||
+		 !from_string(summerEndDay, summerEndDate.substr(2, 2), std::dec))
+		throw TextGenError("Variable " + endDateVar + "is not of correct type (mmdd): " + summerEndDate);
+
+	  int compareDate  = theDate.GetMonth()*100 + theDate.GetDay();
+	  int compareSummerStartDate  = summerStartMonth*100 + summerStartDay;
+	  int compareSummerEndDate  = summerEndMonth*100 + summerEndDay;
+
+	  return(compareDate >= compareSummerStartDate && compareDate <= compareSummerEndDate);
+
+	  //	  return(theDate.GetMonth() >= 5 && theDate.GetMonth() <= 10);
 	}
 
 	// ----------------------------------------------------------------------
@@ -107,10 +145,11 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 	
-	bool isWinterHalf(const NFmiTime& theDate)
+	bool isWinterHalf(const NFmiTime& theDate, const string& theVar)
 	{
-	  // nov-apr
-	  return(theDate.GetMonth() <= 4 || theDate.GetMonth() >= 11);
+	  return !isSummerHalf(theDate, theVar);
+
+	  //return(theDate.GetMonth() <= 4 || theDate.GetMonth() >= 11);
 	}
 
 
