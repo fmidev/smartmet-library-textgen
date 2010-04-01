@@ -778,6 +778,26 @@ namespace TemperatureStoryTest
 						  const char* d1_areamax,
 						  const char* d1_areamean,
 
+						  const char* d1_morning_inlandmin,
+						  const char* d1_morning_inlandmax,
+						  const char* d1_morning_inlandmean,
+						  const char* d1_morning_coastmin,
+						  const char* d1_morning_coastmax,
+						  const char* d1_morning_coastmean,
+						  const char* d1_morning_areamin,
+						  const char* d1_morning_areamax,
+						  const char* d1_morning_areamean,
+
+						  const char* d1_afternoon_inlandmin,
+						  const char* d1_afternoon_inlandmax,
+						  const char* d1_afternoon_inlandmean,
+						  const char* d1_afternoon_coastmin,
+						  const char* d1_afternoon_coastmax,
+						  const char* d1_afternoon_coastmean,
+						  const char* d1_afternoon_areamin,
+						  const char* d1_afternoon_areamax,
+						  const char* d1_afternoon_areamean,
+
 						  const char* nite_inlandmin,
 						  const char* nite_inlandmax,
 						  const char* nite_inlandmean,
@@ -798,6 +818,26 @@ namespace TemperatureStoryTest
 						  const char* d2_areamax,
 						  const char* d2_areamean,
 
+						  const char* d2_morning_inlandmin,
+						  const char* d2_morning_inlandmax,
+						  const char* d2_morning_inlandmean,
+						  const char* d2_morning_coastmin,
+						  const char* d2_morning_coastmax,
+						  const char* d2_morning_coastmean,
+						  const char* d2_morning_areamin,
+						  const char* d2_morning_areamax,
+						  const char* d2_morning_areamean,
+
+						  const char* d2_afternoon_inlandmin,
+						  const char* d2_afternoon_inlandmax,
+						  const char* d2_afternoon_inlandmean,
+						  const char* d2_afternoon_coastmin,
+						  const char* d2_afternoon_coastmax,
+						  const char* d2_afternoon_coastmean,
+						  const char* d2_afternoon_areamin,
+						  const char* d2_afternoon_areamax,
+						  const char* d2_afternoon_areamean,
+
 						  const char* story)
 	  {
 		t36h_d1_inlandmin = d1_inlandmin;
@@ -809,6 +849,26 @@ namespace TemperatureStoryTest
 		t36h_d1_areamin = d1_areamin;
 		t36h_d1_areamax = d1_areamax;
 		t36h_d1_areamean = d1_areamean;
+	
+		t36h_d1_morning_inlandmin = d1_morning_inlandmin;
+		t36h_d1_morning_inlandmax = d1_morning_inlandmax;
+		t36h_d1_morning_inlandmean = d1_morning_inlandmean;
+		t36h_d1_morning_coastmin = d1_morning_coastmin;
+		t36h_d1_morning_coastmax = d1_morning_coastmax;
+		t36h_d1_morning_coastmean = d1_morning_coastmean;
+		t36h_d1_morning_areamin = d1_morning_areamin;
+		t36h_d1_morning_areamax = d1_morning_areamax;
+		t36h_d1_morning_areamean = d1_morning_areamean;
+
+		t36h_d1_afternoon_inlandmin = d1_afternoon_inlandmin;
+		t36h_d1_afternoon_inlandmax = d1_afternoon_inlandmax;
+		t36h_d1_afternoon_inlandmean = d1_afternoon_inlandmean;
+		t36h_d1_afternoon_coastmin = d1_afternoon_coastmin;
+		t36h_d1_afternoon_coastmax = d1_afternoon_coastmax;
+		t36h_d1_afternoon_coastmean = d1_afternoon_coastmean;
+		t36h_d1_afternoon_areamin = d1_afternoon_areamin;
+		t36h_d1_afternoon_areamax = d1_afternoon_areamax;
+		t36h_d1_afternoon_areamean = d1_afternoon_areamean;
 
 		t36h_nite_inlandmin = nite_inlandmin;
 		t36h_nite_inlandmax = nite_inlandmax;
@@ -830,6 +890,26 @@ namespace TemperatureStoryTest
 		t36h_d2_areamax = d2_areamax;
 		t36h_d2_areamean = d2_areamean;
 
+		t36h_d2_morning_inlandmin = d2_morning_inlandmin;
+		t36h_d2_morning_inlandmax = d2_morning_inlandmax;
+		t36h_d2_morning_inlandmean = d2_morning_inlandmean;
+		t36h_d2_morning_coastmin = d2_morning_coastmin;
+		t36h_d2_morning_coastmax = d2_morning_coastmax;
+		t36h_d2_morning_coastmean = d2_morning_coastmean;
+		t36h_d2_morning_areamin = d2_morning_areamin;
+		t36h_d2_morning_areamax = d2_morning_areamax;
+		t36h_d2_morning_areamean = d2_morning_areamean;
+
+		t36h_d2_afternoon_inlandmin = d2_afternoon_inlandmin;
+		t36h_d2_afternoon_inlandmax = d2_afternoon_inlandmax;
+		t36h_d2_afternoon_inlandmean = d2_afternoon_inlandmean;
+		t36h_d2_afternoon_coastmin = d2_afternoon_coastmin;
+		t36h_d2_afternoon_coastmax = d2_afternoon_coastmax;
+		t36h_d2_afternoon_coastmean = d2_afternoon_coastmean;
+		t36h_d2_afternoon_areamin = d2_afternoon_areamin;
+		t36h_d2_afternoon_areamax = d2_afternoon_areamax;
+		t36h_d2_afternoon_areamean = d2_afternoon_areamean;
+
 		t36h_story = story;
 	  }
 
@@ -842,6 +922,26 @@ namespace TemperatureStoryTest
 	  const char* t36h_d1_areamin;
 	  const char* t36h_d1_areamax;
 	  const char* t36h_d1_areamean;
+
+	  const char* t36h_d1_morning_inlandmin;
+	  const char* t36h_d1_morning_inlandmax;
+	  const char* t36h_d1_morning_inlandmean;
+	  const char* t36h_d1_morning_coastmin;
+	  const char* t36h_d1_morning_coastmax;
+	  const char* t36h_d1_morning_coastmean;
+	  const char* t36h_d1_morning_areamin;
+	  const char* t36h_d1_morning_areamax;
+	  const char* t36h_d1_morning_areamean;
+
+	  const char* t36h_d1_afternoon_inlandmin;
+	  const char* t36h_d1_afternoon_inlandmax;
+	  const char* t36h_d1_afternoon_inlandmean;
+	  const char* t36h_d1_afternoon_coastmin;
+	  const char* t36h_d1_afternoon_coastmax;
+	  const char* t36h_d1_afternoon_coastmean;
+	  const char* t36h_d1_afternoon_areamin;
+	  const char* t36h_d1_afternoon_areamax;
+	  const char* t36h_d1_afternoon_areamean;
 
 	  const char* t36h_nite_inlandmin;
 	  const char* t36h_nite_inlandmax;
@@ -862,6 +962,26 @@ namespace TemperatureStoryTest
 	  const char* t36h_d2_areamin;
 	  const char* t36h_d2_areamax;
 	  const char* t36h_d2_areamean;
+
+	  const char* t36h_d2_morning_inlandmin;
+	  const char* t36h_d2_morning_inlandmax;
+	  const char* t36h_d2_morning_inlandmean;
+	  const char* t36h_d2_morning_coastmin;
+	  const char* t36h_d2_morning_coastmax;
+	  const char* t36h_d2_morning_coastmean;
+	  const char* t36h_d2_morning_areamin;
+	  const char* t36h_d2_morning_areamax;
+	  const char* t36h_d2_morning_areamean;
+
+	  const char* t36h_d2_afternoon_inlandmin;
+	  const char* t36h_d2_afternoon_inlandmax;
+	  const char* t36h_d2_afternoon_inlandmean;
+	  const char* t36h_d2_afternoon_coastmin;
+	  const char* t36h_d2_afternoon_coastmax;
+	  const char* t36h_d2_afternoon_coastmean;
+	  const char* t36h_d2_afternoon_areamin;
+	  const char* t36h_d2_afternoon_areamax;
+	  const char* t36h_d2_afternoon_areamean;
 
 	  const char* t36h_story;
 	};
@@ -885,15 +1005,35 @@ namespace TemperatureStoryTest
 														 "","","",
 														 "")));
 		*/
-		testCases.insert(make_pair(1,Max36HoursTestParam("6.0,0","13.2,0","8.1,0",
-														 "32700,0","32700,0","32700,0",
-														 "32700,0","32700,0","32700,0",
-														 "1.0,0","5.2,0","3.3,0",
-														 "32700,0","32700,0","32700,0",
-														 "32700,0","32700,0","32700,0",
-														 "5.0,0","11.1,0","7.7,0",
-														 "","","",
-														 "","","",
+
+		// Max36HoursTestParam(DAY1, INLAND, MORNING, "9.3,0","10.4,0","10.6,0");
+		//
+		testCases.insert(make_pair(1,Max36HoursTestParam("5.3,0","16.4,0","10.6,0", // d1 inland
+														 "2.3,0","11.1,0","6.4,0", // d1 coast
+														 "2.3,0","16.4,0","8.5,0", // d1 area
+
+														 "5.3,0","17.4,0","8.6,0", // d1 morning inland
+														 "2.3,0","13.1,0","5.4,0", // d1 morning coast
+														 "2.3,0","12.4,0","7.0,0", // d1 morning area
+														 "12.4,0","16.4,0","14.6,0", // d1 afternoon inland
+														 "8.1,0","11.1,0","8.0,0", // d1 afternoon coast
+														 "8.1,0","16.4,0","11.5,0", // d1 afternoon area
+
+														 "-1.1,0","5.3,0","4.2,0", // night inland
+														 "-2.1,0","2.3,0","0.2,0", // night coast
+														 "-2.1,0","5.3,0","2.2,0", // night area
+
+														 "7.1,0","17.2,0","12.1,0", // d2 inland
+														 "3.3,0","14.2,0","8.4,0", // d2 coast
+														 "3.3,0","17.2,0","11.0,0", // d2 area
+
+														 "6.3,0","13.4,0","10.1,0", // d2 morning inland
+														 "3.3,0","10.1,0","6.6,0", // d2 morning coast
+														 "3.3,0","13.4,0","8.6,0", // d2 morning area
+
+														 "13.4,0","18.4,0","16.0,0", // d2 afternoon inland
+														 "10.1,0","16.1,0","13.0,0", // d2 afternoon coast
+														 "10.1,0","18.4,0","14.2,0", // d2 afternoon area
 														 "")));
 
 	  }
@@ -922,10 +1062,10 @@ namespace TemperatureStoryTest
 	NFmiSettings::Set("max36hours::day::endhour","18");
 	NFmiSettings::Set("max36hours::night::starthour","18");
 	NFmiSettings::Set("max36hours::night::endhour","6");
-	NFmiSettings::Set("textgen::main_forecast", "/home/reponen/work/testdata/200904300654_pal_skandinavia_pinta.sqd");
+	//NFmiSettings::Set("textgen::main_forecast", "/home/reponen/work/testdata/200904300654_pal_skandinavia_pinta.sqd");
 
-	NFmiTime time1(2009,5,1,6,0,0);
-	NFmiTime time2(2009,5,3,18,0,0);
+	NFmiTime time1(2009,6,1,6,0,0);
+	NFmiTime time2(2009,6,2,18,0,0);
 	WeatherPeriod period(time1,time2);
 	TemperatureStory story(time1,sources,area,period,"max36hours");
 
@@ -950,6 +1090,26 @@ namespace TemperatureStoryTest
 			NFmiSettings::Set("max36hours::fake::day1::area::max",iter->second.t36h_d1_areamax);
 			NFmiSettings::Set("max36hours::fake::day1::area::mean",iter->second.t36h_d1_areamean);
 
+			NFmiSettings::Set("max36hours::fake::day1::morning::inland::min",iter->second.t36h_d1_morning_inlandmin);
+			NFmiSettings::Set("max36hours::fake::day1::morning::inland::max",iter->second.t36h_d1_morning_inlandmax);
+			NFmiSettings::Set("max36hours::fake::day1::morning::inland::mean",iter->second.t36h_d1_morning_inlandmean);
+			NFmiSettings::Set("max36hours::fake::day1::morning::coast::min",iter->second.t36h_d1_morning_coastmin);
+			NFmiSettings::Set("max36hours::fake::day1::morning::coast::max",iter->second.t36h_d1_morning_coastmax);
+			NFmiSettings::Set("max36hours::fake::day1::morning::coast::mean",iter->second.t36h_d1_morning_coastmean);
+			NFmiSettings::Set("max36hours::fake::day1::morning::area::min",iter->second.t36h_d1_morning_areamin);
+			NFmiSettings::Set("max36hours::fake::day1::morning::area::max",iter->second.t36h_d1_morning_areamax);
+			NFmiSettings::Set("max36hours::fake::day1::morning::area::mean",iter->second.t36h_d1_morning_areamean);
+
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::min",iter->second.t36h_d1_afternoon_inlandmin);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::max",iter->second.t36h_d1_afternoon_inlandmax);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::mean",iter->second.t36h_d1_afternoon_inlandmean);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::min",iter->second.t36h_d1_afternoon_coastmin);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::max",iter->second.t36h_d1_afternoon_coastmax);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::mean",iter->second.t36h_d1_afternoon_coastmean);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::min",iter->second.t36h_d1_afternoon_areamin);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::max",iter->second.t36h_d1_afternoon_areamax);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::mean",iter->second.t36h_d1_afternoon_areamean);
+
 			NFmiSettings::Set("max36hours::fake::night::inland::min",iter->second.t36h_nite_inlandmin);
 			NFmiSettings::Set("max36hours::fake::night::inland::max",iter->second.t36h_nite_inlandmax);
 			NFmiSettings::Set("max36hours::fake::night::inland::mean",iter->second.t36h_nite_inlandmean);
@@ -969,6 +1129,27 @@ namespace TemperatureStoryTest
 			NFmiSettings::Set("max36hours::fake::day2::area::min",iter->second.t36h_d2_areamin);
 			NFmiSettings::Set("max36hours::fake::day2::area::max",iter->second.t36h_d2_areamax);
 			NFmiSettings::Set("max36hours::fake::day2::area::mean",iter->second.t36h_d2_areamean);
+
+			NFmiSettings::Set("max36hours::fake::day2::morning::inland::min",iter->second.t36h_d2_morning_inlandmin);
+			NFmiSettings::Set("max36hours::fake::day2::morning::inland::max",iter->second.t36h_d2_morning_inlandmax);
+			NFmiSettings::Set("max36hours::fake::day2::morning::inland::mean",iter->second.t36h_d2_morning_inlandmean);
+			NFmiSettings::Set("max36hours::fake::day2::morning::coast::min",iter->second.t36h_d2_morning_coastmin);
+			NFmiSettings::Set("max36hours::fake::day2::morning::coast::max",iter->second.t36h_d2_morning_coastmax);
+			NFmiSettings::Set("max36hours::fake::day2::morning::coast::mean",iter->second.t36h_d2_morning_coastmean);
+			NFmiSettings::Set("max36hours::fake::day2::morning::area::min",iter->second.t36h_d2_morning_areamin);
+			NFmiSettings::Set("max36hours::fake::day2::morning::area::max",iter->second.t36h_d2_morning_areamax);
+			NFmiSettings::Set("max36hours::fake::day2::morning::area::mean",iter->second.t36h_d2_morning_areamean);
+
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::min",iter->second.t36h_d2_afternoon_inlandmin);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::max",iter->second.t36h_d2_afternoon_inlandmax);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::mean",iter->second.t36h_d2_afternoon_inlandmean);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::min",iter->second.t36h_d2_afternoon_coastmin);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::max",iter->second.t36h_d2_afternoon_coastmax);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::mean",iter->second.t36h_d2_afternoon_coastmean);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::min",iter->second.t36h_d2_afternoon_areamin);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::max",iter->second.t36h_d2_afternoon_areamax);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::mean",iter->second.t36h_d2_afternoon_areamean);
+
 
 			require(story,languages[i],fun,iter->second.t36h_story);
 		  }
