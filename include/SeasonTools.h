@@ -1,3 +1,4 @@
+
 // ======================================================================
 /*!
  * \file
@@ -10,6 +11,9 @@
 
 #include <ctime>
 
+using namespace std;
+#include <string>
+
 class NFmiTime;
 
 namespace WeatherAnalysis
@@ -17,13 +21,13 @@ namespace WeatherAnalysis
   namespace SeasonTools
   {
 	
-	bool isWinter(const NFmiTime& theDate); // dec-feb
-	bool isSpring(const NFmiTime& theDate); // mar-may
-	bool isSummer(const NFmiTime& theDate); // jun-aug
-	bool isAutumn(const NFmiTime& theDate); // sep-nov
+	bool isWinter(const NFmiTime& theDate, const std::string& theVar);
+	bool isSpring(const NFmiTime& theDate, const std::string& theVar);
+	bool isSummer(const NFmiTime& theDate, const std::string& theVar);
+	bool isAutumn(const NFmiTime& theDate, const std::string& theVar);
 
-	bool isWinterHalf(const NFmiTime& theDate); // nov-apr
-	bool isSummerHalf(const NFmiTime& theDate); // may-oct
+	bool isWinterHalf(const NFmiTime& theDate, const std::string& theVar);
+	bool isSummerHalf(const NFmiTime& theDate, const std::string& theVar);
   } // namespace SeasonTools
 } // namespace WeatherAnalysis
 
