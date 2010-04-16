@@ -27,8 +27,8 @@ namespace WeatherAnalysis
 	  theMin = theForecaster.analyze(theVar + "::min",
 									 theSources,
 									 Temperature,
-									 Maximum,
 									 Minimum,
+									 Maximum,
 									 theArea,
 									 thePeriod);
 
@@ -43,8 +43,8 @@ namespace WeatherAnalysis
 	  theMean = theForecaster.analyze(theVar + "::mean",
 									  theSources,
 									  Temperature,
-									  Maximum,
 									  Mean,
+									  Maximum,
 									  theArea,
 									  thePeriod);
 	}
@@ -137,6 +137,32 @@ namespace WeatherAnalysis
 							   theMin,
 							   theMax,
 							   theMean);
+	}
+
+
+	void clamp_temperature(const string& theVar,
+						   const bool& isWinter,
+						   const bool& isDay,
+						   int& theMinimum,
+						   int& theMaximum)
+	{
+	  int fakeStrPos = theVar.find("::fake");
+	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
+
+	  std::string season(isWinter ? "::winter" : "::summer");
+	  std::string period(isDay ? "::day" : "::night");
+	  
+
+	  int temperature_max_interval = optional_int(thePlainVar+season+period+"::temperature_max_interval", 5);
+	  bool clamp_down = optional_int(thePlainVar+season+period+"::temperature_clamp_down", isWinter ? false : true);
+
+	  if(theMaximum - theMinimum > temperature_max_interval)
+		{
+		  if(clamp_down)
+			theMinimum = theMaximum - 5;
+		  else
+			theMaximum = theMinimum + 5;
+		}
 	}
 
   } // namespace TemperatureTools
