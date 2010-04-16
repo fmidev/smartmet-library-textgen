@@ -68,6 +68,18 @@ namespace WeatherAnalysis
 							   WeatherAnalysis::WeatherResult& theMax,
 							   WeatherAnalysis::WeatherResult& theMean);
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief clamp the big temperature interval into smaller according to configuration file settings
+	 */
+	// ----------------------------------------------------------------------
+
+	void clamp_temperature(const string& theVar,
+						   const bool& isWinter,
+						   const bool& isDay,
+						   int& theMinimum,
+						   int& theMaximum);
+
   } // namespace TemperatureTools
 } // namespace WeatherAnalysis
 
