@@ -19,6 +19,15 @@
 #include "Settings.h"
 #include "UnitFactory.h"
 
+#include "GridForecaster.h"
+#include "WeatherResult.h"
+#include "WeatherPeriod.h"
+#include "SeasonTools.h"
+
+
+
+using namespace Settings;
+using namespace WeatherAnalysis;
 using namespace std;
 
 namespace TextGen
@@ -116,6 +125,269 @@ namespace TextGen
 		}
 	  
 	  return sentence;
+	}
+
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return temperature sentence
+	 *
+	 * Possible sentences are
+	 *
+	 *  - "noin x astetta"
+	 *  - "x...y astetta";
+	 *
+	 * \param theMinimum The minimum temperature
+	 * \param theMean The mean temperature
+	 * \param theMaximum The maximum temperature
+	 * \param theMinInterval The minimum interval limit
+	 * \param theZeroFlag True if zero is always intervalled
+	 * \param theRangeSeparator String separating the numbers
+	 * \return The sentence
+	 */
+	// ----------------------------------------------------------------------
+	
+	const TextGen::Sentence temperature_sentence2(int theMinimum,
+												  int theMean,
+												  int theMaximum,
+												  int theMinInterval,
+												  bool theZeroFlag,
+												  const std::string & theRangeSeparator)
+	{
+	  Sentence sentence;
+	  
+	  bool range = true;
+	  
+	  if(theMinimum == theMaximum)
+		range = false;
+	  else if(theMaximum - theMinimum >= theMinInterval)
+		range = true;
+	  else if(theMinimum <= 0 && theMaximum >= 0)
+		range = true;
+	  else
+		range = theZeroFlag ? true : false;
+	  
+	  if(range)
+		{
+		  sentence << IntegerRange(theMinimum,theMaximum,theRangeSeparator)
+				   << *UnitFactory::create(DegreesCelsius);
+		}
+	  else
+		{
+		  // if temperature is lower than -15 degrees, we can round 2 degrees otherwise 1 degree
+		  int theRoundingLimit = theMean < -15 ? 2 : 1;
+		  int theRoundedMean = theMean;
+		  int theModuloOfMean = theMean % 5;
+
+		  if(theModuloOfMean != 0)
+			{
+			  if(theModuloOfMean < 0)
+				theModuloOfMean += 5;
+
+			  if(theModuloOfMean <= theRoundingLimit)
+				theRoundedMean -= theModuloOfMean;
+			  else if(theModuloOfMean >= (5 - theRoundingLimit))
+				theRoundedMean += (5 - theModuloOfMean);
+			}
+
+		  sentence << "noin"
+				   << Integer(theRoundedMean)
+				   << *UnitFactory::create(DegreesCelsius);
+		}
+	  
+	  return sentence;
+	}
+
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Calculate Minimum, Mean and Maximum temperatures of the area's Maximum temperatures
+	 *
+	 * \param theVar The control variable prefix
+	 * \param theSources The analysis sources
+	 * \param theArea The waether area
+	 * \param theMinimum The varible where the  minimum temperature is stored
+	 * \param theMean The varible where the  mean temperature is stored
+	 * \param theMaximum The varible where the  maximum temperature is stored
+	 */
+	// ----------------------------------------------------------------------
+
+	void min_max_mean_temperature(const string& theVar,
+								  const AnalysisSources& theSources,
+								  const WeatherArea& theArea,
+								  const WeatherPeriod& thePeriod,
+								  WeatherResult& theMin,
+								  WeatherResult& theMax,
+								  WeatherResult& theMean)
+	{
+	  GridForecaster theForecaster;	  
+
+	  theMin = theForecaster.analyze(theVar + "::min",
+									 theSources,
+									 Temperature,
+									 Minimum,
+									 Maximum,
+									 theArea,
+									 thePeriod);
+
+	  theMax = theForecaster.analyze(theVar + "::max",
+									 theSources,
+									 Temperature,
+									 Maximum,
+									 Maximum,
+									 theArea,
+									 thePeriod);
+
+	  theMean = theForecaster.analyze(theVar + "::mean",
+									  theSources,
+									  Temperature,
+									  Mean,
+									  Maximum,
+									  theArea,
+									  thePeriod);
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief calculate morning temperature
+	 *
+	 * \param theVar The control variable prefix
+	 * \param theSources The analysis sources
+	 * \param theArea The waether area
+	 * \param thePeriod The main period
+	 * \param theMinimum The varible where the  minimum temperature is stored
+	 * \param theMean The varible where the  mean temperature is stored
+	 * \param theMaximum The varible where the  maximum temperature is stored
+	 */
+	// ----------------------------------------------------------------------
+
+	void morning_temperature(const string& theVar,
+							 const AnalysisSources& theSources,
+							 const WeatherArea& theArea,
+							 const WeatherPeriod& thePeriod,
+							 WeatherResult& theMin,
+							 WeatherResult& theMax,
+							 WeatherResult& theMean)
+
+	{
+	  int year = thePeriod.localStartTime().GetYear();
+	  int month = thePeriod.localStartTime().GetMonth();
+	  int day = thePeriod.localStartTime().GetDay();
+
+	  int default_starthour = 8;
+	  int default_endhour = 8;	 
+
+	  int fakeStrPos = theVar.find("::fake");
+	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
+
+	  std::string season(SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar) ? "::wintertime" : "::summertime");
+
+	  int morning_starthour    = optional_hour(thePlainVar+season+"::morning_temperature::starthour", default_starthour);
+	  int morning_endhour      = optional_hour(thePlainVar+season+"::morning_temperature::endhour", default_endhour);
+
+	  NFmiTime time1(year, month, day, morning_starthour, 0,0);
+	  NFmiTime time2(year, month, day, morning_endhour, 0,0);
+
+	  WeatherPeriod morningPeriod(time1,time2);
+	  
+	  min_max_mean_temperature(theVar,
+							   theSources,
+							   theArea,
+							   morningPeriod,
+							   theMin,
+							   theMax,
+							   theMean);
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Calculate afternoon temperature. 
+	 *
+	 * \param theVar The control variable prefix
+	 * \param theSources The analysis sources
+	 * \param theArea The waether area
+	 * \param thePeriod The main period
+	 * \param theMinimum The varible where the minimum temperature is stored
+	 * \param theMean The varible where the mean temperature is stored
+	 * \param theMaximum The varible where the maximum temperature is stored
+	 */
+	// ----------------------------------------------------------------------
+
+	void afternoon_temperature(const string& theVar,
+						 const AnalysisSources& theSources,
+						 const WeatherArea& theArea,
+						 const WeatherPeriod& thePeriod,
+						 WeatherResult& theMin,
+						 WeatherResult& theMax,
+						 WeatherResult& theMean)
+	{
+	  int year = thePeriod.localStartTime().GetYear();
+	  int month = thePeriod.localStartTime().GetMonth();
+	  int day = thePeriod.localStartTime().GetDay();
+	  
+	  int fakeStrPos = theVar.find("::fake");
+	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
+
+	  bool is_winter = SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar);
+	  int timezone = thePeriod.localStartTime().GetZoneDifferenceHour();
+	  std::string season(is_winter ? "::wintertime" : "::summertime");
+				
+	  // in wintertime convert the default value to localtime
+	  int default_starthour = (is_winter ? 12 - timezone : 13);
+	  int default_endhour = (is_winter ? 12 - timezone : 17);
+	  
+	  int afternoon_starthour    =  optional_hour(thePlainVar+season+"::day_temperature::starthour", default_starthour);
+	  int afternoon_endhour      =  optional_hour(thePlainVar+season+"::day_temperature::endhour", default_endhour);
+
+	  NFmiTime time1(year, month, day, afternoon_starthour, 0,0);
+	  NFmiTime time2(year, month, day, afternoon_endhour, 0,0);
+
+	  WeatherPeriod dayPeriod(time1,time2);
+
+	  min_max_mean_temperature(theVar,
+							   theSources,
+							   theArea,
+							   dayPeriod,
+							   theMin,
+							   theMax,
+							   theMean);
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Clamp the temperature range if it is bigger than the defined maximum interval
+	 *
+	 * \param theVar The control variable prefix
+	 * \param isWinter This parameter tells whether it is wintertime (true) or summertime (false)
+	 * \param isDay This parameter tells whether it is daytime (true) or nighttime (false)
+	 * \param theMinimum The varible that contains the original minimum temperature and where the new minimum temperature is stored
+	 * \param theMaximum The varible that contains the original maximum temperature  and where the new maximum temperature is stored
+	 */
+	// ----------------------------------------------------------------------
+
+	void clamp_temperature(const string& theVar,
+						   const bool& isWinter,
+						   const bool& isDay,
+						   int& theMinimum,
+						   int& theMaximum)
+	{
+	  int fakeStrPos = theVar.find("::fake");
+	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
+
+	  std::string season(isWinter ? "::wintertime" : "::summertime");
+	  std::string period(isDay ? "::day" : "::night");
+	  
+
+	  int temperature_max_interval = optional_int(thePlainVar+season+period+"::temperature_max_interval", 5);
+	  bool clamp_down = optional_bool(thePlainVar+season+period+"::temperature_clamp_down", isWinter ? false : true);
+
+	  if(theMaximum - theMinimum > temperature_max_interval)
+		{
+		  if(clamp_down)
+			theMinimum = theMaximum - 5;
+		  else
+			theMaximum = theMinimum + 5;
+		}
 	}
 
   } // namespace TemperatureStoryTools
