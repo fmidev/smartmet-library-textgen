@@ -9,10 +9,14 @@
 #define TEXTGEN_TEMPERATURESTORYTOOLS_H
 
 #include <string>
+#include "AnalysisSources.h"
 
 namespace WeatherAnalysis
 {
   class WeatherPeriod;
+  class WeatherResult;
+  class AnalysisSources;
+  class WeatherArea;
 }
 
 namespace TextGen
@@ -21,6 +25,18 @@ namespace TextGen
 
   namespace TemperatureStoryTools
   {
+	using namespace WeatherAnalysis;
+
+	enum fractile_id{FRACTILE_02,
+					 FRACTILE_12,
+					 FRACTILE_37,
+					 FRACTILE_50,
+					 FRACTILE_63,
+					 FRACTILE_88,
+					 FRACTILE_98,
+					 FRACTILE_100,
+					 FRACTILE_UNDEFINED};
+	
 	const char * temperature_comparison_phrase(int theMean1,
 											   int theMean2,
 											   const std::string & theVariable);
@@ -31,6 +47,94 @@ namespace TextGen
 												 int theMinInterval,
 												 bool theZeroFlag,
 												 const std::string & theRangeSeparator);
+
+	const TextGen::Sentence temperature_sentence2(int theMinimum,
+												 int theMean,
+												 int theMaximum,
+												 int theMinInterval,
+												 bool theZeroFlag,
+												 const std::string & theRangeSeparator);
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief calculate Minimum, Maximum and Mean temperatures of 
+	 * areal maximum temperatures
+	 */
+	// ----------------------------------------------------------------------
+
+	void min_max_mean_temperature(const std::string& theVar,
+								  const WeatherAnalysis::AnalysisSources& theSources,
+								  const WeatherAnalysis::WeatherArea& theArea,
+								  const WeatherAnalysis::WeatherPeriod& thePeriod,
+								  WeatherAnalysis::WeatherResult& theMin,
+								  WeatherAnalysis::WeatherResult& theMax,
+								  WeatherAnalysis::WeatherResult& theMean);
+
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief calculate morning temperature
+	 */
+	// ----------------------------------------------------------------------
+
+	void morning_temperature(const std::string& theVar,
+							 const WeatherAnalysis::AnalysisSources& theSources,
+							 const WeatherAnalysis::WeatherArea& theArea,
+							 const WeatherAnalysis::WeatherPeriod& thePeriod,
+							 WeatherAnalysis::WeatherResult& theMin,
+							 WeatherAnalysis::WeatherResult& theMax,
+							 WeatherAnalysis::WeatherResult& theMean);
+
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief calculate afternoon temperature
+	 */
+	// ----------------------------------------------------------------------
+
+	void afternoon_temperature(const std::string& theVar,
+							   const WeatherAnalysis::AnalysisSources& theSources,
+							   const WeatherAnalysis::WeatherArea& theArea,
+							   const WeatherAnalysis::WeatherPeriod& thePeriod,
+							   WeatherAnalysis::WeatherResult& theMin,
+							   WeatherAnalysis::WeatherResult& theMax,
+							   WeatherAnalysis::WeatherResult& theMean);
+
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief clamp the big temperature interval into smaller according to configuration file settings
+	 */
+	// ----------------------------------------------------------------------
+
+	void clamp_temperature(const std::string& theVar,
+						   const bool& isWinter,
+						   const bool& isDay,
+						   int& theMinimum,
+						   int& theMaximum);
+
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief determines the fractile of the given temperature
+	 */
+	// ----------------------------------------------------------------------
+
+	fractile_id get_fractile(const std::string& theVar,
+							 const float& theTemperature,
+							 const AnalysisSources& theSources,
+							 const WeatherArea& theArea,  
+							 const WeatherPeriod& thePeriod);
+
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief returns fractile as a readable string
+	 */
+	// ----------------------------------------------------------------------
+
+	const char* fractile_name(const fractile_id& id);
+
 
   } // namespace TemperatureStoryTools
 } // namespace TextGen

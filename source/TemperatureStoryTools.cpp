@@ -18,12 +18,17 @@
 #include "Sentence.h"
 #include "Settings.h"
 #include "UnitFactory.h"
+#include "ClimatologyTools.h"
+#include "GridClimatology.h"
 
 #include "GridForecaster.h"
 #include "WeatherResult.h"
 #include "WeatherPeriod.h"
 #include "SeasonTools.h"
-
+#include "TextFormatter.h"
+#include <boost/shared_ptr.hpp>
+#include <sstream>
+#include <string>
 
 
 using namespace Settings;
@@ -169,12 +174,17 @@ namespace TextGen
 	  
 	  if(range)
 		{
-		  sentence << IntegerRange(theMinimum,theMaximum,theRangeSeparator)
+		  if(theMinimum < 0 && theMaximum >= 0 && abs(theMinimum) > abs(theMaximum))
+			sentence << IntegerRange(theMaximum, theMinimum, theRangeSeparator)
 				   << *UnitFactory::create(DegreesCelsius);
+		  else
+			sentence << IntegerRange(theMinimum, theMaximum, theRangeSeparator)
+					 << *UnitFactory::create(DegreesCelsius);
 		}
 	  else
 		{
-		  // if temperature is lower than -15 degrees, we can round 2 degrees otherwise 1 degree
+		  // if temperature is lower than -15 degrees, we can round 2 degrees otherwise 1 degrees
+		  // to the nearest numer that is divisible by five 
 		  int theRoundingLimit = theMean < -15 ? 2 : 1;
 		  int theRoundedMean = theMean;
 		  int theModuloOfMean = theMean % 5;
@@ -372,23 +382,189 @@ namespace TextGen
 						   int& theMaximum)
 	{
 	  int fakeStrPos = theVar.find("::fake");
-	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
-
 	  std::string season(isWinter ? "::wintertime" : "::summertime");
 	  std::string period(isDay ? "::day" : "::night");
-	  
-
+	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
 	  int temperature_max_interval = optional_int(thePlainVar+season+period+"::temperature_max_interval", 5);
+
+	  // if minimum is below zero and maximum above, we allow bigger ranges and do no clamping
+	  if((theMinimum <= 0 && theMaximum > 0) || (theMinimum < 0 && theMaximum >= 0))
+		return;
+
+	  // if both both minimum and maximum are below -15 degrees, dont' clamp
+	  if(theMinimum <= -15 && theMaximum <= -15)
+		temperature_max_interval = 10;
+
 	  bool clamp_down = optional_bool(thePlainVar+season+period+"::temperature_clamp_down", isWinter ? false : true);
 
 	  if(theMaximum - theMinimum > temperature_max_interval)
 		{
 		  if(clamp_down)
-			theMinimum = theMaximum - 5;
+			theMinimum = theMaximum - temperature_max_interval;//5;
 		  else
-			theMaximum = theMinimum + 5;
+			theMaximum = theMinimum + temperature_max_interval;//5;
 		}
 	}
+
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief determines the fractile of the given temperature
+	 *
+	 * \param theVar The control variable prefix
+	 * \param theSources The analysis sources
+	 * \param theArea The waether area
+	 * \param thePeriod The main period
+	 * \return The fractile id for the given temperature
+	 *
+	 */
+	// ----------------------------------------------------------------------
+	fractile_id get_fractile(const std::string& theVar,
+							 const float& theTemperature,
+							 const AnalysisSources& theSources,
+							 const WeatherArea& theArea,  
+							 const WeatherPeriod& thePeriod)
+	{
+	  std::string dataName("textgen::fractiles");
+	  
+	  WeatherPeriod climatePeriod = ClimatologyTools::getClimatologyPeriod(thePeriod, dataName, theSources);
+	  
+	  GridClimatology gc;
+	  
+	  WeatherResult result(kFloatMissing, 0.0);
+
+	  result = gc.analyze(theVar,
+						  theSources,
+						  NormalMaxTemperatureF02,
+						  Minimum,
+						  Minimum,
+						  theArea,
+						  climatePeriod);
+
+	  if(result.value() != kFloatMissing && theTemperature <= result.value())
+		return FRACTILE_02;
+	  
+	  result = gc.analyze(theVar,
+						  theSources,
+						  NormalMaxTemperatureF12,
+						  Minimum,
+						  Minimum,
+						  theArea,
+						  climatePeriod);
+	  
+	  if(result.value() != kFloatMissing && theTemperature <= result.value())
+		return FRACTILE_12;
+
+	  result = gc.analyze(theVar,
+						  theSources,
+						  NormalMaxTemperatureF37,
+						  Minimum,
+						  Minimum,
+						  theArea,
+						  climatePeriod);
+	  
+	  if(result.value() != kFloatMissing && theTemperature <= result.value())
+		return FRACTILE_37;
+	  
+	  result = gc.analyze(theVar,
+						  theSources,
+						  NormalMaxTemperatureF50,
+						  Minimum,
+						  Minimum,
+						  theArea,
+						  climatePeriod);
+
+	  if(result.value() != kFloatMissing && theTemperature <= result.value())
+		return FRACTILE_50;
+	  
+	  result = gc.analyze(theVar,
+						  theSources,
+						  NormalMaxTemperatureF63,
+						  Maximum,
+						  Maximum,
+						  theArea,
+						  climatePeriod);
+	  
+	  if(result.value() != kFloatMissing && theTemperature <= result.value())
+		return FRACTILE_63;
+	  
+	  result = gc.analyze(theVar,
+						  theSources,
+						  NormalMaxTemperatureF88,
+						  Maximum,
+						  Maximum,
+						  theArea,
+						  climatePeriod);
+	  
+	  if(result.value() != kFloatMissing && theTemperature <= result.value())
+		return FRACTILE_88;
+
+	  result = gc.analyze(theVar,
+						  theSources,
+						  NormalMaxTemperatureF98,
+						  Maximum,
+						  Maximum,
+						  theArea,
+						  climatePeriod);
+		
+		
+
+
+	  if(result.value() != kFloatMissing && theTemperature <= result.value())
+		return FRACTILE_98;
+	  else if(result.value() != kFloatMissing)
+		return FRACTILE_100;
+	  else
+		return FRACTILE_UNDEFINED;
+	}
+
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief returns fractile as a readable string
+	 *
+	 * \return Text describing the fractile id
+	 */
+	// ----------------------------------------------------------------------
+
+	const char* fractile_name(const fractile_id& id)
+	{
+	  const char* retval = "No value";
+
+	  switch(id)
+		{
+		case FRACTILE_02:
+		  retval = "F0,0-F2,5";
+		  break;
+		case FRACTILE_12:
+		  retval = "F2,5-F12,5";
+		  break;
+		case FRACTILE_37:
+		  retval = "F12,5-37,5";
+		  break;
+		case FRACTILE_50:
+		  retval = "F37,5-F50,0";
+		  break;
+		case FRACTILE_63:
+		  retval = "F50,0-F62,5";
+		  break;
+		case FRACTILE_88:
+		  retval = "F62,5-F87,5";
+		  break;
+		case FRACTILE_98:
+		  retval = "F87,5-F97,5";
+		  break;
+		case FRACTILE_100:
+		  retval = "F97,5-F100,0";
+		  break;
+		case FRACTILE_UNDEFINED:
+		  retval = "Undefined";
+		  break;
+		}
+
+	  return retval;
+	}
+
 
   } // namespace TemperatureStoryTools
 } // namespace TextGen

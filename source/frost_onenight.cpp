@@ -23,19 +23,19 @@
 #include "WeatherPeriodTools.h"
 #include "PositiveValueAcceptor.h"
 #include "ComparativeAcceptor.h"
+#include "AreaTools.h"
 
 #include <map>
 #include <newbase/NFmiStringTools.h>
-
-using namespace std;
-using namespace WeatherAnalysis;
 
 namespace TextGen
 {
   namespace FrostOnenight
   {
-	enum forecast_area_id{COASTAL_AREA = 0x1, 
-						  INLAND_AREA = 0x2};
+
+	using namespace std;
+	using namespace WeatherAnalysis;
+	using namespace AreaTools;
 
 	enum frost_category{CAT_NA, 
 						CAT_0010, 
@@ -590,6 +590,8 @@ namespace TextGen
 											 positiveValueAcceptor);
 
 	log << "actual growing season percentage, coastal: " << temperatureSumCoastal << endl;
+	if(temperatureSumCoastal.value() == kFloatMissing)
+	  log << "Growing season has not yet started on coastal area!" << endl;
 
 	// Test if the growing season has started at coastal area
 	bool growingSeasonCoastal = temperatureSumCoastal.value() != kFloatMissing && 
@@ -607,6 +609,8 @@ namespace TextGen
 											 positiveValueAcceptor);
 
 	log << "actual growing season percentage, inland: " << temperatureSumInland << endl;
+	if(temperatureSumInland.value() == kFloatMissing)
+	  log << "Growing season has not yet started on inland area!" << endl;
 
 	// Test if the growing season has started at inland area
 
@@ -624,7 +628,7 @@ namespace TextGen
 
 	if(!(forecast_areas & (COASTAL_AREA | INLAND_AREA)))
 	  {
-		log << "Something wrong, NO Coastal area NOR Inland area is included! " << endl;
+		log << "Neither Coastal nor Inland area is included! " << endl;
 		return paragraph;
 	  }
 	if(!(forecast_areas & COASTAL_AREA))

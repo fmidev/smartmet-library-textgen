@@ -29,6 +29,7 @@
 #include "WeatherResult.h"
 #include "WeatherResultTools.h"
 #include "PeriodPhraseFactory.h"
+#include "AreaTools.h"
 
 #include <newbase/NFmiStringTools.h>
 #include <newbase/NFmiGrid.h>
@@ -60,6 +61,7 @@ namespace TextGen
 	using namespace boost;
 	using namespace std;
 	using namespace Settings;
+	using namespace AreaTools;
 	using MathTools::to_precision;
 	using Settings::optional_int;
 	using Settings::optional_bool;
@@ -67,8 +69,17 @@ namespace TextGen
 
 #define COASTAL_AREA_IGNORE_LIMIT -15.0
 #define DAY_NIGHT_SEPARATION_LIMIT 3.0
+#define MORNING_AFTERNOON_SEPARATION_LIMIT 3.0
 #define ABOUT_THE_SAME_UPPER_LIMIT 2.5
 #define SMALL_CHANGE_UPPER_LIMIT 4.5
+
+#define NOIN_ASTETTA_LIMIT 0.5
+#define PAIKKEILLA_ASTETTA_LIMIT 1.0
+#define TIENOILLA_ASTETTA_LIMIT 2.0
+#define LAHELLA_ASTETTA_LIMIT 0.5
+#define TUNTUMASSA_ASTETTA_LIMIT 1.0
+#define VAJAAT_ASTETTA_LIMIT 2.0
+#define VAHAN_YLI_ASTETTA_LIMIT 1.0
 
 #define ABOUT_THE_SAME_PHRASE "suunnilleen sama"
 #define SOMEWHAT_HIGHER_PHRASE "hieman korkeampi"
@@ -91,6 +102,15 @@ namespace TextGen
 #define IS_VERB "on"
 
 
+	enum proximity_id{NOIN_ASTETTA,
+					  PAIKKEILLA_ASTETTA,
+					  TIENOILLA_ASTETTA,
+					  LAHELLA_ASTETTA,
+					  TUNTUMASSA_ASTETTA,
+					  VAJAAT_ASTETTA,
+					  VAHAN_YLI_ASTETTA,
+					  NO_PROXIMITY};
+
 	enum temperature_phrase_id{MINOR_PLUS,
 							   AROUND_ZERO_OR_MINOR_PLUS,
 							   ABOUT_THE_SAME,
@@ -102,15 +122,10 @@ namespace TextGen
 							   TEMPERATURE_RANGE,
 							   NO_PHRASE};
 
-	enum forecast_area_id{NO_AREA = 0x0,
-						  COASTAL_AREA = 0x1, 
-						  INLAND_AREA = 0x2,
-						  FULL_AREA = 0x4};
-
 	enum forecast_period_id{DAY1_PERIOD = 0x1, 
 							NIGHT_PERIOD = 0x2,
 							DAY2_PERIOD = 0x4,
-							NO_PERIOD};
+							NO_PERIOD = 0x0};
 
 	enum forecast_subperiod_id{DAY1_MORNING_PERIOD = 0x1,
 							   DAY1_AFTERNOON_PERIOD = 0x2,
@@ -340,201 +355,205 @@ namespace TextGen
 	  }
 	};
 
-
-	std::string weather_result_string(const std::string& areaName, const weather_result_id& id)
+	std::string weather_result_string(const std::string& areaName, const weather_result_id& id, const bool& isWinter)
 	{
 	  std::string retval;
+	  
+	  std::string timeFunSummerDay("maximum");
+	  std::string timeFunSummerNight("minimum");
+	  std::string timeFunWinterDay("mean");
+	  std::string timeFunWinterNight("mean");
 
 	  switch(id)
 		{
 		case AREA_MIN_DAY1:
-		  retval = areaName + " - area day1 minimum: ";
+		  retval = areaName + " - area day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): "; 
 		  break;
 		case AREA_MAX_DAY1:
-		  retval = areaName + " - area day1 maximum: ";
+		  retval = areaName + " - area day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case AREA_MEAN_DAY1:
-		  retval = areaName + " - area day1 mean: ";
+		  retval = areaName + " - area day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case AREA_MIN_NIGHT:
-		  retval = areaName + " - area night minimum: ";
+		  retval = areaName + " - area night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) + "(minimum): "; 
 		  break;
 		case AREA_MAX_NIGHT:
-		  retval = areaName + " - area night maximum: ";
+		  retval = areaName + " - area night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) + "(maximum): "; 
 		  break;
 		case AREA_MEAN_NIGHT:
-		  retval = areaName + " - area night mean: ";
+		  retval = areaName + " - area night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) + "(mean): "; 
 		  break;
 		case AREA_MIN_DAY2:
-		  retval = areaName + " - area day2 minimum: ";
+		  retval = areaName + " - area day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case AREA_MAX_DAY2:
-		  retval = areaName + " - area day2 maximum: ";
+		  retval = areaName + " - area day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case AREA_MEAN_DAY2:
-		  retval = areaName + " - area day2 mean: ";
+		  retval = areaName + " - area day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case AREA_MIN_DAY1_MORNING:
-		  retval = areaName + " - area day1 morning minimum: ";
+		  retval = areaName + " - area day1 morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case AREA_MAX_DAY1_MORNING:
-		  retval = areaName + " - area day1 morning maximum: ";
+		  retval = areaName + " - area day1 morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case AREA_MEAN_DAY1_MORNING:
-		  retval = areaName + " - area day1  morning mean: ";
+		  retval = areaName + " - area day1  morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case AREA_MIN_DAY2_MORNING:
-		  retval = areaName + " - area day2  morning minimum: ";
+		  retval = areaName + " - area day2  morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case AREA_MAX_DAY2_MORNING:
-		  retval = areaName + " - area day2 morning maximum: ";
+		  retval = areaName + " - area day2 morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case AREA_MEAN_DAY2_MORNING:
-		  retval = areaName + " - area day2 morning mean: ";
+		  retval = areaName + " - area day2 morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case AREA_MIN_DAY1_AFTERNOON:
-		  retval = areaName + " - area day1 afternoon minimum: ";
+		  retval = areaName + " - area day1 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case AREA_MAX_DAY1_AFTERNOON:
-		  retval = areaName + " - area day1 afternoon maximum: ";
+		  retval = areaName + " - area day1 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case AREA_MEAN_DAY1_AFTERNOON:
-		  retval = areaName + " - area day1 afternoon mean: ";
+		  retval = areaName + " - area day1 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case AREA_MIN_DAY2_AFTERNOON:
-		  retval = areaName + " - area day2 afternoon minimum: ";
+		  retval = areaName + " - area day2 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case AREA_MAX_DAY2_AFTERNOON:
-		  retval = areaName + " - area day2 afternoon maximum: ";
+		  retval = areaName + " - area day2 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case AREA_MEAN_DAY2_AFTERNOON:
-		  retval = areaName + " - area day2 afternoon mean: ";
+		  retval = areaName + " - area day2 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case INLAND_MIN_DAY1:
-		  retval = areaName + " - inland day1 minimum: ";
+		  retval = areaName + " - inland day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case INLAND_MAX_DAY1:
-		  retval = areaName + " - inland day1 maximum: ";
+		  retval = areaName + " - inland day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case INLAND_MEAN_DAY1:
-		  retval = areaName + " - inland day1 mean: ";
+		  retval = areaName + " - inland day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case INLAND_MIN_NIGHT:
-		  retval = areaName + " - inland night minimum: ";
+		  retval = areaName + " - inland night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) + "(minimum): "; 
 		  break;
 		case INLAND_MAX_NIGHT:
-		  retval = areaName + " - inland night maximum: ";
+		  retval = areaName + " - inland night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) + "(maximum): "; 
 		  break;
 		case INLAND_MEAN_NIGHT:
-		  retval = areaName + " - inland night mean: ";
+		  retval = areaName + " - inland night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) + "(mean): "; 
 		  break;
 		case INLAND_MIN_DAY2:
-		  retval = areaName + " - inland day2 minimum: ";
+		  retval = areaName + " - inland day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case INLAND_MAX_DAY2:
-		  retval = areaName + " - inland day2 maximum: ";
+		  retval = areaName + " - inland day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case INLAND_MEAN_DAY2:
-		  retval = areaName + " - inland day2 mean: ";
+		  retval = areaName + " - inland day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case INLAND_MIN_DAY1_MORNING:
-		  retval = areaName + " - inland day1 morning minimum: ";
+		  retval = areaName + " - inland day1 morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case INLAND_MAX_DAY1_MORNING:
-		  retval = areaName + " - inland day1 morning maximum: ";
+		  retval = areaName + " - inland day1 morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case INLAND_MEAN_DAY1_MORNING:
-		  retval = areaName + " - inland day1  morning mean: ";
+		  retval = areaName + " - inland day1  morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case INLAND_MIN_DAY2_MORNING:
-		  retval = areaName + " - inland day2  morning minimum: ";
+		  retval = areaName + " - inland day2  morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case INLAND_MAX_DAY2_MORNING:
-		  retval = areaName + " - inland day2 morning maximum: ";
+		  retval = areaName + " - inland day2 morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case INLAND_MEAN_DAY2_MORNING:
-		  retval = areaName + " - inland day2 morning mean: ";
+		  retval = areaName + " - inland day2 morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case INLAND_MIN_DAY1_AFTERNOON:
-		  retval = areaName + " - inland day1 afternoon minimum: ";
+		  retval = areaName + " - inland day1 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case INLAND_MAX_DAY1_AFTERNOON:
-		  retval = areaName + " - inland day1 afternoon maximum: ";
+		  retval = areaName + " - inland day1 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case INLAND_MEAN_DAY1_AFTERNOON:
-		  retval = areaName + " - inland day1 afternoon mean: ";
+		  retval = areaName + " - inland day1 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case INLAND_MIN_DAY2_AFTERNOON:
-		  retval = areaName + " - inland day2 afternoon minimum: ";
+		  retval = areaName + " - inland day2 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case INLAND_MAX_DAY2_AFTERNOON:
-		  retval = areaName + " - inland day2 afternoon maximum: ";
+		  retval = areaName + " - inland day2 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case INLAND_MEAN_DAY2_AFTERNOON:
-		  retval = areaName + " - inland day2 afternoon mean: ";
+		  retval = areaName + " - inland day2 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case COAST_MIN_DAY1:
-		  retval = areaName + " - coast day1 minimum: ";
+		  retval = areaName + " - coast day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): "; 
 		  break;
 		case COAST_MAX_DAY1:
-		  retval = areaName + " - coast day1 maximum: ";
+		  retval = areaName + " - coast day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case COAST_MEAN_DAY1:
-		  retval = areaName + " - coast day1 mean: ";
+		  retval = areaName + " - coast day1 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case COAST_MIN_NIGHT:
-		  retval = areaName + " - coast night minimum: ";
+		  retval = areaName + " - coast night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) + "(minimum): ";
 		  break;
 		case COAST_MAX_NIGHT:
-		  retval = areaName + " - coast night maximum: ";
+		  retval = areaName + " - coast night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) + "(maximum): ";
 		  break;
 		case COAST_MEAN_NIGHT:
-		  retval = areaName + " - coast night mean: ";
+		  retval = areaName + " - coast night " + (isWinter ? timeFunWinterNight : timeFunSummerNight) + "(mean): ";
 		  break;
 		case COAST_MIN_DAY2:
-		  retval = areaName + " - coast day2 minimum: ";
+		  retval = areaName + " - coast day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case COAST_MAX_DAY2:
-		  retval = areaName + " - coast day2 maximum: ";
+		  retval = areaName + " - coast day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case COAST_MEAN_DAY2:
-		  retval = areaName + " - coast day2 mean: ";
+		  retval = areaName + " - coast day2 " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case COAST_MIN_DAY1_MORNING:
-		  retval = areaName + " - coast day1 morning minimum: ";
+		  retval = areaName + " - coast day1 morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case COAST_MAX_DAY1_MORNING:
-		  retval = areaName + " - coast day1 morning maximum: ";
+		  retval = areaName + " - coast day1 morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case COAST_MEAN_DAY1_MORNING:
-		  retval = areaName + " - coast day1  morning mean: ";
+		  retval = areaName + " - coast day1  morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case COAST_MIN_DAY2_MORNING:
-		  retval = areaName + " - coast day2  morning minimum: ";
+		  retval = areaName + " - coast day2  morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case COAST_MAX_DAY2_MORNING:
-		  retval = areaName + " - coast day2 morning maximum: ";
+		  retval = areaName + " - coast day2 morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case COAST_MEAN_DAY2_MORNING:
-		  retval = areaName + " - coast day2 morning mean: ";
+		  retval = areaName + " - coast day2 morning " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case COAST_MIN_DAY1_AFTERNOON:
-		  retval = areaName + " - coast day1 afternoon minimum: ";
+		  retval = areaName + " - coast day1 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case COAST_MAX_DAY1_AFTERNOON:
-		  retval = areaName + " - coast day1 afternoon maximum: ";
+		  retval = areaName + " - coast day1 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case COAST_MEAN_DAY1_AFTERNOON:
-		  retval = areaName + " - coast day1 afternoon mean: ";
+		  retval = areaName + " - coast day1 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case COAST_MIN_DAY2_AFTERNOON:
-		  retval = areaName + " - coast day2 afternoon minimum: ";
+		  retval = areaName + " - coast day2 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(minimum): ";
 		  break;
 		case COAST_MAX_DAY2_AFTERNOON:
-		  retval = areaName + " - coast day2 afternoon maximum: ";
+		  retval = areaName + " - coast day2 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(maximum): ";
 		  break;
 		case COAST_MEAN_DAY2_AFTERNOON:
-		  retval = areaName + " - coast day2 afternoon mean: ";
+		  retval = areaName + " - coast day2 afternoon " + (isWinter ? timeFunWinterDay : timeFunSummerDay) + "(mean): ";
 		  break;
 		case UNDEFINED_WEATHER_RESULT_ID:
 		  break;
@@ -542,6 +561,137 @@ namespace TextGen
 
 	  return retval;
 	}
+
+	proximity_id get_proximity_id(const float& theMinimum, const float& theMaximum, int& theProximityNumber)
+	{	  
+	  float range = abs(theMaximum - theMinimum);
+
+	  // if minimum and maximum differ more than 2.0 degrees we are not in the proximity of
+	  // a number divisible by five
+	  if(range >= 4.0 || (theMinimum == kFloatMissing || theMaximum == kFloatMissing))
+		return NO_PROXIMITY;
+
+	  proximity_id retval = NO_PROXIMITY;
+
+	  if(theMaximum < 0)
+		{
+		  int proximityNbr;
+		  retval = get_proximity_id(-theMaximum, -theMinimum, proximityNbr);
+		  if(retval != NO_PROXIMITY)
+			theProximityNumber = -proximityNbr;
+		  return retval;
+		}
+
+	  int iMin = static_cast<int>(floor(theMinimum));
+	  int iMax = static_cast<int>(floor(theMaximum));
+	  int iMinModFive = iMin % 5;
+	  int iMaxModFive = iMax % 5;
+
+	  // that is divisible by 5
+	  if((iMinModFive == 4 || iMinModFive == 3) && (iMaxModFive == 0 || iMaxModFive == 1) || theMinimum == theMaximum)
+		{
+		  int theNumber = iMin;
+		  while(theNumber % 5 != 0)
+			theNumber = theNumber + 1;
+
+		  if(theNumber - theMinimum < NOIN_ASTETTA_LIMIT && theMaximum - theNumber < NOIN_ASTETTA_LIMIT)
+			retval = NOIN_ASTETTA;
+		  else if(theNumber - theMinimum < PAIKKEILLA_ASTETTA_LIMIT && theMaximum - theNumber <  PAIKKEILLA_ASTETTA_LIMIT)
+			{
+			  if(theMaximum == theNumber)
+				retval = TUNTUMASSA_ASTETTA;
+			  else if(theMinimum == theNumber)
+				retval = VAHAN_YLI_ASTETTA;
+			  else
+				retval = PAIKKEILLA_ASTETTA;
+			}
+		  else if(theNumber - theMinimum < TIENOILLA_ASTETTA_LIMIT && theMaximum - theNumber <  TIENOILLA_ASTETTA_LIMIT)
+			{
+			  if(theMaximum == theNumber)
+				retval = VAJAAT_ASTETTA;
+			  else
+				retval = TIENOILLA_ASTETTA;
+			}
+
+		  if(retval != NO_PROXIMITY)
+			theProximityNumber = theNumber ;
+
+		}
+		else if(iMinModFive == iMaxModFive && iMinModFive == 0)
+		  {
+			// minimum and maximum are above the number
+			// that is divisible by 5
+
+			if(theMinimum - iMin < VAHAN_YLI_ASTETTA_LIMIT && theMaximum - iMax < VAHAN_YLI_ASTETTA_LIMIT)
+			  retval = VAHAN_YLI_ASTETTA;
+
+			if(retval != NO_PROXIMITY)
+			  theProximityNumber = iMin;
+		  }
+		else if((iMinModFive == iMaxModFive || iMinModFive == iMaxModFive - 1) && iMinModFive >= 3)
+		  {
+			// minimum and maximum are below the number
+			// that is divisible by 5
+
+			int theNumber = iMin + (5 - iMinModFive);
+
+			if(theNumber - theMinimum < LAHELLA_ASTETTA_LIMIT && theNumber - theMaximum < LAHELLA_ASTETTA_LIMIT)
+			  retval = LAHELLA_ASTETTA;
+			else if(theNumber - theMinimum < TUNTUMASSA_ASTETTA_LIMIT && theNumber - theMaximum < TUNTUMASSA_ASTETTA_LIMIT)
+			  retval = TUNTUMASSA_ASTETTA;
+			else if(theNumber - theMinimum < VAJAAT_ASTETTA_LIMIT && theNumber - theMaximum < VAJAAT_ASTETTA_LIMIT)
+			  retval = VAJAAT_ASTETTA;
+
+			if(retval != NO_PROXIMITY)
+			  theProximityNumber = theNumber;
+		  }
+
+
+	  return retval;
+	}
+
+	fractile_id get_fake_fractile(const string& theVar, const float& theTemperature)
+	{
+	  
+	  double default_f02 = 5.0, 
+		default_f12 = 10.0, 
+		default_f37 = 14.0, 
+		default_f50 = 20.0, 
+		default_f63 = 23.0, 
+		default_f88 = 25.0, 
+		default_f98 = 27.0, 
+		default_f100 = 29.0;
+
+	  double f02 = Settings::optional_double(theVar+"::fake::fractile02_limit", default_f02);
+	  double f12 = Settings::optional_double(theVar+"::fake::fractile12_limit", default_f12);
+	  double f37 = Settings::optional_double(theVar+"::fake::fractile37_limit", default_f37);
+	  double f50 = Settings::optional_double(theVar+"::fake::fractile50_limit", default_f50);
+	  double f63 = Settings::optional_double(theVar+"::fake::fractile63_limit", default_f63);
+	  double f88 = Settings::optional_double(theVar+"::fake::fractile88_limit", default_f88);
+	  double f98 = Settings::optional_double(theVar+"::fake::fractile98_limit", default_f98);
+	  double f100 = Settings::optional_double(theVar+"::fake::fractile100_limit", default_f100);
+
+
+	  if(theTemperature < f02)
+		return FRACTILE_02;
+	  else if(theTemperature < f12)
+		return FRACTILE_12;
+	  else if(theTemperature < f37)
+		return FRACTILE_37;
+	  else if(theTemperature < f50)
+		return FRACTILE_50;
+	  else if(theTemperature < f63)
+		return FRACTILE_63;
+	  else if(theTemperature < f88)
+		return FRACTILE_88;
+	  else if(theTemperature < f98)
+		return FRACTILE_98;
+	  else if(theTemperature < f100)
+		return FRACTILE_100;
+	  else
+		return FRACTILE_UNDEFINED;
+	}
+
 
 	WeatherResult do_calculation(const string& theVar,
 								 const AnalysisSources& theSources,
@@ -592,7 +742,7 @@ namespace TextGen
 		  mean_id_full = (theAreaId == INLAND_AREA ? INLAND_MEAN_DAY1 : 
 					 (theAreaId == COASTAL_AREA ? COAST_MEAN_DAY1 : AREA_MEAN_DAY1));
 
-		  if(theSeasonId == SUMMER_SEASON)
+		  //if(theSeasonId == SUMMER_SEASON)
 			{
 			  min_id_morning = (theAreaId == INLAND_AREA ? INLAND_MIN_DAY1_MORNING : 
 								(theAreaId == COASTAL_AREA ? COAST_MIN_DAY1_MORNING : AREA_MIN_DAY1_MORNING));
@@ -631,7 +781,7 @@ namespace TextGen
 		  mean_id_full = (theAreaId == INLAND_AREA ? INLAND_MEAN_DAY2 : 
 					 (theAreaId == COASTAL_AREA ? COAST_MEAN_DAY2 : AREA_MEAN_DAY2));
 
-		  if(theSeasonId == SUMMER_SEASON)
+		  //if(theSeasonId == SUMMER_SEASON)
 			{
 			  min_id_morning = (theAreaId == INLAND_AREA ? INLAND_MIN_DAY2_MORNING : 
 								(theAreaId == COASTAL_AREA ? COAST_MIN_DAY2_MORNING : AREA_MIN_DAY2_MORNING));
@@ -653,7 +803,6 @@ namespace TextGen
 		}
 	  else
 		{
-		  // TODO: error handling
 		  return;
 		}
 
@@ -719,8 +868,7 @@ namespace TextGen
 
 		  if(thePeriodId == DAY1_PERIOD || thePeriodId == DAY2_PERIOD)
 			{
-			  morning_temperature(theVar + 
-								  fakeVarMorning,
+			  morning_temperature(theVar + fakeVarMorning,
 								  theSources,
 								  theActualArea,
 								  thePeriod,
@@ -735,14 +883,29 @@ namespace TextGen
 									minResultAfternoon,
 									maxResultAfternoon,
 									meanResultAfternoon);
+
+			  fractile_id f_id = FRACTILE_UNDEFINED;
+			  if(Settings::isset(theVar + "::fake::fractile02_limit"))
+				f_id = get_fake_fractile(theVar, maxResultAfternoon.value());
+			  else
+				f_id = get_fractile(theVar,
+									maxResultAfternoon.value(),
+									theSources,
+									theActualArea,  
+									thePeriod);
+
+			  theLog << "Temperature " << maxResultAfternoon << " falls into fractile " << fractile_name(f_id) << endl;
+
 			}
 
+		  /*
 		  theLog << "Temperature ";
 		  theLog << (theTimeFunction == Minimum ? "Minimum(Min) " : "Minimum(Max) ") << minResultFull << endl;
 		  theLog << "Temperature ";
 		  theLog << (theTimeFunction == Minimum ? "Maximum(Min) " : "Maximum(Max) ") << maxResultFull << endl;
 		  theLog << "Temperature ";
 		  theLog << (theTimeFunction == Minimum ? "Mean(Minimum) " : "Mean(Maximum) ") << meanResultFull << endl;
+		  */
 		}
 	  else
 		{
@@ -769,12 +932,45 @@ namespace TextGen
 									  theActualArea,
 									  thePeriod);
 
+		  if(thePeriodId == DAY1_PERIOD || thePeriodId == DAY2_PERIOD)
+			{
+			  morning_temperature(theVar + fakeVarMorning,
+								  theSources,
+								  theActualArea,
+								  thePeriod,
+								  minResultMorning,
+								  maxResultMorning,
+								  meanResultMorning);
+
+			  afternoon_temperature(theVar + fakeVarAfternoon,
+									theSources,
+									theActualArea,
+									thePeriod,
+									minResultAfternoon,
+									maxResultAfternoon,
+									meanResultAfternoon);
+
+			  fractile_id f_id = FRACTILE_UNDEFINED;
+			  if(Settings::isset(theVar + "::fake::fractile02_limit"))
+				f_id = get_fake_fractile(theVar, maxResultAfternoon.value());
+			  else
+				f_id = get_fractile(theVar,
+									maxResultAfternoon.value(),
+									theSources,
+									theActualArea,  
+									thePeriod);
+
+			  theLog << "Temperature " << maxResultAfternoon << " falls into fractile " << fractile_name(f_id) << endl;
+			}
+
+		  /*
 		  theLog << "Temperature ";
 		  theLog << "Mean(Minimum) " << minResultFull << endl;
 		  theLog << "Temperature ";
 		  theLog << "Mean(Maximum) " << maxResultFull << endl;
 		  theLog << "Temperature ";
 		  theLog << "Mean(Mean) " << meanResultFull << endl;
+		  */
 		}
 
 	}
@@ -791,61 +987,58 @@ namespace TextGen
 	}
 
 
-	const void log_weather_results(MessageLogger& theLog, 
-								   weather_result_container_type& theWeatherResults, 
-								   const WeatherArea& theArea)
+	const void log_weather_results(const t36hparams& theParameters, const WeatherArea& theArea)
 	{
-	  theLog << "Weather results: " << endl;
+	  theParameters.theLog << "Weather results: " << endl;
 
 	  // Iterate and print out the WeatherResult variables
 	  for(int i = AREA_MIN_DAY1; i < UNDEFINED_WEATHER_RESULT_ID; i++)
 		{
-		  if(theWeatherResults[i]->value() != kFloatMissing)
+		  const WeatherResult& theWeatherResult = *(theParameters.theWeatherResults[i]);
+
+		  if(theWeatherResult.value() != kFloatMissing)
 			{
-			  theLog <<  weather_result_string(theArea.isNamed() ? theArea.name() : "", static_cast<weather_result_id>(i));
-			  theLog << *theWeatherResults[i] << endl;
+			  theParameters.theLog << weather_result_string(theArea.isNamed() ? theArea.name() : 
+															"", static_cast<weather_result_id>(i), 
+															theParameters.theSeasonId == WINTER_SEASON);
+			  theParameters.theLog << theWeatherResult << endl;
 			}
 		} 
 	}
-
 
 	const forecast_season_id get_forecast_season(const NFmiTime& theTime, const std::string theVariable)
 	{
 	  return (SeasonTools::isSummerHalf(theTime, theVariable) ? SUMMER_SEASON : WINTER_SEASON);
 	}
 
-
-
 	const temperature_phrase_id around_zero_phrase(const t36hparams& theParameters)
 	{
 	  temperature_phrase_id retval = NO_PHRASE;
 
-	  int theMinimumInt = static_cast<int>(round(theParameters.theMinimum));
-	  int theMaximumInt = static_cast<int>(round(theParameters.theMaximum));
-
-	  if(theParameters.theMinimum >= 0.1 && theMaximumInt < 2.50 && 
+	  if(theParameters.theMinimum > 0.0 && theParameters.theMaximum < 2.50 && 
 		 !theParameters.theZeroIntervalFlag && 
 		 theParameters.theTemperaturePhraseId != MINOR_PLUS) // [+0,1...+2,49]
 		{
 		  retval = MINOR_PLUS;
 		}
-	  else if(theMinimumInt >= 0 && theMaximumInt < 2.50 && 
-			  !theParameters.theZeroIntervalFlag &&
+	  else if(theParameters.theMinimum < 0 && theParameters.theMinimum > -0.50 && theParameters.theMaximum >= 0 && 
+			  theParameters.theMaximum < 2.50 && !theParameters.theZeroIntervalFlag &&
 			  theParameters.theTemperaturePhraseId != AROUND_ZERO_OR_MINOR_PLUS) // [-0,49...+2,49]
 		{
 		  retval = AROUND_ZERO_OR_MINOR_PLUS;
-		}
-	  else if(theMinimumInt > -4.50 && theParameters.theMaximum <= 0.0 && 
-			  !theParameters.theZeroIntervalFlag &&
-			  theParameters.theTemperaturePhraseId != MINOR_FROST) // [-4,49...0,0]
-		{
-		  retval = MINOR_FROST;
 		}
 	  else if(theParameters.theMinimum < 0 && theParameters.theMinimum >= -2.0 && theParameters.theMaximum >= 0 && 
 			  theParameters.theMaximum <= 2.0 && !theParameters.theZeroIntervalFlag &&
 			  theParameters.theTemperaturePhraseId != AROUND_ZERO) // [-2,0...+2,0]
 		{
 		  retval = AROUND_ZERO;
+		}
+	  else if(theParameters.theMinimum > -4.50 && theParameters.theMaximum < 0.0 && 
+			  !theParameters.theZeroIntervalFlag && 
+			  theParameters.theTemperaturePhraseId != MINOR_FROST &&
+			  !SeasonTools::isSpring(theParameters.theGenerator.period(1).localStartTime(), theParameters.theVariable)) // [-4,49...-0,1]
+		{
+		  retval = MINOR_FROST;
 		}
 
 	  return retval;
@@ -957,55 +1150,137 @@ namespace TextGen
 
 	  Sentence sentence;
 
-	  int theMinimumInt = static_cast<int>(round(theParameters.theMinimum));
-	  int theMeanInt = static_cast<int>(round(theParameters.theMean));
-	  int theMaximumInt = static_cast<int>(round(theParameters.theMaximum));
+	  temperature_phrase_id phrase_id = around_zero_phrase(theParameters);
 
-	  if(theParameters.theMinimum > 0.0 && theMaximumInt < 2.50 && 
-		 !theParameters.theZeroIntervalFlag && 
-		 theParameters.theTemperaturePhraseId != MINOR_PLUS) // [+0,1...+2,49]
+	  if(phrase_id != NO_PHRASE)
 		{
-		  sentence << MINOR_PLUS_PHRASE;
-		  theParameters.theTemperaturePhraseId = MINOR_PLUS;
-		  
-		}
-	  else if(theMinimumInt > -0.50 && theMaximumInt < 2.50 && 
-			  !theParameters.theZeroIntervalFlag &&
-			  theParameters.theTemperaturePhraseId != AROUND_ZERO_OR_MINOR_PLUS) // [-0,49...+2,49]
-		{
-		  sentence << AROUND_ZERO_PHRASE <<  "tai" << MINOR_PLUS_PHRASE;
-		  theParameters.theTemperaturePhraseId = AROUND_ZERO_OR_MINOR_PLUS;
-		}
-	  else if(theMinimumInt > -4.50 && theParameters.theMaximum <= 0.0 && 
-			  !theParameters.theZeroIntervalFlag &&
-			  theParameters.theTemperaturePhraseId != MINOR_FROST &&
-			  !SeasonTools::isSpring(theParameters.theGenerator.period(1).localStartTime(), theParameters.theVariable)) // [-4,49...0,0]
-		{
-		  sentence << MINOR_FROST_PHRASE;
-		  theParameters.theTemperaturePhraseId = MINOR_FROST;
-		}
-	  else if(theParameters.theMinimum < 0 && theParameters.theMinimum >= -2.0 && theParameters.theMaximum >= 0 && 
-			  theParameters.theMaximum <= 2.0 && !theParameters.theZeroIntervalFlag &&
-			  theParameters.theTemperaturePhraseId != AROUND_ZERO) // [-2,0...+2,0]
-		{
-		  sentence << AROUND_ZERO_PHRASE;
-		  theParameters.theTemperaturePhraseId = AROUND_ZERO;
+		  switch(phrase_id)
+			{
+			case MINOR_PLUS:
+			  {
+				sentence << MINOR_PLUS_PHRASE;
+				theParameters.theTemperaturePhraseId = MINOR_PLUS;
+			  }
+			  break;
+			case AROUND_ZERO_OR_MINOR_PLUS:
+			  {
+				sentence << AROUND_ZERO_PHRASE <<  "tai" << MINOR_PLUS_PHRASE;
+				theParameters.theTemperaturePhraseId = AROUND_ZERO_OR_MINOR_PLUS;
+			  }
+			  break;
+			case AROUND_ZERO:
+			  {
+				sentence << AROUND_ZERO_PHRASE;
+				theParameters.theTemperaturePhraseId = AROUND_ZERO;
+			  }
+			  break;
+			case MINOR_FROST:
+			  {
+				sentence << MINOR_FROST_PHRASE;
+				theParameters.theTemperaturePhraseId = MINOR_FROST;
+			  }
+			  break;
+			default:
+			  break;
+			}
 		}
 	  else
-		{
-		  clamp_temperature(theParameters.theVariable,
-							theParameters.theSeasonId == WINTER_SEASON,
-							theParameters.theForecastPeriodId != NIGHT_PERIOD,
-							theMinimumInt,
-							theMaximumInt);
+		{	
+		  int theProximityNumber;
 
-		  sentence = TemperatureStoryTools::temperature_sentence2(theMinimumInt, 
-																  theMeanInt, 
-																  theMaximumInt,
-																  theParameters.theMinInterval,
-																  theParameters.theZeroIntervalFlag,
-																  theParameters.theRangeSeparator);
+		  proximity_id proxim_id = get_proximity_id(theParameters.theMinimum, 
+											 theParameters.theMaximum, 
+											 theProximityNumber);
 
+		  if(proxim_id != NO_PROXIMITY)
+			{
+	char proximityNumberBuff[32];
+	char tempBuff[128];
+
+	sprintf(tempBuff, "%.02f...%.02f", theParameters.theMinimum, theParameters.theMaximum);
+	
+	sprintf(proximityNumberBuff, "%i", theProximityNumber);
+
+			  switch(proxim_id)
+				{
+				case NOIN_ASTETTA:
+				  {
+					sentence << "noin"
+							 << Integer(theProximityNumber)
+							 << *UnitFactory::create(DegreesCelsius);
+		theParameters.theLog << "PROXIMITYX: Noin " << proximityNumberBuff << " astetta :: " << tempBuff << endl;
+				  }
+				  break;
+				case PAIKKEILLA_ASTETTA:
+				  {
+					sentence << Integer(theProximityNumber)
+							 << "asteen" << "paikkeilla";
+		theParameters.theLog << "PROXIMITYX: " << proximityNumberBuff << " asteen paikkeilla :: " << tempBuff << endl;
+				  }
+				  break;
+				case TIENOILLA_ASTETTA:
+				  {
+					sentence << Integer(theProximityNumber)
+							 << "asteen" << "tienoilla";
+		theParameters.theLog  << "PROXIMITYX: " << proximityNumberBuff << " asteen tienoilla :: " << tempBuff << endl;
+				  }
+				  break;
+				case LAHELLA_ASTETTA:
+				  {
+					sentence << "lähellä"
+							 << Integer(theProximityNumber)
+							 << *UnitFactory::create(DegreesCelsius);
+		theParameters.theLog  << "PROXIMITYX: Lähellä " << proximityNumberBuff << " astetta :: " << tempBuff << endl;
+				  }
+				  break;
+				case TUNTUMASSA_ASTETTA:
+				  {
+					sentence << Integer(theProximityNumber)
+							 << "asteen" << "tuntumassa";
+		theParameters.theLog  << "PROXIMITYX: " << proximityNumberBuff << " asteen tuntumassa :: " << tempBuff << endl;
+				  }
+				  break;
+				case VAJAAT_ASTETTA:
+				  {
+					sentence << "vajaat"
+							 << Integer(theProximityNumber)
+							 << *UnitFactory::create(DegreesCelsius);
+		theParameters.theLog  << "PROXIMITYX: Vajaat " << proximityNumberBuff << " astetta :: " << tempBuff << endl;
+				  }
+				  break;
+				case VAHAN_YLI_ASTETTA:
+				  {
+					sentence << "vähän" << "yli"  
+							 << Integer(theProximityNumber)
+							 << *UnitFactory::create(DegreesCelsius);
+		theParameters.theLog  << "PROXIMITYX: Vähän yli " << proximityNumberBuff << " astetta :: " << tempBuff << endl;
+				  }
+				  break;
+				case NO_PROXIMITY:
+		theParameters.theLog  << "NO PROXIMITY: " << tempBuff << endl;
+				  break;
+				}
+			}
+		  else
+			{
+			  int theMinimumInt = static_cast<int>(round(theParameters.theMinimum));
+			  int theMeanInt = static_cast<int>(round(theParameters.theMean));
+			  int theMaximumInt = static_cast<int>(round(theParameters.theMaximum));
+
+			  clamp_temperature(theParameters.theVariable,
+								theParameters.theSeasonId == WINTER_SEASON,
+								theParameters.theForecastPeriodId != NIGHT_PERIOD,
+								theMinimumInt,
+								theMaximumInt);
+
+			  sentence = TemperatureStoryTools::temperature_sentence2(theMinimumInt, 
+																	  theMeanInt, 
+																	  theMaximumInt,
+																	  theParameters.theMinInterval,
+																	  theParameters.theZeroIntervalFlag,
+																	  theParameters.theRangeSeparator);
+
+			}
 		  theParameters.theTemperaturePhraseId = TEMPERATURE_RANGE;
 		}
 
@@ -1353,14 +1628,6 @@ namespace TextGen
 
 	  temperatureSentence << temperature_sentence(theParameters);
 
-
-	  // exception: inland and coastal separated and morning and afternoon separated and now we are processing
-	  // morning on the coastal area
-	  /*
-	  if(theParameters.inlandAndCoastSeparated(DAY1_PERIOD) &&
-		  theParameters.theForecastAreaId == COASTAL_AREA))
-		sentence << "tänään";
-	  */
 	  sentence << PeriodPhraseFactory::create("today",
 											  theParameters.theVariable,
 											  theParameters.theForecastTime,
@@ -1393,11 +1660,33 @@ namespace TextGen
 	  int inlandMin = (theParameters.theForecastPeriodId == DAY1_PERIOD ? INLAND_MIN_DAY1 : 
 					   (theParameters.theForecastPeriodId == NIGHT_PERIOD ? INLAND_MIN_NIGHT : INLAND_MIN_DAY2));
 	  int inlandMax = (theParameters.theForecastPeriodId == DAY1_PERIOD ? INLAND_MAX_DAY1 : 
-
 					   (theParameters.theForecastPeriodId == NIGHT_PERIOD ? INLAND_MAX_NIGHT : INLAND_MAX_DAY2));
 	  int inlandMean = (theParameters.theForecastPeriodId == DAY1_PERIOD ? INLAND_MEAN_DAY1 : 
 						(theParameters.theForecastPeriodId == NIGHT_PERIOD ? INLAND_MEAN_NIGHT : INLAND_MEAN_DAY2));
 	  
+
+	  /*
+	  int areaMin = (theParameters.theForecastPeriodId == DAY1_PERIOD ? AREA_MIN_DAY1_AFTERNOON : 
+					 (theParameters.theForecastPeriodId == NIGHT_PERIOD ? AREA_MIN_NIGHT : AREA_MIN_DAY2_AFTERNOON));
+	  int areaMax = (theParameters.theForecastPeriodId == DAY1_PERIOD ? AREA_MAX_DAY1_AFTERNOON : 
+					 (theParameters.theForecastPeriodId == NIGHT_PERIOD ? AREA_MAX_NIGHT : AREA_MAX_DAY2_AFTERNOON));
+	  int areaMean = (theParameters.theForecastPeriodId == DAY1_PERIOD ? AREA_MEAN_DAY1_AFTERNOON : 
+					  (theParameters.theForecastPeriodId == NIGHT_PERIOD ? AREA_MEAN_NIGHT : AREA_MEAN_DAY2_AFTERNOON));
+	  int coastMin = (theParameters.theForecastPeriodId == DAY1_PERIOD ? COAST_MIN_DAY1_AFTERNOON : 
+					  (theParameters.theForecastPeriodId == NIGHT_PERIOD ? COAST_MIN_NIGHT : COAST_MIN_DAY2_AFTERNOON));
+	  int coastMax = (theParameters.theForecastPeriodId == DAY1_PERIOD ? COAST_MAX_DAY1_AFTERNOON : 
+					  (theParameters.theForecastPeriodId == NIGHT_PERIOD ? COAST_MAX_NIGHT : COAST_MAX_DAY2_AFTERNOON));
+	  int coastMean = (theParameters.theForecastPeriodId == DAY1_PERIOD ? COAST_MEAN_DAY1_AFTERNOON : 
+					   (theParameters.theForecastPeriodId == NIGHT_PERIOD ? COAST_MEAN_NIGHT : COAST_MEAN_DAY2_AFTERNOON));
+	  int inlandMin = (theParameters.theForecastPeriodId == DAY1_PERIOD ? INLAND_MIN_DAY1_AFTERNOON : 
+					   (theParameters.theForecastPeriodId == NIGHT_PERIOD ? INLAND_MIN_NIGHT : INLAND_MIN_DAY2_AFTERNOON));
+	  int inlandMax = (theParameters.theForecastPeriodId == DAY1_PERIOD ? INLAND_MAX_DAY1_AFTERNOON : 
+					   (theParameters.theForecastPeriodId == NIGHT_PERIOD ? INLAND_MAX_NIGHT : INLAND_MAX_DAY2_AFTERNOON));
+	  int inlandMean = (theParameters.theForecastPeriodId == DAY1_PERIOD ? INLAND_MEAN_DAY1_AFTERNOON : 
+						(theParameters.theForecastPeriodId == NIGHT_PERIOD ? INLAND_MEAN_NIGHT : INLAND_MEAN_DAY2_AFTERNOON));
+
+	  */
+
 	  if(theParameters.theForecastAreaId == FULL_AREA)
 		{
 
@@ -1407,7 +1696,7 @@ namespace TextGen
 			{
 			  if(theParameters.theSeasonId == SUMMER_SEASON && 
 				 theParameters.theWeatherResults[AREA_MAX_DAY1_MORNING]->value() > 
-				 theParameters.theWeatherResults[AREA_MAX_DAY1_AFTERNOON]->value() + 1.0)
+				 theParameters.theWeatherResults[AREA_MAX_DAY1_AFTERNOON]->value() + MORNING_AFTERNOON_SEPARATION_LIMIT)
 				{
 				  theParameters.theForecastAreaId = FULL_AREA;
 				  theParameters.theSubPeriodId = DAY1_MORNING_PERIOD;
@@ -1463,7 +1752,7 @@ namespace TextGen
 			{
 			  if(theParameters.theSeasonId == SUMMER_SEASON && 
 				 theParameters.theWeatherResults[INLAND_MAX_DAY2_MORNING]->value() > 
-				 theParameters.theWeatherResults[INLAND_MAX_DAY2_AFTERNOON]->value() + 1.0)
+				 theParameters.theWeatherResults[INLAND_MAX_DAY2_AFTERNOON]->value() + MORNING_AFTERNOON_SEPARATION_LIMIT)
 				{
 				  theParameters.theForecastAreaId = FULL_AREA;
 				  theParameters.theSubPeriodId = DAY2_MORNING_PERIOD;
@@ -1509,7 +1798,7 @@ namespace TextGen
 			{
 			  if(theParameters.theSeasonId == SUMMER_SEASON && 
 				 theParameters.theWeatherResults[INLAND_MAX_DAY1_MORNING]->value() > 
-				 theParameters.theWeatherResults[INLAND_MAX_DAY1_AFTERNOON]->value() + 1.0)
+				 theParameters.theWeatherResults[INLAND_MAX_DAY1_AFTERNOON]->value() + MORNING_AFTERNOON_SEPARATION_LIMIT)
 				{
 				  theParameters.theForecastAreaId = INLAND_AREA;
 				  theParameters.theSubPeriodId = DAY1_MORNING_PERIOD;
@@ -1562,7 +1851,7 @@ namespace TextGen
 			{
 			  if(theParameters.theSeasonId == SUMMER_SEASON && 
 				 theParameters.theWeatherResults[INLAND_MAX_DAY2_MORNING]->value() > 
-				 theParameters.theWeatherResults[INLAND_MAX_DAY2_AFTERNOON]->value() + 1.0)
+				 theParameters.theWeatherResults[INLAND_MAX_DAY2_AFTERNOON]->value() + MORNING_AFTERNOON_SEPARATION_LIMIT)
 				{
 				  theParameters.theForecastAreaId = INLAND_AREA;
 				  theParameters.theSubPeriodId = DAY2_MORNING_PERIOD;
@@ -1609,7 +1898,7 @@ namespace TextGen
 			{
 			  if(theParameters.theSeasonId == SUMMER_SEASON && 
 				 theParameters.theWeatherResults[COAST_MAX_DAY1_MORNING]->value() > 
-				 theParameters.theWeatherResults[COAST_MAX_DAY1_AFTERNOON]->value() + 1.0)
+				 theParameters.theWeatherResults[COAST_MAX_DAY1_AFTERNOON]->value() + MORNING_AFTERNOON_SEPARATION_LIMIT)
 				{
 				  theParameters.theForecastAreaId = COASTAL_AREA;
 				  theParameters.theSubPeriodId = DAY1_MORNING_PERIOD;
@@ -1661,7 +1950,7 @@ namespace TextGen
 			{
 			  if(theParameters.theSeasonId == SUMMER_SEASON && 
 				 theParameters.theWeatherResults[COAST_MAX_DAY2_MORNING]->value() > 
-				 theParameters.theWeatherResults[COAST_MAX_DAY2_AFTERNOON]->value() + 1.0)
+				 theParameters.theWeatherResults[COAST_MAX_DAY2_AFTERNOON]->value() + MORNING_AFTERNOON_SEPARATION_LIMIT)
 				{
 				  theParameters.theForecastAreaId = COASTAL_AREA;
 				  theParameters.theSubPeriodId = DAY2_MORNING_PERIOD;
@@ -2095,20 +2384,54 @@ namespace TextGen
 
 	  return paragraph;
 	}
+
+	const Sentence temperature_anomaly_sentence(const forecast_season_id& theSeason,
+												const fractile_id& theFractile)
+	{
+	  Sentence retval;
+	
+	  switch(theFractile)
+		{
+		case FRACTILE_02:
+		  retval << (theSeason == SUMMER_SEASON ? "poikkeuksellisen koleaa" : "poikkeuksellisen kylmää");
+		  break;
+		case FRACTILE_12:
+		  retval << (theSeason == SUMMER_SEASON ? "koleaa" : "hyvin kylmää");
+		  break;
+		case FRACTILE_37:
+		  break;
+		case FRACTILE_50:
+		  break;
+		case FRACTILE_63:
+		  break;
+		case FRACTILE_88:
+		  break;
+		case FRACTILE_98:
+		  retval << (theSeason == SUMMER_SEASON ? "harvinaisen lämmintä" : "hyvin lauhaa");
+		  break;
+		case FRACTILE_100:
+		  retval << (theSeason == SUMMER_SEASON ? "poikkeuksellisen lämmintä" : "poikkeuksellisen leutoa");
+		  break;
+		case FRACTILE_UNDEFINED:
+		  break;
+		}
+
+	  return retval;
+	}
+
+	bool valid_value_period_check(const float& value, unsigned short& forecast_period, const unsigned short& mask)
+	{
+	  bool retval = (value != kFloatMissing);
+
+	  if(!retval)
+		forecast_period &= ~mask;
+
+	  return retval;
+	} 
   } // namespace TemperatureMax36Hours
 
 
-  bool valid_value_period_check(const float& value, unsigned short& forecast_period, const unsigned short& mask)
-  {
-	bool retval = (value != kFloatMissing);
-
-	if(!retval)
-	  forecast_period &= ~mask;
-
-	return retval;
-  }
-
-  
+ 
   // ----------------------------------------------------------------------
   /*!
    * \brief Generate story on temperature for the day and night
@@ -2127,9 +2450,8 @@ namespace TextGen
 	if(itsArea.isNamed())
 	  {
 		std::string nimi(itsArea.name());
-		log <<  nimi;
+		log <<  nimi << endl;
 	  }
-	
 
 	// Period generator
 	NightAndDayPeriodGenerator generator(itsPeriod, itsVar);
@@ -2145,8 +2467,24 @@ namespace TextGen
 		return paragraph;
 	  }
 
+	log << "period contains ";
 
-	log << "Period contains " << generator.size() << " days or nights" << endl;
+	if(generator.isday(1))
+	  {
+		if(generator.size() > 2)
+		  log << "today, night and tomorrow" << endl;
+		else if(generator.size() == 2)
+		  log << "today and night" << endl;
+		else
+		  log << "today" << endl;
+	  }
+	else
+	  {
+		if(generator.size() == 1)
+		  log << "one night" << endl;		  
+		else
+		  log << "night and tomorrow" << endl;		  
+	  }
 
 	// container to hold the results
 	weather_result_container_type weatherResults;
@@ -2340,7 +2678,63 @@ namespace TextGen
 
 	paragraph << temperature_max36hours_sentence(parameters);
 
-	log_weather_results(log, weatherResults, itsArea);
+	log_weather_results(parameters, itsArea);
+
+#ifdef LATER
+	int theProximityNumber;
+
+
+	proximity_id id = get_proximity_id(weatherResults[AREA_MIN_DAY1]->value(), 
+									   weatherResults[AREA_MAX_DAY1]->value(), 
+									   theProximityNumber);
+	char tempBuff[128];
+	char proximityNumberBuff[32];
+	/*
+	char maxIntBuff[32];
+	char maxIntBuff1[32];
+	char minIntBuff[32];
+	*/
+	sprintf(tempBuff, "%.02f...%.02f", weatherResults[AREA_MIN_DAY1]->value(), weatherResults[AREA_MAX_DAY1]->value());
+	
+	sprintf(proximityNumberBuff, "%i", theProximityNumber);
+
+	/*
+	sprintf(tempBuff, "%.02f...%.02f", weatherResults[AREA_MIN_DAY1]->value(), weatherResults[AREA_MAX_DAY1]->value());
+	
+	sprintf(maxIntBuff, "%i", static_cast<int>(floor(weatherResults[AREA_MAX_DAY1]->value())));
+	sprintf(maxIntBuff1, "%i", static_cast<int>(floor(weatherResults[AREA_MAX_DAY1]->value()+1)));
+	sprintf(maxIntBuff2, "%i", static_cast<int>(floor(weatherResults[AREA_MAX_DAY1]->value()+2)));
+	sprintf(minIntBuff, "%i", static_cast<int>(floor(weatherResults[AREA_MIN_DAY1]->value())));
+	*/
+	switch(id)
+	  {
+	  case NOIN_ASTETTA:
+		log << "PROXIMITYX: Noin " << proximityNumberBuff << " astetta :: " << tempBuff << endl;
+		break;
+	  case PAIKKEILLA_ASTETTA:
+		log << "PROXIMITYX: " << proximityNumberBuff << " asteen paikkeilla :: " << tempBuff << endl;
+		break;
+	  case TIENOILLA_ASTETTA:
+		log  << "PROXIMITYX: " << proximityNumberBuff << " asteen tienoilla :: " << tempBuff << endl;
+		break;
+	  case LAHELLA_ASTETTA:
+		log  << "PROXIMITYX: Lähellä " << proximityNumberBuff << " astetta :: " << tempBuff << endl;
+		break;
+	  case TUNTUMASSA_ASTETTA:
+		log  << "PROXIMITYX: " << proximityNumberBuff << " asteen tuntumassa :: " << tempBuff << endl;
+		break;
+	  case VAJAAT_ASTETTA:
+		log  << "PROXIMITYX: Vajaat " << proximityNumberBuff << " astetta :: " << tempBuff << endl;
+		break;
+	  case VAHAN_YLI_ASTETTA:
+		log  << "PROXIMITYX: Vähän yli " << proximityNumberBuff << " astetta :: " << tempBuff << endl;
+		break;
+	  case NO_PROXIMITY:
+		log  << "NO PROXIMITY: " << tempBuff << endl;
+		break;
+	  }
+#endif
+
 
 	// delete the allocated WeatherResult-objects
 	for(int i = AREA_MIN_DAY1; i < UNDEFINED_WEATHER_RESULT_ID; i++)
