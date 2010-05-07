@@ -157,15 +157,19 @@ namespace TextGen
 												  int theMaximum,
 												  int theMinInterval,
 												  bool theZeroFlag,
-												  const std::string & theRangeSeparator)
+												  const std::string & theRangeSeparator,
+												  const bool& theRoundTheNumber)
 	{
 	  Sentence sentence;
 	  
 	  bool range = true;
 	  
+	  // in winter theMaximum contains the lower value than the theMinimum
+	  int diff = (theMaximum > theMinimum ? (theMaximum - theMinimum) : (theMinimum - theMaximum));
+
 	  if(theMinimum == theMaximum)
 		range = false;
-	  else if(theMaximum - theMinimum >= theMinInterval)
+	  else if(diff >= theMinInterval)
 		range = true;
 	  else if(theMinimum <= 0 && theMaximum >= 0)
 		range = true;
@@ -177,6 +181,9 @@ namespace TextGen
 		  if(theMinimum < 0 && theMaximum >= 0 && abs(theMinimum) > abs(theMaximum))
 			sentence << IntegerRange(theMaximum, theMinimum, theRangeSeparator)
 				   << *UnitFactory::create(DegreesCelsius);
+		  else if(theMinimum > theMaximum)
+			sentence << IntegerRange(theMaximum, theMinimum, theRangeSeparator)
+					 << *UnitFactory::create(DegreesCelsius);
 		  else
 			sentence << IntegerRange(theMinimum, theMaximum, theRangeSeparator)
 					 << *UnitFactory::create(DegreesCelsius);
@@ -189,7 +196,7 @@ namespace TextGen
 		  int theRoundedMean = theMean;
 		  int theModuloOfMean = theMean % 5;
 
-		  if(theModuloOfMean != 0)
+		  if(theModuloOfMean != 0 && theRoundTheNumber)
 			{
 			  if(theModuloOfMean < 0)
 				theModuloOfMean += 5;
@@ -425,6 +432,10 @@ namespace TextGen
 							 const WeatherArea& theArea,  
 							 const WeatherPeriod& thePeriod)
 	{
+
+	  if(theTemperature == kFloatMissing)
+		return FRACTILE_UNDEFINED;
+
 	  std::string dataName("textgen::fractiles");
 	  
 	  WeatherPeriod climatePeriod = ClimatologyTools::getClimatologyPeriod(thePeriod, dataName, theSources);
@@ -506,9 +517,6 @@ namespace TextGen
 						  Maximum,
 						  theArea,
 						  climatePeriod);
-		
-		
-
 
 	  if(result.value() != kFloatMissing && theTemperature <= result.value())
 		return FRACTILE_98;
@@ -518,6 +526,76 @@ namespace TextGen
 		return FRACTILE_UNDEFINED;
 	}
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief determines the temperature for the given fractile
+	 *
+	 * \param theVar The control variable prefix
+	 * \param theFractileId The fractile id
+	 * \param theSources The analysis sources
+	 * \param theArea The waether area
+	 * \param thePeriod The main period
+	 * \return The temperature for the given fractile id
+	 *
+	 */
+	// ----------------------------------------------------------------------
+	WeatherResult get_fractile_temperature(const std::string& theVar,
+							 const fractile_id& theFractileId,
+							 const AnalysisSources& theSources,
+							 const WeatherArea& theArea,  
+							 const WeatherPeriod& thePeriod)
+	{
+	  std::string dataName("textgen::fractiles");
+	  
+	  WeatherPeriod climatePeriod = ClimatologyTools::getClimatologyPeriod(thePeriod, dataName, theSources);
+	  
+	  GridClimatology gc;
+	  
+	  WeatherResult result(kFloatMissing, 0.0);
+
+	  WeatherParameter theWeatherParameter = Fog;
+
+	  switch(theFractileId)
+		{
+		case FRACTILE_02:
+		  theWeatherParameter = NormalMaxTemperatureF02;
+		  break;
+		case FRACTILE_12:
+		  theWeatherParameter = NormalMaxTemperatureF12;
+		  break;
+		case FRACTILE_37:
+		  theWeatherParameter = NormalMaxTemperatureF37;
+		  break;
+		case FRACTILE_50:
+		  theWeatherParameter = NormalMaxTemperatureF50;
+		  break;
+		case FRACTILE_63:
+		  theWeatherParameter = NormalMaxTemperatureF63;
+		  break;
+		case FRACTILE_88:
+		  theWeatherParameter = NormalMaxTemperatureF88;
+		  break;
+		case FRACTILE_98:
+		  theWeatherParameter = NormalMaxTemperatureF98;
+		  break;
+		case FRACTILE_100:
+		case FRACTILE_UNDEFINED:
+		  break;
+		default:
+		  break;
+		}
+
+	  if(theWeatherParameter != Fog)	  
+		result = gc.analyze(theVar,
+							theSources,
+							theWeatherParameter,
+							Mean,
+							Mean,
+							theArea,
+							climatePeriod);
+
+	  return result;
+	}
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -527,7 +605,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const char* fractile_name(const fractile_id& id)
+	const char* fractile_range(const fractile_id& id)
 	{
 	  const char* retval = "No value";
 
@@ -558,7 +636,51 @@ namespace TextGen
 		  retval = "F97,5-F100,0";
 		  break;
 		case FRACTILE_UNDEFINED:
-		  retval = "Undefined";
+		  break;
+		}
+
+	  return retval;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief returns fractile as a readable string
+	 *
+	 * \return Text describing the fractile id
+	 */
+	// ----------------------------------------------------------------------
+
+	const char* fractile_name(const fractile_id& id)
+	{
+	  const char* retval = "No value";
+
+	  switch(id)
+		{
+		case FRACTILE_02:
+		  retval = "F02";
+		  break;
+		case FRACTILE_12:
+		  retval = "F12";
+		  break;
+		case FRACTILE_37:
+		  retval = "F37";
+		  break;
+		case FRACTILE_50:
+		  retval = "F50";
+		  break;
+		case FRACTILE_63:
+		  retval = "F63";
+		  break;
+		case FRACTILE_88:
+		  retval = "F88";
+		  break;
+		case FRACTILE_98:
+		  retval = "F98";
+		  break;
+		case FRACTILE_100:
+		  retval = "F100";
+		  break;
+		case FRACTILE_UNDEFINED:
 		  break;
 		}
 
