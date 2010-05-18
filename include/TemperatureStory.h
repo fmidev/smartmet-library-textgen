@@ -22,6 +22,7 @@ class NFmiTime;
 
 namespace TextGen
 {
+
   class Paragraph;
 
   class TemperatureStory : public Story
@@ -51,6 +52,7 @@ namespace TextGen
 	const Paragraph day() const;
 	const Paragraph range() const;
 	const Paragraph max36hours() const;
+	const Paragraph anomaly() const;
 
 	TemperatureStory();
 	TemperatureStory(const TemperatureStory & theStory);

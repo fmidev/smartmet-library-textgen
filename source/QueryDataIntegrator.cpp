@@ -25,6 +25,7 @@
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiIndexMaskSource.h>
 #include <newbase/NFmiTime.h>
+#include <newbase/NFmiMetMath.h>
 
 namespace WeatherAnalysis
 {
@@ -67,6 +68,40 @@ namespace WeatherAnalysis
 	  
 	  return theTimeCalculator();
 	}
+
+	float IntegrateWindChill(NFmiFastQueryInfo & theQI,
+							 const NFmiTime & theStartTime,
+							 const NFmiTime & theEndTime,
+							 Calculator & theTimeCalculator)
+	{
+	  theTimeCalculator.reset();
+
+	  if(!QueryDataTools::firstTime(theQI,theStartTime,theEndTime))
+		return kFloatMissing;
+	  
+	  do
+		{
+		  if(!theQI.Param(kFmiTemperature))
+			return kFloatMissing;
+
+		  float t2m = theQI.FloatValue();
+
+		  if(!theQI.Param(kFmiWindSpeedMS))
+			return kFloatMissing;
+
+		  float wspd = theQI.FloatValue();
+
+		  const float tmp = FmiWindChill(wspd, t2m);
+
+		  //const float tmp = theQI.FloatValue();
+
+		  theTimeCalculator(tmp);
+		}
+	  while(theQI.NextTime() && theQI.Time()<=theEndTime);
+	  
+	  return theTimeCalculator();
+	}
+	
 	
 	// ----------------------------------------------------------------------
 	/*!
@@ -133,6 +168,61 @@ namespace WeatherAnalysis
 	  return theMainTimeCalculator();
 	}
 	
+	float IntegrateWindChill(NFmiFastQueryInfo & theQI,
+							 const WeatherPeriodGenerator & thePeriods,
+							 Calculator & theSubTimeCalculator,
+							 Calculator & theMainTimeCalculator)
+	{
+	  if(thePeriods.undivided())
+		{
+		  return IntegrateWindChill(theQI,
+									thePeriods.period(1).utcStartTime(),
+									thePeriods.period(1).utcEndTime(),
+									theMainTimeCalculator);
+		}
+
+	  // Safety against bad loop
+	  if(thePeriods.size() <= 0)
+		return kFloatMissing;
+
+	  theMainTimeCalculator.reset();
+
+	  for(unsigned int i=1; i<thePeriods.size(); i++)
+		{
+		  WeatherPeriod period = thePeriods.period(i);
+
+		  if(!QueryDataTools::firstTime(theQI,period.utcStartTime(),period.utcEndTime()))
+			return kFloatMissing;
+		  
+		  theSubTimeCalculator.reset();
+		  
+		  do
+			{
+			  if(!theQI.Param(kFmiTemperature))
+				return kFloatMissing;
+
+			  float t2m = theQI.FloatValue();
+
+			  if(!theQI.Param(kFmiWindSpeedMS))
+				return kFloatMissing;
+
+			  float wspd = theQI.FloatValue();
+
+			  const float tmp = FmiWindChill(wspd, t2m);
+
+			  //			  const float tmp = theQI.FloatValue();
+			  theSubTimeCalculator(tmp);
+			}
+		  while(theQI.NextTime() && theQI.Time()<=period.utcEndTime());
+			  
+		  const float subresult = theSubTimeCalculator();
+		  theMainTimeCalculator(subresult);
+		  
+		}
+	  
+	  return theMainTimeCalculator();
+	}
+
 	// ----------------------------------------------------------------------
 	/*!
 	 * \brief Integrate over space
@@ -292,6 +382,67 @@ namespace WeatherAnalysis
 	  return theSpaceCalculator();
 	}
 	
+	float IntegrateWindChill(NFmiFastQueryInfo & theQI,
+							 const NFmiTime & theStartTime,
+							 const NFmiTime & theEndTime,
+							 Calculator & theTimeCalculator,
+							 const NFmiIndexMask & theIndexMask,
+							 Calculator & theSpaceCalculator)
+	{
+	  theSpaceCalculator.reset();
+	  
+	  if(theIndexMask.empty())
+		return kFloatMissing;
+	  
+	  unsigned long startindex, endindex;
+
+	  if(!QueryDataTools::findIndices(theQI,
+									  theStartTime,
+									  theEndTime,
+									  startindex,
+									  endindex))
+		return kFloatMissing;
+
+	  for(NFmiIndexMask::const_iterator it = theIndexMask.begin();
+		  it != theIndexMask.end();
+		  ++it)
+		{
+		  theTimeCalculator.reset();
+		  
+		  theQI.TimeIndex(startindex);
+		  
+		  do
+			{
+			  // possible -1 is handled by IndexFloatValue
+			  const unsigned long idx = theQI.Index(theQI.ParamIndex(),
+													*it,
+													theQI.LevelIndex(),
+													theQI.TimeIndex());
+
+			  if(!theQI.Param(kFmiTemperature))
+				return kFloatMissing;
+
+			  float t2m = theQI.GetFloatValue(idx);
+
+			  if(!theQI.Param(kFmiWindSpeedMS))
+				return kFloatMissing;
+
+			  float wspd = theQI.GetFloatValue(idx);
+
+			  const float tmp = FmiWindChill(wspd, t2m);
+
+			  //			  const float tmp = theQI.GetFloatValue(idx);
+			  
+			  theTimeCalculator(tmp);
+			}
+		  while(theQI.NextTime() && theQI.TimeIndex()<endindex);
+		  
+		  const float timeresult = theTimeCalculator();
+		  theSpaceCalculator(timeresult);
+		}
+	  
+	  return theSpaceCalculator();
+	}
 	// ----------------------------------------------------------------------
 	/*!
 	 * \brief Integrate over space and time with time dependent masks
@@ -406,6 +557,89 @@ namespace WeatherAnalysis
 														theQI.LevelIndex(),
 														theQI.TimeIndex());
 				  const float tmp = theQI.GetFloatValue(idx);
+				  
+				  theSubTimeCalculator(tmp);
+				}
+			  while(theQI.NextTime() && theQI.Time()<=period.utcEndTime());
+			  
+			  const float subtimeresult = theSubTimeCalculator();
+			  theMainTimeCalculator(subtimeresult);
+			  
+			}
+		  
+		  const float timeresult = theMainTimeCalculator();
+		  theSpaceCalculator(timeresult);
+		}
+	  
+	  return theSpaceCalculator();
+	}
+
+
+
+
+
+	float IntegrateWindChill(NFmiFastQueryInfo & theQI,
+							 const WeatherPeriodGenerator & thePeriods,
+							 Calculator & theSubTimeCalculator,
+							 Calculator & theMainTimeCalculator,
+							 const NFmiIndexMask & theIndexMask,
+							 Calculator & theSpaceCalculator)
+	{
+	  if(thePeriods.undivided())
+		{
+		  return IntegrateWindChill(theQI,
+									thePeriods.period(1).utcStartTime(),
+									thePeriods.period(1).utcEndTime(),
+									theMainTimeCalculator,
+									theIndexMask,
+									theSpaceCalculator);
+		}
+
+	  // Safety against bad loop
+	  if(thePeriods.size()<=0)
+		return kFloatMissing;
+	  
+	  theSpaceCalculator.reset();
+	  
+	  if(theIndexMask.empty())
+		return kFloatMissing;
+	  
+	  for(NFmiIndexMask::const_iterator it = theIndexMask.begin();
+		  it != theIndexMask.end();
+		  ++it)
+		{
+		  theMainTimeCalculator.reset();
+
+		  for(unsigned int i=1; i<thePeriods.size(); i++)
+			{
+			  WeatherPeriod period = thePeriods.period(i);
+
+			  if(!QueryDataTools::firstTime(theQI,period.utcStartTime(),period.utcEndTime()))
+				return kFloatMissing;
+
+			  theSubTimeCalculator.reset();
+			  
+			  do
+				{
+				  // possible -1 is handled by IndexFloatValue
+				  const unsigned long idx = theQI.Index(theQI.ParamIndex(),
+														*it,
+														theQI.LevelIndex(),
+														theQI.TimeIndex());
+
+				  if(!theQI.Param(kFmiTemperature))
+					return kFloatMissing;
+
+				  float t2m = theQI.GetFloatValue(idx);
+
+				  if(!theQI.Param(kFmiWindSpeedMS))
+					return kFloatMissing;
+
+				  float wspd = theQI.GetFloatValue(idx);
+
+				  const float tmp = FmiWindChill(wspd, t2m);
+
+				  //				  const float tmp = theQI.GetFloatValue(idx);
 				  
 				  theSubTimeCalculator(tmp);
 				}

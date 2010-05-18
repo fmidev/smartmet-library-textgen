@@ -20,7 +20,11 @@ namespace WeatherAnalysis
 {
   namespace SeasonTools
   {
+	enum forecast_season_id{SUMMER_SEASON, 
+							WINTER_SEASON,
+							UNDEFINED_SEASON};
 	
+
 	bool isWinter(const NFmiTime& theDate, const std::string& theVar);
 	bool isSpring(const NFmiTime& theDate, const std::string& theVar);
 	bool isSummer(const NFmiTime& theDate, const std::string& theVar);

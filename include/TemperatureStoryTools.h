@@ -49,11 +49,12 @@ namespace TextGen
 												 const std::string & theRangeSeparator);
 
 	const TextGen::Sentence temperature_sentence2(int theMinimum,
-												 int theMean,
-												 int theMaximum,
-												 int theMinInterval,
-												 bool theZeroFlag,
-												 const std::string & theRangeSeparator);
+												  int theMean,
+												  int theMaximum,
+												  int theMinInterval,
+												  bool theZeroFlag,
+												  const std::string & theRangeSeparator,
+												  const bool& theRoundTheNumber);
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -126,6 +127,16 @@ namespace TextGen
 							 const WeatherArea& theArea,  
 							 const WeatherPeriod& thePeriod);
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief determines the temperature of the given fractile id
+	 */
+	// ----------------------------------------------------------------------
+	WeatherResult get_fractile_temperature(const std::string& theVar,
+										   const fractile_id& theFractileId,
+										   const AnalysisSources& theSources,
+										   const WeatherArea& theArea,  
+										   const WeatherPeriod& thePeriod);
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -135,6 +146,13 @@ namespace TextGen
 
 	const char* fractile_name(const fractile_id& id);
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief returns fractile range as a readable string
+	 */
+	// ----------------------------------------------------------------------
+
+	const char* fractile_range(const fractile_id& id);
 
   } // namespace TemperatureStoryTools
 } // namespace TextGen
