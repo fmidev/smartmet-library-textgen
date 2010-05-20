@@ -64,6 +64,13 @@ namespace TextGen
 									maxstarthour,
 									minendhour);
 
+	if(nights == 0)
+	  {
+		log << "0 nights in the period!";
+		return paragraph;
+	  }
+
+
 	WeatherPeriod period = getPeriod(itsPeriod,
 									 1,
 									 starthour,
