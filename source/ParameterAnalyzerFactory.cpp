@@ -23,6 +23,7 @@
 #include "ParameterAnalyzerFactory.h"
 #include "ModuloParameterAnalyzer.h"
 #include "RegularParameterAnalyzer.h"
+#include "WindChillParameterAnalyzer.h"
 #include "WeatherAnalysisError.h"
 
 using namespace boost;
@@ -168,6 +169,10 @@ namespace WeatherAnalysis
 		case NormalMaxTemperatureF98:
 		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
 														 "NormalMaxTemperatureF98"));
+
+		case WindChill:
+		  return ReturnType(new WindChillParameterAnalyzer("textgen::windchill",
+														 "WindChill"));
 
 	  }
 
