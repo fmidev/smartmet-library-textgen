@@ -436,6 +436,37 @@ namespace TextGen
 	  if(theTemperature == kFloatMissing)
 		return FRACTILE_UNDEFINED;
 
+	  string seasonStr = SeasonTools::isSummerHalf(thePeriod.localStartTime(), theVar) ? "summer" : "winter";
+
+	  // fake variables are just for rough testing purposes
+	  if(Settings::isset(theVar+"::fake::fractile::"+seasonStr+"::F02"))
+		{
+		  float f02 = require_double(theVar+"::fake::fractile::"+seasonStr+"::F02");
+		  float f12 = require_double(theVar+"::fake::fractile::"+seasonStr+"::F12");
+		  float f37 = require_double(theVar+"::fake::fractile::"+seasonStr+"::F37");
+		  float f50 = require_double(theVar+"::fake::fractile::"+seasonStr+"::F50");
+		  float f63 = require_double(theVar+"::fake::fractile::"+seasonStr+"::F63");
+		  float f88 = require_double(theVar+"::fake::fractile::"+seasonStr+"::F88");
+		  float f98 = require_double(theVar+"::fake::fractile::"+seasonStr+"::F98");
+		  if(theTemperature <= f02)
+			return FRACTILE_02;
+		  else if(theTemperature <= f12)
+			return FRACTILE_12;
+		  else if(theTemperature <= f37)
+			return FRACTILE_37;
+		  else if(theTemperature <= f50)
+			return FRACTILE_50;
+		  else if(theTemperature <= f63)
+			return FRACTILE_63;
+		  else if(theTemperature <= f88)
+			return FRACTILE_88;
+		  else if(theTemperature <= f98)
+			return FRACTILE_98;
+		  else
+			return FRACTILE_UNDEFINED;
+		}
+
+
 	  std::string dataName("textgen::fractiles");
 	  
 	  WeatherPeriod climatePeriod = ClimatologyTools::getClimatologyPeriod(thePeriod, dataName, theSources);
@@ -545,6 +576,30 @@ namespace TextGen
 							 const WeatherArea& theArea,  
 							 const WeatherPeriod& thePeriod)
 	{
+	  string seasonStr = SeasonTools::isSummerHalf(thePeriod.localStartTime(), theVar) ? "summer" : "winter";
+
+	  // fake variables are just for rough testing purposes
+	  if(Settings::isset(theVar+"::fake::fractile::"+seasonStr+"::F02"))
+		{
+		  if(theFractileId == FRACTILE_02)
+			return WeatherResult(require_double(theVar+"::fake::fractile::"+seasonStr+"::F02"), 0);
+		  else if(theFractileId == FRACTILE_12)
+			return WeatherResult(require_double(theVar+"::fake::fractile::"+seasonStr+"::F12"), 0);
+		  else if(theFractileId == FRACTILE_37)
+			return WeatherResult(require_double(theVar+"::fake::fractile::"+seasonStr+"::F37"), 0);
+		  else if(theFractileId == FRACTILE_50)
+			return WeatherResult(require_double(theVar+"::fake::fractile::"+seasonStr+"::F50"), 0);
+		  else if(theFractileId == FRACTILE_63)
+			return WeatherResult(require_double(theVar+"::fake::fractile::"+seasonStr+"::F63"), 0);
+		  else if(theFractileId == FRACTILE_88)
+			return WeatherResult(require_double(theVar+"::fake::fractile::"+seasonStr+"::F88"), 0);
+		  else if(theFractileId == FRACTILE_98)
+			return WeatherResult(require_double(theVar+"::fake::fractile::"+seasonStr+"::F98"), 0);
+		  else
+			return WeatherResult(kFloatMissing, 0);
+		}
+
+
 	  std::string dataName("textgen::fractiles");
 	  
 	  WeatherPeriod climatePeriod = ClimatologyTools::getClimatologyPeriod(thePeriod, dataName, theSources);
@@ -553,6 +608,7 @@ namespace TextGen
 	  
 	  WeatherResult result(kFloatMissing, 0.0);
 
+	  // Initialize with a value (Fog) that can not be returned here
 	  WeatherParameter theWeatherParameter = Fog;
 
 	  switch(theFractileId)
