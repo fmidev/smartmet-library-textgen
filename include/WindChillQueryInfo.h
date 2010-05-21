@@ -1,3 +1,10 @@
+// ======================================================================
+/*!
+ * \file WindChillQueryInfo.h
+ * \brief Interface of class WindChillQueryInfo
+ */
+// ======================================================================
+
 #ifndef WINDCHILLQUERYINFO_H
 #define WINDCHILLQUERYINFO_H
 
@@ -7,15 +14,15 @@ class WindChillQueryInfo : public NFmiFastQueryInfo
 {
 public:
 
-  WindChillQueryInfo(const NFmiFastQueryInfo& theInfo)
-	: NFmiFastQueryInfo(theInfo)
-  {}
+  WindChillQueryInfo(const NFmiFastQueryInfo& theInfo);
 
-  /*
-  float FloatValue();
-  float GetFloatValue(unsigned long theIndex);
-  */
+  float GetFloatValue(unsigned long theIndex) const;
+
   using NFmiFastQueryInfo::FloatValue;
+
+private:
+
+  long itsParameterOffset;
 
 };
 

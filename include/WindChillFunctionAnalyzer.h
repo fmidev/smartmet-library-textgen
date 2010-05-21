@@ -53,8 +53,6 @@ namespace WeatherAnalysis
 
 	WindChillFunctionAnalyzer();
 
-	void check_parameter(const std::string& theParameterName, const std::string& dataname, NFmiFastQueryInfo& qi) const;
-
 	const WeatherFunction itsAreaFunction;
 	const WeatherFunction itsTimeFunction;
 	const WeatherFunction itsSubTimeFunction;

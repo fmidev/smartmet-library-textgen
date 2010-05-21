@@ -1,34 +1,42 @@
 #include "WindChillQueryInfo.h"
 #include <newbase/NFmiMetMath.h>
 
-/*
-float WindChillQueryInfo::FloatValue()
+WindChillQueryInfo::WindChillQueryInfo(const NFmiFastQueryInfo& theInfo)
+  : NFmiFastQueryInfo(theInfo)
 {
-  if(!Param(kFmiTemperature))
-	return kFloatMissing;
+  First();
 
-  float t2m = NFmiFastQueryInfo::FloatValue();
+  // Parameters must be defined in this order, because
+  // WindSpeedMS is a composite parameter and must be
+  // handled first in GetFloatValue function
 
-  if(!Param(kFmiWindSpeedMS))
-	return kFloatMissing;
+  Param(kFmiTemperature);
 
-  float wspd = NFmiFastQueryInfo::FloatValue();
+  long idx1 = Index();
 
-  return FmiWindChill(wspd, t2m);
+  Param(kFmiWindSpeedMS);
+
+  long idx2 = Index();
+
+  itsParameterOffset = idx2 - idx1;
 }
 
-float WindChillQueryInfo::GetFloatValue(unsigned long theIndex)
+// ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * Get the wind chill float value. The value is composed of 
+ * wind speed and temperature components. Offset between wind speed 
+ * and temperature parameters has been saved in itsParameterOffset in constructor.
+ *
+ * \return The value
+ */
+// ----------------------------------------------------------------------
+float WindChillQueryInfo::GetFloatValue(unsigned long theIndex) const
 {
-  if(!Param(kFmiTemperature))
-	return kFloatMissing;
-
-  float t2m = NFmiFastQueryInfo::GetFloatValue(theIndex);
-
-  if(!Param(kFmiWindSpeedMS))
-	return kFloatMissing;
-
+  // GetFloatValue decodes the composite value
   float wspd = NFmiFastQueryInfo::GetFloatValue(theIndex);
 
+  // IndexFloatValue does not decode the composite value
+  float t2m = NFmiFastQueryInfo::IndexFloatValue(theIndex - itsParameterOffset);
   return FmiWindChill(wspd, t2m);
 }
-*/

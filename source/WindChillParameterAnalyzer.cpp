@@ -42,7 +42,7 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Analyze a regular parameter (non modulo) in an area
+   * \brief Analyze a wind chill parameter (non modulo) in an area
    *
    * \param theSources Analysis sources
    * \param theDataType The source type to be used

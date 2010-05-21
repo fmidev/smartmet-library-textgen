@@ -73,10 +73,17 @@ namespace TextGen
 #define MODERATE_CHANGE_UPPER_LIMIT 5.0
 #define SIGNIFIGANT_CHANGE_LOWER_LIMIT 5.0
 #define NOTABLE_TEMPERATURE_CHANGE_LIMIT 2.5
+#define WINDY_LOWER_LIMIT 8.0
+#define WINDY_UPPER_LIMIT 10.0
+#define EXTREMELY_WINDY_LOWER_LIMIT 10.0
+#define MILD_WIND_CHILL_LOWER_LIMIT -35.0
+#define MILD_WIND_CHILL_UPPER_LIMIT -25.0
 
 #define SAA_LAUHTUU_PHRASE "s‰‰ lauhtuu"
 #define SAA_WORD "s‰‰"
 #define ON_WORD "on"
+#define JA_WORD "ja"
+#define MUTTA_WORD "mutta"
 #define POIKKEUKSELLISEN_WORD "poikkeuksellisen"
 #define KYLMAA_WORD "kylm‰‰"
 #define KOLEAA_WORD "koleaa"
@@ -96,11 +103,22 @@ namespace TextGen
 #define HELTEINEN_SAA_JATKUU_PHRASE "helteinen s‰‰ jatkuu"
 #define VIILEA_SAA_JATKUU_PHRASE "viile‰ s‰‰ jatkuu"
 #define KOLEA_SAA_JATKUU_PHRASE "kolea s‰‰ jatkuu"
+#define JATKUU_KOLEANA_PHRASE "jatkuu koleana"
+#define JATKUU_VIILEANA_PHRASE "jatkuu viile‰n‰"
+#define JATKUU_HELTEISENA_PHRASE "jatkuu helteisen‰"
 #define SAA_MUUTTUU_HELTEISEKSI_PHRASE "s‰‰ muuttuu helteiseksi"
+#define MUUTTUU_HELTEISEKSI_PHRASE "muuttuu helteiseksi"
 #define SAA_ON_HELTEISTA_PHRASE "s‰‰ on helteist‰"
 #define SAA_LAMPENEE_PHRASE "s‰‰ l‰mpenee"
 #define SAA_VIILENEE_PHRASE "s‰‰ viilenee"
+#define TUULINEN_WORD "tuulinen"
+#define AAMUPAIVALLA_WORD "aamup‰iv‰ll‰"
+#define ILTAPAIVALLA_WORD "iltap‰iv‰ll‰"
+#define ERITTAIN_WORD "eritt‰in"
+#define PAKKANEN_ON_PUREVAA_PHRASE "pakkanen on purevaa"
+#define PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE "pakkanen on eritt‰in purevaa"
 
+	/*
 	enum sentence_id {
 	  SAA_ON_POIKKEUKSELLISEN_KOLEAA_SENTENCE = 0x1,
 	  SAA_ON_POIKKEUKSELLISEN_KYLMAA_SENTENCE,
@@ -129,13 +147,13 @@ namespace TextGen
 	  SAA_VIILENEE_VAHAN_SENTENCE,
 	  SAA_VIILENEE_SENTENCE,
 	  SAA_VIILENEE_HUOMATTAVASTI_SENTENCE,
+	  PAKKANEN_ON_PUREVAA_SENTENCE,
+	  PAKKANEN_ON_ERITTAIN_PUREVAA_SENTENCE,
 	  UNDEFINED_SENTENCE_ID
 	};
 
 
 	typedef map<int, Sentence*> anomaly_container_type;
-	typedef anomaly_container_type::value_type value_type;
-
 
 	struct anomaly_temperature_params
 	{
@@ -171,7 +189,7 @@ namespace TextGen
 	  anomaly_container_type& theSentences;
 	  MessageLogger& theLog;
 	};
-
+	*/
 	void calculate_temperature(MessageLogger& theLog,
 						   const string& theVar,
 						   const AnalysisSources& theSources,
@@ -255,6 +273,7 @@ namespace TextGen
 										 Maximum,
 										 theArea,
 										 thePeriod);
+
 	  theMaximum = theForecaster.analyze(theVariable+"::max",
 										 theSources,
 										 WindSpeed,
@@ -262,6 +281,7 @@ namespace TextGen
 										 Maximum,
 										 theArea,
 										 thePeriod);
+
 	  theMean = theForecaster.analyze(theVariable+"::mean",
 									  theSources,
 									  WindSpeed,
@@ -288,6 +308,7 @@ namespace TextGen
 										 Maximum,
 										 theArea,
 										 thePeriod);
+
 	  theMaximum = theForecaster.analyze(theVariable+"::max",
 										 theSources,
 										 WindChill,
@@ -295,6 +316,7 @@ namespace TextGen
 										 Maximum,
 										 theArea,
 										 thePeriod);
+
 	  theMean = theForecaster.analyze(theVariable+"::mean",
 									  theSources,
 									  WindChill,
@@ -511,6 +533,7 @@ namespace TextGen
 																	 theAnalysisSources,
 																	 theWeatherArea,
 																	 forecastTimeWeatherPeriod);
+
 	  WeatherResult fractile12Temperature = get_fractile_temperature(theVariable,
 																	 FRACTILE_12,
 																	 theAnalysisSources,
@@ -519,12 +542,14 @@ namespace TextGen
 
 	  if(theSeasonId == WINTER_SEASON)
 		{
-		  // pakkanen kiristyy
-		  // kire‰ pakkanen jatkuu
-		  // kire‰ pakkanen heikkenee
-		  // pakkanen heikkenee
-		  // pakkanen hellitt‰‰
+		  // s‰‰ on edelleen lauhaa
 		  // s‰‰ lauhtuu
+		  // kire‰ pakkanen heikkenee
+		  // kire‰ pakkanen hellitt‰‰*
+		  // pakkanen heikkenee
+		  // pakkanen hellitt‰‰*
+		  // kire‰ pakkanen jatkuu
+		  // pakkanen kiristyy
 
 
 		  float temperatureDifference = abs(period2Temperature - period1Temperature);
@@ -536,20 +561,21 @@ namespace TextGen
 				  sentence << SAA_ON_EDELLEEN_LAUHAA_PHRASE;
 				}
 			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT 
-					  && period1Temperature < WEAK_FROST_TEMPERATURE &&
-				 period2Temperature > WEAK_FROST_TEMPERATURE)
+					  && period1Temperature < WEAK_FROST_TEMPERATURE && period2Temperature >= WEAK_FROST_TEMPERATURE &&
+					  period2Temperature < LOW_PLUS_TEMPARATURE)
 				{
 				  sentence << SAA_LAUHTUU_PHRASE;
 				}
 			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
 					  && period1Temperature <= veryColdTemperature &&
+					  period2Temperature <= WEAK_FROST_TEMPERATURE &&
 					  period2Temperature <= WEAK_FROST_TEMPERATURE)
 				{
 				  sentence << KIREA_WORD << PAKKANEN_HEIKKENEE_PHRASE;
 				}
 			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
 					  && period1Temperature <= veryColdTemperature &&
-					  period2Temperature < ZERO_DEGREES && period2Temperature > WEAK_FROST_TEMPERATURE)
+					  period2Temperature < ZERO_DEGREES && period2Temperature >= WEAK_FROST_TEMPERATURE)
 				{
 				  sentence << KIREA_WORD << PAKKANEN_HELLITTAA_PHRASE;
 				}
@@ -560,9 +586,8 @@ namespace TextGen
 				  sentence << PAKKANEN_HEIKKENEE_PHRASE;
 				}
 			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
-					  && period1Temperature > veryColdTemperature &&
-					  period1Temperature < WEAK_FROST_TEMPERATURE && period2Temperature < ZERO_DEGREES &&
-					  period2Temperature > WEAK_FROST_TEMPERATURE)
+					  && period1Temperature > veryColdTemperature && period1Temperature < WEAK_FROST_TEMPERATURE && 
+					  period2Temperature < ZERO_DEGREES && period2Temperature >= WEAK_FROST_TEMPERATURE)
 				{
 				  sentence << PAKKANEN_HELLITTAA_PHRASE;
 				}
@@ -590,8 +615,9 @@ namespace TextGen
 		}
 	  else
 		{
-		  double hot_weather_limit = Settings::optional_double(theVariable+"::hot_weather_limit::default", 25);
-
+		  // It is possible to define the very hot weather limit even by area, the default value
+		  // is defined in VERY_HOT_TEMPERATURE
+		  float hot_weather_limit = Settings::optional_double(theVariable+"::hot_weather_limit::default", VERY_HOT_TEMPERATURE);
 		  if(theWeatherArea.isNamed())
 			{
 			  std::string parameter_name(theVariable + "::hot_weather_limit::" + theWeatherArea.name());
@@ -599,17 +625,17 @@ namespace TextGen
 				hot_weather_limit = Settings::require_double(parameter_name);
 			}
 
-		  // s‰‰ muuttuu helteiseksi
 		  // helteinen s‰‰ jatkuu
 		  // viile‰ s‰‰ jatkuu
-		  // kolea s‰‰ jatkuu
-		  // s‰‰ viilenee v‰h‰n
-		  // s‰‰ viilenee
-		  // s‰‰ viilenee huomattavasti
+		  // kolea s‰‰ jatkuu*
+		  // s‰‰ muuttuu helteiseksi
+		  // s‰‰ on helteist‰
 		  // s‰‰ l‰mpenee v‰h‰n
 		  // s‰‰ l‰mpenee
 		  // s‰‰ l‰mpenee huomattavasti
-
+		  // s‰‰ viilenee v‰h‰n
+		  // s‰‰ viilenee
+		  // s‰‰ viilenee huomattavasti
 
 		  float temperatureDifference = abs(period2Temperature - period1Temperature);
 		  bool smallChange =  temperatureDifference >= SMALL_CHANGE_LOWER_LIMIT && 
@@ -620,28 +646,7 @@ namespace TextGen
 
 		  if(period2Temperature >= period1Temperature)
 			{
-			  if(period1Temperature >= VERY_HOT_TEMPERATURE && period2Temperature >= VERY_HOT_TEMPERATURE)
-				{
-				  sentence << HELTEINEN_SAA_JATKUU_PHRASE;
-				}
-			  else if(period1Temperature < fractile37Temperature.value() && 
-					  period2Temperature < fractile37Temperature.value())
-				{
-				  sentence << VIILEA_SAA_JATKUU_PHRASE;
-				}
-			  else if(period1Temperature < fractile12Temperature.value() && 
-					  period2Temperature < fractile12Temperature.value())
-				{
-				  sentence << KOLEA_SAA_JATKUU_PHRASE;
-				}
-			  else if(period1Temperature < VERY_HOT_TEMPERATURE && period2Temperature >= VERY_HOT_TEMPERATURE)
-				{
-				  if(temperatureDifference > NOTABLE_TEMPERATURE_CHANGE_LIMIT)
-					sentence << SAA_MUUTTUU_HELTEISEKSI_PHRASE;
-				  else
-					sentence << SAA_ON_HELTEISTA_PHRASE;
-				}
-			  else if(smallChange)
+			  if(smallChange)
 				{
 				  sentence << SAA_LAMPENEE_PHRASE << VAHAN_WORD;
 				}
@@ -653,24 +658,50 @@ namespace TextGen
 				{
 				  sentence << SAA_LAMPENEE_PHRASE << HUOMATTAVASTI_WORD;
 				}
-			}
-		  else if(period2Temperature <= period1Temperature && period2Temperature > ZERO_DEGREES)
-			{
+
 			  if(period1Temperature >= VERY_HOT_TEMPERATURE && period2Temperature >= VERY_HOT_TEMPERATURE)
 				{
-				  sentence << HELTEINEN_SAA_JATKUU_PHRASE;
-				}
-			  else if(period1Temperature < fractile37Temperature.value() && 
-					  period2Temperature < fractile37Temperature.value())
-				{
-				  sentence << VIILEA_SAA_JATKUU_PHRASE;
+				  if(!sentence.empty())
+					sentence << JA_WORD << JATKUU_HELTEISENA_PHRASE;
+				  else
+					sentence << HELTEINEN_SAA_JATKUU_PHRASE;
 				}
 			  else if(period1Temperature < fractile12Temperature.value() && 
 					  period2Temperature < fractile12Temperature.value())
 				{
-				  sentence << KOLEA_SAA_JATKUU_PHRASE;
+				  if(!sentence.empty())
+					sentence << Delimiter(",") << MUTTA_WORD << JATKUU_KOLEANA_PHRASE;
+				  else
+					sentence << KOLEA_SAA_JATKUU_PHRASE;
 				}
-			  else if(smallChange)
+			  else if(period1Temperature < fractile37Temperature.value() && 
+					  period2Temperature < fractile37Temperature.value())
+				{
+				  if(!sentence.empty())
+					sentence << Delimiter(",") << MUTTA_WORD << JATKUU_VIILEANA_PHRASE;
+				  else
+					sentence << VIILEA_SAA_JATKUU_PHRASE;
+				}
+			  else if(period1Temperature < VERY_HOT_TEMPERATURE && period2Temperature >= VERY_HOT_TEMPERATURE)
+				{
+				  if(temperatureDifference > NOTABLE_TEMPERATURE_CHANGE_LIMIT)
+					{
+					  if(!sentence.empty())
+						sentence << JA_WORD << MUUTTUU_HELTEISEKSI_PHRASE;
+					  else
+						sentence << SAA_MUUTTUU_HELTEISEKSI_PHRASE;
+					}
+				  else
+					{
+					  if(!sentence.empty())
+						sentence << JA_WORD;
+					  sentence << SAA_ON_HELTEISTA_PHRASE;
+					}
+				}
+			}
+		  else if(period2Temperature <= period1Temperature && period2Temperature > ZERO_DEGREES)
+			{
+			  if(smallChange)
 				{
 				  sentence << SAA_VIILENEE_PHRASE << VAHAN_WORD;
 				}
@@ -682,49 +713,75 @@ namespace TextGen
 				{
 				  sentence << SAA_VIILENEE_PHRASE << HUOMATTAVASTI_WORD;
 				}
+
+			  if(period1Temperature >= VERY_HOT_TEMPERATURE && period2Temperature >= VERY_HOT_TEMPERATURE)
+				{
+				  if(!sentence.empty())
+					sentence << Delimiter(",") << MUTTA_WORD << JATKUU_HELTEISENA_PHRASE;
+				  else
+					sentence << HELTEINEN_SAA_JATKUU_PHRASE;
+				}
+			  else if(period1Temperature < fractile12Temperature.value() && 
+					  period2Temperature < fractile12Temperature.value())
+				{
+				  if(!sentence.empty())
+					sentence << JA_WORD << JATKUU_KOLEANA_PHRASE;
+				  else
+					sentence << KOLEA_SAA_JATKUU_PHRASE;
+				}
+			  else if(period1Temperature < fractile37Temperature.value() && 
+					  period2Temperature < fractile37Temperature.value())
+				{
+				  if(!sentence.empty())
+					sentence << JA_WORD << JATKUU_VIILEANA_PHRASE;
+				  else
+					sentence << VIILEA_SAA_JATKUU_PHRASE;
+				}
 			}
 		}
 
 	return sentence;
 	}
 
-	const Sentence windy_sentence(const std::string theVariable,
-								  const WeatherResult& windSpeedMorningMinimum,
-								  const WeatherResult& windSpeedMorningMean,
-								  const WeatherResult& windSpeedMorningMaximum,
-								  const WeatherResult& windSpeedAfternoonMinimum,
-								  const WeatherResult& windSpeedAfternoonMean,
-								  const WeatherResult& windSpeedAfternoonMaximum)
+	const Sentence windiness_sentence(const std::string theVariable,
+									  const WeatherResult& windSpeedMorningMinimum,
+									  const WeatherResult& windSpeedMorningMean,
+									  const WeatherResult& windSpeedMorningMaximum,
+									  const WeatherResult& windSpeedAfternoonMinimum,
+									  const WeatherResult& windSpeedAfternoonMean,
+									  const WeatherResult& windSpeedAfternoonMaximum)
 	{
 	  Sentence sentence;
 
 	  float windSpeed = windSpeedMorningMean.value() > windSpeedAfternoonMean.value() ? 
 		windSpeedMorningMean.value() : windSpeedAfternoonMean.value();
 
-	  bool windyMorning = windSpeedMorningMean.value() >= 8.0;
-	  bool windyAfternoon = windSpeedAfternoonMean.value() >= 8.0;
+	  bool windyMorning = (windSpeedMorningMean.value() >= WINDY_LOWER_LIMIT && 
+						   windSpeedMorningMean.value() <= WINDY_UPPER_LIMIT);
+	  bool windyAfternoon = (windSpeedAfternoonMean.value() >= WINDY_LOWER_LIMIT &&
+							 windSpeedAfternoonMean.value() <= WINDY_UPPER_LIMIT);
+	  bool extremelyWindyMorning = windSpeedMorningMean.value() > EXTREMELY_WINDY_LOWER_LIMIT;
+	  bool extremelyWindyAfternoon = windSpeedAfternoonMean.value() > EXTREMELY_WINDY_LOWER_LIMIT;
 
-	  if(windSpeed >= 8.0 && windSpeed <= 10.0)
+	  if(windSpeed >= WINDY_LOWER_LIMIT && windSpeed <= WINDY_UPPER_LIMIT)
 		{
 		  if(windyMorning && !windyAfternoon)
-			sentence << "s‰‰ on aamup‰iv‰ll‰ tuulista";
+			sentence << SAA_WORD << ON_WORD << AAMUPAIVALLA_WORD << TUULINEN_WORD;
 		  else if(!windyMorning && windyAfternoon)
-			sentence << "s‰‰ on iltap‰iv‰ll‰ tuulista";
+			sentence << SAA_WORD << ON_WORD << ILTAPAIVALLA_WORD << TUULINEN_WORD;
 		  else
-			sentence << "s‰‰ on tuulista";
+			sentence  << SAA_WORD << ON_WORD << TUULINEN_WORD;
 		}
-	  else if(windSpeed > 10)
+	  else if(windSpeed > EXTREMELY_WINDY_LOWER_LIMIT)
 		{
-		  if(windyMorning && !windyAfternoon)
-			sentence << "s‰‰ on aamup‰iv‰ll‰ eritt‰in tuulista";
-		  else if(!windyMorning && windyAfternoon)
-			sentence << "s‰‰ on iltap‰iv‰ll‰ eritt‰in tuulista";
+		  if(extremelyWindyMorning && !extremelyWindyAfternoon)
+			sentence << SAA_WORD << ON_WORD << AAMUPAIVALLA_WORD << ERITTAIN_WORD << TUULINEN_WORD;
+		  else if(!extremelyWindyMorning && extremelyWindyAfternoon)
+			sentence << SAA_WORD << ON_WORD << ILTAPAIVALLA_WORD << ERITTAIN_WORD << TUULINEN_WORD;
 		  else
-			sentence << "s‰‰ on eritt‰in tuulista";
+			sentence << SAA_WORD << ON_WORD << ERITTAIN_WORD << TUULINEN_WORD;
 		}
 
-	  // TODO: voiko sanoa s‰‰ muuttuua tuuliseksi
-	  
 	  return sentence;
 	}
 
@@ -734,61 +791,12 @@ namespace TextGen
 	  
 	  float windChillValue = day2WindchillMean.value();
 
-	  if(windChillValue <= -25 && windChillValue >= -35)
-		sentence << "pakkanen on purevaa";
-	  else if(windChillValue <= -35 && windChillValue <= -60)
-		sentence << "pakkanen on eritt‰in purevaa";
-	  else if(windChillValue < -60)
-		sentence << "pakkanen on vaarallisen purevaa";
-	  
+	  if(windChillValue <= MILD_WIND_CHILL_UPPER_LIMIT && windChillValue >= MILD_WIND_CHILL_LOWER_LIMIT)
+		sentence << PAKKANEN_ON_PUREVAA_PHRASE;
+	  else if(windChillValue <= MILD_WIND_CHILL_LOWER_LIMIT)
+		sentence << PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE;
+
 	  return sentence;
-	}
-
-
-	int count_dayperiods(const string& theVar, const WeatherPeriod& theWeatherPeriod, NFmiTime& theDayperiodStart)
-	{	  
-	  NightAndDayPeriodGenerator generator(theWeatherPeriod, theVar);
-
-	  int iDayPeriods = generator.size();
-	  iDayPeriods = 0;
-	  for(unsigned int i = 0; i < generator.size(); i++ )
-		{
-		  if(generator.isday(i+1))
-			{
-			  // set starttime of the first day period
-			  if(iDayPeriods == 0)
-				theDayperiodStart = generator.period(i+1).localStartTime();
-			  iDayPeriods++;
-			}
-		}
-
-	  return iDayPeriods;
-	}
-
-	WeatherPeriod extend_period(const string& theVar, const WeatherPeriod& theWeatherPeriod,MessageLogger& log)
-	{
-	  log_start_time_and_end_time(log, 
-								  "original period: ",
-								  theWeatherPeriod);
-	  
-	  NFmiTime dayPeriodStartTime;
-	  int iDayPeriods = count_dayperiods(theVar, theWeatherPeriod, dayPeriodStartTime);
-
-	  if(iDayPeriods >= 2)
-		{
-		  WeatherPeriod retval(theWeatherPeriod);
-		  return retval;
-		}
-	  else
-		{
-		  const int starthour  = Settings::require_hour(theVar+"::day::starthour");
-
-		  dayPeriodStartTime.ChangeByHours(-24);
-		  while(dayPeriodStartTime.GetHour() != starthour)
-			dayPeriodStartTime.ChangeByHours(-1);
-		  WeatherPeriod retval(dayPeriodStartTime, theWeatherPeriod.localEndTime());
-		  return retval;
-		}
 	}
 
   } // namespace TemperatureAnomaly
@@ -842,32 +850,7 @@ namespace TextGen
 								"the original period: ",
 								itsPeriod);
 
-	/*
-	WeatherPeriod theExtendedPeriod(extend_period(itsVar, itsPeriod, log);
-
-	if(theExtendedPeriod.localStartTime().DifferenceInMinutes(itsPeriod.localStartTime()) != 0)
-	  {
-		log_start_time_and_end_time(log, 
-									"the extended period: ",
-									theExtendedPeriod);
-
-		char date_str[15];
-		NFmiTime forecastTime(theExtendedPeriod.localStartTime());
-		forecastTime.ChangeByMinutes(5);
-		sprintf(date_str, "%04d%02d%02d%02d%02d%02d", 
-				forecastTime.GetYear(),
-				forecastTime.GetMonth(),
-				forecastTime.GetDay(),
-				forecastTime.GetHour(),
-				forecastTime.GetMin(),
-				forecastTime.GetSec());
-		
-		NFmiSettings::Set("qdtext::forecasttime", date_str);
-	  }
-	*/
 	// Period generator
-
-
 	NFmiTime periodStartTime(itsPeriod.localStartTime());
 	periodStartTime.ChangeByHours(-24);
 
@@ -875,7 +858,7 @@ namespace TextGen
 	NightAndDayPeriodGenerator generator(theExtendedPeriod, itsVar);
 	for(unsigned int i = 0; i < generator.size(); i++ )
 	  log_start_time_and_end_time(log, 
-								  "laajennettu perioodi: ",
+								  "the extended period: ",
 								  generator.period(i+1));
 
 	WeatherPeriod day1Period(generator.isday(1) ? generator.period(1) : generator.period(2));
@@ -906,11 +889,6 @@ namespace TextGen
 								"day2 afternoon: ",
 								day2AfternoonPeriod);
 
-	log << "forecast time: "
-	   << itsForecastTime << endl;
-
-
-
 	calculate_temperature(log,
 						  itsVar + "::fake::temperature::day1::area",
 						  itsSources,
@@ -920,6 +898,7 @@ namespace TextGen
 						  day1TemperatureMinimum,
 						  day1TemperatureMean,
 						  day1TemperatureMaximum);
+
 	calculate_temperature(log,
 						  itsVar + "::fake::temperature::night::area",
 						  itsSources,
@@ -929,6 +908,7 @@ namespace TextGen
 						  nightTemperatureMinimum,
 						  nightTemperatureMean,
 						  nightTemperatureMaximum);
+
 	calculate_temperature(log,
 						  itsVar + "::fake::temperature::day2::area",
 						  itsSources,
@@ -976,35 +956,36 @@ namespace TextGen
 											   itsSources,
 											   itsArea,
 											   itsPeriod);
+
 	fractile_id theFractileNight = get_fractile(itsVar,
 												nightTemperatureMean.value(),
 												itsSources,
 												itsArea,
 												itsPeriod);
+
 	fractile_id theFractileDay2 = get_fractile(itsVar,
 											   day2TemperatureMean.value(),
 											   itsSources,
 											   itsArea,
 											   itsPeriod);
 
-
 	WeatherResult fractileTemperatureDay1 = get_fractile_temperature(itsVar,
 																	 theFractileDay1,
 																	 itsSources,
 																	 itsArea,  
 																	 itsPeriod);
+
 	WeatherResult fractileTemperatureNight = get_fractile_temperature(itsVar,
 																	  theFractileNight,
 																	  itsSources,
 																	  itsArea,  
 																	  itsPeriod);
+
 	WeatherResult fractileTemperatureDay2 = get_fractile_temperature(itsVar,
 																	 theFractileDay2,
 																	 itsSources,
 																	 itsArea,  
 																	 itsPeriod);
-
-
 
 	log << "Day1 temperature " 
 		<< day1TemperatureMean
@@ -1041,15 +1022,12 @@ namespace TextGen
 	Paragraph paragraphDev;
 	Sentence temperatureAnomalySentence;
 	Sentence shortrunTrendSentence;
-	Sentence windySentence;
+	Sentence windinessSentence;
 	Sentence windChillSentence;
-
-
-	anomaly_container_type theSentences;
 
 	temperatureAnomalySentence << temperature_anomaly_sentence(itsVar,
 															   theSeasonId,
-															   theFractileDay2);
+															   theFractileDay1);
 
 	shortrunTrendSentence << temperature_shortruntrend_sentence(itsVar,
 																itsPeriod.localStartTime(),
@@ -1059,28 +1037,31 @@ namespace TextGen
 																day2TemperatureMean,
 																theSeasonId);
 
-	windySentence <<  windy_sentence(itsVar,
-									 day2WindspeedMorningMinimum,
-									 day2WindspeedMorningMean,
-									 day2WindspeedMorningMaximum,
-									 day2WindspeedAfternoonMinimum,
-									 day2WindspeedAfternoonMean,
-									 day2WindspeedAfternoonMaximum);
-
+	windinessSentence <<  windiness_sentence(itsVar,
+											 day2WindspeedMorningMinimum,
+											 day2WindspeedMorningMean,
+											 day2WindspeedMorningMaximum,
+											 day2WindspeedAfternoonMinimum,
+											 day2WindspeedAfternoonMean,
+											 day2WindspeedAfternoonMaximum);
+	
 	if(handleWindchill)
 	  windChillSentence << windchill_sentence(itsVar,
 											  day2WindchillMean);
 
 
-	log << "Anomaly sentence: ";
+	log << "anomaly: ";
 	log << temperatureAnomalySentence;
+	log << "short run trend: ";
 	log << shortrunTrendSentence;
-	log << windySentence;
+	log << "windiness: ";
+	log << windinessSentence;
+	log << "wind chill: ";
 	log << windChillSentence;
 
 	paragraph << temperatureAnomalySentence;
 	paragraph << shortrunTrendSentence;
-	paragraph << windySentence;
+	paragraph << windinessSentence;
 	paragraph << windChillSentence;
 
 	log << paragraph;

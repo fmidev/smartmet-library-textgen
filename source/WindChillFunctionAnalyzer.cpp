@@ -24,9 +24,11 @@
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
 #include "WeatherSource.h"
+#include "WindChillQueryInfo.h"
 
 #include <newbase/NFmiEnumConverter.h>
 #include <newbase/NFmiQueryData.h>
+//#include <newbase/NFmiMetMath.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/lexical_cast.hpp>
@@ -114,23 +116,6 @@ namespace WeatherAnalysis
   }
 
 
-  void WindChillFunctionAnalyzer::check_parameter(const std::string& theParameterName, 
-												  const std::string& dataname, 
-												  NFmiFastQueryInfo& qi) const
-  {
-	// Try activating the parameter
-
-
-	FmiParameterName param = FmiParameterName(converter.ToEnum(theParameterName));
-	if(param == kFmiBadParameter)
-	  throw WeatherAnalysisError("Parameter "+theParameterName+" is not defined in newbase");
-
-	if(!qi.Param(param))
-	  throw WeatherAnalysisError(theParameterName+" is not available in "+dataname);
-	
-  }
-
-
   // ----------------------------------------------------------------------
   /*!
    * \brief Analyze area and time functions
@@ -181,12 +166,21 @@ namespace WeatherAnalysis
 	shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
 
 	NFmiFastQueryInfo * qi = qd->QueryInfoIter();
-	//	WindChillQueryInfo wi(*qi);
+	WindChillQueryInfo wi(*qi);
 
-	check_parameter("Temperature", dataname, *qi);
-	check_parameter("WindSpeedMS", dataname, *qi);
 
-	// Handle points and areas separately
+	// Try activating the parameter
+
+	/*
+	// WindChill parameter does not exists in querydata, but
+	// it is composed of wind speed and temperature
+	FmiParameterName param = FmiParameterName(converter.ToEnum(theParameterName));
+	if(param == kFmiBadParameter)
+	throw WeatherAnalysisError("Parameter "+theParameterName+" is not defined in newbase");
+
+	if(!qi.Param(param))
+	throw WeatherAnalysisError(theParameterName+" is not available in "+dataname);
+	*/
 
 	shared_ptr<Calculator> spacemod, timemod, subtimemod;
 
@@ -231,13 +225,12 @@ namespace WeatherAnalysis
 		  spacemod = CalculatorFactory::create(itsAreaFunction,theTester,itsModulo);
 		spacemod->acceptor(theAreaAcceptor);
 
-		float result = QueryDataIntegrator::IntegrateWindChill(*qi,
-															   thePeriods,
-															   *subtimemod,
-															   *timemod,
-															   *mask,
-															   *spacemod);
-
+		float result = QueryDataIntegrator::Integrate(wi,
+													  thePeriods,
+													  *subtimemod,
+													  *timemod,
+													  *mask,
+													  *spacemod);
 		if(result == kFloatMissing)
 		  return WeatherResult(kFloatMissing,0);
 
@@ -252,12 +245,12 @@ namespace WeatherAnalysis
 		  spacemod = CalculatorFactory::create(StandardDeviation,theTester,itsModulo);
 		spacemod->acceptor(theAreaAcceptor);
 		
-		float error = QueryDataIntegrator::IntegrateWindChill(*qi,
-															  thePeriods,
-															  *subtimemod,
-															  *timemod,
-															  *mask,
-															  *spacemod);
+		float error = QueryDataIntegrator::Integrate(wi,
+													 thePeriods,
+													 *subtimemod,
+													 *timemod,
+													 *mask,
+													 *spacemod);
 
 		// This would happen if the area covers one point only
 		if(error == kFloatMissing)
@@ -269,22 +262,22 @@ namespace WeatherAnalysis
 
 	if(!(qi->Location(theArea.point())))
 	  {
-			  ostringstream msg;
-			  msg << "Could not set desired coordinate ("
-				  << theArea.point().X()
-				  << ','
-				  << theArea.point().Y()
-				  << ')';
-			  if(theArea.isNamed())
-				msg << " named " << theArea.name();
-			  msg << " in " << dataname;
-			  throw WeatherAnalysisError(msg.str());
+		ostringstream msg;
+		msg << "Could not set desired coordinate ("
+			<< theArea.point().X()
+			<< ','
+			<< theArea.point().Y()
+			<< ')';
+		if(theArea.isNamed())
+		  msg << " named " << theArea.name();
+		msg << " in " << dataname;
+		throw WeatherAnalysisError(msg.str());
 	  }
 
-	float result = QueryDataIntegrator::IntegrateWindChill(*qi,
-														   thePeriods,
-														   *subtimemod,
-														   *timemod);
+	float result = QueryDataIntegrator::Integrate(wi,
+												  thePeriods,
+												  *subtimemod,
+												  *timemod);
 	
 	return WeatherResult(result,0);
 
