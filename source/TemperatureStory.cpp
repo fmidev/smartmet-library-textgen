@@ -88,6 +88,8 @@ namespace TextGen
 	  return true;
 	if(theName == "temperature_max36hours")
 	  return true;
+	if(theName == "temperature_anomaly")
+	  return true;
 	return false;
   }
   
@@ -124,6 +126,8 @@ namespace TextGen
 	  return range();
 	if(theName == "temperature_max36hours")
 	  return max36hours();
+	if(theName == "temperature_anomaly")
+	  return anomaly();
 
 	throw TextGenError("TemperatureStory cannot make story "+theName);
 
