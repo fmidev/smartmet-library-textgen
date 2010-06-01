@@ -602,28 +602,7 @@ namespace TextGen
 	// Test if the growing season has started at coastal area
 	bool growingSeasonCoastal = temperatureSumCoastal.value() != kFloatMissing && 
 	  temperatureSumCoastal.value() >= required_growing_season_percentage;
-	/*
-	if(growingSeasonCoastal)
-	  {
-		NFmiTime startTime(itsPeriod.localStartTime());
-		NFmiTime endTime(itsPeriod.localEndTime());
-		startTime.ChangeByDays(-7);
-		WeatherPeriod periodi(startTime, endTime);
-		WeatherResult waterEquivalentOfSnowCoastal = forecaster.analyze(itsVar+"::fake::snowdepth::coastal",
-																		itsSources,
-																		WaterEquivalentOfSnow,
-																		Mean,
-																		Mean,
-																		coastalArea,
-																		periodi);
-		//night1);
 
-		log << "WaterEquivalentOfSnow Coastal " << waterEquivalentOfSnowCoastal << endl;
-
-		if(waterEquivalentOfSnowCoastal.value() != kFloatMissing)
-		  growingSeasonCoastal = waterEquivalentOfSnowCoastal.value() <= 1.0;
-	  }
-	*/
 	if(!growingSeasonCoastal)
 	  log << "Growing season has not yet started on coastal area!" << endl;
 
@@ -644,29 +623,14 @@ namespace TextGen
 	// Test if the growing season has started at inland area
 	bool growingSeasonInland = temperatureSumInland.value() != kFloatMissing && 
 	  temperatureSumInland.value() >= required_growing_season_percentage;
-	/*
-	if(growingSeasonInland)
-	  {
-		NFmiTime startTime(itsPeriod.localStartTime());
-		NFmiTime endTime(itsPeriod.localEndTime());
-		startTime.ChangeByDays(-7);
-		WeatherPeriod periodi(startTime, endTime);
-		WeatherResult waterEquivalentOfSnowInland = forecaster.analyze(itsVar+"::fake::snowdepth::inland",
-																	   itsSources,
-																	   WaterEquivalentOfSnow,
-																	   Mean,
-																	   Mean,
-																	   inlandArea,
-																	   periodi);//night1);
 
-		log << "WaterEquivalentOfSnow Inland " << waterEquivalentOfSnowInland << endl;
-
-		if(waterEquivalentOfSnowInland.value() != kFloatMissing)
-		  growingSeasonInland = waterEquivalentOfSnowInland.value() <= 1.0;
-	  }
-	*/
 	if(!growingSeasonInland)
 	  log << "Growing season has not yet started on inland area!" << endl;
+
+	if(!growingSeasonInland && !growingSeasonCoastal)
+	  {
+		return paragraph;
+	  }
 
 	unsigned short growing_season_started = 0x0;
 	unsigned short forecast_areas = 0x0;
@@ -690,6 +654,7 @@ namespace TextGen
 	  {
 		log << "Inland area is not included" << endl;
 	  }
+
 
 	WeatherResult temperatureMinMinCoastal(kFloatMissing, 0.0);
 	WeatherResult temperatureMinMinInland(kFloatMissing, 0.0);
@@ -810,6 +775,7 @@ namespace TextGen
 										severeFrostMaxMaxInland.value() <= 100);
 
 
+#ifdef FOR_DEBUG_PURPOSES
 		if(forecast_areas & COASTAL_AREA)
 		  {
 			WeatherResult minTemperature = forecaster.analyze(itsVar + "::min",
@@ -870,6 +836,8 @@ namespace TextGen
 				<< " Max: "
 				<< maxTemperature << endl;
 		  }
+#endif
+
 
 		paragraph << frost_onenight_sentence(frostMaxMaxCoastal.value(),
 											 frostMaxMaxInland.value(),
