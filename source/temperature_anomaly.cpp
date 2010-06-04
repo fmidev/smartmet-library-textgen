@@ -117,7 +117,7 @@ namespace TextGen
 #define PAKKANEN_ON_PUREVAA_PHRASE "pakkanen on purevaa"
 #define PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE "pakkanen on erittäin purevaa"
 #define TUULI_VIILENTAA_SAATA_PHRASE "tuuli viilentää säätä"
-#define TUULI_KYLMENTAA_SAATA_PHRASE "tuuli kylmenää säätä"
+#define TUULI_KYLMENTAA_SAATA_PHRASE "tuuli kylmentää säätä"
 
 enum anomaly_phrase_id
   {
@@ -896,6 +896,16 @@ enum anomaly_phrase_id
 	return sentence;
 	}
 
+	const Sentence test_windspeed(const float& theWindSpeed1, const float& theWindSpeed2, const char* theReturnString)
+	{
+	  Sentence retval;
+
+	  if(abs(theWindSpeed1 - theWindSpeed2) > 1.0)
+		retval << theReturnString;
+
+	  return retval;
+	}
+
 	const Sentence windiness_sentence(const temperature_anomaly_params& theParameters)
 	{
 	  Sentence sentence;
@@ -907,143 +917,385 @@ enum anomaly_phrase_id
 	  bool inlandIncluded = theParameters.theWindspeedInlandMorningMinimum.value() != kFloatMissing;
 	  bool coastIncluded = theParameters.theWindspeedCoastalMorningMinimum.value() != kFloatMissing;
 
-	  WeatherResult windSpeedMorningMean = theParameters.theWindspeedInlandMorningMinimum;
-	  WeatherResult windSpeedAfternoonMean = theParameters.theWindspeedInlandMorningMinimum;
+	  bool windyMorningInland = 
+		theParameters.theWindspeedInlandMorningMean.value() != kFloatMissing &&
+		(theParameters.theWindspeedInlandMorningMean.value() >= windy_weather_limit && 
+		 theParameters.theWindspeedInlandMorningMean.value() < extremely_windy_weather_limit);
+	  bool windyAfternoonInland = 
+		theParameters.theWindspeedInlandAfternoonMean.value() != kFloatMissing &&
+		(theParameters.theWindspeedInlandAfternoonMean.value() >= windy_weather_limit && 
+		 theParameters.theWindspeedInlandAfternoonMean.value() < extremely_windy_weather_limit);
+	  bool windyMorningCoastal = 
+		theParameters.theWindspeedCoastalMorningMean.value() != kFloatMissing &&
+		(theParameters.theWindspeedCoastalMorningMean.value() >= windy_weather_limit && 
+		 theParameters.theWindspeedCoastalMorningMean.value() < extremely_windy_weather_limit);
+	  bool windyAfternoonCoastal = 
+		theParameters.theWindspeedCoastalAfternoonMean.value() != kFloatMissing &&
+		(theParameters.theWindspeedCoastalAfternoonMean.value() >= windy_weather_limit && 
+		 theParameters.theWindspeedCoastalAfternoonMean.value() < extremely_windy_weather_limit);
+	  bool extremelyWindyMorningInland = 
+		theParameters.theWindspeedInlandMorningMean.value() != kFloatMissing &&
+		 theParameters.theWindspeedInlandMorningMean.value() >= extremely_windy_weather_limit;
+	  bool extremelyWindyAfternoonInland = 
+		theParameters.theWindspeedInlandAfternoonMean.value() != kFloatMissing &&
+		 theParameters.theWindspeedInlandAfternoonMean.value() >= extremely_windy_weather_limit;
+	  bool extremelyWindyMorningCoastal = 
+		theParameters.theWindspeedCoastalMorningMean.value() != kFloatMissing &&
+		 theParameters.theWindspeedCoastalMorningMean.value() > extremely_windy_weather_limit;
+	  bool extremelyWindyAfternoonCoastal = 
+		theParameters.theWindspeedCoastalAfternoonMean.value() != kFloatMissing &&
+		 theParameters.theWindspeedCoastalAfternoonMean.value() > extremely_windy_weather_limit;
+	  float windspeedMorningInland = theParameters.theWindspeedInlandMorningMean.value();
+	  float windspeedAfternoonInland = theParameters.theWindspeedInlandAfternoonMean.value();
+	  float windspeedMorningCoastal = theParameters.theWindspeedCoastalMorningMean.value();
+	  float windspeedAfternoonCoastal = theParameters.theWindspeedCoastalAfternoonMean.value();
 
-	  forecast_area_id areaMorning = FULL_AREA;
-	  forecast_area_id areaAfternoon = FULL_AREA;
+	  std::string part_of_the_day("");
+	  std::string areaString("");
+
+	  Sentence varying_part;
 	  if(inlandIncluded && coastIncluded)
 		{
-		  if(theParameters.theWindspeedInlandMorningMean.value() != kFloatMissing &&
-			 theParameters.theWindspeedInlandMorningMean.value() > theParameters.theWindspeedCoastalMorningMean.value())
+		  if(windyMorningInland && windyMorningCoastal && windyAfternoonInland && windyAfternoonCoastal)
 			{
-			  windSpeedMorningMean = theParameters.theWindspeedInlandMorningMean;
-			  areaMorning = INLAND_AREA;
+				varying_part << TUULINEN_WORD;
 			}
-		  else if(theParameters.theWindspeedCoastalMorningMean.value() != kFloatMissing)
+		  if(windyMorningInland && !windyMorningCoastal && !windyAfternoonInland && !windyAfternoonCoastal)
 			{
-			  windSpeedMorningMean = theParameters.theWindspeedCoastalMorningMean;
-			  areaMorning = COASTAL_AREA;
+			  if(!extremelyWindyMorningCoastal && !extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
+				{
+				  varying_part << test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD) 
+							   << AAMUPAIVALLA_WORD << TUULINEN_WORD;
+				}
 			}
-
-		  if(theParameters.theWindspeedInlandAfternoonMean.value() != kFloatMissing &&
-			 theParameters.theWindspeedInlandAfternoonMean.value() > theParameters.theWindspeedCoastalAfternoonMean.value())
+		  else if(!windyMorningInland && windyMorningCoastal && !windyAfternoonInland && !windyAfternoonCoastal)
 			{
-			  windSpeedAfternoonMean = theParameters.theWindspeedInlandAfternoonMean;
-			  areaAfternoon = INLAND_AREA;
+			  if(!extremelyWindyMorningInland && !extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
+				{
+				  varying_part << test_windspeed(windspeedMorningCoastal, windspeedMorningInland, RANNIKOLLA_WORD) 
+							   << AAMUPAIVALLA_WORD << TUULINEN_WORD;
+				}
 			}
-		  else if(theParameters.theWindspeedCoastalAfternoonMean.value() != kFloatMissing)
+		  else if(!windyMorningInland && !windyMorningCoastal && windyAfternoonInland && !windyAfternoonCoastal)
 			{
-			  windSpeedAfternoonMean = theParameters.theWindspeedCoastalAfternoonMean;
-			  areaAfternoon = COASTAL_AREA;
+			  if(!extremelyWindyMorningInland && !extremelyWindyMorningCoastal && !extremelyWindyAfternoonCoastal)
+				{
+				  varying_part <<  test_windspeed(windspeedAfternoonInland, windspeedAfternoonCoastal, SISAMAASSA_WORD) 
+							   << ILTAPAIVALLA_WORD << TUULINEN_WORD;
+				}
+			}
+		  else if(!windyMorningInland && !windyMorningCoastal && !windyAfternoonInland && windyAfternoonCoastal)
+			{
+			  if(!extremelyWindyMorningInland && !extremelyWindyMorningCoastal && !extremelyWindyAfternoonInland)
+				{
+				  varying_part <<  test_windspeed(windspeedAfternoonCoastal, windspeedAfternoonInland, RANNIKOLLA_WORD) 
+							   << ILTAPAIVALLA_WORD << TUULINEN_WORD;
+				}
+			}
+		  else if(windyMorningInland && !windyMorningCoastal && windyAfternoonInland && !windyAfternoonCoastal)
+			{
+			  if(!extremelyWindyMorningCoastal && !extremelyWindyAfternoonCoastal)
+				{
+				  varying_part << test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD) 
+							   << TUULINEN_WORD;
+				}
+			}
+		  else if(!windyMorningInland && windyMorningCoastal && windyAfternoonInland && windyAfternoonCoastal)
+			{
+			  if(!extremelyWindyMorningInland)
+				varying_part << TUULINEN_WORD;
+			}
+		  else if(windyMorningInland && !windyMorningCoastal && windyAfternoonInland && windyAfternoonCoastal)
+			{
+			  if(!extremelyWindyMorningCoastal)
+				varying_part << TUULINEN_WORD;
+			}
+		  else if(windyMorningInland && windyMorningCoastal && !windyAfternoonInland && windyAfternoonCoastal)
+			{
+			  if(!extremelyWindyAfternoonInland)
+				varying_part << TUULINEN_WORD;
+			}
+		  else if(windyMorningInland && windyMorningCoastal && windyAfternoonInland && !windyAfternoonCoastal)
+			{
+			  if(!extremelyWindyAfternoonCoastal)
+				varying_part << TUULINEN_WORD;
+			}
+		  else if(!windyMorningInland && windyMorningCoastal && !windyAfternoonInland && windyAfternoonCoastal)
+			{
+			  if(!extremelyWindyMorningInland && !extremelyWindyAfternoonInland)
+				{
+				  varying_part << test_windspeed(windspeedMorningCoastal, windspeedMorningInland, RANNIKOLLA_WORD) 
+							   << TUULINEN_WORD;
+				}
+			}
+		  else if(extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
+				  !extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
+			{
+			  varying_part << test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD) 
+						   << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(!extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
+				  !extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
+			{
+			  varying_part <<  test_windspeed(windspeedMorningCoastal, windspeedMorningInland,RANNIKOLLA_WORD) 
+						   << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(!extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
+				  extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
+			{
+			  varying_part << test_windspeed(windspeedAfternoonInland, windspeedAfternoonCoastal, SISAMAASSA_WORD) 
+						   << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(!extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
+				  !extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
+			{
+			  varying_part << test_windspeed(windspeedAfternoonCoastal, windspeedAfternoonInland, RANNIKOLLA_WORD) 
+						   << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(!extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
+				  !extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
+			{
+			  varying_part << test_windspeed(windspeedMorningCoastal, windspeedMorningInland,RANNIKOLLA_WORD) 
+						   << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
+				  extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
+			{
+			  varying_part <<  test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD)
+						   << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
+				  extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
+			{
+			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
+				  extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
+			{
+			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(!extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
+				  extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
+			{
+			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
+				  !extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
+			{
+			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
+				  !extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
+			{
+			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(!extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
+				  extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
+			{
+			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
+				  extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
+			{
+			  varying_part << HYVIN_WORD << TUULINEN_WORD;
 			}
 		}
 	  else if(inlandIncluded)
 		{
-			windSpeedMorningMean = theParameters.theWindspeedInlandMorningMean;
-			windSpeedAfternoonMean = theParameters.theWindspeedInlandAfternoonMean;
+		  if(windyMorningInland && !windyAfternoonInland)
+			{
+			  if(!extremelyWindyAfternoonInland)
+				varying_part << AAMUPAIVALLA_WORD << TUULINEN_WORD;
+			}
+		  else if(!windyMorningInland && windyAfternoonInland)
+			{
+			  if(!extremelyWindyMorningInland)
+				varying_part << ILTAPAIVALLA_WORD << TUULINEN_WORD;
+			}
+		  else if(windyMorningInland && windyAfternoonInland)
+			{
+				varying_part << TUULINEN_WORD;
+			}
+		  else if(extremelyWindyMorningInland && !extremelyWindyAfternoonInland)
+			{
+			  varying_part << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(!extremelyWindyMorningInland && extremelyWindyAfternoonInland)
+			{
+			  varying_part << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(extremelyWindyMorningInland && extremelyWindyAfternoonInland)
+			{
+			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			}
 		}
 	  else if(coastIncluded)
 		{
-			windSpeedMorningMean = theParameters.theWindspeedCoastalMorningMean;
-			windSpeedAfternoonMean = theParameters.theWindspeedCoastalAfternoonMean;
-		}
-
-	  float windSpeed = (windSpeedMorningMean.value() != kFloatMissing &&
-						 windSpeedMorningMean.value() > windSpeedAfternoonMean.value()) ? 
-		windSpeedMorningMean.value() : windSpeedAfternoonMean.value();
-
-	  bool windyMorning = windSpeedMorningMean.value() != kFloatMissing &&
-		(windSpeedMorningMean.value() >= windy_weather_limit && 
-		 windSpeedMorningMean.value() < extremely_windy_weather_limit);
-	  bool windyAfternoon = windSpeedAfternoonMean.value() != kFloatMissing &&
-		(windSpeedAfternoonMean.value() >= windy_weather_limit &&
-		 windSpeedAfternoonMean.value() < extremely_windy_weather_limit);
-	  bool extremelyWindyMorning = windSpeedMorningMean.value() != kFloatMissing &&
-		windSpeedMorningMean.value() > extremely_windy_weather_limit;
-	  bool extremelyWindyAfternoon = windSpeedAfternoonMean.value() != kFloatMissing &&
-		windSpeedAfternoonMean.value() > extremely_windy_weather_limit;
-	  bool windCoolingTheWeatherMorning = windSpeedMorningMean.value() != kFloatMissing &&
-		windSpeedMorningMean.value() >= wind_cooling_the_weather_limit;
-	  bool windCoolingTheWeatherAfternoon = windSpeedAfternoonMean.value() != kFloatMissing &&
-		windSpeedAfternoonMean.value() >= wind_cooling_the_weather_limit;
-
-	  std::string areaString((areaMorning == INLAND_AREA ? SISAMAASSA_WORD
-							  : (areaMorning == COASTAL_AREA ? RANNIKOLLA_WORD : "")));
-
-	  if(windSpeed >= windy_weather_limit && windSpeed < extremely_windy_weather_limit)
-		{
-		  if(windyMorning && !windyAfternoon)
+		  if(windyMorningCoastal && !windyAfternoonCoastal)
 			{
-			  sentence << SAA_WORD << ON_WORD << areaString << AAMUPAIVALLA_WORD << TUULINEN_WORD;
+			  if(!extremelyWindyAfternoonCoastal)
+				varying_part << AAMUPAIVALLA_WORD << TUULINEN_WORD;
 			}
-		  else if(!windyMorning && windyAfternoon)
+		  else if(!windyMorningCoastal && windyAfternoonCoastal)
 			{
-			  sentence << SAA_WORD << ON_WORD << areaString << ILTAPAIVALLA_WORD << TUULINEN_WORD;
+			  if(!extremelyWindyMorningCoastal)
+				varying_part << ILTAPAIVALLA_WORD << TUULINEN_WORD;
 			}
-		  else
+		  else if(windyMorningCoastal && windyAfternoonCoastal)
 			{
-			  sentence  << SAA_WORD << ON_WORD << areaString << TUULINEN_WORD;
+				varying_part << TUULINEN_WORD;
+			}
+		  else if(extremelyWindyMorningCoastal && !extremelyWindyAfternoonCoastal)
+			{
+			  varying_part << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(!extremelyWindyMorningCoastal && extremelyWindyAfternoonCoastal)
+			{
+			  varying_part << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			}
+		  else if(extremelyWindyMorningCoastal && extremelyWindyAfternoonCoastal)
+			{
+			  varying_part << HYVIN_WORD << TUULINEN_WORD;
 			}
 		}
-	  else if(windSpeed > extremely_windy_weather_limit)
-		{
-		  if(extremelyWindyMorning && !extremelyWindyAfternoon)
-			sentence << SAA_WORD << ON_WORD << areaString  << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
-		  else if(!extremelyWindyMorning && extremelyWindyAfternoon)
-			sentence << SAA_WORD << ON_WORD << areaString  << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
-		  else
-			sentence << SAA_WORD << ON_WORD << areaString  << HYVIN_WORD << TUULINEN_WORD;
-		}
+		
+	  if(!varying_part.empty())
+		sentence << SAA_WORD << ON_WORD << varying_part;
 
-
-	  if(windSpeed >= wind_cooling_the_weather_limit)
+	  // handle the wind cooling effect
+	  if(sentence.empty())//windSpeed >= wind_cooling_the_weather_limit)
 		{
-		  std::string part_of_the_day("");
+		  areaString = "";
 		  float temperature = -1.0;
-		  if(areaMorning == INLAND_AREA)
+
+		  bool windCoolingTheWeatherInlandMorning = 
+			(theParameters.theWindspeedInlandMorningMean.value() != kFloatMissing &&
+			 theParameters.theWindspeedInlandMorningMean.value() >= wind_cooling_the_weather_limit);
+		  bool windCoolingTheWeatherCoastalMorning = 
+			(theParameters.theWindspeedCoastalMorningMean.value() != kFloatMissing &&
+			 theParameters.theWindspeedCoastalMorningMean.value() >= wind_cooling_the_weather_limit);
+		  bool windCoolingTheWeatherInlandAfternoon = 
+			(theParameters.theWindspeedInlandAfternoonMean.value() != kFloatMissing &&
+			 theParameters.theWindspeedInlandAfternoonMean.value() >= wind_cooling_the_weather_limit);
+		  bool windCoolingTheWeatherCoastalAfternoon = 
+			(theParameters.theWindspeedCoastalAfternoonMean.value() != kFloatMissing &&
+			 theParameters.theWindspeedCoastalAfternoonMean.value() >= wind_cooling_the_weather_limit);
+
+			 float temperatureInlandMorning = theParameters.theAnalyzeDay1 ? 
+			 theParameters.theDay1TemperatureInlandMorningMean.value() : 
+			 theParameters.theDay2TemperatureInlandMorningMean.value();
+			 float temperatureInlandAfternoon =  theParameters.theAnalyzeDay1 ? 
+			 theParameters.theDay1TemperatureInlandAfternoonMean.value() : 
+			 theParameters.theDay2TemperatureInlandAfternoonMean.value();
+			 float temperatureCoastalMorning =  theParameters.theAnalyzeDay1 ? 
+			 theParameters.theDay1TemperatureCoastalMorningMean.value() : 
+			 theParameters.theDay2TemperatureCoastalMorningMean.value();
+			 float temperatureCoastalAfternoon =  theParameters.theAnalyzeDay1 ? 
+			 theParameters.theDay1TemperatureCoastalAfternoonMean.value() : 
+			 theParameters.theDay2TemperatureCoastalAfternoonMean.value();
+
+		  if(inlandIncluded && coastIncluded)
 			{
-			  if(windCoolingTheWeatherMorning && !windCoolingTheWeatherAfternoon)
+			  if(windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning &&
+				 windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
 				{
-				  temperature = theParameters.theAnalyzeDay1 ? 
-					theParameters.theDay1TemperatureInlandMorningMean.value() : 
-					theParameters.theDay2TemperatureInlandMorningMean.value();
-				  part_of_the_day = AAMUPAIVALLA_WORD;
-				  areaString = SISAMAASSA_WORD;
+				  float morningTemperature = temperatureInlandMorning > temperatureCoastalMorning ?
+					temperatureInlandMorning : temperatureCoastalMorning;
+				  float afternoonTemperature = temperatureInlandAfternoon > temperatureCoastalAfternoon ?
+					temperatureInlandAfternoon : temperatureCoastalAfternoon;
+				  temperature = afternoonTemperature > morningTemperature ? afternoonTemperature : morningTemperature;
 				}
-			  else if(!windCoolingTheWeatherMorning && windCoolingTheWeatherAfternoon)
+			  else if(!windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning &&
+				 !windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
 				{
-				  temperature = theParameters.theAnalyzeDay1 ? 
-					theParameters.theDay1TemperatureInlandAfternoonMean.value() : 
-					theParameters.theDay2TemperatureInlandAfternoonMean.value();
-				  part_of_the_day = ILTAPAIVALLA_WORD;
-				  areaString = SISAMAASSA_WORD;
-				}			  
-			}
-		  else if(areaMorning == COASTAL_AREA)
-			{
-			  if(windCoolingTheWeatherMorning && !windCoolingTheWeatherAfternoon)
+				  temperature = temperatureCoastalAfternoon > 
+					temperatureCoastalMorning ? temperatureCoastalAfternoon : temperatureCoastalMorning;
+				  areaString = RANNIKOLLA_WORD;
+				}
+			  else if(!windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning &&
+				 !windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
 				{
-				  temperature = theParameters.theAnalyzeDay1 ? 
-					theParameters.theDay1TemperatureCoastalMorningMean.value() : 
-					theParameters.theDay2TemperatureCoastalMorningMean.value();
+				  temperature = temperatureCoastalMorning; 
 				  part_of_the_day = AAMUPAIVALLA_WORD;
 				  areaString = RANNIKOLLA_WORD;
 				}
-			  else if(!windCoolingTheWeatherMorning && windCoolingTheWeatherAfternoon)
+			  else if(!windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
+				 !windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
 				{
-				  temperature = theParameters.theAnalyzeDay1 ? 
-					theParameters.theDay1TemperatureCoastalAfternoonMean.value() : 
-					theParameters.theDay2TemperatureCoastalAfternoonMean.value();
+				  temperature = temperatureCoastalAfternoon;
 				  part_of_the_day = ILTAPAIVALLA_WORD;
 				  areaString = RANNIKOLLA_WORD;
 				}
+			  else if(windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
+					  windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
+				{
+				  temperature = temperatureInlandAfternoon > 
+					temperatureInlandMorning ? temperatureInlandAfternoon : temperatureInlandMorning;
+				  areaString = SISAMAASSA_WORD;
+				}
+			  else if(windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
+					  !windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
+				{
+				  temperature = temperatureInlandMorning;
+				  part_of_the_day = AAMUPAIVALLA_WORD;
+				  areaString = SISAMAASSA_WORD;
+				}
+			  else if(!windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
+					  windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
+				{
+				  temperature = temperatureInlandAfternoon;
+				  part_of_the_day = ILTAPAIVALLA_WORD;
+				  areaString = SISAMAASSA_WORD;
+				}
+			  else if(windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning)
+				{
+				  temperature = temperatureCoastalMorning > 
+					temperatureInlandMorning ? temperatureCoastalMorning : temperatureInlandMorning;
+				  part_of_the_day = AAMUPAIVALLA_WORD;
+				}
+			  else if(windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
+				{
+				  temperature = temperatureCoastalAfternoon > 
+					temperatureInlandAfternoon ? temperatureCoastalAfternoon : temperatureInlandAfternoon;
+				  part_of_the_day = ILTAPAIVALLA_WORD;
+				}
 			}
-		  else
+		  else if(!inlandIncluded && coastIncluded)
 			{
-			  temperature = theParameters.theAnalyzeDay1 ? 
-				theParameters.theDay1TemperatureAreaAfternoonMean.value() : 
-				theParameters.theDay2TemperatureAreaAfternoonMean.value();
+			  if(windCoolingTheWeatherCoastalMorning && !windCoolingTheWeatherCoastalAfternoon)
+				{
+				  temperature = temperatureCoastalMorning;
+				  part_of_the_day = AAMUPAIVALLA_WORD;
+				}
+			  else if(!windCoolingTheWeatherCoastalMorning && windCoolingTheWeatherCoastalAfternoon)
+				{
+				  temperature = temperatureCoastalAfternoon;
+				  part_of_the_day = ILTAPAIVALLA_WORD;
+				}
+			  else
+				{
+				  temperature = temperatureCoastalAfternoon > 
+					temperatureCoastalMorning ? temperatureCoastalAfternoon : temperatureCoastalMorning;
+				  areaString = RANNIKOLLA_WORD;
+				}
+			}
+		  else if(inlandIncluded && !coastIncluded)
+			{
+			  if(windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherInlandAfternoon)
+				{
+				  temperature = temperatureInlandMorning;
+				  part_of_the_day = AAMUPAIVALLA_WORD;
+				}
+			  else if(!windCoolingTheWeatherInlandMorning && windCoolingTheWeatherInlandAfternoon)
+				{
+				  temperature = temperatureInlandAfternoon;
+				  part_of_the_day = ILTAPAIVALLA_WORD;
+				}
+			  else
+				{
+				  temperature = temperatureInlandAfternoon > 
+					temperatureInlandMorning ? temperatureInlandAfternoon : temperatureInlandMorning;
+				}
 			}
 
 		  Sentence windCoolingSentence;
