@@ -1194,118 +1194,124 @@ enum anomaly_phrase_id
 			 theParameters.theDay1TemperatureCoastalAfternoonMean.value() : 
 			 theParameters.theDay2TemperatureCoastalAfternoonMean.value();
 
-		  if(inlandIncluded && coastIncluded)
-			{
-			  if(windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning &&
-				 windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
-				{
-				  float morningTemperature = temperatureInlandMorning > temperatureCoastalMorning ?
-					temperatureInlandMorning : temperatureCoastalMorning;
-				  float afternoonTemperature = temperatureInlandAfternoon > temperatureCoastalAfternoon ?
-					temperatureInlandAfternoon : temperatureCoastalAfternoon;
-				  temperature = afternoonTemperature > morningTemperature ? afternoonTemperature : morningTemperature;
-				}
-			  else if(!windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning &&
-				 !windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
-				{
-				  temperature = temperatureCoastalAfternoon > 
-					temperatureCoastalMorning ? temperatureCoastalAfternoon : temperatureCoastalMorning;
-				  areaString = RANNIKOLLA_WORD;
-				}
-			  else if(!windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning &&
-				 !windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
-				{
-				  temperature = temperatureCoastalMorning; 
-				  part_of_the_day = AAMUPAIVALLA_WORD;
-				  areaString = RANNIKOLLA_WORD;
-				}
-			  else if(!windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
-				 !windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
-				{
-				  temperature = temperatureCoastalAfternoon;
-				  part_of_the_day = ILTAPAIVALLA_WORD;
-				  areaString = RANNIKOLLA_WORD;
-				}
-			  else if(windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
-					  windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
-				{
-				  temperature = temperatureInlandAfternoon > 
-					temperatureInlandMorning ? temperatureInlandAfternoon : temperatureInlandMorning;
-				  areaString = SISAMAASSA_WORD;
-				}
-			  else if(windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
-					  !windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
-				{
-				  temperature = temperatureInlandMorning;
-				  part_of_the_day = AAMUPAIVALLA_WORD;
-				  areaString = SISAMAASSA_WORD;
-				}
-			  else if(!windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
-					  windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
-				{
-				  temperature = temperatureInlandAfternoon;
-				  part_of_the_day = ILTAPAIVALLA_WORD;
-				  areaString = SISAMAASSA_WORD;
-				}
-			  else if(windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning)
-				{
-				  temperature = temperatureCoastalMorning > 
-					temperatureInlandMorning ? temperatureCoastalMorning : temperatureInlandMorning;
-				  part_of_the_day = AAMUPAIVALLA_WORD;
-				}
-			  else if(windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
-				{
-				  temperature = temperatureCoastalAfternoon > 
-					temperatureInlandAfternoon ? temperatureCoastalAfternoon : temperatureInlandAfternoon;
-				  part_of_the_day = ILTAPAIVALLA_WORD;
-				}
-			}
-		  else if(!inlandIncluded && coastIncluded)
-			{
-			  if(windCoolingTheWeatherCoastalMorning && !windCoolingTheWeatherCoastalAfternoon)
-				{
-				  temperature = temperatureCoastalMorning;
-				  part_of_the_day = AAMUPAIVALLA_WORD;
-				}
-			  else if(!windCoolingTheWeatherCoastalMorning && windCoolingTheWeatherCoastalAfternoon)
-				{
-				  temperature = temperatureCoastalAfternoon;
-				  part_of_the_day = ILTAPAIVALLA_WORD;
-				}
-			  else
-				{
-				  temperature = temperatureCoastalAfternoon > 
-					temperatureCoastalMorning ? temperatureCoastalAfternoon : temperatureCoastalMorning;
-				  areaString = RANNIKOLLA_WORD;
-				}
-			}
-		  else if(inlandIncluded && !coastIncluded)
-			{
-			  if(windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherInlandAfternoon)
-				{
-				  temperature = temperatureInlandMorning;
-				  part_of_the_day = AAMUPAIVALLA_WORD;
-				}
-			  else if(!windCoolingTheWeatherInlandMorning && windCoolingTheWeatherInlandAfternoon)
-				{
-				  temperature = temperatureInlandAfternoon;
-				  part_of_the_day = ILTAPAIVALLA_WORD;
-				}
-			  else
-				{
-				  temperature = temperatureInlandAfternoon > 
-					temperatureInlandMorning ? temperatureInlandAfternoon : temperatureInlandMorning;
-				}
-			}
 
-		  Sentence windCoolingSentence;
+			 inlandIncluded = windCoolingTheWeatherInlandMorning || windCoolingTheWeatherInlandAfternoon;
+			 coastIncluded = windCoolingTheWeatherCoastalMorning || windCoolingTheWeatherCoastalAfternoon;
 
-		  if(temperature > 0.0 && temperature <= 10.0)
-			windCoolingSentence << TUULI_KYLMENTAA_SAATA_PHRASE << areaString << part_of_the_day ;
-		  else if(temperature > 10.0)
-			windCoolingSentence << TUULI_VIILENTAA_SAATA_PHRASE << areaString << part_of_the_day ;
+			 if(inlandIncluded && coastIncluded)
+			   {
+				 if(windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning &&
+					windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
+				   {
+					 float morningTemperature = temperatureInlandMorning > temperatureCoastalMorning ?
+					   temperatureInlandMorning : temperatureCoastalMorning;
+					 float afternoonTemperature = temperatureInlandAfternoon > temperatureCoastalAfternoon ?
+					   temperatureInlandAfternoon : temperatureCoastalAfternoon;
+					 temperature = afternoonTemperature > morningTemperature ? afternoonTemperature : morningTemperature;
+				   }
+				 else if(!windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning &&
+						 !windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
+				   {
+					 temperature = temperatureCoastalAfternoon > 
+					   temperatureCoastalMorning ? temperatureCoastalAfternoon : temperatureCoastalMorning;
+					 areaString = RANNIKOLLA_WORD;
+				   }
+				 else if(!windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning &&
+						 !windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
+				   {
+					 temperature = temperatureCoastalMorning; 
+					 part_of_the_day = AAMUPAIVALLA_WORD;
+					 areaString = RANNIKOLLA_WORD;
+				   }
+				 else if(!windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
+						 !windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
+				   {
+					 temperature = temperatureCoastalAfternoon;
+					 part_of_the_day = ILTAPAIVALLA_WORD;
+					 areaString = RANNIKOLLA_WORD;
+				   }
+				 else if(windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
+						 windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
+				   {
+					 temperature = temperatureInlandAfternoon > 
+					   temperatureInlandMorning ? temperatureInlandAfternoon : temperatureInlandMorning;
+					 areaString = SISAMAASSA_WORD;
+				   }
+				 else if(windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
+						 !windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
+				   {
+					 temperature = temperatureInlandMorning;
+					 part_of_the_day = AAMUPAIVALLA_WORD;
+					 areaString = SISAMAASSA_WORD;
+				   }
+				 else if(!windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherCoastalMorning &&
+						 windCoolingTheWeatherInlandAfternoon && !windCoolingTheWeatherCoastalAfternoon)
+				   {
+					 temperature = temperatureInlandAfternoon;
+					 part_of_the_day = ILTAPAIVALLA_WORD;
+					 areaString = SISAMAASSA_WORD;
+				   }
+				 else if(windCoolingTheWeatherInlandMorning && windCoolingTheWeatherCoastalMorning)
+				   {
+					 temperature = temperatureCoastalMorning > 
+					   temperatureInlandMorning ? temperatureCoastalMorning : temperatureInlandMorning;
+					 part_of_the_day = AAMUPAIVALLA_WORD;
+				   }
+				 else if(windCoolingTheWeatherInlandAfternoon && windCoolingTheWeatherCoastalAfternoon)
+				   {
+					 temperature = temperatureCoastalAfternoon > 
+					   temperatureInlandAfternoon ? temperatureCoastalAfternoon : temperatureInlandAfternoon;
+					 part_of_the_day = ILTAPAIVALLA_WORD;
+				   }
+			   }
+			 else if(!inlandIncluded && coastIncluded)
+			   {
+				 if(windCoolingTheWeatherCoastalMorning && !windCoolingTheWeatherCoastalAfternoon)
+				   {
+					 temperature = temperatureCoastalMorning;
+					 part_of_the_day = AAMUPAIVALLA_WORD;
+				   }
+				 else if(!windCoolingTheWeatherCoastalMorning && windCoolingTheWeatherCoastalAfternoon)
+				   {
+					 temperature = temperatureCoastalAfternoon;
+					 part_of_the_day = ILTAPAIVALLA_WORD;
+				   }
+				 else
+				   {
+					 temperature = temperatureCoastalAfternoon > 
+					   temperatureCoastalMorning ? temperatureCoastalAfternoon : temperatureCoastalMorning;
+				   }
+			   }
+			 else if(inlandIncluded && !coastIncluded)
+			   {
+				 if(windCoolingTheWeatherInlandMorning && !windCoolingTheWeatherInlandAfternoon)
+				   {
+					 temperature = temperatureInlandMorning;
+					 part_of_the_day = AAMUPAIVALLA_WORD;
+				   }
+				 else if(!windCoolingTheWeatherInlandMorning && windCoolingTheWeatherInlandAfternoon)
+				   {
+					 temperature = temperatureInlandAfternoon;
+					 part_of_the_day = ILTAPAIVALLA_WORD;
+				   }
+				 else
+				   {
+					 temperature = temperatureInlandAfternoon > 
+					   temperatureInlandMorning ? temperatureInlandAfternoon : temperatureInlandMorning;
+				   }
+			   }
 
-		  sentence << windCoolingSentence;
+			 if(inlandIncluded || coastIncluded)
+			   {
+				 Sentence windCoolingSentence;
+
+				 if(temperature > 0.0 && temperature <= 10.0)
+				   windCoolingSentence << TUULI_KYLMENTAA_SAATA_PHRASE << areaString << part_of_the_day ;
+				 else if(temperature > 10.0)
+				   windCoolingSentence << TUULI_VIILENTAA_SAATA_PHRASE << areaString << part_of_the_day ;
+
+				 sentence << windCoolingSentence;
+			   }
 		}
 
 	  return sentence;

@@ -17,6 +17,7 @@
 #include "Delimiter.h"
 #include "GridForecaster.h"
 #include "NightAndDayPeriodGenerator.h"
+#include "HourPeriodGenerator.h"
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "MathTools.h"
@@ -72,7 +73,8 @@ namespace TextGen
 #define COASTAL_AREA_IGNORE_LIMIT -15.0
 #define DAY_NIGHT_SEPARATION_LIMIT 3.0
 #define MORNING_AFTERNOON_SEPARATION_LIMIT 3.0
-#define ABOUT_THE_SAME_UPPER_LIMIT 2.5
+#define ABOUT_THE_SAME_UPPER_LIMIT 2.0
+#define AROUND_ZERO_UPPER_LIMIT 2.5
 #define SMALL_CHANGE_UPPER_LIMIT 4.5
 
 #define NOIN_ASTETTA_LOW_TEMP_LIMIT 2.5
@@ -886,28 +888,30 @@ namespace TextGen
 		  // minimum (of area minimums) at nighttime
 		  WeatherFunction theTimeFunction = (thePeriodId == NIGHT_PERIOD ? Minimum : Maximum);
 
-		  minResultFull = do_calculation(theVar + fakeVarFull + "::min",
-										 theSources,
-										 Minimum,
-										 theTimeFunction,
-										 theActualArea,
-										 thePeriod);
+		  if(thePeriodId == NIGHT_PERIOD)
+			{
+			  minResultFull = do_calculation(theVar + fakeVarFull + "::min",
+											 theSources,
+											 Minimum,
+											 theTimeFunction,
+											 theActualArea,
+											 thePeriod);
 
-		  maxResultFull = do_calculation(theVar + fakeVarFull + "::max",
-										 theSources,
-										 Maximum,
-										 theTimeFunction,
-										 theActualArea,
-										 thePeriod);
+			  maxResultFull = do_calculation(theVar + fakeVarFull + "::max",
+											 theSources,
+											 Maximum,
+											 theTimeFunction,
+											 theActualArea,
+											 thePeriod);
 
-		  meanResultFull = do_calculation(theVar + fakeVarFull + "::mean",
-										  theSources,
-										  Mean,
-										  theTimeFunction,
-										  theActualArea,
-										  thePeriod);
-
-		  if(thePeriodId == DAY1_PERIOD || thePeriodId == DAY2_PERIOD)
+			  meanResultFull = do_calculation(theVar + fakeVarFull + "::mean",
+											  theSources,
+											  Mean,
+											  theTimeFunction,
+											  theActualArea,
+											  thePeriod);
+			}
+		  else if(thePeriodId == DAY1_PERIOD || thePeriodId == DAY2_PERIOD)
 			{
 			  morning_temperature(theVar + fakeVarMorning,
 								  theSources,
@@ -924,34 +928,44 @@ namespace TextGen
 									minResultAfternoon,
 									maxResultAfternoon,
 									meanResultAfternoon);
+
+			  afternoon_temperature(theVar + fakeVarFull,
+									theSources,
+									theActualArea,
+									thePeriod,
+									minResultFull,
+									maxResultFull,
+									meanResultFull);
 			}
 		}
 	  else
 		{
 		  // In wintertime we calculate Mean temperature of areas Maximum, Minimum and Mean temperatures
 
-		  minResultFull = do_calculation(theVar + fakeVarFull + "::min",
-									 theSources,
-									 Minimum,
-									 Mean,
-									 theActualArea,								
-									 thePeriod);
+		  if(thePeriodId == NIGHT_PERIOD)
+			{
+			  minResultFull = do_calculation(theVar + fakeVarFull + "::min",
+											 theSources,
+											 Minimum,
+											 Mean,
+											 theActualArea,								
+											 thePeriod);
 
-		  maxResultFull = do_calculation(theVar + fakeVarFull + "::max",
-									 theSources,
-									 Maximum,
-									 Mean,
-									 theActualArea,
-									 thePeriod);
+			  maxResultFull = do_calculation(theVar + fakeVarFull + "::max",
+											 theSources,
+											 Maximum,
+											 Mean,
+											 theActualArea,
+											 thePeriod);
 
-		  meanResultFull = do_calculation(theVar + fakeVarFull + "::mean",
-									  theSources,
-									  Mean,
-									  Mean,
-									  theActualArea,
-									  thePeriod);
-
-		  if(thePeriodId == DAY1_PERIOD || thePeriodId == DAY2_PERIOD)
+			  meanResultFull = do_calculation(theVar + fakeVarFull + "::mean",
+											  theSources,
+											  Mean,
+											  Mean,
+											  theActualArea,
+											  thePeriod);
+			}
+		  else if(thePeriodId == DAY1_PERIOD || thePeriodId == DAY2_PERIOD)
 			{
 			  morning_temperature(theVar + fakeVarMorning,
 								  theSources,
@@ -968,6 +982,14 @@ namespace TextGen
 									minResultAfternoon,
 									maxResultAfternoon,
 									meanResultAfternoon);
+
+			  afternoon_temperature(theVar + fakeVarFull,
+									theSources,
+									theActualArea,
+									thePeriod,
+									minResultFull,
+									maxResultFull,
+									meanResultFull);
 			}
 		}
 
@@ -1175,7 +1197,7 @@ namespace TextGen
 			  {
 				NFmiTime startTime(theParameters.theGenerator.period(1).localStartTime());
 				if(SeasonTools::isSpring(startTime, theParameters.theVariable) ||
-				   abs(theParameters.theMaximum - theParameters.theMinimum) < ABOUT_THE_SAME_UPPER_LIMIT)
+				   abs(theParameters.theMaximum - theParameters.theMinimum) < AROUND_ZERO_UPPER_LIMIT)
 				  {
 					if(theParameters.theMinimum >= -1.0) // maximum and minimum between [-1,0]
 					  {
@@ -1221,15 +1243,15 @@ namespace TextGen
 
 		  if(proxim_id != NO_PROXIMITY)
 			{
-	char proximityNumberBuff[32];
-	char tempBuff[128];
+			  char proximityNumberBuff[32];
+			  char tempBuff[128];
 
-	sprintf(tempBuff, "Minimum: %.02f;Mean: %.02f;Maximum: %.02f", 
-			theParameters.theMinimum, 
-			theParameters.theMean, 
-			theParameters.theMaximum);
+			  sprintf(tempBuff, "Minimum: %.02f;Mean: %.02f;Maximum: %.02f", 
+					  theParameters.theMinimum, 
+					  theParameters.theMean, 
+					  theParameters.theMaximum);
 	
-	sprintf(proximityNumberBuff, "%i", theProximityNumber);
+			  sprintf(proximityNumberBuff, "%i", theProximityNumber);
 
 			  switch(proxim_id)
 				{
@@ -1254,8 +1276,8 @@ namespace TextGen
 				  {
 					sentence << Integer(theProximityNumber)
 							 << ASTEEN_PHRASE << TIENOILLA_PHRASE;
-					theParameters.theLog  << "PROXIMITY: " << proximityNumberBuff 
-										  << " asteen tienoilla :: " << tempBuff << endl;
+					theParameters.theLog << "PROXIMITY: " << proximityNumberBuff 
+										 << " asteen tienoilla :: " << tempBuff << endl;
 				  }
 				  break;
 				case LAHELLA_ASTETTA:
@@ -1263,16 +1285,16 @@ namespace TextGen
 					sentence << LAHELLA_PHRASE
 							 << Integer(theProximityNumber)
 							 << *UnitFactory::create(DegreesCelsius);
-					theParameters.theLog  << "PROXIMITY: Lähellä " << proximityNumberBuff 
-										  << " astetta :: " << tempBuff << endl;
+					theParameters.theLog << "PROXIMITY: Lähellä " << proximityNumberBuff 
+										 << " astetta :: " << tempBuff << endl;
 				  }
 				  break;
 				case TUNTUMASSA_ASTETTA:
 				  {
 					sentence << Integer(theProximityNumber)
 							 << ASTEEN_PHRASE << TUNTUMASSA_PHRASE;
-					theParameters.theLog  << "PROXIMITY: " << proximityNumberBuff 
-										  << " asteen tuntumassa :: " << tempBuff << endl;
+					theParameters.theLog << "PROXIMITY: " << proximityNumberBuff 
+										 << " asteen tuntumassa :: " << tempBuff << endl;
 				  }
 				  break;
 				case VAJAAT_ASTETTA:
@@ -1280,8 +1302,8 @@ namespace TextGen
 					sentence << VAJAAT_PHRASE
 							 << Integer(theProximityNumber)
 							 << *UnitFactory::create(DegreesCelsius);
-					theParameters.theLog  << "PROXIMITY: Vajaat " << proximityNumberBuff 
-										  << " astetta :: " << tempBuff << endl;
+					theParameters.theLog << "PROXIMITY: Vajaat " << proximityNumberBuff 
+										 << " astetta :: " << tempBuff << endl;
 					if(theParameters.theMaximum < 0)
 					  theParameters.theUseFrostExistsPhrase = true;
 				  }
@@ -1291,14 +1313,14 @@ namespace TextGen
 					sentence << VAHAN_PHRASE << YLI_PHRASE  
 							 << Integer(theProximityNumber)
 							 << *UnitFactory::create(DegreesCelsius);
-					theParameters.theLog  << "PROXIMITY: Vähän yli " << proximityNumberBuff 
-										  << " astetta :: " << tempBuff << endl;
+					theParameters.theLog << "PROXIMITY: Vähän yli " << proximityNumberBuff 
+										 << " astetta :: " << tempBuff << endl;
 					if(theParameters.theMaximum < 0)
 					  theParameters.theUseFrostExistsPhrase = true;
 				  }
 				  break;
 				case NO_PROXIMITY:
-				  theParameters.theLog  << "NO PROXIMITY: " << tempBuff << endl;
+				  theParameters.theLog << "NO PROXIMITY: " << tempBuff << endl;
 				  break;
 				}
 			}
@@ -1526,9 +1548,9 @@ namespace TextGen
 	  bool nightlyMinHigherThanDailyMax = !(theParameters.theForecastPeriod & DAY2_PERIOD) && 
 		(theParameters.theMaxTemperatureDay1 - theParameters.theMinimum < 0);
 	  bool smallChangeBetweenDay1AndNight = !(theParameters.theForecastPeriod & DAY2_PERIOD) && 
-		(day1PeriodIncluded && abs(temperatureDifference) < ABOUT_THE_SAME_UPPER_LIMIT);
+		(day1PeriodIncluded && abs(temperatureDifference) <= ABOUT_THE_SAME_UPPER_LIMIT);
 	  bool moderateChangeBetweenDay1AndNight = !(theParameters.theForecastPeriod & DAY2_PERIOD) && 
-		(day1PeriodIncluded && abs(temperatureDifference) >= ABOUT_THE_SAME_UPPER_LIMIT && 
+		(day1PeriodIncluded && abs(temperatureDifference) > ABOUT_THE_SAME_UPPER_LIMIT && 
 		 abs(temperatureDifference) <= SMALL_CHANGE_UPPER_LIMIT);
 
 	  theParameters.theForecastPeriodId = NIGHT_PERIOD;
@@ -1607,9 +1629,9 @@ namespace TextGen
 		}
 
 	  bool smallChangeBetweenDay1AndDay2 = day1PeriodIncluded && 
-		abs(temperatureDifference) < ABOUT_THE_SAME_UPPER_LIMIT;
+		abs(temperatureDifference) <= ABOUT_THE_SAME_UPPER_LIMIT;
 	  bool moderateChangeBetweenDay1AndDay2 = day1PeriodIncluded && 
-		abs(temperatureDifference) >= ABOUT_THE_SAME_UPPER_LIMIT && 
+		abs(temperatureDifference) > ABOUT_THE_SAME_UPPER_LIMIT && 
 		abs(temperatureDifference) <= SMALL_CHANGE_UPPER_LIMIT;
 
 	  theParameters.theForecastPeriodId = DAY2_PERIOD;
@@ -1726,7 +1748,6 @@ namespace TextGen
 
 	  if(theParameters.theForecastAreaId == FULL_AREA)
 		{
-
 		  theParameters.theDayAndNightSeparationFlag = separate_day_and_night(theParameters, FULL_AREA);
 
 		  if(theParameters.theForecastPeriodId == DAY1_PERIOD)
@@ -2489,6 +2510,12 @@ namespace TextGen
 		  paragraph << sentenceUnderConstruction;
 		}
 
+	  if(!theParameters.theOptionalFrostParagraph.empty())
+		{
+		  paragraph << theParameters.theOptionalFrostParagraph;
+		  theParameters.theOptionalFrostParagraph.clear();
+		}
+
 	  return paragraph;
 	}
 
@@ -2727,13 +2754,13 @@ namespace TextGen
 					valid_value_period_check(weatherResults[COAST_MIN_DAY2]->value(), forecast_period, DAY2_PERIOD);
 				  }
 
-				if(forecast_area & INLAND_AREA && forecast_area & COASTAL_AREA&& (forecast_period & DAY2_PERIOD))
+				if(forecast_area & INLAND_AREA && forecast_area & COASTAL_AREA && (forecast_period & DAY2_PERIOD))
 				  calculate_results(log, itsVar, itsSources, itsArea,
 									period, DAY2_PERIOD, forecast_season, FULL_AREA, weatherResults);
 			  }
 		  }
 	  }
-
+	
 	const string range_separator = optional_string(itsVar + "::rangeseparator", "...");
 	const int mininterval = optional_int(itsVar + "::mininterval", 2);
 	const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
