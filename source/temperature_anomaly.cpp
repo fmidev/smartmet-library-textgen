@@ -109,6 +109,7 @@ namespace TextGen
 #define SAA_LAMPENEE_PHRASE "sää lämpenee"
 #define SAA_VIILENEE_PHRASE "sää viilenee"
 #define TUULINEN_WORD "tuulinen"
+#define TUULISTA_WORD "tuulista"
 #define AAMUPAIVALLA_WORD "aamupäivällä"
 #define ILTAPAIVALLA_WORD "iltapäivällä"
 #define ERITTAIN_WORD "erittäin"
@@ -919,32 +920,32 @@ enum anomaly_phrase_id
 
 	  bool windyMorningInland = 
 		theParameters.theWindspeedInlandMorningMean.value() != kFloatMissing &&
-		(theParameters.theWindspeedInlandMorningMean.value() >= windy_weather_limit && 
-		 theParameters.theWindspeedInlandMorningMean.value() < extremely_windy_weather_limit);
+		(static_cast<int>(theParameters.theWindspeedInlandMorningMean.value()) >= windy_weather_limit && 
+		 static_cast<int>(theParameters.theWindspeedInlandMorningMean.value()) < extremely_windy_weather_limit);
 	  bool windyAfternoonInland = 
 		theParameters.theWindspeedInlandAfternoonMean.value() != kFloatMissing &&
-		(theParameters.theWindspeedInlandAfternoonMean.value() >= windy_weather_limit && 
-		 theParameters.theWindspeedInlandAfternoonMean.value() < extremely_windy_weather_limit);
+		(static_cast<int>(theParameters.theWindspeedInlandAfternoonMean.value()) >= windy_weather_limit && 
+		 static_cast<int>(theParameters.theWindspeedInlandAfternoonMean.value()) < extremely_windy_weather_limit);
 	  bool windyMorningCoastal = 
 		theParameters.theWindspeedCoastalMorningMean.value() != kFloatMissing &&
-		(theParameters.theWindspeedCoastalMorningMean.value() >= windy_weather_limit && 
-		 theParameters.theWindspeedCoastalMorningMean.value() < extremely_windy_weather_limit);
+		(static_cast<int>(theParameters.theWindspeedCoastalMorningMean.value()) >= windy_weather_limit && 
+		 static_cast<int>(theParameters.theWindspeedCoastalMorningMean.value()) < extremely_windy_weather_limit);
 	  bool windyAfternoonCoastal = 
 		theParameters.theWindspeedCoastalAfternoonMean.value() != kFloatMissing &&
-		(theParameters.theWindspeedCoastalAfternoonMean.value() >= windy_weather_limit && 
-		 theParameters.theWindspeedCoastalAfternoonMean.value() < extremely_windy_weather_limit);
+		(static_cast<int>(theParameters.theWindspeedCoastalAfternoonMean.value()) >= windy_weather_limit && 
+		 static_cast<int>(theParameters.theWindspeedCoastalAfternoonMean.value()) < extremely_windy_weather_limit);
 	  bool extremelyWindyMorningInland = 
 		theParameters.theWindspeedInlandMorningMean.value() != kFloatMissing &&
-		 theParameters.theWindspeedInlandMorningMean.value() >= extremely_windy_weather_limit;
+		static_cast<int>(theParameters.theWindspeedInlandMorningMean.value()) >= extremely_windy_weather_limit;
 	  bool extremelyWindyAfternoonInland = 
 		theParameters.theWindspeedInlandAfternoonMean.value() != kFloatMissing &&
-		 theParameters.theWindspeedInlandAfternoonMean.value() >= extremely_windy_weather_limit;
+		static_cast<int>(theParameters.theWindspeedInlandAfternoonMean.value()) >= extremely_windy_weather_limit;
 	  bool extremelyWindyMorningCoastal = 
 		theParameters.theWindspeedCoastalMorningMean.value() != kFloatMissing &&
-		 theParameters.theWindspeedCoastalMorningMean.value() > extremely_windy_weather_limit;
+		static_cast<int>(theParameters.theWindspeedCoastalMorningMean.value()) > extremely_windy_weather_limit;
 	  bool extremelyWindyAfternoonCoastal = 
 		theParameters.theWindspeedCoastalAfternoonMean.value() != kFloatMissing &&
-		 theParameters.theWindspeedCoastalAfternoonMean.value() > extremely_windy_weather_limit;
+		static_cast<int>(theParameters.theWindspeedCoastalAfternoonMean.value()) > extremely_windy_weather_limit;
 	  float windspeedMorningInland = theParameters.theWindspeedInlandMorningMean.value();
 	  float windspeedAfternoonInland = theParameters.theWindspeedInlandAfternoonMean.value();
 	  float windspeedMorningCoastal = theParameters.theWindspeedCoastalMorningMean.value();
@@ -958,146 +959,195 @@ enum anomaly_phrase_id
 		{
 		  if(windyMorningInland && windyMorningCoastal && windyAfternoonInland && windyAfternoonCoastal)
 			{
-				varying_part << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
 			}
-		  if(windyMorningInland && !windyMorningCoastal && !windyAfternoonInland && !windyAfternoonCoastal)
+		  else if(windyMorningInland && !windyMorningCoastal && !windyAfternoonInland && !windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyMorningCoastal && !extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
 				{
-				  varying_part << test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD) 
-							   << AAMUPAIVALLA_WORD << TUULINEN_WORD;
+				  varying_part << test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD);
+
+				  if(varying_part.empty())
+					sentence << AAMUPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
+				  else
+					sentence << varying_part << ON_WORD << AAMUPAIVALLA_WORD << TUULISTA_WORD;
 				}
 			}
 		  else if(!windyMorningInland && windyMorningCoastal && !windyAfternoonInland && !windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyMorningInland && !extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
 				{
-				  varying_part << test_windspeed(windspeedMorningCoastal, windspeedMorningInland, RANNIKOLLA_WORD) 
-							   << AAMUPAIVALLA_WORD << TUULINEN_WORD;
+				  varying_part << test_windspeed(windspeedMorningCoastal, windspeedMorningInland, RANNIKOLLA_WORD);
+
+				  if(varying_part.empty())
+					sentence << AAMUPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
+				  else
+					sentence << varying_part << ON_WORD << AAMUPAIVALLA_WORD << TUULISTA_WORD;
 				}
 			}
 		  else if(!windyMorningInland && !windyMorningCoastal && windyAfternoonInland && !windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyMorningInland && !extremelyWindyMorningCoastal && !extremelyWindyAfternoonCoastal)
 				{
-				  varying_part <<  test_windspeed(windspeedAfternoonInland, windspeedAfternoonCoastal, SISAMAASSA_WORD) 
-							   << ILTAPAIVALLA_WORD << TUULINEN_WORD;
+				  varying_part << test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD);
+
+				  if(varying_part.empty())
+					sentence << ILTAPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
+				  else
+					sentence << varying_part << ON_WORD << ILTAPAIVALLA_WORD << TUULISTA_WORD;
 				}
 			}
 		  else if(!windyMorningInland && !windyMorningCoastal && !windyAfternoonInland && windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyMorningInland && !extremelyWindyMorningCoastal && !extremelyWindyAfternoonInland)
 				{
-				  varying_part <<  test_windspeed(windspeedAfternoonCoastal, windspeedAfternoonInland, RANNIKOLLA_WORD) 
-							   << ILTAPAIVALLA_WORD << TUULINEN_WORD;
+				  varying_part << test_windspeed(windspeedAfternoonCoastal, windspeedAfternoonInland, RANNIKOLLA_WORD);
+
+				  if(varying_part.empty())
+					sentence << ILTAPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
+				  else
+					sentence << varying_part << ON_WORD << ILTAPAIVALLA_WORD << TUULISTA_WORD;
 				}
 			}
 		  else if(windyMorningInland && !windyMorningCoastal && windyAfternoonInland && !windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyMorningCoastal && !extremelyWindyAfternoonCoastal)
 				{
-				  varying_part << test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD) 
-							   << TUULINEN_WORD;
+				  varying_part << test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD);
+
+				  if(varying_part.empty())
+					sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
+				  else
+					sentence << varying_part << ON_WORD << TUULISTA_WORD;
 				}
 			}
 		  else if(!windyMorningInland && windyMorningCoastal && windyAfternoonInland && windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyMorningInland)
-				varying_part << TUULINEN_WORD;
+				sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
 			}
 		  else if(windyMorningInland && !windyMorningCoastal && windyAfternoonInland && windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyMorningCoastal)
-				varying_part << TUULINEN_WORD;
+				sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
 			}
 		  else if(windyMorningInland && windyMorningCoastal && !windyAfternoonInland && windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyAfternoonInland)
-				varying_part << TUULINEN_WORD;
+				sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
 			}
 		  else if(windyMorningInland && windyMorningCoastal && windyAfternoonInland && !windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyAfternoonCoastal)
-				varying_part << TUULINEN_WORD;
+				sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
 			}
 		  else if(!windyMorningInland && windyMorningCoastal && !windyAfternoonInland && windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyMorningInland && !extremelyWindyAfternoonInland)
 				{
-				  varying_part << test_windspeed(windspeedMorningCoastal, windspeedMorningInland, RANNIKOLLA_WORD) 
-							   << TUULINEN_WORD;
+				  varying_part << test_windspeed(windspeedMorningCoastal, windspeedMorningInland, RANNIKOLLA_WORD); 
+
+				  if(varying_part.empty())
+					sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
+				  else
+					sentence << varying_part << ON_WORD << TUULISTA_WORD;
 				}
 			}
 		  else if(extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
 				  !extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
 			{
-			  varying_part << test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD) 
-						   << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  varying_part << test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD);
+
+			  if(varying_part.empty())
+				sentence << AAMUPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+			  else
+				sentence << varying_part << ON_WORD << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(!extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
 				  !extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
 			{
-			  varying_part <<  test_windspeed(windspeedMorningCoastal, windspeedMorningInland,RANNIKOLLA_WORD) 
-						   << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  varying_part << test_windspeed(windspeedMorningCoastal, windspeedMorningInland, RANNIKOLLA_WORD);
+
+			  if(varying_part.empty())
+				sentence << AAMUPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+			  else
+				sentence << varying_part << ON_WORD << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(!extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
 				  extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
 			{
-			  varying_part << test_windspeed(windspeedAfternoonInland, windspeedAfternoonCoastal, SISAMAASSA_WORD) 
-						   << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  varying_part << test_windspeed(windspeedAfternoonInland, windspeedAfternoonCoastal, SISAMAASSA_WORD);
+
+			  if(varying_part.empty())
+				sentence << ILTAPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+			  else
+				sentence << varying_part << ON_WORD << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(!extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
 				  !extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
 			{
-			  varying_part << test_windspeed(windspeedAfternoonCoastal, windspeedAfternoonInland, RANNIKOLLA_WORD) 
-						   << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  varying_part << test_windspeed(windspeedAfternoonCoastal, windspeedAfternoonInland, RANNIKOLLA_WORD);
+
+			  if(varying_part.empty())
+				sentence << ILTAPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+			  else
+				sentence << varying_part << ON_WORD << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(!extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
 				  !extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
 			{
-			  varying_part << test_windspeed(windspeedMorningCoastal, windspeedMorningInland,RANNIKOLLA_WORD) 
-						   << HYVIN_WORD << TUULINEN_WORD;
+			  varying_part << test_windspeed(windspeedMorningCoastal, windspeedMorningInland, RANNIKOLLA_WORD); 
+
+			  if(varying_part.empty())
+				sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  else
+				sentence << varying_part << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
 				  extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
 			{
-			  varying_part <<  test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD)
-						   << HYVIN_WORD << TUULINEN_WORD;
+			  varying_part <<  test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD);
+
+			  if(varying_part.empty())
+				sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  else
+				sentence << varying_part << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+
 			}
 		  else if(extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
 				  extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
 			{
-			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
 			}
 		  else if(extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
 				  extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
 			{
-			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
 			}
 		  else if(!extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
 				  extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
 			{
-			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
 			}
 		  else if(extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
 				  !extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
 			{
-			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
 			}
 		  else if(extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
 				  !extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
 			{
-			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
 			}
 		  else if(!extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
 				  extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
 			{
-			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
 			}
 		  else if(extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
 				  extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
 			{
-			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
 			}
 		}
 	  else if(inlandIncluded)
@@ -1105,28 +1155,28 @@ enum anomaly_phrase_id
 		  if(windyMorningInland && !windyAfternoonInland)
 			{
 			  if(!extremelyWindyAfternoonInland)
-				varying_part << AAMUPAIVALLA_WORD << TUULINEN_WORD;
+				sentence << AAMUPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
 			}
 		  else if(!windyMorningInland && windyAfternoonInland)
 			{
 			  if(!extremelyWindyMorningInland)
-				varying_part << ILTAPAIVALLA_WORD << TUULINEN_WORD;
+				sentence << ILTAPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
 			}
 		  else if(windyMorningInland && windyAfternoonInland)
 			{
-				varying_part << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
 			}
 		  else if(extremelyWindyMorningInland && !extremelyWindyAfternoonInland)
 			{
-			  varying_part << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << AAMUPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(!extremelyWindyMorningInland && extremelyWindyAfternoonInland)
 			{
-			  varying_part << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << ILTAPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(extremelyWindyMorningInland && extremelyWindyAfternoonInland)
 			{
-			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
 			}
 		}
 	  else if(coastIncluded)
@@ -1134,33 +1184,30 @@ enum anomaly_phrase_id
 		  if(windyMorningCoastal && !windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyAfternoonCoastal)
-				varying_part << AAMUPAIVALLA_WORD << TUULINEN_WORD;
+				sentence << AAMUPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
 			}
 		  else if(!windyMorningCoastal && windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyMorningCoastal)
-				varying_part << ILTAPAIVALLA_WORD << TUULINEN_WORD;
+				sentence << ILTAPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
 			}
 		  else if(windyMorningCoastal && windyAfternoonCoastal)
 			{
-				varying_part << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
 			}
 		  else if(extremelyWindyMorningCoastal && !extremelyWindyAfternoonCoastal)
 			{
-			  varying_part << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << AAMUPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(!extremelyWindyMorningCoastal && extremelyWindyAfternoonCoastal)
 			{
-			  varying_part << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << ILTAPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(extremelyWindyMorningCoastal && extremelyWindyAfternoonCoastal)
 			{
-			  varying_part << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
 			}
 		}
-		
-	  if(!varying_part.empty())
-		sentence << SAA_WORD << ON_WORD << varying_part;
 
 	  // handle the wind cooling effect
 	  if(sentence.empty())//windSpeed >= wind_cooling_the_weather_limit)
@@ -1170,16 +1217,16 @@ enum anomaly_phrase_id
 
 		  bool windCoolingTheWeatherInlandMorning = 
 			(theParameters.theWindspeedInlandMorningMean.value() != kFloatMissing &&
-			 theParameters.theWindspeedInlandMorningMean.value() >= wind_cooling_the_weather_limit);
+			 static_cast<int>(theParameters.theWindspeedInlandMorningMean.value()) >= wind_cooling_the_weather_limit);
 		  bool windCoolingTheWeatherCoastalMorning = 
 			(theParameters.theWindspeedCoastalMorningMean.value() != kFloatMissing &&
-			 theParameters.theWindspeedCoastalMorningMean.value() >= wind_cooling_the_weather_limit);
+			 static_cast<int>(theParameters.theWindspeedCoastalMorningMean.value()) >= wind_cooling_the_weather_limit);
 		  bool windCoolingTheWeatherInlandAfternoon = 
 			(theParameters.theWindspeedInlandAfternoonMean.value() != kFloatMissing &&
-			 theParameters.theWindspeedInlandAfternoonMean.value() >= wind_cooling_the_weather_limit);
+			 static_cast<int>(theParameters.theWindspeedInlandAfternoonMean.value()) >= wind_cooling_the_weather_limit);
 		  bool windCoolingTheWeatherCoastalAfternoon = 
 			(theParameters.theWindspeedCoastalAfternoonMean.value() != kFloatMissing &&
-			 theParameters.theWindspeedCoastalAfternoonMean.value() >= wind_cooling_the_weather_limit);
+			 static_cast<int>(theParameters.theWindspeedCoastalAfternoonMean.value()) >= wind_cooling_the_weather_limit);
 
 			 float temperatureInlandMorning = theParameters.theAnalyzeDay1 ? 
 			 theParameters.theDay1TemperatureInlandMorningMean.value() : 

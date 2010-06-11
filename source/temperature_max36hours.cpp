@@ -1639,7 +1639,8 @@ namespace TextGen
 	  Sentence temperatureSentence;
 
 	  if(around_zero_phrase(theParameters) == NO_PHRASE && 
-		 !theParameters.inlandAndCoastSeparated() && 
+		 !theParameters.inlandAndCoastSeparated(DAY1_PERIOD) && 
+		 !theParameters.inlandAndCoastSeparated(DAY2_PERIOD) && 
 		 !theParameters.morningAndAfternoonSeparated(DAY1_PERIOD))
 		{
 		  if(smallChangeBetweenDay1AndDay2 && theParameters.theSubPeriodId != DAY2_MORNING_PERIOD && 
@@ -2193,9 +2194,6 @@ namespace TextGen
 		  separate_inland_and_coast_day2 = (temperature_diff_day2 >= temperature_limit_coast_inland);
 		}
 
-	  if(separate_inland_and_coast_day1)
-		separate_inland_and_coast_day2 = true;
-
 	  if(theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value() != kFloatMissing &&
 		 theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value() != kFloatMissing &&
 		 !(theParameters.theSeasonId == WINTER_SEASON && 
@@ -2205,7 +2203,6 @@ namespace TextGen
 											 theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value());
 		  separate_inland_and_coast_night = (temperature_diff_night >= temperature_limit_coast_inland);
 		}
-
 
 	  if(processingOrder == DAY1_DAY2_NIGHT)
 		{
