@@ -482,6 +482,7 @@ WeatherAnalysis;
   {
 	int i = 1;
 
+
 	// no areas included
 	testCases.insert(make_pair(i++, OneNightFrostTestParam("32700,0","32700,0",
 														   "", "",
@@ -2506,6 +2507,7 @@ WeatherAnalysis;
 														   "", "", 
 														   "", "", 
 														   translation("", language))));
+
   }
 
   void frost_onenight()
@@ -2578,13 +2580,11 @@ WeatherAnalysis;
 	void test(void)
 	{
 	  TEST(frost_onenight);
-	  /*
 	  TEST(frost_mean);
 	  TEST(frost_maximum);
 	  TEST(frost_range);
 	  TEST(frost_twonights);
 	  TEST(frost_day);
-	  */
 	}
 
   }; // class tests
