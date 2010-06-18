@@ -486,7 +486,9 @@ enum anomaly_phrase_id
 	{	  
 	  GridForecaster theForecaster;
 
-	  theParameters.theNightTemperatureMinimum = theForecaster.analyze(theParameters.theVariable + "::min",
+	  std::string theFakeVariable(theParameters.theVariable + "::fake::temperature::night::area");
+
+	  theParameters.theNightTemperatureMinimum = theForecaster.analyze(theFakeVariable + "::min",
 																	   theParameters.theSources,
 																	   Temperature,
 																	   Minimum,
@@ -495,7 +497,7 @@ enum anomaly_phrase_id
 																	   theParameters.theArea,
 																	   theParameters.theNightPeriod);
 
-	  theParameters.theNightTemperatureMaximum = theForecaster.analyze(theParameters.theVariable + "::max",
+	  theParameters.theNightTemperatureMaximum = theForecaster.analyze(theFakeVariable + "::max",
 																	   theParameters.theSources,
 																	   Temperature,
 																	   Maximum,
@@ -504,7 +506,7 @@ enum anomaly_phrase_id
 																	   theParameters.theArea,
 																	   theParameters.theNightPeriod);
 
-	  theParameters.theNightTemperatureMean = theForecaster.analyze(theParameters.theVariable + "::mean",
+	  theParameters.theNightTemperatureMean = theForecaster.analyze(theFakeVariable + "::mean",
 																	theParameters.theSources,
 																	Temperature,
 																	Mean,
@@ -1653,7 +1655,6 @@ enum anomaly_phrase_id
 						  parameters.theDay1TemperatureAreaAfternoonMaximum,
 						  parameters.theDay1TemperatureAreaAfternoonMean);
 
-	parameters.theFakeVariable = itsVar + "::fake::temperature::night::area";
 	calculate_night_temperature(parameters);
 
 	morning_temperature(itsVar + "::fake::temperature::day2::morning::area",
@@ -1691,7 +1692,7 @@ enum anomaly_phrase_id
 								day1AfternoonPeriod);
 
 
-	morning_temperature(itsVar + "::fake::temperature::inland::day1::morning",
+	morning_temperature(itsVar + "::fake::temperature::day1::morning::inland",
 						itsSources,
 						inlandArea,
 						day1MorningPeriod,
@@ -1699,7 +1700,7 @@ enum anomaly_phrase_id
 						parameters.theDay1TemperatureInlandMorningMaximum,
 						parameters.theDay1TemperatureInlandMorningMean);
 
-	afternoon_temperature(itsVar + "::fake::temperature::inland::day1::afternoon",
+	afternoon_temperature(itsVar + "::fake::temperature::day1::afternoon::inland",
 						  itsSources,
 						  inlandArea,
 						  day1MorningPeriod,
@@ -1707,7 +1708,7 @@ enum anomaly_phrase_id
 						  parameters.theDay1TemperatureInlandAfternoonMaximum,
 						  parameters.theDay1TemperatureInlandAfternoonMean);
 
-	morning_temperature(itsVar + "::fake::temperature::coastal::day1::morning",
+	morning_temperature(itsVar + "::fake::temperature::day1::morning::coast",
 						itsSources,
 						coastalArea,
 						day1MorningPeriod,
@@ -1715,7 +1716,7 @@ enum anomaly_phrase_id
 						parameters.theDay1TemperatureCoastalMorningMaximum,
 						parameters.theDay1TemperatureCoastalMorningMean);
 
-	afternoon_temperature(itsVar + "::fake::temperature::coastal::day1::afternoon",
+	afternoon_temperature(itsVar + "::fake::temperature::day1::afternoon::coast",
 						  itsSources,
 						  coastalArea,
 						  day1MorningPeriod,
@@ -1736,7 +1737,7 @@ enum anomaly_phrase_id
 								"day2 afternoon: ",
 								day2AfternoonPeriod);
 
-	morning_temperature(itsVar + "::fake::temperature::inland::day2::morning",
+	morning_temperature(itsVar + "::fake::temperature::day2::morning::inland",
 						itsSources,
 						inlandArea,
 						day2MorningPeriod,
@@ -1744,7 +1745,7 @@ enum anomaly_phrase_id
 						parameters.theDay2TemperatureInlandMorningMaximum,
 						parameters.theDay2TemperatureInlandMorningMean);
 
-	afternoon_temperature(itsVar + "::fake::temperature::inland::day2::afternoon",
+	afternoon_temperature(itsVar + "::fake::temperature::day2::afternoon::inland",
 						  itsSources,
 						  inlandArea,
 						  day2MorningPeriod,
@@ -1752,7 +1753,7 @@ enum anomaly_phrase_id
 						  parameters.theDay2TemperatureInlandAfternoonMaximum,
 						  parameters.theDay2TemperatureInlandAfternoonMean);
 
-	morning_temperature(itsVar + "::fake::temperature::coastal::day2::morning",
+	morning_temperature(itsVar + "::fake::temperature::day2::morning::coast",
 						itsSources,
 						coastalArea,
 						day2MorningPeriod,
@@ -1760,7 +1761,7 @@ enum anomaly_phrase_id
 						parameters.theDay2TemperatureCoastalMorningMaximum,
 						parameters.theDay2TemperatureCoastalMorningMean);
 
-	afternoon_temperature(itsVar + "::fake::temperature::coastal::day2::afternoon",
+	afternoon_temperature(itsVar + "::fake::temperature::day2::afternoon::coast",
 						  itsSources,
 						  coastalArea,
 						  day2MorningPeriod,
