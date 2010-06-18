@@ -1495,20 +1495,6 @@ enum anomaly_phrase_id
 	  return sentence;
 	}
 
-	/*
-enum anomaly_phrase_id
-  {
-	SAA_ON_POIKKEUKSELLISEN_KOLEAA,
-	SAA_ON_POIKKEUKSELLISEN_KYLMAA,
-	SAA_ON_KOLEAA,
-	SAA_ON_HYVIN_KYLMAA,
-	SAA_ON_HARVINAISEN_LAMMINTA,
-	SAA_ON_HYVIN_LEUTOA,
-	SAA_ON_POIKKEUKSLLISEN_LAMMINTA,
-	SAA_ON_POIKKEUKSLLISEN_LEUTOA,
-	UNDEFINED_ANOMALY_PHRASE_ID
-  };
-	 */
 	Sentence handle_anomaly_and_shortrun_trend_sentences(const temperature_anomaly_params& theParameters, 
 														 const Sentence& anomalySentence, 
 														 const Sentence& shortrunTrendSentence)
@@ -1580,6 +1566,8 @@ enum anomaly_phrase_id
 	  }
 
 	bool handleWindchill = false;
+	const int day_starthour = optional_hour(itsVar+"::day::starthour",6);
+	const int day_maxstarthour = optional_hour(itsVar+"::day::maxstarthour",12);
 
 	forecast_season_id theSeasonId = isSummerHalf(itsPeriod.localStartTime(), itsVar) ? SUMMER_SEASON : WINTER_SEASON;
 
@@ -1590,25 +1578,17 @@ enum anomaly_phrase_id
 								"the original period: ",
 								itsPeriod);
 
-	// Period generator
-	NightAndDayPeriodGenerator generator00(itsPeriod, itsVar);
-
-	if(generator00.size() == 0)
-	  {
-		log << "No weather periods available!" << endl;
-		log << paragraph;
-		return paragraph;
-	  }
-
 	NFmiTime periodStartTime(itsPeriod.localStartTime());
 	NFmiTime periodEndTime(itsPeriod.localEndTime());
 
-	const int day_starthour = optional_hour(itsVar+"::day::starthour",6);
+	// Period generator
+	NightAndDayPeriodGenerator generator00(itsPeriod, itsVar);
 
-	if(periodStartTime.GetHour() > day_starthour)
+	if(periodStartTime.GetHour() >= day_starthour)
 	  {
 		periodStartTime.ChangeByHours(-1*(periodStartTime.GetHour() - day_starthour));
-		if(generator00.isday(1))
+		//		if(generator00.size() == 0 || generator00.isday(1))
+		if(itsForecastTime.GetHour() < day_maxstarthour)
 		  periodStartTime.ChangeByHours(-24);
 	  }
 	else if(periodStartTime.GetHour() < day_starthour)
@@ -1616,8 +1596,8 @@ enum anomaly_phrase_id
 		periodStartTime.ChangeByHours(day_starthour - periodStartTime.GetHour());
 		periodStartTime.ChangeByHours(-24);
 	  }
-
-	WeatherPeriod thePeriodToExamine((generator00.isday(1) ? generator00.period(3) : generator00.period(2)));
+	if(generator00.size() == 0)
+	  periodEndTime.ChangeByHours(24);
 
 	WeatherPeriod theExtendedPeriod(periodStartTime, periodEndTime);
 
@@ -1627,10 +1607,14 @@ enum anomaly_phrase_id
 								  "the extended period: ",
 								  generator.period(i+1));
 
+	WeatherPeriod day1Period(generator.period(1));
+	WeatherPeriod nightPeriod(generator.period(2));
+	WeatherPeriod day2Period(generator.period(3));
+	/*
 	WeatherPeriod day1Period(generator.isday(1) ? generator.period(1) : generator.period(2));
 	WeatherPeriod nightPeriod(generator.isday(1) ? generator.period(2) : generator.period(1));
-	WeatherPeriod day2Period(thePeriodToExamine);//generator.isday(1) ? generator.period(3) : generator.period(4));
-
+	WeatherPeriod day2Period(thePeriodToExamine);
+	*/
 	log_start_time_and_end_time(log, 
 								"day1: ",
 								day1Period);
@@ -1887,15 +1871,6 @@ enum anomaly_phrase_id
 	paragraph << handle_anomaly_and_shortrun_trend_sentences(parameters, 
 															 temperatureAnomalySentence, 
 															 shortrunTrendSentence);
-
-	/*
-	if(!(parameters.theAnomalyPhrase == SAA_ON_KOLEAA &&
-	   (parameters.theShortrunTrend == SAA_LAMPENEE_HUOMATTAVASTI ||
-		parameters.theShortrunTrend == SAA_VIILENEE_HUOMATTAVASTI)))
-	  paragraph << temperatureAnomalySentence;
-
-	paragraph << shortrunTrendSentence;
-	*/
 	paragraph << windinessSentence;
 	paragraph << windChillSentence;
 

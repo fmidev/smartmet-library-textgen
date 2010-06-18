@@ -2556,13 +2556,10 @@ namespace TextGen
 	// Period generator
 	NightAndDayPeriodGenerator generator(itsPeriod, itsVar);
 
-	unsigned short forecast_area = 0x0;
-	unsigned short forecast_period = 0x0;
-	forecast_season_id forecast_season = get_forecast_season(generator.period(1).localStartTime(), itsVar);
-		      
 	// Too late? Return empty story then
 	if(generator.size() == 0)
 	  {
+		log << "No weather periods available!" << endl;
 		log << paragraph;
 		return paragraph;
 	  }
@@ -2586,6 +2583,10 @@ namespace TextGen
 		  log << "night and tomorrow" << endl;		  
 	  }
 
+	unsigned short forecast_area = 0x0;
+	unsigned short forecast_period = 0x0;
+	forecast_season_id forecast_season = get_forecast_season(generator.period(1).localStartTime(), itsVar);
+		      
 	// container to hold the results
 	weather_result_container_type weatherResults;
 
