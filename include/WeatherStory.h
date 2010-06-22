@@ -42,7 +42,7 @@ namespace TextGen
   private:
 
 	const Paragraph overview() const;
-	const Paragraph overview2() const;
+	const Paragraph forecast() const;
 	const Paragraph shortoverview() const;
 	const Paragraph thunderprobability() const;
 	const Paragraph thunderprobability_simplified() const;
