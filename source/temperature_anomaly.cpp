@@ -119,6 +119,8 @@ namespace TextGen
 #define PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE "pakkanen on eritt‰in purevaa"
 #define TUULI_VIILENTAA_SAATA_PHRASE "tuuli viilent‰‰ s‰‰t‰"
 #define TUULI_KYLMENTAA_SAATA_PHRASE "tuuli kylment‰‰ s‰‰t‰"
+#define TANAAN_WORD "t‰n‰‰n"
+#define HUOMENNA_WORD "huomenna"
 
 enum anomaly_phrase_id
   {
@@ -260,6 +262,7 @@ enum anomaly_phrase_id
 	  anomaly_phrase_id theAnomalyPhrase;
 	  shortrun_trend_id theShortrunTrend;
 	  string theFakeVariable;
+	  bool theIsToday; // indicates whether the day in question is today or tomorrow
 	  WeatherResult theDay1TemperatureAreaMorningMinimum;
 	  WeatherResult theDay1TemperatureAreaMorningMean;
 	  WeatherResult theDay1TemperatureAreaMorningMaximum;
@@ -417,6 +420,7 @@ enum anomaly_phrase_id
 							   << theParameters.theDay2TemperatureCoastalAfternoonMaximum << endl;
 		}
 
+#ifdef INCLUDE_WIND_ANOMALY
 	  if(theParameters.theWindspeedInlandMorningMinimum.value() != kFloatMissing)
 		{
 		  theParameters.theLog << "theWindspeedInlandMorningMinimum: " 
@@ -480,6 +484,7 @@ enum anomaly_phrase_id
 		  theParameters.theLog << "theWindchillCoastalAfternoonMaximum: " 
 							   << theParameters.theWindchillCoastalAfternoonMaximum << endl;
 		}
+#endif
 	}
 
 	void calculate_night_temperature(temperature_anomaly_params& theParameters)
@@ -531,18 +536,18 @@ enum anomaly_phrase_id
 	  if(theWindspeed)
 		{
 		  theFakeVariable = (theInlandArea ? 
-							 (theMorningPeriod ? theParameters.theVariable + "::fake::windspeed::inland::morning" 
-							  : theParameters.theVariable + "::fake::windspeed::inland::afternoon")
-							 : (theMorningPeriod ? theParameters.theVariable + "::fake::windspeed::coast::morning" 
-								: theParameters.theVariable + "::fake::windspeed::coast::afternoon"));
+							 (theMorningPeriod ? theParameters.theVariable + "::fake::windspeed::morning::inland" 
+							  : theParameters.theVariable + "::fake::windspeed::afternoon::inland")
+							 : (theMorningPeriod ? theParameters.theVariable + "::fake::windspeed::morning::coast" 
+								: theParameters.theVariable + "::fake::windspeed::afternoon::coast"));
 		}
 	  else
 		{
 		  theFakeVariable = (theInlandArea ? 
-							 (theMorningPeriod ? theParameters.theVariable + "::fake::windschill::inland::morning" 
-							  : theParameters.theVariable + "::fake::windchill::inland::afternoon")
-							 : (theMorningPeriod ? theParameters.theVariable + "::fake::windchill::coast::morning" 
-								: theParameters.theVariable + "::fake::windchill::coast::afternoon"));
+							 (theMorningPeriod ? theParameters.theVariable + "::fake::windchill::morning::inland" 
+							  : theParameters.theVariable + "::fake::windchill::afternoon::inland")
+							 : (theMorningPeriod ? theParameters.theVariable + "::fake::windchill::morning::coast" 
+								: theParameters.theVariable + "::fake::windchill::afternoon::coast"));
 		}
 
 
@@ -644,30 +649,33 @@ enum anomaly_phrase_id
 			 << endl;
 	}
 
-	const Sentence temperature_anomaly_sentence(const std::string theVariable,
-												const forecast_season_id& theSeasonId,
-												const fractile_id& theFractile,
-												anomaly_phrase_id& anomalyPhrase)
+	const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters, 
+												const fractile_id& theFractile)
 	{
 	  Sentence retval;
+
+	  std::string theSpecifiedDay(theParameters.theIsToday ? TANAAN_WORD : HUOMENNA_WORD);
+
 
 	  switch(theFractile)
 		{
 		case FRACTILE_02:
 		  {
-			retval << SAA_WORD << ON_WORD << POIKKEUKSELLISEN_WORD;
-			retval << (theSeasonId == SUMMER_SEASON ? KOLEAA_WORD : KYLMAA_WORD);
-			anomalyPhrase = (theSeasonId == SUMMER_SEASON ? SAA_ON_POIKKEUKSELLISEN_KOLEAA :SAA_ON_POIKKEUKSELLISEN_KYLMAA);
+			retval << SAA_WORD << ON_WORD << theSpecifiedDay << POIKKEUKSELLISEN_WORD;
+			retval << (theParameters.theSeason == SUMMER_SEASON ? KOLEAA_WORD : KYLMAA_WORD);
+			theParameters.theAnomalyPhrase = 
+			  (theParameters.theSeason == SUMMER_SEASON ? SAA_ON_POIKKEUKSELLISEN_KOLEAA :SAA_ON_POIKKEUKSELLISEN_KYLMAA);
 		  }
 		  break;
 		case FRACTILE_12:
 		  {
-			retval << SAA_WORD << ON_WORD;
-			if(theSeasonId == SUMMER_SEASON)
+			retval << SAA_WORD << ON_WORD << theSpecifiedDay;
+			if(theParameters.theSeason == SUMMER_SEASON)
 			  retval << KOLEAA_WORD;
 			else
 			  retval << HYVIN_WORD << KYLMAA_WORD;
-			anomalyPhrase = (theSeasonId == SUMMER_SEASON ? SAA_ON_KOLEAA : SAA_ON_HYVIN_KYLMAA);
+			theParameters.theAnomalyPhrase = 
+			  (theParameters.theSeason == SUMMER_SEASON ? SAA_ON_KOLEAA : SAA_ON_HYVIN_KYLMAA);
 		  }
 		  break;
 		case FRACTILE_37:
@@ -680,22 +688,24 @@ enum anomaly_phrase_id
 		  break;
 		case FRACTILE_98:
 		  {
-			retval << SAA_WORD << ON_WORD;
-			if(theSeasonId == SUMMER_SEASON)
+			retval << SAA_WORD << ON_WORD << theSpecifiedDay;
+			if(theParameters.theSeason == SUMMER_SEASON)
 			  retval << HARVINAISEN_WORD << LAMMINTA_WORD;
 			else
 			  retval << HYVIN_WORD << LEUTOA_WORD;
-			anomalyPhrase = (theSeasonId == SUMMER_SEASON ? SAA_ON_HARVINAISEN_LAMMINTA : SAA_ON_HYVIN_LEUTOA);
+			theParameters.theAnomalyPhrase = 
+			  (theParameters.theSeason == SUMMER_SEASON ? SAA_ON_HARVINAISEN_LAMMINTA : SAA_ON_HYVIN_LEUTOA);
 		  }
 		  break;
 		case FRACTILE_100:
 		  {
-			retval << SAA_WORD << ON_WORD << POIKKEUKSELLISEN_WORD;
-			if(theSeasonId == SUMMER_SEASON)
+			retval << SAA_WORD << ON_WORD << theSpecifiedDay << POIKKEUKSELLISEN_WORD;
+			if(theParameters.theSeason == SUMMER_SEASON)
 			  retval << LAMMINTA_WORD;
 			else
 			  retval << LEUTOA_WORD;
-			anomalyPhrase = (theSeasonId == SUMMER_SEASON ? SAA_ON_POIKKEUKSLLISEN_LAMMINTA : SAA_ON_POIKKEUKSLLISEN_LEUTOA);
+			theParameters.theAnomalyPhrase = 
+			  (theParameters.theSeason == SUMMER_SEASON ? SAA_ON_POIKKEUKSLLISEN_LAMMINTA : SAA_ON_POIKKEUKSLLISEN_LEUTOA);
 		  }
 		  break;
 		case FRACTILE_UNDEFINED:
@@ -745,6 +755,9 @@ enum anomaly_phrase_id
 																	 theParameters.theArea,
 																	 forecastTimeWeatherPeriod);
 
+
+	  std::string theSpecifiedDay(theParameters.theIsToday ? TANAAN_WORD : HUOMENNA_WORD);
+	
 	  if(theParameters.theSeason == WINTER_SEASON)
 		{
 		  // s‰‰ on edelleen lauhaa
@@ -762,21 +775,21 @@ enum anomaly_phrase_id
 			  if(period1Temperature > WEAK_FROST_TEMPERATURE_LIMIT && period1Temperature < LOW_PLUS_TEMPARATURE &&
 				 period2Temperature > WEAK_FROST_TEMPERATURE_LIMIT && period2Temperature < LOW_PLUS_TEMPARATURE)
 				{
-				  sentence << SAA_ON_EDELLEEN_LAUHAA_PHRASE;
+				  sentence << SAA_ON_EDELLEEN_LAUHAA_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = SAA_ON_EDELLEEN_LAUHAA;
 				}
 			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT 
 					  && period1Temperature < WEAK_FROST_TEMPERATURE_LIMIT && period2Temperature >= WEAK_FROST_TEMPERATURE_LIMIT &&
 					  period2Temperature < LOW_PLUS_TEMPARATURE)
 				{
-				  sentence << SAA_LAUHTUU_PHRASE;
+				  sentence << SAA_LAUHTUU_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = SAA_LAUHTUU;
 				}
 			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
 					  && period1Temperature <= veryColdTemperature &&
 					  period2Temperature <= WEAK_FROST_TEMPERATURE_LIMIT)
 				{
-				  sentence << KIREA_WORD << PAKKANEN_HEIKKENEE_PHRASE;
+				  sentence << KIREA_WORD << PAKKANEN_HEIKKENEE_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = KIREA_PAKKANEN_HEIKKENEE;
 				}
 			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
@@ -784,14 +797,14 @@ enum anomaly_phrase_id
 					  period2Temperature < ZERO_DEGREES && period2Temperature >= WEAK_FROST_TEMPERATURE_LIMIT)
 				{
 				  // reduntant: this will never happen, because "s‰‰ lauhtuu" is tested before
-				  sentence << KIREA_WORD << PAKKANEN_HELLITTAA_PHRASE;
+				  sentence << KIREA_WORD << PAKKANEN_HELLITTAA_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = KIREA_PAKKANEN_HELLITTAA;
 				}
 			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
 					  && period1Temperature > veryColdTemperature &&
 					  period2Temperature < WEAK_FROST_TEMPERATURE_LIMIT)
 				{
-				  sentence << PAKKANEN_HEIKKENEE_PHRASE;
+				  sentence << PAKKANEN_HEIKKENEE_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = PAKKANEN_HEIKKENEE;
 				}
 			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
@@ -799,13 +812,13 @@ enum anomaly_phrase_id
 					  period2Temperature < ZERO_DEGREES && period2Temperature >= WEAK_FROST_TEMPERATURE_LIMIT)
 				{
 				  // redundant: this will never happen, because "s‰‰ lauhtuu" is tested before
-				  sentence << PAKKANEN_HELLITTAA_PHRASE;
+				  sentence << PAKKANEN_HELLITTAA_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = PAKKANEN_HELLITTAA;
 				}
 			  else if(period1Temperature < veryColdTemperature &&
 					  period2Temperature < veryColdTemperature)
 				{
-				  sentence << KIREA_PAKKANEN_JATKUU_PHRASE;
+				  sentence << KIREA_PAKKANEN_JATKUU_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = KIREA_PAKKANEN_JATKUU;
 				}
 
@@ -816,13 +829,13 @@ enum anomaly_phrase_id
 				 && period1Temperature < WEAK_FROST_TEMPERATURE_LIMIT &&
 				 period2Temperature <= veryColdTemperature)
 				{
-				  sentence << PAKKANEN_KIRISTYY_PHRASE;
+				  sentence << PAKKANEN_KIRISTYY_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = PAKKANEN_KIRISTYY;
 				}
 			  else if(period1Temperature < veryColdTemperature &&
 					  period2Temperature < veryColdTemperature)
 				{
-				  sentence << KIREA_PAKKANEN_JATKUU_PHRASE;
+				  sentence << KIREA_PAKKANEN_JATKUU_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = KIREA_PAKKANEN_JATKUU;
 				}
 			}
@@ -856,47 +869,47 @@ enum anomaly_phrase_id
 			{
 			  if(period1Temperature >= hot_weather_limit && period2Temperature >= hot_weather_limit)
 				{
-				  sentence << HELTEINEN_SAA_JATKUU_PHRASE;
+				  sentence << HELTEINEN_SAA_JATKUU_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = HELTEINEN_SAA_JATKUU;
 				}
 			  else if(period1Temperature < fractile12Temperature.value() && 
 					  period2Temperature < fractile12Temperature.value())
 				{
-				  sentence << KOLEA_SAA_JATKUU_PHRASE;
+				  sentence << KOLEA_SAA_JATKUU_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = KOLEA_SAA_JATKUU;
 				}
 			  else if(period1Temperature < fractile37Temperature.value() && 
 					  period2Temperature < fractile37Temperature.value())
 				{
-				  sentence << VIILEA_SAA_JATKUU_PHRASE;
+				  sentence << VIILEA_SAA_JATKUU_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = VIILEA_SAA_JATKUU;
 				}
 			  else if(period1Temperature < hot_weather_limit && period2Temperature >= hot_weather_limit)
 				{
 				  if(temperatureDifference >= NOTABLE_TEMPERATURE_CHANGE_LIMIT)
 					{
-					  sentence << SAA_MUUTTUU_HELTEISEKSI_PHRASE;
+					  sentence << SAA_MUUTTUU_HELTEISEKSI_PHRASE << theSpecifiedDay;
 					  theParameters.theShortrunTrend = SAA_MUUTTUU_HELTEISEKSI;
 					}
 				  else
 					{
-					  sentence << SAA_ON_HELTEISTA_PHRASE;
+					  sentence << SAA_ON_HELTEISTA_PHRASE << theSpecifiedDay;
 					  theParameters.theShortrunTrend = SAA_ON_HELTEISTA;
 					}
 				}
 			  else if(signifigantChange)
 				{
-				  sentence << SAA_LAMPENEE_PHRASE << HUOMATTAVASTI_WORD;
+				  sentence << SAA_LAMPENEE_PHRASE << theSpecifiedDay << HUOMATTAVASTI_WORD;
 				  theParameters.theShortrunTrend = SAA_LAMPENEE_HUOMATTAVASTI;
 				}
 			  else if(moderateChange)
 				{
-				  sentence << SAA_LAMPENEE_PHRASE;
+				  sentence << SAA_LAMPENEE_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = SAA_LAMPENEE;
 				}
 			  else if(smallChange)
 				{
-				  sentence << SAA_LAMPENEE_PHRASE << VAHAN_WORD;
+				  sentence << SAA_LAMPENEE_PHRASE << theSpecifiedDay << VAHAN_WORD;
 				  theParameters.theShortrunTrend = SAA_LAMPENEE_VAHAN;
 				}
 			}
@@ -904,33 +917,34 @@ enum anomaly_phrase_id
 			{
 			  if(period1Temperature >= hot_weather_limit && period2Temperature >= hot_weather_limit)
 				{
-				  sentence << HELTEINEN_SAA_JATKUU_PHRASE;
+				  sentence << HELTEINEN_SAA_JATKUU_PHRASE << theSpecifiedDay;
+				  theParameters.theShortrunTrend = HELTEINEN_SAA_JATKUU;
 				}
 			  else if(period1Temperature < fractile12Temperature.value() && 
 					  period2Temperature < fractile12Temperature.value())
 				{
-				  sentence << KOLEA_SAA_JATKUU_PHRASE;
+				  sentence << KOLEA_SAA_JATKUU_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = KOLEA_SAA_JATKUU;
 				}
 			  else if(period1Temperature < fractile37Temperature.value() && 
 					  period2Temperature < fractile37Temperature.value())
 				{
-				  sentence << VIILEA_SAA_JATKUU_PHRASE;
+				  sentence << VIILEA_SAA_JATKUU_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = VIILEA_SAA_JATKUU;
 				}
 			  else if(signifigantChange)
 				{
-				  sentence << SAA_VIILENEE_PHRASE << HUOMATTAVASTI_WORD;
+				  sentence << SAA_VIILENEE_PHRASE << theSpecifiedDay << HUOMATTAVASTI_WORD;
 				  theParameters.theShortrunTrend = SAA_VIILENEE_HUOMATTAVASTI;
 				}
 			  else if(moderateChange)
 				{
-				  sentence << SAA_VIILENEE_PHRASE;
+				  sentence << SAA_VIILENEE_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = SAA_VIILENEE;
 				}
 			  else if(smallChange && period2Temperature < GETTING_COOLER_NOTIFICATION_LIMIT)
 				{
-				  sentence << SAA_VIILENEE_PHRASE << VAHAN_WORD;
+				  sentence << SAA_VIILENEE_PHRASE << theSpecifiedDay << VAHAN_WORD;
 				  theParameters.theShortrunTrend = SAA_VIILENEE_VAHAN;
 				}
 			}
@@ -995,13 +1009,14 @@ enum anomaly_phrase_id
 
 	  std::string part_of_the_day("");
 	  std::string areaString("");
-
+	  std::string theSpecifiedDay(theParameters.theIsToday ? TANAAN_WORD : HUOMENNA_WORD);
+	
 	  Sentence varying_part;
 	  if(inlandIncluded && coastIncluded)
 		{
 		  if(windyMorningInland && windyMorningCoastal && windyAfternoonInland && windyAfternoonCoastal)
 			{
-			  sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << TUULINEN_WORD;
 			}
 		  else if(windyMorningInland && !windyMorningCoastal && !windyAfternoonInland && !windyAfternoonCoastal)
 			{
@@ -1010,9 +1025,9 @@ enum anomaly_phrase_id
 				  varying_part << test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD);
 
 				  if(varying_part.empty())
-					sentence << AAMUPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
+					sentence << theSpecifiedDay << AAMUPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
 				  else
-					sentence << varying_part << ON_WORD << AAMUPAIVALLA_WORD << TUULISTA_WORD;
+					sentence << varying_part << ON_WORD << theSpecifiedDay << AAMUPAIVALLA_WORD << TUULISTA_WORD;
 				}
 			}
 		  else if(!windyMorningInland && windyMorningCoastal && !windyAfternoonInland && !windyAfternoonCoastal)
@@ -1022,9 +1037,9 @@ enum anomaly_phrase_id
 				  varying_part << test_windspeed(windspeedMorningCoastal, windspeedMorningInland, RANNIKOLLA_WORD);
 
 				  if(varying_part.empty())
-					sentence << AAMUPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
+					sentence << theSpecifiedDay << AAMUPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
 				  else
-					sentence << varying_part << ON_WORD << AAMUPAIVALLA_WORD << TUULISTA_WORD;
+					sentence << varying_part << ON_WORD << theSpecifiedDay << AAMUPAIVALLA_WORD << TUULISTA_WORD;
 				}
 			}
 		  else if(!windyMorningInland && !windyMorningCoastal && windyAfternoonInland && !windyAfternoonCoastal)
@@ -1034,9 +1049,9 @@ enum anomaly_phrase_id
 				  varying_part << test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD);
 
 				  if(varying_part.empty())
-					sentence << ILTAPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
+					sentence << theSpecifiedDay << ILTAPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
 				  else
-					sentence << varying_part << ON_WORD << ILTAPAIVALLA_WORD << TUULISTA_WORD;
+					sentence << varying_part << ON_WORD << theSpecifiedDay << ILTAPAIVALLA_WORD << TUULISTA_WORD;
 				}
 			}
 		  else if(!windyMorningInland && !windyMorningCoastal && !windyAfternoonInland && windyAfternoonCoastal)
@@ -1046,9 +1061,9 @@ enum anomaly_phrase_id
 				  varying_part << test_windspeed(windspeedAfternoonCoastal, windspeedAfternoonInland, RANNIKOLLA_WORD);
 
 				  if(varying_part.empty())
-					sentence << ILTAPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
+					sentence << theSpecifiedDay << ILTAPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
 				  else
-					sentence << varying_part << ON_WORD << ILTAPAIVALLA_WORD << TUULISTA_WORD;
+					sentence << varying_part << ON_WORD << theSpecifiedDay << ILTAPAIVALLA_WORD << TUULISTA_WORD;
 				}
 			}
 		  else if(windyMorningInland && !windyMorningCoastal && windyAfternoonInland && !windyAfternoonCoastal)
@@ -1058,30 +1073,30 @@ enum anomaly_phrase_id
 				  varying_part << test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD);
 
 				  if(varying_part.empty())
-					sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
+					sentence << SAA_WORD << ON_WORD << theSpecifiedDay << TUULINEN_WORD;
 				  else
-					sentence << varying_part << ON_WORD << TUULISTA_WORD;
+					sentence << varying_part << ON_WORD << theSpecifiedDay << TUULISTA_WORD;
 				}
 			}
 		  else if(!windyMorningInland && windyMorningCoastal && windyAfternoonInland && windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyMorningInland)
-				sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
+				sentence << SAA_WORD << ON_WORD << theSpecifiedDay << TUULINEN_WORD;
 			}
 		  else if(windyMorningInland && !windyMorningCoastal && windyAfternoonInland && windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyMorningCoastal)
-				sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
+				sentence << SAA_WORD << ON_WORD << theSpecifiedDay << TUULINEN_WORD;
 			}
 		  else if(windyMorningInland && windyMorningCoastal && !windyAfternoonInland && windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyAfternoonInland)
-				sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
+				sentence << SAA_WORD << ON_WORD << theSpecifiedDay << TUULINEN_WORD;
 			}
 		  else if(windyMorningInland && windyMorningCoastal && windyAfternoonInland && !windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyAfternoonCoastal)
-				sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
+				sentence << SAA_WORD << ON_WORD << theSpecifiedDay << TUULINEN_WORD;
 			}
 		  else if(!windyMorningInland && windyMorningCoastal && !windyAfternoonInland && windyAfternoonCoastal)
 			{
@@ -1090,9 +1105,9 @@ enum anomaly_phrase_id
 				  varying_part << test_windspeed(windspeedMorningCoastal, windspeedMorningInland, RANNIKOLLA_WORD); 
 
 				  if(varying_part.empty())
-					sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
+					sentence << SAA_WORD << ON_WORD << theSpecifiedDay << TUULINEN_WORD;
 				  else
-					sentence << varying_part << ON_WORD << TUULISTA_WORD;
+					sentence << varying_part << ON_WORD << theSpecifiedDay << TUULISTA_WORD;
 				}
 			}
 		  else if(extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
@@ -1101,9 +1116,9 @@ enum anomaly_phrase_id
 			  varying_part << test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD);
 
 			  if(varying_part.empty())
-				sentence << AAMUPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+				sentence << theSpecifiedDay << AAMUPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
 			  else
-				sentence << varying_part << ON_WORD << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULISTA_WORD;
+				sentence << varying_part << ON_WORD << theSpecifiedDay << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(!extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
 				  !extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
@@ -1111,9 +1126,9 @@ enum anomaly_phrase_id
 			  varying_part << test_windspeed(windspeedMorningCoastal, windspeedMorningInland, RANNIKOLLA_WORD);
 
 			  if(varying_part.empty())
-				sentence << AAMUPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+				sentence << theSpecifiedDay << AAMUPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
 			  else
-				sentence << varying_part << ON_WORD << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULISTA_WORD;
+				sentence << varying_part << ON_WORD << theSpecifiedDay << AAMUPAIVALLA_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(!extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
 				  extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
@@ -1121,9 +1136,9 @@ enum anomaly_phrase_id
 			  varying_part << test_windspeed(windspeedAfternoonInland, windspeedAfternoonCoastal, SISAMAASSA_WORD);
 
 			  if(varying_part.empty())
-				sentence << ILTAPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+				sentence << theSpecifiedDay << ILTAPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
 			  else
-				sentence << varying_part << ON_WORD << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULISTA_WORD;
+				sentence << varying_part << ON_WORD << theSpecifiedDay << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(!extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
 				  !extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
@@ -1131,9 +1146,9 @@ enum anomaly_phrase_id
 			  varying_part << test_windspeed(windspeedAfternoonCoastal, windspeedAfternoonInland, RANNIKOLLA_WORD);
 
 			  if(varying_part.empty())
-				sentence << ILTAPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+				sentence << theSpecifiedDay << ILTAPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
 			  else
-				sentence << varying_part << ON_WORD << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULISTA_WORD;
+				sentence << varying_part << ON_WORD << theSpecifiedDay << ILTAPAIVALLA_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(!extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
 				  !extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
@@ -1141,9 +1156,9 @@ enum anomaly_phrase_id
 			  varying_part << test_windspeed(windspeedMorningCoastal, windspeedMorningInland, RANNIKOLLA_WORD); 
 
 			  if(varying_part.empty())
-				sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
+				sentence << SAA_WORD << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULINEN_WORD;
 			  else
-				sentence << varying_part << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+				sentence << varying_part << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
 				  extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
@@ -1151,45 +1166,45 @@ enum anomaly_phrase_id
 			  varying_part <<  test_windspeed(windspeedMorningInland, windspeedMorningCoastal, SISAMAASSA_WORD);
 
 			  if(varying_part.empty())
-				sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
+				sentence << SAA_WORD << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULINEN_WORD;
 			  else
-				sentence << varying_part << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+				sentence << varying_part << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULISTA_WORD;
 
 			}
 		  else if(extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
 				  extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
 			{
-			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULINEN_WORD;
 			}
 		  else if(extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
 				  extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
 			{
-			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULINEN_WORD;
 			}
 		  else if(!extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
 				  extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
 			{
-			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULINEN_WORD;
 			}
 		  else if(extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
 				  !extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
 			{
-			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULINEN_WORD;
 			}
 		  else if(extremelyWindyMorningInland && !extremelyWindyMorningCoastal && 
 				  !extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
 			{
-			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULINEN_WORD;
 			}
 		  else if(!extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
 				  extremelyWindyAfternoonInland && !extremelyWindyAfternoonCoastal)
 			{
-			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULINEN_WORD;
 			}
 		  else if(extremelyWindyMorningInland && extremelyWindyMorningCoastal && 
 				  extremelyWindyAfternoonInland && extremelyWindyAfternoonCoastal)
 			{
-			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULINEN_WORD;
 			}
 		}
 	  else if(inlandIncluded)
@@ -1197,28 +1212,28 @@ enum anomaly_phrase_id
 		  if(windyMorningInland && !windyAfternoonInland)
 			{
 			  if(!extremelyWindyAfternoonInland)
-				sentence << AAMUPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
+				sentence << theSpecifiedDay  << AAMUPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
 			}
 		  else if(!windyMorningInland && windyAfternoonInland)
 			{
 			  if(!extremelyWindyMorningInland)
-				sentence << ILTAPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
+				sentence << theSpecifiedDay  << ILTAPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
 			}
 		  else if(windyMorningInland && windyAfternoonInland)
 			{
-			  sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << TUULINEN_WORD;
 			}
 		  else if(extremelyWindyMorningInland && !extremelyWindyAfternoonInland)
 			{
-			  sentence << AAMUPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+			  sentence << theSpecifiedDay << AAMUPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(!extremelyWindyMorningInland && extremelyWindyAfternoonInland)
 			{
-			  sentence << ILTAPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+			  sentence << theSpecifiedDay << ILTAPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(extremelyWindyMorningInland && extremelyWindyAfternoonInland)
 			{
-			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD  << theSpecifiedDay << HYVIN_WORD << TUULINEN_WORD;
 			}
 		}
 	  else if(coastIncluded)
@@ -1226,28 +1241,28 @@ enum anomaly_phrase_id
 		  if(windyMorningCoastal && !windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyAfternoonCoastal)
-				sentence << AAMUPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
+				sentence << theSpecifiedDay << AAMUPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
 			}
 		  else if(!windyMorningCoastal && windyAfternoonCoastal)
 			{
 			  if(!extremelyWindyMorningCoastal)
-				sentence << ILTAPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
+				sentence << theSpecifiedDay << ILTAPAIVALLA_WORD << ON_WORD << TUULISTA_WORD;
 			}
 		  else if(windyMorningCoastal && windyAfternoonCoastal)
 			{
-			  sentence << SAA_WORD << ON_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << TUULINEN_WORD;
 			}
 		  else if(extremelyWindyMorningCoastal && !extremelyWindyAfternoonCoastal)
 			{
-			  sentence << AAMUPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+			  sentence << theSpecifiedDay << AAMUPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(!extremelyWindyMorningCoastal && extremelyWindyAfternoonCoastal)
 			{
-			  sentence << ILTAPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
+			  sentence << theSpecifiedDay << ILTAPAIVALLA_WORD << ON_WORD << HYVIN_WORD << TUULISTA_WORD;
 			}
 		  else if(extremelyWindyMorningCoastal && extremelyWindyAfternoonCoastal)
 			{
-			  sentence << SAA_WORD << ON_WORD << HYVIN_WORD << TUULINEN_WORD;
+			  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULINEN_WORD;
 			}
 		}
 
@@ -1392,9 +1407,11 @@ enum anomaly_phrase_id
 				 Sentence windCoolingSentence;
 
 				 if(temperature > 0.0 && temperature <= 10.0)
-				   windCoolingSentence << TUULI_KYLMENTAA_SAATA_PHRASE << areaString << part_of_the_day ;
+				   windCoolingSentence << TUULI_KYLMENTAA_SAATA_PHRASE << theSpecifiedDay 
+									   << areaString << part_of_the_day ;
 				 else if(temperature > 10.0)
-				   windCoolingSentence << TUULI_VIILENTAA_SAATA_PHRASE << areaString << part_of_the_day ;
+				   windCoolingSentence << TUULI_VIILENTAA_SAATA_PHRASE << theSpecifiedDay 
+									   << areaString << part_of_the_day ;
 
 				 sentence << windCoolingSentence;
 			   }
@@ -1415,6 +1432,8 @@ enum anomaly_phrase_id
 
 	  forecast_area_id areaMorning = FULL_AREA;
 	  forecast_area_id areaAfternoon = FULL_AREA;
+	  std::string theSpecifiedDay(theParameters.theIsToday ? TANAAN_WORD : HUOMENNA_WORD);
+
 	  if(inlandIncluded && coastIncluded)
 		{
 		  if(theParameters.theWindchillInlandMorningMean.value() > theParameters.theWindchillCoastalMorningMean.value())
@@ -1469,7 +1488,7 @@ enum anomaly_phrase_id
 
 	  if(windChill >= EXTREME_WINDCHILL_LIMIT && windChill <= MILD_WINDCHILL_LIMIT)
 		{
-		  sentence << PAKKANEN_ON_PUREVAA_PHRASE;
+		  sentence << PAKKANEN_ON_PUREVAA_PHRASE << theSpecifiedDay;
 
 		  if(windChillMorning && !windChillAfternoon)
 			{
@@ -1482,7 +1501,7 @@ enum anomaly_phrase_id
 		}
 	  else if(windChill < EXTREME_WINDCHILL_LIMIT)
 		{
-		  sentence << PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE;
+		  sentence << PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE << theSpecifiedDay;
 
 		  if(extremelyWindChillMorning && !extremelyWindChillAfternoon)
 			{
@@ -1567,7 +1586,6 @@ enum anomaly_phrase_id
 		log <<  nimi << endl;
 	  }
 
-	bool handleWindchill = false;
 	const int day_starthour = optional_hour(itsVar+"::day::starthour",6);
 	const int day_maxstarthour = optional_hour(itsVar+"::day::maxstarthour",12);
 
@@ -1612,11 +1630,7 @@ enum anomaly_phrase_id
 	WeatherPeriod day1Period(generator.period(1));
 	WeatherPeriod nightPeriod(generator.period(2));
 	WeatherPeriod day2Period(generator.period(3));
-	/*
-	WeatherPeriod day1Period(generator.isday(1) ? generator.period(1) : generator.period(2));
-	WeatherPeriod nightPeriod(generator.isday(1) ? generator.period(2) : generator.period(1));
-	WeatherPeriod day2Period(thePeriodToExamine);
-	*/
+
 	log_start_time_and_end_time(log, 
 								"day1: ",
 								day1Period);
@@ -1638,6 +1652,8 @@ enum anomaly_phrase_id
 										  day2Period,
 										  theSeasonId,
 										  itsForecastTime);
+
+	parameters.theIsToday = (itsForecastTime.GetHour() < day_maxstarthour);
 
 	morning_temperature(itsVar + "::fake::temperature::day1::morning::area",
 						  itsSources,
@@ -1769,6 +1785,8 @@ enum anomaly_phrase_id
 						  parameters.theDay2TemperatureCoastalAfternoonMaximum,
 						  parameters.theDay2TemperatureCoastalAfternoonMean);
 
+#ifdef INCLUDE_WIND_ANOMALY
+	bool handleWindchill = false;
 
 	// inland, morning, windspeed
 	calculate_windspeed_and_chill(parameters, true, true, true);
@@ -1794,59 +1812,61 @@ enum anomaly_phrase_id
 		// coastal afternoon, windchill
 		calculate_windspeed_and_chill(parameters, false, false, false);
 	  }
-
+#endif
 
 	fractile_id theFractileDay1 = get_fractile(itsVar,
 											   parameters.theDay1TemperatureAreaAfternoonMean.value(),
 											   itsSources,
 											   itsArea,
-											   itsPeriod);
+											   day1Period);
 
 	fractile_id theFractileDay2 = get_fractile(itsVar,
 											   parameters.theDay2TemperatureAreaAfternoonMean.value(),
 											   itsSources,
 											   itsArea,
-											   itsPeriod);
+											   day2Period);
 
 	WeatherResult fractileTemperatureDay1 = get_fractile_temperature(itsVar,
 																	 theFractileDay1,
 																	 itsSources,
 																	 itsArea,  
-																	 itsPeriod);
+																	 day1Period);
 
 	WeatherResult fractileTemperatureDay2 = get_fractile_temperature(itsVar,
 																	 theFractileDay2,
 																	 itsSources,
 																	 itsArea,  
-																	 itsPeriod);
+																	 day2Period);
 
 	WeatherResult fractile37Temperature = get_fractile_temperature(itsVar,
 																   FRACTILE_37,
 																   itsSources,
 																   itsArea,
-																   itsPeriod);
+																   day2Period);
 
 	WeatherResult fractile12Temperature = get_fractile_temperature(itsVar,
 																   FRACTILE_12,
 																   itsSources,
 																   itsArea,
-																   itsPeriod);
+																   day2Period);
 	
 	Paragraph paragraphDev;
 	Sentence temperatureAnomalySentence;
 	Sentence shortrunTrendSentence;
+#ifdef INCLUDE_WIND_ANOMALY
 	Sentence windinessSentence;
 	Sentence windChillSentence;
+#endif
 
-	temperatureAnomalySentence << temperature_anomaly_sentence(itsVar,
-															   theSeasonId,
-															   theFractileDay2,
-															   parameters.theAnomalyPhrase);
+	temperatureAnomalySentence << temperature_anomaly_sentence(parameters, theFractileDay2);
 
 	shortrunTrendSentence <<  temperature_shortruntrend_sentence(parameters);
+
+#ifdef INCLUDE_WIND_ANOMALY
 	windinessSentence << windiness_sentence(parameters);
 	if(handleWindchill)
 	  windChillSentence << windchill_sentence(parameters);
+#endif
 
 	log_data(parameters);
 
@@ -1864,16 +1884,21 @@ enum anomaly_phrase_id
 	log << temperatureAnomalySentence;
 	log << "short run trend: ";
 	log << shortrunTrendSentence;
+
+#ifdef INCLUDE_WIND_ANOMALY
 	log << "windiness: ";
 	log << windinessSentence;
 	log << "wind chill: ";
 	log << windChillSentence;
+#endif
 
 	paragraph << handle_anomaly_and_shortrun_trend_sentences(parameters, 
 															 temperatureAnomalySentence, 
 															 shortrunTrendSentence);
+#ifdef INCLUDE_WIND_ANOMALY
 	paragraph << windinessSentence;
 	paragraph << windChillSentence;
+#endif
 
 	log << paragraph;
 

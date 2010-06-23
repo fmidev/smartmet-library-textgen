@@ -46,7 +46,7 @@ namespace TextGen
 	 * \param theWeatherArea1 The weather area 1
 	 * \param theWeatherArea2 The weather area 2
 	 *
-	 * \return True if are1 is part of area 2 false otherwise
+	 * \return True if area 1 is part of area 2 false otherwise
 	 */
 	// ----------------------------------------------------------------------
 
@@ -75,10 +75,10 @@ namespace TextGen
 	 * \brief Tests if the are1 is part of are2
 	 *
 	 * \param theWeatherArea1 The weather area 1
-	 * \param theArea2SvgFile The svg-file, that defined area 2
+	 * \param theArea2SvgFile The svg-file, that defines area 2
 	 * \param theQueryData The query data
 	 *
-	 * \return True if are1 is part of area 2 false otherwise
+	 * \return True if area 1 is part of area 2 false otherwise
 	 */
 	// ----------------------------------------------------------------------
 
