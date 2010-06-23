@@ -76,6 +76,9 @@ namespace TextGen
 	  return true;
 	if(theName == "wind_range")
 	  return true;
+	if(theName == "wind_anomaly")
+	  return true;
+
 	return false;
   }
   
@@ -100,6 +103,9 @@ namespace TextGen
 	  return daily_ranges();
 	if(theName == "wind_range")
 	  return range();
+	if(theName == "wind_anomaly")
+	  return anomaly();
+
 	throw TextGenError("WindStory cannot make story "+theName);
   }
 

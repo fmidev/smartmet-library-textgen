@@ -70,6 +70,8 @@ namespace TextGen
   {
 	if(theName == "weather_overview")
 	  return true;
+	if(theName == "weather_forecast")
+	  return true;
 	if(theName == "weather_shortoverview")
 	  return true;
 	if(theName == "weather_thunderprobability")
@@ -94,6 +96,8 @@ namespace TextGen
   {
 	if(theName == "weather_overview")
 	  return overview();
+	if(theName == "weather_forecast")
+	  return forecast();
 	if(theName == "weather_shortoverview")
 	  return shortoverview();
 	if(theName == "weather_thunderprobability")

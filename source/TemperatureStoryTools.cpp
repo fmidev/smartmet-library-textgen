@@ -233,6 +233,7 @@ namespace TextGen
 								  const AnalysisSources& theSources,
 								  const WeatherArea& theArea,
 								  const WeatherPeriod& thePeriod,
+								  const bool& theIsWinterHalf,
 								  WeatherResult& theMin,
 								  WeatherResult& theMax,
 								  WeatherResult& theMean)
@@ -243,7 +244,7 @@ namespace TextGen
 									 theSources,
 									 Temperature,
 									 Minimum,
-									 Maximum,
+									 theIsWinterHalf ? Mean : Maximum,
 									 theArea,
 									 thePeriod);
 
@@ -251,7 +252,7 @@ namespace TextGen
 									 theSources,
 									 Temperature,
 									 Maximum,
-									 Maximum,
+									 theIsWinterHalf ? Mean : Maximum,
 									 theArea,
 									 thePeriod);
 
@@ -259,7 +260,7 @@ namespace TextGen
 									  theSources,
 									  Temperature,
 									  Mean,
-									  Maximum,
+									  theIsWinterHalf ? Mean : Maximum,
 									  theArea,
 									  thePeriod);
 	}
@@ -296,8 +297,9 @@ namespace TextGen
 
 	  int fakeStrPos = theVar.find("::fake");
 	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
+	  bool is_winter = (SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar));
 
-	  std::string season(SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar) ? "::wintertime" : "::summertime");
+	  std::string season(is_winter ? "::wintertime" : "::summertime");
 
 	  int morning_starthour    = optional_hour(thePlainVar+season+"::morning_temperature::starthour", default_starthour);
 	  int morning_endhour      = optional_hour(thePlainVar+season+"::morning_temperature::endhour", default_endhour);
@@ -311,6 +313,7 @@ namespace TextGen
 							   theSources,
 							   theArea,
 							   morningPeriod,
+							   is_winter,
 							   theMin,
 							   theMax,
 							   theMean);
@@ -365,6 +368,7 @@ namespace TextGen
 							   theSources,
 							   theArea,
 							   dayPeriod,
+							   is_winter,
 							   theMin,
 							   theMax,
 							   theMean);
@@ -478,8 +482,8 @@ namespace TextGen
 	  result = gc.analyze(theVar,
 						  theSources,
 						  NormalMaxTemperatureF02,
-						  Minimum,
-						  Minimum,
+						  Mean,
+						  Mean,
 						  theArea,
 						  climatePeriod);
 
@@ -489,8 +493,8 @@ namespace TextGen
 	  result = gc.analyze(theVar,
 						  theSources,
 						  NormalMaxTemperatureF12,
-						  Minimum,
-						  Minimum,
+						  Mean,
+						  Mean,
 						  theArea,
 						  climatePeriod);
 	  
@@ -500,8 +504,8 @@ namespace TextGen
 	  result = gc.analyze(theVar,
 						  theSources,
 						  NormalMaxTemperatureF37,
-						  Minimum,
-						  Minimum,
+						  Mean,
+						  Mean,
 						  theArea,
 						  climatePeriod);
 	  
@@ -511,8 +515,8 @@ namespace TextGen
 	  result = gc.analyze(theVar,
 						  theSources,
 						  NormalMaxTemperatureF50,
-						  Minimum,
-						  Minimum,
+						  Mean,
+						  Mean,
 						  theArea,
 						  climatePeriod);
 
@@ -522,8 +526,8 @@ namespace TextGen
 	  result = gc.analyze(theVar,
 						  theSources,
 						  NormalMaxTemperatureF63,
-						  Maximum,
-						  Maximum,
+						  Mean,
+						  Mean,
 						  theArea,
 						  climatePeriod);
 	  
@@ -533,8 +537,8 @@ namespace TextGen
 	  result = gc.analyze(theVar,
 						  theSources,
 						  NormalMaxTemperatureF88,
-						  Maximum,
-						  Maximum,
+						  Mean,
+						  Mean,
 						  theArea,
 						  climatePeriod);
 	  
@@ -544,8 +548,8 @@ namespace TextGen
 	  result = gc.analyze(theVar,
 						  theSources,
 						  NormalMaxTemperatureF98,
-						  Maximum,
-						  Maximum,
+						  Mean,
+						  Mean,
 						  theArea,
 						  climatePeriod);
 
