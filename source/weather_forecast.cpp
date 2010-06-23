@@ -133,6 +133,8 @@ using namespace std;
 #define IN_SOME_PLACES_UPPER_LIMIT 50.0
 #define IN_MANY_PLACES_LOWER_LIMIT 50.0
 #define IN_MANY_PLACES_UPPER_LIMIT 90.0
+#define FREEZING_RAIN_LIMIT 10
+#define SHOWER_LIMIT 51
 
   enum weather_result_data_id
 	{
@@ -418,6 +420,8 @@ using namespace std;
 	  float theInSomePlacesUpperLimit;
 	  float theInManyPlacesLowerLimit;
 	  float theInManyPlacesUpperLimit;
+	  float theFreezingRainLimit;
+	  float theShowerLimit;
 	  weather_forecast_data_container theCompleteData;
 	  cloudiness_data_container theCloudinessData;
 	  precipitation_data_container thePrecipitationData;
@@ -2026,17 +2030,6 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
   {
 	PrecipitationDataItem* item = 0;
 
-	/*	const double freezing_rain_limit = optional_double(theParameters.theVariable + "::freezing_rain_limit", 10.0);
-	const int shower_limit = optional_percentage(theParameters.theVariable + "::shower_limit",80);
-
-	const double weak_rain_limit = 0.4;
-	const double hard_rain_limit = 2.0;
-	const double weak_snow_limit = 0.4;
-	const double hard_snow_limit = 1.5;
-	const double ignore_rain_limit = 0.04;
-	const double ignore_snow_limit = 0.02;
-	const double ignore_sleet_limit = 0.02;
-	*/
 	weather_result_data_item_vector thePrecipitationInland;
 	weather_result_data_item_vector thePrecipitationExtentInland;
 	weather_result_data_item_vector thePrecipitationFromWaterInland;
@@ -2349,42 +2342,6 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
   {
 	Sentence sentence;
 
-	//	const double weak_rain_lower_limit = optional_double(theParameters.theVariable + "::weak_rain_limit",0.04);
-	//	const double moderate_rain_lower_limit = optional_double(theParameters.theVariable + "::moderate_rain_limit",0.24);
-	//	const double hard_rain_lower_limit = optional_double(theParameters.theVariable + "::hard_rain_limit",2.0);
-	const double freezing_rain_limit = optional_double(theParameters.theVariable + "::freezing_rain_limit", 10.0);
-
-	const int shower_limit = optional_percentage(theParameters.theVariable + "::shower_limit",80);
-	//	const double extensive_rain_limit = optional_double(theParameters.theVariable + "::extensive_rain_limit", 90.0);
-	//	const double in_many_places_limit = optional_double(theParameters.theVariable + "::in_many_places_limit", 50.0);
-	//const double in_some_places_limit = optional_double(theParameters.theVariable + "::in_some_places_limit", 10.0);
-	/*
-	const double weak_rain_limit = 0.4;
-	const double hard_rain_limit = 2.0;
-	//	const double weak_sleet_limit = 0.4;
-	//const double hard_sleet_limit = 1.7;
-	const double weak_snow_limit = 0.4;
-	const double hard_snow_limit = 1.5;
-	//const double drizzle_limit = 0.02;
-	const double ignore_rain_limit = 0.04;
-	const double ignore_snow_limit = 0.02;
-	const double ignore_sleet_limit = 0.02;
-	const double ignore_drizzle_limit = 0.02;
-	  float theDryWeatherLimitWater;
-	  float theDryWeatherLimitDrizzle;
-	  float theDryWeatherLimitSleet;
-	  float theDryWeatherLimitSnow;
-	  float theWeakPrecipitationLimitWater;
-	  float theWeakPrecipitationLimitSleet;
-	  float theWeakPrecipitationLimitSnow;
-	  float theHardPrecipitationLimitWater;
-	  float theHardPrecipitationLimitSleet;
-	  float theHardPrecipitationLimitSnow;
-	  float theRainStormLimit;
-
-	*/
-
-
 	bool dry_weather = is_dry_weather(theParameters, theRainForm, theRainIntensity, theRainExtent);
 
 	bool report_cloudiness = true;
@@ -2395,14 +2352,15 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 	  }
 	else
 	  {
-		const bool has_showers = (theRainTypeShowers != kFloatMissing && theRainTypeShowers >= shower_limit);
+		const bool has_showers = (theRainTypeShowers != kFloatMissing && 
+								  theRainTypeShowers >= theParameters.theShowerLimit);
 		const bool mostly_dry_weather = theRainExtent <= theParameters.theMostlyDryWeatherLimit;
 		const bool in_some_places = theRainExtent > theParameters.theInSomePlacesLowerLimit && 
 		  theRainExtent <= theParameters.theInSomePlacesUpperLimit;
 		const bool in_many_places = theRainExtent > theParameters.theInManyPlacesLowerLimit && 
 		  theRainExtent <= theParameters.theInManyPlacesUpperLimit;
 		  		
-		bool can_be_freezing =  theRainFormFreezing > freezing_rain_limit;
+		bool can_be_freezing =  theRainFormFreezing > theParameters.theFreezingRainLimit;
 
 		if(has_showers)
 		  ; // report the cloudiness?
@@ -3477,6 +3435,10 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 	  Settings::optional_double(theParameters.theVariable + "::in_many_places_lower_limit", IN_MANY_PLACES_LOWER_LIMIT);
 	theParameters.theInManyPlacesUpperLimit =
 	  Settings::optional_double(theParameters.theVariable + "::in_many_places_upper_limit", IN_MANY_PLACES_UPPER_LIMIT);
+	theParameters.theFreezingRainLimit =
+	  Settings::optional_double(theParameters.theVariable + "::freezing_rain_limit", FREEZING_RAIN_LIMIT);
+	theParameters.theShowerLimit =
+	  Settings::optional_double(theParameters.theVariable + "::shower_limit", SHOWER_LIMIT);
   }
 
 // ----------------------------------------------------------------------
