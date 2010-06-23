@@ -49,6 +49,7 @@ namespace TextGen
 	const Paragraph overview() const;
 	const Paragraph daily_ranges() const;
 	const Paragraph range() const;
+	const Paragraph anomaly() const;
 
 	const NFmiTime itsForecastTime;
 	const WeatherAnalysis::AnalysisSources & itsSources;
