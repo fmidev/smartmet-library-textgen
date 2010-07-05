@@ -66,10 +66,9 @@ namespace TextGen
 
 	if(nights == 0)
 	  {
-		log << "0 nights in the period!";
+		log << "No night periods!" << endl;
 		return paragraph;
 	  }
-
 
 	WeatherPeriod period = getPeriod(itsPeriod,
 									 1,

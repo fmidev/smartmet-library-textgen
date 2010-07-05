@@ -122,9 +122,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  Calculator * ModMeanCalculator::clone() const
+  boost::shared_ptr<Calculator> ModMeanCalculator::clone() const
   {
-	return new ModMeanCalculator(*this);
+	return boost::shared_ptr<Calculator>(new ModMeanCalculator(*this));
   }
 
   // ----------------------------------------------------------------------
@@ -143,3 +143,4 @@ namespace WeatherAnalysis
 } // namespace WeatherAnalysis
 
 // ======================================================================
+

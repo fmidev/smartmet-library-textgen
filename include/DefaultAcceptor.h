@@ -18,7 +18,7 @@ namespace WeatherAnalysis
 
 	virtual ~DefaultAcceptor() { }
 	virtual bool accept(float theValue) const;
-	virtual Acceptor * clone() const;
+	virtual boost::shared_ptr<Acceptor> clone() const;
 
   }; // class DefaultAcceptor
 } // namespace WeatherAnalysis

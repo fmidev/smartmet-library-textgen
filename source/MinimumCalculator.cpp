@@ -90,9 +90,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  Calculator * MinimumCalculator::clone() const
+  boost::shared_ptr<Calculator> MinimumCalculator::clone() const
   {
-	return new MinimumCalculator(*this);
+	return boost::shared_ptr<Calculator>(new MinimumCalculator(*this));
   }
 
   // ----------------------------------------------------------------------

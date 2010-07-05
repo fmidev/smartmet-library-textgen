@@ -18,20 +18,19 @@ namespace WeatherAnalysis
   public:
 
 	CountCalculator();
-	CountCalculator(const CountCalculator & other);
-	virtual ~CountCalculator();
+	virtual ~CountCalculator() { }
 	virtual void operator()(float theValue);
 	virtual float operator()() const;
 	virtual void acceptor(const Acceptor & theAcceptor);
-	virtual Calculator * clone() const;
+	virtual boost::shared_ptr<Calculator> clone() const;
 	virtual void reset();
 
 	void condition(const Acceptor & theCondition);
 
   private:
 
-	Acceptor * itsAcceptor;
-	Acceptor * itsCondition;
+	boost::shared_ptr<Acceptor> itsAcceptor;
+	boost::shared_ptr<Acceptor> itsCondition;
 	long itsCounter;
 	long itsTotalCounter;
 

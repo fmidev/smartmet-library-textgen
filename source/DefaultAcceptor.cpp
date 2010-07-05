@@ -24,9 +24,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  Acceptor * DefaultAcceptor::clone() const
+  boost::shared_ptr<Acceptor> DefaultAcceptor::clone() const
   {
-	return new DefaultAcceptor(*this);
+	return boost::shared_ptr<Acceptor>(new DefaultAcceptor(*this));
   }
 
   // ----------------------------------------------------------------------

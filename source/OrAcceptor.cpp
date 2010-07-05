@@ -39,9 +39,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  Acceptor * OrAcceptor::clone() const
+  boost::shared_ptr<Acceptor> OrAcceptor::clone() const
   {
-	return new OrAcceptor(*this);
+	return boost::shared_ptr<Acceptor>(new OrAcceptor(*this));
   }
 
   // ----------------------------------------------------------------------

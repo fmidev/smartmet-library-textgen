@@ -53,30 +53,30 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	Calculator * create(WeatherFunction theFunction)
+	shared_ptr<Calculator> create(WeatherFunction theFunction)
 	{
 	  switch(theFunction)
 		{
 		case Mean:
-		  return new MeanCalculator;
+		  return shared_ptr<Calculator>(new MeanCalculator);
 		case Maximum:
-		  return new MaximumCalculator;
+		  return shared_ptr<Calculator>(new MaximumCalculator);
 		case Minimum:
-		  return new MinimumCalculator;
+		  return shared_ptr<Calculator>(new MinimumCalculator);
 		case Sum:
-		  return new SumCalculator;
+		  return shared_ptr<Calculator>(new SumCalculator);
 		case Percentage:
-		  return new PercentageCalculator;
+		  return shared_ptr<Calculator>(new PercentageCalculator);
 		case Count:
-		  return new CountCalculator;
+		  return shared_ptr<Calculator>(new CountCalculator);
 		case Trend:
-		  return new TrendCalculator;
+		  return shared_ptr<Calculator>(new TrendCalculator);
 		case Change:
-		  return new ChangeCalculator;
+		  return shared_ptr<Calculator>(new ChangeCalculator);
 		case NullFunction:
-		  return new NullCalculator;
+		  return shared_ptr<Calculator>(new NullCalculator);
 		case StandardDeviation:
-		  return new StandardDeviationCalculator;
+		  return shared_ptr<Calculator>(new StandardDeviationCalculator);
 		}
 
 	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
@@ -94,25 +94,25 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	Calculator * create(WeatherFunction theFunction, int theModulo)
+	shared_ptr<Calculator> create(WeatherFunction theFunction, int theModulo)
 	{
 	  switch(theFunction)
 		{
 		case Mean:
-		  return new ModMeanCalculator(theModulo);
+		  return shared_ptr<Calculator>(new ModMeanCalculator(theModulo));
 		case StandardDeviation:
-		  return new ModStandardDeviationCalculator(theModulo);
+		  return shared_ptr<Calculator>(new ModStandardDeviationCalculator(theModulo));
 		case Change:
-		  return new ModChangeCalculator(theModulo);
+		  return shared_ptr<Calculator>(new ModChangeCalculator(theModulo));
 		case Trend:
-		  return new ModTrendCalculator(theModulo);
+		  return shared_ptr<Calculator>(new ModTrendCalculator(theModulo));
 
 		case Percentage:
-		  return new PercentageCalculator;
+		  return shared_ptr<Calculator>(new PercentageCalculator);
 		case Count:
-		  return new CountCalculator;
+		  return shared_ptr<Calculator>(new CountCalculator);
 		case NullFunction:
-		  return new NullCalculator;
+		  return shared_ptr<Calculator>(new NullCalculator);
 
 		case Maximum:
 		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Maximum analyzer");
@@ -137,8 +137,8 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	Calculator * create(WeatherFunction theFunction,
-						const Acceptor & theTester)
+	shared_ptr<Calculator> create(WeatherFunction theFunction,
+								  const Acceptor & theTester)
 	{
 	  switch(theFunction)
 		{
@@ -153,13 +153,13 @@ namespace WeatherAnalysis
 		  return create(theFunction);
 		case Percentage:
 		  {
-			PercentageCalculator * tmp = new PercentageCalculator;
+			shared_ptr<PercentageCalculator> tmp(new PercentageCalculator);
 			tmp->condition(theTester);
 			return tmp;
 		  }
 		case Count:
 		  {
-			CountCalculator * tmp = new CountCalculator;
+			shared_ptr<CountCalculator> tmp(new CountCalculator);
 			tmp->condition(theTester);
 			return tmp;
 		  }
@@ -181,9 +181,9 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	Calculator * create(WeatherFunction theFunction,
-						const Acceptor & theTester,
-						int theModulo)
+	shared_ptr<Calculator> create(WeatherFunction theFunction,
+								  const Acceptor & theTester,
+								  int theModulo)
 	{
 	  switch(theFunction)
 		{
@@ -198,13 +198,13 @@ namespace WeatherAnalysis
 		  return create(theFunction,theModulo);
 		case Percentage:
 		  {
-			PercentageCalculator * tmp = new PercentageCalculator;
+			shared_ptr<PercentageCalculator> tmp(new PercentageCalculator);
 			tmp->condition(theTester);
 			return tmp;
 		  }
 		case Count:
 		  {
-			CountCalculator * tmp = new CountCalculator;
+			shared_ptr<CountCalculator> tmp(new CountCalculator);
 			tmp->condition(theTester);
 			return tmp;
 		  }
@@ -218,3 +218,4 @@ namespace WeatherAnalysis
 } // namespace WeatherAnalysis
 
 // ======================================================================
+

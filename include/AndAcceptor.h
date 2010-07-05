@@ -21,7 +21,7 @@ namespace WeatherAnalysis
 	AndAcceptor(const Acceptor & theLhs, const Acceptor & theRhs);
 	virtual ~AndAcceptor() { }
 	virtual bool accept(float theValue) const;
-	virtual Acceptor * clone() const;
+	virtual boost::shared_ptr<Acceptor> clone() const;
 
   private:
 	

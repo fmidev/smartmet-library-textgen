@@ -105,9 +105,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  Calculator * TrendCalculator::clone() const
+  boost::shared_ptr<Calculator> TrendCalculator::clone() const
   {
-	return new TrendCalculator(*this);
+	return boost::shared_ptr<Calculator>(new TrendCalculator(*this));
   }
 
   // ----------------------------------------------------------------------

@@ -8,6 +8,8 @@
 #ifndef WEATHERANALYSIS_CALCULATOR_H
 #define WEATHERANALYSIS_CALCULATOR_H
 
+#include <boost/shared_ptr.hpp>
+
 namespace WeatherAnalysis
 {
   class Acceptor;
@@ -21,12 +23,8 @@ namespace WeatherAnalysis
 	virtual void operator()(float theValue) = 0;
 	virtual float operator()() const = 0;
 	virtual void acceptor(const Acceptor & theAcceptor) = 0;
-	virtual Calculator * clone() const = 0;
+	virtual boost::shared_ptr<Calculator> clone() const = 0;
 	virtual void reset() = 0;
-
-  private:
-
-	Calculator & operator=(const Calculator & other);
 	
   }; // class Calculator
 

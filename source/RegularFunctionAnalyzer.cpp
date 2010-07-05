@@ -179,13 +179,13 @@ namespace WeatherAnalysis
 
 	if(!itIsModulo)
 	  {
-		timemod.reset(CalculatorFactory::create(itsTimeFunction,theTester));
-		subtimemod.reset(CalculatorFactory::create(itsSubTimeFunction,theTester));
+		timemod = CalculatorFactory::create(itsTimeFunction,theTester);
+		subtimemod = CalculatorFactory::create(itsSubTimeFunction,theTester);
 	  }
 	else
 	  {
-		timemod.reset(CalculatorFactory::create(itsTimeFunction,theTester,itsModulo));
-		subtimemod.reset(CalculatorFactory::create(itsSubTimeFunction,theTester,itsModulo));
+		timemod = CalculatorFactory::create(itsTimeFunction,theTester,itsModulo);
+		subtimemod = CalculatorFactory::create(itsSubTimeFunction,theTester,itsModulo);
 	  }
 	timemod->acceptor(theTimeAcceptor);
 	subtimemod->acceptor(theTimeAcceptor);
@@ -213,9 +213,9 @@ namespace WeatherAnalysis
 		// Result
 
 		if(!itIsModulo)
-		  spacemod.reset(CalculatorFactory::create(itsAreaFunction,theTester));
+		  spacemod = CalculatorFactory::create(itsAreaFunction,theTester);
 		else
-		  spacemod.reset(CalculatorFactory::create(itsAreaFunction,theTester,itsModulo));
+		  spacemod = CalculatorFactory::create(itsAreaFunction,theTester,itsModulo);
 		spacemod->acceptor(theAreaAcceptor);
 
 		float result = QueryDataIntegrator::Integrate(*qi,
@@ -234,9 +234,9 @@ namespace WeatherAnalysis
 		// Calculate standard deviation for the mean
 
 		if(!itIsModulo)
-		  spacemod.reset(CalculatorFactory::create(StandardDeviation,theTester));
+		  spacemod = CalculatorFactory::create(StandardDeviation,theTester);
 		else
-		  spacemod.reset(CalculatorFactory::create(StandardDeviation,theTester,itsModulo));
+		  spacemod = CalculatorFactory::create(StandardDeviation,theTester,itsModulo);
 		spacemod->acceptor(theAreaAcceptor);
 		
 		float error = QueryDataIntegrator::Integrate(*qi,
@@ -281,3 +281,4 @@ namespace WeatherAnalysis
 } // namespace WeatherAnalysis
 
 // ======================================================================
+

@@ -62,9 +62,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  Calculator * NullCalculator::clone() const
+  boost::shared_ptr<Calculator> NullCalculator::clone() const
   {
-	return new NullCalculator(*this);
+	return boost::shared_ptr<Calculator>(new NullCalculator(*this));
   }
 
   // ----------------------------------------------------------------------

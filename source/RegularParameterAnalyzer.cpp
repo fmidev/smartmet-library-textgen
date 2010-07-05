@@ -68,6 +68,7 @@ namespace WeatherAnalysis
 									const Acceptor & theTimeAcceptor,
 									const Acceptor & theTester) const
   {
+
 	auto_ptr<FunctionAnalyzer> analyzer(new RegularFunctionAnalyzer(theAreaFunction,theTimeFunction,theSubTimeFunction));
 
 	return analyzer->analyze(theSources,theDataType,

@@ -9,6 +9,7 @@
 #define WEATHERANALYSIS_CALCULATORFACTORY_H
 
 #include "WeatherFunction.h"
+#include <boost/shared_ptr.hpp>
 
 #include "Calculator.h"
 
@@ -18,17 +19,17 @@ namespace WeatherAnalysis
 
   namespace CalculatorFactory
   {
-	Calculator * create(WeatherFunction theFunction);
+	boost::shared_ptr<Calculator> create(WeatherFunction theFunction);
 
-	Calculator * create(WeatherFunction theFunction,
-						int theModulo);
+	boost::shared_ptr<Calculator> create(WeatherFunction theFunction,
+										 int theModulo);
 
-	Calculator * create(WeatherFunction theFunction,
-						const Acceptor & theTester);
+	boost::shared_ptr<Calculator> create(WeatherFunction theFunction,
+										 const Acceptor & theTester);
 
-	Calculator * create(WeatherFunction theFunction,
-						const Acceptor & theTester,
-						int theModulo);
+	boost::shared_ptr<Calculator> create(WeatherFunction theFunction,
+										 const Acceptor & theTester,
+										 int theModulo);
 
   } // namespace CalculatorFactory
 } // namespace WeatherAnalysis

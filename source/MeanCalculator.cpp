@@ -87,9 +87,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  Calculator * MeanCalculator::clone() const
+  boost::shared_ptr<Calculator> MeanCalculator::clone() const
   {
-	return new MeanCalculator(*this);
+	return boost::shared_ptr<Calculator>(new MeanCalculator(*this));
   }
 
   // ----------------------------------------------------------------------

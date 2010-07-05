@@ -25,39 +25,13 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Destructor
-   */
-  // ----------------------------------------------------------------------
-
-  CountCalculator::~CountCalculator()
-  {
-	delete itsCondition;
-	delete itsAcceptor;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Constructor
    */
   // ----------------------------------------------------------------------
 
   CountCalculator::CountCalculator()
-	: itsAcceptor(new DefaultAcceptor)
-	, itsCondition(new NullAcceptor)
-	, itsCounter(0)
-	, itsTotalCounter(0)
-  {
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Copy constructor
-   */
-  // ----------------------------------------------------------------------
-
-  CountCalculator::CountCalculator(const CountCalculator & other)
-	: itsAcceptor(other.itsAcceptor->clone())
-	, itsCondition(other.itsCondition->clone())
+	: itsAcceptor(new DefaultAcceptor())
+	, itsCondition(new NullAcceptor())
 	, itsCounter(0)
 	, itsTotalCounter(0)
   {
@@ -107,7 +81,7 @@ namespace WeatherAnalysis
 
   void CountCalculator::acceptor(const Acceptor & theAcceptor)
   {
-	itsAcceptor = theAcceptor.clone();
+	itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
   }
 
   // ----------------------------------------------------------------------
@@ -120,7 +94,7 @@ namespace WeatherAnalysis
 
   void CountCalculator::condition(const Acceptor & theCondition)
   {
-	itsCondition = theCondition.clone();
+	itsCondition = shared_ptr<Acceptor>(theCondition.clone());
   }
 
   // ----------------------------------------------------------------------
@@ -129,9 +103,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  Calculator * CountCalculator::clone() const
+  boost::shared_ptr<Calculator> CountCalculator::clone() const
   {
-	return new CountCalculator(*this);
+	return boost::shared_ptr<Calculator>(new CountCalculator(*this));
   }
 
   // ----------------------------------------------------------------------

@@ -128,9 +128,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  Calculator * ModStandardDeviationCalculator::clone() const
+  boost::shared_ptr<Calculator> ModStandardDeviationCalculator::clone() const
   {
-	return new ModStandardDeviationCalculator(*this);
+	return boost::shared_ptr<Calculator>(new ModStandardDeviationCalculator(*this));
   }
 
   // ----------------------------------------------------------------------

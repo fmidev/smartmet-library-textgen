@@ -16,7 +16,6 @@
 #include "DefaultAcceptor.h"
 #include "NullAcceptor.h"
 
-#include <iostream>
 #include <newbase/NFmiGlobals.h>
 
 using namespace boost;
@@ -26,39 +25,13 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Destructor
-   */
-  // ----------------------------------------------------------------------
-
-  PercentageCalculator::~PercentageCalculator()
-  {
-	delete itsCondition;
-	delete itsAcceptor;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Constructor
    */
   // ----------------------------------------------------------------------
 
   PercentageCalculator::PercentageCalculator()
-	: itsCondition(new NullAcceptor)
-	, itsAcceptor(new DefaultAcceptor)
-	, itsCounter(0)
-	, itsTotalCounter(0)
-  {
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Copy constructor
-   */
-  // ----------------------------------------------------------------------
-
-  PercentageCalculator::PercentageCalculator(const PercentageCalculator & other)
-	: itsCondition(other.itsCondition->clone())
-	, itsAcceptor(other.itsAcceptor->clone())
+	: itsAcceptor(new DefaultAcceptor())
+	, itsCondition(new NullAcceptor())
 	, itsCounter(0)
 	, itsTotalCounter(0)
   {
@@ -108,7 +81,7 @@ namespace WeatherAnalysis
 
   void PercentageCalculator::acceptor(const Acceptor & theAcceptor)
   {
-	itsAcceptor = theAcceptor.clone();
+	itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
   }
 
   // ----------------------------------------------------------------------
@@ -121,7 +94,7 @@ namespace WeatherAnalysis
 
   void PercentageCalculator::condition(const Acceptor & theCondition)
   {
-	itsCondition = theCondition.clone();
+	itsCondition = shared_ptr<Acceptor>(theCondition.clone());
   }
 
   // ----------------------------------------------------------------------
@@ -130,9 +103,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  Calculator * PercentageCalculator::clone() const
+  boost::shared_ptr<Calculator> PercentageCalculator::clone() const
   {
-	return new PercentageCalculator(*this);
+	return boost::shared_ptr<Calculator>(new PercentageCalculator(*this));
   }
 
   // ----------------------------------------------------------------------
