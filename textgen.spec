@@ -1,14 +1,14 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 10.7.5
+Version: 10.7.12
 Release: 1.el5.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 10.7.5-1
+BuildRequires: libsmartmet-newbase >= 10.7.5-2
 BuildRequires: boost-devel >= 1.41
 BuildRequires: mysql-devel
 Provides: %{LIBNAME}
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jul 12 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.7.12-1.el5.fmi
+- Compiled without optimization to prevent segmentation faults
 * Mon Jul  5 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.7.5-1.el5.fmi
 - Upgraded to newbase 10.7.5
 - New temperature and weather stories by Anssi Reponen
