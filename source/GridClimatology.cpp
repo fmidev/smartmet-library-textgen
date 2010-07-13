@@ -64,8 +64,7 @@ namespace WeatherAnalysis
 						  const Acceptor & theTester) const
   {
 
-	shared_ptr<ParameterAnalyzer> analyzer;
-	analyzer = ParameterAnalyzerFactory::create(theParameter);
+	shared_ptr<ParameterAnalyzer> analyzer(ParameterAnalyzerFactory::create(theParameter));
 
 	return analyzer->analyze(theSources,
 							 Climatology,

@@ -26,7 +26,7 @@ namespace WeatherAnalysis
 
 	virtual ~ComparativeAcceptor() { }
 	virtual bool accept(float theValue) const;
-	virtual boost::shared_ptr<Acceptor> clone() const;
+	virtual Acceptor * clone() const;
 
 	ComparativeAcceptor(const float& theLimit = kFloatMissing,
 						const comparative_operator& theOperator = VOID_OPERATOR);

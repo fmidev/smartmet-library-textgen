@@ -35,13 +35,27 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Copy constructor
+   *
+   * \param theOther The acceptor to copy
+   */
+  // ----------------------------------------------------------------------
+
+  OrAcceptor::OrAcceptor(const OrAcceptor & theOther)
+	: itsLhs(theOther.itsLhs->clone())
+	, itsRhs(theOther.itsRhs->clone())
+  {
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Clone
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<Acceptor> OrAcceptor::clone() const
+  Acceptor * OrAcceptor::clone() const
   {
-	return boost::shared_ptr<Acceptor>(new OrAcceptor(*this));
+	return new OrAcceptor(*this);
   }
 
   // ----------------------------------------------------------------------

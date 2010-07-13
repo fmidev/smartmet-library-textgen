@@ -39,6 +39,20 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Copy constructor
+   */
+  // ----------------------------------------------------------------------
+
+  PercentageCalculator::PercentageCalculator(const PercentageCalculator & theOther)
+	: itsAcceptor(theOther.itsAcceptor->clone())
+	, itsCondition(theOther.itsCondition->clone())
+	, itsCounter(theOther.itsCounter)
+	, itsTotalCounter(theOther.itsTotalCounter)
+  {
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Integrate a new value
    *
    * \param theValue
@@ -81,7 +95,7 @@ namespace WeatherAnalysis
 
   void PercentageCalculator::acceptor(const Acceptor & theAcceptor)
   {
-	itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
+	itsAcceptor = theAcceptor.clone();
   }
 
   // ----------------------------------------------------------------------
@@ -94,7 +108,7 @@ namespace WeatherAnalysis
 
   void PercentageCalculator::condition(const Acceptor & theCondition)
   {
-	itsCondition = shared_ptr<Acceptor>(theCondition.clone());
+	itsCondition = theCondition.clone();
   }
 
   // ----------------------------------------------------------------------

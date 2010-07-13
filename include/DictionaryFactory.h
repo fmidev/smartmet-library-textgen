@@ -9,13 +9,12 @@
 #define TEXTGEN_DICTIONARYFACTORY_H
 
 #include "Dictionary.h"
-#include <boost/shared_ptr.hpp>
 
 namespace TextGen
 {
   namespace DictionaryFactory
   {
-	boost::shared_ptr<Dictionary> create(const std::string & theType);
+	Dictionary * create(const std::string & theType);
 
   } // namespace DictionaryFactory
 } // namespace TextGen

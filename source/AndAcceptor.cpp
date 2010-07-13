@@ -21,6 +21,20 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Copy Constructor
+   *
+   * \param theOther The acceptor
+   */
+  // ----------------------------------------------------------------------
+
+  AndAcceptor::AndAcceptor(const AndAcceptor & theOther)
+	: itsLhs(theOther.itsLhs->clone())
+	, itsRhs(theOther.itsRhs->clone())
+  {
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Constructor
    *
    * \param theLhs The first acceptor
@@ -41,9 +55,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<Acceptor> AndAcceptor::clone() const
+  Acceptor * AndAcceptor::clone() const
   {
-	return boost::shared_ptr<Acceptor>(new AndAcceptor(*this));
+	return new AndAcceptor(*this);
   }
 
   // ----------------------------------------------------------------------

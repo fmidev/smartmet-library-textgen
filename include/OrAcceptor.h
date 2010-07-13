@@ -9,7 +9,6 @@
 #define WEATHERANALYSIS_ORACCEPTOR_H
 
 #include "Acceptor.h"
-#include <boost/shared_ptr.hpp>
 #include <functional>
 
 namespace WeatherAnalysis
@@ -18,17 +17,18 @@ namespace WeatherAnalysis
   {
   public:
 
+	OrAcceptor(const OrAcceptor & theOther);
 	OrAcceptor(const Acceptor & theLhs, const Acceptor & theRhs);
-	virtual ~OrAcceptor() { }
+	virtual ~OrAcceptor() { delete itsLhs; delete itsRhs; }
 	virtual bool accept(float theValue) const;
-	virtual boost::shared_ptr<Acceptor> clone() const;
+	virtual Acceptor * clone() const;
 
   private:
 	
 	OrAcceptor();
 
-	boost::shared_ptr<Acceptor> itsLhs;
-	boost::shared_ptr<Acceptor> itsRhs;
+	Acceptor * itsLhs;
+	Acceptor * itsRhs;
 
   }; // class OrAcceptor
 } // namespace WeatherAnalysis

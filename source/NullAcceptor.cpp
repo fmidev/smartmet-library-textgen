@@ -7,7 +7,7 @@
 /*!
  * \class WeatherAnalysis::NullAcceptor
  *
- * \brief Acceptor is a class which accepts everything but kFloatMissing
+ * \brief Acceptor is a class which accepts everything
  *
  */
 // ======================================================================
@@ -24,9 +24,9 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<Acceptor> NullAcceptor::clone() const
+  Acceptor * NullAcceptor::clone() const
   {
-	return boost::shared_ptr<Acceptor>(new NullAcceptor(*this));
+	return new NullAcceptor(*this);
   }
 
   // ----------------------------------------------------------------------

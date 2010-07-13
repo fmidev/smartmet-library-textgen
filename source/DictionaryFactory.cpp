@@ -14,10 +14,10 @@
  *
  * For example,
  * \code
- * boost::shared_ptr<Dictionary> dict1 = DictionaryFactory::create("null");
- * boost::shared_ptr<Dictionary> dict2 = DictionaryFactory::create("basic");
- * boost::shared_ptr<Dictionary> dict3 = DictionaryFactory::create("mysql");
- * boost::shared_ptr<Dictionary> dict3 = DictionaryFactory::create("file");
+ * boost::shared_ptr<Dictionary> dict1(DictionaryFactory::create("null"));
+ * boost::shared_ptr<Dictionary> dict2(DictionaryFactory::create("basic"));
+ * boost::shared_ptr<Dictionary> dict3(DictionaryFactory::create("mysql"));
+ * boost::shared_ptr<Dictionary> dict3(DictionaryFactory::create("file"));
  * \endcode
  *
  */
@@ -45,18 +45,18 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  shared_ptr<Dictionary> DictionaryFactory::create(const std::string & theType)
+  Dictionary * DictionaryFactory::create(const std::string & theType)
   {
 	if(theType == "null")
-	  return shared_ptr<Dictionary>(new NullDictionary());
+	  return new NullDictionary();
 	if(theType == "basic")
-	  return shared_ptr<Dictionary>(new BasicDictionary());
+	  return new BasicDictionary();
 	if(theType == "file")
-	  return shared_ptr<Dictionary>(new FileDictionary());
+	  return new FileDictionary();
 	if(theType == "mysql")
-	  return shared_ptr<Dictionary>(new MySQLDictionary());
+	  return new MySQLDictionary();
 	if(theType == "multimysql")
-	  return shared_ptr<Dictionary>(new MySQLDictionaries());
+	  return new MySQLDictionaries();
 	  
 	throw TextGenError("Error: Unknown dictionary type "+theType);
   }

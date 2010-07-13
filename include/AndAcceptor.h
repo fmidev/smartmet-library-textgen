@@ -9,7 +9,6 @@
 #define WEATHERANALYSIS_ANDACCEPTOR_H
 
 #include "Acceptor.h"
-#include <boost/shared_ptr.hpp>
 #include <functional>
 
 namespace WeatherAnalysis
@@ -18,17 +17,18 @@ namespace WeatherAnalysis
   {
   public:
 
+	AndAcceptor(const AndAcceptor & theOther);
 	AndAcceptor(const Acceptor & theLhs, const Acceptor & theRhs);
-	virtual ~AndAcceptor() { }
+	virtual ~AndAcceptor() { delete itsLhs; delete itsRhs; }
 	virtual bool accept(float theValue) const;
-	virtual boost::shared_ptr<Acceptor> clone() const;
+	virtual Acceptor * clone() const;
 
   private:
 	
 	AndAcceptor();
 
-	boost::shared_ptr<Acceptor> itsLhs;
-	boost::shared_ptr<Acceptor> itsRhs;
+	Acceptor * itsLhs;
+	Acceptor * itsRhs;
 
   }; // class AndAcceptor
 } // namespace WeatherAnalysis

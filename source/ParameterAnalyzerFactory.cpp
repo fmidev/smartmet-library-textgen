@@ -14,7 +14,7 @@
  *
  * For example,
  * \code
- * boost::shared_ptr<ParameterAnalyzer> analyzer = ParameterAnalyzerFactory::create(Temperature);
+ * boost::shared_ptr<ParameterAnalyzer> analyzer(ParameterAnalyzerFactory::create(Temperature));
  * \endcode
  *
  */
@@ -25,8 +25,6 @@
 #include "RegularParameterAnalyzer.h"
 #include "WindChillParameterAnalyzer.h"
 #include "WeatherAnalysisError.h"
-
-using namespace boost;
 
 namespace WeatherAnalysis
 {
@@ -42,137 +40,135 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 	
-	shared_ptr<ParameterAnalyzer> create(WeatherParameter theParameter)
+	ParameterAnalyzer * create(WeatherParameter theParameter)
 	{
-	  typedef shared_ptr<ParameterAnalyzer> ReturnType;
-
 	  switch(theParameter)
 		{
 		case WindDirection:
-		  return ReturnType(new ModuloParameterAnalyzer("textgen::winddirection",
-														"WindDirection",
-														360));
+		  return new ModuloParameterAnalyzer("textgen::winddirection",
+											 "WindDirection",
+											 360);
 		case WaveDirection:
-		  return ReturnType(new ModuloParameterAnalyzer("textgen::wavedirection",
-														"WaveDirection",
-														360));
+		  return new ModuloParameterAnalyzer("textgen::wavedirection",
+											 "WaveDirection",
+											 360);
 		case Temperature:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::temperature",
-														 "Temperature"));
+		  return new RegularParameterAnalyzer("textgen::temperature",
+											  "Temperature");
 		case Precipitation:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::precipitation",
-														 "Precipitation1h"));
+		  return new RegularParameterAnalyzer("textgen::precipitation",
+											  "Precipitation1h");
 		case Cloudiness:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::cloudiness",
-														 "TotalCloudCover"));
+		  return new RegularParameterAnalyzer("textgen::cloudiness",
+											  "TotalCloudCover");
 		case Frost:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::frost",
-														 "FrostProbability"));
+		  return new RegularParameterAnalyzer("textgen::frost",
+											  "FrostProbability");
 		case SevereFrost:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::severefrost",
-														 "SevereFrostProbability"));
+		  return new RegularParameterAnalyzer("textgen::severefrost",
+											  "SevereFrostProbability");
 		case RelativeHumidity:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::relativehumidity",
-														 "Humidity"));
+		  return new RegularParameterAnalyzer("textgen::relativehumidity",
+											  "Humidity");
 		case WindSpeed:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::windspeed",
-														 "WindSpeedMS"));
+		  return new RegularParameterAnalyzer("textgen::windspeed",
+											  "WindSpeedMS");
 		case Thunder:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::thunder",
-														 "ProbabilityThunderstorm"));
+		  return new RegularParameterAnalyzer("textgen::thunder",
+											  "ProbabilityThunderstorm");
 		case PrecipitationType:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::precipitationtype",
-														 "PrecipitationType"));
+		  return new RegularParameterAnalyzer("textgen::precipitationtype",
+											  "PrecipitationType");
 		case PrecipitationForm:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::precipitationform",
-														 "PrecipitationForm"));
+		  return new RegularParameterAnalyzer("textgen::precipitationform",
+											  "PrecipitationForm");
 		case PrecipitationProbability:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::precipitationprobability",
-														 "PoP"));
+		  return new RegularParameterAnalyzer("textgen::precipitationprobability",
+											  "PoP");
 		case RoadTemperature:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::roadtemperature",
-														 "RoadTemperature"));
+		  return new RegularParameterAnalyzer("textgen::roadtemperature",
+											  "RoadTemperature");
 		case RoadCondition:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::roadcondition",
-														 "RoadCondition"));
+		  return new RegularParameterAnalyzer("textgen::roadcondition",
+											  "RoadCondition");
 		case WaveHeight:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::waveheight",
-														 "SigWaveHeight"));
+		  return new RegularParameterAnalyzer("textgen::waveheight",
+											  "SigWaveHeight");
 
 		case RoadWarning:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::roadwarning",
-														 "RoadWarning"));
+		  return new RegularParameterAnalyzer("textgen::roadwarning",
+											  "RoadWarning");
 		  
 		case ForestFireIndex:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::forestfireindex",
-														 "ForestFireWarning"));
+		  return new RegularParameterAnalyzer("textgen::forestfireindex",
+											  "ForestFireWarning");
 		case Evaporation:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::evaporation",
-														 "Evaporation"));
+		  return new RegularParameterAnalyzer("textgen::evaporation",
+											  "Evaporation");
 
 		case DewPoint:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::dewpoint",
-														 "DewPoint"));
+		  return new RegularParameterAnalyzer("textgen::dewpoint",
+											  "DewPoint");
 		case GustSpeed:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::gustspeed",
-														 "HourlyMaximumGust"));
+		  return new RegularParameterAnalyzer("textgen::gustspeed",
+											  "HourlyMaximumGust");
 		case Pressure:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::pressure",
-														 "Pressure"));
+		  return new RegularParameterAnalyzer("textgen::pressure",
+											  "Pressure");
 		case Fog:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::fog",
-														 "FogIntensity"));
+		  return new RegularParameterAnalyzer("textgen::fog",
+											  "FogIntensity");
 		case MaximumWind:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::maximumwind",
-														 "HourlyMaximumWindSpeed"));
+		  return new RegularParameterAnalyzer("textgen::maximumwind",
+											  "HourlyMaximumWindSpeed");
 
 		case EffectiveTemperatureSum:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::effectivetemperaturesum",
-														 "EffectiveTemperatureSum"));
+		  return new RegularParameterAnalyzer("textgen::effectivetemperaturesum",
+											  "EffectiveTemperatureSum");
 
 		case PrecipitationRate:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::precipitationrate",
-														 "PrecipitationRate"));
+		  return new RegularParameterAnalyzer("textgen::precipitationrate",
+											  "PrecipitationRate");
 		case WaterEquivalentOfSnow:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::waterequivalentofsnow",
-														 "WaterEquivalentOfSnow"));
+		  return new RegularParameterAnalyzer("textgen::waterequivalentofsnow",
+											  "WaterEquivalentOfSnow");
 
 		case NormalMaxTemperatureF02:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
-														 "NormalMaxTemperatureF02"));
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMaxTemperatureF02");
 
 		case NormalMaxTemperatureF12:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
-														 "NormalMaxTemperatureF12"));
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMaxTemperatureF12");
 
 
 		case NormalMaxTemperatureF37:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
-														 "NormalMaxTemperatureF37"));
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMaxTemperatureF37");
 
 
 		case NormalMaxTemperatureF50:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
-														 "NormalMaxTemperatureF50"));
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMaxTemperatureF50");
 
 
 		case NormalMaxTemperatureF63:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
-														 "NormalMaxTemperatureF63"));
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMaxTemperatureF63");
 
 
 		case NormalMaxTemperatureF88:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
-														 "NormalMaxTemperatureF88"));
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMaxTemperatureF88");
 
 
 		case NormalMaxTemperatureF98:
-		  return ReturnType(new RegularParameterAnalyzer("textgen::fractiles",
-														 "NormalMaxTemperatureF98"));
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMaxTemperatureF98");
 
 		case WindChill:
-		  return ReturnType(new WindChillParameterAnalyzer("textgen::windchill",
-														 "WindChill"));
+		  return new WindChillParameterAnalyzer("textgen::windchill",
+												"WindChill");
 
 	  }
 

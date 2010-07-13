@@ -14,8 +14,8 @@
  *
  * For example,
  * \code
- * boost::shared_ptr<TextFormatter> form1 = TextFormatterFactory::create("plain");
- * boost::shared_ptr<TextFormatter> form2 = TextFormatterFactory::create("html");
+ * boost::shared_ptr<TextFormatter> form1(TextFormatterFactory::create("plain"));
+ * boost::shared_ptr<TextFormatter> form2(TextFormatterFactory::create("html"));
  * \endcode
  *
  */
@@ -52,22 +52,22 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	shared_ptr<TextFormatter> create(const std::string & theType)
+	TextFormatter * create(const std::string & theType)
 	{
 	  if(theType == "plain")
-		return shared_ptr<TextFormatter>(new PlainTextFormatter());
+		return new PlainTextFormatter();
 	  if(theType == "plainlines")
-		return shared_ptr<TextFormatter>(new PlainLinesTextFormatter());
+		return new PlainLinesTextFormatter();
 	  if(theType == "html")
-		return shared_ptr<TextFormatter>(new HtmlTextFormatter());
+		return new HtmlTextFormatter();
 	  if(theType == "speechtext")
-		return shared_ptr<TextFormatter>(new SpeechTextFormatter());
+		return new SpeechTextFormatter();
 	  if(theType == "wml")
-		return shared_ptr<TextFormatter>(new WmlTextFormatter());
+		return new WmlTextFormatter();
 	  if(theType == "sonera")
-		return shared_ptr<TextFormatter>(new SoneraTextFormatter());
+		return new SoneraTextFormatter();
 	  if(theType == "debug")
-		return shared_ptr<TextFormatter>(new DebugTextFormatter());
+		return new DebugTextFormatter();
 	  throw TextGenError("Error: Unknown text formatter type "+theType);
 	}
 

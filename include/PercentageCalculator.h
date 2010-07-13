@@ -18,6 +18,7 @@ namespace WeatherAnalysis
   public:
 
 	PercentageCalculator();
+	PercentageCalculator(const PercentageCalculator & theOther);
 	virtual ~PercentageCalculator() { }
 	virtual void operator()(float theValue);
 	virtual float operator()() const;
@@ -29,8 +30,8 @@ namespace WeatherAnalysis
 
   private:
 
-	boost::shared_ptr<Acceptor> itsAcceptor;
-	boost::shared_ptr<Acceptor> itsCondition;
+	Acceptor * itsAcceptor;
+	Acceptor * itsCondition;
 	long itsCounter;
 	long itsTotalCounter;
 
