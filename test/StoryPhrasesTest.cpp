@@ -906,7 +906,7 @@ int main(void)
 	   << "StoryFactory requirements" << endl
 	   << "==========================" << endl;
 
-  StoryPhrasesTest::dict = TextGen::DictionaryFactory::create("mysql");
+  StoryPhrasesTest::dict.reset(TextGen::DictionaryFactory::create("mysql"));
   StoryPhrasesTest::dict->init("fi");
 
   StoryPhrasesTest::tests t;

@@ -885,7 +885,7 @@ int main(void)
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::units::millimeters::format","phrase");
 
-  dict = TextGen::DictionaryFactory::create("multimysql");
+  dict.reset(TextGen::DictionaryFactory::create("multimysql"));
 
   dict->init("fi");
   dict->init("sv");

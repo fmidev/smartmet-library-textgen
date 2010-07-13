@@ -5,6 +5,8 @@
 
 #include <newbase/NFmiSettings.h>
 
+#include <boost/shared_ptr.hpp>
+
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -110,7 +112,7 @@ int main(void)
 	   << "WindStoryTools tests" << endl
 	   << "====================" << endl;
 
-  dict = TextGen::DictionaryFactory::create("null");
+  dict.reset(TextGen::DictionaryFactory::create("null"));
 
   NFmiSettings::Set("textgen::units::celsius::format","phrase");
 

@@ -72,7 +72,7 @@ int main(void)
 	   << "TemperatureStoryTools tests" << endl
 	   << "===========================" << endl;
 
-  dict = TextGen::DictionaryFactory::create("null");
+  dict.reset(TextGen::DictionaryFactory::create("null"));
 
   NFmiSettings::Set("textgen::units::celsius::format","phrase");
 

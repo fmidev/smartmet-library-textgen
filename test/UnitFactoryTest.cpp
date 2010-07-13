@@ -26,7 +26,7 @@ namespace UnitFactoryTest
 	using namespace TextGen;
 	using namespace UnitFactory;
 
-	shared_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
+	shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
 	finnish->init("fi");
 
 	PlainTextFormatter formatter;
@@ -64,7 +64,7 @@ namespace UnitFactoryTest
 	using namespace TextGen;
 	using namespace UnitFactory;
 
-	shared_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
+	shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
 	finnish->init("fi");
 
 	PlainTextFormatter formatter;
@@ -102,7 +102,7 @@ namespace UnitFactoryTest
 	using namespace TextGen;
 	using namespace UnitFactory;
 
-	shared_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
+	shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
 	finnish->init("fi");
 
 	PlainTextFormatter formatter;
@@ -140,7 +140,7 @@ namespace UnitFactoryTest
 	using namespace TextGen;
 	using namespace UnitFactory;
 
-	shared_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
+	shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
 	finnish->init("fi");
 
 	PlainTextFormatter formatter;
@@ -178,7 +178,7 @@ namespace UnitFactoryTest
 	using namespace TextGen;
 	using namespace UnitFactory;
 
-	shared_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
+	shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
 	finnish->init("fi");
 
 	PlainTextFormatter formatter;

@@ -307,7 +307,7 @@ int main(void)
 	   << "WeatherStory tests" << endl
 	   << "==================" << endl;
 
-  dict = TextGen::DictionaryFactory::create("multimysql");
+  dict.reset(TextGen::DictionaryFactory::create("multimysql"));
 
   dict->init("fi");
   dict->init("sv");

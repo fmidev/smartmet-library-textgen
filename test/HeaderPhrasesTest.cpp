@@ -248,7 +248,7 @@ int main(void)
 	   << "HeaderFactory requirements" << endl
 	   << "==========================" << endl;
 
-  HeaderPhrasesTest::dict = TextGen::DictionaryFactory::create("mysql");
+  HeaderPhrasesTest::dict.reset(TextGen::DictionaryFactory::create("mysql"));
   HeaderPhrasesTest::dict->init("fi");
 
   HeaderPhrasesTest::tests t;

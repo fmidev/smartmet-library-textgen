@@ -143,7 +143,7 @@ int main(void)
 	   << "DewPointStory tests" << endl
 	   << "===================" << endl;
 
-  dict = TextGen::DictionaryFactory::create("multimysql");
+  dict.reset(TextGen::DictionaryFactory::create("multimysql"));
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::units::celsius::format","phrase");

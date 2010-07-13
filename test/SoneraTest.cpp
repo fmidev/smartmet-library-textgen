@@ -433,7 +433,7 @@ int main(void)
 	   << "SoneraPhrases requirements" << endl
 	   << "==========================" << endl;
   
-  SoneraTest::dict = TextGen::DictionaryFactory::create("mysql");
+  SoneraTest::dict.reset(TextGen::DictionaryFactory::create("mysql"));
   SoneraTest::dict->init("sonera");
   
   SoneraTest::tests t;

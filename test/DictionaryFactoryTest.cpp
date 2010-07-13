@@ -1,6 +1,8 @@
 #include <regression/tframe.h>
 #include "DictionaryFactory.h"
 
+#include <boost/shared_ptr.hpp>
+
 #include <iostream>
 #include <string>
 
@@ -15,14 +17,14 @@ namespace DictionaryFactoryTest
 	using namespace TextGen;
 
 	// Should succeed
-	boost::shared_ptr<Dictionary> dict1 = DictionaryFactory::create("null");
-	boost::shared_ptr<Dictionary> dict2 = DictionaryFactory::create("basic");
-	boost::shared_ptr<Dictionary> dict3 = DictionaryFactory::create("mysql");
+	boost::shared_ptr<Dictionary> dict1(DictionaryFactory::create("null"));
+	boost::shared_ptr<Dictionary> dict2(DictionaryFactory::create("basic"));
+	boost::shared_ptr<Dictionary> dict3(DictionaryFactory::create("mysql"));
 
 	// Should throw
 	try
 	  {
-		boost::shared_ptr<Dictionary> dict4 = DictionaryFactory::create("foobar");
+		boost::shared_ptr<Dictionary> dict4(DictionaryFactory::create("foobar"));
 		TEST_FAILED("create(foobar) should have thrown");
 	  }
 	catch(...) { }

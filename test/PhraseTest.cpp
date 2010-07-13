@@ -36,10 +36,10 @@ namespace PhraseTest
 	using namespace boost;
 	using namespace TextGen;
 
-	shared_ptr<Dictionary> finnish = DictionaryFactory::create("mysql");
+	shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
 	finnish->init("fi");
 
-	shared_ptr<Dictionary> english = DictionaryFactory::create("mysql");
+	shared_ptr<Dictionary> english(DictionaryFactory::create("mysql"));
 	english->init("en");
 	
 	Phrase s1("lämpötila");;
