@@ -99,6 +99,8 @@ using namespace std;
 #define RANTA_TAVUVIIVA_WORD "r‰nt‰-"
 #define LUMI_TAVUVIIVA_WORD "lumi-"
 #define TAI_WORD "tai"
+#define VESI_KUUROJA_WORD "r‰nt‰kuuroja"
+#define RANTA_KUUROJA_WORD "vesikuuroja"
 #define JOKA_VOI_OLLA_JAATAVAA_PHRASE "joka voi olla j‰‰t‰v‰‰"
 #define JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE "jotka voivat olla j‰‰t‰vi‰"
 #define YKSITTAISET_SADEKUUROT_MAHDOLLISIA "yksitt‰iset sadekuurot ovat kuitenkin mahdollisia"
@@ -109,11 +111,9 @@ using namespace std;
 #define YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA "yksitt‰iset lumi- tai r‰nt‰kuurot ovat kuitenkin mahdollisia"
 #define YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA "yksitt‰iset vesi- tai lumikuurot ovat kuitenkin mahdollisia"
 
-#define VESI_RANTA_KUUROJA "vesi- tai r‰nt‰kuuroja"
-#define RANTA_VESI_KUUROJA "r‰nt‰- tai vesikuuroja"
 
 #define SELKEAA_LIMIT 9.9
-#define MELKEIN_SELKEAA_LIMIT 35.0
+#define MELKEIN_SELKEAA_LIMIT 35
 #define PUOLIPILVISTA_LIMIT 65.0
 #define VERRATTAIN_PILVISTA_LIMIT 85.0
 
@@ -198,8 +198,8 @@ using namespace std;
 	  MELKO_SELKEAA,
 	  PUOLIPILVISTA,
 	  VERRATTAIN_PILVISTA,
-	  PUOLIPILVISTA_JA_PILVISTA,
 	  PILVISTA,
+	  PUOLIPILVISTA_JA_PILVISTA,
 	  MISSING_CLOUDINESS_ID
 	};
 
@@ -246,6 +246,25 @@ using namespace std;
 	  WeatherResult theResult;
 	  part_of_the_day_id thePartOfTheDay;
 	};
+
+  std::ostream& operator<<(std::ostream & theOutput,
+						   const WeatherResultDataItem& theWeatherResultDataItem)
+  {
+	const WeatherResult theResult(theWeatherResultDataItem.theResult);
+
+	theOutput << theWeatherResultDataItem.thePeriod.localStartTime()
+			  << " ... "
+			  << theWeatherResultDataItem.thePeriod.localEndTime()
+			  << ": "
+			  << '('
+			  << theWeatherResultDataItem.theResult.value()
+			  << ','
+			  << theWeatherResultDataItem.theResult.error()
+			  << ')'
+			  << endl;
+
+	return theOutput;
+  }
 
   struct PrecipitationDataItem
   {
@@ -335,7 +354,6 @@ using namespace std;
 	const CloudinessDataItemData* theCoastalData;
 	const CloudinessDataItemData* theInlandData;
 	const CloudinessDataItemData* theFullData;
-
 	
 	~CloudinessDataItem()
 	{
@@ -365,6 +383,91 @@ using namespace std;
 	float theMaxProbability;
 	float theStandardDeviationProbability;
   };
+
+
+  // overloaded stream operators
+  std::ostream& operator<<(std::ostream & theOutput,
+						   const CloudinessDataItemData& theCloudinessDataItemData)
+  {
+	string cloudinessIdStr;
+	switch(theCloudinessDataItemData.theId)
+	  {
+	  case SELKEAA:
+		cloudinessIdStr = "selke‰‰";
+	  break;
+	  case MELKO_SELKEAA:
+		cloudinessIdStr = "melko selke‰‰";
+	  break;
+	  case PUOLIPILVISTA:
+		cloudinessIdStr = "puolipilvist‰";
+	  break;
+	  case VERRATTAIN_PILVISTA:
+		cloudinessIdStr = "verrattain pilvist‰";
+	  break;
+	  case PILVISTA:
+		cloudinessIdStr = "pilvist‰";
+	  break;
+	  case PUOLIPILVISTA_JA_PILVISTA:
+		cloudinessIdStr = "vaihtelee puolipilvisest‰ pilviseen";
+	  break;
+	  default:
+		cloudinessIdStr = "missing cloudiness id";
+	  break;
+	  }
+
+	string trendIdStr;
+	switch(theCloudinessDataItemData.theTrendId)
+	  {
+	  case PILVISTYY:
+		trendIdStr = "pilvistyy";
+		break;
+	  case SELKENEE:
+		trendIdStr = "selkenee";
+		break;
+	  case POUTAANTUU:
+		trendIdStr = "poutaantuu";
+		break;
+	  case SADE_ALKAA:
+		trendIdStr = "sade alkaa";
+		break;
+	  default:
+		trendIdStr = "no trend";
+		break;
+	  }
+
+	theOutput << "    " << cloudinessIdStr << ": ";
+	theOutput << "min=" << theCloudinessDataItemData.theMin << " ";
+	theOutput << "mean=" << theCloudinessDataItemData.theMean << " ";
+	theOutput << "max=" << theCloudinessDataItemData.theMax << " ";
+	theOutput << "std.dev=" << theCloudinessDataItemData.theStandardDeviation << endl;
+	theOutput << "    trend: " << trendIdStr << endl;
+
+	return theOutput;
+  }
+
+  std::ostream& operator<<(std::ostream & theOutput,
+						   const CloudinessDataItem& theCloudinessDataItem)
+  {
+	if(theCloudinessDataItem.theCoastalData)
+	  {
+		theOutput << "  Coastal" << endl;
+		theOutput << *theCloudinessDataItem.theCoastalData;
+	  }
+	if(theCloudinessDataItem.theInlandData)
+	  {
+		theOutput << "  Inland" << endl;
+		theOutput << *theCloudinessDataItem.theInlandData;
+	  }
+	if(theCloudinessDataItem.theFullData)
+	  {
+		theOutput << "  Full area" << endl;
+		theOutput << *theCloudinessDataItem.theFullData;
+	  }
+	return theOutput;
+  }
+
+
+
 
   typedef vector<WeatherResultDataItem*> weather_result_data_item_vector;
   typedef map<int, weather_result_data_item_vector*> weather_forecast_result_container;
@@ -696,7 +799,7 @@ using namespace std;
 			 << thePeriod.localEndTime()
 			 << endl;
 	}
-
+  /*
   const void log_weather_result_data_item(MessageLogger& theLog, 
 										  const WeatherResultDataItem& theWeatherResultDataItem)
   {
@@ -707,7 +810,7 @@ using namespace std;
 		   << theWeatherResultDataItem.theResult
 		   << endl;
   }
-
+  */
   const void log_weather_result_time_series(MessageLogger& theLog, 
 											const std::string& theLogMessage, 
 											const weather_result_data_item_vector& theTimeSeries)
@@ -717,7 +820,8 @@ using namespace std;
 	for(unsigned int i = 0; i < theTimeSeries.size(); i++)
 	  {
 		//		const WeatherResultDataItem& theWeatherResultDataItem = *theTimeSeries[i]; 
-		log_weather_result_data_item(theLog, *theTimeSeries[i]);
+		//log_weather_result_data_item(theLog, *theTimeSeries[i]);
+		theLog << *theTimeSeries[i];
 	  } 
   }
 
@@ -777,7 +881,7 @@ using namespace std;
 	  }
   }
 
-  const void log_subperiods(wf_story_params& theParameters)
+const void log_subperiods(wf_story_params& theParameters)
   {
 	NightAndDayPeriodGenerator generator(theParameters.thePeriod, theParameters.theVariable);
 
@@ -1557,20 +1661,12 @@ using namespace std;
   }
 
   bool puolipilvisesta_pilviseen(const cloudiness_id& theCloudinessId1,
-								 const cloudiness_id& theCloudinessId2,
-								 const cloudiness_id& theCloudinessId3 = MISSING_CLOUDINESS_ID ,
-								 const cloudiness_id& theCloudinessId4 = MISSING_CLOUDINESS_ID)
+								 const cloudiness_id& theCloudinessId2)
   {
-	if(theCloudinessId1 != MISSING_CLOUDINESS_ID && theCloudinessId1 != PILVISTA && theCloudinessId1 != PUOLIPILVISTA)
-	  return false;
-	if(theCloudinessId2 != MISSING_CLOUDINESS_ID && theCloudinessId2 != PILVISTA && theCloudinessId2 != PUOLIPILVISTA)
-	  return false;
-	if(theCloudinessId3 != MISSING_CLOUDINESS_ID && theCloudinessId3 != PILVISTA && theCloudinessId3 != PUOLIPILVISTA)
-	  return false;
-	if(theCloudinessId4 != MISSING_CLOUDINESS_ID && theCloudinessId4 != PILVISTA && theCloudinessId4 != PUOLIPILVISTA)
-	  return false;
+	if(theCloudinessId1 != MISSING_CLOUDINESS_ID && theCloudinessId1 == theCloudinessId2 == PUOLIPILVISTA_JA_PILVISTA)
+	  return true;
 
-	return true;
+	return false;
   }
 
 
@@ -1613,12 +1709,32 @@ using namespace std;
 	return sentence;
   }
 
+  bool has_different_cloudiness(const cloudiness_id& theCloudinessId1, 
+								const cloudiness_id& theCloudinessId2, 
+								cloudiness_id& theCloudinessIdResult)
+  {
+	bool retval = false;
+
+	if(abs(theCloudinessId2 - theCloudinessId1) >= 2)
+	  {
+		theCloudinessIdResult = theCloudinessId1 > theCloudinessId2 ? theCloudinessId1 : theCloudinessId2;
+		retval = true;
+	  }
+
+	return retval;
+  }
+
   Sentence cloudiness_day_sentence(const wf_story_params& theParameters, 
 								   const CloudinessDataItem& theMorningDataItem,
 								   const CloudinessDataItem& theAfternoonDataItem)
   {
 	Sentence sentence;
 
+	theParameters.theLog << "*Morning Cloudiness" << endl;
+	theParameters.theLog << theMorningDataItem;
+	theParameters.theLog << "*Afternoon Cloudiness" << endl;
+	theParameters.theLog << theAfternoonDataItem;
+	
 	const CloudinessDataItemData* inlandDataMorning = theMorningDataItem.theInlandData;
 	const CloudinessDataItemData* coastalDataMorning = theMorningDataItem.theCoastalData;
 	const CloudinessDataItemData* fullDataMorning = theMorningDataItem.theFullData;
@@ -1634,7 +1750,7 @@ using namespace std;
 												? inlandDataMorning->theId : MISSING_CLOUDINESS_ID);
 	cloudiness_id theCloudinessIdFullAfternoon(fullDataAfternoon != 0 
 											 ? fullDataAfternoon->theId : MISSING_CLOUDINESS_ID);
-	cloudiness_id theCloudinessIdCoastalAfternoon(coastalDataAfternoon != 0 
+	cloudiness_id theCloudinessIdCoastalAfternoon(coastalDataAfternoon != 0
 												? coastalDataAfternoon->theId : MISSING_CLOUDINESS_ID);
 	cloudiness_id theCloudinessIdInlandAfternoon(inlandDataAfternoon != 0 
 												? inlandDataAfternoon->theId : MISSING_CLOUDINESS_ID);
@@ -1642,71 +1758,43 @@ using namespace std;
 
 	if(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
 	  {
-		if(puolipilvisesta_pilviseen(theCloudinessIdCoastalMorning, 
-									 theCloudinessIdInlandMorning,
-									 theCloudinessIdCoastalAfternoon,
-									 theCloudinessIdInlandAfternoon))
+		bool separateCoastInlandMorning = (abs(theCloudinessIdCoastalMorning - theCloudinessIdInlandMorning) >= 2);
+		bool separateCoastInlandAfternoon = (abs(theCloudinessIdCoastalAfternoon - theCloudinessIdInlandAfternoon) >= 2);
+		bool separateMorningAfternoon = (abs(theCloudinessIdFullMorning - theCloudinessIdFullAfternoon) >= 2);
+		//	cloudiness_id theCloudinessIdFull = theCloudinessIdFullMorning > theCloudinessIdFullAfternoon 
+		//? theCloudinessIdFullMorning : theCloudinessIdFullAfternoon;
+		theParameters.theLog << "separateCoastInlandMorning: " << static_cast<int>(separateCoastInlandMorning) << endl;
+		theParameters.theLog << "separateCoastInlandAfternoon: " << static_cast<int>(separateCoastInlandAfternoon) << endl;
+		theParameters.theLog << "separateMornigAfternoon: " << static_cast<int>(separateMorningAfternoon) << endl;
+
+		if(!separateCoastInlandMorning && !separateCoastInlandAfternoon && !separateMorningAfternoon)
 		  {
-			sentence << SAA_VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
-		  }
-		else if(theCloudinessIdCoastalMorning == theCloudinessIdCoastalAfternoon &&
-				theCloudinessIdCoastalMorning == theCloudinessIdInlandMorning &&
-				theCloudinessIdCoastalMorning == theCloudinessIdInlandAfternoon)
-		  {
-			sentence << cloudiness_sentence(theCloudinessIdCoastalMorning);
+			sentence << cloudiness_sentence(theCloudinessIdFullMorning);
 		  }
 		else
 		  {
-			if(puolipilvisesta_pilviseen(theCloudinessIdCoastalMorning, 
-										 theCloudinessIdInlandMorning))
+			if(separateCoastInlandMorning)
 			  {
-				sentence << AAMUPAIVALLA_WORD << SAA_VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
+				sentence << AAMUPAIVALLA_WORD << COAST_PHRASE
+						 << cloudiness_sentence(theCloudinessIdCoastalMorning);
+				sentence << Delimiter(",");
+				sentence << INLAND_PHRASE << cloudiness_sentence(theCloudinessIdInlandMorning, true);
 			  }
 			else
 			  {
-				if(theCloudinessIdCoastalMorning != MISSING_CLOUDINESS_ID &&
-				   theCloudinessIdInlandMorning != MISSING_CLOUDINESS_ID)
-				  {
-
-					if(theCloudinessIdCoastalMorning != theCloudinessIdInlandMorning)
-					  {
-						sentence << AAMUPAIVALLA_WORD << COAST_PHRASE
-								 << cloudiness_sentence(theCloudinessIdCoastalMorning);
-						sentence << Delimiter(",");
-						sentence << INLAND_PHRASE << cloudiness_sentence(theCloudinessIdInlandMorning, true);
-					  }
-					else
-					  {
-						sentence << AAMUPAIVALLA_WORD << cloudiness_sentence(theCloudinessIdFullMorning, true);
-					  }
-				  }
+				sentence << AAMUPAIVALLA_WORD << cloudiness_sentence(theCloudinessIdFullMorning);
 			  }
-
-			if(!sentence.empty())
-			  sentence << Delimiter(",");
-
-			if(puolipilvisesta_pilviseen(theCloudinessIdCoastalAfternoon, 
-										 theCloudinessIdInlandAfternoon))
+			sentence << Delimiter(",");
+			if(separateCoastInlandAfternoon)
 			  {
-				sentence << ILTAPAIVALLA_WORD << SAA_VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
+				sentence << ILTAPAIVALLA_WORD << COAST_PHRASE
+						 << cloudiness_sentence(theCloudinessIdCoastalAfternoon);
+				sentence << Delimiter(",");
+				sentence << INLAND_PHRASE << cloudiness_sentence(theCloudinessIdInlandAfternoon, true);
 			  }
 			else
 			  {
-				if(theCloudinessIdCoastalAfternoon != MISSING_CLOUDINESS_ID &&
-				   theCloudinessIdInlandAfternoon != MISSING_CLOUDINESS_ID)
-				  {
-					if(theCloudinessIdCoastalAfternoon != theCloudinessIdInlandAfternoon)
-					  {
-						sentence << ILTAPAIVALLA_WORD << COAST_PHRASE
-								 << cloudiness_sentence(theCloudinessIdCoastalAfternoon);
-						sentence << Delimiter(",");
-						sentence << INLAND_PHRASE << cloudiness_sentence(theCloudinessIdInlandAfternoon, true);
-					  }
-					else
-					  {
-						sentence << ILTAPAIVALLA_WORD << cloudiness_sentence(theCloudinessIdFullAfternoon);
-					  }
-				  }
+				sentence << ILTAPAIVALLA_WORD << cloudiness_sentence(theCloudinessIdFullAfternoon);
 			  }
 		  }
 	  }
@@ -1718,7 +1806,9 @@ using namespace std;
 			sentence << SAA_VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
 		  }
 		else if(theCloudinessIdInlandMorning != MISSING_CLOUDINESS_ID &&
-				theCloudinessIdInlandMorning == theCloudinessIdInlandAfternoon)
+				theCloudinessIdInlandMorning != PUOLIPILVISTA_JA_PILVISTA && 
+				theCloudinessIdInlandAfternoon != PUOLIPILVISTA_JA_PILVISTA &&
+				abs(theCloudinessIdInlandMorning - theCloudinessIdInlandAfternoon) < 2)
 		  {
 			sentence << cloudiness_sentence(theCloudinessIdInlandMorning);
 		  }
@@ -1744,7 +1834,9 @@ using namespace std;
 			sentence << SAA_VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
 		  }
 		else if(theCloudinessIdCoastalMorning != MISSING_CLOUDINESS_ID &&
-				theCloudinessIdCoastalMorning == theCloudinessIdCoastalAfternoon)
+				theCloudinessIdCoastalMorning != PUOLIPILVISTA_JA_PILVISTA && 
+				theCloudinessIdCoastalAfternoon != PUOLIPILVISTA_JA_PILVISTA &&
+				abs(theCloudinessIdCoastalMorning - theCloudinessIdCoastalAfternoon) < 2)
 		  {
 			sentence << cloudiness_sentence(theCloudinessIdCoastalMorning);
 		  }
@@ -2620,9 +2712,9 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 					  if(has_showers)
 						{
 						  if(theRainFormWater >= theRainFormSleet)
-							sentence << VESI_RANTA_KUUROJA;
+							sentence << VESI_TAVUVIIVA_WORD << TAI_WORD << RANTA_KUUROJA_WORD;
 						  else
-							sentence << RANTA_VESI_KUUROJA;
+							sentence << RANTA_TAVUVIIVA_WORD << TAI_WORD << VESI_KUUROJA_WORD;
 
 						  if(can_be_freezing)
 							sentence << Delimiter(",") << JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE;
