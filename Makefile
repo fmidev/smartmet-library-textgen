@@ -9,7 +9,7 @@ endif
 #
 # To build serially (helps get the error messages right): make debug SCONS_FLAGS=""
 #
-SCONS_FLAGS=-j 4
+SCONS_FLAGS=-j 8
 
 # Installation directories
 
@@ -55,6 +55,9 @@ all release:
 
 $(LIBFILE) $(LIBFILE_MT):
 	scons $(SCONS_FLAGS) $@
+
+anssi:
+	scons $(SCONS_FLAGS) debug=1 $(LIBFILE)
 
 debug:
 	scons $(SCONS_FLAGS) debug=1 $(LIBFILE) $(LIBFILE_MT)

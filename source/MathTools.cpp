@@ -38,6 +38,44 @@ namespace MathTools
 	return value;
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Calculates Pearson coefficient
+   *
+   * \param theValueVector The vector containg double values
+   * \return The Pearson coefficient
+   */
+  // ----------------------------------------------------------------------
+  double pearson_coefficient(const vector<double>& theValueVector)
+  {
+	double coefficient = 0.0;
+	
+	double sumX = 0.0;
+	double sumY = 0.0;
+	double sumXY = 0.0;
+	double xpow2 = 0.0;
+	double ypow2 = 0.0;
+	
+	unsigned int vectorSize = theValueVector.size();
+	
+	for(unsigned int i = 0; i < vectorSize; i++)
+	  {
+		sumX += (i+1);
+		sumY += theValueVector.at(i);
+		sumXY += ((i+1)*theValueVector.at(i));
+		xpow2 += std::pow(static_cast<double>(i+1), 2.0);
+		ypow2 += std::pow(theValueVector.at(i), 2.0);
+	  }
+	
+	double numerator = (vectorSize*sumXY-(sumX*sumY));
+	double denominator = std::sqrt(((vectorSize * xpow2) - std::pow(sumX, 2)) * 
+								   ((vectorSize * ypow2) - std::pow(sumY, 2)));
+	coefficient = (denominator == 0.0 ? 0.0 : numerator / denominator);
+	
+	return coefficient;
+  }
+
+
 } // namespace MathTools
 
 // ======================================================================

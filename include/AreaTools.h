@@ -9,8 +9,15 @@
 #define TEXTGEN_AREATOOLS_H
 
 #include <string>
+#include <map>
+#include <vector>
+#include <newbase/NFmiPoint.h>
 
 #include "WeatherArea.h"
+#include "WeatherResult.h"
+#include "AnalysisSources.h"
+#include "WeatherParameter.h"
+#include "NFmiIndexMask.h"
 #include "UserWeatherSource.h"
 
 using namespace std;
@@ -26,18 +33,120 @@ namespace TextGen
 						  INLAND_AREA = 0x2,
 						  FULL_AREA = 0x4};
 
-	  const bool isPartOfArea(const UserWeatherSource& theWeatherSource,
-							  const WeatherArea& theWeatherArea1,
-							  const WeatherArea& theWeatherArea2);
+	enum direction_id{NORTH, 
+					  SOUTH, 
+					  EAST, 
+					  WEST, 
+					  NORTHEAST, 
+					  SOUTHEAST, 
+					  SOUTHWEST, 
+					  NORTHWEST, 
+					  NO_DIRECTION};
+
+	const bool isPartOfArea(const UserWeatherSource& theWeatherSource,
+							const WeatherArea& theWeatherArea1,
+							const WeatherArea& theWeatherArea2);
+	
+
+	const bool isPartOfArea(const WeatherArea& theWeatherArea1,
+							const std::string& theArea2SvgFile,
+							const std::string theQueryData);
+
+	const bool isPartOfArea(const WeatherArea& theWeatherArea,
+							const AnalysisSources& theSources,
+							const WeatherParameter& theParameter,
+							const NFmiIndexMask& theIndexMask);
 
 
-	  const bool isPartOfArea(const WeatherArea& theWeatherArea1,
-							  const std::string& theArea2SvgFile,
-							  const std::string theQueryData);
+	class Rect
+	{
+	public:
+	  Rect(): m_topLeft(NFmiPoint(0.0, 0.0)), m_bottomRight(NFmiPoint(0.0, 0.0))
+	  {}
+	  Rect(const Rect& theRect) : m_topLeft(theRect.m_topLeft), m_bottomRight(theRect.m_bottomRight)
+	  {}
+	  Rect(const double& topLeftX, const double& topLeftY, const double& bottomRightX, const double& bottomRightY); 
+	  Rect(const vector<NFmiPoint*>& thePointVector);
+	  Rect(const NFmiPoint& topLeft, const NFmiPoint& bottomRight) : 
+		m_topLeft(topLeft), 
+		m_bottomRight(bottomRight)
+	  {}
+	  Rect(const WeatherArea& theWeatherArea);
+	  Rect(const AnalysisSources& theSources,
+		   const WeatherParameter& theParameter,
+		   const NFmiIndexMask& theIndexMask);
+	  
+	  NFmiPoint getTopLeft() const { return m_topLeft; }
+	  NFmiPoint getBottomRight() const { return m_bottomRight; }
+	  void setTopLeft(const NFmiPoint& topLeft) { m_topLeft = topLeft; }
+	  void setBottomRight(const NFmiPoint& bottomRight) { m_bottomRight = bottomRight; }
+	  bool contains(const Rect& theRect) const;
+
+	  operator std::string()
+	  {
+		std::string retval;
+
+		double topLeftX = m_topLeft.X();
+		double topLeftY = m_topLeft.Y();
+		double bottomRightX = m_bottomRight.X();
+		double bottomRightY = m_bottomRight.Y();
+
+		std::ostringstream o;
+		o << topLeftX << " " << topLeftY << ", " << bottomRightX << " " << bottomRightY;
+
+		retval = "Rect(" + o.str() + ")";
+
+		return retval;
+	  }
+
+	  Rect boundingRect(const Rect& theRect) const;
+	  Rect intersection(const Rect& theRect) const;
+	  double intersectionPercentage(const Rect& theRect) const;
+	  Rect subRect(const direction_id& theDirectionId) const;
+	  bool contains(const NFmiPoint& thePoint) const;
+	  double size() const;
+	  direction_id getHalfDirection(const NFmiPoint& thePoint) const;
+
+	private:
+	  NFmiPoint m_topLeft;
+	  NFmiPoint m_bottomRight;
+	};
+
+	direction_id getDirection(const Rect& thePrimaryRect, const Rect& theSecondaryRect);
+
+	NFmiPoint getArealDistribution(const AnalysisSources& theSources,
+							  const WeatherParameter& theParameter,
+							  const NFmiIndexMask& theIndexMask,
+							  WeatherResult& theNortEastShare,
+							  WeatherResult& theSouthEastShare,
+							  WeatherResult& theSouthWestShare,
+							  WeatherResult& theNortWestShare);
+
+
+	void getArealDistribution(const vector<NFmiPoint*>& thePointVector, 
+							  map<direction_id, double>& theResultData);
+
+	std::string getDirectionString(const direction_id& theDirectionId); 
 
   } // namespace AreaTools
 } // namespace TextGen
 
 #endif // TEXTGEN_AREATOOLS_H
+
+
+	/*	std::ostream& operator<<(std::ostream & theOutput,
+							 const Rect& theRect)
+	{
+	  double topLeftX = theRect.getTopLeft().X();
+	  double topLeftY = theRect.getTopLeft().Y();
+	  double bottomRightX = theRect.getBottomRight().X();
+	  double bottomRightY = theRect.getBottomRight().Y();
+
+	  theOutput << "Rect(" << topLeftX << " " << topLeftY << ", " <<
+		bottomRightX << " " << bottomRightY << ")" << endl;
+
+	  return theOutput;
+	}
+	*/
 
 // ======================================================================

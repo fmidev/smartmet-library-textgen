@@ -105,6 +105,8 @@ if WINDOWS:
 elif LINUX:
     # newbase from system install
     #
+    env.Append( CPPPATH= [ "../newbase/include" ] )
+    env.Append( LIBPATH= [ "../newbase" ] )
     env.Append( CPPPATH= [ PREFIX+"/include/smartmet" ] )
 
 elif OSX:

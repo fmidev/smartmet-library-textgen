@@ -11,6 +11,8 @@
 #include "NullAcceptor.h"
 #include "WeatherDataType.h"
 #include "WeatherFunction.h"
+#include "WeatherParameter.h"
+#include <string>
 
 namespace WeatherAnalysis
 {
@@ -36,7 +38,13 @@ namespace WeatherAnalysis
 			const Acceptor & theAreaAcceptor,
 			const Acceptor & theTimeAcceptor,
 			const Acceptor & theTester = NullAcceptor()) const = 0;
-	
+
+	static void getParameterStrings(const WeatherParameter& theParameter,	
+									std::string& theParameterName, 
+									std::string& theDataName);
+
+	static const char* getDataTypeName(const WeatherAnalysis::WeatherDataType & theDataType);
+
   }; // class ParameterAnalyzer
 
 } // namespace WeatherAnalysis

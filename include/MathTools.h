@@ -8,8 +8,13 @@
 #ifndef MATHTOOLS_H
 #define MATHTOOLS_H
 
+#include <vector>
+
 namespace MathTools
 {
+
+  //using namespace boost;
+using namespace std;
 
   int to_precision(float theValue, int thePrecision);
 
@@ -120,6 +125,14 @@ namespace MathTools
   {
 	return max(max(arg1,arg2),max(arg3,arg4));
   }
+
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Calculates Pearson coefficient
+   */
+  // ----------------------------------------------------------------------
+  double pearson_coefficient(const vector<double>& theValueVector);
 
 } // namespace MathTools
 
