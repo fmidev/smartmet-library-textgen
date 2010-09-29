@@ -115,5 +115,9 @@ headertest:
 	$(CC) $(CFLAGS) $(INCLUDES) -o /dev/null /tmp/$(LIB).cpp $(LIBS); \
 	done
 
+analysis:
+	@for f in source/*.cpp; do cmd="clang++ --analyze -I include -I /usr/include/smartmet -I /usr/include/mysql -DUNIX -DFMI_COMPRESSION -DBOOST -DBOOST_IOSTREAMS_NO_LIB $$f"; echo $$cmd; $$cmd; done; rm *.plist
+
+
 mysqldump:
 	mysqldump -h base -u textgen --password=w1w2w3 textgen > sql/textgen.sql
