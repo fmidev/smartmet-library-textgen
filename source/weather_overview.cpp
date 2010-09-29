@@ -1410,7 +1410,7 @@ namespace TextGen
 			 << cloudiness_phrase(theSources,theArea,before_rain,theVar,theDay)
 			 << Delimiter(",")
 			 << phrase1;
-		  if(phrase2 != "")
+		  if(strcmp(phrase2,"") != 0)
 			s1 << "ja" << phrase2;
 		  s1 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 
