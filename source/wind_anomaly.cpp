@@ -161,7 +161,6 @@ namespace TextGen
 	  const forecast_season_id& theSeason;
 	  const NFmiTime& theForecastTime;
 	  string theFakeVariable;
-	  bool theIsToday; // indicates whether the day in question is today or tomorrow
 	  WeatherResult theDay2TemperatureAreaMorningMinimum;
 	  WeatherResult theDay2TemperatureAreaMorningMean;
 	  WeatherResult theDay2TemperatureAreaMorningMaximum;
@@ -502,8 +501,12 @@ namespace TextGen
 
 	  std::string part_of_the_day("");
 	  std::string areaString("");
-	  std::string theSpecifiedDay(theParameters.theIsToday ? TANAAN_WORD : HUOMENNA_WORD);
-	
+
+	  Sentence theSpecifiedDay;
+	  theSpecifiedDay << PeriodPhraseFactory::create("today",
+													 theParameters.theVariable,
+													 theParameters.theForecastTime,
+													 theParameters.theDay2Period);
 	  Sentence varying_part;
 	  if(inlandIncluded && coastIncluded)
 		{
@@ -919,8 +922,11 @@ namespace TextGen
 
 	  forecast_area_id areaMorning = FULL_AREA;
 	  forecast_area_id areaAfternoon = FULL_AREA;
-	  std::string theSpecifiedDay(theParameters.theIsToday ? TANAAN_WORD : HUOMENNA_WORD);
-
+	  Sentence theSpecifiedDay;
+	  theSpecifiedDay << PeriodPhraseFactory::create("today",
+													 theParameters.theVariable,
+													 theParameters.theForecastTime,
+													 theParameters.theDay2Period);
 	  if(inlandIncluded && coastIncluded)
 		{
 		  if(theParameters.theWindchillInlandMorningMean.value() > theParameters.theWindchillCoastalMorningMean.value())
@@ -1028,8 +1034,8 @@ namespace TextGen
 	  }
 
 	bool handleWindchill = false;
-	const int day_starthour = optional_hour(itsVar+"::day::starthour",6);
-	const int day_maxstarthour = optional_hour(itsVar+"::day::maxstarthour",12);
+	//const int day_starthour = optional_hour(itsVar+"::day::starthour",6);
+	//const int day_maxstarthour = optional_hour(itsVar+"::day::maxstarthour",12);
 
 	forecast_season_id theSeasonId = isSummerHalf(itsPeriod.localStartTime(), itsVar) ? SUMMER_SEASON : WINTER_SEASON;
 
@@ -1043,6 +1049,60 @@ namespace TextGen
 	NFmiTime periodStartTime(itsPeriod.localStartTime());
 	NFmiTime periodEndTime(itsPeriod.localEndTime());
 
+	// Period generator
+	NightAndDayPeriodGenerator generator00(itsPeriod, itsVar);
+
+	if(generator00.size() == 0)
+	  {
+		log << "No weather periods available!" << endl;
+		log << paragraph;
+		return paragraph;
+	  }
+
+	log << "period contains ";
+
+	if(generator00.isday(1))
+	  {
+		if(generator00.size() > 2)
+		  {
+			log << "today, night and tomorrow" << endl;
+		  }
+		else if(generator00.size() == 2)
+		  {
+			log << "today and night" << endl;
+			// if forecast time is not today, extend period from the start
+			if(abs(itsForecastTime.DifferenceInHours(generator00.period(1).localStartTime())) > 12)
+			  periodStartTime.ChangeByHours(-24);
+			else
+			  periodEndTime.ChangeByHours(12);
+		  }
+		else
+		  {
+			log << "today" << endl;
+			// if forecast time is not today, extend period from the start
+			if(abs(itsForecastTime.DifferenceInHours(generator00.period(1).localStartTime())) > 12)
+			  periodStartTime.ChangeByHours(-24);
+			else
+			  periodEndTime.ChangeByHours(24);
+		  }
+	  }
+	else
+	  {
+		if(generator00.size() == 1)
+		  {
+			log << "one night" << endl;
+			periodStartTime.ChangeByHours(-12);
+			periodEndTime.ChangeByHours(12);
+		  }
+		else
+		  {
+			log << "night and tomorrow" << endl;		  
+			periodStartTime.ChangeByHours(-12);
+		  }
+	  }
+
+
+	/*
 	// Period generator
 	NightAndDayPeriodGenerator generator00(itsPeriod, itsVar);
 
@@ -1060,6 +1120,8 @@ namespace TextGen
 	  }
 	if(generator00.size() == 0)
 	  periodEndTime.ChangeByHours(24);
+	*/
+
 
 	WeatherPeriod theExtendedPeriod(periodStartTime, periodEndTime);
 
@@ -1093,8 +1155,6 @@ namespace TextGen
 								   day2Period,
 								   theSeasonId,
 								   itsForecastTime);
-
-	parameters.theIsToday = (itsForecastTime.GetHour() < day_maxstarthour);
 
 	WeatherArea inlandArea = itsArea;
 	inlandArea.type(WeatherArea::Inland);

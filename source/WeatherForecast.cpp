@@ -1,0 +1,518 @@
+
+#include "WeatherStory.h"
+#include "CloudinessStory.h"
+#include "CloudinessStoryTools.h"
+#include "Delimiter.h"
+#include "GridForecaster.h"
+#include "HourPeriodGenerator.h"
+#include "MessageLogger.h"
+#include "Paragraph.h"
+#include "NightAndDayPeriodGenerator.h"
+#include "PeriodPhraseFactory.h"
+#include "PrecipitationPeriodTools.h"
+#include "PrecipitationStoryTools.h"
+#include "RangeAcceptor.h"
+#include "ValueAcceptor.h"
+#include "Sentence.h"
+#include "Settings.h"
+#include "TextGenError.h"
+#include "TimeTools.h"
+#include "WeatherResult.h"
+#include "WeekdayTools.h"
+#include "NullPeriodGenerator.h"
+#include "WeatherPeriodTools.h"
+#include "AreaTools.h"
+#include "MathTools.h"
+#include "SeasonTools.h"
+#include "SubMaskExtractor.h"
+#include "WeatherForecast.h"
+
+#include <boost/lexical_cast.hpp>
+#include <vector>
+#include <map>
+
+namespace TextGen
+{
+
+using namespace Settings;
+using namespace WeatherAnalysis;
+using namespace AreaTools;
+using namespace boost;
+using namespace std;
+
+ const char* trend_string(const trend_id& theTrendId)
+  {
+	const char* retval = "";
+
+	switch(theTrendId)
+	  {
+	  case PILVISTYY:
+		retval = PILVISTYVAA_WORD;
+		break;
+	  case SELKENEE:
+		retval = SELKENEVAA_WORD;
+		break;
+	  case POUTAANTUU:
+		retval = SAA_POUTAANTUU_PHRASE;
+		break;
+	  case SADE_ALKAA:
+		retval = SADE_ALKAA_PHRASE;
+		break;
+	  default:
+		retval = "no trend";
+		break;
+	  }
+
+	return retval;
+  }
+
+  part_of_the_day_id get_part_of_the_day_id(const WeatherPeriod& thePeriod)
+  {
+	if(thePeriod.localStartTime().GetHour() > 0 && thePeriod.localStartTime().GetHour() < 6)
+	  return AAMUYO;
+	else if(thePeriod.localStartTime().GetHour() >= 6 && thePeriod.localStartTime().GetHour() <= 12)
+	  return AAMUPAIVA;
+	else if(thePeriod.localStartTime().GetHour() > 12 && thePeriod.localStartTime().GetHour() <= 18)
+	  return ILTAPAIVA;
+	else //if(thePeriod.localStartTime().GetHour() > 18)
+	  return ILTA;
+
+	/*
+  enum part_of_the_day_id
+	{
+	  AAMU, // 06-09
+	  AAMUPAIVA, // 09-11
+	  PITKA_AAMUPAIVA, // 09-12
+	  KESKIPAIVA, // 11-13
+	  ILTAPAIVA, // 13-18
+	  PITKA_ILTAPAIVA, // 12-18
+	  ILTA, // 18-21
+	  ILTAYO, // 22-00
+	  KESKIYO, // 00-03
+	  AAMUYO, // 03-06
+	  PAIVA, // 09-18
+	  PITKA_PAIVA, // 06-18
+	  YO, // 00-06
+	  PITKA_YO, // 22-06
+	  YOPUOLI, // 18-06
+	  PAIVAPUOLI // 06-18
+	};
+
+	 */
+  }
+
+  bool get_part_of_the_day(const WeatherPeriod& theSourcePeriod, 
+						   const part_of_the_day_id& thePartOfTheDayId, 
+						   WeatherPeriod& theDestinationPeriod)
+  {
+	int starthour = -1;
+	int endhour = -1;
+
+	switch(thePartOfTheDayId)
+	  {
+	  case AAMUPAIVA:
+		{
+		  starthour = 7;
+		  endhour = 12;
+		break;
+		}
+	  case ILTAPAIVA:
+		  starthour = 13;
+		  endhour = 18;
+		break;
+	  case YO:
+		  starthour = 19;
+		  endhour = 6;
+		break;
+	  default:
+		break;
+	  }
+
+	int new_start_year =  theSourcePeriod.localStartTime().GetYear();
+	int new_start_month = theSourcePeriod.localStartTime().GetMonth();
+	int new_start_day = theSourcePeriod.localStartTime().GetDay();
+	int new_start_hour = -1;
+	int new_end_year = theSourcePeriod.localEndTime().GetYear();
+	int new_end_month = theSourcePeriod.localEndTime().GetMonth();
+	int new_end_day = theSourcePeriod.localEndTime().GetDay();
+	int new_end_hour = -1;
+	int old_start_hour = theSourcePeriod.localStartTime().GetHour();
+	int old_end_hour = theSourcePeriod.localEndTime().GetHour();
+
+	if(old_start_hour <= starthour)
+	  new_start_hour = starthour;
+	else if(old_start_hour <= endhour)
+	  new_start_hour = old_start_hour;
+
+	if(old_end_hour >= endhour)
+	  new_end_hour = endhour;
+	else if(old_end_hour >= starthour)
+	  new_end_hour = old_end_hour;
+	  
+	if(new_start_hour == -1 || new_end_hour == -1)
+	  {
+		return false;
+	  }
+	else
+	  {
+		NFmiTime start(new_start_year, new_start_month, new_start_day, new_start_hour);
+		NFmiTime end(new_end_year, new_end_month, new_end_day, new_end_hour);
+		WeatherPeriod wp(start, end);
+		theDestinationPeriod = wp;
+		return true;
+	  }
+  }
+
+  void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour)
+  {
+	switch(thePartOfTheDayId)
+	  {
+	  case AAMU:
+		{
+		  theStartHour = 6;
+		  theEndHour = 9;
+		}
+		break;
+	  case AAMUPAIVA:
+		{
+		  theStartHour = 9;
+		  theEndHour = 11;
+		}
+		break;
+	  case PITKA_AAMUPAIVA:
+		{
+		  theStartHour = 9;
+		  theEndHour = 12;
+		}
+		break;
+	  case KESKIPAIVA:
+		{
+		  theStartHour = 11;
+		  theEndHour = 13;
+		}
+		break;
+	  case ILTAPAIVA:
+		{
+		  theStartHour = 13;
+		  theEndHour = 18;
+		}
+		break;
+	  case PITKA_ILTAPAIVA:
+		{
+		  theStartHour = 12;
+		  theEndHour = 18;
+		}
+		break;
+	  case ILTA:
+		{
+		  theStartHour = 18;
+		  theEndHour = 22;
+		}
+		break;
+	  case ILTAYO:
+		{
+		  theStartHour = 22;
+		  theEndHour = 0;
+		}
+		break;
+	  case KESKIYO:
+		{
+		  theStartHour = 0;
+		  theEndHour = 3;
+		}
+		break;
+	  case AAMUYO:
+		{
+		  theStartHour = 3;
+		  theEndHour = 6;
+		}
+		break;
+	  case PAIVA:
+		{
+		  theStartHour = 9;
+		  theEndHour = 18;
+		}
+		break;
+		break;
+	  case PITKA_PAIVA:
+		{
+		  theStartHour = 6;
+		  theEndHour = 18;
+		}
+		break;
+	  case YO:
+		{
+		  theStartHour = 0;
+		  theEndHour = 6;
+		}
+		break;
+	  case PITKA_YO:
+		{
+		  theStartHour = 22;
+		  theEndHour = 6;
+		}
+		break;
+	  case YOPUOLI:
+		{
+		  theStartHour = 18;
+		  theEndHour = 6;
+		}
+		break;
+	  case PAIVAPUOLI:
+		{
+		  theStartHour = 6;
+		  theEndHour = 18;
+		}
+		break;
+	  }
+
+  }
+
+  bool is_inside(const NFmiTime& theTimeStamp, 
+				 const part_of_the_day_id& thePartOfTheDayId)
+  {
+	int startHour, endHour;
+	get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
+	NFmiTime startTimeCompare(theTimeStamp);
+	NFmiTime endTimeCompare(theTimeStamp);
+	startTimeCompare.SetHour(startHour);
+	endTimeCompare.SetHour(endHour);
+
+	return(theTimeStamp >= startTimeCompare && 
+		   theTimeStamp <= endTimeCompare);
+  }
+
+
+  Sentence get_time_phrase(const WeatherPeriod& theWeatherPeriod, bool theAlkaenPhrase /*= false*/)
+  {
+	Sentence sentence;
+
+	if(is_inside(theWeatherPeriod.localStartTime(), AAMU))
+		sentence << (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
+	else if(is_inside(theWeatherPeriod.localStartTime(), AAMUPAIVA))
+	  sentence << (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+	else if(is_inside(theWeatherPeriod.localStartTime(), KESKIPAIVA))
+	  sentence << (theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
+	else if(is_inside(theWeatherPeriod.localStartTime(), ILTAPAIVA))
+	  sentence << (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+	else if(is_inside(theWeatherPeriod.localStartTime(), ILTA))
+	  sentence << (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
+	else if(is_inside(theWeatherPeriod.localStartTime(), ILTAYO))
+	  sentence << (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOSTA_WORD);
+	else if(is_inside(theWeatherPeriod.localStartTime(), KESKIYO))
+	  sentence << (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
+	else if(is_inside(theWeatherPeriod.localStartTime(), AAMUYO))
+		sentence << (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
+
+	return sentence;
+  }
+
+  void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
+											const unsigned int& thePrecipitationForm,
+											float& theDryWeatherLimit, 
+											float& theWeakPrecipitationLimit)
+  {
+	switch(thePrecipitationForm)
+	  {
+	  case WATER_FREEZING_FORM:
+	  case FREEZING_FORM:
+	  case WATER_FORM:
+		{
+		  theDryWeatherLimit = theParameters.theDryWeatherLimitWater;
+		  theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitWater;
+		}
+		break;
+	  case SLEET_FREEZING_FORM:
+	  case SLEET_FORM:
+		{
+		  theDryWeatherLimit = theParameters.theDryWeatherLimitSleet;
+		  theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSleet;
+		}
+		break;
+	  case SNOW_FORM:
+	  case SNOW_FREEZING_FORM:
+		{
+		  theDryWeatherLimit = theParameters.theDryWeatherLimitSnow;
+		  theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSnow;
+		}
+		break;
+	  case DRIZZLE_FORM:
+	  case DRIZZLE_FREEZING_FORM:
+	  case WATER_DRIZZLE_FREEZING_FORM:
+	  case WATER_DRIZZLE_FORM:
+		{
+		  theDryWeatherLimit = theParameters.theDryWeatherLimitDrizzle;
+		  theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitWater;
+		}
+		break;
+	  case DRIZZLE_SLEET_FORM:
+	  case DRIZZLE_SLEET_FREEZING_FORM:
+	  case WATER_DRIZZLE_SLEET_FORM:
+	  case WATER_SLEET_FREEZING_FORM:
+	  case WATER_SLEET_FORM:
+		{
+		  theDryWeatherLimit = theParameters.theDryWeatherLimitSleet;
+		  theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSleet;
+		}
+		break;
+	  case WATER_SNOW_FREEZING_FORM:
+	  case WATER_SNOW_FORM:
+	  case DRIZZLE_SNOW_FREEZING_FORM:
+	  case DRIZZLE_SNOW_FORM:
+	  case WATER_DRIZZLE_SNOW_FORM:
+	  case WATER_SLEET_SNOW_FORM:
+	  case DRIZZLE_SLEET_SNOW_FORM:
+	  case SLEET_SNOW_FREEZING_FORM:
+	  case SLEET_SNOW_FORM:
+		{
+		  theDryWeatherLimit = theParameters.theDryWeatherLimitSnow;
+		  theWeakPrecipitationLimit = theParameters.theWeakPrecipitationLimitSnow;
+		}
+		break;
+	  case MISSING_PRECIPITATION_FORM:
+		break;
+	  }
+  }
+
+  unsigned int get_complete_precipitation_form(const string& theVariable,
+									  const float thePrecipitationFormWater,
+									  const float thePrecipitationFormDrizzle,
+									  const float thePrecipitationFormSleet,
+									  const float thePrecipitationFormSnow,
+									  const float thePrecipitationFormFreezing)
+  {
+	unsigned int precipitation_form = 0;
+
+	typedef std::pair<float, precipitation_form_id> precipitation_form_type;
+	precipitation_form_type water(thePrecipitationFormWater, WATER_FORM);
+	precipitation_form_type drizzle(thePrecipitationFormDrizzle, DRIZZLE_FORM);
+	precipitation_form_type sleet(thePrecipitationFormSleet, SLEET_FORM);
+	precipitation_form_type snow(thePrecipitationFormSnow, SNOW_FORM);
+	precipitation_form_type freezing(thePrecipitationFormFreezing, FREEZING_FORM);
+
+	vector<precipitation_form_type> precipitation_forms;
+	precipitation_forms.push_back(water);
+	precipitation_forms.push_back(drizzle);
+	precipitation_forms.push_back(sleet);
+	precipitation_forms.push_back(snow);
+	precipitation_forms.push_back(freezing);
+
+	sort(precipitation_forms.begin(),precipitation_forms.end());
+
+	precipitation_form_id primaryPrecipitationForm = precipitation_forms[4].first > PRECIPITATION_FORM_REPORTING_LIMIT 
+	  ? precipitation_forms[4].second : MISSING_PRECIPITATION_FORM;
+	precipitation_form_id secondaryPrecipitationForm = precipitation_forms[3].first > PRECIPITATION_FORM_REPORTING_LIMIT 
+	  ? precipitation_forms[3].second : MISSING_PRECIPITATION_FORM;
+	precipitation_form_id tertiaryPrecipitationForm = precipitation_forms[2].first > PRECIPITATION_FORM_REPORTING_LIMIT
+	  ? precipitation_forms[2].second : MISSING_PRECIPITATION_FORM;
+
+	precipitation_form |= primaryPrecipitationForm;
+	precipitation_form |= secondaryPrecipitationForm;
+	precipitation_form |= tertiaryPrecipitationForm;
+
+	return precipitation_form;
+  }
+
+  void get_sub_time_series(const WeatherPeriod& thePeriod,
+						   const weather_result_data_item_vector& theSourceVector,						   
+						   weather_result_data_item_vector& theDestinationVector)
+  {
+	for(unsigned int i = 0; i < theSourceVector.size(); i++)
+	  {
+		WeatherResultDataItem* item = theSourceVector[i];
+		if(item->thePeriod.localStartTime() >= thePeriod.localStartTime() &&
+		   item->thePeriod.localEndTime() <= thePeriod.localEndTime())
+		  theDestinationVector.push_back(item);		
+	  }
+  }
+
+  void get_sub_time_series(const part_of_the_day_id& thePartOfTheDay,
+						   const weather_result_data_item_vector& theSourceVector,
+						   weather_result_data_item_vector& theDestinationVector)
+  {
+	for(unsigned int i = 0; i < theSourceVector.size(); i++)
+	  {
+		WeatherResultDataItem* item = theSourceVector[i];
+		if(item->thePartOfTheDay == thePartOfTheDay)
+		  theDestinationVector.push_back(item);		
+	  }
+  }
+
+  float get_mean(const weather_result_data_item_vector& theTimeSeries, 
+				 const int& theStartIndex /*= 0*/, 
+				 const int& theEndIndex /*= 0*/)
+  {
+	float precipitation_sum = 0.0;
+	int counter = 0;
+	unsigned int startIndex = theStartIndex > 0 ? theStartIndex : 0;
+	unsigned int endIndex = theEndIndex > 0 ? theEndIndex : theTimeSeries.size();
+	
+	if(startIndex == endIndex || endIndex < startIndex || endIndex > theTimeSeries.size())
+	  return kFloatMissing;
+
+	for(unsigned int i = startIndex; i < endIndex; i++)
+	  {
+		if(theTimeSeries[i]->theResult.value() == kFloatMissing)
+		  continue;
+		precipitation_sum += theTimeSeries[i]->theResult.value();
+		counter++;
+	  }
+
+	if((counter == 0 && theTimeSeries.size() > 0) || theTimeSeries.size() == 0)
+	  return kFloatMissing;
+	else
+	  return precipitation_sum / counter;
+  }
+
+  
+  float get_standard_deviation(const weather_result_data_item_vector& theTimeSeries)
+  {
+	float deviation_sum_pow2 = 0.0;
+	float mean = get_mean(theTimeSeries);
+	int counter = 0;
+	for(unsigned int i = 0; i < theTimeSeries.size(); i++)
+	  {
+		if(theTimeSeries[i]->theResult.value() == kFloatMissing)
+		  continue;
+		deviation_sum_pow2 += std::pow(mean - theTimeSeries[i]->theResult.value(), 2);
+		counter++;
+	  }
+
+	return std::sqrt(deviation_sum_pow2 / counter);
+  }
+
+  void get_min_max(const weather_result_data_item_vector& theTimeSeries, float& theMin, float& theMax)
+  {
+	theMin = theMax = kFloatMissing;
+
+	for(unsigned int i = 0; i < theTimeSeries.size(); i++)
+	  {
+		if(theTimeSeries[i]->theResult.value() == kFloatMissing)
+		  continue;
+		if(i == 0)
+		  {
+			theMin = theTimeSeries[i]->theResult.value();
+			theMax = theTimeSeries[i]->theResult.value();
+		  }
+		else
+		  {
+			if(theMin > theTimeSeries[i]->theResult.value())
+			  theMin = theTimeSeries[i]->theResult.value();
+			else
+			if(theMax < theTimeSeries[i]->theResult.value())
+			  theMax = theTimeSeries[i]->theResult.value();
+		  }
+	  }
+  }
+
+  double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSeries)
+  {
+	vector<double> precipitation;
+
+	for(unsigned int i = 0; i < theTimeSeries.size(); i++)
+	  precipitation.push_back(theTimeSeries[i]->theResult.value());
+
+	return MathTools::pearson_coefficient(precipitation);
+  }
+
+}
