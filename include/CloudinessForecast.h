@@ -61,6 +61,8 @@ using namespace std;
 	cloudiness_id getCloudinessId(const WeatherPeriod& thePeriod,
 								  const weather_result_data_item_vector* theCloudinessData) const;
 
+	void getTrendIdVector(trend_id_vector& theCloudinessTrends) const;
+
 	void printOutCloudinessData(std::ostream& theOutput) const;
 	void printOutCloudinessTrends(std::ostream& theOutput) const;
 	void printOutCloudinessPeriods(std::ostream& theOutput) const;
@@ -81,8 +83,6 @@ using namespace std;
 									const cloudiness_period_vector& theSourceCloudinessPeriods,
 									cloudiness_period_vector& theWeatherPeriodCloudiness) const;
 	  
-	void printOutCloudinessTrends(std::ostream& theOutput, const trend_id_vector& theCloudinessTrends) const;
-
 	void printOutCloudinessPeriods(std::ostream& theOutput, const cloudiness_period_vector& theCloudinessPeriods) const;
 
 	void findOutCloudinessPeriods(const weather_result_data_item_vector* theData, 

@@ -41,8 +41,16 @@ using namespace std;
 	Sentence precipitationChangeSentence(const WeatherPeriod& thePeriod) const;
 	Sentence precipitationSentence(const WeatherPeriod& thePeriod, 
 								   const bool& theCheckPrecipitationChange = true) const;
+	Sentence shortTermPrecipitationSentence(const WeatherPeriod& thePeriod) const;
 	bool isDryPeriod(const WeatherPeriod& theWeatherPeriod, 
 					 const unsigned short theForecastPeriodId) const;
+	bool getDryPeriods(const WeatherPeriod& theSourcePeriod, 
+					   vector<WeatherPeriod>& theDryPeriods) const;
+	bool getPrecipitationPeriods(const WeatherPeriod& theSourcePeriod, 
+								 vector<WeatherPeriod>& thePrecipitationPeriods) const;
+
+	void getTrendIdVector(trend_id_vector& thePrecipitationTrends) const;
+
 	void printOutPrecipitationVector(std::ostream & theOutput,
 									 const precipitation_data_vector& thePrecipitationDataVector) const;
 	void printOutPrecipitationData(std::ostream & theOutput) const;
@@ -52,8 +60,7 @@ using namespace std;
 
   private:
 
-	void printOutPrecipitationTrends(std::ostream& theOutput, 
-									 const trend_id_vector& thePrecipitationTrends) const;
+	bool getPrecipitationPeriod(const NFmiTime& theTimestamp, NFmiTime& theStartTime, NFmiTime& theEndTime) const;
 	void printOutPrecipitationPeriods(std::ostream& theOutput,
 									  const vector<WeatherPeriod>& thePrecipitationPeriods,
 									  const precipitation_data_vector& theDataVector) const;
@@ -96,6 +103,8 @@ using namespace std;
 	
 	void findOutPrecipitationTrends();
 	void findOutPrecipitationTrends(const precipitation_data_vector& theData,
+									trend_id_vector& thePrecipitationTrends);
+	void findOutPrecipitationTrends(const vector<WeatherPeriod>& thePrecipitationPeriods,
 									trend_id_vector& thePrecipitationTrends);
 	Sentence constructPrecipitationSentence(const WeatherPeriod& thePeriod,
 											const bool& theCheckPrecipitationChange, 

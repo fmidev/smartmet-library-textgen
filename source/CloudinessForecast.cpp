@@ -262,7 +262,7 @@ namespace TextGen
 																		theFullData(0)
 
   {
-	if(theParameters.theForecastArea & FULL_AREA)
+	if(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
 	  theFullData = ((*theParameters.theCompleteData[FULL_AREA])[CLOUDINESS_DATA]);
 	if(theParameters.theForecastArea & COASTAL_AREA)
 	  theCoastalData = ((*theParameters.theCompleteData[COASTAL_AREA])[CLOUDINESS_DATA]);
@@ -716,23 +716,6 @@ namespace TextGen
 	  }
   }
   
-  void CloudinessForecast::printOutCloudinessTrends(std::ostream& theOutput, 
-													const trend_id_vector& theCloudinessTrends) const
-  {
-	for(unsigned int i = 0; i < theCloudinessTrends.size(); i++)
-	  {
-		WeatherPeriod period(theCloudinessTrends.at(i).first.localStartTime(),
-							 theCloudinessTrends.at(i).first.localEndTime());
-		trend_id trid(theCloudinessTrends.at(i).second);
-		theOutput << period.localStartTime()
-				  << "..."
-				  << period.localEndTime()
-				  << ": "
-				  << trend_string(trid)
-				  << endl;
-	  }
-  }
-
   void CloudinessForecast::printOutCloudinessTrends(std::ostream& theOutput) const
   {
 	theOutput << "** CLOUDINESS TRENDS **" << endl; 
@@ -740,19 +723,19 @@ namespace TextGen
 	if(theCloudinessTrendsCoastal.size() > 0)
 	  {
 		theOutput << "Coastal trends: " << endl; 
-		printOutCloudinessTrends(theOutput, theCloudinessTrendsCoastal);
+		print_out_trend_vector(theOutput, theCloudinessTrendsCoastal);
 		isTrends = true;
 	  }
 	if(theCloudinessTrendsInland.size() > 0)
 	  {
 		theOutput << "Inland trends: " << endl; 
-		printOutCloudinessTrends(theOutput, theCloudinessTrendsInland);
+		print_out_trend_vector(theOutput, theCloudinessTrendsInland);
 		isTrends = true;
 	  }
 	if(theCloudinessTrendsFull.size() > 0)
 	  {
 		theOutput << "Full area trends: " << endl; 
-		printOutCloudinessTrends(theOutput, theCloudinessTrendsFull);
+		print_out_trend_vector(theOutput, theCloudinessTrendsFull);
 		isTrends = true;
 	  }
 
@@ -938,13 +921,12 @@ namespace TextGen
 		  }
 	  }
 
+	/*
 	if(sentence.size() > 0)
 	  {
-		sentence << PeriodPhraseFactory::create("today",
-												theParameters.theVariable,
-												theParameters.theForecastTime,
-												thePeriod);
+		sentence << todaySentence;
 	  }
+	*/
 
 	return sentence;
   }
@@ -1134,6 +1116,28 @@ namespace TextGen
 	sentence << cloudiness_string(clid);
 
 	return sentence;
+  }
+
+  void CloudinessForecast::getTrendIdVector(trend_id_vector& theCloudinessTrends) const
+  {
+	const trend_id_vector* vectorToClone = 0;
+
+	if(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
+	  vectorToClone = &theCloudinessTrendsFull;
+	else if(theParameters.theForecastArea & COASTAL_AREA)
+	  vectorToClone = &theCloudinessTrendsCoastal;
+	else if(theParameters.theForecastArea & INLAND_AREA)
+	  vectorToClone = &theCloudinessTrendsInland;
+
+	if(vectorToClone)
+	  theCloudinessTrends = *vectorToClone;
+	/*
+	if(vectorToClone)
+	  {
+		for(unsigned int i = 0; i < vectorToClone->.size(); i++)
+
+	  }
+	*/
   }
 
 }

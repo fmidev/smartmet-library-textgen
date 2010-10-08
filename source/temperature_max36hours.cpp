@@ -1446,7 +1446,17 @@ namespace TextGen
 					}
 				  else
 					{
-					  theDayPhasePhrase << NIGHTTIME_TEMPERATURE_PHRASE << IS_WORD;
+					  Sentence tonightSentence;
+					  tonightSentence << PeriodPhraseFactory::create("tonight",
+											  theParameters.theVariable,
+											  theParameters.theForecastTime,
+											  theParameters.theWeatherPeriod);
+
+					  if(tonightSentence.size() == 0)
+						theDayPhasePhrase << NIGHTTIME_TEMPERATURE_PHRASE << IS_WORD;
+					  else
+						theDayPhasePhrase << PLAIN_TEMPERATURE_PHRASE << IS_WORD;
+						
 					  theParameters.theNightPeriodTautologyFlag = true;
 					}
 			  theParameters.theDayPeriodTautologyFlag = false;

@@ -60,6 +60,7 @@ namespace TextGen
 #define LUMIKUUROJA_WORD "lumikuuroja"
 #define SADEKUUROJA_WORD "sadekuuroja"
 #define RANTAKUUROJA_WORD "r‰nt‰kuuroja"
+#define VESIKUUROJA_WORD "vesikuuroja"
 #define RANTASADETTA_WORD "r‰nt‰sadetta"
 #define VESISADETTA_WORD "vesisadetta"
 #define LUMISADETTA_WORD "lumisadetta"
@@ -73,8 +74,7 @@ namespace TextGen
 #define RANTA_TAVUVIIVA_WORD "r‰nt‰-"
 #define LUMI_TAVUVIIVA_WORD "lumi-"
 #define TAI_WORD "tai"
-#define VESI_KUUROJA_WORD "r‰nt‰kuuroja"
-#define RANTA_KUUROJA_WORD "vesikuuroja"
+#define JA_WORD "ja"
 #define JOKA_VOI_OLLA_JAATAVAA_PHRASE "joka voi olla j‰‰t‰v‰‰"
 #define JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE "jotka voivat olla j‰‰t‰vi‰"
 #define YKSITTAISET_SADEKUUROT_MAHDOLLISIA "yksitt‰iset sadekuurot ovat kuitenkin mahdollisia"
@@ -84,6 +84,9 @@ namespace TextGen
 #define YKSITTAISET_RANTA_VESI_KUUROT_MAHDOLLISIA "yksitt‰iset r‰nt‰- tai vesikuurot ovat kuitenkin mahdollisia"
 #define YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA "yksitt‰iset lumi- tai r‰nt‰kuurot ovat kuitenkin mahdollisia"
 #define YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA "yksitt‰iset vesi- tai lumikuurot ovat kuitenkin mahdollisia"
+
+#define SUMUA_WORD "sumua"
+#define JOKA_VOI_OLLA_SAKEAA_PHRASE "joka voi olla sakeaa"
 
 #define ALUEEN_POHJOISOSISSA_PHRASE "alueen pohjoisosissa"
 #define ALUEEN_ETELAOSISSA_PHRASE "alueen etel‰osissa"
@@ -156,6 +159,8 @@ namespace TextGen
 	  PRECIPITATION_SOUTHWEST_SHARE_DATA,
 	  PRECIPITATION_NORTHWEST_SHARE_DATA,
 	  THUNDERPROBABILITY_DATA,
+	  FOG_INTENSITY_MODERATE_DATA,
+	  FOG_INTENSITY_DENSE_DATA,
 	  UNDEFINED_DATA_ID
 	};
   /*
@@ -232,20 +237,30 @@ SHOWERS
 	{
 	  AAMU, // 06-09
 	  AAMUPAIVA, // 09-11
-	  PITKA_AAMUPAIVA, // 09-12
+	  //	  PITKA_AAMUPAIVA, // 09-12
 	  KESKIPAIVA, // 11-13
+	  //	  PITKA_KESKIPAIVA, // 09-15
 	  ILTAPAIVA, // 13-18
-	  PITKA_ILTAPAIVA, // 12-18
-	  ILTA, // 18-21
+	  //	  PITKA_ILTAPAIVA, // 12-18
+	  ILTA, // 18-22
 	  ILTAYO, // 22-00
 	  KESKIYO, // 00-03
 	  AAMUYO, // 03-06
 	  PAIVA, // 09-18
-	  PITKA_PAIVA, // 06-18
+	  //	  PITKA_PAIVA, // 06-18
 	  YO, // 00-06
-	  PITKA_YO, // 22-06
+	  //	  PITKA_YO, // 22-06
 	  YOPUOLI, // 18-06
-	  PAIVAPUOLI // 06-18
+	  PAIVAPUOLI, // 06-18
+
+	  AAMU_JA_AAMUPAIVA, // 06-12
+	  AAMUPAIVA_JA_KESKIPAIVA, // 09-13
+	  KESKIPAIVA_JA_ILTAPAIVA, // 11-18
+	  ILTAPAIVA_JA_ILTA, // 13-21
+	  ILTA_JA_ILTAYO, //18-00
+	  ILTAYO_JA_KESKIYO, // 22-03
+	  KESKIYO_JA_AAMUYO, // 00-06
+	  AAMUYO_JA_AAMU, // 03-09
 	};
 
   enum trend_id
@@ -350,6 +365,18 @@ SHOWERS
 	float theMeanProbability;
 	float theMaxProbability;
 	float theStandardDeviationProbability;
+  };
+
+  struct FogIntensityDataItem
+  {
+	FogIntensityDataItem(const float& moderateFogExtent,
+						 const float& denseFogExtent):
+	  theModerateFogExtent(moderateFogExtent),
+	  theDenseFogExtent(denseFogExtent)
+	{}
+
+	float theModerateFogExtent;
+	float theDenseFogExtent;
   };
 
   struct PrecipitationDataItemData
@@ -481,6 +508,7 @@ SHOWERS
   typedef std::pair<WeatherPeriod, trend_id> weather_period_trend_id_pair;
   typedef vector<weather_period_trend_id_pair> trend_id_vector;
   typedef vector<PrecipitationDataItemData*> precipitation_data_vector;
+  typedef vector<FogIntensityDataItem*> fog_data_vector;
   typedef map<int, PrecipitationDataItem*> precipitation_data_item_container;
   typedef vector<precipitation_data_item_container*> precipitation_data_container;
   typedef map<int, weather_result_data_item_vector*> weather_forecast_result_container;
@@ -489,6 +517,8 @@ SHOWERS
   typedef vector<cloudiness_data_item_container*> cloudiness_data_container;
   typedef map<int, ThunderDataItem*> thunder_data_item_container;
   typedef vector<thunder_data_item_container*> thunder_data_container;
+  typedef map<int, FogIntensityDataItem*> fog_data_item_container;
+  typedef vector<fog_data_item_container*> fog_data_container;
   typedef vector<NFmiPoint*> location_coordinate_vector;
 
 
@@ -545,6 +575,7 @@ SHOWERS
 	  cloudiness_data_container theCloudinessData;
 	  precipitation_data_container thePrecipitationData;
 	  thunder_data_container theThunderData;
+	  fog_data_container theFogData;
 	};
 
 
@@ -553,6 +584,8 @@ SHOWERS
 											float& theDryWeatherLimit, 
 											float& theWeakPrecipitationLimit);
   const char* trend_string(const trend_id& theTrendId);
+  const char* precipitation_form_string(const precipitation_form_id& thePrecipitationForm);
+
   void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour);
   part_of_the_day_id get_part_of_the_day_id(const WeatherPeriod& thePeriod);
   bool get_part_of_the_day(const WeatherPeriod& theSourcePeriod, 
@@ -560,6 +593,9 @@ SHOWERS
 						   WeatherPeriod& theDestinationPeriod);
   bool is_inside(const NFmiTime& theTimeStamp, 
 				 const part_of_the_day_id& thePartOfTheDayId);
+  bool is_inside(const NFmiTime& theTimeStamp, 
+				 const WeatherPeriod& theWeatherPeriod);
+  Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod);
   Sentence get_time_phrase(const WeatherPeriod& theWeatherPeriod, bool theAlkaenPhrase = false);
   unsigned int get_complete_precipitation_form(const string& theVariable,
 											   const float thePrecipitationFormWater,
@@ -579,6 +615,7 @@ SHOWERS
   float get_standard_deviation(const weather_result_data_item_vector& theTimeSeries);
   void get_min_max(const weather_result_data_item_vector& theTimeSeries, float& theMin, float& theMax);
   double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSeries);
+  void print_out_trend_vector(std::ostream& theOutput, const trend_id_vector& theTrendVector);
 
 }
 

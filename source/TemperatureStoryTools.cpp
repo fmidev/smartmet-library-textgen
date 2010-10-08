@@ -178,6 +178,27 @@ namespace TextGen
 	  
 	  if(range)
 		{
+		  // changed 6.10.2010
+		  // Lea Saukkonen:
+		  // Kun lämpötilaa kuvataan haarukalla olisi järjestys oltava seuraavanlainen:
+		  // 1. Lukemat positiivisi: pienempi lukema ensin 
+		  // esim. Lämpötila on viidestä kymmeneen (5…10) astetta
+		  // 2. Lukemat nollan molemmin puolin: kylmempi ensin 
+		  // esim Lämpötila on miinus kolmen ja plus kahden (-3…+2)asteen välillä
+		  // 3. Lukemista toinen on nolla: nolla ensin 
+		  // esim Lämpötila on nollan ja miinus viiden 0…-5) asteen välillä 
+		  // toinen esimerkki Lämpötila on nollan ja plus viiden (0…+5) asteen välillä
+		  // 4. Lukemat negatiivisia: lämpimämpi ensin 
+		  // esim Lämpötila on miinus viidestä miinus kymmeneen (-5…-10) asteeseen 
+		  // tai Pakkasta on viidestä kymmeneen asteeseen.
+		  if(theMinimum < 0 && theMaximum <= 0)
+			sentence << IntegerRange(theMaximum, theMinimum, theRangeSeparator)
+					 << *UnitFactory::create(DegreesCelsius);
+		  else
+			sentence << IntegerRange(theMinimum, theMaximum, theRangeSeparator)
+					 << *UnitFactory::create(DegreesCelsius);
+
+		  /*
 		  if(theMinimum < 0 && theMaximum >= 0 && abs(theMinimum) > abs(theMaximum))
 			sentence << IntegerRange(theMaximum, theMinimum, theRangeSeparator)
 				   << *UnitFactory::create(DegreesCelsius);
@@ -187,6 +208,7 @@ namespace TextGen
 		  else
 			sentence << IntegerRange(theMinimum, theMaximum, theRangeSeparator)
 					 << *UnitFactory::create(DegreesCelsius);
+		  */
 		}
 	  else
 		{

@@ -66,6 +66,94 @@ using namespace std;
 	return retval;
   }
 
+  const char* precipitation_form_string(const precipitation_form_id& thePrecipitationForm)
+  {
+	const char* retval = "";
+
+	switch(thePrecipitationForm)
+	  {
+	  case WATER_FORM:
+		retval = "WATER";
+		break;
+	  case DRIZZLE_FORM:
+		retval = "DRIZZLE";
+		break;
+	  case SLEET_FORM:
+		retval = "SLEET";
+		break;
+	  case SNOW_FORM:
+		retval = "SNOW";
+		break;
+	  case FREEZING_FORM:
+		retval = "FREEZING";
+		break;
+	  case WATER_DRIZZLE_FORM:
+		retval = "WATER_DRIZZLE";
+		break;
+	  case WATER_SLEET_FORM:
+		retval = "WATER_SLEET";
+		break;
+	  case WATER_SNOW_FORM:
+		retval = "WATER_SNOW";
+		break;
+	  case WATER_FREEZING_FORM:
+		retval = "WATER_FREEZING";
+		break;
+	  case WATER_DRIZZLE_SLEET_FORM:
+		retval = "WATER_DRIZZLE_SLEET";
+		break;
+	  case WATER_DRIZZLE_SNOW_FORM:
+		retval = "WATER_DRIZZLE_SNOW";
+		break;
+	  case WATER_DRIZZLE_FREEZING_FORM:
+		retval = "WATER_DRIZZLE_FREEZING";
+		break;
+	  case WATER_SLEET_SNOW_FORM:
+		retval = "WATER_SLEET_SNOW";
+		break;
+	  case WATER_SLEET_FREEZING_FORM:
+		retval = "WATER_SLEET_FREEZING";
+		break;
+	  case WATER_SNOW_FREEZING_FORM:
+		retval = "WATER_SNOW_FREEZING";
+		break;
+	  case DRIZZLE_SLEET_FORM:
+		retval = "DRIZZLE_SLEET";
+		break;
+	  case DRIZZLE_SNOW_FORM:
+		retval = "DRIZZLE_SNOW";
+		break;
+	  case DRIZZLE_FREEZING_FORM:
+		retval = "DRIZZLE_FREEZING";
+		break;
+	  case DRIZZLE_SLEET_SNOW_FORM:
+		retval = "DRIZZLE_SLEET_SNOW";
+		break;
+	  case DRIZZLE_SLEET_FREEZING_FORM:
+		retval = "DRIZZLE_SLEET_FREEZING";
+		break;
+	  case DRIZZLE_SNOW_FREEZING_FORM:
+		retval = "DRIZZLE_SNOW_FREEZING";
+		break;
+	  case SLEET_SNOW_FORM:
+		retval = "SLEET_SNOW";
+		break;
+	  case SLEET_FREEZING_FORM:
+		retval = "SLEET_FREEZING";
+		break;
+	  case SLEET_SNOW_FREEZING_FORM:
+		retval = "SLEET_SNOW_FREEZING";
+		break;
+	  case SNOW_FREEZING_FORM:
+		retval = "SNOW_FREEZING";
+		break;
+	  default:
+		retval = "MISSING_VALUE";
+		break;
+	  }
+	return retval;
+  }
+
   part_of_the_day_id get_part_of_the_day_id(const WeatherPeriod& thePeriod)
   {
 	if(thePeriod.localStartTime().GetHour() > 0 && thePeriod.localStartTime().GetHour() < 6)
@@ -179,12 +267,14 @@ using namespace std;
 		  theEndHour = 11;
 		}
 		break;
+		/*
 	  case PITKA_AAMUPAIVA:
 		{
 		  theStartHour = 9;
 		  theEndHour = 12;
 		}
 		break;
+		*/
 	  case KESKIPAIVA:
 		{
 		  theStartHour = 11;
@@ -197,12 +287,14 @@ using namespace std;
 		  theEndHour = 18;
 		}
 		break;
+		/*
 	  case PITKA_ILTAPAIVA:
 		{
 		  theStartHour = 12;
 		  theEndHour = 18;
 		}
 		break;
+		*/
 	  case ILTA:
 		{
 		  theStartHour = 18;
@@ -233,6 +325,7 @@ using namespace std;
 		  theEndHour = 18;
 		}
 		break;
+		/*
 		break;
 	  case PITKA_PAIVA:
 		{
@@ -240,18 +333,21 @@ using namespace std;
 		  theEndHour = 18;
 		}
 		break;
+		*/
 	  case YO:
 		{
 		  theStartHour = 0;
 		  theEndHour = 6;
 		}
 		break;
+		/*
 	  case PITKA_YO:
 		{
 		  theStartHour = 22;
 		  theEndHour = 6;
 		}
 		break;
+		*/
 	  case YOPUOLI:
 		{
 		  theStartHour = 18;
@@ -264,8 +360,61 @@ using namespace std;
 		  theEndHour = 18;
 		}
 		break;
+	  case AAMU_JA_AAMUPAIVA:
+		{
+		  theStartHour = 6;
+		  theEndHour = 12;
+		}
+		break;
+	  case AAMUPAIVA_JA_KESKIPAIVA:
+		{
+		  theStartHour = 9;
+		  theEndHour = 13;
+		}
+		break;
+	  case KESKIPAIVA_JA_ILTAPAIVA:
+		{
+		  theStartHour = 11;
+		  theEndHour = 18;
+		}
+		break;
+	  case ILTAPAIVA_JA_ILTA:
+		{
+		  theStartHour = 13;
+		  theEndHour = 21;
+		}
+		break;
+	  case ILTA_JA_ILTAYO:
+		{
+		  theStartHour = 18;
+		  theEndHour = 0;
+		}
+		break;
+	  case ILTAYO_JA_KESKIYO:
+		{
+		  theStartHour = 22;
+		  theEndHour = 3;
+		}
+		break;
+	  case KESKIYO_JA_AAMUYO:
+		{
+		  theStartHour = 0;
+		  theEndHour = 6;
+		}
+		break;
+	  case AAMUYO_JA_AAMU:
+		{
+		  theStartHour = 3;
+		  theEndHour = 9;
+		}
+		break;
 	  }
+  }
 
+  bool is_inside(const NFmiTime& theTimeStamp, 
+				 const WeatherPeriod& theWeatherPeriod)
+  {
+	return theTimeStamp >= theWeatherPeriod.localStartTime() && theTimeStamp <= theWeatherPeriod.localEndTime();
   }
 
   bool is_inside(const NFmiTime& theTimeStamp, 
@@ -282,6 +431,36 @@ using namespace std;
 		   theTimeStamp <= endTimeCompare);
   }
 
+
+  Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod)
+  {
+	Sentence sentence;
+
+	sentence << get_time_phrase(theWeatherPeriod, false);
+	
+	if(sentence.size() == 0)
+	  {
+		// aamulla ja aamupäivällä
+		if(is_inside(theWeatherPeriod.localStartTime(), AAMU_JA_AAMUPAIVA))
+		  sentence << AAMULLA_WORD << JA_WORD << AAMUPAIVALLA_WORD;
+		else if(is_inside(theWeatherPeriod.localStartTime(), AAMUPAIVA_JA_KESKIPAIVA))
+		  sentence << AAMUPAIVALLA_WORD << JA_WORD << KESKIPAIVALLA_WORD;
+		else if(is_inside(theWeatherPeriod.localStartTime(), KESKIPAIVA_JA_ILTAPAIVA))
+		  sentence << KESKIPAIVALLA_WORD << JA_WORD << ILTAPAIVALLA_WORD;
+		else if(is_inside(theWeatherPeriod.localStartTime(), ILTAPAIVA_JA_ILTA))
+		  sentence << ILTAPAIVALLA_WORD << JA_WORD << ILLALLA_WORD;
+		else if(is_inside(theWeatherPeriod.localStartTime(), ILTA_JA_ILTAYO))
+		  sentence << ILLALLA_WORD << JA_WORD << ILTAYOSTA_WORD;
+		else if(is_inside(theWeatherPeriod.localStartTime(), ILTAYO_JA_KESKIYO))
+		  sentence << ILTAYOSTA_WORD << JA_WORD << KESKIYOLLA_WORD;
+		else if(is_inside(theWeatherPeriod.localStartTime(), KESKIYO_JA_AAMUYO))
+		  sentence << KESKIYOLLA_WORD << JA_WORD << AAMUYOLLA_WORD;
+		else if(is_inside(theWeatherPeriod.localStartTime(), AAMUYO_JA_AAMU))
+		  sentence << AAMUYOLLA_WORD << JA_WORD << AAMULLA_WORD;
+	  }
+
+	return sentence;
+  }
 
   Sentence get_time_phrase(const WeatherPeriod& theWeatherPeriod, bool theAlkaenPhrase /*= false*/)
   {
@@ -384,11 +563,21 @@ using namespace std;
 	unsigned int precipitation_form = 0;
 
 	typedef std::pair<float, precipitation_form_id> precipitation_form_type;
-	precipitation_form_type water(thePrecipitationFormWater, WATER_FORM);
-	precipitation_form_type drizzle(thePrecipitationFormDrizzle, DRIZZLE_FORM);
-	precipitation_form_type sleet(thePrecipitationFormSleet, SLEET_FORM);
-	precipitation_form_type snow(thePrecipitationFormSnow, SNOW_FORM);
-	precipitation_form_type freezing(thePrecipitationFormFreezing, FREEZING_FORM);
+	precipitation_form_type water(thePrecipitationFormWater, 
+								  (thePrecipitationFormWater != kFloatMissing ? 
+								   WATER_FORM : MISSING_PRECIPITATION_FORM));
+	precipitation_form_type drizzle(thePrecipitationFormDrizzle, 
+									(thePrecipitationFormDrizzle != kFloatMissing ? 
+									 DRIZZLE_FORM : MISSING_PRECIPITATION_FORM));
+	precipitation_form_type sleet(thePrecipitationFormSleet, 
+								  (thePrecipitationFormSleet != kFloatMissing ?
+								   SLEET_FORM : MISSING_PRECIPITATION_FORM));
+	precipitation_form_type snow(thePrecipitationFormSnow, 
+								 (thePrecipitationFormSnow != kFloatMissing ?
+								  SNOW_FORM : MISSING_PRECIPITATION_FORM));
+	precipitation_form_type freezing(thePrecipitationFormFreezing, 
+									 (thePrecipitationFormFreezing != kFloatMissing ?
+									  FREEZING_FORM : MISSING_PRECIPITATION_FORM));
 
 	vector<precipitation_form_type> precipitation_forms;
 	precipitation_forms.push_back(water);
@@ -399,11 +588,17 @@ using namespace std;
 
 	sort(precipitation_forms.begin(),precipitation_forms.end());
 
-	precipitation_form_id primaryPrecipitationForm = precipitation_forms[4].first > PRECIPITATION_FORM_REPORTING_LIMIT 
+	precipitation_form_id primaryPrecipitationForm = 
+	  (precipitation_forms[4].first != kFloatMissing &&
+	   precipitation_forms[4].first > PRECIPITATION_FORM_REPORTING_LIMIT) 
 	  ? precipitation_forms[4].second : MISSING_PRECIPITATION_FORM;
-	precipitation_form_id secondaryPrecipitationForm = precipitation_forms[3].first > PRECIPITATION_FORM_REPORTING_LIMIT 
+	precipitation_form_id secondaryPrecipitationForm = 
+	  (precipitation_forms[3].first != kFloatMissing &&
+	   precipitation_forms[3].first > PRECIPITATION_FORM_REPORTING_LIMIT)
 	  ? precipitation_forms[3].second : MISSING_PRECIPITATION_FORM;
-	precipitation_form_id tertiaryPrecipitationForm = precipitation_forms[2].first > PRECIPITATION_FORM_REPORTING_LIMIT
+	precipitation_form_id tertiaryPrecipitationForm = 
+	  (precipitation_forms[2].first != kFloatMissing &&
+	   precipitation_forms[2].first > PRECIPITATION_FORM_REPORTING_LIMIT)
 	  ? precipitation_forms[2].second : MISSING_PRECIPITATION_FORM;
 
 	precipitation_form |= primaryPrecipitationForm;
