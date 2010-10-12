@@ -59,12 +59,9 @@ using namespace std;
   {
 	for(unsigned int i = 0; i < theTrendVector.size(); i++)
 	  {
-		WeatherPeriod period(theTrendVector.at(i).first.localStartTime(),
-							 theTrendVector.at(i).first.localEndTime());
 		trend_id trid(theTrendVector.at(i).second);
-		theOutput << period.localStartTime()
-				  << "..."
-				  << period.localEndTime()
+
+		theOutput << theTrendVector.at(i).first
 				  << ": "
 				  << trend_string(trid)
 				  << endl;
@@ -927,14 +924,14 @@ const void log_subperiods(wf_story_params& theParameters)
 
 			bool dataOk = (cloudinessAtStart != kFloatMissing && cloudinessAtEnd != kFloatMissing);
 
-			if(dataOk && cloudinessAtStart >= VERRATTAIN_PILVISTA && 
+			if(dataOk && cloudinessAtStart >= VERRATTAIN_PILVINEN && 
 			   cloudinessAtEnd == SELKEAA && 
 			   pearson_coefficient < -TREND_CHANGE_COEFFICIENT_TRESHOLD)
 			  {
 				theTrendId = SELKENEE;
 			  }
 			else if(dataOk && cloudinessAtStart <= MELKO_SELKEAA && 
-					cloudinessAtEnd >= VERRATTAIN_PILVISTA &&
+					cloudinessAtEnd >= VERRATTAIN_PILVINEN &&
 					pearson_coefficient >= TREND_CHANGE_COEFFICIENT_TRESHOLD)
 			  {
 				theTrendId = PILVISTYY;
@@ -1151,11 +1148,11 @@ const void log_subperiods(wf_story_params& theParameters)
 		if(puolipilvisesta_pilviseen(theCloudinessIdInlandMorning,
 									 theCloudinessIdInlandAfternoon))
 		  {
-			sentence << SAA_VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
+			sentence << VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
 		  }
 		else if(theCloudinessIdInlandMorning != MISSING_CLOUDINESS_ID &&
-				theCloudinessIdInlandMorning != PUOLIPILVISTA_JA_PILVISTA && 
-				theCloudinessIdInlandAfternoon != PUOLIPILVISTA_JA_PILVISTA &&
+				theCloudinessIdInlandMorning != PUOLIPILVINEN_JA_PILVINEN && 
+				theCloudinessIdInlandAfternoon != PUOLIPILVINEN_JA_PILVINEN &&
 				abs(theCloudinessIdInlandMorning - theCloudinessIdInlandAfternoon) < 2)
 		  {
 			sentence << cloudiness_sentence(theCloudinessIdInlandMorning);
@@ -1179,11 +1176,11 @@ const void log_subperiods(wf_story_params& theParameters)
 		if(puolipilvisesta_pilviseen(theCloudinessIdCoastalMorning,
 									 theCloudinessIdCoastalAfternoon))
 		  {
-			sentence << SAA_VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
+			sentence << VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
 		  }
 		else if(theCloudinessIdCoastalMorning != MISSING_CLOUDINESS_ID &&
-				theCloudinessIdCoastalMorning != PUOLIPILVISTA_JA_PILVISTA && 
-				theCloudinessIdCoastalAfternoon != PUOLIPILVISTA_JA_PILVISTA &&
+				theCloudinessIdCoastalMorning != PUOLIPILVINEN_JA_PILVINEN && 
+				theCloudinessIdCoastalAfternoon != PUOLIPILVINEN_JA_PILVINEN &&
 				abs(theCloudinessIdCoastalMorning - theCloudinessIdCoastalAfternoon) < 2)
 		  {
 			sentence << cloudiness_sentence(theCloudinessIdCoastalMorning);
@@ -2327,10 +2324,10 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 		NFmiTime trend1Time, trend2Time;
 		if(vector1Index < theTrendIdVector1.size())
 		  {
-			trend1Time = theTrendIdVector1.at(vector1Index).first.localStartTime();
+			trend1Time = theTrendIdVector1.at(vector1Index).first;
 			if(vector2Index < theTrendIdVector2.size())
 			  {
-				trend2Time = theTrendIdVector2.at(vector2Index).first.localStartTime();
+				trend2Time = theTrendIdVector2.at(vector2Index).first;
 				if(trend2Time <= trend1Time)
 				  {
 					theOutputTrendIdVector.push_back(theTrendIdVector2.at(vector2Index));
@@ -2360,75 +2357,315 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 	  }
   }
 
-  Sentence weather_forecast_sentence(const PrecipitationForecast& thePrecipitationForecast, 
-									 const CloudinessForecast& theCloudinessForecast,
-									 const FogForecast& theFogForecast,
-									 const WeatherPeriod& thePeriod,
-									 wf_story_params& theParameters)
+  void construct_story_id_vector(const trend_id_vector& theTrends,
+								 const wf_story_params theParameters,
+								 const WeatherPeriod& thePeriod,
+								 const PrecipitationForecast& thePrecipitationForecast,
+								 story_part_vector& theStoryParts)
   {
-	Sentence sentence;
-	  
-
-#ifdef LATER
-	// examine if one long rain period inside thePeriod
-
-	vector<WeatherPeriod> theDryPeriods;
-
-	if(thePrecipitationForecast.getDryPeriods(thePeriod, theDryPeriods))
-	  {
-		for(unsigned i = 0; i < theDryPeriods.size(); i++)
-		  {
-			sentence << theCloudinessForecast.cloudinessSentence(theDryPeriods.at(i));
-			sentence << Delimiter(",");
-		  }
-		  /*
-		if(theDryPeriods.at(0).localStartTime() == thePeriod.localStartTime())
-		  {
-			sentence << theCloudinessForecast.cloudinessSentence(theDryPeriods.at(0));
-			sentence << Delimiter(",");
-			sentence << thePrecipitationForecast.precipitationSentence(thePeriod);
-		  }
-		  */
-		// report cloudiness
-	  }
-	sentence << Delimiter(".");
-	sentence << Delimiter(".");
-	sentence << Delimiter(".");
+	/*
+  enum story_part_id
+	{
+	  PILVISTYY = 0x1,
+	  SELKENEE = 0x2,
+	  POUTAANTUU = 0x4,
+	  SADE_ALKAA = 0x8,
+	  PILVISYYS = 0x10,
+	  SADE = 0x20,
+	  MISSING_STORY_PART_ID = 0x0
+	};
+	 */
 	
-	vector<WeatherPeriod> thePrecipitationPeriods;
-	if(thePrecipitationForecast.getPrecipitationPeriods(thePeriod, thePrecipitationPeriods))
+	unsigned int previous_story_part = MISSING_STORY_PART_ID;
+	NFmiTime startTime;
+	NFmiTime endTime;
+	NFmiTime lastStoryPartEndTime;
+
+	bool firstValidWeatherEvent = true;
+
+	theParameters.theLog << "STORY PERIOD: " << thePeriod.localStartTime() << ".." <<  thePeriod.localEndTime() << endl;
+
+	for(unsigned int i = 0; i < theTrends.size(); i++)
 	  {
-		for(unsigned i = 0; i < thePrecipitationPeriods.size(); i++)
+		if(theTrends.at(i).first < thePeriod.localStartTime() ||
+		   theTrends.at(i).first > thePeriod.localEndTime())
 		  {
-			sentence << thePrecipitationForecast.precipitationSentence(thePrecipitationPeriods.at(i));
-			sentence << Delimiter(",");
-
-			WeatherPeriod period(thePrecipitationPeriods.at(i).localStartTime(),
-								 thePrecipitationPeriods.at(i).localEndTime());
-			theParameters.theLog << "PR PERIOD: ";
-			theParameters.theLog << period.localStartTime()
-								 << "..."
-								 << period.localEndTime()
-								 << endl;
-
-
+			continue;
 		  }
-		/*
-		if(thePrecipitationPeriods.at(0).localStartTime() == thePeriod.localStartTime())
+
+		if(firstValidWeatherEvent)
 		  {
-			sentence << thePrecipitationForecast.precipitationSentence(thePrecipitationPeriods.at(0));
+			firstValidWeatherEvent = false;
+			/*
+			  14:16:37 12.10.2010       REPORTING WEATHER FORECAST START
+			  14:16:37 12.10.2010       14.10.2010 06:00:00.. 14.10.2010 06:00:00: PILVISYYS JA SADE
+			  14:16:37 12.10.2010       Precipitation form is SLEET
+			  14:16:37 12.10.2010       14.10.2010 06:00:00: SADE_ALKAA
+			*/
+			startTime = (thePeriod.localStartTime());
+			endTime = (theTrends.at(i).first);
+
+			theParameters.theLog << startTime << ".. " << endTime;
+	
+			switch(theTrends.at(i).second)
+			  {
+			  case SADE_ALKAA:
+				{
+				  NFmiTime endTimeBeforeChange(endTime);
+				  if(endTimeBeforeChange > startTime)
+					endTimeBeforeChange.ChangeByHours(-1);
+
+				  if(endTimeBeforeChange <  endTime)
+					theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), PILVISYYS_STORY_PART));
+				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), SADE_ALKAA_STORY_PART));
+				  theParameters.theLog << " pre SADE_ALKAA: report Precipitation+Cloudiness" << endl;
+				  previous_story_part = SADE_ALKAA_STORY_PART;
+				  lastStoryPartEndTime = endTime;
+				}
+				  break;
+			  case POUTAANTUU:
+				{
+				  NFmiTime endTimeBeforeChange(endTime);
+				  if(endTimeBeforeChange > startTime)
+					endTimeBeforeChange.ChangeByHours(-1);
+				  theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), SADE_STORY_PART));
+				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), POUTAANTUU_STORY_PART));
+				  theParameters.theLog << " pre POUTAANTUU: report Precipitation" << endl;
+				  previous_story_part = POUTAANTUU_STORY_PART;
+				  lastStoryPartEndTime = endTime;
+				}
+				break;
+			  case SELKENEE:
+				{
+				  NFmiTime endTimeBeforeChange(endTime);
+				  if(endTimeBeforeChange > startTime)
+					endTimeBeforeChange.ChangeByHours(-1);
+				  theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), PILVISYYS_STORY_PART));
+				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), SELKENEE_STORY_PART));
+				  theParameters.theLog << " pre SELKENEE: report Precipitation+Cloudiness" << endl;
+				  previous_story_part = SELKENEE_STORY_PART;
+				  lastStoryPartEndTime = endTime;
+				}
+				break;
+			  case PILVISTYY:
+				{
+				  NFmiTime endTimeBeforeChange(endTime);
+				  if(endTimeBeforeChange > startTime)
+					endTimeBeforeChange.ChangeByHours(-1);
+				  theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), PILVISYYS_STORY_PART));
+				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), PILVISTYY_STORY_PART));
+				  theParameters.theLog << " pre PILVISTYY: report Precipitation" << endl;
+				  previous_story_part = PILVISTYY_STORY_PART;
+				  lastStoryPartEndTime = endTime;
+				}
+				break;
+			  case NO_TREND:
+				theParameters.theLog << " pre NO_TREND: report Precipitation" << endl;
+				break;
+			  }
 		  }
-		*/
-		// report cloudiness
+		else
+		  {
+			startTime = (theTrends.at(i-1).first);
+			endTime = (theTrends.at(i).first);
+			
+			if(theTrends.at(i-1).first < thePeriod.localStartTime())
+			  startTime = thePeriod.localStartTime();
+			if(theTrends.at(i-1).first > thePeriod.localEndTime())
+			  endTime = thePeriod.localEndTime();
+
+			if(theTrends.at(i).first > thePeriod.localEndTime())
+			  {
+				endTime = thePeriod.localEndTime();
+				theParameters.theLog << startTime << ".. " << endTime;
+				theParameters.theLog << " NO_TRENDS: report Cloudiness, Precipitation" << endl;				
+				theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTime), PILVISYYS_STORY_PART + SADE_STORY_PART));
+				break;
+			  }
+
+			theParameters.theLog << startTime << ".. " << endTime;
+			switch(theTrends.at(i).second)
+			  {
+			  case SADE_ALKAA:
+				{
+				  NFmiTime previousPeriodStartTime(startTime);
+				  previousPeriodStartTime.ChangeByHours(1);
+				  NFmiTime previousPeriodEndTime(endTime);
+				  if(previousPeriodEndTime.DifferenceInHours(previousPeriodEndTime) > 1)
+					previousPeriodEndTime.ChangeByHours(-1);
+				  if(previous_story_part != POUTAANTUU_STORY_PART)
+					theStoryParts.push_back(make_pair(WeatherPeriod(previousPeriodStartTime, previousPeriodEndTime), PILVISYYS_STORY_PART));
+				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), SADE_ALKAA_STORY_PART));
+				  previous_story_part = SADE_ALKAA_STORY_PART;
+				  lastStoryPartEndTime = endTime;
+				  theParameters.theLog << " pre SADE_ALKAA: report Precipitation+Cloudiness" << endl;
+				}
+				break;
+			  case POUTAANTUU:
+				{
+				  NFmiTime endTimeBeforeChange(endTime);
+				  if(endTimeBeforeChange > startTime)
+					endTimeBeforeChange.ChangeByHours(-1);
+				  if(theStoryParts.size() == 0 || theStoryParts.at(theStoryParts.size()-1).second != SADE_ALKAA_STORY_PART)
+					theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), SADE_STORY_PART));
+				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), POUTAANTUU_STORY_PART));
+				  theParameters.theLog << " pre POUTAANTUU: report Precipitation" << endl;
+				  previous_story_part = POUTAANTUU_STORY_PART;
+				  lastStoryPartEndTime = endTime;
+				}
+				break;
+			  case SELKENEE:
+				{
+				  NFmiTime endTimeBeforeChange(endTime);
+				  if(endTimeBeforeChange > startTime)
+					endTimeBeforeChange.ChangeByHours(-1);
+				  theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), PILVISYYS_STORY_PART + SADE_STORY_PART));
+				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), SELKENEE_STORY_PART));
+				  theParameters.theLog << " pre SELKENEE: report Precipitation+Cloudiness" << endl;
+				  previous_story_part = SELKENEE_STORY_PART;
+				  lastStoryPartEndTime = endTime;
+				}
+				break;
+			  case PILVISTYY:
+				{
+				  NFmiTime endTimeBeforeChange(endTime);
+				  if(endTimeBeforeChange > startTime)
+					endTimeBeforeChange.ChangeByHours(-1);
+				  theParameters.theLog << " pre PILVISTYY: report Precipitation" << endl;
+				  theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), PILVISYYS_STORY_PART));
+				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), PILVISTYY_STORY_PART));
+				  previous_story_part = PILVISTYY_STORY_PART;
+				  lastStoryPartEndTime = endTime;
+				}
+				break;
+			  case NO_TREND:
+				theParameters.theLog << " pre NO_TREND: report Precipitation" << endl;
+				break;
+			  }
+		  }
 	  }
-#endif
 
+	if(theStoryParts.size() == 0)
+	  {
+		if(!thePrecipitationForecast.isDryPeriod(thePeriod, theParameters.theForecastArea))
+		  theStoryParts.push_back(make_pair(thePeriod, SADE_STORY_PART));  
+		else
+		  theStoryParts.push_back(make_pair(thePeriod, PILVISYYS_STORY_PART + SADE_STORY_PART));  
+	  }
+	/*
+	if(lastStoryPartEndTime < thePeriod.localEndTime())
+	  {
+		NFmiTime startTimeBeforeChange(lastStoryPartEndTime);
+		if(lastStoryPartEndTime < endTime)
+		  startTimeBeforeChange.ChangeByHours(1);
 
-	return sentence;
-	//	thePrecipitationForecast.getPrecipitationPeriods()
+		if(previous_story_part == POUTAANTUU_STORY_PART)
+		  theStoryParts.push_back(make_pair(WeatherPeriod(startTimeBeforeChange,
+														thePeriod.localEndTime()), PILVISYYS_STORY_PART));
+		else if(previous_story_part == PILVISTYY_STORY_PART)
+		  theStoryParts.push_back(make_pair(WeatherPeriod(lastStoryPartEndTime, 
+														thePeriod.localEndTime()), SADE_STORY_PART));
+	  }
+	*/
   }
 
+  Paragraph weather_forecast_sentence(const story_part_vector& theStoryParts,
+									  const wf_story_params theParameters,
+									  const PrecipitationForecast& thePrecipitationForecast,
+									  const CloudinessForecast& theCloudinessForecast)
+  {
+	Paragraph paragraph;
 
+	theParameters.theLog << "REPORTING WEATHER FORECAST START" << endl;
+
+	unsigned int previousStoryPartId(MISSING_STORY_PART_ID);
+
+	for(unsigned int i = 0; i < theStoryParts.size(); i++)
+	  {
+		Sentence mySentence;
+		unsigned int storyPartId(theStoryParts.at(i).second);
+		WeatherPeriod storyPartPeriod(theStoryParts.at(i).first);
+		
+		if(i > 0)
+		  previousStoryPartId = theStoryParts.at(i-1).second;
+
+		Sentence todaySentence;
+		todaySentence << PeriodPhraseFactory::create("today",
+													 theParameters.theVariable,
+													 theParameters.theForecastTime,
+													 storyPartPeriod);
+
+
+		switch(storyPartId)
+		  {
+		  case PILVISTYY_STORY_PART:
+			theParameters.theLog << theStoryParts.at(i).first.localStartTime() 
+								 << ": PILVISTYY" << endl;
+			mySentence << todaySentence;
+			mySentence << thePrecipitationForecast.precipitationChangeSentence(storyPartPeriod);
+			break;
+		  case SELKENEE_STORY_PART:
+			theParameters.theLog << theStoryParts.at(i).first.localStartTime() 
+								 << ": SELEKENEE" << endl;
+			mySentence << todaySentence;
+			mySentence << thePrecipitationForecast.precipitationChangeSentence(storyPartPeriod);
+			break;
+		  case POUTAANTUU_STORY_PART:
+			theParameters.theLog << theStoryParts.at(i).first.localStartTime() 
+								 << ": POUTAANTUU" << endl;
+			mySentence << todaySentence;
+			mySentence << thePrecipitationForecast.precipitationChangeSentence(storyPartPeriod);
+			break;
+		  case SADE_ALKAA_STORY_PART:
+			theParameters.theLog << theStoryParts.at(i).first.localStartTime() 
+								 << ": SADE_ALKAA" << endl;
+			mySentence << todaySentence;
+			mySentence << thePrecipitationForecast.precipitationChangeSentence(storyPartPeriod);
+			break;
+		  case (PILVISYYS_STORY_PART + SADE_STORY_PART):
+			theParameters.theLog << storyPartPeriod.localStartTime() << ".. " 
+								 << storyPartPeriod.localEndTime() 
+								 << ": PILVISYYS JA SADE" << endl;
+
+			mySentence << todaySentence;
+			mySentence << SAA_WORD;// << ON_WORD;
+			mySentence << theCloudinessForecast.cloudinessSentence(storyPartPeriod, false);
+			mySentence << JA_WORD;//Delimiter(",");
+			if(theCloudinessForecast.getCloudinessId(storyPartPeriod) == PUOLIPILVINEN_JA_PILVINEN &&
+			   thePrecipitationForecast.isDryPeriod(storyPartPeriod, theParameters.theForecastArea))
+			  mySentence << ON_WORD;
+			mySentence << thePrecipitationForecast.precipitationSentence(storyPartPeriod, false);
+
+			break;
+		  case PILVISYYS_STORY_PART:
+			theParameters.theLog << storyPartPeriod.localStartTime() << ".. " 
+								 << storyPartPeriod.localEndTime() 
+								 << ": PILVISYYS" << endl;
+			
+			mySentence << todaySentence;
+			mySentence << SAA_WORD << ON_WORD;
+			mySentence << theCloudinessForecast.cloudinessSentence(theStoryParts.at(i).first, false);
+			break;
+		  case SADE_STORY_PART:
+			theParameters.theLog << storyPartPeriod.localStartTime() << ".. " 
+								 << storyPartPeriod.localEndTime() 
+								 << ": SADE" << endl;
+			mySentence << todaySentence;
+			mySentence << thePrecipitationForecast.precipitationSentence(storyPartPeriod, false);
+			break;
+		  case MISSING_STORY_PART_ID:
+			theParameters.theLog << storyPartPeriod.localStartTime() << ".. " 
+								 << storyPartPeriod.localEndTime() 
+								 << ": MISSING_STORY_PART_ID" << endl;
+			break;
+		  }
+	   paragraph << mySentence;
+	  }
+
+	theParameters.theLog << "REPORTING WEATHER FORECAST END" << endl;
+
+	return paragraph;
+  }
 
 // ----------------------------------------------------------------------
   /*!populate_temperature_time_series
@@ -2565,11 +2802,11 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 
 	precipitationSentence << precipitationForecast.precipitationSentence(itsPeriod);
 	fogSentence << fogForecast.fogSentence(itsPeriod);
-
+	/*
 	paragraph << precipitationSentence;
 	paragraph << cloudinessSentence;
 	paragraph << fogSentence;
-
+	*/
 
 
 	/*
@@ -2606,93 +2843,26 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 
 	print_out_trend_vector(theParameters.theLog, joinedTrends);
 
-	Sentence mySentence;
-	if(joinedTrends.size() == 0)
-	  {
-		Sentence mySentence2;
-		mySentence2 << precipitationForecast.shortTermPrecipitationSentence(itsPeriod);
-		if(mySentence2.size() == 0)
-		  mySentence2 << precipitationForecast.precipitationSentence(itsPeriod, false);
-		if(mySentence2.size() == 0)
-		  mySentence2 << cloudinessForecast.cloudinessSentence(itsPeriod);
+	story_part_vector story_parts;
 
-		mySentence << mySentence2;
-	  }
-	else
-	  {
-		if(itsPeriod.localStartTime() < joinedTrends.at(0).first.localStartTime())
-		  {
-			NFmiTime startTime(itsPeriod.localStartTime());
-			NFmiTime endTime(joinedTrends.at(0).first.localStartTime());
-			//	endTime.ChangeByHours(-1);
-			WeatherPeriod period(startTime, endTime);
+	construct_story_id_vector(joinedTrends, 
+							  theParameters, 
+							  itsPeriod, 
+							  precipitationForecast, 
+							  story_parts);
 
-			mySentence << cloudinessForecast.cloudinessSentence(period);
-			if(mySentence.size() > 0)
-			  mySentence << Delimiter(",");
-			mySentence << precipitationForecast.shortTermPrecipitationSentence(period);
-			if(precipitationForecast.shortTermPrecipitationSentence(period).size() ==  0)			  
-			  mySentence << precipitationForecast.precipitationSentence(period, false);
-		  }
-		else 
-		  {
-			if(joinedTrends.at(0).second == SADE_ALKAA || joinedTrends.at(0).second == POUTAANTUU)
-			  mySentence << precipitationForecast.precipitationChangeSentence(joinedTrends.at(0).first);
-			else
-			  mySentence << cloudinessForecast.cloudinessChangeSentence(joinedTrends.at(0).first);
-		  }
-		if(joinedTrends.size() > 1)
-		for(unsigned int i = 1; i < joinedTrends.size(); i++)
-		  {
-			NFmiTime startTime(joinedTrends.at(i-1).first.localEndTime());
-			NFmiTime endTime(joinedTrends.at(i).first.localStartTime());
-			Sentence mySentence2;
-			//	endTime.ChangeByHours(1);
-			//endTime.ChangeByHours(-1);
-			WeatherPeriod period(startTime, endTime);
-			if(i > 0 && joinedTrends.at(i).second == SADE_ALKAA)
-			  {
-				mySentence << Delimiter(",");
-				mySentence << cloudinessForecast.cloudinessSentence(period);
-				mySentence << Delimiter(",");
-				//				mySentence2 << cloudinessForecast.cloudinessSentence(period);
 
-				if(precipitationForecast.shortTermPrecipitationSentence(period).size() > 0)
-				  mySentence2 << precipitationForecast.shortTermPrecipitationSentence(period);
-				else
-				  mySentence2 << precipitationForecast.precipitationSentence(period, false);
-			  }
-			if(mySentence2.size() > 0)
-			  {
-				mySentence << mySentence2;
-				mySentence << Delimiter(",");
-			  }
-			else
-			  mySentence << Delimiter(",");
-			mySentence << precipitationForecast.precipitationChangeSentence(joinedTrends.at(i).first);
+	paragraph << weather_forecast_sentence(story_parts, 
+										   theParameters,
+										   precipitationForecast,
+										   cloudinessForecast);
 
-			//  Sentence PrecipitationForecast::precipitationChangeSentence(const WeatherPeriod& thePeriod) const
+	//paragraph << myParagraph;
+	paragraph << fogSentence;
+	theParameters.theLog << "COMBINED SENTENCE: ";
+	theParameters.theLog << paragraph;
 
-		  }
-
-		if(joinedTrends.at(joinedTrends.size()-1).first.localEndTime() < itsPeriod.localEndTime())
-		  {
-			NFmiTime startTime(joinedTrends.at(joinedTrends.size()-1).first.localEndTime());
-			NFmiTime endTime(itsPeriod.localEndTime());
-			WeatherPeriod period(startTime, endTime);
-			Sentence mySentence2;
-			if(precipitationForecast.shortTermPrecipitationSentence(period).size() > 0)
-			  mySentence2 << precipitationForecast.shortTermPrecipitationSentence(period);
-			else
-			  mySentence2 << precipitationForecast.precipitationSentence(period, false);
-			if(mySentence2.size() == 0)
-			  mySentence2 << cloudinessForecast.cloudinessSentence(period);
-			mySentence << mySentence2;
-		  }
-	  }
-	theParameters.theLog << "COMBINED PRECIPITATION: ";
-	theParameters.theLog << mySentence;// << endl;
-
+	
 
 	/*
 	Paragraph para;

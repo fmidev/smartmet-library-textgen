@@ -17,11 +17,12 @@ namespace TextGen
 #define ILTAPAIVALLA_WORD "iltapäivällä"
 #define KESKIPAIVALLA_WORD "keskipäivällä"
 #define ILLALLA_WORD "illalla"
-#define ILTAYOSTA_WORD "iltayöstä"
+#define ILTAYOSTA_WORD "iltayöllä"
 #define KESKIYOLLA_WORD "keskiyöllä"
 #define AAMUYOLLA_WORD "aamuyöllä"
 #define YOLLA_WORD "yöllä"
 
+#define ALUKSI_WORD "aluksi"
 #define SAA_WORD "sää"
 #define ON_WORD "on"
 #define HEIKKOA_WORD "heikkoa"
@@ -30,18 +31,18 @@ namespace TextGen
 #define SADETTA_WORD "sadetta"
 #define POUTAA_WORD "poutaa"
 #define RUNSASTA_SADETTA_PHRASE "runsasta sadetta"
-#define SAA_VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE "sää vaihtelee puolipilvisestä pilviseen"
+#define VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE "vaihtelee puolipilvisestä pilviseen"
 #define VERRATTAIN_SELKEAA_PHRASE "verrattain selkeää"
-#define VERRATTAIN_PILVISTA_PHRASE "verrattain pilvistä"
+#define VERRATTAIN_PILVINEN_PHRASE "verrattain pilvinen"
 #define SELKEAA_WORD "selkeää"
-#define PILVISTA_WORD "pilvistä"
+#define PILVINEN_WORD "pilvinen"
 #define SADETTA_WORD "sadetta"
 #define MELKO_SELKEAA_PHRASE "melko selkeää"
-#define PUOLIPILVISTA_WORD "puolipilvistä"
-#define SAA_ON_POUTAINEN_PHRASE "poutaa"
+#define PUOLIPILVINEN_WORD "puolipilvinen"
+#define POUTAINEN_WORD "poutainen"
 #define HEIKKOA_SADETTA_PHRASE "heikkoa sadetta"
 #define KOHTALAISTA_SADETTA_PHRASE "kohtalaista sadetta"
-#define SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE "sää on enimmäkseen poutaista"
+#define ENIMMAKSEEN_POUTAINEN_PHRASE "enimmäkseen poutainen"
 #define PAIKOIN_WORD "paikoin"
 #define MONIN_PAIKOIN_WORD "monin paikoin"
 #define PILVISTYVAA_WORD "pilvistyvää"
@@ -226,10 +227,10 @@ SHOWERS
 	{
 	  SELKEAA,
 	  MELKO_SELKEAA,
-	  PUOLIPILVISTA,
-	  VERRATTAIN_PILVISTA,
-	  PILVISTA,
-	  PUOLIPILVISTA_JA_PILVISTA,
+	  PUOLIPILVINEN,
+	  VERRATTAIN_PILVINEN,
+	  PILVINEN,
+	  PUOLIPILVINEN_JA_PILVINEN,
 	  MISSING_CLOUDINESS_ID
 	};
 
@@ -237,22 +238,16 @@ SHOWERS
 	{
 	  AAMU, // 06-09
 	  AAMUPAIVA, // 09-11
-	  //	  PITKA_AAMUPAIVA, // 09-12
 	  KESKIPAIVA, // 11-13
-	  //	  PITKA_KESKIPAIVA, // 09-15
 	  ILTAPAIVA, // 13-18
-	  //	  PITKA_ILTAPAIVA, // 12-18
 	  ILTA, // 18-22
 	  ILTAYO, // 22-00
 	  KESKIYO, // 00-03
 	  AAMUYO, // 03-06
 	  PAIVA, // 09-18
-	  //	  PITKA_PAIVA, // 06-18
 	  YO, // 00-06
-	  //	  PITKA_YO, // 22-06
 	  YOPUOLI, // 18-06
 	  PAIVAPUOLI, // 06-18
-
 	  AAMU_JA_AAMUPAIVA, // 06-12
 	  AAMUPAIVA_JA_KESKIPAIVA, // 09-13
 	  KESKIPAIVA_JA_ILTAPAIVA, // 11-18
@@ -261,6 +256,7 @@ SHOWERS
 	  ILTAYO_JA_KESKIYO, // 22-03
 	  KESKIYO_JA_AAMUYO, // 00-06
 	  AAMUYO_JA_AAMU, // 03-09
+	  MISSING_PART_OF_THE_DAY_ID
 	};
 
   enum trend_id
@@ -270,6 +266,17 @@ SHOWERS
 	  POUTAANTUU,
 	  SADE_ALKAA,
 	  NO_TREND
+	};
+
+  enum story_part_id
+	{
+	  PILVISTYY_STORY_PART = 0x1,
+	  SELKENEE_STORY_PART = 0x2,
+	  POUTAANTUU_STORY_PART = 0x4,
+	  SADE_ALKAA_STORY_PART = 0x8,
+	  PILVISYYS_STORY_PART = 0x10,
+	  SADE_STORY_PART = 0x20,
+	  MISSING_STORY_PART_ID = 0x0
 	};
 
   enum stat_func_id
@@ -505,8 +512,8 @@ SHOWERS
 	return theOutput;
   }
   */
-  typedef std::pair<WeatherPeriod, trend_id> weather_period_trend_id_pair;
-  typedef vector<weather_period_trend_id_pair> trend_id_vector;
+  typedef std::pair<NFmiTime, trend_id> timestamp_trend_id_pair;
+  typedef vector<timestamp_trend_id_pair> trend_id_vector;
   typedef vector<PrecipitationDataItemData*> precipitation_data_vector;
   typedef vector<FogIntensityDataItem*> fog_data_vector;
   typedef map<int, PrecipitationDataItem*> precipitation_data_item_container;
@@ -520,8 +527,8 @@ SHOWERS
   typedef map<int, FogIntensityDataItem*> fog_data_item_container;
   typedef vector<fog_data_item_container*> fog_data_container;
   typedef vector<NFmiPoint*> location_coordinate_vector;
-
-
+  typedef std::pair<WeatherPeriod, unsigned int> weather_period_story_part_id_pair;
+  typedef vector<weather_period_story_part_id_pair> story_part_vector;
 
 
 	struct wf_story_params
@@ -591,12 +598,15 @@ SHOWERS
   bool get_part_of_the_day(const WeatherPeriod& theSourcePeriod, 
 						   const part_of_the_day_id& thePartOfTheDayId, 
 						   WeatherPeriod& theDestinationPeriod);
+  part_of_the_day_id get_part_of_the_day_id(const NFmiTime& theTimestamp);
+  bool is_inside(const WeatherPeriod& theWeatherPeriod,
+				 const part_of_the_day_id& thePartOfTheDayId);
   bool is_inside(const NFmiTime& theTimeStamp, 
 				 const part_of_the_day_id& thePartOfTheDayId);
   bool is_inside(const NFmiTime& theTimeStamp, 
 				 const WeatherPeriod& theWeatherPeriod);
   Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod);
-  Sentence get_time_phrase(const WeatherPeriod& theWeatherPeriod, bool theAlkaenPhrase = false);
+  Sentence get_time_phrase(const NFmiTime& theTimestamp, bool theAlkaenPhrase = false);
   unsigned int get_complete_precipitation_form(const string& theVariable,
 											   const float thePrecipitationFormWater,
 											   const float thePrecipitationFormDrizzle,

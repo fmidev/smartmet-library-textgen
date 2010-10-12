@@ -58,6 +58,7 @@ using namespace std;
 
 	Sentence cloudinessSentence(const unsigned int& thePeriodNumber,
 								const bool& theCheckCloudinessChange = true);
+	cloudiness_id getCloudinessId(const WeatherPeriod& thePeriod) const;
 	cloudiness_id getCloudinessId(const WeatherPeriod& thePeriod,
 								  const weather_result_data_item_vector* theCloudinessData) const;
 

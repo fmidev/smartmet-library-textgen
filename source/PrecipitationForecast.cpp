@@ -189,7 +189,7 @@ namespace TextGen
 
 	if(dry_weather)
 	  {
-		sentence << SAA_ON_POUTAINEN_PHRASE;
+		sentence << POUTAINEN_WORD;
 	  }
 	else
 	  {
@@ -219,7 +219,7 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 					  if(has_showers)
 						sentence << YKSITTAISET_SADEKUUROT_MAHDOLLISIA;
 					}
@@ -255,7 +255,7 @@ namespace TextGen
 				}
 			  else
 				{
-				  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 				}
 			  break;
 			}
@@ -267,7 +267,7 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 					  if(has_showers)
 						sentence << YKSITTAISET_RANTAKUUROT_MAHDOLLISIA;
 					}
@@ -287,7 +287,7 @@ namespace TextGen
 				}
 			  else
 				{
-				  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 				}
 			  break;
 			}
@@ -298,7 +298,7 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 					  if(has_showers)
 						sentence << YKSITTAISET_LUMIKUUROT_MAHDOLLISIA;
 					}
@@ -328,7 +328,7 @@ namespace TextGen
 				}
 			  else
 				{
-				  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 				}
 			  break;
 			}
@@ -341,7 +341,7 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 					  if(has_showers)
 						sentence << YKSITTAISET_SADEKUUROT_MAHDOLLISIA;
 					}
@@ -367,7 +367,7 @@ namespace TextGen
 				}
 			  else
 				{
-				  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 				}
 			  break;
 			}
@@ -379,7 +379,7 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 					  if(has_showers)
 						{
 						  sentence << YKSITTAISET_SADEKUUROT_MAHDOLLISIA;
@@ -414,7 +414,7 @@ namespace TextGen
 				}
 			  else
 				{
-				  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 				}
 			  break;
 			}
@@ -429,7 +429,7 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 					  if(has_showers)
 						{
 						  if(thePrecipitationFormWater >= thePrecipitationFormSleet)
@@ -466,7 +466,7 @@ namespace TextGen
 				}
 			  else
 				{
-				  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 				}
 			  break;
 			}
@@ -482,7 +482,7 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 
 					  if(has_showers)
 						sentence << YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA;
@@ -521,7 +521,7 @@ namespace TextGen
 				}
 			  else
 				{
-				  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 				}
 			  break;
 			}
@@ -534,7 +534,7 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 					  if(has_showers)
 						sentence << YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA;
 					}
@@ -572,7 +572,7 @@ namespace TextGen
 				}
 			  else
 				{
-				  sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE;
+				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
 				}
 			  break;
 			}
@@ -848,11 +848,12 @@ namespace TextGen
 	for(unsigned int i = 0; i < theData.size(); i++)
 	  {
 		if(theData[i]->theObervationTime < theWeatherPeriod.localStartTime() ||
-		   theData[i]->theObervationTime > theWeatherPeriod.localEndTime() ||
+		   theData[i]->theObervationTime > theWeatherPeriod.localEndTime())
+		  /* ||
 		   is_dry_weather(theParameters,
 						  theData[i]->thePrecipitationForm,
 						  theData[i]->thePrecipitationIntensity,
-						  theData[i]->thePrecipitationExtent))
+						  theData[i]->thePrecipitationExtent))*/
 		  continue;
 
 		switch(theDataId)
@@ -999,96 +1000,6 @@ namespace TextGen
 									   const WeatherPeriod& theWeatherPeriod) const
   {
 	return getStat(theData, theDataId, theWeatherPeriod, MEAN);
-
-	/*
-	float retval = 0.0;
-	int count = 0;
-
-	for(unsigned int i = 0; i < theData.size(); i++)
-	  {
-		if(theData[i]->theObervationTime < theWeatherPeriod.localStartTime() ||
-		   theData[i]->theObervationTime > theWeatherPeriod.localEndTime() ||
-		    theData[i]->thePrecipitationIntensity == 0.0)
-		  continue;
-
-		switch(theDataId)
-		  {
-		  case PRECIPITATION_DATA:
-			{
-			  retval += theData[i]->thePrecipitationIntensity;
-			  count++;
-			}
-			break;
-		  case PRECIPITATION_EXTENT_DATA:
-			{
-			  retval += theData[i]->thePrecipitationExtent;
-			  count++;
-			}
-			break;
-		  case PRECIPITATION_FORM_WATER_DATA:
-			{
-			  if(theData[i]->thePrecipitationFormWater != kFloatMissing)
-				{
-				  retval += theData[i]->thePrecipitationFormWater;
-				  count++;
-				}
-			}
-			break;
-		  case PRECIPITATION_FORM_DRIZZLE_DATA:
-			{
-			  if(theData[i]->thePrecipitationFormDrizzle != kFloatMissing)
-				{
-				  retval += theData[i]->thePrecipitationFormDrizzle;
-				  count++;
-				}
-			}
-			break;
-		  case PRECIPITATION_FORM_SLEET_DATA:
-			{
-			  if(theData[i]->thePrecipitationFormSleet != kFloatMissing)
-				{
-				  retval += theData[i]->thePrecipitationFormSleet;
-				  count++;
-				}
-			}
-			break;
-		  case PRECIPITATION_FORM_SNOW_DATA:
-			{
-			  if(theData[i]->thePrecipitationFormSnow != kFloatMissing)
-				{
-				  retval += theData[i]->thePrecipitationFormSnow;
-				  count++;
-				}
-			}
-			break;
-		  case PRECIPITATION_FORM_FREEZING_DATA:
-			{
-			  if(theData[i]->thePrecipitationFormFreezing != kFloatMissing)
-				{
-				  retval += theData[i]->thePrecipitationFormFreezing;
-				  count++;
-				}
-			}
-			break;
-		  case PRECIPITATION_TYPE_DATA:
-			{
-			  if(theData[i]->thePrecipitationTypeShowers != kFloatMissing)
-				{
-				  retval += theData[i]->thePrecipitationTypeShowers;
-				  count++;
-				}
-			}
-			break;
-		  default:
-			break;
-		  }
-	  }
-
-	if(count > 0)
-	  retval = (retval / count);
-
-	return retval;
-	*/
   }
 
 
@@ -1380,6 +1291,8 @@ namespace TextGen
 			if(!isDryPrevious)
 			  {
 				NFmiTime startTime((*dataSourceVector)[periodStartIndex]->theObervationTime);
+				if(periodStartIndex == 0)
+				  startTime.SetDate(1970,1,1);
 				NFmiTime endTime((*dataSourceVector)[i-1]->theObervationTime);
 				dataDestinationVector->push_back(WeatherPeriod(startTime, endTime));
 			  }
@@ -1437,16 +1350,43 @@ namespace TextGen
 	  {
 		if(thePrecipitationPeriods.at(i).localEndTime().DifferenceInHours(thePrecipitationPeriods.at(i).localStartTime()) >= 6)
 		  {
-			WeatherPeriod rainStartsPeriod(thePrecipitationPeriods.at(i).localStartTime(), 
-										   thePrecipitationPeriods.at(i).localStartTime());
-			WeatherPeriod rainEndsPeriod(thePrecipitationPeriods.at(i).localEndTime(), 
-										 thePrecipitationPeriods.at(i).localEndTime());
-			thePrecipitationTrends.push_back(make_pair(rainStartsPeriod, SADE_ALKAA));
-			thePrecipitationTrends.push_back(make_pair(rainEndsPeriod, POUTAANTUU));
+			NFmiTime precipitationStartTime(thePrecipitationPeriods.at(i).localStartTime());
+			NFmiTime precipitationEndTime(thePrecipitationPeriods.at(i).localEndTime());
+			
+			// start year 1970 indicates that rains starts on previous period
+			if(precipitationStartTime.GetYear() != 1970)
+			  thePrecipitationTrends.push_back(make_pair(precipitationStartTime, SADE_ALKAA));
+
+			if(precipitationEndTime.DifferenceInHours(theParameters.thePeriod.localEndTime()) == 0)
+			  {			
+				NFmiTime beforeStartStart(precipitationEndTime);
+				NFmiTime beforeStartEnd(precipitationEndTime);
+				NFmiTime afterStartStart(precipitationStartTime);
+				NFmiTime afterStartEnd(precipitationStartTime);
+				beforeStartStart.ChangeByHours(-3);
+				beforeStartEnd.ChangeByHours(-1);
+				afterStartEnd.ChangeByHours(3);
+
+				if(theParameters.thePeriod.localEndTime().DifferenceInHours(afterStartEnd) > 2 &&
+				   beforeStartStart.DifferenceInHours(theParameters.thePeriod.localStartTime()) > 2)
+				  {
+					WeatherPeriod beforePeriod(beforeStartStart, beforeStartEnd);
+					WeatherPeriod afterPeriod(afterStartStart, afterStartEnd);
+					
+					if(!isDryPeriod(beforePeriod, theParameters.theForecastArea) &&
+					   isDryPeriod(afterPeriod, theParameters.theForecastArea))
+					  thePrecipitationTrends.push_back(make_pair(precipitationEndTime, POUTAANTUU));
+				  }
+			  }
+			else
+			  {
+				  thePrecipitationTrends.push_back(make_pair(precipitationEndTime, POUTAANTUU));
+			  }
 		  }
 	  }
   }
 
+#ifdef LATER
   void PrecipitationForecast::findOutPrecipitationTrends(const precipitation_data_vector& theData,
 														 trend_id_vector& thePrecipitationTrends)
   {
@@ -1513,6 +1453,7 @@ namespace TextGen
 	cleanUpPrecipitationTrends(thePrecipitationTrendsInland);
 	cleanUpPrecipitationTrends(thePrecipitationTrendsFull);
   }
+#endif
 	
   void PrecipitationForecast::removeRedundantTrends(trend_id_vector& thePrecipitationTrends, const vector<int>& theRemoveIndexes)
   {
@@ -1546,8 +1487,8 @@ namespace TextGen
 
 	for(unsigned int i = 1; i < thePrecipitationTrends.size(); i++)
 	  {
-		NFmiTime previousPeriodEndTime(thePrecipitationTrends[i-1].first.localEndTime());
-		NFmiTime currentPeriodStartTime(thePrecipitationTrends[i].first.localStartTime());
+		NFmiTime previousPeriodEndTime(thePrecipitationTrends[i-1].first);
+		NFmiTime currentPeriodStartTime(thePrecipitationTrends[i].first);
 		trend_id previousPeriodTrendId(thePrecipitationTrends[i-1].second);
 		trend_id currentPeriodTrendId(thePrecipitationTrends[i].second);
 		if(abs(previousPeriodEndTime.DifferenceInHours(currentPeriodStartTime)) <= 2 &&
@@ -1762,14 +1703,11 @@ namespace TextGen
 	  {
 		for(unsigned int i = 0; i < thePrecipitationTrendsVector->size(); i++)
 		  {
-			WeatherPeriod period(thePrecipitationTrendsVector->at(i).first.localStartTime(),
-								 thePrecipitationTrendsVector->at(i).first.localEndTime());
+			NFmiTime precipitationTrendTimestamp(thePrecipitationTrendsVector->at(i).first);
 			
-			if(!(period.localStartTime() >= thePeriod.localStartTime() &&
-				 period.localEndTime() <= thePeriod.localEndTime()))
+			if(!(precipitationTrendTimestamp >= thePeriod.localStartTime() &&
+				 precipitationTrendTimestamp <= thePeriod.localEndTime()))
 			  {
-				//cout << "PERIOD1: " << thePeriod.localStartTime() << "..." << thePeriod.localEndTime() << endl;
-				//cout << "PERIOD2: " << period.localStartTime() << "..." << period.localEndTime() << endl;
 				continue;
 			  }
 
@@ -1779,7 +1717,7 @@ namespace TextGen
 			  {
 				if(sentence.size() > 0)
 				  sentence << Delimiter(",");
-				sentence << get_time_phrase(period);
+				sentence << get_time_phrase(precipitationTrendTimestamp);
 				sentence << SAA_POUTAANTUU_PHRASE;
 			  }
 			else
@@ -1787,11 +1725,11 @@ namespace TextGen
 				NFmiTime startTime;
 				NFmiTime endTime;
 				  //				WeatherPeriod precipitationPeriod(period.localStartTime(), period.localStartTime());
-				if(getPrecipitationPeriod(period.localStartTime(), startTime, endTime))
+				if(getPrecipitationPeriod(precipitationTrendTimestamp, startTime, endTime))
 				  {
 					if(sentence.size() > 0)
 					  sentence << Delimiter(",");
-					sentence << get_time_phrase(period, true);
+					sentence << get_time_phrase(precipitationTrendTimestamp, true);
 					sentence << precipitationSentence(WeatherPeriod(startTime, endTime), false);
 				  }
 			  }
@@ -1907,6 +1845,7 @@ namespace TextGen
 		previousPeriodStartTime.ChangeByHours(-6);
 		WeatherPeriod previousPeriod(previousPeriodStartTime, previousPeriodEndTime);
 
+		/*
 		float precipitationIntensityPrevious = getMean(*dataVector, PRECIPITATION_DATA, previousPeriod);
 		float precipitationExtentPrevious = getMean(*dataVector, PRECIPITATION_EXTENT_DATA, previousPeriod);
 		float precipitationFormWaterPrevious = getMean(*dataVector, PRECIPITATION_FORM_WATER_DATA, previousPeriod);
@@ -1920,6 +1859,7 @@ namespace TextGen
 																				 precipitationFormSleetPrevious,
 																				 precipitationFormSnowPrevious,
 																				 precipitationFormFreezingPrevious);
+		*/
 		float precipitationIntensity = getMean(*dataVector, PRECIPITATION_DATA, thePeriod);
 		float precipitationExtent = getMean(*dataVector, PRECIPITATION_EXTENT_DATA, thePeriod);
 		float precipitationFormWater = getMean(*dataVector, PRECIPITATION_FORM_WATER_DATA, thePeriod);
@@ -1934,6 +1874,19 @@ namespace TextGen
 																		 precipitationFormSleet,
 																		 precipitationFormSnow,
 																		 precipitationFormFreezing);
+
+			sentence << precipitation_sentence(theParameters,
+											   precipitationForm,
+											   precipitationIntensity,
+											   precipitationExtent,
+											   precipitationFormWater,
+											   precipitationFormDrizzle,
+											   precipitationFormSleet,
+											   precipitationFormSnow,
+											   precipitationFormFreezing,
+											   precipitationTypeShowers);
+
+			/*
 
 		bool isDryCurrentPeriod = is_dry_weather(theParameters, 
 												 precipitationFormPrevious,
@@ -1965,6 +1918,7 @@ namespace TextGen
 											   precipitationFormFreezing,
 											   precipitationTypeShowers);
 		  }
+			*/
 	  }
 
 	return sentence;
@@ -1988,19 +1942,24 @@ namespace TextGen
 	  {
 		for(unsigned int i = 0; i < precipitationPeriodVector->size(); i++)
 		  {
-			NFmiTime startTime = precipitationPeriodVector->at(i).localStartTime();
-			NFmiTime endTime = precipitationPeriodVector->at(i).localEndTime();
-			if(endTime.DifferenceInHours(startTime) < 6 &&
-			   is_inside(startTime, thePeriod) && 
-			   is_inside(startTime, thePeriod))
+			NFmiTime startTime(precipitationPeriodVector->at(i).localStartTime());
+			NFmiTime endTime(precipitationPeriodVector->at(i).localEndTime());
+
+			if(endTime.DifferenceInHours(startTime) < 6 && 
+			   is_inside(startTime, thePeriod) &&
+			   is_inside(endTime, thePeriod))
 			  {
 				//
 				if(sentence.size() > 0)
 				  sentence << Delimiter(",");
-				if(get_time_phrase(precipitationPeriodVector->at(i)).size() > 0)
-				  sentence << get_time_phrase(precipitationPeriodVector->at(i));
+				
+				if(get_part_of_the_day_id(startTime) == get_part_of_the_day_id(endTime))
+				  {
+					sentence << get_time_phrase(startTime);
+				  }
 				else
 				  sentence << get_time_phrase_large(precipitationPeriodVector->at(i));
+
 				sentence << precipitationSentence(WeatherPeriod(startTime, endTime), false);
 			  }
 		  }

@@ -486,7 +486,7 @@ namespace TextGen
 			fogSentence << getFogPhrase(theFogTypePeriods.at(i).second);
 			//sentence << getFogPhrase(theFogTypePeriods.at(i).second);
 			if(!fogSentence.empty())
-			  sentence << get_time_phrase(theFogTypePeriods.at(i).first);
+			  sentence << get_time_phrase(theFogTypePeriods.at(i).first.localStartTime());
 			sentence << fogSentence;
 
 			break;

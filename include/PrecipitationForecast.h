@@ -43,7 +43,7 @@ using namespace std;
 								   const bool& theCheckPrecipitationChange = true) const;
 	Sentence shortTermPrecipitationSentence(const WeatherPeriod& thePeriod) const;
 	bool isDryPeriod(const WeatherPeriod& theWeatherPeriod, 
-					 const unsigned short theForecastPeriodId) const;
+					 const unsigned short theForecastAreaId) const;
 	bool getDryPeriods(const WeatherPeriod& theSourcePeriod, 
 					   vector<WeatherPeriod>& theDryPeriods) const;
 	bool getPrecipitationPeriods(const WeatherPeriod& theSourcePeriod, 
@@ -102,8 +102,10 @@ using namespace std;
 	void findOutPrecipitationPeriods(const forecast_area_id& theAreaId);
 	
 	void findOutPrecipitationTrends();
+	/*
 	void findOutPrecipitationTrends(const precipitation_data_vector& theData,
 									trend_id_vector& thePrecipitationTrends);
+	*/
 	void findOutPrecipitationTrends(const vector<WeatherPeriod>& thePrecipitationPeriods,
 									trend_id_vector& thePrecipitationTrends);
 	Sentence constructPrecipitationSentence(const WeatherPeriod& thePeriod,
