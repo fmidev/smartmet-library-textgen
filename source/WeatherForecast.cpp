@@ -462,9 +462,12 @@ using namespace std;
   {
 	Sentence sentence;
 
-	//	sentence << get_time_phrase(theWeatherPeriod, false);
-	
-	//if(sentence.size() == 0)
+	if(get_part_of_the_day_id(theWeatherPeriod.localStartTime()) == 
+	   get_part_of_the_day_id(theWeatherPeriod.localEndTime()))
+	  {
+		sentence << get_time_phrase(theWeatherPeriod.localStartTime(), false);
+	  }
+	else
 	  {
 		// aamulla ja aamupäivällä
 		if(is_inside(theWeatherPeriod, AAMU_JA_AAMUPAIVA))

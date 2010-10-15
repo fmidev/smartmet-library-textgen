@@ -421,7 +421,8 @@ enum anomaly_phrase_id
 	  theSpecifiedDay << PeriodPhraseFactory::create("today",
 													 theParameters.theVariable,
 													 theParameters.theForecastTime,
-													 theParameters.theDay2Period);
+													 theParameters.theDay2Period,
+													 theParameters.theArea);
 
 	  switch(theFractile)
 		{
@@ -525,7 +526,8 @@ enum anomaly_phrase_id
 	  theSpecifiedDay << PeriodPhraseFactory::create("today",
 													 theParameters.theVariable,
 													 theParameters.theForecastTime,
-													 theParameters.theDay2Period);
+													 theParameters.theDay2Period,
+													 theParameters.theArea);
 
 	  if(theParameters.theSeason == WINTER_SEASON)
 		{

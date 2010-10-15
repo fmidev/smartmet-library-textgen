@@ -10,7 +10,7 @@
 
 #include <string>
 class NFmiTime;
-namespace WeatherAnalysis { class WeatherPeriod; }
+namespace WeatherAnalysis { class WeatherPeriod; class WeatherArea; }
 
 namespace TextGen
 {
@@ -23,6 +23,11 @@ namespace TextGen
 						  const std::string & theVariable,
 						  const NFmiTime & theForecastTime,
 						  const WeatherAnalysis::WeatherPeriod & thePeriod);
+	const Sentence create(const std::string & theType,
+						  const std::string & theVariable,
+						  const NFmiTime & theForecastTime,
+						  const WeatherAnalysis::WeatherPeriod & thePeriod,
+						  const WeatherAnalysis::WeatherArea & theArea);
 
   } // namespace PeriodPhraseFactory
 

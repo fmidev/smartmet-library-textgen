@@ -127,6 +127,7 @@ namespace WeatherAnalysis
 	, itsPolygon(new NFmiSvgPath())
 	, itsRadius(0)
 	, itsSortKey(theName+'='+theSpecs)
+	, itsHistory()
   {
 	parse_specs(theSpecs);
   }
@@ -152,9 +153,11 @@ namespace WeatherAnalysis
 	, itsPolygon(new NFmiSvgPath())
 	, itsRadius(0)
 	, itsSortKey(theSpecs)
+	, itsHistory()
   {
 	parse_specs(theSpecs);
   }
+
 
   // ----------------------------------------------------------------------
   /*!
@@ -180,6 +183,7 @@ namespace WeatherAnalysis
 				 ',' +
 				 NFmiStringTools::Convert(thePoint.Y()) +
 				 (theRadius == 0 ? "" : ":" +  NFmiStringTools::Convert(theRadius)))
+	, itsHistory()
   {
 	if(theRadius < 0)
 	  throw WeatherAnalysisError("A weather point cannot have a negative expansion radius");
@@ -215,11 +219,53 @@ namespace WeatherAnalysis
 				 ',' +
 				 NFmiStringTools::Convert(thePoint.Y()) +
 				 (theRadius == 0 ? "" : ":" +  NFmiStringTools::Convert(theRadius)))
+	, itsHistory()
   {
 	if(theRadius < 0)
 	  throw WeatherAnalysisError("A weather point cannot have a negative expansion radius");
 	if(theRadius > 0)
 	  make_point_path(*itsPolygon,thePoint);
+  }
+  /*
+	WeatherArea& WeatherArea::operator=(const WeatherArea& theArea)
+	{
+	  itsType = theArea.itsType;
+	  itsPointFlag = theArea.itsPointFlag;
+	  itsNamedFlag = theArea.itsNamedFlag;
+	  itsName = theArea.itsName;
+	  itsPoint = theArea.itsPoint;
+	  itsPolygon = theArea.itsPolygon;
+	  itsRadius = theArea.itsRadius;
+	  itsSortKey = theArea.itsSortKey;
+	  itsHistory = theArea.itsHistory;
+
+	  return *this;
+	}
+*/
+
+
+  WeatherArea::WeatherArea(const WeatherArea& theArea)
+  /*
+	: itsType(theArea.itsType)
+	, itsPointFlag(theArea.itsPointFlag)
+	, itsNamedFlag(theArea.itsNamedFlag)
+	, itsName(theArea.itsName)
+	, itsPoint(theArea.itsPoint)
+	, itsPolygon(theArea.itsPolygon)
+	, itsRadius(theArea.itsRadius)
+	, itsSortKey(theArea.itsSortKey)
+	, itsHistory(theArea.itsHistory)
+  */
+  {
+	  itsType = theArea.itsType;
+	  itsPointFlag = theArea.itsPointFlag;
+	  itsNamedFlag = theArea.itsNamedFlag;
+	  itsName = theArea.itsName;
+	  itsPoint = theArea.itsPoint;
+	  itsPolygon = theArea.itsPolygon;
+	  itsRadius = theArea.itsRadius;
+	  itsSortKey = theArea.itsSortKey;
+	  itsHistory = theArea.itsHistory;
   }
 
   // ----------------------------------------------------------------------
@@ -478,7 +524,6 @@ namespace WeatherAnalysis
   {
 	return itsSortKey != theOther.itsSortKey;
   }
-
 
 } // namespace WeatherAnalysis
 

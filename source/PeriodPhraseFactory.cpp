@@ -21,6 +21,8 @@
 #include "Settings.h"
 #include "TextGenError.h"
 #include "TimeTools.h"
+#include "WeatherArea.h"
+#include "WeatherHistory.h"
 #include "WeatherPeriod.h"
 #include "WeekdayTools.h"
 
@@ -29,12 +31,16 @@
 
 
 using WeatherAnalysis::WeatherPeriod;
+using WeatherAnalysis::WeatherArea;
 using namespace WeatherAnalysis::TimeTools;
 using namespace boost;
 using namespace std;
 
 namespace
 {
+
+  WeatherHistory* theHistory = 0;
+
   // ----------------------------------------------------------------------
   /*!
    * \brief Reorganizes preferred phrases
@@ -141,7 +147,16 @@ namespace TextGen
 				return(sentence << "tänään");
 			}
 		  else if(*it == "weekday")
-			return (sentence << on_weekday(thePeriod.localStartTime()));
+			{
+				if(theHistory)
+				  {
+					return (sentence << on_weekday(thePeriod.localStartTime(),  *theHistory));
+				  }
+				else
+				  {
+					return (sentence << on_weekday(thePeriod.localStartTime()));
+				  }
+			}
 		  else if(*it == "none!")
 			return sentence;
 		  else
@@ -191,7 +206,16 @@ namespace TextGen
 				return(sentence << "ensi yönä");
 			}
 		  else if(*it == "weekday")
-			return (sentence << night_against_weekday(thePeriod.localEndTime()));
+			{
+			  if(theHistory)
+				{
+				  return (sentence << night_against_weekday(thePeriod.localStartTime(), *theHistory));
+				}
+			  else
+				{
+				  return (sentence << night_against_weekday(thePeriod.localStartTime()));
+				}
+			}
 		  else if(*it == "none!")
 			return sentence;
 		  else
@@ -226,7 +250,16 @@ namespace TextGen
 	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 		{
 		  if(*it == "weekday")
-			return (sentence << on_weekday(thePeriod.localStartTime()));
+			{
+			  if(theHistory)
+				{
+				  return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
+				}
+			  else
+				{
+				  return (sentence << on_weekday(thePeriod.localStartTime()));
+				}
+			}
 		  else if(*it == "atday")
 			{
 			  if(isSameDay(theForecastTime,thePeriod.localStartTime()))
@@ -281,7 +314,16 @@ namespace TextGen
 	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 		{
 		  if(*it == "weekday")
-			return (sentence << night_against_weekday(thePeriod.localEndTime()));
+			{
+			  if(theHistory)
+				{
+				  return (sentence << night_against_weekday(thePeriod.localStartTime(), *theHistory));
+				}
+			  else
+				{
+				  return (sentence << night_against_weekday(thePeriod.localStartTime()));
+				}
+			}
 		  else if(*it == "atnight")
 			{
 			  if(isNextDay(theForecastTime,thePeriod.localEndTime()))
@@ -331,7 +373,16 @@ namespace TextGen
 	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 		{
 		  if(*it == "weekday")
-			return (sentence << night_against_weekday(thePeriod.localEndTime()));
+			{
+			  if(theHistory)
+				{
+				  return (sentence << night_against_weekday(thePeriod.localStartTime(), *theHistory));
+				}
+			  else
+				{
+				  return (sentence << night_against_weekday(thePeriod.localStartTime()));
+				}
+			}
 		  else if(*it == "followingnight")
 			return (sentence << "seuraavana yönä");
 		  else if(*it == "atnight")
@@ -378,7 +429,16 @@ namespace TextGen
 	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 		{
 		  if(*it == "weekday")
-			return (sentence << on_weekday(thePeriod.localStartTime()));
+			{
+			  if(theHistory)
+				{
+				  return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
+				}
+			  else
+				{
+				  return (sentence << on_weekday(thePeriod.localStartTime()));
+				}
+			}
 		  else if(*it == "followingday")
 			return (sentence << "seuraavana päivänä");
 		  else if(*it == "tomorrow")
@@ -420,7 +480,16 @@ namespace TextGen
 	  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 		{
 		  if(*it == "weekday")
-			return (sentence << from_weekday(thePeriod.localStartTime()));
+			{
+			  if(theHistory)
+				{
+				  return (sentence << from_weekday(thePeriod.localStartTime(), *theHistory));
+				}
+			  else
+				{
+				  return (sentence << from_weekday(thePeriod.localStartTime()));
+				}
+			}
 		  else if(*it == "tomorrow")
 			{
 			  // Sonera-sanakirjasta puuttuu "huomisesta alkaen"
@@ -567,7 +636,14 @@ namespace TextGen
 				;
 			  else if(*it == "weekday")
 				{
-				  return (sentence << on_weekday(starttime));
+				  if(theHistory)
+					{
+					  return (sentence << on_weekday(starttime, *theHistory));
+					}
+				  else
+					{
+					  return (sentence << on_weekday(starttime));
+					}
 				}
 			  else if(*it == "none!")
 				return sentence;
@@ -600,7 +676,16 @@ namespace TextGen
 						  if(*jt == "followingday")
 							return (sentence << "seuraavana päivänä");
 						  if(*jt == "weekday")
-							return (sentence << on_weekday(nextday));
+							{
+							  if(theHistory)
+								{
+								  return (sentence << on_weekday(nextday, *theHistory));
+								}
+							  else
+								{
+								  return (sentence << on_weekday(nextday));
+								}
+							}
 						}
 					}
 				}
@@ -616,7 +701,16 @@ namespace TextGen
 						  if(*jt == "followingday")
 							return (sentence << "seuraavana päivänä");
 						  if(*jt == "weekday")
-							return (sentence << on_weekday(nextday));
+							{
+							  if(theHistory)
+								{
+								  return (sentence << on_weekday(nextday, *theHistory));
+								}
+							  else
+								{
+								  return (sentence << on_weekday(nextday));
+								}
+							}
 						}
 					}
 				}
@@ -624,9 +718,18 @@ namespace TextGen
 				;
 			  else if(*it == "weekday")
 				{
-				  sentence << on_weekday(starttime)
-						   << "ja"
-						   << on_weekday(nextday);
+				  if(theHistory)
+					{
+					  sentence << on_weekday(starttime, *theHistory)
+							   << "ja"
+							   << on_weekday(nextday, *theHistory);
+					}
+				  else
+					{
+					  sentence << on_weekday(starttime)
+							   << "ja"
+							   << on_weekday(nextday);
+					}
 				  return sentence;
 				}
 			  else if(*it == "none!")
@@ -653,7 +756,14 @@ namespace TextGen
 				;
 			  else if(*it == "weekday")
 				{
-				  return (sentence << from_weekday(starttime));
+				  if(theHistory)
+					{
+					  return (sentence << from_weekday(starttime, *theHistory));
+					}
+				  else
+					{
+					  return (sentence << from_weekday(starttime));
+					}
 				}
 			  else if(*it == "none!")
 				return sentence;
@@ -688,6 +798,8 @@ namespace TextGen
 						  const NFmiTime & theForecastTime,
 						  const WeatherPeriod & thePeriod)
 	{
+	  theHistory = 0;
+
 	  if(theType == "until_tonight")
 		return until_tonight(theVariable,theForecastTime,thePeriod);
 
@@ -721,6 +833,47 @@ namespace TextGen
 	  throw TextGenError("PeriodPhraseFactory::create does not recognize type "+theType);
 	}
 
+	const Sentence create(const string & theType,
+						  const string & theVariable,
+						  const NFmiTime & theForecastTime,
+						  const WeatherPeriod & thePeriod,
+						  const WeatherArea & theArea)
+	{
+	  theHistory = const_cast<WeatherHistory*>(&(theArea.history()));
+
+	  if(theType == "until_tonight")
+		return until_tonight(theVariable,theForecastTime,thePeriod);
+
+	  if(theType == "until_morning")
+		return until_morning(theVariable,theForecastTime,thePeriod);
+
+	  if(theType == "today")
+		return today(theVariable,theForecastTime,thePeriod);
+
+	  if(theType == "tonight")
+		return tonight(theVariable,theForecastTime,thePeriod);
+
+	  if(theType == "next_night")
+		return next_night(theVariable,theForecastTime,thePeriod);
+
+	  if(theType == "next_day")
+		return next_day(theVariable,theForecastTime,thePeriod);
+
+	  if(theType == "next_days")
+		return next_days(theVariable,theForecastTime,thePeriod);
+
+	  if(theType == "remaining_days")
+		return remaining_days(theVariable,theForecastTime,thePeriod);
+
+	  if(theType == "days")
+		return days(theVariable,theForecastTime,thePeriod);
+
+	  if(theType == "remaining_day")
+		return remaining_day(thePeriod);
+
+	  throw TextGenError("PeriodPhraseFactory::create does not recognize type "+theType);
+
+	}
 
   } // namespace PeriodPhraseFactory
 } // namespace TextGen

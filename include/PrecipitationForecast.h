@@ -22,7 +22,8 @@ using namespace std;
 								  const float thePrecipitationFormSleet,
 								  const float thePrecipitationFormSnow,
 								  const float thePrecipitationFormFreezing,
-								  const float thePrecipitationTypeShowers);
+								  const float thePrecipitationTypeShowers,
+								  const bool& theUseEsiintyyVerb);
 
   bool is_dry_weather(const wf_story_params& theParameters,
 					  const unsigned int& thePrecipitationForm,
@@ -57,9 +58,12 @@ using namespace std;
 	void printOutPrecipitationPeriods(std::ostream& theOutput) const;
 	void printOutPrecipitationTrends(std::ostream& theOutput) const;
 	void printOutPrecipitationDistribution(std::ostream& theOutput) const;
-
+	void useEsiintyyVerb(const bool theFlag = true) { theUseEsiintyyVerb = theFlag; }
+	
   private:
 
+
+	void joinPrecipitationPeriods(vector<WeatherPeriod>& thePrecipitationPeriodVector);
 	bool getPrecipitationPeriod(const NFmiTime& theTimestamp, NFmiTime& theStartTime, NFmiTime& theEndTime) const;
 	void printOutPrecipitationPeriods(std::ostream& theOutput,
 									  const vector<WeatherPeriod>& thePrecipitationPeriods,
@@ -137,6 +141,7 @@ using namespace std;
 
 	wf_story_params& theParameters;
 
+	bool theUseEsiintyyVerb;
   };
 
 

@@ -2,6 +2,7 @@
 #define TEXTGEN_FOG_FORECAST_H
 
 #include "WeatherForecast.h"
+#include "PrecipitationForecast.h"
 
 namespace TextGen
 {
@@ -33,7 +34,8 @@ using namespace std;
   {
   public:
 
-	FogForecast(wf_story_params& parameters);
+	FogForecast(wf_story_params& parameters,
+				const PrecipitationForecast& precipitationForecast);
 
 	~FogForecast(){}
 		
@@ -65,6 +67,7 @@ using namespace std;
 
 
 	wf_story_params& theParameters;
+	const PrecipitationForecast& thePrecipitationForecast;
 
 	const weather_result_data_item_vector* theCoastalModerateFogData;
 	const weather_result_data_item_vector* theInlandModerateFogData;

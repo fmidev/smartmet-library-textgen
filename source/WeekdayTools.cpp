@@ -14,6 +14,7 @@
 
 #include <boost/lexical_cast.hpp> // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ssä min max määrittelyt jo tehty
 
+#include "WeatherHistory.h"
 #include "WeekdayTools.h"
 #include "TextGenError.h"
 #include <newbase/NFmiTime.h>
@@ -264,6 +265,199 @@ namespace TextGen
 						  +"-illalla");
 	  return out;
 	}
+
+
+
+
+
+
+
+
+
+
+	//using namespace WeatherAnalysis;
+
+	const std::string get_time_phrase(const NFmiTime & theTime, 
+								 const std::string theNewPhrase, 
+								 WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  NFmiTime oldTime = theHistory.latestDate;
+	  const std::string& oldPhrase = theHistory.latestTimePhrase;
+
+	  if(theTime.GetJulianDay() == oldTime.GetJulianDay())
+		{
+		  if(oldPhrase.compare(theNewPhrase) != 0)
+			{
+			  theHistory.updateTimePhrase(theNewPhrase, theTime);
+			  return theNewPhrase;
+			}
+		}
+	  return "";
+	}
+
+	const std::string on_weekday(const NFmiTime & theTime, 
+								 WeatherAnalysis::WeatherHistory& theHistory)
+	{
+
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-na");
+
+	  return get_time_phrase(theTime, out, theHistory);
+	}
+   
+	const string on_weekday_time(const NFmiTime & theTime,
+								 WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-na kello");
+	  return get_time_phrase(theTime, out, theHistory);
+	}
+
+	const string night_against_weekday(const NFmiTime & theTime,
+									   WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-vastaisena yönä");
+	  return get_time_phrase(theTime, out, theHistory);
+	}
+
+	const string until_weekday_morning(const NFmiTime & theTime,
+									   WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-aamuun");
+	  return get_time_phrase(theTime, out, theHistory);
+	}
+
+	const string until_weekday_evening(const NFmiTime & theTime,
+									   WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-iltaan");
+	  return get_time_phrase(theTime, out, theHistory);
+	}
+
+	const string until_weekday_time(const NFmiTime & theTime,
+									WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  const int hour = theTime.GetHour();
+	  if(hour == 6)
+		return until_weekday_morning(theTime, theHistory);
+	  else if(hour == 18)
+		return until_weekday_evening(theTime, theHistory);
+	  else
+		{
+		  const string msg = "WeekdayTools::until_weekday_time: Cannot generate -aamuun or -iltaan phrase for hour "+lexical_cast<int>(hour);
+		  throw TextGenError(msg);
+		}
+	}
+
+	const string from_weekday(const NFmiTime & theTime,
+							  WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-alkaen");
+	  return get_time_phrase(theTime, out, theHistory);
+	}
+
+	const string from_weekday_morning(const NFmiTime & theTime,
+									  WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-aamusta");
+	  return get_time_phrase(theTime, out, theHistory);
+	}
+
+	const string from_weekday_evening(const NFmiTime & theTime,
+									  WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-illasta");
+	  return get_time_phrase(theTime, out, theHistory);
+	}
+
+	const string from_weekday_time(const NFmiTime & theTime,
+								   WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  const int hour = theTime.GetHour();
+	  if(hour == 6)
+		return from_weekday_morning(theTime, theHistory);
+	  else if(hour == 18)
+		return from_weekday_evening(theTime, theHistory);
+	  else
+		{
+		  const string msg = "WeekdayTools::from_weekday_time: Cannot generate -aamusta or -illasta phrase for hour "+lexical_cast<int>(hour);
+		  throw TextGenError(msg);
+		}
+	}
+
+	const string on_weekday_morning(const NFmiTime & theTime,
+									WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-aamulla");
+	  return get_time_phrase(theTime, out, theHistory);
+	}
+
+	const string on_weekday_forenoon(const NFmiTime & theTime,
+									 WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-aamupäivällä");
+	  return get_time_phrase(theTime, out, theHistory);
+	}
+
+	const string on_weekday_afternoon(const NFmiTime & theTime,
+									  WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-iltapäivällä");
+	  return get_time_phrase(theTime, out, theHistory);
+	}
+
+	const string on_weekday_evening(const NFmiTime & theTime,
+									WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  const string out = (lexical_cast<string>(theTime.GetWeekday())
+						  +"-illalla");
+	  return get_time_phrase(theTime, out, theHistory);
+	}
+
+
+
+
+
+
+	/*
+	const std::string on_weekday_time(const NFmiTime & theTime, const WeatherHistory& theHistory);
+	const std::string night_against_weekday(const NFmiTime & theTime, const WeatherHistory& theHistory);
+	const std::string until_weekday_morning(const NFmiTime & theTime, const WeatherHistory& theHistory);
+	const std::string until_weekday_evening(const NFmiTime & theTime, const WeatherHistory& theHistory);
+	const std::string until_weekday_time(const NFmiTime & theTime, const WeatherHistory& theHistory);
+	const std::string from_weekday(const NFmiTime & theTime, const WeatherHistory& theHistory);
+	const std::string from_weekday_morning(const NFmiTime & theTime, const WeatherHistory& theHistory);
+	const std::string from_weekday_evening(const NFmiTime & theTime, const WeatherHistory& theHistory);
+	const std::string from_weekday_time(const NFmiTime & theTime, const WeatherHistory& theHistory);
+	const std::string on_weekday_morning(const NFmiTime & theTime, const WeatherHistory& theHistory);
+	const std::string on_weekday_forenoon(const NFmiTime & theTime, const WeatherHistory& theHistory);
+	const std::string on_weekday_afternoon(const NFmiTime & theTime, const WeatherHistory& theHistory);
+	const std::string on_weekday_evening(const NFmiTime & theTime, const WeatherHistory& theHistory);
+
+
+WeekdayTools.h headeriin pitää sitten lisätä tarvittavia funktioita
+tyyliin
+
+  const std::string on_weekday_time(const NFmiTime & theTime,
+                                    WeatherHistory & theHistory)
+  {
+      // jos päivä on sama kuin historiassa, tutkitaan vain kellon
+      // aikaa, ja verrataan valittua fraasia viimeeksi käytettyyn.
+      // Muutoin pitää generoida fraasi jossa mainitaan myös
+      // päivä, ja se olisi joko tänään, huomenna, ylihuomenna
+      // tai viikonpäivänä.
+  }
+	*/
+
 
 
   } // namespace WeekdayTools

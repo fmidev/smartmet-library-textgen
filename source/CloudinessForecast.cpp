@@ -493,7 +493,7 @@ namespace TextGen
 	  {
 		NFmiTime previousStartTime;
 		NFmiTime previousEndTime;
-		cloudiness_id previousCloudinessId;
+		cloudiness_id previousCloudinessId(MISSING_CLOUDINESS_ID);
 		for(unsigned int i = 0; i < theData->size(); i++)
 		  {
 			if(i== 0)
@@ -829,6 +829,7 @@ namespace TextGen
 	  }
 
 	Sentence sentence;
+	Sentence cloudinessSentence;
 
 	NFmiTime previousPeriodStartTime(thePeriod.localStartTime());
 	NFmiTime previousPeriodEndTime(thePeriod.localStartTime());
@@ -838,104 +839,48 @@ namespace TextGen
 	cloudiness_id coastalCloudinessId = getCloudinessId(thePeriod, theCoastalData);
 	cloudiness_id inlandCloudinessId = getCloudinessId(thePeriod, theInlandData);
 	cloudiness_id fullAreaCloudinessId = getCloudinessId(thePeriod, theFullData);
-	/*
-	float meanCloudinessFull(0.0);
-	float meanCloudinessInland(0.0);
-	float meanCloudinessCoastal(0.0);
-	float meanCloudinessFullPrevious(0.0);
-	float meanCloudinessInlandPrevious(0.0);
-	float meanCloudinessCoastalPrevious(0.0);
-	*/
+
 	Sentence todaySentence;
 	todaySentence << PeriodPhraseFactory::create("today",
 												 theParameters.theVariable,
 												 theParameters.theForecastTime,
-												 thePeriod);
+												 thePeriod,
+												 theParameters.theArea);
+
 	if(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
 	  {
 		if(separateCoastInlandCloudiness(thePeriod))
 		  {
-			sentence << COAST_PHRASE
+			cloudinessSentence << COAST_PHRASE
 					 << cloudiness_sentence(coastalCloudinessId);
-			sentence << Delimiter(",");
-			sentence << INLAND_PHRASE;
-			sentence << cloudiness_sentence(inlandCloudinessId, true);
+			cloudinessSentence << Delimiter(",");
+			cloudinessSentence << INLAND_PHRASE;
+			cloudinessSentence << cloudiness_sentence(inlandCloudinessId, true);
 		  }
 		else
 		  {
-			sentence << cloudiness_sentence(fullAreaCloudinessId);
-			/*
-			meanCloudinessFull = getMeanCloudiness(thePeriod, *theFullData);
-			meanCloudinessFullPrevious = getMeanCloudiness(previousPeriod, *theFullData);
-
-			if(todaySentence.size() > 0 &&
-			   meanCloudinessFull >= PILVISTA_LOWER_LIMIT &&
-			   meanCloudinessFullPrevious >= PILVISTA_LOWER_LIMIT)
-			  {
-				sentence << SAA_JATKUU_PILVISENA_PHRASE;
-			  }
-			else
-			  {
-				sentence << cloudiness_sentence(fullAreaCloudinessId);
-			  }
-			*/
+			cloudinessSentence << cloudiness_sentence(fullAreaCloudinessId);
 		  }
 	  }
 	else if(theParameters.theForecastArea & INLAND_AREA)
 	  {
-		//	meanCloudinessInland = getMeanCloudiness(thePeriod, *theInlandData);
-		//meanCloudinessInlandPrevious = getMeanCloudiness(previousPeriod, *theInlandData);
-		/*
-		theParameters.theLog << "CURRENT PERIOD: " << thePeriod.localStartTime() << "," <<  thePeriod.localEndTime() << endl;
-		theParameters.theLog << "PREVIOUS PERIOD: " << previousPeriod.localStartTime() << "," <<  previousPeriod.localEndTime() << endl;
-
-		theParameters.theLog << "CLOUDINESS CURRENT: " << meanCloudinessInland << endl;
-		theParameters.theLog << "CLOUDINESS PREVIOUS: " << meanCloudinessInlandPrevious << endl;
-		*/
-
-		/*
-		if(todaySentence.size() > 0 &&
-		   meanCloudinessInland >= PILVISTA_LOWER_LIMIT &&
-		   meanCloudinessInlandPrevious >= PILVISTA_LOWER_LIMIT)
-		  {
-			sentence << SAA_JATKUU_PILVISENA_PHRASE;
-		  }
-		else
-		  {
-			sentence << cloudiness_sentence(inlandCloudinessId);
-		  }
-		*/
-		sentence << cloudiness_sentence(inlandCloudinessId);
+		cloudinessSentence << cloudiness_sentence(inlandCloudinessId);
 	  }
 	else if(theParameters.theForecastArea & COASTAL_AREA)
 	  {
-		/*
-		meanCloudinessCoastal = getMeanCloudiness(thePeriod, *theCoastalData);
-		meanCloudinessCoastalPrevious = getMeanCloudiness(previousPeriod, *theCoastalData);
-		if(todaySentence.size() > 0 &&
-		   meanCloudinessCoastal >= PILVISTA_LOWER_LIMIT &&
-		   meanCloudinessCoastalPrevious >= PILVISTA_LOWER_LIMIT)
-		  {
-			sentence << SAA_JATKUU_PILVISENA_PHRASE;
-		  }
-		else
-		  {
-			sentence << cloudiness_sentence(coastalCloudinessId);
-		  }
-		*/
-			sentence << cloudiness_sentence(coastalCloudinessId);		
+		cloudinessSentence << cloudiness_sentence(coastalCloudinessId);		
 	  }
 
-	/*
-	if(sentence.size() > 0)
+	if(cloudinessSentence.size() > 0)
 	  {
 		sentence << todaySentence;
+		sentence << cloudinessSentence;
 	  }
-	*/
 
 	return sentence;
   }
 
+#ifdef LATER
   Sentence CloudinessForecast::cloudinessSentence(const unsigned int& thePeriodNumber,
 												  const bool& theCheckCloudinessChange /*= true*/)
   {
@@ -1076,6 +1021,7 @@ namespace TextGen
 
 	return sentence;
   }
+#endif
 
   cloudiness_id CloudinessForecast::getCloudinessPeriodId(const NFmiTime& theObservationTime,
 													const cloudiness_period_vector& theCloudinessPeriodVector) const

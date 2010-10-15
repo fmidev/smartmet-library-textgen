@@ -506,7 +506,8 @@ namespace TextGen
 	  theSpecifiedDay << PeriodPhraseFactory::create("today",
 													 theParameters.theVariable,
 													 theParameters.theForecastTime,
-													 theParameters.theDay2Period);
+													 theParameters.theDay2Period,
+													 theParameters.theArea);
 	  Sentence varying_part;
 	  if(inlandIncluded && coastIncluded)
 		{
@@ -926,7 +927,8 @@ namespace TextGen
 	  theSpecifiedDay << PeriodPhraseFactory::create("today",
 													 theParameters.theVariable,
 													 theParameters.theForecastTime,
-													 theParameters.theDay2Period);
+													 theParameters.theDay2Period,
+													 theParameters.theArea);
 	  if(inlandIncluded && coastIncluded)
 		{
 		  if(theParameters.theWindchillInlandMorningMean.value() > theParameters.theWindchillCoastalMorningMean.value())

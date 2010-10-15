@@ -8,6 +8,8 @@
 #ifndef WEATHERANALYSIS_WEATHERAREA_H
 #define WEATHERANALYSIS_WEATHERAREA_H
 
+#include "WeatherHistory.h"
+
 #include <newbase/NFmiPoint.h>
 #include <newbase/NFmiSvgPath.h>
 
@@ -36,6 +38,9 @@ namespace WeatherAnalysis
 	WeatherArea & operator=(const WeatherArea & theArea);
 #endif
 
+	//WeatherArea & operator=(const WeatherArea & theArea);
+	WeatherArea(const WeatherArea & theArea);
+
 	WeatherArea(const std::string & theSpecs);
 
 	WeatherArea(const std::string & theSpecs,
@@ -63,6 +68,9 @@ namespace WeatherAnalysis
 	bool operator==(const WeatherArea & theOther) const;
 	bool operator!=(const WeatherArea & theOther) const;
 
+	const WeatherHistory& history() const { return itsHistory; }
+	WeatherHistory& history() { return itsHistory; }
+
   private:
 
 	WeatherArea();
@@ -79,10 +87,13 @@ namespace WeatherAnalysis
 	float itsRadius;
 
 	std::string itsSortKey;		// for sorting purposes only
+
+	mutable WeatherHistory itsHistory;  // for handling time phrases
 	
   }; // class WeatherArea
 
 } // namespace WeatherAnalysis
+
 
 #endif // WEATHERANALYSIS_WEATHERAREA_H
 

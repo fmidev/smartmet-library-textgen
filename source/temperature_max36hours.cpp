@@ -1448,9 +1448,10 @@ namespace TextGen
 					{
 					  Sentence tonightSentence;
 					  tonightSentence << PeriodPhraseFactory::create("tonight",
-											  theParameters.theVariable,
-											  theParameters.theForecastTime,
-											  theParameters.theWeatherPeriod);
+																	 theParameters.theVariable,
+																	 theParameters.theForecastTime,
+																	 theParameters.theWeatherPeriod,
+																	 theParameters.theWeatherArea);
 
 					  if(tonightSentence.size() == 0)
 						theDayPhasePhrase << NIGHTTIME_TEMPERATURE_PHRASE << IS_WORD;
@@ -1615,7 +1616,8 @@ namespace TextGen
 	  sentence << PeriodPhraseFactory::create("tonight",
 											  theParameters.theVariable,
 											  theParameters.theForecastTime,
-											  theParameters.theWeatherPeriod);
+											  theParameters.theWeatherPeriod,
+											  theParameters.theWeatherArea);
 	  
 	  sentence << temperature_phrase(theParameters);
 
@@ -1698,7 +1700,8 @@ namespace TextGen
 		nextDaySentence << PeriodPhraseFactory::create("next_day",
 													   theParameters.theVariable,
 													   theParameters.theForecastTime,
-													   theParameters.theWeatherPeriod);
+													   theParameters.theWeatherPeriod,
+													   theParameters.theWeatherArea);
 	  
 	  if(!nextDaySentence.empty())
 		theParameters.theTomorrowTautologyFlag = true;
@@ -1724,7 +1727,8 @@ namespace TextGen
 	  sentence << PeriodPhraseFactory::create("today",
 											  theParameters.theVariable,
 											  theParameters.theForecastTime,
-											  theParameters.theWeatherPeriod);
+											  theParameters.theWeatherPeriod,
+											  theParameters.theWeatherArea);
 
 	  sentence << temperature_phrase(theParameters);
 	  sentence << temperatureSentence;
@@ -2157,7 +2161,7 @@ namespace TextGen
 	  // 2. Day1 coastal
 
 	  vector<int> periodAreas;
-	  processing_order processingOrder;
+	  processing_order processingOrder(DAY1_DAY2_NIGHT);
 
 	  if(theParameters.theForecastPeriod & DAY1_PERIOD && 
 		 theParameters.theForecastPeriod & NIGHT_PERIOD && 
@@ -2360,8 +2364,8 @@ namespace TextGen
 			}
 
 		  unsigned short story_forecast_areas = 0x0;
-		  forecast_period_id period_id;
-		  forecast_area_id area_id;
+		  forecast_period_id period_id(NO_PERIOD);
+		  forecast_area_id area_id(NO_AREA);
 
    
 		  if(periodArea == DAY1_INLAND || periodArea == DAY1_COASTAL || periodArea == DAY1_FULL)

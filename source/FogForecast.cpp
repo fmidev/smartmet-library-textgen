@@ -169,13 +169,16 @@ namespace TextGen
 	  }
   }
 
-  FogForecast::FogForecast(wf_story_params& parameters): theParameters(parameters),
-														 theCoastalModerateFogData(0),
-														 theInlandModerateFogData(0),
-														 theFullAreaModerateFogData(0),
-														 theCoastalDenseFogData(0),
-														 theInlandDenseFogData(0),
-														 theFullAreaDenseFogData(0)
+  FogForecast::FogForecast(wf_story_params& parameters,
+						   const PrecipitationForecast& precipitationForecast): 
+	theParameters(parameters),
+	thePrecipitationForecast(precipitationForecast),
+	theCoastalModerateFogData(0),
+	theInlandModerateFogData(0),
+	theFullAreaModerateFogData(0),
+	theCoastalDenseFogData(0),
+	theInlandDenseFogData(0),
+	theFullAreaDenseFogData(0)
 
   {
 	if(theParameters.theForecastArea & FULL_AREA)
@@ -484,10 +487,20 @@ namespace TextGen
 		  {
 			Sentence fogSentence;
 			fogSentence << getFogPhrase(theFogTypePeriods.at(i).second);
-			//sentence << getFogPhrase(theFogTypePeriods.at(i).second);
 			if(!fogSentence.empty())
-			  sentence << get_time_phrase(theFogTypePeriods.at(i).first.localStartTime());
-			sentence << fogSentence;
+			  {
+				if(thePrecipitationForecast.isDryPeriod(theFogTypePeriods.at(i).first,
+														theParameters.theForecastArea))
+				  {
+					sentence << PeriodPhraseFactory::create("today",
+															theParameters.theVariable,
+															theParameters.theForecastTime,
+															thePeriod,
+															theParameters.theArea);
+					sentence << get_time_phrase_large(theFogTypePeriods.at(i).first);
+					sentence << fogSentence;
+				  }
+			  }
 
 			break;
 		  }
@@ -500,11 +513,6 @@ namespace TextGen
   {
 	Sentence sentence;
 
-	Sentence todaySentence;
-	todaySentence << PeriodPhraseFactory::create("today",
-												 theParameters.theVariable,
-												 theParameters.theForecastTime,
-												 thePeriod);
 	if(theParameters.theForecastArea & FULL_AREA)
 	  {
 		if(separateCoastInlandFog(thePeriod))
@@ -529,11 +537,6 @@ namespace TextGen
 		sentence << fogSentence(thePeriod, theCoastalFogType);
 	  }
 
-	if(sentence.size() > 0)
-	  {
-		sentence << todaySentence;
-	  }
-	
 	return sentence;
   }
 

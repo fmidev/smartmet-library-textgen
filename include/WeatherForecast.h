@@ -22,6 +22,7 @@ namespace TextGen
 #define AAMUYOLLA_WORD "aamuyöllä"
 #define YOLLA_WORD "yöllä"
 
+#define ESIINTYY_WORD "esiintyy"
 #define ALUKSI_WORD "aluksi"
 #define SAA_WORD "sää"
 #define ON_WORD "on"
@@ -399,7 +400,7 @@ SHOWERS
 							  const float& precipitationTypeShowers,
 							  const trend_id trendId,
 							  const float& pearsonCoefficient,
-							  const NFmiTime& obervationTime) :
+							  const NFmiTime& observationTime) :
 	  thePrecipitationForm(precipitationForm),
 	  thePrecipitationIntensity(precipitationIntensity),
 	  thePrecipitationExtent(precipitationExtent),
@@ -411,7 +412,7 @@ SHOWERS
 	  thePrecipitationTypeShowers(precipitationTypeShowers),
 	  theTrendId(trendId),
 	  thePearsonCoefficient(pearsonCoefficient),
-	  theObervationTime(obervationTime),
+	  theObservationTime(observationTime),
 	  thePrecipitationPercentageNorthEast(0.0),
 	  thePrecipitationPercentageSouthEast(0.0),
 	  thePrecipitationPercentageSouthWest(0.0),
@@ -429,7 +430,7 @@ SHOWERS
 	float thePrecipitationTypeShowers;
 	trend_id theTrendId;
 	float thePearsonCoefficient;
-	NFmiTime theObervationTime;
+	NFmiTime theObservationTime;
 	float thePrecipitationPercentageNorthEast;
 	float thePrecipitationPercentageSouthEast;
 	float thePrecipitationPercentageSouthWest;
