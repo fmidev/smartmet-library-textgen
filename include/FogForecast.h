@@ -62,6 +62,7 @@ using namespace std;
 	Sentence fogSentence(const WeatherPeriod& thePeriod,
 						 const fog_type_period_vector& theFogTypePeriods) const;
 	Sentence getFogPhrase(const fog_type_id& theFogTypeId) const;
+	Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;
 	float getMean(const fog_period_vector& theFogPeriods,
 				  const WeatherPeriod& theWeatherPeriod) const;
 

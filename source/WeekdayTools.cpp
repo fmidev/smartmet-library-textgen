@@ -284,7 +284,14 @@ namespace TextGen
 	  NFmiTime oldTime = theHistory.latestDate;
 	  const std::string& oldPhrase = theHistory.latestTimePhrase;
 
-	  if(theTime.GetJulianDay() == oldTime.GetJulianDay())
+	  if(theTime.GetJulianDay() == oldTime.GetJulianDay() && 
+		 oldPhrase.compare(theNewPhrase) != 0)
+		{
+		  theHistory.updateTimePhrase(theNewPhrase, theTime);
+		  return theNewPhrase;
+		}
+	  /*
+	  else
 		{
 		  if(oldPhrase.compare(theNewPhrase) != 0)
 			{
@@ -292,6 +299,16 @@ namespace TextGen
 			  return theNewPhrase;
 			}
 		}
+	  */
+
+	  /*
+	  if(oldPhrase.compare(theNewPhrase) != 0)
+		{
+		  theHistory.updateTimePhrase(theNewPhrase, theTime);
+		  return theNewPhrase;
+		}
+	  */
+
 	  return "";
 	}
 

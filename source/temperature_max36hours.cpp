@@ -2566,7 +2566,7 @@ namespace TextGen
 
 	log_start_time_and_end_time(log, "Whole period: ", itsPeriod);
 
-
+	/*
 	// Period generator
 	NightAndDayPeriodGenerator generator(itsPeriod, itsVar);
 
@@ -2596,6 +2596,55 @@ namespace TextGen
 		else
 		  log << "night and tomorrow" << endl;		  
 	  }
+	*/
+
+	NFmiTime periodStartTime(itsPeriod.localStartTime());
+	NFmiTime periodEndTime(itsPeriod.localEndTime());
+
+	// Period generator
+	NightAndDayPeriodGenerator generator00(itsPeriod, itsVar);
+
+	if(generator00.size() == 0)
+	  {
+		log << "No weather periods available!" << endl;
+		log << paragraph;
+		return paragraph;
+	  }
+
+	log << "period contains ";
+
+	if(generator00.isday(1))
+	  {
+		if(generator00.size() > 2)
+		  {
+			log << "today, night and tomorrow" << endl;
+		  }
+		else if(generator00.size() == 2)
+		  {
+			log << "today and night" << endl;
+		  }
+		else
+		  {
+			log << "today" << endl;
+			periodEndTime.ChangeByHours(12);
+		  }
+	  }
+	else
+	  {
+		if(generator00.size() == 1)
+		  {
+			log << "one night" << endl;
+			periodEndTime.ChangeByHours(12);
+		  }
+		else
+		  {
+			log << "night and tomorrow" << endl;		  
+		  }
+	  }
+
+	// Period generator
+	NightAndDayPeriodGenerator generator(WeatherPeriod(periodStartTime, periodEndTime), itsVar);
+
 
 	unsigned short forecast_area = 0x0;
 	unsigned short forecast_period = 0x0;

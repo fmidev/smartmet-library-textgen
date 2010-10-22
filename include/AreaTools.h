@@ -13,7 +13,9 @@
 #include <vector>
 #include <newbase/NFmiPoint.h>
 
+#include "Acceptor.h"
 #include "WeatherArea.h"
+#include "WeatherPeriod.h"
 #include "WeatherResult.h"
 #include "AnalysisSources.h"
 #include "WeatherParameter.h"
@@ -115,13 +117,14 @@ namespace TextGen
 	direction_id getDirection(const Rect& thePrimaryRect, const Rect& theSecondaryRect);
 
 	NFmiPoint getArealDistribution(const AnalysisSources& theSources,
-							  const WeatherParameter& theParameter,
-							  const NFmiIndexMask& theIndexMask,
-							  WeatherResult& theNortEastShare,
-							  WeatherResult& theSouthEastShare,
-							  WeatherResult& theSouthWestShare,
-							  WeatherResult& theNortWestShare);
-
+								   const WeatherParameter& theParameter,
+								   const WeatherArea& theArea,
+								   const WeatherPeriod& thePeriod,
+								   const Acceptor& theAcceptor,
+								   WeatherResult& theNortEastShare,
+								   WeatherResult& theSouthEastShare,
+								   WeatherResult& theSouthWestShare,
+								   WeatherResult& theNortWestShare);
 
 	void getArealDistribution(const vector<NFmiPoint*>& thePointVector, 
 							  map<direction_id, double>& theResultData);
@@ -132,21 +135,5 @@ namespace TextGen
 } // namespace TextGen
 
 #endif // TEXTGEN_AREATOOLS_H
-
-
-	/*	std::ostream& operator<<(std::ostream & theOutput,
-							 const Rect& theRect)
-	{
-	  double topLeftX = theRect.getTopLeft().X();
-	  double topLeftY = theRect.getTopLeft().Y();
-	  double bottomRightX = theRect.getBottomRight().X();
-	  double bottomRightY = theRect.getBottomRight().Y();
-
-	  theOutput << "Rect(" << topLeftX << " " << topLeftY << ", " <<
-		bottomRightX << " " << bottomRightY << ")" << endl;
-
-	  return theOutput;
-	}
-	*/
 
 // ======================================================================

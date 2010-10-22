@@ -20,6 +20,7 @@
 #include "ParameterAnalyzer.h"
 #include "Settings.h"
 #include "WeatherDataType.h"
+#include "SubMaskExtractor.h"
 
 #include <newbase/NFmiSvgTools.h>
 #include <newbase/NFmiIndexMask.h>
@@ -142,7 +143,9 @@ namespace TextGen
 
 	NFmiPoint getArealDistribution(const AnalysisSources& theSources,
 							  const WeatherParameter& theParameter,
-							  const NFmiIndexMask& theIndexMask,
+							  const WeatherArea& theArea,
+							  const WeatherPeriod& thePeriod,
+							  const Acceptor& theAcceptor,
 							  WeatherResult& theNortEastShare,
 							  WeatherResult& theSouthEastShare,
 							  WeatherResult& theSouthWestShare,
@@ -163,17 +166,28 @@ namespace TextGen
 	  shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
 	  NFmiFastQueryInfo* theQI = qd->QueryInfoIter();
 	  
+
+	  NFmiIndexMask indexMask;
+	
+	  ExtractMask(theSources,
+				  theParameter,
+				  theArea,
+				  thePeriod,
+				  theAcceptor,
+				  indexMask);
+
+
 	  vector<NFmiPoint*> latitudeLongitudeCoordinates;
-	  for(NFmiIndexMask::const_iterator it = theIndexMask.begin();
-		  it != theIndexMask.end();
+	  for(NFmiIndexMask::const_iterator it = indexMask.begin();
+		  it != indexMask.end();
 		  ++it)
 		{
 		  lonSum += theQI->LatLon(*it).X();
 		  latSum += theQI->LatLon(*it).Y();
 		  latitudeLongitudeCoordinates.push_back(new NFmiPoint(theQI->LatLon(*it)));
 		}
-	  retval.X(lonSum/theIndexMask.size());
-	  retval.Y(latSum/theIndexMask.size());
+	  retval.X(lonSum/indexMask.size());
+	  retval.Y(latSum/indexMask.size());
 
 	  if(latitudeLongitudeCoordinates.size() > 0)
 		{

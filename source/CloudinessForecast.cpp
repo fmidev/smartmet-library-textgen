@@ -98,46 +98,50 @@ namespace TextGen
   }
 
   Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId, 
-							   const bool& theShortForm /*= false*/)
+							   const bool& theShortForm) 
   {
 	Sentence sentence;
+	Sentence cloudinessSentence;
 
-	std::string cloudiness_phrase;
 	switch(theCloudinessId)
 	  {
 	  case PUOLIPILVINEN_JA_PILVINEN:
-		sentence << VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
+		cloudinessSentence << VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
 		break;
 	  case SELKEAA:
-		sentence << ON_WORD << SELKEAA_WORD;
+		cloudinessSentence << SELKEAA_WORD;
 		break;
 	  case MELKO_SELKEAA:
-		sentence << ON_WORD << MELKO_SELKEAA_PHRASE;
+		cloudinessSentence << MELKO_SELKEAA_PHRASE;
 		break;
 	  case PUOLIPILVINEN:
-		sentence << ON_WORD << PUOLIPILVINEN_WORD;
+		cloudinessSentence << PUOLIPILVINEN_WORD;
 		break;
 	  case VERRATTAIN_PILVINEN:
-		sentence << ON_WORD << VERRATTAIN_PILVINEN_PHRASE;
+		cloudinessSentence << VERRATTAIN_PILVINEN_PHRASE;
 		break;
 	  case PILVINEN:
-		sentence << ON_WORD << PILVINEN_WORD;
+		cloudinessSentence << PILVINEN_WORD;
 		break;
 	  default:
 		break;
 	  }
-	/*
-	if(cloudiness_phrase.length() > 0)
+
+	if(cloudinessSentence.size() > 0)
 	  {
 		if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
-		  sentence << cloudiness_phrase;
+		  {
+			if(!theShortForm)
+			  sentence << SAA_WORD;
+		  }
 		else
-		  if(theShortForm)
-			sentence << cloudiness_phrase;
-		  else
-			sentence << SAA_WORD << ON_WORD << cloudiness_phrase;
+		  {
+			if(!theShortForm)
+			  sentence << SAA_WORD << ON_WORD;
+		  }
 	  }
-	*/
+
+	sentence << cloudinessSentence;
 
 	return sentence;
   }
@@ -151,17 +155,6 @@ namespace TextGen
 
 	if(theMean == -1)
 	  return id;
-
-	/*
-#define SELKEAA_UPPER_LIMIT 9.9
-#define MELKEIN_SELKEAA_LOWER_LIMIT 9.9
-#define MELKEIN_SELKEAA_UPPER_LIMIT 35
-#define PUOLIPILVISTA_LOWER_LIMIT 35.0
-#define PUOLIPILVISTA_UPPER_LIMIT 65.0
-#define VERRATTAIN_PILVISTA_LOWER_LIMIT 65.0
-#define VERRATTAIN_PILVISTA_UPPER_LIMIT 85.0
-#define PILVISTA_LOWER_LIMIT 85.0
-	*/
 
 	if(theMin >= PUOLIPILVISTA_LOWER_LIMIT &&
 	   theMin <= PUOLIPILVISTA_UPPER_LIMIT && 
@@ -291,6 +284,7 @@ namespace TextGen
 
 		trend_id trid(theCloudinessTrendsFull.at(i).second);
 		
+		/*
 		
 		NFmiTime previousStartTime(trendTimestamp);
 		NFmiTime previousEndTime(trendTimestamp);
@@ -300,6 +294,7 @@ namespace TextGen
 		sentence << cloudiness_string(getCloudinessId(previousPeriod,
 													  theFullData));
 		sentence << Delimiter(",");
+*/
 		if(trid == PILVISTYY)
 		  {
 			sentence << PILVISTYVAA_WORD;
@@ -365,22 +360,17 @@ namespace TextGen
 	weather_result_data_item_vector theInterestingDataPeriod1;
 	weather_result_data_item_vector theInterestingDataPeriod2;
 
-	//		bool separateMorningAfternoon = (abs(theCloudinessIdFullMorning - theCloudinessIdFullAfternoon) >= 2);
-
 	get_sub_time_series(theWeatherPeriod1,
 						theCloudinessData,
 						theInterestingDataPeriod1);
 
 	cloudiness_id cloudinessId1 = get_cloudiness_id(get_mean(theInterestingDataPeriod1));
 	
-	//	float mean_period1 = get_mean(theInterestingDataPeriod1);
-	
 	get_sub_time_series(theWeatherPeriod2,
 						theCloudinessData,
 						theInterestingDataPeriod2);
 	
 	cloudiness_id cloudinessId2 = get_cloudiness_id(get_mean(theInterestingDataPeriod2));
-	//	float mean_period2 = get_mean(theInterestingDataPeriod2);
 
 	return (abs(cloudinessId1 - cloudinessId2) >= 2);
 
@@ -396,7 +386,7 @@ namespace TextGen
 												   trend_id_vector& theCloudinessTrends)
   {
 	// check 4-hour periods if there is trend
-	const unsigned int periodLength = 8;
+	const unsigned int periodLength = 12;
 	unsigned int startIndex = 0;
 	while(startIndex < theData->size() - (periodLength + 1))
 	  {
@@ -452,16 +442,16 @@ namespace TextGen
 		*/
 		trend_id trendId = NO_TREND;
 
-		if(meanCloudinessInTheFirstHalf >= VERRATTAIN_PILVISTA_LOWER_LIMIT && 
-		   meanCloudinessInTheSecondHalf <= SELKEAA_UPPER_LIMIT &&
+		if(meanCloudinessInTheFirstHalf >= PILVISYVAA_UPPER_LIMIT && 
+		   meanCloudinessInTheSecondHalf <= PILVISYVAA_LOWER_LIMIT &&
 		   pearson_coefficient < -0.65)
 		  {
 			trendId = SELKENEE;
 			//			NFmiTime endTime(secondHalfPeriod.localStartTime());
 			//endTime.ChangeByHours(1);
 		  }
-		else if(meanCloudinessInTheFirstHalf <= MELKEIN_SELKEAA_UPPER_LIMIT && 
-				meanCloudinessInTheSecondHalf >= VERRATTAIN_PILVISTA_LOWER_LIMIT && 
+		else if(meanCloudinessInTheFirstHalf <= PILVISYVAA_LOWER_LIMIT && 
+				meanCloudinessInTheSecondHalf >= PILVISYVAA_UPPER_LIMIT && 
 				pearson_coefficient >= 0.65)
 		  {
 			trendId = PILVISTYY;
@@ -472,7 +462,7 @@ namespace TextGen
 			theCloudinessTrends.push_back(make_pair(secondHalfPeriod.localStartTime(), trendId));			
 		  }
 
-		startIndex += (trendId == NO_TREND ? 1 : periodLength);
+		startIndex += (trendId == NO_TREND ? 1 : (periodLength/2));
 	  }
  }
 
@@ -668,29 +658,6 @@ namespace TextGen
 				  << theDataVector->at(i)->theResult.value()
 				  << endl;
 	  }
-	/*
- struct WeatherResultDataItem
-  {
-	WeatherResultDataItem(const WeatherPeriod& period, 
-						  const WeatherResult& result, 
-						  const part_of_the_day_id& partOfTheDay) :
-	  thePeriod(period),
-	  theResult(result),
-	  thePartOfTheDay(partOfTheDay)
-	{}
-	
-	WeatherPeriod thePeriod;
-	WeatherResult theResult;
-	part_of_the_day_id thePartOfTheDay;
-  };
-	*/
-
-	  /*
-	const weather_result_data_item_vector* theCoastalData;
-	const weather_result_data_item_vector* theInlandData;
-	const weather_result_data_item_vector* theFullData;
-
-	  */
   }
 
   void CloudinessForecast::printOutCloudinessPeriods(std::ostream& theOutput, 
@@ -818,57 +785,47 @@ namespace TextGen
   }
 
   Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
-												  const bool& theCheckCloudinessChange/* = true*/) const
+												  const bool& theShortForm /*= true*/) const
   {
-	if(theCheckCloudinessChange)
-	  {
-		Sentence cloudinessChange;
-		cloudinessChange << cloudinessChangeSentence(thePeriod);
-		if(cloudinessChange.size() > 0)
-		  return cloudinessChange;
-	  }
-
 	Sentence sentence;
 	Sentence cloudinessSentence;
 
-	NFmiTime previousPeriodStartTime(thePeriod.localStartTime());
-	NFmiTime previousPeriodEndTime(thePeriod.localStartTime());
-	previousPeriodStartTime.ChangeByHours(-20);
-	WeatherPeriod previousPeriod(previousPeriodStartTime, previousPeriodEndTime);
-	
 	cloudiness_id coastalCloudinessId = getCloudinessId(thePeriod, theCoastalData);
 	cloudiness_id inlandCloudinessId = getCloudinessId(thePeriod, theInlandData);
 	cloudiness_id fullAreaCloudinessId = getCloudinessId(thePeriod, theFullData);
 
+	int periodLength = theParameters.theForecastPeriod.localEndTime().DifferenceInHours(theParameters.theForecastPeriod.localStartTime());
+
 	Sentence todaySentence;
-	todaySentence << PeriodPhraseFactory::create("today",
-												 theParameters.theVariable,
-												 theParameters.theForecastTime,
-												 thePeriod,
-												 theParameters.theArea);
+	if(periodLength > 24)
+	  todaySentence << PeriodPhraseFactory::create("today",
+												   theParameters.theVariable,
+												   theParameters.theForecastTime,
+												   thePeriod,
+												   theParameters.theArea);
 
 	if(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
 	  {
 		if(separateCoastInlandCloudiness(thePeriod))
 		  {
-			cloudinessSentence << COAST_PHRASE
-					 << cloudiness_sentence(coastalCloudinessId);
+			cloudinessSentence << COAST_PHRASE;
+			cloudinessSentence << cloudiness_sentence(coastalCloudinessId, theShortForm);
 			cloudinessSentence << Delimiter(",");
 			cloudinessSentence << INLAND_PHRASE;
-			cloudinessSentence << cloudiness_sentence(inlandCloudinessId, true);
+			cloudinessSentence << cloudiness_sentence(inlandCloudinessId, theShortForm);
 		  }
 		else
 		  {
-			cloudinessSentence << cloudiness_sentence(fullAreaCloudinessId);
+			cloudinessSentence << cloudiness_sentence(fullAreaCloudinessId, theShortForm);
 		  }
 	  }
 	else if(theParameters.theForecastArea & INLAND_AREA)
 	  {
-		cloudinessSentence << cloudiness_sentence(inlandCloudinessId);
+		cloudinessSentence << cloudiness_sentence(inlandCloudinessId, theShortForm);
 	  }
 	else if(theParameters.theForecastArea & COASTAL_AREA)
 	  {
-		cloudinessSentence << cloudiness_sentence(coastalCloudinessId);		
+		cloudinessSentence << cloudiness_sentence(coastalCloudinessId, theShortForm);		
 	  }
 
 	if(cloudinessSentence.size() > 0)
@@ -876,152 +833,16 @@ namespace TextGen
 		sentence << todaySentence;
 		sentence << cloudinessSentence;
 	  }
-
+	
+	if(sentence.size() > 0 && !(theParameters.theForecastArea & FULL_AREA))
+	  {
+		cloudiness_id clid = (theParameters.theForecastArea & INLAND_AREA ? inlandCloudinessId : coastalCloudinessId);
+		if(clid == VERRATTAIN_PILVINEN || clid == PILVINEN)
+		  sentence << areaSpecificSentence(thePeriod);
+	  }
+	
 	return sentence;
   }
-
-#ifdef LATER
-  Sentence CloudinessForecast::cloudinessSentence(const unsigned int& thePeriodNumber,
-												  const bool& theCheckCloudinessChange /*= true*/)
-  {
-	Sentence sentence;
-
- 	NightAndDayPeriodGenerator generator(theParameters.thePeriod, theParameters.theVariable);
-
-	WeatherPeriod thePeriod(generator.period(thePeriodNumber));
-
-	if(generator.size() < thePeriodNumber)
-	   return sentence;
-
-	if(theCheckCloudinessChange)
-	  {
-		Sentence cloudinessChange;
-		cloudinessChange << cloudinessChangeSentence(thePeriod);
-		if(cloudinessChange.size() > 0)
-		  return cloudinessChange;
-	  }
-
-	if(generator.isday(thePeriodNumber))
-	  {
-		WeatherPeriod morningWeatherPeriod(thePeriod.localStartTime(),
-										   thePeriod.localEndTime());
-		WeatherPeriod afternoonWeatherPeriod(thePeriod.localStartTime(),
-										   thePeriod.localEndTime());
-		get_part_of_the_day(thePeriod, AAMUPAIVA, morningWeatherPeriod);
-		get_part_of_the_day(thePeriod, ILTAPAIVA, afternoonWeatherPeriod);
-
-		bool inlandAndCoastalIncluded = (theParameters.theForecastArea & INLAND_AREA && 
-										 theParameters.theForecastArea & COASTAL_AREA);
-		bool inlandIncluded = theParameters.theForecastArea & INLAND_AREA ;
-		bool coastalIncluded = theParameters.theForecastArea & COASTAL_AREA;
-
-
-		cloudiness_id cloudinessIdFullMorning(getCloudinessId(morningWeatherPeriod, theFullData));
-		cloudiness_id cloudinessIdCoastalMorning(getCloudinessId(morningWeatherPeriod, theCoastalData));
-		cloudiness_id cloudinessIdInlandMorning(getCloudinessId(morningWeatherPeriod, theInlandData));
-		cloudiness_id cloudinessIdFullAfternoon(getCloudinessId(afternoonWeatherPeriod, theFullData));
-		cloudiness_id cloudinessIdCoastalAfternoon(getCloudinessId(afternoonWeatherPeriod, theCoastalData));
-		cloudiness_id cloudinessIdInlandAfternoon(getCloudinessId(afternoonWeatherPeriod, theInlandData));
-
-		if(inlandAndCoastalIncluded)
-		  {
-			bool separateCoastInlandMorning = separateCoastInlandCloudiness(morningWeatherPeriod);
-			bool separateCoastInlandAfternoon = separateCoastInlandCloudiness(afternoonWeatherPeriod);
-			bool separateMorningAfternoon = separateWeatherPeriodCloudiness(morningWeatherPeriod, 
-																			afternoonWeatherPeriod,
-																			*theFullData);
-			if(!separateCoastInlandMorning && !separateCoastInlandAfternoon && !separateMorningAfternoon)
-			  {
-				sentence << cloudiness_sentence(cloudinessIdFullMorning);
-			  }
-			else
-			  {
-				if(separateCoastInlandMorning)
-				  {
-					sentence << AAMUPAIVALLA_WORD << COAST_PHRASE
-							 << cloudiness_sentence(cloudinessIdCoastalMorning);
-					sentence << Delimiter(",");
-					sentence << INLAND_PHRASE << cloudiness_sentence(cloudinessIdInlandMorning, true);
-				  }
-				else
-				  {
-					sentence << AAMUPAIVALLA_WORD << cloudiness_sentence(cloudinessIdFullMorning);
-				  }
-				sentence << Delimiter(",");
-				if(separateCoastInlandAfternoon)
-				  {
-					sentence << ILTAPAIVALLA_WORD << COAST_PHRASE
-							 << cloudiness_sentence(cloudinessIdCoastalAfternoon);
-					sentence << Delimiter(",");
-					sentence << INLAND_PHRASE << cloudiness_sentence(cloudinessIdInlandAfternoon, true);
-				  }
-				else
-				  {
-					sentence << ILTAPAIVALLA_WORD << cloudiness_sentence(cloudinessIdFullAfternoon);
-				  }
-			  }
-		  }
-		else if(inlandIncluded)
-		  {
-			if(puolipilvisesta_pilviseen(cloudinessIdInlandMorning,
-										 cloudinessIdInlandAfternoon))
-			  {
-				sentence << VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
-			  }
-			else if(cloudinessIdInlandMorning != MISSING_CLOUDINESS_ID &&
-					cloudinessIdInlandMorning != PUOLIPILVINEN_JA_PILVINEN && 
-					cloudinessIdInlandAfternoon != PUOLIPILVINEN_JA_PILVINEN &&
-					abs(cloudinessIdInlandMorning - cloudinessIdInlandAfternoon) < 2)
-			  {
-				sentence << cloudiness_sentence(cloudinessIdInlandMorning);
-			  }
-			else
-			  {
-				if(cloudinessIdInlandMorning != MISSING_CLOUDINESS_ID)
-				  {
-					sentence << AAMUPAIVALLA_WORD << cloudiness_sentence(cloudinessIdInlandMorning);
-					sentence << Delimiter(",");
-					sentence << ILTAPAIVALLA_WORD << cloudiness_sentence(cloudinessIdInlandAfternoon, true);
-				  }
-				else
-				  {
-					sentence << cloudiness_sentence(cloudinessIdInlandAfternoon);
-				  }
-			  }
-		  }
-		else if(coastalIncluded)
-		  {
-			if(puolipilvisesta_pilviseen(cloudinessIdCoastalMorning,
-										 cloudinessIdCoastalAfternoon))
-			  {
-				sentence << VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
-			  }
-			else if(cloudinessIdCoastalMorning != MISSING_CLOUDINESS_ID &&
-					cloudinessIdCoastalMorning != PUOLIPILVINEN_JA_PILVINEN && 
-					cloudinessIdCoastalAfternoon != PUOLIPILVINEN_JA_PILVINEN &&
-					abs(cloudinessIdCoastalMorning - cloudinessIdCoastalAfternoon) < 2)
-			  {
-				sentence << cloudiness_sentence(cloudinessIdCoastalMorning);
-			  }
-			else
-			  {
-				if(cloudinessIdCoastalMorning != MISSING_CLOUDINESS_ID)
-				  {
-					sentence << AAMUPAIVALLA_WORD << cloudiness_sentence(cloudinessIdCoastalMorning);
-					sentence << Delimiter(",");
-					sentence << ILTAPAIVALLA_WORD << cloudiness_sentence(cloudinessIdCoastalAfternoon, true);
-				  }
-				else
-				  {
-					sentence << cloudiness_sentence(cloudinessIdCoastalAfternoon);
-				  }
-			  }
-		  }
-	  }
-
-	return sentence;
-  }
-#endif
 
   cloudiness_id CloudinessForecast::getCloudinessPeriodId(const NFmiTime& theObservationTime,
 													const cloudiness_period_vector& theCloudinessPeriodVector) const
@@ -1096,13 +917,45 @@ namespace TextGen
 
 	if(vectorToClone)
 	  theCloudinessTrends = *vectorToClone;
-	/*
-	if(vectorToClone)
-	  {
-		for(unsigned int i = 0; i < vectorToClone->.size(); i++)
+  }
 
-	  }
-	*/
+  Sentence CloudinessForecast::areaSpecificSentence(const WeatherPeriod& thePeriod) const
+  {
+	Sentence sentence;
+
+	WeatherResult northEastShare(kFloatMissing, 0);
+	WeatherResult southEastShare(kFloatMissing, 0);
+	WeatherResult southWestShare(kFloatMissing, 0);
+	WeatherResult northWestShare(kFloatMissing, 0);
+
+	RangeAcceptor cloudinesslimits;
+	cloudinesslimits.lowerLimit(VERRATTAIN_PILVISTA_LOWER_LIMIT);
+	AreaTools::getArealDistribution(theParameters.theSources,
+									Cloudiness,
+									theParameters.theArea,
+									thePeriod,
+									cloudinesslimits,
+									northEastShare,
+									southEastShare,
+									southWestShare,
+									northWestShare);
+
+	float north = northEastShare.value() + northWestShare.value();
+	float south = southEastShare.value() + southWestShare.value();
+	float east = northEastShare.value() + southEastShare.value();
+	float west = northWestShare.value() + southWestShare.value();
+
+	sentence << area_specific_sentence(north,
+									   south,
+									   east,
+									   west,
+									   northEastShare.value(),
+									   southEastShare.value(),
+									   southWestShare.value(),
+									   northWestShare.value(),
+									   false);
+
+	return sentence;
   }
 
 }

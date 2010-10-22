@@ -299,7 +299,7 @@ using namespace std;
 		  theLogMessage = "*** precipitation form snow ****";
 		else if(i == PRECIPITATION_FORM_FREEZING_DATA)
 		  theLogMessage = "*** precipitation form freezing ****";
-		else if(i == THUNDERPROBABILITY_DATA)
+		else if(i == THUNDER_PROBABILITY_DATA)
 		  theLogMessage = "*** thunder probability ****";
 		else if(i == FOG_INTENSITY_MODERATE_DATA)
 		  theLogMessage = "*** fog intensity moderate ****";
@@ -341,7 +341,7 @@ using namespace std;
 
 const void log_subperiods(wf_story_params& theParameters)
   {
-	NightAndDayPeriodGenerator generator(theParameters.thePeriod, theParameters.theVariable);
+	NightAndDayPeriodGenerator generator(theParameters.theForecastPeriod, theParameters.theVariable);
 
 	for(unsigned int i = 1; i <= generator.size(); i++ )
 	  {
@@ -428,39 +428,6 @@ const void log_subperiods(wf_story_params& theParameters)
 		  }
 	  }
   }
-
-  double get_areal_distribution(const AnalysisSources& theSources,
-							  const WeatherParameter& theParameter,
-							  const WeatherArea& theArea,
-							  const WeatherPeriod& thePeriod,
-							  const Acceptor& theAcceptor,
-							  WeatherResult& theNortEastShare,
-							  WeatherResult& theSouthEastShare,
-							  WeatherResult& theSouthWestShare,
-							  WeatherResult& theNortWestShare)
-  {
-	NFmiIndexMask indexMask;
-	
-  	double cumulativeValue = ExtractMask(theSources,
-										 theParameter,
-										 theArea,
-										 thePeriod,
-										 theAcceptor,
-										 indexMask);
-
-	NFmiPoint averagePoint = AreaTools::getArealDistribution(theSources, 
-															 theParameter, 
-															 indexMask,
-															 theNortEastShare,
-															 theSouthEastShare,
-															 theSouthWestShare,
-															 theNortWestShare);
-
-
-	return cumulativeValue;
-  }
-
-
 
   void populate_temperature_time_series(const string& theVariable, 
 										const AnalysisSources& theSources,
@@ -657,15 +624,15 @@ const void log_subperiods(wf_story_params& theParameters)
 								DefaultAcceptor(),
 								showerfilter);
 
-		get_areal_distribution(theSources,
-							   Precipitation,
-							   theArea,
-							   (*precipitationShareNorthEastHourly)[i]->thePeriod,
-							   precipitationlimits,
-							   (*precipitationShareNorthEastHourly)[i]->theResult,
-							   (*precipitationShareSouthEastHourly)[i]->theResult,
-							   (*precipitationShareSouthWestHourly)[i]->theResult,
-							   (*precipitationShareNorthWestHourly)[i]->theResult);
+		AreaTools::getArealDistribution(theSources,
+										Precipitation,
+										theArea,
+										(*precipitationShareNorthEastHourly)[i]->thePeriod,
+										precipitationlimits,
+										(*precipitationShareNorthEastHourly)[i]->theResult,
+										(*precipitationShareSouthEastHourly)[i]->theResult,
+										(*precipitationShareSouthWestHourly)[i]->theResult,
+										(*precipitationShareNorthWestHourly)[i]->theResult);
 	  }
   }
 
@@ -705,7 +672,15 @@ const void log_subperiods(wf_story_params& theParameters)
   {
 
 	weather_result_data_item_vector& thunderProbabilityHourly = 
-	  *(theHourlyDataContainer[THUNDERPROBABILITY_DATA]);
+	  *(theHourlyDataContainer[THUNDER_PROBABILITY_DATA]);
+	weather_result_data_item_vector* thunderNorthEastHourly = 
+	  theHourlyDataContainer[THUNDER_NORTHEAST_SHARE_DATA];
+	weather_result_data_item_vector* thunderSouthEastHourly = 
+	  theHourlyDataContainer[THUNDER_SOUTHEAST_SHARE_DATA];
+	weather_result_data_item_vector* thunderSouthWestHourly = 
+	  theHourlyDataContainer[THUNDER_SOUTHWEST_SHARE_DATA];
+	weather_result_data_item_vector* thunderNorthWestHourly = 
+	  theHourlyDataContainer[THUNDER_NORTHWEST_SHARE_DATA];
 	  
  	GridForecaster theForecaster;
 
@@ -718,6 +693,18 @@ const void log_subperiods(wf_story_params& theParameters)
 																	   Maximum,
 																	   theArea,
 																	   thunderProbabilityHourly[i]->thePeriod);
+
+		RangeAcceptor thunderlimits;
+		thunderlimits.lowerLimit(SMALL_PROBABILITY_FOR_THUNDER_LOWER_LIMIT);
+		AreaTools::getArealDistribution(theSources,
+										Thunder,
+										theArea,
+										(*thunderNorthEastHourly)[i]->thePeriod,
+										thunderlimits,
+										(*thunderNorthEastHourly)[i]->theResult,
+										(*thunderSouthEastHourly)[i]->theResult,
+										(*thunderSouthWestHourly)[i]->theResult,
+										(*thunderNorthWestHourly)[i]->theResult);
 	  }
   }
 
@@ -764,6 +751,14 @@ const void log_subperiods(wf_story_params& theParameters)
 	  *(theHourlyDataContainer[FOG_INTENSITY_MODERATE_DATA]);
 	weather_result_data_item_vector& fogIntensityDenseHourly = 
 	  *(theHourlyDataContainer[FOG_INTENSITY_DENSE_DATA]);
+	weather_result_data_item_vector* fogNorthEastHourly = 
+	  theHourlyDataContainer[FOG_NORTHEAST_SHARE_DATA];
+	weather_result_data_item_vector* fogSouthEastHourly = 
+	  theHourlyDataContainer[FOG_SOUTHEAST_SHARE_DATA];
+	weather_result_data_item_vector* fogSouthWestHourly = 
+	  theHourlyDataContainer[FOG_SOUTHWEST_SHARE_DATA];
+	weather_result_data_item_vector* fogNorthWestHourly = 
+	  theHourlyDataContainer[FOG_NORTHWEST_SHARE_DATA];
 	  
  	GridForecaster theForecaster;
 	ValueAcceptor moderateFogFilter;
@@ -796,6 +791,19 @@ const void log_subperiods(wf_story_params& theParameters)
 								DefaultAcceptor(),
 								DefaultAcceptor(),
 								denseFogFilter);
+
+		RangeAcceptor foglimits;
+		foglimits.lowerLimit(kTModerateFog);
+		foglimits.lowerLimit(kTDenseFog);
+		AreaTools::getArealDistribution(theSources,
+										Fog,
+										theArea,
+										(*fogNorthEastHourly)[i]->thePeriod,
+										foglimits,
+										(*fogNorthEastHourly)[i]->theResult,
+										(*fogSouthEastHourly)[i]->theResult,
+										(*fogSouthWestHourly)[i]->theResult,
+										(*fogNorthWestHourly)[i]->theResult);
 	  }
   }
 
@@ -836,20 +844,43 @@ const void log_subperiods(wf_story_params& theParameters)
   void populate_cloudiness_time_series(const string& theVariable, 
 										const AnalysisSources& theSources,
 										const WeatherArea& theArea,										
-										weather_result_data_item_vector& theResultData)
+										 weather_forecast_result_container& theHourlyDataContainer)
   {
+	weather_result_data_item_vector& cloudinessHourly = 
+	  *(theHourlyDataContainer[CLOUDINESS_DATA]);
+	weather_result_data_item_vector* cloudinessNorthEastHourly = 
+	  theHourlyDataContainer[CLOUDINESS_NORTHEAST_SHARE_DATA];
+	weather_result_data_item_vector* cloudinessSouthEastHourly = 
+	  theHourlyDataContainer[CLOUDINESS_SOUTHEAST_SHARE_DATA];
+	weather_result_data_item_vector* cloudinessSouthWestHourly = 
+	  theHourlyDataContainer[CLOUDINESS_SOUTHWEST_SHARE_DATA];
+	weather_result_data_item_vector* cloudinessNorthWestHourly = 
+	  theHourlyDataContainer[CLOUDINESS_NORTHWEST_SHARE_DATA];
+	
  	GridForecaster theForecaster;
-	for(unsigned int i = 0; i < theResultData.size(); i++)
+	for(unsigned int i = 0; i < cloudinessHourly.size(); i++)
 	  {
-		theResultData[i]->theResult = theForecaster.analyze(theVariable,
-															theSources,
-															Cloudiness,
-															Maximum,
-															Mean,
-															theArea,
-															theResultData[i]->thePeriod);
+		cloudinessHourly[i]->theResult = theForecaster.analyze(theVariable,
+															   theSources,
+															   Cloudiness,
+															   Maximum,
+															   Mean,
+															   theArea,
+															   cloudinessHourly[i]->thePeriod);
+
+		RangeAcceptor cloudinesslimits;
+		cloudinesslimits.lowerLimit(VERRATTAIN_PILVISTA_LOWER_LIMIT);
+		AreaTools::getArealDistribution(theSources,
+										Cloudiness,
+										theArea,
+										(*cloudinessNorthEastHourly)[i]->thePeriod,
+										cloudinesslimits,
+										(*cloudinessNorthEastHourly)[i]->theResult,
+										(*cloudinessSouthEastHourly)[i]->theResult,
+										(*cloudinessSouthWestHourly)[i]->theResult,
+										(*cloudinessNorthWestHourly)[i]->theResult);
 	  }
- }
+  }
 
   void populate_cloudiness_time_series(wf_story_params& theParameters)
   {
@@ -861,7 +892,7 @@ const void log_subperiods(wf_story_params& theParameters)
 		populate_cloudiness_time_series(theParameters.theVariable,
 										theParameters.theSources,
 										inlandArea,
-										*(*theParameters.theCompleteData[INLAND_AREA])[CLOUDINESS_DATA]);
+										*theParameters.theCompleteData[INLAND_AREA]);
 	  }
 
 	if(theParameters.theForecastArea & COASTAL_AREA)
@@ -871,7 +902,7 @@ const void log_subperiods(wf_story_params& theParameters)
 		populate_cloudiness_time_series(theParameters.theVariable,
 										theParameters.theSources,
 										coastalArea,
-										*(*theParameters.theCompleteData[COASTAL_AREA])[CLOUDINESS_DATA]);
+										*theParameters.theCompleteData[COASTAL_AREA]);
 	  }
 
 	if(theParameters.theForecastArea & FULL_AREA)
@@ -879,1109 +910,10 @@ const void log_subperiods(wf_story_params& theParameters)
 		populate_cloudiness_time_series(theParameters.theVariable,
 										theParameters.theSources,
 										theParameters.theArea,
-										*(*theParameters.theCompleteData[FULL_AREA])[CLOUDINESS_DATA]);
+										*theParameters.theCompleteData[FULL_AREA]);
 	  }
   }
 
-  CloudinessDataItemData* get_cloudiness_data_item_data(wf_story_params& theParameters, 
-														const WeatherPeriod& thePeriod,
-														const forecast_area_id& theForeacastAreaId)
-  {
-	if(!(theParameters.theForecastArea & theForeacastAreaId))
-	  return 0;
-
-	CloudinessDataItemData* item = 0;
-
-	cloudiness_id theCloudinessId(MISSING_CLOUDINESS_ID);
-
-	float min = -1.0;
-	float mean = -1.0;
-	float max = -1.0;   
-	float standard_deviation = -1.0;
-	float pearson_coefficient = 0.0;
-	
-	weather_result_data_item_vector theInterestingData;
-
-	trend_id theTrendId(NO_TREND);
-
-	get_sub_time_series(thePeriod,
-						*(*theParameters.theCompleteData[theForeacastAreaId])[CLOUDINESS_DATA],
-						theInterestingData);
-
-	if(theInterestingData.size() > 0)
-	  {
-		mean = get_mean(theInterestingData);
-		get_min_max(theInterestingData, min, max);
-		standard_deviation = get_standard_deviation(theInterestingData);	
-		theCloudinessId = get_cloudiness_id(min, mean, max, standard_deviation);
-		pearson_coefficient = get_pearson_coefficient(theInterestingData);
-  
-		if(theInterestingData.size() > 2)
-		  {
-			cloudiness_id cloudinessAtStart = 
-			  get_cloudiness_id(theInterestingData[0]->theResult.value());
-			cloudiness_id cloudinessAtEnd = 
-			  get_cloudiness_id(theInterestingData[theInterestingData.size()-1]->theResult.value());
-
-			bool dataOk = (cloudinessAtStart != kFloatMissing && cloudinessAtEnd != kFloatMissing);
-
-			if(dataOk && cloudinessAtStart >= VERRATTAIN_PILVINEN && 
-			   cloudinessAtEnd == SELKEAA && 
-			   pearson_coefficient < -TREND_CHANGE_COEFFICIENT_TRESHOLD)
-			  {
-				theTrendId = SELKENEE;
-			  }
-			else if(dataOk && cloudinessAtStart <= MELKO_SELKEAA && 
-					cloudinessAtEnd >= VERRATTAIN_PILVINEN &&
-					pearson_coefficient >= TREND_CHANGE_COEFFICIENT_TRESHOLD)
-			  {
-				theTrendId = PILVISTYY;
-			  }
-		  }
-		item = new CloudinessDataItemData(theCloudinessId, 
-										  min, 
-										  mean, 
-										  max, 
-										  standard_deviation, 
-										  theTrendId, 
-										  pearson_coefficient);
-	  }
-
-	return item;
-
-
-  }
-
- CloudinessDataItem* get_cloudiness_data_item(wf_story_params& theParameters, const WeatherPeriod& thePeriod)
-  {
-	CloudinessDataItemData* dataItemCoastal = 
-	  get_cloudiness_data_item_data(theParameters, thePeriod, COASTAL_AREA);
-	CloudinessDataItemData* dataItemInland = 
-	  get_cloudiness_data_item_data(theParameters, thePeriod, INLAND_AREA);
-	CloudinessDataItemData* dataItemFull = 
-	  get_cloudiness_data_item_data(theParameters, thePeriod, FULL_AREA);
-
-	CloudinessDataItem* item = new CloudinessDataItem(dataItemCoastal, dataItemInland, dataItemFull);
-
-	return item;
-  }
-
-  Sentence cloudiness_change_sentence(wf_story_params& theParameters, const unsigned int& thePeriodNumber)
-  {
-	Sentence sentence;
-
-	Sentence cloudinessSentence;
-
-	cloudiness_data_item_container* theResultData = theParameters.theCloudinessData[thePeriodNumber - 1];
-
-	if(theResultData)
-	  {
-		trend_id theTrendMorning(NO_TREND);
-		trend_id theTrendAfternoon(NO_TREND);
-		trend_id theTrendNight(NO_TREND);
-
-		const CloudinessDataItemData* morningDataItem = 
-		  theResultData->find(AAMUPAIVA) != theResultData->end() ? ((*theResultData)[AAMUPAIVA])->theFullData : 0;
-		const CloudinessDataItemData* afternoonDataItem = 
-		  theResultData->find(ILTAPAIVA) != theResultData->end() ? ((*theResultData)[ILTAPAIVA])->theFullData : 0;
-		const CloudinessDataItemData* nightDataItem = 
-		  theResultData->find(YO) != theResultData->end() ? ((*theResultData)[YO])->theFullData : 0;
-
-		// TODO: Think how coastal and inland cloudiness change should be reported
-		if(morningDataItem)
-		  theTrendMorning = morningDataItem->theTrendId;
-		if(afternoonDataItem)
-		  theTrendAfternoon = afternoonDataItem->theTrendId;
-		if(nightDataItem)
-		  theTrendNight = nightDataItem->theTrendId;
-
-		if(theTrendNight == NO_TREND && theTrendMorning == PILVISTYY && theTrendAfternoon == NO_TREND)
-		  sentence << AAMUPAIVALLA_WORD << PILVISTYVAA_WORD;
-		else if(theTrendNight == NO_TREND && theTrendMorning == NO_TREND && theTrendAfternoon == PILVISTYY)
-		  sentence << ILTAPAIVALLA_WORD << PILVISTYVAA_WORD;
-		if(theTrendNight == NO_TREND && theTrendMorning == SELKENEE && theTrendAfternoon == NO_TREND)
-		  sentence << AAMUPAIVALLA_WORD << SELKENEVAA_WORD;
-		else if(theTrendNight == NO_TREND && theTrendMorning == NO_TREND && theTrendAfternoon == SELKENEE)
-		  sentence << ILTAPAIVALLA_WORD << SELKENEVAA_WORD;
-	  }
-
-	return sentence;
-  }
-
-  Sentence cloudiness_night_sentence(const wf_story_params& theParameters, const CloudinessDataItem& theDataItem)
-  {
-	Sentence sentence;
-
-	const CloudinessDataItemData* inlandData = theDataItem.theInlandData;
-	const CloudinessDataItemData* coastalData = theDataItem.theCoastalData;
-	const CloudinessDataItemData* fullData = theDataItem.theFullData;
-
-	cloudiness_id theCloudinessIdInland(inlandData != 0 ? inlandData->theId : MISSING_CLOUDINESS_ID);
-	cloudiness_id theCloudinessIdCoastal(coastalData != 0 ? coastalData->theId : MISSING_CLOUDINESS_ID);
-	cloudiness_id theCloudinessIdFull(fullData != 0 ? fullData->theId : MISSING_CLOUDINESS_ID);
-
-	if(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
-	  {
-		if(theCloudinessIdCoastal != MISSING_CLOUDINESS_ID &&
-		   theCloudinessIdInland != MISSING_CLOUDINESS_ID &&
-		   (coastalData->theMean <= TAYSIN_PILVETON_LIMIT && inlandData->theMean >= HYVIN_PILVINEN_LIMIT ||
-			coastalData->theMean >= HYVIN_PILVINEN_LIMIT && inlandData->theMean <= TAYSIN_PILVETON_LIMIT))
-		  {
-			sentence << COAST_PHRASE << cloudiness_sentence(theCloudinessIdCoastal);
-			sentence << Delimiter(",");
-			sentence << INLAND_PHRASE << cloudiness_sentence(theCloudinessIdInland);
-		  }
-		else
-		  {
-			sentence << cloudiness_sentence(theCloudinessIdFull);
-		  }
-	  }
-	else if(theParameters.theForecastArea & INLAND_AREA)
-	  {
-		sentence << cloudiness_sentence(theCloudinessIdInland);
-	  }
-	else if(theParameters.theForecastArea & COASTAL_AREA)
-	  {
-		sentence << cloudiness_sentence(theCloudinessIdCoastal);
-	  }
-
-	return sentence;
-  }
-
-  bool has_different_cloudiness(const cloudiness_id& theCloudinessId1, 
-								const cloudiness_id& theCloudinessId2, 
-								cloudiness_id& theCloudinessIdResult)
-  {
-	bool retval = false;
-
-	if(abs(theCloudinessId2 - theCloudinessId1) >= 2)
-	  {
-		theCloudinessIdResult = theCloudinessId1 > theCloudinessId2 ? theCloudinessId1 : theCloudinessId2;
-		retval = true;
-	  }
-
-	return retval;
-  }
-
-  Sentence cloudiness_day_sentence(const wf_story_params& theParameters, 
-								   const CloudinessDataItem& theMorningDataItem,
-								   const CloudinessDataItem& theAfternoonDataItem)
-  {
-	Sentence sentence;
-
-	theParameters.theLog << "*Morning Cloudiness" << endl;
-	theParameters.theLog << theMorningDataItem;
-	theParameters.theLog << "*Afternoon Cloudiness" << endl;
-	theParameters.theLog << theAfternoonDataItem;
-	
-	const CloudinessDataItemData* inlandDataMorning = theMorningDataItem.theInlandData;
-	const CloudinessDataItemData* coastalDataMorning = theMorningDataItem.theCoastalData;
-	const CloudinessDataItemData* fullDataMorning = theMorningDataItem.theFullData;
-	const CloudinessDataItemData* inlandDataAfternoon = theAfternoonDataItem.theInlandData;
-	const CloudinessDataItemData* coastalDataAfternoon = theAfternoonDataItem.theCoastalData;
-	const CloudinessDataItemData* fullDataAfternoon = theAfternoonDataItem.theFullData;
-
-	cloudiness_id theCloudinessIdFullMorning(fullDataMorning != 0 
-											 ? fullDataMorning->theId : MISSING_CLOUDINESS_ID);
-	cloudiness_id theCloudinessIdCoastalMorning(coastalDataMorning != 0 
-												? coastalDataMorning->theId : MISSING_CLOUDINESS_ID);
-	cloudiness_id theCloudinessIdInlandMorning(inlandDataMorning != 0 
-												? inlandDataMorning->theId : MISSING_CLOUDINESS_ID);
-	cloudiness_id theCloudinessIdFullAfternoon(fullDataAfternoon != 0 
-											 ? fullDataAfternoon->theId : MISSING_CLOUDINESS_ID);
-	cloudiness_id theCloudinessIdCoastalAfternoon(coastalDataAfternoon != 0
-												? coastalDataAfternoon->theId : MISSING_CLOUDINESS_ID);
-	cloudiness_id theCloudinessIdInlandAfternoon(inlandDataAfternoon != 0 
-												? inlandDataAfternoon->theId : MISSING_CLOUDINESS_ID);
-
-
-	if(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
-	  {
-		bool separateCoastInlandMorning = (inlandDataMorning->theMean <= 5.0 && 
-										   coastalDataMorning->theMean >= 70.0 ||
-										   inlandDataMorning->theMean >= 70.0 && 
-										   coastalDataMorning->theMean <= 5.0);
-		  //(abs(theCloudinessIdCoastalMorning - theCloudinessIdInlandMorning) >= 2);
-		bool separateCoastInlandAfternoon = (inlandDataAfternoon->theMean <= 5.0 && 
-											 coastalDataAfternoon->theMean >= 7.0 ||
-											 inlandDataAfternoon->theMean >= 70.0 && 
-											 coastalDataAfternoon->theMean <= 5.0);
-		  //(abs(theCloudinessIdCoastalAfternoon - theCloudinessIdInlandAfternoon) >= 2);
-		bool separateMorningAfternoon = (abs(theCloudinessIdFullMorning - theCloudinessIdFullAfternoon) >= 2);
-
-		theParameters.theLog << "separateCoastInlandMorning: " << static_cast<int>(separateCoastInlandMorning) << endl;
-		theParameters.theLog << "separateCoastInlandAfternoon: " << static_cast<int>(separateCoastInlandAfternoon) << endl;
-		theParameters.theLog << "separateMornigAfternoon: " << static_cast<int>(separateMorningAfternoon) << endl;
-
-		if(!separateCoastInlandMorning && !separateCoastInlandAfternoon && !separateMorningAfternoon)
-		  {
-			sentence << cloudiness_sentence(theCloudinessIdFullMorning);
-		  }
-		else
-		  {
-			if(separateCoastInlandMorning)
-			  {
-				sentence << AAMUPAIVALLA_WORD << COAST_PHRASE
-						 << cloudiness_sentence(theCloudinessIdCoastalMorning);
-				sentence << Delimiter(",");
-				sentence << INLAND_PHRASE << cloudiness_sentence(theCloudinessIdInlandMorning, true);
-			  }
-			else
-			  {
-				sentence << AAMUPAIVALLA_WORD << cloudiness_sentence(theCloudinessIdFullMorning);
-			  }
-			sentence << Delimiter(",");
-			if(separateCoastInlandAfternoon)
-			  {
-				sentence << ILTAPAIVALLA_WORD << COAST_PHRASE
-						 << cloudiness_sentence(theCloudinessIdCoastalAfternoon);
-				sentence << Delimiter(",");
-				sentence << INLAND_PHRASE << cloudiness_sentence(theCloudinessIdInlandAfternoon, true);
-			  }
-			else
-			  {
-				sentence << ILTAPAIVALLA_WORD << cloudiness_sentence(theCloudinessIdFullAfternoon);
-			  }
-		  }
-	  }
-	else if(theParameters.theForecastArea & INLAND_AREA)
-	  {
-		if(puolipilvisesta_pilviseen(theCloudinessIdInlandMorning,
-									 theCloudinessIdInlandAfternoon))
-		  {
-			sentence << VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
-		  }
-		else if(theCloudinessIdInlandMorning != MISSING_CLOUDINESS_ID &&
-				theCloudinessIdInlandMorning != PUOLIPILVINEN_JA_PILVINEN && 
-				theCloudinessIdInlandAfternoon != PUOLIPILVINEN_JA_PILVINEN &&
-				abs(theCloudinessIdInlandMorning - theCloudinessIdInlandAfternoon) < 2)
-		  {
-			sentence << cloudiness_sentence(theCloudinessIdInlandMorning);
-		  }
-		else
-		  {
-			if(theCloudinessIdInlandMorning != MISSING_CLOUDINESS_ID)
-			  {
-				sentence << AAMUPAIVALLA_WORD << cloudiness_sentence(theCloudinessIdInlandMorning);
-				sentence << Delimiter(",");
-				sentence << ILTAPAIVALLA_WORD << cloudiness_sentence(theCloudinessIdInlandAfternoon, true);
-			  }
-			else
-			  {
-				sentence << cloudiness_sentence(theCloudinessIdInlandAfternoon);
-			  }
-		  }
-	  }
-	else if(theParameters.theForecastArea & COASTAL_AREA)
-	  {
-		if(puolipilvisesta_pilviseen(theCloudinessIdCoastalMorning,
-									 theCloudinessIdCoastalAfternoon))
-		  {
-			sentence << VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
-		  }
-		else if(theCloudinessIdCoastalMorning != MISSING_CLOUDINESS_ID &&
-				theCloudinessIdCoastalMorning != PUOLIPILVINEN_JA_PILVINEN && 
-				theCloudinessIdCoastalAfternoon != PUOLIPILVINEN_JA_PILVINEN &&
-				abs(theCloudinessIdCoastalMorning - theCloudinessIdCoastalAfternoon) < 2)
-		  {
-			sentence << cloudiness_sentence(theCloudinessIdCoastalMorning);
-		  }
-		else
-		  {
-			if(theCloudinessIdCoastalMorning != MISSING_CLOUDINESS_ID)
-			  {
-				sentence << AAMUPAIVALLA_WORD << cloudiness_sentence(theCloudinessIdCoastalMorning);
-				sentence << Delimiter(",");
-				sentence << ILTAPAIVALLA_WORD << cloudiness_sentence(theCloudinessIdCoastalAfternoon, true);
-			  }
-			else
-			  {
-				sentence << cloudiness_sentence(theCloudinessIdCoastalAfternoon);
-			  }
-		  }
-	  }
-
-	return sentence;
-  }
-  
-  Sentence cloudiness_sentence(wf_story_params& theParameters, const unsigned int& thePeriodNumber)
-  {
-	Sentence sentence;
-
-	NightAndDayPeriodGenerator generator(theParameters.thePeriod, theParameters.theVariable);
-
-	if(generator.size() < thePeriodNumber)
-	  return sentence;
-
-	Sentence cloudinessSentence;
-
-	cloudiness_data_item_container* theResultData = theParameters.theCloudinessData[thePeriodNumber - 1];
-
-	if(theResultData)
-	  {
-		if(generator.isnight(thePeriodNumber))
-		  {
-			if(theResultData->find(YO) != theResultData->end())
-			  sentence << cloudiness_night_sentence(theParameters, *((*theResultData)[YO]));
-		  }
-		else
-		  {
-			CloudinessDataItem* morningItem = 0;
-			CloudinessDataItem* afternoonItem = 0;
-			if(theResultData->find(AAMUPAIVA) != theResultData->end())
-			  morningItem = (*theResultData)[AAMUPAIVA];
-			if(theResultData->find(ILTAPAIVA) != theResultData->end())
-			  afternoonItem = (*theResultData)[ILTAPAIVA];
-			sentence << cloudiness_day_sentence(theParameters, *morningItem, *afternoonItem);
-		  }
-	  }
-
-	return sentence;
-  }
-
-  void analyze_cloudiness_data(wf_story_params& theParameters)
-  {
-	NightAndDayPeriodGenerator generator(theParameters.thePeriod, theParameters.theVariable);
-
-	for(unsigned int i = 1; i <= generator.size(); i++)
-	  {
-		cloudiness_data_item_container* resultContainer = new cloudiness_data_item_container();
-
-		WeatherPeriod theWeatherPeriod =  generator.period(i);
-		WeatherPeriod theSubPeriod(theWeatherPeriod);
-
-		if(generator.isday(i))
-		  {
-			if(get_part_of_the_day(theWeatherPeriod, AAMUPAIVA, theSubPeriod))
-			  {				
-				CloudinessDataItem* dataItem = get_cloudiness_data_item(theParameters, theSubPeriod);
-				resultContainer->insert(make_pair(AAMUPAIVA, dataItem));
-			  }
-			if(get_part_of_the_day(theWeatherPeriod, ILTAPAIVA, theSubPeriod))
-			  {
-				CloudinessDataItem* dataItem = get_cloudiness_data_item(theParameters, theSubPeriod);
-				resultContainer->insert(make_pair(ILTAPAIVA, dataItem));
-			  }
-		  }
-		else
-		  {
-			if(get_part_of_the_day(theWeatherPeriod, YO, theSubPeriod))
-			  {
-				CloudinessDataItem* dataItem = get_cloudiness_data_item(theParameters, theSubPeriod);
-				resultContainer->insert(make_pair(YO, dataItem));
-			  }
-		  }
-		theParameters.theCloudinessData.push_back(resultContainer);
-	  }
-  }
-
- void preprocess_cloudiness_data(wf_story_params& theParameters)
-  {
-	NightAndDayPeriodGenerator generator(theParameters.thePeriod, theParameters.theVariable);
-
-	for(unsigned int i = 1; i <= generator.size(); i++)
-	  {
-		cloudiness_data_item_container* resultContainer = new cloudiness_data_item_container();
-
-		WeatherPeriod theWeatherPeriod =  generator.period(i);
-		WeatherPeriod theSubPeriod(theWeatherPeriod);
-
-		if(generator.isday(i))
-		  {
-			if(get_part_of_the_day(theWeatherPeriod, AAMUPAIVA, theSubPeriod))
-			  {				
-				CloudinessDataItem* dataItem = get_cloudiness_data_item(theParameters, theSubPeriod);
-				resultContainer->insert(make_pair(AAMUPAIVA, dataItem));
-			  }
-			if(get_part_of_the_day(theWeatherPeriod, ILTAPAIVA, theSubPeriod))
-			  {
-				CloudinessDataItem* dataItem = get_cloudiness_data_item(theParameters, theSubPeriod);
-				resultContainer->insert(make_pair(ILTAPAIVA, dataItem));
-			  }
-		  }
-		else
-		  {
-			if(get_part_of_the_day(theWeatherPeriod, YO, theSubPeriod))
-			  {
-				CloudinessDataItem* dataItem = get_cloudiness_data_item(theParameters, theSubPeriod);
-				resultContainer->insert(make_pair(YO, dataItem));
-			  }
-		  }
-		theParameters.theCloudinessData.push_back(resultContainer);
-	  }
-  }
-
-  const weather_result_data_item_vector* get_precipitation_data(wf_story_params& theParameters,
-														  const forecast_area_id& theAreaId,
-														  const weather_result_data_id& theWeatherResultId)
-  {
-	return 	(*theParameters.theCompleteData[theAreaId])[theWeatherResultId];
-  }
-
-  void extract_the_interesting_precipitation_data(wf_story_params& theParameters,
-												  const WeatherPeriod& thePeriod,
-												  const forecast_area_id& theAreaId,
-												  weather_result_data_item_vector& thePrecipitation,
-												  weather_result_data_item_vector& thePrecipitationExtent,
-												  weather_result_data_item_vector& thePrecipitationFromWater,
-												  weather_result_data_item_vector& thePrecipitationFromDrizzle,
-												  weather_result_data_item_vector& thePrecipitationFromSleet,
-												  weather_result_data_item_vector& thePrecipitationFromSnow,
-												  weather_result_data_item_vector& thePrecipitationFromFreezing,
-												  weather_result_data_item_vector& thePrecipitationType,
-												  weather_result_data_item_vector& thePrecipitationShareNorthEast,
-												  weather_result_data_item_vector& thePrecipitationShareSouthEast,
-												  weather_result_data_item_vector& thePrecipitationShareSouthWest,
-												  weather_result_data_item_vector& thePrecipitationShareNorthWest)
-  {
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[theAreaId])[PRECIPITATION_DATA],
-							thePrecipitation);
-
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[theAreaId])[PRECIPITATION_EXTENT_DATA],
-							thePrecipitationExtent);
-
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_WATER_DATA],
-							thePrecipitationFromWater);
-
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_DRIZZLE_DATA],
-							thePrecipitationFromDrizzle);
-
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_SLEET_DATA],
-							thePrecipitationFromSleet);
-
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_SNOW_DATA],
-							thePrecipitationFromSnow);
-
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_FREEZING_DATA],
-							thePrecipitationFromFreezing);
-
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[theAreaId])[PRECIPITATION_TYPE_DATA],
-							thePrecipitationType);
-
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[theAreaId])[PRECIPITATION_NORTHEAST_SHARE_DATA],
-							thePrecipitationShareNorthEast);
-
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[theAreaId])[PRECIPITATION_SOUTHEAST_SHARE_DATA],
-							thePrecipitationShareSouthEast);
-
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[theAreaId])[PRECIPITATION_SOUTHWEST_SHARE_DATA],
-							thePrecipitationShareSouthWest);
-
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[theAreaId])[PRECIPITATION_NORTHWEST_SHARE_DATA],
-							thePrecipitationShareNorthWest);
-  }
-
-  trend_id get_precipitation_trend(const wf_story_params& theParameters,
-								   const weather_result_data_item_vector& thePrecipitationData, 
-								   const unsigned int& precipitation_form)
-  {
-	trend_id precipitation_trend(NO_TREND);
-  
-	if(thePrecipitationData.size() <= 2)
-	  return precipitation_trend;
-
-	int iFromBegCount = thePrecipitationData.size() / 2;
-	int iFromEndCount = thePrecipitationData.size() - iFromBegCount;
-	
-	// examine maximum 2 hours from the beginning and end
-	iFromBegCount = iFromBegCount > 2 ? 2 : iFromBegCount;
-	iFromEndCount = iFromEndCount > 2 ? 2 : iFromEndCount;
-	
-	float precipitationAtStart = get_mean(thePrecipitationData, 0, iFromBegCount);
-	float precipitationAtEnd = get_mean(thePrecipitationData, thePrecipitationData.size()-iFromEndCount, 
-										thePrecipitationData.size());
-
-	float dryWeatherLimit;
-	float weakPrecipitationLimit;
-
-	get_dry_and_weak_precipitation_limit(theParameters, precipitation_form, dryWeatherLimit, weakPrecipitationLimit);
-
-	if(precipitationAtStart >= weakPrecipitationLimit && precipitationAtEnd <= dryWeatherLimit)
-	  precipitation_trend = POUTAANTUU;
-	else if(precipitationAtStart <= dryWeatherLimit && precipitationAtEnd >= weakPrecipitationLimit)
-	  precipitation_trend = SADE_ALKAA;
-	
-	return precipitation_trend;
-  }
-
-
-
-  PrecipitationDataItemData* get_precipitation_data_item_data(wf_story_params& theParameters, 
-															  const WeatherPeriod& thePeriod,
-															  const forecast_area_id& theForeacastAreaId)
-  {
-	if(!(theParameters.theForecastArea & theForeacastAreaId))
-	  return 0;
-
-	PrecipitationDataItemData* item = new PrecipitationDataItemData(0,
-																	0.0,
-																	0.0,
-																	0.0,
-																	0.0,
-																	0.0,
-																	0.0,
-																	0.0,
-																	0.0,
-																	NO_TREND,
-																	0.0,
-																	thePeriod.localStartTime());
-
-	weather_result_data_item_vector thePrecipitation;
-	weather_result_data_item_vector thePrecipitationExtent;
-	weather_result_data_item_vector thePrecipitationFromWater;
-	weather_result_data_item_vector thePrecipitationFromDrizzle;
-	weather_result_data_item_vector thePrecipitationFromSleet;
-	weather_result_data_item_vector thePrecipitationFromSnow;
-	weather_result_data_item_vector thePrecipitationFromFreezing;
-	weather_result_data_item_vector thePrecipitationType;
-
-
-	//	const double ignore_drizzle_limit = 0.02;
-
-	extract_the_interesting_precipitation_data(theParameters,
-											   thePeriod,
-											   theForeacastAreaId,
-											   thePrecipitation,
-											   thePrecipitationExtent,
-											   thePrecipitationFromWater,
-											   thePrecipitationFromDrizzle,
-											   thePrecipitationFromSleet,
-											   thePrecipitationFromSnow,
-											   thePrecipitationFromFreezing,
-											   thePrecipitationType,
-											   item->thePrecipitationShareNorthEast,
-											   item->thePrecipitationShareSouthEast,
-											   item->thePrecipitationShareSouthWest,
-											   item->thePrecipitationShareNorthWest);
-  
-
-
-	float precipitation_intesity = get_mean(thePrecipitation);
-	float precipitation_extent = get_mean(thePrecipitationExtent);
-	float precipitation_form_water = get_mean(thePrecipitationFromWater);
-	float precipitation_form_drizzle = get_mean(thePrecipitationFromDrizzle);
-	float precipitation_form_sleet = get_mean(thePrecipitationFromSleet);
-	float precipitation_form_snow = get_mean(thePrecipitationFromSnow);
-	float precipitation_form_freezing = 0.0;
-	float precipitation_type_showers = get_mean(thePrecipitationType);
-	float pearson_coefficient = get_pearson_coefficient(thePrecipitation);
-	float min_freezing = 0.0;
-	float max_freezing = 0.0;
-	get_min_max(thePrecipitationFromFreezing, min_freezing, max_freezing);
-	precipitation_form_freezing = max_freezing;
-
-	trend_id precipitation_trend(NO_TREND);
-
-	const unsigned int precipitation_form = get_complete_precipitation_form(theParameters.theVariable,
-														  precipitation_form_water,
-														  precipitation_form_drizzle,
-														  precipitation_form_sleet,
-														  precipitation_form_snow,
-														  precipitation_form_freezing);
-
-	// TODO: if its raining save the location (north, east,...)
-
-	// examine the trend
-	float dryWeatherLimit;
-	float weakPrecipitationLimit;
-	float precipitationAtStart = thePrecipitation.at(0)->theResult.value();
-	float precipitationAtEnd = thePrecipitation.at(thePrecipitation.size()-1)->theResult.value();
-
-	get_dry_and_weak_precipitation_limit(theParameters, precipitation_form, dryWeatherLimit, weakPrecipitationLimit);
-	
-	if((precipitationAtStart >= weakPrecipitationLimit && 
-		precipitationAtEnd <= dryWeatherLimit) && 
-	   pearson_coefficient < -TREND_CHANGE_COEFFICIENT_TRESHOLD)
-	  {
-		precipitation_trend = POUTAANTUU;
-	  }
-	else if((precipitationAtStart <= dryWeatherLimit && 
-			 precipitationAtEnd >= weakPrecipitationLimit) && 
-			pearson_coefficient >= TREND_CHANGE_COEFFICIENT_TRESHOLD)
-	  {
-		precipitation_trend = SADE_ALKAA;
-	  }
-
-	item->thePrecipitationForm = precipitation_form;
-	item->thePrecipitationIntensity = precipitation_intesity;
-	item->thePrecipitationExtent = precipitation_extent;
-	item->thePrecipitationFormWater = precipitation_form_water;
-	item->thePrecipitationFormDrizzle = precipitation_form_drizzle;
-	item->thePrecipitationFormSleet = precipitation_form_sleet;
-	item->thePrecipitationFormSnow = precipitation_form_snow;
-	item->thePrecipitationFormFreezing = precipitation_form_freezing;
-	item->thePrecipitationTypeShowers = precipitation_type_showers;
-	item->theTrendId = precipitation_trend;
-	item->thePearsonCoefficient = pearson_coefficient;
-
-	return item;
-
-
-  }
-
-PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameters, 
-												   const WeatherPeriod& thePeriod)
-  {
-	PrecipitationDataItemData* dataItemCoastal = 
-	  get_precipitation_data_item_data(theParameters, thePeriod, COASTAL_AREA);
-	PrecipitationDataItemData* dataItemInland = 
-	  get_precipitation_data_item_data(theParameters, thePeriod, INLAND_AREA);
-	PrecipitationDataItemData* dataItemFull = 
-	  get_precipitation_data_item_data(theParameters, thePeriod, FULL_AREA);
-	
-	PrecipitationDataItem* item = new PrecipitationDataItem(dataItemCoastal, dataItemInland, dataItemFull);
-
-	return item;
-  }
-
-  void analyze_precipitation_data(wf_story_params& theParameters)
-  {
-	NightAndDayPeriodGenerator generator(theParameters.thePeriod, theParameters.theVariable);
-
-	for(unsigned int i = 1; i <= generator.size(); i++)
-	  {
-		precipitation_data_item_container* resultContainer = new precipitation_data_item_container();
-
-		WeatherPeriod theWeatherPeriod =  generator.period(i);
-		WeatherPeriod theSubPeriod(theWeatherPeriod);
-
-		if(generator.isday(i))
-		  {
-			if(get_part_of_the_day(theWeatherPeriod, AAMUPAIVA, theSubPeriod))
-			  {
-				PrecipitationDataItem* item = get_precipitation_data_item(theParameters, theSubPeriod);
-				resultContainer->insert(make_pair(AAMUPAIVA, item));
-			  }
-			if(get_part_of_the_day(theWeatherPeriod, ILTAPAIVA, theSubPeriod))
-			  {
-				PrecipitationDataItem* item = get_precipitation_data_item(theParameters, theSubPeriod);
-				resultContainer->insert(make_pair(ILTAPAIVA, item));
-			  }
-		  }
-		else
-		  {
-			if(get_part_of_the_day(theWeatherPeriod, YO, theSubPeriod))
-			  {
-				PrecipitationDataItem* item = get_precipitation_data_item(theParameters, theSubPeriod);
-				resultContainer->insert(make_pair(YO, item));
-			  }
-		  }
-		theParameters.thePrecipitationData.push_back(resultContainer);
-	  }
-  }
-
-
-  Sentence precipitation_change_sentence(wf_story_params& theParameters, const unsigned int& thePeriodNumber)
-  {
-	Sentence sentence;
-
-
-	return sentence;
-  }
-
-  Sentence handle_morning_afternoon_sentence(Sentence& theMorningSentence, Sentence& theAfternoonSentence)
-  {
-	Sentence sentence;
-
-	// TODO: is this OK?
-	if(same_content(theMorningSentence, theAfternoonSentence))
-	  {
-		sentence << theAfternoonSentence;
-	  }
-	else
-	  {
-		if(!theMorningSentence.empty())
-		  sentence << AAMUPAIVALLA_WORD << theMorningSentence;
-
-		if(!theMorningSentence.empty() && !theAfternoonSentence.empty())
-		  sentence << Delimiter(",");
-
-		if(!theAfternoonSentence.empty())
-		  if(!theMorningSentence.empty())
-			sentence << ILTAPAIVALLA_WORD << theAfternoonSentence;
-		else
-			sentence << theAfternoonSentence;
-	  }
-
-	return sentence;
-  }
-
-  /*
-  Sentence cloudiness_sentence(wf_story_params& theParameters, const unsigned int& thePeriodNumber)
-  {
-	Sentence sentence;
-
-	NightAndDayPeriodGenerator generator(theParameters.thePeriod, theParameters.theVariable);
-
-	if(generator.size() < thePeriodNumber)
-	  return sentence;
-
-	Sentence cloudinessSentence;
-
-	cloudiness_data_item_container* theResultData = theParameters.theCloudinessData[thePeriodNumber - 1];
-
-	if(theResultData)
-	  {
-		if(generator.isnight(thePeriodNumber))
-		  {
-			if(theResultData->find(YO) != theResultData->end())
-			  sentence << cloudiness_night_sentence(theParameters, *((*theResultData)[YO]));
-		  }
-		else
-		  {
-			CloudinessDataItem* morningItem = 0;
-			CloudinessDataItem* afternoonItem = 0;
-			if(theResultData->find(AAMUPAIVA) != theResultData->end())
-			  morningItem = (*theResultData)[AAMUPAIVA];
-			if(theResultData->find(ILTAPAIVA) != theResultData->end())
-			  afternoonItem = (*theResultData)[ILTAPAIVA];
-			sentence << cloudiness_day_sentence(theParameters, *morningItem, *afternoonItem);
-		  }
-	  }
-
-	return sentence;
-  }
-  */
-
-
-
-  Sentence precipitation_sentence(wf_story_params& theParameters, const unsigned int& thePeriodNumber)
-  {
-	Sentence sentence;
-
-#ifdef LATER
-	NightAndDayPeriodGenerator generator(theParameters.thePeriod, theParameters.theVariable);
-
-	if(generator.size() < thePeriodNumber)
-	  return sentence;
-
-	PrecipitationDataItem* morningDataItem = 0;
-	PrecipitationDataItem* afternoonDataItem = 0;
-	PrecipitationDataItem* nightDataItem = 0;
-
-	precipitation_data_item_container* theResultData = theParameters.thePrecipitationData[thePeriodNumber - 1];
-
-	if(theResultData)
-	  {
-		if(theResultData->find(AAMUPAIVA) != theResultData->end())
-		  morningDataItem = (*theResultData)[AAMUPAIVA];
-		if(theResultData->find(ILTAPAIVA) != theResultData->end())
-		  afternoonDataItem = (*theResultData)[ILTAPAIVA];
-		if(theResultData->find(YO) != theResultData->end())
-		  nightDataItem = (*theResultData)[YO];
-	  }
-
-	Sentence morningSentence;
-	Sentence afternoonSentence;
-
-	/*
-	if(morningDataItem && afternoonDataItem && (*morningDataItem == *afternoonDataItem))
-	  {
-		sentence << precipitation_sentence(theParameters,
-										   afternoonDataItem->thePrecipitationForm,
-										   afternoonDataItem->thePrecipitationIntensity,
-										   afternoonDataItem->thePrecipitationExtent,
-										   afternoonDataItem->thePrecipitationFormWater,
-										   afternoonDataItem->thePrecipitationFormDrizzle,
-										   afternoonDataItem->thePrecipitationFormSleet,
-										   afternoonDataItem->thePrecipitationFormSnow,
-										   afternoonDataItem->thePrecipitationFormFreezing,
-										   afternoonDataItem->thePrecipitationTypeShowers);
-		return sentence;
-	  }
-	*/
-
-	if(morningDataItem)
-		morningSentence << precipitation_sentence(theParameters,
-												morningDataItem->thePrecipitationForm,
-												morningDataItem->thePrecipitationIntensity,
-												morningDataItem->thePrecipitationExtent,
-												morningDataItem->thePrecipitationFormWater,
-												morningDataItem->thePrecipitationFormDrizzle,
-												morningDataItem->thePrecipitationFormSleet,
-												morningDataItem->thePrecipitationFormSnow,
-												morningDataItem->thePrecipitationFormFreezing,
-												morningDataItem->thePrecipitationTypeShowers);
-
-
-	if(afternoonDataItem)
-	  afternoonSentence << precipitation_sentence(theParameters,
-												  afternoonDataItem->thePrecipitationForm,
-												  afternoonDataItem->thePrecipitationIntensity,
-												  afternoonDataItem->thePrecipitationExtent,
-												  afternoonDataItem->thePrecipitationFormWater,
-												  afternoonDataItem->thePrecipitationFormDrizzle,
-												  afternoonDataItem->thePrecipitationFormSleet,
-												  afternoonDataItem->thePrecipitationFormSnow,
-												  afternoonDataItem->thePrecipitationFormFreezing,
-												  afternoonDataItem->thePrecipitationTypeShowers);
-
-
-	
-	theParameters.thePrecipitationMorning = !is_dry_weather(theParameters,
-															morningDataItem->thePrecipitationForm,
-															morningDataItem->thePrecipitationIntensity,
-															morningDataItem->thePrecipitationExtent);
-	theParameters.thePrecipitationAfternoon = !is_dry_weather(theParameters,
-															  afternoonDataItem->thePrecipitationForm,
-															  afternoonDataItem->thePrecipitationIntensity,
-															  afternoonDataItem->thePrecipitationExtent);
-	
-
-	sentence << handle_morning_afternoon_sentence(morningSentence, afternoonSentence);
-
-	if(!sentence.empty())
-	  {
-		//weather_result_data_item_vector thePrecipitationShareNorthEast;
-		float meanNorthEast = get_mean(afternoonDataItem->thePrecipitationShareNorthEast);
-		float meanSouthEast = get_mean(afternoonDataItem->thePrecipitationShareSouthEast);
-		float meanSouthWest = get_mean(afternoonDataItem->thePrecipitationShareSouthWest);
-		float meanNorthWest = get_mean(afternoonDataItem->thePrecipitationShareNorthWest);
-
-		/*
-		cout << "meanNorthEast" << meanNorthEast << endl;
-		cout << "meanSouthEast" << meanSouthEast << endl;
-		cout << "meanSouthWest" << meanSouthWest << endl;
-		cout << "meanNorthWest" << meanNorthWest << endl;
-		*/
-		if(meanNorthEast > 60.0)
-		  sentence << ALUEEN_KOILLISOSISSA_PHRASE;
-		else if(meanSouthEast > 60.0)
-		  sentence << ALUEEN_KAAKKOISOSISSA_PHRASE;
-		else if(meanSouthWest > 60.0)
-		  sentence << ALUEEN_LOUNAISOSISSA_PHRASE;
-		else if(meanNorthWest > 60.0)
-		  sentence << ALUEEN_LUOTEISOSISSA_PHRASE;
-		else if(meanNorthEast + meanNorthWest > 60.0)
-		  sentence << ALUEEN_POHJOISOSISSA_PHRASE;
-		else if(meanSouthEast + meanSouthWest > 60.0)
-		  sentence << ALUEEN_ETELAOSISSA_PHRASE;
-	  }
-
-	if(nightDataItem)
-	  sentence << precipitation_sentence(theParameters,
-										 nightDataItem->thePrecipitationForm,
-										 nightDataItem->thePrecipitationIntensity,
-										 nightDataItem->thePrecipitationExtent,
-										 nightDataItem->thePrecipitationFormWater,
-										 nightDataItem->thePrecipitationFormDrizzle,
-										 nightDataItem->thePrecipitationFormSleet,
-										 nightDataItem->thePrecipitationFormSnow,
-										 nightDataItem->thePrecipitationFormFreezing,
-										 nightDataItem->thePrecipitationTypeShowers);
-#endif
-
-	return sentence;
-  }
-
-
-  /*
-  Sentence cloudiness_sentence(wf_story_params& theParameters, const unsigned int& thePeriodNumber)
-  {
-	Sentence sentence;
-
-	NightAndDayPeriodGenerator generator(theParameters.thePeriod, theParameters.theVariable);
-
-	if(generator.size() < thePeriodNumber)
-	  return sentence;
-
-	Sentence cloudinessSentence;
-
-	cloudiness_data_item_container* theResultData = theParameters.theCloudinessData[thePeriodNumber - 1];
-
-	if(theResultData)
-	  {
-		if(generator.isnight(thePeriodNumber))
-		  {
-			if(theResultData->find(YO) != theResultData->end())
-			  sentence << cloudiness_night_sentence(theParameters, *((*theResultData)[YO]));
-		  }
-		else
-		  {
-			CloudinessDataItem* morningItem = 0;
-			CloudinessDataItem* afternoonItem = 0;
-			if(theResultData->find(AAMUPAIVA) != theResultData->end())
-			  morningItem = (*theResultData)[AAMUPAIVA];
-			if(theResultData->find(ILTAPAIVA) != theResultData->end())
-			  afternoonItem = (*theResultData)[ILTAPAIVA];
-			sentence << cloudiness_day_sentence(theParameters, *morningItem, *afternoonItem);
-		  }
-	  }
-
-	return sentence;
-  }
-
-
-
-  */
-
-
-  ThunderDataItem* get_thunder_data_item(wf_story_params& theParameters, const WeatherPeriod& thePeriod)
-  {
-	ThunderDataItem* item = 0;
-
-	weather_result_data_item_vector theThunderProbabilityData;
-
-	if(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
-	  {
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[FULL_AREA])[THUNDERPROBABILITY_DATA],
-							theThunderProbabilityData);
-	  }
-	else if(theParameters.theForecastArea & INLAND_AREA)
-	  {
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[INLAND_AREA])[THUNDERPROBABILITY_DATA],
-							theThunderProbabilityData);
-	  }
-	else if(theParameters.theForecastArea & COASTAL_AREA)
-	  {
-		get_sub_time_series(thePeriod,
-							*(*theParameters.theCompleteData[COASTAL_AREA])[THUNDERPROBABILITY_DATA],
-							theThunderProbabilityData);
-	  }
-
-	float min_probability = kFloatMissing;
-	float mean_probability = kFloatMissing;
-	float max_probability = kFloatMissing;
-	float standard_deviation_probability = kFloatMissing;
-
-	mean_probability = get_mean(theThunderProbabilityData);
-	get_min_max(theThunderProbabilityData, min_probability, max_probability);
-	standard_deviation_probability = get_standard_deviation(theThunderProbabilityData);
-	
-
-	item = new ThunderDataItem(min_probability,
-							   mean_probability,
-							   max_probability,
-							   standard_deviation_probability);
-
-	return item;
-  }
-
-  void analyze_thunder_data(wf_story_params& theParameters)
-  {
-	NightAndDayPeriodGenerator generator(theParameters.thePeriod, theParameters.theVariable);
-
-	for(unsigned int i = 1; i <= generator.size(); i++)
-	  {
-		thunder_data_item_container* resultContainer = new thunder_data_item_container();
-
-		WeatherPeriod theWeatherPeriod =  generator.period(i);
-		WeatherPeriod theSubPeriod(theWeatherPeriod);
-
-		if(generator.isday(i))
-		  {
-			if(get_part_of_the_day(theWeatherPeriod, AAMUPAIVA, theSubPeriod))
-			  {
-				ThunderDataItem* item = get_thunder_data_item(theParameters, theSubPeriod);
-				resultContainer->insert(make_pair(AAMUPAIVA, item));
-			  }
-			if(get_part_of_the_day(theWeatherPeriod, ILTAPAIVA, theSubPeriod))
-			  {
-				ThunderDataItem* item = get_thunder_data_item(theParameters, theSubPeriod);
-				resultContainer->insert(make_pair(ILTAPAIVA, item));
-			  }
-		  }
-		else
-		  {
-			if(get_part_of_the_day(theWeatherPeriod, YO, theSubPeriod))
-			  {
-				ThunderDataItem* item = get_thunder_data_item(theParameters, theSubPeriod);
-				resultContainer->insert(make_pair(YO, item));
-			  }
-		  }
-		theParameters.theThunderData.push_back(resultContainer);
-	  }
-  }
-
-  Sentence thunder_sentence(wf_story_params& theParameters,
-							const float& theMinProbability,
-							const float& theMeanProbability,
-							const float& theMaxProbability,
-							const float& theStandardDeviationProbability)
-  {
-	Sentence sentence;
-
-	if(theMaxProbability == 0)
-	  return sentence;
-
-	if(theMaxProbability <= 15.0)
-	  {
-		sentence << PIENI_UKKOSEN_TODENNAKOISYYS_PHRASE;
-	  }
-	else if(theMaxProbability <= 35.0)
-	  {
-		sentence << MAHDOLLISESTI_UKKOSTA_PHRASE;
-	  }
-	else
-	  {
-		sentence << AJOITTAIN_UKKOSTA_PHRASE;
-	  }
-
-	return sentence;
-  }
-
-  Sentence thunder_sentence(wf_story_params& theParameters, const unsigned int& thePeriodNumber)
-  {
-	Sentence sentence;
-
-	ThunderDataItem* morningDataItem = 0;
-	ThunderDataItem* afternoonDataItem = 0;
-	ThunderDataItem* nightDataItem = 0;
-
-	thunder_data_item_container* theResultData = theParameters.theThunderData[thePeriodNumber - 1];
-
-	if(theResultData->find(AAMUPAIVA) != theResultData->end())
-		morningDataItem = (*theResultData)[AAMUPAIVA];
-	if(theResultData->find(ILTAPAIVA) != theResultData->end())
-		afternoonDataItem = (*theResultData)[ILTAPAIVA];
-	if(theResultData->find(YO) != theResultData->end())
-		nightDataItem = (*theResultData)[YO];
-
-	Sentence morningSentence;
-	Sentence afternoonSentence;
-	Sentence nightSentence;
-
-	if(morningDataItem)
-	  morningSentence << thunder_sentence(theParameters,
-										  morningDataItem->theMinProbability,
-										  morningDataItem->theMeanProbability,
-										  morningDataItem->theMaxProbability,
-										  morningDataItem->theStandardDeviationProbability);
-	
-	if(afternoonDataItem)
-	  afternoonSentence << thunder_sentence(theParameters,
-											afternoonDataItem->theMinProbability,
-											afternoonDataItem->theMeanProbability,
-											afternoonDataItem->theMaxProbability,
-											afternoonDataItem->theStandardDeviationProbability);
-
-	if(nightDataItem)
-	  nightSentence << thunder_sentence(theParameters,
-										nightDataItem->theMinProbability,
-										nightDataItem->theMeanProbability,
-										nightDataItem->theMaxProbability,
-										nightDataItem->theStandardDeviationProbability);
-
-	sentence << handle_morning_afternoon_sentence(morningSentence, afternoonSentence);
-
-	sentence << nightSentence;
-
-	return sentence;
-  }
 
   void allocate_data_structures(wf_story_params& theParameters, const forecast_area_id& theAreaId)
   {
@@ -2005,11 +937,26 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 	weather_result_data_item_vector* hourlyPrecipitationShareSouthWest = new weather_result_data_item_vector();
 	weather_result_data_item_vector* hourlyPrecipitationShareNorthWest = new weather_result_data_item_vector();
 
+	weather_result_data_item_vector* hourlyCloudinessShareNortEast = new weather_result_data_item_vector();
+	weather_result_data_item_vector* hourlyCloudinessShareSouthEast = new weather_result_data_item_vector();
+	weather_result_data_item_vector* hourlyCloudinessShareSouthWest = new weather_result_data_item_vector();
+	weather_result_data_item_vector* hourlyCloudinessShareNorthWest = new weather_result_data_item_vector();
+
+	weather_result_data_item_vector* hourlyThunderProbabilityShareNortEast = new weather_result_data_item_vector();
+	weather_result_data_item_vector* hourlyThunderProbabilityShareSouthEast = new weather_result_data_item_vector();
+	weather_result_data_item_vector* hourlyThunderProbabilityShareSouthWest = new weather_result_data_item_vector();
+	weather_result_data_item_vector* hourlyThunderProbabilityShareNorthWest = new weather_result_data_item_vector();
+
+	weather_result_data_item_vector* hourlyFogShareNortEast = new weather_result_data_item_vector();
+	weather_result_data_item_vector* hourlyFogShareSouthEast = new weather_result_data_item_vector();
+	weather_result_data_item_vector* hourlyFogShareSouthWest = new weather_result_data_item_vector();
+	weather_result_data_item_vector* hourlyFogShareNorthWest = new weather_result_data_item_vector();
+
 	// first split the whole period to one-hour subperiods
-	NFmiTime periodStartTime = theParameters.thePeriod.localStartTime();
+	NFmiTime periodStartTime = theParameters.theDataPeriod.localStartTime();
 
 	theParameters.theHourPeriodCount = 0;
-	while(periodStartTime.IsLessThan(theParameters.thePeriod.localEndTime()))
+	while(periodStartTime.IsLessThan(theParameters.theDataPeriod.localEndTime()))
 	  {
 		NFmiTime periodEndTime = periodStartTime;
 		periodEndTime.ChangeByHours(1);
@@ -2072,6 +1019,45 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 																			   theWeatherResult, 
 																			   partOfTheDayId));
 		
+		hourlyCloudinessShareNortEast->push_back(new WeatherResultDataItem(theWeatherPeriod, 
+																		   theWeatherResult, 
+																		   partOfTheDayId));
+		hourlyCloudinessShareSouthEast->push_back(new WeatherResultDataItem(theWeatherPeriod, 
+																			theWeatherResult, 
+																			partOfTheDayId));
+		hourlyCloudinessShareSouthWest->push_back(new WeatherResultDataItem(theWeatherPeriod, 
+																			theWeatherResult, 
+																			partOfTheDayId));
+		hourlyCloudinessShareNorthWest->push_back(new WeatherResultDataItem(theWeatherPeriod, 
+																			theWeatherResult, 
+																			partOfTheDayId));
+
+		hourlyThunderProbabilityShareNortEast->push_back(new WeatherResultDataItem(theWeatherPeriod, 
+																				   theWeatherResult, 
+																				   partOfTheDayId));
+		hourlyThunderProbabilityShareSouthEast->push_back(new WeatherResultDataItem(theWeatherPeriod, 
+																					theWeatherResult, 
+																					partOfTheDayId));
+		hourlyThunderProbabilityShareSouthWest->push_back(new WeatherResultDataItem(theWeatherPeriod, 
+																					theWeatherResult, 
+																					partOfTheDayId));
+		hourlyThunderProbabilityShareNorthWest->push_back(new WeatherResultDataItem(theWeatherPeriod, 
+																					theWeatherResult, 
+																					partOfTheDayId));
+
+		hourlyFogShareNortEast->push_back(new WeatherResultDataItem(theWeatherPeriod, 
+																	theWeatherResult, 
+																	partOfTheDayId));
+		hourlyFogShareSouthEast->push_back(new WeatherResultDataItem(theWeatherPeriod, 
+																	 theWeatherResult, 
+																	 partOfTheDayId));
+		hourlyFogShareSouthWest->push_back(new WeatherResultDataItem(theWeatherPeriod, 
+																	 theWeatherResult, 
+																	 partOfTheDayId));
+		hourlyFogShareNorthWest->push_back(new WeatherResultDataItem(theWeatherPeriod, 
+																	 theWeatherResult, 
+																	 partOfTheDayId));
+
 		periodStartTime.ChangeByHours(1);
 		theParameters.theHourPeriodCount++;
 	  }
@@ -2088,13 +1074,25 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 	resultContainer->insert(make_pair(PRECIPITATION_FORM_SNOW_DATA, hourlyPrecipitationFormSnow));
 	resultContainer->insert(make_pair(PRECIPITATION_FORM_FREEZING_DATA, hourlyPrecipitationFormFreezing));
 	resultContainer->insert(make_pair(CLOUDINESS_DATA, hourlyCloudiness));
-	resultContainer->insert(make_pair(THUNDERPROBABILITY_DATA, hourlyThunderProbability));
+	resultContainer->insert(make_pair(THUNDER_PROBABILITY_DATA, hourlyThunderProbability));
 	resultContainer->insert(make_pair(FOG_INTENSITY_MODERATE_DATA, hourlyFogIntensityModerate));
 	resultContainer->insert(make_pair(FOG_INTENSITY_DENSE_DATA, hourlyFogIntensityDense));
 	resultContainer->insert(make_pair(PRECIPITATION_NORTHEAST_SHARE_DATA, hourlyPrecipitationShareNortEast));
 	resultContainer->insert(make_pair(PRECIPITATION_SOUTHEAST_SHARE_DATA, hourlyPrecipitationShareSouthEast));
 	resultContainer->insert(make_pair(PRECIPITATION_SOUTHWEST_SHARE_DATA, hourlyPrecipitationShareSouthWest));
 	resultContainer->insert(make_pair(PRECIPITATION_NORTHWEST_SHARE_DATA, hourlyPrecipitationShareNorthWest));
+	resultContainer->insert(make_pair(CLOUDINESS_NORTHEAST_SHARE_DATA, hourlyCloudinessShareNortEast));
+	resultContainer->insert(make_pair(CLOUDINESS_SOUTHEAST_SHARE_DATA, hourlyCloudinessShareSouthEast));
+	resultContainer->insert(make_pair(CLOUDINESS_SOUTHWEST_SHARE_DATA, hourlyCloudinessShareSouthWest));
+	resultContainer->insert(make_pair(CLOUDINESS_NORTHWEST_SHARE_DATA, hourlyCloudinessShareNorthWest));
+	resultContainer->insert(make_pair(THUNDER_NORTHEAST_SHARE_DATA, hourlyThunderProbabilityShareNortEast));
+	resultContainer->insert(make_pair(THUNDER_SOUTHEAST_SHARE_DATA, hourlyThunderProbabilityShareSouthEast));
+	resultContainer->insert(make_pair(THUNDER_SOUTHWEST_SHARE_DATA, hourlyThunderProbabilityShareSouthWest));
+	resultContainer->insert(make_pair(THUNDER_NORTHWEST_SHARE_DATA, hourlyThunderProbabilityShareNorthWest));
+	resultContainer->insert(make_pair(FOG_NORTHEAST_SHARE_DATA, hourlyFogShareNortEast));
+	resultContainer->insert(make_pair(FOG_SOUTHEAST_SHARE_DATA, hourlyFogShareSouthEast));
+	resultContainer->insert(make_pair(FOG_SOUTHWEST_SHARE_DATA, hourlyFogShareSouthWest));
+	resultContainer->insert(make_pair(FOG_NORTHWEST_SHARE_DATA, hourlyFogShareNorthWest));
 
 	theParameters.theCompleteData.insert(make_pair(theAreaId, resultContainer));
   }
@@ -2116,7 +1114,7 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 												 Mean,
 												 Maximum,
 												 inlandArea,
-												 theParameters.thePeriod);
+												 theParameters.theForecastPeriod);
 	if(result.value() != kFloatMissing)
 	  {
 		inlandExists = true;
@@ -2128,7 +1126,7 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 								   Mean,
 								   Maximum,
 								   coastalArea,
-								   theParameters.thePeriod);
+								   theParameters.theForecastPeriod);
 	if(result.value() != kFloatMissing)
 	  {
 		coastExists = true;
@@ -2183,7 +1181,7 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 		delete (*theResultContainer[PRECIPITATION_FORM_SLEET_DATA])[i];
 		delete (*theResultContainer[PRECIPITATION_FORM_SNOW_DATA])[i];
 		delete (*theResultContainer[PRECIPITATION_FORM_FREEZING_DATA])[i];
-		delete (*theResultContainer[THUNDERPROBABILITY_DATA])[i];
+		delete (*theResultContainer[THUNDER_PROBABILITY_DATA])[i];
 		delete (*theResultContainer[FOG_INTENSITY_MODERATE_DATA])[i];
 	  }
 
@@ -2196,12 +1194,16 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 	theResultContainer[PRECIPITATION_FORM_SLEET_DATA]->clear();
 	theResultContainer[PRECIPITATION_FORM_SNOW_DATA]->clear();
 	theResultContainer[PRECIPITATION_FORM_FREEZING_DATA]->clear();
-	theResultContainer[THUNDERPROBABILITY_DATA]->clear();
+	theResultContainer[THUNDER_PROBABILITY_DATA]->clear();
 	theResultContainer[FOG_INTENSITY_MODERATE_DATA]->clear();
 	theResultContainer[FOG_INTENSITY_DENSE_DATA]->clear();
 
 	delete theResultContainer[TEMPERATURE_DATA];
 	delete theResultContainer[CLOUDINESS_DATA];
+	delete theResultContainer[CLOUDINESS_NORTHEAST_SHARE_DATA];
+	delete theResultContainer[CLOUDINESS_SOUTHEAST_SHARE_DATA];
+	delete theResultContainer[CLOUDINESS_SOUTHWEST_SHARE_DATA];
+	delete theResultContainer[CLOUDINESS_NORTHWEST_SHARE_DATA];
 	delete theResultContainer[PRECIPITATION_DATA];
 	delete theResultContainer[PRECIPITATION_EXTENT_DATA];
 	delete theResultContainer[PRECIPITATION_TYPE_DATA];
@@ -2210,13 +1212,21 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 	delete theResultContainer[PRECIPITATION_FORM_SLEET_DATA];
 	delete theResultContainer[PRECIPITATION_FORM_SNOW_DATA];
 	delete theResultContainer[PRECIPITATION_FORM_FREEZING_DATA];
-	delete theResultContainer[THUNDERPROBABILITY_DATA];
-	delete theResultContainer[FOG_INTENSITY_MODERATE_DATA];
-	delete theResultContainer[FOG_INTENSITY_DENSE_DATA];
 	delete theResultContainer[PRECIPITATION_NORTHEAST_SHARE_DATA];
 	delete theResultContainer[PRECIPITATION_SOUTHEAST_SHARE_DATA];
 	delete theResultContainer[PRECIPITATION_SOUTHWEST_SHARE_DATA];
 	delete theResultContainer[PRECIPITATION_NORTHWEST_SHARE_DATA];
+	delete theResultContainer[THUNDER_PROBABILITY_DATA];
+	delete theResultContainer[THUNDER_NORTHEAST_SHARE_DATA];
+	delete theResultContainer[THUNDER_SOUTHEAST_SHARE_DATA];
+	delete theResultContainer[THUNDER_SOUTHWEST_SHARE_DATA];
+	delete theResultContainer[THUNDER_NORTHWEST_SHARE_DATA];
+	delete theResultContainer[FOG_INTENSITY_MODERATE_DATA];
+	delete theResultContainer[FOG_INTENSITY_DENSE_DATA];
+	delete theResultContainer[FOG_NORTHEAST_SHARE_DATA];
+	delete theResultContainer[FOG_SOUTHEAST_SHARE_DATA];
+	delete theResultContainer[FOG_SOUTHWEST_SHARE_DATA];
+	delete theResultContainer[FOG_NORTHWEST_SHARE_DATA];
 
 	theResultContainer.clear();
   }
@@ -2313,6 +1323,33 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 	  Settings::optional_double(theParameters.theVariable + "::shower_limit", SHOWER_LIMIT);
   }
 
+  void check_short_term_precipitation(const vector<WeatherPeriod>& thePrecipitationPeriods,
+									  const NFmiTime& theForecastPeriodEndTime,
+									  story_part_vector& theStoryParts)
+  {
+	for(unsigned int i = 0; i < theStoryParts.size(); i++)
+	  {
+		if(theStoryParts.at(i).second == POUTAANTUU_STORY_PART || 
+		   theStoryParts.at(i).second == PILVISTYY_STORY_PART )
+		  {
+			if(i == theStoryParts.size() - 1)
+			  {
+				theStoryParts.insert(theStoryParts.begin() + i + 1, 
+									 make_pair(WeatherPeriod(theStoryParts.at(i).first.localEndTime(), 
+															 theForecastPeriodEndTime), 
+											   SHORT_PRECIPITATION_STORY_PART));
+			  }
+			else
+			  {
+				theStoryParts.insert(theStoryParts.begin() + i + 1, 
+									 make_pair(WeatherPeriod(theStoryParts.at(i).first.localEndTime(), 
+															 theStoryParts.at(i+1).first.localStartTime()), 
+											   SHORT_PRECIPITATION_STORY_PART));
+			  }
+		  }
+	  }
+  }
+
   void join_trend_id_vectors(const trend_id_vector& theTrendIdVector1,
 							 const trend_id_vector& theTrendIdVector2,
 							 trend_id_vector& theOutputTrendIdVector)
@@ -2394,25 +1431,37 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 			  {
 			  case SADE_ALKAA:
 				{
+				  /*
 				  NFmiTime endTimeBeforeChange(endTime);
 				  if(endTimeBeforeChange > startTime)
 					endTimeBeforeChange.ChangeByHours(-1);
 
 				  if(endTimeBeforeChange.DifferenceInHours(startTime) >= 1)
-					theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), PILVISYYS_STORY_PART+SADE_STORY_PART));
+					theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), 
+													  PILVISYYS_STORY_PART+SADE_STORY_PART));
+				  */
+				  if(endTime.DifferenceInHours(startTime) >= 1)					
+					theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTime), 
+													  PILVISYYS_STORY_PART));
+
 				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), SADE_ALKAA_STORY_PART));
 				  theParameters.theLog << " pre SADE_ALKAA: report Precipitation+Cloudiness" << endl;
 				  previous_story_part = SADE_ALKAA_STORY_PART;
 				  lastStoryPartEndTime = endTime;
 				}
-				  break;
+				break;
 			  case POUTAANTUU:
 				{
+				  /*
 				  NFmiTime endTimeBeforeChange(endTime);
 				  if(endTimeBeforeChange > startTime)
 					endTimeBeforeChange.ChangeByHours(-1);
 				  if(endTimeBeforeChange.DifferenceInHours(startTime) >= 1)
 					theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), SADE_STORY_PART));
+				  */
+				  if(endTime.DifferenceInHours(startTime) >= 1)
+					theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTime), SADE_STORY_PART));
+
 				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), POUTAANTUU_STORY_PART));
 				  theParameters.theLog << " pre POUTAANTUU: report Precipitation" << endl;
 				  previous_story_part = POUTAANTUU_STORY_PART;
@@ -2421,11 +1470,18 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 				break;
 			  case SELKENEE:
 				{
+				  /*
 				  NFmiTime endTimeBeforeChange(endTime);
 				  if(endTimeBeforeChange > startTime)
 					endTimeBeforeChange.ChangeByHours(-1);
 				  if(endTimeBeforeChange.DifferenceInHours(startTime) >= 1)
-					theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), PILVISYYS_STORY_PART));
+					  theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), 
+														PILVISYYS_STORY_PART + SADE_STORY_PART));
+				  */
+				  if(endTime.DifferenceInHours(startTime) >= 1)
+					theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTime), 
+													  PILVISYYS_STORY_PART + SADE_STORY_PART));
+
 				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), SELKENEE_STORY_PART));
 				  theParameters.theLog << " pre SELKENEE: report Precipitation+Cloudiness" << endl;
 				  previous_story_part = SELKENEE_STORY_PART;
@@ -2434,11 +1490,17 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 				break;
 			  case PILVISTYY:
 				{
+				  /*
 				  NFmiTime endTimeBeforeChange(endTime);
 				  if(endTimeBeforeChange > startTime)
 					endTimeBeforeChange.ChangeByHours(-1);
 				  if(endTimeBeforeChange.DifferenceInHours(startTime) >= 1)
-					theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), PILVISYYS_STORY_PART));
+					theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), 
+													  PILVISYYS_STORY_PART));
+				  */
+				  if(endTime.DifferenceInHours(startTime) >= 1)
+					theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTime), 
+													  PILVISYYS_STORY_PART));
 				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), PILVISTYY_STORY_PART));
 				  theParameters.theLog << " pre PILVISTYY: report Precipitation" << endl;
 				  previous_story_part = PILVISTYY_STORY_PART;
@@ -2465,7 +1527,10 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 				endTime = thePeriod.localEndTime();
 				theParameters.theLog << startTime << ".. " << endTime;
 				theParameters.theLog << " NO_TRENDS: report Cloudiness, Precipitation" << endl;				
-				theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTime), PILVISYYS_STORY_PART + SADE_STORY_PART));
+				theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTime), 
+												  PILVISYYS_STORY_PART + SADE_STORY_PART));
+				lastStoryPartEndTime = endTime;
+				previous_story_part = PILVISYYS_STORY_PART + SADE_STORY_PART;
 				break;
 			  }
 
@@ -2478,10 +1543,12 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 				  previousPeriodStartTime.ChangeByHours(1);
 				  NFmiTime previousPeriodEndTime(endTime);
 				  if(previousPeriodEndTime.DifferenceInHours(previousPeriodEndTime) > 1)
-					previousPeriodEndTime.ChangeByHours(-1);
+					  previousPeriodEndTime.ChangeByHours(-1);
 				  if(previous_story_part != POUTAANTUU_STORY_PART)
-					theStoryParts.push_back(make_pair(WeatherPeriod(previousPeriodStartTime, previousPeriodEndTime), PILVISYYS_STORY_PART));
-				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), SADE_ALKAA_STORY_PART));
+					  theStoryParts.push_back(make_pair(WeatherPeriod(previousPeriodStartTime, previousPeriodEndTime), 
+														PILVISYYS_STORY_PART));
+				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), 
+													SADE_ALKAA_STORY_PART));
 				  previous_story_part = SADE_ALKAA_STORY_PART;
 				  lastStoryPartEndTime = endTime;
 				  theParameters.theLog << " pre SADE_ALKAA: report Precipitation+Cloudiness" << endl;
@@ -2491,10 +1558,13 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 				{
 				  NFmiTime endTimeBeforeChange(endTime);
 				  if(endTimeBeforeChange > startTime)
-					endTimeBeforeChange.ChangeByHours(-1);
-				  if(theStoryParts.size() == 0 || theStoryParts.at(theStoryParts.size()-1).second != SADE_ALKAA_STORY_PART)
+					  endTimeBeforeChange.ChangeByHours(-1);
+				  if(theStoryParts.size() == 0 || 
+					 theStoryParts.at(theStoryParts.size()-1).second != SADE_ALKAA_STORY_PART)
 					theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), SADE_STORY_PART));
-				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), POUTAANTUU_STORY_PART));
+				  
+				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), 
+													POUTAANTUU_STORY_PART));
 				  theParameters.theLog << " pre POUTAANTUU: report Precipitation" << endl;
 				  previous_story_part = POUTAANTUU_STORY_PART;
 				  lastStoryPartEndTime = endTime;
@@ -2505,8 +1575,10 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 				  NFmiTime endTimeBeforeChange(endTime);
 				  if(endTimeBeforeChange > startTime)
 					endTimeBeforeChange.ChangeByHours(-1);
-				  theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), PILVISYYS_STORY_PART + SADE_STORY_PART));
-				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), SELKENEE_STORY_PART));
+				  // theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), 
+				  //								PILVISYYS_STORY_PART + SADE_STORY_PART));
+				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), 
+													SELKENEE_STORY_PART));
 				  theParameters.theLog << " pre SELKENEE: report Precipitation+Cloudiness" << endl;
 				  previous_story_part = SELKENEE_STORY_PART;
 				  lastStoryPartEndTime = endTime;
@@ -2518,9 +1590,10 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 				  if(endTimeBeforeChange > startTime)
 					endTimeBeforeChange.ChangeByHours(-1);
 				  theParameters.theLog << " pre PILVISTYY: report Precipitation" << endl;
-				  theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), PILVISYYS_STORY_PART));
-				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), PILVISTYY_STORY_PART));
+				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), 
+													PILVISTYY_STORY_PART));
 				  previous_story_part = PILVISTYY_STORY_PART;
+
 				  lastStoryPartEndTime = endTime;
 				}
 				break;
@@ -2534,10 +1607,33 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 	if(theStoryParts.size() == 0)
 	  {
 		if(!thePrecipitationForecast.isDryPeriod(thePeriod, theParameters.theForecastArea))
-		  theStoryParts.push_back(make_pair(thePeriod, SADE_STORY_PART));  
+		  {
+			theStoryParts.push_back(make_pair(thePeriod, 
+											  SADE_STORY_PART));  
+		  }
 		else
-		  theStoryParts.push_back(make_pair(thePeriod, PILVISYYS_STORY_PART + SADE_STORY_PART));  
+		  {
+			theStoryParts.push_back(make_pair(thePeriod, 
+											  PILVISYYS_STORY_PART + SADE_STORY_PART));  
+		  }
 	  }
+	else
+	  {
+		if(previous_story_part == PILVISTYY_STORY_PART &&
+		   thePeriod.localEndTime().DifferenceInHours(lastStoryPartEndTime) > 1)
+		  {
+			lastStoryPartEndTime.ChangeByHours(1);
+			theStoryParts.push_back(make_pair(WeatherPeriod(lastStoryPartEndTime, thePeriod.localEndTime()), 
+											  SADE_STORY_PART));  
+		  }
+	  }
+
+	vector<WeatherPeriod> thePrecipitationPeriods;
+	thePrecipitationForecast.getPrecipitationPeriods(thePeriod, thePrecipitationPeriods);
+
+	check_short_term_precipitation(thePrecipitationPeriods,
+								   thePeriod.localEndTime(),
+								   theStoryParts);
   }
 
   Paragraph weather_forecast_sentence(const story_part_vector& theStoryParts,
@@ -2565,17 +1661,19 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 		  case PILVISTYY_STORY_PART:
 			theParameters.theLog << theStoryParts.at(i).first.localStartTime() 
 								 << ": PILVISTYY" << endl;
-			mySentence << thePrecipitationForecast.precipitationChangeSentence(storyPartPeriod);
+			mySentence << theCloudinessForecast.cloudinessChangeSentence(storyPartPeriod);
 			break;
 		  case SELKENEE_STORY_PART:
 			theParameters.theLog << theStoryParts.at(i).first.localStartTime() 
 								 << ": SELEKENEE" << endl;
-			mySentence << thePrecipitationForecast.precipitationChangeSentence(storyPartPeriod);
+			mySentence << theCloudinessForecast.cloudinessChangeSentence(storyPartPeriod);
 			break;
 		  case POUTAANTUU_STORY_PART:
 			theParameters.theLog << theStoryParts.at(i).first.localStartTime() 
 								 << ": POUTAANTUU" << endl;
-			mySentence << thePrecipitationForecast.precipitationChangeSentence(storyPartPeriod);  
+			mySentence << thePrecipitationForecast.precipitationChangeSentence(storyPartPeriod);
+			mySentence << JA_WORD << ON_WORD;
+			mySentence << theCloudinessForecast.cloudinessSentence(storyPartPeriod, true);
 			break;
 		  case SADE_ALKAA_STORY_PART:
 			theParameters.theLog << theStoryParts.at(i).first.localStartTime() 
@@ -2583,34 +1681,91 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 			mySentence << thePrecipitationForecast.precipitationChangeSentence(storyPartPeriod);
 			break;
 		  case (PILVISYYS_STORY_PART + SADE_STORY_PART):
+			{
 			theParameters.theLog << storyPartPeriod.localStartTime() << ".. " 
 								 << storyPartPeriod.localEndTime() 
 								 << ": PILVISYYS JA SADE" << endl;
 
-			mySentence << SAA_WORD;// << ON_WORD;
-			mySentence << theCloudinessForecast.cloudinessSentence(storyPartPeriod, false);
-			mySentence << JA_WORD;//Delimiter(",");
-			if(theCloudinessForecast.getCloudinessId(storyPartPeriod) == PUOLIPILVINEN_JA_PILVINEN &&
-			   thePrecipitationForecast.isDryPeriod(storyPartPeriod, theParameters.theForecastArea))
-			  mySentence << ON_WORD;
-			thePrecipitationForecast.useEsiintyyVerb();
-			mySentence << thePrecipitationForecast.precipitationSentence(storyPartPeriod, false);
-			thePrecipitationForecast.useEsiintyyVerb(false);
+			Sentence cloudinessSentence;
+			Sentence precipitationSentence;
+			cloudinessSentence << theCloudinessForecast.cloudinessSentence(storyPartPeriod, false);
+			precipitationSentence << thePrecipitationForecast.precipitationSentence(storyPartPeriod, false);
 
+			if(thePrecipitationForecast.isDryPeriod(storyPartPeriod, theParameters.theForecastArea))
+			  {
+				mySentence << cloudinessSentence << JA_WORD;
+
+				if(theCloudinessForecast.getCloudinessId(storyPartPeriod) == PUOLIPILVINEN_JA_PILVINEN &&
+				   thePrecipitationForecast.isDryPeriod(storyPartPeriod, theParameters.theForecastArea) &&
+				   !thePrecipitationForecast.shortTermPrecipitationExists(storyPartPeriod))
+				  {
+					mySentence << ON_WORD;
+					mySentence << precipitationSentence;
+				  }
+				else
+				  {
+					thePrecipitationForecast.useOllaVerb(true);
+					mySentence << thePrecipitationForecast.precipitationSentence(storyPartPeriod, false);
+					thePrecipitationForecast.useOllaVerb(false);
+				  }
+			  }
+			else
+			  {
+				paragraph << cloudinessSentence << precipitationSentence;
+			  }
+			}
+			/*
+			if(!thePrecipitationForecast.isDryPeriod(storyPartPeriod, theParameters.theForecastArea))
+			  {
+				Sentence cloudinessSentence;
+				Sentence precipitationSentence;
+				cloudinessSentence << theCloudinessForecast.cloudinessSentence(storyPartPeriod, false);
+				precipitationSentence << thePrecipitationForecast.precipitationSentence(storyPartPeriod, false);
+				mySentence << cloudinessSentence << precipitationSentence;
+			  }
+			else
+			  {
+				mySentence << theCloudinessForecast.cloudinessSentence(storyPartPeriod, false);
+				if(theCloudinessForecast.getCloudinessId(storyPartPeriod) == PUOLIPILVINEN_JA_PILVINEN &&
+				   thePrecipitationForecast.isDryPeriod(storyPartPeriod, theParameters.theForecastArea) &&
+				   !thePrecipitationForecast.shortTermPrecipitationExists(storyPartPeriod))
+				  {
+					mySentence << JA_WORD;
+					mySentence << ON_WORD;
+				  }
+				else
+				  {
+					mySentence << Delimiter(",");
+				  }
+				thePrecipitationForecast.useOllaVerb(true);
+				mySentence << thePrecipitationForecast.precipitationSentence(storyPartPeriod, false);
+				thePrecipitationForecast.useOllaVerb(false);
+			  }
+*/
 			break;
 		  case PILVISYYS_STORY_PART:
 			theParameters.theLog << storyPartPeriod.localStartTime() << ".. " 
 								 << storyPartPeriod.localEndTime() 
 								 << ": PILVISYYS" << endl;
 			
-			mySentence << SAA_WORD << ON_WORD;
+			//			mySentence << SAA_WORD << ON_WORD;
 			mySentence << theCloudinessForecast.cloudinessSentence(theStoryParts.at(i).first, false);
 			break;
 		  case SADE_STORY_PART:
 			theParameters.theLog << storyPartPeriod.localStartTime() << ".. " 
 								 << storyPartPeriod.localEndTime() 
 								 << ": SADE" << endl;
+			if(thePrecipitationForecast.isDryPeriod(storyPartPeriod, theParameters.theForecastArea) || 
+			   thePrecipitationForecast.isMostlyDryPeriod(storyPartPeriod, theParameters.theForecastArea))
+			  {
+				mySentence << SAA_WORD << ON_WORD;
+			  }
 			mySentence << thePrecipitationForecast.precipitationSentence(storyPartPeriod, false);
+			break;
+		  case SHORT_PRECIPITATION_STORY_PART:
+			theParameters.theLog << storyPartPeriod.localStartTime() << ".. " 
+								 << storyPartPeriod.localEndTime() 
+								 << ": SHORT_PRECIPITATION_STORY_PART" << endl;
 			break;
 		  case MISSING_STORY_PART_ID:
 			theParameters.theLog << storyPartPeriod.localStartTime() << ".. " 
@@ -2656,8 +1811,8 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 		return paragraph;
 	  }
 
-	NFmiTime periodStartTime(itsPeriod.localStartTime());
-	NFmiTime periodEndTime(itsPeriod.localEndTime());
+	NFmiTime dataPeriodStartTime(itsPeriod.localStartTime());
+	NFmiTime dataPeriodEndTime(itsPeriod.localEndTime());
 
 	log << "period contains ";
 
@@ -2665,25 +1820,15 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 	  {
 		if(generator00.size() > 2)
 		  {
-			log << "today, night and tomorrow" << endl;
+			log << "today, night and tomorrow, ..." << endl;
 		  }
 		else if(generator00.size() == 2)
 		  {
 			log << "today and night" << endl;
-			// if forecast time is not today, extend period from the start
-			if(abs(itsForecastTime.DifferenceInHours(generator00.period(1).localStartTime())) > 12)
-			  periodStartTime.ChangeByHours(-24);
-			else
-			  periodEndTime.ChangeByHours(12);
 		  }
 		else
 		  {
 			log << "today" << endl;
-			// if forecast time is not today, extend period from the start
-			if(abs(itsForecastTime.DifferenceInHours(generator00.period(1).localStartTime())) > 12)
-			  periodStartTime.ChangeByHours(-24);
-			else
-			  periodEndTime.ChangeByHours(24);
 		  }
 	  }
 	else
@@ -2691,17 +1836,64 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 		if(generator00.size() == 1)
 		  {
 			log << "one night" << endl;
-			periodStartTime.ChangeByHours(-12);
-			periodEndTime.ChangeByHours(12);
 		  }
 		else
 		  {
 			log << "night and tomorrow" << endl;		  
-			periodStartTime.ChangeByHours(-12);
 		  }
 	  }
 
+	dataPeriodStartTime.ChangeByHours(-12);
+	dataPeriodEndTime.ChangeByHours(12);
 
+	/*
+	if(generator00.isday(1))
+	  {
+		if(generator00.size() > 2)
+		  {
+			log << "today, night and tomorrow, ..." << endl;
+		  }
+		else if(generator00.size() == 2)
+		  {
+			log << "today and night" << endl;
+			if(abs(itsForecastTime.DifferenceInHours(generator00.period(1).localStartTime())) > 12)
+			  dataPeriodStartTime.ChangeByHours(-24);
+			else
+			  dataPeriodEndTime.ChangeByHours(12);
+		  }
+		else
+		  {
+			log << "today" << endl;
+			if(abs(itsForecastTime.DifferenceInHours(generator00.period(1).localStartTime())) > 12)
+			  dataPeriodStartTime.ChangeByHours(-24);
+			else
+			  dataPeriodEndTime.ChangeByHours(24);
+		  }
+	  }
+	else
+	  {
+		if(generator00.size() == 1)
+		  {
+			log << "one night" << endl;
+			dataPeriodStartTime.ChangeByHours(-12);
+			dataPeriodEndTime.ChangeByHours(12);
+		  }
+		else
+		  {
+			log << "night and tomorrow" << endl;		  
+			dataPeriodStartTime.ChangeByHours(-12);
+			dataPeriodEndTime.ChangeByHours(12);
+		  }
+	  }
+	*/
+
+	log_start_time_and_end_time(log, 
+								"the forecast period: ",
+								itsPeriod);
+	
+	log_start_time_and_end_time(log, 
+								"the data gathering period: ",
+								WeatherPeriod(dataPeriodStartTime, dataPeriodEndTime));
 
 	Rect areaRect(itsArea);		
 	if(itsArea.isNamed())
@@ -2710,12 +1902,13 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 		log << "** " << name  << " **" << endl;
 	  }
 
-	WeatherPeriod theExtendedPeriod(periodStartTime, periodEndTime);
+	WeatherPeriod theDataGatheringPeriod(dataPeriodStartTime, dataPeriodEndTime);
 
 
 	wf_story_params theParameters(itsVar,
 								  itsArea,
-								  theExtendedPeriod,
+								  theDataGatheringPeriod,
+								  itsPeriod,
 								  itsForecastTime,
 								  itsSources,
 								  log);
@@ -2731,57 +1924,13 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 	populate_fogintensity_time_series(theParameters);
 	populate_precipitation_time_series(theParameters);
 
-	/*
-	analyze_cloudiness_data(theParameters);
-	analyze_precipitation_data(theParameters);
-	analyze_thunder_data(theParameters);
-	*/
-	/*
-	NFmiTime forecastStartTime(itsForecastTime);
-	NFmiTime forecastEndTime(forecastStartTime);
-	forecastEndTime.ChangeByHours(24);
-	*/
-	/*
-	NFmiTime forecastStartTime(theExtendedPeriod.localStartTime());
-	NFmiTime forecastEndTime(theExtendedPeriodod.localEndTime());
-	if(abs(forecastEndTime.DifferenceInHours(forecastStartTime)) < 24)
-	  forecastEndTime.ChangeByHours(24);
-	*/
-	//	WeatherPeriod theForecastPeriod(forecastStartTime, forecastEndTime);
 
 	CloudinessForecast cloudinessForecast(theParameters);
 	PrecipitationForecast precipitationForecast(theParameters);
 	FogForecast fogForecast(theParameters, precipitationForecast);
-	Sentence cloudinessSentence;
-	Sentence precipitationSentence;
-	Sentence fogSentence;
-	
-	//	if(precipitationForecast.isDryPeriod(itsPeriod, theParameters.theForecastArea))
-	  cloudinessSentence << cloudinessForecast.cloudinessSentence(itsPeriod);
 
-	precipitationSentence << precipitationForecast.precipitationSentence(itsPeriod);
+	Sentence fogSentence;	
 	fogSentence << fogForecast.fogSentence(itsPeriod);
-	/*
-	paragraph << precipitationSentence;
-	paragraph << cloudinessSentence;
-	paragraph << fogSentence;
-	*/
-
-
-	/*
-	Sentence combinedSentence;
-	combinedSentence << weather_forecast_sentence(precipitationForecast,
-												  cloudinessForecast,
-												  fogForecast,
-												  itsPeriod,
-												  theParameters);
-
-
-	Paragraph para;
-	para << combinedSentence;
-	log << "COMBINED " << itsArea.name() << ": ";
-	log << para;
-	*/
 
 
 	precipitationForecast.printOutPrecipitationData(log);
@@ -2792,10 +1941,13 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 	trend_id_vector precipitationTrends;
 	trend_id_vector cloudinessTrends;
 	trend_id_vector joinedTrends;
-	
+	vector<WeatherPeriod> precipitationPeriods;
+
 	precipitationForecast.getTrendIdVector(precipitationTrends);
+	precipitationForecast.getPrecipitationPeriods(itsPeriod, precipitationPeriods);
 	cloudinessForecast.getTrendIdVector(cloudinessTrends);
 	join_trend_id_vectors(precipitationTrends, cloudinessTrends, joinedTrends);
+	//	join_short_term_precipitation(joinedTrends, precipitationPeriods);
 
 	theParameters.theLog << "JOINED TRENDS: "<< endl;
 	theParameters.theLog << itsPeriod.localStartTime() << ".. " << itsPeriod.localEndTime() << endl;
@@ -2807,7 +1959,7 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 	story_part_vector story_parts;
 
 	construct_story_id_vector(joinedTrends, 
-							  theParameters, 
+							  theParameters,							  
 							  itsPeriod, 
 							  precipitationForecast, 
 							  story_parts);
@@ -2823,6 +1975,13 @@ PrecipitationDataItem* get_precipitation_data_item(wf_story_params& theParameter
 	theParameters.theLog << "COMBINED SENTENCE: ";
 	theParameters.theLog << paragraph;
 
+	cloudinessForecast.printOutCloudinessData(log);
+	cloudinessForecast.printOutCloudinessPeriods(log);
+	cloudinessForecast.printOutCloudinessTrends(log);
+
+	precipitationForecast.printOutPrecipitationData(log);
+	precipitationForecast.printOutPrecipitationPeriods(log);
+	precipitationForecast.printOutPrecipitationTrends(log);
 	
 
 	/*

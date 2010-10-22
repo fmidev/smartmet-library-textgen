@@ -22,15 +22,19 @@ namespace TextGen
 #define AAMUYOLLA_WORD "aamuyˆll‰"
 #define YOLLA_WORD "yˆll‰"
 
-#define ESIINTYY_WORD "esiintyy"
+#define ENIMMAKSEEN_WORD "enimm‰kseen"
 #define ALUKSI_WORD "aluksi"
 #define SAA_WORD "s‰‰"
 #define ON_WORD "on"
+#define TULEE_WORD "tulee"
+#define SAADAAN_WORD "saadaan"
 #define HEIKKOA_WORD "heikkoa"
 #define KOHTALAISTA_WORD "kohtalaista"
 #define KOVAA_WORD "kovaa"
 #define SADETTA_WORD "sadetta"
 #define POUTAA_WORD "poutaa"
+#define JONKA_JALKEEN_PHRASE "jonka j‰lkeen"
+#define RUNSASTA_VESISADETTA_PHRASE "runsasta vesisadetta"
 #define RUNSASTA_SADETTA_PHRASE "runsasta sadetta"
 #define VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE "vaihtelee puolipilvisest‰ pilviseen"
 #define VERRATTAIN_SELKEAA_PHRASE "verrattain selke‰‰"
@@ -42,8 +46,12 @@ namespace TextGen
 #define PUOLIPILVINEN_WORD "puolipilvinen"
 #define POUTAINEN_WORD "poutainen"
 #define HEIKKOA_SADETTA_PHRASE "heikkoa sadetta"
+#define HEIKKOA_VESISADETTA_PHRASE "heikkoa vesisadetta"
 #define KOHTALAISTA_SADETTA_PHRASE "kohtalaista sadetta"
+#define KOHTALAISTA_VESISADETTA_PHRASE "kohtalaista vesisadetta"
 #define ENIMMAKSEEN_POUTAINEN_PHRASE "enimm‰kseen poutainen"
+#define HEIKKOJA_VESIKUUROJA_PHRASE "heikkoja vesikuuroja"
+#define VOIMAKKAITA_VESIKUUROJA_PHRASE "voimakkaita vesikuuroja"
 #define PAIKOIN_WORD "paikoin"
 #define MONIN_PAIKOIN_WORD "monin paikoin"
 #define PILVISTYVAA_WORD "pilvistyv‰‰"
@@ -80,6 +88,7 @@ namespace TextGen
 #define JOKA_VOI_OLLA_JAATAVAA_PHRASE "joka voi olla j‰‰t‰v‰‰"
 #define JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE "jotka voivat olla j‰‰t‰vi‰"
 #define YKSITTAISET_SADEKUUROT_MAHDOLLISIA "yksitt‰iset sadekuurot ovat kuitenkin mahdollisia"
+#define YKSITTAISET_VESIKUUROT_MAHDOLLISIA "yksitt‰iset vesikuurot ovat kuitenkin mahdollisia"
 #define YKSITTAISET_RANTAKUUROT_MAHDOLLISIA "yksitt‰iset r‰nt‰kuurot ovat kuitenkin mahdollisia"
 #define YKSITTAISET_LUMIKUUROT_MAHDOLLISIA "yksitt‰iset lumikuurot ovat kuitenkin mahdollisia"
 #define YKSITTAISET_VESI_RANTA_KUUROT_MAHDOLLISIA "yksitt‰iset vesi- tai r‰nt‰kuurot ovat kuitenkin mahdollisia"
@@ -116,6 +125,8 @@ namespace TextGen
 #define VERRATTAIN_PILVISTA_LOWER_LIMIT 65.0
 #define VERRATTAIN_PILVISTA_UPPER_LIMIT 85.0
 #define PILVISTA_LOWER_LIMIT 85.0
+#define PILVISYVAA_LOWER_LIMIT 20.0
+#define PILVISYVAA_UPPER_LIMIT 65.0
 
 #define TAYSIN_PILVETON_LIMIT 5.0
 #define HYVIN_PILVINEN_LIMIT 70.0
@@ -140,14 +151,48 @@ namespace TextGen
 #define SHOWER_LIMIT 51
 #define PRECIPITATION_FORM_REPORTING_LIMIT 10.0 // at least 10% must be of the type to be mentioned
 
+#define SMALL_PROBABILITY_FOR_THUNDER_LOWER_LIMIT 0.1
+#define SMALL_PROBABILITY_FOR_THUNDER_UPPER_LIMIT 15.0
+#define POSSIBLY_THUNDER_LOWER_LIMIT 15.0
+#define POSSIBLY_THUNDER_UPPER_LIMIT 35.0
+#define OCCASIONALLY_THUNDER_LOWER_LIMIT 35.0
+#define OCCASIONALLY_THUNDER_UPPER_LIMIT 110.0
+
 #define TREND_CHANGE_COEFFICIENT_TRESHOLD 0.65 // pearson coefficient
 
+
+  /*
+	  case AAMU:
+	  case AAMUPAIVA:
+	  case KESKIPAIVA:
+	  case ILTAPAIVA:
+	  case ILTA:
+	  case ILTAYO:
+	  case KESKIYO:
+	  case AAMUYO:
+	  case PAIVA:
+	  case YO:
+	  case YOPUOLI:
+	  case PAIVAPUOLI:
+	  case AAMU_JA_AAMUPAIVA:
+	  case AAMUPAIVA_JA_KESKIPAIVA:
+	  case KESKIPAIVA_JA_ILTAPAIVA:
+	  case ILTAPAIVA_JA_ILTA:
+	  case ILTA_JA_ILTAYO:
+	  case ILTAYO_JA_KESKIYO:
+	  case KESKIYO_JA_AAMUYO:
+	  case AAMUYO_JA_AAMU:
+*/
 
 
   enum weather_result_data_id
 	{
 	  TEMPERATURE_DATA = 0x1,
 	  CLOUDINESS_DATA,
+	  CLOUDINESS_NORTHEAST_SHARE_DATA,
+	  CLOUDINESS_SOUTHEAST_SHARE_DATA,
+	  CLOUDINESS_SOUTHWEST_SHARE_DATA,
+	  CLOUDINESS_NORTHWEST_SHARE_DATA,
 	  PRECIPITATION_DATA,
 	  PRECIPITATION_EXTENT_DATA,
 	  PRECIPITATION_TYPE_DATA,
@@ -160,9 +205,17 @@ namespace TextGen
 	  PRECIPITATION_SOUTHEAST_SHARE_DATA,
 	  PRECIPITATION_SOUTHWEST_SHARE_DATA,
 	  PRECIPITATION_NORTHWEST_SHARE_DATA,
-	  THUNDERPROBABILITY_DATA,
+	  THUNDER_PROBABILITY_DATA,
+	  THUNDER_NORTHEAST_SHARE_DATA,
+	  THUNDER_SOUTHEAST_SHARE_DATA,
+	  THUNDER_SOUTHWEST_SHARE_DATA,
+	  THUNDER_NORTHWEST_SHARE_DATA,
 	  FOG_INTENSITY_MODERATE_DATA,
 	  FOG_INTENSITY_DENSE_DATA,
+	  FOG_NORTHEAST_SHARE_DATA,
+	  FOG_SOUTHEAST_SHARE_DATA,
+	  FOG_SOUTHWEST_SHARE_DATA,
+	  FOG_NORTHWEST_SHARE_DATA,
 	  UNDEFINED_DATA_ID
 	};
   /*
@@ -235,6 +288,14 @@ SHOWERS
 	  MISSING_CLOUDINESS_ID
 	};
 
+  enum thunder_probability_id
+	{
+	  SMALL_PROBABILITY_FOR_THUNDER,
+	  POSSIBLY_THUNDER,
+	  OCCASIONALLY_THUNDER,
+	  NO_THUNDER
+	};
+
   enum part_of_the_day_id
 	{
 	  AAMU, // 06-09
@@ -277,6 +338,7 @@ SHOWERS
 	  SADE_ALKAA_STORY_PART = 0x8,
 	  PILVISYYS_STORY_PART = 0x10,
 	  SADE_STORY_PART = 0x20,
+	  SHORT_PRECIPITATION_STORY_PART = 0x40,
 	  MISSING_STORY_PART_ID = 0x0
 	};
 
@@ -536,13 +598,15 @@ SHOWERS
 	{								 
 	  wf_story_params(const string& variable,
 					  const WeatherArea& weatherArea,
-					  const WeatherPeriod weatherPeriod,
+					  const WeatherPeriod dataPeriod,
+					  const WeatherPeriod forecastPeriod,
 					  const NFmiTime forecastTime,
 					  const AnalysisSources& analysisSources,
 					  MessageLogger& log) :
 		theVariable(variable),
 		theArea(weatherArea),
-		thePeriod(weatherPeriod),
+		theDataPeriod(dataPeriod),
+		theForecastPeriod(forecastPeriod),
 		theForecastTime(forecastTime),
 		theSources(analysisSources),
 		theLog(log),
@@ -554,7 +618,8 @@ SHOWERS
 
 	  const string& theVariable;
 	  const WeatherArea& theArea;
-	  const WeatherPeriod thePeriod;
+	  const WeatherPeriod theDataPeriod;
+	  const WeatherPeriod theForecastPeriod;
 	  const NFmiTime theForecastTime;
 	  const AnalysisSources& theSources;
 	  MessageLogger& theLog;
@@ -608,6 +673,11 @@ SHOWERS
 				 const WeatherPeriod& theWeatherPeriod);
   Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod);
   Sentence get_time_phrase(const NFmiTime& theTimestamp, bool theAlkaenPhrase = false);
+  Sentence get_today_phrase(const NFmiTime& theEventTimestamp,
+							const string& theVariable,
+							const WeatherArea& theArea,
+							const WeatherPeriod thePeriod,
+							const NFmiTime& theForecastTime);
   unsigned int get_complete_precipitation_form(const string& theVariable,
 											   const float thePrecipitationFormWater,
 											   const float thePrecipitationFormDrizzle,
@@ -627,6 +697,15 @@ SHOWERS
   void get_min_max(const weather_result_data_item_vector& theTimeSeries, float& theMin, float& theMax);
   double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSeries);
   void print_out_trend_vector(std::ostream& theOutput, const trend_id_vector& theTrendVector);
+  Sentence area_specific_sentence(const float& north,
+								  const float& south,
+								  const float& east,
+								  const float& west,
+								  const float& northEast,
+								  const float& southEast,
+								  const float& southWest,
+								  const float& northWest,
+								  const bool& mostlyFlag = true);
 
 }
 

@@ -14,6 +14,7 @@ using namespace std;
 
 
   Sentence precipitation_sentence(wf_story_params& theParameters,
+								  const WeatherPeriod& thePeriod,
 								  const unsigned int& thePrecipitationForm,
 								  const float thePrecipitationIntensity,
 								  const float thePrecipitationExtent,
@@ -23,7 +24,21 @@ using namespace std;
 								  const float thePrecipitationFormSnow,
 								  const float thePrecipitationFormFreezing,
 								  const float thePrecipitationTypeShowers,
-								  const bool& theUseEsiintyyVerb);
+								  const bool& theUseOllaVerb);
+  
+  int precipitation_sentence_string_vector(wf_story_params& theParameters,
+										   const WeatherPeriod& thePeriod,
+										   const unsigned int& thePrecipitationForm,
+										   const float thePrecipitationIntensity,
+										   const float thePrecipitationExtent,
+										   const float thePrecipitationFormWater,
+										   const float thePrecipitationFormDrizzle,
+										   const float thePrecipitationFormSleet,
+										   const float thePrecipitationFormSnow,
+										   const float thePrecipitationFormFreezing,
+										   const float thePrecipitationTypeShowers,
+										   const bool& theUseOllaVerb,
+										   vector<std::string>& theStringVector);
 
   bool is_dry_weather(const wf_story_params& theParameters,
 					  const unsigned int& thePrecipitationForm,
@@ -42,10 +57,15 @@ using namespace std;
 	Sentence precipitationChangeSentence(const WeatherPeriod& thePeriod) const;
 	Sentence precipitationSentence(const WeatherPeriod& thePeriod, 
 								   const bool& theCheckPrecipitationChange = true) const;
+	std::string precipitationSentenceString(const WeatherPeriod& thePeriod, 
+											const bool& theCheckPrecipitationChange = true) const;
+	bool shortTermPrecipitationExists(const WeatherPeriod& thePeriod) const;
 	Sentence shortTermPrecipitationSentence(const WeatherPeriod& thePeriod) const;
 	bool isDryPeriod(const WeatherPeriod& theWeatherPeriod, 
 					 const unsigned short theForecastAreaId) const;
-	bool getDryPeriods(const WeatherPeriod& theSourcePeriod, 
+	bool isMostlyDryPeriod(const WeatherPeriod& theWeatherPeriod,
+						   const unsigned short theForecastArea) const;
+  	bool getDryPeriods(const WeatherPeriod& theSourcePeriod, 
 					   vector<WeatherPeriod>& theDryPeriods) const;
 	bool getPrecipitationPeriods(const WeatherPeriod& theSourcePeriod, 
 								 vector<WeatherPeriod>& thePrecipitationPeriods) const;
@@ -58,11 +78,16 @@ using namespace std;
 	void printOutPrecipitationPeriods(std::ostream& theOutput) const;
 	void printOutPrecipitationTrends(std::ostream& theOutput) const;
 	void printOutPrecipitationDistribution(std::ostream& theOutput) const;
-	void useEsiintyyVerb(const bool theFlag = true) { theUseEsiintyyVerb = theFlag; }
+	void useOllaVerb(const bool theFlag = true) { theUseOllaVerb = theFlag; }
 	
   private:
 
-
+	bool getIntensityFormExtent(const WeatherPeriod& theWeatherPeriod,
+								const unsigned short theForecastArea,
+								float& theIntensity,
+								unsigned int& theForm,
+								float& theExtent) const;
+	Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;
 	void joinPrecipitationPeriods(vector<WeatherPeriod>& thePrecipitationPeriodVector);
 	bool getPrecipitationPeriod(const NFmiTime& theTimestamp, NFmiTime& theStartTime, NFmiTime& theEndTime) const;
 	void printOutPrecipitationPeriods(std::ostream& theOutput,
@@ -141,7 +166,7 @@ using namespace std;
 
 	wf_story_params& theParameters;
 
-	bool theUseEsiintyyVerb;
+	bool theUseOllaVerb;
   };
 
 

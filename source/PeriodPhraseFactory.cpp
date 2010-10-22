@@ -150,6 +150,8 @@ namespace TextGen
 			{
 				if(theHistory)
 				  {
+					if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+					  theHistory->updateTimePhrase("",thePeriod.localStartTime());
 					return (sentence << on_weekday(thePeriod.localStartTime(),  *theHistory));
 				  }
 				else
@@ -209,6 +211,8 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
+				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+					theHistory->updateTimePhrase("",thePeriod.localStartTime());
 				  return (sentence << night_against_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -253,6 +257,8 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
+				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+					theHistory->updateTimePhrase("",thePeriod.localStartTime());
 				  return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -317,6 +323,8 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
+				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+					theHistory->updateTimePhrase("",thePeriod.localStartTime());
 				  return (sentence << night_against_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -376,6 +384,8 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
+				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+					theHistory->updateTimePhrase("",thePeriod.localStartTime());
 				  return (sentence << night_against_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -432,6 +442,8 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
+				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+					theHistory->updateTimePhrase("",thePeriod.localStartTime());
 				  return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -483,6 +495,8 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
+				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+					theHistory->updateTimePhrase("",thePeriod.localStartTime());
 				  return (sentence << from_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -638,6 +652,8 @@ namespace TextGen
 				{
 				  if(theHistory)
 					{
+					  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+						theHistory->updateTimePhrase("",thePeriod.localStartTime());
 					  return (sentence << on_weekday(starttime, *theHistory));
 					}
 				  else
@@ -679,6 +695,8 @@ namespace TextGen
 							{
 							  if(theHistory)
 								{
+								  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+									theHistory->updateTimePhrase("",thePeriod.localStartTime());
 								  return (sentence << on_weekday(nextday, *theHistory));
 								}
 							  else
@@ -704,6 +722,8 @@ namespace TextGen
 							{
 							  if(theHistory)
 								{
+								  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+									theHistory->updateTimePhrase("",thePeriod.localStartTime());
 								  return (sentence << on_weekday(nextday, *theHistory));
 								}
 							  else
@@ -720,6 +740,8 @@ namespace TextGen
 				{
 				  if(theHistory)
 					{
+					  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+						theHistory->updateTimePhrase("",thePeriod.localStartTime());
 					  sentence << on_weekday(starttime, *theHistory)
 							   << "ja"
 							   << on_weekday(nextday, *theHistory);
@@ -758,6 +780,8 @@ namespace TextGen
 				{
 				  if(theHistory)
 					{
+					  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+						theHistory->updateTimePhrase("",thePeriod.localStartTime());
 					  return (sentence << from_weekday(starttime, *theHistory));
 					}
 				  else

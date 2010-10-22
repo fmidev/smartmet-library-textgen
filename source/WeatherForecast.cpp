@@ -169,7 +169,7 @@ using namespace std;
 	  return ILTA;
 	else if(theTimestamp.GetHour() >= 22)
 	  return ILTAYO;
-	else if(theTimestamp.GetHour() <= 3 && theTimestamp.GetHour() <= 3)
+	else if(theTimestamp.GetHour() <= 3)
 	  return KESKIYO;
 	else if(theTimestamp.GetHour() >= 3 && theTimestamp.GetHour() <= 6)
 	  return AAMUYO;
@@ -515,6 +515,46 @@ using namespace std;
 	return sentence;
   }
 
+
+  Sentence get_today_phrase(const NFmiTime& theEventTimestamp,
+							const string& theVariable,
+							const WeatherArea& theArea,
+							const WeatherPeriod thePeriod,
+							const NFmiTime& theForecastTime)
+  {
+	Sentence sentence;
+
+	part_of_the_day_id partOfTheDayId = get_part_of_the_day_id(theEventTimestamp);
+
+	if(partOfTheDayId == KESKIYO && theEventTimestamp.DifferenceInHours(theForecastTime) <= 24)
+	  {
+		return sentence;
+	  }
+	else
+	  {
+		if(partOfTheDayId == ILTAYO ||
+		   partOfTheDayId == KESKIYO ||
+		   partOfTheDayId == AAMUYO)
+		  {
+			sentence << PeriodPhraseFactory::create("tonight",
+													theVariable,
+													theForecastTime,
+													thePeriod,
+													theArea);
+		  }
+		else
+		  {
+			sentence << PeriodPhraseFactory::create("today",
+													theVariable,
+													theForecastTime,
+													thePeriod,
+													theArea);
+		  }
+	  }
+	
+	return sentence;
+  }
+
   void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
 											const unsigned int& thePrecipitationForm,
 											float& theDryWeatherLimit, 
@@ -738,5 +778,56 @@ using namespace std;
 
 	return MathTools::pearson_coefficient(precipitation);
   }
+
+  Sentence area_specific_sentence(const float& north,
+								  const float& south,
+								  const float& east,
+								  const float& west,
+								  const float& northEast,
+								  const float& southEast,
+								  const float& southWest,
+								  const float& northWest,
+								  const bool& mostlyFlag /*= true*/)
+  {
+	Sentence sentence;
+
+
+	if(north >= 98.0)
+	  {
+		sentence << ALUEEN_POHJOISOSISSA_PHRASE;
+	  }
+	else if(north >= 95.0 && mostlyFlag)
+	  {
+		sentence << ENIMMAKSEEN_WORD << ALUEEN_POHJOISOSISSA_PHRASE;
+	  }
+	else if(south >= 98.0)
+	  {
+		sentence << ALUEEN_ETELAOSISSA_PHRASE;
+	  }
+	else if(south >= 95.0 && mostlyFlag)
+	  {
+		sentence << ENIMMAKSEEN_WORD << ALUEEN_ETELAOSISSA_PHRASE;
+	  }
+	else if(east >= 98.0)
+	  {
+		sentence << ALUEEN_ITAOSISSA_PHRASE;
+	  }
+	else if(east >= 95.0 && mostlyFlag)
+	  {
+		sentence << ENIMMAKSEEN_WORD << ALUEEN_ITAOSISSA_PHRASE;
+	  }
+	else if(west >= 98.0)
+	  {
+		sentence << ALUEEN_LANSIOSISSA_PHRASE;
+	  }
+	else if(west >= 95.0 && mostlyFlag)
+	  {
+		sentence << ENIMMAKSEEN_WORD << ALUEEN_LANSIOSISSA_PHRASE;
+	  }
+
+	return sentence;
+  }
+
+
 
 }

@@ -50,8 +50,7 @@ using namespace std;
 	const weather_result_data_item_vector* getInlandData() const { return theInlandData; }
 	const weather_result_data_item_vector* getFullData() const { return theFullData; }
 
-	Sentence cloudinessSentence(const WeatherPeriod& thePeriod, 
-								const bool& theCheckCloudinessChange = true) const;
+	Sentence cloudinessSentence(const WeatherPeriod& thePeriod,	const bool& theShortForm = true) const;
 	Sentence cloudinessSentence(const WeatherPeriod& thePeriod, 
 								const weather_result_data_item_vector& theCloudinessData) const;
 	Sentence cloudinessChangeSentence(const WeatherPeriod& thePeriod) const;
@@ -101,6 +100,7 @@ using namespace std;
 	void joinPeriods();
 	cloudiness_id getCloudinessPeriodId(const NFmiTime& theObservationTime,
 										const cloudiness_period_vector& theCloudinessPeriodVector) const;
+	Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;
 
 	wf_story_params& theParameters;
 	const weather_result_data_item_vector* theCoastalData;
@@ -133,8 +133,8 @@ using namespace std;
 								  const float& theMax, 
 								  const float& theStandardDeviation);
   cloudiness_id get_cloudiness_id(const float& theCloudiness);
-  Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId, 
-							   const bool& theShortForm = false);
+  Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId);
+  //							   const bool& theShortForm = false);
 
   std::ostream& operator<<(std::ostream & theOutput,
 						   const CloudinessDataItemData& theCloudinessDataItemData);

@@ -33,6 +33,8 @@
 #include "SubMaskExtractor.h"
 #include "FogForecast.h"
 
+#include "NFmiCombinedParam.h"
+
 #include <boost/lexical_cast.hpp>
 #include <vector>
 #include <map>
@@ -199,8 +201,6 @@ namespace TextGen
 	
 	findOutFogPeriods(); 
 	findOutFogTypePeriods(); 
-	//joinPeriods();
-	//findOutCloudinessTrends();
   }
 
   void FogForecast::findOutFogPeriods(const weather_result_data_item_vector* theModerateFogData, 
@@ -499,6 +499,8 @@ namespace TextGen
 															theParameters.theArea);
 					sentence << get_time_phrase_large(theFogTypePeriods.at(i).first);
 					sentence << fogSentence;
+					if(!(theParameters.theForecastArea & FULL_AREA))
+					  sentence <<  areaSpecificSentence(thePeriod);
 				  }
 			  }
 
@@ -536,6 +538,46 @@ namespace TextGen
 	  {
 		sentence << fogSentence(thePeriod, theCoastalFogType);
 	  }
+
+	return sentence;
+  }
+
+  Sentence FogForecast::areaSpecificSentence(const WeatherPeriod& thePeriod) const
+  {
+	Sentence sentence;
+
+	WeatherResult northEastShare(kFloatMissing, 0);
+	WeatherResult southEastShare(kFloatMissing, 0);
+	WeatherResult southWestShare(kFloatMissing, 0);
+	WeatherResult northWestShare(kFloatMissing, 0);
+	RangeAcceptor acceptor;
+	acceptor.lowerLimit(kTModerateFog);
+	acceptor.upperLimit(kTDenseFog);
+
+	AreaTools::getArealDistribution(theParameters.theSources,
+									Fog,
+									theParameters.theArea,
+									thePeriod,
+									acceptor,
+									northEastShare,
+									southEastShare,
+									southWestShare,
+									northWestShare);
+
+	float north = northEastShare.value() + northWestShare.value();
+	float south = southEastShare.value() + southWestShare.value();
+	float east = northEastShare.value() + southEastShare.value();
+	float west = northWestShare.value() + southWestShare.value();
+
+	sentence << area_specific_sentence(north,
+									   south,
+									   east,
+									   west,
+									   northEastShare.value(),
+									   southEastShare.value(),
+									   southWestShare.value(),
+									   northWestShare.value(),
+									   false);
 
 	return sentence;
   }
