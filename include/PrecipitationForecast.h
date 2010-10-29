@@ -13,40 +13,6 @@ using namespace boost;
 using namespace std;
 
 
-  Sentence precipitation_sentence(wf_story_params& theParameters,
-								  const WeatherPeriod& thePeriod,
-								  const unsigned int& thePrecipitationForm,
-								  const float thePrecipitationIntensity,
-								  const float thePrecipitationExtent,
-								  const float thePrecipitationFormWater,
-								  const float thePrecipitationFormDrizzle,
-								  const float thePrecipitationFormSleet,
-								  const float thePrecipitationFormSnow,
-								  const float thePrecipitationFormFreezing,
-								  const float thePrecipitationTypeShowers,
-								  const bool& theUseOllaVerb);
-  
-  int precipitation_sentence_string_vector(wf_story_params& theParameters,
-										   const WeatherPeriod& thePeriod,
-										   const unsigned int& thePrecipitationForm,
-										   const float thePrecipitationIntensity,
-										   const float thePrecipitationExtent,
-										   const float thePrecipitationFormWater,
-										   const float thePrecipitationFormDrizzle,
-										   const float thePrecipitationFormSleet,
-										   const float thePrecipitationFormSnow,
-										   const float thePrecipitationFormFreezing,
-										   const float thePrecipitationTypeShowers,
-										   const bool& theUseOllaVerb,
-										   vector<std::string>& theStringVector);
-
-  bool is_dry_weather(const wf_story_params& theParameters,
-					  const unsigned int& thePrecipitationForm,
-					  const float& thePrecipitationIntensity,
-					  const float& thePrecipitationExtent);
-
-  const char* precipitation_phrase(const NFmiTime& theTime, const string& theVariable);
-
   class PrecipitationForecast
   {
   public:
@@ -82,6 +48,10 @@ using namespace std;
 	
   private:
 
+	precipitation_traverse_id getPrecipitationTraverseId(const WeatherPeriod& thePeriod) const;
+	const precipitation_data_vector& getPrecipitationDataVector() const;
+	precipitation_form_transformation_id getPrecipitationFormTransformationId(const WeatherPeriod& thePeriod,
+																			  const precipitation_data_vector& theDataVector) const;
 	bool getIntensityFormExtent(const WeatherPeriod& theWeatherPeriod,
 								const unsigned short theForecastArea,
 								float& theIntensity,
@@ -119,10 +89,9 @@ using namespace std;
 				  const weather_result_data_id& theDataId,
 				  const WeatherPeriod& theWeatherPeriod) const;
 
-	unsigned int getPrecipitationForm(const precipitation_data_vector& theData,
-									  const WeatherPeriod& theWeatherPeriod) const;
-
-	unsigned int getPrecipitationGategory(const float& thePrecipitation, 
+	unsigned int getPrecipitationForm(const precipitation_data_vector& theDataVector,
+									  const WeatherPeriod& thePeriod) const;
+	unsigned int getPrecipitationCategory(const float& thePrecipitation, 
 										  const unsigned int& theType) const;
 	bool separateCoastInlandPrecipitation(const WeatherPeriod& theWeatherPeriod) const;
 	void gatherPrecipitationData();

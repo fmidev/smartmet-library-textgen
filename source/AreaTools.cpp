@@ -151,7 +151,7 @@ namespace TextGen
 							  WeatherResult& theSouthWestShare,
 							  WeatherResult& theNortWestShare)
 	{
-	  NFmiPoint retval;
+	  NFmiPoint retval(0.0, 0.0);
 	  double latSum = 0.0, lonSum = 0.0;
 
 	  std::string parameterName;
@@ -186,8 +186,6 @@ namespace TextGen
 		  latSum += theQI->LatLon(*it).Y();
 		  latitudeLongitudeCoordinates.push_back(new NFmiPoint(theQI->LatLon(*it)));
 		}
-	  retval.X(lonSum/indexMask.size());
-	  retval.Y(latSum/indexMask.size());
 
 	  if(latitudeLongitudeCoordinates.size() > 0)
 		{
@@ -198,6 +196,8 @@ namespace TextGen
 		  theSouthWestShare = WeatherResult(arealDistribution[SOUTHWEST], 0);
 		  theNortWestShare = WeatherResult(arealDistribution[NORTHWEST], 0);
 		  latitudeLongitudeCoordinates.clear();
+		  retval.X(lonSum/indexMask.size());
+		  retval.Y(latSum/indexMask.size());
 		}
 	  else
 		{
@@ -408,33 +408,6 @@ namespace TextGen
 	  m_topLeft.Y(yMax);
 	  m_bottomRight.X(xMax);
 	  m_bottomRight.Y(yMin);
-
-
-	  /*
-		NFmiSvgPath svgPath = theWeatherArea.path();
-		NFmiSvgPath::iterator iterator = svgPath.begin();
-		double lon_min = 180.0;
-		double lat_min = 90.0;
-		double lon_max = 0.0;
-		double lat_max = 0.0;
-		while(iterator != svgPath.end())
-		{
-		if(lon_min > iterator->itsX)
-		lon_min = iterator->itsX;
-		if(lon_max < iterator->itsX)
-		lon_max = iterator->itsX;
-		if(lat_min > iterator->itsY)
-		lat_min = iterator->itsY;
-		if(lat_max < iterator->itsY)
-		lat_max = iterator->itsY;
-		  
-		iterator++;
-		}
-		m_topLeft.X(lon_min);
-		m_topLeft.Y(lat_max);
-		m_bottomRight.X(lon_max);
-		m_bottomRight.Y(lat_min);
-	  */
 	}
 
 	Rect::Rect(const AnalysisSources& theSources,
@@ -658,6 +631,14 @@ namespace TextGen
 		}
 
 	  return retval;
+	}
+
+	NFmiPoint Rect::getCenter() const
+	{
+	  double xCoord = m_topLeft.X() + (m_bottomRight.X()- m_topLeft.X())/2.0;
+	  double yCoord = m_bottomRight.Y() + (m_topLeft.Y()- m_bottomRight.Y())/2.0;
+
+	  return NFmiPoint(xCoord, yCoord);
 	}
 
   } // namespace AreaTools

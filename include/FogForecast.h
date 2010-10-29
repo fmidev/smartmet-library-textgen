@@ -34,8 +34,7 @@ using namespace std;
   {
   public:
 
-	FogForecast(wf_story_params& parameters,
-				const PrecipitationForecast& precipitationForecast);
+	FogForecast(wf_story_params& parameters);
 
 	~FogForecast(){}
 		
@@ -68,7 +67,6 @@ using namespace std;
 
 
 	wf_story_params& theParameters;
-	const PrecipitationForecast& thePrecipitationForecast;
 
 	const weather_result_data_item_vector* theCoastalModerateFogData;
 	const weather_result_data_item_vector* theInlandModerateFogData;

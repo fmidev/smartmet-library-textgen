@@ -1396,7 +1396,7 @@ namespace TextGen
 				{
 				  if(theParameters.theTemperaturePhraseId == MINOR_FROST)
 					{
-					  theDayPhasePhrase << IS_WORD;
+					  theDayPhasePhrase << DAYTIME_PHRASE << IS_WORD;
 					  plainIsVerbUsed = true;
 					}
 				  else
@@ -1475,7 +1475,7 @@ namespace TextGen
 				{
 				  if(theParameters.theTemperaturePhraseId == MINOR_FROST)
 					{
-					  theDayPhasePhrase << IS_WORD;
+					  theDayPhasePhrase << DAYTIME_PHRASE << IS_WORD;
 					  plainIsVerbUsed = true;
 					}
 				  else

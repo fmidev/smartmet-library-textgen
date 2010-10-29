@@ -276,12 +276,10 @@ using namespace std;
   {
 	std::string theLogMessage;
 	weather_result_data_item_vector* timeSeries = 0;
-	for(unsigned int i = TEMPERATURE_DATA; i < UNDEFINED_DATA_ID; i++)
+	for(unsigned int i = CLOUDINESS_DATA; i < UNDEFINED_DATA_ID; i++)
 	  {
 		timeSeries = theDataContainer[i];
-		if(i == TEMPERATURE_DATA)
-		  theLogMessage = "*** temperature ****";
-		else if(i == PRECIPITATION_DATA)
+		if(i == PRECIPITATION_DATA)
 		  theLogMessage = "*** precipitation ****";
 		else if(i == PRECIPITATION_EXTENT_DATA)
 		  theLogMessage = "*** precipitation extent ****";
@@ -313,13 +311,38 @@ using namespace std;
 		  theLogMessage = "*** precipitation share southwest ****";
 		else if(i == PRECIPITATION_NORTHWEST_SHARE_DATA)
 		  theLogMessage = "*** precipitation share northwest ****";
+		else if(i == PRECIPITATION_POINT_DATA)
+		  theLogMessage = "*** precipitation point ****";
+		else if(i == CLOUDINESS_NORTHEAST_SHARE_DATA)
+		  theLogMessage = "*** cloudiness share northeast ****";
+		else if(i == CLOUDINESS_SOUTHEAST_SHARE_DATA)
+		  theLogMessage = "*** cloudiness share southeast ****";
+		else if(i == CLOUDINESS_SOUTHWEST_SHARE_DATA)
+		  theLogMessage = "*** cloudiness share southwest ****";
+		else if(i == CLOUDINESS_NORTHWEST_SHARE_DATA)
+		  theLogMessage = "*** cloudiness share northwest ****";
+		else if(i == THUNDER_NORTHEAST_SHARE_DATA)
+		  theLogMessage = "*** thunder share northeast ****";
+		else if(i == THUNDER_SOUTHEAST_SHARE_DATA)
+		  theLogMessage = "*** thunder share southeast ****";
+		else if(i == THUNDER_SOUTHWEST_SHARE_DATA)
+		  theLogMessage = "*** thunder share southwest ****";
+		else if(i == THUNDER_NORTHWEST_SHARE_DATA)
+		  theLogMessage = "*** thunder share northwest ****";
+		else if(i == FOG_NORTHEAST_SHARE_DATA)
+		  theLogMessage = "*** fog share northeast ****";
+		else if(i == FOG_SOUTHEAST_SHARE_DATA)
+		  theLogMessage = "*** fog share southeast ****";
+		else if(i == FOG_SOUTHWEST_SHARE_DATA)
+		  theLogMessage = "*** fog share southwest ****";
+		else if(i == FOG_NORTHWEST_SHARE_DATA)
+		  theLogMessage = "*** fog share northwest ****";
 		else
-		  continue;
+		  theLogMessage = "*** unknown data ****";
 
 		log_weather_result_time_series(theLog, theLogMessage, *timeSeries);
 	  }
   }
-
   const void log_weather_result_data(wf_story_params& theParameters)
   {
 	if(theParameters.theForecastArea & INLAND_AREA)
@@ -429,53 +452,6 @@ const void log_subperiods(wf_story_params& theParameters)
 	  }
   }
 
-  void populate_temperature_time_series(const string& theVariable, 
-										const AnalysisSources& theSources,
-										const WeatherArea& theArea,										
-										weather_result_data_item_vector& theResultData)
-  {
-	GridForecaster theForecaster;
-	for(unsigned int i = 0; i < theResultData.size(); i++)
-	  {
-		theResultData[i]->theResult = theForecaster.analyze(theVariable,
-															theSources,
-															Temperature,
-															Mean,
-															Maximum,
-															theArea,
-															theResultData[i]->thePeriod);
-	  }
-  }
-
-  void populate_temperature_time_series(wf_story_params& theParameters)
-  {
-	if(theParameters.theForecastArea & INLAND_AREA)
-	  {
-		WeatherArea inlandArea = theParameters.theArea;
-		inlandArea.type(WeatherArea::Inland);
-		populate_temperature_time_series(theParameters.theVariable,
-										 theParameters.theSources,
-										 inlandArea,
-										 *(*theParameters.theCompleteData[INLAND_AREA])[TEMPERATURE_DATA]);
-	  }
-	if(theParameters.theForecastArea & COASTAL_AREA)
-	  {
-		WeatherArea coastalArea = theParameters.theArea;
-		coastalArea.type(WeatherArea::Coast);
-		populate_temperature_time_series(theParameters.theVariable,
-										 theParameters.theSources,
-										 coastalArea,
-										 *(*theParameters.theCompleteData[COASTAL_AREA])[TEMPERATURE_DATA]);
-	  }
-	if(theParameters.theForecastArea & FULL_AREA)
-	  {
-		populate_temperature_time_series(theParameters.theVariable,
-										 theParameters.theSources,
-										 theParameters.theArea,
-										 *(*theParameters.theCompleteData[FULL_AREA])[TEMPERATURE_DATA]);
-	  }
-  }
-
   void populate_precipitation_time_series(const string& theVariable, 
 										  const AnalysisSources& theSources,
 										  const WeatherArea& theArea,	
@@ -507,9 +483,11 @@ const void log_subperiods(wf_story_params& theParameters)
 	  theHourlyDataContainer[PRECIPITATION_SOUTHWEST_SHARE_DATA];
 	weather_result_data_item_vector* precipitationShareNorthWestHourly = 
 	  theHourlyDataContainer[PRECIPITATION_NORTHWEST_SHARE_DATA];
+	weather_result_data_item_vector* precipitationPointHourly = 
+	  theHourlyDataContainer[PRECIPITATION_POINT_DATA];
 
 	RangeAcceptor precipitationlimits;
-	precipitationlimits.lowerLimit(0.001);
+	precipitationlimits.lowerLimit(0.02);
 	ValueAcceptor waterfilter;
 	waterfilter.value(kTRain);	// 1 = water
 	//RangeAcceptor percentagelimits;
@@ -624,15 +602,21 @@ const void log_subperiods(wf_story_params& theParameters)
 								DefaultAcceptor(),
 								showerfilter);
 
-		AreaTools::getArealDistribution(theSources,
-										Precipitation,
-										theArea,
-										(*precipitationShareNorthEastHourly)[i]->thePeriod,
-										precipitationlimits,
-										(*precipitationShareNorthEastHourly)[i]->theResult,
-										(*precipitationShareSouthEastHourly)[i]->theResult,
-										(*precipitationShareSouthWestHourly)[i]->theResult,
-										(*precipitationShareNorthWestHourly)[i]->theResult);
+		NFmiPoint precipitationPoint = 
+		  AreaTools::getArealDistribution(theSources,
+										  Precipitation,
+										  theArea,
+										  (*precipitationShareNorthEastHourly)[i]->thePeriod,
+										  precipitationlimits,
+										  (*precipitationShareNorthEastHourly)[i]->theResult,
+										  (*precipitationShareSouthEastHourly)[i]->theResult,
+										  (*precipitationShareSouthWestHourly)[i]->theResult,
+										  (*precipitationShareNorthWestHourly)[i]->theResult);
+
+		// lets store lat/lon pair into WeatherResult
+		WeatherResult precipitationPointResult(precipitationPoint.X(), precipitationPoint.Y());
+		(*precipitationPointHourly)[i]->theResult = precipitationPointResult;
+
 	  }
   }
 
@@ -917,7 +901,6 @@ const void log_subperiods(wf_story_params& theParameters)
 
   void allocate_data_structures(wf_story_params& theParameters, const forecast_area_id& theAreaId)
   {
-	weather_result_data_item_vector* hourlyTemperature = new weather_result_data_item_vector();
 	weather_result_data_item_vector* hourlyPrecipitation = new weather_result_data_item_vector();
 	weather_result_data_item_vector* hourlyPrecipitationExtent = new weather_result_data_item_vector();
 
@@ -936,6 +919,7 @@ const void log_subperiods(wf_story_params& theParameters)
 	weather_result_data_item_vector* hourlyPrecipitationShareSouthEast = new weather_result_data_item_vector();
 	weather_result_data_item_vector* hourlyPrecipitationShareSouthWest = new weather_result_data_item_vector();
 	weather_result_data_item_vector* hourlyPrecipitationShareNorthWest = new weather_result_data_item_vector();
+	weather_result_data_item_vector* hourlyPrecipitationPoint = new weather_result_data_item_vector();
 
 	weather_result_data_item_vector* hourlyCloudinessShareNortEast = new weather_result_data_item_vector();
 	weather_result_data_item_vector* hourlyCloudinessShareSouthEast = new weather_result_data_item_vector();
@@ -966,9 +950,6 @@ const void log_subperiods(wf_story_params& theParameters)
 
 		part_of_the_day_id  partOfTheDayId = get_part_of_the_day_id(theWeatherPeriod);
 
-		hourlyTemperature->push_back(new WeatherResultDataItem(theWeatherPeriod, 
-															   theWeatherResult, 
-															   partOfTheDayId));
 		hourlyPrecipitation->push_back(new WeatherResultDataItem(theWeatherPeriod, 
 																 theWeatherResult, 
 																 partOfTheDayId));
@@ -991,6 +972,9 @@ const void log_subperiods(wf_story_params& theParameters)
 																		 theWeatherResult, 
 																		 partOfTheDayId));
 		hourlyPrecipitationFormFreezing->push_back(new WeatherResultDataItem(theWeatherPeriod, 
+																			 theWeatherResult, 
+																			 partOfTheDayId));
+		hourlyPrecipitationPoint->push_back(new WeatherResultDataItem(theWeatherPeriod, 
 																			 theWeatherResult, 
 																			 partOfTheDayId));
 		hourlyCloudiness->push_back(new WeatherResultDataItem(theWeatherPeriod, 
@@ -1064,7 +1048,6 @@ const void log_subperiods(wf_story_params& theParameters)
 
 	weather_forecast_result_container* resultContainer = new weather_forecast_result_container();
 
-	resultContainer->insert(make_pair(TEMPERATURE_DATA, hourlyTemperature));
 	resultContainer->insert(make_pair(PRECIPITATION_DATA, hourlyPrecipitation));
 	resultContainer->insert(make_pair(PRECIPITATION_EXTENT_DATA, hourlyPrecipitationExtent));
 	resultContainer->insert(make_pair(PRECIPITATION_TYPE_DATA, hourlyPrecipitationType));
@@ -1081,6 +1064,7 @@ const void log_subperiods(wf_story_params& theParameters)
 	resultContainer->insert(make_pair(PRECIPITATION_SOUTHEAST_SHARE_DATA, hourlyPrecipitationShareSouthEast));
 	resultContainer->insert(make_pair(PRECIPITATION_SOUTHWEST_SHARE_DATA, hourlyPrecipitationShareSouthWest));
 	resultContainer->insert(make_pair(PRECIPITATION_NORTHWEST_SHARE_DATA, hourlyPrecipitationShareNorthWest));
+	resultContainer->insert(make_pair(PRECIPITATION_POINT_DATA, hourlyPrecipitationPoint));
 	resultContainer->insert(make_pair(CLOUDINESS_NORTHEAST_SHARE_DATA, hourlyCloudinessShareNortEast));
 	resultContainer->insert(make_pair(CLOUDINESS_SOUTHEAST_SHARE_DATA, hourlyCloudinessShareSouthEast));
 	resultContainer->insert(make_pair(CLOUDINESS_SOUTHWEST_SHARE_DATA, hourlyCloudinessShareSouthWest));
@@ -1171,7 +1155,6 @@ const void log_subperiods(wf_story_params& theParameters)
   {
 	for(unsigned int i = 0; i < thePeriodCount; i++)
 	  {
-		delete (*theResultContainer[TEMPERATURE_DATA])[i];
 		delete (*theResultContainer[CLOUDINESS_DATA])[i];
 		delete (*theResultContainer[PRECIPITATION_DATA])[i];
 		delete (*theResultContainer[PRECIPITATION_EXTENT_DATA])[i];
@@ -1185,7 +1168,6 @@ const void log_subperiods(wf_story_params& theParameters)
 		delete (*theResultContainer[FOG_INTENSITY_MODERATE_DATA])[i];
 	  }
 
-	theResultContainer[TEMPERATURE_DATA]->clear();
 	theResultContainer[PRECIPITATION_DATA]->clear();
 	theResultContainer[PRECIPITATION_EXTENT_DATA]->clear();
 	theResultContainer[PRECIPITATION_TYPE_DATA]->clear();
@@ -1198,7 +1180,6 @@ const void log_subperiods(wf_story_params& theParameters)
 	theResultContainer[FOG_INTENSITY_MODERATE_DATA]->clear();
 	theResultContainer[FOG_INTENSITY_DENSE_DATA]->clear();
 
-	delete theResultContainer[TEMPERATURE_DATA];
 	delete theResultContainer[CLOUDINESS_DATA];
 	delete theResultContainer[CLOUDINESS_NORTHEAST_SHARE_DATA];
 	delete theResultContainer[CLOUDINESS_SOUTHEAST_SHARE_DATA];
@@ -1216,6 +1197,7 @@ const void log_subperiods(wf_story_params& theParameters)
 	delete theResultContainer[PRECIPITATION_SOUTHEAST_SHARE_DATA];
 	delete theResultContainer[PRECIPITATION_SOUTHWEST_SHARE_DATA];
 	delete theResultContainer[PRECIPITATION_NORTHWEST_SHARE_DATA];
+	delete theResultContainer[PRECIPITATION_POINT_DATA];
 	delete theResultContainer[THUNDER_PROBABILITY_DATA];
 	delete theResultContainer[THUNDER_NORTHEAST_SHARE_DATA];
 	delete theResultContainer[THUNDER_SOUTHEAST_SHARE_DATA];
@@ -1559,8 +1541,7 @@ const void log_subperiods(wf_story_params& theParameters)
 				  NFmiTime endTimeBeforeChange(endTime);
 				  if(endTimeBeforeChange > startTime)
 					  endTimeBeforeChange.ChangeByHours(-1);
-				  if(theStoryParts.size() == 0 || 
-					 theStoryParts.at(theStoryParts.size()-1).second != SADE_ALKAA_STORY_PART)
+				  if(theStoryParts.size() == 0 || previous_story_part != SADE_ALKAA_STORY_PART)
 					theStoryParts.push_back(make_pair(WeatherPeriod(startTime, endTimeBeforeChange), SADE_STORY_PART));
 				  
 				  theStoryParts.push_back(make_pair(WeatherPeriod(endTime, endTime), 
@@ -1766,6 +1747,7 @@ const void log_subperiods(wf_story_params& theParameters)
 			theParameters.theLog << storyPartPeriod.localStartTime() << ".. " 
 								 << storyPartPeriod.localEndTime() 
 								 << ": SHORT_PRECIPITATION_STORY_PART" << endl;
+			mySentence << thePrecipitationForecast.shortTermPrecipitationSentence(storyPartPeriod);
 			break;
 		  case MISSING_STORY_PART_ID:
 			theParameters.theLog << storyPartPeriod.localStartTime() << ".. " 
@@ -1782,7 +1764,7 @@ const void log_subperiods(wf_story_params& theParameters)
   }
 
 // ----------------------------------------------------------------------
-  /*!populate_temperature_time_series
+  /*!
    * \brief Generate overview on weather
    *
    * \return The story
@@ -1918,16 +1900,20 @@ const void log_subperiods(wf_story_params& theParameters)
 	if(theParameters.theForecastArea == NO_AREA)
 	  return paragraph;
 
-	populate_temperature_time_series(theParameters);
-	populate_cloudiness_time_series(theParameters);
-	populate_thunderprobability_time_series(theParameters);
-	populate_fogintensity_time_series(theParameters);
 	populate_precipitation_time_series(theParameters);
-
+	populate_cloudiness_time_series(theParameters);
+	populate_fogintensity_time_series(theParameters);
+	populate_thunderprobability_time_series(theParameters);
 
 	CloudinessForecast cloudinessForecast(theParameters);
 	PrecipitationForecast precipitationForecast(theParameters);
-	FogForecast fogForecast(theParameters, precipitationForecast);
+	FogForecast fogForecast(theParameters);
+
+	theParameters.thePrecipitationForecast = &precipitationForecast;
+	theParameters.theCloudinessForecast = &cloudinessForecast;
+	theParameters.theFogForecast = &fogForecast;
+
+
 
 	Sentence fogSentence;	
 	fogSentence << fogForecast.fogSentence(itsPeriod);
@@ -1972,6 +1958,10 @@ const void log_subperiods(wf_story_params& theParameters)
 
 	//paragraph << myParagraph;
 	paragraph << fogSentence;
+	precipitationForecast.printOutPrecipitationData(log);
+
+
+/*
 	theParameters.theLog << "COMBINED SENTENCE: ";
 	theParameters.theLog << paragraph;
 
@@ -1982,7 +1972,7 @@ const void log_subperiods(wf_story_params& theParameters)
 	precipitationForecast.printOutPrecipitationData(log);
 	precipitationForecast.printOutPrecipitationPeriods(log);
 	precipitationForecast.printOutPrecipitationTrends(log);
-	
+	*/
 
 	/*
 	Paragraph para;
@@ -2005,7 +1995,7 @@ const void log_subperiods(wf_story_params& theParameters)
 	//precipitationForecast.printOutPrecipitationDistribution(log);
 	*/
 
-	//	log_weather_result_data(theParameters);
+	//log_weather_result_data(theParameters);
 
 	//	precipitationForecast.printOutPrecipitationLocation(cout);
 
@@ -2015,7 +2005,7 @@ const void log_subperiods(wf_story_params& theParameters)
 
 	log << paragraph;
 
-	//	const_cast<WeatherHistory&>(itsArea.history()).updateTimePhrase("", NFmiTime(1970,1,1));
+	const_cast<WeatherHistory&>(itsArea.history()).updateTimePhrase("", NFmiTime(1970,1,1));
 
 	return paragraph;
   }

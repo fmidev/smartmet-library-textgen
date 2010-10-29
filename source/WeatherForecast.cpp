@@ -154,6 +154,45 @@ using namespace std;
 	return retval;
   }
 
+  const char* precipitation_traverse_string(const precipitation_traverse_id& thePrecipitationTraverseId)
+  {
+	const char* retval = "";
+
+	switch(thePrecipitationTraverseId)
+	  {
+	  case FROM_SOUTH_TO_NORTH:
+		retval = "etel‰st‰ pohjoiseen";
+		break;
+	  case FROM_NORTH_TO_SOUTH:
+		retval = "pohjoiseta etel‰‰n";
+		break;
+	  case FROM_EAST_TO_WEST:
+		retval = "id‰st‰ l‰nteen";
+		break;
+	  case FROM_WEST_TO_EAST:
+		retval = "l‰nnest‰ it‰‰n";
+		break;
+	  case FROM_NORTHEAST_TO_SOUTHWEST:
+		retval = "koillisesta lounaaseen";
+		break;
+	  case FROM_SOUTHWEST_TO_NORTHEAST:
+		retval = "lounaasta koilliseen";
+		break;
+	  case FROM_NORTHWEST_TO_SOUTHEAST:
+		retval = "luoteesta kaakkoon";
+		break;
+	  case FROM_SOUTHEAST_TO_NORTHWEST:
+		retval = "kaakosta luoteeseen";
+		break;
+	  case MISSING_TRAVERSE_ID:
+		retval = "ei minnek‰‰n";
+		break;
+
+		 }
+
+	return retval;
+  }
+
   part_of_the_day_id get_part_of_the_day_id(const NFmiTime& theTimestamp)
   {
 	
@@ -437,16 +476,45 @@ using namespace std;
 			 theTimeStamp <= endTimeCompare);
   }
 
+  /*
+  WeatherPeriod get_part_of_the_day_period(const NFmiTime& theReferencTime,
+										   const part_of_the_day_id& thePartOfTheDayId)
+  {
+	int startHour, endHour;
+	get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
+	
+	NFmiTime startTime(theReferencTime);
+	NFmiTime endTime(theReferencTime);
+
+	startTime.SetHour(startHour);
+	endTime.SetHour(endHour);
+
+	if(endHour == 0)
+	  endTime.ChangeByDays(1);
+  }
+*/
   bool is_inside(const WeatherPeriod& theWeatherPeriod,
 				 const part_of_the_day_id& thePartOfTheDayId)
   {
 	int startHour, endHour;
 	get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
 	NFmiTime startTimeCompare(theWeatherPeriod.localStartTime());
-	NFmiTime endTimeCompare(theWeatherPeriod.localEndTime());
+	NFmiTime endTimeCompare(theWeatherPeriod.localStartTime());
 	startTimeCompare.SetHour(startHour);
 	endTimeCompare.SetHour(endHour);
+	startTimeCompare.SetMin(0);
+	endTimeCompare.SetMin(0);
+	startTimeCompare.SetSec(0);
+	endTimeCompare.SetSec(0);
+	if(endHour == 0)
+	  endTimeCompare.ChangeByDays(1);
 
+	return (theWeatherPeriod.localStartTime() >= startTimeCompare &&
+			theWeatherPeriod.localStartTime() <= endTimeCompare &&
+			theWeatherPeriod.localEndTime() >= startTimeCompare &&
+			theWeatherPeriod.localEndTime() <= endTimeCompare);
+
+	/*
 	if(endHour == 0)
 	  return (theWeatherPeriod.localStartTime() >= startTimeCompare && 
 			  theWeatherPeriod.localEndTime() >= startTimeCompare);
@@ -456,6 +524,7 @@ using namespace std;
 	else
 	  return(theWeatherPeriod.localStartTime() >= startTimeCompare && 
 			 theWeatherPeriod.localEndTime() <= endTimeCompare);
+	*/
   }
 
   Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod)
@@ -670,6 +739,8 @@ using namespace std;
 	   precipitation_forms[2].first > PRECIPITATION_FORM_REPORTING_LIMIT)
 	  ? precipitation_forms[2].second : MISSING_PRECIPITATION_FORM;
 
+	// TODO: merge drizzle and water in some cases, when sleet is involved
+
 	precipitation_form |= primaryPrecipitationForm;
 	precipitation_form |= secondaryPrecipitationForm;
 	precipitation_form |= tertiaryPrecipitationForm;
@@ -769,11 +840,13 @@ using namespace std;
 	  }
   }
 
-  double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSeries)
+  double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSeries,
+								 const unsigned int& theStartIndex,
+								 const unsigned int& theEndIndex)
   {
 	vector<double> precipitation;
 
-	for(unsigned int i = 0; i < theTimeSeries.size(); i++)
+	for(unsigned int i = theStartIndex; i <= theEndIndex; i++)
 	  precipitation.push_back(theTimeSeries[i]->theResult.value());
 
 	return MathTools::pearson_coefficient(precipitation);

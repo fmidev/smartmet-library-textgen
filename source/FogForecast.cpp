@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of PrecipitationForecast class
+ * \brief Implementation of FogForecast class
  */
 // ======================================================================
 
@@ -171,10 +171,8 @@ namespace TextGen
 	  }
   }
 
-  FogForecast::FogForecast(wf_story_params& parameters,
-						   const PrecipitationForecast& precipitationForecast): 
+  FogForecast::FogForecast(wf_story_params& parameters):
 	theParameters(parameters),
-	thePrecipitationForecast(precipitationForecast),
 	theCoastalModerateFogData(0),
 	theInlandModerateFogData(0),
 	theFullAreaModerateFogData(0),
@@ -489,8 +487,8 @@ namespace TextGen
 			fogSentence << getFogPhrase(theFogTypePeriods.at(i).second);
 			if(!fogSentence.empty())
 			  {
-				if(thePrecipitationForecast.isDryPeriod(theFogTypePeriods.at(i).first,
-														theParameters.theForecastArea))
+				if(theParameters.thePrecipitationForecast->isDryPeriod(theFogTypePeriods.at(i).first,
+																	   theParameters.theForecastArea))
 				  {
 					sentence << PeriodPhraseFactory::create("today",
 															theParameters.theVariable,

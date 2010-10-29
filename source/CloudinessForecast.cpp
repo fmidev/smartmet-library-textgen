@@ -421,7 +421,7 @@ namespace TextGen
 		*/
 
 		
-		float pearson_coefficient = get_pearson_coefficient(theWholePeriodData);
+		float pearson_coefficient = get_pearson_coefficient(theWholePeriodData, 0, theWholePeriodData.size()-1);
 		/*
 		float minCloudinessInTheFirstHalf;
 		float maxCloudinessInTheFirstHalf;
@@ -923,6 +923,8 @@ namespace TextGen
   {
 	Sentence sentence;
 
+	// TODO: tsekkaa, ett‰ aluuen toisella puolella on selke‰‰
+	/*
 	WeatherResult northEastShare(kFloatMissing, 0);
 	WeatherResult southEastShare(kFloatMissing, 0);
 	WeatherResult southWestShare(kFloatMissing, 0);
@@ -955,6 +957,7 @@ namespace TextGen
 									   northWestShare.value(),
 									   false);
 
+	*/
 	return sentence;
   }
 

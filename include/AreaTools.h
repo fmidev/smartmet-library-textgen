@@ -78,6 +78,7 @@ namespace TextGen
 		   const WeatherParameter& theParameter,
 		   const NFmiIndexMask& theIndexMask);
 	  
+	  NFmiPoint getCenter() const;
 	  NFmiPoint getTopLeft() const { return m_topLeft; }
 	  NFmiPoint getBottomRight() const { return m_bottomRight; }
 	  void setTopLeft(const NFmiPoint& topLeft) { m_topLeft = topLeft; }
@@ -126,7 +127,7 @@ namespace TextGen
 								   WeatherResult& theSouthWestShare,
 								   WeatherResult& theNortWestShare);
 
-	void getArealDistribution(const vector<NFmiPoint*>& thePointVector, 
+	void getArealDistribution(const vector<NFmiPoint*>& thePointVector,
 							  map<direction_id, double>& theResultData);
 
 	std::string getDirectionString(const direction_id& theDirectionId); 

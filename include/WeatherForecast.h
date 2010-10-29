@@ -7,6 +7,10 @@
 namespace TextGen
 {
 
+  class PrecipitationForecast;
+  class CloudinessForecast;
+  class FogForecast;
+
 #define INLAND_PHRASE "sisämaassa"
 #define COAST_PHRASE "rannikolla"
 #define SADE_WORD "sade"
@@ -22,6 +26,7 @@ namespace TextGen
 #define AAMUYOLLA_WORD "aamuyöllä"
 #define YOLLA_WORD "yöllä"
 
+#define MAHDOLLISESTI_WORD "mahdollisesti"
 #define ENIMMAKSEEN_WORD "enimmäkseen"
 #define ALUKSI_WORD "aluksi"
 #define SAA_WORD "sää"
@@ -87,14 +92,18 @@ namespace TextGen
 #define JA_WORD "ja"
 #define JOKA_VOI_OLLA_JAATAVAA_PHRASE "joka voi olla jäätävää"
 #define JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE "jotka voivat olla jäätäviä"
-#define YKSITTAISET_SADEKUUROT_MAHDOLLISIA "yksittäiset sadekuurot ovat kuitenkin mahdollisia"
-#define YKSITTAISET_VESIKUUROT_MAHDOLLISIA "yksittäiset vesikuurot ovat kuitenkin mahdollisia"
-#define YKSITTAISET_RANTAKUUROT_MAHDOLLISIA "yksittäiset räntäkuurot ovat kuitenkin mahdollisia"
-#define YKSITTAISET_LUMIKUUROT_MAHDOLLISIA "yksittäiset lumikuurot ovat kuitenkin mahdollisia"
-#define YKSITTAISET_VESI_RANTA_KUUROT_MAHDOLLISIA "yksittäiset vesi- tai räntäkuurot ovat kuitenkin mahdollisia"
-#define YKSITTAISET_RANTA_VESI_KUUROT_MAHDOLLISIA "yksittäiset räntä- tai vesikuurot ovat kuitenkin mahdollisia"
-#define YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA "yksittäiset lumi- tai räntäkuurot ovat kuitenkin mahdollisia"
-#define YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA "yksittäiset vesi- tai lumikuurot ovat kuitenkin mahdollisia"
+#define YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE "yksittäiset sadekuurot ovat kuitenkin mahdollisia"
+#define YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE "yksittäiset vesikuurot ovat kuitenkin mahdollisia"
+#define YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_PHRASE "yksittäiset räntäkuurot ovat kuitenkin mahdollisia"
+#define YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_PHRASE "yksittäiset lumikuurot ovat kuitenkin mahdollisia"
+#define YKSITTAISET_VESI_RANTA_KUUROT_MAHDOLLISIA_PHRASE "yksittäiset vesi- tai räntäkuurot ovat kuitenkin mahdollisia"
+#define YKSITTAISET_RANTA_VESI_KUUROT_MAHDOLLISIA_PHRASE "yksittäiset räntä- tai vesikuurot ovat kuitenkin mahdollisia"
+#define YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA_PHRASE "yksittäiset lumi- tai räntäkuurot ovat kuitenkin mahdollisia"
+#define YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA_PHRASE "yksittäiset vesi- tai lumikuurot ovat kuitenkin mahdollisia"
+#define JOKA_MUUTTUU_LUMISATEEKSI_PHRASE "joka muuttuu lumisateeksi"
+#define JOKA_MUUTTUU_VESISATEEKSI_PHRASE "joka muuttuu vesisateeksi"
+#define JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE "joka muuttuu tihkusateeksi"
+#define JOKA_MUUTTUU_RANTASATEEKSI_PHRASE "joka muuttuu räntäsateeksi"
 
 #define SUMUA_WORD "sumua"
 #define JOKA_VOI_OLLA_SAKEAA_PHRASE "joka voi olla sakeaa"
@@ -187,8 +196,7 @@ namespace TextGen
 
   enum weather_result_data_id
 	{
-	  TEMPERATURE_DATA = 0x1,
-	  CLOUDINESS_DATA,
+	  CLOUDINESS_DATA = 0x1,
 	  CLOUDINESS_NORTHEAST_SHARE_DATA,
 	  CLOUDINESS_SOUTHEAST_SHARE_DATA,
 	  CLOUDINESS_SOUTHWEST_SHARE_DATA,
@@ -205,6 +213,7 @@ namespace TextGen
 	  PRECIPITATION_SOUTHEAST_SHARE_DATA,
 	  PRECIPITATION_SOUTHWEST_SHARE_DATA,
 	  PRECIPITATION_NORTHWEST_SHARE_DATA,
+	  PRECIPITATION_POINT_DATA,
 	  THUNDER_PROBABILITY_DATA,
 	  THUNDER_NORTHEAST_SHARE_DATA,
 	  THUNDER_SOUTHEAST_SHARE_DATA,
@@ -253,6 +262,23 @@ SHOWERS
 	  MISSING_PRECIPITATION_FORM = 0x0
 	};
 
+  enum precipitation_form_transformation_id
+	{
+	  WATER_TO_SNOW,
+	  WATER_TO_DRIZZLE,
+	  WATER_TO_SLEET,
+	  SNOW_TO_WATER,
+	  SNOW_TO_DRIZZLE,
+	  SNOW_TO_SLEET,
+	  DRIZZLE_TO_WATER,
+	  DRIZZLE_TO_SNOW,
+	  DRIZZLE_TO_SLEET,
+	  SLEET_TO_WATER,
+	  SLEET_TO_DRIZZLE,
+	  SLEET_TO_SNOW,
+	  NO_FORM_TRANSFORMATION
+	};
+
   enum precipitation_intesity_id
 	{
 	  DRY_WEATHER,
@@ -275,6 +301,19 @@ SHOWERS
 	  MODERATE_SNOW_PRECIPITATION,
 	  HEAVY_SNOW_PRECIPITATION,
 	  DRY_WEATHER_CATEGORY
+	};
+
+  enum precipitation_traverse_id
+	{
+	  FROM_SOUTH_TO_NORTH,
+	  FROM_NORTH_TO_SOUTH,
+	  FROM_EAST_TO_WEST,
+	  FROM_WEST_TO_EAST,
+	  FROM_NORTHEAST_TO_SOUTHWEST,
+	  FROM_SOUTHWEST_TO_NORTHEAST,
+	  FROM_NORTHWEST_TO_SOUTHEAST,
+	  FROM_SOUTHEAST_TO_NORTHWEST,
+	  MISSING_TRAVERSE_ID
 	};
 
   enum cloudiness_id
@@ -325,8 +364,8 @@ SHOWERS
 	{
 	  PILVISTYY,
 	  SELKENEE,
-	  POUTAANTUU,
-	  SADE_ALKAA,
+	  POUTAANTUU, // >= 6h
+	  SADE_ALKAA, // >= 6h
 	  NO_TREND
 	};
 
@@ -478,7 +517,8 @@ SHOWERS
 	  thePrecipitationPercentageNorthEast(0.0),
 	  thePrecipitationPercentageSouthEast(0.0),
 	  thePrecipitationPercentageSouthWest(0.0),
-	  thePrecipitationPercentageNorthWest(0.0)
+	  thePrecipitationPercentageNorthWest(0.0),
+	  thePrecipitationPoint(0.0, 0.0)
 	{}
 
 	unsigned int thePrecipitationForm;
@@ -501,6 +541,7 @@ SHOWERS
 	weather_result_data_item_vector thePrecipitationShareSouthEast;
 	weather_result_data_item_vector thePrecipitationShareSouthWest;
 	weather_result_data_item_vector thePrecipitationShareNorthWest;
+	NFmiPoint thePrecipitationPoint;
 
 	float precipitationPercentageNorth() const
 	{ return thePrecipitationPercentageNorthEast + thePrecipitationPercentageNorthWest; }
@@ -610,6 +651,9 @@ SHOWERS
 		theForecastTime(forecastTime),
 		theSources(analysisSources),
 		theLog(log),
+		thePrecipitationForecast(0),
+		theCloudinessForecast(0),
+		theFogForecast(0),
 		theHourPeriodCount(0),
 		theOriginalPeriodCount(0),
 		theForecastArea(TextGen::AreaTools::NO_AREA)
@@ -623,6 +667,9 @@ SHOWERS
 	  const NFmiTime theForecastTime;
 	  const AnalysisSources& theSources;
 	  MessageLogger& theLog;
+	  const PrecipitationForecast* thePrecipitationForecast;
+	  const CloudinessForecast* theCloudinessForecast;
+	  const FogForecast* theFogForecast;
 	  unsigned int theHourPeriodCount;
 	  unsigned int theOriginalPeriodCount;
 	  unsigned short theForecastArea;
@@ -658,6 +705,7 @@ SHOWERS
 											float& theWeakPrecipitationLimit);
   const char* trend_string(const trend_id& theTrendId);
   const char* precipitation_form_string(const precipitation_form_id& thePrecipitationForm);
+  const char* precipitation_traverse_string(const precipitation_traverse_id& thePrecipitationTraverseId);
 
   void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour);
   part_of_the_day_id get_part_of_the_day_id(const WeatherPeriod& thePeriod);
@@ -695,7 +743,9 @@ SHOWERS
 				 const int& theEndIndex = 0);
   float get_standard_deviation(const weather_result_data_item_vector& theTimeSeries);
   void get_min_max(const weather_result_data_item_vector& theTimeSeries, float& theMin, float& theMax);
-  double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSeries);
+  double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSeries,
+								 const unsigned int& theStartIndex,
+								 const unsigned int& theEndIndex);
   void print_out_trend_vector(std::ostream& theOutput, const trend_id_vector& theTrendVector);
   Sentence area_specific_sentence(const float& north,
 								  const float& south,
