@@ -78,9 +78,12 @@ namespace TextGen
 		   const WeatherParameter& theParameter,
 		   const NFmiIndexMask& theIndexMask);
 	  
+	  float getHeightWidthRatio() { return ((m_topLeft.Y() - m_bottomRight.Y()) / (m_bottomRight.X() - m_topLeft.X())); }
 	  NFmiPoint getCenter() const;
 	  NFmiPoint getTopLeft() const { return m_topLeft; }
 	  NFmiPoint getBottomRight() const { return m_bottomRight; }
+	  NFmiPoint getBottomLeft() const { return NFmiPoint(m_topLeft.X(), m_bottomRight.Y()); }
+	  NFmiPoint getTopRight() const { return NFmiPoint(m_bottomRight.X(), m_topLeft.Y()); }
 	  void setTopLeft(const NFmiPoint& topLeft) { m_topLeft = topLeft; }
 	  void setBottomRight(const NFmiPoint& bottomRight) { m_bottomRight = bottomRight; }
 	  bool contains(const Rect& theRect) const;

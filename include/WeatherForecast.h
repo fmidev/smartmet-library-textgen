@@ -10,6 +10,7 @@ namespace TextGen
   class PrecipitationForecast;
   class CloudinessForecast;
   class FogForecast;
+  class ThunderForecast;
 
 #define INLAND_PHRASE "sisämaassa"
 #define COAST_PHRASE "rannikolla"
@@ -126,6 +127,26 @@ namespace TextGen
 #define KESKIYOSTA_ALKAEN_PHRASE "keskiyöstä alkaen"
 #define AAMUYOSTA_ALKAEN_PHRASE "aamuyöstä alkaen"
 
+#define POHJOISESTA_ALKAEN_PHRASE "pohjoisesta alkaen"
+#define ETELASTA_ALKAEN_PHRASE "etelästä alkaen"
+#define IDASTA_ALKAEN_PHRASE "idästä alkaen"
+#define LANNESTA_ALKAEN_PHRASE "lännestä alkaen"
+#define KOILLISESTA_ALKAEN_PHRASE "koillisesta alkaen"
+#define KAAKOSTA_ALKAEN_PHRASE "kaakosta alkaen"
+#define LOUNAASTA_ALKAEN_PHRASE "lounaasta alkaen"
+#define LUOTEESTA_ALKAEN_PHRASE "luoteesta alkaen"
+
+#define SADEALUE_WORD "sadealue"
+#define SAAPUU_WORD "saapuu"
+#define POHJOISESTA_WORD "pohjoisesta"
+#define ETELASTA_WORD "etelästä"
+#define IDASTA_WORD "idästä"
+#define LANNESTA_WORD "lännestä"
+#define KOILLISESTA_WORD "koillisesta"
+#define KAAKOSTA_WORD "kaakosta"
+#define LOUNAASTA_WORD "lounaasta"
+#define LUOTEESTA_WORD "luoteesta"
+
 #define SELKEAA_UPPER_LIMIT 9.9
 #define MELKEIN_SELKEAA_LOWER_LIMIT 9.9
 #define MELKEIN_SELKEAA_UPPER_LIMIT 35
@@ -169,31 +190,6 @@ namespace TextGen
 
 #define TREND_CHANGE_COEFFICIENT_TRESHOLD 0.65 // pearson coefficient
 
-
-  /*
-	  case AAMU:
-	  case AAMUPAIVA:
-	  case KESKIPAIVA:
-	  case ILTAPAIVA:
-	  case ILTA:
-	  case ILTAYO:
-	  case KESKIYO:
-	  case AAMUYO:
-	  case PAIVA:
-	  case YO:
-	  case YOPUOLI:
-	  case PAIVAPUOLI:
-	  case AAMU_JA_AAMUPAIVA:
-	  case AAMUPAIVA_JA_KESKIPAIVA:
-	  case KESKIPAIVA_JA_ILTAPAIVA:
-	  case ILTAPAIVA_JA_ILTA:
-	  case ILTA_JA_ILTAYO:
-	  case ILTAYO_JA_KESKIYO:
-	  case KESKIYO_JA_AAMUYO:
-	  case AAMUYO_JA_AAMU:
-*/
-
-
   enum weather_result_data_id
 	{
 	  CLOUDINESS_DATA = 0x1,
@@ -227,11 +223,7 @@ namespace TextGen
 	  FOG_NORTHWEST_SHARE_DATA,
 	  UNDEFINED_DATA_ID
 	};
-  /*
-DRY
-CONTINUOUS
-SHOWERS
-  */
+
   enum precipitation_form_id
 	{
 	  WATER_FORM = 0x1,
@@ -386,6 +378,19 @@ SHOWERS
 	  MIN,
 	  MAX,
 	  MEAN
+	};
+
+  enum area_specific_sentence_id
+	{
+	  ALUEEN_POHJOISOSISSA,
+	  ALUEEN_ETELAOSISSA,
+	  ALUEEN_ITAOSISSA,
+	  ALUEEN_LANSIOSISSA,
+	  ENIMMAKSEEN_ALUEEN_POHJOISOSISSA,
+	  ENIMMAKSEEN_ALUEEN_ETELAOSISSA,
+	  ENIMMAKSEEN_ALUEEN_ITAOSISSA,
+	  ENIMMAKSEEN_ALUEEN_LANSIOSISSA,
+	  MISSING_AREA_SPECIFIC_SENTENCE_ID
 	};
 
   struct WeatherResultDataItem
@@ -654,6 +659,7 @@ SHOWERS
 		thePrecipitationForecast(0),
 		theCloudinessForecast(0),
 		theFogForecast(0),
+		theThunderForecast(0),
 		theHourPeriodCount(0),
 		theOriginalPeriodCount(0),
 		theForecastArea(TextGen::AreaTools::NO_AREA)
@@ -667,9 +673,10 @@ SHOWERS
 	  const NFmiTime theForecastTime;
 	  const AnalysisSources& theSources;
 	  MessageLogger& theLog;
-	  const PrecipitationForecast* thePrecipitationForecast;
-	  const CloudinessForecast* theCloudinessForecast;
-	  const FogForecast* theFogForecast;
+	  PrecipitationForecast* thePrecipitationForecast;
+	  CloudinessForecast* theCloudinessForecast;
+	  FogForecast* theFogForecast;
+	  ThunderForecast* theThunderForecast;
 	  unsigned int theHourPeriodCount;
 	  unsigned int theOriginalPeriodCount;
 	  unsigned short theForecastArea;
@@ -719,6 +726,7 @@ SHOWERS
 				 const part_of_the_day_id& thePartOfTheDayId);
   bool is_inside(const NFmiTime& theTimeStamp, 
 				 const WeatherPeriod& theWeatherPeriod);
+  Sentence get_direction_phrase(const AreaTools::direction_id& theDirectionId, bool theAlkaenPhrase = false);
   Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod);
   Sentence get_time_phrase(const NFmiTime& theTimestamp, bool theAlkaenPhrase = false);
   Sentence get_today_phrase(const NFmiTime& theEventTimestamp,
@@ -745,7 +753,8 @@ SHOWERS
   void get_min_max(const weather_result_data_item_vector& theTimeSeries, float& theMin, float& theMax);
   double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSeries,
 								 const unsigned int& theStartIndex,
-								 const unsigned int& theEndIndex);
+								 const unsigned int& theEndIndex,
+								 const bool& theUseErrorValueFlag = false);
   void print_out_trend_vector(std::ostream& theOutput, const trend_id_vector& theTrendVector);
   Sentence area_specific_sentence(const float& north,
 								  const float& south,
@@ -756,6 +765,16 @@ SHOWERS
 								  const float& southWest,
 								  const float& northWest,
 								  const bool& mostlyFlag = true);
+
+  area_specific_sentence_id get_area_specific_sentence_id(const float& north,
+														  const float& south,
+														  const float& east,
+														  const float& west,
+														  const float& northEast,
+														  const float& southEast,
+														  const float& southWest,
+														  const float& northWest,
+														  const bool& mostlyFlag = true);
 
 }
 

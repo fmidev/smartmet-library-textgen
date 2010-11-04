@@ -48,6 +48,12 @@ using namespace std;
 	
   private:
 
+	Rect getPrecipitationRect(const NFmiTime& theTimestamp, 
+							  const float& theLowerLimit,
+							  const float& theUpperLimit) const;
+	NFmiPoint getPrecipitationRepresentativePoint(const WeatherPeriod& thePeriod) const;
+	direction_id getPrecipitationArrivalDirection(const WeatherPeriod& thePeriod) const;
+	direction_id getPrecipitationLeavingDirection(const WeatherPeriod& thePeriod) const;
 	precipitation_traverse_id getPrecipitationTraverseId(const WeatherPeriod& thePeriod) const;
 	const precipitation_data_vector& getPrecipitationDataVector() const;
 	precipitation_form_transformation_id getPrecipitationFormTransformationId(const WeatherPeriod& thePeriod,

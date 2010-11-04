@@ -34,6 +34,7 @@
 #include "FogForecast.h"
 
 #include "NFmiCombinedParam.h"
+#include "NFmiMercatorArea.h"
 
 #include <boost/lexical_cast.hpp>
 #include <vector>
@@ -544,38 +545,76 @@ namespace TextGen
   {
 	Sentence sentence;
 
-	WeatherResult northEastShare(kFloatMissing, 0);
-	WeatherResult southEastShare(kFloatMissing, 0);
-	WeatherResult southWestShare(kFloatMissing, 0);
-	WeatherResult northWestShare(kFloatMissing, 0);
-	RangeAcceptor acceptor;
-	acceptor.lowerLimit(kTModerateFog);
-	acceptor.upperLimit(kTDenseFog);
+	// If the area contains both coast and inland, we don't ude area specific sentence
 
-	AreaTools::getArealDistribution(theParameters.theSources,
-									Fog,
-									theParameters.theArea,
-									thePeriod,
-									acceptor,
-									northEastShare,
-									southEastShare,
-									southWestShare,
-									northWestShare);
+	if(!(theParameters.theForecastArea & FULL_AREA))
+	  {
+		WeatherResult northEastShare(kFloatMissing, 0);
+		WeatherResult southEastShare(kFloatMissing, 0);
+		WeatherResult southWestShare(kFloatMissing, 0);
+		WeatherResult northWestShare(kFloatMissing, 0);
+		RangeAcceptor acceptor;
+		acceptor.lowerLimit(kTModerateFog);
+		acceptor.upperLimit(kTDenseFog);
 
-	float north = northEastShare.value() + northWestShare.value();
-	float south = southEastShare.value() + southWestShare.value();
-	float east = northEastShare.value() + southEastShare.value();
-	float west = northWestShare.value() + southWestShare.value();
+		AreaTools::getArealDistribution(theParameters.theSources,
+										Fog,
+										theParameters.theArea,
+										thePeriod,
+										acceptor,
+										northEastShare,
+										southEastShare,
+										southWestShare,
+										northWestShare);
 
-	sentence << area_specific_sentence(north,
-									   south,
-									   east,
-									   west,
-									   northEastShare.value(),
-									   southEastShare.value(),
-									   southWestShare.value(),
-									   northWestShare.value(),
-									   false);
+		float north = northEastShare.value() + northWestShare.value();
+		float south = southEastShare.value() + southWestShare.value();
+		float east = northEastShare.value() + southEastShare.value();
+		float west = northWestShare.value() + southWestShare.value();
+
+		area_specific_sentence_id sentenceId = 
+		  get_area_specific_sentence_id(north,
+										south,
+										east,
+										west,
+										northEastShare.value(),
+										southEastShare.value(),
+										southWestShare.value(),
+										northWestShare.value(),
+										false);
+
+		Rect areaRect(theParameters.theArea);
+		NFmiMercatorArea mercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight());
+		float areaHeightWidthRatio = mercatorArea.WorldRect().Height()/mercatorArea.WorldRect().Width();
+		
+		Sentence areaSpecificSentence;
+		areaSpecificSentence << area_specific_sentence(north,
+													   south,
+													   east,
+													   west,
+													   northEastShare.value(),
+													   southEastShare.value(),
+													   southWestShare.value(),
+													   northWestShare.value(),
+													   false);
+		
+		// If the area is too cigar-shaped, we can use only north-south/east-west specifier
+		if((areaHeightWidthRatio >= 0.6 && 
+			areaHeightWidthRatio <= 1.5) ||
+		   (areaHeightWidthRatio < 0.6 &&
+			(sentenceId == ALUEEN_ITAOSISSA || 
+			 sentenceId == ALUEEN_LANSIOSISSA ||
+			 sentenceId == ENIMMAKSEEN_ALUEEN_ITAOSISSA ||
+			 sentenceId == ENIMMAKSEEN_ALUEEN_LANSIOSISSA)) ||
+		   (areaHeightWidthRatio > 1.5 &&
+			(sentenceId == ALUEEN_POHJOISOSISSA || 
+			 sentenceId == ALUEEN_ETELAOSISSA ||
+			 sentenceId == ENIMMAKSEEN_ALUEEN_POHJOISOSISSA ||
+			 sentenceId == ENIMMAKSEEN_ALUEEN_ETELAOSISSA)))
+		  {
+			sentence << areaSpecificSentence;
+		  }
+	  }
 
 	return sentence;
   }

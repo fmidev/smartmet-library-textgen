@@ -785,7 +785,8 @@ namespace TextGen
   }
 
   Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
-												  const bool& theShortForm /*= true*/) const
+												  const bool& theShortForm,
+												  const bool& theUseTimeSpecifier) const
   {
 	Sentence sentence;
 	Sentence cloudinessSentence;
@@ -797,7 +798,7 @@ namespace TextGen
 	int periodLength = theParameters.theForecastPeriod.localEndTime().DifferenceInHours(theParameters.theForecastPeriod.localStartTime());
 
 	Sentence todaySentence;
-	if(periodLength > 24)
+	if(theUseTimeSpecifier && periodLength > 24)
 	  todaySentence << PeriodPhraseFactory::create("today",
 												   theParameters.theVariable,
 												   theParameters.theForecastTime,

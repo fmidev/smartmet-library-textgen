@@ -33,7 +33,9 @@
 #include "SubMaskExtractor.h"
 #include "PrecipitationForecast.h"
 #include "CloudinessForecast.h"
+#include "ThunderForecast.h"
 
+#include "NFmiMercatorArea.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <vector>
@@ -981,7 +983,10 @@ namespace TextGen
 
 	for(unsigned int i = 0; i < stringVector.size(); i++)
 	  {
-		sentence << stringVector.at(i);
+		if(stringVector.at(i).compare(",") == 0)
+		  sentence << Delimiter(",");
+		else
+		  sentence << stringVector.at(i);
 	  }
 
 	return sentence;
@@ -2423,7 +2428,6 @@ namespace TextGen
 				
 				if(periodLength > 24)
 				  {
-					
 					sentence << get_today_phrase(precipitationTrendTimestamp,
 												 theParameters.theVariable,
 												 theParameters.theArea,
@@ -2432,8 +2436,14 @@ namespace TextGen
 				  }
 
 				sentence << get_time_phrase(precipitationTrendTimestamp);
-				//				sentence << POUTAA_WORD;
 				sentence << SAA_POUTAANTUU_PHRASE;
+
+				NFmiTime oneHourBeforeEnd(precipitationTrendTimestamp);
+				oneHourBeforeEnd.ChangeByHours(-1);
+				direction_id leavingDirectionId =
+				  getPrecipitationLeavingDirection(WeatherPeriod(oneHourBeforeEnd,
+																 oneHourBeforeEnd));
+				sentence << get_direction_phrase(leavingDirectionId, true);
 			  }
 			else
 			  {
@@ -2453,10 +2463,19 @@ namespace TextGen
 													 thePeriod,
 													 theParameters.theForecastTime);
 					  }
-
 					sentence << get_time_phrase(precipitationTrendTimestamp, true);
-
 					sentence << precipitationSentence(WeatherPeriod(startTime, endTime), false);
+
+					direction_id arrivalDirectionId = 
+					  getPrecipitationArrivalDirection(WeatherPeriod(precipitationTrendTimestamp,
+																	 precipitationTrendTimestamp));
+
+					if(arrivalDirectionId != NO_DIRECTION)
+					  {
+						sentence << Delimiter(",");
+						sentence << SADEALUE_WORD << SAAPUU_WORD;
+						sentence << get_direction_phrase(arrivalDirectionId);
+					  }
 				  }
 			  }
 		  }
@@ -2476,44 +2495,41 @@ namespace TextGen
 														   float& theSouthWestPercentage,
 														   float& theNorthWestPercentage) const
   {
-	// if both coastal and inland exists we use not areal distribution
-	if(!(theParameters.theForecastArea & FULL_AREA))
+	const precipitation_data_vector* precipitationDataVector =
+	  ((theParameters.theForecastArea & FULL_AREA) ? &theFullData : 
+	   ((theParameters.theForecastArea & INLAND_AREA) ? &theInlandData : &theCoastalData));
+
+	theNorthPercentage = 0.0;
+	theSouthPercentage = 0.0;
+	theEastPercentage = 0.0;
+	theWestPercentage = 0.0;
+	theNorthEastPercentage = 0.0;
+	theSouthEastPercentage = 0.0;
+	theSouthWestPercentage = 0.0;
+	theNorthWestPercentage = 0.0;
+
+	unsigned int count = 0;
+	for(unsigned int i = 0; i < precipitationDataVector->size(); i++)
 	  {
-		const precipitation_data_vector* precipitationDataVector =
-		  ((theParameters.theForecastArea & INLAND_AREA) ? &theInlandData : &theCoastalData);
-
-		theNorthPercentage = 0.0;
-		theSouthPercentage = 0.0;
-		theEastPercentage = 0.0;
-		theWestPercentage = 0.0;
-		theNorthEastPercentage = 0.0;
-		theSouthEastPercentage = 0.0;
-		theSouthWestPercentage = 0.0;
-		theNorthWestPercentage = 0.0;
-
-		unsigned int count = 0;
-		for(unsigned int i = 0; i < precipitationDataVector->size(); i++)
+		if(precipitationDataVector->at(i)->thePrecipitationIntensity > 0)
 		  {
-			if(precipitationDataVector->at(i)->thePrecipitationIntensity > 0)
-			  {
-				theNorthEastPercentage += precipitationDataVector->at(i)->thePrecipitationPercentageNorthEast;
-				theSouthEastPercentage += precipitationDataVector->at(i)->thePrecipitationPercentageSouthEast;
-				theSouthWestPercentage += precipitationDataVector->at(i)->thePrecipitationPercentageSouthWest;
-				theNorthWestPercentage += precipitationDataVector->at(i)->thePrecipitationPercentageNorthWest;
-				count++;
-			  }
+			theNorthEastPercentage += precipitationDataVector->at(i)->thePrecipitationPercentageNorthEast;
+			theSouthEastPercentage += precipitationDataVector->at(i)->thePrecipitationPercentageSouthEast;
+			theSouthWestPercentage += precipitationDataVector->at(i)->thePrecipitationPercentageSouthWest;
+			theNorthWestPercentage += precipitationDataVector->at(i)->thePrecipitationPercentageNorthWest;
+			count++;
 		  }
-		if(count > 0)
-		  {
-			theNorthEastPercentage /= count;
-			theSouthEastPercentage /= count;
-			theSouthWestPercentage /= count;
-			theNorthWestPercentage /= count;
-			theNorthPercentage = (theNorthEastPercentage + theNorthWestPercentage);
-			theSouthPercentage = (theSouthEastPercentage + theSouthWestPercentage);
-			theEastPercentage = (theNorthEastPercentage + theSouthEastPercentage);
-			theWestPercentage = (theSouthEastPercentage + theSouthWestPercentage);
-		  }
+	  }
+	if(count > 0)
+	  {
+		theNorthEastPercentage /= count;
+		theSouthEastPercentage /= count;
+		theSouthWestPercentage /= count;
+		theNorthWestPercentage /= count;
+		theNorthPercentage = (theNorthEastPercentage + theNorthWestPercentage);
+		theSouthPercentage = (theSouthEastPercentage + theSouthWestPercentage);
+		theEastPercentage = (theNorthEastPercentage + theSouthEastPercentage);
+		theWestPercentage = (theSouthEastPercentage + theSouthWestPercentage);
 	  }
   }
 
@@ -2653,6 +2669,7 @@ namespace TextGen
 			sentence << constructPrecipitationSentence(thePeriod,
 													   theCheckPrecipitationChange,
 													   INLAND_AREA);
+			sentence << Delimiter(",");
 			sentence << COAST_PHRASE;
 			sentence << constructPrecipitationSentence(thePeriod,
 													   theCheckPrecipitationChange,
@@ -2718,6 +2735,9 @@ namespace TextGen
 		if(!dry_weather && !mostly_dry_weather)
 		  {
 			sentence << areaSpecificSentence(thePeriod);
+
+			Sentence thunderSentence;
+			thunderSentence << theParameters.theThunderForecast->thunderSentence(thePeriod);
 		  }
 	  }
 
@@ -2803,10 +2823,10 @@ namespace TextGen
 				if(periodLength > 24)
 				  {
 					todaySentence << get_today_phrase(startTime,
-												 theParameters.theVariable,
-												 theParameters.theArea,
-												 WeatherPeriod(startTime, endTime),
-												 theParameters.theForecastTime);
+													  theParameters.theVariable,
+													  theParameters.theArea,
+													  WeatherPeriod(startTime, endTime),
+													  theParameters.theForecastTime);
 				  }
 
 				if(previousEndTime != thePeriod.localStartTime())
@@ -2915,6 +2935,11 @@ namespace TextGen
   {
 	Sentence sentence;
 
+	// If the area contains both coast and inland, we don't use area specific sentence
+	if(theParameters.theForecastArea & FULL_AREA)
+	  return sentence;
+
+
 	float north(0.0);
 	float south(0.0);
 	float east(0.0);
@@ -2933,15 +2958,47 @@ namespace TextGen
 								 southEast,
 								 southWest,
 								 northWest);
+		
+	area_specific_sentence_id sentenceId = 
+	  get_area_specific_sentence_id(north,
+									south,
+									east,
+									west,
+									northEast,
+									southEast,
+									southWest,
+									northWest);
 
-	sentence << area_specific_sentence(north,
-									   south,
-									   east,
-									   west,
-									   northEast,
-									   southEast,
-									   southWest,
-									   northWest);
+	Rect areaRect(theParameters.theArea);
+	NFmiMercatorArea mercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight());
+	float areaHeightWidthRatio = mercatorArea.WorldRect().Height()/mercatorArea.WorldRect().Width();
+
+	Sentence areaSpecificSentence;
+	areaSpecificSentence << area_specific_sentence(north,
+												   south,
+												   east,
+												   west,
+												   northEast,
+												   southEast,
+												   southWest,
+												   northWest);
+
+	// If the area is too cigar-shaped, we can use only north-south/east-west specifier
+	if((areaHeightWidthRatio >= 0.6 && 
+		areaHeightWidthRatio <= 1.5) ||
+	   (areaHeightWidthRatio < 0.6 &&
+		(sentenceId == ALUEEN_ITAOSISSA || 
+		 sentenceId == ALUEEN_LANSIOSISSA ||
+		 sentenceId == ENIMMAKSEEN_ALUEEN_ITAOSISSA ||
+		 sentenceId == ENIMMAKSEEN_ALUEEN_LANSIOSISSA)) ||
+	   (areaHeightWidthRatio > 1.5 &&
+		(sentenceId == ALUEEN_POHJOISOSISSA || 
+		 sentenceId == ALUEEN_ETELAOSISSA ||
+		 sentenceId == ENIMMAKSEEN_ALUEEN_POHJOISOSISSA ||
+		 sentenceId == ENIMMAKSEEN_ALUEEN_ETELAOSISSA)))
+	  {
+		sentence << areaSpecificSentence;
+	  }
 
 	return sentence;
   }
@@ -2960,6 +3017,179 @@ namespace TextGen
 	if(vectorToClone)
 	  thePrecipitationTrends = *vectorToClone;
   }
+
+  Rect PrecipitationForecast::getPrecipitationRect(const NFmiTime& theTimestamp, 
+												   const float& theLowerLimit,
+												   const float& theUpperLimit) const
+  {
+	NFmiIndexMask indexMask;
+	RangeAcceptor precipitationlimits;
+	precipitationlimits.lowerLimit(theLowerLimit);
+	precipitationlimits.upperLimit(theUpperLimit);
+
+	// precipitation in the beginning
+	ExtractMask(theParameters.theSources,
+				Precipitation,
+				theParameters.theArea,
+				WeatherPeriod(theTimestamp, theTimestamp),
+				precipitationlimits,
+				indexMask);
+
+	return Rect(theParameters.theSources, Precipitation, indexMask);
+ }
+
+  direction_id PrecipitationForecast::getPrecipitationLeavingDirection(const WeatherPeriod& thePeriod) const
+  {
+	direction_id retval(NO_DIRECTION);
+
+	NFmiTime startTime(thePeriod.localEndTime());
+	NFmiTime endTime(thePeriod.localEndTime());
+	endTime.ChangeByHours(1);
+	startTime.ChangeByHours(1);
+	WeatherPeriod checkPeriod(startTime, endTime);
+
+	unsigned int startIndex, endIndex;
+ 	weather_result_data_item_vector* northeast_data = get_data_vector(theParameters, PRECIPITATION_NORTHEAST_SHARE_DATA);
+ 	weather_result_data_item_vector* southeast_data = get_data_vector(theParameters, PRECIPITATION_SOUTHEAST_SHARE_DATA);
+ 	weather_result_data_item_vector* southwest_data = get_data_vector(theParameters, PRECIPITATION_SOUTHWEST_SHARE_DATA);
+ 	weather_result_data_item_vector* northwest_data = get_data_vector(theParameters, PRECIPITATION_NORTHWEST_SHARE_DATA);
+
+	if(!get_period_start_end_index(checkPeriod, *northeast_data, startIndex, endIndex))
+	  return retval;
+
+	float northeast = northeast_data->at(startIndex)->theResult.value();
+	float southeast = southeast_data->at(startIndex)->theResult.value();
+	float southwest = southwest_data->at(startIndex)->theResult.value();
+	float northwest = northwest_data->at(startIndex)->theResult.value();
+	float north = northeast + northwest;
+	float south = southeast + southwest;
+	float east = northeast + southeast;
+	float west = southwest + northwest;
+
+	if(north >= 80)
+	  retval = SOUTH;
+	else if(south >= 80)
+	  retval = NORTH;
+	else if(east >= 80)
+	  retval = WEST;
+	else if(west >= 80)
+	  retval = EAST;
+
+	/*
+	Rect areaRect(theParameters.theArea);
+	Rect precipitationRect(getPrecipitationRect(thePeriod.localEndTime(), 0.0, 0.02));
+
+	retval = getDirection(areaRect, precipitationRect);
+
+	*/
+
+	return retval;
+  }
+
+  direction_id PrecipitationForecast::getPrecipitationArrivalDirection(const WeatherPeriod& thePeriod) const
+  {
+	direction_id retval(NO_DIRECTION);
+
+	NFmiTime startTime(thePeriod.localStartTime());
+	startTime.ChangeByHours(-1);
+	NFmiTime endTime(thePeriod.localStartTime());
+	WeatherPeriod checkPeriod(startTime, endTime);
+
+	unsigned int startIndex, endIndex;
+ 	weather_result_data_item_vector* northeast_data = get_data_vector(theParameters, PRECIPITATION_NORTHEAST_SHARE_DATA);
+ 	weather_result_data_item_vector* southeast_data = get_data_vector(theParameters, PRECIPITATION_SOUTHEAST_SHARE_DATA);
+ 	weather_result_data_item_vector* southwest_data = get_data_vector(theParameters, PRECIPITATION_SOUTHWEST_SHARE_DATA);
+ 	weather_result_data_item_vector* northwest_data = get_data_vector(theParameters, PRECIPITATION_NORTHWEST_SHARE_DATA);
+
+	if(!get_period_start_end_index(checkPeriod, *northeast_data, startIndex, endIndex))
+	  return retval;
+
+	float northeast = northeast_data->at(startIndex)->theResult.value();
+	float southeast = southeast_data->at(startIndex)->theResult.value();
+	float southwest = southwest_data->at(startIndex)->theResult.value();
+	float northwest = northwest_data->at(startIndex)->theResult.value();
+	float north = northeast + northwest;
+	float south = southeast + southwest;
+	float east = northeast + southeast;
+	float west = southwest + northwest;
+
+	if(northeast >= 80)
+	  retval = NORTHEAST;
+	else if(southeast >= 80)
+	  retval = SOUTHEAST;
+	else if(southwest >= 80)
+	  retval = SOUTHWEST;
+	else if(northwest >= 80)
+	  retval = NORTHWEST;
+	else if(north >= 80)
+	  retval = NORTH;
+	else if(south >= 80)
+	  retval = SOUTH;
+	else if(east >= 80)
+	  retval = EAST;
+	else if(west >= 80)
+	  retval = WEST;
+
+
+	/*
+	Rect areaRect(theParameters.theArea);
+	Rect precipitationRect(getPrecipitationRect(thePeriod.localStartTime(), 0.02, 100.0));
+
+	retval = getDirection(areaRect, precipitationRect);
+
+	if(retval != NO_DIRECTION)
+	  {
+		theParameters.theLog << "Whole area: " << (string)areaRect << endl;
+		theParameters.theLog << "Precipitation area: " << (string)precipitationRect << endl;
+		theParameters.theLog << "West: " <<	(string)areaRect.subRect(WEST) << endl;
+		theParameters.theLog << "East: " <<	(string)areaRect.subRect(EAST) << endl;
+
+		theParameters.theLog << "Forecast period: "
+							 << theParameters.theForecastPeriod.localStartTime()
+							 << " ... "
+							 << theParameters.theForecastPeriod.localEndTime()
+							 << endl;
+		theParameters.theLog << "Rain direction check period: "
+							 << thePeriod.localStartTime()
+							 << " ... "
+							 << thePeriod.localStartTime()
+							 << endl;
+		theParameters.theLog << getDirectionString(retval) << endl; 
+	  }
+	*/
+	return retval;
+  }
+
+  NFmiPoint PrecipitationForecast::getPrecipitationRepresentativePoint(const WeatherPeriod& thePeriod) const
+  {
+	NFmiPoint retval(kFloatMissing, kFloatMissing);
+
+	unsigned int startIndex, endIndex;
+ 	weather_result_data_item_vector* coordinates = get_data_vector(theParameters, PRECIPITATION_POINT_DATA);
+	if(!get_period_start_end_index(thePeriod, *coordinates, startIndex, endIndex))
+	  return retval;
+
+	float lon = 0.0;
+	float lat = 0.0;
+	unsigned int count = 0;
+	for(unsigned int i = startIndex; i <= endIndex; i++)
+	  {
+		if(coordinates->at(i)->theResult.value() != kFloatMissing)
+		  {
+			lon += coordinates->at(i)->theResult.value();
+			lat += coordinates->at(i)->theResult.error();
+			count++;
+		  }
+	  }
+
+	if(count > 0)
+	  {
+		retval.X(lon/count);
+		retval.Y(lat/count);
+	  }
+
+	return retval;
+ }
 
   precipitation_traverse_id PrecipitationForecast::getPrecipitationTraverseId(const WeatherPeriod& thePeriod) const
   {
@@ -2997,24 +3227,14 @@ namespace TextGen
 	direction_id begDirection = getDirection(areaRect, begRect);
 	direction_id endDirection = getDirection(areaRect, endRect);
 
-
 	weather_result_data_item_vector* coordinates = get_data_vector(theParameters, PRECIPITATION_POINT_DATA);
 	get_period_start_end_index(thePeriod,
 							   *coordinates,
 							   startIndex,
 							   endIndex);
 
-	vector<double> longitudeCoordinates;
-	vector<double> latitudeCoordinates;
-
-	for(unsigned int i = startIndex; i <= endIndex; i++)
-	  {
-		longitudeCoordinates.push_back(coordinates->at(i)->theResult.value());
-		latitudeCoordinates.push_back(coordinates->at(i)->theResult.error());
-	  }
-
-	double pearson_co_lon =  MathTools::pearson_coefficient(longitudeCoordinates);
-	double pearson_co_lat =  MathTools::pearson_coefficient(latitudeCoordinates);
+	double pearson_co_lon =  get_pearson_coefficient(*coordinates, startIndex, endIndex, false);
+	double pearson_co_lat =  get_pearson_coefficient(*coordinates, startIndex, endIndex, true);
 
 	if(begDirection == EAST && endDirection == WEST && pearson_co_lon <= -0.85)
 	  {
@@ -3053,14 +3273,12 @@ namespace TextGen
 		retval = FROM_SOUTHEAST_TO_NORTHWEST;
 	  }
 
-	/*
 	if(retval != MISSING_TRAVERSE_ID)
 	  {
 		theParameters.theLog << "Sadealue kulkee " 
 							 << precipitation_traverse_string(retval) 
 							 << endl;
 	  }
-	*/
 
 	return retval;
   }

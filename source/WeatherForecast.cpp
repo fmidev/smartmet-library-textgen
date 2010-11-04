@@ -584,6 +584,42 @@ using namespace std;
 	return sentence;
   }
 
+  Sentence get_direction_phrase(const direction_id& theDirectionId, bool theAlkaenPhrase /*= false*/)
+  {
+	Sentence sentence;
+
+	switch(theDirectionId)
+	  {
+	  case NORTH:
+		sentence << (theAlkaenPhrase ? POHJOISESTA_ALKAEN_PHRASE : POHJOISESTA_WORD);
+		break;
+	  case SOUTH:
+		sentence << (theAlkaenPhrase ? ETELASTA_ALKAEN_PHRASE : ETELASTA_WORD);
+		break;
+	  case EAST:
+		sentence << (theAlkaenPhrase ? IDASTA_ALKAEN_PHRASE : IDASTA_WORD);
+		break;
+	  case WEST:
+		sentence << (theAlkaenPhrase ? LANNESTA_ALKAEN_PHRASE : LANNESTA_WORD);
+		break;
+	  case NORTHEAST:
+		sentence << (theAlkaenPhrase ? KOILLISESTA_ALKAEN_PHRASE : KOILLISESTA_WORD);
+		break;
+	  case SOUTHEAST:
+		sentence << (theAlkaenPhrase ? KAAKOSTA_ALKAEN_PHRASE : KAAKOSTA_WORD);
+		break;
+	  case SOUTHWEST:
+		sentence << (theAlkaenPhrase ? LOUNAASTA_ALKAEN_PHRASE : LOUNAASTA_WORD);
+		break;
+	  case NORTHWEST:
+		sentence << (theAlkaenPhrase ? LUOTEESTA_ALKAEN_PHRASE : LUOTEESTA_WORD);
+		break;
+	  case NO_DIRECTION :
+		break;
+	  }
+ 
+	return sentence;
+ }
 
   Sentence get_today_phrase(const NFmiTime& theEventTimestamp,
 							const string& theVariable,
@@ -601,11 +637,16 @@ using namespace std;
 	  }
 	else
 	  {
-		if(partOfTheDayId == ILTAYO ||
-		   partOfTheDayId == KESKIYO ||
+		if(partOfTheDayId == KESKIYO ||
 		   partOfTheDayId == AAMUYO)
 		  {
-			sentence << PeriodPhraseFactory::create("tonight",
+			const char* which_day ="";
+			if(theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay())
+			  which_day = "tonight";
+			else //if(theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay()+1)
+			  which_day = "next_night";
+
+			sentence << PeriodPhraseFactory::create(which_day,
 													theVariable,
 													theForecastTime,
 													thePeriod,
@@ -613,7 +654,13 @@ using namespace std;
 		  }
 		else
 		  {
-			sentence << PeriodPhraseFactory::create("today",
+			const char* which_day ="";
+			if(theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay())
+			  which_day = "today";
+			else //if(theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay()+1)
+			  which_day = "next_day";
+			  
+			sentence << PeriodPhraseFactory::create(which_day,
 													theVariable,
 													theForecastTime,
 													thePeriod,
@@ -842,12 +889,18 @@ using namespace std;
 
   double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSeries,
 								 const unsigned int& theStartIndex,
-								 const unsigned int& theEndIndex)
+								 const unsigned int& theEndIndex,
+								 const bool& theUseErrorValueFlag /*= false*/)
   {
 	vector<double> precipitation;
 
 	for(unsigned int i = theStartIndex; i <= theEndIndex; i++)
-	  precipitation.push_back(theTimeSeries[i]->theResult.value());
+	  {
+		if(theUseErrorValueFlag)
+		  precipitation.push_back(theTimeSeries[i]->theResult.error());
+		else
+		  precipitation.push_back(theTimeSeries[i]->theResult.value());
+	  }
 
 	return MathTools::pearson_coefficient(precipitation);
   }
@@ -859,48 +912,116 @@ using namespace std;
 								  const float& northEast,
 								  const float& southEast,
 								  const float& southWest,
-								  const float& northWest,
+								  const float& northWest,								  
 								  const bool& mostlyFlag /*= true*/)
   {
 	Sentence sentence;
 
+	area_specific_sentence_id sentenceId =
+	  get_area_specific_sentence_id(north,
+									south,
+									east,
+									west,
+									northEast,
+									southEast,
+									southWest,
+									northWest,
+									mostlyFlag);
 
-	if(north >= 98.0)
+	switch(sentenceId)
 	  {
-		sentence << ALUEEN_POHJOISOSISSA_PHRASE;
-	  }
-	else if(north >= 95.0 && mostlyFlag)
-	  {
-		sentence << ENIMMAKSEEN_WORD << ALUEEN_POHJOISOSISSA_PHRASE;
-	  }
-	else if(south >= 98.0)
-	  {
-		sentence << ALUEEN_ETELAOSISSA_PHRASE;
-	  }
-	else if(south >= 95.0 && mostlyFlag)
-	  {
-		sentence << ENIMMAKSEEN_WORD << ALUEEN_ETELAOSISSA_PHRASE;
-	  }
-	else if(east >= 98.0)
-	  {
-		sentence << ALUEEN_ITAOSISSA_PHRASE;
-	  }
-	else if(east >= 95.0 && mostlyFlag)
-	  {
-		sentence << ENIMMAKSEEN_WORD << ALUEEN_ITAOSISSA_PHRASE;
-	  }
-	else if(west >= 98.0)
-	  {
-		sentence << ALUEEN_LANSIOSISSA_PHRASE;
-	  }
-	else if(west >= 95.0 && mostlyFlag)
-	  {
-		sentence << ENIMMAKSEEN_WORD << ALUEEN_LANSIOSISSA_PHRASE;
+	  case ALUEEN_POHJOISOSISSA:
+		{
+		  sentence << ALUEEN_POHJOISOSISSA_PHRASE;
+		}
+		break;
+	  case ALUEEN_ETELAOSISSA:
+		{
+		  sentence << ALUEEN_ETELAOSISSA_PHRASE;
+		}
+		break;
+	  case ALUEEN_ITAOSISSA:
+		{
+		  sentence << ALUEEN_ITAOSISSA_PHRASE;
+		}
+		break;
+	  case ALUEEN_LANSIOSISSA:
+		{
+		  sentence << ALUEEN_LANSIOSISSA_PHRASE;
+		}
+		break;
+	  case ENIMMAKSEEN_ALUEEN_POHJOISOSISSA:
+		{
+		  sentence << ENIMMAKSEEN_WORD << ALUEEN_POHJOISOSISSA_PHRASE;
+		}
+		break;
+	  case ENIMMAKSEEN_ALUEEN_ETELAOSISSA:
+		{
+		  sentence << ENIMMAKSEEN_WORD << ALUEEN_ETELAOSISSA_PHRASE;
+		}
+		break;
+	  case ENIMMAKSEEN_ALUEEN_ITAOSISSA:
+		{
+		  sentence << ENIMMAKSEEN_WORD << ALUEEN_ITAOSISSA_PHRASE;
+		}
+		break;
+	  case ENIMMAKSEEN_ALUEEN_LANSIOSISSA:
+		{
+		  sentence << ENIMMAKSEEN_WORD << ALUEEN_LANSIOSISSA_PHRASE;
+		}
+		break;
+	  default:
+		break;
 	  }
 
 	return sentence;
   }
 
+  area_specific_sentence_id get_area_specific_sentence_id(const float& north,
+														  const float& south,
+														  const float& east,
+														  const float& west,
+														  const float& northEast,
+														  const float& southEast,
+														  const float& southWest,
+														  const float& northWest,
+														  const bool& mostlyFlag /*= true*/)
+  {
+	area_specific_sentence_id retval(MISSING_AREA_SPECIFIC_SENTENCE_ID);
 
+	if(north >= 98.0)
+	  {
+		retval = ALUEEN_POHJOISOSISSA;
+	  }
+	else if(north >= 95.0 && mostlyFlag)
+	  {
+		retval = ENIMMAKSEEN_ALUEEN_POHJOISOSISSA;
+	  }
+	else if(south >= 98.0)
+	  {
+		retval = ALUEEN_ETELAOSISSA;
+	  }
+	else if(south >= 95.0 && mostlyFlag)
+	  {
+		retval = ENIMMAKSEEN_ALUEEN_ETELAOSISSA;
+	  }
+	else if(east >= 98.0)
+	  {
+		retval = ALUEEN_ITAOSISSA;
+	  }
+	else if(east >= 95.0 && mostlyFlag)
+	  {
+		retval = ENIMMAKSEEN_ALUEEN_ITAOSISSA;
+	  }
+	else if(west >= 98.0)
+	  {
+		retval = ALUEEN_LANSIOSISSA;
+	  }
+	else if(west >= 95.0 && mostlyFlag)
+	  {
+		retval = ENIMMAKSEEN_ALUEEN_LANSIOSISSA;
+	  }
+	return retval;
+  }
 
 }

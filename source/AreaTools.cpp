@@ -151,7 +151,7 @@ namespace TextGen
 							  WeatherResult& theSouthWestShare,
 							  WeatherResult& theNortWestShare)
 	{
-	  NFmiPoint retval(0.0, 0.0);
+	  NFmiPoint retval(kFloatMissing, kFloatMissing);
 	  double latSum = 0.0, lonSum = 0.0;
 
 	  std::string parameterName;
@@ -414,6 +414,15 @@ namespace TextGen
 			   const WeatherParameter& theParameter,
 			   const NFmiIndexMask& theIndexMask)
 	{
+	  if(theIndexMask.size() == 0)
+		{
+		  m_topLeft.X(0);
+		  m_topLeft.Y(0);
+		  m_bottomRight.X(0);
+		  m_bottomRight.Y(0);
+		  return;
+		}
+
 	  std::string parameterName;
 	  std::string dataName;
 
@@ -594,6 +603,9 @@ namespace TextGen
 
 	bool Rect::contains(const Rect& theRect) const
 	{
+	  if(size() == 0 || theRect.size() == 0)
+		return false;
+
 	  return(m_topLeft.X() <= theRect.m_topLeft.X() &&
 			 m_bottomRight.X() >= theRect.m_bottomRight.X() &&
 			 m_topLeft.Y() >= theRect.m_topLeft.Y() &&
