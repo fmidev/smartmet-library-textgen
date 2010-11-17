@@ -94,7 +94,8 @@ namespace TextGen
 						  const WeatherPeriod& nightPeriod,
 						  const WeatherPeriod& day2Period,
 						  const forecast_season_id& season,
-						  const NFmiTime& forecastTime) 
+						  const NFmiTime& forecastTime,
+						  const short& periodLength) 
 		: theVariable(variable),
 		  theLog(log),
 		  theSources(sources),
@@ -105,6 +106,7 @@ namespace TextGen
 		  theDay2Period(day2Period),
 		  theSeason(season),
 		  theForecastTime(forecastTime),
+		  thePeriodLength(periodLength),
 		  theFakeVariable(""),
 		  theDay2TemperatureAreaMorningMinimum(kFloatMissing, 0),
 		  theDay2TemperatureAreaMorningMean(kFloatMissing, 0),
@@ -160,6 +162,7 @@ namespace TextGen
 	  const WeatherPeriod& theDay2Period;
 	  const forecast_season_id& theSeason;
 	  const NFmiTime& theForecastTime;
+	  const short& thePeriodLength;
 	  string theFakeVariable;
 	  WeatherResult theDay2TemperatureAreaMorningMinimum;
 	  WeatherResult theDay2TemperatureAreaMorningMean;
@@ -503,11 +506,15 @@ namespace TextGen
 	  std::string areaString("");
 
 	  Sentence theSpecifiedDay;
-	  theSpecifiedDay << PeriodPhraseFactory::create("today",
-													 theParameters.theVariable,
-													 theParameters.theForecastTime,
-													 theParameters.theDay2Period,
-													 theParameters.theArea);
+	  if(theParameters.thePeriodLength > 24)
+		{
+		  theSpecifiedDay << PeriodPhraseFactory::create("today",
+														 theParameters.theVariable,
+														 theParameters.theForecastTime,
+														 theParameters.theDay2Period,
+														 theParameters.theArea);
+		}
+
 	  Sentence varying_part;
 	  if(inlandIncluded && coastIncluded)
 		{
@@ -924,11 +931,15 @@ namespace TextGen
 	  forecast_area_id areaMorning = FULL_AREA;
 	  forecast_area_id areaAfternoon = FULL_AREA;
 	  Sentence theSpecifiedDay;
-	  theSpecifiedDay << PeriodPhraseFactory::create("today",
-													 theParameters.theVariable,
-													 theParameters.theForecastTime,
-													 theParameters.theDay2Period,
-													 theParameters.theArea);
+	  if(theParameters.thePeriodLength > 24)
+		{
+		  theSpecifiedDay << PeriodPhraseFactory::create("today",
+														 theParameters.theVariable,
+														 theParameters.theForecastTime,
+														 theParameters.theDay2Period,
+														 theParameters.theArea);
+		}
+
 	  if(inlandIncluded && coastIncluded)
 		{
 		  if(theParameters.theWindchillInlandMorningMean.value() > theParameters.theWindchillCoastalMorningMean.value())
@@ -1050,6 +1061,7 @@ namespace TextGen
 
 	NFmiTime periodStartTime(itsPeriod.localStartTime());
 	NFmiTime periodEndTime(itsPeriod.localEndTime());
+	int periodLength = periodEndTime.DifferenceInHours(periodStartTime);
 
 	// Period generator
 	NightAndDayPeriodGenerator generator00(itsPeriod, itsVar);
@@ -1156,7 +1168,8 @@ namespace TextGen
 								   nightPeriod,
 								   day2Period,
 								   theSeasonId,
-								   itsForecastTime);
+								   itsForecastTime,
+								   periodLength);
 
 	WeatherArea inlandArea = itsArea;
 	inlandArea.type(WeatherArea::Inland);

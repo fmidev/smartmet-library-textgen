@@ -15,6 +15,7 @@
 #include <newbase/NFmiSvgPath.h>
 #include <newbase/NFmiGrid.h>
 #include <newbase/NFmiSettings.h>
+#include <boost/algorithm/string.hpp>
 
 #include <fstream>
 #include <iostream>
@@ -27,6 +28,13 @@ using namespace boost;
 
 namespace TemperatureStoryTest
 {
+  enum TemperatureTestType
+	{
+	  TEMPERATURE_MAX36_HOURS,
+	  TEMPERATURE_ANOMALY,
+	  WIND_ANOMALY
+	};
+
   shared_ptr<TextGen::Dictionary> dict;
   TextGen::PlainTextFormatter formatter;
   
@@ -1134,7 +1142,75 @@ namespace TemperatureStoryTest
 	typedef std::map<int, AnomalyTestParam> AnomalyTestCases;
 #endif
 
-	struct Max36HoursTestParam
+  struct TemperatureStoryTestParam
+  {
+	TemperatureStoryTestParam(const char* d1_afternoon_inlandmin,
+							  const char* d1_afternoon_inlandmax,
+							  const char* d1_afternoon_inlandmean,
+							  const char* d1_afternoon_coastmin,
+							  const char* d1_afternoon_coastmax,
+							  const char* d1_afternoon_coastmean,
+							  const char* d1_afternoon_areamin,
+							  const char* d1_afternoon_areamax,
+							  const char* d1_afternoon_areamean,
+							  const char* d2_afternoon_inlandmin,
+							  const char* d2_afternoon_inlandmax,
+							  const char* d2_afternoon_inlandmean,
+							  const char* d2_afternoon_coastmin,
+							  const char* d2_afternoon_coastmax,
+							  const char* d2_afternoon_coastmean,
+							  const char* d2_afternoon_areamin,
+							  const char* d2_afternoon_areamax,
+							  const char* d2_afternoon_areamean,
+							  const char* story) :
+	  temperature_d1_afternoon_inlandmin(d1_afternoon_inlandmin),
+	  temperature_d1_afternoon_inlandmax(d1_afternoon_inlandmax),
+ 	  temperature_d1_afternoon_inlandmean(d1_afternoon_inlandmean),
+	  temperature_d1_afternoon_coastmin(d1_afternoon_coastmin),
+	  temperature_d1_afternoon_coastmax(d1_afternoon_coastmax),
+	  temperature_d1_afternoon_coastmean(d1_afternoon_coastmean),
+	  temperature_d1_afternoon_areamin(d1_afternoon_areamin),
+	  temperature_d1_afternoon_areamax(d1_afternoon_areamax),
+	  temperature_d1_afternoon_areamean(d1_afternoon_areamean),
+
+	  temperature_d2_afternoon_inlandmin(d2_afternoon_inlandmin),
+	  temperature_d2_afternoon_inlandmax(d2_afternoon_inlandmax),
+ 	  temperature_d2_afternoon_inlandmean(d2_afternoon_inlandmean),
+	  temperature_d2_afternoon_coastmin(d2_afternoon_coastmin),
+	  temperature_d2_afternoon_coastmax(d2_afternoon_coastmax),
+	  temperature_d2_afternoon_coastmean(d2_afternoon_coastmean),
+	  temperature_d2_afternoon_areamin(d2_afternoon_areamin),
+	  temperature_d2_afternoon_areamax(d2_afternoon_areamax),
+	  temperature_d2_afternoon_areamean(d2_afternoon_areamean),
+
+	  theStory(story)
+	  {}
+
+	  string temperature_d1_afternoon_inlandmin;
+	  string temperature_d1_afternoon_inlandmax;
+	  string temperature_d1_afternoon_inlandmean;
+	  string temperature_d1_afternoon_coastmin;
+	  string temperature_d1_afternoon_coastmax;
+	  string temperature_d1_afternoon_coastmean;
+	  string temperature_d1_afternoon_areamin;
+	  string temperature_d1_afternoon_areamax;
+	  string temperature_d1_afternoon_areamean;
+
+	  string temperature_d2_afternoon_inlandmin;
+	  string temperature_d2_afternoon_inlandmax;
+	  string temperature_d2_afternoon_inlandmean;
+	  string temperature_d2_afternoon_coastmin;
+	  string temperature_d2_afternoon_coastmax;
+	  string temperature_d2_afternoon_coastmean;
+	  string temperature_d2_afternoon_areamin;
+	  string temperature_d2_afternoon_areamax;
+	  string temperature_d2_afternoon_areamean;
+
+	  string theStory;
+	};
+
+
+  struct Max36HoursTestParam : public TemperatureStoryTestParam
 	{
 	  Max36HoursTestParam(const char* d1_inlandmin,
 						  const char* d1_inlandmax,
@@ -1205,7 +1281,26 @@ namespace TemperatureStoryTest
 						  const char* d2_afternoon_areamin,
 						  const char* d2_afternoon_areamax,
 						  const char* d2_afternoon_areamean,
-						  const char* story) : 
+						  const char* story) :
+		TemperatureStoryTestParam(d1_afternoon_inlandmin,
+								  d1_afternoon_inlandmax,
+								  d1_afternoon_inlandmean,
+								  d1_afternoon_coastmin,
+								  d1_afternoon_coastmax,
+								  d1_afternoon_coastmean,
+								  d1_afternoon_areamin,
+								  d1_afternoon_areamax,
+								  d1_afternoon_areamean,
+								  d2_afternoon_inlandmin,
+								  d2_afternoon_inlandmax,
+								  d2_afternoon_inlandmean,
+								  d2_afternoon_coastmin,
+								  d2_afternoon_coastmax,
+								  d2_afternoon_coastmean,
+								  d2_afternoon_areamin,
+								  d2_afternoon_areamax,
+								  d2_afternoon_areamean,
+								  story),
 		temperature_d1_inlandmin(d1_inlandmin),
 		temperature_d1_inlandmax(d1_inlandmax),
 		temperature_d1_inlandmean(d1_inlandmean),
@@ -1225,16 +1320,6 @@ namespace TemperatureStoryTest
 		temperature_d1_morning_areamin(d1_morning_areamin),
 		temperature_d1_morning_areamax(d1_morning_areamax),
 		temperature_d1_morning_areamean(d1_morning_areamean),
-
-		temperature_d1_afternoon_inlandmin(d1_afternoon_inlandmin),
-		temperature_d1_afternoon_inlandmax(d1_afternoon_inlandmax),
-		temperature_d1_afternoon_inlandmean(d1_afternoon_inlandmean),
-		temperature_d1_afternoon_coastmin(d1_afternoon_coastmin),
-		temperature_d1_afternoon_coastmax(d1_afternoon_coastmax),
-		temperature_d1_afternoon_coastmean(d1_afternoon_coastmean),
-		temperature_d1_afternoon_areamin(d1_afternoon_areamin),
-		temperature_d1_afternoon_areamax(d1_afternoon_areamax),
-		temperature_d1_afternoon_areamean(d1_afternoon_areamean),
 
 		temperature_nite_inlandmin(nite_inlandmin),
 		temperature_nite_inlandmax(nite_inlandmax),
@@ -1264,19 +1349,7 @@ namespace TemperatureStoryTest
 		temperature_d2_morning_coastmean(d2_morning_coastmean),
 		temperature_d2_morning_areamin(d2_morning_areamin),
 		temperature_d2_morning_areamax(d2_morning_areamax),
-		temperature_d2_morning_areamean(d2_morning_areamean),
-
-		temperature_d2_afternoon_inlandmin(d2_afternoon_inlandmin),
-		temperature_d2_afternoon_inlandmax(d2_afternoon_inlandmax),
-		temperature_d2_afternoon_inlandmean(d2_afternoon_inlandmean),
-		temperature_d2_afternoon_coastmin(d2_afternoon_coastmin),
-		temperature_d2_afternoon_coastmax(d2_afternoon_coastmax),
-		temperature_d2_afternoon_coastmean(d2_afternoon_coastmean),
-		temperature_d2_afternoon_areamin(d2_afternoon_areamin),
-		temperature_d2_afternoon_areamax(d2_afternoon_areamax),
-		temperature_d2_afternoon_areamean(d2_afternoon_areamean),
-
-		theStory(story)
+		temperature_d2_morning_areamean(d2_morning_areamean)
 
 	  {}
 
@@ -1299,16 +1372,6 @@ namespace TemperatureStoryTest
 	  string temperature_d1_morning_areamin;
 	  string temperature_d1_morning_areamax;
 	  string temperature_d1_morning_areamean;
-
-	  string temperature_d1_afternoon_inlandmin;
-	  string temperature_d1_afternoon_inlandmax;
-	  string temperature_d1_afternoon_inlandmean;
-	  string temperature_d1_afternoon_coastmin;
-	  string temperature_d1_afternoon_coastmax;
-	  string temperature_d1_afternoon_coastmean;
-	  string temperature_d1_afternoon_areamin;
-	  string temperature_d1_afternoon_areamax;
-	  string temperature_d1_afternoon_areamean;
 
 	  string temperature_nite_inlandmin;
 	  string temperature_nite_inlandmax;
@@ -1340,334 +1403,207 @@ namespace TemperatureStoryTest
 	  string temperature_d2_morning_areamax;
 	  string temperature_d2_morning_areamean;
 
-	  string temperature_d2_afternoon_inlandmin;
-	  string temperature_d2_afternoon_inlandmax;
-	  string temperature_d2_afternoon_inlandmean;
-	  string temperature_d2_afternoon_coastmin;
-	  string temperature_d2_afternoon_coastmax;
-	  string temperature_d2_afternoon_coastmean;
-	  string temperature_d2_afternoon_areamin;
-	  string temperature_d2_afternoon_areamax;
-	  string temperature_d2_afternoon_areamean;
-
-	  string theStory;
 	};
 
-  struct AnomalyTestParam: public Max36HoursTestParam
+  struct TemperatureAnomalyTestParam: public TemperatureStoryTestParam
   {
-	AnomalyTestParam(const char* d1_temperature_inlandmin,
-					 const char* d1_temperature_inlandmax,
-					 const char* d1_temperature_inlandmean,
-					 const char* d1_temperature_coastmin,
-					 const char* d1_temperature_coastmax,
-					 const char* d1_temperature_coastmean,
-					 const char* d1_temperature_areamin,
-					 const char* d1_temperature_areamax,
-					 const char* d1_temperature_areamean,
+	TemperatureAnomalyTestParam(const char* d1_temperature_afternoon_inlandmin,
+								const char* d1_temperature_afternoon_inlandmax,
+								const char* d1_temperature_afternoon_inlandmean,
+								const char* d1_temperature_afternoon_coastmin,
+								const char* d1_temperature_afternoon_coastmax,
+								const char* d1_temperature_afternoon_coastmean,
+								const char* d1_temperature_afternoon_areamin,
+								const char* d1_temperature_afternoon_areamax,
+								const char* d1_temperature_afternoon_areamean,
+								
+								const char* d2_temperature_afternoon_inlandmin,
+								const char* d2_temperature_afternoon_inlandmax,
+								const char* d2_temperature_afternoon_inlandmean,
+								const char* d2_temperature_afternoon_coastmin,
+								const char* d2_temperature_afternoon_coastmax,
+								const char* d2_temperature_afternoon_coastmean,
+								const char* d2_temperature_afternoon_areamin,
+								const char* d2_temperature_afternoon_areamax,
+								const char* d2_temperature_afternoon_areamean,
+								
+								const char* story): 
 
-					 const char* d1_temperature_morning_inlandmin,
-					 const char* d1_temperature_morning_inlandmax,
-					 const char* d1_temperature_morning_inlandmean,
-					 const char* d1_temperature_morning_coastmin,
-					 const char* d1_temperature_morning_coastmax,
-					 const char* d1_temperature_morning_coastmean,
-					 const char* d1_temperature_morning_areamin,
-					 const char* d1_temperature_morning_areamax,
-					 const char* d1_temperature_morning_areamean,
-
-					 const char* d1_temperature_afternoon_inlandmin,
-					 const char* d1_temperature_afternoon_inlandmax,
-					 const char* d1_temperature_afternoon_inlandmean,
-					 const char* d1_temperature_afternoon_coastmin,
-					 const char* d1_temperature_afternoon_coastmax,
-					 const char* d1_temperature_afternoon_coastmean,
-					 const char* d1_temperature_afternoon_areamin,
-					 const char* d1_temperature_afternoon_areamax,
-					 const char* d1_temperature_afternoon_areamean,
-
-					 const char* d1_windspeed_morning_inlandmin,
-					 const char* d1_windspeed_morning_inlandmax,
-					 const char* d1_windspeed_morning_inlandmean,
-					 const char* d1_windspeed_morning_coastmin,
-					 const char* d1_windspeed_morning_coastmax,
-					 const char* d1_windspeed_morning_coastmean,
-
-					 const char* d1_windspeed_afternoon_inlandmin,
-					 const char* d1_windspeed_afternoon_inlandmax,
-					 const char* d1_windspeed_afternoon_inlandmean,
-					 const char* d1_windspeed_afternoon_coastmin,
-					 const char* d1_windspeed_afternoon_coastmax,
-					 const char* d1_windspeed_afternoon_coastmean,
-
-					 const char* d1_windchill_morning_inlandmin,
-					 const char* d1_windchill_morning_inlandmax,
-					 const char* d1_windchill_morning_inlandmean,
-					 const char* d1_windchill_morning_coastmin,
-					 const char* d1_windchill_morning_coastmax,
-					 const char* d1_windchill_morning_coastmean,
-
-					 const char* d1_windchill_afternoon_inlandmin,
-					 const char* d1_windchill_afternoon_inlandmax,
-					 const char* d1_windchill_afternoon_inlandmean,
-					 const char* d1_windchill_afternoon_coastmin,
-					 const char* d1_windchill_afternoon_coastmax,
-					 const char* d1_windchill_afternoon_coastmean,
-
-					 const char* nite_inlandmin,
-					 const char* nite_inlandmax,
-					 const char* nite_inlandmean,
-					 const char* nite_coastmin,
-					 const char* nite_coastmax,
-					 const char* nite_coastmean,
-					 const char* nite_areamin,
-					 const char* nite_areamax,
-					 const char* nite_areamean,
-
-					 const char* d2_temperature_inlandmin,
-					 const char* d2_temperature_inlandmax,
-					 const char* d2_temperature_inlandmean,
-					 const char* d2_temperature_coastmin,
-					 const char* d2_temperature_coastmax,
-					 const char* d2_temperature_coastmean,
-					 const char* d2_temperature_areamin,
-					 const char* d2_temperature_areamax,
-					 const char* d2_temperature_areamean,
-
-					 const char* d2_temperature_morning_inlandmin,
-					 const char* d2_temperature_morning_inlandmax,
-					 const char* d2_temperature_morning_inlandmean,
-					 const char* d2_temperature_morning_coastmin,
-					 const char* d2_temperature_morning_coastmax,
-					 const char* d2_temperature_morning_coastmean,
-					 const char* d2_temperature_morning_areamin,
-					 const char* d2_temperature_morning_areamax,
-					 const char* d2_temperature_morning_areamean,
-
-					 const char* d2_temperature_afternoon_inlandmin,
-					 const char* d2_temperature_afternoon_inlandmax,
-					 const char* d2_temperature_afternoon_inlandmean,
-					 const char* d2_temperature_afternoon_coastmin,
-					 const char* d2_temperature_afternoon_coastmax,
-					 const char* d2_temperature_afternoon_coastmean,
-					 const char* d2_temperature_afternoon_areamin,
-					 const char* d2_temperature_afternoon_areamax,
-					 const char* d2_temperature_afternoon_areamean,
-
-					 const char* d2_windspeed_morning_inlandmin,
-					 const char* d2_windspeed_morning_inlandmax,
-					 const char* d2_windspeed_morning_inlandmean,
-					 const char* d2_windspeed_morning_coastmin,
-					 const char* d2_windspeed_morning_coastmax,
-					 const char* d2_windspeed_morning_coastmean,
-
-					 const char* d2_windspeed_afternoon_inlandmin,
-					 const char* d2_windspeed_afternoon_inlandmax,
-					 const char* d2_windspeed_afternoon_inlandmean,
-					 const char* d2_windspeed_afternoon_coastmin,
-					 const char* d2_windspeed_afternoon_coastmax,
-					 const char* d2_windspeed_afternoon_coastmean,
-
-					 const char* d2_windchill_morning_inlandmin,
-					 const char* d2_windchill_morning_inlandmax,
-					 const char* d2_windchill_morning_inlandmean,
-					 const char* d2_windchill_morning_coastmin,
-					 const char* d2_windchill_morning_coastmax,
-					 const char* d2_windchill_morning_coastmean,
-
-					 const char* d2_windchill_afternoon_inlandmin,
-					 const char* d2_windchill_afternoon_inlandmax,
-					 const char* d2_windchill_afternoon_inlandmean,
-					 const char* d2_windchill_afternoon_coastmin,
-					 const char* d2_windchill_afternoon_coastmax,
-					 const char* d2_windchill_afternoon_coastmean,
-					 const char* story): 
-
-	  Max36HoursTestParam(d1_temperature_inlandmin,
-						  d1_temperature_inlandmax,
-						  d1_temperature_inlandmean,
-						  d1_temperature_coastmin,
-						  d1_temperature_coastmax,
-						  d1_temperature_coastmean,
-						  d1_temperature_areamin,
-						  d1_temperature_areamax,
-						  d1_temperature_areamean,
-
-						  d1_temperature_morning_inlandmin,
-						  d1_temperature_morning_inlandmax,
-						  d1_temperature_morning_inlandmean,
-						  d1_temperature_morning_coastmin,
-						  d1_temperature_morning_coastmax,
-						  d1_temperature_morning_coastmean,
-						  d1_temperature_morning_areamin,
-						  d1_temperature_morning_areamax,
-						  d1_temperature_morning_areamean,
-
-						  d1_temperature_afternoon_inlandmin,
-						  d1_temperature_afternoon_inlandmax,
-						  d1_temperature_afternoon_inlandmean,
-						  d1_temperature_afternoon_coastmin,
-						  d1_temperature_afternoon_coastmax,
-						  d1_temperature_afternoon_coastmean,
-						  d1_temperature_afternoon_areamin,
-						  d1_temperature_afternoon_areamax,
-						  d1_temperature_afternoon_areamean,
-
-						  nite_inlandmin,
-						  nite_inlandmax,
-						  nite_inlandmean,
-						  nite_coastmin,
-						  nite_coastmax,
-						  nite_coastmean,
-						  nite_areamin,
-						  nite_areamax,
-						  nite_areamean,
-											  
-						  d2_temperature_inlandmin,
-						  d2_temperature_inlandmax,
-						  d2_temperature_inlandmean,
-						  d2_temperature_coastmin,
-						  d2_temperature_coastmax,
-						  d2_temperature_coastmean,
-						  d2_temperature_areamin,
-						  d2_temperature_areamax,
-						  d2_temperature_areamean,
-
-						  d2_temperature_morning_inlandmin,
-						  d2_temperature_morning_inlandmax,
-						  d2_temperature_morning_inlandmean,
-						  d2_temperature_morning_coastmin,
-						  d2_temperature_morning_coastmax,
-						  d2_temperature_morning_coastmean,
-						  d2_temperature_morning_areamin,
-						  d2_temperature_morning_areamax,
-						  d2_temperature_morning_areamean,
-
-						  d2_temperature_afternoon_inlandmin,
-						  d2_temperature_afternoon_inlandmax,
-						  d2_temperature_afternoon_inlandmean,
-						  d2_temperature_afternoon_coastmin,
-						  d2_temperature_afternoon_coastmax,
-						  d2_temperature_afternoon_coastmean,
-						  d2_temperature_afternoon_areamin,
-						  d2_temperature_afternoon_areamax,
-						  d2_temperature_afternoon_areamean,
-						  story),
-	  d1_windspeed_morning_inlandmin(d1_windspeed_morning_inlandmin),
-	  d1_windspeed_morning_inlandmax(d1_windspeed_morning_inlandmax),
-	  d1_windspeed_morning_inlandmean(d1_windspeed_morning_inlandmean),
-	  d1_windspeed_morning_coastmin(d1_windspeed_morning_coastmin),
-	  d1_windspeed_morning_coastmax(d1_windspeed_morning_coastmax),
-	  d1_windspeed_morning_coastmean(d1_windspeed_morning_coastmean),
-
-	  d1_windspeed_afternoon_inlandmin(d1_windspeed_afternoon_inlandmin),
-	  d1_windspeed_afternoon_inlandmax(d1_windspeed_afternoon_inlandmax),
-	  d1_windspeed_afternoon_inlandmean(d1_windspeed_afternoon_inlandmean),
-	  d1_windspeed_afternoon_coastmin(d1_windspeed_afternoon_coastmin),
-	  d1_windspeed_afternoon_coastmax(d1_windspeed_afternoon_coastmax),
-	  d1_windspeed_afternoon_coastmean(d1_windspeed_afternoon_coastmean),
-
-	  d1_windchill_morning_inlandmin(d1_windchill_morning_inlandmin),
-	  d1_windchill_morning_inlandmax(d1_windchill_morning_inlandmax),
-	  d1_windchill_morning_inlandmean(d1_windchill_morning_inlandmean),
-	  d1_windchill_morning_coastmin(d1_windchill_morning_coastmin),
-	  d1_windchill_morning_coastmax(d1_windchill_morning_coastmax),
-	  d1_windchill_morning_coastmean(d1_windchill_morning_coastmean),
-
-	  d1_windchill_afternoon_inlandmin(d1_windchill_afternoon_inlandmin),
-	  d1_windchill_afternoon_inlandmax(d1_windchill_afternoon_inlandmax),
-	  d1_windchill_afternoon_inlandmean(d1_windchill_afternoon_inlandmean),
-	  d1_windchill_afternoon_coastmin(d1_windchill_afternoon_coastmin),
-	  d1_windchill_afternoon_coastmax(d1_windchill_afternoon_coastmax),
-	  d1_windchill_afternoon_coastmean(d1_windchill_afternoon_coastmean),
-
-	  d2_windspeed_morning_inlandmin(d2_windspeed_morning_inlandmin),
-	  d2_windspeed_morning_inlandmax(d2_windspeed_morning_inlandmax),
-	  d2_windspeed_morning_inlandmean(d2_windspeed_morning_inlandmean),
-	  d2_windspeed_morning_coastmin(d2_windspeed_morning_coastmin),
-	  d2_windspeed_morning_coastmax(d2_windspeed_morning_coastmax),
-	  d2_windspeed_morning_coastmean(d2_windspeed_morning_coastmean),
-
-	  d2_windspeed_afternoon_inlandmin(d2_windspeed_afternoon_inlandmin),
-	  d2_windspeed_afternoon_inlandmax(d2_windspeed_afternoon_inlandmax),
-	  d2_windspeed_afternoon_inlandmean(d2_windspeed_afternoon_inlandmean),
-	  d2_windspeed_afternoon_coastmin(d2_windspeed_afternoon_coastmin),
-	  d2_windspeed_afternoon_coastmax(d2_windspeed_afternoon_coastmax),
-	  d2_windspeed_afternoon_coastmean(d2_windspeed_afternoon_coastmean),
-
-	  d2_windchill_morning_inlandmin(d2_windchill_morning_inlandmin),
-	  d2_windchill_morning_inlandmax(d2_windchill_morning_inlandmax),
-	  d2_windchill_morning_inlandmean(d2_windchill_morning_inlandmean),
-	  d2_windchill_morning_coastmin(d2_windchill_morning_coastmin),
-	  d2_windchill_morning_coastmax(d2_windchill_morning_coastmax),
-	  d2_windchill_morning_coastmean(d2_windchill_morning_coastmean),
-
-	  d2_windchill_afternoon_inlandmin(d2_windchill_afternoon_inlandmin),
-	  d2_windchill_afternoon_inlandmax(d2_windchill_afternoon_inlandmax),
-	  d2_windchill_afternoon_inlandmean(d2_windchill_afternoon_inlandmean),
-	  d2_windchill_afternoon_coastmin(d2_windchill_afternoon_coastmin),
-	  d2_windchill_afternoon_coastmax(d2_windchill_afternoon_coastmax),
-	  d2_windchill_afternoon_coastmean(d2_windchill_afternoon_coastmean)
+	  TemperatureStoryTestParam(d1_temperature_afternoon_inlandmin,
+								d1_temperature_afternoon_inlandmax,
+								d1_temperature_afternoon_inlandmean,
+								d1_temperature_afternoon_coastmin,
+								d1_temperature_afternoon_coastmax,
+								d1_temperature_afternoon_coastmean,
+								d1_temperature_afternoon_areamin,
+								d1_temperature_afternoon_areamax,
+								d1_temperature_afternoon_areamean,
+							   
+								d2_temperature_afternoon_inlandmin,
+								d2_temperature_afternoon_inlandmax,
+								d2_temperature_afternoon_inlandmean,
+								d2_temperature_afternoon_coastmin,
+								d2_temperature_afternoon_coastmax,
+								d2_temperature_afternoon_coastmean,
+								d2_temperature_afternoon_areamin,
+								d2_temperature_afternoon_areamax,
+								d2_temperature_afternoon_areamean,
+								story)
 	{}
-
-	string d1_windspeed_morning_inlandmin;
-	string d1_windspeed_morning_inlandmax;
-	string d1_windspeed_morning_inlandmean;
-	string d1_windspeed_morning_coastmin;
-	string d1_windspeed_morning_coastmax;
-	string d1_windspeed_morning_coastmean;
-
-	string d1_windspeed_afternoon_inlandmin;
-	string d1_windspeed_afternoon_inlandmax;
-	string d1_windspeed_afternoon_inlandmean;
-	string d1_windspeed_afternoon_coastmin;
-	string d1_windspeed_afternoon_coastmax;
-	string d1_windspeed_afternoon_coastmean;
-
-	string d1_windchill_morning_inlandmin;
-	string d1_windchill_morning_inlandmax;
-	string d1_windchill_morning_inlandmean;
-	string d1_windchill_morning_coastmin;
-	string d1_windchill_morning_coastmax;
-	string d1_windchill_morning_coastmean;
-
-	string d1_windchill_afternoon_inlandmin;
-	string d1_windchill_afternoon_inlandmax;
-	string d1_windchill_afternoon_inlandmean;
-	string d1_windchill_afternoon_coastmin;
-	string d1_windchill_afternoon_coastmax;
-	string d1_windchill_afternoon_coastmean;
-
-	string d2_windspeed_morning_inlandmin;
-	string d2_windspeed_morning_inlandmax;
-	string d2_windspeed_morning_inlandmean;
-	string d2_windspeed_morning_coastmin;
-	string d2_windspeed_morning_coastmax;
-	string d2_windspeed_morning_coastmean;
-
-	string d2_windspeed_afternoon_inlandmin;
-	string d2_windspeed_afternoon_inlandmax;
-	string d2_windspeed_afternoon_inlandmean;
-	string d2_windspeed_afternoon_coastmin;
-	string d2_windspeed_afternoon_coastmax;
-	string d2_windspeed_afternoon_coastmean;
-
-	string d2_windchill_morning_inlandmin;
-	string d2_windchill_morning_inlandmax;
-	string d2_windchill_morning_inlandmean;
-	string d2_windchill_morning_coastmin;
-	string d2_windchill_morning_coastmax;
-	string d2_windchill_morning_coastmean;
-
-	string d2_windchill_afternoon_inlandmin;
-	string d2_windchill_afternoon_inlandmax;
-	string d2_windchill_afternoon_inlandmean;
-	string d2_windchill_afternoon_coastmin;
-	string d2_windchill_afternoon_coastmax;
-	string d2_windchill_afternoon_coastmean;
-	
   };
 
-  typedef std::map<int, Max36HoursTestParam*> TestCaseContainer;
+  struct WindAnomalyTestParam: public TemperatureStoryTestParam
+  {
+	WindAnomalyTestParam(const char* d2_temperature_morning_inlandmin,
+						 const char* d2_temperature_morning_inlandmax,
+						 const char* d2_temperature_morning_inlandmean,
+						 const char* d2_temperature_morning_coastmin,
+						 const char* d2_temperature_morning_coastmax,
+						 const char* d2_temperature_morning_coastmean,
+						 const char* d2_temperature_morning_areamin,
+						 const char* d2_temperature_morning_areamax,
+						 const char* d2_temperature_morning_areamean,
+						 
+						 const char* d2_temperature_afternoon_inlandmin,
+						 const char* d2_temperature_afternoon_inlandmax,
+						 const char* d2_temperature_afternoon_inlandmean,
+						 const char* d2_temperature_afternoon_coastmin,
+						 const char* d2_temperature_afternoon_coastmax,
+						 const char* d2_temperature_afternoon_coastmean,
+						 const char* d2_temperature_afternoon_areamin,
+						 const char* d2_temperature_afternoon_areamax,
+						 const char* d2_temperature_afternoon_areamean,
+						 
+						 const char* d2_windspeed_morning_inlandmin,
+						 const char* d2_windspeed_morning_inlandmax,
+						 const char* d2_windspeed_morning_inlandmean,
+						 const char* d2_windspeed_morning_coastmin,
+						 const char* d2_windspeed_morning_coastmax,
+						 const char* d2_windspeed_morning_coastmean,
+
+						 const char* d2_windspeed_afternoon_inlandmin,
+						 const char* d2_windspeed_afternoon_inlandmax,
+						 const char* d2_windspeed_afternoon_inlandmean,
+						 const char* d2_windspeed_afternoon_coastmin,
+						 const char* d2_windspeed_afternoon_coastmax,
+						 const char* d2_windspeed_afternoon_coastmean,
+
+						 const char* d2_windchill_morning_inlandmin,
+						 const char* d2_windchill_morning_inlandmax,
+						 const char* d2_windchill_morning_inlandmean,
+						 const char* d2_windchill_morning_coastmin,
+						 const char* d2_windchill_morning_coastmax,
+						 const char* d2_windchill_morning_coastmean,
+
+						 const char* d2_windchill_afternoon_inlandmin,
+						 const char* d2_windchill_afternoon_inlandmax,
+						 const char* d2_windchill_afternoon_inlandmean,
+						 const char* d2_windchill_afternoon_coastmin,
+						 const char* d2_windchill_afternoon_coastmax,
+						 const char* d2_windchill_afternoon_coastmean,
+
+						 const char* story): 
+
+	  TemperatureStoryTestParam("",
+								"",
+								"",
+								"",
+								"",
+								"",
+								"",
+								"",
+								"",
+							   
+								d2_temperature_afternoon_inlandmin,
+								d2_temperature_afternoon_inlandmax,
+								d2_temperature_afternoon_inlandmean,
+								d2_temperature_afternoon_coastmin,
+								d2_temperature_afternoon_coastmax,
+								d2_temperature_afternoon_coastmean,
+								d2_temperature_afternoon_areamin,
+								d2_temperature_afternoon_areamax,
+								d2_temperature_afternoon_areamean,
+								story),
+	  temperature_d2_morning_inlandmin(d2_temperature_morning_inlandmin),
+	  temperature_d2_morning_inlandmax(d2_temperature_morning_inlandmax),
+	  temperature_d2_morning_inlandmean(d2_temperature_morning_inlandmean),
+	  temperature_d2_morning_coastmin(d2_temperature_morning_coastmin),
+	  temperature_d2_morning_coastmax(d2_temperature_morning_coastmax),
+	  temperature_d2_morning_coastmean(d2_temperature_morning_coastmean),
+	  temperature_d2_morning_areamin(d2_temperature_morning_areamin),
+	  temperature_d2_morning_areamax(d2_temperature_morning_areamax),
+	  temperature_d2_morning_areamean(d2_temperature_morning_areamean),
+
+	  anomaly_d2_windspeed_morning_inlandmin(d2_windspeed_morning_inlandmin),
+	  anomaly_d2_windspeed_morning_inlandmax(d2_windspeed_morning_inlandmax),
+	  anomaly_d2_windspeed_morning_inlandmean(d2_windspeed_morning_inlandmean),
+	  anomaly_d2_windspeed_morning_coastmin(d2_windspeed_morning_coastmin),
+	  anomaly_d2_windspeed_morning_coastmax(d2_windspeed_morning_coastmax),
+	  anomaly_d2_windspeed_morning_coastmean(d2_windspeed_morning_coastmean),
+
+	  anomaly_d2_windspeed_afternoon_inlandmin(d2_windspeed_afternoon_inlandmin),
+	  anomaly_d2_windspeed_afternoon_inlandmax(d2_windspeed_afternoon_inlandmax),
+	  anomaly_d2_windspeed_afternoon_inlandmean(d2_windspeed_afternoon_inlandmean),
+	  anomaly_d2_windspeed_afternoon_coastmin(d2_windspeed_afternoon_coastmin),
+	  anomaly_d2_windspeed_afternoon_coastmax(d2_windspeed_afternoon_coastmax),
+	  anomaly_d2_windspeed_afternoon_coastmean(d2_windspeed_afternoon_coastmean),
+
+	  anomaly_d2_windchill_morning_inlandmin(d2_windchill_morning_inlandmin),
+	  anomaly_d2_windchill_morning_inlandmax(d2_windchill_morning_inlandmax),
+	  anomaly_d2_windchill_morning_inlandmean(d2_windchill_morning_inlandmean),
+	  anomaly_d2_windchill_morning_coastmin(d2_windchill_morning_coastmin),
+	  anomaly_d2_windchill_morning_coastmax(d2_windchill_morning_coastmax),
+	  anomaly_d2_windchill_morning_coastmean(d2_windchill_morning_coastmean),
+
+	  anomaly_d2_windchill_afternoon_inlandmin(d2_windchill_afternoon_inlandmin),
+	  anomaly_d2_windchill_afternoon_inlandmax(d2_windchill_afternoon_inlandmax),
+	  anomaly_d2_windchill_afternoon_inlandmean(d2_windchill_afternoon_inlandmean),
+	  anomaly_d2_windchill_afternoon_coastmin(d2_windchill_afternoon_coastmin),
+	  anomaly_d2_windchill_afternoon_coastmax(d2_windchill_afternoon_coastmax),
+	  anomaly_d2_windchill_afternoon_coastmean(d2_windchill_afternoon_coastmean)
+	{}
+
+	string temperature_d2_morning_inlandmin;
+	string temperature_d2_morning_inlandmax;
+	string temperature_d2_morning_inlandmean;
+	string temperature_d2_morning_coastmin;
+	string temperature_d2_morning_coastmax;
+	string temperature_d2_morning_coastmean;
+	string temperature_d2_morning_areamin;
+	string temperature_d2_morning_areamax;
+	string temperature_d2_morning_areamean;
+
+	string anomaly_d2_windspeed_morning_inlandmin;
+	string anomaly_d2_windspeed_morning_inlandmax;
+	string anomaly_d2_windspeed_morning_inlandmean;
+	string anomaly_d2_windspeed_morning_coastmin;
+	string anomaly_d2_windspeed_morning_coastmax;
+	string anomaly_d2_windspeed_morning_coastmean;
+
+	string anomaly_d2_windspeed_afternoon_inlandmin;
+	string anomaly_d2_windspeed_afternoon_inlandmax;
+	string anomaly_d2_windspeed_afternoon_inlandmean;
+	string anomaly_d2_windspeed_afternoon_coastmin;
+	string anomaly_d2_windspeed_afternoon_coastmax;
+	string anomaly_d2_windspeed_afternoon_coastmean;
+
+	string anomaly_d2_windchill_morning_inlandmin;
+	string anomaly_d2_windchill_morning_inlandmax;
+	string anomaly_d2_windchill_morning_inlandmean;
+	string anomaly_d2_windchill_morning_coastmin;
+	string anomaly_d2_windchill_morning_coastmax;
+	string anomaly_d2_windchill_morning_coastmean;
+
+	string anomaly_d2_windchill_afternoon_inlandmin;
+	string anomaly_d2_windchill_afternoon_inlandmax;
+	string anomaly_d2_windchill_afternoon_inlandmean;
+	string anomaly_d2_windchill_afternoon_coastmin;
+	string anomaly_d2_windchill_afternoon_coastmax;
+	string anomaly_d2_windchill_afternoon_coastmean;
+  };
+
+
+  typedef std::map<int, TemperatureStoryTestParam*> TestCaseContainer;
 
 
   double random_d()
@@ -1764,7 +1700,7 @@ std::ostream & operator<<(std::ostream & theOutput,
   return theOutput;
 }
 std::ostream & operator<<(std::ostream & theOutput,
-						  const AnomalyTestParam& theParam)
+						  const TemperatureAnomalyTestParam& theParam)
 {
   /*
   theOutput << "***** settings *******" << endl;
@@ -1810,7 +1746,7 @@ void tokenize(const string& str,
     }
 }
 
-   void read_max36hours_testcasefile(TestCaseContainer& testCases, const string& fileName)
+void read_testcasefile(TestCaseContainer& testCases, const string& fileName, const bool& anomaly)
    {
 	 ifstream input_stream;
 	 input_stream.open(fileName.c_str());
@@ -1823,6 +1759,8 @@ void tokenize(const string& str,
 		 return;
 	   }
 
+	 int inputLinesCount = anomaly ? 7 : 22;
+
 	 vector<string> tokens;
 	 vector<string> testCaseData;
 	 while(!input_stream.eof())
@@ -1833,7 +1771,7 @@ void tokenize(const string& str,
 		   {
 			 int inputLines = 0;
 			 testCaseData.clear();
-			 while(inputLines < 21 || input_stream.eof())
+			 while(inputLines < inputLinesCount || input_stream.eof())
 			   {
 				 input_stream.getline(buffer, 1023);
 				 data = buffer;
@@ -1843,114 +1781,136 @@ void tokenize(const string& str,
 				   continue;
 				 tokens.clear();
 				 tokenize(data, tokens, ";");
-				 if(tokens.size() < 3)
-				   {
-					 cout << "errorii" << endl;
-					 return;
-				   }
-				 else
+				 //int tokens_size = tokens.size();
+				 // if(tokens.size() >= 3)
 				   {
 					 // valid line
-					 tokens.erase(tokens.begin()+3,tokens.end());
+					 if(inputLines < inputLinesCount-1)
+					   tokens.erase(tokens.begin()+3,tokens.end());
+					 else
+					   tokens.erase(tokens.begin()+1,tokens.end());
 					 for(unsigned int i = 0; i < tokens.size(); i++)
 					   testCaseData.push_back(tokens[i]);
-					 /*
-					 for(unsigned int i = 0; i < testCaseData.size(); i++)
-					   {
-						 cout << testCaseData[i];
-					   }
-					 cout << endl;
-					 */
 					 inputLines++;
 				   }
+				 /*
+				 else if(tokens.size() == 1) // the story
+				   {
+					 testCaseData.push_back(tokens[i]);
+					 inputLines++;
+				   }
+				 */
 			   }
-			 if(inputLines < 21)
+			 if(inputLines < inputLinesCount)
 			   {
 				 cout << "errorii" << endl;
 				 return;
 			   }
 			 else
 			   {
+				 TemperatureStoryTestParam* param = 0;
 				 // create a new test case
-				 Max36HoursTestParam* param = 
-				   new Max36HoursTestParam(testCaseData[0].c_str(),
-										   testCaseData[1].c_str(),
-										   testCaseData[2].c_str(),
-										   testCaseData[3].c_str(),
-										   testCaseData[4].c_str(),
-										   testCaseData[5].c_str(),
-										   testCaseData[6].c_str(),
-										   testCaseData[7].c_str(),
-										   testCaseData[8].c_str(),
+				 if(anomaly)
+				   {
+					 boost::trim(testCaseData[18]);
+					 param = new TemperatureAnomalyTestParam(testCaseData[0].c_str(),
+															 testCaseData[1].c_str(),
+															 testCaseData[2].c_str(),
+															 testCaseData[3].c_str(),
+															 testCaseData[4].c_str(),
+															 testCaseData[5].c_str(),
+															 testCaseData[6].c_str(),
+															 testCaseData[7].c_str(),
+															 testCaseData[8].c_str(),
+															 
+															 testCaseData[9].c_str(),
+															 testCaseData[10].c_str(),
+															 testCaseData[11].c_str(),
+															 testCaseData[12].c_str(),
+															 testCaseData[13].c_str(),
+															 testCaseData[14].c_str(),
+															 testCaseData[15].c_str(),
+															 testCaseData[16].c_str(),
+															 testCaseData[17].c_str(),
+															 testCaseData[18].c_str());
+				   }
+				 else
+				   {
+					 boost::trim(testCaseData[63]);
+					 param = new Max36HoursTestParam(testCaseData[0].c_str(),
+													 testCaseData[1].c_str(),
+													 testCaseData[2].c_str(),
+													 testCaseData[3].c_str(),
+													 testCaseData[4].c_str(),
+													 testCaseData[5].c_str(),
+													 testCaseData[6].c_str(),
+													 testCaseData[7].c_str(),
+													 testCaseData[8].c_str(),
+											   
+													 testCaseData[9].c_str(),
+													 testCaseData[10].c_str(),
+													 testCaseData[11].c_str(),
+													 testCaseData[12].c_str(),
+													 testCaseData[13].c_str(),
+													 testCaseData[14].c_str(),
+													 testCaseData[15].c_str(),
+													 testCaseData[16].c_str(),
+													 testCaseData[17].c_str(),
+											   
+													 testCaseData[18].c_str(),
+													 testCaseData[19].c_str(),
+													 testCaseData[20].c_str(),
+													 testCaseData[21].c_str(),
+													 testCaseData[22].c_str(),
+													 testCaseData[23].c_str(),
+													 testCaseData[24].c_str(),
+													 testCaseData[25].c_str(),
+													 testCaseData[26].c_str(),
+											   
+													 testCaseData[27].c_str(),
+													 testCaseData[28].c_str(),
+													 testCaseData[29].c_str(),
+													 testCaseData[30].c_str(),
+													 testCaseData[31].c_str(),
+													 testCaseData[32].c_str(),
+													 testCaseData[33].c_str(),
+													 testCaseData[34].c_str(),
+													 testCaseData[35].c_str(),
+											   
+													 testCaseData[35].c_str(),
+													 testCaseData[37].c_str(),
+													 testCaseData[38].c_str(),
+													 testCaseData[39].c_str(),
+													 testCaseData[40].c_str(),
+													 testCaseData[41].c_str(),
+													 testCaseData[42].c_str(),
+													 testCaseData[43].c_str(),
+													 testCaseData[44].c_str(),
+											   
+													 testCaseData[45].c_str(),
+													 testCaseData[46].c_str(),
+													 testCaseData[47].c_str(),
+													 testCaseData[48].c_str(),
+													 testCaseData[49].c_str(),
+													 testCaseData[50].c_str(),
+													 testCaseData[51].c_str(),
+													 testCaseData[52].c_str(),
+													 testCaseData[53].c_str(),
 
-										   testCaseData[9].c_str(),
-										   testCaseData[10].c_str(),
-										   testCaseData[11].c_str(),
-										   testCaseData[12].c_str(),
-										   testCaseData[13].c_str(),
-										   testCaseData[14].c_str(),
-										   testCaseData[15].c_str(),
-										   testCaseData[16].c_str(),
-										   testCaseData[17].c_str(),
-
-										   testCaseData[18].c_str(),
-										   testCaseData[19].c_str(),
-										   testCaseData[20].c_str(),
-										   testCaseData[21].c_str(),
-										   testCaseData[22].c_str(),
-										   testCaseData[23].c_str(),
-										   testCaseData[24].c_str(),
-										   testCaseData[25].c_str(),
-										   testCaseData[26].c_str(),
-
-										   testCaseData[27].c_str(),
-										   testCaseData[28].c_str(),
-										   testCaseData[29].c_str(),
-										   testCaseData[30].c_str(),
-										   testCaseData[31].c_str(),
-										   testCaseData[32].c_str(),
-										   testCaseData[33].c_str(),
-										   testCaseData[34].c_str(),
-										   testCaseData[35].c_str(),
-
-										   testCaseData[35].c_str(),
-										   testCaseData[37].c_str(),
-										   testCaseData[38].c_str(),
-										   testCaseData[39].c_str(),
-										   testCaseData[40].c_str(),
-										   testCaseData[41].c_str(),
-										   testCaseData[42].c_str(),
-										   testCaseData[43].c_str(),
-										   testCaseData[44].c_str(),
-
-										   testCaseData[45].c_str(),
-										   testCaseData[46].c_str(),
-										   testCaseData[47].c_str(),
-										   testCaseData[48].c_str(),
-										   testCaseData[49].c_str(),
-										   testCaseData[50].c_str(),
-										   testCaseData[51].c_str(),
-										   testCaseData[52].c_str(),
-										   testCaseData[53].c_str(),
-
-										   testCaseData[54].c_str(),
-										   testCaseData[55].c_str(),
-										   testCaseData[56].c_str(),
-										   testCaseData[57].c_str(),
-										   testCaseData[58].c_str(),
-										   testCaseData[59].c_str(),
-										   testCaseData[60].c_str(),
-										   testCaseData[61].c_str(),
-										   testCaseData[62].c_str(),
-										   "");
-
+													 testCaseData[54].c_str(),
+													 testCaseData[55].c_str(),
+													 testCaseData[56].c_str(),
+													 testCaseData[57].c_str(),
+													 testCaseData[58].c_str(),
+													 testCaseData[59].c_str(),
+													 testCaseData[60].c_str(),
+													 testCaseData[61].c_str(),
+													 testCaseData[62].c_str(),
+													 testCaseData[63].c_str());
+				   }
+					 
 				 index++;
 				 testCases.insert(make_pair(index++, param));
-				 /*
-				 for(unsigned int i = 0; i < testCaseData.size(); i++)
-				   cout << testCaseData[i].c_str();
-				 cout << endl;
-				 */
 			   }
 		   }
 		 else
@@ -1960,101 +1920,23 @@ void tokenize(const string& str,
 	   }
    }
 
+
+
 using namespace std;
 using namespace TextGen;
 using namespace WeatherAnalysis;
 
-void create_anomaly_testcase_stories(TestCaseContainer& testCases,
-									 const string & theLanguage,
-									 const AnalysisSources& sources,
-									 const WeatherArea& area)
+void create_wind_anomaly_testcase_stories(TestCaseContainer& testCases,
+										  const string & theLanguage,
+										  const AnalysisSources& sources,
+										  const WeatherArea& area)
 {
   TestCaseContainer::iterator iter;
 
   for(iter = testCases.begin(); iter != testCases.end(); iter++)
 	{
-	  AnomalyTestParam* pTestParam = static_cast<AnomalyTestParam*>(iter->second);
+	  WindAnomalyTestParam* pTestParam = static_cast<WindAnomalyTestParam*>(iter->second);
 
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::inland::min",
-						pTestParam->temperature_d1_inlandmin);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::inland::max",
-						pTestParam->temperature_d1_inlandmax);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::inland::mean",
-						pTestParam->temperature_d1_inlandmean);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::coast::min",
-						pTestParam->temperature_d1_coastmin);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::coast::max",
-						pTestParam->temperature_d1_coastmax);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::coast::mean",
-						pTestParam->temperature_d1_coastmean);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::area::min",
-						pTestParam->temperature_d1_areamin);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::area::max",
-						pTestParam->temperature_d1_areamax);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::area::mean",
-						pTestParam->temperature_d1_areamean);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::morning::inland::min",
-						pTestParam->temperature_d1_morning_inlandmin);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::morning::inland::max",
-						pTestParam->temperature_d1_morning_inlandmax);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::morning::inland::mean",
-						pTestParam->temperature_d1_morning_inlandmean);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::morning::coast::min",
-						pTestParam->temperature_d1_morning_coastmin);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::morning::coast::max",
-						pTestParam->temperature_d1_morning_coastmax);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::morning::coast::mean",
-						pTestParam->temperature_d1_morning_coastmean);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::morning::area::min",
-						pTestParam->temperature_d1_morning_areamin);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::morning::area::max",
-						pTestParam->temperature_d1_morning_areamax);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::morning::area::mean",
-						pTestParam->temperature_d1_morning_areamean);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::min",
-						pTestParam->temperature_d1_afternoon_inlandmin);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::max",
-						pTestParam->temperature_d1_afternoon_inlandmax);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::mean",
-						pTestParam->temperature_d1_afternoon_inlandmean);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::min",
-						pTestParam->temperature_d1_afternoon_coastmin);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::max",
-						pTestParam->temperature_d1_afternoon_coastmax);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::mean",
-						pTestParam->temperature_d1_afternoon_coastmean);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::min",
-						pTestParam->temperature_d1_afternoon_areamin);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::max",
-						pTestParam->temperature_d1_afternoon_areamax);
-	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::mean",
-						pTestParam->temperature_d1_afternoon_areamean);
-
-	  NFmiSettings::Set("anomaly::fake::temperature::night::area::min",
-						pTestParam->temperature_nite_areamin);
-	  NFmiSettings::Set("anomaly::fake::temperature::night::area::max",
-						pTestParam->temperature_nite_areamax);
-	  NFmiSettings::Set("anomaly::fake::temperature::night::area::mean",
-						pTestParam->temperature_nite_areamean);
-
-	  NFmiSettings::Set("anomaly::fake::temperature::day2::inland::min",
-						pTestParam->temperature_d2_inlandmin);
-	  NFmiSettings::Set("anomaly::fake::temperature::day2::inland::max",
-						pTestParam->temperature_d2_inlandmax);
-	  NFmiSettings::Set("anomaly::fake::temperature::day2::inland::mean",
-						pTestParam->temperature_d2_inlandmean);
-	  NFmiSettings::Set("anomaly::fake::temperature::day2::coast::min",
-						pTestParam->temperature_d2_coastmin);
-	  NFmiSettings::Set("anomaly::fake::temperature::day2::coast::max",
-						pTestParam->temperature_d2_coastmax);
-	  NFmiSettings::Set("anomaly::fake::temperature::day2::coast::mean",
-						pTestParam->temperature_d2_coastmean);
-	  NFmiSettings::Set("anomaly::fake::temperature::day2::area::min",
-						pTestParam->temperature_d2_areamin);
-	  NFmiSettings::Set("anomaly::fake::temperature::day2::area::max",
-						pTestParam->temperature_d2_areamax);
-	  NFmiSettings::Set("anomaly::fake::temperature::day2::area::mean",
-						pTestParam->temperature_d2_areamean);
 	  NFmiSettings::Set("anomaly::fake::temperature::day2::morning::inland::min",
 						pTestParam->temperature_d2_morning_inlandmin);
 	  NFmiSettings::Set("anomaly::fake::temperature::day2::morning::inland::max",
@@ -2073,6 +1955,7 @@ void create_anomaly_testcase_stories(TestCaseContainer& testCases,
 						pTestParam->temperature_d2_morning_areamax);
 	  NFmiSettings::Set("anomaly::fake::temperature::day2::morning::area::mean",
 						pTestParam->temperature_d2_morning_areamean);
+
 	  NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::min",
 						pTestParam->temperature_d2_afternoon_inlandmin);
 	  NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::max",
@@ -2093,54 +1976,116 @@ void create_anomaly_testcase_stories(TestCaseContainer& testCases,
 						pTestParam->temperature_d2_afternoon_areamean);
 
 	  NFmiSettings::Set("anomaly::fake::windspeed::morning::inland::min",
-						pTestParam->d2_windspeed_morning_inlandmin);
+						pTestParam->anomaly_d2_windspeed_morning_inlandmin);
 	  NFmiSettings::Set("anomaly::fake::windspeed::morning::inland::max",
-						pTestParam->d2_windspeed_morning_inlandmax);
+						pTestParam->anomaly_d2_windspeed_morning_inlandmax);
 	  NFmiSettings::Set("anomaly::fake::windspeed::morning::inland::mean",
-						pTestParam->d2_windspeed_morning_inlandmean);
+						pTestParam->anomaly_d2_windspeed_morning_inlandmean);
 	  NFmiSettings::Set("anomaly::fake::windspeed::morning::coast::min",
-						pTestParam->d2_windspeed_morning_coastmin);
+						pTestParam->anomaly_d2_windspeed_morning_coastmin);
 	  NFmiSettings::Set("anomaly::fake::windspeed::morning::coast::max",
-						pTestParam->d2_windspeed_morning_coastmax);
+						pTestParam->anomaly_d2_windspeed_morning_coastmax);
 	  NFmiSettings::Set("anomaly::fake::windspeed::morning::coast::mean",
-						pTestParam->d2_windspeed_morning_coastmean);
+						pTestParam->anomaly_d2_windspeed_morning_coastmean);
 	  NFmiSettings::Set("anomaly::fake::windspeed::afternoon::inland::min",
-						pTestParam->d2_windspeed_afternoon_inlandmin);
+						pTestParam->anomaly_d2_windspeed_afternoon_inlandmin);
 	  NFmiSettings::Set("anomaly::fake::windspeed::afternoon::inland::max",
-						pTestParam->d2_windspeed_afternoon_inlandmax);
+						pTestParam->anomaly_d2_windspeed_afternoon_inlandmax);
 	  NFmiSettings::Set("anomaly::fake::windspeed::afternoon::inland::mean",
-						pTestParam->d2_windspeed_afternoon_inlandmean);
+						pTestParam->anomaly_d2_windspeed_afternoon_inlandmean);
 	  NFmiSettings::Set("anomaly::fake::windspeed::afternoon::coast::min",
-						pTestParam->d2_windspeed_afternoon_coastmin);
+						pTestParam->anomaly_d2_windspeed_afternoon_coastmin);
 	  NFmiSettings::Set("anomaly::fake::windspeed::afternoon::coast::max",
-						pTestParam->d2_windspeed_afternoon_coastmax);
+						pTestParam->anomaly_d2_windspeed_afternoon_coastmax);
 	  NFmiSettings::Set("anomaly::fake::windspeed::afternoon::coast::mean",
-						pTestParam->d2_windspeed_afternoon_coastmean);
+						pTestParam->anomaly_d2_windspeed_afternoon_coastmean);
 
 	  NFmiSettings::Set("anomaly::fake::windchill::morning::inland::min",
-						pTestParam->d2_windchill_morning_inlandmin);
+						pTestParam->anomaly_d2_windchill_morning_inlandmin);
 	  NFmiSettings::Set("anomaly::fake::windchill::morning::inland::max",
-						pTestParam->d2_windchill_morning_inlandmax);
+						pTestParam->anomaly_d2_windchill_morning_inlandmax);
 	  NFmiSettings::Set("anomaly::fake::windchill::morning::inland::mean",
-						pTestParam->d2_windchill_morning_inlandmean);
+						pTestParam->anomaly_d2_windchill_morning_inlandmean);
 	  NFmiSettings::Set("anomaly::fake::windchill::morning::coast::min",
-						pTestParam->d2_windchill_morning_coastmin);
+						pTestParam->anomaly_d2_windchill_morning_coastmin);
 	  NFmiSettings::Set("anomaly::fake::windchill::morning::coast::max",
-						pTestParam->d2_windchill_morning_coastmax);
+						pTestParam->anomaly_d2_windchill_morning_coastmax);
 	  NFmiSettings::Set("anomaly::fake::windchill::morning::coast::mean",
-						pTestParam->d2_windchill_morning_coastmean);
+						pTestParam->anomaly_d2_windchill_morning_coastmean);
 	  NFmiSettings::Set("anomaly::fake::windchill::afternoon::inland::min",
-						pTestParam->d2_windchill_afternoon_inlandmin);
+						pTestParam->anomaly_d2_windchill_afternoon_inlandmin);
 	  NFmiSettings::Set("anomaly::fake::windchill::afternoon::inland::max",
-						pTestParam->d2_windchill_afternoon_inlandmax);
+						pTestParam->anomaly_d2_windchill_afternoon_inlandmax);
 	  NFmiSettings::Set("anomaly::fake::windchill::afternoon::inland::mean",
-						pTestParam->d2_windchill_afternoon_inlandmean);
+						pTestParam->anomaly_d2_windchill_afternoon_inlandmean);
 	  NFmiSettings::Set("anomaly::fake::windchill::afternoon::coast::min",
-						pTestParam->d2_windchill_afternoon_coastmin);
+						pTestParam->anomaly_d2_windchill_afternoon_coastmin);
 	  NFmiSettings::Set("anomaly::fake::windchill::afternoon::coast::max",
-						pTestParam->d2_windchill_afternoon_coastmax);
+						pTestParam->anomaly_d2_windchill_afternoon_coastmax);
 	  NFmiSettings::Set("anomaly::fake::windchill::afternoon::coast::mean",
-						pTestParam->d2_windchill_afternoon_coastmean);
+						pTestParam->anomaly_d2_windchill_afternoon_coastmean);
+
+
+	  NFmiTime time1(2009, 6, 1, 6, 0, 0);
+	  NFmiTime time2(2009, 6, 2, 18, 0, 0);
+	  WeatherPeriod period_day1_night_day2(time1,time2);
+	  TemperatureStory story(time1,sources, area, period_day1_night_day2,"anomaly");
+	  const string fun = "wind_anomaly";
+
+	  pTestParam->theStory = get_story(story,
+									   theLanguage,
+									   fun);
+	}
+}
+
+void create_temperature_anomaly_testcase_stories(TestCaseContainer& testCases,
+												 const string & theLanguage,
+												 const AnalysisSources& sources,
+												 const WeatherArea& area)
+{
+  TestCaseContainer::iterator iter;
+
+  for(iter = testCases.begin(); iter != testCases.end(); iter++)
+	{
+	  TemperatureAnomalyTestParam* pTestParam = static_cast<TemperatureAnomalyTestParam*>(iter->second);
+
+	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::min",
+						pTestParam->temperature_d1_afternoon_inlandmin);
+	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::max",
+						pTestParam->temperature_d1_afternoon_inlandmax);
+	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::mean",
+						pTestParam->temperature_d1_afternoon_inlandmean);
+	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::min",
+						pTestParam->temperature_d1_afternoon_coastmin);
+	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::max",
+						pTestParam->temperature_d1_afternoon_coastmax);
+	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::mean",
+						pTestParam->temperature_d1_afternoon_coastmean);
+	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::min",
+						pTestParam->temperature_d1_afternoon_areamin);
+	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::max",
+						pTestParam->temperature_d1_afternoon_areamax);
+	  NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::mean",
+						pTestParam->temperature_d1_afternoon_areamean);
+
+	  NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::min",
+						pTestParam->temperature_d2_afternoon_inlandmin);
+	  NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::max",
+						pTestParam->temperature_d2_afternoon_inlandmax);
+	  NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::mean",
+						pTestParam->temperature_d2_afternoon_inlandmean);
+	  NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::min",
+						pTestParam->temperature_d2_afternoon_coastmin);
+	  NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::max",
+						pTestParam->temperature_d2_afternoon_coastmax);
+	  NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::mean",
+						pTestParam->temperature_d2_afternoon_coastmean);
+	  NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::min",
+						pTestParam->temperature_d2_afternoon_areamin);
+	  NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::max",
+						pTestParam->temperature_d2_afternoon_areamax);
+	  NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::mean",
+						pTestParam->temperature_d2_afternoon_areamean);
 
 	  NFmiTime time1(2009, 6, 1, 6, 0, 0);
 	  NFmiTime time2(2009, 6, 2, 18, 0, 0);
@@ -2161,77 +2106,81 @@ void create_max36hours_testcase_stories(TestCaseContainer& testCases,
 {
   TestCaseContainer::iterator iter;
 
+  Max36HoursTestParam* param = 0;		
+
   for(iter = testCases.begin(); iter != testCases.end(); iter++)
 	{
-	  NFmiSettings::Set("max36hours::fake::day1::inland::min",iter->second->temperature_d1_inlandmin);
-	  NFmiSettings::Set("max36hours::fake::day1::inland::max",iter->second->temperature_d1_inlandmax);
-	  NFmiSettings::Set("max36hours::fake::day1::inland::mean",iter->second->temperature_d1_inlandmean);
-	  NFmiSettings::Set("max36hours::fake::day1::coast::min",iter->second->temperature_d1_coastmin);
-	  NFmiSettings::Set("max36hours::fake::day1::coast::max",iter->second->temperature_d1_coastmax);
-	  NFmiSettings::Set("max36hours::fake::day1::coast::mean",iter->second->temperature_d1_coastmean);
-	  NFmiSettings::Set("max36hours::fake::day1::area::min",iter->second->temperature_d1_areamin);
-	  NFmiSettings::Set("max36hours::fake::day1::area::max",iter->second->temperature_d1_areamax);
-	  NFmiSettings::Set("max36hours::fake::day1::area::mean",iter->second->temperature_d1_areamean);
+	  param = static_cast<Max36HoursTestParam*>(iter->second);
 
-	  NFmiSettings::Set("max36hours::fake::day1::morning::inland::min",iter->second->temperature_d1_morning_inlandmin);
-	  NFmiSettings::Set("max36hours::fake::day1::morning::inland::max",iter->second->temperature_d1_morning_inlandmax);
-	  NFmiSettings::Set("max36hours::fake::day1::morning::inland::mean",iter->second->temperature_d1_morning_inlandmean);
-	  NFmiSettings::Set("max36hours::fake::day1::morning::coast::min",iter->second->temperature_d1_morning_coastmin);
-	  NFmiSettings::Set("max36hours::fake::day1::morning::coast::max",iter->second->temperature_d1_morning_coastmax);
-	  NFmiSettings::Set("max36hours::fake::day1::morning::coast::mean",iter->second->temperature_d1_morning_coastmean);
-	  NFmiSettings::Set("max36hours::fake::day1::morning::area::min",iter->second->temperature_d1_morning_areamin);
-	  NFmiSettings::Set("max36hours::fake::day1::morning::area::max",iter->second->temperature_d1_morning_areamax);
-	  NFmiSettings::Set("max36hours::fake::day1::morning::area::mean",iter->second->temperature_d1_morning_areamean);
+	  NFmiSettings::Set("max36hours::fake::day1::inland::min",param->temperature_d1_inlandmin);
+	  NFmiSettings::Set("max36hours::fake::day1::inland::max",param->temperature_d1_inlandmax);
+	  NFmiSettings::Set("max36hours::fake::day1::inland::mean",param->temperature_d1_inlandmean);
+	  NFmiSettings::Set("max36hours::fake::day1::coast::min",param->temperature_d1_coastmin);
+	  NFmiSettings::Set("max36hours::fake::day1::coast::max",param->temperature_d1_coastmax);
+	  NFmiSettings::Set("max36hours::fake::day1::coast::mean",param->temperature_d1_coastmean);
+	  NFmiSettings::Set("max36hours::fake::day1::area::min",param->temperature_d1_areamin);
+	  NFmiSettings::Set("max36hours::fake::day1::area::max",param->temperature_d1_areamax);
+	  NFmiSettings::Set("max36hours::fake::day1::area::mean",param->temperature_d1_areamean);
 
-	  NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::min",iter->second->temperature_d1_afternoon_inlandmin);
-	  NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::max",iter->second->temperature_d1_afternoon_inlandmax);
-	  NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::mean",iter->second->temperature_d1_afternoon_inlandmean);
-	  NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::min",iter->second->temperature_d1_afternoon_coastmin);
-	  NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::max",iter->second->temperature_d1_afternoon_coastmax);
-	  NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::mean",iter->second->temperature_d1_afternoon_coastmean);
-	  NFmiSettings::Set("max36hours::fake::day1::afternoon::area::min",iter->second->temperature_d1_afternoon_areamin);
-	  NFmiSettings::Set("max36hours::fake::day1::afternoon::area::max",iter->second->temperature_d1_afternoon_areamax);
-	  NFmiSettings::Set("max36hours::fake::day1::afternoon::area::mean",iter->second->temperature_d1_afternoon_areamean);
+	  NFmiSettings::Set("max36hours::fake::day1::morning::inland::min",param->temperature_d1_morning_inlandmin);
+	  NFmiSettings::Set("max36hours::fake::day1::morning::inland::max",param->temperature_d1_morning_inlandmax);
+	  NFmiSettings::Set("max36hours::fake::day1::morning::inland::mean",param->temperature_d1_morning_inlandmean);
+	  NFmiSettings::Set("max36hours::fake::day1::morning::coast::min",param->temperature_d1_morning_coastmin);
+	  NFmiSettings::Set("max36hours::fake::day1::morning::coast::max",param->temperature_d1_morning_coastmax);
+	  NFmiSettings::Set("max36hours::fake::day1::morning::coast::mean",param->temperature_d1_morning_coastmean);
+	  NFmiSettings::Set("max36hours::fake::day1::morning::area::min",param->temperature_d1_morning_areamin);
+	  NFmiSettings::Set("max36hours::fake::day1::morning::area::max",param->temperature_d1_morning_areamax);
+	  NFmiSettings::Set("max36hours::fake::day1::morning::area::mean",param->temperature_d1_morning_areamean);
 
-	  NFmiSettings::Set("max36hours::fake::night::inland::min",iter->second->temperature_nite_inlandmin);
-	  NFmiSettings::Set("max36hours::fake::night::inland::max",iter->second->temperature_nite_inlandmax);
-	  NFmiSettings::Set("max36hours::fake::night::inland::mean",iter->second->temperature_nite_inlandmean);
-	  NFmiSettings::Set("max36hours::fake::night::coast::min",iter->second->temperature_nite_coastmin);
-	  NFmiSettings::Set("max36hours::fake::night::coast::max",iter->second->temperature_nite_coastmax);
-	  NFmiSettings::Set("max36hours::fake::night::coast::mean",iter->second->temperature_nite_coastmean);
-	  NFmiSettings::Set("max36hours::fake::night::area::min",iter->second->temperature_nite_areamin);
-	  NFmiSettings::Set("max36hours::fake::night::area::max",iter->second->temperature_nite_areamax);
-	  NFmiSettings::Set("max36hours::fake::night::area::mean",iter->second->temperature_nite_areamean);
+	  NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::min",param->temperature_d1_afternoon_inlandmin);
+	  NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::max",param->temperature_d1_afternoon_inlandmax);
+	  NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::mean",param->temperature_d1_afternoon_inlandmean);
+	  NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::min",param->temperature_d1_afternoon_coastmin);
+	  NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::max",param->temperature_d1_afternoon_coastmax);
+	  NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::mean",param->temperature_d1_afternoon_coastmean);
+	  NFmiSettings::Set("max36hours::fake::day1::afternoon::area::min",param->temperature_d1_afternoon_areamin);
+	  NFmiSettings::Set("max36hours::fake::day1::afternoon::area::max",param->temperature_d1_afternoon_areamax);
+	  NFmiSettings::Set("max36hours::fake::day1::afternoon::area::mean",param->temperature_d1_afternoon_areamean);
 
-	  NFmiSettings::Set("max36hours::fake::day2::inland::min",iter->second->temperature_d2_inlandmin);
-	  NFmiSettings::Set("max36hours::fake::day2::inland::max",iter->second->temperature_d2_inlandmax);
-	  NFmiSettings::Set("max36hours::fake::day2::inland::mean",iter->second->temperature_d2_inlandmean);
-	  NFmiSettings::Set("max36hours::fake::day2::coast::min",iter->second->temperature_d2_coastmin);
-	  NFmiSettings::Set("max36hours::fake::day2::coast::max",iter->second->temperature_d2_coastmax);
-	  NFmiSettings::Set("max36hours::fake::day2::coast::mean",iter->second->temperature_d2_coastmean);
-	  NFmiSettings::Set("max36hours::fake::day2::area::min",iter->second->temperature_d2_areamin);
-	  NFmiSettings::Set("max36hours::fake::day2::area::max",iter->second->temperature_d2_areamax);
-	  NFmiSettings::Set("max36hours::fake::day2::area::mean",iter->second->temperature_d2_areamean);
+	  NFmiSettings::Set("max36hours::fake::night::inland::min",param->temperature_nite_inlandmin);
+	  NFmiSettings::Set("max36hours::fake::night::inland::max",param->temperature_nite_inlandmax);
+	  NFmiSettings::Set("max36hours::fake::night::inland::mean",param->temperature_nite_inlandmean);
+	  NFmiSettings::Set("max36hours::fake::night::coast::min",param->temperature_nite_coastmin);
+	  NFmiSettings::Set("max36hours::fake::night::coast::max",param->temperature_nite_coastmax);
+	  NFmiSettings::Set("max36hours::fake::night::coast::mean",param->temperature_nite_coastmean);
+	  NFmiSettings::Set("max36hours::fake::night::area::min",param->temperature_nite_areamin);
+	  NFmiSettings::Set("max36hours::fake::night::area::max",param->temperature_nite_areamax);
+	  NFmiSettings::Set("max36hours::fake::night::area::mean",param->temperature_nite_areamean);
 
-	  NFmiSettings::Set("max36hours::fake::day2::morning::inland::min",iter->second->temperature_d2_morning_inlandmin);
-	  NFmiSettings::Set("max36hours::fake::day2::morning::inland::max",iter->second->temperature_d2_morning_inlandmax);
-	  NFmiSettings::Set("max36hours::fake::day2::morning::inland::mean",iter->second->temperature_d2_morning_inlandmean);
-	  NFmiSettings::Set("max36hours::fake::day2::morning::coast::min",iter->second->temperature_d2_morning_coastmin);
-	  NFmiSettings::Set("max36hours::fake::day2::morning::coast::max",iter->second->temperature_d2_morning_coastmax);
-	  NFmiSettings::Set("max36hours::fake::day2::morning::coast::mean",iter->second->temperature_d2_morning_coastmean);
-	  NFmiSettings::Set("max36hours::fake::day2::morning::area::min",iter->second->temperature_d2_morning_areamin);
-	  NFmiSettings::Set("max36hours::fake::day2::morning::area::max",iter->second->temperature_d2_morning_areamax);
-	  NFmiSettings::Set("max36hours::fake::day2::morning::area::mean",iter->second->temperature_d2_morning_areamean);
+	  NFmiSettings::Set("max36hours::fake::day2::inland::min",param->temperature_d2_inlandmin);
+	  NFmiSettings::Set("max36hours::fake::day2::inland::max",param->temperature_d2_inlandmax);
+	  NFmiSettings::Set("max36hours::fake::day2::inland::mean",param->temperature_d2_inlandmean);
+	  NFmiSettings::Set("max36hours::fake::day2::coast::min",param->temperature_d2_coastmin);
+	  NFmiSettings::Set("max36hours::fake::day2::coast::max",param->temperature_d2_coastmax);
+	  NFmiSettings::Set("max36hours::fake::day2::coast::mean",param->temperature_d2_coastmean);
+	  NFmiSettings::Set("max36hours::fake::day2::area::min",param->temperature_d2_areamin);
+	  NFmiSettings::Set("max36hours::fake::day2::area::max",param->temperature_d2_areamax);
+	  NFmiSettings::Set("max36hours::fake::day2::area::mean",param->temperature_d2_areamean);
 
-	  NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::min",iter->second->temperature_d2_afternoon_inlandmin);
-	  NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::max",iter->second->temperature_d2_afternoon_inlandmax);
-	  NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::mean",iter->second->temperature_d2_afternoon_inlandmean);
-	  NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::min",iter->second->temperature_d2_afternoon_coastmin);
-	  NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::max",iter->second->temperature_d2_afternoon_coastmax);
-	  NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::mean",iter->second->temperature_d2_afternoon_coastmean);
-	  NFmiSettings::Set("max36hours::fake::day2::afternoon::area::min",iter->second->temperature_d2_afternoon_areamin);
-	  NFmiSettings::Set("max36hours::fake::day2::afternoon::area::max",iter->second->temperature_d2_afternoon_areamax);
-	  NFmiSettings::Set("max36hours::fake::day2::afternoon::area::mean",iter->second->temperature_d2_afternoon_areamean);
+	  NFmiSettings::Set("max36hours::fake::day2::morning::inland::min",param->temperature_d2_morning_inlandmin);
+	  NFmiSettings::Set("max36hours::fake::day2::morning::inland::max",param->temperature_d2_morning_inlandmax);
+	  NFmiSettings::Set("max36hours::fake::day2::morning::inland::mean",param->temperature_d2_morning_inlandmean);
+	  NFmiSettings::Set("max36hours::fake::day2::morning::coast::min",param->temperature_d2_morning_coastmin);
+	  NFmiSettings::Set("max36hours::fake::day2::morning::coast::max",param->temperature_d2_morning_coastmax);
+	  NFmiSettings::Set("max36hours::fake::day2::morning::coast::mean",param->temperature_d2_morning_coastmean);
+	  NFmiSettings::Set("max36hours::fake::day2::morning::area::min",param->temperature_d2_morning_areamin);
+	  NFmiSettings::Set("max36hours::fake::day2::morning::area::max",param->temperature_d2_morning_areamax);
+	  NFmiSettings::Set("max36hours::fake::day2::morning::area::mean",param->temperature_d2_morning_areamean);
+
+	  NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::min",param->temperature_d2_afternoon_inlandmin);
+	  NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::max",param->temperature_d2_afternoon_inlandmax);
+	  NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::mean",param->temperature_d2_afternoon_inlandmean);
+	  NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::min",param->temperature_d2_afternoon_coastmin);
+	  NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::max",param->temperature_d2_afternoon_coastmax);
+	  NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::mean",param->temperature_d2_afternoon_coastmean);
+	  NFmiSettings::Set("max36hours::fake::day2::afternoon::area::min",param->temperature_d2_afternoon_areamin);
+	  NFmiSettings::Set("max36hours::fake::day2::afternoon::area::max",param->temperature_d2_afternoon_areamax);
+	  NFmiSettings::Set("max36hours::fake::day2::afternoon::area::mean",param->temperature_d2_afternoon_areamean);
 
 
 	  NFmiTime time1(2009,4,1,6,0,0);
@@ -2240,208 +2189,351 @@ void create_max36hours_testcase_stories(TestCaseContainer& testCases,
 	  TemperatureStory story1(time1,sources,area,period_day1_night_day2,"max36hours");
 	  const string fun = "temperature_max36hours";
 
-	  iter->second->theStory = get_story(story1,
+	  param->theStory = get_story(story1,
 										 theLanguage,
 										 fun);
 	}
 }
 
 
-void create_testcasefile(TestCaseContainer& testCases, const string& fileName, const bool& anomaly = false)
+void create_max36hours_testcasefile(TestCaseContainer& testCases, const string& fileName)
    {
 	 ofstream output_stream;
 	 output_stream.open(fileName.c_str());
  
-	 //	 int i = 1;
+	 Max36HoursTestParam* param = 0;		
+
+	 int i = 1;
 	 for(TestCaseContainer::iterator iter = testCases.begin(); iter != testCases.end(); iter++)
 	  {
-		if(anomaly)
-		  output_stream << "testCases.insert(make_pair(i++, AnomalyTestParam(" << endl;
-		else
-		  output_stream << "testCases.insert(make_pair(i++, Max36HoursTestParam(" << endl;
+		param = static_cast<Max36HoursTestParam*>(iter->second);
 
-		output_stream << "\""  << iter->second->temperature_d1_inlandmin << "\",\"";
-		output_stream << iter->second->temperature_d1_inlandmax << "\",\"";
-		output_stream << iter->second->temperature_d1_inlandmean << "\", // inland day1: min, max, mean" << endl;
-		output_stream << "\""  << iter->second->temperature_d1_coastmin << "\",\"";
-		output_stream << iter->second->temperature_d1_coastmax << "\",\"";
-		output_stream << iter->second->temperature_d1_coastmean << "\", // coast day1: min, max, mean" << endl;
-		output_stream << "\""  << iter->second->temperature_d1_areamin << "\",\"";
-		output_stream << iter->second->temperature_d1_areamax << "\",\"";
-		output_stream << iter->second->temperature_d1_areamean << "\", // area day1: min, max, mean" << endl;	
+#ifdef CPP_TESTCASE
 
-		output_stream << "\""  << iter->second->temperature_d1_morning_inlandmin << "\",\"";
-		output_stream << iter->second->temperature_d1_morning_inlandmax << "\",\"";
-		output_stream << iter->second->temperature_d1_morning_inlandmean << "\", // inland day1 morning: min, max, mean" << endl;
-		output_stream << "\"" << iter->second->temperature_d1_morning_coastmin << "\",\"";
-		output_stream << iter->second->temperature_d1_morning_coastmax << "\",\"";
-		output_stream << iter->second->temperature_d1_morning_coastmean << "\", // coast day1 morning: min, max, mean" << endl;
-		output_stream << "\""  << iter->second->temperature_d1_morning_areamin << "\",\"";
-		output_stream << iter->second->temperature_d1_morning_areamax << "\",\"";
-		output_stream << iter->second->temperature_d1_morning_areamean << "\", // area day1 morning: min, max, mean" << endl;
+		output_stream << "testCases.insert(make_pair(i++, Max36HoursTestParam(" << endl;
 
-		output_stream << "\""  << iter->second->temperature_d1_afternoon_inlandmin << "\",\"";
-		output_stream << iter->second->temperature_d1_afternoon_inlandmax << "\",\"";
-		output_stream << iter->second->temperature_d1_afternoon_inlandmean << "\", // inland day1 afternoon: min, max, mean" << endl;
-		output_stream << "\""  << iter->second->temperature_d1_afternoon_coastmin << "\",\"";
-		output_stream << iter->second->temperature_d1_afternoon_coastmax << "\",\"";
-		output_stream << iter->second->temperature_d1_afternoon_coastmean << "\", // coast day1 afternoon: min, max, mean" << endl;		
-		output_stream << "\""  << iter->second->temperature_d1_afternoon_areamin << "\",\"";
-		output_stream << iter->second->temperature_d1_afternoon_areamax << "\",\"";
-		output_stream << iter->second->temperature_d1_afternoon_areamean << "\", // area day1 afternoon: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d1_inlandmin << "\",\"";
+		output_stream << param->temperature_d1_inlandmax << "\",\"";
+		output_stream << param->temperature_d1_inlandmean << "\", // inland day1: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d1_coastmin << "\",\"";
+		output_stream << param->temperature_d1_coastmax << "\",\"";
+		output_stream << param->temperature_d1_coastmean << "\", // coast day1: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d1_areamin << "\",\"";
+		output_stream << param->temperature_d1_areamax << "\",\"";
+		output_stream << param->temperature_d1_areamean << "\", // area day1: min, max, mean" << endl;	
 
-		if(!anomaly)
-		  {
-			output_stream << "\""  << iter->second->temperature_nite_inlandmin << "\",\"";
-			output_stream << iter->second->temperature_nite_inlandmax << "\",\"";
-			output_stream << iter->second->temperature_nite_inlandmean << "\", // inland night: min, max, mean" << endl;
-			output_stream << "\""  << iter->second->temperature_nite_coastmin << "\",\"";
-			output_stream << iter->second->temperature_nite_coastmax << "\",\"";
-			output_stream << iter->second->temperature_nite_coastmean << "\", // coast night: min, max, mean" << endl;
-		  }
+		output_stream << "\""  << param->temperature_d1_morning_inlandmin << "\",\"";
+		output_stream << param->temperature_d1_morning_inlandmax << "\",\"";
+		output_stream << param->temperature_d1_morning_inlandmean << "\", // inland day1 morning: min, max, mean" << endl;
+		output_stream << "\"" << param->temperature_d1_morning_coastmin << "\",\"";
+		output_stream << param->temperature_d1_morning_coastmax << "\",\"";
+		output_stream << param->temperature_d1_morning_coastmean << "\", // coast day1 morning: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d1_morning_areamin << "\",\"";
+		output_stream << param->temperature_d1_morning_areamax << "\",\"";
+		output_stream << param->temperature_d1_morning_areamean << "\", // area day1 morning: min, max, mean" << endl;
 
-		output_stream << "\""  << iter->second->temperature_nite_areamin << "\",\"";
-		output_stream << iter->second->temperature_nite_areamax << "\",\"";
-		output_stream << iter->second->temperature_nite_areamean << "\", // area night: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d1_afternoon_inlandmin << "\",\"";
+		output_stream << param->temperature_d1_afternoon_inlandmax << "\",\"";
+		output_stream << param->temperature_d1_afternoon_inlandmean << "\", // inland day1 afternoon: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d1_afternoon_coastmin << "\",\"";
+		output_stream << param->temperature_d1_afternoon_coastmax << "\",\"";
+		output_stream << param->temperature_d1_afternoon_coastmean << "\", // coast day1 afternoon: min, max, mean" << endl;		
+		output_stream << "\""  << param->temperature_d1_afternoon_areamin << "\",\"";
+		output_stream << param->temperature_d1_afternoon_areamax << "\",\"";
+		output_stream << param->temperature_d1_afternoon_areamean << "\", // area day1 afternoon: min, max, mean" << endl;
 
-		output_stream << "\""  << iter->second->temperature_d2_inlandmin << "\",\"";
-		output_stream << iter->second->temperature_d2_inlandmax << "\",\"";
-		output_stream << iter->second->temperature_d2_inlandmean << "\", // inland day2: min, max, mean" << endl;
-		output_stream << "\""  << iter->second->temperature_d2_coastmin << "\",\"";
-		output_stream << iter->second->temperature_d2_coastmax << "\",\"";
-		output_stream << iter->second->temperature_d2_coastmean << "\", // coast day2: min, max, mean" << endl;
-		output_stream << "\""  << iter->second->temperature_d2_areamin << "\",\"";
-		output_stream << iter->second->temperature_d2_areamax << "\",\"";
-		output_stream << iter->second->temperature_d2_areamean << "\", // area day2: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_nite_inlandmin << "\",\"";
+		output_stream << param->temperature_nite_inlandmax << "\",\"";
+		output_stream << param->temperature_nite_inlandmean << "\", // inland night: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_nite_coastmin << "\",\"";
+		output_stream << param->temperature_nite_coastmax << "\",\"";
+		output_stream << param->temperature_nite_coastmean << "\", // coast night: min, max, mean" << endl;
 
-		output_stream << "\""  << iter->second->temperature_d2_morning_inlandmin << "\",\"";
-		output_stream << iter->second->temperature_d2_morning_inlandmax << "\",\"";
-		output_stream << iter->second->temperature_d2_morning_inlandmean << "\", // inland day2 morning: min, max, mean" << endl;
-		output_stream << "\""  << iter->second->temperature_d2_morning_coastmin << "\",\"";
-		output_stream << iter->second->temperature_d2_morning_coastmax << "\",\"";
-		output_stream << iter->second->temperature_d2_morning_coastmean << "\", // coast day2 morning: min, max, mean" << endl;
-		output_stream << "\""  << iter->second->temperature_d2_morning_areamin << "\",\"";
-		output_stream << iter->second->temperature_d2_morning_areamax << "\",\"";
-		output_stream << iter->second->temperature_d2_morning_areamean << "\", // area day2 morning: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_nite_areamin << "\",\"";
+		output_stream << param->temperature_nite_areamax << "\",\"";
+		output_stream << param->temperature_nite_areamean << "\", // area night: min, max, mean" << endl;
 
-		output_stream << "\""  << iter->second->temperature_d2_afternoon_inlandmin << "\",\"";
-		output_stream << iter->second->temperature_d2_afternoon_inlandmax << "\",\"";
-		output_stream << iter->second->temperature_d2_afternoon_inlandmean << "\", // inland day2 afternoon: min, max, mean" << endl;
-		output_stream << "\""  << iter->second->temperature_d2_afternoon_coastmin << "\",\"";
-		output_stream << iter->second->temperature_d2_afternoon_coastmax << "\",\"";
-		output_stream << iter->second->temperature_d2_afternoon_coastmean << "\", // coast day2 afternoon: min, max, mean" << endl;
-		output_stream  << "\"" << iter->second->temperature_d2_afternoon_areamin << "\",\"";
-		output_stream << iter->second->temperature_d2_afternoon_areamax << "\",\"";
-		output_stream << iter->second->temperature_d2_afternoon_areamean << "\", // area day2 afternoon: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d2_inlandmin << "\",\"";
+		output_stream << param->temperature_d2_inlandmax << "\",\"";
+		output_stream << param->temperature_d2_inlandmean << "\", // inland day2: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d2_coastmin << "\",\"";
+		output_stream << param->temperature_d2_coastmax << "\",\"";
+		output_stream << param->temperature_d2_coastmean << "\", // coast day2: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d2_areamin << "\",\"";
+		output_stream << param->temperature_d2_areamax << "\",\"";
+		output_stream << param->temperature_d2_areamean << "\", // area day2: min, max, mean" << endl;
 
-		if(anomaly)
-		  {
-			output_stream << "\""  << static_cast<AnomalyTestParam*>(iter->second)->d2_windspeed_morning_inlandmin << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windspeed_morning_inlandmax << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windspeed_morning_inlandmean << "\", // windspeed inland day2 morning: min, max, mean" << endl;
-			output_stream << "\"" << static_cast<AnomalyTestParam*>(iter->second)->d2_windspeed_morning_coastmin << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windspeed_morning_coastmax << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windspeed_morning_coastmean << "\", // windspeed coast day2 morning: min, max, mean" << endl;
-			output_stream << "\""  << static_cast<AnomalyTestParam*>(iter->second)->d2_windspeed_afternoon_inlandmin << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windspeed_afternoon_inlandmax << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windspeed_afternoon_inlandmean << "\", // windspeed inland day2 afternoon: min, max, mean" << endl;
-			output_stream << "\""  << static_cast<AnomalyTestParam*>(iter->second)->d2_windspeed_afternoon_coastmin << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windspeed_afternoon_coastmax << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windspeed_afternoon_coastmean << "\", // windspeed coast day2 afternoon: min, max, mean" << endl;		  
+		output_stream << "\""  << param->temperature_d2_morning_inlandmin << "\",\"";
+		output_stream << param->temperature_d2_morning_inlandmax << "\",\"";
+		output_stream << param->temperature_d2_morning_inlandmean << "\", // inland day2 morning: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d2_morning_coastmin << "\",\"";
+		output_stream << param->temperature_d2_morning_coastmax << "\",\"";
+		output_stream << param->temperature_d2_morning_coastmean << "\", // coast day2 morning: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d2_morning_areamin << "\",\"";
+		output_stream << param->temperature_d2_morning_areamax << "\",\"";
+		output_stream << param->temperature_d2_morning_areamean << "\", // area day2 morning: min, max, mean" << endl;
 
-			output_stream << "\""  << static_cast<AnomalyTestParam*>(iter->second)->d2_windchill_morning_inlandmin << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windchill_morning_inlandmax << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windchill_morning_inlandmean << "\", // windchill inland day2 morning: min, max, mean" << endl;
-			output_stream << "\"" << static_cast<AnomalyTestParam*>(iter->second)->d2_windchill_morning_coastmin << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windchill_morning_coastmax << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windchill_morning_coastmean << "\", // windchill coast day2 morning: min, max, mean" << endl;
-			output_stream << "\""  << static_cast<AnomalyTestParam*>(iter->second)->d2_windchill_afternoon_inlandmin << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windchill_afternoon_inlandmax << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windchill_afternoon_inlandmean << "\", // windchill inland day2 afternoon: min, max, mean" << endl;
-			output_stream << "\""  << static_cast<AnomalyTestParam*>(iter->second)->d2_windchill_afternoon_coastmin << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windchill_afternoon_coastmax << "\",\"";
-			output_stream << static_cast<AnomalyTestParam*>(iter->second)->d2_windchill_afternoon_coastmean << "\", // windchill coast day2 afternoon: min, max, mean" << endl;		  
+		output_stream << "\""  << param->temperature_d2_afternoon_inlandmin << "\",\"";
+		output_stream << param->temperature_d2_afternoon_inlandmax << "\",\"";
+		output_stream << param->temperature_d2_afternoon_inlandmean << "\", // inland day2 afternoon: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d2_afternoon_coastmin << "\",\"";
+		output_stream << param->temperature_d2_afternoon_coastmax << "\",\"";
+		output_stream << param->temperature_d2_afternoon_coastmean << "\", // coast day2 afternoon: min, max, mean" << endl;
+		output_stream  << "\"" << param->temperature_d2_afternoon_areamin << "\",\"";
+		output_stream << param->temperature_d2_afternoon_areamax << "\",\"";
+		output_stream << param->temperature_d2_afternoon_areamean << "\", // area day2 afternoon: min, max, mean" << endl;
 
-		  }
+		output_stream << "\"" << param->theStory << "\"))); // the story" << endl;
+#endif
 
-		output_stream << "\"" << iter->second->theStory << "\"))); // the story" << endl;
-
-
-#ifdef PLAIN_TEXT_VERSION
 		output_stream << "#" << i++ << endl;
 		output_stream << "test_case_begin" << endl;
-		output_stream << iter->second->temperature_d1_areamin << ";";
-		output_stream << iter->second->temperature_d1_areamax << ";";
-		output_stream << iter->second->temperature_d1_areamean << "; // area day1: min, max, mean" << endl;
-		output_stream << iter->second->temperature_d1_morning_areamin << ";";
-		output_stream << iter->second->temperature_d1_morning_areamax << ";";
-		output_stream << iter->second->temperature_d1_morning_areamean << "; // area day1 morning: min, max, mean" << endl;
-		output_stream << iter->second->temperature_d1_afternoon_areamin << ";";
-		output_stream << iter->second->temperature_d1_afternoon_areamax << ";";
-		output_stream << iter->second->temperature_d1_afternoon_areamean << "; // area day1 afternoon: min, max, mean" << endl;
+		output_stream << param->temperature_d1_inlandmin << ";";
+		output_stream << param->temperature_d1_inlandmax << ";";
+		output_stream << param->temperature_d1_inlandmean << "; // inland day1: min, max, mean" << endl;
+		output_stream << param->temperature_d1_coastmin << ";";
+		output_stream << param->temperature_d1_coastmax << ";";
+		output_stream << param->temperature_d1_coastmean << "; // coast day1: min, max, mean" << endl;
+		output_stream << param->temperature_d1_areamin << ";";
+		output_stream << param->temperature_d1_areamax << ";";
+		output_stream << param->temperature_d1_areamean << "; // area day1: min, max, mean" << endl;
 
-		output_stream << iter->second->temperature_d1_inlandmin << ";";
-		output_stream << iter->second->temperature_d1_inlandmax << ";";
-		output_stream << iter->second->temperature_d1_inlandmean << "; // inland day1: min, max, mean" << endl;
-		output_stream << iter->second->temperature_d1_morning_inlandmin << ";";
-		output_stream << iter->second->temperature_d1_morning_inlandmax << ";";
-		output_stream << iter->second->temperature_d1_morning_inlandmean << "; // inland day1 morning: min, max, mean" << endl;
-		output_stream << iter->second->temperature_d1_afternoon_inlandmin << ";";
-		output_stream << iter->second->temperature_d1_afternoon_inlandmax << ";";
-		output_stream << iter->second->temperature_d1_afternoon_inlandmean << "; // inland day1 afternoon: min, max, mean" << endl;
+		output_stream << param->temperature_d1_morning_inlandmin << ";";
+		output_stream << param->temperature_d1_morning_inlandmax << ";";
+		output_stream << param->temperature_d1_morning_inlandmean << "; // inland day1 morning: min, max, mean" << endl;
+		output_stream << param->temperature_d1_morning_coastmin << ";";
+		output_stream << param->temperature_d1_morning_coastmax << ";";
+		output_stream << param->temperature_d1_morning_coastmean << "; // coast day1 morning: min, max, mean" << endl;
+		output_stream << param->temperature_d1_morning_areamin << ";";
+		output_stream << param->temperature_d1_morning_areamax << ";";
+		output_stream << param->temperature_d1_morning_areamean << "; // area day1 morning: min, max, mean" << endl;
 
-		output_stream << iter->second->temperature_d1_coastmin << ";";
-		output_stream << iter->second->temperature_d1_coastmax << ";";
-		output_stream << iter->second->temperature_d1_coastmean << "; // coast day1: min, max, mean" << endl;
-		output_stream << iter->second->temperature_d1_morning_coastmin << ";";
-		output_stream << iter->second->temperature_d1_morning_coastmax << ";";
-		output_stream << iter->second->temperature_d1_morning_coastmean << "; // coast day1 morning: min, max, mean" << endl;
-		output_stream << iter->second->temperature_d1_afternoon_coastmin << ";";
-		output_stream << iter->second->temperature_d1_afternoon_coastmax << ";";
-		output_stream << iter->second->temperature_d1_afternoon_coastmean << "; // coast day1 afternoon: min, max, mean" << endl;
+		output_stream << param->temperature_d1_afternoon_inlandmin << ";";
+		output_stream << param->temperature_d1_afternoon_inlandmax << ";";
+		output_stream << param->temperature_d1_afternoon_inlandmean << "; // inland day1 afternoon: min, max, mean" << endl;
+		output_stream << param->temperature_d1_afternoon_coastmin << ";";
+		output_stream << param->temperature_d1_afternoon_coastmax << ";";
+		output_stream << param->temperature_d1_afternoon_coastmean << "; // coast day1 afternoon: min, max, mean" << endl;
+		output_stream << param->temperature_d1_afternoon_areamin << ";";
+		output_stream << param->temperature_d1_afternoon_areamax << ";";
+		output_stream << param->temperature_d1_afternoon_areamean << "; // area day1 afternoon: min, max, mean" << endl;
 
-		output_stream << iter->second->temperature_nite_areamin << ";";
-		output_stream << iter->second->temperature_nite_areamax << ";";
-		output_stream << iter->second->temperature_nite_areamean << "; // area night: min, max, mean" << endl;
-		output_stream << iter->second->temperature_nite_inlandmin << ";";
-		output_stream << iter->second->temperature_nite_inlandmax << ";";
-		output_stream << iter->second->temperature_nite_inlandmean << "; // inland night: min, max, mean" << endl;
-		output_stream << iter->second->temperature_nite_coastmin << ";";
-		output_stream << iter->second->temperature_nite_coastmax << ";";
-		output_stream << iter->second->temperature_nite_coastmean << "; // coast night: min, max, mean" << endl;
+		output_stream << param->temperature_nite_inlandmin << ";";
+		output_stream << param->temperature_nite_inlandmax << ";";
+		output_stream << param->temperature_nite_inlandmean << "; // inland night: min, max, mean" << endl;
+		output_stream << param->temperature_nite_coastmin << ";";
+		output_stream << param->temperature_nite_coastmax << ";";
+		output_stream << param->temperature_nite_coastmean << "; // coast night: min, max, mean" << endl;
+		output_stream << param->temperature_nite_areamin << ";";
+		output_stream << param->temperature_nite_areamax << ";";
+		output_stream << param->temperature_nite_areamean << "; // area night: min, max, mean" << endl;
 
-		output_stream << iter->second->temperature_d2_areamin << ";";
-		output_stream << iter->second->temperature_d2_areamax << ";";
-		output_stream << iter->second->temperature_d2_areamean << "; // area day2: min, max, mean" << endl;
-		output_stream << iter->second->temperature_d2_morning_areamin << ";";
-		output_stream << iter->second->temperature_d2_morning_areamax << ";";
-		output_stream << iter->second->temperature_d2_morning_areamean << "; // area day2 morning: min, max, mean" << endl;
-		output_stream << iter->second->temperature_d2_afternoon_areamin << ";";
-		output_stream << iter->second->temperature_d2_afternoon_areamax << ";";
-		output_stream << iter->second->temperature_d2_afternoon_areamean << "; // area day2 afternoon: min, max, mean" << endl;
+		output_stream << param->temperature_d2_inlandmin << ";";
+		output_stream << param->temperature_d2_inlandmax << ";";
+		output_stream << param->temperature_d2_inlandmean << "; // inland day2: min, max, mean" << endl;
+		output_stream << param->temperature_d2_coastmin << ";";
+		output_stream << param->temperature_d2_coastmax << ";";
+		output_stream << param->temperature_d2_coastmean << "; // coast day2: min, max, mean" << endl;
+		output_stream << param->temperature_d2_areamin << ";";
+		output_stream << param->temperature_d2_areamax << ";";
+		output_stream << param->temperature_d2_areamean << "; // area day2: min, max, mean" << endl;
 
-		output_stream << iter->second->temperature_d2_inlandmin << ";";
-		output_stream << iter->second->temperature_d2_inlandmax << ";";
-		output_stream << iter->second->temperature_d2_inlandmean << "; // inland day2: min, max, mean" << endl;
-		output_stream << iter->second->temperature_d2_morning_inlandmin << ";";
-		output_stream << iter->second->temperature_d2_morning_inlandmax << ";";
-		output_stream << iter->second->temperature_d2_morning_inlandmean << "; // inland day2 morning: min, max, mean" << endl;
-		output_stream << iter->second->temperature_d2_afternoon_inlandmin << ";";
-		output_stream << iter->second->temperature_d2_afternoon_inlandmax << ";";
-		output_stream << iter->second->temperature_d2_afternoon_inlandmean << "; // inland day2 afternoon: min, max, mean" << endl;
+		output_stream << param->temperature_d2_morning_inlandmin << ";";
+		output_stream << param->temperature_d2_morning_inlandmax << ";";
+		output_stream << param->temperature_d2_morning_inlandmean << "; // inland day2 morning: min, max, mean" << endl;
+		output_stream << param->temperature_d2_morning_coastmin << ";";
+		output_stream << param->temperature_d2_morning_coastmax << ";";
+		output_stream << param->temperature_d2_morning_coastmean << "; // coast day2 morning: min, max, mean" << endl;
+		output_stream << param->temperature_d2_morning_areamin << ";";
+		output_stream << param->temperature_d2_morning_areamax << ";";
+		output_stream << param->temperature_d2_morning_areamean << "; // area day2 morning: min, max, mean" << endl;
 
-		output_stream << iter->second->temperature_d2_coastmin << ";";
-		output_stream << iter->second->temperature_d2_coastmax << ";";
-		output_stream << iter->second->temperature_d2_coastmean << "; // coast day2: min, max, mean" << endl;
-		output_stream << iter->second->temperature_d2_morning_coastmin << ";";
-		output_stream << iter->second->temperature_d2_morning_coastmax << ";";
-		output_stream << iter->second->temperature_d2_morning_coastmean << "; // coast day2 morning: min, max, mean" << endl;
-		output_stream << iter->second->temperature_d2_afternoon_coastmin << ";";
-		output_stream << iter->second->temperature_d2_afternoon_coastmax << ";";
-		output_stream << iter->second->temperature_d2_afternoon_coastmean << "; // coast day2 afternoon: min, max, mean" << endl;
-		output_stream << iter->second->theStory << "; // the story" << endl;
+		output_stream << param->temperature_d2_afternoon_inlandmin << ";";
+		output_stream << param->temperature_d2_afternoon_inlandmax << ";";
+		output_stream << param->temperature_d2_afternoon_inlandmean << "; // inland day2 afternoon: min, max, mean" << endl;
+		output_stream << param->temperature_d2_afternoon_coastmin << ";";
+		output_stream << param->temperature_d2_afternoon_coastmax << ";";
+		output_stream << param->temperature_d2_afternoon_coastmean << "; // coast day2 afternoon: min, max, mean" << endl;
+		output_stream << param->temperature_d2_afternoon_areamin << ";";
+		output_stream << param->temperature_d2_afternoon_areamax << ";";
+		output_stream << param->temperature_d2_afternoon_areamean << "; // area day2 afternoon: min, max, mean" << endl;
+
+		output_stream << param->theStory << "; // the story" << endl;
 		output_stream << "test_case_end" << endl;
+	  }
+   }
+
+
+void create_temperature_anomaly_testcasefile(TestCaseContainer& testCases, const string& fileName)
+   {
+	 ofstream output_stream;
+	 output_stream.open(fileName.c_str());
+
+	 TemperatureAnomalyTestParam* param = 0;
+	 int i = 1;
+	 for(TestCaseContainer::iterator iter = testCases.begin(); iter != testCases.end(); iter++)
+	  {
+		param = static_cast<TemperatureAnomalyTestParam*>(iter->second);
+
+#ifdef CPP_TESTCASES
+
+		output_stream << "testCases.insert(make_pair(i++, TemperatureAnomalyTestParam(" << endl;
+
+		output_stream << "\""  << param->temperature_d1_afternoon_inlandmin << "\",\"";
+		output_stream << param->temperature_d1_afternoon_inlandmax << "\",\"";
+		output_stream << param->temperature_d1_afternoon_inlandmean << "\", // inland day1 afternoon: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d1_afternoon_coastmin << "\",\"";
+		output_stream << param->temperature_d1_afternoon_coastmax << "\",\"";
+		output_stream << param->temperature_d1_afternoon_coastmean << "\", // coast day1 afternoon: min, max, mean" << endl;		
+		output_stream << "\""  << param->temperature_d1_afternoon_areamin << "\",\"";
+		output_stream << param->temperature_d1_afternoon_areamax << "\",\"";
+		output_stream << param->temperature_d1_afternoon_areamean << "\", // area day1 afternoon: min, max, mean" << endl;
+
+		output_stream << "\""  << param->temperature_d2_afternoon_inlandmin << "\",\"";
+		output_stream << param->temperature_d2_afternoon_inlandmax << "\",\"";
+		output_stream << param->temperature_d2_afternoon_inlandmean << "\", // inland day2 afternoon: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d2_afternoon_coastmin << "\",\"";
+		output_stream << param->temperature_d2_afternoon_coastmax << "\",\"";
+		output_stream << param->temperature_d2_afternoon_coastmean << "\", // coast day2 afternoon: min, max, mean" << endl;
+		output_stream  << "\"" << param->temperature_d2_afternoon_areamin << "\",\"";
+		output_stream << param->temperature_d2_afternoon_areamax << "\",\"";
+		output_stream << param->temperature_d2_afternoon_areamean << "\", // area day2 afternoon: min, max, mean" << endl;
+
+		output_stream << "\"" << param->theStory << "\"))); // the story" << endl;
 #endif
+
+		output_stream << "#" << i++ << endl;
+		output_stream << "test_case_begin" << endl;
+
+		output_stream << param->temperature_d1_afternoon_inlandmin << ";";
+		output_stream << param->temperature_d1_afternoon_inlandmax << ";";
+		output_stream << param->temperature_d1_afternoon_inlandmean << "; // inland day1 afternoon: min, max, mean" << endl;
+		output_stream << param->temperature_d1_afternoon_coastmin << ";";
+		output_stream << param->temperature_d1_afternoon_coastmax << ";";
+		output_stream << param->temperature_d1_afternoon_coastmean << "; // coast day1 afternoon: min, max, mean" << endl;
+		output_stream << param->temperature_d1_afternoon_areamin << ";";
+		output_stream << param->temperature_d1_afternoon_areamax << ";";
+		output_stream << param->temperature_d1_afternoon_areamean << "; // area day1 afternoon: min, max, mean" << endl;
+
+		output_stream << param->temperature_d2_afternoon_inlandmin << ";";
+		output_stream << param->temperature_d2_afternoon_inlandmax << ";";
+		output_stream << param->temperature_d2_afternoon_inlandmean << "; // inland day2 afternoon: min, max, mean" << endl;
+		output_stream << param->temperature_d2_afternoon_coastmin << ";";
+		output_stream << param->temperature_d2_afternoon_coastmax << ";";
+		output_stream << param->temperature_d2_afternoon_coastmean << "; // coast day2 afternoon: min, max, mean" << endl;
+		output_stream << param->temperature_d2_afternoon_areamin << ";";
+		output_stream << param->temperature_d2_afternoon_areamax << ";";
+		output_stream << param->temperature_d2_afternoon_areamean << "; // area day2 afternoon: min, max, mean" << endl;
+		if(param->theStory.empty())
+		  output_stream << " ; // the story" << endl;
+		else
+		  output_stream << param->theStory << "; // the story" << endl;
+
+		output_stream << "test_case_end" << endl;
+	  }
+   }
+
+  void create_wind_anomaly_testcasefile(TestCaseContainer& testCases, const string& fileName)
+  {
+	 ofstream output_stream;
+	 output_stream.open(fileName.c_str());
+	 
+	 WindAnomalyTestParam* param = 0;
+	 int i = 1;
+	 for(TestCaseContainer::iterator iter = testCases.begin(); iter != testCases.end(); iter++)
+	  {
+		param = static_cast<WindAnomalyTestParam*>(iter->second);
+
+#ifdef CPP_TESTCASES
+
+		output_stream << "testCases.insert(make_pair(i++, WindAnomalyTestParam(" << endl;
+
+		output_stream << "\""  << param->temperature_d1_afternoon_inlandmin << "\",\"";
+		output_stream << param->temperature_d1_afternoon_inlandmax << "\",\"";
+		output_stream << param->temperature_d1_afternoon_inlandmean << "\", // inland day1 afternoon: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d1_afternoon_coastmin << "\",\"";
+		output_stream << param->temperature_d1_afternoon_coastmax << "\",\"";
+		output_stream << param->temperature_d1_afternoon_coastmean << "\", // coast day1 afternoon: min, max, mean" << endl;		
+		output_stream << "\""  << param->temperature_d1_afternoon_areamin << "\",\"";
+		output_stream << param->temperature_d1_afternoon_areamax << "\",\"";
+		output_stream << param->temperature_d1_afternoon_areamean << "\", // area day1 afternoon: min, max, mean" << endl;
+
+		output_stream << "\""  << param->temperature_d2_afternoon_inlandmin << "\",\"";
+		output_stream << param->temperature_d2_afternoon_inlandmax << "\",\"";
+		output_stream << param->temperature_d2_afternoon_inlandmean << "\", // inland day2 afternoon: min, max, mean" << endl;
+		output_stream << "\""  << param->temperature_d2_afternoon_coastmin << "\",\"";
+		output_stream << param->temperature_d2_afternoon_coastmax << "\",\"";
+		output_stream << param->temperature_d2_afternoon_coastmean << "\", // coast day2 afternoon: min, max, mean" << endl;
+		output_stream  << "\"" << param->temperature_d2_afternoon_areamin << "\",\"";
+		output_stream << param->temperature_d2_afternoon_areamax << "\",\"";
+		output_stream << param->temperature_d2_afternoon_areamean << "\", // area day2 afternoon: min, max, mean" << endl;
+
+		output_stream << "\"" << param->theStory << "\"))); // the story" << endl;
+#endif
+
+		output_stream << "#" << i++ << endl;
+		output_stream << "test_case_begin" << endl;
+
+		output_stream << param->temperature_d2_morning_inlandmin << ";";
+		output_stream << param->temperature_d2_morning_inlandmax << ";";
+		output_stream << param->temperature_d2_morning_inlandmean << "; // inland day2 morning: min, max, mean" << endl;
+		output_stream << param->temperature_d2_morning_coastmin << ";";
+		output_stream << param->temperature_d2_morning_coastmax << ";";
+		output_stream << param->temperature_d2_morning_coastmean << "; // coast day2 morning: min, max, mean" << endl;
+
+		output_stream << param->temperature_d2_morning_areamin << ";";
+		output_stream << param->temperature_d2_morning_areamax << ";";
+		output_stream << param->temperature_d2_morning_areamean << "; // area day2 morning: min, max, mean" << endl;
+
+		output_stream << param->temperature_d2_afternoon_inlandmin << ";";
+		output_stream << param->temperature_d2_afternoon_inlandmax << ";";
+		output_stream << param->temperature_d2_afternoon_inlandmean << "; // inland day2 afternoon: min, max, mean" << endl;
+		output_stream << param->temperature_d2_afternoon_coastmin << ";";
+		output_stream << param->temperature_d2_afternoon_coastmax << ";";
+		output_stream << param->temperature_d2_afternoon_coastmean << "; // coast day2 afternoon: min, max, mean" << endl;
+
+		output_stream << param->temperature_d2_afternoon_areamin << ";";
+		output_stream << param->temperature_d2_afternoon_areamax << ";";
+		output_stream << param->temperature_d2_afternoon_areamean << "; // area day2 afternoon: min, max, mean" << endl;
+
+		output_stream << param->anomaly_d2_windspeed_morning_inlandmin << ";";
+		output_stream << param->anomaly_d2_windspeed_morning_inlandmax << ";";
+		output_stream << param->anomaly_d2_windspeed_morning_inlandmean << "; // inland day2 morning windspeed min, max, mean" << endl;
+
+		output_stream << param->anomaly_d2_windspeed_morning_coastmin << ";";
+		output_stream << param->anomaly_d2_windspeed_morning_coastmax << ";";
+		output_stream << param->anomaly_d2_windspeed_morning_coastmean << "; // coast day2 morning windspeed min, max, mean" << endl;
+
+		output_stream << param->anomaly_d2_windspeed_afternoon_inlandmin << ";";
+		output_stream << param->anomaly_d2_windspeed_afternoon_inlandmax << ";";
+		output_stream << param->anomaly_d2_windspeed_afternoon_inlandmean << "; // inland day2 afternoon windspeed min, max, mean" << endl;
+
+		output_stream << param->anomaly_d2_windspeed_afternoon_coastmin << ";";
+		output_stream << param->anomaly_d2_windspeed_afternoon_coastmax << ";";
+		output_stream << param->anomaly_d2_windspeed_afternoon_coastmean << "; // coast day2 afternoon windspeed min, max, mean" << endl;
+
+		output_stream << param->anomaly_d2_windchill_morning_inlandmin << ";";
+		output_stream << param->anomaly_d2_windchill_morning_inlandmax << ";";
+		output_stream << param->anomaly_d2_windchill_morning_inlandmean << "; // inland day2 morning windchill min, max, mean" << endl;
+
+		output_stream << param->anomaly_d2_windchill_morning_coastmin << ";";
+		output_stream << param->anomaly_d2_windchill_morning_coastmax << ";";
+		output_stream << param->anomaly_d2_windchill_morning_coastmean << "; // coast day2 morning windchill min, max, mean" << endl;
+
+		output_stream << param->anomaly_d2_windchill_afternoon_inlandmin << ";";
+		output_stream << param->anomaly_d2_windchill_afternoon_inlandmax << ";";
+		output_stream << param->anomaly_d2_windchill_afternoon_inlandmean << "; // inland day2 afternoon windchill min, max, mean" << endl;
+
+		output_stream << param->anomaly_d2_windchill_afternoon_coastmin << ";";
+		output_stream << param->anomaly_d2_windchill_afternoon_coastmax << ";";
+		output_stream << param->anomaly_d2_windchill_afternoon_coastmean << "; // coast day2 afternoon windchill min, max, mean" << endl;
+
+		if(param->theStory.empty())
+		  output_stream << " ; // the story" << endl;
+		else
+		  output_stream << param->theStory << "; // the story" << endl;
+
+		output_stream << "test_case_end" << endl;
 	  }
    }
 
@@ -2460,7 +2552,9 @@ int get_windchill(const float& theTemperature, const float& theWindSpeed)
 	}
 }
 
-void generate_testcase_parameters(TestCaseContainer& testCases, const string& language, const bool& anomaly = false)
+void generate_testcase_parameters(TestCaseContainer& testCases, 
+								  const string& language, 
+								  const TemperatureTestType& testCaseType)
   {
 	srand(time(NULL));
 	char d1_area_morning_min_str[15], 
@@ -2924,146 +3018,34 @@ void generate_testcase_parameters(TestCaseContainer& testCases, const string& la
 		sprintf(d2_windchill_coast_afternoon_max_str, "%.02f,0", d2_windchill_coast_afternoon_max);
 		sprintf(d2_windchill_coast_afternoon_mean_str, "%.02f,0", d2_windchill_coast_afternoon_mean);
 
-		Max36HoursTestParam* param = 0;
+		TemperatureStoryTestParam* param = 0;
 
-		if(anomaly)
+		if(testCaseType == TEMPERATURE_ANOMALY)
 		  {
-			param = new AnomalyTestParam(
-											d1_inland_min_str,
-											d1_inland_max_str,
-											d1_inland_mean_str,
-
-											d1_coast_min_str,
-											d1_coast_max_str,
-											d1_coast_mean_str,
-
-											d1_area_min_str,
-											d1_area_max_str,
-											d1_area_mean_str,
-
-											d1_inland_morning_min_str,
-											d1_inland_morning_max_str,
-											d1_inland_morning_mean_str,
-
-											d1_coast_morning_min_str,
-											d1_coast_morning_max_str,
-											d1_coast_morning_mean_str,
-
-											d1_area_morning_min_str,
-											d1_area_morning_max_str,
-											d1_area_morning_mean_str,
-
-											d1_inland_afternoon_min_str,
-											d1_inland_afternoon_max_str,
-											d1_inland_afternoon_mean_str,
-
-											d1_coast_afternoon_min_str,
-											d1_coast_afternoon_max_str,
-											d1_coast_afternoon_mean_str,
-
-											d1_area_afternoon_min_str,
-											d1_area_afternoon_max_str,
-											d1_area_afternoon_mean_str,
-
-											d1_windspeed_inland_morning_min_str, 
-											d1_windspeed_inland_morning_max_str, 
-											d1_windspeed_inland_morning_mean_str, 
-											d1_windspeed_inland_afternoon_min_str, 
-											d1_windspeed_inland_afternoon_max_str, 
-											d1_windspeed_inland_afternoon_mean_str,
-											d1_windspeed_coast_morning_min_str, 
-											d1_windspeed_coast_morning_max_str, 
-											d1_windspeed_coast_morning_mean_str, 
-											d1_windspeed_coast_afternoon_min_str, 
-											d1_windspeed_coast_afternoon_max_str, 
-											d1_windspeed_coast_afternoon_mean_str,
-											d1_windchill_inland_morning_min_str, 
-											d1_windchill_inland_morning_max_str, 
-											d1_windchill_inland_morning_mean_str, 
-											d1_windchill_inland_afternoon_min_str, 
-											d1_windchill_inland_afternoon_max_str, 
-											d1_windchill_inland_afternoon_mean_str,
-											d1_windchill_coast_morning_min_str, 
-											d1_windchill_coast_morning_max_str, 
-											d1_windchill_coast_morning_mean_str, 
-											d1_windchill_coast_afternoon_min_str, 
-											d1_windchill_coast_afternoon_max_str, 
-											d1_windchill_coast_afternoon_mean_str,
-
-											inland_night_min_str,
-											inland_night_max_str,
-											inland_night_mean_str,
-
-											coast_night_min_str,
-											coast_night_max_str,
-											coast_night_mean_str,
-
-											area_night_min_str,
-											area_night_max_str,
-											area_night_mean_str,
-
-											d2_inland_min_str,
-											d2_inland_max_str,
-											d2_inland_mean_str,
-
-											d2_coast_min_str,
-											d2_coast_max_str,
-											d2_coast_mean_str,
-
-											d2_area_min_str,
-											d2_area_max_str,
-											d2_area_mean_str,
-
-											d2_inland_morning_min_str,
-											d2_inland_morning_max_str,
-											d2_inland_morning_mean_str,
-
-											d2_coast_morning_min_str,
-											d2_coast_morning_max_str,
-											d2_coast_morning_mean_str,
-
-											d2_area_morning_min_str,
-											d2_area_morning_max_str,
-											d2_area_morning_mean_str,
-
-											d2_inland_afternoon_min_str,
-											d2_inland_afternoon_max_str,
-											d2_inland_afternoon_mean_str,
-
-											d2_coast_afternoon_min_str,
-											d2_coast_afternoon_max_str,
-											d2_coast_afternoon_mean_str,
-
-											d2_area_afternoon_min_str,
-											d2_area_afternoon_max_str,
-											d2_area_afternoon_mean_str,
-
-											d2_windspeed_inland_morning_min_str, 
-											d2_windspeed_inland_morning_max_str, 
-											d2_windspeed_inland_morning_mean_str, 
-											d2_windspeed_inland_afternoon_min_str, 
-											d2_windspeed_inland_afternoon_max_str, 
-											d2_windspeed_inland_afternoon_mean_str,
-											d2_windspeed_coast_morning_min_str, 
-											d2_windspeed_coast_morning_max_str, 
-											d2_windspeed_coast_morning_mean_str, 
-											d2_windspeed_coast_afternoon_min_str, 
-											d2_windspeed_coast_afternoon_max_str, 
-											d2_windspeed_coast_afternoon_mean_str,
-											d2_windchill_inland_morning_min_str, 
-											d2_windchill_inland_morning_max_str, 
-											d2_windchill_inland_morning_mean_str, 
-											d2_windchill_inland_afternoon_min_str, 
-											d2_windchill_inland_afternoon_max_str, 
-											d2_windchill_inland_afternoon_mean_str,
-											d2_windchill_coast_morning_min_str, 
-											d2_windchill_coast_morning_max_str, 
-											d2_windchill_coast_morning_mean_str, 
-											d2_windchill_coast_afternoon_min_str, 
-											d2_windchill_coast_afternoon_max_str, 
-											d2_windchill_coast_afternoon_mean_str,
-
-											"");
+			param = new TemperatureAnomalyTestParam(   d1_inland_afternoon_min_str,
+													   d1_inland_afternoon_max_str,
+													   d1_inland_afternoon_mean_str,
+													   
+													   d1_coast_afternoon_min_str,
+													   d1_coast_afternoon_max_str,
+													   d1_coast_afternoon_mean_str,
+													   
+													   d1_area_afternoon_min_str,
+													   d1_area_afternoon_max_str,
+													   d1_area_afternoon_mean_str,
+													   
+													   d2_inland_afternoon_min_str,
+													   d2_inland_afternoon_max_str,
+													   d2_inland_afternoon_mean_str,
+													   
+													   d2_coast_afternoon_min_str,
+													   d2_coast_afternoon_max_str,
+													   d2_coast_afternoon_mean_str,
+													   
+													   d2_area_afternoon_min_str,
+													   d2_area_afternoon_max_str,
+													   d2_area_afternoon_mean_str,
+													   "");
 		  }
 		else
 		  {
@@ -4056,289 +4038,289 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 }
 
 void create_anomaly_testcases(TestCaseContainer& testCases, const string& language, const bool& isWinter)
-  {
+{
 #ifdef LATER
-	int i = 0;
+  int i = 0;
 
-	if(isWinter)
-	  {
-		if(language == "fi")
-		  {
-			// pakkanen kiristyy
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"-6.0,0","-7.0,0","-6.5,0", // d1 min, max, mean
-															"-6.0,0","-7.0,0","-6.5,0", // night min, max, mean
-															"-26.0,0","-27.0,0","-26.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Pakkanen kiristyy.")));
+  if(isWinter)
+	{
+	  if(language == "fi")
+		{
+		  // pakkanen kiristyy
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "-6.0,0","-7.0,0","-6.5,0", // d1 min, max, mean
+																	 "-6.0,0","-7.0,0","-6.5,0", // night min, max, mean
+																	 "-26.0,0","-27.0,0","-26.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Pakkanen kiristyy.")));
 
-			// kireä pakkanen jatkuu
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"-26.0,0","-27.0,0","-26.5,0", // d1 min, max, mean
-															"-6.0,0","-7.0,0","-6.5,0", // night min, max, mean
-															"-26.0,0","-27.0,0","-26.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää on poikkeuksellisen kylmää. Kireä pakkanen jatkuu.")));
+		  // kireä pakkanen jatkuu
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "-26.0,0","-27.0,0","-26.5,0", // d1 min, max, mean
+																	 "-6.0,0","-7.0,0","-6.5,0", // night min, max, mean
+																	 "-26.0,0","-27.0,0","-26.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää on poikkeuksellisen kylmää. Kireä pakkanen jatkuu.")));
 
-			// sää on poikkeuksellisen kylmää ja pakkanen kiristyy
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"-27.0,0","-28.0,0","-27.5,0", // d1 min, max, mean
-															"-27.0,0","-28.0,0","-27.5,0", // night min, max, mean
-															"-32.0,0","-33.0,0","-32.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää on poikkeuksellisen kylmää. Pakkanen kiristyy.")));
-			// kireä pakkanen heikkenee
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"-27.0,0","-28.0,0","-27.5,0", // d1 min, max, mean
-															"-27.0,0","-28.0,0","-27.5,0", // night min, max, mean
-															"-6.0,0","-7.0,0","-6.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää on poikkeuksellisen kylmää. Kireä pakkanen heikkenee.")));
-			// pakkanen heikkenee
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"-18.0,0","-19.0,0","-18.5,0", // d1 min, max, mean
-															"-18.0,0","-19.0,0","-18.5,0", // night min, max, mean
-															"-6.0,0","-7.0,0","-6.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Pakkanen heikkenee.")));
-			/*
-			// pakkanen hellittää (sää lauhtuu)
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"-12.0,0","-14.0,0","-13.5,0", // d1 min, max, mean
-															"-12.0,0","-14.0,0","-13.5,0", // night min, max, mean
-															"-2.0,0","-6.0,0","-4.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Pakkanen hellittää.")));
-			*/
+		  // sää on poikkeuksellisen kylmää ja pakkanen kiristyy
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "-27.0,0","-28.0,0","-27.5,0", // d1 min, max, mean
+																	 "-27.0,0","-28.0,0","-27.5,0", // night min, max, mean
+																	 "-32.0,0","-33.0,0","-32.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää on poikkeuksellisen kylmää. Pakkanen kiristyy.")));
+		  // kireä pakkanen heikkenee
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "-27.0,0","-28.0,0","-27.5,0", // d1 min, max, mean
+																	 "-27.0,0","-28.0,0","-27.5,0", // night min, max, mean
+																	 "-6.0,0","-7.0,0","-6.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää on poikkeuksellisen kylmää. Kireä pakkanen heikkenee.")));
+		  // pakkanen heikkenee
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "-18.0,0","-19.0,0","-18.5,0", // d1 min, max, mean
+																	 "-18.0,0","-19.0,0","-18.5,0", // night min, max, mean
+																	 "-6.0,0","-7.0,0","-6.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Pakkanen heikkenee.")));
+		  /*
+		  // pakkanen hellittää (sää lauhtuu)
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+		  "-12.0,0","-14.0,0","-13.5,0", // d1 min, max, mean
+		  "-12.0,0","-14.0,0","-13.5,0", // night min, max, mean
+		  "-2.0,0","-6.0,0","-4.5,0", // d2 min, max, mean
+		  "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+		  "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+		  "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+		  "Pakkanen hellittää.")));
+		  */
 
-			// sää lauhtuu
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"-18.0,0","-19.0,0","-18.5,0", // d1 min, max, mean
-															"-18.0,0","-19.0,0","-18.5,0", // night min, max, mean
-															"-4.0,0","-6.0,0","-4.9,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää lauhtuu.")));
-			// sää lauhtuu
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"-27.0,0","-28.0,0","-27.5,0", // d1 min, max, mean
-															"-27.0,0","-28.0,0","-27.5,0", // night min, max, mean
-															"-4.0,0","-6.0,0","-4.9,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää on poikkeuksellisen kylmää. Sää lauhtuu.")));
+		  // sää lauhtuu
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "-18.0,0","-19.0,0","-18.5,0", // d1 min, max, mean
+																	 "-18.0,0","-19.0,0","-18.5,0", // night min, max, mean
+																	 "-4.0,0","-6.0,0","-4.9,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää lauhtuu.")));
+		  // sää lauhtuu
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "-27.0,0","-28.0,0","-27.5,0", // d1 min, max, mean
+																	 "-27.0,0","-28.0,0","-27.5,0", // night min, max, mean
+																	 "-4.0,0","-6.0,0","-4.9,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää on poikkeuksellisen kylmää. Sää lauhtuu.")));
 
 
-			// sää one edelleen lauhaa
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"-2.0,0","-3.0,0","-2.5,0", // d1 min, max, mean
-															"-2.0,0","-3.0,0","-2.5,0", // night min, max, mean
-															"-2.0,0","-3.0,0","-2.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää on edelleen lauhaa.")));
+		  // sää one edelleen lauhaa
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "-2.0,0","-3.0,0","-2.5,0", // d1 min, max, mean
+																	 "-2.0,0","-3.0,0","-2.5,0", // night min, max, mean
+																	 "-2.0,0","-3.0,0","-2.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää on edelleen lauhaa.")));
 
-			// sää one edelleen lauhaa. sää on erittäin tuulista
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"-2.0,0","-3.0,0","-2.5,0", // d1 min, max, mean
-															"-2.0,0","-3.0,0","-2.5,0", // night min, max, mean
-															"-2.0,0","-3.0,0","-2.5,0", // d2 min, max, mean
-															"10.0,0","12.0,0","11.0,0", //d2 windspeed morning min,max,mean
-															"10.0,0","12.0,0","11.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää on edelleen lauhaa. Sää on erittäin tuulinen.")));
+		  // sää one edelleen lauhaa. sää on erittäin tuulista
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "-2.0,0","-3.0,0","-2.5,0", // d1 min, max, mean
+																	 "-2.0,0","-3.0,0","-2.5,0", // night min, max, mean
+																	 "-2.0,0","-3.0,0","-2.5,0", // d2 min, max, mean
+																	 "10.0,0","12.0,0","11.0,0", //d2 windspeed morning min,max,mean
+																	 "10.0,0","12.0,0","11.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää on edelleen lauhaa. Sää on erittäin tuulinen.")));
 
-			// sää on hyvin kylmää. kireä pakkanen jatkuu. sää on tuulinen. pakkanen on purevaa
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"-22.0,0","-23.0,0","-22.5,0", // d1 min, max, mean
-															"-22.0,0","-23.0,0","-22.5,0", // night min, max, mean
-															"-22.0,0","-23.0,0","-22.5,0", // d2 min, max, mean
-															"8.0,0","10.0,0","9.0,0", //d2 windspeed morning min,max,mean
-															"9.0,0","11.0,0","9.6,0", //d2 windspeed afternoon min,max,me															    
-															"-26.0,0","-29.0,0","-27.0,0", //d2 windchill min,max,mean
-															"Sää on hyvin kylmää. Kireä pakkanen jatkuu. Sää on tuulinen. Pakkanen on purevaa.")));
+		  // sää on hyvin kylmää. kireä pakkanen jatkuu. sää on tuulinen. pakkanen on purevaa
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "-22.0,0","-23.0,0","-22.5,0", // d1 min, max, mean
+																	 "-22.0,0","-23.0,0","-22.5,0", // night min, max, mean
+																	 "-22.0,0","-23.0,0","-22.5,0", // d2 min, max, mean
+																	 "8.0,0","10.0,0","9.0,0", //d2 windspeed morning min,max,mean
+																	 "9.0,0","11.0,0","9.6,0", //d2 windspeed afternoon min,max,me															    
+																	 "-26.0,0","-29.0,0","-27.0,0", //d2 windchill min,max,mean
+																	 "Sää on hyvin kylmää. Kireä pakkanen jatkuu. Sää on tuulinen. Pakkanen on purevaa.")));
 
-			// sää on hyvin kylmää. kireä pakkanen jatkuu. sää on erittäin tuulinen. pakkanen on erittäin purevaa
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"-22.0,0","-23.0,0","-22.5,0", // d1 min, max, mean
-															"-22.0,0","-23.0,0","-22.5,0", // night min, max, mean
-															"-22.0,0","-23.0,0","-22.5,0", // d2 min, max, mean
-															"10.0,0","12.0,0","11.0,0", //d2 windspeed morning min,max,mean
-															"10.0,0","12.0,0","11.0,0", //d2 windspeed afternoon min,max,me															    
-															"-36.0,0","-39.0,0","-37.0,0", //d2 windchill min,max,mean
-															"Sää on hyvin kylmää. Kireä pakkanen jatkuu. Sää on erittäin tuulinen. Pakkanen on erittäin purevaa.")));
+		  // sää on hyvin kylmää. kireä pakkanen jatkuu. sää on erittäin tuulinen. pakkanen on erittäin purevaa
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "-22.0,0","-23.0,0","-22.5,0", // d1 min, max, mean
+																	 "-22.0,0","-23.0,0","-22.5,0", // night min, max, mean
+																	 "-22.0,0","-23.0,0","-22.5,0", // d2 min, max, mean
+																	 "10.0,0","12.0,0","11.0,0", //d2 windspeed morning min,max,mean
+																	 "10.0,0","12.0,0","11.0,0", //d2 windspeed afternoon min,max,me															    
+																	 "-36.0,0","-39.0,0","-37.0,0", //d2 windchill min,max,mean
+																	 "Sää on hyvin kylmää. Kireä pakkanen jatkuu. Sää on erittäin tuulinen. Pakkanen on erittäin purevaa.")));
 
-		  }
-	  }
-	else
-	  {
-		if(language == "fi")
-		  {
-			// sää muuttuu helteiseksi
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"18.0,0","19.0,0","18.5,0", // d1 min, max, mean
-															"15.0,0","16.0,0","15.5,0", // night min, max, mean
-															"25.0,0","26.0,0","25.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää muuttuu helteiseksi.")));
+		}
+	}
+  else
+	{
+	  if(language == "fi")
+		{
+		  // sää muuttuu helteiseksi
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "18.0,0","19.0,0","18.5,0", // d1 min, max, mean
+																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
+																	 "25.0,0","26.0,0","25.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää muuttuu helteiseksi.")));
 
-			// sää on harvinaisen lämmintä. sää on helteistä
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"23.0,0","24.8,0","23.5,0", // d1 min, max, mean
-															"15.0,0","16.0,0","15.5,0", // night min, max, mean
-															"25.0,0","26.0,0","25.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää on harvinaisen lämmintä. Sää on helteistä.")));
+		  // sää on harvinaisen lämmintä. sää on helteistä
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "23.0,0","24.8,0","23.5,0", // d1 min, max, mean
+																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
+																	 "25.0,0","26.0,0","25.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää on harvinaisen lämmintä. Sää on helteistä.")));
 
-			// sää on harvinaisen lämmintä. sää muuttuu helteiseksi
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"23.0,0","24.8,0","22.5,0", // d1 min, max, mean
-															"15.0,0","16.0,0","15.5,0", // night min, max, mean
-															"24.0,0","26.0,0","25.0,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää on harvinaisen lämmintä. Sää muuttuu helteiseksi.")));
+		  // sää on harvinaisen lämmintä. sää muuttuu helteiseksi
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "23.0,0","24.8,0","22.5,0", // d1 min, max, mean
+																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
+																	 "24.0,0","26.0,0","25.0,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää on harvinaisen lämmintä. Sää muuttuu helteiseksi.")));
 
-			// helteinen sää jatkuu (vaikka lämpötila laskee)
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"29.0,0","30.0,0","29.5,0", // d1 min, max, mean
-															"20.0,0","21.0,0","20.5,0", // night min, max, mean
-															"25.0,0","26.0,0","25.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Helteinen sää jatkuu.")));
+		  // helteinen sää jatkuu (vaikka lämpötila laskee)
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "29.0,0","30.0,0","29.5,0", // d1 min, max, mean
+																	 "20.0,0","21.0,0","20.5,0", // night min, max, mean
+																	 "25.0,0","26.0,0","25.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Helteinen sää jatkuu.")));
 
-			// helteinen sää jatkuu (lämpötila pysyy samana)
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"29.0,0","30.0,0","29.5,0", // d1 min, max, mean
-															"20.0,0","21.0,0","20.5,0", // night min, max, mean
-															"29.0,0","30.0,0","29.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Helteinen sää jatkuu.")));
+		  // helteinen sää jatkuu (lämpötila pysyy samana)
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "29.0,0","30.0,0","29.5,0", // d1 min, max, mean
+																	 "20.0,0","21.0,0","20.5,0", // night min, max, mean
+																	 "29.0,0","30.0,0","29.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Helteinen sää jatkuu.")));
 
-			// helteinen sää jatkuu (lämpötila nousee)
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"25.0,0","26.0,0","25.5,0", // d1 min, max, mean
-															"20.0,0","21.0,0","20.5,0", // night min, max, mean
-															"29.0,0","30.0,0","29.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Helteinen sää jatkuu.")));
+		  // helteinen sää jatkuu (lämpötila nousee)
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "25.0,0","26.0,0","25.5,0", // d1 min, max, mean
+																	 "20.0,0","21.0,0","20.5,0", // night min, max, mean
+																	 "29.0,0","30.0,0","29.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Helteinen sää jatkuu.")));
 
-			// sää on koleaa. kolea sää jatkuu (lämpötila nousee)
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"8.0,0","9.0,0","8.5,0", // d1 min, max, mean
-															"5.0,0","6.0,0","5.5,0", // night min, max, mean
-															"10.0,0","11.0,0","10.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää on koleaa. Kolea sää jatkuu.")));
+		  // sää on koleaa. kolea sää jatkuu (lämpötila nousee)
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "8.0,0","9.0,0","8.5,0", // d1 min, max, mean
+																	 "5.0,0","6.0,0","5.5,0", // night min, max, mean
+																	 "10.0,0","11.0,0","10.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää on koleaa. Kolea sää jatkuu.")));
 
-			// sää on koleaa. kolea sää jatkuu
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"8.0,0","9.0,0","8.5,0", // d1 min, max, mean
-															"5.0,0","6.0,0","5.5,0", // night min, max, mean
-															"7.5,0","8.5,0","8.0,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää on koleaa. Kolea sää jatkuu.")));
+		  // sää on koleaa. kolea sää jatkuu
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "8.0,0","9.0,0","8.5,0", // d1 min, max, mean
+																	 "5.0,0","6.0,0","5.5,0", // night min, max, mean
+																	 "7.5,0","8.5,0","8.0,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää on koleaa. Kolea sää jatkuu.")));
 
-			// sää on koleaa. viileä sää jatkuu
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"8.0,0","9.0,0","8.5,0", // d1 min, max, mean
-															"5.0,0","6.0,0","5.5,0", // night min, max, mean
-															"12.0,0","14.0,0","13.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää on koleaa. Viileä sää jatkuu.")));
+		  // sää on koleaa. viileä sää jatkuu
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "8.0,0","9.0,0","8.5,0", // d1 min, max, mean
+																	 "5.0,0","6.0,0","5.5,0", // night min, max, mean
+																	 "12.0,0","14.0,0","13.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää on koleaa. Viileä sää jatkuu.")));
 
-			// sää viilenee vähän
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"17.0,0","18.0,0","17.5,0", // d1 min, max, mean
-															"15.0,0","16.0,0","15.5,0", // night min, max, mean
-															"14.0,0","15.0,0","14.6,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää viilenee vähän.")));
-			// sää viilenee
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"17.0,0","18.0,0","17.5,0", // d1 min, max, mean
-															"15.0,0","16.0,0","15.5,0", // night min, max, mean
-															"14.0,0","15.0,0","14.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää viilenee.")));
-			// sää viilenee huomattavasti
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"17.0,0","18.0,0","17.5,0", // d1 min, max, mean
-															"15.0,0","16.0,0","15.5,0", // night min, max, mean
-															"10.0,0","11.0,0","10.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää viilenee huomattavasti.")));
-			// sää lämpenee vähän
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"14.0,0","15.0,0","14.6,0", // d1 min, max, mean
-															"15.0,0","16.0,0","15.5,0", // night min, max, mean
-															"17.0,0","18.0,0","17.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää lämpenee vähän.")));
-			// sää lämpenee
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"14.0,0","15.0,0","14.5,0", // d1 min, max, mean
-															"15.0,0","16.0,0","15.5,0", // night min, max, mean
-															"17.0,0","18.0,0","17.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää lämpenee.")));
-			// sää on koleaa, sää lämpenee huomattavasti
-			testCases.insert(make_pair(i++,AnomalyTestParam(
-															"10.0,0","11.0,0","10.5,0", // d1 min, max, mean
-															"15.0,0","16.0,0","15.5,0", // night min, max, mean
-															"17.0,0","18.0,0","17.5,0", // d2 min, max, mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
-															"2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
-															"0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-															"Sää on koleaa. Sää lämpenee huomattavasti.")));
-		  }
-	  }
+		  // sää viilenee vähän
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "17.0,0","18.0,0","17.5,0", // d1 min, max, mean
+																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
+																	 "14.0,0","15.0,0","14.6,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää viilenee vähän.")));
+		  // sää viilenee
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "17.0,0","18.0,0","17.5,0", // d1 min, max, mean
+																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
+																	 "14.0,0","15.0,0","14.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää viilenee.")));
+		  // sää viilenee huomattavasti
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "17.0,0","18.0,0","17.5,0", // d1 min, max, mean
+																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
+																	 "10.0,0","11.0,0","10.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää viilenee huomattavasti.")));
+		  // sää lämpenee vähän
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "14.0,0","15.0,0","14.6,0", // d1 min, max, mean
+																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
+																	 "17.0,0","18.0,0","17.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää lämpenee vähän.")));
+		  // sää lämpenee
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "14.0,0","15.0,0","14.5,0", // d1 min, max, mean
+																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
+																	 "17.0,0","18.0,0","17.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää lämpenee.")));
+		  // sää on koleaa, sää lämpenee huomattavasti
+		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
+																	 "10.0,0","11.0,0","10.5,0", // d1 min, max, mean
+																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
+																	 "17.0,0","18.0,0","17.5,0", // d2 min, max, mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
+																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
+																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
+																	 "Sää on koleaa. Sää lämpenee huomattavasti.")));
+		}
+	}
 #endif
-  }
-
-void generate_testcasefile(const char* theFileName, const char* theLanguage, const bool& anomaly = false)
+}
+  //void generate_testcasefile(const char* theFileName, const char* theLanguage, const bool& anomaly = false)
+void generate_testcasefile(const char* theFileName, const char* theLanguage, const TemperatureTestType& theTestType)
 {
   AnalysisSources sources;
   WeatherArea area("25,60");
@@ -4357,14 +4339,23 @@ void generate_testcasefile(const char* theFileName, const char* theLanguage, con
   TemperatureStory story1(time1,sources,area,period_day1_night_day2,"max36hours");
   TestCaseContainer testCases;
 	
-  generate_testcase_parameters(testCases, theLanguage, anomaly);
+  generate_testcase_parameters(testCases, theLanguage, theTestType);
 
-  if(anomaly)
-	create_anomaly_testcase_stories(testCases, theLanguage, sources, area);
-  else
-	create_max36hours_testcase_stories(testCases, theLanguage, sources, area);
-
-  create_testcasefile(testCases, theFileName, anomaly);
+  if(theTestType == TEMPERATURE_ANOMALY)
+	{
+	  create_temperature_anomaly_testcase_stories(testCases, theLanguage, sources, area);
+	  create_temperature_anomaly_testcasefile(testCases, theFileName);
+	}
+  else if(theTestType == TEMPERATURE_MAX36_HOURS)
+	{
+	  create_max36hours_testcase_stories(testCases, theLanguage, sources, area);
+	  create_max36hours_testcasefile(testCases, theFileName);
+	}
+  else if(theTestType == WIND_ANOMALY)
+	{
+	  create_wind_anomaly_testcase_stories(testCases, theLanguage, sources, area);
+	  create_wind_anomaly_testcasefile(testCases, theFileName);
+	}
 }
 
 void delete_testcases(TestCaseContainer& testCases)
@@ -4372,6 +4363,7 @@ void delete_testcases(TestCaseContainer& testCases)
 	TestCaseContainer::iterator iter;
 	for(iter = testCases.begin(); iter != testCases.end(); iter++)
 	  delete iter->second;
+	testCases.clear();
 }
   void temperature_max36hours()
   {
@@ -4394,7 +4386,7 @@ void delete_testcases(TestCaseContainer& testCases)
 	//NFmiSettings::Set("textgen::main_forecast", "/home/reponen/work/testdata/200904300654_pal_skandinavia_pinta.sqd");
 
 	//qdtext::forecasttime = 200904301200
-
+	
 	NFmiTime time1(2009,4,1,6,0,0);
 	NFmiTime time2(2009,4,2,18,0,0);
 	WeatherPeriod period_day1_night_day2(time1,time2);
@@ -4405,91 +4397,94 @@ void delete_testcases(TestCaseContainer& testCases)
 
 	const char* languages [] = {"fi", "sv", "en"};
 
-	//	bool do_anomaly = false;
-	//generate_testcasefile("temperature_max36hours_testcases.txt", "fi", do_anomaly);
+	//generate_testcasefile("max36hours_testcases.txt", "fi", false);
+	//create_max36hours_testcases(testCases, languages[i]);
 
+	// here you should iterate all languages
 	for(int i = 0; i < 1; i++)
 	  {
-		create_max36hours_testcases(testCases, languages[i]);
-
+		read_testcasefile(testCases, "./max36hours_testcases.txt", false);
+		
+		Max36HoursTestParam* param = 0;		
 		for(iter = testCases.begin(); iter != testCases.end(); iter++)
 		  {
-			NFmiSettings::Set("max36hours::fake::day1::inland::min",iter->second->temperature_d1_inlandmin);
-			NFmiSettings::Set("max36hours::fake::day1::inland::max",iter->second->temperature_d1_inlandmax);
-			NFmiSettings::Set("max36hours::fake::day1::inland::mean",iter->second->temperature_d1_inlandmean);
-			NFmiSettings::Set("max36hours::fake::day1::coast::min",iter->second->temperature_d1_coastmin);
-			NFmiSettings::Set("max36hours::fake::day1::coast::max",iter->second->temperature_d1_coastmax);
-			NFmiSettings::Set("max36hours::fake::day1::coast::mean",iter->second->temperature_d1_coastmean);
-			NFmiSettings::Set("max36hours::fake::day1::area::min",iter->second->temperature_d1_areamin);
-			NFmiSettings::Set("max36hours::fake::day1::area::max",iter->second->temperature_d1_areamax);
-			NFmiSettings::Set("max36hours::fake::day1::area::mean",iter->second->temperature_d1_areamean);
+			param = static_cast<Max36HoursTestParam*>(iter->second);
 
-			NFmiSettings::Set("max36hours::fake::day1::morning::inland::min",iter->second->temperature_d1_morning_inlandmin);
-			NFmiSettings::Set("max36hours::fake::day1::morning::inland::max",iter->second->temperature_d1_morning_inlandmax);
-			NFmiSettings::Set("max36hours::fake::day1::morning::inland::mean",iter->second->temperature_d1_morning_inlandmean);
-			NFmiSettings::Set("max36hours::fake::day1::morning::coast::min",iter->second->temperature_d1_morning_coastmin);
-			NFmiSettings::Set("max36hours::fake::day1::morning::coast::max",iter->second->temperature_d1_morning_coastmax);
-			NFmiSettings::Set("max36hours::fake::day1::morning::coast::mean",iter->second->temperature_d1_morning_coastmean);
-			NFmiSettings::Set("max36hours::fake::day1::morning::area::min",iter->second->temperature_d1_morning_areamin);
-			NFmiSettings::Set("max36hours::fake::day1::morning::area::max",iter->second->temperature_d1_morning_areamax);
-			NFmiSettings::Set("max36hours::fake::day1::morning::area::mean",iter->second->temperature_d1_morning_areamean);
+			NFmiSettings::Set("max36hours::fake::day1::inland::min",param->temperature_d1_inlandmin);
+			NFmiSettings::Set("max36hours::fake::day1::inland::max",param->temperature_d1_inlandmax);
+			NFmiSettings::Set("max36hours::fake::day1::inland::mean",param->temperature_d1_inlandmean);
+			NFmiSettings::Set("max36hours::fake::day1::coast::min",param->temperature_d1_coastmin);
+			NFmiSettings::Set("max36hours::fake::day1::coast::max",param->temperature_d1_coastmax);
+			NFmiSettings::Set("max36hours::fake::day1::coast::mean",param->temperature_d1_coastmean);
+			NFmiSettings::Set("max36hours::fake::day1::area::min",param->temperature_d1_areamin);
+			NFmiSettings::Set("max36hours::fake::day1::area::max",param->temperature_d1_areamax);
+			NFmiSettings::Set("max36hours::fake::day1::area::mean",param->temperature_d1_areamean);
 
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::min",iter->second->temperature_d1_afternoon_inlandmin);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::max",iter->second->temperature_d1_afternoon_inlandmax);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::mean",iter->second->temperature_d1_afternoon_inlandmean);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::min",iter->second->temperature_d1_afternoon_coastmin);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::max",iter->second->temperature_d1_afternoon_coastmax);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::mean",iter->second->temperature_d1_afternoon_coastmean);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::min",iter->second->temperature_d1_afternoon_areamin);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::max",iter->second->temperature_d1_afternoon_areamax);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::mean",iter->second->temperature_d1_afternoon_areamean);
+			NFmiSettings::Set("max36hours::fake::day1::morning::inland::min",param->temperature_d1_morning_inlandmin);
+			NFmiSettings::Set("max36hours::fake::day1::morning::inland::max",param->temperature_d1_morning_inlandmax);
+			NFmiSettings::Set("max36hours::fake::day1::morning::inland::mean",param->temperature_d1_morning_inlandmean);
+			NFmiSettings::Set("max36hours::fake::day1::morning::coast::min",param->temperature_d1_morning_coastmin);
+			NFmiSettings::Set("max36hours::fake::day1::morning::coast::max",param->temperature_d1_morning_coastmax);
+			NFmiSettings::Set("max36hours::fake::day1::morning::coast::mean",param->temperature_d1_morning_coastmean);
+			NFmiSettings::Set("max36hours::fake::day1::morning::area::min",param->temperature_d1_morning_areamin);
+			NFmiSettings::Set("max36hours::fake::day1::morning::area::max",param->temperature_d1_morning_areamax);
+			NFmiSettings::Set("max36hours::fake::day1::morning::area::mean",param->temperature_d1_morning_areamean);
 
-			NFmiSettings::Set("max36hours::fake::night::inland::min",iter->second->temperature_nite_inlandmin);
-			NFmiSettings::Set("max36hours::fake::night::inland::max",iter->second->temperature_nite_inlandmax);
-			NFmiSettings::Set("max36hours::fake::night::inland::mean",iter->second->temperature_nite_inlandmean);
-			NFmiSettings::Set("max36hours::fake::night::coast::min",iter->second->temperature_nite_coastmin);
-			NFmiSettings::Set("max36hours::fake::night::coast::max",iter->second->temperature_nite_coastmax);
-			NFmiSettings::Set("max36hours::fake::night::coast::mean",iter->second->temperature_nite_coastmean);
-			NFmiSettings::Set("max36hours::fake::night::area::min",iter->second->temperature_nite_areamin);
-			NFmiSettings::Set("max36hours::fake::night::area::max",iter->second->temperature_nite_areamax);
-			NFmiSettings::Set("max36hours::fake::night::area::mean",iter->second->temperature_nite_areamean);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::min",param->temperature_d1_afternoon_inlandmin);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::max",param->temperature_d1_afternoon_inlandmax);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::mean",param->temperature_d1_afternoon_inlandmean);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::min",param->temperature_d1_afternoon_coastmin);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::max",param->temperature_d1_afternoon_coastmax);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::mean",param->temperature_d1_afternoon_coastmean);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::min",param->temperature_d1_afternoon_areamin);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::max",param->temperature_d1_afternoon_areamax);
+			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::mean",param->temperature_d1_afternoon_areamean);
 
-			NFmiSettings::Set("max36hours::fake::day2::inland::min",iter->second->temperature_d2_inlandmin);
-			NFmiSettings::Set("max36hours::fake::day2::inland::max",iter->second->temperature_d2_inlandmax);
-			NFmiSettings::Set("max36hours::fake::day2::inland::mean",iter->second->temperature_d2_inlandmean);
-			NFmiSettings::Set("max36hours::fake::day2::coast::min",iter->second->temperature_d2_coastmin);
-			NFmiSettings::Set("max36hours::fake::day2::coast::max",iter->second->temperature_d2_coastmax);
-			NFmiSettings::Set("max36hours::fake::day2::coast::mean",iter->second->temperature_d2_coastmean);
-			NFmiSettings::Set("max36hours::fake::day2::area::min",iter->second->temperature_d2_areamin);
-			NFmiSettings::Set("max36hours::fake::day2::area::max",iter->second->temperature_d2_areamax);
-			NFmiSettings::Set("max36hours::fake::day2::area::mean",iter->second->temperature_d2_areamean);
+			NFmiSettings::Set("max36hours::fake::night::inland::min",param->temperature_nite_inlandmin);
+			NFmiSettings::Set("max36hours::fake::night::inland::max",param->temperature_nite_inlandmax);
+			NFmiSettings::Set("max36hours::fake::night::inland::mean",param->temperature_nite_inlandmean);
+			NFmiSettings::Set("max36hours::fake::night::coast::min",param->temperature_nite_coastmin);
+			NFmiSettings::Set("max36hours::fake::night::coast::max",param->temperature_nite_coastmax);
+			NFmiSettings::Set("max36hours::fake::night::coast::mean",param->temperature_nite_coastmean);
+			NFmiSettings::Set("max36hours::fake::night::area::min",param->temperature_nite_areamin);
+			NFmiSettings::Set("max36hours::fake::night::area::max",param->temperature_nite_areamax);
+			NFmiSettings::Set("max36hours::fake::night::area::mean",param->temperature_nite_areamean);
 
-			NFmiSettings::Set("max36hours::fake::day2::morning::inland::min",iter->second->temperature_d2_morning_inlandmin);
-			NFmiSettings::Set("max36hours::fake::day2::morning::inland::max",iter->second->temperature_d2_morning_inlandmax);
-			NFmiSettings::Set("max36hours::fake::day2::morning::inland::mean",iter->second->temperature_d2_morning_inlandmean);
-			NFmiSettings::Set("max36hours::fake::day2::morning::coast::min",iter->second->temperature_d2_morning_coastmin);
-			NFmiSettings::Set("max36hours::fake::day2::morning::coast::max",iter->second->temperature_d2_morning_coastmax);
-			NFmiSettings::Set("max36hours::fake::day2::morning::coast::mean",iter->second->temperature_d2_morning_coastmean);
-			NFmiSettings::Set("max36hours::fake::day2::morning::area::min",iter->second->temperature_d2_morning_areamin);
-			NFmiSettings::Set("max36hours::fake::day2::morning::area::max",iter->second->temperature_d2_morning_areamax);
-			NFmiSettings::Set("max36hours::fake::day2::morning::area::mean",iter->second->temperature_d2_morning_areamean);
+			NFmiSettings::Set("max36hours::fake::day2::inland::min",param->temperature_d2_inlandmin);
+			NFmiSettings::Set("max36hours::fake::day2::inland::max",param->temperature_d2_inlandmax);
+			NFmiSettings::Set("max36hours::fake::day2::inland::mean",param->temperature_d2_inlandmean);
+			NFmiSettings::Set("max36hours::fake::day2::coast::min",param->temperature_d2_coastmin);
+			NFmiSettings::Set("max36hours::fake::day2::coast::max",param->temperature_d2_coastmax);
+			NFmiSettings::Set("max36hours::fake::day2::coast::mean",param->temperature_d2_coastmean);
+			NFmiSettings::Set("max36hours::fake::day2::area::min",param->temperature_d2_areamin);
+			NFmiSettings::Set("max36hours::fake::day2::area::max",param->temperature_d2_areamax);
+			NFmiSettings::Set("max36hours::fake::day2::area::mean",param->temperature_d2_areamean);
 
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::min",iter->second->temperature_d2_afternoon_inlandmin);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::max",iter->second->temperature_d2_afternoon_inlandmax);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::mean",iter->second->temperature_d2_afternoon_inlandmean);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::min",iter->second->temperature_d2_afternoon_coastmin);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::max",iter->second->temperature_d2_afternoon_coastmax);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::mean",iter->second->temperature_d2_afternoon_coastmean);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::min",iter->second->temperature_d2_afternoon_areamin);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::max",iter->second->temperature_d2_afternoon_areamax);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::mean",iter->second->temperature_d2_afternoon_areamean);
+			NFmiSettings::Set("max36hours::fake::day2::morning::inland::min",param->temperature_d2_morning_inlandmin);
+			NFmiSettings::Set("max36hours::fake::day2::morning::inland::max",param->temperature_d2_morning_inlandmax);
+			NFmiSettings::Set("max36hours::fake::day2::morning::inland::mean",param->temperature_d2_morning_inlandmean);
+			NFmiSettings::Set("max36hours::fake::day2::morning::coast::min",param->temperature_d2_morning_coastmin);
+			NFmiSettings::Set("max36hours::fake::day2::morning::coast::max",param->temperature_d2_morning_coastmax);
+			NFmiSettings::Set("max36hours::fake::day2::morning::coast::mean",param->temperature_d2_morning_coastmean);
+			NFmiSettings::Set("max36hours::fake::day2::morning::area::min",param->temperature_d2_morning_areamin);
+			NFmiSettings::Set("max36hours::fake::day2::morning::area::max",param->temperature_d2_morning_areamax);
+			NFmiSettings::Set("max36hours::fake::day2::morning::area::mean",param->temperature_d2_morning_areamean);
 
-				require(story1,languages[i],fun,iter->second->theStory);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::min",param->temperature_d2_afternoon_inlandmin);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::max",param->temperature_d2_afternoon_inlandmax);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::mean",param->temperature_d2_afternoon_inlandmean);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::min",param->temperature_d2_afternoon_coastmin);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::max",param->temperature_d2_afternoon_coastmax);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::mean",param->temperature_d2_afternoon_coastmean);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::min",param->temperature_d2_afternoon_areamin);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::max",param->temperature_d2_afternoon_areamax);
+			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::mean",param->temperature_d2_afternoon_areamean);
+
+			require(story1,languages[i],fun,param->theStory);
 		  }
 		delete_testcases(testCases);
-		testCases.clear();
 	  }
-	//	testCases.clear();
+
 
 	TEST_PASSED();
   }
@@ -4535,66 +4530,82 @@ void delete_testcases(TestCaseContainer& testCases)
 	NFmiSettings::Set("anomaly::fake::fractile::summer::F88", "22.0");
 	NFmiSettings::Set("anomaly::fake::fractile::summer::F98", "25.0");
 
-
-	//	bool do_anomaly = true;
-	//generate_testcasefile("anomaly_testcases.txt", "fi", do_anomaly);
-
-
-#ifdef LATER
 	AnalysisSources sources;
 	WeatherArea area("25,60");
+	NFmiTime time1(2009, 6, 1, 6, 0, 0);
+	NFmiTime time2(2009, 6, 2, 18, 0, 0);
+	WeatherPeriod period_day1_night_day2(time1,time2);
+	TemperatureStory story1(time1,sources, area, period_day1_night_day2,"anomaly");
+	NFmiSettings::Set("textgen::fractiles_climatology","/home/reponen/work/testdata/tmax.sqd");
 	const string fun = "temperature_anomaly";
 
 	TestCaseContainer testCases;
 	TestCaseContainer::iterator iter;
+
 	const char* languages [] = {"fi", "sv", "en"};
 
-	// k == 0 winter, k == 1 summer
-	for(int k = 0; k < 2; k++)
+	//generate_testcasefile("temperature_anomaly_testcases.txt", "fi", true);
+
+	// here you should iterate all languages
+	for(int i = 0; i < 1; i++)
 	  {
-		NFmiTime time1(2009, k == 0 ? 1 : 6, 1, 6, 0, 0);
-		NFmiTime time2(2009, k == 0 ? 1 : 6, 2, 18, 0, 0);
-		WeatherPeriod period_day1_night_day2(time1,time2);
-		TemperatureStory story(time1,sources, area, period_day1_night_day2,"anomaly");
-
-		for(int i = 0; i < 1; i++)
+		read_testcasefile(testCases, "./temperature_anomaly_testcases.txt", true);
+		
+		TemperatureAnomalyTestParam* param = 0;		
+		for(iter = testCases.begin(); iter != testCases.end(); iter++)
 		  {
-			create_anomaly_testcases(testCases, languages[i], k == 0);
-			for(iter = testCases.begin(); iter != testCases.end(); iter++)
-			  {
-				/*
-				NFmiSettings::Set("anomaly::fake::temperature::day1::area::min",iter->second.anomaly_d1_temperature_min);
-				NFmiSettings::Set("anomaly::fake::temperature::day1::area::max",iter->second.anomaly_d1_temperature_max);
-				NFmiSettings::Set("anomaly::fake::temperature::day1::area::mean",iter->second.anomaly_d1_temperature_mean);
+			param = static_cast<TemperatureAnomalyTestParam*>(iter->second);
 
-				NFmiSettings::Set("anomaly::fake::temperature::night::area::min",iter->second.anomaly_nite_temperature_min);
-				NFmiSettings::Set("anomaly::fake::temperature::night::area::max",iter->second.anomaly_nite_temperature_max);
-				NFmiSettings::Set("anomaly::fake::temperature::night::area::mean",iter->second.anomaly_nite_temperature_mean);
+			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::min",
+							  param->temperature_d1_afternoon_areamin);
+			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::max",
+							  param->temperature_d1_afternoon_areamax);
+			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::mean",
+							  param->temperature_d1_afternoon_areamean);
+			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::min",
+							  param->temperature_d1_afternoon_inlandmin);
+			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::max",
+							  param->temperature_d1_afternoon_inlandmax);
+			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::mean",
+							  param->temperature_d1_afternoon_inlandmean);
+			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::min",
+							  param->temperature_d1_afternoon_coastmin);
+			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::max",
+							  param->temperature_d1_afternoon_coastmax);
+			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::mean",
+							  param->temperature_d1_afternoon_coastmean);
 
-				NFmiSettings::Set("anomaly::fake::temperature::day2::area::min",iter->second.anomaly_d2_temperature_min);
-				NFmiSettings::Set("anomaly::fake::temperature::day2::area::max",iter->second.anomaly_d2_temperature_max);
-				NFmiSettings::Set("anomaly::fake::temperature::day2::area::mean",iter->second.anomaly_d2_temperature_mean);
-				NFmiSettings::Set("anomaly::fake::windspeed::morning::min",iter->second.anomaly_d2_windspeed_morning_min);
-				NFmiSettings::Set("anomaly::fake::windspeed::morning::max",iter->second.anomaly_d2_windspeed_morning_max);
-				NFmiSettings::Set("anomaly::fake::windspeed::morning::mean",iter->second.anomaly_d2_windspeed_morning_mean);
-				NFmiSettings::Set("anomaly::fake::windspeed::afternoon::min",iter->second.anomaly_d2_windspeed_afternoon_min);
-				NFmiSettings::Set("anomaly::fake::windspeed::afternoon::max",iter->second.anomaly_d2_windspeed_afternoon_max);
-				NFmiSettings::Set("anomaly::fake::windspeed::afternoon::mean",iter->second.anomaly_d2_windspeed_afternoon_mean);
-				NFmiSettings::Set("anomaly::fake::windchill::min",iter->second.anomaly_d2_windchill_min);
-				NFmiSettings::Set("anomaly::fake::windchill::max",iter->second.anomaly_d2_windchill_max);
-				NFmiSettings::Set("anomaly::fake::windchill::mean",iter->second.anomaly_d2_windchill_mean);
-				require(story,languages[i],fun,iter->second->anomaly_story);
-				*/
-			  }
-			testCases.clear();
+			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::min",
+							  param->temperature_d2_afternoon_areamin);
+			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::max",
+							  param->temperature_d2_afternoon_areamax);
+			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::mean",
+							  param->temperature_d2_afternoon_areamean);
+			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::min",
+							  param->temperature_d2_afternoon_inlandmin);
+			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::max",
+							  param->temperature_d2_afternoon_inlandmax);
+			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::mean",
+							  param->temperature_d2_afternoon_inlandmean);
+			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::min",
+							  param->temperature_d2_afternoon_coastmin);
+			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::max",
+							  param->temperature_d2_afternoon_coastmax);
+			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::mean",
+							  param->temperature_d2_afternoon_coastmean);
+
+			require(story1,languages[i],fun,param->theStory);
 		  }
+		delete_testcases(testCases);
 	  }
-#endif
 
 	TEST_PASSED();
   }
 
-
+  void generate_testcasefiles()
+  {
+	TEST_PASSED();
+  }
 
   // ----------------------------------------------------------------------
   /*!
@@ -4613,6 +4624,7 @@ void delete_testcases(TestCaseContainer& testCases)
 	//! Main test suite
 	void test(void)
 	{
+	  TEST(generate_testcasefiles);
 	  TEST(temperature_max36hours);
 	  TEST(temperature_anomaly);
 	  TEST(temperature_day);

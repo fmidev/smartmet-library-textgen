@@ -643,7 +643,7 @@ using namespace std;
 			const char* which_day ="";
 			if(theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay())
 			  which_day = "tonight";
-			else //if(theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay()+1)
+			else
 			  which_day = "next_night";
 
 			sentence << PeriodPhraseFactory::create(which_day,
@@ -657,9 +657,9 @@ using namespace std;
 			const char* which_day ="";
 			if(theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay())
 			  which_day = "today";
-			else //if(theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay()+1)
+			else
 			  which_day = "next_day";
-			  
+
 			sentence << PeriodPhraseFactory::create(which_day,
 													theVariable,
 													theForecastTime,

@@ -278,36 +278,29 @@ namespace TextGen
 	//using namespace WeatherAnalysis;
 
 	const std::string get_time_phrase(const NFmiTime & theTime, 
-								 const std::string theNewPhrase, 
-								 WeatherAnalysis::WeatherHistory& theHistory)
+									  const std::string theNewPhrase, 
+									  WeatherAnalysis::WeatherHistory& theHistory)
 	{
 	  NFmiTime oldTime = theHistory.latestDate;
 	  const std::string& oldPhrase = theHistory.latestTimePhrase;
 
-	  if(theTime.GetJulianDay() == oldTime.GetJulianDay() && 
-		 oldPhrase.compare(theNewPhrase) != 0)
-		{
-		  theHistory.updateTimePhrase(theNewPhrase, theTime);
-		  return theNewPhrase;
-		}
-	  /*
-	  else
+	  if(theTime.GetJulianDay() == oldTime.GetJulianDay())
 		{
 		  if(oldPhrase.compare(theNewPhrase) != 0)
 			{
 			  theHistory.updateTimePhrase(theNewPhrase, theTime);
 			  return theNewPhrase;
 			}
+		  else
+			{
+			  return "";
+			}
 		}
-	  */
-
-	  /*
-	  if(oldPhrase.compare(theNewPhrase) != 0)
+	  else
 		{
 		  theHistory.updateTimePhrase(theNewPhrase, theTime);
 		  return theNewPhrase;
 		}
-	  */
 
 	  return "";
 	}

@@ -414,6 +414,46 @@ namespace TextGen
 	return theStringVector.size();
   }
 
+  void water_and_snow_showers(wf_story_params& theParameters,
+							  const float& thePrecipitationIntensity,
+							  const float& theWaterDrizzleSleetShare,
+							  const bool& theCanBeFreezinFlag,
+							  vector<std::string>& theStringVector)
+  {
+	// when showers, dont use sleet, use water and snow instead (Sari Hartonen)
+	if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow)
+	  {
+		theStringVector.push_back(HEIKKOJA_WORD);
+	  }
+	else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
+	  {
+		theStringVector.push_back(RUNSAITA_WORD);
+	  }
+
+	if(theCanBeFreezinFlag)
+	  {
+		theStringVector.push_back(LUMI_TAVUVIIVA_WORD);
+		theStringVector.push_back(TAI_WORD);
+		theStringVector.push_back(VESIKUUROJA_WORD);
+		can_be_freezing_phrase(theCanBeFreezinFlag, theStringVector, true);
+	  }
+	else
+	  {
+		if(theWaterDrizzleSleetShare > 50.0)
+		  {
+			theStringVector.push_back(VESI_TAVUVIIVA_WORD);
+			theStringVector.push_back(TAI_WORD);
+			theStringVector.push_back(LUMIKUUROJA_WORD);
+		  }
+		else
+		  {
+			theStringVector.push_back(LUMI_TAVUVIIVA_WORD);
+			theStringVector.push_back(TAI_WORD);
+			theStringVector.push_back(VESIKUUROJA_WORD);
+		  }
+	  }
+  }
+
   int precipitation_sentence_string_vector(wf_story_params& theParameters,
 										   const WeatherPeriod& thePeriod,
 										   const unsigned int& thePrecipitationForm,
@@ -465,7 +505,8 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+					  theStringVector.push_back(ENIMMAKSEEN_WORD);
+					  theStringVector.push_back(POUTAINEN_WORD);
 					  if(has_showers)
 						theStringVector.push_back((is_summer ? YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE : YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE));
 					}
@@ -485,7 +526,7 @@ namespace TextGen
 						  else
 							theStringVector.push_back((is_summer ? SADEKUUROJA_WORD : VESIKUUROJA_WORD));
 
-						  //						  can_be_freezing_phrase(can_be_freezing, theStringVector, true);
+						 can_be_freezing_phrase(can_be_freezing, theStringVector, true);
 						}
 					  else
 						{
@@ -502,7 +543,8 @@ namespace TextGen
 				}
 			  else
 				{
-				  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+				  theStringVector.push_back(ENIMMAKSEEN_WORD);
+				  theStringVector.push_back(POUTAINEN_WORD);
 				}
 			  break;
 			}
@@ -514,7 +556,8 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+					  theStringVector.push_back(ENIMMAKSEEN_WORD);
+					  theStringVector.push_back(POUTAINEN_WORD);
 					  if(has_showers)
 						theStringVector.push_back(YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_PHRASE);
 					}
@@ -537,7 +580,8 @@ namespace TextGen
 				}
 			  else
 				{
-				  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+				  theStringVector.push_back(ENIMMAKSEEN_WORD);
+				  theStringVector.push_back(POUTAINEN_WORD);
 				}
 			  break;
 			}
@@ -548,7 +592,8 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+					  theStringVector.push_back(ENIMMAKSEEN_WORD);
+					  theStringVector.push_back(POUTAINEN_WORD);
 					  if(has_showers)
 						theStringVector.push_back(YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_PHRASE);
 					}
@@ -561,26 +606,27 @@ namespace TextGen
 					  if(has_showers)
 						{
 						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow)
-							theStringVector.push_back(HEIKKOJA_LUMIKUUROJA_PHRASE);
+							theStringVector.push_back(HEIKKOJA_WORD);
 						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-							theStringVector.push_back(SAKEITA_LUMIKUUROJA_PHRASE);
-						  else
-							theStringVector.push_back(LUMIKUUROJA_WORD);
+							theStringVector.push_back(SAKEITA_WORD);
+
+						  theStringVector.push_back(LUMIKUUROJA_WORD);
 						}
 					  else
 						{
 						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow)
-							theStringVector.push_back(HEIKKOA_LUMISADETTA_PHRASE);
+							theStringVector.push_back(HEIKKOA_WORD);
 						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-							theStringVector.push_back(SAKEAA_LUMISADETTA_PHRASE);
-						  else
-							theStringVector.push_back(LUMISADETTA_WORD);
+							theStringVector.push_back(SAKEAA_WORD);
+
+						  theStringVector.push_back(LUMISADETTA_WORD);
 						}
 					}
 				}
 			  else
 				{
-				  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+				  theStringVector.push_back(ENIMMAKSEEN_WORD);
+				  theStringVector.push_back(POUTAINEN_WORD);
 				}
 			  break;
 			}
@@ -593,7 +639,8 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+					  theStringVector.push_back(ENIMMAKSEEN_WORD);
+					  theStringVector.push_back(POUTAINEN_WORD);
 					  if(has_showers)
 						{
 						  theStringVector.push_back((is_summer ? YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE : 
@@ -610,7 +657,7 @@ namespace TextGen
 					  if(has_showers)
 						{
 						  theStringVector.push_back((is_summer ? SADEKUUROJA_WORD : VESIKUUROJA_WORD));
-						  //can_be_freezing_phrase(can_be_freezing, theStringVector, true);
+						  can_be_freezing_phrase(can_be_freezing, theStringVector, true);
 						}
 					  else
 						{
@@ -621,7 +668,8 @@ namespace TextGen
 				}
 			  else
 				{
-				  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+				  theStringVector.push_back(ENIMMAKSEEN_WORD);
+				  theStringVector.push_back(POUTAINEN_WORD);
 				}
 			  break;
 			}
@@ -633,7 +681,8 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+					  theStringVector.push_back(ENIMMAKSEEN_WORD);
+					  theStringVector.push_back(POUTAINEN_WORD);
 					  if(has_showers)
 						{
 						  theStringVector.push_back((is_summer ? YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE : 
@@ -650,7 +699,7 @@ namespace TextGen
 					  if(has_showers)
 						{
 						  theStringVector.push_back((is_summer ? SADEKUUROJA_WORD : VESIKUUROJA_WORD));
-						  //can_be_freezing_phrase(can_be_freezing, theStringVector, true);
+						  can_be_freezing_phrase(can_be_freezing, theStringVector, true);
 						}
 					  else
 						{
@@ -668,7 +717,8 @@ namespace TextGen
 				}
 			  else
 				{
-				  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+				  theStringVector.push_back(ENIMMAKSEEN_WORD);
+				  theStringVector.push_back(POUTAINEN_WORD);
 				}
 			  break;
 			}
@@ -683,7 +733,8 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+					  theStringVector.push_back(ENIMMAKSEEN_WORD);
+					  theStringVector.push_back(POUTAINEN_WORD);
 					  if(has_showers)
 						{
 						  if(thePrecipitationFormWater >= thePrecipitationFormSleet)
@@ -735,7 +786,8 @@ namespace TextGen
 				}
 			  else
 				{
-				  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+				  theStringVector.push_back(ENIMMAKSEEN_WORD);
+				  theStringVector.push_back(POUTAINEN_WORD);
 				}
 			  break;
 			}
@@ -743,6 +795,7 @@ namespace TextGen
 		  case WATER_SNOW_FORM:
 		  case DRIZZLE_SNOW_FORM:
 		  case WATER_DRIZZLE_SNOW_FORM:
+		  case DRIZZLE_SLEET_SNOW_FORM:
 		  case WATER_SLEET_SNOW_FORM:
 		  case DRIZZLE_SNOW_FREEZING_FORM:
 		  case WATER_SNOW_FREEZING_FORM:
@@ -751,8 +804,8 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
-
+					  theStringVector.push_back(ENIMMAKSEEN_WORD);
+					  theStringVector.push_back(POUTAINEN_WORD);
 					  if(has_showers)
 						theStringVector.push_back(YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA_PHRASE);
 					}
@@ -765,27 +818,24 @@ namespace TextGen
 
 					  if(has_showers)
 						{
-						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow)
-							{
-							  theStringVector.push_back(VESI_TAVUVIIVA_WORD);
-							  theStringVector.push_back(TAI_WORD);
-							  theStringVector.push_back(LUMIKUUROJA_WORD);
-							}
-						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-							{
-							  theStringVector.push_back((is_summer ? VOIMAKKAITA_SADEKUUROJA_PHRASE : VOIMAKKAITA_VESIKUUROJA_PHRASE));
-							  theStringVector.push_back(TAI_WORD);
-							  theStringVector.push_back(SAKEITA_LUMIKUUROJA_PHRASE);
-							}
-						  else
-							{
-							  theStringVector.push_back(VESI_TAVUVIIVA_WORD);
-							  theStringVector.push_back(TAI_WORD);
-							  theStringVector.push_back(LUMIKUUROJA_WORD);
-							}
+						  water_and_snow_showers(theParameters,
+												 thePrecipitationIntensity,
+												 thePrecipitationFormWater +
+												 thePrecipitationFormDrizzle +
+												 thePrecipitationFormSleet,
+												 can_be_freezing,
+												 theStringVector);
 						}
 					  else
 						{
+
+  /*
+IF vesi on suunnilleen yhtä paljon kuin lumi AND räntä < vesi+lumi, THEN
+vesi- tai lumisadetta.
+  */
+
+
+
 						  if(thePrecipitationIntensity <  theParameters.theWeakPrecipitationLimitSnow)
 							theStringVector.push_back(HEIKKOA_WORD);
 						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
@@ -808,12 +858,12 @@ namespace TextGen
 				}
 			  else
 				{
-				  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+				  theStringVector.push_back(ENIMMAKSEEN_WORD);
+				  theStringVector.push_back(POUTAINEN_WORD);
 				}
 			  break;
 			}
 
-		  case DRIZZLE_SLEET_SNOW_FORM:
 		  case SLEET_SNOW_FREEZING_FORM:
 		  case SLEET_SNOW_FORM:
 			{
@@ -821,7 +871,8 @@ namespace TextGen
 				{
 				  if(mostly_dry_weather)
 					{
-					  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+					  theStringVector.push_back(ENIMMAKSEEN_WORD);
+					  theStringVector.push_back(POUTAINEN_WORD);
 					  if(has_showers)
 						theStringVector.push_back(YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA_PHRASE);
 					}
@@ -834,36 +885,27 @@ namespace TextGen
 
 					  if(has_showers)
 						{
-						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow)
-							{
-							  theStringVector.push_back(RANTA_TAVUVIIVA_WORD);
-							  theStringVector.push_back(TAI_WORD);
-							  theStringVector.push_back(LUMIKUUROJA_WORD);
-							}
-						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-							{
-							  theStringVector.push_back(SAKEITA_LUMIKUUROJA_PHRASE);
-							  theStringVector.push_back(TAI_WORD);
-							  theStringVector.push_back(RANTASADETTA_WORD);
-							}
-						  else
-							{
-							  theStringVector.push_back(RANTA_TAVUVIIVA_WORD);
-							  theStringVector.push_back(TAI_WORD);
-							  theStringVector.push_back(LUMIKUUROJA_WORD);
-							}
+						  water_and_snow_showers(theParameters,
+												 thePrecipitationIntensity,
+												 thePrecipitationFormWater +
+												 thePrecipitationFormDrizzle +
+												 thePrecipitationFormSleet,
+												 can_be_freezing,
+												 theStringVector);
 						}
 					  else
 						{
 						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow)
 							{
-							  theStringVector.push_back(HEIKKOA_LUMISADETTA_PHRASE);
+							  theStringVector.push_back(HEIKKOA_WORD);
+							  theStringVector.push_back(LUMI_TAVUVIIVA_WORD);
 							  theStringVector.push_back(TAI_WORD);
 							  theStringVector.push_back(RANTASADETTA_WORD);
 							}
 						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
 							{
-							  theStringVector.push_back(SAKEAA_LUMISADETTA_PHRASE);
+							  theStringVector.push_back(SAKEAA_WORD);
+							  theStringVector.push_back(LUMI_TAVUVIIVA_WORD);
 							  theStringVector.push_back(TAI_WORD);
 							  theStringVector.push_back(RANTASADETTA_WORD);
 							}
@@ -888,7 +930,8 @@ namespace TextGen
 				}
 			  else
 				{
-				  theStringVector.push_back(ENIMMAKSEEN_POUTAINEN_PHRASE);
+				  theStringVector.push_back(ENIMMAKSEEN_WORD);
+				  theStringVector.push_back(POUTAINEN_WORD);
 				}
 			  break;
 			}
@@ -897,6 +940,11 @@ namespace TextGen
 
 	return theStringVector.size();
  }
+
+  /*
+IF vesi on suunnilleen yhtä paljon kuin lumi AND räntä < vesi+lumi, THEN
+vesi- tai lumisadetta.
+  */
 
   std::string precipitation_sentence_string(wf_story_params& theParameters,
 											const WeatherPeriod& thePeriod,
@@ -991,447 +1039,6 @@ namespace TextGen
 
 	return sentence;
   }
-
-#ifdef OLD_IMPL
-  Sentence precipitation_sentence(wf_story_params& theParameters,
-								  const WeatherPeriod& thePeriod,
-								  const unsigned int& thePrecipitationForm,
-								  const float thePrecipitationIntensity,
-								  const float thePrecipitationExtent,
-								  const float thePrecipitationFormWater,
-								  const float thePrecipitationFormDrizzle,
-								  const float thePrecipitationFormSleet,
-								  const float thePrecipitationFormSnow,
-								  const float thePrecipitationFormFreezing,
-								  const float thePrecipitationTypeShowers,
-								  const bool& theUseOllaVerb)
-  {
-	Sentence sentence;
-
-	bool dry_weather = is_dry_weather(theParameters, thePrecipitationForm, thePrecipitationIntensity, thePrecipitationExtent);
-
-	if(dry_weather)
-	  {
-		sentence << POUTAINEN_WORD;
-	  }
-	else
-	  {
-		const bool has_showers = (thePrecipitationTypeShowers != kFloatMissing && 
-								  thePrecipitationTypeShowers >= theParameters.theShowerLimit);
-		const bool mostly_dry_weather = thePrecipitationExtent <= theParameters.theMostlyDryWeatherLimit;
-		const bool in_some_places = thePrecipitationExtent > theParameters.theInSomePlacesLowerLimit && 
-		  thePrecipitationExtent <= theParameters.theInSomePlacesUpperLimit;
-		const bool in_many_places = thePrecipitationExtent > theParameters.theInManyPlacesLowerLimit && 
-		  thePrecipitationExtent <= theParameters.theInManyPlacesUpperLimit;
-		  		
-		bool can_be_freezing =  thePrecipitationFormFreezing > theParameters.theFreezingPrecipitationLimit;
-		bool is_summer = SeasonTools::isSummer(thePeriod.localStartTime(), theParameters.theVariable);
-
-		if(has_showers)
-		  ; // report the cloudiness?
-		theParameters.theLog << "Precipitation form is " 
-							 << precipitation_form_string(static_cast<precipitation_form_id>(thePrecipitationForm)) 
-							 << endl;
-
-		switch(thePrecipitationForm)
-		  {
-		  case WATER_FREEZING_FORM:
-		  case FREEZING_FORM:
-		  case WATER_FORM:
-			{
-			  if(thePrecipitationIntensity >= theParameters.theDryWeatherLimitWater)
-				{
-				  if(mostly_dry_weather)
-					{
-					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-					  if(has_showers)
-						sentence << (is_summer ? YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE : YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE);
-					}
-				  else
-					{
-					  sentence << in_places_phrase(in_some_places,
-												   in_many_places,
-												   theUseOllaVerb);
-					  if(has_showers)
-						{
-						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitWater)
-							sentence << (is_summer ? HEIKKOJA_SADEKUUROJA_PHRASE : HEIKKOJA_VESIKUUROJA_PHRASE);
-						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitWater)
-							sentence << (is_summer ? VOIMAKKAITA_SADEKUUROJA_PHRASE : VOIMAKKAITA_VESIKUUROJA_PHRASE);
-						  else
-							sentence << SADEKUUROJA_WORD;
-
-						  if(can_be_freezing)
-							sentence << Delimiter(",") << JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE;
-						}
-					  else
-						{
-						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitWater)
-							sentence << (is_summer ? HEIKKOA_SADETTA_PHRASE : HEIKKOA_VESISADETTA_PHRASE);
-						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitWater)
-							sentence << (is_summer ? RUNSASTA_SADETTA_PHRASE : RUNSASTA_VESISADETTA_PHRASE);
-						  else
-							sentence << rain_phrase(thePeriod.localStartTime(), theParameters.theVariable);
-
-						  if(can_be_freezing)
-							sentence << Delimiter(",") << JOKA_VOI_OLLA_JAATAVAA_PHRASE;
-						}
-					}
-				}
-			  else
-				{
-				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-				}
-			  break;
-			}
-
-		  case SLEET_FREEZING_FORM:
-		  case SLEET_FORM:
-			{
-			  if(thePrecipitationIntensity >= theParameters.theDryWeatherLimitSleet)
-				{
-				  if(mostly_dry_weather)
-					{
-					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-					  if(has_showers)
-						sentence << YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_PHRASE;
-					}
-				  else
-					{
-					  sentence << in_places_phrase(in_some_places,
-												   in_many_places,
-												   theUseOllaVerb);
-
-					  if(has_showers)
-						{						
-						  sentence << RANTAKUUROJA_WORD;
-						}
-					  else
-						{
-						  sentence << RANTASADETTA_WORD;
-						}
-					}
-				}
-			  else
-				{
-				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-				}
-			  break;
-			}
-		  case SNOW_FORM:
-		  case SNOW_FREEZING_FORM:
-			{
-			  if(thePrecipitationIntensity >= theParameters.theDryWeatherLimitSnow)
-				{
-				  if(mostly_dry_weather)
-					{
-					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-					  if(has_showers)
-						sentence << YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_PHRASE;
-					}
-				  else
-					{
-					  sentence << in_places_phrase(in_some_places,
-												   in_many_places,
-												   theUseOllaVerb);
-					  if(has_showers)
-						{
-						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow)
-							sentence << HEIKKOJA_LUMIKUUROJA_PHRASE;
-						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-							sentence << SAKEITA_LUMIKUUROJA_PHRASE;
-						  else
-							sentence << LUMIKUUROJA_WORD;
-						}
-					  else
-						{
-						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow)
-							sentence << HEIKKOA_LUMISADETTA_PHRASE;
-						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-							sentence << SAKEAA_LUMISADETTA_PHRASE;
-						  else
-							sentence << LUMISADETTA_WORD;
-						}
-					}
-				}
-			  else
-				{
-				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-				}
-			  break;
-			}
-
-		  case DRIZZLE_FORM:
-		  case DRIZZLE_FREEZING_FORM:
-
-			{
-			  if(thePrecipitationIntensity >= theParameters.theDryWeatherLimitDrizzle)
-				{
-				  if(mostly_dry_weather)
-					{
-					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-					  if(has_showers)
-						{
-						  sentence << (is_summer ? YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE : 
-									   YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE);
-						}
-					}
-				  else
-					{
-					  sentence << in_places_phrase(in_some_places,
-												   in_many_places,
-												   theUseOllaVerb);
-
-					  if(has_showers)
-						{
-						  sentence << (is_summer ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
-
-						  if(can_be_freezing)
-							sentence << Delimiter(",") << JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE;
-						}
-					  else
-						{
-						  sentence << TIHKUSADETTA_WORD;
-
-						  if(can_be_freezing)
-							sentence << Delimiter(",") << JOKA_VOI_OLLA_JAATAVAA_PHRASE;
-						}
-					}
-				}
-			  else
-				{
-				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-				}
-			  break;
-			}
-
-		  case WATER_DRIZZLE_FREEZING_FORM:
-		  case WATER_DRIZZLE_FORM:
-			{
-			  if(thePrecipitationIntensity >= theParameters.theDryWeatherLimitDrizzle)
-				{
-				  if(mostly_dry_weather)
-					{
-					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-					  if(has_showers)
-						{
-						  sentence << (is_summer ? YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE : 
-									   YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE);
-						}
-					}
-				  else
-					{
-					  sentence << in_places_phrase(in_some_places,
-												   in_many_places,
-												   theUseOllaVerb);
-
-					  if(has_showers)
-						{
-						  sentence << (is_summer ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
-
-						  if(can_be_freezing)
-							sentence << Delimiter(",") << JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE;
-						}
-					  else
-						{
-						  if(thePrecipitationFormDrizzle < 70)
-							{
-							  sentence <<  rain_phrase(thePeriod.localStartTime(), theParameters.theVariable);
-							}
-						  else
-							{
-							  sentence << TIHKUSADETTA_WORD;
-							}
-
-						  if(can_be_freezing)
-							sentence << Delimiter(",") << JOKA_VOI_OLLA_JAATAVAA_PHRASE;
-						}
-					}
-				}
-			  else
-				{
-				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-				}
-			  break;
-			}
-
-		  case DRIZZLE_SLEET_FORM:
-		  case DRIZZLE_SLEET_FREEZING_FORM:
-		  case WATER_DRIZZLE_SLEET_FORM:
-		  case WATER_SLEET_FREEZING_FORM:
-		  case WATER_SLEET_FORM:
-			{
-			  if(thePrecipitationIntensity >= theParameters.theDryWeatherLimitDrizzle)
-				{
-				  if(mostly_dry_weather)
-					{
-					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-					  if(has_showers)
-						{
-						  if(thePrecipitationFormWater >= thePrecipitationFormSleet)
-							sentence << YKSITTAISET_VESI_RANTA_KUUROT_MAHDOLLISIA_PHRASE;
-						  else
-							sentence << YKSITTAISET_RANTA_VESI_KUUROT_MAHDOLLISIA_PHRASE;
-						}
-					}
-				  else
-					{
-					  sentence << in_places_phrase(in_some_places,
-												   in_many_places,
-												   theUseOllaVerb);
-
-					  if(has_showers)
-						{
-						  if(thePrecipitationFormWater >= thePrecipitationFormSleet)
-							sentence << VESI_TAVUVIIVA_WORD << TAI_WORD << RANTAKUUROJA_WORD;
-						  else
-							sentence << RANTA_TAVUVIIVA_WORD << TAI_WORD << VESIKUUROJA_WORD;
-
-						  if(can_be_freezing)
-							sentence << Delimiter(",") << JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE;
-						}
-					  else
-						{
-						  if(thePrecipitationFormWater >= thePrecipitationFormSleet)
-							sentence << VESI_TAVUVIIVA_WORD << TAI_WORD << RANTASADETTA_WORD;
-						  else
-							sentence << RANTA_TAVUVIIVA_WORD << TAI_WORD << VESISADETTA_WORD;
-
-						  if(can_be_freezing)
-							sentence << Delimiter(",") << JOKA_VOI_OLLA_JAATAVAA_PHRASE;
-						}
-					}
-				}
-			  else
-				{
-				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-				}
-			  break;
-			}
-
-		  case WATER_SNOW_FORM:
-		  case DRIZZLE_SNOW_FORM:
-		  case WATER_DRIZZLE_SNOW_FORM:
-		  case WATER_SLEET_SNOW_FORM:
-		  case DRIZZLE_SNOW_FREEZING_FORM:
-		  case WATER_SNOW_FREEZING_FORM:
-			{
-			  if(thePrecipitationIntensity >= theParameters.theDryWeatherLimitDrizzle)
-				{
-				  if(mostly_dry_weather)
-					{
-					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-
-					  if(has_showers)
-						sentence << YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA_PHRASE;
-					}
-				  else
-					{
-					  sentence << in_places_phrase(in_some_places,
-												   in_many_places,
-												   theUseOllaVerb);
-
-					  if(has_showers)
-						{
-						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow)
-							{
-							  sentence << VESI_TAVUVIIVA_WORD << TAI_WORD << LUMIKUUROJA_WORD;
-							}
-						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-							{
-							  sentence << (is_summer ? VOIMAKKAITA_SADEKUUROJA_PHRASE : VOIMAKKAITA_VESIKUUROJA_PHRASE);
-							  sentence << TAI_WORD << SAKEITA_LUMIKUUROJA_PHRASE;
-							}
-						  else
-							{
-							  sentence << VESI_TAVUVIIVA_WORD << TAI_WORD << LUMIKUUROJA_WORD;
-							}
-
-						  if(can_be_freezing)
-							sentence << Delimiter(",") << JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE;
-						}
-					  else
-						{
-						  if(thePrecipitationIntensity <  theParameters.theWeakPrecipitationLimitSnow)
-							sentence << HEIKKOA_WORD;
-						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-							sentence << KOVAA_WORD;
-						  if(thePrecipitationFormWater >= thePrecipitationFormSnow)
-							sentence << VESI_TAVUVIIVA_WORD << TAI_WORD << LUMISADETTA_WORD;
-						  else
-							sentence << LUMI_TAVUVIIVA_WORD << TAI_WORD << VESISADETTA_WORD;
-
-						  if(can_be_freezing)
-							sentence << Delimiter(",") << JOKA_VOI_OLLA_JAATAVAA_PHRASE;
-						}
-					}
-				}
-			  else
-				{
-				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-				}
-			  break;
-			}
-
-		  case DRIZZLE_SLEET_SNOW_FORM:
-		  case SLEET_SNOW_FREEZING_FORM:
-		  case SLEET_SNOW_FORM:
-			{
-			  if(thePrecipitationIntensity >= theParameters.theDryWeatherLimitSleet)
-				{
-				  if(mostly_dry_weather)
-					{
-					  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-					  if(has_showers)
-						sentence << YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA_PHRASE;
-					}
-				  else
-					{
-					  sentence << in_places_phrase(in_some_places,
-												   in_many_places,
-												   theUseOllaVerb);
-
-					  if(has_showers)
-						{
-						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow)
-							sentence << RANTA_TAVUVIIVA_WORD << TAI_WORD << LUMIKUUROJA_WORD;
-						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-							sentence << SAKEITA_LUMIKUUROJA_PHRASE << TAI_WORD << RANTASADETTA_WORD;
-						  else
-							sentence << RANTA_TAVUVIIVA_WORD << TAI_WORD << LUMIKUUROJA_WORD;
-						}
-					  else
-						{
-						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow)
-							sentence << HEIKKOA_LUMISADETTA_PHRASE << TAI_WORD << RANTASADETTA_WORD;
-						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
-							sentence << SAKEAA_LUMISADETTA_PHRASE << TAI_WORD << RANTASADETTA_WORD;
-						  else
-							{
-							  if(thePrecipitationFormSnow >= thePrecipitationFormSleet)
-								sentence << LUMI_TAVUVIIVA_WORD << TAI_WORD << RANTASADETTA_WORD;
-							  else
-								sentence << RANTA_TAVUVIIVA_WORD << TAI_WORD << VESISADETTA_WORD;
-							}
-
-						  if(can_be_freezing)
-							sentence << Delimiter(",") << JOKA_VOI_OLLA_JAATAVAA_PHRASE;
-						}
-					}
-				}
-			  else
-				{
-				  sentence << ENIMMAKSEEN_POUTAINEN_PHRASE;
-				}
-			  break;
-			}
-		  }
-	  }
-
-	return sentence;
-  }
-#endif
-
 
   bool PrecipitationForecast::getDryPeriods(const WeatherPeriod& theSourcePeriod, 
 											vector<WeatherPeriod>& theDryPeriods) const

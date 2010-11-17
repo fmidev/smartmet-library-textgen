@@ -247,6 +247,7 @@ namespace TextGen
 				 const unsigned short& forecastArea,
 				 const unsigned short& forecastPeriod,
 				 const NFmiTime& forecastTime,
+				 const WeatherPeriod& fullPeriod,
 				 WeatherPeriod& weatherPeriod,
 				 const WeatherArea& weatherArea,
 				 const AnalysisSources& analysisSources,
@@ -258,6 +259,7 @@ namespace TextGen
 		theForecastArea(forecastArea),
 		theForecastPeriod(forecastPeriod),
 		theForecastTime(forecastTime),
+		theFullPeriod(fullPeriod),
 		theWeatherPeriod(weatherPeriod),
 		theWeatherArea(weatherArea),
 		theAnalysisSources(analysisSources),
@@ -294,6 +296,7 @@ namespace TextGen
 	  const unsigned short& theForecastArea;
 	  const unsigned short& theForecastPeriod;
 	  const NFmiTime& theForecastTime;
+	  const WeatherPeriod& theFullPeriod;
 	  WeatherPeriod& theWeatherPeriod;
 	  const WeatherArea& theWeatherArea;
 	  const AnalysisSources& theAnalysisSources;
@@ -1396,7 +1399,7 @@ namespace TextGen
 				{
 				  if(theParameters.theTemperaturePhraseId == MINOR_FROST)
 					{
-					  theDayPhasePhrase << DAYTIME_PHRASE << IS_WORD;
+					  theDayPhasePhrase << IS_WORD;
 					  plainIsVerbUsed = true;
 					}
 				  else
@@ -1446,18 +1449,7 @@ namespace TextGen
 					}
 				  else
 					{
-					  Sentence tonightSentence;
-					  tonightSentence << PeriodPhraseFactory::create("tonight",
-																	 theParameters.theVariable,
-																	 theParameters.theForecastTime,
-																	 theParameters.theWeatherPeriod,
-																	 theParameters.theWeatherArea);
-
-					  if(tonightSentence.size() == 0)
-						theDayPhasePhrase << NIGHTTIME_TEMPERATURE_PHRASE << IS_WORD;
-					  else
-						theDayPhasePhrase << PLAIN_TEMPERATURE_PHRASE << IS_WORD;
-						
+					  theDayPhasePhrase << NIGHTTIME_TEMPERATURE_PHRASE << IS_WORD;
 					  theParameters.theNightPeriodTautologyFlag = true;
 					}
 			  theParameters.theDayPeriodTautologyFlag = false;
@@ -1475,7 +1467,7 @@ namespace TextGen
 				{
 				  if(theParameters.theTemperaturePhraseId == MINOR_FROST)
 					{
-					  theDayPhasePhrase << DAYTIME_PHRASE << IS_WORD;
+					  theDayPhasePhrase << IS_WORD;
 					  plainIsVerbUsed = true;
 					}
 				  else
@@ -1613,11 +1605,12 @@ namespace TextGen
 		  temperatureSentence << temperature_sentence(theParameters);
 		}
 
-	  sentence << PeriodPhraseFactory::create("tonight",
-											  theParameters.theVariable,
-											  theParameters.theForecastTime,
-											  theParameters.theWeatherPeriod,
-											  theParameters.theWeatherArea);
+	  if(theParameters.theDayAndNightSeparationFlag &&
+		 theParameters.theFullPeriod.localEndTime().DifferenceInHours(theParameters.theFullPeriod.localStartTime()) > 24)
+		sentence << PeriodPhraseFactory::create("tonight",
+												theParameters.theVariable,
+												theParameters.theForecastTime,
+												theParameters.theWeatherPeriod);
 	  
 	  sentence << temperature_phrase(theParameters);
 
@@ -1692,16 +1685,18 @@ namespace TextGen
 
 	  // exception: inland and coastal separated and morning and afternoon separated and now we are processing
 	  // morning on the coastal area
+	  /*
 	  if(!theParameters.theTomorrowTautologyFlag &&
 		 !(theParameters.inlandAndCoastSeparated(DAY2_PERIOD) &&
-		 theParameters.morningAndAfternoonSeparated(DAY2_PERIOD) &&
-		  theParameters.theSubPeriodId == DAY2_MORNING_PERIOD && 
-		   theParameters.theForecastAreaId == COASTAL_AREA))
+		   theParameters.morningAndAfternoonSeparated(DAY2_PERIOD) &&
+		   theParameters.theSubPeriodId == DAY2_MORNING_PERIOD && 
+		   theParameters.theForecastAreaId == COASTAL_AREA)&&
+*/
+	  if(theParameters.theFullPeriod.localEndTime().DifferenceInHours(theParameters.theFullPeriod.localStartTime()) > 24)
 		nextDaySentence << PeriodPhraseFactory::create("next_day",
 													   theParameters.theVariable,
 													   theParameters.theForecastTime,
-													   theParameters.theWeatherPeriod,
-													   theParameters.theWeatherArea);
+													   theParameters.theWeatherPeriod);
 	  
 	  if(!nextDaySentence.empty())
 		theParameters.theTomorrowTautologyFlag = true;
@@ -1724,12 +1719,13 @@ namespace TextGen
 
 	  temperatureSentence << temperature_sentence(theParameters);
 
-	  sentence << PeriodPhraseFactory::create("today",
-											  theParameters.theVariable,
-											  theParameters.theForecastTime,
-											  theParameters.theWeatherPeriod,
-											  theParameters.theWeatherArea);
-
+	  if(theParameters.theDayAndNightSeparationFlag &&
+		 theParameters.theFullPeriod.localEndTime().DifferenceInHours(theParameters.theFullPeriod.localStartTime()) > 24)
+		sentence << PeriodPhraseFactory::create("today",
+												theParameters.theVariable,
+												theParameters.theForecastTime,
+												theParameters.theWeatherPeriod);
+	  
 	  sentence << temperature_phrase(theParameters);
 	  sentence << temperatureSentence;
 
@@ -2161,7 +2157,7 @@ namespace TextGen
 	  // 2. Day1 coastal
 
 	  vector<int> periodAreas;
-	  processing_order processingOrder(DAY1_DAY2_NIGHT);
+	  processing_order processingOrder;
 
 	  if(theParameters.theForecastPeriod & DAY1_PERIOD && 
 		 theParameters.theForecastPeriod & NIGHT_PERIOD && 
@@ -2364,8 +2360,8 @@ namespace TextGen
 			}
 
 		  unsigned short story_forecast_areas = 0x0;
-		  forecast_period_id period_id(NO_PERIOD);
-		  forecast_area_id area_id(NO_AREA);
+		  forecast_period_id period_id;
+		  forecast_area_id area_id;
 
    
 		  if(periodArea == DAY1_INLAND || periodArea == DAY1_COASTAL || periodArea == DAY1_FULL)
@@ -2566,37 +2562,6 @@ namespace TextGen
 
 	log_start_time_and_end_time(log, "Whole period: ", itsPeriod);
 
-	/*
-	// Period generator
-	NightAndDayPeriodGenerator generator(itsPeriod, itsVar);
-
-	// Too late? Return empty story then
-	if(generator.size() == 0)
-	  {
-		log << "No weather periods available!" << endl;
-		log << paragraph;
-		return paragraph;
-	  }
-
-	log << "period contains ";
-
-	if(generator.isday(1))
-	  {
-		if(generator.size() > 2)
-		  log << "today, night and tomorrow" << endl;
-		else if(generator.size() == 2)
-		  log << "today and night" << endl;
-		else
-		  log << "today" << endl;
-	  }
-	else
-	  {
-		if(generator.size() == 1)
-		  log << "one night" << endl;		  
-		else
-		  log << "night and tomorrow" << endl;		  
-	  }
-	*/
 
 	NFmiTime periodStartTime(itsPeriod.localStartTime());
 	NFmiTime periodEndTime(itsPeriod.localEndTime());
@@ -2643,8 +2608,37 @@ namespace TextGen
 	  }
 
 	// Period generator
-	NightAndDayPeriodGenerator generator(WeatherPeriod(periodStartTime, periodEndTime), itsVar);
+	WeatherPeriod fullPeriod(periodStartTime, periodEndTime);
+	NightAndDayPeriodGenerator generator(fullPeriod, itsVar);
 
+	/*
+	// Too late? Return empty story then
+	if(generator.size() == 0)
+	  {
+		log << "No weather periods available!" << endl;
+		log << paragraph;
+		return paragraph;
+	  }
+
+	log << "period contains ";
+
+	if(generator.isday(1))
+	  {
+		if(generator.size() > 2)
+		  log << "today, night and tomorrow" << endl;
+		else if(generator.size() == 2)
+		  log << "today and night" << endl;
+		else
+		  log << "today" << endl;
+	  }
+	else
+	  {
+		if(generator.size() == 1)
+		  log << "one night" << endl;		  
+		else
+		  log << "night and tomorrow" << endl;		  
+	  }
+	*/
 
 	unsigned short forecast_area = 0x0;
 	unsigned short forecast_period = 0x0;
@@ -2833,6 +2827,7 @@ namespace TextGen
 						  forecast_area,
 						  forecast_period,
 						  itsForecastTime,
+						  fullPeriod,
 						  period,
 						  itsArea,
 						  itsSources,
