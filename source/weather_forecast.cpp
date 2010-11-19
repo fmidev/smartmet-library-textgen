@@ -508,11 +508,47 @@ const void log_subperiods(wf_story_params& theParameters)
 
 	for(unsigned int i = 0; i < precipitationHourly->size(); i++)
 	  {
+		/*
+		WeatherResult min = theForecaster.analyze(theVariable,
+												  theSources,
+												  Precipitation,
+												  Minimum,
+												  Sum,
+												  theArea,
+												  (*precipitationHourly)[i]->thePeriod,
+												  DefaultAcceptor(),
+												  precipitationlimits);
+		WeatherResult max = theForecaster.analyze(theVariable,
+												  theSources,
+												  Precipitation,
+												  Maximum,
+												  Sum,
+												  theArea,
+												  (*precipitationHourly)[i]->thePeriod,
+												  DefaultAcceptor(),
+												  precipitationlimits);
+		WeatherResult mean = theForecaster.analyze(theVariable,
+												  theSources,
+												  Precipitation,
+												  Mean,
+												  Sum,
+												  theArea,
+												  (*precipitationHourly)[i]->thePeriod,
+												  DefaultAcceptor(),
+												  precipitationlimits);
+
+
+		cout << "min: " << min.value() << endl;
+		cout << "max: " << max.value() << endl;
+		cout << "mean: " << mean.value() << endl;
+
+*/
+
         (*precipitationHourly)[i]->theResult =
 		  theForecaster.analyze(theVariable,
 								theSources,
 								Precipitation,
-								Mean,
+								Maximum,
 								Sum,
 								theArea,
 								(*precipitationHourly)[i]->thePeriod,
@@ -1631,6 +1667,7 @@ const void log_subperiods(wf_story_params& theParameters)
 			  // TODO: length of the storyPartPeriod
 			  sentence << cloudinessForecast.cloudinessSentence(storyPartPeriod, true, false);
 			  paragraph << sentence;
+			  precipitationForecast.dryPeriodTautologyFlag(true);
 			}
 			break;
 		  case SADE_ALKAA_STORY_PART:
@@ -1650,7 +1687,7 @@ const void log_subperiods(wf_story_params& theParameters)
 			  Sentence precipitationSentence;
 			  Sentence fogSentence;
 			  cloudinessSentence << cloudinessForecast.cloudinessSentence(storyPartPeriod, false, true);
-			  precipitationSentence << precipitationForecast.precipitationSentence(storyPartPeriod, false);
+			  precipitationSentence << precipitationForecast.precipitationSentence(storyPartPeriod);
 			  fogSentence << fogForecast.fogSentence(storyPartPeriod);
 
 			  if(precipitationForecast.isDryPeriod(storyPartPeriod, theParameters.theForecastArea))
@@ -1674,7 +1711,7 @@ const void log_subperiods(wf_story_params& theParameters)
 						  Sentence sentence;
 						  sentence << cloudinessSentence << JA_WORD;
 						  precipitationForecast.useOllaVerb(true);
-						  sentence << precipitationForecast.precipitationSentence(storyPartPeriod, false);
+						  sentence << precipitationForecast.precipitationSentence(storyPartPeriod);
 						  precipitationForecast.useOllaVerb(false);
 						  paragraph << sentence;
 						}
@@ -1688,9 +1725,23 @@ const void log_subperiods(wf_story_params& theParameters)
 				}
 			  else
 				{
-				  paragraph << cloudinessSentence;
-				  paragraph << fogSentence;
-				  paragraph << precipitationSentence;
+				  if(precipitationForecast.isMostlyDryPeriod(storyPartPeriod,theParameters.theForecastArea))
+					{					  
+					  Sentence sentence;
+					  sentence << cloudinessSentence << JA_WORD;
+
+					  if(cloudinessForecast.getCloudinessId(storyPartPeriod) == PUOLIPILVINEN_JA_PILVINEN)
+						sentence << ON_WORD;
+
+					  sentence << precipitationSentence;
+					  paragraph << sentence;
+					}
+				  else
+					{
+					  paragraph << cloudinessSentence;
+					  paragraph << fogSentence;
+					  paragraph << precipitationSentence;
+					}
 				}
 			}
 			break;
@@ -1715,7 +1766,7 @@ const void log_subperiods(wf_story_params& theParameters)
 				{
 				  sentence << SAA_WORD << ON_WORD;
 				}
-			  sentence << precipitationForecast.precipitationSentence(storyPartPeriod, false);
+			  sentence << precipitationForecast.precipitationSentence(storyPartPeriod);
 			  paragraph << sentence;
 			}
 			break;
@@ -1724,7 +1775,9 @@ const void log_subperiods(wf_story_params& theParameters)
 			  theParameters.theLog << storyPartPeriod.localStartTime() << ".. " 
 								   << storyPartPeriod.localEndTime() 
 								   << ": SHORT_PRECIPITATION_STORY_PART" << endl;
+			  // cout << precipitationForecast.precipitationSentenceString(storyPartPeriod);
 			  paragraph << precipitationForecast.shortTermPrecipitationSentence(storyPartPeriod);
+
 			}
 			break;
 		  case MISSING_STORY_PART_ID:
@@ -1807,47 +1860,6 @@ const void log_subperiods(wf_story_params& theParameters)
 	dataPeriodStartTime.ChangeByHours(-12);
 	dataPeriodEndTime.ChangeByHours(12);
 
-	/*
-	if(generator00.isday(1))
-	  {
-		if(generator00.size() > 2)
-		  {
-			log << "today, night and tomorrow, ..." << endl;
-		  }
-		else if(generator00.size() == 2)
-		  {
-			log << "today and night" << endl;
-			if(abs(itsForecastTime.DifferenceInHours(generator00.period(1).localStartTime())) > 12)
-			  dataPeriodStartTime.ChangeByHours(-24);
-			else
-			  dataPeriodEndTime.ChangeByHours(12);
-		  }
-		else
-		  {
-			log << "today" << endl;
-			if(abs(itsForecastTime.DifferenceInHours(generator00.period(1).localStartTime())) > 12)
-			  dataPeriodStartTime.ChangeByHours(-24);
-			else
-			  dataPeriodEndTime.ChangeByHours(24);
-		  }
-	  }
-	else
-	  {
-		if(generator00.size() == 1)
-		  {
-			log << "one night" << endl;
-			dataPeriodStartTime.ChangeByHours(-12);
-			dataPeriodEndTime.ChangeByHours(12);
-		  }
-		else
-		  {
-			log << "night and tomorrow" << endl;		  
-			dataPeriodStartTime.ChangeByHours(-12);
-			dataPeriodEndTime.ChangeByHours(12);
-		  }
-	  }
-	*/
-
 	log_start_time_and_end_time(log, 
 								"the forecast period: ",
 								itsPeriod);
@@ -1861,6 +1873,7 @@ const void log_subperiods(wf_story_params& theParameters)
 	  {
 		std::string name(itsArea.name());
 		log << "** " << name  << " **" << endl;
+		//		cout << "** " << name  << " **" << endl;
 	  }
 
 	WeatherPeriod theDataGatheringPeriod(dataPeriodStartTime, dataPeriodEndTime);

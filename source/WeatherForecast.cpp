@@ -527,59 +527,179 @@ using namespace std;
 	*/
   }
 
-  Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod)
+  Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod, 
+								 bool theAlkaenPhrase /*= false*/,
+								 vector<std::string>* theStringVector /*= 0*/)
   {
 	Sentence sentence;
 
 	if(get_part_of_the_day_id(theWeatherPeriod.localStartTime()) == 
 	   get_part_of_the_day_id(theWeatherPeriod.localEndTime()))
 	  {
-		sentence << get_time_phrase(theWeatherPeriod.localStartTime(), false);
+		sentence << get_time_phrase(theWeatherPeriod.localStartTime(), theAlkaenPhrase, theStringVector);
 	  }
 	else
 	  {
 		// aamulla ja aamupäivällä
 		if(is_inside(theWeatherPeriod, AAMU_JA_AAMUPAIVA))
-		  sentence << AAMULLA_WORD << JA_WORD << AAMUPAIVALLA_WORD;
+		  {			
+			sentence << AAMULLA_WORD << JA_WORD << AAMUPAIVALLA_WORD;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(AAMULLA_WORD);
+				theStringVector->push_back(JA_WORD);
+				theStringVector->push_back(AAMUPAIVALLA_WORD);
+			  }
+		  }
 		else if(is_inside(theWeatherPeriod, AAMUPAIVA_JA_KESKIPAIVA))
-		  sentence << AAMUPAIVALLA_WORD << JA_WORD << KESKIPAIVALLA_WORD;
+		  {
+			sentence << AAMUPAIVALLA_WORD << JA_WORD << KESKIPAIVALLA_WORD;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(AAMUPAIVALLA_WORD);
+				theStringVector->push_back(JA_WORD);
+				theStringVector->push_back(KESKIPAIVALLA_WORD);
+			  }
+		  }
 		else if(is_inside(theWeatherPeriod, KESKIPAIVA_JA_ILTAPAIVA))
-		  sentence << KESKIPAIVALLA_WORD << JA_WORD << ILTAPAIVALLA_WORD;
+		  {
+			sentence << KESKIPAIVALLA_WORD << JA_WORD << ILTAPAIVALLA_WORD;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(KESKIPAIVALLA_WORD);
+				theStringVector->push_back(JA_WORD);
+				theStringVector->push_back(ILTAPAIVALLA_WORD);
+			  }
+		  }
 		else if(is_inside(theWeatherPeriod, ILTAPAIVA_JA_ILTA))
-		  sentence << ILTAPAIVALLA_WORD << JA_WORD << ILLALLA_WORD;
+		  {
+			sentence << ILTAPAIVALLA_WORD << JA_WORD << ILLALLA_WORD;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(ILTAPAIVALLA_WORD);
+				theStringVector->push_back(JA_WORD);
+				theStringVector->push_back(ILLALLA_WORD);
+			  }
+		  }
 		else if(is_inside(theWeatherPeriod, ILTA_JA_ILTAYO))
-		  sentence << ILLALLA_WORD << JA_WORD << ILTAYOSTA_WORD;
+		  {
+			sentence << ILLALLA_WORD << JA_WORD << ILTAYOSTA_WORD;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(ILLALLA_WORD);
+				theStringVector->push_back(JA_WORD);
+				theStringVector->push_back(ILTAYOSTA_WORD);
+			  }
+		  }
 		else if(is_inside(theWeatherPeriod, ILTAYO_JA_KESKIYO))
-		  sentence << ILTAYOSTA_WORD << JA_WORD << KESKIYOLLA_WORD;
+		  {
+			sentence << ILTAYOSTA_WORD << JA_WORD << KESKIYOLLA_WORD;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(ILTAYOSTA_WORD);
+				theStringVector->push_back(JA_WORD);
+				theStringVector->push_back(KESKIYOLLA_WORD);
+			  }
+		  }
 		else if(is_inside(theWeatherPeriod, KESKIYO_JA_AAMUYO))
-		  sentence << KESKIYOLLA_WORD << JA_WORD << AAMUYOLLA_WORD;
+		  {
+			sentence << KESKIYOLLA_WORD << JA_WORD << AAMUYOLLA_WORD;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(KESKIYOLLA_WORD);
+				theStringVector->push_back(JA_WORD);
+				theStringVector->push_back(AAMUYOLLA_WORD);
+			  }
+		  }
 		else if(is_inside(theWeatherPeriod, AAMUYO_JA_AAMU))
-		  sentence << AAMUYOLLA_WORD << JA_WORD << AAMULLA_WORD;
+		  {
+			sentence << AAMUYOLLA_WORD << JA_WORD << AAMULLA_WORD;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(AAMUYOLLA_WORD);
+				theStringVector->push_back(JA_WORD);
+				theStringVector->push_back(AAMULLA_WORD);
+			  }
+		  }
+		else if(theAlkaenPhrase)
+		  {
+			sentence << get_time_phrase(theWeatherPeriod.localStartTime(), theAlkaenPhrase, theStringVector);
+		  }
 	  }
 
 	return sentence;
   }
 
-  Sentence get_time_phrase(const NFmiTime& theTimestamp, bool theAlkaenPhrase /*= false*/)
+  Sentence get_time_phrase(const NFmiTime& theTimestamp, 
+						   bool theAlkaenPhrase /*= false*/, 
+						   vector<std::string>* theStringVector /*= 0*/)
   {
 	Sentence sentence;
 
 	if(is_inside(theTimestamp, AAMU))
+	  {
 		sentence << (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
+		  }
+	  }
 	else if(is_inside(theTimestamp, AAMUPAIVA))
-	  sentence << (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+	  {
+		sentence << (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+		  }
+	  }
 	else if(is_inside(theTimestamp, KESKIPAIVA))
-	  sentence << (theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
+	  {
+		sentence << (theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
+		  }
+	  }
 	else if(is_inside(theTimestamp, ILTAPAIVA))
-	  sentence << (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+	  {
+		sentence << (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+		  }
+	  }
 	else if(is_inside(theTimestamp, ILTA))
-	  sentence << (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
+	  {
+		sentence << (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
+		  }
+	  }
 	else if(is_inside(theTimestamp, ILTAYO))
-	  sentence << (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOSTA_WORD);
+	  {
+		sentence << (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOSTA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOSTA_WORD);
+		  }
+	  }
 	else if(is_inside(theTimestamp, KESKIYO))
-	  sentence << (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
+	  {
+		sentence << (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
+		  }
+	  }
 	else if(is_inside(theTimestamp, AAMUYO))
+	  {
 		sentence << (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
+		  }
+	  }
 
 	return sentence;
   }
@@ -671,7 +791,173 @@ using namespace std;
 	return sentence;
   }
 
-  void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
+  void get_precipitation_limit_value(const wf_story_params& theParameters,
+									 const unsigned int& thePrecipitationForm,
+									 const precipitation_intesity_id& theIntensityId,
+									 float& theLowerLimit,
+									 float& theUpperLimit)
+  {
+ 	switch(thePrecipitationForm)
+	  {
+	  case WATER_FREEZING_FORM:
+	  case FREEZING_FORM:
+	  case WATER_FORM:
+	  case WATER_DRIZZLE_FREEZING_FORM:
+	  case WATER_DRIZZLE_FORM:
+	  case WATER_DRIZZLE_SLEET_FORM:
+	  case WATER_SLEET_FREEZING_FORM:
+	  case WATER_SLEET_FORM:
+	  case WATER_SNOW_FREEZING_FORM:
+	  case WATER_SNOW_FORM:
+	  case WATER_DRIZZLE_SNOW_FORM:
+	  case WATER_SLEET_SNOW_FORM:
+		{
+		  switch(theIntensityId)
+			{
+			case DRY_WEATHER:
+			  {
+				theLowerLimit = 0;
+				theUpperLimit = theParameters.theDryWeatherLimitWater;
+			  }
+			  break;
+			case WEAK_PRECIPITATION:
+			  {
+				theLowerLimit = theParameters.theDryWeatherLimitWater;
+				theUpperLimit = theParameters.theWeakPrecipitationLimitWater;
+			  }
+			  break;
+			case MODERATE_PRECIPITATION:
+			  {
+				theLowerLimit = theParameters.theWeakPrecipitationLimitWater;
+				theUpperLimit = theParameters.theHeavyPrecipitationLimitWater;
+			  }
+			  break;
+			case HEAVY_PRECIPITATION:
+			  {
+				theLowerLimit = theParameters.theHeavyPrecipitationLimitWater;
+				theUpperLimit = 1000.0;
+			  }
+			  break;
+			default:
+			  break;
+			}
+		}
+		break;
+	  case SLEET_FREEZING_FORM:
+	  case SLEET_FORM:
+	  case SLEET_SNOW_FREEZING_FORM:
+	  case SLEET_SNOW_FORM:
+		{
+		  switch(theIntensityId)
+			{
+			case DRY_WEATHER:
+			  {
+				theLowerLimit = 0;
+				theUpperLimit = theParameters.theDryWeatherLimitSleet;
+			  }
+			  break;
+			case WEAK_PRECIPITATION:
+			  {
+				theLowerLimit = theParameters.theDryWeatherLimitSleet;
+				theUpperLimit = theParameters.theWeakPrecipitationLimitSleet;
+			  }
+			  break;
+			case MODERATE_PRECIPITATION:
+			  {
+				theLowerLimit = theParameters.theWeakPrecipitationLimitSleet;
+				theUpperLimit = theParameters.theHeavyPrecipitationLimitSleet;
+			  }
+			  break;
+			case HEAVY_PRECIPITATION:
+			  {
+				theLowerLimit = theParameters.theHeavyPrecipitationLimitSleet;
+				theUpperLimit = 1000.0;
+			  }
+			  break;
+			default:
+			  break;
+			}
+		}
+		break;
+	  case SNOW_FORM:
+	  case SNOW_FREEZING_FORM:
+		{
+		  switch(theIntensityId)
+			{
+			case DRY_WEATHER:
+			  {
+				theLowerLimit = 0;
+				theUpperLimit = theParameters.theDryWeatherLimitSnow;
+			  }
+			  break;
+			case WEAK_PRECIPITATION:
+			  {
+				theLowerLimit = theParameters.theDryWeatherLimitSnow;
+				theUpperLimit = theParameters.theWeakPrecipitationLimitSnow;
+			  }
+			  break;
+			case MODERATE_PRECIPITATION:
+			  {
+				theLowerLimit = theParameters.theWeakPrecipitationLimitSnow;
+				theUpperLimit = theParameters.theHeavyPrecipitationLimitSnow;
+			  }
+			  break;
+			case HEAVY_PRECIPITATION:
+			  {
+				theLowerLimit = theParameters.theHeavyPrecipitationLimitSnow;
+				theUpperLimit = 1000.0;
+			  }
+			  break;
+			default:
+			  break;
+			}
+		}
+		break;
+	  case DRIZZLE_FORM:
+	  case DRIZZLE_FREEZING_FORM:
+	  case DRIZZLE_SLEET_FORM:
+	  case DRIZZLE_SLEET_FREEZING_FORM:
+	  case DRIZZLE_SNOW_FREEZING_FORM:
+	  case DRIZZLE_SNOW_FORM:
+	  case DRIZZLE_SLEET_SNOW_FORM:
+		{
+		  switch(theIntensityId)
+			{
+			case DRY_WEATHER:
+			  {
+				theLowerLimit = 0;
+				theUpperLimit = theParameters.theDryWeatherLimitDrizzle;
+			  }
+			  break;
+			case WEAK_PRECIPITATION:
+			  {
+				theLowerLimit = theParameters.theDryWeatherLimitWater;
+				theUpperLimit = theParameters.theWeakPrecipitationLimitWater;
+			  }
+			  break;
+			case MODERATE_PRECIPITATION:
+			  {
+				theLowerLimit = theParameters.theWeakPrecipitationLimitWater;
+				theUpperLimit = theParameters.theHeavyPrecipitationLimitWater;
+			  }
+			  break;
+			case HEAVY_PRECIPITATION:
+			  {
+				theLowerLimit = theParameters.theHeavyPrecipitationLimitWater;
+				theUpperLimit = 1000.0;
+			  }
+			  break;
+			default:
+			  break;
+			}
+		}
+		break;
+	  case MISSING_PRECIPITATION_FORM:
+		break;
+	  }
+  }
+
+   void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
 											const unsigned int& thePrecipitationForm,
 											float& theDryWeatherLimit, 
 											float& theWeakPrecipitationLimit)
