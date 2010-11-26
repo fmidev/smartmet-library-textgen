@@ -40,11 +40,11 @@ using namespace AreaTools;
 using namespace boost;
 using namespace std;
 
- const char* trend_string(const trend_id& theTrendId)
+ const char* weather_event_string(const weather_event_id& theWeatherEventId)
   {
 	const char* retval = "";
 
-	switch(theTrendId)
+	switch(theWeatherEventId)
 	  {
 	  case PILVISTYY:
 		retval = PILVISTYVAA_WORD;
@@ -59,7 +59,7 @@ using namespace std;
 		retval = SADE_ALKAA_PHRASE;
 		break;
 	  default:
-		retval = "no trend";
+		retval = "missing weather event";
 		break;
 	  }
 
@@ -536,7 +536,7 @@ using namespace std;
 	if(get_part_of_the_day_id(theWeatherPeriod.localStartTime()) == 
 	   get_part_of_the_day_id(theWeatherPeriod.localEndTime()))
 	  {
-		sentence << get_time_phrase(theWeatherPeriod.localStartTime(), theAlkaenPhrase, theStringVector);
+		sentence << get_time_phrase(theWeatherPeriod.localStartTime(), false, theStringVector);
 	  }
 	else
 	  {

@@ -29,21 +29,21 @@ using namespace std;
 	  theCoastalData = coastalData;
 	  findOutCloudinessPeriods(theCoastalData, theCloudinessPeriodsCoastal);
 	  joinPeriods(theCoastalData, theCloudinessPeriodsCoastal, theCloudinessPeriodsCoastalJoined);
-	  findOutCloudinessTrends(theCoastalData, theCloudinessTrendsCoastal);
+	  findOutCloudinessWeatherEvents(theCoastalData, theCloudinessWeatherEventsCoastal);
 	}
 	void setInlandData(const weather_result_data_item_vector* inlandData) 
 	{ 
 	  theInlandData = inlandData; 
 	  findOutCloudinessPeriods(theInlandData, theCloudinessPeriodsInland);
 	  joinPeriods(theInlandData, theCloudinessPeriodsInland, theCloudinessPeriodsInlandJoined);
-	  findOutCloudinessTrends(theInlandData, theCloudinessTrendsInland);
+	  findOutCloudinessWeatherEvents(theInlandData, theCloudinessWeatherEventsInland);
 	}
 	void setFullData(const weather_result_data_item_vector* fullData) 
 	{ 
 	  theFullData = fullData; 
 	  findOutCloudinessPeriods(theFullData, theCloudinessPeriodsFull);
 	  joinPeriods(theFullData, theCloudinessPeriodsFull, theCloudinessPeriodsFullJoined);	
-	  findOutCloudinessTrends(theFullData, theCloudinessTrendsFull);
+	  findOutCloudinessWeatherEvents(theFullData, theCloudinessWeatherEventsFull);
 	}
 
 	const weather_result_data_item_vector* getCoastalData() const { return theCoastalData; }
@@ -65,10 +65,10 @@ using namespace std;
 	cloudiness_id getCloudinessId(const WeatherPeriod& thePeriod,
 								  const weather_result_data_item_vector* theCloudinessData) const;
 
-	void getTrendIdVector(trend_id_vector& theCloudinessTrends) const;
+	void getWeatherEventIdVector(weather_event_id_vector& theCloudinessWeatherEvents) const;
 
 	void printOutCloudinessData(std::ostream& theOutput) const;
-	void printOutCloudinessTrends(std::ostream& theOutput) const;
+	void printOutCloudinessWeatherEvents(std::ostream& theOutput) const;
 	void printOutCloudinessPeriods(std::ostream& theOutput) const;
 
   private:
@@ -92,9 +92,9 @@ using namespace std;
 	void findOutCloudinessPeriods(const weather_result_data_item_vector* theData, 
 								 cloudiness_period_vector& theCloudinessPeriods);
 	void findOutCloudinessPeriods();
-	void findOutCloudinessTrends(const weather_result_data_item_vector* theData,
-								 trend_id_vector& theCloudinessTrends);
-	void findOutCloudinessTrends();
+	void findOutCloudinessWeatherEvents(const weather_result_data_item_vector* theData,
+								 weather_event_id_vector& theCloudinessWeatherEvents);
+	void findOutCloudinessWeatherEvents();
 
 	void joinPeriods(const weather_result_data_item_vector* theDataSource,
 					 const cloudiness_period_vector& theCloudinessPeriodsSource,
@@ -117,9 +117,9 @@ using namespace std;
 	cloudiness_period_vector theCloudinessPeriodsInlandJoined;
 	cloudiness_period_vector theCloudinessPeriodsFullJoined;
 
-	trend_id_vector theCloudinessTrendsCoastal;
-	trend_id_vector theCloudinessTrendsInland;
-	trend_id_vector theCloudinessTrendsFull;
+	weather_event_id_vector theCloudinessWeatherEventsCoastal;
+	weather_event_id_vector theCloudinessWeatherEventsInland;
+	weather_event_id_vector theCloudinessWeatherEventsFull;
 
 	bool theSeparateCoastInlandMorning;
 	bool theSeparateCoastInlandAfternoon;

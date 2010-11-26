@@ -336,6 +336,41 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Calculate afternoon period.
+	 *
+	 * \param theVar The control variable prefix
+	 * \param theTime The timestamp
+	 */
+	// ----------------------------------------------------------------------
+	WeatherPeriod get_afternoon_period(const string& theVar, 
+									   const NFmiTime& theTime)
+	{
+	  int fakeStrPos = theVar.find("::fake");
+	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
+
+	  bool is_winter = SeasonTools::isWinterHalf(theTime, thePlainVar);
+	  int timezone = theTime.GetZoneDifferenceHour();
+	  std::string season(is_winter ? "::wintertime" : "::summertime");
+				
+	  // in wintertime convert the default value to localtime
+	  int default_starthour = (is_winter ? 12 - timezone : 13);
+	  int default_endhour = (is_winter ? 12 - timezone : 17);
+	  
+	  int afternoon_starthour    =  optional_hour(thePlainVar+season+"::day_temperature::starthour", default_starthour);
+	  int afternoon_endhour      =  optional_hour(thePlainVar+season+"::day_temperature::endhour", default_endhour);
+
+	  int year = theTime.GetYear();
+	  int month = theTime.GetMonth();
+	  int day = theTime.GetDay();
+
+	  NFmiTime time1(year, month, day, afternoon_starthour, 0,0);
+	  NFmiTime time2(year, month, day, afternoon_endhour, 0,0);
+
+	  return WeatherPeriod(time1,time2);
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Calculate afternoon temperature. 
 	 *
 	 * \param theVar The control variable prefix
@@ -356,6 +391,7 @@ namespace TextGen
 						 WeatherResult& theMax,
 						 WeatherResult& theMean)
 	{
+	  /*
 	  int year = thePeriod.localStartTime().GetYear();
 	  int month = thePeriod.localStartTime().GetMonth();
 	  int day = thePeriod.localStartTime().GetDay();
@@ -378,11 +414,16 @@ namespace TextGen
 	  NFmiTime time2(year, month, day, afternoon_endhour, 0,0);
 
 	  WeatherPeriod dayPeriod(time1,time2);
+	  */
+
+	  int fakeStrPos = theVar.find("::fake");
+	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
+	  bool is_winter = SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar);
 
 	  min_max_mean_temperature(theVar,
 							   theSources,
 							   theArea,
-							   dayPeriod,
+							   get_afternoon_period(theVar, thePeriod.localStartTime()),
 							   is_winter,
 							   theMin,
 							   theMax,
@@ -449,7 +490,8 @@ namespace TextGen
 							 const float& theTemperature,
 							 const AnalysisSources& theSources,
 							 const WeatherArea& theArea,  
-							 const WeatherPeriod& thePeriod)
+							 const WeatherPeriod& thePeriod,
+							 const fractile_type_id& theFractileType)
 	{
 
 	  if(theTemperature == kFloatMissing)
@@ -496,7 +538,8 @@ namespace TextGen
 
 	  result = gc.analyze(theVar,
 						  theSources,
-						  NormalMaxTemperatureF02,
+						  (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF02 : 
+						   (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF02 : NormalMaxTemperatureF02)),
 						  Mean,
 						  Mean,
 						  theArea,
@@ -507,7 +550,8 @@ namespace TextGen
 	  
 	  result = gc.analyze(theVar,
 						  theSources,
-						  NormalMaxTemperatureF12,
+						  (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF12 : 
+						   (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF12 : NormalMaxTemperatureF12)),
 						  Mean,
 						  Mean,
 						  theArea,
@@ -518,7 +562,8 @@ namespace TextGen
 
 	  result = gc.analyze(theVar,
 						  theSources,
-						  NormalMaxTemperatureF37,
+						  (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF37 : 
+						   (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF37 : NormalMaxTemperatureF37)),
 						  Mean,
 						  Mean,
 						  theArea,
@@ -529,7 +574,8 @@ namespace TextGen
 	  
 	  result = gc.analyze(theVar,
 						  theSources,
-						  NormalMaxTemperatureF50,
+						  (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF50 : 
+						   (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF50 : NormalMaxTemperatureF50)),
 						  Mean,
 						  Mean,
 						  theArea,
@@ -540,7 +586,8 @@ namespace TextGen
 	  
 	  result = gc.analyze(theVar,
 						  theSources,
-						  NormalMaxTemperatureF63,
+						  (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF63 : 
+						   (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF63 : NormalMaxTemperatureF63)),
 						  Mean,
 						  Mean,
 						  theArea,
@@ -551,7 +598,8 @@ namespace TextGen
 	  
 	  result = gc.analyze(theVar,
 						  theSources,
-						  NormalMaxTemperatureF88,
+						  (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF88 : 
+						   (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF88 : NormalMaxTemperatureF88)),
 						  Mean,
 						  Mean,
 						  theArea,
@@ -562,7 +610,8 @@ namespace TextGen
 
 	  result = gc.analyze(theVar,
 						  theSources,
-						  NormalMaxTemperatureF98,
+						  (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF98 : 
+						   (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF98 : NormalMaxTemperatureF98)),
 						  Mean,
 						  Mean,
 						  theArea,
@@ -590,10 +639,11 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	WeatherResult get_fractile_temperature(const std::string& theVar,
-							 const fractile_id& theFractileId,
-							 const AnalysisSources& theSources,
-							 const WeatherArea& theArea,  
-							 const WeatherPeriod& thePeriod)
+										   const fractile_id& theFractileId,
+										   const AnalysisSources& theSources,
+										   const WeatherArea& theArea,  
+										   const WeatherPeriod& thePeriod,
+										   const fractile_type_id& theFractileType)
 	{
 	  string seasonStr = SeasonTools::isSummerHalf(thePeriod.localStartTime(), theVar) ? "summer" : "winter";
 
@@ -633,25 +683,39 @@ namespace TextGen
 	  switch(theFractileId)
 		{
 		case FRACTILE_02:
-		  theWeatherParameter = NormalMaxTemperatureF02;
+		  theWeatherParameter = (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF02 : 
+								 (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF02 : 
+								  NormalMaxTemperatureF02));
 		  break;
 		case FRACTILE_12:
-		  theWeatherParameter = NormalMaxTemperatureF12;
+		  theWeatherParameter = (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF12 : 
+								 (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF12 : 
+								  NormalMaxTemperatureF12));
 		  break;
 		case FRACTILE_37:
-		  theWeatherParameter = NormalMaxTemperatureF37;
+		  theWeatherParameter = (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF37 : 
+								 (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF37 : 
+								  NormalMaxTemperatureF37));
 		  break;
 		case FRACTILE_50:
-		  theWeatherParameter = NormalMaxTemperatureF50;
+		  theWeatherParameter = (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF50 : 
+								 (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF50 : 
+								  NormalMaxTemperatureF50));
 		  break;
 		case FRACTILE_63:
-		  theWeatherParameter = NormalMaxTemperatureF63;
+		  theWeatherParameter = (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF63 : 
+								 (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF63 : 
+								  NormalMaxTemperatureF63));
 		  break;
 		case FRACTILE_88:
-		  theWeatherParameter = NormalMaxTemperatureF88;
+		  theWeatherParameter = (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF88 : 
+								 (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF88 : 
+								  NormalMaxTemperatureF88));
 		  break;
 		case FRACTILE_98:
-		  theWeatherParameter = NormalMaxTemperatureF98;
+		  theWeatherParameter = (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF98 : 
+								 (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF98 : 
+								  NormalMaxTemperatureF98));
 		  break;
 		case FRACTILE_100:
 		case FRACTILE_UNDEFINED:

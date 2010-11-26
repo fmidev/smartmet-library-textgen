@@ -166,6 +166,72 @@ namespace WeatherAnalysis
 		  return new RegularParameterAnalyzer("textgen::fractiles",
 											  "NormalMaxTemperatureF98");
 
+		case NormalMeanTemperatureF02:
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMeanTemperatureF02");
+
+		case NormalMeanTemperatureF12:
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMeanTemperatureF12");
+
+
+		case NormalMeanTemperatureF37:
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMeanTemperatureF37");
+
+
+		case NormalMeanTemperatureF50:
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMeanTemperatureF50");
+
+
+		case NormalMeanTemperatureF63:
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMeanTemperatureF63");
+
+
+		case NormalMeanTemperatureF88:
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMeanTemperatureF88");
+
+
+		case NormalMeanTemperatureF98:
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMeanTemperatureF98");
+
+		case NormalMinTemperatureF02:
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMinTemperatureF02");
+
+		case NormalMinTemperatureF12:
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMinTemperatureF12");
+
+
+		case NormalMinTemperatureF37:
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMinTemperatureF37");
+
+
+		case NormalMinTemperatureF50:
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMinTemperatureF50");
+
+
+		case NormalMinTemperatureF63:
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMinTemperatureF63");
+
+
+		case NormalMinTemperatureF88:
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMinTemperatureF88");
+
+
+		case NormalMinTemperatureF98:
+		  return new RegularParameterAnalyzer("textgen::fractiles",
+											  "NormalMinTemperatureF98");
+
 		case WindChill:
 		  return new WindChillParameterAnalyzer("textgen::windchill",
 												"WindChill");

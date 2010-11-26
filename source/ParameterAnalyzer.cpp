@@ -228,6 +228,93 @@ namespace WeatherAnalysis
 		theParameterName = "NormalMaxTemperatureF98";
 	  }
 	  break;
+
+	case NormalMeanTemperatureF02:
+	  {
+		theDataName = "textgen::fractiles";
+		theParameterName = "NormalMeanTemperatureF02";
+	  }
+	  break;
+	case NormalMeanTemperatureF12:
+	  {
+		theDataName = "textgen::fractiles";
+		theParameterName = "NormalMeanTemperatureF12";
+	  }
+	  break;
+	case NormalMeanTemperatureF37:
+	  {
+		theDataName = "textgen::fractiles";
+		theParameterName = "NormalMeanTemperatureF37";
+	  }
+	  break;
+	case NormalMeanTemperatureF50:
+	  {
+		theDataName = "textgen::fractiles";
+		theParameterName = "NormalMeanTemperatureF50";
+	  }
+	  break;
+	case NormalMeanTemperatureF63:
+	  {
+		theDataName = "textgen::fractiles";
+		theParameterName = "NormalMeanTemperatureF63";
+	  }
+	  break;
+	case NormalMeanTemperatureF88:
+	  {
+		theDataName = "textgen::fractiles";
+		theParameterName = "NormalMeanTemperatureF88";
+	  }
+	  break;
+	case NormalMeanTemperatureF98:
+	  {
+		theDataName = "textgen::fractiles";
+		theParameterName = "NormalMeanTemperatureF98";
+	  }
+	  break;
+
+	case NormalMinTemperatureF02:
+	  {
+		theDataName = "textgen::fractiles";
+		theParameterName = "NormalMinTemperatureF02";
+	  }
+	  break;
+	case NormalMinTemperatureF12:
+	  {
+		theDataName = "textgen::fractiles";
+		theParameterName = "NormalMinTemperatureF12";
+	  }
+	  break;
+	case NormalMinTemperatureF37:
+	  {
+		theDataName = "textgen::fractiles";
+		theParameterName = "NormalMinTemperatureF37";
+	  }
+	  break;
+	case NormalMinTemperatureF50:
+	  {
+		theDataName = "textgen::fractiles";
+		theParameterName = "NormalMinTemperatureF50";
+	  }
+	  break;
+	case NormalMinTemperatureF63:
+	  {
+		theDataName = "textgen::fractiles";
+		theParameterName = "NormalMinTemperatureF63";
+	  }
+	  break;
+	case NormalMinTemperatureF88:
+	  {
+		theDataName = "textgen::fractiles";
+		theParameterName = "NormalMinTemperatureF88";
+	  }
+	  break;
+	case NormalMinTemperatureF98:
+	  {
+		theDataName = "textgen::fractiles";
+		theParameterName = "NormalMinTemperatureF98";
+	  }
+	  break;
+
 	case WindChill:
 	  {
 		theDataName = "textgen::windchill";

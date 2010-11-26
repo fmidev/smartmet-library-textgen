@@ -10,6 +10,7 @@
 
 #include <string>
 #include "AnalysisSources.h"
+#include <newbase/NFmiTime.h>
 
 namespace WeatherAnalysis
 {
@@ -27,15 +28,23 @@ namespace TextGen
   {
 	using namespace WeatherAnalysis;
 
-	enum fractile_id{FRACTILE_02,
-					 FRACTILE_12,
-					 FRACTILE_37,
-					 FRACTILE_50,
-					 FRACTILE_63,
-					 FRACTILE_88,
-					 FRACTILE_98,
-					 FRACTILE_100,
-					 FRACTILE_UNDEFINED};
+	enum fractile_id{
+	  FRACTILE_02,
+	  FRACTILE_12,
+	  FRACTILE_37,
+	  FRACTILE_50,
+	  FRACTILE_63,
+	  FRACTILE_88,
+	  FRACTILE_98,
+	  FRACTILE_100,
+	  FRACTILE_UNDEFINED
+	};
+
+	enum fractile_type_id{
+	  MIN_FRACTILE,
+	  MEAN_FRACTILE,
+	  MAX_FRACTILE
+	};
 	
 	const char * temperature_comparison_phrase(int theMean1,
 											   int theMean2,
@@ -86,6 +95,12 @@ namespace TextGen
 							 WeatherAnalysis::WeatherResult& theMax,
 							 WeatherAnalysis::WeatherResult& theMean);
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief returns  afternoon period
+	 */
+	// ----------------------------------------------------------------------
+	WeatherPeriod get_afternoon_period(const std::string& theVar, const NFmiTime& theTime);
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -125,7 +140,8 @@ namespace TextGen
 							 const float& theTemperature,
 							 const AnalysisSources& theSources,
 							 const WeatherArea& theArea,  
-							 const WeatherPeriod& thePeriod);
+							 const WeatherPeriod& thePeriod,
+							 const fractile_type_id& theFractileType);
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -136,7 +152,8 @@ namespace TextGen
 										   const fractile_id& theFractileId,
 										   const AnalysisSources& theSources,
 										   const WeatherArea& theArea,  
-										   const WeatherPeriod& thePeriod);
+										   const WeatherPeriod& thePeriod,
+										   const fractile_type_id& theFractileType);
 
 	// ----------------------------------------------------------------------
 	/*!

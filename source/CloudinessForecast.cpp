@@ -52,14 +52,14 @@ namespace TextGen
   {
 	string cloudinessIdStr(cloudiness_string(theCloudinessDataItemData.theId));
 
-	string trendIdStr = trend_string(theCloudinessDataItemData.theTrendId);
+	string weatherEventIdStr = weather_event_string(theCloudinessDataItemData.theWeatherEventId);
 
 	theOutput << "    " << cloudinessIdStr << ": ";
 	theOutput << "min=" << theCloudinessDataItemData.theMin << " ";
 	theOutput << "mean=" << theCloudinessDataItemData.theMean << " ";
 	theOutput << "max=" << theCloudinessDataItemData.theMax << " ";
 	theOutput << "std.dev=" << theCloudinessDataItemData.theStandardDeviation << endl;
-	theOutput << "    trend: " << trendIdStr << endl;
+	theOutput << "    weather event: " << weatherEventIdStr << endl;
 	theOutput << "    pearson coefficient: " << theCloudinessDataItemData.thePearsonCoefficient << endl;
 
 	return theOutput;
@@ -265,29 +265,29 @@ namespace TextGen
 
 	findOutCloudinessPeriods(); 
 	joinPeriods();
-	findOutCloudinessTrends();
+	findOutCloudinessWeatherEvents();
   }
 
   Sentence CloudinessForecast::cloudinessChangeSentence(const WeatherPeriod& thePeriod) const
   {
 	Sentence sentence;
 
-	for(unsigned int i = 0; i < theCloudinessTrendsFull.size(); i++)
+	for(unsigned int i = 0; i < theCloudinessWeatherEventsFull.size(); i++)
 	  {
-		NFmiTime trendTimestamp(theCloudinessTrendsFull.at(i).first);
+		NFmiTime weatherEventTimestamp(theCloudinessWeatherEventsFull.at(i).first);
 
-		if(!(trendTimestamp >= thePeriod.localStartTime() &&
-			 trendTimestamp <= thePeriod.localEndTime()))
+		if(!(weatherEventTimestamp >= thePeriod.localStartTime() &&
+			 weatherEventTimestamp <= thePeriod.localEndTime()))
 		  {
 			continue;
 		  }
 
-		trend_id trid(theCloudinessTrendsFull.at(i).second);
+		weather_event_id trid(theCloudinessWeatherEventsFull.at(i).second);
 		
 		/*
 		
-		NFmiTime previousStartTime(trendTimestamp);
-		NFmiTime previousEndTime(trendTimestamp);
+		NFmiTime previousStartTime(weatherEventTimestamp);
+		NFmiTime previousEndTime(weatherEventTimestamp);
 		previousEndTime.ChangeByHours(-1);
 		previousStartTime.ChangeByHours(-4);
 		WeatherPeriod previousPeriod(previousStartTime, previousEndTime);
@@ -304,7 +304,7 @@ namespace TextGen
 			sentence << SELKENEVAA_WORD;
 		  }
 
-		sentence << get_time_phrase(trendTimestamp, true);
+		sentence << get_time_phrase(weatherEventTimestamp, true);
 	  }
 
 	return sentence;
@@ -382,10 +382,10 @@ namespace TextGen
 	*/
   }  
   
-  void CloudinessForecast::findOutCloudinessTrends(const weather_result_data_item_vector* theData,
-												   trend_id_vector& theCloudinessTrends)
+  void CloudinessForecast::findOutCloudinessWeatherEvents(const weather_result_data_item_vector* theData,
+												   weather_event_id_vector& theCloudinessWeatherEvents)
   {
-	// check 4-hour periods if there is trend
+	// check 4-hour periods if there is weatherEvent
 	const unsigned int periodLength = 12;
 	unsigned int startIndex = 0;
 	while(startIndex < theData->size() - (periodLength + 1))
@@ -412,68 +412,41 @@ namespace TextGen
 		get_sub_time_series(wholePeriod,
 							*theData,
 							theWholePeriodData);
-		/*
-		float min, max;
-		float mean = get_mean(theInterestingData);
-		get_min_max(theInterestingData, min, max);
-		float standard_deviation = get_standard_deviation(theInterestingData);	
-		theCloudinessId = get_cloudiness_id(min, mean, max, standard_deviation);
-		*/
-
-		
 		float pearson_coefficient = get_pearson_coefficient(theWholePeriodData, 0, theWholePeriodData.size()-1);
-		/*
-		float minCloudinessInTheFirstHalf;
-		float maxCloudinessInTheFirstHalf;
-		get_min_max(theFirstHalfData, minCloudinessInTheFirstHalf, maxCloudinessInTheFirstHalf);
-		*/
 		float meanCloudinessInTheFirstHalf = get_mean(theFirstHalfData);
 		float meanCloudinessInTheSecondHalf = get_mean(theSecondHalfData);
-		/*
-		float minCloudinessInTheSecondHalf;
-		float maxCloudinessInTheSecondHalf;
-		get_min_max(theFirstHalfData, minCloudinessInTheSecondHalf, maxCloudinessInTheSecondHalf);
-		*/
-		/*
-		cloudiness_id cloudinessAtStart = 
-		  get_cloudiness_id(meanCloudinessInTheFirstHalf);
-		cloudiness_id cloudinessAtEnd = 
-		  get_cloudiness_id(meanCloudinessInTheSecondHalf);
-		*/
-		trend_id trendId = NO_TREND;
+		weather_event_id weatherEventId = MISSING_WEATHER_EVENT;
 
 		if(meanCloudinessInTheFirstHalf >= PILVISYVAA_UPPER_LIMIT && 
 		   meanCloudinessInTheSecondHalf <= PILVISYVAA_LOWER_LIMIT &&
 		   pearson_coefficient < -0.65)
 		  {
-			trendId = SELKENEE;
-			//			NFmiTime endTime(secondHalfPeriod.localStartTime());
-			//endTime.ChangeByHours(1);
+			weatherEventId = SELKENEE;
 		  }
 		else if(meanCloudinessInTheFirstHalf <= PILVISYVAA_LOWER_LIMIT && 
 				meanCloudinessInTheSecondHalf >= PILVISYVAA_UPPER_LIMIT && 
 				pearson_coefficient >= 0.65)
 		  {
-			trendId = PILVISTYY;
+			weatherEventId = PILVISTYY;
 		  }
 
-		if(trendId != NO_TREND)
+		if(weatherEventId != MISSING_WEATHER_EVENT)
 		  {
-			theCloudinessTrends.push_back(make_pair(secondHalfPeriod.localStartTime(), trendId));			
+			theCloudinessWeatherEvents.push_back(make_pair(secondHalfPeriod.localStartTime(), weatherEventId));			
 		  }
 
-		startIndex += (trendId == NO_TREND ? 1 : (periodLength/2));
+		startIndex += (weatherEventId == MISSING_WEATHER_EVENT ? 1 : (periodLength/2));
 	  }
  }
 
-  void CloudinessForecast::findOutCloudinessTrends()
+  void CloudinessForecast::findOutCloudinessWeatherEvents()
   {
 	if(theCoastalData)
-	  findOutCloudinessTrends(theCoastalData, theCloudinessTrendsCoastal);
+	  findOutCloudinessWeatherEvents(theCoastalData, theCloudinessWeatherEventsCoastal);
 	if(theInlandData)
-	  findOutCloudinessTrends(theInlandData, theCloudinessTrendsInland);
+	  findOutCloudinessWeatherEvents(theInlandData, theCloudinessWeatherEventsInland);
 	if(theFullData)
-	  findOutCloudinessTrends(theFullData, theCloudinessTrendsFull);
+	  findOutCloudinessWeatherEvents(theFullData, theCloudinessWeatherEventsFull);
   }
 
   void CloudinessForecast::findOutCloudinessPeriods(const weather_result_data_item_vector* theData, 
@@ -677,31 +650,31 @@ namespace TextGen
 	  }
   }
   
-  void CloudinessForecast::printOutCloudinessTrends(std::ostream& theOutput) const
+  void CloudinessForecast::printOutCloudinessWeatherEvents(std::ostream& theOutput) const
   {
-	theOutput << "** CLOUDINESS TRENDS **" << endl; 
-	bool isTrends = false;
-	if(theCloudinessTrendsCoastal.size() > 0)
+	theOutput << "** CLOUDINESS WEATHER EVENTS **" << endl; 
+	bool isWeatherEvents = false;
+	if(theCloudinessWeatherEventsCoastal.size() > 0)
 	  {
-		theOutput << "Coastal trends: " << endl; 
-		print_out_trend_vector(theOutput, theCloudinessTrendsCoastal);
-		isTrends = true;
+		theOutput << "Coastal weather events: " << endl; 
+		print_out_weather_event_vector(theOutput, theCloudinessWeatherEventsCoastal);
+		isWeatherEvents = true;
 	  }
-	if(theCloudinessTrendsInland.size() > 0)
+	if(theCloudinessWeatherEventsInland.size() > 0)
 	  {
-		theOutput << "Inland trends: " << endl; 
-		print_out_trend_vector(theOutput, theCloudinessTrendsInland);
-		isTrends = true;
+		theOutput << "Inland weather events: " << endl; 
+		print_out_weather_event_vector(theOutput, theCloudinessWeatherEventsInland);
+		isWeatherEvents = true;
 	  }
-	if(theCloudinessTrendsFull.size() > 0)
+	if(theCloudinessWeatherEventsFull.size() > 0)
 	  {
-		theOutput << "Full area trends: " << endl; 
-		print_out_trend_vector(theOutput, theCloudinessTrendsFull);
-		isTrends = true;
+		theOutput << "Full area weather events: " << endl; 
+		print_out_weather_event_vector(theOutput, theCloudinessWeatherEventsFull);
+		isWeatherEvents = true;
 	  }
 
-	if(!isTrends)
-		theOutput << "No trends!" << endl; 
+	if(!isWeatherEvents)
+		theOutput << "No weather events!" << endl; 
   }
 
   void CloudinessForecast::printOutCloudinessPeriods(std::ostream& theOutput) const
@@ -905,19 +878,19 @@ namespace TextGen
 	return sentence;
   }
 
-  void CloudinessForecast::getTrendIdVector(trend_id_vector& theCloudinessTrends) const
+  void CloudinessForecast::getWeatherEventIdVector(weather_event_id_vector& theCloudinessWeatherEvents) const
   {
-	const trend_id_vector* vectorToClone = 0;
+	const weather_event_id_vector* vectorToClone = 0;
 
 	if(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
-	  vectorToClone = &theCloudinessTrendsFull;
+	  vectorToClone = &theCloudinessWeatherEventsFull;
 	else if(theParameters.theForecastArea & COASTAL_AREA)
-	  vectorToClone = &theCloudinessTrendsCoastal;
+	  vectorToClone = &theCloudinessWeatherEventsCoastal;
 	else if(theParameters.theForecastArea & INLAND_AREA)
-	  vectorToClone = &theCloudinessTrendsInland;
+	  vectorToClone = &theCloudinessWeatherEventsInland;
 
 	if(vectorToClone)
-	  theCloudinessTrends = *vectorToClone;
+	  theCloudinessWeatherEvents = *vectorToClone;
   }
 
   Sentence CloudinessForecast::areaSpecificSentence(const WeatherPeriod& thePeriod) const

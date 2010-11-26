@@ -190,8 +190,11 @@ namespace TextGen
 #define POSSIBLY_THUNDER_UPPER_LIMIT 35.0
 #define OCCASIONALLY_THUNDER_LOWER_LIMIT 35.0
 #define OCCASIONALLY_THUNDER_UPPER_LIMIT 110.0
+#define MAJORITY_LIMIT 50.0
 
 #define TREND_CHANGE_COEFFICIENT_TRESHOLD 0.65 // pearson coefficient
+#define PEARSON_CO_FORM_TRANSFORM 0.65
+
 
   enum weather_result_data_id
 	{
@@ -200,7 +203,8 @@ namespace TextGen
 	  CLOUDINESS_SOUTHEAST_SHARE_DATA,
 	  CLOUDINESS_SOUTHWEST_SHARE_DATA,
 	  CLOUDINESS_NORTHWEST_SHARE_DATA,
-	  PRECIPITATION_DATA,
+	  PRECIPITATION_MAX_DATA,
+	  PRECIPITATION_MEAN_DATA,
 	  PRECIPITATION_EXTENT_DATA,
 	  PRECIPITATION_TYPE_DATA,
 	  PRECIPITATION_FORM_WATER_DATA,
@@ -354,13 +358,25 @@ namespace TextGen
 	  MISSING_PART_OF_THE_DAY_ID
 	};
 
-  enum trend_id
+  enum weather_event_id
 	{
 	  PILVISTYY,
 	  SELKENEE,
 	  POUTAANTUU, // >= 6h
+	  POUTAANTUU_WHEN_EXTENT_SMALL, // >= 6h, but extent is not large
 	  SADE_ALKAA, // >= 6h
-	  NO_TREND
+	  //TYPE_CHANGES,
+	  MISSING_WEATHER_EVENT
+	};
+
+  enum story_part_id2
+	{
+	  PRECIPITATION_STORY_PART = 0x1,
+	  CLOUDINESS_STORY_PART = 0x2,
+	  GETTING_CLOUDY_STORY_PART = 0x4,
+	  CLEARING_UP_STORY_PART = 0x8,
+	  PRECIPITATION_TYPE_CHANGE_STORY_PART = 0x10,
+	  MISSING_STORY_PART = 0x0
 	};
 
   enum story_part_id
@@ -368,10 +384,11 @@ namespace TextGen
 	  PILVISTYY_STORY_PART = 0x1,
 	  SELKENEE_STORY_PART = 0x2,
 	  POUTAANTUU_STORY_PART = 0x4,
-	  SADE_ALKAA_STORY_PART = 0x8,
-	  PILVISYYS_STORY_PART = 0x10,
-	  SADE_STORY_PART = 0x20,
-	  SHORT_PRECIPITATION_STORY_PART = 0x40,
+	  POUTAANTUU_AFTER_SMALL_EXTENT_STORY_PART = 0x8,
+	  SADE_ALKAA_STORY_PART = 0x10,
+	  PILVISYYS_STORY_PART = 0x20,
+	  SADE_STORY_PART = 0x40,
+	  SHORT_PRECIPITATION_STORY_PART = 0x80,
 	  MISSING_STORY_PART_ID = 0x0
 	};
 
@@ -411,8 +428,8 @@ namespace TextGen
   class FogIntensityDataItem;
 
   typedef vector<WeatherResultDataItem*> weather_result_data_item_vector;
-  typedef std::pair<NFmiTime, trend_id> timestamp_trend_id_pair;
-  typedef vector<timestamp_trend_id_pair> trend_id_vector;
+  typedef std::pair<NFmiTime, weather_event_id> timestamp_weather_event_id_pair;
+  typedef vector<timestamp_weather_event_id_pair> weather_event_id_vector;
   typedef vector<PrecipitationDataItemData*> precipitation_data_vector;
   typedef vector<FogIntensityDataItem*> fog_data_vector;
   typedef map<int, PrecipitationDataItem*> precipitation_data_item_container;
@@ -505,7 +522,7 @@ namespace TextGen
 											const unsigned int& thePrecipitationForm,
 											float& theDryWeatherLimit, 
 											float& theWeakPrecipitationLimit);
-  const char* trend_string(const trend_id& theTrendId);
+  const char* weather_event_string(const weather_event_id& theWeatherEventId);
   const char* precipitation_form_string(const precipitation_form_id& thePrecipitationForm);
   const char* precipitation_traverse_string(const precipitation_traverse_id& thePrecipitationTraverseId);
 
@@ -554,7 +571,7 @@ namespace TextGen
 								 const unsigned int& theStartIndex,
 								 const unsigned int& theEndIndex,
 								 const bool& theUseErrorValueFlag = false);
-  void print_out_trend_vector(std::ostream& theOutput, const trend_id_vector& theTrendVector);
+  void print_out_weather_event_vector(std::ostream& theOutput, const weather_event_id_vector& theWeatherEventVector);
   Sentence area_specific_sentence(const float& north,
 								  const float& south,
 								  const float& east,
@@ -599,14 +616,14 @@ namespace TextGen
 						   const float& mean,
 						   const float& max,
 						   const float& standardDeviation,
-						   const trend_id& trendId,
+						   const weather_event_id& weatherEventId,
 						   const float& pearsonCoefficient) :
 	  theId(id),
 	  theMin(min),
 	  theMean(mean),
 	  theMax(max),
 	  theStandardDeviation(standardDeviation),
-	  theTrendId(trendId),
+	  theWeatherEventId(weatherEventId),
 	  thePearsonCoefficient(pearsonCoefficient)
 	{
 	}
@@ -616,7 +633,7 @@ namespace TextGen
 	float theMean;
 	float theMax;
 	float theStandardDeviation;
-	trend_id theTrendId;
+	weather_event_id theWeatherEventId;
 	float thePearsonCoefficient;
   };
 
@@ -687,7 +704,7 @@ namespace TextGen
 							  const float& precipitationFormSnow,
 							  const float& precipitationFormFreezing,
 							  const float& precipitationTypeShowers,
-							  const trend_id trendId,
+							  const weather_event_id weatherEventId,
 							  const float& pearsonCoefficient,
 							  const NFmiTime& observationTime) :
 	  thePrecipitationForm(precipitationForm),
@@ -699,7 +716,7 @@ namespace TextGen
 	  thePrecipitationFormSnow(precipitationFormSnow),
 	  thePrecipitationFormFreezing(precipitationFormFreezing),
 	  thePrecipitationTypeShowers(precipitationTypeShowers),
-	  theTrendId(trendId),
+	  theWeatherEventId(weatherEventId),
 	  thePearsonCoefficient(pearsonCoefficient),
 	  theObservationTime(observationTime),
 	  thePrecipitationPercentageNorthEast(0.0),
@@ -711,7 +728,7 @@ namespace TextGen
 	  thePrecipitationIntensityId(MISSING_INTENSITY_ID)
 	{
 	  if(precipitationTypeShowers != kFloatMissing)
-		thePrecipitationType = precipitationTypeShowers > 50.0 ? SHOWERS : CONTINUOUS;
+		thePrecipitationType = precipitationTypeShowers >= MAJORITY_LIMIT ? SHOWERS : CONTINUOUS;
 	  
 	  if(precipitationIntensity == kFloatMissing)
 		{
@@ -738,6 +755,7 @@ namespace TextGen
 										MODERATE_PRECIPITATION,
 										lowerLimit,
 										moderateUpperLimit);
+
 		  if(precipitationIntensity < dryUpperLimit)
 			thePrecipitationIntensityId = DRY_WEATHER;
 		  else if(precipitationIntensity < weakUpperLimit)
@@ -758,7 +776,7 @@ namespace TextGen
 	float thePrecipitationFormSnow;
 	float thePrecipitationFormFreezing;
 	float thePrecipitationTypeShowers;
-	trend_id theTrendId;
+	weather_event_id theWeatherEventId;
 	float thePearsonCoefficient;
 	NFmiTime theObservationTime;
 	float thePrecipitationPercentageNorthEast;
@@ -793,7 +811,7 @@ namespace TextGen
 			 thePrecipitationFormSnow == theItem.thePrecipitationFormSnow &&
 			 thePrecipitationFormFreezing == theItem.thePrecipitationFormFreezing &&
 			 thePrecipitationTypeShowers == theItem.thePrecipitationTypeShowers &&
-			 theTrendId == theItem.theTrendId &&
+			 theWeatherEventId == theItem.theWeatherEventId &&
 			 thePearsonCoefficient == theItem.thePearsonCoefficient &&
 			 thePrecipitationShareNorthEast == theItem.thePrecipitationShareNorthEast &&
 			 thePrecipitationShareSouthEast == theItem.thePrecipitationShareSouthEast &&
