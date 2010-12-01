@@ -26,6 +26,8 @@ namespace TextGen
 #define KESKIYOLLA_WORD "keskiyöllä"
 #define AAMUYOLLA_WORD "aamuyöllä"
 #define YOLLA_WORD "yöllä"
+#define TANAAN_WORD "tänään"
+#define HUOMENNA_WORD "huomenna"
 
 #define HEIKKOJA_WORD "heikkoja"
 #define SAKEITA_WORD "sakeita"

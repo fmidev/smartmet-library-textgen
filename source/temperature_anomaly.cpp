@@ -65,10 +65,12 @@ namespace TextGen
 	using Settings::optional_bool;
 	using Settings::optional_string;
 
-#define WEAK_FROST_TEMPERATURE_LIMIT -5.0
+	//#define WEAK_FROST_TEMPERATURE_LIMIT -5.0
+#define MILD_TEMPERATURE_LOWER_LIMIT -3.0
+#define MILD_TEMPERATURE_UPPER_LIMIT +5.0
 #define HOT_WEATHER_LIMIT +25.0
 #define GETTING_COOLER_NOTIFICATION_LIMIT +20.0
-#define LOW_PLUS_TEMPARATURE +5.0
+	//#define LOW_PLUS_TEMPARATURE +5.0
 #define ZERO_DEGREES 0.0
 #define VERY_COLD_TEMPERATURE_UPPER_LIMIT -10.0
 #define SMALL_CHANGE_LOWER_LIMIT 2.0
@@ -528,8 +530,8 @@ enum anomaly_phrase_id
 	{
 	  Sentence sentence;
 
-	  double period1Temperature = theParameters.theDay1TemperatureAreaAfternoonMaximum.value();
-	  double period2Temperature = theParameters.theDay2TemperatureAreaAfternoonMaximum.value();
+	  double period1Temperature = theParameters.theDay1TemperatureAreaAfternoonMean.value();
+	  double period2Temperature = theParameters.theDay2TemperatureAreaAfternoonMean.value();
 
 	  // kova pakkanen: F12,5 fractile on 1. Feb 12:00
 	  NFmiTime veryColdRefTime(theParameters.theForecastTime.GetYear(), 2, 1, 12, 0, 0);
@@ -614,30 +616,31 @@ enum anomaly_phrase_id
 		  float temperatureDifference = abs(period2Temperature - period1Temperature);
 		  if(period2Temperature >= period1Temperature)
 			{
-			  if(period1Temperature > WEAK_FROST_TEMPERATURE_LIMIT && period1Temperature < LOW_PLUS_TEMPARATURE &&
-				 period2Temperature > WEAK_FROST_TEMPERATURE_LIMIT && period2Temperature < LOW_PLUS_TEMPARATURE &&
+			  if(period1Temperature > MILD_TEMPERATURE_LOWER_LIMIT && period1Temperature < MILD_TEMPERATURE_UPPER_LIMIT &&
+				 period2Temperature > MILD_TEMPERATURE_LOWER_LIMIT && period2Temperature < MILD_TEMPERATURE_UPPER_LIMIT &&
 				 period2Temperature > fractile63Temperature.value())
 				{
 				  sentence << SAA_ON_EDELLEEN_LAUHAA_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = SAA_ON_EDELLEEN_LAUHAA;
 				}
 			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT 
-					  && period1Temperature < WEAK_FROST_TEMPERATURE_LIMIT && period2Temperature >= WEAK_FROST_TEMPERATURE_LIMIT &&
-					  period2Temperature < LOW_PLUS_TEMPARATURE)
+					  && period1Temperature < MILD_TEMPERATURE_LOWER_LIMIT && 
+					  period2Temperature >= MILD_TEMPERATURE_LOWER_LIMIT && 
+					  period2Temperature < MILD_TEMPERATURE_UPPER_LIMIT)
 				{
 				  sentence << SAA_LAUHTUU_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = SAA_LAUHTUU;
 				}
 			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
 					  && period1Temperature <= veryColdTemperature &&
-					  period2Temperature <= WEAK_FROST_TEMPERATURE_LIMIT)
+					  period2Temperature <= MILD_TEMPERATURE_LOWER_LIMIT)
 				{
 				  sentence << KIREA_WORD << PAKKANEN_HEIKKENEE_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = KIREA_PAKKANEN_HEIKKENEE;
 				}
 			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
 					  && period1Temperature <= veryColdTemperature &&
-					  period2Temperature < ZERO_DEGREES && period2Temperature >= WEAK_FROST_TEMPERATURE_LIMIT)
+					  period2Temperature < ZERO_DEGREES && period2Temperature >= MILD_TEMPERATURE_LOWER_LIMIT)
 				{
 				  // reduntant: this will never happen, because "s‰‰ lauhtuu" is tested before
 				  sentence << KIREA_WORD << PAKKANEN_HELLITTAA_PHRASE << theSpecifiedDay;
@@ -645,14 +648,14 @@ enum anomaly_phrase_id
 				}
 			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
 					  && period1Temperature > veryColdTemperature &&
-					  period2Temperature < WEAK_FROST_TEMPERATURE_LIMIT)
+					  period2Temperature < MILD_TEMPERATURE_LOWER_LIMIT)
 				{
 				  sentence << PAKKANEN_HEIKKENEE_PHRASE << theSpecifiedDay;
 				  theParameters.theShortrunTrend = PAKKANEN_HEIKKENEE;
 				}
 			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
-					  && period1Temperature > veryColdTemperature && period1Temperature < WEAK_FROST_TEMPERATURE_LIMIT && 
-					  period2Temperature < ZERO_DEGREES && period2Temperature >= WEAK_FROST_TEMPERATURE_LIMIT)
+					  && period1Temperature > veryColdTemperature && period1Temperature < MILD_TEMPERATURE_LOWER_LIMIT && 
+					  period2Temperature < ZERO_DEGREES && period2Temperature >= MILD_TEMPERATURE_LOWER_LIMIT)
 				{
 				  // redundant: this will never happen, because "s‰‰ lauhtuu" is tested before
 				  sentence << PAKKANEN_HELLITTAA_PHRASE << theSpecifiedDay;
@@ -669,7 +672,7 @@ enum anomaly_phrase_id
 		  else if(period2Temperature <= period1Temperature)
 			{
 			  if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
-				 && period1Temperature < WEAK_FROST_TEMPERATURE_LIMIT &&
+				 && period1Temperature < MILD_TEMPERATURE_LOWER_LIMIT &&
 				 period2Temperature <= veryColdTemperature)
 				{
 				  sentence << PAKKANEN_KIRISTYY_PHRASE << theSpecifiedDay;
@@ -829,6 +832,7 @@ enum anomaly_phrase_id
 			{
 			case KIREA_PAKKANEN_HEIKKENEE:
 			case PAKKANEN_HEIKKENEE:
+			case SAA_LAUHTUU:
 			  sentence << shortrunTrendSentence;
 			  break;
 			default:

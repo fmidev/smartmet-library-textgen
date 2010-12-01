@@ -132,6 +132,27 @@ namespace TextGen
 	  return sentence;
 	}
 
+	// if temperature is lower than -15 degrees, we can round 2 degrees otherwise 1 degrees
+	// to the nearest numer that is divisible by five 
+	int round_temperature(const int& theTemperatureToRound)
+	{
+	  int theRoundingLimit = theTemperatureToRound < -15 ? 2 : 1;
+	  int theRoundedValue = theTemperatureToRound;
+	  int theModuloOfValue = theTemperatureToRound % 5;
+
+	  if(theModuloOfValue != 0)
+		{
+		  if(theModuloOfValue < 0)
+			theModuloOfValue += 5;
+
+		  if(theModuloOfValue <= theRoundingLimit)
+			theRoundedValue -= theModuloOfValue;
+		  else if(theModuloOfValue >= (5 - theRoundingLimit))
+			theRoundedValue += (5 - theModuloOfValue);
+		}
+
+	  return theRoundedValue;
+	}
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -184,12 +205,42 @@ namespace TextGen
 		  // 2. Lukemat nollan molemmin puolin: kylmempi ensin esim Ldmpvtila on miinus kolmen ja plus kahden (-3$(B!D(B+2)asteen vdlilld
 		  //3. Lukemista toinen on nolla: nolla ensin esim Ldmpvtila on nollan ja miinus viiden 0$(B!D(B-5) asteen vdlilld toinen esimerkki Ldmpvtila on nollan ja plus viiden (0$(B!D(B+5) asteen vdlilld
 		  //4. Lukemat negatiivisia: ldmpimdmpi emsin esim Ldmpvtila on miinus viidestd miinus kymmeneen (-5$(B!D(B-10) asteeseen tai Pakkasta on viidestd kymmeneen asteeseen.
+
+		  
+		  int theRoundedMinimum = theMinimum;
+		  int theRoundedMaximum = theMaximum;
+
+		  if(theMinimum <=-15 && theMaximum <= -15 && theRoundTheNumber)
+			{
+			  theRoundedMinimum = round_temperature(theMinimum);
+			  theRoundedMaximum = round_temperature(theMaximum);
+			}
+
+		  if(theRoundedMinimum == theRoundedMaximum)
+			{
+			  sentence << "noin"
+					   << Integer(theRoundedMinimum)
+					   << *UnitFactory::create(DegreesCelsius);
+			}
+		  else
+			{
+			  if(theRoundedMinimum < 0 && theRoundedMaximum == 0)
+				sentence << IntegerRange(theRoundedMaximum, theRoundedMinimum, theRangeSeparator)
+						 << *UnitFactory::create(DegreesCelsius);
+			  else
+				sentence << IntegerRange(theRoundedMinimum, theRoundedMaximum, theRangeSeparator)
+						 << *UnitFactory::create(DegreesCelsius);
+			}
+
+		  /*
 		  if(theMinimum < 0 && theMaximum == 0)
 			sentence << IntegerRange(theMaximum, theMinimum, theRangeSeparator)
 					 << *UnitFactory::create(DegreesCelsius);
 		  else
 			sentence << IntegerRange(theMinimum, theMaximum, theRangeSeparator)
 					 << *UnitFactory::create(DegreesCelsius);
+
+		  */
 
 		  /*
 		  if(theMinimum < 0 && theMaximum >= 0 && abs(theMinimum) > abs(theMaximum))
@@ -205,6 +256,7 @@ namespace TextGen
 		}
 	  else
 		{
+		  /*
 		  // if temperature is lower than -15 degrees, we can round 2 degrees otherwise 1 degrees
 		  // to the nearest numer that is divisible by five 
 		  int theRoundingLimit = theMean < -15 ? 2 : 1;
@@ -221,9 +273,12 @@ namespace TextGen
 			  else if(theModuloOfMean >= (5 - theRoundingLimit))
 				theRoundedMean += (5 - theModuloOfMean);
 			}
+		  */
+
+		  int theRoundedValue = theRoundTheNumber ? round_temperature(theMean) : theMean;
 
 		  sentence << "noin"
-				   << Integer(theRoundedMean)
+				   << Integer(theRoundedValue)
 				   << *UnitFactory::create(DegreesCelsius);
 		}
 	  

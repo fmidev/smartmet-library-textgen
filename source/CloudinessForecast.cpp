@@ -272,9 +272,15 @@ namespace TextGen
   {
 	Sentence sentence;
 
-	for(unsigned int i = 0; i < theCloudinessWeatherEventsFull.size(); i++)
+	const weather_event_id_vector& cloudinessWeatherEvents = 
+	  ((theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA) ?
+	  theCloudinessWeatherEventsFull : 
+	  ((theParameters.theForecastArea & INLAND_AREA) ? theCloudinessWeatherEventsInland :
+	   theCloudinessWeatherEventsCoastal));
+
+	for(unsigned int i = 0; i < cloudinessWeatherEvents.size(); i++)
 	  {
-		NFmiTime weatherEventTimestamp(theCloudinessWeatherEventsFull.at(i).first);
+		NFmiTime weatherEventTimestamp(cloudinessWeatherEvents.at(i).first);
 
 		if(!(weatherEventTimestamp >= thePeriod.localStartTime() &&
 			 weatherEventTimestamp <= thePeriod.localEndTime()))
@@ -282,19 +288,8 @@ namespace TextGen
 			continue;
 		  }
 
-		weather_event_id trid(theCloudinessWeatherEventsFull.at(i).second);
-		
-		/*
-		
-		NFmiTime previousStartTime(weatherEventTimestamp);
-		NFmiTime previousEndTime(weatherEventTimestamp);
-		previousEndTime.ChangeByHours(-1);
-		previousStartTime.ChangeByHours(-4);
-		WeatherPeriod previousPeriod(previousStartTime, previousEndTime);
-		sentence << cloudiness_string(getCloudinessId(previousPeriod,
-													  theFullData));
-		sentence << Delimiter(",");
-*/
+		weather_event_id trid(cloudinessWeatherEvents.at(i).second);
+
 		if(trid == PILVISTYY)
 		  {
 			sentence << PILVISTYVAA_WORD;

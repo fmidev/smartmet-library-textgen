@@ -635,69 +635,159 @@ using namespace std;
 						   vector<std::string>* theStringVector /*= 0*/)
   {
 	Sentence sentence;
+	NFmiTime timestamp(theTimestamp);
+	timestamp.ChangeByHours(1);
 
 	if(is_inside(theTimestamp, AAMU))
 	  {
-		sentence << (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
-		if(theStringVector)
+		if(theAlkaenPhrase && is_inside(timestamp, AAMUPAIVA))
 		  {
+			sentence << AAMUPAIVASTA_ALKAEN_PHRASE;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(AAMUPAIVASTA_ALKAEN_PHRASE);
+			  }
+		  }
+		else
+		  {
+			sentence << (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
+			if(theStringVector)
+			  {
 			theStringVector->push_back(theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
+			  }
 		  }
 	  }
 	else if(is_inside(theTimestamp, AAMUPAIVA))
 	  {
-		sentence << (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
-		if(theStringVector)
+		if(theAlkaenPhrase && is_inside(timestamp, KESKIPAIVA))
 		  {
-			theStringVector->push_back(theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+			sentence << KESKIPAIVASTA_ALKAEN_PHRASE;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(KESKIPAIVASTA_ALKAEN_PHRASE);
+			  }
+		  }
+		else
+		  {
+			sentence << (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+			if(theStringVector)
+			  {
+				theStringVector->push_back(theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+			  }
 		  }
 	  }
 	else if(is_inside(theTimestamp, KESKIPAIVA))
 	  {
-		sentence << (theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
-		if(theStringVector)
+		if(theAlkaenPhrase && is_inside(timestamp, ILTAPAIVA))
 		  {
-			theStringVector->push_back(theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
+			sentence << ILTAPAIVASTA_ALKAEN_PHRASE;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(ILTAPAIVASTA_ALKAEN_PHRASE);
+			  }
+		  }
+		else
+		  {
+			sentence << (theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
+			if(theStringVector)
+			  {
+				theStringVector->push_back(theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
+			  }
 		  }
 	  }
 	else if(is_inside(theTimestamp, ILTAPAIVA))
 	  {
-		sentence << (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
-		if(theStringVector)
+		if(theAlkaenPhrase &&is_inside(timestamp, ILTA))
 		  {
-			theStringVector->push_back(theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+			sentence << ILLASTA_ALKAEN_PHRASE;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(ILLASTA_ALKAEN_PHRASE);
+			  }
+		  }
+		else
+		  {
+			sentence << (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+			if(theStringVector)
+			  {
+				theStringVector->push_back(theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+			  }
 		  }
 	  }
 	else if(is_inside(theTimestamp, ILTA))
 	  {
-		sentence << (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
-		if(theStringVector)
+		if(theAlkaenPhrase && is_inside(timestamp, ILTAYO))
 		  {
-			theStringVector->push_back(theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
+			sentence << ILTAYOSTA_ALKAEN_PHRASE;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(ILTAYOSTA_ALKAEN_PHRASE);
+			  }
+		  }
+		else
+		  {
+			sentence << (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
+			if(theStringVector)
+			  {
+				theStringVector->push_back(theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
+			  }
 		  }
 	  }
 	else if(is_inside(theTimestamp, ILTAYO))
 	  {
-		sentence << (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOSTA_WORD);
-		if(theStringVector)
+		if(theAlkaenPhrase && is_inside(timestamp, KESKIYO))
 		  {
+			sentence << KESKIYOSTA_ALKAEN_PHRASE;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(KESKIYOSTA_ALKAEN_PHRASE);
+			  }
+		  }
+		else
+		  {
+			sentence << (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOSTA_WORD);
+			if(theStringVector)
+			  {
 			theStringVector->push_back(theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOSTA_WORD);
+			  }
 		  }
 	  }
 	else if(is_inside(theTimestamp, KESKIYO))
 	  {
-		sentence << (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
-		if(theStringVector)
+		if(theAlkaenPhrase && is_inside(timestamp, AAMUYO))
 		  {
-			theStringVector->push_back(theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
+			sentence << AAMUYOSTA_ALKAEN_PHRASE;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(AAMUYOSTA_ALKAEN_PHRASE);
+			  }
+		  }
+		else
+		  {
+			sentence << (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
+			if(theStringVector)
+			  {
+				theStringVector->push_back(theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
+			  }
 		  }
 	  }
 	else if(is_inside(theTimestamp, AAMUYO))
 	  {
-		sentence << (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
-		if(theStringVector)
+		if(theAlkaenPhrase && is_inside(timestamp, AAMU))
 		  {
-			theStringVector->push_back(theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
+			sentence << AAMUSTA_ALKAEN_PHRASE;
+			if(theStringVector)
+			  {
+				theStringVector->push_back(AAMUSTA_ALKAEN_PHRASE);
+			  }
+		  }
+		else
+		  {
+			sentence << (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
+			if(theStringVector)
+			  {
+				theStringVector->push_back(theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
+			  }
 		  }
 	  }
 

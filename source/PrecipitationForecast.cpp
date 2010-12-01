@@ -365,6 +365,8 @@ namespace TextGen
   {
 	if(!theDryPeriodTautologyFlag)
 	  {
+		theStringVector.push_back(SAA_WORD);
+		theStringVector.push_back(ON_WORD);
 		theStringVector.push_back(ENIMMAKSEEN_WORD);
 		theStringVector.push_back(POUTAINEN_WORD);
 		if(!theDryPeriodTautologyFlag)
@@ -1055,7 +1057,7 @@ vesi- tai lumisadetta.
 		float precipitationFormSnow = getMean(*dataVector, PRECIPITATION_FORM_SNOW_DATA, thePeriod);
 		float precipitationFormFreezing = getMean(*dataVector, PRECIPITATION_FORM_FREEZING_DATA, thePeriod);
 
-		precipitation_type precipitationOriginalType(getPrecipitationType(*dataVector, thePeriod));
+		precipitation_type precipitationOriginalType(getPrecipitationType(thePeriod, theParameters.theForecastArea));
 		precipitation_type precipitationNewType(MISSING_PRECIPITATION_TYPE);
 
 		unsigned int typeChangeIndex = getPrecipitationTypeChange(*dataVector, thePeriod);
@@ -1500,9 +1502,11 @@ vesi- tai lumisadetta.
 	return getStat(theData, theDataId, theWeatherPeriod, MEAN);
   }
 
-  precipitation_type PrecipitationForecast::getPrecipitationType(const precipitation_data_vector& theData,
-																 const WeatherPeriod& thePeriod) const
+  precipitation_type PrecipitationForecast::getPrecipitationType(const WeatherPeriod& thePeriod,
+																 const unsigned short theForecastArea) const
   {
+	const precipitation_data_vector& theData = getPrecipitationDataVector(theForecastArea);;
+
 	unsigned int showers_counter(0);
 	unsigned int continuous_counter(0);
 
@@ -1570,9 +1574,11 @@ vesi- tai lumisadetta.
 	return 0;
   }
 
-  unsigned int PrecipitationForecast::getPrecipitationForm(const precipitation_data_vector& theDataVector,
-														   const WeatherPeriod& thePeriod) const
+  unsigned int PrecipitationForecast::getPrecipitationForm(const WeatherPeriod& thePeriod,
+														   const unsigned short theForecastArea) const
   {
+	const precipitation_data_vector& theDataVector = getPrecipitationDataVector(theForecastArea);
+
 	float precipitationFormWater = getMean(theDataVector, PRECIPITATION_FORM_WATER_DATA, thePeriod);
 	float precipitationFormDrizzle = getMean(theDataVector, PRECIPITATION_FORM_DRIZZLE_DATA, thePeriod);
 	float precipitationFormSleet = getMean(theDataVector, PRECIPITATION_FORM_SLEET_DATA, thePeriod);
@@ -1664,8 +1670,8 @@ vesi- tai lumisadetta.
 								  getMean(theCoastalData, PRECIPITATION_MEAN_DATA, theWeatherPeriod)) / 2.0;
 	float inlandPrecipitation = (getMean(theInlandData, PRECIPITATION_MAX_DATA, theWeatherPeriod) +
 								 getMean(theInlandData, PRECIPITATION_MEAN_DATA, theWeatherPeriod)) / 2.0;
-	unsigned int coastalPrecipitationForm = getPrecipitationForm(theCoastalData, theWeatherPeriod);
-	unsigned int inlandPrecipitationForm = getPrecipitationForm(theInlandData, theWeatherPeriod);
+	unsigned int coastalPrecipitationForm = getPrecipitationForm(theWeatherPeriod, COASTAL_AREA);
+	unsigned int inlandPrecipitationForm = getPrecipitationForm(theWeatherPeriod, INLAND_AREA);
 
 	if(((coastalPrecipitation < 0.04 && inlandPrecipitation > 0.4) ||
 		(coastalPrecipitation > 0.4 && inlandPrecipitation < 0.04)) ||
@@ -1929,7 +1935,8 @@ vesi- tai lumisadetta.
 			
 			// start year 1970 indicates that rain starts on previous period
 			if(precipitationStartTime.GetYear() != 1970 && 
-			   precipitationStartTime != theParameters.theForecastPeriod.localEndTime())
+			   precipitationStartTime >= theParameters.theForecastPeriod.localStartTime() &&
+			   precipitationStartTime <= theParameters.theForecastPeriod.localEndTime())
 			  {
 				thePrecipitationWeatherEvents.push_back(make_pair(precipitationStartTime, SADE_ALKAA));
 				// check here if type cahanes during the period (from continuous to showers or vice versa)
@@ -1937,7 +1944,8 @@ vesi- tai lumisadetta.
 			  }
 			
 			if(precipitationEndTime.GetYear() != 2037 &&
-			   precipitationEndTime != theParameters.theForecastPeriod.localEndTime())
+			   precipitationEndTime >= theParameters.theForecastPeriod.localStartTime() &&
+			   precipitationEndTime <= theParameters.theForecastPeriod.localEndTime())
 			  {
 
 				if(getPrecipitationExtent(thePrecipitationPeriods.at(i), theForecastArea) > MOSTLY_DRY_WEATHER_LIMIT)
@@ -1961,6 +1969,31 @@ vesi- tai lumisadetta.
 	return extent; 
   }
 	
+  float PrecipitationForecast::getMaxIntensity(const WeatherPeriod& thePeriod,
+															const unsigned short theForecastArea) const
+  {
+	const precipitation_data_vector& dataVector = getPrecipitationDataVector(theForecastArea);
+	
+	float intensity = getMean(dataVector,
+							  PRECIPITATION_MAX_DATA,
+							  thePeriod);
+
+	return intensity; 
+  }
+
+  float PrecipitationForecast::getMeanIntensity(const WeatherPeriod& thePeriod,
+															 const unsigned short theForecastArea) const
+  {
+	const precipitation_data_vector& dataVector = getPrecipitationDataVector(theForecastArea);
+	
+	float intensity = getMean(dataVector,
+							  PRECIPITATION_MEAN_DATA,
+							  thePeriod);
+
+	return intensity;
+  }
+
+
   void PrecipitationForecast::removeRedundantWeatherEvents(weather_event_id_vector& thePrecipitationWeatherEvents, const vector<int>& theRemoveIndexes)
   {
 	if(theRemoveIndexes.size() > 0)
@@ -1998,7 +2031,8 @@ vesi- tai lumisadetta.
 		weather_event_id previousPeriodWeatherEventId(thePrecipitationWeatherEvents[i-1].second);
 		weather_event_id currentPeriodWeatherEventId(thePrecipitationWeatherEvents[i].second);
 		if(abs(previousPeriodEndTime.DifferenceInHours(currentPeriodStartTime)) < 2 &&
-		   previousPeriodWeatherEventId == SADE_ALKAA && currentPeriodWeatherEventId == POUTAANTUU)
+		   previousPeriodWeatherEventId == SADE_ALKAA && (currentPeriodWeatherEventId == POUTAANTUU ||
+														  currentPeriodWeatherEventId == POUTAANTUU_WHEN_EXTENT_SMALL))
 		  removeIndexes.push_back(i-1);
 	  }
 	removeRedundantWeatherEvents(thePrecipitationWeatherEvents, removeIndexes);
@@ -2221,7 +2255,7 @@ vesi- tai lumisadetta.
 			  }
 
 			weather_event_id trid(thePrecipitationWeatherEventsVector->at(i).second);
-			if(trid == POUTAANTUU)
+			if(trid == POUTAANTUU || trid == POUTAANTUU_WHEN_EXTENT_SMALL)
 			  {
 				if(sentence.size() > 0)
 				  sentence << Delimiter(",");
@@ -2272,8 +2306,10 @@ vesi- tai lumisadetta.
 
 					if(isMostlyDryPeriod(precipitationPeriod, theParameters.theForecastArea))
 					  {
+						/*
 						if(!theDryPeriodTautologyFlag)
 						  sentence << SAA_WORD << ON_WORD;
+						*/
 					  }
 					else
 					  {
@@ -2352,7 +2388,7 @@ vesi- tai lumisadetta.
 
   precipitation_form_transformation_id 
   PrecipitationForecast::getPrecipitationFormTransformationId(const WeatherPeriod& thePeriod, 
-															  const precipitation_data_vector& theDataVector) const
+															  const unsigned short theForecastArea) const
   {
 	if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) < 5)
 	  return NO_FORM_TRANSFORMATION;
@@ -2370,8 +2406,8 @@ vesi- tai lumisadetta.
 	atEndBeg.ChangeByHours(-2);
 	WeatherPeriod atEndPeriod(atEndBeg, atEndEnd);
 
-	unsigned int precipitationFormBeg = getPrecipitationForm(theDataVector, atStartPeriod);
-	unsigned int precipitationFormEnd = getPrecipitationForm(theDataVector, atEndPeriod);
+	unsigned int precipitationFormBeg = getPrecipitationForm(atStartPeriod, theForecastArea);
+	unsigned int precipitationFormEnd = getPrecipitationForm(atEndPeriod, theForecastArea);
 
 	const weather_result_data_item_vector* precipitationFormWaterHourly = 
 	  get_data_vector(theParameters, PRECIPITATION_FORM_WATER_DATA);
@@ -2524,7 +2560,8 @@ vesi- tai lumisadetta.
 		float precipitationFormSnow = getMean(*dataVector, PRECIPITATION_FORM_SNOW_DATA, thePeriod);
 		float precipitationFormFreezing = getMean(*dataVector, PRECIPITATION_FORM_FREEZING_DATA, thePeriod);
 
-		precipitation_type precipitationOriginalType(getPrecipitationType(*dataVector, thePeriod));
+		precipitation_type precipitationOriginalType(getPrecipitationType(thePeriod,
+																		  theParameters.theForecastArea));
 		precipitation_type precipitationNewType(MISSING_PRECIPITATION_TYPE);
 
 		unsigned int typeChangeIndex = getPrecipitationTypeChange(*dataVector, thePeriod);
@@ -2556,7 +2593,7 @@ vesi- tai lumisadetta.
 												precipitationOriginalType,
 												precipitationNewType,
 												dataVector->at(typeChangeIndex)->theObservationTime,
-												getPrecipitationFormTransformationId(thePeriod, *dataVector));
+												getPrecipitationFormTransformationId(thePeriod, theForecastAreaId));
 
 		bool dry_weather = is_dry_weather(theParameters, 
 										  precipitationForm,
@@ -2713,8 +2750,10 @@ vesi- tai lumisadetta.
 				  }
 				else
 				  {
+					/*
 					if(!theDryPeriodTautologyFlag)
 					  sentence << SAA_WORD << ON_WORD;
+					*/
 				  }
 
 				sentence << constructPrecipitationSentence(WeatherPeriod(startTime, endTime), 
@@ -2734,7 +2773,21 @@ vesi- tai lumisadetta.
   Sentence PrecipitationForecast::precipitationSentence(const WeatherPeriod& thePeriod) const
   {
 	Sentence sentence;
+	
+	//	NFmiTime startTime(precipitationPeriodVector->at(i).localStartTime());
+	//NFmiTime endTime(precipitationPeriodVector->at(i).localEndTime());
+	int periodLength = theParameters.theForecastPeriod.localEndTime().DifferenceInHours(theParameters.theForecastPeriod.localStartTime());
+	Sentence todaySentence;
+	if(periodLength > 24)
+	  {
+		todaySentence << get_today_phrase(thePeriod.localStartTime(),
+										  theParameters.theVariable,
+										  theParameters.theArea,
+										  thePeriod,
+										  theParameters.theForecastTime);
+	  }
 
+	sentence << todaySentence;
 	sentence <<  constructPrecipitationSentence(thePeriod,
 												theParameters.theForecastArea);
 
