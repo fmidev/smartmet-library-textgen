@@ -530,9 +530,9 @@ namespace TextGen
 
   void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour);
   part_of_the_day_id get_part_of_the_day_id(const WeatherPeriod& thePeriod);
-  bool get_part_of_the_day(const WeatherPeriod& theSourcePeriod, 
+  /*  bool get_part_of_the_day(const WeatherPeriod& theSourcePeriod, 
 						   const part_of_the_day_id& thePartOfTheDayId, 
-						   WeatherPeriod& theDestinationPeriod);
+						   WeatherPeriod& theDestinationPeriod);*/
   part_of_the_day_id get_part_of_the_day_id(const NFmiTime& theTimestamp);
   bool is_inside(const WeatherPeriod& theWeatherPeriod,
 				 const part_of_the_day_id& thePartOfTheDayId);
@@ -584,6 +584,12 @@ namespace TextGen
 								  const float& northWest,
 								  const bool& mostlyFlag = true);
 
+  int get_today_vector(const string& theVariable,
+					   const WeatherArea& theArea,
+					   const WeatherPeriod& thePeriod,
+					   const NFmiTime& theForecastTime,
+					   vector<Sentence*>& theTodayVector);
+ 
   area_specific_sentence_id get_area_specific_sentence_id(const float& north,
 														  const float& south,
 														  const float& east,
@@ -593,7 +599,7 @@ namespace TextGen
 														  const float& southWest,
 														  const float& northWest,
 														  const bool& mostlyFlag = true);
-
+  int get_period_length(const WeatherPeriod& thePeriod);
 
 
   struct WeatherResultDataItem

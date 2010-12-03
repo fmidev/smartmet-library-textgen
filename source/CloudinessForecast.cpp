@@ -757,21 +757,12 @@ namespace TextGen
 												  const bool& theUseTimeSpecifier) const
   {
 	Sentence sentence;
+
 	Sentence cloudinessSentence;
 
 	cloudiness_id coastalCloudinessId = getCloudinessId(thePeriod, theCoastalData);
 	cloudiness_id inlandCloudinessId = getCloudinessId(thePeriod, theInlandData);
 	cloudiness_id fullAreaCloudinessId = getCloudinessId(thePeriod, theFullData);
-
-	int periodLength = theParameters.theForecastPeriod.localEndTime().DifferenceInHours(theParameters.theForecastPeriod.localStartTime());
-
-	Sentence todaySentence;
-	if(theUseTimeSpecifier && periodLength > 24)
-	  todaySentence << PeriodPhraseFactory::create("today",
-												   theParameters.theVariable,
-												   theParameters.theForecastTime,
-												   thePeriod,
-												   theParameters.theArea);
 
 	if(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
 	  {
@@ -799,7 +790,6 @@ namespace TextGen
 
 	if(cloudinessSentence.size() > 0)
 	  {
-		sentence << todaySentence;
 		sentence << cloudinessSentence;
 	  }
 	
@@ -809,13 +799,14 @@ namespace TextGen
 		if(clid == VERRATTAIN_PILVINEN || clid == PILVINEN)
 		  sentence << areaSpecificSentence(thePeriod);
 	  }
-	
+
 	return sentence;
   }
 
   cloudiness_id CloudinessForecast::getCloudinessPeriodId(const NFmiTime& theObservationTime,
 													const cloudiness_period_vector& theCloudinessPeriodVector) const
   {
+
 	for(unsigned int i = 0; i < theCloudinessPeriodVector.size(); i++)
 	  {
 		if(theObservationTime >= theCloudinessPeriodVector.at(i).first.localStartTime() &&

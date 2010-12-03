@@ -257,6 +257,7 @@ using namespace std;
 	return MISSING_PART_OF_THE_DAY_ID;
   }
 
+  /*
   bool get_part_of_the_day(const WeatherPeriod& theSourcePeriod, 
 						   const part_of_the_day_id& thePartOfTheDayId, 
 						   WeatherPeriod& theDestinationPeriod)
@@ -318,6 +319,7 @@ using namespace std;
 		return true;
 	  }
   }
+  */
 
   void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour)
   {
@@ -476,23 +478,6 @@ using namespace std;
 			 theTimeStamp <= endTimeCompare);
   }
 
-  /*
-  WeatherPeriod get_part_of_the_day_period(const NFmiTime& theReferencTime,
-										   const part_of_the_day_id& thePartOfTheDayId)
-  {
-	int startHour, endHour;
-	get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
-	
-	NFmiTime startTime(theReferencTime);
-	NFmiTime endTime(theReferencTime);
-
-	startTime.SetHour(startHour);
-	endTime.SetHour(endHour);
-
-	if(endHour == 0)
-	  endTime.ChangeByDays(1);
-  }
-*/
   bool is_inside(const WeatherPeriod& theWeatherPeriod,
 				 const part_of_the_day_id& thePartOfTheDayId)
   {
@@ -513,18 +498,6 @@ using namespace std;
 			theWeatherPeriod.localStartTime() <= endTimeCompare &&
 			theWeatherPeriod.localEndTime() >= startTimeCompare &&
 			theWeatherPeriod.localEndTime() <= endTimeCompare);
-
-	/*
-	if(endHour == 0)
-	  return (theWeatherPeriod.localStartTime() >= startTimeCompare && 
-			  theWeatherPeriod.localEndTime() >= startTimeCompare);
-	else if(startHour == 0)
-	  return (theWeatherPeriod.localStartTime() <= endTimeCompare && 
-			  theWeatherPeriod.localEndTime() <= endTimeCompare);
-	else
-	  return(theWeatherPeriod.localStartTime() >= startTimeCompare && 
-			 theWeatherPeriod.localEndTime() <= endTimeCompare);
-	*/
   }
 
   Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod, 
@@ -533,7 +506,9 @@ using namespace std;
   {
 	Sentence sentence;
 
-	if(get_part_of_the_day_id(theWeatherPeriod.localStartTime()) == 
+	if(theWeatherPeriod.localStartTime().GetJulianDay() == 
+	   theWeatherPeriod.localEndTime().GetJulianDay() &&
+	   get_part_of_the_day_id(theWeatherPeriod.localStartTime()) == 
 	   get_part_of_the_day_id(theWeatherPeriod.localEndTime()))
 	  {
 		sentence << get_time_phrase(theWeatherPeriod.localStartTime(), false, theStringVector);
@@ -635,6 +610,74 @@ using namespace std;
 						   vector<std::string>* theStringVector /*= 0*/)
   {
 	Sentence sentence;
+
+	if(is_inside(theTimestamp, AAMU))
+	  {
+		sentence << (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
+		  }
+	  }
+	else if(is_inside(theTimestamp, AAMUPAIVA))
+	  {
+		sentence << (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+		  }
+	  }
+	else if(is_inside(theTimestamp, KESKIPAIVA))
+	  {
+		sentence << (theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
+		  }
+	  }
+	else if(is_inside(theTimestamp, ILTAPAIVA))
+	  {
+		sentence << (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+		  }
+	  }
+	else if(is_inside(theTimestamp, ILTA))
+	  {
+		sentence << (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
+		  }
+	  }
+	else if(is_inside(theTimestamp, ILTAYO))
+	  {
+		sentence << (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOSTA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOSTA_WORD);
+		  }
+	  }
+	else if(is_inside(theTimestamp, KESKIYO))
+	  {
+		sentence << (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
+		  }
+	  }
+	else if(is_inside(theTimestamp, AAMUYO))
+	  {
+		sentence << (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
+		if(theStringVector)
+		  {
+			theStringVector->push_back(theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
+		  }
+	  }
+
+
+	/*
 	NFmiTime timestamp(theTimestamp);
 	timestamp.ChangeByHours(1);
 
@@ -790,6 +833,7 @@ using namespace std;
 			  }
 		  }
 	  }
+	*/
 
 	return sentence;
   }
@@ -830,6 +874,46 @@ using namespace std;
  
 	return sentence;
  }
+
+  int get_period_length(const WeatherPeriod& thePeriod)
+  {
+	return thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime());
+  }
+
+  // returns the julian day of the first day period
+  int get_today_vector(const string& theVariable,
+					   const WeatherArea& theArea,
+					   const WeatherPeriod& thePeriod,
+					   const NFmiTime& theForecastTime,
+					   vector<Sentence*>& theTodayVector)
+  {
+	int retval = -1;
+
+	NightAndDayPeriodGenerator generator(thePeriod, theVariable);
+	
+	
+	for(unsigned int i = 0; i < generator.size(); i++)
+	  {
+		WeatherPeriod wp(generator.period(i+1));
+		if(i == 0 ||
+		   generator.period(i).localStartTime().GetJulianDay() !=
+		   wp.localStartTime().GetJulianDay())
+		  {
+			Sentence* sentence = new Sentence();
+			*sentence  << PeriodPhraseFactory::create("today",
+													  theVariable,
+													  theForecastTime,
+													  generator.period(i+1),
+													  theArea);
+			theTodayVector.push_back(sentence);
+
+			if(i == 0)
+			  retval = wp.localStartTime().GetJulianDay();
+		  }
+	  }
+	return retval;
+  }
+  
 
   Sentence get_today_phrase(const NFmiTime& theEventTimestamp,
 							const string& theVariable,

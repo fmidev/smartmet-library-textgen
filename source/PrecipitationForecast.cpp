@@ -372,12 +372,12 @@ namespace TextGen
 		if(!theDryPeriodTautologyFlag)
 		  theStringVector.push_back(",");
 	  }
-	//if(theIsShowersFlag)
-	  {
-		//		bool alkaen = thePeriod.localEndTime.differenceInHours(thePeriod.localStartTime()) <= 2;
-		get_time_phrase_large(thePeriod, true, &theStringVector);
-		theStringVector.push_back(thePhrase);
-	  }
+	/*	
+	bool alkaenPhrase = (get_period_length(thePeriod) >= 6 &&
+						 thePeriod.localStartTime() != theParameters.theForecastPeriod.localStartTime());
+	get_time_phrase_large(thePeriod, alkaenPhrase, &theStringVector);
+	*/
+	theStringVector.push_back(thePhrase);
   }
 
   void PrecipitationForecast::precipitationTypeChangePhrase(const precipitation_type& theOriginalPrecipitationType,
@@ -2231,6 +2231,25 @@ vesi- tai lumisadetta.
 	return false;
   }
 
+  Sentence PrecipitationForecast::precipitationChangeSentence(const WeatherPeriod& thePeriod,
+															  const weather_event_id& theWeatherEvent) const
+  {
+	Sentence sentence;
+
+	if(theWeatherEvent == POUTAANTUU || theWeatherEvent == POUTAANTUU_WHEN_EXTENT_SMALL)
+	  {
+		sentence << SAA_POUTAANTUU_PHRASE;
+		theDryPeriodTautologyFlag = true;
+	  }
+	else // sade alkaa
+	  {
+		sentence << precipitationSentence(thePeriod);
+	  }
+
+	return sentence;
+  }
+
+
   Sentence PrecipitationForecast::precipitationChangeSentence(const WeatherPeriod& thePeriod) const
   {
 	Sentence sentence;
@@ -2272,14 +2291,6 @@ vesi- tai lumisadetta.
 				sentence << get_time_phrase(precipitationWeatherEventTimestamp);
 				sentence << SAA_POUTAANTUU_PHRASE;
 
-				/*
-				NFmiTime oneHourBeforeEnd(precipitationWeatherEventTimestamp);
-				oneHourBeforeEnd.ChangeByHours(-1);
-				direction_id leavingDirectionId =
-				  getPrecipitationLeavingDirection(WeatherPeriod(oneHourBeforeEnd,
-																 oneHourBeforeEnd));
-				sentence << get_direction_phrase(leavingDirectionId, true);
-				*/
 
 				theDryPeriodTautologyFlag = true;
 			  }
@@ -2316,19 +2327,6 @@ vesi- tai lumisadetta.
 						sentence << get_time_phrase(precipitationWeatherEventTimestamp, true);
 					  }
 					sentence << precipitationSentence(WeatherPeriod(startTime, endTime));
-					/*
-
-					direction_id arrivalDirectionId = 
-					  getPrecipitationArrivalDirection(WeatherPeriod(precipitationWeatherEventTimestamp,
-																	 precipitationWeatherEventTimestamp));
-
-					if(arrivalDirectionId != NO_DIRECTION)
-					  {
-						sentence << Delimiter(",");
-						sentence << SADEALUE_WORD << SAAPUU_WORD;
-						sentence << get_direction_phrase(arrivalDirectionId);
-					  }
-					*/
 				  }
 			  }
 		  }
@@ -2646,6 +2644,18 @@ vesi- tai lumisadetta.
   }
 
 
+  Sentence PrecipitationForecast::shortTermPrecipitationSentenceEnh(const WeatherPeriod& thePeriod) const
+  {
+	Sentence sentence;
+
+	sentence << constructPrecipitationSentence(thePeriod, theParameters.theForecastArea);
+
+	theParameters.theLog << "Short term precipitation sentence: ";
+	theParameters.theLog << sentence;
+
+	return sentence;
+  }
+
 
   // check precipitation that lasts < 6 hours
   Sentence PrecipitationForecast::shortTermPrecipitationSentence(const WeatherPeriod& thePeriod) const
@@ -2774,20 +2784,6 @@ vesi- tai lumisadetta.
   {
 	Sentence sentence;
 	
-	//	NFmiTime startTime(precipitationPeriodVector->at(i).localStartTime());
-	//NFmiTime endTime(precipitationPeriodVector->at(i).localEndTime());
-	int periodLength = theParameters.theForecastPeriod.localEndTime().DifferenceInHours(theParameters.theForecastPeriod.localStartTime());
-	Sentence todaySentence;
-	if(periodLength > 24)
-	  {
-		todaySentence << get_today_phrase(thePeriod.localStartTime(),
-										  theParameters.theVariable,
-										  theParameters.theArea,
-										  thePeriod,
-										  theParameters.theForecastTime);
-	  }
-
-	sentence << todaySentence;
 	sentence <<  constructPrecipitationSentence(thePeriod,
 												theParameters.theForecastArea);
 
