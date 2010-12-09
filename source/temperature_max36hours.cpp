@@ -336,7 +336,7 @@ namespace TextGen
 	  Paragraph theOptionalFrostParagraph;
 	  bool theUseFrostExistsPhrase;
 
-	  bool morningAndAfternoonSeparated(const forecast_period_id& forecastPeriodId = NO_PERIOD)
+	  bool morningAndAfternoonSeparated(const forecast_period_id& forecastPeriodId = NO_PERIOD) const
 	  {
 		if(forecastPeriodId == NO_PERIOD)
 		  {
@@ -363,7 +363,7 @@ namespace TextGen
 		return false;
 	  }
 
-	  bool inlandAndCoastSeparated(const forecast_period_id& forecastPeriodId = NO_PERIOD)
+	  bool inlandAndCoastSeparated(const forecast_period_id& forecastPeriodId = NO_PERIOD) const
 	  {
 		if(forecastPeriodId == NO_PERIOD)
 		  {
@@ -1122,19 +1122,41 @@ namespace TextGen
 				  if(around_zero_phrase(theParameters.theWeatherResults[AREA_MIN_DAY1]->value(),
 										theParameters.theWeatherResults[AREA_MEAN_DAY1]->value(),
 										theParameters.theWeatherResults[AREA_MAX_DAY1]->value(),
+										theParameters.theZeroIntervalFlag) ==
+					 around_zero_phrase(theParameters.theWeatherResults[AREA_MIN_NIGHT]->value(),
+										theParameters.theWeatherResults[AREA_MEAN_NIGHT]->value(),
+										theParameters.theWeatherResults[AREA_MAX_NIGHT]->value(),
+										theParameters.theZeroIntervalFlag))
+				  /*
+				  if(around_zero_phrase(theParameters.theWeatherResults[AREA_MIN_DAY1]->value(),
+										theParameters.theWeatherResults[AREA_MEAN_DAY1]->value(),
+										theParameters.theWeatherResults[AREA_MAX_DAY1]->value(),
 										theParameters.theZeroIntervalFlag) == NO_PHRASE &&
 					 around_zero_phrase(theParameters.theWeatherResults[AREA_MIN_NIGHT]->value(),
 										theParameters.theWeatherResults[AREA_MEAN_NIGHT]->value(),
 										theParameters.theWeatherResults[AREA_MAX_NIGHT]->value(),
-										theParameters.theZeroIntervalFlag) == NO_PHRASE)					
+										theParameters.theZeroIntervalFlag) == NO_PHRASE)
+				  */					
 					{
 					  dayTemperature = theParameters.theWeatherResults[AREA_MEAN_DAY1]->value();
 					  nightTemperature = theParameters.theWeatherResults[AREA_MEAN_NIGHT]->value();				  
 					  separateDayAndNight = abs(dayTemperature - nightTemperature) >= DAY_NIGHT_SEPARATION_LIMIT;
+					  if(!separateDayAndNight)
+						separateDayAndNight = (theParameters.inlandAndCoastSeparated(DAY1_PERIOD) || 
+											   theParameters.inlandAndCoastSeparated(NIGHT_PERIOD));
 					}
 				}
 			  else if(theParameters.theForecastPeriod & DAY2_PERIOD && theParameters.theForecastPeriod & NIGHT_PERIOD)
 				{
+				  if(around_zero_phrase(theParameters.theWeatherResults[AREA_MIN_DAY2]->value(),
+										theParameters.theWeatherResults[AREA_MEAN_DAY2]->value(),
+										theParameters.theWeatherResults[AREA_MAX_DAY2]->value(),
+										theParameters.theZeroIntervalFlag) ==
+					 around_zero_phrase(theParameters.theWeatherResults[AREA_MIN_NIGHT]->value(),
+										theParameters.theWeatherResults[AREA_MEAN_NIGHT]->value(),
+										theParameters.theWeatherResults[AREA_MAX_NIGHT]->value(),
+										theParameters.theZeroIntervalFlag))
+				  /*
 				  if(around_zero_phrase(theParameters.theWeatherResults[AREA_MIN_DAY2]->value(),
 										theParameters.theWeatherResults[AREA_MEAN_DAY2]->value(),
 										theParameters.theWeatherResults[AREA_MAX_DAY2]->value(),
@@ -1143,10 +1165,14 @@ namespace TextGen
 										theParameters.theWeatherResults[AREA_MEAN_NIGHT]->value(),
 										theParameters.theWeatherResults[AREA_MAX_NIGHT]->value(),
 										theParameters.theZeroIntervalFlag) == NO_PHRASE)
+				  */
 					{
 					  dayTemperature = theParameters.theWeatherResults[AREA_MEAN_DAY2]->value();
 					  nightTemperature = theParameters.theWeatherResults[AREA_MEAN_NIGHT]->value();					  
 					  separateDayAndNight =  abs(dayTemperature - nightTemperature) >= DAY_NIGHT_SEPARATION_LIMIT;
+					  if(!separateDayAndNight)
+						separateDayAndNight = (theParameters.inlandAndCoastSeparated(DAY2_PERIOD) || 
+											   theParameters.inlandAndCoastSeparated(NIGHT_PERIOD));
 					}
 				}
 			}
@@ -1154,6 +1180,7 @@ namespace TextGen
 			{
 			  if(theParameters.theForecastPeriod & DAY1_PERIOD && theParameters.theForecastPeriod & NIGHT_PERIOD)
 				{
+				  /*
 				  if(around_zero_phrase(theParameters.theWeatherResults[INLAND_MIN_DAY1]->value(),
 										theParameters.theWeatherResults[INLAND_MEAN_DAY1]->value(),
 										theParameters.theWeatherResults[INLAND_MAX_DAY1]->value(),
@@ -1162,14 +1189,27 @@ namespace TextGen
 										theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value(),
 										theParameters.theWeatherResults[INLAND_MAX_NIGHT]->value(),
 										theParameters.theZeroIntervalFlag) == NO_PHRASE)
+				  */
+				  if(around_zero_phrase(theParameters.theWeatherResults[INLAND_MIN_DAY1]->value(),
+										theParameters.theWeatherResults[INLAND_MEAN_DAY1]->value(),
+										theParameters.theWeatherResults[INLAND_MAX_DAY1]->value(),
+										theParameters.theZeroIntervalFlag) ==
+					 around_zero_phrase(theParameters.theWeatherResults[INLAND_MIN_NIGHT]->value(),
+										theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value(),
+										theParameters.theWeatherResults[INLAND_MAX_NIGHT]->value(),
+										theParameters.theZeroIntervalFlag))
 					{
 					  dayTemperature = theParameters.theWeatherResults[INLAND_MEAN_DAY1]->value();
 					  nightTemperature = theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value();
 					  separateDayAndNight = abs(dayTemperature - nightTemperature) >= DAY_NIGHT_SEPARATION_LIMIT;
+					  if(!separateDayAndNight)
+						separateDayAndNight = (theParameters.inlandAndCoastSeparated(DAY1_PERIOD) || 
+											   theParameters.inlandAndCoastSeparated(NIGHT_PERIOD));
 					}
 				}
 			  else if(theParameters.theForecastPeriod & DAY2_PERIOD && theParameters.theForecastPeriod & NIGHT_PERIOD)
 				{
+				  /*
 				  if(around_zero_phrase(theParameters.theWeatherResults[INLAND_MIN_DAY2]->value(),
 										theParameters.theWeatherResults[INLAND_MEAN_DAY2]->value(),
 										theParameters.theWeatherResults[INLAND_MAX_DAY2]->value(),
@@ -1178,10 +1218,22 @@ namespace TextGen
 										theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value(),
 										theParameters.theWeatherResults[INLAND_MAX_NIGHT]->value(),
 										theParameters.theZeroIntervalFlag) == NO_PHRASE)
+				  */
+				  if(around_zero_phrase(theParameters.theWeatherResults[INLAND_MIN_DAY2]->value(),
+										theParameters.theWeatherResults[INLAND_MEAN_DAY2]->value(),
+										theParameters.theWeatherResults[INLAND_MAX_DAY2]->value(),
+										theParameters.theZeroIntervalFlag) ==
+					 around_zero_phrase(theParameters.theWeatherResults[INLAND_MIN_NIGHT]->value(),
+										theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value(),
+										theParameters.theWeatherResults[INLAND_MAX_NIGHT]->value(),
+										theParameters.theZeroIntervalFlag))
 					{
 					  dayTemperature = theParameters.theWeatherResults[INLAND_MEAN_DAY2]->value();
 					  nightTemperature = theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value();
 					  separateDayAndNight = abs(dayTemperature - nightTemperature) >= DAY_NIGHT_SEPARATION_LIMIT;
+					  if(!separateDayAndNight)
+						separateDayAndNight = (theParameters.inlandAndCoastSeparated(DAY2_PERIOD) || 
+											   theParameters.inlandAndCoastSeparated(NIGHT_PERIOD));
 					}
 				}
 
@@ -1189,6 +1241,7 @@ namespace TextGen
 				{
 				  if(theParameters.theForecastPeriod & DAY1_PERIOD && theParameters.theForecastPeriod & NIGHT_PERIOD)
 					{
+					  /*
 					  if(around_zero_phrase(theParameters.theWeatherResults[COAST_MIN_DAY1]->value(),
 											theParameters.theWeatherResults[COAST_MEAN_DAY1]->value(),
 											theParameters.theWeatherResults[COAST_MAX_DAY1]->value(),
@@ -1197,14 +1250,27 @@ namespace TextGen
 											theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value(),
 											theParameters.theWeatherResults[COAST_MAX_NIGHT]->value(),
 											theParameters.theZeroIntervalFlag) == NO_PHRASE)
+					  */
+					  if(around_zero_phrase(theParameters.theWeatherResults[COAST_MIN_DAY1]->value(),
+											theParameters.theWeatherResults[COAST_MEAN_DAY1]->value(),
+											theParameters.theWeatherResults[COAST_MAX_DAY1]->value(),
+											theParameters.theZeroIntervalFlag) ==
+						 around_zero_phrase(theParameters.theWeatherResults[COAST_MIN_NIGHT]->value(),
+											theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value(),
+											theParameters.theWeatherResults[COAST_MAX_NIGHT]->value(),
+											theParameters.theZeroIntervalFlag))
 						{
 						  dayTemperature = theParameters.theWeatherResults[COAST_MEAN_DAY1]->value();
 						  nightTemperature = theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value();
 						  separateDayAndNight = abs(dayTemperature - nightTemperature) >= DAY_NIGHT_SEPARATION_LIMIT;
+						  if(!separateDayAndNight)
+							separateDayAndNight = (theParameters.inlandAndCoastSeparated(DAY1_PERIOD) || 
+												   theParameters.inlandAndCoastSeparated(NIGHT_PERIOD));
 						}
 					}
 				  else if(theParameters.theForecastPeriod & DAY2_PERIOD && theParameters.theForecastPeriod & NIGHT_PERIOD)
 					{
+					  /*
 					  if(around_zero_phrase(theParameters.theWeatherResults[COAST_MIN_DAY2]->value(),
 											theParameters.theWeatherResults[COAST_MEAN_DAY2]->value(),
 											theParameters.theWeatherResults[COAST_MAX_DAY2]->value(),
@@ -1213,10 +1279,22 @@ namespace TextGen
 											theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value(),
 											theParameters.theWeatherResults[COAST_MAX_NIGHT]->value(),
 											theParameters.theZeroIntervalFlag) == NO_PHRASE)
+					  */
+					  if(around_zero_phrase(theParameters.theWeatherResults[COAST_MIN_DAY2]->value(),
+											theParameters.theWeatherResults[COAST_MEAN_DAY2]->value(),
+											theParameters.theWeatherResults[COAST_MAX_DAY2]->value(),
+											theParameters.theZeroIntervalFlag) ==
+						 around_zero_phrase(theParameters.theWeatherResults[COAST_MIN_NIGHT]->value(),
+											theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value(),
+											theParameters.theWeatherResults[COAST_MAX_NIGHT]->value(),
+											theParameters.theZeroIntervalFlag))
 						{
 						  dayTemperature = theParameters.theWeatherResults[COAST_MEAN_DAY2]->value();
 						  nightTemperature = theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value();
 						  separateDayAndNight = abs(dayTemperature - nightTemperature) >= DAY_NIGHT_SEPARATION_LIMIT;
+						  if(!separateDayAndNight)
+							separateDayAndNight = (theParameters.inlandAndCoastSeparated(DAY2_PERIOD) || 
+												   theParameters.inlandAndCoastSeparated(NIGHT_PERIOD));
 						}
 					}
 				}
@@ -1225,6 +1303,7 @@ namespace TextGen
 			{
 			  if(theParameters.theForecastPeriod & DAY1_PERIOD && theParameters.theForecastPeriod & NIGHT_PERIOD)
 				{
+				  /*
 				  if(around_zero_phrase(theParameters.theWeatherResults[COAST_MIN_DAY1]->value(),
 										theParameters.theWeatherResults[COAST_MEAN_DAY1]->value(),
 										theParameters.theWeatherResults[COAST_MAX_DAY1]->value(),
@@ -1233,14 +1312,27 @@ namespace TextGen
 										theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value(),
 										theParameters.theWeatherResults[COAST_MAX_NIGHT]->value(),
 										theParameters.theZeroIntervalFlag) == NO_PHRASE)
+				  */
+				  if(around_zero_phrase(theParameters.theWeatherResults[COAST_MIN_DAY1]->value(),
+										theParameters.theWeatherResults[COAST_MEAN_DAY1]->value(),
+										theParameters.theWeatherResults[COAST_MAX_DAY1]->value(),
+										theParameters.theZeroIntervalFlag) ==
+					 around_zero_phrase(theParameters.theWeatherResults[COAST_MIN_NIGHT]->value(),
+										theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value(),
+										theParameters.theWeatherResults[COAST_MAX_NIGHT]->value(),
+										theParameters.theZeroIntervalFlag))
 					{
 					  dayTemperature = theParameters.theWeatherResults[COAST_MEAN_DAY1]->value();
 					  nightTemperature = theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value();
 					  separateDayAndNight = abs(dayTemperature - nightTemperature) >= DAY_NIGHT_SEPARATION_LIMIT;
+					  if(!separateDayAndNight)
+						separateDayAndNight = (theParameters.inlandAndCoastSeparated(DAY1_PERIOD) || 
+											   theParameters.inlandAndCoastSeparated(NIGHT_PERIOD));
 					}
 				}
 			  else if(theParameters.theForecastPeriod & DAY2_PERIOD && theParameters.theForecastPeriod & NIGHT_PERIOD)
 				{
+				  /*
 				  if(around_zero_phrase(theParameters.theWeatherResults[COAST_MIN_DAY2]->value(),
 										theParameters.theWeatherResults[COAST_MEAN_DAY2]->value(),
 										theParameters.theWeatherResults[COAST_MAX_DAY2]->value(),
@@ -1249,10 +1341,22 @@ namespace TextGen
 										theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value(),
 										theParameters.theWeatherResults[COAST_MAX_NIGHT]->value(),
 										theParameters.theZeroIntervalFlag) == NO_PHRASE)
+				  */
+				  if(around_zero_phrase(theParameters.theWeatherResults[COAST_MIN_DAY2]->value(),
+										theParameters.theWeatherResults[COAST_MEAN_DAY2]->value(),
+										theParameters.theWeatherResults[COAST_MAX_DAY2]->value(),
+										theParameters.theZeroIntervalFlag) ==
+					 around_zero_phrase(theParameters.theWeatherResults[COAST_MIN_NIGHT]->value(),
+										theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value(),
+										theParameters.theWeatherResults[COAST_MAX_NIGHT]->value(),
+										theParameters.theZeroIntervalFlag))
 					{
 					  dayTemperature = theParameters.theWeatherResults[COAST_MEAN_DAY2]->value();
 					  nightTemperature = theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value();
 					  separateDayAndNight = abs(dayTemperature - nightTemperature) >= DAY_NIGHT_SEPARATION_LIMIT;
+					  if(!separateDayAndNight)
+						separateDayAndNight = (theParameters.inlandAndCoastSeparated(DAY2_PERIOD) || 
+											   theParameters.inlandAndCoastSeparated(NIGHT_PERIOD));
 					}
 				}
 
@@ -1260,6 +1364,7 @@ namespace TextGen
 				{
 				  if(theParameters.theForecastPeriod & DAY1_PERIOD && theParameters.theForecastPeriod & NIGHT_PERIOD)
 					{
+					  /*
 					  if(around_zero_phrase(theParameters.theWeatherResults[INLAND_MIN_DAY1]->value(),
 											theParameters.theWeatherResults[INLAND_MEAN_DAY1]->value(),
 											theParameters.theWeatherResults[INLAND_MAX_DAY1]->value(),
@@ -1268,14 +1373,27 @@ namespace TextGen
 											theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value(),
 											theParameters.theWeatherResults[INLAND_MAX_NIGHT]->value(),
 											theParameters.theZeroIntervalFlag) == NO_PHRASE)
+					  */
+					  if(around_zero_phrase(theParameters.theWeatherResults[INLAND_MIN_DAY1]->value(),
+											theParameters.theWeatherResults[INLAND_MEAN_DAY1]->value(),
+											theParameters.theWeatherResults[INLAND_MAX_DAY1]->value(),
+											theParameters.theZeroIntervalFlag) ==
+						 around_zero_phrase(theParameters.theWeatherResults[INLAND_MIN_NIGHT]->value(),
+											theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value(),
+											theParameters.theWeatherResults[INLAND_MAX_NIGHT]->value(),
+											theParameters.theZeroIntervalFlag))
 						{
 						  dayTemperature = theParameters.theWeatherResults[INLAND_MEAN_DAY1]->value();
 						  nightTemperature = theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value();
 						  separateDayAndNight = abs(dayTemperature - nightTemperature) >= DAY_NIGHT_SEPARATION_LIMIT;
+						  if(!separateDayAndNight)
+							separateDayAndNight = (theParameters.inlandAndCoastSeparated(DAY1_PERIOD) || 
+												   theParameters.inlandAndCoastSeparated(NIGHT_PERIOD));
 						}
 					}
 				  else if(theParameters.theForecastPeriod & DAY2_PERIOD && theParameters.theForecastPeriod & NIGHT_PERIOD)
 					{
+					  /*
 					  if(around_zero_phrase(theParameters.theWeatherResults[INLAND_MIN_DAY2]->value(),
 											theParameters.theWeatherResults[INLAND_MEAN_DAY2]->value(),
 											theParameters.theWeatherResults[INLAND_MAX_DAY2]->value(),
@@ -1284,10 +1402,22 @@ namespace TextGen
 											theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value(),
 											theParameters.theWeatherResults[INLAND_MAX_NIGHT]->value(),
 											theParameters.theZeroIntervalFlag) == NO_PHRASE)
+					  */
+					  if(around_zero_phrase(theParameters.theWeatherResults[INLAND_MIN_DAY2]->value(),
+											theParameters.theWeatherResults[INLAND_MEAN_DAY2]->value(),
+											theParameters.theWeatherResults[INLAND_MAX_DAY2]->value(),
+											theParameters.theZeroIntervalFlag) ==
+						 around_zero_phrase(theParameters.theWeatherResults[INLAND_MIN_NIGHT]->value(),
+											theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value(),
+											theParameters.theWeatherResults[INLAND_MAX_NIGHT]->value(),
+											theParameters.theZeroIntervalFlag))
 						{
 						  dayTemperature = theParameters.theWeatherResults[INLAND_MEAN_DAY2]->value();
 						  nightTemperature = theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value();
 						  separateDayAndNight = abs(dayTemperature - nightTemperature) >= DAY_NIGHT_SEPARATION_LIMIT;
+						  if(!separateDayAndNight)
+							separateDayAndNight = (theParameters.inlandAndCoastSeparated(DAY2_PERIOD) || 
+												   theParameters.inlandAndCoastSeparated(NIGHT_PERIOD));
 						}
 					}
 				}
@@ -1769,7 +1899,8 @@ namespace TextGen
 		sentence << PeriodPhraseFactory::create("tonight",
 												theParameters.theVariable,
 												theParameters.theForecastTime,
-												theParameters.theWeatherPeriod);
+												theParameters.theWeatherPeriod,
+												theParameters.theWeatherArea);
 	  
 	  sentence << temperature_phrase(theParameters);
 
@@ -1882,7 +2013,8 @@ namespace TextGen
 		nextDaySentence << PeriodPhraseFactory::create("next_day",
 													   theParameters.theVariable,
 													   theParameters.theForecastTime,
-													   theParameters.theWeatherPeriod);
+													   theParameters.theWeatherPeriod,
+													   theParameters.theWeatherArea);
 	  
 	  if(!nextDaySentence.empty())
 		theParameters.theTomorrowTautologyFlag = true;
@@ -1910,7 +2042,10 @@ namespace TextGen
 		sentence << PeriodPhraseFactory::create("today",
 												theParameters.theVariable,
 												theParameters.theForecastTime,
-												theParameters.theWeatherPeriod);
+												theParameters.theWeatherPeriod,
+												theParameters.theWeatherArea);
+
+
 	  
 	  sentence << temperature_phrase(theParameters);
 	  sentence << temperatureSentence;
@@ -2796,35 +2931,6 @@ namespace TextGen
 	// Period generator
 	WeatherPeriod fullPeriod(periodStartTime, periodEndTime);
 	NightAndDayPeriodGenerator generator(fullPeriod, itsVar);
-
-	/*
-	// Too late? Return empty story then
-	if(generator.size() == 0)
-	  {
-		log << "No weather periods available!" << endl;
-		log << paragraph;
-		return paragraph;
-	  }
-
-	log << "period contains ";
-
-	if(generator.isday(1))
-	  {
-		if(generator.size() > 2)
-		  log << "today, night and tomorrow" << endl;
-		else if(generator.size() == 2)
-		  log << "today and night" << endl;
-		else
-		  log << "today" << endl;
-	  }
-	else
-	  {
-		if(generator.size() == 1)
-		  log << "one night" << endl;		  
-		else
-		  log << "night and tomorrow" << endl;		  
-	  }
-	*/
 
 	unsigned short forecast_area = 0x0;
 	unsigned short forecast_period = 0x0;

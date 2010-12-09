@@ -150,8 +150,10 @@ namespace TextGen
 			{
 				if(theHistory)
 				  {
-					if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+					/*
+					  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 					  theHistory->updateTimePhrase("",thePeriod.localStartTime());
+					*/
 					return (sentence << on_weekday(thePeriod.localStartTime(),  *theHistory));
 				  }
 				else
@@ -211,8 +213,10 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
-				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+				  /*
+					if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 					theHistory->updateTimePhrase("",thePeriod.localStartTime());
+				  */
 				  return (sentence << night_against_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -257,8 +261,10 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
+				  /*
 				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 					theHistory->updateTimePhrase("",thePeriod.localStartTime());
+				  */
 				  return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -284,7 +290,18 @@ namespace TextGen
 		  else if(*it == "tomorrow")
 			{
 			  if(isNextDay(theForecastTime,thePeriod.localStartTime()))
-				return (sentence << "huomenna");
+				{
+				  if(theHistory)
+					{				  
+					  return (sentence << WeekdayTools::get_time_phrase(thePeriod.localStartTime(),
+																		"huomenna",
+																		*theHistory));
+					}
+				  else
+					{
+					  return (sentence << "huomenna");
+					}
+				}
 			}
 		  else if(*it == "none!")
 			return sentence;
@@ -323,8 +340,10 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
+				  /*
 				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 					theHistory->updateTimePhrase("",thePeriod.localStartTime());
+				  */
 				  return (sentence << night_against_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -384,8 +403,10 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
+				  /*
 				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 					theHistory->updateTimePhrase("",thePeriod.localStartTime());
+				  */
 				  return (sentence << night_against_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -442,8 +463,10 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
+				  /*
 				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 					theHistory->updateTimePhrase("",thePeriod.localStartTime());
+				  */
 				  return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -456,7 +479,18 @@ namespace TextGen
 		  else if(*it == "tomorrow")
 			{
 			  if(isNextDay(theForecastTime,thePeriod.localStartTime()))
-				return (sentence << "huomenna");
+				{
+				  if(theHistory)
+					{				  
+					  return (sentence << WeekdayTools::get_time_phrase(thePeriod.localStartTime(),
+																		"huomenna",
+																		*theHistory));
+					}
+				  else
+					{
+					  return (sentence << "huomenna");
+					}
+				}
 			}
 		  else if(*it == "none!")
 			return sentence;
@@ -495,8 +529,10 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
+				  /*
 				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 					theHistory->updateTimePhrase("",thePeriod.localStartTime());
+				  */
 				  return (sentence << from_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -644,7 +680,18 @@ namespace TextGen
 			  else if(*it == "tomorrow")
 				{
 				  if(isNextDay(theForecastTime, starttime))
-					return (sentence << "huomenna");
+					{
+					  if(theHistory)
+						{				  
+						  return (sentence << WeekdayTools::get_time_phrase(starttime,
+																			"huomenna",
+																			*theHistory));
+						}
+					  else
+						{
+						  return (sentence << "huomenna");
+						}
+					}
 				}
 			  else if(*it == "followingday")
 				;
@@ -652,8 +699,10 @@ namespace TextGen
 				{
 				  if(theHistory)
 					{
-					  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+					  /*
+						if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 						theHistory->updateTimePhrase("",thePeriod.localStartTime());
+					  */
 					  return (sentence << on_weekday(starttime, *theHistory));
 					}
 				  else
@@ -695,8 +744,10 @@ namespace TextGen
 							{
 							  if(theHistory)
 								{
+								  /*
 								  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 									theHistory->updateTimePhrase("",thePeriod.localStartTime());
+								  */
 								  return (sentence << on_weekday(nextday, *theHistory));
 								}
 							  else
@@ -722,8 +773,10 @@ namespace TextGen
 							{
 							  if(theHistory)
 								{
+								  /*
 								  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 									theHistory->updateTimePhrase("",thePeriod.localStartTime());
+								  */
 								  return (sentence << on_weekday(nextday, *theHistory));
 								}
 							  else
@@ -740,8 +793,10 @@ namespace TextGen
 				{
 				  if(theHistory)
 					{
-					  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+					  /*
+						if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 						theHistory->updateTimePhrase("",thePeriod.localStartTime());
+					  */
 					  sentence << on_weekday(starttime, *theHistory)
 							   << "ja"
 							   << on_weekday(nextday, *theHistory);
@@ -780,8 +835,10 @@ namespace TextGen
 				{
 				  if(theHistory)
 					{
-					  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+					  /*
+						if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 						theHistory->updateTimePhrase("",thePeriod.localStartTime());
+					  */
 					  return (sentence << from_weekday(starttime, *theHistory));
 					}
 				  else

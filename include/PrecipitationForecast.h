@@ -68,8 +68,7 @@ using namespace std;
 								float& theIntensity,
 								unsigned int& theForm,
 								float& theExtent) const;
-	void precipitationTypeChangePhrase(const precipitation_type& theOriginalPrecipitationType,
-									   const precipitation_type& theNewPrecipitationType,
+	void precipitationTypeChangePhrase(const precipitation_type& thePrecipitationType,
 									   const NFmiTime& theTypeChangeTime,
 									   vector<std::string>& theStringVector) const;
 	Rect getPrecipitationRect(const NFmiTime& theTimestamp, 
@@ -127,6 +126,7 @@ using namespace std;
 									weather_event_id_vector& thePrecipitationWeatherEvents);
 
 	void waterAndSnowShowersPhrase(const float& thePrecipitationIntensity,
+								    const float thePrecipitationIntensityAbsoluteMax,
 								   const float& theWaterDrizzleSleetShare,
 								   const bool& theCanBeFreezingFlag,
 								   vector<std::string>& theStringVector) const;
@@ -145,39 +145,39 @@ using namespace std;
 	int precipitationSentenceStringVector(const WeatherPeriod& thePeriod,
 										  const unsigned int& thePrecipitationForm,
 										  const float& thePrecipitationIntensity,
+										  const float thePrecipitationIntensityAbsoluteMax,
 										  const float& thePrecipitationExtent,
 										  const float& thePrecipitationFormWater,
 										  const float& thePrecipitationFormDrizzle,
 										  const float& thePrecipitationFormSleet,
 										  const float& thePrecipitationFormSnow,
 										  const float& thePrecipitationFormFreezing,
-										  const precipitation_type& theOriginalPrecipitationType,
-										  const precipitation_type& theNewPrecipitationType,
+										  const precipitation_type& thePrecipitationType,
 										  const NFmiTime& theTypeChangeTime,
 										  vector<std::string>& theStringVector) const;
 	std::string precipitationSentenceString(const WeatherPeriod& thePeriod,
 											const unsigned int& thePrecipitationForm,
 											const float thePrecipitationIntensity,
+											const float thePrecipitationIntensityAbsoluteMax,
 											const float thePrecipitationExtent,
 											const float thePrecipitationFormWater,
 											const float thePrecipitationFormDrizzle,
 											const float thePrecipitationFormSleet,
 											const float thePrecipitationFormSnow,
 											const float thePrecipitationFormFreezing,
-											const precipitation_type& theOriginalPrecipitationType,
-											const precipitation_type& theNewPrecipitationType,
+											const precipitation_type& thePrecipitationType,
 											const NFmiTime& theTypeChangeTime) const;
 	Sentence selectPrecipitationSentence(const WeatherPeriod& thePeriod,
 										 const unsigned int& thePrecipitationForm,
 										 const float thePrecipitationIntensity,
+										 const float thePrecipitationIntensityAbsoluteMax,
 										 const float thePrecipitationExtent,
 										 const float thePrecipitationFormWater,
 										 const float thePrecipitationFormDrizzle,
 										 const float thePrecipitationFormSleet,
 										 const float thePrecipitationFormSnow,
 										 const float thePrecipitationFormFreezing,
-										 const precipitation_type& theOriginalPrecipitationType,
-										 const precipitation_type& theNewPrecipitationType,
+										 const precipitation_type& thePrecipitationType,
 										 const NFmiTime& theTypeChangeTime,
 										 const precipitation_form_transformation_id& theTransformationId) const;
 

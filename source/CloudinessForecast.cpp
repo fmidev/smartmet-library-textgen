@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of PrecipitationForecast class
+ * \brief Implementation of CloudinessForecast class
  */
 // ======================================================================
 
@@ -380,7 +380,82 @@ namespace TextGen
   void CloudinessForecast::findOutCloudinessWeatherEvents(const weather_result_data_item_vector* theData,
 												   weather_event_id_vector& theCloudinessWeatherEvents)
   {
-	// check 4-hour periods if there is weatherEvent
+	for(unsigned int i = 3; i < theData->size() - 3; i++)
+	  {
+		WeatherPeriod firstHalfPeriod(theData->at(0)->thePeriod.localStartTime(),
+									  theData->at(i)->thePeriod.localEndTime());
+		WeatherPeriod secondHalfPeriod(theData->at(i+1)->thePeriod.localStartTime(),
+									   theData->at(theData->size()-1)->thePeriod.localEndTime());
+
+		weather_result_data_item_vector theFirstHalfData;
+		weather_result_data_item_vector theSecondHalfData;
+		
+		get_sub_time_series(firstHalfPeriod,
+							*theData,
+							theFirstHalfData);
+		
+		get_sub_time_series(secondHalfPeriod,
+							*theData,
+							theSecondHalfData);
+
+		float meanCloudinessInTheFirstHalf = get_mean(theFirstHalfData);
+		float meanCloudinessInTheSecondHalf = get_mean(theSecondHalfData);
+		weather_event_id weatherEventId(MISSING_WEATHER_EVENT);
+		unsigned int changeIndex(0);
+		
+		if(meanCloudinessInTheFirstHalf >= PILVISTYVAA_UPPER_LIMIT && 
+		   meanCloudinessInTheSecondHalf <= PILVISTYVAA_LOWER_LIMIT)
+		  {
+			bool selkeneeReally = true;
+			// check that cloudiness stays under the limit for the rest of the forecast period
+			for(unsigned int k = i+1; k < theData->size(); k++)
+			  if(theData->at(k)->theResult.value() > PILVISTYVAA_LOWER_LIMIT)
+				{
+				  selkeneeReally = false;
+				  break;
+				}
+			if(!selkeneeReally)
+			  continue;
+
+			changeIndex = i+1;
+			while(changeIndex-1 >= 0 &&
+				  theData->at(changeIndex-1)->theResult.value() <= PILVISTYVAA_LOWER_LIMIT)
+			  changeIndex--;
+
+			weatherEventId = SELKENEE;
+		  }
+		else if(meanCloudinessInTheFirstHalf <= PILVISTYVAA_LOWER_LIMIT && 
+				meanCloudinessInTheSecondHalf >= PILVISTYVAA_UPPER_LIMIT)
+		  {
+			bool pilvistyyReally = true;
+			// check that cloudiness stays above the limit for the rest of the forecast period
+			for(unsigned int k = i+1; k < theData->size(); k++)
+			  if(theData->at(k)->theResult.value() < PILVISTYVAA_UPPER_LIMIT)
+				{
+				  pilvistyyReally = false;
+				  break;
+				}
+			if(!pilvistyyReally)
+			  continue;
+
+			changeIndex = i+1;
+			while(changeIndex-1 >= 0 &&
+				  theData->at(changeIndex-1)->theResult.value() >= PILVISTYVAA_UPPER_LIMIT)
+			  changeIndex--;
+
+			weatherEventId = PILVISTYY;
+		  }
+
+		if(weatherEventId != MISSING_WEATHER_EVENT)
+		  {
+			theCloudinessWeatherEvents.push_back(make_pair(theData->at(changeIndex)->thePeriod.localStartTime(), weatherEventId));
+			// note: only one event during the period (original plan was that several events are allowed)
+			break;
+		  }
+	  }
+
+#ifdef LATER
+	// check 6-hour periods if there is weatherEvent
 	const unsigned int periodLength = 12;
 	unsigned int startIndex = 0;
 	while(startIndex < theData->size() - (periodLength + 1))
@@ -412,14 +487,14 @@ namespace TextGen
 		float meanCloudinessInTheSecondHalf = get_mean(theSecondHalfData);
 		weather_event_id weatherEventId = MISSING_WEATHER_EVENT;
 
-		if(meanCloudinessInTheFirstHalf >= PILVISYVAA_UPPER_LIMIT && 
-		   meanCloudinessInTheSecondHalf <= PILVISYVAA_LOWER_LIMIT &&
+		if(meanCloudinessInTheFirstHalf >= PILVISTYVAA_UPPER_LIMIT && 
+		   meanCloudinessInTheSecondHalf <= PILVISTYVAA_LOWER_LIMIT &&
 		   pearson_coefficient < -0.65)
 		  {
 			weatherEventId = SELKENEE;
 		  }
-		else if(meanCloudinessInTheFirstHalf <= PILVISYVAA_LOWER_LIMIT && 
-				meanCloudinessInTheSecondHalf >= PILVISYVAA_UPPER_LIMIT && 
+		else if(meanCloudinessInTheFirstHalf <= PILVISTYVAA_LOWER_LIMIT && 
+				meanCloudinessInTheSecondHalf >= PILVISTYVAA_UPPER_LIMIT && 
 				pearson_coefficient >= 0.65)
 		  {
 			weatherEventId = PILVISTYY;
@@ -432,6 +507,7 @@ namespace TextGen
 
 		startIndex += (weatherEventId == MISSING_WEATHER_EVENT ? 1 : (periodLength/2));
 	  }
+#endif
  }
 
   void CloudinessForecast::findOutCloudinessWeatherEvents()

@@ -50,6 +50,9 @@ namespace TextGen
 	const std::string on_weekday_forenoon(const NFmiTime & theTime, WeatherHistory& theHistory);
 	const std::string on_weekday_afternoon(const NFmiTime & theTime, WeatherHistory& theHistory);
 	const std::string on_weekday_evening(const NFmiTime & theTime, WeatherHistory& theHistory);
+	const std::string get_time_phrase(const NFmiTime & theTime, 
+									  const std::string theNewPhrase, 
+									  WeatherAnalysis::WeatherHistory& theHistory);
 
   } // namespace WeekdayTools
 } // namespace TextGen

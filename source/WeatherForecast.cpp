@@ -194,23 +194,20 @@ using namespace std;
   }
 
   part_of_the_day_id get_part_of_the_day_id(const NFmiTime& theTimestamp)
-  {
-	
- 	if(theTimestamp.GetHour() >= 6 && theTimestamp.GetHour() <= 9)
+  {	
+ 	if(theTimestamp.GetHour() >= AAMU_START&& theTimestamp.GetHour() <= AAMU_END)
 	  return AAMU;
-	else if(theTimestamp.GetHour() >= 9 && theTimestamp.GetHour() <= 11)
+	else if(theTimestamp.GetHour() >= AAMUPAIVA_START && theTimestamp.GetHour() <= AAMUPAIVA_END)
 	  return AAMUPAIVA;
-	else if(theTimestamp.GetHour() >= 11 && theTimestamp.GetHour() <= 13)
-	  return KESKIPAIVA;
-	else if(theTimestamp.GetHour() >= 13 && theTimestamp.GetHour() <= 18)
-	  return ILTAPAIVA;
-	else if(theTimestamp.GetHour() >= 18 && theTimestamp.GetHour() <= 22)
+	else if(theTimestamp.GetHour() >= ILTA_START && theTimestamp.GetHour() <= ILTA_END)
 	  return ILTA;
-	else if(theTimestamp.GetHour() >= 22)
+	else if(theTimestamp.GetHour() >= ILTAPAIVA_START && theTimestamp.GetHour() <= ILTAPAIVA_END)
+	  return ILTAPAIVA;
+	else if(theTimestamp.GetHour() >= ILTAYO_START)
 	  return ILTAYO;
-	else if(theTimestamp.GetHour() <= 3)
+	else if(theTimestamp.GetHour() <= KESKIYO_END)
 	  return KESKIYO;
-	else if(theTimestamp.GetHour() >= 3 && theTimestamp.GetHour() <= 6)
+	else if(theTimestamp.GetHour() >= AAMUYO_START && theTimestamp.GetHour() <= AAMUYO_END)
 	  return AAMUYO;
 
 	return MISSING_PART_OF_THE_DAY_ID;
@@ -221,228 +218,149 @@ using namespace std;
 	if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 9)
 	  return MISSING_PART_OF_THE_DAY_ID;
 
-	if(thePeriod.localStartTime().GetHour() >= 6 && thePeriod.localEndTime().GetHour() <= 9)
+	bool insideSameDay = thePeriod.localStartTime().GetJulianDay() == thePeriod.localEndTime().GetJulianDay();
+
+	if(thePeriod.localStartTime().GetHour() >= AAMU_START && 
+	   thePeriod.localEndTime().GetHour() <= AAMU_END && insideSameDay)
 	  return AAMU;
-	else if(thePeriod.localStartTime().GetHour() >= 9 && thePeriod.localEndTime().GetHour() <= 11)
+	else if(thePeriod.localStartTime().GetHour() >= AAMUPAIVA_START && 
+			thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
 	  return AAMUPAIVA;
-	else if(thePeriod.localStartTime().GetHour() >= 11 && thePeriod.localEndTime().GetHour() <= 13)
-	  return KESKIPAIVA;
-	else if(thePeriod.localStartTime().GetHour() >= 13 && thePeriod.localEndTime().GetHour() <= 18)
-	  return ILTAPAIVA;
-	else if(thePeriod.localStartTime().GetHour() >= 18 && thePeriod.localEndTime().GetHour() <= 22)
+	else if(thePeriod.localStartTime().GetHour() >= ILTA_START && 
+			thePeriod.localEndTime().GetHour() <= ILTA_END && insideSameDay)
 	  return ILTA;
-	else if(thePeriod.localStartTime().GetHour() >= 22)
-	  return ILTAYO;
-	else if(thePeriod.localStartTime().GetHour() <= 3 && thePeriod.localEndTime().GetHour() <= 3)
+	else if(thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START && 
+			thePeriod.localEndTime().GetHour() <= ILTAPAIVA_END && insideSameDay)
+	  return ILTAPAIVA;
+	else if(thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
+			thePeriod.localEndTime().GetHour() >= ILTAYO_START || 
+			thePeriod.localEndTime().GetHour() == 0)
+		  return ILTAYO;
+	else if(thePeriod.localStartTime().GetHour() <= KESKIYO_END && 
+			thePeriod.localEndTime().GetHour() <= KESKIYO_END)
 	  return KESKIYO;
-	else if(thePeriod.localStartTime().GetHour() >= 3 && thePeriod.localEndTime().GetHour() <= 6)
+	else if(thePeriod.localStartTime().GetHour() >= AAMUYO_START && 
+			thePeriod.localEndTime().GetHour() <= AAMUYO_END && insideSameDay)
 	  return AAMUYO;
-	else if(thePeriod.localStartTime().GetHour() >= 6 && thePeriod.localEndTime().GetHour() <= 12)
+	else if(thePeriod.localStartTime().GetHour() >= AAMU_START && 
+			thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
 	  return AAMU_JA_AAMUPAIVA;
-	else if(thePeriod.localStartTime().GetHour() >= 9 && thePeriod.localEndTime().GetHour() <= 13)
-	  return AAMUPAIVA_JA_KESKIPAIVA;
-	else if(thePeriod.localStartTime().GetHour() >= 11 && thePeriod.localEndTime().GetHour() <= 18)
-	  return KESKIPAIVA_JA_ILTAPAIVA;
-	else if(thePeriod.localStartTime().GetHour() >= 13 && thePeriod.localEndTime().GetHour() <= 21)
+	else if(thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START && 
+			thePeriod.localEndTime().GetHour() <= ILTA_END && insideSameDay)
 	  return ILTAPAIVA_JA_ILTA;
-	else if(thePeriod.localStartTime().GetHour() >= 18)
+	else if(thePeriod.localStartTime().GetHour() >= ILTA_START)
 	  return ILTA_JA_ILTAYO;
-	else if(thePeriod.localStartTime().GetHour() >= 22 && thePeriod.localEndTime().GetHour() <= 3)
+	else if(thePeriod.localStartTime().GetHour() >= ILTAYO_START && 
+			thePeriod.localEndTime().GetHour() <= KESKIYO_END)
 	  return ILTAYO_JA_KESKIYO;
-	else if(thePeriod.localStartTime().GetHour() <= 6 && thePeriod.localEndTime().GetHour() <= 6)
+	else if(thePeriod.localStartTime().GetHour() <= KESKIYO_END && 
+			thePeriod.localEndTime().GetHour() <= AAMUYO_END)
 	  return KESKIYO_JA_AAMUYO;
-	else if(thePeriod.localStartTime().GetHour() >= 3 && thePeriod.localEndTime().GetHour() <= 9)
+	else if(thePeriod.localStartTime().GetHour() >= AAMUYO_START && 
+			thePeriod.localEndTime().GetHour() <= AAMU_END)
 	  return AAMUYO_JA_AAMU;
+	else if(thePeriod.localStartTime().GetHour() >= YO_START && 
+			thePeriod.localEndTime().GetHour() <= YO_END)
+	  return YO;
+	else if(thePeriod.localStartTime().GetHour() >= PAIVA_START && 
+			thePeriod.localEndTime().GetHour() <= PAIVA_END)
+	  return PAIVA;
 	
 	return MISSING_PART_OF_THE_DAY_ID;
   }
 
-  /*
-  bool get_part_of_the_day(const WeatherPeriod& theSourcePeriod, 
-						   const part_of_the_day_id& thePartOfTheDayId, 
-						   WeatherPeriod& theDestinationPeriod)
-  {
-	int starthour = -1;
-	int endhour = -1;
-
-	switch(thePartOfTheDayId)
-	  {
-	  case AAMUPAIVA:
-		{
-		  starthour = 7;
-		  endhour = 12;
-		break;
-		}
-	  case ILTAPAIVA:
-		  starthour = 13;
-		  endhour = 18;
-		break;
-	  case YO:
-		  starthour = 19;
-		  endhour = 6;
-		break;
-	  default:
-		break;
-	  }
-
-	int new_start_year =  theSourcePeriod.localStartTime().GetYear();
-	int new_start_month = theSourcePeriod.localStartTime().GetMonth();
-	int new_start_day = theSourcePeriod.localStartTime().GetDay();
-	int new_start_hour = -1;
-	int new_end_year = theSourcePeriod.localEndTime().GetYear();
-	int new_end_month = theSourcePeriod.localEndTime().GetMonth();
-	int new_end_day = theSourcePeriod.localEndTime().GetDay();
-	int new_end_hour = -1;
-	int old_start_hour = theSourcePeriod.localStartTime().GetHour();
-	int old_end_hour = theSourcePeriod.localEndTime().GetHour();
-
-	if(old_start_hour <= starthour)
-	  new_start_hour = starthour;
-	else if(old_start_hour <= endhour)
-	  new_start_hour = old_start_hour;
-
-	if(old_end_hour >= endhour)
-	  new_end_hour = endhour;
-	else if(old_end_hour >= starthour)
-	  new_end_hour = old_end_hour;
-	  
-	if(new_start_hour == -1 || new_end_hour == -1)
-	  {
-		return false;
-	  }
-	else
-	  {
-		NFmiTime start(new_start_year, new_start_month, new_start_day, new_start_hour);
-		NFmiTime end(new_end_year, new_end_month, new_end_day, new_end_hour);
-		WeatherPeriod wp(start, end);
-		theDestinationPeriod = wp;
-		return true;
-	  }
-  }
-  */
-
-  void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour)
+   void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour)
   {
 	switch(thePartOfTheDayId)
 	  {
 	  case AAMU:
 		{
-		  theStartHour = 6;
-		  theEndHour = 9;
+		  theStartHour = AAMU_START;
+		  theEndHour = AAMU_END;
 		}
 		break;
 	  case AAMUPAIVA:
 		{
-		  theStartHour = 9;
-		  theEndHour = 11;
-		}
-		break;
-	  case KESKIPAIVA:
-		{
-		  theStartHour = 11;
-		  theEndHour = 13;
+		  theStartHour = AAMUPAIVA_START;
+		  theEndHour = AAMUPAIVA_END;
 		}
 		break;
 	  case ILTAPAIVA:
 		{
-		  theStartHour = 13;
-		  theEndHour = 18;
+		  theStartHour = ILTAPAIVA_START;
+		  theEndHour = ILTAPAIVA_END;
 		}
 		break;
 	  case ILTA:
 		{
-		  theStartHour = 18;
-		  theEndHour = 22;
+		  theStartHour = ILTA_START;
+		  theEndHour = ILTA_END;
 		}
 		break;
 	  case ILTAYO:
 		{
-		  theStartHour = 22;
-		  theEndHour = 0;
+		  theStartHour = ILTAYO_START;
+		  theEndHour = ILTAYO_END;
 		}
 		break;
 	  case KESKIYO:
 		{
-		  theStartHour = 0;
-		  theEndHour = 3;
+		  theStartHour = KESKIYO_START;
+		  theEndHour = KESKIYO_END;
 		}
 		break;
 	  case AAMUYO:
 		{
-		  theStartHour = 3;
-		  theEndHour = 6;
+		  theStartHour = AAMUYO_START;
+		  theEndHour = AAMUYO_END;
 		}
 		break;
 	  case PAIVA:
 		{
-		  theStartHour = 9;
-		  theEndHour = 18;
+		  theStartHour = PAIVA_START;
+		  theEndHour = PAIVA_END;
 		}
 		break;
 	  case YO:
 		{
-		  theStartHour = 0;
-		  theEndHour = 6;
-		}
-		break;
-	  case YOPUOLI:
-		{
-		  theStartHour = 18;
-		  theEndHour = 6;
-		}
-		break;
-	  case PAIVAPUOLI:
-		{
-		  theStartHour = 6;
-		  theEndHour = 18;
+		  theStartHour = YO_START;
+		  theEndHour = YO_END;
 		}
 		break;
 	  case AAMU_JA_AAMUPAIVA:
 		{
-		  theStartHour = 6;
-		  theEndHour = 12;
-		}
-		break;
-	  case AAMUPAIVA_JA_KESKIPAIVA:
-		{
-		  theStartHour = 9;
-		  theEndHour = 13;
-		}
-		break;
-	  case KESKIPAIVA_JA_ILTAPAIVA:
-		{
-		  theStartHour = 11;
-		  theEndHour = 18;
+		  theStartHour = AAMU_START;
+		  theEndHour = AAMUPAIVA_END;
 		}
 		break;
 	  case ILTAPAIVA_JA_ILTA:
 		{
-		  theStartHour = 13;
-		  theEndHour = 21;
+		  theStartHour = ILTAPAIVA_START;
+		  theEndHour = ILTA_END;
 		}
 		break;
 	  case ILTA_JA_ILTAYO:
 		{
-		  theStartHour = 18;
-		  theEndHour = 0;
+		  theStartHour = ILTA_START;
+		  theEndHour = ILTAYO_END;
 		}
 		break;
 	  case ILTAYO_JA_KESKIYO:
 		{
-		  theStartHour = 22;
-		  theEndHour = 3;
+		  theStartHour = ILTAYO_START;
+		  theEndHour = KESKIYO_END;
 		}
 		break;
 	  case KESKIYO_JA_AAMUYO:
 		{
-		  theStartHour = 0;
-		  theEndHour = 6;
+		  theStartHour = KESKIYO_START;
+		  theEndHour = AAMUYO_END;
 		}
 		break;
 	  case AAMUYO_JA_AAMU:
 		{
-		  theStartHour = 3;
-		  theEndHour = 9;
+		  theStartHour = AAMUYO_START;
+		  theEndHour = AAMU_END;
 		}
 		break;
 	  default:
@@ -463,24 +381,55 @@ using namespace std;
 				 const part_of_the_day_id& thePartOfTheDayId)
   {
 	int startHour, endHour;
+	int timestampHour(theTimeStamp.GetHour());
 	get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
-	NFmiTime startTimeCompare(theTimeStamp);
-	NFmiTime endTimeCompare(theTimeStamp);
-	startTimeCompare.SetHour(startHour);
-	endTimeCompare.SetHour(endHour);
 
 	if(endHour == 0)
-	  return theTimeStamp >= startTimeCompare;
+	  return timestampHour >= startHour;
 	else if(startHour == 0)
-	  return theTimeStamp <= endTimeCompare;
+	  return timestampHour <= endHour;
 	else
-	  return(theTimeStamp >= startTimeCompare && 
-			 theTimeStamp <= endTimeCompare);
+	  {
+		if(thePartOfTheDayId == YO || 
+		   thePartOfTheDayId == ILTAYO_JA_KESKIYO)
+		  {
+			return timestampHour  >= startHour || timestampHour <= endHour;
+		  }
+		else
+		  {
+			return(timestampHour >= startHour && 
+				   timestampHour <= endHour);
+		  }
+	  }
   }
 
   bool is_inside(const WeatherPeriod& theWeatherPeriod,
 				 const part_of_the_day_id& thePartOfTheDayId)
   {
+	int numberOfDays(theWeatherPeriod.localEndTime().GetJulianDay() -
+					 theWeatherPeriod.localStartTime().GetJulianDay());
+	if(theWeatherPeriod.localEndTime().DifferenceInHours(theWeatherPeriod.localStartTime()) > 9)
+	  {
+		return false;
+	  }
+	else if(numberOfDays == 1)
+	  {
+		if(thePartOfTheDayId != ILTAYO &&
+		   thePartOfTheDayId != YO && 
+		   thePartOfTheDayId != ILTAYO_JA_KESKIYO &&
+		   thePartOfTheDayId != ILTA_JA_ILTAYO)
+		  return false;
+	  }
+
+	if(thePartOfTheDayId == YO && 
+	   is_inside(theWeatherPeriod.localStartTime(), YO) &&
+	   is_inside(theWeatherPeriod.localEndTime(), YO))
+	  return true;
+	else if(thePartOfTheDayId == ILTAYO_JA_KESKIYO && 
+			is_inside(theWeatherPeriod.localStartTime(), ILTAYO_JA_KESKIYO) &&
+			is_inside(theWeatherPeriod.localEndTime(), ILTAYO_JA_KESKIYO))
+	  return true;
+
 	int startHour, endHour;
 	get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
 	NFmiTime startTimeCompare(theWeatherPeriod.localStartTime());
@@ -491,9 +440,12 @@ using namespace std;
 	endTimeCompare.SetMin(0);
 	startTimeCompare.SetSec(0);
 	endTimeCompare.SetSec(0);
-	if(endHour == 0)
-	  endTimeCompare.ChangeByDays(1);
 
+	if(endHour == 0)
+	  {
+		endTimeCompare.ChangeByDays(1);
+	  }
+	
 	return (theWeatherPeriod.localStartTime() >= startTimeCompare &&
 			theWeatherPeriod.localStartTime() <= endTimeCompare &&
 			theWeatherPeriod.localEndTime() >= startTimeCompare &&
@@ -505,7 +457,10 @@ using namespace std;
 								 vector<std::string>* theStringVector /*= 0*/)
   {
 	Sentence sentence;
-
+	/*
+	   get_part_of_the_day_id(theWeatherPeriod.localStartTime()) == 
+	   get_part_of_the_day_id(theWeatherPeriod.localEndTime()))
+	*/
 	if(theWeatherPeriod.localStartTime().GetJulianDay() == 
 	   theWeatherPeriod.localEndTime().GetJulianDay() &&
 	   get_part_of_the_day_id(theWeatherPeriod.localStartTime()) == 
@@ -515,90 +470,157 @@ using namespace std;
 	  }
 	else
 	  {
-		// aamulla ja aamupäivällä
-		if(is_inside(theWeatherPeriod, AAMU_JA_AAMUPAIVA))
-		  {			
-			sentence << AAMULLA_WORD << JA_WORD << AAMUPAIVALLA_WORD;
-			if(theStringVector)
-			  {
-				theStringVector->push_back(AAMULLA_WORD);
-				theStringVector->push_back(JA_WORD);
-				theStringVector->push_back(AAMUPAIVALLA_WORD);
-			  }
-		  }
-		else if(is_inside(theWeatherPeriod, AAMUPAIVA_JA_KESKIPAIVA))
+		switch(get_part_of_the_day_id(theWeatherPeriod))
 		  {
-			sentence << AAMUPAIVALLA_WORD << JA_WORD << KESKIPAIVALLA_WORD;
-			if(theStringVector)
-			  {
-				theStringVector->push_back(AAMUPAIVALLA_WORD);
-				theStringVector->push_back(JA_WORD);
-				theStringVector->push_back(KESKIPAIVALLA_WORD);
-			  }
-		  }
-		else if(is_inside(theWeatherPeriod, KESKIPAIVA_JA_ILTAPAIVA))
+		  case AAMU:
+			{
+			  sentence << AAMULLA_WORD;
+			  if(theStringVector)
+				{
+				  theStringVector->push_back(AAMULLA_WORD);
+				}
+			}
+			break;
+		  case AAMUPAIVA:
+			{
+			  sentence << AAMUPAIVALLA_WORD;
+			  if(theStringVector)
+				{
+				  theStringVector->push_back(AAMUPAIVALLA_WORD);
+				}
+			}
+			break;
+		  case ILTA:
+			{
+			  sentence << ILLALLA_WORD;
+			  if(theStringVector)
+				{
+				  theStringVector->push_back(ILLALLA_WORD);
+				}
+			}
+			break;
+		  case ILTAPAIVA:
+			{
+			  sentence << ILTAPAIVALLA_WORD;
+			  if(theStringVector)
+				{
+				  theStringVector->push_back(ILTAPAIVALLA_WORD);
+				}
+			}
+			break;
+		  case ILTAYO:
+			{
+			  sentence << ILTAYOSTA_WORD;
+			  if(theStringVector)
+				{
+				  theStringVector->push_back(ILTAYOSTA_WORD);
+				}
+			}
+			break;
+		  case KESKIYO:
+			{
+			  sentence << KESKIYOLLA_WORD;
+			  if(theStringVector)
+				{
+				  theStringVector->push_back(KESKIYOLLA_WORD);
+				}
+			}
+			break;
+		  case AAMUYO:
+			{
+			  sentence << AAMUYOLLA_WORD;
+			  if(theStringVector)
+				{
+				  theStringVector->push_back(AAMUYOLLA_WORD);
+				}
+			}
+			break;
+		  default:
+			break;
+		  };
+		
+		if(sentence.size() == 0)
 		  {
-			sentence << KESKIPAIVALLA_WORD << JA_WORD << ILTAPAIVALLA_WORD;
-			if(theStringVector)
-			  {
-				theStringVector->push_back(KESKIPAIVALLA_WORD);
-				theStringVector->push_back(JA_WORD);
-				theStringVector->push_back(ILTAPAIVALLA_WORD);
+			if(is_inside(theWeatherPeriod, AAMU_JA_AAMUPAIVA))
+			  {			
+				sentence << AAMULLA_WORD << JA_WORD << AAMUPAIVALLA_WORD;
+				if(theStringVector)
+				  {
+					theStringVector->push_back(AAMULLA_WORD);
+					theStringVector->push_back(JA_WORD);
+					theStringVector->push_back(AAMUPAIVALLA_WORD);
+				  }
 			  }
-		  }
-		else if(is_inside(theWeatherPeriod, ILTAPAIVA_JA_ILTA))
-		  {
-			sentence << ILTAPAIVALLA_WORD << JA_WORD << ILLALLA_WORD;
-			if(theStringVector)
+			else if(is_inside(theWeatherPeriod, ILTAPAIVA_JA_ILTA))
 			  {
-				theStringVector->push_back(ILTAPAIVALLA_WORD);
-				theStringVector->push_back(JA_WORD);
-				theStringVector->push_back(ILLALLA_WORD);
+				sentence << ILTAPAIVALLA_WORD << JA_WORD << ILLALLA_WORD;
+				if(theStringVector)
+				  {
+					theStringVector->push_back(ILTAPAIVALLA_WORD);
+					theStringVector->push_back(JA_WORD);
+					theStringVector->push_back(ILLALLA_WORD);
+				  }
 			  }
-		  }
-		else if(is_inside(theWeatherPeriod, ILTA_JA_ILTAYO))
-		  {
-			sentence << ILLALLA_WORD << JA_WORD << ILTAYOSTA_WORD;
-			if(theStringVector)
+			else if(is_inside(theWeatherPeriod, ILTA_JA_ILTAYO))
 			  {
-				theStringVector->push_back(ILLALLA_WORD);
-				theStringVector->push_back(JA_WORD);
-				theStringVector->push_back(ILTAYOSTA_WORD);
+				sentence << ILLALLA_WORD << JA_WORD << ILTAYOSTA_WORD;
+				if(theStringVector)
+				  {
+					theStringVector->push_back(ILLALLA_WORD);
+					theStringVector->push_back(JA_WORD);
+					theStringVector->push_back(ILTAYOSTA_WORD);
+				  }
 			  }
-		  }
-		else if(is_inside(theWeatherPeriod, ILTAYO_JA_KESKIYO))
-		  {
-			sentence << ILTAYOSTA_WORD << JA_WORD << KESKIYOLLA_WORD;
-			if(theStringVector)
+			else if(is_inside(theWeatherPeriod, ILTAYO_JA_KESKIYO))
 			  {
-				theStringVector->push_back(ILTAYOSTA_WORD);
-				theStringVector->push_back(JA_WORD);
-				theStringVector->push_back(KESKIYOLLA_WORD);
+				sentence << ILTAYOSTA_WORD << JA_WORD << KESKIYOLLA_WORD;
+				if(theStringVector)
+				  {
+					theStringVector->push_back(ILTAYOSTA_WORD);
+					theStringVector->push_back(JA_WORD);
+					theStringVector->push_back(KESKIYOLLA_WORD);
+				  }
 			  }
-		  }
-		else if(is_inside(theWeatherPeriod, KESKIYO_JA_AAMUYO))
-		  {
-			sentence << KESKIYOLLA_WORD << JA_WORD << AAMUYOLLA_WORD;
-			if(theStringVector)
+			else if(is_inside(theWeatherPeriod, KESKIYO_JA_AAMUYO))
 			  {
-				theStringVector->push_back(KESKIYOLLA_WORD);
-				theStringVector->push_back(JA_WORD);
-				theStringVector->push_back(AAMUYOLLA_WORD);
+				sentence << KESKIYOLLA_WORD << JA_WORD << AAMUYOLLA_WORD;
+				if(theStringVector)
+				  {
+					theStringVector->push_back(KESKIYOLLA_WORD);
+					theStringVector->push_back(JA_WORD);
+					theStringVector->push_back(AAMUYOLLA_WORD);
+				  }
 			  }
-		  }
-		else if(is_inside(theWeatherPeriod, AAMUYO_JA_AAMU))
-		  {
-			sentence << AAMUYOLLA_WORD << JA_WORD << AAMULLA_WORD;
-			if(theStringVector)
+			else if(is_inside(theWeatherPeriod, AAMUYO_JA_AAMU))
 			  {
-				theStringVector->push_back(AAMUYOLLA_WORD);
-				theStringVector->push_back(JA_WORD);
-				theStringVector->push_back(AAMULLA_WORD);
+				sentence << AAMUYOLLA_WORD << JA_WORD << AAMULLA_WORD;
+				if(theStringVector)
+				  {
+					theStringVector->push_back(AAMUYOLLA_WORD);
+					theStringVector->push_back(JA_WORD);
+					theStringVector->push_back(AAMULLA_WORD);
+				  }
 			  }
-		  }
-		else if(theAlkaenPhrase)
-		  {
-			sentence << get_time_phrase(theWeatherPeriod.localStartTime(), theAlkaenPhrase, theStringVector);
+			else if(is_inside(theWeatherPeriod, YO))
+			  {
+				sentence << YOLLA_WORD;
+				if(theStringVector)
+				  {
+					theStringVector->push_back(YOLLA_WORD);
+				  }
+			  }
+			else if(is_inside(theWeatherPeriod, PAIVA))
+			  {
+				sentence << PAIVALLA_WORD;
+				if(theStringVector)
+				  {
+					theStringVector->push_back(PAIVALLA_WORD);
+				  }
+			  }
+			else if(theAlkaenPhrase)
+			  {
+				sentence << get_time_phrase(theWeatherPeriod.localStartTime(), theAlkaenPhrase, theStringVector);
+			  }
 		  }
 	  }
 
@@ -627,12 +649,12 @@ using namespace std;
 			theStringVector->push_back(theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
 		  }
 	  }
-	else if(is_inside(theTimestamp, KESKIPAIVA))
+	else if(is_inside(theTimestamp, ILTA))
 	  {
-		sentence << (theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
+		sentence << (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
 		if(theStringVector)
 		  {
-			theStringVector->push_back(theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
+			theStringVector->push_back(theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
 		  }
 	  }
 	else if(is_inside(theTimestamp, ILTAPAIVA))
@@ -641,14 +663,6 @@ using namespace std;
 		if(theStringVector)
 		  {
 			theStringVector->push_back(theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
-		  }
-	  }
-	else if(is_inside(theTimestamp, ILTA))
-	  {
-		sentence << (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
-		if(theStringVector)
-		  {
-			theStringVector->push_back(theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
 		  }
 	  }
 	else if(is_inside(theTimestamp, ILTAYO))
@@ -675,165 +689,6 @@ using namespace std;
 			theStringVector->push_back(theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
 		  }
 	  }
-
-
-	/*
-	NFmiTime timestamp(theTimestamp);
-	timestamp.ChangeByHours(1);
-
-	if(is_inside(theTimestamp, AAMU))
-	  {
-		if(theAlkaenPhrase && is_inside(timestamp, AAMUPAIVA))
-		  {
-			sentence << AAMUPAIVASTA_ALKAEN_PHRASE;
-			if(theStringVector)
-			  {
-				theStringVector->push_back(AAMUPAIVASTA_ALKAEN_PHRASE);
-			  }
-		  }
-		else
-		  {
-			sentence << (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
-			if(theStringVector)
-			  {
-			theStringVector->push_back(theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
-			  }
-		  }
-	  }
-	else if(is_inside(theTimestamp, AAMUPAIVA))
-	  {
-		if(theAlkaenPhrase && is_inside(timestamp, KESKIPAIVA))
-		  {
-			sentence << KESKIPAIVASTA_ALKAEN_PHRASE;
-			if(theStringVector)
-			  {
-				theStringVector->push_back(KESKIPAIVASTA_ALKAEN_PHRASE);
-			  }
-		  }
-		else
-		  {
-			sentence << (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
-			if(theStringVector)
-			  {
-				theStringVector->push_back(theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
-			  }
-		  }
-	  }
-	else if(is_inside(theTimestamp, KESKIPAIVA))
-	  {
-		if(theAlkaenPhrase && is_inside(timestamp, ILTAPAIVA))
-		  {
-			sentence << ILTAPAIVASTA_ALKAEN_PHRASE;
-			if(theStringVector)
-			  {
-				theStringVector->push_back(ILTAPAIVASTA_ALKAEN_PHRASE);
-			  }
-		  }
-		else
-		  {
-			sentence << (theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
-			if(theStringVector)
-			  {
-				theStringVector->push_back(theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
-			  }
-		  }
-	  }
-	else if(is_inside(theTimestamp, ILTAPAIVA))
-	  {
-		if(theAlkaenPhrase &&is_inside(timestamp, ILTA))
-		  {
-			sentence << ILLASTA_ALKAEN_PHRASE;
-			if(theStringVector)
-			  {
-				theStringVector->push_back(ILLASTA_ALKAEN_PHRASE);
-			  }
-		  }
-		else
-		  {
-			sentence << (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
-			if(theStringVector)
-			  {
-				theStringVector->push_back(theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
-			  }
-		  }
-	  }
-	else if(is_inside(theTimestamp, ILTA))
-	  {
-		if(theAlkaenPhrase && is_inside(timestamp, ILTAYO))
-		  {
-			sentence << ILTAYOSTA_ALKAEN_PHRASE;
-			if(theStringVector)
-			  {
-				theStringVector->push_back(ILTAYOSTA_ALKAEN_PHRASE);
-			  }
-		  }
-		else
-		  {
-			sentence << (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
-			if(theStringVector)
-			  {
-				theStringVector->push_back(theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
-			  }
-		  }
-	  }
-	else if(is_inside(theTimestamp, ILTAYO))
-	  {
-		if(theAlkaenPhrase && is_inside(timestamp, KESKIYO))
-		  {
-			sentence << KESKIYOSTA_ALKAEN_PHRASE;
-			if(theStringVector)
-			  {
-				theStringVector->push_back(KESKIYOSTA_ALKAEN_PHRASE);
-			  }
-		  }
-		else
-		  {
-			sentence << (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOSTA_WORD);
-			if(theStringVector)
-			  {
-			theStringVector->push_back(theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOSTA_WORD);
-			  }
-		  }
-	  }
-	else if(is_inside(theTimestamp, KESKIYO))
-	  {
-		if(theAlkaenPhrase && is_inside(timestamp, AAMUYO))
-		  {
-			sentence << AAMUYOSTA_ALKAEN_PHRASE;
-			if(theStringVector)
-			  {
-				theStringVector->push_back(AAMUYOSTA_ALKAEN_PHRASE);
-			  }
-		  }
-		else
-		  {
-			sentence << (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
-			if(theStringVector)
-			  {
-				theStringVector->push_back(theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
-			  }
-		  }
-	  }
-	else if(is_inside(theTimestamp, AAMUYO))
-	  {
-		if(theAlkaenPhrase && is_inside(timestamp, AAMU))
-		  {
-			sentence << AAMUSTA_ALKAEN_PHRASE;
-			if(theStringVector)
-			  {
-				theStringVector->push_back(AAMUSTA_ALKAEN_PHRASE);
-			  }
-		  }
-		else
-		  {
-			sentence << (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
-			if(theStringVector)
-			  {
-				theStringVector->push_back(theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
-			  }
-		  }
-	  }
-	*/
 
 	return sentence;
   }

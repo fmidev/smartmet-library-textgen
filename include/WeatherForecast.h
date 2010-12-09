@@ -20,7 +20,7 @@ namespace TextGen
 #define AAMULLA_WORD "aamulla"
 #define AAMUPAIVALLA_WORD "aamupäivällä"
 #define ILTAPAIVALLA_WORD "iltapäivällä"
-#define KESKIPAIVALLA_WORD "keskipäivällä"
+#define PAIVALLA_WORD "päivällä"
 #define ILLALLA_WORD "illalla"
 #define ILTAYOSTA_WORD "iltayöllä"
 #define KESKIYOLLA_WORD "keskiyöllä"
@@ -96,6 +96,7 @@ namespace TextGen
 #define LUMI_TAVUVIIVA_WORD "lumi-"
 #define TAI_WORD "tai"
 #define JA_WORD "ja"
+#define JAATAVAA_VESISADETTA_PHRASE "jäätävää vesisadetta"
 #define JOKA_VOI_OLLA_JAATAVAA_PHRASE "joka voi olla jäätävää"
 #define JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE "jotka voivat olla jäätäviä"
 #define YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE "yksittäiset sadekuurot mahdollisia"
@@ -125,7 +126,6 @@ namespace TextGen
 
 #define AAMUSTA_ALKAEN_PHRASE "aamusta alkaen"
 #define AAMUPAIVASTA_ALKAEN_PHRASE "aamupäivästä alkaen"
-#define KESKIPAIVASTA_ALKAEN_PHRASE "keskipäivästä alkaen"
 #define ILTAPAIVASTA_ALKAEN_PHRASE "iltapäivästä alkaen"
 #define ILLASTA_ALKAEN_PHRASE "illasta alkaen"
 #define ILTAYOSTA_ALKAEN_PHRASE "iltayöstä alkaen"
@@ -160,8 +160,8 @@ namespace TextGen
 #define VERRATTAIN_PILVISTA_LOWER_LIMIT 65.0
 #define VERRATTAIN_PILVISTA_UPPER_LIMIT 85.0
 #define PILVISTA_LOWER_LIMIT 85.0
-#define PILVISYVAA_LOWER_LIMIT 20.0
-#define PILVISYVAA_UPPER_LIMIT 65.0
+#define PILVISTYVAA_LOWER_LIMIT 20.0
+#define PILVISTYVAA_UPPER_LIMIT 65.0
 
 #define TAYSIN_PILVETON_LIMIT 5.0
 #define HYVIN_PILVINEN_LIMIT 70.0
@@ -197,6 +197,25 @@ namespace TextGen
 #define TREND_CHANGE_COEFFICIENT_TRESHOLD 0.65 // pearson coefficient
 #define PEARSON_CO_FORM_TRANSFORM 0.65
 
+
+#define KESKIYO_START 0
+#define KESKIYO_END 3
+#define AAMUYO_START 2
+#define AAMUYO_END 6
+#define AAMU_START 6
+#define AAMU_END 9
+#define AAMUPAIVA_START 9
+#define AAMUPAIVA_END 12
+#define PAIVA_START 10
+#define PAIVA_END 18
+#define ILTAPAIVA_START 12
+#define ILTAPAIVA_END 18
+#define ILTA_START 17
+#define ILTA_END 22
+#define ILTAYO_START 21
+#define ILTAYO_END 24
+#define YO_START 22
+#define YO_END 6
 
   enum weather_result_data_id
 	{
@@ -338,20 +357,15 @@ namespace TextGen
   enum part_of_the_day_id
 	{
 	  AAMU, // 06-09
-	  AAMUPAIVA, // 09-11
-	  KESKIPAIVA, // 11-13
-	  ILTAPAIVA, // 13-18
-	  ILTA, // 18-22
-	  ILTAYO, // 22-00
+	  AAMUPAIVA, // 09-12
+	  ILTAPAIVA, // 12-18
+	  ILTA, // 17-22
+	  ILTAYO, // 21-24
 	  KESKIYO, // 00-03
-	  AAMUYO, // 03-06
-	  PAIVA, // 09-18
-	  YO, // 00-06
-	  YOPUOLI, // 18-06
-	  PAIVAPUOLI, // 06-18
+	  AAMUYO, // 02-06
+	  PAIVA, // 10-18
+	  YO, // 22-06
 	  AAMU_JA_AAMUPAIVA, // 06-12
-	  AAMUPAIVA_JA_KESKIPAIVA, // 09-13
-	  KESKIPAIVA_JA_ILTAPAIVA, // 11-18
 	  ILTAPAIVA_JA_ILTA, // 13-21
 	  ILTA_JA_ILTAYO, //18-00
 	  ILTAYO_JA_KESKIYO, // 22-03
@@ -705,6 +719,7 @@ namespace TextGen
 	PrecipitationDataItemData(const wf_story_params& theParameters,
 							  const unsigned int& precipitationForm,
 							  const float& precipitationIntensity,
+							  const float& precipitationMaxIntensity,
 							  const float& precipitationExtent,
 							  const float& precipitationFormWater,
 							  const float& precipitationFormDrizzle,
@@ -717,6 +732,7 @@ namespace TextGen
 							  const NFmiTime& observationTime) :
 	  thePrecipitationForm(precipitationForm),
 	  thePrecipitationIntensity(precipitationIntensity),
+	  thePrecipitationMaxIntensity(precipitationMaxIntensity),
 	  thePrecipitationExtent(precipitationExtent),
 	  thePrecipitationFormWater(precipitationFormWater),
 	  thePrecipitationFormDrizzle(precipitationFormDrizzle),
@@ -777,6 +793,7 @@ namespace TextGen
 
 	unsigned int thePrecipitationForm;
 	float thePrecipitationIntensity;
+	float thePrecipitationMaxIntensity;
 	float thePrecipitationExtent;
 	float thePrecipitationFormWater;
 	float thePrecipitationFormDrizzle;
