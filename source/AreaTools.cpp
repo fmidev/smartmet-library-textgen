@@ -152,10 +152,11 @@ namespace TextGen
 							  WeatherResult& theNortWestShare)
 	{
 	  NFmiPoint retval(kFloatMissing, kFloatMissing);
-	  double latSum = 0.0, lonSum = 0.0;
+	  double latSum(0.0);
+	  double lonSum(0.0);
 
-	  std::string parameterName;
-	  std::string dataName;
+	  std::string parameterName("");
+	  std::string dataName("");
 
 	  ParameterAnalyzer::getParameterStrings(theParameter, parameterName, dataName);
 	  const string default_forecast = Settings::optional_string("textgen::default_forecast","");

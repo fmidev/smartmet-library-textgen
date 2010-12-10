@@ -327,7 +327,7 @@ namespace TextGen
 	{
 	  GridForecaster theForecaster;
 
-	  WeatherArea theArea = theParameters.theArea;
+	  WeatherArea theArea(theParameters.theArea);
 	  theArea.type(theInlandArea ? WeatherArea::Inland : WeatherArea::Coast);
 
 	  std::string theFakeVariable("");
@@ -355,7 +355,6 @@ namespace TextGen
 	  NFmiTime noonTime(theCompletePeriod.localStartTime().GetYear(),
 						theCompletePeriod.localStartTime().GetMonth(),
 						theCompletePeriod.localStartTime().GetDay(), 12, 0, 0);
-
 
 	  NFmiTime theStartTime(theMorningPeriod ? theCompletePeriod.localStartTime() : noonTime);
 	  NFmiTime theEndTime(theMorningPeriod ? noonTime : theCompletePeriod.localEndTime());

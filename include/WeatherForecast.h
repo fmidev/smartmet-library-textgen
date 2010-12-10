@@ -760,10 +760,10 @@ namespace TextGen
 		}
 	  else
 		{
-		  float lowerLimit;
-		  float dryUpperLimit;
-		  float weakUpperLimit;
-		  float moderateUpperLimit;
+		  float lowerLimit(0.0);
+		  float dryUpperLimit(0.0);
+		  float weakUpperLimit(0.0);
+		  float moderateUpperLimit(0.0);
 		  get_precipitation_limit_value(theParameters,
 										precipitationForm,
 										DRY_WEATHER,

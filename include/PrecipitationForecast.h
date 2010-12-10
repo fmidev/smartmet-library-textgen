@@ -22,13 +22,12 @@ using namespace std;
 
 	Sentence precipitationChangeSentence(const WeatherPeriod& thePeriod,
 										 const weather_event_id& theWeatherEvent) const;
-	Sentence precipitationChangeSentence(const WeatherPeriod& thePeriod) const;
+	//	Sentence precipitationChangeSentence(const WeatherPeriod& thePeriod) const;
 	Sentence precipitationSentence(const WeatherPeriod& thePeriod) const;
 	std::string precipitationSentenceString(const WeatherPeriod& thePeriod, 
 											const bool& theCheckPrecipitationChange = true) const;
 	bool shortTermPrecipitationExists(const WeatherPeriod& thePeriod) const;
 	Sentence shortTermPrecipitationSentence(const WeatherPeriod& thePeriod) const;
-	Sentence shortTermPrecipitationSentenceEnh(const WeatherPeriod& thePeriod) const;
 	bool isDryPeriod(const WeatherPeriod& theWeatherPeriod, 
 					 const unsigned short theForecastAreaId) const;
 	bool isMostlyDryPeriod(const WeatherPeriod& theWeatherPeriod,

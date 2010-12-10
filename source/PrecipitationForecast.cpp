@@ -2297,7 +2297,7 @@ vesi- tai lumisadetta.
 	return sentence;
   }
 
-
+#ifdef LATER
   Sentence PrecipitationForecast::precipitationChangeSentence(const WeatherPeriod& thePeriod) const
   {
 	Sentence sentence;
@@ -2382,7 +2382,7 @@ vesi- tai lumisadetta.
 
 	return sentence;
   }
-
+#endif
 
   void PrecipitationForecast::getPrecipitationDistribution(const WeatherPeriod& thePeriod,
 														   float& theNorthPercentage,
@@ -2732,137 +2732,13 @@ vesi- tai lumisadetta.
 	return false;
   }
 
-
-  Sentence PrecipitationForecast::shortTermPrecipitationSentenceEnh(const WeatherPeriod& thePeriod) const
+  
+  Sentence PrecipitationForecast::shortTermPrecipitationSentence(const WeatherPeriod& thePeriod) const
   {
 	Sentence sentence;
 
 	sentence << constructPrecipitationSentence(thePeriod, theParameters.theForecastArea);
 
-	theParameters.theLog << "Short term precipitation sentence: ";
-	theParameters.theLog << sentence;
-
-	return sentence;
-  }
-
-
-  // check precipitation that lasts < 6 hours
-  Sentence PrecipitationForecast::shortTermPrecipitationSentence(const WeatherPeriod& thePeriod) const
-  {
-	Sentence sentence;
-
-	const vector<WeatherPeriod>* precipitationPeriodVector = 0;
-
-	if(theParameters.theForecastArea & FULL_AREA)
-	  precipitationPeriodVector = &thePrecipitationPeriodsFull;
-	else if(theParameters.theForecastArea & COASTAL_AREA)
-	  precipitationPeriodVector = &thePrecipitationPeriodsCoastal;
-	else if(theParameters.theForecastArea & INLAND_AREA)
-	  precipitationPeriodVector = &thePrecipitationPeriodsInland;
-
-	if(precipitationPeriodVector)
-	  {
-		NFmiTime previousEndTime(thePeriod.localStartTime());
-		for(unsigned int i = 0; i < precipitationPeriodVector->size(); i++)
-		  {
-			NFmiTime startTime(precipitationPeriodVector->at(i).localStartTime());
-			NFmiTime endTime(precipitationPeriodVector->at(i).localEndTime());
-			int periodLength = theParameters.theForecastPeriod.localEndTime().DifferenceInHours(theParameters.theForecastPeriod.localStartTime());
-			
-			//			int differenceInHours(endTime.DifferenceInHours(startTime));
-			if(endTime.DifferenceInHours(startTime) < 6 && 
-			   is_inside(startTime, thePeriod) &&
-			   is_inside(endTime, thePeriod))
-			  {
-				// If there are successive short precipitation periods,
-				// we report the cloudiness in between
-
-				// Anssi Vähämäki: Jos tässä esimerkissä aamun ja illan sateiden välissä on 
-				// esim. ALLE 3 tunnin mittainen verrattain selkeä jakso voisi sitä kommentoida 
-				// (päivällä mahdollisesti selkeää TAI päivällä paikoin selkeää...  
-				// aamulla tulee vesi - tai räntäkuuroja, päivällä on paikoin selkeää. 
-				// Illalla saadaan heikkoja vesikuuroja.. ) Eli ehkä illan kuuroissa ei tarvitse pohtia 
-				// jälleen-sanan käyttöä, kun vaihdellaan tulee ja saadaan sanoja.
-
-				// Jos tässä esimerkissä aamun ja illan sateiden välissä on esim. YLI 3 tunnin mittainen 
-				// verrattain selkeä jakso voisi sitä kommentoida (päivällä selkeää TAI 
-				// päivällä monin paikoin selkeää...  aamulla tulee vesi - tai räntäkuuroja, 
-				// päivällä on (laajalti, monin paikoin...) selkeää. Illalla saadaan heikkoja vesikuuroja..)
-
-				Sentence todaySentence;
-				if(periodLength > 24)
-				  {
-					todaySentence << get_today_phrase(startTime,
-													  theParameters.theVariable,
-													  theParameters.theArea,
-													  WeatherPeriod(startTime, endTime),
-													  theParameters.theForecastTime);
-				  }
-
-				if(previousEndTime != thePeriod.localStartTime())
-				  {
-					NFmiTime clPeriodStart(previousEndTime);
-					NFmiTime clPeriodEnd(startTime);
-					clPeriodStart.ChangeByHours(1);
-					clPeriodEnd.ChangeByHours(-1);
-
-					cloudiness_id clid = 
-					  theParameters.theCloudinessForecast->getCloudinessId(WeatherPeriod(previousEndTime, startTime));
-					if(clid == MELKO_SELKEAA || clid == SELKEAA)
-					  {
-						if(sentence.size() > 0)
-						  sentence << Delimiter(",");
-
-						sentence << todaySentence;
-						if(startTime.DifferenceInHours(previousEndTime) < 3)
-						  {
-							sentence << get_time_phrase_large(WeatherPeriod(clPeriodStart, clPeriodEnd)) 
-									 << MAHDOLLISESTI_WORD 
-									 << SELKEAA_WORD;
-						  }
-						else
-						  {
-							sentence << get_time_phrase_large(WeatherPeriod(clPeriodStart, clPeriodEnd))
-									 << MONIN_PAIKOIN_WORD 
-									 << SELKEAA_WORD;
-						  }
-					  }
-				  }
-
-				if(sentence.size() > 0)
-				  sentence << Delimiter(",");
-				
-				sentence << todaySentence;
-
-				WeatherPeriod shortTermPrecipitationPeriod(startTime, endTime);
-
-				if(!isMostlyDryPeriod(shortTermPrecipitationPeriod,theParameters.theForecastArea))
-				  {
-					if(get_part_of_the_day_id(startTime) == get_part_of_the_day_id(endTime))
-					  {
-						sentence << get_time_phrase(startTime);
-					  }
-					else
-					  {
-						sentence << get_time_phrase_large(precipitationPeriodVector->at(i));
-					  }
-				  }
-				else
-				  {
-					/*
-					if(!theDryPeriodTautologyFlag)
-					  sentence << SAA_WORD << ON_WORD;
-					*/
-				  }
-
-				sentence << constructPrecipitationSentence(WeatherPeriod(startTime, endTime), 
-														   theParameters.theForecastArea);
-
-				previousEndTime = endTime;
-				break;
-			  }
-		  }
-	  }
 	theParameters.theLog << "Short term precipitation sentence: ";
 	theParameters.theLog << sentence;
 
@@ -2953,17 +2829,17 @@ vesi- tai lumisadetta.
 
   void PrecipitationForecast::getWeatherEventIdVector(weather_event_id_vector& thePrecipitationWeatherEvents) const
   {
-	const weather_event_id_vector* vectorToClone = 0;
+	const weather_event_id_vector* vectorToRefer = 0;
 
 	if(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
-	  vectorToClone = &thePrecipitationWeatherEventsFull;
+	  vectorToRefer = &thePrecipitationWeatherEventsFull;
 	else if(theParameters.theForecastArea & COASTAL_AREA)
-	  vectorToClone = &thePrecipitationWeatherEventsCoastal;
+	  vectorToRefer = &thePrecipitationWeatherEventsCoastal;
 	else if(theParameters.theForecastArea & INLAND_AREA)
-	  vectorToClone = &thePrecipitationWeatherEventsInland;
+	  vectorToRefer = &thePrecipitationWeatherEventsInland;
 
-	if(vectorToClone)
-	  thePrecipitationWeatherEvents = *vectorToClone;
+	if(vectorToRefer)
+	  thePrecipitationWeatherEvents = *vectorToRefer;
   }
 
   Rect PrecipitationForecast::getPrecipitationRect(const NFmiTime& theTimestamp, 
