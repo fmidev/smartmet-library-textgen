@@ -49,19 +49,18 @@ namespace TextGen
 #define RUNSASTA_VESISADETTA_PHRASE "runsasta vesisadetta"
 #define RUNSASTA_SADETTA_PHRASE "runsasta sadetta"
 #define VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE "vaihtelee puolipilvisest‰ pilviseen"
-#define VERRATTAIN_SELKEAA_PHRASE "verrattain selke‰‰"
+#define VERRATTAIN_SELKEA_PHRASE "verrattain selke‰"
 #define VERRATTAIN_PILVINEN_PHRASE "verrattain pilvinen"
-#define SELKEAA_WORD "selke‰‰"
+#define SELKEA_WORD "selke‰"
 #define PILVINEN_WORD "pilvinen"
 #define SADETTA_WORD "sadetta"
-#define MELKO_SELKEAA_PHRASE "melko selke‰‰"
+#define MELKO_SELKEA_PHRASE "melko selke‰"
 #define PUOLIPILVINEN_WORD "puolipilvinen"
 #define POUTAINEN_WORD "poutainen"
 #define HEIKKOA_SADETTA_PHRASE "heikkoa sadetta"
 #define HEIKKOA_VESISADETTA_PHRASE "heikkoa vesisadetta"
 #define KOHTALAISTA_SADETTA_PHRASE "kohtalaista sadetta"
 #define KOHTALAISTA_VESISADETTA_PHRASE "kohtalaista vesisadetta"
-  //#define ENIMMAKSEEN_POUTAINEN_PHRASE "enimm‰kseen poutainen"
 #define HEIKKOJA_VESIKUUROJA_PHRASE "heikkoja vesikuuroja"
 #define VOIMAKKAITA_VESIKUUROJA_PHRASE "voimakkaita vesikuuroja"
 #define PAIKOIN_WORD "paikoin"
@@ -152,9 +151,9 @@ namespace TextGen
 #define LOUNAASTA_WORD "lounaasta"
 #define LUOTEESTA_WORD "luoteesta"
 
-#define SELKEAA_UPPER_LIMIT 9.9
-#define MELKEIN_SELKEAA_LOWER_LIMIT 9.9
-#define MELKEIN_SELKEAA_UPPER_LIMIT 35
+#define SELKEA_UPPER_LIMIT 9.9
+#define MELKEIN_SELKEA_LOWER_LIMIT 9.9
+#define MELKEIN_SELKEA_UPPER_LIMIT 35
 #define PUOLIPILVISTA_LOWER_LIMIT 35.0
 #define PUOLIPILVISTA_UPPER_LIMIT 65.0
 #define VERRATTAIN_PILVISTA_LOWER_LIMIT 65.0
@@ -178,6 +177,7 @@ namespace TextGen
 #define HEAVY_PRECIPITATION_LIMIT_SNOW 1.5
 #define RAINSTORM_LIMIT 7.0
 #define MOSTLY_DRY_WEATHER_LIMIT 10.0
+#define IN_SOME_PLACES_LOWER_LIMIT_FOG 20.0
 #define IN_SOME_PLACES_LOWER_LIMIT 10.0
 #define IN_SOME_PLACES_UPPER_LIMIT 50.0
 #define IN_MANY_PLACES_LOWER_LIMIT 50.0
@@ -193,10 +193,10 @@ namespace TextGen
 #define OCCASIONALLY_THUNDER_LOWER_LIMIT 35.0
 #define OCCASIONALLY_THUNDER_UPPER_LIMIT 110.0
 #define MAJORITY_LIMIT 50.0
+#define SEPARATE_COASTAL_AREA_PERCENTAGE 5.0
 
 #define TREND_CHANGE_COEFFICIENT_TRESHOLD 0.65 // pearson coefficient
 #define PEARSON_CO_FORM_TRANSFORM 0.65
-
 
 #define KESKIYO_START 0
 #define KESKIYO_END 3
@@ -213,7 +213,7 @@ namespace TextGen
 #define ILTA_START 17
 #define ILTA_END 22
 #define ILTAYO_START 21
-#define ILTAYO_END 24
+#define ILTAYO_END 0
 #define YO_START 22
 #define YO_END 6
 
@@ -337,8 +337,8 @@ namespace TextGen
 
   enum cloudiness_id
 	{
-	  SELKEAA,
-	  MELKO_SELKEAA,
+	  SELKEA,
+	  MELKO_SELKEA,
 	  PUOLIPILVINEN,
 	  VERRATTAIN_PILVINEN,
 	  PILVINEN,
@@ -479,6 +479,7 @@ namespace TextGen
 	  theForecastTime(forecastTime),
 	  theSources(analysisSources),
 	  theLog(log),
+	  theCoastalAndInlandTogetherFlag(false),
 	  thePrecipitationForecast(0),
 	  theCloudinessForecast(0),
 	  theFogForecast(0),
@@ -496,6 +497,7 @@ namespace TextGen
 	const NFmiTime theForecastTime;
 	const AnalysisSources& theSources;
 	MessageLogger& theLog;
+	bool theCoastalAndInlandTogetherFlag;
 	PrecipitationForecast* thePrecipitationForecast;
 	CloudinessForecast* theCloudinessForecast;
 	FogForecast* theFogForecast;
@@ -541,6 +543,7 @@ namespace TextGen
   const char* weather_event_string(const weather_event_id& theWeatherEventId);
   const char* precipitation_form_string(const precipitation_form_id& thePrecipitationForm);
   const char* precipitation_traverse_string(const precipitation_traverse_id& thePrecipitationTraverseId);
+  const char* part_of_the_day_string(const part_of_the_day_id& thePartOfTheDayId);
 
   void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour);
   part_of_the_day_id get_part_of_the_day_id(const WeatherPeriod& thePeriod);
@@ -554,11 +557,16 @@ namespace TextGen
 				 const part_of_the_day_id& thePartOfTheDayId);
   bool is_inside(const NFmiTime& theTimeStamp, 
 				 const WeatherPeriod& theWeatherPeriod);
+  WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
+									const WeatherPeriod& theWeatherPeriod2);
+
   Sentence get_direction_phrase(const AreaTools::direction_id& theDirectionId, bool theAlkaenPhrase = false);
   Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
+								 const std::string& theVar,
 								 bool theAlkaenPhrase = false,
 								 vector<std::string>* theStringVector = 0);
-  Sentence get_time_phrase(const NFmiTime& theTimestamp, 
+  Sentence get_time_phrase(const NFmiTime& theTimestamp,
+						   const std::string& theVar,
 						   bool theAlkaenPhrase = false,
 						   vector<std::string>* theStringVector = 0);
   Sentence get_today_phrase(const NFmiTime& theEventTimestamp,
@@ -614,6 +622,13 @@ namespace TextGen
 														  const float& northWest,
 														  const bool& mostlyFlag = true);
   int get_period_length(const WeatherPeriod& thePeriod);
+
+
+  float get_area_percentage(const WeatherArea& theArea,
+							const WeatherAnalysis::WeatherArea::Type& theType,
+							const AnalysisSources& theSources,
+							const WeatherPeriod& thePeriod);
+	
 
 
   struct WeatherResultDataItem

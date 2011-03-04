@@ -108,11 +108,11 @@ namespace TextGen
 	  case PUOLIPILVINEN_JA_PILVINEN:
 		cloudinessSentence << VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
 		break;
-	  case SELKEAA:
-		cloudinessSentence << SELKEAA_WORD;
+	  case SELKEA:
+		cloudinessSentence << SELKEA_WORD;
 		break;
-	  case MELKO_SELKEAA:
-		cloudinessSentence << MELKO_SELKEAA_PHRASE;
+	  case MELKO_SELKEA:
+		cloudinessSentence << MELKO_SELKEA_PHRASE;
 		break;
 	  case PUOLIPILVINEN:
 		cloudinessSentence << PUOLIPILVINEN_WORD;
@@ -162,13 +162,13 @@ namespace TextGen
 	  {
 		id = PUOLIPILVINEN_JA_PILVINEN;
 	  }
-	else if(theMean <= SELKEAA_UPPER_LIMIT)
+	else if(theMean <= SELKEA_UPPER_LIMIT)
 	  {
-		id = SELKEAA;
+		id = SELKEA;
 	  }
-	else if(theMean <= MELKEIN_SELKEAA_UPPER_LIMIT)
+	else if(theMean <= MELKEIN_SELKEA_UPPER_LIMIT)
 	  {
-		id = MELKO_SELKEAA;
+		id = MELKO_SELKEA;
 	  }
 	else if(theMean <= PUOLIPILVISTA_UPPER_LIMIT)
 	  {
@@ -193,13 +193,13 @@ namespace TextGen
 	if(theCloudiness < 0)
 	  return id;
 
-	if(theCloudiness <= SELKEAA_UPPER_LIMIT)
+	if(theCloudiness <= SELKEA_UPPER_LIMIT)
 	  {
-		id = SELKEAA;
+		id = SELKEA;
 	  }
-	else if(theCloudiness  <= MELKEIN_SELKEAA_UPPER_LIMIT)
+	else if(theCloudiness  <= MELKEIN_SELKEA_UPPER_LIMIT)
 	  {
-		id = MELKO_SELKEAA;
+		id = MELKO_SELKEA;
 	  }
 	else if(theCloudiness <= PUOLIPILVISTA_UPPER_LIMIT)
 	  {
@@ -223,11 +223,11 @@ namespace TextGen
 
 	switch(theCloudinessId)
 	  {
-	  case SELKEAA:
-		retval = SELKEAA_WORD;
+	  case SELKEA:
+		retval = SELKEA_WORD;
 	  break;
-	  case MELKO_SELKEAA:
-		retval = MELKO_SELKEAA_PHRASE;
+	  case MELKO_SELKEA:
+		retval = MELKO_SELKEA_PHRASE;
 	  break;
 	  case PUOLIPILVINEN:
 		retval = PUOLIPILVINEN_WORD;
@@ -299,7 +299,7 @@ namespace TextGen
 			sentence << SELKENEVAA_WORD;
 		  }
 
-		sentence << get_time_phrase(weatherEventTimestamp, true);
+		sentence << get_time_phrase(weatherEventTimestamp, theParameters.theVariable, true);
 	  }
 
 	return sentence;
@@ -587,8 +587,8 @@ namespace TextGen
 			if(index == -1)
 			  index = i;
 		  }
-		else if(get_cloudiness_id(theData->at(i)->theResult.value()) == SELKEAA || 
-				get_cloudiness_id(theData->at(i)->theResult.value()) == MELKO_SELKEAA ||
+		else if(get_cloudiness_id(theData->at(i)->theResult.value()) == SELKEA || 
+				get_cloudiness_id(theData->at(i)->theResult.value()) == MELKO_SELKEA ||
 				get_cloudiness_id(theData->at(i)->theResult.value()) == PILVINEN ||
 				i == theData->size() - 1)
 		  {

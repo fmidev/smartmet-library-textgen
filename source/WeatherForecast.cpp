@@ -193,6 +193,65 @@ using namespace std;
 	return retval;
   }
 
+  const char* part_of_the_day_string(const part_of_the_day_id& thePartOfTheDayId)
+  {
+	const char* retval = "";
+
+	switch(thePartOfTheDayId)
+	  {
+	  case AAMU:
+		retval = "aamu";
+		break;
+	  case AAMUPAIVA:
+		retval = "aamupäivä";
+		break;
+	  case ILTAPAIVA:
+		retval = "iltapäivä";
+		break;
+	  case ILTA:
+		retval = "ilta";
+		break;
+	  case ILTAYO:
+		retval = "iltayö";
+		break;
+	  case KESKIYO:
+		retval = "keskiyö";
+		break;
+	  case AAMUYO:
+		retval = "aamuyö";
+		break;
+	  case PAIVA:
+		retval = "päivä";
+		break;
+	  case YO:
+		retval = "yö";
+		break;
+	  case AAMU_JA_AAMUPAIVA:
+		retval = "aamu- ja aamupäivä";
+		break;
+	  case ILTAPAIVA_JA_ILTA:
+		retval = "iltapäivä ja ilta";
+		break;
+	  case ILTA_JA_ILTAYO:
+		retval = "ilta ja iltayö";
+		break;
+	  case ILTAYO_JA_KESKIYO:
+		retval = "iltayö-ja keskiyö";
+		break;
+	  case KESKIYO_JA_AAMUYO:
+		retval = "keskiyö ja aamu";
+		break;
+	  case AAMUYO_JA_AAMU:
+		retval = "aamuyö ja aamu";
+		break;
+	  default:
+		retval = "missing";
+		break;
+	  }
+
+	return retval;
+  }
+
   part_of_the_day_id get_part_of_the_day_id(const NFmiTime& theTimestamp)
   {	
  	if(theTimestamp.GetHour() >= AAMU_START&& theTimestamp.GetHour() <= AAMU_END)
@@ -269,7 +328,7 @@ using namespace std;
 	return MISSING_PART_OF_THE_DAY_ID;
   }
 
-   void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour)
+  void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour)
   {
 	switch(thePartOfTheDayId)
 	  {
@@ -371,6 +430,30 @@ using namespace std;
 	  }
   }
 
+  WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
+									const WeatherPeriod& theWeatherPeriod2)
+  {
+	if(theWeatherPeriod1.localEndTime() < theWeatherPeriod2.localStartTime() ||
+	   theWeatherPeriod1.localStartTime() > theWeatherPeriod2.localEndTime())
+	  return WeatherPeriod(NFmiTime(1970,1,1), NFmiTime(1970,1,1));
+
+	if(is_inside(theWeatherPeriod1.localStartTime(), theWeatherPeriod2) && 
+	   is_inside(theWeatherPeriod1.localEndTime(), theWeatherPeriod2))
+	  return theWeatherPeriod1;
+
+	if(is_inside(theWeatherPeriod2.localStartTime(), theWeatherPeriod1) && 
+	   is_inside(theWeatherPeriod2.localEndTime(), theWeatherPeriod1))
+	  return theWeatherPeriod2;
+
+	NFmiTime startTime(theWeatherPeriod1.localStartTime() > theWeatherPeriod2.localStartTime() ?
+					   theWeatherPeriod1.localStartTime() : theWeatherPeriod2.localStartTime());
+	NFmiTime endTime(theWeatherPeriod1.localEndTime() < theWeatherPeriod2.localEndTime() ?
+					   theWeatherPeriod1.localEndTime() : theWeatherPeriod2.localEndTime());
+
+	return WeatherPeriod(startTime, endTime);
+	
+  }
+
   bool is_inside(const NFmiTime& theTimeStamp, 
 				 const WeatherPeriod& theWeatherPeriod)
   {
@@ -385,7 +468,7 @@ using namespace std;
 	get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
 
 	if(endHour == 0)
-	  return timestampHour >= startHour;
+	  return timestampHour >= startHour || endHour == timestampHour;
 	else if(startHour == 0)
 	  return timestampHour <= endHour;
 	else
@@ -434,39 +517,43 @@ using namespace std;
 	get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
 	NFmiTime startTimeCompare(theWeatherPeriod.localStartTime());
 	NFmiTime endTimeCompare(theWeatherPeriod.localStartTime());
+
 	startTimeCompare.SetHour(startHour);
-	endTimeCompare.SetHour(endHour);
 	startTimeCompare.SetMin(0);
-	endTimeCompare.SetMin(0);
 	startTimeCompare.SetSec(0);
+	endTimeCompare.SetHour(endHour);
+	endTimeCompare.SetMin(0);
 	endTimeCompare.SetSec(0);
 
 	if(endHour == 0)
 	  {
 		endTimeCompare.ChangeByDays(1);
 	  }
-	
+
 	return (theWeatherPeriod.localStartTime() >= startTimeCompare &&
 			theWeatherPeriod.localStartTime() <= endTimeCompare &&
 			theWeatherPeriod.localEndTime() >= startTimeCompare &&
 			theWeatherPeriod.localEndTime() <= endTimeCompare);
   }
 
-  Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod, 
+  Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
+								 const std::string& theVar,
 								 bool theAlkaenPhrase /*= false*/,
 								 vector<std::string>* theStringVector /*= 0*/)
   {
 	Sentence sentence;
-	/*
-	   get_part_of_the_day_id(theWeatherPeriod.localStartTime()) == 
-	   get_part_of_the_day_id(theWeatherPeriod.localEndTime()))
-	*/
+
+	bool specify_part_of_the_day = Settings::optional_bool(theVar + "::specify_part_of_the_day", true);
+
+	if(!specify_part_of_the_day)
+	  return sentence;
+
 	if(theWeatherPeriod.localStartTime().GetJulianDay() == 
 	   theWeatherPeriod.localEndTime().GetJulianDay() &&
 	   get_part_of_the_day_id(theWeatherPeriod.localStartTime()) == 
 	   get_part_of_the_day_id(theWeatherPeriod.localEndTime()))
 	  {
-		sentence << get_time_phrase(theWeatherPeriod.localStartTime(), false, theStringVector);
+		sentence << get_time_phrase(theWeatherPeriod.localStartTime(), theVar, false, theStringVector);
 	  }
 	else
 	  {
@@ -619,7 +706,7 @@ using namespace std;
 			  }
 			else if(theAlkaenPhrase)
 			  {
-				sentence << get_time_phrase(theWeatherPeriod.localStartTime(), theAlkaenPhrase, theStringVector);
+				sentence << get_time_phrase(theWeatherPeriod.localStartTime(), theVar, theAlkaenPhrase, theStringVector);
 			  }
 		  }
 	  }
@@ -627,11 +714,17 @@ using namespace std;
 	return sentence;
   }
 
-  Sentence get_time_phrase(const NFmiTime& theTimestamp, 
+  Sentence get_time_phrase(const NFmiTime& theTimestamp,
+						   const std::string& theVar,
 						   bool theAlkaenPhrase /*= false*/, 
 						   vector<std::string>* theStringVector /*= 0*/)
   {
 	Sentence sentence;
+
+	bool specify_part_of_the_day = Settings::optional_bool(theVar + "::specify_part_of_the_day", true);
+
+	if(!specify_part_of_the_day)
+	  return sentence;
 
 	if(is_inside(theTimestamp, AAMU))
 	  {
@@ -1339,4 +1432,38 @@ using namespace std;
 	return retval;
   }
 
-}
+  float get_area_percentage(const WeatherArea& theArea,
+							const WeatherAnalysis::WeatherArea::Type& theType,
+							const AnalysisSources& theSources,
+							const WeatherPeriod& thePeriod)
+  {
+	WeatherArea maskArea = theArea;
+	maskArea.type(theType);
+
+	NFmiIndexMask indexMask;
+	NFmiIndexMask fullIndexMask;
+	RangeAcceptor precipitationlimits;
+	precipitationlimits.lowerLimit(0);
+	precipitationlimits.upperLimit(1000);
+	ExtractMask(theSources,
+				Precipitation,
+				maskArea,
+				thePeriod,
+				precipitationlimits,
+				indexMask);
+	ExtractMask(theSources,
+				Precipitation,
+				theArea,
+				thePeriod,
+				precipitationlimits,
+				fullIndexMask);
+
+	if(fullIndexMask.size() == 0)
+	  return 0.0;
+
+	return (static_cast<float>(indexMask.size())/static_cast<float>(fullIndexMask.size()))*100.0;
+  }
+
+
+} // namespace TextGen
+

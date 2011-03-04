@@ -231,50 +231,9 @@ namespace TextGen
 				sentence << IntegerRange(theRoundedMinimum, theRoundedMaximum, theRangeSeparator)
 						 << *UnitFactory::create(DegreesCelsius);
 			}
-
-		  /*
-		  if(theMinimum < 0 && theMaximum == 0)
-			sentence << IntegerRange(theMaximum, theMinimum, theRangeSeparator)
-					 << *UnitFactory::create(DegreesCelsius);
-		  else
-			sentence << IntegerRange(theMinimum, theMaximum, theRangeSeparator)
-					 << *UnitFactory::create(DegreesCelsius);
-
-		  */
-
-		  /*
-		  if(theMinimum < 0 && theMaximum >= 0 && abs(theMinimum) > abs(theMaximum))
-			sentence << IntegerRange(theMaximum, theMinimum, theRangeSeparator)
-				   << *UnitFactory::create(DegreesCelsius);
-		  else if(theMinimum > theMaximum)
-			sentence << IntegerRange(theMaximum, theMinimum, theRangeSeparator)
-					 << *UnitFactory::create(DegreesCelsius);
-		  else
-			sentence << IntegerRange(theMinimum, theMaximum, theRangeSeparator)
-					 << *UnitFactory::create(DegreesCelsius);
-		  */
 		}
 	  else
 		{
-		  /*
-		  // if temperature is lower than -15 degrees, we can round 2 degrees otherwise 1 degrees
-		  // to the nearest numer that is divisible by five 
-		  int theRoundingLimit = theMean < -15 ? 2 : 1;
-		  int theRoundedMean = theMean;
-		  int theModuloOfMean = theMean % 5;
-
-		  if(theModuloOfMean != 0 && theRoundTheNumber)
-			{
-			  if(theModuloOfMean < 0)
-				theModuloOfMean += 5;
-
-			  if(theModuloOfMean <= theRoundingLimit)
-				theRoundedMean -= theModuloOfMean;
-			  else if(theModuloOfMean >= (5 - theRoundingLimit))
-				theRoundedMean += (5 - theModuloOfMean);
-			}
-		  */
-
 		  int theRoundedValue = theRoundTheNumber ? round_temperature(theMean) : theMean;
 
 		  sentence << "noin"
@@ -446,31 +405,6 @@ namespace TextGen
 						 WeatherResult& theMax,
 						 WeatherResult& theMean)
 	{
-	  /*
-	  int year = thePeriod.localStartTime().GetYear();
-	  int month = thePeriod.localStartTime().GetMonth();
-	  int day = thePeriod.localStartTime().GetDay();
-	  
-	  int fakeStrPos = theVar.find("::fake");
-	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
-
-	  bool is_winter = SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar);
-	  int timezone = thePeriod.localStartTime().GetZoneDifferenceHour();
-	  std::string season(is_winter ? "::wintertime" : "::summertime");
-				
-	  // in wintertime convert the default value to localtime
-	  int default_starthour = (is_winter ? 12 - timezone : 13);
-	  int default_endhour = (is_winter ? 12 - timezone : 17);
-	  
-	  int afternoon_starthour    =  optional_hour(thePlainVar+season+"::day_temperature::starthour", default_starthour);
-	  int afternoon_endhour      =  optional_hour(thePlainVar+season+"::day_temperature::endhour", default_endhour);
-
-	  NFmiTime time1(year, month, day, afternoon_starthour, 0,0);
-	  NFmiTime time2(year, month, day, afternoon_endhour, 0,0);
-
-	  WeatherPeriod dayPeriod(time1,time2);
-	  */
-
 	  int fakeStrPos = theVar.find("::fake");
 	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
 	  bool is_winter = SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar);
@@ -514,7 +448,7 @@ namespace TextGen
 		return;
 
 	  // if both both minimum and maximum are below -15 degrees, dont' clamp
-	  if(theMinimum <= -15 && theMaximum <= -15)
+	  if((theMinimum <= -15 && theMaximum <= -15) && temperature_max_interval <= 10)
 		temperature_max_interval = 10;
 
 	  bool clamp_down = optional_bool(thePlainVar+season+period+"::temperature_clamp_down", isWinter ? false : true);
@@ -522,9 +456,9 @@ namespace TextGen
 	  if(theMaximum - theMinimum > temperature_max_interval)
 		{
 		  if(clamp_down)
-			theMinimum = theMaximum - temperature_max_interval;//5;
+			theMinimum = theMaximum - temperature_max_interval;
 		  else
-			theMaximum = theMinimum + temperature_max_interval;//5;
+			theMaximum = theMinimum + temperature_max_interval;
 		}
 	}
 

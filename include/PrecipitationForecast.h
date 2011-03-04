@@ -12,6 +12,23 @@ using namespace AreaTools;
 using namespace boost;
 using namespace std;
 
+  // Declaration
+  class InPlacesPhrase {
+  public:
+	static InPlacesPhrase* Instance();
+	void preventTautology(const bool& preventTautologyFlag) { thePreventTautologyFlag = preventTautologyFlag; }
+	void getInPlacesPhrase(const bool& inSomePlaces, 
+						   const bool& inManyPlaces, 
+						   const bool& useOllaVerbFlag,
+						   vector<string>& stringVector);
+  protected:
+	InPlacesPhrase();
+  private:
+	static InPlacesPhrase* _instance;
+	unsigned int thePreviousPhrase; // 0: none, 1: in some places, 2: in many places
+	bool thePreventTautologyFlag;
+  };
+  
 
   class PrecipitationForecast
   {
@@ -61,7 +78,7 @@ using namespace std;
 	bool getPrecipitationPeriod(const NFmiTime& theTimestamp, NFmiTime& theStartTime, NFmiTime& theEndTime) const;
 	
   private:
-
+	  
 	bool getIntensityFormExtent(const WeatherPeriod& theWeatherPeriod,
 								const unsigned short theForecastArea,
 								float& theIntensity,

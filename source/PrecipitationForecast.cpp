@@ -111,6 +111,41 @@ namespace TextGen
 	return theDestinationString;
   }
 
+  // Definition
+  InPlacesPhrase* InPlacesPhrase::_instance = 0;
+  InPlacesPhrase* InPlacesPhrase::Instance() {
+	if(_instance == 0) {
+	  _instance = new InPlacesPhrase();
+	}
+	return _instance;
+  }
+
+  InPlacesPhrase::InPlacesPhrase()
+	: thePreviousPhrase(0), thePreventTautologyFlag(false)
+  {
+  }
+
+  void InPlacesPhrase::getInPlacesPhrase(const bool& inSomePlaces, 
+										 const bool& inManyPlaces, 
+										 const bool& useOllaVerbFlag,
+										 vector<string>& stringVector)
+  {
+	if(thePreventTautologyFlag && thePreviousPhrase == (inSomePlaces ? 1 : 2))
+	  return;
+
+	thePreventTautologyFlag = false;
+	
+	if(inSomePlaces || inManyPlaces)
+	  {
+		if(useOllaVerbFlag)
+		  {
+			stringVector.push_back(SAADAAN_WORD);
+		  }
+		thePreviousPhrase = (inSomePlaces ? 1 : 2);
+		stringVector.push_back((inSomePlaces ? PAIKOIN_WORD : MONIN_PAIKOIN_WORD));
+	  }
+  }
+
 
   bool get_period_start_end_index(const WeatherPeriod& thePeriod, 
 								  const precipitation_data_vector& theDataVector,
@@ -182,39 +217,6 @@ namespace TextGen
 		  }
 	  }
 	return startFound;
-  }
-
-  std::string in_places_phrase(const bool& inSomePlaces, 
-							   const bool& inManyPlaces, 
-							   const bool& useOllaVerbFlag)
-  {
-	std::string phrase;
-
-	if(inSomePlaces || inManyPlaces)
-	  {
-		if(useOllaVerbFlag)
-		  {
-			phrase << " ";
-			phrase << SAADAAN_WORD;
-		  }
-		phrase << (inSomePlaces ? PAIKOIN_WORD : (inManyPlaces ? MONIN_PAIKOIN_WORD : ""));
-	  }
-	return phrase;
-  }
-
-  void in_places_phrase(const bool& inSomePlaces, 
-						const bool& inManyPlaces, 
-						const bool& useOllaVerbFlag,
-						vector<string>& stringVector)
-  {
-	if(inSomePlaces || inManyPlaces)
-	  {
-		if(useOllaVerbFlag)
-		  {
-			stringVector.push_back(SAADAAN_WORD);
-		  }
-		stringVector.push_back((inSomePlaces ? PAIKOIN_WORD : MONIN_PAIKOIN_WORD));
-	  }
   }
 
   void can_be_freezing_phrase(const bool& theCanBeFreezingFlag, 
@@ -375,11 +377,7 @@ namespace TextGen
 		if(!theDryPeriodTautologyFlag)
 		  theStringVector.push_back(",");
 	  }
-	/*	
-	bool alkaenPhrase = (get_period_length(thePeriod) >= 6 &&
-						 thePeriod.localStartTime() != theParameters.theForecastPeriod.localStartTime());
-	get_time_phrase_large(thePeriod, alkaenPhrase, &theStringVector);
-	*/
+
 	theStringVector.push_back(thePhrase);
   }
 
@@ -396,10 +394,10 @@ namespace TextGen
 	
 	string rain_phrase(is_summer ? SADETTA_WORD : VESISADETTA_WORD);
 
-	in_places_phrase(in_some_places,
-					 in_many_places,
-					 theUseOllaVerb,
-					 theStringVector);
+	InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
+												  in_many_places,
+												  theUseOllaVerb,
+												  theStringVector);
 
 	switch(theTransformId)
 	  {
@@ -527,10 +525,10 @@ namespace TextGen
 					}
 				  else
 					{
-					  in_places_phrase(in_some_places,
-									   in_many_places,
-									   theUseOllaVerb,
-									   theStringVector);
+					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
+																	in_many_places,
+																	theUseOllaVerb,
+																	theStringVector);
 				  
 					  if(is_showers)
 						{
@@ -592,10 +590,10 @@ namespace TextGen
 					}
 				  else
 					{
-					  in_places_phrase(in_some_places,
-									   in_many_places,
-									   theUseOllaVerb,
-									   theStringVector);
+					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
+																	in_many_places,
+																	theUseOllaVerb,
+																	theStringVector);
 
 					  if(is_showers)
 						{						
@@ -633,10 +631,10 @@ namespace TextGen
 					}
 				  else
 					{
-					  in_places_phrase(in_some_places,
-									   in_many_places,
-									   theUseOllaVerb,
-									   theStringVector);
+					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
+																	in_many_places,
+																	theUseOllaVerb,
+																	theStringVector);
 					  if(is_showers)
 						{
 						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow &&
@@ -696,10 +694,10 @@ namespace TextGen
 					}
 				  else
 					{
-					  in_places_phrase(in_some_places,
-									   in_many_places,
-									   theUseOllaVerb,
-									   theStringVector);
+					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
+																	in_many_places,
+																	theUseOllaVerb,
+																	theStringVector);
 
 					  if(is_showers)
 						{
@@ -736,10 +734,10 @@ namespace TextGen
 					}
 				  else
 					{
-					  in_places_phrase(in_some_places,
-									   in_many_places,
-									   theUseOllaVerb,
-									   theStringVector);
+					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
+																	in_many_places,
+																	theUseOllaVerb,
+																	theStringVector);
 
 					  if(is_showers)
 						{
@@ -787,10 +785,10 @@ namespace TextGen
 					}
 				  else
 					{
-					  in_places_phrase(in_some_places,
-									   in_many_places,
-									   theUseOllaVerb,
-									   theStringVector);
+					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
+																	in_many_places,
+																	theUseOllaVerb,
+																	theStringVector);
 
 					  if(is_showers)
 						{
@@ -854,10 +852,10 @@ namespace TextGen
 					}
 				  else
 					{
-					  in_places_phrase(in_some_places,
-									   in_many_places,
-									   theUseOllaVerb,
-									   theStringVector);
+					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
+																	in_many_places,
+																	theUseOllaVerb,
+																	theStringVector);
 
 					  if(is_showers)
 						{
@@ -927,10 +925,10 @@ vesi- tai lumisadetta.
 					}
 				  else
 					{
-					  in_places_phrase(in_some_places,
-									   in_many_places,
-									   theUseOllaVerb,
-									   theStringVector);
+					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
+																	in_many_places,
+																	theUseOllaVerb,
+																	theStringVector);
 
 					  if(is_showers)
 						{
@@ -1689,7 +1687,8 @@ vesi- tai lumisadetta.
 
   bool PrecipitationForecast::separateCoastInlandPrecipitation(const WeatherPeriod& theWeatherPeriod) const
   {
-	if(!(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA))
+	if(!(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA) ||
+	   theParameters.theCoastalAndInlandTogetherFlag == true)
 	  return false;
 
 	float coastalPrecipitation = getMean(theCoastalData, PRECIPITATION_MEAN_DATA, theWeatherPeriod);
@@ -2297,93 +2296,6 @@ vesi- tai lumisadetta.
 	return sentence;
   }
 
-#ifdef LATER
-  Sentence PrecipitationForecast::precipitationChangeSentence(const WeatherPeriod& thePeriod) const
-  {
-	Sentence sentence;
-
-	const weather_event_id_vector* thePrecipitationWeatherEventsVector = 
-	  (theParameters.theForecastArea & FULL_AREA ? &thePrecipitationWeatherEventsFull :
-	   (theParameters.theForecastArea & COASTAL_AREA ? &thePrecipitationWeatherEventsCoastal :
-		(theParameters.theForecastArea & INLAND_AREA ? &thePrecipitationWeatherEventsInland : 0)));
-
-	int periodLength = theParameters.theForecastPeriod.localEndTime().DifferenceInHours(theParameters.theForecastPeriod.localStartTime());
-
-	if(thePrecipitationWeatherEventsVector)
-	  {
-		for(unsigned int i = 0; i < thePrecipitationWeatherEventsVector->size(); i++)
-		  {
-			NFmiTime precipitationWeatherEventTimestamp(thePrecipitationWeatherEventsVector->at(i).first);
-			
-			if(!(precipitationWeatherEventTimestamp >= thePeriod.localStartTime() &&
-				 precipitationWeatherEventTimestamp <= thePeriod.localEndTime()))
-			  {
-				continue;
-			  }
-
-			weather_event_id trid(thePrecipitationWeatherEventsVector->at(i).second);
-			if(trid == POUTAANTUU || trid == POUTAANTUU_WHEN_EXTENT_SMALL)
-			  {
-				if(sentence.size() > 0)
-				  sentence << Delimiter(",");
-				
-				if(periodLength > 24)
-				  {
-					sentence << get_today_phrase(precipitationWeatherEventTimestamp,
-												 theParameters.theVariable,
-												 theParameters.theArea,
-												 thePeriod,
-												 theParameters.theForecastTime);
-				  }
-
-				sentence << get_time_phrase(precipitationWeatherEventTimestamp);
-				sentence << SAA_POUTAANTUU_PHRASE;
-
-
-				theDryPeriodTautologyFlag = true;
-			  }
-			else
-			  {
-				NFmiTime startTime;
-				NFmiTime endTime;
-
-				if(getPrecipitationPeriod(precipitationWeatherEventTimestamp, startTime, endTime))
-				  {
-					if(sentence.size() > 0)
-					  sentence << Delimiter(",");
-					
-					if(periodLength > 24)
-					  {
-						sentence << get_today_phrase(precipitationWeatherEventTimestamp,
-													 theParameters.theVariable,
-													 theParameters.theArea,
-													 thePeriod,
-													 theParameters.theForecastTime);
-					  }
-
-					WeatherPeriod precipitationPeriod(startTime, endTime);
-
-					if(isMostlyDryPeriod(precipitationPeriod, theParameters.theForecastArea))
-					  {
-						/*
-						if(!theDryPeriodTautologyFlag)
-						  sentence << SAA_WORD << ON_WORD;
-						*/
-					  }
-					else
-					  {
-						sentence << get_time_phrase(precipitationWeatherEventTimestamp, true);
-					  }
-					sentence << precipitationSentence(WeatherPeriod(startTime, endTime));
-				  }
-			  }
-		  }
-	  }	
-
-	return sentence;
-  }
-#endif
-
   void PrecipitationForecast::getPrecipitationDistribution(const WeatherPeriod& thePeriod,
 														   float& theNorthPercentage,
 														   float& theSouthPercentage,
@@ -2617,10 +2529,18 @@ vesi- tai lumisadetta.
 			sentence << INLAND_PHRASE;
 			sentence << constructPrecipitationSentence(thePeriod,
 													   INLAND_AREA);
+
+			// ARE 22.02.2011: this is to prevent tautology e.g. sisämaassa moinin paikoin räntäsadetta,
+			// rannikolla monin paikoin vesisadetta
+			InPlacesPhrase::Instance()->preventTautology(true);
+
 			sentence << Delimiter(",");
 			sentence << COAST_PHRASE;
 			sentence << constructPrecipitationSentence(thePeriod,
 													   COASTAL_AREA);
+
+			InPlacesPhrase::Instance()->preventTautology(false);
+
 		  }
 		else
 		  {

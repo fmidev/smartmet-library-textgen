@@ -13,7 +13,7 @@
 #include "DefaultAcceptor.h"
 #include "Delimiter.h"
 #include "GridForecaster.h"
-#include "NightAndDayPeriodGenerator.h"
+#include "HourPeriodGenerator.h"
 #include "Integer.h"
 #include "MathTools.h"
 #include "MessageLogger.h"
@@ -106,19 +106,10 @@ namespace TextGen
 #define SAA_ON_HELTEISTA_PHRASE "s‰‰ on helteist‰"
 #define SAA_LAMPENEE_PHRASE "s‰‰ l‰mpenee"
 #define SAA_VIILENEE_PHRASE "s‰‰ viilenee"
-#define TUULINEN_WORD "tuulinen"
-#define TUULISTA_WORD "tuulista"
-#define AAMUPAIVALLA_WORD "aamup‰iv‰ll‰"
-#define ILTAPAIVALLA_WORD "iltap‰iv‰ll‰"
-#define ERITTAIN_WORD "eritt‰in"
-#define SISAMAASSA_WORD "sis‰maassa"
-#define RANNIKOLLA_WORD "rannikolla"
 #define PAKKANEN_ON_PUREVAA_PHRASE "pakkanen on purevaa"
 #define PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE "pakkanen on eritt‰in purevaa"
 #define TUULI_VIILENTAA_SAATA_PHRASE "tuuli viilent‰‰ s‰‰t‰"
 #define TUULI_KYLMENTAA_SAATA_PHRASE "tuuli kylment‰‰ s‰‰t‰"
-#define TANAAN_WORD "t‰n‰‰n"
-#define HUOMENNA_WORD "huomenna"
 
 enum anomaly_phrase_id
   {
@@ -185,21 +176,9 @@ enum anomaly_phrase_id
 		  theDay1TemperatureAreaAfternoonMinimum(kFloatMissing, 0),
 		  theDay1TemperatureAreaAfternoonMean(kFloatMissing, 0),
 		  theDay1TemperatureAreaAfternoonMaximum(kFloatMissing, 0),
-		  theDay1TemperatureInlandAfternoonMinimum(kFloatMissing, 0),
-		  theDay1TemperatureInlandAfternoonMean(kFloatMissing, 0),
-		  theDay1TemperatureInlandAfternoonMaximum(kFloatMissing, 0),
-		  theDay1TemperatureCoastalAfternoonMinimum(kFloatMissing, 0),
-		  theDay1TemperatureCoastalAfternoonMean(kFloatMissing, 0),
-		  theDay1TemperatureCoastalAfternoonMaximum(kFloatMissing, 0),
 		  theDay2TemperatureAreaAfternoonMinimum(kFloatMissing, 0),
 		  theDay2TemperatureAreaAfternoonMean(kFloatMissing, 0),
-		  theDay2TemperatureAreaAfternoonMaximum(kFloatMissing, 0),
-		  theDay2TemperatureInlandAfternoonMinimum(kFloatMissing, 0),
-		  theDay2TemperatureInlandAfternoonMean(kFloatMissing, 0),
-		  theDay2TemperatureInlandAfternoonMaximum(kFloatMissing, 0),
-		  theDay2TemperatureCoastalAfternoonMinimum(kFloatMissing, 0),
-		  theDay2TemperatureCoastalAfternoonMean(kFloatMissing, 0),
-		  theDay2TemperatureCoastalAfternoonMaximum(kFloatMissing, 0)
+		  theDay2TemperatureAreaAfternoonMaximum(kFloatMissing, 0)
 	  {}
 
 	  const string& theVariable;
@@ -218,21 +197,9 @@ enum anomaly_phrase_id
 	  WeatherResult theDay1TemperatureAreaAfternoonMinimum;
 	  WeatherResult theDay1TemperatureAreaAfternoonMean;
 	  WeatherResult theDay1TemperatureAreaAfternoonMaximum;
-	  WeatherResult theDay1TemperatureInlandAfternoonMinimum;
-	  WeatherResult theDay1TemperatureInlandAfternoonMean;
-	  WeatherResult theDay1TemperatureInlandAfternoonMaximum;
-	  WeatherResult theDay1TemperatureCoastalAfternoonMinimum;
-	  WeatherResult theDay1TemperatureCoastalAfternoonMean;
-	  WeatherResult theDay1TemperatureCoastalAfternoonMaximum;
 	  WeatherResult theDay2TemperatureAreaAfternoonMinimum;
 	  WeatherResult theDay2TemperatureAreaAfternoonMean;
 	  WeatherResult theDay2TemperatureAreaAfternoonMaximum;
-	  WeatherResult theDay2TemperatureInlandAfternoonMinimum;
-	  WeatherResult theDay2TemperatureInlandAfternoonMean;
-	  WeatherResult theDay2TemperatureInlandAfternoonMaximum;
-	  WeatherResult theDay2TemperatureCoastalAfternoonMinimum;
-	  WeatherResult theDay2TemperatureCoastalAfternoonMean;
-	  WeatherResult theDay2TemperatureCoastalAfternoonMaximum;
 	};
 
 	void log_data(const temperature_anomaly_params& theParameters)
@@ -244,52 +211,12 @@ enum anomaly_phrase_id
 	  theParameters.theLog << "theDay1TemperatureAreaAfternoonMaximum: " 
 						   << theParameters.theDay1TemperatureAreaAfternoonMaximum << endl;
 
-	  if(theParameters.theDay1TemperatureInlandAfternoonMinimum.value() != kFloatMissing)
-		{
-		  theParameters.theLog << "theDay1TemperatureInlandAfternoonMinimum: " 
-							   << theParameters.theDay1TemperatureInlandAfternoonMinimum << endl;
-		  theParameters.theLog << "theDay1TemperatureInlandAfternoonMean: " 
-							   << theParameters.theDay1TemperatureInlandAfternoonMean << endl;
-		  theParameters.theLog << "theDay1TemperatureInlandAfternoonMaximum: " 
-							   << theParameters.theDay1TemperatureInlandAfternoonMaximum << endl;
-		}
-
-	  if(theParameters.theDay1TemperatureCoastalAfternoonMinimum.value() != kFloatMissing)
-		{
-		  theParameters.theLog << "theDay1TemperatureCoastalAfternoonMinimum: " 
-							   << theParameters.theDay1TemperatureCoastalAfternoonMinimum << endl;
-		  theParameters.theLog << "theDay1TemperatureCoastalAfternoonMean: " 
-							   << theParameters.theDay1TemperatureCoastalAfternoonMean << endl;
-		  theParameters.theLog << "theDay1TemperatureCoastalAfternoonMaximum: " 
-							   << theParameters.theDay1TemperatureCoastalAfternoonMaximum << endl;
-		}
-
 	  theParameters.theLog << "theDay2TemperatureAreaAfternoonMinimum: " 
 						   << theParameters.theDay2TemperatureAreaAfternoonMinimum << endl;
 	  theParameters.theLog << "theDay2TemperatureAreaAfternoonMean: " 
 						   << theParameters.theDay2TemperatureAreaAfternoonMean << endl;
 	  theParameters.theLog << "theDay2TemperatureAreaAfternoonMaximum: " 
 						   << theParameters.theDay2TemperatureAreaAfternoonMaximum << endl;
-
-	  if(theParameters.theDay2TemperatureInlandAfternoonMinimum.value() != kFloatMissing)
-		{
-		  theParameters.theLog << "theDay2TemperatureInlandAfternoonMinimum: " 
-							   << theParameters.theDay2TemperatureInlandAfternoonMinimum << endl;
-		  theParameters.theLog << "theDay2TemperatureInlandAfternoonMean: " 
-							   << theParameters.theDay2TemperatureInlandAfternoonMean << endl;
-		  theParameters.theLog << "theDay2TemperatureInlandAfternoonMaximum: " 
-							   << theParameters.theDay2TemperatureInlandAfternoonMaximum << endl;
-		}
-
-	  if(theParameters.theDay2TemperatureCoastalAfternoonMinimum.value() != kFloatMissing)
-		{
-		  theParameters.theLog << "theDay2TemperatureCoastalAfternoonMinimum: " 
-							   << theParameters.theDay2TemperatureCoastalAfternoonMinimum << endl;
-		  theParameters.theLog << "theDay2TemperatureCoastalAfternoonMean: " 
-							   << theParameters.theDay2TemperatureCoastalAfternoonMean << endl;
-		  theParameters.theLog << "theDay2TemperatureCoastalAfternoonMaximum: " 
-							   << theParameters.theDay2TemperatureCoastalAfternoonMaximum << endl;
-		}
 	}
 
 	const void log_start_time_and_end_time(MessageLogger& theLog, 
@@ -885,129 +812,38 @@ enum anomaly_phrase_id
 	NFmiTime periodEndTime(itsPeriod.localEndTime());
 	int periodLength = periodEndTime.DifferenceInHours(periodStartTime);
 
-	// Period generator
-	NightAndDayPeriodGenerator generator00(itsPeriod, itsVar);
+	int ndays = HourPeriodGenerator(itsPeriod, itsVar+"::day").size();
 
-	if(generator00.size() == 0)
+	log << "Period " << itsPeriod.localStartTime() << "..." 
+		<< itsPeriod.localEndTime() << " covers " << ndays << " days" << endl;
+
+	if(ndays <= 0)
 	  {
-		log << "No weather periods available!" << endl;
 		log << paragraph;
 		return paragraph;
 	  }
-
-	log << "period contains ";
-	bool report_day2_anomaly = false;
-
-	if(generator00.isday(1))
+	else if(ndays == 1)
 	  {
-		if(generator00.size() > 2)
-		  {
-			log << "day, night and next day" << endl;
-		  }
-		else if(generator00.size() == 2)
-		  {
-			log << "day and night" << endl;
-			// if forecast time is not today, extend period from the start
-			if(abs(itsForecastTime.DifferenceInHours(generator00.period(1).localStartTime())) > 12)
-			  periodStartTime.ChangeByHours(-24);
-			else
-			  periodEndTime.ChangeByHours(12);
-		  }
-		else
-		  {
-			log << "day" << endl;
-			// if forecast time is not today, extend period from the start
-			if(abs(itsForecastTime.DifferenceInHours(generator00.period(1).localStartTime())) > 12)
-			  periodStartTime.ChangeByHours(-24);
-			else
-			  periodEndTime.ChangeByHours(24);
-		  }
-		// if forecast time is not today, report temperature anomaly for tomorrow
-		if(abs(itsForecastTime.DifferenceInHours(generator00.period(1).localStartTime())) > 12)
-		  {
-			report_day2_anomaly = true;
-		  }
+		periodStartTime.ChangeByDays(-1);
 	  }
-	else
-	  {
-		if(generator00.size() == 1)
-		  {
-			log << "one night" << endl;
-			periodStartTime.ChangeByHours(-12);
-			periodEndTime.ChangeByHours(12);
-			report_day2_anomaly = true;
-		  }
-		else
-		  {
-			log << "night and next day" << endl;		  
-			periodStartTime.ChangeByHours(-12);
-			report_day2_anomaly = true;
-		  }
-	  }
-
-	/*
-	if(periodStartTime.GetHour() >= day_starthour)
-	  {
-		periodStartTime.ChangeByHours(-1*(periodStartTime.GetHour() - day_starthour));
-		if(itsForecastTime.GetHour() < day_maxstarthour)
-		  periodStartTime.ChangeByHours(-24);
-	  }
-	else if(periodStartTime.GetHour() < day_starthour)
-	  {
-		periodStartTime.ChangeByHours(day_starthour - periodStartTime.GetHour());
-		periodStartTime.ChangeByHours(-24);
-	  }
-	if(generator00.size() == 0)
-	  periodEndTime.ChangeByHours(24);
-
-	int diffInHours = abs(periodStartTime.DifferenceInHours(periodEndTime));
-	if(diffInHours < 48)
-	  periodEndTime.ChangeByHours(48 - diffInHours);
-	*/
-
-	/*
-	// Too late? Return empty story then
-	if(generator.size() == 0)
-	  {
-		log << "No weather periods available!" << endl;
-		log << paragraph;
-		return paragraph;
-	  }
-
-	log << "period contains ";
-
-	if(generator.isday(1))
-	  {
-		if(generator.size() > 2)
-		  log << "today, night and tomorrow" << endl;
-		else if(generator.size() == 2)
-		  log << "today and night" << endl;
-		else
-		  log << "today" << endl;
-	  }
-	else
-	  {
-		if(generator.size() == 1)
-		  log << "one night" << endl;		  
-		else
-		  log << "night and tomorrow" << endl;		  
-	  }
-
-	 */
 
 
 	WeatherPeriod theExtendedPeriod(periodStartTime, periodEndTime);
 
-	NightAndDayPeriodGenerator generator(theExtendedPeriod, itsVar);
+	HourPeriodGenerator generator(theExtendedPeriod, itsVar+"::day");
 	for(unsigned int i = 0; i < generator.size(); i++ )
 	  {
 	  log_start_time_and_end_time(log, 
-								  "the extended period: ",
+								  "The extended period: ",
 								  generator.period(i+1));
 	  }
 
 	WeatherPeriod day1Period(generator.period(1));
-	WeatherPeriod day2Period(generator.period(3));
+	WeatherPeriod day2Period(generator.period(2));
+
+	bool report_day2_anomaly = true;
+
+
 
 	log_start_time_and_end_time(log, 
 								"day1: ",
@@ -1042,62 +878,6 @@ enum anomaly_phrase_id
 						  parameters.theDay2TemperatureAreaAfternoonMinimum,
 						  parameters.theDay2TemperatureAreaAfternoonMaximum,
 						  parameters.theDay2TemperatureAreaAfternoonMean);
-
-	WeatherArea inlandArea = itsArea;
-	inlandArea.type(WeatherArea::Inland);
-	WeatherArea coastalArea = itsArea;
-	coastalArea.type(WeatherArea::Coast);
-
-	NFmiTime day1NoonTime(day1Period.localStartTime().GetYear(),
-						  day1Period.localStartTime().GetMonth(),
-						  day1Period.localStartTime().GetDay(), 12, 0, 0);
-	WeatherPeriod day1AfternoonPeriod(day1NoonTime, day1Period.localEndTime());
-
-	log_start_time_and_end_time(log, 
-								"day1 afternoon: ",
-								day1AfternoonPeriod);
-
-	afternoon_temperature(itsVar + "::fake::temperature::day1::afternoon::inland",
-						  itsSources,
-						  inlandArea,
-						  day1AfternoonPeriod,
-						  parameters.theDay1TemperatureInlandAfternoonMinimum,
-						  parameters.theDay1TemperatureInlandAfternoonMaximum,
-						  parameters.theDay1TemperatureInlandAfternoonMean);
-
-	afternoon_temperature(itsVar + "::fake::temperature::day1::afternoon::coast",
-						  itsSources,
-						  coastalArea,
-						  day1AfternoonPeriod,
-						  parameters.theDay1TemperatureCoastalAfternoonMinimum,
-						  parameters.theDay1TemperatureCoastalAfternoonMaximum,
-						  parameters.theDay1TemperatureCoastalAfternoonMean);
-
-	NFmiTime day2NoonTime(day2Period.localStartTime().GetYear(),
-						  day2Period.localStartTime().GetMonth(),
-						  day2Period.localStartTime().GetDay(), 12, 0, 0);
-	WeatherPeriod day2AfternoonPeriod(day2NoonTime, day2Period.localEndTime());
-
-	log_start_time_and_end_time(log, 
-								"day2 afternoon: ",
-								day2AfternoonPeriod);
-
-	afternoon_temperature(itsVar + "::fake::temperature::day2::afternoon::inland",
-						  itsSources,
-						  inlandArea,
-						  day2AfternoonPeriod,
-						  parameters.theDay2TemperatureInlandAfternoonMinimum,
-						  parameters.theDay2TemperatureInlandAfternoonMaximum,
-						  parameters.theDay2TemperatureInlandAfternoonMean);
-
-	afternoon_temperature(itsVar + "::fake::temperature::day2::afternoon::coast",
-						  itsSources,
-						  coastalArea,
-						  day2AfternoonPeriod,
-						  parameters.theDay2TemperatureCoastalAfternoonMinimum,
-						  parameters.theDay2TemperatureCoastalAfternoonMaximum,
-						  parameters.theDay2TemperatureCoastalAfternoonMean);
-
 
 	fractile_type_id fractileType(MAX_FRACTILE);
 
@@ -1258,7 +1038,6 @@ enum anomaly_phrase_id
 	log << paragraph;
 
 	return paragraph;
-
   }
 
 } // namespace TextGen

@@ -394,7 +394,7 @@ const void log_subperiods(wf_story_params& theParameters)
 												  Minimum,
 												  Sum,
 												  theArea,
-												  (*precipitationHourly)[i]->thePeriod,
+												  (*precipitationMaxHourly)[i]->thePeriod,
 												  DefaultAcceptor(),
 												  precipitationlimits);
 		WeatherResult max = theForecaster.analyze(theVariable,
@@ -403,7 +403,7 @@ const void log_subperiods(wf_story_params& theParameters)
 												  Maximum,
 												  Sum,
 												  theArea,
-												  (*precipitationHourly)[i]->thePeriod,
+												  (*precipitationMaxHourly)[i]->thePeriod,
 												  DefaultAcceptor(),
 												  precipitationlimits);
 		WeatherResult mean = theForecaster.analyze(theVariable,
@@ -412,16 +412,18 @@ const void log_subperiods(wf_story_params& theParameters)
 												  Mean,
 												  Sum,
 												  theArea,
-												  (*precipitationHourly)[i]->thePeriod,
+												  (*precipitationMaxHourly)[i]->thePeriod,
 												  DefaultAcceptor(),
 												  precipitationlimits);
 
 
+		cout << "period " << (*precipitationMaxHourly)[i]->thePeriod.localStartTime() 
+			 << "..." << (*precipitationMaxHourly)[i]->thePeriod.localEndTime() << endl;
+
 		cout << "min: " << min.value() << endl;
 		cout << "max: " << max.value() << endl;
 		cout << "mean: " << mean.value() << endl;
-
-*/
+		*/
 
         (*precipitationMaxHourly)[i]->theResult =
 		  theForecaster.analyze(theVariable,
@@ -1238,8 +1240,22 @@ const void log_subperiods(wf_story_params& theParameters)
 	  Settings::optional_double(theParameters.theVariable + "::freezing_rain_limit", FREEZING_RAIN_LIMIT);
 	theParameters.theShowerLimit =
 	  Settings::optional_double(theParameters.theVariable + "::shower_limit", SHOWER_LIMIT);
-  }
 
+	float coastalPercentage = get_area_percentage(theParameters.theArea,
+												WeatherArea::Coast,
+												theParameters.theSources,
+												theParameters.theForecastPeriod);
+
+	float separate_coastal_area_percentage = Settings::optional_double(theParameters.theVariable + 
+																	   "::separate_coastal_area_percentage", 
+																	   SEPARATE_COASTAL_AREA_PERCENTAGE);
+
+	theParameters.theCoastalAndInlandTogetherFlag = coastalPercentage > 0 && 
+	  coastalPercentage < separate_coastal_area_percentage;
+	
+	if(theParameters.theCoastalAndInlandTogetherFlag)
+	  theParameters.theLog << "Inland and coastal area(" << coastalPercentage << ") not separated!" << endl;
+  }
 
 
  class WeatherForecastStoryItem;
@@ -1407,7 +1423,7 @@ const void log_subperiods(wf_story_params& theParameters)
   {
 	Sentence sentence;
 
-	sentence << get_time_phrase_large(thePhrasePeriod);
+	sentence << get_time_phrase_large(thePhrasePeriod, theWeatherForecastStory.theVar);
 
 	if(sentence.size() == 0)
 	  {		
@@ -1415,12 +1431,12 @@ const void log_subperiods(wf_story_params& theParameters)
 		NFmiTime endTime(thePhrasePeriod.localEndTime());
 		startTime.ChangeByHours(1); // one hour forwards in the beginning
 
-		sentence << get_time_phrase_large(WeatherPeriod(startTime, endTime));
+		sentence << get_time_phrase_large(WeatherPeriod(startTime, endTime), theWeatherForecastStory.theVar);
 
 		if(sentence.size() == 0)
 		  {
 			endTime.ChangeByHours(-1); // one hour backwards in the end
-			sentence << get_time_phrase_large(WeatherPeriod(startTime, endTime));
+			sentence << get_time_phrase_large(WeatherPeriod(startTime, endTime), theWeatherForecastStory.theVar);
 		  }
 	  }
 
@@ -1504,7 +1520,7 @@ const void log_subperiods(wf_story_params& theParameters)
 				if(extendedPeriodSentence.size() > 0)
 				  sentence << extendedPeriodSentence;
 				else
-				  sentence << get_time_phrase(phrasePeriod.localStartTime(), true);
+				  sentence << get_time_phrase(phrasePeriod.localStartTime(), theWeatherForecastStory.theVar, true);
 			  }
 		
 			if(todayVector.size() > 0)
@@ -1539,7 +1555,7 @@ const void log_subperiods(wf_story_params& theParameters)
 			if(timeSentence.size() > 0)
 			  sentence << timeSentence;
 			else
-			  sentence << get_time_phrase_large(phrasePeriod);
+			  sentence << get_time_phrase_large(phrasePeriod, theWeatherForecastStory.theVar);
 		  }
 	  }
 
@@ -1702,7 +1718,10 @@ const void log_subperiods(wf_story_params& theParameters)
 			{
 			  WeatherPeriod poutaantuuPeriod(thePreviousPrecipitationStoryItem->getStoryItemPeriod().localEndTime(),
 											 thePreviousPrecipitationStoryItem->getStoryItemPeriod().localEndTime());
+
+			  // ARE 22.02.2011: The missing period-phrase added
 			  thePoutaantuuSentence << 
+				getPeriodPhrase(true, false, &poutaantuuPeriod) <<
 				prForecast.precipitationChangeSentence(poutaantuuPeriod, POUTAANTUU);
 			  thePreviousPrecipitationStoryItem->theReportPoutaantuuFlag = false;
 			  theReportAboutDryWeatherFlag = false;
@@ -1827,8 +1846,6 @@ const void log_subperiods(wf_story_params& theParameters)
 
 	  return sentence;
   }
-
-
 
   Paragraph WeatherForecastStory::getWeatherForecastStory()
 	{
@@ -2107,29 +2124,11 @@ const void log_subperiods(wf_story_params& theParameters)
 				  WeatherPeriod gapPeriod(gapPeriodStartTime, gapPeriodEndTime);
 
 				  // merge periods
-				  /*				  
-				  if(get_period_length(gapPeriod) == 1 || 
-					 (get_period_length(gapPeriod) == 2 &&
-					 (currentPrecipitationStoryItem->storyItemPeriodLength() >= 2 ||
-					  previousPrecipitationStoryItem->storyItemPeriodLength() >= 2)) ||
-					 (get_period_length(gapPeriod) == 3 &&
-					 (currentPrecipitationStoryItem->storyItemPeriodLength() >= 3 ||
-					  previousPrecipitationStoryItem->storyItemPeriodLength() >= 3 )))
-				  */
-				  /*
-				  cout << "gap period: " << get_period_length(gapPeriod) << endl;
-				  cout << "precipitation2 period: " << previousPrecipitationStoryItem->storyItemPeriodLength() << endl;
-				  cout << "precipitation1 period: " << currentPrecipitationStoryItem->storyItemPeriodLength() << endl;
-				  */
 				  if(get_period_length(gapPeriod) <= 3 &&
 					 (get_period_length(gapPeriod) <= 
 					 currentPrecipitationStoryItem->storyItemPeriodLength() +
 					  previousPrecipitationStoryItem->storyItemPeriodLength() + 1))
 					{
-					  /*
-					 (previousPrecipitationStoryItem->weakPrecipitation() && 
-					  currentPrecipitationStoryItem->weakPrecipitation())
-					   */
 					  // merge two weak precipitation periods
 					  previousPrecipitationStoryItem->thePeriodToMergeWith = currentPrecipitationStoryItem;
 					  currentPrecipitationStoryItem->thePeriodToMergeTo = previousPrecipitationStoryItem;
@@ -2190,9 +2189,13 @@ const void log_subperiods(wf_story_params& theParameters)
 	Paragraph paragraph;
 
 	// Period generator
-	NightAndDayPeriodGenerator generator00(itsPeriod, itsVar);
-
-	if(generator00.size() == 0)
+	const HourPeriodGenerator periodgenerator(itsPeriod, itsVar+"::day");
+	const int ndays = periodgenerator.size();
+	
+	log << "Period " << itsPeriod.localStartTime() << "..." 
+		<< itsPeriod.localEndTime() << " covers " << ndays << " days" << endl;
+	
+	if(ndays<=0)
 	  {
 		log << "No weather periods available!" << endl;
 		log << paragraph;
@@ -2201,35 +2204,6 @@ const void log_subperiods(wf_story_params& theParameters)
 
 	NFmiTime dataPeriodStartTime(itsPeriod.localStartTime());
 	NFmiTime dataPeriodEndTime(itsPeriod.localEndTime());
-
-	log << "period contains ";
-
-	if(generator00.isday(1))
-	  {
-		if(generator00.size() > 2)
-		  {
-			log << "today, night and tomorrow, ..." << endl;
-		  }
-		else if(generator00.size() == 2)
-		  {
-			log << "today and night" << endl;
-		  }
-		else
-		  {
-			log << "today" << endl;
-		  }
-	  }
-	else
-	  {
-		if(generator00.size() == 1)
-		  {
-			log << "one night" << endl;
-		  }
-		else
-		  {
-			log << "night and tomorrow" << endl;		  
-		  }
-	  }
 
 	dataPeriodStartTime.ChangeByHours(-12);
 	dataPeriodEndTime.ChangeByHours(12);
@@ -2247,11 +2221,9 @@ const void log_subperiods(wf_story_params& theParameters)
 	  {
 		std::string name(itsArea.name());
 		log << "** " << name  << " **" << endl;
-		//	cout << "** " << name  << " **" << endl;
 	  }
 
 	WeatherPeriod theDataGatheringPeriod(dataPeriodStartTime, dataPeriodEndTime);
-
 
 	wf_story_params theParameters(itsVar,
 								  itsArea,
@@ -2285,6 +2257,7 @@ const void log_subperiods(wf_story_params& theParameters)
 	precipitationForecast.printOutPrecipitationWeatherEvents(log);
 	cloudinessForecast.printOutCloudinessData(log);
 	cloudinessForecast.printOutCloudinessWeatherEvents(log);
+	fogForecast.printOutFogPeriods(log);
 
 
 	WeatherForecastStory wfs(itsVar,

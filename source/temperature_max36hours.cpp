@@ -32,6 +32,7 @@
 #include "WeatherResultTools.h"
 #include "PeriodPhraseFactory.h"
 #include "AreaTools.h"
+#include "WeatherForecast.h"
 
 #include <newbase/NFmiStringTools.h>
 #include <newbase/NFmiGrid.h>
@@ -90,31 +91,32 @@ namespace TextGen
 #define VAHAN_YLI_ASTETTA_HIGH_TEMP_LIMIT 2.0
 #define PAKKASRAJA_TEMPERATURE -20.0
 
-#define ABOUT_THE_SAME_PHRASE "suunnilleen sama"
-#define SOMEWHAT_HIGHER_PHRASE "hieman korkeampi"
-#define SOMEWHAT_LOWER_PHRASE "hieman alempi"
-#define SOMEWHAT_MILDER_PHRASE "hieman lauhempaa"
-#define SOMEWHAT_COLDER_PHRASE "hieman kylmempää"
-#define SOMEWHAT_WEAKER_PHRASE "hieman heikompaa"
-#define SOMEWHAT_TIGHTENEDUP_PHRASE "hieman kireämpää"
+#define SUUNNILLEEN_SAMA_PHRASE "suunnilleen sama"
+#define HIEMAN_KORKEMAPI_PHRASE "hieman korkeampi"
+#define HIEMAN_ALEMPI_PHRASE "hieman alempi"
+#define HIEMAN_LAUHEMPAA_PHRASE "hieman lauhempaa"
+#define HIEMAN_KYLMEMPAA_PHRASE "hieman kylmempää"
+#define HIEMAN_HEIKOMPAA_PHRASE "hieman heikompaa"
+#define HIEMAN_KIREAMPAA_PHRASE "hieman kireämpää"
 
-#define WARMING_UP_PHRASE "lämpötila nousee"
-#define AROUND_ZERO_PHRASE "nollan tienoilla"
-#define MINOR_PLUS_PHRASE "vähän plussan puolella"
-#define MINOR_FROST_PHRASE "pikkupakkasta"
-#define INLAND_PHRASE "sisämaassa"
-#define COAST_PHRASE "rannikolla"
-#define MORNING_PHRASE "aamulla"
-#define AFTERNOON_PHRASE "iltapäivällä"
-#define DAYTIME_PHRASE "päivällä"
-#define NIGHTTIME_PHRASE "yöllä"
-#define PLAIN_TEMPERATURE_PHRASE "lämpötila"
-#define DAYTIME_HIGHEST_TEMPERATURE_PHRASE "päivän ylin lämpötila"
-#define NIGHTTIME_LOWEST_TEMPERATURE_PHRASE "yön alin lämpötila"
-#define NIGHTTIME_TEMPERATURE_PHRASE "yölämpötila"
-#define DAYTIME_TEMPERATURE_PHRASE "päivälämpötila"
-#define FROST_WORD "pakkasta"
-#define IS_WORD "on"
+#define LAMPOTILA_NOUSEE_PHRASE "lämpötila nousee"
+#define NOLLAN_TIENOILLA_PHRASE "nollan tienoilla"
+#define VAHAN_PLUSSAN_PUOLELLA_PHRASE "vähän plussan puolella"
+#define PIKKUPAKKASTA_PHRASE "pikkupakkasta"
+#define SISAMAASSA_PHRASE "sisämaassa"
+#define RANNIKOLLA_PHRASE "rannikolla"
+#define AAMULLA_PHRASE "aamulla"
+#define ILTAPAIVALLA_PHRASE "iltapäivällä"
+#define PAIVALLA_PHRASE "päivällä"
+#define YOLLA_PHRASE "yöllä"
+#define PAIVAN_YLIN_LAPMOTILA_PHRASE "päivän ylin lämpötila"
+#define YON_ALIN_LAMPOTILA_PHRASE "yön alin lämpötila"
+#define YOLAMPOTILA_PHRASE "yölämpötila"
+#define PAIVALAMPOTILA_PHRASE "päivälämpötila"
+#define LAMPOTILA_WORD "lämpötila"
+#define PAKKASTA_WORD "pakkasta"
+#define PAKKANEN_WORD "pakkanen"
+#define ON_WORD "on"
 #define NOIN_PHRASE "noin"
 #define ASTEEN_PHRASE "asteen"
 #define PAIKKEILLA_PHRASE "paikkeilla"
@@ -135,19 +137,19 @@ namespace TextGen
 					  VAHAN_YLI_ASTETTA,
 					  NO_PROXIMITY};
 
-	enum temperature_phrase_id{MINOR_PLUS,
-							   AROUND_ZERO_OR_MINOR_PLUS,
-							   ABOUT_THE_SAME,
-							   SOMEWHAT_HIGHER,
-							   SOMEWHAT_LOWER,
-							   SOMEWHAT_MILDER,
-							   SOMEWHAT_COLDER,
-							   SOMEWHAT_WEAKER,
-							   SOMEWHAT_TIGHTENEDUP,
-							   WARMING_UP,
-							   MINOR_FROST,
-							   AROUND_ZERO,
-							   TEMPERATURE_RANGE,
+	enum temperature_phrase_id{VAHAN_PLUSSAN_PUOLELLA,
+							   NOLLAN_TIENOILLA_TAI_VAHAN_PLUSSAN_PUOLELLA,
+							   SUUNNILLEEN_SAMA,
+							   HIEMAN_KORKEMAPI,
+							   HIEMAN_ALEMPI,
+							   HIEMAN_LAUHEMPAA,
+							   HIEMAN_KYLMEMPAA,
+							   HIEMAN_HEIKOMPAA,
+							   HIEMAN_KIREAMPAA,
+							   LAMPOTILA_NOUSEE,
+							   PIKKUPAKKASTA,
+							   NOLLAN_TIENOILLA,
+							   LAMPOTILA_VALILLA,
 							   NO_PHRASE};
 
 
@@ -274,6 +276,7 @@ namespace TextGen
 		theWeatherArea(weatherArea),
 		theAnalysisSources(analysisSources),
 		theWeatherResults(weatherResults),
+		theCoastalAndInlandTogetherFlag(false),
 		theForecastAreaId(NO_AREA),
 		theForecastPeriodId(NO_PERIOD),
 		theSubPeriodId(UNDEFINED_SUBPERIOD),
@@ -291,6 +294,7 @@ namespace TextGen
 		theTomorrowTautologyFlag(false),
 		theOnCoastalAreaTautologyFlag(false),
 		theOnInlandAreaTautologyFlag(false),
+		theFrostExistsTautologyFlag(false),
 		theRangeSeparator("..."),
 		theMinInterval(2),
 		theZeroIntervalFlag(false),
@@ -311,6 +315,7 @@ namespace TextGen
 	  const WeatherArea& theWeatherArea;
 	  const AnalysisSources& theAnalysisSources;
 	  weather_result_container_type& theWeatherResults;
+	  bool theCoastalAndInlandTogetherFlag;
 	  forecast_area_id theForecastAreaId;
 	  forecast_period_id theForecastPeriodId;
 	  forecast_subperiod_id theSubPeriodId;
@@ -328,6 +333,7 @@ namespace TextGen
 	  bool theTomorrowTautologyFlag;
 	  bool theOnCoastalAreaTautologyFlag;
 	  bool theOnInlandAreaTautologyFlag;
+	  bool theFrostExistsTautologyFlag;
 	  string theRangeSeparator;
 	  int theMinInterval;
 	  bool theZeroIntervalFlag;
@@ -388,6 +394,17 @@ namespace TextGen
 		  }
 
 		return false;
+	  }
+
+	  unsigned int numberOfPeriods()
+	  {
+		unsigned int retval(0);
+		
+		retval += (theForecastPeriod & DAY1_PERIOD ? 1 : 0);
+		retval += (theForecastPeriod & NIGHT_PERIOD ? 1 : 0);
+		retval += (theForecastPeriod & DAY2_PERIOD ? 1 : 0);
+		
+		return retval;
 	  }
 	};
 
@@ -1053,22 +1070,22 @@ namespace TextGen
 
 	  if(theMinimum > 0.0 && theMaximum < 2.50 && !theZeroIntervalFlag) // [+0,1...+2,49]
 		{
-		  retval = MINOR_PLUS;
+		  retval = VAHAN_PLUSSAN_PUOLELLA;
 		}
 	  else if(theMinimum < 0 && theMinimum > -0.50 && theMaximum >= 0 && 
 			  theMaximum < 2.50 && !theZeroIntervalFlag) // [-0,49...+2,49]
 		{
-		  retval = AROUND_ZERO_OR_MINOR_PLUS;
+		  retval = NOLLAN_TIENOILLA_TAI_VAHAN_PLUSSAN_PUOLELLA;
 		}
 	  else if(theMinimum < 0 && theMinimum >= -2.0 && theMaximum >= 0 && 
 			  theMaximum <= 2.0 && !theZeroIntervalFlag) // [-2,0...+2,0]
 		{
-		  retval = AROUND_ZERO;
+		  retval = NOLLAN_TIENOILLA;
 		}
 	  else if(theMinimum > -4.50 && theMaximum < 0.0 && 
 			  !theZeroIntervalFlag) // [-4,49...-0,1]
 		{
-		  retval = MINOR_FROST;
+		  retval = PIKKUPAKKASTA;
 		}
 
 	  return retval;
@@ -1080,27 +1097,27 @@ namespace TextGen
 
 	  if(theParameters.theMinimum > 0.0 && theParameters.theMaximum < 2.50 && 
 		 !theParameters.theZeroIntervalFlag && 
-		 theParameters.theTemperaturePhraseId != MINOR_PLUS) // [+0,1...+2,49]
+		 theParameters.theTemperaturePhraseId != VAHAN_PLUSSAN_PUOLELLA) // [+0,1...+2,49]
 		{
-		  retval = MINOR_PLUS;
+		  retval = VAHAN_PLUSSAN_PUOLELLA;
 		}
 	  else if(theParameters.theMinimum < 0 && theParameters.theMinimum > -0.50 && theParameters.theMaximum >= 0 && 
 			  theParameters.theMaximum < 2.50 && !theParameters.theZeroIntervalFlag &&
-			  theParameters.theTemperaturePhraseId != AROUND_ZERO_OR_MINOR_PLUS) // [-0,49...+2,49]
+			  theParameters.theTemperaturePhraseId != NOLLAN_TIENOILLA_TAI_VAHAN_PLUSSAN_PUOLELLA) // [-0,49...+2,49]
 		{
-		  retval = AROUND_ZERO_OR_MINOR_PLUS;
+		  retval = NOLLAN_TIENOILLA_TAI_VAHAN_PLUSSAN_PUOLELLA;
 		}
 	  else if(theParameters.theMinimum < 0 && theParameters.theMinimum >= -2.0 && theParameters.theMaximum >= 0 && 
 			  theParameters.theMaximum <= 2.0 && !theParameters.theZeroIntervalFlag &&
-			  theParameters.theTemperaturePhraseId != AROUND_ZERO) // [-2,0...+2,0]
+			  theParameters.theTemperaturePhraseId != NOLLAN_TIENOILLA) // [-2,0...+2,0]
 		{
-		  retval = AROUND_ZERO;
+		  retval = NOLLAN_TIENOILLA;
 		}
 	  else if(theParameters.theMinimum > -4.50 && theParameters.theMaximum < 0.0 && 
 			  !theParameters.theZeroIntervalFlag && 
-			  theParameters.theTemperaturePhraseId != MINOR_FROST) // [-4,49...-0,1]
+			  theParameters.theTemperaturePhraseId != PIKKUPAKKASTA) // [-4,49...-0,1]
 		{
-		  retval = MINOR_FROST;
+		  retval = PIKKUPAKKASTA;
 		}
 
 	  return retval;
@@ -1109,9 +1126,15 @@ namespace TextGen
 	const bool separate_day_and_night(const t36hparams& theParameters,
 									  const forecast_area_id& theForecastAreaId)
 	{
+	  // if only one day or one night is included ==> nothing to separate
+	  if(theParameters.theForecastPeriod == DAY1_PERIOD || 
+		 theParameters.theForecastPeriod == NIGHT_PERIOD || 
+		 theParameters.theForecastPeriod == DAY2_PERIOD)
+		return false;
+
 	  bool separateDayAndNight = true;
 
-	  if(theParameters.theSeasonId == WINTER_SEASON)// && around_zero_phrase(theParameters) == NO_PHRASE)
+	  if(theParameters.theSeasonId == WINTER_SEASON)
 		{
 		  float dayTemperature, nightTemperature;
 
@@ -1322,7 +1345,8 @@ namespace TextGen
 					}
 				}
 			}
-		}
+		} // if(theParameters.theSeasonId == WINTER_SEASON)
+
 	  return separateDayAndNight;
 
 	}
@@ -1338,25 +1362,25 @@ namespace TextGen
 		{
 		  switch(phrase_id)
 			{
-			case MINOR_PLUS:
+			case VAHAN_PLUSSAN_PUOLELLA:
 			  {
-				sentence << MINOR_PLUS_PHRASE;
-				theParameters.theTemperaturePhraseId = MINOR_PLUS;
+				sentence << VAHAN_PLUSSAN_PUOLELLA_PHRASE;
+				theParameters.theTemperaturePhraseId = VAHAN_PLUSSAN_PUOLELLA;
 			  }
 			  break;
-			case AROUND_ZERO_OR_MINOR_PLUS:
+			case NOLLAN_TIENOILLA_TAI_VAHAN_PLUSSAN_PUOLELLA:
 			  {
-				sentence << AROUND_ZERO_PHRASE << TAI_PHRASE << MINOR_PLUS_PHRASE;
-				theParameters.theTemperaturePhraseId = AROUND_ZERO_OR_MINOR_PLUS;
+				sentence << NOLLAN_TIENOILLA_PHRASE << TAI_PHRASE << VAHAN_PLUSSAN_PUOLELLA_PHRASE;
+				theParameters.theTemperaturePhraseId = NOLLAN_TIENOILLA_TAI_VAHAN_PLUSSAN_PUOLELLA;
 			  }
 			  break;
-			case AROUND_ZERO:
+			case NOLLAN_TIENOILLA:
 			  {
-				sentence << AROUND_ZERO_PHRASE;
-				theParameters.theTemperaturePhraseId = AROUND_ZERO;
+				sentence << NOLLAN_TIENOILLA_PHRASE;
+				theParameters.theTemperaturePhraseId = NOLLAN_TIENOILLA;
 			  }
 			  break;
-			case MINOR_FROST:
+			case PIKKUPAKKASTA:
 			  {
 				NFmiTime startTime(theParameters.theGenerator.period(1).localStartTime());
 				if(SeasonTools::isSpring(startTime, theParameters.theVariable) ||
@@ -1386,8 +1410,8 @@ namespace TextGen
 				  }
 				else
 				  {
-					sentence << MINOR_FROST_PHRASE;
-					theParameters.theTemperaturePhraseId = MINOR_FROST;
+					sentence << PIKKUPAKKASTA_PHRASE;
+					theParameters.theTemperaturePhraseId = PIKKUPAKKASTA;
 				  }
 			  }
 			  break;
@@ -1507,7 +1531,7 @@ namespace TextGen
 																	  theParameters.theRangeSeparator,
 																	  true);
 			}
-		  theParameters.theTemperaturePhraseId = TEMPERATURE_RANGE;
+		  theParameters.theTemperaturePhraseId = LAMPOTILA_VALILLA;
 		}
 
 	  return sentence;
@@ -1531,13 +1555,17 @@ namespace TextGen
 		{
 		  if(theParameters.theForecastPeriodId == NIGHT_PERIOD && !theParameters.theNightPeriodTautologyFlag)
 			{
-			  if(theParameters.theTemperaturePhraseId == MINOR_FROST)
+			  if(theParameters.theTemperaturePhraseId == PIKKUPAKKASTA)
 				{
-				  theDayPhasePhrase << NIGHTTIME_PHRASE << IS_WORD;
+				  theDayPhasePhrase << YOLLA_PHRASE << ON_WORD;
+				}
+			  else if(theParameters.theTemperaturePhraseId == LAMPOTILA_NOUSEE)
+				{
+				  theDayPhasePhrase << YOLLA_PHRASE;
 				}
 			  else
 				{
-				  theDayPhasePhrase << NIGHTTIME_LOWEST_TEMPERATURE_PHRASE << IS_WORD;
+				  theDayPhasePhrase << YON_ALIN_LAMPOTILA_PHRASE << ON_WORD;
 				  theParameters.theNightPeriodTautologyFlag = true;
 				}
 			  theParameters.theDayPeriodTautologyFlag = false;
@@ -1556,14 +1584,14 @@ namespace TextGen
 					theParameters.theForecastAreaId == INLAND_AREA) || 
 				   theParameters.morningAndAfternoonSeparated(DAY1_PERIOD))))
 				{
-				  if(theParameters.theTemperaturePhraseId == MINOR_FROST)
+				  if(theParameters.theTemperaturePhraseId == PIKKUPAKKASTA)
 					{
-					  theDayPhasePhrase << IS_WORD;
+					  theDayPhasePhrase << ON_WORD;
 					  plainIsVerbUsed = true;
 					}
 				  else
 					{
-					  theDayPhasePhrase << DAYTIME_HIGHEST_TEMPERATURE_PHRASE << IS_WORD;
+					  theDayPhasePhrase << PAIVAN_YLIN_LAPMOTILA_PHRASE << ON_WORD;
 					  theParameters.theDayPeriodTautologyFlag = true;
 					}
 				}
@@ -1574,25 +1602,25 @@ namespace TextGen
 					if(theParameters.theSubPeriodId == DAY1_MORNING_PERIOD || 
 					   theParameters.theSubPeriodId == DAY2_MORNING_PERIOD)
 					  {
-						if(theParameters.theTemperaturePhraseId == MINOR_FROST)
+						if(theParameters.theTemperaturePhraseId == PIKKUPAKKASTA)
 						  {
-							theDayPhasePhrase << MORNING_PHRASE << IS_WORD;
+							theDayPhasePhrase << AAMULLA_PHRASE << ON_WORD;
 						  }
 						else
 						  {
-							theDayPhasePhrase << PLAIN_TEMPERATURE_PHRASE  << IS_WORD << MORNING_PHRASE;
+							theDayPhasePhrase << LAMPOTILA_WORD  << ON_WORD << AAMULLA_PHRASE;
 						  }
 					  }
 					else if(theParameters.theSubPeriodId == DAY1_AFTERNOON_PERIOD || 
 							theParameters.theSubPeriodId == DAY2_AFTERNOON_PERIOD)
 					  {
-						if(theParameters.theTemperaturePhraseId == MINOR_FROST)
+						if(theParameters.theTemperaturePhraseId == PIKKUPAKKASTA)
 						  {
-							theDayPhasePhrase << AFTERNOON_PHRASE << IS_WORD;
+							theDayPhasePhrase << ILTAPAIVALLA_PHRASE << ON_WORD;
 						  }
 						else
 						  {
-							theDayPhasePhrase << AFTERNOON_PHRASE;
+							theDayPhasePhrase << ILTAPAIVALLA_PHRASE;
 						  }
 					  }
 				  }
@@ -1602,19 +1630,27 @@ namespace TextGen
 		{
 		  if(theParameters.theForecastPeriodId == NIGHT_PERIOD && !theParameters.theNightPeriodTautologyFlag)
 			{
-			  if(theParameters.theTemperaturePhraseId == MINOR_FROST ||
-				 theParameters.theTemperaturePhraseId == SOMEWHAT_WEAKER ||
-				 theParameters.theTemperaturePhraseId == SOMEWHAT_MILDER ||
-				 theParameters.theTemperaturePhraseId == SOMEWHAT_TIGHTENEDUP ||
-				 theParameters.theTemperaturePhraseId == SOMEWHAT_COLDER)
+			  if(theParameters.theTemperaturePhraseId == PIKKUPAKKASTA ||
+				 theParameters.theTemperaturePhraseId == HIEMAN_HEIKOMPAA ||
+				 theParameters.theTemperaturePhraseId == HIEMAN_LAUHEMPAA ||
+				 theParameters.theTemperaturePhraseId == HIEMAN_KIREAMPAA ||
+				 theParameters.theTemperaturePhraseId == HIEMAN_KYLMEMPAA)
 					{
-					  theDayPhasePhrase << NIGHTTIME_PHRASE << IS_WORD;
+					  if(theParameters.theTemperaturePhraseId == HIEMAN_KIREAMPAA || 
+						 theParameters.theTemperaturePhraseId == HIEMAN_HEIKOMPAA)
+						theDayPhasePhrase << YOLLA_PHRASE << PAKKANEN_WORD << ON_WORD;
+					  else
+						theDayPhasePhrase << YOLLA_PHRASE << ON_WORD;
 					}
-				  else
-					{
-					  theDayPhasePhrase << NIGHTTIME_TEMPERATURE_PHRASE << IS_WORD;
-					  theParameters.theNightPeriodTautologyFlag = true;
-					}
+			  else if(theParameters.theTemperaturePhraseId == LAMPOTILA_NOUSEE)
+				{
+				  theDayPhasePhrase << YOLLA_PHRASE;
+				}
+			  else
+				{
+				  theDayPhasePhrase << YOLAMPOTILA_PHRASE << ON_WORD;
+				  theParameters.theNightPeriodTautologyFlag = true;
+				}
 			  theParameters.theDayPeriodTautologyFlag = false;
 			}
 		  else if(theParameters.theForecastPeriodId != NIGHT_PERIOD)
@@ -1628,17 +1664,17 @@ namespace TextGen
 				   theParameters.theForecastAreaId == INLAND_AREA 
 				   )))
 				{
-				  if(theParameters.theTemperaturePhraseId == MINOR_FROST)
+				  if(theParameters.theTemperaturePhraseId == PIKKUPAKKASTA)
 					{
-					  theDayPhasePhrase << IS_WORD;
+					  theDayPhasePhrase << PAIVALLA_PHRASE << ON_WORD;
 					  plainIsVerbUsed = true;
 					}
 				  else
 					{
 					  if(theParameters.theDayAndNightSeparationFlag)
-						theDayPhasePhrase << DAYTIME_TEMPERATURE_PHRASE << IS_WORD;
+						theDayPhasePhrase << PAIVALAMPOTILA_PHRASE << ON_WORD;
 					  else
-						theDayPhasePhrase << PLAIN_TEMPERATURE_PHRASE << IS_WORD;
+						theDayPhasePhrase << LAMPOTILA_WORD << ON_WORD;
 
 					  theParameters.theDayPeriodTautologyFlag = true;
 					}
@@ -1650,7 +1686,7 @@ namespace TextGen
 		 theParameters.inlandAndCoastSeparated() && 
 		 !theParameters.theOnCoastalAreaTautologyFlag)
 		{
-		  theAreaPhrase << COAST_PHRASE;
+		  theAreaPhrase << RANNIKOLLA_PHRASE;
 		  theParameters.theOnCoastalAreaTautologyFlag = true;
 		  theParameters.theOnInlandAreaTautologyFlag = false;
 		}
@@ -1658,7 +1694,7 @@ namespace TextGen
 			  theParameters.inlandAndCoastSeparated() &&
 			 !theParameters.theOnInlandAreaTautologyFlag)
 		{
-		  theAreaPhrase << INLAND_PHRASE;
+		  theAreaPhrase << SISAMAASSA_PHRASE;
 		  theParameters.theOnInlandAreaTautologyFlag = true;
 		  theParameters.theOnCoastalAreaTautologyFlag = false;
 		}		
@@ -1668,28 +1704,65 @@ namespace TextGen
 		  sentence << theAreaPhrase;
 		  if(theParameters.theUseFrostExistsPhrase)
 			{
-			  if(theParameters.theForecastPeriodId == NIGHT_PERIOD)
-				sentence << NIGHTTIME_PHRASE;
-			  sentence << FROST_WORD << IS_WORD;
+			  // if only one period exists, dont use word 'yöllä'/'päivällä'
+			  if(theParameters.numberOfPeriods() > 1 && theParameters.theDayAndNightSeparationFlag)
+				{
+				  if(theParameters.theForecastPeriodId == NIGHT_PERIOD)
+					sentence << YOLLA_PHRASE;
+				  else
+					sentence << PAIVALLA_PHRASE;
+				}
+
+			  if(!theParameters.theFrostExistsTautologyFlag)
+				{
+				  sentence << PAKKASTA_WORD << ON_WORD;
+				  theParameters.theFrostExistsTautologyFlag = true;
+				}
+			  else
+				{
+				  sentence << LAMPOTILA_WORD << ON_WORD;
+				  theParameters.theFrostExistsTautologyFlag = false;
+				}
+
 			  theParameters.theUseFrostExistsPhrase = false;
 			}
 		  else
 			{
 			  sentence << theDayPhasePhrase;
+			  theParameters.theFrostExistsTautologyFlag = false;
 			}
 		}
 	  else
 		{
 		  if(theParameters.theUseFrostExistsPhrase)
 			{
-			  if(theParameters.theForecastPeriodId == NIGHT_PERIOD)
-				sentence << NIGHTTIME_PHRASE;
-			  sentence << FROST_WORD << IS_WORD;
+			  // if only one period exists, dont use word 'yöllä'/'päivällä'
+			  if(theParameters.numberOfPeriods() > 1 && theParameters.theDayAndNightSeparationFlag)
+				{
+				  if(theParameters.theForecastPeriodId == NIGHT_PERIOD)
+					sentence << YOLLA_PHRASE;
+				  else
+					sentence << PAIVALLA_PHRASE;
+				}
+
+			  if(!theParameters.theFrostExistsTautologyFlag)
+				{
+				  sentence << PAKKASTA_WORD << ON_WORD;
+				  theParameters.theFrostExistsTautologyFlag = true;
+				}
+			  else
+				{
+				  sentence << LAMPOTILA_WORD << ON_WORD;
+				  theParameters.theFrostExistsTautologyFlag = false;
+				}
+
+			  //			  sentence << PAKKASTA_WORD << ON_WORD;
 			  theParameters.theUseFrostExistsPhrase = false;
 			}
 		  else
 			{
 			  sentence << theDayPhasePhrase;
+			  theParameters.theFrostExistsTautologyFlag = false;
 			}
 		  sentence << theAreaPhrase;
 		}
@@ -1736,53 +1809,53 @@ namespace TextGen
 		{
 		  if(smallChangeBetweenDay1AndNight) // no change or small change
 			{
-			  temperatureSentence << ABOUT_THE_SAME_PHRASE;
-			  theParameters.theTemperaturePhraseId = ABOUT_THE_SAME;
+			  temperatureSentence << SUUNNILLEEN_SAMA_PHRASE;
+			  theParameters.theTemperaturePhraseId = SUUNNILLEEN_SAMA;
 			}
 		  else if(moderateChangeBetweenDay1AndNight && 
-				  theParameters.theTemperaturePhraseId != AROUND_ZERO_OR_MINOR_PLUS) // moderate change
+				  theParameters.theTemperaturePhraseId != NOLLAN_TIENOILLA_TAI_VAHAN_PLUSSAN_PUOLELLA) // moderate change
 			{		  
 			  if(temperatureDifference > 0)
 				{
 				  if(theParameters.theMean <= PAKKASRAJA_TEMPERATURE)
 					{
-					  temperatureSentence << SOMEWHAT_WEAKER_PHRASE;
-					  theParameters.theTemperaturePhraseId =SOMEWHAT_WEAKER;
+					  temperatureSentence << HIEMAN_HEIKOMPAA_PHRASE;
+					  theParameters.theTemperaturePhraseId = HIEMAN_HEIKOMPAA;
 					}
 				  else if(theParameters.theMean < 0)
 					{
-					  temperatureSentence << SOMEWHAT_MILDER_PHRASE;
-					  theParameters.theTemperaturePhraseId = SOMEWHAT_MILDER;
+					  temperatureSentence << HIEMAN_LAUHEMPAA_PHRASE;
+					  theParameters.theTemperaturePhraseId = HIEMAN_LAUHEMPAA;
 					}
 				  else
 					{
-					  temperatureSentence << SOMEWHAT_HIGHER_PHRASE;
-					  theParameters.theTemperaturePhraseId = SOMEWHAT_HIGHER;
+					  temperatureSentence << HIEMAN_KORKEMAPI_PHRASE;
+					  theParameters.theTemperaturePhraseId = HIEMAN_KORKEMAPI;
 					}
 				}
 			  else
 				{
 				  if(theParameters.theMean <= PAKKASRAJA_TEMPERATURE)
 					{
-					  temperatureSentence << SOMEWHAT_TIGHTENEDUP_PHRASE;
-					  theParameters.theTemperaturePhraseId = SOMEWHAT_TIGHTENEDUP;
+					  temperatureSentence << HIEMAN_KIREAMPAA_PHRASE;
+					  theParameters.theTemperaturePhraseId = HIEMAN_KIREAMPAA;
 					}
 				  else if(theParameters.theMean < 0)
 					{
-					  temperatureSentence << SOMEWHAT_COLDER_PHRASE;
-					  theParameters.theTemperaturePhraseId = SOMEWHAT_COLDER;
+					  temperatureSentence << HIEMAN_KYLMEMPAA_PHRASE;
+					  theParameters.theTemperaturePhraseId = HIEMAN_KYLMEMPAA;
 					}
 				  else
 					{
-					  temperatureSentence << SOMEWHAT_LOWER_PHRASE;
-					  theParameters.theTemperaturePhraseId = SOMEWHAT_LOWER;
+					  temperatureSentence << HIEMAN_ALEMPI_PHRASE;
+					  theParameters.theTemperaturePhraseId = HIEMAN_ALEMPI;
 					}
 				}
 			}
 		  else if(nightlyMinHigherThanDailyMax)
 			{
-			  temperatureSentence << WARMING_UP_PHRASE;
-			  theParameters.theTemperaturePhraseId = WARMING_UP;
+			  temperatureSentence << LAMPOTILA_NOUSEE_PHRASE;
+			  theParameters.theTemperaturePhraseId = LAMPOTILA_NOUSEE;
 			}
 		  else
 			{
@@ -1841,31 +1914,31 @@ namespace TextGen
 		  if(smallChangeBetweenDay1AndDay2 && theParameters.theSubPeriodId != DAY2_MORNING_PERIOD && 
 			 theParameters.theSubPeriodId != DAY2_AFTERNOON_PERIOD)
 			{
-			  temperatureSentence << ABOUT_THE_SAME_PHRASE;
-			  theParameters.theTemperaturePhraseId = ABOUT_THE_SAME;
+			  temperatureSentence << SUUNNILLEEN_SAMA_PHRASE;
+			  theParameters.theTemperaturePhraseId = SUUNNILLEEN_SAMA;
 
 			}
 		  else if(moderateChangeBetweenDay1AndDay2 && theParameters.theSubPeriodId != DAY2_MORNING_PERIOD &&
 				  theParameters.theSubPeriodId != DAY2_AFTERNOON_PERIOD && 
-				  theParameters.theTemperaturePhraseId != AROUND_ZERO_OR_MINOR_PLUS)
+				  theParameters.theTemperaturePhraseId != NOLLAN_TIENOILLA_TAI_VAHAN_PLUSSAN_PUOLELLA)
 			{
 			  // small change
 			  if(temperatureDifference > 0)
 				{
 				  if(theParameters.theMean <= PAKKASRAJA_TEMPERATURE)
 					{
-					  temperatureSentence << SOMEWHAT_WEAKER_PHRASE;
-					  theParameters.theTemperaturePhraseId =SOMEWHAT_WEAKER;
+					  temperatureSentence << HIEMAN_HEIKOMPAA_PHRASE;
+					  theParameters.theTemperaturePhraseId = HIEMAN_HEIKOMPAA;
 					}
 				  else if(theParameters.theMean < 0)
 					{
-					  temperatureSentence << SOMEWHAT_MILDER_PHRASE;
-					  theParameters.theTemperaturePhraseId = SOMEWHAT_MILDER;
+					  temperatureSentence << ON_WORD << HIEMAN_LAUHEMPAA_PHRASE;
+					  theParameters.theTemperaturePhraseId = HIEMAN_LAUHEMPAA;
 					}
 				  else
 					{
-					  temperatureSentence << SOMEWHAT_HIGHER_PHRASE;
-					  theParameters.theTemperaturePhraseId = SOMEWHAT_HIGHER;
+					  temperatureSentence << HIEMAN_KORKEMAPI_PHRASE;
+					  theParameters.theTemperaturePhraseId = HIEMAN_KORKEMAPI;
 					}
 
 				}
@@ -1873,18 +1946,18 @@ namespace TextGen
 				{
 				  if(theParameters.theMean <= PAKKASRAJA_TEMPERATURE)
 					{
-					  temperatureSentence << SOMEWHAT_TIGHTENEDUP_PHRASE;
-					  theParameters.theTemperaturePhraseId = SOMEWHAT_TIGHTENEDUP;
+					  temperatureSentence << HIEMAN_KIREAMPAA_PHRASE;
+					  theParameters.theTemperaturePhraseId = HIEMAN_KIREAMPAA;
 					}
 				  else if(theParameters.theMean < 0)
 					{
-					  temperatureSentence << SOMEWHAT_COLDER_PHRASE;
-					  theParameters.theTemperaturePhraseId = SOMEWHAT_COLDER;
+					  temperatureSentence << HIEMAN_KYLMEMPAA_PHRASE;
+					  theParameters.theTemperaturePhraseId = HIEMAN_KYLMEMPAA;
 					}
 				  else
 					{
-					  temperatureSentence << SOMEWHAT_LOWER_PHRASE;
-					  theParameters.theTemperaturePhraseId = SOMEWHAT_LOWER;
+					  temperatureSentence << HIEMAN_ALEMPI_PHRASE;
+					  theParameters.theTemperaturePhraseId = HIEMAN_ALEMPI;
 					}
 				}
 			}
@@ -1910,11 +1983,17 @@ namespace TextGen
 		   theParameters.theForecastAreaId == COASTAL_AREA)&&
 */
 	  if(theParameters.theFullPeriod.localEndTime().DifferenceInHours(theParameters.theFullPeriod.localStartTime()) > 24)
-		nextDaySentence << PeriodPhraseFactory::create("next_day",
-													   theParameters.theVariable,
-													   theParameters.theForecastTime,
-													   theParameters.theWeatherPeriod,
-													   theParameters.theWeatherArea);
+		{
+		  // ARE 07.02.2011: if day1 and day2 are included
+		  if(theParameters.theForecastPeriod & DAY1_PERIOD)
+			const_cast<WeatherHistory&>(theParameters.theWeatherArea.history()).updateTimePhrase("", NFmiTime(1970,1,1));
+		  
+		  nextDaySentence << PeriodPhraseFactory::create("next_day",
+														 theParameters.theVariable,
+														 theParameters.theForecastTime,
+														 theParameters.theWeatherPeriod,
+														 theParameters.theWeatherArea);
+		}
 	  
 	  if(!nextDaySentence.empty())
 		theParameters.theTomorrowTautologyFlag = true;
@@ -2016,11 +2095,6 @@ namespace TextGen
 				{
 				  theParameters.theForecastAreaId = FULL_AREA;
 				  theParameters.theSubPeriodId = UNDEFINED_SUBPERIOD;
-				  /*
-				  theParameters.theMinimum = theParameters.theWeatherResults[areaMin]->value();
-				  theParameters.theMaximum = theParameters.theWeatherResults[areaMax]->value();
-				  theParameters.theMean = theParameters.theWeatherResults[areaMean]->value();
-				  */
 				  theParameters.theMinimum = theParameters.theWeatherResults[AREA_MIN_DAY1_AFTERNOON]->value();
 				  theParameters.theMaximum = theParameters.theWeatherResults[AREA_MAX_DAY1_AFTERNOON]->value();
 				  theParameters.theMean = theParameters.theWeatherResults[AREA_MEAN_DAY1_AFTERNOON]->value();
@@ -2081,11 +2155,6 @@ namespace TextGen
 				  theParameters.theForecastAreaId = FULL_AREA;
 				  theParameters.theSubPeriodId = UNDEFINED_SUBPERIOD;
 				  theParameters.theMeanTemperatureDay1 = theParameters.theWeatherResults[AREA_MEAN_DAY1]->value();
-				  /*
-				  theParameters.theMinimum = theParameters.theWeatherResults[areaMin]->value();
-				  theParameters.theMaximum = theParameters.theWeatherResults[areaMax]->value();
-				  theParameters.theMean = theParameters.theWeatherResults[areaMean]->value();
-				  */
 				  theParameters.theMinimum = theParameters.theWeatherResults[AREA_MIN_DAY2_AFTERNOON]->value();
 				  theParameters.theMaximum = theParameters.theWeatherResults[AREA_MAX_DAY2_AFTERNOON]->value();
 				  theParameters.theMean = theParameters.theWeatherResults[AREA_MEAN_DAY2_AFTERNOON]->value();
@@ -2132,11 +2201,6 @@ namespace TextGen
 				{
 				  theParameters.theForecastAreaId = INLAND_AREA;
 				  theParameters.theSubPeriodId = UNDEFINED_SUBPERIOD;
-				  /*
-				  theParameters.theMinimum = theParameters.theWeatherResults[inlandMin]->value();
-				  theParameters.theMaximum = theParameters.theWeatherResults[inlandMax]->value();
-				  theParameters.theMean = theParameters.theWeatherResults[inlandMean]->value();
-*/
 				  theParameters.theMinimum = theParameters.theWeatherResults[INLAND_MIN_DAY1_AFTERNOON]->value();
 				  theParameters.theMaximum = theParameters.theWeatherResults[INLAND_MAX_DAY1_AFTERNOON]->value();
 				  theParameters.theMean = theParameters.theWeatherResults[INLAND_MEAN_DAY1_AFTERNOON]->value();
@@ -2196,11 +2260,6 @@ namespace TextGen
 				  theParameters.theForecastAreaId = INLAND_AREA;
 				  theParameters.theSubPeriodId = UNDEFINED_SUBPERIOD;
 				  theParameters.theMeanTemperatureDay1 = theParameters.theWeatherResults[INLAND_MEAN_DAY1]->value();
-				  /*
-				  theParameters.theMinimum = theParameters.theWeatherResults[inlandMin]->value();
-				  theParameters.theMaximum = theParameters.theWeatherResults[inlandMax]->value();
-				  theParameters.theMean = theParameters.theWeatherResults[inlandMean]->value();
-				  */
 				  theParameters.theMinimum = theParameters.theWeatherResults[INLAND_MIN_DAY2_AFTERNOON]->value();
 				  theParameters.theMaximum = theParameters.theWeatherResults[INLAND_MAX_DAY2_AFTERNOON]->value();
 				  theParameters.theMean = theParameters.theWeatherResults[INLAND_MEAN_DAY2_AFTERNOON]->value();
@@ -2248,11 +2307,6 @@ namespace TextGen
 				{
 				  theParameters.theForecastAreaId = COASTAL_AREA;
 				  theParameters.theSubPeriodId = UNDEFINED_SUBPERIOD;
-				  /*
-				  theParameters.theMinimum = theParameters.theWeatherResults[coastMin]->value();
-				  theParameters.theMaximum = theParameters.theWeatherResults[coastMax]->value();
-				  theParameters.theMean = theParameters.theWeatherResults[coastMean]->value();
-				  */
 				  theParameters.theMinimum = theParameters.theWeatherResults[COAST_MIN_DAY1_AFTERNOON]->value();
 				  theParameters.theMaximum = theParameters.theWeatherResults[COAST_MAX_DAY1_AFTERNOON]->value();
 				  theParameters.theMean = theParameters.theWeatherResults[COAST_MEAN_DAY1_AFTERNOON]->value();
@@ -2310,11 +2364,6 @@ namespace TextGen
 				  theParameters.theForecastAreaId = COASTAL_AREA;
 				  theParameters.theSubPeriodId = UNDEFINED_SUBPERIOD;
 				  theParameters.theMeanTemperatureDay1 = theParameters.theWeatherResults[COAST_MEAN_DAY1]->value();
-				  /*
-				  theParameters.theMinimum = theParameters.theWeatherResults[coastMin]->value();
-				  theParameters.theMaximum = theParameters.theWeatherResults[coastMax]->value();
-				  theParameters.theMean = theParameters.theWeatherResults[coastMean]->value();
-				  */
 				  theParameters.theMinimum = theParameters.theWeatherResults[COAST_MIN_DAY2_AFTERNOON]->value();
 				  theParameters.theMaximum = theParameters.theWeatherResults[COAST_MAX_DAY2_AFTERNOON]->value();
 				  theParameters.theMean = theParameters.theWeatherResults[COAST_MEAN_DAY2_AFTERNOON]->value();
@@ -2412,7 +2461,8 @@ namespace TextGen
 		{
 		  float temperature_diff_day1 = abs(round(theParameters.theWeatherResults[INLAND_MEAN_DAY1]->value() - 
 												  theParameters.theWeatherResults[COAST_MEAN_DAY1]->value()));
-		  separate_inland_and_coast_day1 = (temperature_diff_day1 >= temperature_limit_coast_inland);
+		  separate_inland_and_coast_day1 = (temperature_diff_day1 >= temperature_limit_coast_inland) &&
+			!theParameters.theCoastalAndInlandTogetherFlag;
 		}
 
 	  if(theParameters.theWeatherResults[INLAND_MEAN_DAY2]->value() != kFloatMissing &&
@@ -2422,7 +2472,8 @@ namespace TextGen
 		{
 		  float temperature_diff_day2 = abs(theParameters.theWeatherResults[INLAND_MEAN_DAY2]->value() - 
 											theParameters.theWeatherResults[COAST_MEAN_DAY2]->value());
-		  separate_inland_and_coast_day2 = (temperature_diff_day2 >= temperature_limit_coast_inland);
+		  separate_inland_and_coast_day2 = (temperature_diff_day2 >= temperature_limit_coast_inland) &&
+			!theParameters.theCoastalAndInlandTogetherFlag;
 		}
 
 	  if(theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value() != kFloatMissing &&
@@ -2432,7 +2483,8 @@ namespace TextGen
 		{
 		  float temperature_diff_night = abs(theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value() - 
 											 theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value());
-		  separate_inland_and_coast_night = (temperature_diff_night >= temperature_limit_coast_inland);
+		  separate_inland_and_coast_night = (temperature_diff_night >= temperature_limit_coast_inland) &&
+			!theParameters.theCoastalAndInlandTogetherFlag;
 		}
 
 	  if(processingOrder == DAY1_DAY2_NIGHT)
@@ -3024,6 +3076,22 @@ namespace TextGen
 						  itsArea,
 						  itsSources,
 						  weatherResults);
+
+	float coastalPercentage = get_area_percentage(itsArea,
+												  WeatherArea::Coast,
+												  itsSources,
+												  itsPeriod);
+
+
+	float separate_coastal_area_percentage = Settings::optional_double(itsVar + 
+																	 "::separate_coastal_area_percentage", 
+																	 SEPARATE_COASTAL_AREA_PERCENTAGE);
+
+	parameters.theCoastalAndInlandTogetherFlag = coastalPercentage > 0 && 
+	  coastalPercentage < separate_coastal_area_percentage;
+
+	if(parameters.theCoastalAndInlandTogetherFlag)
+	  log << "Inland and coastal area(" << coastalPercentage << ") not separated!" << endl;
 
 	parameters.theRangeSeparator = range_separator;
 	parameters.theMinInterval = mininterval;

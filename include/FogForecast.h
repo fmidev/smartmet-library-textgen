@@ -64,6 +64,7 @@ using namespace std;
 	Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;
 	float getMean(const fog_period_vector& theFogPeriods,
 				  const WeatherPeriod& theWeatherPeriod) const;
+	WeatherPeriod getActualFogPeriod(const WeatherPeriod& theForecastPeriod, const WeatherPeriod& theFogPeriod) const;
 
 
 	wf_story_params& theParameters;
@@ -82,6 +83,8 @@ using namespace std;
 	fog_type_period_vector theCoastalFogType;
 	fog_type_period_vector theInlandFogType;
 	fog_type_period_vector theFullAreaFogType;
+
+	static std::string thePreviousTimePhrase;
   };
 } // namespace TextGen
 
