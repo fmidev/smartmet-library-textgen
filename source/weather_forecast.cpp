@@ -41,6 +41,7 @@
 #include "ThunderForecast.h"
 #include "NFmiCombinedParam.h"
 #include "WeatherHistory.h"
+#include "NFmiSettings.h"
 
 #include <boost/lexical_cast.hpp>
 #include <vector>

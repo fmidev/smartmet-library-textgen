@@ -81,8 +81,8 @@ namespace TextGen
 #define RANNIKOLLA_WORD "rannikolla"
 #define PAKKANEN_ON_PUREVAA_PHRASE "pakkanen on purevaa"
 #define PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE "pakkanen on erittäin purevaa"
-#define TUULI_VIILENTAA_SAATA_PHRASE "tuuli viilentää säätä"
-#define TUULI_KYLMENTAA_SAATA_PHRASE "tuuli kylmentää säätä"
+#define TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE "tuuli saa sään tuntumaan viileämmältä"
+#define TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE "tuuli saa sään tuntumaan kylmemmältä"
 #define TANAAN_WORD "tänään"
 #define HUOMENNA_WORD "huomenna"
 
@@ -1113,10 +1113,10 @@ namespace TextGen
 				 Sentence windCoolingSentence;
 
 				 if(temperature > 0.0 && temperature <= 10.0)
-				   windCoolingSentence << TUULI_KYLMENTAA_SAATA_PHRASE << theSpecifiedDay 
+				   windCoolingSentence << TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE << theSpecifiedDay 
 									   << areaString << part_of_the_day ;
 				 else if(temperature > 10.0)
-				   windCoolingSentence << TUULI_VIILENTAA_SAATA_PHRASE << theSpecifiedDay 
+				   windCoolingSentence << TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE << theSpecifiedDay 
 									   << areaString << part_of_the_day ;
 
 				 sentence << windCoolingSentence;

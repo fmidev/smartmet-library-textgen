@@ -106,10 +106,6 @@ namespace TextGen
 #define SAA_ON_HELTEISTA_PHRASE "s‰‰ on helteist‰"
 #define SAA_LAMPENEE_PHRASE "s‰‰ l‰mpenee"
 #define SAA_VIILENEE_PHRASE "s‰‰ viilenee"
-#define PAKKANEN_ON_PUREVAA_PHRASE "pakkanen on purevaa"
-#define PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE "pakkanen on eritt‰in purevaa"
-#define TUULI_VIILENTAA_SAATA_PHRASE "tuuli viilent‰‰ s‰‰t‰"
-#define TUULI_KYLMENTAA_SAATA_PHRASE "tuuli kylment‰‰ s‰‰t‰"
 
 enum anomaly_phrase_id
   {

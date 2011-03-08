@@ -238,7 +238,9 @@ namespace TextGen
 					  const float& thePrecipitationIntensity,
 					  const float& thePrecipitationExtent)
   {
-	if(thePrecipitationExtent == 0.0)
+	if(thePrecipitationExtent == 0.0 || 
+	   thePrecipitationExtent == kFloatMissing || 
+	   thePrecipitationIntensity == kFloatMissing)
 	  return true;
 
 	bool dry_weather = false;
