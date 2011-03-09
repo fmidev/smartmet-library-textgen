@@ -70,13 +70,11 @@ namespace TextGen
 
 #define SAA_WORD "s‰‰"
 #define ON_WORD "on"
-#define POIKKEUKSELLISEN_WORD "poikkeuksellisen"
 #define HYVIN_WORD "hyvin"
 #define TUULINEN_WORD "tuulinen"
 #define TUULISTA_WORD "tuulista"
 #define AAMUPAIVALLA_WORD "aamup‰iv‰ll‰"
 #define ILTAPAIVALLA_WORD "iltap‰iv‰ll‰"
-#define ERITTAIN_WORD "eritt‰in"
 #define SISAMAASSA_WORD "sis‰maassa"
 #define RANNIKOLLA_WORD "rannikolla"
 #define PAKKANEN_ON_PUREVAA_PHRASE "pakkanen on purevaa"

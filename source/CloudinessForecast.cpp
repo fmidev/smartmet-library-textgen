@@ -290,6 +290,8 @@ namespace TextGen
 
 		weather_event_id trid(cloudinessWeatherEvents.at(i).second);
 
+		sentence << get_time_phrase(weatherEventTimestamp, theParameters.theVariable, true);
+
 		if(trid == PILVISTYY)
 		  {
 			sentence << PILVISTYVAA_WORD;
@@ -298,8 +300,6 @@ namespace TextGen
 		  {
 			sentence << SELKENEVAA_WORD;
 		  }
-
-		sentence << get_time_phrase(weatherEventTimestamp, theParameters.theVariable, true);
 	  }
 
 	return sentence;
