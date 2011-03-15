@@ -27,7 +27,8 @@ objdir = obj
 
 # rpm variables
 
-rpmsourcedir = /smartmet/src/redhat/SOURCES
+rpmsourcedir=$(shell test -d /smartmet && echo /smartmet/src/redhat/SOURCES || echo /fmi/dev/src/redhat/SOURCES )
+
 rpmerr = "There's no spec file ($(LIB).spec). RPM wasn't created. Please make a spec file or copy and rename it into $(LIB).spec"
 
 rpmversion := $(shell grep "^Version:" $(LIB).spec  | cut -d\  -f 2 | tr . _)
