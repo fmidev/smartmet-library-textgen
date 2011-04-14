@@ -846,7 +846,7 @@ namespace TextGen
 		  {
 			cloudinessSentence << COAST_PHRASE;
 			cloudinessSentence << cloudiness_sentence(coastalCloudinessId, theShortForm);
-			cloudinessSentence << Delimiter(",");
+			cloudinessSentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			cloudinessSentence << INLAND_PHRASE;
 			cloudinessSentence << cloudiness_sentence(inlandCloudinessId, theShortForm);
 		  }

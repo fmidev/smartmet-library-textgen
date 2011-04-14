@@ -252,6 +252,38 @@ using namespace std;
 	return retval;
   }
 
+  const char* story_part_id_string(const story_part_id& theStoryPartId)
+  {
+	string retval("");
+	//	const char* retval = "";
+
+	switch(theStoryPartId)
+	  {
+	  case PRECIPITATION_STORY_PART:
+		retval = "precipitation";
+		break;
+ 	  case CLOUDINESS_STORY_PART:
+		retval = "cloudiness";
+		break;
+ 	  case GETTING_CLOUDY_STORY_PART:
+		retval = "getting cloudy";
+		break;
+ 	  case CLEARING_UP_STORY_PART:
+		retval = "clearing up";
+		break;
+ 	  case PRECIPITATION_TYPE_CHANGE_STORY_PART:
+		retval = "precipitation type change";
+		break;
+	  default:
+		retval = "missing";
+		break;
+	  };
+
+	retval += " story part";
+	
+	return retval.c_str();
+  }
+
   part_of_the_day_id get_part_of_the_day_id(const NFmiTime& theTimestamp)
   {	
  	if(theTimestamp.GetHour() >= AAMU_START&& theTimestamp.GetHour() <= AAMU_END)
@@ -321,7 +353,7 @@ using namespace std;
 	else if(thePeriod.localStartTime().GetHour() >= YO_START && 
 			thePeriod.localEndTime().GetHour() <= YO_END)
 	  return YO;
-	else if(thePeriod.localStartTime().GetHour() >= PAIVA_START && 
+	else if(thePeriod.localStartTime().GetHour() >= PAIVA_START - 2 && 
 			thePeriod.localEndTime().GetHour() <= PAIVA_END)
 	  return PAIVA;
 	
@@ -1146,12 +1178,12 @@ using namespace std;
 	  }
   }
 
-  unsigned int get_complete_precipitation_form(const string& theVariable,
-									  const float thePrecipitationFormWater,
-									  const float thePrecipitationFormDrizzle,
-									  const float thePrecipitationFormSleet,
-									  const float thePrecipitationFormSnow,
-									  const float thePrecipitationFormFreezing)
+  precipitation_form_id get_complete_precipitation_form(const string& theVariable,
+														const float thePrecipitationFormWater,
+														const float thePrecipitationFormDrizzle,
+														const float thePrecipitationFormSleet,
+														const float thePrecipitationFormSnow,
+														const float thePrecipitationFormFreezing)
   {
 	unsigned int precipitation_form = 0;
 
@@ -1200,7 +1232,7 @@ using namespace std;
 	precipitation_form |= secondaryPrecipitationForm;
 	precipitation_form |= tertiaryPrecipitationForm;
 
-	return precipitation_form;
+	return static_cast<precipitation_form_id>(precipitation_form);
   }
 
   void get_sub_time_series(const WeatherPeriod& thePeriod,

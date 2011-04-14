@@ -142,7 +142,6 @@ using namespace std;
 						   const CloudinessDataItemData& theCloudinessDataItemData);
   std::ostream& operator<<(std::ostream & theOutput,
 						   const CloudinessDataItem& theCloudinessDataItem);
-
 } // namespace TextGen
 
 #endif // TEXTGEN_CLOUDINESS_FORECAST_H

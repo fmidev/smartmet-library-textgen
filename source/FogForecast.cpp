@@ -500,6 +500,7 @@ namespace TextGen
 		   thePeriod.localEndTime() >= actualFogPeriod.localEndTime())
 		  {
 			Sentence fogSentence;
+			Sentence todayPhrase;
 			fogSentence << getFogPhrase(theFogTypePeriods.at(i).second);
 			if(!fogSentence.empty())
 			  {
@@ -508,27 +509,33 @@ namespace TextGen
 				  {
 					if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 					  {
-						sentence << PeriodPhraseFactory::create("today",
-																theParameters.theVariable,
-																theParameters.theForecastTime,
-																thePeriod,
-																theParameters.theArea);
+						todayPhrase << PeriodPhraseFactory::create("today",
+																	 theParameters.theVariable,
+																	 theParameters.theForecastTime,
+																	 thePeriod,
+																	 theParameters.theArea);
 
 					  }
 					vector<std::string> theStringVector;
-					Sentence timePhraseSentence(get_time_phrase_large(actualFogPeriod, 
-																	  theParameters.theVariable, 
-																	  false, 
-																	  &theStringVector));
-					std::string timePhrase;
+					Sentence timePhrase(get_time_phrase_large(actualFogPeriod, 
+															  theParameters.theVariable, 
+															  false, 
+															  &theStringVector));
+					std::string timePhraseString;
 					for(unsigned int k = 0; k < theStringVector.size(); k++)
-					  timePhrase += theStringVector[k];
+					  timePhraseString += theStringVector[k];
 
-					if(timePhrase != thePreviousTimePhrase)
+					bool todayPhraseExists = todayPhrase.size() > 0;
+					bool timePhraseExists = false;
+					sentence << todayPhrase;
+					if(timePhraseString != thePreviousTimePhrase)
 					  {
-						sentence << timePhraseSentence;
-						thePreviousTimePhrase = timePhrase;						
+						timePhraseExists = timePhrase.size() > 0;
+						sentence << timePhrase;
+						thePreviousTimePhrase = timePhraseString;
 					  }
+					if(todayPhraseExists || timePhraseExists)
+					  sentence << ON_WORD;
 					sentence << fogSentence;
 					if(!(theParameters.theForecastArea & FULL_AREA))
 					  sentence <<  areaSpecificSentence(thePeriod);

@@ -7,6 +7,7 @@
 
 #include "TemperatureStory.h"
 #include "FrostStory.h"
+#include "WeekdayTools.h"
 
 #include "SeasonTools.h"
 
@@ -118,18 +119,16 @@ namespace TextGen
 #define PAKKANEN_WORD "pakkanen"
 #define ON_WORD "on"
 #define NOIN_PHRASE "noin"
-#define ASTEEN_PHRASE "asteen"
-#define PAIKKEILLA_PHRASE "paikkeilla"
-#define TIENOILLA_PHRASE "tienoilla"
-#define LAHELLA_PHRASE "lähellä"
-#define TUNTUMASSA_PHRASE "tuntumassa"
+#define TIENOILLA_PHRASE "[1] asteen tienoilla"
+#define LAHELLA_PHRASE "lähellä [1] astetta"
+#define TUNTUMASSA_PHRASE "[1] asteen tuntumassa"
+
 #define VAJAAT_PHRASE "vajaat"
 #define VAHAN_PHRASE "vähän"
 #define YLI_PHRASE "yli"
 #define TAI_PHRASE "tai"
 
 	enum proximity_id{NOIN_ASTETTA,
-					  PAIKKEILLA_ASTETTA,
 					  TIENOILLA_ASTETTA,
 					  LAHELLA_ASTETTA,
 					  TUNTUMASSA_ASTETTA,
@@ -300,7 +299,8 @@ namespace TextGen
 		theZeroIntervalFlag(false),
 		theTemperaturePhraseId(NO_PHRASE),
 		theDayAndNightSeparationFlag(true),
-		theUseFrostExistsPhrase(false)
+		theUseFrostExistsPhrase(false),
+		theFullDayFlag(true)
 	  {}
 
 	  const string& theVariable;
@@ -341,6 +341,7 @@ namespace TextGen
 	  bool theDayAndNightSeparationFlag;
 	  Paragraph theOptionalFrostParagraph;
 	  bool theUseFrostExistsPhrase;
+	  bool theFullDayFlag;
 
 	  bool morningAndAfternoonSeparated(const forecast_period_id& forecastPeriodId = NO_PERIOD) const
 	  {
@@ -1451,35 +1452,26 @@ namespace TextGen
 										 << " astetta :: " << tempBuff << endl;
 				  }
 				  break;
-				case PAIKKEILLA_ASTETTA:
-				  {
-					sentence << Integer(theProximityNumber)
-							 << ASTEEN_PHRASE << PAIKKEILLA_PHRASE;
-					theParameters.theLog << "PROXIMITY: " << proximityNumberBuff 
-										 << " asteen paikkeilla :: " << tempBuff << endl;
-				  }
-				  break;
 				case TIENOILLA_ASTETTA:
 				  {
-					sentence << Integer(theProximityNumber)
-							 << ASTEEN_PHRASE << TIENOILLA_PHRASE;
+					sentence << TIENOILLA_PHRASE <<  Integer(theProximityNumber);
+
 					theParameters.theLog << "PROXIMITY: " << proximityNumberBuff 
 										 << " asteen tienoilla :: " << tempBuff << endl;
 				  }
 				  break;
 				case LAHELLA_ASTETTA:
 				  {
-					sentence << LAHELLA_PHRASE
-							 << Integer(theProximityNumber)
-							 << *UnitFactory::create(DegreesCelsius);
+					sentence << LAHELLA_PHRASE << Integer(theProximityNumber);
+
 					theParameters.theLog << "PROXIMITY: Lähellä " << proximityNumberBuff 
 										 << " astetta :: " << tempBuff << endl;
 				  }
 				  break;
 				case TUNTUMASSA_ASTETTA:
 				  {
-					sentence << Integer(theProximityNumber)
-							 << ASTEEN_PHRASE << TUNTUMASSA_PHRASE;
+					sentence << TUNTUMASSA_PHRASE << Integer(theProximityNumber);
+
 					theParameters.theLog << "PROXIMITY: " << proximityNumberBuff 
 										 << " asteen tuntumassa :: " << tempBuff << endl;
 				  }
@@ -1555,9 +1547,18 @@ namespace TextGen
 		{
 		  if(theParameters.theForecastPeriodId == NIGHT_PERIOD && !theParameters.theNightPeriodTautologyFlag)
 			{
-			  if(theParameters.theTemperaturePhraseId == PIKKUPAKKASTA)
+			  // bugfix 13.4.2011: "Yön alin lämpötila on hieman kylmempää" => "Yöllä on hieman kylmempää"
+			  if(theParameters.theTemperaturePhraseId == PIKKUPAKKASTA ||
+				 theParameters.theTemperaturePhraseId == HIEMAN_HEIKOMPAA ||
+				 theParameters.theTemperaturePhraseId == HIEMAN_LAUHEMPAA ||
+				 theParameters.theTemperaturePhraseId == HIEMAN_KIREAMPAA ||
+				 theParameters.theTemperaturePhraseId == HIEMAN_KYLMEMPAA)
 				{
-				  theDayPhasePhrase << YOLLA_PHRASE << ON_WORD;
+				  if(theParameters.theTemperaturePhraseId == HIEMAN_KIREAMPAA || 
+					 theParameters.theTemperaturePhraseId == HIEMAN_HEIKOMPAA)
+					theDayPhasePhrase << YOLLA_PHRASE << PAKKANEN_WORD << ON_WORD;
+				  else
+						theDayPhasePhrase << YOLLA_PHRASE << ON_WORD;
 				}
 			  else if(theParameters.theTemperaturePhraseId == LAMPOTILA_NOUSEE)
 				{
@@ -1591,7 +1592,10 @@ namespace TextGen
 					}
 				  else
 					{
-					  theDayPhasePhrase << PAIVAN_YLIN_LAPMOTILA_PHRASE << ON_WORD;
+					  if(theParameters.theFullDayFlag)
+						theDayPhasePhrase << PAIVAN_YLIN_LAPMOTILA_PHRASE << ON_WORD;
+					  else
+						theDayPhasePhrase << LAMPOTILA_WORD << ON_WORD;
 					  theParameters.theDayPeriodTautologyFlag = true;
 					}
 				}
@@ -1635,13 +1639,13 @@ namespace TextGen
 				 theParameters.theTemperaturePhraseId == HIEMAN_LAUHEMPAA ||
 				 theParameters.theTemperaturePhraseId == HIEMAN_KIREAMPAA ||
 				 theParameters.theTemperaturePhraseId == HIEMAN_KYLMEMPAA)
-					{
-					  if(theParameters.theTemperaturePhraseId == HIEMAN_KIREAMPAA || 
-						 theParameters.theTemperaturePhraseId == HIEMAN_HEIKOMPAA)
-						theDayPhasePhrase << YOLLA_PHRASE << PAKKANEN_WORD << ON_WORD;
-					  else
-						theDayPhasePhrase << YOLLA_PHRASE << ON_WORD;
-					}
+				{
+				  if(theParameters.theTemperaturePhraseId == HIEMAN_KIREAMPAA || 
+					 theParameters.theTemperaturePhraseId == HIEMAN_HEIKOMPAA)
+					theDayPhasePhrase << YOLLA_PHRASE << PAKKANEN_WORD << ON_WORD;
+				  else
+					theDayPhasePhrase << YOLLA_PHRASE << ON_WORD;
+				}
 			  else if(theParameters.theTemperaturePhraseId == LAMPOTILA_NOUSEE)
 				{
 				  theDayPhasePhrase << YOLLA_PHRASE;
@@ -2079,7 +2083,7 @@ namespace TextGen
 
 				  sentence << day1_sentence(theParameters);
 
-				  sentence << Delimiter(",");
+				  sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 
 
 				  theParameters.theForecastAreaId = FULL_AREA;
@@ -2139,7 +2143,7 @@ namespace TextGen
 
 				  sentence << day2_sentence(theParameters);
 
-				  sentence << Delimiter(",");
+				  sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 
 				  theParameters.theForecastAreaId = FULL_AREA;
 				  theParameters.theSubPeriodId = DAY2_AFTERNOON_PERIOD;
@@ -2187,7 +2191,7 @@ namespace TextGen
 				  sentence << day1_sentence(theParameters);
 
 
-				  sentence << Delimiter(",");
+				  sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 
 				  theParameters.theForecastAreaId = INLAND_AREA;
 				  theParameters.theSubPeriodId = DAY1_AFTERNOON_PERIOD;
@@ -2243,7 +2247,7 @@ namespace TextGen
 
 				  sentence << day2_sentence(theParameters);
 
-				  sentence << Delimiter(",");
+				  sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 
 				  theParameters.theForecastAreaId = INLAND_AREA;
 				  theParameters.theSubPeriodId = DAY2_AFTERNOON_PERIOD;
@@ -2292,7 +2296,7 @@ namespace TextGen
 
 				  sentence << day1_sentence(theParameters);
 
-				  sentence << Delimiter(",");
+				  sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 
 				  theParameters.theForecastAreaId = COASTAL_AREA;
 				  theParameters.theSubPeriodId = DAY1_AFTERNOON_PERIOD;
@@ -2348,7 +2352,7 @@ namespace TextGen
 
 				  sentence << day2_sentence(theParameters);
 
-				  sentence << Delimiter(",");
+				  sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 
 				  theParameters.theForecastAreaId = COASTAL_AREA;
 				  theParameters.theSubPeriodId = DAY2_AFTERNOON_PERIOD;
@@ -2608,7 +2612,7 @@ namespace TextGen
 					 !theParameters.morningAndAfternoonSeparated(DAY1_PERIOD) &&
 					 !theParameters.morningAndAfternoonSeparated(DAY2_PERIOD))
 					{
-					  sentenceUnderConstruction << Delimiter(",");
+					  sentenceUnderConstruction << Delimiter(COMMA_PUNCTUATION_MARK);
 					}
 				  else
 					{
@@ -2627,7 +2631,7 @@ namespace TextGen
 			{
 			  if(!sentenceUnderConstruction.empty())
 				{
-				  sentenceUnderConstruction << Delimiter(",");
+				  sentenceUnderConstruction << Delimiter(COMMA_PUNCTUATION_MARK);
 				}
 			  continue;
 			}
@@ -3076,6 +3080,8 @@ namespace TextGen
 						  itsArea,
 						  itsSources,
 						  weatherResults);
+
+	parameters.theFullDayFlag = Settings::optional_bool(itsVar + "::specify_part_of_the_day", true);
 
 	float coastalPercentage = get_area_percentage(itsArea,
 												  WeatherArea::Coast,

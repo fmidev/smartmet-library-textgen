@@ -24,6 +24,7 @@
 #include "PositiveValueAcceptor.h"
 #include "ComparativeAcceptor.h"
 #include "AreaTools.h"
+#include "WeatherForecast.h"
 
 #include <map>
 #include <newbase/NFmiStringTools.h>
@@ -262,7 +263,7 @@ namespace TextGen
 			sentence << "monin paikoin" << "hallaa"; 
 			if(tellSevereFrostStory)
 			  {
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 				sentence << "joka voi olla ankaraa";
 			  }
 		  }
@@ -272,7 +273,7 @@ namespace TextGen
 			sentence << "hallaa"; 
 			if(tellSevereFrostStory)
 			  {
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 				sentence << "joka voi olla ankaraa";
 			  }
 		  }
@@ -302,7 +303,7 @@ namespace TextGen
 			sentence << "rannikolla" << "monin paikoin" << "hallaa"; 
 			if(tellSevereFrostStory)
 			  {
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 				sentence << "joka voi olla ankaraa";
 			  }
 		  }
@@ -312,7 +313,7 @@ namespace TextGen
 			sentence << "rannikolla" << "hallaa"; 
 			if(tellSevereFrostStory)
 			  {
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 				sentence << "joka voi olla ankaraa";
 			  }
 		  }
@@ -337,7 +338,7 @@ namespace TextGen
 			sentence << "sisämaassa" << "monin paikoin" << "hallaa"; 
 			if(tellSevereFrostStory)
 			  {
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 				sentence << "joka voi olla ankaraa";
 			  }
 		  }
@@ -347,112 +348,112 @@ namespace TextGen
 			sentence << "sisämaassa" << "hallaa"; 
 			if(tellSevereFrostStory)
 			  {
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 				sentence << "joka voi olla ankaraa";
 			  }
 		  }
 		  break;
 		case (SISAMAASSA_MONIN_PAIKOIN_HALLAA*100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA:
 		  {
-			sentence << "sisämaassa" << "monin paikoin" << "hallaa" << Delimiter(",");
+			sentence << "sisämaassa" << "monin paikoin" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
 			if(tellSevereFrostStory)
 			  {
 				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			  }
 			 sentence << "rannikolla" << "mahdollisesti" << "hallaa";  
 		  }
 		  break;
 		case (SISAMAASSA_YLEISESTI_HALLAA*100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA:
 		  {
-			sentence << "sisämaassa" << "hallaa" << Delimiter(","); 
+			sentence << "sisämaassa" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK); 
 			if(tellSevereFrostStory)
 			  {
 				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			  }
 			 sentence << "rannikolla" << "mahdollisesti" << "hallaa";  
 		  }
 		  break;
 		case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100) + RANNIKOLLA_PAIKOIN_HALLAA:
 		  {
-			sentence << "sisämaassa" << "alavilla mailla" << "hallan vaara" << Delimiter(",") 
+			sentence << "sisämaassa" << "alavilla mailla" << "hallan vaara" << Delimiter(COMMA_PUNCTUATION_MARK) 
 					 << "rannikolla" << "paikoin" << "hallaa";  
 		  }
 		  break;
 		case (SISAMAASSA_YLEISESTI_HALLAA*100) + RANNIKOLLA_PAIKOIN_HALLAA:
 		  {
-			sentence << "sisämaassa" << "hallaa" << Delimiter(",");
+			sentence << "sisämaassa" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
 			if(tellSevereFrostStory)
 			  {
 				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			  }
 			sentence << "rannikolla" << "monin paikoin" << "hallaa";  
 		  }
 		  break;
 		case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
 		  {
-			sentence << "sisämaassa" << "alavilla mailla" << "hallan vaara" << Delimiter(",") 
+			sentence << "sisämaassa" << "alavilla mailla" << "hallan vaara" << Delimiter(COMMA_PUNCTUATION_MARK) 
 					 << "rannikolla" << "monin paikoin" << "hallaa";
 			if(tellSevereFrostStory)
 			  {
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 				sentence << "joka voi olla ankaraa";
 			  }  
 		  }
 		  break;
 		case (RANNIKOLLA_MONIN_PAIKOIN_HALLAA*100) + SISAMAASSA_MAHDOLLISESTI_HALLAA:
 		  {
-			sentence << "rannikolla" << "monin paikoin" << "hallaa" << Delimiter(",");
+			sentence << "rannikolla" << "monin paikoin" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
 			if(tellSevereFrostStory)
 			  {
 				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			  }
 			 sentence << "sisämaassa" << "mahdollisesti" << "hallaa";
 		  }
 		  break;
 		case (SISAMAASSA_PAIKOIN_HALLAA*100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
 		  {
-			sentence << "sisämaassa" << "paikoin" << "hallaa" << Delimiter(",") 
+			sentence << "sisämaassa" << "paikoin" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK) 
 					 << "rannikolla" << "monin paikoin" << "hallaa";  
 			if(tellSevereFrostStory)
 			  {
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 				sentence << "joka voi olla ankaraa";
 			  }
 		  }
 		  break;
 		case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100) + RANNIKOLLA_HALLAA:
 		  {
-			sentence << "sisämaassa" << "alavilla mailla" << "hallan vaara" << Delimiter(",") 
+			sentence << "sisämaassa" << "alavilla mailla" << "hallan vaara" << Delimiter(COMMA_PUNCTUATION_MARK) 
 					 << "rannikolla" << "hallaa";  
 			if(tellSevereFrostStory)
 			  {
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 				sentence << "joka voi olla ankaraa";
 			  }
 		  }
 		  break;
 		case (RANNIKOLLA_HALLAA*100) + SISAMAASSA_MAHDOLLISESTI_HALLAA:
 		  {
-			sentence << "rannikolla" << "hallaa" << Delimiter(",");
+			sentence << "rannikolla" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
 			if(tellSevereFrostStory)
 			  {
 				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			  }
 			sentence << "sisämaassa" << "mahdollisesti" << "hallaa";
 		  }
 		  break;
 		case (RANNIKOLLA_HALLAA*100) + SISAMAASSA_PAIKOIN_HALLAA:
 		  {
-			sentence  << "rannikolla" << "hallaa" << Delimiter(",");
+			sentence  << "rannikolla" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
 			if(tellSevereFrostStory)
 			  {
 				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(",");
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			  }
 			sentence << "sisämaassa" << "paikoin" << "hallaa";
 		  }

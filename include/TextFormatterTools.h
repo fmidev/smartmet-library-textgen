@@ -9,7 +9,11 @@
 #define TEXTGEN_TEXTFORMATTERTOOLS_H
 
 #include "TextFormatter.h"
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/find.hpp>
+#include <boost/algorithm/string/replace.hpp>
 #include <string>
+#include <iostream>
 
 namespace TextGen
 {
@@ -17,6 +21,9 @@ namespace TextGen
   {
 	void capitalize(std::string & theString);
 	void punctuate(std::string & theString);
+	std::string make_needle(int n);
+	int count_patterns(const std::string & theString);
+
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -39,6 +46,12 @@ namespace TextGen
 							  const std::string & theSuffix)
 	{
 	  std::string ret, tmp;
+
+	  // Number of patterns to replace
+	  int patterns = 0;
+	  // Next pattern to replace
+	  int pattern = 1;
+
 	  for( ; it!=end; ++it)
 		{
 		  bool isdelim = (*it)->isDelimiter();
@@ -46,11 +59,38 @@ namespace TextGen
 		  tmp = theFormatter.format(**it);	// iterator -> shared_ptr -> object
 		  if(!tmp.empty())
 			{
-			  if(!ret.empty() && !isdelim)
-				ret += thePrefix;
-			  ret += tmp;
-			  if(!isdelim)
-				ret += theSuffix;
+			  if(patterns > 0)
+				{
+				  std::string needle = make_needle(pattern++);
+
+				  // Normal replace for normal glyphs
+				  if(!isdelim)
+					boost::algorithm::replace_first(ret,needle,tmp);
+				  else
+					{
+					  // Try replacing " [N]" first for delimiters
+					  // We should test if the first one succeeds to avoid
+					  // the second replace, but replace does not return
+					  /// a boolean on success.
+					  boost::algorithm::replace_first(ret," "+needle,tmp);
+					  boost::algorithm::replace_first(ret,needle,tmp);
+					}
+				  if(pattern > patterns)
+					{
+					  patterns = 0;
+					  pattern = 1;
+					}
+				}
+			  else
+				{
+				  patterns = count_patterns(tmp);
+
+				  if(!ret.empty() && !isdelim)
+					ret += thePrefix;
+				  ret += tmp;
+				  if(!isdelim)
+					ret += theSuffix;
+				}
 			}
 		}
 	  return ret;

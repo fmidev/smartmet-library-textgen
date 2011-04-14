@@ -3,6 +3,7 @@
 
 #include "AreaTools.h"
 #include "WeatherPeriod.h"
+#include "MessageLogger.h"
 
 namespace TextGen
 {
@@ -11,6 +12,9 @@ namespace TextGen
   class CloudinessForecast;
   class FogForecast;
   class ThunderForecast;
+  class Sentence;
+
+#define COMMA_PUNCTUATION_MARK "," 
 
 #define INLAND_PHRASE "sisämaassa"
 #define COAST_PHRASE "rannikolla"
@@ -26,6 +30,8 @@ namespace TextGen
 #define YOLLA_WORD "yöllä"
 #define TANAAN_WORD "tänään"
 #define HUOMENNA_WORD "huomenna"
+#define ALUKSI_WORD "aluksi"
+#define MYOHEMMIN_WORD "myöhemmin"
 
 #define HEIKKOJA_WORD "heikkoja"
 #define SAKEITA_WORD "sakeita"
@@ -375,7 +381,7 @@ namespace TextGen
 	  MISSING_WEATHER_EVENT
 	};
 
-  enum story_part_id2
+  enum story_part_id
 	{
 	  PRECIPITATION_STORY_PART = 0x1,
 	  CLOUDINESS_STORY_PART = 0x2,
@@ -383,19 +389,6 @@ namespace TextGen
 	  CLEARING_UP_STORY_PART = 0x8,
 	  PRECIPITATION_TYPE_CHANGE_STORY_PART = 0x10,
 	  MISSING_STORY_PART = 0x0
-	};
-
-  enum story_part_id
-	{
-	  PILVISTYY_STORY_PART = 0x1,
-	  SELKENEE_STORY_PART = 0x2,
-	  POUTAANTUU_STORY_PART = 0x4,
-	  POUTAANTUU_AFTER_SMALL_EXTENT_STORY_PART = 0x8,
-	  SADE_ALKAA_STORY_PART = 0x10,
-	  PILVISYYS_STORY_PART = 0x20,
-	  SADE_STORY_PART = 0x40,
-	  SHORT_PRECIPITATION_STORY_PART = 0x80,
-	  MISSING_STORY_PART_ID = 0x0
 	};
 
   enum stat_func_id
@@ -534,6 +527,7 @@ namespace TextGen
   const char* precipitation_form_string(const precipitation_form_id& thePrecipitationForm);
   const char* precipitation_traverse_string(const precipitation_traverse_id& thePrecipitationTraverseId);
   const char* part_of_the_day_string(const part_of_the_day_id& thePartOfTheDayId);
+  const char* story_part_id_string(const story_part_id& theStoryPartId);
 
   void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour);
   part_of_the_day_id get_part_of_the_day_id(const WeatherPeriod& thePeriod);
@@ -564,12 +558,12 @@ namespace TextGen
 							const WeatherArea& theArea,
 							const WeatherPeriod thePeriod,
 							const NFmiTime& theForecastTime);
-  unsigned int get_complete_precipitation_form(const string& theVariable,
-											   const float thePrecipitationFormWater,
-											   const float thePrecipitationFormDrizzle,
-											   const float thePrecipitationFormSleet,
-											   const float thePrecipitationFormSnow,
-											   const float thePrecipitationFormFreezing); 
+  precipitation_form_id get_complete_precipitation_form(const string& theVariable,
+														const float thePrecipitationFormWater,
+														const float thePrecipitationFormDrizzle,
+														const float thePrecipitationFormSleet,
+														const float thePrecipitationFormSnow,
+														const float thePrecipitationFormFreezing); 
   void get_sub_time_series(const WeatherPeriod& thePeriod,
 						   const weather_result_data_item_vector& theSourceVector,						   
 						   weather_result_data_item_vector& theDestinationVector);
@@ -612,15 +606,13 @@ namespace TextGen
 														  const float& northWest,
 														  const bool& mostlyFlag = true);
   int get_period_length(const WeatherPeriod& thePeriod);
-
+ 
 
   float get_area_percentage(const WeatherArea& theArea,
 							const WeatherAnalysis::WeatherArea::Type& theType,
 							const AnalysisSources& theSources,
 							const WeatherPeriod& thePeriod);
 	
-
-
   struct WeatherResultDataItem
   {
 	WeatherResultDataItem(const WeatherPeriod& period, 
