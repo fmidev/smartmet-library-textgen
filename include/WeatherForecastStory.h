@@ -155,7 +155,7 @@ class WeatherForecastStory;
 	const WeatherArea& theWeatherArea;
 	const unsigned short& theForecastArea;
 	const NFmiTime& theForecastTime;
-	PrecipitationForecast& thePrecipitationForecast;
+	const PrecipitationForecast& thePrecipitationForecast;
 	const CloudinessForecast& theCloudinessForecast;
 	const FogForecast& theFogForecast;
 	const ThunderForecast& theThunderForecast;	

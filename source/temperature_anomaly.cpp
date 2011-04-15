@@ -344,7 +344,7 @@ enum anomaly_phrase_id
 			retval << KOLEAA_WORD;
 		  else
 			retval << KYLMAA_WORD;
-		  //			retval << HYVIN_WORD << KYLMAA_WORD;
+
 		  theParameters.theAnomalyPhrase = 
 			(theParameters.theSeason == SUMMER_SEASON ? SAA_ON_KOLEAA : SAA_ON_HYVIN_KYLMAA);
 		}
@@ -519,11 +519,15 @@ enum anomaly_phrase_id
 																	 fractileTemperaturePeriod,
 																	 theFractileType);
 	  Sentence theSpecifiedDay;
-	  theSpecifiedDay << PeriodPhraseFactory::create("today",
-													 theParameters.theVariable,
-													 theParameters.theForecastTime,
-													 theParameters.theDay2Period,
-													 theParameters.theArea);
+
+	  if(theParameters.thePeriodLength > 24)
+		{
+		  theSpecifiedDay << PeriodPhraseFactory::create("today",
+														 theParameters.theVariable,
+														 theParameters.theForecastTime,
+														 theParameters.theDay2Period,
+														 theParameters.theArea);
+		}
 
 	  if(theParameters.theSeason == WINTER_SEASON)
 		{

@@ -1301,6 +1301,55 @@ using namespace std;
 
 	Paragraph paragraph;
 
+
+
+#ifdef LATER
+	if(itsArea.isNamed())
+	  {
+		std::string name(itsArea.name());
+
+		if(name.compare("ahvenanmaa") == 0)
+		  {
+			NFmiTime periodStartTime(itsPeriod.localStartTime());
+			NFmiTime periodEndTime(itsPeriod.localStartTime());
+			periodEndTime.ChangeByHours(1);
+
+
+
+			for(int i = 0; i < 25; i++)
+			  {
+				for(int k = 0; k < 8; k++)
+				  {
+					NFmiTime periodStartTime2(periodStartTime);
+					NFmiTime periodEndTime2(periodEndTime);
+					periodEndTime2.ChangeByHours(k);
+					WeatherPeriod theTestPeriod(periodStartTime2, periodEndTime2);
+
+					log_start_time_and_end_time(log, 
+												"period: ",
+												theTestPeriod);
+					Sentence plainSentence;
+					Sentence alkaenSentence;
+					plainSentence << get_time_phrase_large(theTestPeriod,
+														   itsVar,
+														   false);
+					alkaenSentence << get_time_phrase_large(theTestPeriod,
+															itsVar,
+															true);
+
+					log << "pelkkä: ";
+					log << plainSentence;
+					log << "alkaen: ";
+					log << alkaenSentence;				
+				  }
+				periodStartTime.ChangeByHours(1);
+				periodEndTime.ChangeByHours(1);
+			  }
+		  }
+	  }
+#endif
+
+
 	// Period generator
 	const HourPeriodGenerator periodgenerator(itsPeriod, itsVar+"::day");
 	const int ndays = periodgenerator.size();

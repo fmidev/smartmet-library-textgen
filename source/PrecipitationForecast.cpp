@@ -395,7 +395,7 @@ namespace TextGen
 	
 	InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
 												  in_many_places,
-												  theUseOllaVerb,
+												  theUseOllaVerbFlag,
 												  theStringVector);
 
 	switch(theTransformId)
@@ -469,7 +469,6 @@ namespace TextGen
 
   int PrecipitationForecast::precipitationSentenceStringVector(const WeatherPeriod& thePeriod,
 															   const precipitation_form_id& thePrecipitationForm,
-															   const bool& theMoreThanOnePrecipitationFormInvolved,
 															   const float& thePrecipitationIntensity,
 															   const float thePrecipitationIntensityAbsoluteMax,
 															   const float& thePrecipitationExtent,
@@ -496,7 +495,7 @@ namespace TextGen
 
 		// use the summer phrase if it is summertime nad no more than one precipitation form is involved
 		bool use_summer_phrase = SeasonTools::isSummer(thePeriod.localStartTime(), theParameters.theVariable) &&
-		  !theMoreThanOnePrecipitationFormInvolved;
+		  theSinglePrecipitationFormFlag;
 
 		const bool is_showers = thePrecipitationType == SHOWERS;
 		const bool mostly_dry_weather = thePrecipitationExtent <= theParameters.theMostlyDryWeatherLimit;
@@ -531,7 +530,7 @@ namespace TextGen
 					{
 					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
 																	in_many_places,
-																	theUseOllaVerb,
+																	theUseOllaVerbFlag,
 																	theStringVector);
 				  
 					  if(is_showers)
@@ -596,7 +595,7 @@ namespace TextGen
 					{
 					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
 																	in_many_places,
-																	theUseOllaVerb,
+																	theUseOllaVerbFlag,
 																	theStringVector);
 
 					  if(is_showers)
@@ -637,7 +636,7 @@ namespace TextGen
 					{
 					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
 																	in_many_places,
-																	theUseOllaVerb,
+																	theUseOllaVerbFlag,
 																	theStringVector);
 					  if(is_showers)
 						{
@@ -700,7 +699,7 @@ namespace TextGen
 					{
 					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
 																	in_many_places,
-																	theUseOllaVerb,
+																	theUseOllaVerbFlag,
 																	theStringVector);
 
 					  if(is_showers)
@@ -740,7 +739,7 @@ namespace TextGen
 					{
 					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
 																	in_many_places,
-																	theUseOllaVerb,
+																	theUseOllaVerbFlag,
 																	theStringVector);
 
 					  if(is_showers)
@@ -791,7 +790,7 @@ namespace TextGen
 					{
 					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
 																	in_many_places,
-																	theUseOllaVerb,
+																	theUseOllaVerbFlag,
 																	theStringVector);
 
 					  if(is_showers)
@@ -858,7 +857,7 @@ namespace TextGen
 					{
 					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
 																	in_many_places,
-																	theUseOllaVerb,
+																	theUseOllaVerbFlag,
 																	theStringVector);
 
 					  if(is_showers)
@@ -931,7 +930,7 @@ vesi- tai lumisadetta.
 					{
 					  InPlacesPhrase::Instance()->getInPlacesPhrase(in_some_places,
 																	in_many_places,
-																	theUseOllaVerb,
+																	theUseOllaVerbFlag,
 																	theStringVector);
 
 					  if(is_showers)
@@ -1004,7 +1003,6 @@ vesi- tai lumisadetta.
 #ifdef LATER
   std::string PrecipitationForecast::precipitationSentenceString(const WeatherPeriod& thePeriod,
 																 const precipitation_form_id& thePrecipitationForm,
-																 const bool& theMoreThanOnePrecipitationFormInvolved,
 																 const float thePrecipitationIntensity,
 																 const float thePrecipitationIntensityAbsoluteMax,
 																 const float thePrecipitationExtent,
@@ -1022,7 +1020,6 @@ vesi- tai lumisadetta.
 
 	precipitationSentenceStringVector(thePeriod,
 									  thePrecipitationForm,
-									  theMoreThanOnePrecipitationFormInvolved,
 									  thePrecipitationIntensity,
 									  thePrecipitationIntensityAbsoluteMax,
 									  thePrecipitationExtent,
@@ -1117,7 +1114,6 @@ vesi- tai lumisadetta.
 
   Sentence PrecipitationForecast::selectPrecipitationSentence(const WeatherPeriod& thePeriod,
 															  const precipitation_form_id& thePrecipitationForm,
-															  const bool& theMoreThanOnePrecipitationFormInvolved,
 															  const float thePrecipitationIntensity,
 															  const float thePrecipitationAbsoluteMax,
 															  const float thePrecipitationExtent,
@@ -1138,7 +1134,6 @@ vesi- tai lumisadetta.
 	  {
 		precipitationSentenceStringVector(thePeriod,
 										  thePrecipitationForm,
-										  theMoreThanOnePrecipitationFormInvolved,
 										  thePrecipitationIntensity,
 										  thePrecipitationAbsoluteMax,
 										  thePrecipitationExtent,
@@ -1616,8 +1611,8 @@ vesi- tai lumisadetta.
 	return 0;
   }
 
-  unsigned int PrecipitationForecast::getPrecipitationForm(const WeatherPeriod& thePeriod,
-														   const unsigned short theForecastArea) const
+  precipitation_form_id PrecipitationForecast::getPrecipitationForm(const WeatherPeriod& thePeriod,
+																	const unsigned short theForecastArea) const
   {
 	const precipitation_data_vector& theDataVector = getPrecipitationDataVector(theForecastArea);
 
@@ -2682,38 +2677,20 @@ vesi- tai lumisadetta.
 																				  precipitationFormSnow,
 																				  precipitationFormFreezing);
 
-		// if more thatn one precipitation form is invloved we use phrase vesisadetta instead sadetta also in summertime
-		bool moreThanOnePrecipitationFormInvolved = false;
-
-		if(separateCoastInlandPrecipitation(thePeriod))
-		  {
-		   moreThanOnePrecipitationFormInvolved =
-			 ((!singleForm(precipitationForm) && precipitationFormInlandOrCoast != MISSING_PRECIPITATION_FORM) ||
-			  (!singleForm(precipitationFormInlandOrCoast) && precipitationForm != MISSING_PRECIPITATION_FORM) ||
-			  (precipitationForm != MISSING_PRECIPITATION_FORM && 
-			   precipitationFormInlandOrCoast != MISSING_PRECIPITATION_FORM &&
-			   singleForm(precipitationForm) && singleForm(precipitationFormInlandOrCoast) && 
-			   precipitationForm != precipitationFormInlandOrCoast));
-		  }
-		else
-		  {
-			moreThanOnePrecipitationFormInvolved = !singleForm(precipitationForm);
-		  }
  
-		   sentence << selectPrecipitationSentence(thePeriod,
-												   precipitationForm,
-												   moreThanOnePrecipitationFormInvolved,
-												   precipitationIntensity,
-												   precipitationAbsoluteMaxIntensity,
-												   precipitationExtent,
-												   precipitationFormWater,
-												   precipitationFormDrizzle,
-												   precipitationFormSleet,
-												   precipitationFormSnow,
-												   precipitationFormFreezing,
-												   precipitationType,
-												   dataVector->at(typeChangeIndex)->theObservationTime,
-												   getPrecipitationFormTransformationId(thePeriod, theForecastAreaId));
+		sentence << selectPrecipitationSentence(thePeriod,
+												precipitationForm,
+												precipitationIntensity,
+												precipitationAbsoluteMaxIntensity,
+												precipitationExtent,
+												precipitationFormWater,
+												precipitationFormDrizzle,
+												precipitationFormSleet,
+												precipitationFormSnow,
+												precipitationFormFreezing,
+												precipitationType,
+												dataVector->at(typeChangeIndex)->theObservationTime,
+												getPrecipitationFormTransformationId(thePeriod, theForecastAreaId));
 
 		   bool dry_weather = is_dry_weather(theParameters, 
 											 precipitationForm,
@@ -3158,8 +3135,9 @@ vesi- tai lumisadetta.
 
   PrecipitationForecast::PrecipitationForecast(wf_story_params& parameters)
 	: theParameters(parameters)
-	, theUseOllaVerb(false)
+	, theUseOllaVerbFlag(false)
 	, theDryPeriodTautologyFlag(false)
+	, theSinglePrecipitationFormFlag(true)
   {
 	gatherPrecipitationData();
 	findOutPrecipitationPeriods();
@@ -3173,7 +3151,7 @@ vesi- tai lumisadetta.
 	theFullData.clear();
   }
 
-  bool PrecipitationForecast::singleForm(const precipitation_form_id& thePrecipitationForm) const
+  bool PrecipitationForecast::singleForm(const precipitation_form_id& thePrecipitationForm)
   {
 	return thePrecipitationForm == WATER_FORM ||
 	  thePrecipitationForm == WATER_FREEZING_FORM ||

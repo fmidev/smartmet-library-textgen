@@ -61,19 +61,34 @@ namespace TextGen
 	mergePeriodsWhenFeasible();
 
 	bool specifyPartOfTheDayFlag = Settings::optional_bool(theVar + "::specify_part_of_the_day", true);
-	if(!specifyPartOfTheDayFlag)
+	int storyItemCounter(0);
+	bool moreThanOnePrecipitationForms(false);
+	for(unsigned int i = 0; i < theStoryItemVector.size(); i++)
 	  {
-		int counter(0);
-		for(unsigned int i = 0; i < theStoryItemVector.size(); i++)
+		if(!specifyPartOfTheDayFlag)
 		  {
 			// ARE 14.4.2011: checking theIncludeInTheStoryFlag
 			if(theStoryItemVector[i]->theIncludeInTheStoryFlag == true &&
 			   theStoryItemVector[i]->getSentence().size() > 0)
-			  counter++;
+			  storyItemCounter++;
 		  }
-		theReportTimePhraseFlag = counter > 1;
+
+		// check wheather more than one precipitation form exists during the forecast period
+		if(!moreThanOnePrecipitationForms &&
+		   theStoryItemVector[i]->theStoryPartId == PRECIPITATION_STORY_PART && 
+		   theStoryItemVector[i]->theIncludeInTheStoryFlag == true)
+		  {
+			precipitation_form_id precipitationForm = 
+			  thePrecipitationForecast.getPrecipitationForm(theStoryItemVector[i]->thePeriod,
+															theForecastArea);
+
+			moreThanOnePrecipitationForms = !PrecipitationForecast::singleForm(precipitationForm);
+		  }
 	  }
-  }
+	// if more than one item exists, use the phrases "aluksi", "myöhemmin" when the period is short
+	theReportTimePhraseFlag = storyItemCounter > 1;
+	thePrecipitationForecast.setSinglePrecipitationFormFlag(!moreThanOnePrecipitationForms);
+ }
 	  
   WeatherForecastStory::~WeatherForecastStory()
   {
@@ -89,7 +104,7 @@ namespace TextGen
 	theCloudinessReportedFlag = false;
 	theStorySize = 0;
 
-	thePrecipitationForecast.dryPeriodTautologyFlag(false);
+	thePrecipitationForecast.setDryPeriodTautologyFlag(false);
 
 	for(unsigned int i = 0; i < theStoryItemVector.size(); i++)
 	  {
@@ -456,6 +471,7 @@ namespace TextGen
 	return sentence;
   }
 
+  // special treatment, because 06:00 can be aamuyö and morning, depends weather the period starts or ends
   Sentence WeatherForecastStoryItem::checkForAamuyoAndAamuPhrase(const bool& theFromSpecifier,
 																 const WeatherPeriod& thePhrasePeriod)
   {
@@ -514,7 +530,7 @@ namespace TextGen
 	return sentence;
   }
 
-
+#ifdef OLD_IMPL
   Sentence WeatherForecastStoryItem::getPeriodPhrase(const bool& theFromSpecifier,
 													 const WeatherPeriod* thePhrasePeriod /*= 0*/)
   {
@@ -537,7 +553,6 @@ namespace TextGen
 
 	bool firstTodayPeriodWritten = false;
 
-	// TODOcheck this
 	if(julianDayOfTheFirstDay == -1 && 
 	   forecastPeriodLength() > 24 &&
 	   theWeatherForecastStory.theForecastTime.GetJulianDay() != phrasePeriod.localStartTime().GetJulianDay())
@@ -560,7 +575,7 @@ namespace TextGen
 		  }
 	  }
 
-
+	// alkaen phrase is used if period is longer than
 	if(theFromSpecifier)
 	  {
 		Sentence timeSentence;
@@ -580,7 +595,7 @@ namespace TextGen
 			if(extendedPeriodSentence.size() > 0)
 			  sentence << extendedPeriodSentence;
 			else
-			  sentence << get_time_phrase(phrasePeriod.localStartTime(), theWeatherForecastStory.theVar, true);
+			  sentence << get_time_phrase(phrasePeriod.localStartTime(), theWeatherForecastStory.theVar, theFromSpecifier);
 		  }
 		
 		if(todayVector.size() > 0)
@@ -627,8 +642,61 @@ namespace TextGen
 
 	return sentence;
   }
+#endif
 
+  Sentence WeatherForecastStoryItem::getPeriodPhrase(const bool& theFromSpecifier,
+													 const WeatherPeriod* thePhrasePeriod /*= 0*/)
+  {
+	Sentence sentence;
 
+	if(theWeatherForecastStory.theStorySize == 0)
+	  return sentence;
+
+	WeatherPeriod phrasePeriod(thePhrasePeriod == 0 ? getStoryItemPeriod() : *thePhrasePeriod);
+
+	if(forecastPeriodLength() > 24 &&
+	   theWeatherForecastStory.theForecastTime.GetJulianDay() != phrasePeriod.localStartTime().GetJulianDay())
+	  {
+		sentence <<  PeriodPhraseFactory::create("today",
+												 theWeatherForecastStory.theVar,
+												 theWeatherForecastStory.theForecastTime,
+												 phrasePeriod,
+												 theWeatherForecastStory.theWeatherArea);
+	  }
+
+	Sentence aamuAaamuyoPhrase;
+	aamuAaamuyoPhrase << checkForAamuyoAndAamuPhrase(theFromSpecifier,
+													 phrasePeriod);
+	if(aamuAaamuyoPhrase.size() > 0)
+	  {
+		sentence << aamuAaamuyoPhrase;
+	  }
+	else
+	  {
+		if(theFromSpecifier)
+		  {
+			Sentence extendedPeriodSentence;
+			extendedPeriodSentence << checkForExtendedPeriodPhrase(phrasePeriod);
+		
+			if(extendedPeriodSentence.size() > 0)
+			  {
+				sentence << extendedPeriodSentence;
+			  }
+			else
+			  {
+				sentence << get_time_phrase(phrasePeriod.localStartTime(), 
+											theWeatherForecastStory.theVar, 
+											theFromSpecifier);	  
+			  }
+		  }
+		else
+		  {
+			sentence << checkForExtendedPeriodPhrase(phrasePeriod);
+		  }
+	  }
+
+	return sentence;
+  }
 
 
   PrecipitationForecastStoryItem::PrecipitationForecastStoryItem(WeatherForecastStory& weatherForecastStory,
@@ -680,7 +748,7 @@ namespace TextGen
 	if(thePeriodToMergeTo)
 	  return sentence;
 
-	PrecipitationForecast& prForecast = theWeatherForecastStory.thePrecipitationForecast;
+	const PrecipitationForecast& prForecast = theWeatherForecastStory.thePrecipitationForecast;
 	WeatherPeriod forecastPeriod = theWeatherForecastStory.theForecastPeriod;
 	WeatherPeriod storyItemPeriod(getStoryItemPeriod());
 
@@ -800,7 +868,7 @@ namespace TextGen
 	  return sentence;
 
 	const CloudinessForecast& clForecast = theWeatherForecastStory.theCloudinessForecast;
-	PrecipitationForecast& prForecast = theWeatherForecastStory.thePrecipitationForecast;
+	const PrecipitationForecast& prForecast = theWeatherForecastStory.thePrecipitationForecast;
 
 	theSentence.clear();
 	theChangeSentence.clear();
@@ -851,7 +919,7 @@ namespace TextGen
 
 		sentence << theShortFormSentence;
 
-		prForecast.dryPeriodTautologyFlag(true);
+		prForecast.setDryPeriodTautologyFlag(true);
 
 		// ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
 		if(theChangeSentence.size() > 0 &&
@@ -886,7 +954,7 @@ namespace TextGen
 			  sentence << ON_WORD;
 			  
 			sentence << POUTAINEN_WORD;
-			prForecast.dryPeriodTautologyFlag(true);			  
+			prForecast.setDryPeriodTautologyFlag(true);			  
 		  }
 
 		// ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
