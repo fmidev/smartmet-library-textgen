@@ -209,7 +209,7 @@ namespace TextGen
 #define ILTA_START 17
 #define ILTA_END 22
 #define ILTAYO_START 21
-#define ILTAYO_END 0
+#define ILTAYO_END 23
 #define YO_START 22
 #define YO_END 6
 
@@ -514,6 +514,10 @@ namespace TextGen
   };
 
 
+  Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
+								 vector<std::string>* theStringVector = 0);
+  Sentence get_narrow_time_phrase(const WeatherPeriod& theWeatherPeriod,
+								  vector<std::string>* theStringVector = 0);
   void get_precipitation_limit_value(const wf_story_params& theParameters,
 									 const unsigned int& thePrecipitationForm,
 									 const precipitation_intesity_id& theIntensityId,

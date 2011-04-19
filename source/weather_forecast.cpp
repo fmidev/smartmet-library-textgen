@@ -1303,7 +1303,8 @@ using namespace std;
 
 
 
-#ifdef LATER
+
+#ifdef TESTING
 	if(itsArea.isNamed())
 	  {
 		std::string name(itsArea.name());
@@ -1318,7 +1319,7 @@ using namespace std;
 
 			for(int i = 0; i < 25; i++)
 			  {
-				for(int k = 0; k < 8; k++)
+				for(int k = 0; k < 10; k++)
 				  {
 					NFmiTime periodStartTime2(periodStartTime);
 					NFmiTime periodEndTime2(periodEndTime);
@@ -1347,6 +1348,7 @@ using namespace std;
 			  }
 		  }
 	  }
+
 #endif
 
 

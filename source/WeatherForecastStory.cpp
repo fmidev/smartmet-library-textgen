@@ -496,6 +496,7 @@ namespace TextGen
 	return sentence;
   }
 
+#ifdef OLD_IMPL
   Sentence WeatherForecastStoryItem::checkForExtendedPeriodPhrase(const WeatherPeriod& thePhrasePeriod)
   {
 	Sentence sentence;
@@ -529,6 +530,7 @@ namespace TextGen
 
 	return sentence;
   }
+#endif
 
 #ifdef OLD_IMPL
   Sentence WeatherForecastStoryItem::getPeriodPhrase(const bool& theFromSpecifier,
@@ -675,14 +677,9 @@ namespace TextGen
 	  {
 		if(theFromSpecifier)
 		  {
-			Sentence extendedPeriodSentence;
-			extendedPeriodSentence << checkForExtendedPeriodPhrase(phrasePeriod);
+			sentence << get_time_phrase_large(phrasePeriod, theWeatherForecastStory.theVar);
 		
-			if(extendedPeriodSentence.size() > 0)
-			  {
-				sentence << extendedPeriodSentence;
-			  }
-			else
+			if(sentence.size() == 0)
 			  {
 				sentence << get_time_phrase(phrasePeriod.localStartTime(), 
 											theWeatherForecastStory.theVar, 
@@ -691,7 +688,7 @@ namespace TextGen
 		  }
 		else
 		  {
-			sentence << checkForExtendedPeriodPhrase(phrasePeriod);
+			sentence << get_time_phrase_large(phrasePeriod, theWeatherForecastStory.theVar);
 		  }
 	  }
 
