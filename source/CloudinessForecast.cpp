@@ -46,6 +46,8 @@ namespace TextGen
   using namespace boost;
   using namespace std;
 
+#define PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[aamup‰iv‰ll‰] [rannikolla] s‰‰ vaihtelee puolipil"
+#define SAA_ON_JOTAKIN_COMPOSITE_PHRASE "[aamup‰iv‰ll‰] [rannikolla] s‰‰ on [selke‰]"
 
   std::ostream& operator<<(std::ostream & theOutput,
 						   const CloudinessDataItemData& theCloudinessDataItemData)
@@ -97,6 +99,76 @@ namespace TextGen
 	return false;
   }
 
+  Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId,
+							   const Sentence& thePeriodPhrase,
+							   const std::string& theAreaString,
+							   const bool& theShortForm) 
+  {
+	Sentence sentence;
+	Sentence cloudinessSentence;
+
+	switch(theCloudinessId)
+	  {
+	  case PUOLIPILVINEN_JA_PILVINEN:
+		cloudinessSentence << VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
+		break;
+	  case SELKEA:
+		cloudinessSentence << SELKEA_WORD;
+		break;
+	  case MELKO_SELKEA:
+		cloudinessSentence << MELKO_SELKEA_PHRASE;
+		break;
+	  case PUOLIPILVINEN:
+		cloudinessSentence << PUOLIPILVINEN_WORD;
+		break;
+	  case VERRATTAIN_PILVINEN:
+		cloudinessSentence << VERRATTAIN_PILVINEN_PHRASE;
+		break;
+	  case PILVINEN:
+		cloudinessSentence << PILVINEN_WORD;
+		break;
+	  default:
+		break;
+	  }
+
+
+	if(theShortForm)
+	  {
+		Sentence weatherIsPhrase;
+		if(cloudinessSentence.size() > 0)
+		  {
+			if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
+			  {
+				if(!theShortForm)
+				  weatherIsPhrase << SAA_WORD;
+			  }
+			else
+			  {
+				if(!theShortForm)
+				  weatherIsPhrase << SAA_WORD << ON_WORD;
+			  }
+		  }
+
+		sentence << weatherIsPhrase << cloudinessSentence;
+	  }
+	else
+	  {
+		if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
+		  sentence << PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE
+				   << thePeriodPhrase
+				   << theAreaString;
+		else
+		  sentence << SAA_ON_JOTAKIN_COMPOSITE_PHRASE
+				   << thePeriodPhrase
+				   << theAreaString
+				   << cloudinessSentence;
+	  }
+
+	return sentence;
+  }
+
+
+  //#ifdef OLD_IMPL
   Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId, 
 							   const bool& theShortForm) 
   {
@@ -145,6 +217,7 @@ namespace TextGen
 
 	return sentence;
   }
+  //#endif
 
   cloudiness_id get_cloudiness_id(const float& theMin, 
 								  const float& theMean, 
@@ -829,8 +902,7 @@ namespace TextGen
   }
 
   Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
-												  const bool& theShortForm,
-												  const bool& theUseTimeSpecifier) const
+												  const bool& theShortForm) const
   {
 	Sentence sentence;
 
@@ -862,6 +934,72 @@ namespace TextGen
 	else if(theParameters.theForecastArea & COASTAL_AREA)
 	  {
 		cloudinessSentence << cloudiness_sentence(coastalCloudinessId, theShortForm);		
+	  }
+
+	if(cloudinessSentence.size() > 0)
+	  {
+		sentence << cloudinessSentence;
+	  }
+	
+	if(sentence.size() > 0 && !(theParameters.theForecastArea & FULL_AREA))
+	  {
+		cloudiness_id clid = (theParameters.theForecastArea & INLAND_AREA ? inlandCloudinessId : coastalCloudinessId);
+		if(clid == VERRATTAIN_PILVINEN || clid == PILVINEN)
+		  sentence << areaSpecificSentence(thePeriod);
+	  }
+
+	return sentence;
+  }
+
+  Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
+												  const Sentence& thePeriodPhrase,
+												  const bool& theShortForm) const
+  {
+	Sentence sentence;
+
+	Sentence cloudinessSentence;
+
+	cloudiness_id coastalCloudinessId = getCloudinessId(thePeriod, theCoastalData);
+	cloudiness_id inlandCloudinessId = getCloudinessId(thePeriod, theInlandData);
+	cloudiness_id fullAreaCloudinessId = getCloudinessId(thePeriod, theFullData);
+
+	if(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
+	  {
+		if(separateCoastInlandCloudiness(thePeriod))
+		  {
+			cloudinessSentence << COAST_PHRASE;
+			cloudinessSentence << cloudiness_sentence(coastalCloudinessId, 
+													  thePeriodPhrase, 
+													  COAST_PHRASE, 
+													  theShortForm);
+			cloudinessSentence << Delimiter(COMMA_PUNCTUATION_MARK);
+			cloudinessSentence << INLAND_PHRASE;
+			cloudinessSentence << cloudiness_sentence(inlandCloudinessId, 
+													  thePeriodPhrase, 
+													  INLAND_PHRASE, 
+													  theShortForm);
+		  }
+		else
+		  {
+			cloudinessSentence << cloudiness_sentence(fullAreaCloudinessId, 
+													  thePeriodPhrase, 
+													  EMPTY_STRING, 
+													  theShortForm);
+		  }
+	  }
+	else if(theParameters.theForecastArea & INLAND_AREA)
+	  {
+		cloudinessSentence << cloudiness_sentence(inlandCloudinessId, 
+												  thePeriodPhrase, 
+												  EMPTY_STRING, 
+												  theShortForm);
+	  }
+	else if(theParameters.theForecastArea & COASTAL_AREA)
+	  {
+		cloudinessSentence << cloudiness_sentence(coastalCloudinessId, 
+												  thePeriodPhrase, 
+												  EMPTY_STRING, 
+												  theShortForm);		
 	  }
 
 	if(cloudinessSentence.size() > 0)
@@ -927,7 +1065,7 @@ namespace TextGen
 
 	return clid;
   }
-
+  /*
   Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
 												  const weather_result_data_item_vector& theCloudinessData) const
   {
@@ -939,7 +1077,7 @@ namespace TextGen
 
 	return sentence;
   }
-
+  */
   void CloudinessForecast::getWeatherEventIdVector(weather_event_id_vector& theCloudinessWeatherEvents) const
   {
 	const weather_event_id_vector* vectorToClone = 0;

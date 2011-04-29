@@ -14,6 +14,7 @@ namespace TextGen
   class ThunderForecast;
   class Sentence;
 
+#define EMPTY_STRING "empty_string" 
 #define COMMA_PUNCTUATION_MARK "," 
 
 #define INLAND_PHRASE "sisämaassa"
@@ -24,7 +25,7 @@ namespace TextGen
 #define ILTAPAIVALLA_WORD "iltapäivällä"
 #define PAIVALLA_WORD "päivällä"
 #define ILLALLA_WORD "illalla"
-#define ILTAYOSTA_WORD "iltayöllä"
+#define ILTAYOLLA_WORD "iltayöllä"
 #define KESKIYOLLA_WORD "keskiyöllä"
 #define AAMUYOLLA_WORD "aamuyöllä"
 #define YOLLA_WORD "yöllä"
@@ -515,6 +516,7 @@ namespace TextGen
 
 
   Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
+								 short& theWeekday,
 								 vector<std::string>* theStringVector = 0);
   Sentence get_narrow_time_phrase(const WeatherPeriod& theWeatherPeriod,
 								  vector<std::string>* theStringVector = 0);
@@ -550,6 +552,7 @@ namespace TextGen
 
   Sentence get_direction_phrase(const AreaTools::direction_id& theDirectionId, bool theAlkaenPhrase = false);
   Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
+								 const bool& theSpecifyDayFlag,
 								 const std::string& theVar,
 								 bool theAlkaenPhrase = false,
 								 vector<std::string>* theStringVector = 0);
@@ -593,13 +596,11 @@ namespace TextGen
 								  const float& southWest,
 								  const float& northWest,
 								  const bool& mostlyFlag = true);
-
   int get_today_vector(const string& theVariable,
 					   const WeatherArea& theArea,
 					   const WeatherPeriod& thePeriod,
 					   const NFmiTime& theForecastTime,
 					   vector<Sentence*>& theTodayVector);
- 
   area_specific_sentence_id get_area_specific_sentence_id(const float& north,
 														  const float& south,
 														  const float& east,
@@ -610,12 +611,14 @@ namespace TextGen
 														  const float& northWest,
 														  const bool& mostlyFlag = true);
   int get_period_length(const WeatherPeriod& thePeriod);
- 
-
   float get_area_percentage(const WeatherArea& theArea,
 							const WeatherAnalysis::WeatherArea::Type& theType,
 							const AnalysisSources& theSources,
 							const WeatherPeriod& thePeriod);
+  Sentence time_phrase(const WeatherPeriod& thePeriod, 
+					   const std::string& theDayPhasePhrase);
+
+
 	
   struct WeatherResultDataItem
   {

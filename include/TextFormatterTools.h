@@ -15,6 +15,8 @@
 #include <string>
 #include <iostream>
 
+using namespace std;
+
 namespace TextGen
 {
   namespace TextFormatterTools
@@ -57,42 +59,50 @@ namespace TextGen
 		  bool isdelim = (*it)->isDelimiter();
 		  
 		  tmp = theFormatter.format(**it);	// iterator -> shared_ptr -> object
-		  if(!tmp.empty())
-			{
-			  if(patterns > 0)
-				{
-				  std::string needle = make_needle(pattern++);
 
-				  // Normal replace for normal glyphs
-				  if(!isdelim)
-					boost::algorithm::replace_first(ret,needle,tmp);
-				  else
-					{
-					  // Try replacing " [N]" first for delimiters
-					  // We should test if the first one succeeds to avoid
-					  // the second replace, but replace does not return
-					  /// a boolean on success.
-					  boost::algorithm::replace_first(ret," "+needle,tmp);
-					  boost::algorithm::replace_first(ret,needle,tmp);
-					}
-				  if(pattern > patterns)
-					{
-					  patterns = 0;
-					  pattern = 1;
-					}
+		  if(patterns > 0)
+			{
+			  std::string needle = make_needle(pattern++);
+			  
+			  // Normal replace for normal glyphs
+			  if(tmp.empty())
+				{
+				  boost::algorithm::replace_first(ret," "+needle,tmp);
+				  boost::algorithm::replace_first(ret,needle+" ",tmp);
+				  boost::algorithm::replace_first(ret,needle,tmp);
 				}
+			  else if(!isdelim)
+				boost::algorithm::replace_first(ret,needle,tmp);
 			  else
 				{
-				  patterns = count_patterns(tmp);
-
-				  if(!ret.empty() && !isdelim)
-					ret += thePrefix;
-				  ret += tmp;
-				  if(!isdelim)
-					ret += theSuffix;
+				  // Try replacing " [N]" first for delimiters
+				  // We should test if the first one succeeds to avoid
+				  // the second replace, but replace does not return
+				  /// a boolean on success.
+				  boost::algorithm::replace_first(ret," "+needle,tmp);
+				  boost::algorithm::replace_first(ret,needle,tmp);
+				}
+			  if(pattern > patterns)
+				{
+				  patterns = 0;
+				  pattern = 1;
 				}
 			}
+
+		  else if(!tmp.empty())
+			{
+			  patterns = count_patterns(tmp);
+			  
+			  if(!ret.empty() && !isdelim)
+				ret += thePrefix;
+			  ret += tmp;
+			  if(!isdelim)
+				ret += theSuffix;
+			}
 		}
+
+	  //	  cout << "ret: " << ret << endl;
+
 	  return ret;
 	}
 

@@ -51,10 +51,14 @@ using namespace std;
 	const weather_result_data_item_vector* getFullData() const { return theFullData; }
 
 	Sentence cloudinessSentence(const WeatherPeriod& thePeriod,	
-								const bool& theShortForm, 
-								const bool& theUseTimeSpecifier) const;
+								const bool& theShortForm) const;
+	Sentence cloudinessSentence(const WeatherPeriod& thePeriod,
+								const Sentence& thePeriodPhrase,
+								const bool& theShortForm) const;
+	/*
 	Sentence cloudinessSentence(const WeatherPeriod& thePeriod, 
 								const weather_result_data_item_vector& theCloudinessData) const;
+	*/
 	Sentence cloudinessChangeSentence(const WeatherPeriod& thePeriod) const;
 
 	/*

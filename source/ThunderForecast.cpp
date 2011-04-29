@@ -127,9 +127,15 @@ namespace TextGen
 	  }
 
 	thunder_probability_id thunderId(NO_THUNDER);
+	float maxThunderProbability(0.0);
 
 	if(theThunderData)
-	  thunderId = get_thunder_probability_id(getMaxThunderProbability(thePeriod, *theThunderData));
+	  {
+		maxThunderProbability = getMaxThunderProbability(thePeriod, *theThunderData);
+		thunderId = get_thunder_probability_id(maxThunderProbability);
+
+	  }
+	theParameters.theLog << "Thunder probability: " << maxThunderProbability << endl;
 
 	if(thunderId == SMALL_PROBABILITY_FOR_THUNDER)
 		sentence << PIENI_UKKOSEN_TODENNAKOISYYS_PHRASE;

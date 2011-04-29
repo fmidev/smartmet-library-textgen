@@ -972,7 +972,7 @@ vesi- tai lumisadetta.
 								{
 								  theStringVector.push_back(RANTA_TAVUVIIVA_WORD);
 								  theStringVector.push_back(TAI_WORD);
-								  theStringVector.push_back(VESISADETTA_WORD);
+								  theStringVector.push_back(LUMISADETTA_WORD);
 								  can_be_freezing_phrase(can_be_freezing, theStringVector, false);
 								}
 							}
@@ -2701,11 +2701,15 @@ vesi- tai lumisadetta.
 		   
 		   if(!dry_weather && !mostly_dry_weather)
 			 {
-			   sentence << areaSpecificSentence(thePeriod);
+			   //sentence << areaSpecificSentence(thePeriod);
 			   
 			   Sentence thunderSentence;
 			   thunderSentence << theParameters.theThunderForecast->thunderSentence(thePeriod);
-			   sentence << thunderSentence;
+			   if(thunderSentence.size() > 0)
+				 {
+				   sentence << Delimiter(COMMA_PUNCTUATION_MARK);
+				   sentence << thunderSentence;
+				 }
 			 }
 	  }
 		

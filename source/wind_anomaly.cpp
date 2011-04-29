@@ -23,6 +23,7 @@
 #include "WeatherResult.h"
 #include "PeriodPhraseFactory.h"
 #include "Delimiter.h"
+#include "WeatherForecast.h"
 
 #include <newbase/NFmiStringTools.h>
 #include <newbase/NFmiGrid.h>
@@ -61,6 +62,10 @@ namespace TextGen
 	using Settings::optional_bool;
 	using Settings::optional_string;
 
+#define ON_TUULISTA_COMPOSITE_PHRASE "[1-iltap‰iv‰ll‰] [rannikolla] on [tuulista]"
+#define PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[1-iltap‰iv‰ll‰] [rannikolla] [pakkanen on purevaa]"
+
+
 #define WINDY_WEATER_LIMIT 7.0
 #define EXTREMELY_WINDY_WEATHER_LIMIT 10.0
 #define WIND_COOLING_THE_WEATHER_LIMIT 6.0
@@ -71,6 +76,8 @@ namespace TextGen
 #define SAA_WORD "s‰‰"
 #define ON_WORD "on"
 #define HYVIN_WORD "hyvin"
+#define HYVIN_TUULINEN_PHRASE "hyvin tuulinen"
+#define HYVIN_TUULISTA_PHRASE "hyvin tuulista"
 #define TUULINEN_WORD "tuulinen"
 #define TUULISTA_WORD "tuulista"
 #define AAMUPAIVALLA_WORD "aamup‰iv‰ll‰"
@@ -479,7 +486,6 @@ namespace TextGen
 			 << endl;
 	}
 
-
 	const Sentence construct_windiness_sentence_for_area(const float& windspeedMorning,
 														 const float& windspeedAfternoon,
 														 const float& windyWeatherLimit,
@@ -501,7 +507,7 @@ namespace TextGen
 			{
 			  if(areaString.empty())
 				sentence << SAA_WORD << ON_WORD << specifiedDay 
-						 << HYVIN_WORD << TUULINEN_WORD;
+					 << HYVIN_WORD << TUULINEN_WORD;
 			  else
 				sentence << areaString << ON_WORD << specifiedDay 
 						 << HYVIN_WORD << TUULISTA_WORD;
@@ -625,6 +631,12 @@ namespace TextGen
 	  float windspeedMorningCoastal = theParameters.theWindspeedCoastalMorningMean.value();
 	  float windspeedAfternoonCoastal = theParameters.theWindspeedCoastalAfternoonMean.value();
 
+	  Sentence specifiedDay;
+	  if(theSpecifiedDay.size() == 0)
+		specifiedDay << EMPTY_STRING;
+	  else
+		specifiedDay << theSpecifiedDay;
+
 	  if(inlandIncluded && coastIncluded)
 		{
 		  bool morningIncluded = windspeedMorningInland != kFloatMissing;
@@ -638,17 +650,36 @@ namespace TextGen
 				  // rannikolla iltap‰iv‰ll‰ hyvin tuulista
 				  if(windspeedAfternoonCoastal >= extremely_windy_weather_limit)
 					{
+	//#define ON_TUULISTA_COMPOSITE_PHRASE "[1-iltap‰iv‰ll‰] [rannikolla] on [tuulista]"
+	//#define PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[1-iltap‰iv‰ll‰] [rannikolla] [pakkanen on purevaa]"
+
+
 					  // sis‰maassa aamulla tai iltap‰iv‰ll‰ hyvin tuulista tai l‰hell‰ sit‰
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 || 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
+						  sentence << SAA_WORD 
+								   << ON_WORD
+								   << ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << EMPTY_STRING
+								   << TUULINEN_WORD;
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 								   << HYVIN_WORD << TUULINEN_WORD;
+						  */
 						}
 					  else
 						{
+						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << RANNIKOLLA_WORD
+								   << TUULISTA_WORD;
+
+						  /*
 						  sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
 								   << HYVIN_WORD << TUULISTA_WORD;
+						  */
 						}
 					}
 				  else if(windspeedAfternoonCoastal >= windy_weather_limit) // rannikolla on iltap‰iv‰ll‰ tuulista
@@ -657,19 +688,46 @@ namespace TextGen
 					  if(windspeedMorningInland >= extremely_windy_weather_limit - 1.0 && 
 						 windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
 						{
+						  sentence << SAA_WORD 
+								   << ON_WORD
+								   << ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << EMPTY_STRING
+								   << HYVIN_TUULINEN_PHRASE;
+
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 								   << HYVIN_WORD << TUULINEN_WORD;
+						  */
 						}
 					  else if(windspeedMorningInland >= windy_weather_limit - 0.5 || 
 							  windspeedAfternoonInland >= windy_weather_limit - 0.5)
 						{
+						  sentence << SAA_WORD 
+								   << ON_WORD
+								   << ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << EMPTY_STRING
+								   << TUULINEN_WORD;
+
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 								   << TUULINEN_WORD;
+						  */
 						}
 					  else
 						{
+						  // TODO: jatka t‰st‰: hanskaa esim. keskiviikona aamup‰iv‰ll‰ rannikolla
+						  sentence << SAA_WORD 
+								   << ON_WORD
+								   << ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << RANNIKOLLA_WORD
+								   << TUULINEN_WORD;
+						  /*
 						  sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
 								   << aamupaivalla << HYVIN_WORD << TUULISTA_WORD;
+						  */
 						}
 					}
 				  else // rannikolla ei tuule paljoa iltap‰iv‰ll‰

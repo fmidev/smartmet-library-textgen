@@ -23,7 +23,6 @@
 #define USE_TIME_SPECIFIER true
 #define DONT_USE_TIME_SPECIFIER false
 
-
 namespace TextGen
 {
   using namespace boost;
@@ -655,6 +654,60 @@ namespace TextGen
 	  return sentence;
 
 	WeatherPeriod phrasePeriod(thePhrasePeriod == 0 ? getStoryItemPeriod() : *thePhrasePeriod);
+	bool specifyDay = false;
+
+	if(forecastPeriodLength() > 24 &&
+	   theWeatherForecastStory.theForecastTime.GetJulianDay() != phrasePeriod.localStartTime().GetJulianDay())
+	  {
+		Sentence todaySentence;
+		todaySentence <<  PeriodPhraseFactory::create("today",
+													  theWeatherForecastStory.theVar,
+													  theWeatherForecastStory.theForecastTime,
+													  phrasePeriod,
+													  theWeatherForecastStory.theWeatherArea);
+		if(todaySentence.size() > 0)
+		  specifyDay = true;
+	  }
+
+	Sentence aamuAamuyoPhrase;
+	aamuAamuyoPhrase << checkForAamuyoAndAamuPhrase(theFromSpecifier,
+													 phrasePeriod);
+	if(aamuAamuyoPhrase.size() > 0)
+	  {
+		sentence << aamuAamuyoPhrase;
+	  }
+	else
+	  {
+		if(theFromSpecifier)
+		  {
+			sentence << get_time_phrase_large(phrasePeriod, specifyDay, theWeatherForecastStory.theVar);
+		
+			if(sentence.size() == 0)
+			  {
+				sentence << get_time_phrase(phrasePeriod.localStartTime(), 
+											theWeatherForecastStory.theVar, 
+											theFromSpecifier);	  
+			  }
+		  }
+		else
+		  {
+			sentence << get_time_phrase_large(phrasePeriod, specifyDay, theWeatherForecastStory.theVar);
+		  }
+	  }
+
+	return sentence;
+  }
+
+#ifdef OLD_IMPL2
+  Sentence WeatherForecastStoryItem::getPeriodPhrase(const bool& theFromSpecifier,
+													 const WeatherPeriod* thePhrasePeriod /*= 0*/)
+  {
+	Sentence sentence;
+
+	if(theWeatherForecastStory.theStorySize == 0)
+	  return sentence;
+
+	WeatherPeriod phrasePeriod(thePhrasePeriod == 0 ? getStoryItemPeriod() : *thePhrasePeriod);
 
 	if(forecastPeriodLength() > 24 &&
 	   theWeatherForecastStory.theForecastTime.GetJulianDay() != phrasePeriod.localStartTime().GetJulianDay())
@@ -666,12 +719,12 @@ namespace TextGen
 												 theWeatherForecastStory.theWeatherArea);
 	  }
 
-	Sentence aamuAaamuyoPhrase;
+	Sentence aamuAamuyoPhrase;
 	aamuAaamuyoPhrase << checkForAamuyoAndAamuPhrase(theFromSpecifier,
 													 phrasePeriod);
-	if(aamuAaamuyoPhrase.size() > 0)
+	if(aamuAamuyoPhrase.size() > 0)
 	  {
-		sentence << aamuAaamuyoPhrase;
+		sentence << aamuAamuyoPhrase;
 	  }
 	else
 	  {
@@ -694,7 +747,7 @@ namespace TextGen
 
 	return sentence;
   }
-
+#endif
 
   PrecipitationForecastStoryItem::PrecipitationForecastStoryItem(WeatherForecastStory& weatherForecastStory,
 																 const WeatherPeriod& period, 
@@ -849,6 +902,7 @@ namespace TextGen
 	return sentence;
   }
 
+#ifdef OLD_IMPL
   Sentence CloudinessForecastStoryItem::getStoryItemSentence()
   {
 	Sentence sentence;
@@ -941,7 +995,137 @@ namespace TextGen
 			  }
 		  }
 
+		
+
 		sentence << theSentence;
+
+		if(theReportAboutDryWeatherFlag)
+		  {
+			sentence << JA_WORD;
+			  
+			if(clForecast.getCloudinessId(getStoryItemPeriod()) == PUOLIPILVINEN_JA_PILVINEN)
+			  sentence << ON_WORD;
+			  
+			sentence << POUTAINEN_WORD;
+			prForecast.setDryPeriodTautologyFlag(true);			  
+		  }
+
+		// ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
+		if(theChangeSentence.size() > 0 &&
+		   clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
+		  {
+			sentence << Delimiter(COMMA_PUNCTUATION_MARK);
+			sentence << theChangeSentence;
+		  }
+	  }
+	theWeatherForecastStory.theCloudinessReportedFlag = true;
+
+	return sentence;
+  }
+#endif
+
+  Sentence CloudinessForecastStoryItem::getStoryItemSentence()
+  {
+	Sentence sentence;
+
+	// precipitation periods aroud are merged
+	if(thePreviousPrecipitationStoryItem && thePreviousPrecipitationStoryItem->thePeriodToMergeWith)
+	  return sentence;
+
+	// if the cloudiness period is max 2 hours and it is in the end of the forecast period and
+	// the previous precipitation period is long > 6h -> don't report cloudiness
+	if(thePeriod.localEndTime() == theWeatherForecastStory.theForecastPeriod.localEndTime() &&
+	   storyItemPeriodLength() <= 2 &&
+	   thePreviousPrecipitationStoryItem && thePreviousPrecipitationStoryItem->storyItemPeriodLength() >= 6)
+	  return sentence;
+
+	const CloudinessForecast& clForecast = theWeatherForecastStory.theCloudinessForecast;
+	const PrecipitationForecast& prForecast = theWeatherForecastStory.thePrecipitationForecast;
+
+	theSentence.clear();
+	theChangeSentence.clear();
+	theShortFormSentence.clear();
+	thePoutaantuuSentence.clear();
+
+	theChangeSentence << cloudinessChangeSentence();
+
+	if(thePreviousPrecipitationStoryItem)
+	  {
+		if(thePreviousPrecipitationStoryItem->thePoutaantuuFlag)
+		  {
+			WeatherPeriod poutaantuuPeriod(thePreviousPrecipitationStoryItem->getStoryItemPeriod().localEndTime(),
+										   thePreviousPrecipitationStoryItem->getStoryItemPeriod().localEndTime());
+
+			// ARE 22.02.2011: The missing period-phrase added
+			thePoutaantuuSentence << 
+			  getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &poutaantuuPeriod) <<
+			  prForecast.precipitationChangeSentence(poutaantuuPeriod, POUTAANTUU);
+			thePreviousPrecipitationStoryItem->theReportPoutaantuuFlag = false;
+			theReportAboutDryWeatherFlag = false;
+		  }
+	  }
+
+
+
+	if(!thePoutaantuuSentence.empty())
+	  {
+		sentence << thePoutaantuuSentence;
+		sentence << JA_WORD;
+		if(clForecast.getCloudinessId(getStoryItemPeriod()) != PUOLIPILVINEN_JA_PILVINEN)
+		  sentence << ON_WORD;
+
+		if(theChangeSentence.size() > 0)
+		  {
+			WeatherPeriod clPeriod(thePeriod.localStartTime(), theCloudinessChangeTimestamp);
+			sentence << 
+			  clForecast.cloudinessSentence(clPeriod, USE_SHORT_FORM);
+		  }
+		else
+		  {
+			sentence << 
+			  clForecast.cloudinessSentence(thePeriod, USE_SHORT_FORM);
+		  }
+
+		prForecast.setDryPeriodTautologyFlag(true);
+
+		// ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
+		if(theChangeSentence.size() > 0 &&
+		   clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
+		  {
+			sentence << Delimiter(COMMA_PUNCTUATION_MARK);
+			sentence << theChangeSentence;
+		  }
+	  }
+	else
+	  {
+		Sentence periodPhrase;
+		if(thePeriod.localStartTime() > theWeatherForecastStory.theForecastPeriod.localStartTime())
+		  {
+			if(storyItemPeriodLength() >= 6)
+			  {
+				if(theWeatherForecastStory.theStorySize > 0)
+				  periodPhrase << getPeriodPhrase(USE_FROM_SPECIFIER);
+			  }
+			else
+			  {
+				periodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER);
+			  }
+		  }
+
+		if(periodPhrase.size() == 0)
+		  periodPhrase << EMPTY_STRING;
+
+		if(theChangeSentence.size() > 0)
+		  {
+			WeatherPeriod clPeriod(thePeriod.localStartTime(), theCloudinessChangeTimestamp);
+			sentence << 
+			  clForecast.cloudinessSentence(clPeriod, periodPhrase, DONT_USE_SHORT_FORM);
+		  }
+		else
+		  {
+			sentence << 
+			  clForecast.cloudinessSentence(thePeriod, periodPhrase, DONT_USE_SHORT_FORM);
+		  }
 
 		if(theReportAboutDryWeatherFlag)
 		  {

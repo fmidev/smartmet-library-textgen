@@ -4545,56 +4545,76 @@ void delete_testcases(TestCaseContainer& testCases)
 	const char* languages [] = {"fi", "sv", "en"};
 
 	//generate_testcasefile("temperature_anomaly_testcases.txt", "fi", true);
-
+	
 	// here you should iterate all languages
 	for(int i = 0; i < 1; i++)
 	  {
 		read_testcasefile(testCases, "./temperature_anomaly_testcases.txt", true);
 		
 		TemperatureAnomalyTestParam* param = 0;		
-		for(iter = testCases.begin(); iter != testCases.end(); iter++)
+
+		// iterate the fractile shares
+		for(int k = 0; k < 4; k++)
 		  {
-			param = static_cast<TemperatureAnomalyTestParam*>(iter->second);
+			// fractile shares
+			NFmiSettings::Set("anomaly::fake::fractile::share::F02", "0.0,0.0");
+			NFmiSettings::Set("anomaly::fake::fractile::share::F12", "0.0,0.0");
+			NFmiSettings::Set("anomaly::fake::fractile::share::F88", "0.0,0.0");
+			NFmiSettings::Set("anomaly::fake::fractile::share::F98", "0.0,0.0");
+			if(k == 0)
+			  NFmiSettings::Set("anomaly::fake::fractile::share::F02", "80.0,0.0");
+			else if(k == 1)
+			  NFmiSettings::Set("anomaly::fake::fractile::share::F12", "80.0,0.0");
+			else if(k == 2)
+			  NFmiSettings::Set("anomaly::fake::fractile::share::F88", "80.0,0.0");
+			else
+			  NFmiSettings::Set("anomaly::fake::fractile::share::F98", "80.0,0.0");
 
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::min",
-							  param->temperature_d1_afternoon_areamin);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::max",
-							  param->temperature_d1_afternoon_areamax);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::mean",
-							  param->temperature_d1_afternoon_areamean);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::min",
-							  param->temperature_d1_afternoon_inlandmin);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::max",
-							  param->temperature_d1_afternoon_inlandmax);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::mean",
-							  param->temperature_d1_afternoon_inlandmean);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::min",
-							  param->temperature_d1_afternoon_coastmin);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::max",
-							  param->temperature_d1_afternoon_coastmax);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::mean",
-							  param->temperature_d1_afternoon_coastmean);
+			for(iter = testCases.begin(); iter != testCases.end(); iter++)
+			  {
+				param = static_cast<TemperatureAnomalyTestParam*>(iter->second);
 
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::min",
-							  param->temperature_d2_afternoon_areamin);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::max",
-							  param->temperature_d2_afternoon_areamax);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::mean",
-							  param->temperature_d2_afternoon_areamean);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::min",
-							  param->temperature_d2_afternoon_inlandmin);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::max",
-							  param->temperature_d2_afternoon_inlandmax);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::mean",
-							  param->temperature_d2_afternoon_inlandmean);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::min",
-							  param->temperature_d2_afternoon_coastmin);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::max",
-							  param->temperature_d2_afternoon_coastmax);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::mean",
-							  param->temperature_d2_afternoon_coastmean);
+				NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::min",
+								  param->temperature_d1_afternoon_areamin);
+				NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::max",
+								  param->temperature_d1_afternoon_areamax);
+				NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::mean",
+								  param->temperature_d1_afternoon_areamean);
+				NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::min",
+								  param->temperature_d1_afternoon_inlandmin);
+				NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::max",
+								  param->temperature_d1_afternoon_inlandmax);
+				NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::mean",
+								  param->temperature_d1_afternoon_inlandmean);
+				NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::min",
+								  param->temperature_d1_afternoon_coastmin);
+				NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::max",
+								  param->temperature_d1_afternoon_coastmax);
+				NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::mean",
+								  param->temperature_d1_afternoon_coastmean);
 
-			require(story1,languages[i],fun,param->theStory);
+				NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::min",
+								  param->temperature_d2_afternoon_areamin);
+				NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::max",
+								  param->temperature_d2_afternoon_areamax);
+				NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::mean",
+								  param->temperature_d2_afternoon_areamean);
+				NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::min",
+								  param->temperature_d2_afternoon_inlandmin);
+				NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::max",
+								  param->temperature_d2_afternoon_inlandmax);
+				NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::mean",
+								  param->temperature_d2_afternoon_inlandmean);
+				NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::min",
+								  param->temperature_d2_afternoon_coastmin);
+				NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::max",
+								  param->temperature_d2_afternoon_coastmax);
+				NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::mean",
+								  param->temperature_d2_afternoon_coastmean);
+
+				require(story1,languages[i],fun,param->theStory);
+
+			  }
 		  }
 		delete_testcases(testCases);
 	  }
@@ -4624,8 +4644,8 @@ void delete_testcases(TestCaseContainer& testCases)
 	//! Main test suite
 	void test(void)
 	{
-	  TEST(generate_testcasefiles);
-	  TEST(temperature_max36hours);
+	  //TEST(generate_testcasefiles);
+	  //TEST(temperature_max36hours);
 	  TEST(temperature_anomaly);
 	  TEST(temperature_day);
 	  TEST(temperature_mean);

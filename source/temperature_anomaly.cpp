@@ -42,6 +42,7 @@
 #include "WeatherAnalysisError.h"
 #include "WeatherArea.h"
 #include "WeatherSource.h"
+#include "WeatherForecast.h"
 
 #include <boost/lexical_cast.hpp>
 
@@ -92,10 +93,10 @@ namespace TextGen
 #define HARVINAISEN_WORD "harvinaisen"
 #define LAMMINTA_WORD "l‰mmint‰"
 #define LEUTOA_WORD "leutoa"
-#define KIREA_WORD "kire‰"
 #define SAA_ON_EDELLEEN_LAUHAA_PHRASE "s‰‰ on edelleen lauhaa"
 #define SAA_LAUHTUU_PHRASE "s‰‰ lauhtuu"
 #define PAKKANEN_HEIKKENEE_PHRASE "pakkanen heikkenee"
+#define KIREA_PAKKANEN_HEIKKENEE_PHRASE "kire‰ pakkanen heikkenee"
 #define PAKKANEN_HELLITTAA_PHRASE "pakkanen hellitt‰‰"
 #define KIREA_PAKKANEN_JATKUU_PHRASE "kire‰ pakkanen jatkuu"
 #define PAKKANEN_KIRISTYY_PHRASE "pakkanen kiristyy"
@@ -105,7 +106,13 @@ namespace TextGen
 #define SAA_MUUTTUU_HELTEISEKSI_PHRASE "s‰‰ muuttuu helteiseksi"
 #define SAA_ON_HELTEISTA_PHRASE "s‰‰ on helteist‰"
 #define SAA_LAMPENEE_PHRASE "s‰‰ l‰mpenee"
+#define SAA_LAMPENEE_VAHAN_PHRASE "s‰‰ l‰mpenee v‰h‰n"
+#define SAA_LAMPENEE_HUOMATTAVASTI_PHRASE "s‰‰ l‰mpenee huomattavasti"
 #define SAA_VIILENEE_PHRASE "s‰‰ viilenee"
+#define SAA_VIILENEE_VAHAN_PHRASE "s‰‰ viilenee v‰h‰n"
+#define SAA_VIILENEE_HUOMATTAVASTI_PHRASE "s‰‰ viilenee huomattavasti"
+#define TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE "[1-na] s‰‰ on [poikkeuksellisen] [kylm‰‰]"
+#define TEMPERATURE_CHANGES_COMPOSITE_PHRASE "[1-na] [s‰‰ l‰mpenee]"
 
 enum anomaly_phrase_id
   {
@@ -308,6 +315,86 @@ enum anomaly_phrase_id
 	}
 
 
+	// #define TEMPERATURE_CHANGES_COMPOSITE_PHRASEW "[1-na] [s‰‰ l‰mpenee]"
+	// #define TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE "[1-na] s‰‰ on [poikkeuksellisen] [kylm‰‰]"
+	const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
+												const float& fractile02Share,
+												const float& fractile12Share,
+												const float& fractile88Share,
+												const float& fractile98Share,
+												const WeatherPeriod& thePeriod)
+	{
+	  Sentence sentence;
+
+	  Sentence theSpecifiedDay;
+
+	  if(theParameters.thePeriodLength > 24)
+		{
+		  theSpecifiedDay << PeriodPhraseFactory::create("today",
+														 theParameters.theVariable,
+														 theParameters.theForecastTime,
+														 thePeriod,
+														 theParameters.theArea);
+		}
+
+	  if(theSpecifiedDay.size() == 0)
+		theSpecifiedDay << EMPTY_STRING;
+
+	  float adequateShare(80.0);
+
+	  if(fractile02Share >= adequateShare)
+		{
+		  sentence << TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE
+				   << theSpecifiedDay
+				   << POIKKEUKSELLISEN_WORD;
+		  sentence << (theParameters.theSeason == SUMMER_SEASON ? KOLEAA_WORD : KYLMAA_WORD);
+
+		  theParameters.theAnomalyPhrase = 
+			(theParameters.theSeason == SUMMER_SEASON ? SAA_ON_POIKKEUKSELLISEN_KOLEAA :SAA_ON_POIKKEUKSELLISEN_KYLMAA);
+		}
+	  else if(fractile12Share >= adequateShare)
+		{
+		  sentence << TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE
+				   << theSpecifiedDay
+				   << EMPTY_STRING;
+		  if(theParameters.theSeason == SUMMER_SEASON)
+			sentence << KOLEAA_WORD;
+		  else
+			sentence << KYLMAA_WORD;
+
+		  theParameters.theAnomalyPhrase = 
+			(theParameters.theSeason == SUMMER_SEASON ? SAA_ON_KOLEAA : SAA_ON_HYVIN_KYLMAA);
+		}
+	  else if(fractile98Share >= adequateShare)
+		{
+		  sentence << TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE 
+				   << theSpecifiedDay
+				   << POIKKEUKSELLISEN_WORD;
+		  if(theParameters.theSeason == SUMMER_SEASON)
+			sentence << LAMMINTA_WORD;
+		  else
+			sentence << LEUTOA_WORD;
+
+		  theParameters.theAnomalyPhrase = 
+			(theParameters.theSeason == SUMMER_SEASON ? SAA_ON_POIKKEUKSLLISEN_LAMMINTA : SAA_ON_POIKKEUKSLLISEN_LEUTOA);		
+		}
+	  else if(fractile88Share >= adequateShare)
+		{
+		  sentence << TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE 
+				   << theSpecifiedDay;
+		  if(theParameters.theSeason == SUMMER_SEASON)
+			sentence << HARVINAISEN_WORD << LAMMINTA_WORD;
+		  else
+			sentence << HYVIN_WORD << LEUTOA_WORD;
+
+		  theParameters.theAnomalyPhrase = 
+			(theParameters.theSeason == SUMMER_SEASON ? SAA_ON_HARVINAISEN_LAMMINTA : SAA_ON_HYVIN_LEUTOA);
+		}
+
+	  return sentence;
+	}
+
+#ifdef OLD_IMPLEMENTATION
 	const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
 												const float& fractile02Share,
 												const float& fractile12Share,
@@ -371,83 +458,10 @@ enum anomaly_phrase_id
 
 	  return retval;
 	}
+#endif
 
 
-	const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters, 
-												const fractile_id& theFractile,
-												const bool& theDay1Anomaly)
-	{
-	  Sentence retval;
-
-	  Sentence theSpecifiedDay;
-
-	  if(theParameters.thePeriodLength > 24)
-		{
-		  theSpecifiedDay << PeriodPhraseFactory::create("today",
-														 theParameters.theVariable,
-														 theParameters.theForecastTime,
-														 theDay1Anomaly ? theParameters.theDay1Period : theParameters.theDay2Period,
-														 theParameters.theArea);
-		}
-
-	  switch(theFractile)
-		{
-		case FRACTILE_02:
-		  {
-			retval << SAA_WORD << ON_WORD << theSpecifiedDay << POIKKEUKSELLISEN_WORD;
-			retval << (theParameters.theSeason == SUMMER_SEASON ? KOLEAA_WORD : KYLMAA_WORD);
-			theParameters.theAnomalyPhrase = 
-			  (theParameters.theSeason == SUMMER_SEASON ? SAA_ON_POIKKEUKSELLISEN_KOLEAA :SAA_ON_POIKKEUKSELLISEN_KYLMAA);
-		  }
-		  break;
-		case FRACTILE_12:
-		  {
-			retval << SAA_WORD << ON_WORD << theSpecifiedDay;
-			if(theParameters.theSeason == SUMMER_SEASON)
-			  retval << KOLEAA_WORD;
-			else
-			  retval << KYLMAA_WORD;
-			//			  retval << HYVIN_WORD << KYLMAA_WORD;
-			theParameters.theAnomalyPhrase = 
-			  (theParameters.theSeason == SUMMER_SEASON ? SAA_ON_KOLEAA : SAA_ON_HYVIN_KYLMAA);
-		  }
-		  break;
-		case FRACTILE_37:
-		  break;
-		case FRACTILE_50:
-		  break;
-		case FRACTILE_63:
-		  break;
-		case FRACTILE_88:
-		  break;
-		case FRACTILE_98:
-		  {
-			retval << SAA_WORD << ON_WORD << theSpecifiedDay;
-			if(theParameters.theSeason == SUMMER_SEASON)
-			  retval << HARVINAISEN_WORD << LAMMINTA_WORD;
-			else
-			  retval << HYVIN_WORD << LEUTOA_WORD;
-			theParameters.theAnomalyPhrase = 
-			  (theParameters.theSeason == SUMMER_SEASON ? SAA_ON_HARVINAISEN_LAMMINTA : SAA_ON_HYVIN_LEUTOA);
-		  }
-		  break;
-		case FRACTILE_100:
-		  {
-			retval << SAA_WORD << ON_WORD << theSpecifiedDay << POIKKEUKSELLISEN_WORD;
-			if(theParameters.theSeason == SUMMER_SEASON)
-			  retval << LAMMINTA_WORD;
-			else
-			  retval << LEUTOA_WORD;
-			theParameters.theAnomalyPhrase = 
-			  (theParameters.theSeason == SUMMER_SEASON ? SAA_ON_POIKKEUKSLLISEN_LAMMINTA : SAA_ON_POIKKEUKSLLISEN_LEUTOA);
-		  }
-		  break;
-		case FRACTILE_UNDEFINED:
-		  break;		}
-
-	  return retval;
-	}
-
+	// #define TEMPERATURE_CHANGES_COMPOSITE_PHRASE "[1-na] [s‰‰ l‰mpenee]"
 	const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& theParameters,
 													  const fractile_type_id& theFractileType)
 	{
@@ -470,30 +484,321 @@ enum anomaly_phrase_id
 	  float veryColdTemperature = wr.value() < VERY_COLD_TEMPERATURE_UPPER_LIMIT ? 
 		wr.value() : VERY_COLD_TEMPERATURE_UPPER_LIMIT;
 
-	  /*
-	  int fakeStrPos = theVar.find("::fake");
-	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
-	  bool is_winter = SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar);
 
-	  int timezone = theParameters.theDay1Period.localStartTime().GetZoneDifferenceHour();
-	  std::string season(is_winter ? "::wintertime" : "::summertime");
-				
-	  // in wintertime convert the default value to localtime
-	  int default_starthour = (is_winter ? 12 - timezone : 13);
-	  int default_endhour = (is_winter ? 12 - timezone : 17);
-	  
-	  int afternoon_starthour    =  optional_hour(thePlainVar+season+"::day_temperature::starthour", default_starthour);
-	  int afternoon_endhour      =  optional_hour(thePlainVar+season+"::day_temperature::endhour", default_endhour);
+	  WeatherPeriod fractileTemperaturePeriod(get_afternoon_period(theParameters.theVariable,
+																   theParameters.theDay1Period.localStartTime()));
 
-	  WeatherPeriod fractileTemperaturePeriod(NFmiTime(theParameters.theDay1Period.localStartTime().GetYear(),
-													   theParameters.theDay1Period.localStartTime().GetMonth(),
-													   theParameters.theDay1Period.localStartTime().GetDay(),
-													   afternoon_starthour, 0, 0),
-											  NFmiTime(theParameters.theDay1Period.localStartTime().GetYear(),
-													   theParameters.theDay1Period.localStartTime().GetMonth(),
-													   theParameters.theDay1Period.localStartTime().GetDay(),
-													   afternoon_endhour, 0, 0));
-*/
+	  WeatherResult fractile37Temperature = get_fractile_temperature(theParameters.theVariable,
+																	 FRACTILE_37,
+																	 theParameters.theSources,
+																	 theParameters.theArea,
+																	 fractileTemperaturePeriod,
+																	 theFractileType);
+
+	  WeatherResult fractile12Temperature = get_fractile_temperature(theParameters.theVariable,
+																	 FRACTILE_12,
+																	 theParameters.theSources,
+																	 theParameters.theArea,
+																	 fractileTemperaturePeriod,
+																	 theFractileType);
+
+	  WeatherResult fractile63Temperature = get_fractile_temperature(theParameters.theVariable,
+																	 FRACTILE_63,
+																	 theParameters.theSources,
+																	 theParameters.theArea,
+																	 fractileTemperaturePeriod,
+																	 theFractileType);
+	  Sentence theSpecifiedDay;
+
+	  if(theParameters.thePeriodLength > 24)
+		{
+		  theSpecifiedDay << PeriodPhraseFactory::create("today",
+														 theParameters.theVariable,
+														 theParameters.theForecastTime,
+														 theParameters.theDay2Period,
+														 theParameters.theArea);
+		}
+
+	  if(theSpecifiedDay.size() == 0)
+		theSpecifiedDay << EMPTY_STRING;
+
+	  if(theParameters.theSeason == WINTER_SEASON)
+		{
+		  // s‰‰ on edelleen lauhaa
+		  // s‰‰ lauhtuu
+		  // kire‰ pakkanen heikkenee
+		  // kire‰ pakkanen hellitt‰‰*
+		  // pakkanen heikkenee
+		  // pakkanen hellitt‰‰*
+		  // kire‰ pakkanen jatkuu
+		  // pakkanen kiristyy
+
+		  float temperatureDifference = abs(period2Temperature - period1Temperature);
+		  if(period2Temperature >= period1Temperature)
+			{
+			  if(period1Temperature > MILD_TEMPERATURE_LOWER_LIMIT && period1Temperature < MILD_TEMPERATURE_UPPER_LIMIT &&
+				 period2Temperature > MILD_TEMPERATURE_LOWER_LIMIT && period2Temperature < MILD_TEMPERATURE_UPPER_LIMIT &&
+				 period2Temperature > fractile63Temperature.value())
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << SAA_ON_EDELLEEN_LAUHAA_PHRASE;
+  
+				  theParameters.theShortrunTrend = SAA_ON_EDELLEEN_LAUHAA;
+				}
+			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT 
+					  && period1Temperature < MILD_TEMPERATURE_LOWER_LIMIT && 
+					  period2Temperature >= MILD_TEMPERATURE_LOWER_LIMIT && 
+					  period2Temperature < MILD_TEMPERATURE_UPPER_LIMIT)
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << SAA_LAUHTUU_PHRASE;
+
+				  theParameters.theShortrunTrend = SAA_LAUHTUU;
+				}
+			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
+					  && period1Temperature <= veryColdTemperature &&
+					  period2Temperature <= MILD_TEMPERATURE_LOWER_LIMIT)
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << KIREA_PAKKANEN_HEIKKENEE_PHRASE;
+
+				  theParameters.theShortrunTrend = KIREA_PAKKANEN_HEIKKENEE;
+				}
+			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
+					  && period1Temperature > veryColdTemperature &&
+					  period2Temperature < MILD_TEMPERATURE_LOWER_LIMIT)
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << PAKKANEN_HEIKKENEE_PHRASE;
+
+				  theParameters.theShortrunTrend = PAKKANEN_HEIKKENEE;
+				}
+			  else if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
+					  && period1Temperature > veryColdTemperature && period1Temperature < MILD_TEMPERATURE_LOWER_LIMIT && 
+					  period2Temperature < ZERO_DEGREES && period2Temperature >= MILD_TEMPERATURE_LOWER_LIMIT)
+				{
+				  // redundant: this will never happen, because "s‰‰ lauhtuu" is tested before
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << PAKKANEN_HELLITTAA_PHRASE;
+
+				  theParameters.theShortrunTrend = PAKKANEN_HELLITTAA;
+				}
+			  else if(period1Temperature < veryColdTemperature &&
+					  period2Temperature < veryColdTemperature)
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << KIREA_PAKKANEN_JATKUU_PHRASE;
+
+				  theParameters.theShortrunTrend = KIREA_PAKKANEN_JATKUU;
+				}
+			}
+		  else if(period2Temperature <= period1Temperature)
+			{
+			  if(temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT
+				 && period1Temperature < MILD_TEMPERATURE_LOWER_LIMIT &&
+				 period2Temperature <= veryColdTemperature)
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << PAKKANEN_KIRISTYY_PHRASE;
+
+				  theParameters.theShortrunTrend = PAKKANEN_KIRISTYY;
+				}
+			  else if(period1Temperature < veryColdTemperature &&
+					  period2Temperature < veryColdTemperature)
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << KIREA_PAKKANEN_JATKUU_PHRASE;
+
+				  theParameters.theShortrunTrend = KIREA_PAKKANEN_JATKUU;
+				}
+			}
+		}
+	  else
+		{
+		  // helleraja
+		  float hot_weather_limit = Settings::optional_double(theParameters.theVariable + 
+															  "::hot_weather_limit", HOT_WEATHER_LIMIT);
+
+		  // helteinen s‰‰ jatkuu
+		  // viile‰ s‰‰ jatkuu
+		  // kolea s‰‰ jatkuu
+		  // s‰‰ muuttuu helteiseksi
+		  // s‰‰ on helteist‰
+		  // s‰‰ l‰mpenee v‰h‰n
+		  // s‰‰ l‰mpenee
+		  // s‰‰ l‰mpenee huomattavasti
+		  // s‰‰ viilenee v‰h‰n
+		  // s‰‰ viilenee
+		  // s‰‰ viilenee huomattavasti
+
+		  float temperatureDifference = abs(period2Temperature - period1Temperature);
+		  bool smallChange =  temperatureDifference >= SMALL_CHANGE_LOWER_LIMIT && 
+			temperatureDifference < SMALL_CHANGE_UPPER_LIMIT;
+		  bool moderateChange =  temperatureDifference >= MODERATE_CHANGE_LOWER_LIMIT && 
+			temperatureDifference < MODERATE_CHANGE_UPPER_LIMIT;
+		  bool signifigantChange =  temperatureDifference >= SIGNIFIGANT_CHANGE_LOWER_LIMIT;
+
+		  if(period2Temperature >= period1Temperature)
+			{
+			  if(period1Temperature >= hot_weather_limit && period2Temperature >= hot_weather_limit)
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << HELTEINEN_SAA_JATKUU_PHRASE;
+
+				  theParameters.theShortrunTrend = HELTEINEN_SAA_JATKUU;
+				}
+			  else if(period1Temperature < fractile12Temperature.value() && 
+					  period2Temperature < fractile12Temperature.value())
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << KOLEA_SAA_JATKUU_PHRASE;
+
+				  theParameters.theShortrunTrend = KOLEA_SAA_JATKUU;
+				}
+			  else if(period1Temperature < fractile37Temperature.value() && 
+					  period2Temperature < fractile37Temperature.value())
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << VIILEA_SAA_JATKUU_PHRASE;
+
+				  theParameters.theShortrunTrend = VIILEA_SAA_JATKUU;
+				}
+			  else if(period1Temperature < hot_weather_limit && period2Temperature >= hot_weather_limit)
+				{
+				  if(temperatureDifference >= NOTABLE_TEMPERATURE_CHANGE_LIMIT)
+					{
+					  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+							   << theSpecifiedDay 
+							   << SAA_MUUTTUU_HELTEISEKSI_PHRASE;
+
+					  theParameters.theShortrunTrend = SAA_MUUTTUU_HELTEISEKSI;
+					}
+				  else
+					{
+					  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+							   << theSpecifiedDay 
+							   << SAA_ON_HELTEISTA_PHRASE;
+
+					  theParameters.theShortrunTrend = SAA_ON_HELTEISTA;
+					}
+				}
+			  else if(signifigantChange)
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << SAA_LAMPENEE_HUOMATTAVASTI_PHRASE;
+
+				  theParameters.theShortrunTrend = SAA_LAMPENEE_HUOMATTAVASTI;
+				}
+			  else if(moderateChange)
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << SAA_LAMPENEE_PHRASE;
+
+				  theParameters.theShortrunTrend = SAA_LAMPENEE;
+				}
+			  else if(smallChange)
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << SAA_LAMPENEE_VAHAN_PHRASE;
+
+				  theParameters.theShortrunTrend = SAA_LAMPENEE_VAHAN;
+				}
+			}
+		  else if(period2Temperature <= period1Temperature && period2Temperature > ZERO_DEGREES)
+			{
+			  if(period1Temperature >= hot_weather_limit && period2Temperature >= hot_weather_limit)
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << HELTEINEN_SAA_JATKUU_PHRASE;
+
+				  theParameters.theShortrunTrend = HELTEINEN_SAA_JATKUU;
+				}
+			  else if(period1Temperature < fractile12Temperature.value() && 
+					  period2Temperature < fractile12Temperature.value())
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << KOLEA_SAA_JATKUU_PHRASE;
+
+				  theParameters.theShortrunTrend = KOLEA_SAA_JATKUU;
+				}
+			  else if(period1Temperature < fractile37Temperature.value() && 
+					  period2Temperature < fractile37Temperature.value())
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << VIILEA_SAA_JATKUU_PHRASE;
+
+				  theParameters.theShortrunTrend = VIILEA_SAA_JATKUU;
+				}
+			  else if(signifigantChange)
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << SAA_VIILENEE_HUOMATTAVASTI_PHRASE;
+
+				  theParameters.theShortrunTrend = SAA_VIILENEE_HUOMATTAVASTI;
+				}
+			  else if(moderateChange)
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << SAA_VIILENEE_PHRASE;
+
+				  theParameters.theShortrunTrend = SAA_VIILENEE;
+				}
+			  else if(smallChange && period2Temperature < GETTING_COOLER_NOTIFICATION_LIMIT)
+				{
+				  sentence << TEMPERATURE_CHANGES_COMPOSITE_PHRASE 
+						   << theSpecifiedDay 
+						   << SAA_VIILENEE_VAHAN_PHRASE;
+
+				  theParameters.theShortrunTrend = SAA_VIILENEE_VAHAN;
+				}
+			}
+		}
+
+	return sentence;
+	}
+
+#ifdef OLD_IMPLEMENTATION
+	const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& theParameters,
+													  const fractile_type_id& theFractileType)
+	{
+	  Sentence sentence;
+
+	  double period1Temperature = theParameters.theDay1TemperatureAreaAfternoonMean.value();
+	  double period2Temperature = theParameters.theDay2TemperatureAreaAfternoonMean.value();
+
+	  // kova pakkanen: F12,5 fractile on 1. Feb 12:00
+	  NFmiTime veryColdRefTime(theParameters.theForecastTime.GetYear(), 2, 1, 12, 0, 0);
+	  WeatherPeriod veryColdWeatherPeriod(veryColdRefTime, veryColdRefTime);
+
+	  WeatherResult wr = get_fractile_temperature(theParameters.theVariable,
+												  FRACTILE_12,
+												  theParameters.theSources,
+												  theParameters.theArea,
+												  veryColdWeatherPeriod,
+												  theFractileType);
+
+	  float veryColdTemperature = wr.value() < VERY_COLD_TEMPERATURE_UPPER_LIMIT ? 
+		wr.value() : VERY_COLD_TEMPERATURE_UPPER_LIMIT;
+
 
 	  WeatherPeriod fractileTemperaturePeriod(get_afternoon_period(theParameters.theVariable,
 																   theParameters.theDay1Period.localStartTime()));
@@ -723,8 +1028,9 @@ enum anomaly_phrase_id
 			}
 		}
 
-	return sentence;
+	  return sentence;
 	}
+#endif
 
 	Sentence handle_anomaly_and_shortrun_trend_sentences(const temperature_anomaly_params& theParameters, 
 														 const Sentence& anomalySentence, 
@@ -966,7 +1272,14 @@ enum anomaly_phrase_id
 	RangeAcceptor lowerLimitF98Acceptor;
 	lowerLimitF98Acceptor.lowerLimit(fractile98Temperature.value());
 
-	WeatherResult fractile02Share = theForecaster.analyze(itsVar,
+	/*
+	  NFmiSettings::Set("anomaly::fake::fractile::share::F02", "0, 0");
+	  NFmiSettings::Set("anomaly::fake::fractile::share::F12", "0, 0");
+	  NFmiSettings::Set("anomaly::fake::fractile::share::F88", "0, 0");
+	  NFmiSettings::Set("anomaly::fake::fractile::share::F98", "0, 0");
+	*/
+
+	WeatherResult fractile02Share = theForecaster.analyze(itsVar + "::fake::fractile::share::F02",
 														  itsSources,
 														  Temperature,
 														  Percentage,
@@ -977,7 +1290,7 @@ enum anomaly_phrase_id
 														  DefaultAcceptor(),
 														  upperLimitF02Acceptor);
 	
-	WeatherResult fractile12Share = theForecaster.analyze(itsVar,
+	WeatherResult fractile12Share = theForecaster.analyze(itsVar + "::fake::fractile::share::F12",
 														  itsSources,
 														  Temperature,
 														  Percentage,
@@ -988,7 +1301,7 @@ enum anomaly_phrase_id
 														  DefaultAcceptor(),
 														  upperLimitF12Acceptor);
 	
-	WeatherResult fractile88Share = theForecaster.analyze(itsVar,
+	WeatherResult fractile88Share = theForecaster.analyze(itsVar + "::fake::fractile::share::F88",
 														  itsSources,
 														  Temperature,
 														  Percentage,
@@ -999,7 +1312,7 @@ enum anomaly_phrase_id
 														  DefaultAcceptor(),
 														  lowerLimitF88Acceptor);
 
-	WeatherResult fractile98Share = theForecaster.analyze(itsVar,
+	WeatherResult fractile98Share = theForecaster.analyze(itsVar + "::fake::fractile::share::F98",
 														  itsSources,
 														  Temperature,
 														  Percentage,

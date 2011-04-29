@@ -1435,7 +1435,7 @@ using namespace std;
 							 thunderForecast,
 							 theParameters.theLog);
 
-	log_weather_forecast_story(log, wfs);
+	//	log_weather_forecast_story(log, wfs);
 
 	const_cast<WeatherHistory&>(itsArea.history()).updateTimePhrase("", NFmiTime(1970,1,1));
 
