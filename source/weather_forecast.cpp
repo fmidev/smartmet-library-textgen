@@ -1232,10 +1232,11 @@ using namespace std;
 	theParameters.theShowerLimit =
 	  Settings::optional_double(theParameters.theVariable + "::shower_limit", SHOWER_LIMIT);
 
-	float coastalPercentage = get_area_percentage(theParameters.theArea,
-												WeatherArea::Coast,
-												theParameters.theSources,
-												theParameters.theForecastPeriod);
+	float coastalPercentage = get_area_percentage(theParameters.theVariable + "::fake::area_percentage",
+												  theParameters.theArea,
+												  WeatherArea::Coast,
+												  theParameters.theSources,
+												  theParameters.theForecastPeriod);
 
 	float separate_coastal_area_percentage = Settings::optional_double(theParameters.theVariable + 
 																	   "::separate_coastal_area_percentage", 
@@ -1300,9 +1301,6 @@ using namespace std;
 	using namespace PrecipitationPeriodTools;
 
 	Paragraph paragraph;
-
-
-
 
 #ifdef TESTING
 	if(itsArea.isNamed())

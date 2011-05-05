@@ -16,6 +16,7 @@ namespace TextGen
 
 #define EMPTY_STRING "empty_string" 
 #define COMMA_PUNCTUATION_MARK "," 
+#define INTENSITY_WORD "intensiteetti"
 
 #define INLAND_PHRASE "sisämaassa"
 #define COAST_PHRASE "rannikolla"
@@ -611,13 +612,12 @@ namespace TextGen
 														  const float& northWest,
 														  const bool& mostlyFlag = true);
   int get_period_length(const WeatherPeriod& thePeriod);
-  float get_area_percentage(const WeatherArea& theArea,
+  float get_area_percentage(const std::string& theVar,
+							const WeatherArea& theArea,
 							const WeatherAnalysis::WeatherArea::Type& theType,
 							const AnalysisSources& theSources,
 							const WeatherPeriod& thePeriod);
-  Sentence time_phrase(const WeatherPeriod& thePeriod, 
-					   const std::string& theDayPhasePhrase);
-
+  std::string parse_weekday_phrase(const short& weekday, std::string part_of_the_day);
 
 	
   struct WeatherResultDataItem

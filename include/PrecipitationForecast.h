@@ -17,10 +17,10 @@ using namespace std;
   public:
 	static InPlacesPhrase* Instance();
 	void preventTautology(const bool& preventTautologyFlag) { thePreventTautologyFlag = preventTautologyFlag; }
-	void getInPlacesPhrase(const bool& inSomePlaces, 
-						   const bool& inManyPlaces, 
-						   const bool& useOllaVerbFlag,
-						   vector<string>& stringVector);
+	Sentence getInPlacesPhrase(const bool& inSomePlaces, 
+							   const bool& inManyPlaces, 
+							   const bool& useOllaVerbFlag,
+							   vector<string>& stringVector);
   protected:
 	InPlacesPhrase();
   private:
@@ -38,13 +38,16 @@ using namespace std;
 	~PrecipitationForecast();
 
 	Sentence precipitationChangeSentence(const WeatherPeriod& thePeriod,
+										 const Sentence& thePeriodPhrase,
 										 const weather_event_id& theWeatherEvent) const;
 	//	Sentence precipitationChangeSentence(const WeatherPeriod& thePeriod) const;
-	Sentence precipitationSentence(const WeatherPeriod& thePeriod) const;
+	Sentence precipitationSentence(const WeatherPeriod& thePeriod,
+								   const Sentence& thePeriodPhrase) const;
 	//	std::string precipitationSentenceString(const WeatherPeriod& thePeriod, 
 	//									const bool& theCheckPrecipitationChange = true) const;
 	bool shortTermPrecipitationExists(const WeatherPeriod& thePeriod) const;
-	Sentence shortTermPrecipitationSentence(const WeatherPeriod& thePeriod) const;
+	Sentence shortTermPrecipitationSentence(const WeatherPeriod& thePeriod,
+											const Sentence& thePeriodPhrase) const;
 	bool isDryPeriod(const WeatherPeriod& theWeatherPeriod, 
 					 const unsigned short theForecastAreaId) const;
 	bool isMostlyDryPeriod(const WeatherPeriod& theWeatherPeriod,
@@ -97,7 +100,7 @@ using namespace std;
 	direction_id getPrecipitationLeavingDirection(const WeatherPeriod& thePeriod) const;
 	precipitation_traverse_id getPrecipitationTraverseId(const WeatherPeriod& thePeriod) const;
 	const precipitation_data_vector& getPrecipitationDataVector(const unsigned short theForecastArea) const;
-	precipitation_form_transformation_id getPrecipitationFormTransformationId(const WeatherPeriod& thePeriod,
+	precipitation_form_transformation_id getPrecipitationTransformationId(const WeatherPeriod& thePeriod,
 																			  const unsigned short theForecastArea) const;
 	Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;
 	void joinPrecipitationPeriods(vector<WeatherPeriod>& thePrecipitationPeriodVector);
@@ -156,10 +159,11 @@ using namespace std;
 
 	unsigned int getPrecipitationTypeChange(const precipitation_data_vector& theData,
 											const WeatherPeriod& thePeriod) const;
-	int precipitationSentenceStringVectorTransformation(const WeatherPeriod& thePeriod,
-														const float& thePrecipitationExtent,
-														const precipitation_form_transformation_id& theTransformId,
-														vector<std::string>& theStringVector) const;
+	int precipitationTransformation(const WeatherPeriod& thePeriod,
+									const float& thePrecipitationExtent,
+									const precipitation_form_transformation_id& theTransformId,
+									map<string, Sentence>& theCompositePhraseElements,
+									vector<std::string>& theStringVector) const;
 	int precipitationSentenceStringVector(const WeatherPeriod& thePeriod,
 										  const precipitation_form_id& thePrecipitationForm,
 										  const float& thePrecipitationIntensity,
@@ -172,6 +176,7 @@ using namespace std;
 										  const float& thePrecipitationFormFreezing,
 										  const precipitation_type& thePrecipitationType,
 										  const NFmiTime& theTypeChangeTime,
+										  map<string, Sentence>& theCompositePhraseElements,
 										  vector<std::string>& theStringVector) const;
 	std::string precipitationSentenceString(const WeatherPeriod& thePeriod,
 											const precipitation_form_id& thePrecipitationForm,
@@ -197,9 +202,11 @@ using namespace std;
 										 const float thePrecipitationFormFreezing,
 										 const precipitation_type& thePrecipitationType,
 										 const NFmiTime& theTypeChangeTime,
-										 const precipitation_form_transformation_id& theTransformationId) const;
+										 const precipitation_form_transformation_id& theTransformationId,
+										 map<string, Sentence>& theCompositePhraseElements) const;
 
 	Sentence constructPrecipitationSentence(const WeatherPeriod& thePeriod,
+											const Sentence& thePeriodPhrase,
 											const unsigned short& theForecastAreaId) const;
 
 	void calculatePrecipitationParameters(const WeatherPeriod& thePeriod,

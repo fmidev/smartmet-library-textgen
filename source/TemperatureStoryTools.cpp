@@ -178,6 +178,9 @@ namespace TextGen
 												  int theMaximum,
 												  int theMinInterval,
 												  bool theZeroFlag,
+												  bool& interval,
+												  int& intervalStart,
+												  int& intervalEnd,
 												  const std::string & theRangeSeparator,
 												  const bool& theRoundTheNumber)
 	{
@@ -221,15 +224,55 @@ namespace TextGen
 			  sentence << "noin"
 					   << Integer(theRoundedMinimum)
 					   << *UnitFactory::create(DegreesCelsius);
+			  interval = false;
+			  intervalStart = theRoundedMinimum;
 			}
 		  else
 			{
 			  if(theRoundedMinimum < 0 && theRoundedMaximum == 0)
-				sentence << IntegerRange(theRoundedMaximum, theRoundedMinimum, theRangeSeparator)
-						 << *UnitFactory::create(DegreesCelsius);
+				{
+				  sentence << IntegerRange(theRoundedMaximum, theRoundedMinimum, theRangeSeparator)
+						   << *UnitFactory::create(DegreesCelsius);
+
+				  if(theRoundedMaximum == theRoundedMinimum)
+					{
+					  intervalStart = theRoundedMaximum;
+					}
+				  else if(theRoundedMaximum<0 && theRoundedMinimum<0)
+					{
+					  intervalStart = theRoundedMinimum;
+					  intervalEnd = theRoundedMaximum;
+					  interval = true;			 
+					}
+				  else
+					{
+					  intervalStart = theRoundedMaximum;
+					  intervalEnd = theRoundedMinimum;
+					  interval = true;
+					}
+				}
 			  else
-				sentence << IntegerRange(theRoundedMinimum, theRoundedMaximum, theRangeSeparator)
-						 << *UnitFactory::create(DegreesCelsius);
+				{
+				  sentence << IntegerRange(theRoundedMinimum, theRoundedMaximum, theRangeSeparator)
+						   << *UnitFactory::create(DegreesCelsius);
+
+				  if(theRoundedMaximum == theRoundedMinimum)
+					{
+					  intervalStart = theRoundedMaximum;
+					}
+				  else if(theRoundedMaximum<0 && theRoundedMinimum<0)
+					{
+					  intervalStart = theRoundedMaximum;
+					  intervalEnd = theRoundedMinimum;
+					  interval = true;			 
+					}
+				  else
+					{
+					  intervalStart = theRoundedMinimum;
+					  intervalEnd = theRoundedMaximum;
+					  interval = true;
+					}
+				}
 			}
 		}
 	  else
@@ -239,6 +282,9 @@ namespace TextGen
 		  sentence << "noin"
 				   << Integer(theRoundedValue)
 				   << *UnitFactory::create(DegreesCelsius);
+		  interval = false;
+		  intervalStart = theRoundedValue;
+
 		}
 	  
 	  return sentence;

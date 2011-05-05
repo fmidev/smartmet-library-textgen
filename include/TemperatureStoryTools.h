@@ -62,6 +62,9 @@ namespace TextGen
 												  int theMaximum,
 												  int theMinInterval,
 												  bool theZeroFlag,
+												  bool& interval,
+												  int& intervalStart,
+												  int& intervalEnd,
 												  const std::string & theRangeSeparator,
 												  const bool& theRoundTheNumber);
 

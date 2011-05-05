@@ -1739,11 +1739,15 @@ using namespace std;
 	return retval;
   }
 
-  float get_area_percentage(const WeatherArea& theArea,
+  float get_area_percentage(const std::string& theVar,
+							const WeatherArea& theArea,
 							const WeatherAnalysis::WeatherArea::Type& theType,
 							const AnalysisSources& theSources,
 							const WeatherPeriod& thePeriod)
   {
+	if(Settings::isset(theVar))
+	  return Settings::require_double(theVar);
+
 	WeatherArea maskArea = theArea;
 	maskArea.type(theType);
 
@@ -1772,23 +1776,16 @@ using namespace std;
   }
 
 
-  Sentence time_phrase(const WeatherPeriod& thePeriod, 
-					   const std::string& theDayPhasePhrase)
+  std::string parse_weekday_phrase(const short& weekday, std::string part_of_the_day)
   {
-	Sentence sentence;
-	/*
-	if(thePeriod.localStartTime().GetDay() != (thePeriod.localEndTime().GetDay()))
-	  {
-		sentence << theDayPhasePhrase;
-	  }
-	else
-	  {
-		sentence << thePeriod.localStartTime().GetWeekday() << "-" << theDayPhasePhrase;
-	  }
-	*/
-	sentence << theDayPhasePhrase;
+	std::ostringstream oss;
 
-	return sentence;
+	if(weekday > 0 && part_of_the_day.compare(EMPTY_STRING) != 0 && !part_of_the_day.empty())
+	  oss << weekday << "-" << part_of_the_day;
+	else
+	  oss << (part_of_the_day.size() > 0 ? part_of_the_day : EMPTY_STRING);
+
+	return oss.str();
   }
 
 

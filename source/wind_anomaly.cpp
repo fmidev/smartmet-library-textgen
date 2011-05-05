@@ -62,8 +62,9 @@ namespace TextGen
 	using Settings::optional_bool;
 	using Settings::optional_string;
 
-#define ON_TUULISTA_COMPOSITE_PHRASE "[1-iltap‰iv‰ll‰] [rannikolla] on [tuulista]"
-#define PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[1-iltap‰iv‰ll‰] [rannikolla] [pakkanen on purevaa]"
+#define ON_TUULISTA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] [rannikolla] on [tuulista]"
+#define SAA_ON_TUULISTA_COMPOSITE_PHRASE "s‰‰ on [iltap‰iv‰ll‰] [rannikolla] [tuulinen]"
+#define PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] [rannikolla] [pakkanen on purevaa]"
 
 
 #define WINDY_WEATER_LIMIT 7.0
@@ -100,7 +101,8 @@ namespace TextGen
 						  const WeatherPeriod& windAnomalyPeriod,
 						  const forecast_season_id& season,
 						  const NFmiTime& forecastTime,
-						  const short& periodLength) 
+						  const short& periodLength,
+						  const bool& specifyPartOfTheDayFlag) 
 		: theVariable(variable),
 		  theLog(log),
 		  theSources(sources),
@@ -109,6 +111,7 @@ namespace TextGen
 		  theSeason(season),
 		  theForecastTime(forecastTime),
 		  thePeriodLength(periodLength),
+		  theSpecifyPartOfTheDayFlag(specifyPartOfTheDayFlag),
 		  theFakeVariable(""),
 		  theCoastalAndInlandTogetherFlag(false),
 		  theTemperatureAreaMorningMinimum(kFloatMissing, 0),
@@ -165,6 +168,7 @@ namespace TextGen
 	  const forecast_season_id& theSeason;
 	  const NFmiTime& theForecastTime;
 	  const short& thePeriodLength;
+	  bool theSpecifyPartOfTheDayFlag;
 	  string theFakeVariable;
 	  bool theCoastalAndInlandTogetherFlag;
 	  WeatherResult theTemperatureAreaMorningMinimum;
@@ -211,7 +215,6 @@ namespace TextGen
 	  WeatherResult theWindchillCoastalAfternoonMaximum;
 	  std::string   theMorningWord;
 	  std::string   theAfternoonWord;
-
 	};
 
 	void log_data(const wind_anomaly_params& theParameters)
@@ -490,7 +493,8 @@ namespace TextGen
 														 const float& windspeedAfternoon,
 														 const float& windyWeatherLimit,
 														 const float& extremelyWindyWeatherLimit,
-														 const Sentence& specifiedDay,
+														 const Sentence& specifiedDaySentence,
+														 const short& dayNumber,
 														 const std::string& areaString,
 														 const std::string& morningWord,
 														 const std::string& afternoonWord)
@@ -500,105 +504,237 @@ namespace TextGen
 	  bool morningIncluded = windspeedMorning != kFloatMissing;
 	  bool afternoonIncluded = windspeedAfternoon != kFloatMissing;
 
+	  Sentence specifiedDay;
+	  if(specifiedDaySentence.size() == 0)
+		specifiedDay << EMPTY_STRING;
+	  else
+		specifiedDay << specifiedDaySentence;
+
+	  bool areaStringEmpty(areaString.compare(EMPTY_STRING) == 0);
+	  bool specifiedDayEmpty(specifiedDaySentence.size() == 0);
+	  std::string weekdayMorningString(parse_weekday_phrase(dayNumber, morningWord));
+	  std::string weekdayAfternoonString(parse_weekday_phrase(dayNumber, afternoonWord));
+
 	  if(morningIncluded && afternoonIncluded)
 		{
 		  if(windspeedMorning >= extremelyWindyWeatherLimit && 
 			 windspeedAfternoon >= extremelyWindyWeatherLimit)
 			{
+			  if(areaStringEmpty && specifiedDayEmpty)
+				sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+						 << specifiedDay
+						 << areaString
+						 << HYVIN_TUULINEN_PHRASE;
+			  else
+				sentence << ON_TUULISTA_COMPOSITE_PHRASE
+						 << specifiedDay
+						 << areaString
+						 << HYVIN_TUULISTA_PHRASE;
+
+			  /*
 			  if(areaString.empty())
 				sentence << SAA_WORD << ON_WORD << specifiedDay 
 					 << HYVIN_WORD << TUULINEN_WORD;
 			  else
 				sentence << areaString << ON_WORD << specifiedDay 
 						 << HYVIN_WORD << TUULISTA_WORD;
+			  */
 			}
 		  else if(windspeedMorning >= extremelyWindyWeatherLimit)
 			{
+			  if(areaStringEmpty && weekdayMorningString.empty())				
+				sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+						 << weekdayMorningString
+						 << areaString
+						 << HYVIN_TUULINEN_PHRASE;
+			  else
+				sentence << ON_TUULISTA_COMPOSITE_PHRASE
+						 << weekdayMorningString
+						 << areaString
+						 << HYVIN_TUULISTA_PHRASE;
+			  /*
 			  if(areaString.empty())
 				sentence << SAA_WORD << ON_WORD << specifiedDay 
 						 << morningWord << HYVIN_WORD << TUULINEN_WORD;
 			  else
 				sentence << areaString << ON_WORD << specifiedDay 
 						 << morningWord << HYVIN_WORD << TUULISTA_WORD;
+			  */
 			}
 		  else if(windspeedAfternoon >=  extremelyWindyWeatherLimit)
 			{
+			  if(areaStringEmpty && weekdayAfternoonString.empty())				
+				sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+						 << weekdayAfternoonString
+						 << areaString
+						 << HYVIN_TUULINEN_PHRASE;
+			  else
+				sentence << ON_TUULISTA_COMPOSITE_PHRASE
+						 << weekdayAfternoonString
+						 << areaString
+						 << HYVIN_TUULISTA_PHRASE;
+			  /*
 			  if(areaString.empty())
 				sentence << SAA_WORD << ON_WORD << specifiedDay 
 						 << afternoonWord << HYVIN_WORD << TUULINEN_WORD;
 			  else
 				sentence << areaString << ON_WORD << specifiedDay 
 						 << afternoonWord << HYVIN_WORD << TUULISTA_WORD;
+			  */
 			}
 		  else if(windspeedMorning >= windyWeatherLimit && 
 				  windspeedAfternoon >=  windyWeatherLimit)
 			{
+			  if(areaStringEmpty && specifiedDayEmpty)
+				sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+						 << specifiedDay
+						 << areaString
+						 << TUULINEN_WORD;
+			  else
+				sentence << ON_TUULISTA_COMPOSITE_PHRASE
+						 << specifiedDay
+						 << areaString
+						 << TUULISTA_WORD;
+			  /*
 			  if(areaString.empty())
 				sentence << SAA_WORD << ON_WORD << specifiedDay 
 						 << TUULINEN_WORD;
 			  else
 				sentence << areaString << ON_WORD << specifiedDay 
 						 << TUULISTA_WORD;
+			  */
 			}
 		  else if(windspeedMorning >= windyWeatherLimit)
 			{
+			  if(areaStringEmpty && weekdayMorningString.empty())
+				sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+						 << weekdayMorningString
+						 << areaString
+						 << TUULINEN_WORD;
+			  else
+				sentence << ON_TUULISTA_COMPOSITE_PHRASE
+						 << weekdayMorningString
+						 << areaString
+						 << TUULISTA_WORD;
+			  /*
 			  if(areaString.empty())
 				sentence << SAA_WORD << ON_WORD << specifiedDay 
 						 << morningWord << TUULINEN_WORD;
 			  else
 				sentence << areaString << ON_WORD << specifiedDay 
 						 << morningWord << TUULISTA_WORD;
+			  */
 			}
 		  else if(windspeedAfternoon >= windyWeatherLimit)
 			{
+			  if(areaStringEmpty && weekdayAfternoonString.empty())
+				sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+						 << weekdayAfternoonString
+						 << areaString
+						 << TUULINEN_WORD;
+			  else
+				sentence << ON_TUULISTA_COMPOSITE_PHRASE
+						 << weekdayAfternoonString
+						 << areaString
+						 << TUULISTA_WORD;
+			  /*
 			  if(areaString.empty())
 				sentence << SAA_WORD << ON_WORD << specifiedDay 
 						 << afternoonWord << TUULINEN_WORD;
 			  else
 				sentence << areaString << ON_WORD << specifiedDay 
 						 << afternoonWord << TUULISTA_WORD;
+			  */
 			}
 		}
 	  else if(morningIncluded)
 		{
 		  if(windspeedMorning >= extremelyWindyWeatherLimit)
 			{
+			  if(areaStringEmpty && specifiedDayEmpty)
+				sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+						 << specifiedDay
+						 << areaString
+						 << HYVIN_TUULINEN_PHRASE;
+			  else
+				sentence << ON_TUULISTA_COMPOSITE_PHRASE
+						 << specifiedDay
+						 << areaString
+						 << HYVIN_TUULISTA_PHRASE;
+			  /*
 			  if(areaString.empty())
 				sentence << SAA_WORD << ON_WORD << specifiedDay 
 						 << HYVIN_WORD << TUULINEN_WORD;
 			  else
 				sentence << areaString << ON_WORD << specifiedDay 
 						 << HYVIN_WORD << TUULISTA_WORD;
+			  */
 			}
 		  else if(windspeedMorning >= windyWeatherLimit)
 			{
+			  if(areaStringEmpty && specifiedDayEmpty)
+				sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+						 << specifiedDay
+						 << areaString
+						 << TUULINEN_WORD;
+			  else
+				sentence << ON_TUULISTA_COMPOSITE_PHRASE
+						 << specifiedDay
+						 << areaString
+						 << TUULISTA_WORD;
+			  /*
 			  if(areaString.empty())
 				sentence << SAA_WORD << ON_WORD << specifiedDay 
 						 << TUULINEN_WORD;
 			  else
 				sentence << areaString << ON_WORD << specifiedDay 
 						 << TUULISTA_WORD;
+			  */
 			}
 		}
 	  else if(afternoonIncluded)
 		{
 		  if(windspeedAfternoon >= extremelyWindyWeatherLimit)
 			{
+			  if(areaStringEmpty && specifiedDayEmpty)
+				sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+						 << specifiedDay
+						 << areaString
+						 << HYVIN_TUULINEN_PHRASE;
+			  else
+				sentence << ON_TUULISTA_COMPOSITE_PHRASE
+						 << specifiedDay
+						 << areaString
+						 << HYVIN_TUULISTA_PHRASE;
+			  /*
 			  if(areaString.empty())
 				sentence << SAA_WORD << ON_WORD << specifiedDay 
 						 << HYVIN_WORD << TUULINEN_WORD;
 			  else
 				sentence << areaString << ON_WORD << specifiedDay 
 						 << HYVIN_WORD << TUULISTA_WORD;
+			  */
 			}
 		  else if(windspeedAfternoon >= windyWeatherLimit)
 			{
+			  if(areaStringEmpty && specifiedDayEmpty)
+				sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+						 << specifiedDay
+						 << areaString
+						 << TUULINEN_WORD;
+			  else
+				sentence << ON_TUULISTA_COMPOSITE_PHRASE
+						 << specifiedDay
+						 << areaString
+						 << TUULISTA_WORD;
+			  /*
 			  if(areaString.empty())
 				sentence << SAA_WORD << ON_WORD << specifiedDay 
 						 << TUULINEN_WORD;
 			  else
 				sentence << areaString << ON_WORD << specifiedDay 
 						 << TUULISTA_WORD;
+			  */
 			}
 		}
 
@@ -606,18 +742,18 @@ namespace TextGen
 	}
 
 	const Sentence construct_windiness_sentence(const wind_anomaly_params& theParameters,
-												const Sentence& theSpecifiedDay)
-
+												const Sentence& theSpecifiedDay,
+												const short& dayNumber)
 	{
 	  Sentence sentence;
 	  
 	  bool inlandIncluded = theParameters.theWindspeedInlandMorningMinimum.value() != kFloatMissing;
 	  bool coastIncluded = theParameters.theWindspeedCoastalMorningMinimum.value() != kFloatMissing;
 
-	  float windy_weather_limit = 
-		Settings::optional_double(theParameters.theVariable + 
-								  "::windy_weather_limit", 
-								  WINDY_WEATER_LIMIT);
+	  float windy_weather_limit = 4.0;
+	  //		Settings::optional_double(theParameters.theVariable + 
+	  //						  "::windy_weather_limit", 
+	  //							  WINDY_WEATER_LIMIT);
 	  float extremely_windy_weather_limit = 
 		Settings::optional_double(theParameters.theVariable + 
 								  "::extremely_windy_weather_limit", 
@@ -630,6 +766,7 @@ namespace TextGen
 	  float windspeedAfternoonInland = theParameters.theWindspeedInlandAfternoonMean.value();
 	  float windspeedMorningCoastal = theParameters.theWindspeedCoastalMorningMean.value();
 	  float windspeedAfternoonCoastal = theParameters.theWindspeedCoastalAfternoonMean.value();
+
 
 	  Sentence specifiedDay;
 	  if(theSpecifiedDay.size() == 0)
@@ -650,20 +787,14 @@ namespace TextGen
 				  // rannikolla iltap‰iv‰ll‰ hyvin tuulista
 				  if(windspeedAfternoonCoastal >= extremely_windy_weather_limit)
 					{
-	//#define ON_TUULISTA_COMPOSITE_PHRASE "[1-iltap‰iv‰ll‰] [rannikolla] on [tuulista]"
-	//#define PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[1-iltap‰iv‰ll‰] [rannikolla] [pakkanen on purevaa]"
-
-
 					  // sis‰maassa aamulla tai iltap‰iv‰ll‰ hyvin tuulista tai l‰hell‰ sit‰
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 || 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
-						  sentence << SAA_WORD 
-								   << ON_WORD
-								   << ON_TUULISTA_COMPOSITE_PHRASE
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
 								   << specifiedDay
 								   << EMPTY_STRING
-								   << TUULINEN_WORD;
+								   << HYVIN_TUULINEN_PHRASE;
 						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 								   << HYVIN_WORD << TUULINEN_WORD;
@@ -674,8 +805,7 @@ namespace TextGen
 						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
 								   << specifiedDay
 								   << RANNIKOLLA_WORD
-								   << TUULISTA_WORD;
-
+								   << HYVIN_TUULISTA_PHRASE;
 						  /*
 						  sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
 								   << HYVIN_WORD << TUULISTA_WORD;
@@ -688,9 +818,7 @@ namespace TextGen
 					  if(windspeedMorningInland >= extremely_windy_weather_limit - 1.0 && 
 						 windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
 						{
-						  sentence << SAA_WORD 
-								   << ON_WORD
-								   << ON_TUULISTA_COMPOSITE_PHRASE
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
 								   << specifiedDay
 								   << EMPTY_STRING
 								   << HYVIN_TUULINEN_PHRASE;
@@ -703,9 +831,7 @@ namespace TextGen
 					  else if(windspeedMorningInland >= windy_weather_limit - 0.5 || 
 							  windspeedAfternoonInland >= windy_weather_limit - 0.5)
 						{
-						  sentence << SAA_WORD 
-								   << ON_WORD
-								   << ON_TUULISTA_COMPOSITE_PHRASE
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
 								   << specifiedDay
 								   << EMPTY_STRING
 								   << TUULINEN_WORD;
@@ -717,13 +843,11 @@ namespace TextGen
 						}
 					  else
 						{
-						  // TODO: jatka t‰st‰: hanskaa esim. keskiviikona aamup‰iv‰ll‰ rannikolla
-						  sentence << SAA_WORD 
-								   << ON_WORD
-								   << ON_TUULISTA_COMPOSITE_PHRASE
-								   << specifiedDay
+						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+								   << parse_weekday_phrase(dayNumber, iltapaivalla)
 								   << RANNIKOLLA_WORD
-								   << TUULINEN_WORD;
+								   << HYVIN_TUULISTA_PHRASE;
+
 						  /*
 						  sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
 								   << aamupaivalla << HYVIN_WORD << TUULISTA_WORD;
@@ -735,18 +859,38 @@ namespace TextGen
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 &&
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << EMPTY_STRING
+								   << HYVIN_TUULINEN_PHRASE;
+
+
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 								   << HYVIN_WORD << TUULINEN_WORD;
+						  */
 						}
 					  else if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0)
 						{
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+								   << parse_weekday_phrase(dayNumber, aamupaivalla)
+								   << EMPTY_STRING
+								   << HYVIN_TUULINEN_PHRASE;
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 								   << aamupaivalla << HYVIN_WORD << TUULINEN_WORD;
+						  */
 						}
 					  else
 						{
+						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+								   << parse_weekday_phrase(dayNumber, aamupaivalla)
+								   << RANNIKOLLA_WORD
+								   << HYVIN_TUULISTA_PHRASE;
+						  /*
 						  sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
 								   << aamupaivalla << HYVIN_WORD << TUULISTA_WORD;
+						  */
 						}
 					}
 				}
@@ -759,17 +903,38 @@ namespace TextGen
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 || 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << EMPTY_STRING
+								   << HYVIN_TUULINEN_PHRASE;
+
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULINEN_WORD;
+						  */
 						}
 					  else if(windspeedMorningInland >= windy_weather_limit - 0.5 || 
 							  windspeedAfternoonInland >= windy_weather_limit - 0.5)
 						{
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << EMPTY_STRING
+								   << TUULINEN_WORD;
+
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << TUULINEN_WORD;
+						  */
 						}
 					  else
 						{
+						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+								   << parse_weekday_phrase(dayNumber, iltapaivalla)
+								   << RANNIKOLLA_WORD
+								   << HYVIN_TUULISTA_PHRASE;
+
+						  /*
 						  sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
 								   << iltapaivalla << HYVIN_WORD << TUULISTA_WORD;
+						  */
 						}
 					}
 				  else if(windspeedAfternoonCoastal >= windy_weather_limit) // rannikolla on iltap‰iv‰ll‰ tuulista
@@ -778,17 +943,37 @@ namespace TextGen
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 && 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
+						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << SISAMAASSA_WORD
+								   << HYVIN_TUULISTA_PHRASE;
+
+						  /*
 						  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULISTA_WORD;
+						  */
 						}
 					  else if(windspeedMorningInland >= windy_weather_limit - 0.5 || 
 							  windspeedAfternoonInland >= windy_weather_limit - 0.5)
 						{
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << EMPTY_STRING
+								   << TUULINEN_WORD;
+
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << TUULINEN_WORD;
+						  */
 						}
 					  else
 						{
-						  sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
-								   << TUULISTA_WORD;
+						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << RANNIKOLLA_WORD
+								   << HYVIN_TUULISTA_PHRASE;
+						  /*
+							sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
+							<< TUULISTA_WORD;
+						  */
 						}
 					}
 				  else // rannikolla ei tuule paljoa iltap‰iv‰ll‰
@@ -796,23 +981,50 @@ namespace TextGen
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 && 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
+						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << SISAMAASSA_WORD
+								   << TUULISTA_WORD;
+
+						  /*
 						  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
 								   << HYVIN_WORD << TUULISTA_WORD;
+						  */
 						}
 					  else if(windspeedMorningInland >= windy_weather_limit - 0.5 && 
 							  windspeedAfternoonInland >= windy_weather_limit - 0.5)
 						{
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << EMPTY_STRING
+								   << TUULINEN_WORD;
+
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << TUULINEN_WORD;
+						  */
 						}
 					  else if(windspeedMorningInland >= windy_weather_limit - 0.5)
 						{
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+								   << parse_weekday_phrase(dayNumber, aamupaivalla)
+								   << EMPTY_STRING
+								   << TUULISTA_WORD;
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 								   << aamupaivalla << TUULISTA_WORD;
+						  */
 						}
 					  else
 						{
+						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+								   << parse_weekday_phrase(dayNumber, aamupaivalla)
+								   << RANNIKOLLA_WORD
+								   << TUULISTA_WORD;
+
+						  /*
 						  sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay
 								   << aamupaivalla << TUULISTA_WORD;
+						  */
 						}
 					}
 				}
@@ -825,23 +1037,49 @@ namespace TextGen
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 && 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << EMPTY_STRING
+								   << HYVIN_TUULINEN_PHRASE;
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 								   << HYVIN_WORD << TUULINEN_WORD;
+						  */
 						}
 					  else if(windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+								   << parse_weekday_phrase(dayNumber, iltapaivalla)
+								   << EMPTY_STRING
+								   << HYVIN_TUULINEN_PHRASE;
+
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 								   << iltapaivalla << HYVIN_WORD << TUULINEN_WORD;
+						  */
 						}
 					  else if(windspeedMorningInland >= windy_weather_limit - 0.5 && 
 							  windspeedAfternoonInland >= windy_weather_limit - 0.5)
 						{
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << EMPTY_STRING
+								   << TUULINEN_WORD;
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay << TUULINEN_WORD;
+						  */
 						}
 					  else
 						{
+						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+								   << parse_weekday_phrase(dayNumber, iltapaivalla)
+								   << RANNIKOLLA_WORD
+								   << HYVIN_TUULISTA_PHRASE;
+
+						  /*
 						  sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
 								   << iltapaivalla << HYVIN_WORD << TUULISTA_WORD;
+						  */
 						}
 					}
 				  else if(windspeedAfternoonCoastal >= windy_weather_limit) // rannikolla on iltap‰iv‰ll‰ tuulista
@@ -850,24 +1088,49 @@ namespace TextGen
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 && 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
+						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << SISAMAASSA_WORD
+								   << HYVIN_TUULISTA_PHRASE;
+						  /*
 						  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
 								   << HYVIN_WORD << TUULISTA_WORD;
+						  */
 						}
 					  else if(windspeedMorningInland >= windy_weather_limit - 0.5 && 
 							  windspeedAfternoonInland >= windy_weather_limit - 0.5)
 						{
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << EMPTY_STRING
+								   << TUULINEN_WORD;
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 								   << TUULINEN_WORD;
+						  */
 						}
 					  else if(windspeedAfternoonInland >= windy_weather_limit - 0.5)
 						{
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+								   << parse_weekday_phrase(dayNumber, iltapaivalla)
+								   << EMPTY_STRING
+								   << TUULINEN_WORD;
+						  /*
 						  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 								   << iltapaivalla << TUULINEN_WORD;
+						  */
 						}
 					  else
 						{
+						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+								   << parse_weekday_phrase(dayNumber, iltapaivalla)
+								   << RANNIKOLLA_WORD
+								   << TUULISTA_WORD;
+
+						  /*
 						  sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
 								   << iltapaivalla << TUULISTA_WORD;
+						  */
 						}
 					}
 				  else// rannikolla ei juuri tuule iltap‰iv‰ll‰
@@ -877,11 +1140,12 @@ namespace TextGen
 																		windy_weather_limit,
 																		extremely_windy_weather_limit,
 																		theSpecifiedDay,
+																		dayNumber,
 																		SISAMAASSA_WORD,
 																		aamupaivalla,
 																		iltapaivalla);
 					}
-				}
+			  }
 			}
 		  else if(morningIncluded)
 			{
@@ -891,44 +1155,88 @@ namespace TextGen
 				  // sis‰maassa on aamulla hyvin tuulista
 				  if(windspeedMorningInland >= extremely_windy_weather_limit - 1.0)
 					{
+					  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << EMPTY_STRING
+							   << HYVIN_TUULINEN_PHRASE;
+					  /*
 					  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 							   << HYVIN_WORD << TUULINEN_WORD;
+					  */
 					}
 				  else
 					{
+					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << RANNIKOLLA_WORD
+							   << HYVIN_TUULISTA_PHRASE;
+					  
+					  /*
 					  sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
 							   << HYVIN_WORD << TUULISTA_WORD;
+					  */
 					}
 				}
 			  else if(windspeedMorningCoastal >= windy_weather_limit)
 				{// rannikolla aamulla tuulista
 				  if(windspeedMorningInland >= extremely_windy_weather_limit)
 					{
+					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << SISAMAASSA_WORD
+							   << HYVIN_TUULISTA_PHRASE;
+
+					  /*
 					  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
 							   << HYVIN_WORD << TUULISTA_WORD;
+					  */
 					}
 				  else if(windspeedMorningInland >= windy_weather_limit - 0.5)
 					{
+					  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << EMPTY_STRING
+							   << TUULINEN_WORD;
+					  /*
 					  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 							   << TUULINEN_WORD;
+					  */
 					}
 				  else
 					{
+					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << RANNIKOLLA_WORD
+							   << TUULISTA_WORD;
+					  /*
 					  sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
 							   << TUULISTA_WORD;
+					  */
 					}
 				}
 			  else
 				{ // rannikolla ei ole aamulla erityisen tuulista
 				  if(windspeedMorningInland >= extremely_windy_weather_limit)
 					{
+					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << SISAMAASSA_WORD
+							   << HYVIN_TUULISTA_PHRASE;
+					  /*
 					  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
 							   << HYVIN_WORD << TUULISTA_WORD;
+					  */
 					}
 				  else if(windspeedMorningInland >= windy_weather_limit - 0.5)
 					{
+					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << SISAMAASSA_WORD
+							   << TUULISTA_WORD;
+					  /*
 					  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
 							   << TUULISTA_WORD;
+					  */
 					}
 				}
 			}
@@ -940,44 +1248,86 @@ namespace TextGen
 				  // sis‰maassa on iltap‰iv‰ll‰ hyvin tuulista
 				  if(windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
 					{
+					  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << EMPTY_STRING
+							   << HYVIN_TUULINEN_PHRASE;
+					  /*
 					  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 							   << HYVIN_WORD << TUULINEN_WORD;
+					  */
 					}
 				  else
 					{
+					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << RANNIKOLLA_WORD
+							   << HYVIN_TUULISTA_PHRASE;
+					  /*
 					  sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
 							   << HYVIN_WORD << TUULISTA_WORD;
+					  */
 					}
 				}
 			  else if(windspeedAfternoonCoastal >= windy_weather_limit)
 				{// rannikolla iltap‰iv‰ll‰ tuulista
 				  if(windspeedAfternoonInland >= extremely_windy_weather_limit)
 					{
+					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << SISAMAASSA_WORD
+							   << HYVIN_TUULISTA_PHRASE;
+					  /*
 					  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
 							   << HYVIN_WORD << TUULISTA_WORD;
+					  */
 					}
 				  else if(windspeedAfternoonInland >= windy_weather_limit - 0.5)
 					{
+					  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << EMPTY_STRING
+							   << TUULINEN_WORD;
+					  /*
 					  sentence << SAA_WORD << ON_WORD << theSpecifiedDay 
 							   << TUULINEN_WORD;
+					  */
 					}
 				  else
 					{
+					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << RANNIKOLLA_WORD
+							   << TUULISTA_WORD;
+					  /*
 					  sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
 							   << TUULISTA_WORD;
+					  */
 					}
 				}
 			  else
 				{ // rannikolla ei ole iltap‰iv‰ll‰ erityisen tuulista
 				  if(windspeedAfternoonInland >= extremely_windy_weather_limit)
 					{
+					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << SISAMAASSA_WORD
+							   << HYVIN_TUULISTA_PHRASE;
+					  /*
 					  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
 							   << HYVIN_WORD << TUULISTA_WORD;
+					  */
 					}
 				  else if(windspeedAfternoonInland >= windy_weather_limit - 0.5)
 					{
+					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << SISAMAASSA_WORD
+							   << TUULISTA_WORD;
+					  /*
 					  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
 							   << TUULISTA_WORD;
+					  */
 					}
 				}
 			}
@@ -989,7 +1339,8 @@ namespace TextGen
 															windy_weather_limit,
 															extremely_windy_weather_limit,
 															theSpecifiedDay,
-															"",
+															dayNumber,
+															EMPTY_STRING,
 															aamupaivalla,
 															iltapaivalla);
 		}
@@ -1000,13 +1351,19 @@ namespace TextGen
 															windy_weather_limit,
 															extremely_windy_weather_limit,
 															theSpecifiedDay,
-															"",
+															dayNumber,
+															EMPTY_STRING,
 															aamupaivalla,
 															iltapaivalla);
 		}
 
 	  return sentence;
 	}
+
+	//#define ON_TUULISTA_COMPOSITE_PHRASE "[1-iltap‰iv‰ll‰] [rannikolla] on [tuulista]"
+	//#define SAA_ON_TUULISTA_COMPOSITE_PHRASE "s‰‰ on [1-iltap‰iv‰ll‰] [rannikolla] [tuulista]"
+	//#define PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[1-iltap‰iv‰ll‰] [rannikolla] [pakkanen on purevaa]"
+	//#define TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE "[1-iltap‰iv‰ll‰] [rannikolla] [pakkanen on purevaa]"	
 
 	const Sentence windiness_sentence(const wind_anomaly_params& theParameters)
 	{
@@ -1020,6 +1377,7 @@ namespace TextGen
 	  std::string areaString("");
 
 	  Sentence theSpecifiedDay;
+	  short dayNumber = 0;
 	  if(theParameters.thePeriodLength > 24)
 		{
 		  theSpecifiedDay << PeriodPhraseFactory::create("today",
@@ -1027,17 +1385,19 @@ namespace TextGen
 														 theParameters.theForecastTime,
 														 theParameters.thePeriod,
 														 theParameters.theArea);
+		  dayNumber = theParameters.thePeriod.localStartTime().GetWeekday();
 		}
 
 	  float wind_cooling_the_weather_limit = Settings::optional_double(theParameters.theVariable + "::wind_cooling_the_weather_limit", WIND_COOLING_THE_WEATHER_LIMIT);
 
-	  sentence << construct_windiness_sentence(theParameters, theSpecifiedDay);
-
+	  sentence << construct_windiness_sentence(theParameters, 
+											   theSpecifiedDay, 
+											   dayNumber);
 
 	  // handle the wind cooling effect
 	  if(sentence.empty())
 		{
-		  areaString = "";
+		  areaString = EMPTY_STRING;
 		  float temperature = -1.0;
 
 		  bool windCoolingTheWeatherInlandMorning = 
@@ -1166,16 +1526,35 @@ namespace TextGen
 
 			 if(inlandIncluded || coastIncluded)
 			   {
-				 Sentence windCoolingSentence;
+				 if(areaString.empty())
+				   areaString = EMPTY_STRING;
 
 				 if(temperature > 0.0 && temperature <= 10.0)
+				   {
+					 sentence << PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE
+							  << parse_weekday_phrase(dayNumber, part_of_the_day)
+							  << areaString
+							  << TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE;
+
+					 /*
 				   windCoolingSentence << TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE << theSpecifiedDay 
 									   << areaString << part_of_the_day ;
+					 */
+				   }
 				 else if(temperature > 10.0)
+				   {
+					 sentence << PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE
+							  << parse_weekday_phrase(dayNumber, part_of_the_day)
+							  << areaString
+							  << TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE;
+
+					 /*
 				   windCoolingSentence << TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE << theSpecifiedDay 
 									   << areaString << part_of_the_day ;
+					 */
+				   }
 
-				 sentence << windCoolingSentence;
+				 // sentence << windCoolingSentence;
 			   }
 		}
 
@@ -1197,6 +1576,7 @@ namespace TextGen
 	  forecast_area_id areaMorning = FULL_AREA;
 	  forecast_area_id areaAfternoon = FULL_AREA;
 	  Sentence theSpecifiedDay;
+	  short dayNumber = 0;
 	  if(theParameters.thePeriodLength > 24)
 		{
 		  theSpecifiedDay << PeriodPhraseFactory::create("today",
@@ -1204,6 +1584,7 @@ namespace TextGen
 														 theParameters.theForecastTime,
 														 theParameters.thePeriod,
 														 theParameters.theArea);
+		  dayNumber = theParameters.thePeriod.localStartTime().GetWeekday();
 		}
 
 	  if(inlandIncluded && coastIncluded)
@@ -1258,10 +1639,26 @@ namespace TextGen
 	  bool extremelyWindChillAfternoon = windChillAfternoonMean.value() < EXTREME_WINDCHILL_LIMIT;
 
 	  std::string areaString((areaMorning == INLAND_AREA ? SISAMAASSA_WORD 
-							  : (areaMorning == COASTAL_AREA ? RANNIKOLLA_WORD : "")));
+							  : (areaMorning == COASTAL_AREA ? RANNIKOLLA_WORD : EMPTY_STRING)));
 
 	  if(windChill >= EXTREME_WINDCHILL_LIMIT && windChill <= MILD_WINDCHILL_LIMIT)
 		{
+		  if(windChillMorning && !windChillAfternoon)
+			{
+			  sentence << PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE
+					   << parse_weekday_phrase(dayNumber, aamupaivalla)
+					   << areaString
+					   << PAKKANEN_ON_PUREVAA_PHRASE;
+			}
+		  else if(!windChillMorning && windChillAfternoon)
+			{
+			  sentence << PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE
+					   << parse_weekday_phrase(dayNumber, iltapaivalla)
+					   << areaString
+					   << PAKKANEN_ON_PUREVAA_PHRASE;
+			}
+
+		  /*
 		  sentence << PAKKANEN_ON_PUREVAA_PHRASE << theSpecifiedDay;
 
 		  if(windChillMorning && !windChillAfternoon)
@@ -1272,9 +1669,26 @@ namespace TextGen
 			{
 			  sentence << iltapaivalla << areaString;
 			}
+		  */
 		}
 	  else if(windChill < EXTREME_WINDCHILL_LIMIT)
 		{
+		  if(extremelyWindChillMorning && !extremelyWindChillAfternoon)
+			{
+			  sentence << PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE
+					   << parse_weekday_phrase(dayNumber, aamupaivalla)
+					   << areaString
+					   << PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE;
+			}
+		  else if(!extremelyWindChillMorning && extremelyWindChillAfternoon)
+			{
+			  sentence << PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE
+					   << parse_weekday_phrase(dayNumber, iltapaivalla)
+					   << areaString
+					   << PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE;
+			}
+
+		  /*
 		  sentence << PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE << theSpecifiedDay;
 
 		  if(extremelyWindChillMorning && !extremelyWindChillAfternoon)
@@ -1285,6 +1699,7 @@ namespace TextGen
 			{
 			  sentence << iltapaivalla << areaString;
 			}
+		  */
 		}
 
 	  return sentence;
@@ -1294,6 +1709,7 @@ namespace TextGen
 					   MessageLogger& log)
 	{
 	  Sentence theSpecifiedDay;
+	  short dayNumber = 0;
 	  if(parameters.thePeriodLength > 24)
 		{
 		  theSpecifiedDay << PeriodPhraseFactory::create("today",
@@ -1301,6 +1717,7 @@ namespace TextGen
 														 parameters.theForecastTime,
 														 parameters.thePeriod,
 														 parameters.theArea);
+		  dayNumber = parameters.thePeriod.localStartTime().GetWeekday();
 		}
 
 	  for(float i = 4.0; i < 13.0; i = i + 0.5)
@@ -1317,7 +1734,7 @@ namespace TextGen
 					  {
 						parameters.theWindspeedCoastalAfternoonMean = WeatherResult(l, 0.0);
 						Sentence sentence;
-						sentence << construct_windiness_sentence(parameters, theSpecifiedDay);
+						sentence << construct_windiness_sentence(parameters, theSpecifiedDay, dayNumber);
 						log << "Windspeed InlandM, InlandA, CoastalM, CoastalA: (";
 						log << parameters.theWindspeedInlandMorningMean << ",";
 						log << parameters.theWindspeedInlandAfternoonMean <<  ",";
@@ -1355,6 +1772,7 @@ namespace TextGen
 		log <<  nimi << endl;
 	  }
 
+
 	forecast_season_id theSeasonId = isSummerHalf(itsPeriod.localStartTime(), itsVar) ? SUMMER_SEASON : WINTER_SEASON;
 
 	// the anomaly sentence relates always to the upcoming day,
@@ -1387,6 +1805,7 @@ namespace TextGen
 								"wind anomaly period: ",
 								windAnomalyPeriod);
 
+	bool specify_part_of_the_day = Settings::optional_bool(itsVar + "::specify_part_of_the_day", true);
 	wind_anomaly_params parameters(itsVar,
 								   log,
 								   itsSources,
@@ -1394,9 +1813,11 @@ namespace TextGen
 								   windAnomalyPeriod,
 								   theSeasonId,
 								   itsForecastTime,
-								   periodLength);
+								   periodLength,
+								   specify_part_of_the_day);
 
-	float coastalPercentage = get_area_percentage(itsArea,
+	float coastalPercentage = get_area_percentage(itsVar + "::fake::area_percentage",
+												  itsArea,
 												  WeatherArea::Coast,
 												  itsSources,
 												  itsPeriod);
@@ -1421,9 +1842,8 @@ namespace TextGen
 
 	bool morningIncluded = windAnomalyPeriod.localStartTime().GetHour() < 10;
 	bool afternoonIncluded = windAnomalyPeriod.localEndTime().GetHour() > 14;
-	bool specify_part_of_the_day = Settings::optional_bool(itsVar + "::specify_part_of_the_day", true);
-	parameters.theMorningWord = (specify_part_of_the_day ? AAMUPAIVALLA_WORD : "");
-	parameters.theAfternoonWord = (specify_part_of_the_day ? ILTAPAIVALLA_WORD : "");
+	parameters.theMorningWord = (specify_part_of_the_day ? AAMUPAIVALLA_WORD : EMPTY_STRING);
+	parameters.theAfternoonWord = (specify_part_of_the_day ? ILTAPAIVALLA_WORD : EMPTY_STRING);
 
 	if(morningIncluded)
 	  {
@@ -1528,6 +1948,7 @@ namespace TextGen
 		testWindiness(parameters, log);
 	  }
 	*/
+
 	return paragraph;
   }
 

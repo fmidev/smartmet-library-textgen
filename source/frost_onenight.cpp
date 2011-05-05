@@ -236,12 +236,6 @@ namespace TextGen
 	  return EMPTY_STORY;
 	}
 	
-
-
-	//#define HALLAN_VAARA_COMPOSITE_PHRASE "[sisämaassa] [alavilla mailla] hallan vaara"
-	//#define MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE  "[rannikolla] mahdollisesti hallaa"
-	//#define PAIKOIN_HALLAA_COMPOSITE_PHRASE "[rannikolla] [paikoin] hallaa"
-	//#define PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE "[rannikolla] [paikoin] hallaa, joka voi olla ankar"
 	Sentence get_frost_onenight_phrase(const int& phraseId,
 									   const bool& tellSevereFrostStory)
 	{

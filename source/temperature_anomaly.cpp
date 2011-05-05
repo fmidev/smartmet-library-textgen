@@ -314,9 +314,6 @@ enum anomaly_phrase_id
 		}
 	}
 
-
-	// #define TEMPERATURE_CHANGES_COMPOSITE_PHRASEW "[1-na] [s‰‰ l‰mpenee]"
-	// #define TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE "[1-na] s‰‰ on [poikkeuksellisen] [kylm‰‰]"
 	const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
 												const float& fractile02Share,
 												const float& fractile12Share,
