@@ -84,6 +84,9 @@ using namespace std;
 	
   private:
 	  
+	Sentence parseFinalSentence(map<string, Sentence>& theCompositePhraseElements, 
+								const Sentence& thePeriodPhrase,
+								const unsigned short& theForecastAreaId) const;
 	bool getIntensityFormExtent(const WeatherPeriod& theWeatherPeriod,
 								const unsigned short theForecastArea,
 								float& theIntensity,
@@ -150,11 +153,13 @@ using namespace std;
 								    const float thePrecipitationIntensityAbsoluteMax,
 								   const float& theWaterDrizzleSleetShare,
 								   const bool& theCanBeFreezingFlag,
+								   map<string, Sentence>& theCompositePhraseElements,
 								   vector<std::string>& theStringVector) const;
 
 	void mostlyDryWeatherPhrase(const bool& theIsShowersFlag,
 								const WeatherPeriod& thePeriod,
 								const char* thePhrase,
+								map<string, Sentence>& theCompositePhraseElements,
 								vector<std::string>& theStringVector) const;
 
 	unsigned int getPrecipitationTypeChange(const precipitation_data_vector& theData,

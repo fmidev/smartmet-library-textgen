@@ -1280,8 +1280,6 @@ using namespace std;
   }
 
 
-
-
   // ----------------------------------------------------------------------
   /*!
    * \brief Generate overview on weather
@@ -1301,6 +1299,7 @@ using namespace std;
 	using namespace PrecipitationPeriodTools;
 
 	Paragraph paragraph;
+
 
 #ifdef TESTING
 	if(itsArea.isNamed())
@@ -1383,6 +1382,7 @@ using namespace std;
 	  {
 		std::string name(itsArea.name());
 		log << "** " << name  << " **" << endl;
+		cout << "** " << name  << " **" << endl;
 	  }
 
 	WeatherPeriod theDataGatheringPeriod(dataPeriodStartTime, dataPeriodEndTime);

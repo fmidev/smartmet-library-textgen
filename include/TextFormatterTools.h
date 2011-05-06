@@ -59,7 +59,7 @@ namespace TextGen
 		  bool isdelim = (*it)->isDelimiter();
 		  
 		  tmp = theFormatter.format(**it);	// iterator -> shared_ptr -> object
-
+		  //cout << "tmp: " << tmp << endl;
 		  if(patterns > 0)
 			{
 			  std::string needle = make_needle(pattern++);
@@ -101,7 +101,7 @@ namespace TextGen
 			}
 		}
 
-	  //	  cout << "ret: " << ret << endl;
+	  //cout << "ret: " << ret << endl;
 
 	  return ret;
 	}

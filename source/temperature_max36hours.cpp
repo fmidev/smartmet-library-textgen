@@ -78,15 +78,15 @@ namespace TextGen
 #define ON_HIEMAN_KYLMAMPAA_COMPOSITE_PHRASE "[yöllä] on [hieman kylmempää]"
 	*/
 
-#define LAMPOTILA_ON_INTERVALLI_COMPOSITE_PHRASE "[aamulla] [sisäm] [lämpötila] on [M]...[N]"
-#define LAMPOTILA_ON_NOIN_COMPOSITE_PHRASE "[aamulla] [sisäm] [lämpötila] on noin [N]"
-#define LAMPOTILA_ON_TIENOILLA_COMPOSITE_PHRASE "[aamulla] [sisäm] [lämpötila] on [N] tienoilla"
-#define LAMPOTILA_ON_TUNTUMASSA_COMPOSITE_PHRASE "[aamulla] [sisäm] [lämpötila] on [N] tuntumassa"
-#define LAMPOTILA_ON_LAHELLA_COMPOSITE_PHRASE "[aamulla] [sisäm] [lämpötila] on lähellä [N]"
-#define LAMPOTILA_ON_VAJAAT_COMPOSITE_PHRASE "[aamulla] [sisäm] [lämpötila] on vajaat [N]"
-#define LAMPOTILA_ON_VAHAN_YLI_COMPOSITE_PHRASE "[aamulla] [sisäm] [lämpötila] on vähän yli [N]"
+#define LAMPOTILA_ON_INTERVALLI_COMPOSITE_PHRASE "[aamulla] [sisämaassa] [lämpötila] on [M]...[N] astetta"
+#define LAMPOTILA_ON_NOIN_COMPOSITE_PHRASE "[aamulla] [sisämaassa] [lämpötila] on noin [N] astetta"
+#define LAMPOTILA_ON_TIENOILLA_COMPOSITE_PHRASE "[aamulla] [sisämaassa] [lämpötila] on [N] asteen tienoilla"
+#define LAMPOTILA_ON_TUNTUMASSA_COMPOSITE_PHRASE "[aamulla] [sisämaassa] [lämpötila] on [N] asteen tuntumassa"
+#define LAMPOTILA_ON_LAHELLA_COMPOSITE_PHRASE "[aamulla] [sisämaassa] [lämpötila] on lähellä [N] astetta"
+#define LAMPOTILA_ON_VAJAAT_COMPOSITE_PHRASE "[aamulla] [sisämaassa] [lämpötila] on vajaat [N] astetta"
+#define LAMPOTILA_ON_VAHAN_YLI_COMPOSITE_PHRASE "[aamulla] [sisämaassa] [lämpötila] on vähän yli [N] astetta"
 #define ON_PIKKUPAKKASTA_COMPOSITE_PHRASE "[huomenna] [rannikolla] on pikkupakkasta"
-#define PAKKANEN_ON_HIEMANKIREAMPAA_COMPOSITE_PHRASE "[huomenna] [sisäm] pakkanen on [hieman kireämpää]"
+#define PAKKANEN_ON_HIEMANKIREAMPAA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkanen on [hieman kireämpää]"
 #define LAMPOTILA_NOUSEE_COMPOSITE_PHRASE "[yöllä] lämpötila nousee"
 
 #define LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[yöllä] [lämpötila] on [suunnileen sama]"

@@ -16,7 +16,12 @@ namespace TextGen
 
 #define EMPTY_STRING "empty_string" 
 #define COMMA_PUNCTUATION_MARK "," 
-#define INTENSITY_WORD "intensiteetti"
+#define INTENSITY_PARAMETER "intensity"
+#define PRECIPITATION_PARAMETER "precipitation"
+#define IN_PLACES_PARAMETER "paikoin"
+#define PLAIN_PRECIPITATION_PHRASE "precipitation phrase"
+#define JAATAVYYS_PARAMETER "j‰‰t‰v‰‰"
+#define YKSITTAISET_KUUROT_MAHDOLLISIA "yksitt‰iset kuurot mahdollisia"
 
 #define INLAND_PHRASE "sis‰maassa"
 #define COAST_PHRASE "rannikolla"
@@ -35,6 +40,8 @@ namespace TextGen
 #define ALUKSI_WORD "aluksi"
 #define MYOHEMMIN_WORD "myˆhemmin"
 
+#define SAA_ON_ENIMMAKSEEN_POUTAINEN_PHRASE "s‰‰ on enimm‰kseen poutainen"
+#define SAA_ON_POUTAINEN_PHRASE "s‰‰ on poutainen"
 #define HEIKKOJA_WORD "heikkoja"
 #define SAKEITA_WORD "sakeita"
 #define RUNSAITA_WORD "runsaita"
