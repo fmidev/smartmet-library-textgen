@@ -38,7 +38,8 @@ namespace TextGen
 	using namespace WeatherAnalysis;
 	using namespace AreaTools;
 
-#define HALLAN_VAARA_COMPOSITE_PHRASE "[sisämaassa] [alavilla mailla] hallan vaara"
+#define HALLAN_VAARA_COMPOSITE_PHRASE "[sisämaassa] hallan vaara"
+#define ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE "[sisämaassa] alavilla mailla hallan vaara"
 #define MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE  "[rannikolla] mahdollisesti hallaa"
 #define PAIKOIN_HALLAA_COMPOSITE_PHRASE "[rannikolla] [paikoin] hallaa"
 #define PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE "[rannikolla] [paikoin] hallaa, joka voi olla ankar"
@@ -250,25 +251,21 @@ namespace TextGen
 		  break;
 		case ALAVILLA_MAILLA_HALLAN_VAARA:
 		  {
-			sentence << HALLAN_VAARA_COMPOSITE_PHRASE 
-					 << EMPTY_STRING 
-					 << "alavilla mailla"; 
-			// sentence << "alavilla mailla" << "hallan vaara"; 
+			sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE
+					 << EMPTY_STRING;
 		  }
 		  break;
 		case MAHDOLLISESTI_HALLAA:
 		  {
 			sentence << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE
 					 << EMPTY_STRING;
-			  // sentence << "mahdollisesti" << "hallaa"; 
 		  }
 		  break;
 		case PAIKOIN_HALLAA:
 		  {
 			sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE 
 					 << EMPTY_STRING 
-					 << "paikoin";
-			// sentence << "paikoin" << "hallaa"; 
+					 << PAIKOIN_WORD;
 		  }
 		  break;
 		case MONIN_PAIKOIN_HALLAA:
@@ -279,15 +276,7 @@ namespace TextGen
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
 			
 			sentence << EMPTY_STRING 
-					 << "monin paikoin";
-
-			/*
-			sentence << "monin paikoin" << "hallaa"; 
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-				}*/
+					 << MONIN_PAIKOIN_WORD;
 		  }
 		  break;
 		case HALLAA_YLEISESTI:
@@ -298,15 +287,6 @@ namespace TextGen
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
 			sentence << EMPTY_STRING 
 					 << EMPTY_STRING;
-
-			/*
-			sentence << "hallaa"; 
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-			*/
 		  }
 		  break;
 		case YOPAKKASTA:
@@ -316,25 +296,21 @@ namespace TextGen
 		  break;
 		case RANNIKOLLA_HALLAN_VAARA:
 		  {
-			sentence << HALLAN_VAARA_COMPOSITE_PHRASE 
-					 << "rannikolla" 
-					 << EMPTY_STRING; 
-			// sentence << "rannikolla" << "hallan vaara"; 
+			sentence << HALLAN_VAARA_COMPOSITE_PHRASE
+					 << COAST_PHRASE;
 		  }
 		  break;
 		case RANNIKOLLA_MAHDOLLISESTI_HALLAA:
 		  {
 			sentence << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE
-					 << "rannikolla";
-			  // sentence << "rannikolla" << "mahdollisesti" << "hallaa"; 
+					 << COAST_PHRASE;
 		  }
 		  break;
 		case RANNIKOLLA_PAIKOIN_HALLAA:
 		  {
 			sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE
-					 << "rannikolla" 
-					 << "paikoin"; 
-			// sentence << "rannikolla" << "paikoin" << "hallaa"; 
+					 << COAST_PHRASE 
+					 << PAIKOIN_WORD; 
 		  }
 		  break;
 		case RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
@@ -343,16 +319,8 @@ namespace TextGen
 			  sentence << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE;
 			else
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
-			sentence << "rannikolla" 
-					 << "monin paikoin";
-			/*
-			sentence << "rannikolla" << "monin paikoin" << "hallaa"; 
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-			*/
+			sentence << COAST_PHRASE 
+					 << MONIN_PAIKOIN_WORD;
 		  }
 		  break;
 		case RANNIKOLLA_HALLAA:
@@ -361,39 +329,27 @@ namespace TextGen
 			  sentence << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE;
 			else
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
-			sentence << "rannikolla" 
+			sentence << COAST_PHRASE 
 					 << EMPTY_STRING; 
-			/*
-			sentence << "rannikolla" << "hallaa"; 
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-			*/
 		  }
 		  break;
 		case SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA:
 		  {
-			sentence << HALLAN_VAARA_COMPOSITE_PHRASE 
-					 << "sisämaassa"
-					 << "alavilla mailla";
-			//			sentence << "sisämaassa" << "alavilla mailla"  << "hallan vaara"; 
+			sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE
+					 << INLAND_PHRASE;
 		  }
 		  break;
 		case SISAMAASSA_MAHDOLLISESTI_HALLAA:
 		  {
 			sentence << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE
-					 << "sisämaassa";
-			//sentence << "sisämaassa" << "mahdollisesti"  << "hallaa"; 
+					 << INLAND_PHRASE;
 		  }
 		  break;
 		case SISAMAASSA_PAIKOIN_HALLAA:
 		  {
 			sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
-			sentence << "sisämaassa" 
-					 << "paikoin"; 
-			// sentence << "sisämaassa" << "paikoin" << "hallaa"; 
+			sentence << INLAND_PHRASE 
+					 << PAIKOIN_WORD; 
 		  }
 		  break;
 		case SISAMAASSA_MONIN_PAIKOIN_HALLAA:
@@ -402,16 +358,8 @@ namespace TextGen
 			  sentence << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE;
 			else
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
-			sentence << "sisämaassa" 
-					 << "monin paikoin"; 
-			/*
-			sentence << "sisämaassa" << "monin paikoin" << "hallaa"; 
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-			*/
+			sentence << INLAND_PHRASE 
+					 << MONIN_PAIKOIN_WORD; 
 		  }
 		  break;
 		case SISAMAASSA_YLEISESTI_HALLAA:
@@ -420,16 +368,8 @@ namespace TextGen
 			  sentence << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE;
 			else
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
-			sentence << "sisämaassa" 
+			sentence << INLAND_PHRASE 
 					 << EMPTY_STRING;
-			/*
-			sentence << "sisämaassa" << "hallaa"; 
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-			*/
 		  }
 		  break;
 		case (SISAMAASSA_MONIN_PAIKOIN_HALLAA*100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA:
@@ -438,20 +378,11 @@ namespace TextGen
 			  sentence << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE;
 			else
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
-			sentence << "sisämaassa" 
-					 << "monin paikoin"
+			sentence << INLAND_PHRASE 
+					 << MONIN_PAIKOIN_WORD
 					 <<  Delimiter(COMMA_PUNCTUATION_MARK)
 					 << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE
-					 << "rannikolla";
-			/*
-			sentence << "sisämaassa" << "monin paikoin" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
-			if(tellSevereFrostStory)
-			  {
-				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-			  }
-			 sentence << "rannikolla" << "mahdollisesti" << "hallaa";  
-			*/
+					 << COAST_PHRASE;
 		  }
 		  break;
 		case (SISAMAASSA_YLEISESTI_HALLAA*100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA:
@@ -460,36 +391,21 @@ namespace TextGen
 			  sentence << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE;
 			else
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
-			sentence << "sisämaassa" 
+			sentence << INLAND_PHRASE 
 					 << EMPTY_STRING
 					 <<  Delimiter(COMMA_PUNCTUATION_MARK)
 					 << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE
-					 << "rannikolla";
-			/*
-			sentence << "sisämaassa" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK); 
-			if(tellSevereFrostStory)
-			  {
-				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-			  }
-			 sentence << "rannikolla" << "mahdollisesti" << "hallaa";  
-			*/
+					 << COAST_PHRASE;
 		  }
 		  break;
 		case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100) + RANNIKOLLA_PAIKOIN_HALLAA:
 		  {
-			sentence << HALLAN_VAARA_COMPOSITE_PHRASE
-					 << "sisämaassa"
-					 << "alavilla mailla"
+			sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE
+					 << INLAND_PHRASE
 					 << Delimiter(COMMA_PUNCTUATION_MARK)
 					 << PAIKOIN_HALLAA_COMPOSITE_PHRASE
-					 << "rannikolla" 
-					 << "paikoin";
-
-			/*
-			sentence << "sisämaassa" << "alavilla mailla" << "hallan vaara" << Delimiter(COMMA_PUNCTUATION_MARK) 
-					 << "rannikolla" << "paikoin" << "hallaa";  
-			*/
+					 << COAST_PHRASE 
+					 << PAIKOIN_WORD;
 		  }
 		  break;
 		case (SISAMAASSA_YLEISESTI_HALLAA*100) + RANNIKOLLA_PAIKOIN_HALLAA:
@@ -498,45 +414,25 @@ namespace TextGen
 			  sentence << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE;
 			else
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
-			sentence << "sisämaassa" 
+			sentence << INLAND_PHRASE 
 					 << EMPTY_STRING
 					 <<  Delimiter(COMMA_PUNCTUATION_MARK)
 					 << PAIKOIN_HALLAA_COMPOSITE_PHRASE
-					 << "rannikolla"
-					 << "monin paikoin";
-			/*
-			sentence << "sisämaassa" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
-			if(tellSevereFrostStory)
-			  {
-				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-			  }
-			sentence << "rannikolla" << "monin paikoin" << "hallaa";  
-			*/
+					 << COAST_PHRASE
+					 << MONIN_PAIKOIN_WORD;
 		  }
 		  break;
 		case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
 		  {
-			sentence << HALLAN_VAARA_COMPOSITE_PHRASE
-					 << "sisämaassa"
-					 << "alavilla mailla"
+			sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE
+					 << INLAND_PHRASE
 					 << Delimiter(COMMA_PUNCTUATION_MARK);
 			if(tellSevereFrostStory)
 			  sentence << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE;
 			else
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
-			sentence << "rannikolla"
-					 << "monin paikoin";
-
-			  /*
-			sentence << "sisämaassa" << "alavilla mailla" << "hallan vaara" << Delimiter(COMMA_PUNCTUATION_MARK) 
-					 << "rannikolla" << "monin paikoin" << "hallaa";
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-			  */ 
+			sentence << COAST_PHRASE
+					 << MONIN_PAIKOIN_WORD;
 		  }
 		  break;
 		case (RANNIKOLLA_MONIN_PAIKOIN_HALLAA*100) + SISAMAASSA_MAHDOLLISESTI_HALLAA:
@@ -545,68 +441,38 @@ namespace TextGen
 			  sentence << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE;
 			else
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
-			sentence << "rannikolla"
-					 << "monin paikoin"
+			sentence << COAST_PHRASE
+					 << MONIN_PAIKOIN_WORD
 					 << Delimiter(COMMA_PUNCTUATION_MARK)
 					 << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE
-					 << "sisämaassa";
-			/*
-			sentence << "rannikolla" << "monin paikoin" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
-			if(tellSevereFrostStory)
-			  {
-				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-			  }
-			 sentence << "sisämaassa" << "mahdollisesti" << "hallaa";
-			*/
+					 << INLAND_PHRASE;
 		  }
 		  break;
 		case (SISAMAASSA_PAIKOIN_HALLAA*100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
 		  {
 			sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE
-					 << "sisämaassa"
-					 << "paikoin"
+					 << INLAND_PHRASE
+					 << PAIKOIN_WORD
 					 << Delimiter(COMMA_PUNCTUATION_MARK);
 			if(tellSevereFrostStory)
 			  sentence << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE;
 			else
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
-			sentence << "rannikolla"
-					 << "monin paikoin";
-
-			  /*
-			sentence << "sisämaassa" << "paikoin" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK) 
-					 << "rannikolla" << "monin paikoin" << "hallaa";  
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-			  */
+			sentence << COAST_PHRASE
+					 << MONIN_PAIKOIN_WORD;
 		  }
 		  break;
 		case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100) + RANNIKOLLA_HALLAA:
 		  {
-			sentence << HALLAN_VAARA_COMPOSITE_PHRASE
-					 << "sisämaassa" 
-					 << "alavilla mailla"
+			sentence << ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE
+					 << INLAND_PHRASE 
 					 << Delimiter(COMMA_PUNCTUATION_MARK);
 			if(tellSevereFrostStory)
 			  sentence << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE;
 			else
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
-			sentence << "rannikolla"
+			sentence << COAST_PHRASE
 					 << EMPTY_STRING;
-
-			/*
-			sentence << "sisämaassa" << "alavilla mailla" << "hallan vaara" << Delimiter(COMMA_PUNCTUATION_MARK) 
-					 << "rannikolla" << "hallaa";  
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-			*/
 		  }
 		  break;
 		case (RANNIKOLLA_HALLAA*100) + SISAMAASSA_MAHDOLLISESTI_HALLAA:
@@ -615,20 +481,11 @@ namespace TextGen
 			  sentence << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE;
 			else
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
-			sentence << "rannikolla"
+			sentence << COAST_PHRASE
 					 << EMPTY_STRING;
 			sentence << Delimiter(COMMA_PUNCTUATION_MARK)
 					 << MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE
-					 << "sisämaassa";
-			/*
-			sentence << "rannikolla" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
-			if(tellSevereFrostStory)
-			  {
-				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-			  }
-			sentence << "sisämaassa" << "mahdollisesti" << "hallaa";
-			*/
+					 << INLAND_PHRASE;
 		  }
 		  break;
 		case (RANNIKOLLA_HALLAA*100) + SISAMAASSA_PAIKOIN_HALLAA:
@@ -637,21 +494,12 @@ namespace TextGen
 			  sentence << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE;
 			else
 			  sentence << PAIKOIN_HALLAA_COMPOSITE_PHRASE;
-			sentence << "rannikolla"
+			sentence << COAST_PHRASE
 					 << EMPTY_STRING;
 			sentence << Delimiter(COMMA_PUNCTUATION_MARK)
 					 << PAIKOIN_HALLAA_COMPOSITE_PHRASE
-					 << "sisämaassa"
-					 << "paikoin";
-			/*
-			sentence  << "rannikolla" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
-			if(tellSevereFrostStory)
-			  {
-				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-			  }
-			sentence << "sisämaassa" << "paikoin" << "hallaa";
-			*/
+					 << INLAND_PHRASE
+					 << PAIKOIN_WORD;
 		  }
 		  break;
 		default:
@@ -662,244 +510,6 @@ namespace TextGen
 		} 
 	  return sentence;
 	}
-
-#ifdef OLD_IMPLEMENTATION
-	Sentence get_frost_onenight_phrase(const int& phraseId,
-									   const bool& tellSevereFrostStory)
-	{
-	  Sentence sentence;
-	  
-	  switch(phraseId)
-		{
-		case EMPTY_STORY:
-		  {
-			sentence << "";
-		  }
-		  break;
-		case ALAVILLA_MAILLA_HALLAN_VAARA:
-		  {
-			sentence << "alavilla mailla" << "hallan vaara"; 
-		  }
-		  break;
-		case MAHDOLLISESTI_HALLAA:
-		  {
-			sentence << "mahdollisesti" << "hallaa"; 
-		  }
-		  break;
-		case PAIKOIN_HALLAA:
-		  {
-			sentence << "paikoin" << "hallaa"; 
-		  }
-		  break;
-		case MONIN_PAIKOIN_HALLAA:
-		  {
-			sentence << "monin paikoin" << "hallaa"; 
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-		  }
-		  break;
-		case HALLAA_YLEISESTI:
-		  {
-			sentence << "hallaa"; 
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-		  }
-		  break;
-		case YOPAKKASTA:
-		  {
-			sentence << "";
-		  }
-		  break;
-		case RANNIKOLLA_HALLAN_VAARA:
-		  {
-			sentence << "rannikolla" << "hallan vaara"; 
-		  }
-		  break;
-		case RANNIKOLLA_MAHDOLLISESTI_HALLAA:
-		  {
-			sentence << "rannikolla" << "mahdollisesti" << "hallaa"; 
-		  }
-		  break;
-		case RANNIKOLLA_PAIKOIN_HALLAA:
-		  {
-			sentence << "rannikolla" << "paikoin" << "hallaa"; 
-		  }
-		  break;
-		case RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
-		  {
-			sentence << "rannikolla" << "monin paikoin" << "hallaa"; 
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-		  }
-		  break;
-		case RANNIKOLLA_HALLAA:
-		  {
-			sentence << "rannikolla" << "hallaa"; 
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-		  }
-		  break;
-		case SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA:
-		  {
-			sentence << "sisämaassa" << "alavilla mailla"  << "hallan vaara"; 
-		  }
-		  break;
-		case SISAMAASSA_MAHDOLLISESTI_HALLAA:
-		  {
-			sentence << "sisämaassa" << "mahdollisesti"  << "hallaa"; 
-		  }
-		  break;
-		case SISAMAASSA_PAIKOIN_HALLAA:
-		  {
-			sentence << "sisämaassa" << "paikoin" << "hallaa"; 
-		  }
-		  break;
-		case SISAMAASSA_MONIN_PAIKOIN_HALLAA:
-		  {
-			sentence << "sisämaassa" << "monin paikoin" << "hallaa"; 
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-		  }
-		  break;
-		case SISAMAASSA_YLEISESTI_HALLAA:
-		  {
-			sentence << "sisämaassa" << "hallaa"; 
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-		  }
-		  break;
-		case (SISAMAASSA_MONIN_PAIKOIN_HALLAA*100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA:
-		  {
-			sentence << "sisämaassa" << "monin paikoin" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
-			if(tellSevereFrostStory)
-			  {
-				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-			  }
-			 sentence << "rannikolla" << "mahdollisesti" << "hallaa";  
-		  }
-		  break;
-		case (SISAMAASSA_YLEISESTI_HALLAA*100) + RANNIKOLLA_MAHDOLLISESTI_HALLAA:
-		  {
-			sentence << "sisämaassa" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK); 
-			if(tellSevereFrostStory)
-			  {
-				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-			  }
-			 sentence << "rannikolla" << "mahdollisesti" << "hallaa";  
-		  }
-		  break;
-		case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100) + RANNIKOLLA_PAIKOIN_HALLAA:
-		  {
-			sentence << "sisämaassa" << "alavilla mailla" << "hallan vaara" << Delimiter(COMMA_PUNCTUATION_MARK) 
-					 << "rannikolla" << "paikoin" << "hallaa";  
-		  }
-		  break;
-		case (SISAMAASSA_YLEISESTI_HALLAA*100) + RANNIKOLLA_PAIKOIN_HALLAA:
-		  {
-			sentence << "sisämaassa" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
-			if(tellSevereFrostStory)
-			  {
-				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-			  }
-			sentence << "rannikolla" << "monin paikoin" << "hallaa";  
-		  }
-		  break;
-		case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
-		  {
-			sentence << "sisämaassa" << "alavilla mailla" << "hallan vaara" << Delimiter(COMMA_PUNCTUATION_MARK) 
-					 << "rannikolla" << "monin paikoin" << "hallaa";
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }  
-		  }
-		  break;
-		case (RANNIKOLLA_MONIN_PAIKOIN_HALLAA*100) + SISAMAASSA_MAHDOLLISESTI_HALLAA:
-		  {
-			sentence << "rannikolla" << "monin paikoin" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
-			if(tellSevereFrostStory)
-			  {
-				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-			  }
-			 sentence << "sisämaassa" << "mahdollisesti" << "hallaa";
-		  }
-		  break;
-		case (SISAMAASSA_PAIKOIN_HALLAA*100) + RANNIKOLLA_MONIN_PAIKOIN_HALLAA:
-		  {
-			sentence << "sisämaassa" << "paikoin" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK) 
-					 << "rannikolla" << "monin paikoin" << "hallaa";  
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-		  }
-		  break;
-		case (SISAMAASSA_ALAVILLA_MAILLA_HALLAN_VAARA*100) + RANNIKOLLA_HALLAA:
-		  {
-			sentence << "sisämaassa" << "alavilla mailla" << "hallan vaara" << Delimiter(COMMA_PUNCTUATION_MARK) 
-					 << "rannikolla" << "hallaa";  
-			if(tellSevereFrostStory)
-			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-				sentence << "joka voi olla ankaraa";
-			  }
-		  }
-		  break;
-		case (RANNIKOLLA_HALLAA*100) + SISAMAASSA_MAHDOLLISESTI_HALLAA:
-		  {
-			sentence << "rannikolla" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
-			if(tellSevereFrostStory)
-			  {
-				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-			  }
-			sentence << "sisämaassa" << "mahdollisesti" << "hallaa";
-		  }
-		  break;
-		case (RANNIKOLLA_HALLAA*100) + SISAMAASSA_PAIKOIN_HALLAA:
-		  {
-			sentence  << "rannikolla" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK);
-			if(tellSevereFrostStory)
-			  {
-				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-			  }
-			sentence << "sisämaassa" << "paikoin" << "hallaa";
-		  }
-		  break;
-		default:
-		  {
-			sentence << "";
-		  }
-		  break;
-		} 
-	  return sentence;
-	}
-#endif
 
 	const Sentence frost_onenight_sentence(const double& coastalFrostProbability, 
 										   const double& inlandFrostProbability, 
@@ -971,53 +581,6 @@ namespace TextGen
 			 << endl;
 
 	Paragraph paragraph;
-
-
-#ifdef TESTII
-	/*
-	if(itsArea.isNamed())
-	  {
-		if(itsArea.name().compare("ahvenanmaa") != 0)
-		  return paragraph;
-	  }
-	*/
-
-	//#define HALLAN_VAARA_COMPOSITE_PHRASE "[sisämaassa] [alavilla mailla] hallan vaara"
-	//#define PAIKOIN_HALLAA_COMPOSITE_PHRASE "[rannikolla] [paikoin] [hallaa]"
-	//#define PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE "[rannikolla] [paikoin] hallaa, joka voi olla ankar"
-
-	Sentence snt;
-	//Sentence snt2;
-
-	/*
-	snt << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE
-		<<  "sisämaassa"
-		<< EMPTY_STRING;
-	*/
-
-	snt << PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE
-		<< "sisämaassa"
-		<< EMPTY_STRING
-		<< Delimiter(COMMA_PUNCTUATION_MARK)
-		<< PAIKOIN_HALLAA_COMPOSITE_PHRASE
-		<< "rannikolla"
-		<< "mahdollisesti";
-	
-
-	/*
-			sentence << "sisämaassa" << "hallaa" << Delimiter(COMMA_PUNCTUATION_MARK); 
-			if(tellSevereFrostStory)
-			  {
-				sentence << "joka voi olla ankaraa";
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-			  }
-			 sentence << "rannikolla" << "mahdollisesti" << "hallaa";  
-
-	*/
-
-	paragraph << snt;
-	//	paragraph << snt2;
-#endif
 
 
 	GridForecaster forecaster;

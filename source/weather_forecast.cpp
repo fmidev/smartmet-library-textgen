@@ -1382,7 +1382,6 @@ using namespace std;
 	  {
 		std::string name(itsArea.name());
 		log << "** " << name  << " **" << endl;
-		cout << "** " << name  << " **" << endl;
 	  }
 
 	WeatherPeriod theDataGatheringPeriod(dataPeriodStartTime, dataPeriodEndTime);
@@ -1416,6 +1415,7 @@ using namespace std;
 	theParameters.theThunderForecast = &thunderForecast;
 
 	precipitationForecast.printOutPrecipitationData(log);
+	precipitationForecast.printOutPrecipitationPeriods(log);
 	precipitationForecast.printOutPrecipitationWeatherEvents(log);
 	cloudinessForecast.printOutCloudinessData(log);
 	cloudinessForecast.printOutCloudinessWeatherEvents(log);
@@ -1433,11 +1433,11 @@ using namespace std;
 							 thunderForecast,
 							 theParameters.theLog);
 
-	//	log_weather_forecast_story(log, wfs);
-
 	const_cast<WeatherHistory&>(itsArea.history()).updateTimePhrase("", NFmiTime(1970,1,1));
 
 	paragraph << wfs.getWeatherForecastStory();
+
+	log_weather_forecast_story(log, wfs);
 
 	delete_data_structures(theParameters);
 

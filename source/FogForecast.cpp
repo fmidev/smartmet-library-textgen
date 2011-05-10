@@ -553,6 +553,34 @@ namespace TextGen
   }
 #endif
 
+  void FogForecast::getFogPeriodAndId(const fog_type_period_vector& theFogTypePeriods,
+									  WeatherPeriod& thePeriod,
+									  fog_type_id theFogTypeId) const
+  {
+	if(theFogTypePeriods.size() == 1)
+	  {
+		thePeriod = getActualFogPeriod(thePeriod, theFogTypePeriods.at(0).first);
+		theFogTypeId = theFogTypePeriods.at(0).second;
+	  }
+	else
+	  {
+		// Merge close periods. If one long fog-period use that and ignore the small ones,
+		// otherwise theFogTypeId is weighted average of all fog-periods and the
+		// returned fog-period encompasses all small periods.
+		for(unsigned int i = 0; i < theFogTypePeriods.size(); i++)
+		  {		
+			WeatherPeriod actualFogPeriod(getActualFogPeriod(thePeriod, theFogTypePeriods.at(i).first));
+			
+			if(actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()) == 1 &&
+			   (actualFogPeriod.localStartTime() == thePeriod.localStartTime() ||
+				actualFogPeriod.localEndTime() == thePeriod.localEndTime()))
+			  continue;
+		  
+		  }
+
+	  }
+  }
+
   Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod,
 									const fog_type_period_vector& theFogTypePeriods,
 									const std::string& theAreaString) const
@@ -565,6 +593,12 @@ namespace TextGen
 	for(unsigned int i = 0; i < theFogTypePeriods.size(); i++)
 	  {		
 		WeatherPeriod actualFogPeriod(getActualFogPeriod(thePeriod, theFogTypePeriods.at(i).first));
+		
+		if(actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()) == 1 &&
+		   (actualFogPeriod.localStartTime() == thePeriod.localStartTime() ||
+			actualFogPeriod.localEndTime() == thePeriod.localEndTime()))
+		   continue;
+		  
 
 		if(thePeriod.localStartTime() <= actualFogPeriod.localStartTime() &&
 		   thePeriod.localEndTime() >= actualFogPeriod.localStartTime() &&
@@ -579,35 +613,38 @@ namespace TextGen
 
 			fog_type_id fogTypeId(theFogTypePeriods.at(i).second);
 
-			//	fogSentence << getFogPhrase(theFogTypePeriods.at(i).second);
-
 			if(fogTypeId != NO_FOG)
 			  {
 				if(theParameters.thePrecipitationForecast->isDryPeriod(actualFogPeriod,
 																	   theParameters.theForecastArea))
 				  {
-					//		if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+					short dayNumber = 0;
+					if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 					  {
 						todayPhrase << PeriodPhraseFactory::create("today",
 																   theParameters.theVariable,
 																   theParameters.theForecastTime,
 																   actualFogPeriod,
 																   theParameters.theArea);
-
+						dayNumber = actualFogPeriod.localStartTime().GetWeekday();
 					  }
-					  theParameters.theLog << "FOGFOG: ";
-					  					theParameters.theLog << todayPhrase;
+
+					theParameters.theLog << todayPhrase;
 					
 					vector<std::string> theStringVector;
 
 					bool specifyDay = get_period_length(theParameters.theForecastPeriod) > 24 &&
 					  todayPhrase.size() > 0;
 
-					Sentence timePhrase(get_time_phrase_large(actualFogPeriod,
-															  specifyDay,
-															  theParameters.theVariable, 
-															  false, 
-															  &theStringVector));
+					Sentence partOfTheDay(get_time_phrase_large(actualFogPeriod,
+																specifyDay,
+																theParameters.theVariable, 
+																true, 
+																&theStringVector));
+
+					Sentence timePhrase(parse_weekday_phrase(dayNumber, partOfTheDay));
+
+
 					for(unsigned int k = 0; k < theStringVector.size(); k++)
 					  dayPhasePhrase += theStringVector[k];
 
@@ -619,46 +656,51 @@ namespace TextGen
 					switch(fogTypeId)
 					  {
 					  case FOG:
-						sentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
-								 << timePhrase
-								 << theAreaString
-								 << EMPTY_STRING;
+						fogSentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
+									<< timePhrase
+									<< theAreaString
+									<< EMPTY_STRING;
 						break;
 					  case FOG_POSSIBLY_DENSE:
-						sentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
-								 << timePhrase
-								 << theAreaString
-								 << EMPTY_STRING;
+						fogSentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
+									<< timePhrase
+									<< theAreaString
+									<< EMPTY_STRING;
 						break;
 					  case FOG_IN_SOME_PLACES:
-						sentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
-								 << timePhrase
-								 << theAreaString
-								 << PAIKOIN_WORD;
+						fogSentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
+									<< timePhrase
+									<< theAreaString
+									<< PAIKOIN_WORD;
 						break;
 					  case FOG_IN_SOME_PLACES_POSSIBLY_DENSE:
-						sentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
-								 << timePhrase
-								 << theAreaString
-								 << PAIKOIN_WORD;
+						fogSentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
+									<< timePhrase
+									<< theAreaString
+									<< PAIKOIN_WORD;
 						break;
 					  case FOG_IN_MANY_PLACES:
-						sentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
-								 << timePhrase
-								 << theAreaString
-								 << MONIN_PAIKOIN_WORD;
+						fogSentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
+									<< timePhrase
+									<< theAreaString
+									<< MONIN_PAIKOIN_WORD;
 						break;
 					  case FOG_IN_MANY_PLACES_POSSIBLY_DENSE:
-						sentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
-								 << timePhrase
-								 << theAreaString
-								 << MONIN_PAIKOIN_WORD;
+						fogSentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
+									<< timePhrase
+									<< theAreaString
+									<< MONIN_PAIKOIN_WORD;
 						break;
 					  default:
 						break;
 					  };
-
-					break;
+					if(fogSentence.size() > 0)
+					  {
+						if(sentence.size() > 0)
+						  sentence << Delimiter(",");
+						sentence << fogSentence;
+					  }
+					//break;
 				  }
 			  }
 		  }
@@ -666,23 +708,6 @@ namespace TextGen
 
 	return sentence;
   }
-
-//#define PAIKOIN_SUMUA_COMPOSITE_PHRASE "[aamupäivällä] [rannikolla] [paikoin] sumua"
-//#define PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE "[aamupäivällä] [rannikolla] [paikoin] sumua, joka voi olla sakea
-/*
-sentence <<  "[rannikolla] on [iltapäivällä] [tuulista]"
-         << area_phrase(area)
-         << time_phrase(period)
-         << (verywindy? "hyvin tuulista" : "tuulista");
-
-ime_phrase
-{
-  if(weekday)
-    return "1-iltapäivällä";
-  else
-    return "iltapäivällä";
-}
- */
 
   Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod) const
   {

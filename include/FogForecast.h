@@ -71,6 +71,9 @@ using namespace std;
 	float getMean(const fog_period_vector& theFogPeriods,
 				  const WeatherPeriod& theWeatherPeriod) const;
 	WeatherPeriod getActualFogPeriod(const WeatherPeriod& theForecastPeriod, const WeatherPeriod& theFogPeriod) const;
+	void getFogPeriodAndId(const fog_type_period_vector& theFogTypePeriods,
+						   WeatherPeriod& thePeriod,
+						   fog_type_id theFogTypeId) const;
 
 
 	wf_story_params& theParameters;

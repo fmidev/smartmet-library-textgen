@@ -54,7 +54,7 @@ namespace TemperatureStoryTest
 	  {
 		const string msg = value + " <> " + theExpected;
 					cout << endl << msg << endl << endl;
-		//TEST_FAILED(msg.c_str());
+		TEST_FAILED(msg.c_str());
 	  }
   }
 
@@ -4646,8 +4646,8 @@ void delete_testcases(TestCaseContainer& testCases)
 	void test(void)
 	{
 	  //TEST(generate_testcasefiles);
-	  TEST(temperature_max36hours);
-	  //TEST(temperature_anomaly);
+	  //TEST(temperature_max36hours);
+	  TEST(temperature_anomaly);
 	  //TEST(temperature_day);
 	  //TEST(temperature_mean);
 	  //TEST(temperature_meanmax);

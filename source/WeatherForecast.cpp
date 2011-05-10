@@ -809,7 +809,7 @@ using namespace std;
 				endTime.ChangeByHours(-1);
 				WeatherPeriod narrowerPeriod(startTime, endTime);
 				
-				if(endTime.DifferenceInHours(startTime) >= 4)
+				if(endTime.DifferenceInHours(startTime) <= 4)
 				  {
 					get_narrow_time_phrase(narrowerPeriod, &localStringVector);
 					if(localStringVector.size() > 0)
@@ -1788,6 +1788,24 @@ using namespace std;
 	return oss.str();
   }
 
+  Sentence parse_weekday_phrase(const short& weekday, const Sentence& part_of_the_day)
+  {
+	Sentence sentence;
+	Sentence partOfTheDay(part_of_the_day);
+	std::ostringstream oss;
+	oss << weekday;
+
+	if(weekday > 0 && !part_of_the_day.size() > 0)
+	  sentence << oss.str() << "-" << partOfTheDay;
+	else
+	  {
+		if(part_of_the_day.size() == 0)
+		  partOfTheDay << EMPTY_STRING;
+		sentence << partOfTheDay;
+	  }
+
+	return sentence;
+  }
 
 } // namespace TextGen
 

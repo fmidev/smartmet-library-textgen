@@ -625,6 +625,7 @@ namespace TextGen
 							const AnalysisSources& theSources,
 							const WeatherPeriod& thePeriod);
   std::string parse_weekday_phrase(const short& weekday, std::string part_of_the_day);
+  Sentence parse_weekday_phrase(const short& weekday, const Sentence& part_of_the_day);
 
 	
   struct WeatherResultDataItem

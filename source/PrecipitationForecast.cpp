@@ -1724,7 +1724,7 @@ vesi- tai lumisadetta.
   precipitation_type PrecipitationForecast::getPrecipitationType(const WeatherPeriod& thePeriod,
 																 const unsigned short theForecastArea) const
   {
-	const precipitation_data_vector& theData = getPrecipitationDataVector(theForecastArea);;
+	const precipitation_data_vector& theData = getPrecipitationDataVector(theForecastArea);
 
 	unsigned int showers_counter(0);
 	unsigned int continuous_counter(0);
@@ -2200,11 +2200,22 @@ vesi- tai lumisadetta.
 			   precipitationEndTime >= theParameters.theForecastPeriod.localStartTime() &&
 			   precipitationEndTime <= theParameters.theForecastPeriod.localEndTime())
 			  {
+				bool mahdollisestiPoutaantuu = true;
+				if(i < thePrecipitationPeriods.size() - 1)
+				  {
+					if(thePrecipitationPeriods.at(i+1).localStartTime().DifferenceInHours(precipitationEndTime) <= 2)
+					  mahdollisestiPoutaantuu = false;
+				  }
 
-				if(getPrecipitationExtent(thePrecipitationPeriods.at(i), theForecastArea) > MOSTLY_DRY_WEATHER_LIMIT)
-				  thePrecipitationWeatherEvents.push_back(make_pair(precipitationEndTime, POUTAANTUU));
-				else
-				  thePrecipitationWeatherEvents.push_back(make_pair(precipitationEndTime, POUTAANTUU_WHEN_EXTENT_SMALL));
+				if(mahdollisestiPoutaantuu)
+				  {
+					if(getPrecipitationExtent(thePrecipitationPeriods.at(i), theForecastArea) > MOSTLY_DRY_WEATHER_LIMIT)
+					  thePrecipitationWeatherEvents.push_back(make_pair(precipitationEndTime, 
+																		POUTAANTUU));
+					else
+					  thePrecipitationWeatherEvents.push_back(make_pair(precipitationEndTime, 
+																		POUTAANTUU_WHEN_EXTENT_SMALL));
+				  }
 			  }
 		  }
 	  }
@@ -2492,7 +2503,7 @@ vesi- tai lumisadetta.
 
 	if(theWeatherEvent == POUTAANTUU || theWeatherEvent == POUTAANTUU_WHEN_EXTENT_SMALL)
 	  {
-		sentence << SAA_POUTAANTUU_PHRASE;
+		sentence << thePeriodPhrase << SAA_POUTAANTUU_PHRASE;
 		theDryPeriodTautologyFlag = true;
 	  }
 	else // sade alkaa
@@ -2743,12 +2754,9 @@ vesi- tai lumisadetta.
 	thePrecipitationFormFreezing = getMean(theDataVector, PRECIPITATION_FORM_FREEZING_DATA, thePeriod);
   }
 
-  // #define SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sisämaassa] sää on enimmäkseen poutainen, [sadekuurot mahdollisia]"
-  //#define PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [paikoin] [heikkoa] [sadetta]"
-
   Sentence PrecipitationForecast::parseFinalSentence(map<string, Sentence>& theCompositePhraseElements, 
 													 const Sentence& thePeriodPhrase,
-													 const unsigned short& theForecastAreaId) const
+													 const std::string& theAreaPhrase) const
   {
 	Sentence sentence;
 
@@ -2759,7 +2767,6 @@ vesi- tai lumisadetta.
 	else
 	  {
 		Sentence periodPhrase;
-		Sentence area;
 		Sentence intensity;
 		Sentence precipitation;
 		Sentence inPlacesPhrase;
@@ -2768,13 +2775,6 @@ vesi- tai lumisadetta.
 		  periodPhrase << EMPTY_STRING;
 		else
 		  periodPhrase << thePeriodPhrase;
-
-		if(theForecastAreaId == INLAND_AREA)
-		  area << INLAND_PHRASE;
-		else if(theForecastAreaId == COASTAL_AREA)
-		  area << COAST_PHRASE;
-		else
-		  area << EMPTY_STRING;
 
 		if(theCompositePhraseElements.find(INTENSITY_PARAMETER) == theCompositePhraseElements.end())
 		  intensity << EMPTY_STRING;
@@ -2794,7 +2794,7 @@ vesi- tai lumisadetta.
 		//		theParameters.theLog << "periodPhrase: ";
 		//	theParameters.theLog << periodPhrase;		
 		theParameters.theLog << "area: ";
-		theParameters.theLog << area;		
+		theParameters.theLog << theAreaPhrase;
 		theParameters.theLog << "intensity: ";
 		theParameters.theLog << intensity;		
 		theParameters.theLog << "precipitation: ";
@@ -2807,7 +2807,7 @@ vesi- tai lumisadetta.
 		  {
 			sentence << SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE
 					 << periodPhrase
-					 << area
+					 << theAreaPhrase
 					 << precipitation;
 			theParameters.theLog << "SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE" << endl;
 		  }
@@ -2815,7 +2815,7 @@ vesi- tai lumisadetta.
 		  {
 			sentence << PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE
 					 << periodPhrase
-					 << area
+					 << theAreaPhrase
 					 << inPlacesPhrase
 					 << intensity
 					 << precipitation;
@@ -2830,7 +2830,8 @@ vesi- tai lumisadetta.
 
   Sentence  PrecipitationForecast::constructPrecipitationSentence(const WeatherPeriod& thePeriod,
 																  const Sentence& thePeriodPhrase,
-																  const unsigned short& theForecastAreaId) const
+																  const unsigned short& theForecastAreaId,
+																  const std::string theAreaPhrase) const
   {
 	Sentence sentence;
 
@@ -2853,7 +2854,8 @@ vesi- tai lumisadetta.
 			//sentence << INLAND_PHRASE;
 			sentence << constructPrecipitationSentence(thePeriod,
 													   thePeriodPhrase,
-													   INLAND_AREA);
+													   INLAND_AREA,
+													   INLAND_PHRASE);
 
 			// ARE 22.02.2011: this is to prevent tautology e.g. sisämaassa moinin paikoin räntäsadetta,
 			// rannikolla monin paikoin vesisadetta
@@ -2863,7 +2865,8 @@ vesi- tai lumisadetta.
 			//sentence << COAST_PHRASE;
 			sentence << constructPrecipitationSentence(thePeriod,
 													   thePeriodPhrase,
-													   COASTAL_AREA);
+													   COASTAL_AREA,
+													   COAST_PHRASE);
 
 			InPlacesPhrase::Instance()->preventTautology(false);
 
@@ -2974,7 +2977,9 @@ vesi- tai lumisadetta.
 									  getPrecipitationTransformationId(thePeriod, theForecastAreaId),
 									  compositePhraseElements);
 
-		sentence << parseFinalSentence(compositePhraseElements, thePeriodPhrase,theForecastAreaId);
+		sentence << parseFinalSentence(compositePhraseElements, 
+									   thePeriodPhrase, 
+									   theAreaPhrase);
 
 		bool dry_weather = is_dry_weather(theParameters, 
 										  precipitationForm,
@@ -3038,7 +3043,8 @@ vesi- tai lumisadetta.
 
 	sentence << constructPrecipitationSentence(thePeriod,
 											   thePeriodPhrase,
-											   theParameters.theForecastArea);
+											   theParameters.theForecastArea,
+											   EMPTY_STRING);
 
 	theParameters.theLog << "Short term precipitation sentence: ";
 	theParameters.theLog << sentence;
@@ -3053,7 +3059,8 @@ vesi- tai lumisadetta.
 	
 	sentence <<  constructPrecipitationSentence(thePeriod,
 												thePeriodPhrase,
-												theParameters.theForecastArea);
+												theParameters.theForecastArea,
+												EMPTY_STRING);
 
 	return sentence;
   }

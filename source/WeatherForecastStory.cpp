@@ -356,6 +356,10 @@ namespace TextGen
 			currentPrecipitationStoryItem = static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[i]);
 			if(previousPrecipitationStoryItem)
 			  {
+				
+				if(currentPrecipitationStoryItem->thePeriod.localStartTime().DifferenceInHours(previousPrecipitationStoryItem->thePeriod.localEndTime()) <= 2)
+				  previousPrecipitationStoryItem->theReportPoutaantuuFlag = false;
+
 				// if the type is different don't merge
 				if(previousPrecipitationStoryItem->theType != currentPrecipitationStoryItem->theType)
 				  {
@@ -648,11 +652,12 @@ namespace TextGen
 #endif
 
   Sentence WeatherForecastStoryItem::getPeriodPhrase(const bool& theFromSpecifier,
-													 const WeatherPeriod* thePhrasePeriod /*= 0*/)
+													 const WeatherPeriod* thePhrasePeriod /*= 0*/,
+													 const bool& theStoryUnderConstructionEmpty /*= true*/)
   {
 	Sentence sentence;
 
-	if(theWeatherForecastStory.theStorySize == 0)
+	if(theWeatherForecastStory.theStorySize == 0 && theStoryUnderConstructionEmpty)
 	  return sentence;
 
 	WeatherPeriod phrasePeriod(thePhrasePeriod == 0 ? getStoryItemPeriod() : *thePhrasePeriod);
@@ -814,7 +819,7 @@ namespace TextGen
 			sentence << prForecast.precipitationChangeSentence(thePeriod, thePeriodPhrase, SADE_ALKAA);
 		  }
 		else
-		  {
+		  {			
 			if(storyItemPeriod.localStartTime() > forecastPeriod.localStartTime())
 			  thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER);
 			sentence << prForecast.precipitationSentence(thePeriod, thePeriodPhrase);
@@ -824,7 +829,11 @@ namespace TextGen
 		   theReportPoutaantuuFlag)
 		  {
 			WeatherPeriod poutaantuuPeriod(storyItemPeriod.localEndTime(), storyItemPeriod.localEndTime());
-			thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &poutaantuuPeriod);
+			thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &poutaantuuPeriod, sentence.size() == 0);
+			theWeatherForecastStory.theLogger << thePeriodPhrase;
+			
+			if(sentence.size() > 0)
+			  sentence << Delimiter(",");
 			sentence << prForecast.precipitationChangeSentence(thePeriod, thePeriodPhrase, POUTAANTUU);
 		  }
 		theWeatherForecastStory.theShortTimePrecipitationReportedFlag = false;
@@ -1093,8 +1102,8 @@ namespace TextGen
 		prForecast.setDryPeriodTautologyFlag(true);
 
 		// ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
-		if(theChangeSentence.size() > 0 &&
-		   clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
+		if(theChangeSentence.size() > 0)// &&
+		// clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
 		  {
 			sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			sentence << theChangeSentence;
@@ -1143,8 +1152,8 @@ namespace TextGen
 		  }
 
 		// ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
-		if(theChangeSentence.size() > 0 &&
-		   clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
+		if(theChangeSentence.size() > 0)// &&
+		// clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
 		  {
 			sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			sentence << theChangeSentence;

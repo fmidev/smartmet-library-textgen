@@ -46,7 +46,7 @@ namespace TextGen
   using namespace boost;
   using namespace std;
 
-#define PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[aamup‰iv‰ll‰] [rannikolla] s‰‰ vaihtelee puolipil"
+#define PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[aamup‰iv‰ll‰] [rannikolla] s‰‰ vaihtelee puolipilvisest‰ pilviseen"
 #define SAA_ON_JOTAKIN_COMPOSITE_PHRASE "[aamup‰iv‰ll‰] [rannikolla] s‰‰ on [selke‰]"
 
   std::ostream& operator<<(std::ostream & theOutput,
@@ -131,25 +131,9 @@ namespace TextGen
 		break;
 	  }
 
-
 	if(theShortForm)
 	  {
-		Sentence weatherIsPhrase;
-		if(cloudinessSentence.size() > 0)
-		  {
-			if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
-			  {
-				if(!theShortForm)
-				  weatherIsPhrase << SAA_WORD;
-			  }
-			else
-			  {
-				if(!theShortForm)
-				  weatherIsPhrase << SAA_WORD << ON_WORD;
-			  }
-		  }
-
-		sentence << weatherIsPhrase << cloudinessSentence;
+		sentence << cloudinessSentence;
 	  }
 	else
 	  {
@@ -167,8 +151,6 @@ namespace TextGen
 	return sentence;
   }
 
-
-  //#ifdef OLD_IMPL
   Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId, 
 							   const bool& theShortForm) 
   {
@@ -217,7 +199,6 @@ namespace TextGen
 
 	return sentence;
   }
-  //#endif
 
   cloudiness_id get_cloudiness_id(const float& theMin, 
 								  const float& theMean, 
@@ -420,7 +401,6 @@ namespace TextGen
 	return retval;
   }
 
-  // TODO: onko OK
   bool CloudinessForecast::separateWeatherPeriodCloudiness(const WeatherPeriod& theWeatherPeriod1, 
 														   const WeatherPeriod& theWeatherPeriod2,
 														   const weather_result_data_item_vector& theCloudinessData) const
@@ -440,18 +420,12 @@ namespace TextGen
 	
 	cloudiness_id cloudinessId2 = get_cloudiness_id(get_mean(theInterestingDataPeriod2));
 
+	// difference must be at least two grades
 	return (abs(cloudinessId1 - cloudinessId2) >= 2);
-
-	/*													
-	bool retval  = (mean_period1 <= 5.0 && mean_period2 >= 70.0 ||
-					mean_period1 >= 70.0 && mean_period2 <= 5.0);
-	
-	return retval;
-	*/
   }  
   
   void CloudinessForecast::findOutCloudinessWeatherEvents(const weather_result_data_item_vector* theData,
-												   weather_event_id_vector& theCloudinessWeatherEvents)
+														  weather_event_id_vector& theCloudinessWeatherEvents)
   {
 	for(unsigned int i = 3; i < theData->size() - 3; i++)
 	  {
@@ -522,65 +496,11 @@ namespace TextGen
 		if(weatherEventId != MISSING_WEATHER_EVENT)
 		  {
 			theCloudinessWeatherEvents.push_back(make_pair(theData->at(changeIndex)->thePeriod.localStartTime(), weatherEventId));
-			// note: only one event during the period (original plan was that several events are allowed)
+			// Note: only one event (pilvistyy/selkenee) during the period.
+			// The Original plan was that several events are allowed
 			break;
 		  }
 	  }
-
-#ifdef LATER
-	// check 6-hour periods if there is weatherEvent
-	const unsigned int periodLength = 12;
-	unsigned int startIndex = 0;
-	while(startIndex < theData->size() - (periodLength + 1))
-	  {
-		WeatherPeriod firstHalfPeriod(theData->at(startIndex)->thePeriod.localStartTime(),
-									  theData->at(startIndex + (periodLength/2) - 1)->thePeriod.localEndTime());
-		WeatherPeriod secondHalfPeriod(theData->at(startIndex + (periodLength/2))->thePeriod.localStartTime(),
-									   theData->at(startIndex + periodLength - 1)->thePeriod.localEndTime());
-		WeatherPeriod wholePeriod(theData->at(startIndex)->thePeriod.localStartTime(),
-									  theData->at(startIndex + periodLength - 1)->thePeriod.localEndTime());
-
-		weather_result_data_item_vector theFirstHalfData;
-		weather_result_data_item_vector theSecondHalfData;
-		weather_result_data_item_vector theWholePeriodData;
-		
-		get_sub_time_series(firstHalfPeriod,
-							*theData,
-							theFirstHalfData);
-		
-		get_sub_time_series(secondHalfPeriod,
-							*theData,
-							theSecondHalfData);
-
-		get_sub_time_series(wholePeriod,
-							*theData,
-							theWholePeriodData);
-		float pearson_coefficient = get_pearson_coefficient(theWholePeriodData, 0, theWholePeriodData.size()-1);
-		float meanCloudinessInTheFirstHalf = get_mean(theFirstHalfData);
-		float meanCloudinessInTheSecondHalf = get_mean(theSecondHalfData);
-		weather_event_id weatherEventId = MISSING_WEATHER_EVENT;
-
-		if(meanCloudinessInTheFirstHalf >= PILVISTYVAA_UPPER_LIMIT && 
-		   meanCloudinessInTheSecondHalf <= PILVISTYVAA_LOWER_LIMIT &&
-		   pearson_coefficient < -0.65)
-		  {
-			weatherEventId = SELKENEE;
-		  }
-		else if(meanCloudinessInTheFirstHalf <= PILVISTYVAA_LOWER_LIMIT && 
-				meanCloudinessInTheSecondHalf >= PILVISTYVAA_UPPER_LIMIT && 
-				pearson_coefficient >= 0.65)
-		  {
-			weatherEventId = PILVISTYY;
-		  }
-
-		if(weatherEventId != MISSING_WEATHER_EVENT)
-		  {
-			theCloudinessWeatherEvents.push_back(make_pair(secondHalfPeriod.localStartTime(), weatherEventId));			
-		  }
-
-		startIndex += (weatherEventId == MISSING_WEATHER_EVENT ? 1 : (periodLength/2));
-	  }
-#endif
  }
 
   void CloudinessForecast::findOutCloudinessWeatherEvents()
@@ -1065,6 +985,7 @@ namespace TextGen
 
 	return clid;
   }
+
   /*
   Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
 												  const weather_result_data_item_vector& theCloudinessData) const
@@ -1078,6 +999,7 @@ namespace TextGen
 	return sentence;
   }
   */
+
   void CloudinessForecast::getWeatherEventIdVector(weather_event_id_vector& theCloudinessWeatherEvents) const
   {
 	const weather_event_id_vector* vectorToClone = 0;

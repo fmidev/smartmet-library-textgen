@@ -1637,7 +1637,7 @@ namespace TextGen
 
 	void pakkasta_on(t36hparams& theParameters,
 					 Sentence& theDayPhasePhrase,
-					 Sentence& theCoreStatementPhrase )
+					 Sentence& theCoreStatementPhrase)
 	{
 	  if(theParameters.theUseFrostExistsPhrase)
 		{

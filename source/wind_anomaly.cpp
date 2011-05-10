@@ -750,10 +750,9 @@ namespace TextGen
 	  bool inlandIncluded = theParameters.theWindspeedInlandMorningMinimum.value() != kFloatMissing;
 	  bool coastIncluded = theParameters.theWindspeedCoastalMorningMinimum.value() != kFloatMissing;
 
-	  float windy_weather_limit = 4.0;
-	  //		Settings::optional_double(theParameters.theVariable + 
-	  //						  "::windy_weather_limit", 
-	  //							  WINDY_WEATER_LIMIT);
+	  float windy_weather_limit = Settings::optional_double(theParameters.theVariable + 
+															"::windy_weather_limit", 
+															WINDY_WEATER_LIMIT);
 	  float extremely_windy_weather_limit = 
 		Settings::optional_double(theParameters.theVariable + 
 								  "::extremely_windy_weather_limit", 
@@ -969,7 +968,7 @@ namespace TextGen
 						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
 								   << specifiedDay
 								   << RANNIKOLLA_WORD
-								   << HYVIN_TUULISTA_PHRASE;
+								   << TUULISTA_WORD;
 						  /*
 							sentence << RANNIKOLLA_WORD << ON_WORD << theSpecifiedDay 
 							<< TUULISTA_WORD;
@@ -984,7 +983,7 @@ namespace TextGen
 						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
 								   << specifiedDay
 								   << SISAMAASSA_WORD
-								   << TUULISTA_WORD;
+								   << HYVIN_TUULISTA_PHRASE;
 
 						  /*
 						  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
@@ -1720,6 +1719,8 @@ namespace TextGen
 		  dayNumber = parameters.thePeriod.localStartTime().GetWeekday();
 		}
 
+	  parameters.theWindspeedInlandMorningMinimum = WeatherResult(1.0, 0.0);
+	  parameters.theWindspeedCoastalMorningMinimum = WeatherResult(1.0, 0.0);
 	  for(float i = 4.0; i < 13.0; i = i + 0.5)
 		{
 		  parameters.theWindspeedInlandMorningMean = WeatherResult(i, 0.0);
@@ -1769,6 +1770,14 @@ namespace TextGen
 	if(itsArea.isNamed())
 	  {
 		std::string nimi(itsArea.name());
+		/*
+		  if(nimi.compare("uusimaa") == 0)
+		  {
+		  log << "TEST WINDINESS: ";
+		  testWindiness(parameters, log);
+		  }
+		*/
+
 		log <<  nimi << endl;
 	  }
 
@@ -1939,15 +1948,6 @@ namespace TextGen
 	paragraph << windChillSentence;
 
 	log << paragraph;
-
-	/*
-	std::string nimi(itsArea.name());
-	if(nimi.compare("uusimaa") == 0)
-	  {
-		log << "TEST WINDINESS: ";
-		testWindiness(parameters, log);
-	  }
-	*/
 
 	return paragraph;
   }
