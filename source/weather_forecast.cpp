@@ -696,9 +696,9 @@ using namespace std;
 								DefaultAcceptor(),
 								denseFogFilter);
 
+
 		RangeAcceptor foglimits;
 		foglimits.lowerLimit(kTModerateFog);
-		foglimits.lowerLimit(kTDenseFog);
 		AreaTools::getArealDistribution(theSources,
 										Fog,
 										theArea,
@@ -708,6 +708,39 @@ using namespace std;
 										(*fogSouthEastHourly)[i]->theResult,
 										(*fogSouthWestHourly)[i]->theResult,
 										(*fogNorthWestHourly)[i]->theResult);
+
+	/*
+	RangeAcceptor foglimits2;
+	foglimits2.lowerLimit(0.0);
+	foglimits2.upperLimit(100);
+	cout << "fog: " << theForecaster.analyze(theVariable,
+											 theSources,
+											 Fog,
+											 Mean,
+											 Mean,
+											 theArea,
+											 fogIntensityModerateHourly[i]->thePeriod,
+											 DefaultAcceptor(),
+											 DefaultAcceptor(),
+											 foglimits2).value() << endl;
+
+	float val = theForecaster.analyze(theVariable,
+									  theSources,
+									  Fog,
+									  Maximum,
+									  Maximum,
+									  theArea,
+									  fogIntensityModerateHourly[i]->thePeriod,
+									  DefaultAcceptor(),
+									  foglimits2).value();
+
+	  if(val > 1)
+		cout << "foggii: " << val  << endl;
+	  else
+		if(val > 0)
+		  	cout << "fog: " << val  << endl;
+	*/
+
 	  }
   }
 
@@ -1300,6 +1333,7 @@ using namespace std;
 
 	Paragraph paragraph;
 
+	//#ifdef TESTINGGG
 
 #ifdef TESTING
 	if(itsArea.isNamed())
@@ -1382,6 +1416,7 @@ using namespace std;
 	  {
 		std::string name(itsArea.name());
 		log << "** " << name  << " **" << endl;
+		//	cout << "** " << name  << " **" << endl;
 	  }
 
 	WeatherPeriod theDataGatheringPeriod(dataPeriodStartTime, dataPeriodEndTime);
@@ -1442,6 +1477,7 @@ using namespace std;
 	delete_data_structures(theParameters);
 
 	log << paragraph;
+	//#endif
 
 	return paragraph;
   }

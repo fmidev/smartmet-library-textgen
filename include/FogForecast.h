@@ -70,10 +70,13 @@ using namespace std;
 	Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;
 	float getMean(const fog_period_vector& theFogPeriods,
 				  const WeatherPeriod& theWeatherPeriod) const;
-	WeatherPeriod getActualFogPeriod(const WeatherPeriod& theForecastPeriod, const WeatherPeriod& theFogPeriod) const;
-	void getFogPeriodAndId(const fog_type_period_vector& theFogTypePeriods,
-						   WeatherPeriod& thePeriod,
-						   fog_type_id theFogTypeId) const;
+	WeatherPeriod getActualFogPeriod(const WeatherPeriod& theForecastPeriod, 
+							const WeatherPeriod& theFogPeriod,
+							bool& theFogPeriodOkFlag) const;
+	bool getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
+						   const fog_type_period_vector& theFogTypePeriods,
+						   WeatherPeriod& theResultPeriod,
+						   fog_type_id& theFogTypeId) const;
 
 
 	wf_story_params& theParameters;

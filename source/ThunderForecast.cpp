@@ -144,8 +144,10 @@ namespace TextGen
 	else if(thunderId == OCCASIONALLY_THUNDER)
 	  sentence << AJOITTAIN_UKKOSTA_PHRASE;
 
+	/*
 	if(sentence.size() > 0 && !(theParameters.theForecastArea & FULL_AREA))
 	  sentence << areaSpecificSentence(thePeriod);
+	*/
 
 	return sentence;
   }

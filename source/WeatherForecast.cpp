@@ -744,7 +744,7 @@ using namespace std;
 			theStringVector->push_back(PAIVALLA_WORD);
 		  }
 	  }
- 
+
 	return sentence;
   }
 

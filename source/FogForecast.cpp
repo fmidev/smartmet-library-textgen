@@ -468,18 +468,88 @@ namespace TextGen
 	return sentence;
   }
 
-  WeatherPeriod FogForecast::getActualFogPeriod(const WeatherPeriod& theForecastPeriod, const WeatherPeriod& theFogPeriod) const
+  WeatherPeriod FogForecast::getActualFogPeriod(const WeatherPeriod& theForecastPeriod, 
+												const WeatherPeriod& theFogPeriod,
+												bool& theFogPeriodOkFlag) const
   {
+	int start_year, start_month, start_day, start_hour;
+	int end_year, end_month, end_day, end_hour;
+	theParameters.theLog << "getActualFogPeriod ";
+	theFogPeriodOkFlag = false;
+
 	if(is_inside(theFogPeriod.localStartTime(), theForecastPeriod) && 
 	   !is_inside(theFogPeriod.localEndTime(), theForecastPeriod))
-	  return(WeatherPeriod(theFogPeriod.localStartTime(), theForecastPeriod.localEndTime()));
+	  {
+		start_year = theFogPeriod.localStartTime().GetYear();
+		start_month =  theFogPeriod.localStartTime().GetMonth();
+		start_day = theFogPeriod.localStartTime().GetDay();
+		start_hour = theFogPeriod.localStartTime().GetHour();
+		end_year = theForecastPeriod.localEndTime().GetYear();
+		end_month = theForecastPeriod.localEndTime().GetMonth();
+		end_day = theForecastPeriod.localEndTime().GetDay();
+		end_hour = theForecastPeriod.localEndTime().GetHour();
+		theFogPeriodOkFlag = true;
+	  }
 	else if(is_inside(theFogPeriod.localEndTime(), theForecastPeriod) && 
 			!is_inside(theFogPeriod.localStartTime(), theForecastPeriod))
-	  return(WeatherPeriod(theForecastPeriod.localStartTime(), theFogPeriod.localEndTime()));
+	  {
+		start_year = theForecastPeriod.localStartTime().GetYear();
+		start_month = theForecastPeriod.localStartTime().GetMonth();
+		start_day = theForecastPeriod.localStartTime().GetDay();
+		start_hour = theForecastPeriod.localStartTime().GetHour();
+		end_year = theFogPeriod.localEndTime().GetYear();
+		end_month =  theFogPeriod.localEndTime().GetMonth();
+		end_day = theFogPeriod.localEndTime().GetDay();
+		end_hour = theFogPeriod.localEndTime().GetHour();
+		theFogPeriodOkFlag = true;
+	  }
+	else if(is_inside(theFogPeriod.localEndTime(), theForecastPeriod) && 
+			is_inside(theFogPeriod.localStartTime(), theForecastPeriod))
+	  {
+		start_year = theFogPeriod.localStartTime().GetYear();
+		start_month =  theFogPeriod.localStartTime().GetMonth();
+		start_day = theFogPeriod.localStartTime().GetDay();
+		start_hour = theFogPeriod.localStartTime().GetHour();
+		end_year = theFogPeriod.localEndTime().GetYear();
+		end_month =  theFogPeriod.localEndTime().GetMonth();
+		end_day = theFogPeriod.localEndTime().GetDay();
+		end_hour = theFogPeriod.localEndTime().GetHour();
+		theFogPeriodOkFlag = true;
+	  }
 	else if(theFogPeriod.localStartTime() <=  theForecastPeriod.localStartTime() &&
 			theFogPeriod.localEndTime() >=  theForecastPeriod.localEndTime())
-	  return theForecastPeriod;
-	  
+	  {
+		start_year = theForecastPeriod.localStartTime().GetYear();
+		start_month = theForecastPeriod.localStartTime().GetMonth();
+		start_day = theForecastPeriod.localStartTime().GetDay();
+		start_hour = theForecastPeriod.localStartTime().GetHour();
+		end_year = theForecastPeriod.localEndTime().GetYear();
+		end_month = theForecastPeriod.localEndTime().GetMonth();
+		end_day = theForecastPeriod.localEndTime().GetDay();
+		end_hour = theForecastPeriod.localEndTime().GetHour();
+		theFogPeriodOkFlag = true;
+	  }
+
+	if(theFogPeriodOkFlag)
+	  {
+		NFmiTime startTime(start_year, start_month, start_day, start_hour);
+		NFmiTime endTime(end_year, end_month, end_day, end_hour);
+
+		WeatherPeriod theResultFogPeriod(startTime, endTime);
+		
+		theParameters.theLog << "result: ";
+		theParameters.theLog << startTime;
+		theParameters.theLog << "...";
+		theParameters.theLog << endTime << endl;
+		theParameters.theLog << "result2: ";
+		theParameters.theLog << theResultFogPeriod.localStartTime();
+		theParameters.theLog << "...";
+		theParameters.theLog << theResultFogPeriod.localEndTime() << endl;
+
+		return theResultFogPeriod;
+
+	  }
+
 	return theFogPeriod;
   }
 
@@ -553,34 +623,210 @@ namespace TextGen
   }
 #endif
 
-  void FogForecast::getFogPeriodAndId(const fog_type_period_vector& theFogTypePeriods,
-									  WeatherPeriod& thePeriod,
-									  fog_type_id theFogTypeId) const
+  bool FogForecast::getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
+									  const fog_type_period_vector& theFogTypePeriods,
+									  WeatherPeriod& theResultPeriod,
+									  fog_type_id& theFogTypeId) const
   {
+	bool fogPeriodOk(false);
+
 	if(theFogTypePeriods.size() == 1)
 	  {
-		thePeriod = getActualFogPeriod(thePeriod, theFogTypePeriods.at(0).first);
-		theFogTypeId = theFogTypePeriods.at(0).second;
+		WeatherPeriod actualFogPeriod(getActualFogPeriod(theForecastPeriod, 
+														 theFogTypePeriods.at(0).first, 
+														 fogPeriodOk));
+		if(fogPeriodOk)
+		  {
+			if(!(actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()) == 1 &&
+				 (actualFogPeriod.localStartTime() == theForecastPeriod.localStartTime() ||
+				  actualFogPeriod.localEndTime() == theForecastPeriod.localEndTime())))
+			  {
+				theResultPeriod = actualFogPeriod;
+				theFogTypeId = theFogTypePeriods.at(0).second;
+				return true;
+			  }
+		  }
 	  }
 	else
 	  {
+		float forecastPeriodLength(theForecastPeriod.localEndTime().DifferenceInHours(theForecastPeriod.localStartTime()));
+		int longestFogPeriodIndex(-1);
+		int firstPeriodIndex(-1);
+		int lastPeriodIndex(-1);
+		int fogIdSum(0);
+		int fogPeriodCount(0);
+
 		// Merge close periods. If one long fog-period use that and ignore the small ones,
 		// otherwise theFogTypeId is weighted average of all fog-periods and the
 		// returned fog-period encompasses all small periods.
 		for(unsigned int i = 0; i < theFogTypePeriods.size(); i++)
 		  {		
-			WeatherPeriod actualFogPeriod(getActualFogPeriod(thePeriod, theFogTypePeriods.at(i).first));
+			WeatherPeriod actualFogPeriod(getActualFogPeriod(theForecastPeriod, 
+															 theFogTypePeriods.at(i).first, 
+															 fogPeriodOk));
+
+			if(!fogPeriodOk)
+			  continue;
+
+			int actualPeriodLength(actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()));
 			
 			if(actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()) == 1 &&
-			   (actualFogPeriod.localStartTime() == thePeriod.localStartTime() ||
-				actualFogPeriod.localEndTime() == thePeriod.localEndTime()))
+			   (actualFogPeriod.localStartTime() == theForecastPeriod.localStartTime() ||
+				actualFogPeriod.localEndTime() == theForecastPeriod.localEndTime()))
 			  continue;
 		  
+			if(longestFogPeriodIndex == -1)
+			  {
+				longestFogPeriodIndex = i;
+				firstPeriodIndex = i;
+			  }
+			else
+			  {
+				WeatherPeriod longestPeriod(theFogTypePeriods.at(longestFogPeriodIndex).first);
+
+				if(actualPeriodLength > longestPeriod.localEndTime().DifferenceInHours(longestPeriod.localStartTime()))
+				  {
+					longestFogPeriodIndex = i;
+				  }
+			  }
+			lastPeriodIndex = i;
+			fogIdSum += (theFogTypePeriods.at(i).second * actualPeriodLength);
+			fogPeriodCount += actualPeriodLength;
 		  }
 
+		if(longestFogPeriodIndex >= 0)
+		  {
+			WeatherPeriod longestPeriod(theFogTypePeriods.at(longestFogPeriodIndex).first);
+			float longestPeriodLength(longestPeriod.localEndTime().DifferenceInHours(longestPeriod.localStartTime()));
+
+			// if the longest period is more than 70% of the forecast period, use it
+			if(longestPeriodLength / forecastPeriodLength > 0.70)
+			  {
+				theResultPeriod = getActualFogPeriod(theForecastPeriod, 
+													 theFogTypePeriods.at(longestFogPeriodIndex).first,
+													 fogPeriodOk);
+				theFogTypeId = theFogTypePeriods.at(longestFogPeriodIndex).second;
+				return true;
+			  }
+			else
+			  {
+				WeatherPeriod firstPeriod(getActualFogPeriod(theForecastPeriod, 
+															 theFogTypePeriods.at(firstPeriodIndex).first,
+															 fogPeriodOk));
+				WeatherPeriod lastPeriod(getActualFogPeriod(theForecastPeriod, 
+															theFogTypePeriods.at(lastPeriodIndex).first,
+															fogPeriodOk));
+				theResultPeriod = WeatherPeriod(firstPeriod.localStartTime(), lastPeriod.localEndTime());
+				float periodIdAverage(static_cast<float>(fogIdSum) / static_cast<float>(fogPeriodCount));
+				int roundedValue(static_cast<int>(round(periodIdAverage)));
+				theFogTypeId = static_cast<fog_type_id>(roundedValue);
+				return true;
+			  }
+		  }
 	  }
+	return false;
   }
 
+  Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod,
+									const fog_type_period_vector& theFogTypePeriods,
+									const std::string& theAreaString) const
+  {
+	Sentence sentence;
+	WeatherPeriod fogPeriod(thePeriod);
+	fog_type_id fogTypeId(NO_FOG);
+	std::string dayPhasePhrase;
+
+
+
+	if(getFogPeriodAndId(thePeriod,
+						 theFogTypePeriods,
+						 fogPeriod,
+						 fogTypeId))
+	  {
+		Sentence todayPhrase;
+		short dayNumber = 0;
+
+		if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
+		  {
+			todayPhrase << PeriodPhraseFactory::create("today",
+													   theParameters.theVariable,
+													   theParameters.theForecastTime,
+													   fogPeriod,
+													   theParameters.theArea);
+			dayNumber = fogPeriod.localStartTime().GetWeekday();
+		  }
+
+		theParameters.theLog << todayPhrase;
+		
+		vector<std::string> theStringVector;
+
+		bool specifyDay = get_period_length(theParameters.theForecastPeriod) > 24 &&
+		  todayPhrase.size() > 0;
+		
+		Sentence partOfTheDay(get_time_phrase_large(fogPeriod,
+													specifyDay,
+													theParameters.theVariable, 
+													false, 
+													&theStringVector));
+		
+		Sentence timePhrase(parse_weekday_phrase(dayNumber, partOfTheDay));
+
+
+		for(unsigned int k = 0; k < theStringVector.size(); k++)
+		  dayPhasePhrase += theStringVector[k];
+
+		if(dayPhasePhrase != theDayPhasePhraseOld)
+		  {
+			theDayPhasePhraseOld = dayPhasePhrase;
+		  }
+
+		switch(fogTypeId)
+		  {
+		  case FOG:
+			sentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
+					 << timePhrase
+					 << theAreaString
+					 << EMPTY_STRING;
+			break;
+		  case FOG_POSSIBLY_DENSE:
+			sentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
+					 << timePhrase
+					 << theAreaString
+					 << EMPTY_STRING;
+			break;
+		  case FOG_IN_SOME_PLACES:
+			sentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
+					 << timePhrase
+					 << theAreaString
+					 << PAIKOIN_WORD;
+			break;
+		  case FOG_IN_SOME_PLACES_POSSIBLY_DENSE:
+			sentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
+					 << timePhrase
+					 << theAreaString
+					 << PAIKOIN_WORD;
+			break;
+		  case FOG_IN_MANY_PLACES:
+			sentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
+					 << timePhrase
+					 << theAreaString
+					 << MONIN_PAIKOIN_WORD;
+			break;
+		  case FOG_IN_MANY_PLACES_POSSIBLY_DENSE:
+			sentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
+					 << timePhrase
+					 << theAreaString
+					 << MONIN_PAIKOIN_WORD;
+			break;
+		  default:
+			break;
+		  };
+	  }
+
+	return sentence;
+  }
+
+#ifdef OLD_STUFF
   Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod,
 									const fog_type_period_vector& theFogTypePeriods,
 									const std::string& theAreaString) const
@@ -708,6 +954,8 @@ namespace TextGen
 
 	return sentence;
   }
+#endif
+
 
   Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod) const
   {

@@ -711,7 +711,7 @@ namespace TextGen
 																  theStringVector);
 
 					  if(is_showers)
-						{						
+						{				
 						  theCompositePhraseElements[PRECIPITATION_PARAMETER] << RANTAKUUROJA_WORD;
 						  theStringVector.push_back(RANTAKUUROJA_WORD);
 						}
@@ -882,6 +882,9 @@ namespace TextGen
 																  theStringVector);
 					  if(is_showers)
 						{
+						  theCompositePhraseElements[PRECIPITATION_PARAMETER] <<
+							(use_summer_phrase ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
+
 						  theStringVector.push_back((use_summer_phrase ? SADEKUUROJA_WORD : VESIKUUROJA_WORD));
 						  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, theStringVector, true);
 						}
@@ -2996,7 +2999,7 @@ vesi- tai lumisadetta.
 			thunderSentence << theParameters.theThunderForecast->thunderSentence(thePeriod);
 			if(thunderSentence.size() > 0)
 			  {
-				sentence << Delimiter(COMMA_PUNCTUATION_MARK);
+				sentence << JA_WORD;
 				sentence << thunderSentence;
 			  }
 		  }
