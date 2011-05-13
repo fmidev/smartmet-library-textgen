@@ -42,6 +42,7 @@ using namespace std;
 
 	void printOutFogPeriods(std::ostream& theOutput) const;
 	void printOutFogTypePeriods(std::ostream& theOutput) const;
+	void printOutFogData(std::ostream& theOutput) const;
 
   private:
 	
@@ -54,6 +55,9 @@ using namespace std;
 							const fog_period_vector& theFogPeriods) const;
 	void printOutFogTypePeriods(std::ostream& theOutput,
 							const fog_type_period_vector& theFogTypePeriods) const;
+	void printOutFogData(std::ostream& theOutput,
+						 const std::string& theLinePrefix,
+						 const weather_result_data_item_vector& theFogData) const;
 	bool separateCoastInlandFog(const WeatherPeriod& theWeatherPeriod) const;
 	Sentence getFogPhrase(const fog_type_id& theFogTypeId);
 	void findOutFogPeriods();

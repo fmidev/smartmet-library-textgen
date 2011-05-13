@@ -1449,11 +1449,12 @@ using namespace std;
 	theParameters.theFogForecast = &fogForecast;
 	theParameters.theThunderForecast = &thunderForecast;
 
-	precipitationForecast.printOutPrecipitationData(log);
+	//	precipitationForecast.printOutPrecipitationData(log);
 	precipitationForecast.printOutPrecipitationPeriods(log);
 	precipitationForecast.printOutPrecipitationWeatherEvents(log);
-	cloudinessForecast.printOutCloudinessData(log);
+	//	cloudinessForecast.printOutCloudinessData(log);
 	cloudinessForecast.printOutCloudinessWeatherEvents(log);
+	//	fogForecast.printOutFogData(log);
 	fogForecast.printOutFogPeriods(log);
 
 

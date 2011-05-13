@@ -501,156 +501,6 @@ namespace TextGen
 	return sentence;
   }
 
-#ifdef OLD_IMPL
-  Sentence WeatherForecastStoryItem::checkForExtendedPeriodPhrase(const WeatherPeriod& thePhrasePeriod)
-  {
-	Sentence sentence;
-
-	sentence << get_time_phrase_large(thePhrasePeriod, theWeatherForecastStory.theVar);
-
-	if(sentence.size() == 0)
-	  {		
-		NFmiTime startTime(thePhrasePeriod.localStartTime());
-		NFmiTime endTime(thePhrasePeriod.localEndTime());
-		startTime.ChangeByHours(1); // one hour forwards in the beginning
-
-		sentence << get_time_phrase_large(WeatherPeriod(startTime, endTime), theWeatherForecastStory.theVar);
-
-		if(sentence.size() == 0)
-		  {
-			endTime.ChangeByHours(-1); // one hour backwards in the end
-			sentence << get_time_phrase_large(WeatherPeriod(startTime, endTime), theWeatherForecastStory.theVar);
-		  }
-	  }
-
-	if(sentence.size() > 0)
-	  {
-		theWeatherForecastStory.theLogger << "Extended period phrase(";
-		theWeatherForecastStory.theLogger << thePhrasePeriod.localStartTime() 
-										  << "..." 
-										  << thePhrasePeriod.localEndTime()
-										  << "): ";
-		theWeatherForecastStory.theLogger << sentence;
-	  }
-
-	return sentence;
-  }
-#endif
-
-#ifdef OLD_IMPL
-  Sentence WeatherForecastStoryItem::getPeriodPhrase(const bool& theFromSpecifier,
-													 const WeatherPeriod* thePhrasePeriod /*= 0*/)
-  {
-	Sentence sentence;
-
-
-	if(theWeatherForecastStory.theStorySize == 0)
-	  return sentence;
-
-	WeatherPeriod phrasePeriod(thePhrasePeriod == 0 ? getStoryItemPeriod() : *thePhrasePeriod);
-
-	vector<Sentence*> todayVector;
-
-	int julianDayOfTheFirstDay = get_today_vector(theWeatherForecastStory.theVar,
-												  theWeatherForecastStory.theWeatherArea,
-												  phrasePeriod,
-												  theWeatherForecastStory.theForecastTime,
-												  todayVector);
-
-
-	bool firstTodayPeriodWritten = false;
-
-	if(julianDayOfTheFirstDay == -1 && 
-	   forecastPeriodLength() > 24 &&
-	   theWeatherForecastStory.theForecastTime.GetJulianDay() != phrasePeriod.localStartTime().GetJulianDay())
-	  {
-		sentence <<  PeriodPhraseFactory::create("today",
-												 theWeatherForecastStory.theVar,
-												 theWeatherForecastStory.theForecastTime,
-												 phrasePeriod,
-												 theWeatherForecastStory.theWeatherArea);
-	  }
-	else
-	  {
-		if(todayVector.size() > 0 &&
-		   (julianDayOfTheFirstDay == getStoryItemPeriod().localStartTime().GetJulianDay() || 
-			theWeatherForecastStory.theForecastTime.GetJulianDay() != phrasePeriod.localStartTime().GetJulianDay())
-		   && forecastPeriodLength() > 24)
-		  {		
-			sentence << *(todayVector[0]);
-			firstTodayPeriodWritten = sentence.size() > 0;
-		  }
-	  }
-
-	// alkaen phrase is used if period is longer than
-	if(theFromSpecifier)
-	  {
-		Sentence timeSentence;
-
-		timeSentence << checkForAamuyoAndAamuPhrase(theFromSpecifier,
-													phrasePeriod);
-		if(timeSentence.size() > 0)
-		  {
-			sentence << timeSentence;
-		  }
-		else
-		  {
-			// if the period fits into some day part (aamupäivä, yö,...) use that phrase
-			Sentence extendedPeriodSentence;
-			extendedPeriodSentence << checkForExtendedPeriodPhrase(phrasePeriod);
-						
-			if(extendedPeriodSentence.size() > 0)
-			  sentence << extendedPeriodSentence;
-			else
-			  sentence << get_time_phrase(phrasePeriod.localStartTime(), theWeatherForecastStory.theVar, theFromSpecifier);
-		  }
-		
-		if(todayVector.size() > 0)
-		  {
-			if(forecastPeriodLength() > 24)
-			  {
-				Sentence todaySentence;
-				todaySentence << getTodayVectorSentence(todayVector, firstTodayPeriodWritten ? 1 : 0, todayVector.size() - 1);
-				if(todaySentence.size() > 0)
-				  sentence << JA_WORD;
-				sentence << todaySentence;
-			  }
-		  }
-	  }
-	else
-	  {
-		if(todayVector.size() > 0)
-		  {
-			if(forecastPeriodLength() > 24)
-			  {
-				Sentence todaySentence;
-				todaySentence << getTodayVectorSentence(todayVector, firstTodayPeriodWritten ? 1 : 0, todayVector.size() - 1);
-				if(todaySentence.size() > 0)
-				  sentence << JA_WORD;
-				sentence << todaySentence;
-			  }
-		  }
-
-		Sentence timeSentence;
-		timeSentence << checkForAamuyoAndAamuPhrase(theFromSpecifier,
-													phrasePeriod);
-		if(timeSentence.size() > 0)
-		  {
-			sentence << timeSentence;
-		  }
-		else
-		  {
-			// if the period fits into some day part (aamupäivä, yö,...) use that phrase
-			sentence << checkForExtendedPeriodPhrase(phrasePeriod);
-		  }
-	  }
-
-	todayVector.clear();
-
-	return sentence;
-  }
-#endif
-
   Sentence WeatherForecastStoryItem::getPeriodPhrase(const bool& theFromSpecifier,
 													 const WeatherPeriod* thePhrasePeriod /*= 0*/,
 													 const bool& theStoryUnderConstructionEmpty /*= true*/)
@@ -676,85 +526,15 @@ namespace TextGen
 		  specifyDay = true;
 	  }
 
-	Sentence aamuAamuyoPhrase;
-	aamuAamuyoPhrase << checkForAamuyoAndAamuPhrase(theFromSpecifier,
-													 phrasePeriod);
-	if(aamuAamuyoPhrase.size() > 0)
+	sentence << checkForAamuyoAndAamuPhrase(theFromSpecifier,
+													phrasePeriod);
+	if(sentence.size() == 0)
 	  {
-		sentence << aamuAamuyoPhrase;
-	  }
-	else
-	  {
-		if(theFromSpecifier)
-		  {
-			sentence << get_time_phrase_large(phrasePeriod, specifyDay, theWeatherForecastStory.theVar);
-		
-			if(sentence.size() == 0)
-			  {
-				sentence << get_time_phrase(phrasePeriod.localStartTime(), 
-											theWeatherForecastStory.theVar, 
-											theFromSpecifier);	  
-			  }
-		  }
-		else
-		  {
-			sentence << get_time_phrase_large(phrasePeriod, specifyDay, theWeatherForecastStory.theVar);
-		  }
+		sentence << get_time_phrase_large(phrasePeriod, specifyDay, theWeatherForecastStory.theVar, theFromSpecifier);
 	  }
 
 	return sentence;
   }
-
-#ifdef OLD_IMPL2
-  Sentence WeatherForecastStoryItem::getPeriodPhrase(const bool& theFromSpecifier,
-													 const WeatherPeriod* thePhrasePeriod /*= 0*/)
-  {
-	Sentence sentence;
-
-	if(theWeatherForecastStory.theStorySize == 0)
-	  return sentence;
-
-	WeatherPeriod phrasePeriod(thePhrasePeriod == 0 ? getStoryItemPeriod() : *thePhrasePeriod);
-
-	if(forecastPeriodLength() > 24 &&
-	   theWeatherForecastStory.theForecastTime.GetJulianDay() != phrasePeriod.localStartTime().GetJulianDay())
-	  {
-		sentence <<  PeriodPhraseFactory::create("today",
-												 theWeatherForecastStory.theVar,
-												 theWeatherForecastStory.theForecastTime,
-												 phrasePeriod,
-												 theWeatherForecastStory.theWeatherArea);
-	  }
-
-	Sentence aamuAamuyoPhrase;
-	aamuAaamuyoPhrase << checkForAamuyoAndAamuPhrase(theFromSpecifier,
-													 phrasePeriod);
-	if(aamuAamuyoPhrase.size() > 0)
-	  {
-		sentence << aamuAamuyoPhrase;
-	  }
-	else
-	  {
-		if(theFromSpecifier)
-		  {
-			sentence << get_time_phrase_large(phrasePeriod, theWeatherForecastStory.theVar);
-		
-			if(sentence.size() == 0)
-			  {
-				sentence << get_time_phrase(phrasePeriod.localStartTime(), 
-											theWeatherForecastStory.theVar, 
-											theFromSpecifier);	  
-			  }
-		  }
-		else
-		  {
-			sentence << get_time_phrase_large(phrasePeriod, theWeatherForecastStory.theVar);
-		  }
-	  }
-
-	return sentence;
-  }
-#endif
 
   PrecipitationForecastStoryItem::PrecipitationForecastStoryItem(WeatherForecastStory& weatherForecastStory,
 																 const WeatherPeriod& period, 
@@ -1102,8 +882,8 @@ namespace TextGen
 		prForecast.setDryPeriodTautologyFlag(true);
 
 		// ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
-		if(theChangeSentence.size() > 0)// &&
-		// clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
+		if(theChangeSentence.size() > 0 &&
+		   clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
 		  {
 			sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			sentence << theChangeSentence;
@@ -1152,8 +932,8 @@ namespace TextGen
 		  }
 
 		// ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
-		if(theChangeSentence.size() > 0)// &&
-		// clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
+		if(theChangeSentence.size() > 0 &&
+		   clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
 		  {
 			sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			sentence << theChangeSentence;

@@ -338,8 +338,78 @@ namespace TextGen
 				  << ": moderate=" << moderateFog
 				  << " dense=" << denseFog
 				  << endl;
+
 	  }
   }
+
+
+  void FogForecast::printOutFogData(std::ostream& theOutput,
+									const std::string& theLinePrefix,
+									const weather_result_data_item_vector& theFogData) const
+  {
+	for(unsigned int i = 0; i < theFogData.size(); i++)
+	  {
+		WeatherPeriod period(theFogData.at(i)->thePeriod.localStartTime(),
+							 theFogData.at(i)->thePeriod.localEndTime());
+
+		theOutput << theFogData.at(i)->thePeriod.localStartTime()
+				  << "..."
+				  << theFogData.at(i)->thePeriod.localEndTime()
+				  << ": " << theLinePrefix << "="
+				  << theFogData.at(i)->theResult.value()
+				  << endl;
+	  }
+  }
+
+  void FogForecast::printOutFogData(std::ostream& theOutput) const
+  {
+	theOutput << "** FOG DATA **" << endl;
+	bool fogDataExists = false;
+
+	if(theCoastalModerateFogData && theCoastalModerateFogData->size() > 0)
+	  {
+		theOutput << "** Coastal moderate (1) fog data **" << endl;
+		printOutFogData(theOutput, "moderate", *theCoastalModerateFogData);
+		fogDataExists = true;
+	  }
+	if(theCoastalDenseFogData && theCoastalDenseFogData->size() > 0)
+	  {
+		theOutput << "** Coastal dense (2) fog data **" << endl;
+		printOutFogData(theOutput, "dense", *theCoastalDenseFogData);
+		fogDataExists = true;
+	  }
+
+	if(theInlandModerateFogData && theInlandModerateFogData->size() > 0)
+	  {
+		theOutput << "** Inland moderate (1) fog data **" << endl;
+		printOutFogData(theOutput, "moderate", *theInlandModerateFogData);
+		fogDataExists = true;
+	  }
+	if(theInlandDenseFogData && theInlandDenseFogData->size() > 0)
+	  {
+		theOutput << "** Inland dense (2) fog data **" << endl;
+		printOutFogData(theOutput, "dense", *theInlandDenseFogData);
+		fogDataExists = true;
+	  }
+
+	if(theFullAreaModerateFogData && theFullAreaModerateFogData->size() > 0)
+	  {
+		theOutput << "** Full area moderate (1) fog data **" << endl;
+		printOutFogData(theOutput, "moderate", *theFullAreaModerateFogData);
+		fogDataExists = true;
+	  }
+	if(theFullAreaDenseFogData && theFullAreaDenseFogData->size() > 0)
+	  {
+		theOutput << "** Full dense (2) fog data **" << endl;
+		printOutFogData(theOutput, "dense", *theFullAreaDenseFogData);
+		fogDataExists = true;
+	  }
+
+	if(!fogDataExists)
+		theOutput << "No Fog on this forecast period!" << endl;
+  }
+  
+
   
   void FogForecast::printOutFogPeriods(std::ostream& theOutput) const
   {
@@ -553,76 +623,6 @@ namespace TextGen
 	return theFogPeriod;
   }
 
-#ifdef OLD_IMPLEMENTATION
-  Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod,
-									const fog_type_period_vector& theFogTypePeriods) const
-  {
-	Sentence sentence;
-
-	for(unsigned int i = 0; i < theFogTypePeriods.size(); i++)
-	  {		
-		WeatherPeriod actualFogPeriod(getActualFogPeriod(thePeriod, theFogTypePeriods.at(i).first));
-
-		if(thePeriod.localStartTime() <= actualFogPeriod.localStartTime() &&
-		   thePeriod.localEndTime() >= actualFogPeriod.localStartTime() &&
-		   thePeriod.localStartTime() <= actualFogPeriod.localEndTime() &&
-		   thePeriod.localEndTime() >= actualFogPeriod.localEndTime())
-		  {
-			theParameters.theLog << "Actual fog-period: " 
-								 << actualFogPeriod.localStartTime() << "..." 
-								 << actualFogPeriod.localEndTime()  << endl;
-
-			Sentence fogSentence;
-			Sentence todayPhrase;
-			fogSentence << getFogPhrase(theFogTypePeriods.at(i).second);
-			if(!fogSentence.empty())
-			  {
-				if(theParameters.thePrecipitationForecast->isDryPeriod(actualFogPeriod,
-																	   theParameters.theForecastArea))
-				  {
-					if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
-					  {
-						todayPhrase << PeriodPhraseFactory::create("today",
-																	 theParameters.theVariable,
-																	 theParameters.theForecastTime,
-																	 thePeriod,
-																	 theParameters.theArea);
-
-					  }
-					vector<std::string> theStringVector;
-					Sentence timePhrase(get_time_phrase_large(actualFogPeriod, 
-															  theParameters.theVariable, 
-															  false, 
-															  &theStringVector));
-					std::string timePhraseString;
-					for(unsigned int k = 0; k < theStringVector.size(); k++)
-					  timePhraseString += theStringVector[k];
-
-					bool todayPhraseExists = todayPhrase.size() > 0;
-					bool timePhraseExists = false;
-					sentence << todayPhrase;
-					if(timePhraseString != thePreviousTimePhrase)
-					  {
-						timePhraseExists = timePhrase.size() > 0;
-						sentence << timePhrase;
-						thePreviousTimePhrase = timePhraseString;
-					  }
-					if(todayPhraseExists || timePhraseExists)
-					  sentence << ON_WORD;
-					sentence << fogSentence;
-					if(!(theParameters.theForecastArea & FULL_AREA))
-					  sentence <<  areaSpecificSentence(thePeriod);
-				  }
-			  }
-
-			break;
-		  }
-	  }
-
-	return sentence;
-  }
-#endif
-
   bool FogForecast::getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
 									  const fog_type_period_vector& theFogTypePeriods,
 									  WeatherPeriod& theResultPeriod,
@@ -826,137 +826,6 @@ namespace TextGen
 	return sentence;
   }
 
-#ifdef OLD_STUFF
-  Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod,
-									const fog_type_period_vector& theFogTypePeriods,
-									const std::string& theAreaString) const
-  {
-	Sentence sentence;
-	std::string dayPhasePhrase;
-	Sentence todayPhrase;
-	std::string fogPhrase;
-
-	for(unsigned int i = 0; i < theFogTypePeriods.size(); i++)
-	  {		
-		WeatherPeriod actualFogPeriod(getActualFogPeriod(thePeriod, theFogTypePeriods.at(i).first));
-		
-		if(actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()) == 1 &&
-		   (actualFogPeriod.localStartTime() == thePeriod.localStartTime() ||
-			actualFogPeriod.localEndTime() == thePeriod.localEndTime()))
-		   continue;
-		  
-
-		if(thePeriod.localStartTime() <= actualFogPeriod.localStartTime() &&
-		   thePeriod.localEndTime() >= actualFogPeriod.localStartTime() &&
-		   thePeriod.localStartTime() <= actualFogPeriod.localEndTime() &&
-		   thePeriod.localEndTime() >= actualFogPeriod.localEndTime())
-		  {
-			theParameters.theLog << "Actual fog-period: " 
-								 << actualFogPeriod.localStartTime() << "..." 
-								 << actualFogPeriod.localEndTime()  << endl;
-
-			Sentence fogSentence;
-
-			fog_type_id fogTypeId(theFogTypePeriods.at(i).second);
-
-			if(fogTypeId != NO_FOG)
-			  {
-				if(theParameters.thePrecipitationForecast->isDryPeriod(actualFogPeriod,
-																	   theParameters.theForecastArea))
-				  {
-					short dayNumber = 0;
-					if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
-					  {
-						todayPhrase << PeriodPhraseFactory::create("today",
-																   theParameters.theVariable,
-																   theParameters.theForecastTime,
-																   actualFogPeriod,
-																   theParameters.theArea);
-						dayNumber = actualFogPeriod.localStartTime().GetWeekday();
-					  }
-
-					theParameters.theLog << todayPhrase;
-					
-					vector<std::string> theStringVector;
-
-					bool specifyDay = get_period_length(theParameters.theForecastPeriod) > 24 &&
-					  todayPhrase.size() > 0;
-
-					Sentence partOfTheDay(get_time_phrase_large(actualFogPeriod,
-																specifyDay,
-																theParameters.theVariable, 
-																true, 
-																&theStringVector));
-
-					Sentence timePhrase(parse_weekday_phrase(dayNumber, partOfTheDay));
-
-
-					for(unsigned int k = 0; k < theStringVector.size(); k++)
-					  dayPhasePhrase += theStringVector[k];
-
-					if(dayPhasePhrase != theDayPhasePhraseOld)
-					  {
-						theDayPhasePhraseOld = dayPhasePhrase;
-					  }
-
-					switch(fogTypeId)
-					  {
-					  case FOG:
-						fogSentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
-									<< timePhrase
-									<< theAreaString
-									<< EMPTY_STRING;
-						break;
-					  case FOG_POSSIBLY_DENSE:
-						fogSentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
-									<< timePhrase
-									<< theAreaString
-									<< EMPTY_STRING;
-						break;
-					  case FOG_IN_SOME_PLACES:
-						fogSentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
-									<< timePhrase
-									<< theAreaString
-									<< PAIKOIN_WORD;
-						break;
-					  case FOG_IN_SOME_PLACES_POSSIBLY_DENSE:
-						fogSentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
-									<< timePhrase
-									<< theAreaString
-									<< PAIKOIN_WORD;
-						break;
-					  case FOG_IN_MANY_PLACES:
-						fogSentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
-									<< timePhrase
-									<< theAreaString
-									<< MONIN_PAIKOIN_WORD;
-						break;
-					  case FOG_IN_MANY_PLACES_POSSIBLY_DENSE:
-						fogSentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
-									<< timePhrase
-									<< theAreaString
-									<< MONIN_PAIKOIN_WORD;
-						break;
-					  default:
-						break;
-					  };
-					if(fogSentence.size() > 0)
-					  {
-						if(sentence.size() > 0)
-						  sentence << Delimiter(",");
-						sentence << fogSentence;
-					  }
-					//break;
-				  }
-			  }
-		  }
-	  }
-
-	return sentence;
-  }
-#endif
-
-
   Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod) const
   {
 	Sentence sentence;
@@ -989,40 +858,6 @@ namespace TextGen
 
 	return sentence;
   }
-
-#ifdef OLD_IMPL
-  Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod) const
-  {
-	Sentence sentence;
-
-	if(theParameters.theForecastArea & FULL_AREA)
-	  {
-		if(separateCoastInlandFog(thePeriod))
-		  {
-			sentence << COAST_PHRASE;
-			sentence << fogSentence(thePeriod, theCoastalFogType);
-			sentence << Delimiter(",");
-			sentence << INLAND_PHRASE;
-			sentence << fogSentence(thePeriod, theInlandFogType);
-		  }
-		else
-		  {
-			sentence << fogSentence(thePeriod, theFullAreaFogType);
-		  }
-	  }
-	else if(theParameters.theForecastArea & INLAND_AREA)
-	  {
-		sentence << fogSentence(thePeriod, theInlandFogType);
-	  }
-	else if(theParameters.theForecastArea & COASTAL_AREA)
-	  {
-		sentence << fogSentence(thePeriod, theCoastalFogType);
-	  }
-	thePreviousTimePhrase.clear();
-
-	return sentence;
-  }
-#endif
 
   Sentence FogForecast::areaSpecificSentence(const WeatherPeriod& thePeriod) const
   {

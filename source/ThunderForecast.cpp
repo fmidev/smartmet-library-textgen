@@ -135,7 +135,13 @@ namespace TextGen
 		thunderId = get_thunder_probability_id(maxThunderProbability);
 
 	  }
-	theParameters.theLog << "Thunder probability: " << maxThunderProbability << endl;
+	theParameters.theLog << "Thunder probability: "
+						 << maxThunderProbability 
+						 << " (" << thePeriod.localStartTime() 
+						 << "..." 
+						 << thePeriod.localEndTime() 
+						 << ")"
+						 << endl;
 
 	if(thunderId == SMALL_PROBABILITY_FOR_THUNDER)
 		sentence << PIENI_UKKOSEN_TODENNAKOISYYS_PHRASE;

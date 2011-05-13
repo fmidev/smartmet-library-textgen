@@ -19,8 +19,7 @@ using namespace std;
 	void preventTautology(const bool& preventTautologyFlag) { thePreventTautologyFlag = preventTautologyFlag; }
 	Sentence getInPlacesPhrase(const bool& inSomePlaces, 
 							   const bool& inManyPlaces, 
-							   const bool& useOllaVerbFlag,
-							   vector<string>& stringVector);
+							   const bool& useOllaVerbFlag);
   protected:
 	InPlacesPhrase();
   private:
@@ -40,11 +39,8 @@ using namespace std;
 	Sentence precipitationChangeSentence(const WeatherPeriod& thePeriod,
 										 const Sentence& thePeriodPhrase,
 										 const weather_event_id& theWeatherEvent) const;
-	//	Sentence precipitationChangeSentence(const WeatherPeriod& thePeriod) const;
 	Sentence precipitationSentence(const WeatherPeriod& thePeriod,
 								   const Sentence& thePeriodPhrase) const;
-	//	std::string precipitationSentenceString(const WeatherPeriod& thePeriod, 
-	//									const bool& theCheckPrecipitationChange = true) const;
 	bool shortTermPrecipitationExists(const WeatherPeriod& thePeriod) const;
 	Sentence shortTermPrecipitationSentence(const WeatherPeriod& thePeriod,
 											const Sentence& thePeriodPhrase) const;
@@ -68,7 +64,6 @@ using namespace std;
 	void setUseOllaVerbFlag(const bool theFlag = true) const { theUseOllaVerbFlag = theFlag; }
 	void setDryPeriodTautologyFlag(const bool theFlag) const { theDryPeriodTautologyFlag = theFlag; }
 	void setSinglePrecipitationFormFlag(const bool theFlag) const { theSinglePrecipitationFormFlag = theFlag; }
-	//	std::string precipitationSentenceString(const WeatherPeriod& thePeriod);
 	float getPrecipitationExtent(const WeatherPeriod& thePeriod,
 								 const unsigned short theForecastArea) const;
 	precipitation_type getPrecipitationType(const WeatherPeriod& thePeriod,
@@ -92,9 +87,10 @@ using namespace std;
 								float& theIntensity,
 								precipitation_form_id& theForm,
 								float& theExtent) const;
+	/*
 	void precipitationTypeChangePhrase(const precipitation_type& thePrecipitationType,
-									   const NFmiTime& theTypeChangeTime,
-									   vector<std::string>& theStringVector) const;
+									   const NFmiTime& theTypeChangeTime) const;
+	*/
 	Rect getPrecipitationRect(const NFmiTime& theTimestamp, 
 							  const float& theLowerLimit,
 							  const float& theUpperLimit) const;
@@ -107,7 +103,7 @@ using namespace std;
 																			  const unsigned short theForecastArea) const;
 	Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;
 	void joinPrecipitationPeriods(vector<WeatherPeriod>& thePrecipitationPeriodVector);
-	void printOutPrecipitationPeriods(std::ostream& theOutput,
+	bool printOutPrecipitationPeriods(std::ostream& theOutput,
 									  const vector<WeatherPeriod>& thePrecipitationPeriods,
 									  const precipitation_data_vector& theDataVector) const;
 	void printOutPrecipitationDistribution(std::ostream& theOutput, 
@@ -153,36 +149,32 @@ using namespace std;
 								    const float thePrecipitationIntensityAbsoluteMax,
 								   const float& theWaterDrizzleSleetShare,
 								   const bool& theCanBeFreezingFlag,
-								   map<string, Sentence>& theCompositePhraseElements,
-								   vector<std::string>& theStringVector) const;
+								   map<string, Sentence>& theCompositePhraseElements) const;
 
 	void mostlyDryWeatherPhrase(const bool& theIsShowersFlag,
 								const WeatherPeriod& thePeriod,
 								const char* thePhrase,
-								map<string, Sentence>& theCompositePhraseElements,
-								vector<std::string>& theStringVector) const;
+								map<string, Sentence>& theCompositePhraseElements) const;
 
 	unsigned int getPrecipitationTypeChange(const precipitation_data_vector& theData,
 											const WeatherPeriod& thePeriod) const;
-	int precipitationTransformation(const WeatherPeriod& thePeriod,
-									const float& thePrecipitationExtent,
-									const precipitation_form_transformation_id& theTransformId,
-									map<string, Sentence>& theCompositePhraseElements,
-									vector<std::string>& theStringVector) const;
-	int precipitationSentenceStringVector(const WeatherPeriod& thePeriod,
-										  const precipitation_form_id& thePrecipitationForm,
-										  const float& thePrecipitationIntensity,
-										  const float thePrecipitationIntensityAbsoluteMax,
-										  const float& thePrecipitationExtent,
-										  const float& thePrecipitationFormWater,
-										  const float& thePrecipitationFormDrizzle,
-										  const float& thePrecipitationFormSleet,
-										  const float& thePrecipitationFormSnow,
-										  const float& thePrecipitationFormFreezing,
-										  const precipitation_type& thePrecipitationType,
-										  const NFmiTime& theTypeChangeTime,
-										  map<string, Sentence>& theCompositePhraseElements,
-										  vector<std::string>& theStringVector) const;
+	void getTransformationPhraseElements(const WeatherPeriod& thePeriod,
+													  const float& thePrecipitationExtent,
+													  const precipitation_form_transformation_id& theTransformId,
+													  map<string, Sentence>& theCompositePhraseElements) const;
+	void getPrecipitationPhraseElements(const WeatherPeriod& thePeriod,
+										const precipitation_form_id& thePrecipitationForm,
+										const float& thePrecipitationIntensity,
+										const float thePrecipitationIntensityAbsoluteMax,
+										const float& thePrecipitationExtent,
+										const float& thePrecipitationFormWater,
+										const float& thePrecipitationFormDrizzle,
+										const float& thePrecipitationFormSleet,
+										const float& thePrecipitationFormSnow,
+										const float& thePrecipitationFormFreezing,
+										const precipitation_type& thePrecipitationType,
+										const NFmiTime& theTypeChangeTime,
+										map<string, Sentence>& theCompositePhraseElements) const;
 	std::string precipitationSentenceString(const WeatherPeriod& thePeriod,
 											const precipitation_form_id& thePrecipitationForm,
 											const float thePrecipitationIntensity,
@@ -195,20 +187,20 @@ using namespace std;
 											const float thePrecipitationFormFreezing,
 											const precipitation_type& thePrecipitationType,
 											const NFmiTime& theTypeChangeTime) const;
-	Sentence selectPrecipitationSentence(const WeatherPeriod& thePeriod,
-										 const precipitation_form_id& thePrecipitationForm,
-										 const float thePrecipitationIntensity,
-										 const float thePrecipitationIntensityAbsoluteMax,
-										 const float thePrecipitationExtent,
-										 const float thePrecipitationFormWater,
-										 const float thePrecipitationFormDrizzle,
-										 const float thePrecipitationFormSleet,
-										 const float thePrecipitationFormSnow,
-										 const float thePrecipitationFormFreezing,
-										 const precipitation_type& thePrecipitationType,
-										 const NFmiTime& theTypeChangeTime,
-										 const precipitation_form_transformation_id& theTransformationId,
-										 map<string, Sentence>& theCompositePhraseElements) const;
+	void selectPrecipitationSentence(const WeatherPeriod& thePeriod,
+									 const precipitation_form_id& thePrecipitationForm,
+									 const float thePrecipitationIntensity,
+									 const float thePrecipitationIntensityAbsoluteMax,
+									 const float thePrecipitationExtent,
+									 const float thePrecipitationFormWater,
+									 const float thePrecipitationFormDrizzle,
+									 const float thePrecipitationFormSleet,
+									 const float thePrecipitationFormSnow,
+									 const float thePrecipitationFormFreezing,
+									 const precipitation_type& thePrecipitationType,
+									 const NFmiTime& theTypeChangeTime,
+									 const precipitation_form_transformation_id& theTransformationId,
+									 map<string, Sentence>& theCompositePhraseElements) const;
 
 	Sentence constructPrecipitationSentence(const WeatherPeriod& thePeriod,
 											const Sentence& thePeriodPhrase,

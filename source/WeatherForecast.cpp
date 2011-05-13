@@ -1807,5 +1807,79 @@ using namespace std;
 	return sentence;
   }
 
+  WeatherPeriod get_intersection_period(const WeatherPeriod& thePeriod1, 
+										const WeatherPeriod& thePeriod2,
+										bool& theIntersectionPeriodFound)
+  {
+	int start_year, start_month, start_day, start_hour;
+	int end_year, end_month, end_day, end_hour;
+	theIntersectionPeriodFound = false;
+
+	if(is_inside(thePeriod1.localStartTime(), thePeriod2) && 
+	   !is_inside(thePeriod1.localEndTime(), thePeriod2))
+	  {
+		start_year = thePeriod1.localStartTime().GetYear();
+		start_month =  thePeriod1.localStartTime().GetMonth();
+		start_day = thePeriod1.localStartTime().GetDay();
+		start_hour = thePeriod1.localStartTime().GetHour();
+		end_year = thePeriod2.localEndTime().GetYear();
+		end_month = thePeriod2.localEndTime().GetMonth();
+		end_day = thePeriod2.localEndTime().GetDay();
+		end_hour = thePeriod2.localEndTime().GetHour();
+		theIntersectionPeriodFound = true;
+	  }
+	else if(is_inside(thePeriod1.localEndTime(), thePeriod2) && 
+			!is_inside(thePeriod1.localStartTime(), thePeriod2))
+	  {
+		start_year = thePeriod2.localStartTime().GetYear();
+		start_month = thePeriod2.localStartTime().GetMonth();
+		start_day = thePeriod2.localStartTime().GetDay();
+		start_hour = thePeriod2.localStartTime().GetHour();
+		end_year = thePeriod1.localEndTime().GetYear();
+		end_month =  thePeriod1.localEndTime().GetMonth();
+		end_day = thePeriod1.localEndTime().GetDay();
+		end_hour = thePeriod1.localEndTime().GetHour();
+		theIntersectionPeriodFound = true;
+	  }
+	else if(is_inside(thePeriod1.localEndTime(), thePeriod2) && 
+			is_inside(thePeriod1.localStartTime(), thePeriod2))
+	  {
+		start_year = thePeriod1.localStartTime().GetYear();
+		start_month =  thePeriod1.localStartTime().GetMonth();
+		start_day = thePeriod1.localStartTime().GetDay();
+		start_hour = thePeriod1.localStartTime().GetHour();
+		end_year = thePeriod1.localEndTime().GetYear();
+		end_month =  thePeriod1.localEndTime().GetMonth();
+		end_day = thePeriod1.localEndTime().GetDay();
+		end_hour = thePeriod1.localEndTime().GetHour();
+		theIntersectionPeriodFound = true;
+	  }
+	else if(thePeriod1.localStartTime() <=  thePeriod2.localStartTime() &&
+			thePeriod1.localEndTime() >=  thePeriod2.localEndTime())
+	  {
+		start_year = thePeriod2.localStartTime().GetYear();
+		start_month = thePeriod2.localStartTime().GetMonth();
+		start_day = thePeriod2.localStartTime().GetDay();
+		start_hour = thePeriod2.localStartTime().GetHour();
+		end_year = thePeriod2.localEndTime().GetYear();
+		end_month = thePeriod2.localEndTime().GetMonth();
+		end_day = thePeriod2.localEndTime().GetDay();
+		end_hour = thePeriod2.localEndTime().GetHour();
+		theIntersectionPeriodFound = true;
+	  }
+
+	   if(theIntersectionPeriodFound)
+	  {
+		NFmiTime startTime(start_year, start_month, start_day, start_hour);
+		NFmiTime endTime(end_year, end_month, end_day, end_hour);
+		WeatherPeriod resultPeriod(startTime, endTime);
+
+		return resultPeriod;
+	  }
+
+	return thePeriod1;
+  }
+
+
 } // namespace TextGen
 

@@ -134,6 +134,8 @@ namespace TextGen
 #define ILLASTA_ALKAEN_PHRASE "illasta alkaen"
 #define ILTAYOSTA_ALKAEN_PHRASE "iltayöstä alkaen"
 #define KESKIYOSTA_ALKAEN_PHRASE "keskiyöstä alkaen"
+#define VASTAISESTA_YOSTA_ALKAEN_PHRASE "vastaisesta yöstä alkaen"
+#define VASTAISENA_YONA_PHRASE "vastaisena yönä"
 #define AAMUYOSTA_ALKAEN_PHRASE "aamuyöstä alkaen"
 
 #define POHJOISESTA_ALKAEN_PHRASE "pohjoisesta alkaen"
@@ -626,6 +628,9 @@ namespace TextGen
 							const WeatherPeriod& thePeriod);
   std::string parse_weekday_phrase(const short& weekday, std::string part_of_the_day);
   Sentence parse_weekday_phrase(const short& weekday, const Sentence& part_of_the_day);
+  WeatherPeriod get_intersection_period(const WeatherPeriod& thePeriod1, 
+										const WeatherPeriod& thePeriod2,
+										bool& theIntersectionPeriodFound);
 
 	
   struct WeatherResultDataItem
