@@ -73,13 +73,22 @@ namespace TextGen
 	using Settings::optional_string;
 
 #define PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on [M...N astetta]"
-#define LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[aamulla] [sisämaassa] [lämpötila] on [M...N astetta]"
-#define LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[aamulla] [sisämaassa] [lämpötila] on noin [N astetta]"
-#define LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[aamulla] [sisämaassa] [lämpötila] on [N] asteen tienoilla"
-#define LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[aamulla] [sisämaassa] [lämpötila] on [N] asteen tuntumassa"
-#define LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[aamulla] [sisämaassa] [lämpötila] on lähellä [N astetta]"
-#define LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[aamulla] [sisämaassa] [lämpötila] on vajaat [N astetta]"
-#define LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[aamulla] [sisämaassa] [lämpötila] on vähän yli [N astetta]"
+	/*
+#define PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on noin [N astetta]"
+#define PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkanen on [N] asteen tienoilla"
+#define PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkanen on [N] asteen tuntumassa"
+#define PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkanen on lähellä [N astetta]"
+#define PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on vajaat [N astetta]"
+#define PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on vähän yli [N astetta]"
+	*/
+
+#define LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [M...N astetta]"
+#define LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on noin [N astetta]"
+#define LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [N] asteen tienoilla"
+#define LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [N] asteen tuntumassa"
+#define LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on lähellä [N astetta]"
+#define LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on vajaat [N astetta]"
+#define LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on vähän yli [N astetta]"
 #define ON_PIKKUPAKKASTA_COMPOSITE_PHRASE "[huomenna] [rannikolla] on pikkupakkasta"
 #define PAKKANEN_ON_HIEMAN_KIREAMPAA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkanen on [hieman kireämpää]"
 #define LAMPOTILA_NOUSEE_COMPOSITE_PHRASE "[yöllä] lämpötila nousee"
@@ -1406,6 +1415,7 @@ namespace TextGen
 
 	}
 
+
 	const Sentence temperature_sentence(t36hparams& theParameters,
 										bool& intervalUsed,
 										int& intervalStart,
@@ -1424,16 +1434,19 @@ namespace TextGen
 			{
 			case VAHAN_PLUSSAN_PUOLELLA_PHRASE_ID:
 			  {
+				theParameters.theTemperaturePhraseId = VAHAN_PLUSSAN_PUOLELLA_PHRASE_ID;
 				sentence << VAHAN_PLUSSAN_PUOLELLA_PHRASE;
 			  }
 			  break;
 			case NOLLAN_TIENOILLA_TAI_VAHAN_PLUSSAN_PUOLELLA_PHRASE_ID:
 			  {
+				theParameters.theTemperaturePhraseId = NOLLAN_TIENOILLA_TAI_VAHAN_PLUSSAN_PUOLELLA_PHRASE_ID;
 				sentence << NOLLAN_TIENOILLA_PHRASE << TAI_PHRASE << VAHAN_PLUSSAN_PUOLELLA_PHRASE;
 			  }
 			  break;
 			case NOLLAN_TIENOILLA_PHRASE_ID:
 			  {
+				theParameters.theTemperaturePhraseId = NOLLAN_TIENOILLA_PHRASE_ID;
 				sentence << NOLLAN_TIENOILLA_PHRASE;
 			  }
 			  break;
@@ -1475,6 +1488,7 @@ namespace TextGen
 				  }
 				else
 				  {
+					theParameters.theTemperaturePhraseId = PIKKUPAKKASTA_PHRASE_ID;
 					sentence << PIKKUPAKKASTA_PHRASE;
 				  }
 			  }
@@ -1525,6 +1539,8 @@ namespace TextGen
 					sentence << TIENOILLA_PHRASE <<  Integer(theProximityNumber);
 					theParameters.theTemperaturePhraseId = TIENOILLA_ASTETTA_PHRASE_ID;
 					intervalStart = theProximityNumber;
+					if(theParameters.theMaximum < 0)
+					  theParameters.theUseFrostExistsPhrase = true;
 
 					theParameters.theLog << "PROXIMITY: " << proximityNumberBuff 
 										 << " asteen tienoilla :: " << tempBuff << endl;
@@ -1535,6 +1551,8 @@ namespace TextGen
 					sentence << LAHELLA_PHRASE << Integer(theProximityNumber);
 					theParameters.theTemperaturePhraseId = LAHELLA_ASTETTA_PHRASE_ID;
 					intervalStart = theProximityNumber;
+					if(theParameters.theMaximum < 0)
+					  theParameters.theUseFrostExistsPhrase = true;
 
 					theParameters.theLog << "PROXIMITY: Lähellä " << proximityNumberBuff 
 										 << " astetta :: " << tempBuff << endl;
@@ -1545,6 +1563,8 @@ namespace TextGen
 					sentence << TUNTUMASSA_PHRASE << Integer(theProximityNumber);
 					theParameters.theTemperaturePhraseId = TUNTUMASSA_ASTETTA_PHRASE_ID;
 					intervalStart = theProximityNumber;
+					if(theParameters.theMaximum < 0)
+					  theParameters.theUseFrostExistsPhrase = true;
 
 					theParameters.theLog << "PROXIMITY: " << proximityNumberBuff 
 										 << " asteen tuntumassa :: " << tempBuff << endl;
@@ -1557,6 +1577,8 @@ namespace TextGen
 							 << *UnitFactory::create(DegreesCelsius);
 					theParameters.theTemperaturePhraseId = VAJAAT_ASTETTA_PHRASE_ID;
 					intervalStart = theProximityNumber;
+					if(theParameters.theMaximum < 0)
+					  theParameters.theUseFrostExistsPhrase = true;
 
 					theParameters.theLog << "PROXIMITY: Vajaat " << proximityNumberBuff 
 										 << " astetta :: " << tempBuff << endl;
@@ -1634,23 +1656,39 @@ namespace TextGen
 				theDayPhasePhrase << PAIVALLA_PHRASE;
 			}
 		  */
-
-		  if(!theParameters.theFrostExistsTautologyFlag)
-			{
-			  theCoreStatementPhrase << PAKKASTA_WORD;
-			  theParameters.theFrostExistsTautologyFlag = true;
-			}
-		  else
-			{
-			  theParameters.theFrostExistsTautologyFlag = false;
-			}
 		  
-		  theParameters.theUseFrostExistsPhrase = false;
+		  if(theParameters.theTemperaturePhraseId == TIENOILLA_ASTETTA_PHRASE_ID ||
+			 theParameters.theTemperaturePhraseId == LAHELLA_ASTETTA_PHRASE_ID ||
+			 theParameters.theTemperaturePhraseId == TUNTUMASSA_ASTETTA_PHRASE_ID)
+			theCoreStatementPhrase << PAKKANEN_WORD;
+		  else
+			theCoreStatementPhrase << PAKKASTA_WORD;
 		}
-
-	  if(theCoreStatementPhrase.size() == 0)
-		theCoreStatementPhrase << LAMPOTILA_WORD;
-		
+	  
+	  if(theParameters.theFullDayFlag)
+		{
+		  if(theCoreStatementPhrase.size() == 0)
+			{
+			  if(theParameters.theForecastPeriodId == NIGHT_PERIOD)
+				{
+				  if(theParameters.theSeasonId == SUMMER_SEASON)
+					theCoreStatementPhrase << YON_ALIN_LAMPOTILA_PHRASE;
+				  else
+					theCoreStatementPhrase << YOLAMPOTILA_PHRASE;
+				}
+			  else
+				{
+				  if(theParameters.theSeasonId == SUMMER_SEASON)
+					theCoreStatementPhrase << PAIVAN_YLIN_LAMPOTILA_PHRASE;
+				  else
+					theCoreStatementPhrase << PAIVALAMPOTILA_PHRASE;
+				}
+			}
+		}
+	  else
+		{
+		  theCoreStatementPhrase << LAMPOTILA_WORD;
+		}
 	}
 
 	const void temperature_phrase(t36hparams& theParameters, 
@@ -1660,38 +1698,6 @@ namespace TextGen
 	{
 	  Sentence sentence;
 
-	  /*
-	  bool useDayTemperaturePhrase = (theParameters.theForecastPeriodId == DAY1_PERIOD || 
-									  (theParameters.theForecastPeriodId == DAY2_PERIOD && 
-									   !(theParameters.theForecastPeriod & DAY1_PERIOD) ||
-									   theParameters.inlandAndCoastSeparated(DAY1_PERIOD)));
-	  */
-
-	  /*
-	enum temperature_phrase_id{VAHAN_PLUSSAN_PUOLELLA_PHRASE_ID,
-							   NOLLAN_TIENOILLA_TAI_VAHAN_PLUSSAN_PUOLELLA_PHRASE_ID,
-							   SUUNNILLEEN_SAMA_PHRASE_ID,
-							   HIEMAN_KORKEAMPI_PHRASE_ID,
-							   HIEMAN_ALEMPI_PHRASE_ID,
-							   HIEMAN_LAUHEMPAA_PHRASE_ID,
-							   HIEMAN_KYLMEMPAA_PHRASE_ID,
-							   HIEMAN_HEIKOMPAA_PHRASE_ID,
-							   HIEMAN_KIREAMPAA_PHRASE_ID,
-							   LAMPOTILA_NOUSEE_PHRASE_ID,
-							   PIKKUPAKKASTA_PHRASE_ID,
-							   NOLLAN_TIENOILLA_PHRASE_ID,
-							   NOIN_ASTETTA_PHRASE_ID,
-							   TIENOILLA_ASTETTA_PHRASE_ID,
-							   LAHELLA_ASTETTA_PHRASE_ID,
-							   TUNTUMASSA_ASTETTA_PHRASE_ID,
-							   VAJAAT_ASTETTA_PHRASE_ID,
-							   VAHAN_YLI_ASTETTA_PHRASE_ID,
-							   LAMPOTILA_VALILLA_PHRASE_ID,
-							   NO_PHRASE_ID};
-	
-
-	  */
-
 	  temperature_phrase_id phrase_id(theParameters.theTemperaturePhraseId);
 	  forecast_season_id season_id(theParameters.theSeasonId);
 
@@ -1700,18 +1706,7 @@ namespace TextGen
 		  if(theParameters.theUseFrostExistsPhrase)
 			{
 			  theDayPhasePhrase << YOLLA_PHRASE;
-		  /*
-			  if(!theParameters.theFrostExistsTautologyFlag)
-				{
-				  theCoreStatementPhrase << PAKKASTA_WORD << ON_WORD;
-				  theParameters.theFrostExistsTautologyFlag = true;
-				}
-			  else
-				{
-				  theCoreStatementPhrase << LAMPOTILA_WORD << ON_WORD;
-				  theParameters.theFrostExistsTautologyFlag = false;
-				}
-		  */  
+
 			  pakkasta_on(theParameters,
 						  theDayPhasePhrase,
 						  theCoreStatementPhrase);
@@ -1763,8 +1758,6 @@ namespace TextGen
 				}
 			  else
 				{
-				  theParameters.theFrostExistsTautologyFlag = false;
-
 				  if(phrase_id == PIKKUPAKKASTA_PHRASE_ID)
 					{
 					  if(theParameters.theForecastPeriodId == NIGHT_PERIOD)
@@ -2060,13 +2053,10 @@ namespace TextGen
 				  sentence << LAMPOTILA_WORD << ON_WORD;
 				  theParameters.theFrostExistsTautologyFlag = false;
 				}
-
-			  theParameters.theUseFrostExistsPhrase = false;
 			}
 		  else
 			{
 			  sentence << theDayPhasePhrase;
-			  theParameters.theFrostExistsTautologyFlag = false;
 			}
 		}
 	  else
@@ -2085,20 +2075,17 @@ namespace TextGen
 			  if(!theParameters.theFrostExistsTautologyFlag)
 				{
 				  sentence << PAKKASTA_WORD << ON_WORD;
-				  theParameters.theFrostExistsTautologyFlag = true;
 				}
 			  else
 				{
 				  sentence << LAMPOTILA_WORD << ON_WORD;
-				  theParameters.theFrostExistsTautologyFlag = false;
 				}
 
 			  theParameters.theUseFrostExistsPhrase = false;
 			}
 		  else
 			{
-			  sentence << theDayPhasePhrase;
-			  theParameters.theFrostExistsTautologyFlag = false;
+			  ;//theParameters.theFrostExistsTautologyFlag = false;
 			}
 		  sentence << theAreaPhrase;
 		}
@@ -2154,7 +2141,6 @@ namespace TextGen
 		  degreesSentence << intervalStart << *UnitFactory::create(DegreesCelsius);
 		}
 
-
 	  switch(phrase_id)
 		{
 		case PIKKUPAKKASTA_PHRASE_ID:
@@ -2176,7 +2162,6 @@ namespace TextGen
 			  sentence << HIEMAN_LAUHEMPAA_PHRASE;
 			else
 			  sentence << HIEMAN_KYLMEMPAA_PHRASE;
-
 		  }
 		  break;
 
@@ -2253,19 +2238,26 @@ namespace TextGen
 			  }
 			else
 			  {
+				/*
 				if(theParameters.theUseFrostExistsPhrase &&
 				   (phrase_id == LAHELLA_ASTETTA_PHRASE_ID ||
 					phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
 					phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID))
 				  {
 					if(useDay2Phrase)
-					  sentence << HUOMENNA_NOIN_ASTETTA_COMPOSITE_PHRASE;
+					  {
+						  sentence << LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
+						  //						sentence << HUOMENNA_NOIN_ASTETTA_COMPOSITE_PHRASE;
+					  }
 					else
-					  sentence << LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
+					  {
+						sentence << LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
+					  }
 				  }
 				else
+				*/
 				  {
-					if(useDay2Phrase)
+					if(useDay2Phrase && !theParameters.theUseFrostExistsPhrase)
 					  {
 						if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
 						  sentence << HUOMENNA_NOIN_ASTETTA_COMPOSITE_PHRASE;
@@ -2279,24 +2271,59 @@ namespace TextGen
 						  sentence << HUOMENNA_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
 						else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 						  sentence << HUOMENNA_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
+
+						sentence << theDayPhasePhrase
+								 << theAreaPhrase
+								 << degreesSentence;
+
 					  }
 					else
 					  {
-						if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
-						  sentence << LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
-						else if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID)
-						  sentence << LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
-						else if(phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
-						  sentence << LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
-						else if(phrase_id == VAHAN_YLI_ASTETTA_PHRASE_ID)
-						  sentence << LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
-						else if(phrase_id == VAJAAT_ASTETTA_PHRASE_ID)
-						  sentence << LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
-						else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
-						  sentence << LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
+						/*
+						if(!useDay2Phrase && theParameters.theUseFrostExistsPhrase)
+						  {
+							if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
+							  sentence << PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
+							else if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID)
+							  sentence << PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
+							else if(phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+							  sentence << PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
+							else if(phrase_id == VAHAN_YLI_ASTETTA_PHRASE_ID)
+							  sentence << PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
+							else if(phrase_id == VAJAAT_ASTETTA_PHRASE_ID)
+							  sentence << PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
+							else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
+							  sentence << PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
+
+						  sentence << theDayPhasePhrase
+								   << theAreaPhrase
+								   << degreesSentence;
+						  }
+						else
+						*/
+						  {  
+						  if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
+							sentence << LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
+						  else if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID)
+							sentence << LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
+						  else if(phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+							sentence << LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
+						  else if(phrase_id == VAHAN_YLI_ASTETTA_PHRASE_ID)
+							sentence << LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
+						  else if(phrase_id == VAJAAT_ASTETTA_PHRASE_ID)
+							sentence << LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
+						  else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
+							sentence << LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
+
+						  sentence << theDayPhasePhrase
+								   << theAreaPhrase
+								   << theCoreStatementPhrase
+								   << degreesSentence;
+						  }
+						
 					  }
 				  }
-			
+				  /*
 				if(useDay2Phrase)
 				  sentence << theDayPhasePhrase
 						   << theAreaPhrase
@@ -2306,6 +2333,7 @@ namespace TextGen
 						   << theAreaPhrase
 						   << theCoreStatementPhrase
 						   << degreesSentence;
+				  */
 			  }	  
 		  }
 		  break;
@@ -2329,8 +2357,8 @@ namespace TextGen
 				else
 				  {
 
-					if(theParameters.theUseFrostExistsPhrase && 
-					   theParameters.theFrostExistsTautologyFlag == false)
+					if(theParameters.theUseFrostExistsPhrase)// && 
+					  //					   theParameters.theFrostExistsTautologyFlag == false)
 					  {
 						sentence << PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
 								 << theDayPhasePhrase
@@ -2363,9 +2391,21 @@ namespace TextGen
 			  }
 			else
 			  {
-				sentence << daySentence;
-				sentence << temperature_phrase(theParameters);
-				sentence << temperatureSentence;
+				if(useDay2Phrase)
+				  {
+					sentence << HUOMENNA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
+							 << theDayPhasePhrase
+							 << theAreaPhrase
+							 << temperatureSentence;
+				  }
+				else
+				  {
+					sentence << LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
+							 << theDayPhasePhrase
+							 << theAreaPhrase
+							 << theCoreStatementPhrase
+							 << temperatureSentence;
+				  }
 			  }
 		  }
 		  break;
@@ -2476,8 +2516,6 @@ namespace TextGen
 														  intervalUsed,
 														  intervalStart,
 														  intervalEnd);
-
-			  // temperatureSentence << temperature_sentence(theParameters);
 			}
 		}
 	  else
@@ -2486,8 +2524,6 @@ namespace TextGen
 													  intervalUsed,
 													  intervalStart,
 													  intervalEnd);
-
-		  //temperatureSentence << temperature_sentence(theParameters);
 		}
 
 	  Sentence tonightSentence;
@@ -2505,11 +2541,6 @@ namespace TextGen
 											intervalStart,
 											intervalEnd);
 
-	  /*	  
-	  sentence << temperature_phrase(theParameters);
-
-	  sentence << temperatureSentence;
-	  */
 
 	  theParameters.theTomorrowTautologyFlag = false;
 
@@ -2604,7 +2635,6 @@ namespace TextGen
 														  intervalStart,
 														  intervalEnd);
 
-			  //temperatureSentence << temperature_sentence(theParameters);
 			}
 		}
 	  else
@@ -2613,10 +2643,8 @@ namespace TextGen
 													  intervalUsed,
 													  intervalStart,
 													  intervalEnd);
-
-			  //		  temperatureSentence << temperature_sentence(theParameters);
 		}
-	  
+
   	  Sentence nextDaySentence;
 
 	  // exception: inland and coastal separated and morning and afternoon separated and now we are processing
@@ -2643,7 +2671,6 @@ namespace TextGen
 	  
 	  if(!nextDaySentence.empty())
 		theParameters.theTomorrowTautologyFlag = true;
-
 
 	  sentence <<  construct_final_sentence(theParameters,
 											temperatureSentence,
@@ -3055,6 +3082,31 @@ namespace TextGen
 	  return sentence;
 	}
 
+	const void get_interval_details(t36hparams& theParameters,
+									const float& minValue, 
+									const float& meanValue, 
+									const float& maxValue, 
+									bool& intervalUsed,
+									int& intervalStart,
+									int& intervalEnd)
+	{
+	  int min = static_cast<int>(round(minValue));
+	  int mean = static_cast<int>(round(meanValue));
+	  int max = static_cast<int>(round(maxValue));
+
+	  TemperatureStoryTools::temperature_sentence2(min,
+												   mean,
+												   max,
+												   theParameters.theMinInterval,
+												   theParameters.theZeroIntervalFlag,
+												   intervalUsed,
+												   intervalStart,
+												   intervalEnd,
+												   theParameters.theRangeSeparator,
+												   true);
+	}
+
+
 	const Paragraph temperature_max36hours_sentence(t36hparams& theParameters)
 	{
 	  Paragraph paragraph;
@@ -3130,16 +3182,64 @@ namespace TextGen
 	  bool separate_inland_and_coast_day1 = false;
 	  bool separate_inland_and_coast_day2 = false;
 	  bool separate_inland_and_coast_night = false;
+	  bool intervalUsedInland(false);
+	  bool intervalUsedCoast(false);
+	  int intervalStartInland;
+	  int intervalEndInland;
+	  int intervalStartCoast;
+	  int intervalEndCoast;
+	  
+
+
 
 	  if(theParameters.theWeatherResults[INLAND_MEAN_DAY1]->value() != kFloatMissing &&
 		 theParameters.theWeatherResults[COAST_MEAN_DAY1]->value() != kFloatMissing &&
 		 !(theParameters.theSeasonId == WINTER_SEASON && 
 		   theParameters.theWeatherResults[COAST_MEAN_DAY1]->value() <= COASTAL_AREA_IGNORE_LIMIT))
 		{
+		  intervalUsedInland = false;
+		  intervalUsedCoast = false;
+
+		  get_interval_details(theParameters,
+							   theParameters.theWeatherResults[INLAND_MIN_DAY1]->value(),
+							   theParameters.theWeatherResults[INLAND_MEAN_DAY1]->value(),
+							   theParameters.theWeatherResults[INLAND_MAX_DAY1]->value(),
+							   intervalUsedInland,
+							   intervalStartInland,
+							   intervalEndInland);
+		  get_interval_details(theParameters,
+							   theParameters.theWeatherResults[COAST_MIN_DAY1]->value(),
+							   theParameters.theWeatherResults[COAST_MEAN_DAY1]->value(),
+							   theParameters.theWeatherResults[COAST_MAX_DAY1]->value(),
+							   intervalUsedCoast,
+							   intervalStartCoast,
+							   intervalEndCoast);
+
+
 		  float temperature_diff_day1 = abs(round(theParameters.theWeatherResults[INLAND_MEAN_DAY1]->value() - 
 												  theParameters.theWeatherResults[COAST_MEAN_DAY1]->value()));
+
+		  
+		  if(temperature_diff_day1 >= temperature_limit_coast_inland &&
+			 !theParameters.theCoastalAndInlandTogetherFlag)
+			{
+			  if(intervalUsedInland && intervalUsedCoast)
+				{
+				  if(abs(round(intervalStartCoast-intervalStartInland)) +
+					 abs(round(intervalEndCoast-intervalEndInland)) >= temperature_limit_coast_inland)
+					separate_inland_and_coast_day1 = true;
+				}
+			  else
+				{
+				  separate_inland_and_coast_day1 = true;
+				}
+			}
+		  
+		  /*
 		  separate_inland_and_coast_day1 = (temperature_diff_day1 >= temperature_limit_coast_inland) &&
 			!theParameters.theCoastalAndInlandTogetherFlag;
+		  */
+		  
 		}
 
 	  if(theParameters.theWeatherResults[INLAND_MEAN_DAY2]->value() != kFloatMissing &&
@@ -3147,10 +3247,46 @@ namespace TextGen
 		 !(theParameters.theSeasonId == WINTER_SEASON && 
 		   theParameters.theWeatherResults[COAST_MEAN_DAY2]->value() <= COASTAL_AREA_IGNORE_LIMIT))
 		{
+		  intervalUsedInland = false;
+		  intervalUsedCoast = false;
+
+		  get_interval_details(theParameters,
+							   theParameters.theWeatherResults[INLAND_MIN_DAY2]->value(),
+							   theParameters.theWeatherResults[INLAND_MEAN_DAY2]->value(),
+							   theParameters.theWeatherResults[INLAND_MAX_DAY2]->value(),
+							   intervalUsedInland,
+							   intervalStartInland,
+							   intervalEndInland);
+		  get_interval_details(theParameters,
+							   theParameters.theWeatherResults[COAST_MIN_DAY2]->value(),
+							   theParameters.theWeatherResults[COAST_MEAN_DAY2]->value(),
+							   theParameters.theWeatherResults[COAST_MAX_DAY2]->value(),
+							   intervalUsedCoast,
+							   intervalStartCoast,
+							   intervalEndCoast);
+
 		  float temperature_diff_day2 = abs(theParameters.theWeatherResults[INLAND_MEAN_DAY2]->value() - 
 											theParameters.theWeatherResults[COAST_MEAN_DAY2]->value());
+
+		  if(temperature_diff_day2 >= temperature_limit_coast_inland &&
+			 !theParameters.theCoastalAndInlandTogetherFlag)
+			{
+			  if(intervalUsedInland && intervalUsedCoast)
+				{
+				  if(abs(round(intervalStartCoast-intervalStartInland)) +
+					 abs(round(intervalEndCoast-intervalEndInland)) >= temperature_limit_coast_inland)
+					separate_inland_and_coast_day2 = true;
+				}
+			  else
+				{
+				  separate_inland_and_coast_day2 = true;
+				}
+			}
+
+		  /*
 		  separate_inland_and_coast_day2 = (temperature_diff_day2 >= temperature_limit_coast_inland) &&
 			!theParameters.theCoastalAndInlandTogetherFlag;
+		  */
 		}
 
 	  if(theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value() != kFloatMissing &&
@@ -3158,10 +3294,46 @@ namespace TextGen
 		 !(theParameters.theSeasonId == WINTER_SEASON && 
 		   theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value() <= COASTAL_AREA_IGNORE_LIMIT))
 		{
+		  intervalUsedInland = false;
+		  intervalUsedCoast = false;
+
+		  get_interval_details(theParameters,
+							   theParameters.theWeatherResults[INLAND_MIN_NIGHT]->value(),
+							   theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value(),
+							   theParameters.theWeatherResults[INLAND_MAX_NIGHT]->value(),
+							   intervalUsedInland,
+							   intervalStartInland,
+							   intervalEndInland);
+		  get_interval_details(theParameters,
+							   theParameters.theWeatherResults[COAST_MIN_NIGHT]->value(),
+							   theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value(),
+							   theParameters.theWeatherResults[COAST_MAX_NIGHT]->value(),
+							   intervalUsedCoast,
+							   intervalStartCoast,
+							   intervalEndCoast);
+
 		  float temperature_diff_night = abs(theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value() - 
 											 theParameters.theWeatherResults[COAST_MEAN_NIGHT]->value());
+
+		  if(temperature_diff_night >= temperature_limit_coast_inland &&
+			 !theParameters.theCoastalAndInlandTogetherFlag)
+			{
+			  if(intervalUsedInland && intervalUsedCoast)
+				{
+				  if(abs(round(intervalStartCoast-intervalStartInland)) +
+					 abs(round(intervalEndCoast-intervalEndInland)) >= temperature_limit_coast_inland)
+					separate_inland_and_coast_night = true;
+				}
+			  else
+				{
+				  separate_inland_and_coast_night = true;
+				}
+			}
+
+		  /*
 		  separate_inland_and_coast_night = (temperature_diff_night >= temperature_limit_coast_inland) &&
 			!theParameters.theCoastalAndInlandTogetherFlag;
+		  */
 		}
 
 	  if(processingOrder == DAY1_DAY2_NIGHT)
@@ -3770,7 +3942,10 @@ namespace TextGen
 	  coastalPercentage < separate_coastal_area_percentage;
 
 	if(parameters.theCoastalAndInlandTogetherFlag)
-	  log << "Inland and coastal area(" << coastalPercentage << ") not separated!" << endl;
+	  {
+		log << "Inland and coastal area(" << coastalPercentage << ") not separated:" << endl;
+		log << "Coastal proportion: " << coastalPercentage << endl;
+	  }
 
 	parameters.theRangeSeparator = range_separator;
 	parameters.theMinInterval = mininterval;

@@ -42,7 +42,7 @@ namespace TextGen
 #define ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE "[sisämaassa] alavilla mailla hallan vaara"
 #define MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE  "[rannikolla] mahdollisesti hallaa"
 #define PAIKOIN_HALLAA_COMPOSITE_PHRASE "[rannikolla] [paikoin] hallaa"
-#define PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE "[rannikolla] [paikoin] hallaa, joka voi olla ankar"
+#define PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE "[rannikolla] [paikoin] hallaa, joka voi olla ankaraa"
 
 	enum frost_category{CAT_NA,
 						CAT_0010, 

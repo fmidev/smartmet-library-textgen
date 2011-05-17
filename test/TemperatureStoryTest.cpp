@@ -53,8 +53,12 @@ namespace TemperatureStoryTest
 	if(value != theExpected)
 	  {
 		const string msg = value + " <> " + theExpected;
-					cout << endl << msg << endl << endl;
-					//TEST_FAILED(msg.c_str());
+		cout << endl << msg << endl << endl;
+		//		TEST_FAILED(msg.c_str());
+	  }
+	else
+	  {
+		cout << "PASSED!!" << endl;
 	  }
   }
 
@@ -4382,7 +4386,7 @@ void delete_testcases(TestCaseContainer& testCases)
 	NFmiSettings::Set("max36hours::day::endhour","18");
 	NFmiSettings::Set("max36hours::night::starthour","18");
 	NFmiSettings::Set("max36hours::night::endhour","6");
-	NFmiSettings::Set("max36hours::fake::area_percentage", "1.0");
+	NFmiSettings::Set("max36hours::fake::area_percentage", "10.0");
 	//	NFmiSettings::Set("qdtext::forecasttime","200901010615");
 	//NFmiSettings::Set("textgen::main_forecast", "/home/reponen/work/testdata/200904300654_pal_skandinavia_pinta.sqd");
 

@@ -942,11 +942,16 @@ namespace TextGen
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 && 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << EMPTY_STRING
+								   << HYVIN_TUULINEN_PHRASE;
+						  /*
 						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
 								   << specifiedDay
 								   << SISAMAASSA_WORD
 								   << HYVIN_TUULISTA_PHRASE;
-
+						  */
 						  /*
 						  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay << HYVIN_WORD << TUULISTA_WORD;
 						  */
@@ -980,10 +985,16 @@ namespace TextGen
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 && 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+								   << specifiedDay
+								   << EMPTY_STRING
+								   << HYVIN_TUULINEN_PHRASE;
+						  /*
 						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
 								   << specifiedDay
 								   << SISAMAASSA_WORD
 								   << HYVIN_TUULISTA_PHRASE;
+						  */
 
 						  /*
 						  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
@@ -1083,14 +1094,20 @@ namespace TextGen
 					}
 				  else if(windspeedAfternoonCoastal >= windy_weather_limit) // rannikolla on iltapäivällä tuulista
 					{
-					  // sisämaassa aamulla tai iltapäivällä hyvin tuulista tai lähellä sitä
+					  // sisämaassa aamulla ja iltapäivällä hyvin tuulista tai lähellä sitä
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 && 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
-						  sentence << ON_TUULISTA_COMPOSITE_PHRASE
+						  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
 								   << specifiedDay
-								   << SISAMAASSA_WORD
-								   << HYVIN_TUULISTA_PHRASE;
+								   << EMPTY_STRING
+								   << HYVIN_TUULINEN_PHRASE;
+						  /*
+							sentence << ON_TUULISTA_COMPOSITE_PHRASE
+							<< specifiedDay
+							<< SISAMAASSA_WORD
+							<< HYVIN_TUULISTA_PHRASE;
+						  */
 						  /*
 						  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
 								   << HYVIN_WORD << TUULISTA_WORD;
@@ -1140,7 +1157,7 @@ namespace TextGen
 																		extremely_windy_weather_limit,
 																		theSpecifiedDay,
 																		dayNumber,
-																		SISAMAASSA_WORD,
+																		EMPTY_STRING,
 																		aamupaivalla,
 																		iltapaivalla);
 					}
@@ -1180,10 +1197,16 @@ namespace TextGen
 				{// rannikolla aamulla tuulista
 				  if(windspeedMorningInland >= extremely_windy_weather_limit)
 					{
+					  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << EMPTY_STRING
+							   << HYVIN_TUULINEN_PHRASE;
+					  /*
 					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
 							   << specifiedDay
 							   << SISAMAASSA_WORD
 							   << HYVIN_TUULISTA_PHRASE;
+					  */
 
 					  /*
 					  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
@@ -1217,10 +1240,16 @@ namespace TextGen
 				{ // rannikolla ei ole aamulla erityisen tuulista
 				  if(windspeedMorningInland >= extremely_windy_weather_limit)
 					{
+					  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << EMPTY_STRING
+							   << HYVIN_TUULINEN_PHRASE;
+					  /*
 					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
 							   << specifiedDay
 							   << SISAMAASSA_WORD
 							   << HYVIN_TUULISTA_PHRASE;
+					  */
 					  /*
 					  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
 							   << HYVIN_WORD << TUULISTA_WORD;
@@ -1228,10 +1257,16 @@ namespace TextGen
 					}
 				  else if(windspeedMorningInland >= windy_weather_limit - 0.5)
 					{
+					  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << EMPTY_STRING
+							   << TUULINEN_WORD;
+					  /*
 					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
 							   << specifiedDay
 							   << SISAMAASSA_WORD
 							   << TUULISTA_WORD;
+					  */
 					  /*
 					  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
 							   << TUULISTA_WORD;
@@ -1272,10 +1307,16 @@ namespace TextGen
 				{// rannikolla iltapäivällä tuulista
 				  if(windspeedAfternoonInland >= extremely_windy_weather_limit)
 					{
+					  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << EMPTY_STRING
+							   << HYVIN_TUULINEN_PHRASE;
+					  /*
 					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
 							   << specifiedDay
 							   << SISAMAASSA_WORD
 							   << HYVIN_TUULISTA_PHRASE;
+					  */
 					  /*
 					  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
 							   << HYVIN_WORD << TUULISTA_WORD;
@@ -1308,10 +1349,17 @@ namespace TextGen
 				{ // rannikolla ei ole iltapäivällä erityisen tuulista
 				  if(windspeedAfternoonInland >= extremely_windy_weather_limit)
 					{
+					  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << EMPTY_STRING
+							   << HYVIN_TUULINEN_PHRASE;
+
+					  /*
 					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
 							   << specifiedDay
 							   << SISAMAASSA_WORD
 							   << HYVIN_TUULISTA_PHRASE;
+					  */
 					  /*
 					  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
 							   << HYVIN_WORD << TUULISTA_WORD;
@@ -1319,10 +1367,16 @@ namespace TextGen
 					}
 				  else if(windspeedAfternoonInland >= windy_weather_limit - 0.5)
 					{
+					  sentence << SAA_ON_TUULISTA_COMPOSITE_PHRASE
+							   << specifiedDay
+							   << EMPTY_STRING
+							   << TUULINEN_WORD;
+					  /*
 					  sentence << ON_TUULISTA_COMPOSITE_PHRASE
 							   << specifiedDay
 							   << SISAMAASSA_WORD
 							   << TUULISTA_WORD;
+					  */
 					  /*
 					  sentence << SISAMAASSA_WORD << ON_WORD << theSpecifiedDay 
 							   << TUULISTA_WORD;
@@ -1358,11 +1412,6 @@ namespace TextGen
 
 	  return sentence;
 	}
-
-	//#define ON_TUULISTA_COMPOSITE_PHRASE "[1-iltapäivällä] [rannikolla] on [tuulista]"
-	//#define SAA_ON_TUULISTA_COMPOSITE_PHRASE "sää on [1-iltapäivällä] [rannikolla] [tuulista]"
-	//#define PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[1-iltapäivällä] [rannikolla] [pakkanen on purevaa]"
-	//#define TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE "[1-iltapäivällä] [rannikolla] [pakkanen on purevaa]"	
 
 	const Sentence windiness_sentence(const wind_anomaly_params& theParameters)
 	{

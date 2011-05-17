@@ -27,6 +27,8 @@ namespace TextGen
   {
 
 	boost::shared_ptr<Sentence> create(Units theUnit);
+	boost::shared_ptr<Sentence> create(Units theUnit, int value);
+
 
   } // namespace NumberFactory
 } // namespace TextGen

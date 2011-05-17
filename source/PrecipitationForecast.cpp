@@ -51,8 +51,11 @@ namespace TextGen
   using namespace boost;
   using namespace std;
 
-#define SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on enimm‰kseen poutainen, [sadekuurot mahdollisia]"
+#define SAA_ON_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on poutainen"
+#define SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on enimm‰kseen poutainen, [yksitt‰iset sadekuurot mahdollisia]"
 #define PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta]"
+#define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
 
   std::ostream& operator<<(std::ostream& theOutput,
 						   const PrecipitationDataItemData& thePrecipitationDataItemData)
@@ -242,11 +245,11 @@ namespace TextGen
 	  {
 		if(thePluralFlag)
 		  {
-			theCompositePhraseElements[JAATAVYYS_PARAMETER] << JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE;
+			theCompositePhraseElements[JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE] << SAA_WORD;
 		  }
 		else
 		  {
-			theCompositePhraseElements[JAATAVYYS_PARAMETER] << JOKA_VOI_OLLA_JAATAVAA_PHRASE;
+			theCompositePhraseElements[JOKA_VOI_OLLA_JAATAVAA_PHRASE] << SAA_WORD;
 		  }
 	  }
   }
@@ -363,17 +366,17 @@ namespace TextGen
 	  {
 		can_be_freezing_phrase(theCanBeFreezingFlag, theCompositePhraseElements, true);
 
-		theCompositePhraseElements[PRECIPITATION_PARAMETER] << LUMI_TAVUVIIVA_WORD << TAI_WORD << VESIKUUROJA_WORD;
+		theCompositePhraseElements[PRECIPITATION_PARAMETER] << LUMI_TAI_VESIKUUROJA_PHRASE;
 	  }
 	else
 	  {
 		if(theWaterDrizzleSleetShare > MAJORITY_LIMIT)
 		  {
-			theCompositePhraseElements[PRECIPITATION_PARAMETER] << VESI_TAVUVIIVA_WORD << TAI_WORD << LUMIKUUROJA_WORD;
+			theCompositePhraseElements[PRECIPITATION_PARAMETER] << VESI_TAI_LUMIKUUROJA_PHRASE;
 		  }
 		else
 		  {
-			theCompositePhraseElements[PRECIPITATION_PARAMETER] << LUMI_TAVUVIIVA_WORD << TAI_WORD << VESIKUUROJA_WORD;
+			theCompositePhraseElements[PRECIPITATION_PARAMETER] << LUMI_TAI_VESIKUUROJA_PHRASE;
 		  }
 	  }
   }
@@ -531,7 +534,6 @@ namespace TextGen
 							 << precipitation_form_string(static_cast<precipitation_form_id>(thePrecipitationForm)) 
 							 << endl;
 
-		
 		if(!(thePrecipitationIntensity >= theParameters.theDryWeatherLimitSnow && mostly_dry_weather))
 		  theCompositePhraseElements[PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE] << SAA_WORD;
 
@@ -830,16 +832,12 @@ namespace TextGen
 						  if(thePrecipitationFormWater >= thePrecipitationFormSleet && !can_be_freezing)
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] 
-								<< VESI_TAVUVIIVA_WORD
-								<< TAI_WORD
-								<< RANTAKUUROJA_WORD;
+								<< VESI_TAI_RANTAKUUROJA_PHRASE;
 							}
 						  else
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] 
-								<< RANTA_TAVUVIIVA_WORD
-								<< TAI_WORD
-								<< VESIKUUROJA_WORD;
+								<< RANTA_TAI_VESIKUUROJA_PHRASE;
 							}
 						  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, true);
 						}
@@ -848,16 +846,12 @@ namespace TextGen
 						  if(thePrecipitationFormWater >= thePrecipitationFormSleet)
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] 
-								<< VESI_TAVUVIIVA_WORD
-								<< TAI_WORD
-								<< RANTASADETTA_WORD;
+								<< VESI_TAI_RANTASADETTA_PHRASE;
 							}
 						  else
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] 
-								<< RANTA_TAVUVIIVA_WORD
-								<< TAI_WORD
-								<< VESISADETTA_WORD;
+								<< RANTA_TAI_VESISADETTA_PHRASE;
 							}
 						  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
 						}
@@ -912,8 +906,6 @@ IF vesi on suunnilleen yht‰ paljon kuin lumi AND r‰nt‰ < vesi+lumi, THEN
 vesi- tai lumisadetta.
   */
 
-
-
 						  if(thePrecipitationIntensity <  theParameters.theWeakPrecipitationLimitSnow &&
 							 thePrecipitationIntensityAbsoluteMax < theParameters.theHeavyPrecipitationLimitSnow)
 							{
@@ -927,16 +919,12 @@ vesi- tai lumisadetta.
 						  if(thePrecipitationFormWater >= thePrecipitationFormSnow)
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] 
-								<< VESI_TAVUVIIVA_WORD
-								<< TAI_WORD
-								<< LUMISADETTA_WORD;
+								<< VESI_TAI_LUMISADETTA_PHRASE;
 							}
 						  else
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] 
-								<< LUMI_TAVUVIIVA_WORD
-								<< TAI_WORD
-								<< VESISADETTA_WORD;
+								<< LUMI_TAI_VESISADETTA_PHRASE;
 
 							  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
 							}
@@ -994,18 +982,14 @@ vesi- tai lumisadetta.
 						  if(thePrecipitationFormSnow >= thePrecipitationFormSleet)
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER]
-								<< LUMI_TAVUVIIVA_WORD
-								<< TAI_WORD
-								<< RANTASADETTA_WORD;
+								<< LUMI_TAI_RANTASADETTA_PHRASE;
 
 							  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
 							}
 						  else
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER]
-								<< RANTASADETTA_WORD
-								<< TAI_WORD
-								<< LUMISADETTA_WORD;
+								<< RANTA_TAI_LUMISADETTA_PHRASE;
 							}
 						}
 					}
@@ -1596,6 +1580,51 @@ vesi- tai lumisadetta.
 	return retval;
   }
 
+  // this should be more detailed
+  bool PrecipitationForecast::reportPrecipitationFormsSeparately(const precipitation_form_id& form1,
+																 const precipitation_form_id& form2) const
+  {
+	if((form1 == WATER_FORM &&
+		(form2 == SLEET_FORM ||
+		 form2 == SNOW_FORM ||
+		 form2 == FREEZING_FORM)) ||
+	   (form2 == WATER_FORM &&
+		(form1 == SLEET_FORM ||
+		 form1 == SNOW_FORM ||
+		 form1 == FREEZING_FORM)))
+	  return true;
+	else if((form1 == SLEET_FORM &&
+			 (form2 == WATER_FORM ||
+			  form2 == SNOW_FORM ||
+			 form2 == FREEZING_FORM)) ||
+			(form2 == SLEET_FORM &&
+			 (form1 == WATER_FORM ||
+			  form1 == SNOW_FORM ||
+			 form1 == FREEZING_FORM)))
+	  return true;
+	else if((form1 == SNOW_FORM &&
+			(form2 == WATER_FORM ||
+			 form2 == SLEET_FORM ||
+			 form2 == FREEZING_FORM)) ||
+			(form2 == SNOW_FORM &&
+			(form1 == WATER_FORM ||
+			 form1 == SLEET_FORM ||
+			 form1 == FREEZING_FORM)))
+	  return true;
+	else if((form1 == FREEZING_FORM &&
+			(form2 == WATER_FORM ||
+			 form2 == SLEET_FORM ||
+			 form2 == SNOW_FORM)) ||
+			(form2 == FREEZING_FORM &&
+			(form1 == WATER_FORM ||
+			 form1 == SLEET_FORM ||
+			 form1 == SNOW_FORM)))
+	  return true;
+	
+	return false;
+  }
+
+
   bool PrecipitationForecast::separateCoastInlandPrecipitation(const WeatherPeriod& theWeatherPeriod) const
   {
 	if(!(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA) ||
@@ -1605,16 +1634,41 @@ vesi- tai lumisadetta.
 	float coastalPrecipitation = getMean(theCoastalData, PRECIPITATION_MEAN_DATA, theWeatherPeriod);
 	float inlandPrecipitation = getMean(theInlandData, PRECIPITATION_MEAN_DATA, theWeatherPeriod);
 
-	unsigned int coastalPrecipitationForm = getPrecipitationForm(theWeatherPeriod, COASTAL_AREA);
-	unsigned int inlandPrecipitationForm = getPrecipitationForm(theWeatherPeriod, INLAND_AREA);
+	precipitation_form_id coastalPrecipitationForm = getPrecipitationForm(theWeatherPeriod, COASTAL_AREA);
+	precipitation_form_id inlandPrecipitationForm = getPrecipitationForm(theWeatherPeriod, INLAND_AREA);
+	
+	bool precipitationFormsDiffer = reportPrecipitationFormsSeparately(inlandPrecipitationForm,
+																	   coastalPrecipitationForm);
+	bool retval;
 
 	if(((coastalPrecipitation < 0.04 && inlandPrecipitation > 0.4) ||
 		(coastalPrecipitation > 0.4 && inlandPrecipitation < 0.04)) ||
 	   ((inlandPrecipitation > 0.04 && coastalPrecipitation > 0.04) &&
-		coastalPrecipitationForm != inlandPrecipitationForm))
-	  return true;
+		precipitationFormsDiffer))
+	  {
+		retval = true;
+		theParameters.theLog << "Coastal and Inland precipitation reported separately:" << endl;
+	  }
+	else
+	  {
+		retval = false;
+		theParameters.theLog << "Coastal and Inland precipitation reported together:" << endl;
+	  }
 
-	return false;
+	theParameters.theLog << "Coastal: "
+						 << coastalPrecipitation
+						 << "("
+						 << precipitation_form_string(coastalPrecipitationForm)
+						 << ")"
+						 << "; Inland: "
+						 << inlandPrecipitation
+						 << "("
+						 << precipitation_form_string(inlandPrecipitationForm)
+						 << ")"
+						 << endl;
+
+
+	return retval;
   }
 
 
@@ -2481,9 +2535,12 @@ vesi- tai lumisadetta.
   {
 	Sentence sentence;
 
+
 	if(theCompositePhraseElements.find(PLAIN_PRECIPITATION_PHRASE) != theCompositePhraseElements.end())
 	  {
-		sentence << thePeriodPhrase << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
+		sentence << thePeriodPhrase
+				 << theAreaPhrase 
+				 << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
 	  }
 	else
 	  {
@@ -2512,8 +2569,8 @@ vesi- tai lumisadetta.
 		else
 		  inPlacesPhrase << theCompositePhraseElements[IN_PLACES_PARAMETER];
 
-		//		theParameters.theLog << "periodPhrase: ";
-		//	theParameters.theLog << periodPhrase;		
+		theParameters.theLog << "periodPhrase: ";
+		theParameters.theLog << periodPhrase;		
 		theParameters.theLog << "area: ";
 		theParameters.theLog << theAreaPhrase;
 		theParameters.theLog << "intensity: ";
@@ -2522,7 +2579,7 @@ vesi- tai lumisadetta.
 		theParameters.theLog << precipitation;
 		theParameters.theLog << "inPlacesPhrase: ";
 		theParameters.theLog << inPlacesPhrase;
-
+		
 		if(theCompositePhraseElements.find(SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE)
 		   != theCompositePhraseElements.end())
 		  {
@@ -2530,31 +2587,47 @@ vesi- tai lumisadetta.
 					 << periodPhrase
 					 << theAreaPhrase
 					 << precipitation;
-			theParameters.theLog << "SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE" << endl;
 		  }
 		else
 		  {
-			sentence << PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE
-					 << periodPhrase
-					 << theAreaPhrase
-					 << inPlacesPhrase
-					 << intensity
-					 << precipitation;
+			if(theCompositePhraseElements.find(SAA_ON_POUTAINEN_PHRASE) != theCompositePhraseElements.end())
+			  {
+				sentence << SAA_ON_POUTAINEN_COMPOSITE_PHRASE
+						 << periodPhrase
+						 << theAreaPhrase;
+			  }
+			else
+			  {
+				if(theCompositePhraseElements.find(JOKA_VOI_OLLA_JAATAVAA_PHRASE) != theCompositePhraseElements.end())
+				  sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE;
+				else if(theCompositePhraseElements.find(JOKA_VOI_OLLA_JAATAVAA_PHRASE) != theCompositePhraseElements.end())
+				  sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE;
+				else
+				  sentence << PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE;
+
+				sentence << periodPhrase
+						 << theAreaPhrase
+						 << inPlacesPhrase
+						 << intensity
+						 << precipitation;
+			  }
+
+			/*
 
 			if(theCompositePhraseElements.find(JAATAVYYS_PARAMETER) 
 			   != theCompositePhraseElements.end())
 			  {
 				sentence << Delimiter(",") << theCompositePhraseElements[JAATAVYYS_PARAMETER];
 			  }
-
-			theParameters.theLog << "PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE" << endl;
+			*/
 		  }
 	  }
-		theParameters.theLog << "FINAL SENTENCE: ";
-		theParameters.theLog << sentence;
 
-	  return sentence;
-  }
+	theParameters.theLog << "FINAL SENTENCE: ";
+	theParameters.theLog << sentence;
+	
+  return sentence;
+}
 
   Sentence  PrecipitationForecast::constructPrecipitationSentence(const WeatherPeriod& thePeriod,
 																  const Sentence& thePeriodPhrase,
@@ -2579,7 +2652,6 @@ vesi- tai lumisadetta.
 	  {
 		if(separateCoastInlandPrecipitation(thePeriod))
 		  {
-			//sentence << INLAND_PHRASE;
 			sentence << constructPrecipitationSentence(thePeriod,
 													   thePeriodPhrase,
 													   INLAND_AREA,
@@ -2590,7 +2662,7 @@ vesi- tai lumisadetta.
 			InPlacesPhrase::Instance()->preventTautology(true);
 
 			sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-			//sentence << COAST_PHRASE;
+
 			sentence << constructPrecipitationSentence(thePeriod,
 													   thePeriodPhrase,
 													   COASTAL_AREA,
@@ -2714,7 +2786,7 @@ vesi- tai lumisadetta.
 										  precipitationExtent);
 		
 		bool mostly_dry_weather = precipitationExtent <= theParameters.theMostlyDryWeatherLimit;
-		
+
 		if(!dry_weather && !mostly_dry_weather)
 		  {
 			//sentence << areaSpecificSentence(thePeriod);

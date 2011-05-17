@@ -223,6 +223,8 @@ using namespace std;
 				  const WeatherPeriod& theWeatherPeriod,
 				  const stat_func_id& theStatFunc) const;
 
+	bool reportPrecipitationFormsSeparately(const precipitation_form_id& form1,
+											const precipitation_form_id& form2) const;
 
 	precipitation_data_vector theCoastalData;
     precipitation_data_vector theInlandData;

@@ -50,7 +50,7 @@ namespace TextGen
   using namespace std;
 
 #define PAIKOIN_SUMUA_COMPOSITE_PHRASE "[aamupäivällä] [rannikolla] [paikoin] sumua"
-#define PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE "[aamupäivällä] [rannikolla] [paikoin] sumua, joka"
+#define PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE "[aamupäivällä] [rannikolla] [paikoin] sumua, joka voi olla sakeaa"
 
   /*
   std::ostream& operator<<(std::ostream & theOutput,

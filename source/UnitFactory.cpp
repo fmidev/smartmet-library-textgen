@@ -57,6 +57,7 @@
 #include "Delimiter.h"
 #include "Sentence.h"
 #include "Settings.h"
+#include "Integer.h"
 #include "TextGenError.h"
 
 #include <string>
@@ -99,6 +100,44 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Return the DegreesCelsius sentence
+   *
+   * \param value The value
+   * \return The sentence
+   */
+  // ----------------------------------------------------------------------
+
+  boost::shared_ptr<TextGen::Sentence> degrees_celsius(int value)
+  {
+	using namespace TextGen;
+
+	const string var = "textgen::units::celsius::format";
+	const string opt = Settings::optional_string(var,"SI");
+
+	shared_ptr<Sentence> sentence(new Sentence);
+
+	if(opt == "SI")
+	  *sentence << Delimiter("\260C");
+	else if(opt == "phrase")
+	  {
+       if(value == 0)
+         *sentence << "0 astetta";
+       else if(value == 1)
+         *sentence << "1 aste";
+       else
+         *sentence << Integer(value) << "astetta";
+	  }
+	else if(opt == "none")
+	  ;
+	else
+	  throw TextGenError("Unknown format "+opt+" in variable "+var);
+
+	return sentence;
+
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Return the MetersPerSecond sentence
    *
    * \return The sentence
@@ -128,6 +167,44 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Return the MetersPerSecond sentence
+   *
+   * \param value The value
+   * \return The sentence
+   */
+  // ----------------------------------------------------------------------
+
+  boost::shared_ptr<TextGen::Sentence> meters_per_second(int value)
+  {
+	using namespace TextGen;
+
+	const string var = "textgen::units::meterspersecond::format";
+	const string opt = Settings::optional_string(var,"SI");
+
+	shared_ptr<Sentence> sentence(new Sentence);
+
+	if(opt == "SI")
+	  *sentence << "m/s";
+	else if(opt == "phrase")
+	  {
+      if(value == 0)
+         *sentence << "0 metriä sekunnissa";
+       else if(value == 1)
+         *sentence << "1 metri sekunnissa";
+       else
+         *sentence << Integer(value) << "metriä sekunnissa";
+	  }
+	else if(opt == "none")
+	  ;
+	else
+	  throw TextGenError("Unknown format "+opt+" in variable "+var);
+
+	return sentence;
+  }
+
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Return the Millimeters sentence
    *
    * \return The sentence
@@ -147,6 +224,43 @@ namespace
 	  *sentence << Delimiter("mm");
 	else if(opt == "phrase")
 	  *sentence << "millimetriä";
+	else if(opt == "none")
+	  ;
+	else
+	  throw TextGenError("Unknown format "+opt+" in variable "+var);
+
+	return sentence;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the Millimeters sentence
+   *
+   * \param value The value
+   * \return The sentence
+   */
+  // ----------------------------------------------------------------------
+
+  boost::shared_ptr<TextGen::Sentence> millimeters(int value)
+  {
+	using namespace TextGen;
+
+	const string var = "textgen::units::millimeters::format";
+	const string opt = Settings::optional_string(var,"SI");
+
+	shared_ptr<Sentence> sentence(new Sentence);
+
+	if(opt == "SI")
+	  *sentence << Delimiter("mm");
+	else if(opt == "phrase")
+	  {
+		if(value == 0)
+		  *sentence << "0 millimetriä";
+		else if(value == 1)
+		  *sentence << "1 millimetri";
+		else
+		  *sentence << Integer(value) << "millimetriä";
+	  }
 	else if(opt == "none")
 	  ;
 	else
@@ -185,6 +299,42 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Return the Percent sentence
+   *
+   * \param value The value
+   * \return The sentence
+   */
+  // ----------------------------------------------------------------------
+
+  boost::shared_ptr<TextGen::Sentence> percent(int value)
+  {
+	using namespace TextGen;
+
+	const string var = "textgen::units::percent::format";
+	const string opt = Settings::optional_string(var,"SI");
+
+	shared_ptr<Sentence> sentence(new Sentence);
+
+	if(opt == "SI")
+	  *sentence << Delimiter("%");
+	else if(opt == "phrase")
+	  {
+		if(value == 0)
+		  *sentence << "0 prosenttia";
+		else if(value == 1)
+		  *sentence << "1 prosentti";
+		else
+		  *sentence << Integer(value) << "prosenttia";
+	  }
+	else if(opt == "none")
+	  ;
+	else
+	  throw TextGenError("Unknown format "+opt+" in variable "+var);
+	return sentence;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Return the HectoPascal sentence
    *
    * \return The sentence
@@ -211,6 +361,41 @@ namespace
 	return sentence;
   }
 
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the HectoPascal sentence
+   *
+   * \param value The value
+   * \return The sentence
+   */
+  // ----------------------------------------------------------------------
+
+  boost::shared_ptr<TextGen::Sentence> hectopascal(int value)
+  {
+	using namespace TextGen;
+
+	const string var = "textgen::units::hectopascal::format";
+	const string opt = Settings::optional_string(var,"SI");
+
+	shared_ptr<Sentence> sentence(new Sentence);
+
+	if(opt == "SI")
+	  *sentence << Delimiter("hPa");
+	else if(opt == "phrase")
+	  {
+		if(value == 0)
+		  *sentence << "0 hehtopascalia";
+		else if(value == 1)
+		  *sentence << "1 hehtopascal";
+		else
+		  *sentence << Integer(value) << "hehtopascalia";
+	  }
+	else if(opt == "none")
+	  ;
+	else
+	  throw TextGenError("Unknown format "+opt+" in variable "+var);
+	return sentence;
+  }
 }
 
 namespace TextGen
@@ -225,6 +410,7 @@ namespace TextGen
 	 * \brief Return the formatted sentence for the given unit
 	 *
 	 * \param theUnit The desired unit
+	 * \param value The value
 	 * \return The sentence
 	 */
 	// ----------------------------------------------------------------------
@@ -248,6 +434,36 @@ namespace TextGen
 	  throw TextGenError("UnitFactory::create failed - unknown unit");
 
 	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return the formatted sentence for the given unit
+	 *
+	 * \param theUnit The desired unit
+	 * \return The sentence
+	 */
+	// ----------------------------------------------------------------------
+
+	boost::shared_ptr<Sentence> create(Units theUnit, int value)
+	{
+	  switch(theUnit)
+		{
+		case DegreesCelsius:
+		  return degrees_celsius(value);
+		case MetersPerSecond:
+		  return meters_per_second(value);
+		case Millimeters:
+		  return millimeters(value);
+		case Percent:
+		  return percent(value);
+		case HectoPascal:
+		  return hectopascal(value);
+		}
+
+	  throw TextGenError("UnitFactory::create failed - unknown unit");
+
+	}
+
 
   } // namespace UnitFactory
 } // namespace TextGen
