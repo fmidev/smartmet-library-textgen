@@ -56,6 +56,7 @@ namespace TextGen
 #define PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta]"
 #define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
 #define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define SAA_POUTAANTUU_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu"
 
   std::ostream& operator<<(std::ostream& theOutput,
 						   const PrecipitationDataItemData& thePrecipitationDataItemData)
@@ -2277,7 +2278,9 @@ vesi- tai lumisadetta.
 
 	if(theWeatherEvent == POUTAANTUU || theWeatherEvent == POUTAANTUU_WHEN_EXTENT_SMALL)
 	  {
-		sentence << thePeriodPhrase << SAA_POUTAANTUU_PHRASE;
+		sentence << SAA_POUTAANTUU_COMPOSITE_PHRASE
+				 << thePeriodPhrase;
+
 		theDryPeriodTautologyFlag = true;
 	  }
 	else // sade alkaa
@@ -2572,7 +2575,7 @@ vesi- tai lumisadetta.
 		theParameters.theLog << "periodPhrase: ";
 		theParameters.theLog << periodPhrase;		
 		theParameters.theLog << "area: ";
-		theParameters.theLog << theAreaPhrase;
+		theParameters.theLog << theAreaPhrase << endl;
 		theParameters.theLog << "intensity: ";
 		theParameters.theLog << intensity;		
 		theParameters.theLog << "precipitation: ";
@@ -2792,7 +2795,9 @@ vesi- tai lumisadetta.
 			//sentence << areaSpecificSentence(thePeriod);
 			
 			Sentence thunderSentence;
-			thunderSentence << theParameters.theThunderForecast->thunderSentence(thePeriod);
+			thunderSentence << 
+			  theParameters.theThunderForecast->thunderSentence(thePeriod, 
+																static_cast<const forecast_area_id>(theForecastAreaId));
 			if(thunderSentence.size() > 0)
 			  {
 				sentence << JA_WORD;

@@ -53,6 +53,7 @@ using namespace std;
 	Sentence cloudinessSentence(const WeatherPeriod& thePeriod,	
 								const bool& theShortForm) const;
 	Sentence cloudinessSentence(const WeatherPeriod& thePeriod,
+								const bool& thePoutainenFlag,
 								const Sentence& thePeriodPhrase,
 								const bool& theShortForm) const;
 	/*

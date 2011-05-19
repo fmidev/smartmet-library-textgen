@@ -194,6 +194,33 @@ namespace
        else
          *sentence << Integer(value) << "metriä sekunnissa";
 	  }
+	else if(opt == "textphrase")
+	  {
+		if(value >= 1 && value <= 3)
+		  {
+			*sentence << "heikkoa" ;
+		  }
+		else if(value >= 4 && value <= 7)
+		  {
+			*sentence << "kohtalaista";
+		  }
+		else if(value >= 8 && value <= 13)
+		  {
+			*sentence << "navakkaa";
+		  }
+		else if(value >= 14 && value <= 20)
+		  {
+			*sentence << "kovaa";
+		  }
+		else if(value >= 21 && value <= 32)
+		  {
+			*sentence << "myrskyä";
+		  }
+		else if(value > 32)
+		  {
+			*sentence << "hirmumyrskyä";
+		  }
+	  }
 	else if(opt == "none")
 	  ;
 	else

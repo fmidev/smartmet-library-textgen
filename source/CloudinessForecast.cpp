@@ -46,8 +46,10 @@ namespace TextGen
   using namespace boost;
   using namespace std;
 
-#define PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[aamup‰iv‰ll‰] [rannikolla] s‰‰ vaihtelee puolipilvisest‰ pilviseen"
-#define SAA_ON_JOTAKIN_COMPOSITE_PHRASE "[aamup‰iv‰ll‰] [rannikolla] s‰‰ on [selke‰]"
+#define PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ vaihtelee puolipilvisest‰ pilviseen"
+#define PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ vaihtelee puolipilvisest‰ pilviseen ja on poutainen"
+#define SAA_ON_JOTAKIN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on [selke‰]"
+#define SAA_ON_JOTAKIN_JA_POUTAINENCOMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on [selke‰] ja poutainen"
 
   std::ostream& operator<<(std::ostream & theOutput,
 						   const CloudinessDataItemData& theCloudinessDataItemData)
@@ -100,6 +102,7 @@ namespace TextGen
   }
 
   Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId,
+							   const bool& thePoutainenFlag,
 							   const Sentence& thePeriodPhrase,
 							   const std::string& theAreaString,
 							   const bool& theShortForm) 
@@ -138,16 +141,27 @@ namespace TextGen
 	else
 	  {
 		if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
-		  sentence << PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE
-				   << thePeriodPhrase
-				   << theAreaString;
+		  {
+			if(thePoutainenFlag)
+			  sentence << PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE;
+			else
+			  sentence << PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE;
+			
+			sentence << thePeriodPhrase
+					 << theAreaString;
+		  }
 		else
-		  sentence << SAA_ON_JOTAKIN_COMPOSITE_PHRASE
-				   << thePeriodPhrase
-				   << theAreaString
-				   << cloudinessSentence;
-	  }
+		  {
+			if(thePoutainenFlag)
+			  sentence << SAA_ON_JOTAKIN_JA_POUTAINENCOMPOSITE_PHRASE;
+			else
+			  sentence << SAA_ON_JOTAKIN_COMPOSITE_PHRASE;
 
+			sentence << thePeriodPhrase
+					 << theAreaString
+					 << cloudinessSentence;
+		  }
+	  }
 	return sentence;
   }
 
@@ -872,6 +886,7 @@ namespace TextGen
   }
 
   Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
+												  const bool& thePoutainenFlag,
 												  const Sentence& thePeriodPhrase,
 												  const bool& theShortForm) const
   {
@@ -888,13 +903,15 @@ namespace TextGen
 		if(separateCoastInlandCloudiness(thePeriod))
 		  {
 			cloudinessSentence << COAST_PHRASE;
-			cloudinessSentence << cloudiness_sentence(coastalCloudinessId, 
+			cloudinessSentence << cloudiness_sentence(coastalCloudinessId,
+													  thePoutainenFlag,
 													  thePeriodPhrase, 
 													  COAST_PHRASE, 
 													  theShortForm);
 			cloudinessSentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			cloudinessSentence << INLAND_PHRASE;
 			cloudinessSentence << cloudiness_sentence(inlandCloudinessId, 
+													  thePoutainenFlag,
 													  thePeriodPhrase, 
 													  INLAND_PHRASE, 
 													  theShortForm);
@@ -902,6 +919,7 @@ namespace TextGen
 		else
 		  {
 			cloudinessSentence << cloudiness_sentence(fullAreaCloudinessId, 
+													  thePoutainenFlag,
 													  thePeriodPhrase, 
 													  EMPTY_STRING, 
 													  theShortForm);
@@ -910,6 +928,7 @@ namespace TextGen
 	else if(theParameters.theForecastArea & INLAND_AREA)
 	  {
 		cloudinessSentence << cloudiness_sentence(inlandCloudinessId, 
+												  thePoutainenFlag,
 												  thePeriodPhrase, 
 												  EMPTY_STRING, 
 												  theShortForm);
@@ -917,6 +936,7 @@ namespace TextGen
 	else if(theParameters.theForecastArea & COASTAL_AREA)
 	  {
 		cloudinessSentence << cloudiness_sentence(coastalCloudinessId, 
+												  thePoutainenFlag,
 												  thePeriodPhrase, 
 												  EMPTY_STRING, 
 												  theShortForm);		

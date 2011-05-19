@@ -20,20 +20,18 @@ using namespace std;
 
 	ThunderForecast(wf_story_params& parameters);
 		
-	Sentence thunderSentence(const WeatherPeriod& thePeriod) const;
+	Sentence thunderSentence(const WeatherPeriod& thePeriod,
+							 const forecast_area_id& theForecastAreaId) const;
 
   private:
 	
 	Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;
-	float getMaxThunderProbability(const WeatherPeriod& theWeatherPeriod,
-								   const weather_result_data_item_vector& theDataVector) const;
+	float getMaxValue(const WeatherPeriod& theWeatherPeriod,
+					  const weather_result_data_item_vector& theDataVector) const;
 
 
 	wf_story_params& theParameters;
 
-	const weather_result_data_item_vector* theCoastalData;
-	const weather_result_data_item_vector* theInlandData;
-	const weather_result_data_item_vector* theFullAreaData;
   };
 } // namespace TextGen
 

@@ -74,10 +74,15 @@ namespace TextGen
 #define PILVISTYVAA_WORD "pilvistyvää"
 #define SELKENEVAA_WORD "selkenevää"
 #define SAA_POUTAANTUU_PHRASE "sää poutaantuu"
-#define POUTAANTUUVAA_WORD "poutaantuvaa"
+  //#define POUTAANTUUVAA_WORD "poutaantuvaa"
 #define MAHDOLLISESTI_UKKOSTA_PHRASE "mahdollisesti ukkosta"
 #define PIENI_UKKOSEN_TODENNAKOISYYS_PHRASE "pieni ukkosen todennäköisyys"
 #define AJOITTAIN_UKKOSTA_PHRASE "ajoittain ukkosta"
+#define PAIKOIN_VOI_MYOS_UKKOSTAA_PHRASE "paikoin voi myös ukkostaa"
+#define PAIKOIN_MYOS_UKKOSTAA_PHRASE "paikoin myös ukkostaa"
+#define MAHDOLLISESTI_MYOS_UKKOSTAA_PHRASE "mahdollisesti myös ukkostaa"
+#define MYOS_UKKOSTA_ESIINTYY_PHRASE "myös ukkosta esiintyy"
+#define TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE "todennäköisesti myös ukkostaa"
 
 #define HEIKKOJA_SADEKUUROJA_PHRASE "heikkoja sadekuuroja"
 #define VOIMAKKAITA_SADEKUUROJA_PHRASE "voimakkaita sadekuuroja"
@@ -252,6 +257,7 @@ namespace TextGen
 	  PRECIPITATION_NORTHWEST_SHARE_DATA,
 	  PRECIPITATION_POINT_DATA,
 	  THUNDER_PROBABILITY_DATA,
+	  THUNDER_EXTENT_DATA,
 	  THUNDER_NORTHEAST_SHARE_DATA,
 	  THUNDER_SOUTHEAST_SHARE_DATA,
 	  THUNDER_SOUTHWEST_SHARE_DATA,

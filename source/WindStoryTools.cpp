@@ -169,12 +169,28 @@ namespace TextGen
 	{
 	  Sentence sentence;
 
-	  sentence << direction_sentence(theDirection,
-									 theVariable)
-			   << speed_range_sentence(theMinSpeed,
-									   theMaxSpeed,
-									   theMeanSpeed,
-									   theVariable);
+	  const string var = "textgen::units::meterspersecond::format";
+	  const string opt = Settings::optional_string(var,"SI");
+
+	  if(opt == "textphrase")
+		{
+		  int int_value(static_cast<int>(round(theMeanSpeed.value())));
+		  if(int_value >= 1)
+			{
+			  sentence << *UnitFactory::create(MetersPerSecond, int_value)
+					   << direction_sentence(theDirection,
+											 theVariable);
+			}			  
+		}
+	  else
+		{
+		  sentence << direction_sentence(theDirection,
+										 theVariable)
+				   << speed_range_sentence(theMinSpeed,
+										   theMaxSpeed,
+										   theMeanSpeed,
+										   theVariable);
+		}
 	  
 	  return sentence;
 	  

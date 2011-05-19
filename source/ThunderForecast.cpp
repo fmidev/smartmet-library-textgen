@@ -70,29 +70,14 @@ namespace TextGen
 
 
   ThunderForecast::ThunderForecast(wf_story_params& parameters):
-	theParameters(parameters),
-	theCoastalData(0),
-	theInlandData(0),
-	theFullAreaData(0)
+	theParameters(parameters)
   {
-	if(theParameters.theForecastArea & FULL_AREA)
-	  {
-		theFullAreaData = ((*theParameters.theCompleteData[FULL_AREA])[THUNDER_PROBABILITY_DATA]);
-	  }
-	if(theParameters.theForecastArea & COASTAL_AREA)
-	  {
-		theCoastalData = ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_PROBABILITY_DATA]);
-	  }
-	if(theParameters.theForecastArea & INLAND_AREA)
-	  {
-		theInlandData = ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_PROBABILITY_DATA]);
-	  }
   }
 
-  float ThunderForecast::getMaxThunderProbability(const WeatherPeriod& theWeatherPeriod,
-													 const weather_result_data_item_vector& theDataVector) const
+  float ThunderForecast::getMaxValue(const WeatherPeriod& theWeatherPeriod,
+									 const weather_result_data_item_vector& theDataVector) const
   {
-	float maxThunderProbability(0.0);
+	float maxValue(0.0);
 	for(unsigned int i = 0; i < theDataVector.size(); i++)
 	  {
 		if(theDataVector[i]->thePeriod.localStartTime() >= theWeatherPeriod.localStartTime() &&
@@ -100,55 +85,96 @@ namespace TextGen
 		   theDataVector[i]->thePeriod.localEndTime() >= theWeatherPeriod.localStartTime() &&
 		   theDataVector[i]->thePeriod.localEndTime() <= theWeatherPeriod.localEndTime())
 		  {
-			if(theDataVector[i]->theResult.value() > maxThunderProbability)
-			  maxThunderProbability = theDataVector[i]->theResult.value();
+			if(theDataVector[i]->theResult.value() > maxValue)
+			  maxValue = theDataVector[i]->theResult.value();
 		  }
 	  }
-	return maxThunderProbability;
+	return maxValue;
   }
 
-  Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod) const
+  Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
+											const forecast_area_id& theForecastAreaId) const
   {
 	Sentence sentence;
 
-	const weather_result_data_item_vector* theThunderData = 0;
+	const weather_result_data_item_vector* thunderProbabilityData = 0;
+	const weather_result_data_item_vector* thunderExtentData = 0;
 
-	if(theParameters.theForecastArea & FULL_AREA)
+	if(theForecastAreaId == FULL_AREA)
 	  {
-		theThunderData = theFullAreaData;
+		thunderProbabilityData = ((*theParameters.theCompleteData[FULL_AREA])[THUNDER_PROBABILITY_DATA]);
+		thunderExtentData = ((*theParameters.theCompleteData[FULL_AREA])[THUNDER_EXTENT_DATA]);
 	  }
-	if(theParameters.theForecastArea & COASTAL_AREA)
+	if(theForecastAreaId == COASTAL_AREA)
 	  {
-		theThunderData = theCoastalData;
+		thunderProbabilityData = ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_PROBABILITY_DATA]);
+		thunderExtentData = ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_EXTENT_DATA]);
 	  }
-	if(theParameters.theForecastArea & INLAND_AREA)
+	if(theForecastAreaId == INLAND_AREA)
 	  {
-		theThunderData = theInlandData;
+		thunderProbabilityData = ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_PROBABILITY_DATA]);
+		thunderExtentData = ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_EXTENT_DATA]);
 	  }
 
-	thunder_probability_id thunderId(NO_THUNDER);
-	float maxThunderProbability(0.0);
-
-	if(theThunderData)
+	if(thunderProbabilityData && thunderExtentData)
 	  {
-		maxThunderProbability = getMaxThunderProbability(thePeriod, *theThunderData);
+		//		thunder_probability_id thunderId(NO_THUNDER);
+		float maxThunderProbability(0.0);
+		float maxThunderExtent(0.0);
+
+		maxThunderProbability = getMaxValue(thePeriod, *thunderProbabilityData);
+		maxThunderExtent = getMaxValue(thePeriod, *thunderExtentData);
+
+		if(maxThunderExtent >= 0.1 && maxThunderExtent < 30.0)
+		  {
+			if(maxThunderProbability >= 5.0 && maxThunderProbability < 25.0)
+			  {
+				sentence << PAIKOIN_VOI_MYOS_UKKOSTAA_PHRASE;
+			  }
+			else if(maxThunderProbability >= 25.0 && maxThunderProbability < 55.0)
+			  {
+				sentence << PAIKOIN_MYOS_UKKOSTAA_PHRASE;
+			  }
+			else if(maxThunderProbability >= 55)
+			  {
+				sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;
+			  }
+		  }
+		else if(maxThunderExtent >= 30)
+		  {
+			if(maxThunderProbability >= 5.0 && maxThunderProbability < 25.0)
+			  {
+				sentence << MAHDOLLISESTI_MYOS_UKKOSTAA_PHRASE;
+			  }
+			else if(maxThunderProbability >= 25.0 && maxThunderProbability < 55.0)
+			  {
+				sentence << MYOS_UKKOSTA_ESIINTYY_PHRASE;
+			  }
+			else if(maxThunderProbability >= 55)
+			  {
+				sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;
+			  }
+		  }
+
+		/*
 		thunderId = get_thunder_probability_id(maxThunderProbability);
 
-	  }
-	theParameters.theLog << "Thunder probability: "
-						 << maxThunderProbability 
-						 << " (" << thePeriod.localStartTime() 
-						 << "..." 
-						 << thePeriod.localEndTime() 
-						 << ")"
-						 << endl;
+		theParameters.theLog << "Thunder probability: "
+							 << maxThunderProbability 
+							 << " (" << thePeriod.localStartTime() 
+							 << "..." 
+							 << thePeriod.localEndTime() 
+							 << ")"
+							 << endl;
 
-	if(thunderId == SMALL_PROBABILITY_FOR_THUNDER)
-		sentence << PIENI_UKKOSEN_TODENNAKOISYYS_PHRASE;
-	else if(thunderId == POSSIBLY_THUNDER)
-	  sentence << MAHDOLLISESTI_UKKOSTA_PHRASE;
-	else if(thunderId == OCCASIONALLY_THUNDER)
-	  sentence << AJOITTAIN_UKKOSTA_PHRASE;
+		if(thunderId == SMALL_PROBABILITY_FOR_THUNDER)
+		  sentence << PIENI_UKKOSEN_TODENNAKOISYYS_PHRASE;
+		else if(thunderId == POSSIBLY_THUNDER)
+		  sentence << MAHDOLLISESTI_UKKOSTA_PHRASE;
+		else if(thunderId == OCCASIONALLY_THUNDER)
+		  sentence << AJOITTAIN_UKKOSTA_PHRASE;
+		*/
+	  }
 
 	/*
 	if(sentence.size() > 0 && !(theParameters.theForecastArea & FULL_AREA))

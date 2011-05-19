@@ -169,6 +169,8 @@ using namespace std;
 		  theLogMessage = "*** precipitation form freezing ****";
 		else if(i == THUNDER_PROBABILITY_DATA)
 		  theLogMessage = "*** thunder probability ****";
+		else if(i == THUNDER_EXTENT_DATA)
+		  theLogMessage = "*** thunder extent ****";
 		else if(i == FOG_INTENSITY_MODERATE_DATA)
 		  theLogMessage = "*** fog intensity moderate ****";
 		else if(i == FOG_INTENSITY_DENSE_DATA)
@@ -574,9 +576,10 @@ using namespace std;
 											   const WeatherArea& theArea,										
 											   weather_forecast_result_container& theHourlyDataContainer)
   {
-
 	weather_result_data_item_vector& thunderProbabilityHourly = 
 	  *(theHourlyDataContainer[THUNDER_PROBABILITY_DATA]);
+	weather_result_data_item_vector* thunderExtentHourly = 
+	  theHourlyDataContainer[THUNDER_EXTENT_DATA];
 	weather_result_data_item_vector* thunderNorthEastHourly = 
 	  theHourlyDataContainer[THUNDER_NORTHEAST_SHARE_DATA];
 	weather_result_data_item_vector* thunderSouthEastHourly = 
@@ -585,19 +588,35 @@ using namespace std;
 	  theHourlyDataContainer[THUNDER_SOUTHWEST_SHARE_DATA];
 	weather_result_data_item_vector* thunderNorthWestHourly = 
 	  theHourlyDataContainer[THUNDER_NORTHWEST_SHARE_DATA];
-	  
+	
+	RangeAcceptor thunderlimits;
+	thunderlimits.lowerLimit(5.0); // 5 % propability is the minimum
+	
  	GridForecaster theForecaster;
-
+	
 	for(unsigned int i = 0; i < thunderProbabilityHourly.size(); i++)
 	  {
-		thunderProbabilityHourly[i]->theResult = theForecaster.analyze(theVariable,
-																	   theSources,
-																	   Thunder,
-																	   Maximum,
-																	   Maximum,
-																	   theArea,
-																	   thunderProbabilityHourly[i]->thePeriod);
-
+		thunderProbabilityHourly[i]->theResult = 
+		  theForecaster.analyze(theVariable,
+								theSources,
+								Thunder,
+								Maximum,
+								Maximum,
+								theArea,
+								thunderProbabilityHourly[i]->thePeriod);
+		
+		(*thunderExtentHourly)[i]->theResult =
+		  theForecaster.analyze(theVariable,
+								theSources,
+								Thunder,
+								Percentage,
+								Maximum,
+								theArea,
+								(*thunderExtentHourly)[i]->thePeriod,
+								DefaultAcceptor(),
+								DefaultAcceptor(),
+								thunderlimits);
+		
 		RangeAcceptor thunderlimits;
 		thunderlimits.lowerLimit(SMALL_PROBABILITY_FOR_THUNDER_LOWER_LIMIT);
 		AreaTools::getArealDistribution(theSources,
@@ -611,7 +630,7 @@ using namespace std;
 										(*thunderNorthWestHourly)[i]->theResult);
 	  }
   }
-
+  
  void populate_thunderprobability_time_series(wf_story_params& theParameters)
   {
 	if(theParameters.theForecastArea & INLAND_AREA)
@@ -867,6 +886,7 @@ using namespace std;
 	weather_result_data_item_vector* hourlyPrecipitationFormFreezing = new weather_result_data_item_vector();
 	weather_result_data_item_vector* hourlyCloudiness = new weather_result_data_item_vector();
 	weather_result_data_item_vector* hourlyThunderProbability = new weather_result_data_item_vector();
+	weather_result_data_item_vector* hourlyThunderExtent = new weather_result_data_item_vector();
 	weather_result_data_item_vector* hourlyFogIntensityModerate = new weather_result_data_item_vector();
 	weather_result_data_item_vector* hourlyFogIntensityDense = new weather_result_data_item_vector();
 
@@ -940,6 +960,9 @@ using namespace std;
 		hourlyThunderProbability->push_back(new WeatherResultDataItem(theWeatherPeriod, 
 																	  theWeatherResult, 
 																	  partOfTheDayId));
+		hourlyThunderExtent->push_back(new WeatherResultDataItem(theWeatherPeriod, 
+																 theWeatherResult, 
+																 partOfTheDayId));
 		hourlyFogIntensityModerate->push_back(new WeatherResultDataItem(theWeatherPeriod, 
 																		theWeatherResult, 
 																		partOfTheDayId));
@@ -1016,6 +1039,7 @@ using namespace std;
 	resultContainer->insert(make_pair(PRECIPITATION_FORM_FREEZING_DATA, hourlyPrecipitationFormFreezing));
 	resultContainer->insert(make_pair(CLOUDINESS_DATA, hourlyCloudiness));
 	resultContainer->insert(make_pair(THUNDER_PROBABILITY_DATA, hourlyThunderProbability));
+	resultContainer->insert(make_pair(THUNDER_EXTENT_DATA, hourlyThunderExtent));
 	resultContainer->insert(make_pair(FOG_INTENSITY_MODERATE_DATA, hourlyFogIntensityModerate));
 	resultContainer->insert(make_pair(FOG_INTENSITY_DENSE_DATA, hourlyFogIntensityDense));
 	resultContainer->insert(make_pair(PRECIPITATION_NORTHEAST_SHARE_DATA, hourlyPrecipitationShareNortEast));
@@ -1124,6 +1148,7 @@ using namespace std;
 		delete (*theResultContainer[PRECIPITATION_FORM_SNOW_DATA])[i];
 		delete (*theResultContainer[PRECIPITATION_FORM_FREEZING_DATA])[i];
 		delete (*theResultContainer[THUNDER_PROBABILITY_DATA])[i];
+		delete (*theResultContainer[THUNDER_EXTENT_DATA])[i];
 		delete (*theResultContainer[FOG_INTENSITY_MODERATE_DATA])[i];
 	  }
 
@@ -1137,6 +1162,7 @@ using namespace std;
 	theResultContainer[PRECIPITATION_FORM_SNOW_DATA]->clear();
 	theResultContainer[PRECIPITATION_FORM_FREEZING_DATA]->clear();
 	theResultContainer[THUNDER_PROBABILITY_DATA]->clear();
+	theResultContainer[THUNDER_EXTENT_DATA]->clear();
 	theResultContainer[FOG_INTENSITY_MODERATE_DATA]->clear();
 	theResultContainer[FOG_INTENSITY_DENSE_DATA]->clear();
 
@@ -1160,6 +1186,7 @@ using namespace std;
 	delete theResultContainer[PRECIPITATION_NORTHWEST_SHARE_DATA];
 	delete theResultContainer[PRECIPITATION_POINT_DATA];
 	delete theResultContainer[THUNDER_PROBABILITY_DATA];
+	delete theResultContainer[THUNDER_EXTENT_DATA];
 	delete theResultContainer[THUNDER_NORTHEAST_SHARE_DATA];
 	delete theResultContainer[THUNDER_SOUTHEAST_SHARE_DATA];
 	delete theResultContainer[THUNDER_SOUTHWEST_SHARE_DATA];
@@ -1456,6 +1483,10 @@ using namespace std;
 	cloudinessForecast.printOutCloudinessWeatherEvents(log);
 	//	fogForecast.printOutFogData(log);
 	fogForecast.printOutFogPeriods(log);
+
+
+
+	log_weather_result_data(theParameters);
 
 
 	WeatherForecastStory wfs(itsVar,
