@@ -734,9 +734,6 @@ namespace TextGen
 	Sentence sentence;
 	WeatherPeriod fogPeriod(thePeriod);
 	fog_type_id fogTypeId(NO_FOG);
-	std::string dayPhasePhrase;
-
-
 
 	if(getFogPeriodAndId(thePeriod,
 						 theFogTypePeriods,
@@ -763,17 +760,12 @@ namespace TextGen
 		bool specifyDay = get_period_length(theParameters.theForecastPeriod) > 24 &&
 		  todayPhrase.size() > 0;
 		
-		Sentence partOfTheDay(get_time_phrase_large(fogPeriod,
-													specifyDay,
-													theParameters.theVariable, 
-													false, 
-													&theStringVector));
+		std::string dayPhasePhrase(get_time_phrase_large(fogPeriod,
+														 specifyDay,
+														 theParameters.theVariable, 
+														 false));
 		
-		Sentence timePhrase(parse_weekday_phrase(dayNumber, partOfTheDay));
-
-
-		for(unsigned int k = 0; k < theStringVector.size(); k++)
-		  dayPhasePhrase += theStringVector[k];
+		std::string timePhrase(dayPhasePhrase);//parse_weekday_phrase(dayNumber, partOfTheDay));
 
 		if(dayPhasePhrase != theDayPhasePhraseOld)
 		  {

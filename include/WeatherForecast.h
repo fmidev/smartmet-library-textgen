@@ -15,6 +15,7 @@ namespace TextGen
   class Sentence;
 
 #define EMPTY_STRING "empty_string" 
+#define SPACE_STRING " " 
 #define COMMA_PUNCTUATION_MARK "," 
 #define INTENSITY_PARAMETER "intensity"
 #define PRECIPITATION_PARAMETER "precipitation"
@@ -96,16 +97,16 @@ namespace TextGen
 #define LUMISADETTA_WORD "lumisadetta"
 #define TIHKUSADETTA_WORD "tihkusadetta"
 
-#define RANTA_TAI_LUMISADETTA_PHRASE "räntä-tai lumisadetta"
-#define LUMI_TAI_RANTASADETTA_PHRASE "lumi-tai räntäsadetta"
-#define LUMI_TAI_VESISADETTA_PHRASE "lumi-tai vesisadetta"
-#define VESI_TAI_LUMISADETTA_PHRASE "vesi-tai lumisadetta"
-#define RANTA_TAI_VESISADETTA_PHRASE "räntä-tai vesisadetta"
-#define VESI_TAI_RANTASADETTA_PHRASE "vesi-tai räntäsadetta"
-#define RANTA_TAI_VESIKUUROJA_PHRASE "räntä-tai vesikuuroja"
-#define VESI_TAI_RANTAKUUROJA_PHRASE "vesi-tai räntäkuuroja"
-#define VESI_TAI_LUMIKUUROJA_PHRASE "vesi-tai lumikuuroja"
-#define LUMI_TAI_VESIKUUROJA_PHRASE "lumi-tai vesikuuroja"
+#define RANTA_TAI_LUMISADETTA_PHRASE "räntä- tai lumisadetta"
+#define LUMI_TAI_RANTASADETTA_PHRASE "lumi- tai räntäsadetta"
+#define LUMI_TAI_VESISADETTA_PHRASE "lumi- tai vesisadetta"
+#define VESI_TAI_LUMISADETTA_PHRASE "vesi- tai lumisadetta"
+#define RANTA_TAI_VESISADETTA_PHRASE "räntä- tai vesisadetta"
+#define VESI_TAI_RANTASADETTA_PHRASE "vesi- tai räntäsadetta"
+#define RANTA_TAI_VESIKUUROJA_PHRASE "räntä- tai vesikuuroja"
+#define VESI_TAI_RANTAKUUROJA_PHRASE "vesi- tai räntäkuuroja"
+#define VESI_TAI_LUMIKUUROJA_PHRASE "vesi- tai lumikuuroja"
+#define LUMI_TAI_VESIKUUROJA_PHRASE "lumi- tai vesikuuroja"
 
 #define HEIKKOJA_LUMIKUUROJA_PHRASE "heikkoja lumikuuroja"
 #define SAKEITA_LUMIKUUROJA_PHRASE "sakeita lumikuuroja"
@@ -537,11 +538,9 @@ namespace TextGen
   };
 
 
-  Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
-								 short& theWeekday,
-								 vector<std::string>* theStringVector = 0);
-  Sentence get_narrow_time_phrase(const WeatherPeriod& theWeatherPeriod,
-								  vector<std::string>* theStringVector = 0);
+  std::string get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
+									short& theWeekday);
+  std::string get_narrow_time_phrase(const WeatherPeriod& theWeatherPeriod);
   void get_precipitation_limit_value(const wf_story_params& theParameters,
 									 const unsigned int& thePrecipitationForm,
 									 const precipitation_intesity_id& theIntensityId,
@@ -573,15 +572,13 @@ namespace TextGen
 									const WeatherPeriod& theWeatherPeriod2);
 
   Sentence get_direction_phrase(const AreaTools::direction_id& theDirectionId, bool theAlkaenPhrase = false);
-  Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
-								 const bool& theSpecifyDayFlag,
-								 const std::string& theVar,
-								 bool theAlkaenPhrase = false,
-								 vector<std::string>* theStringVector = 0);
-  Sentence get_time_phrase(const NFmiTime& theTimestamp,
-						   const std::string& theVar,
-						   bool theAlkaenPhrase = false,
-						   vector<std::string>* theStringVector = 0);
+  std::string get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
+									const bool& theSpecifyDayFlag,
+									const std::string& theVar,
+									bool theAlkaenPhrase = false);
+  std::string get_time_phrase(const NFmiTime& theTimestamp,
+							  const std::string& theVar,
+							  bool theAlkaenPhrase = false);
   Sentence get_today_phrase(const NFmiTime& theEventTimestamp,
 							const string& theVariable,
 							const WeatherArea& theArea,
@@ -643,6 +640,19 @@ namespace TextGen
   WeatherPeriod get_intersection_period(const WeatherPeriod& thePeriod1, 
 										const WeatherPeriod& thePeriod2,
 										bool& theIntersectionPeriodFound);
+
+  bool split_the_area(const std::string theVar,
+					  const WeatherAnalysis::WeatherArea& theArea,
+					  const WeatherAnalysis::WeatherPeriod& thePeriod,
+					  const WeatherAnalysis::AnalysisSources& theSources);
+
+  bool temperature_split_criterion(const std::string theVar,
+								   const bool& morningTemperature,
+								   const WeatherAnalysis::WeatherArea& theArea,
+								   const WeatherAnalysis::WeatherPeriod& thePeriod,
+								   const WeatherAnalysis::AnalysisSources& theSources,
+								   MessageLogger& theLog);
+
 
 	
   struct WeatherResultDataItem

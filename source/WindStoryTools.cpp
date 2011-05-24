@@ -177,9 +177,10 @@ namespace TextGen
 		  int int_value(static_cast<int>(round(theMeanSpeed.value())));
 		  if(int_value >= 1)
 			{
-			  sentence << *UnitFactory::create(MetersPerSecond, int_value)
-					   << direction_sentence(theDirection,
-											 theVariable);
+			  sentence << *UnitFactory::create(MetersPerSecond, int_value);
+			  if(int_value <= 20)
+				sentence << direction_sentence(theDirection,
+											   theVariable);
 			}			  
 		}
 	  else

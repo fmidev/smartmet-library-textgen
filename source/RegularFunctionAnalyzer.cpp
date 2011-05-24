@@ -208,6 +208,12 @@ namespace WeatherAnalysis
 		  case WeatherArea::Inland:
 			mask = theSources.getInlandMaskSource()->mask(theArea,dataname,*wsource);
 			break;
+		  case WeatherArea::Southern:
+			mask = theSources.getSouthernMaskSource()->mask(theArea,dataname,*wsource);
+			break;
+		  case WeatherArea::Northern:
+			mask = theSources.getNorthernMaskSource()->mask(theArea,dataname,*wsource);
+			break;
 		  }
 
 		// Result

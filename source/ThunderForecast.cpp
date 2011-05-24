@@ -129,14 +129,17 @@ namespace TextGen
 		  {
 			if(maxThunderProbability >= 5.0 && maxThunderProbability < 25.0)
 			  {
+				sentence << Delimiter(",");
 				sentence << PAIKOIN_VOI_MYOS_UKKOSTAA_PHRASE;
 			  }
 			else if(maxThunderProbability >= 25.0 && maxThunderProbability < 55.0)
 			  {
+				sentence << Delimiter(",");
 				sentence << PAIKOIN_MYOS_UKKOSTAA_PHRASE;
 			  }
 			else if(maxThunderProbability >= 55)
 			  {
+				sentence << JA_WORD;
 				sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;
 			  }
 		  }
@@ -144,14 +147,17 @@ namespace TextGen
 		  {
 			if(maxThunderProbability >= 5.0 && maxThunderProbability < 25.0)
 			  {
+				sentence << Delimiter(",");
 				sentence << MAHDOLLISESTI_MYOS_UKKOSTAA_PHRASE;
 			  }
 			else if(maxThunderProbability >= 25.0 && maxThunderProbability < 55.0)
 			  {
+				sentence << Delimiter(",");
 				sentence << MYOS_UKKOSTA_ESIINTYY_PHRASE;
 			  }
 			else if(maxThunderProbability >= 55)
 			  {
+				sentence << JA_WORD;
 				sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;
 			  }
 		  }

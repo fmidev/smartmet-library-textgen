@@ -27,7 +27,9 @@ namespace WeatherAnalysis
 		Full,
 		Land,
 		Coast,
-		Inland
+		Inland,
+		Southern,
+		Northern
 	  };
 
   public:

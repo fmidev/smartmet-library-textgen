@@ -167,7 +167,6 @@ namespace TextGen
 	  shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
 	  NFmiFastQueryInfo* theQI = qd->QueryInfoIter();
 	  
-
 	  NFmiIndexMask indexMask;
 	
 	  ExtractMask(theSources,

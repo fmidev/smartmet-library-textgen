@@ -946,21 +946,24 @@ namespace TextGen
 	  WeatherArea theActualArea = theArea;
 
 	  if(theAreaId == INLAND_AREA) {
-		theActualArea.type(WeatherArea::Inland);
+		if(theArea.type() == WeatherArea::Full)
+		  theActualArea.type(WeatherArea::Inland);
 		fakeVarFull += "::inland";
 		fakeVarMorning += "::inland";
 		fakeVarAfternoon += "::inland";
 	  }
 	  else if(theAreaId == COASTAL_AREA)
 		{
-		  theActualArea.type(WeatherArea::Coast);
+		  if(theArea.type() == WeatherArea::Full)
+			theActualArea.type(WeatherArea::Coast);
 		  fakeVarFull += "::coast";
 		  fakeVarMorning += "::coast";
 		  fakeVarAfternoon += "::coast";
 		}
 	  else
 		{
-		  theActualArea.type(WeatherArea::Full);
+		  if(theArea.type() == WeatherArea::Full)
+			theActualArea.type(WeatherArea::Full);
 		  fakeVarFull += "::area";		  
 		  fakeVarMorning += "::area";
 		  fakeVarAfternoon += "::area";
@@ -3114,6 +3117,11 @@ namespace TextGen
 	  if(theParameters.theForecastArea == NO_AREA)
 		return paragraph;
 
+	  Sentence alueenEtelaosissa;
+	  alueenEtelaosissa << ALUEEN_ETELAOSISSA_PHRASE;
+	  Sentence alueenPohjoisosissa;
+	  alueenPohjoisosissa << ALUEEN_POHJOISOSISSA_PHRASE;
+
 	  const int temperature_limit_coast_inland = optional_int(theParameters.theVariable + 
 															  "::temperature_limit_coast_inland", 3);
 
@@ -3445,6 +3453,14 @@ namespace TextGen
 
 	  for(unsigned int i = 0; i < periodAreas.size(); i++)
 		{
+		  if(paragraph.size() == 0)
+			{
+			  if(theParameters.theWeatherArea.type() == WeatherArea::Southern)
+				sentenceUnderConstruction << alueenEtelaosissa;
+			  else if(theParameters.theWeatherArea.type() == WeatherArea::Northern)
+				sentenceUnderConstruction << alueenPohjoisosissa;
+			}
+
 		  int periodArea = periodAreas[i];
 
 		  if(periodArea == DELIMITER_DOT)
@@ -3656,7 +3672,434 @@ namespace TextGen
 		forecast_period &= ~mask;
 
 	  return retval;
-	} 
+	}
+
+
+
+
+
+	const Paragraph max36hours(const WeatherAnalysis::WeatherArea& itsArea,
+							   const WeatherAnalysis::WeatherPeriod& itsPeriod,
+							   const WeatherAnalysis::AnalysisSources& itsSources,
+							   const NFmiTime& itsForecastTime,
+							   const std::string itsVar,
+							   MessageLogger& theLog)
+	  
+	{
+	  using namespace TemperatureMax36Hours;
+	  
+	  Paragraph paragraph;
+	  
+	  log_start_time_and_end_time(theLog, "Whole period: ", itsPeriod);
+	
+
+	  NFmiTime periodStartTime(itsPeriod.localStartTime());
+	  NFmiTime periodEndTime(itsPeriod.localEndTime());
+
+	  // Period generator
+	  NightAndDayPeriodGenerator generator00(itsPeriod, itsVar);
+
+	  if(generator00.size() == 0)
+		{
+		  theLog << "No weather periods available!" << endl;
+		  theLog << paragraph;
+		  return paragraph;
+		}
+
+	  theLog << "period contains ";
+
+	  if(generator00.isday(1))
+		{
+		  if(generator00.size() > 2)
+			{
+			  theLog << "today, night and tomorrow" << endl;
+			}
+		  else if(generator00.size() == 2)
+			{
+			  theLog << "today and night" << endl;
+			}
+		  else
+			{
+			  theLog << "today" << endl;
+			  periodEndTime.ChangeByHours(12);
+			}
+		}
+	  else
+		{
+		  if(generator00.size() == 1)
+			{
+			  theLog << "one night" << endl;
+			  periodEndTime.ChangeByHours(12);
+			}
+		  else
+			{
+			  theLog << "night and tomorrow" << endl;		  
+			}
+		}
+
+	  // Period generator
+	  WeatherPeriod fullPeriod(periodStartTime, periodEndTime);
+	  NightAndDayPeriodGenerator generator(fullPeriod, itsVar);
+
+	  unsigned short forecast_area = 0x0;
+	  unsigned short forecast_period = 0x0;
+	  forecast_season_id forecast_season = get_forecast_season(generator.period(1).localStartTime(), itsVar);
+		      
+	  // container to hold the results
+	  weather_result_container_type weatherResults;
+
+	  GridForecaster forecaster;
+
+	  if(generator.isday(1))
+		{
+		  // when the first period is day, and the second period exists 
+		  // it must be night, and if third period exists it must be day
+		  forecast_period |= DAY1_PERIOD;
+		  forecast_period |= (generator.size() > 1 ? NIGHT_PERIOD : 0x0);
+		  forecast_period |= (generator.size() > 2 ? DAY2_PERIOD : 0x0);
+		}
+	  else
+		{
+		  // if the first period is not day, it must be night, and
+		  // if second period exists it must be day
+		  forecast_period |= NIGHT_PERIOD;
+		  forecast_period |= (generator.size() > 1 ? DAY2_PERIOD : 0x0);
+		}
+
+
+	  // Initialize the container for WeatherResult objects
+	  for(int i = AREA_MIN_DAY1; i < UNDEFINED_WEATHER_RESULT_ID; i++)
+		{
+		  weatherResults.insert(make_pair(i, new WeatherResult(kFloatMissing, 0)));
+		} 
+
+	  WeatherPeriod period = generator.period(1);
+
+	  if(forecast_period & DAY1_PERIOD)
+		{
+		  // calculate results for day1
+		  log_start_time_and_end_time(theLog, "Day1: ", period);
+
+		  calculate_results(theLog, itsVar, itsSources, itsArea,
+							period, DAY1_PERIOD, forecast_season, INLAND_AREA, weatherResults);
+		  calculate_results(theLog, itsVar, itsSources, itsArea,
+							period, DAY1_PERIOD, forecast_season, COASTAL_AREA, weatherResults);
+		  calculate_results(theLog, itsVar, itsSources, itsArea,
+							period, DAY1_PERIOD, forecast_season, FULL_AREA, weatherResults);
+		  valid_value_period_check(weatherResults[AREA_MIN_DAY1]->value(), forecast_period, DAY1_PERIOD);
+
+		  // day1 period exists, so
+		  // if the area is included, it must have valid values
+		  forecast_area |= (weatherResults[COAST_MIN_DAY1]->value() != kFloatMissing ? COASTAL_AREA : 0x0); 
+		  forecast_area |= (weatherResults[INLAND_MIN_DAY1]->value() != kFloatMissing ? INLAND_AREA : 0x0);
+		  forecast_area |= (weatherResults[AREA_MIN_DAY1]->value() != kFloatMissing ? FULL_AREA : 0x0);
+
+		  if(forecast_area == NO_AREA)
+			{
+			  theLog << "Something wrong, NO Coastal area NOR Inland area is included! " << endl;
+			}
+		  else
+			{
+			  if(forecast_period & NIGHT_PERIOD)
+				{
+				  // calculate results for night
+				  period = generator.period(2);
+				  log_start_time_and_end_time(theLog, "Night: ", period);
+				
+				  if(forecast_area & INLAND_AREA)
+					{
+					  calculate_results(theLog, itsVar, itsSources, itsArea,
+										period, NIGHT_PERIOD, forecast_season, INLAND_AREA, weatherResults);
+					  valid_value_period_check(weatherResults[INLAND_MIN_NIGHT]->value(), forecast_period, NIGHT_PERIOD);
+					}
+				  if(forecast_area & COASTAL_AREA && (forecast_period & NIGHT_PERIOD))
+					{
+					  calculate_results(theLog, itsVar, itsSources, itsArea,
+										period, NIGHT_PERIOD, forecast_season, COASTAL_AREA, weatherResults);
+					  valid_value_period_check(weatherResults[COAST_MIN_NIGHT]->value(), forecast_period, NIGHT_PERIOD);
+					}
+				  if(forecast_area & FULL_AREA && (forecast_period & NIGHT_PERIOD))
+					{
+					  calculate_results(theLog, itsVar, itsSources, itsArea,
+										period, NIGHT_PERIOD, forecast_season, FULL_AREA, weatherResults);
+					  valid_value_period_check(weatherResults[AREA_MIN_NIGHT]->value(), forecast_period, NIGHT_PERIOD);
+					}
+				  forecast_area |= (weatherResults[COAST_MIN_NIGHT]->value() != kFloatMissing ? COASTAL_AREA : 0x0); 
+				  forecast_area |= (weatherResults[INLAND_MIN_NIGHT]->value() != kFloatMissing ? INLAND_AREA : 0x0);
+				  forecast_area |= (weatherResults[AREA_MIN_NIGHT]->value() != kFloatMissing ? FULL_AREA : 0x0);
+				}
+	
+			  if(forecast_period & DAY2_PERIOD)
+				{
+				  // calculate results for day2
+				  period = generator.period(3);
+				  log_start_time_and_end_time(theLog, "Day2: ", period);
+
+				  if(forecast_area & INLAND_AREA)
+					{
+					  calculate_results(theLog, itsVar, itsSources, itsArea,
+										period, DAY2_PERIOD, forecast_season, INLAND_AREA, weatherResults);
+					  valid_value_period_check(weatherResults[INLAND_MIN_DAY2]->value(), forecast_period, DAY2_PERIOD);
+					}
+				  if(forecast_area & COASTAL_AREA && (forecast_period & DAY2_PERIOD))
+					{
+					  calculate_results(theLog, itsVar, itsSources, itsArea,
+										period, DAY2_PERIOD, forecast_season, COASTAL_AREA, weatherResults);
+					  valid_value_period_check(weatherResults[COAST_MIN_DAY2]->value(), forecast_period, DAY2_PERIOD);
+					}
+				  if(forecast_area & FULL_AREA && (forecast_period & NIGHT_PERIOD))
+					{
+					  calculate_results(theLog, itsVar, itsSources, itsArea,
+										period, DAY2_PERIOD, forecast_season, FULL_AREA, weatherResults);
+					  valid_value_period_check(weatherResults[AREA_MIN_DAY2]->value(), forecast_period, DAY2_PERIOD);
+					}
+				
+				  forecast_area |= (weatherResults[COAST_MIN_DAY2]->value() != kFloatMissing ? COASTAL_AREA : 0x0);
+				  forecast_area |= (weatherResults[INLAND_MIN_DAY2]->value() != kFloatMissing ? INLAND_AREA : 0x0);
+				  forecast_area |= (weatherResults[AREA_MIN_DAY2]->value() != kFloatMissing ? FULL_AREA : 0x0);
+				}
+			}
+		}
+	  else
+		{
+		  period = generator.period(1);
+		  // calculate results for night
+		  log_start_time_and_end_time(theLog, "Night: ", period);
+
+		  calculate_results(theLog, itsVar, itsSources, itsArea,
+							period, NIGHT_PERIOD, forecast_season, INLAND_AREA, weatherResults);
+
+		  calculate_results(theLog, itsVar, itsSources, itsArea,
+							period, NIGHT_PERIOD, forecast_season, COASTAL_AREA, weatherResults);
+
+		  calculate_results(theLog, itsVar, itsSources, itsArea,
+							period, NIGHT_PERIOD, forecast_season, FULL_AREA, weatherResults);
+
+		  // night period exists, so
+		  // if the area is included, it must have valid values
+		  forecast_area |= (weatherResults[COAST_MIN_NIGHT]->value() != kFloatMissing ? COASTAL_AREA : 0x0); 
+		  forecast_area |= (weatherResults[INLAND_MIN_NIGHT]->value() != kFloatMissing ? INLAND_AREA : 0x0);
+		  forecast_area |= (weatherResults[AREA_MIN_NIGHT]->value() != kFloatMissing ? FULL_AREA : 0x0);
+
+		  //		if(!(forecast_area & (COASTAL_AREA | INLAND_AREA)))
+
+		  if(forecast_area == NO_AREA)
+			{
+			  valid_value_period_check(kFloatMissing, forecast_period, NIGHT_PERIOD);
+			  theLog << "Something wrong, NO Coastal area NOR Inland area is included! " << endl;
+			}
+		  else
+			{
+			  if(forecast_period & DAY2_PERIOD)
+				{
+				  // calculate results for day2
+				  period = generator.period(2);
+				  log_start_time_and_end_time(theLog, "Day2: ", period);
+				
+				  if(forecast_area & INLAND_AREA)
+					{
+					  calculate_results(theLog, itsVar, itsSources, itsArea,
+										period, DAY2_PERIOD, forecast_season, INLAND_AREA, weatherResults);
+					  valid_value_period_check(weatherResults[INLAND_MIN_DAY2]->value(), forecast_period, DAY2_PERIOD);
+					}
+
+				  if(forecast_area & COASTAL_AREA && (forecast_period & DAY2_PERIOD))
+					{
+					  calculate_results(theLog, itsVar, itsSources, itsArea,
+										period, DAY2_PERIOD, forecast_season, COASTAL_AREA, weatherResults);
+					  valid_value_period_check(weatherResults[COAST_MIN_DAY2]->value(), forecast_period, DAY2_PERIOD);
+					}
+
+				  if(forecast_area & INLAND_AREA && forecast_area & COASTAL_AREA && (forecast_period & DAY2_PERIOD))
+					calculate_results(theLog, itsVar, itsSources, itsArea,
+									  period, DAY2_PERIOD, forecast_season, FULL_AREA, weatherResults);
+				}
+			}
+		}
+	
+	  const string range_separator = optional_string(itsVar + "::rangeseparator", "...");
+	  const int mininterval = optional_int(itsVar + "::mininterval", 2);
+	  const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
+
+	  t36hparams parameters(itsVar,
+							theLog,
+							generator,
+							forecast_season,
+							forecast_area,
+							forecast_period,
+							itsForecastTime,
+							fullPeriod,
+							period,
+							itsArea,
+							itsSources,
+							weatherResults);
+
+	  parameters.theFullDayFlag = Settings::optional_bool(itsVar + "::specify_part_of_the_day", true);
+
+	  float coastalPercentage = get_area_percentage(itsVar + "::fake::area_percentage",
+													itsArea,
+													WeatherArea::Coast,
+													itsSources,
+													itsPeriod);
+
+	  float separate_coastal_area_percentage = Settings::optional_double(itsVar + 
+																		 "::separate_coastal_area_percentage", 
+																		 SEPARATE_COASTAL_AREA_PERCENTAGE);
+
+	  parameters.theCoastalAndInlandTogetherFlag = coastalPercentage > 0 && 
+		coastalPercentage < separate_coastal_area_percentage;
+
+	  if(parameters.theCoastalAndInlandTogetherFlag)
+		{
+		  theLog << "Inland and coastal area(" << coastalPercentage << ") not separated:" << endl;
+		  theLog << "Coastal proportion: " << coastalPercentage << endl;
+		}
+
+	  parameters.theRangeSeparator = range_separator;
+	  parameters.theMinInterval = mininterval;
+	  parameters.theZeroIntervalFlag = interval_zero;
+
+	  if(forecast_area != NO_AREA)
+		{
+		  paragraph << temperature_max36hours_sentence(parameters);
+		}
+
+	  log_weather_results(parameters);
+
+	  // delete the allocated WeatherResult-objects
+	  for(int i = AREA_MIN_DAY1; i < UNDEFINED_WEATHER_RESULT_ID; i++)
+		{
+		  delete weatherResults[i];
+		} 
+
+	  theLog << paragraph;
+
+	  return paragraph;
+	}
+
+#ifdef LATER
+	bool split_the_area(const std::string theVar,
+						const WeatherAnalysis::WeatherArea& theArea,
+						const WeatherAnalysis::WeatherPeriod& thePeriod,
+						const WeatherAnalysis::AnalysisSources& theSources)
+	{
+	  if(NFmiSettings::IsSet(theVar +"::areas_to_split"))
+		{
+		  std::string areasToSplit(require_string(theVar +"::areas_to_split"));
+		  vector<string> areas = NFmiStringTools::Split(areasToSplit, ",");
+		  for(unsigned int i = 0; i < areas.size(); i++)
+			{
+			  if(theArea.name().compare(areas[i]) == 0)
+				{
+				  return true;
+				}			
+			}
+		}
+	  return false;
+	}
+
+
+	bool temperature_split_criterion(const std::string theVar,
+									 const bool& morningTemperature,
+									 const WeatherAnalysis::WeatherArea& theArea,
+									 const WeatherAnalysis::WeatherPeriod& thePeriod,
+									 const WeatherAnalysis::AnalysisSources& theSources,
+									 MessageLogger& theLog)
+	{
+	  bool retval = false;
+
+	  WeatherResult minSouth(kFloatMissing, 0.0);
+	  WeatherResult maxSouth(kFloatMissing, 0.0);
+	  WeatherResult meanSouth(kFloatMissing, 0.0);
+	  WeatherResult minNorth(kFloatMissing, 0.0);
+	  WeatherResult maxNorth(kFloatMissing, 0.0);
+	  WeatherResult meanNorth(kFloatMissing, 0.0);
+
+	  std::string nimi(theArea.name());
+
+	  std::string split_section_name("textgen::split_the_area::" + nimi);
+
+	  if(!NFmiSettings::IsSet(split_section_name + "::method"))
+		return false;
+	  
+	  const std::string criterion = optional_string(split_section_name + "::criterion", "temperature");
+	  float difference = 5.0;
+	  size_t index = criterion.find(":");
+	  if(index != string::npos)
+		difference = atof(criterion.substr(index+1).c_str());
+
+	  
+	  WeatherArea southernArea(theArea);
+	  southernArea.type(WeatherArea::Southern);
+	  WeatherArea northernArea(theArea);
+	  northernArea.type(WeatherArea::Northern);
+	  
+	  
+	  if(morningTemperature)
+		{
+		  morning_temperature(theVar,
+							  theSources,
+							  southernArea,
+							  thePeriod,
+							  minSouth,
+							  maxSouth,
+							  meanSouth);
+
+		  morning_temperature(theVar,
+							  theSources,
+							  northernArea,
+							  thePeriod,
+							  minNorth,
+							  maxNorth,
+							  meanNorth);
+
+		  if(abs(meanSouth.value() - meanNorth.value()) >= difference)
+			retval = true;
+
+		}
+	  else
+		{
+		  afternoon_temperature(theVar,
+								theSources,
+								southernArea,
+								thePeriod,
+								minSouth,
+								maxSouth,
+								meanSouth);
+
+		  afternoon_temperature(theVar,
+								theSources,
+								northernArea,
+								thePeriod,
+								minNorth,
+								maxNorth,
+								meanNorth);
+
+		  if(abs(meanSouth.value() - meanNorth.value()) >= difference)
+			retval = true;
+		}
+
+	  if(retval)
+		theLog << "Reporting southern and northern part separately in " << nimi << "!!" << endl;
+
+	  if(morningTemperature)
+		theLog << "Morning ";
+	  else
+		theLog << "Afternoon ";
+	  theLog << "mean temperature in southern part: " << meanSouth.value() << endl;
+
+	  if(morningTemperature)
+		theLog << "Morning ";
+	  else
+		theLog << "Afternoon ";
+	  theLog << "mean temperature in northern part: " << meanNorth.value() << endl;
+
+	  theLog << "Mean temperature difference: " << abs(meanSouth.value() - meanNorth.value()) << endl;
+
+	  return retval;
+	}
+#endif
+
   } // namespace TemperatureMax36Hours
 
 
@@ -3671,304 +4114,72 @@ namespace TextGen
   
   const Paragraph TemperatureStory::max36hours() const
   {
+	MessageLogger log("TemperatureStory::max36h");
+
 	using namespace TemperatureMax36Hours;
 
 	Paragraph paragraph;
-	MessageLogger log("TemperatureStory::max36h");
-	
+
+	std::string areaName(itsArea.name());
 	if(itsArea.isNamed())
 	  {
-		std::string nimi(itsArea.name());
-		log << nimi << endl;
+		log << areaName << endl;
 	  }
 
-	log_start_time_and_end_time(log, "Whole period: ", itsPeriod);
+	bool splitCriterionFulfilled = false;
 
-
-	NFmiTime periodStartTime(itsPeriod.localStartTime());
-	NFmiTime periodEndTime(itsPeriod.localEndTime());
-
-	// Period generator
-	NightAndDayPeriodGenerator generator00(itsPeriod, itsVar);
-
-	if(generator00.size() == 0)
+	if(split_the_area(itsVar, itsArea, itsPeriod, itsSources))
 	  {
-		log << "No weather periods available!" << endl;
-		log << paragraph;
-		return paragraph;
+		splitCriterionFulfilled =
+		  temperature_split_criterion(itsVar,
+									  itsVar.find("morning") != string::npos,
+									  itsArea,
+									  itsPeriod,
+									  itsSources,
+									  log);
 	  }
 
-	log << "period contains ";
-
-	if(generator00.isday(1))
+	if(splitCriterionFulfilled)
 	  {
-		if(generator00.size() > 2)
-		  {
-			log << "today, night and tomorrow" << endl;
-		  }
-		else if(generator00.size() == 2)
-		  {
-			log << "today and night" << endl;
-		  }
-		else
-		  {
-			log << "today" << endl;
-			periodEndTime.ChangeByHours(12);
-		  }
-	  }
-	else
-	  {
-		if(generator00.size() == 1)
-		  {
-			log << "one night" << endl;
-			periodEndTime.ChangeByHours(12);
-		  }
-		else
-		  {
-			log << "night and tomorrow" << endl;		  
-		  }
-	  }
+		Paragraph paragraphSouth;
+		Paragraph paragraphNorth;
 
-	// Period generator
-	WeatherPeriod fullPeriod(periodStartTime, periodEndTime);
-	NightAndDayPeriodGenerator generator(fullPeriod, itsVar);
+		WeatherArea south(itsArea);
+		south.type(WeatherArea::Southern);
+		WeatherArea north(itsArea);
+		north.type(WeatherArea::Northern);
+		
+		paragraphSouth <<
+		  TemperatureMax36Hours::max36hours(south,
+											itsPeriod,
+											itsSources,
+											itsForecastTime,
+											itsVar,
+											log);
 
-	unsigned short forecast_area = 0x0;
-	unsigned short forecast_period = 0x0;
-	forecast_season_id forecast_season = get_forecast_season(generator.period(1).localStartTime(), itsVar);
-		      
-	// container to hold the results
-	weather_result_container_type weatherResults;
+		paragraphNorth <<
+		  TemperatureMax36Hours::max36hours(north,
+											itsPeriod,
+											itsSources,
+											itsForecastTime,
+											itsVar,
+											log);
 
-	GridForecaster forecaster;
-
-	if(generator.isday(1))
-	  {
-		// when the first period is day, and the second period exists 
-		// it must be night, and if third period exists it must be day
-		forecast_period |= DAY1_PERIOD;
-		forecast_period |= (generator.size() > 1 ? NIGHT_PERIOD : 0x0);
-		forecast_period |= (generator.size() > 2 ? DAY2_PERIOD : 0x0);
+		paragraph << paragraphSouth << paragraphNorth;
 	  }
 	else
 	  {
-		// if the first period is not day, it must be night, and
-		// if second period exists it must be day
-		forecast_period |= NIGHT_PERIOD;
-		forecast_period |= (generator.size() > 1 ? DAY2_PERIOD : 0x0);
+		paragraph << 
+		  TemperatureMax36Hours::max36hours(itsArea,
+											itsPeriod,
+											itsSources,
+											itsForecastTime,
+											itsVar,
+											log);
+
 	  }
-
-
-	// Initialize the container for WeatherResult objects
-	for(int i = AREA_MIN_DAY1; i < UNDEFINED_WEATHER_RESULT_ID; i++)
-	  {
-		weatherResults.insert(make_pair(i, new WeatherResult(kFloatMissing, 0)));
-	  } 
-
-	WeatherPeriod period = generator.period(1);
-
-	if(forecast_period & DAY1_PERIOD)
-	  {
-		// calculate results for day1
-		log_start_time_and_end_time(log, "Day1: ", period);
-
-		calculate_results(log, itsVar, itsSources, itsArea,
-						  period, DAY1_PERIOD, forecast_season, INLAND_AREA, weatherResults);
-		calculate_results(log, itsVar, itsSources, itsArea,
-						  period, DAY1_PERIOD, forecast_season, COASTAL_AREA, weatherResults);
-		calculate_results(log, itsVar, itsSources, itsArea,
-						  period, DAY1_PERIOD, forecast_season, FULL_AREA, weatherResults);
-		valid_value_period_check(weatherResults[AREA_MIN_DAY1]->value(), forecast_period, DAY1_PERIOD);
-
-		// day1 period exists, so
-		// if the area is included, it must have valid values
-		forecast_area |= (weatherResults[COAST_MIN_DAY1]->value() != kFloatMissing ? COASTAL_AREA : 0x0); 
-		forecast_area |= (weatherResults[INLAND_MIN_DAY1]->value() != kFloatMissing ? INLAND_AREA : 0x0);
-		forecast_area |= (weatherResults[AREA_MIN_DAY1]->value() != kFloatMissing ? FULL_AREA : 0x0);
-
-		if(forecast_area == NO_AREA)
-		  {
-			log << "Something wrong, NO Coastal area NOR Inland area is included! " << endl;
-		  }
-		else
-		  {
-			if(forecast_period & NIGHT_PERIOD)
-			  {
-				// calculate results for night
-				period = generator.period(2);
-				log_start_time_and_end_time(log, "Night: ", period);
-				
-				if(forecast_area & INLAND_AREA)
-				  {
-					calculate_results(log, itsVar, itsSources, itsArea,
-									  period, NIGHT_PERIOD, forecast_season, INLAND_AREA, weatherResults);
-					valid_value_period_check(weatherResults[INLAND_MIN_NIGHT]->value(), forecast_period, NIGHT_PERIOD);
-				  }
-				if(forecast_area & COASTAL_AREA && (forecast_period & NIGHT_PERIOD))
-				  {
-					calculate_results(log, itsVar, itsSources, itsArea,
-									  period, NIGHT_PERIOD, forecast_season, COASTAL_AREA, weatherResults);
-					valid_value_period_check(weatherResults[COAST_MIN_NIGHT]->value(), forecast_period, NIGHT_PERIOD);
-				  }
-				if(forecast_area & FULL_AREA && (forecast_period & NIGHT_PERIOD))
-				  {
-					calculate_results(log, itsVar, itsSources, itsArea,
-									  period, NIGHT_PERIOD, forecast_season, FULL_AREA, weatherResults);
-					valid_value_period_check(weatherResults[AREA_MIN_NIGHT]->value(), forecast_period, NIGHT_PERIOD);
-				  }
-				forecast_area |= (weatherResults[COAST_MIN_NIGHT]->value() != kFloatMissing ? COASTAL_AREA : 0x0); 
-				forecast_area |= (weatherResults[INLAND_MIN_NIGHT]->value() != kFloatMissing ? INLAND_AREA : 0x0);
-				forecast_area |= (weatherResults[AREA_MIN_NIGHT]->value() != kFloatMissing ? FULL_AREA : 0x0);
-			  }
-	
-			if(forecast_period & DAY2_PERIOD)
-			  {
-				// calculate results for day2
-				period = generator.period(3);
-				log_start_time_and_end_time(log, "Day2: ", period);
-
-				if(forecast_area & INLAND_AREA)
-				  {
-					calculate_results(log, itsVar, itsSources, itsArea,
-									  period, DAY2_PERIOD, forecast_season, INLAND_AREA, weatherResults);
-					valid_value_period_check(weatherResults[INLAND_MIN_DAY2]->value(), forecast_period, DAY2_PERIOD);
-				  }
-				if(forecast_area & COASTAL_AREA && (forecast_period & DAY2_PERIOD))
-				  {
-					calculate_results(log, itsVar, itsSources, itsArea,
-									  period, DAY2_PERIOD, forecast_season, COASTAL_AREA, weatherResults);
-					valid_value_period_check(weatherResults[COAST_MIN_DAY2]->value(), forecast_period, DAY2_PERIOD);
-				  }
-				if(forecast_area & FULL_AREA && (forecast_period & NIGHT_PERIOD))
-				  {
-					calculate_results(log, itsVar, itsSources, itsArea,
-									  period, DAY2_PERIOD, forecast_season, FULL_AREA, weatherResults);
-					valid_value_period_check(weatherResults[AREA_MIN_DAY2]->value(), forecast_period, DAY2_PERIOD);
-				  }
-				
-				forecast_area |= (weatherResults[COAST_MIN_DAY2]->value() != kFloatMissing ? COASTAL_AREA : 0x0);
- 				forecast_area |= (weatherResults[INLAND_MIN_DAY2]->value() != kFloatMissing ? INLAND_AREA : 0x0);
-				forecast_area |= (weatherResults[AREA_MIN_DAY2]->value() != kFloatMissing ? FULL_AREA : 0x0);
-			  }
-		  }
-	  }
-	else
-	  {
-		period = generator.period(1);
-		// calculate results for night
-		log_start_time_and_end_time(log, "Night: ", period);
-
-		calculate_results(log, itsVar, itsSources, itsArea,
-						  period, NIGHT_PERIOD, forecast_season, INLAND_AREA, weatherResults);
-
-		calculate_results(log, itsVar, itsSources, itsArea,
-						  period, NIGHT_PERIOD, forecast_season, COASTAL_AREA, weatherResults);
-
-		calculate_results(log, itsVar, itsSources, itsArea,
-						  period, NIGHT_PERIOD, forecast_season, FULL_AREA, weatherResults);
-
-		// night period exists, so
-		// if the area is included, it must have valid values
-		forecast_area |= (weatherResults[COAST_MIN_NIGHT]->value() != kFloatMissing ? COASTAL_AREA : 0x0); 
-		forecast_area |= (weatherResults[INLAND_MIN_NIGHT]->value() != kFloatMissing ? INLAND_AREA : 0x0);
-		forecast_area |= (weatherResults[AREA_MIN_NIGHT]->value() != kFloatMissing ? FULL_AREA : 0x0);
-
-		//		if(!(forecast_area & (COASTAL_AREA | INLAND_AREA)))
-
-		if(forecast_area == NO_AREA)
-		  {
-			valid_value_period_check(kFloatMissing, forecast_period, NIGHT_PERIOD);
-			log << "Something wrong, NO Coastal area NOR Inland area is included! " << endl;
-		  }
-		else
-		  {
-			if(forecast_period & DAY2_PERIOD)
-			  {
-				// calculate results for day2
-				period = generator.period(2);
-				log_start_time_and_end_time(log, "Day2: ", period);
-				
-				if(forecast_area & INLAND_AREA)
-				  {
-					calculate_results(log, itsVar, itsSources, itsArea,
-									  period, DAY2_PERIOD, forecast_season, INLAND_AREA, weatherResults);
-					valid_value_period_check(weatherResults[INLAND_MIN_DAY2]->value(), forecast_period, DAY2_PERIOD);
-				  }
-
-				if(forecast_area & COASTAL_AREA && (forecast_period & DAY2_PERIOD))
-				  {
-					calculate_results(log, itsVar, itsSources, itsArea,
-									  period, DAY2_PERIOD, forecast_season, COASTAL_AREA, weatherResults);
-					valid_value_period_check(weatherResults[COAST_MIN_DAY2]->value(), forecast_period, DAY2_PERIOD);
-				  }
-
-				if(forecast_area & INLAND_AREA && forecast_area & COASTAL_AREA && (forecast_period & DAY2_PERIOD))
-				  calculate_results(log, itsVar, itsSources, itsArea,
-									period, DAY2_PERIOD, forecast_season, FULL_AREA, weatherResults);
-			  }
-		  }
-	  }
-	
-	const string range_separator = optional_string(itsVar + "::rangeseparator", "...");
-	const int mininterval = optional_int(itsVar + "::mininterval", 2);
-	const bool interval_zero = optional_bool(itsVar+"::always_interval_zero",false);
-
-	t36hparams parameters(itsVar,
-						  log,
-						  generator,
-						  forecast_season,
-						  forecast_area,
-						  forecast_period,
-						  itsForecastTime,
-						  fullPeriod,
-						  period,
-						  itsArea,
-						  itsSources,
-						  weatherResults);
-
-	parameters.theFullDayFlag = Settings::optional_bool(itsVar + "::specify_part_of_the_day", true);
-
-	float coastalPercentage = get_area_percentage(itsVar + "::fake::area_percentage",
-												  itsArea,
-												  WeatherArea::Coast,
-												  itsSources,
-												  itsPeriod);
-
-	float separate_coastal_area_percentage = Settings::optional_double(itsVar + 
-																	   "::separate_coastal_area_percentage", 
-																	   SEPARATE_COASTAL_AREA_PERCENTAGE);
-
-	parameters.theCoastalAndInlandTogetherFlag = coastalPercentage > 0 && 
-	  coastalPercentage < separate_coastal_area_percentage;
-
-	if(parameters.theCoastalAndInlandTogetherFlag)
-	  {
-		log << "Inland and coastal area(" << coastalPercentage << ") not separated:" << endl;
-		log << "Coastal proportion: " << coastalPercentage << endl;
-	  }
-
-	parameters.theRangeSeparator = range_separator;
-	parameters.theMinInterval = mininterval;
-	parameters.theZeroIntervalFlag = interval_zero;
-
-	if(forecast_area != NO_AREA)
-	  {
-		paragraph << temperature_max36hours_sentence(parameters);
-	  }
-
-	log_weather_results(parameters);
-
-	// delete the allocated WeatherResult-objects
-	for(int i = AREA_MIN_DAY1; i < UNDEFINED_WEATHER_RESULT_ID; i++)
-	  {
-		delete weatherResults[i];
-	  } 
-
-	log << paragraph;
 
 	return paragraph;
-
-
   }
 
 } // namespace TextGen

@@ -518,7 +518,7 @@ namespace TextGen
 	  }
 
 	sentence << checkForAamuyoAndAamuPhrase(theFromSpecifier,
-													phrasePeriod);
+											phrasePeriod);
 	if(sentence.size() == 0)
 	  {
 		sentence << get_time_phrase_large(phrasePeriod, specifyDay, theWeatherForecastStory.theVar, theFromSpecifier);
@@ -727,15 +727,19 @@ namespace TextGen
 		  }
 	  }
 
-
-
 	if(!thePoutaantuuSentence.empty())
 	  {
 		sentence << thePoutaantuuSentence;
-		sentence << JA_WORD;
+		Sentence andWord;
+		andWord << JA_WORD;
+		sentence << andWord;
 		if(clForecast.getCloudinessId(getStoryItemPeriod()) != PUOLIPILVINEN_JA_PILVINEN)
-		  sentence << ON_WORD;
-
+		  {
+			Sentence isWord;
+			sentence << isWord;
+			sentence << ON_WORD;
+		  }
+		
 		if(theChangeSentence.size() > 0)
 		  {
 			WeatherPeriod clPeriod(thePeriod.localStartTime(), theCloudinessChangeTimestamp);

@@ -49,7 +49,8 @@ namespace TextGen
 #define PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ vaihtelee puolipilvisest‰ pilviseen"
 #define PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ vaihtelee puolipilvisest‰ pilviseen ja on poutainen"
 #define SAA_ON_JOTAKIN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on [selke‰]"
-#define SAA_ON_JOTAKIN_JA_POUTAINENCOMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on [selke‰] ja poutainen"
+#define SAA_ON_JOTAKIN_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on [selke‰] ja poutainen"
+#define PILVISTYVAA_COMPOSITE_PHRASE "[iltap‰iv‰st‰ alkaen] [pilvistyv‰‰]"
 
   std::ostream& operator<<(std::ostream & theOutput,
 						   const CloudinessDataItemData& theCloudinessDataItemData)
@@ -153,7 +154,7 @@ namespace TextGen
 		else
 		  {
 			if(thePoutainenFlag)
-			  sentence << SAA_ON_JOTAKIN_JA_POUTAINENCOMPOSITE_PHRASE;
+			  sentence << SAA_ON_JOTAKIN_JA_POUTAINEN_COMPOSITE_PHRASE;
 			else
 			  sentence << SAA_ON_JOTAKIN_COMPOSITE_PHRASE;
 
@@ -357,17 +358,13 @@ namespace TextGen
 		  }
 
 		weather_event_id trid(cloudinessWeatherEvents.at(i).second);
+		std::string timePhrase(get_time_phrase(weatherEventTimestamp, theParameters.theVariable, true));
+		if(timePhrase.empty())
+		  timePhrase = EMPTY_STRING;
 
-		sentence << get_time_phrase(weatherEventTimestamp, theParameters.theVariable, true);
-
-		if(trid == PILVISTYY)
-		  {
-			sentence << PILVISTYVAA_WORD;
-		  }
-		else
-		  {
-			sentence << SELKENEVAA_WORD;
-		  }
+		sentence << PILVISTYVAA_COMPOSITE_PHRASE
+				 << timePhrase
+				 << (trid == PILVISTYY ? PILVISTYVAA_WORD : SELKENEVAA_WORD);
 	  }
 
 	return sentence;

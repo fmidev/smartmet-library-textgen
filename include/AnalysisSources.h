@@ -24,12 +24,16 @@ namespace WeatherAnalysis
 	boost::shared_ptr<MaskSource> getLandMaskSource() const;
 	boost::shared_ptr<MaskSource> getCoastMaskSource() const;
 	boost::shared_ptr<MaskSource> getInlandMaskSource() const;
+	boost::shared_ptr<MaskSource> getSouthernMaskSource() const;
+	boost::shared_ptr<MaskSource> getNorthernMaskSource() const;
 
 	void setWeatherSource(const boost::shared_ptr<WeatherSource> & theSource);
 	void setMaskSource(const boost::shared_ptr<MaskSource> & theSource);
 	void setLandMaskSource(const boost::shared_ptr<MaskSource> & theSource);
 	void setCoastMaskSource(const boost::shared_ptr<MaskSource> & theSource);
 	void setInlandMaskSource(const boost::shared_ptr<MaskSource> & theSource);
+	void setSouthernMaskSource(const boost::shared_ptr<MaskSource> & theSource);
+	void setNorthernMaskSource(const boost::shared_ptr<MaskSource> & theSource);
 
   private:
 
@@ -38,6 +42,8 @@ namespace WeatherAnalysis
 	boost::shared_ptr<MaskSource> itsLandMaskSource;
 	boost::shared_ptr<MaskSource> itsCoastMaskSource;
 	boost::shared_ptr<MaskSource> itsInlandMaskSource;
+	boost::shared_ptr<MaskSource> itsSouthernMaskSource;
+	boost::shared_ptr<MaskSource> itsNorthernMaskSource;
 
   }; // class AnalysisSources
 

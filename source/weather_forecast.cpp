@@ -43,6 +43,7 @@
 #include "WeatherHistory.h"
 #include "NFmiSettings.h"
 #include "WeatherForecastStory.h"
+#include "ParameterAnalyzer.h"
 
 #include <boost/lexical_cast.hpp>
 #include <vector>
@@ -1339,88 +1340,30 @@ using namespace std;
 	theLog << "THE COMPLETE SENTENCE END" << endl;
   }
 
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Generate overview on weather
-   *
-   * \return The story
-   *
-   * \see page_weather_forecast
-   *
-   * \todo Much missing
-   */
-  // ----------------------------------------------------------------------
-
-  const Paragraph WeatherStory::forecast() const
+  const Paragraph weather_forecast(const WeatherAnalysis::WeatherArea& itsArea,
+								   const WeatherAnalysis::WeatherPeriod& itsPeriod,
+								   const WeatherAnalysis::AnalysisSources& itsSources,
+								   const NFmiTime& itsForecastTime,
+								   const std::string itsVar,
+								   MessageLogger& theLog)
   {
-	MessageLogger log("WeatherStory::forecast");
 
 	using namespace PrecipitationPeriodTools;
 
 	Paragraph paragraph;
-
-	//#ifdef TESTINGGG
-
-#ifdef TESTING
-	if(itsArea.isNamed())
-	  {
-		std::string name(itsArea.name());
-
-		if(name.compare("ahvenanmaa") == 0)
-		  {
-			NFmiTime periodStartTime(itsPeriod.localStartTime());
-			NFmiTime periodEndTime(itsPeriod.localStartTime());
-			periodEndTime.ChangeByHours(1);
-
-
-
-			for(int i = 0; i < 25; i++)
-			  {
-				for(int k = 0; k < 10; k++)
-				  {
-					NFmiTime periodStartTime2(periodStartTime);
-					NFmiTime periodEndTime2(periodEndTime);
-					periodEndTime2.ChangeByHours(k);
-					WeatherPeriod theTestPeriod(periodStartTime2, periodEndTime2);
-
-					log_start_time_and_end_time(log, 
-												"period: ",
-												theTestPeriod);
-					Sentence plainSentence;
-					Sentence alkaenSentence;
-					plainSentence << get_time_phrase_large(theTestPeriod,
-														   itsVar,
-														   false);
-					alkaenSentence << get_time_phrase_large(theTestPeriod,
-															itsVar,
-															true);
-
-					log << "pelkkä: ";
-					log << plainSentence;
-					log << "alkaen: ";
-					log << alkaenSentence;				
-				  }
-				periodStartTime.ChangeByHours(1);
-				periodEndTime.ChangeByHours(1);
-			  }
-		  }
-	  }
-
-#endif
 
 
 	// Period generator
 	const HourPeriodGenerator periodgenerator(itsPeriod, itsVar+"::day");
 	const int ndays = periodgenerator.size();
 	
-	log << "Period " << itsPeriod.localStartTime() << "..." 
+	theLog << "Period " << itsPeriod.localStartTime() << "..." 
 		<< itsPeriod.localEndTime() << " covers " << ndays << " days" << endl;
 	
 	if(ndays<=0)
 	  {
-		log << "No weather periods available!" << endl;
-		log << paragraph;
+		theLog << "No weather periods available!" << endl;
+		theLog << paragraph;
 		return paragraph;
 	  }
 
@@ -1430,11 +1373,11 @@ using namespace std;
 	dataPeriodStartTime.ChangeByHours(-12);
 	dataPeriodEndTime.ChangeByHours(12);
 
-	log_start_time_and_end_time(log, 
+	log_start_time_and_end_time(theLog, 
 								"the forecast period: ",
 								itsPeriod);
 	
-	log_start_time_and_end_time(log, 
+	log_start_time_and_end_time(theLog, 
 								"the data gathering period: ",
 								WeatherPeriod(dataPeriodStartTime, dataPeriodEndTime));
 
@@ -1442,8 +1385,7 @@ using namespace std;
 	if(itsArea.isNamed())
 	  {
 		std::string name(itsArea.name());
-		log << "** " << name  << " **" << endl;
-		//	cout << "** " << name  << " **" << endl;
+		theLog << "** " << name  << " **" << endl;
 	  }
 
 	WeatherPeriod theDataGatheringPeriod(dataPeriodStartTime, dataPeriodEndTime);
@@ -1454,7 +1396,7 @@ using namespace std;
 								  itsPeriod,
 								  itsForecastTime,
 								  itsSources,
-								  log);
+								  theLog);
 
 	init_parameters(theParameters);
 
@@ -1476,17 +1418,15 @@ using namespace std;
 	theParameters.theFogForecast = &fogForecast;
 	theParameters.theThunderForecast = &thunderForecast;
 
-	// precipitationForecast.printOutPrecipitationData(log);
-	precipitationForecast.printOutPrecipitationPeriods(log);
-	precipitationForecast.printOutPrecipitationWeatherEvents(log);
-	//	cloudinessForecast.printOutCloudinessData(log);
-	cloudinessForecast.printOutCloudinessWeatherEvents(log);
-	//	fogForecast.printOutFogData(log);
-	fogForecast.printOutFogPeriods(log);
+	// precipitationForecast.printOutPrecipitationData(theLog);
+	precipitationForecast.printOutPrecipitationPeriods(theLog);
+	precipitationForecast.printOutPrecipitationWeatherEvents(theLog);
+	//	cloudinessForecast.printOutCloudinessData(theLog);
+	cloudinessForecast.printOutCloudinessWeatherEvents(theLog);
+	//	fogForecast.printOutFogData(theLog);
+	fogForecast.printOutFogPeriods(theLog);
 
-
-
-	log_weather_result_data(theParameters);
+	//log_weather_result_data(theParameters);
 
 
 	WeatherForecastStory wfs(itsVar,
@@ -1504,12 +1444,106 @@ using namespace std;
 
 	paragraph << wfs.getWeatherForecastStory();
 
-	log_weather_forecast_story(log, wfs);
+	log_weather_forecast_story(theLog, wfs);
 
 	delete_data_structures(theParameters);
 
-	log << paragraph;
-	//#endif
+	theLog << paragraph;
+
+	return paragraph;
+  }
+
+
+
+
+
+
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Generate overview on weather
+   *
+   * \return The story
+   *
+   * \see page_weather_forecast
+   *
+   * \todo Much missing
+   */
+  // ----------------------------------------------------------------------
+
+  const Paragraph WeatherStory::forecast() const
+  {
+	MessageLogger log("WeatherStory::forecast");
+
+	using namespace PrecipitationPeriodTools;
+
+	Paragraph paragraph;
+
+
+	std::string areaName(itsArea.name());
+	if(itsArea.isNamed())
+	  {
+		log << areaName << endl;
+	  }
+
+	bool splitCriterionFulfilled = false;
+
+	if(split_the_area(itsVar, itsArea, itsPeriod, itsSources))
+	  {
+		splitCriterionFulfilled =
+		  temperature_split_criterion(itsVar,
+									  itsVar.find("morning") != string::npos,
+									  itsArea,
+									  itsPeriod,
+									  itsSources,
+									  log);
+	  }
+
+	if(splitCriterionFulfilled)
+	  {
+		Paragraph paragraphSouth;
+		Paragraph paragraphNorth;
+
+		WeatherArea south(itsArea);
+		south.type(WeatherArea::Southern);
+		WeatherArea north(itsArea);
+		north.type(WeatherArea::Northern);
+		
+		Sentence alueenEtelaosissa;
+		Sentence alueenPohjoisosissa;
+		alueenEtelaosissa << ALUEEN_ETELAOSISSA_PHRASE << Delimiter(":");
+		alueenPohjoisosissa << ALUEEN_POHJOISOSISSA_PHRASE << Delimiter(":");
+
+		paragraphSouth << alueenEtelaosissa;
+		paragraphNorth << alueenPohjoisosissa;
+		
+		paragraphSouth << weather_forecast(south,
+										   itsPeriod,
+										   itsSources,
+										   itsForecastTime,
+										   itsVar,
+										   log);
+
+		paragraphNorth <<  weather_forecast(north,
+											itsPeriod,
+											itsSources,
+											itsForecastTime,
+											itsVar,
+											log);
+
+		paragraph << paragraphSouth << paragraphNorth;
+		
+	  }
+	else
+	  {
+		paragraph <<  weather_forecast(itsArea,
+									   itsPeriod,
+									   itsSources,
+									   itsForecastTime,
+									   itsVar,
+									   log);
+
+	  }
 
 	return paragraph;
   }

@@ -2800,7 +2800,6 @@ vesi- tai lumisadetta.
 																static_cast<const forecast_area_id>(theForecastAreaId));
 			if(thunderSentence.size() > 0)
 			  {
-				sentence << JA_WORD;
 				sentence << thunderSentence;
 			  }
 		  }

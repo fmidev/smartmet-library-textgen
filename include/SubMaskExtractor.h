@@ -1,8 +1,20 @@
 #ifndef SUBMASKEXTRACTOR_H
 #define SUBMASKEXTRACTOR_H
 
+#include "AnalysisSources.h"
+#include "WeatherParameter.h"
+#include "WeatherArea.h"
+#include "WeatherPeriod.h"
+#include "Acceptor.h"
+
+#include <vector>
+
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiPoint.h>
+#include <newbase/NFmiGrid.h>
+#include <newbase/NFmiSvgPath.h>
+
+using namespace std;
 
 namespace WeatherAnalysis
 {
@@ -19,6 +31,10 @@ namespace WeatherAnalysis
 					 const WeatherPeriod& thePeriod,
 					 const Acceptor& theAcceptor,
 					 NFmiIndexMask& theResultIndexMask);
+
+  // Southern part of the area
+  const NFmiIndexMask MaskSouth(const NFmiGrid & theGrid,
+								const NFmiSvgPath & thePath);
 
   void PrintLatLon(const AnalysisSources& theSources,
 				   const WeatherParameter& theParameter,
