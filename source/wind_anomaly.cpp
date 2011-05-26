@@ -761,10 +761,10 @@ namespace TextGen
 	  std::string aamupaivalla(theParameters.theMorningWord);
 	  std::string iltapaivalla(theParameters.theAfternoonWord);
 
-	  float windspeedMorningInland = theParameters.theWindspeedInlandMorningMean.value();
-	  float windspeedAfternoonInland = theParameters.theWindspeedInlandAfternoonMean.value();
-	  float windspeedMorningCoastal = theParameters.theWindspeedCoastalMorningMean.value();
-	  float windspeedAfternoonCoastal = theParameters.theWindspeedCoastalAfternoonMean.value();
+	  int windspeedMorningInland = static_cast<int>(round(theParameters.theWindspeedInlandMorningMean.value()));
+	  int windspeedAfternoonInland = static_cast<int>(round(theParameters.theWindspeedInlandAfternoonMean.value()));
+	  int windspeedMorningCoastal = static_cast<int>(round(theParameters.theWindspeedCoastalMorningMean.value()));
+	  int windspeedAfternoonCoastal = static_cast<int>(round(theParameters.theWindspeedCoastalAfternoonMean.value()));
 
 
 	  Sentence specifiedDay;
@@ -1450,21 +1450,21 @@ namespace TextGen
 
 		  bool windCoolingTheWeatherInlandMorning = 
 			(theParameters.theWindspeedInlandMorningMean.value() != kFloatMissing &&
-			 static_cast<int>(theParameters.theWindspeedInlandMorningMean.value()) >= wind_cooling_the_weather_limit);
+			 static_cast<int>(round(theParameters.theWindspeedInlandMorningMean.value())) >= wind_cooling_the_weather_limit);
 		  bool windCoolingTheWeatherCoastalMorning = 
 			(theParameters.theWindspeedCoastalMorningMean.value() != kFloatMissing &&
-			 static_cast<int>(theParameters.theWindspeedCoastalMorningMean.value()) >= wind_cooling_the_weather_limit);
+			 static_cast<int>(round(theParameters.theWindspeedCoastalMorningMean.value())) >= wind_cooling_the_weather_limit);
 		  bool windCoolingTheWeatherInlandAfternoon = 
 			(theParameters.theWindspeedInlandAfternoonMean.value() != kFloatMissing &&
-			 static_cast<int>(theParameters.theWindspeedInlandAfternoonMean.value()) >= wind_cooling_the_weather_limit);
+			 static_cast<int>(round(theParameters.theWindspeedInlandAfternoonMean.value())) >= wind_cooling_the_weather_limit);
 		  bool windCoolingTheWeatherCoastalAfternoon = 
 			(theParameters.theWindspeedCoastalAfternoonMean.value() != kFloatMissing &&
-			 static_cast<int>(theParameters.theWindspeedCoastalAfternoonMean.value()) >= wind_cooling_the_weather_limit);
+			 static_cast<int>(round(theParameters.theWindspeedCoastalAfternoonMean.value())) >= wind_cooling_the_weather_limit);
 
-			 float temperatureInlandMorning = theParameters.theTemperatureInlandMorningMean.value();
-			 float temperatureInlandAfternoon = theParameters.theTemperatureInlandAfternoonMean.value();
-			 float temperatureCoastalMorning = theParameters.theTemperatureCoastalMorningMean.value();
-			 float temperatureCoastalAfternoon = theParameters.theTemperatureCoastalAfternoonMean.value();
+		  int temperatureInlandMorning = static_cast<int>(round(theParameters.theTemperatureInlandMorningMean.value()));
+		  int temperatureInlandAfternoon = static_cast<int>(round(theParameters.theTemperatureInlandAfternoonMean.value()));
+		  int temperatureCoastalMorning = static_cast<int>(round(theParameters.theTemperatureCoastalMorningMean.value()));
+		  int temperatureCoastalAfternoon = static_cast<int>(round(theParameters.theTemperatureCoastalAfternoonMean.value()));
 
 			 inlandIncluded = windCoolingTheWeatherInlandMorning || windCoolingTheWeatherInlandAfternoon;
 			 coastIncluded = windCoolingTheWeatherCoastalMorning || windCoolingTheWeatherCoastalAfternoon;

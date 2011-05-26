@@ -131,14 +131,14 @@ namespace TextGen
 #define SUMUA_WORD "sumua"
 #define JOKA_VOI_OLLA_SAKEAA_PHRASE "joka voi olla sakeaa"
 
-#define ALUEEN_POHJOISOSISSA_PHRASE "alueen pohjoisosissa"
-#define ALUEEN_ETELAOSISSA_PHRASE "alueen eteläosissa"
-#define ALUEEN_ITAOSISSA_PHRASE "alueen itäosissa"
-#define ALUEEN_LANSIOSISSA_PHRASE "alueen länsiosissa"
-#define ALUEEN_KOILLISOSISSA_PHRASE "alueen koillisosissa"
-#define ALUEEN_KAAKKOISOSISSA_PHRASE "alueen kaakkoisosissa"
-#define ALUEEN_LOUNAISOSISSA_PHRASE "alueen lounaisosissa"
-#define ALUEEN_LUOTEISOSISSA_PHRASE "alueen luoteisosissa"
+#define ALUEEN_POHJOISOSASSA_PHRASE "alueen pohjoisosassa"
+#define ALUEEN_ETELAOSASSA_PHRASE "alueen eteläosassa"
+#define ALUEEN_ITAOSASSA_PHRASE "alueen itäosassa"
+#define ALUEEN_LANSIOSASSA_PHRASE "alueen länsiosassa"
+#define ALUEEN_KOILLISOSASSA_PHRASE "alueen koillisosassa"
+#define ALUEEN_KAAKKOISOSASSA_PHRASE "alueen kaakkoisosassa"
+#define ALUEEN_LOUNAISOSASSA_PHRASE "alueen lounaisosassa"
+#define ALUEEN_LUOTEISOSASSA_PHRASE "alueen luoteisosassa"
 
 #define AAMUSTA_ALKAEN_PHRASE "aamusta alkaen"
 #define AAMUPAIVASTA_ALKAEN_PHRASE "aamupäivästä alkaen"
@@ -424,14 +424,14 @@ namespace TextGen
 
   enum area_specific_sentence_id
 	{
-	  ALUEEN_POHJOISOSISSA,
-	  ALUEEN_ETELAOSISSA,
-	  ALUEEN_ITAOSISSA,
-	  ALUEEN_LANSIOSISSA,
-	  ENIMMAKSEEN_ALUEEN_POHJOISOSISSA,
-	  ENIMMAKSEEN_ALUEEN_ETELAOSISSA,
-	  ENIMMAKSEEN_ALUEEN_ITAOSISSA,
-	  ENIMMAKSEEN_ALUEEN_LANSIOSISSA,
+	  ALUEEN_POHJOISOSASSA,
+	  ALUEEN_ETELAOSASSA,
+	  ALUEEN_ITAOSASSA,
+	  ALUEEN_LANSIOSASSA,
+	  ENIMMAKSEEN_ALUEEN_POHJOISOSASSA,
+	  ENIMMAKSEEN_ALUEEN_ETELAOSASSA,
+	  ENIMMAKSEEN_ALUEEN_ITAOSASSA,
+	  ENIMMAKSEEN_ALUEEN_LANSIOSASSA,
 	  MISSING_AREA_SPECIFIC_SENTENCE_ID
 	};
 

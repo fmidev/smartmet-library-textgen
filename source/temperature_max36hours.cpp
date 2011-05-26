@@ -72,43 +72,43 @@ namespace TextGen
 	using Settings::optional_bool;
 	using Settings::optional_string;
 
-#define PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on [M...N astetta]"
+#define PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on [M...N] [astetta]"
 	/*
-#define PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on noin [N astetta]"
+#define PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on noin [N] [astetta]"
 #define PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkanen on [N] asteen tienoilla"
 #define PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkanen on [N] asteen tuntumassa"
-#define PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkanen on lähellä [N astetta]"
-#define PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on vajaat [N astetta]"
-#define PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on vähän yli [N astetta]"
+#define PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkanen on lähellä [N] [astetta]"
+#define PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on vajaat [N] [astetta]"
+#define PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on vähän yli [N] [astetta]"
 	*/
 
-#define LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [M...N astetta]"
-#define LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on noin [N astetta]"
+#define LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [M...N] [astetta]"
+#define LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on noin [N] [astetta]"
 #define LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [N] asteen tienoilla"
 #define LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [N] asteen tuntumassa"
-#define LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on lähellä [N astetta]"
-#define LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on vajaat [N astetta]"
-#define LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on vähän yli [N astetta]"
+#define LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on lähellä [N] [astetta]"
+#define LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on vajaat [N] [astetta]"
+#define LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on vähän yli [N] [astetta]"
 #define ON_PIKKUPAKKASTA_COMPOSITE_PHRASE "[huomenna] [rannikolla] on pikkupakkasta"
 #define PAKKANEN_ON_HIEMAN_KIREAMPAA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkanen on [hieman kireämpää]"
 #define LAMPOTILA_NOUSEE_COMPOSITE_PHRASE "[yöllä] lämpötila nousee"
 
 #define LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [suunnilleen sama]"
 
-#define RANNIKOLLA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "rannikolla lähellä [N astetta]"
-#define RANNIKOLLA_NOIN_ASTETTA_COMPOSITE_PHRASE "rannikolla noin [N astetta]"
-#define RANNIKOLLA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "rannikolla vajaat [N astetta]"
-#define RANNIKOLLA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "rannikolla vähän yli [N astetta]"
-#define RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "rannikolla [M...N astetta]"
+#define RANNIKOLLA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "rannikolla lähellä [N] [astetta]"
+#define RANNIKOLLA_NOIN_ASTETTA_COMPOSITE_PHRASE "rannikolla noin [N] [astetta]"
+#define RANNIKOLLA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "rannikolla vajaat [N] [astetta]"
+#define RANNIKOLLA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "rannikolla vähän yli [N] [astetta]"
+#define RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "rannikolla [M...N] [astetta]"
 #define RANNIKOLLA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] asteen tienoilla"
 #define RANNIKOLLA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] asteen tuntumassa"
 #define RANNIKOLLA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "rannikolla [suunnilleen sama]"
 
-#define HUOMENNA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] lähellä [N astetta]"
-#define HUOMENNA_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] noin [N astetta]"
-#define HUOMENNA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] vajaat [N astetta]"
-#define HUOMENNA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] vähän yli [N astetta]"
-#define HUOMENNA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [M...N astetta]"
+#define HUOMENNA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] lähellä [N] [astetta]"
+#define HUOMENNA_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] noin [N] [astetta]"
+#define HUOMENNA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] vajaat [N] [astetta]"
+#define HUOMENNA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] vähän yli [N] [astetta]"
+#define HUOMENNA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [M...N] [astetta]"
 #define HUOMENNA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [N] asteen tienoilla"
 #define HUOMENNA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [N] asteen tuntumassa"
 #define HUOMENNA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [suunnilleen sama]"
@@ -2342,11 +2342,21 @@ namespace TextGen
 		  break;
 		case LAMPOTILA_VALILLA_PHRASE_ID:
 		  {
+			/*
+				  sentence << IntegerRange(theRoundedMaximum, theRoundedMinimum, theRangeSeparator)
+						   << *UnitFactory::create(DegreesCelsius);
+
+											const int& intervalStart,
+											const int& intervalEnd)
+
+
+			 */
 			if(theParameters.theForecastAreaId == COASTAL_AREA &&
 			   theParameters.inlandAndCoastSeparated())
 			  {
 				sentence << RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
-						 << temperatureSentence;
+						 << IntegerRange(intervalStart, intervalEnd, theParameters.theRangeSeparator)
+						 << *UnitFactory::create(DegreesCelsius);
 			  }
 			else
 			  {
@@ -3118,9 +3128,9 @@ namespace TextGen
 		return paragraph;
 
 	  Sentence alueenEtelaosissa;
-	  alueenEtelaosissa << ALUEEN_ETELAOSISSA_PHRASE;
+	  alueenEtelaosissa << ALUEEN_ETELAOSASSA_PHRASE;
 	  Sentence alueenPohjoisosissa;
-	  alueenPohjoisosissa << ALUEEN_POHJOISOSISSA_PHRASE;
+	  alueenPohjoisosissa << ALUEEN_POHJOISOSASSA_PHRASE;
 
 	  const int temperature_limit_coast_inland = optional_int(theParameters.theVariable + 
 															  "::temperature_limit_coast_inland", 3);

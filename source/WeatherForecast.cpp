@@ -1385,44 +1385,44 @@ using namespace std;
 
 	switch(sentenceId)
 	  {
-	  case ALUEEN_POHJOISOSISSA:
+	  case ALUEEN_POHJOISOSASSA:
 		{
-		  sentence << ALUEEN_POHJOISOSISSA_PHRASE;
+		  sentence << ALUEEN_POHJOISOSASSA_PHRASE;
 		}
 		break;
-	  case ALUEEN_ETELAOSISSA:
+	  case ALUEEN_ETELAOSASSA:
 		{
-		  sentence << ALUEEN_ETELAOSISSA_PHRASE;
+		  sentence << ALUEEN_ETELAOSASSA_PHRASE;
 		}
 		break;
-	  case ALUEEN_ITAOSISSA:
+	  case ALUEEN_ITAOSASSA:
 		{
-		  sentence << ALUEEN_ITAOSISSA_PHRASE;
+		  sentence << ALUEEN_ITAOSASSA_PHRASE;
 		}
 		break;
-	  case ALUEEN_LANSIOSISSA:
+	  case ALUEEN_LANSIOSASSA:
 		{
-		  sentence << ALUEEN_LANSIOSISSA_PHRASE;
+		  sentence << ALUEEN_LANSIOSASSA_PHRASE;
 		}
 		break;
-	  case ENIMMAKSEEN_ALUEEN_POHJOISOSISSA:
+	  case ENIMMAKSEEN_ALUEEN_POHJOISOSASSA:
 		{
-		  sentence << ENIMMAKSEEN_WORD << ALUEEN_POHJOISOSISSA_PHRASE;
+		  sentence << ENIMMAKSEEN_WORD << ALUEEN_POHJOISOSASSA_PHRASE;
 		}
 		break;
-	  case ENIMMAKSEEN_ALUEEN_ETELAOSISSA:
+	  case ENIMMAKSEEN_ALUEEN_ETELAOSASSA:
 		{
-		  sentence << ENIMMAKSEEN_WORD << ALUEEN_ETELAOSISSA_PHRASE;
+		  sentence << ENIMMAKSEEN_WORD << ALUEEN_ETELAOSASSA_PHRASE;
 		}
 		break;
-	  case ENIMMAKSEEN_ALUEEN_ITAOSISSA:
+	  case ENIMMAKSEEN_ALUEEN_ITAOSASSA:
 		{
-		  sentence << ENIMMAKSEEN_WORD << ALUEEN_ITAOSISSA_PHRASE;
+		  sentence << ENIMMAKSEEN_WORD << ALUEEN_ITAOSASSA_PHRASE;
 		}
 		break;
-	  case ENIMMAKSEEN_ALUEEN_LANSIOSISSA:
+	  case ENIMMAKSEEN_ALUEEN_LANSIOSASSA:
 		{
-		  sentence << ENIMMAKSEEN_WORD << ALUEEN_LANSIOSISSA_PHRASE;
+		  sentence << ENIMMAKSEEN_WORD << ALUEEN_LANSIOSASSA_PHRASE;
 		}
 		break;
 	  default:
@@ -1446,35 +1446,35 @@ using namespace std;
 
 	if(north >= 98.0)
 	  {
-		retval = ALUEEN_POHJOISOSISSA;
+		retval = ALUEEN_POHJOISOSASSA;
 	  }
 	else if(north >= 95.0 && mostlyFlag)
 	  {
-		retval = ENIMMAKSEEN_ALUEEN_POHJOISOSISSA;
+		retval = ENIMMAKSEEN_ALUEEN_POHJOISOSASSA;
 	  }
 	else if(south >= 98.0)
 	  {
-		retval = ALUEEN_ETELAOSISSA;
+		retval = ALUEEN_ETELAOSASSA;
 	  }
 	else if(south >= 95.0 && mostlyFlag)
 	  {
-		retval = ENIMMAKSEEN_ALUEEN_ETELAOSISSA;
+		retval = ENIMMAKSEEN_ALUEEN_ETELAOSASSA;
 	  }
 	else if(east >= 98.0)
 	  {
-		retval = ALUEEN_ITAOSISSA;
+		retval = ALUEEN_ITAOSASSA;
 	  }
 	else if(east >= 95.0 && mostlyFlag)
 	  {
-		retval = ENIMMAKSEEN_ALUEEN_ITAOSISSA;
+		retval = ENIMMAKSEEN_ALUEEN_ITAOSASSA;
 	  }
 	else if(west >= 98.0)
 	  {
-		retval = ALUEEN_LANSIOSISSA;
+		retval = ALUEEN_LANSIOSASSA;
 	  }
 	else if(west >= 95.0 && mostlyFlag)
 	  {
-		retval = ENIMMAKSEEN_ALUEEN_LANSIOSISSA;
+		retval = ENIMMAKSEEN_ALUEEN_LANSIOSASSA;
 	  }
 	return retval;
   }

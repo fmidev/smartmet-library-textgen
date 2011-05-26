@@ -1,3 +1,160 @@
+#include "WindStory.h"
+#include "MessageLogger.h"
+#include "Paragraph.h"
+#include "WeatherPeriod.h"
+#include "WeatherResult.h"
+#include "WindStoryTools.h"
+#include "GridForecaster.h"
+
+using namespace WeatherAnalysis;
+using namespace TextGen::WindStoryTools;
+using namespace std;
+
+namespace TextGen
+{
+  struct WindDataItem
+  {
+	WindDataItem(const WeatherPeriod& period, 
+				 const WeatherResult& windspeedMin, 
+				 const WeatherResult& windspeedMax, 
+				 const WeatherResult& windspeedMean,
+				 const WeatherResult& windDirection,
+				 const WindDirectionAccuracy& directionAccuracy) 
+	  : thePeriod(period),
+		theWindspeedMin(windspeedMin),
+		theWindspeedMax(windspeedMax),
+		theWindspeedMean(windspeedMean),
+		theWindDirection(windDirection),
+		theDirectionAccuracy(directionAccuracy)
+	{}
+	
+	WeatherPeriod thePeriod;
+	WeatherResult theWindspeedMin;
+	WeatherResult theWindspeedMax;
+	WeatherResult theWindspeedMean;
+	WeatherResult theWindDirection;
+	WindDirectionAccuracy theDirectionAccuracy;
+  };
+
+  typedef vector<WindDataItem*> wind_data_item_vector;
+
+
+void allocate_data_structures(const WeatherPeriod& thePeriod, 
+							  wind_data_item_vector& theResultVector)
+{
+	NFmiTime periodStartTime = thePeriod.localStartTime();
+
+	while(periodStartTime.IsLessThan(thePeriod.localEndTime()))
+	  {
+		NFmiTime periodEndTime = periodStartTime;
+		periodEndTime.ChangeByHours(1);
+		WeatherPeriod weatherPeriod(periodEndTime, periodEndTime);
+		WeatherResult minWind(kFloatMissing, kFloatMissing);
+		WeatherResult maxWind(kFloatMissing, kFloatMissing);
+		WeatherResult meanWind(kFloatMissing, kFloatMissing);
+		WeatherResult windDirection(kFloatMissing, kFloatMissing);
+
+		theResultVector.push_back(new WindDataItem(weatherPeriod,
+												   minWind,
+												   maxWind,
+												   meanWind,
+												   windDirection,
+												   bad_accuracy));
+
+		periodStartTime.ChangeByHours(1);		
+	  }
+}
+
+  void deallocate_data_structure(wind_data_item_vector& theResultVector)
+  {
+	/*
+	for(unsigned int i = 0; i < theResultVector.size(); i++)
+	  {
+		delete theResultVector[i];
+	  }
+	*/
+	theResultVector.clear();
+  }
+
+void populate_wind_time_series(const string& theVar, 
+							   const AnalysisSources& theSources,
+							   const WeatherArea& theArea,	
+							   wind_data_item_vector& theResultVector)
+{
+  GridForecaster forecaster;
+
+  for(unsigned int i = 0; i < theResultVector.size(); i++)
+	{
+		const WeatherResult minspeed =
+		  forecaster.analyze(theVar,//itsVar+"::fake::"+daystr+"::speed::minimum",
+							 theSources,
+							 WindSpeed,
+							 Minimum,
+							 Mean,
+							 theArea,
+							 theResultVector[i]->thePeriod);
+
+		const WeatherResult maxspeed =
+		  forecaster.analyze(theVar,//itsVar+"::fake::"+daystr+"::speed::maximum",
+							 theSources,
+							 WindSpeed,
+							 Maximum,
+							 Mean,
+							 theArea,
+							 theResultVector[i]->thePeriod);
+
+		const WeatherResult meanspeed =
+		  forecaster.analyze(theVar,//itsVar+"::fake::"+daystr+"::speed::mean",
+							 theSources,
+							 WindSpeed,
+							 Mean,
+							 Mean,
+							 theArea,
+							 theResultVector[i]->thePeriod);
+
+		const WeatherResult direction =
+		  forecaster.analyze(theVar,//itsVar+"::fake::"+daystr+"::direction::mean",
+							 theSources,
+							 WindDirection,
+							 Mean,
+							 Mean,
+							 theArea,
+							 theResultVector[i]->thePeriod);
+
+		theResultVector[i]->theWindspeedMin = minspeed;
+		theResultVector[i]->theWindspeedMax = maxspeed;
+		theResultVector[i]->theWindspeedMean = meanspeed;
+		theResultVector[i]->theWindDirection = direction;
+		theResultVector[i]->theDirectionAccuracy = direction_accuracy(direction.error(),theVar);
+	}
+}
+
+  const Paragraph WindStory::overview() const
+  {
+	MessageLogger log("WeatherStory::overview");
+
+    // Generate the story
+    //
+	Paragraph paragraph;
+
+	wind_data_item_vector resultVector;
+  
+
+	log << paragraph;
+	return paragraph;
+  }
+} // namespace TextGen
+  
+// ======================================================================
+
+
+
+
+
+
+
+#ifdef OLD_STUFF
+
 // ======================================================================
 /*!
  * \file
@@ -11,6 +168,7 @@
 #include "WindStory.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
+
 
 using namespace WeatherAnalysis;
 using namespace std;
@@ -97,3 +255,5 @@ namespace TextGen
 } // namespace TextGen
   
 // ======================================================================
+
+#endif

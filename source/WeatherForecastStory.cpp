@@ -714,14 +714,30 @@ namespace TextGen
 	  {
 		if(thePreviousPrecipitationStoryItem->thePoutaantuuFlag)
 		  {
+			Sentence cloudinessSentence;
+			cloudiness_id cloudinessId = clForecast.getCloudinessId(getStoryItemPeriod());
+
+			if(theChangeSentence.size() > 0)
+			  {
+				WeatherPeriod clPeriod(thePeriod.localStartTime(), theCloudinessChangeTimestamp);
+				cloudinessSentence << 
+				  clForecast.cloudinessSentence(clPeriod, USE_SHORT_FORM);
+			  }
+			else
+			  {
+				cloudinessSentence << 
+				  clForecast.cloudinessSentence(thePeriod, USE_SHORT_FORM);
+			  }
+
 			WeatherPeriod poutaantuuPeriod(thePreviousPrecipitationStoryItem->getStoryItemPeriod().localEndTime(),
 										   thePreviousPrecipitationStoryItem->getStoryItemPeriod().localEndTime());
 
 			// ARE 22.02.2011: The missing period-phrase added
 			Sentence thePeriodPhrase(getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &poutaantuuPeriod));
-			thePoutaantuuSentence << prForecast.precipitationChangeSentence(poutaantuuPeriod, 
-																			thePeriodPhrase, 
-																			POUTAANTUU);
+			thePoutaantuuSentence << prForecast.precipitationPoutaantuuAndCloudiness(poutaantuuPeriod, 
+																					 thePeriodPhrase,
+																					 cloudinessId,
+																					 cloudinessSentence);
 			thePreviousPrecipitationStoryItem->theReportPoutaantuuFlag = false;
 			theReportAboutDryWeatherFlag = false;
 		  }
@@ -730,29 +746,6 @@ namespace TextGen
 	if(!thePoutaantuuSentence.empty())
 	  {
 		sentence << thePoutaantuuSentence;
-		Sentence andWord;
-		andWord << JA_WORD;
-		sentence << andWord;
-		if(clForecast.getCloudinessId(getStoryItemPeriod()) != PUOLIPILVINEN_JA_PILVINEN)
-		  {
-			Sentence isWord;
-			sentence << isWord;
-			sentence << ON_WORD;
-		  }
-		
-		if(theChangeSentence.size() > 0)
-		  {
-			WeatherPeriod clPeriod(thePeriod.localStartTime(), theCloudinessChangeTimestamp);
-			sentence << 
-			  clForecast.cloudinessSentence(clPeriod, USE_SHORT_FORM);
-		  }
-		else
-		  {
-			sentence << 
-			  clForecast.cloudinessSentence(thePeriod, USE_SHORT_FORM);
-		  }
-
-		prForecast.setDryPeriodTautologyFlag(true);
 
 		// ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
 		if(theChangeSentence.size() > 0 &&

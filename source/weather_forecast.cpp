@@ -1453,12 +1453,6 @@ using namespace std;
 	return paragraph;
   }
 
-
-
-
-
-
-
   // ----------------------------------------------------------------------
   /*!
    * \brief Generate overview on weather
@@ -1511,8 +1505,8 @@ using namespace std;
 		
 		Sentence alueenEtelaosissa;
 		Sentence alueenPohjoisosissa;
-		alueenEtelaosissa << ALUEEN_ETELAOSISSA_PHRASE << Delimiter(":");
-		alueenPohjoisosissa << ALUEEN_POHJOISOSISSA_PHRASE << Delimiter(":");
+		alueenEtelaosissa << ALUEEN_ETELAOSASSA_PHRASE << Delimiter(":");
+		alueenPohjoisosissa << ALUEEN_POHJOISOSASSA_PHRASE << Delimiter(":");
 
 		paragraphSouth << alueenEtelaosissa;
 		paragraphNorth << alueenPohjoisosissa;

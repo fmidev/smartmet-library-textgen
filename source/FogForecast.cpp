@@ -912,15 +912,15 @@ namespace TextGen
 		if((areaHeightWidthRatio >= 0.6 && 
 			areaHeightWidthRatio <= 1.5) ||
 		   (areaHeightWidthRatio < 0.6 &&
-			(sentenceId == ALUEEN_ITAOSISSA || 
-			 sentenceId == ALUEEN_LANSIOSISSA ||
-			 sentenceId == ENIMMAKSEEN_ALUEEN_ITAOSISSA ||
-			 sentenceId == ENIMMAKSEEN_ALUEEN_LANSIOSISSA)) ||
+			(sentenceId == ALUEEN_ITAOSASSA || 
+			 sentenceId == ALUEEN_LANSIOSASSA ||
+			 sentenceId == ENIMMAKSEEN_ALUEEN_ITAOSASSA ||
+			 sentenceId == ENIMMAKSEEN_ALUEEN_LANSIOSASSA)) ||
 		   (areaHeightWidthRatio > 1.5 &&
-			(sentenceId == ALUEEN_POHJOISOSISSA || 
-			 sentenceId == ALUEEN_ETELAOSISSA ||
-			 sentenceId == ENIMMAKSEEN_ALUEEN_POHJOISOSISSA ||
-			 sentenceId == ENIMMAKSEEN_ALUEEN_ETELAOSISSA)))
+			(sentenceId == ALUEEN_POHJOISOSASSA || 
+			 sentenceId == ALUEEN_ETELAOSASSA ||
+			 sentenceId == ENIMMAKSEEN_ALUEEN_POHJOISOSASSA ||
+			 sentenceId == ENIMMAKSEEN_ALUEEN_ETELAOSASSA)))
 		  {
 			sentence << areaSpecificSentence;
 		  }

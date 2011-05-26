@@ -57,6 +57,8 @@ namespace TextGen
 #define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
 #define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
 #define SAA_POUTAANTUU_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu"
+#define SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu ja on [selke‰]"
+#define SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu ja vaihtelee puolipilvisest‰ pilviseen"
 
   std::ostream& operator<<(std::ostream& theOutput,
 						   const PrecipitationDataItemData& thePrecipitationDataItemData)
@@ -2269,6 +2271,25 @@ vesi- tai lumisadetta.
 	  }
 	return false;
   }
+  Sentence PrecipitationForecast::precipitationPoutaantuuAndCloudiness(const WeatherPeriod& thePeriod,
+																	   const Sentence& thePeriodPhrase,
+																	   const cloudiness_id& theCloudinessId,
+																	   const Sentence& theCloudinessSentence) const
+  {
+	Sentence sentence;
+
+	if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
+	  sentence << SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE
+			   << thePeriodPhrase;
+	else
+	  sentence << SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE
+			   << thePeriodPhrase
+			   << theCloudinessSentence;
+	
+	setDryPeriodTautologyFlag(true);
+
+	return sentence;
+  }
 
   Sentence PrecipitationForecast::precipitationChangeSentence(const WeatherPeriod& thePeriod,
 															  const Sentence& thePeriodPhrase,
@@ -2924,15 +2945,15 @@ vesi- tai lumisadetta.
 	if((areaHeightWidthRatio >= 0.6 && 
 		areaHeightWidthRatio <= 1.5) ||
 	   (areaHeightWidthRatio < 0.6 &&
-		(sentenceId == ALUEEN_ITAOSISSA || 
-		 sentenceId == ALUEEN_LANSIOSISSA ||
-		 sentenceId == ENIMMAKSEEN_ALUEEN_ITAOSISSA ||
-		 sentenceId == ENIMMAKSEEN_ALUEEN_LANSIOSISSA)) ||
+		(sentenceId == ALUEEN_ITAOSASSA || 
+		 sentenceId == ALUEEN_LANSIOSASSA ||
+		 sentenceId == ENIMMAKSEEN_ALUEEN_ITAOSASSA ||
+		 sentenceId == ENIMMAKSEEN_ALUEEN_LANSIOSASSA)) ||
 	   (areaHeightWidthRatio > 1.5 &&
-		(sentenceId == ALUEEN_POHJOISOSISSA || 
-		 sentenceId == ALUEEN_ETELAOSISSA ||
-		 sentenceId == ENIMMAKSEEN_ALUEEN_POHJOISOSISSA ||
-		 sentenceId == ENIMMAKSEEN_ALUEEN_ETELAOSISSA)))
+		(sentenceId == ALUEEN_POHJOISOSASSA || 
+		 sentenceId == ALUEEN_ETELAOSASSA ||
+		 sentenceId == ENIMMAKSEEN_ALUEEN_POHJOISOSASSA ||
+		 sentenceId == ENIMMAKSEEN_ALUEEN_ETELAOSASSA)))
 	  {
 		sentence << areaSpecificSentence;
 	  }
