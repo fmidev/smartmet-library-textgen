@@ -130,11 +130,17 @@ namespace WeatherAnalysis
 		  case WeatherArea::Inland:
 			theIndexMask = theSources.getInlandMaskSource()->mask(theArea,dataname,*wsource);
 			break;
+		  case WeatherArea::Northern:
+			theIndexMask = theSources.getNorthernMaskSource()->mask(theArea,dataname,*wsource);
+			break;
 		  case WeatherArea::Southern:
 			theIndexMask = theSources.getSouthernMaskSource()->mask(theArea,dataname,*wsource);
 			break;
-		  case WeatherArea::Northern:
-			theIndexMask = theSources.getNorthernMaskSource()->mask(theArea,dataname,*wsource);
+		  case WeatherArea::Eastern:
+			theIndexMask = theSources.getEasternMaskSource()->mask(theArea,dataname,*wsource);
+			break;
+		  case WeatherArea::Western:
+			theIndexMask = theSources.getWesternMaskSource()->mask(theArea,dataname,*wsource);
 			break;
 		  }
 
@@ -229,11 +235,17 @@ namespace WeatherAnalysis
 		  case WeatherArea::Inland:
 			theIndexMask = theSources.getInlandMaskSource()->mask(theArea,dataname,*wsource);
 			break;
+		  case WeatherArea::Northern:
+			theIndexMask = theSources.getNorthernMaskSource()->mask(theArea,dataname,*wsource);
+			break;
 		  case WeatherArea::Southern:
 			theIndexMask = theSources.getSouthernMaskSource()->mask(theArea,dataname,*wsource);
 			break;
-		  case WeatherArea::Northern:
-			theIndexMask = theSources.getNorthernMaskSource()->mask(theArea,dataname,*wsource);
+		  case WeatherArea::Eastern:
+			theIndexMask = theSources.getEasternMaskSource()->mask(theArea,dataname,*wsource);
+			break;
+		  case WeatherArea::Western:
+			theIndexMask = theSources.getWesternMaskSource()->mask(theArea,dataname,*wsource);
 			break;
 		  }
 
@@ -379,20 +391,9 @@ namespace WeatherAnalysis
 
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return area in the southern part of the area
-   *
-   * If the path is empty, the mask is also empty
-   *
-   * \param theGrid The grid
-   * \param thePath The path (closed)
-   * \return The mask for the southern part of the area 
-   */
-  // ----------------------------------------------------------------------
-
-  const NFmiIndexMask MaskSouth(const NFmiGrid & theGrid,
-								const NFmiSvgPath & thePath)
+  const NFmiIndexMask MaskDirection(const NFmiGrid & theGrid,
+									const NFmiSvgPath & thePath,
+									const direction_id& theDirectionId)
   {
 	NFmiIndexMask mask;
 
@@ -420,6 +421,7 @@ namespace WeatherAnalysis
 							  theYmax);
 
 	double yMiddle = theYmin + ((theYmax - theYmin) / 2.0);
+	double xMiddle = theXmin + ((theXmax - theXmin) / 2.0);
 
 	// Non-optimal solution loops through the entire grid
 	
@@ -436,9 +438,41 @@ namespace WeatherAnalysis
 
 			  const NFmiPoint xy = theGrid.GridToWorldXY(i,j);
 			  
-			  if(NFmiSvgTools::IsInside(thePath,p) &&
-				 p.Y() < yMiddle)
+			  if(NFmiSvgTools::IsInside(thePath,p))
 				{
+				  bool insert = false;
+				  switch(theDirectionId)
+					{
+					case NORTH:
+					  insert = p.Y() >= yMiddle;
+					break;
+					case SOUTH:
+					  insert = p.Y() < yMiddle;
+					break;
+					case EAST:
+					  insert = p.X() >= xMiddle;
+					break;
+					case WEST:
+					  insert = p.X() < xMiddle;
+					break;
+					case NORTHEAST:
+					  insert = p.Y() >= yMiddle && p.X() >= xMiddle;
+					break;
+					case SOUTHEAST:
+					  insert = p.Y() < yMiddle && p.X() >= xMiddle;
+					break;
+					case NORTHWEST:
+					  insert = p.Y() >= yMiddle && p.X() < xMiddle;
+					break;
+					case SOUTHWEST:
+					  insert = p.Y() < yMiddle && p.X() < xMiddle;
+					break;
+					default:
+					  insert = false;
+					  break;
+					}
+
+				  if(insert)
 					mask.insert(idx);
 				}
 			}

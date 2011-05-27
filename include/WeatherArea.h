@@ -28,8 +28,10 @@ namespace WeatherAnalysis
 		Land,
 		Coast,
 		Inland,
+		Northern,
 		Southern,
-		Northern
+		Eastern,
+		Western
 	  };
 
   public:

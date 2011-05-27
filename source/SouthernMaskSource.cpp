@@ -196,11 +196,10 @@ namespace WeatherAnalysis
 
 	const NFmiSvgPath svg = theArea.path();
 
-	mask_type southernmask(new NFmiIndexMask(MaskSouth(*(qi->Grid()),
-													   svg)));
-	
-
-	return southernmask;
+	mask_type return_mask(new NFmiIndexMask(MaskDirection(*(qi->Grid()),
+														  svg,
+														  SOUTH)));
+	return return_mask;
   }
 
   // ----------------------------------------------------------------------

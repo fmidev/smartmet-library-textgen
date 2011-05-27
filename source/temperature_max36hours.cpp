@@ -3127,10 +3127,14 @@ namespace TextGen
 	  if(theParameters.theForecastArea == NO_AREA)
 		return paragraph;
 
-	  Sentence alueenEtelaosissa;
-	  alueenEtelaosissa << ALUEEN_ETELAOSASSA_PHRASE;
-	  Sentence alueenPohjoisosissa;
-	  alueenPohjoisosissa << ALUEEN_POHJOISOSASSA_PHRASE;
+	  Sentence alueenPohjoisosassa;
+	  alueenPohjoisosassa << ALUEEN_POHJOISOSASSA_PHRASE;
+	  Sentence alueenEtelaosassa;
+	  alueenEtelaosassa << ALUEEN_ETELAOSASSA_PHRASE;
+	  Sentence alueenItaosassa;
+	  alueenItaosassa << ALUEEN_ITAOSASSA_PHRASE;
+	  Sentence alueenLansiosassa;
+	  alueenLansiosassa << ALUEEN_LANSIOSASSA_PHRASE;
 
 	  const int temperature_limit_coast_inland = optional_int(theParameters.theVariable + 
 															  "::temperature_limit_coast_inland", 3);
@@ -3465,10 +3469,14 @@ namespace TextGen
 		{
 		  if(paragraph.size() == 0)
 			{
-			  if(theParameters.theWeatherArea.type() == WeatherArea::Southern)
-				sentenceUnderConstruction << alueenEtelaosissa;
-			  else if(theParameters.theWeatherArea.type() == WeatherArea::Northern)
-				sentenceUnderConstruction << alueenPohjoisosissa;
+			  if(theParameters.theWeatherArea.type() == WeatherArea::Northern)
+				sentenceUnderConstruction << alueenPohjoisosassa;
+			  else if(theParameters.theWeatherArea.type() == WeatherArea::Southern)
+				sentenceUnderConstruction << alueenEtelaosassa;
+			  else if(theParameters.theWeatherArea.type() == WeatherArea::Eastern)
+				sentenceUnderConstruction << alueenItaosassa;
+			  else if(theParameters.theWeatherArea.type() == WeatherArea::Western)
+				sentenceUnderConstruction << alueenLansiosassa;
 			}
 
 		  int periodArea = periodAreas[i];
@@ -4151,24 +4159,23 @@ namespace TextGen
 
 	if(splitCriterionFulfilled)
 	  {
-		Paragraph paragraphSouth;
 		Paragraph paragraphNorth;
+		Paragraph paragraphSouth;
 
-		WeatherArea south(itsArea);
-		south.type(WeatherArea::Southern);
 		WeatherArea north(itsArea);
 		north.type(WeatherArea::Northern);
+		WeatherArea south(itsArea);
+		south.type(WeatherArea::Southern);
 		
-		paragraphSouth <<
-		  TemperatureMax36Hours::max36hours(south,
+		paragraphNorth <<
+		  TemperatureMax36Hours::max36hours(north,
 											itsPeriod,
 											itsSources,
 											itsForecastTime,
 											itsVar,
 											log);
-
-		paragraphNorth <<
-		  TemperatureMax36Hours::max36hours(north,
+		paragraphSouth <<
+		  TemperatureMax36Hours::max36hours(south,
 											itsPeriod,
 											itsSources,
 											itsForecastTime,

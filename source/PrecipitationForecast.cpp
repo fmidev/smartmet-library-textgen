@@ -395,6 +395,8 @@ namespace TextGen
 	  theCompositePhraseElements[PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE] << SAA_WORD;
 
 	theCompositePhraseElements[PRECIPITATION_PARAMETER] << thePhrase;
+
+	theDryPeriodTautologyFlag = true;
   }
 
   void PrecipitationForecast::getTransformationPhraseElements(const WeatherPeriod& thePeriod,
@@ -605,6 +607,7 @@ namespace TextGen
 
 						  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
 						}
+					  theDryPeriodTautologyFlag = false;
 					}
 				}
 			  else
@@ -646,11 +649,13 @@ namespace TextGen
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] << JA_WORD << JAATAVAA_VESISADETTA_PHRASE;
 							}
 						}
+					  theDryPeriodTautologyFlag = false;
 					}
 				}
 			  else
 				{
 				  theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;		
+				  theDryPeriodTautologyFlag = true;
 				}
 			  break;
 			}
@@ -707,11 +712,13 @@ namespace TextGen
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] << JA_WORD << JAATAVAA_VESISADETTA_PHRASE;
 							}
 						}
+					  theDryPeriodTautologyFlag = false;
 					}
 				}
 			  else
 				{
 				  theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;		
+				  theDryPeriodTautologyFlag = true;
 				}
 			  break;
 			}
@@ -749,11 +756,13 @@ namespace TextGen
 
 						  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
 						}
+					  theDryPeriodTautologyFlag = false;
 					}
 				}
 			  else
 				{
 				  theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;		
+				  theDryPeriodTautologyFlag = true;
 				}
 			  break;
 			}
@@ -797,11 +806,13 @@ namespace TextGen
 							}
 						  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
 						}
+					  theDryPeriodTautologyFlag = false;
 					}
 				}
 			  else
 				{
 				  theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;		
+				  theDryPeriodTautologyFlag = true;
 				}
 			  break;
 			}
@@ -858,11 +869,13 @@ namespace TextGen
 							}
 						  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
 						}
+					  theDryPeriodTautologyFlag = false;
 					}
 				}
 			  else
 				{
 				  theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;		
+				  theDryPeriodTautologyFlag = true;
 				}
 			  break;
 			}
@@ -932,11 +945,13 @@ vesi- tai lumisadetta.
 							  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
 							}
 						}
+					  theDryPeriodTautologyFlag = false;
 					}
 				}
 			  else
 				{
 				  theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;		
+				  theDryPeriodTautologyFlag = true;
 				}
 			  break;
 			}
@@ -995,18 +1010,19 @@ vesi- tai lumisadetta.
 								<< RANTA_TAI_LUMISADETTA_PHRASE;
 							}
 						}
+					  theDryPeriodTautologyFlag = false;
 					}
 				}
 			  else
 				{
-				  theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;		
+				  theCompositePhraseElements[SAA_ON_POUTAINEN_PHRASE] << SAA_ON_POUTAINEN_PHRASE;
+				  theDryPeriodTautologyFlag = true;
 				}
 			  break;
 			}
 		  default:
 			break;
 		  }
-		theDryPeriodTautologyFlag = false;
 	  }
  }
 

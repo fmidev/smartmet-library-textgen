@@ -34,8 +34,10 @@
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
 #include "WeatherPeriodFactory.h"
-#include "SouthernMaskSource.h"
 #include "NorthernMaskSource.h"
+#include "SouthernMaskSource.h"
+#include "EasternMaskSource.h"
+#include "WesternMaskSource.h"
 
 #include <newbase/NFmiStringTools.h>
 #include <newbase/NFmiTime.h>
@@ -256,8 +258,10 @@ namespace TextGen
 		if(!header.empty())
 		  doc << header;
 		
-		itsPimple->itsSources.setSouthernMaskSource(shared_ptr<MaskSource> (new SouthernMaskSource(theArea)));
 		itsPimple->itsSources.setNorthernMaskSource(shared_ptr<MaskSource> (new NorthernMaskSource(theArea)));
+		itsPimple->itsSources.setSouthernMaskSource(shared_ptr<MaskSource> (new SouthernMaskSource(theArea)));
+		itsPimple->itsSources.setEasternMaskSource(shared_ptr<MaskSource> (new EasternMaskSource(theArea)));
+		itsPimple->itsSources.setWesternMaskSource(shared_ptr<MaskSource> (new WesternMaskSource(theArea)));
 
 		const bool subs = Settings::optional_bool("textgen::"+*it+"::subperiods",false);
 

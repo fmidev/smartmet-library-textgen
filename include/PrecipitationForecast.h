@@ -68,6 +68,7 @@ using namespace std;
 	void printOutPrecipitationDistribution(std::ostream& theOutput) const;
 	void setUseOllaVerbFlag(const bool theFlag = true) const { theUseOllaVerbFlag = theFlag; }
 	void setDryPeriodTautologyFlag(const bool theFlag) const { theDryPeriodTautologyFlag = theFlag; }
+	bool getDryPeriodTautologyFlag() const { return theDryPeriodTautologyFlag; }
 	void setSinglePrecipitationFormFlag(const bool theFlag) const { theSinglePrecipitationFormFlag = theFlag; }
 	float getPrecipitationExtent(const WeatherPeriod& thePeriod,
 								 const unsigned short theForecastArea) const;

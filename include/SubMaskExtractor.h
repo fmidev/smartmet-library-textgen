@@ -6,6 +6,7 @@
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
 #include "Acceptor.h"
+#include "AreaTools.h"
 
 #include <vector>
 
@@ -15,6 +16,7 @@
 #include <newbase/NFmiSvgPath.h>
 
 using namespace std;
+using namespace TextGen::AreaTools;
 
 namespace WeatherAnalysis
 {
@@ -32,11 +34,11 @@ namespace WeatherAnalysis
 					 const Acceptor& theAcceptor,
 					 NFmiIndexMask& theResultIndexMask);
 
-  // Southern part of the area
-  const NFmiIndexMask MaskSouth(const NFmiGrid & theGrid,
-								const NFmiSvgPath & thePath);
+  const NFmiIndexMask MaskDirection(const NFmiGrid & theGrid,
+									const NFmiSvgPath & thePath,
+									const direction_id& theDirectionId);
 
-  void PrintLatLon(const AnalysisSources& theSources,
+ void PrintLatLon(const AnalysisSources& theSources,
 				   const WeatherParameter& theParameter,
 				   const NFmiIndexMask& theIndexMask);
 }

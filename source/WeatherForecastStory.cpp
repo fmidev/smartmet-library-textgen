@@ -364,9 +364,9 @@ namespace TextGen
 				  }
 
 				NFmiTime gapPeriodStartTime(previousPrecipitationStoryItem->thePeriod.localEndTime());
-				gapPeriodStartTime.ChangeByHours(1);
+				//gapPeriodStartTime.ChangeByHours(1);
 				NFmiTime gapPeriodEndTime(currentPrecipitationStoryItem->thePeriod.localStartTime());
-				gapPeriodEndTime.ChangeByHours(-1);
+				//gapPeriodEndTime.ChangeByHours(-1);
 				WeatherPeriod gapPeriod(gapPeriodStartTime, gapPeriodEndTime);
 
 				// merge periods
@@ -779,7 +779,7 @@ namespace TextGen
 			WeatherPeriod clPeriod(thePeriod.localStartTime(), theCloudinessChangeTimestamp);
 			sentence << 
 			  clForecast.cloudinessSentence(clPeriod, 
-											theReportAboutDryWeatherFlag,
+											theReportAboutDryWeatherFlag && !prForecast.getDryPeriodTautologyFlag(),
 											periodPhrase, 
 											DONT_USE_SHORT_FORM);
 		  }
@@ -787,10 +787,11 @@ namespace TextGen
 		  {
 			sentence << 
 			  clForecast.cloudinessSentence(thePeriod, 
-											theReportAboutDryWeatherFlag,
+											theReportAboutDryWeatherFlag && !prForecast.getDryPeriodTautologyFlag(),
 											periodPhrase, 
 											DONT_USE_SHORT_FORM);
 		  }
+		prForecast.setDryPeriodTautologyFlag(theReportAboutDryWeatherFlag);
 
 		// ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
 		if(theChangeSentence.size() > 0 &&

@@ -87,22 +87,9 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Return the southern mask source
-   *
-   * \return The inland mask source
-   */
-  // ----------------------------------------------------------------------
-
-  boost::shared_ptr<MaskSource> AnalysisSources::getSouthernMaskSource() const
-  {
-	return itsSouthernMaskSource;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Return the northern mask source
    *
-   * \return The inland mask source
+   * \return The northern mask source
    */
   // ----------------------------------------------------------------------
 
@@ -111,7 +98,47 @@ namespace WeatherAnalysis
 	return itsNorthernMaskSource;
   }
 
- // ----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the southern mask source
+   *
+   * \return The southern mask source
+   */
+  // ----------------------------------------------------------------------
+
+  boost::shared_ptr<MaskSource> AnalysisSources::getSouthernMaskSource() const
+  {
+	return itsSouthernMaskSource;
+  }
+
+   // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the eastern mask source
+   *
+   * \return The eastern mask source
+   */
+  // ----------------------------------------------------------------------
+
+  boost::shared_ptr<MaskSource> AnalysisSources::getEasternMaskSource() const
+  {
+	return itsEasternMaskSource;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the western mask source
+   *
+   * \return The western mask source
+   */
+  // ----------------------------------------------------------------------
+
+  boost::shared_ptr<MaskSource> AnalysisSources::getWesternMaskSource() const
+  {
+	return itsWesternMaskSource;
+  }
+
+
+  // ----------------------------------------------------------------------
   /*!
    * \brief Set the weather source
    *
@@ -178,9 +205,22 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Set the northern mask source
+   *
+   * \param theSource The northern mask source
+   */
+  // ----------------------------------------------------------------------
+
+  void AnalysisSources::setNorthernMaskSource(const boost::shared_ptr<MaskSource> & theSource)
+  {
+	itsNorthernMaskSource = theSource;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Set the southern mask source
    *
-   * \param theSource The inland mask source
+   * \param theSource The southern mask source
    */
   // ----------------------------------------------------------------------
 
@@ -191,15 +231,28 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Set the northern mask source
+   * \brief Set the eastern mask source
    *
-   * \param theSource The inland mask source
+   * \param theSource The eastern mask source
    */
   // ----------------------------------------------------------------------
 
-  void AnalysisSources::setNorthernMaskSource(const boost::shared_ptr<MaskSource> & theSource)
+  void AnalysisSources::setEasternMaskSource(const boost::shared_ptr<MaskSource> & theSource)
   {
-	itsNorthernMaskSource = theSource;
+	itsEasternMaskSource = theSource;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Set the western mask source
+   *
+   * \param theSource The western mask source
+   */
+  // ----------------------------------------------------------------------
+
+  void AnalysisSources::setWesternMaskSource(const boost::shared_ptr<MaskSource> & theSource)
+  {
+	itsWesternMaskSource = theSource;
   }
 
 } // namespace WeatherAnalysis

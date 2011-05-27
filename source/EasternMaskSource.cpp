@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::NorthernMaskSource
+ * \brief Implementation of class WeatherAnalysis::EasternMaskSource
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::NorthernMaskSource
+ * \class WeatherAnalysis::EasternMaskSource
  *
  * \brief Provides mask services to clients (masked to inlandal areas)
  *
@@ -17,7 +17,7 @@
  */
 // ======================================================================
 
-#include "NorthernMaskSource.h"
+#include "EasternMaskSource.h"
 
 #include "WeatherAnalysisError.h"
 #include "WeatherArea.h"
@@ -73,11 +73,11 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Implementation hiding detail for WeatherAnalysis::NorthernMaskSource
+   * \brief Implementation hiding detail for WeatherAnalysis::EasternMaskSource
    */
   // ----------------------------------------------------------------------
 
-  class NorthernMaskSource::Pimple
+  class EasternMaskSource::Pimple
   {
   public:
 
@@ -102,7 +102,7 @@ namespace WeatherAnalysis
 						  const std::string & theData,
 						  const WeatherSource & theWeatherSource) const;
 
-  }; // class NorthernMaskSource::Pimple
+  }; // class EasternMaskSource::Pimple
 
   // ----------------------------------------------------------------------
   /*!
@@ -110,7 +110,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  NorthernMaskSource::Pimple::Pimple(const WeatherArea& theArea)
+  EasternMaskSource::Pimple::Pimple(const WeatherArea& theArea)
 	: itsArea(theArea)
 	, itsMaskStorage()
 	, itsMasksStorage()
@@ -129,8 +129,8 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  NorthernMaskSource::mask_type
-  NorthernMaskSource::Pimple::find(const WeatherId & theID,
+  EasternMaskSource::mask_type
+  EasternMaskSource::Pimple::find(const WeatherId & theID,
 								   const WeatherArea & theArea) const
   {
 	static shared_ptr<NFmiIndexMask> dummy;
@@ -155,7 +155,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  void NorthernMaskSource::Pimple::insert(const WeatherId & theID,
+  void EasternMaskSource::Pimple::insert(const WeatherId & theID,
 										  const WeatherArea & theArea,
 										  const mask_type & theMask) const
   {
@@ -180,8 +180,8 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  NorthernMaskSource::mask_type
-  NorthernMaskSource::Pimple::create_mask(const WeatherArea & theArea,
+  EasternMaskSource::mask_type
+  EasternMaskSource::Pimple::create_mask(const WeatherArea & theArea,
 										  const std::string & theData,
 										  const WeatherSource & theWeatherSource) const
   {
@@ -198,7 +198,7 @@ namespace WeatherAnalysis
 
 	mask_type return_mask(new NFmiIndexMask(MaskDirection(*(qi->Grid()),
 														  svg,
-														  NORTH)));
+														  EAST)));
 
 	return return_mask;
   }
@@ -209,7 +209,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  NorthernMaskSource::NorthernMaskSource(const WeatherArea & theArea)
+  EasternMaskSource::EasternMaskSource(const WeatherArea & theArea)
 	: itsPimple(new Pimple(theArea))
   {
   }
@@ -224,8 +224,8 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const NorthernMaskSource::mask_type
-  NorthernMaskSource::mask(const WeatherArea & theArea,
+  const EasternMaskSource::mask_type
+  EasternMaskSource::mask(const WeatherArea & theArea,
 						   const std::string & theData,
 						   const WeatherSource & theWeatherSource) const
   {
@@ -261,12 +261,12 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const NorthernMaskSource::masks_type
-  NorthernMaskSource::masks(const WeatherArea & theArea,
+  const EasternMaskSource::masks_type
+  EasternMaskSource::masks(const WeatherArea & theArea,
 							const std::string & theData,
 							const WeatherSource & theWeatherSource) const
   {
-	throw WeatherAnalysisError("NorthernMaskSource::masks not implemented");
+	throw WeatherAnalysisError("EasternMaskSource::masks not implemented");
   }
 
 
