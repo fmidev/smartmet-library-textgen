@@ -51,11 +51,26 @@ namespace TextGen
   using namespace boost;
   using namespace std;
 
-#define SAA_ON_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on poutainen"
-#define SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on enimm‰kseen poutainen, [yksitt‰iset sadekuurot mahdollisia]"
-#define PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta]"
-#define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+
+
+#define SAA_ON_POUTAINEN_2ATTRIBUTES_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on poutainen"
+#define SAA_ON_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ on poutainen"
+
+#define SAA_ON_ENIMMAKSEEN_POUTAINEN_2ATTRIBUTES_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on enimm‰kseen poutainen, [yksitt‰iset sadekuurot mahdollisia]"
+#define SAA_ON_ENIMMAKSEEN_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ on enimm‰kseen poutainen, [yksitt‰iset sadekuurot mahdollisia]"
+
+#define PAIKOIN_HEIKKOA_SADETTA_2ATTRIBUTES_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta]"
+#define PAIKOIN_HEIKKOA_SADETTA_1ATTRIBUTE_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoa] [sadetta]"
+#define PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[paikoin] [heikkoa] [sadetta]"
+
+#define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_2ATTRIBUTES_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_1ATTRIBUTE_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+
+#define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_2ATTRIBUTES_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_1ATTRIBUTE_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+
 #define SAA_POUTAANTUU_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu"
 #define SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu ja on [selke‰]"
 #define SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu ja vaihtelee puolipilvisest‰ pilviseen"
@@ -390,7 +405,7 @@ namespace TextGen
 													 map<string, Sentence>& theCompositePhraseElements) const
   {
 	if(!theDryPeriodTautologyFlag)
-	  theCompositePhraseElements[SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE] << SAA_WORD;
+	  theCompositePhraseElements[SAA_ON_ENIMMAKSEEN_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE] << SAA_WORD;
 	else
 	  theCompositePhraseElements[PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE] << SAA_WORD;
 
@@ -2291,8 +2306,20 @@ vesi- tai lumisadetta.
 																	   const Sentence& thePeriodPhrase,
 																	   const cloudiness_id& theCloudinessId,
 																	   const Sentence& theCloudinessSentence) const
-  {
+  {	
 	Sentence sentence;
+	
+	Sentence periodPhrase;
+	Sentence cloudinessSentence;
+	
+	if(thePeriodPhrase.size() == 0)
+	  periodPhrase << EMPTY_STRING;
+	else
+	  periodPhrase << thePeriodPhrase;
+	if(theCloudinessSentence.size() == 0)
+	  cloudinessSentence << EMPTY_STRING;
+	else
+	  cloudinessSentence << theCloudinessSentence;
 
 	if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
 	  sentence << SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE
@@ -2306,7 +2333,7 @@ vesi- tai lumisadetta.
 
 	return sentence;
   }
-
+  
   Sentence PrecipitationForecast::precipitationChangeSentence(const WeatherPeriod& thePeriod,
 															  const Sentence& thePeriodPhrase,
 															  const weather_event_id& theWeatherEvent) const
@@ -2574,100 +2601,296 @@ vesi- tai lumisadetta.
 													 const std::string& theAreaPhrase) const
   {
 	Sentence sentence;
+	Sentence periodPhrase;
+	Sentence areaPhrase;
+	Sentence inPlacesPhrase;
+	Sentence intensity;
+	Sentence precipitation;
+	bool periodPhraseEmpty(thePeriodPhrase.size() == 0);
+	bool areaPhraseEmpty(theAreaPhrase.size() == 0 || theAreaPhrase.compare(EMPTY_STRING) == 0);
+	
+
+	if(theAreaPhrase.size() == 0)
+	  {
+		areaPhrase << EMPTY_STRING;
+	  }
+	else
+	  {
+		areaPhrase << theAreaPhrase;
+	  }
+
+	if(thePeriodPhrase.size() == 0)
+	  {
+		periodPhrase << EMPTY_STRING;
+	  }
+	else
+	  {
+		periodPhrase << thePeriodPhrase;
+	  }
+
+	if(theCompositePhraseElements.find(IN_PLACES_PARAMETER) == theCompositePhraseElements.end())
+	  {
+		inPlacesPhrase << EMPTY_STRING;
+	  }
+	else
+	  {
+		inPlacesPhrase << theCompositePhraseElements[IN_PLACES_PARAMETER];
+	  }
+
+	if(theCompositePhraseElements.find(INTENSITY_PARAMETER) == theCompositePhraseElements.end())
+	  {
+		intensity << EMPTY_STRING;
+	  }
+	else
+	  {
+		intensity << theCompositePhraseElements[INTENSITY_PARAMETER];
+	  }
+
+	if(theCompositePhraseElements.find(PRECIPITATION_PARAMETER) == theCompositePhraseElements.end())
+	  {
+		precipitation << EMPTY_STRING;
+	  }
+	else
+	  {
+		precipitation << theCompositePhraseElements[PRECIPITATION_PARAMETER];
+	  }
 
 
 	if(theCompositePhraseElements.find(PLAIN_PRECIPITATION_PHRASE) != theCompositePhraseElements.end())
 	  {
-		sentence << thePeriodPhrase
-				 << theAreaPhrase 
-				 << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
+		if(periodPhraseEmpty && areaPhraseEmpty)
+		  {
+			sentence << inPlacesPhrase
+					 << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
+		  }
+		else if(periodPhraseEmpty && !areaPhraseEmpty ||
+				!periodPhraseEmpty && areaPhraseEmpty)
+		  {
+			if(periodPhraseEmpty)
+			  sentence << PAIKOIN_HEIKKOA_SADETTA_1ATTRIBUTE_COMPOSITE_PHRASE
+					   << areaPhrase
+					   << inPlacesPhrase
+					   << EMPTY_STRING
+					   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
+			else
+			  sentence << PAIKOIN_HEIKKOA_SADETTA_1ATTRIBUTE_COMPOSITE_PHRASE
+					   << periodPhrase
+					   << inPlacesPhrase
+					   << EMPTY_STRING
+					   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
+
+		  }
+		else
+		  {
+			sentence << PAIKOIN_HEIKKOA_SADETTA_2ATTRIBUTES_COMPOSITE_PHRASE
+					 << periodPhrase
+					 << areaPhrase
+					 << inPlacesPhrase
+					 << EMPTY_STRING
+					 << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
+		  }
 	  }
 	else
 	  {
-		Sentence periodPhrase;
-		Sentence intensity;
-		Sentence precipitation;
-		Sentence inPlacesPhrase;
-
-		if(thePeriodPhrase.size() == 0)
-		  periodPhrase << EMPTY_STRING;
-		else
-		  periodPhrase << thePeriodPhrase;
-
-		if(theCompositePhraseElements.find(INTENSITY_PARAMETER) == theCompositePhraseElements.end())
-		  intensity << EMPTY_STRING;
-		else
-		  intensity << theCompositePhraseElements[INTENSITY_PARAMETER];
-
-		if(theCompositePhraseElements.find(PRECIPITATION_PARAMETER) == theCompositePhraseElements.end())
-		  precipitation << EMPTY_STRING;
-		else
-		  precipitation << theCompositePhraseElements[PRECIPITATION_PARAMETER];
-
-		if(theCompositePhraseElements.find(IN_PLACES_PARAMETER) == theCompositePhraseElements.end())
-		  inPlacesPhrase << EMPTY_STRING;
-		else
-		  inPlacesPhrase << theCompositePhraseElements[IN_PLACES_PARAMETER];
 
 		theParameters.theLog << "periodPhrase: ";
 		theParameters.theLog << periodPhrase;		
-		theParameters.theLog << "area: ";
-		theParameters.theLog << theAreaPhrase << endl;
+		theParameters.theLog << "areaPhrase: ";
+		theParameters.theLog << areaPhrase;
 		theParameters.theLog << "intensity: ";
 		theParameters.theLog << intensity;		
 		theParameters.theLog << "precipitation: ";
 		theParameters.theLog << precipitation;
 		theParameters.theLog << "inPlacesPhrase: ";
 		theParameters.theLog << inPlacesPhrase;
-		
-		if(theCompositePhraseElements.find(SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE)
+		theParameters.theLog << "periodPhraseEmpty: " ;
+		theParameters.theLog << (periodPhraseEmpty ? "yes" : "no") << endl;
+		theParameters.theLog << "areaPhraseEmpty: " ;
+		theParameters.theLog << (areaPhraseEmpty ? "yes" : "no") << endl;
+
+		if(theCompositePhraseElements.find(SAA_ON_ENIMMAKSEEN_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE)
 		   != theCompositePhraseElements.end())
 		  {
-			sentence << SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE
-					 << periodPhrase
-					 << theAreaPhrase
-					 << precipitation;
+			if(periodPhraseEmpty && areaPhraseEmpty)
+			  {
+				sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE
+						 << Delimiter(",")
+						 << precipitation;
+			  }
+			else if(periodPhraseEmpty && !areaPhraseEmpty ||
+					!periodPhraseEmpty && areaPhraseEmpty)
+			  {
+				if(periodPhraseEmpty)
+				  sentence << SAA_ON_ENIMMAKSEEN_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE
+						   << areaPhrase
+						   << precipitation;
+				else
+				  sentence << SAA_ON_ENIMMAKSEEN_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE
+						   << periodPhrase
+						   << precipitation;
+			  }
+			else
+			  {
+				sentence << SAA_ON_ENIMMAKSEEN_POUTAINEN_2ATTRIBUTES_COMPOSITE_PHRASE
+						 << periodPhrase
+						 << areaPhrase
+						 << precipitation;
+			  }
 		  }
 		else
 		  {
 			if(theCompositePhraseElements.find(SAA_ON_POUTAINEN_PHRASE) != theCompositePhraseElements.end())
 			  {
-				sentence << SAA_ON_POUTAINEN_COMPOSITE_PHRASE
-						 << periodPhrase
-						 << theAreaPhrase;
+				if(periodPhraseEmpty && areaPhraseEmpty)
+				  {
+					sentence << SAA_ON_POUTAINEN_PHRASE;
+				  }
+				else if(periodPhraseEmpty && !areaPhraseEmpty ||
+						!periodPhraseEmpty && areaPhraseEmpty)
+				  {
+					if(periodPhraseEmpty)
+					  sentence << SAA_ON_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE
+							   << areaPhrase;
+					else
+					  sentence << SAA_ON_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE
+							   << periodPhrase;
+				  }
+				else
+				  {
+					sentence << SAA_ON_POUTAINEN_2ATTRIBUTES_COMPOSITE_PHRASE
+							 << periodPhrase
+							 << areaPhrase;
+				  }
 			  }
 			else
 			  {
 				if(theCompositePhraseElements.find(JOKA_VOI_OLLA_JAATAVAA_PHRASE) != theCompositePhraseElements.end())
-				  sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE;
-				else if(theCompositePhraseElements.find(JOKA_VOI_OLLA_JAATAVAA_PHRASE) != theCompositePhraseElements.end())
-				  sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE;
+				  {
+					if(periodPhraseEmpty && areaPhraseEmpty)
+					  {
+						sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+								 << inPlacesPhrase
+								 << intensity
+								 << precipitation;
+
+					  }
+					else if(periodPhraseEmpty && !areaPhraseEmpty ||
+							!periodPhraseEmpty && areaPhraseEmpty)
+					  {
+						if(periodPhraseEmpty)
+						  {
+							sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_1ATTRIBUTE_COMPOSITE_PHRASE
+									 << areaPhrase
+									 << inPlacesPhrase
+									 << intensity
+									 << precipitation;
+						  }
+						else
+						  {
+							sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_1ATTRIBUTE_COMPOSITE_PHRASE
+									 << periodPhrase
+									 << inPlacesPhrase
+									 << intensity
+									 << precipitation;
+						  }
+					  }
+					else
+					  {
+						sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_2ATTRIBUTES_COMPOSITE_PHRASE
+								 << periodPhrase
+								 << areaPhrase
+								 << inPlacesPhrase
+								 << intensity
+								 << precipitation;
+
+					  }
+				  }
+				else if(theCompositePhraseElements.find(JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE) != theCompositePhraseElements.end())
+				  {
+					if(periodPhraseEmpty && areaPhraseEmpty)
+					  {
+						sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+								 << inPlacesPhrase
+								 << intensity
+								 << precipitation;
+
+					  }
+					else if(periodPhraseEmpty && !areaPhraseEmpty ||
+							!periodPhraseEmpty && areaPhraseEmpty)
+					  {
+						if(periodPhraseEmpty)
+						  {
+							sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_1ATTRIBUTE_COMPOSITE_PHRASE
+									 << areaPhrase
+									 << inPlacesPhrase
+									 << intensity
+									 << precipitation;
+						  }
+						else
+						  {
+							sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_1ATTRIBUTE_COMPOSITE_PHRASE
+									 << periodPhrase
+									 << inPlacesPhrase
+									 << intensity
+									 << precipitation;
+						  }
+					  }
+					else
+					  {
+						sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_2ATTRIBUTES_COMPOSITE_PHRASE
+								 << periodPhrase
+								 << areaPhrase
+								 << inPlacesPhrase
+								 << intensity
+								 << precipitation;
+
+					  }
+				  }
 				else
-				  sentence << PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE;
+				  {
+					if(periodPhraseEmpty && areaPhraseEmpty)
+					  {
+						sentence << PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE
+								 << inPlacesPhrase
+								 << intensity
+								 << precipitation;
+				
+					  }
+					else if(periodPhraseEmpty && !areaPhraseEmpty ||
+							!periodPhraseEmpty && areaPhraseEmpty)
+					  {
+						if(periodPhraseEmpty)
+						  sentence << PAIKOIN_HEIKKOA_SADETTA_1ATTRIBUTE_COMPOSITE_PHRASE
+								   << areaPhrase
+								   << inPlacesPhrase
+								   << intensity
+								   << precipitation;
 
-				sentence << periodPhrase
-						 << theAreaPhrase
-						 << inPlacesPhrase
-						 << intensity
-						 << precipitation;
+						else
+						  sentence << PAIKOIN_HEIKKOA_SADETTA_1ATTRIBUTE_COMPOSITE_PHRASE
+								   << periodPhrase
+								   << inPlacesPhrase
+								   << intensity
+								   << precipitation;
+					  }
+					else
+					  {
+						sentence << PAIKOIN_HEIKKOA_SADETTA_2ATTRIBUTES_COMPOSITE_PHRASE
+								 << periodPhrase
+								 << areaPhrase
+								 << inPlacesPhrase
+								 << intensity
+								 << precipitation;
+					  }
+				  }
 			  }
-
-			/*
-
-			if(theCompositePhraseElements.find(JAATAVYYS_PARAMETER) 
-			   != theCompositePhraseElements.end())
-			  {
-				sentence << Delimiter(",") << theCompositePhraseElements[JAATAVYYS_PARAMETER];
-			  }
-			*/
 		  }
 	  }
-
 	theParameters.theLog << "FINAL SENTENCE: ";
 	theParameters.theLog << sentence;
 	
-  return sentence;
-}
+	return sentence;
+  }
 
   Sentence  PrecipitationForecast::constructPrecipitationSentence(const WeatherPeriod& thePeriod,
 																  const Sentence& thePeriodPhrase,

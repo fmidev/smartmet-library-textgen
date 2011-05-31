@@ -39,7 +39,7 @@ namespace TextGen
 #define ALUKSI_WORD "aluksi"
 #define MYOHEMMIN_WORD "myˆhemmin"
 
-#define SAA_ON_ENIMMAKSEEN_POUTAINEN_PHRASE "s‰‰ on enimm‰kseen poutainen"
+#define SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE "s‰‰ on enimm‰kseen poutaista"
 #define SAA_ON_POUTAINEN_PHRASE "s‰‰ on poutainen"
 #define HEIKKOJA_WORD "heikkoja"
 #define VOIMAKKAITA_WORD "voimakkaita"

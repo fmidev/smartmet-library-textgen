@@ -111,6 +111,7 @@ namespace TextGen
 #define SAA_VIILENEE_HUOMATTAVASTI_PHRASE "s‰‰ viilenee huomattavasti"
 
 #define TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE "[1-na] s‰‰ on [poikkeuksellisen] [kylm‰‰]"
+#define TEMPERATURE_IS_SOMETHING_PLAIN_COMPOSITE_PHRASE "s‰‰ on [poikkeuksellisen] [kylm‰‰]"
 #define TEMPERATURE_CHANGES_COMPOSITE_PHRASE "[1-na] [s‰‰ l‰mpenee]"
 
 enum anomaly_phrase_id
@@ -332,17 +333,25 @@ enum anomaly_phrase_id
 														 thePeriod,
 														 theParameters.theArea);
 		}
-
+	  /*
 	  if(theSpecifiedDay.size() == 0)
 		theSpecifiedDay << EMPTY_STRING;
+	  */
+	  if(theSpecifiedDay.size() == 0)
+		{
+		  sentence << TEMPERATURE_IS_SOMETHING_PLAIN_COMPOSITE_PHRASE;
+		}
+	  else
+		{
+		  sentence << TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE
+				   << theSpecifiedDay;
+		}
 
 	  float adequateShare(80.0);
 
 	  if(fractile02Share >= adequateShare)
 		{
-		  sentence << TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE
-				   << theSpecifiedDay
-				   << POIKKEUKSELLISEN_WORD;
+		  sentence << POIKKEUKSELLISEN_WORD;
 		  sentence << (theParameters.theSeason == SUMMER_SEASON ? KOLEAA_WORD : KYLMAA_WORD);
 
 		  theParameters.theAnomalyPhrase = 
@@ -350,9 +359,7 @@ enum anomaly_phrase_id
 		}
 	  else if(fractile12Share >= adequateShare)
 		{
-		  sentence << TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE
-				   << theSpecifiedDay
-				   << EMPTY_STRING;
+		  sentence << EMPTY_STRING;
 		  if(theParameters.theSeason == SUMMER_SEASON)
 			sentence << KOLEAA_WORD;
 		  else
@@ -363,9 +370,7 @@ enum anomaly_phrase_id
 		}
 	  else if(fractile98Share >= adequateShare)
 		{
-		  sentence << TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE 
-				   << theSpecifiedDay
-				   << POIKKEUKSELLISEN_WORD;
+		  sentence << POIKKEUKSELLISEN_WORD;
 		  if(theParameters.theSeason == SUMMER_SEASON)
 			sentence << LAMMINTA_WORD;
 		  else
@@ -376,8 +381,6 @@ enum anomaly_phrase_id
 		}
 	  else if(fractile88Share >= adequateShare)
 		{
-		  sentence << TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE 
-				   << theSpecifiedDay;
 		  if(theParameters.theSeason == SUMMER_SEASON)
 			sentence << HARVINAISEN_WORD << LAMMINTA_WORD;
 		  else

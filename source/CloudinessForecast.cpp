@@ -102,70 +102,6 @@ namespace TextGen
 	return false;
   }
 
-  Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId,
-							   const bool& thePoutainenFlag,
-							   const Sentence& thePeriodPhrase,
-							   const std::string& theAreaString,
-							   const bool& theShortForm) 
-  {
-	Sentence sentence;
-	Sentence cloudinessSentence;
-
-	switch(theCloudinessId)
-	  {
-	  case PUOLIPILVINEN_JA_PILVINEN:
-		cloudinessSentence << VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
-		break;
-	  case SELKEA:
-		cloudinessSentence << SELKEA_WORD;
-		break;
-	  case MELKO_SELKEA:
-		cloudinessSentence << MELKO_SELKEA_PHRASE;
-		break;
-	  case PUOLIPILVINEN:
-		cloudinessSentence << PUOLIPILVINEN_WORD;
-		break;
-	  case VERRATTAIN_PILVINEN:
-		cloudinessSentence << VERRATTAIN_PILVINEN_PHRASE;
-		break;
-	  case PILVINEN:
-		cloudinessSentence << PILVINEN_WORD;
-		break;
-	  default:
-		break;
-	  }
-
-	if(theShortForm)
-	  {
-		sentence << cloudinessSentence;
-	  }
-	else
-	  {
-		if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
-		  {
-			if(thePoutainenFlag)
-			  sentence << PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE;
-			else
-			  sentence << PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE;
-			
-			sentence << thePeriodPhrase
-					 << theAreaString;
-		  }
-		else
-		  {
-			if(thePoutainenFlag)
-			  sentence << SAA_ON_JOTAKIN_JA_POUTAINEN_COMPOSITE_PHRASE;
-			else
-			  sentence << SAA_ON_JOTAKIN_COMPOSITE_PHRASE;
-
-			sentence << thePeriodPhrase
-					 << theAreaString
-					 << cloudinessSentence;
-		  }
-	  }
-	return sentence;
-  }
-
   Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId, 
 							   const bool& theShortForm) 
   {
@@ -212,6 +148,87 @@ namespace TextGen
 
 	sentence << cloudinessSentence;
 
+	return sentence;
+  }
+
+  Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId,
+							   const bool& thePoutainenFlag,
+							   const Sentence& thePeriodPhrase,
+							   const std::string& theAreaString,
+							   const bool& theShortForm) 
+  {
+	Sentence sentence;
+	Sentence cloudinessSentence;
+
+	if(thePeriodPhrase.size() == 0 && theAreaString. compare(EMPTY_STRING) == 0)
+	  {
+		sentence << cloudiness_sentence(theCloudinessId, theShortForm);
+		if(thePoutainenFlag)
+		  sentence << JA_WORD << POUTAINEN_WORD;
+		return sentence;		
+	  }
+
+	switch(theCloudinessId)
+	  {
+	  case PUOLIPILVINEN_JA_PILVINEN:
+		cloudinessSentence << VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
+		break;
+	  case SELKEA:
+		cloudinessSentence << SELKEA_WORD;
+		break;
+	  case MELKO_SELKEA:
+		cloudinessSentence << MELKO_SELKEA_PHRASE;
+		break;
+	  case PUOLIPILVINEN:
+		cloudinessSentence << PUOLIPILVINEN_WORD;
+		break;
+	  case VERRATTAIN_PILVINEN:
+		cloudinessSentence << VERRATTAIN_PILVINEN_PHRASE;
+		break;
+	  case PILVINEN:
+		cloudinessSentence << PILVINEN_WORD;
+		break;
+	  default:
+		break;
+	  }
+
+	if(theShortForm)
+	  {
+		sentence << cloudinessSentence;
+	  }
+	else
+	  {
+		if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
+		  {
+			if(thePoutainenFlag)
+			  sentence << PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE;
+			else
+			  sentence << PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE;
+			
+			if(thePeriodPhrase.size() == 0)
+			  sentence << theAreaString
+					   << EMPTY_STRING;
+			else
+			  sentence << thePeriodPhrase
+					   << theAreaString;
+		  }
+		else
+		  {
+			if(thePoutainenFlag)
+			  sentence << SAA_ON_JOTAKIN_JA_POUTAINEN_COMPOSITE_PHRASE;
+			else
+			  sentence << SAA_ON_JOTAKIN_COMPOSITE_PHRASE;
+
+			if(thePeriodPhrase.size() == 0)
+			  sentence << theAreaString
+					   << EMPTY_STRING
+					   << cloudinessSentence;
+			else
+			  sentence << thePeriodPhrase
+					   << theAreaString
+					   << cloudinessSentence;
+		  }
+	  }
 	return sentence;
   }
 

@@ -521,7 +521,9 @@ namespace TextGen
 											phrasePeriod);
 	if(sentence.size() == 0)
 	  {
-		sentence << get_time_phrase_large(phrasePeriod, specifyDay, theWeatherForecastStory.theVar, theFromSpecifier);
+		std::string time_phrase(get_time_phrase_large(phrasePeriod, specifyDay, theWeatherForecastStory.theVar, theFromSpecifier));
+		if(!time_phrase.empty())
+		  sentence << time_phrase;
 	  }
 
 	return sentence;
@@ -587,12 +589,14 @@ namespace TextGen
 		  {
 			if(storyItemPeriod.localStartTime() > forecastPeriod.localStartTime())
 			  thePeriodPhrase << getPeriodPhrase(USE_FROM_SPECIFIER);
+			
 			sentence << prForecast.precipitationChangeSentence(thePeriod, thePeriodPhrase, SADE_ALKAA);
 		  }
 		else
 		  {			
 			if(storyItemPeriod.localStartTime() > forecastPeriod.localStartTime())
 			  thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER);
+
 			sentence << prForecast.precipitationSentence(thePeriod, thePeriodPhrase);
 		  }
 		  
@@ -613,6 +617,7 @@ namespace TextGen
 	  {
 		if(thePeriod.localStartTime() > forecastPeriod.localStartTime())
 		  thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER);
+
 		if(prForecast.shortTermPrecipitationExists(thePeriod))
 		  {
 			sentence << prForecast.shortTermPrecipitationSentence(thePeriod, thePeriodPhrase);
@@ -625,7 +630,6 @@ namespace TextGen
 	  }
 	return sentence;
   }
-
 
 
 
@@ -770,9 +774,6 @@ namespace TextGen
 				periodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER);
 			  }
 		  }
-
-		if(periodPhrase.size() == 0)
-		  periodPhrase << EMPTY_STRING;
 
 		if(theChangeSentence.size() > 0)
 		  {
