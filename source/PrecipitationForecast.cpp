@@ -53,23 +53,83 @@ namespace TextGen
 
 
 
-#define SAA_ON_POUTAINEN_2ATTRIBUTES_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on poutainen"
-#define SAA_ON_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ on poutainen"
+  // pouta
+#define HUOMENNA_SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on poutainen"
+#define SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ on poutainen"
+#define HUOMENNA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE "[huomenna] s‰‰ on poutainen"
+#define HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on enimm‰kseen poutainen, [yksitt‰iset sadekuurot mahdollisia]"
 
-#define SAA_ON_ENIMMAKSEEN_POUTAINEN_2ATTRIBUTES_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on enimm‰kseen poutainen, [yksitt‰iset sadekuurot mahdollisia]"
-#define SAA_ON_ENIMMAKSEEN_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ on enimm‰kseen poutainen, [yksitt‰iset sadekuurot mahdollisia]"
+  // enimm‰kseen pouta, yksitt‰iset kuurot mahdollisia
+#define SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ on enimm‰kseen poutainen, [yksitt‰iset sadekuurot mahdollisia]"
+#define HUOMENNA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE "[huomenna] s‰‰ on enimm‰kseen poutainen, [yksitt‰iset sadekuurot mahdollisia]"
 
-#define PAIKOIN_HEIKKOA_SADETTA_2ATTRIBUTES_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta]"
-#define PAIKOIN_HEIKKOA_SADETTA_1ATTRIBUTE_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoa] [sadetta]"
+  // sade
+#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta]"
+#define HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [heikkoa] [sadetta]"
+#define HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [sadetta]"
+
+#define SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoa] [sadetta]"
+#define SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [sadetta]"
+#define SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[sis‰maassa] [heikkoa] [sadetta]"
+#define SISAMAASSA_SADETTA_COMPOSITE_PHRASE "[sis‰maassa] [sadetta]"
+
+#define HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoa] [sadetta]"
+#define HUOMENNA_PAIKOIN_SADETTA_COMPOSITE_PHRASE "[huomenna] [paikoin] [sadetta]"
+#define HUOMENNA_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [heikkoa] [sadetta]"
+#define HUOMENNA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sadetta]"
+
 #define PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[paikoin] [heikkoa] [sadetta]"
+#define PAIKOIN_SADETTA_COMPOSITE_PHRASE "[paikoin] [sadetta]"
+#define HEIKKOA_SADETTA_COMPOSITE_PHRASE "[heikkoa] [sadetta]"
 
-#define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_2ATTRIBUTES_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_1ATTRIBUTE_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define HUOMENNA_SISAMAASSA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [sadetta]"
+
+#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define HUOMENNA_SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+
+
+#define HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define HUOMENNA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define HUOMENNA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define HUOMENNA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sadetta], joka voi olla j‰‰t‰v‰‰"
+
+
+#define SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sadetta], joka voi olla j‰‰t‰v‰‰"
+
+
+#define SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sis‰maassa] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sis‰maassa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+
+
 #define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
 
-#define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_2ATTRIBUTES_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_1ATTRIBUTE_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sadetta], joka voi olla j‰‰t‰v‰‰"
+
+
+#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+
+#define HUOMENNA_SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+
+#define HUOMENNA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [paikoin] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
 #define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sadekuuroja], joka voivat olla j‰‰t‰vi‰"
 
 #define SAA_POUTAANTUU_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu"
 #define SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu ja on [selke‰]"
@@ -405,7 +465,7 @@ namespace TextGen
 													 map<string, Sentence>& theCompositePhraseElements) const
   {
 	if(!theDryPeriodTautologyFlag)
-	  theCompositePhraseElements[SAA_ON_ENIMMAKSEEN_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE] << SAA_WORD;
+	  theCompositePhraseElements[HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE] << SAA_WORD;
 	else
 	  theCompositePhraseElements[PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE] << SAA_WORD;
 
@@ -2596,6 +2656,19 @@ vesi- tai lumisadetta.
 	thePrecipitationFormFreezing = getMean(theDataVector, PRECIPITATION_FORM_FREEZING_DATA, thePeriod);
   }
 
+  /*
+  Sentence parseFinalDryWeatherSentence(const map<string, Sentence>& theCompositePhraseElements,
+										const Sentence& thePeriodPhrase,
+										const std::string& theAreaPhrase)
+  {
+	Sentence sentence;
+
+
+	return sentence;
+  }
+  */
+
+
   Sentence PrecipitationForecast::parseFinalSentence(map<string, Sentence>& theCompositePhraseElements, 
 													 const Sentence& thePeriodPhrase,
 													 const std::string& theAreaPhrase) const
@@ -2608,7 +2681,8 @@ vesi- tai lumisadetta.
 	Sentence precipitation;
 	bool periodPhraseEmpty(thePeriodPhrase.size() == 0);
 	bool areaPhraseEmpty(theAreaPhrase.size() == 0 || theAreaPhrase.compare(EMPTY_STRING) == 0);
-	
+	bool inPlacesPhraseEmpty(theCompositePhraseElements.find(IN_PLACES_PARAMETER) == theCompositePhraseElements.end());
+	bool intensityEmpty(theCompositePhraseElements.find(INTENSITY_PARAMETER) == theCompositePhraseElements.end());
 
 	if(theAreaPhrase.size() == 0)
 	  {
@@ -2655,44 +2729,59 @@ vesi- tai lumisadetta.
 		precipitation << theCompositePhraseElements[PRECIPITATION_PARAMETER];
 	  }
 
-
 	if(theCompositePhraseElements.find(PLAIN_PRECIPITATION_PHRASE) != theCompositePhraseElements.end())
 	  {
 		if(periodPhraseEmpty && areaPhraseEmpty)
 		  {
-			sentence << inPlacesPhrase
+			sentence << PAIKOIN_SADETTA_COMPOSITE_PHRASE
+					 << inPlacesPhrase
 					 << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
 		  }
 		else if(periodPhraseEmpty && !areaPhraseEmpty ||
 				!periodPhraseEmpty && areaPhraseEmpty)
 		  {
 			if(periodPhraseEmpty)
-			  sentence << PAIKOIN_HEIKKOA_SADETTA_1ATTRIBUTE_COMPOSITE_PHRASE
-					   << areaPhrase
-					   << inPlacesPhrase
-					   << EMPTY_STRING
-					   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
+			  {
+				if(inPlacesPhraseEmpty)
+				  sentence << SISAMAASSA_SADETTA_COMPOSITE_PHRASE
+						   << areaPhrase
+						   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
+				else
+				  sentence << SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE
+						   << areaPhrase
+						   << inPlacesPhrase
+						   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
+			  }
 			else
-			  sentence << PAIKOIN_HEIKKOA_SADETTA_1ATTRIBUTE_COMPOSITE_PHRASE
-					   << periodPhrase
-					   << inPlacesPhrase
-					   << EMPTY_STRING
-					   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
-
+			  {
+				if(inPlacesPhraseEmpty)
+				  sentence << HUOMENNA_SADETTA_COMPOSITE_PHRASE
+						   << periodPhrase
+						   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
+				else
+				  sentence << HUOMENNA_PAIKOIN_SADETTA_COMPOSITE_PHRASE
+						   << periodPhrase
+						   << inPlacesPhrase
+						   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
+			  }
 		  }
 		else
 		  {
-			sentence << PAIKOIN_HEIKKOA_SADETTA_2ATTRIBUTES_COMPOSITE_PHRASE
-					 << periodPhrase
-					 << areaPhrase
-					 << inPlacesPhrase
-					 << EMPTY_STRING
-					 << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
+			if(inPlacesPhraseEmpty)
+			  sentence << HUOMENNA_SISAMAASSA_SADETTA_COMPOSITE_PHRASE
+					   << areaPhrase
+					   << periodPhrase
+					   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
+			else
+			  sentence << HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE
+					   << areaPhrase
+					   << periodPhrase
+					   << inPlacesPhrase
+					   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
 		  }
 	  }
 	else
 	  {
-
 		theParameters.theLog << "periodPhrase: ";
 		theParameters.theLog << periodPhrase;		
 		theParameters.theLog << "areaPhrase: ";
@@ -2708,7 +2797,7 @@ vesi- tai lumisadetta.
 		theParameters.theLog << "areaPhraseEmpty: " ;
 		theParameters.theLog << (areaPhraseEmpty ? "yes" : "no") << endl;
 
-		if(theCompositePhraseElements.find(SAA_ON_ENIMMAKSEEN_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE)
+		if(theCompositePhraseElements.find(HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE)
 		   != theCompositePhraseElements.end())
 		  {
 			if(periodPhraseEmpty && areaPhraseEmpty)
@@ -2721,17 +2810,17 @@ vesi- tai lumisadetta.
 					!periodPhraseEmpty && areaPhraseEmpty)
 			  {
 				if(periodPhraseEmpty)
-				  sentence << SAA_ON_ENIMMAKSEEN_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE
+				  sentence << SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE
 						   << areaPhrase
 						   << precipitation;
 				else
-				  sentence << SAA_ON_ENIMMAKSEEN_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE
+				  sentence << HUOMENNA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE
 						   << periodPhrase
 						   << precipitation;
 			  }
 			else
 			  {
-				sentence << SAA_ON_ENIMMAKSEEN_POUTAINEN_2ATTRIBUTES_COMPOSITE_PHRASE
+				sentence << HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE
 						 << periodPhrase
 						 << areaPhrase
 						 << precipitation;
@@ -2749,34 +2838,143 @@ vesi- tai lumisadetta.
 						!periodPhraseEmpty && areaPhraseEmpty)
 				  {
 					if(periodPhraseEmpty)
-					  sentence << SAA_ON_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE
+					  sentence << SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE
 							   << areaPhrase;
 					else
-					  sentence << SAA_ON_POUTAINEN_1ATTRIBUTE_COMPOSITE_PHRASE
+					  sentence << HUOMENNA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE
 							   << periodPhrase;
 				  }
 				else
 				  {
-					sentence << SAA_ON_POUTAINEN_2ATTRIBUTES_COMPOSITE_PHRASE
+					sentence << HUOMENNA_SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE
 							 << periodPhrase
 							 << areaPhrase;
 				  }
 			  }
 			else
 			  {
+				/*
+#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sadetta], joka voi olla j‰‰t‰v‰‰"
+
+
+#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+
+				 */
+
 				if(theCompositePhraseElements.find(JOKA_VOI_OLLA_JAATAVAA_PHRASE) != theCompositePhraseElements.end())
 				  {
 					if(periodPhraseEmpty && areaPhraseEmpty)
 					  {
+						if(inPlacesPhraseEmpty)
+						  {
+							if(intensityEmpty)
+							  sentence << SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+									   << precipitation;
+							else
+							  sentence << HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+									   << intensity
+									   << precipitation;
+						  }
+						else
+						  {
+							if(intensityEmpty)
+							  sentence << PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+									   << inPlacesPhrase
+									   << precipitation;
+							else
+							  sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+									   << inPlacesPhrase
+									   << intensity
+									   << precipitation;
+
+						  }
+
+						/*
 						sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
 								 << inPlacesPhrase
 								 << intensity
 								 << precipitation;
+						*/
 
 					  }
 					else if(periodPhraseEmpty && !areaPhraseEmpty ||
 							!periodPhraseEmpty && areaPhraseEmpty)
 					  {
+						if(periodPhraseEmpty)
+						  {
+							if(inPlacesPhraseEmpty)
+							  {
+								if(intensityEmpty)
+								  sentence << SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+										   << areaPhrase
+										   << precipitation;
+								else
+								  sentence << SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+										   << areaPhrase
+										   << intensity
+										   << precipitation;
+							  }
+							else
+							  {
+								if(intensityEmpty)
+								  sentence << SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+										   << areaPhrase
+										   << inPlacesPhrase
+										   << precipitation;
+								else
+								  sentence << SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+										   << areaPhrase
+										   << inPlacesPhrase
+										   << intensity
+										   << precipitation;
+
+							  }
+						  }
+						else
+						  {
+							if(inPlacesPhraseEmpty)
+							  {
+								if(intensityEmpty)
+								  sentence << HUOMENNA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+										   << periodPhrase
+										   << precipitation;
+								else
+								  sentence << HUOMENNA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+										   << periodPhrase
+										   << intensity
+										   << precipitation;
+							  }
+							else
+							  {
+								if(intensityEmpty)
+								  sentence << HUOMENNA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+										   << periodPhrase
+										   << inPlacesPhrase
+										   << precipitation;
+								else
+								  sentence << HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+										   << periodPhrase
+										   << inPlacesPhrase
+										   << intensity
+										   << precipitation;
+
+							  }
+						  }
+
+
+						/*
 						if(periodPhraseEmpty)
 						  {
 							sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_1ATTRIBUTE_COMPOSITE_PHRASE
@@ -2793,15 +2991,50 @@ vesi- tai lumisadetta.
 									 << intensity
 									 << precipitation;
 						  }
+						*/
 					  }
 					else
 					  {
+						if(inPlacesPhraseEmpty)
+						  {
+							if(intensityEmpty)
+							  sentence << HUOMENNA_SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+									   << areaPhrase
+									   << periodPhrase
+									   << precipitation;
+							else
+							  sentence << HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+									   << areaPhrase
+									   << periodPhrase
+									   << intensity
+									   << precipitation;
+						  }
+						else
+						  {
+							if(intensityEmpty)
+							  sentence << HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+									   << areaPhrase
+									   << periodPhrase
+									   << inPlacesPhrase
+									   << precipitation;
+							else
+							  sentence << HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
+									   << areaPhrase
+									   << periodPhrase
+									   << inPlacesPhrase
+									   << intensity
+									   << precipitation;
+
+						  }
+
+						/*
 						sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_2ATTRIBUTES_COMPOSITE_PHRASE
 								 << periodPhrase
 								 << areaPhrase
 								 << inPlacesPhrase
 								 << intensity
 								 << precipitation;
+							*/
 
 					  }
 				  }
@@ -2809,15 +3042,102 @@ vesi- tai lumisadetta.
 				  {
 					if(periodPhraseEmpty && areaPhraseEmpty)
 					  {
+						if(inPlacesPhraseEmpty)
+						  {
+							if(intensityEmpty)
+							  sentence << SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+									   << precipitation;
+							else
+							  sentence << HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+									   << intensity
+									   << precipitation;
+						  }
+						else
+						  {
+							if(intensityEmpty)
+							  sentence << PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+									   << inPlacesPhrase
+									   << precipitation;
+							else
+							  sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+									   << inPlacesPhrase
+									   << intensity
+									   << precipitation;
+
+						  }
+						/*
 						sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
 								 << inPlacesPhrase
 								 << intensity
 								 << precipitation;
+						*/
 
 					  }
 					else if(periodPhraseEmpty && !areaPhraseEmpty ||
 							!periodPhraseEmpty && areaPhraseEmpty)
 					  {
+						if(periodPhraseEmpty)
+						  {
+							if(inPlacesPhraseEmpty)
+							  {
+								if(intensityEmpty)
+								  sentence << SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+										   << areaPhrase
+										   << precipitation;
+								else
+								  sentence << SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+										   << areaPhrase
+										   << intensity
+										   << precipitation;
+							  }
+							else
+							  {
+								if(intensityEmpty)
+								  sentence << SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+										   << areaPhrase
+										   << inPlacesPhrase
+										   << precipitation;
+								else
+								  sentence << SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+										   << areaPhrase
+										   << inPlacesPhrase
+										   << intensity
+										   << precipitation;
+
+							  }
+						  }
+						else
+						  {
+							if(inPlacesPhraseEmpty)
+							  {
+								if(intensityEmpty)
+								  sentence << HUOMENNA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+										   << periodPhrase
+										   << precipitation;
+								else
+								  sentence << HUOMENNA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+										   << periodPhrase
+										   << intensity
+										   << precipitation;
+							  }
+							else
+							  {
+								if(intensityEmpty)
+								  sentence << HUOMENNA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+										   << periodPhrase
+										   << inPlacesPhrase
+										   << precipitation;
+								else
+								  sentence << HUOMENNA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+										   << periodPhrase
+										   << inPlacesPhrase
+										   << intensity
+										   << precipitation;
+
+							  }
+						  }
+
+						/*
 						if(periodPhraseEmpty)
 						  {
 							sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_1ATTRIBUTE_COMPOSITE_PHRASE
@@ -2834,15 +3154,50 @@ vesi- tai lumisadetta.
 									 << intensity
 									 << precipitation;
 						  }
+						*/
 					  }
 					else
 					  {
+						if(inPlacesPhraseEmpty)
+						  {
+							if(intensityEmpty)
+							  sentence << HUOMENNA_SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+									   << areaPhrase
+									   << periodPhrase
+									   << precipitation;
+							else
+							  sentence << HUOMENNA_SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+									   << areaPhrase
+									   << periodPhrase
+									   << intensity
+									   << precipitation;
+						  }
+						else
+						  {
+							if(intensityEmpty)
+							  sentence << HUOMENNA_SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+									   << areaPhrase
+									   << periodPhrase
+									   << inPlacesPhrase
+									   << precipitation;
+							else
+							  sentence << HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
+									   << areaPhrase
+									   << periodPhrase
+									   << inPlacesPhrase
+									   << intensity
+									   << precipitation;
+
+						  }
+
+						/*
 						sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_2ATTRIBUTES_COMPOSITE_PHRASE
 								 << periodPhrase
 								 << areaPhrase
 								 << inPlacesPhrase
 								 << intensity
 								 << precipitation;
+						*/
 
 					  }
 				  }
@@ -2850,15 +3205,95 @@ vesi- tai lumisadetta.
 				  {
 					if(periodPhraseEmpty && areaPhraseEmpty)
 					  {
-						sentence << PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE
-								 << inPlacesPhrase
-								 << intensity
-								 << precipitation;
-				
+						if(inPlacesPhraseEmpty)
+						  {
+							if(intensityEmpty)
+							  sentence << precipitation;
+							else
+							  sentence << HEIKKOA_SADETTA_COMPOSITE_PHRASE
+									   << intensity
+									   << precipitation;
+						  }
+						else
+						  {
+							if(intensityEmpty)
+							  sentence << PAIKOIN_SADETTA_COMPOSITE_PHRASE
+									   << inPlacesPhrase
+									   << precipitation;
+							else
+							  sentence << PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE
+									   << inPlacesPhrase
+									   << intensity
+									   << precipitation;
+
+						  }
 					  }
+
 					else if(periodPhraseEmpty && !areaPhraseEmpty ||
 							!periodPhraseEmpty && areaPhraseEmpty)
 					  {
+						if(periodPhraseEmpty)
+						  {
+							if(inPlacesPhraseEmpty)
+							  {
+								if(intensityEmpty)
+								  sentence << SISAMAASSA_SADETTA_COMPOSITE_PHRASE
+										   << areaPhrase
+										   << precipitation;
+								else
+								  sentence << SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE
+										   << areaPhrase
+										   << intensity
+										   << precipitation;								
+							  }
+							else
+							  {
+								if(intensityEmpty)
+								  sentence << SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE
+										   << areaPhrase
+										   << inPlacesPhrase
+										   << precipitation;
+								else
+								  sentence << SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE
+										   << areaPhrase
+										   << inPlacesPhrase
+										   << intensity
+										   << precipitation;
+							  }
+						  }
+						else
+						  {
+							if(inPlacesPhraseEmpty)
+							  {
+								if(intensityEmpty)
+								  sentence << HUOMENNA_SADETTA_COMPOSITE_PHRASE
+										   << periodPhrase
+										   << precipitation;
+								else
+								  sentence << HUOMENNA_HEIKKOA_SADETTA_COMPOSITE_PHRASE
+										   << periodPhrase
+										   << intensity
+										   << precipitation;								
+							  }
+							else
+							  {
+								if(intensityEmpty)
+								  sentence << HUOMENNA_PAIKOIN_SADETTA_COMPOSITE_PHRASE
+										   << periodPhrase
+										   << inPlacesPhrase
+										   << precipitation;
+								else
+								  sentence << HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE
+										   << periodPhrase
+										   << inPlacesPhrase
+										   << intensity
+										   << precipitation;
+							  }
+
+						  }
+
+						/*
+
 						if(periodPhraseEmpty)
 						  sentence << PAIKOIN_HEIKKOA_SADETTA_1ATTRIBUTE_COMPOSITE_PHRASE
 								   << areaPhrase
@@ -2872,15 +3307,50 @@ vesi- tai lumisadetta.
 								   << inPlacesPhrase
 								   << intensity
 								   << precipitation;
+						*/
 					  }
 					else
 					  {
+						if(inPlacesPhraseEmpty)
+						  {
+							if(intensityEmpty)
+							  sentence << HUOMENNA_SISAMAASSA_SADETTA_COMPOSITE_PHRASE
+									   << areaPhrase
+									   << periodPhrase
+									   << precipitation;
+							else
+							  sentence << HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE
+									   << areaPhrase
+									   << periodPhrase
+									   << intensity
+									   << precipitation;								
+						  }
+						else
+						  {
+							if(intensityEmpty)
+							  sentence << HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE
+									   << areaPhrase
+									   << periodPhrase
+									   << inPlacesPhrase
+									   << precipitation;
+							else
+							  sentence << HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE
+									   << areaPhrase
+									   << periodPhrase
+									   << inPlacesPhrase
+									   << intensity
+									   << precipitation;
+						  }
+
+
+						/*
 						sentence << PAIKOIN_HEIKKOA_SADETTA_2ATTRIBUTES_COMPOSITE_PHRASE
 								 << periodPhrase
 								 << areaPhrase
 								 << inPlacesPhrase
 								 << intensity
 								 << precipitation;
+						*/
 					  }
 				  }
 			  }

@@ -46,11 +46,23 @@ namespace TextGen
   using namespace boost;
   using namespace std;
 
-#define PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ vaihtelee puolipilvisest‰ pilviseen"
-#define PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ vaihtelee puolipilvisest‰ pilviseen ja on poutainen"
-#define SAA_ON_JOTAKIN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on [selke‰]"
-#define SAA_ON_JOTAKIN_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on [selke‰] ja poutainen"
-#define PILVISTYVAA_COMPOSITE_PHRASE "[iltap‰iv‰st‰ alkaen] [pilvistyv‰‰]"
+#define HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ vaihtelee puolipilvisest‰ pilviseen"
+#define SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ vaihtelee puolipilvisest‰ pilviseen"
+#define HUOMENNA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[huomenna] s‰‰ vaihtelee puolipilvisest‰ pilviseen"
+
+#define HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ vaihtelee puolipilvisest‰ pilviseen ja on poutainen"
+#define SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ vaihtelee puolipilvisest‰ pilviseen ja on poutainen"
+#define HUOMENNA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] s‰‰ vaihtelee puolipilvisest‰ pilviseen ja on poutainen"
+
+#define HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on [selke‰]"
+#define SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ on [selke‰]"
+#define HUOMENNA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[huomenna] s‰‰ on [selke‰]"
+
+#define HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on [selke‰] ja poutainen"
+#define SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ on [selke‰] ja poutainen"
+#define HUOMENNA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] s‰‰ on [selke‰] ja poutainen"
+
+#define ILTAPAIVASTA_ALKAEN_PILVISTYVAA_COMPOSITE_PHRASE "[iltap‰iv‰st‰ alkaen] [pilvistyv‰‰]"
 
   std::ostream& operator<<(std::ostream & theOutput,
 						   const CloudinessDataItemData& theCloudinessDataItemData)
@@ -132,16 +144,14 @@ namespace TextGen
 		break;
 	  }
 
-	if(cloudinessSentence.size() > 0)
+	if(cloudinessSentence.size() > 0 && !theShortForm)
 	  {
 		if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
 		  {
-			if(!theShortForm)
-			  sentence << SAA_WORD;
+			sentence << SAA_WORD;
 		  }
 		else
 		  {
-			if(!theShortForm)
 			  sentence << SAA_WORD << ON_WORD;
 		  }
 	  }
@@ -159,38 +169,22 @@ namespace TextGen
   {
 	Sentence sentence;
 	Sentence cloudinessSentence;
+	bool periodPhraseEmpty(thePeriodPhrase.size() == 0);
+	bool areaPhraseEmpty(theAreaString.size() == 0 || theAreaString.compare(EMPTY_STRING) == 0);
 
 	if(thePeriodPhrase.size() == 0 && theAreaString. compare(EMPTY_STRING) == 0)
 	  {
 		sentence << cloudiness_sentence(theCloudinessId, theShortForm);
 		if(thePoutainenFlag)
-		  sentence << JA_WORD << POUTAINEN_WORD;
+		  if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
+			sentence << JA_WORD << ON_WORD << POUTAINEN_WORD;
+		  else
+			sentence << JA_WORD << POUTAINEN_WORD;
+
 		return sentence;		
 	  }
 
-	switch(theCloudinessId)
-	  {
-	  case PUOLIPILVINEN_JA_PILVINEN:
-		cloudinessSentence << VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
-		break;
-	  case SELKEA:
-		cloudinessSentence << SELKEA_WORD;
-		break;
-	  case MELKO_SELKEA:
-		cloudinessSentence << MELKO_SELKEA_PHRASE;
-		break;
-	  case PUOLIPILVINEN:
-		cloudinessSentence << PUOLIPILVINEN_WORD;
-		break;
-	  case VERRATTAIN_PILVINEN:
-		cloudinessSentence << VERRATTAIN_PILVINEN_PHRASE;
-		break;
-	  case PILVINEN:
-		cloudinessSentence << PILVINEN_WORD;
-		break;
-	  default:
-		break;
-	  }
+	cloudinessSentence << cloudiness_sentence(theCloudinessId, true);
 
 	if(theShortForm)
 	  {
@@ -200,33 +194,83 @@ namespace TextGen
 	  {
 		if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
 		  {
-			if(thePoutainenFlag)
-			  sentence << PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE;
+			if(periodPhraseEmpty && !areaPhraseEmpty ||
+			   !periodPhraseEmpty && areaPhraseEmpty)
+			  {
+				if(periodPhraseEmpty)
+				  {
+					if(thePoutainenFlag)
+					  sentence << SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE
+							   << theAreaString;
+					else
+					  sentence << SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE
+							   << theAreaString;
+				  }
+				else
+				  {
+					if(thePoutainenFlag)
+					  sentence << HUOMENNA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE
+							   << thePeriodPhrase;
+					else
+					  sentence << HUOMENNA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE
+							   << thePeriodPhrase;
+
+				  }
+			  }
 			else
-			  sentence << PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE;
-			
-			if(thePeriodPhrase.size() == 0)
-			  sentence << theAreaString
-					   << EMPTY_STRING;
-			else
-			  sentence << thePeriodPhrase
-					   << theAreaString;
+			  {
+				if(thePoutainenFlag)
+				  sentence << HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE
+						   << thePeriodPhrase
+						   << theAreaString;
+				else
+				  sentence << HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE
+						   << thePeriodPhrase
+						   << theAreaString;
+			  }
 		  }
 		else
 		  {
-			if(thePoutainenFlag)
-			  sentence << SAA_ON_JOTAKIN_JA_POUTAINEN_COMPOSITE_PHRASE;
-			else
-			  sentence << SAA_ON_JOTAKIN_COMPOSITE_PHRASE;
+			if(periodPhraseEmpty && !areaPhraseEmpty ||
+			   !periodPhraseEmpty && areaPhraseEmpty)
+			  {
+				if(periodPhraseEmpty)
+				  {
+					if(thePoutainenFlag)
+					  sentence << SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE
+							   << theAreaString
+							   << cloudinessSentence;
+					else
+					  sentence << SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE
+							   << theAreaString
+							   << cloudinessSentence;
+				  }
+				else
+				  {
+					if(thePoutainenFlag)
+					  sentence << HUOMENNA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE
+							   << thePeriodPhrase
+							   << cloudinessSentence;
+					else
+					  sentence << HUOMENNA_SAA_ON_SELKEA_COMPOSITE_PHRASE
+							   << thePeriodPhrase
+							   << cloudinessSentence;
 
-			if(thePeriodPhrase.size() == 0)
-			  sentence << theAreaString
-					   << EMPTY_STRING
-					   << cloudinessSentence;
+				  }
+			  }
 			else
-			  sentence << thePeriodPhrase
-					   << theAreaString
-					   << cloudinessSentence;
+			  {
+				if(thePoutainenFlag)
+				  sentence << HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE
+						   << thePeriodPhrase
+						   << theAreaString
+						   << cloudinessSentence;
+				else
+				  sentence << HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE
+						   << thePeriodPhrase
+						   << theAreaString
+						   << cloudinessSentence;
+			  }
 		  }
 	  }
 	return sentence;
@@ -379,7 +423,7 @@ namespace TextGen
 		if(timePhrase.empty())
 		  timePhrase = EMPTY_STRING;
 
-		sentence << PILVISTYVAA_COMPOSITE_PHRASE
+		sentence << ILTAPAIVASTA_ALKAEN_PILVISTYVAA_COMPOSITE_PHRASE
 				 << timePhrase
 				 << (trid == PILVISTYY ? PILVISTYVAA_WORD : SELKENEVAA_WORD);
 	  }
@@ -1019,20 +1063,6 @@ namespace TextGen
 
 	return clid;
   }
-
-  /*
-  Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
-												  const weather_result_data_item_vector& theCloudinessData) const
-  {
-	Sentence sentence;
-
-	cloudiness_id clid(getCloudinessId(thePeriod, &theCloudinessData));
-
-	sentence << cloudiness_string(clid);
-
-	return sentence;
-  }
-  */
 
   void CloudinessForecast::getWeatherEventIdVector(weather_event_id_vector& theCloudinessWeatherEvents) const
   {

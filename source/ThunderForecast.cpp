@@ -118,7 +118,6 @@ namespace TextGen
 
 	if(thunderProbabilityData && thunderExtentData)
 	  {
-		//		thunder_probability_id thunderId(NO_THUNDER);
 		float maxThunderProbability(0.0);
 		float maxThunderExtent(0.0);
 
@@ -161,25 +160,6 @@ namespace TextGen
 				sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;
 			  }
 		  }
-
-		/*
-		thunderId = get_thunder_probability_id(maxThunderProbability);
-
-		theParameters.theLog << "Thunder probability: "
-							 << maxThunderProbability 
-							 << " (" << thePeriod.localStartTime() 
-							 << "..." 
-							 << thePeriod.localEndTime() 
-							 << ")"
-							 << endl;
-
-		if(thunderId == SMALL_PROBABILITY_FOR_THUNDER)
-		  sentence << PIENI_UKKOSEN_TODENNAKOISYYS_PHRASE;
-		else if(thunderId == POSSIBLY_THUNDER)
-		  sentence << MAHDOLLISESTI_UKKOSTA_PHRASE;
-		else if(thunderId == OCCASIONALLY_THUNDER)
-		  sentence << AJOITTAIN_UKKOSTA_PHRASE;
-		*/
 	  }
 
 	/*

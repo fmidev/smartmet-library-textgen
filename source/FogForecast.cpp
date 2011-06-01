@@ -741,11 +741,10 @@ namespace TextGen
 	return false;
   }
 
-
-  Sentence constructFogSentence(const std::string theDayPhasePhrase,
-								const std::string& theAreaString,
-								const std::string& theInPlacesString,
-								const bool& thePossiblyDenseFlag)
+  Sentence FogForecast::constructFogSentence(const std::string theDayPhasePhrase,
+											 const std::string& theAreaString,
+											 const std::string& theInPlacesString,
+											 const bool& thePossiblyDenseFlag) const
   {
 	Sentence sentence;
 
@@ -753,16 +752,6 @@ namespace TextGen
 	bool placeExists(!theAreaString.empty());
 	bool inPlacesPhraseExists(!theInPlacesString.empty());
 	
-	/*
-#define TIME_PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [paikoin] sumua, joka voi olla sakeaa"
-#define TIME_PLACE_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] [sisämaassa] sumua, joka voi olla sakeaa"
-#define PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[sisämaassa] [paikoin] sumua, joka voi olla sakeaa"
-#define PLACE_FOG_DENSE_COMPOSITE_PHRASE "[sisämaassa] sumua, joka voi olla sakeaa"
-#define TIME_INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] [paikoin] sumua, joka voi olla sakeaa"
-#define TIME_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] sumua, joka voi olla sakeaa"
-#define INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[paikoin] sumua, joka voi olla sakeaa"
-
-	 */
 	if(dayPhaseExists)
 	  {
 		if(placeExists)
@@ -908,12 +897,6 @@ namespace TextGen
 											 theAreaString,
 											 "",
 											 false);
-			/*
-			sentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
-					 << timePhrase
-					 << theAreaString;
-					 << EMPTY_STRING;
-			*/
 			break;
 		  case FOG_POSSIBLY_DENSE:
 
@@ -921,27 +904,12 @@ namespace TextGen
 											 theAreaString,
 											 "",
 											 true);
-
-			/*
-			sentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
-					 << dayPhasePhrase
-					 << theAreaString
-					 << EMPTY_STRING;
-			*/
 			break;
 		  case FOG_IN_SOME_PLACES:
 			sentence << constructFogSentence(dayPhasePhrase,
 											 theAreaString,
 											 PAIKOIN_WORD,
 											 false);
-
-
-			/*
-			sentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
-					 << timePhrase
-					 << theAreaString
-					 << PAIKOIN_WORD;
-			*/
 			break;
 		  case FOG_IN_SOME_PLACES_POSSIBLY_DENSE:
 
@@ -949,40 +917,18 @@ namespace TextGen
 											 theAreaString,
 											 PAIKOIN_WORD,
 											 true);
-
-			/*
-			sentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
-					 << dayPhasePhrase
-					 << theAreaString
-					 << PAIKOIN_WORD;
-			*/
 			break;
 		  case FOG_IN_MANY_PLACES:
 			sentence << constructFogSentence(dayPhasePhrase,
 											 theAreaString,
 											 MONIN_PAIKOIN_WORD,
 											 false);
-
-			/*
-
-			sentence << PAIKOIN_SUMUA_COMPOSITE_PHRASE
-					 << timePhrase
-					 << theAreaString
-					 << MONIN_PAIKOIN_WORD;
-			*/
 			break;
 		  case FOG_IN_MANY_PLACES_POSSIBLY_DENSE:
 			sentence << constructFogSentence(dayPhasePhrase,
 											 theAreaString,
 											 MONIN_PAIKOIN_WORD,
 											 true);
-
-			/*
-			sentence << PAIKOIN_SUMUA_JOKAVOIOLLA_SAKEAA_COMPOSITE_PHRASE
-					 << dayPhasePhrase
-					 << theAreaString
-					 << MONIN_PAIKOIN_WORD;
-			*/
 			break;
 		  default:
 			break;
