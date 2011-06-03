@@ -695,25 +695,11 @@ using namespace std;
 	return oss.str();
   }
 
-	/*
-	std::ostringstream oss;
-
-	if(theWeekday > 0 && theSpecifyDayFlag)
-	  oss << theWeekday << "-";
-	for(unsigned int i = 0; i < theTimePhraseVector.size(); i++)
-	  {
-		oss << theTimePhraseVector[i];
-		if(i <  theTimePhraseVector.size() - 1)
-		  oss << " ";
-	  }
-	return oss.str();
-	*/
-
-	std::string get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
-									  const bool& theSpecifyDayFlag,
-									  const std::string& theVar,
-									  bool theAlkaenPhrase /*= false*/)
-	{
+  std::string get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
+									const bool& theSpecifyDayFlag,
+									const std::string& theVar,
+									bool theAlkaenPhrase /*= false*/)
+  {
 	  std::string retval("");
 
 	  bool specify_part_of_the_day = Settings::optional_bool(theVar + "::specify_part_of_the_day", true);

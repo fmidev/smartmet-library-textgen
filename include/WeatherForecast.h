@@ -128,6 +128,7 @@ namespace TextGen
 #define JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE "joka muuttuu tihkusateeksi"
 #define JOKA_MUUTTUU_RANTASATEEKSI_PHRASE "joka muuttuu räntäsateeksi"
 
+#define PIKKUPAKKASTA_PHRASE "pikkupakkasta"
 #define SUMUA_WORD "sumua"
 #define JOKA_VOI_OLLA_SAKEAA_PHRASE "joka voi olla sakeaa"
 

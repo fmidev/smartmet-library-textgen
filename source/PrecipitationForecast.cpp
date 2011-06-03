@@ -86,7 +86,7 @@ namespace TextGen
 
 #define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
 #define HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
+#define HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
 #define HUOMENNA_SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [sadetta], joka voi olla j‰‰t‰v‰‰"
 
 
@@ -94,42 +94,34 @@ namespace TextGen
 #define HUOMENNA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
 #define HUOMENNA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
 #define HUOMENNA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sadetta], joka voi olla j‰‰t‰v‰‰"
-
-
-#define SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sadetta], joka voi olla j‰‰t‰v‰‰"
-
-
 #define SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
 #define SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
 #define SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sis‰maassa] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
 #define SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sis‰maassa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-
-
 #define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-
 #define PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
 #define HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
 #define SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sadetta], joka voi olla j‰‰t‰v‰‰"
 
 
-#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define HUOMENNA_SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define HUOMENNA_SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
 
-#define HUOMENNA_SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
 
-#define HUOMENNA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define HUOMENNA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [paikoin] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define HUOMENNA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define HUOMENNA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sadekuuroja], joka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [paikoin] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
+#define SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
+#define SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
+#define SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
+#define SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
+#define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
+#define PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
+#define HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
+#define SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
 
 #define SAA_POUTAANTUU_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu"
 #define SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu ja on [selke‰]"
@@ -2853,26 +2845,6 @@ vesi- tai lumisadetta.
 			  }
 			else
 			  {
-				/*
-#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sadetta], joka voi olla j‰‰t‰v‰‰"
-
-
-#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define HUOMENNA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[heikkoja] [sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-#define SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sadekuuroja], joka voivat olla j‰‰t‰vi‰"
-
-				 */
-
 				if(theCompositePhraseElements.find(JOKA_VOI_OLLA_JAATAVAA_PHRASE) != theCompositePhraseElements.end())
 				  {
 					if(periodPhraseEmpty && areaPhraseEmpty)
