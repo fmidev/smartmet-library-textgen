@@ -2290,7 +2290,7 @@ namespace TextGen
 			  {
 				if(useDay2Phrase)
 				  {
-					if(!theParameters.theUseFrostExistsPhrase)
+					if(theParameters.theUseFrostExistsPhrase)
 					  {
 						if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
 						  sentence << HUOMENNA_SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
@@ -2329,7 +2329,7 @@ namespace TextGen
 				  {
 					if(dayPhasePhraseEmpty && areaPhraseEmpty)
 					  {
-						if(!theParameters.theUseFrostExistsPhrase)
+						if(theParameters.theUseFrostExistsPhrase)
 						  {
 							if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
 							  sentence << PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
@@ -2368,10 +2368,10 @@ namespace TextGen
 					  }
 					else 
 					  {
-						if(!theParameters.theUseFrostExistsPhrase)
+						if(theParameters.theUseFrostExistsPhrase)
 						  {
 							if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_SISAMAASSA_PAKKSTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
+							  sentence << HUOMENNA_SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
 							else if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID)
 							  sentence << HUOMENNA_SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
 							else if(phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
@@ -2426,26 +2426,6 @@ namespace TextGen
 			  }
 			else
 			  {
-				/*
-#define HUOMENNA_SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on [M...N] [astetta]"
-
-#define HUOMENNA_SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on noin [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkanen on [N] asteen tienoilla"
-#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkanen on [N] asteen tuntumassa"
-#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkanen on lähellä [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on vajaat [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] pakkasta on vähän yli [N] [astetta]"
-
-#define PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "pakkasta on [M...N] [astetta]"
-#define PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "pakkasta on noin [N] [astetta]"
-#define PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "pakkanen on [N] asteen tienoilla"
-#define PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "pakkanen on [N] asteen tuntumassa"
-#define PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "pakkanen on lähellä [N] [astetta]"
-#define PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "pakkasta on vajaat [N] [astetta]"
-#define PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "pakkasta on vähän yli [N] [astetta]"
-
-				 */
-
 				if(useDay2Phrase)
 				  {
 					sentence << HUOMENNA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
@@ -2455,9 +2435,7 @@ namespace TextGen
 				  }
 				else
 				  {
-
-					if(theParameters.theUseFrostExistsPhrase)// && 
-					  //					   theParameters.theFrostExistsTautologyFlag == false)
+					if(theParameters.theUseFrostExistsPhrase)
 					  {
 						sentence << HUOMENNA_SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
 								 << theDayPhasePhrase

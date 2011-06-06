@@ -123,9 +123,49 @@ namespace TextGen
 #define HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
 #define SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
 
-#define SAA_POUTAANTUU_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu"
-#define SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu ja on [selke‰]"
-#define SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu ja vaihtelee puolipilvisest‰ pilviseen"
+
+  //#define SAA_POUTAANTUU_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu"
+
+#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu vesisateen j‰lkeen"
+#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu r‰nt‰sateen j‰lkeen"
+#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu lumisateen j‰lkeen"
+#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu tihkusateen j‰lkeen"
+
+  //#define SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu ja on [selke‰]"
+
+#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu vesisateen j‰lkeen ja on selke‰"
+#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu r‰nt‰sateen j‰lkeen ja on selke‰"
+#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu lumisateen j‰lkeen ja on selke‰"
+#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu tihkusateen j‰lkeen ja on selke‰"
+
+
+#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu vesisateen j‰lkeen ja on melko selke‰"
+#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu r‰nt‰sateen j‰lkeen ja on melko selke‰"
+#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu lumisateen j‰lkeen ja on melko selke‰"
+#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu tihkusateen j‰lkeen ja on melko selke‰"
+
+#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu vesisateen j‰lkeen ja on puolipilvinen"
+#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu r‰nt‰sateen j‰lkeen ja on puolipilvinen"
+#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu lumisateen j‰lkeen ja on puolipilvinen"
+#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu tihkusateen j‰lkeen ja on puolipilvinen"
+
+#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu vesisateen j‰lkeen ja on verrattain pilvinen"
+#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu r‰nt‰sateen j‰lkeen ja on verrattain pilvinen"
+#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu lumisateen j‰lkeen ja on verrattain pilvinen"
+#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu tihkusateen j‰lkeen ja on verrattain pilvinen"
+
+#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu vesisateen j‰lkeen ja on pilvinen"
+#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu r‰nt‰sateen j‰lkeen ja on pilvinen"
+#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu lumisateen j‰lkeen ja on pilvinen"
+#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu tihkusateen j‰lkeen ja on pilvinen"
+
+
+  //#define SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu ja vaihtelee puolipilvisest‰ pilviseen"
+
+#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu vesisateen j‰lkeen ja vaihtelee puolipilvisest‰ pilviseen"
+#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu r‰nt‰sateen j‰lkeen ja vaihtelee puolipilvisest‰ pilviseen"
+#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu lumisateen j‰lkeen ja vaihtelee puolipilvisest‰ pilviseen"
+#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu tihkusateen j‰lkeen ja vaihtelee puolipilvisest‰ pilviseen"
 
   std::ostream& operator<<(std::ostream& theOutput,
 						   const PrecipitationDataItemData& thePrecipitationDataItemData)
@@ -2373,14 +2413,132 @@ vesi- tai lumisadetta.
 	else
 	  cloudinessSentence << theCloudinessSentence;
 
+	precipitation_form_id previousPrecipitationForm = getPoutaantuuPrecipitationForm();
+
 	if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
-	  sentence << SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE
-			   << thePeriodPhrase;
-	else
-	  sentence << SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE
-			   << thePeriodPhrase
-			   << theCloudinessSentence;
-	
+	  {
+		switch(previousPrecipitationForm)
+		  {
+		  case DRIZZLE_FORM:
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  case SLEET_FORM:
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  case SNOW_FORM:
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  default:
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  }
+		/*
+		sentence << SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE
+				 << thePeriodPhrase;
+		*/
+	  }
+	else if(theCloudinessId == PILVINEN)
+	  {
+		switch(previousPrecipitationForm)
+		  {
+		  case DRIZZLE_FORM:
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  case SLEET_FORM:
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  case SNOW_FORM:
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  default:
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  }
+	  }
+	else if(theCloudinessId == VERRATTAIN_PILVINEN)
+	  {
+		switch(previousPrecipitationForm)
+		  {
+		  case DRIZZLE_FORM:
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  case SLEET_FORM:
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  case SNOW_FORM:
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  default:
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  }
+	  }
+	else if(theCloudinessId == PUOLIPILVINEN)
+	  {
+		switch(previousPrecipitationForm)
+		  {
+		  case DRIZZLE_FORM:
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  case SLEET_FORM:
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  case SNOW_FORM:
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  default:
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  }
+	  }
+	else if(theCloudinessId == MELKO_SELKEA)
+	  {
+		switch(previousPrecipitationForm)
+		  {
+		  case DRIZZLE_FORM:
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  case SLEET_FORM:
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  case SNOW_FORM:
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  default:
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  }
+	  }
+	else if(theCloudinessId == SELKEA)
+	  {
+		switch(previousPrecipitationForm)
+		  {
+		  case DRIZZLE_FORM:
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE 
+					 << thePeriodPhrase;
+			break;
+		  case SLEET_FORM:
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE 
+					 << thePeriodPhrase;
+			break;
+		  case SNOW_FORM:
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE 
+					 << thePeriodPhrase;
+			break;
+		  default:
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE 
+					 << thePeriodPhrase;
+			break;
+
+		  }
+
+		/*
+		sentence << SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE
+				 << thePeriodPhrase
+				 << theCloudinessSentence;
+		*/
+	  }
+
 	setDryPeriodTautologyFlag(true);
 
 	return sentence;
@@ -2394,8 +2552,26 @@ vesi- tai lumisadetta.
 
 	if(theWeatherEvent == POUTAANTUU || theWeatherEvent == POUTAANTUU_WHEN_EXTENT_SMALL)
 	  {
+		switch(getPoutaantuuPrecipitationForm())
+		  {
+		  case DRIZZLE_FORM:
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  case SLEET_FORM:
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  case SNOW_FORM:
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  default:
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			break;
+		  }
+
+		/*
 		sentence << SAA_POUTAANTUU_COMPOSITE_PHRASE
 				 << thePeriodPhrase;
+		*/
 
 		theDryPeriodTautologyFlag = true;
 	  }
@@ -3464,6 +3640,8 @@ vesi- tai lumisadetta.
 																				  precipitationFormSnow,
 																				  precipitationFormFreezing);
 
+		thePrecipitationFormBeforeDryPeriod = precipitationForm;
+
 		map<string, Sentence> compositePhraseElements;		
  
 		selectPrecipitationSentence(thePeriod,
@@ -3943,6 +4121,7 @@ vesi- tai lumisadetta.
 	, theUseOllaVerbFlag(false)
 	, theDryPeriodTautologyFlag(false)
 	, theSinglePrecipitationFormFlag(true)
+	, thePrecipitationFormBeforeDryPeriod(MISSING_PRECIPITATION_FORM)
   {
 	gatherPrecipitationData();
 	findOutPrecipitationPeriods();
@@ -3968,6 +4147,53 @@ vesi- tai lumisadetta.
 	  thePrecipitationForm == WATER_DRIZZLE_FREEZING_FORM ||
 	  thePrecipitationForm == WATER_DRIZZLE_FORM;
   }
+
+  precipitation_form_id PrecipitationForecast::getPoutaantuuPrecipitationForm() const
+  {
+	precipitation_form_id retval;
+
+	switch(thePrecipitationFormBeforeDryPeriod)
+	  {
+	  case MISSING_PRECIPITATION_FORM:
+	  case WATER_SLEET_SNOW_FORM:
+	  case WATER_SNOW_FREEZING_FORM:
+	  case WATER_SNOW_FORM:
+	  case WATER_DRIZZLE_SNOW_FORM:
+	  case WATER_SLEET_FREEZING_FORM:
+	  case WATER_SLEET_FORM:
+	  case WATER_DRIZZLE_SLEET_FORM:
+	  case WATER_DRIZZLE_FREEZING_FORM:
+	  case WATER_DRIZZLE_FORM:
+	  case WATER_FREEZING_FORM:
+	  case FREEZING_FORM:
+	  case WATER_FORM:
+		retval = WATER_FORM;
+		break;
+	  case SLEET_SNOW_FREEZING_FORM:
+	  case SLEET_SNOW_FORM:
+	  case SLEET_FREEZING_FORM:
+	  case SLEET_FORM:
+		retval = SLEET_FORM;
+		break;
+	  case SNOW_FORM:
+	  case SNOW_FREEZING_FORM:
+		retval = SNOW_FORM;
+		break;
+	  case DRIZZLE_SNOW_FREEZING_FORM:
+	  case DRIZZLE_SNOW_FORM:
+	  case DRIZZLE_SLEET_SNOW_FORM:
+	  case DRIZZLE_FORM:
+	  case DRIZZLE_FREEZING_FORM:
+	  case DRIZZLE_SLEET_FORM:
+	  case DRIZZLE_SLEET_FREEZING_FORM:
+		retval = DRIZZLE_FORM;
+		break;
+	  }
+
+	return retval;
+
+  }
+
 } // namespace TextGen
 
 // ======================================================================

@@ -232,6 +232,8 @@ using namespace std;
 	bool reportPrecipitationFormsSeparately(const precipitation_form_id& form1,
 											const precipitation_form_id& form2) const;
 
+	precipitation_form_id getPoutaantuuPrecipitationForm() const;
+
 	precipitation_data_vector theCoastalData;
     precipitation_data_vector theInlandData;
     precipitation_data_vector theFullData;
@@ -249,6 +251,7 @@ using namespace std;
 	mutable bool theUseOllaVerbFlag;
 	mutable bool theDryPeriodTautologyFlag;
 	mutable bool theSinglePrecipitationFormFlag;
+	mutable precipitation_form_id thePrecipitationFormBeforeDryPeriod;
   };
 
 

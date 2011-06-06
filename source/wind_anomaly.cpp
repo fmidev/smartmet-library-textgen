@@ -63,6 +63,7 @@ namespace TextGen
 	using Settings::optional_string;
 
 #define ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] [rannikolla] on [tuulista]"
+
 #define ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] [rannikolla] pakkanen on purevaa"
 #define ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] [rannikolla] pakkanen on eritt‰in purevaa"
 #define ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] [rannikolla] tuuli saa s‰‰n tuntumaan kylmemm‰lt‰"
@@ -694,7 +695,10 @@ namespace TextGen
 					  else
 						{
 						  if(specifiedDayEmpty)
-							sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
+							sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
+									 << EMPTY_STRING
+									 << RANNIKOLLA_WORD
+									 << HYVIN_TUULISTA_PHRASE;
 						  else
 							sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
 									 << specifiedDay
@@ -828,7 +832,10 @@ namespace TextGen
 					  else
 						{
 						  if(specifiedDayEmpty)
-							sentence << SAA_ON_TUULINEN_PHRASE;
+							sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
+									 << EMPTY_STRING
+									 << RANNIKOLLA_WORD
+									 << TUULISTA_WORD;
 						  else
 							sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
 									 << specifiedDay
@@ -992,7 +999,10 @@ namespace TextGen
 				  else
 					{
 					  if(specifiedDayEmpty)
-						sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
+						sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
+								 << EMPTY_STRING
+								 << RANNIKOLLA_WORD
+								 << HYVIN_TUULISTA_PHRASE;
 					  else
 						sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
 								 << specifiedDay
@@ -1025,7 +1035,10 @@ namespace TextGen
 				  else
 					{
 					  if(specifiedDayEmpty)
-						sentence << SAA_ON_TUULINEN_PHRASE;
+						sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
+								 << EMPTY_STRING
+								 << RANNIKOLLA_WORD
+								 << TUULISTA_WORD;
 					  else
 						sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
 								 << specifiedDay
@@ -1076,7 +1089,10 @@ namespace TextGen
 				  else
 					{
 					  if(specifiedDayEmpty)
-						sentence << SAA_ON_HYVIN_TUULINEN_PHRASE;
+						sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
+								 << EMPTY_STRING
+								 << RANNIKOLLA_WORD
+								 << HYVIN_TUULISTA_PHRASE;
 					  else
 						sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
 								 << specifiedDay
@@ -1109,7 +1125,10 @@ namespace TextGen
 				  else
 					{
 					  if(specifiedDayEmpty)
-						sentence << SAA_ON_TUULINEN_PHRASE;
+						sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
+								 << EMPTY_STRING
+								 << RANNIKOLLA_WORD
+								 << TUULISTA_WORD;
 					  else
 						sentence << ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE
 								 << specifiedDay
