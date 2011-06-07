@@ -4067,10 +4067,12 @@ namespace TextGen
 	  parameters.theCoastalAndInlandTogetherFlag = coastalPercentage > 0 && 
 		coastalPercentage < separate_coastal_area_percentage;
 
-	  if(parameters.theCoastalAndInlandTogetherFlag)
+	  if(coastalPercentage > 0)
 		{
-		  theLog << "Inland and coastal area(" << coastalPercentage << ") not separated:" << endl;
-		  theLog << "Coastal proportion: " << coastalPercentage << endl;
+		  if(parameters.theCoastalAndInlandTogetherFlag)
+			theLog << "Coastal proportion: " << coastalPercentage << endl;
+		  else
+			theLog << "Coastal proportion: " << coastalPercentage << " (the areas will be separated if mean temperature is different enough)" << endl;
 		}
 
 	  parameters.theRangeSeparator = range_separator;
@@ -4095,128 +4097,6 @@ namespace TextGen
 	  return paragraph;
 	}
 
-#ifdef LATER
-	bool split_the_area(const std::string theVar,
-						const WeatherAnalysis::WeatherArea& theArea,
-						const WeatherAnalysis::WeatherPeriod& thePeriod,
-						const WeatherAnalysis::AnalysisSources& theSources)
-	{
-	  if(NFmiSettings::IsSet(theVar +"::areas_to_split"))
-		{
-		  std::string areasToSplit(require_string(theVar +"::areas_to_split"));
-		  vector<string> areas = NFmiStringTools::Split(areasToSplit, ",");
-		  for(unsigned int i = 0; i < areas.size(); i++)
-			{
-			  if(theArea.name().compare(areas[i]) == 0)
-				{
-				  return true;
-				}			
-			}
-		}
-	  return false;
-	}
-
-
-	bool temperature_split_criterion(const std::string theVar,
-									 const bool& morningTemperature,
-									 const WeatherAnalysis::WeatherArea& theArea,
-									 const WeatherAnalysis::WeatherPeriod& thePeriod,
-									 const WeatherAnalysis::AnalysisSources& theSources,
-									 MessageLogger& theLog)
-	{
-	  bool retval = false;
-
-	  WeatherResult minSouth(kFloatMissing, 0.0);
-	  WeatherResult maxSouth(kFloatMissing, 0.0);
-	  WeatherResult meanSouth(kFloatMissing, 0.0);
-	  WeatherResult minNorth(kFloatMissing, 0.0);
-	  WeatherResult maxNorth(kFloatMissing, 0.0);
-	  WeatherResult meanNorth(kFloatMissing, 0.0);
-
-	  std::string nimi(theArea.name());
-
-	  std::string split_section_name("textgen::split_the_area::" + nimi);
-
-	  if(!NFmiSettings::IsSet(split_section_name + "::method"))
-		return false;
-	  
-	  const std::string criterion = optional_string(split_section_name + "::criterion", "temperature");
-	  float difference = 5.0;
-	  size_t index = criterion.find(":");
-	  if(index != string::npos)
-		difference = atof(criterion.substr(index+1).c_str());
-
-	  
-	  WeatherArea southernArea(theArea);
-	  southernArea.type(WeatherArea::Southern);
-	  WeatherArea northernArea(theArea);
-	  northernArea.type(WeatherArea::Northern);
-	  
-	  
-	  if(morningTemperature)
-		{
-		  morning_temperature(theVar,
-							  theSources,
-							  southernArea,
-							  thePeriod,
-							  minSouth,
-							  maxSouth,
-							  meanSouth);
-
-		  morning_temperature(theVar,
-							  theSources,
-							  northernArea,
-							  thePeriod,
-							  minNorth,
-							  maxNorth,
-							  meanNorth);
-
-		  if(abs(meanSouth.value() - meanNorth.value()) >= difference)
-			retval = true;
-
-		}
-	  else
-		{
-		  afternoon_temperature(theVar,
-								theSources,
-								southernArea,
-								thePeriod,
-								minSouth,
-								maxSouth,
-								meanSouth);
-
-		  afternoon_temperature(theVar,
-								theSources,
-								northernArea,
-								thePeriod,
-								minNorth,
-								maxNorth,
-								meanNorth);
-
-		  if(abs(meanSouth.value() - meanNorth.value()) >= difference)
-			retval = true;
-		}
-
-	  if(retval)
-		theLog << "Reporting southern and northern part separately in " << nimi << "!!" << endl;
-
-	  if(morningTemperature)
-		theLog << "Morning ";
-	  else
-		theLog << "Afternoon ";
-	  theLog << "mean temperature in southern part: " << meanSouth.value() << endl;
-
-	  if(morningTemperature)
-		theLog << "Morning ";
-	  else
-		theLog << "Afternoon ";
-	  theLog << "mean temperature in northern part: " << meanNorth.value() << endl;
-
-	  theLog << "Mean temperature difference: " << abs(meanSouth.value() - meanNorth.value()) << endl;
-
-	  return retval;
-	}
-#endif
 
   } // namespace TemperatureMax36Hours
 

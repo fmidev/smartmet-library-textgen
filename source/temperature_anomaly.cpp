@@ -110,8 +110,8 @@ namespace TextGen
 #define SAA_VIILENEE_VAHAN_PHRASE "s‰‰ viilenee v‰h‰n"
 #define SAA_VIILENEE_HUOMATTAVASTI_PHRASE "s‰‰ viilenee huomattavasti"
 
-#define TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE "[1-na] s‰‰ on [poikkeuksellisen] [kylm‰‰]"
-#define TEMPERATURE_IS_SOMETHING_PLAIN_COMPOSITE_PHRASE "s‰‰ on [poikkeuksellisen] [kylm‰‰]"
+#define MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE "[1-na] s‰‰ on [poikkeuksellisen] [kylm‰‰]"
+#define SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE "s‰‰ on [poikkeuksellisen] [kylm‰‰]"
 #define TEMPERATURE_CHANGES_COMPOSITE_PHRASE "[1-na] [s‰‰ l‰mpenee]"
 
 enum anomaly_phrase_id
@@ -333,58 +333,81 @@ enum anomaly_phrase_id
 														 thePeriod,
 														 theParameters.theArea);
 		}
-	  /*
-	  if(theSpecifiedDay.size() == 0)
-		theSpecifiedDay << EMPTY_STRING;
-	  */
-	  if(theSpecifiedDay.size() == 0)
-		{
-		  sentence << TEMPERATURE_IS_SOMETHING_PLAIN_COMPOSITE_PHRASE;
-		}
-	  else
-		{
-		  sentence << TEMPERATURE_IS_SOMETHING_COMPOSITE_PHRASE
-				   << theSpecifiedDay;
-		}
 
 	  float adequateShare(80.0);
 
 	  if(fractile02Share >= adequateShare)
 		{
-		  sentence << POIKKEUKSELLISEN_WORD;
-		  sentence << (theParameters.theSeason == SUMMER_SEASON ? KOLEAA_WORD : KYLMAA_WORD);
+		  if(theSpecifiedDay.size() == 0)
+			{
+			  sentence << SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
+					   << POIKKEUKSELLISEN_WORD
+					   << (theParameters.theSeason == SUMMER_SEASON ? KOLEAA_WORD : KYLMAA_WORD);
+			}
+		  else
+			{
+			  sentence << MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
+					   << theSpecifiedDay
+					   << POIKKEUKSELLISEN_WORD
+					   << (theParameters.theSeason == SUMMER_SEASON ? KOLEAA_WORD : KYLMAA_WORD);
+			}
 
 		  theParameters.theAnomalyPhrase = 
 			(theParameters.theSeason == SUMMER_SEASON ? SAA_ON_POIKKEUKSELLISEN_KOLEAA :SAA_ON_POIKKEUKSELLISEN_KYLMAA);
 		}
 	  else if(fractile12Share >= adequateShare)
 		{
-		  sentence << EMPTY_STRING;
-		  if(theParameters.theSeason == SUMMER_SEASON)
-			sentence << KOLEAA_WORD;
+		  if(theSpecifiedDay.size() == 0)
+			{
+			  sentence << SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
+					   << EMPTY_STRING
+					   << (theParameters.theSeason == SUMMER_SEASON ? KOLEAA_WORD : KYLMAA_WORD);
+			}
 		  else
-			sentence << KYLMAA_WORD;
+			{
+			  sentence << MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
+					   << theSpecifiedDay
+					   << EMPTY_STRING
+					   << (theParameters.theSeason == SUMMER_SEASON ? KOLEAA_WORD : KYLMAA_WORD);
+			}
 
 		  theParameters.theAnomalyPhrase = 
 			(theParameters.theSeason == SUMMER_SEASON ? SAA_ON_KOLEAA : SAA_ON_HYVIN_KYLMAA);
 		}
 	  else if(fractile98Share >= adequateShare)
 		{
-		  sentence << POIKKEUKSELLISEN_WORD;
-		  if(theParameters.theSeason == SUMMER_SEASON)
-			sentence << LAMMINTA_WORD;
+		  if(theSpecifiedDay.size() == 0)
+			{
+			  sentence << SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
+					   << POIKKEUKSELLISEN_WORD
+					   << (theParameters.theSeason == SUMMER_SEASON ? LAMMINTA_WORD : LEUTOA_WORD);
+			}
 		  else
-			sentence << LEUTOA_WORD;
+			{
+			  sentence << MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
+					   << theSpecifiedDay
+					   << POIKKEUKSELLISEN_WORD
+					   << (theParameters.theSeason == SUMMER_SEASON ? LAMMINTA_WORD : LEUTOA_WORD);
+			}
 
 		  theParameters.theAnomalyPhrase = 
 			(theParameters.theSeason == SUMMER_SEASON ? SAA_ON_POIKKEUKSLLISEN_LAMMINTA : SAA_ON_POIKKEUKSLLISEN_LEUTOA);		
 		}
 	  else if(fractile88Share >= adequateShare)
 		{
-		  if(theParameters.theSeason == SUMMER_SEASON)
-			sentence << HARVINAISEN_WORD << LAMMINTA_WORD;
+		  if(theSpecifiedDay.size() == 0)
+			{
+			  sentence << SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
+					   << HARVINAISEN_WORD
+					   << (theParameters.theSeason == SUMMER_SEASON ? LAMMINTA_WORD : LEUTOA_WORD);
+			}
 		  else
-			sentence << HYVIN_WORD << LEUTOA_WORD;
+			{
+			  sentence << MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
+					   << theSpecifiedDay
+					   << HARVINAISEN_WORD
+					   << (theParameters.theSeason == SUMMER_SEASON ? LAMMINTA_WORD : LEUTOA_WORD);
+			}
 
 		  theParameters.theAnomalyPhrase = 
 			(theParameters.theSeason == SUMMER_SEASON ? SAA_ON_HARVINAISEN_LAMMINTA : SAA_ON_HYVIN_LEUTOA);

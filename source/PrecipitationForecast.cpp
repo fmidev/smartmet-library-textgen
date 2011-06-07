@@ -627,7 +627,7 @@ namespace TextGen
 		if(thePrecipitationForm == MISSING_PRECIPITATION_FORM)
 		  return;
 
-		// use the summer phrase if it is summertime nad no more than one precipitation form is involved
+		// use the summer phrase if it is summertime and no more than one precipitation form is involved
 		bool use_summer_phrase = SeasonTools::isSummer(thePeriod.localStartTime(), theParameters.theVariable) &&
 		  theSinglePrecipitationFormFlag;
 
@@ -4145,7 +4145,8 @@ vesi- tai lumisadetta.
 	  thePrecipitationForm == SNOW_FORM ||
 	  thePrecipitationForm == FREEZING_FORM ||
 	  thePrecipitationForm == WATER_DRIZZLE_FREEZING_FORM ||
-	  thePrecipitationForm == WATER_DRIZZLE_FORM;
+	  thePrecipitationForm == WATER_DRIZZLE_FORM ||
+	  thePrecipitationForm == MISSING_PRECIPITATION_FORM;
   }
 
   precipitation_form_id PrecipitationForecast::getPoutaantuuPrecipitationForm() const

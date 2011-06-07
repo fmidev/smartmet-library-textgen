@@ -146,8 +146,8 @@ namespace WeatherAnalysis
 	  int summerStartMonth = -1, summerStartDay = -1, summerEndMonth = -1, summerEndDay = -1;
 
 	  // by default jun-aug
-	  read_date_variable(theVar+"::summer::startdate", "0301", summerStartMonth, summerStartDay);
-	  read_date_variable(theVar+"::summer::enddate", "0531", summerEndMonth, summerEndDay);
+	  read_date_variable(theVar+"::summer::startdate", "0601", summerStartMonth, summerStartDay);
+	  read_date_variable(theVar+"::summer::enddate", "0831", summerEndMonth, summerEndDay);
 
 	  int compareDate  = theDate.GetMonth()*100 + theDate.GetDay();
 	  int summerStartDate  = summerStartMonth*100 + summerStartDay;
@@ -170,8 +170,8 @@ namespace WeatherAnalysis
 	  int autumnStartMonth = -1, autumnStartDay = -1, autumnEndMonth = -1, autumnEndDay = -1;
 
 	  // by default sep-nov
-	  read_date_variable(theVar+"::autumn::startdate", "0301", autumnStartMonth, autumnStartDay);
-	  read_date_variable(theVar+"::autumn::enddate", "0531", autumnEndMonth, autumnEndDay);
+	  read_date_variable(theVar+"::autumn::startdate", "0901", autumnStartMonth, autumnStartDay);
+	  read_date_variable(theVar+"::autumn::enddate", "1130", autumnEndMonth, autumnEndDay);
 
 	  int compareDate  = theDate.GetMonth()*100 + theDate.GetDay();
 	  int autumnStartDate  = autumnStartMonth*100 + autumnStartDay;

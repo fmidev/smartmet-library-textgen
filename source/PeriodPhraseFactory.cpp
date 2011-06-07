@@ -217,11 +217,11 @@ namespace TextGen
 					if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 					theHistory->updateTimePhrase("",thePeriod.localStartTime());
 				  */
-				  return (sentence << night_against_weekday(thePeriod.localStartTime(), *theHistory));
+				  return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
 				}
 			  else
 				{
-				  return (sentence << night_against_weekday(thePeriod.localStartTime()));
+				  return (sentence << night_against_weekday(thePeriod.localEndTime()));
 				}
 			}
 		  else if(*it == "none!")
@@ -344,11 +344,11 @@ namespace TextGen
 				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 					theHistory->updateTimePhrase("",thePeriod.localStartTime());
 				  */
-				  return (sentence << night_against_weekday(thePeriod.localStartTime(), *theHistory));
+				  return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
 				}
 			  else
 				{
-				  return (sentence << night_against_weekday(thePeriod.localStartTime()));
+				  return (sentence << night_against_weekday(thePeriod.localEndTime()));
 				}
 			}
 		  else if(*it == "atnight")
@@ -407,11 +407,11 @@ namespace TextGen
 				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 					theHistory->updateTimePhrase("",thePeriod.localStartTime());
 				  */
-				  return (sentence << night_against_weekday(thePeriod.localStartTime(), *theHistory));
+				  return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
 				}
 			  else
 				{
-				  return (sentence << night_against_weekday(thePeriod.localStartTime()));
+				  return (sentence << night_against_weekday(thePeriod.localEndTime()));
 				}
 			}
 		  else if(*it == "followingnight")
