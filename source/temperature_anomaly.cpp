@@ -109,6 +109,8 @@ namespace TextGen
 #define SAA_VIILENEE_PHRASE "s‰‰ viilenee"
 #define SAA_VIILENEE_VAHAN_PHRASE "s‰‰ viilenee v‰h‰n"
 #define SAA_VIILENEE_HUOMATTAVASTI_PHRASE "s‰‰ viilenee huomattavasti"
+#define SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE "s‰‰ on ajankohtaan n‰hden tavanomaista l‰mpim‰mp‰‰"
+#define MAANANTAINA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE "[1-na] s‰‰ on ajankohtaan n‰hden tavanomaista l‰mpim‰mp‰‰"
 
 #define MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE "[1-na] s‰‰ on [poikkeuksellisen] [kylm‰‰]"
 #define SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE "s‰‰ on [poikkeuksellisen] [kylm‰‰]"
@@ -397,16 +399,24 @@ enum anomaly_phrase_id
 		{
 		  if(theSpecifiedDay.size() == 0)
 			{
-			  sentence << SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
-					   << HARVINAISEN_WORD
-					   << (theParameters.theSeason == SUMMER_SEASON ? LAMMINTA_WORD : LEUTOA_WORD);
+			  if(theParameters.theSeason == SUMMER_SEASON)
+				sentence << SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE;
+			  else
+				sentence << SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
+						 << HYVIN_WORD
+						 << LEUTOA_WORD;
 			}
 		  else
 			{
-			  sentence << MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
-					   << theSpecifiedDay
-					   << HARVINAISEN_WORD
-					   << (theParameters.theSeason == SUMMER_SEASON ? LAMMINTA_WORD : LEUTOA_WORD);
+
+			  if(theParameters.theSeason == SUMMER_SEASON)
+				sentence << MAANANTAINA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE
+						 << theSpecifiedDay;
+			  else
+				sentence << MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
+						 << theSpecifiedDay
+						 << HYVIN_WORD
+						 << LEUTOA_WORD;
 			}
 
 		  theParameters.theAnomalyPhrase = 
