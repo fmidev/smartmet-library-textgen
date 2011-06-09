@@ -1488,7 +1488,7 @@ namespace TextGen
 							 << parse_weekday_phrase(dayNumber, part_of_the_day)
 							 << areaString;
 				}
-			  else if(temperature > 10.0 && temperature <= 20.0)
+			  else if(temperature > 10.0 && temperature < 20.0)
 				{
 				  if(areaString.compare(EMPTY_STRING) == 0 && timePhrase.compare(EMPTY_STRING) == 0)
 					sentence << TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE;

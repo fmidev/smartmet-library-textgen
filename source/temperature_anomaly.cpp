@@ -933,14 +933,45 @@ enum anomaly_phrase_id
 	WeatherPeriod fractileTemperaturePeriod(report_day2_anomaly ? fractileTemperatureDay2Period : fractileTemperatureDay1Period);
 
 	log << "Day1 maximum temperature " 
-		<< parameters.theDay1TemperatureAreaAfternoonMaximum
-		<< " falls into fractile " 
-		<< fractile_name(theFractileDay1) << fractileTemperatureDay1 << endl;
-	log << "Day2 maximum temperature " 
-		<< parameters.theDay2TemperatureAreaAfternoonMaximum
-		<< " falls into fractile " 
-		<< fractile_name(theFractileDay2) << fractileTemperatureDay2 << endl;
+		<< parameters.theDay1TemperatureAreaAfternoonMaximum;
+	if(theFractileDay1 == FRACTILE_100)
+	  {
+		WeatherResult f98Temperature = get_fractile_temperature(itsVar,
+																FRACTILE_98,
+																itsSources,
+																itsArea,  
+																fractileTemperatureDay1Period,
+																fractileType);
 
+		log << "is higher than F98 temperature " 
+			<< f98Temperature
+			<< endl;
+	  }
+	else
+	  {
+		log << " falls into fractile " 
+			<< fractile_name(theFractileDay1) << fractileTemperatureDay1 << endl;
+	  }
+
+	log << "Day2 maximum temperature " 
+		<< parameters.theDay2TemperatureAreaAfternoonMaximum;
+	if(theFractileDay2 == FRACTILE_100)
+	  {
+		WeatherResult f98Temperature = get_fractile_temperature(itsVar,
+																FRACTILE_98,
+																itsSources,
+																itsArea,  
+																fractileTemperatureDay2Period,
+																fractileType);
+		log << "is higher than F98 temperature " 
+			<< f98Temperature
+			<< endl;
+	  }
+	else
+	  {
+		log << " falls into fractile " 
+			<< fractile_name(theFractileDay2) << fractileTemperatureDay2 << endl;
+	  }
 	
 	WeatherResult fractile02Temperature = get_fractile_temperature(itsVar,
 																   FRACTILE_02,

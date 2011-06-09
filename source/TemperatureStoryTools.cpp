@@ -752,9 +752,6 @@ namespace TextGen
 								 (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF98 : 
 								  NormalMaxTemperatureF98));
 		  break;
-		case FRACTILE_100:
-		case FRACTILE_UNDEFINED:
-		  break;
 		default:
 		  break;
 		}

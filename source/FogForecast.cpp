@@ -157,7 +157,7 @@ namespace TextGen
 	else if(totalFog >= IN_SOME_PLACES_LOWER_LIMIT_FOG && 
 		  totalFog <= IN_SOME_PLACES_UPPER_LIMIT)
 	  {
-		if(theDenseFog < IN_SOME_PLACES_LOWER_LIMIT)
+		if(theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
 		  return FOG_IN_SOME_PLACES;
 		else
 		  return FOG_IN_SOME_PLACES_POSSIBLY_DENSE;
@@ -165,14 +165,14 @@ namespace TextGen
 	else if(totalFog > IN_MANY_PLACES_LOWER_LIMIT && 
 			totalFog < IN_MANY_PLACES_UPPER_LIMIT)
 	  {
-		if(theDenseFog < IN_SOME_PLACES_LOWER_LIMIT)
+		if(theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
 		  return FOG_IN_MANY_PLACES;
 		else
 		  return FOG_IN_MANY_PLACES_POSSIBLY_DENSE;
 	  }
 	else
 	  {
-		if(theDenseFog < IN_SOME_PLACES_LOWER_LIMIT)
+		if(theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
 		  return FOG;
 		else
 		  return FOG_POSSIBLY_DENSE;
@@ -625,10 +625,6 @@ namespace TextGen
 		theParameters.theLog << startTime;
 		theParameters.theLog << "...";
 		theParameters.theLog << endTime << endl;
-		theParameters.theLog << "result2: ";
-		theParameters.theLog << theResultFogPeriod.localStartTime();
-		theParameters.theLog << "...";
-		theParameters.theLog << theResultFogPeriod.localEndTime() << endl;
 
 		return theResultFogPeriod;
 
@@ -669,6 +665,7 @@ namespace TextGen
 		int lastPeriodIndex(-1);
 		int fogIdSum(0);
 		int fogPeriodCount(0);
+		map<unsigned int, unsigned int> encounteredFogTypes;
 
 		// Merge close periods. If one long fog-period use that and ignore the small ones,
 		// otherwise theFogTypeId is weighted average of all fog-periods and the
@@ -703,9 +700,11 @@ namespace TextGen
 					longestFogPeriodIndex = i;
 				  }
 			  }
+
 			lastPeriodIndex = i;
 			fogIdSum += (theFogTypePeriods.at(i).second * actualPeriodLength);
 			fogPeriodCount += actualPeriodLength;
+			encounteredFogTypes.insert(make_pair(theFogTypePeriods.at(i).second, theFogTypePeriods.at(i).second));
 		  }
 
 		if(longestFogPeriodIndex >= 0)
@@ -732,9 +731,31 @@ namespace TextGen
 															fogPeriodOk));
 				theResultPeriod = WeatherPeriod(firstPeriod.localStartTime(), lastPeriod.localEndTime());
 				float periodIdAverage(static_cast<float>(fogIdSum) / static_cast<float>(fogPeriodCount));
-				int roundedValue(static_cast<int>(round(periodIdAverage)));
-				theFogTypeId = static_cast<fog_type_id>(roundedValue);
-				return true;
+
+				// lets find the fog type that is closest to the average
+				fog_type_id finalFogType = NO_FOG;
+				float fogTypeGap = 10.0;
+				for(unsigned int i = FOG; i < NO_FOG; i++)
+				  {
+					if(encounteredFogTypes.find(i) != encounteredFogTypes.end())
+					  {
+						if(finalFogType == NO_FOG)
+						  {
+							finalFogType = static_cast<fog_type_id>(i);
+							fogTypeGap = abs(periodIdAverage - i);
+						  }
+						else 
+						  {
+							if(fogTypeGap > abs(periodIdAverage - i))
+							  {
+								finalFogType = static_cast<fog_type_id>(i);
+								fogTypeGap = abs(periodIdAverage - i);
+							  }
+						  }
+					  }
+				  }
+				theFogTypeId = finalFogType;
+				return (theFogTypeId != NO_FOG);
 			  }
 		  }
 	  }
