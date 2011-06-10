@@ -2295,7 +2295,10 @@ namespace TextGen
 		  {
 			if(useDay2Phrase)
 			  {
-				if(!dayPhasePhraseEmpty && areaPhraseEmpty)
+				if(dayPhasePhraseEmpty && areaPhraseEmpty)
+				  sentence << LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
+						   << theTemperaturePhrase;
+				else if(!dayPhasePhraseEmpty && areaPhraseEmpty)
 				  sentence << SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
 						   << theDayPhasePhrase;
 				else if(dayPhasePhraseEmpty && !areaPhraseEmpty)
@@ -2308,7 +2311,12 @@ namespace TextGen
 			  }
 			else
 			  {
-				if(!dayPhasePhraseEmpty && areaPhraseEmpty)
+				if(dayPhasePhraseEmpty && areaPhraseEmpty)
+				  {
+					sentence << LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
+							 << theTemperaturePhrase;
+				  }
+				else if(!dayPhasePhraseEmpty && areaPhraseEmpty)
 				  {
 					sentence << HUOMENNA_LAMPOTILA_ON_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE
 							 << theDayPhasePhrase

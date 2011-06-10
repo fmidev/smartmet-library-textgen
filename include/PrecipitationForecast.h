@@ -81,7 +81,9 @@ using namespace std;
 	float getMeanIntensity(const WeatherPeriod& thePeriod,
 										const unsigned short theForecastArea) const;
 	bool getPrecipitationPeriod(const NFmiTime& theTimestamp, NFmiTime& theStartTime, NFmiTime& theEndTime) const;
-	static bool singleForm(const precipitation_form_id& thePrecipitationForm); 
+	static bool singleForm(const precipitation_form_id& thePrecipitationForm);
+	bool thunderExists(const WeatherPeriod& thePeriod,
+					   const unsigned short& theForecastArea) const;
 	
   private:
 	  

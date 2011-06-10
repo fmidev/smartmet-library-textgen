@@ -124,6 +124,12 @@ namespace TextGen
 		maxThunderProbability = getMaxValue(thePeriod, *thunderProbabilityData);
 		maxThunderExtent = getMaxValue(thePeriod, *thunderExtentData);
 
+		if(maxThunderProbability > 0.0 || maxThunderExtent > 0.0)
+		  {
+			theParameters.theLog << "Thunder probability (max): " << maxThunderProbability << endl;
+			theParameters.theLog << "Thunder extent (max): " << maxThunderExtent << endl;
+		  }
+  
 		if(maxThunderExtent >= 5.0 && maxThunderExtent < 30.0)
 		  {
 			if(maxThunderProbability >= 5.0 && maxThunderProbability < 25.0)

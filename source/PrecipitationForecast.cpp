@@ -3668,16 +3668,23 @@ vesi- tai lumisadetta.
 										  precipitationIntensity, 
 										  precipitationExtent);
 		
-		bool mostly_dry_weather = precipitationExtent <= theParameters.theMostlyDryWeatherLimit;
+		//		bool mostly_dry_weather = precipitationExtent <= theParameters.theMostlyDryWeatherLimit;
 
-		if(!dry_weather && !mostly_dry_weather)
+		if(!dry_weather)
 		  {
 			//sentence << areaSpecificSentence(thePeriod);
 			
+			forecast_area_id theAreaId = NO_AREA;
+			if(theForecastAreaId & INLAND_AREA)
+			  theAreaId = INLAND_AREA;
+			else if(theParameters.theForecastArea & COASTAL_AREA)
+			  theAreaId = COASTAL_AREA;
+			else if(theParameters.theForecastArea & FULL_AREA)
+			  theAreaId = FULL_AREA;
+
 			Sentence thunderSentence;
-			thunderSentence << 
-			  theParameters.theThunderForecast->thunderSentence(thePeriod, 
-																static_cast<const forecast_area_id>(theForecastAreaId));
+			thunderSentence <<  theParameters.theThunderForecast->thunderSentence(thePeriod, theAreaId);
+
 			if(thunderSentence.size() > 0)
 			  {
 				sentence << thunderSentence;
@@ -4149,6 +4156,7 @@ vesi- tai lumisadetta.
 	  thePrecipitationForm == MISSING_PRECIPITATION_FORM;
   }
 
+  // this function is set up because of language versions, for eample in swedish: regnet/snöfallet upphör
   precipitation_form_id PrecipitationForecast::getPoutaantuuPrecipitationForm() const
   {
 	precipitation_form_id retval;
@@ -4192,8 +4200,18 @@ vesi- tai lumisadetta.
 	  }
 
 	return retval;
-
   }
+
+  bool  PrecipitationForecast::thunderExists(const WeatherPeriod& thePeriod,
+											 const unsigned short& theForecastArea) const
+  {
+	Sentence thunderSentence;
+	thunderSentence << 
+	  theParameters.theThunderForecast->thunderSentence(thePeriod, 
+														static_cast<const forecast_area_id>(theForecastArea));
+	return (thunderSentence.size() > 0);
+  }
+
 
 } // namespace TextGen
 

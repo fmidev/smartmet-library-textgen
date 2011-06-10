@@ -148,6 +148,10 @@ namespace TextGen
 																		theForecastArea));
 		precipitation_type type(thePrecipitationForecast.getPrecipitationType(precipitationPeriods[i], 
 																			  theForecastArea));
+
+		bool thunder(thePrecipitationForecast.thunderExists(precipitationPeriods[i],
+															theForecastArea));
+
 		if(get_period_length(precipitationPeriods[i]) <= 1 && extent < 10)
 		  continue;
 
@@ -157,8 +161,8 @@ namespace TextGen
 																				  intensity,
 																				  extent,
 																				  form, 
-																				  type);
-
+																				  type,
+																				  thunder);
 
 		NFmiTime startTimeFull;
 		NFmiTime endTimeFull;
@@ -351,8 +355,9 @@ namespace TextGen
 				if(currentPrecipitationStoryItem->thePeriod.localStartTime().DifferenceInHours(previousPrecipitationStoryItem->thePeriod.localEndTime()) <= 2)
 				  previousPrecipitationStoryItem->theReportPoutaantuuFlag = false;
 
-				// if the type is different don't merge
-				if(previousPrecipitationStoryItem->theType != currentPrecipitationStoryItem->theType)
+				// if the type is different don't merge, except when thunder exists on both periods
+				if(previousPrecipitationStoryItem->theType != currentPrecipitationStoryItem->theType &&
+				   !(previousPrecipitationStoryItem->theThunder && currentPrecipitationStoryItem->theThunder))
 				  {
 					// if the period between precpitation periods is short don't mention it
 					if(theStoryItemVector[i-1] != previousPrecipitationStoryItem && 
@@ -534,13 +539,15 @@ namespace TextGen
 																 const story_part_id& storyPartId,
 																 const float& intensity,
 																 const float& extent,
-																 unsigned int& form,
-																 precipitation_type& type)
+																 const unsigned int& form,
+																 const precipitation_type& type,
+																 const bool& thunder)
 	: WeatherForecastStoryItem(weatherForecastStory, period, storyPartId),
 	  theIntensity(intensity),
 	  theExtent(extent),
 	  theForm(form),
 	  theType(type),
+	  theThunder(thunder),
 	  theSadeJatkuuFlag(false),
 	  thePoutaantuuFlag(intensity > WEAK_PRECIPITATION_LIMIT_WATER),
 	  theReportPoutaantuuFlag(intensity > WEAK_PRECIPITATION_LIMIT_WATER),

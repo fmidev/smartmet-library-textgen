@@ -68,8 +68,9 @@ class WeatherForecastStory;
 								   const story_part_id& storyPartId,
 								   const float& intensity,
 								   const float& extent,
-								   unsigned int& form,
-								   precipitation_type& type);
+								   const unsigned int& form,
+								   const precipitation_type& type,
+								   const bool& thunder);
 
 	bool weakPrecipitation() const;
 	Sentence getStoryItemSentence();
@@ -81,6 +82,8 @@ class WeatherForecastStory;
 	float theExtent;
 	unsigned int theForm;
 	precipitation_type theType;
+	// this flag indicates wheather thunder exists or not during the period
+	bool theThunder;
 	// this flag indicates if there has been a gap between precipitation periods
 	bool theSadeJatkuuFlag;
 	// this flag indicates whether we tell about 
