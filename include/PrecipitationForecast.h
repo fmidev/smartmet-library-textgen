@@ -39,8 +39,7 @@ using namespace std;
 	Sentence precipitationChangeSentence(const WeatherPeriod& thePeriod,
 										 const Sentence& thePeriodPhrase,
 										 const weather_event_id& theWeatherEvent) const;
-	Sentence precipitationPoutaantuuAndCloudiness(const WeatherPeriod& thePeriod,
-												  const Sentence& thePeriodPhrase,
+	Sentence precipitationPoutaantuuAndCloudiness(const Sentence& thePeriodPhrase,
 												  const cloudiness_id& theCloudinessId,
 												  const Sentence& theCloudinessSentence) const;
 

@@ -763,7 +763,7 @@ using namespace std;
 											 get_large_time_phrase(theWeatherPeriod, weekday));
 				}
 
-			  if(retval.empty() && theAlkaenPhrase)
+			  if(retval.empty())// && theAlkaenPhrase)
 				{
 				  retval = parse_time_phrase(weekday, 
 											 theSpecifyDayFlag, 

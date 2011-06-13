@@ -105,8 +105,10 @@ namespace TextGen
 
 #define LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[lämpötila] on [M...N] [astetta]"
 #define LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[lämpötila] on noin [N] [astetta]"
-#define LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[lämpötila] on [N] asteen tienoilla"
-#define LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[lämpötila] on [N] asteen tuntumassa"
+	//#define LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[lämpötila] on [N] asteen tienoilla"
+	//#define LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[lämpötila] on [N] asteen tuntumassa"
+#define LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[lämpötila] on [N] [asteen] tienoilla"
+#define LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[lämpötila] on [N] [asteen] tuntumassa"
 #define LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[lämpötila] on lähellä [N] [astetta]"
 #define LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[lämpötila] on vajaat [N] [astetta]"
 #define LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[lämpötila] on vähän yli [N] [astetta]"
@@ -114,22 +116,28 @@ namespace TextGen
 
 #define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [M...N] [astetta]"
 #define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on noin [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [N] asteen tienoilla"
-#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [N] asteen tuntumassa"
+	//#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [N] asteen tienoilla"
+#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [N] [asteen] tienoilla"
+	//#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [N] asteen tuntumassa"
+#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on [N] [asteen] tuntumassa"
 #define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on lähellä [N] [astetta]"
 #define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on vajaat [N] [astetta]"
 #define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [lämpötila] on vähän yli [N] [astetta]"
 #define HUOMENNA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lämpötila] on [M...N] [astetta]"
 #define HUOMENNA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lämpötila] on noin [N] [astetta]"
-#define HUOMENNA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lämpötila] on [N] asteen tienoilla"
-#define HUOMENNA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lämpötila] on [N] asteen tuntumassa"
+	//#define HUOMENNA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lämpötila] on [N] asteen tienoilla"
+#define HUOMENNA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lämpötila] on [N] [asteen] tienoilla"
+	//#define HUOMENNA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lämpötila] on [N] asteen tuntumassa"
+#define HUOMENNA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lämpötila] on [N] [asteen] tuntumassa"
 #define HUOMENNA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lämpötila] on lähellä [N] [astetta]"
 #define HUOMENNA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lämpötila] on vajaat [N] [astetta]"
 #define HUOMENNA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lämpötila] on vähän yli [N] [astetta]"
 #define SISAMAASSA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [lämpötila] on [M...N] [astetta]"
 #define SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [lämpötila] on noin [N] [astetta]"
-#define SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [lämpötila] on [N] asteen tienoilla"
-#define SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [lämpötila] on [N] asteen tuntumassa"
+	//#define SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [lämpötila] on [N] asteen tienoilla"
+#define SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [lämpötila] on [N] [asteen] tienoilla"
+	//#define SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [lämpötila] on [N] asteen tuntumassa"
+#define SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [lämpötila] on [N] [asteen] tuntumassa"
 #define SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [lämpötila] on lähellä [N] [astetta]"
 #define SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [lämpötila] on vajaat [N] [astetta]"
 #define SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [lämpötila] on vähän yli [N] [astetta]"
@@ -153,8 +161,10 @@ namespace TextGen
 #define RANNIKOLLA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "rannikolla vajaat [N] [astetta]"
 #define RANNIKOLLA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "rannikolla vähän yli [N] [astetta]"
 #define RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "rannikolla [M...N] [astetta]"
-#define RANNIKOLLA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] asteen tienoilla"
-#define RANNIKOLLA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] asteen tuntumassa"
+	//#define RANNIKOLLA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] asteen tienoilla"
+	//#define RANNIKOLLA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] asteen tuntumassa"
+#define RANNIKOLLA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] [asteen] tienoilla"
+#define RANNIKOLLA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] [asteen] tuntumassa"
 #define RANNIKOLLA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "rannikolla [suunnilleen sama]"
 
 #define HUOMENNA_SISAMAASSA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] lähellä [N] [astetta]"
@@ -162,28 +172,31 @@ namespace TextGen
 #define HUOMENNA_SISAMAASSA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] vajaat [N] [astetta]"
 #define HUOMENNA_SISAMAASSA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] vähän yli [N] [astetta]"
 #define HUOMENNA_SISAMAASSA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [M...N] [astetta]"
-#define HUOMENNA_SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [N] asteen tienoilla"
-#define HUOMENNA_SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [N] asteen tuntumassa"
+	//#define HUOMENNA_SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [N] asteen tienoilla"
+	//#define HUOMENNA_SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [N] asteen tuntumassa"
+#define HUOMENNA_SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [N] [asteen] tienoilla"
+#define HUOMENNA_SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [N] [asteen] tuntumassa"
 #define HUOMENNA_SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[huomenna] [sisämaassa] [suunnilleen sama]"
 #define HUOMENNA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] lähellä [N] [astetta]"
 #define HUOMENNA_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] noin [N] [astetta]"
 #define HUOMENNA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] vajaat [N] [astetta]"
 #define HUOMENNA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] vähän yli [N] [astetta]"
 #define HUOMENNA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [M...N] [astetta]"
-#define HUOMENNA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [N] asteen tienoilla"
-#define HUOMENNA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [N] asteen tuntumassa"
+	//#define HUOMENNA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [N] asteen tienoilla"
+	//#define HUOMENNA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [N] asteen tuntumassa"
+#define HUOMENNA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [N] [asteen] tienoilla"
+#define HUOMENNA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [N] [asteen] tuntumassa"
 #define HUOMENNA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[huomenna] [suunnilleen sama]"
 #define SISAMAASSA_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] lähellä [N] [astetta]"
 #define SISAMAASSA_NOIN_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] noin [N] [astetta]"
 #define SISAMAASSA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] vajaat [N] [astetta]"
 #define SISAMAASSA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] vähän yli [N] [astetta]"
 #define SISAMAASSA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [M...N] [astetta]"
-#define SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [N] asteen tienoilla"
-#define SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [N] asteen tuntumassa"
+	//#define SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [N] asteen tienoilla"
+	//#define SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [N] asteen tuntumassa"
+#define SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [N] [asteen] tienoilla"
+#define SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[sisämaassa] [N] [asteen] tuntumassa"
 #define SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[sisämaassa] [suunnilleen sama]"
-
-#define ASTEEN_TIENOILLA_COMPOSITE_PHRASE "[1] asteen tienoilla"
-#define ASTEEN_TUNTUMASSA_COMPOSITE_PHRASE "[1] asteen tuntumassa"
 
 #define COASTAL_AREA_IGNORE_LIMIT -15.0
 #define DAY_NIGHT_SEPARATION_LIMIT 3.0
@@ -2168,6 +2181,35 @@ namespace TextGen
 	  return sentence;
 	}
 
+	Sentence tienoilla_and_tuntumassa_astetta(const int& degrees)
+	{
+	  Sentence sentence;
+
+	  const string var = "textgen::units::celsius::format";
+	  const string opt = Settings::optional_string(var,"SI");
+
+	  if(opt == "SI")
+		{
+		  sentence << Integer(degrees) << Delimiter("\260C");
+		}
+	  
+	  else if(opt == "phrase")
+		{
+		  if(degrees == 0)
+			sentence << "0" <<  "asteen(monikko)";
+		  else if(degrees == 1)
+			sentence << "1" <<  "asteen(yksikkö)";
+		  else
+			sentence << Integer(degrees) <<  "asteen(monikko)";
+		}
+	  else if(opt == "none")
+		;
+	  else
+		throw TextGenError("Unknown format "+opt+" in variable "+var);
+
+	  return sentence;	  
+	}
+
 	const Sentence construct_final_sentence(t36hparams& theParameters,
 											const Sentence& temperatureSentence,
 											const Sentence& daySentence,
@@ -2374,7 +2416,15 @@ namespace TextGen
 				else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 				  sentence << RANNIKOLLA_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
 			
-				sentence << degreesSentence;
+				if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
+				   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+				  {
+					sentence << tienoilla_and_tuntumassa_astetta(intervalStart);
+				  }
+				else
+				  {
+					sentence << degreesSentence;
+				  }
 			  }
 			else
 			  {
@@ -2397,7 +2447,15 @@ namespace TextGen
 							else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 							  sentence << PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
 
-							sentence << degreesSentence;
+							if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
+							   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+							  {
+								sentence << tienoilla_and_tuntumassa_astetta(intervalStart);
+							  }
+							else
+							  {
+								sentence << degreesSentence;
+							  }
 						  }
 						else if(!dayPhasePhraseEmpty && areaPhraseEmpty)
 						  {
@@ -2414,8 +2472,17 @@ namespace TextGen
 							else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 							  sentence << HUOMENNA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
 
-							sentence << theDayPhasePhrase
-									 << degreesSentence;
+							if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
+							   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+							  {
+								sentence << theDayPhasePhrase
+										 << tienoilla_and_tuntumassa_astetta(intervalStart);
+							  }
+							else
+							  {
+								sentence << theDayPhasePhrase
+										 << degreesSentence;
+							  }
 						  }
 						else if(dayPhasePhraseEmpty && !areaPhraseEmpty)
 						  {
@@ -2432,8 +2499,17 @@ namespace TextGen
 							else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 							  sentence << SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
 
-							sentence << theAreaPhrase
-									 << degreesSentence;
+							if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
+							   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+							  {
+								sentence << theAreaPhrase
+										 << tienoilla_and_tuntumassa_astetta(intervalStart);
+							  }
+							else
+							  {
+								sentence << theAreaPhrase
+										 << degreesSentence;
+							  }
 						  }
 						else
 						  {
@@ -2450,13 +2526,25 @@ namespace TextGen
 							else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 							  sentence << HUOMENNA_SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
 							
-							sentence << theDayPhasePhrase
-									 << theAreaPhrase
-									 << degreesSentence;
+
+							if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
+							   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+							  {
+								sentence << theDayPhasePhrase
+										 << theAreaPhrase
+										 << tienoilla_and_tuntumassa_astetta(intervalStart);
+							  }
+							else
+							  {
+								sentence << theDayPhasePhrase
+										 << theAreaPhrase
+										 << degreesSentence;
+							  }
 						  }
 					  }
 					else
 					  {
+						/*
 						if(dayPhasePhraseEmpty && areaPhraseEmpty)
 						  {
 							if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
@@ -2533,32 +2621,8 @@ namespace TextGen
 									 << theTemperaturePhrase
 									 << degreesSentence;
 						  }
-					  }
-
-				  }
-#ifdef LATER
-				else
-				  {
-					if(dayPhasePhraseEmpty && areaPhraseEmpty)
-					  {
-						if(theParameters.theUseFrostExistsPhrase)
-						  {
-							if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
-							  sentence << PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID)
-							  sentence << PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
-							  sentence << PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == VAHAN_YLI_ASTETTA_PHRASE_ID)
-							  sentence << PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == VAJAAT_ASTETTA_PHRASE_ID)
-							  sentence << PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
-							  sentence << PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
-
-							sentence << degreesSentence;
-						  }
-						else
+						*/
+						if(dayPhasePhraseEmpty && areaPhraseEmpty)
 						  {
 							if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
 							  sentence << LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
@@ -2572,28 +2636,77 @@ namespace TextGen
 							  sentence << LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
 							else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 							  sentence << LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
-
-							sentence << theTemperaturePhrase
-									 << degreesSentence;
+							
+								
+							if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
+							   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+							  {
+								sentence << theTemperaturePhrase
+										 << tienoilla_and_tuntumassa_astetta(intervalStart);
+							  }
+							else
+							  {
+								sentence << theTemperaturePhrase
+										 << degreesSentence;
+							  }
 						  }
-						  
-					  }
-					else 
-					  {
-						if(theParameters.theUseFrostExistsPhrase)
+						else if(!dayPhasePhraseEmpty && areaPhraseEmpty)
 						  {
 							if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
+							  sentence << HUOMENNA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
 							else if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
+							  sentence << HUOMENNA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
 							else if(phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
+							  sentence << HUOMENNA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
 							else if(phrase_id == VAHAN_YLI_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
+							  sentence << HUOMENNA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
 							else if(phrase_id == VAJAAT_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
+							  sentence << HUOMENNA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
 							else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
+							  sentence << HUOMENNA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
+
+							if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
+							   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+							  {
+								sentence << theDayPhasePhrase
+										 << theTemperaturePhrase
+										 << tienoilla_and_tuntumassa_astetta(intervalStart);
+							  }
+							else
+							  {
+								sentence << theDayPhasePhrase
+										 << theTemperaturePhrase
+										 << degreesSentence;
+							  }
+						  }
+						else if(dayPhasePhraseEmpty && !areaPhraseEmpty)
+						  {
+							if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
+							  sentence << SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
+							else if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID)
+							  sentence << SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
+							else if(phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+							  sentence << SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
+							else if(phrase_id == VAHAN_YLI_ASTETTA_PHRASE_ID)
+							  sentence << SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
+							else if(phrase_id == VAJAAT_ASTETTA_PHRASE_ID)
+							  sentence << SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
+							else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
+							  sentence << SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
+
+							if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
+							   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+							  {
+								sentence << theAreaPhrase
+										 << theTemperaturePhrase
+										 << tienoilla_and_tuntumassa_astetta(intervalStart);
+							  }
+							else
+							  {
+								sentence << theAreaPhrase
+										 << theTemperaturePhrase
+										 << degreesSentence;
+							  }
 						  }
 						else
 						  {
@@ -2609,21 +2722,26 @@ namespace TextGen
 							  sentence << HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
 							else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 							  sentence << HUOMENNA_SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
-						  }
 
-						if(dayPhasePhraseEmpty && !areaPhraseEmpty)
-						  sentence << theAreaPhrase
-								   << theDayPhasePhrase
-								   << theTemperaturePhrase
-								   << degreesSentence;
-						else
-						  sentence << theDayPhasePhrase
-								   << theAreaPhrase
-								   << theTemperaturePhrase
-								   << degreesSentence;
+
+							if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
+							   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+							  {
+								sentence << theDayPhasePhrase
+										 << theAreaPhrase
+										 << theTemperaturePhrase
+										 << tienoilla_and_tuntumassa_astetta(intervalStart);
+							  }
+							else
+							  {
+								sentence << theDayPhasePhrase
+										 << theAreaPhrase
+										 << theTemperaturePhrase
+										 << degreesSentence;
+							  }
+						  }
 					  }
 				  }
-	  #endif
 			  }
 		  }
 		  break;
@@ -2673,14 +2791,6 @@ namespace TextGen
 									 << theAreaPhrase
 									 << degreesSentence;
 						  }
-
-						/*
-
-						sentence << HUOMENNA_SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
-								 << theDayPhasePhrase
-								 << theAreaPhrase
-								 << temperatureSentence;
-						*/
 					  }
 					else
 					  {
@@ -2689,12 +2799,6 @@ namespace TextGen
 							sentence << LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
 									 << theTemperaturePhrase 
 									 << temperatureSentence;
-
-							/*
-							sentence << theTemperaturePhrase 
-									 << ON_WORD 
-									 << temperatureSentence;
-							*/
 						  }
 						else if(!dayPhasePhraseEmpty && areaPhraseEmpty)
 						  {

@@ -313,7 +313,7 @@ namespace TextGen
 		  }
 		else if(theStoryItemVector[i]->theStoryPartId == PRECIPITATION_STORY_PART)
 		  {
-			previousPrecipitationStoryItem = 	static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[i]);
+			previousPrecipitationStoryItem = static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[i]);
 		  }
 		  
 		// one hour period in the beginning is ignored
@@ -745,8 +745,7 @@ namespace TextGen
 
 			// ARE 22.02.2011: The missing period-phrase added
 			Sentence thePeriodPhrase(getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &poutaantuuPeriod));
-			thePoutaantuuSentence << prForecast.precipitationPoutaantuuAndCloudiness(poutaantuuPeriod, 
-																					 thePeriodPhrase,
+			thePoutaantuuSentence << prForecast.precipitationPoutaantuuAndCloudiness(thePeriodPhrase,
 																					 cloudinessId,
 																					 cloudinessSentence);
 			thePreviousPrecipitationStoryItem->theReportPoutaantuuFlag = false;

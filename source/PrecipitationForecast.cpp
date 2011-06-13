@@ -1319,7 +1319,7 @@ vesi- tai lumisadetta.
 		{
 		  if(precipitationForm == MISSING_PRECIPITATION_FORM)
 			precipitationForm = dataVector.at(i)->thePrecipitationForm;
-		  else if(dataVector.at(i)->thePrecipitationForm < precipitationForm)
+		  else if(dataVector.at(i)->thePrecipitationForm <precipitationForm)
 			precipitationForm = dataVector.at(i)->thePrecipitationForm;				
 		}
 
@@ -2394,8 +2394,7 @@ vesi- tai lumisadetta.
 	  }
 	return false;
   }
-  Sentence PrecipitationForecast::precipitationPoutaantuuAndCloudiness(const WeatherPeriod& thePeriod,
-																	   const Sentence& thePeriodPhrase,
+  Sentence PrecipitationForecast::precipitationPoutaantuuAndCloudiness(const Sentence& thePeriodPhrase,
 																	   const cloudiness_id& theCloudinessId,
 																	   const Sentence& theCloudinessSentence) const
   {	
@@ -2420,38 +2419,34 @@ vesi- tai lumisadetta.
 		switch(previousPrecipitationForm)
 		  {
 		  case DRIZZLE_FORM:
-			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  case SLEET_FORM:
-			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  case SNOW_FORM:
-			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  default:
-			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  }
-		/*
-		sentence << SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE
-				 << thePeriodPhrase;
-		*/
 	  }
 	else if(theCloudinessId == PILVINEN)
 	  {
 		switch(previousPrecipitationForm)
 		  {
 		  case DRIZZLE_FORM:
-			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  case SLEET_FORM:
-			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  case SNOW_FORM:
-			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  default:
-			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  }
 	  }
@@ -2460,16 +2455,16 @@ vesi- tai lumisadetta.
 		switch(previousPrecipitationForm)
 		  {
 		  case DRIZZLE_FORM:
-			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  case SLEET_FORM:
-			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  case SNOW_FORM:
-			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  default:
-			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  }
 	  }
@@ -2478,16 +2473,16 @@ vesi- tai lumisadetta.
 		switch(previousPrecipitationForm)
 		  {
 		  case DRIZZLE_FORM:
-			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  case SLEET_FORM:
-			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  case SNOW_FORM:
-			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  default:
-			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  }
 	  }
@@ -2496,16 +2491,16 @@ vesi- tai lumisadetta.
 		switch(previousPrecipitationForm)
 		  {
 		  case DRIZZLE_FORM:
-			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  case SLEET_FORM:
-			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  case SNOW_FORM:
-			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  default:
-			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << thePeriodPhrase;
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << periodPhrase;
 			break;
 		  }
 	  }
@@ -2515,28 +2510,22 @@ vesi- tai lumisadetta.
 		  {
 		  case DRIZZLE_FORM:
 			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE 
-					 << thePeriodPhrase;
+					 << periodPhrase;
 			break;
 		  case SLEET_FORM:
 			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE 
-					 << thePeriodPhrase;
+					 << periodPhrase;
 			break;
 		  case SNOW_FORM:
 			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE 
-					 << thePeriodPhrase;
+					 << periodPhrase;
 			break;
 		  default:
 			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE 
-					 << thePeriodPhrase;
+					 << periodPhrase;
 			break;
 
 		  }
-
-		/*
-		sentence << SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE
-				 << thePeriodPhrase
-				 << theCloudinessSentence;
-		*/
 	  }
 
 	setDryPeriodTautologyFlag(true);
@@ -3673,14 +3662,27 @@ vesi- tai lumisadetta.
 		if(!dry_weather)
 		  {
 			//sentence << areaSpecificSentence(thePeriod);
-			
+
 			forecast_area_id theAreaId = NO_AREA;
+
 			if(theForecastAreaId & INLAND_AREA)
 			  theAreaId = INLAND_AREA;
 			else if(theParameters.theForecastArea & COASTAL_AREA)
 			  theAreaId = COASTAL_AREA;
 			else if(theParameters.theForecastArea & FULL_AREA)
 			  theAreaId = FULL_AREA;
+			
+			/*
+			if(theForecastAreaId & FULL_AREA)
+			  theAreaId = FULL_AREA;
+			else if(theForecastAreaId & INLAND_AREA)
+			  theAreaId = INLAND_AREA;
+			else if(theForecastAreaId & COASTAL_AREA)
+			  theAreaId = COASTAL_AREA;
+
+			cout << "theForecastAreaId: " << theForecastAreaId << endl;
+			cout << "theAreaId: " << static_cast<int>(theAreaId) << endl;
+			*/
 
 			Sentence thunderSentence;
 			thunderSentence <<  theParameters.theThunderForecast->thunderSentence(thePeriod, theAreaId);

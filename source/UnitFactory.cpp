@@ -117,7 +117,7 @@ namespace
 	shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
-	  *sentence << Delimiter("\260C");
+	  *sentence << Integer(value) << Delimiter("\260C");
 	else if(opt == "phrase")
 	  {
        if(value == 0)
@@ -184,7 +184,7 @@ namespace
 	shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
-	  *sentence << "m/s";
+	  *sentence << Integer(value) << "m/s";
 	else if(opt == "phrase")
 	  {
       if(value == 0)
@@ -278,7 +278,7 @@ namespace
 	shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
-	  *sentence << Delimiter("mm");
+	  *sentence << Integer(value) << Delimiter("mm");
 	else if(opt == "phrase")
 	  {
 		if(value == 0)
@@ -343,7 +343,7 @@ namespace
 	shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
-	  *sentence << Delimiter("%");
+	  *sentence << Integer(value) << Delimiter("%");
 	else if(opt == "phrase")
 	  {
 		if(value == 0)
@@ -407,7 +407,7 @@ namespace
 	shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
-	  *sentence << Delimiter("hPa");
+	  *sentence << Integer(value) << Delimiter("hPa");
 	else if(opt == "phrase")
 	  {
 		if(value == 0)
