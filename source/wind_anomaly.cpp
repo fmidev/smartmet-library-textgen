@@ -87,6 +87,11 @@ namespace TextGen
 #define MILD_WINDCHILL_LIMIT -25.0
 #define ZERO_DEGREES 0.0
 
+#define TUULI_KYLMENTAA_SAATA_LOWER_LIMIT 0.0
+#define TUULI_KYLMENTAA_SAATA_UPPER_LIMIT 10.0
+#define TUULI_VIILENTAA_SAATA_LOWER_LIMIT 10.0
+#define TUULI_VIILENTAA_SAATA_UPPER_LIMIT 15.0
+
 #define SAA_WORD "sää"
 #define ON_WORD "on"
 #define HYVIN_WORD "hyvin"
@@ -1473,7 +1478,7 @@ namespace TextGen
 				areaString = EMPTY_STRING;
 			  std::string timePhrase(parse_weekday_phrase(dayNumber, part_of_the_day));
 
-			  if(temperature > 0.0 && temperature <= 10.0)
+			  if(temperature > TUULI_KYLMENTAA_SAATA_LOWER_LIMIT && temperature <= TUULI_KYLMENTAA_SAATA_UPPER_LIMIT)
 				{
 				  if(areaString.compare(EMPTY_STRING) == 0 && timePhrase.compare(EMPTY_STRING) == 0)
 					sentence << TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE;
@@ -1488,7 +1493,7 @@ namespace TextGen
 							 << parse_weekday_phrase(dayNumber, part_of_the_day)
 							 << areaString;
 				}
-			  else if(temperature > 10.0 && temperature < 20.0)
+			  else if(temperature > TUULI_VIILENTAA_SAATA_LOWER_LIMIT && temperature <= TUULI_VIILENTAA_SAATA_UPPER_LIMIT)
 				{
 				  if(areaString.compare(EMPTY_STRING) == 0 && timePhrase.compare(EMPTY_STRING) == 0)
 					sentence << TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE;

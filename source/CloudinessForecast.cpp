@@ -61,8 +61,13 @@ namespace TextGen
 #define HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on [selke‰] ja poutainen"
 #define SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ on [selke‰] ja poutainen"
 #define HUOMENNA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] s‰‰ on [selke‰] ja poutainen"
+#define SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "s‰‰ on [selke‰] ja poutainen"
 
 #define ILTAPAIVASTA_ALKAEN_PILVISTYVAA_COMPOSITE_PHRASE "[iltap‰iv‰st‰ alkaen] [pilvistyv‰‰]"
+
+
+#define PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_PHRASE "s‰‰ vaihtelee puolipilvisest‰ pilviseen ja on poutainen"
+
 
   std::ostream& operator<<(std::ostream & theOutput,
 						   const CloudinessDataItemData& theCloudinessDataItemData)
@@ -174,16 +179,22 @@ namespace TextGen
 
 	if(thePeriodPhrase.size() == 0 && theAreaString. compare(EMPTY_STRING) == 0)
 	  {
-		sentence << cloudiness_sentence(theCloudinessId, theShortForm);
 		if(thePoutainenFlag)
-		  if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
-			sentence << JA_WORD << ON_WORD << POUTAINEN_WORD;
-		  else
-			sentence << JA_WORD << POUTAINEN_WORD;
+		  {
+			if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
+			  sentence << PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_PHRASE;
+			else
+			  sentence << SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE
+					   << cloudiness_string(theCloudinessId);
+		  }
+		else
+		  {
+			sentence << cloudiness_sentence(theCloudinessId, true);
+		  }
 
 		return sentence;		
 	  }
-
+	
 	cloudinessSentence << cloudiness_sentence(theCloudinessId, true);
 
 	if(theShortForm)

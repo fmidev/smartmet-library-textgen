@@ -725,20 +725,7 @@ namespace TextGen
 	  {
 		if(thePreviousPrecipitationStoryItem->thePoutaantuuFlag)
 		  {
-			Sentence cloudinessSentence;
 			cloudiness_id cloudinessId = clForecast.getCloudinessId(getStoryItemPeriod());
-
-			if(theChangeSentence.size() > 0)
-			  {
-				WeatherPeriod clPeriod(thePeriod.localStartTime(), theCloudinessChangeTimestamp);
-				cloudinessSentence << 
-				  clForecast.cloudinessSentence(clPeriod, USE_SHORT_FORM);
-			  }
-			else
-			  {
-				cloudinessSentence << 
-				  clForecast.cloudinessSentence(thePeriod, USE_SHORT_FORM);
-			  }
 
 			WeatherPeriod poutaantuuPeriod(thePreviousPrecipitationStoryItem->getStoryItemPeriod().localEndTime(),
 										   thePreviousPrecipitationStoryItem->getStoryItemPeriod().localEndTime());
@@ -746,8 +733,7 @@ namespace TextGen
 			// ARE 22.02.2011: The missing period-phrase added
 			Sentence thePeriodPhrase(getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &poutaantuuPeriod));
 			thePoutaantuuSentence << prForecast.precipitationPoutaantuuAndCloudiness(thePeriodPhrase,
-																					 cloudinessId,
-																					 cloudinessSentence);
+																					 cloudinessId);
 			thePreviousPrecipitationStoryItem->theReportPoutaantuuFlag = false;
 			theReportAboutDryWeatherFlag = false;
 		  }

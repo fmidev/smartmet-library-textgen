@@ -643,7 +643,7 @@ namespace TextGen
 		InPlacesPhrase* inPlacesPhraseMaker = InPlacesPhrase::Instance();
 
 		theParameters.theLog << "Precipitation form is " 
-							 << precipitation_form_string(static_cast<precipitation_form_id>(thePrecipitationForm)) 
+							 << precipitation_form_string(thePrecipitationForm) 
 							 << endl;
 
 		if(!(thePrecipitationIntensity >= theParameters.theDryWeatherLimitSnow && mostly_dry_weather))
@@ -1307,7 +1307,7 @@ vesi- tai lumisadetta.
   {
 	const precipitation_data_vector& dataVector = getPrecipitationDataVector(theForecastArea);
 	
-	unsigned int precipitationForm = MISSING_PRECIPITATION_FORM;
+	precipitation_form_id precipitationForm = MISSING_PRECIPITATION_FORM;
 	theIntensity = getMean(dataVector,
 						   PRECIPITATION_MEAN_DATA,
 						   theWeatherPeriod);
@@ -1319,11 +1319,11 @@ vesi- tai lumisadetta.
 		{
 		  if(precipitationForm == MISSING_PRECIPITATION_FORM)
 			precipitationForm = dataVector.at(i)->thePrecipitationForm;
-		  else if(dataVector.at(i)->thePrecipitationForm <precipitationForm)
+		  else if(dataVector.at(i)->thePrecipitationForm < precipitationForm)
 			precipitationForm = dataVector.at(i)->thePrecipitationForm;				
 		}
 
-	theForm = static_cast<precipitation_form_id>(precipitationForm);
+	theForm = precipitationForm;
 
 	theExtent =   getMean(dataVector,
 						  PRECIPITATION_EXTENT_DATA,
@@ -1886,7 +1886,7 @@ vesi- tai lumisadetta.
 		float precipitationFormFreezing = (*precipitationFormFreezingHourly)[i]->theResult.value();
 		float precipitationTypeShowers = (*precipitationTypeHourly)[i]->theResult.value();
 
-		const unsigned int precipitationForm = 
+		const precipitation_form_id precipitationForm = 
 		  get_complete_precipitation_form(theParameters.theVariable,
 										  precipitationFormWater,
 										  precipitationFormDrizzle,
@@ -1997,11 +1997,11 @@ vesi- tai lumisadetta.
 	for(unsigned int i = 1; i < dataSourceVector->size(); i++)
 	  {
 		isDryPrevious = is_dry_weather(theParameters, 
-									   static_cast<precipitation_form_id>((*dataSourceVector)[i-1]->thePrecipitationForm), 
+									   (*dataSourceVector)[i-1]->thePrecipitationForm, 
 									   (*dataSourceVector)[i-1]->thePrecipitationIntensity,
 									   (*dataSourceVector)[i-1]->thePrecipitationExtent);
 		isDryCurrent = is_dry_weather(theParameters, 
-									  static_cast<precipitation_form_id>((*dataSourceVector)[i]->thePrecipitationForm), 
+									  (*dataSourceVector)[i]->thePrecipitationForm, 
 									  (*dataSourceVector)[i]->thePrecipitationIntensity,
 									  (*dataSourceVector)[i]->thePrecipitationExtent);
 		if(isDryPrevious != isDryCurrent)
@@ -2395,22 +2395,11 @@ vesi- tai lumisadetta.
 	return false;
   }
   Sentence PrecipitationForecast::precipitationPoutaantuuAndCloudiness(const Sentence& thePeriodPhrase,
-																	   const cloudiness_id& theCloudinessId,
-																	   const Sentence& theCloudinessSentence) const
+																	   const cloudiness_id& theCloudinessId) const
   {	
 	Sentence sentence;
 	
 	Sentence periodPhrase;
-	Sentence cloudinessSentence;
-	
-	if(thePeriodPhrase.size() == 0)
-	  periodPhrase << EMPTY_STRING;
-	else
-	  periodPhrase << thePeriodPhrase;
-	if(theCloudinessSentence.size() == 0)
-	  cloudinessSentence << EMPTY_STRING;
-	else
-	  cloudinessSentence << theCloudinessSentence;
 
 	precipitation_form_id previousPrecipitationForm = getPoutaantuuPrecipitationForm();
 
@@ -2812,19 +2801,6 @@ vesi- tai lumisadetta.
 	thePrecipitationFormSnow = getMean(theDataVector, PRECIPITATION_FORM_SNOW_DATA, thePeriod);
 	thePrecipitationFormFreezing = getMean(theDataVector, PRECIPITATION_FORM_FREEZING_DATA, thePeriod);
   }
-
-  /*
-  Sentence parseFinalDryWeatherSentence(const map<string, Sentence>& theCompositePhraseElements,
-										const Sentence& thePeriodPhrase,
-										const std::string& theAreaPhrase)
-  {
-	Sentence sentence;
-
-
-	return sentence;
-  }
-  */
-
 
   Sentence PrecipitationForecast::parseFinalSentence(map<string, Sentence>& theCompositePhraseElements, 
 													 const Sentence& thePeriodPhrase,
@@ -3662,30 +3638,9 @@ vesi- tai lumisadetta.
 		if(!dry_weather)
 		  {
 			//sentence << areaSpecificSentence(thePeriod);
-
-			forecast_area_id theAreaId = NO_AREA;
-
-			if(theForecastAreaId & INLAND_AREA)
-			  theAreaId = INLAND_AREA;
-			else if(theParameters.theForecastArea & COASTAL_AREA)
-			  theAreaId = COASTAL_AREA;
-			else if(theParameters.theForecastArea & FULL_AREA)
-			  theAreaId = FULL_AREA;
 			
-			/*
-			if(theForecastAreaId & FULL_AREA)
-			  theAreaId = FULL_AREA;
-			else if(theForecastAreaId & INLAND_AREA)
-			  theAreaId = INLAND_AREA;
-			else if(theForecastAreaId & COASTAL_AREA)
-			  theAreaId = COASTAL_AREA;
-
-			cout << "theForecastAreaId: " << theForecastAreaId << endl;
-			cout << "theAreaId: " << static_cast<int>(theAreaId) << endl;
-			*/
-
 			Sentence thunderSentence;
-			thunderSentence <<  theParameters.theThunderForecast->thunderSentence(thePeriod, theAreaId);
+			thunderSentence << getThunderSentence(thePeriod, theForecastAreaId);
 
 			if(thunderSentence.size() > 0)
 			  {
@@ -4204,13 +4159,32 @@ vesi- tai lumisadetta.
 	return retval;
   }
 
-  bool  PrecipitationForecast::thunderExists(const WeatherPeriod& thePeriod,
-											 const unsigned short& theForecastArea) const
+  Sentence PrecipitationForecast::getThunderSentence(const WeatherPeriod& thePeriod,
+													 const unsigned short& theForecastAreaId) const
   {
 	Sentence thunderSentence;
-	thunderSentence << 
-	  theParameters.theThunderForecast->thunderSentence(thePeriod, 
-														static_cast<const forecast_area_id>(theForecastArea));
+
+	forecast_area_id theAreaId = NO_AREA;
+
+	if(theForecastAreaId & FULL_AREA)
+	  theAreaId = FULL_AREA;
+	else if(theForecastAreaId & INLAND_AREA)
+	  theAreaId = INLAND_AREA;
+	else if(theForecastAreaId & COASTAL_AREA)
+	  theAreaId = COASTAL_AREA;
+
+	thunderSentence << theParameters.theThunderForecast->thunderSentence(thePeriod, theAreaId);
+
+	return thunderSentence;
+  }
+
+  bool  PrecipitationForecast::thunderExists(const WeatherPeriod& thePeriod,
+											 const unsigned short& theForecastAreaId) const
+  {
+	Sentence thunderSentence;
+
+	thunderSentence << getThunderSentence(thePeriod, theForecastAreaId);
+
 	return (thunderSentence.size() > 0);
   }
 

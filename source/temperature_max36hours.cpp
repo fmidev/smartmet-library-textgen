@@ -2230,6 +2230,15 @@ namespace TextGen
 							 theParameters.theForecastPeriod & DAY2_PERIOD) &&
 							!theParameters.inlandAndCoastSeparated(DAY1_PERIOD));
 
+	  if(theParameters.theWeatherArea.type() == WeatherArea::Northern)
+		theAreaPhrase << ALUEEN_POHJOISOSASSA_PHRASE;
+	  else if(theParameters.theWeatherArea.type() == WeatherArea::Southern)
+		theAreaPhrase << ALUEEN_ETELAOSASSA_PHRASE;
+	  else if(theParameters.theWeatherArea.type() == WeatherArea::Eastern)
+		theAreaPhrase << ALUEEN_ITAOSASSA_PHRASE;
+	  else if(theParameters.theWeatherArea.type() == WeatherArea::Western)
+		theAreaPhrase << ALUEEN_LANSIOSASSA_PHRASE;
+
 	  temperature_phrase(theParameters, 
 						 theDayPhasePhrase,
 						 theTemperaturePhrase,
@@ -2544,84 +2553,6 @@ namespace TextGen
 					  }
 					else
 					  {
-						/*
-						if(dayPhasePhraseEmpty && areaPhraseEmpty)
-						  {
-							if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
-							  sentence << LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID)
-							  sentence << LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
-							  sentence << LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == VAHAN_YLI_ASTETTA_PHRASE_ID)
-							  sentence << LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == VAJAAT_ASTETTA_PHRASE_ID)
-							  sentence << LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
-							  sentence << LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
-
-							sentence << theTemperaturePhrase
-									 << degreesSentence;
-						  }
-						else if(!dayPhasePhraseEmpty && areaPhraseEmpty)
-						  {
-							if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == VAHAN_YLI_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == VAJAAT_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
-
-							sentence << theDayPhasePhrase
-									 << theTemperaturePhrase
-									 << degreesSentence;
-						  }
-						else if(dayPhasePhraseEmpty && !areaPhraseEmpty)
-						  {
-							if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
-							  sentence << SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID)
-							  sentence << SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
-							  sentence << SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == VAHAN_YLI_ASTETTA_PHRASE_ID)
-							  sentence << SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == VAJAAT_ASTETTA_PHRASE_ID)
-							  sentence << SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
-							  sentence << SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
-
-							sentence << theAreaPhrase
-									 << theTemperaturePhrase
-									 << degreesSentence;
-						  }
-						else
-						  {
-							if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == VAHAN_YLI_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == VAJAAT_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE;
-							else if(phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
-							  sentence << HUOMENNA_SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
-
-							sentence << theDayPhasePhrase
-									 << theAreaPhrase
-									 << theTemperaturePhrase
-									 << degreesSentence;
-						  }
-						*/
 						if(dayPhasePhraseEmpty && areaPhraseEmpty)
 						  {
 							if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
@@ -3582,22 +3513,12 @@ namespace TextGen
 												   true);
 	}
 
-
 	const Paragraph temperature_max36hours_sentence(t36hparams& theParameters)
 	{
 	  Paragraph paragraph;
 
 	  if(theParameters.theForecastArea == NO_AREA)
 		return paragraph;
-
-	  Sentence alueenPohjoisosassa;
-	  alueenPohjoisosassa << ALUEEN_POHJOISOSASSA_PHRASE;
-	  Sentence alueenEtelaosassa;
-	  alueenEtelaosassa << ALUEEN_ETELAOSASSA_PHRASE;
-	  Sentence alueenItaosassa;
-	  alueenItaosassa << ALUEEN_ITAOSASSA_PHRASE;
-	  Sentence alueenLansiosassa;
-	  alueenLansiosassa << ALUEEN_LANSIOSASSA_PHRASE;
 
 	  const int temperature_limit_coast_inland = optional_int(theParameters.theVariable + 
 															  "::temperature_limit_coast_inland", 3);
@@ -3930,18 +3851,6 @@ namespace TextGen
 
 	  for(unsigned int i = 0; i < periodAreas.size(); i++)
 		{
-		  if(paragraph.size() == 0)
-			{
-			  if(theParameters.theWeatherArea.type() == WeatherArea::Northern)
-				sentenceUnderConstruction << alueenPohjoisosassa;
-			  else if(theParameters.theWeatherArea.type() == WeatherArea::Southern)
-				sentenceUnderConstruction << alueenEtelaosassa;
-			  else if(theParameters.theWeatherArea.type() == WeatherArea::Eastern)
-				sentenceUnderConstruction << alueenItaosassa;
-			  else if(theParameters.theWeatherArea.type() == WeatherArea::Western)
-				sentenceUnderConstruction << alueenLansiosassa;
-			}
-
 		  int periodArea = periodAreas[i];
 
 		  if(periodArea == DELIMITER_DOT)
@@ -4163,7 +4072,7 @@ namespace TextGen
 							   const WeatherAnalysis::WeatherPeriod& itsPeriod,
 							   const WeatherAnalysis::AnalysisSources& itsSources,
 							   const NFmiTime& itsForecastTime,
-							   const std::string itsVar,
+							   const std::string& itsVar,
 							   MessageLogger& theLog)
 	  
 	{

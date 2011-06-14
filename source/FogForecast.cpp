@@ -732,7 +732,7 @@ namespace TextGen
 				theResultPeriod = WeatherPeriod(firstPeriod.localStartTime(), lastPeriod.localEndTime());
 				float periodIdAverage(static_cast<float>(fogIdSum) / static_cast<float>(fogPeriodCount));
 
-				// lets find the fog type that is closest to the average
+				// find the fog type that is closest to the average
 				fog_type_id finalFogType = NO_FOG;
 				float fogTypeGap = 10.0;
 				for(unsigned int i = FOG; i < NO_FOG; i++)
@@ -746,7 +746,7 @@ namespace TextGen
 						  }
 						else 
 						  {
-							if(fogTypeGap > abs(periodIdAverage - i))
+							if(fogTypeGap > abs(periodIdAverage - static_cast<float>(i)))
 							  {
 								finalFogType = static_cast<fog_type_id>(i);
 								fogTypeGap = abs(periodIdAverage - i);

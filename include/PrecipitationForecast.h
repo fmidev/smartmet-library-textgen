@@ -40,8 +40,7 @@ using namespace std;
 										 const Sentence& thePeriodPhrase,
 										 const weather_event_id& theWeatherEvent) const;
 	Sentence precipitationPoutaantuuAndCloudiness(const Sentence& thePeriodPhrase,
-												  const cloudiness_id& theCloudinessId,
-												  const Sentence& theCloudinessSentence) const;
+												  const cloudiness_id& theCloudinessId) const;
 
 	Sentence precipitationSentence(const WeatherPeriod& thePeriod,
 								   const Sentence& thePeriodPhrase) const;
@@ -81,6 +80,8 @@ using namespace std;
 										const unsigned short theForecastArea) const;
 	bool getPrecipitationPeriod(const NFmiTime& theTimestamp, NFmiTime& theStartTime, NFmiTime& theEndTime) const;
 	static bool singleForm(const precipitation_form_id& thePrecipitationForm);
+	Sentence getThunderSentence(const WeatherPeriod& thePeriod,
+								const unsigned short& theForecastAreaId) const;
 	bool thunderExists(const WeatherPeriod& thePeriod,
 					   const unsigned short& theForecastArea) const;
 	

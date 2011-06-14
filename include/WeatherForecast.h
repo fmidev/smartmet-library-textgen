@@ -757,7 +757,7 @@ namespace TextGen
   struct PrecipitationDataItemData
   {
 	PrecipitationDataItemData(const wf_story_params& theParameters,
-							  const unsigned int& precipitationForm,
+							  const precipitation_form_id& precipitationForm,
 							  const float& precipitationIntensity,
 							  const float& precipitationMaxIntensity,
 							  const float& precipitationExtent,
@@ -831,7 +831,7 @@ namespace TextGen
 		}
 	}
 
-	unsigned int thePrecipitationForm;
+	precipitation_form_id thePrecipitationForm;
 	float thePrecipitationIntensity;
 	float thePrecipitationMaxIntensity;
 	float thePrecipitationExtent;
