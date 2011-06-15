@@ -2399,7 +2399,6 @@ vesi- tai lumisadetta.
   {	
 	Sentence sentence;
 	
-	Sentence periodPhrase;
 
 	precipitation_form_id previousPrecipitationForm = getPoutaantuuPrecipitationForm();
 
@@ -2408,16 +2407,16 @@ vesi- tai lumisadetta.
 		switch(previousPrecipitationForm)
 		  {
 		  case DRIZZLE_FORM:
-			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  case SLEET_FORM:
-			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  case SNOW_FORM:
-			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  default:
-			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  }
 	  }
@@ -2426,16 +2425,16 @@ vesi- tai lumisadetta.
 		switch(previousPrecipitationForm)
 		  {
 		  case DRIZZLE_FORM:
-			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  case SLEET_FORM:
-			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  case SNOW_FORM:
-			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  default:
-			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  }
 	  }
@@ -2444,16 +2443,16 @@ vesi- tai lumisadetta.
 		switch(previousPrecipitationForm)
 		  {
 		  case DRIZZLE_FORM:
-			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  case SLEET_FORM:
-			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  case SNOW_FORM:
-			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  default:
-			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  }
 	  }
@@ -2462,16 +2461,16 @@ vesi- tai lumisadetta.
 		switch(previousPrecipitationForm)
 		  {
 		  case DRIZZLE_FORM:
-			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  case SLEET_FORM:
-			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  case SNOW_FORM:
-			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  default:
-			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  }
 	  }
@@ -2480,16 +2479,16 @@ vesi- tai lumisadetta.
 		switch(previousPrecipitationForm)
 		  {
 		  case DRIZZLE_FORM:
-			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  case SLEET_FORM:
-			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  case SNOW_FORM:
-			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  default:
-			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << periodPhrase;
+			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE << thePeriodPhrase;
 			break;
 		  }
 	  }
@@ -2499,19 +2498,19 @@ vesi- tai lumisadetta.
 		  {
 		  case DRIZZLE_FORM:
 			sentence << SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE 
-					 << periodPhrase;
+					 << thePeriodPhrase;
 			break;
 		  case SLEET_FORM:
 			sentence << SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE 
-					 << periodPhrase;
+					 << thePeriodPhrase;
 			break;
 		  case SNOW_FORM:
 			sentence << SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE 
-					 << periodPhrase;
+					 << thePeriodPhrase;
 			break;
 		  default:
 			sentence << SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE 
-					 << periodPhrase;
+					 << thePeriodPhrase;
 			break;
 
 		  }

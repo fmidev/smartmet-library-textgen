@@ -632,50 +632,120 @@ using namespace std;
 	return retval;
   }
 
-  std::string get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
-									short& theWeekday)
+
+  Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
+								 const bool& theSpecifyDayFlag,
+								 std::string& thePhraseString)
   {
+	Sentence sentence;
+
 	std::ostringstream oss;
 
-	theWeekday = theWeatherPeriod.localStartTime().GetWeekday();
+	short weekday = theWeatherPeriod.localStartTime().GetWeekday();
 
 	if(is_inside(theWeatherPeriod, AAMU_JA_AAMUPAIVA))
-	  {			
+	  {
+		if(theSpecifyDayFlag)
+		  oss << weekday << "-";
 		oss << AAMULLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << AAMUPAIVALLA_WORD;
+		sentence << oss.str();
+		thePhraseString = oss.str();
 	  }
 	else if(is_inside(theWeatherPeriod, ILTAPAIVA_JA_ILTA))
 	  {
+		if(theSpecifyDayFlag)
+		  oss << weekday << "-";
 		oss << ILTAPAIVALLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << ILLALLA_WORD;
+		sentence << oss.str();
+		thePhraseString = oss.str();
 	  }
 	else if(is_inside(theWeatherPeriod, ILTA_JA_ILTAYO))
 	  {
+		if(theSpecifyDayFlag)
+		  oss << weekday << "-";
 		oss << ILLALLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << ILTAYOLLA_WORD;
+		sentence << oss.str();
+		thePhraseString = oss.str();
 	  }
 	else if(is_inside(theWeatherPeriod, ILTAYO_JA_KESKIYO))
 	  {
-		theWeekday = 0;
-		oss << ILTAYOLLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << KESKIYOLLA_WORD;
+		if(theSpecifyDayFlag)
+		  {
+			oss << weekday << "-" 
+				<< ILTAYOLLA_WORD;
+			std::ostringstream oss2;
+			oss2 << theWeatherPeriod.localEndTime().GetWeekday() << "-"
+				 << KESKIYOLLA_WORD;
+			sentence << oss.str()
+					 << JA_WORD
+					 << oss2.str();
+			thePhraseString = oss.str();
+			thePhraseString += SPACE_STRING;
+			thePhraseString += JA_WORD;
+			thePhraseString += SPACE_STRING;
+			thePhraseString += oss2.str();
+		  }
+		else
+		  {
+			oss << ILTAYOLLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << KESKIYOLLA_WORD;
+			sentence << oss.str();
+			thePhraseString = oss.str();
+		  }
 	  }
 	else if(is_inside(theWeatherPeriod, KESKIYO_JA_AAMUYO))
 	  {
-		theWeekday = 0;
-		oss << KESKIYOLLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << AAMUYOLLA_WORD;
+		if(theSpecifyDayFlag)
+		  {
+			oss  << weekday << "-" << KESKIYOLLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << AAMUYOLLA_WORD;
+
+			sentence << oss.str();			
+			thePhraseString = oss.str();
+		  }
+		else
+		  {
+			sentence << KESKIYOLLA_WORD << JA_WORD << AAMUYOLLA_WORD;
+			thePhraseString = KESKIYOLLA_WORD;
+			thePhraseString += SPACE_STRING;
+			thePhraseString += JA_WORD;
+			thePhraseString += SPACE_STRING;
+			thePhraseString += AAMUYOLLA_WORD;
+		  }
 	  }
 	else if(is_inside(theWeatherPeriod, AAMUYO_JA_AAMU))
 	  {
-		oss << AAMUYOLLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << AAMULLA_WORD;
+		if(theSpecifyDayFlag)
+		  oss << weekday << "-" << AAMUYOLLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << AAMULLA_WORD;
+		else
+		  oss << AAMUYOLLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << AAMULLA_WORD;
+		
+		sentence << oss.str();
+		thePhraseString = oss.str();
 	  }
 	else if(is_inside(theWeatherPeriod, YO))
 	  {
-		theWeekday = 0;
-		oss << YOLLA_WORD;
+		if(theSpecifyDayFlag)
+		  {
+			oss << theWeatherPeriod.localEndTime().GetWeekday() << "-vastaisena yönä";		  
+		  }
+		else
+		  {
+			oss << YOLLA_WORD;
+		  }
+		sentence << oss.str();
+		thePhraseString = oss.str();
 	  }
 	else if(is_inside(theWeatherPeriod, PAIVA))
 	  {
-		oss << PAIVALLA_WORD;
+		if(theSpecifyDayFlag)
+		  oss << weekday << "-na " << PAIVALLA_WORD;
+		else
+		  oss << PAIVALLA_WORD;
+
+		sentence << oss.str();
+		thePhraseString = oss.str();
 	  }
 
-	return oss.str();
+	return sentence;
   }
 
 
@@ -695,85 +765,80 @@ using namespace std;
 	return oss.str();
   }
 
-  std::string get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
-									const bool& theSpecifyDayFlag,
-									const std::string& theVar,
-									bool theAlkaenPhrase /*= false*/)
+  Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
+								 const bool& theSpecifyDayFlag,
+								 const std::string& theVar,
+								 std::string& thePhraseString,
+								 bool theAlkaenPhrase /*= false*/)
   {
-	  std::string retval("");
+	Sentence sentence;
+	
+	bool specify_part_of_the_day = Settings::optional_bool(theVar + "::specify_part_of_the_day", true);
 
-	  bool specify_part_of_the_day = Settings::optional_bool(theVar + "::specify_part_of_the_day", true);
+	if(!specify_part_of_the_day)
+	  return sentence;
 
-	  if(!specify_part_of_the_day)
-		return retval;
+	short weekday(theWeatherPeriod.localStartTime().GetWeekday());
 
-	  short weekday(theWeatherPeriod.localStartTime().GetWeekday());
+	if(theWeatherPeriod.localStartTime().GetJulianDay() == 
+	   theWeatherPeriod.localEndTime().GetJulianDay() &&
+	   get_part_of_the_day_id(theWeatherPeriod.localStartTime()) == 
+	   get_part_of_the_day_id(theWeatherPeriod.localEndTime()))
+	  {
+		sentence << parse_time_phrase(weekday, 
+									  theSpecifyDayFlag, 
+									  get_time_phrase(theWeatherPeriod.localStartTime(), theVar, false));
+	  }
+	else
+	  {
+		sentence << parse_time_phrase(weekday, 
+									  theSpecifyDayFlag,
+									  get_narrow_time_phrase(theWeatherPeriod));
 
-	  if(theWeatherPeriod.localStartTime().GetJulianDay() == 
-		 theWeatherPeriod.localEndTime().GetJulianDay() &&
-		 get_part_of_the_day_id(theWeatherPeriod.localStartTime()) == 
-		 get_part_of_the_day_id(theWeatherPeriod.localEndTime()))
-		{
-		  retval = parse_time_phrase(weekday, 
-									 theSpecifyDayFlag, 
-									 get_time_phrase(theWeatherPeriod.localStartTime(), theVar, false));
-		}
-	  else
-		{
-		  retval = parse_time_phrase(weekday, 
-									 theSpecifyDayFlag,
-									 get_narrow_time_phrase(theWeatherPeriod));
-
-		  if(retval.empty())
-			{
-			  if(theWeatherPeriod.localEndTime().DifferenceInHours(theWeatherPeriod.localStartTime()) > 2)
-				{
-				  // 1 hour tolerance
-				  NFmiTime startTime(theWeatherPeriod.localStartTime());
-				  NFmiTime endTime(theWeatherPeriod.localEndTime());
-				  startTime.ChangeByHours(1);
-				  endTime.ChangeByHours(-1);
-				  WeatherPeriod narrowerPeriod(startTime, endTime);
+		if(sentence.size() == 0)
+		  {
+			if(theWeatherPeriod.localEndTime().DifferenceInHours(theWeatherPeriod.localStartTime()) > 2)
+			  {
+				// 1 hour tolerance
+				NFmiTime startTime(theWeatherPeriod.localStartTime());
+				NFmiTime endTime(theWeatherPeriod.localEndTime());
+				startTime.ChangeByHours(1);
+				endTime.ChangeByHours(-1);
+				WeatherPeriod narrowerPeriod(startTime, endTime);
 				
-				  if(endTime.DifferenceInHours(startTime) <= 4)
-					{
-					  retval = parse_time_phrase(narrowerPeriod.localStartTime().GetWeekday(),
-												 theSpecifyDayFlag,
-												 get_narrow_time_phrase(narrowerPeriod));
-					}
+				if(endTime.DifferenceInHours(startTime) <= 4)
+				  {
+					sentence << parse_time_phrase(narrowerPeriod.localStartTime().GetWeekday(),
+												  theSpecifyDayFlag,
+												  get_narrow_time_phrase(narrowerPeriod));
+				  }
 
-				  if(retval.empty())
-					{
-					  retval = parse_time_phrase(weekday, 
-												 false,
-												 get_large_time_phrase(theWeatherPeriod, weekday));
+				if(sentence.size() == 0)
+				  {
+					sentence << get_large_time_phrase(theWeatherPeriod, theSpecifyDayFlag, thePhraseString);
 
-					  if(retval.empty())
-						{
-						  retval = parse_time_phrase(weekday, 
-													 false,
-													 get_large_time_phrase(narrowerPeriod, weekday));
-						}
-					}
-				}
-			  else
-				{
-				  retval = parse_time_phrase(weekday, 
-											 false,
-											 get_large_time_phrase(theWeatherPeriod, weekday));
-				}
+					if(sentence.size() == 0)
+					  {
+						sentence << get_large_time_phrase(narrowerPeriod, theSpecifyDayFlag, thePhraseString);
+					  }
+				  }
+			  }
+			else
+			  {
+				sentence << get_large_time_phrase(theWeatherPeriod, theSpecifyDayFlag, thePhraseString);
+			  }
 
-			  if(retval.empty())// && theAlkaenPhrase)
-				{
-				  retval = parse_time_phrase(weekday, 
-											 theSpecifyDayFlag, 
-											 get_time_phrase(theWeatherPeriod.localStartTime(), theVar, theAlkaenPhrase));
-				}
-			}
-		}
+			if(sentence.size() == 0)
+			  {
+				sentence << parse_time_phrase(weekday, 
+											  theSpecifyDayFlag, 
+											  get_time_phrase(theWeatherPeriod.localStartTime(), theVar, theAlkaenPhrase));
+			  }
+		  }
+	  }
 
-	  return retval;
-	}
+	return sentence;
+  }
 
 
   std::string get_time_phrase(const NFmiTime& theTimestamp,

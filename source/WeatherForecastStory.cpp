@@ -526,10 +526,19 @@ namespace TextGen
 											phrasePeriod);
 	if(sentence.size() == 0)
 	  {
-		std::string time_phrase(get_time_phrase_large(phrasePeriod, specifyDay, theWeatherForecastStory.theVar, theFromSpecifier));
-		if(!time_phrase.empty())
-		  sentence << time_phrase;
+		std::string time_phrase;
+		sentence << get_time_phrase_large(phrasePeriod,
+										  specifyDay,
+										  theWeatherForecastStory.theVar,
+										  time_phrase,
+										  theFromSpecifier);
 	  }
+	theWeatherForecastStory.theLogger << "PHRASE PERIOD: " 
+								   << phrasePeriod.localStartTime() 
+								   << "..."
+								   << phrasePeriod.localEndTime();
+	theWeatherForecastStory.theLogger << "PHRASE: ";
+	theWeatherForecastStory.theLogger << sentence;
 
 	return sentence;
   }
@@ -731,7 +740,8 @@ namespace TextGen
 										   thePreviousPrecipitationStoryItem->getStoryItemPeriod().localEndTime());
 
 			// ARE 22.02.2011: The missing period-phrase added
-			Sentence thePeriodPhrase(getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &poutaantuuPeriod));
+			Sentence thePeriodPhrase(getPeriodPhrase(USE_FROM_SPECIFIER, &poutaantuuPeriod));
+			theWeatherForecastStory.theLogger <<  thePeriodPhrase;
 			thePoutaantuuSentence << prForecast.precipitationPoutaantuuAndCloudiness(thePeriodPhrase,
 																					 cloudinessId);
 			thePreviousPrecipitationStoryItem->theReportPoutaantuuFlag = false;

@@ -178,12 +178,6 @@ namespace TextGen
 #define MAANANTAINA_ALUEELLA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE "[1-na] [alueella] s‰‰ viilenee v‰h‰n"
 #define MAANANTAINA_ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE "[1-na] [alueella] s‰‰ viilenee huomattavasti"
 
-
-#define MAANANTAINA_LAMPOTILA_MUUTTUU_COMPOSITE_PHRASE "[1-na] [s‰‰ l‰mpenee]"
-#define ALUEELLA_LAMPOTILA_MUUTTUU_COMPOSITE_PHRASE "[alueella] [s‰‰ l‰mpenee]"
-#define MAANANTAINA_ALUEELLA_LAMPOTILA_MUUTTUU_COMPOSITE_PHRASE "[1-na] [alueella] [s‰‰ l‰mpenee]"
-
-
 enum anomaly_phrase_id
   {
 	SAA_ON_POIKKEUKSELLISEN_KOLEAA,
@@ -611,7 +605,10 @@ enum anomaly_phrase_id
 	  return sentence;
 	}
 
-	const Sentence get_shortruntrend_sentence(const std::string& theTemperatureSentence,
+	const Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaIncludedCompositePhrase,
+											  const std::string& theDayIncludedCompositePhrase,
+											  const std::string& theAreaIncludedCompositePhrase,
+											  const std::string& theTemperatureSentence,
 											  const Sentence& theSpecifiedDay,
 											  const Sentence& theAreaPhrase)
 	{
@@ -619,20 +616,20 @@ enum anomaly_phrase_id
 
 	  if(theSpecifiedDay.size() > 0 && theAreaPhrase.size() > 0)
 		{
-		  sentence << MAANANTAINA_ALUEELLA_LAMPOTILA_MUUTTUU_COMPOSITE_PHRASE
+		  sentence << theDayAndAreaIncludedCompositePhrase
 				   << theSpecifiedDay 
 				   << theAreaPhrase
 				   << theTemperatureSentence;
 		}
 	  else if(theSpecifiedDay.size() > 0)
 		{
-		  sentence << MAANANTAINA_LAMPOTILA_MUUTTUU_COMPOSITE_PHRASE
+		  sentence << theDayIncludedCompositePhrase
 				   << theSpecifiedDay 
 				   << theTemperatureSentence;
 		}
 	  else if(theAreaPhrase.size() > 0)
 		{
-		  sentence << ALUEELLA_LAMPOTILA_MUUTTUU_COMPOSITE_PHRASE
+		  sentence << theAreaIncludedCompositePhrase
 				   << theAreaPhrase
 				   << theTemperatureSentence;
 		}
@@ -735,7 +732,10 @@ enum anomaly_phrase_id
 				 period2Temperature > MILD_TEMPERATURE_LOWER_LIMIT && period2Temperature < MILD_TEMPERATURE_UPPER_LIMIT &&
 				 period2Temperature > fractile63Temperature.value())
 				{
-				  sentence << get_shortruntrend_sentence(SAA_ON_EDELLEEN_LAUHAA_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE,
+														 MAANANTAINA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE,
+														 ALUEELLA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE,
+														 SAA_ON_EDELLEEN_LAUHAA_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -760,7 +760,10 @@ enum anomaly_phrase_id
 					  period2Temperature >= MILD_TEMPERATURE_LOWER_LIMIT && 
 					  period2Temperature < MILD_TEMPERATURE_UPPER_LIMIT)
 				{
-				  sentence << get_shortruntrend_sentence(SAA_LAUHTUU_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_LAUHTUU_COMPOSITE_PHRASE,
+														 MAANANTAINA_SAA_LAUHTUU_COMPOSITE_PHRASE,
+														 ALUEELLA_SAA_LAUHTUU_COMPOSITE_PHRASE,
+														 SAA_LAUHTUU_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -784,7 +787,10 @@ enum anomaly_phrase_id
 					  && period1Temperature <= veryColdTemperature &&
 					  period2Temperature <= MILD_TEMPERATURE_LOWER_LIMIT)
 				{
-				  sentence << get_shortruntrend_sentence(KIREA_PAKKANEN_HEIKKENEE_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
+														 MAANANTAINA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
+														 ALUEELLA_KIREA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
+														 KIREA_PAKKANEN_HEIKKENEE_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -799,7 +805,10 @@ enum anomaly_phrase_id
 					  && period1Temperature > veryColdTemperature &&
 					  period2Temperature < MILD_TEMPERATURE_LOWER_LIMIT)
 				{
-				  sentence << get_shortruntrend_sentence(PAKKANEN_HEIKKENEE_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
+														 MAANANTAINA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
+														 ALUEELLA_PAKKANEN_HEIKKENEE_COMPOSITE_PHRASE,
+														 PAKKANEN_HEIKKENEE_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -815,7 +824,10 @@ enum anomaly_phrase_id
 					  period2Temperature < ZERO_DEGREES && period2Temperature >= MILD_TEMPERATURE_LOWER_LIMIT)
 				{
 				  // redundant: this will never happen, because "s‰‰ lauhtuu" is tested before
-				  sentence << get_shortruntrend_sentence(PAKKANEN_HELLITTAA_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE,
+														 MAANANTAINA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE,
+														 ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE,
+														 PAKKANEN_HELLITTAA_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -829,7 +841,10 @@ enum anomaly_phrase_id
 			  else if(period1Temperature < veryColdTemperature &&
 					  period2Temperature < veryColdTemperature)
 				{
-				  sentence << get_shortruntrend_sentence(KIREA_PAKKANEN_JATKUU_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
+														 MAANANTAINA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
+														 ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
+														 KIREA_PAKKANEN_JATKUU_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -847,7 +862,10 @@ enum anomaly_phrase_id
 				 && period1Temperature < MILD_TEMPERATURE_LOWER_LIMIT &&
 				 period2Temperature <= veryColdTemperature)
 				{
-				  sentence << get_shortruntrend_sentence(PAKKANEN_KIRISTYY_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE,
+														 MAANANTAINA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE,
+														 ALUEELLA_PAKKANEN_KIRISTYY_COMPOSITE_PHRASE,
+														 PAKKANEN_KIRISTYY_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -861,7 +879,10 @@ enum anomaly_phrase_id
 			  else if(period1Temperature < veryColdTemperature &&
 					  period2Temperature < veryColdTemperature)
 				{
-				  sentence << get_shortruntrend_sentence(KIREA_PAKKANEN_JATKUU_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
+														 MAANANTAINA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
+														 ALUEELLA_KIREA_PAKKANEN_JATKUU_COMPOSITE_PHRASE,
+														 KIREA_PAKKANEN_JATKUU_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -903,7 +924,10 @@ enum anomaly_phrase_id
 			{
 			  if(period1Temperature >= hot_weather_limit && period2Temperature >= hot_weather_limit)
 				{
-				  sentence << get_shortruntrend_sentence(HELTEINEN_SAA_JATKUU_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
+														 MAANANTAINA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
+														 ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
+														 HELTEINEN_SAA_JATKUU_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -917,7 +941,10 @@ enum anomaly_phrase_id
 			  else if(period1Temperature < fractile12Temperature.value() && 
 					  period2Temperature < fractile12Temperature.value())
 				{
-				  sentence << get_shortruntrend_sentence(KOLEA_SAA_JATKUU_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
+														 MAANANTAINA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
+														 ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
+														 KOLEA_SAA_JATKUU_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -931,7 +958,10 @@ enum anomaly_phrase_id
 			  else if(period1Temperature < fractile37Temperature.value() && 
 					  period2Temperature < fractile37Temperature.value())
 				{
-				  sentence << get_shortruntrend_sentence(VIILEA_SAA_JATKUU_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
+														 MAANANTAINA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
+														 ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
+														 VIILEA_SAA_JATKUU_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -946,7 +976,10 @@ enum anomaly_phrase_id
 				{
 				  if(temperatureDifference >= NOTABLE_TEMPERATURE_CHANGE_LIMIT)
 					{
-					  sentence << get_shortruntrend_sentence(SAA_MUUTTUU_HELTEISEKSI_PHRASE,
+					  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE,
+															 MAANANTAINA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE,
+															 ALUEELLA_SAA_MUUTTUU_HELTEISEKSI_COMPOSITE_PHRASE,
+															 SAA_MUUTTUU_HELTEISEKSI_PHRASE,
 															 theSpecifiedDay,
 															 theAreaPhrase);
 					  /*
@@ -959,7 +992,10 @@ enum anomaly_phrase_id
 					}
 				  else
 					{
-					  sentence << get_shortruntrend_sentence(SAA_ON_HELTEISTA_PHRASE,
+					  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE,
+															 MAANANTAINA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE,
+															 ALUEELLA_SAA_ON_HELTEISTA_COMPOSITE_PHRASE,
+															 SAA_ON_HELTEISTA_PHRASE,
 															 theSpecifiedDay,
 															 theAreaPhrase);
 					  /*
@@ -971,9 +1007,12 @@ enum anomaly_phrase_id
 					  theParameters.theShortrunTrend = SAA_ON_HELTEISTA;
 					}
 				}
-			  else if(signifigantChange)
+			  else if(signifigantChange && period2Temperature < 25.0)
 				{
-				  sentence << get_shortruntrend_sentence(SAA_LAMPENEE_HUOMATTAVASTI_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
+														 MAANANTAINA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
+														 ALUEELLA_SAA_LAMPENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
+														 SAA_LAMPENEE_HUOMATTAVASTI_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -984,9 +1023,12 @@ enum anomaly_phrase_id
 
 				  theParameters.theShortrunTrend = SAA_LAMPENEE_HUOMATTAVASTI;
 				}
-			  else if(moderateChange)
+			  else if(moderateChange && period2Temperature < 25.0)
 				{
-				  sentence << get_shortruntrend_sentence(SAA_LAMPENEE_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_LAMPENEE_COMPOSITE_PHRASE,
+														 MAANANTAINA_SAA_LAMPENEE_COMPOSITE_PHRASE,
+														 ALUEELLA_SAA_LAMPENEE_COMPOSITE_PHRASE,
+														 SAA_LAMPENEE_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -997,9 +1039,12 @@ enum anomaly_phrase_id
 
 				  theParameters.theShortrunTrend = SAA_LAMPENEE;
 				}
-			  else if(smallChange)
+			  else if(smallChange && period2Temperature < 20.0)
 				{
-				  sentence << get_shortruntrend_sentence(SAA_LAMPENEE_VAHAN_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE,
+														 MAANANTAINA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE,
+														 ALUEELLA_SAA_LAMPENEE_VAHAN_COMPOSITE_PHRASE,
+														 SAA_LAMPENEE_VAHAN_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -1015,7 +1060,10 @@ enum anomaly_phrase_id
 			{
 			  if(period1Temperature >= hot_weather_limit && period2Temperature >= hot_weather_limit)
 				{
-				  sentence << get_shortruntrend_sentence(HELTEINEN_SAA_JATKUU_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
+														 MAANANTAINA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
+														 ALUEELLA_HELTEINEN_SAA_JATKUU_COMPOSITE_PHRASE,
+														 HELTEINEN_SAA_JATKUU_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -1029,7 +1077,10 @@ enum anomaly_phrase_id
 			  else if(period1Temperature < fractile12Temperature.value() && 
 					  period2Temperature < fractile12Temperature.value())
 				{
-				  sentence << get_shortruntrend_sentence(KOLEA_SAA_JATKUU_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
+														 MAANANTAINA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
+														 ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
+														 KOLEA_SAA_JATKUU_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -1043,7 +1094,10 @@ enum anomaly_phrase_id
 			  else if(period1Temperature < fractile37Temperature.value() && 
 					  period2Temperature < fractile37Temperature.value())
 				{
-				  sentence << get_shortruntrend_sentence(VIILEA_SAA_JATKUU_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
+														 MAANANTAINA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
+														 ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
+														 VIILEA_SAA_JATKUU_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -1056,7 +1110,10 @@ enum anomaly_phrase_id
 				}
 			  else if(signifigantChange && period2Temperature < 25.0)
 				{
-				  sentence << get_shortruntrend_sentence(SAA_VIILENEE_HUOMATTAVASTI_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
+														 MAANANTAINA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
+														 ALUEELLA_SAA_VIILENEE_HUOMATTAVASTI_COMPOSITE_PHRASE,
+														 SAA_VIILENEE_HUOMATTAVASTI_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -1069,7 +1126,10 @@ enum anomaly_phrase_id
 				}
 			  else if(moderateChange && period2Temperature < 25.0)
 				{
-				  sentence << get_shortruntrend_sentence(SAA_VIILENEE_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_VIILENEE_COMPOSITE_PHRASE,
+														 MAANANTAINA_SAA_VIILENEE_COMPOSITE_PHRASE,
+														 ALUEELLA_SAA_VIILENEE_COMPOSITE_PHRASE,
+														 SAA_VIILENEE_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*
@@ -1082,7 +1142,10 @@ enum anomaly_phrase_id
 				}
 			  else if(smallChange && period2Temperature < 20.0)
 				{
-				  sentence << get_shortruntrend_sentence(SAA_VIILENEE_VAHAN_PHRASE,
+				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE,
+														 MAANANTAINA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE,
+														 ALUEELLA_SAA_VIILENEE_VAHAN_COMPOSITE_PHRASE,
+														 SAA_VIILENEE_VAHAN_PHRASE,
 														 theSpecifiedDay,
 														 theAreaPhrase);
 					  /*

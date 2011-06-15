@@ -897,13 +897,13 @@ namespace TextGen
 		bool specifyDay = get_period_length(theParameters.theForecastPeriod) > 24 &&
 		  todayPhrase.size() > 0;
 		
-		std::string dayPhasePhrase(get_time_phrase_large(fogPeriod,
-														 specifyDay,
-														 theParameters.theVariable, 
-														 false));
+		std::string dayPhasePhrase;
+		get_time_phrase_large(fogPeriod,
+							  specifyDay,
+							  theParameters.theVariable, 
+							  dayPhasePhrase,
+							  false);
 		
-		//	std::string timePhrase(dayPhasePhrase);//parse_weekday_phrase(dayNumber, partOfTheDay));
-
 		if(dayPhasePhrase != theDayPhasePhraseOld)
 		  {
 			theDayPhasePhraseOld = dayPhasePhrase;

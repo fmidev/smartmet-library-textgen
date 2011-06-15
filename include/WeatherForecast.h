@@ -539,8 +539,9 @@ namespace TextGen
   };
 
 
-  std::string get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
-									short& theWeekday);
+  Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
+								 const bool& theSpecifyDayFlag,
+								 std::string& thePhraseString);
   std::string get_narrow_time_phrase(const WeatherPeriod& theWeatherPeriod);
   void get_precipitation_limit_value(const wf_story_params& theParameters,
 									 const unsigned int& thePrecipitationForm,
@@ -573,10 +574,11 @@ namespace TextGen
 									const WeatherPeriod& theWeatherPeriod2);
 
   Sentence get_direction_phrase(const AreaTools::direction_id& theDirectionId, bool theAlkaenPhrase = false);
-  std::string get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
-									const bool& theSpecifyDayFlag,
-									const std::string& theVar,
-									bool theAlkaenPhrase = false);
+  Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
+								 const bool& theSpecifyDayFlag,
+								 const std::string& theVar,
+								 std::string& thePhraseString,
+								 bool theAlkaenPhrase = false);
   std::string get_time_phrase(const NFmiTime& theTimestamp,
 							  const std::string& theVar,
 							  bool theAlkaenPhrase = false);
