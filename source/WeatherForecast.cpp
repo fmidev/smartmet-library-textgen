@@ -58,6 +58,9 @@ using namespace std;
 	  case POUTAANTUU:
 		retval = SAA_POUTAANTUU_PHRASE;
 		break;
+	  case POUTAANTUU_WHEN_EXTENT_SMALL:
+		retval = "sää poutaantuu kattavuudeltaan suppean sateen jälkeen";
+		break;
 	  case SADE_ALKAA:
 		retval = SADE_ALKAA_PHRASE;
 		break;
@@ -584,45 +587,52 @@ using namespace std;
   }
 
 
-  std::string get_narrow_time_phrase(const WeatherPeriod& theWeatherPeriod)
+  std::string get_narrow_time_phrase(const WeatherPeriod& theWeatherPeriod,
+									 const std::string& theVar,
+									 bool theAlkaenPhrase /*= false*/)
   {
 	std::string retval("");
+
+	bool specify_part_of_the_day = Settings::optional_bool(theVar + "::specify_part_of_the_day", true);
+
+	if(!specify_part_of_the_day)
+	  return retval;
 
 	switch(get_part_of_the_day_id(theWeatherPeriod))
 	  {
 	  case AAMU:
 		{
-		  retval = AAMULLA_WORD;
+		  retval = (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
 		}
 		break;
 	  case AAMUPAIVA:
 		{
-		  retval = AAMUPAIVALLA_WORD;
+		  retval = (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
 		}
 		break;
 	  case ILTA:
 		{
-		  retval = ILLALLA_WORD;
+		  retval = (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
 		}
 		break;
 	  case ILTAPAIVA:
 		{
-		  retval = ILTAPAIVALLA_WORD;
+		  retval = (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
 		}
 		break;
 	  case ILTAYO:
 		{
-		  retval = ILTAYOLLA_WORD;
+		  retval = (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_WORD);
 		}
 		break;
 	  case KESKIYO:
 		{
-		  retval = KESKIYOLLA_WORD;
+		  retval = (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
 		}
 		break;
 	  case AAMUYO:
 		{
-		  retval = AAMUYOLLA_WORD;
+		  retval = (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
 		}
 		break;
 	  default:
@@ -631,7 +641,6 @@ using namespace std;
 
 	return retval;
   }
-
 
   Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
 								 const bool& theSpecifyDayFlag,
@@ -671,19 +680,40 @@ using namespace std;
 	  {
 		if(theSpecifyDayFlag)
 		  {
+			if(theWeatherPeriod.localStartTime().GetHour() >= 23)
+			  {
+				if(theSpecifyDayFlag)
+				  oss << weekday << "-";
+				oss << KESKIYOLLA_WORD;
+				
+				thePhraseString =  oss.str();
+				sentence <<  oss.str();
+			  }
+			else
+			  {
+				// iltayö
+				if(theSpecifyDayFlag)
+				  oss << weekday << "-";
+				oss << ILTAYOLLA_WORD;
+				
+				thePhraseString =  oss.str();
+				sentence <<  oss.str();
+			  }
+
+			/*
 			oss << weekday << "-" 
 				<< ILTAYOLLA_WORD;
 			std::ostringstream oss2;
 			oss2 << theWeatherPeriod.localEndTime().GetWeekday() << "-"
 				 << KESKIYOLLA_WORD;
-			sentence << oss.str()
-					 << JA_WORD
-					 << oss2.str();
+
 			thePhraseString = oss.str();
 			thePhraseString += SPACE_STRING;
 			thePhraseString += JA_WORD;
 			thePhraseString += SPACE_STRING;
 			thePhraseString += oss2.str();
+			sentence << thePhraseString;
+			*/
 		  }
 		else
 		  {
@@ -703,12 +733,12 @@ using namespace std;
 		  }
 		else
 		  {
-			sentence << KESKIYOLLA_WORD << JA_WORD << AAMUYOLLA_WORD;
 			thePhraseString = KESKIYOLLA_WORD;
 			thePhraseString += SPACE_STRING;
 			thePhraseString += JA_WORD;
 			thePhraseString += SPACE_STRING;
 			thePhraseString += AAMUYOLLA_WORD;
+			sentence << thePhraseString;
 		  }
 	  }
 	else if(is_inside(theWeatherPeriod, AAMUYO_JA_AAMU))
@@ -737,7 +767,7 @@ using namespace std;
 	else if(is_inside(theWeatherPeriod, PAIVA))
 	  {
 		if(theSpecifyDayFlag)
-		  oss << weekday << "-na " << PAIVALLA_WORD;
+		  oss << weekday << "-" << PAIVALLA_WORD;
 		else
 		  oss << PAIVALLA_WORD;
 
@@ -787,13 +817,13 @@ using namespace std;
 	  {
 		sentence << parse_time_phrase(weekday, 
 									  theSpecifyDayFlag, 
-									  get_time_phrase(theWeatherPeriod.localStartTime(), theVar, false));
+									  get_time_phrase(theWeatherPeriod.localStartTime(), theVar, theAlkaenPhrase));
 	  }
 	else
 	  {
 		sentence << parse_time_phrase(weekday, 
 									  theSpecifyDayFlag,
-									  get_narrow_time_phrase(theWeatherPeriod));
+									  get_narrow_time_phrase(theWeatherPeriod, theVar, theAlkaenPhrase));
 
 		if(sentence.size() == 0)
 		  {
@@ -810,7 +840,7 @@ using namespace std;
 				  {
 					sentence << parse_time_phrase(narrowerPeriod.localStartTime().GetWeekday(),
 												  theSpecifyDayFlag,
-												  get_narrow_time_phrase(narrowerPeriod));
+												  get_narrow_time_phrase(narrowerPeriod, theVar, theAlkaenPhrase));
 				  }
 
 				if(sentence.size() == 0)

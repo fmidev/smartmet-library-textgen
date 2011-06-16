@@ -423,6 +423,7 @@ namespace
 	  throw TextGenError("Unknown format "+opt+" in variable "+var);
 	return sentence;
   }
+
 }
 
 namespace TextGen
@@ -464,7 +465,7 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
-	 * \brief Return the formatted sentence for the given unit
+	 * \brief Return the formatted sentence for the given unit and value
 	 *
 	 * \param theUnit The desired unit
 	 * \return The sentence
@@ -490,7 +491,6 @@ namespace TextGen
 	  throw TextGenError("UnitFactory::create failed - unknown unit");
 
 	}
-
 
   } // namespace UnitFactory
 } // namespace TextGen

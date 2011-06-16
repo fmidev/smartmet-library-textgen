@@ -542,7 +542,9 @@ namespace TextGen
   Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
 								 const bool& theSpecifyDayFlag,
 								 std::string& thePhraseString);
-  std::string get_narrow_time_phrase(const WeatherPeriod& theWeatherPeriod);
+  std::string get_narrow_time_phrase(const WeatherPeriod& theWeatherPeriod,
+									 const std::string& theVar,
+									 bool theAlkaenPhrase = false);
   void get_precipitation_limit_value(const wf_story_params& theParameters,
 									 const unsigned int& thePrecipitationForm,
 									 const precipitation_intesity_id& theIntensityId,

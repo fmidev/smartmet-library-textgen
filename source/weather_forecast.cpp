@@ -381,44 +381,6 @@ using namespace std;
 
 	for(unsigned int i = 0; i < precipitationMaxHourly->size(); i++)
 	  {
-		/*
-		WeatherResult min = theForecaster.analyze(theVariable,
-												  theSources,
-												  Precipitation,
-												  Minimum,
-												  Sum,
-												  theArea,
-												  (*precipitationMaxHourly)[i]->thePeriod,
-												  DefaultAcceptor(),
-												  precipitationlimits);
-		WeatherResult max = theForecaster.analyze(theVariable,
-												  theSources,
-												  Precipitation,
-												  Maximum,
-												  Sum,
-												  theArea,
-												  (*precipitationMaxHourly)[i]->thePeriod,
-												  DefaultAcceptor(),
-												  precipitationlimits);
-		WeatherResult mean = theForecaster.analyze(theVariable,
-												  theSources,
-												  Precipitation,
-												  Mean,
-												  Sum,
-												  theArea,
-												  (*precipitationMaxHourly)[i]->thePeriod,
-												  DefaultAcceptor(),
-												  precipitationlimits);
-
-
-		cout << "period " << (*precipitationMaxHourly)[i]->thePeriod.localStartTime() 
-			 << "..." << (*precipitationMaxHourly)[i]->thePeriod.localEndTime() << endl;
-
-		cout << "min: " << min.value() << endl;
-		cout << "max: " << max.value() << endl;
-		cout << "mean: " << mean.value() << endl;
-		*/
-
         (*precipitationMaxHourly)[i]->theResult =
 		  theForecaster.analyze(theVariable,
 								theSources,
@@ -728,39 +690,6 @@ using namespace std;
 										(*fogSouthEastHourly)[i]->theResult,
 										(*fogSouthWestHourly)[i]->theResult,
 										(*fogNorthWestHourly)[i]->theResult);
-
-	/*
-	RangeAcceptor foglimits2;
-	foglimits2.lowerLimit(0.0);
-	foglimits2.upperLimit(100);
-	cout << "fog: " << theForecaster.analyze(theVariable,
-											 theSources,
-											 Fog,
-											 Mean,
-											 Mean,
-											 theArea,
-											 fogIntensityModerateHourly[i]->thePeriod,
-											 DefaultAcceptor(),
-											 DefaultAcceptor(),
-											 foglimits2).value() << endl;
-
-	float val = theForecaster.analyze(theVariable,
-									  theSources,
-									  Fog,
-									  Maximum,
-									  Maximum,
-									  theArea,
-									  fogIntensityModerateHourly[i]->thePeriod,
-									  DefaultAcceptor(),
-									  foglimits2).value();
-
-	  if(val > 1)
-		cout << "foggii: " << val  << endl;
-	  else
-		if(val > 0)
-		  	cout << "fog: " << val  << endl;
-	*/
-
 	  }
   }
 

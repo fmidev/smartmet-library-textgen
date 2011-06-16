@@ -2399,7 +2399,6 @@ vesi- tai lumisadetta.
   {	
 	Sentence sentence;
 	
-
 	precipitation_form_id previousPrecipitationForm = getPoutaantuuPrecipitationForm();
 
 	if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)

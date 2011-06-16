@@ -125,22 +125,32 @@ namespace TextGen
 
 	  Sentence sentence;
 
-	  const int mininterval = optional_int(theVariable+"::mininterval",0);
-	  const string rangeseparator = Settings::optional_string(theVariable+"::rangeseparator","-");
-	  
 	  const int minvalue = static_cast<int>(round(theMinSpeed.value()));
 	  const int maxvalue = static_cast<int>(round(theMaxSpeed.value()));
 
-	  if(maxvalue - minvalue < mininterval)
+	  const string var = "textgen::units::meterspersecond::format";
+	  const string opt = Settings::optional_string(var,"SI");
+
+	  if(opt == "textphrase")
 		{
-		  sentence << "noin"
-				   << Integer(static_cast<int>(round(theMeanSpeed.value())));
+		  sentence << *UnitFactory::create(MetersPerSecond, maxvalue) << "tuulta";
 		}
 	  else
 		{
-		  sentence << IntegerRange(minvalue,maxvalue,rangeseparator);
+		  const int mininterval = optional_int(theVariable+"::mininterval",0);
+		  const string rangeseparator = Settings::optional_string(theVariable+"::rangeseparator","-");
+	  
+		  if(maxvalue - minvalue < mininterval)
+			{
+			  sentence << "noin"
+					   << Integer(static_cast<int>(round(theMeanSpeed.value())));
+			}
+		  else
+			{
+			  sentence << IntegerRange(minvalue,maxvalue,rangeseparator);
+			}
+		  sentence << *UnitFactory::create(MetersPerSecond);
 		}
-	  sentence << *UnitFactory::create(MetersPerSecond);
 	  
 	  return sentence;
 	  

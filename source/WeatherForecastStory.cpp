@@ -534,9 +534,10 @@ namespace TextGen
 										  theFromSpecifier);
 	  }
 	theWeatherForecastStory.theLogger << "PHRASE PERIOD: " 
-								   << phrasePeriod.localStartTime() 
-								   << "..."
-								   << phrasePeriod.localEndTime();
+									  << phrasePeriod.localStartTime() 
+									  << "..."
+									  << phrasePeriod.localEndTime()
+									  << endl;
 	theWeatherForecastStory.theLogger << "PHRASE: ";
 	theWeatherForecastStory.theLogger << sentence;
 
