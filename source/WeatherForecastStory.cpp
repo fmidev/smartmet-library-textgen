@@ -510,7 +510,8 @@ namespace TextGen
 	bool specifyDay = false;
 
 	if(forecastPeriodLength() > 24 &&
-	   theWeatherForecastStory.theForecastTime.GetJulianDay() != phrasePeriod.localStartTime().GetJulianDay())
+	   theWeatherForecastStory.theForecastTime.GetJulianDay() != phrasePeriod.localStartTime().GetJulianDay() &&
+	   abs(theWeatherForecastStory.theForecastTime.DifferenceInHours(phrasePeriod.localStartTime())) >= 21)
 	  {
 		Sentence todaySentence;
 		todaySentence <<  PeriodPhraseFactory::create("today",

@@ -183,13 +183,15 @@ namespace TextGen
 		  {
 			if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
 			  sentence << PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_PHRASE;
-			else
+			else if(theCloudinessId != SELKEA)
 			  sentence << SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE
 					   << cloudiness_string(theCloudinessId);
+			else
+			  sentence << cloudiness_sentence(theCloudinessId, theShortForm);
 		  }
 		else
 		  {
-			sentence << cloudiness_sentence(theCloudinessId, true);
+			sentence << cloudiness_sentence(theCloudinessId, theShortForm);
 		  }
 
 		return sentence;		
@@ -247,7 +249,8 @@ namespace TextGen
 			  {
 				if(periodPhraseEmpty)
 				  {
-					if(thePoutainenFlag)
+					if(thePoutainenFlag && theCloudinessId != SELKEA)
+
 					  sentence << SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE
 							   << theAreaString
 							   << cloudinessSentence;
@@ -258,7 +261,7 @@ namespace TextGen
 				  }
 				else
 				  {
-					if(thePoutainenFlag)
+					if(thePoutainenFlag && theCloudinessId != SELKEA)
 					  sentence << HUOMENNA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE
 							   << thePeriodPhrase
 							   << cloudinessSentence;
@@ -271,7 +274,7 @@ namespace TextGen
 			  }
 			else
 			  {
-				if(thePoutainenFlag)
+				if(thePoutainenFlag && theCloudinessId != SELKEA)
 				  sentence << HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE
 						   << thePeriodPhrase
 						   << theAreaString
@@ -1015,13 +1018,15 @@ namespace TextGen
 	  {
 		sentence << cloudinessSentence;
 	  }
-	
+
+	/*	
 	if(sentence.size() > 0 && !(theParameters.theForecastArea & FULL_AREA))
 	  {
 		cloudiness_id clid = (theParameters.theForecastArea & INLAND_AREA ? inlandCloudinessId : coastalCloudinessId);
 		if(clid == VERRATTAIN_PILVINEN || clid == PILVINEN)
 		  sentence << areaSpecificSentence(thePeriod);
 	  }
+	*/
 
 	return sentence;
   }

@@ -628,7 +628,7 @@ namespace TextGen
 		  return;
 
 		// use the summer phrase if it is summertime and no more than one precipitation form is involved
-		bool use_summer_phrase = SeasonTools::isSummer(thePeriod.localStartTime(), theParameters.theVariable) &&
+		bool use_summer_phrase = SeasonTools::isSummerHalf(thePeriod.localStartTime(), theParameters.theVariable) &&
 		  theSinglePrecipitationFormFlag;
 
 		const bool is_showers = thePrecipitationType == SHOWERS;

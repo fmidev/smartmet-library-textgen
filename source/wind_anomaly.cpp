@@ -86,6 +86,7 @@ namespace TextGen
 #define EXTREME_WINDCHILL_LIMIT -35.0
 #define MILD_WINDCHILL_LIMIT -25.0
 #define ZERO_DEGREES 0.0
+#define TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT 7.0
 
 #define TUULI_KYLMENTAA_SAATA_LOWER_LIMIT 0.0
 #define TUULI_KYLMENTAA_SAATA_UPPER_LIMIT 10.0
@@ -1525,6 +1526,8 @@ namespace TextGen
 
 	  WeatherResult windChillMorningMean = theParameters.theWindchillInlandMorningMinimum;
 	  WeatherResult windChillAfternoonMean = theParameters.theWindchillInlandMorningMinimum;
+	  float windChillAndTemperatureDifferenceMorning = 0.0;
+	  float windChillAndTemperatureDifferenceAfternoon = 0.0;
 
 	  forecast_area_id areaMorning = FULL_AREA;
 	  forecast_area_id areaAfternoon = FULL_AREA;
@@ -1546,45 +1549,56 @@ namespace TextGen
 			{
 			  windChillMorningMean = theParameters.theWindchillInlandMorningMean;
 			  areaMorning = INLAND_AREA;
+			  windChillAndTemperatureDifferenceMorning = abs(theParameters.theTemperatureInlandMorningMean.value() - windChillMorningMean.value());
 			}
 		  else
 			{
 			  windChillMorningMean = theParameters.theWindchillCoastalMorningMean;
 			  areaMorning = COASTAL_AREA;
+			  windChillAndTemperatureDifferenceMorning = abs(theParameters.theTemperatureCoastalMorningMean.value() - windChillMorningMean.value());
 			}
 
 		  if(theParameters.theWindchillInlandAfternoonMean.value() > theParameters.theWindchillCoastalAfternoonMean.value())
 			{
 			  windChillAfternoonMean = theParameters.theWindchillInlandAfternoonMean;
 			  areaAfternoon = INLAND_AREA;
+			  windChillAndTemperatureDifferenceAfternoon = abs(theParameters.theTemperatureInlandAfternoonMean.value() - windChillAfternoonMean.value());
 			}
 		  else
 			{
 			  windChillAfternoonMean = theParameters.theWindchillCoastalAfternoonMean;
 			  areaAfternoon = COASTAL_AREA;
+			  windChillAndTemperatureDifferenceAfternoon = abs(theParameters.theTemperatureCoastalAfternoonMean.value() - windChillAfternoonMean.value());
 			}
 		}
 	  else if(inlandIncluded)
 		{
 		  windChillMorningMean = theParameters.theWindchillInlandMorningMean;
 		  windChillAfternoonMean = theParameters.theWindchillInlandAfternoonMean;
+		  windChillAndTemperatureDifferenceMorning = abs(theParameters.theTemperatureInlandMorningMean.value() - windChillMorningMean.value());
+		  windChillAndTemperatureDifferenceAfternoon = abs(theParameters.theTemperatureInlandAfternoonMean.value() - windChillAfternoonMean.value());
 		}
 	  else if(coastIncluded)
 		{
 		  windChillMorningMean = theParameters.theWindchillCoastalMorningMean;
 		  windChillAfternoonMean = theParameters.theWindchillCoastalAfternoonMean;
+		  windChillAndTemperatureDifferenceMorning = abs(theParameters.theTemperatureCoastalMorningMean.value() - windChillMorningMean.value());
+		  windChillAndTemperatureDifferenceAfternoon = abs(theParameters.theTemperatureCoastalAfternoonMean.value() - windChillAfternoonMean.value());
 		}
-
+	  
 	  float windChill = windChillMorningMean.value() < windChillAfternoonMean.value() ? 
 		windChillMorningMean.value() : windChillAfternoonMean.value();
-
-
+	  
 	  bool windChillMorning = (windChillMorningMean.value() >= EXTREME_WINDCHILL_LIMIT && 
-						   windChillMorningMean.value() <= MILD_WINDCHILL_LIMIT);
+							   windChillMorningMean.value() <= MILD_WINDCHILL_LIMIT &&
+							   windChillAndTemperatureDifferenceMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
 	  bool windChillAfternoon = (windChillAfternoonMean.value() >= EXTREME_WINDCHILL_LIMIT &&
-							 windChillAfternoonMean.value() <= MILD_WINDCHILL_LIMIT);
-	  bool extremelyWindChillMorning = windChillMorningMean.value() < EXTREME_WINDCHILL_LIMIT;
-	  bool extremelyWindChillAfternoon = windChillAfternoonMean.value() < EXTREME_WINDCHILL_LIMIT;
+								 windChillAfternoonMean.value() <= MILD_WINDCHILL_LIMIT &&
+								 windChillAndTemperatureDifferenceMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
+	  bool extremelyWindChillMorning = (windChillMorningMean.value() < EXTREME_WINDCHILL_LIMIT &&
+										windChillAndTemperatureDifferenceMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
+	  bool extremelyWindChillAfternoon = (windChillAfternoonMean.value() < EXTREME_WINDCHILL_LIMIT &&
+										  windChillAndTemperatureDifferenceMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
 
 	  std::string areaString((areaMorning == INLAND_AREA ? SISAMAASSA_WORD 
 							  : (areaMorning == COASTAL_AREA ? RANNIKOLLA_WORD : EMPTY_STRING)));
