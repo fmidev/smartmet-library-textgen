@@ -396,10 +396,12 @@ namespace TextGen
 	Sentence sentence;
 
 	if(theReportTimePhraseFlag)
-	  if(theStorySize == 0)
-		sentence << ALUKSI_WORD;
-	  else
-		sentence << MYOHEMMIN_WORD;
+	  {
+		if(theStorySize == 0)
+		  sentence << ALUKSI_WORD;
+		else
+		  sentence << MYOHEMMIN_WORD;
+	  }
 
 	return sentence;
   }
@@ -534,6 +536,7 @@ namespace TextGen
 										  time_phrase,
 										  theFromSpecifier);
 	  }
+
 	theWeatherForecastStory.theLogger << "PHRASE PERIOD: " 
 									  << phrasePeriod.localStartTime() 
 									  << "..."

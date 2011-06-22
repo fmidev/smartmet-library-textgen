@@ -20,6 +20,8 @@
 #include "UnitFactory.h"
 #include "ClimatologyTools.h"
 #include "GridClimatology.h"
+#include "WeatherPeriodGenerator.h"
+#include "HourPeriodGenerator.h"
 
 #include "GridForecaster.h"
 #include "WeatherResult.h"
@@ -340,6 +342,45 @@ namespace TextGen
 									  thePeriod);
 	}
 
+	void min_max_mean_temperature(const string& theVar,
+								  const AnalysisSources& theSources,
+								  const WeatherArea& theArea,
+								  const WeatherPeriodGenerator &thePeriods,
+								  const bool& theIsWinterHalf,
+								  WeatherResult& theMin,
+								  WeatherResult& theMax,
+								  WeatherResult& theMean)
+	{
+	  GridForecaster theForecaster;	  
+
+	  theMin = theForecaster.analyze(theVar + "::min",
+									 theSources,
+									 Temperature,
+									 Minimum,
+									 theIsWinterHalf ? Mean : Maximum,
+									 Mean,
+									 theArea,
+									 thePeriods);
+
+	  theMax = theForecaster.analyze(theVar + "::max",
+									 theSources,
+									 Temperature,
+									 Maximum,
+									 theIsWinterHalf ? Mean : Maximum,
+									 Mean,
+									 theArea,
+									 thePeriods);
+
+	  theMean = theForecaster.analyze(theVar + "::mean",
+									  theSources,
+									  Temperature,
+									  Mean,
+									  theIsWinterHalf ? Mean : Maximum,
+									  Mean,
+									  theArea,
+									  thePeriods);
+	}
+
 	// ----------------------------------------------------------------------
 	/*!
 	 * \brief calculate morning temperature
@@ -465,6 +506,29 @@ namespace TextGen
 							   theMean);
 	}
 
+	void afternoon_temperature(const string& theVar,
+						 const AnalysisSources& theSources,
+						 const WeatherArea& theArea,
+						 const WeatherPeriodGenerator &thePeriods,
+						 WeatherResult& theMin,
+						 WeatherResult& theMax,
+						 WeatherResult& theMean)
+	{
+	  int fakeStrPos = theVar.find("::fake");
+	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
+
+
+	  bool is_winter = SeasonTools::isWinterHalf(thePeriods.period(1).localStartTime(), thePlainVar);
+
+	  min_max_mean_temperature(theVar,
+							   theSources,
+							   theArea,
+							   thePeriods,
+							   is_winter,
+							   theMin,
+							   theMax,
+							   theMean);
+	}
 	// ----------------------------------------------------------------------
 	/*!
 	 * \brief Clamp the temperature range if it is bigger than the defined maximum interval

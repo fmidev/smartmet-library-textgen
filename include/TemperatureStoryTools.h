@@ -18,6 +18,7 @@ namespace WeatherAnalysis
   class WeatherResult;
   class AnalysisSources;
   class WeatherArea;
+  class WeatherPeriodGenerator;
 }
 
 namespace TextGen
@@ -84,6 +85,15 @@ namespace TextGen
 								  WeatherAnalysis::WeatherResult& theMean);
 
 
+	void min_max_mean_temperature(const std::string& theVar,
+								  const AnalysisSources& theSources,
+								  const WeatherArea& theArea,
+								  const WeatherPeriodGenerator& thePeriods,
+								  const bool& theIsWinterHalf,
+								  WeatherResult& theMin,
+								  WeatherResult& theMax,
+								  WeatherResult& theMean);
+
 	// ----------------------------------------------------------------------
 	/*!
 	 * \brief calculate morning temperature
@@ -119,6 +129,13 @@ namespace TextGen
 							   WeatherAnalysis::WeatherResult& theMax,
 							   WeatherAnalysis::WeatherResult& theMean);
 
+	void afternoon_temperature(const std::string& theVar,
+							   const WeatherAnalysis::AnalysisSources& theSources,
+							   const WeatherAnalysis::WeatherArea& theArea,
+							   const WeatherPeriodGenerator &thePeriods,
+							   WeatherAnalysis::WeatherResult& theMin,
+							   WeatherAnalysis::WeatherResult& theMax,
+							   WeatherAnalysis::WeatherResult& theMean);
 
 	// ----------------------------------------------------------------------
 	/*!

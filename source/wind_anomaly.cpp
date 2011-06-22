@@ -801,8 +801,10 @@ namespace TextGen
 	{
 	  Sentence sentence;
 	  
-	  bool inlandIncluded = theParameters.theWindspeedInlandMorningMinimum.value() != kFloatMissing;
-	  bool coastIncluded = theParameters.theWindspeedCoastalMorningMinimum.value() != kFloatMissing;
+	  bool inlandIncluded = theParameters.theWindspeedInlandMorningMinimum.value() != kFloatMissing ||
+		 theParameters.theWindspeedInlandAfternoonMinimum.value() != kFloatMissing;
+	  bool coastIncluded = theParameters.theWindspeedCoastalMorningMinimum.value() != kFloatMissing ||
+		theParameters.theWindspeedCoastalAfternoonMinimum.value() != kFloatMissing;
 
 	  float windy_weather_limit = Settings::optional_double(theParameters.theVariable + 
 															"::windy_weather_limit", 
@@ -1319,8 +1321,19 @@ namespace TextGen
 	{
 	  Sentence sentence;
 
-	  bool inlandIncluded = theParameters.theWindspeedInlandMorningMinimum.value() != kFloatMissing;
-	  bool coastIncluded = theParameters.theWindspeedCoastalMorningMinimum.value() != kFloatMissing;
+
+	  bool generate_windiness_sentence = Settings::optional_bool(theParameters.theVariable + 
+																 "::generate_windiness_sentence", 
+																 true);
+	  bool generate_wind_cooling_sentence = Settings::optional_bool(theParameters.theVariable + 
+																	"::generate_wind_cooling_sentence", 
+																	true);
+
+
+	  bool inlandIncluded = theParameters.theWindspeedInlandMorningMinimum.value() != kFloatMissing || 
+		theParameters.theWindspeedInlandAfternoonMinimum.value() != kFloatMissing;
+	  bool coastIncluded = theParameters.theWindspeedCoastalMorningMinimum.value() != kFloatMissing ||
+		theParameters.theWindspeedCoastalAfternoonMinimum.value() != kFloatMissing;
 	  std::string aamupaivalla(theParameters.theMorningWord);
 	  std::string iltapaivalla(theParameters.theAfternoonWord);
 	  std::string part_of_the_day("");
@@ -1340,12 +1353,15 @@ namespace TextGen
 
 	  float wind_cooling_the_weather_limit = Settings::optional_double(theParameters.theVariable + "::wind_cooling_the_weather_limit", WIND_COOLING_THE_WEATHER_LIMIT);
 
-	  sentence << construct_windiness_sentence(theParameters, 
-											   theSpecifiedDay, 
-											   dayNumber);
+	  if(generate_windiness_sentence)
+		{
+		  sentence << construct_windiness_sentence(theParameters, 
+												   theSpecifiedDay, 
+												   dayNumber);
+		}
 
 	  // handle the wind cooling effect
-	  if(sentence.empty())
+	  if(sentence.empty() && generate_wind_cooling_sentence)
 		{
 		  areaString = EMPTY_STRING;
 		  float temperature = -1.0;
@@ -1473,6 +1489,7 @@ namespace TextGen
 					temperatureInlandMorning ? temperatureInlandAfternoon : temperatureInlandMorning;
 				}
 			}
+
 		  if(inlandIncluded || coastIncluded)
 			{
 			  if(areaString.empty())
@@ -1519,8 +1536,10 @@ namespace TextGen
 	{
 	  Sentence sentence;
 	  
-	  bool inlandIncluded = theParameters.theWindchillInlandMorningMinimum.value() != kFloatMissing;
-	  bool coastIncluded = theParameters.theWindchillCoastalMorningMinimum.value() != kFloatMissing;
+	  bool inlandIncluded = theParameters.theWindchillInlandMorningMinimum.value() != kFloatMissing ||
+		theParameters.theWindchillInlandAfternoonMinimum.value() != kFloatMissing;
+	  bool coastIncluded = theParameters.theWindchillCoastalMorningMinimum.value() != kFloatMissing ||
+		theParameters.theWindchillCoastalAfternoonMinimum.value() != kFloatMissing;
 	  std::string aamupaivalla(theParameters.theMorningWord);
 	  std::string iltapaivalla(theParameters.theAfternoonWord);
 
@@ -1545,7 +1564,7 @@ namespace TextGen
 
 	  if(inlandIncluded && coastIncluded)
 		{
-		  if(theParameters.theWindchillInlandMorningMean.value() > theParameters.theWindchillCoastalMorningMean.value())
+		  if(theParameters.theWindchillInlandMorningMean.value() != kFloatMissing)
 			{
 			  windChillMorningMean = theParameters.theWindchillInlandMorningMean;
 			  areaMorning = INLAND_AREA;
@@ -1557,7 +1576,7 @@ namespace TextGen
 			  areaMorning = COASTAL_AREA;
 			  windChillAndTemperatureDifferenceMorning = abs(theParameters.theTemperatureCoastalMorningMean.value() - windChillMorningMean.value());
 			}
-
+		  
 		  if(theParameters.theWindchillInlandAfternoonMean.value() > theParameters.theWindchillCoastalAfternoonMean.value())
 			{
 			  windChillAfternoonMean = theParameters.theWindchillInlandAfternoonMean;
@@ -1585,19 +1604,29 @@ namespace TextGen
 		  windChillAndTemperatureDifferenceMorning = abs(theParameters.theTemperatureCoastalMorningMean.value() - windChillMorningMean.value());
 		  windChillAndTemperatureDifferenceAfternoon = abs(theParameters.theTemperatureCoastalAfternoonMean.value() - windChillAfternoonMean.value());
 		}
+
+	  bool morningIncluded = windChillMorningMean.value() != kFloatMissing;
+	  bool afternoonIncluded = windChillAfternoonMean.value() != kFloatMissing;
 	  
-	  float windChill = windChillMorningMean.value() < windChillAfternoonMean.value() ? 
-		windChillMorningMean.value() : windChillAfternoonMean.value();
+	  float windChill = 0.0;
+
+	  if(morningIncluded && afternoonIncluded)
+		windChill = windChillMorningMean.value() < windChillAfternoonMean.value() ? 
+		  windChillMorningMean.value() : windChillAfternoonMean.value();
+	  else if(morningIncluded)
+		windChill = windChillMorningMean.value();
+	  else if(afternoonIncluded)
+		windChill = windChillAfternoonMean.value();
 	  
-	  bool windChillMorning = (windChillMorningMean.value() >= EXTREME_WINDCHILL_LIMIT && 
+	  bool windChillMorning = (morningIncluded && windChillMorningMean.value() >= EXTREME_WINDCHILL_LIMIT && 
 							   windChillMorningMean.value() <= MILD_WINDCHILL_LIMIT &&
 							   windChillAndTemperatureDifferenceMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
-	  bool windChillAfternoon = (windChillAfternoonMean.value() >= EXTREME_WINDCHILL_LIMIT &&
+	  bool windChillAfternoon = (afternoonIncluded && windChillAfternoonMean.value() >= EXTREME_WINDCHILL_LIMIT &&
 								 windChillAfternoonMean.value() <= MILD_WINDCHILL_LIMIT &&
 								 windChillAndTemperatureDifferenceMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
-	  bool extremelyWindChillMorning = (windChillMorningMean.value() < EXTREME_WINDCHILL_LIMIT &&
+	  bool extremelyWindChillMorning = (morningIncluded && windChillMorningMean.value() < EXTREME_WINDCHILL_LIMIT &&
 										windChillAndTemperatureDifferenceMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
-	  bool extremelyWindChillAfternoon = (windChillAfternoonMean.value() < EXTREME_WINDCHILL_LIMIT &&
+	  bool extremelyWindChillAfternoon = (afternoonIncluded && windChillAfternoonMean.value() < EXTREME_WINDCHILL_LIMIT &&
 										  windChillAndTemperatureDifferenceMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
 
 	  std::string areaString((areaMorning == INLAND_AREA ? SISAMAASSA_WORD 

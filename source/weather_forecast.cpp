@@ -1219,8 +1219,6 @@ using namespace std;
 	  Settings::optional_double(theParameters.theVariable + "::in_many_places_upper_limit", IN_MANY_PLACES_UPPER_LIMIT);
 	theParameters.theFreezingPrecipitationLimit =
 	  Settings::optional_double(theParameters.theVariable + "::freezing_rain_limit", FREEZING_RAIN_LIMIT);
-	theParameters.theShowerLimit =
-	  Settings::optional_double(theParameters.theVariable + "::shower_limit", SHOWER_LIMIT);
 
 	float coastalPercentage = get_area_percentage(theParameters.theVariable + "::fake::area_percentage",
 												  theParameters.theArea,

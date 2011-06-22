@@ -203,7 +203,6 @@ namespace TextGen
 #define IN_MANY_PLACES_LOWER_LIMIT 50.0
 #define IN_MANY_PLACES_UPPER_LIMIT 90.0
 #define FREEZING_RAIN_LIMIT 10
-#define SHOWER_LIMIT 51
 #define PRECIPITATION_FORM_REPORTING_LIMIT 10.0 // at least 10% must be of the type to be mentioned
 
 #define SMALL_PROBABILITY_FOR_THUNDER_LOWER_LIMIT 0.1
@@ -530,7 +529,6 @@ namespace TextGen
 	float theInManyPlacesLowerLimit;
 	float theInManyPlacesUpperLimit;
 	float theFreezingPrecipitationLimit;
-	float theShowerLimit;
 	weather_forecast_data_container theCompleteData;
 	cloudiness_data_container theCloudinessData;
 	precipitation_data_container thePrecipitationData;

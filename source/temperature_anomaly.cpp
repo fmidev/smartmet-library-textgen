@@ -1287,6 +1287,53 @@ enum anomaly_phrase_id
 										  itsForecastTime,
 										  periodLength);
 
+	/*
+
+	periodStartTime = day1Period.localStartTime();
+	periodEndTime = day2Period.localEndTime();
+	periodStartTime.ChangeByHours(-24);
+	periodEndTime.ChangeByHours(24);
+	WeatherPeriod prePeriod(periodStartTime, day1Period.localEndTime());
+	WeatherPeriod postPeriod(day2Period.localStartTime(), periodEndTime);
+
+	const HourPeriodGenerator preAfternoons(prePeriod, itsVar+"::summertime::day_temperature");
+	const HourPeriodGenerator postAfternoons(postPeriod, itsVar+"::summertime::day_temperature");
+
+
+	log_start_time_and_end_time(theLog, 
+								"Aamupäivät ennen: ",
+								prePeriod);
+
+	log_start_time_and_end_time(theLog, 
+								"Aamupäivät jälkeen: ",
+								postPeriod);
+
+	afternoon_temperature(itsVar + "::fake::temperature::day1::afternoon::area",
+						  itsSources,
+						  itsArea,
+						  preAfternoons,
+						  parameters.theDay1TemperatureAreaAfternoonMinimum,
+						  parameters.theDay1TemperatureAreaAfternoonMaximum,
+						  parameters.theDay1TemperatureAreaAfternoonMean);
+
+	cout << "minBefore: " << parameters.theDay1TemperatureAreaAfternoonMinimum << endl;
+	cout << "maxBefore: " << parameters.theDay1TemperatureAreaAfternoonMaximum << endl;
+	cout << "meanBefore: " << parameters.theDay1TemperatureAreaAfternoonMean << endl;
+
+	afternoon_temperature(itsVar + "::fake::temperature::day1::afternoon::area",
+						  itsSources,
+						  itsArea,
+						  postAfternoons,
+						  parameters.theDay1TemperatureAreaAfternoonMinimum,
+						  parameters.theDay1TemperatureAreaAfternoonMaximum,
+						  parameters.theDay1TemperatureAreaAfternoonMean);
+
+	cout << "minAfter: " << parameters.theDay1TemperatureAreaAfternoonMinimum << endl;
+	cout << "maxAfter: " << parameters.theDay1TemperatureAreaAfternoonMaximum << endl;
+	cout << "meanAfter: " << parameters.theDay1TemperatureAreaAfternoonMean << endl;
+
+*/
+
 	afternoon_temperature(itsVar + "::fake::temperature::day1::afternoon::area",
 						  itsSources,
 						  itsArea,
@@ -1302,6 +1349,18 @@ enum anomaly_phrase_id
 						  parameters.theDay2TemperatureAreaAfternoonMinimum,
 						  parameters.theDay2TemperatureAreaAfternoonMaximum,
 						  parameters.theDay2TemperatureAreaAfternoonMean);
+	/*
+
+	cout << "minDay1: " << parameters.theDay1TemperatureAreaAfternoonMinimum << endl;
+	cout << "maxDay1: " << parameters.theDay1TemperatureAreaAfternoonMaximum << endl;
+	cout << "meanDay1: " << parameters.theDay1TemperatureAreaAfternoonMean << endl;
+
+	cout << "minDay2: " << parameters.theDay2TemperatureAreaAfternoonMinimum << endl;
+	cout << "maxDay2: " << parameters.theDay2TemperatureAreaAfternoonMaximum << endl;
+	cout << "meanDay2: " << parameters.theDay2TemperatureAreaAfternoonMean << endl;
+	*/
+
+
 
 	fractile_type_id fractileType(MAX_FRACTILE);
 

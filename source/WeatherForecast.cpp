@@ -699,21 +699,6 @@ using namespace std;
 				thePhraseString =  oss.str();
 				sentence <<  oss.str();
 			  }
-
-			/*
-			oss << weekday << "-" 
-				<< ILTAYOLLA_WORD;
-			std::ostringstream oss2;
-			oss2 << theWeatherPeriod.localEndTime().GetWeekday() << "-"
-				 << KESKIYOLLA_WORD;
-
-			thePhraseString = oss.str();
-			thePhraseString += SPACE_STRING;
-			thePhraseString += JA_WORD;
-			thePhraseString += SPACE_STRING;
-			thePhraseString += oss2.str();
-			sentence << thePhraseString;
-			*/
 		  }
 		else
 		  {
@@ -726,7 +711,9 @@ using namespace std;
 	  {
 		if(theSpecifyDayFlag)
 		  {
-			oss  << weekday << "-" << KESKIYOLLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << AAMUYOLLA_WORD;
+			oss << theWeatherPeriod.localEndTime().GetWeekday() << "-vastaisena yönä";		  
+
+			//			oss  << weekday << "-" << KESKIYOLLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << AAMUYOLLA_WORD;
 
 			sentence << oss.str();			
 			thePhraseString = oss.str();
