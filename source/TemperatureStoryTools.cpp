@@ -358,7 +358,7 @@ namespace TextGen
 									 Temperature,
 									 Minimum,
 									 theIsWinterHalf ? Mean : Maximum,
-									 Mean,
+									 Maximum,
 									 theArea,
 									 thePeriods);
 
@@ -367,7 +367,7 @@ namespace TextGen
 									 Temperature,
 									 Maximum,
 									 theIsWinterHalf ? Mean : Maximum,
-									 Mean,
+									 Maximum,
 									 theArea,
 									 thePeriods);
 
@@ -376,7 +376,7 @@ namespace TextGen
 									  Temperature,
 									  Mean,
 									  theIsWinterHalf ? Mean : Maximum,
-									  Mean,
+									  Maximum,
 									  theArea,
 									  thePeriods);
 	}

@@ -425,12 +425,6 @@ namespace TextGen
 
 	if(theIncludeInTheStoryFlag)
 	  {
-		// aluksi - myöhemmin phrase
-		if(theWeatherForecastStory.theReportTimePhraseFlag)
-		  {
-			sentence << theWeatherForecastStory.getTimePhrase();
-		  }
-
 		sentence << getStoryItemSentence();
 	  }
 
@@ -610,6 +604,8 @@ namespace TextGen
 		  {
 			if(storyItemPeriod.localStartTime() > forecastPeriod.localStartTime())
 			  thePeriodPhrase << getPeriodPhrase(USE_FROM_SPECIFIER);
+			if(thePeriodPhrase.size() == 0)
+			  thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
 			
 			sentence << prForecast.precipitationChangeSentence(thePeriod, thePeriodPhrase, SADE_ALKAA);
 		  }
@@ -617,6 +613,8 @@ namespace TextGen
 		  {			
 			if(storyItemPeriod.localStartTime() > forecastPeriod.localStartTime())
 			  thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER);
+			if(thePeriodPhrase.size() == 0)
+			  thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
 
 			sentence << prForecast.precipitationSentence(thePeriod, thePeriodPhrase);
 		  }
@@ -627,6 +625,8 @@ namespace TextGen
 			WeatherPeriod poutaantuuPeriod(storyItemPeriod.localEndTime(), storyItemPeriod.localEndTime());
 			thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &poutaantuuPeriod, sentence.size() == 0);
 			theWeatherForecastStory.theLogger << thePeriodPhrase;
+			if(thePeriodPhrase.size() == 0)
+			  thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
 			
 			if(sentence.size() > 0)
 			  sentence << Delimiter(",");
@@ -638,6 +638,8 @@ namespace TextGen
 	  {
 		if(thePeriod.localStartTime() > forecastPeriod.localStartTime())
 		  thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER);
+		if(thePeriodPhrase.size() == 0)
+		  thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
 
 		if(prForecast.shortTermPrecipitationExists(thePeriod))
 		  {
@@ -746,7 +748,8 @@ namespace TextGen
 
 			// ARE 22.02.2011: The missing period-phrase added
 			Sentence thePeriodPhrase(getPeriodPhrase(USE_FROM_SPECIFIER, &poutaantuuPeriod));
-			theWeatherForecastStory.theLogger <<  thePeriodPhrase;
+			if(thePeriodPhrase.size() == 0)
+			  thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
 			thePoutaantuuSentence << prForecast.precipitationPoutaantuuAndCloudiness(thePeriodPhrase,
 																					 cloudinessId);
 			thePreviousPrecipitationStoryItem->theReportPoutaantuuFlag = false;
@@ -768,19 +771,21 @@ namespace TextGen
 	  }
 	else
 	  {
-		Sentence periodPhrase;
+		Sentence thePeriodPhrase;
 		if(thePeriod.localStartTime() > theWeatherForecastStory.theForecastPeriod.localStartTime())
 		  {
 			if(storyItemPeriodLength() >= 6)
 			  {
 				if(theWeatherForecastStory.theStorySize > 0)
-				  periodPhrase << getPeriodPhrase(USE_FROM_SPECIFIER);
+				  thePeriodPhrase << getPeriodPhrase(USE_FROM_SPECIFIER);
 			  }
 			else
 			  {
-				periodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER);
+				thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER);
 			  }
 		  }
+		if(thePeriodPhrase.size() == 0)
+		  thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
 
 		if(theChangeSentence.size() > 0)
 		  {
@@ -788,7 +793,7 @@ namespace TextGen
 			sentence << 
 			  clForecast.cloudinessSentence(clPeriod, 
 											theReportAboutDryWeatherFlag && !prForecast.getDryPeriodTautologyFlag(),
-											periodPhrase, 
+											thePeriodPhrase, 
 											DONT_USE_SHORT_FORM);
 		  }
 		else
@@ -796,7 +801,7 @@ namespace TextGen
 			sentence << 
 			  clForecast.cloudinessSentence(thePeriod, 
 											theReportAboutDryWeatherFlag && !prForecast.getDryPeriodTautologyFlag(),
-											periodPhrase, 
+											thePeriodPhrase, 
 											DONT_USE_SHORT_FORM);
 		  }
 		prForecast.setDryPeriodTautologyFlag(theReportAboutDryWeatherFlag);

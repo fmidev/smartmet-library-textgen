@@ -109,37 +109,29 @@ namespace TextGen
 							const WeatherParameter& theParameter,
 							const NFmiIndexMask& theIndexMask)
 	{
-	  /*
-		NFmiSvgPath svgPath = itsArea.path();
-		NFmiSvgPath::iterator iterator = svgPath.begin();
-		double lon_min = 180.0;
-		double lat_min = 90.0;
-		double lon_max = 0.0;
-		double lat_max = 0.0;
-		while(iterator != svgPath.end())
+	  std::string parameterName("");
+	  std::string dataName("");
+
+	  ParameterAnalyzer::getParameterStrings(theParameter, parameterName, dataName);
+	  const string default_forecast = Settings::optional_string("textgen::default_forecast","");
+	  const string datavar = dataName + '_' + "forecast";
+	  const string dataname = Settings::optional_string(datavar, default_forecast);
+
+	  shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+	  shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
+	  NFmiFastQueryInfo* theQI = qd->QueryInfoIter();
+
+	  for(NFmiIndexMask::const_iterator it = theIndexMask.begin();
+		  it != theIndexMask.end();
+		  ++it)
 		{
-		if(lon_min > iterator->itsX)
-		lon_min = iterator->itsX;
-		if(lon_max < iterator->itsX)
-		lon_max = iterator->itsX;
-		if(lat_min > iterator->itsY)
-		lat_min = iterator->itsY;
-		if(lat_max < iterator->itsY)
-		lat_max = iterator->itsY;
-
-		//			WeatherResult res(iterator->itsX, iterator->itsY);
-		//			double x = static_cast<double>(iterator->itsX);
-		iterator++;
+		  NFmiPoint point(theQI->LatLon(*it).X(), theQI->LatLon(*it).Y());
+		  if(!theWeatherArea.path().IsInside(point))
+			return false;
 		}
-		WeatherResult res1(lon_min, lat_max);
-		WeatherResult res2(lon_max, lat_min);
-		cout << "lon_min, lat_max: " << res1.value() << "," << res1.error() << "; ";
-		cout << "lon_max, lat_min: " << res2.value() << "," << res2.error() << endl;
-	  */
 
-	  return false;
+	  return true;
 	}
-
 
 	NFmiPoint getArealDistribution(const AnalysisSources& theSources,
 							  const WeatherParameter& theParameter,
@@ -232,16 +224,6 @@ namespace TextGen
 		  NFmiPoint thePoint(*(thePointVector[i]));
 		  theResultData[area.getHalfDirection(thePoint)] += 1.0;
 		}
-	  /*  
-	  cout << "north-rect: " << static_cast<std::string>(area.subRect(NORTH)) << endl;
-	  cout << "south-rect: " << static_cast<std::string>(area.subRect(SOUTH)) << endl;
-	  cout << "east-rect: " << static_cast<std::string>(area.subRect(EAST)) << endl;
-	  cout << "west-rect: " << static_cast<std::string>(area.subRect(WEST)) << endl;
-	  cout << "northeast-rect: " << static_cast<std::string>(area.subRect(NORTHEAST)) << endl;
-	  cout << "southeast-rect: " << static_cast<std::string>(area.subRect(SOUTHEAST)) << endl;
-	  cout << "southwest-rect: " << static_cast<std::string>(area.subRect(SOUTHWEST)) << endl;
-	  cout << "nortwest-rect: " << static_cast<std::string>(area.subRect(NORTHWEST)) << endl;
-	  */
 
 	  theResultData[NORTH] += (theResultData[NORTHEAST] + theResultData[NORTHWEST]);
 	  theResultData[SOUTH] += (theResultData[SOUTHEAST] + theResultData[SOUTHWEST]);
