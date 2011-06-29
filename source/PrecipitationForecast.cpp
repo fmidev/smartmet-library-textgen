@@ -82,6 +82,33 @@ namespace TextGen
 #define PAIKOIN_SADETTA_COMPOSITE_PHRASE "[paikoin] [sadetta]"
 #define HEIKKOA_SADETTA_COMPOSITE_PHRASE "[heikkoa] [sadetta]"
 
+#define HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset vesikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset vesi- tai r‰nt‰kuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset vesi- tai lumikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset sadekuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset r‰nt‰kuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset r‰nt‰- tai vesikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset lumikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset lumi- tai r‰nt‰kuurot mahdollisia"
+
+#define SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset vesikuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset vesi- tai r‰nt‰kuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset vesi- tai lumikuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset sadekuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset r‰nt‰kuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset r‰nt‰- tai vesikuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset lumikuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset lumi- tai r‰nt‰kuurot mahdollisia"
+
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset vesikuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset vesi- tai r‰nt‰kuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset vesi- tai lumikuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset sadekuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset r‰nt‰kuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset r‰nt‰- tai vesikuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset lumikuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset lumi- tai r‰nt‰kuurot mahdollisia"
+
 #define HUOMENNA_SISAMAASSA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [sadetta]"
 
 #define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
@@ -497,9 +524,30 @@ namespace TextGen
 													 map<string, Sentence>& theCompositePhraseElements) const
   {
 	if(!theDryPeriodTautologyFlag)
-	  theCompositePhraseElements[HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE] << SAA_WORD;
+	  {
+		theCompositePhraseElements[HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE] << SAA_WORD;
+	  }
 	else
-	  theCompositePhraseElements[PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE] << SAA_WORD;
+	  {
+		if(strcmp(thePhrase, YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE) == 0)
+		  theCompositePhraseElements[HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE] << SAA_WORD;
+		else if(strcmp(thePhrase, YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE) == 0)
+		  theCompositePhraseElements[HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE] << SAA_WORD;
+		else if(strcmp(thePhrase, YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_PHRASE) == 0)
+		  theCompositePhraseElements[HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE] << SAA_WORD;
+		else if(strcmp(thePhrase, YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_PHRASE) == 0)
+		  theCompositePhraseElements[HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE] << SAA_WORD;
+		else if(strcmp(thePhrase, YKSITTAISET_VESI_RANTA_KUUROT_MAHDOLLISIA_PHRASE) == 0)
+		  theCompositePhraseElements[HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE] << SAA_WORD;
+		else if(strcmp(thePhrase, YKSITTAISET_RANTA_VESI_KUUROT_MAHDOLLISIA_PHRASE) == 0)
+		  theCompositePhraseElements[HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE] << SAA_WORD;
+		else if(strcmp(thePhrase, YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA_PHRASE) == 0)
+		  theCompositePhraseElements[HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE] << SAA_WORD;
+		else if(strcmp(thePhrase, YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA_PHRASE) == 0)
+		  theCompositePhraseElements[HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE] << SAA_WORD;
+		else
+		  theCompositePhraseElements[PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE] << SAA_WORD;
+	  }
 
 	theCompositePhraseElements[PRECIPITATION_PARAMETER] << thePhrase;
 
@@ -2957,6 +3005,183 @@ vesi- tai lumisadetta.
 						 << precipitation;
 			  }
 		  }
+		else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+				!= theCompositePhraseElements.end() ||
+				theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+				!= theCompositePhraseElements.end() ||
+				theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+				!= theCompositePhraseElements.end() ||
+				theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+				!= theCompositePhraseElements.end() ||
+				theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+				!= theCompositePhraseElements.end() ||
+				theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+				!= theCompositePhraseElements.end() ||
+				theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+				!= theCompositePhraseElements.end() ||
+				theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+				!= theCompositePhraseElements.end())
+		  {
+			if(periodPhraseEmpty && areaPhraseEmpty)
+			  {
+				sentence << precipitation;
+			  }
+			else if(periodPhraseEmpty && !areaPhraseEmpty ||
+					!periodPhraseEmpty && areaPhraseEmpty)
+			  {
+				if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+				   != theCompositePhraseElements.end())
+				  {
+					if(periodPhraseEmpty)
+					  sentence << SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << areaPhrase;
+					else
+					  sentence << HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << periodPhrase;
+				  }
+				else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+						!= theCompositePhraseElements.end())
+				  {
+					if(periodPhraseEmpty)
+					  sentence << SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << areaPhrase;
+					else
+					  sentence << HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << periodPhrase;
+				  }
+				else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+						!= theCompositePhraseElements.end())
+				  {
+					if(periodPhraseEmpty)
+					  sentence << SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << areaPhrase;
+					else
+					  sentence << HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << periodPhrase;
+				  }
+				else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+						!= theCompositePhraseElements.end())
+				  {
+					if(periodPhraseEmpty)
+					  sentence << SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << areaPhrase;
+					else
+					  sentence << HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << periodPhrase;
+				  }
+				else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+						!= theCompositePhraseElements.end())
+				  {
+					if(periodPhraseEmpty)
+					  sentence << SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << areaPhrase;
+					else
+					  sentence << HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << periodPhrase;
+				  }
+				else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+						!= theCompositePhraseElements.end())
+				  {
+					if(periodPhraseEmpty)
+					  sentence << SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << areaPhrase;
+					else
+					  sentence << HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << periodPhrase;
+				  }
+				else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+						!= theCompositePhraseElements.end())
+				  {
+					if(periodPhraseEmpty)
+					  sentence << SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << areaPhrase;
+					else
+					  sentence << HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << periodPhrase;
+				  }
+				else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+						!= theCompositePhraseElements.end())
+				  {
+					if(periodPhraseEmpty)
+					  sentence << SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << areaPhrase;
+					else
+					  sentence << HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							   << periodPhrase;
+				  }
+			  }
+			else
+			  {
+				if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+				   != theCompositePhraseElements.end())
+				  {
+					sentence << HUOMENNA_SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							 << periodPhrase
+							 << areaPhrase;
+				  }
+				else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+						!= theCompositePhraseElements.end())
+				  {
+					sentence << HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							 << periodPhrase
+							 << areaPhrase;
+				  }
+				else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+						!= theCompositePhraseElements.end())
+				  {
+					sentence << HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							 << periodPhrase
+							 << areaPhrase;
+				  }
+				else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+						!= theCompositePhraseElements.end())
+				  {
+					sentence << HUOMENNA_SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							 << periodPhrase
+							 << areaPhrase;
+				  }
+				else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+						!= theCompositePhraseElements.end())
+				  {
+					sentence << HUOMENNA_SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							 << periodPhrase
+							 << areaPhrase;
+				  }
+				else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+						!= theCompositePhraseElements.end())
+				  {
+					sentence << HUOMENNA_SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							 << periodPhrase
+							 << areaPhrase;
+				  }
+				else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+						!= theCompositePhraseElements.end())
+				  {
+					sentence << HUOMENNA_SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							 << periodPhrase
+							 << areaPhrase;
+				  }
+				else if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
+						!= theCompositePhraseElements.end())
+				  {
+					sentence << HUOMENNA_SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE
+							 << periodPhrase
+							 << areaPhrase;
+				  }
+			  }
+
+			/*
+#define HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset vesikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset vesi- tai r‰nt‰kuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset vesi- tai lumikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset sadekuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset r‰nt‰kuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset r‰nt‰- tai vesikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset lumikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset lumi- tai r‰nt‰kuurot mahdollisia"
+
+			 */
+		  }
 		else
 		  {
 			if(theCompositePhraseElements.find(SAA_ON_POUTAINEN_PHRASE) != theCompositePhraseElements.end())
@@ -2969,11 +3194,15 @@ vesi- tai lumisadetta.
 						!periodPhraseEmpty && areaPhraseEmpty)
 				  {
 					if(periodPhraseEmpty)
-					  sentence << SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE
-							   << areaPhrase;
+					  {
+						sentence << SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE
+								 << areaPhrase;
+					  }
 					else
-					  sentence << HUOMENNA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE
-							   << periodPhrase;
+					  {
+						sentence << HUOMENNA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE
+								 << periodPhrase;
+					  }
 				  }
 				else
 				  {
@@ -3011,14 +3240,6 @@ vesi- tai lumisadetta.
 									   << precipitation;
 
 						  }
-
-						/*
-						sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-								 << inPlacesPhrase
-								 << intensity
-								 << precipitation;
-						*/
-
 					  }
 					else if(periodPhraseEmpty && !areaPhraseEmpty ||
 							!periodPhraseEmpty && areaPhraseEmpty)
@@ -3083,26 +3304,6 @@ vesi- tai lumisadetta.
 
 							  }
 						  }
-
-
-						/*
-						if(periodPhraseEmpty)
-						  {
-							sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_1ATTRIBUTE_COMPOSITE_PHRASE
-									 << areaPhrase
-									 << inPlacesPhrase
-									 << intensity
-									 << precipitation;
-						  }
-						else
-						  {
-							sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_1ATTRIBUTE_COMPOSITE_PHRASE
-									 << periodPhrase
-									 << inPlacesPhrase
-									 << intensity
-									 << precipitation;
-						  }
-						*/
 					  }
 					else
 					  {
@@ -3137,16 +3338,6 @@ vesi- tai lumisadetta.
 									   << precipitation;
 
 						  }
-
-						/*
-						sentence << PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_2ATTRIBUTES_COMPOSITE_PHRASE
-								 << periodPhrase
-								 << areaPhrase
-								 << inPlacesPhrase
-								 << intensity
-								 << precipitation;
-							*/
-
 					  }
 				  }
 				else if(theCompositePhraseElements.find(JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE) != theCompositePhraseElements.end())
@@ -3176,13 +3367,6 @@ vesi- tai lumisadetta.
 									   << precipitation;
 
 						  }
-						/*
-						sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-								 << inPlacesPhrase
-								 << intensity
-								 << precipitation;
-						*/
-
 					  }
 					else if(periodPhraseEmpty && !areaPhraseEmpty ||
 							!periodPhraseEmpty && areaPhraseEmpty)
@@ -3247,25 +3431,6 @@ vesi- tai lumisadetta.
 
 							  }
 						  }
-
-						/*
-						if(periodPhraseEmpty)
-						  {
-							sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_1ATTRIBUTE_COMPOSITE_PHRASE
-									 << areaPhrase
-									 << inPlacesPhrase
-									 << intensity
-									 << precipitation;
-						  }
-						else
-						  {
-							sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_1ATTRIBUTE_COMPOSITE_PHRASE
-									 << periodPhrase
-									 << inPlacesPhrase
-									 << intensity
-									 << precipitation;
-						  }
-						*/
 					  }
 					else
 					  {
@@ -3300,16 +3465,6 @@ vesi- tai lumisadetta.
 									   << precipitation;
 
 						  }
-
-						/*
-						sentence << PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_2ATTRIBUTES_COMPOSITE_PHRASE
-								 << periodPhrase
-								 << areaPhrase
-								 << inPlacesPhrase
-								 << intensity
-								 << precipitation;
-						*/
-
 					  }
 				  }
 				else
@@ -3402,23 +3557,6 @@ vesi- tai lumisadetta.
 							  }
 
 						  }
-
-						/*
-
-						if(periodPhraseEmpty)
-						  sentence << PAIKOIN_HEIKKOA_SADETTA_1ATTRIBUTE_COMPOSITE_PHRASE
-								   << areaPhrase
-								   << inPlacesPhrase
-								   << intensity
-								   << precipitation;
-
-						else
-						  sentence << PAIKOIN_HEIKKOA_SADETTA_1ATTRIBUTE_COMPOSITE_PHRASE
-								   << periodPhrase
-								   << inPlacesPhrase
-								   << intensity
-								   << precipitation;
-						*/
 					  }
 					else
 					  {
@@ -3452,16 +3590,6 @@ vesi- tai lumisadetta.
 									   << intensity
 									   << precipitation;
 						  }
-
-
-						/*
-						sentence << PAIKOIN_HEIKKOA_SADETTA_2ATTRIBUTES_COMPOSITE_PHRASE
-								 << periodPhrase
-								 << areaPhrase
-								 << inPlacesPhrase
-								 << intensity
-								 << precipitation;
-						*/
 					  }
 				  }
 			  }
