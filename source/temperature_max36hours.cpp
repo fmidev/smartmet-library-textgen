@@ -4390,9 +4390,9 @@ namespace TextGen
 
 	Paragraph paragraph;
 
-	std::string areaName(itsArea.name());
 	if(itsArea.isNamed())
 	  {
+		std::string areaName(itsArea.name());
 		log << areaName << endl;
 	  }
 
