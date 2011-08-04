@@ -103,6 +103,86 @@ namespace TextGen
 	  return sentence;
 	}
 
+	const string direction_string(const WeatherResult & theDirection,
+									   const string & theVariable)
+	{
+	  string retval;;
+
+	  const int n = direction8th(theDirection.value());
+	  switch(direction_accuracy(theDirection.error(),theVariable))
+		{
+		case good_accuracy:
+		  {
+			switch(n)
+			  {
+			  case 1:
+				retval = "pohjoistuulta";
+				break;
+			  case 2:
+				retval = "koillistuulta";
+				break;
+			  case 3:
+				retval = "itäistuulta";
+				break;
+			  case 4:
+				retval = "kaakkoistuulta";
+				break;
+			  case 5:
+				retval = "etelätuulta";
+				break;
+			  case 6:
+				retval = "lounaistuulta";
+				break;
+			  case 7:
+				retval = "länsituulta";
+				break;
+			  case 8:
+				retval = "luoteistuulta";
+				break;
+			  default:
+				break;
+			  }
+		  }
+		  break;
+		case moderate_accuracy:
+		  {
+			switch(n)
+			  {
+			  case 1:
+				retval = "pohjoisen puoleista tuulta";
+				break;
+			  case 2:
+				retval = "koillisen puoleista tuulta";
+				break;
+			  case 3:
+				retval = "idän puoleista tuulta";
+				break;
+			  case 4:
+				retval = "kaakon puoleista tuulta";
+				break;
+			  case 5:
+				retval = "etelän puoleista tuulta";
+				break;
+			  case 6:
+				retval = "lounaan puoleista tuulta";
+				break;
+			  case 7:
+				retval = "lännen puoleista tuulta";
+				break;
+			  case 8:
+				retval = "luoteen puoleista tuulta";
+				break;
+			  default:
+				break;
+			  }
+		  }
+		  break;
+		case bad_accuracy:
+		  retval = "suunnaltaan vaihtelevaa tuulta";
+		  break;
+		}
+	  return retval;
+	}
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -205,6 +285,51 @@ namespace TextGen
 	  
 	  return sentence;
 	  
+	}
+
+	const string directed_speed_string(const WeatherResult & theMeanSpeed,
+									   const WeatherResult & theDirection,
+									   const string & theVariable)
+	{
+	  string retval;
+
+	  int int_value(static_cast<int>(round(theMeanSpeed.value())));
+
+	  if(int_value >= 1)
+		{
+		  if(int_value >= 1 && int_value <= 3)
+			{
+			  retval = "heikkoa" ;
+			}
+		  else if(int_value >= 4 && int_value <= 7)
+			{
+			  retval = "kohtalaista";
+			}
+		  else if(int_value >= 8 && int_value <= 13)
+			{
+			  retval = "navakkaa";
+			}
+		  else if(int_value >= 14 && int_value <= 20)
+			{
+			  retval = "kovaa";
+			}
+		  else if(int_value >= 21 && int_value <= 32)
+			{
+			  retval = "myrskyä";
+			}
+		  else if(int_value > 32)
+			{
+			  retval = "hirmumyrskyä";
+			}
+
+		  if(int_value <= 20)
+			{
+			  retval += " ";
+			  retval += direction_string(theDirection,
+										 theVariable);
+			}
+		}			  
+	  return retval;	  
 	}
 
   } // namespace WindStoryTools

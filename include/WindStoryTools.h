@@ -43,6 +43,8 @@ namespace TextGen
 
 	const Sentence direction_sentence(const WeatherAnalysis::WeatherResult & theDirection,
 									  const std::string & theVariable);
+	const std::string direction_string(const WeatherAnalysis::WeatherResult & theDirection,
+									   const std::string & theVariable);
 
 	const Sentence speed_range_sentence(const WeatherAnalysis::WeatherResult & theMinSpeed,
 										const WeatherAnalysis::WeatherResult & theMaxSpeed,
@@ -55,6 +57,9 @@ namespace TextGen
 										   const WeatherAnalysis::WeatherResult & theDirection,
 										   const std::string & theVariable);
 	
+	const std::string directed_speed_string(const WeatherAnalysis::WeatherResult & theMeanSpeed,
+											const WeatherAnalysis::WeatherResult & theDirection,
+											const std::string & theVariable);	
   } // namespace WindStoryTools
 } // namespace TextGen
 
