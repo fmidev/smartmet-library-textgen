@@ -28,6 +28,18 @@ namespace TextGen
 	  hirmumyrsky   // 32.5...
 	};
 
+  enum wind_direction_id
+	{
+	  pohjoinen,
+	  koillinen,
+	  ita,
+	  kaakko,
+	  etela,
+	  lounas,
+	  lansi,
+	  luode
+	};
+
   struct WindDataItem
   {
 	WindDataItem(const WeatherPeriod& period, 
@@ -57,12 +69,23 @@ namespace TextGen
 		theWindStrength(windstrength)
 	{}
 	WeatherPeriod thePeriod;
-	wind_strength_id theWindStrength;	
+	wind_strength_id theWindStrength;
   };
 
+  struct WindDirectionDataItem
+  {
+	WindDirectionDataItem(const WeatherPeriod& period,
+						  const wind_direction_id& winddirection)
+	  : thePeriod(period),
+		theWindDirection(winddirection)
+	{}
+	WeatherPeriod thePeriod;
+	wind_direction_id theWindDirection;
+  };
 
   typedef vector<WindDataItem*> wind_data_item_vector;
   typedef vector<WindStrengthDataItem*> wind_strength_data_item_vector;
+  typedef vector<WindDirectionDataItem*> wind_direction_data_item_vector;
 
   std::string get_wind_strength_string(const wind_strength_id& theWindStrengthId)
   {
@@ -96,7 +119,42 @@ namespace TextGen
 	return retval;
   }
 
-  std::ostream& operator<<(std::ostream & theOutput,
+   std::string get_wind_direction_string(const wind_direction_id& theWindDirectionId)
+  {
+	std::string retval;
+
+	switch(theWindDirectionId)
+	  {
+	  case pohjoinen:
+		retval = "pohjoinen";
+		break;
+	  case koillinen:
+		retval = "koillinen";
+		break;
+	  case ita:
+		retval = "itä";
+		break;
+	  case kaakko:
+		retval = "kaakko";
+		break;
+	  case etela:
+		retval = "etelä";
+		break;
+	  case lounas:
+		retval = "lounas";
+		break;
+	  case lansi:
+		retval = "länsi";
+		break;
+	  case luode:
+		retval = "luode";
+		break;
+	  }
+
+	return retval;
+  }
+
+ std::ostream& operator<<(std::ostream & theOutput,
 						   const WindDataItem& theWindDataItem)
   {
 	theOutput << theWindDataItem.thePeriod.localStartTime()
@@ -127,6 +185,20 @@ namespace TextGen
 			  << theWindStrengthDataItem.thePeriod.localEndTime()
 			  << ": "
 			  << get_wind_strength_string(theWindStrengthDataItem.theWindStrength)
+			  << endl;
+
+	return theOutput;
+  }
+
+
+  std::ostream& operator<<(std::ostream & theOutput,
+						   const WindDirectionDataItem& theWindDirectionDataItem)
+  {
+	theOutput << theWindDirectionDataItem.thePeriod.localStartTime()
+			  << " ... "
+			  << theWindDirectionDataItem.thePeriod.localEndTime()
+			  << ": "
+			  << get_wind_direction_string(theWindDirectionDataItem.theWindDirection)
 			  << endl;
 
 	return theOutput;
@@ -256,7 +328,19 @@ namespace TextGen
 	  }
   }
 
-  void allocate_data_structures(const WeatherPeriod& thePeriod, 
+  void log_wind_direction_data_vector(MessageLogger& logger,
+									  const std::string areaName,
+									  const string& theVar,
+									  const wind_direction_data_item_vector& theWindDirectionVector)
+  {
+	logger << "*********** WIND DIRECTION PERIODS ***********" << endl;;
+	for(unsigned int i = 0; i < theWindDirectionVector.size(); i++)
+	  {
+		logger << *(theWindDirectionVector[i]);
+	  }
+  }
+
+ void allocate_data_structures(const WeatherPeriod& thePeriod, 
 								wind_data_item_vector& theResultVector)
   {
 	NFmiTime periodStartTime = thePeriod.localStartTime();
@@ -282,7 +366,8 @@ namespace TextGen
   }
 
   void deallocate_data_structure(wind_data_item_vector& theResultVector,
-								 wind_strength_data_item_vector& theWindStrengthVector)
+								 wind_strength_data_item_vector& theWindStrengthVector,
+								 wind_direction_data_item_vector& theWindDirectionVector)
   {
 	for(unsigned int i = 0; i < theResultVector.size(); i++)
 	  {
@@ -295,6 +380,13 @@ namespace TextGen
 		delete theWindStrengthVector[i];
 	  }	
 	theWindStrengthVector.clear();
+
+	for(unsigned int i = 0; i < theWindDirectionVector.size(); i++)
+	  {
+		delete theWindDirectionVector[i];
+	  }	
+	theWindDirectionVector.clear();
+
   }
 
   void populate_wind_time_series(const string& theVar, 
@@ -363,6 +455,37 @@ namespace TextGen
 	  return hirmumyrsky;
   }
 
+  wind_direction_id get_wind_direction_id(const WeatherResult& windDirection)
+  {
+	/*
+	  pohjoinen,
+	  koillinen,
+	  ita,
+	  kaakko,
+	  etela,
+	  lounas,
+	  lansi,
+	  luode
+
+	 */
+	if(windDirection.value() >= 337.5 || windDirection.value() < 22.5)
+	  return pohjoinen;
+	else if(windDirection.value() >= 22.5 || windDirection.value() < 67.5)
+	  return koillinen;
+	else if(windDirection.value() >= 67.5 || windDirection.value() < 112.5)
+	  return ita;
+	else if(windDirection.value() >= 112.5 || windDirection.value() < 157.5)
+	  return kaakko;
+	else if(windDirection.value() >= 157.5 || windDirection.value() < 202.5)
+	  return etela;
+	else if(windDirection.value() >= 202.5 || windDirection.value() < 247.5)
+	  return lounas;
+	else if(windDirection.value() >= 247.5 || windDirection.value() < 292.5)
+	  return lansi;
+	else
+	  return luode;
+
+  }
   void find_out_wind_strength_periods(const wind_data_item_vector& theRawDataVector,
 									  wind_strength_data_item_vector& theWindStrengthVector)
   {
@@ -396,7 +519,39 @@ namespace TextGen
 	theWindStrengthVector.push_back(new WindStrengthDataItem(windStrengthPeriod, previous_wind_strength_id));
   }
   
-  
+  void find_out_wind_direction_periods(const wind_data_item_vector& theRawDataVector,
+									   wind_direction_data_item_vector& theWindDirectionVector)
+  {
+	if(theRawDataVector.size() == 0)
+	  return;
+	else if(theRawDataVector.size() == 1)
+	  {
+		theWindDirectionVector.push_back(new WindDirectionDataItem(theRawDataVector[0]->thePeriod,
+																   get_wind_direction_id(theRawDataVector[0]->theWindDirection)));
+		return;
+	  }
+
+	unsigned int periodStartIndex = 0;
+	wind_direction_id previous_wind_direction_id(get_wind_direction_id(theRawDataVector[periodStartIndex]->theWindDirection));	  
+	for(unsigned int i = 1; i < theRawDataVector.size(); i++)
+	  {
+		wind_direction_id current_wind_direction_id(get_wind_direction_id(theRawDataVector[i]->theWindDirection));
+		
+		if(current_wind_direction_id != previous_wind_direction_id)
+		  {
+			WeatherPeriod windDirectionPeriod(theRawDataVector[periodStartIndex]->thePeriod.localStartTime(),
+											  theRawDataVector[i-1]->thePeriod.localEndTime());
+			theWindDirectionVector.push_back(new WindDirectionDataItem(windDirectionPeriod, previous_wind_direction_id));
+			periodStartIndex = i;
+			previous_wind_direction_id = current_wind_direction_id;
+		  }
+	  }
+	WeatherPeriod windDirectionPeriod(theRawDataVector[periodStartIndex]->thePeriod.localStartTime(),
+									  theRawDataVector[theRawDataVector.size() - 1]->thePeriod.localEndTime());
+
+	theWindDirectionVector.push_back(new WindDirectionDataItem(windDirectionPeriod, previous_wind_direction_id));
+  }
+
   const Paragraph WindStory::overview() const
   {
 	MessageLogger logger("WeatherStory::overview");
@@ -414,6 +569,7 @@ namespace TextGen
 
 	wind_data_item_vector theRawDataVector;
 	wind_strength_data_item_vector theWindStrengthVector;
+	wind_direction_data_item_vector theWindDirectionVector;
 	
 	allocate_data_structures(itsPeriod, 
 							 theRawDataVector);
@@ -426,6 +582,8 @@ namespace TextGen
 	
 	find_out_wind_strength_periods(theRawDataVector,
 								   theWindStrengthVector);
+	find_out_wind_direction_periods(theRawDataVector,
+									theWindDirectionVector);
 
 	log_raw_data_vector(logger,
 						areaName,
@@ -436,9 +594,14 @@ namespace TextGen
 								  areaName,
 								  itsVar,
 								  theWindStrengthVector);
+	log_wind_direction_data_vector(logger,
+								   areaName,
+								   itsVar,
+								   theWindDirectionVector);
 
 	deallocate_data_structure(theRawDataVector,
-							  theWindStrengthVector);
+							  theWindStrengthVector,
+							  theWindDirectionVector);
 
 	logger << paragraph;
 
