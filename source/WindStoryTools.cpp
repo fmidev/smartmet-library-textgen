@@ -122,7 +122,7 @@ namespace TextGen
 				retval = "koillistuulta";
 				break;
 			  case 3:
-				retval = "itäistuulta";
+				retval = "itätuulta";
 				break;
 			  case 4:
 				retval = "kaakkoistuulta";
