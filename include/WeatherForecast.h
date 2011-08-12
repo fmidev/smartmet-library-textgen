@@ -442,13 +442,47 @@ namespace TextGen
 	  MISSING_PRECIPITATION_TYPE
 	};
 
+  enum wind_speed_id
+	{
+	  tyyni,        // ...0.5
+	  heikko,       // 0.5...3.5
+	  kohtalainen,  // 3.5...7.5
+	  navakka,      // 7.5...13.5
+	  kova,         // 13.5...20.5
+	  myrsky,       // 20.5...32.5
+	  hirmumyrsky   // 32.5...
+	};
+
+  enum wind_direction_id
+	{
+	  pohjoinen,
+	  pohjoisen_puoleinen,
+	  koillinen,
+	  koillisen_puoleinen,
+	  ita,
+	  idan_puoleinen,
+	  kaakko,
+	  kaakon_puoleinen,
+	  etela,
+	  etelan_puoleinen,
+	  lounas,
+	  lounaan_puoleinen,
+	  lansi,
+	  lannen_puoleinen,
+	  luode,
+	  luoteen_puoleinen,
+	  vaihteleva
+	};
+
   class WeatherResultDataItem;
   class PrecipitationDataItemData;
   class FogIntensityDataItem;
   class PrecipitationDataItem;
   class CloudinessDataItem;
   class ThunderDataItem;
-  class FogIntensityDataItem;
+  class WindDataItem;
+  class WindSpeedPeriodDataItem;
+  class WindDirectionPeriodDataItem;
 
   typedef vector<WeatherResultDataItem*> weather_result_data_item_vector;
   typedef std::pair<NFmiTime, weather_event_id> timestamp_weather_event_id_pair;
@@ -468,6 +502,10 @@ namespace TextGen
   typedef vector<NFmiPoint*> location_coordinate_vector;
   typedef std::pair<WeatherPeriod, unsigned int> weather_period_story_part_id_pair;
   typedef vector<weather_period_story_part_id_pair> story_part_vector;
+  typedef vector<WindDataItem*> wind_raw_data_vector;
+  typedef vector<WindSpeedPeriodDataItem*> wind_speed_period_data_item_vector;
+  typedef vector<WindDirectionPeriodDataItem*> wind_direction_period_data_item_vector;
+
 
 
   struct wf_story_params
@@ -535,6 +573,50 @@ namespace TextGen
 	thunder_data_container theThunderData;
 	fog_data_container theFogData;
   };
+
+
+  struct wo_story_params
+  {
+	wo_story_params(const string& var,
+					const string& areaName,
+					const WeatherArea& area,
+					const WeatherPeriod& dataPeriod,
+					const WeatherPeriod& forecastPeriod,
+					const NFmiTime& forecastTime,
+					const AnalysisSources& sources,
+					const double& maxError,
+					MessageLogger& log) :
+	  theVar(var),
+	  theAreaName(areaName),
+	  theArea(area),
+	  theDataPeriod(dataPeriod),
+	  theForecastPeriod(forecastPeriod),
+	  theForecastTime(forecastTime),
+	  theSources(sources),
+	  theMaxError(maxError),
+	  theLog(log)
+	  
+	{}
+
+	const string& theVar;
+	const string& theAreaName;
+	const WeatherArea& theArea;
+	const WeatherPeriod& theDataPeriod;
+	const WeatherPeriod& theForecastPeriod;
+	const NFmiTime& theForecastTime;
+	const AnalysisSources& theSources;
+	const double& theMaxError;
+	MessageLogger& theLog;
+	wind_raw_data_vector theRawDataVector;
+	
+	wind_speed_period_data_item_vector theWindSpeedVector;
+	wind_direction_period_data_item_vector theWindDirectionVector;
+	list<unsigned int> theOriginalWindSpeedIndexes;
+	list<unsigned int> theEqualizedWindSpeedIndexes;
+	list<unsigned int> theOriginalWindDirectionIndexes;
+	list<unsigned int> theEqualizedWindDirectionIndexes;
+  };
+
 
 
   Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
@@ -910,6 +992,51 @@ namespace TextGen
 	  if(theFullData)
 		delete theFullData;
 	}
+  };
+
+  struct WindDataItem
+  {
+	WindDataItem(const WeatherPeriod& period, 
+				 const WeatherResult& windSpeedMin, 
+				 const WeatherResult& windSpeedMax, 
+				 const WeatherResult& windSpeedMean,
+				 const WeatherResult& windDirection)
+	  : thePeriod(period),
+		theWindSpeedMin(windSpeedMin),
+		theWindSpeedMax(windSpeedMax),
+		theWindSpeedMean(windSpeedMean),
+		theWindDirection(windDirection)
+	{}
+	
+	WeatherPeriod thePeriod;
+	WeatherResult theWindSpeedMin;
+	WeatherResult theWindSpeedMax;
+	WeatherResult theWindSpeedMean;
+	WeatherResult theWindDirection;
+	//	double theMovingMean;
+	//	double theMovingMeanError;
+  };
+
+  struct WindSpeedPeriodDataItem
+  {
+	WindSpeedPeriodDataItem(const WeatherPeriod& period,
+						 const wind_speed_id& windSpeed)
+	  : thePeriod(period),
+		theWindSpeed(windSpeed)
+	{}
+	WeatherPeriod thePeriod;
+	wind_speed_id theWindSpeed;
+  };
+
+  struct WindDirectionPeriodDataItem
+  {
+	WindDirectionPeriodDataItem(const WeatherPeriod& period,
+						  const wind_direction_id& winddirection)
+	  : thePeriod(period),
+		theWindDirection(winddirection)
+	{}
+	WeatherPeriod thePeriod;
+	wind_direction_id theWindDirection;
   };
 
 }
