@@ -802,15 +802,17 @@ using namespace std;
 	   get_part_of_the_day_id(theWeatherPeriod.localStartTime()) == 
 	   get_part_of_the_day_id(theWeatherPeriod.localEndTime()))
 	  {
-		sentence << parse_time_phrase(weekday, 
+		thePhraseString = parse_time_phrase(weekday, 
 									  theSpecifyDayFlag, 
 									  get_time_phrase(theWeatherPeriod.localStartTime(), theVar, theAlkaenPhrase));
+		sentence << thePhraseString;
 	  }
 	else
 	  {
-		sentence << parse_time_phrase(weekday, 
+		thePhraseString = parse_time_phrase(weekday, 
 									  theSpecifyDayFlag,
 									  get_narrow_time_phrase(theWeatherPeriod, theVar, theAlkaenPhrase));
+		sentence << thePhraseString;
 
 		if(sentence.size() == 0)
 		  {
