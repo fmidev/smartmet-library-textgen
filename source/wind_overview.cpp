@@ -283,7 +283,9 @@ namespace TextGen
 					<< fixed << setprecision(1) << theWindDataItem.theWindDirection.value()
 					<< ", "
 					<< fixed << setprecision(1) << theWindDataItem.theWindDirection.error()
-					<< ", ";
+					<< ", "
+					<< fixed << setprecision(1) << theWindDataItem.theWindDirectionStd.value();
+
 		
 		output_file << directed_speed_string(theRawDataVector[*it]->theWindSpeedMean, 
 											 theRawDataVector[*it]->theWindDirection, 
@@ -391,6 +393,7 @@ namespace TextGen
 																minWind,
 																maxWind,
 																meanWind,
+																windDirection,
 																windDirection));
 
 		periodStartTime.ChangeByHours(1);
@@ -460,6 +463,33 @@ namespace TextGen
 							 Mean,
 							 storyParams.theArea,
 							 storyParams.theRawDataVector[i]->thePeriod);
+
+#ifdef LATER
+		
+		if(i > 0)//for(unsigned int k = 1; i < storyParams.theRawDataVector.size(); i++)
+		  {
+			const double diff = storyParams.theRawDataVector[i]->theWindDirection.value() - storyParams.theRawDataVector[i-1]->theWindDirection.value();
+			double dir = storyParams.theRawDataVector[i-1]->theWindDirection.value() + diff;
+			if(diff < 180.0)
+			  {
+				while(dir < 180.0)
+				  dir += 180.0;
+			  }
+			else if(diff > 180)
+			  {
+				while(dir > 180.0)
+				  dir -= 180.0;
+			  }
+			storyParams.theRawDataVector[i]->theWindDirectionStd = WeatherResult(dir, storyParams.theRawDataVector[i]->theWindDirection.error());
+			
+		  }
+		else
+		  storyParams.theRawDataVector[i]->theWindDirectionStd = storyParams.theRawDataVector[i]->theWindDirection;
+#endif
+		/*
+		if(storyParams.theRawDataVector[i]->theWindDirection.value() > 180)
+		  storyParams.theRawDataVector[i]->theWindDirectionStd = WeatherResult(storyParams.theRawDataVector[i]->theWindDirection.value() - 360, storyParams.theRawDataVector[i]->theWindDirection.error());
+		*/
 
 		storyParams.theOriginalWindSpeedIndexes.push_back(i);
 		storyParams.theEqualizedWindSpeedIndexes.push_back(i);
@@ -710,7 +740,6 @@ namespace TextGen
 
   void calculate_equalized_wind_direction_indexes(wo_story_params& storyParams)
   {
-	//unsigned int step = 1;
 
 	while(1)
 	  {
@@ -752,7 +781,6 @@ namespace TextGen
 			return;
 		  }
 		storyParams.theEqualizedWindDirectionIndexes.erase(minErrorIndex);
-
 	  }
   }
 
@@ -774,6 +802,7 @@ namespace TextGen
 		areaName = itsArea.name();
 		logger << "** " << areaName << " **" << endl;
 	  }
+	//	cout << "** " << areaName << " **" << endl;
 
     // Generate the story
     //
