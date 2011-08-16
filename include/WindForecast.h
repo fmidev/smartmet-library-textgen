@@ -33,6 +33,8 @@ using namespace std;
 
 
 	const Sentence direction_sentence(const wind_direction_id& theDirectionId) const;
+	const Sentence direction_large_sentence(const wind_direction_large_id& theDirectionId) const;
+	const Sentence wind_speed_sentence(const WeatherPeriod& thePeriod) const;
 
 	/*
 	const weather_result_data_item_vector* theCoastalModerateFogData;

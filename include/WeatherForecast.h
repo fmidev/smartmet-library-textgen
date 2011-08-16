@@ -444,35 +444,66 @@ namespace TextGen
 
   enum wind_speed_id
 	{
-	  tyyni,        // ...0.5
-	  heikko,       // 0.5...3.5
-	  kohtalainen,  // 3.5...7.5
-	  navakka,      // 7.5...13.5
-	  kova,         // 13.5...20.5
-	  myrsky,       // 20.5...32.5
-	  hirmumyrsky   // 32.5...
+	  TYYNI,
+	  HEIKKO,       // 0.5...3.5
+	  KOHTALAINEN,  // 3.5...7.5
+	  NAVAKKA,      // 7.5...13.5
+	  KOVA,         // 13.5...20.5
+	  MYRSKY,       // 20.5...32.5
+	  HIRMUMYRSKY   // 32.5...
 	};
 
   enum wind_direction_id
 	{
-	  pohjoinen,
-	  pohjoisen_puoleinen,
-	  koillinen,
-	  koillisen_puoleinen,
-	  ita,
-	  idan_puoleinen,
-	  kaakko,
-	  kaakon_puoleinen,
-	  etela,
-	  etelan_puoleinen,
-	  lounas,
-	  lounaan_puoleinen,
-	  lansi,
-	  lannen_puoleinen,
-	  luode,
-	  luoteen_puoleinen,
-	  vaihteleva
+	  POHJOINEN,
+	  POHJOISEN_PUOLEINEN,
+	  KOILLINEN,
+	  KOILLISEN_PUOLEINEN,
+	  ITA,
+	  IDAN_PUOLEINEN,
+	  KAAKKO,
+	  KAAKON_PUOLEINEN,
+	  ETELA,
+	  ETELAN_PUOLEINEN,
+	  LOUNAS,
+	  LOUNAAN_PUOLEINEN,
+	  LANSI,
+	  LANNEN_PUOLEINEN,
+	  LUODE,
+	  LUOTEEN_PUOLEINEN,
+	  VAIHTELEVA
 	};
+
+  enum wind_direction_large_id
+	{
+	  POHJOINEN_,
+	  POHJOINEN_KOILLINEN,
+	  KOILLINEN_,
+	  KOILLINEN_ITA,
+	  ITA_,
+	  ITA_KAAKKO,
+	  KAAKKO_,
+	  KAAKKO_ETELA,
+	  ETELA_,
+	  ETELA_LOUNAS,
+	  LOUNAS_,
+	  LOUNAS_LANSI,
+	  LANSI_,
+	  LANSI_LUODE,
+	  LUODE_,
+	  LUODE_POHJOINEN,
+	  VAIHTELEVA_
+	};
+
+  enum wind_event_id 
+	{
+	  TUULI_KAANTYY,
+	  TUULI_HEIKKENEE,
+	  TUULI_VOIMISTUU,
+	  TUULI_TYYNTYY,
+	  MISSING_WIND_EVENT
+  };
+
 
   class WeatherResultDataItem;
   class PrecipitationDataItemData;
@@ -483,6 +514,7 @@ namespace TextGen
   class WindDataItem;
   class WindSpeedPeriodDataItem;
   class WindDirectionPeriodDataItem;
+  class WindDirectionLargePeriodDataItem;
 
   typedef vector<WeatherResultDataItem*> weather_result_data_item_vector;
   typedef std::pair<NFmiTime, weather_event_id> timestamp_weather_event_id_pair;
@@ -505,6 +537,9 @@ namespace TextGen
   typedef vector<WindDataItem*> wind_raw_data_vector;
   typedef vector<WindSpeedPeriodDataItem*> wind_speed_period_data_item_vector;
   typedef vector<WindDirectionPeriodDataItem*> wind_direction_period_data_item_vector;
+  typedef vector<WindDirectionLargePeriodDataItem*> wind_direction_large_period_data_item_vector;
+  typedef std::pair<NFmiTime, wind_event_id> timestamp_wind_event_id_pair;
+  typedef vector<timestamp_wind_event_id_pair> wind_event_id_vector;
 
 
 
@@ -608,9 +643,11 @@ namespace TextGen
 	const double& theMaxError;
 	MessageLogger& theLog;
 	wind_raw_data_vector theRawDataVector;
+	wind_event_id_vector theWindEventVector;
 	
 	wind_speed_period_data_item_vector theWindSpeedVector;
 	wind_direction_period_data_item_vector theWindDirectionVector;
+	wind_direction_large_period_data_item_vector theWindDirectionLargeVector;
 	list<unsigned int> theOriginalWindSpeedIndexes;
 	list<unsigned int> theEqualizedWindSpeedIndexes;
 	list<unsigned int> theOriginalWindDirectionIndexes;
@@ -1000,12 +1037,14 @@ namespace TextGen
 				 const WeatherResult& windSpeedMin, 
 				 const WeatherResult& windSpeedMax, 
 				 const WeatherResult& windSpeedMean,
-				 const WeatherResult& windDirection)
+				 const WeatherResult& windDirection,
+				 const WeatherResult& windDirectionStd)
 	  : thePeriod(period),
 		theWindSpeedMin(windSpeedMin),
 		theWindSpeedMax(windSpeedMax),
 		theWindSpeedMean(windSpeedMean),
-		theWindDirection(windDirection)
+		theWindDirection(windDirection),
+		theWindDirectionStd(windDirectionStd)
 	{}
 	
 	WeatherPeriod thePeriod;
@@ -1013,6 +1052,7 @@ namespace TextGen
 	WeatherResult theWindSpeedMax;
 	WeatherResult theWindSpeedMean;
 	WeatherResult theWindDirection;
+	WeatherResult theWindDirectionStd;
 	//	double theMovingMean;
 	//	double theMovingMeanError;
   };
@@ -1020,23 +1060,34 @@ namespace TextGen
   struct WindSpeedPeriodDataItem
   {
 	WindSpeedPeriodDataItem(const WeatherPeriod& period,
-						 const wind_speed_id& windSpeed)
+						 const wind_speed_id& windSpeedId)
 	  : thePeriod(period),
-		theWindSpeed(windSpeed)
+		theWindSpeedId(windSpeedId)
 	{}
 	WeatherPeriod thePeriod;
-	wind_speed_id theWindSpeed;
+	wind_speed_id theWindSpeedId;
   };
 
   struct WindDirectionPeriodDataItem
   {
 	WindDirectionPeriodDataItem(const WeatherPeriod& period,
-						  const wind_direction_id& winddirection)
+						  const wind_direction_id& windDirection)
 	  : thePeriod(period),
-		theWindDirection(winddirection)
+		theWindDirection(windDirection)
 	{}
 	WeatherPeriod thePeriod;
 	wind_direction_id theWindDirection;
+  };
+
+  struct WindDirectionLargePeriodDataItem
+  {
+	WindDirectionLargePeriodDataItem(const WeatherPeriod& period,
+									 const wind_direction_large_id& windDirection)
+	  : thePeriod(period),
+		theWindDirection(windDirection)
+	{}
+	WeatherPeriod thePeriod;
+	wind_direction_large_id theWindDirection;
   };
 
 }

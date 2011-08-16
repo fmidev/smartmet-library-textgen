@@ -29,6 +29,7 @@
 #include "MathTools.h"
 #include "SeasonTools.h"
 #include "SubMaskExtractor.h"
+#include "WindStoryTools.h"
 #include "WindForecast.h"
 
 #include "NFmiCombinedParam.h"
@@ -44,8 +45,11 @@ namespace TextGen
   using namespace Settings;
   using namespace WeatherAnalysis;
   using namespace AreaTools;
+  using namespace WindStoryTools;
   using namespace boost;
   using namespace std;
+
+#define HUOMENNA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[huomenna] tuuli k‰‰ntyy [etel‰‰n]"
 
   /*
 #define TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] sumua"
@@ -229,24 +233,29 @@ namespace TextGen
 	list<unsigned int> theEqualizedWindDirectionIndexes;
 	*/
 	
-	for(unsigned int i = 0; i < theParameters.theWindDirectionVector.size(); i++)
+    unsigned int forecastPeriodLength = get_period_length(theParameters.theForecastPeriod);
+	for(unsigned int i = 0; i < theParameters.theWindDirectionLargeVector.size(); i++)
 	  {
 		if(sentence.size() > 0)
 		  sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 
 		if(i > 0)
 		  {
+			bool spefifyDay = (forecastPeriodLength > 24 &&
+							   abs(theParameters.theForecastTime.DifferenceInHours(theParameters.theWindDirectionLargeVector[i]->thePeriod.localStartTime())) > 21);
 			// day phase specifier
 			std::string dayPhasePhrase;
-			sentence << get_time_phrase_large(theParameters.theWindDirectionVector[i]->thePeriod,
-											  true,
+			sentence << get_time_phrase_large(theParameters.theWindDirectionLargeVector[i]->thePeriod,
+											  spefifyDay,
 											  theParameters.theVar, 
 											  dayPhasePhrase,
 											  true);
 
 			//			sentence << dayPhasePhrase;
 		  }
-		sentence <<  direction_sentence(theParameters.theWindDirectionVector[i]->theWindDirection);
+		sentence <<  direction_large_sentence(theParameters.theWindDirectionLargeVector[i]->theWindDirection);
+		//		sentence <<  direction_sentence(theParameters.theWindDirectionVector[i]->theWindDirection);
+		sentence << wind_speed_sentence(theParameters.theWindDirectionLargeVector[i]->thePeriod);
 		
 		/*
   std::ostream& operator<<(std::ostream & theOutput,
@@ -297,65 +306,160 @@ namespace TextGen
 	return sentence;
   }
 
+  const Sentence WindForecast::wind_speed_sentence(const WeatherPeriod& thePeriod) const
+  {
+	unsigned int min_index = 0;
+	unsigned int max_index = 0;
+
+	double meanValueSum = 0.0;
+	double meanErrorSum = 0.0;
+
+	for(unsigned int i = 1; i < theParameters.theRawDataVector.size(); i++)
+	  {
+		if(is_inside(theParameters.theRawDataVector[i]->thePeriod.localStartTime(), thePeriod))
+		  {
+			if (theParameters.theRawDataVector[i]->theWindSpeedMax.value() > 
+				theParameters.theRawDataVector[max_index]->theWindSpeedMax.value())
+			  max_index = i;
+			if (theParameters.theRawDataVector[i]->theWindSpeedMin.value() < 
+				theParameters.theRawDataVector[max_index]->theWindSpeedMin.value())
+			  min_index = i;
+
+			meanValueSum += theParameters.theRawDataVector[i]->theWindSpeedMean.value();
+			meanErrorSum += theParameters.theRawDataVector[i]->theWindSpeedMean.error();
+		  }
+	  }
+	WeatherResult meanResult(meanValueSum / theParameters.theRawDataVector.size(), 
+							 meanErrorSum / theParameters.theRawDataVector.size());
+	
+	return speed_range_sentence(theParameters.theRawDataVector[min_index]->theWindSpeedMin,
+								theParameters.theRawDataVector[max_index]->theWindSpeedMax,
+								meanResult,
+								theParameters.theVar);
+  }
+
   const Sentence WindForecast::direction_sentence(const wind_direction_id& theDirectionId) const
   {
 	Sentence sentence;
 
 	switch(theDirectionId)
 	  {
-	  case pohjoinen:
+	  case POHJOINEN:
 		sentence << "1-tuulta";
 		break;
-	  case pohjoisen_puoleinen:
+	  case POHJOISEN_PUOLEINEN:
 		sentence << "1-puoleista tuulta";
 		break;
-	  case koillinen:
+	  case KOILLINEN:
 		sentence << "2-tuulta";
 		break;
-	  case koillisen_puoleinen:
+	  case KOILLISEN_PUOLEINEN:
 		sentence << "2-puoleista tuulta";
 		break;
-	  case ita:
+	  case ITA:
 		sentence << "3-tuulta";
 		break;
-	  case idan_puoleinen:
+	  case IDAN_PUOLEINEN:
 		sentence << "3-puoleista tuulta";
 		break;
-	  case kaakko:
+	  case KAAKKO:
 		sentence << "4-tuulta";
 		break;
-	  case kaakon_puoleinen:
+	  case KAAKON_PUOLEINEN:
 		sentence << "4-puoleista tuulta";
 		break;
-	  case etela:
+	  case ETELA:
 		sentence << "5-tuulta";
 		break;
-	  case etelan_puoleinen:
+	  case ETELAN_PUOLEINEN:
 		sentence << "5-puoleista tuulta";
 		break;
-	  case lounas:
+	  case LOUNAS:
 		sentence << "6-tuulta";
 		break;
-	  case lounaan_puoleinen:
+	  case LOUNAAN_PUOLEINEN:
 		sentence << "6-puoleista tuulta";
 		break;
-	  case lansi:
+	  case LANSI:
 		sentence << "7-tuulta";
 		break;
-	  case lannen_puoleinen:
+	  case LANNEN_PUOLEINEN:
 		sentence << "7-puoleista tuulta";
 		break;
-	  case luode:
+	  case LUODE:
 		sentence << "8-tuulta";
 		break;
-	  case luoteen_puoleinen:
+	  case LUOTEEN_PUOLEINEN:
 		sentence << "8-puoleista tuulta";
 		break;
-	  case vaihteleva:
+	  case VAIHTELEVA:
 		sentence << "suunnaltaan vaihtelevaa" << "tuulta";
 		break;
 	  };
 	return sentence;
   }
+
+  const Sentence WindForecast::direction_large_sentence(const wind_direction_large_id& theWindDirectionId) const
+  {
+	Sentence sentence;
+
+	switch(theWindDirectionId)
+	  {
+	  case POHJOINEN_:
+		sentence << "1-tuulta";
+		break;
+	  case POHJOINEN_KOILLINEN:
+		sentence << "pohjoisen ja koillisen v‰list‰ tuulta";
+		break;
+	  case KOILLINEN_:
+		sentence << "2-tuulta";
+		break;
+	  case KOILLINEN_ITA:
+		sentence << "koillisen ja id‰n v‰list‰ tuulta";
+		break;
+	  case ITA_:
+		sentence << "3-tuulta";
+		break;
+	  case ITA_KAAKKO:
+		sentence << "id‰n ja kaakon v‰list‰ tuulta";
+		break;
+	  case KAAKKO_:
+		sentence << "4-tuulta";
+		break;
+	  case KAAKKO_ETELA:
+		sentence << "kaakon ja etel‰n v‰list‰ tuulta";
+		break;
+	  case ETELA_:
+		sentence << "5-tuulta";
+		break;
+	  case ETELA_LOUNAS:
+		sentence << "etel‰n ja lounaan v‰list‰ tuulta";
+		break;
+	  case LOUNAS_:
+		sentence << "6-tuulta";
+		break;
+	  case LOUNAS_LANSI:
+		sentence << "lounaan ja l‰nnen v‰list‰ tuulta";
+		break;
+	  case LANSI_:
+		sentence << "7-tuulta";
+		break;
+	  case LANSI_LUODE:
+		sentence << "l‰nnen ja luoteen v‰list‰ tuulta";
+		break;
+	  case LUODE_:
+		sentence << "8-tuulta";
+		break;
+	  case LUODE_POHJOINEN:
+		sentence << "luoteen ja pohjoisen v‰list‰ tuulta";
+		break;
+	  case VAIHTELEVA_:
+		sentence << "vaihtelevaa tuulta";
+		break;
+	  }
+
+	return sentence;
+  }
+
 
 }
