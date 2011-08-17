@@ -723,13 +723,17 @@ namespace TextGen
 
 					  if(is_showers)
 						{
+						  /*
+							// heikot kuurot poistettu 17.8.2011
 						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitWater &&
 							 thePrecipitationIntensityAbsoluteMax < theParameters.theHeavyPrecipitationLimitWater)
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] <<
 								(use_summer_phrase ? HEIKKOJA_SADEKUUROJA_PHRASE : HEIKKOJA_VESIKUUROJA_PHRASE);
 							}
-						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitWater)
+						  else 
+						  */
+						  if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitWater)
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] <<
 								(use_summer_phrase ? VOIMAKKAITA_SADEKUUROJA_PHRASE : VOIMAKKAITA_VESIKUUROJA_PHRASE);
@@ -836,12 +840,16 @@ namespace TextGen
 
 					  if(is_showers)
 						{
+						  /*
+							heikot kuurot poistettu 17.8.2011
 						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow &&
 							 thePrecipitationIntensityAbsoluteMax < theParameters.theHeavyPrecipitationLimitSnow)
 							{
 							  theCompositePhraseElements[INTENSITY_PARAMETER] << HEIKKOJA_WORD;
 							}
-						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
+						  else 
+						  */
+						  if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
 							{
 							  theCompositePhraseElements[INTENSITY_PARAMETER] << SAKEITA_WORD;
 							}
@@ -2302,7 +2310,7 @@ vesi- tai lumisadetta.
 	  theOutput << "No weather events!" << endl; 
   }
 
-  void PrecipitationForecast::printOutPrecipitationPeriods(std::ostream& theOutput) const
+  void PrecipitationForecast::printOutPrecipitationPeriods(std::ostream& theOutput, const bool& isPoint) const
   {
 	theOutput << "** PRECIPITATION PERIODS **" << endl; 
 	bool found = false;
@@ -2311,21 +2319,24 @@ vesi- tai lumisadetta.
 		theOutput << "Coastal precipitation periods: " << endl; 
 		found = printOutPrecipitationPeriods(theOutput, 
 											 thePrecipitationPeriodsCoastal, 
-											 theCoastalData);
+											 theCoastalData,
+											 isPoint);
 	  }
 	if(thePrecipitationPeriodsInland.size() > 0)
 	  {
 		theOutput << "Inland precipitation periods: " << endl; 
 		found = printOutPrecipitationPeriods(theOutput, 
 											 thePrecipitationPeriodsInland, 
-											 theInlandData);
+											 theInlandData,
+											 isPoint);
 	  }
 	if(thePrecipitationPeriodsFull.size() > 0)
 	  {
 		theOutput << "Full precipitation periods: " << endl; 
 		found = printOutPrecipitationPeriods(theOutput, 
 											 thePrecipitationPeriodsFull, 
-											 theFullData);
+											 theFullData,
+											 isPoint);
 	  }
 
 	if(!found)
@@ -2334,7 +2345,8 @@ vesi- tai lumisadetta.
 
   bool PrecipitationForecast::printOutPrecipitationPeriods(std::ostream& theOutput,
 														   const vector<WeatherPeriod>& thePrecipitationPeriods,
-														   const precipitation_data_vector& theDataVector) const
+														   const precipitation_data_vector& theDataVector,
+														   const bool& isPoint) const
   {
 	bool retval = false;
 
@@ -2366,11 +2378,15 @@ vesi- tai lumisadetta.
 				  << " max_of_mean = " << setprecision(3)
 				  << getMax(theDataVector, PRECIPITATION_MEAN_DATA, period) << endl;
 
-		precipitation_traverse_id traverseId = getPrecipitationTraverseId(period);
-		if(traverseId != MISSING_TRAVERSE_ID)
+		if(!isPoint)
 		  {
-			theOutput << " movement=" << precipitation_traverse_string(traverseId);
+			precipitation_traverse_id traverseId = getPrecipitationTraverseId(period);
+			if(traverseId != MISSING_TRAVERSE_ID)
+			  {
+				theOutput << " movement=" << precipitation_traverse_string(traverseId);
+			  }
 		  }
+
 		theOutput  << endl;
 		retval = true;
 	  }

@@ -61,7 +61,7 @@ using namespace std;
 	void printOutPrecipitationVector(std::ostream & theOutput,
 									 const precipitation_data_vector& thePrecipitationDataVector) const;
 	void printOutPrecipitationData(std::ostream & theOutput) const;
-	void printOutPrecipitationPeriods(std::ostream& theOutput) const;
+	void printOutPrecipitationPeriods(std::ostream& theOutput, const bool& isPoint) const;
 	void printOutPrecipitationWeatherEvents(std::ostream& theOutput) const;
 	void printOutPrecipitationDistribution(std::ostream& theOutput) const;
 	void setUseOllaVerbFlag(const bool theFlag = true) const { theUseOllaVerbFlag = theFlag; }
@@ -113,7 +113,8 @@ using namespace std;
 	void joinPrecipitationPeriods(vector<WeatherPeriod>& thePrecipitationPeriodVector);
 	bool printOutPrecipitationPeriods(std::ostream& theOutput,
 									  const vector<WeatherPeriod>& thePrecipitationPeriods,
-									  const precipitation_data_vector& theDataVector) const;
+									  const precipitation_data_vector& theDataVector,
+									  const bool& isPoint) const;
 	void printOutPrecipitationDistribution(std::ostream& theOutput, 
 										   const precipitation_data_vector& theDataVector) const;
 	void printOutPrecipitationDistribution(std::ostream& theOutput,

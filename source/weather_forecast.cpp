@@ -1308,7 +1308,6 @@ using namespace std;
 								"the data gathering period: ",
 								WeatherPeriod(dataPeriodStartTime, dataPeriodEndTime));
 
-	Rect areaRect(itsArea);		
 	if(itsArea.isNamed())
 	  {
 		std::string name(itsArea.name());
@@ -1346,7 +1345,7 @@ using namespace std;
 	theParameters.theThunderForecast = &thunderForecast;
 
 	// precipitationForecast.printOutPrecipitationData(theLog);
-	precipitationForecast.printOutPrecipitationPeriods(theLog);
+	precipitationForecast.printOutPrecipitationPeriods(theLog, itsArea.isPoint());
 	precipitationForecast.printOutPrecipitationWeatherEvents(theLog);
 	//	cloudinessForecast.printOutCloudinessData(theLog);
 	cloudinessForecast.printOutCloudinessWeatherEvents(theLog);

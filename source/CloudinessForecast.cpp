@@ -947,12 +947,14 @@ namespace TextGen
 		sentence << cloudinessSentence;
 	  }
 	
+	/*
 	if(sentence.size() > 0 && !(theParameters.theForecastArea & FULL_AREA))
 	  {
 		cloudiness_id clid = (theParameters.theForecastArea & INLAND_AREA ? inlandCloudinessId : coastalCloudinessId);
 		if(clid == VERRATTAIN_PILVINEN || clid == PILVINEN)
 		  sentence << areaSpecificSentence(thePeriod);
 	  }
+	*/
 
 	return sentence;
   }
