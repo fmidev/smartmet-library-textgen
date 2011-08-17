@@ -634,19 +634,19 @@ namespace TextGen
 	if(accuracy == bad_accuracy)
 	  return VAIHTELEVA;
 
-	if(windDirection.value() >= 337.5 || windDirection.value() < 22.5)
+	if(windDirection.value() >= 337.5 && windDirection.value() < 22.5)
 	  return (accuracy == good_accuracy ? POHJOINEN : POHJOISEN_PUOLEINEN);
-	else if(windDirection.value() >= 22.5 || windDirection.value() < 67.5)
+	else if(windDirection.value() >= 22.5 && windDirection.value() < 67.5)
 	  return (accuracy == good_accuracy ? KOILLINEN : KOILLISEN_PUOLEINEN);
-	else if(windDirection.value() >= 67.5 || windDirection.value() < 112.5)
+	else if(windDirection.value() >= 67.5 && windDirection.value() < 112.5)
 	  return (accuracy == good_accuracy ? ITA : IDAN_PUOLEINEN);
-	else if(windDirection.value() >= 112.5 || windDirection.value() < 157.5)
+	else if(windDirection.value() >= 112.5 && windDirection.value() < 157.5)
 	  return (accuracy == good_accuracy ? KAAKKO : KAAKON_PUOLEINEN);
-	else if(windDirection.value() >= 157.5 || windDirection.value() < 202.5)
+	else if(windDirection.value() >= 157.5 && windDirection.value() < 202.5)
 	  return (accuracy == good_accuracy ? ETELA : ETELAN_PUOLEINEN);
-	else if(windDirection.value() >= 202.5 || windDirection.value() < 247.5)
+	else if(windDirection.value() >= 202.5 && windDirection.value() < 247.5)
 	  return (accuracy == good_accuracy ? LOUNAS : LOUNAAN_PUOLEINEN);
-	else if(windDirection.value() >= 247.5 || windDirection.value() < 292.5)
+	else if(windDirection.value() >= 247.5 && windDirection.value() < 292.5)
 	  return (accuracy == good_accuracy ? LANSI : LANNEN_PUOLEINEN);
 	else
 	  return (accuracy == good_accuracy ? LUODE : LUOTEEN_PUOLEINEN);
@@ -660,37 +660,37 @@ namespace TextGen
 	if(accuracy == bad_accuracy)
 	  return VAIHTELEVA_;
 
-	if(windDirection.value() >= 348.75 || windDirection.value() < 11.25)
+	if(windDirection.value() >= 348.75 && windDirection.value() < 11.25)
 	  return POHJOINEN_;
-	else if(windDirection.value() >= 11.25 || windDirection.value() < 33.75)
+	else if(windDirection.value() >= 11.25 && windDirection.value() < 33.75)
 	  return POHJOINEN_KOILLINEN;
-	else if(windDirection.value() >= 33.75 || windDirection.value() < 56.25)
+	else if(windDirection.value() >= 33.75 && windDirection.value() < 56.25)
 	  return KOILLINEN_;
-	else if(windDirection.value() >= 56.25 || windDirection.value() < 78.75)
+	else if(windDirection.value() >= 56.25 && windDirection.value() < 78.75)
 	  return KOILLINEN_ITA;
-	else if(windDirection.value() >= 78.75 || windDirection.value() < 101.25)
+	else if(windDirection.value() >= 78.75 && windDirection.value() < 101.25)
 	  return ITA_;
-	else if(windDirection.value() >= 101.25 || windDirection.value() < 123.75)
+	else if(windDirection.value() >= 101.25 && windDirection.value() < 123.75)
 	  return ITA_KAAKKO;
-	else if(windDirection.value() >= 123.75 || windDirection.value() < 146.25)
+	else if(windDirection.value() >= 123.75 && windDirection.value() < 146.25)
 	  return KAAKKO_;
-	else if(windDirection.value() >= 146.25 || windDirection.value() < 168.75)
+	else if(windDirection.value() >= 146.25 && windDirection.value() < 168.75)
 	  return KAAKKO_ETELA;
-	else if(windDirection.value() >= 168.75 || windDirection.value() < 191.25)
+	else if(windDirection.value() >= 168.75 && windDirection.value() < 191.25)
 	  return ETELA_;
-	else if(windDirection.value() >= 191.25 || windDirection.value() < 213.75)
+	else if(windDirection.value() >= 191.25 && windDirection.value() < 213.75)
 	  return ETELA_LOUNAS;
-	else if(windDirection.value() >= 213.75 || windDirection.value() < 236.25)
+	else if(windDirection.value() >= 213.75 && windDirection.value() < 236.25)
 	  return LOUNAS_;
-	else if(windDirection.value() >= 236.25 || windDirection.value() < 258.75)
+	else if(windDirection.value() >= 236.25 && windDirection.value() < 258.75)
 	  return LOUNAS_LANSI;
-	else if(windDirection.value() >= 258.75 || windDirection.value() < 281.25)
+	else if(windDirection.value() >= 258.75 && windDirection.value() < 281.25)
 	  return LANSI_;
-	else if(windDirection.value() >= 281.25 || windDirection.value() < 303.75)
+	else if(windDirection.value() >= 281.25 && windDirection.value() < 303.75)
 	  return LANSI_LUODE;
-	else if(windDirection.value() >= 303.75 || windDirection.value() < 326.25)
+	else if(windDirection.value() >= 303.75 && windDirection.value() < 326.25)
 	  return LUODE_;
-	else if(windDirection.value() >= 326.25 || windDirection.value() < 348.75)
+	else if(windDirection.value() >= 326.25 && windDirection.value() < 348.75)
 	  return LUODE_POHJOINEN;
 	else
 	  return VAIHTELEVA_;
@@ -829,8 +829,11 @@ namespace TextGen
   double distance_from_line(const NFmiPoint& point,  const NFmiPoint& lineBeg, const NFmiPoint& lineEnd)
   {
 	double slope = (lineEnd.Y() - lineBeg.Y()) / (lineEnd.X() - lineBeg.X());
-	double angle = abs(atan(slope));
-	double distance = (lineEnd.X() - lineBeg.X()) * sin(angle);
+		double angle = abs(atan(slope));
+	//	double angle = atan(slope);
+	// TODO: tutki tämä
+	double distance = (point.X() - lineBeg.X()) * sin(angle);
+	//	double distance = abs((lineEnd.X() - lineBeg.X()) * sin(angle));
 	return distance;
   }
 

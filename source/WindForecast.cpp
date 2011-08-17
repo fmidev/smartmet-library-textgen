@@ -29,6 +29,8 @@
 #include "MathTools.h"
 #include "SeasonTools.h"
 #include "SubMaskExtractor.h"
+#include "IntegerRange.h"
+#include "UnitFactory.h"
 #include "WindStoryTools.h"
 #include "WindForecast.h"
 
@@ -306,13 +308,57 @@ namespace TextGen
 	return sentence;
   }
 
+	const Sentence WindForecast::speed_range_sentence_(const WeatherResult & theMinSpeed,
+													  const WeatherResult & theMaxSpeed,
+													  const WeatherResult & theMeanSpeed,
+													  const string & theVariable) const
+	{
+	  using Settings::optional_int;
+
+	  Sentence sentence;
+
+	  const int minvalue = static_cast<int>(round(theMinSpeed.value()));
+	  const int maxvalue = static_cast<int>(round(theMaxSpeed.value()));
+	  const int meanvalue = static_cast<int>(round(theMeanSpeed.value()));
+
+	  const string var = "textgen::units::meterspersecond::format";
+	  const string opt = Settings::optional_string(var,"SI");
+
+	  if(opt == "textphrase")
+		{
+		  sentence << *UnitFactory::create(MetersPerSecond, maxvalue) << "tuulta";
+		}
+	  else
+		{
+		  const int mininterval = optional_int(theVariable+"::mininterval",0);
+		  const string rangeseparator = Settings::optional_string(theVariable+"::rangeseparator","-");
+	  
+		  if(maxvalue - minvalue < mininterval)
+			{
+			  sentence << "noin"
+					   << meanvalue;
+			}
+		  else
+			{
+			  sentence << IntegerRange(meanvalue,maxvalue,rangeseparator);
+			}
+		  sentence << *UnitFactory::create(MetersPerSecond);
+		}
+	  
+	  return sentence;
+	  
+	}
+
   const Sentence WindForecast::wind_speed_sentence(const WeatherPeriod& thePeriod) const
   {
+	Sentence sentence;
+
 	unsigned int min_index = 0;
 	unsigned int max_index = 0;
 
 	double meanValueSum = 0.0;
 	double meanErrorSum = 0.0;
+	unsigned int counter = 0;
 
 	for(unsigned int i = 1; i < theParameters.theRawDataVector.size(); i++)
 	  {
@@ -327,15 +373,21 @@ namespace TextGen
 
 			meanValueSum += theParameters.theRawDataVector[i]->theWindSpeedMean.value();
 			meanErrorSum += theParameters.theRawDataVector[i]->theWindSpeedMean.error();
+			counter++;
 		  }
 	  }
-	WeatherResult meanResult(meanValueSum / theParameters.theRawDataVector.size(), 
-							 meanErrorSum / theParameters.theRawDataVector.size());
-	
-	return speed_range_sentence(theParameters.theRawDataVector[min_index]->theWindSpeedMin,
-								theParameters.theRawDataVector[max_index]->theWindSpeedMax,
-								meanResult,
-								theParameters.theVar);
+
+	if(counter == 0)
+	  return sentence;
+
+	WeatherResult meanResult(meanValueSum / counter, meanErrorSum / counter);
+
+	sentence <<  speed_range_sentence_(theParameters.theRawDataVector[min_index]->theWindSpeedMin,
+									   theParameters.theRawDataVector[max_index]->theWindSpeedMax,
+									   meanResult,
+									   theParameters.theVar);
+
+	return sentence;
   }
 
   const Sentence WindForecast::direction_sentence(const wind_direction_id& theDirectionId) const
