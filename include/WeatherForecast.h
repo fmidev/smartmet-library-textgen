@@ -497,14 +497,20 @@ namespace TextGen
 
   enum wind_event_id 
 	{
-	  TUULI_KAANTYY,
-	  TUULI_HEIKKENEE,
-	  TUULI_VOIMISTUU,
-	  TUULI_TYYNTYY,
-	  MISSING_WIND_EVENT
-  };
-
-
+	  TUULI_HEIKKENEE = 0x1,
+	  TUULI_VOIMISTUU = 0x2,
+	  TUULI_TYYNTYY = 0x4,
+	  TUULI_KAANTYY = 0x8,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI = 0x10,
+	  TUULI_KAANTYY_JA_HEIKEKNEE = 0x9,
+	  TUULI_KAANTYY_JA_VOIMISTUU = 0xA,
+	  TUULI_KAANTYY_JA_TYYNTYY = 0xC,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE = 0x11,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU = 0x12,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY = 0x14,
+	  MISSING_WIND_EVENT = 0x0
+	};
+  
   class WeatherResultDataItem;
   class PrecipitationDataItemData;
   class FogIntensityDataItem;
@@ -1037,14 +1043,12 @@ namespace TextGen
 				 const WeatherResult& windSpeedMin, 
 				 const WeatherResult& windSpeedMax, 
 				 const WeatherResult& windSpeedMean,
-				 const WeatherResult& windDirection,
-				 const WeatherResult& windDirectionStd)
+				 const WeatherResult& windDirection)
 	  : thePeriod(period),
 		theWindSpeedMin(windSpeedMin),
 		theWindSpeedMax(windSpeedMax),
 		theWindSpeedMean(windSpeedMean),
-		theWindDirection(windDirection),
-		theWindDirectionStd(windDirectionStd)
+		theWindDirection(windDirection)
 	{}
 	
 	WeatherPeriod thePeriod;
@@ -1052,9 +1056,6 @@ namespace TextGen
 	WeatherResult theWindSpeedMax;
 	WeatherResult theWindSpeedMean;
 	WeatherResult theWindDirection;
-	WeatherResult theWindDirectionStd;
-	//	double theMovingMean;
-	//	double theMovingMeanError;
   };
 
   struct WindSpeedPeriodDataItem

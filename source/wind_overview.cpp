@@ -138,7 +138,7 @@ namespace TextGen
 		retval = "it‰";
 		break;
 	  case ITA_KAAKKO:
-		retval = "id‰n ja akaakon v‰linen";
+		retval = "id‰n ja kaakon v‰linen";
 		break;
 	  case KAAKKO_:
 		retval = "kaakko";
@@ -172,6 +172,53 @@ namespace TextGen
 		break;
 	  case VAIHTELEVA_:
 		retval = "vaihteleva";
+		break;
+	  }
+
+	return retval;
+  }
+
+ std::string get_wind_event_string(const wind_event_id& theWindEventId)
+  {
+	std::string retval;
+
+	switch(theWindEventId)
+	  {
+	  case TUULI_HEIKKENEE:
+		retval = "tuuli heikkenee";
+		break;
+	  case TUULI_VOIMISTUU:
+		retval = "tuuli voimistuu";
+		break;
+	  case TUULI_TYYNTYY:
+		retval = "tuuli tyyntyy";
+		break;
+	  case TUULI_KAANTYY:
+		retval = "tuuli k‰‰ntyy";
+		break;
+	  case TUULI_KAANTYY_JA_HEIKEKNEE:
+		retval = "tuuli k‰‰ntyy ja heikkenee";
+		break;
+	  case TUULI_KAANTYY_JA_VOIMISTUU:
+		retval = "tuuli k‰‰ntyy ja voimistuu";
+		break;
+	  case TUULI_KAANTYY_JA_TYYNTYY:
+		retval = "tuuli k‰‰ntyy ja tyyntyy";
+		break;
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI:
+		retval = "tuuli muuttuu vaihtelevaksi";
+		break;
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE:
+		retval = "tuuli muuttuu vaihtelevaksi ja heikkenee";
+		break;
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU:
+		retval = "tuuli muuttuu vaihtelevaksi ja voimistuu";
+		break;
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY:
+		retval = "tuuli muuttuu vaihtelevaksi ja tyyntyy";
+		break;
+	  case MISSING_WIND_EVENT:
+		retval = "missing wind event";
 		break;
 	  }
 
@@ -348,18 +395,10 @@ namespace TextGen
 					<< ", "
 					<< fixed << setprecision(1) << theWindDataItem.theWindSpeedMean.error()
 					<< ", "
-		  /*
-					<< fixed << setprecision(1) << theWindDataItem.theMovingMean
-					<< ", "
-					<< fixed << setprecision(1) << theWindDataItem.theMovingMeanError
-					<< ", "
-		  */
 					<< fixed << setprecision(1) << theWindDataItem.theWindDirection.value()
 					<< ", "
 					<< fixed << setprecision(1) << theWindDataItem.theWindDirection.error()
-					<< ", "
-					<< fixed << setprecision(1) << theWindDataItem.theWindDirectionStd.value();
-
+					<< ", ";
 		
 		output_file << directed_speed_string(theRawDataVector[*it]->theWindSpeedMean, 
 											 theRawDataVector[*it]->theWindDirection, 
@@ -455,6 +494,18 @@ namespace TextGen
 	  }
 
   }
+  void log_wind_events(wo_story_params& storyParams)
+  {
+	storyParams.theLog << "*********** WIND EVENTS ***********" << endl;
+
+	for(unsigned int i = 0; i < storyParams.theWindEventVector.size(); i++)
+	  {
+		storyParams.theLog << storyParams.theWindEventVector[i].first 
+						   << ": "
+						   <<  get_wind_event_string(storyParams.theWindEventVector[i].second)
+						   << endl;
+	  }
+  }
 
   void allocate_data_structures(wo_story_params& storyParams)
   {
@@ -474,7 +525,6 @@ namespace TextGen
 																minWind,
 																maxWind,
 																meanWind,
-																windDirection,
 																windDirection));
 
 		periodStartTime.ChangeByHours(1);
@@ -545,68 +595,12 @@ namespace TextGen
 							 storyParams.theArea,
 							 storyParams.theRawDataVector[i]->thePeriod);
 
-#ifdef LATER
-		
-		if(i > 0)//for(unsigned int k = 1; i < storyParams.theRawDataVector.size(); i++)
-		  {
-			const double diff = storyParams.theRawDataVector[i]->theWindDirection.value() - storyParams.theRawDataVector[i-1]->theWindDirection.value();
-			double dir = storyParams.theRawDataVector[i-1]->theWindDirection.value() + diff;
-			if(diff < 180.0)
-			  {
-				while(dir < 180.0)
-				  dir += 180.0;
-			  }
-			else if(diff > 180)
-			  {
-				while(dir > 180.0)
-				  dir -= 180.0;
-			  }
-			storyParams.theRawDataVector[i]->theWindDirectionStd = WeatherResult(dir, storyParams.theRawDataVector[i]->theWindDirection.error());
-			
-		  }
-		else
-		  storyParams.theRawDataVector[i]->theWindDirectionStd = storyParams.theRawDataVector[i]->theWindDirection;
-#endif
-		/*
-		if(storyParams.theRawDataVector[i]->theWindDirection.value() > 180)
-		  storyParams.theRawDataVector[i]->theWindDirectionStd = WeatherResult(storyParams.theRawDataVector[i]->theWindDirection.value() - 360, storyParams.theRawDataVector[i]->theWindDirection.error());
-		*/
-
 		storyParams.theOriginalWindSpeedIndexes.push_back(i);
 		storyParams.theEqualizedWindSpeedIndexes.push_back(i);
 		storyParams.theOriginalWindDirectionIndexes.push_back(i);
 		storyParams.theEqualizedWindDirectionIndexes.push_back(i);
 	  }
 
-	/*
-	// calculate the moving mean
-	for(unsigned int i = 0; i < storyParams.theRawDataVector.size(); i++)
-	  {
-		if( i >= 3 && i < storyParams.theRawDataVector.size() - 4)
-		  {
-			storyParams.theRawDataVector[i]->theMovingMean = 
-			  (storyParams.theRawDataVector[i-3]->theWindSpeedMean.value() + 
-			   storyParams.theRawDataVector[i-2]->theWindSpeedMean.value() + 
-			   storyParams.theRawDataVector[i-1]->theWindSpeedMean.value() +
-			   storyParams.theRawDataVector[i]->theWindSpeedMean.value() +
-			   storyParams.theRawDataVector[i+1]->theWindSpeedMean.value() +
-			   storyParams.theRawDataVector[i+2]->theWindSpeedMean.value() +
-			   storyParams.theRawDataVector[i+3]->theWindSpeedMean.value()) / 7.0;
-			storyParams.theRawDataVector[i]->theMovingMeanError = 
-			  (storyParams.theRawDataVector[i-3]->theWindSpeedMean.error() + 
-			   storyParams.theRawDataVector[i-2]->theWindSpeedMean.error() + 
-			   storyParams.theRawDataVector[i-1]->theWindSpeedMean.error() +
-			   storyParams.theRawDataVector[i]->theWindSpeedMean.error() +
-			   storyParams.theRawDataVector[i+1]->theWindSpeedMean.error() +
-			   storyParams.theRawDataVector[i+2]->theWindSpeedMean.error() +
-			   storyParams.theRawDataVector[i+3]->theWindSpeedMean.error()) / 7.0;
-		  }
-		else
-		  {
-			storyParams.theRawDataVector[i]->theMovingMean =  storyParams.theRawDataVector[i]->theWindSpeedMean.value();
-		  }
-	  }
-	*/
   }
     
   wind_speed_id get_wind_speed_id(const WeatherResult& windSpeed)
@@ -802,16 +796,47 @@ namespace TextGen
 	storyParams.theWindDirectionLargeVector.push_back(new WindDirectionLargePeriodDataItem(windDirectionPeriod, previousWindDirectionId));
   }
 
+  wind_event_id merge_wind_events(const wind_event_id& speedEvent, const wind_event_id& directionEvent)
+  {
+	
+	return static_cast<wind_event_id>(speedEvent + directionEvent);
+
+
+	/*
+  enum wind_event_id 
+	{
+	  TUULI_HEIKKENEE,
+	  TUULI_VOIMISTUU,
+	  TUULI_TYYNTYY,
+	  TUULI_KAANTYY,
+	  TUULI_KAANTYY_JA_HEIKEKNEE,
+	  TUULI_KAANTYY_JA_VOIMISTUU,
+	  TUULI_KAANTYY_JA_TYYNTYY,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY,
+	  MISSING_WIND_EVENT
+	};
+
+	 */
+  }
+
+
+  bool wind_event_sort(const timestamp_wind_event_id_pair& first, const timestamp_wind_event_id_pair& second) 
+  { 
+	return (first.first < second.first);
+  }
 
   void find_out_wind_events(wo_story_params& storyParams)
   {
 	if(storyParams.theRawDataVector.size() == 0)
 	  return;
 
+	wind_event_id windEventId(MISSING_WIND_EVENT);
 
 	for(unsigned int i = 1; i < storyParams.theWindSpeedVector.size(); i++)
 	  {
-		wind_event_id windEventId(MISSING_WIND_EVENT);
 		if(storyParams.theWindSpeedVector[i]->theWindSpeedId == TYYNI)
 		  windEventId = TUULI_TYYNTYY;
 		else if(storyParams.theWindSpeedVector[i]->theWindSpeedId > 
@@ -824,16 +849,110 @@ namespace TextGen
 		storyParams.theWindEventVector.push_back(make_pair(storyParams.theWindSpeedVector[i]->thePeriod.localStartTime(), 
 														   windEventId));
 	  }
+
+	wind_direction_large_id wind_dir_id(VAIHTELEVA_);
+
+	for(unsigned int i = 1; i < storyParams.theWindDirectionLargeVector.size(); i++)
+	  {
+		bool simultaneousEventsOccurred(false);
+		wind_dir_id = storyParams.theWindDirectionLargeVector[i]->theWindDirection;
+
+		// check if event with same timestamp exists
+		for(unsigned int k = 0; k < storyParams.theWindEventVector.size(); k++)
+		  {
+			if(storyParams.theWindEventVector[k].first == 
+			   storyParams.theWindDirectionLargeVector[i]->thePeriod.localStartTime())
+			  {
+				
+				storyParams.theWindEventVector[k].second = static_cast<wind_event_id>(storyParams.theWindEventVector[k].second +
+																	   (wind_dir_id == VAIHTELEVA_ ? TUULI_MUUTTUU_VAIHTELEVAKSI : TUULI_KAANTYY));
+				simultaneousEventsOccurred = true;
+				break;
+			  }
+		  }
+
+		if(simultaneousEventsOccurred)
+		  continue;
+
+		storyParams.theWindEventVector.push_back(make_pair(storyParams.theWindDirectionLargeVector[i]->thePeriod.localStartTime(), 
+														   wind_dir_id == VAIHTELEVA_ ? TUULI_MUUTTUU_VAIHTELEVAKSI : TUULI_KAANTYY));
+	  }
+
+	/*
+  enum wind_event_id 
+	{
+	  TUULI_HEIKKENEE,
+	  TUULI_VOIMISTUU,
+	  TUULI_TYYNTYY,
+	  TUULI_KAANTYY,
+	  TUULI_KAANTYY_JA_HEIKEKNEE,
+	  TUULI_KAANTYY_JA_VOIMISTUU,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU,
+	  MISSING_WIND_EVENT
+	};
+	 */
+
+	std::sort(storyParams.theWindEventVector.begin(), storyParams.theWindEventVector.end(), wind_event_sort);
+
+  }
+
+  double distance_from_line1(const NFmiPoint& point,  const NFmiPoint& lineBeg, const NFmiPoint& lineEnd)
+  {
+	double slope = (lineEnd.Y() - lineBeg.Y()) / (lineEnd.X() - lineBeg.X());
+	double c = lineBeg.Y() - (slope * lineBeg.X());
+	double numerator = fabs((slope * point.X())+(-1.0 * point.Y()) + c);
+	double denominator = sqrt(pow(slope,2.0) + 1);
+	double distance = numerator / denominator;
+
+ 	return distance;
+  }
+  
+  double distance_from_line2(const NFmiPoint& point,  const NFmiPoint& lineBeg, const NFmiPoint& lineEnd)
+  {
+	double slope = (lineEnd.Y() - lineBeg.Y()) / (lineEnd.X() - lineBeg.X());
+	double c = lineBeg.Y() - (slope * lineBeg.X());
+	double missingX = (point.Y() - c) / slope;
+	double missingY = (slope * point.X()) + c;
+	double angle = atan(fabs(missingY - point.Y()) / fabs(point.X() - missingX));
+	double distance = sin(angle) * fabs(( point.X() - missingX));
+
+ 	return distance;
+  }
+
+  double distance_from_line3(const NFmiPoint& point,  const NFmiPoint& lineBeg, const NFmiPoint& lineEnd)
+  {
+	double side1Len = sqrt(pow(fabs(point.X()-lineEnd.X()),2)+ pow(fabs(point.Y() - lineEnd.Y()),2));
+	double side2Len = sqrt(pow(fabs(point.X()-lineBeg.X()),2)+ pow(fabs(point.Y() - lineBeg.Y()),2));
+	double baseLen = sqrt(pow(fabs(lineEnd.X()-lineBeg.X()),2)+ pow(fabs(lineEnd.Y() - lineBeg.Y()),2));
+	double s = (side1Len + side2Len + baseLen) / 2.0;
+	double A = sqrt(s*(s-side1Len)*(s-side2Len)*(s-baseLen));
+	double distance = A/(0.5*baseLen);
+
+ 	return distance;
+  }
+
+  double distance_from_line4(const NFmiPoint& point,  const NFmiPoint& lineBeg, const NFmiPoint& lineEnd)
+  {
+	double slopeOfLine1 = (lineEnd.Y() - lineBeg.Y()) / (lineEnd.X() - lineBeg.X());
+	double constantOfLine1 = lineBeg.Y() - (slopeOfLine1 * lineBeg.X());
+	double slopeOfLine2 = -1.0/slopeOfLine1;
+	double constantOfLine2 = point.Y() - (slopeOfLine2 * point.X());
+
+	double missingX = (constantOfLine2 - constantOfLine1) / (slopeOfLine1 - slopeOfLine2);
+	double missingY = slopeOfLine1 * missingX + constantOfLine1;
+
+	double distance = sqrt(pow(point.X() - missingX, 2.0) + pow(point.Y() - missingY, 2.0));
+
+ 	return distance;
   }
 
   double distance_from_line(const NFmiPoint& point,  const NFmiPoint& lineBeg, const NFmiPoint& lineEnd)
   {
-	double slope = (lineEnd.Y() - lineBeg.Y()) / (lineEnd.X() - lineBeg.X());
-		double angle = abs(atan(slope));
-	//	double angle = atan(slope);
-	// TODO: tutki t‰m‰
-	double distance = (point.X() - lineBeg.X()) * sin(angle);
-	//	double distance = abs((lineEnd.X() - lineBeg.X()) * sin(angle));
+
+	double distance = distance_from_line3(point, lineBeg, lineEnd);
+
 	return distance;
   }
 
@@ -1032,6 +1151,8 @@ namespace TextGen
 	log_wind_speed_periods(storyParams);
 
 	log_wind_direction_periods(storyParams);
+
+	log_wind_events(storyParams);
 
 	WindForecast windForecast(storyParams);
 
