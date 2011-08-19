@@ -540,7 +540,7 @@ namespace TextGen
   typedef vector<NFmiPoint*> location_coordinate_vector;
   typedef std::pair<WeatherPeriod, unsigned int> weather_period_story_part_id_pair;
   typedef vector<weather_period_story_part_id_pair> story_part_vector;
-  typedef vector<WindDataItem*> wind_raw_data_vector;
+  typedef vector<WindDataItem*> wind_data_item_vector;
   typedef vector<WindSpeedPeriodDataItem*> wind_speed_period_data_item_vector;
   typedef vector<WindDirectionPeriodDataItem*> wind_direction_period_data_item_vector;
   typedef vector<WindDirectionLargePeriodDataItem*> wind_direction_large_period_data_item_vector;
@@ -648,16 +648,17 @@ namespace TextGen
 	const AnalysisSources& theSources;
 	const double& theMaxError;
 	MessageLogger& theLog;
-	wind_raw_data_vector theRawDataVector;
+	wind_data_item_vector theRawDataVector;
+	wind_data_item_vector theEqualizedDataVector;
 	wind_event_id_vector theWindEventVector;
 	
 	wind_speed_period_data_item_vector theWindSpeedVector;
 	wind_direction_period_data_item_vector theWindDirectionVector;
 	wind_direction_large_period_data_item_vector theWindDirectionLargeVector;
-	list<unsigned int> theOriginalWindSpeedIndexes;
-	list<unsigned int> theEqualizedWindSpeedIndexes;
-	list<unsigned int> theOriginalWindDirectionIndexes;
-	list<unsigned int> theEqualizedWindDirectionIndexes;
+	vector<unsigned int> theOriginalWindSpeedIndexes;
+	vector<unsigned int> theEqualizedWindSpeedIndexes;
+	vector<unsigned int> theOriginalWindDirectionIndexes;
+	vector<unsigned int> theEqualizedWindDirectionIndexes;
   };
 
 
