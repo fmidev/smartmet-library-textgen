@@ -76,9 +76,15 @@ namespace WeatherAnalysis
 			const double diff = theValue - itsPreviousDirection;
 			double dir = itsPreviousDirection + diff;
 			if(diff < -itsModulo/2)
-			  dir += itsModulo;
+			  {
+				while(dir < itsModulo/2)
+				  dir += itsModulo;
+			  }
 			else if(diff > itsModulo/2)
-			  dir -= itsModulo;
+			  {
+				while(dir > itsModulo/2)
+				  dir -= itsModulo;
+			  }
 			itsSum += dir;
 			itsSquaredSum += dir*dir;
 
