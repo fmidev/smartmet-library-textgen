@@ -39,7 +39,12 @@ namespace TextGen
 	WindDirectionAccuracy direction_accuracy(double theAccuracy,
 											 const std::string & theVariable);
 
+	WindDirectionAccuracy direction16_accuracy(double theAccuracy,
+											 const std::string & theVariable);
+
 	int direction8th(double theDirection);
+
+	int direction16th(double theDirection);
 
 	const Sentence direction_sentence(const WeatherAnalysis::WeatherResult & theDirection,
 									  const std::string & theVariable);

@@ -60,6 +60,33 @@ namespace TextGen
 	
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Calculate the wind direction accuracy class
+	 *
+	 * \param theError The error estimate for the wind direction
+	 * \param theVariable The control variable
+	 * \return The accuracy class
+	 */
+	// ----------------------------------------------------------------------
+	
+	WindDirectionAccuracy direction16_accuracy(double theError,
+											   const string & theVariable)
+	{
+	  /*
+	  using Settings::optional_double;
+	  
+	  const double accurate_limit = optional_double(theVariable+"::direction::accurate",11.25);
+	  const double variable_limit = optional_double(theVariable+"::direction::variable_limit",22.5);
+	  
+	  if(theError<=accurate_limit) return good_accuracy;
+	  if(theError<=variable_limit) return moderate_accuracy;
+	  return bad_accuracy;
+	  */
+	  
+	  return direction_accuracy(theError, theVariable);
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Calculate the generic wind 8th direction from angle
 	 *
 	 * \param theDirection The direction value
@@ -72,6 +99,20 @@ namespace TextGen
 	  return 1+(int(theDirection/45.0+0.5) % 8);
 	}
 	
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Calculate the generic wind 16th direction from angle
+	 *
+	 * \param theDirection The direction value
+	 * \return The direction in units of 1-16
+	 */
+	// ----------------------------------------------------------------------
+	
+	int direction16th(double theDirection)
+	{
+	  return 1+(int(theDirection/22.0+0.5) % 16);
+	}
+
 	// ----------------------------------------------------------------------
 	/*!
 	 * \brief Return a sentence on wind direction
