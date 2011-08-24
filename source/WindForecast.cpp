@@ -54,22 +54,22 @@ namespace TextGen
 #define HUOMENNA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[huomenna] tuuli k‰‰ntyy [etel‰‰n]"
 
   /*
-#define TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] sumua"
-#define TIME_PLACE_FOG_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] sumua"
-#define PLACE_INPLACES_FOG_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] sumua"
-#define PLACE_FOG_COMPOSITE_PHRASE "[sis‰maassa] sumua"
-#define TIME_INPLACES_FOG_COMPOSITE_PHRASE "[huomenna] [paikoin] sumua"
-#define TIME_FOG_COMPOSITE_PHRASE "[huomenna] sumua"
-#define INPLACES_FOG_COMPOSITE_PHRASE "[paikoin] sumua"
+	#define TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] sumua"
+	#define TIME_PLACE_FOG_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] sumua"
+	#define PLACE_INPLACES_FOG_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] sumua"
+	#define PLACE_FOG_COMPOSITE_PHRASE "[sis‰maassa] sumua"
+	#define TIME_INPLACES_FOG_COMPOSITE_PHRASE "[huomenna] [paikoin] sumua"
+	#define TIME_FOG_COMPOSITE_PHRASE "[huomenna] sumua"
+	#define INPLACES_FOG_COMPOSITE_PHRASE "[paikoin] sumua"
 
 
-#define TIME_PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] sumua, joka voi olla sakeaa"
-#define TIME_PLACE_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] sumua, joka voi olla sakeaa"
-#define PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] sumua, joka voi olla sakeaa"
-#define PLACE_FOG_DENSE_COMPOSITE_PHRASE "[sis‰maassa] sumua, joka voi olla sakeaa"
-#define TIME_INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] [paikoin] sumua, joka voi olla sakeaa"
-#define TIME_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] sumua, joka voi olla sakeaa"
-#define INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[paikoin] sumua, joka voi olla sakeaa"
+	#define TIME_PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] sumua, joka voi olla sakeaa"
+	#define TIME_PLACE_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] sumua, joka voi olla sakeaa"
+	#define PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] sumua, joka voi olla sakeaa"
+	#define PLACE_FOG_DENSE_COMPOSITE_PHRASE "[sis‰maassa] sumua, joka voi olla sakeaa"
+	#define TIME_INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] [paikoin] sumua, joka voi olla sakeaa"
+	#define TIME_FOG_DENSE_COMPOSITE_PHRASE "[huomenna] sumua, joka voi olla sakeaa"
+	#define INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[paikoin] sumua, joka voi olla sakeaa"
   */
 
   WindForecast::WindForecast(wo_story_params& parameters):
@@ -85,158 +85,163 @@ namespace TextGen
   {
   }
 
-													   /*
-  Sentence WindForecast::getWindPhrase(const fog_type_id& theFogTypeId) const
+#ifdef LATER
+  Sentence WindForecast::windSentenceWithEvents(const WeatherPeriod& thePeriod) const
   {
 	Sentence sentence;
 
-	switch(theFogTypeId)
+    unsigned int forecastPeriodLength = get_period_length(theParameters.theForecastPeriod);
+	thePreviousRangeBeg = INT_MAX;
+	thePreviousRangeEnd = INT_MAX;
+
+	sentence << direction_sentence(theParameters.theWindDirectionVector[0]->theWindDirection);
+	sentence << wind_speed_sentence(theParameters.theWindDirectionVector[0]->thePeriod);
+
+	for(unsigned int i = 0; i < storyParams.theWindEventVector.size(); i++)
 	  {
-	  case FOG:
-		sentence << SUMUA_WORD;
-		break;
-	  case FOG_POSSIBLY_DENSE:
-		sentence << SUMUA_WORD << Delimiter(",") << JOKA_VOI_OLLA_SAKEAA_PHRASE;
-		break;
-	  case FOG_IN_SOME_PLACES:
-		sentence << PAIKOIN_WORD << SUMUA_WORD;
-		break;
-	  case FOG_IN_SOME_PLACES_POSSIBLY_DENSE:
-		sentence << PAIKOIN_WORD << SUMUA_WORD << Delimiter(",") << JOKA_VOI_OLLA_SAKEAA_PHRASE;
-		break;
-	  case FOG_IN_MANY_PLACES:
-		sentence << MONIN_PAIKOIN_WORD << SUMUA_WORD;
-		break;
-	  case FOG_IN_MANY_PLACES_POSSIBLY_DENSE:
-		sentence << MONIN_PAIKOIN_WORD << SUMUA_WORD << Delimiter(",") << JOKA_VOI_OLLA_SAKEAA_PHRASE;
-		break;
-	  default:
-		break;
+		wind_event_id windEventId = storyParams.theWindEventVector[i].second;
+
+		switch (windEventId)
+		  {
+		  case TUULI_HEIKKENEE:
+			break;
+		  case TUULI_VOIMISTUU:
+			break;
+		  case TUULI_TYYNTYY:
+			break;
+		  case TUULI_KAANTYY:
+			break;
+		  case TUULI_MUUTTUU_VAIHTELEVAKSI:
+			break;
+		  case TUULI_KAANTYY_JA_HEIKEKNEE:
+			break;
+		  case TUULI_KAANTYY_JA_VOIMISTUU:
+			break;
+		  case TUULI_KAANTYY_JA_TYYNTYY:
+			break;
+		  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE:
+			break;
+		  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU:
+			break;
+		  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY:
+			break;
+		  case MISSING_WIND_EVENT:
+			break;
+		  };
 	  }
-	return sentence;
-  }
-													   */
+  enum wind_event_id 
+	{
+	  TUULI_HEIKKENEE = 0x1,
+	  TUULI_VOIMISTUU = 0x2,
+	  TUULI_TYYNTYY = 0x4,
+	  TUULI_KAANTYY = 0x8,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI = 0x10,
+	  TUULI_KAANTYY_JA_HEIKEKNEE = 0x9,
+	  TUULI_KAANTYY_JA_VOIMISTUU = 0xA,
+	  TUULI_KAANTYY_JA_TYYNTYY = 0xC,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE = 0x11,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU = 0x12,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY = 0x14,
+	  MISSING_WIND_EVENT = 0x0
+	};
 
+	returnb sentence;
 
-													   /*
-  Sentence FogForecast::constructFogSentence(const std::string theDayPhasePhrase,
-											 const std::string& theAreaString,
-											 const std::string& theInPlacesString,
-											 const bool& thePossiblyDenseFlag) const
+  /*
+ void log_wind_events(wo_story_params& storyParams)
   {
-	Sentence sentence;
+	storyParams.theLog << "*********** WIND EVENTS ***********" << endl;
 
-	bool dayPhaseExists(!theDayPhasePhrase.empty());
-	bool placeExists(!theAreaString.empty());
-	bool inPlacesPhraseExists(!theInPlacesString.empty());
-	
-	if(dayPhaseExists)
+	unsigned int windDirectionIndex = 0;
+	unsigned int windSpeedIndex = 0;
+
+	for(unsigned int i = 0; i < storyParams.theWindEventVector.size(); i++)
 	  {
-		if(placeExists)
+		wind_event_id windEventId = storyParams.theWindEventVector[i].second;
+
+		storyParams.theLog << storyParams.theWindEventVector[i].first 
+						   << " "
+						   <<  get_wind_event_string(storyParams.theWindEventVector[i].second)
+						   << " ";
+
+		if(windEventId > 0x0 && windEventId <= TUULI_TYYNTYY ||
+		   windEventId >= TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE && windEventId <= TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY)
 		  {
-			if(inPlacesPhraseExists)
-			  {
-				if(thePossiblyDenseFlag)
-				  sentence << TIME_PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE;
-				else
-				  sentence << TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE;
-				
-				sentence << theDayPhasePhrase
-						 << theAreaString
-						 << theInPlacesString;
-			  }
-			else
-			  {
-				if(thePossiblyDenseFlag)
-				  sentence << TIME_PLACE_FOG_DENSE_COMPOSITE_PHRASE;
-				else
-				  sentence << TIME_PLACE_FOG_COMPOSITE_PHRASE;
-				
-				sentence << theDayPhasePhrase
-						 << theAreaString;
-			  }
+			storyParams.theLog << "(";
+			storyParams.theLog << get_wind_speed_string(storyParams.theWindSpeedVector[windSpeedIndex++]->theWindSpeedId);
+			storyParams.theLog <<  " -> ";
+			storyParams.theLog << get_wind_speed_string(storyParams.theWindSpeedVector[windSpeedIndex]->theWindSpeedId);
+			storyParams.theLog << ")" << endl;
+			if(windEventId >= TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE)
+			  windDirectionIndex++;
+		  }
+		else if(windEventId == TUULI_KAANTYY)
+		  {
+			storyParams.theLog << "(";
+			storyParams.theLog << get_wind_direction16_string(storyParams.theWindDirection16Vector[windDirectionIndex++]->theWindDirection);
+			storyParams.theLog <<  " -> ";
+			storyParams.theLog <<  get_wind_direction16_string(storyParams.theWindDirection16Vector[windDirectionIndex]->theWindDirection);			
+			storyParams.theLog << ")" << endl;
+		  }
+		else if(windEventId >= TUULI_KAANTYY_JA_HEIKEKNEE && windEventId <= TUULI_KAANTYY_JA_TYYNTYY)
+		  {
+			storyParams.theLog << "(";
+			storyParams.theLog << get_wind_direction16_string(storyParams.theWindDirection16Vector[windDirectionIndex++]->theWindDirection);
+			storyParams.theLog <<  " -> ";
+			storyParams.theLog << get_wind_direction16_string(storyParams.theWindDirection16Vector[windDirectionIndex]->theWindDirection);
+			storyParams.theLog << "; ";
+			storyParams.theLog << get_wind_speed_string(storyParams.theWindSpeedVector[windSpeedIndex++]->theWindSpeedId);
+			storyParams.theLog <<  " -> ";
+			storyParams.theLog <<  get_wind_speed_string(storyParams.theWindSpeedVector[windSpeedIndex]->theWindSpeedId);
+			storyParams.theLog << ")" << endl;
 		  }
 		else
 		  {
-			if(inPlacesPhraseExists)
-			  {
-				if(thePossiblyDenseFlag)
-				  sentence << TIME_INPLACES_FOG_DENSE_COMPOSITE_PHRASE;
-				else
-				  sentence << TIME_INPLACES_FOG_COMPOSITE_PHRASE;
-				sentence << theDayPhasePhrase
-						 << theInPlacesString;
-			  }
-			else
-			  {
-				if(thePossiblyDenseFlag)
-				  sentence << TIME_FOG_DENSE_COMPOSITE_PHRASE;
-				else
-				  sentence << TIME_FOG_COMPOSITE_PHRASE;
-				sentence << theDayPhasePhrase;
-			  }
-		  }
-	  }
-	else
-	  {
-		if(placeExists)
-		  {
-			if(inPlacesPhraseExists)
-			  {
-				if(thePossiblyDenseFlag)
-				  sentence << PLACE_INPLACES_FOG_DENSE_COMPOSITE_PHRASE;
-				else
-				  sentence << PLACE_INPLACES_FOG_COMPOSITE_PHRASE;
-				sentence << theAreaString
-						 << theInPlacesString;
-			  }
-			else
-			  {
-				if(thePossiblyDenseFlag)
-				  sentence << INPLACES_FOG_DENSE_COMPOSITE_PHRASE;
-				else
-				  sentence << INPLACES_FOG_COMPOSITE_PHRASE;
-				sentence << theAreaString;
-			  }
-		  }
-		else
-		  {
-			if(inPlacesPhraseExists)
-			  {
-				if(thePossiblyDenseFlag)
-				  sentence << INPLACES_FOG_DENSE_COMPOSITE_PHRASE;
-				else
-				  sentence << INPLACES_FOG_COMPOSITE_PHRASE;
-				sentence << theInPlacesString;
-			  }
-			else
-			  {				
-				sentence << SUMUA_WORD;
-				if(thePossiblyDenseFlag)
-				  sentence << Delimiter(",") << JOKA_VOI_OLLA_SAKEAA_PHRASE;
-			  }
-		  }
-	  }
+			storyParams.theLog << "" << endl;
 
-	return sentence;
+			if(windEventId == TUULI_MUUTTUU_VAIHTELEVAKSI)
+			  windDirectionIndex++;
+		  }
+
+		*/
   }
-													   */
+#endif
+
+
+
 
   Sentence WindForecast::windSentence(const WeatherPeriod& thePeriod) const
   {
 	Sentence sentence;
 
-	/*
-	wind_speed_period_data_item_vector theWindSpeedVector;
-	wind_direction_period_data_item_vector theWindDirectionVector;
-	list<unsigned int> theOriginalWindSpeedIndexes;
-	list<unsigned int> theEqualizedWindSpeedIndexes;
-	list<unsigned int> theOriginalWindDirectionIndexes;
-	list<unsigned int> theEqualizedWindDirectionIndexes;
-	*/
-	
     unsigned int forecastPeriodLength = get_period_length(theParameters.theForecastPeriod);
-	for(unsigned int i = 0; i < theParameters.theWindDirectionLargeVector.size(); i++)
+	thePreviousRangeBeg = INT_MAX;
+	thePreviousRangeEnd = INT_MAX;
+
+	/*
+	  for(unsigned int i = 0; i < theParameters.theWindDirection16Vector.size(); i++)
+	  {
+	  if(sentence.size() > 0)
+	  sentence << Delimiter(COMMA_PUNCTUATION_MARK);
+
+	  if(i > 0)
+	  {
+	  bool spefifyDay = (forecastPeriodLength > 24 &&
+	  abs(theParameters.theForecastTime.DifferenceInHours(theParameters.theWindDirection16Vector[i]->thePeriod.localStartTime())) > 21);
+	  // day phase specifier
+	  std::string dayPhasePhrase;
+	  sentence << get_time_phrase_large(theParameters.theWindDirection16Vector[i]->thePeriod,
+	  spefifyDay,
+	  theParameters.theVar, 
+	  dayPhasePhrase,
+	  true);
+	  }
+	  sentence <<  direction16_sentence(theParameters.theWindDirection16Vector[i]->theWindDirection);
+	  //		sentence <<  direction_sentence(theParameters.theWindDirectionVector[i]->theWindDirection);
+	  sentence << wind_speed_sentence(theParameters.theWindDirection16Vector[i]->thePeriod);
+	  }
+	*/		
+	for(unsigned int i = 0; i < theParameters.theWindDirectionVector.size(); i++)
 	  {
 		if(sentence.size() > 0)
 		  sentence << Delimiter(COMMA_PUNCTUATION_MARK);
@@ -244,110 +249,72 @@ namespace TextGen
 		if(i > 0)
 		  {
 			bool spefifyDay = (forecastPeriodLength > 24 &&
-							   abs(theParameters.theForecastTime.DifferenceInHours(theParameters.theWindDirectionLargeVector[i]->thePeriod.localStartTime())) > 21);
+							   abs(theParameters.theForecastTime.DifferenceInHours(theParameters.theWindDirectionVector[i]->thePeriod.localStartTime())) > 21);
 			// day phase specifier
 			std::string dayPhasePhrase;
-			sentence << get_time_phrase_large(theParameters.theWindDirectionLargeVector[i]->thePeriod,
+			sentence << get_time_phrase_large(theParameters.theWindDirectionVector[i]->thePeriod,
 											  spefifyDay,
 											  theParameters.theVar, 
 											  dayPhasePhrase,
 											  true);
-
-			//			sentence << dayPhasePhrase;
 		  }
-		sentence <<  direction_large_sentence(theParameters.theWindDirectionLargeVector[i]->theWindDirection);
-		//		sentence <<  direction_sentence(theParameters.theWindDirectionVector[i]->theWindDirection);
-		sentence << wind_speed_sentence(theParameters.theWindDirectionLargeVector[i]->thePeriod);
-		
-		/*
-  std::ostream& operator<<(std::ostream & theOutput,
-						   const WindDirectionPeriodDataItem& theWindDirectionPeriodDataItem)
-  {
-	theOutput << theWindDirectionPeriodDataItem.thePeriod.localStartTime()
-			  << " ... "
-			  << theWindDirectionPeriodDataItem.thePeriod.localEndTime()
-			  << ": "
-			  << get_wind_direction_string(theWindDirectionPeriodDataItem.theWindDirection)
-			  << endl;
-
-	return theOutput;
-  }
-
-		*/
+		sentence << direction_sentence(theParameters.theWindDirectionVector[i]->theWindDirection);
+		sentence << wind_speed_sentence(theParameters.theWindDirectionVector[i]->thePeriod);
 	  }
-
-
-	/*
-	if(theParameters.theForecastArea & FULL_AREA)
-	  {
-		if(separateCoastInlandFog(thePeriod))
-		  {
-			sentence << COAST_PHRASE;
-			sentence << fogSentence(thePeriod, theCoastalFogType, COAST_PHRASE);
-			sentence << Delimiter(",");
-			sentence << INLAND_PHRASE;
-			sentence << fogSentence(thePeriod, theInlandFogType, INLAND_PHRASE);
-		  }
-		else
-		  {
-			sentence << fogSentence(thePeriod, theFullAreaFogType, EMPTY_STRING);
-		  }
-	  }
-	else if(theParameters.theForecastArea & INLAND_AREA)
-	  {
-		sentence << fogSentence(thePeriod, theInlandFogType, EMPTY_STRING);
-	  }
-	else if(theParameters.theForecastArea & COASTAL_AREA)
-	  {
-		sentence << fogSentence(thePeriod, theCoastalFogType, EMPTY_STRING);
-	  }
-
-	theDayPhasePhraseOld.clear();
-	*/
 
 	return sentence;
   }
 
-	const Sentence WindForecast::speed_range_sentence_(const WeatherResult & theMinSpeed,
-													  const WeatherResult & theMaxSpeed,
-													  const WeatherResult & theMeanSpeed,
-													  const string & theVariable) const
-	{
-	  using Settings::optional_int;
+  const Sentence WindForecast::speed_range_sentence_(const WeatherResult & theMinSpeed,
+													 const WeatherResult & theMaxSpeed,
+													 const WeatherResult & theMeanSpeed,
+													 const string & theVariable) const
+  {
+	using Settings::optional_int;
 
-	  Sentence sentence;
+	Sentence sentence;
 
-	  const int minvalue = static_cast<int>(round(theMinSpeed.value()));
-	  const int maxvalue = static_cast<int>(round(theMaxSpeed.value()));
-	  const int meanvalue = static_cast<int>(round(theMeanSpeed.value()));
+	const int minvalue = static_cast<int>(round(theMinSpeed.value()));
+	const int maxvalue = static_cast<int>(round(theMaxSpeed.value()));
+	const int meanvalue = static_cast<int>(round(theMeanSpeed.value()));
 
-	  const string var = "textgen::units::meterspersecond::format";
-	  const string opt = Settings::optional_string(var,"SI");
+	const string var = "textgen::units::meterspersecond::format";
+	const string opt = Settings::optional_string(var,"SI");
 
-	  if(opt == "textphrase")
-		{
-		  sentence << *UnitFactory::create(MetersPerSecond, maxvalue) << "tuulta";
-		}
-	  else
-		{
-		  const int mininterval = optional_int(theVariable+"::mininterval",0);
-		  const string rangeseparator = Settings::optional_string(theVariable+"::rangeseparator","-");
+	if(opt == "textphrase")
+	  {
+		sentence << *UnitFactory::create(MetersPerSecond, maxvalue) << "tuulta";
+	  }
+	else
+	  {
+		const int mininterval = optional_int(theVariable+"::mininterval",0);
+		const string rangeseparator = Settings::optional_string(theVariable+"::rangeseparator","-");
 	  
-		  if(maxvalue - minvalue < mininterval)
-			{
-			  sentence << "noin"
-					   << meanvalue;
-			}
-		  else
-			{
-			  sentence << IntegerRange(meanvalue,maxvalue,rangeseparator);
-			}
+		if(maxvalue - minvalue < mininterval)
+		  {
+			if(meanvalue != thePreviousRangeBeg)
+			  {
+				sentence << "noin"
+						 << meanvalue;
+				thePreviousRangeBeg = meanvalue;
+			  }
+		  }
+		else
+		  {
+			if(meanvalue != thePreviousRangeBeg && maxvalue != thePreviousRangeEnd)
+			  {
+				sentence << IntegerRange(meanvalue,maxvalue,rangeseparator);
+				thePreviousRangeBeg = meanvalue;
+				thePreviousRangeEnd = maxvalue;
+			  }
+		  }
+		if(!sentence.empty())
 		  sentence << *UnitFactory::create(MetersPerSecond);
-		}
+	  }
 	  
-	  return sentence;
+	return sentence;
 	  
-	}
+  }
 
   const Sentence WindForecast::wind_speed_sentence(const WeatherPeriod& thePeriod) const
   {
@@ -360,19 +327,23 @@ namespace TextGen
 	double meanErrorSum = 0.0;
 	unsigned int counter = 0;
 
-	for(unsigned int i = 1; i < theParameters.theRawDataVector.size(); i++)
+	for(unsigned int i = 0; i < theParameters.theRawDataVector.size(); i++)
 	  {
-		if(is_inside(theParameters.theRawDataVector[i]->thePeriod.localStartTime(), thePeriod))
+		const WindDataItemUnit& dataItem = (*theParameters.theRawDataVector[i])();
+		const WindDataItemUnit& dataItemMax = (*theParameters.theRawDataVector[max_index])();
+		const WindDataItemUnit& dataItemMin = (*theParameters.theRawDataVector[min_index])();
+
+		if(is_inside(dataItem.thePeriod.localStartTime(), thePeriod))
 		  {
-			if (theParameters.theRawDataVector[i]->theWindSpeedMax.value() > 
-				theParameters.theRawDataVector[max_index]->theWindSpeedMax.value())
+			if (dataItem.theWindSpeedMax.value() > 
+				dataItemMax.theWindSpeedMax.value())
 			  max_index = i;
-			if (theParameters.theRawDataVector[i]->theWindSpeedMin.value() < 
-				theParameters.theRawDataVector[max_index]->theWindSpeedMin.value())
+			if (dataItem.theWindSpeedMin.value() < 
+				dataItemMin.theWindSpeedMin.value())
 			  min_index = i;
 
-			meanValueSum += theParameters.theRawDataVector[i]->theWindSpeedMean.value();
-			meanErrorSum += theParameters.theRawDataVector[i]->theWindSpeedMean.error();
+			meanValueSum += dataItem.theWindSpeedMean.value();
+			meanErrorSum += dataItem.theWindSpeedMean.error();
 			counter++;
 		  }
 	  }
@@ -382,8 +353,11 @@ namespace TextGen
 
 	WeatherResult meanResult(meanValueSum / counter, meanErrorSum / counter);
 
-	sentence <<  speed_range_sentence_(theParameters.theRawDataVector[min_index]->theWindSpeedMin,
-									   theParameters.theRawDataVector[max_index]->theWindSpeedMax,
+	const WindDataItemUnit& dataItemMin = (*theParameters.theRawDataVector[min_index])();
+	const WindDataItemUnit& dataItemMax = (*theParameters.theRawDataVector[max_index])();
+
+	sentence <<  speed_range_sentence_(dataItemMin.theWindSpeedMin,
+									   dataItemMax.theWindSpeedMax,
 									   meanResult,
 									   theParameters.theVar);
 
@@ -445,13 +419,13 @@ namespace TextGen
 		sentence << "8-puoleista tuulta";
 		break;
 	  case VAIHTELEVA:
-		sentence << "suunnaltaan vaihtelevaa" << "tuulta";
+		sentence << "suunnaltaan vaihtelevaa tuulta";
 		break;
 	  };
 	return sentence;
   }
 
-  const Sentence WindForecast::direction_large_sentence(const wind_direction_large_id& theWindDirectionId) const
+  const Sentence WindForecast::direction16_sentence(const wind_direction16_id& theWindDirectionId) const
   {
 	Sentence sentence;
 
@@ -460,11 +434,17 @@ namespace TextGen
 	  case POHJOINEN_:
 		sentence << "1-tuulta";
 		break;
+	  case POHJOINEN_PUOLEINEN:
+		sentence << "1-puoleista tuulta";
+		break;
 	  case POHJOINEN_KOILLINEN:
 		sentence << "pohjoisen ja koillisen v‰list‰ tuulta";
 		break;
 	  case KOILLINEN_:
 		sentence << "2-tuulta";
+		break;
+	  case KOILLINEN_PUOLEINEN:
+		sentence << "2-puoleista tuulta";
 		break;
 	  case KOILLINEN_ITA:
 		sentence << "koillisen ja id‰n v‰list‰ tuulta";
@@ -472,11 +452,17 @@ namespace TextGen
 	  case ITA_:
 		sentence << "3-tuulta";
 		break;
+	  case ITA_PUOLEINEN:
+		sentence << "3-puoleista tuulta";
+		break;
 	  case ITA_KAAKKO:
 		sentence << "id‰n ja kaakon v‰list‰ tuulta";
 		break;
 	  case KAAKKO_:
 		sentence << "4-tuulta";
+		break;
+	  case KAAKKO_PUOLEINEN:
+		sentence << "4-puoleista tuulta";
 		break;
 	  case KAAKKO_ETELA:
 		sentence << "kaakon ja etel‰n v‰list‰ tuulta";
@@ -484,11 +470,17 @@ namespace TextGen
 	  case ETELA_:
 		sentence << "5-tuulta";
 		break;
+	  case ETELA_PUOLEINEN:
+		sentence << "5-puoleista tuulta";
+		break;
 	  case ETELA_LOUNAS:
 		sentence << "etel‰n ja lounaan v‰list‰ tuulta";
 		break;
 	  case LOUNAS_:
 		sentence << "6-tuulta";
+		break;
+	  case LOUNAS_PUOLEINEN:
+		sentence << "6-puoleista tuulta";
 		break;
 	  case LOUNAS_LANSI:
 		sentence << "lounaan ja l‰nnen v‰list‰ tuulta";
@@ -496,17 +488,23 @@ namespace TextGen
 	  case LANSI_:
 		sentence << "7-tuulta";
 		break;
+	  case LANSI_PUOLEINEN:
+		sentence << "7-puoleista tuulta";
+		break;
 	  case LANSI_LUODE:
 		sentence << "l‰nnen ja luoteen v‰list‰ tuulta";
 		break;
 	  case LUODE_:
 		sentence << "8-tuulta";
 		break;
+	  case LUODE_PUOLEINEN:
+		sentence << "8-puoleista tuulta";
+		break;
 	  case LUODE_POHJOINEN:
 		sentence << "luoteen ja pohjoisen v‰list‰ tuulta";
 		break;
 	  case VAIHTELEVA_:
-		sentence << "vaihtelevaa tuulta";
+		sentence << "suunnaltaan vaihtelevaa tuulta";
 		break;
 	  }
 

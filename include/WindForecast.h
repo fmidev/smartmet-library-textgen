@@ -22,7 +22,8 @@ using namespace std;
 	~WindForecast(){}
 		
 	Sentence windSentence(const WeatherPeriod& thePeriod) const;
-
+	Sentence windSentenceWithEvents(const WeatherPeriod& thePeriod) const;
+ 
 	void printOutWindPeriods(std::ostream& theOutput) const;
 	void printOutWindData(std::ostream& theOutput) const;
 
@@ -30,10 +31,11 @@ using namespace std;
 	
 
 	wo_story_params& theParameters;
-
+	mutable int thePreviousRangeBeg;
+	mutable int thePreviousRangeEnd;
 
 	const Sentence direction_sentence(const wind_direction_id& theDirectionId) const;
-	const Sentence direction_large_sentence(const wind_direction_large_id& theDirectionId) const;
+	const Sentence direction16_sentence(const wind_direction16_id& theDirectionId) const;
 	const Sentence wind_speed_sentence(const WeatherPeriod& thePeriod) const;
 	const Sentence speed_range_sentence_(const WeatherResult & theMinSpeed,
 										const WeatherResult & theMaxSpeed,
