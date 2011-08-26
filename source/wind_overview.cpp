@@ -265,6 +265,8 @@ namespace TextGen
 			  << ", "
 			  << fixed << setprecision(1) << theWindDataItem.theWindSpeedMean.error()
 			  << ")"
+			  << "; huipputuuli: "
+			  << fixed << setprecision(1) << theWindDataItem.theWindMaximum.value()
 			  << "; suunta "
 			  << fixed << setprecision(1) << theWindDataItem.theWindDirection.value()
 			  << "; suunnan k-hajonta: "
@@ -333,7 +335,7 @@ namespace TextGen
 		throw std::runtime_error("wind_overview failed to open '" + filename + "' for writing");
 	  }
 	
-	output_file << "|| aika || min || max || ka, k-hajonta || puuska || suunta || suunnan k-hajonta || fraasi ||" << endl;
+	output_file << "|| aika || min || max || ka, k-hajonta || maksimituuli || puuska || suunta || suunnan k-hajonta || fraasi ||" << endl;
 
 	for(unsigned int i = 0; i < theWindDataItemVector.size(); i++)
 	  {
@@ -349,6 +351,8 @@ namespace TextGen
 					<< ", "
 					<< fixed << setprecision(1) << theWindDataItem.theWindSpeedMean.error()
 					<< ")"
+					<< " | "
+					<< fixed << setprecision(1) << theWindDataItem.theWindMaximum.value()
 					<< " | "
 					<< fixed << setprecision(1) << theWindDataItem.theGustSpeed.value()
 					<< " | "
@@ -382,7 +386,7 @@ namespace TextGen
 		throw std::runtime_error("wind_overview failed to open '" + filename + "' for writing");
 	  }
 	
-	output_file << "aika, min, max, ka, nopeuden k-hajonta, puuska, suunta, suunnan k-hajonta, fraasi" << endl;
+	output_file << "aika, min, max, ka, nopeuden k-hajonta, puuska, maksimituuli, suunta, suunnan k-hajonta, fraasi" << endl;
 
 	for(unsigned int i = 0; i < theIndexVector.size(); i++)
 	  {
@@ -400,6 +404,8 @@ namespace TextGen
 					<< fixed << setprecision(1) << theWindDataItem.theWindSpeedMean.error()
 					<< ", "
 					<< fixed << setprecision(1) << theWindDataItem.theGustSpeed.value()
+					<< ", "
+					<< fixed << setprecision(1) << theWindDataItem.theWindMaximum.value()
 					<< ", "
 					<< fixed << setprecision(1) << theWindDataItem.theWindDirection.value()
 					<< ", "
@@ -593,8 +599,9 @@ namespace TextGen
 		periodEndTime.ChangeByHours(1);
 		WeatherPeriod weatherPeriod(periodEndTime, periodEndTime);
 		WeatherResult minWind(kFloatMissing, kFloatMissing);
-		WeatherResult maxWind(kFloatMissing, kFloatMissing);
 		WeatherResult meanWind(kFloatMissing, kFloatMissing);
+		WeatherResult maxWind(kFloatMissing, kFloatMissing);
+		WeatherResult maximumWind(kFloatMissing, kFloatMissing);
 		WeatherResult windDirection(kFloatMissing, kFloatMissing);
 		WeatherResult gustSpeed(kFloatMissing, kFloatMissing);
 
@@ -606,8 +613,9 @@ namespace TextGen
 
 			dataItemContainer->addItem(weatherPeriod,
 									   minWind,
-									   maxWind,
 									   meanWind,
+									   maxWind,
+									   maximumWind,
 									   windDirection,
 									   gustSpeed,
 									   areaIdentifier);
@@ -658,7 +666,7 @@ namespace TextGen
 			//			cout << "dataItem.thePeriod.localStartTime(): " << dataItem.thePeriod.localStartTime() << endl;
 
 			dataItem.theWindSpeedMin =
-			  forecaster.analyze(storyParams.theVar,//itsVar+"::fake::"+daystr+"::speed::minimum",
+			  forecaster.analyze(storyParams.theVar+"::fake::wind::speed::minimum",
 								 storyParams.theSources,
 								 WindSpeed,
 								 Minimum,
@@ -667,7 +675,7 @@ namespace TextGen
 								 dataItem.thePeriod);
 
 			dataItem.theWindSpeedMax =
-			  forecaster.analyze(storyParams.theVar,//itsVar+"::fake::"+daystr+"::speed::maximum",
+			  forecaster.analyze(storyParams.theVar+"::fake::wind::speed::maximum",
 								 storyParams.theSources,
 								 WindSpeed,
 								 Maximum,
@@ -676,7 +684,7 @@ namespace TextGen
 								 dataItem.thePeriod);
 
 			dataItem.theWindSpeedMean =
-			  forecaster.analyze(storyParams.theVar,//itsVar+"::fake::"+daystr+"::speed::mean",
+			  forecaster.analyze(storyParams.theVar+"::fake::wind::speed::mean",
 								 storyParams.theSources,
 								 WindSpeed,
 								 Mean,
@@ -684,8 +692,17 @@ namespace TextGen
 								 weatherArea,
 								 dataItem.thePeriod);
 
+			dataItem.theWindMaximum =
+			  forecaster.analyze(storyParams.theVar+"::fake::wind::maximumwind",
+								 storyParams.theSources,
+								 MaximumWind,
+								 Maximum,
+								 Mean,
+								 weatherArea,
+								 dataItem.thePeriod);
+
 			dataItem.theWindDirection =
-			  forecaster.analyze(storyParams.theVar,//itsVar+"::fake::"+daystr+"::direction::mean",
+			  forecaster.analyze(storyParams.theVar+"::fake::wind:direction",
 								 storyParams.theSources,
 								 WindDirection,
 								 Mean,
@@ -694,7 +711,7 @@ namespace TextGen
 								 dataItem.thePeriod);
 
 			dataItem.theGustSpeed =
-			  forecaster.analyze(storyParams.theVar,//itsVar+"::fake::"+daystr+"::direction::mean",
+			  forecaster.analyze(storyParams.theVar+"::fake::gust::speed",
 								 storyParams.theSources,
 								 GustSpeed,
 								 Maximum,
