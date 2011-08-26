@@ -1055,12 +1055,14 @@ namespace TextGen
 					 const WeatherResult& windSpeedMin, 
 					 const WeatherResult& windSpeedMax, 
 					 const WeatherResult& windSpeedMean,
+					 const WeatherResult& windMaximum,
 					 const WeatherResult& windDirection,
 					 const WeatherResult& gustSpeed)
 	  : thePeriod(period),
 		theWindSpeedMin(windSpeedMin),
 		theWindSpeedMax(windSpeedMax),
 		theWindSpeedMean(windSpeedMean),
+		theWindMaximum(windMaximum),
 		theWindDirection(windDirection),
 		theGustSpeed(gustSpeed)
 	{}
@@ -1069,6 +1071,7 @@ namespace TextGen
 	WeatherResult theWindSpeedMin;
 	WeatherResult theWindSpeedMax;
 	WeatherResult theWindSpeedMean;
+	WeatherResult theWindMaximum;
 	WeatherResult theWindDirection;
 	WeatherResult theGustSpeed;
   };
@@ -1087,16 +1090,18 @@ namespace TextGen
   
 	void addItem(const WeatherPeriod& period, 
 				 const WeatherResult& windSpeedMin, 
-				 const WeatherResult& windSpeedMax, 
 				 const WeatherResult& windSpeedMean,
+				 const WeatherResult& windSpeedMax, 
+				 const WeatherResult& windMaximum,
 				 const WeatherResult& windDirection,
 				 const WeatherResult& gustSpeed,
 				 const string& name)
 	{
 	  WindDataItemUnit* dataItem = new WindDataItemUnit(period,
 														windSpeedMin,
-														windSpeedMax,
 														windSpeedMean,
+														windSpeedMax,
+														windMaximum,
 														windDirection,
 														gustSpeed);
 	  theDataItems.insert(make_pair(name, dataItem));

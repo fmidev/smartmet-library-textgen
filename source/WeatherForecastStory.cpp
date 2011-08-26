@@ -30,6 +30,17 @@ namespace TextGen
   using namespace WeatherAnalysis;
   using namespace Settings;
 
+ std::ostream& operator<<(std::ostream & theOutput,
+						  const WeatherForecastStoryItem& theStoryItem)
+  {
+	theOutput << theStoryItem.getPeriod().localStartTime() << "..." << theStoryItem.getPeriod().localEndTime() << " ";
+	theOutput << story_part_id_string(theStoryItem.getStoryPartId()) << " - ";
+	theOutput << (theStoryItem.isIncluded() ? "included" : "exluded") << endl;
+
+	return theOutput;
+  }
+
+
   WeatherForecastStory::WeatherForecastStory(const std::string& var,
 											 const WeatherPeriod& forecastPeriod,
 											 const WeatherArea& weatherArea,
@@ -64,7 +75,7 @@ namespace TextGen
 	bool moreThanOnePrecipitationForms(false);
 	for(unsigned int i = 0; i < theStoryItemVector.size(); i++)
 	  {
-		if(!specifyPartOfTheDayFlag)
+		if(!specifyPartOfTheDayFlag) // this indicates that the period is short
 		  {
 			// ARE 14.4.2011: checking theIncludeInTheStoryFlag
 			if(theStoryItemVector[i]->theIncludeInTheStoryFlag == true &&
@@ -278,8 +289,7 @@ namespace TextGen
   }
 
   void WeatherForecastStory::addCloudinessStoryItems() 
-  {	  
-	// replace the missing story items with the cloudiness story part
+  {	  	// replace the missing story items with the cloudiness story part
 	PrecipitationForecastStoryItem* previousPrecipitationStoryItem = 0;
 	for(unsigned int i = 0; i < theStoryItemVector.size(); i++)
 	  {
@@ -317,6 +327,7 @@ namespace TextGen
 		  }
 		  
 		// one hour period in the beginning is ignored
+		/*
 		if(i == 0)
 		  {
 			if(theStoryItemVector[i]->storyItemPeriodLength() <= 1 && theStoryItemVector.size() > 1)
@@ -324,9 +335,11 @@ namespace TextGen
 				theStoryItemVector[i]->theIncludeInTheStoryFlag = false;
 			  }
 		  }
+		*/
 	  }
 
 	// short cloudiness period in the end after precipitation period is not reported
+	/*
 	int storyItemCount = theStoryItemVector.size();
 	if(storyItemCount > 1)
 	  {
@@ -338,11 +351,13 @@ namespace TextGen
 			theStoryItemVector[storyItemCount-1]->theIncludeInTheStoryFlag = false;
 		  }
 	  }
+	*/
   }
 
-  void WeatherForecastStory::mergePeriodsWhenFeasible()
+
+  void WeatherForecastStory::mergePrecipitationPeriodsWhenFeasible()
   {
-	PrecipitationForecastStoryItem* previousPrecipitationStoryItem = 0;
+  	PrecipitationForecastStoryItem* previousPrecipitationStoryItem = 0;
 	PrecipitationForecastStoryItem* currentPrecipitationStoryItem = 0;
 	for(unsigned int i = 0; i < theStoryItemVector.size(); i++)
 	  {
@@ -359,7 +374,7 @@ namespace TextGen
 				if(previousPrecipitationStoryItem->theType != currentPrecipitationStoryItem->theType &&
 				   !(previousPrecipitationStoryItem->theThunder && currentPrecipitationStoryItem->theThunder))
 				  {
-					// if the period between precpitation periods is short don't mention it
+					// if the dry period between precpitation periods is short don't mention it
 					if(theStoryItemVector[i-1] != previousPrecipitationStoryItem && 
 					   theStoryItemVector[i-1]->storyItemPeriodLength() <= 1)
 					  {
@@ -369,9 +384,7 @@ namespace TextGen
 				  }
 
 				NFmiTime gapPeriodStartTime(previousPrecipitationStoryItem->thePeriod.localEndTime());
-				//gapPeriodStartTime.ChangeByHours(1);
 				NFmiTime gapPeriodEndTime(currentPrecipitationStoryItem->thePeriod.localStartTime());
-				//gapPeriodEndTime.ChangeByHours(-1);
 				WeatherPeriod gapPeriod(gapPeriodStartTime, gapPeriodEndTime);
 
 				// merge periods
@@ -383,6 +396,8 @@ namespace TextGen
 					// merge two weak precipitation periods
 					previousPrecipitationStoryItem->thePeriodToMergeWith = currentPrecipitationStoryItem;
 					currentPrecipitationStoryItem->thePeriodToMergeTo = previousPrecipitationStoryItem;
+					if(theStoryItemVector[i-1]->theStoryPartId == CLOUDINESS_STORY_PART)
+					  theStoryItemVector[i-1]->theIncludeInTheStoryFlag = false;
 				  }
 			  }
 			previousPrecipitationStoryItem = currentPrecipitationStoryItem;
@@ -390,6 +405,99 @@ namespace TextGen
 	  }
   }
 
+  void WeatherForecastStory::mergeCloudinessPeriodsWhenFeasible()
+  {
+  	CloudinessForecastStoryItem* previousCloudinessStoryItem = 0;
+	CloudinessForecastStoryItem* currentCloudinessStoryItem = 0;
+	for(unsigned int i = 0; i < theStoryItemVector.size(); i++)
+	  {
+		if(theStoryItemVector[i]->theStoryPartId == CLOUDINESS_STORY_PART)
+		  {
+			currentCloudinessStoryItem = static_cast<CloudinessForecastStoryItem*>(theStoryItemVector[i]);
+			if(previousCloudinessStoryItem)
+			  {
+				NFmiTime gapPeriodStartTime(previousCloudinessStoryItem->thePeriod.localEndTime());
+				NFmiTime gapPeriodEndTime(currentCloudinessStoryItem->thePeriod.localStartTime());
+				WeatherPeriod gapPeriod(gapPeriodStartTime, gapPeriodEndTime);
+
+				// merge periods if the precipitation period in between is short and
+				// intensity is weak and precipitation area is small
+				if(get_period_length(gapPeriod) <= 2 &&
+				   currentCloudinessStoryItem->thePreviousPrecipitationStoryItem->theIntensity <= 0.07 &&
+				   currentCloudinessStoryItem->thePreviousPrecipitationStoryItem->theExtent <= 40)
+				  {
+					// merge two weak cloudiness periods
+					previousCloudinessStoryItem->thePeriodToMergeWith = currentCloudinessStoryItem;
+					currentCloudinessStoryItem->thePeriodToMergeTo = previousCloudinessStoryItem;
+					currentCloudinessStoryItem->thePreviousPrecipitationStoryItem->theIncludeInTheStoryFlag = false;
+				  }
+			  }
+			previousCloudinessStoryItem = currentCloudinessStoryItem;
+		  }
+	  }
+
+	int storyItemCount = theStoryItemVector.size();
+	// short cloudiness period in the start is ignored
+	if(storyItemCount > 1)
+	  {
+		WeatherPeriod storyItemPeriod(theStoryItemVector[0]->getStoryItemPeriod());
+		/*
+		cout << "story part 0: " << story_part_id_string(theStoryItemVector[0]->theStoryPartId) << endl;
+		cout << "story part 1: " << story_part_id_string(theStoryItemVector[1]->theStoryPartId) << endl;
+		cout << "story item period length: " << theStoryItemVector[0]->storyItemPeriodLength() << endl;
+		cout << "theStoryItemVector[0]->thePeriodToMergeWith == 0: " << 
+		  (theStoryItemVector[0]->thePeriodToMergeWith == 0 ? "true" : "false") << endl;
+		cout << "period item length: " << storyItemPeriod.localStartTime() << "..." << storyItemPeriod.localEndTime() << endl;
+		cout << "period length: " 
+			 << theStoryItemVector[0]->getPeriod().localStartTime() 
+			 << "..." 
+			 << theStoryItemVector[0]->getPeriod().localEndTime() 
+			 << endl;
+		*/
+		if(theStoryItemVector[0]->theStoryPartId == CLOUDINESS_STORY_PART &&
+		   theStoryItemVector[1]->theStoryPartId == PRECIPITATION_STORY_PART &&
+		   theStoryItemVector[0]->getPeriodLength() <= 1 &&
+		   theStoryItemVector[0]->thePeriodToMergeWith == 0)
+		  {
+			theStoryItemVector[0]->theIncludeInTheStoryFlag = false;
+		  }
+		else if(theStoryItemVector[0]->theStoryPartId == PRECIPITATION_STORY_PART &&
+				theStoryItemVector[1]->theStoryPartId == CLOUDINESS_STORY_PART &&
+				theStoryItemVector[0]->getPeriodLength() <= 1 &&
+				theStoryItemVector[0]->thePeriodToMergeWith == 0 &&
+				static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[0])->theIntensity < 0.1 &&
+				static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[0])->theExtent < 40)
+		  {
+			theStoryItemVector[0]->theIncludeInTheStoryFlag = false;
+		  }
+		
+		/*
+		cout << "theStoryItemVector[storyItemCount-1]: " << story_part_id_string(theStoryItemVector[storyItemCount-1]->theStoryPartId) << endl;
+		cout << "theStoryItemVector[storyItemCount-2]: " << story_part_id_string(theStoryItemVector[storyItemCount-2]->theStoryPartId) << endl;
+		cout << "story item period length (storyItemCount-1): " << theStoryItemVector[storyItemCount-1]->storyItemPeriodLength() << endl;
+		cout << "theStoryItemVector[storyItemCount-1]->thePeriodToMergeTo == 0: " << 
+		  (theStoryItemVector[storyItemCount-1]->thePeriodToMergeWith == 0 ? "true" : "false") << endl;
+		cout << "theStoryItemVector[storyItemCount-2]->theIncludeInTheStoryFlag: " <<
+		  (theStoryItemVector[storyItemCount-2]->theIncludeInTheStoryFlag ? "true" : "false") << endl;
+		*/
+
+		// short cloudiness period in the end after precipitation period is not reported
+		if(theStoryItemVector[storyItemCount-1]->theStoryPartId == CLOUDINESS_STORY_PART &&
+		   theStoryItemVector[storyItemCount-1]->getPeriodLength() <= 1 &&
+		   theStoryItemVector[storyItemCount-1]->thePeriodToMergeTo == 0 &&
+		   theStoryItemVector[storyItemCount-2]->theStoryPartId == PRECIPITATION_STORY_PART &&
+		   theStoryItemVector[storyItemCount-2]->theIncludeInTheStoryFlag == true)
+		  {
+			theStoryItemVector[storyItemCount-1]->theIncludeInTheStoryFlag = false;
+		  }
+	  }
+ }
+  
+  void WeatherForecastStory::mergePeriodsWhenFeasible()
+  {
+	mergePrecipitationPeriodsWhenFeasible();
+	mergeCloudinessPeriodsWhenFeasible();
+  }
 
   Sentence WeatherForecastStory::getTimePhrase()
   {
@@ -408,13 +516,25 @@ namespace TextGen
 
 
 
+	const void WeatherForecastStory::logTheStoryItems() const
+	{
+	  theLogger << "******** STORY ITEMS ********" << endl;
+	  for(unsigned int i = 0; i < theStoryItemVector.size(); i++)
+		{
+		  theLogger << *theStoryItemVector[i];
+		}
+	}
+
+
   WeatherForecastStoryItem::WeatherForecastStoryItem(WeatherForecastStory& weatherForecastStory,
 													 const WeatherPeriod& period, 
 													 const story_part_id& storyPartId)
 	: theWeatherForecastStory(weatherForecastStory),
 	  thePeriod(period),
 	  theStoryPartId(storyPartId),
-	  theIncludeInTheStoryFlag(true)
+	  theIncludeInTheStoryFlag(true),
+	  thePeriodToMergeWith(0),
+	  thePeriodToMergeTo(0)
   {
   }
 	
@@ -431,10 +551,18 @@ namespace TextGen
 	return sentence;
   }
 
-  // if periods are merged this must be overwritten
   WeatherPeriod WeatherForecastStoryItem::getStoryItemPeriod() const 
-  { 
-	return thePeriod; 
+  {
+	if(thePeriodToMergeWith)
+	  {
+		WeatherPeriod period(thePeriod.localStartTime(),
+							 thePeriodToMergeWith->getStoryItemPeriod().localEndTime());
+		return period;
+	  }
+	else
+	  {
+		return thePeriod;
+	  }
   } 
 
   unsigned int WeatherForecastStoryItem::getPeriodLength() 
@@ -559,9 +687,7 @@ namespace TextGen
 	  theSadeJatkuuFlag(false),
 	  thePoutaantuuFlag(intensity > WEAK_PRECIPITATION_LIMIT_WATER),
 	  theReportPoutaantuuFlag(intensity > WEAK_PRECIPITATION_LIMIT_WATER),
-	  theFullDuration(period.localEndTime().DifferenceInHours(period.localStartTime())),
-	  thePeriodToMergeWith(0),
-	  thePeriodToMergeTo(0)
+	  theFullDuration(period.localEndTime().DifferenceInHours(period.localStartTime()))
   {
   }
 
@@ -570,26 +696,12 @@ namespace TextGen
 	return theIntensity <= WEAK_PRECIPITATION_LIMIT_WATER; 
   }
 
-  WeatherPeriod PrecipitationForecastStoryItem::getStoryItemPeriod() const 
-  {
-	if(thePeriodToMergeWith)
-	  {
-		WeatherPeriod period(thePeriod.localStartTime(),
-							 thePeriodToMergeWith->getStoryItemPeriod().localEndTime());
-		return period;
-	  }
-	else
-	  {
-		return thePeriod;
-	  }
-  } 
-
 	
   Sentence PrecipitationForecastStoryItem::getStoryItemSentence()
   { 
 	Sentence sentence;
 
-	// the thePeriodToMergeWith handles the whole stuff
+	// thePeriodToMergeWith handles the whole stuff
 	if(thePeriodToMergeTo)
 	  return sentence;
 
@@ -612,7 +724,7 @@ namespace TextGen
 		else
 		  {			
 			if(storyItemPeriod.localStartTime() > forecastPeriod.localStartTime())
-			  thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER);
+			  thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &storyItemPeriod);
 			if(thePeriodPhrase.size() == 0)
 			  thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
 
@@ -637,7 +749,7 @@ namespace TextGen
 	else
 	  {
 		if(thePeriod.localStartTime() > forecastPeriod.localStartTime())
-		  thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER);
+		  thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &storyItemPeriod);
 		if(thePeriodPhrase.size() == 0)
 		  thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
 
@@ -716,13 +828,18 @@ namespace TextGen
   {
 	Sentence sentence;
 
-	// precipitation periods aroud are merged
-	if(thePreviousPrecipitationStoryItem && thePreviousPrecipitationStoryItem->thePeriodToMergeWith)
+	// thePeriodToMergeWith handles the whole stuff
+	if(thePeriodToMergeTo)
 	  return sentence;
 
+	// precipitation periods aroud are merged
+	//	if(thePreviousPrecipitationStoryItem && thePreviousPrecipitationStoryItem->thePeriodToMergeWith)
+	//return sentence;
+
+	WeatherPeriod storyItemPeriod(getStoryItemPeriod());
 	// if the cloudiness period is max 2 hours and it is in the end of the forecast period and
 	// the previous precipitation period is long > 6h -> don't report cloudiness
-	if(thePeriod.localEndTime() == theWeatherForecastStory.theForecastPeriod.localEndTime() &&
+	if(storyItemPeriod.localEndTime() == theWeatherForecastStory.theForecastPeriod.localEndTime() &&
 	   storyItemPeriodLength() <= 2 &&
 	   thePreviousPrecipitationStoryItem && thePreviousPrecipitationStoryItem->storyItemPeriodLength() >= 6)
 	  return sentence;
@@ -763,7 +880,7 @@ namespace TextGen
 
 		// ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
 		if(theChangeSentence.size() > 0 &&
-		   clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
+		   clForecast.getCloudinessId(storyItemPeriod) > MELKO_SELKEA)
 		  {
 			sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			sentence << theChangeSentence;
@@ -772,7 +889,7 @@ namespace TextGen
 	else
 	  {
 		Sentence thePeriodPhrase;
-		if(thePeriod.localStartTime() > theWeatherForecastStory.theForecastPeriod.localStartTime())
+		if(storyItemPeriod.localStartTime() > theWeatherForecastStory.theForecastPeriod.localStartTime())
 		  {
 			if(storyItemPeriodLength() >= 6)
 			  {
@@ -781,7 +898,7 @@ namespace TextGen
 			  }
 			else
 			  {
-				thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER);
+				thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &storyItemPeriod);
 			  }
 		  }
 		if(thePeriodPhrase.size() == 0)
@@ -789,7 +906,7 @@ namespace TextGen
 
 		if(theChangeSentence.size() > 0)
 		  {
-			WeatherPeriod clPeriod(thePeriod.localStartTime(), theCloudinessChangeTimestamp);
+			WeatherPeriod clPeriod(storyItemPeriod.localStartTime(), theCloudinessChangeTimestamp);
 			sentence << 
 			  clForecast.cloudinessSentence(clPeriod, 
 											theReportAboutDryWeatherFlag && !prForecast.getDryPeriodTautologyFlag(),
@@ -799,7 +916,7 @@ namespace TextGen
 		else
 		  {
 			sentence << 
-			  clForecast.cloudinessSentence(thePeriod, 
+			  clForecast.cloudinessSentence(storyItemPeriod,
 											theReportAboutDryWeatherFlag && !prForecast.getDryPeriodTautologyFlag(),
 											thePeriodPhrase, 
 											DONT_USE_SHORT_FORM);

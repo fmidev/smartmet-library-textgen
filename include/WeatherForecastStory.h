@@ -41,6 +41,8 @@ class WeatherForecastStory;
 	Sentence checkForExtendedPeriodPhrase(const WeatherPeriod& thePhrasePeriod);
 
 	const story_part_id& getStoryPartId() const { return theStoryPartId; }
+	const WeatherPeriod& getPeriod() const { return thePeriod; }
+	const bool isIncluded() const { return theIncludeInTheStoryFlag; }
 
   protected:
 
@@ -51,6 +53,8 @@ class WeatherForecastStory;
 	// can be used to control if this item is included in the story
 	bool theIncludeInTheStoryFlag;
 	Sentence theSentence;
+	WeatherForecastStoryItem* thePeriodToMergeWith;// if periods are merged this points to the megreable period
+	WeatherForecastStoryItem* thePeriodToMergeTo;// if periods are merged this points to the merged period
 
 	friend class WeatherForecastStory;
 
@@ -74,7 +78,6 @@ class WeatherForecastStory;
 
 	bool weakPrecipitation() const;
 	Sentence getStoryItemSentence();
-	WeatherPeriod getStoryItemPeriod() const;
 
   private:
 
@@ -92,8 +95,6 @@ class WeatherForecastStory;
 	// if precipitation has been weak we dont report ending of it
 	bool theReportPoutaantuuFlag;
 	int theFullDuration; // includes precipitation period beyond the forecast period
-	PrecipitationForecastStoryItem* thePeriodToMergeWith;// if periods are merged this points to the megreable period
-	PrecipitationForecastStoryItem* thePeriodToMergeTo;// if periods are merged this points to the merged period
 
  	friend class WeatherForecastStory;
 	friend class CloudinessForecastStoryItem;
@@ -144,15 +145,18 @@ class WeatherForecastStory;
 	~WeatherForecastStory();
 
 	Paragraph getWeatherForecastStory();
+	const WeatherPeriod& getStoryPeriod() const { return theForecastPeriod; }
+	const vector<WeatherForecastStoryItem*>& getStoryItemVector() const { return theStoryItemVector; }
+	const void logTheStoryItems() const;
+
+  private:
+
 	void addPrecipitationStoryItems();
 	void addCloudinessStoryItems();
 	void mergePeriodsWhenFeasible();
 	Sentence getTimePhrase();
-
-	const vector<WeatherForecastStoryItem*>& getStoryItemVector() const { return theStoryItemVector; }
-	const WeatherPeriod& getStoryPeriod() const { return theForecastPeriod; }
-
-  private:
+	void mergePrecipitationPeriodsWhenFeasible();
+	void mergeCloudinessPeriodsWhenFeasible();
 
 	const std::string theVar;
 	const WeatherPeriod& theForecastPeriod;
