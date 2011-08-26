@@ -1344,7 +1344,7 @@ using namespace std;
 	theParameters.theFogForecast = &fogForecast;
 	theParameters.theThunderForecast = &thunderForecast;
 
-	// precipitationForecast.printOutPrecipitationData(theLog);
+	//	precipitationForecast.printOutPrecipitationData(theLog);
 	precipitationForecast.printOutPrecipitationPeriods(theLog, itsArea.isPoint());
 	precipitationForecast.printOutPrecipitationWeatherEvents(theLog);
 	//	cloudinessForecast.printOutCloudinessData(theLog);
@@ -1365,6 +1365,8 @@ using namespace std;
 							 fogForecast,
 							 thunderForecast,
 							 theParameters.theLog);
+
+	wfs.logTheStoryItems();
 
 	const_cast<WeatherHistory&>(itsArea.history()).updateTimePhrase("", NFmiTime(1970,1,1));
 
