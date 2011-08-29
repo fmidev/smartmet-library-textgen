@@ -51,7 +51,39 @@ namespace TextGen
   using namespace boost;
   using namespace std;
 
-#define HUOMENNA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[huomenna] tuuli k‰‰ntyy [etel‰‰n]"
+
+#define TUULI_TYYNTYY_PHRASE "tuuli tyyntyy"
+#define VOIMISTUVAA_TUULTA_PHRASE "voimistuvaa tuulta"
+#define HEIKKENEVAA_TUULTA_PHRASE "heikkenev‰‰ tuulta"
+#define POHJOISEEN_PHRASE "pohjoiseen"
+#define ETELAAN_PHRASE "etel‰‰n"
+#define ITAAN_PHRASE "it‰‰n"
+#define LANTEEN_PHRASE "l‰nteen"
+#define KOILLISEEN_PHRASE "koilliseen"
+#define KAAKKOON_PHRASE "kaakkoon"
+#define LOUNAASEEN_PHRASE "lounaaseen"
+#define LUOTEESEEN_PHRASE "luoteeseen"
+#define POHJOISEN_PUOLELLE_PHRASE "pohjoisen puolelle"
+#define ETELAN_PUOLELLE_PHRASE "etel‰n puolelle"
+#define IDAN_PUOLELLE_PHRASE "id‰n puolelle"
+#define LANNEN_PUOLELLE_PHRASE "l‰nnen puolelle"
+#define KOILLISEN_PUOLELLE_PHRASE "koillisen puolelle"
+#define KAAKON_PUOLELLE_PHRASE "kaakon puolelle"
+#define LOUNAAN_PUOLELLE_PHRASE "lounaan puolelle"
+#define LUOTEEN_PUOLELLE_PHRASE "luoteen puolelle"
+#define POHJOISEN_JA_KOILLISEN_VALILLE_PHRASE "pohjoisen ja koillisen v‰lille"
+#define KOILLISEN_JA_IDAN_VALILLE_PHRASE "koillisen ja id‰n v‰lille"
+#define IDAN_JA_KAAKON_VALILLE_PHRASE "id‰n ja kaakon v‰lille"
+#define KAAKON_JA_ETELAN_VALILLE_PHRASE "kaakon ja etel‰n v‰lille"
+#define LOUNAAN_JA_ETELAN_VALILLE_PHRASE "lounaan ja etel‰n v‰lille"
+#define LANNEN_JA_LOUNAAN_VALILLE_PHRASE "l‰nnen ja lounaan v‰lille"
+#define LUOTEEN_JA_LANNEN_VALILLE_PHRASE "luoteen ja l‰nnen v‰lille"
+#define LUOTEEN_JA_POHJOISEN_VALILLE_PHRASE "luoteen ja pohjoisen v‰lille"
+#define TUULI_MUUTTUU_VAIHTELEVAKSI_PHRASE "tuuli muuttuu vaihtelevaksi"
+
+#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] tuuli k‰‰ntyy [etel‰‰n]"
+#define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI "[iltap‰iv‰ll‰] tuuli muuttuu vaihtelevaksi"
+#define ILTAPAIVALLA_ETELAAN_KAANTYVAA_TUULTA "[iltap‰iv‰ll‰] [etel‰‰n] k‰‰ntyv‰‰ tuulta"
 
   /*
 	#define TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] sumua"
@@ -72,6 +104,116 @@ namespace TextGen
 	#define INPLACES_FOG_DENSE_COMPOSITE_PHRASE "[paikoin] sumua, joka voi olla sakeaa"
   */
 
+  std::string get_wind_direction16_turnto_string(const wind_direction16_id& theWindDirectionId)
+  {
+	std::string retval;
+
+	/*
+#define POHJOISEN_PUOLELLE_PHRASE "pohjoisen puolelle"
+#define ETELAN_PUOLELLE_PHRASE "etel‰n puolelle"
+#define IDAN_PUOLELLE_PHRASE "id‰n puolelle"
+#define LANNEN_PUOLELLE_PHRASE "l‰nnen puolelle"
+#define KOILLISEN_PUOLELLE_PHRASE "koillisen puolelle"
+#define KAAKON_PUOLELLE_PHRASE "kaakon puolelle"
+#define LOUNAAN_PUOLELLE_PHRASE "lounaan puolelle"
+#define LUOTEEN_PUOLELLE_PHRASE "luoteen puolelle"
+
+	 */
+
+	switch(theWindDirectionId)
+	  {
+	  case POHJOINEN_:
+		retval = POHJOISEEN_PHRASE;
+		break;
+	  case POHJOINEN_PUOLEINEN:
+		retval = POHJOISEN_PUOLELLE_PHRASE;
+		break;
+	  case POHJOINEN_KOILLINEN:
+		retval = POHJOISEN_JA_KOILLISEN_VALILLE_PHRASE;
+		break;
+	  case KOILLINEN_:
+		retval = KOILLISEEN_PHRASE;
+		break;
+	  case KOILLINEN_PUOLEINEN:
+		retval = KOILLISEN_PUOLELLE_PHRASE;
+		break;
+	  case KOILLINEN_ITA:
+		retval = KOILLISEN_JA_IDAN_VALILLE_PHRASE;
+		break;
+	  case ITA_:
+		retval = ITAAN_PHRASE;
+		break;
+	  case ITA_PUOLEINEN:
+		retval = IDAN_PUOLELLE_PHRASE;
+		break;
+	  case ITA_KAAKKO:
+		retval = IDAN_JA_KAAKON_VALILLE_PHRASE;
+		break;
+	  case KAAKKO_:
+		retval = KAAKKOON_PHRASE;
+		break;
+	  case KAAKKO_PUOLEINEN:
+		retval = KAAKON_PUOLELLE_PHRASE;
+		break;
+	  case KAAKKO_ETELA:
+		retval = KAAKON_JA_ETELAN_VALILLE_PHRASE;
+		break;
+	  case ETELA_:
+		retval = ETELAAN_PHRASE;
+		break;
+	  case ETELA_PUOLEINEN:
+		retval = ETELAN_PUOLELLE_PHRASE;
+		break;
+	  case ETELA_LOUNAS:
+		retval = LOUNAAN_JA_ETELAN_VALILLE_PHRASE;
+		break;
+	  case LOUNAS_:
+		retval = LOUNAASEEN_PHRASE;
+		break;
+	  case LOUNAS_PUOLEINEN:
+		retval = LOUNAAN_PUOLELLE_PHRASE;
+		break;
+	  case LOUNAS_LANSI:
+		retval = LANNEN_JA_LOUNAAN_VALILLE_PHRASE;
+		break;
+	  case LANSI_:
+		retval = LANTEEN_PHRASE;
+		break;
+	  case LANSI_PUOLEINEN:
+		retval = LANNEN_PUOLELLE_PHRASE;
+		break;
+	  case LANSI_LUODE:
+		retval = LUOTEEN_JA_LANNEN_VALILLE_PHRASE;
+		break;
+	  case LUODE_:
+		retval = LUOTEESEEN_PHRASE;
+		break;
+	  case LUODE_PUOLEINEN:
+		retval = LUOTEEN_PUOLELLE_PHRASE;
+		break;
+	  case LUODE_POHJOINEN:
+		retval = LUOTEEN_JA_POHJOISEN_VALILLE_PHRASE;
+		break;
+	  case VAIHTELEVA_:
+		retval = "vaihtelevaksi";
+		break;
+	  }
+
+	return retval;
+  }
+  
+  wind_direction16_id get_wind_direction16_id(const NFmiTime& timestamp,
+											  const wind_direction16_period_data_item_vector& windDirection16Vector)
+  {
+	for(unsigned int i = 0; i < windDirection16Vector.size(); i++)
+	  {
+		if(is_inside(timestamp, windDirection16Vector[i]->thePeriod))
+		  return windDirection16Vector[i]->theWindDirection;
+	  }
+	  
+	return VAIHTELEVA_;
+  }
+
   WindForecast::WindForecast(wo_story_params& parameters):
 	theParameters(parameters)
   {
@@ -85,33 +227,129 @@ namespace TextGen
   {
   }
 
-#ifdef LATER
   Sentence WindForecast::windSentenceWithEvents(const WeatherPeriod& thePeriod) const
   {
 	Sentence sentence;
 
-    unsigned int forecastPeriodLength = get_period_length(theParameters.theForecastPeriod);
+	// first tell about the beginning of the forecast period
+	sentence << direction16_sentence(theParameters.theWindDirection16Vector[0]->theWindDirection);
+	sentence << wind_speed_sentence(theParameters.theWindDirection16Vector[0]->thePeriod);
+
+	// then iterate through the events and raport about them
+	//    unsigned int forecastPeriodLength = get_period_length(theParameters.theForecastPeriod);
 	thePreviousRangeBeg = INT_MAX;
 	thePreviousRangeEnd = INT_MAX;
 
-	sentence << direction_sentence(theParameters.theWindDirectionVector[0]->theWindDirection);
-	sentence << wind_speed_sentence(theParameters.theWindDirectionVector[0]->thePeriod);
+	Paragraph paragraph;
 
-	for(unsigned int i = 0; i < storyParams.theWindEventVector.size(); i++)
+	for(unsigned int i = 0; i < theParameters.theWindEventVector.size(); i++)
 	  {
-		wind_event_id windEventId = storyParams.theWindEventVector[i].second;
+		Sentence eventSentence;
 
+		wind_event_id windEventId = theParameters.theWindEventVector[i].second;
+		Sentence timePhrase;
+		timePhrase << get_time_phrase(theParameters.theWindEventVector[i].first, theParameters.theVar);
+		Sentence windDirectionTurningToPhrase;
+		wind_direction16_id directionId = get_wind_direction16_id(theParameters.theWindEventVector[i].first,
+																  theParameters.theWindDirection16Vector);
+		windDirectionTurningToPhrase << get_wind_direction16_turnto_string(directionId);
+
+		/*
+#define TUULI_TYYNTYY_PHRASE "tuuli tyyntyy"
+#define VOIMISTUVAA_TUULTA_PHRASE "voimistuvaa tuulta"
+#define HEIKKENEVAA_TUULTA_PHRASE "heinnenev‰‰ tuulta"
+#define POHJOISEEN_PHRASE "pohjoiseen"
+#define ETELAAN_PHRASE "etel‰‰n"
+#define ITAAN_PHRASE "it‰‰n"
+#define LANTEEN_PHRASE "l‰nteen"
+#define KOILLISEEN_PHRASE "koilliseen"
+#define KAAKKOON_PHRASE "kaakkoon"
+#define LOUNAASEEN_PHRASE "lounaaseen"
+#define LUOTEESEEN_PHRASE "luoteseen"
+#define POHJOISEN_JA_KOILLISEN_VALILLE_PHRASE "pohjoisen ja koillisen v‰lille"
+#define KOILLISEN_JA_IDAN_VALILLE_PHRASE "koillisen ja id‰n v‰lille"
+#define IDAN_JA_KAAKON_VALILLE_PHRASE "id‰n ja kaakon v‰lille"
+#define KAAKON_JA_ETELAN_VALILLE_PHRASE "kaakkon ja etel‰n v‰lille"
+#define LOUNAAN_JA_ETELAN_VALILLE_PHRASE "lounaan ja etel‰n v‰lille"
+#define LANNEN_JA_LOUNAAN_VALILLE_PHRASE "l‰nnen ja lounaan v‰lille"
+#define LUOTEEN_JA_LANNEN_VALILLE_PHRASE "luoteen ja l‰nnen v‰lille"
+#define LUOTEEN_JA_POHJOISEN_VALILLE_PHRASE "luoteen ja pohjoisen v‰lille"
+
+#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[huomenna] tuuli k‰‰ntyy [etel‰‰n]"
+#define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI "[iltap‰iv‰ll‰] tuuli muuttuu vaihtelevaksi"
+#define ILTAPAIVALLA_ETELAAN_KAANTYVAA_TUULTA "[iltap‰iv‰ll‰] [etel‰‰n] k‰‰ntyv‰‰ tuulta"
+
+ std::string get_wind_event_string(const wind_event_id& theWindEventId)
+  {
+	std::string retval;
+
+	switch(theWindEventId)
+	  {
+	  case TUULI_HEIKKENEE:
+		retval = "tuuli heikkenee";
+		break;
+	  case TUULI_VOIMISTUU:
+		retval = "tuuli voimistuu";
+		break;
+	  case TUULI_TYYNTYY:
+		retval = "tuuli tyyntyy";
+		break;
+	  case TUULI_KAANTYY:
+		retval = "tuuli k‰‰ntyy";
+		break;
+	  case TUULI_KAANTYY_JA_HEIKEKNEE:
+		retval = "tuuli k‰‰ntyy ja heikkenee";
+		break;
+	  case TUULI_KAANTYY_JA_VOIMISTUU:
+		retval = "tuuli k‰‰ntyy ja voimistuu";
+		break;
+	  case TUULI_KAANTYY_JA_TYYNTYY:
+		retval = "tuuli k‰‰ntyy ja tyyntyy";
+		break;
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI:
+		retval = "tuuli muuttuu vaihtelevaksi";
+		break;
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE:
+		retval = "tuuli muuttuu vaihtelevaksi ja heikkenee";
+		break;
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU:
+		retval = "tuuli muuttuu vaihtelevaksi ja voimistuu";
+		break;
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY:
+		retval = "tuuli muuttuu vaihtelevaksi ja tyyntyy";
+		break;
+	  case MISSING_WIND_EVENT:
+		retval = "missing wind event";
+		break;
+	  }
+
+	return retval;
+  }
+
+
+		 */
 		switch (windEventId)
 		  {
 		  case TUULI_HEIKKENEE:
+			eventSentence << timePhrase << HEIKKENEVAA_TUULTA_PHRASE;
+			// TODO: wind speed period
+			//eventSentence << wind_speed_sentence(theParameters.theWindDirection16Vector[i]->thePeriod);
+
 			break;
 		  case TUULI_VOIMISTUU:
+			eventSentence << timePhrase << VOIMISTUVAA_TUULTA_PHRASE;
 			break;
 		  case TUULI_TYYNTYY:
+			eventSentence << timePhrase << TUULI_TYYNTYY_PHRASE;
 			break;
 		  case TUULI_KAANTYY:
+			eventSentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE
+						  << timePhrase 
+						  << windDirectionTurningToPhrase;
 			break;
 		  case TUULI_MUUTTUU_VAIHTELEVAKSI:
+			eventSentence << ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI
+						  << timePhrase; 
 			break;
 		  case TUULI_KAANTYY_JA_HEIKEKNEE:
 			break;
@@ -128,24 +366,15 @@ namespace TextGen
 		  case MISSING_WIND_EVENT:
 			break;
 		  };
-	  }
-  enum wind_event_id 
-	{
-	  TUULI_HEIKKENEE = 0x1,
-	  TUULI_VOIMISTUU = 0x2,
-	  TUULI_TYYNTYY = 0x4,
-	  TUULI_KAANTYY = 0x8,
-	  TUULI_MUUTTUU_VAIHTELEVAKSI = 0x10,
-	  TUULI_KAANTYY_JA_HEIKEKNEE = 0x9,
-	  TUULI_KAANTYY_JA_VOIMISTUU = 0xA,
-	  TUULI_KAANTYY_JA_TYYNTYY = 0xC,
-	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE = 0x11,
-	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU = 0x12,
-	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY = 0x14,
-	  MISSING_WIND_EVENT = 0x0
-	};
 
-	returnb sentence;
+		paragraph << eventSentence;
+	  }
+
+	sentence << paragraph;
+
+	return sentence;
+
+#ifdef LATER
 
   /*
  void log_wind_events(wo_story_params& storyParams)
@@ -204,8 +433,9 @@ namespace TextGen
 		  }
 
 		*/
-  }
 #endif
+
+  }
 
 
 
@@ -241,7 +471,7 @@ namespace TextGen
 	  sentence << wind_speed_sentence(theParameters.theWindDirection16Vector[i]->thePeriod);
 	  }
 	*/		
-	for(unsigned int i = 0; i < theParameters.theWindDirectionVector.size(); i++)
+	for(unsigned int i = 0; i < theParameters.theWindDirection16Vector.size(); i++)
 	  {
 		if(sentence.size() > 0)
 		  sentence << Delimiter(COMMA_PUNCTUATION_MARK);
@@ -249,17 +479,17 @@ namespace TextGen
 		if(i > 0)
 		  {
 			bool spefifyDay = (forecastPeriodLength > 24 &&
-							   abs(theParameters.theForecastTime.DifferenceInHours(theParameters.theWindDirectionVector[i]->thePeriod.localStartTime())) > 21);
+							   abs(theParameters.theForecastTime.DifferenceInHours(theParameters.theWindDirection16Vector[i]->thePeriod.localStartTime())) > 21);
 			// day phase specifier
 			std::string dayPhasePhrase;
-			sentence << get_time_phrase_large(theParameters.theWindDirectionVector[i]->thePeriod,
+			sentence << get_time_phrase_large(theParameters.theWindDirection16Vector[i]->thePeriod,
 											  spefifyDay,
 											  theParameters.theVar, 
 											  dayPhasePhrase,
 											  true);
 		  }
-		sentence << direction_sentence(theParameters.theWindDirectionVector[i]->theWindDirection);
-		sentence << wind_speed_sentence(theParameters.theWindDirectionVector[i]->thePeriod);
+		sentence << direction16_sentence(theParameters.theWindDirection16Vector[i]->theWindDirection);
+		sentence << wind_speed_sentence(theParameters.theWindDirection16Vector[i]->thePeriod);
 	  }
 
 	return sentence;

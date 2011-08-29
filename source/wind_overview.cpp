@@ -203,6 +203,7 @@ namespace TextGen
 	return retval;
   }
 
+
  std::string get_wind_event_string(const wind_event_id& theWindEventId)
   {
 	std::string retval;
@@ -800,43 +801,6 @@ namespace TextGen
 	if(accuracy == bad_accuracy)
 	  return VAIHTELEVA_;
 
-	/*
-	if(windDirection.value() >= 348.75 && windDirection.value() < 11.25)
-	  return POHJOINEN_;
-	else if(windDirection.value() >= 11.25 && windDirection.value() < 33.75)
-	  return POHJOINEN_KOILLINEN;
-	else if(windDirection.value() >= 33.75 && windDirection.value() < 56.25)
-	  return KOILLINEN_;
-	else if(windDirection.value() >= 56.25 && windDirection.value() < 78.75)
-	  return KOILLINEN_ITA;
-	else if(windDirection.value() >= 78.75 && windDirection.value() < 101.25)
-	  return ITA_;
-	else if(windDirection.value() >= 101.25 && windDirection.value() < 123.75)
-	  return ITA_KAAKKO;
-	else if(windDirection.value() >= 123.75 && windDirection.value() < 146.25)
-	  return KAAKKO_;
-	else if(windDirection.value() >= 146.25 && windDirection.value() < 168.75)
-	  return KAAKKO_ETELA;
-	else if(windDirection.value() >= 168.75 && windDirection.value() < 191.25)
-	  return ETELA_;
-	else if(windDirection.value() >= 191.25 && windDirection.value() < 213.75)
-	  return ETELA_LOUNAS;
-	else if(windDirection.value() >= 213.75 && windDirection.value() < 236.25)
-	  return LOUNAS_;
-	else if(windDirection.value() >= 236.25 && windDirection.value() < 258.75)
-	  return LOUNAS_LANSI;
-	else if(windDirection.value() >= 258.75 && windDirection.value() < 281.25)
-	  return LANSI_;
-	else if(windDirection.value() >= 281.25 && windDirection.value() < 303.75)
-	  return LANSI_LUODE;
-	else if(windDirection.value() >= 303.75 && windDirection.value() < 326.25)
-	  return LUODE_;
-	else if(windDirection.value() >= 326.25 && windDirection.value() < 348.75)
-	  return LUODE_POHJOINEN;
-	else
-	  return VAIHTELEVA_;
-	*/
-
 	int windDirectionId = direction16th(windDirection.value());
 
 	if(windDirectionId == POHJOINEN_)
@@ -1388,45 +1352,26 @@ namespace TextGen
 
   }
 
-  const Paragraph WindStory::overview() const
+  void read_configuration_params(wo_story_params& storyParams)
   {
-	MessageLogger logger("WeatherStory::overview");
+	double maxError = Settings::optional_double(storyParams.theVar+"::max_error", 0.20);
+	double windSpeedThreshold = Settings::optional_double(storyParams.theVar+"::wind_speed_treshold ", 2.0);
+	double windDirectionTreshold = Settings::optional_double(storyParams.theVar+"::wind_direction_treshold", 30.0);
+	storyParams.theMaxError = maxError;
+	storyParams.theWindSpeedThreshold = windSpeedThreshold;
+	storyParams.theWindDirectionTreshold = windDirectionTreshold;
 
-	std::string areaName("");
-	if(itsArea.isNamed())
-	  {
-		areaName = itsArea.name();
-		logger << "** " << areaName << " **" << endl;
-	  }
-	//	cout << "** " << areaName << " **" << endl;
+	storyParams.theNamedWeatherAreas.push_back(make_pair("full", (storyParams.theArea)));
 
-    // Generate the story
-    //
-	Paragraph paragraph;
-
-	double maxError = Settings::optional_double(itsVar+"::max_error", 0.20);
-
-	wo_story_params storyParams(itsVar,
-								areaName,
-								itsArea,
-								itsPeriod,
-								itsPeriod,
-								itsForecastTime,
-								itsSources,
-								maxError,
-								logger);
-
-	storyParams.theNamedWeatherAreas.push_back(make_pair("full", itsArea));
-
-	std::string split_section_name("textgen::split_the_area::" + areaName);
+	std::string split_section_name("textgen::split_the_area::" + storyParams.theAreaName);
 	std::string split_method_name(split_section_name + "::method");
 
 	if(NFmiSettings::IsSet(split_method_name))
 	  {
-		WeatherArea northernArea(itsArea);
-		WeatherArea southernArea(itsArea);
-		WeatherArea easternArea(itsArea);
-		WeatherArea westernArea(itsArea);
+		WeatherArea northernArea(storyParams.theArea);
+		WeatherArea southernArea(storyParams.theArea);
+		WeatherArea easternArea(storyParams.theArea);
+		WeatherArea westernArea(storyParams.theArea);
 		northernArea.type(WeatherArea::Northern);
 		southernArea.type(WeatherArea::Southern);
 		easternArea.type(WeatherArea::Eastern);
@@ -1445,36 +1390,69 @@ namespace TextGen
 		  }
 	  }
 
+  }
 
+  const Paragraph WindStory::overview() const
+  {
+	MessageLogger logger("WeatherStory::overview");
+
+	std::string areaName("");
+	if(itsArea.isNamed())
+	  {
+		areaName = itsArea.name();
+		logger << "** " << areaName << " **" << endl;
+	  }
+	//	cout << "** " << areaName << " **" << endl;
+
+    // Generate the story
+    //
+	Paragraph paragraph;
+
+	wo_story_params storyParams(itsVar,
+								areaName,
+								itsArea,
+								itsPeriod,
+								itsPeriod,
+								itsForecastTime,
+								itsSources,
+								logger);
+
+	// read the configuration parameters
+	read_configuration_params(storyParams);
+
+	// allocate data structures for hourly data
 	allocate_data_structures(storyParams);
 
+	// populate the data structures with the relevant data
 	populate_wind_time_series(storyParams);
 	
+	// equalize the data
 	calculate_equalized_data(storyParams);
 
+	// find out the wind speed periods
 	find_out_wind_speed_periods(storyParams);
 
+	// find out the wind direction periods of 8-direction compass
 	find_out_wind_direction_periods(storyParams);
 
+	// find out the wind direction periods of 16-direction compass
 	find_out_wind_direction16_periods(storyParams);
 
+	// find out the events (changing point) during the forecast period
 	find_out_wind_events(storyParams);
 
+	// log functions
 	log_raw_data_vector(storyParams);
-
 	log_equalized_wind_speed_data_vector(storyParams);
-
 	log_equalized_wind_direction_data_vector(storyParams);
-
 	log_wind_speed_periods(storyParams);
-
 	log_wind_direction_periods(storyParams);
-
 	log_wind_events(storyParams);
 
 	WindForecast windForecast(storyParams);
 
-	paragraph << windForecast.windSentence(itsPeriod);
+	paragraph << windForecast.windSentenceWithEvents(itsPeriod);
+//	paragraph << windForecast.windSentence(itsPeriod);
 
 
 	deallocate_data_structure(storyParams);

@@ -635,7 +635,6 @@ namespace TextGen
 					const WeatherPeriod& forecastPeriod,
 					const NFmiTime& forecastTime,
 					const AnalysisSources& sources,
-					const double& maxError,
 					MessageLogger& log) :
 	  theVar(var),
 	  theAreaName(areaName),
@@ -644,7 +643,6 @@ namespace TextGen
 	  theForecastPeriod(forecastPeriod),
 	  theForecastTime(forecastTime),
 	  theSources(sources),
-	  theMaxError(maxError),
 	  theLog(log)
 	  
 	{}
@@ -656,8 +654,12 @@ namespace TextGen
 	const WeatherPeriod& theForecastPeriod;
 	const NFmiTime& theForecastTime;
 	const AnalysisSources& theSources;
-	const double& theMaxError;
 	MessageLogger& theLog;
+
+	double theMaxError;
+	double theWindSpeedThreshold;
+	double theWindDirectionTreshold;
+
 	wind_data_item_vector theRawDataVector;
 	wind_data_item_vector theEqualizedDataVector;
 	wind_event_id_vector theWindEventVector;
