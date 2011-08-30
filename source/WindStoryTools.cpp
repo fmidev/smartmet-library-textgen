@@ -248,13 +248,14 @@ namespace TextGen
 
 	  const int minvalue = static_cast<int>(round(theMinSpeed.value()));
 	  const int maxvalue = static_cast<int>(round(theMaxSpeed.value()));
+	  const int meanvalue = static_cast<int>(round(theMeanSpeed.value()));
 
 	  const string var = "textgen::units::meterspersecond::format";
 	  const string opt = Settings::optional_string(var,"SI");
 
 	  if(opt == "textphrase")
 		{
-		  sentence << *UnitFactory::create(MetersPerSecond, maxvalue) << "tuulta";
+		  sentence << *UnitFactory::create(MetersPerSecond, meanvalue) << "tuulta";
 		}
 	  else
 		{
@@ -327,6 +328,44 @@ namespace TextGen
 	  return sentence;
 	  
 	}
+
+	const std::string speed_string(const WeatherResult& theMeanSpeed)
+	{
+	  std::string retval;
+
+	  int int_value(static_cast<int>(round(theMeanSpeed.value())));
+
+	  if(int_value >= 1)
+		{
+		  if(int_value >= 1 && int_value <= 3)
+			{
+			  retval = "heikkoa" ;
+			}
+		  else if(int_value >= 4 && int_value <= 7)
+			{
+			  retval = "kohtalaista";
+			}
+		  else if(int_value >= 8 && int_value <= 13)
+			{
+			  retval = "navakkaa";
+			}
+		  else if(int_value >= 14 && int_value <= 20)
+			{
+			  retval = "kovaa";
+			}
+		  else if(int_value >= 21 && int_value <= 32)
+			{
+			  retval = "myrskyä";
+			}
+		  else
+			{
+			  retval = "hirmumyrskyä";
+			}
+
+		}			  
+	  return retval;	  
+	}
+
 
 	const string directed_speed_string(const WeatherResult & theMeanSpeed,
 									   const WeatherResult & theDirection,

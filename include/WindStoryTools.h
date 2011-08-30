@@ -64,7 +64,10 @@ namespace TextGen
 	
 	const std::string directed_speed_string(const WeatherAnalysis::WeatherResult & theMeanSpeed,
 											const WeatherAnalysis::WeatherResult & theDirection,
-											const std::string & theVariable);	
+											const std::string & theVariable);
+
+	const std::string speed_string(const WeatherAnalysis::WeatherResult& theMeanSpeed);
+	
   } // namespace WindStoryTools
 } // namespace TextGen
 
