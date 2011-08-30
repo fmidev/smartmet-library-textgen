@@ -503,6 +503,13 @@ using namespace std;
 	return WeatherPeriod(startTime, endTime);
 	
   }
+  
+  bool is_inside(const WeatherPeriod& theWeatherPeriod1,
+				 const WeatherPeriod& theWeatherPeriod2)
+  {
+	return (is_inside(theWeatherPeriod1.localStartTime(), theWeatherPeriod2) &&
+			is_inside(theWeatherPeriod1.localEndTime(), theWeatherPeriod2));
+  }
 
   bool is_inside(const NFmiTime& theTimeStamp, 
 				 const WeatherPeriod& theWeatherPeriod)

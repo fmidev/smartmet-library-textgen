@@ -520,6 +520,13 @@ namespace TextGen
 	  MISSING_WIND_EVENT = 0x0
 	};
   
+  enum change_type
+	{
+	  INCREASING,
+	  DECREASING,
+	  AS_BEFORE
+	};
+
   class WeatherResultDataItem;
   class PrecipitationDataItemData;
   class FogIntensityDataItem;
@@ -703,6 +710,8 @@ namespace TextGen
 	  const part_of_the_day_id& thePartOfTheDayId, 
 	  WeatherPeriod& theDestinationPeriod);*/
   part_of_the_day_id get_part_of_the_day_id(const NFmiTime& theTimestamp);
+  bool is_inside(const WeatherPeriod& theWeatherPeriod1,
+				 const WeatherPeriod& theWeatherPeriod2);
   bool is_inside(const WeatherPeriod& theWeatherPeriod,
 				 const part_of_the_day_id& thePartOfTheDayId);
   bool is_inside(const NFmiTime& theTimeStamp, 
@@ -1076,11 +1085,13 @@ namespace TextGen
 	WeatherResult theWindMaximum;
 	WeatherResult theWindDirection;
 	WeatherResult theGustSpeed;
+	change_type theWindSpeedChangeType;
+	change_type theWindDirectionChangeType;
   };
 
   struct WindDataItemContainer
   {
-	WindDataItemContainer()
+	WindDataItemContainer() : previousDataItem(0)
 	{}
 	
 	~WindDataItemContainer()
@@ -1107,6 +1118,38 @@ namespace TextGen
 														windDirection,
 														gustSpeed);
 	  theDataItems.insert(make_pair(name, dataItem));
+
+	  if(previousDataItem)
+		{
+		  int previousWindSpeed = static_cast<int>(round(previousDataItem->theWindSpeedMean.value()));
+		  int currentWindSpeed = static_cast<int>(round(dataItem->theWindSpeedMean.value()));
+		  int previousDirection = static_cast<int>(round(previousDataItem->theWindDirection.value()));
+		  int currentDirection = static_cast<int>(round(dataItem->theWindDirection.value()));
+		  if(currentWindSpeed > previousWindSpeed)
+			dataItem->theWindSpeedChangeType = INCREASING;
+		  else if(currentWindSpeed < previousWindSpeed)
+			dataItem->theWindSpeedChangeType = DECREASING;
+		  else
+			dataItem->theWindSpeedChangeType = AS_BEFORE;
+		  if(abs(currentDirection-previousDirection < 180))
+			{
+			  if(currentDirection > previousDirection)
+				dataItem->theWindDirectionChangeType = INCREASING;
+			  if(currentDirection < previousDirection)
+				dataItem->theWindDirectionChangeType = DECREASING;
+			  else
+				dataItem->theWindDirectionChangeType = AS_BEFORE;
+			}
+		  else
+			{
+			  if(currentDirection > previousDirection)
+				dataItem->theWindDirectionChangeType = DECREASING;
+			  else
+				dataItem->theWindDirectionChangeType = INCREASING;
+			}
+		}
+
+	  previousDataItem = dataItem;
 	}
 
 	const WindDataItemUnit& operator()(const string& name = "full") const
@@ -1128,6 +1171,7 @@ namespace TextGen
 
   private:
 	map<string, WindDataItemUnit*> theDataItems;
+	WindDataItemUnit* previousDataItem;
   };
 
   struct WindSpeedPeriodDataItem
