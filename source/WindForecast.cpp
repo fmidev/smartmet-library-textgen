@@ -81,6 +81,13 @@ namespace TextGen
 #define LUOTEEN_JA_POHJOISEN_VALILLE_PHRASE "luoteen ja pohjoisen v‰lille"
 #define TUULI_MUUTTUU_VAIHTELEVAKSI_PHRASE "tuuli muuttuu vaihtelevaksi"
 
+
+#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] tuuli k‰‰ntyy [etel‰‰n] ja voimistuu"
+#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] tuuli k‰‰ntyy [etel‰‰n] ja heikkenee"
+#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_TYYNTYY_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] tuuli k‰‰ntyy [etel‰‰n] ja tyyntyy"
+#define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] tuuli muuttuu vaihtelevaksi ja voimistuu"
+#define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] tuuli muuttuu vaihtelevaksi ja heikkenee"
+#define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] tuuli muuttuu vaihtelevaksi ja tyyntyy"
 #define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] tuuli k‰‰ntyy [etel‰‰n]"
 #define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI "[iltap‰iv‰ll‰] tuuli muuttuu vaihtelevaksi"
 #define ILTAPAIVALLA_ETELAAN_KAANTYVAA_TUULTA "[iltap‰iv‰ll‰] [etel‰‰n] k‰‰ntyv‰‰ tuulta"
@@ -202,16 +209,98 @@ namespace TextGen
 	return retval;
   }
   
-  wind_direction16_id get_wind_direction16_id(const NFmiTime& timestamp,
-											  const wind_direction16_period_data_item_vector& windDirection16Vector)
+  wind_direction16_id get_moderate_accuracy_direction(const wind_direction16_id& directionId)
   {
-	for(unsigned int i = 0; i < windDirection16Vector.size(); i++)
+	switch(directionId)
 	  {
-		if(is_inside(timestamp, windDirection16Vector[i]->thePeriod))
-		  return windDirection16Vector[i]->theWindDirection;
+	  case POHJOINEN_:
+		return POHJOINEN_PUOLEINEN;
+		break;
+	  case ETELA_:
+		return ETELA_PUOLEINEN;
+		break;
+	  case ITA_:
+		return ITA_PUOLEINEN;
+		break;
+	  case LANSI_:
+		return LANSI_PUOLEINEN;
+		break;
+	  case KOILLINEN_:
+	  return KOILLINEN_PUOLEINEN;
+		break;
+	  case KAAKKO_:
+		return KAAKKO_PUOLEINEN;
+		break;
+	  case LOUNAS_:
+		return LOUNAS_PUOLEINEN;
+		break;
+	  case LUODE_:
+		return LUODE_PUOLEINEN;
+		break;
+	  default:
+		return VAIHTELEVA_;
+		break;
+	  }
+  }
+
+  bool is_principal_compass_point(const wind_direction16_id& directionId)
+  {
+	return (directionId == POHJOINEN_ ||
+			directionId == ETELA_ ||
+			directionId == ITA_ ||
+			directionId == LANSI_ ||
+			directionId == KOILLINEN_ ||
+			directionId == KAAKKO_ ||
+			directionId == LOUNAS_ ||
+			directionId == LUODE_);
+  }
+
+  // returns wind direction id in the given time
+  wind_direction16_id WindForecast::get_wind_direction16_id(const NFmiTime& timestamp) const
+  {
+	for(unsigned int i = 0; i < theParameters.theWindDirection16Vector.size(); i++)
+	  {
+		// find the correcponding period and find out the exact wind direction for the period
+		if(is_inside(timestamp, theParameters.theWindDirection16Vector[i]->thePeriod))
+		  {
+			if(is_principal_compass_point(theParameters.theWindDirection16Vector[i]->theWindDirection))
+			  {
+				int totalCount = 0;
+				int moderateAccuracyCount = 0;
+				for(unsigned int k = 0; k < theParameters.theRawDataVector.size(); k++)
+				  {
+					const WindDataItemUnit& windDataItem = (*theParameters.theRawDataVector[k])();
+
+					if(is_inside(windDataItem.thePeriod,
+								 theParameters.theWindDirection16Vector[i]->thePeriod))
+					  {
+						totalCount++;
+						if(direction_accuracy(windDataItem.theWindDirection.error(),
+											  theParameters.theVar) == moderate_accuracy)
+						  moderateAccuracyCount++;
+					  }
+				  }
+				if(totalCount > 0 && moderateAccuracyCount > totalCount / 2)
+				  return get_moderate_accuracy_direction(theParameters.theWindDirection16Vector[i]->theWindDirection);
+				else
+				  return theParameters.theWindDirection16Vector[i]->theWindDirection;
+			  }
+			else
+			  {
+				return theParameters.theWindDirection16Vector[i]->theWindDirection;
+			  }
+		  }
 	  }
 	  
 	return VAIHTELEVA_;
+  }
+
+  // returns the period during which the wind turns
+  WeatherPeriod get_wind_turning_period(const NFmiTime& timestamp)
+  {
+	WeatherPeriod period(timestamp, timestamp);
+
+	return period;
   }
 
   WindForecast::WindForecast(wo_story_params& parameters):
@@ -227,22 +316,23 @@ namespace TextGen
   {
   }
 
-  Sentence WindForecast::windSentenceWithEvents(const WeatherPeriod& thePeriod) const
+  Paragraph WindForecast::windForecastBasedOnEvents(const WeatherPeriod& thePeriod) const
   {
-	Sentence sentence;
+	Paragraph paragraph;
 
 	// first tell about the beginning of the forecast period
-	sentence << direction16_sentence(theParameters.theWindDirection16Vector[0]->theWindDirection);
-	sentence << wind_speed_sentence(theParameters.theWindDirection16Vector[0]->thePeriod);
+	Sentence theOpeningSentence;
+	theOpeningSentence << direction16_sentence(get_wind_direction16_id(theParameters.theWindDirection16Vector[0]->thePeriod.localStartTime()));
+	theOpeningSentence << wind_speed_sentence(theParameters.theWindDirection16Vector[0]->thePeriod);
+	paragraph << theOpeningSentence;
 
 	// then iterate through the events and raport about them
 	//    unsigned int forecastPeriodLength = get_period_length(theParameters.theForecastPeriod);
 	thePreviousRangeBeg = INT_MAX;
 	thePreviousRangeEnd = INT_MAX;
 
-	Paragraph paragraph;
-
-	for(unsigned int i = 0; i < theParameters.theWindEventVector.size(); i++)
+	unsigned int eventCount = theParameters.theWindEventVector.size();
+	for(unsigned int i = 0; i < eventCount; i++)
 	  {
 		Sentence eventSentence;
 
@@ -250,9 +340,17 @@ namespace TextGen
 		Sentence timePhrase;
 		timePhrase << get_time_phrase(theParameters.theWindEventVector[i].first, theParameters.theVar);
 		Sentence windDirectionTurningToPhrase;
-		wind_direction16_id directionId = get_wind_direction16_id(theParameters.theWindEventVector[i].first,
-																  theParameters.theWindDirection16Vector);
+		wind_direction16_id directionId = get_wind_direction16_id(theParameters.theWindEventVector[i].first);
 		windDirectionTurningToPhrase << get_wind_direction16_turnto_string(directionId);
+
+
+		NFmiTime reportPeriodStartTime(theParameters.theWindEventVector[i].first);
+		NFmiTime reportPeriodEndTime(i < eventCount - 1 ? theParameters.theWindEventVector[i+1].first :
+									  theParameters.theForecastPeriod.localEndTime());
+		if(i < eventCount - 1)
+		  reportPeriodEndTime.ChangeByHours(-1);
+
+		WeatherPeriod priodToReport(reportPeriodStartTime, reportPeriodEndTime);
 
 		/*
 #define TUULI_TYYNTYY_PHRASE "tuuli tyyntyy"
@@ -331,13 +429,18 @@ namespace TextGen
 		switch (windEventId)
 		  {
 		  case TUULI_HEIKKENEE:
-			eventSentence << timePhrase << HEIKKENEVAA_TUULTA_PHRASE;
-			// TODO: wind speed period
-			//eventSentence << wind_speed_sentence(theParameters.theWindDirection16Vector[i]->thePeriod);
-
+			{
+			  eventSentence << timePhrase << HEIKKENEVAA_TUULTA_PHRASE;			
+			  eventSentence << Delimiter(COMMA_PUNCTUATION_MARK);
+			  eventSentence << wind_speed_sentence(priodToReport);
+			}
 			break;
 		  case TUULI_VOIMISTUU:
-			eventSentence << timePhrase << VOIMISTUVAA_TUULTA_PHRASE;
+			{
+			  eventSentence << timePhrase << VOIMISTUVAA_TUULTA_PHRASE;
+			  eventSentence << Delimiter(COMMA_PUNCTUATION_MARK);
+			  eventSentence << wind_speed_sentence(priodToReport);
+			}
 			break;
 		  case TUULI_TYYNTYY:
 			eventSentence << timePhrase << TUULI_TYYNTYY_PHRASE;
@@ -352,16 +455,36 @@ namespace TextGen
 						  << timePhrase; 
 			break;
 		  case TUULI_KAANTYY_JA_HEIKEKNEE:
+			eventSentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_COMPOSITE_PHRASE
+						  << timePhrase 
+						  << windDirectionTurningToPhrase
+						  << wind_speed_sentence(priodToReport);
 			break;
 		  case TUULI_KAANTYY_JA_VOIMISTUU:
+			eventSentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_COMPOSITE_PHRASE
+						  << timePhrase 
+						  << windDirectionTurningToPhrase
+						  << wind_speed_sentence(priodToReport);
 			break;
 		  case TUULI_KAANTYY_JA_TYYNTYY:
+			eventSentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_TYYNTYY_COMPOSITE_PHRASE
+						  << timePhrase 
+						  << windDirectionTurningToPhrase;
 			break;
 		  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE:
+			eventSentence << ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE_COMPOSITE_PHRASE
+						  << timePhrase 
+						  << wind_speed_sentence(priodToReport);
 			break;
 		  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU:
+			eventSentence << ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU_COMPOSITE_PHRASE
+						  << timePhrase 
+						  << wind_speed_sentence(priodToReport);
 			break;
 		  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY:
+			eventSentence << ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY_COMPOSITE_PHRASE
+						  << timePhrase 
+						  << windDirectionTurningToPhrase;
 			break;
 		  case MISSING_WIND_EVENT:
 			break;
@@ -370,9 +493,7 @@ namespace TextGen
 		paragraph << eventSentence;
 	  }
 
-	sentence << paragraph;
-
-	return sentence;
+	return paragraph;
 
 #ifdef LATER
 

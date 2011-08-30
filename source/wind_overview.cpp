@@ -803,6 +803,9 @@ namespace TextGen
 
 	int windDirectionId = direction16th(windDirection.value());
 
+	return static_cast<wind_direction16_id>(windDirectionId);
+
+	/*
 	if(windDirectionId == POHJOINEN_)
 	  return (accuracy == good_accuracy ? POHJOINEN_ : POHJOINEN_PUOLEINEN);
 	else if(windDirectionId == POHJOINEN_KOILLINEN)
@@ -835,6 +838,7 @@ namespace TextGen
 	  return (accuracy == good_accuracy ? LUODE_ : LUODE_PUOLEINEN);
 	else
 	  return LUODE_POHJOINEN;
+	*/
   }
 
   void find_out_wind_speed_periods(wo_story_params& storyParams)
@@ -1451,7 +1455,7 @@ namespace TextGen
 
 	WindForecast windForecast(storyParams);
 
-	paragraph << windForecast.windSentenceWithEvents(itsPeriod);
+	paragraph << windForecast.windForecastBasedOnEvents(itsPeriod);
 //	paragraph << windForecast.windSentence(itsPeriod);
 
 
