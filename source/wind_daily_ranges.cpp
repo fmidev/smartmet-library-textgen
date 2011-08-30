@@ -170,11 +170,24 @@ namespace TextGen
 	
 		  const WindDirectionAccuracy accuracy12 = direction_accuracy(direction12.error(),itsVar);
 
-		  const bool similar_speeds = isSimilarRange(minspeeds[0],
-													 maxspeeds[0],
-													 minspeeds[1],
-													 maxspeeds[1],
-													 itsVar);
+		  bool similar_speeds = isSimilarRange(minspeeds[0],
+											   maxspeeds[0],
+											   minspeeds[1],
+											   maxspeeds[1],
+											   itsVar);
+
+		  const string var = "textgen::units::meterspersecond::format";
+		  const string opt = Settings::optional_string(var,"SI");
+		  if(opt == "textphrase")
+			{
+
+			  string speed_string0(speed_string(meanspeeds[0]));
+			  string speed_string1(speed_string(meanspeeds[1]));
+			  
+
+			  similar_speeds = (speed_string0.compare(speed_string1) == 0);
+			}
+
 
 		  if(accuracy12 != bad_accuracy ||
 			 (accuracies[0] == bad_accuracy &&
@@ -196,24 +209,50 @@ namespace TextGen
 				}
 			  else
 				{
-				  sentence << PeriodPhraseFactory::create("today",
-														  itsVar,
-														  itsForecastTime,
-														  periods[0])
-						   << directed_speed_sentence(minspeeds[0],
-													  maxspeeds[0],
-													  meanspeeds[0],
-													  direction12,
-													  itsVar)
-						   << Delimiter(",")
-						   << PeriodPhraseFactory::create("next_day",
-														  itsVar,
-														  itsForecastTime,
-														  periods[1])
-						   << speed_range_sentence(minspeeds[1],
-												   maxspeeds[1],
-												   meanspeeds[1],
-												   itsVar);
+				  if(opt == "textphrase")
+					{
+					  const std::string speed_str(speed_string(meanspeeds[0]));
+
+					  // esim. Tänään heikkoa, huomenna kohtalaista etelätuulta
+					  sentence << PeriodPhraseFactory::create("today",
+															  itsVar,
+															  itsForecastTime,
+															  periods[0])
+							   << speed_str
+							   << Delimiter(",")
+							   << PeriodPhraseFactory::create("next_day",
+															  itsVar,
+															  itsForecastTime,
+															  periods[1])
+							   << directed_speed_sentence(minspeeds[1],
+														  maxspeeds[1],
+														  meanspeeds[1],
+														  direction12,
+														  itsVar);
+
+
+					}
+				  else
+					{
+					  sentence << PeriodPhraseFactory::create("today",
+															  itsVar,
+															  itsForecastTime,
+															  periods[0])
+							   << directed_speed_sentence(minspeeds[0],
+														  maxspeeds[0],
+														  meanspeeds[0],
+														  direction12,
+														  itsVar)
+							   << Delimiter(",")
+							   << PeriodPhraseFactory::create("next_day",
+															  itsVar,
+															  itsForecastTime,
+															  periods[1])
+							   << speed_range_sentence(minspeeds[1],
+													   maxspeeds[1],
+													   meanspeeds[1],
+													   itsVar);
+					}
 				}
 			}
 		  else
