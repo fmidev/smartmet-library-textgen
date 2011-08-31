@@ -438,94 +438,11 @@ namespace TextGen
 
   enum precipitation_type
 	{
-	  SHOWERS,
-	  CONTINUOUS,
+	  CONTINUOUS = 1,
+	  SHOWERS = 2,
 	  MISSING_PRECIPITATION_TYPE
 	};
 
-  enum wind_speed_id
-	{
-	  TYYNI,
-	  HEIKKO,       // 0.5...3.5
-	  KOHTALAINEN,  // 3.5...7.5
-	  NAVAKKA,      // 7.5...13.5
-	  KOVA,         // 13.5...20.5
-	  MYRSKY,       // 20.5...32.5
-	  HIRMUMYRSKY   // 32.5...
-	};
-
-  enum wind_direction_id
-	{
-	  POHJOINEN = 1,
-	  KOILLINEN,
-	  ITA,
-	  KAAKKO,
-	  ETELA,
-	  LOUNAS,
-	  LANSI,
-	  LUODE,
-	  POHJOISEN_PUOLEINEN,
-	  KOILLISEN_PUOLEINEN,
-	  IDAN_PUOLEINEN,
-	  KAAKON_PUOLEINEN,
-	  ETELAN_PUOLEINEN,
-	  LOUNAAN_PUOLEINEN,
-	  LANNEN_PUOLEINEN,
-	  LUOTEEN_PUOLEINEN,
-	  VAIHTELEVA
-	};
-
-  enum wind_direction16_id
-	{
-	  POHJOINEN_ = 1,
-	  POHJOINEN_KOILLINEN,
-	  KOILLINEN_,
-	  KOILLINEN_ITA,
-	  ITA_,
-	  ITA_KAAKKO,
-	  KAAKKO_,
-	  KAAKKO_ETELA,
-	  ETELA_,
-	  ETELA_LOUNAS,
-	  LOUNAS_,
-	  LOUNAS_LANSI,
-	  LANSI_,
-	  LANSI_LUODE,
-	  LUODE_,
-	  LUODE_POHJOINEN,
-	  POHJOINEN_PUOLEINEN,
-	  KOILLINEN_PUOLEINEN,
-	  ITA_PUOLEINEN,
-	  KAAKKO_PUOLEINEN,
-	  ETELA_PUOLEINEN,
-	  LOUNAS_PUOLEINEN,
-	  LANSI_PUOLEINEN,
-	  LUODE_PUOLEINEN,
-	  VAIHTELEVA_
-	};
-
-  enum wind_event_id 
-	{
-	  TUULI_HEIKKENEE = 0x1,
-	  TUULI_VOIMISTUU = 0x2,
-	  TUULI_TYYNTYY = 0x4,
-	  TUULI_KAANTYY = 0x8,
-	  TUULI_MUUTTUU_VAIHTELEVAKSI = 0x10,
-	  TUULI_KAANTYY_JA_HEIKEKNEE = 0x9,
-	  TUULI_KAANTYY_JA_VOIMISTUU = 0xA,
-	  TUULI_KAANTYY_JA_TYYNTYY = 0xC,
-	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE = 0x11,
-	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU = 0x12,
-	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY = 0x14,
-	  MISSING_WIND_EVENT = 0x0
-	};
-  
-  enum change_type
-	{
-	  INCREASING,
-	  DECREASING,
-	  AS_BEFORE
-	};
 
   class WeatherResultDataItem;
   class PrecipitationDataItemData;
@@ -533,11 +450,6 @@ namespace TextGen
   class PrecipitationDataItem;
   class CloudinessDataItem;
   class ThunderDataItem;
-  class WindDataItemUnit;
-  class WindDataItemContainer;
-  class WindSpeedPeriodDataItem;
-  class WindDirectionPeriodDataItem;
-  class WindDirection16PeriodDataItem;
 
   typedef vector<WeatherResultDataItem*> weather_result_data_item_vector;
   typedef std::pair<NFmiTime, weather_event_id> timestamp_weather_event_id_pair;
@@ -557,12 +469,6 @@ namespace TextGen
   typedef vector<NFmiPoint*> location_coordinate_vector;
   typedef std::pair<WeatherPeriod, unsigned int> weather_period_story_part_id_pair;
   typedef vector<weather_period_story_part_id_pair> story_part_vector;
-  typedef vector<WindDataItemContainer*> wind_data_item_vector;
-  typedef vector<WindSpeedPeriodDataItem*> wind_speed_period_data_item_vector;
-  typedef vector<WindDirectionPeriodDataItem*> wind_direction_period_data_item_vector;
-  typedef vector<WindDirection16PeriodDataItem*> wind_direction16_period_data_item_vector;
-  typedef std::pair<NFmiTime, wind_event_id> timestamp_wind_event_id_pair;
-  typedef vector<timestamp_wind_event_id_pair> wind_event_id_vector;
 
 
 
@@ -633,53 +539,6 @@ namespace TextGen
   };
 
 
-  struct wo_story_params
-  {
-	wo_story_params(const string& var,
-					const string& areaName,
-					const WeatherArea& area,
-					const WeatherPeriod& dataPeriod,
-					const WeatherPeriod& forecastPeriod,
-					const NFmiTime& forecastTime,
-					const AnalysisSources& sources,
-					MessageLogger& log) :
-	  theVar(var),
-	  theAreaName(areaName),
-	  theArea(area),
-	  theDataPeriod(dataPeriod),
-	  theForecastPeriod(forecastPeriod),
-	  theForecastTime(forecastTime),
-	  theSources(sources),
-	  theLog(log)
-	  
-	{}
-
-	const string& theVar;
-	const string& theAreaName;
-	const WeatherArea& theArea;
-	const WeatherPeriod& theDataPeriod;
-	const WeatherPeriod& theForecastPeriod;
-	const NFmiTime& theForecastTime;
-	const AnalysisSources& theSources;
-	MessageLogger& theLog;
-
-	double theMaxError;
-	double theWindSpeedThreshold;
-	double theWindDirectionTreshold;
-
-	wind_data_item_vector theRawDataVector;
-	wind_data_item_vector theEqualizedDataVector;
-	wind_event_id_vector theWindEventVector;
-	
-	wind_speed_period_data_item_vector theWindSpeedVector;
-	wind_direction_period_data_item_vector theWindDirectionVector;
-	wind_direction16_period_data_item_vector theWindDirection16Vector;
-	vector<unsigned int> theOriginalWindSpeedIndexes;
-	vector<unsigned int> theEqualizedWindSpeedIndexes;
-	vector<unsigned int> theOriginalWindDirectionIndexes;
-	vector<unsigned int> theEqualizedWindDirectionIndexes;
-	vector<pair<string, WeatherArea> > theNamedWeatherAreas;
-  };
 
 
 
@@ -1060,152 +919,6 @@ namespace TextGen
 	}
   };
 
-  struct WindDataItemUnit
-  {
-	WindDataItemUnit(const WeatherPeriod& period, 
-					 const WeatherResult& windSpeedMin, 
-					 const WeatherResult& windSpeedMax, 
-					 const WeatherResult& windSpeedMean,
-					 const WeatherResult& windMaximum,
-					 const WeatherResult& windDirection,
-					 const WeatherResult& gustSpeed)
-	  : thePeriod(period),
-		theWindSpeedMin(windSpeedMin),
-		theWindSpeedMax(windSpeedMax),
-		theWindSpeedMean(windSpeedMean),
-		theWindMaximum(windMaximum),
-		theWindDirection(windDirection),
-		theGustSpeed(gustSpeed)
-	{}
-	
-	WeatherPeriod thePeriod;
-	WeatherResult theWindSpeedMin;
-	WeatherResult theWindSpeedMax;
-	WeatherResult theWindSpeedMean;
-	WeatherResult theWindMaximum;
-	WeatherResult theWindDirection;
-	WeatherResult theGustSpeed;
-	change_type theWindSpeedChangeType;
-	change_type theWindDirectionChangeType;
-  };
-
-  struct WindDataItemContainer
-  {
-	WindDataItemContainer() : previousDataItem(0)
-	{}
-	
-	~WindDataItemContainer()
-	{
-	  map<string, WindDataItemUnit*>::iterator it;
-	  for (it=theDataItems.begin() ; it != theDataItems.end(); it++)
-		delete it->second;
-	}
-  
-	void addItem(const WeatherPeriod& period, 
-				 const WeatherResult& windSpeedMin, 
-				 const WeatherResult& windSpeedMean,
-				 const WeatherResult& windSpeedMax, 
-				 const WeatherResult& windMaximum,
-				 const WeatherResult& windDirection,
-				 const WeatherResult& gustSpeed,
-				 const string& name)
-	{
-	  WindDataItemUnit* dataItem = new WindDataItemUnit(period,
-														windSpeedMin,
-														windSpeedMean,
-														windSpeedMax,
-														windMaximum,
-														windDirection,
-														gustSpeed);
-	  theDataItems.insert(make_pair(name, dataItem));
-
-	  if(previousDataItem)
-		{
-		  int previousWindSpeed = static_cast<int>(round(previousDataItem->theWindSpeedMean.value()));
-		  int currentWindSpeed = static_cast<int>(round(dataItem->theWindSpeedMean.value()));
-		  int previousDirection = static_cast<int>(round(previousDataItem->theWindDirection.value()));
-		  int currentDirection = static_cast<int>(round(dataItem->theWindDirection.value()));
-		  if(currentWindSpeed > previousWindSpeed)
-			dataItem->theWindSpeedChangeType = INCREASING;
-		  else if(currentWindSpeed < previousWindSpeed)
-			dataItem->theWindSpeedChangeType = DECREASING;
-		  else
-			dataItem->theWindSpeedChangeType = AS_BEFORE;
-		  if(abs(currentDirection-previousDirection < 180))
-			{
-			  if(currentDirection > previousDirection)
-				dataItem->theWindDirectionChangeType = INCREASING;
-			  if(currentDirection < previousDirection)
-				dataItem->theWindDirectionChangeType = DECREASING;
-			  else
-				dataItem->theWindDirectionChangeType = AS_BEFORE;
-			}
-		  else
-			{
-			  if(currentDirection > previousDirection)
-				dataItem->theWindDirectionChangeType = DECREASING;
-			  else
-				dataItem->theWindDirectionChangeType = INCREASING;
-			}
-		}
-
-	  previousDataItem = dataItem;
-	}
-
-	const WindDataItemUnit& operator()(const string& name = "full") const
-	{
-	  return *(theDataItems.find(name)->second);
-	}
-
-	WindDataItemUnit& getDataItem(const string& name = "full") const
-	{
-	  return *(theDataItems.find(name)->second);
-	}
-
-	/*
-	WindDataItemUnit& operator()(const string& name = "full")
-	{
-	  return *(theDataItems.find(name)->second);
-	}
-	*/
-
-  private:
-	map<string, WindDataItemUnit*> theDataItems;
-	WindDataItemUnit* previousDataItem;
-  };
-
-  struct WindSpeedPeriodDataItem
-  {
-	WindSpeedPeriodDataItem(const WeatherPeriod& period,
-							const wind_speed_id& windSpeedId)
-	  : thePeriod(period),
-		theWindSpeedId(windSpeedId)
-	{}
-	WeatherPeriod thePeriod;
-	wind_speed_id theWindSpeedId;
-  };
-
-  struct WindDirectionPeriodDataItem
-  {
-	WindDirectionPeriodDataItem(const WeatherPeriod& period,
-								const wind_direction_id& windDirection)
-	  : thePeriod(period),
-		theWindDirection(windDirection)
-	{}
-	WeatherPeriod thePeriod;
-	wind_direction_id theWindDirection;
-  };
-
-  struct WindDirection16PeriodDataItem
-  {
-	WindDirection16PeriodDataItem(const WeatherPeriod& period,
-								  const wind_direction16_id& windDirection)
-	  : thePeriod(period),
-		theWindDirection(windDirection)
-	{}
-	WeatherPeriod thePeriod;
-	wind_direction16_id theWindDirection;
-  };
 
 }
 
