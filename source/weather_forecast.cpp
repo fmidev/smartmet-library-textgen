@@ -363,7 +363,7 @@ using namespace std;
 	  theHourlyDataContainer[PRECIPITATION_POINT_DATA];
 
 	RangeAcceptor precipitationlimits;
-	precipitationlimits.lowerLimit(0.02);
+	precipitationlimits.lowerLimit(DRY_WEATHER_LIMIT_DRIZZLE);
 	ValueAcceptor waterfilter;
 	waterfilter.value(kTRain);	// 1 = water
 	//RangeAcceptor percentagelimits;
@@ -377,7 +377,7 @@ using namespace std;
 	ValueAcceptor freezingfilter;
 	freezingfilter.value(kTFreezingDrizzle);	// 4 = freezing
 	ValueAcceptor showerfilter;
-	showerfilter.value(2);	// 1=large scale, 2=showers
+	showerfilter.value(kTConvectivePrecipitation);	// 1=large scale, 2=showers
 
 	for(unsigned int i = 0; i < precipitationMaxHourly->size(); i++)
 	  {
@@ -1344,7 +1344,7 @@ using namespace std;
 	theParameters.theFogForecast = &fogForecast;
 	theParameters.theThunderForecast = &thunderForecast;
 
-	//	precipitationForecast.printOutPrecipitationData(theLog);
+	//precipitationForecast.printOutPrecipitationData(theLog);
 	precipitationForecast.printOutPrecipitationPeriods(theLog, itsArea.isPoint());
 	precipitationForecast.printOutPrecipitationWeatherEvents(theLog);
 	//	cloudinessForecast.printOutCloudinessData(theLog);
