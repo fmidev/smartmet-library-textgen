@@ -17,6 +17,7 @@ namespace WeatherAnalysis
 	  Mean,
 	  Maximum,
 	  Minimum,
+	  Median,
 	  Sum,
 	  StandardDeviation,
 	  Percentage,
