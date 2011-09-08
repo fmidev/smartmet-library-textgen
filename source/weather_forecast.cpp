@@ -1349,7 +1349,7 @@ using namespace std;
 	precipitationForecast.printOutPrecipitationWeatherEvents(theLog);
 	//	cloudinessForecast.printOutCloudinessData(theLog);
 	cloudinessForecast.printOutCloudinessWeatherEvents(theLog);
-	//	fogForecast.printOutFogData(theLog);
+	fogForecast.printOutFogData(theLog);
 	fogForecast.printOutFogPeriods(theLog);
 
 	//log_weather_result_data(theParameters);
@@ -1401,63 +1401,61 @@ using namespace std;
 
 	Paragraph paragraph;
 
+	std::string areaName("");
 
-	std::string areaName(itsArea.name());
 	if(itsArea.isNamed())
 	  {
-		log << areaName << endl;
+		areaName = itsArea.name();
 	  }
 
-	bool splitCriterionFulfilled = false;
+	WeatherArea areaOne(itsArea);
+	WeatherArea areaTwo(itsArea);
+	split_method splitMethod = check_area_splitting(itsVar, 
+													itsArea, 
+													itsPeriod, 
+													itsSources,
+													areaOne,
+													areaTwo,
+													log);
 
-	if(split_the_area(itsVar, itsArea, itsPeriod, itsSources))
+	if(NO_SPLITTING != splitMethod)
 	  {
-		splitCriterionFulfilled =
-		  temperature_split_criterion(itsVar,
-									  itsVar.find("morning") != string::npos,
-									  itsArea,
-									  itsPeriod,
-									  itsSources,
-									  log);
-	  }
+		Paragraph paragraphAreaOne;
+		Paragraph paragraphAreaTwo;
 
-	if(splitCriterionFulfilled)
-	  {
-		Paragraph paragraphSouth;
-		Paragraph paragraphNorth;
+		Sentence onAreaOneSentence;
+		Sentence onAreaTwoSentence;
+		onAreaOneSentence << ALUEEN_ETELAOSASSA_PHRASE << Delimiter(":");
+		onAreaTwoSentence << ALUEEN_POHJOISOSASSA_PHRASE << Delimiter(":");
 
-		WeatherArea south(itsArea);
-		south.type(WeatherArea::Southern);
-		WeatherArea north(itsArea);
-		north.type(WeatherArea::Northern);
+		paragraphAreaOne << onAreaOneSentence;
+		paragraphAreaTwo << onAreaTwoSentence;
 		
-		Sentence alueenEtelaosissa;
-		Sentence alueenPohjoisosissa;
-		alueenEtelaosissa << ALUEEN_ETELAOSASSA_PHRASE << Delimiter(":");
-		alueenPohjoisosissa << ALUEEN_POHJOISOSASSA_PHRASE << Delimiter(":");
+		log << areaName + (splitMethod == HORIZONTAL ? " - southern part" : " - western part") << endl;
 
-		paragraphSouth << alueenEtelaosissa;
-		paragraphNorth << alueenPohjoisosissa;
-		
-		paragraphSouth << weather_forecast(south,
-										   itsPeriod,
-										   itsSources,
-										   itsForecastTime,
-										   itsVar,
-										   log);
+		paragraphAreaOne << weather_forecast(areaOne,
+											 itsPeriod,
+											 itsSources,
+											 itsForecastTime,
+											 itsVar,
+											 log);
 
-		paragraphNorth <<  weather_forecast(north,
-											itsPeriod,
-											itsSources,
-											itsForecastTime,
-											itsVar,
-											log);
+		log << areaName + (splitMethod == HORIZONTAL ? " - northern part" : " - eastern part") << endl;
 
-		paragraph << paragraphSouth << paragraphNorth;
+		paragraphAreaTwo << weather_forecast(areaTwo,
+											 itsPeriod,
+											 itsSources,
+											 itsForecastTime,
+											 itsVar,
+											 log);
+
+		paragraph << paragraphAreaOne << paragraphAreaTwo;
 		
 	  }
 	else
 	  {
+		log << areaName << endl;
+
 		paragraph <<  weather_forecast(itsArea,
 									   itsPeriod,
 									   itsSources,
