@@ -43,10 +43,12 @@
 #include "WeatherArea.h"
 #include "WeatherSource.h"
 #include "WeatherForecast.h"
+#include <map>
 
 #include <boost/lexical_cast.hpp>
-
-#include <map>
+#define BOOST_FILESYSTEM_VERSION 3
+#include <boost/filesystem.hpp>   // includes all needed Boost.Filesystem declarations
+namespace boostfs = boost::filesystem;
 
 namespace TextGen
 {
@@ -1556,51 +1558,59 @@ enum anomaly_phrase_id
 		log <<  areaName << endl;
 	  }
 
-
-	bool splitCriterionFulfilled = false;
-
-	if(split_the_area(itsVar, itsArea, itsPeriod, itsSources))
+	boostfs::path climatologyFile(Settings::optional_string("textgen::tmax_climatology", ""));
+	
+	if(!boostfs::exists(climatologyFile)) 
 	  {
-		splitCriterionFulfilled =
-		  temperature_split_criterion(itsVar,
-									  itsVar.find("morning") != string::npos,
-									  itsArea,
-									  itsPeriod,
-									  itsSources,
-									  log);
+		log << "The climatology file " << climatologyFile << " does not exist!" << endl;
+		return paragraph;
 	  }
 
-	if(splitCriterionFulfilled)
+
+	WeatherArea areaOne(itsArea);
+	WeatherArea areaTwo(itsArea);
+	split_method splitMethod = check_area_splitting(itsVar, 
+													itsArea, 
+													itsPeriod, 
+													itsSources,
+													areaOne,
+													areaTwo,
+													log);
+
+	if(NO_SPLITTING != splitMethod)
 	  {
-		Paragraph paragraphNorth;
-		Paragraph paragraphSouth;
-
-		WeatherArea north(itsArea);
-		north.type(WeatherArea::Northern);
-		WeatherArea south(itsArea);
-		south.type(WeatherArea::Southern);
+		Paragraph paragraphAreaOne;
+		Paragraph paragraphAreaTwo;
 		
-		paragraphNorth <<
-		  TemperatureAnomaly::anomaly(north,
+		std::string areaId = (areaName + (splitMethod == HORIZONTAL ? " - southern part" : " - western part"));		
+		log << areaId << endl;
+
+		paragraphAreaOne <<
+		  TemperatureAnomaly::anomaly(areaOne,
 									  itsPeriod,
 									  itsSources,
 									  itsForecastTime,
 									  itsVar,
-									  areaName + " - northern part",
-									  log);
-		paragraphSouth <<
-		  TemperatureAnomaly::anomaly(south,
-									  itsPeriod,
-									  itsSources,
-									  itsForecastTime,
-									  itsVar,
-									  areaName + " - southern part",
+									  areaId,
 									  log);
 
-		paragraph << paragraphSouth << paragraphNorth;
+		areaId = (areaName + (splitMethod == HORIZONTAL ? " - northern part" : " - eastern part"));
+		log << areaId << endl;
+
+		paragraphAreaTwo << 
+		  TemperatureAnomaly::anomaly(areaTwo,
+									  itsPeriod,
+									  itsSources,
+									  itsForecastTime,
+									  itsVar,
+									  areaId,
+									  log);
+		paragraph << paragraphAreaOne << paragraphAreaTwo;
 	  }
 	else
 	  {
+		log << areaName << endl;
+
 		paragraph << 
 		  TemperatureAnomaly::anomaly(itsArea,
 									  itsPeriod,
