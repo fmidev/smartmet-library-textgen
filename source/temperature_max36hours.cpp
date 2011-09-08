@@ -34,6 +34,8 @@
 #include "PeriodPhraseFactory.h"
 #include "AreaTools.h"
 #include "WeatherForecast.h"
+#include "NorthernMaskSource.h"
+#include "SouthernMaskSource.h"
 
 #include <newbase/NFmiStringTools.h>
 #include <newbase/NFmiGrid.h>
@@ -4505,54 +4507,54 @@ namespace TextGen
 
 	Paragraph paragraph;
 
+	std::string areaName("");
+
 	if(itsArea.isNamed())
 	  {
-		std::string areaName(itsArea.name());
-		log << areaName << endl;
+		areaName = itsArea.name();
 	  }
 
-	bool splitCriterionFulfilled = false;
+	WeatherArea areaOne(itsArea);
+	WeatherArea areaTwo(itsArea);
+	split_method splitMethod = check_area_splitting(itsVar, 
+													itsArea, 
+													itsPeriod, 
+													itsSources,
+													areaOne,
+													areaTwo,
+													log);
 
-	if(split_the_area(itsVar, itsArea, itsPeriod, itsSources))
+	if(NO_SPLITTING != splitMethod)
 	  {
-		splitCriterionFulfilled =
-		  temperature_split_criterion(itsVar,
-									  itsVar.find("morning") != string::npos,
-									  itsArea,
-									  itsPeriod,
-									  itsSources,
-									  log);
-	  }
+		Paragraph paragraphAreaOne;
+		Paragraph paragraphAreaTwo;
 
-	if(splitCriterionFulfilled)
-	  {
-		Paragraph paragraphNorth;
-		Paragraph paragraphSouth;
+		log << areaName + (splitMethod == HORIZONTAL ? " - southern part" : " - western part") << endl;
 
-		WeatherArea north(itsArea);
-		north.type(WeatherArea::Northern);
-		WeatherArea south(itsArea);
-		south.type(WeatherArea::Southern);
-		
-		paragraphNorth <<
-		  TemperatureMax36Hours::max36hours(north,
-											itsPeriod,
-											itsSources,
-											itsForecastTime,
-											itsVar,
-											log);
-		paragraphSouth <<
-		  TemperatureMax36Hours::max36hours(south,
+		paragraphAreaOne <<
+		  TemperatureMax36Hours::max36hours(areaOne,
 											itsPeriod,
 											itsSources,
 											itsForecastTime,
 											itsVar,
 											log);
 
-		paragraph << paragraphSouth << paragraphNorth;
+		log << areaName + (splitMethod == HORIZONTAL ? " - northern part" : " - eastern part") << endl;
+
+		paragraphAreaTwo <<
+		  TemperatureMax36Hours::max36hours(areaTwo,
+											itsPeriod,
+											itsSources,
+											itsForecastTime,
+											itsVar,
+											log);
+
+		paragraph << paragraphAreaOne << paragraphAreaTwo;
 	  }
 	else
 	  {
+		log << areaName << endl;
+
 		paragraph << 
 		  TemperatureMax36Hours::max36hours(itsArea,
 											itsPeriod,
