@@ -392,10 +392,12 @@ namespace WeatherAnalysis
   }
 
   const NFmiIndexMask MaskDirection(const NFmiGrid & theGrid,
-									const NFmiSvgPath & thePath,
+									const WeatherArea & theArea,
 									const direction_id& theDirectionId)
   {
 	NFmiIndexMask mask;
+
+	const NFmiSvgPath svgPath = theArea.path();
 
 	const double resolution_factor = 1.0/4;
 
@@ -406,7 +408,7 @@ namespace WeatherAnalysis
 	
 	// Fast lookup tree for distance calculations
 
-	NFmiSvgPath projectedPath(thePath);
+	NFmiSvgPath projectedPath(svgPath);
 	NFmiSvgTools::LatLonToWorldXY(projectedPath,*theGrid.Area());
 	NFmiNearTree<NFmiPoint> tree;
 	Insert(tree,projectedPath, FmiMin(dx,dy)*resolution_factor);
@@ -414,21 +416,24 @@ namespace WeatherAnalysis
 	//
 	double theXmin, theYmin, theXmax, theYmax;
 
-	NFmiSvgTools::BoundingBox(thePath,
+	NFmiSvgTools::BoundingBox(svgPath,
 							  theXmin,
 							  theYmin,
 							  theXmax,
 							  theYmax);
 
-	double yMiddle = theYmin + ((theYmax - theYmin) / 2.0);
-	double xMiddle = theXmin + ((theXmax - theXmin) / 2.0);
+	double latitudeDivisionLine = (theArea.latitudeDivisionLineSet() ? theArea.getLatitudeDivisionLine() :
+								   theYmin + ((theYmax - theYmin) / 2.0));
+	
+	double longitudeDivisionLine = (theArea.longitudeDivisionLineSet() ? theArea.getLongitudeDivisionLine() :
+									theXmin + ((theXmax - theXmin) / 2.0));
 
 	// Non-optimal solution loops through the entire grid
 	
 	const unsigned long nx = theGrid.XNumber();
 	const unsigned long ny = theGrid.YNumber();
 
-	if(!thePath.empty())
+	if(!svgPath.empty())
 	  {
 		for(unsigned long j=0; j<ny; j++)
 		  for(unsigned long i=0; i<nx; i++)
@@ -438,34 +443,34 @@ namespace WeatherAnalysis
 
 			  const NFmiPoint xy = theGrid.GridToWorldXY(i,j);
 			  
-			  if(NFmiSvgTools::IsInside(thePath,p))
+			  if(NFmiSvgTools::IsInside(svgPath,p))
 				{
 				  bool insert = false;
 				  switch(theDirectionId)
 					{
 					case NORTH:
-					  insert = p.Y() >= yMiddle;
+					  insert = p.Y() >= latitudeDivisionLine;
 					break;
 					case SOUTH:
-					  insert = p.Y() < yMiddle;
+					  insert = p.Y() < latitudeDivisionLine;
 					break;
 					case EAST:
-					  insert = p.X() >= xMiddle;
+					  insert = p.X() >= longitudeDivisionLine;
 					break;
 					case WEST:
-					  insert = p.X() < xMiddle;
+					  insert = p.X() < longitudeDivisionLine;
 					break;
 					case NORTHEAST:
-					  insert = p.Y() >= yMiddle && p.X() >= xMiddle;
+					  insert = p.Y() >= latitudeDivisionLine && p.X() >= longitudeDivisionLine;
 					break;
 					case SOUTHEAST:
-					  insert = p.Y() < yMiddle && p.X() >= xMiddle;
+					  insert = p.Y() < latitudeDivisionLine && p.X() >= longitudeDivisionLine;
 					break;
 					case NORTHWEST:
-					  insert = p.Y() >= yMiddle && p.X() < xMiddle;
+					  insert = p.Y() >= latitudeDivisionLine && p.X() < longitudeDivisionLine;
 					break;
 					case SOUTHWEST:
-					  insert = p.Y() < yMiddle && p.X() < xMiddle;
+					  insert = p.Y() < latitudeDivisionLine && p.X() < longitudeDivisionLine;
 					break;
 					default:
 					  insert = false;
