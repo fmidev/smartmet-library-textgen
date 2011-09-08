@@ -135,6 +135,27 @@ namespace WeatherAnalysis
   {
 	static shared_ptr<NFmiIndexMask> dummy;
 
+	mask_storage::const_iterator it;
+
+	for(it = itsMaskStorage.begin(); it != itsMaskStorage.end(); ++it)
+	  {
+		// identicalArea-function compares more than operator ==
+		if(it->first.itsArea.identicalArea(theArea))
+		  return it->second;
+	  }
+
+	mask_storage::iterator iter;
+
+	WeatherAreaAndID key(theID,theArea);
+	iter = itsMaskStorage.find(key);
+	if(iter != itsMaskStorage.end())
+	  itsMaskStorage.erase(iter);
+
+	return dummy;
+
+	/*
+	static shared_ptr<NFmiIndexMask> dummy;
+
 	WeatherAreaAndID key(theID,theArea);
 
 	mask_storage::const_iterator it = itsMaskStorage.find(key);
@@ -142,6 +163,7 @@ namespace WeatherAnalysis
 	  return dummy;
 
 	return it->second;
+	*/
 
   }
 
@@ -194,10 +216,8 @@ namespace WeatherAnalysis
 
 	// First build the area mask
 
-	const NFmiSvgPath svg = theArea.path();
-
 	mask_type return_mask(new NFmiIndexMask(MaskDirection(*(qi->Grid()),
-														  svg,
+														  theArea,
 														  WEST)));
 	return return_mask;
   }
