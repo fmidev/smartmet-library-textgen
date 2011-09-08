@@ -27,6 +27,7 @@
 #include "WeatherResult.h"
 #include "WeatherPeriod.h"
 #include "SeasonTools.h"
+#include "WeatherArea.h"
 #include "TextFormatter.h"
 #include <boost/shared_ptr.hpp>
 #include <sstream>
