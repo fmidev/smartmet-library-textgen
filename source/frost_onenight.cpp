@@ -28,6 +28,10 @@
 
 #include <map>
 #include <newbase/NFmiStringTools.h>
+#include <boost/lexical_cast.hpp>
+#define BOOST_FILESYSTEM_VERSION 3
+#include <boost/filesystem.hpp>   // includes all needed Boost.Filesystem declarations
+namespace boostfs = boost::filesystem;
 
 namespace TextGen
 {
@@ -582,6 +586,14 @@ namespace TextGen
 
 	Paragraph paragraph;
 
+	boostfs::path temperatureSumFile(Settings::optional_string("textgen::temperaturesum_forecast", ""));
+	
+	if(!boostfs::exists(temperatureSumFile)) 
+	  {
+		log << "The temperature sum file " << temperatureSumFile << " does not exist!" << endl;
+		return paragraph;
+	  }
+
 
 	GridForecaster forecaster;
 
@@ -676,6 +688,29 @@ namespace TextGen
 		return paragraph;
 	  }
 
+	  float coastalPercentage = get_area_percentage(itsVar + "::fake::area_percentage",
+													itsArea,
+													WeatherArea::Coast,
+													itsSources,
+													itsPeriod);
+
+	  float separate_coastal_area_percentage = Settings::optional_double(itsVar + 
+																		 "::separate_coastal_area_percentage", 
+																		 SEPARATE_COASTAL_AREA_PERCENTAGE);
+
+	  bool ignoreCoastalArea =  coastalPercentage < separate_coastal_area_percentage;
+
+
+	  if(ignoreCoastalArea)
+		{
+		  log << "Coastal proportion: " 
+			  << coastalPercentage 
+			  << " is smaller than " 
+			  << SEPARATE_COASTAL_AREA_PERCENTAGE 
+			  << " and thus will be ignored!"
+			  << endl;
+		}
+
 	unsigned short growing_season_started = 0x0;
 	unsigned short forecast_areas = 0x0;
 	unsigned short night_frost = 0x0;
@@ -684,6 +719,12 @@ namespace TextGen
 	growing_season_started |= (growingSeasonInland ? INLAND_AREA : 0x0); 
 	forecast_areas |= (temperatureSumCoastal.value() != kFloatMissing ? COASTAL_AREA : 0x0); 
 	forecast_areas |= (temperatureSumInland.value() != kFloatMissing ? INLAND_AREA : 0x0); 
+	if(forecast_areas & COASTAL_AREA && ignoreCoastalArea)
+	  {
+		forecast_areas ^= COASTAL_AREA;
+		if(growing_season_started & COASTAL_AREA)
+		  growing_season_started ^= COASTAL_AREA;
+	  }
 
 	if(!(forecast_areas & (COASTAL_AREA | INLAND_AREA)))
 	  {
