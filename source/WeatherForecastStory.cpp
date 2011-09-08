@@ -441,19 +441,7 @@ namespace TextGen
 	if(storyItemCount > 1)
 	  {
 		WeatherPeriod storyItemPeriod(theStoryItemVector[0]->getStoryItemPeriod());
-		/*
-		cout << "story part 0: " << story_part_id_string(theStoryItemVector[0]->theStoryPartId) << endl;
-		cout << "story part 1: " << story_part_id_string(theStoryItemVector[1]->theStoryPartId) << endl;
-		cout << "story item period length: " << theStoryItemVector[0]->storyItemPeriodLength() << endl;
-		cout << "theStoryItemVector[0]->thePeriodToMergeWith == 0: " << 
-		  (theStoryItemVector[0]->thePeriodToMergeWith == 0 ? "true" : "false") << endl;
-		cout << "period item length: " << storyItemPeriod.localStartTime() << "..." << storyItemPeriod.localEndTime() << endl;
-		cout << "period length: " 
-			 << theStoryItemVector[0]->getPeriod().localStartTime() 
-			 << "..." 
-			 << theStoryItemVector[0]->getPeriod().localEndTime() 
-			 << endl;
-		*/
+
 		if(theStoryItemVector[0]->theStoryPartId == CLOUDINESS_STORY_PART &&
 		   theStoryItemVector[1]->theStoryPartId == PRECIPITATION_STORY_PART &&
 		   theStoryItemVector[0]->getPeriodLength() <= 1 &&
@@ -471,16 +459,6 @@ namespace TextGen
 			theStoryItemVector[0]->theIncludeInTheStoryFlag = false;
 		  }
 		
-		/*
-		cout << "theStoryItemVector[storyItemCount-1]: " << story_part_id_string(theStoryItemVector[storyItemCount-1]->theStoryPartId) << endl;
-		cout << "theStoryItemVector[storyItemCount-2]: " << story_part_id_string(theStoryItemVector[storyItemCount-2]->theStoryPartId) << endl;
-		cout << "story item period length (storyItemCount-1): " << theStoryItemVector[storyItemCount-1]->storyItemPeriodLength() << endl;
-		cout << "theStoryItemVector[storyItemCount-1]->thePeriodToMergeTo == 0: " << 
-		  (theStoryItemVector[storyItemCount-1]->thePeriodToMergeWith == 0 ? "true" : "false") << endl;
-		cout << "theStoryItemVector[storyItemCount-2]->theIncludeInTheStoryFlag: " <<
-		  (theStoryItemVector[storyItemCount-2]->theIncludeInTheStoryFlag ? "true" : "false") << endl;
-		*/
-
 		// short cloudiness period in the end after precipitation period is not reported
 		if(theStoryItemVector[storyItemCount-1]->theStoryPartId == CLOUDINESS_STORY_PART &&
 		   theStoryItemVector[storyItemCount-1]->getPeriodLength() <= 1 &&
