@@ -537,7 +537,7 @@ namespace TextGen
 
   const Sentence WindForecast::speed_range_sentence_(const WeatherResult & theMinSpeed,
 													 const WeatherResult & theMaxSpeed,
-													 const WeatherResult & theMeanSpeed,
+													 const WeatherResult & theMedianSpeed,
 													 const string & theVariable) const
   {
 	using Settings::optional_int;
@@ -546,7 +546,7 @@ namespace TextGen
 
 	const int minvalue = static_cast<int>(round(theMinSpeed.value()));
 	const int maxvalue = static_cast<int>(round(theMaxSpeed.value()));
-	const int meanvalue = static_cast<int>(round(theMeanSpeed.value()));
+	const int medianvalue = static_cast<int>(round(theMedianSpeed.value()));
 
 	const string var = "textgen::units::meterspersecond::format";
 	const string opt = Settings::optional_string(var,"SI");
@@ -562,19 +562,20 @@ namespace TextGen
 	  
 		if(maxvalue - minvalue <= mininterval)
 		  {
-			if(meanvalue != thePreviousRangeBeg)
+			if(medianvalue != thePreviousRangeBeg)
 			  {
 				sentence << "noin"
-						 << meanvalue;
-				thePreviousRangeBeg = meanvalue;
+						 << medianvalue;
+				thePreviousRangeBeg = medianvalue;
 			  }
 		  }
 		else
 		  {
-			if(meanvalue != thePreviousRangeBeg || maxvalue != thePreviousRangeEnd)
+			if(medianvalue != thePreviousRangeBeg || maxvalue != thePreviousRangeEnd)
 			  {
-				sentence << IntegerRange(meanvalue,maxvalue,rangeseparator);
-				thePreviousRangeBeg = meanvalue;
+				// subtract 1 m/s from the lowest limit
+				sentence << IntegerRange(medianvalue - 1,maxvalue,rangeseparator);
+				thePreviousRangeBeg = medianvalue - 1;
 				thePreviousRangeEnd = maxvalue;
 			  }
 		  }
@@ -590,8 +591,8 @@ namespace TextGen
   {
 	Sentence sentence;
 
-	double meanValueSum = 0.0;
-	double meanErrorSum = 0.0;
+	double medianValueSum = 0.0;
+	double medianErrorSum = 0.0;
 	unsigned int counter = 0;
 
 	WindDataItemUnit dataItem = (*theParameters.theRawDataVector[0])();
@@ -603,10 +604,10 @@ namespace TextGen
 		if(is_inside(dataItem.thePeriod.localStartTime(), thePeriod))
 		  {
 			if (counter == 0 ||
-				dataItem.theWindSpeedMax.value() > 
-				dataItemMinMax.theWindSpeedMax.value())
+				dataItem.theWindMaximum.value() > 
+				dataItemMinMax.theWindMaximum.value())
 			  {
-				dataItemMinMax.theWindSpeedMax = dataItem.theWindSpeedMax;
+				dataItemMinMax.theWindMaximum = dataItem.theWindMaximum;
 			  }
 			if (counter == 0 ||
 				dataItem.theWindSpeedMin.value() < 
@@ -615,8 +616,8 @@ namespace TextGen
 				dataItemMinMax.theWindSpeedMin = dataItem.theWindSpeedMin;
 			  }
 			
-			meanValueSum += dataItem.theWindSpeedMean.value();
-			meanErrorSum += dataItem.theWindSpeedMean.error();
+			medianValueSum += dataItem.theWindSpeedMedian.value();
+			medianErrorSum += dataItem.theWindSpeedMedian.error();
 			counter++;
 		  }
 	  }
@@ -624,25 +625,13 @@ namespace TextGen
 	if(counter == 0)
 	  return sentence;
 
-	WeatherResult meanResult(meanValueSum / counter, meanErrorSum / counter);
-	//	cout << "mean value: " << meanResult.value() << endl;
+	// claculate median value of median time series
+	WeatherResult medianResult(medianValueSum / counter, medianErrorSum / counter);
 
 	sentence <<  speed_range_sentence_(dataItemMinMax.theWindSpeedMin,
-									   dataItemMinMax.theWindSpeedMax,
-									   meanResult,
+									   dataItemMinMax.theWindMaximum,
+									   medianResult,
 									   theParameters.theVar);
-
-	/*
-	cout << "periodi: " << thePeriod.localStartTime() << "..." << thePeriod.localEndTime() << endl;
-	cout << "sentence: " << (sentence.empty() ? "empty" : "NOT empty") << endl;
-
-	//	if(sentence.empty())
-	  {
-		cout << "dataItemMinMax.theWindSpeedMin: " << dataItemMinMax.theWindSpeedMin.value() << endl;
-		cout << "dataItemMinMax.theWindSpeedMax: " << dataItemMinMax.theWindSpeedMax.value() << endl;
-		cout << "meanResult: " << meanResult.value() << endl;
-	  }
-	*/
 
 	return sentence;
   }

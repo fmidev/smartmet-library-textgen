@@ -166,25 +166,35 @@ using namespace std;
 					 const WeatherResult& windSpeedMin, 
 					 const WeatherResult& windSpeedMax, 
 					 const WeatherResult& windSpeedMean,
+					 const WeatherResult& windSpeedMedian,
 					 const WeatherResult& windMaximum,
+					 const WeatherResult& windMaximumMedian,
 					 const WeatherResult& windDirection,
 					 const WeatherResult& gustSpeed)
 	  : thePeriod(period),
 		theWindSpeedMin(windSpeedMin),
 		theWindSpeedMax(windSpeedMax),
 		theWindSpeedMean(windSpeedMean),
+		theWindSpeedMedian(windSpeedMedian),
 		theWindMaximum(windMaximum),
+		theWindMaximumMedian(windMaximumMedian),
 		theWindDirection(windDirection),
-		theGustSpeed(gustSpeed)
+		theGustSpeed(gustSpeed),
+		theEqualizedMedianWindSpeed(windSpeedMedian.value()),
+		theEqualizedWindDirection(theWindDirection.value())
 	{}
 	
 	WeatherPeriod thePeriod;
 	WeatherResult theWindSpeedMin;
 	WeatherResult theWindSpeedMax;
 	WeatherResult theWindSpeedMean;
+	WeatherResult theWindSpeedMedian;
 	WeatherResult theWindMaximum;
+	WeatherResult theWindMaximumMedian;
 	WeatherResult theWindDirection;
 	WeatherResult theGustSpeed;
+	float theEqualizedMedianWindSpeed;
+	float theEqualizedWindDirection;
 	change_type theWindSpeedChangeType;
 	change_type theWindDirectionChangeType;
   };
@@ -203,18 +213,22 @@ using namespace std;
   
 	void addItem(const WeatherPeriod& period, 
 				 const WeatherResult& windSpeedMin, 
-				 const WeatherResult& windSpeedMean,
 				 const WeatherResult& windSpeedMax, 
+				 const WeatherResult& windSpeedMean,
+				 const WeatherResult& windSpeedMedian,
 				 const WeatherResult& windMaximum,
+				 const WeatherResult& windMaximumMedian,
 				 const WeatherResult& windDirection,
 				 const WeatherResult& gustSpeed,
 				 const string& name)
 	{
 	  WindDataItemUnit* dataItem = new WindDataItemUnit(period,
 														windSpeedMin,
+														windSpeedMax,	
 														windSpeedMean,
-														windSpeedMax,
+														windSpeedMedian,
 														windMaximum,
+														windMaximumMedian,
 														windDirection,
 														gustSpeed);
 	  theDataItems.insert(make_pair(name, dataItem));
