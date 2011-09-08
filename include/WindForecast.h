@@ -26,27 +26,6 @@ using namespace std;
 
   enum wind_direction_id
 	{
-	  POHJOINEN = 1,
-	  KOILLINEN,
-	  ITA,
-	  KAAKKO,
-	  ETELA,
-	  LOUNAS,
-	  LANSI,
-	  LUODE,
-	  POHJOISEN_PUOLEINEN,
-	  KOILLISEN_PUOLEINEN,
-	  IDAN_PUOLEINEN,
-	  KAAKON_PUOLEINEN,
-	  ETELAN_PUOLEINEN,
-	  LOUNAAN_PUOLEINEN,
-	  LANNEN_PUOLEINEN,
-	  LUOTEEN_PUOLEINEN,
-	  VAIHTELEVA
-	};
-
-  enum wind_direction16_id
-	{
 	  POHJOINEN_ = 1,
 	  POHJOINEN_KOILLINEN,
 	  KOILLINEN_,
@@ -102,12 +81,10 @@ using namespace std;
   class WindDataItemContainer;
   class WindSpeedPeriodDataItem;
   class WindDirectionPeriodDataItem;
-  class WindDirection16PeriodDataItem;
 
   typedef vector<WindDataItemContainer*> wind_data_item_vector;
   typedef vector<WindSpeedPeriodDataItem*> wind_speed_period_data_item_vector;
   typedef vector<WindDirectionPeriodDataItem*> wind_direction_period_data_item_vector;
-  typedef vector<WindDirection16PeriodDataItem*> wind_direction16_period_data_item_vector;
   typedef std::pair<NFmiTime, wind_event_id> timestamp_wind_event_id_pair;
   typedef vector<timestamp_wind_event_id_pair> wind_event_id_vector;
 
@@ -152,7 +129,6 @@ using namespace std;
 	
 	wind_speed_period_data_item_vector theWindSpeedVector;
 	wind_direction_period_data_item_vector theWindDirectionVector;
-	wind_direction16_period_data_item_vector theWindDirection16Vector;
 	vector<unsigned int> theOriginalWindSpeedIndexes;
 	vector<unsigned int> theEqualizedWindSpeedIndexes;
 	vector<unsigned int> theOriginalWindDirectionIndexes;
@@ -303,23 +279,12 @@ using namespace std;
   struct WindDirectionPeriodDataItem
   {
 	WindDirectionPeriodDataItem(const WeatherPeriod& period,
-								const wind_direction_id& windDirection)
+								  const wind_direction_id& windDirection)
 	  : thePeriod(period),
 		theWindDirection(windDirection)
 	{}
 	WeatherPeriod thePeriod;
 	wind_direction_id theWindDirection;
-  };
-
-  struct WindDirection16PeriodDataItem
-  {
-	WindDirection16PeriodDataItem(const WeatherPeriod& period,
-								  const wind_direction16_id& windDirection)
-	  : thePeriod(period),
-		theWindDirection(windDirection)
-	{}
-	WeatherPeriod thePeriod;
-	wind_direction16_id theWindDirection;
   };
 
 
@@ -348,9 +313,8 @@ using namespace std;
 	mutable int thePreviousRangeBeg;
 	mutable int thePreviousRangeEnd;
 
-	wind_direction16_id get_wind_direction16_id(const NFmiTime& timestamp) const;
+	wind_direction_id get_wind_direction_id(const NFmiTime& timestamp) const;
 	const Sentence direction_sentence(const wind_direction_id& theDirectionId) const;
-	const Sentence direction16_sentence(const wind_direction16_id& theDirectionId) const;
 	const Sentence wind_speed_sentence(const WeatherPeriod& thePeriod) const;
 	const Sentence speed_range_sentence_(const WeatherResult & theMinSpeed,
 										const WeatherResult & theMaxSpeed,

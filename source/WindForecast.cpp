@@ -93,7 +93,7 @@ namespace TextGen
 #define ILTAPAIVALLA_ETELAAN_KAANTYVAA_TUULTA "[iltap‰iv‰ll‰] [etel‰‰n] k‰‰ntyv‰‰ tuulta"
 
 
-  std::string get_wind_direction16_turnto_string(const wind_direction16_id& theWindDirectionId)
+  std::string get_wind_direction_turnto_string(const wind_direction_id& theWindDirectionId)
   {
 	std::string retval;
 
@@ -179,7 +179,7 @@ namespace TextGen
 	return retval;
   }
   
-  wind_direction16_id get_moderate_accuracy_direction(const wind_direction16_id& directionId)
+  wind_direction_id get_moderate_accuracy_direction(const wind_direction_id& directionId)
   {
 	switch(directionId)
 	  {
@@ -213,7 +213,7 @@ namespace TextGen
 	  }
   }
 
-  bool is_principal_compass_point(const wind_direction16_id& directionId)
+  bool is_principal_compass_point(const wind_direction_id& directionId)
   {
 	return (directionId == POHJOINEN_ ||
 			directionId == ETELA_ ||
@@ -226,14 +226,14 @@ namespace TextGen
   }
 
   // returns wind direction id in the given time
-  wind_direction16_id WindForecast::get_wind_direction16_id(const NFmiTime& timestamp) const
+  wind_direction_id WindForecast::get_wind_direction_id(const NFmiTime& timestamp) const
   {
-	for(unsigned int i = 0; i < theParameters.theWindDirection16Vector.size(); i++)
+	for(unsigned int i = 0; i < theParameters.theWindDirectionVector.size(); i++)
 	  {
 		// find the correcponding period and find out the exact wind direction for the period
-		if(is_inside(timestamp, theParameters.theWindDirection16Vector[i]->thePeriod))
+		if(is_inside(timestamp, theParameters.theWindDirectionVector[i]->thePeriod))
 		  {
-			if(is_principal_compass_point(theParameters.theWindDirection16Vector[i]->theWindDirection))
+			if(is_principal_compass_point(theParameters.theWindDirectionVector[i]->theWindDirection))
 			  {
 				int totalCount = 0;
 				int moderateAccuracyCount = 0;
@@ -242,7 +242,7 @@ namespace TextGen
 					const WindDataItemUnit& windDataItem = (*theParameters.theRawDataVector[k])();
 
 					if(is_inside(windDataItem.thePeriod,
-								 theParameters.theWindDirection16Vector[i]->thePeriod))
+								 theParameters.theWindDirectionVector[i]->thePeriod))
 					  {
 						totalCount++;
 						if(direction_accuracy(windDataItem.theWindDirection.error(),
@@ -251,13 +251,13 @@ namespace TextGen
 					  }
 				  }
 				if(totalCount > 0 && moderateAccuracyCount > totalCount / 2)
-				  return get_moderate_accuracy_direction(theParameters.theWindDirection16Vector[i]->theWindDirection);
+				  return get_moderate_accuracy_direction(theParameters.theWindDirectionVector[i]->theWindDirection);
 				else
-				  return theParameters.theWindDirection16Vector[i]->theWindDirection;
+				  return theParameters.theWindDirectionVector[i]->theWindDirection;
 			  }
 			else
 			  {
-				return theParameters.theWindDirection16Vector[i]->theWindDirection;
+				return theParameters.theWindDirectionVector[i]->theWindDirection;
 			  }
 		  }
 	  }
@@ -292,8 +292,8 @@ namespace TextGen
 
 	// first tell about the beginning of the forecast period
 	Sentence theOpeningSentence;
-	theOpeningSentence << direction16_sentence(get_wind_direction16_id(theParameters.theWindDirection16Vector[0]->thePeriod.localStartTime()));
-	theOpeningSentence << wind_speed_sentence(theParameters.theWindDirection16Vector[0]->thePeriod);
+	theOpeningSentence << direction_sentence(get_wind_direction_id(theParameters.theWindDirectionVector[0]->thePeriod.localStartTime()));
+	theOpeningSentence << wind_speed_sentence(theParameters.theWindDirectionVector[0]->thePeriod);
 	paragraph << theOpeningSentence;
 
 	// then iterate through the events and raport about them
@@ -310,8 +310,8 @@ namespace TextGen
 
 		wind_event_id windEventId = theParameters.theWindEventVector[i].second;
 		timePhrase << get_time_phrase(theParameters.theWindEventVector[i].first, theParameters.theVar);
-		wind_direction16_id directionId = get_wind_direction16_id(theParameters.theWindEventVector[i].first);
-		windDirectionTurningToPhrase << get_wind_direction16_turnto_string(directionId);
+		wind_direction_id directionId = get_wind_direction_id(theParameters.theWindEventVector[i].first);
+		windDirectionTurningToPhrase << get_wind_direction_turnto_string(directionId);
 
 		NFmiTime reportPeriodStartTime(theParameters.theWindEventVector[i].first);
 		NFmiTime reportPeriodEndTime(i < eventCount - 1 ? theParameters.theWindEventVector[i+1].first :
@@ -447,17 +447,17 @@ namespace TextGen
 		else if(windEventId == TUULI_KAANTYY)
 		  {
 			storyParams.theLog << "(";
-			storyParams.theLog << get_wind_direction16_string(storyParams.theWindDirection16Vector[windDirectionIndex++]->theWindDirection);
+			storyParams.theLog << get_wind_direction_string(storyParams.theWindDirectionVector[windDirectionIndex++]->theWindDirection);
 			storyParams.theLog <<  " -> ";
-			storyParams.theLog <<  get_wind_direction16_string(storyParams.theWindDirection16Vector[windDirectionIndex]->theWindDirection);			
+			storyParams.theLog <<  get_wind_direction_string(storyParams.theWindDirectionVector[windDirectionIndex]->theWindDirection);			
 			storyParams.theLog << ")" << endl;
 		  }
 		else if(windEventId >= TUULI_KAANTYY_JA_HEIKEKNEE && windEventId <= TUULI_KAANTYY_JA_TYYNTYY)
 		  {
 			storyParams.theLog << "(";
-			storyParams.theLog << get_wind_direction16_string(storyParams.theWindDirection16Vector[windDirectionIndex++]->theWindDirection);
+			storyParams.theLog << get_wind_direction_string(storyParams.theWindDirectionVector[windDirectionIndex++]->theWindDirection);
 			storyParams.theLog <<  " -> ";
-			storyParams.theLog << get_wind_direction16_string(storyParams.theWindDirection16Vector[windDirectionIndex]->theWindDirection);
+			storyParams.theLog << get_wind_direction_string(storyParams.theWindDirectionVector[windDirectionIndex]->theWindDirection);
 			storyParams.theLog << "; ";
 			storyParams.theLog << get_wind_speed_string(storyParams.theWindSpeedVector[windSpeedIndex++]->theWindSpeedId);
 			storyParams.theLog <<  " -> ";
@@ -488,30 +488,7 @@ namespace TextGen
 	thePreviousRangeBeg = INT_MAX;
 	thePreviousRangeEnd = INT_MAX;
 
-	/*
-	  for(unsigned int i = 0; i < theParameters.theWindDirection16Vector.size(); i++)
-	  {
-	  if(sentence.size() > 0)
-	  sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-
-	  if(i > 0)
-	  {
-	  bool spefifyDay = (forecastPeriodLength > 24 &&
-	  abs(theParameters.theForecastTime.DifferenceInHours(theParameters.theWindDirection16Vector[i]->thePeriod.localStartTime())) > 21);
-	  // day phase specifier
-	  std::string dayPhasePhrase;
-	  sentence << get_time_phrase_large(theParameters.theWindDirection16Vector[i]->thePeriod,
-	  spefifyDay,
-	  theParameters.theVar, 
-	  dayPhasePhrase,
-	  true);
-	  }
-	  sentence <<  direction16_sentence(theParameters.theWindDirection16Vector[i]->theWindDirection);
-	  //		sentence <<  direction_sentence(theParameters.theWindDirectionVector[i]->theWindDirection);
-	  sentence << wind_speed_sentence(theParameters.theWindDirection16Vector[i]->thePeriod);
-	  }
-	*/		
-	for(unsigned int i = 0; i < theParameters.theWindDirection16Vector.size(); i++)
+	for(unsigned int i = 0; i < theParameters.theWindDirectionVector.size(); i++)
 	  {
 		if(sentence.size() > 0)
 		  sentence << Delimiter(COMMA_PUNCTUATION_MARK);
@@ -519,17 +496,17 @@ namespace TextGen
 		if(i > 0)
 		  {
 			bool spefifyDay = (forecastPeriodLength > 24 &&
-							   abs(theParameters.theForecastTime.DifferenceInHours(theParameters.theWindDirection16Vector[i]->thePeriod.localStartTime())) > 21);
+							   abs(theParameters.theForecastTime.DifferenceInHours(theParameters.theWindDirectionVector[i]->thePeriod.localStartTime())) > 21);
 			// day phase specifier
 			std::string dayPhasePhrase;
-			sentence << get_time_phrase_large(theParameters.theWindDirection16Vector[i]->thePeriod,
+			sentence << get_time_phrase_large(theParameters.theWindDirectionVector[i]->thePeriod,
 											  spefifyDay,
 											  theParameters.theVar, 
 											  dayPhasePhrase,
 											  true);
 		  }
-		sentence << direction16_sentence(theParameters.theWindDirection16Vector[i]->theWindDirection);
-		sentence << wind_speed_sentence(theParameters.theWindDirection16Vector[i]->thePeriod);
+		sentence << direction_sentence(theParameters.theWindDirectionVector[i]->theWindDirection);
+		sentence << wind_speed_sentence(theParameters.theWindDirectionVector[i]->thePeriod);
 	  }
 
 	return sentence;
@@ -636,68 +613,7 @@ namespace TextGen
 	return sentence;
   }
 
-  const Sentence WindForecast::direction_sentence(const wind_direction_id& theDirectionId) const
-  {
-	Sentence sentence;
-
-	switch(theDirectionId)
-	  {
-	  case POHJOINEN:
-		sentence << "1-tuulta";
-		break;
-	  case POHJOISEN_PUOLEINEN:
-		sentence << "1-puoleista tuulta";
-		break;
-	  case KOILLINEN:
-		sentence << "2-tuulta";
-		break;
-	  case KOILLISEN_PUOLEINEN:
-		sentence << "2-puoleista tuulta";
-		break;
-	  case ITA:
-		sentence << "3-tuulta";
-		break;
-	  case IDAN_PUOLEINEN:
-		sentence << "3-puoleista tuulta";
-		break;
-	  case KAAKKO:
-		sentence << "4-tuulta";
-		break;
-	  case KAAKON_PUOLEINEN:
-		sentence << "4-puoleista tuulta";
-		break;
-	  case ETELA:
-		sentence << "5-tuulta";
-		break;
-	  case ETELAN_PUOLEINEN:
-		sentence << "5-puoleista tuulta";
-		break;
-	  case LOUNAS:
-		sentence << "6-tuulta";
-		break;
-	  case LOUNAAN_PUOLEINEN:
-		sentence << "6-puoleista tuulta";
-		break;
-	  case LANSI:
-		sentence << "7-tuulta";
-		break;
-	  case LANNEN_PUOLEINEN:
-		sentence << "7-puoleista tuulta";
-		break;
-	  case LUODE:
-		sentence << "8-tuulta";
-		break;
-	  case LUOTEEN_PUOLEINEN:
-		sentence << "8-puoleista tuulta";
-		break;
-	  case VAIHTELEVA:
-		sentence << "suunnaltaan vaihtelevaa tuulta";
-		break;
-	  };
-	return sentence;
-  }
-
-  const Sentence WindForecast::direction16_sentence(const wind_direction16_id& theWindDirectionId) const
+   const Sentence WindForecast::direction_sentence(const wind_direction_id& theWindDirectionId) const
   {
 	Sentence sentence;
 
