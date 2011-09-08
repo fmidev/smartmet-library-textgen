@@ -18,6 +18,7 @@
 #include "MaximumCalculator.h"
 #include "MeanCalculator.h"
 #include "MinimumCalculator.h"
+#include "MedianCalculator.h"
 #include "ModChangeCalculator.h"
 #include "ModMeanCalculator.h"
 #include "ModStandardDeviationCalculator.h"
@@ -63,6 +64,8 @@ namespace WeatherAnalysis
 		  return new MaximumCalculator;
 		case Minimum:
 		  return new MinimumCalculator;
+		case Median:
+		  return new MedianCalculator;
 		case Sum:
 		  return new SumCalculator;
 		case Percentage:
@@ -114,6 +117,8 @@ namespace WeatherAnalysis
 		case NullFunction:
 		  return new NullCalculator;
 
+		case Median:
+		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Median analyzer");
 		case Maximum:
 		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Maximum analyzer");
 		case Minimum:
@@ -145,6 +150,7 @@ namespace WeatherAnalysis
 		case Mean:
 		case Maximum:
 		case Minimum:
+		case Median:
 		case StandardDeviation:
 		case Sum:
 		case Trend:
@@ -190,6 +196,7 @@ namespace WeatherAnalysis
 		case Mean:
 		case Maximum:
 		case Minimum:
+		case Median:
 		case StandardDeviation:
 		case Sum:
 		case Trend:
