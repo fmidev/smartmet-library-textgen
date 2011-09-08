@@ -80,6 +80,7 @@ namespace TextGen
 	  for(vector<string>::const_iterator iter = contents.begin(); iter != contents.end(); ++iter)
 		{
 		  const string storyvar = theVar+"::story::"+*iter;
+
 		  paragraph << StoryTag(storyvar);
 		  Paragraph p = StoryFactory::create(theForecastTime,
 											 theSources,
@@ -93,6 +94,7 @@ namespace TextGen
 	  return paragraph;
 
 	}
+
 
 
   } // namespace anonymous
@@ -156,6 +158,16 @@ namespace TextGen
 		itsSources.setCoastMaskSource(mask_source(new CoastMaskSource(coast)));
 		itsSources.setInlandMaskSource(mask_source(new InlandMaskSource(coast)));
 	  }
+
+	// mask sources for split areas
+	NFmiPoint point(0.0, 0.0);
+	WeatherArea theArea(point);
+
+	itsSources.setNorthernMaskSource(shared_ptr<MaskSource> (new NorthernMaskSource(theArea)));
+	itsSources.setSouthernMaskSource(shared_ptr<MaskSource> (new SouthernMaskSource(theArea)));
+	itsSources.setEasternMaskSource(shared_ptr<MaskSource> (new EasternMaskSource(theArea)));
+	itsSources.setWesternMaskSource(shared_ptr<MaskSource> (new WesternMaskSource(theArea)));
+
   }
 
   // ----------------------------------------------------------------------
@@ -258,11 +270,6 @@ namespace TextGen
 		if(!header.empty())
 		  doc << header;
 		
-		itsPimple->itsSources.setNorthernMaskSource(shared_ptr<MaskSource> (new NorthernMaskSource(theArea)));
-		itsPimple->itsSources.setSouthernMaskSource(shared_ptr<MaskSource> (new SouthernMaskSource(theArea)));
-		itsPimple->itsSources.setEasternMaskSource(shared_ptr<MaskSource> (new EasternMaskSource(theArea)));
-		itsPimple->itsSources.setWesternMaskSource(shared_ptr<MaskSource> (new WesternMaskSource(theArea)));
-
 		const bool subs = Settings::optional_bool("textgen::"+*it+"::subperiods",false);
 
 		if(!subs)
