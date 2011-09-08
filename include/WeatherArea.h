@@ -71,9 +71,17 @@ namespace WeatherAnalysis
 	bool operator<(const WeatherArea & theOther) const;
 	bool operator==(const WeatherArea & theOther) const;
 	bool operator!=(const WeatherArea & theOther) const;
+	bool identicalArea(const WeatherArea & theOther) const;
 
 	const WeatherHistory& history() const { return itsHistory; }
 	WeatherHistory& history() { return itsHistory; }
+
+	void setLongitudeDivisionLine(const double& theLongitude);
+	void setLatitudeDivisionLine(const double& theLatitude);
+	const double& getLongitudeDivisionLine() const { return itsLongitude; }
+	const double& getLatitudeDivisionLine() const { return itsLatitude; }
+	bool longitudeDivisionLineSet() const { return itsLongitude < 180.0 && itsLongitude > -180.0; }
+	bool latitudeDivisionLineSet() const { return itsLatitude < 90.0 && itsLatitude > -90.0; }
 
   private:
 
@@ -93,6 +101,8 @@ namespace WeatherAnalysis
 	std::string itsSortKey;		// for sorting purposes only
 
 	mutable WeatherHistory itsHistory;  // for handling time phrases
+	double itsLatitude; //  this is utilized when the area is split horizontally
+	double itsLongitude; // this is utilized when the area is split vertically
 	
   }; // class WeatherArea
 

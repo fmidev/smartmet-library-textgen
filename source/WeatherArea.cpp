@@ -128,6 +128,8 @@ namespace WeatherAnalysis
 	, itsRadius(0)
 	, itsSortKey(theName+'='+theSpecs)
 	, itsHistory()
+	, itsLatitude(90.0)
+	, itsLongitude(180.0)
   {
 	parse_specs(theSpecs);
   }
@@ -154,6 +156,8 @@ namespace WeatherAnalysis
 	, itsRadius(0)
 	, itsSortKey(theSpecs)
 	, itsHistory()
+	, itsLatitude(90.0)
+	, itsLongitude(180.0)
   {
 	parse_specs(theSpecs);
   }
@@ -184,6 +188,8 @@ namespace WeatherAnalysis
 				 NFmiStringTools::Convert(thePoint.Y()) +
 				 (theRadius == 0 ? "" : ":" +  NFmiStringTools::Convert(theRadius)))
 	, itsHistory()
+	, itsLatitude(90.0)
+	, itsLongitude(180.0)
   {
 	if(theRadius < 0)
 	  throw WeatherAnalysisError("A weather point cannot have a negative expansion radius");
@@ -220,6 +226,8 @@ namespace WeatherAnalysis
 				 NFmiStringTools::Convert(thePoint.Y()) +
 				 (theRadius == 0 ? "" : ":" +  NFmiStringTools::Convert(theRadius)))
 	, itsHistory()
+	, itsLatitude(90.0)
+	, itsLongitude(180.0)
   {
 	if(theRadius < 0)
 	  throw WeatherAnalysisError("A weather point cannot have a negative expansion radius");
@@ -266,6 +274,9 @@ namespace WeatherAnalysis
 	  itsRadius = theArea.itsRadius;
 	  itsSortKey = theArea.itsSortKey;
 	  itsHistory = theArea.itsHistory;
+	  itsLatitude = theArea.itsLatitude;
+	  itsLongitude = theArea.itsLongitude;
+
   }
 
   // ----------------------------------------------------------------------
@@ -524,6 +535,62 @@ namespace WeatherAnalysis
   {
 	return itsSortKey != theOther.itsSortKey;
   }
+
+ // ----------------------------------------------------------------------
+  /*!
+   * \brief Equality comparison for WeatherAnalysis::WeatherArea
+   *
+   * \param theOther The area to compare with
+   * \return True if \c this is lexicographically less than theOther
+   */
+  // ----------------------------------------------------------------------
+
+  bool WeatherArea::identicalArea(const WeatherArea & theOther) const
+  {
+	return (itsType == theOther.itsType &&
+			itsPointFlag == theOther.itsPointFlag &&
+			itsNamedFlag == theOther.itsNamedFlag &&
+			itsName == theOther.itsName &&
+			itsPoint == theOther.itsPoint &&
+			itsPolygon == theOther.itsPolygon &&
+			itsRadius == theOther.itsRadius &&
+			itsSortKey == theOther.itsSortKey &&			
+			itsLatitude == theOther.itsLatitude &&
+			itsLongitude == theOther.itsLongitude);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Set the east-west division line for the area. 
+   *
+   * If the area is split vertically this value is used: eastern part is
+   * east of and including the given longitude and western part is
+   * west of the given longitude.
+   *
+   * \param theLongitude The longitude to be used when the area is split to eastern and western part
+   */
+  // ----------------------------------------------------------------------
+  void WeatherArea::setLongitudeDivisionLine(const double& theLongitude)
+  {
+	itsLongitude = theLongitude;
+  }
+  
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Set the north-south division line for the area. 
+   *
+   * If the area is split horizontally this value is used: northern part is
+   * north of and including the given latitude and southern part is 
+   * south of the given latitude.
+   *
+   * \param theLatitude The latitude to be used when the area is split to northern and southern part
+   */
+  // ----------------------------------------------------------------------
+  void WeatherArea::setLatitudeDivisionLine(const double& theLatitude)
+  {
+	itsLatitude = theLatitude;
+  }
+
 
 } // namespace WeatherAnalysis
 
