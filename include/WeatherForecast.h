@@ -17,7 +17,8 @@ namespace TextGen
 #define EMPTY_STRING "empty_string" 
 #define SPACE_STRING " " 
 #define COMMA_PUNCTUATION_MARK "," 
-#define DOT_PUNCTUATION_MARK "." 
+#define COMMA_PUNCTUATION_MARK "," 
+#define COLON_PUNCTUATION_MARK ":" 
 #define INTENSITY_PARAMETER "intensity"
 #define PRECIPITATION_PARAMETER "precipitation"
 #define IN_PLACES_PARAMETER "paikoin"
@@ -171,6 +172,9 @@ namespace TextGen
 #define KAAKOSTA_WORD "kaakosta"
 #define LOUNAASTA_WORD "lounaasta"
 #define LUOTEESTA_WORD "luoteesta"
+
+#define HORIZONTAL_SPLIT_KEY "horizontal"
+#define VERTICAL_SPLIT_KEY "vertical"
 
 #define SELKEA_UPPER_LIMIT 9.9
 #define MELKEIN_SELKEA_LOWER_LIMIT 9.9
@@ -443,6 +447,12 @@ namespace TextGen
 	  MISSING_PRECIPITATION_TYPE
 	};
 
+  enum split_method
+	{
+	  HORIZONTAL,
+	  VERTICAL,
+	  NO_SPLITTING
+	};
 
   class WeatherResultDataItem;
   class PrecipitationDataItemData;
@@ -651,20 +661,37 @@ namespace TextGen
 										const WeatherPeriod& thePeriod2,
 										bool& theIntersectionPeriodFound);
 
+  /*
   bool split_the_area(const std::string theVar,
 					  const WeatherAnalysis::WeatherArea& theArea,
 					  const WeatherAnalysis::WeatherPeriod& thePeriod,
 					  const WeatherAnalysis::AnalysisSources& theSources);
+  */
 
-  bool temperature_split_criterion(const std::string theVar,
-								   const bool& morningTemperature,
-								   const WeatherAnalysis::WeatherArea& theArea,
-								   const WeatherAnalysis::WeatherPeriod& thePeriod,
-								   const WeatherAnalysis::AnalysisSources& theSources,
-								   MessageLogger& theLog);
+  split_method split_the_area(const std::string theVar,
+							  const WeatherAnalysis::WeatherArea& theArea,
+							  const WeatherAnalysis::WeatherPeriod& thePeriod,
+							  const WeatherAnalysis::AnalysisSources& theSources,
+							  double& theDivisionLine,
+							  MessageLogger& theLog);
+
+  bool test_temperature_split_criterion(const std::string theVar,
+										const bool& morningTemperature,
+										const WeatherAnalysis::WeatherArea& theAreaOne,
+										const WeatherAnalysis::WeatherArea& theAreaTwo,
+										const WeatherAnalysis::WeatherPeriod& thePeriod,
+										const WeatherAnalysis::AnalysisSources& theSources,
+										MessageLogger& theLog);
+  split_method check_area_splitting(const std::string theVar,
+									const WeatherAnalysis::WeatherArea& theArea,
+									const WeatherAnalysis::WeatherPeriod& thePeriod,
+									const WeatherAnalysis::AnalysisSources& theSources,
+									WeatherAnalysis::WeatherArea& theFirstArea,
+									WeatherAnalysis::WeatherArea& theSecondArea,
+									MessageLogger& theLog);
 
 
-	
+
   struct WeatherResultDataItem
   {
 	WeatherResultDataItem(const WeatherPeriod& period, 

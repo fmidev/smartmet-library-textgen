@@ -30,6 +30,7 @@
 #include <newbase/NFmiSettings.h>
 
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
 #include <vector>
 #include <map>
 
@@ -38,7 +39,7 @@ namespace TextGen
 
 using namespace Settings;
 using namespace WeatherAnalysis;
-  using namespace TemperatureStoryTools;
+using namespace TemperatureStoryTools;
 using namespace AreaTools;
 using namespace boost;
 using namespace std;
@@ -1567,11 +1568,10 @@ using namespace std;
 
 	WeatherArea maskArea = theArea;
 	maskArea.type(theType);
-	WeatherArea fullArea = theArea;
-	fullArea.type(WeatherArea::Full);
+	WeatherArea comparisonArea = theArea;
 
 	NFmiIndexMask indexMask;
-	NFmiIndexMask fullIndexMask;
+	NFmiIndexMask comparisonIndexMask;
 	RangeAcceptor precipitationlimits;
 	precipitationlimits.lowerLimit(0);
 	precipitationlimits.upperLimit(1000);
@@ -1583,15 +1583,19 @@ using namespace std;
 				indexMask);
 	ExtractMask(theSources,
 				Precipitation,
-				fullArea,
+				comparisonArea,
 				thePeriod,
 				precipitationlimits,
-				fullIndexMask);
+				comparisonIndexMask);
 
-	if(fullIndexMask.size() == 0)
+	if(comparisonIndexMask.size() == 0)
 	  return 0.0;
 
-	return (static_cast<float>(indexMask.size())/static_cast<float>(fullIndexMask.size()))*100.0;
+	// ARE 2.9.2011: take the intersection before comparing, because the comparison area can be 
+	// part (northern, southern, eastern, western) part of the full area
+	indexMask &= comparisonIndexMask;
+
+	return (static_cast<float>(indexMask.size())/static_cast<float>(comparisonIndexMask.size()))*100.0;
   }
 
 
@@ -1699,11 +1703,15 @@ using namespace std;
 	   return thePeriod1;
   }
 
-  bool split_the_area(const std::string theVar,
-					  const WeatherAnalysis::WeatherArea& theArea,
-					  const WeatherAnalysis::WeatherPeriod& thePeriod,
-					  const WeatherAnalysis::AnalysisSources& theSources)
+  split_method split_the_area(const std::string theVar,
+							  const WeatherAnalysis::WeatherArea& theArea,
+							  const WeatherAnalysis::WeatherPeriod& thePeriod,
+							  const WeatherAnalysis::AnalysisSources& theSources,
+							  double& theDivisionLine,
+							  MessageLogger& theLog)
   {
+	split_method retval(NO_SPLITTING);
+
 	if(NFmiSettings::IsSet(theVar +"::areas_to_split"))
 	  {
 		std::string areasToSplit(require_string(theVar +"::areas_to_split"));
@@ -1712,31 +1720,77 @@ using namespace std;
 		  {
 			if(theArea.name().compare(areas[i]) == 0)
 			  {
-				return true;
+				std::string split_method(optional_string("textgen::split_the_area::"+theArea.name()+"::method", EMPTY_STRING));
+				boost::trim(split_method);
+
+
+				if(split_method.compare(0, strlen(HORIZONTAL_SPLIT_KEY), HORIZONTAL_SPLIT_KEY) == 0)
+				  retval = HORIZONTAL;
+				else if(split_method.compare(0, strlen(VERTICAL_SPLIT_KEY), VERTICAL_SPLIT_KEY) == 0)
+				  retval = VERTICAL;
+				
+				if(retval != NO_SPLITTING)
+				  {
+					Rect areaRect(theArea);
+					NFmiPoint centerPoint = areaRect.getCenter();
+					size_t valuePos = split_method.find(COLON_PUNCTUATION_MARK);
+					std::string valueStr(valuePos != string::npos ?split_method.substr(valuePos+1) : "");
+					boost::trim(valueStr);
+					if(!valueStr.empty())
+					  {
+						double divisionLine = atof(valueStr.c_str());
+						
+						// the division line must be inside area
+						if((retval == HORIZONTAL &&
+							areaRect.contains(NFmiPoint(centerPoint.X(), divisionLine))) ||
+						   (retval == VERTICAL &&
+							areaRect.contains(NFmiPoint(divisionLine, centerPoint.Y()))))
+						  theDivisionLine = divisionLine;
+						else
+						  {
+							theLog << "The area "
+								   << theArea.name() 
+								   << " is not split: the given " 
+								   << (retval == HORIZONTAL ? "latitude " : "longitude ")
+								   << divisionLine
+								   << " is out of the area!"
+								   << endl;
+							retval = NO_SPLITTING;
+						  }
+					  }
+					else
+					  {
+						// no longitude or latitude given -> split in the middle
+						theDivisionLine = (retval == HORIZONTAL ? centerPoint.Y() : centerPoint.X());
+					  }
+				  }
+				break;
 			  }			
 		  }
 	  }
-	return false;
+
+	return retval;
   }
 
-
-  bool temperature_split_criterion(const std::string theVar,
-								   const bool& morningTemperature,
-								   const WeatherAnalysis::WeatherArea& theArea,
-								   const WeatherAnalysis::WeatherPeriod& thePeriod,
-								   const WeatherAnalysis::AnalysisSources& theSources,
-								   MessageLogger& theLog)
+  bool test_temperature_split_criterion(const std::string theVar,
+										const bool& morningTemperature,
+										const WeatherAnalysis::WeatherArea& theAreaOne,
+										const WeatherAnalysis::WeatherArea& theAreaTwo,
+										const WeatherAnalysis::WeatherPeriod& thePeriod,
+										const WeatherAnalysis::AnalysisSources& theSources,
+										MessageLogger& theLog)
   {
 	bool retval = false;
 
-	WeatherResult minSouth(kFloatMissing, 0.0);
-	WeatherResult maxSouth(kFloatMissing, 0.0);
-	WeatherResult meanSouth(kFloatMissing, 0.0);
-	WeatherResult minNorth(kFloatMissing, 0.0);
-	WeatherResult maxNorth(kFloatMissing, 0.0);
-	WeatherResult meanNorth(kFloatMissing, 0.0);
+	WeatherResult minAreaOne(kFloatMissing, 0.0);
+	WeatherResult maxAreaOne(kFloatMissing, 0.0);
+	WeatherResult meanAreaOne(kFloatMissing, 0.0);
+	WeatherResult minAreaTwo(kFloatMissing, 0.0);
+	WeatherResult maxAreaTwo(kFloatMissing, 0.0);
+	WeatherResult meanAreaTwo(kFloatMissing, 0.0);
 
-	std::string nimi(theArea.name());
+	// both have same name
+	std::string nimi(theAreaOne.name());
 
 	std::string split_section_name("textgen::split_the_area::" + nimi);
 
@@ -1749,32 +1803,25 @@ using namespace std;
 	if(index != string::npos)
 	  difference = atof(criterion.substr(index+1).c_str());
 
-	  
-	WeatherArea southernArea(theArea);
-	southernArea.type(WeatherArea::Southern);
-	WeatherArea northernArea(theArea);
-	northernArea.type(WeatherArea::Northern);
-	  
-	  
 	if(morningTemperature)
 	  {
 		morning_temperature(theVar,
 							theSources,
-							southernArea,
+							theAreaOne,
 							thePeriod,
-							minSouth,
-							maxSouth,
-							meanSouth);
+							minAreaOne,
+							maxAreaOne,
+							meanAreaOne);
 
 		morning_temperature(theVar,
 							theSources,
-							northernArea,
+							theAreaTwo,
 							thePeriod,
-							minNorth,
-							maxNorth,
-							meanNorth);
+							minAreaTwo,
+							maxAreaTwo,
+							meanAreaTwo);
 
-		if(abs(meanSouth.value() - meanNorth.value()) >= difference)
+		if(abs(meanAreaOne.value() - meanAreaTwo.value()) >= difference)
 		  retval = true;
 
 	  }
@@ -1782,44 +1829,118 @@ using namespace std;
 	  {
 		afternoon_temperature(theVar,
 							  theSources,
-							  southernArea,
+							  theAreaOne,
 							  thePeriod,
-							  minSouth,
-							  maxSouth,
-							  meanSouth);
+							  minAreaOne,
+							  maxAreaOne,
+							  meanAreaOne);
 
 		afternoon_temperature(theVar,
 							  theSources,
-							  northernArea,
+							  theAreaTwo,
 							  thePeriod,
-							  minNorth,
-							  maxNorth,
-							  meanNorth);
+							  minAreaTwo,
+							  maxAreaTwo,
+							  meanAreaTwo);
 
-		if(abs(meanSouth.value() - meanNorth.value()) >= difference)
+		if(abs(meanAreaOne.value() - meanAreaTwo.value()) >= difference)
 		  retval = true;
 	  }
 
-	if(retval)
-	  theLog << "Reporting southern and northern part separately in " << nimi << "!!" << endl;
+	if(morningTemperature)
+	  theLog << "Morning ";
+	else
+	  theLog << "Afternoon ";
+	theLog << "mean temperature in southern part: " << meanAreaOne.value() << endl;
 
 	if(morningTemperature)
 	  theLog << "Morning ";
 	else
 	  theLog << "Afternoon ";
-	theLog << "mean temperature in southern part: " << meanSouth.value() << endl;
+	theLog << "mean temperature in northern part: " << meanAreaTwo.value() << endl;
 
-	if(morningTemperature)
-	  theLog << "Morning ";
-	else
-	  theLog << "Afternoon ";
-	theLog << "mean temperature in northern part: " << meanNorth.value() << endl;
-
-	theLog << "Mean temperature difference: " << abs(meanSouth.value() - meanNorth.value()) << endl;
+	theLog << "Mean temperature difference: " << abs(meanAreaOne.value() - meanAreaTwo.value()) << endl;
 
 	return retval;
   }
 
+
+  split_method check_area_splitting(const std::string theVar,
+							const WeatherAnalysis::WeatherArea& theArea,
+							const WeatherAnalysis::WeatherPeriod& thePeriod,
+							const WeatherAnalysis::AnalysisSources& theSources,
+							WeatherAnalysis::WeatherArea& theFirstArea,
+							WeatherAnalysis::WeatherArea& theSecondArea,
+							MessageLogger& theLog)
+  {
+	bool splitCriterionFulfilled = false;
+
+	double divisionLine = 0.0;
+	split_method splitMethod = split_the_area(theVar,
+											  theArea, 
+											  thePeriod, 
+											  theSources, 
+											  divisionLine,
+											  theLog);
+	if(HORIZONTAL == splitMethod)
+	  {
+		theFirstArea.type(WeatherArea::Southern);
+		theSecondArea.type(WeatherArea::Northern);
+		theFirstArea.setLatitudeDivisionLine(divisionLine);
+		theSecondArea.setLatitudeDivisionLine(divisionLine);
+	  }
+	else if(VERTICAL == splitMethod)
+	  {
+		theFirstArea.type(WeatherArea::Western);
+		theSecondArea.type(WeatherArea::Eastern);
+		theFirstArea.setLongitudeDivisionLine(divisionLine);
+		theSecondArea.setLongitudeDivisionLine(divisionLine);		
+	  }
+
+	if(NO_SPLITTING != splitMethod)
+	  {
+		// TODO: this is not good way of deciding if it is morning/afternoon
+		splitCriterionFulfilled =
+		  test_temperature_split_criterion(theVar,
+										   theVar.find("morning") != string::npos,
+										   theFirstArea,
+										   theSecondArea,
+										   thePeriod,
+										   theSources,
+										   theLog);
+
+		if(splitCriterionFulfilled)
+		  {
+			if(HORIZONTAL == splitMethod)
+			  {
+			  theLog << "The area " 
+					 << theArea.name() 
+					 << " is split horizontally at " 
+					 << abs(divisionLine) 
+					 << (divisionLine < 0.0 ? " S" : " N")  
+					 << endl;
+			  }
+			else if(VERTICAL == splitMethod)
+			  theLog << "The area " 
+					 << theArea.name() 
+					 << " is split vertically at " 
+					 << abs(divisionLine) 
+					 << (divisionLine < 0.0 ? " E" : " W")  
+					 << endl;
+		  }
+		else
+		  {
+			splitMethod = NO_SPLITTING;
+
+			theLog << "The area "
+				   << theArea.name() 
+				   << " is not split: temperature criterion not fulfilled!" 
+				   << endl; 
+		  }
+	  }
+
+	return splitMethod;
+  }
 
 } // namespace TextGen
 
