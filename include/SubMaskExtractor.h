@@ -35,7 +35,7 @@ namespace WeatherAnalysis
 					 NFmiIndexMask& theResultIndexMask);
 
   const NFmiIndexMask MaskDirection(const NFmiGrid & theGrid,
-									const NFmiSvgPath & thePath,
+									const WeatherArea & theArea,
 									const direction_id& theDirectionId);
 
  void PrintLatLon(const AnalysisSources& theSources,
