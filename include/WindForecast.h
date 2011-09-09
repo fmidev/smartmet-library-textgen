@@ -26,21 +26,21 @@ using namespace std;
 
   enum wind_direction_id
 	{
-	  POHJOINEN_ = 1,
+	  POHJOINEN = 1,
 	  POHJOINEN_KOILLINEN,
-	  KOILLINEN_,
+	  KOILLINEN,
 	  KOILLINEN_ITA,
-	  ITA_,
+	  ITA,
 	  ITA_KAAKKO,
-	  KAAKKO_,
+	  KAAKKO,
 	  KAAKKO_ETELA,
-	  ETELA_,
+	  ETELA,
 	  ETELA_LOUNAS,
-	  LOUNAS_,
+	  LOUNAS,
 	  LOUNAS_LANSI,
-	  LANSI_,
+	  LANSI,
 	  LANSI_LUODE,
-	  LUODE_,
+	  LUODE,
 	  LUODE_POHJOINEN,
 	  POHJOINEN_PUOLEINEN,
 	  KOILLINEN_PUOLEINEN,
@@ -50,7 +50,7 @@ using namespace std;
 	  LOUNAS_PUOLEINEN,
 	  LANSI_PUOLEINEN,
 	  LUODE_PUOLEINEN,
-	  VAIHTELEVA_
+	  VAIHTELEVA
 	};
 
   enum wind_event_id 
@@ -66,7 +66,9 @@ using namespace std;
 	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE = 0x11,
 	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU = 0x12,
 	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY = 0x14,
-	  MISSING_WIND_EVENT = 0x0
+	  MISSING_WIND_EVENT = 0x0,
+	  MISSING_WIND_SPEED_EVENT = -0x1,
+	  MISSING_WIND_DIRECTION_EVENT = -0x2
 	};
   
   enum change_type
@@ -81,10 +83,12 @@ using namespace std;
   class WindDataItemContainer;
   class WindSpeedPeriodDataItem;
   class WindDirectionPeriodDataItem;
+  class WindEventPeriodDataItem;
 
   typedef vector<WindDataItemContainer*> wind_data_item_vector;
   typedef vector<WindSpeedPeriodDataItem*> wind_speed_period_data_item_vector;
   typedef vector<WindDirectionPeriodDataItem*> wind_direction_period_data_item_vector;
+  typedef vector<WindEventPeriodDataItem*> wind_event_period_data_item_vector;
   typedef std::pair<NFmiTime, wind_event_id> timestamp_wind_event_id_pair;
   typedef vector<timestamp_wind_event_id_pair> wind_event_id_vector;
 
@@ -129,8 +133,10 @@ using namespace std;
 	
 	wind_speed_period_data_item_vector theWindSpeedVector;
 	wind_direction_period_data_item_vector theWindDirectionVector;
+	wind_event_period_data_item_vector theWindEventPeriodVector;
 	vector<unsigned int> theOriginalWindSpeedIndexes;
-	vector<unsigned int> theEqualizedWindSpeedIndexes;
+	vector<unsigned int> theEqualizedWindSpeedIndexesForMedianWind;
+	vector<unsigned int> theEqualizedWindSpeedIndexesForMaximumWind;
 	vector<unsigned int> theOriginalWindDirectionIndexes;
 	vector<unsigned int> theEqualizedWindDirectionIndexes;
 	vector<pair<string, WeatherArea> > theNamedWeatherAreas;
@@ -170,6 +176,7 @@ using namespace std;
 	WeatherResult theWindDirection;
 	WeatherResult theGustSpeed;
 	float theEqualizedMedianWindSpeed;
+	float theEqualizedMaximumWind;
 	float theEqualizedWindDirection;
 	change_type theWindSpeedChangeType;
 	change_type theWindDirectionChangeType;
@@ -287,9 +294,22 @@ using namespace std;
 	wind_direction_id theWindDirection;
   };
 
-
-
-
+  struct WindEventPeriodDataItem
+  {
+	WindEventPeriodDataItem(const WeatherPeriod& period,
+							const wind_event_id& windEvent,
+							const WindDataItemUnit& periodBeginDataItem,
+							const WindDataItemUnit& periodEndDataItem)
+	  : thePeriod(period),
+		theWindEvent(windEvent),
+		thePeriodBeginDataItem(periodBeginDataItem),
+		thePeriodEndDataItem(periodEndDataItem)
+	{}
+	WeatherPeriod thePeriod;
+	wind_event_id theWindEvent;
+	const WindDataItemUnit& thePeriodBeginDataItem;
+	const WindDataItemUnit& thePeriodEndDataItem;
+  };
 
 
   class WindForecast

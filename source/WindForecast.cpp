@@ -99,7 +99,7 @@ namespace TextGen
 
 	switch(theWindDirectionId)
 	  {
-	  case POHJOINEN_:
+	  case POHJOINEN:
 		retval = POHJOISEEN_PHRASE;
 		break;
 	  case POHJOINEN_PUOLEINEN:
@@ -108,7 +108,7 @@ namespace TextGen
 	  case POHJOINEN_KOILLINEN:
 		retval = POHJOISEN_JA_KOILLISEN_VALILLE_PHRASE;
 		break;
-	  case KOILLINEN_:
+	  case KOILLINEN:
 		retval = KOILLISEEN_PHRASE;
 		break;
 	  case KOILLINEN_PUOLEINEN:
@@ -117,7 +117,7 @@ namespace TextGen
 	  case KOILLINEN_ITA:
 		retval = KOILLISEN_JA_IDAN_VALILLE_PHRASE;
 		break;
-	  case ITA_:
+	  case ITA:
 		retval = ITAAN_PHRASE;
 		break;
 	  case ITA_PUOLEINEN:
@@ -126,7 +126,7 @@ namespace TextGen
 	  case ITA_KAAKKO:
 		retval = IDAN_JA_KAAKON_VALILLE_PHRASE;
 		break;
-	  case KAAKKO_:
+	  case KAAKKO:
 		retval = KAAKKOON_PHRASE;
 		break;
 	  case KAAKKO_PUOLEINEN:
@@ -135,7 +135,7 @@ namespace TextGen
 	  case KAAKKO_ETELA:
 		retval = KAAKON_JA_ETELAN_VALILLE_PHRASE;
 		break;
-	  case ETELA_:
+	  case ETELA:
 		retval = ETELAAN_PHRASE;
 		break;
 	  case ETELA_PUOLEINEN:
@@ -144,7 +144,7 @@ namespace TextGen
 	  case ETELA_LOUNAS:
 		retval = LOUNAAN_JA_ETELAN_VALILLE_PHRASE;
 		break;
-	  case LOUNAS_:
+	  case LOUNAS:
 		retval = LOUNAASEEN_PHRASE;
 		break;
 	  case LOUNAS_PUOLEINEN:
@@ -153,7 +153,7 @@ namespace TextGen
 	  case LOUNAS_LANSI:
 		retval = LANNEN_JA_LOUNAAN_VALILLE_PHRASE;
 		break;
-	  case LANSI_:
+	  case LANSI:
 		retval = LANTEEN_PHRASE;
 		break;
 	  case LANSI_PUOLEINEN:
@@ -162,7 +162,7 @@ namespace TextGen
 	  case LANSI_LUODE:
 		retval = LUOTEEN_JA_LANNEN_VALILLE_PHRASE;
 		break;
-	  case LUODE_:
+	  case LUODE:
 		retval = LUOTEESEEN_PHRASE;
 		break;
 	  case LUODE_PUOLEINEN:
@@ -171,7 +171,7 @@ namespace TextGen
 	  case LUODE_POHJOINEN:
 		retval = LUOTEEN_JA_POHJOISEN_VALILLE_PHRASE;
 		break;
-	  case VAIHTELEVA_:
+	  case VAIHTELEVA:
 		retval = "vaihtelevaksi";
 		break;
 	  }
@@ -183,46 +183,46 @@ namespace TextGen
   {
 	switch(directionId)
 	  {
-	  case POHJOINEN_:
+	  case POHJOINEN:
 		return POHJOINEN_PUOLEINEN;
 		break;
-	  case ETELA_:
+	  case ETELA:
 		return ETELA_PUOLEINEN;
 		break;
-	  case ITA_:
+	  case ITA:
 		return ITA_PUOLEINEN;
 		break;
-	  case LANSI_:
+	  case LANSI:
 		return LANSI_PUOLEINEN;
 		break;
-	  case KOILLINEN_:
+	  case KOILLINEN:
 	  return KOILLINEN_PUOLEINEN;
 		break;
-	  case KAAKKO_:
+	  case KAAKKO:
 		return KAAKKO_PUOLEINEN;
 		break;
-	  case LOUNAS_:
+	  case LOUNAS:
 		return LOUNAS_PUOLEINEN;
 		break;
-	  case LUODE_:
+	  case LUODE:
 		return LUODE_PUOLEINEN;
 		break;
 	  default:
-		return VAIHTELEVA_;
+		return VAIHTELEVA;
 		break;
 	  }
   }
 
   bool is_principal_compass_point(const wind_direction_id& directionId)
   {
-	return (directionId == POHJOINEN_ ||
-			directionId == ETELA_ ||
-			directionId == ITA_ ||
-			directionId == LANSI_ ||
-			directionId == KOILLINEN_ ||
-			directionId == KAAKKO_ ||
-			directionId == LOUNAS_ ||
-			directionId == LUODE_);
+	return (directionId == POHJOINEN ||
+			directionId == ETELA ||
+			directionId == ITA ||
+			directionId == LANSI ||
+			directionId == KOILLINEN ||
+			directionId == KAAKKO ||
+			directionId == LOUNAS ||
+			directionId == LUODE);
   }
 
   // returns wind direction id in the given time
@@ -262,7 +262,7 @@ namespace TextGen
 		  }
 	  }
 	  
-	return VAIHTELEVA_;
+	return VAIHTELEVA;
   }
 
   // returns the period during which the wind turns
@@ -406,6 +406,8 @@ namespace TextGen
 						  << windDirectionTurningToPhrase;
 			break;
 		  case MISSING_WIND_EVENT:
+		  case MISSING_WIND_SPEED_EVENT:
+		  case MISSING_WIND_DIRECTION_EVENT:
 			break;
 		  };
 
@@ -619,7 +621,7 @@ namespace TextGen
 
 	switch(theWindDirectionId)
 	  {
-	  case POHJOINEN_:
+	  case POHJOINEN:
 		sentence << "1-tuulta";
 		break;
 	  case POHJOINEN_PUOLEINEN:
@@ -628,7 +630,7 @@ namespace TextGen
 	  case POHJOINEN_KOILLINEN:
 		sentence << "pohjoisen ja koillisen välistä tuulta";
 		break;
-	  case KOILLINEN_:
+	  case KOILLINEN:
 		sentence << "2-tuulta";
 		break;
 	  case KOILLINEN_PUOLEINEN:
@@ -637,7 +639,7 @@ namespace TextGen
 	  case KOILLINEN_ITA:
 		sentence << "koillisen ja idän välistä tuulta";
 		break;
-	  case ITA_:
+	  case ITA:
 		sentence << "3-tuulta";
 		break;
 	  case ITA_PUOLEINEN:
@@ -646,7 +648,7 @@ namespace TextGen
 	  case ITA_KAAKKO:
 		sentence << "idän ja kaakon välistä tuulta";
 		break;
-	  case KAAKKO_:
+	  case KAAKKO:
 		sentence << "4-tuulta";
 		break;
 	  case KAAKKO_PUOLEINEN:
@@ -655,7 +657,7 @@ namespace TextGen
 	  case KAAKKO_ETELA:
 		sentence << "kaakon ja etelän välistä tuulta";
 		break;
-	  case ETELA_:
+	  case ETELA:
 		sentence << "5-tuulta";
 		break;
 	  case ETELA_PUOLEINEN:
@@ -664,7 +666,7 @@ namespace TextGen
 	  case ETELA_LOUNAS:
 		sentence << "etelän ja lounaan välistä tuulta";
 		break;
-	  case LOUNAS_:
+	  case LOUNAS:
 		sentence << "6-tuulta";
 		break;
 	  case LOUNAS_PUOLEINEN:
@@ -673,7 +675,7 @@ namespace TextGen
 	  case LOUNAS_LANSI:
 		sentence << "lounaan ja lännen välistä tuulta";
 		break;
-	  case LANSI_:
+	  case LANSI:
 		sentence << "7-tuulta";
 		break;
 	  case LANSI_PUOLEINEN:
@@ -682,7 +684,7 @@ namespace TextGen
 	  case LANSI_LUODE:
 		sentence << "lännen ja luoteen välistä tuulta";
 		break;
-	  case LUODE_:
+	  case LUODE:
 		sentence << "8-tuulta";
 		break;
 	  case LUODE_PUOLEINEN:
@@ -691,7 +693,7 @@ namespace TextGen
 	  case LUODE_POHJOINEN:
 		sentence << "luoteen ja pohjoisen välistä tuulta";
 		break;
-	  case VAIHTELEVA_:
+	  case VAIHTELEVA:
 		sentence << "suunnaltaan vaihtelevaa tuulta";
 		break;
 	  }
