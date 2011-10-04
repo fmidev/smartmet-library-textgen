@@ -3782,7 +3782,7 @@ vesi- tai lumisadetta.
 			//sentence << areaSpecificSentence(thePeriod);
 			
 			Sentence thunderSentence;
-			thunderSentence << getThunderSentence(thePeriod, theForecastAreaId);
+			thunderSentence << getThunderSentence(thePeriod, theForecastAreaId, theParameters.theVariable);
 
 			if(thunderSentence.size() > 0)
 			  {
@@ -4302,7 +4302,8 @@ vesi- tai lumisadetta.
   }
 
   Sentence PrecipitationForecast::getThunderSentence(const WeatherPeriod& thePeriod,
-													 const unsigned short& theForecastAreaId) const
+													 const unsigned short& theForecastAreaId,
+													 const string& theVariable) const
   {
 	Sentence thunderSentence;
 
@@ -4315,17 +4316,20 @@ vesi- tai lumisadetta.
 	else if(theForecastAreaId & COASTAL_AREA)
 	  theAreaId = COASTAL_AREA;
 
-	thunderSentence << theParameters.theThunderForecast->thunderSentence(thePeriod, theAreaId);
+	thunderSentence << theParameters.theThunderForecast->thunderSentence(thePeriod, 
+																		 theAreaId,
+																		 theVariable);
 
 	return thunderSentence;
   }
 
   bool  PrecipitationForecast::thunderExists(const WeatherPeriod& thePeriod,
-											 const unsigned short& theForecastAreaId) const
+											 const unsigned short& theForecastAreaId,
+											 const string& theVariable) const
   {
 	Sentence thunderSentence;
 
-	thunderSentence << getThunderSentence(thePeriod, theForecastAreaId);
+	thunderSentence << getThunderSentence(thePeriod, theForecastAreaId, theVariable);
 
 	return (thunderSentence.size() > 0);
   }

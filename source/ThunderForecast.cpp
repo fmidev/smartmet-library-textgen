@@ -93,7 +93,8 @@ namespace TextGen
   }
 
   Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
-											const forecast_area_id& theForecastAreaId) const
+											const forecast_area_id& theForecastAreaId,
+											const string& theVariable) const
   {
 	Sentence sentence;
 
@@ -121,6 +122,9 @@ namespace TextGen
 		float maxThunderProbability(0.0);
 		float maxThunderExtent(0.0);
 
+		// 5% in summer,10% other seasons
+		float thunderExtentLowerLimit =  SeasonTools::isSummer(thePeriod.localStartTime(), theVariable) ? 5.0 : 10.0;
+
 		maxThunderProbability = getMaxValue(thePeriod, *thunderProbabilityData);
 		maxThunderExtent = getMaxValue(thePeriod, *thunderExtentData);
 
@@ -130,7 +134,7 @@ namespace TextGen
 			theParameters.theLog << "Thunder extent (max): " << maxThunderExtent << endl;
 		  }
   
-		if(maxThunderExtent >= 5.0 && maxThunderExtent < 30.0)
+		if(maxThunderExtent >= thunderExtentLowerLimit && maxThunderExtent < 30.0)
 		  {
 			if(maxThunderProbability >= 5.0 && maxThunderProbability < 25.0)
 			  {

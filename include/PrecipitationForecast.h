@@ -81,9 +81,11 @@ using namespace std;
 	bool getPrecipitationPeriod(const NFmiTime& theTimestamp, NFmiTime& theStartTime, NFmiTime& theEndTime) const;
 	static bool singleForm(const precipitation_form_id& thePrecipitationForm);
 	Sentence getThunderSentence(const WeatherPeriod& thePeriod,
-								const unsigned short& theForecastAreaId) const;
+								const unsigned short& theForecastAreaId,
+								const string& theVariable) const;
 	bool thunderExists(const WeatherPeriod& thePeriod,
-					   const unsigned short& theForecastArea) const;
+					   const unsigned short& theForecastArea,
+					   const string& theVariable) const;
 	
   private:
 	  

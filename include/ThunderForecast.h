@@ -21,7 +21,8 @@ using namespace std;
 	ThunderForecast(wf_story_params& parameters);
 		
 	Sentence thunderSentence(const WeatherPeriod& thePeriod,
-							 const forecast_area_id& theForecastAreaId) const;
+							 const forecast_area_id& theForecastAreaId,
+							 const string& theVariable) const;
 
   private:
 	
