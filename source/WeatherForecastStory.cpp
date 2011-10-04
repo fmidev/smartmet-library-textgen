@@ -161,7 +161,8 @@ namespace TextGen
 																			  theForecastArea));
 
 		bool thunder(thePrecipitationForecast.thunderExists(precipitationPeriods[i],
-															theForecastArea));
+															theForecastArea,
+															theVar));
 
 		if(get_period_length(precipitationPeriods[i]) <= 1 && extent < 10)
 		  continue;
