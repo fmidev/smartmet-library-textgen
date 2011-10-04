@@ -465,7 +465,8 @@ namespace TextGen
 		theDayAndNightSeparationFlag(true),
 		theUseFrostExistsPhrase(false),
 		theFullDayFlag(true),
-		theUseLongPhrase(true)
+		theUseLongPhrase(true),
+		theAddCommaDelimiterFlag(false)
 	  {}
 
 	  const string& theVariable;
@@ -508,6 +509,7 @@ namespace TextGen
 	  bool theUseFrostExistsPhrase;
 	  bool theFullDayFlag;
 	  bool theUseLongPhrase;
+	  bool theAddCommaDelimiterFlag;
 	  Sentence theSentenceUnderConstruction;
 
 	  bool morningAndAfternoonSeparated(const forecast_period_id& forecastPeriodId = NO_PERIOD) const
@@ -2914,7 +2916,10 @@ namespace TextGen
 		  break;
 		};
 
-	  theParameters.theSentenceUnderConstruction << sentence;
+	  if(theParameters.theAddCommaDelimiterFlag && sentence.size() > 0)
+		theParameters.theSentenceUnderConstruction << Delimiter(COMMA_PUNCTUATION_MARK) << sentence;
+	  else
+		theParameters.theSentenceUnderConstruction << sentence;
 
 	  return sentence;
 	}
@@ -3263,8 +3268,6 @@ namespace TextGen
 
 	  if(theParameters.theForecastAreaId == FULL_AREA)
 		{
-		  theParameters.theDayAndNightSeparationFlag = separate_day_and_night(theParameters, FULL_AREA);
-
 		  if(theParameters.theForecastPeriodId == DAY1_PERIOD)
 			{
 			  if(theParameters.theSeasonId == SUMMER_SEASON && 
@@ -3370,8 +3373,6 @@ namespace TextGen
 		}
 	  else if(theParameters.theForecastAreaId == INLAND_AREA)
 		{
-		  theParameters.theDayAndNightSeparationFlag = separate_day_and_night(theParameters, INLAND_AREA);
-
 		  if(theParameters.theForecastPeriodId == DAY1_PERIOD)
 			{
 			  if(theParameters.theSeasonId == SUMMER_SEASON && 
@@ -3476,8 +3477,6 @@ namespace TextGen
 		}
 	  else if(theParameters.theForecastAreaId == COASTAL_AREA)
 		{
-		  theParameters.theDayAndNightSeparationFlag = separate_day_and_night(theParameters, COASTAL_AREA);
-
 		  if(theParameters.theForecastPeriodId == DAY1_PERIOD)
 			{
 			  if(theParameters.theSeasonId == SUMMER_SEASON && 
@@ -3733,12 +3732,6 @@ namespace TextGen
 				  separate_inland_and_coast_day1 = true;
 				}
 			}
-		  
-		  /*
-		  separate_inland_and_coast_day1 = (temperature_diff_day1 >= temperature_limit_coast_inland) &&
-			!theParameters.theCoastalAndInlandTogetherFlag;
-		  */
-		  
 		}
 
 	  if(theParameters.theWeatherResults[INLAND_MEAN_DAY2]->value() != kFloatMissing &&
@@ -3781,11 +3774,6 @@ namespace TextGen
 				  separate_inland_and_coast_day2 = true;
 				}
 			}
-
-		  /*
-		  separate_inland_and_coast_day2 = (temperature_diff_day2 >= temperature_limit_coast_inland) &&
-			!theParameters.theCoastalAndInlandTogetherFlag;
-		  */
 		}
 
 	  if(theParameters.theWeatherResults[INLAND_MEAN_NIGHT]->value() != kFloatMissing &&
@@ -3828,11 +3816,6 @@ namespace TextGen
 				  separate_inland_and_coast_night = true;
 				}
 			}
-
-		  /*
-		  separate_inland_and_coast_night = (temperature_diff_night >= temperature_limit_coast_inland) &&
-			!theParameters.theCoastalAndInlandTogetherFlag;
-		  */
 		}
 
 	  if(processingOrder == DAY1_DAY2_NIGHT)
@@ -3958,7 +3941,7 @@ namespace TextGen
 					 !theParameters.morningAndAfternoonSeparated(DAY1_PERIOD) &&
 					 !theParameters.morningAndAfternoonSeparated(DAY2_PERIOD))
 					{
-					  theParameters.theSentenceUnderConstruction << Delimiter(COMMA_PUNCTUATION_MARK);
+					  theParameters.theAddCommaDelimiterFlag = true;
 					}
 				  else
 					{
@@ -3967,7 +3950,7 @@ namespace TextGen
 						 (processingOrder == NIGHT_DAY2 && periodAreas[i-1] == NIGHT_FULL &&
 						  !separate_inland_and_coast_day2)) && !separate_inland_and_coast_night)
 						{
-						  theParameters.theSentenceUnderConstruction << Delimiter(COMMA_PUNCTUATION_MARK);//JA_WORD
+						  theParameters.theAddCommaDelimiterFlag = true;
 						  theParameters.theUseLongPhrase = false;
 						}
 					  else
@@ -3980,16 +3963,6 @@ namespace TextGen
 							}
 						  theParameters.theSentenceUnderConstruction.clear();
 						}
-
-					  /*
-					  paragraph << theParameters.theSentenceUnderConstruction;
-					  if(!theParameters.theOptionalFrostParagraph.empty())
-						{
-						  paragraph << theParameters.theOptionalFrostParagraph;
-						  theParameters.theOptionalFrostParagraph.clear();
-						}
-					  theParameters.theSentenceUnderConstruction.clear();
-					  */
 					}
 				}
 			  continue;
@@ -3998,7 +3971,7 @@ namespace TextGen
 			{
 			  if(!theParameters.theSentenceUnderConstruction.empty())
 				{
-				  theParameters.theSentenceUnderConstruction << Delimiter(COMMA_PUNCTUATION_MARK);
+				  theParameters.theAddCommaDelimiterFlag = true;
 				}
 			  continue;
 			}
@@ -4142,20 +4115,15 @@ namespace TextGen
 				}
 			}
 
-		  Sentence addThisSentence;
 		  theParameters.theForecastAreaId = area_id;
 		  theParameters.theForecastPeriodId = period_id;
 		  theParameters.theSeasonId = forecast_season;
 		  
- 
-		  addThisSentence << construct_sentence(theParameters);
-		  /*
-		  if(!addThisSentence.empty())
-			{
-			  sentenceUnderConstruction << addThisSentence;
-			}
-		  */
-		}
+		  theParameters.theDayAndNightSeparationFlag = separate_day_and_night(theParameters, theParameters.theForecastAreaId);
+		  construct_sentence(theParameters);
+
+		  theParameters.theAddCommaDelimiterFlag = false;
+		} // for-loop
 
 	  if(!theParameters.theSentenceUnderConstruction.empty())
 		{
