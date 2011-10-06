@@ -247,6 +247,7 @@ enum anomaly_phrase_id
 		  theAnomalyPhrase(UNDEFINED_ANOMALY_PHRASE_ID),
 		  theShortrunTrend(UNDEFINED_SHORTRUN_TREND_ID),
 		  theFakeVariable(""),
+		  theGrowingSeasonUnderway(false),
 		  theDayBeforeDay1TemperatureAreaAfternoonMinimum(kFloatMissing, 0),
 		  theDayBeforeDay1TemperatureAreaAfternoonMean(kFloatMissing, 0),
 		  theDayBeforeDay1TemperatureAreaAfternoonMaximum(kFloatMissing, 0),
@@ -276,6 +277,7 @@ enum anomaly_phrase_id
 	  anomaly_phrase_id theAnomalyPhrase;
 	  shortrun_trend_id theShortrunTrend;
 	  string theFakeVariable;
+	  bool theGrowingSeasonUnderway;
 	  WeatherResult theDayBeforeDay1TemperatureAreaAfternoonMinimum;
 	  WeatherResult theDayBeforeDay1TemperatureAreaAfternoonMean;
 	  WeatherResult theDayBeforeDay1TemperatureAreaAfternoonMaximum;
@@ -433,6 +435,7 @@ enum anomaly_phrase_id
 														 theParameters.theArea);
 		}
 
+
 	  Sentence theAreaPhrase;
 	  
 	  if(theParameters.theArea.type() == WeatherArea::Northern)
@@ -535,13 +538,13 @@ enum anomaly_phrase_id
 				  sentence << ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
 						   << theAreaPhrase
 						   << POIKKEUKSELLISEN_WORD
-						   << (theParameters.theSeason == SUMMER_SEASON ? LAMMINTA_WORD : LEUTOA_WORD);
+						   << ((theParameters.theSeason == SUMMER_SEASON || theParameters.theGrowingSeasonUnderway) ? LAMMINTA_WORD : LEUTOA_WORD);
 				}
 			  else
 				{
 				  sentence << SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
 						   << POIKKEUKSELLISEN_WORD
-						   << (theParameters.theSeason == SUMMER_SEASON ? LAMMINTA_WORD : LEUTOA_WORD);
+						   << ((theParameters.theSeason == SUMMER_SEASON || theParameters.theGrowingSeasonUnderway) ? LAMMINTA_WORD : LEUTOA_WORD);
 				}
 			}
 		  else
@@ -552,25 +555,25 @@ enum anomaly_phrase_id
 						   << theSpecifiedDay
 						   << theAreaPhrase
 						   << POIKKEUKSELLISEN_WORD
-						   << (theParameters.theSeason == SUMMER_SEASON ? LAMMINTA_WORD : LEUTOA_WORD);
+						   << ((theParameters.theSeason == SUMMER_SEASON || theParameters.theGrowingSeasonUnderway) ? LAMMINTA_WORD : LEUTOA_WORD);
 				}
 			  else
 				{
 				  sentence << MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
 						   << theSpecifiedDay
 						   << POIKKEUKSELLISEN_WORD
-						   << (theParameters.theSeason == SUMMER_SEASON ? LAMMINTA_WORD : LEUTOA_WORD);
+						   << ((theParameters.theSeason == SUMMER_SEASON || theParameters.theGrowingSeasonUnderway) ? LAMMINTA_WORD : LEUTOA_WORD);
 				}
 			}
 
 		  theParameters.theAnomalyPhrase = 
-			(theParameters.theSeason == SUMMER_SEASON ? SAA_ON_POIKKEUKSLLISEN_LAMMINTA : SAA_ON_POIKKEUKSLLISEN_LEUTOA);		
+			((theParameters.theSeason == SUMMER_SEASON || theParameters.theGrowingSeasonUnderway) ? SAA_ON_POIKKEUKSLLISEN_LAMMINTA : SAA_ON_POIKKEUKSLLISEN_LEUTOA);		
 		}
 	  else if(fractile88Share >= adequateShare)
 		{
 		  if(theSpecifiedDay.size() == 0)
 			{
-			  if(theParameters.theSeason == SUMMER_SEASON)
+			  if(theParameters.theSeason == SUMMER_SEASON || theParameters.theGrowingSeasonUnderway)
 				{
 				  if(theAreaPhrase.size() > 0)
 					sentence << ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE
@@ -598,7 +601,7 @@ enum anomaly_phrase_id
 		  else
 			{
 
-			  if(theParameters.theSeason == SUMMER_SEASON)
+			  if(theParameters.theSeason == SUMMER_SEASON || theParameters.theGrowingSeasonUnderway)
 				{
 				  if(theAreaPhrase.size() > 0)
 					{
@@ -778,13 +781,13 @@ enum anomaly_phrase_id
 
 	  if(theParameters.theSeason == WINTER_SEASON)
 		{
-		  // s‰‰ on edelleen lauhaa
-		  // s‰‰ lauhtuu
-		  // kire‰ pakkanen heikkenee
-		  // kire‰ pakkanen hellitt‰‰*
+		  // saa on edelleen lauhaa
+		  // saa lauhtuu
+		  // kirea pakkanen heikkenee
+		  // kirea pakkanen hellittaa*
 		  // pakkanen heikkenee
-		  // pakkanen hellitt‰‰*
-		  // kire‰ pakkanen jatkuu
+		  // pakkanen hellittaa*
+		  // kirea pakkanen jatkuu
 		  // pakkanen kiristyy
 
 		  if(temperatureGettingLower == false)//day2Temperature >= day1Temperature)
@@ -798,7 +801,8 @@ enum anomaly_phrase_id
 				 dayAfterDay2Temperature > MILD_TEMPERATURE_LOWER_LIMIT && 
 				 dayAfterDay2Temperature < MILD_TEMPERATURE_UPPER_LIMIT &&
 				 day2Temperature > fractile63Temperature.value() &&
-				 dayAfterDay2Temperature > fractile63Temperature.value())
+				 dayAfterDay2Temperature > fractile63Temperature.value() &&
+				 !theParameters.theGrowingSeasonUnderway)
 				{
 				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE,
 														 MAANANTAINA_SAA_ON_EDELLEEN_LAUHAA_COMPOSITE_PHRASE,
@@ -817,7 +821,8 @@ enum anomaly_phrase_id
 					  day2Temperature >= MILD_TEMPERATURE_LOWER_LIMIT && 
 					  day2Temperature < MILD_TEMPERATURE_UPPER_LIMIT &&
 					  dayAfterDay2Temperature >= MILD_TEMPERATURE_LOWER_LIMIT && 
-					  dayAfterDay2Temperature < MILD_TEMPERATURE_UPPER_LIMIT)
+					  dayAfterDay2Temperature < MILD_TEMPERATURE_UPPER_LIMIT &&
+					  !theParameters.theGrowingSeasonUnderway)
 				{
 				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_SAA_LAUHTUU_COMPOSITE_PHRASE,
 														 MAANANTAINA_SAA_LAUHTUU_COMPOSITE_PHRASE,
@@ -874,7 +879,7 @@ enum anomaly_phrase_id
 					  day2Temperature < ZERO_DEGREES &&
 					  day2Temperature >= MILD_TEMPERATURE_LOWER_LIMIT)
 				{
-				  // redundant: this will never happen, because "s‰‰ lauhtuu" is tested before
+				  // redundant: this will never happen, because "saa lauhtuu" is tested before
 				  sentence << get_shortruntrend_sentence(MAANANTAINA_ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE,
 														 MAANANTAINA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE,
 														 ALUEELLA_PAKKANEN_HELLITTAA_COMPOSITE_PHRASE,
@@ -931,23 +936,23 @@ enum anomaly_phrase_id
 				}
 			}
 		}
-	  else
+	  else // summer season
 		{
 		  // helleraja
 		  float hot_weather_limit = Settings::optional_double(theParameters.theVariable + 
 															  "::hot_weather_limit", HOT_WEATHER_LIMIT);
 
-		  // helteinen s‰‰ jatkuu
-		  // viile‰ s‰‰ jatkuu
-		  // kolea s‰‰ jatkuu
-		  // s‰‰ muuttuu helteiseksi
-		  // s‰‰ on helteist‰
-		  // s‰‰ l‰mpenee v‰h‰n
-		  // s‰‰ l‰mpenee
-		  // s‰‰ l‰mpenee huomattavasti
-		  // s‰‰ viilenee v‰h‰n
-		  // s‰‰ viilenee
-		  // s‰‰ viilenee huomattavasti
+		  // helteinen saa jatkuu
+		  // viilea saa jatkuu
+		  // kolea saa jatkuu
+		  // saa muuttuu helteiseksi
+		  // saa on helteista
+		  // saa lampenee vahan
+		  // saa lampenee
+		  // saa lampenee huomattavasti
+		  // saa viilenee vahan
+		  // saa viilenee
+		  // saa viilenee huomattavasti
 
 		  if(temperatureGettingLower == false)//day2Temperature >= day1Temperature)
 			{
@@ -1262,7 +1267,6 @@ enum anomaly_phrase_id
 								"day after day2: ",
 								dayAfterDay2Period);
 
-
 	bool report_day2_anomaly = true;
 
 	temperature_anomaly_params parameters(itsVar,
@@ -1506,6 +1510,26 @@ enum anomaly_phrase_id
 		   << fractile98Temperature 
 		   << "; " << fractile98Share 
 		   << endl;
+
+
+	const WeatherPeriod& thePeriod = (report_day2_anomaly ? parameters.theDay2Period : parameters.theDay1Period);
+
+
+	std::string parameter_name(itsVar+"::required_growing_season_percentage");
+	
+	if(itsArea.isNamed())
+	  parameter_name += ("::" + itsArea.name());
+	
+	// if no percentage defined, one third is used
+	const double required_growing_season_percentage = Settings::optional_double(parameter_name, 33.33);
+	
+	parameters.theGrowingSeasonUnderway = TemperatureStoryTools::growing_season_under_way(thePeriod.localStartTime(),
+																					  itsArea,
+																					  itsSources,
+																					  itsVar,
+																					  required_growing_season_percentage);
+
+
 
 	//	Paragraph paragraphDev;
 	Sentence temperatureAnomalySentence;

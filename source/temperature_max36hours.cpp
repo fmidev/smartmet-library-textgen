@@ -2777,7 +2777,6 @@ namespace TextGen
 				  {
 					sentence << HUOMENNA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
 							 << theDayPhasePhrase
-							 << theAreaPhrase
 							 << temperatureSentence;
 				  }
 				else
@@ -2787,26 +2786,26 @@ namespace TextGen
 						if(dayPhasePhraseEmpty && areaPhraseEmpty)
 						  {
 							sentence << PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
-									 << degreesSentence;
+									 << temperatureSentence;
 						  }
 						else if(!dayPhasePhraseEmpty && areaPhraseEmpty)
 						  {
 							sentence << HUOMENNA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
 									 << theDayPhasePhrase
-									 << degreesSentence;
+									 << temperatureSentence;
 						  }
 						else if(dayPhasePhraseEmpty && !areaPhraseEmpty)
 						  {
 							sentence << SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
 									 << theAreaPhrase
-									 << degreesSentence;
+									 << temperatureSentence;
 						  }
 						else
 						  {
 							sentence << HUOMENNA_SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
 									 << theDayPhasePhrase
 									 << theAreaPhrase
-									 << degreesSentence;
+									 << temperatureSentence;
 						  }
 					  }
 					else
@@ -2827,7 +2826,6 @@ namespace TextGen
 									 << theDayPhasePhrase
 									 << theTemperaturePhrase
 									 << temperatureSentence;
-
 						  }
 						else if(dayPhasePhraseEmpty && !areaPhraseEmpty)
 						  {
@@ -2835,7 +2833,6 @@ namespace TextGen
 									 << theAreaPhrase
 									 << theTemperaturePhrase
 									 << temperatureSentence;
-
 						  }
 						else
 						  {
@@ -3313,19 +3310,19 @@ namespace TextGen
 			}
 		  else if(theParameters.theForecastPeriodId == NIGHT_PERIOD)
 			{
+			  theParameters.theForecastAreaId = FULL_AREA;
+			  theParameters.theMaxTemperatureDay1 = theParameters.theWeatherResults[AREA_MAX_DAY1]->value();
+			  theParameters.theMeanTemperatureDay1 = theParameters.theWeatherResults[AREA_MEAN_DAY1]->value();
+			  theParameters.theMinimum = theParameters.theWeatherResults[areaMin]->value();
+			  theParameters.theMaximum = theParameters.theWeatherResults[areaMax]->value();
+			  theParameters.theMean = theParameters.theWeatherResults[areaMean]->value();
+
 			  if(theParameters.theDayAndNightSeparationFlag)
 				{
-				  theParameters.theForecastAreaId = FULL_AREA;
-				  theParameters.theMaxTemperatureDay1 = theParameters.theWeatherResults[AREA_MAX_DAY1]->value();
-				  theParameters.theMeanTemperatureDay1 = theParameters.theWeatherResults[AREA_MEAN_DAY1]->value();
-				  theParameters.theMinimum = theParameters.theWeatherResults[areaMin]->value();
-				  theParameters.theMaximum = theParameters.theWeatherResults[areaMax]->value();
-				  theParameters.theMean = theParameters.theWeatherResults[areaMean]->value();
-
 				  sentence << night_sentence(theParameters);
-				  construct_optional_frost_story(theParameters);
 				}
 
+			  construct_optional_frost_story(theParameters);
 			}
 		  else if(theParameters.theForecastPeriodId == DAY2_PERIOD)
 			{
@@ -3416,18 +3413,19 @@ namespace TextGen
 			}
 		  else if(theParameters.theForecastPeriodId == NIGHT_PERIOD)
 			{
+			  theParameters.theForecastAreaId = INLAND_AREA;
+			  theParameters.theMaxTemperatureDay1 = theParameters.theWeatherResults[INLAND_MAX_DAY1]->value();
+			  theParameters.theMeanTemperatureDay1 = theParameters.theWeatherResults[INLAND_MEAN_DAY1]->value();
+			  theParameters.theMinimum = theParameters.theWeatherResults[inlandMin]->value();
+			  theParameters.theMaximum = theParameters.theWeatherResults[inlandMax]->value();
+			  theParameters.theMean = theParameters.theWeatherResults[inlandMean]->value();
+
 			  if(theParameters.theDayAndNightSeparationFlag)
 				{
-				  theParameters.theForecastAreaId = INLAND_AREA;
-				  theParameters.theMaxTemperatureDay1 = theParameters.theWeatherResults[INLAND_MAX_DAY1]->value();
-				  theParameters.theMeanTemperatureDay1 = theParameters.theWeatherResults[INLAND_MEAN_DAY1]->value();
-				  theParameters.theMinimum = theParameters.theWeatherResults[inlandMin]->value();
-				  theParameters.theMaximum = theParameters.theWeatherResults[inlandMax]->value();
-				  theParameters.theMean = theParameters.theWeatherResults[inlandMean]->value();
-
 				  sentence << night_sentence(theParameters);
-				  construct_optional_frost_story(theParameters);
 				}
+
+			  construct_optional_frost_story(theParameters);
 			}
 		  else if(theParameters.theForecastPeriodId == DAY2_PERIOD)
 			{
@@ -3519,18 +3517,19 @@ namespace TextGen
 			}
 		  else if(theParameters.theForecastPeriodId == NIGHT_PERIOD)
 			{
+			  theParameters.theForecastAreaId = COASTAL_AREA;
+			  theParameters.theMaxTemperatureDay1 = theParameters.theWeatherResults[COAST_MAX_DAY1]->value();
+			  theParameters.theMeanTemperatureDay1 = theParameters.theWeatherResults[COAST_MEAN_DAY1]->value();
+			  theParameters.theMinimum = theParameters.theWeatherResults[coastMin]->value();
+			  theParameters.theMaximum = theParameters.theWeatherResults[coastMax]->value();
+			  theParameters.theMean = theParameters.theWeatherResults[coastMean]->value();
+
 			  if(theParameters.theDayAndNightSeparationFlag)
 				{
-				  theParameters.theForecastAreaId = COASTAL_AREA;
-				  theParameters.theMaxTemperatureDay1 = theParameters.theWeatherResults[COAST_MAX_DAY1]->value();
-				  theParameters.theMeanTemperatureDay1 = theParameters.theWeatherResults[COAST_MEAN_DAY1]->value();
-				  theParameters.theMinimum = theParameters.theWeatherResults[coastMin]->value();
-				  theParameters.theMaximum = theParameters.theWeatherResults[coastMax]->value();
-				  theParameters.theMean = theParameters.theWeatherResults[coastMean]->value();
-
 				  sentence << night_sentence(theParameters);
-				  construct_optional_frost_story(theParameters);
 				}
+
+			  construct_optional_frost_story(theParameters);			
 			}
 		  else if(theParameters.theForecastPeriodId == DAY2_PERIOD)
 			{
@@ -3677,9 +3676,9 @@ namespace TextGen
 		  processingOrder = DAY1;
 		}
 
-	  bool separate_inland_and_coast_day1 = false;
-	  bool separate_inland_and_coast_day2 = false;
-	  bool separate_inland_and_coast_night = false;
+	  bool separate_inland_and_coast_day1(false);
+	  bool separate_inland_and_coast_day2(false);
+	  bool separate_inland_and_coast_night(false);
 	  bool intervalUsedInland(false);
 	  bool intervalUsedCoast(false);
 	  int intervalStartInland;
