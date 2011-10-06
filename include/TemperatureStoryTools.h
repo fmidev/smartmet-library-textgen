@@ -191,6 +191,17 @@ namespace TextGen
 
 	const char* fractile_range(const fractile_id& id);
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief returns information whether growing season has started or not
+	 */
+	// ----------------------------------------------------------------------
+	bool growing_season_under_way(const NFmiTime& theDate,
+								  const WeatherArea& theArea,
+								  const AnalysisSources& theSources,
+								  const std::string& theVar,
+								  const double& theRequiredGrowingSeasonPercentage);
+
   } // namespace TemperatureStoryTools
 } // namespace TextGen
 
