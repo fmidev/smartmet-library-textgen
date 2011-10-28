@@ -28,7 +28,7 @@ namespace TextGen
   /*!
    * \brief Generate story on mean total precipitation
    *
-   * Sample story: "Sadesumma 10 millimetriä."
+   * Sample story: "Sadesumma 10 millimetria."
    * Sample story: "Sadesumma alle 1 millimetri."
    *
    * \return The story

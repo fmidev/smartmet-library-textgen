@@ -70,7 +70,7 @@ namespace TextGen
 
 	if(pop >= minimum && pop <= maximum)
 	  {
-		sentence << "sateen todennäköisyys"
+		sentence << "sateen todennakoisyys"
 				 << "on"
 				 << Integer(pop)
 				 << *UnitFactory::create(Percent);

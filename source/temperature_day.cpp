@@ -277,7 +277,7 @@ namespace TextGen
 		if(canmerge)
 		  {
 			Sentence sentence;
-			sentence << "lämpötila"
+			sentence << "lampotila"
 					 << "on"
 					 << PeriodPhraseFactory::create("today",
 													itsVar,
@@ -317,7 +317,7 @@ namespace TextGen
 		  {
 			Sentence sentence;
 			
-			sentence << "päivän ylin lämpötila"
+			sentence << "paivan ylin lampotila"
 					 << "on"
 					 << PeriodPhraseFactory::create("today",
 													itsVar,
@@ -354,7 +354,7 @@ namespace TextGen
 		  {
 			Sentence sentence;
 			
-			sentence << "yön alin lämpötila"
+			sentence << "yon alin lampotila"
 					 << "on"
 					 << PeriodPhraseFactory::create("tonight",
 													itsVar,

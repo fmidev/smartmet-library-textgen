@@ -81,13 +81,13 @@ namespace TextGen
 	float eva = evaporation.value();
 
 	if(eva < 1.5)
-	  sentence << "haihdunta on erittäin huono";
+	  sentence << "haihdunta on erittain huono";
 	else if(eva < 3)
 	  sentence << "haihdunta on huono";
 	else if(eva < 5)
-	  sentence << "haihdunta on tyydyttävä";
+	  sentence << "haihdunta on tyydyttava";
 	else if(eva < 7.5)
-	  sentence << "haihdunta on hyvä";
+	  sentence << "haihdunta on hyva";
 	else
 	  sentence << "haihdunta on erinomainen";
 

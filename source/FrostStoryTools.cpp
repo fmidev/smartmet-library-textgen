@@ -52,7 +52,7 @@ namespace TextGen
 										 int theProbability)
 	{
 	  Sentence sentence;
-	  sentence << "ankaran hallan todennäköisyys"
+	  sentence << "ankaran hallan todennakoisyys"
 			   << "on"
 			   << WeekdayTools::night_against_weekday(thePeriod.localEndTime())
 			   << Integer(theProbability)
@@ -74,7 +74,7 @@ namespace TextGen
 								  int theProbability)
 	{
 	  Sentence sentence;
-	  sentence << "hallan todennäköisyys"
+	  sentence << "hallan todennakoisyys"
 			   << "on"
 			   << WeekdayTools::night_against_weekday(thePeriod.localEndTime())
 			   << Integer(theProbability)

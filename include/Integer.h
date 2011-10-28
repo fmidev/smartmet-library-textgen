@@ -22,6 +22,7 @@ namespace TextGen
 
 	virtual ~Integer();
 	explicit Integer(int theInteger);
+
 #ifdef NO_COMPILER_GENERATED
 	Integer(const Integer & theInteger);
 	Integer & operator=(const Integer & theInteger);

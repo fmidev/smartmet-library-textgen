@@ -271,7 +271,7 @@ namespace TextGen
           tienpinta_muuttuu << "tienpinta muuttuu" << places_phrase;
           tie_on_muuttumassa << "tie on muuttumassa" << places_phrase;
           keli_huononee << "keli huononee" <<  places_phrase;
-          vaikeuttaa_liikennetta << "vaikeuttaa liikennettä" << places_phrase;
+          vaikeuttaa_liikennetta << "vaikeuttaa liikennetta" << places_phrase;
           keli_on << "keli on" <<  places_phrase;
           Sentence marka_tienpinta;
           Sentence pakkasliukkaus;
@@ -281,20 +281,20 @@ namespace TextGen
           Sentence kelin_huononeminen;
           Sentence rantasade;
           Sentence alijaahtynyt;
-          marka_tienpinta << "märkä" << tienpinta_muuttuu;
+          marka_tienpinta << "marka" << tienpinta_muuttuu;
           pakkasliukkaus << "pakkasliukkaus";
           puuskainen_tuuli << "voimakas puuskainen tuuli";
           lumipyry << "lumipyry";
           lumisade << "runsas lumisade";
           kelin_huononeminen << "kelin nopea huononeminen";
-          rantasade << "räntäsade jäiselle";
-          alijaahtynyt << "alijäähtynyt sade";
+          rantasade << "rantasade jaiselle";
+          alijaahtynyt << "alijaahtynyt sade";
 
           switch(theType)
                 {
                 case NORMAL:                    return (keli_on << "normaali");
                 case FROSTY:                    return (tienpinta_muuttuu << "kuuraiseksi");
-                case ICING:                     return (marka_tienpinta << "jäiseksi tai osittain jäiseksi");
+                case ICING:                     return (marka_tienpinta << "jaiseksi tai osittain jaiseksi");
                 case SNOWY:                     return (keli_huononee << "lumisateen takia");
                 case FROSTSLIPPERY:             return (pakkasliukkaus << vaikeuttaa_liikennetta);
                 case WINDWARNING:               return (puuskainen_tuuli << vaikeuttaa_liikennetta);
@@ -302,7 +302,7 @@ namespace TextGen
                 case HEAVY_SNOWFALL:            return (lumisade << vaikeuttaa_liikennetta);
                 case FASTWORSENING:             return (kelin_huononeminen << vaikeuttaa_liikennetta);
                 case SLEET_TO_ICY:              return (rantasade << vaikeuttaa_liikennetta);
-                case RAIN_TO_ICY:               return (tie_on_muuttumassa << "jäiseksi vesisateesta johtuen");
+                case RAIN_TO_ICY:               return (tie_on_muuttumassa << "jaiseksi vesisateesta johtuen");
                 case ICYRAIN:                   return (alijaahtynyt << vaikeuttaa_liikennetta);
                 }
 
@@ -330,31 +330,31 @@ namespace TextGen
                         {
                              case ICYRAIN:
                              case RAIN_TO_ICY:
-                                  sentence << "paikoin" << "tie on muuttumassa" << "jäiseksi vesisateesta johtuen";
+                                  sentence << "paikoin" << "tie on muuttumassa" << "jaiseksi vesisateesta johtuen";
                                   break;
                              case SLEET_TO_ICY:
-                                  sentence << "paikoin" << "räntäsade jäiselle tai osittain jäiselle tienpinnalle" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "rantasade jaiselle tai osittain jaiselle tienpinnalle" << "vaikeuttaa liikennetta";
                                   break;
                              case FASTWORSENING:
-                                  sentence << "paikoin" << "kelin nopea huononeminen" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "kelin nopea huononeminen" << "vaikeuttaa liikennetta";
                                   break;
                              case HEAVY_SNOWFALL:
-                                  sentence << "paikoin" << "runsas lumisade" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "runsas lumisade" << "vaikeuttaa liikennetta";
                                   break;
                              case WHIRLING:
-                                  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennetta";
                                   break;
                              case WINDWARNING:
-                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennetta";
                                   break;
                              case FROSTSLIPPERY:
-                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennetta";
                                   break;
                              case SNOWY:
                                   sentence << "paikoin" << "keli huononee" << "lumisateen takia";
                                   break;
                              case ICING:
-                                  sentence << "paikoin" << "märkä tienpinta muuttuu" << "jäiseksi tai osittain jäiseksi";
+                                  sentence << "paikoin" << "marka tienpinta muuttuu" << "jaiseksi tai osittain jaiseksi";
                                   break;
                              case FROSTY:
                                   sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
@@ -369,28 +369,28 @@ namespace TextGen
                              case ICYRAIN:
                              case RAIN_TO_ICY:
                              case SLEET_TO_ICY:
-                                  sentence << "paikoin" << "räntäsade jäiselle tai osittain jäiselle tienpinnalle" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "rantasade jaiselle tai osittain jaiselle tienpinnalle" << "vaikeuttaa liikennetta";
                                   break;
                              case FASTWORSENING:
-                                  sentence << "paikoin" << "kelin nopea huononeminen" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "kelin nopea huononeminen" << "vaikeuttaa liikennetta";
                                   break;
                              case HEAVY_SNOWFALL:
-                                  sentence << "paikoin" << "runsas lumisade" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "runsas lumisade" << "vaikeuttaa liikennetta";
                                   break;
                              case WHIRLING:
-                                  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennetta";
                                   break;
                              case WINDWARNING:
-                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennetta";
                                   break;
                              case FROSTSLIPPERY:
-                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennetta";
                                   break;
                              case SNOWY:
                                   sentence << "paikoin" << "keli huononee" << "lumisateen takia";
                                   break;
                              case ICING:
-                                  sentence << "paikoin" << "märkä tienpinta muuttuu" << "jäiseksi tai osittain jäiseksi";
+                                  sentence << "paikoin" << "marka tienpinta muuttuu" << "jaiseksi tai osittain jaiseksi";
                                   break;
                              case FROSTY:
                                   sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
@@ -406,25 +406,25 @@ namespace TextGen
                              case RAIN_TO_ICY:
                              case SLEET_TO_ICY:
                              case FASTWORSENING:
-                                  sentence << "paikoin" << "kelin nopea huononeminen" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "kelin nopea huononeminen" << "vaikeuttaa liikennetta";
                                   break;
                              case HEAVY_SNOWFALL:
-                                  sentence << "paikoin" << "runsas lumisade" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "runsas lumisade" << "vaikeuttaa liikennetta";
                                   break;
                              case WHIRLING:
-                                  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennetta";
                                   break;
                              case WINDWARNING:
-                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennetta";
                                   break;
                              case FROSTSLIPPERY:
-                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennetta";
                                   break;
                              case SNOWY:
                                   sentence << "paikoin" << "keli huononee" << "lumisateen takia";
                                   break;
                              case ICING:
-                                  sentence << "paikoin" << "märkä tienpinta muuttuu" << "jäiseksi tai osittain jäiseksi";
+                                  sentence << "paikoin" << "marka tienpinta muuttuu" << "jaiseksi tai osittain jaiseksi";
                                   break;
                              case FROSTY:
                                   sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
@@ -441,22 +441,22 @@ namespace TextGen
                              case SLEET_TO_ICY:
                              case FASTWORSENING:
                              case HEAVY_SNOWFALL:
-                                  sentence << "paikoin" << "runsas lumisade" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "runsas lumisade" << "vaikeuttaa liikennetta";
                                   break;
                              case WHIRLING:
-                                  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennetta";
                                   break;
                              case WINDWARNING:
-                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennetta";
                                   break;
                              case FROSTSLIPPERY:
-                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennetta";
                                   break;
                              case SNOWY:
                                   sentence << "paikoin" << "keli huononee" << "lumisateen takia";
                                   break;
                              case ICING:
-                                  sentence << "paikoin" << "märkä tienpinta muuttuu" << "jäiseksi tai osittain jäiseksi";
+                                  sentence << "paikoin" << "marka tienpinta muuttuu" << "jaiseksi tai osittain jaiseksi";
                                   break;
                              case FROSTY:
                                   sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
@@ -474,19 +474,19 @@ namespace TextGen
                              case FASTWORSENING:
                              case HEAVY_SNOWFALL:
                              case WHIRLING:
-                                  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "lumipyry" << "vaikeuttaa liikennetta";
                                   break;
                              case WINDWARNING:
-                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennetta";
                                   break;
                              case FROSTSLIPPERY:
-                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennetta";
                                   break;
                              case SNOWY:
                                   sentence << "paikoin" << "keli huononee" << "lumisateen takia";
                                   break;
                              case ICING:
-                                  sentence << "paikoin" << "märkä tienpinta muuttuu" << "jäiseksi tai osittain jäiseksi";
+                                  sentence << "paikoin" << "marka tienpinta muuttuu" << "jaiseksi tai osittain jaiseksi";
                                   break;
                              case FROSTY:
                                   sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
@@ -505,16 +505,16 @@ namespace TextGen
                              case HEAVY_SNOWFALL:
                              case WHIRLING:
                              case WINDWARNING:
-                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "voimakas puuskainen tuuli" << "vaikeuttaa liikennetta";
                                   break;
                              case FROSTSLIPPERY:
-                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennetta";
                                   break;
                              case SNOWY:
                                   sentence << "paikoin" << "keli huononee" << "lumisateen takia";
                                   break;
                              case ICING:
-                                  sentence << "paikoin" << "märkä tienpinta muuttuu" << "jäiseksi tai osittain jäiseksi";
+                                  sentence << "paikoin" << "marka tienpinta muuttuu" << "jaiseksi tai osittain jaiseksi";
                                   break;
                              case FROSTY:
                                   sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
@@ -534,13 +534,13 @@ namespace TextGen
                              case WHIRLING:
                              case WINDWARNING:
                              case FROSTSLIPPERY:
-                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennettä";
+                                  sentence << "paikoin" << "pakkasliukkaus" << "vaikeuttaa liikennetta";
                                   break;
                              case SNOWY:
                                   sentence << "paikoin" << "keli huononee" << "lumisateen takia";
                                   break;
                              case ICING:
-                                  sentence << "paikoin" << "märkä tienpinta muuttuu" << "jäiseksi tai osittain jäiseksi";
+                                  sentence << "paikoin" << "marka tienpinta muuttuu" << "jaiseksi tai osittain jaiseksi";
                                   break;
                              case FROSTY:
                                   sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
@@ -564,7 +564,7 @@ namespace TextGen
                                   sentence << "paikoin" << "keli huononee" << "lumisateen takia";
                                   break;
                              case ICING:
-                                  sentence << "paikoin" << "märkä tienpinta muuttuu" << "jäiseksi tai osittain jäiseksi";
+                                  sentence << "paikoin" << "marka tienpinta muuttuu" << "jaiseksi tai osittain jaiseksi";
                                   break;
                              case FROSTY:
                                   sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
@@ -586,7 +586,7 @@ namespace TextGen
                              case FROSTSLIPPERY:
                              case SNOWY:
                              case ICING:
-                                  sentence << "paikoin" << "märkä tienpinta muuttuu" << "jäiseksi tai osittain jäiseksi";
+                                  sentence << "paikoin" << "marka tienpinta muuttuu" << "jaiseksi tai osittain jaiseksi";
                                   break;
                              case FROSTY:
                                   sentence << "paikoin" << "tienpinta muuttuu" << "kuuraiseksi";
@@ -742,7 +742,7 @@ namespace TextGen
 		  if(firsttype == ICING)
 			{
 			  if(secondtype == PARTLY_ICING)
-				sentence << "tai" << "osittain jäisiksi";
+				sentence << "tai" << "osittain jaisiksi";
 			  else if(secondtype == FROSTY)
 				sentence << "tai" << "kuuraisiksi";
 			}

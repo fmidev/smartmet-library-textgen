@@ -136,17 +136,17 @@ namespace TextGen
 	  const float n2 = 100-n1-n3;
 		  
 	  if(n1 >= c_single_limit)
-		c_sentence << "enimmäkseen" << "selkeää";
+		c_sentence << "enimmakseen" << "selkeaa";
 	  else if(n2 >= c_single_limit)
-		c_sentence << "enimmäkseen" << "puolipilvistä";
+		c_sentence << "enimmakseen" << "puolipilvista";
 	  else if(n3 >= c_single_limit)
-		c_sentence << "enimmäkseen" << "pilvistä";
+		c_sentence << "enimmakseen" << "pilvista";
 	  else if(n1 < c_double_limit)
-		c_sentence << "enimmäkseen" << "pilvistä" << "tai" << "puolipilvistä";
+		c_sentence << "enimmakseen" << "pilvista" << "tai" << "puolipilvista";
 	  else if(n3 < c_double_limit)
-		c_sentence << "enimmäkseen" << "selkeää" << "tai" << "puolipilvistä";
+		c_sentence << "enimmakseen" << "selkeaa" << "tai" << "puolipilvista";
 	  else
-		c_sentence << "vaihtelevaa pilvisyyttä";
+		c_sentence << "vaihtelevaa pilvisyytta";
 	}
 
 	// Sentence on rain
@@ -214,7 +214,7 @@ namespace TextGen
 				 << "sadetta";
 	  else if(100*static_cast<float>(rainy_days)/days >= r_unstable)
 		{
-		  r_sentence << "sää on epävakaista";
+		  r_sentence << "saa on epavakaista";
 		  unstable_weather = true;
 		}
 	  else

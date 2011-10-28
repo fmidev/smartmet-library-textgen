@@ -147,7 +147,7 @@ namespace
 	  throw TextGenError("HeaderFactory:: several_days must be N*24 hours long");
 	header << WeekdayTools::from_weekday_time(thePeriod.localStartTime())
 		   << "alkavan"
-		   << lexical_cast<string>(days) + "-vuorokauden s‰‰";
+		   << lexical_cast<string>(days) + "-vuorokauden saa";
 
 	log << header;
 	return header;
@@ -178,7 +178,7 @@ namespace
 
 	const int starthour = thePeriod.localStartTime().GetHour();
 
-	header << "s‰‰ennuste"
+	header << "saaennuste"
 		   << theArea.name()+":lle"
 		   << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
 		   << Integer(starthour)
@@ -239,7 +239,7 @@ namespace
 
 	const int starthour = thePeriod.localStartTime().GetHour();
 
-	header << "s‰‰ennuste"
+	header << "saaennuste"
 		   << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
 		   << Integer(starthour)
 		   << "o'clock";
@@ -284,7 +284,7 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Return header of type "Odotettavissa maanantaina aamup‰iv‰ll‰"
+   * \brief Return header of type "Odotettavissa maanantaina aamupaivalla"
    *
    * \param thePeriod The weather period
    * \param theVariable The variable for extra settings
@@ -304,7 +304,7 @@ namespace
 	if(!weekdays)
 	  {
 		header << "odotettavissa"
-			   << "aamup‰iv‰ll‰";
+			   << "aamupaivalla";
 	  }
 	else
 	  {
@@ -318,7 +318,7 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Return header of type "Odotettavissa maanantaina iltap‰iv‰ll‰"
+   * \brief Return header of type "Odotettavissa maanantaina iltapaivalla"
    *
    * \param thePeriod The weather period
    * \param theVariable The variable for extra settings
@@ -338,7 +338,7 @@ namespace
 	if(!weekdays)
 	  {
 		header << "odotettavissa"
-			   << "iltap‰iv‰ll‰";
+			   << "iltapaivalla";
 	  }
 	else
 	  {

@@ -23,7 +23,7 @@
  * english.init("en");
  *
  * cout << english.find("1-aamusta") << endl;
- * cout << english.find("päivän ylin lämpötila") << endl;
+ * cout << english.find("paivan ylin lampotila") << endl;
  *
  * if(english.contains("1-aamusta"))
  *    cout << english.find("1-aamusta") << endl;

@@ -29,9 +29,9 @@ namespace TextGen
   /*!
    * \brief Generate story on total precipitation range
    *
-   * Sample story 1: "Sadesumma yli LIMIT millimetriä."	(when min>=LIMIT)
-   * Sample story 2: "Sadesumma 4 millimetriä."			(when min==max)
-   * Sample story 3: "Sadesumma 1-5 millimetriä."		(otherwise)
+   * Sample story 1: "Sadesumma yli LIMIT millimetria."	(when min>=LIMIT)
+   * Sample story 2: "Sadesumma 4 millimetria."			(when min==max)
+   * Sample story 3: "Sadesumma 1-5 millimetria."		(otherwise)
    *
    * where LIMIT is the value of textgen::precipitation_range::maxrain
    *

@@ -109,13 +109,13 @@ namespace TextGen
    *
    * Sample stories:
    *
-   * -# "Sadesumma yli N millimetriä."
-   * -# "Sadesumma monin paikoin yli N millimetriä."
-   * -# "Sadesumma paikoin yli N millimetriä."
-   * -# "Sadesumma 0 millimetriä."
-   * -# "Sadesumma N...M millimetriä."
-   * -# "Sadesumma N...M millimetriä, paikoin enemmän."
-   * -# "Sadesumma N...M millimetriä, monin paikoin enemmän."
+   * -# "Sadesumma yli N millimetria."
+   * -# "Sadesumma monin paikoin yli N millimetria."
+   * -# "Sadesumma paikoin yli N millimetria."
+   * -# "Sadesumma 0 millimetria."
+   * -# "Sadesumma N...M millimetria."
+   * -# "Sadesumma N...M millimetria, paikoin enemman."
+   * -# "Sadesumma N...M millimetria, monin paikoin enemman."
    *
    * \return The story
    *
@@ -284,7 +284,7 @@ namespace TextGen
 			 << IntegerRange(lolimit,hilimit,rangeseparator)
 			 << *UnitFactory::create(Millimeters);
 	
-	// Lisää tarvittaessa "paikoin enemmän" tai "monin paikoin enemmän" perään
+	// Lisaa tarvittaessa "paikoin enemman" tai "monin paikoin enemman" peraan
 
 	if(maxresult.value() > hilimit)
 	  {
@@ -323,9 +323,9 @@ namespace TextGen
 		  phrase = 1;
 
 		if(phrase==2)
-		  sentence << Delimiter(",") << "paikoin enemmän";
+		  sentence << Delimiter(",") << "paikoin enemman";
 		else if(phrase==3)
-		  sentence << Delimiter(",") << "monin paikoin enemmän";
+		  sentence << Delimiter(",") << "monin paikoin enemman";
 
 	  }
 

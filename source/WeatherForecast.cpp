@@ -60,7 +60,7 @@ using namespace std;
 		retval = SAA_POUTAANTUU_PHRASE;
 		break;
 	  case POUTAANTUU_WHEN_EXTENT_SMALL:
-		retval = "sää poutaantuu kattavuudeltaan suppean sateen jälkeen";
+		retval = "saa poutaantuu kattavuudeltaan suppean sateen jalkeen";
 		break;
 	  case SADE_ALKAA:
 		retval = SADE_ALKAA_PHRASE;
@@ -168,16 +168,16 @@ using namespace std;
 	switch(thePrecipitationTraverseId)
 	  {
 	  case FROM_SOUTH_TO_NORTH:
-		retval = "etelästä pohjoiseen";
+		retval = "etelasta pohjoiseen";
 		break;
 	  case FROM_NORTH_TO_SOUTH:
-		retval = "pohjoiseta etelään";
+		retval = "pohjoiseta etelaan";
 		break;
 	  case FROM_EAST_TO_WEST:
-		retval = "idästä länteen";
+		retval = "idasta lanteen";
 		break;
 	  case FROM_WEST_TO_EAST:
-		retval = "lännestä itään";
+		retval = "lannesta itaan";
 		break;
 	  case FROM_NORTHEAST_TO_SOUTHWEST:
 		retval = "koillisesta lounaaseen";
@@ -192,7 +192,7 @@ using namespace std;
 		retval = "kaakosta luoteeseen";
 		break;
 	  case MISSING_TRAVERSE_ID:
-		retval = "ei minnekään";
+		retval = "ei minnekaan";
 		break;
 
 		 }
@@ -210,46 +210,46 @@ using namespace std;
 		retval = "aamu";
 		break;
 	  case AAMUPAIVA:
-		retval = "aamupäivä";
+		retval = "aamupaiva";
 		break;
 	  case ILTAPAIVA:
-		retval = "iltapäivä";
+		retval = "iltapaiva";
 		break;
 	  case ILTA:
 		retval = "ilta";
 		break;
 	  case ILTAYO:
-		retval = "iltayö";
+		retval = "iltayo";
 		break;
 	  case KESKIYO:
-		retval = "keskiyö";
+		retval = "keskiyo";
 		break;
 	  case AAMUYO:
-		retval = "aamuyö";
+		retval = "aamuyo";
 		break;
 	  case PAIVA:
-		retval = "päivä";
+		retval = "paiva";
 		break;
 	  case YO:
-		retval = "yö";
+		retval = "yo";
 		break;
 	  case AAMU_JA_AAMUPAIVA:
-		retval = "aamu- ja aamupäivä";
+		retval = "aamu- ja aamupaiva";
 		break;
 	  case ILTAPAIVA_JA_ILTA:
-		retval = "iltapäivä ja ilta";
+		retval = "iltapaiva ja ilta";
 		break;
 	  case ILTA_JA_ILTAYO:
-		retval = "ilta ja iltayö";
+		retval = "ilta ja iltayo";
 		break;
 	  case ILTAYO_JA_KESKIYO:
-		retval = "iltayö-ja keskiyö";
+		retval = "iltayo-ja keskiyo";
 		break;
 	  case KESKIYO_JA_AAMUYO:
-		retval = "keskiyö ja aamu";
+		retval = "keskiyo ja aamu";
 		break;
 	  case AAMUYO_JA_AAMU:
-		retval = "aamuyö ja aamu";
+		retval = "aamuyo ja aamu";
 		break;
 	  default:
 		retval = "missing";
@@ -699,7 +699,7 @@ using namespace std;
 			  }
 			else
 			  {
-				// iltayö
+				// iltayo
 				if(theSpecifyDayFlag)
 				  oss << weekday << "-";
 				oss << ILTAYOLLA_WORD;
@@ -719,7 +719,7 @@ using namespace std;
 	  {
 		if(theSpecifyDayFlag)
 		  {
-			oss << theWeatherPeriod.localEndTime().GetWeekday() << "-vastaisena yönä";		  
+			oss << theWeatherPeriod.localEndTime().GetWeekday() << "-vastaisena yona";		  
 
 			//			oss  << weekday << "-" << KESKIYOLLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << AAMUYOLLA_WORD;
 
@@ -750,7 +750,7 @@ using namespace std;
 	  {
 		if(theSpecifyDayFlag)
 		  {
-			oss << theWeatherPeriod.localEndTime().GetWeekday() << "-vastaisena yönä";		  
+			oss << theWeatherPeriod.localEndTime().GetWeekday() << "-vastaisena yona";		  
 		  }
 		else
 		  {

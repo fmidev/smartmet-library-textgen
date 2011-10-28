@@ -35,20 +35,25 @@ namespace TextGen
 		bad_accuracy
 	  };
 
+	enum CompassType
+	  {
+		eight_directions,
+		sixteen_directions
+	  };
 
 	WindDirectionAccuracy direction_accuracy(double theAccuracy,
 											 const std::string & theVariable);
-
-	WindDirectionAccuracy direction16_accuracy(double theAccuracy,
-											 const std::string & theVariable);
-
 	int direction8th(double theDirection);
 
 	int direction16th(double theDirection);
 
 	const Sentence direction_sentence(const WeatherAnalysis::WeatherResult & theDirection,
 									  const std::string & theVariable);
+
 	const std::string direction_string(const WeatherAnalysis::WeatherResult & theDirection,
+									   const std::string & theVariable);
+
+	const std::string direction16_string(const WeatherAnalysis::WeatherResult & theDirection,
 									   const std::string & theVariable);
 
 	const Sentence speed_range_sentence(const WeatherAnalysis::WeatherResult & theMinSpeed,
@@ -63,6 +68,10 @@ namespace TextGen
 										   const std::string & theVariable);
 	
 	const std::string directed_speed_string(const WeatherAnalysis::WeatherResult & theMeanSpeed,
+											const WeatherAnalysis::WeatherResult & theDirection,
+											const std::string & theVariable);
+
+	const std::string directed16_speed_string(const WeatherAnalysis::WeatherResult & theMeanSpeed,
 											const WeatherAnalysis::WeatherResult & theDirection,
 											const std::string & theVariable);
 

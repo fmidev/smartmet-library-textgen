@@ -68,7 +68,7 @@ namespace TextGen
 	if(probability >= limit)
 	  {
 		Sentence sentence;
-		sentence << "ukkosen todennäköisyys"
+		sentence << "ukkosen todennakoisyys"
 				 << "on"
 				 << Integer(probability)
 				 << *UnitFactory::create(Percent);

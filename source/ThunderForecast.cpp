@@ -125,6 +125,7 @@ namespace TextGen
 		// 5% in summer,10% other seasons
 		float thunderExtentLowerLimit =  SeasonTools::isSummer(thePeriod.localStartTime(), theVariable) ? 5.0 : 10.0;
 
+
 		maxThunderProbability = getMaxValue(thePeriod, *thunderProbabilityData);
 		maxThunderExtent = getMaxValue(thePeriod, *thunderExtentData);
 
@@ -171,11 +172,6 @@ namespace TextGen
 			  }
 		  }
 	  }
-
-	/*
-	if(sentence.size() > 0 && !(theParameters.theForecastArea & FULL_AREA))
-	  sentence << areaSpecificSentence(thePeriod);
-	*/
 
 	return sentence;
   }

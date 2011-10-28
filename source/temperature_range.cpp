@@ -84,7 +84,7 @@ namespace TextGen
 	const int tmax  = static_cast<int>(round(maxresult.value()));
 	const int tmean = static_cast<int>(round(meanresult.value()));
 
-	sentence << "lämpötila"
+	sentence << "lampotila"
 			 << "on"
 			 << TemperatureStoryTools::temperature_sentence(tmin,tmean,tmax,mininterval,interval_zero,rangeseparator);
 

@@ -58,11 +58,11 @@ namespace TextGen
 			break;
 		  case FireWarnings::None:
 		  case FireWarnings::GrassFireWarning:
-			sentence << "metsäpalovaroitus ei ole voimassa";
+			sentence << "metsapalovaroitus ei ole voimassa";
 			paragraph << sentence;
 			break;
 		  case FireWarnings::FireWarning:
-			sentence << "metsäpalovaroitus on voimassa";
+			sentence << "metsapalovaroitus on voimassa";
 			paragraph << sentence;
 			break;
 		  }

@@ -17,7 +17,6 @@
 
 #include <newbase/NFmiGlobals.h>
 #include <cmath>
-#include <cstdlib>
 #include <utility>
 
 namespace WeatherAnalysis
@@ -186,8 +185,8 @@ namespace WeatherAnalysis
 	  const int minvalue2 = static_cast<int>(round(theMinimum2.value()));
 	  const int maxvalue2 = static_cast<int>(round(theMaximum2.value()));
 
-	  return(std::abs(minvalue1-minvalue2) <= same_minimum &&
-			 std::abs(maxvalue1-maxvalue2) <= same_maximum);
+	  return(abs(minvalue1-minvalue2) <= same_minimum &&
+			 abs(maxvalue1-maxvalue2) <= same_maximum);
 	  
 	}
 

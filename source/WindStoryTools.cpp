@@ -60,33 +60,6 @@ namespace TextGen
 	
 	// ----------------------------------------------------------------------
 	/*!
-	 * \brief Calculate the wind direction accuracy class
-	 *
-	 * \param theError The error estimate for the wind direction
-	 * \param theVariable The control variable
-	 * \return The accuracy class
-	 */
-	// ----------------------------------------------------------------------
-	
-	WindDirectionAccuracy direction16_accuracy(double theError,
-											   const string & theVariable)
-	{
-	  /*
-	  using Settings::optional_double;
-	  
-	  const double accurate_limit = optional_double(theVariable+"::direction::accurate",11.25);
-	  const double variable_limit = optional_double(theVariable+"::direction::variable_limit",22.5);
-	  
-	  if(theError<=accurate_limit) return good_accuracy;
-	  if(theError<=variable_limit) return moderate_accuracy;
-	  return bad_accuracy;
-	  */
-	  
-	  return direction_accuracy(theError, theVariable);
-	}
-
-	// ----------------------------------------------------------------------
-	/*!
 	 * \brief Calculate the generic wind 8th direction from angle
 	 *
 	 * \param theDirection The direction value
@@ -110,7 +83,7 @@ namespace TextGen
 	
 	int direction16th(double theDirection)
 	{
-	  return 1+(int(theDirection/22.0+0.5) % 16);
+	  return 1+(int(theDirection/22.5+0.5) % 16);
 	}
 
 	// ----------------------------------------------------------------------
@@ -163,19 +136,19 @@ namespace TextGen
 				retval = "koillistuulta";
 				break;
 			  case 3:
-				retval = "itätuulta";
+				retval = "itatuulta";
 				break;
 			  case 4:
 				retval = "kaakkoistuulta";
 				break;
 			  case 5:
-				retval = "etelätuulta";
+				retval = "etelatuulta";
 				break;
 			  case 6:
 				retval = "lounaistuulta";
 				break;
 			  case 7:
-				retval = "länsituulta";
+				retval = "lansituulta";
 				break;
 			  case 8:
 				retval = "luoteistuulta";
@@ -196,19 +169,19 @@ namespace TextGen
 				retval = "koillisen puoleista tuulta";
 				break;
 			  case 3:
-				retval = "idän puoleista tuulta";
+				retval = "idan puoleista tuulta";
 				break;
 			  case 4:
 				retval = "kaakon puoleista tuulta";
 				break;
 			  case 5:
-				retval = "etelän puoleista tuulta";
+				retval = "etelan puoleista tuulta";
 				break;
 			  case 6:
 				retval = "lounaan puoleista tuulta";
 				break;
 			  case 7:
-				retval = "lännen puoleista tuulta";
+				retval = "lannen puoleista tuulta";
 				break;
 			  case 8:
 				retval = "luoteen puoleista tuulta";
@@ -225,6 +198,175 @@ namespace TextGen
 	  return retval;
 	}
 
+	const string direction16_string(const WeatherResult & theDirection,
+									const string & theVariable)
+	{
+	  string retval;
+
+	  const int n = direction16th(theDirection.value());
+
+	  switch(direction_accuracy(theDirection.error(),theVariable))
+		{
+		case good_accuracy:
+		  {
+			switch(n)
+			  {
+			  case 1:
+				retval = "pohjoistuulta";
+				break;
+			  case 2:
+				retval = "pohjoisen ja koillisen välistä tuulta";
+				break;
+			  case 3:
+				retval = "koillistuulta";
+				break;
+			  case 4:
+				retval = "idän ja koillisen välistä tuulta";
+				break;
+			  case 5:
+				retval = "itätuulta";
+				break;
+			  case 6:
+				retval = "idän ja kaakon välistä tuulta";
+				break;
+			  case 7:
+				retval = "kaakkoistuulta";
+				break;
+			  case 8:
+				retval = "etelän ja kaakon välistä tuulta";
+				break;
+			  case 9:
+				retval = "etelätuulta";
+				break;
+			  case 10:
+				retval = "etelän ja lounaaan välistä tuulta";
+				break;
+			  case 11:
+				retval = "lounaistuulta";
+				break;
+			  case 12:
+				retval = "lännen ja lounaan välistä tuulta";
+				break;
+			  case 13:
+				retval = "länsituulta";
+				break;
+			  case 14:
+				retval = "lännen ja luoteen välistä tuulta";
+				break;
+			  case 15:
+				retval = "luoteistuulta";
+				break;
+			  case 16:
+				retval = "pohjoisen ja luoteen välistä tuulta";
+				break;
+			  default:
+				break;
+			  }
+		  }
+		  break;
+		case moderate_accuracy:
+		  {
+			switch(n)
+			  {
+			  case 1:
+				retval = "pohjoisen puoleista";
+				break;
+			  case 2:
+				{
+				  if(theDirection.value() > 337.5 || theDirection.value() < 22.5)
+					retval = "pohjoisen puoleista";
+				  else
+					retval = "koillisen puoleista";
+				}
+				break;
+			  case 3:
+				retval = "koillisen puoleista";
+				break;
+			  case 4:
+				{
+				  if(theDirection.value() < 67.5)
+					retval = "koillisen puoleista";
+				  else
+					retval = "idän puoleista";
+				}
+				break;
+			  case 5:
+				retval = "idän puoleista";
+				break;
+			  case 6:
+				{
+				  if(theDirection.value() < 112.5)
+					retval = "idän puoleista";
+				  else
+					retval = "kaakon puoleista";
+				}
+				break;
+			  case 7:
+				retval = "kaakon puoleista";
+				break;
+			  case 8:
+				{
+				  if(theDirection.value() < 157.5)
+					retval = "kaakon puoleista";
+				  else
+					retval = "etelän puoleista";
+				}
+				break;
+			  case 9:
+				retval = "etelän puoleista";
+				break;
+			  case 10:
+				{
+				  if(theDirection.value() < 202.5)
+					retval = "etelän puoleista";
+				  else
+					retval = "lounaan puoleista";
+				}
+				break;
+			  case 11:
+				retval = "lounaan puoleista";
+				break;
+			  case 12:
+				{
+				  if(theDirection.value() < 247.5)
+					retval = "lounaan puoleista";
+				  else
+					retval = "lännen puoleista";
+				}
+				break;
+			  case 13:
+				retval = "lännen puoleista";
+				break;
+			  case 14:
+				{
+				  if(theDirection.value() < 292.5)
+					retval = "lännen puoleista";
+				  else
+					retval = "luoteen puoleista";
+				}
+				break;
+			  case 15:
+				retval = "luoteen puoleista";
+				break;
+			  case 16:
+				{
+				  if(theDirection.value() < 337.5)
+					retval = "luoteen puoleista";
+				  else
+					retval = "pohjoisen puoleista";
+				}
+				break;
+			  default:
+				break;
+			  }
+		  }
+		  break;
+		case bad_accuracy:
+		  retval = "suunnaltaan vaihtelevaa tuulta";
+		  break;
+		}
+	  return retval;
+	}
 	// ----------------------------------------------------------------------
 	/*!
 	 * \brief Return a sentence on wind speed range
@@ -355,11 +497,11 @@ namespace TextGen
 			}
 		  else if(int_value >= 21 && int_value <= 32)
 			{
-			  retval = "myrskyä";
+			  retval = "myrskya";
 			}
 		  else
 			{
-			  retval = "hirmumyrskyä";
+			  retval = "hirmumyrskya";
 			}
 
 		}			  
@@ -395,11 +537,11 @@ namespace TextGen
 			}
 		  else if(int_value >= 21 && int_value <= 32)
 			{
-			  retval = "myrskyä";
+			  retval = "myrskya";
 			}
 		  else if(int_value > 32)
 			{
-			  retval = "hirmumyrskyä";
+			  retval = "hirmumyrskya";
 			}
 
 		  if(int_value <= 20)
@@ -411,6 +553,50 @@ namespace TextGen
 		}			  
 	  return retval;	  
 	}
+
+	const string directed16_speed_string(const WeatherResult & theMeanSpeed,
+										 const WeatherResult & theDirection,
+										 const string & theVariable)
+	{
+	  string retval;
+
+	  int int_value(static_cast<int>(round(theMeanSpeed.value())));
+
+	  if(int_value >= 1)
+		{
+		  if(int_value >= 1 && int_value <= 3)
+			{
+			  retval = "heikkoa" ;
+			}
+		  else if(int_value >= 4 && int_value <= 7)
+			{
+			  retval = "kohtalaista";
+			}
+		  else if(int_value >= 8 && int_value <= 13)
+			{
+			  retval = "navakkaa";
+			}
+		  else if(int_value >= 14 && int_value <= 20)
+			{
+			  retval = "kovaa";
+			}
+		  else if(int_value >= 21 && int_value <= 32)
+			{
+			  retval = "myrskya";
+			}
+		  else if(int_value > 32)
+			{
+			  retval = "hirmumyrskya";
+			}
+
+		  retval += " ";
+		  retval += direction16_string(theDirection,
+									   theVariable);
+		}
+  
+	  return retval;  
+	}
+
 
   } // namespace WindStoryTools
 } // namespace TextGen

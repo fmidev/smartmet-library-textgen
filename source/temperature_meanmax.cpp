@@ -57,7 +57,7 @@ namespace TextGen
 
 	log << "Temperature Mean(Mean(Maximum())) = " << result << endl;
 
-	sentence << "keskimääräinen ylin lämpötila"
+	sentence << "keskimaarainen ylin lampotila"
 			 << Integer(static_cast<int>(round(result.value())))
 			 << *UnitFactory::create(DegreesCelsius);
 	paragraph << sentence;

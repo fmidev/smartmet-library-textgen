@@ -71,7 +71,7 @@ namespace TextGen
 		if (probability >= limit && probability < 70) {
 		    sentence << "ukkoskuurot paikoin mahdollisia";
 		} else if (probability >= 70) {
-		    sentence << "ukkoskuurot todennäköisiä";
+		    sentence << "ukkoskuurot todennakoisia";
 		}
 
 		paragraph << sentence;

@@ -2,6 +2,7 @@
 #define TEXTGEN_WIND_FORECAST_H
 
 #include "WeatherForecast.h"
+#include "WindStoryTools.h"
 
 namespace TextGen
 {
@@ -11,7 +12,19 @@ using namespace WeatherAnalysis;
 using namespace AreaTools;
 using namespace boost;
 using namespace std;
+  using namespace WindStoryTools;
 
+#define HEIKKO_LOWER_LIMIT 0.5
+#define HEIKKO_UPPER_LIMIT 3.5
+#define KOHTALAINEN_LOWER_LIMIT 3.5
+#define KOHTALAINEN_UPPER_LIMIT 7.5
+#define NAVAKKA_LOWER_LIMIT 7.5
+#define NAVAKKA_UPPER_LIMIT 13.5
+#define KOVA_LOWER_LIMIT 13.5
+#define KOVA_UPPER_LIMIT 20.5
+#define MYRSKY_LOWER_LIMIT 20.5
+#define MYRSKY_UPPER_LIMIT 32.5
+#define HIRMUMYRSKY_LOWER_LIMIT 32.5
 
   enum wind_speed_id
 	{
@@ -26,31 +39,32 @@ using namespace std;
 
   enum wind_direction_id
 	{
-	  POHJOINEN = 1,
+	  POHJOINEN = 0x1,
 	  POHJOINEN_KOILLINEN,
 	  KOILLINEN,
-	  KOILLINEN_ITA,
+	  ITA_KOILLINEN,
 	  ITA,
 	  ITA_KAAKKO,
 	  KAAKKO,
-	  KAAKKO_ETELA,
+	  ETELA_KAAKKO,
 	  ETELA,
 	  ETELA_LOUNAS,
 	  LOUNAS,
-	  LOUNAS_LANSI,
+	  LANSI_LOUNAS,
 	  LANSI,
 	  LANSI_LUODE,
 	  LUODE,
-	  LUODE_POHJOINEN,
-	  POHJOINEN_PUOLEINEN,
-	  KOILLINEN_PUOLEINEN,
-	  ITA_PUOLEINEN,
-	  KAAKKO_PUOLEINEN,
-	  ETELA_PUOLEINEN,
-	  LOUNAS_PUOLEINEN,
-	  LANSI_PUOLEINEN,
-	  LUODE_PUOLEINEN,
-	  VAIHTELEVA
+	  POHJOINEN_LUODE,
+	  POHJOISEN_PUOLEINEN,
+	  KOILLISEN_PUOLEINEN,
+	  IDAN_PUOLEINEN,
+	  KAAKON_PUOLEINEN,
+	  ETELAN_PUOLEINEN,
+	  LOUNAAN_PUOLEINEN,
+	  LANNEN_PUOLEINEN,
+	  LUOTEEN_PUOLEINEN,
+	  VAIHTELEVA,
+	  MISSING_WIND_DIRECTION_ID
 	};
 
   enum wind_event_id 
@@ -60,7 +74,7 @@ using namespace std;
 	  TUULI_TYYNTYY = 0x4,
 	  TUULI_KAANTYY = 0x8,
 	  TUULI_MUUTTUU_VAIHTELEVAKSI = 0x10,
-	  TUULI_KAANTYY_JA_HEIKEKNEE = 0x9,
+	  TUULI_KAANTYY_JA_HEIKKENEE = 0x9,
 	  TUULI_KAANTYY_JA_VOIMISTUU = 0xA,
 	  TUULI_KAANTYY_JA_TYYNTYY = 0xC,
 	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE = 0x11,
@@ -77,7 +91,6 @@ using namespace std;
 	  DECREASING,
 	  AS_BEFORE
 	};
-
 
   class WindDataItemUnit;
   class WindDataItemContainer;
@@ -125,7 +138,10 @@ using namespace std;
 	double theMaxErrorWindSpeed;
 	double theMaxErrorWindDirection;
 	double theWindSpeedThreshold;
-	double theWindDirectionTreshold;
+	double theWindDirectionThreshold;
+	string theRangeSeparator;
+	int theMinInterval;
+	string theMetersPerSecondFormat;
 
 	wind_data_item_vector theRawDataVector;
 	wind_data_item_vector theEqualizedDataVector;
@@ -150,7 +166,6 @@ using namespace std;
 					 const WeatherResult& windSpeedMean,
 					 const WeatherResult& windSpeedMedian,
 					 const WeatherResult& windMaximum,
-					 const WeatherResult& windMaximumMedian,
 					 const WeatherResult& windDirection,
 					 const WeatherResult& gustSpeed)
 	  : thePeriod(period),
@@ -159,12 +174,14 @@ using namespace std;
 		theWindSpeedMean(windSpeedMean),
 		theWindSpeedMedian(windSpeedMedian),
 		theWindMaximum(windMaximum),
-		theWindMaximumMedian(windMaximumMedian),
 		theWindDirection(windDirection),
 		theGustSpeed(gustSpeed),
 		theEqualizedMedianWindSpeed(windSpeedMedian.value()),
+		theEqualizedMaximumWind(windMaximum.value()),
 		theEqualizedWindDirection(theWindDirection.value())
 	{}
+
+	const float getWindSpeedShare(const float& theLowerLimit, const float& theUpperLimit) const;
 	
 	WeatherPeriod thePeriod;
 	WeatherResult theWindSpeedMin;
@@ -172,7 +189,6 @@ using namespace std;
 	WeatherResult theWindSpeedMean;
 	WeatherResult theWindSpeedMedian;
 	WeatherResult theWindMaximum;
-	WeatherResult theWindMaximumMedian;
 	WeatherResult theWindDirection;
 	WeatherResult theGustSpeed;
 	float theEqualizedMedianWindSpeed;
@@ -180,6 +196,7 @@ using namespace std;
 	float theEqualizedWindDirection;
 	change_type theWindSpeedChangeType;
 	change_type theWindDirectionChangeType;
+	vector <pair<float, WeatherResult> > theWindSpeedDistribution;
   };
 
   struct WindDataItemContainer
@@ -200,7 +217,6 @@ using namespace std;
 				 const WeatherResult& windSpeedMean,
 				 const WeatherResult& windSpeedMedian,
 				 const WeatherResult& windMaximum,
-				 const WeatherResult& windMaximumMedian,
 				 const WeatherResult& windDirection,
 				 const WeatherResult& gustSpeed,
 				 const string& name)
@@ -211,7 +227,6 @@ using namespace std;
 														windSpeedMean,
 														windSpeedMedian,
 														windMaximum,
-														windMaximumMedian,
 														windDirection,
 														gustSpeed);
 	  theDataItems.insert(make_pair(name, dataItem));
@@ -303,12 +318,18 @@ using namespace std;
 	  : thePeriod(period),
 		theWindEvent(windEvent),
 		thePeriodBeginDataItem(periodBeginDataItem),
-		thePeriodEndDataItem(periodEndDataItem)
+		thePeriodEndDataItem(periodEndDataItem),
+		theConcurrentEventPeriodItem(0),
+		theTransientFlag(false),
+		theReportThisEventPeriodFlag(true)
 	{}
 	WeatherPeriod thePeriod;
 	wind_event_id theWindEvent;
 	const WindDataItemUnit& thePeriodBeginDataItem;
 	const WindDataItemUnit& thePeriodEndDataItem;
+	WindEventPeriodDataItem* theConcurrentEventPeriodItem;
+	bool theTransientFlag; // direction change can be temporary
+	bool theReportThisEventPeriodFlag; // determines weather this event period is reported or not
   };
 
 
@@ -322,6 +343,7 @@ using namespace std;
 		
 	Sentence windSentence(const WeatherPeriod& thePeriod) const;
 	Paragraph windForecastBasedOnEvents(const WeatherPeriod& thePeriod) const;
+	Paragraph windForecastBasedOnEventPeriods(const WeatherPeriod& thePeriod) const;
  
 	void printOutWindPeriods(std::ostream& theOutput) const;
 	void printOutWindData(std::ostream& theOutput) const;
@@ -333,13 +355,37 @@ using namespace std;
 	mutable int thePreviousRangeBeg;
 	mutable int thePreviousRangeEnd;
 
-	wind_direction_id get_wind_direction_id(const NFmiTime& timestamp) const;
-	const Sentence direction_sentence(const wind_direction_id& theDirectionId) const;
-	const Sentence wind_speed_sentence(const WeatherPeriod& thePeriod) const;
-	const Sentence speed_range_sentence_(const WeatherResult & theMinSpeed,
-										const WeatherResult & theMaxSpeed,
-										const WeatherResult & theMeanSpeed,
-										const string & theVariable) const;
+	void getRepresentativeInterval(const float& theDistributionSum, 
+								   const WeatherPeriod& thePeriod,
+								   float& theLowerLimit,
+								   float& theUpperLimit);
+	wind_direction_id findWindDirectionId(const NFmiTime& timestamp) const;
+	const Sentence windDirectionSentence(const wind_direction_id& theDirectionId) const;
+	const Sentence windSpeedSentence(const WeatherPeriod& thePeriod, bool theLastSentenceFlag = true) const;
+	const Sentence speedRangeSentence(const WeatherPeriod& thePeriod,
+									  const WeatherResult & theMaxSpeed,
+									  const WeatherResult & theMeanSpeed,
+									  const string & theVariable, 
+									  bool theLastSentenceFlag) const;
+	Sentence getWindSentence(const wind_event_id& speedEventId, 
+							 const WeatherPeriod& speedEventPeriod,
+							 const wind_event_id& directionEventId, 
+							 const WeatherPeriod& directionEventPeriod,
+							 const wind_direction_id& directionIdEnd,
+							 const bool& firstSentenceInTheStory) const;
+	//	Sentence getSpeedInterval(const WeatherPeriod& theWindSpeedFullPeriod) const;
+	Sentence getWindSpeedDecreasingIncreasingInterval(const WeatherPeriod& speedEventPeriod,
+														   const bool& firstSentenceInTheStory) const;	  
+	const Sentence windSpeedDirectionSentence(const WindEventPeriodDataItem* theWindSpeedEventPeriod,
+												 const WindEventPeriodDataItem* theWindDirectionEventPeriod) const;
+	Sentence getTimePhrase(const WeatherPeriod thePeriod,
+						   const bool& alkaenPhrase = true) const;
+
+
+	wind_direction_id getWindDirectionId(const WeatherPeriod& thePeriod,
+										 const CompassType& theComapssType) const;
+	wind_direction_id getWindDirectionId(const WeatherPeriod& thePeriod) const;
+	  
 
 	/*
 	const weather_result_data_item_vector* theCoastalModerateFogData;
@@ -360,6 +406,17 @@ using namespace std;
 	static std::string theDayPhasePhraseOld;
 	*/
   };
+  
+  wind_speed_id get_wind_speed_id(const WeatherResult& windSpeed);
+  wind_direction_id get_wind_direction_id(const WeatherResult& windDirection, const string& var);
+  std::string get_wind_speed_string(const wind_speed_id& theWindSpeedId);
+  std::string get_wind_direction_string(const wind_direction_id& theWindDirectionId);
+  std::string get_wind_event_string(const wind_event_id& theWindEventId);
+  void populate_windspeed_distribution_time_series(const AnalysisSources& theSources,
+												   const WeatherArea& theArea,
+												   const WeatherPeriod& thePeriod,
+												   const string& theVar,
+												   vector <pair<float, WeatherResult> >& theWindSpeedDistribution);
 } // namespace TextGen
 
 #endif // TEXTGEN_WIND_FORECAST_H

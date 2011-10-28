@@ -55,7 +55,7 @@ namespace TextGen
 
 	log << "Temperature Mean(Mean) = " << result << endl;
 
-	sentence << "keskilämpötila"
+	sentence << "keskilampotila"
 			 << Integer(static_cast<int>(round(result.value())))
 			 << *UnitFactory::create(DegreesCelsius);
 	

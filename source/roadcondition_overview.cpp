@@ -265,18 +265,18 @@ namespace TextGen
 	  Sentence tiet_ovat;
 	  Sentence teilla_on;
 	  tiet_ovat << "tiet ovat" << places_phrase;
-	  teilla_on << "teillä on" << places_phrase;
+	  teilla_on << "teilla on" << places_phrase;
 
 	  switch(theType)
 		{
 		case DRY:			return (tiet_ovat << "kuivia");
 		case MOIST:			return (tiet_ovat << "kosteita");
-		case WET:			return (tiet_ovat << "märkiä");
+		case WET:			return (tiet_ovat << "markia");
 		case SNOW:			return (teilla_on << "lunta");
 		case SLUSH:			return (teilla_on << "sohjoa");
 		case FROST:			return (teilla_on << "kuuraa");
-		case PARTLY_ICY:	return (tiet_ovat << "osittain jäisiä");
-		case ICY:			return (tiet_ovat << "jäisiä");
+		case PARTLY_ICY:	return (tiet_ovat << "osittain jaisia");
+		case ICY:			return (tiet_ovat << "jaisia");
 		}
 
 	  // Unreachable
@@ -302,13 +302,13 @@ namespace TextGen
 		  switch(theSecondaryType)
 			{
 			case PARTLY_ICY:
-			  sentence << "paikoin" << "osittain jäisiä";
+			  sentence << "paikoin" << "osittain jaisia";
 			  break;
 			case FROST:
 			  sentence << "paikoin" << "kuuraisia";
 			  break;
 			case ICY:
-			  sentence << "paikoin" << "jäisiä";
+			  sentence << "paikoin" << "jaisia";
 			  break;
 			case SLUSH:
 			case SNOW:
@@ -322,10 +322,10 @@ namespace TextGen
 		  switch(theSecondaryType)
 			{
 			case ICY:
-			  sentence << "paikoin" << "tiet ovat (sivulause)" << "jäisiä";
+			  sentence << "paikoin" << "tiet ovat (sivulause)" << "jaisia";
 			  break;
 			case PARTLY_ICY:
-			  sentence << "paikoin" << "tiet ovat (sivulause)" << "osittain jäisiä";
+			  sentence << "paikoin" << "tiet ovat (sivulause)" << "osittain jaisia";
 			  break;
 			case FROST:
 			case SLUSH:
@@ -340,10 +340,10 @@ namespace TextGen
 		  switch(theSecondaryType)
 			{
 			case ICY:
-			  sentence << "paikoin" << "tiet ovat (sivulause)" << "jäisiä";
+			  sentence << "paikoin" << "tiet ovat (sivulause)" << "jaisia";
 			  break;
 			case PARTLY_ICY:
-			  sentence << "paikoin" << "tiet ovat (sivulause)" << "osittain jäisiä";
+			  sentence << "paikoin" << "tiet ovat (sivulause)" << "osittain jaisia";
 			  break;
 			case FROST:
 			  sentence << "paikoin" << "kuuraa";
@@ -362,10 +362,10 @@ namespace TextGen
 		  switch(theSecondaryType)
 			{
 			case ICY:
-			  sentence << "paikoin" << "tiet ovat (sivulause)" << "jäisiä";
+			  sentence << "paikoin" << "tiet ovat (sivulause)" << "jaisia";
 			  break;
 			case PARTLY_ICY:
-			  sentence << "paikoin" << "tiet ovat (sivulause)" << "osittain jäisiä";
+			  sentence << "paikoin" << "tiet ovat (sivulause)" << "osittain jaisia";
 			  break;
 			case FROST:
 			  sentence << "paikoin" << "kuuraa";
@@ -385,10 +385,10 @@ namespace TextGen
 		  switch(theSecondaryType)
 			{
 			case ICY:
-			  sentence << "paikoin" << "jäisiä";
+			  sentence << "paikoin" << "jaisia";
 			  break;
 			case PARTLY_ICY:
-			  sentence << "paikoin" << "osittain jäisiä";
+			  sentence << "paikoin" << "osittain jaisia";
 			  break;
 			case FROST:
 			  sentence << "paikoin" << "kuuraisia";
@@ -400,7 +400,7 @@ namespace TextGen
 			  sentence << "paikoin" << "lumisia";
 			  break;
 			case WET:
-			  sentence << "paikoin" << "märkiä";
+			  sentence << "paikoin" << "markia";
 			  break;
 			case MOIST:
 			  sentence << "paikoin" << "kosteita";
@@ -519,7 +519,7 @@ namespace TextGen
 		  if(firsttype == ICY || firsttype == PARTLY_ICY)
 			{
 			  if(secondtype == PARTLY_ICY)
-				sentence << "tai" << "osittain jäisiä";
+				sentence << "tai" << "osittain jaisia";
 			  else if(secondtype == FROST)
 				sentence << "tai" << "kuuraisia";
 			}
@@ -675,11 +675,11 @@ namespace TextGen
 	  if(is_morning(thePeriod,theVar))
 		sentence << startday+"-aamuna";
 	  else if(is_day(thePeriod,theVar))
-		sentence << startday+"-päivällä";
+		sentence << startday+"-paivalla";
 	  else if(is_evening(thePeriod,theVar))
 		sentence << startday+"-iltana";
 	  else if(is_night(thePeriod,theVar))
-		sentence << endday+"-vastaisena yönä";
+		sentence << endday+"-vastaisena yona";
 	  else
 		{
 		  ostringstream msg;
@@ -709,7 +709,7 @@ namespace TextGen
 	  if(is_morning(thePeriod,theVar))
 		sentence << "huomisaamuna";
 	  else if(is_day(thePeriod,theVar))
-		sentence << "huomenna päivällä";
+		sentence << "huomenna paivalla";
 	  else if(is_evening(thePeriod,theVar))
 		sentence << "huomisiltana";
 	  else if(is_night(thePeriod,theVar))
@@ -743,11 +743,11 @@ namespace TextGen
 	  if(is_morning(thePeriod,theVar))
 		sentence << "aamulla";
 	  else if(is_day(thePeriod,theVar))
-		sentence << "päivällä";
+		sentence << "paivalla";
 	  else if(is_evening(thePeriod,theVar))
 		sentence << "illalla";
 	  else if(is_night(thePeriod,theVar))
-		sentence << "yöllä";
+		sentence << "yolla";
 	  else
 		{
 		  ostringstream msg;
@@ -806,11 +806,11 @@ namespace TextGen
 	  if(is_morning(thePeriod,theVar))
 		sentence << startday+"-aamusta alkaen";
 	  else if(is_day(thePeriod,theVar))
-		sentence << startday+"-aamupäivästä alkaen";
+		sentence << startday+"-aamupaivasta alkaen";
 	  else if(is_evening(thePeriod,theVar))
 		sentence << startday+"-illasta alkaen";
 	  else if(is_night(thePeriod,theVar))
-		sentence << endday+"-vastaisesta yöstä alkaen";
+		sentence << endday+"-vastaisesta yosta alkaen";
 	  else
 		{
 		  ostringstream msg;
@@ -840,7 +840,7 @@ namespace TextGen
 	  if(is_morning(thePeriod,theVar))
 		sentence << "huomisaamusta alkaen";
 	  else if(is_day(thePeriod,theVar))
-		sentence << "huomisaamupäivästä alkaen";
+		sentence << "huomisaamupaivasta alkaen";
 	  else if(is_evening(thePeriod,theVar))
 		sentence << "huomisillasta alkaen";
 	  else if(is_night(thePeriod,theVar))
@@ -874,11 +874,11 @@ namespace TextGen
 	  if(is_morning(thePeriod,theVar))
 		sentence << "aamusta alkaen";
 	  else if(is_day(thePeriod,theVar))
-		sentence << "aamupäivästä alkaen";
+		sentence << "aamupaivasta alkaen";
 	  else if(is_evening(thePeriod,theVar))
 		sentence << "illasta alkaen";
 	  else if(is_night(thePeriod,theVar))
-		sentence << "yöstä alkaen";
+		sentence << "yosta alkaen";
 	  else
 		{
 		  ostringstream msg;

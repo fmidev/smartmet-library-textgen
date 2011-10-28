@@ -8,6 +8,7 @@
 #ifndef TEMPERATURETOOLS_H
 #define TEMPERATURETOOLS_H
 
+using namespace std;
 #include <string>
 
 namespace WeatherAnalysis
@@ -30,7 +31,7 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	void min_max_mean_temperature(const std::string& theVar,
+	void min_max_mean_temperature(const string& theVar,
 								  const WeatherAnalysis::AnalysisSources& theSources,
 								  const WeatherAnalysis::WeatherArea& theArea,
 								  const WeatherAnalysis::WeatherPeriod& thePeriod,
@@ -45,7 +46,7 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	void morning_temperature(const std::string& theVar,
+	void morning_temperature(const string& theVar,
 							 const WeatherAnalysis::AnalysisSources& theSources,
 							 const WeatherAnalysis::WeatherArea& theArea,
 							 const WeatherAnalysis::WeatherPeriod& thePeriod,
@@ -59,7 +60,7 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	void afternoon_temperature(const std::string& theVar,
+	void afternoon_temperature(const string& theVar,
 							   const WeatherAnalysis::AnalysisSources& theSources,
 							   const WeatherAnalysis::WeatherArea& theArea,
 							   const WeatherAnalysis::WeatherPeriod& thePeriod,
@@ -73,7 +74,7 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	void clamp_temperature(const std::string& theVar,
+	void clamp_temperature(const string& theVar,
 						   const bool& isWinter,
 						   const bool& isDay,
 						   int& theMinimum,

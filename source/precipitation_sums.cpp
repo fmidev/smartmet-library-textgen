@@ -120,13 +120,13 @@ namespace TextGen
 	if(round(maxima[0].value())==0 && round(maxima[1].value())==0)
 	  {
 		const WeatherResult zero(0,0);
-		sentence << "seuraavan 24 tunnin sademäärä"
+		sentence << "seuraavan 24 tunnin sademaara"
 				 << "on"
 				 << PrecipitationStoryTools::sum_phrase(zero,zero,zero,mininterval,rangeseparator);
 	  }
 	else
 	  {
-		sentence << "ensimmäisen 12 tunnin sademäärä"
+		sentence << "ensimmaisen 12 tunnin sademaara"
 				 << "on"
 				 << PrecipitationStoryTools::sum_phrase(minima[0],
 														maxima[0],

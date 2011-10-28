@@ -196,7 +196,7 @@ namespace TextGen
 	 * ::shower_limit = [0-100] (=80)
 	 * \endcode
 	 *
-	 * \todo "sadekuuroja" prompti pit‰‰ lis‰t‰
+	 * \todo "sadekuuroja" prompti pitaa lisata
 	 */
 	// ----------------------------------------------------------------------
 
@@ -324,7 +324,7 @@ namespace TextGen
 			if(has_showers)
 			  {
 				if(strength.value() < weak_limit)
-				  sentence << "v‰h‰isi‰ kuuroja";
+				  sentence << "vahaisia kuuroja";
 				else if(strength.value() >= hard_limit)
 				  sentence << "voimakkaita kuuroja";
 				else
@@ -344,16 +344,16 @@ namespace TextGen
 		case SLEET:
 		  {
 			log << "Rain type is SLEET" << endl;
-			sentence << "r‰nt‰sadetta";
+			sentence << "rantasadetta";
 			break;
 		  }
 		case WATER_SLEET:
 		  {
 			log << "Rain type is WATER_SLEET" << endl;
 			if(water.value() >= sleet.value())
-			  sentence << "vesi-" << "tai" << "r‰nt‰sadetta";
+			  sentence << "vesi-" << "tai" << "rantasadetta";
 			else
-			  sentence << "r‰nt‰-" << "tai" << "vesisadetta";
+			  sentence << "ranta-" << "tai" << "vesisadetta";
 			break;
 		  }
 		case SNOW:
@@ -362,7 +362,7 @@ namespace TextGen
 			if(has_showers)
 			  {
 				if(strength.value() < weak_limit)
-				  sentence << "lumikuuroja";	// Sopiva prompti "v‰h‰isi‰ lumikuuroja" puuttuu!
+				  sentence << "lumikuuroja";	// Sopiva prompti "vahaisia lumikuuroja" puuttuu!
 				else if(strength.value() >= hard_limit)
 				  sentence << "sakeita lumikuuroja";
 				else
@@ -371,7 +371,7 @@ namespace TextGen
 			else
 			  {
 				if(strength.value() < weak_limit)
-				  sentence << "v‰h‰ist‰ lumisadetta";
+				  sentence << "vahaista lumisadetta";
 				else if(strength.value() >= hard_limit)
 				  sentence << "sakeaa lumisadetta";
 				else
@@ -415,24 +415,24 @@ namespace TextGen
 			if(has_showers)
 			  {
 				if(strength.value() < weak_limit)
-				  sentence << "r‰nt‰-" << "tai" << "lumikuuroja";
+				  sentence << "ranta-" << "tai" << "lumikuuroja";
 				else if(strength.value() >= hard_limit)
-				  sentence << "sakeita lumikuuroja" << "tai" << "r‰nt‰sadetta";
+				  sentence << "sakeita lumikuuroja" << "tai" << "rantasadetta";
 				else
-				  sentence << "r‰nt‰-" << "tai" << "lumikuuroja";
+				  sentence << "ranta-" << "tai" << "lumikuuroja";
 			  }
 			else
 			  {
 				if(strength.value() < weak_limit)
-				  sentence << "v‰h‰ist‰ lumisadetta" << "tai" << "r‰nt‰sadetta";
+				  sentence << "vahaista lumisadetta" << "tai" << "rantasadetta";
 				else if(strength.value() >= hard_limit)
-				  sentence << "sakeaa lumisadetta" << "tai" << "r‰nt‰sadetta";
+				  sentence << "sakeaa lumisadetta" << "tai" << "rantasadetta";
 				else
 				  {
 					if(snow.value() >= sleet.value())
-					  sentence << "lumi-" << "tai" << "r‰nt‰sadetta";
+					  sentence << "lumi-" << "tai" << "rantasadetta";
 					else
-					  sentence << "r‰nt‰-" << "tai" << "lumisadetta";
+					  sentence << "ranta-" << "tai" << "lumisadetta";
 				  }
 			  }
 			break;

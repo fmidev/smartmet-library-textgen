@@ -12,7 +12,7 @@
  */
 // ----------------------------------------------------------------------
 
-#include <boost/lexical_cast.hpp> // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ssä min max määrittelyt jo tehty
+#include <boost/lexical_cast.hpp> // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ssa min max maarittelyt jo tehty
 
 #include "WeatherHistory.h"
 #include "WeekdayTools.h"
@@ -61,17 +61,17 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
-	 * \brief Return the "N-vastaisena yönä" phrase
+	 * \brief Return the "N-vastaisena yona" phrase
 	 *
 	 * \param theTime The time
-	 * \return The "N-vastaisena yönä" phrase
+	 * \return The "N-vastaisena yona" phrase
 	 */
 	// ----------------------------------------------------------------------
 
 	const string night_against_weekday(const NFmiTime & theTime)
 	{
 	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-vastaisena yönä");
+						  +"-vastaisena yona");
 	  return out;
 	}
 
@@ -220,33 +220,33 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
-	 * \brief Return the "N-aamupäivällä" phrase
+	 * \brief Return the "N-aamupaivalla" phrase
 	 *
 	 * \param theTime The time
-	 * \return The "N-aamupäivällä" phrase
+	 * \return The "N-aamupaivalla" phrase
 	 */
 	// ----------------------------------------------------------------------
 
 	const string on_weekday_forenoon(const NFmiTime & theTime)
 	{
 	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-aamupäivällä");
+						  +"-aamupaivalla");
 	  return out;
 	}
 
 	// ----------------------------------------------------------------------
 	/*!
-	 * \brief Return the "N-iltapäivällä" phrase
+	 * \brief Return the "N-iltapaivalla" phrase
 	 *
 	 * \param theTime The time
-	 * \return The "N-iltapäivällä" phrase
+	 * \return The "N-iltapaivalla" phrase
 	 */
 	// ----------------------------------------------------------------------
 
 	const string on_weekday_afternoon(const NFmiTime & theTime)
 	{
 	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-iltapäivällä");
+						  +"-iltapaivalla");
 	  return out;
 	}
 
@@ -327,7 +327,7 @@ namespace TextGen
 									   WeatherAnalysis::WeatherHistory& theHistory)
 	{
 	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-vastaisena yönä");
+						  +"-vastaisena yona");
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
@@ -413,7 +413,7 @@ namespace TextGen
 									 WeatherAnalysis::WeatherHistory& theHistory)
 	{
 	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-aamupäivällä");
+						  +"-aamupaivalla");
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
@@ -421,7 +421,7 @@ namespace TextGen
 									  WeatherAnalysis::WeatherHistory& theHistory)
 	{
 	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-iltapäivällä");
+						  +"-iltapaivalla");
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
@@ -454,17 +454,17 @@ namespace TextGen
 	const std::string on_weekday_evening(const NFmiTime & theTime, const WeatherHistory& theHistory);
 
 
-WeekdayTools.h headeriin pitää sitten lisätä tarvittavia funktioita
+WeekdayTools.h headeriin pitaa sitten lisata tarvittavia funktioita
 tyyliin
 
   const std::string on_weekday_time(const NFmiTime & theTime,
                                     WeatherHistory & theHistory)
   {
-      // jos päivä on sama kuin historiassa, tutkitaan vain kellon
-      // aikaa, ja verrataan valittua fraasia viimeeksi käytettyyn.
-      // Muutoin pitää generoida fraasi jossa mainitaan myös
-      // päivä, ja se olisi joko tänään, huomenna, ylihuomenna
-      // tai viikonpäivänä.
+      // jos paiva on sama kuin historiassa, tutkitaan vain kellon
+      // aikaa, ja verrataan valittua fraasia viimeeksi kaytettyyn.
+      // Muutoin pitaa generoida fraasi jossa mainitaan myos
+      // paiva, ja se olisi joko tanaan, huomenna, ylihuomenna
+      // tai viikonpaivana.
   }
 	*/
 

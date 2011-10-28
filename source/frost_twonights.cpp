@@ -162,14 +162,14 @@ namespace TextGen
 		// We have 9 combinations:
 		//
 		// nada+nada		""
-		// nada+frost		"Hallan todennäköisyys on tiistain vastaisena yönä x%."
-		// nada+severe		"Ankaran hallan todennäköisyys on tiistain vastaisena yönä x%."
-		// frost+nada		"Hallan ..., seuraava yö on lämpimämpi."
-		// frost+frost		"Hallan ..., seuraavana yönä y%/sama."
-		// frost+severe		"Hallan ..., seuraavana yönä ankaran hallan todennäköisyys on y%."
-		// severe+nada		"Ankaran ..., seuraava yö on huomattavasti lämpimämpi."
-		// severe+frost		"Ankaran ..., seuraavana yönä hallan todennäköisyys on y%."
-		// severe+severe	"Ankaran ..., seuraavana yönä y%/sama."
+		// nada+frost		"Hallan todennakoisyys on tiistain vastaisena yona x%."
+		// nada+severe		"Ankaran hallan todennakoisyys on tiistain vastaisena yona x%."
+		// frost+nada		"Hallan ..., seuraava yo on lampimampi."
+		// frost+frost		"Hallan ..., seuraavana yona y%/sama."
+		// frost+severe		"Hallan ..., seuraavana yona ankaran hallan todennakoisyys on y%."
+		// severe+nada		"Ankaran ..., seuraava yo on huomattavasti lampimampi."
+		// severe+frost		"Ankaran ..., seuraavana yona hallan todennakoisyys on y%."
+		// severe+severe	"Ankaran ..., seuraavana yona y%/sama."
 
 
 		if(severevalue1 > obvious_frost && severevalue2 > obvious_frost)
@@ -184,7 +184,7 @@ namespace TextGen
 			
 			if(severevalue2 >= severelimit)
 			  {
-				sentence << "seuraavana yönä";
+				sentence << "seuraavana yona";
 				if(severevalue1 == severevalue2)
 				  sentence << "sama";
 				else
@@ -193,17 +193,17 @@ namespace TextGen
 			  }
 			else if(value2 >= normallimit)
 			  {
-				sentence << "seuraavana yönä"
-						 << "hallan todennäköisyys"
+				sentence << "seuraavana yona"
+						 << "hallan todennakoisyys"
 						 << "on"
 						 << Integer(value2)
 						 << *UnitFactory::create(Percent);
 			  }
 			else
 			  {
-				sentence << "seuraava yö"
+				sentence << "seuraava yo"
 						 << "on"
-						 << "huomattavasti lämpimämpi";
+						 << "huomattavasti lampimampi";
 			  }
 			paragraph << sentence;
 		  }
@@ -215,15 +215,15 @@ namespace TextGen
 
 			if(severevalue2 >= severelimit)
 			  {
-				sentence << "seuraavana yönä"
-						 << "ankaran hallan todennäköisyys"
+				sentence << "seuraavana yona"
+						 << "ankaran hallan todennakoisyys"
 						 << "on"
 						 << Integer(severevalue2)
 						 << *UnitFactory::create(Percent);
 			  }
 			else if(value2 >= normallimit)
 			  {
-				sentence << "seuraavana yönä";
+				sentence << "seuraavana yona";
 				if(value1 == value2)
 				  sentence << "sama";
 				else
@@ -232,9 +232,9 @@ namespace TextGen
 			  }
 			else
 			  {
-				sentence << "seuraava yö"
+				sentence << "seuraava yo"
 						 << "on"
-						 << "lämpimämpi";
+						 << "lampimampi";
 			  }
 			paragraph << sentence;
 			

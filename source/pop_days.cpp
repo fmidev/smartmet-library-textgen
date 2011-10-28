@@ -105,7 +105,7 @@ namespace TextGen
 
 	if(pop1 >= minimum && pop1 <= maximum)
 	  {
-		sentence << (negate ? "poudan todennäköisyys" : "sateen todennäköisyys")
+		sentence << (negate ? "poudan todennakoisyys" : "sateen todennakoisyys")
 				 << "on"
 				 << PeriodPhraseFactory::create("today",
 												itsVar,
@@ -150,7 +150,7 @@ namespace TextGen
 		  {
 			if(sentence.empty())
 			  {
-				sentence << (negate ? "poudan todennäköisyys" : "sateen todennäköisyys")
+				sentence << (negate ? "poudan todennakoisyys" : "sateen todennakoisyys")
 						 << "on"
 						 << PeriodPhraseFactory::create("today",
 														itsVar,

@@ -45,8 +45,8 @@ namespace TextGen
 	using namespace AreaTools;
 	using namespace SeasonTools;
 
-#define HALLAN_VAARA_COMPOSITE_PHRASE "[sisämaassa] hallan vaara"
-#define ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE "[sisämaassa] alavilla mailla hallan vaara"
+#define HALLAN_VAARA_COMPOSITE_PHRASE "[sisamaassa] hallan vaara"
+#define ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE "[sisamaassa] alavilla mailla hallan vaara"
 #define MAHDOLLISESTI_HALLAA_COMPOSITE_PHRASE  "[rannikolla] mahdollisesti hallaa"
 #define PAIKOIN_HALLAA_COMPOSITE_PHRASE "[rannikolla] [paikoin] hallaa"
 #define PAIKOIN_HALLAA_JOKAVOIOLLA_ANKARAA_COMPOSITE_PHRASE "[rannikolla] [paikoin] hallaa, joka voi olla ankaraa"
@@ -586,7 +586,7 @@ namespace TextGen
 																	   theVariable);
 
 	  if(growingSeasonPercentage != kFloatMissing)
-		{
+		{		  
 		  log << NFmiStringTools::Convert(theLogMessage) 
 			  << fixed << setprecision(0) << (theArea.isPoint() ? growingSeasonPercentage * 100.0 : growingSeasonPercentage) 
 			  << endl;

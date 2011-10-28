@@ -139,12 +139,12 @@ namespace TextGen
 		  else if(*it == "atday")
 			{
 			  if(isSameDay(theForecastTime, thePeriod.localStartTime()))
-				return (sentence << "päivällä");
+				return (sentence << "paivalla");
 			}
 		  else if(*it == "today")
 			{
 			  if(isSameDay(theForecastTime, thePeriod.localStartTime()))
-				return(sentence << "tänään");
+				return(sentence << "tanaan");
 			}
 		  else if(*it == "weekday")
 			{
@@ -202,12 +202,12 @@ namespace TextGen
 		  else if(*it == "atnight")
 			{
 			  if(isNextDay(theForecastTime, thePeriod.localEndTime()))
-				return (sentence << "yöllä");
+				return (sentence << "yolla");
 			}
 		  else if(*it == "tonight")
 			{
 			  if(isNextDay(theForecastTime, thePeriod.localEndTime()))
-				return(sentence << "ensi yönä");
+				return(sentence << "ensi yona");
 			}
 		  else if(*it == "weekday")
 			{
@@ -275,7 +275,7 @@ namespace TextGen
 		  else if(*it == "atday")
 			{
 			  if(isSameDay(theForecastTime,thePeriod.localStartTime()))
-				return (sentence << "päivällä");
+				return (sentence << "paivalla");
 			}
 		  else if(*it == "none")
 			{
@@ -285,7 +285,7 @@ namespace TextGen
 		  else if(*it == "today")
 			{
 			  if(isSameDay(theForecastTime,thePeriod.localStartTime()))
-				return (sentence << "tänään");
+				return (sentence << "tanaan");
 			}
 		  else if(*it == "tomorrow")
 			{
@@ -354,7 +354,7 @@ namespace TextGen
 		  else if(*it == "atnight")
 			{
 			  if(isNextDay(theForecastTime,thePeriod.localEndTime()))
-				return (sentence << "yöllä");
+				return (sentence << "yolla");
 			}
 		  else if(*it == "none")
 			{
@@ -364,7 +364,7 @@ namespace TextGen
 		  else if(*it == "tonight")
 			{
 			  if(isNextDay(theForecastTime,thePeriod.localEndTime()))
-				return (sentence << "ensi yönä");
+				return (sentence << "ensi yona");
 			}
 		  else if(*it == "none!")
 			return sentence;
@@ -415,16 +415,16 @@ namespace TextGen
 				}
 			}
 		  else if(*it == "followingnight")
-			return (sentence << "seuraavana yönä");
+			return (sentence << "seuraavana yona");
 		  else if(*it == "atnight")
 			{
 			  if(isNextDay(theForecastTime,thePeriod.localEndTime()))
-				return (sentence << "yöllä");
+				return (sentence << "yolla");
 			}
 		  else if(*it == "tonight")
 			{
 			  if(isNextDay(theForecastTime,thePeriod.localEndTime()))
-				return (sentence << "ensi yönä");
+				return (sentence << "ensi yona");
 			}
 		  else if(*it == "none!")
 			return sentence;
@@ -475,7 +475,7 @@ namespace TextGen
 				}
 			}
 		  else if(*it == "followingday")
-			return (sentence << "seuraavana päivänä");
+			return (sentence << "seuraavana paivana");
 		  else if(*it == "tomorrow")
 			{
 			  if(isNextDay(theForecastTime,thePeriod.localStartTime()))
@@ -592,27 +592,27 @@ namespace TextGen
 		  "",						// 00
 		  "",						// 01
 		  "",						// 02
-		  "aamuyöstä alkaen",		// 03
-		  "aamuyöstä alkaen",		// 04
-		  "aamuyöstä alkaen",		// 05
+		  "aamuyosta alkaen",		// 03
+		  "aamuyosta alkaen",		// 04
+		  "aamuyosta alkaen",		// 05
 		  "aamusta alkaen",			// 06
 		  "aamusta alkaen",			// 07
 		  "aamusta alkaen",			// 08
-		  "aamupäivästä alkaen",	// 09
-		  "aamupäivästä alkaen",	// 10
-		  "keskipäivästä alkaen",	// 11
-		  "keskipäivästä alkaen",	// 12
-		  "iltapäivästä alkaen",	// 13
-		  "iltapäivästä alkaen",	// 14
-		  "iltapäivästä alkaen",	// 15
-		  "iltapäivästä alkaen",	// 16
-		  "iltapäivästä alkaen",	// 17
+		  "aamupaivasta alkaen",	// 09
+		  "aamupaivasta alkaen",	// 10
+		  "keskipaivasta alkaen",	// 11
+		  "keskipaivasta alkaen",	// 12
+		  "iltapaivasta alkaen",	// 13
+		  "iltapaivasta alkaen",	// 14
+		  "iltapaivasta alkaen",	// 15
+		  "iltapaivasta alkaen",	// 16
+		  "iltapaivasta alkaen",	// 17
 		  "illasta alkaen",			// 18
 		  "illasta alkaen",			// 19
 		  "illasta alkaen",			// 20
 		  "illasta alkaen",			// 21
-		  "yöstä alkaen",			// 22
-		  "yöstä alkaen"			// 23
+		  "yosta alkaen",			// 22
+		  "yosta alkaen"			// 23
 		};
 
 	  const int hour = thePeriod.localStartTime().GetHour();
@@ -675,7 +675,7 @@ namespace TextGen
 			  else if(*it == "today")
 				{
 				  if(isSameDay(theForecastTime, starttime))
-					return (sentence << "tänään");
+					return (sentence << "tanaan");
 				}
 			  else if(*it == "tomorrow")
 				{
@@ -731,7 +731,7 @@ namespace TextGen
 				{
 				  if(isSameDay(theForecastTime,starttime))
 					{
-					  sentence << "tänään" << "ja";
+					  sentence << "tanaan" << "ja";
 					  for(vector<string>::const_iterator jt=order.begin();
 						  jt!=order.end();
 						  ++jt)
@@ -739,7 +739,7 @@ namespace TextGen
 						  if(*jt == "tomorrow")
 							return (sentence << "huomenna");
 						  if(*jt == "followingday")
-							return (sentence << "seuraavana päivänä");
+							return (sentence << "seuraavana paivana");
 						  if(*jt == "weekday")
 							{
 							  if(theHistory)
@@ -768,7 +768,7 @@ namespace TextGen
 						  ++jt)
 						{
 						  if(*jt == "followingday")
-							return (sentence << "seuraavana päivänä");
+							return (sentence << "seuraavana paivana");
 						  if(*jt == "weekday")
 							{
 							  if(theHistory)

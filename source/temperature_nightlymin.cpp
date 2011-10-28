@@ -118,7 +118,7 @@ namespace TextGen
 	const int mean1 = static_cast<int>(round(meanresult.value()));
 
 	Sentence sentence;
-	sentence << "yön alin lämpötila"
+	sentence << "yon alin lampotila"
 			 << "on"
 			 << PeriodPhraseFactory::create("tonight",
 											itsVar,
@@ -180,12 +180,12 @@ namespace TextGen
 		
 		// For second night:
 		//
-		// "seuraavana yönä [komparatiivi]" tai
-		// "[viikonpäivän vastaisena yönä] [komparatiivi]"
+		// "seuraavana yona [komparatiivi]" tai
+		// "[viikonpaivan vastaisena yona] [komparatiivi]"
 		//
 		// For third and so on
 		//
-		// "[viikonpäivän vastaisena yönä] [noin x|x...y] astetta"
+		// "[viikonpaivan vastaisena yona] [noin x|x...y] astetta"
 		
 		sentence << Delimiter(",");
 		

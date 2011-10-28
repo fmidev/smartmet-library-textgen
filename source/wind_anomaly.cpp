@@ -62,23 +62,23 @@ namespace TextGen
 	using Settings::optional_bool;
 	using Settings::optional_string;
 
-#define ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE "[iltapäivällä] [rannikolla] on [tuulista]"
-#define ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE "[iltapäivällä] on [tuulista]"
+#define ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE "[iltapaivalla] [rannikolla] on [tuulista]"
+#define ILTAPAIVALLA_ON_TUULISTA_COMPOSITE_PHRASE "[iltapaivalla] on [tuulista]"
 #define RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE "[rannikolla] on [tuulista]"
 
-#define ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[iltapäivällä] [rannikolla] pakkanen on purevaa"
-#define ILTAPAIVALLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[iltapäivällä] pakkanen on purevaa"
+#define ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[iltapaivalla] [rannikolla] pakkanen on purevaa"
+#define ILTAPAIVALLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[iltapaivalla] pakkanen on purevaa"
 #define RANNIKOLLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE "[rannikolla] pakkanen on purevaa"
-#define ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE "[iltapäivällä] [rannikolla] pakkanen on erittäin purevaa"
-#define ILTAPAIVALLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE "[iltapäivällä] pakkanen on erittäin purevaa"
-#define RANNIKOLLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE "[rannikolla] pakkanen on erittäin purevaa"
+#define ILTAPAIVALLA_RANNIKOLLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE "[iltapaivalla] [rannikolla] pakkanen on erittain purevaa"
+#define ILTAPAIVALLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE "[iltapaivalla] pakkanen on erittain purevaa"
+#define RANNIKOLLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE "[rannikolla] pakkanen on erittain purevaa"
 
-#define ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE "[iltapäivällä] [rannikolla] tuuli saa sään tuntumaan kylmemmältä"
-#define ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE "[iltapäivällä] tuuli saa sään tuntumaan kylmemmältä"
-#define RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE "[rannikolla] tuuli saa sään tuntumaan kylmemmältä"
-#define ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE "[iltapäivällä] [rannikolla] tuuli saa sään tuntumaan viileämmältä"
-#define ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE "[rannikolla] tuuli saa sään tuntumaan viileämmältä"
-#define RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE "[rannikolla] tuuli saa sään tuntumaan viileämmältä"
+#define ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE "[iltapaivalla] [rannikolla] tuuli saa saan tuntumaan kylmemmalta"
+#define ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE "[iltapaivalla] tuuli saa saan tuntumaan kylmemmalta"
+#define RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE "[rannikolla] tuuli saa saan tuntumaan kylmemmalta"
+#define ILTAPAIVALLA_RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE "[iltapaivalla] [rannikolla] tuuli saa saan tuntumaan viileammalta"
+#define ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE "[rannikolla] tuuli saa saan tuntumaan viileammalta"
+#define RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE "[rannikolla] tuuli saa saan tuntumaan viileammalta"
 
 #define WINDY_WEATER_LIMIT 7.0
 #define EXTREMELY_WINDY_WEATHER_LIMIT 10.0
@@ -93,23 +93,23 @@ namespace TextGen
 #define TUULI_VIILENTAA_SAATA_LOWER_LIMIT 10.0
 #define TUULI_VIILENTAA_SAATA_UPPER_LIMIT 15.0
 
-#define SAA_WORD "sää"
+#define SAA_WORD "saa"
 #define ON_WORD "on"
 #define HYVIN_WORD "hyvin"
-#define SAA_ON_TUULINEN_PHRASE "sää on tuulinen"
-#define SAA_ON_HYVIN_TUULINEN_PHRASE "sää on hyvin tuulinen"
+#define SAA_ON_TUULINEN_PHRASE "saa on tuulinen"
+#define SAA_ON_HYVIN_TUULINEN_PHRASE "saa on hyvin tuulinen"
 #define HYVIN_TUULINEN_PHRASE "hyvin tuulinen"
 #define HYVIN_TUULISTA_PHRASE "hyvin tuulista"
 #define TUULISTA_WORD "tuulista"
-#define AAMUPAIVALLA_WORD "aamupäivällä"
-#define ILTAPAIVALLA_WORD "iltapäivällä"
-#define SISAMAASSA_WORD "sisämaassa"
+#define AAMUPAIVALLA_WORD "aamupaivalla"
+#define ILTAPAIVALLA_WORD "iltapaivalla"
+#define SISAMAASSA_WORD "sisamaassa"
 #define RANNIKOLLA_WORD "rannikolla"
 #define PAKKANEN_ON_PUREVAA_PHRASE "pakkanen on purevaa"
-#define PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE "pakkanen on erittäin purevaa"
-#define TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE "tuuli saa sään tuntumaan viileämmältä"
-#define TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE "tuuli saa sään tuntumaan kylmemmältä"
-#define TANAAN_WORD "tänään"
+#define PAKKANEN_ON_ERITTAIN_PUREVAA_PHRASE "pakkanen on erittain purevaa"
+#define TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE "tuuli saa saan tuntumaan viileammalta"
+#define TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE "tuuli saa saan tuntumaan kylmemmalta"
+#define TANAAN_WORD "tanaan"
 #define HUOMENNA_WORD "huomenna"
 
 	struct wind_anomaly_params
@@ -839,10 +839,10 @@ namespace TextGen
 			  // rannikolla aamulla tuulista
 			  if(windspeedMorningCoastal >= extremely_windy_weather_limit)
 				{
-				  // rannikolla iltapäivällä hyvin tuulista
+				  // rannikolla iltapaivalla hyvin tuulista
 				  if(windspeedAfternoonCoastal >= extremely_windy_weather_limit)
 					{
-					  // sisämaassa aamulla tai iltapäivällä hyvin tuulista tai lähellä sitä
+					  // sisamaassa aamulla tai iltapaivalla hyvin tuulista tai lahella sita
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 || 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
@@ -866,9 +866,9 @@ namespace TextGen
 									 << HYVIN_TUULISTA_PHRASE;
 						}
 					}
-				  else if(windspeedAfternoonCoastal >= windy_weather_limit) // rannikolla on iltapäivällä tuulista
+				  else if(windspeedAfternoonCoastal >= windy_weather_limit) // rannikolla on iltapaivalla tuulista
 					{
-					  // sisämaassa aamulla tai iltapäivällä hyvin tuulista tai lähellä sitä
+					  // sisamaassa aamulla tai iltapaivalla hyvin tuulista tai lahella sita
 					  if(windspeedMorningInland >= extremely_windy_weather_limit - 1.0 && 
 						 windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
 						{
@@ -897,7 +897,7 @@ namespace TextGen
 								   << HYVIN_TUULISTA_PHRASE;
 						}
 					}
-				  else // rannikolla ei tuule paljoa iltapäivällä
+				  else // rannikolla ei tuule paljoa iltapaivalla
 					{
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 &&
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
@@ -925,11 +925,11 @@ namespace TextGen
 					}
 				}
 			  else if(windspeedMorningCoastal >= windy_weather_limit) 
-				{// rannikolla on aamupäivällä tuulista
-				  // rannikolla on iltapäivällä erittäin tuulista
+				{// rannikolla on aamupaivalla tuulista
+				  // rannikolla on iltapaivalla erittain tuulista
 				  if(windspeedAfternoonCoastal >= extremely_windy_weather_limit)
 					{
-					  // sisämaassa aamulla tai iltapäivällä hyvin tuulista tai lähellä sitä
+					  // sisamaassa aamulla tai iltapaivalla hyvin tuulista tai lahella sita
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 || 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
@@ -958,9 +958,9 @@ namespace TextGen
 								   << HYVIN_TUULISTA_PHRASE;
 						}
 					}
-				  else if(windspeedAfternoonCoastal >= windy_weather_limit) // rannikolla on iltapäivällä tuulista
+				  else if(windspeedAfternoonCoastal >= windy_weather_limit) // rannikolla on iltapaivalla tuulista
 					{
-					  // sisämaassa aamulla tai iltapäivällä hyvin tuulista tai lähellä sitä
+					  // sisamaassa aamulla tai iltapaivalla hyvin tuulista tai lahella sita
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 && 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
@@ -994,7 +994,7 @@ namespace TextGen
 									 << TUULISTA_WORD;
 						}
 					}
-				  else // rannikolla ei tuule paljoa iltapäivällä
+				  else // rannikolla ei tuule paljoa iltapaivalla
 					{
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 && 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
@@ -1032,11 +1032,11 @@ namespace TextGen
 					}
 				}
 			  else
-				{// rannikolla ei juuri tuule aamupäivällä
-				  // rannikolla on iltapäivällä erittäin tuulista
+				{// rannikolla ei juuri tuule aamupaivalla
+				  // rannikolla on iltapaivalla erittain tuulista
 				  if(windspeedAfternoonCoastal >= extremely_windy_weather_limit)
 					{
-					  // sisämaassa aamulla tai iltapäivällä hyvin tuulista tai lähellä sitä
+					  // sisamaassa aamulla tai iltapaivalla hyvin tuulista tai lahella sita
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 && 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
@@ -1071,9 +1071,9 @@ namespace TextGen
 								   << HYVIN_TUULISTA_PHRASE;
 						}
 					}
-				  else if(windspeedAfternoonCoastal >= windy_weather_limit) // rannikolla on iltapäivällä tuulista
+				  else if(windspeedAfternoonCoastal >= windy_weather_limit) // rannikolla on iltapaivalla tuulista
 					{
-					  // sisämaassa aamulla ja iltapäivällä hyvin tuulista tai lähellä sitä
+					  // sisamaassa aamulla ja iltapaivalla hyvin tuulista tai lahella sita
 					  if(windspeedMorningInland >=  extremely_windy_weather_limit - 1.0 && 
 						 windspeedAfternoonInland >=  extremely_windy_weather_limit - 1.0)
 						{
@@ -1108,7 +1108,7 @@ namespace TextGen
 								   << TUULISTA_WORD;
 						}
 					}
-				  else// rannikolla ei juuri tuule iltapäivällä
+				  else// rannikolla ei juuri tuule iltapaivalla
 					{
 					  sentence << construct_windiness_sentence_for_area(windspeedMorningInland,
 																		windspeedAfternoonInland,
@@ -1127,7 +1127,7 @@ namespace TextGen
 			  // rannikolla aamulla hyvin tuulista
 			  if(windspeedMorningCoastal >= extremely_windy_weather_limit)
 				{
-				  // sisämaassa on aamulla hyvin tuulista
+				  // sisamaassa on aamulla hyvin tuulista
 				  if(windspeedMorningInland >= extremely_windy_weather_limit - 1.0)
 					{
 					  if(specifiedDayEmpty)
@@ -1207,10 +1207,10 @@ namespace TextGen
 			}
 		  else if(afternoonIncluded)
 			{
-			  // rannikolla iltapäivällä hyvin tuulista
+			  // rannikolla iltapaivalla hyvin tuulista
 			  if(windspeedAfternoonCoastal >= extremely_windy_weather_limit)
 				{
-				  // sisämaassa on iltapäivällä hyvin tuulista
+				  // sisamaassa on iltapaivalla hyvin tuulista
 				  if(windspeedAfternoonInland >= extremely_windy_weather_limit - 1.0)
 					{
 					  if(specifiedDayEmpty)
@@ -1234,7 +1234,7 @@ namespace TextGen
 					}
 				}
 			  else if(windspeedAfternoonCoastal >= windy_weather_limit)
-				{// rannikolla iltapäivällä tuulista
+				{// rannikolla iltapaivalla tuulista
 				  if(windspeedAfternoonInland >= extremely_windy_weather_limit)
 					{
 					  if(specifiedDayEmpty)
@@ -1267,7 +1267,7 @@ namespace TextGen
 					}
 				}
 			  else
-				{ // rannikolla ei ole iltapäivällä erityisen tuulista
+				{ // rannikolla ei ole iltapaivalla erityisen tuulista
 				  if(windspeedAfternoonInland >= extremely_windy_weather_limit)
 					{
 					  if(specifiedDayEmpty)
@@ -1328,6 +1328,7 @@ namespace TextGen
 	  bool generate_wind_cooling_sentence = Settings::optional_bool(theParameters.theVariable + 
 																	"::generate_wind_cooling_sentence", 
 																	true);
+
 
 	  bool inlandIncluded = theParameters.theWindspeedInlandMorningMinimum.value() != kFloatMissing || 
 		theParameters.theWindspeedInlandAfternoonMinimum.value() != kFloatMissing;

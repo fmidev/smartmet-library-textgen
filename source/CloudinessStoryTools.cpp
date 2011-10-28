@@ -431,34 +431,34 @@ namespace TextGen
 	  switch(theType)
 		{
 		case MostlyCloudy:
-		  sentence << "enimmäkseen";
+		  sentence << "enimmakseen";
 		case Cloudy:
-		  sentence << "pilvistä";
+		  sentence << "pilvista";
 		  break;
 		case MostlyPartlyCloudy:
-		  sentence << "enimmäkseen";
+		  sentence << "enimmakseen";
 		case PartlyCloudy:
-		  sentence << "puolipilvistä";
+		  sentence << "puolipilvista";
 		  break;
 		case MostlyClear:
-		  sentence << "enimmäkseen";
+		  sentence << "enimmakseen";
 		case Clear:
-		  sentence << "selkeää";
+		  sentence << "selkeaa";
 		  break;
 		case CloudyOrPartlyCloudy:
-		  sentence << "pilvistä" << "tai" << "puolipilvistä";
+		  sentence << "pilvista" << "tai" << "puolipilvista";
 		  break;
 		case ClearOrPartlyCloudy:
-		  sentence << "selkeää" << "tai" << "puolipilvistä";
+		  sentence << "selkeaa" << "tai" << "puolipilvista";
 		  break;
 		case DecreasingCloudiness:
-		  sentence << "selkenevää";
+		  sentence << "selkenevaa";
 		  break;
 		case IncreasingCloudiness:
-		  sentence << "pilvistyvää";
+		  sentence << "pilvistyvaa";
 		  break;
 		case VariableCloudiness:
-		  sentence << "vaihtelevaa pilvisyyttä";
+		  sentence << "vaihtelevaa pilvisyytta";
 		  break;
 		}
 	  return sentence;

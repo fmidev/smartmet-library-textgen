@@ -54,24 +54,24 @@ namespace TextGen
 
 
   // pouta
-#define HUOMENNA_SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on poutainen"
-#define SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ on poutainen"
-#define HUOMENNA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE "[huomenna] s‰‰ on poutainen"
-#define HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on enimm‰kseen poutainen, [yksitt‰iset sadekuurot mahdollisia]"
+#define HUOMENNA_SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sisamaassa] saa on poutainen"
+#define SISAMAASSA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE "[sisamaassa] saa on poutainen"
+#define HUOMENNA_SAA_ON_POUTAINEN_COMPOSITE_PHRASE "[huomenna] saa on poutainen"
+#define HUOMENNA_SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sisamaassa] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]"
 
-  // enimm‰kseen pouta, yksitt‰iset kuurot mahdollisia
-#define SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ on enimm‰kseen poutainen, [yksitt‰iset sadekuurot mahdollisia]"
-#define HUOMENNA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE "[huomenna] s‰‰ on enimm‰kseen poutainen, [yksitt‰iset sadekuurot mahdollisia]"
+  // enimmakseen pouta, yksittaiset kuurot mahdollisia
+#define SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE "[sisamaassa] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]"
+#define HUOMENNA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE "[huomenna] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]"
 
   // sade
-#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta]"
-#define HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [heikkoa] [sadetta]"
-#define HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [sadetta]"
+#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [paikoin] [heikkoa] [sadetta]"
+#define HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [heikkoa] [sadetta]"
+#define HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [paikoin] [sadetta]"
 
-#define SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoa] [sadetta]"
-#define SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [sadetta]"
-#define SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[sis‰maassa] [heikkoa] [sadetta]"
-#define SISAMAASSA_SADETTA_COMPOSITE_PHRASE "[sis‰maassa] [sadetta]"
+#define SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[sisamaassa] [paikoin] [heikkoa] [sadetta]"
+#define SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE "[sisamaassa] [paikoin] [sadetta]"
+#define SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[sisamaassa] [heikkoa] [sadetta]"
+#define SISAMAASSA_SADETTA_COMPOSITE_PHRASE "[sisamaassa] [sadetta]"
 
 #define HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoa] [sadetta]"
 #define HUOMENNA_PAIKOIN_SADETTA_COMPOSITE_PHRASE "[huomenna] [paikoin] [sadetta]"
@@ -82,117 +82,117 @@ namespace TextGen
 #define PAIKOIN_SADETTA_COMPOSITE_PHRASE "[paikoin] [sadetta]"
 #define HEIKKOA_SADETTA_COMPOSITE_PHRASE "[heikkoa] [sadetta]"
 
-#define HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset vesikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset vesi- tai r‰nt‰kuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset vesi- tai lumikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset sadekuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset r‰nt‰kuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset r‰nt‰- tai vesikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset lumikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset lumi- tai r‰nt‰kuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset vesikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset vesi- tai rantakuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset vesi- tai lumikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset sadekuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset rantakuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset ranta- tai vesikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset lumikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset lumi- tai rantakuurot mahdollisia"
 
-#define SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset vesikuurot mahdollisia"
-#define SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset vesi- tai r‰nt‰kuurot mahdollisia"
-#define SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset vesi- tai lumikuurot mahdollisia"
-#define SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset sadekuurot mahdollisia"
-#define SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset r‰nt‰kuurot mahdollisia"
-#define SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset r‰nt‰- tai vesikuurot mahdollisia"
-#define SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset lumikuurot mahdollisia"
-#define SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sis‰maassa] yksitt‰iset lumi- tai r‰nt‰kuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sisamaassa] yksittaiset vesikuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sisamaassa] yksittaiset vesi- tai rantakuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sisamaassa] yksittaiset vesi- tai lumikuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sisamaassa] yksittaiset sadekuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sisamaassa] yksittaiset rantakuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sisamaassa] yksittaiset ranta- tai vesikuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sisamaassa] yksittaiset lumikuurot mahdollisia"
+#define SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[sisamaassa] yksittaiset lumi- tai rantakuurot mahdollisia"
 
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset vesikuurot mahdollisia"
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset vesi- tai r‰nt‰kuurot mahdollisia"
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset vesi- tai lumikuurot mahdollisia"
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset sadekuurot mahdollisia"
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset r‰nt‰kuurot mahdollisia"
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset r‰nt‰- tai vesikuurot mahdollisia"
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset lumikuurot mahdollisia"
-#define HUOMENNA_SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] yksitt‰iset lumi- tai r‰nt‰kuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] yksittaiset vesikuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] yksittaiset vesi- tai rantakuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] yksittaiset vesi- tai lumikuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] yksittaiset sadekuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] yksittaiset rantakuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] yksittaiset ranta- tai vesikuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] yksittaiset lumikuurot mahdollisia"
+#define HUOMENNA_SISAMAASSA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] yksittaiset lumi- tai rantakuurot mahdollisia"
 
-#define HUOMENNA_SISAMAASSA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [sadetta]"
+#define HUOMENNA_SISAMAASSA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [sadetta]"
 
-#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define HUOMENNA_SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-
-
-#define HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define HUOMENNA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define HUOMENNA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define HUOMENNA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sis‰maassa] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sis‰maassa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[paikoin] [heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[paikoin] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[heikkoa] [sadetta], joka voi olla j‰‰t‰v‰‰"
-#define SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sadetta], joka voi olla j‰‰t‰v‰‰"
+#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa"
+#define HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [paikoin] [sadetta], joka voi olla jaatavaa"
+#define HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [heikkoa] [sadetta], joka voi olla jaatavaa"
+#define HUOMENNA_SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [sadetta], joka voi olla jaatavaa"
 
 
-#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-#define HUOMENNA_SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-#define HUOMENNA_SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [paikoin] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-
-#define HUOMENNA_SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-
-#define HUOMENNA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-#define HUOMENNA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [paikoin] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-#define HUOMENNA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-#define HUOMENNA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-#define SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-#define SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [paikoin] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-#define SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-#define SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sis‰maassa] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-#define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-#define PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-#define HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[heikkoja] [sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
-#define SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sadekuuroja], jotka voivat olla j‰‰t‰vi‰"
+#define HUOMENNA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa"
+#define HUOMENNA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [paikoin] [sadetta], joka voi olla jaatavaa"
+#define HUOMENNA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [heikkoa] [sadetta], joka voi olla jaatavaa"
+#define HUOMENNA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[huomenna] [sadetta], joka voi olla jaatavaa"
+#define SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sisamaassa] [paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa"
+#define SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sisamaassa] [paikoin] [sadetta], joka voi olla jaatavaa"
+#define SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sisamaassa] [heikkoa] [sadetta], joka voi olla jaatavaa"
+#define SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sisamaassa] [sadetta], joka voi olla jaatavaa"
+#define PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[paikoin] [heikkoa] [sadetta], joka voi olla jaatavaa"
+#define PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[paikoin] [sadetta], joka voi olla jaatavaa"
+#define HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[heikkoa] [sadetta], joka voi olla jaatavaa"
+#define SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE "[sadetta], joka voi olla jaatavaa"
 
 
-  //#define SAA_POUTAANTUU_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu"
+#define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+#define HUOMENNA_SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+#define HUOMENNA_SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [paikoin] [sadekuuroja], jotka voivat olla jaatavia"
 
-#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu vesisateen j‰lkeen"
-#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu r‰nt‰sateen j‰lkeen"
-#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu lumisateen j‰lkeen"
-#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu tihkusateen j‰lkeen"
+#define HUOMENNA_SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [sadekuuroja], jotka voivat olla jaatavia"
 
-  //#define SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu ja on [selke‰]"
-
-#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu vesisateen j‰lkeen ja on selke‰"
-#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu r‰nt‰sateen j‰lkeen ja on selke‰"
-#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu lumisateen j‰lkeen ja on selke‰"
-#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu tihkusateen j‰lkeen ja on selke‰"
-
-
-#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu vesisateen j‰lkeen ja on melko selke‰"
-#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu r‰nt‰sateen j‰lkeen ja on melko selke‰"
-#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu lumisateen j‰lkeen ja on melko selke‰"
-#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu tihkusateen j‰lkeen ja on melko selke‰"
-
-#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu vesisateen j‰lkeen ja on puolipilvinen"
-#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu r‰nt‰sateen j‰lkeen ja on puolipilvinen"
-#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu lumisateen j‰lkeen ja on puolipilvinen"
-#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu tihkusateen j‰lkeen ja on puolipilvinen"
-
-#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu vesisateen j‰lkeen ja on verrattain pilvinen"
-#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu r‰nt‰sateen j‰lkeen ja on verrattain pilvinen"
-#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu lumisateen j‰lkeen ja on verrattain pilvinen"
-#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu tihkusateen j‰lkeen ja on verrattain pilvinen"
-
-#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu vesisateen j‰lkeen ja on pilvinen"
-#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu r‰nt‰sateen j‰lkeen ja on pilvinen"
-#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu lumisateen j‰lkeen ja on pilvinen"
-#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu tihkusateen j‰lkeen ja on pilvinen"
+#define HUOMENNA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+#define HUOMENNA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [paikoin] [sadekuuroja], jotka voivat olla jaatavia"
+#define HUOMENNA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+#define HUOMENNA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[huomenna] [sadekuuroja], jotka voivat olla jaatavia"
+#define SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sisamaassa] [paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+#define SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sisamaassa] [paikoin] [sadekuuroja], jotka voivat olla jaatavia"
+#define SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sisamaassa] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+#define SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sisamaassa] [sadekuuroja], jotka voivat olla jaatavia"
+#define PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+#define PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[paikoin] [sadekuuroja], jotka voivat olla jaatavia"
+#define HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[heikkoja] [sadekuuroja], jotka voivat olla jaatavia"
+#define SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE "[sadekuuroja], jotka voivat olla jaatavia"
 
 
-  //#define SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu ja vaihtelee puolipilvisest‰ pilviseen"
+  //#define SAA_POUTAANTUU_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu"
 
-#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu vesisateen j‰lkeen ja vaihtelee puolipilvisest‰ pilviseen"
-#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu r‰nt‰sateen j‰lkeen ja vaihtelee puolipilvisest‰ pilviseen"
-#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu lumisateen j‰lkeen ja vaihtelee puolipilvisest‰ pilviseen"
-#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltap‰iv‰ll‰] s‰‰ poutaantuu tihkusateen j‰lkeen ja vaihtelee puolipilvisest‰ pilviseen"
+#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu vesisateen jalkeen"
+#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu rantasateen jalkeen"
+#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu lumisateen jalkeen"
+#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu tihkusateen jalkeen"
+
+  //#define SAA_POUTAANTUU_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu ja on [selkea]"
+
+#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on selkea"
+#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on selkea"
+#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on selkea"
+#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_SELKEA_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on selkea"
+
+
+#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on melko selkea"
+#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on melko selkea"
+#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on melko selkea"
+#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_MELKO_SELKEA_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on melko selkea"
+
+#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on puolipilvinen"
+#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on puolipilvinen"
+#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on puolipilvinen"
+#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PUOLIPILVINEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on puolipilvinen"
+
+#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on verrattain pilvinen"
+#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on verrattain pilvinen"
+#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on verrattain pilvinen"
+#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_VERRATTAIN_PILVINEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on verrattain pilvinen"
+
+#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja on pilvinen"
+#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja on pilvinen"
+#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja on pilvinen"
+#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_ON_PILVINEN_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on pilvinen"
+
+
+  //#define SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu ja vaihtelee puolipilvisesta pilviseen"
+
+#define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
+#define SAA_POUTAANTUU_RANTASATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu rantasateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
+#define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
+#define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
 
   std::ostream& operator<<(std::ostream& theOutput,
 						   const PrecipitationDataItemData& thePrecipitationDataItemData)
@@ -1081,7 +1081,7 @@ namespace TextGen
 						{
 
   /*
-IF vesi on suunnilleen yht‰ paljon kuin lumi AND r‰nt‰ < vesi+lumi, THEN
+IF vesi on suunnilleen yhta paljon kuin lumi AND ranta < vesi+lumi, THEN
 vesi- tai lumisadetta.
   */
 
@@ -3187,14 +3187,14 @@ vesi- tai lumisadetta.
 			  }
 
 			/*
-#define HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset vesikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset vesi- tai r‰nt‰kuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset vesi- tai lumikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset sadekuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset r‰nt‰kuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset r‰nt‰- tai vesikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset lumikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksitt‰iset lumi- tai r‰nt‰kuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset vesikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset vesi- tai rantakuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset vesi- tai lumikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset sadekuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset rantakuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset ranta- tai vesikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset lumikuurot mahdollisia"
+#define HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset lumi- tai rantakuurot mahdollisia"
 
 			 */
 		  }
@@ -3645,7 +3645,7 @@ vesi- tai lumisadetta.
 													   INLAND_AREA,
 													   INLAND_PHRASE);
 
-			// ARE 22.02.2011: this is to prevent tautology e.g. sis‰maassa moinin paikoin r‰nt‰sadetta,
+			// ARE 22.02.2011: this is to prevent tautology e.g. sisamaassa moinin paikoin rantasadetta,
 			// rannikolla monin paikoin vesisadetta
 			InPlacesPhrase::Instance()->preventTautology(true);
 
@@ -3671,8 +3671,8 @@ vesi- tai lumisadetta.
 		// This block is here to find out, whether more than one precipitation form is included in the sentence
 		// when both coast and inland are included. That information we need to choose 
 		// the right phrase for example vesisadetta vs. sadetta:
-		// for example sis‰maassa sadetta, rannikolla sadekuuroja vs.
-		// sis‰maassa vesisadetta, rannikolla lumi- tai r‰nt‰kuuroja
+		// for example sisamaassa sadetta, rannikolla sadekuuroja vs.
+		// sisamaassa vesisadetta, rannikolla lumi- tai rantakuuroja
 		if(separateCoastInlandPrecipitation(thePeriod))
 		  {
 			calculatePrecipitationParameters(thePeriod,
@@ -4316,9 +4316,7 @@ vesi- tai lumisadetta.
 	else if(theForecastAreaId & COASTAL_AREA)
 	  theAreaId = COASTAL_AREA;
 
-	thunderSentence << theParameters.theThunderForecast->thunderSentence(thePeriod, 
-																		 theAreaId,
-																		 theVariable);
+	thunderSentence << theParameters.theThunderForecast->thunderSentence(thePeriod, theAreaId, theVariable);
 
 	return thunderSentence;
   }

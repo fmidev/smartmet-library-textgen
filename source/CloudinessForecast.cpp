@@ -46,27 +46,27 @@ namespace TextGen
   using namespace boost;
   using namespace std;
 
-#define HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ vaihtelee puolipilvisest‰ pilviseen"
-#define SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ vaihtelee puolipilvisest‰ pilviseen"
-#define HUOMENNA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[huomenna] s‰‰ vaihtelee puolipilvisest‰ pilviseen"
+#define HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen"
+#define SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen"
+#define HUOMENNA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE "[huomenna] saa vaihtelee puolipilvisesta pilviseen"
 
-#define HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ vaihtelee puolipilvisest‰ pilviseen ja on poutainen"
-#define SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ vaihtelee puolipilvisest‰ pilviseen ja on poutainen"
-#define HUOMENNA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] s‰‰ vaihtelee puolipilvisest‰ pilviseen ja on poutainen"
+#define HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
+#define SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE "[sisamaassa] saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
+#define HUOMENNA_PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
 
-#define HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on [selke‰]"
-#define SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ on [selke‰]"
-#define HUOMENNA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[huomenna] s‰‰ on [selke‰]"
+#define HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] saa on [selkea]"
+#define SISAMAASSA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[sisamaassa] saa on [selkea]"
+#define HUOMENNA_SAA_ON_SELKEA_COMPOSITE_PHRASE "[huomenna] saa on [selkea]"
 
-#define HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sis‰maassa] s‰‰ on [selke‰] ja poutainen"
-#define SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "[sis‰maassa] s‰‰ on [selke‰] ja poutainen"
-#define HUOMENNA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] s‰‰ on [selke‰] ja poutainen"
-#define SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "s‰‰ on [selke‰] ja poutainen"
+#define HUOMENNA_SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] [sisamaassa] saa on [selkea] ja poutainen"
+#define SISAMAASSA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "[sisamaassa] saa on [selkea] ja poutainen"
+#define HUOMENNA_SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "[huomenna] saa on [selkea] ja poutainen"
+#define SAA_ON_SELKEA_JA_POUTAINEN_COMPOSITE_PHRASE "saa on [selkea] ja poutainen"
 
-#define ILTAPAIVASTA_ALKAEN_PILVISTYVAA_COMPOSITE_PHRASE "[iltap‰iv‰st‰ alkaen] [pilvistyv‰‰]"
+#define ILTAPAIVASTA_ALKAEN_PILVISTYVAA_COMPOSITE_PHRASE "[iltapaivasta alkaen] [pilvistyvaa]"
 
 
-#define PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_PHRASE "s‰‰ vaihtelee puolipilvisest‰ pilviseen ja on poutainen"
+#define PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_PHRASE "saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
 
 
   std::ostream& operator<<(std::ostream & theOutput,
@@ -290,77 +290,6 @@ namespace TextGen
 	return sentence;
   }
 
-  cloudiness_id get_cloudiness_id(const float& theMin, 
-								  const float& theMean, 
-								  const float& theMax, 
-								  const float& theStandardDeviation)
-  {
-	cloudiness_id id(MISSING_CLOUDINESS_ID);
-
-	if(theMean == -1)
-	  return id;
-
-	if(theMin >= PUOLIPILVISTA_LOWER_LIMIT &&
-	   theMin <= PUOLIPILVISTA_UPPER_LIMIT && 
-	   theMax >= PILVISTA_LOWER_LIMIT)
-	  {
-		id = PUOLIPILVINEN_JA_PILVINEN;
-	  }
-	else if(theMean <= SELKEA_UPPER_LIMIT)
-	  {
-		id = SELKEA;
-	  }
-	else if(theMean <= MELKEIN_SELKEA_UPPER_LIMIT)
-	  {
-		id = MELKO_SELKEA;
-	  }
-	else if(theMean <= PUOLIPILVISTA_UPPER_LIMIT)
-	  {
-		id = PUOLIPILVINEN;
-	  }
-	else if(theMean <= VERRATTAIN_PILVISTA_UPPER_LIMIT)
-	  {
-		  id = VERRATTAIN_PILVINEN;
-	  }
-	else
-	  {
-		id = PILVINEN;
-	  }
-
-	return id;
-  }
-
-  cloudiness_id get_cloudiness_id(const float& theCloudiness) 
-  {
-	cloudiness_id id(MISSING_CLOUDINESS_ID);
-
-	if(theCloudiness < 0)
-	  return id;
-
-	if(theCloudiness <= SELKEA_UPPER_LIMIT)
-	  {
-		id = SELKEA;
-	  }
-	else if(theCloudiness  <= MELKEIN_SELKEA_UPPER_LIMIT)
-	  {
-		id = MELKO_SELKEA;
-	  }
-	else if(theCloudiness <= PUOLIPILVISTA_UPPER_LIMIT)
-	  {
-		id = PUOLIPILVINEN;
-	  }
-	else if(theCloudiness <= VERRATTAIN_PILVISTA_UPPER_LIMIT)
-	  {
-		id = VERRATTAIN_PILVINEN;
-	  }
-	else
-	  {
-		id = PILVINEN;
-	  }
-
-	return id;
-  }
-
   const char* cloudiness_string(const cloudiness_id& theCloudinessId)
   {
 	const char* retval = "";
@@ -498,13 +427,13 @@ namespace TextGen
 						theCloudinessData,
 						theInterestingDataPeriod1);
 
-	cloudiness_id cloudinessId1 = get_cloudiness_id(get_mean(theInterestingDataPeriod1));
+	cloudiness_id cloudinessId1 = getCloudinessId(get_mean(theInterestingDataPeriod1));
 	
 	get_sub_time_series(theWeatherPeriod2,
 						theCloudinessData,
 						theInterestingDataPeriod2);
 	
-	cloudiness_id cloudinessId2 = get_cloudiness_id(get_mean(theInterestingDataPeriod2));
+	cloudiness_id cloudinessId2 = getCloudinessId(get_mean(theInterestingDataPeriod2));
 
 	// difference must be at least two grades
 	return (abs(cloudinessId1 - cloudinessId2) >= 2);
@@ -613,18 +542,18 @@ namespace TextGen
 			  {
 				previousStartTime = theData->at(i)->thePeriod.localStartTime();
 				previousEndTime = theData->at(i)->thePeriod.localEndTime();
-				previousCloudinessId = get_cloudiness_id(theData->at(i)->theResult.value());
+				previousCloudinessId = getCloudinessId(theData->at(i)->theResult.value());
 			  }
 			else
 			  {
-				if(previousCloudinessId != get_cloudiness_id(theData->at(i)->theResult.value()))
+				if(previousCloudinessId != getCloudinessId(theData->at(i)->theResult.value()))
 				  {
 					pair<WeatherPeriod, cloudiness_id> item = 
 					  make_pair(WeatherPeriod(previousStartTime, previousEndTime), previousCloudinessId);
 					theCloudinessPeriods.push_back(item);
 					previousStartTime = theData->at(i)->thePeriod.localStartTime();
 					previousEndTime = theData->at(i)->thePeriod.localEndTime();
-					previousCloudinessId = get_cloudiness_id(theData->at(i)->theResult.value());
+					previousCloudinessId = getCloudinessId(theData->at(i)->theResult.value());
 
 				  }
 				else if(i == theData->size() - 1)
@@ -650,8 +579,8 @@ namespace TextGen
 	findOutCloudinessPeriods(theFullData, theCloudinessPeriodsFull);
   }
 
-  void joinPuolipilvisestaPilviseen(const weather_result_data_item_vector* theData,
-									vector<int>& theCloudinessPuolipilvisestaPilviseen)
+  void CloudinessForecast::joinPuolipilvisestaPilviseen(const weather_result_data_item_vector* theData,
+														vector<int>& theCloudinessPuolipilvisestaPilviseen) const
   {
 	if(!theData)
 	  return;
@@ -659,16 +588,16 @@ namespace TextGen
 	int index = -1;
 	for(unsigned int i = 0; i < theData->size(); i++)
 	  {
-		if(get_cloudiness_id(theData->at(i)->theResult.value()) >= PUOLIPILVINEN && 
-		   get_cloudiness_id(theData->at(i)->theResult.value()) <= PILVINEN &&
+		if(getCloudinessId(theData->at(i)->theResult.value()) >= PUOLIPILVINEN && 
+		   getCloudinessId(theData->at(i)->theResult.value()) <= PILVINEN &&
 		   i != theData->size() - 1)
 		  {
 			if(index == -1)
 			  index = i;
 		  }
-		else if(get_cloudiness_id(theData->at(i)->theResult.value()) == SELKEA || 
-				get_cloudiness_id(theData->at(i)->theResult.value()) == MELKO_SELKEA ||
-				get_cloudiness_id(theData->at(i)->theResult.value()) == PILVINEN ||
+		else if(getCloudinessId(theData->at(i)->theResult.value()) == SELKEA || 
+				getCloudinessId(theData->at(i)->theResult.value()) == MELKO_SELKEA ||
+				getCloudinessId(theData->at(i)->theResult.value()) == PILVINEN ||
 				i == theData->size() - 1)
 		  {
 			if(index != -1 && i-1-index > 1)
@@ -707,7 +636,7 @@ namespace TextGen
 
 		if(abs(clidPrevious - clidCurrent) >= 2 || lastPeriod)
 		  {
-			// check if "puolipilvisest‰ pilviseen"
+			// check if "puolipilvisesta pilviseen"
 			if(clidPrevious == PUOLIPILVINEN && clidCurrent == PILVINEN || 
 			   clidPrevious == PILVINEN && clidCurrent == PUOLIPILVINEN)
 			  {
@@ -729,7 +658,7 @@ namespace TextGen
 			stddev = get_standard_deviation(thePeriodCloudiness);
 
 			
-			cloudiness_id actual_clid = get_cloudiness_id(min, mean, max, stddev);
+			cloudiness_id actual_clid = getCloudinessId(min, mean, max, stddev);
 
 			  
 			pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), actual_clid);
@@ -1077,7 +1006,7 @@ namespace TextGen
 	get_min_max(thePeriodCloudiness, min, max);
 	mean = get_mean(thePeriodCloudiness);
 	stddev = get_standard_deviation(thePeriodCloudiness);
-	cloudiness_id clid = get_cloudiness_id(min, mean, max, stddev);
+	cloudiness_id clid = getCloudinessId(min, mean, max, stddev);
 
 	return clid;
   }
@@ -1101,7 +1030,7 @@ namespace TextGen
   {
 	Sentence sentence;
 
-	// TODO: tsekkaa, ett‰ aluuen toisella puolella on selke‰‰
+	// TODO: tsekkaa, etta aluuen toisella puolella on selkeaa
 	/*
 	WeatherResult northEastShare(kFloatMissing, 0);
 	WeatherResult southEastShare(kFloatMissing, 0);
@@ -1138,5 +1067,78 @@ namespace TextGen
 	*/
 	return sentence;
   }
+
+  cloudiness_id CloudinessForecast::getCloudinessId(const float& theMin, 
+													const float& theMean, 
+													const float& theMax, 
+													const float& theStandardDeviation) const
+  {
+	cloudiness_id id(MISSING_CLOUDINESS_ID);
+
+	if(theMean == -1)
+	  return id;
+
+	if(theMin > theParameters.theAlmostClearSkyUpperLimit &&
+	   theMin <= theParameters.thePartlyCloudySkyUpperLimit && 
+	   theMax > theParameters.theMostlyCloudySkyUpperLimit)
+	  {
+		id = PUOLIPILVINEN_JA_PILVINEN;
+	  }
+	else if(theMean <= theParameters.theClearSkyUpperLimit)
+	  {
+		id = SELKEA;
+	  }
+	else if(theMean <= theParameters.theAlmostClearSkyUpperLimit)
+	  {
+		id = MELKO_SELKEA;
+	  }
+	else if(theMean <= theParameters.thePartlyCloudySkyUpperLimit)
+	  {
+		id = PUOLIPILVINEN;
+	  }
+	else if(theMean <= theParameters.theMostlyCloudySkyUpperLimit)
+	  {
+		  id = VERRATTAIN_PILVINEN;
+	  }
+	else
+	  {
+		id = PILVINEN;
+	  }
+
+	return id;
+  }
+
+  cloudiness_id CloudinessForecast::getCloudinessId(const float& theCloudiness) const
+  {
+	cloudiness_id id(MISSING_CLOUDINESS_ID);
+
+	if(theCloudiness < 0)
+	  return id;
+
+	if(theCloudiness <= theParameters.theClearSkyUpperLimit)
+	  {
+		id = SELKEA;
+	  }
+	else if(theCloudiness  <= theParameters.theAlmostClearSkyUpperLimit)
+	  {
+		id = MELKO_SELKEA;
+	  }
+	else if(theCloudiness <= theParameters.thePartlyCloudySkyUpperLimit)
+	  {
+		id = PUOLIPILVINEN;
+	  }
+	else if(theCloudiness <= theParameters.theMostlyCloudySkyUpperLimit)
+	  {
+		id = VERRATTAIN_PILVINEN;
+	  }
+	else
+	  {
+		id = PILVINEN;
+	  }
+
+	return id;
+  }
+
+
 
 }

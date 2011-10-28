@@ -156,7 +156,7 @@ namespace
 	if(opt == "SI")
 	  *sentence << "m/s";
 	else if(opt == "phrase")
-	  *sentence << "metriä sekunnissa";
+	  *sentence << "metria sekunnissa";
 	else if(opt == "none")
 	  ;
 	else
@@ -188,11 +188,11 @@ namespace
 	else if(opt == "phrase")
 	  {
       if(value == 0)
-         *sentence << "0 metriä sekunnissa";
+         *sentence << "0 metria sekunnissa";
        else if(value == 1)
          *sentence << "1 metri sekunnissa";
        else
-         *sentence << Integer(value) << "metriä sekunnissa";
+         *sentence << Integer(value) << "metria sekunnissa";
 	  }
 	else if(opt == "textphrase")
 	  {
@@ -214,11 +214,11 @@ namespace
 		  }
 		else if(value >= 21 && value <= 32)
 		  {
-			*sentence << "myrskyä";
+			*sentence << "myrskya";
 		  }
 		else if(value > 32)
 		  {
-			*sentence << "hirmumyrskyä";
+			*sentence << "hirmumyrskya";
 		  }
 	  }
 	else if(opt == "none")
@@ -250,7 +250,7 @@ namespace
 	if(opt == "SI")
 	  *sentence << Delimiter("mm");
 	else if(opt == "phrase")
-	  *sentence << "millimetriä";
+	  *sentence << "millimetria";
 	else if(opt == "none")
 	  ;
 	else
@@ -282,11 +282,11 @@ namespace
 	else if(opt == "phrase")
 	  {
 		if(value == 0)
-		  *sentence << "0 millimetriä";
+		  *sentence << "0 millimetria";
 		else if(value == 1)
 		  *sentence << "1 millimetri";
 		else
-		  *sentence << Integer(value) << "millimetriä";
+		  *sentence << Integer(value) << "millimetria";
 	  }
 	else if(opt == "none")
 	  ;

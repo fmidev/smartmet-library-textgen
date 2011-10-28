@@ -90,7 +90,7 @@ namespace TextGen
 
 	if(pop1 >= limit)
 	  {
-		sentence << "sateen todennäköisyys"
+		sentence << "sateen todennakoisyys"
 				 << "on"
 				 << PeriodPhraseFactory::create("today",
 												itsVar,
@@ -123,7 +123,7 @@ namespace TextGen
 		  {
 			if(sentence.empty())
 			  {
-				sentence << "sateen todennäköisyys"
+				sentence << "sateen todennakoisyys"
 						 << "on"
 						 << PeriodPhraseFactory::create("today",
 														itsVar,

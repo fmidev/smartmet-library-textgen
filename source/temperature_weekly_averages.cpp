@@ -140,13 +140,13 @@ namespace TextGen
 	const int nightmean = static_cast<int>(round(nightmeanresult.value()));
 
 	Sentence sentence;
-	sentence << "päivälämpötila"
+	sentence << "paivalampotila"
 			 << "on"
 			 << temperature_sentence(daymin,daymean,daymax,
 									 daymininterval,day_interval_zero,
 									 rangeseparator)
 			 << Delimiter(",")
-			 << "yölämpötila"
+			 << "yolampotila"
 			 << temperature_sentence(nightmin,nightmean,nightmax,
 									 nightmininterval,night_interval_zero,
 									 rangeseparator);

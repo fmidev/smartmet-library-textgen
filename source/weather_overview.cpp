@@ -62,42 +62,42 @@ namespace
   rain_dispatch_data one_day_cases[37] =
 	{
 	  { 0, "", ""},
-	  { 2, "aamulla", "aamupäivästä alkaen" },
-	  { 2, "aamulla", "keskipäivästä alkaen" },
-	  { 3, "aamupäivällä", "iltapäivästä alkaen" },
-	  { 3, "aamupäivästä alkaen", "illalla" },
-	  { 1, "aamupäivästä alkaen", "" },
+	  { 2, "aamulla", "aamupaivasta alkaen" },
+	  { 2, "aamulla", "keskipaivasta alkaen" },
+	  { 3, "aamupaivalla", "iltapaivasta alkaen" },
+	  { 3, "aamupaivasta alkaen", "illalla" },
+	  { 1, "aamupaivasta alkaen", "" },
 	  { 3, "aamusta alkaen", "illalla" },
 	  { 3, "aamusta alkaen", "illasta alkaen" },
-	  { 2, "aamusta alkaen", "iltapäivästä alkaen" },
-	  { 3, "aamusta alkaen", "iltapäivästä alkaen" },
+	  { 2, "aamusta alkaen", "iltapaivasta alkaen" },
+	  { 3, "aamusta alkaen", "iltapaivasta alkaen" },
 	  { 1, "aamusta alkaen", "" },
-	  { 2, "aamuyöllä", "päivällä" },
+	  { 2, "aamuyolla", "paivalla" },
 	  { 4, "aamulla", "" },
-	  { 4, "aamupäivällä", "" },
+	  { 4, "aamupaivalla", "" },
 	  { 4, "illalla", "" },
 	  { 4, "illasta alkaen", "" },
-	  { 4, "iltapäivällä", "" },
-	  { 4, "iltapäivästä alkaen", "" },
-	  { 4, "iltayöllä", "" },
-	  { 4, "keskipäivällä", "" },
-	  { 4, "päivällä", "" },
-	  { 1, "iltapäivällä", "" },
-	  { 1, "iltapäivästä alkaen", "" },
-	  { 3, "keskipäivästä alkaen", "illalla" },
-	  { 1, "keskipäivästä alkaen", "" },
-	  { 2, "keskiyöllä", "päivällä" },
-	  { 2, "", "aamupäivästä alkaen" },
+	  { 4, "iltapaivalla", "" },
+	  { 4, "iltapaivasta alkaen", "" },
+	  { 4, "iltayolla", "" },
+	  { 4, "keskipaivalla", "" },
+	  { 4, "paivalla", "" },
+	  { 1, "iltapaivalla", "" },
+	  { 1, "iltapaivasta alkaen", "" },
+	  { 3, "keskipaivasta alkaen", "illalla" },
+	  { 1, "keskipaivasta alkaen", "" },
+	  { 2, "keskiyolla", "paivalla" },
+	  { 2, "", "aamupaivasta alkaen" },
 	  { 3, "", "illalla" },
-	  { 3, "", "iltapäivästä alkaen" },
-	  { 2, "", "keskipäivästä alkaen" },
+	  { 3, "", "iltapaivasta alkaen" },
+	  { 2, "", "keskipaivasta alkaen" },
 	  { 1, "", "" },
-	  { 3, "päivällä", "iltapäivästä alkaen" },
-	  { 1, "päivällä", "" },
-	  { 2, "yöllä", "aamupäivästä alkaen" },
-	  { 2, "yöllä", "aamusta alkaen" },
-	  { 2, "yöllä", "keskipäivästä alkaen" },
-	  { 2, "yöllä", "päivällä" }
+	  { 3, "paivalla", "iltapaivasta alkaen" },
+	  { 1, "paivalla", "" },
+	  { 2, "yolla", "aamupaivasta alkaen" },
+	  { 2, "yolla", "aamusta alkaen" },
+	  { 2, "yolla", "keskipaivasta alkaen" },
+	  { 2, "yolla", "paivalla" }
 	};
 
   // ----------------------------------------------------------------------
@@ -111,243 +111,243 @@ namespace
   int one_day_forecasts[301] =
 	{
 	  0,	// empty place holder
-	  25,	// 1. Keskiyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  25,	// 2. Keskiyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  25,	// 3. Keskiyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  11,	// 4. Aamuyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  11,	// 5. Aamuyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  11,	// 6. Aamuyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  12,	// 7. [Enimmäkseen selkeää], aamulla [sadetta]
-	  12,	// 8. [Enimmäkseen selkeää], aamulla [sadetta]
-	  12,	// 9. [Enimmäkseen selkeää], aamulla [sadetta]
-	  13,	// 10. [Enimmäkseen selkeää], aamupäivällä [sadetta]
-	  13,	// 11. [Enimmäkseen selkeää], aamupäivällä [sadetta]
-	  19,	// 12. [Enimmäkseen selkeää], keskipäivällä [sadetta]
-	  19,	// 13. [Enimmäkseen selkeää], keskipäivällä [sadetta]
-	  16,	// 14. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 15. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 16. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 17. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 18. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  14,	// 19. [Enimmäkseen selkeää], illalla [sadetta]
-	  14,	// 20. [Enimmäkseen selkeää], illalla [sadetta]
-	  14,	// 21. [Enimmäkseen selkeää], illalla [sadetta]
-	  14,	// 22. [Enimmäkseen selkeää], illalla [sadetta]
-	  18,	// 23. [Enimmäkseen selkeää], iltayöllä [sadetta]
-	  18,	// 24. [Enimmäkseen selkeää], iltayöllä [sadetta]
-	  25,	// 25. Keskiyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  25,	// 26. Keskiyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  11,	// 27. Aamuyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  11,	// 28. Aamuyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  11,	// 29. Aamuyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  12,	// 30. [Enimmäkseen selkeää], aamulla [sadetta]
-	  12,	// 31. [Enimmäkseen selkeää], aamulla [sadetta]
-	  12,	// 32. [Enimmäkseen selkeää], aamulla [sadetta]
-	  12,	// 33. [Enimmäkseen selkeää], aamulla [sadetta]
-	  13,	// 34. [Enimmäkseen selkeää], aamupäivällä [sadetta]
-	  13,	// 35. [Enimmäkseen selkeää], aamupäivällä [sadetta]
-	  19,	// 36. [Enimmäkseen selkeää], keskipäivällä [sadetta]
-	  16,	// 37. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 38. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 39. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 40. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 41. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  14,	// 42. [Enimmäkseen selkeää], illalla [sadetta]
-	  14,	// 43. [Enimmäkseen selkeää], illalla [sadetta]
-	  14,	// 44. [Enimmäkseen selkeää], illalla [sadetta]
-	  14,	// 45. [Enimmäkseen selkeää], illalla [sadetta]
-	  18,	// 46. [Enimmäkseen selkeää], iltayöllä [sadetta]
-	  18,	// 47. [Enimmäkseen selkeää], iltayöllä [sadetta]
-	  25,	// 48. Keskiyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  11,	// 49. Aamuyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  11,	// 50. Aamuyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  11,	// 51. Aamuyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  12,	// 52. [Enimmäkseen selkeää], aamulla [sadetta]
-	  12,	// 53. [Enimmäkseen selkeää], aamulla [sadetta]
-	  12,	// 54. [Enimmäkseen selkeää], aamulla [sadetta]
-	  12,	// 55. [Enimmäkseen selkeää], aamulla [sadetta]
-	  13,	// 56. [Enimmäkseen selkeää], aamupäivällä [sadetta]
-	  13,	// 57. [Enimmäkseen selkeää], aamupäivällä [sadetta]
-	  13,	// 58. [Enimmäkseen selkeää], aamupäivällä [sadetta]
-	  19,	// 59. [Enimmäkseen selkeää], keskipäivällä [sadetta]
-	  16,	// 60. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 61. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 62. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 63. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 64. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  14,	// 65. [Enimmäkseen selkeää], illalla [sadetta]
-	  14,	// 66. [Enimmäkseen selkeää], illalla [sadetta]
-	  14,	// 67. [Enimmäkseen selkeää], illalla [sadetta]
-	  14,	// 68. [Enimmäkseen selkeää], illalla [sadetta]
-	  18,	// 69. [Enimmäkseen selkeää], iltayöllä [sadetta]
-	  25,	// 70. Keskiyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  11,	// 71. Aamuyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  11,	// 72. Aamuyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  11,	// 73. Aamuyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  12,	// 74. [Enimmäkseen selkeää], aamulla [sadetta]
-	  12,	// 75. [Enimmäkseen selkeää], aamulla [sadetta]
-	  12,	// 76. [Enimmäkseen selkeää], aamulla [sadetta]
-	  12,	// 77. [Enimmäkseen selkeää], aamulla [sadetta]
-	  13,	// 78. [Enimmäkseen selkeää], aamupäivällä [sadetta]
-	  13,	// 79. [Enimmäkseen selkeää], aamupäivällä [sadetta]
-	  20,	// 80. [Enimmäkseen selkeää], päivällä [sadetta]
-	  20,	// 81. [Enimmäkseen selkeää], päivällä [sadetta]
-	  16,	// 82. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 83. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 84. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 85. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  14,	// 86. [Enimmäkseen selkeää], illalla [sadetta]
-	  14,	// 87. [Enimmäkseen selkeää], illalla [sadetta]
-	  14,	// 88. [Enimmäkseen selkeää], illalla [sadetta]
-	  14,	// 89. [Enimmäkseen selkeää], illalla [sadetta]
-	  15,	// 90. [Enimmäkseen selkeää], illasta alkaen [sadetta]
-	  36,	// 91. Yöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  36,	// 92. Yöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  11,	// 93. Aamuyöllä [sadetta], päivällä [enimmäkseen selkeää] ja poutaa
-	  12,	// 94. [Enimmäkseen selkeää], aamulla [sadetta]
-	  12,	// 95. [Enimmäkseen selkeää], aamulla [sadetta]
-	  12,	// 96. [Enimmäkseen selkeää], aamulla [sadetta]
-	  12,	// 97. [Enimmäkseen selkeää], aamulla [sadetta]
-	  13,	// 98. [Enimmäkseen selkeää], aamupäivällä [sadetta]
-	  13,	// 99. [Enimmäkseen selkeää], aamupäivällä [sadetta]
-	  20,	// 100. [Enimmäkseen selkeää], päivällä [sadetta]
-	  20,	// 101. [Enimmäkseen selkeää], päivällä [sadetta]
-	  20,	// 102. [Enimmäkseen selkeää], päivällä [sadetta]
-	  16,	// 103. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 104. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  16,	// 105. [Enimmäkseen selkeää], iltapäivällä [sadetta]
-	  17,	// 106. [Enimmäkseen selkeää], iltapäivästä alkaen [sadetta]
-	  17,	// 107. [Enimmäkseen selkeää], iltapäivästä alkaen [sadetta]
-	  14,	// 108. [Enimmäkseen selkeää], illalla [sadetta]
-	  15,	// 109. [Enimmäkseen selkeää], illasta alkaen [sadetta]
-	  15,	// 110. [Enimmäkseen selkeää], illasta alkaen [sadetta]
-	  34,	// 111. Yöllä [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa
-	  34,	// 112. Yöllä [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa
-	  34,	// 113. Yöllä [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa
-	  1,	// 114. Aamulla [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  1,	// 115. Aamulla [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  2,	// 116. Aamulla [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  2,	// 117. Aamulla [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  3,	// 118. Aamupäivällä [sadetta], iltapäivästä alkaen poutaa
-	  31,	// 119. Päivällä [sadetta], iltapäivästä alkaen poutaa
-	  31,	// 120. Päivällä [sadetta], iltapäivästä alkaen poutaa
-	  32,	// 121. Päivällä [sadetta]
-	  32,	// 122. Päivällä [sadetta]
-	  21,	// 123. Iltapäivällä [sadetta]
-	  21,	// 124. Iltapäivällä [sadetta]
-	  22,	// 125. Iltapäivästä alkaen [sadetta]
-	  22,	// 126. Iltapäivästä alkaen [sadetta]
-	  22,	// 127. Iltapäivästä alkaen [sadetta]
-	  15,	// 128. [Enimmäkseen selkeää], illasta alkaen [sadetta]
-	  15,	// 129. [Enimmäkseen selkeää], illasta alkaen [sadetta]
-	  34,	// 130. Yöllä [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa
-	  34,	// 131. Yöllä [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa
-	  34,	// 132. Yöllä [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa
-	  26,	// 133. [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  2,	// 134. Aamulla [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  2,	// 135. Aamulla [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  8,	// 136. Aamusta alkaen [sadetta], iltapäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  8,	// 137. Aamusta alkaen [sadetta], iltapäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  32,	// 138. Päivällä [sadetta]
-	  32,	// 139. Päivällä [sadetta]
-	  32,	// 140. Päivällä [sadetta]
-	  23,	// 141. Keskipäivästä alkaen [sadetta], illalla poutaa
-	  23,	// 142. Keskipäivästä alkaen [sadetta], illalla poutaa
-	  22,	// 143. Iltapäivästä alkaen [sadetta]
-	  22,	// 144. Iltapäivästä alkaen [sadetta]
-	  22,	// 145. Iltapäivästä alkaen [sadetta]
-	  14,	// 146. [Enimmäkseen selkeää], illalla [sadetta]
-	  14,	// 147. [Enimmäkseen selkeää], illalla [sadetta]
-	  34,	// 148. Yöllä [sadetta], aamusta alkaen [enimmäkseen selkeää] ja poutaa
-	  33,	// 149. Yöllä [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  33,	// 150. Yöllä [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  35,	// 151. Yöllä [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  29,	// 152. [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  9,	// 153. Aamusta alkaen [sadetta], iltapäivästä alkaen poutaa
-	  9,	// 154. Aamusta alkaen [sadetta], iltapäivästä alkaen poutaa
-	  9,	// 155. Aamusta alkaen [sadetta], iltapäivästä alkaen poutaa
-	  9,	// 156. Aamusta alkaen [sadetta], iltapäivästä alkaen poutaa
-	  4,	// 157. Aamupäivästä alkaen [sadetta], illalla poutaa
-	  4,	// 158. Aamupäivästä alkaen [sadetta], illalla poutaa
-	  23,	// 159. Keskipäivästä alkaen [sadetta], illalla poutaa
-	  24,	// 160. Keskipäivästä alkaen [sadetta]
-	  22,	// 161. Iltapäivästä alkaen [sadetta]
-	  22,	// 162. Iltapäivästä alkaen [sadetta]
-	  22,	// 163. Iltapäivästä alkaen [sadetta]
-	  22,	// 164. Iltapäivästä alkaen [sadetta]
-	  26,	// 165. [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  26,	// 166. [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  29,	// 167. [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  29,	// 168. [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  28,	// 169. [sadetta], iltapäivästä alkaen poutaa
-	  9,	// 170. Aamusta alkaen [sadetta], iltapäivästä alkaen poutaa
-	  9,	// 171. Aamusta alkaen [sadetta], iltapäivästä alkaen poutaa
-	  9,	// 172. Aamusta alkaen [sadetta], iltapäivästä alkaen poutaa
+	  25,	// 1. Keskiyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  25,	// 2. Keskiyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  25,	// 3. Keskiyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  11,	// 4. Aamuyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  11,	// 5. Aamuyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  11,	// 6. Aamuyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  12,	// 7. [Enimmakseen selkeaa], aamulla [sadetta]
+	  12,	// 8. [Enimmakseen selkeaa], aamulla [sadetta]
+	  12,	// 9. [Enimmakseen selkeaa], aamulla [sadetta]
+	  13,	// 10. [Enimmakseen selkeaa], aamupaivalla [sadetta]
+	  13,	// 11. [Enimmakseen selkeaa], aamupaivalla [sadetta]
+	  19,	// 12. [Enimmakseen selkeaa], keskipaivalla [sadetta]
+	  19,	// 13. [Enimmakseen selkeaa], keskipaivalla [sadetta]
+	  16,	// 14. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 15. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 16. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 17. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 18. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  14,	// 19. [Enimmakseen selkeaa], illalla [sadetta]
+	  14,	// 20. [Enimmakseen selkeaa], illalla [sadetta]
+	  14,	// 21. [Enimmakseen selkeaa], illalla [sadetta]
+	  14,	// 22. [Enimmakseen selkeaa], illalla [sadetta]
+	  18,	// 23. [Enimmakseen selkeaa], iltayolla [sadetta]
+	  18,	// 24. [Enimmakseen selkeaa], iltayolla [sadetta]
+	  25,	// 25. Keskiyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  25,	// 26. Keskiyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  11,	// 27. Aamuyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  11,	// 28. Aamuyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  11,	// 29. Aamuyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  12,	// 30. [Enimmakseen selkeaa], aamulla [sadetta]
+	  12,	// 31. [Enimmakseen selkeaa], aamulla [sadetta]
+	  12,	// 32. [Enimmakseen selkeaa], aamulla [sadetta]
+	  12,	// 33. [Enimmakseen selkeaa], aamulla [sadetta]
+	  13,	// 34. [Enimmakseen selkeaa], aamupaivalla [sadetta]
+	  13,	// 35. [Enimmakseen selkeaa], aamupaivalla [sadetta]
+	  19,	// 36. [Enimmakseen selkeaa], keskipaivalla [sadetta]
+	  16,	// 37. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 38. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 39. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 40. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 41. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  14,	// 42. [Enimmakseen selkeaa], illalla [sadetta]
+	  14,	// 43. [Enimmakseen selkeaa], illalla [sadetta]
+	  14,	// 44. [Enimmakseen selkeaa], illalla [sadetta]
+	  14,	// 45. [Enimmakseen selkeaa], illalla [sadetta]
+	  18,	// 46. [Enimmakseen selkeaa], iltayolla [sadetta]
+	  18,	// 47. [Enimmakseen selkeaa], iltayolla [sadetta]
+	  25,	// 48. Keskiyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  11,	// 49. Aamuyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  11,	// 50. Aamuyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  11,	// 51. Aamuyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  12,	// 52. [Enimmakseen selkeaa], aamulla [sadetta]
+	  12,	// 53. [Enimmakseen selkeaa], aamulla [sadetta]
+	  12,	// 54. [Enimmakseen selkeaa], aamulla [sadetta]
+	  12,	// 55. [Enimmakseen selkeaa], aamulla [sadetta]
+	  13,	// 56. [Enimmakseen selkeaa], aamupaivalla [sadetta]
+	  13,	// 57. [Enimmakseen selkeaa], aamupaivalla [sadetta]
+	  13,	// 58. [Enimmakseen selkeaa], aamupaivalla [sadetta]
+	  19,	// 59. [Enimmakseen selkeaa], keskipaivalla [sadetta]
+	  16,	// 60. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 61. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 62. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 63. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 64. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  14,	// 65. [Enimmakseen selkeaa], illalla [sadetta]
+	  14,	// 66. [Enimmakseen selkeaa], illalla [sadetta]
+	  14,	// 67. [Enimmakseen selkeaa], illalla [sadetta]
+	  14,	// 68. [Enimmakseen selkeaa], illalla [sadetta]
+	  18,	// 69. [Enimmakseen selkeaa], iltayolla [sadetta]
+	  25,	// 70. Keskiyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  11,	// 71. Aamuyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  11,	// 72. Aamuyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  11,	// 73. Aamuyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  12,	// 74. [Enimmakseen selkeaa], aamulla [sadetta]
+	  12,	// 75. [Enimmakseen selkeaa], aamulla [sadetta]
+	  12,	// 76. [Enimmakseen selkeaa], aamulla [sadetta]
+	  12,	// 77. [Enimmakseen selkeaa], aamulla [sadetta]
+	  13,	// 78. [Enimmakseen selkeaa], aamupaivalla [sadetta]
+	  13,	// 79. [Enimmakseen selkeaa], aamupaivalla [sadetta]
+	  20,	// 80. [Enimmakseen selkeaa], paivalla [sadetta]
+	  20,	// 81. [Enimmakseen selkeaa], paivalla [sadetta]
+	  16,	// 82. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 83. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 84. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 85. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  14,	// 86. [Enimmakseen selkeaa], illalla [sadetta]
+	  14,	// 87. [Enimmakseen selkeaa], illalla [sadetta]
+	  14,	// 88. [Enimmakseen selkeaa], illalla [sadetta]
+	  14,	// 89. [Enimmakseen selkeaa], illalla [sadetta]
+	  15,	// 90. [Enimmakseen selkeaa], illasta alkaen [sadetta]
+	  36,	// 91. Yolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  36,	// 92. Yolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  11,	// 93. Aamuyolla [sadetta], paivalla [enimmakseen selkeaa] ja poutaa
+	  12,	// 94. [Enimmakseen selkeaa], aamulla [sadetta]
+	  12,	// 95. [Enimmakseen selkeaa], aamulla [sadetta]
+	  12,	// 96. [Enimmakseen selkeaa], aamulla [sadetta]
+	  12,	// 97. [Enimmakseen selkeaa], aamulla [sadetta]
+	  13,	// 98. [Enimmakseen selkeaa], aamupaivalla [sadetta]
+	  13,	// 99. [Enimmakseen selkeaa], aamupaivalla [sadetta]
+	  20,	// 100. [Enimmakseen selkeaa], paivalla [sadetta]
+	  20,	// 101. [Enimmakseen selkeaa], paivalla [sadetta]
+	  20,	// 102. [Enimmakseen selkeaa], paivalla [sadetta]
+	  16,	// 103. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 104. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  16,	// 105. [Enimmakseen selkeaa], iltapaivalla [sadetta]
+	  17,	// 106. [Enimmakseen selkeaa], iltapaivasta alkaen [sadetta]
+	  17,	// 107. [Enimmakseen selkeaa], iltapaivasta alkaen [sadetta]
+	  14,	// 108. [Enimmakseen selkeaa], illalla [sadetta]
+	  15,	// 109. [Enimmakseen selkeaa], illasta alkaen [sadetta]
+	  15,	// 110. [Enimmakseen selkeaa], illasta alkaen [sadetta]
+	  34,	// 111. Yolla [sadetta], aamusta alkaen [enimmakseen selkeaa] ja poutaa
+	  34,	// 112. Yolla [sadetta], aamusta alkaen [enimmakseen selkeaa] ja poutaa
+	  34,	// 113. Yolla [sadetta], aamusta alkaen [enimmakseen selkeaa] ja poutaa
+	  1,	// 114. Aamulla [sadetta], aamupaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  1,	// 115. Aamulla [sadetta], aamupaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  2,	// 116. Aamulla [sadetta], keskipaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  2,	// 117. Aamulla [sadetta], keskipaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  3,	// 118. Aamupaivalla [sadetta], iltapaivasta alkaen poutaa
+	  31,	// 119. Paivalla [sadetta], iltapaivasta alkaen poutaa
+	  31,	// 120. Paivalla [sadetta], iltapaivasta alkaen poutaa
+	  32,	// 121. Paivalla [sadetta]
+	  32,	// 122. Paivalla [sadetta]
+	  21,	// 123. Iltapaivalla [sadetta]
+	  21,	// 124. Iltapaivalla [sadetta]
+	  22,	// 125. Iltapaivasta alkaen [sadetta]
+	  22,	// 126. Iltapaivasta alkaen [sadetta]
+	  22,	// 127. Iltapaivasta alkaen [sadetta]
+	  15,	// 128. [Enimmakseen selkeaa], illasta alkaen [sadetta]
+	  15,	// 129. [Enimmakseen selkeaa], illasta alkaen [sadetta]
+	  34,	// 130. Yolla [sadetta], aamusta alkaen [enimmakseen selkeaa] ja poutaa
+	  34,	// 131. Yolla [sadetta], aamusta alkaen [enimmakseen selkeaa] ja poutaa
+	  34,	// 132. Yolla [sadetta], aamusta alkaen [enimmakseen selkeaa] ja poutaa
+	  26,	// 133. [sadetta], aamupaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  2,	// 134. Aamulla [sadetta], keskipaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  2,	// 135. Aamulla [sadetta], keskipaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  8,	// 136. Aamusta alkaen [sadetta], iltapaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  8,	// 137. Aamusta alkaen [sadetta], iltapaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  32,	// 138. Paivalla [sadetta]
+	  32,	// 139. Paivalla [sadetta]
+	  32,	// 140. Paivalla [sadetta]
+	  23,	// 141. Keskipaivasta alkaen [sadetta], illalla poutaa
+	  23,	// 142. Keskipaivasta alkaen [sadetta], illalla poutaa
+	  22,	// 143. Iltapaivasta alkaen [sadetta]
+	  22,	// 144. Iltapaivasta alkaen [sadetta]
+	  22,	// 145. Iltapaivasta alkaen [sadetta]
+	  14,	// 146. [Enimmakseen selkeaa], illalla [sadetta]
+	  14,	// 147. [Enimmakseen selkeaa], illalla [sadetta]
+	  34,	// 148. Yolla [sadetta], aamusta alkaen [enimmakseen selkeaa] ja poutaa
+	  33,	// 149. Yolla [sadetta], aamupaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  33,	// 150. Yolla [sadetta], aamupaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  35,	// 151. Yolla [sadetta], keskipaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  29,	// 152. [sadetta], keskipaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  9,	// 153. Aamusta alkaen [sadetta], iltapaivasta alkaen poutaa
+	  9,	// 154. Aamusta alkaen [sadetta], iltapaivasta alkaen poutaa
+	  9,	// 155. Aamusta alkaen [sadetta], iltapaivasta alkaen poutaa
+	  9,	// 156. Aamusta alkaen [sadetta], iltapaivasta alkaen poutaa
+	  4,	// 157. Aamupaivasta alkaen [sadetta], illalla poutaa
+	  4,	// 158. Aamupaivasta alkaen [sadetta], illalla poutaa
+	  23,	// 159. Keskipaivasta alkaen [sadetta], illalla poutaa
+	  24,	// 160. Keskipaivasta alkaen [sadetta]
+	  22,	// 161. Iltapaivasta alkaen [sadetta]
+	  22,	// 162. Iltapaivasta alkaen [sadetta]
+	  22,	// 163. Iltapaivasta alkaen [sadetta]
+	  22,	// 164. Iltapaivasta alkaen [sadetta]
+	  26,	// 165. [sadetta], aamupaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  26,	// 166. [sadetta], aamupaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  29,	// 167. [sadetta], keskipaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  29,	// 168. [sadetta], keskipaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  28,	// 169. [sadetta], iltapaivasta alkaen poutaa
+	  9,	// 170. Aamusta alkaen [sadetta], iltapaivasta alkaen poutaa
+	  9,	// 171. Aamusta alkaen [sadetta], iltapaivasta alkaen poutaa
+	  9,	// 172. Aamusta alkaen [sadetta], iltapaivasta alkaen poutaa
 	  7,	// 173. Aamusta alkaen [sadetta], illasta alkaen poutaa
-	  4,	// 174. Aamupäivästä alkaen [sadetta], illalla poutaa
-	  4,	// 175. Aamupäivästä alkaen [sadetta], illalla poutaa
-	  24,	// 176. Keskipäivästä alkaen [sadetta]
-	  24,	// 177. Keskipäivästä alkaen [sadetta]
-	  22,	// 178. Iltapäivästä alkaen [sadetta]
-	  22,	// 179. Iltapäivästä alkaen [sadetta]
-	  22,	// 180. Iltapäivästä alkaen [sadetta]
-	  26,	// 181. [sadetta], aamupäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  29,	// 182. [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  29,	// 183. [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  28,	// 184. [sadetta], iltapäivästä alkaen poutaa
-	  28,	// 185. [sadetta], iltapäivästä alkaen poutaa
-	  9,	// 186. Aamusta alkaen [sadetta], iltapäivästä alkaen poutaa
+	  4,	// 174. Aamupaivasta alkaen [sadetta], illalla poutaa
+	  4,	// 175. Aamupaivasta alkaen [sadetta], illalla poutaa
+	  24,	// 176. Keskipaivasta alkaen [sadetta]
+	  24,	// 177. Keskipaivasta alkaen [sadetta]
+	  22,	// 178. Iltapaivasta alkaen [sadetta]
+	  22,	// 179. Iltapaivasta alkaen [sadetta]
+	  22,	// 180. Iltapaivasta alkaen [sadetta]
+	  26,	// 181. [sadetta], aamupaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  29,	// 182. [sadetta], keskipaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  29,	// 183. [sadetta], keskipaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  28,	// 184. [sadetta], iltapaivasta alkaen poutaa
+	  28,	// 185. [sadetta], iltapaivasta alkaen poutaa
+	  9,	// 186. Aamusta alkaen [sadetta], iltapaivasta alkaen poutaa
 	  6,	// 187. Aamusta alkaen [sadetta], illalla poutaa
 	  6,	// 188. Aamusta alkaen [sadetta], illalla poutaa
 	  6,	// 189. Aamusta alkaen [sadetta], illalla poutaa
-	  4,	// 190. Aamupäivästä alkaen [sadetta], illalla poutaa
-	  5,	// 191. Aamupäivästä alkaen [sadetta]
-	  24,	// 192. Keskipäivästä alkaen [sadetta]
-	  24,	// 193. Keskipäivästä alkaen [sadetta]
-	  22,	// 194. Iltapäivästä alkaen [sadetta]
-	  22,	// 195. Iltapäivästä alkaen [sadetta]
-	  29,	// 196. [sadetta], keskipäivästä alkaen [enimmäkseen selkeää],  poutaa
-	  29,	// 197. [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  28,	// 198. [sadetta], iltapäivästä alkaen poutaa
-	  28,	// 199. [sadetta], iltapäivästä alkaen poutaa
-	  28,	// 200. [sadetta], iltapäivästä alkaen poutaa
-	  9,	// 201. Aamusta alkaen [sadetta], iltapäivästä alkaen poutaa
+	  4,	// 190. Aamupaivasta alkaen [sadetta], illalla poutaa
+	  5,	// 191. Aamupaivasta alkaen [sadetta]
+	  24,	// 192. Keskipaivasta alkaen [sadetta]
+	  24,	// 193. Keskipaivasta alkaen [sadetta]
+	  22,	// 194. Iltapaivasta alkaen [sadetta]
+	  22,	// 195. Iltapaivasta alkaen [sadetta]
+	  29,	// 196. [sadetta], keskipaivasta alkaen [enimmakseen selkeaa],  poutaa
+	  29,	// 197. [sadetta], keskipaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  28,	// 198. [sadetta], iltapaivasta alkaen poutaa
+	  28,	// 199. [sadetta], iltapaivasta alkaen poutaa
+	  28,	// 200. [sadetta], iltapaivasta alkaen poutaa
+	  9,	// 201. Aamusta alkaen [sadetta], iltapaivasta alkaen poutaa
 	  6,	// 202. Aamusta alkaen [sadetta], illalla poutaa
 	  6,	// 203. Aamusta alkaen [sadetta], illalla poutaa
 	  6,	// 204. Aamusta alkaen [sadetta], illalla poutaa
-	  4,	// 205. Aamupäivästä alkaen [sadetta], illalla poutaa
-	  5,	// 206. Aamupäivästä alkaen [sadetta]
-	  24,	// 207. Keskipäivästä alkaen [sadetta]
-	  24,	// 208. Keskipäivästä alkaen [sadetta]
-	  22,	// 209. Iltapäivästä alkaen [sadetta]
-	  29,	// 210. [sadetta], keskipäivästä alkaen [enimmäkseen selkeää] ja poutaa
-	  28,	// 211. [sadetta], iltapäivästä alkaen poutaa
-	  28,	// 212. [sadetta], iltapäivästä alkaen poutaa
-	  28,	// 213. [sadetta], iltapäivästä alkaen poutaa
-	  28,	// 214. [sadetta], iltapäivästä alkaen poutaa
+	  4,	// 205. Aamupaivasta alkaen [sadetta], illalla poutaa
+	  5,	// 206. Aamupaivasta alkaen [sadetta]
+	  24,	// 207. Keskipaivasta alkaen [sadetta]
+	  24,	// 208. Keskipaivasta alkaen [sadetta]
+	  22,	// 209. Iltapaivasta alkaen [sadetta]
+	  29,	// 210. [sadetta], keskipaivasta alkaen [enimmakseen selkeaa] ja poutaa
+	  28,	// 211. [sadetta], iltapaivasta alkaen poutaa
+	  28,	// 212. [sadetta], iltapaivasta alkaen poutaa
+	  28,	// 213. [sadetta], iltapaivasta alkaen poutaa
+	  28,	// 214. [sadetta], iltapaivasta alkaen poutaa
 	  6,	// 215. Aamusta alkaen [sadetta], illalla poutaa
 	  6,	// 216. Aamusta alkaen [sadetta], illalla poutaa
 	  6,	// 217. Aamusta alkaen [sadetta], illalla poutaa
 	  10,	// 218. Aamusta alkaen [sadetta]
-	  5,	// 219. Aamupäivästä alkaen [sadetta]
-	  5,	// 220. Aamupäivästä alkaen [sadetta]
-	  24,	// 221. Keskipäivästä alkaen [sadetta]
-	  24,	// 222. Keskipäivästä alkaen [sadetta]
-	  28,	// 223. [sadetta], iltapäivästä alkaen poutaa
-	  28,	// 224. [sadetta], iltapäivästä alkaen poutaa
-	  28,	// 225. [sadetta], iltapäivästä alkaen poutaa
-	  28,	// 226. [sadetta], iltapäivästä alkaen poutaa
+	  5,	// 219. Aamupaivasta alkaen [sadetta]
+	  5,	// 220. Aamupaivasta alkaen [sadetta]
+	  24,	// 221. Keskipaivasta alkaen [sadetta]
+	  24,	// 222. Keskipaivasta alkaen [sadetta]
+	  28,	// 223. [sadetta], iltapaivasta alkaen poutaa
+	  28,	// 224. [sadetta], iltapaivasta alkaen poutaa
+	  28,	// 225. [sadetta], iltapaivasta alkaen poutaa
+	  28,	// 226. [sadetta], iltapaivasta alkaen poutaa
 	  27,	// 227. [sadetta], illalla poutaa
 	  6,	// 228. Aamusta alkaen [sadetta], illalla poutaa
 	  6,	// 229. Aamusta alkaen [sadetta], illalla poutaa
 	  10,	// 230. Aamusta alkaen [sadetta]
 	  10,	// 231. Aamusta alkaen [sadetta]
-	  5,	// 232. Aamupäivästä alkaen [sadetta]
-	  5,	// 233. Aamupäivästä alkaen [sadetta]
-	  24,	// 234. Keskipäivästä alkaen [sadetta]
-	  28,	// 235. [sadetta], iltapäivästä alkaen poutaa
-	  28,	// 236. [sadetta], iltapäivästä alkaen poutaa
-	  28,	// 237. [sadetta], iltapäivästä alkaen poutaa
+	  5,	// 232. Aamupaivasta alkaen [sadetta]
+	  5,	// 233. Aamupaivasta alkaen [sadetta]
+	  24,	// 234. Keskipaivasta alkaen [sadetta]
+	  28,	// 235. [sadetta], iltapaivasta alkaen poutaa
+	  28,	// 236. [sadetta], iltapaivasta alkaen poutaa
+	  28,	// 237. [sadetta], iltapaivasta alkaen poutaa
 	  27,	// 238. [sadetta], illalla poutaa
 	  27,	// 239. [sadetta], illalla poutaa
 	  6,	// 240. Aamusta alkaen [sadetta], illalla poutaa
@@ -356,8 +356,8 @@ namespace
 	  10,	// 243. Aamusta alkaen [sadetta]
 	  10,	// 244. Aamusta alkaen [sadetta]
 	  30,	// 245. [sadetta]
-	  28,	// 246. [sadetta], iltapäivästä alkaen poutaa
-	  28,	// 247. [sadetta], iltapäivästä alkaen poutaa
+	  28,	// 246. [sadetta], iltapaivasta alkaen poutaa
+	  28,	// 247. [sadetta], iltapaivasta alkaen poutaa
 	  27,	// 248. [sadetta], illalla poutaa
 	  27,	// 249. [sadetta], illalla poutaa
 	  27,	// 250. [sadetta], illalla poutaa
@@ -366,7 +366,7 @@ namespace
 	  10,	// 253. Aamusta alkaen [sadetta]
 	  10,	// 254. Aamusta alkaen [sadetta]
 	  10,	// 255. Aamusta alkaen [sadetta]
-	  28,	// 256. [sadetta], iltapäivästä alkaen poutaa
+	  28,	// 256. [sadetta], iltapaivasta alkaen poutaa
 	  27,	// 257. [sadetta], illalla poutaa
 	  27,	// 258. [sadetta], illalla poutaa
 	  27,	// 259. [sadetta], illalla poutaa
@@ -426,102 +426,102 @@ namespace
 	{
 	  // empty placeholder to get indices to start from 1
 	  { 0, "", ""},
-	  // 1. Tänään aamupäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  { 3, "aamupäivästä alkaen", "aamupäivästä alkaen" },
-	  // 2. Tänään aamupäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  { 4, "aamupäivästä alkaen", "" },
-	  // 3. Tänään aamupäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  { 2, "aamupäivästä alkaen", "iltapäivästä alkaen" },
-	  // 4. Tänään aamupäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  { 3, "aamupäivästä alkaen", "keskipäivästä alkaen" },
-	  // 5. Tänään aamupäivästä alkaen [sadetta]
-	  { 1, "aamupäivästä alkaen", "" },
-	  // 6. Tänään aamupäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  { 5, "aamupäivästä alkaen", "" },
-	  // 7. Tänään aamupäivästä alkaen tiistai-iltaan asti [sadetta]
-	  { 6, "aamupäivästä alkaen", "" },
-	  // 8. Tänään aamusta alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  { 3, "aamusta alkaen", "aamupäivästä alkaen" },
-	  // 9. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
+	  // 1. Tanaan aamupaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  { 3, "aamupaivasta alkaen", "aamupaivasta alkaen" },
+	  // 2. Tanaan aamupaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  { 4, "aamupaivasta alkaen", "" },
+	  // 3. Tanaan aamupaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  { 2, "aamupaivasta alkaen", "iltapaivasta alkaen" },
+	  // 4. Tanaan aamupaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  { 3, "aamupaivasta alkaen", "keskipaivasta alkaen" },
+	  // 5. Tanaan aamupaivasta alkaen [sadetta]
+	  { 1, "aamupaivasta alkaen", "" },
+	  // 6. Tanaan aamupaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  { 5, "aamupaivasta alkaen", "" },
+	  // 7. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
+	  { 6, "aamupaivasta alkaen", "" },
+	  // 8. Tanaan aamusta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  { 3, "aamusta alkaen", "aamupaivasta alkaen" },
+	  // 9. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
 	  { 4, "aamusta alkaen", "" },
-	  // 10. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  { 2, "aamusta alkaen", "iltapäivästä alkaen" },
-	  // 11. Tänään aamusta alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  { 3, "aamusta alkaen", "keskipäivästä alkaen" },
-	  // 12. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
+	  // 10. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  { 2, "aamusta alkaen", "iltapaivasta alkaen" },
+	  // 11. Tanaan aamusta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  { 3, "aamusta alkaen", "keskipaivasta alkaen" },
+	  // 12. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
 	  { 5, "aamusta alkaen", "" },
-	  // 13. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
+	  // 13. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
 	  { 6, "aamusta alkaen", "" },
-	  // 14. Tänään aamuyöstä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  { 5, "aamuyöstä alkaen", "" },
-	  // 15. Tänään aamuyöstä alkaen tiistai-iltaan asti [sadetta]
-	  { 6, "aamuyöstä alkaen", "" },
-	  // 16. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  { 7, "illalla", "yöllä" },
-	  // 17. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  { 10, "illasta alkaen", "aamupäivästä alkaen" },
-	  // 18. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  { 9, "illasta alkaen", "iltapäivästä alkaen" },
-	  // 19. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  { 10, "illasta alkaen", "keskipäivästä alkaen" },
-	  // 20. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]
+	  // 14. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  { 5, "aamuyosta alkaen", "" },
+	  // 15. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
+	  { 6, "aamuyosta alkaen", "" },
+	  // 16. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  { 7, "illalla", "yolla" },
+	  // 17. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  { 10, "illasta alkaen", "aamupaivasta alkaen" },
+	  // 18. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  { 9, "illasta alkaen", "iltapaivasta alkaen" },
+	  // 19. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  { 10, "illasta alkaen", "keskipaivasta alkaen" },
+	  // 20. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]
 	  { 8, "illasta alkaen", "" },
-	  // 21. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
+	  // 21. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
 	  { 11, "illasta alkaen", "" },
-	  // 22. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  { 10, "iltayöstä alkaen", "aamupäivästä alkaen" },
-	  // 23. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  { 9, "iltayöstä alkaen", "iltapäivästä alkaen" },
-	  // 24. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  { 10, "iltayöstä alkaen", "keskipäivästä alkaen" },
-	  // 25. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]
-	  { 8, "iltayöstä alkaen", "" },
-	  // 26. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [sadetta]
-	  { 11, "iltayöstä alkaen", "" },
-	  // 27. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  { 7, "yöllä", "" },
-	  // 28. Tänään iltapäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  { 3, "iltapäivästä alkaen", "aamupäivästä alkaen" },
-	  // 29. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  { 4, "iltapäivästä alkaen", "" },
-	  // 30. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  { 2, "iltapäivästä alkaen", "iltapäivästä alkaen" },
-	  // 31. Tänään iltapäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  { 3, "iltapäivästä alkaen", "keskipäivästä alkaen" },
-	  // 32. Tänään iltapäivästä alkaen [sadetta]
-	  { 1, "iltapäivästä alkaen", "" },
-	  // 33. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  { 5, "iltapäivästä alkaen", "" },
-	  // 34. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  { 6, "iltapäivästä alkaen", "" },
-	  // 35. Tänään ja huomenna [sadetta]
+	  // 22. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  { 10, "iltayosta alkaen", "aamupaivasta alkaen" },
+	  // 23. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  { 9, "iltayosta alkaen", "iltapaivasta alkaen" },
+	  // 24. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  { 10, "iltayosta alkaen", "keskipaivasta alkaen" },
+	  // 25. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]
+	  { 8, "iltayosta alkaen", "" },
+	  // 26. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
+	  { 11, "iltayosta alkaen", "" },
+	  // 27. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  { 7, "yolla", "" },
+	  // 28. Tanaan iltapaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  { 3, "iltapaivasta alkaen", "aamupaivasta alkaen" },
+	  // 29. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  { 4, "iltapaivasta alkaen", "" },
+	  // 30. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  { 2, "iltapaivasta alkaen", "iltapaivasta alkaen" },
+	  // 31. Tanaan iltapaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  { 3, "iltapaivasta alkaen", "keskipaivasta alkaen" },
+	  // 32. Tanaan iltapaivasta alkaen [sadetta]
+	  { 1, "iltapaivasta alkaen", "" },
+	  // 33. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  { 5, "iltapaivasta alkaen", "" },
+	  // 34. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  { 6, "iltapaivasta alkaen", "" },
+	  // 35. Tanaan ja huomenna [sadetta]
 	  { 17, "", "" },
-	  // 36. Tänään keskipäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  { 3, "keskipäivästä alkaen", "aamupäivästä alkaen" },
-	  // 37. Tänään keskipäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  { 4, "keskipäivästä alkaen", "" },
-	  // 38. Tänään keskipäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  { 2, "keskipäivästä alkaen", "iltapäivästä alkaen" },
-	  // 39. Tänään keskipäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  { 3, "keskipäivästä alkaen", "keskipäivästä alkaen" },
-	  // 40. Tänään keskipäivästä alkaen [sadetta]
-	  { 1, "keskipäivästä alkaen", "" },
-	  // 41. Tänään keskipäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  { 5, "keskipäivästä alkaen", "" },
-	  // 42. Tänään keskipäivästä alkaen tiistai-iltaan asti [sadetta]
-	  { 6, "keskipäivästä alkaen", "" },
-	  // 43. Tänään [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  { 15, "aamupäivästä alkaen", "" },
-	  // 44. Tänään [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
+	  // 36. Tanaan keskipaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  { 3, "keskipaivasta alkaen", "aamupaivasta alkaen" },
+	  // 37. Tanaan keskipaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  { 4, "keskipaivasta alkaen", "" },
+	  // 38. Tanaan keskipaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  { 2, "keskipaivasta alkaen", "iltapaivasta alkaen" },
+	  // 39. Tanaan keskipaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  { 3, "keskipaivasta alkaen", "keskipaivasta alkaen" },
+	  // 40. Tanaan keskipaivasta alkaen [sadetta]
+	  { 1, "keskipaivasta alkaen", "" },
+	  // 41. Tanaan keskipaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  { 5, "keskipaivasta alkaen", "" },
+	  // 42. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
+	  { 6, "keskipaivasta alkaen", "" },
+	  // 43. Tanaan [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  { 15, "aamupaivasta alkaen", "" },
+	  // 44. Tanaan [sadetta], huomenna aamusta alkaen poutaa, [enimmakseen selkeaa]
 	  { 15, "aamusta alkaen", "" },
-	  // 45. Tänään [sadetta], huomenna [enimmäkseen selkeää]
+	  // 45. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
 	  { 16, "", "" },
-	  // 46. Tänään [sadetta], huomenna illalla poutaa
+	  // 46. Tanaan [sadetta], huomenna illalla poutaa
 	  { 13, "illalla", "" },
-	  // 47. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  { 14, "iltapäivästä alkaen", "" },
-	  // 48. Tänään [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  { 15, "keskipäivästä alkaen", "" }
+	  // 47. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  { 14, "iltapaivasta alkaen", "" },
+	  // 48. Tanaan [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  { 15, "keskipaivasta alkaen", "" }
 	};
 
   // ----------------------------------------------------------------------
@@ -535,582 +535,582 @@ namespace
   int two_day_forecasts[577] =
 	{
 	  0,  // place holder to get indices to start from 1
-	  45, // 1. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 2. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 3. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 4. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  44, // 5. Tänään [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
-	  44, // 6. Tänään [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
-	  44, // 7. Tänään [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
-	  44, // 8. Tänään [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
-	  43, // 9. Tänään [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  43, // 10. Tänään [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  48, // 11. Tänään [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  48, // 12. Tänään [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  47, // 13. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 14. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 15. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 16. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  46, // 17. Tänään [sadetta], huomenna illalla poutaa
-	  46, // 18. Tänään [sadetta], huomenna illalla poutaa
-	  46, // 19. Tänään [sadetta], huomenna illalla poutaa
-	  46, // 20. Tänään [sadetta], huomenna illalla poutaa
-	  35, // 21. Tänään ja huomenna [sadetta]
-	  35, // 22. Tänään ja huomenna [sadetta]
-	  35, // 23. Tänään ja huomenna [sadetta]
-	  35, // 24. Tänään ja huomenna [sadetta]
-	  45, // 25. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 26. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 27. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 28. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  44, // 29. Tänään [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
-	  44, // 30. Tänään [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
-	  44, // 31. Tänään [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
-	  44, // 32. Tänään [sadetta], huomenna aamusta alkaen poutaa, [enimmäkseen selkeää]
-	  43, // 33. Tänään [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  43, // 34. Tänään [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  48, // 35. Tänään [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  48, // 36. Tänään [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  47, // 37. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 38. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 39. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 40. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  46, // 41. Tänään [sadetta], huomenna illalla poutaa
-	  46, // 42. Tänään [sadetta], huomenna illalla poutaa
-	  46, // 43. Tänään [sadetta], huomenna illalla poutaa
-	  46, // 44. Tänään [sadetta], huomenna illalla poutaa
-	  35, // 45. Tänään ja huomenna [sadetta]
-	  35, // 46. Tänään ja huomenna [sadetta]
-	  35, // 47. Tänään ja huomenna [sadetta]
-	  35, // 48. Tänään ja huomenna [sadetta]
-	  45, // 49. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 50. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 51. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 52. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  14, // 53. Tänään aamuyöstä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  14, // 54. Tänään aamuyöstä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  14, // 55. Tänään aamuyöstä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  14, // 56. Tänään aamuyöstä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  43, // 57. Tänään [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  43, // 58. Tänään [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  48, // 59. Tänään [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  48, // 60. Tänään [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  47, // 61. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 62. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 63. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 64. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  46, // 65. Tänään [sadetta], huomenna illalla poutaa
-	  46, // 66. Tänään [sadetta], huomenna illalla poutaa
-	  46, // 67. Tänään [sadetta], huomenna illalla poutaa
-	  46, // 68. Tänään [sadetta], huomenna illalla poutaa
-	  35, // 69. Tänään ja huomenna [sadetta]
-	  35, // 70. Tänään ja huomenna [sadetta]
-	  35, // 71. Tänään ja huomenna [sadetta]
-	  35, // 72. Tänään ja huomenna [sadetta]
-	  45, // 73. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 74. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 75. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 76. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  14, // 77. Tänään aamuyöstä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  14, // 78. Tänään aamuyöstä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  14, // 79. Tänään aamuyöstä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  14, // 80. Tänään aamuyöstä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  43, // 81. Tänään [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  43, // 82. Tänään [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  48, // 83. Tänään [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  48, // 84. Tänään [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  47, // 85. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 86. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 87. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 88. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  15, // 89. Tänään aamuyöstä alkaen tiistai-iltaan asti [sadetta]
-	  15, // 90. Tänään aamuyöstä alkaen tiistai-iltaan asti [sadetta]
-	  15, // 91. Tänään aamuyöstä alkaen tiistai-iltaan asti [sadetta]
-	  15, // 92. Tänään aamuyöstä alkaen tiistai-iltaan asti [sadetta]
-	  15, // 93. Tänään aamuyöstä alkaen tiistai-iltaan asti [sadetta]
-	  15, // 94. Tänään aamuyöstä alkaen tiistai-iltaan asti [sadetta]
-	  35, // 95. Tänään ja huomenna [sadetta]
-	  35, // 96. Tänään ja huomenna [sadetta]
-	  45, // 97. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 98. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 99. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  45, // 100. Tänään [sadetta], huomenna [enimmäkseen selkeää]
-	  14, // 101. Tänään aamuyöstä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  14, // 102. Tänään aamuyöstä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  14, // 103. Tänään aamuyöstä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  14, // 104. Tänään aamuyöstä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  43, // 105. Tänään [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  43, // 106. Tänään [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  48, // 107. Tänään [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  48, // 108. Tänään [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  47, // 109. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 110. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 111. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  47, // 112. Tänään [sadetta], huomenna iltapäivästä alkaen poutaa
-	  15, // 113. Tänään aamuyöstä alkaen tiistai-iltaan asti [sadetta]
-	  15, // 114. Tänään aamuyöstä alkaen tiistai-iltaan asti [sadetta]
-	  15, // 115. Tänään aamuyöstä alkaen tiistai-iltaan asti [sadetta]
-	  15, // 116. Tänään aamuyöstä alkaen tiistai-iltaan asti [sadetta]
-	  15, // 117. Tänään aamuyöstä alkaen tiistai-iltaan asti [sadetta]
-	  15, // 118. Tänään aamuyöstä alkaen tiistai-iltaan asti [sadetta]
-	  35, // 119. Tänään ja huomenna [sadetta]
-	  35, // 120. Tänään ja huomenna [sadetta]
-	  9, //  121. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  9, //  122. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  9, //  123. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  9, //  124. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  12, // 125. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  12, // 126. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  12, // 127. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  12, // 128. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  8, //  129. Tänään aamusta alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  8, //  130. Tänään aamusta alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  11, // 131. Tänään aamusta alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  11, // 132. Tänään aamusta alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  10, // 133. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  10, // 134. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  10, // 135. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  10, // 136. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  13, // 137. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 138. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 139. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 140. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 141. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 142. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  35, // 143. Tänään ja huomenna [sadetta]
-	  35, // 144. Tänään ja huomenna [sadetta]
-	  9, //  145. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  9, //  146. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  9, //  147. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  9, //  148. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  12, // 149. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  12, // 150. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  12, // 151. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  12, // 152. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  8, //  153. Tänään aamusta alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  8, //  154. Tänään aamusta alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  11, // 155. Tänään aamusta alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  11, // 156. Tänään aamusta alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  10, // 157. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  10, // 158. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  10, // 159. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  13, // 160. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 161. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 162. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 163. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 164. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 165. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 166. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  35, // 167. Tänään ja huomenna [sadetta]
-	  35, // 168. Tänään ja huomenna [sadetta]
-	  9, //  169. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  9, //  170. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  9, //  171. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  9, //  172. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  12, // 173. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  12, // 174. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  12, // 175. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  12, // 176. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  8, //  177. Tänään aamusta alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  8, //  178. Tänään aamusta alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  11, // 179. Tänään aamusta alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  11, // 180. Tänään aamusta alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  10, // 181. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  10, // 182. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  10, // 183. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  10, // 184. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  13, // 185. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 186. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 187. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 188. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 189. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 190. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  35, // 191. Tänään ja huomenna [sadetta]
-	  35, // 192. Tänään ja huomenna [sadetta]
-	  9, //  193. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  9, //  194. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  9, //  195. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  9, //  196. Tänään aamusta alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  12, // 197. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  12, // 198. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  12, // 199. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  12, // 200. Tänään aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  8, //  201. Tänään aamusta alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  8, //  202. Tänään aamusta alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  11, // 203. Tänään aamusta alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  11, // 204. Tänään aamusta alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  10, // 205. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  10, // 206. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  10, // 207. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  10, // 208. Tänään aamusta alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  13, // 209. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 210. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 211. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 212. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 213. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  13, // 214. Tänään aamusta alkaen tiistai-iltaan asti [sadetta]
-	  35, // 215. Tänään ja huomenna [sadetta]
-	  35, // 216. Tänään ja huomenna [sadetta]
-	  2, //  217. Tänään aamupäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  2, //  218. Tänään aamupäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  2, //  219. Tänään aamupäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  2, //  220. Tänään aamupäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  6, //  221. Tänään aamupäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  6, //  222. Tänään aamupäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  6, //  223. Tänään aamupäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  6, //  224. Tänään aamupäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  1, //  225. Tänään aamupäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  1, //  226. Tänään aamupäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  4, //  227. Tänään aamupäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  4, //  228. Tänään aamupäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  3, //  229. Tänään aamupäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  3, //  230. Tänään aamupäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  3, //  231. Tänään aamupäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  3, //  232. Tänään aamupäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  7, //  233. Tänään aamupäivästä alkaen tiistai-iltaan asti [sadetta]
-	  7, //  234. Tänään aamupäivästä alkaen tiistai-iltaan asti [sadetta]
-	  7, //  235. Tänään aamupäivästä alkaen tiistai-iltaan asti [sadetta]
-	  7, //  236. Tänään aamupäivästä alkaen tiistai-iltaan asti [sadetta]
-	  7, //  237. Tänään aamupäivästä alkaen tiistai-iltaan asti [sadetta]
-	  7, //  238. Tänään aamupäivästä alkaen tiistai-iltaan asti [sadetta]
-	  5, //  239. Tänään aamupäivästä alkaen [sadetta]
-	  5, //  240. Tänään aamupäivästä alkaen [sadetta]
-	  2, //  241. Tänään aamupäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  2, //  242. Tänään aamupäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  2, //  243. Tänään aamupäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  2, //  244. Tänään aamupäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  6, //  245. Tänään aamupäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  6, //  246. Tänään aamupäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  6, //  247. Tänään aamupäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  6, //  248. Tänään aamupäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  1, //  249. Tänään aamupäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  1, //  250. Tänään aamupäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  4, //  251. Tänään aamupäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  4, //  252. Tänään aamupäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  3, //  253. Tänään aamupäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  3, //  254. Tänään aamupäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  3, //  255. Tänään aamupäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  3, //  256. Tänään aamupäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  7, //  257. Tänään aamupäivästä alkaen tiistai-iltaan asti [sadetta]
-	  7, //  258. Tänään aamupäivästä alkaen tiistai-iltaan asti [sadetta]
-	  7, //  259. Tänään aamupäivästä alkaen tiistai-iltaan asti [sadetta]
-	  7, //  260. Tänään aamupäivästä alkaen tiistai-iltaan asti [sadetta]
-	  7, //  261. Tänään aamupäivästä alkaen tiistai-iltaan asti [sadetta]
-	  7, //  262. Tänään aamupäivästä alkaen tiistai-iltaan asti [sadetta]
-	  5, //  263. Tänään aamupäivästä alkaen [sadetta]
-	  5, //  264. Tänään aamupäivästä alkaen [sadetta]
-	  37, // 265. Tänään keskipäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  37, // 266. Tänään keskipäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  37, // 267. Tänään keskipäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  37, // 268. Tänään keskipäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  41, // 269. Tänään keskipäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  41, // 270. Tänään keskipäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  41, // 271. Tänään keskipäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  41, // 272. Tänään keskipäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  36, // 273. Tänään keskipäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  36, // 274. Tänään keskipäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  39, // 275. Tänään keskipäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  39, // 276. Tänään keskipäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  38, // 277. Tänään keskipäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  38, // 278. Tänään keskipäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  38, // 279. Tänään keskipäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  38, // 280. Tänään keskipäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  42, // 281. Tänään keskipäivästä alkaen tiistai-iltaan asti [sadetta]
-	  42, // 282. Tänään keskipäivästä alkaen tiistai-iltaan asti [sadetta]
-	  42, // 283. Tänään keskipäivästä alkaen tiistai-iltaan asti [sadetta]
-	  42, // 284. Tänään keskipäivästä alkaen tiistai-iltaan asti [sadetta]
-	  42, // 285. Tänään keskipäivästä alkaen tiistai-iltaan asti [sadetta]
-	  42, // 286. Tänään keskipäivästä alkaen tiistai-iltaan asti [sadetta]
-	  40, // 287. Tänään keskipäivästä alkaen [sadetta]
-	  40, // 288. Tänään keskipäivästä alkaen [sadetta]
-	  37, // 289. Tänään keskipäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  37, // 290. Tänään keskipäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  37, // 291. Tänään keskipäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  37, // 292. Tänään keskipäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  41, // 293. Tänään keskipäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  41, // 294. Tänään keskipäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  41, // 295. Tänään keskipäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  41, // 296. Tänään keskipäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  36, // 297. Tänään keskipäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  36, // 298. Tänään keskipäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  39, // 299. Tänään keskipäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  39, // 300. Tänään keskipäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  38, // 301. Tänään keskipäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  38, // 302. Tänään keskipäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  38, // 303. Tänään keskipäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  38, // 304. Tänään keskipäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  42, // 305. Tänään keskipäivästä alkaen tiistai-iltaan asti [sadetta]
-	  42, // 306. Tänään keskipäivästä alkaen tiistai-iltaan asti [sadetta]
-	  42, // 307. Tänään keskipäivästä alkaen tiistai-iltaan asti [sadetta]
-	  42, // 308. Tänään keskipäivästä alkaen tiistai-iltaan asti [sadetta]
-	  42, // 309. Tänään keskipäivästä alkaen tiistai-iltaan asti [sadetta]
-	  42, // 310. Tänään keskipäivästä alkaen tiistai-iltaan asti [sadetta]
-	  40, // 311. Tänään keskipäivästä alkaen [sadetta]
-	  40, // 312. Tänään keskipäivästä alkaen [sadetta]
-	  29, // 313. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 314. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 315. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 316. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  33, // 317. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 318. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 319. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 320. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  28, // 321. Tänään iltapäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  28, // 322. Tänään iltapäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  31, // 323. Tänään iltapäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  31, // 324. Tänään iltapäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  30, // 325. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 326. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 327. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 328. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  34, // 329. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 330. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 331. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 332. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 333. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 334. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  40, // 335. Tänään keskipäivästä alkaen [sadetta]
-	  40, // 336. Tänään keskipäivästä alkaen [sadetta]
-	  29, // 337. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 338. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 339. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 340. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  33, // 341. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 342. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 343. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 344. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  28, // 345. Tänään iltapäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  28, // 346. Tänään iltapäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  31, // 347. Tänään iltapäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  31, // 348. Tänään iltapäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  30, // 349. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 350. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 351. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 352. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  34, // 353. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 354. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 355. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 356. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 357. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 358. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  40, // 359. Tänään keskipäivästä alkaen [sadetta]
-	  40, // 360. Tänään keskipäivästä alkaen [sadetta]
-	  29, // 361. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 362. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 363. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 364. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  33, // 365. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 366. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 367. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 368. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  28, // 369. Tänään iltapäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  28, // 370. Tänään iltapäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  31, // 371. Tänään iltapäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  31, // 372. Tänään iltapäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  30, // 373. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 374. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 375. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 376. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  34, // 377. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 378. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 379. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 380. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 381. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 382. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  32, // 383. Tänään iltapäivästä alkaen [sadetta]
-	  32, // 384. Tänään iltapäivästä alkaen [sadetta]
-	  29, // 385. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 386. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 387. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 388. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  33, // 389. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 390. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 391. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 392. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  28, // 393. Tänään iltapäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  28, // 394. Tänään iltapäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  31, // 395. Tänään iltapäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  31, // 396. Tänään iltapäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  30, // 397. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 398. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 399. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 400. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  34, // 401. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 402. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 403. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 404. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 405. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 406. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  32, // 407. Tänään iltapäivästä alkaen [sadetta]
-	  32, // 408. Tänään iltapäivästä alkaen [sadetta]
-	  29, // 409. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 410. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 411. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  29, // 412. Tänään iltapäivästä alkaen [sadetta], huomenna [enimmäkseen selkeää]
-	  33, // 413. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 414. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 415. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  33, // 416. Tänään iltapäivästä alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
-	  28, // 417. Tänään iltapäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  28, // 418. Tänään iltapäivästä alkaen [sadetta], huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  31, // 419. Tänään iltapäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  31, // 420. Tänään iltapäivästä alkaen [sadetta], huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  30, // 421. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 422. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 423. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  30, // 424. Tänään iltapäivästä alkaen [sadetta], huomenna iltapäivästä alkaen poutaa
-	  34, // 425. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 426. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 427. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 428. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 429. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  34, // 430. Tänään iltapäivästä alkaen tiistai-iltaan asti [sadetta]
-	  32, // 431. Tänään iltapäivästä alkaen [sadetta]
-	  32, // 432. Tänään iltapäivästä alkaen [sadetta]
-	  16, // 433. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 434. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 435. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 436. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 437. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 438. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 439. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 440. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  17, // 441. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  17, // 442. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  19, // 443. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  19, // 444. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  18, // 445. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  18, // 446. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  18, // 447. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  18, // 448. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  21, // 449. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 450. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 451. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 452. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 453. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 454. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  20, // 455. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]
-	  20, // 456. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]
-	  16, // 457. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 458. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 459. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 460. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 461. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 462. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 463. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 464. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  17, // 465. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  17, // 466. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  19, // 467. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  19, // 468. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  18, // 469. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  18, // 470. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  18, // 471. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  18, // 472. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  21, // 473. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 474. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 475. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 476. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 477. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 478. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  20, // 479. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]
-	  20, // 480. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]
-	  16, // 481. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 482. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 483. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 484. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 485. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 486. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 487. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 488. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  17, // 489. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  17, // 490. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  19, // 491. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  17, // 492. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  18, // 493. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  18, // 494. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  18, // 495. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  18, // 496. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  21, // 497. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 498. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 499. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 500. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 501. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 502. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  20, // 503. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]
-	  20, // 504. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]
-	  16, // 505. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 506. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 507. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 508. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 509. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 510. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 511. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  16, // 512. Tänään [enimmäkseen selkeää], illalla ja yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  17, // 513. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  17, // 514. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  19, // 515. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  19, // 516. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  18, // 517. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  18, // 518. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  18, // 519. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  18, // 520. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  21, // 521. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 522. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 523. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 524. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 525. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  21, // 526. Tänään [enimmäkseen selkeää], illasta alkaen tiistai-iltaan asti [sadetta]
-	  20, // 527. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]
-	  20, // 528. Tänään [enimmäkseen selkeää], illasta alkaen [sadetta]
-	  27, // 529. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  27, // 530. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  27, // 531. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  27, // 532. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  27, // 533. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  27, // 534. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  27, // 535. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  27, // 536. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  22, // 537. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  22, // 538. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  24, // 539. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  24, // 540. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  23, // 541. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  23, // 542. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  23, // 543. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  23, // 544. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  26, // 545. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [sadetta]
-	  26, // 546. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [sadetta]
-	  26, // 547. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [sadetta]
-	  26, // 548. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [sadetta]
-	  26, // 549. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [sadetta]
-	  26, // 550. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [sadetta]
-	  25, // 551. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]
-	  25, // 552. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]
-	  27, // 553. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  27, // 554. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  27, // 555. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  27, // 556. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  27, // 557. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  27, // 558. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  27, // 559. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  27, // 560. Tänään [enimmäkseen selkeää], yöllä [sadetta]. Huomenna [enimmäkseen selkeää]
-	  22, // 561. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  22, // 562. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna aamupäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  24, // 563. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  24, // 564. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna keskipäivästä alkaen poutaa, [enimmäkseen selkeää]
-	  23, // 565. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  23, // 566. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  23, // 567. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  23, // 568. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]. Huomenna iltapäivästä alkaen poutaa
-	  26, // 569. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [sadetta]
-	  26, // 570. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [sadetta]
-	  26, // 571. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [sadetta]
-	  26, // 572. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [sadetta]
-	  26, // 573. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [sadetta]
-	  26, // 574. Tänään [enimmäkseen selkeää], iltayöstä alkaen tiistai-iltaan asti [sadetta]
-	  25, // 575. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]
-	  25  // 576. Tänään [enimmäkseen selkeää], iltayöstä alkaen [sadetta]
+	  45, // 1. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 2. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 3. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 4. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  44, // 5. Tanaan [sadetta], huomenna aamusta alkaen poutaa, [enimmakseen selkeaa]
+	  44, // 6. Tanaan [sadetta], huomenna aamusta alkaen poutaa, [enimmakseen selkeaa]
+	  44, // 7. Tanaan [sadetta], huomenna aamusta alkaen poutaa, [enimmakseen selkeaa]
+	  44, // 8. Tanaan [sadetta], huomenna aamusta alkaen poutaa, [enimmakseen selkeaa]
+	  43, // 9. Tanaan [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  43, // 10. Tanaan [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  48, // 11. Tanaan [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  48, // 12. Tanaan [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  47, // 13. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 14. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 15. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 16. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  46, // 17. Tanaan [sadetta], huomenna illalla poutaa
+	  46, // 18. Tanaan [sadetta], huomenna illalla poutaa
+	  46, // 19. Tanaan [sadetta], huomenna illalla poutaa
+	  46, // 20. Tanaan [sadetta], huomenna illalla poutaa
+	  35, // 21. Tanaan ja huomenna [sadetta]
+	  35, // 22. Tanaan ja huomenna [sadetta]
+	  35, // 23. Tanaan ja huomenna [sadetta]
+	  35, // 24. Tanaan ja huomenna [sadetta]
+	  45, // 25. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 26. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 27. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 28. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  44, // 29. Tanaan [sadetta], huomenna aamusta alkaen poutaa, [enimmakseen selkeaa]
+	  44, // 30. Tanaan [sadetta], huomenna aamusta alkaen poutaa, [enimmakseen selkeaa]
+	  44, // 31. Tanaan [sadetta], huomenna aamusta alkaen poutaa, [enimmakseen selkeaa]
+	  44, // 32. Tanaan [sadetta], huomenna aamusta alkaen poutaa, [enimmakseen selkeaa]
+	  43, // 33. Tanaan [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  43, // 34. Tanaan [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  48, // 35. Tanaan [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  48, // 36. Tanaan [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  47, // 37. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 38. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 39. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 40. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  46, // 41. Tanaan [sadetta], huomenna illalla poutaa
+	  46, // 42. Tanaan [sadetta], huomenna illalla poutaa
+	  46, // 43. Tanaan [sadetta], huomenna illalla poutaa
+	  46, // 44. Tanaan [sadetta], huomenna illalla poutaa
+	  35, // 45. Tanaan ja huomenna [sadetta]
+	  35, // 46. Tanaan ja huomenna [sadetta]
+	  35, // 47. Tanaan ja huomenna [sadetta]
+	  35, // 48. Tanaan ja huomenna [sadetta]
+	  45, // 49. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 50. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 51. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 52. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  14, // 53. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  14, // 54. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  14, // 55. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  14, // 56. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  43, // 57. Tanaan [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  43, // 58. Tanaan [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  48, // 59. Tanaan [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  48, // 60. Tanaan [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  47, // 61. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 62. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 63. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 64. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  46, // 65. Tanaan [sadetta], huomenna illalla poutaa
+	  46, // 66. Tanaan [sadetta], huomenna illalla poutaa
+	  46, // 67. Tanaan [sadetta], huomenna illalla poutaa
+	  46, // 68. Tanaan [sadetta], huomenna illalla poutaa
+	  35, // 69. Tanaan ja huomenna [sadetta]
+	  35, // 70. Tanaan ja huomenna [sadetta]
+	  35, // 71. Tanaan ja huomenna [sadetta]
+	  35, // 72. Tanaan ja huomenna [sadetta]
+	  45, // 73. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 74. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 75. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 76. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  14, // 77. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  14, // 78. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  14, // 79. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  14, // 80. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  43, // 81. Tanaan [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  43, // 82. Tanaan [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  48, // 83. Tanaan [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  48, // 84. Tanaan [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  47, // 85. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 86. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 87. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 88. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  15, // 89. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
+	  15, // 90. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
+	  15, // 91. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
+	  15, // 92. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
+	  15, // 93. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
+	  15, // 94. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
+	  35, // 95. Tanaan ja huomenna [sadetta]
+	  35, // 96. Tanaan ja huomenna [sadetta]
+	  45, // 97. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 98. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 99. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  45, // 100. Tanaan [sadetta], huomenna [enimmakseen selkeaa]
+	  14, // 101. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  14, // 102. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  14, // 103. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  14, // 104. Tanaan aamuyosta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  43, // 105. Tanaan [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  43, // 106. Tanaan [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  48, // 107. Tanaan [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  48, // 108. Tanaan [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  47, // 109. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 110. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 111. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  47, // 112. Tanaan [sadetta], huomenna iltapaivasta alkaen poutaa
+	  15, // 113. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
+	  15, // 114. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
+	  15, // 115. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
+	  15, // 116. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
+	  15, // 117. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
+	  15, // 118. Tanaan aamuyosta alkaen tiistai-iltaan asti [sadetta]
+	  35, // 119. Tanaan ja huomenna [sadetta]
+	  35, // 120. Tanaan ja huomenna [sadetta]
+	  9, //  121. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  9, //  122. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  9, //  123. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  9, //  124. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  12, // 125. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  12, // 126. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  12, // 127. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  12, // 128. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  8, //  129. Tanaan aamusta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  8, //  130. Tanaan aamusta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  11, // 131. Tanaan aamusta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  11, // 132. Tanaan aamusta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  10, // 133. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  10, // 134. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  10, // 135. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  10, // 136. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  13, // 137. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 138. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 139. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 140. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 141. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 142. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  35, // 143. Tanaan ja huomenna [sadetta]
+	  35, // 144. Tanaan ja huomenna [sadetta]
+	  9, //  145. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  9, //  146. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  9, //  147. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  9, //  148. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  12, // 149. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  12, // 150. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  12, // 151. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  12, // 152. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  8, //  153. Tanaan aamusta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  8, //  154. Tanaan aamusta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  11, // 155. Tanaan aamusta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  11, // 156. Tanaan aamusta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  10, // 157. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  10, // 158. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  10, // 159. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  13, // 160. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 161. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 162. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 163. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 164. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 165. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 166. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  35, // 167. Tanaan ja huomenna [sadetta]
+	  35, // 168. Tanaan ja huomenna [sadetta]
+	  9, //  169. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  9, //  170. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  9, //  171. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  9, //  172. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  12, // 173. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  12, // 174. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  12, // 175. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  12, // 176. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  8, //  177. Tanaan aamusta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  8, //  178. Tanaan aamusta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  11, // 179. Tanaan aamusta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  11, // 180. Tanaan aamusta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  10, // 181. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  10, // 182. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  10, // 183. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  10, // 184. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  13, // 185. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 186. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 187. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 188. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 189. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 190. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  35, // 191. Tanaan ja huomenna [sadetta]
+	  35, // 192. Tanaan ja huomenna [sadetta]
+	  9, //  193. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  9, //  194. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  9, //  195. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  9, //  196. Tanaan aamusta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  12, // 197. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  12, // 198. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  12, // 199. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  12, // 200. Tanaan aamusta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  8, //  201. Tanaan aamusta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  8, //  202. Tanaan aamusta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  11, // 203. Tanaan aamusta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  11, // 204. Tanaan aamusta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  10, // 205. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  10, // 206. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  10, // 207. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  10, // 208. Tanaan aamusta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  13, // 209. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 210. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 211. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 212. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 213. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  13, // 214. Tanaan aamusta alkaen tiistai-iltaan asti [sadetta]
+	  35, // 215. Tanaan ja huomenna [sadetta]
+	  35, // 216. Tanaan ja huomenna [sadetta]
+	  2, //  217. Tanaan aamupaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  2, //  218. Tanaan aamupaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  2, //  219. Tanaan aamupaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  2, //  220. Tanaan aamupaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  6, //  221. Tanaan aamupaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  6, //  222. Tanaan aamupaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  6, //  223. Tanaan aamupaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  6, //  224. Tanaan aamupaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  1, //  225. Tanaan aamupaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  1, //  226. Tanaan aamupaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  4, //  227. Tanaan aamupaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  4, //  228. Tanaan aamupaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  3, //  229. Tanaan aamupaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  3, //  230. Tanaan aamupaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  3, //  231. Tanaan aamupaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  3, //  232. Tanaan aamupaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  7, //  233. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
+	  7, //  234. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
+	  7, //  235. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
+	  7, //  236. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
+	  7, //  237. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
+	  7, //  238. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
+	  5, //  239. Tanaan aamupaivasta alkaen [sadetta]
+	  5, //  240. Tanaan aamupaivasta alkaen [sadetta]
+	  2, //  241. Tanaan aamupaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  2, //  242. Tanaan aamupaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  2, //  243. Tanaan aamupaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  2, //  244. Tanaan aamupaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  6, //  245. Tanaan aamupaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  6, //  246. Tanaan aamupaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  6, //  247. Tanaan aamupaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  6, //  248. Tanaan aamupaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  1, //  249. Tanaan aamupaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  1, //  250. Tanaan aamupaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  4, //  251. Tanaan aamupaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  4, //  252. Tanaan aamupaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  3, //  253. Tanaan aamupaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  3, //  254. Tanaan aamupaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  3, //  255. Tanaan aamupaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  3, //  256. Tanaan aamupaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  7, //  257. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
+	  7, //  258. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
+	  7, //  259. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
+	  7, //  260. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
+	  7, //  261. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
+	  7, //  262. Tanaan aamupaivasta alkaen tiistai-iltaan asti [sadetta]
+	  5, //  263. Tanaan aamupaivasta alkaen [sadetta]
+	  5, //  264. Tanaan aamupaivasta alkaen [sadetta]
+	  37, // 265. Tanaan keskipaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  37, // 266. Tanaan keskipaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  37, // 267. Tanaan keskipaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  37, // 268. Tanaan keskipaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  41, // 269. Tanaan keskipaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  41, // 270. Tanaan keskipaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  41, // 271. Tanaan keskipaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  41, // 272. Tanaan keskipaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  36, // 273. Tanaan keskipaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  36, // 274. Tanaan keskipaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  39, // 275. Tanaan keskipaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  39, // 276. Tanaan keskipaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  38, // 277. Tanaan keskipaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  38, // 278. Tanaan keskipaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  38, // 279. Tanaan keskipaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  38, // 280. Tanaan keskipaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  42, // 281. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
+	  42, // 282. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
+	  42, // 283. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
+	  42, // 284. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
+	  42, // 285. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
+	  42, // 286. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
+	  40, // 287. Tanaan keskipaivasta alkaen [sadetta]
+	  40, // 288. Tanaan keskipaivasta alkaen [sadetta]
+	  37, // 289. Tanaan keskipaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  37, // 290. Tanaan keskipaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  37, // 291. Tanaan keskipaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  37, // 292. Tanaan keskipaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  41, // 293. Tanaan keskipaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  41, // 294. Tanaan keskipaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  41, // 295. Tanaan keskipaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  41, // 296. Tanaan keskipaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  36, // 297. Tanaan keskipaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  36, // 298. Tanaan keskipaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  39, // 299. Tanaan keskipaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  39, // 300. Tanaan keskipaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  38, // 301. Tanaan keskipaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  38, // 302. Tanaan keskipaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  38, // 303. Tanaan keskipaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  38, // 304. Tanaan keskipaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  42, // 305. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
+	  42, // 306. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
+	  42, // 307. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
+	  42, // 308. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
+	  42, // 309. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
+	  42, // 310. Tanaan keskipaivasta alkaen tiistai-iltaan asti [sadetta]
+	  40, // 311. Tanaan keskipaivasta alkaen [sadetta]
+	  40, // 312. Tanaan keskipaivasta alkaen [sadetta]
+	  29, // 313. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 314. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 315. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 316. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  33, // 317. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 318. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 319. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 320. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  28, // 321. Tanaan iltapaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  28, // 322. Tanaan iltapaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  31, // 323. Tanaan iltapaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  31, // 324. Tanaan iltapaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  30, // 325. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 326. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 327. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 328. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  34, // 329. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 330. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 331. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 332. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 333. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 334. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  40, // 335. Tanaan keskipaivasta alkaen [sadetta]
+	  40, // 336. Tanaan keskipaivasta alkaen [sadetta]
+	  29, // 337. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 338. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 339. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 340. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  33, // 341. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 342. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 343. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 344. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  28, // 345. Tanaan iltapaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  28, // 346. Tanaan iltapaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  31, // 347. Tanaan iltapaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  31, // 348. Tanaan iltapaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  30, // 349. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 350. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 351. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 352. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  34, // 353. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 354. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 355. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 356. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 357. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 358. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  40, // 359. Tanaan keskipaivasta alkaen [sadetta]
+	  40, // 360. Tanaan keskipaivasta alkaen [sadetta]
+	  29, // 361. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 362. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 363. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 364. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  33, // 365. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 366. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 367. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 368. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  28, // 369. Tanaan iltapaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  28, // 370. Tanaan iltapaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  31, // 371. Tanaan iltapaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  31, // 372. Tanaan iltapaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  30, // 373. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 374. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 375. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 376. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  34, // 377. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 378. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 379. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 380. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 381. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 382. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  32, // 383. Tanaan iltapaivasta alkaen [sadetta]
+	  32, // 384. Tanaan iltapaivasta alkaen [sadetta]
+	  29, // 385. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 386. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 387. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 388. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  33, // 389. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 390. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 391. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 392. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  28, // 393. Tanaan iltapaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  28, // 394. Tanaan iltapaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  31, // 395. Tanaan iltapaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  31, // 396. Tanaan iltapaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  30, // 397. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 398. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 399. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 400. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  34, // 401. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 402. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 403. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 404. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 405. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 406. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  32, // 407. Tanaan iltapaivasta alkaen [sadetta]
+	  32, // 408. Tanaan iltapaivasta alkaen [sadetta]
+	  29, // 409. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 410. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 411. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  29, // 412. Tanaan iltapaivasta alkaen [sadetta], huomenna [enimmakseen selkeaa]
+	  33, // 413. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 414. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 415. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  33, // 416. Tanaan iltapaivasta alkaen tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
+	  28, // 417. Tanaan iltapaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  28, // 418. Tanaan iltapaivasta alkaen [sadetta], huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  31, // 419. Tanaan iltapaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  31, // 420. Tanaan iltapaivasta alkaen [sadetta], huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  30, // 421. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 422. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 423. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  30, // 424. Tanaan iltapaivasta alkaen [sadetta], huomenna iltapaivasta alkaen poutaa
+	  34, // 425. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 426. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 427. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 428. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 429. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  34, // 430. Tanaan iltapaivasta alkaen tiistai-iltaan asti [sadetta]
+	  32, // 431. Tanaan iltapaivasta alkaen [sadetta]
+	  32, // 432. Tanaan iltapaivasta alkaen [sadetta]
+	  16, // 433. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 434. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 435. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 436. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 437. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 438. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 439. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 440. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  17, // 441. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  17, // 442. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  19, // 443. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  19, // 444. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  18, // 445. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  18, // 446. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  18, // 447. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  18, // 448. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  21, // 449. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 450. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 451. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 452. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 453. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 454. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  20, // 455. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]
+	  20, // 456. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]
+	  16, // 457. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 458. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 459. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 460. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 461. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 462. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 463. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 464. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  17, // 465. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  17, // 466. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  19, // 467. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  19, // 468. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  18, // 469. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  18, // 470. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  18, // 471. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  18, // 472. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  21, // 473. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 474. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 475. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 476. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 477. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 478. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  20, // 479. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]
+	  20, // 480. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]
+	  16, // 481. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 482. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 483. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 484. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 485. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 486. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 487. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 488. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  17, // 489. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  17, // 490. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  19, // 491. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  17, // 492. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  18, // 493. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  18, // 494. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  18, // 495. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  18, // 496. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  21, // 497. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 498. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 499. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 500. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 501. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 502. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  20, // 503. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]
+	  20, // 504. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]
+	  16, // 505. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 506. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 507. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 508. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 509. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 510. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 511. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  16, // 512. Tanaan [enimmakseen selkeaa], illalla ja yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  17, // 513. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  17, // 514. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  19, // 515. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  19, // 516. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  18, // 517. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  18, // 518. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  18, // 519. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  18, // 520. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  21, // 521. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 522. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 523. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 524. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 525. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  21, // 526. Tanaan [enimmakseen selkeaa], illasta alkaen tiistai-iltaan asti [sadetta]
+	  20, // 527. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]
+	  20, // 528. Tanaan [enimmakseen selkeaa], illasta alkaen [sadetta]
+	  27, // 529. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  27, // 530. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  27, // 531. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  27, // 532. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  27, // 533. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  27, // 534. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  27, // 535. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  27, // 536. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  22, // 537. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  22, // 538. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  24, // 539. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  24, // 540. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  23, // 541. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  23, // 542. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  23, // 543. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  23, // 544. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  26, // 545. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
+	  26, // 546. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
+	  26, // 547. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
+	  26, // 548. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
+	  26, // 549. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
+	  26, // 550. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
+	  25, // 551. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]
+	  25, // 552. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]
+	  27, // 553. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  27, // 554. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  27, // 555. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  27, // 556. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  27, // 557. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  27, // 558. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  27, // 559. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  27, // 560. Tanaan [enimmakseen selkeaa], yolla [sadetta]. Huomenna [enimmakseen selkeaa]
+	  22, // 561. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  22, // 562. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna aamupaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  24, // 563. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  24, // 564. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna keskipaivasta alkaen poutaa, [enimmakseen selkeaa]
+	  23, // 565. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  23, // 566. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  23, // 567. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  23, // 568. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]. Huomenna iltapaivasta alkaen poutaa
+	  26, // 569. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
+	  26, // 570. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
+	  26, // 571. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
+	  26, // 572. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
+	  26, // 573. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
+	  26, // 574. Tanaan [enimmakseen selkeaa], iltayosta alkaen tiistai-iltaan asti [sadetta]
+	  25, // 575. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]
+	  25  // 576. Tanaan [enimmakseen selkeaa], iltayosta alkaen [sadetta]
 	};
 
   // ----------------------------------------------------------------------
@@ -1248,7 +1248,7 @@ namespace TextGen
 			<< rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
-		// [Aamulla] [sadetta], [aamulla] [enimmäkseen selkeää] ja poutaa
+		// [Aamulla] [sadetta], [aamulla] [enimmakseen selkeaa] ja poutaa
 	  case 2:
 		{
 		  WeatherPeriod cloudyperiod(theRainPeriod.localEndTime(),
@@ -1271,7 +1271,7 @@ namespace TextGen
 			<< "poutaa";
 		  break;
 		}
-		// [Enimmäkseen selkeää], [aamulla] [sadetta]
+		// [Enimmakseen selkeaa], [aamulla] [sadetta]
 	  case 4:
 		{
 		  s << cloudiness_phrase(theSources,theArea,thePeriod,theVar,theDay)
@@ -1335,7 +1335,7 @@ namespace TextGen
 	Sentence s2;
 	switch(phrase)
 	  {
-		// Tänään [aamusta alkaen] [sadetta]
+		// Tanaan [aamusta alkaen] [sadetta]
 	  case 1:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1343,7 +1343,7 @@ namespace TextGen
 			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
-		// Tänään [aamusta alkaen] [sadetta], huomenna [aamusta alkaen] poutaa
+		// Tanaan [aamusta alkaen] [sadetta], huomenna [aamusta alkaen] poutaa
 	  case 2:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1355,7 +1355,7 @@ namespace TextGen
 			 << "poutaa";
 		  break;
 		}
-		// Tänään [aamusta alkaen] [sadetta], huomenna [aamusta alkaen] poutaa, [enimmäkseen selkeää]
+		// Tanaan [aamusta alkaen] [sadetta], huomenna [aamusta alkaen] poutaa, [enimmakseen selkeaa]
 	  case 3:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1369,7 +1369,7 @@ namespace TextGen
 			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
 		  break;
 		}
-		// Tänään [aamusta alkaen] [sadetta], huomenna [enimmäkseen selkeää]
+		// Tanaan [aamusta alkaen] [sadetta], huomenna [enimmakseen selkeaa]
 	  case 4:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1380,7 +1380,7 @@ namespace TextGen
 			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
 		  break;
 		}
-		// Tänään [aamusta alkaen] tiistai-aamuun asti [sadetta], tiistaina [enimmäkseen selkeää]
+		// Tanaan [aamusta alkaen] tiistai-aamuun asti [sadetta], tiistaina [enimmakseen selkeaa]
 	  case 5:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1393,7 +1393,7 @@ namespace TextGen
 			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
 		  break;
 		}
-		// Tänään [aamusta alkaen] tiistai-iltaan asti [sadetta]
+		// Tanaan [aamusta alkaen] tiistai-iltaan asti [sadetta]
 	  case 6:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1403,14 +1403,14 @@ namespace TextGen
 			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
-		// Tänään [enimmäkseen selkeää], [aamulla] ja [yöllä] [sadetta]. Huomenna [enimmäkseen selkeää]
+		// Tanaan [enimmakseen selkeaa], [aamulla] ja [yolla] [sadetta]. Huomenna [enimmakseen selkeaa]
 	  case 7:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
 			 << cloudiness_phrase(theSources,theArea,before_rain,theVar,theDay)
 			 << Delimiter(",")
 			 << phrase1;
-		  if(strcmp(phrase2,"") != 0)
+		  if(strcmp(phrase2, "") != 0)
 			s1 << "ja" << phrase2;
 		  s1 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 
@@ -1418,7 +1418,7 @@ namespace TextGen
 			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
 		  break;
 		}
-		// Tänään [enimmäkseen selkeää], [aamusta alkaen] [sadetta]
+		// Tanaan [enimmakseen selkeaa], [aamusta alkaen] [sadetta]
 	  case 8:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1428,7 +1428,7 @@ namespace TextGen
 			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
-		// Tänään [enimmäkseen selkeää], [aamusta alkaen] [sadetta]. Huomenna [aamusta alkaen] poutaa
+		// Tanaan [enimmakseen selkeaa], [aamusta alkaen] [sadetta]. Huomenna [aamusta alkaen] poutaa
 	  case 9:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1441,7 +1441,7 @@ namespace TextGen
 			 << "poutaa";
 		  break;
 		}
-		// Tänään [enimmäkseen selkeää], [aamusta alkaen] [sadetta]. Huomenna [aamusta alkaen] poutaa, [enimmäkseen selkeää]
+		// Tanaan [enimmakseen selkeaa], [aamusta alkaen] [sadetta]. Huomenna [aamusta alkaen] poutaa, [enimmakseen selkeaa]
 	  case 10:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1456,7 +1456,7 @@ namespace TextGen
 			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
 		  break;
 		}
-		// Tänään [enimmäkseen selkeää], [aamusta alkaen] tiistai-iltaan asti [sadetta]
+		// Tanaan [enimmakseen selkeaa], [aamusta alkaen] tiistai-iltaan asti [sadetta]
 	  case 11:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1468,7 +1468,7 @@ namespace TextGen
 			 << rain_phrase(theSources,theArea,theRainPeriod,theVar,theDay);
 		  break;
 		}
-		// Tänään [enimmäkseen selkeää], [aamulla] [sadetta]. Huomenna [enimmäkseen selkeää]
+		// Tanaan [enimmakseen selkeaa], [aamulla] [sadetta]. Huomenna [enimmakseen selkeaa]
 	  case 12:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1480,7 +1480,7 @@ namespace TextGen
 			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
 		  break;
 		}
-		// Tänään [sadetta], huomenna [aamulla] poutaa
+		// Tanaan [sadetta], huomenna [aamulla] poutaa
 	  case 13:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1491,7 +1491,7 @@ namespace TextGen
 			 << "poutaa";
 		  break;
 		}
-		// Tänään [sadetta], huomenna [aamusta alkaen] poutaa
+		// Tanaan [sadetta], huomenna [aamusta alkaen] poutaa
 	  case 14:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1502,7 +1502,7 @@ namespace TextGen
 			 << "poutaa";
 		  break;
 		}
-		// Tänään [sadetta], huomenna [aamusta alkaen] poutaa, [enimmäkseen selkeää]
+		// Tanaan [sadetta], huomenna [aamusta alkaen] poutaa, [enimmakseen selkeaa]
 	  case 15:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1515,7 +1515,7 @@ namespace TextGen
 			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
 		  break;
 		}
-		// Tänään [sadetta], huomenna [enimmäkseen selkeää]
+		// Tanaan [sadetta], huomenna [enimmakseen selkeaa]
 	  case 16:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1526,7 +1526,7 @@ namespace TextGen
 			 << cloudiness_phrase(theSources,theArea,after_rain,theVar,theDay+1);
 		  break;
 		}
-		// Tänään ja huomenna [sadetta]
+		// Tanaan ja huomenna [sadetta]
 	  case 17:
 		{
 		  s1 << PeriodPhraseFactory::create("today", theVar, theForecastTime, day1)
@@ -1561,7 +1561,7 @@ namespace TextGen
 									 theVar,
 									 theForecastTime,
 									 thePeriod);
-	s << "enimmäkseen" << "poutaa";
+	s << "enimmakseen" << "poutaa";
 	return s;
   }
 
@@ -1753,7 +1753,7 @@ namespace TextGen
 			if(day==day2)
 			  {
 				s << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, period)
-				  << "enimmäkseen"
+				  << "enimmakseen"
 				  << "poutaa";
 			  }
 			else

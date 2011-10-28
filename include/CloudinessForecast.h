@@ -108,6 +108,13 @@ using namespace std;
 	cloudiness_id getCloudinessPeriodId(const NFmiTime& theObservationTime,
 										const cloudiness_period_vector& theCloudinessPeriodVector) const;
 	Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;
+	cloudiness_id getCloudinessId(const float& theMin, 
+								  const float& theMean, 
+								  const float& theMax, 
+								  const float& theStandardDeviation) const;
+	cloudiness_id getCloudinessId(const float& theCloudiness) const;
+	void joinPuolipilvisestaPilviseen(const weather_result_data_item_vector* theData,
+									  vector<int>& theCloudinessPuolipilvisestaPilviseen) const;
 
 	wf_story_params& theParameters;
 	const weather_result_data_item_vector* theCoastalData;
@@ -135,11 +142,6 @@ using namespace std;
   const char* cloudiness_string(const cloudiness_id& theCloudinessId);
   bool puolipilvisesta_pilviseen(const cloudiness_id& theCloudinessId1,
 								 const cloudiness_id& theCloudinessId2);
-  cloudiness_id get_cloudiness_id(const float& theMin, 
-								  const float& theMean, 
-								  const float& theMax, 
-								  const float& theStandardDeviation);
-  cloudiness_id get_cloudiness_id(const float& theCloudiness);
   Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId);
   //							   const bool& theShortForm = false);
 

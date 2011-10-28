@@ -35,7 +35,7 @@ namespace TextGen
 	/*!
 	 * \brief Return a plain frost sentence
 	 *
-	 * The sentence is of type "hallan todennäköisyys on yöllä 10%".
+	 * The sentence is of type "hallan todennakoisyys on yolla 10%".
 	 */
 	// ----------------------------------------------------------------------
 
@@ -47,8 +47,8 @@ namespace TextGen
 	{
 	  Sentence sentence;
 	  sentence << (isSevere ?
-				   "ankaran hallan todennäköisyys" :
-				   "hallan todennäköisyys")
+				   "ankaran hallan todennakoisyys" :
+				   "hallan todennakoisyys")
 			   << "on"
 			   << PeriodPhraseFactory::create("tonight",
 											  theVar,

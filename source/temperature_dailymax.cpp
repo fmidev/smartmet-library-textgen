@@ -113,7 +113,7 @@ namespace TextGen
 	const int mean1 = static_cast<int>(round(meanresult.value()));
 
 	Sentence sentence;
-	sentence << "päivän ylin lämpötila"
+	sentence << "paivan ylin lampotila"
 			 << "on"
 			 << PeriodPhraseFactory::create("today",
 											itsVar,
@@ -176,12 +176,12 @@ namespace TextGen
 		
 		// For second day:
 		//
-		// "seuraavana päivänä [komparatiivi]" tai
-		// "[viikonpäivänä] [komparatiivi]"
+		// "seuraavana paivana [komparatiivi]" tai
+		// "[viikonpaivana] [komparatiivi]"
 		//
 		// For third and so on
 		//
-		// "[viikonpäivänä] [noin x|x...y] astetta"
+		// "[viikonpaivana] [noin x|x...y] astetta"
 		
 		sentence << Delimiter(",");
 		

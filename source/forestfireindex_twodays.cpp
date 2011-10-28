@@ -81,7 +81,7 @@ namespace TextGen
 
 	Sentence sentence;
 
-	sentence << "metsäpaloindeksi"
+	sentence << "metsapaloindeksi"
 			 << "on"
 			 << PeriodPhraseFactory::create("today",
 											itsVar,
@@ -115,7 +115,7 @@ namespace TextGen
 			
 			if(sentence.empty())
 			  {
-				sentence << "metsäpaloindeksi"
+				sentence << "metsapaloindeksi"
 						 << "on"
 						 << PeriodPhraseFactory::create("today",
 														itsVar,

@@ -1219,6 +1219,14 @@ using namespace std;
 	  Settings::optional_double(theParameters.theVariable + "::in_many_places_upper_limit", IN_MANY_PLACES_UPPER_LIMIT);
 	theParameters.theFreezingPrecipitationLimit =
 	  Settings::optional_double(theParameters.theVariable + "::freezing_rain_limit", FREEZING_RAIN_LIMIT);
+	theParameters.theClearSkyUpperLimit =
+	  Settings::optional_double(theParameters.theVariable + "::clear_sky_limit", SELKEA_UPPER_LIMIT);
+	theParameters.theAlmostClearSkyUpperLimit =
+	  Settings::optional_double(theParameters.theVariable + "::almost_clear_sky_limit", MELKEIN_SELKEA_UPPER_LIMIT);
+	theParameters.thePartlyCloudySkyUpperLimit =
+	  Settings::optional_double(theParameters.theVariable + "::partly_cloudy_sky_limit", PUOLIPILVISTA_UPPER_LIMIT);
+	theParameters.theMostlyCloudySkyUpperLimit =
+	  Settings::optional_double(theParameters.theVariable + "::mostly_cloudy_sky_limit", VERRATTAIN_PILVISTA_UPPER_LIMIT);
 
 	float coastalPercentage = get_area_percentage(theParameters.theVariable + "::fake::area_percentage",
 												  theParameters.theArea,
@@ -1344,7 +1352,7 @@ using namespace std;
 	theParameters.theFogForecast = &fogForecast;
 	theParameters.theThunderForecast = &thunderForecast;
 
-	//precipitationForecast.printOutPrecipitationData(theLog);
+	precipitationForecast.printOutPrecipitationData(theLog);
 	precipitationForecast.printOutPrecipitationPeriods(theLog, itsArea.isPoint());
 	precipitationForecast.printOutPrecipitationWeatherEvents(theLog);
 	//	cloudinessForecast.printOutCloudinessData(theLog);

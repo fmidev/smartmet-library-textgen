@@ -99,7 +99,7 @@ namespace TextGen
 
 	if(severe_frost_value >= severelimit)
 	  {
-		sentence << "ankaran hallan todennäköisyys"
+		sentence << "ankaran hallan todennakoisyys"
 				 << "on"
 				 << Integer(severe_frost_value)
 				 << *UnitFactory::create(Percent);
@@ -107,7 +107,7 @@ namespace TextGen
 	  }
 	else if(frost_value >= normallimit)
 	  {
-		sentence << "hallan todennäköisyys"
+		sentence << "hallan todennakoisyys"
 				 << "on"
 				 << Integer(frost_value)
 				 << *UnitFactory::create(Percent);
