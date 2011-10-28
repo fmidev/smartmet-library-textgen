@@ -1514,24 +1514,10 @@ enum anomaly_phrase_id
 
 	const WeatherPeriod& thePeriod = (report_day2_anomaly ? parameters.theDay2Period : parameters.theDay1Period);
 
-
-	std::string parameter_name(itsVar+"::required_growing_season_percentage");
-	
-	if(itsArea.isNamed())
-	  parameter_name += ("::" + itsArea.name());
-	
-	// if no percentage defined, one third is used
-	const double required_growing_season_percentage = Settings::optional_double(parameter_name, 33.33);
-	
-	parameters.theGrowingSeasonUnderway = TemperatureStoryTools::growing_season_under_way(thePeriod.localStartTime(),
-																					  itsArea,
-																					  itsSources,
-																					  itsVar,
-																					  required_growing_season_percentage);
-
-
-
-	//	Paragraph paragraphDev;
+	parameters.theGrowingSeasonUnderway = growing_season_going_on(itsArea,
+																  itsSources,
+																  thePeriod,
+																  itsVar);
 	Sentence temperatureAnomalySentence;
 	Sentence shortrunTrendSentence;
 

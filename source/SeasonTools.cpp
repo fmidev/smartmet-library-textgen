@@ -16,6 +16,11 @@
 #include "SeasonTools.h"
 #include "Settings.h"
 #include "TextGenError.h"
+#include "PositiveValueAcceptor.h"
+#include "WeatherPeriod.h"
+#include "WeatherArea.h"
+#include "WeatherResult.h"
+#include "GridForecaster.h"
 #include <newbase/NFmiTime.h>
 #include <newbase/NFmiStringTools.h>
 
@@ -215,6 +220,79 @@ namespace WeatherAnalysis
 	bool isWinterHalf(const NFmiTime& theDate, const string& theVar)
 	{
 	  return !isSummerHalf(theDate, theVar);
+	}
+
+
+	float growing_season_percentage(const WeatherArea& theArea, 
+									const AnalysisSources& theSources,
+									const WeatherPeriod& thePeriod,
+									const std::string& theVariable)
+	{
+	  GridForecaster forecaster;
+	  PositiveValueAcceptor acceptor;
+	  WeatherResult growingSeasonPercentage = forecaster.analyze(theVariable,
+																 theSources,
+																 GrowthPeriodOnOff,
+																 Percentage,
+																 Mean,
+																 theArea,
+																 thePeriod,
+																 DefaultAcceptor(),
+																 DefaultAcceptor(),
+																 acceptor);
+	  return growingSeasonPercentage.value();
+	}
+
+	bool growing_season_going_on(const WeatherArea& theArea,
+								 const AnalysisSources& theSources,
+								 const WeatherPeriod& thePeriod,
+								 const std::string theVariable)
+	{
+	  bool retval(false);
+	  
+	  std::string parameter_name(theVariable+"::required_growing_season_percentage::default");
+	  if(theArea.isNamed() && (Settings::isset(theVariable+"::required_growing_season_percentage::"+theArea.name())))
+		parameter_name = theVariable+"::required_growing_season_percentage::"+theArea.name();
+	  
+	  const double required_growing_season_percentage = Settings::optional_double(parameter_name, 33.33);
+
+	  float growingSeasonPercentage = growing_season_percentage(theArea, 
+																theSources,
+																thePeriod,
+															    theVariable);
+
+	  // growing season stops 30.11. at the latest
+	  NFmiTime lastOfNovember(thePeriod.localStartTime().GetYear(), 11, 30);
+
+	  if(theArea.isPoint())
+		{
+		  retval = growingSeasonPercentage != kFloatMissing &&
+			growingSeasonPercentage > 0 &&
+			thePeriod.localStartTime() < lastOfNovember;
+		}
+	  else
+		{
+		  retval = growingSeasonPercentage != kFloatMissing && 
+			growingSeasonPercentage >= required_growing_season_percentage &&
+			thePeriod.localStartTime() < lastOfNovember;
+		}
+
+	  return retval;
+	}
+
+	forecast_season_id get_forecast_season(const WeatherArea& theArea,
+										   const AnalysisSources& theSources,
+										   const WeatherPeriod& thePeriod,
+										   const std::string theVariable)
+	{
+	  bool growingSeasonGoingOn =  growing_season_going_on(theArea,
+														   theSources,
+														   thePeriod,
+														   theVariable);
+
+	  bool isSummer = SeasonTools::isSummerHalf(thePeriod.localStartTime(), theVariable);
+
+	  return ((isSummer || growingSeasonGoingOn) ? SUMMER_SEASON : WINTER_SEASON);
 	}
 
 

@@ -24,8 +24,10 @@
 #include "PositiveValueAcceptor.h"
 #include "ComparativeAcceptor.h"
 #include "AreaTools.h"
+#include "SeasonTools.h"
 #include "WeatherForecast.h"
 
+#include <iomanip>
 #include <map>
 #include <newbase/NFmiStringTools.h>
 #include <boost/lexical_cast.hpp>
@@ -41,6 +43,7 @@ namespace TextGen
 	using namespace std;
 	using namespace WeatherAnalysis;
 	using namespace AreaTools;
+	using namespace SeasonTools;
 
 #define HALLAN_VAARA_COMPOSITE_PHRASE "[sisämaassa] hallan vaara"
 #define ALAVILLA_MAILLA_HALLAN_VAARA_COMPOSITE_PHRASE "[sisämaassa] alavilla mailla hallan vaara"
@@ -564,6 +567,34 @@ namespace TextGen
 	  
 	  return retval;
 	}
+
+	const bool growing_season_going_on(const WeatherArea& theArea, 
+									   const AnalysisSources& theSources,
+									   const WeatherPeriod& thePeriod,
+									   const std::string& theVariable,
+									   MessageLogger& log, 
+									   const std::string& theLogMessage)									   									   
+	{
+	  float growingSeasonPercentage = SeasonTools::growing_season_percentage(theArea, 
+																			 theSources,
+																			 thePeriod,
+																			 theVariable);
+	  
+	  bool growingSeasonGoingOn = SeasonTools::growing_season_going_on(theArea,
+																	   theSources,
+																	   thePeriod,
+																	   theVariable);
+
+	  if(growingSeasonPercentage != kFloatMissing)
+		{
+		  log << NFmiStringTools::Convert(theLogMessage) 
+			  << fixed << setprecision(0) << (theArea.isPoint() ? growingSeasonPercentage * 100.0 : growingSeasonPercentage) 
+			  << endl;
+		}
+
+	  return growingSeasonGoingOn;
+	}
+
   } // namespace FrostOnenight
 
   // ----------------------------------------------------------------------
@@ -576,7 +607,6 @@ namespace TextGen
   const Paragraph FrostStory::onenight() const
   {
 	using namespace FrostOnenight;
-
 
 	MessageLogger log("FrostStory::onenight");
 
@@ -608,7 +638,7 @@ namespace TextGen
 	if(itsArea.isNamed() && (Settings::isset(itsVar+"::required_growing_season_percentage::"+itsArea.name())))
 	  parameter_name = itsVar+"::required_growing_season_percentage::"+itsArea.name();
 
-	const double required_growing_season_percentage = Settings::require_double(parameter_name);
+	const double required_growing_season_percentage = Settings::optional_double(parameter_name, 33.33);
 												 
 	log << "starthour " << starthour << endl;
 	log << "endhour " << endhour << endl;
@@ -623,6 +653,7 @@ namespace TextGen
     // Too late for this night? Return empty story then
     if(generator.size() == 0)
 	  {
+		log << "Too late for frost-story for this night!" << endl;
 		log << paragraph;
 		return paragraph;
 	  }
@@ -641,47 +672,20 @@ namespace TextGen
 	WeatherArea inlandArea = itsArea;
 	inlandArea.type(WeatherArea::Inland);
 
-	PositiveValueAcceptor positiveValueAcceptor;
-	WeatherResult temperatureSumCoastal = forecaster.analyze(itsVar+"::fake::growing_season_percentange::coastal",
-															 itsSources,
-															 EffectiveTemperatureSum,
-															 Percentage,
-															 Maximum,
-															 coastalArea,
-															 night1,
-															 DefaultAcceptor(),
-															 DefaultAcceptor(),
-															 positiveValueAcceptor);
 
-	log << "actual growing season percentage, coastal: " << temperatureSumCoastal << endl;
-
-	// Test if the growing season has started at coastal area
-	bool growingSeasonCoastal = temperatureSumCoastal.value() != kFloatMissing && 
-	  temperatureSumCoastal.value() >= required_growing_season_percentage;
-
-	if(!growingSeasonCoastal)
-	  log << "Growing season has not yet started on coastal area!" << endl;
-
-
-	WeatherResult temperatureSumInland = forecaster.analyze(itsVar+"::fake::growing_season_percentange::inland",
-															itsSources,
-															EffectiveTemperatureSum,
-															Percentage,
-															Maximum,
-															inlandArea,
-															night1,
-															DefaultAcceptor(),
-															DefaultAcceptor(),
-															positiveValueAcceptor);
-
-	log << "actual growing season percentage, inland: " << temperatureSumInland << endl;
-
-	// Test if the growing season has started at inland area
-	bool growingSeasonInland = temperatureSumInland.value() != kFloatMissing && 
-	  temperatureSumInland.value() >= required_growing_season_percentage;
-
-	if(!growingSeasonInland)
-	  log << "Growing season has not yet started on inland area!" << endl;
+	bool growingSeasonCoastal =	growing_season_going_on(coastalArea,
+														itsSources,
+														night1,
+														itsVar,
+														log, 
+														"Actual growing season percentage, coastal: ");
+	
+	bool growingSeasonInland =	growing_season_going_on(inlandArea,
+														itsSources,
+														night1,
+														itsVar,
+														log, 
+														"Actual growing season percentage, inaland: ");
 
 	if(!growingSeasonInland && !growingSeasonCoastal)
 	  {
@@ -700,8 +704,7 @@ namespace TextGen
 
 	  bool ignoreCoastalArea =  coastalPercentage < separate_coastal_area_percentage;
 
-
-	  if(ignoreCoastalArea)
+	  if(ignoreCoastalArea && coastalPercentage > 0.0)
 		{
 		  log << "Coastal proportion: " 
 			  << coastalPercentage 
@@ -711,14 +714,17 @@ namespace TextGen
 			  << endl;
 		}
 
+
+
+
 	unsigned short growing_season_started = 0x0;
 	unsigned short forecast_areas = 0x0;
 	unsigned short night_frost = 0x0;
 
 	growing_season_started |= (growingSeasonCoastal ? COASTAL_AREA : 0x0); 
 	growing_season_started |= (growingSeasonInland ? INLAND_AREA : 0x0); 
-	forecast_areas |= (temperatureSumCoastal.value() != kFloatMissing ? COASTAL_AREA : 0x0); 
-	forecast_areas |= (temperatureSumInland.value() != kFloatMissing ? INLAND_AREA : 0x0); 
+	forecast_areas |= (growingSeasonCoastal ? COASTAL_AREA : 0x0); 
+	forecast_areas |= (growingSeasonInland ? INLAND_AREA : 0x0); 
 	if(forecast_areas & COASTAL_AREA && ignoreCoastalArea)
 	  {
 		forecast_areas ^= COASTAL_AREA;

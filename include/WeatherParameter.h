@@ -61,7 +61,8 @@ namespace WeatherAnalysis
 	  NormalMinTemperatureF63,
 	  NormalMinTemperatureF88,
 	  NormalMinTemperatureF98,
-	  WindChill
+	  WindChill,
+	  GrowthPeriodOnOff
 	}; // enum WeatherParameter
 
 } // namespace WeatherAnalysis

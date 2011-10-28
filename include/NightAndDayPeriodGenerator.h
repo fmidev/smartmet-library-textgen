@@ -54,6 +54,8 @@ namespace WeatherAnalysis
 	const int itsDayEndHour;
 	const int itsDayMaxStartHour;
 	const int itsDayMinEndHour;
+	const int itsNightStartHour;
+	const int itsNightEndHour;
 	const int itsNightMaxStartHour;
 	const int itsNightMinEndHour;
 

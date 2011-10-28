@@ -818,8 +818,8 @@ using namespace std;
 	else
 	  {
 		thePhraseString = parse_time_phrase(weekday, 
-									  theSpecifyDayFlag,
-									  get_narrow_time_phrase(theWeatherPeriod, theVar, theAlkaenPhrase));
+											theSpecifyDayFlag,
+											get_narrow_time_phrase(theWeatherPeriod, theVar, theAlkaenPhrase));
 		sentence << thePhraseString;
 
 		if(sentence.size() == 0)
@@ -835,9 +835,10 @@ using namespace std;
 				
 				if(endTime.DifferenceInHours(startTime) <= 4)
 				  {
-					sentence << parse_time_phrase(narrowerPeriod.localStartTime().GetWeekday(),
-												  theSpecifyDayFlag,
-												  get_narrow_time_phrase(narrowerPeriod, theVar, theAlkaenPhrase));
+					thePhraseString = parse_time_phrase(narrowerPeriod.localStartTime().GetWeekday(),
+														theSpecifyDayFlag,
+														get_narrow_time_phrase(narrowerPeriod, theVar, theAlkaenPhrase));
+					sentence << thePhraseString;
 				  }
 
 				if(sentence.size() == 0)
@@ -857,9 +858,12 @@ using namespace std;
 
 			if(sentence.size() == 0)
 			  {
-				sentence << parse_time_phrase(weekday, 
-											  theSpecifyDayFlag, 
-											  get_time_phrase(theWeatherPeriod.localStartTime(), theVar, theAlkaenPhrase));
+				thePhraseString = parse_time_phrase(weekday, 
+													theSpecifyDayFlag, 
+													get_time_phrase(theWeatherPeriod.localStartTime(), 
+																	theVar, 
+																	theAlkaenPhrase));
+				sentence << thePhraseString;
 			  }
 		  }
 	  }

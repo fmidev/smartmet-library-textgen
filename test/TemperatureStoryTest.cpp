@@ -49,12 +49,16 @@ namespace TemperatureStoryTest
 
 	TextGen::Paragraph para = theStory.makeStory(theName);
 	const string value = para.realize(formatter);
-
+	
+	const string msg = value + " <> " + theExpected;
+	cout << endl << msg << endl << endl;
 	if(value != theExpected)
 	  {
-		const string msg = value + " <> " + theExpected;
-		cout << endl << msg << endl << endl;
+		//	const string msg = value + " <> " + theExpected;
+		//cout << endl << msg << endl << endl;
 		//		TEST_FAILED(msg.c_str());
+		cout << "FAILED!!" << endl;
+
 	  }
 	else
 	  {
@@ -4392,8 +4396,8 @@ void delete_testcases(TestCaseContainer& testCases)
 
 	//qdtext::forecasttime = 200904301200
 	
-	NFmiTime time1(2009,6,1,6,0,0);
-	NFmiTime time2(2009,6,2,18,0,0);
+	NFmiTime time1(2009,1,1,6,0,0);
+	NFmiTime time2(2009,1,2,18,0,0);
 	WeatherPeriod period_day1_night_day2(time1,time2);
 	TemperatureStory story1(time1,sources,area,period_day1_night_day2,"max36hours");
 
@@ -4537,8 +4541,8 @@ void delete_testcases(TestCaseContainer& testCases)
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2009, 6, 1, 6, 0, 0);
-	NFmiTime time2(2009, 6, 2, 18, 0, 0);
+	NFmiTime time1(2009, 1, 1, 6, 0, 0);
+	NFmiTime time2(2009, 2, 2, 18, 0, 0);
 	WeatherPeriod period_day1_night_day2(time1,time2);
 	TemperatureStory story1(time1,sources, area, period_day1_night_day2,"anomaly");
 	NFmiSettings::Set("textgen::fractiles_climatology","/home/reponen/work/testdata/tmax.sqd");

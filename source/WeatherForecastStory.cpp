@@ -381,18 +381,21 @@ namespace TextGen
 					  {
 						theStoryItemVector[i-1]->theIncludeInTheStoryFlag = false;
 					  }
+					previousPrecipitationStoryItem = currentPrecipitationStoryItem;
 					continue;
 				  }
 
 				NFmiTime gapPeriodStartTime(previousPrecipitationStoryItem->thePeriod.localEndTime());
+				gapPeriodStartTime.ChangeByHours(+1);
 				NFmiTime gapPeriodEndTime(currentPrecipitationStoryItem->thePeriod.localStartTime());
+				gapPeriodEndTime.ChangeByHours(-1);
 				WeatherPeriod gapPeriod(gapPeriodStartTime, gapPeriodEndTime);
 
 				// merge periods
 				if(get_period_length(gapPeriod) <= 3 &&
 				   (get_period_length(gapPeriod) <= 
 					currentPrecipitationStoryItem->storyItemPeriodLength() +
-					previousPrecipitationStoryItem->storyItemPeriodLength() + 1))
+					previousPrecipitationStoryItem->storyItemPeriodLength() + 2))
 				  {
 					// merge two weak precipitation periods
 					previousPrecipitationStoryItem->thePeriodToMergeWith = currentPrecipitationStoryItem;
@@ -412,13 +415,16 @@ namespace TextGen
 	CloudinessForecastStoryItem* currentCloudinessStoryItem = 0;
 	for(unsigned int i = 0; i < theStoryItemVector.size(); i++)
 	  {
-		if(theStoryItemVector[i]->theStoryPartId == CLOUDINESS_STORY_PART)
+		if(theStoryItemVector[i]->theStoryPartId == CLOUDINESS_STORY_PART &&
+		   theStoryItemVector[i]->theIncludeInTheStoryFlag == true)
 		  {
 			currentCloudinessStoryItem = static_cast<CloudinessForecastStoryItem*>(theStoryItemVector[i]);
 			if(previousCloudinessStoryItem)
 			  {
 				NFmiTime gapPeriodStartTime(previousCloudinessStoryItem->thePeriod.localEndTime());
+				gapPeriodStartTime.ChangeByHours(+1);
 				NFmiTime gapPeriodEndTime(currentCloudinessStoryItem->thePeriod.localStartTime());
+				gapPeriodEndTime.ChangeByHours(-1);
 				WeatherPeriod gapPeriod(gapPeriodStartTime, gapPeriodEndTime);
 
 				// merge periods if the precipitation period in between is short and

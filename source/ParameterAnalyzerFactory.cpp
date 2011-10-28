@@ -235,7 +235,9 @@ namespace WeatherAnalysis
 		case WindChill:
 		  return new WindChillParameterAnalyzer("textgen::windchill",
 												"WindChill");
-
+		case GrowthPeriodOnOff:
+		  return new RegularParameterAnalyzer("textgen::effectivetemperaturesum",
+											  "GrowthPeriodOnOff");
 	  }
 
 	  // Should never reach this place

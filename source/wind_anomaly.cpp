@@ -1329,7 +1329,6 @@ namespace TextGen
 																	"::generate_wind_cooling_sentence", 
 																	true);
 
-
 	  bool inlandIncluded = theParameters.theWindspeedInlandMorningMinimum.value() != kFloatMissing || 
 		theParameters.theWindspeedInlandAfternoonMinimum.value() != kFloatMissing;
 	  bool coastIncluded = theParameters.theWindspeedCoastalMorningMinimum.value() != kFloatMissing ||

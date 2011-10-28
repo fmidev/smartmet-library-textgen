@@ -733,7 +733,7 @@ namespace TextGen
 	 * \param theVar The control variable prefix
 	 * \param theFractileId The fractile id
 	 * \param theSources The analysis sources
-	 * \param theArea The weather area
+	 * \param theArea The waether area
 	 * \param thePeriod The main period
 	 * \return The temperature for the given fractile id
 	 *
@@ -922,45 +922,6 @@ namespace TextGen
 		}
 
 	  return retval;
-	}
-
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief returns information whether growing season has started or not
-	 *
-	 * \param theDate The date to check
-	 * \param theArea The weather area
-	 * \param theSources The analysis sources
-	 * \param theVar The control variable
-	 * \param theRequiredGrowingSeasonPercentage The percentage of the 
-	 * \return true if growing season has started, false otherwise 
-	 *
-	 */
-	// ----------------------------------------------------------------------
-
-	bool growing_season_under_way(const NFmiTime& theDate,
-								  const WeatherArea& theArea,
-								  const AnalysisSources& theSources,
-								  const std::string& theVar,
-								  const double& theRequiredGrowingSeasonPercentage)
-	{
-	  GridForecaster forecaster;
-	  
-	  WeatherPeriod thePeriod(theDate, theDate);
-	  PositiveValueAcceptor positiveValueAcceptor;
-	  
-	  WeatherResult temperatureSum = forecaster.analyze(theVar,
-														theSources,
-														EffectiveTemperatureSum,
-														Percentage,
-														Mean,
-														theArea,
-														thePeriod,
-														DefaultAcceptor(),
-														DefaultAcceptor(),
-														positiveValueAcceptor);
-
-	  return temperatureSum.value() >= theRequiredGrowingSeasonPercentage;	  
 	}
 
   } // namespace TemperatureStoryTools

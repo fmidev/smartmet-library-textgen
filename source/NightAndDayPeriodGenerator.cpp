@@ -50,6 +50,8 @@ namespace WeatherAnalysis
 	, itsDayEndHour(theDayEndHour)
 	, itsDayMaxStartHour(theDayMaxStartHour)
 	, itsDayMinEndHour(theDayMinEndHour)
+	, itsNightStartHour(itsDayEndHour)
+	, itsNightEndHour(itsDayStartHour)
 	, itsNightMaxStartHour(theNightMaxStartHour)
 	, itsNightMinEndHour(theNightMinEndHour)
   {
@@ -86,6 +88,8 @@ namespace WeatherAnalysis
 	, itsDayEndHour(Settings::require_hour(theVariable+"::day::endhour"))
 	, itsDayMaxStartHour(Settings::optional_hour(theVariable+"::day::maxstarthour",itsDayStartHour))
 	, itsDayMinEndHour(Settings::optional_hour(theVariable+"::day::minendhour",itsDayEndHour))
+	, itsNightStartHour(Settings::optional_hour(theVariable+"::night::starthour",itsDayEndHour))
+	, itsNightEndHour(Settings::optional_hour(theVariable+"::night::endhour",itsDayStartHour))
 	, itsNightMaxStartHour(Settings::optional_hour(theVariable+"::night::maxstarthour",itsDayEndHour))
 	, itsNightMinEndHour(Settings::optional_hour(theVariable+"::night::minendhour",itsDayStartHour))
   {
@@ -127,8 +131,8 @@ namespace WeatherAnalysis
 	  {
 		itsPeriods.push_back(getPeriod(itsMainPeriod,
 									   n,
-									   itsDayEndHour,
-									   itsDayStartHour,
+									   itsNightStartHour,
+									   itsNightEndHour,
 									   itsNightMaxStartHour,
 									   itsNightMinEndHour));
 	  }

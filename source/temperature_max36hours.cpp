@@ -299,23 +299,6 @@ namespace TextGen
 							   LAMPOTILA_VALILLA_PHRASE_ID,
 							   NO_PHRASE_ID};
 	
-	/*
-	enum temperature_phrase_id{VAHAN_PLUSSAN_PUOLELLA,
-							   NOLLAN_TIENOILLA_TAI_VAHAN_PLUSSAN_PUOLELLA,
-							   SUUNNILLEEN_SAMA,
-							   HIEMAN_KORKEAMPI,
-							   HIEMAN_ALEMPI,
-							   HIEMAN_LAUHEMPAA,
-							   HIEMAN_KYLMEMPAA,
-							   HIEMAN_HEIKOMPAA,
-							   HIEMAN_KIREAMPAA,
-							   LAMPOTILA_NOUSEE,
-							   PIKKUPAKKASTA,
-							   NOLLAN_TIENOILLA,
-							   LAMPOTILA_VALILLA,
-							   NO_PHRASE};
-	*/
-
 	enum forecast_period_id{DAY1_PERIOD = 0x1, 
 							NIGHT_PERIOD = 0x2,
 							DAY2_PERIOD = 0x4,
@@ -1229,11 +1212,6 @@ namespace TextGen
 		} 
 	}
 
-	const forecast_season_id get_forecast_season(const NFmiTime& theTime, const std::string theVariable)
-	{
-	  return (SeasonTools::isSummerHalf(theTime, theVariable) ? SUMMER_SEASON : WINTER_SEASON);
-	}
-
 	const temperature_phrase_id around_zero_phrase(const float theMinimum,
 												   const float theMean,
 												   const float theMaximum,
@@ -1526,7 +1504,6 @@ namespace TextGen
 
 
 	const Sentence temperature_sentence(t36hparams& theParameters,
-										bool& intervalUsed,
 										int& intervalStart,
 										int& intervalEnd)
 	{
@@ -1577,6 +1554,7 @@ namespace TextGen
 						int theMinimumInt = static_cast<int>(round(theParameters.theMinimum));
 						int theMeanInt = static_cast<int>(round(theParameters.theMean));
 						int theMaximumInt = static_cast<int>(round(theParameters.theMaximum));
+						bool intervalUsed;
 
 						sentence = TemperatureStoryTools::temperature_sentence2(theMinimumInt, 
 																				theMeanInt, 
@@ -1709,6 +1687,7 @@ namespace TextGen
 			  int theMinimumInt = static_cast<int>(round(theParameters.theMinimum));
 			  int theMeanInt = static_cast<int>(round(theParameters.theMean));
 			  int theMaximumInt = static_cast<int>(round(theParameters.theMaximum));
+			  bool intervalUsed;
 
 			  clamp_temperature(theParameters.theVariable,
 								theParameters.theSeasonId == WINTER_SEASON,
@@ -2927,7 +2906,6 @@ namespace TextGen
 	  Sentence sentence;
 
 	  double temperatureDifference = 100.0;
-	  bool intervalUsed(false);
 	  int intervalStart = static_cast<int>(kFloatMissing);
 	  int intervalEnd = static_cast<int>(kFloatMissing);
 	  bool day1PeriodIncluded = theParameters.theMaxTemperatureDay1 != kFloatMissing;
@@ -3015,7 +2993,6 @@ namespace TextGen
 		  else
 			{
 			  temperatureSentence << temperature_sentence(theParameters,
-														  intervalUsed,
 														  intervalStart,
 														  intervalEnd);
 			}
@@ -3023,7 +3000,6 @@ namespace TextGen
 	  else
 		{
 		  temperatureSentence << temperature_sentence(theParameters,
-													  intervalUsed,
 													  intervalStart,
 													  intervalEnd);
 		}
@@ -3031,17 +3007,19 @@ namespace TextGen
 	  Sentence tonightSentence;
 	  if(theParameters.theDayAndNightSeparationFlag &&
 		 theParameters.theFullPeriod.localEndTime().DifferenceInHours(theParameters.theFullPeriod.localStartTime()) > 24)
-		tonightSentence << PeriodPhraseFactory::create("tonight",
-													   theParameters.theVariable,
-													   theParameters.theForecastTime,
-													   theParameters.theWeatherPeriod,
-													   theParameters.theWeatherArea);
+		{
+		  tonightSentence << PeriodPhraseFactory::create("tonight",
+														 theParameters.theVariable,
+														 theParameters.theForecastTime,
+														 theParameters.theWeatherPeriod,
+														 theParameters.theWeatherArea);
+		}
 
-	  sentence <<  construct_final_sentence(theParameters,
-											temperatureSentence,
-											tonightSentence,
-											intervalStart,
-											intervalEnd);
+	  sentence << construct_final_sentence(theParameters,
+										   temperatureSentence,
+										   tonightSentence,
+										   intervalStart,
+										   intervalEnd);
 
 
 	  theParameters.theTomorrowTautologyFlag = false;
@@ -3053,7 +3031,6 @@ namespace TextGen
 	{
 	  Sentence sentence;
 
-	  bool intervalUsed(false);
 	  int intervalStart = static_cast<int>(kFloatMissing);
 	  int intervalEnd = static_cast<int>(kFloatMissing);
 
@@ -3133,7 +3110,6 @@ namespace TextGen
 		  else
 			{
 			  temperatureSentence << temperature_sentence(theParameters,
-														  intervalUsed,
 														  intervalStart,
 														  intervalEnd);
 
@@ -3142,7 +3118,6 @@ namespace TextGen
 	  else
 		{
 		  temperatureSentence << temperature_sentence(theParameters,
-													  intervalUsed,
 													  intervalStart,
 													  intervalEnd);
 		}
@@ -3202,16 +3177,12 @@ namespace TextGen
 	  Sentence temperatureSentence;
 	  Sentence theSpecifiedDay;
 
-	  bool intervalUsed(false);
 	  int intervalStart = static_cast<int>(kFloatMissing);
 	  int intervalEnd = static_cast<int>(kFloatMissing);
 
 	  temperatureSentence << temperature_sentence(theParameters,
-												  intervalUsed,
 												  intervalStart,
 												  intervalEnd);
-
-	  //	  temperatureSentence << temperature_sentence(theParameters);
 
 	  if(theParameters.theDayAndNightSeparationFlag &&
 		 theParameters.theFullPeriod.localEndTime().DifferenceInHours(theParameters.theFullPeriod.localStartTime()) > 24)
@@ -3223,11 +3194,11 @@ namespace TextGen
 														 theParameters.theWeatherArea);
 		}
 	  
-	  sentence <<  construct_final_sentence(theParameters,
-											temperatureSentence,
-											theSpecifiedDay,
-											intervalStart,
-											intervalEnd);
+	  sentence << construct_final_sentence(theParameters,
+										   temperatureSentence,
+										   theSpecifiedDay,
+										   intervalStart,
+										   intervalEnd);
 
 	  /*
 	  sentence << theSpecifiedDay;
@@ -3529,7 +3500,7 @@ namespace TextGen
 				  sentence << night_sentence(theParameters);
 				}
 
-			  construct_optional_frost_story(theParameters);			
+			  construct_optional_frost_story(theParameters);
 			}
 		  else if(theParameters.theForecastPeriodId == DAY2_PERIOD)
 			{
@@ -3613,20 +3584,6 @@ namespace TextGen
 
 	  const int temperature_limit_coast_inland = optional_int(theParameters.theVariable + 
 															  "::temperature_limit_coast_inland", 3);
-
-	  forecast_season_id forecast_season(UNDEFINED_SEASON);
-
-	  // find out seasons of the forecast periods
-	  if(theParameters.theForecastPeriod & DAY1_PERIOD)
-		{
-		  forecast_season = get_forecast_season(theParameters.theGenerator.period(1).localStartTime(), 
-												theParameters.theVariable);
-		}
-	  else if(theParameters.theForecastPeriod & NIGHT_PERIOD)
-		{
-		  forecast_season = get_forecast_season(theParameters.theGenerator.period(1).localStartTime(), 
-												theParameters.theVariable);
-		}
 
 	  // Day1, Night, Day2
 	  // 1. Day1 inland 
@@ -4116,7 +4073,7 @@ namespace TextGen
 
 		  theParameters.theForecastAreaId = area_id;
 		  theParameters.theForecastPeriodId = period_id;
-		  theParameters.theSeasonId = forecast_season;
+		  //theParameters.theSeasonId = forecast_season;
 		  
 		  theParameters.theDayAndNightSeparationFlag = separate_day_and_night(theParameters, theParameters.theForecastAreaId);
 		  construct_sentence(theParameters);
@@ -4195,7 +4152,6 @@ namespace TextGen
 		  else
 			{
 			  theLog << "today" << endl;
-			  periodEndTime.ChangeByHours(12);
 			}
 		}
 	  else
@@ -4203,7 +4159,6 @@ namespace TextGen
 		  if(generator00.size() == 1)
 			{
 			  theLog << "one night" << endl;
-			  periodEndTime.ChangeByHours(12);
 			}
 		  else
 			{
@@ -4217,7 +4172,10 @@ namespace TextGen
 
 	  unsigned short forecast_area = 0x0;
 	  unsigned short forecast_period = 0x0;
-	  forecast_season_id forecast_season = get_forecast_season(generator.period(1).localStartTime(), itsVar);
+	  forecast_season_id forecast_season = get_forecast_season(itsArea, 
+															   itsSources,
+															   generator.period(1), 
+															   itsVar);
 		      
 	  // container to hold the results
 	  weather_result_container_type weatherResults;
