@@ -27,7 +27,8 @@ objdir = obj
 
 # rpm variables
 
-rpmsourcedir = /smartmet/src/redhat/SOURCES
+rpmsourcedir=$(shell test -d /smartmet && echo /smartmet/src/redhat/SOURCES || echo /fmi/dev/src/redhat/SOURCES )
+
 rpmerr = "There's no spec file ($(LIB).spec). RPM wasn't created. Please make a spec file or copy and rename it into $(LIB).spec"
 
 rpmversion := $(shell grep "^Version:" $(LIB).spec  | cut -d\  -f 2 | tr . _)
@@ -117,6 +118,10 @@ headertest:
 	echo "int main() { return 0; }" >> /tmp/$(LIB).cpp; \
 	$(CC) $(CFLAGS) $(INCLUDES) -o /dev/null /tmp/$(LIB).cpp $(LIBS); \
 	done
+
+analysis:
+	@for f in source/*.cpp; do cmd="clang++ --analyze -I include -I /usr/include/smartmet -I /usr/include/mysql -DUNIX -DFMI_COMPRESSION -DBOOST -DBOOST_IOSTREAMS_NO_LIB $$f"; echo $$cmd; $$cmd; done; rm *.plist
+
 
 mysqldump:
 	mysqldump -h base -u textgen --password=w1w2w3 textgen > sql/textgen.sql

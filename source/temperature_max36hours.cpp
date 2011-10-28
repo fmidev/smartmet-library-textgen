@@ -53,6 +53,7 @@
 
 #include <boost/lexical_cast.hpp>
 
+#include <cstdio>
 #include <map>
 #include <vector>
 
