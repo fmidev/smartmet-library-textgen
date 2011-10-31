@@ -33,8 +33,8 @@
 #include "UnitFactory.h"
 #include "WindForecast.h"
 
-#include "NFmiCombinedParam.h"
-#include "NFmiMercatorArea.h"
+#include <newbase/NFmiCombinedParam.h>
+#include <newbase/NFmiMercatorArea.h>
 
 #include <boost/lexical_cast.hpp>
 #include <vector>

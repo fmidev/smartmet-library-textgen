@@ -53,6 +53,7 @@
 
 #include <boost/lexical_cast.hpp>
 
+#include <cstdio>
 #include <map>
 #include <vector>
 
@@ -824,10 +825,11 @@ namespace TextGen
 	  while(theNumberDivisibleByFive % 5 != 0)
 		theNumberDivisibleByFive += 1;
 
-	  if((theNumberDivisibleByFive < theMaximumCalc && theMinimumCalc < theNumberDivisibleByFive &&
+	  if((theNumberDivisibleByFive < theMaximumCalc &&
+		  theMinimumCalc < theNumberDivisibleByFive &&
 		 theNumberDivisibleByFive - theMinimumCalc < TIENOILLA_ASTETTA_LOW_TEMP_LIMIT &&
 		  theMaximumCalc - theNumberDivisibleByFive < TIENOILLA_ASTETTA_LOW_TEMP_LIMIT) ||
-		 theMaximum == theMinimum == theNumberDivisibleByFive) 
+		 ((theMaximum == theMinimum) && (theMinimum == theNumberDivisibleByFive)))
 		{
 		  theCase = BETWEEN;
 		}
@@ -1932,8 +1934,8 @@ namespace TextGen
 	  Sentence sentence;
 
 	  bool useDayTemperaturePhrase = (theParameters.theForecastPeriodId == DAY1_PERIOD || 
-									  (theParameters.theForecastPeriodId == DAY2_PERIOD && 
-									   !(theParameters.theForecastPeriod & DAY1_PERIOD) ||
+									  ((theParameters.theForecastPeriodId == DAY2_PERIOD && 
+										!(theParameters.theForecastPeriod & DAY1_PERIOD)) ||
 									   theParameters.inlandAndCoastSeparated(DAY1_PERIOD)));
 
 	  std::string dayPhaseString(EMPTY_STRING);

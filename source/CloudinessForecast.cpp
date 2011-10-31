@@ -207,7 +207,7 @@ namespace TextGen
 	  {
 		if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
 		  {
-			if(periodPhraseEmpty && !areaPhraseEmpty ||
+			if((periodPhraseEmpty && !areaPhraseEmpty) ||
 			   (!periodPhraseEmpty && areaPhraseEmpty))
 			  {
 				if(periodPhraseEmpty)
@@ -244,7 +244,7 @@ namespace TextGen
 		  }
 		else
 		  {
-			if(periodPhraseEmpty && !areaPhraseEmpty ||
+			if((periodPhraseEmpty && !areaPhraseEmpty) ||
 			   (!periodPhraseEmpty && areaPhraseEmpty))
 			  {
 				if(periodPhraseEmpty)

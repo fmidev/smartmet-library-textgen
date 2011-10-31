@@ -1,15 +1,15 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 10.7.13
-Release: 1.el5.fmi
+Version: 11.10.31
+Release: 1.el6.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 10.7.5-2
-BuildRequires: boost-devel >= 1.41
+BuildRequires: libsmartmet-newbase >= 11.10.17-3
+BuildRequires: boost-devel >= 1.47
 BuildRequires: mysql-devel
 Provides: %{LIBNAME}
 
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Oct 31 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.10.31-1.el6.fmi
+- A large number of new improved algorithms
 * Tue Jul 13 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.7.13-1.el5.fmi
 - Removed excessive use of shared_ptr which caused segfaults, -O2 is back
 * Mon Jul 12 2010 mheiskan <mika.heiskanen@fmi.fi> - 10.7.12-1.el5.fmi
