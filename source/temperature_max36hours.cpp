@@ -827,7 +827,7 @@ namespace TextGen
 	  if((theNumberDivisibleByFive < theMaximumCalc && theMinimumCalc < theNumberDivisibleByFive &&
 		 theNumberDivisibleByFive - theMinimumCalc < TIENOILLA_ASTETTA_LOW_TEMP_LIMIT &&
 		  theMaximumCalc - theNumberDivisibleByFive < TIENOILLA_ASTETTA_LOW_TEMP_LIMIT) ||
-		 theMaximum == theMinimum == theNumberDivisibleByFive) 
+		 theMaximum == theMinimum && theMaximum == theNumberDivisibleByFive)
 		{
 		  theCase = BETWEEN;
 		}
