@@ -592,6 +592,15 @@ namespace TextGen
 			  << endl;
 		}
 
+	  // frost warnings stop 15.10. at the latest
+	  NFmiTime fifteenthOfOctober(thePeriod.localStartTime().GetYear(), 10, 15);
+
+	  if(growingSeasonGoingOn && thePeriod.localStartTime() > fifteenthOfOctober)
+		{
+		  log << "Growing season ended October 15th, no frost warnings issued any more!" << endl; 
+		  growingSeasonGoingOn = false;
+		}
+
 	  return growingSeasonGoingOn;
 	}
 
@@ -610,9 +619,9 @@ namespace TextGen
 
 	MessageLogger log("FrostStory::onenight");
 
-	  log << "forecasttime: "
-			 << itsForecastTime
-			 << endl;
+	log << "forecasttime: "
+		<< itsForecastTime
+		<< endl;
 
 	Paragraph paragraph;
 
@@ -685,10 +694,13 @@ namespace TextGen
 														night1,
 														itsVar,
 														log, 
-														"Actual growing season percentage, inaland: ");
+														"Actual growing season percentage, inland: ");
 
-	if(!growingSeasonInland && !growingSeasonCoastal)
+	if(!growingSeasonInland)
 	  {
+		if(growingSeasonCoastal)
+		  log << "Growing season not going on on inland area, coastal area is not reported alone!" << endl;
+
 		return paragraph;
 	  }
 
@@ -704,9 +716,15 @@ namespace TextGen
 
 	  bool ignoreCoastalArea =  coastalPercentage < separate_coastal_area_percentage;
 
+	  float inlandPercentage = get_area_percentage(itsVar + "::fake::area_percentage",
+												   itsArea,
+												   WeatherArea::Inland,
+												   itsSources,
+												   itsPeriod);
+
 	  if(ignoreCoastalArea && coastalPercentage > 0.0)
 		{
-		  log << "Coastal proportion: " 
+		  log << "Coastal proportion: "
 			  << coastalPercentage 
 			  << " is smaller than " 
 			  << SEPARATE_COASTAL_AREA_PERCENTAGE 
@@ -724,7 +742,7 @@ namespace TextGen
 	growing_season_started |= (growingSeasonCoastal ? COASTAL_AREA : 0x0); 
 	growing_season_started |= (growingSeasonInland ? INLAND_AREA : 0x0); 
 	forecast_areas |= (growingSeasonCoastal ? COASTAL_AREA : 0x0); 
-	forecast_areas |= (growingSeasonInland ? INLAND_AREA : 0x0); 
+	forecast_areas |= (inlandPercentage > 0.0 ? INLAND_AREA : 0x0); 
 	if(forecast_areas & COASTAL_AREA && ignoreCoastalArea)
 	  {
 		forecast_areas ^= COASTAL_AREA;
