@@ -20,7 +20,6 @@
 #include "WeatherResult.h"
 #include "AnalysisSources.h"
 #include "WeatherParameter.h"
-#include "NFmiIndexMask.h"
 #include "UserWeatherSource.h"
 
 using namespace std;
