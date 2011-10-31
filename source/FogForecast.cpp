@@ -150,7 +150,9 @@ namespace TextGen
   {
 	float totalFog = theModerateFog + theDenseFog;
 
-	if(totalFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
+	if(totalFog < IN_SOME_PLACES_LOWER_LIMIT_FOG ||
+	   theModerateFog == kFloatMissing || 
+	   theDenseFog == kFloatMissing)
 	  {
 		return NO_FOG;
 	  }
@@ -512,8 +514,9 @@ namespace TextGen
 	float coastalFogAvgExtent(getMean(theCoastalFog, theWeatherPeriod));
 	float inlandFogAvgExtent(getMean(theInlandFog, theWeatherPeriod));
 	
-	if(abs(coastalFogAvgExtent - inlandFogAvgExtent) > 50 && 
-	   coastalFogAvgExtent >= 10.0 && inlandFogAvgExtent >= 10.0 &&
+	if(abs(coastalFogAvgExtent - inlandFogAvgExtent) > 50.0 && 
+	   coastalFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG && 
+	   inlandFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG &&
 	   !theParameters.theCoastalAndInlandTogetherFlag)
 	  {
 		return true;
@@ -959,23 +962,42 @@ namespace TextGen
 	return sentence;
   }
 
+  /*
+	float coastalFogAvgExtent(getMean(theCoastalFog, theWeatherPeriod));
+	float inlandFogAvgExtent(getMean(theInlandFog, theWeatherPeriod));
+	
+	if(abs(coastalFogAvgExtent - inlandFogAvgExtent) > 50.0 && 
+	   coastalFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG && 
+	   inlandFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG &&
+	   !theParameters.theCoastalAndInlandTogetherFlag)
+	  {
+		return true;
+	  }
+   */
   Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod) const
   {
 	Sentence sentence;
 
 	if(theParameters.theForecastArea & FULL_AREA)
 	  {
-		if(separateCoastInlandFog(thePeriod))
+		float coastalFogAvgExtent(getMean(theCoastalFog, thePeriod));
+		float inlandFogAvgExtent(getMean(theInlandFog, thePeriod));
+
+		if(coastalFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG &&
+		   inlandFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG)
 		  {
-			sentence << COAST_PHRASE;
-			sentence << fogSentence(thePeriod, theCoastalFogType, COAST_PHRASE);
-			sentence << Delimiter(",");
-			sentence << INLAND_PHRASE;
-			sentence << fogSentence(thePeriod, theInlandFogType, INLAND_PHRASE);
-		  }
-		else
-		  {
+			// ARE 31.10.2011: if fog exisis on both areas report the whole area together
 			sentence << fogSentence(thePeriod, theFullAreaFogType, EMPTY_STRING);
+		  }
+		else if(coastalFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG &&
+				inlandFogAvgExtent < IN_SOME_PLACES_LOWER_LIMIT_FOG)
+		  {
+			sentence << fogSentence(thePeriod, theCoastalFogType, COAST_PHRASE);
+		  }
+		else if(coastalFogAvgExtent < IN_SOME_PLACES_LOWER_LIMIT_FOG &&
+				inlandFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG)
+		  {
+			sentence << fogSentence(thePeriod, theInlandFogType, INLAND_PHRASE);
 		  }
 	  }
 	else if(theParameters.theForecastArea & INLAND_AREA)
