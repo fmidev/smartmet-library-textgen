@@ -21,6 +21,7 @@
 #include "WeatherArea.h"
 #include "WeatherResult.h"
 #include "GridForecaster.h"
+#include "RangeAcceptor.h"
 #include <newbase/NFmiTime.h>
 #include <newbase/NFmiStringTools.h>
 
@@ -229,18 +230,46 @@ namespace WeatherAnalysis
 									const std::string& theVariable)
 	{
 	  GridForecaster forecaster;
-	  PositiveValueAcceptor acceptor;
-	  WeatherResult growingSeasonPercentage = forecaster.analyze(theVariable,
-																 theSources,
-																 GrowthPeriodOnOff,
-																 Percentage,
-																 Mean,
-																 theArea,
-																 thePeriod,
-																 DefaultAcceptor(),
-																 DefaultAcceptor(),
-																 acceptor);
-	  return growingSeasonPercentage.value();
+
+	  if(Settings::isset("textgen::effectivetemperaturesum_forecast"))
+		{	   
+		  PositiveValueAcceptor acceptor;
+		  WeatherResult growingSeasonPercentage = forecaster.analyze(theVariable,
+																	 theSources,
+																	 GrowthPeriodOnOff,
+																	 Percentage,
+																	 Mean,
+																	 theArea,
+																	 thePeriod,
+																	 DefaultAcceptor(),
+																	 DefaultAcceptor(),
+																	 acceptor);
+		  
+		  return growingSeasonPercentage.value();
+		}
+	  else
+		{
+		  // 5 days average temperature
+		  NFmiTime startTime(thePeriod.localStartTime());
+		  NFmiTime endTime(thePeriod.localStartTime());
+		  endTime.ChangeByDays(5);
+		  WeatherPeriod period(startTime, endTime);
+
+		  RangeAcceptor temperatureAcceptor;
+		  temperatureAcceptor.lowerLimit(5.0); // temperatures > 5 degrees
+		  WeatherResult meanTemperaturePercentage = forecaster.analyze(theVariable,
+																	   theSources,
+																	   Temperature,
+																	   Percentage,
+																	   Mean,
+																	   theArea,
+																	   period,
+																	   DefaultAcceptor(),
+																	   DefaultAcceptor(),
+																	   temperatureAcceptor);
+		  
+		  return  meanTemperaturePercentage.value();
+		}
 	}
 
 	bool growing_season_going_on(const WeatherArea& theArea,
@@ -261,20 +290,15 @@ namespace WeatherAnalysis
 																thePeriod,
 															    theVariable);
 
-	  // growing season stops 30.11. at the latest
-	  NFmiTime lastOfNovember(thePeriod.localStartTime().GetYear(), 11, 30);
-
 	  if(theArea.isPoint())
 		{
-		  retval = growingSeasonPercentage != kFloatMissing &&
-			growingSeasonPercentage > 0 &&
-			thePeriod.localStartTime() < lastOfNovember;
+		  retval = growingSeasonPercentage != kFloatMissing && 
+			growingSeasonPercentage > 0;
 		}
 	  else
 		{
 		  retval = growingSeasonPercentage != kFloatMissing && 
-			growingSeasonPercentage >= required_growing_season_percentage &&
-			thePeriod.localStartTime() < lastOfNovember;
+			growingSeasonPercentage >= required_growing_season_percentage;
 		}
 
 	  return retval;
