@@ -145,10 +145,10 @@ if DEBUG:
     
             # extraflags from orig. makefile (for 'DEBUG' target)
             #
+            # "-Wconversion",
             "-ansi",
             "-Wcast-align",
             "-Wcast-qual",
-            "-Wconversion",
             "-Winline",
             "-Wno-multichar",
             "-Wno-pmf-conversions",
