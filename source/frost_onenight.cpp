@@ -591,13 +591,28 @@ namespace TextGen
 			  << fixed << setprecision(0) << (theArea.isPoint() ? growingSeasonPercentage * 100.0 : growingSeasonPercentage) 
 			  << endl;
 		}
+	  const int notBeforeDate = Settings::optional_int(theVariable+"::not_before_date", 0);
+	  const int notAfterDate = Settings::optional_int(theVariable+"::not_after_date", 0);
+	  const int periodStartDate = (thePeriod.localStartTime().GetMonth() * 100) + thePeriod.localStartTime().GetDay();
 
-	  // frost warnings stop 15.10. at the latest
-	  NFmiTime fifteenthOfOctober(thePeriod.localStartTime().GetYear(), 10, 15);
+	  bool acceptedDate = ((notBeforeDate == 0) || periodStartDate >= notBeforeDate) &&
+		(notAfterDate == 0 || periodStartDate <= notAfterDate);
 
-	  if(growingSeasonGoingOn && thePeriod.localStartTime() > fifteenthOfOctober)
+	  if(growingSeasonGoingOn && !acceptedDate)
 		{
-		  log << "Growing season ended October 15th, no frost warnings issued any more!" << endl; 
+		  if(notBeforeDate != 0)
+			{
+			  log << "No frost warnings will be issued before " 
+				  << Settings::optional_string(theVariable+"::not_before_date", "**") 
+				  << endl;
+			}
+		  if(notAfterDate != 0)
+			{
+			  log << "No frost warnings are issued after " 
+				  << Settings::optional_string(theVariable+"::not_after_date", "**")
+				  << endl;
+			}
+
 		  growingSeasonGoingOn = false;
 		}
 
