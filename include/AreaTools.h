@@ -8,19 +8,20 @@
 #ifndef TEXTGEN_AREATOOLS_H
 #define TEXTGEN_AREATOOLS_H
 
-#include <string>
-#include <map>
-#include <vector>
-#include <newbase/NFmiPoint.h>
-
 #include "Acceptor.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
 #include "AnalysisSources.h"
 #include "WeatherParameter.h"
-#include "NFmiIndexMask.h"
 #include "UserWeatherSource.h"
+
+#include <newbase/NFmiIndexMask.h>
+#include <newbase/NFmiPoint.h>
+
+#include <string>
+#include <map>
+#include <vector>
 
 using namespace std;
 using namespace boost;

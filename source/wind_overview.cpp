@@ -7,11 +7,13 @@
 #include "PositiveValueAcceptor.h"
 #include "WeatherResult.h"
 #include "Sentence.h"
-#include "NFmiSettings.h"
 #include "Settings.h"
 #include "WeatherForecast.h"
 #include "WindForecast.h"
 #include "RangeAcceptor.h"
+
+#include <newbase/NFmiSettings.h>
+
 #include <bitset>
 #include <iomanip>
 #include <fstream>
@@ -601,8 +603,8 @@ namespace TextGen
 						   <<  get_wind_event_string(storyParams.theWindEventVector[i].second)
 						   << " ";
 
-		if(windEventId > 0x0 && windEventId <= TUULI_TYYNTYY ||
-		   windEventId >= TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE && windEventId <= TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY)
+		if((windEventId > 0x0 && windEventId <= TUULI_TYYNTYY) ||
+		   (windEventId >= TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE && windEventId <= TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY))
 		  {
 			storyParams.theLog << "(";
 			storyParams.theLog << get_wind_speed_string(storyParams.theWindSpeedVector[windSpeedIndex++]->theWindSpeedId);
@@ -1143,8 +1145,8 @@ namespace TextGen
 	for(unsigned int i = 0; i < storyParams.theWindEventPeriodVector.size(); i++)
 	  {
 		wind_event_id windEventCurrent = storyParams.theWindEventPeriodVector[i]->theWindEvent;
-		if(windEventCurrent == TUULI_MUUTTUU_VAIHTELEVAKSI || windEventCurrent == TUULI_KAANTYY &&
-		   get_period_length(storyParams.theWindEventPeriodVector[i]->thePeriod) <= 3 )
+		if(windEventCurrent == TUULI_MUUTTUU_VAIHTELEVAKSI ||
+		   (windEventCurrent == TUULI_KAANTYY && get_period_length(storyParams.theWindEventPeriodVector[i]->thePeriod) <= 3) )
 		  {
 			for(unsigned int k = i+1; k < storyParams.theWindEventPeriodVector.size(); k++)
 			  {
