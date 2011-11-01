@@ -17,6 +17,7 @@
 
 #include <newbase/NFmiGlobals.h>
 #include <cmath>
+#include <cstdlib>
 #include <utility>
 
 namespace WeatherAnalysis

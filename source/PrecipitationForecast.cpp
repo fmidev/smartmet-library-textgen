@@ -35,9 +35,11 @@
 #include "CloudinessForecast.h"
 #include "ThunderForecast.h"
 
-#include "NFmiMercatorArea.h"
+#include <newbase/NFmiMercatorArea.h>
+
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+
 #include <vector>
 #include <map>
 #include <iomanip>
@@ -1260,8 +1262,8 @@ vesi- tai lumisadetta.
 
 		if((precipitationPeriods->at(i).localStartTime() >= theSourcePeriod.localStartTime() &&
 			precipitationPeriods->at(i).localStartTime() <= theSourcePeriod.localEndTime()) ||
-		   precipitationPeriods->at(i).localEndTime() >= theSourcePeriod.localStartTime() &&
-		   precipitationPeriods->at(i).localEndTime() <= theSourcePeriod.localStartTime())
+		   (precipitationPeriods->at(i).localEndTime() >= theSourcePeriod.localStartTime() &&
+			precipitationPeriods->at(i).localEndTime() <= theSourcePeriod.localStartTime()))
 		  overlappingPeriods = true;
 
 		if(i == 0)
@@ -2932,8 +2934,8 @@ vesi- tai lumisadetta.
 					 << inPlacesPhrase
 					 << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
 		  }
-		else if(periodPhraseEmpty && !areaPhraseEmpty ||
-				!periodPhraseEmpty && areaPhraseEmpty)
+		else if((periodPhraseEmpty && !areaPhraseEmpty) ||
+				(!periodPhraseEmpty && areaPhraseEmpty))
 		  {
 			if(periodPhraseEmpty)
 			  {
@@ -3001,8 +3003,8 @@ vesi- tai lumisadetta.
 						 << Delimiter(",")
 						 << precipitation;
 			  }
-			else if(periodPhraseEmpty && !areaPhraseEmpty ||
-					!periodPhraseEmpty && areaPhraseEmpty)
+			else if((periodPhraseEmpty && !areaPhraseEmpty) ||
+					(!periodPhraseEmpty && areaPhraseEmpty))
 			  {
 				if(periodPhraseEmpty)
 				  sentence << SISAMAASSA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE
@@ -3042,8 +3044,8 @@ vesi- tai lumisadetta.
 			  {
 				sentence << precipitation;
 			  }
-			else if(periodPhraseEmpty && !areaPhraseEmpty ||
-					!periodPhraseEmpty && areaPhraseEmpty)
+			else if((periodPhraseEmpty && !areaPhraseEmpty) ||
+					(!periodPhraseEmpty && areaPhraseEmpty))
 			  {
 				if(theCompositePhraseElements.find(HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE)
 				   != theCompositePhraseElements.end())
@@ -3206,8 +3208,8 @@ vesi- tai lumisadetta.
 				  {
 					sentence << SAA_ON_POUTAINEN_PHRASE;
 				  }
-				else if(periodPhraseEmpty && !areaPhraseEmpty ||
-						!periodPhraseEmpty && areaPhraseEmpty)
+				else if((periodPhraseEmpty && !areaPhraseEmpty) ||
+						(!periodPhraseEmpty && areaPhraseEmpty))
 				  {
 					if(periodPhraseEmpty)
 					  {
@@ -3257,8 +3259,8 @@ vesi- tai lumisadetta.
 
 						  }
 					  }
-					else if(periodPhraseEmpty && !areaPhraseEmpty ||
-							!periodPhraseEmpty && areaPhraseEmpty)
+					else if((periodPhraseEmpty && !areaPhraseEmpty) ||
+							(!periodPhraseEmpty && areaPhraseEmpty))
 					  {
 						if(periodPhraseEmpty)
 						  {
@@ -3384,8 +3386,8 @@ vesi- tai lumisadetta.
 
 						  }
 					  }
-					else if(periodPhraseEmpty && !areaPhraseEmpty ||
-							!periodPhraseEmpty && areaPhraseEmpty)
+					else if((periodPhraseEmpty && !areaPhraseEmpty) ||
+							(!periodPhraseEmpty && areaPhraseEmpty))
 					  {
 						if(periodPhraseEmpty)
 						  {
@@ -3511,8 +3513,8 @@ vesi- tai lumisadetta.
 						  }
 					  }
 
-					else if(periodPhraseEmpty && !areaPhraseEmpty ||
-							!periodPhraseEmpty && areaPhraseEmpty)
+					else if((periodPhraseEmpty && !areaPhraseEmpty) ||
+							(!periodPhraseEmpty && areaPhraseEmpty))
 					  {
 						if(periodPhraseEmpty)
 						  {

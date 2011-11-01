@@ -24,7 +24,7 @@
 
 #include <newbase/NFmiSvgTools.h>
 #include <newbase/NFmiIndexMask.h>
-#include "NFmiSvgPath.h"
+#include <newbase/NFmiSvgPath.h>
 
 typedef RegularMaskSource::mask_type mask_type;
 
