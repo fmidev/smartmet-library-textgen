@@ -38,7 +38,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Tue Noc  1 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.11.1-1.el6.fmi
+* Tue Nov  1 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.11.1-1.el6.fmi
 - Fine tuning of algorithms. Do not require knowledge of growth season.
 * Mon Oct 31 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.10.31-1.el6.fmi
 - A large number of new improved algorithms
