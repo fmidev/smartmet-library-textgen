@@ -1512,6 +1512,16 @@ enum anomaly_phrase_id
 		   << endl;
 
 
+	if(fractile02Temperature.value() == kFloatMissing ||
+	   fractile12Temperature.value() == kFloatMissing ||
+	   fractile88Temperature.value() == kFloatMissing ||
+	   fractile98Temperature.value() == kFloatMissing)
+	  {
+		theLog << "Fractile temperature value(s) missing, no story generated!" << endl; 
+		theLog << paragraph;
+		return paragraph;
+	  }
+
 	const WeatherPeriod& thePeriod = (report_day2_anomaly ? parameters.theDay2Period : parameters.theDay1Period);
 
 	parameters.theGrowingSeasonUnderway = growing_season_going_on(itsArea,
