@@ -207,8 +207,8 @@ namespace TextGen
 	  {
 		if(theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
 		  {
-			if((periodPhraseEmpty && !areaPhraseEmpty) ||
-			   (!periodPhraseEmpty && areaPhraseEmpty))
+			if(periodPhraseEmpty && !areaPhraseEmpty ||
+			   !periodPhraseEmpty && areaPhraseEmpty)
 			  {
 				if(periodPhraseEmpty)
 				  {
@@ -244,8 +244,8 @@ namespace TextGen
 		  }
 		else
 		  {
-			if((periodPhraseEmpty && !areaPhraseEmpty) ||
-			   (!periodPhraseEmpty && areaPhraseEmpty))
+			if(periodPhraseEmpty && !areaPhraseEmpty ||
+			   !periodPhraseEmpty && areaPhraseEmpty)
 			  {
 				if(periodPhraseEmpty)
 				  {
@@ -410,8 +410,8 @@ namespace TextGen
 
 	float mean_inland = get_mean(theInterestingDataInland);
 
-	bool retval  = ((mean_inland <= 5.0 && mean_coastal >= 70.0) ||
-					(mean_inland >= 70.0 && mean_coastal <= 5.0));
+	bool retval  = (mean_inland <= 5.0 && mean_coastal >= 70.0 ||
+					mean_inland >= 70.0 && mean_coastal <= 5.0);
 
 	return retval;
   }
@@ -637,8 +637,8 @@ namespace TextGen
 		if(abs(clidPrevious - clidCurrent) >= 2 || lastPeriod)
 		  {
 			// check if "puolipilvisesta pilviseen"
-			if((clidPrevious == PUOLIPILVINEN && clidCurrent == PILVINEN) || 
-			   (clidPrevious == PILVINEN && clidCurrent == PUOLIPILVINEN))
+			if(clidPrevious == PUOLIPILVINEN && clidCurrent == PILVINEN || 
+			   clidPrevious == PILVINEN && clidCurrent == PUOLIPILVINEN)
 			  {
 			  }
 

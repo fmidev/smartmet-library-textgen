@@ -33,7 +33,7 @@
 #include "SubMaskExtractor.h"
 #include "ThunderForecast.h"
 
-#include <newbase/NFmiCombinedParam.h>
+#include "NFmiCombinedParam.h"
 
 #include <boost/lexical_cast.hpp>
 #include <vector>

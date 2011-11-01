@@ -39,12 +39,11 @@
 #include "CloudinessForecast.h"
 #include "FogForecast.h"
 #include "ThunderForecast.h"
+#include "NFmiCombinedParam.h"
 #include "WeatherHistory.h"
+#include "NFmiSettings.h"
 #include "WeatherForecastStory.h"
 #include "ParameterAnalyzer.h"
-
-#include <newbase/NFmiCombinedParam.h>
-#include <newbase/NFmiSettings.h>
 
 #include <boost/lexical_cast.hpp>
 #include <vector>

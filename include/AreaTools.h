@@ -12,7 +12,6 @@
 #include <map>
 #include <vector>
 #include <newbase/NFmiPoint.h>
-#include <newbase/NFmiIndexMask.h>
 
 #include "Acceptor.h"
 #include "WeatherArea.h"
@@ -20,6 +19,7 @@
 #include "WeatherResult.h"
 #include "AnalysisSources.h"
 #include "WeatherParameter.h"
+#include "NFmiIndexMask.h"
 #include "UserWeatherSource.h"
 
 using namespace std;
