@@ -6,36 +6,37 @@
 // ======================================================================
 
 #include "TemperatureStory.h"
-#include "FrostStory.h"
-#include "WeekdayTools.h"
-
-#include "SeasonTools.h"
-
+#include "AreaTools.h"
 #include "ClimatologyTools.h"
-#include "GridClimatology.h"
-
 #include "DefaultAcceptor.h"
 #include "Delimiter.h"
+#include "FrostStory.h"
+#include "GridClimatology.h"
 #include "GridForecaster.h"
-#include "NightAndDayPeriodGenerator.h"
 #include "HourPeriodGenerator.h"
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "MathTools.h"
 #include "MessageLogger.h"
+#include "NightAndDayPeriodGenerator.h"
+#include "NorthernMaskSource.h"
 #include "Paragraph.h"
+#include "PeriodPhraseFactory.h"
+#include "SeasonTools.h"
 #include "Sentence.h"
 #include "Settings.h"
+#include "SouthernMaskSource.h"
+#include "TemperatureStoryTools.h"
 #include "TextGenError.h"
 #include "UnitFactory.h"
+#include "WeatherAnalysisError.h"
+#include "WeatherArea.h"
+#include "WeatherForecast.h"
 #include "WeatherPeriodTools.h"
 #include "WeatherResult.h"
 #include "WeatherResultTools.h"
-#include "PeriodPhraseFactory.h"
-#include "AreaTools.h"
-#include "WeatherForecast.h"
-#include "NorthernMaskSource.h"
-#include "SouthernMaskSource.h"
+#include "WeatherSource.h"
+#include "WeekdayTools.h"
 
 #include <newbase/NFmiStringTools.h>
 #include <newbase/NFmiGrid.h>
@@ -46,13 +47,9 @@
 #include <newbase/NFmiSettings.h>
 #include <newbase/NFmiGlobals.h>
 
-#include "TemperatureStoryTools.h"
-#include "WeatherAnalysisError.h"
-#include "WeatherArea.h"
-#include "WeatherSource.h"
-
 #include <boost/lexical_cast.hpp>
 
+#include <cstdio>
 #include <map>
 #include <vector>
 
@@ -827,7 +824,7 @@ namespace TextGen
 	  if((theNumberDivisibleByFive < theMaximumCalc && theMinimumCalc < theNumberDivisibleByFive &&
 		 theNumberDivisibleByFive - theMinimumCalc < TIENOILLA_ASTETTA_LOW_TEMP_LIMIT &&
 		  theMaximumCalc - theNumberDivisibleByFive < TIENOILLA_ASTETTA_LOW_TEMP_LIMIT) ||
-		 theMaximum == theMinimum && theMaximum == theNumberDivisibleByFive)
+		 (theMaximum == theMinimum && theMaximum == theNumberDivisibleByFive))
 		{
 		  theCase = BETWEEN;
 		}
@@ -1932,8 +1929,7 @@ namespace TextGen
 	  Sentence sentence;
 
 	  bool useDayTemperaturePhrase = (theParameters.theForecastPeriodId == DAY1_PERIOD || 
-									  (theParameters.theForecastPeriodId == DAY2_PERIOD && 
-									   !(theParameters.theForecastPeriod & DAY1_PERIOD) ||
+									  ((theParameters.theForecastPeriodId == DAY2_PERIOD && !(theParameters.theForecastPeriod & DAY1_PERIOD)) ||
 									   theParameters.inlandAndCoastSeparated(DAY1_PERIOD)));
 
 	  std::string dayPhaseString(EMPTY_STRING);
