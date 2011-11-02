@@ -1638,8 +1638,8 @@ using namespace std;
 										const WeatherPeriod& thePeriod2,
 										bool& theIntersectionPeriodFound)
   {
-	int start_year, start_month, start_day, start_hour;
-	int end_year, end_month, end_day, end_hour;
+	int start_year(0), start_month(0), start_day(0), start_hour(0);
+	int end_year(0), end_month(0), end_day(0), end_hour(0);
 	theIntersectionPeriodFound = false;
 
 	if(is_inside(thePeriod1.localStartTime(), thePeriod2) && 
