@@ -145,10 +145,10 @@ if DEBUG:
     
             # extraflags from orig. makefile (for 'DEBUG' target)
             #
+            # "-Wconversion",
             "-ansi",
             "-Wcast-align",
             "-Wcast-qual",
-            "-Wconversion",
             "-Winline",
             "-Wno-multichar",
             "-Wno-pmf-conversions",
@@ -169,7 +169,7 @@ if RELEASE or PROFILE:
             env.Appendunique( CCFLAGS=["/md", "/ox"] )
     else:
         env.Append( CPPDEFINES="NDEBUG",
-                    CXXFLAGS= ["-O0","-Wuninitialized", ]
+                    CXXFLAGS= ["-O2","-Wuninitialized", ]
 	           )
 
 #
