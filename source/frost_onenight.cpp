@@ -616,15 +616,6 @@ namespace TextGen
 		  growingSeasonGoingOn = false;
 		}
 
-	  // frost warnings stop 15.10. at the latest
-	  NFmiTime fifteenthOfOctober(thePeriod.localStartTime().GetYear(), 10, 15);
-
-	  if(growingSeasonGoingOn && thePeriod.localStartTime() > fifteenthOfOctober)
-		{
-		  log << "Growing season ended October 15th, no frost warnings issued any more!" << endl; 
-		  growingSeasonGoingOn = false;
-		}
-
 	  return growingSeasonGoingOn;
 	}
 
