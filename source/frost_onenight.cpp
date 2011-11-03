@@ -595,8 +595,18 @@ namespace TextGen
 	  const int notAfterDate = Settings::optional_int(theVariable+"::not_after_date", 0);
 	  const int periodStartDate = (thePeriod.localStartTime().GetMonth() * 100) + thePeriod.localStartTime().GetDay();
 
-	  bool acceptedDate = ((notBeforeDate == 0) || periodStartDate >= notBeforeDate) &&
-		(notAfterDate == 0 || periodStartDate <= notAfterDate);
+	  bool acceptedDate(false);
+
+	  if(notBeforeDate > notAfterDate)
+		{
+		  acceptedDate = ((notBeforeDate == 0) || periodStartDate >= notBeforeDate) ||
+			((notAfterDate == 0) || periodStartDate <= notAfterDate);
+		}
+	  else
+		{
+		  acceptedDate = ((notBeforeDate == 0) || periodStartDate >= notBeforeDate) &&
+			((notAfterDate == 0) || periodStartDate <= notAfterDate);
+		}
 
 	  if(growingSeasonGoingOn && !acceptedDate)
 		{
