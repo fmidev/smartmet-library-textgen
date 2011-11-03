@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 11.11.2
+Version: 11.11.3
 Release: 1.el6.fmi
 License: FMI
 Group: Development/Libraries
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Nov  3 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.11.3-1.el6.fmi
+- Fixed 0 and 1 degree phrases
 * Tue Nov  1 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.11.1-1.el6.fmi
 - Fine tuning of algorithms. Do not require knowledge of growth season.
 * Mon Oct 31 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.10.31-1.el6.fmi
