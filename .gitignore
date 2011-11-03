@@ -3,3 +3,4 @@ obj/
 lib*.a
 .sconsign.dblite
 stXXXX*
+test/*Test

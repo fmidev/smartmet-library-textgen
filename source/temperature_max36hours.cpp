@@ -2199,9 +2199,9 @@ namespace TextGen
 	  else if(opt == "phrase")
 		{
 		  if(degrees == 0)
-			sentence << "0" <<  "asteen(monikko)";
+			sentence << Integer(0) <<  "asteen(monikko)";
 		  else if(degrees == 1)
-			sentence << "1" <<  "asteen(yksikko)";
+			sentence << Integer(1) <<  "asteen(yksikko)";
 		  else
 			sentence << Integer(degrees) <<  "asteen(monikko)";
 		}
