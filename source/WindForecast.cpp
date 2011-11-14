@@ -859,8 +859,8 @@ namespace TextGen
 	  }
 	else
 	  {
-		sentence  << Delimiter(COMMA_PUNCTUATION_MARK)
-				  << windSpeedSentence(speedEventPeriod, true);
+		//sentence  << Delimiter(COMMA_PUNCTUATION_MARK)
+			sentence << windSpeedSentence(speedEventPeriod, true);
 	  }
 
 	return sentence;
@@ -1002,8 +1002,8 @@ namespace TextGen
 		speedIntervalSentence << windSpeedSentence(speedEventPeriod, true);
 		if(!speedIntervalSentence.empty() && !sentence.empty())
 		  {
-			sentence << Delimiter(COMMA_PUNCTUATION_MARK)
-					 << speedIntervalSentence;
+			//	sentence << Delimiter(COMMA_PUNCTUATION_MARK)
+				sentence << speedIntervalSentence;
 		  }
 	  }
 	return sentence;
@@ -1262,14 +1262,14 @@ namespace TextGen
 		  case TUULI_HEIKKENEE:
 			{
 			  eventSentence << timePhrase << HEIKKENEVAA_TUULTA_PHRASE;			
-			  eventSentence << Delimiter(COMMA_PUNCTUATION_MARK);
+			  //eventSentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			  eventSentence << windSpeedSentence(periodToReport);
 			}
 			break;
 		  case TUULI_VOIMISTUU:
 			{
 			  eventSentence << timePhrase << VOIMISTUVAA_TUULTA_PHRASE;
-			  eventSentence << Delimiter(COMMA_PUNCTUATION_MARK);
+			  //eventSentence << Delimiter(COMMA_PUNCTUATION_MARK);
 			  eventSentence << windSpeedSentence(periodToReport);
 			}
 			break;
@@ -1723,8 +1723,8 @@ namespace TextGen
 															theParameters.theVar));
 	  }
 
-	if(theWindDirectionItem && theWindSpeedItem)
-	  sentence << Delimiter(COMMA_PUNCTUATION_MARK);
+	//	if(theWindDirectionItem && theWindSpeedItem)
+	//sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 		
 	if(theWindSpeedItem)
 	  sentence << windSpeedSentence(theWindSpeedItem->thePeriod);

@@ -84,6 +84,13 @@ using namespace std;
 	  MISSING_WIND_SPEED_EVENT = -0x1,
 	  MISSING_WIND_DIRECTION_EVENT = -0x2
 	};
+
+  enum wind_event_type
+	{
+	  WIND_DIRECTION_EVENT,
+	  WIND_SPEED_EVENT,
+	  MISSING_EVENT_TYPE
+	};
   
   enum change_type
 	{
@@ -150,6 +157,10 @@ using namespace std;
 	wind_speed_period_data_item_vector theWindSpeedVector;
 	wind_direction_period_data_item_vector theWindDirectionVector;
 	wind_event_period_data_item_vector theWindEventPeriodVector;
+	wind_event_period_data_item_vector theWindSpeedEventPeriodVector;
+	wind_event_period_data_item_vector theWindDirectionEventPeriodVector;
+	wind_event_period_data_item_vector theMergedWindEventPeriodVector;
+
 	vector<unsigned int> theOriginalWindSpeedIndexes;
 	vector<unsigned int> theEqualizedWindSpeedIndexesForMedianWind;
 	vector<unsigned int> theEqualizedWindSpeedIndexesForMaximumWind;
@@ -321,8 +332,15 @@ using namespace std;
 		thePeriodEndDataItem(periodEndDataItem),
 		theConcurrentEventPeriodItem(0),
 		theTransientFlag(false),
-		theReportThisEventPeriodFlag(true)
-	{}
+		theReportThisEventPeriodFlag(true),
+		theEventType(MISSING_EVENT_TYPE)
+	{
+	  if(windEvent == MISSING_WIND_EVENT)
+		theEventType = MISSING_EVENT_TYPE;
+	  else
+		theEventType = ((windEvent < TUULI_KAANTYY || MISSING_WIND_SPEED_EVENT) ? WIND_SPEED_EVENT : WIND_DIRECTION_EVENT);
+	}
+
 	WeatherPeriod thePeriod;
 	wind_event_id theWindEvent;
 	const WindDataItemUnit& thePeriodBeginDataItem;
@@ -330,6 +348,7 @@ using namespace std;
 	WindEventPeriodDataItem* theConcurrentEventPeriodItem;
 	bool theTransientFlag; // direction change can be temporary
 	bool theReportThisEventPeriodFlag; // determines weather this event period is reported or not
+	wind_event_type theEventType;
   };
 
 

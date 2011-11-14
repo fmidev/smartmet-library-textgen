@@ -78,9 +78,9 @@ namespace TextGen
 	  os << itsEndValue << itsRangeSeparator << itsStartValue;
 	else
 	  {
-		if(itsStartValue < 0 && itsEndValue > 0)
+		if(itsStartValue <= 0 && itsEndValue > 0)
 		  os << itsStartValue << itsRangeSeparator << "+" << itsEndValue;
-		else if(itsStartValue > 0 && itsEndValue < 0)
+		else if(itsStartValue > 0 && itsEndValue <= 0)
 		  os << "+" << itsStartValue << itsRangeSeparator << itsEndValue;
 		else
 		os << itsStartValue << itsRangeSeparator << itsEndValue;
