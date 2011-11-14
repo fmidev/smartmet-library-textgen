@@ -1051,7 +1051,7 @@ namespace TextGen
 	const vector<unsigned int>& theEqualizedIndexes = (windSpeed ? storyParams.theEqualizedWindSpeedIndexesForMaximumWind : 
 													   storyParams.theEqualizedWindDirectionIndexes);
 	
-	
+	wind_event_id missingWindEvent(windSpeed ? MISSING_WIND_SPEED_EVENT : MISSING_WIND_DIRECTION_EVENT);
 
 	if(theEqualizedIndexes.size() == 0)
 	  {
@@ -1062,9 +1062,19 @@ namespace TextGen
 		unsigned int dataIndex = theEqualizedIndexes[0];
 		const WindDataItemUnit& dataItem = (*storyParams.theRawDataVector[dataIndex])();
 		storyParams.theWindEventPeriodVector.push_back(new WindEventPeriodDataItem(dataItem.thePeriod, 
-																				   MISSING_WIND_EVENT,
+																				   missingWindEvent,
 																				   dataItem,
 																				   dataItem));
+		if(windSpeed)
+		  storyParams.theWindSpeedEventPeriodVector.push_back(new WindEventPeriodDataItem(dataItem.thePeriod, 
+																						  missingWindEvent,
+																						  dataItem,
+																						  dataItem));
+		else
+		  storyParams.theWindDirectionEventPeriodVector.push_back(new WindEventPeriodDataItem(dataItem.thePeriod, 
+																							  missingWindEvent,
+																							  dataItem,
+																							  dataItem));
 		return;
 	  }
 
@@ -1081,7 +1091,7 @@ namespace TextGen
 		// define the event period
 		WeatherPeriod windEventPeriod(dataItemPeriodBegin.thePeriod.localStartTime(), 
 									  dataItemPeriodEnd.thePeriod.localStartTime());
-		wind_event_id windEvent(MISSING_WIND_EVENT);
+		wind_event_id windEvent(missingWindEvent);
 		
 		// it is either wind speed event or wind direction event
 		if(windSpeed)
@@ -1127,6 +1137,12 @@ namespace TextGen
 				storyParams.theWindEventPeriodVector.erase(storyParams.theWindEventPeriodVector.begin()+storyParams.theWindEventPeriodVector.size()-1);
 
 				storyParams.theWindEventPeriodVector.push_back(newEventPeriod);
+				
+				if(windSpeed)
+				  storyParams.theWindSpeedEventPeriodVector.push_back(newEventPeriod);
+				else
+				  storyParams.theWindDirectionEventPeriodVector.push_back(newEventPeriod);
+
 				continue;
 			  }
 
@@ -1136,6 +1152,17 @@ namespace TextGen
 																				   windEvent,
 																				   dataItemPeriodBegin,
 																				   dataItemPeriodEnd));
+
+		if(windSpeed)
+		  storyParams.theWindSpeedEventPeriodVector.push_back(new WindEventPeriodDataItem(windEventPeriod,
+																						  windEvent,
+																						  dataItemPeriodBegin,
+																						  dataItemPeriodEnd));
+		else
+		  storyParams.theWindDirectionEventPeriodVector.push_back(new WindEventPeriodDataItem(windEventPeriod,
+																							  windEvent,
+																							  dataItemPeriodBegin,
+																							  dataItemPeriodEnd));
 	  }
   }
 
@@ -1162,6 +1189,385 @@ namespace TextGen
 	  }
   }
 
+  wind_event_id sort_out_wind_event(const wind_event_id& windDirectionEvent, 
+									const wind_event_id& windSpeedEvent)
+  {
+	if(windDirectionEvent == MISSING_WIND_DIRECTION_EVENT)
+	  {
+		if(windSpeedEvent == MISSING_WIND_SPEED_EVENT)
+		  return MISSING_WIND_EVENT;
+		else
+		  return windSpeedEvent;
+	  }
+	
+	if(windSpeedEvent == MISSING_WIND_SPEED_EVENT)
+	  {
+		if(windDirectionEvent == MISSING_WIND_DIRECTION_EVENT)
+		  return MISSING_WIND_EVENT;
+		else
+		  return windDirectionEvent;
+	  }
+	
+
+	return static_cast<wind_event_id>(windDirectionEvent | windSpeedEvent);
+
+
+	/*
+	  enum wind_event_id 
+	  {
+	  TUULI_HEIKKENEE = 0x1,
+	  TUULI_VOIMISTUU = 0x2,
+	  TUULI_TYYNTYY = 0x4,
+	  TUULI_KAANTYY = 0x8,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI = 0x10,
+	  TUULI_KAANTYY_JA_HEIKKENEE = 0x9,
+	  TUULI_KAANTYY_JA_VOIMISTUU = 0xA,
+	  TUULI_KAANTYY_JA_TYYNTYY = 0xC,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE = 0x11,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU = 0x12,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY = 0x14,
+	  MISSING_WIND_EVENT = 0x0,
+	  MISSING_WIND_SPEED_EVENT = -0x1,
+	  MISSING_WIND_DIRECTION_EVENT = -0x2
+	  };
+	*/
+  }
+
+  WindEventPeriodDataItem* sort_out_periods(const WindEventPeriodDataItem& theDirectionEventItem, 
+											const WindEventPeriodDataItem& theSpeedEventItem, 
+											wind_event_period_data_item_vector& theResultVector)
+  {
+	if(is_inside(theDirectionEventItem.thePeriod,
+				 theSpeedEventItem.thePeriod))
+	  {
+		// direction period is inside speed period
+		//    |------|      direction
+		// |------------|   speed
+		// |--|------|--|   speed, speed-direction, returned period (speed)
+
+		// if both are missing event periods
+		if(theDirectionEventItem.theWindEvent == MISSING_WIND_DIRECTION_EVENT)
+		  {
+			WeatherPeriod period(theSpeedEventItem.thePeriod.localStartTime(), 
+								 theDirectionEventItem.thePeriod.localEndTime());
+			
+			theResultVector.push_back(new WindEventPeriodDataItem(period,
+																  theSpeedEventItem.theWindEvent,
+																  theSpeedEventItem.thePeriodBeginDataItem,
+																  theDirectionEventItem.thePeriodEndDataItem));
+		  }
+		else
+		  {
+			WeatherPeriod period1(theSpeedEventItem.thePeriod.localStartTime(), 
+								  theDirectionEventItem.thePeriod.localStartTime());
+			
+			theResultVector.push_back(new WindEventPeriodDataItem(period1,
+																  theSpeedEventItem.theWindEvent,
+																  theSpeedEventItem.thePeriodBeginDataItem,
+																  theDirectionEventItem.thePeriodBeginDataItem));
+			
+			WeatherPeriod period2(theDirectionEventItem.thePeriod.localStartTime(),
+								  theDirectionEventItem.thePeriod.localEndTime());
+			
+			theResultVector.push_back(new WindEventPeriodDataItem(period2,
+																  theDirectionEventItem.theWindEvent,
+																  theDirectionEventItem.thePeriodBeginDataItem,
+																  theDirectionEventItem.thePeriodEndDataItem));
+		  }
+
+		WeatherPeriod returnPeriod(theDirectionEventItem.thePeriod.localEndTime(),
+									theSpeedEventItem.thePeriod.localEndTime());
+
+		return new WindEventPeriodDataItem(returnPeriod,
+										   theSpeedEventItem.theWindEvent,
+										   theDirectionEventItem.thePeriodEndDataItem,
+										   theSpeedEventItem.thePeriodEndDataItem);
+	  }
+
+
+	if(is_inside(theDirectionEventItem.thePeriod,
+				 theSpeedEventItem.thePeriod))
+	  {
+		// speed period is inside direction period
+		// |------------|   direction
+		//    |------|      speed
+		// |--|------|--|   direction, direction-speed, returned period (direction)
+
+		// if both are missing event periods
+		if(theSpeedEventItem.theWindEvent == MISSING_WIND_SPEED_EVENT)
+		  {
+			WeatherPeriod period(theDirectionEventItem.thePeriod.localStartTime(), 
+								 theSpeedEventItem.thePeriod.localEndTime());
+			
+			theResultVector.push_back(new WindEventPeriodDataItem(period,
+																  theDirectionEventItem.theWindEvent,
+																  theDirectionEventItem.thePeriodBeginDataItem,
+																  theSpeedEventItem.thePeriodEndDataItem));
+		  }
+		else
+		  {
+			WeatherPeriod period1(theDirectionEventItem.thePeriod.localStartTime(), 
+								  theSpeedEventItem.thePeriod.localStartTime());
+			
+			theResultVector.push_back(new WindEventPeriodDataItem(period1,
+																  theDirectionEventItem.theWindEvent,
+																  theDirectionEventItem.thePeriodBeginDataItem,
+																  theSpeedEventItem.thePeriodBeginDataItem));
+			
+			WeatherPeriod period2(theSpeedEventItem.thePeriod.localStartTime(),
+								  theSpeedEventItem.thePeriod.localEndTime());
+			
+			theResultVector.push_back(new WindEventPeriodDataItem(period2,
+																  theSpeedEventItem.theWindEvent,
+																  theSpeedEventItem.thePeriodBeginDataItem,
+																  theSpeedEventItem.thePeriodEndDataItem));
+		  }
+
+		WeatherPeriod returnPeriod(theSpeedEventItem.thePeriod.localEndTime(),
+								   theDirectionEventItem.thePeriod.localEndTime());
+
+		return new WindEventPeriodDataItem(returnPeriod,
+										   theDirectionEventItem.theWindEvent,
+										   theSpeedEventItem.thePeriodEndDataItem,
+										   theDirectionEventItem.thePeriodEndDataItem);
+	  }
+
+	if(theDirectionEventItem.thePeriod.localEndTime() > theSpeedEventItem.thePeriod.localEndTime())
+	  {
+		// direction period contimues after speed period ends
+		//    |---------|   direction
+		// |---------|      speed
+		// |--|------|--|   speed, speed-direction, returned period (direction)
+
+		if(theDirectionEventItem.theWindEvent == MISSING_WIND_DIRECTION_EVENT &&
+		   theSpeedEventItem.theWindEvent == MISSING_WIND_SPEED_EVENT)
+		  {
+			WeatherPeriod period(theSpeedEventItem.thePeriod.localStartTime(), 
+								 theSpeedEventItem.thePeriod.localEndTime());
+			
+			theResultVector.push_back(new WindEventPeriodDataItem(period,
+																  MISSING_WIND_EVENT,
+																  theSpeedEventItem.thePeriodBeginDataItem,
+																  theSpeedEventItem.thePeriodEndDataItem));
+			
+			WeatherPeriod returnPeriod(theSpeedEventItem.thePeriod.localEndTime(),
+									   theDirectionEventItem.thePeriod.localEndTime());
+
+			return new WindEventPeriodDataItem(returnPeriod,
+											   theDirectionEventItem.theWindEvent,
+											   theSpeedEventItem.thePeriodEndDataItem,
+											   theDirectionEventItem.thePeriodEndDataItem);	
+		  }
+
+		if(theDirectionEventItem.thePeriod.localStartTime() > theSpeedEventItem.thePeriod.localStartTime())
+		  {
+			WeatherPeriod period(theSpeedEventItem.thePeriod.localStartTime(), 
+								  theDirectionEventItem.thePeriod.localStartTime());
+
+			theResultVector.push_back(new WindEventPeriodDataItem(period,
+																  theSpeedEventItem.theWindEvent,
+																  theSpeedEventItem.thePeriodBeginDataItem,
+																  theDirectionEventItem.thePeriodBeginDataItem));
+		  }
+
+		WeatherPeriod period(theDirectionEventItem.thePeriod.localStartTime(),
+							 theSpeedEventItem.thePeriod.localEndTime());
+
+		wind_event_id eventId = sort_out_wind_event(theDirectionEventItem.theWindEvent,
+													theSpeedEventItem.theWindEvent);
+
+				
+		theResultVector.push_back(new WindEventPeriodDataItem(period,
+															  eventId,
+															  theDirectionEventItem.thePeriodBeginDataItem,
+															  theSpeedEventItem.thePeriodEndDataItem));
+
+		WeatherPeriod returnPeriod(theSpeedEventItem.thePeriod.localEndTime(),
+								   theDirectionEventItem.thePeriod.localEndTime());
+
+		return new WindEventPeriodDataItem(returnPeriod,
+										   theDirectionEventItem.theWindEvent,
+										   theSpeedEventItem.thePeriodEndDataItem,
+										   theDirectionEventItem.thePeriodEndDataItem);
+	  }
+
+
+	if(theSpeedEventItem.thePeriod.localEndTime() > theDirectionEventItem.thePeriod.localEndTime())
+	  {
+		// direction period contimues after speed period ends
+		// |---------|    direction
+		//    |---------| speed
+		// |--|------|--| direction, direction-speed, returned period (direction)
+
+		if(theDirectionEventItem.theWindEvent == MISSING_WIND_DIRECTION_EVENT &&
+		   theSpeedEventItem.theWindEvent == MISSING_WIND_SPEED_EVENT)
+		  {
+			WeatherPeriod period(theDirectionEventItem.thePeriod.localStartTime(), 
+								 theDirectionEventItem.thePeriod.localEndTime());
+			
+			theResultVector.push_back(new WindEventPeriodDataItem(period,
+																  MISSING_WIND_EVENT,
+																  theDirectionEventItem.thePeriodBeginDataItem,
+																  theDirectionEventItem.thePeriodEndDataItem));
+			
+			WeatherPeriod returnPeriod(theDirectionEventItem.thePeriod.localEndTime(),
+									   theSpeedEventItem.thePeriod.localEndTime());
+
+			return new WindEventPeriodDataItem(returnPeriod,
+											   theSpeedEventItem.theWindEvent,
+											   theDirectionEventItem.thePeriodEndDataItem,
+											   theSpeedEventItem.thePeriodEndDataItem);	
+		  }
+
+		if(theSpeedEventItem.thePeriod.localStartTime() > theDirectionEventItem.thePeriod.localStartTime())
+		  {
+			WeatherPeriod period(theDirectionEventItem.thePeriod.localStartTime(), 
+								  theSpeedEventItem.thePeriod.localEndTime());
+
+			theResultVector.push_back(new WindEventPeriodDataItem(period,
+																  theDirectionEventItem.theWindEvent,
+																  theDirectionEventItem.thePeriodBeginDataItem,
+																  theSpeedEventItem.thePeriodBeginDataItem));
+		  }
+
+		WeatherPeriod period(theSpeedEventItem.thePeriod.localStartTime(),
+							 theDirectionEventItem.thePeriod.localEndTime());
+
+		wind_event_id eventId = sort_out_wind_event(theDirectionEventItem.theWindEvent,
+													theSpeedEventItem.theWindEvent);
+				
+		theResultVector.push_back(new WindEventPeriodDataItem(period,
+															  eventId,
+															  theSpeedEventItem.thePeriodBeginDataItem,
+															  theDirectionEventItem.thePeriodEndDataItem));
+
+		WeatherPeriod returnPeriod(theDirectionEventItem.thePeriod.localEndTime(),
+								   theSpeedEventItem.thePeriod.localEndTime());
+		
+		return new WindEventPeriodDataItem(returnPeriod,
+										   theSpeedEventItem.theWindEvent,
+										   theDirectionEventItem.thePeriodEndDataItem,
+										   theSpeedEventItem.thePeriodEndDataItem);
+	  }
+
+	cout << "EI TÄNNE !!" << endl;
+
+	return 0;//theDirectionEventItem;
+  }
+
+  void put_wind_speed_and_direction_event_periods_together(wo_story_params& storyParams)
+  {
+	unsigned int speedEventIndex(0);
+	unsigned int directionEventIndex(0);
+
+	const WindDataItemUnit& diu = (*storyParams.theRawDataVector[0])();
+	
+	wind_event_id eventId(MISSING_WIND_EVENT);
+
+	WindEventPeriodDataItem voidEventItem(storyParams.theForecastPeriod,
+										  eventId,
+										  diu,
+										  diu);
+
+	/*
+
+	const WindDataItemUnit& dataItem = (*storyParams.theRawDataVector[dataIndex])();
+	storyParams.theWindEventPeriodVector.push_back(new WindEventPeriodDataItem(dataItem.thePeriod, 
+	missingWindEvent,
+	dataItem,
+	dataItem));
+
+	WindEventPeriodDataItem(const WeatherPeriod& period,
+							const wind_event_id& windEvent,
+							const WindDataItemUnit& periodBeginDataItem,
+							const WindDataItemUnit& periodEndDataItem)
+
+	 */
+
+	WindEventPeriodDataItem* remainderItem = &voidEventItem;
+
+	while(speedEventIndex < storyParams.theWindSpeedEventPeriodVector.size() ||
+		  directionEventIndex < storyParams.theWindDirectionEventPeriodVector.size())
+	  {
+		WindEventPeriodDataItem* directionItem = 0;
+		WindEventPeriodDataItem* speedItem = 0;
+
+		// first round
+		if(speedEventIndex == 0 && directionEventIndex == 0 ||
+		   remainderItem->theEventType == MISSING_EVENT_TYPE)
+		  {
+			if(speedEventIndex < storyParams.theWindSpeedEventPeriodVector.size())
+			  {
+				speedItem = storyParams.theWindSpeedEventPeriodVector[speedEventIndex];
+				speedEventIndex++;
+			  }
+			if(directionEventIndex < storyParams.theWindDirectionEventPeriodVector.size())
+			  {
+				directionItem = storyParams.theWindDirectionEventPeriodVector[directionEventIndex];
+				directionEventIndex++;
+			  }
+		  }
+		else
+		  {
+			if(remainderItem->theEventType == WIND_DIRECTION_EVENT)
+			  {
+				directionItem = remainderItem;
+				if(speedEventIndex < storyParams.theWindSpeedEventPeriodVector.size())
+				  {
+					speedItem = storyParams.theWindSpeedEventPeriodVector[speedEventIndex];
+					speedEventIndex++;
+				  }
+			  }
+			else
+			  {
+				speedItem = remainderItem;
+				if(directionEventIndex < storyParams.theWindDirectionEventPeriodVector.size())
+				  {
+					directionItem = storyParams.theWindDirectionEventPeriodVector[directionEventIndex];
+					directionEventIndex++;
+				  }
+			  }
+		  }
+
+		if(directionItem == 0)
+		  {
+			storyParams.theMergedWindEventPeriodVector.push_back(new WindEventPeriodDataItem(speedItem->thePeriod,
+																							 speedItem->theWindEvent,
+																							 speedItem->thePeriodBeginDataItem,
+																							 speedItem->thePeriodEndDataItem));
+			// TODO: delete if exists
+			remainderItem = &voidEventItem;
+		  }
+		else if(speedItem == 0)
+		  {
+			storyParams.theMergedWindEventPeriodVector.push_back(new WindEventPeriodDataItem(directionItem->thePeriod,
+																							 directionItem->theWindEvent,
+																							 directionItem->thePeriodBeginDataItem,
+																							 directionItem->thePeriodEndDataItem));				
+			remainderItem = &voidEventItem;
+		  }
+		else
+		  {
+			remainderItem = sort_out_periods(*directionItem, *speedItem, storyParams.theMergedWindEventPeriodVector);
+		  }
+	  }
+
+	/*
+	for(unsigned int i = 0; i < storyParams.theWindDirectionEventPeriodVector.size(); i++)
+	  {
+		const WindEventPeriodDataItem* directionItem = storyParams.theWindDirectionEventPeriodVector[i];
+		for(unsigned int k = 0; k < storyParams.theWindSpeedEventPeriodVector.size(); k++)
+		  {
+			const WindEventPeriodDataItem* speedItem = storyParams.theWindSpeedEventPeriodVector[k];
+			if(directionItem->thePeriod.localEndTime() <= speedItem->thePeriod.localStartTime() ||
+			   directionItem->thePeriod.localStartTime() >= speedItem->thePeriod.localEndTime())
+			  continue;
+			sort_out_periods(*directionItem, *speedItem, storyParams.theMergedWindEventPeriodVector);
+		  }		
+	  }
+	*/
+  }
+
   bool wind_event_period_sort(const WindEventPeriodDataItem* first, const WindEventPeriodDataItem* second) 
   { 
 	return (first->thePeriod.localStartTime() < second->thePeriod.localStartTime());
@@ -1173,6 +1579,12 @@ namespace TextGen
 	find_out_wind_event_periods(storyParams, false); // wind direction
 	find_out_transient_wind_direction_periods(storyParams); // wind direction
 	
+	std::sort(storyParams.theWindSpeedEventPeriodVector.begin(),
+			  storyParams.theWindSpeedEventPeriodVector.end(), 
+			  wind_event_period_sort);
+	std::sort(storyParams.theWindDirectionEventPeriodVector.begin(),
+			  storyParams.theWindDirectionEventPeriodVector.end(), 
+			  wind_event_period_sort);
 	std::sort(storyParams.theWindEventPeriodVector.begin(),
 			  storyParams.theWindEventPeriodVector.end(), 
 			  wind_event_period_sort);

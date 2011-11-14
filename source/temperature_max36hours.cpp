@@ -1723,12 +1723,13 @@ namespace TextGen
 		  // if only one period exists, dont use word 'yolla'/'paivalla'
 		  if(theParameters.numberOfPeriods() > 1 && theParameters.theDayAndNightSeparationFlag)
 			{
-			  if(theParameters.theForecastPeriodId == NIGHT_PERIOD)
-				theDayPhasePhrase << YOLLA_PHRASE;
-			  /*
-			  else
-				theDayPhasePhrase << PAIVALLA_PHRASE;
-			  */
+			  if(theParameters.theFullDayFlag)
+				{
+				  if(theParameters.theForecastPeriodId == NIGHT_PERIOD)
+					theDayPhasePhrase << YOLLA_PHRASE;
+				  else
+					theDayPhasePhrase << PAIVALLA_PHRASE;
+				}
 			}
 
 			theTemperaturePhrase << PAKKASTA_WORD;
@@ -1849,10 +1850,13 @@ namespace TextGen
 				{
 				  if(phrase_id == PIKKUPAKKASTA_PHRASE_ID)
 					{
-					  if(theParameters.theForecastPeriodId == NIGHT_PERIOD)
-						theDayPhasePhrase << YOLLA_PHRASE;
-					  else
-						theDayPhasePhrase << PAIVALLA_PHRASE;
+					  if(theParameters.theFullDayFlag)
+						{
+						  if(theParameters.theForecastPeriodId == NIGHT_PERIOD)
+							theDayPhasePhrase << YOLLA_PHRASE;
+						  else
+							theDayPhasePhrase << PAIVALLA_PHRASE;
+						}
 					}
 				  else
 					{
