@@ -863,7 +863,7 @@ namespace TextGen
 						  if(thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow &&
 							 thePrecipitationIntensityAbsoluteMax < theParameters.theHeavyPrecipitationLimitSnow)
 							{
-							  theCompositePhraseElements[INTENSITY_PARAMETER] << HEIKKOJA_WORD;
+							  theCompositePhraseElements[INTENSITY_PARAMETER] << HEIKKOA_WORD;
 							}
 						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
 							{
