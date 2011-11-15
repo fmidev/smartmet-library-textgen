@@ -338,7 +338,7 @@ using namespace std;
 	  if(windEvent == MISSING_WIND_EVENT)
 		theEventType = MISSING_EVENT_TYPE;
 	  else
-		theEventType = ((windEvent < TUULI_KAANTYY || MISSING_WIND_SPEED_EVENT) ? WIND_SPEED_EVENT : WIND_DIRECTION_EVENT);
+		theEventType = ((windEvent == TUULI_KAANTYY || windEvent == MISSING_WIND_DIRECTION_EVENT) ? WIND_DIRECTION_EVENT : WIND_SPEED_EVENT);
 	}
 
 	WeatherPeriod thePeriod;
@@ -363,6 +363,7 @@ using namespace std;
 	Sentence windSentence(const WeatherPeriod& thePeriod) const;
 	Paragraph windForecastBasedOnEvents(const WeatherPeriod& thePeriod) const;
 	Paragraph windForecastBasedOnEventPeriods(const WeatherPeriod& thePeriod) const;
+	Paragraph windForecastBasedOnEventPeriods2(const WeatherPeriod& thePeriod) const;
  
 	void printOutWindPeriods(std::ostream& theOutput) const;
 	void printOutWindData(std::ostream& theOutput) const;
@@ -392,9 +393,16 @@ using namespace std;
 							 const WeatherPeriod& directionEventPeriod,
 							 const wind_direction_id& directionIdEnd,
 							 const bool& firstSentenceInTheStory) const;
+	Sentence getWindSentence(const wind_event_id& eventId, 
+							 const WeatherPeriod& eventPeriod,
+							 const wind_direction_id& directionIdEnd,
+							 const bool& firstSentenceInTheStory) const;
+
 	//	Sentence getSpeedInterval(const WeatherPeriod& theWindSpeedFullPeriod) const;
 	Sentence getWindSpeedDecreasingIncreasingInterval(const WeatherPeriod& speedEventPeriod,
-														   const bool& firstSentenceInTheStory) const;	  
+													  const bool& firstSentenceInTheStory) const;	  
+	Sentence getWindSpeedDecreasingIncreasingInterval2(const WeatherPeriod& speedEventPeriod,
+													  const bool& firstSentenceInTheStory) const;	  
 	const Sentence windSpeedDirectionSentence(const WindEventPeriodDataItem* theWindSpeedEventPeriod,
 												 const WindEventPeriodDataItem* theWindDirectionEventPeriod) const;
 	Sentence getTimePhrase(const WeatherPeriod thePeriod,

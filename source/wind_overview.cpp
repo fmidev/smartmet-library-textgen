@@ -676,14 +676,13 @@ namespace TextGen
 						   << ": "
 						   << get_wind_event_string(windEventId);
 
-		// missing events
 		if(windEventId == TUULI_HEIKKENEE ||
 		   windEventId == TUULI_VOIMISTUU ||
 		   windEventId == TUULI_TYYNTYY ||
 		   windEventId == MISSING_WIND_SPEED_EVENT)
 		  {
 			storyParams.theLog << ": "
-							   <<  fixed << setprecision(4) 
+							   << fixed << setprecision(4) 
 							   << storyParams.theWindEventPeriodVector[i]->thePeriodBeginDataItem.theEqualizedMaximumWind
 							   << "->"
 							   << storyParams.theWindEventPeriodVector[i]->thePeriodEndDataItem.theEqualizedMaximumWind
@@ -709,17 +708,87 @@ namespace TextGen
 		  }
 	  }
   }
-  /*
-	  TUULI_HEIKKENEE = 0x1,
+
+  void log_merged_wind_event_periods(wo_story_params& storyParams)
+  {
+	storyParams.theLog << "*********** MERGED WIND EVENT PERIODS ***********" << endl;
+
+	for(unsigned int i = 0; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
+	  {
+		wind_event_id windEventId = storyParams.theMergedWindEventPeriodVector[i]->theWindEvent;
+
+		storyParams.theLog << storyParams.theMergedWindEventPeriodVector[i]->thePeriod.localStartTime() 
+						   << "..."
+						   << storyParams.theMergedWindEventPeriodVector[i]->thePeriod.localEndTime()
+						   << ": "
+						   << get_wind_event_string(windEventId);
+
+		
+		wind_direction_id directionIdBeg = get_wind_direction_id(storyParams.theMergedWindEventPeriodVector[i]->thePeriodBeginDataItem.theWindDirection, storyParams.theVar);
+		wind_direction_id directionIdEnd = get_wind_direction_id(storyParams.theMergedWindEventPeriodVector[i]->thePeriodEndDataItem.theWindDirection, storyParams.theVar);
+		float maxWindBeg = storyParams.theMergedWindEventPeriodVector[i]->thePeriodBeginDataItem.theEqualizedMaximumWind;
+		float maxWindEnd = storyParams.theMergedWindEventPeriodVector[i]->thePeriodEndDataItem.theEqualizedMaximumWind;
+
+
+		if((windEventId > 0x0 && windEventId <= TUULI_TYYNTYY) ||
+		   (windEventId >= TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE && windEventId <= TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY))
+		  {
+			storyParams.theLog << "("
+							   << fixed << setprecision(4) << maxWindBeg
+							   <<  " -> "
+							   << fixed << setprecision(4) << maxWindEnd
+							   << ")" << endl;
+		  }
+		else if(windEventId == TUULI_KAANTYY)
+		  {
+			storyParams.theLog << "("
+							   << get_wind_direction_string(directionIdBeg)
+							   <<  " -> "
+							   << get_wind_direction_string(directionIdEnd)
+							   << ")" << endl;
+		  }
+		else if(windEventId >= TUULI_KAANTYY_JA_HEIKKENEE && windEventId <= TUULI_KAANTYY_JA_TYYNTYY)
+		  {
+			storyParams.theLog << "("
+							   << get_wind_direction_string(directionIdBeg)
+							   <<  " -> "
+							   << get_wind_direction_string(directionIdEnd)
+							   << ")" << endl
+							   << "; "
+							   << "("
+							   << fixed << setprecision(4) << maxWindBeg
+							   <<  " -> "
+							   << fixed << setprecision(4) << maxWindEnd
+							   << ")" << endl;
+		  }
+		else
+		  {
+			storyParams.theLog << "" << endl;
+		  }
+
+		/*
+  enum wind_event_id 
+	{
+	  TUULI_HEIKKENEE  = 0x1,
 	  TUULI_VOIMISTUU = 0x2,
 	  TUULI_TYYNTYY = 0x4,
 	  TUULI_KAANTYY = 0x8,
 	  TUULI_MUUTTUU_VAIHTELEVAKSI = 0x10,
-	  MISSING_WIND_EVENT = 0x0,
-	  MISSING_WIND_SPEED_EVENT = -0x1,
-	  MISSING_WIND_DIRECTION_EVENT = -0x2
+	  TUULI_KAANTYY_JA_HEIKKENEE = 0x9,
+	  TUULI_KAANTYY_JA_VOIMISTUU = 0xA,
+	  TUULI_KAANTYY_JA_TYYNTYY = 0xC,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE = 0x11,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU = 0x12,
+	  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY = 0x14,
+	  MISSING_WIND_EVENT = 0x0
+	};
+		*/
 
-   */
+	  }
+  }
+
+  //storyParams.theMergedWindEventPeriodVector
+
   void allocate_data_structures(wo_story_params& storyParams)
   {
 	NFmiTime periodStartTime = storyParams.theDataPeriod.localStartTime();
@@ -1132,9 +1201,14 @@ namespace TextGen
 																					  previousEventPeriod->theWindEvent,//windEvent,
 																					  previousEventPeriod->thePeriodBeginDataItem,
 																					  dataItemPeriodEnd);
-				
+		
 				delete previousEventPeriod;
 				storyParams.theWindEventPeriodVector.erase(storyParams.theWindEventPeriodVector.begin()+storyParams.theWindEventPeriodVector.size()-1);
+
+				if(windSpeed)
+				  storyParams.theWindSpeedEventPeriodVector.erase(storyParams.theWindSpeedEventPeriodVector.begin()+storyParams.theWindSpeedEventPeriodVector.size()-1);
+				else
+				  storyParams.theWindDirectionEventPeriodVector.erase(storyParams.theWindDirectionEventPeriodVector.begin()+storyParams.theWindDirectionEventPeriodVector.size()-1);
 
 				storyParams.theWindEventPeriodVector.push_back(newEventPeriod);
 				
@@ -1233,10 +1307,34 @@ namespace TextGen
 	*/
   }
 
+  void add_merged_period(const WeatherPeriod& thePeriod,
+						 const wind_event_id& theWindEvent,
+						 const WindDataItemUnit& thePeriodBeginDataItem,
+						 const WindDataItemUnit& thePeriodEndDataItem,
+						 wind_event_period_data_item_vector& theResultVector)
+  {
+	if(thePeriod.localEndTime() > thePeriod.localStartTime())
+	  {
+		theResultVector.push_back(new WindEventPeriodDataItem(thePeriod,
+															  theWindEvent,
+															  thePeriodBeginDataItem,
+															  thePeriodEndDataItem));
+	  }
+  }
+
   WindEventPeriodDataItem* sort_out_periods(const WindEventPeriodDataItem& theDirectionEventItem, 
 											const WindEventPeriodDataItem& theSpeedEventItem, 
 											wind_event_period_data_item_vector& theResultVector)
   {
+
+	wind_event_id windSpeedEvent = (theSpeedEventItem.theWindEvent == MISSING_WIND_SPEED_EVENT ?
+									   MISSING_WIND_EVENT : theSpeedEventItem.theWindEvent);
+	wind_event_id windDirectionEvent = (theDirectionEventItem.theWindEvent == MISSING_WIND_DIRECTION_EVENT ?
+										   MISSING_WIND_EVENT : theDirectionEventItem.theWindEvent);
+	wind_event_id compositeWindEvent = sort_out_wind_event(theDirectionEventItem.theWindEvent,
+														   theSpeedEventItem.theWindEvent);
+
+
 	if(is_inside(theDirectionEventItem.thePeriod,
 				 theSpeedEventItem.thePeriod))
 	  {
@@ -1250,38 +1348,69 @@ namespace TextGen
 		  {
 			WeatherPeriod period(theSpeedEventItem.thePeriod.localStartTime(), 
 								 theDirectionEventItem.thePeriod.localEndTime());
+
+			/*
 			
 			theResultVector.push_back(new WindEventPeriodDataItem(period,
-																  theSpeedEventItem.theWindEvent,
+																  windSpeedEvent,
 																  theSpeedEventItem.thePeriodBeginDataItem,
 																  theDirectionEventItem.thePeriodEndDataItem));
+			*/
+			add_merged_period(period,
+							  windSpeedEvent,
+							  theSpeedEventItem.thePeriodBeginDataItem,
+							  theDirectionEventItem.thePeriodEndDataItem,
+							  theResultVector);
 		  }
 		else
 		  {
 			WeatherPeriod period1(theSpeedEventItem.thePeriod.localStartTime(), 
 								  theDirectionEventItem.thePeriod.localStartTime());
-			
+
+			/*			
 			theResultVector.push_back(new WindEventPeriodDataItem(period1,
-																  theSpeedEventItem.theWindEvent,
+																  windSpeedEvent,
 																  theSpeedEventItem.thePeriodBeginDataItem,
 																  theDirectionEventItem.thePeriodBeginDataItem));
-			
+			*/
 			WeatherPeriod period2(theDirectionEventItem.thePeriod.localStartTime(),
 								  theDirectionEventItem.thePeriod.localEndTime());
 			
+			/*
 			theResultVector.push_back(new WindEventPeriodDataItem(period2,
-																  theDirectionEventItem.theWindEvent,
+																  windDirectionEvent,
 																  theDirectionEventItem.thePeriodBeginDataItem,
 																  theDirectionEventItem.thePeriodEndDataItem));
+			*/
+
+			add_merged_period(period1,
+							  windSpeedEvent,
+							  theSpeedEventItem.thePeriodBeginDataItem,
+							  theDirectionEventItem.thePeriodBeginDataItem,
+							  theResultVector);
+
+			add_merged_period(period2,
+							  compositeWindEvent,
+							  theDirectionEventItem.thePeriodBeginDataItem,
+							  theDirectionEventItem.thePeriodEndDataItem,
+							  theResultVector);
 		  }
 
-		WeatherPeriod returnPeriod(theDirectionEventItem.thePeriod.localEndTime(),
-									theSpeedEventItem.thePeriod.localEndTime());
-
-		return new WindEventPeriodDataItem(returnPeriod,
-										   theSpeedEventItem.theWindEvent,
-										   theDirectionEventItem.thePeriodEndDataItem,
-										   theSpeedEventItem.thePeriodEndDataItem);
+		if(theSpeedEventItem.thePeriod.localEndTime() >
+		   theDirectionEventItem.thePeriod.localEndTime())
+		  {
+			WeatherPeriod returnPeriod(theDirectionEventItem.thePeriod.localEndTime(),
+									   theSpeedEventItem.thePeriod.localEndTime());
+			
+			return new WindEventPeriodDataItem(returnPeriod,
+											   theSpeedEventItem.theWindEvent,
+											   theDirectionEventItem.thePeriodEndDataItem,
+											   theSpeedEventItem.thePeriodEndDataItem);
+		  }
+		else
+		  {
+			return 0;
+		  }
 	  }
 
 
@@ -1296,40 +1425,70 @@ namespace TextGen
 		// if both are missing event periods
 		if(theSpeedEventItem.theWindEvent == MISSING_WIND_SPEED_EVENT)
 		  {
+
 			WeatherPeriod period(theDirectionEventItem.thePeriod.localStartTime(), 
 								 theSpeedEventItem.thePeriod.localEndTime());
 			
+			add_merged_period(period,
+							  windDirectionEvent,
+							  theDirectionEventItem.thePeriodBeginDataItem,
+							  theSpeedEventItem.thePeriodEndDataItem,
+							  theResultVector);
+			/*
 			theResultVector.push_back(new WindEventPeriodDataItem(period,
-																  theDirectionEventItem.theWindEvent,
+																  windDirectionEvent,
 																  theDirectionEventItem.thePeriodBeginDataItem,
 																  theSpeedEventItem.thePeriodEndDataItem));
+			*/
 		  }
 		else
 		  {
 			WeatherPeriod period1(theDirectionEventItem.thePeriod.localStartTime(), 
 								  theSpeedEventItem.thePeriod.localStartTime());
 			
+			/*
 			theResultVector.push_back(new WindEventPeriodDataItem(period1,
-																  theDirectionEventItem.theWindEvent,
+																  windDirectionEvent,
 																  theDirectionEventItem.thePeriodBeginDataItem,
 																  theSpeedEventItem.thePeriodBeginDataItem));
-			
+			*/
+
 			WeatherPeriod period2(theSpeedEventItem.thePeriod.localStartTime(),
 								  theSpeedEventItem.thePeriod.localEndTime());
-			
+			/*			
 			theResultVector.push_back(new WindEventPeriodDataItem(period2,
-																  theSpeedEventItem.theWindEvent,
+																  windSpeedEvent,
 																  theSpeedEventItem.thePeriodBeginDataItem,
 																  theSpeedEventItem.thePeriodEndDataItem));
+			*/
+			add_merged_period(period1,
+							  windDirectionEvent,
+							  theDirectionEventItem.thePeriodBeginDataItem,
+							  theSpeedEventItem.thePeriodBeginDataItem,
+							  theResultVector);
+
+			add_merged_period(period2,
+							  compositeWindEvent,
+							  theSpeedEventItem.thePeriodBeginDataItem,
+							  theSpeedEventItem.thePeriodEndDataItem,
+							  theResultVector);
 		  }
 
-		WeatherPeriod returnPeriod(theSpeedEventItem.thePeriod.localEndTime(),
-								   theDirectionEventItem.thePeriod.localEndTime());
-
-		return new WindEventPeriodDataItem(returnPeriod,
-										   theDirectionEventItem.theWindEvent,
-										   theSpeedEventItem.thePeriodEndDataItem,
-										   theDirectionEventItem.thePeriodEndDataItem);
+		if(theDirectionEventItem.thePeriod.localEndTime() > 
+		   theSpeedEventItem.thePeriod.localEndTime())
+		  {
+			WeatherPeriod returnPeriod(theSpeedEventItem.thePeriod.localEndTime(),
+									   theDirectionEventItem.thePeriod.localEndTime());
+			
+			return new WindEventPeriodDataItem(returnPeriod,
+											   theDirectionEventItem.theWindEvent,
+											   theSpeedEventItem.thePeriodEndDataItem,
+											   theDirectionEventItem.thePeriodEndDataItem);
+		  }
+		else
+		  {
+			return 0;
+		  }
 	  }
 
 	if(theDirectionEventItem.thePeriod.localEndTime() > theSpeedEventItem.thePeriod.localEndTime())
@@ -1345,10 +1504,18 @@ namespace TextGen
 			WeatherPeriod period(theSpeedEventItem.thePeriod.localStartTime(), 
 								 theSpeedEventItem.thePeriod.localEndTime());
 			
+			add_merged_period(period,
+							  MISSING_WIND_EVENT,
+							  theSpeedEventItem.thePeriodBeginDataItem,
+							  theSpeedEventItem.thePeriodEndDataItem,
+							  theResultVector);
+
+			/*
 			theResultVector.push_back(new WindEventPeriodDataItem(period,
 																  MISSING_WIND_EVENT,
 																  theSpeedEventItem.thePeriodBeginDataItem,
 																  theSpeedEventItem.thePeriodEndDataItem));
+			*/
 			
 			WeatherPeriod returnPeriod(theSpeedEventItem.thePeriod.localEndTime(),
 									   theDirectionEventItem.thePeriod.localEndTime());
@@ -1364,23 +1531,36 @@ namespace TextGen
 			WeatherPeriod period(theSpeedEventItem.thePeriod.localStartTime(), 
 								  theDirectionEventItem.thePeriod.localStartTime());
 
+			add_merged_period(period,
+							  windSpeedEvent,
+							  theSpeedEventItem.thePeriodBeginDataItem,
+							  theDirectionEventItem.thePeriodBeginDataItem,
+							  theResultVector);
+
+			/*
 			theResultVector.push_back(new WindEventPeriodDataItem(period,
-																  theSpeedEventItem.theWindEvent,
+																  windSpeedEvent,
 																  theSpeedEventItem.thePeriodBeginDataItem,
 																  theDirectionEventItem.thePeriodBeginDataItem));
+			*/
 		  }
 
 		WeatherPeriod period(theDirectionEventItem.thePeriod.localStartTime(),
 							 theSpeedEventItem.thePeriod.localEndTime());
 
-		wind_event_id eventId = sort_out_wind_event(theDirectionEventItem.theWindEvent,
-													theSpeedEventItem.theWindEvent);
 
-				
+		add_merged_period(period,
+						  compositeWindEvent,
+						  theDirectionEventItem.thePeriodBeginDataItem,
+						  theSpeedEventItem.thePeriodEndDataItem,
+						  theResultVector);
+
+		/*	
 		theResultVector.push_back(new WindEventPeriodDataItem(period,
-															  eventId,
+															  compositeWindEvent,
 															  theDirectionEventItem.thePeriodBeginDataItem,
 															  theSpeedEventItem.thePeriodEndDataItem));
+		*/
 
 		WeatherPeriod returnPeriod(theSpeedEventItem.thePeriod.localEndTime(),
 								   theDirectionEventItem.thePeriod.localEndTime());
@@ -1405,10 +1585,18 @@ namespace TextGen
 			WeatherPeriod period(theDirectionEventItem.thePeriod.localStartTime(), 
 								 theDirectionEventItem.thePeriod.localEndTime());
 			
+			add_merged_period(period,
+							  MISSING_WIND_EVENT,
+							  theDirectionEventItem.thePeriodBeginDataItem,
+							  theDirectionEventItem.thePeriodEndDataItem,
+							  theResultVector);
+
+			/*
 			theResultVector.push_back(new WindEventPeriodDataItem(period,
 																  MISSING_WIND_EVENT,
 																  theDirectionEventItem.thePeriodBeginDataItem,
 																  theDirectionEventItem.thePeriodEndDataItem));
+			*/
 			
 			WeatherPeriod returnPeriod(theDirectionEventItem.thePeriod.localEndTime(),
 									   theSpeedEventItem.thePeriod.localEndTime());
@@ -1424,22 +1612,35 @@ namespace TextGen
 			WeatherPeriod period(theDirectionEventItem.thePeriod.localStartTime(), 
 								  theSpeedEventItem.thePeriod.localEndTime());
 
+			add_merged_period(period,
+							  windDirectionEvent,
+							  theDirectionEventItem.thePeriodBeginDataItem,
+							  theSpeedEventItem.thePeriodBeginDataItem,
+							  theResultVector);
+
+			/*
 			theResultVector.push_back(new WindEventPeriodDataItem(period,
-																  theDirectionEventItem.theWindEvent,
+																  windDirectionEvent,
 																  theDirectionEventItem.thePeriodBeginDataItem,
 																  theSpeedEventItem.thePeriodBeginDataItem));
+			*/
 		  }
 
 		WeatherPeriod period(theSpeedEventItem.thePeriod.localStartTime(),
 							 theDirectionEventItem.thePeriod.localEndTime());
 
-		wind_event_id eventId = sort_out_wind_event(theDirectionEventItem.theWindEvent,
-													theSpeedEventItem.theWindEvent);
-				
+		add_merged_period(period,
+						  compositeWindEvent,
+						  theSpeedEventItem.thePeriodBeginDataItem,
+						  theDirectionEventItem.thePeriodEndDataItem,
+						  theResultVector);
+		
+		/*
 		theResultVector.push_back(new WindEventPeriodDataItem(period,
-															  eventId,
+															  compositeWindEvent,
 															  theSpeedEventItem.thePeriodBeginDataItem,
 															  theDirectionEventItem.thePeriodEndDataItem));
+		*/
 
 		WeatherPeriod returnPeriod(theDirectionEventItem.thePeriod.localEndTime(),
 								   theSpeedEventItem.thePeriod.localEndTime());
@@ -1460,41 +1661,17 @@ namespace TextGen
 	unsigned int speedEventIndex(0);
 	unsigned int directionEventIndex(0);
 
-	const WindDataItemUnit& diu = (*storyParams.theRawDataVector[0])();
-	
-	wind_event_id eventId(MISSING_WIND_EVENT);
-
-	WindEventPeriodDataItem voidEventItem(storyParams.theForecastPeriod,
-										  eventId,
-										  diu,
-										  diu);
-
-	/*
-
-	const WindDataItemUnit& dataItem = (*storyParams.theRawDataVector[dataIndex])();
-	storyParams.theWindEventPeriodVector.push_back(new WindEventPeriodDataItem(dataItem.thePeriod, 
-	missingWindEvent,
-	dataItem,
-	dataItem));
-
-	WindEventPeriodDataItem(const WeatherPeriod& period,
-							const wind_event_id& windEvent,
-							const WindDataItemUnit& periodBeginDataItem,
-							const WindDataItemUnit& periodEndDataItem)
-
-	 */
-
-	WindEventPeriodDataItem* remainderItem = &voidEventItem;
-
+	WindEventPeriodDataItem* remainderItem = 0;//&voidEventItem;
+	//int i(0);
 	while(speedEventIndex < storyParams.theWindSpeedEventPeriodVector.size() ||
 		  directionEventIndex < storyParams.theWindDirectionEventPeriodVector.size())
 	  {
 		WindEventPeriodDataItem* directionItem = 0;
 		WindEventPeriodDataItem* speedItem = 0;
 
-		// first round
-		if(speedEventIndex == 0 && directionEventIndex == 0 ||
-		   remainderItem->theEventType == MISSING_EVENT_TYPE)
+		// first round or remainderItem == 0
+		if(speedEventIndex == 0 && directionEventIndex == 0 || remainderItem == 0)
+		  //->theEventType == MISSING_EVENT_TYPE)
 		  {
 			if(speedEventIndex < storyParams.theWindSpeedEventPeriodVector.size())
 			  {
@@ -1528,15 +1705,36 @@ namespace TextGen
 				  }
 			  }
 		  }
+		/*
+		cout << "*** " << i++ << " ****" << endl;
+		if(directionItem)
+		  cout << "direction: " 
+			   << directionItem->thePeriod.localStartTime() 
+			   << ".."
+			   << directionItem->thePeriod.localEndTime() << endl;
+		if(speedItem)
+		  cout << "speed: " 
+			   << speedItem->thePeriod.localStartTime() 
+			   << ".."
+			   << speedItem->thePeriod.localEndTime() << endl;
+		if(remainderItem)
+		  cout << "remainder: "
+			   << (remainderItem->theEventType == WIND_DIRECTION_EVENT ? " direction event: " : " speed event: ")
+			   << remainderItem->thePeriod.localStartTime() 
+			   << ".."
+			   << remainderItem->thePeriod.localEndTime() << endl;
 
+		cout << endl;
+		*/
 		if(directionItem == 0)
 		  {
 			storyParams.theMergedWindEventPeriodVector.push_back(new WindEventPeriodDataItem(speedItem->thePeriod,
 																							 speedItem->theWindEvent,
 																							 speedItem->thePeriodBeginDataItem,
 																							 speedItem->thePeriodEndDataItem));
-			// TODO: delete if exists
-			remainderItem = &voidEventItem;
+			if(remainderItem != 0)
+			  delete remainderItem;
+			remainderItem = 0;
 		  }
 		else if(speedItem == 0)
 		  {
@@ -1544,32 +1742,19 @@ namespace TextGen
 																							 directionItem->theWindEvent,
 																							 directionItem->thePeriodBeginDataItem,
 																							 directionItem->thePeriodEndDataItem));				
-			remainderItem = &voidEventItem;
+			if(remainderItem != 0)
+			  delete remainderItem;
+			remainderItem = 0;
 		  }
 		else
 		  {
 			remainderItem = sort_out_periods(*directionItem, *speedItem, storyParams.theMergedWindEventPeriodVector);
 		  }
 	  }
-
-	/*
-	for(unsigned int i = 0; i < storyParams.theWindDirectionEventPeriodVector.size(); i++)
-	  {
-		const WindEventPeriodDataItem* directionItem = storyParams.theWindDirectionEventPeriodVector[i];
-		for(unsigned int k = 0; k < storyParams.theWindSpeedEventPeriodVector.size(); k++)
-		  {
-			const WindEventPeriodDataItem* speedItem = storyParams.theWindSpeedEventPeriodVector[k];
-			if(directionItem->thePeriod.localEndTime() <= speedItem->thePeriod.localStartTime() ||
-			   directionItem->thePeriod.localStartTime() >= speedItem->thePeriod.localEndTime())
-			  continue;
-			sort_out_periods(*directionItem, *speedItem, storyParams.theMergedWindEventPeriodVector);
-		  }		
-	  }
-	*/
-  }
+ }
 
   bool wind_event_period_sort(const WindEventPeriodDataItem* first, const WindEventPeriodDataItem* second) 
-  { 
+  {	
 	return (first->thePeriod.localStartTime() < second->thePeriod.localStartTime());
   }
 
@@ -1579,15 +1764,18 @@ namespace TextGen
 	find_out_wind_event_periods(storyParams, false); // wind direction
 	find_out_transient_wind_direction_periods(storyParams); // wind direction
 	
-	std::sort(storyParams.theWindSpeedEventPeriodVector.begin(),
-			  storyParams.theWindSpeedEventPeriodVector.end(), 
-			  wind_event_period_sort);
-	std::sort(storyParams.theWindDirectionEventPeriodVector.begin(),
-			  storyParams.theWindDirectionEventPeriodVector.end(), 
-			  wind_event_period_sort);
-	std::sort(storyParams.theWindEventPeriodVector.begin(),
-			  storyParams.theWindEventPeriodVector.end(), 
-			  wind_event_period_sort);
+	if(storyParams.theWindSpeedEventPeriodVector.size() > 1)
+	  std::sort(storyParams.theWindSpeedEventPeriodVector.begin(),
+				storyParams.theWindSpeedEventPeriodVector.end(), 
+				wind_event_period_sort);
+	if(storyParams.theWindDirectionEventPeriodVector.size() > 1)
+	  std::sort(storyParams.theWindDirectionEventPeriodVector.begin(),
+				storyParams.theWindDirectionEventPeriodVector.end(), 
+				wind_event_period_sort);
+	if(storyParams.theWindEventPeriodVector.size() > 1)
+	  std::sort(storyParams.theWindEventPeriodVector.begin(),
+				storyParams.theWindEventPeriodVector.end(), 
+				wind_event_period_sort);
 
 	for(unsigned int i = 1; i < storyParams.theWindEventPeriodVector.size(); i++)
 	  {
@@ -1598,6 +1786,8 @@ namespace TextGen
 			storyParams.theWindEventPeriodVector[i]->theReportThisEventPeriodFlag = false;
 		  }
 	  }
+
+	put_wind_speed_and_direction_event_periods_together(storyParams);
   }
 
 
@@ -2128,7 +2318,7 @@ namespace TextGen
 		areaName = itsArea.name();
 		logger << "** " << areaName << " **" << endl;
 	  }
-	//		cout << "** " << areaName << " **" << endl;
+	//	cout << "** " << areaName << " **" << endl;
 
     // Generate the story
     //
@@ -2192,10 +2382,11 @@ namespace TextGen
 	log_wind_direction_periods(storyParams);
 	log_wind_events(storyParams);
 	log_wind_event_periods(storyParams);
+	log_merged_wind_event_periods(storyParams);
 
 	WindForecast windForecast(storyParams);
 
-	paragraph << windForecast.windForecastBasedOnEventPeriods(itsPeriod);
+	paragraph << windForecast.windForecastBasedOnEventPeriods2(itsPeriod);
   //	paragraph << windForecast.windForecastBasedOnEvents(itsPeriod);
 
 
