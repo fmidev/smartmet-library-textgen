@@ -719,7 +719,7 @@ using namespace std;
 	  {
 		if(theSpecifyDayFlag)
 		  {
-			oss << theWeatherPeriod.localEndTime().GetWeekday() << "-vastaisena yona";		  
+			oss << theWeatherPeriod.localEndTime().GetWeekday() << "-vastaisena yona";
 
 			//			oss  << weekday << "-" << KESKIYOLLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << AAMUYOLLA_WORD;
 
@@ -885,15 +885,24 @@ using namespace std;
 
 	if(is_inside(theTimestamp, AAMU))
 	  {
-		retval = (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
+		if(is_inside(theTimestamp, AAMUPAIVA))
+		  retval = (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+		else
+		  retval = (theAlkaenPhrase ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
 	  }
 	else if(is_inside(theTimestamp, AAMUPAIVA))
 	  {
-		retval = (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+		if(is_inside(theTimestamp, ILTAPAIVA))
+		  retval = (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+		else
+		  retval = (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
 	  }
 	else if(is_inside(theTimestamp, ILTA))
 	  {
-		retval = (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
+		if(is_inside(theTimestamp, ILTAYO))
+		  retval = (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_WORD);
+		else
+		  retval = (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);
 	  }
 	else if(is_inside(theTimestamp, ILTAPAIVA))
 	  {
@@ -905,7 +914,10 @@ using namespace std;
 	  }
 	else if(is_inside(theTimestamp, KESKIYO))
 	  {
-		retval = (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
+		if(is_inside(theTimestamp, AAMUYO))		
+		  retval = (theAlkaenPhrase ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
+		else
+		  retval = (theAlkaenPhrase ? KESKIYOSTA_ALKAEN_PHRASE : KESKIYOLLA_WORD);
 	  }
 	else if(is_inside(theTimestamp, AAMUYO))
 	  {
