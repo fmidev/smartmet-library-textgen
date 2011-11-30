@@ -4260,7 +4260,7 @@ vesi- tai lumisadetta.
   // this function is set up because of language versions, for eample in swedish: regnet/snöfallet upphör
   precipitation_form_id PrecipitationForecast::getPoutaantuuPrecipitationForm() const
   {
-	precipitation_form_id retval;
+	precipitation_form_id retval(MISSING_PRECIPITATION_FORM);
 
 	switch(thePrecipitationFormBeforeDryPeriod)
 	  {
