@@ -310,7 +310,8 @@ namespace TextGen
 	enum processing_order{DAY1,
 						  DAY1_DAY2_NIGHT,
 						  DAY1_NIGHT,
-						  NIGHT_DAY2};
+						  NIGHT_DAY2,
+						  UNDEFINED_PROCESSING_ORDER};
 
 	enum sentence_part_id{DAY1_INLAND,
 						  DAY1_COASTAL,
@@ -3612,7 +3613,7 @@ namespace TextGen
 	  // 2. Day1 coastal
 
 	  vector<int> periodAreas;
-	  processing_order processingOrder;
+	  processing_order processingOrder(UNDEFINED_PROCESSING_ORDER);
 
 	  if(theParameters.theForecastPeriod & DAY1_PERIOD && 
 		 theParameters.theForecastPeriod & NIGHT_PERIOD && 
@@ -3934,9 +3935,9 @@ namespace TextGen
 			  continue;
 			}
 
-		  unsigned short story_forecast_areas = 0x0;
-		  forecast_period_id period_id;
-		  forecast_area_id area_id;
+		  unsigned short story_forecast_areas(0x0);
+		  forecast_period_id period_id(NO_PERIOD);
+		  forecast_area_id area_id(NO_AREA);
 
    
 		  if(periodArea == DAY1_INLAND || periodArea == DAY1_COASTAL || periodArea == DAY1_FULL)
