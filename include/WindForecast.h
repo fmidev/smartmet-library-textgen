@@ -149,6 +149,7 @@ using namespace std;
 	string theRangeSeparator;
 	int theMinInterval;
 	string theMetersPerSecondFormat;
+	bool theAlakaenPhraseUsed;
 
 	wind_data_item_vector theRawDataVector;
 	wind_data_item_vector theEqualizedDataVector;
@@ -360,14 +361,8 @@ using namespace std;
 
 	~WindForecast(){}
 		
-	Sentence windSentence(const WeatherPeriod& thePeriod) const;
-	Paragraph windForecastBasedOnEvents(const WeatherPeriod& thePeriod) const;
 	Paragraph windForecastBasedOnEventPeriods(const WeatherPeriod& thePeriod) const;
-	Paragraph windForecastBasedOnEventPeriods2(const WeatherPeriod& thePeriod) const;
  
-	void printOutWindPeriods(std::ostream& theOutput) const;
-	void printOutWindData(std::ostream& theOutput) const;
-
   private:
 	
 
@@ -375,63 +370,47 @@ using namespace std;
 	mutable int thePreviousRangeBeg;
 	mutable int thePreviousRangeEnd;
 
-	void getRepresentativeInterval(const float& theDistributionSum, 
-								   const WeatherPeriod& thePeriod,
-								   float& theLowerLimit,
-								   float& theUpperLimit);
-	wind_direction_id findWindDirectionId(const NFmiTime& timestamp) const;
-	const Sentence windDirectionSentence(const wind_direction_id& theDirectionId) const;
-	const Sentence windSpeedSentence(const WeatherPeriod& thePeriod, bool theLastSentenceFlag = true) const;
+	Sentence windSentence(const WeatherPeriod& thePeriod) const;
+	const Sentence windDirectionSentence(const wind_direction_id& theDirectionId,
+										 const bool& theBasicForm = false) const;
+	const Sentence windSpeedIntervalSentence(const WeatherPeriod& thePeriod, 
+											 bool theLastSentenceFlag = true) const;
 	const Sentence speedRangeSentence(const WeatherPeriod& thePeriod,
 									  const WeatherResult & theMaxSpeed,
 									  const WeatherResult & theMeanSpeed,
 									  const string & theVariable, 
 									  bool theLastSentenceFlag) const;
-	Sentence getWindSentence(const wind_event_id& speedEventId, 
-							 const WeatherPeriod& speedEventPeriod,
-							 const wind_event_id& directionEventId, 
-							 const WeatherPeriod& directionEventPeriod,
-							 const wind_direction_id& directionIdEnd,
-							 const bool& firstSentenceInTheStory) const;
-	Sentence getWindSentence(const wind_event_id& eventId, 
-							 const WeatherPeriod& eventPeriod,
-							 const wind_direction_id& directionIdEnd,
-							 const bool& firstSentenceInTheStory) const;
 
 	//	Sentence getSpeedInterval(const WeatherPeriod& theWindSpeedFullPeriod) const;
-	Sentence getWindSpeedDecreasingIncreasingInterval(const WeatherPeriod& speedEventPeriod,
-													  const bool& firstSentenceInTheStory) const;	  
-	Sentence getWindSpeedDecreasingIncreasingInterval2(const WeatherPeriod& speedEventPeriod,
-													  const bool& firstSentenceInTheStory) const;	  
+	Sentence getWindSpeedDecreasingIncreasingInterval(const WindEventPeriodDataItem& eventPeriodDataItem,
+													   const bool& firstSentenceInTheStory,
+													   const wind_event_id& eventId) const;	  
 	const Sentence windSpeedDirectionSentence(const WindEventPeriodDataItem* theWindSpeedEventPeriod,
 												 const WindEventPeriodDataItem* theWindDirectionEventPeriod) const;
 	Sentence getTimePhrase(const WeatherPeriod thePeriod,
-						   const bool& alkaenPhrase = true) const;
-
+						   const bool& useAlkaenPhrase) const;
 
 	wind_direction_id getWindDirectionId(const WeatherPeriod& thePeriod,
 										 const CompassType& theComapssType) const;
 	wind_direction_id getWindDirectionId(const WeatherPeriod& thePeriod) const;
-	  
-
-	/*
-	const weather_result_data_item_vector* theCoastalModerateFogData;
-	const weather_result_data_item_vector* theInlandModerateFogData;
-	const weather_result_data_item_vector* theFullAreaModerateFogData;
-	const weather_result_data_item_vector* theCoastalDenseFogData;
-	const weather_result_data_item_vector* theInlandDenseFogData;
-	const weather_result_data_item_vector* theFullAreaDenseFogData;
-
-	fog_period_vector theCoastalFog;
-	fog_period_vector theInlandFog;
-	fog_period_vector theFullAreaFog;
-
-	fog_type_period_vector theCoastalFogType;
-	fog_type_period_vector theInlandFogType;
-	fog_type_period_vector theFullAreaFogType;
-
-	static std::string theDayPhasePhraseOld;
-	*/
+	void getWindSpeedChangeParameters(const WeatherPeriod& period,
+									  float& begLowerLimit,
+									  float& begUpperLimit,
+									  float& endLowerLimit,
+									  float& endUpperLimit,
+									  float& changeRatePerHour) const;
+	NFmiTime getWindTurningPointOfTime(const WeatherPeriod& period) const;
+	vector<WeatherPeriod> getWindSpeedReportingPoints(const WindEventPeriodDataItem& eventPeriodDataItem,
+													  const bool& firstSentenceInTheStory,
+													  const wind_event_id& eventId) const;
+	const bool getSpeedIntervalLimits(const WeatherPeriod& thePeriod, 
+									  WeatherResult& lowerLimit,
+									  WeatherResult& upperLimit) const;
+	bool getWindSpeedChangePhrase(const WeatherPeriod& changePeriod,
+								  std::string& phraseStr,
+								  bool& smallChange,
+								  bool& gradualChange,
+								  bool& fastChange) const;
   };
   
   wind_speed_id get_wind_speed_id(const WeatherResult& windSpeed);
