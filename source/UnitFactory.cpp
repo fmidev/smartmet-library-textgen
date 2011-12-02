@@ -124,6 +124,8 @@ namespace
          *sentence << "0 astetta";
        else if(value == 1)
          *sentence << "1 aste";
+       else if(value % 10 == 1)
+         *sentence << Integer(value) << "astetta (mod 10=1)";
        else
          *sentence << Integer(value) << "astetta";
 	  }
@@ -191,6 +193,8 @@ namespace
          *sentence << "0 metria sekunnissa";
        else if(value == 1)
          *sentence << "1 metri sekunnissa";
+       else if(value % 10 == 1)
+         *sentence << Integer(value) << "metria sekunnissa (mod 10=1)";
        else
          *sentence << Integer(value) << "metria sekunnissa";
 	  }
@@ -285,6 +289,8 @@ namespace
 		  *sentence << "0 millimetria";
 		else if(value == 1)
 		  *sentence << "1 millimetri";
+       else if(value % 10 == 1)
+         *sentence << Integer(value) << "millimetria (mod 10=1)";
 		else
 		  *sentence << Integer(value) << "millimetria";
 	  }
@@ -350,6 +356,8 @@ namespace
 		  *sentence << "0 prosenttia";
 		else if(value == 1)
 		  *sentence << "1 prosentti";
+       else if(value % 10 == 1)
+         *sentence << Integer(value) << "prodenttia (mod 10=1)";
 		else
 		  *sentence << Integer(value) << "prosenttia";
 	  }
@@ -389,7 +397,7 @@ namespace
   }
 
   // ----------------------------------------------------------------------
-  /*!
+  /*!§
    * \brief Return the HectoPascal sentence
    *
    * \param value The value
@@ -414,6 +422,8 @@ namespace
 		  *sentence << "0 hehtopascalia";
 		else if(value == 1)
 		  *sentence << "1 hehtopascal";
+       else if(value % 10 == 1)
+         *sentence << Integer(value) << "hehtopascalia (mod 10=1)";
 		else
 		  *sentence << Integer(value) << "hehtopascalia";
 	  }
