@@ -147,7 +147,8 @@ using namespace std;
 	double theWindSpeedThreshold;
 	double theWindDirectionThreshold;
 	string theRangeSeparator;
-	int theMinInterval;
+	int theMinIntervalSize;
+	int theMaxIntervalSize;
 	string theMetersPerSecondFormat;
 	bool theAlakaenPhraseUsed;
 

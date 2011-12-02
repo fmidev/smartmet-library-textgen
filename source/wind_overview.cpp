@@ -2354,7 +2354,8 @@ namespace TextGen
 	double windSpeedThreshold = Settings::optional_double(storyParams.theVar+"::wind_speed_threshold", 3.0);
 	double windDirectionThreshold = Settings::optional_double(storyParams.theVar+"::wind_direction_threshold", 45.0);
 	string rangeSeparator = Settings::optional_string(storyParams.theVar+"::rangeseparator","-");
-	unsigned int minInterval = optional_int(storyParams.theVar+"::mininterval",0);
+	unsigned int minIntervalSize = optional_int(storyParams.theVar+"::min_interval_size",2);
+	unsigned int maxIntervalSize = optional_int(storyParams.theVar+"::max_interval_size",4);
 	
 	string metersPerSecondFormat = Settings::optional_string("textgen::units::meterspersecond::format", "SI");
 
@@ -2364,7 +2365,8 @@ namespace TextGen
 	storyParams.theWindSpeedThreshold = windSpeedThreshold;
 	storyParams.theWindDirectionThreshold = windDirectionThreshold;
 	storyParams.theRangeSeparator = rangeSeparator;
-	storyParams.theMinInterval = minInterval;
+	storyParams.theMinIntervalSize = minIntervalSize;
+	storyParams.theMaxIntervalSize = maxIntervalSize;
 	storyParams.theMetersPerSecondFormat = metersPerSecondFormat;
 	
 	storyParams.theNamedWeatherAreas.push_back(make_pair("full", (storyParams.theArea)));
@@ -2451,18 +2453,16 @@ namespace TextGen
 	std::ostringstream oss;
 	oss << "_" 
 		<< itsPeriod.localStartTime().GetYear() 
-		<< itsPeriod.localStartTime().GetMonth() 
-		<< itsPeriod.localStartTime().GetDay()
-		<< itsPeriod.localStartTime().GetHour()
-		<< itsPeriod.localStartTime().GetMin()
-		<< itsPeriod.localStartTime().GetSec()
+		<< setw(2) << setfill('0') << itsPeriod.localStartTime().GetMonth() 
+		<< setw(2) << setfill('0') << itsPeriod.localStartTime().GetDay()
+		<< setw(2) << setfill('0') << itsPeriod.localStartTime().GetHour()
+		<< setw(2) << setfill('0') << itsPeriod.localStartTime().GetMin()
 		<< "-"
 		<< itsPeriod.localEndTime().GetYear() 
-		<< itsPeriod.localEndTime().GetMonth() 
-		<< itsPeriod.localEndTime().GetDay()
-		<< itsPeriod.localStartTime().GetHour()
-		<< itsPeriod.localStartTime().GetMin()
-		<< itsPeriod.localStartTime().GetSec();
+		<< setw(2) << setfill('0') << itsPeriod.localEndTime().GetMonth() 
+		<< setw(2) << setfill('0') << itsPeriod.localEndTime().GetDay()
+		<< setw(2) << setfill('0') << itsPeriod.localStartTime().GetHour()
+		<< setw(2) << setfill('0') << itsPeriod.localStartTime().GetMin();
 	// log functions
 	//	save_raw_data(storyParams, oss.str());
 	log_raw_data(storyParams);

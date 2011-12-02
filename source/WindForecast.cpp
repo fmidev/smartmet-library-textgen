@@ -983,6 +983,7 @@ namespace TextGen
 				else
 				  {
 					const WindDataItemUnit& windDataItemLast = (*theParameters.theRawDataVector[endIndex])();
+					//	retVector.push_back(WeatherPeriod(windDataItemLast.thePeriod));
 					retVector.push_back(WeatherPeriod(windDataItem.thePeriod.localStartTime(), 
 													  windDataItemLast.thePeriod.localEndTime()));
 				  }
@@ -1038,12 +1039,17 @@ namespace TextGen
 		
 		for(unsigned int i = 1; i < speedChangePeriods.size(); i++)
 		  {
+			WeatherPeriod currentPeriodEnd(speedChangePeriods[i].localEndTime(), 
+										   speedChangePeriods[i].localEndTime());
 			unsigned int lastItemIndex = (speedChangePeriods.size() - 1);
-			part_of_the_day_id currentDayPart(get_part_of_the_day_id(speedChangePeriods[i]));
+			part_of_the_day_id currentDayPart(get_part_of_the_day_id(currentPeriodEnd));
 			
 			if(i < lastItemIndex)
-			  {				
-				part_of_the_day_id nextDayPart(get_part_of_the_day_id(speedChangePeriods[i+1]));
+			  {
+				WeatherPeriod nextPeriodEnd(speedChangePeriods[i+1].localEndTime(), 
+											speedChangePeriods[i+1].localEndTime());
+
+				part_of_the_day_id nextDayPart(get_part_of_the_day_id(nextPeriodEnd));
 
 				/*
 				cout << "currentDayPart: " 
@@ -1070,11 +1076,11 @@ namespace TextGen
 				  upperLimit1(kFloatMissing, 0), 
 				  upperLimit2(kFloatMissing, 0);
 
-				getSpeedIntervalLimits(speedChangePeriods[i], 
+				getSpeedIntervalLimits(currentPeriodEnd,
 									   lowerLimit1,
 									   upperLimit1);
 
-				getSpeedIntervalLimits(speedChangePeriods[i+1], 
+				getSpeedIntervalLimits(nextPeriodEnd,
 									   lowerLimit2,
 									   upperLimit2);
 
@@ -1092,7 +1098,7 @@ namespace TextGen
 			  }
 			
 			Sentence intervalSentence;
-			intervalSentence << windSpeedIntervalSentence(speedChangePeriods[i], (i == lastItemIndex));
+			intervalSentence << windSpeedIntervalSentence(currentPeriodEnd, (i == lastItemIndex));
 				
 			if(!intervalSentence.empty())
 			  {
@@ -1105,16 +1111,18 @@ namespace TextGen
 				  }
 				else
 				  {
+					/*
 					cout << "useTimePhrase: " << useTimePhrase << endl;
 					cout << "period: " 
 						 << speedChangePeriods[i].localStartTime()
 						 << "..."
 						 << speedChangePeriods[i].localEndTime()
 						 << endl;
+					*/
 				  }
 				sentence << intervalSentence;
 			  }
-		  }
+		  } // for
 	  }
 
 	return sentence;
@@ -1192,30 +1200,37 @@ namespace TextGen
 		return false;
 	  }
 
-	phraseStr = EMPTY_STRING;
-	bool summerHalf(SeasonTools::isSummerHalf(changePeriod.localStartTime(), theParameters.theVar));
+	float changeThreshold(5.0);
+	int periodLength(get_period_length(changePeriod));
 
-	if(abs(endUpperLimit - begUpperLimit) < 4.0)
+	phraseStr = EMPTY_STRING;
+	//	bool summerHalf(SeasonTools::isSummerHalf(changePeriod.localStartTime(), theParameters.theVar));
+	/*
+	cout << "periodLength: " << periodLength << endl;
+	cout << "begLowerLimit: " << begLowerLimit << endl;
+	cout << "begUpperLimit: " << begUpperLimit << endl;
+	cout << "endLowerLimit: " << endLowerLimit << endl;
+	cout << "endUpperLimit: " << endUpperLimit << endl;
+	cout << "changeThreshold: " << changeThreshold << endl;
+	cout << "changeRatePerHour: " << changeRatePerHour << endl;
+	cout << "requiredChangeRatePerHour: " << requiredChangeRatePerHour << endl;
+	*/
+	if(abs(endUpperLimit - begUpperLimit) <= changeThreshold * 0.5)
 	  {
 		phraseStr = VAHAN_WORD;
 		smallChange = true;
 	  }
-	else if(get_period_length(changePeriod) > 6)
+	else if(abs(endUpperLimit - begUpperLimit) >= changeThreshold)
 	  {
-		if((begUpperLimit >= (summerHalf ? 11.0 : 17.0) || endUpperLimit >= (summerHalf ? 11.0 : 17.0)) && 
-		   changeRatePerHour >= 1.25)
-		  {
-			phraseStr = VAHITELLEN_WORD;
-			gradualChange = true;
-		  }
-	  }
-	else
-	  {		
-		if((begUpperLimit >= (summerHalf ? 11.0 : 17.0) || endUpperLimit >= (summerHalf ? 11.0 : 17.0)) && 
-		   changeRatePerHour >= 2.0)
+		if(periodLength <= 6)
 		  {
 			phraseStr = NOPEASTI_WORD;
 			fastChange = true;
+		  }
+		else if(periodLength >= 12)
+		  {
+			phraseStr = VAHITELLEN_WORD;
+			gradualChange = true;
 		  }
 	  }
 
@@ -1322,9 +1337,9 @@ namespace TextGen
 					}
 				}
 
-			  if(fastChange)
-				sentence <<  windSpeedIntervalSentence(eventPeriod, false);
-			  else
+			  //  if(fastChange)
+			  //sentence <<  windSpeedIntervalSentence(eventPeriod, false);
+			  //else
 				sentence << getWindSpeedDecreasingIncreasingInterval(eventPeriodItem,
 																	 firstSentenceInTheStory,
 																	 eventId);
@@ -1749,14 +1764,11 @@ namespace TextGen
 		int intervalMin  = (maxvalue - (medianvalue - 1) > 5 ? maxvalue - 5 : medianvalue - 1);
 		int intervalMax = maxvalue;
 
-		if(abs(maxvalue - medianvalue) <= theParameters.theMinInterval)
+		if(abs(maxvalue - medianvalue) <= theParameters.theMinIntervalSize)
 		  {
-			if(medianvalue != thePreviousRangeBeg)
-			  {
-				sentence << medianvalue
-						 << *UnitFactory::create(MetersPerSecond);				
-				thePreviousRangeBeg = medianvalue;
-			  }
+			sentence << medianvalue
+					 << *UnitFactory::create(MetersPerSecond);				
+			thePreviousRangeBeg = medianvalue;
 		  }
 		else
 		  {
@@ -1788,54 +1800,24 @@ namespace TextGen
 
 			intervalMin = lower_index+1;
 			
-			if(intervalMax - intervalMin > 5)
+			// TODO: make the interval configurable
+			// if size of the interval is 7 or more, we use kovimmillaan-phrase
+			// if size of the interval is 6, we increase lower limit by 1
+			if(intervalMax - intervalMin > 6)
 			  {
 				peakWind = maxvalue;
 				intervalMax = intervalMin + 5;
 			  }
-#ifdef LATER
-			if(lower_index+1 < intervalMin)
+			else if(intervalMax - intervalMin == 6)
 			  {
-				/*
-				  cout << "interval extended on period "
-				  << thePeriod.localStartTime() << "..." << thePeriod.localEndTime()
-				  << "; data: "
-				  << oss.str()
-				  << "; original: " 
-				  << intervalMin
-				  << "..." 
-				  << maxvalue 
-				  <<  "; new: "
-				  << lower_index+1
-				  << "..." 
-				  << maxvalue 
-				  << endl;
-				*/
-					
-
-				if(intervalMax - intervalMin > 5)
-				  {
-				/*
-				  cout << "interval bigger than 5! " 
-				  << thePeriod.localStartTime() << "..." << thePeriod.localEndTime()
-				  << "; data: "
-				  << oss.str()
-				  << "; original: " 
-				  << intervalMin
-				  << "..." 
-				  << maxvalue 
-				  <<  "; new: "
-				  << lower_index+1
-				  << "..." 
-				  << maxvalue 
-				  << endl;
-				*/			
-				  }
+				intervalMin++;
 			  }
-#endif
+
+			if(intervalMax == 2)
+			  intervalMin = 0;
 
 			// don't report (almost) the same interval
-			if(abs(intervalMin - thePreviousRangeBeg) >= 1 || abs(intervalMax - thePreviousRangeEnd) >= 1)
+			//if(abs(intervalMin - thePreviousRangeBeg) >= 1 || abs(intervalMax - thePreviousRangeEnd) >= 1)
 			  {
 				
 				sentence << IntegerRange(intervalMin , intervalMax, theParameters.theRangeSeparator)
