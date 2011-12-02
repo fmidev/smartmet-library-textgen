@@ -36,8 +36,8 @@ class WeatherForecastStory;
 	Sentence getPeriodPhrase(const bool& theFromSpecifier,
 							 const WeatherPeriod* thePhrasePeriod = 0,
 							 const bool& theStoryUnderConstructionEmpty = true);
-	Sentence checkForAamuyoAndAamuPhrase(const bool& theFromSpecifier,
-										 const WeatherPeriod& thePhrasePeriod);
+	std::string checkForAamuyoAndAamuPhrase(const bool& theFromSpecifier,
+											const WeatherPeriod& thePhrasePeriod);
 	Sentence checkForExtendedPeriodPhrase(const WeatherPeriod& thePhrasePeriod);
 
 	const story_part_id& getStoryPartId() const { return theStoryPartId; }

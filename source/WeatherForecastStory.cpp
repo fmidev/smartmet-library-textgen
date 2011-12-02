@@ -407,6 +407,41 @@ namespace TextGen
 			previousPrecipitationStoryItem = currentPrecipitationStoryItem;
 		  }
 	  }
+
+	int storyItemCount = theStoryItemVector.size();
+	// short precipitation period in the beginning is ignored
+	if(storyItemCount > 1)
+	  {
+		WeatherPeriod storyItemPeriod(theStoryItemVector[0]->getStoryItemPeriod());
+
+		if(theStoryItemVector[0]->theStoryPartId == PRECIPITATION_STORY_PART &&
+		   theStoryItemVector[1]->theStoryPartId == CLOUDINESS_STORY_PART &&
+		   theStoryItemVector[0]->getPeriodLength() <= 1 &&
+		   theStoryItemVector[0]->thePeriodToMergeWith == 0)
+		  {
+			theStoryItemVector[0]->theIncludeInTheStoryFlag = false;
+		  }
+		else if(theStoryItemVector[0]->theStoryPartId == CLOUDINESS_STORY_PART &&
+				theStoryItemVector[1]->theStoryPartId == PRECIPITATION_STORY_PART &&
+				theStoryItemVector[0]->getPeriodLength() <= 1 &&
+				theStoryItemVector[0]->thePeriodToMergeWith == 0 &&
+				static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[1])->theIntensity < 0.1)
+		  /* &&
+			 static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[1])->theExtent < 40)*/
+		  {
+			theStoryItemVector[0]->theIncludeInTheStoryFlag = false;
+		  }
+		
+		// short precipitation period in the end after coudiness period is not reported
+		if(theStoryItemVector[storyItemCount-1]->theStoryPartId == PRECIPITATION_STORY_PART &&
+		   theStoryItemVector[storyItemCount-1]->getPeriodLength() <= 1 &&
+		   theStoryItemVector[storyItemCount-1]->thePeriodToMergeTo == 0 &&
+		   theStoryItemVector[storyItemCount-2]->theStoryPartId == CLOUDINESS_STORY_PART &&
+		   theStoryItemVector[storyItemCount-2]->theIncludeInTheStoryFlag == true)
+		  {
+			theStoryItemVector[storyItemCount-1]->theIncludeInTheStoryFlag = false;
+		  }
+	  }
   }
 
   void WeatherForecastStory::mergeCloudinessPeriodsWhenFeasible()
@@ -429,11 +464,12 @@ namespace TextGen
 
 				// merge periods if the precipitation period in between is short and
 				// intensity is weak and precipitation area is small
-				if(get_period_length(gapPeriod) <= 2 &&
-				   currentCloudinessStoryItem->thePreviousPrecipitationStoryItem->theIntensity <= 0.07 &&
-				   currentCloudinessStoryItem->thePreviousPrecipitationStoryItem->theExtent <= 40)
+				if(get_period_length(gapPeriod) <= 1 &&
+				   currentCloudinessStoryItem->thePreviousPrecipitationStoryItem->theIntensity <= 0.1)
+				  /* &&
+					 currentCloudinessStoryItem->thePreviousPrecipitationStoryItem->theExtent <= 40)*/
 				  {
-					// merge two weak cloudiness periods
+					// merge two cloudiness periods
 					previousCloudinessStoryItem->thePeriodToMergeWith = currentCloudinessStoryItem;
 					currentCloudinessStoryItem->thePeriodToMergeTo = previousCloudinessStoryItem;
 					currentCloudinessStoryItem->thePreviousPrecipitationStoryItem->theIncludeInTheStoryFlag = false;
@@ -444,7 +480,7 @@ namespace TextGen
 	  }
 
 	int storyItemCount = theStoryItemVector.size();
-	// short cloudiness period in the start is ignored
+	// short cloudiness period in the beginning is ignored
 	if(storyItemCount > 1)
 	  {
 		WeatherPeriod storyItemPeriod(theStoryItemVector[0]->getStoryItemPeriod());
@@ -460,8 +496,9 @@ namespace TextGen
 				theStoryItemVector[1]->theStoryPartId == CLOUDINESS_STORY_PART &&
 				theStoryItemVector[0]->getPeriodLength() <= 1 &&
 				theStoryItemVector[0]->thePeriodToMergeWith == 0 &&
-				static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[0])->theIntensity < 0.1 &&
-				static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[0])->theExtent < 40)
+				static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[0])->theIntensity < 0.1)
+/* &&
+   static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[0])->theExtent < 40)*/
 		  {
 			theStoryItemVector[0]->theIncludeInTheStoryFlag = false;
 		  }
@@ -582,10 +619,10 @@ namespace TextGen
   }
 
   // special treatment, because 06:00 can be aamuyö and morning, depends weather the period starts or ends
-  Sentence WeatherForecastStoryItem::checkForAamuyoAndAamuPhrase(const bool& theFromSpecifier,
+  std::string WeatherForecastStoryItem::checkForAamuyoAndAamuPhrase(const bool& theFromSpecifier,
 																 const WeatherPeriod& thePhrasePeriod)
   {
-	Sentence sentence;
+	std::string retValue("");
 
 	// 6:00 in the morning or in the evening
 	if(is_inside(thePhrasePeriod.localStartTime(), AAMU) && 
@@ -595,16 +632,20 @@ namespace TextGen
 	  {
 		if(thePhrasePeriod.localStartTime() == theWeatherForecastStory.theForecastPeriod.localStartTime())
 		  {
-			sentence << (theFromSpecifier ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
+			retValue = (theFromSpecifier ? AAMUSTA_ALKAEN_PHRASE : AAMULLA_WORD);
 		  }
 		else
 		  {
-			sentence << (theFromSpecifier ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
+			retValue = (theFromSpecifier ? AAMUYOSTA_ALKAEN_PHRASE : AAMUYOLLA_WORD);
 		  }
 	  }
 
-	return sentence;
+	return retValue;
   }
+
+  // this is for testing puropses: to prevent two events on same period 
+  // like "Iltapäivällä vesikuuroja."Iltapäivällä sää on verrattain pilvinen ja poutainen"
+  std::string time_phrase_previous("");
 
   Sentence WeatherForecastStoryItem::getPeriodPhrase(const bool& theFromSpecifier,
 													 const WeatherPeriod* thePhrasePeriod /*= 0*/,
@@ -631,17 +672,33 @@ namespace TextGen
 		if(todaySentence.size() > 0)
 		  specifyDay = true;
 	  }
+	std::string time_phrase("");
 
-	sentence << checkForAamuyoAndAamuPhrase(theFromSpecifier,
-											phrasePeriod);
+	time_phrase = checkForAamuyoAndAamuPhrase(theFromSpecifier,
+											  phrasePeriod);
+
+	if(!time_phrase.empty() && time_phrase.compare(time_phrase_previous) == 0)
+	  {
+		//	sentence << "myohemmin";
+		time_phrase_previous = time_phrase;
+	  }
+
+	sentence << time_phrase;
+
 	if(sentence.size() == 0)
 	  {
-		std::string time_phrase;
-		sentence << get_time_phrase_large(phrasePeriod,
-										  specifyDay,
-										  theWeatherForecastStory.theVar,
-										  time_phrase,
-										  theFromSpecifier);
+		get_time_phrase_large(phrasePeriod,
+							  specifyDay,
+							  theWeatherForecastStory.theVar,
+							  time_phrase,
+							  theFromSpecifier);
+		
+		//	if(!time_phrase.empty() && time_phrase.compare(time_phrase_previous) == 0)
+		// sentence << "myohemmin";
+
+		sentence << time_phrase;
+
+		time_phrase_previous = time_phrase;
 	  }
 
 	theWeatherForecastStory.theLogger << "PHRASE PERIOD: " 
