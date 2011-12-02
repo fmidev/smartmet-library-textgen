@@ -224,15 +224,14 @@ namespace WeatherAnalysis
 	}
 
 
-	float growing_season_percentage(const WeatherArea& theArea, 
-									const AnalysisSources& theSources,
-									const WeatherPeriod& thePeriod,
-									const std::string& theVariable)
+	float get_GrowthPeriodOnOff_percentage(const WeatherArea& theArea, 
+										   const AnalysisSources& theSources,
+										   const WeatherPeriod& thePeriod,
+										   const std::string& theVariable)
 	{
-	  GridForecaster forecaster;
-
 	  if(Settings::isset("textgen::effectivetemperaturesum_forecast"))
 		{	   
+		  GridForecaster forecaster;
 		  PositiveValueAcceptor acceptor;
 		  WeatherResult growingSeasonPercentage = forecaster.analyze(theVariable,
 																	 theSources,
@@ -247,31 +246,60 @@ namespace WeatherAnalysis
 		  
 		  return growingSeasonPercentage.value();
 		}
-	  else
-		{
-		  // 5 days average temperature
-		  NFmiTime startTime(thePeriod.localStartTime());
-		  NFmiTime endTime(thePeriod.localStartTime());
-		  endTime.ChangeByDays(5);
-		  WeatherPeriod period(startTime, endTime);
-
-		  RangeAcceptor temperatureAcceptor;
-		  temperatureAcceptor.lowerLimit(5.0); // temperatures > 5 degrees
-		  WeatherResult meanTemperaturePercentage = forecaster.analyze(theVariable,
-																	   theSources,
-																	   Temperature,
-																	   Percentage,
-																	   Mean,
-																	   theArea,
-																	   period,
-																	   DefaultAcceptor(),
-																	   DefaultAcceptor(),
-																	   temperatureAcceptor);
-		  
-		  return  meanTemperaturePercentage.value();
-		}
+	  return -1.0;	  
 	}
 
+	float get_OverFiveDegrees_percentage(const WeatherArea& theArea, 
+										 const AnalysisSources& theSources,
+										 const WeatherPeriod& thePeriod,
+										 const std::string& theVariable)
+	{
+	  GridForecaster forecaster;
+	  // 5 days average temperature
+	  NFmiTime startTime(thePeriod.localStartTime());
+	  NFmiTime endTime(thePeriod.localStartTime());
+	  endTime.ChangeByDays(5);
+	  WeatherPeriod period(startTime, endTime);
+	  
+	  RangeAcceptor temperatureAcceptor;
+	  temperatureAcceptor.lowerLimit(5.0); // temperatures > 5 degrees
+	  WeatherResult meanTemperaturePercentage = forecaster.analyze(theVariable,
+																   theSources,
+																   Temperature,
+																   Percentage,
+																   Mean,
+																   theArea,
+																   period,
+																   DefaultAcceptor(),
+																   DefaultAcceptor(),
+																   temperatureAcceptor);
+	  
+	  return  meanTemperaturePercentage.value();	  
+	}
+
+	float growing_season_percentage(const WeatherArea& theArea, 
+									const AnalysisSources& theSources,
+									const WeatherPeriod& thePeriod,
+									const std::string& theVariable)
+	{
+	  float growthPeriodOnOffPercentage = get_GrowthPeriodOnOff_percentage(theArea, 
+																		   theSources,
+																		   thePeriod,
+																		   theVariable);
+
+	  if(growthPeriodOnOffPercentage != -1.0)
+		return growthPeriodOnOffPercentage;
+
+
+	  float overFiveDegreesPercentage = get_OverFiveDegrees_percentage(theArea, 
+																	   theSources,
+																	   thePeriod,
+																	   theVariable);
+	  
+	  return overFiveDegreesPercentage;
+	}
+
+#ifdef OLD_IMPL
 	bool growing_season_going_on(const WeatherArea& theArea,
 								 const AnalysisSources& theSources,
 								 const WeatherPeriod& thePeriod,
@@ -303,6 +331,44 @@ namespace WeatherAnalysis
 
 	  return retval;
 	}
+#endif
+
+	bool growing_season_going_on(const WeatherArea& theArea,
+								 const AnalysisSources& theSources,
+								 const WeatherPeriod& thePeriod,
+								 const std::string theVariable)
+	{
+	  std::string parameter_name(theVariable+"::required_growing_season_percentage::default");
+	  if(theArea.isNamed() && (Settings::isset(theVariable+"::required_growing_season_percentage::"+theArea.name())))
+		parameter_name = theVariable+"::required_growing_season_percentage::"+theArea.name();
+
+	  const double required_growing_season_percentage = Settings::optional_double(parameter_name, 33.33);
+
+	  float growthPeriodOnOffPercentage = get_GrowthPeriodOnOff_percentage(theArea, 
+																		   theSources,
+																		   thePeriod,
+																		   theVariable);
+
+	  float overFiveDegreesPercentage = get_OverFiveDegrees_percentage(theArea, 
+																	   theSources,
+																	   thePeriod,
+																	   theVariable);
+	  
+	  if(growthPeriodOnOffPercentage >= 0)
+		{
+		  return(growthPeriodOnOffPercentage != kFloatMissing &&
+				 growthPeriodOnOffPercentage >= required_growing_season_percentage &&
+				 overFiveDegreesPercentage != kFloatMissing &&
+				 overFiveDegreesPercentage >= required_growing_season_percentage);
+		}
+	  else
+		{
+		  return(overFiveDegreesPercentage != kFloatMissing &&
+				 overFiveDegreesPercentage >= required_growing_season_percentage);
+		  
+		}
+	}
+
 
 	forecast_season_id get_forecast_season(const WeatherArea& theArea,
 										   const AnalysisSources& theSources,
