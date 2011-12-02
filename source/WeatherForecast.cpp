@@ -332,22 +332,49 @@ using namespace std;
   
 	if(thePeriod.localStartTime().GetHour() >= AAMU_START && 
 	   thePeriod.localEndTime().GetHour() <= AAMU_END && insideSameDay)
-	  return AAMU;
+	  {
+		if(thePeriod.localStartTime().GetHour() >= AAMUPAIVA_START && 
+		   thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
+		  return AAMUPAIVA;
+		else
+		  return AAMU;
+	  }
 	else if(thePeriod.localStartTime().GetHour() >= AAMUPAIVA_START && 
 			thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
-	  return AAMUPAIVA;
+	  {
+		if(thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START && 
+		   thePeriod.localEndTime().GetHour() <= ILTAPAIVA_END && insideSameDay)
+		  return ILTAPAIVA;
+		else
+		  return AAMUPAIVA;
+	  }
 	else if(thePeriod.localStartTime().GetHour() >= ILTA_START && 
 			thePeriod.localEndTime().GetHour() <= ILTA_END && insideSameDay)
-	  return ILTA;
+	  {
+		if(thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START && 
+		   thePeriod.localEndTime().GetHour() <= ILTAPAIVA_END && insideSameDay)
+		  return ILTAPAIVA;
+		else if(thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
+			thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay)
+		  return ILTAYO;
+		else
+		  return ILTA;
+	  }
 	else if(thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START && 
 			thePeriod.localEndTime().GetHour() <= ILTAPAIVA_END && insideSameDay)
 	  return ILTAPAIVA;
 	else if(thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
-			thePeriod.localEndTime().GetHour() >= ILTAYO_END && insideSameDay)
+			thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay)
 	  return ILTAYO;
 	else if(thePeriod.localStartTime().GetHour() >= KESKIYO_START && 
 			thePeriod.localEndTime().GetHour() <= KESKIYO_END && insideSameDay)
-	  return KESKIYO;
+	  {
+		if(thePeriod.localStartTime().GetHour() >= AAMUYO_START && 
+		   thePeriod.localEndTime().GetHour() <= AAMUYO_END && insideSameDay)
+		  return AAMUYO;
+		else
+		  return KESKIYO;
+	  }
 	else if(thePeriod.localStartTime().GetHour() >= AAMUYO_START && 
 			thePeriod.localEndTime().GetHour() <= AAMUYO_END && insideSameDay)
 	  return AAMUYO;
@@ -790,6 +817,39 @@ using namespace std;
 	return oss.str();
   }
 
+  bool possible_to_use_alkaen_phrase(const WeatherPeriod& thePeriod)
+  {
+	part_of_the_day_id dayPart = get_part_of_the_day_id(thePeriod);
+	
+	bool retval = true;
+
+	switch(dayPart)
+	  {
+	  case AAMU:
+	  case AAMUPAIVA:
+	  case ILTAPAIVA:
+	  case ILTA:
+	  case ILTAYO:
+	  case KESKIYO:
+	  case AAMUYO:
+		retval = true;
+		break;
+	  case PAIVA:
+	  case YO:
+	  case AAMU_JA_AAMUPAIVA:
+	  case ILTAPAIVA_JA_ILTA:
+	  case ILTA_JA_ILTAYO:
+	  case ILTAYO_JA_KESKIYO:
+	  case KESKIYO_JA_AAMUYO:
+	  case AAMUYO_JA_AAMU:
+	  case MISSING_PART_OF_THE_DAY_ID:
+		retval = false;
+		break;
+	};
+
+	return retval;
+  }
+
   Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
 								 const bool& theSpecifyDayFlag,
 								 const std::string& theVar,
@@ -811,8 +871,16 @@ using namespace std;
 	   get_part_of_the_day_id(theWeatherPeriod.localEndTime()))
 	  {
 		thePhraseString = parse_time_phrase(weekday, 
+											theSpecifyDayFlag, 
+											get_narrow_time_phrase(theWeatherPeriod, 
+																   theVar, 
+																   theAlkaenPhrase));
+		/*	
+		thePhraseString = parse_time_phrase(weekday, 
 									  theSpecifyDayFlag, 
 									  get_time_phrase(theWeatherPeriod.localStartTime(), theVar, theAlkaenPhrase));
+	
+		*/
 		sentence << thePhraseString;
 	  }
 	else
@@ -879,7 +947,7 @@ using namespace std;
 	std::string retval("");
 
 	bool specify_part_of_the_day = Settings::optional_bool(theVar + "::specify_part_of_the_day", true);
-
+	// AREE:
 	if(!specify_part_of_the_day)
 	  return retval;
 
@@ -899,7 +967,9 @@ using namespace std;
 	  }
 	else if(is_inside(theTimestamp, ILTA))
 	  {
-		if(is_inside(theTimestamp, ILTAYO))
+		if(is_inside(theTimestamp, ILTAPAIVA))
+		retval = (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+		else if(is_inside(theTimestamp, ILTAYO))
 		  retval = (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_WORD);
 		else
 		  retval = (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);

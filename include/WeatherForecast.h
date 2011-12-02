@@ -695,6 +695,7 @@ namespace TextGen
 									WeatherAnalysis::WeatherArea& theFirstArea,
 									WeatherAnalysis::WeatherArea& theSecondArea,
 									MessageLogger& theLog);
+  bool possible_to_use_alkaen_phrase(const WeatherPeriod& thePeriod);
 
 
 
