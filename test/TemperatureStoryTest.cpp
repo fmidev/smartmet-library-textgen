@@ -4391,6 +4391,7 @@ void delete_testcases(TestCaseContainer& testCases)
 	NFmiSettings::Set("max36hours::night::starthour","18");
 	NFmiSettings::Set("max36hours::night::endhour","6");
 	NFmiSettings::Set("max36hours::fake::area_percentage", "10.0");
+	NFmiSettings::Set("max36hours::fake::growing_season_on", "false");
 	//	NFmiSettings::Set("qdtext::forecasttime","200901010615");
 	//NFmiSettings::Set("textgen::main_forecast", "/home/reponen/work/testdata/200904300654_pal_skandinavia_pinta.sqd");
 
@@ -4682,8 +4683,11 @@ int main(void)
 
   dict.reset(TextGen::DictionaryFactory::create("multimysql"));
 
-  NFmiSettings::Init();
   NFmiSettings::Set("textgen::units::celsius::format","phrase");
+  NFmiSettings::Set("textgen::database","textgen2");
+
+
+  NFmiSettings::Init();
 
   dict->init("fi");
   dict->init("sv");
