@@ -2354,7 +2354,7 @@ namespace TextGen
 	double windSpeedThreshold = Settings::optional_double(storyParams.theVar+"::wind_speed_threshold", 3.0);
 	double windDirectionThreshold = Settings::optional_double(storyParams.theVar+"::wind_direction_threshold", 45.0);
 	string rangeSeparator = Settings::optional_string(storyParams.theVar+"::rangeseparator","-");
-	unsigned int minIntervalSize = optional_int(storyParams.theVar+"::min_interval_size",2);
+	unsigned int minIntervalSize = optional_int(storyParams.theVar+"::min_interval_size",0);
 	unsigned int maxIntervalSize = optional_int(storyParams.theVar+"::max_interval_size",4);
 	
 	string metersPerSecondFormat = Settings::optional_string("textgen::units::meterspersecond::format", "SI");
