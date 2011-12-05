@@ -107,7 +107,7 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<TextGen::Sentence> degrees_celsius(int value)
+  boost::shared_ptr<TextGen::Sentence> degrees_celsius(int value, bool withoutNumber = false)
   {
 	using namespace TextGen;
 
@@ -117,22 +117,42 @@ namespace
 	shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
-	  *sentence << Integer(value) << Delimiter("\260C");
+	  {
+		if(withoutNumber)
+		  *sentence << Delimiter("\260C");
+		else
+		  *sentence << Integer(value) << Delimiter("\260C");
+	  }
 	else if(opt == "phrase")
 	  {
-       if(value == 0)
-         *sentence << "0 astetta";
-       else if(value == 1)
-         *sentence << "1 aste";
-       else if(value % 10 == 1)
-         *sentence << Integer(value) << "astetta (mod 10=1)";
-       else
-         *sentence << Integer(value) << "astetta";
+		if(withoutNumber)
+		  {
+		if(value == 0)
+		  *sentence << "astetta";
+		else if(abs(value) == 1)
+		  *sentence << "astetta";
+		else if(abs(value) % 10 == 1)
+		  *sentence << "astetta (mod 10=1)";
+		else
+		  *sentence << "astetta";
+		  }
+		else
+		  {
+			if(value == 0)
+			  *sentence << "0 astetta";
+			else if(abs(value) == 1)
+			  *sentence << "1 aste";
+			else if(abs(value) % 10 == 1)
+			  *sentence << Integer(value) << "astetta (mod 10=1)";
+			else
+			  *sentence << Integer(value) << "astetta";
+		  }
 	  }
 	else if(opt == "none")
 	  ;
 	else
 	  throw TextGenError("Unknown format "+opt+" in variable "+var);
+
 
 	return sentence;
 
@@ -176,7 +196,7 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<TextGen::Sentence> meters_per_second(int value)
+  boost::shared_ptr<TextGen::Sentence> meters_per_second(int value, bool withoutNumber = false)
   {
 	using namespace TextGen;
 
@@ -186,17 +206,36 @@ namespace
 	shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
-	  *sentence << Integer(value) << "m/s";
+	  {
+		if(withoutNumber)
+		  *sentence << "m/s";
+		else
+		  *sentence << Integer(value) << "m/s";
+	  }
 	else if(opt == "phrase")
 	  {
-      if(value == 0)
-         *sentence << "0 metria sekunnissa";
-       else if(value == 1)
-         *sentence << "1 metri sekunnissa";
-       else if(value % 10 == 1)
-         *sentence << Integer(value) << "metria sekunnissa (mod 10=1)";
-       else
-         *sentence << Integer(value) << "metria sekunnissa";
+		if(withoutNumber)
+		  {
+			if(value == 0)
+			  *sentence << "metria sekunnissa";
+			else if(value == 1)
+			  *sentence << "metri sekunnissa";
+			else if(abs(value) % 10 == 1)
+			  *sentence << "metria sekunnissa (mod 10=1)";
+			else
+			  *sentence << "metria sekunnissa";
+		  }
+		else
+		  {
+			if(value == 0)
+			  *sentence << "0 metria sekunnissa";
+			else if(value == 1)
+			  *sentence << "1 metri sekunnissa";
+			else if(abs(value) % 10 == 1)
+			  *sentence << Integer(value) << "metria sekunnissa (mod 10=1)";
+			else
+			  *sentence << Integer(value) << "metria sekunnissa";
+		  }
 	  }
 	else if(opt == "textphrase")
 	  {
@@ -272,7 +311,7 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<TextGen::Sentence> millimeters(int value)
+  boost::shared_ptr<TextGen::Sentence> millimeters(int value, bool withoutNumber = false)
   {
 	using namespace TextGen;
 
@@ -282,17 +321,36 @@ namespace
 	shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
-	  *sentence << Integer(value) << Delimiter("mm");
+	  {
+		if(withoutNumber)
+		  *sentence << Delimiter("mm");
+		else
+		  *sentence << Integer(value) << Delimiter("mm");
+	  }
 	else if(opt == "phrase")
 	  {
-		if(value == 0)
-		  *sentence << "0 millimetria";
-		else if(value == 1)
-		  *sentence << "1 millimetri";
-       else if(value % 10 == 1)
-         *sentence << Integer(value) << "millimetria (mod 10=1)";
+		if(withoutNumber)
+		  {
+			if(value == 0)
+			  *sentence << "millimetria";
+			else if(value == 1)
+			  *sentence << "millimetri";
+			else if(abs(value) % 10 == 1)
+			  *sentence << "millimetria (mod 10=1)";
+			else
+			  *sentence << "millimetria";
+		  }
 		else
-		  *sentence << Integer(value) << "millimetria";
+		  {
+			if(value == 0)
+			  *sentence << "0 millimetria";
+			else if(value == 1)
+			  *sentence << "1 millimetri";
+			else if(abs(value) % 10 == 1)
+			  *sentence << Integer(value) << "millimetria (mod 10=1)";
+			else
+			  *sentence << Integer(value) << "millimetria";
+		  }
 	  }
 	else if(opt == "none")
 	  ;
@@ -339,7 +397,7 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<TextGen::Sentence> percent(int value)
+  boost::shared_ptr<TextGen::Sentence> percent(int value, bool withoutNumber = false)
   {
 	using namespace TextGen;
 
@@ -349,17 +407,36 @@ namespace
 	shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
-	  *sentence << Integer(value) << Delimiter("%");
+	  {
+		if(withoutNumber)
+		  *sentence << Delimiter("%");
+		else
+		  *sentence << Integer(value) << Delimiter("%");
+	  }
 	else if(opt == "phrase")
 	  {
-		if(value == 0)
-		  *sentence << "0 prosenttia";
-		else if(value == 1)
-		  *sentence << "1 prosentti";
-       else if(value % 10 == 1)
-         *sentence << Integer(value) << "prodenttia (mod 10=1)";
+		if(withoutNumber)
+		  {
+			if(value == 0)
+			  *sentence << "prosenttia";
+			else if(value == 1)
+			  *sentence << "prosentti";
+			else if(abs(value) % 10 == 1)
+			  *sentence << "prodenttia (mod 10=1)";
+			else
+			  *sentence << "prosenttia";
+		  }
 		else
-		  *sentence << Integer(value) << "prosenttia";
+		  {
+			if(value == 0)
+			  *sentence << "0 prosenttia";
+			else if(value == 1)
+			  *sentence << "1 prosentti";
+			else if(abs(value) % 10 == 1)
+			  *sentence << Integer(value) << "prodenttia (mod 10=1)";
+			else
+			  *sentence << Integer(value) << "prosenttia";
+		  }
 	  }
 	else if(opt == "none")
 	  ;
@@ -405,7 +482,7 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<TextGen::Sentence> hectopascal(int value)
+  boost::shared_ptr<TextGen::Sentence> hectopascal(int value, bool withoutNumber = false)
   {
 	using namespace TextGen;
 
@@ -415,17 +492,36 @@ namespace
 	shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
-	  *sentence << Integer(value) << Delimiter("hPa");
+	  {
+		if(withoutNumber)
+		  *sentence << Delimiter("hPa");
+		else
+		  *sentence << Integer(value) << Delimiter("hPa");
+	  }
 	else if(opt == "phrase")
 	  {
-		if(value == 0)
-		  *sentence << "0 hehtopascalia";
-		else if(value == 1)
-		  *sentence << "1 hehtopascal";
-       else if(value % 10 == 1)
-         *sentence << Integer(value) << "hehtopascalia (mod 10=1)";
+		if(withoutNumber)
+		  {
+			if(value == 0)
+			  *sentence << "hehtopascalia";
+			else if(value == 1)
+			  *sentence << "hehtopascal";
+			else if(abs(value) % 10 == 1)
+			  *sentence << "hehtopascalia (mod 10=1)";
+			else
+			  *sentence << "hehtopascalia";
+		  }
 		else
-		  *sentence << Integer(value) << "hehtopascalia";
+		  {
+			if(value == 0)
+			  *sentence << "0 hehtopascalia";
+			else if(value == 1)
+			  *sentence << "1 hehtopascal";
+			else if(abs(value) % 10 == 1)
+			  *sentence << Integer(value) << "hehtopascalia (mod 10=1)";
+			else
+			  *sentence << Integer(value) << "hehtopascalia";
+		  }
 	  }
 	else if(opt == "none")
 	  ;
@@ -496,6 +592,35 @@ namespace TextGen
 		  return percent(value);
 		case HectoPascal:
 		  return hectopascal(value);
+		}
+
+	  throw TextGenError("UnitFactory::create failed - unknown unit");
+
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Return the formatted sentence for the given unit and value
+	 *
+	 * \param theUnit The desired unit
+	 * \return The sentence
+	 */
+	// ----------------------------------------------------------------------
+
+	boost::shared_ptr<Sentence> create_unit(Units theUnit, int value)
+	{
+	  switch(theUnit)
+		{
+		case DegreesCelsius:
+		  return degrees_celsius(value, true);
+		case MetersPerSecond:
+		  return meters_per_second(value, true);
+		case Millimeters:
+		  return millimeters(value, true);
+		case Percent:
+		  return percent(value, true);
+		case HectoPascal:
+		  return hectopascal(value, true);
 		}
 
 	  throw TextGenError("UnitFactory::create failed - unknown unit");
