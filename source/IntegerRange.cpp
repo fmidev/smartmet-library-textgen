@@ -83,7 +83,7 @@ namespace TextGen
 		else if(itsStartValue > 0 && itsEndValue <= 0)
 		  os << "+" << itsStartValue << itsRangeSeparator << itsEndValue;
 		else
-		os << itsStartValue << itsRangeSeparator << itsEndValue;
+		  os << itsStartValue << itsRangeSeparator << itsEndValue;
 	  }
 
 	return os.str();
