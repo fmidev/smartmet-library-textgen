@@ -74,30 +74,33 @@ namespace TextGen
 #define HUOMENNA_SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] pakkasta on [M...N] [astetta]"
 
 #define HUOMENNA_SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] pakkasta on noin [N] [astetta]"
-#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] pakkanen on [N] asteen tienoilla"
-#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] pakkanen on [N] asteen tuntumassa"
+#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] pakkanen on [N] [asteen] tienoilla"
+#define HUOMENNA_SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] pakkanen on [N] [asteen] tuntumassa"
+
 #define HUOMENNA_SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] pakkanen on lahella [N] [astetta]"
 #define HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] pakkasta on vajaat [N] [astetta]"
 #define HUOMENNA_SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] pakkasta on vahan yli [N] [astetta]"
 
 #define HUOMENNA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] pakkasta on [M...N] [astetta]"
 #define HUOMENNA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] pakkasta on noin [N] [astetta]"
-#define HUOMENNA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] pakkanen on [N] asteen tienoilla"
-#define HUOMENNA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] pakkanen on [N] asteen tuntumassa"
+#define HUOMENNA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] pakkanen on [N] [asteen] tienoilla"
+#define HUOMENNA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] pakkanen on [N] [asteen] tuntumassa"
+
 #define HUOMENNA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] pakkanen on lahella [N] [astetta]"
 #define HUOMENNA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] pakkasta on vajaat [N] [astetta]"
 #define HUOMENNA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] pakkasta on vahan yli [N] [astetta]"
 #define SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] pakkasta on [M...N] [astetta]"
 #define SISAMAASSA_PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] pakkasta on noin [N] [astetta]"
-#define SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] pakkanen on [N] asteen tienoilla"
-#define SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] pakkanen on [N] asteen tuntumassa"
+#define SISAMAASSA_PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] pakkanen on [N] [asteen] tienoilla"
+#define SISAMAASSA_PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] pakkanen on [N] [asteen] tuntumassa"
+
 #define SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] pakkanen on lahella [N] [astetta]"
 #define SISAMAASSA_PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] pakkasta on vajaat [N] [astetta]"
 #define SISAMAASSA_PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] pakkasta on vahan yli [N] [astetta]"
 #define PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "pakkasta on [M...N] [astetta]"
 #define PAKKASTA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "pakkasta on noin [N] [astetta]"
-#define PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "pakkanen on [N] asteen tienoilla"
-#define PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "pakkanen on [N] asteen tuntumassa"
+#define PAKKANEN_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "pakkanen on [N] [asteen] tienoilla"
+#define PAKKANEN_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "pakkanen on [N] [asteen] tuntumassa"
 #define PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "pakkanen on lahella [N] [astetta]"
 #define PAKKASTA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "pakkasta on vajaat [N] [astetta]"
 #define PAKKASTA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "pakkasta on vahan yli [N] [astetta]"
@@ -123,27 +126,21 @@ namespace TextGen
 
 #define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [lampotila] on [M...N] [astetta]"
 #define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [lampotila] on noin [N] [astetta]"
-	//#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [lampotila] on [N] asteen tienoilla"
 #define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [lampotila] on [N] [asteen] tienoilla"
-	//#define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [lampotila] on [N] asteen tuntumassa"
 #define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [lampotila] on [N] [asteen] tuntumassa"
 #define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [lampotila] on lahella [N] [astetta]"
 #define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [lampotila] on vajaat [N] [astetta]"
 #define HUOMENNA_SISAMAASSA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [lampotila] on vahan yli [N] [astetta]"
 #define HUOMENNA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lampotila] on [M...N] [astetta]"
 #define HUOMENNA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lampotila] on noin [N] [astetta]"
-	//#define HUOMENNA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lampotila] on [N] asteen tienoilla"
 #define HUOMENNA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lampotila] on [N] [asteen] tienoilla"
-	//#define HUOMENNA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lampotila] on [N] asteen tuntumassa"
 #define HUOMENNA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lampotila] on [N] [asteen] tuntumassa"
 #define HUOMENNA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lampotila] on lahella [N] [astetta]"
 #define HUOMENNA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lampotila] on vajaat [N] [astetta]"
 #define HUOMENNA_LAMPOTILA_ON_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [lampotila] on vahan yli [N] [astetta]"
 #define SISAMAASSA_LAMPOTILA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [lampotila] on [M...N] [astetta]"
 #define SISAMAASSA_LAMPOTILA_ON_NOIN_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [lampotila] on noin [N] [astetta]"
-	//#define SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [lampotila] on [N] asteen tienoilla"
 #define SISAMAASSA_LAMPOTILA_ON_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [lampotila] on [N] [asteen] tienoilla"
-	//#define SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [lampotila] on [N] asteen tuntumassa"
 #define SISAMAASSA_LAMPOTILA_ON_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [lampotila] on [N] [asteen] tuntumassa"
 #define SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [lampotila] on lahella [N] [astetta]"
 #define SISAMAASSA_LAMPOTILA_ON_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [lampotila] on vajaat [N] [astetta]"
@@ -168,8 +165,6 @@ namespace TextGen
 #define RANNIKOLLA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "rannikolla vajaat [N] [astetta]"
 #define RANNIKOLLA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "rannikolla vahan yli [N] [astetta]"
 #define RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "rannikolla [M...N] [astetta]"
-	//#define RANNIKOLLA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] asteen tienoilla"
-	//#define RANNIKOLLA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] asteen tuntumassa"
 #define RANNIKOLLA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] [asteen] tienoilla"
 #define RANNIKOLLA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "rannikolla [N] [asteen] tuntumassa"
 #define RANNIKOLLA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "rannikolla [suunnilleen sama]"
@@ -179,8 +174,6 @@ namespace TextGen
 #define HUOMENNA_SISAMAASSA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] vajaat [N] [astetta]"
 #define HUOMENNA_SISAMAASSA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] vahan yli [N] [astetta]"
 #define HUOMENNA_SISAMAASSA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [M...N] [astetta]"
-	//#define HUOMENNA_SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [N] asteen tienoilla"
-	//#define HUOMENNA_SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [N] asteen tuntumassa"
 #define HUOMENNA_SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [N] [asteen] tienoilla"
 #define HUOMENNA_SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [N] [asteen] tuntumassa"
 #define HUOMENNA_SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [suunnilleen sama]"
@@ -190,8 +183,6 @@ namespace TextGen
 #define HUOMENNA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[huomenna] vajaat [N] [astetta]"
 #define HUOMENNA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] vahan yli [N] [astetta]"
 #define HUOMENNA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[huomenna] [M...N] [astetta]"
-	//#define HUOMENNA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [N] asteen tienoilla"
-	//#define HUOMENNA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [N] asteen tuntumassa"
 #define HUOMENNA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [N] [asteen] tienoilla"
 #define HUOMENNA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[huomenna] [N] [asteen] tuntumassa"
 #define HUOMENNA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[huomenna] [suunnilleen sama]"
@@ -201,8 +192,6 @@ namespace TextGen
 #define SISAMAASSA_VAJAAT_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] vajaat [N] [astetta]"
 #define SISAMAASSA_VAHAN_YLI_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] vahan yli [N] [astetta]"
 #define SISAMAASSA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [M...N] [astetta]"
-	//#define SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [N] asteen tienoilla"
-	//#define SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [N] asteen tuntumassa"
 #define SISAMAASSA_TIENOILLA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [N] [asteen] tienoilla"
 #define SISAMAASSA_TUNTUMASSA_ASTETTA_COMPOSITE_PHRASE "[sisamaassa] [N] [asteen] tuntumassa"
 #define SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[sisamaassa] [suunnilleen sama]"
@@ -266,6 +255,9 @@ namespace TextGen
 #define VAHAN_PHRASE "vahan"
 #define YLI_PHRASE "yli"
 #define TAI_PHRASE "tai"
+#define NOLLA_WORD "nolla"
+
+#define NOLLA_ASTETTA_PHRASE "0 astetta"
 
 	enum proximity_id{NOIN_ASTETTA,
 					  TIENOILLA_ASTETTA,
@@ -1542,8 +1534,7 @@ namespace TextGen
 					if(theParameters.theMinimum >= -1.0) // maximum and minimum between [-1,0]
 					  {
 						sentence << VAJAAT_PHRASE
-								 << Integer(0)
-								 << *UnitFactory::create(DegreesCelsius);
+								 << NOLLA_ASTETTA_PHRASE;
 						intervalStart = 0;
 						theParameters.theTemperaturePhraseId = VAJAAT_ASTETTA_PHRASE_ID;
 					  }
@@ -1609,7 +1600,7 @@ namespace TextGen
 				  {
 					sentence << NOIN_PHRASE
 							 << Integer(theProximityNumber)
-							 << *UnitFactory::create(DegreesCelsius);
+							 << *UnitFactory::create_unit(DegreesCelsius, theProximityNumber);
 					theParameters.theTemperaturePhraseId = NOIN_ASTETTA_PHRASE_ID;
 					intervalStart = theProximityNumber;
 
@@ -1649,9 +1640,17 @@ namespace TextGen
 				  break;
 				case VAJAAT_ASTETTA:
 				  {
-					sentence << VAJAAT_PHRASE
-							 << Integer(theProximityNumber)
-							 << *UnitFactory::create(DegreesCelsius);
+					if(theProximityNumber == 0)
+					  {
+						sentence << VAJAAT_PHRASE
+								 << NOLLA_ASTETTA_PHRASE;
+					  }
+					else
+					  {
+						sentence << VAJAAT_PHRASE
+								 << Integer(theProximityNumber)
+								 << *UnitFactory::create_unit(DegreesCelsius, theProximityNumber);
+					  }
 					theParameters.theTemperaturePhraseId = VAJAAT_ASTETTA_PHRASE_ID;
 					intervalStart = theProximityNumber;
 					if(theParameters.theMaximum < 0)
@@ -1665,7 +1664,7 @@ namespace TextGen
 				  {
 					sentence << VAHAN_PHRASE << YLI_PHRASE  
 							 << Integer(theProximityNumber)
-							 << *UnitFactory::create(DegreesCelsius);
+							 << *UnitFactory::create_unit(DegreesCelsius, theProximityNumber);
 					theParameters.theTemperaturePhraseId = VAHAN_YLI_ASTETTA_PHRASE_ID;
 					intervalStart = theProximityNumber;
 
@@ -2205,10 +2204,15 @@ namespace TextGen
 		{
 		  if(degrees == 0)
 			sentence << Integer(0) <<  "asteen(monikko)";
-		  else if(degrees == 1)
-			sentence << Integer(1) <<  "asteen(yksikko)";
+		  else if(abs(degrees) == 1)
+			sentence << Integer(degrees) <<  "asteen(yksikko)";
 		  else
-			sentence << Integer(degrees) <<  "asteen(monikko)";
+			{
+			  if(abs(degrees) % 10 == 1)
+				sentence << Integer(degrees) <<  "asteen(monikko mod 10=1)";
+			  else
+				sentence << Integer(degrees) <<  "asteen(monikko)";
+			}
 		}
 	  else if(opt == "none")
 		;
@@ -2221,7 +2225,7 @@ namespace TextGen
 	const Sentence construct_final_sentence(t36hparams& theParameters,
 											const Sentence& temperatureSentence,
 											const Sentence& daySentence,
-											const int& intervalStart,
+										const int& intervalStart,
 											const int& intervalEnd)
 	{
 	  Sentence sentence;
@@ -2285,7 +2289,10 @@ namespace TextGen
 		}
 	  else
 		{
-		  degreesSentence << intervalStart << *UnitFactory::create(DegreesCelsius);
+		  if(intervalStart == 0)
+			degreesSentence << NOLLA_WORD << *UnitFactory::create_unit(DegreesCelsius, intervalStart);
+		  else
+			degreesSentence << intervalStart << *UnitFactory::create_unit(DegreesCelsius, intervalStart);
 		}
 
 	  switch(phrase_id)
@@ -2749,7 +2756,7 @@ namespace TextGen
 			  {
 				sentence << RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
 						 << IntegerRange(intervalStart, intervalEnd, theParameters.theRangeSeparator)
-						 << *UnitFactory::create(DegreesCelsius);
+						 << *UnitFactory::create(DegreesCelsius, intervalEnd);
 			  }
 			else
 			  {
