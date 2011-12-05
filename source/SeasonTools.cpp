@@ -338,6 +338,11 @@ namespace WeatherAnalysis
 								 const WeatherPeriod& thePeriod,
 								 const std::string theVariable)
 	{
+	  if(isset(theVariable+"::fake::growing_season_on"))
+		{
+		  return Settings::require_bool(theVariable+"::fake::growing_season_on");
+		}
+
 	  std::string parameter_name(theVariable+"::required_growing_season_percentage::default");
 	  if(theArea.isNamed() && (Settings::isset(theVariable+"::required_growing_season_percentage::"+theArea.name())))
 		parameter_name = theVariable+"::required_growing_season_percentage::"+theArea.name();
