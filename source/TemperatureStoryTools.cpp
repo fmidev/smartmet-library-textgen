@@ -123,14 +123,16 @@ namespace TextGen
 	  
 	  if(range)
 		{
+		  int intervalEndValue = ((theMinimum < 0 && theMaximum < 0) ? theMinimum : theMaximum);
+
 		  sentence << IntegerRange(theMinimum,theMaximum,theRangeSeparator)
-				   << *UnitFactory::create(DegreesCelsius);
+				   << *UnitFactory::create_unit(DegreesCelsius, intervalEndValue);
 		}
 	  else
 		{
 		  sentence << "noin"
 				   << Integer(theMean)
-				   << *UnitFactory::create(DegreesCelsius);
+				   << *UnitFactory::create_unit(DegreesCelsius, theMean);
 		}
 	  
 	  return sentence;
@@ -227,7 +229,7 @@ namespace TextGen
 			{
 			  sentence << "noin"
 					   << Integer(theRoundedMinimum)
-					   << *UnitFactory::create(DegreesCelsius);
+					   << *UnitFactory::create_unit(DegreesCelsius, theRoundedMinimum);
 			  interval = false;
 			  intervalStart = theRoundedMinimum;
 			}
@@ -236,7 +238,7 @@ namespace TextGen
 			  if(theRoundedMinimum < 0 && theRoundedMaximum == 0)
 				{
 				  sentence << IntegerRange(theRoundedMaximum, theRoundedMinimum, theRangeSeparator)
-						   << *UnitFactory::create(DegreesCelsius);
+						   << *UnitFactory::create_unit(DegreesCelsius, theRoundedMinimum);
 
 				  if(theRoundedMaximum == theRoundedMinimum)
 					{
@@ -257,8 +259,10 @@ namespace TextGen
 				}
 			  else
 				{
+				  int intervalEndValue = ((theRoundedMinimum < 0 && theRoundedMaximum < 0) ? theRoundedMinimum : theRoundedMaximum);
+
 				  sentence << IntegerRange(theRoundedMinimum, theRoundedMaximum, theRangeSeparator)
-						   << *UnitFactory::create(DegreesCelsius);
+						   << *UnitFactory::create_unit(DegreesCelsius, intervalEndValue);
 
 				  if(theRoundedMaximum == theRoundedMinimum)
 					{
@@ -285,7 +289,7 @@ namespace TextGen
 
 		  sentence << "noin"
 				   << Integer(theRoundedValue)
-				   << *UnitFactory::create(DegreesCelsius);
+				   << *UnitFactory::create_unit(DegreesCelsius, theRoundedValue);
 		  interval = false;
 		  intervalStart = theRoundedValue;
 
