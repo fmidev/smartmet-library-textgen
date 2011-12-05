@@ -41,7 +41,7 @@ ifeq ($(UNAME_S), Darwin)
   LIBS = \
     -L.. -lsmartmet_textgen \
 	-L../../newbase -lsmartmet_newbase \
-    -L/sw/lib -lmysqlclient
+    -L/sw/lib -lmysqlclient -lmysqlpp
 else
   INCLUDES = \
     -I /usr/include/smartmet \
@@ -49,7 +49,7 @@ else
   LIBS = \
     -L .. -lsmartmet_textgen \
 	-lsmartmet_newbase \
-    -L $(libdir)/mysql -lmysqlclient
+    -L $(libdir)/mysql -lmysqlclient -lmysqlpp
 endif
 
 INCLUDES += -I ../include
@@ -60,7 +60,6 @@ LIBS += \
         -lboost_iostreams \
         -lboost_system \
         -lz -lbz2 -lpthread
-
 
 all: $(PROG)
 clean:
