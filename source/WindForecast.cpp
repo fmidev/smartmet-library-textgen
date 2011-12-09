@@ -799,20 +799,22 @@ namespace TextGen
 	return retTime;
   }
 
-  std::string dayPhasePhrase("");
-
-  Sentence WindForecast::getTimePhrase(const WeatherPeriod thePeriod,
+   Sentence WindForecast::getTimePhrase(const WeatherPeriod thePeriod,
 									   const bool& useAlkaenPhrase) const
   {
 	Sentence sentence;
 
 	int forecastPeriodLength = get_period_length(theParameters.theForecastPeriod);
 			
-	bool specifyDay = (forecastPeriodLength > 12 &&
-					   abs(theParameters.theForecastTime.DifferenceInHours(thePeriod.localStartTime())) > 6 &&
-					   (theParameters.theForecastTime.GetDay() < thePeriod.localStartTime().GetDay() ||
-						theParameters.theForecastTime.GetYear() < thePeriod.localStartTime().GetYear()));
-	// day phase specifier
+	bool specifyDay = (thePreviousDayNumber != thePeriod.localStartTime().GetWeekday() &&
+					   (forecastPeriodLength > 12 &&
+						abs(theParameters.theForecastTime.DifferenceInHours(thePeriod.localStartTime())) > 6 &&
+						(theParameters.theForecastTime.GetDay() < thePeriod.localStartTime().GetDay() ||
+						 theParameters.theForecastTime.GetYear() < thePeriod.localStartTime().GetYear())));
+
+	cout << "thePreviousDayNumber" << thePreviousDayNumber << endl;
+
+	std::string dayPhasePhrase;
 
 	if(thePeriod.localEndTime() == theParameters.theForecastPeriod.localEndTime()
 	   && get_period_length(thePeriod) > 5)
@@ -837,14 +839,14 @@ namespace TextGen
 		theParameters.theAlakaenPhraseUsed = ((get_period_length(thePeriod) > 4 && useAlkaenPhrase) 
 											  && possible_to_use_alkaen_phrase(thePeriod));
 	  }
-
-	//	cout << dayPhasePhrase << endl;
+	thePreviousDayNumber = thePeriod.localStartTime().GetWeekday();
 
 	return sentence;
   }
 
   WindForecast::WindForecast(wo_story_params& parameters):
-	theParameters(parameters)
+	theParameters(parameters),
+	thePreviousDayNumber(parameters.theForecastPeriod.localStartTime().GetWeekday())
   {
   }
 
@@ -1022,11 +1024,29 @@ namespace TextGen
 
 	if(speedChangePeriods.size() <= 1)
 	  {
+		WeatherPeriod periodBeg(speedEventPeriod.localStartTime(), 
+								speedEventPeriod.localStartTime());
 		WeatherPeriod periodEnd(speedEventPeriod.localEndTime(), 
 								speedEventPeriod.localEndTime());
-		sentence << Delimiter(COMMA_PUNCTUATION_MARK)
-				 << getTimePhrase(periodEnd, false)
-				 << windSpeedIntervalSentence(periodEnd, true);
+		if(firstSentenceInTheStory)
+		  {
+			sentence  << Delimiter(COMMA_PUNCTUATION_MARK)
+					  << ALUKSI_WORD
+					  << windSpeedIntervalSentence(periodBeg, false);
+		  }
+
+		if(get_period_length(speedEventPeriod) <= 8 &&
+		   get_part_of_the_day_id(speedEventPeriod.localStartTime()) &&
+		   get_part_of_the_day_id(speedEventPeriod.localEndTime()))
+		  {
+			sentence << windSpeedIntervalSentence(periodEnd, true);
+		  }
+		else
+		  {
+			sentence << Delimiter(COMMA_PUNCTUATION_MARK)
+					 << getTimePhrase(periodEnd, false)
+					 << windSpeedIntervalSentence(periodEnd, true);
+		  }
 	  }
 	else
 	  {
@@ -1288,6 +1308,12 @@ namespace TextGen
 			event_id ^= TUULI_VOIMISTUU;
 			eventId = static_cast<wind_event_id>(event_id);
 			*/
+			/*
+			if(windDirectionIdPrevious == VAIHTELEVA && eventId == TUULI_KAANTYY_JA_VOIMISTUU)
+			  eventId = TUULI_VOIMISTUU;
+			else if(windDirectionIdPrevious == VAIHTELEVA && eventId == TUULI_KAANTYY_JA_HEIKKENEE)
+			  eventId = TUULI_HEIKKENEE;
+			*/
 		  }
 
 		switch(eventId)
@@ -1434,30 +1460,69 @@ namespace TextGen
 			break;
 		  case TUULI_KAANTYY_JA_VOIMISTUU:
 			{
+			  /*
+			if(windDirectionIdPrevious == VAIHTELEVA && eventId == TUULI_KAANTYY_JA_VOIMISTUU)
+			  eventId = TUULI_VOIMISTUU;
+			if(windDirectionIdPrevious == VAIHTELEVA && eventId == TUULI_KAANTYY_JA_HEIKKENEE)
+			  eventId = TUULI_HEIKKENEE;
+			   */
 			  if(eventIdPrevious == TUULI_VOIMISTUU)
 				{
-				  sentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE
-						   << timePhrase
-						   << get_wind_direction_turnto_string(windDirectionIdEnd);
+				  if(windDirectionIdPrevious == VAIHTELEVA)
+					{
+					  bool smallChange(false);
+					  bool gradualChange(false);
+					  bool fastChange(false);
+					  std::string changeAttributeStr(EMPTY_STRING);
+					  if(!getWindSpeedChangePhrase(eventPeriod, changeAttributeStr,
+												   smallChange, gradualChange, fastChange))
+						{
+						  return paragraph;
+						}
+
+					  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
+							   << timePhrase
+							   << changeAttributeStr
+							   << VOIMISTUVAA_PHRASE
+							   << windDirectionSentence(windDirectionIdEnd);
+					  /*
+					  sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
+							   << getTimePhrase(eventPeriod, !firstSentenceInTheStory)
+							   << windDirectionSentence(windDirectionIdEnd);
+					  */
+					}
+				  else
+					{
+					  sentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE
+							   << timePhrase
+							   << get_wind_direction_turnto_string(windDirectionIdEnd);
+					}
 				}
 			  else
 				{
 				  if(windDirectionIdBeg == VAIHTELEVA ||
 					 windDirectionIdBeg == MISSING_WIND_DIRECTION_ID)
-					{					  
+					{
 					  NFmiTime periodStartTime(getWindTurningPointOfTime(eventPeriod));
 					  NFmiTime periodEndTime(eventPeriod.localEndTime());
 
+					  WeatherPeriod periodStart(eventPeriod.localStartTime(),
+												eventPeriod.localEndTime());
+					  WeatherPeriod periodEnd(eventPeriod.localEndTime(),
+											  eventPeriod.localEndTime());
 					  WeatherPeriod period(periodStartTime,
 										   periodEndTime);
 
 					  if(firstSentenceInTheStory)
 						{
 						  sentence << windDirectionSentence(windDirectionIdBeg)
+								   << windSpeedIntervalSentence(periodStart, true)
 								   << Delimiter(COMMA_PUNCTUATION_MARK)
 								   << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
 								   << getTimePhrase(period, !firstSentenceInTheStory)
-								   << windDirectionSentence(windDirectionIdEnd);
+								   << windDirectionSentence(windDirectionIdEnd)
+								   << windSpeedIntervalSentence(periodEnd, true);
+						  break;
 						}
 					  else
 						{
@@ -1518,20 +1583,7 @@ namespace TextGen
 			{
 			  if(eventIdPrevious == TUULI_HEIKKENEE)
 				{
-				  sentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE
-						   << timePhrase
-						   << get_wind_direction_turnto_string(windDirectionIdEnd);
-				}
-			  else
-				{
-				  if(firstSentenceInTheStory)
-					{
-					  sentence << ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE
-							   << timePhrase
-							   << windDirectionSentence(windDirectionIdBeg, true)
-							   << get_wind_direction_turnto_string(windDirectionIdEnd);
-					}
-				  else
+				  if(windDirectionIdPrevious == VAIHTELEVA)
 					{
 					  bool smallChange(false);
 					  bool gradualChange(false);
@@ -1542,23 +1594,97 @@ namespace TextGen
 						{
 						  return paragraph;
 						}
-					  
-					  bool useAlkaaHeiketaVoimistuaPhrase = (!smallChange &&
-															 get_period_length(eventPeriod) > 6 && 
-															 partOfTheDayBeg != partOfTheDayEnd);
-					  
-					  if(useAlkaaHeiketaVoimistuaPhrase)
+
+					  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
+							   << timePhrase
+							   << changeAttributeStr
+							   << HEIKKENEVAA_PHRASE
+							   << windDirectionSentence(windDirectionIdEnd);
+
+					  /*
+					  sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
+							   << getTimePhrase(eventPeriod, !firstSentenceInTheStory)
+							   << windDirectionSentence(windDirectionIdEnd);
+					  */
+					}
+				  else
+					{
+					  sentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE
+							   << timePhrase
+							   << get_wind_direction_turnto_string(windDirectionIdEnd);
+					}
+				}
+			  else
+				{
+				  if(windDirectionIdBeg == VAIHTELEVA ||
+					 windDirectionIdBeg == MISSING_WIND_DIRECTION_ID)
+					{					  
+					  NFmiTime periodStartTime(getWindTurningPointOfTime(eventPeriod));
+					  NFmiTime periodEndTime(eventPeriod.localEndTime());
+
+					  WeatherPeriod periodStart(eventPeriod.localStartTime(),
+												eventPeriod.localEndTime());
+					  WeatherPeriod periodEnd(eventPeriod.localEndTime(),
+											  eventPeriod.localEndTime());
+					  WeatherPeriod period(periodStartTime,
+										   periodEndTime);
+
+					  if(firstSentenceInTheStory)
 						{
-						  sentence << ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYA_ETELAAN_COMPOSITE_PHRASE
-								   << getTimePhrase(eventStartPeriod, false)
-								   << TUULI_WORD
+						  sentence << windDirectionSentence(windDirectionIdBeg)
+								   << windSpeedIntervalSentence(periodStart, true)
+								   << Delimiter(COMMA_PUNCTUATION_MARK)
+								   << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
+								   << getTimePhrase(period, !firstSentenceInTheStory)
+								   << windDirectionSentence(windDirectionIdEnd)
+								   << windSpeedIntervalSentence(periodEnd, true);
+						  break;
+						}
+					  else
+						{
+						  sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
+								   << getTimePhrase(period, !firstSentenceInTheStory)
+								   << windDirectionSentence(windDirectionIdEnd);
+						}
+					}
+				  else
+					{
+					  if(firstSentenceInTheStory)
+						{
+						  sentence << ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE
+								   << timePhrase
+								   << windDirectionSentence(windDirectionIdBeg, true)
 								   << get_wind_direction_turnto_string(windDirectionIdEnd);
 						}
 					  else
-						{						 
-						  sentence << ILTAPAIVALLA_TUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE
-								   << timePhrase
-								   << get_wind_direction_turnto_string(windDirectionIdEnd);
+						{
+						  bool smallChange(false);
+						  bool gradualChange(false);
+						  bool fastChange(false);
+						  std::string changeAttributeStr(EMPTY_STRING);
+						  if(!getWindSpeedChangePhrase(eventPeriod, changeAttributeStr,
+													   smallChange, gradualChange, fastChange))
+							{
+							  return paragraph;
+							}
+					  
+						  bool useAlkaaHeiketaVoimistuaPhrase = (!smallChange &&
+																 get_period_length(eventPeriod) > 6 && 
+																 partOfTheDayBeg != partOfTheDayEnd);
+					  
+						  if(useAlkaaHeiketaVoimistuaPhrase)
+							{
+							  sentence << ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYA_ETELAAN_COMPOSITE_PHRASE
+									   << getTimePhrase(eventStartPeriod, false)
+									   << TUULI_WORD
+									   << get_wind_direction_turnto_string(windDirectionIdEnd);
+							}
+						  else
+							{						 
+							  sentence << ILTAPAIVALLA_TUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE
+									   << timePhrase
+									   << get_wind_direction_turnto_string(windDirectionIdEnd);
+							}
 						}
 					}
 				}
@@ -1691,7 +1817,7 @@ namespace TextGen
 			  if(firstSentenceInTheStory)
 				{
 				  sentence << windDirectionSentence(windDirectionIdBeg);
-				  sentence << windSpeedIntervalSentence(eventPeriod, false);
+				  sentence << windSpeedIntervalSentence(eventPeriod, true);
 				  eventIdPrevious = eventId;
 				}
 			}

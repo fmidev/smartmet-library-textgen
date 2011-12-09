@@ -370,6 +370,7 @@ using namespace std;
 	wo_story_params& theParameters;
 	mutable int thePreviousRangeBeg;
 	mutable int thePreviousRangeEnd;
+	mutable short thePreviousDayNumber;
 
 	Sentence windSentence(const WeatherPeriod& thePeriod) const;
 	const Sentence windDirectionSentence(const wind_direction_id& theDirectionId,

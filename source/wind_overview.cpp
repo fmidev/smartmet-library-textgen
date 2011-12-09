@@ -1751,12 +1751,12 @@ namespace TextGen
 		if(get_period_length(currentDataItem->thePeriod) <= 2)
 		  {
 			bool mergePeriods = false;
-			if(currentDataItem->theWindEvent == TUULI_KAANTYY &&
+			if((currentDataItem->theWindEvent == TUULI_KAANTYY || 
+				currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI) &&
 			   previousDataItem->theWindEvent == MISSING_WIND_EVENT)
 			  {
 				wind_direction_id directionBeg = static_cast<wind_direction_id>(direction16th(currentDataItem->thePeriodBeginDataItem.theEqualizedWindDirection));
 				wind_direction_id directionEnd = static_cast<wind_direction_id>(direction16th(currentDataItem->thePeriodEndDataItem.theEqualizedWindDirection));
-
 				mergePeriods = (directionBeg == directionEnd);
 			  }
 			else if((currentDataItem->theWindEvent == TUULI_VOIMISTUU ||
@@ -1815,29 +1815,27 @@ namespace TextGen
 	  }
 	remove_reduntant_periods(storyParams);
 
-
-	// 		previousDataItem = storyParams.theMergedWindEventPeriodVector[i-1];
-
-	/*
- ||
-				(previousDataItem->theWindEvent & TUULI_KAANTYY)))
-
-	  TUULI_HEIKKENEE = 0x1,
-	  TUULI_VOIMISTUU = 0x2,
-	  TUULI_TYYNTYY = 0x4,
-	  TUULI_KAANTYY = 0x8,
-	  TUULI_MUUTTUU_VAIHTELEVAKSI = 0x10,
-
-	WeatherPeriod thePeriod;
-	wind_event_id theWindEvent;
-	const WindDataItemUnit& thePeriodBeginDataItem;
-	const WindDataItemUnit& thePeriodEndDataItem;
-	WindEventPeriodDataItem* theConcurrentEventPeriodItem;
-	bool theTransientFlag; // direction change can be temporary
-	bool theReportThisEventPeriodFlag; // determines weather this event period is reported or not
-	wind_event_type theEventType;
-
-	 */
+	// 4) merge similar successive periods
+	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
+	  {
+		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
+		previousDataItem = storyParams.theMergedWindEventPeriodVector[i-1];
+		
+		if((currentDataItem->theWindEvent == TUULI_VOIMISTUU &&
+			previousDataItem->theWindEvent == TUULI_VOIMISTUU) ||
+		   (currentDataItem->theWindEvent == TUULI_HEIKKENEE &&
+			previousDataItem->theWindEvent == TUULI_HEIKKENEE) ||
+		   (currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI &&
+			previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI))
+		  {
+			WeatherPeriod mergedPeriod(previousDataItem->thePeriod.localStartTime(),
+									   currentDataItem->thePeriod.localEndTime());
+			previousDataItem->thePeriod = mergedPeriod;
+			currentDataItem->theReportThisEventPeriodFlag = false;
+			i++;
+		  }
+	  }
+	remove_reduntant_periods(storyParams);
   }
 
   bool wind_event_period_sort(const WindEventPeriodDataItem* first, const WindEventPeriodDataItem* second) 
