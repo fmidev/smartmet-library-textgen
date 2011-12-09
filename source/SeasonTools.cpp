@@ -366,12 +366,14 @@ namespace WeatherAnalysis
 				 overFiveDegreesPercentage != kFloatMissing &&
 				 overFiveDegreesPercentage >= required_growing_season_percentage);
 		}
-	  else
+	  else if(growthPeriodOnOffPercentage == -1.0) // indicates that GrowthPeriodOnOff can not be used
 		{
 		  return(overFiveDegreesPercentage != kFloatMissing &&
 				 overFiveDegreesPercentage >= required_growing_season_percentage);
 		  
 		}
+
+	  return false;
 	}
 
 
