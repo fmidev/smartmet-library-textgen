@@ -48,9 +48,9 @@ namespace TextGen
 											 const string & theVariable)
 	{
 	  using Settings::optional_double;
-	  
-	  const double accurate_limit = optional_double(theVariable+"::direction::accurate",22.5);
-	  const double variable_limit = optional_double(theVariable+"::direction::variable_limit",45);
+
+	  const double accurate_limit = optional_double(theVariable+"::wind_direction::accurate_limit",22.5);
+	  const double variable_limit = optional_double(theVariable+"::wind_direction::variable_limit",45);
 	  
 	  if(theError<=accurate_limit) return good_accuracy;
 	  if(theError<=variable_limit) return moderate_accuracy;
