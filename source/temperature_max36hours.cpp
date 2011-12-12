@@ -2756,7 +2756,7 @@ namespace TextGen
 			  {
 				sentence << RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
 						 << IntegerRange(intervalStart, intervalEnd, theParameters.theRangeSeparator)
-						 << *UnitFactory::create(DegreesCelsius, intervalEnd);
+						 << *UnitFactory::create_unit(DegreesCelsius, intervalEnd);
 			  }
 			else
 			  {
