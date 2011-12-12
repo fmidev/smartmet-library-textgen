@@ -1622,7 +1622,7 @@ namespace TextGen
 
 		// first round or remainderItem == 0
 		if(speedEventIndex == 0 && directionEventIndex == 0 || remainderItem == 0)
-		  //->theEventType == MISSING_EVENT_TYPE)
+		  //->getEventType() == MISSING_EVENT_TYPE)
 		  {
 			if(speedEventIndex < storyParams.theWindSpeedEventPeriodVector.size())
 			  {
@@ -1637,7 +1637,7 @@ namespace TextGen
 		  }
 		else
 		  {
-			if(remainderItem->theEventType == WIND_DIRECTION_EVENT)
+			if(remainderItem->getEventType() == WIND_DIRECTION_EVENT)
 			  {
 				directionItem = remainderItem;
 				if(speedEventIndex < storyParams.theWindSpeedEventPeriodVector.size())
@@ -1670,7 +1670,7 @@ namespace TextGen
 			   << speedItem->thePeriod.localEndTime() << endl;
 		if(remainderItem)
 		  cout << "remainder: "
-			   << (remainderItem->theEventType == WIND_DIRECTION_EVENT ? " direction event: " : " speed event: ")
+			   << (remainderItem->getEventType() == WIND_DIRECTION_EVENT ? " direction event: " : " speed event: ")
 			   << remainderItem->thePeriod.localStartTime() 
 			   << ".."
 			   << remainderItem->thePeriod.localEndTime() << endl;
@@ -2474,7 +2474,7 @@ namespace TextGen
 
 	WindForecast windForecast(storyParams);
 
-	paragraph << windForecast.windForecastBasedOnEventPeriods(itsPeriod);
+	paragraph << windForecast.getWindStory(itsPeriod);
  
 	deallocate_data_structure(storyParams);
 

@@ -334,14 +334,8 @@ using namespace std;
 		thePeriodEndDataItem(periodEndDataItem),
 		theConcurrentEventPeriodItem(0),
 		theTransientFlag(false),
-		theReportThisEventPeriodFlag(true),
-		theEventType(MISSING_EVENT_TYPE)
-	{
-	  if(windEvent == MISSING_WIND_EVENT)
-		theEventType = MISSING_EVENT_TYPE;
-	  else
-		theEventType = ((windEvent == TUULI_KAANTYY || windEvent == MISSING_WIND_DIRECTION_EVENT) ? WIND_DIRECTION_EVENT : WIND_SPEED_EVENT);
-	}
+		theReportThisEventPeriodFlag(true)
+	{}
 
 	WeatherPeriod thePeriod;
 	wind_event_id theWindEvent;
@@ -350,7 +344,15 @@ using namespace std;
 	WindEventPeriodDataItem* theConcurrentEventPeriodItem;
 	bool theTransientFlag; // direction change can be temporary
 	bool theReportThisEventPeriodFlag; // determines weather this event period is reported or not
-	wind_event_type theEventType;
+
+	
+	wind_event_type getEventType()
+	{
+	  if(theWindEvent == MISSING_WIND_EVENT)
+		return MISSING_EVENT_TYPE;
+	  else
+		return ((theWindEvent == TUULI_KAANTYY || theWindEvent == MISSING_WIND_DIRECTION_EVENT) ? WIND_DIRECTION_EVENT : WIND_SPEED_EVENT);
+	}
   };
 
 
@@ -362,7 +364,7 @@ using namespace std;
 
 	~WindForecast(){}
 		
-	Paragraph windForecastBasedOnEventPeriods(const WeatherPeriod& thePeriod) const;
+	Paragraph getWindStory(const WeatherPeriod& thePeriod) const;
  
   private:
 	
@@ -372,7 +374,7 @@ using namespace std;
 	mutable int thePreviousRangeEnd;
 	mutable short thePreviousDayNumber;
 
-	Sentence windSentence(const WeatherPeriod& thePeriod) const;
+	//	Sentence windSentence(const WeatherPeriod& thePeriod) const;
 	const Sentence windDirectionSentence(const wind_direction_id& theDirectionId,
 										 const bool& theBasicForm = false) const;
 	const Sentence windSpeedIntervalSentence(const WeatherPeriod& thePeriod, 
@@ -413,7 +415,12 @@ using namespace std;
 								  bool& smallChange,
 								  bool& gradualChange,
 								  bool& fastChange) const;
+	std::string getWindDirectionTurntoString(const wind_direction_id& theWindDirectionId) const;
+	int getLastSentenceIndex() const;
+	bool windSpeedDifferEnough(const WeatherPeriod& weatherPeriod1, const WeatherPeriod& weatherPeriod2) const;
+	Sentence reportIntermediateSpeed(const WeatherPeriod& speedEventPeriod) const;
   };
+
   
   wind_speed_id get_wind_speed_id(const WeatherResult& windSpeed);
   wind_direction_id get_wind_direction_id(const WeatherResult& windDirection, const string& var);
