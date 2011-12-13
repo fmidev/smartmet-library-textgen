@@ -419,6 +419,7 @@ using namespace std;
 	int getLastSentenceIndex() const;
 	bool windSpeedDifferEnough(const WeatherPeriod& weatherPeriod1, const WeatherPeriod& weatherPeriod2) const;
 	Sentence reportIntermediateSpeed(const WeatherPeriod& speedEventPeriod) const;
+	Sentence findWindSpeedReportingTime(const WeatherPeriod& speedEventPeriod) const;
   };
 
   

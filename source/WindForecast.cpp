@@ -967,6 +967,37 @@ namespace TextGen
 	return sentence;
   }
 
+  Sentence WindForecast::findWindSpeedReportingTime(const WeatherPeriod& speedEventPeriod) const
+  {
+	Sentence sentence;
+
+	int periodLength(get_period_length(speedEventPeriod));
+
+	if(periodLength < 18 && get_part_of_the_day_id(speedEventPeriod.localStartTime()) ==
+	   get_part_of_the_day_id(speedEventPeriod.localEndTime()))
+	  {
+		return sentence;
+	  }
+
+	NFmiTime intermediateTime(speedEventPeriod.localEndTime());
+
+	while((get_part_of_the_day_id(speedEventPeriod.localEndTime()) !=
+		   get_part_of_the_day_id(intermediateTime)) &&
+		  intermediateTime > speedEventPeriod.localStartTime())
+	  {
+		intermediateTime.ChangeByHours(-1);
+	  }
+
+	NFmiTime periodStartAndEndTime(intermediateTime == speedEventPeriod.localStartTime() ? speedEventPeriod.localEndTime() : intermediateTime);	
+	WeatherPeriod reportingPeriod(periodStartAndEndTime, periodStartAndEndTime);
+	
+	sentence << Delimiter(COMMA_PUNCTUATION_MARK)
+			 << getTimePhrase(reportingPeriod, false)
+			 << windSpeedIntervalSentence(reportingPeriod, false);
+
+	return sentence;
+  }
+
   wind_direction_id WindForecast::getWindDirectionId(const WeatherPeriod& thePeriod,
 													 const CompassType& theComapssType) const
   {
