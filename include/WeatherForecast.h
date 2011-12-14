@@ -580,7 +580,7 @@ namespace TextGen
   const char* story_part_id_string(const story_part_id& theStoryPartId);
 
   void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour);
-  part_of_the_day_id get_part_of_the_day_id(const WeatherPeriod& thePeriod);
+  part_of_the_day_id get_part_of_the_day_id(const WeatherPeriod& thePeriod, const bool& alkaenPhraseFlag);
   /*  bool get_part_of_the_day(const WeatherPeriod& theSourcePeriod, 
 	  const part_of_the_day_id& thePartOfTheDayId, 
 	  WeatherPeriod& theDestinationPeriod);*/
@@ -695,7 +695,7 @@ namespace TextGen
 									WeatherAnalysis::WeatherArea& theFirstArea,
 									WeatherAnalysis::WeatherArea& theSecondArea,
 									MessageLogger& theLog);
-  bool possible_to_use_alkaen_phrase(const WeatherPeriod& thePeriod);
+  bool fit_into_short_day_part(const WeatherPeriod& thePeriod);
 
 
 
