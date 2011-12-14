@@ -150,7 +150,7 @@ using namespace std;
 	int theMinIntervalSize;
 	int theMaxIntervalSize;
 	string theMetersPerSecondFormat;
-	bool theAlakaenPhraseUsed;
+	bool theAlkaenPhraseUsed;
 
 	wind_data_item_vector theRawDataVector;
 	wind_data_item_vector theEqualizedDataVector;

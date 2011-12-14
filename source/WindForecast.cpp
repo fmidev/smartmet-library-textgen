@@ -199,11 +199,13 @@ namespace TextGen
 		Sentence sentence;
 		const WindEventPeriodDataItem& eventPeriodItem = *(theParameters.theMergedWindEventPeriodVector[i]);
 		wind_event_id eventId = eventPeriodItem.theWindEvent;
-		theParameters.theAlakaenPhraseUsed = false;
+		theParameters.theAlkaenPhraseUsed = false;
 
 		const WeatherPeriod& eventPeriod = eventPeriodItem.thePeriod;
 		WeatherPeriod eventStartPeriod(eventPeriod.localStartTime(),
 									   eventPeriod.localStartTime());
+		WeatherPeriod eventEndPeriod(eventPeriod.localEndTime(),
+									 eventPeriod.localEndTime());
 		
 		wind_direction_id windDirectionIdBeg = get_wind_direction_id(eventPeriodItem.thePeriodBeginDataItem.theWindDirection, theParameters.theVar);
 		wind_direction_id windDirectionIdEnd = get_wind_direction_id(eventPeriodItem.thePeriodEndDataItem.theWindDirection, theParameters.theVar);
@@ -270,6 +272,7 @@ namespace TextGen
 							   << TUULI_WORD
 							   << changeAttributeStr;
 
+					  theParameters.theAlkaenPhraseUsed = true;
 					}
 				  else
 					{
@@ -280,9 +283,8 @@ namespace TextGen
 					}
 				}
 
-			  //  if(fastChange)
-			  //sentence <<  windSpeedIntervalSentence(eventPeriod, false);
-			  //else
+
+			  //if(windSpeedDifferEnough(eventStartPeriod, eventEndPeriod))
 				sentence << getWindSpeedDecreasingIncreasingInterval(eventPeriodItem,
 																	 firstSentenceInTheStory,
 																	 eventId);
@@ -479,6 +481,8 @@ namespace TextGen
 									   << getTimePhrase(eventStartPeriod, false)
 									   << TUULI_WORD
 									   << getWindDirectionTurntoString(windDirectionIdEnd);
+
+							  theParameters.theAlkaenPhraseUsed = true;
 							}
 						  else
 							{
@@ -595,6 +599,8 @@ namespace TextGen
 									   << getTimePhrase(eventStartPeriod, false)
 									   << TUULI_WORD
 									   << getWindDirectionTurntoString(windDirectionIdEnd);
+
+							  theParameters.theAlkaenPhraseUsed = true;
 							}
 						  else
 							{						 
@@ -761,9 +767,12 @@ namespace TextGen
 																		   firstSentenceInTheStory,
 																		   eventId);
 
-	bool useTimePhrase = (theParameters.theAlakaenPhraseUsed  || firstSentenceInTheStory ||
+	bool useTimePhrase = (theParameters.theAlkaenPhraseUsed || firstSentenceInTheStory);
+	/*
+  || firstSentenceInTheStory ||
 						  get_part_of_the_day_id(speedEventPeriod.localStartTime()) != 
 						  get_part_of_the_day_id(speedEventPeriod.localEndTime()));
+	*/
 
 	if(speedChangePeriods.size() <= 1)
 	  {
@@ -776,25 +785,47 @@ namespace TextGen
 		  {
 			sentence  << Delimiter(COMMA_PUNCTUATION_MARK)
 					  << ALUKSI_WORD
-					  << windSpeedIntervalSentence(periodBeg, false);
-		  }
-
-		if(periodLength <= 8 &&
-		   get_part_of_the_day_id(speedEventPeriod.localStartTime()) ==
-		   get_part_of_the_day_id(speedEventPeriod.localEndTime()))
-		  {
-			sentence << windSpeedIntervalSentence(periodEnd, true);
+					  << windSpeedIntervalSentence(periodBeg, false)
+					  << Delimiter(COMMA_PUNCTUATION_MARK)
+					  << getTimePhrase(periodEnd, false)
+					  << windSpeedIntervalSentence(periodEnd, true);
 		  }
 		else
 		  {
-			if(get_period_length(speedEventPeriod) > 12)
+			if(periodLength <= 8 &&
+			   get_part_of_the_day_id(speedEventPeriod.localStartTime()) ==
+			   get_part_of_the_day_id(speedEventPeriod.localEndTime()))
 			  {
-				sentence << reportIntermediateSpeed(speedEventPeriod);
+				sentence << windSpeedIntervalSentence(periodEnd, true);
 			  }
-
-			sentence << Delimiter(COMMA_PUNCTUATION_MARK)
-					 << getTimePhrase(periodEnd, false)
-					 << windSpeedIntervalSentence(periodEnd, true);
+			else
+			  {
+				if(get_period_length(speedEventPeriod) > 12)
+				  {
+					sentence << reportIntermediateSpeed(speedEventPeriod);
+				  }
+				/*
+				  cout << "sentence.size() == 0: " << static_cast<bool>((sentence.size() == 0)) << endl;
+				  cout << "get_part_of_the_day_id(speedEventPeriod.localStartTime()): " 
+				  << static_cast<int>(get_part_of_the_day_id(speedEventPeriod.localStartTime())) << endl;
+				  cout << "get_part_of_the_day_id(speedEventPeriod.localEndTime()): " 
+				  << static_cast<int>(get_part_of_the_day_id(speedEventPeriod.localEndTime())) << endl;
+				  cout << "speedEventPeriod: " << speedEventPeriod.localStartTime() 
+				  << "..." << speedEventPeriod.localEndTime() << endl;
+				  cout << "get_part_of_the_day_id(const WeatherPeriod& thePeriod): "
+				  << static_cast<int>(get_part_of_the_day_id(speedEventPeriod, true)) << endl;
+				*/
+				if(useTimePhrase)
+				  {
+					sentence << Delimiter(COMMA_PUNCTUATION_MARK)
+							 << getTimePhrase(periodEnd, false)
+							 << windSpeedIntervalSentence(periodEnd, true);
+				  }
+				else
+				  {
+					sentence << windSpeedIntervalSentence(periodEnd, true);
+				  }
+			  }
 		  }
 	  }
 	else
@@ -811,14 +842,14 @@ namespace TextGen
 			WeatherPeriod currentPeriodEnd(speedChangePeriods[i].localEndTime(), 
 										   speedChangePeriods[i].localEndTime());
 			unsigned int lastItemIndex = (speedChangePeriods.size() - 1);
-			part_of_the_day_id currentDayPart(get_part_of_the_day_id(currentPeriodEnd));
+			part_of_the_day_id currentDayPart(get_part_of_the_day_id(currentPeriodEnd, true));
 			
 			if(i < lastItemIndex)
 			  {
 				WeatherPeriod nextPeriodEnd(speedChangePeriods[i+1].localEndTime(), 
 											speedChangePeriods[i+1].localEndTime());
 
-				part_of_the_day_id nextDayPart(get_part_of_the_day_id(nextPeriodEnd));
+				part_of_the_day_id nextDayPart(get_part_of_the_day_id(nextPeriodEnd, true));
 
 				/*
 				cout << "currentDayPart: " 
@@ -967,16 +998,22 @@ namespace TextGen
 	return sentence;
   }
 
+  // tries to find different part of the day than what is at period end in order to prevent tautology
+  // in time expressions
   Sentence WindForecast::findWindSpeedReportingTime(const WeatherPeriod& speedEventPeriod) const
   {
 	Sentence sentence;
 
 	int periodLength(get_period_length(speedEventPeriod));
+	WeatherPeriod weatherPeriodEnd(speedEventPeriod.localEndTime(),
+								   speedEventPeriod.localEndTime());
 
 	if(periodLength < 18 && get_part_of_the_day_id(speedEventPeriod.localStartTime()) ==
 	   get_part_of_the_day_id(speedEventPeriod.localEndTime()))
 	  {
-		return sentence;
+		sentence << Delimiter(COMMA_PUNCTUATION_MARK)
+				 << getTimePhrase(weatherPeriodEnd, false)
+				 << windSpeedIntervalSentence(weatherPeriodEnd, false);
 	  }
 
 	NFmiTime intermediateTime(speedEventPeriod.localEndTime());
@@ -988,12 +1025,21 @@ namespace TextGen
 		intermediateTime.ChangeByHours(-1);
 	  }
 
-	NFmiTime periodStartAndEndTime(intermediateTime == speedEventPeriod.localStartTime() ? speedEventPeriod.localEndTime() : intermediateTime);	
-	WeatherPeriod reportingPeriod(periodStartAndEndTime, periodStartAndEndTime);
-	
-	sentence << Delimiter(COMMA_PUNCTUATION_MARK)
-			 << getTimePhrase(reportingPeriod, false)
-			 << windSpeedIntervalSentence(reportingPeriod, false);
+	if(get_part_of_the_day_id(intermediateTime) == get_part_of_the_day_id(speedEventPeriod.localStartTime()))
+	  {
+		sentence << Delimiter(COMMA_PUNCTUATION_MARK)
+				 << getTimePhrase(weatherPeriodEnd, false)
+				 << windSpeedIntervalSentence(weatherPeriodEnd, false);
+	  }
+	else
+	  {
+		NFmiTime periodStartAndEndTime(intermediateTime == speedEventPeriod.localStartTime() ? speedEventPeriod.localEndTime() : intermediateTime);	
+		WeatherPeriod reportingPeriod(periodStartAndEndTime, periodStartAndEndTime);
+		
+		sentence << Delimiter(COMMA_PUNCTUATION_MARK)
+				 << getTimePhrase(reportingPeriod, false)
+				 << windSpeedIntervalSentence(reportingPeriod, false);
+	  }
 
 	return sentence;
   }
@@ -1098,18 +1144,23 @@ namespace TextGen
 
 	std::string dayPhasePhrase;
 
+	theParameters.theAlkaenPhraseUsed = ((get_period_length(thePeriod) > 5 && useAlkaenPhrase) 
+										  && !fit_into_short_day_part(thePeriod));
+
+	/*
 	if(thePeriod.localEndTime() == theParameters.theForecastPeriod.localEndTime()
 	   && get_period_length(thePeriod) > 5)
 	  {
 		WeatherPeriod begPeriod(thePeriod.localStartTime(), thePeriod.localStartTime());
+
+		//	theParameters.theAlkaenPhraseUsed = (useAlkaenPhrase && !fit_into_short_day_part(thePeriod));
 
 		// make sure that "alkaen"-phrase is used when wanted
 		sentence << get_time_phrase_large(begPeriod,
 										  specifyDay,
 										  theParameters.theVar, 
 										  dayPhasePhrase,
-										  useAlkaenPhrase);
-		theParameters.theAlakaenPhraseUsed = (useAlkaenPhrase && possible_to_use_alkaen_phrase(thePeriod));
+										  theParameters.theAlkaenPhraseUsed);
 	  }
 	else
 	  {
@@ -1117,10 +1168,16 @@ namespace TextGen
 										  specifyDay,
 										  theParameters.theVar, 
 										  dayPhasePhrase,
-										  get_period_length(thePeriod) > 4 && useAlkaenPhrase);
-		theParameters.theAlakaenPhraseUsed = ((get_period_length(thePeriod) > 4 && useAlkaenPhrase) 
-											  && possible_to_use_alkaen_phrase(thePeriod));
+										  get_period_length(thePeriod) > 5 && useAlkaenPhrase);
 	  }
+	*/
+
+	sentence << get_time_phrase_large(thePeriod,
+									  specifyDay,
+									  theParameters.theVar, 
+									  dayPhasePhrase,
+									  theParameters.theAlkaenPhraseUsed);
+
 	thePreviousDayNumber = thePeriod.localStartTime().GetWeekday();
 
 	return sentence;

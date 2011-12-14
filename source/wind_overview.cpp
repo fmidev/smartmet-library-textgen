@@ -1791,7 +1791,9 @@ namespace TextGen
 			previousDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU) ||
 		   (currentDataItem->theWindEvent == TUULI_HEIKKENEE &&
 			previousDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE) ||
-		   (currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI &&
+		   (currentDataItem->theWindEvent == TUULI_VOIMISTUU &&
+			previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU) ||
+		   (currentDataItem->theWindEvent == TUULI_HEIKKENEE &&
 			previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE))
 		  {
 			WeatherPeriod mergedPeriod(previousDataItem->thePeriod.localStartTime(),
@@ -1805,12 +1807,27 @@ namespace TextGen
 				(currentDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE &&
 				 previousDataItem->theWindEvent == TUULI_KAANTYY) ||
 				(currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU &&
+				 previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI) ||
+				(currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE &&
 				 previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI))
 		  {
 			WeatherPeriod mergedPeriod(previousDataItem->thePeriod.localStartTime(),
 									   currentDataItem->thePeriod.localEndTime());
 			currentDataItem->thePeriod = mergedPeriod;
 			previousDataItem->theReportThisEventPeriodFlag = false;
+		  }		
+		else if((currentDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU &&
+				 previousDataItem->theWindEvent == TUULI_VOIMISTUU) ||
+				(currentDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE &&
+				 previousDataItem->theWindEvent == TUULI_HEIKKENEE))
+		  {
+			if(get_period_length(previousDataItem->thePeriod) <= 4)
+			  {
+				WeatherPeriod mergedPeriod(previousDataItem->thePeriod.localStartTime(),
+										   currentDataItem->thePeriod.localEndTime());
+				currentDataItem->thePeriod = mergedPeriod;
+				previousDataItem->theReportThisEventPeriodFlag = false;
+			  }
 		  }		
 	  }
 	remove_reduntant_periods(storyParams);
@@ -1836,6 +1853,17 @@ namespace TextGen
 		  }
 	  }
 	remove_reduntant_periods(storyParams);
+
+	// 5) remove overlapping hours when the period changes
+	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
+	  {
+		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
+		NFmiTime periodBegTime(currentDataItem->thePeriod.localStartTime());
+		periodBegTime.ChangeByHours(1);
+		NFmiTime periodEndTime(currentDataItem->thePeriod.localEndTime());
+		WeatherPeriod period(periodBegTime, periodEndTime);
+		currentDataItem->thePeriod = period;
+	  }
   }
 
   bool wind_event_period_sort(const WindEventPeriodDataItem* first, const WindEventPeriodDataItem* second) 
