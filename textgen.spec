@@ -2,7 +2,7 @@
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
 Version: 11.12.15
-Release: 2.el6.fmi
+Release: 3.el6.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
@@ -36,8 +36,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 %{_libdir}/libsmartmet_%{LIBNAME}-mt.a
 
-
 %changelog
+* Thu Dec 15 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.12.15-3.el6.fmi
+- Fixed temperature clamping to work in all situations
+* Thu Dec 15 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.12.15-2.el6.fmi
+- Fixed temperature interval logic
 * Thu Dec 15 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.12.15-1.el6.fmi
 - Latest UTF-8 version
 * Thu Nov  3 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.11.3-1.el6.fmi
