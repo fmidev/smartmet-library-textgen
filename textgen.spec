@@ -2,7 +2,7 @@
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
 Version: 11.12.15
-Release: 1.el6.fmi
+Release: 2.el6.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
