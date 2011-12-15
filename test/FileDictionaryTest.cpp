@@ -1,6 +1,7 @@
 #include <regression/tframe.h>
 #include "FileDictionary.h"
 #include "TextGenError.h"
+#include <newbase/NFmiSettings.h>
 #include <iostream>
 #include <string>
 
@@ -185,12 +186,26 @@ namespace FileDictionaryTest
 	TEST_PASSED();
   }
 
+  void latvia()
+  {
+	using namespace TextGen;
+	NFmiSettings::Set("textgen::filedictionaries",".");
+	FileDictionary dict;
+	dict.init("fi");
+
+	if(!dict.contains("5- ja 6-valista tuulta"))
+	  TEST_FAILED("contains(5- ja 67-valista tuulta) should have passed");
+
+	TEST_PASSED();
+
+  }
+
 
   //! The actual test driver
   class tests : public tframe::tests
   {
 	//! Overridden message separator
-	virtual const char * const error_message_prefix() const
+	virtual const char * error_message_prefix() const
 	{
 	  return "\n\t";
 	}
@@ -206,6 +221,7 @@ namespace FileDictionaryTest
 	  TEST(contains);
 	  TEST(find);
 	  TEST(insert);
+	  TEST(latvia);
 	}
 
   }; // class tests

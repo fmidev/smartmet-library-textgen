@@ -39,7 +39,7 @@ using namespace std;
 namespace
 {
 
-  WeatherHistory* theHistory = 0;
+  WeatherAnalysis::WeatherHistory* theHistory = 0;
 
   // ----------------------------------------------------------------------
   /*!
@@ -920,7 +920,7 @@ namespace TextGen
 						  const WeatherPeriod & thePeriod,
 						  const WeatherArea & theArea)
 	{
-	  theHistory = const_cast<WeatherHistory*>(&(theArea.history()));
+	  theHistory = const_cast<WeatherAnalysis::WeatherHistory*>(&(theArea.history()));
 
 	  if(theType == "until_tonight")
 		return until_tonight(theVariable,theForecastTime,thePeriod);

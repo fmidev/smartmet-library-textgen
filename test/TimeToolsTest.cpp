@@ -130,14 +130,16 @@ namespace TimeToolsTest
   {
 	using WeatherAnalysis::TimeTools::toUtcTime;
 
-	putenv("TZ=Europe/Helsinki");
+	const char * hki = "TZ=Europe/Helsinki";
+	putenv(const_cast<char *>(hki));
 	tzset();
 	if(!toUtcTime(NFmiTime(2003,11,7,12)).IsEqual(NFmiTime(2003,11,7,10)))
 	  TEST_FAILED("Failed to convert 7.11.2003 12:00 FIN to 10:00 UTC");
 	if(!toUtcTime(NFmiTime(2003,9,7,12)).IsEqual(NFmiTime(2003,9,7,9)))
 	  TEST_FAILED("Failed to convert 7.9.2003 12:00 FIN to 9:00 UTC");
 
-	putenv("TZ=Europe/Stockholm");
+	const char * sto = "TZ=Europe/Stockholm";
+	putenv(const_cast<char *>(sto));
 	tzset();
 	if(!toUtcTime(NFmiTime(2003,11,7,12)).IsEqual(NFmiTime(2003,11,7,11)))
 	  TEST_FAILED("Failed to convert 7.11.2003 12:00 SWE to 11:00 UTC");
@@ -158,14 +160,16 @@ namespace TimeToolsTest
   {
 	using WeatherAnalysis::TimeTools::toLocalTime;
 
-	putenv("TZ=Europe/Helsinki");
+	const char * hki = "TZ=Europe/Helsinki";
+	putenv(const_cast<char *>(hki));
 	tzset();
 	if(!toLocalTime(NFmiTime(2003,11,7,12)).IsEqual(NFmiTime(2003,11,7,14)))
 	  TEST_FAILED("Failed to convert 7.11.2003 12:00 UTC to 14:00 UTC");
 	if(!toLocalTime(NFmiTime(2003,9,7,12)).IsEqual(NFmiTime(2003,9,7,15)))
 	  TEST_FAILED("Failed to convert 7.9.2003 12:00 UTC to 15:00 UTC");
 
-	putenv("TZ=Europe/Stockholm");
+	const char * sto = "TZ=Europe/Stockholm";
+	putenv(const_cast<char *>(sto));
 	tzset();
 	if(!toLocalTime(NFmiTime(2003,11,7,12)).IsEqual(NFmiTime(2003,11,7,13)))
 	  TEST_FAILED("Failed to convert 7.11.2003 12:00 UTC to 13:00 SWE");
@@ -180,7 +184,7 @@ namespace TimeToolsTest
   class tests : public tframe::tests
   {
 	//! Overridden message separator
-	virtual const char * const error_message_prefix() const
+	virtual const char * error_message_prefix() const
 	{
 	  return "\n\t";
 	}
