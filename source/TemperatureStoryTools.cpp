@@ -224,7 +224,6 @@ namespace TextGen
 	  
 	  // in winter theMaximum contains the lower value than the theMinimum
 	  int diff = abs(theMaximum - theMinimum);
-		//(theMaximum > theMinimum ? (theMaximum - theMinimum) : (theMinimum - theMaximum));
 
 	  if(theMinimum == theMaximum)
 		range = false;
