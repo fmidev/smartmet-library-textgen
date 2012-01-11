@@ -1545,6 +1545,12 @@ namespace TextGen
 						int theMaximumInt = static_cast<int>(round(theParameters.theMaximum));
 						bool intervalUsed;
 
+						clamp_temperature(theParameters.theVariable,
+										  theParameters.theSeasonId == WINTER_SEASON,
+										  theParameters.theForecastPeriodId != NIGHT_PERIOD,
+										  theMinimumInt < theMaximumInt ? theMinimumInt : theMaximumInt,
+										  theMaximumInt > theMinimumInt ? theMaximumInt : theMinimumInt);
+
 						sentence = TemperatureStoryTools::temperature_sentence2(theMinimumInt, 
 																				theMeanInt, 
 																				theMaximumInt,
@@ -3584,13 +3590,19 @@ namespace TextGen
 									int& intervalStart,
 									int& intervalEnd)
 	{
-	  int min = static_cast<int>(round(minValue));
-	  int mean = static_cast<int>(round(meanValue));
-	  int max = static_cast<int>(round(maxValue));
+	  int theMinimumInt = static_cast<int>(round(theParameters.theMinimum));
+	  int theMeanInt = static_cast<int>(round(theParameters.theMean));
+	  int theMaximumInt = static_cast<int>(round(theParameters.theMaximum));
 
-	  TemperatureStoryTools::temperature_sentence2(min,
-												   mean,
-												   max,
+	  clamp_temperature(theParameters.theVariable,
+						theParameters.theSeasonId == WINTER_SEASON,
+						theParameters.theForecastPeriodId != NIGHT_PERIOD,
+						theMinimumInt < theMaximumInt ? theMinimumInt : theMaximumInt,
+						theMaximumInt > theMinimumInt ? theMaximumInt : theMinimumInt);
+
+	  TemperatureStoryTools::temperature_sentence2(theMinimumInt,
+												   theMeanInt,
+												   theMaximumInt,
 												   theParameters.theMinInterval,
 												   theParameters.theZeroIntervalFlag,
 												   intervalUsed,
@@ -3598,6 +3610,10 @@ namespace TextGen
 												   intervalEnd,
 												   theParameters.theRangeSeparator,
 												   true);
+	  if(intervalUsed)
+		theParameters.theTemperaturePhraseId = LAMPOTILA_VALILLA_PHRASE_ID;
+	  else
+		theParameters.theTemperaturePhraseId = NOIN_ASTETTA_PHRASE_ID;						
 	}
 
 	const Paragraph temperature_max36hours_sentence(t36hparams& theParameters)

@@ -67,7 +67,7 @@ namespace ModChangeCalculatorTest
   class tests : public tframe::tests
   {
 	//! Overridden message separator
-	virtual const char * const error_message_prefix() const
+	virtual const char * error_message_prefix() const
 	{
 	  return "\n\t";
 	}

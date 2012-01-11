@@ -1621,7 +1621,7 @@ namespace TextGen
 		WindEventPeriodDataItem* speedItem = 0;
 
 		// first round or remainderItem == 0
-		if(speedEventIndex == 0 && directionEventIndex == 0 || remainderItem == 0)
+		if( (speedEventIndex == 0 && directionEventIndex == 0) || remainderItem == 0)
 		  //->getEventType() == MISSING_EVENT_TYPE)
 		  {
 			if(speedEventIndex < storyParams.theWindSpeedEventPeriodVector.size())
