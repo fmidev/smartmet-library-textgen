@@ -239,7 +239,7 @@ namespace TextGen
 				retval = "etelätuulta";
 				break;
 			  case 10:
-				retval = "etelän ja lounaaan välistä tuulta";
+				retval = "etelän ja lounaan välistä tuulta";
 				break;
 			  case 11:
 				retval = "lounaistuulta";

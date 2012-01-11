@@ -12,7 +12,8 @@ using namespace WeatherAnalysis;
 using namespace AreaTools;
 using namespace boost;
 using namespace std;
-  using namespace WindStoryTools;
+using namespace WindStoryTools;
+
 
 #define HEIKKO_LOWER_LIMIT 0.5
 #define HEIKKO_UPPER_LIMIT 3.5
@@ -25,6 +26,11 @@ using namespace std;
 #define MYRSKY_LOWER_LIMIT 20.5
 #define MYRSKY_UPPER_LIMIT 32.5
 #define HIRMUMYRSKY_LOWER_LIMIT 32.5
+
+#define USE_AT_ITS_STRONGEST_PHRASE true
+#define DONT_USE_AT_ITS_STRONGEST_PHRASE false
+#define USE_ALKAEN_PHRASE true
+#define DONT_USE_ALKAEN_PHRASE false
 
   enum wind_speed_id
 	{
@@ -378,19 +384,22 @@ using namespace std;
 	const Sentence windDirectionSentence(const wind_direction_id& theDirectionId,
 										 const bool& theBasicForm = false) const;
 	const Sentence windSpeedIntervalSentence(const WeatherPeriod& thePeriod, 
-											 bool theLastSentenceFlag = true) const;
+											 bool theUseAtItsStrongestPhrase = true) const;
 	const Sentence speedRangeSentence(const WeatherPeriod& thePeriod,
 									  const WeatherResult & theMaxSpeed,
 									  const WeatherResult & theMeanSpeed,
 									  const string & theVariable, 
-									  bool theLastSentenceFlag) const;
+									  bool theUseAtItsStrongestPhrase) const;
 
 	//	Sentence getSpeedInterval(const WeatherPeriod& theWindSpeedFullPeriod) const;
 	Sentence getWindSpeedDecreasingIncreasingInterval(const WindEventPeriodDataItem& eventPeriodDataItem,
-													   const bool& firstSentenceInTheStory,
-													   const wind_event_id& eventId) const;	  
+													  const bool& firstSentenceInTheStory,
+													  const bool& startsToWeakenStrengthenPhraseUsed,
+													  const wind_event_id& eventId) const;	  
+	/*
 	const Sentence windSpeedDirectionSentence(const WindEventPeriodDataItem* theWindSpeedEventPeriod,
 												 const WindEventPeriodDataItem* theWindDirectionEventPeriod) const;
+	*/
 	Sentence getTimePhrase(const WeatherPeriod thePeriod,
 						   const bool& useAlkaenPhrase) const;
 
@@ -419,7 +428,10 @@ using namespace std;
 	int getLastSentenceIndex() const;
 	bool windSpeedDifferEnough(const WeatherPeriod& weatherPeriod1, const WeatherPeriod& weatherPeriod2) const;
 	Sentence reportIntermediateSpeed(const WeatherPeriod& speedEventPeriod) const;
-	Sentence findWindSpeedReportingTime(const WeatherPeriod& speedEventPeriod) const;
+	Sentence windSpeedIntervalSentence2(const WeatherPeriod& speedEventPeriod,
+										bool theUseAtItsStrongestPhrase,
+										bool theFirstSentenceInTheStory) const;
+	bool samePartOfTheDay(const NFmiTime& time1, const NFmiTime& time2) const;
   };
 
   
