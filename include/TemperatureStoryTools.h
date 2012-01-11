@@ -191,6 +191,17 @@ namespace TextGen
 
 	const char* fractile_range(const fractile_id& id);
 
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief returns temperature range sentence
+	 */
+	// ----------------------------------------------------------------------
+	const Sentence temperature_range(const int& theTemperature1, 
+									 const int& theTemperature2,
+									 const std::string& theRangeSeparator,
+									 int& intervalStart,
+									 int& intervalEnd);
+
   } // namespace TemperatureStoryTools
 } // namespace TextGen
 

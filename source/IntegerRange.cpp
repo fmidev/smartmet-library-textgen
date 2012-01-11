@@ -74,8 +74,6 @@ namespace TextGen
 	std::ostringstream os;
 	if(itsStartValue == itsEndValue)
 	  os << itsStartValue;
-	else if(itsStartValue<0 && itsEndValue<0)
-	  os << itsEndValue << itsRangeSeparator << itsStartValue;
 	else
 	  {
 		if(itsStartValue <= 0 && itsEndValue > 0)

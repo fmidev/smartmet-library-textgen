@@ -160,6 +160,34 @@ namespace TextGen
 	  return theRoundedValue;
 	}
 
+
+	const TextGen::Sentence temperature_range(const int& theTemperature1, 
+											  const int& theTemperature2,
+											  const std::string& theRangeSeparator,
+											  int& intervalStart,
+											  int& intervalEnd)
+	{
+	  Sentence sentence;
+
+	  int theMinimum = theTemperature1 < theTemperature2 ? theTemperature1 : theTemperature2;
+	  int theMaximum = theTemperature1 > theTemperature2 ? theTemperature1 : theTemperature2;
+	  intervalStart = theMinimum;
+	  intervalEnd = theMaximum;
+
+	  if(theMinimum < 0 && theMaximum <= 0)
+		{
+		  intervalStart = theMaximum;
+		  intervalEnd = theMinimum;
+		}
+
+	  sentence << IntegerRange(intervalStart, intervalEnd, theRangeSeparator);
+
+	  return sentence;
+	}
+
+
+
+
 	// ----------------------------------------------------------------------
 	/*!
 	 * \brief Return temperature sentence
@@ -235,6 +263,15 @@ namespace TextGen
 			}
 		  else
 			{
+			  sentence << temperature_range(theRoundedMinimum,
+											theRoundedMaximum,
+											theRangeSeparator,
+											intervalStart,
+											intervalEnd);
+			  sentence << *UnitFactory::create_unit(DegreesCelsius, intervalEnd);
+			  interval = true;			 
+
+			  /*
 			  if(theRoundedMinimum < 0 && theRoundedMaximum == 0)
 				{
 				  sentence << IntegerRange(theRoundedMaximum, theRoundedMinimum, theRangeSeparator)
@@ -281,6 +318,7 @@ namespace TextGen
 					  interval = true;
 					}
 				}
+			  */
 			}
 		}
 	  else

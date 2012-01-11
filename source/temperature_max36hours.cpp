@@ -2225,7 +2225,7 @@ namespace TextGen
 	const Sentence construct_final_sentence(t36hparams& theParameters,
 											const Sentence& temperatureSentence,
 											const Sentence& daySentence,
-										const int& intervalStart,
+											const int& intervalStart,
 											const int& intervalEnd)
 	{
 	  Sentence sentence;
@@ -2754,9 +2754,24 @@ namespace TextGen
 			if(theParameters.theForecastAreaId == COASTAL_AREA &&
 			   theParameters.inlandAndCoastSeparated())
 			  {
+				/*
 				sentence << RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
 						 << IntegerRange(intervalStart, intervalEnd, theParameters.theRangeSeparator)
 						 << *UnitFactory::create_unit(DegreesCelsius, intervalEnd);
+				*/
+
+				Sentence temperatureRangeSentence;
+				int actualIntervalStart(intervalStart);
+				int actualIntervalEnd(intervalEnd);
+				temperatureRangeSentence << temperature_range(intervalStart,
+															  intervalEnd,
+															  theParameters.theRangeSeparator,
+															  actualIntervalStart,
+															  actualIntervalEnd);
+ 
+				sentence << RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
+						 << temperatureRangeSentence
+						 << *UnitFactory::create_unit(DegreesCelsius, actualIntervalEnd);
 			  }
 			else
 			  {
