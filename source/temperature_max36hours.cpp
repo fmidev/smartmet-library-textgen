@@ -1709,8 +1709,6 @@ namespace TextGen
 																	  theParameters.theRangeSeparator,
 																	  true);
 
-			  
-
 			  if(intervalUsed)
 				theParameters.theTemperaturePhraseId = LAMPOTILA_VALILLA_PHRASE_ID;
 			  else
@@ -3590,9 +3588,9 @@ namespace TextGen
 									int& intervalStart,
 									int& intervalEnd)
 	{
-	  int theMinimumInt = static_cast<int>(round(theParameters.theMinimum));
-	  int theMeanInt = static_cast<int>(round(theParameters.theMean));
-	  int theMaximumInt = static_cast<int>(round(theParameters.theMaximum));
+	  int theMinimumInt = static_cast<int>(round(minValue));
+	  int theMeanInt = static_cast<int>(round(meanValue));
+	  int theMaximumInt = static_cast<int>(round(maxValue));
 
 	  clamp_temperature(theParameters.theVariable,
 						theParameters.theSeasonId == WINTER_SEASON,
@@ -3610,10 +3608,6 @@ namespace TextGen
 												   intervalEnd,
 												   theParameters.theRangeSeparator,
 												   true);
-	  if(intervalUsed)
-		theParameters.theTemperaturePhraseId = LAMPOTILA_VALILLA_PHRASE_ID;
-	  else
-		theParameters.theTemperaturePhraseId = NOIN_ASTETTA_PHRASE_ID;						
 	}
 
 	const Paragraph temperature_max36hours_sentence(t36hparams& theParameters)

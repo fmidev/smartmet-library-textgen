@@ -223,23 +223,24 @@ namespace TextGen
 	  bool range = false;
 	  
 	  // in winter theMaximum contains the lower value than the theMinimum
-	  int diff = (theMaximum > theMinimum ? (theMaximum - theMinimum) : (theMinimum - theMaximum));
+	  int diff = abs(theMaximum - theMinimum);
+		//(theMaximum > theMinimum ? (theMaximum - theMinimum) : (theMinimum - theMaximum));
 
 	  if(theMinimum == theMaximum)
 		range = false;
-	  else if(diff >= theMinInterval)
+	  else if(diff >= theMinInterval && !theZeroFlag)
 		range = true;
-	  else if(theMinimum <= 0 && theMaximum >= 0 && theZeroFlag)
+	  else if(theMinimum <= 0 && theMaximum >= 0 && !theZeroFlag)
 		range = true;
-	  
+
 	  if(range)
 		{
 		  // changed 6.10.2010
 		  // Lea Saukkonen:
-		  // 1. Lukemat positiivisi: pienempi lukema ensin esim L-Admpvtila on viidestd kymmeneen (5…10) astetta
-		  // 2. Lukemat nollan molemmin puolin: kylmempi ensin esim Ldmpvtila on miinus kolmen ja plus kahden (-3…+2)asteen vdlilld
-		  //3. Lukemista toinen on nolla: nolla ensin esim Ldmpvtila on nollan ja miinus viiden 0…-5) asteen vdlilld toinen esimerkki Ldmpvtila on nollan ja plus viiden (0…+5) asteen vdlilld
-		  //4. Lukemat negatiivisia: ldmpimdmpi emsin esim Ldmpvtila on miinus viidestd miinus kymmeneen (-5…-10) asteeseen tai Pakkasta on viidestd kymmeneen asteeseen.
+		  // 1. Lukemat positiivisi: pienempi lukema ensin esim L-Admpvtila on viidestd kymmeneen (5…10) astetta
+		  // 2. Lukemat nollan molemmin puolin: kylmempi ensin esim Ldmpvtila on miinus kolmen ja plus kahden (-3…+2)asteen vdlilld
+		  //3. Lukemista toinen on nolla: nolla ensin esim Ldmpvtila on nollan ja miinus viiden 0…-5) asteen vdlilld toinen esimerkki Ldmpvtila on nollan ja plus viiden (0…+5) asteen vdlilld
+		  //4. Lukemat negatiivisia: ldmpimdmpi emsin esim Ldmpvtila on miinus viidestd miinus kymmeneen (-5…-10) asteeseen tai Pakkasta on viidestd kymmeneen asteeseen.
 
 		  
 		  int theRoundedMinimum = theMinimum;
