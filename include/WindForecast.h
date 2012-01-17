@@ -32,6 +32,13 @@ using namespace WindStoryTools;
 #define USE_ALKAEN_PHRASE true
 #define DONT_USE_ALKAEN_PHRASE false
 
+
+#define FULL_AREA_NAME "full"
+#define NORTHERN_AREA_NAME "north"
+#define SOUTHERN_AREA_NAME "south"
+#define EASTERN_AREA_NAME "east"
+#define WESTERN_AREA_NAME "west"
+
   enum wind_speed_id
 	{
 	  TYYNI,
@@ -97,13 +104,15 @@ using namespace WindStoryTools;
 	  WIND_SPEED_EVENT,
 	  MISSING_EVENT_TYPE
 	};
-  
+
+  /*
   enum change_type
 	{
 	  INCREASING,
 	  DECREASING,
 	  AS_BEFORE
 	};
+  */
 
   class WindDataItemUnit;
   class WindDataItemContainer;
@@ -201,6 +210,11 @@ using namespace WindStoryTools;
 	{}
 
 	const float getWindSpeedShare(const float& theLowerLimit, const float& theUpperLimit) const;
+    bool operator==(const WindDataItemUnit& dataItemUnit) const
+	{
+	  return thePeriod == dataItemUnit.thePeriod;
+	}
+	
 	
 	WeatherPeriod thePeriod;
 	WeatherResult theWindSpeedMin;
@@ -213,11 +227,10 @@ using namespace WindStoryTools;
 	float theEqualizedMedianWindSpeed;
 	float theEqualizedMaximumWind;
 	float theEqualizedWindDirection;
-	change_type theWindSpeedChangeType;
-	change_type theWindDirectionChangeType;
 	vector <pair<float, WeatherResult> > theWindSpeedDistribution;
   };
 
+  // contains WindDataItemUnit structs for different areas (coastal, inland, full area)
   struct WindDataItemContainer
   {
 	WindDataItemContainer() : previousDataItem(0)
@@ -250,56 +263,19 @@ using namespace WindStoryTools;
 														gustSpeed);
 	  theDataItems.insert(make_pair(name, dataItem));
 
-	  if(previousDataItem)
-		{
-		  int previousWindSpeed = static_cast<int>(round(previousDataItem->theWindSpeedMean.value()));
-		  int currentWindSpeed = static_cast<int>(round(dataItem->theWindSpeedMean.value()));
-		  int previousDirection = static_cast<int>(round(previousDataItem->theWindDirection.value()));
-		  int currentDirection = static_cast<int>(round(dataItem->theWindDirection.value()));
-		  if(currentWindSpeed > previousWindSpeed)
-			dataItem->theWindSpeedChangeType = INCREASING;
-		  else if(currentWindSpeed < previousWindSpeed)
-			dataItem->theWindSpeedChangeType = DECREASING;
-		  else
-			dataItem->theWindSpeedChangeType = AS_BEFORE;
-
-		  if(abs(currentDirection-previousDirection < 180))
-			{
-			  if(currentDirection > previousDirection)
-				dataItem->theWindDirectionChangeType = INCREASING;
-			  if(currentDirection < previousDirection)
-				dataItem->theWindDirectionChangeType = DECREASING;
-			  else
-				dataItem->theWindDirectionChangeType = AS_BEFORE;
-			}
-		  else
-			{
-			  if(currentDirection > previousDirection)
-				dataItem->theWindDirectionChangeType = DECREASING;
-			  else
-				dataItem->theWindDirectionChangeType = INCREASING;
-			}
-		}
-
 	  previousDataItem = dataItem;
 	}
 
-	const WindDataItemUnit& operator()(const string& name = "full") const
+	const WindDataItemUnit& operator()(const string& name = FULL_AREA_NAME) const
 	{
 	  return *(theDataItems.find(name)->second);
 	}
 
-	WindDataItemUnit& getDataItem(const string& name = "full") const
+	WindDataItemUnit& getDataItem(const string& name = FULL_AREA_NAME) const
 	{
 	  return *(theDataItems.find(name)->second);
 	}
 
-	/*
-	WindDataItemUnit& operator()(const string& name = "full")
-	{
-	  return *(theDataItems.find(name)->second);
-	}
-	*/
 
   private:
 	map<string, WindDataItemUnit*> theDataItems;
@@ -338,7 +314,6 @@ using namespace WindStoryTools;
 		theWindEvent(windEvent),
 		thePeriodBeginDataItem(periodBeginDataItem),
 		thePeriodEndDataItem(periodEndDataItem),
-		theConcurrentEventPeriodItem(0),
 		theTransientFlag(false),
 		theReportThisEventPeriodFlag(true)
 	{}
@@ -347,12 +322,11 @@ using namespace WindStoryTools;
 	wind_event_id theWindEvent;
 	const WindDataItemUnit& thePeriodBeginDataItem;
 	const WindDataItemUnit& thePeriodEndDataItem;
-	WindEventPeriodDataItem* theConcurrentEventPeriodItem;
 	bool theTransientFlag; // direction change can be temporary
 	bool theReportThisEventPeriodFlag; // determines weather this event period is reported or not
 
 	
-	wind_event_type getEventType()
+	wind_event_type getWindEventType()
 	{
 	  if(theWindEvent == MISSING_WIND_EVENT)
 		return MISSING_EVENT_TYPE;
@@ -406,32 +380,35 @@ using namespace WindStoryTools;
 	wind_direction_id getWindDirectionId(const WeatherPeriod& thePeriod,
 										 const CompassType& theComapssType) const;
 	wind_direction_id getWindDirectionId(const WeatherPeriod& thePeriod) const;
-	void getWindSpeedChangeParameters(const WeatherPeriod& period,
-									  float& begLowerLimit,
-									  float& begUpperLimit,
-									  float& endLowerLimit,
-									  float& endUpperLimit,
-									  float& changeRatePerHour) const;
-	NFmiTime getWindTurningPointOfTime(const WeatherPeriod& period) const;
+	NFmiTime getWindDirectionTurningTime(const WeatherPeriod& period) const;
 	vector<WeatherPeriod> getWindSpeedReportingPoints(const WindEventPeriodDataItem& eventPeriodDataItem,
 													  const bool& firstSentenceInTheStory,
 													  const wind_event_id& eventId) const;
 	const bool getSpeedIntervalLimits(const WeatherPeriod& thePeriod, 
 									  WeatherResult& lowerLimit,
 									  WeatherResult& upperLimit) const;
-	bool getWindSpeedChangePhrase(const WeatherPeriod& changePeriod,
-								  std::string& phraseStr,
-								  bool& smallChange,
-								  bool& gradualChange,
-								  bool& fastChange) const;
+	bool getWindSpeedChangeAttribute(const WeatherPeriod& changePeriod,
+									 std::string& phraseStr,
+									 bool& smallChange,
+									 bool& gradualChange,
+									 bool& fastChange) const;
 	std::string getWindDirectionTurntoString(const wind_direction_id& theWindDirectionId) const;
 	int getLastSentenceIndex() const;
-	bool windSpeedDifferEnough(const WeatherPeriod& weatherPeriod1, const WeatherPeriod& weatherPeriod2) const;
 	Sentence reportIntermediateSpeed(const WeatherPeriod& speedEventPeriod) const;
 	Sentence windSpeedIntervalSentence2(const WeatherPeriod& speedEventPeriod,
 										bool theUseAtItsStrongestPhrase,
 										bool theFirstSentenceInTheStory) const;
 	bool samePartOfTheDay(const NFmiTime& time1, const NFmiTime& time2) const;
+	Sentence directedWindSentenceAfterVaryingWind(const wo_story_params& theParameters,
+												  const WeatherPeriod& eventPeriod,
+												  const bool& firstSentenceInTheStory) const;
+	Sentence windDirectionAndSpeedChangesSentence(const wo_story_params& theParameters,
+												  const WeatherPeriod& eventPeriod,
+												  const bool& firstSentenceInTheStory,
+												  const wind_event_id& previousWindEventId,
+												  const wind_event_id& currentWindEventId,
+												  const wind_direction_id& previousWindDirectionId,
+												  bool& useAlkaaHeiketaVoimistuaPhrase) const;
   };
 
   
@@ -445,6 +422,18 @@ using namespace WindStoryTools;
 												   const WeatherPeriod& thePeriod,
 												   const string& theVar,
 												   vector <pair<float, WeatherResult> >& theWindSpeedDistribution);
+  void get_wind_speed_interval_parameters(const WeatherPeriod& period,
+										  const wind_data_item_vector& rawDataVector,
+										  float& begLowerLimit,
+										  float& begUpperLimit,
+										  float& endLowerLimit,
+										  float& endUpperLimit,
+										  float& changeRatePerHour);
+  bool wind_speed_differ_enough(const WeatherPeriod& weatherPeriod, 
+								const wind_data_item_vector& rawDataVector);
+  wind_direction_id get_wind_direction_at(const wo_story_params& theParameters,
+										  const NFmiTime& pointOfTime,
+										  const string& var);
 } // namespace TextGen
 
 #endif // TEXTGEN_WIND_FORECAST_H
