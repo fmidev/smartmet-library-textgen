@@ -144,8 +144,9 @@ using namespace WindStoryTools;
 	  theForecastPeriod(forecastPeriod),
 	  theForecastTime(forecastTime),
 	  theSources(sources),
-	  theLog(log)
-	  
+	  theLog(log),
+	  theSplitMethod(NO_SPLITTING),
+	  theAreaPart(FULL_AREA_NAME)	  	  
 	{}
 
 	const string& theVar;
@@ -156,6 +157,8 @@ using namespace WindStoryTools;
 	const NFmiTime& theForecastTime;
 	const AnalysisSources& theSources;
 	MessageLogger& theLog;
+	split_method theSplitMethod;
+	string theAreaPart;
 
 	double theMaxErrorWindSpeed;
 	double theMaxErrorWindDirection;
@@ -370,10 +373,6 @@ using namespace WindStoryTools;
 													  const bool& firstSentenceInTheStory,
 													  const bool& startsToWeakenStrengthenPhraseUsed,
 													  const wind_event_id& eventId) const;	  
-	/*
-	const Sentence windSpeedDirectionSentence(const WindEventPeriodDataItem* theWindSpeedEventPeriod,
-												 const WindEventPeriodDataItem* theWindDirectionEventPeriod) const;
-	*/
 	Sentence getTimePhrase(const WeatherPeriod thePeriod,
 						   const bool& useAlkaenPhrase) const;
 
@@ -395,9 +394,11 @@ using namespace WindStoryTools;
 	std::string getWindDirectionTurntoString(const wind_direction_id& theWindDirectionId) const;
 	int getLastSentenceIndex() const;
 	Sentence reportIntermediateSpeed(const WeatherPeriod& speedEventPeriod) const;
+	/*
 	Sentence windSpeedIntervalSentence2(const WeatherPeriod& speedEventPeriod,
 										bool theUseAtItsStrongestPhrase,
 										bool theFirstSentenceInTheStory) const;
+	*/
 	bool samePartOfTheDay(const NFmiTime& time1, const NFmiTime& time2) const;
 	Sentence directedWindSentenceAfterVaryingWind(const wo_story_params& theParameters,
 												  const WeatherPeriod& eventPeriod,
@@ -409,6 +410,9 @@ using namespace WindStoryTools;
 												  const wind_event_id& currentWindEventId,
 												  const wind_direction_id& previousWindDirectionId,
 												  bool& useAlkaaHeiketaVoimistuaPhrase) const;
+	void getWindDirectionBegEnd(const WeatherPeriod& thePeriod,
+								wind_direction_id& theWindDirectionIdBeg,
+								wind_direction_id& theWindDirectionIdEnd) const;	  
   };
 
   
@@ -424,15 +428,20 @@ using namespace WindStoryTools;
 												   vector <pair<float, WeatherResult> >& theWindSpeedDistribution);
   void get_wind_speed_interval_parameters(const WeatherPeriod& period,
 										  const wind_data_item_vector& rawDataVector,
+										  const string& areaPart,
 										  float& begLowerLimit,
 										  float& begUpperLimit,
 										  float& endLowerLimit,
 										  float& endUpperLimit,
 										  float& changeRatePerHour);
   bool wind_speed_differ_enough(const WeatherPeriod& weatherPeriod, 
-								const wind_data_item_vector& rawDataVector);
+								const wind_data_item_vector& rawDataVector,
+								const string& areaPart);
   wind_direction_id get_wind_direction_at(const wo_story_params& theParameters,
 										  const NFmiTime& pointOfTime,
+										  const string& var);
+  wind_direction_id get_wind_direction_at(const wo_story_params& theParameters,
+										  const WeatherPeriod& period,
 										  const string& var);
 } // namespace TextGen
 
