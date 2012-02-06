@@ -161,14 +161,11 @@ namespace TextGen
 	}
 
 
-	const TextGen::Sentence temperature_range(const int& theTemperature1, 
-											  const int& theTemperature2,
-											  const std::string& theRangeSeparator,
-											  int& intervalStart,
-											  int& intervalEnd)
+	void temperature_range(const int& theTemperature1, 
+						   const int& theTemperature2,
+						   int& intervalStart,
+						   int& intervalEnd)
 	{
-	  Sentence sentence;
-
 	  int theMinimum = theTemperature1 < theTemperature2 ? theTemperature1 : theTemperature2;
 	  int theMaximum = theTemperature1 > theTemperature2 ? theTemperature1 : theTemperature2;
 	  intervalStart = theMinimum;
@@ -179,6 +176,20 @@ namespace TextGen
 		  intervalStart = theMaximum;
 		  intervalEnd = theMinimum;
 		}
+	}
+
+	TextGen::Sentence temperature_range(const int& theTemperature1, 
+										const int& theTemperature2,
+										const std::string& theRangeSeparator,
+										int& intervalStart,
+										int& intervalEnd)
+	{
+	  Sentence sentence;
+
+	  temperature_range(theTemperature1, 
+						theTemperature2,
+						intervalStart,
+						intervalEnd);
 
 	  sentence << IntegerRange(intervalStart, intervalEnd, theRangeSeparator);
 
@@ -186,6 +197,72 @@ namespace TextGen
 	}
 
 
+	bool sort_out_temperature_interval(int theMinimum,
+									   int theMean,
+									   int theMaximum,
+									   int theMinInterval,
+									   bool theZeroFlag,
+									   int& intervalStart,
+									   int& intervalEnd,
+									   const bool& theRoundTheNumber)
+	{
+	  bool interval_used(true);
+
+	  bool range = false;
+	  
+	  // in winter theMaximum contains the lower value than the theMinimum
+	  int diff = abs(theMaximum - theMinimum);
+
+	  if(theMinimum == theMaximum)
+		range = false;
+	  else if(diff >= theMinInterval && !theZeroFlag)
+		range = true;
+	  else if(theMinimum <= 0 && theMaximum >= 0 && !theZeroFlag)
+		range = true;
+
+	  if(range)
+		{
+		  // changed 6.10.2010
+		  // Lea Saukkonen:
+		  // 1. Lukemat positiivisi: pienempi lukema ensin esim L-Admpvtila on viidestd kymmeneen (5$(B!D(B10) astetta
+		  // 2. Lukemat nollan molemmin puolin: kylmempi ensin esim Ldmpvtila on miinus kolmen ja plus kahden (-3$(B!D(B+2)asteen vdlilld
+		  //3. Lukemista toinen on nolla: nolla ensin esim Ldmpvtila on nollan ja miinus viiden 0$(B!D(B-5) asteen vdlilld toinen esimerkki Ldmpvtila on nollan ja plus viiden (0$(B!D(B+5) asteen vdlilld
+		  //4. Lukemat negatiivisia: ldmpimdmpi emsin esim Ldmpvtila on miinus viidestd miinus kymmeneen (-5$(B!D(B-10) asteeseen tai Pakkasta on viidestd kymmeneen asteeseen.
+
+		  
+		  int theRoundedMinimum = theMinimum;
+		  int theRoundedMaximum = theMaximum;
+
+		  if(theMinimum <=-15 && theMaximum <= -15 && theRoundTheNumber)
+			{
+			  theRoundedMinimum = round_temperature(theMinimum);
+			  theRoundedMaximum = round_temperature(theMaximum);
+			}
+
+		  if(theRoundedMinimum == theRoundedMaximum)
+			{
+			  interval_used = false;
+			  intervalStart = theRoundedMinimum;
+			  intervalEnd = intervalStart;
+			}
+		  else
+			{
+			  interval_used = true;			 
+			  temperature_range(theRoundedMinimum,
+								theRoundedMaximum,
+								intervalStart,
+								intervalEnd);
+			}
+		}
+	  else
+		{
+		  interval_used = false;
+		  intervalStart = (theRoundTheNumber ? round_temperature(theMean) : theMean);
+		  intervalEnd = intervalStart;
+		}
+	  
+	  return interval_used;
+	}
 
 
 	// ----------------------------------------------------------------------
@@ -220,120 +297,30 @@ namespace TextGen
 	{
 	  Sentence sentence;
 	  
-	  bool range = false;
-	  
-	  // in winter theMaximum contains the lower value than the theMinimum
-	  int diff = abs(theMaximum - theMinimum);
-
-	  if(theMinimum == theMaximum)
-		range = false;
-	  else if(diff >= theMinInterval && !theZeroFlag)
-		range = true;
-	  else if(theMinimum <= 0 && theMaximum >= 0 && !theZeroFlag)
-		range = true;
-
-	  if(range)
+	  interval = sort_out_temperature_interval(theMinimum,
+											   theMean,
+											   theMaximum,
+											   theMinInterval,
+											   theZeroFlag,
+											   intervalStart,
+											   intervalEnd,
+											   theRoundTheNumber);
+		
+	  if(interval)
 		{
-		  // changed 6.10.2010
-		  // Lea Saukkonen:
-		  // 1. Lukemat positiivisi: pienempi lukema ensin esim L-Admpvtila on viidestd kymmeneen (5$(B!D(B10) astetta
-		  // 2. Lukemat nollan molemmin puolin: kylmempi ensin esim Ldmpvtila on miinus kolmen ja plus kahden (-3$(B!D(B+2)asteen vdlilld
-		  //3. Lukemista toinen on nolla: nolla ensin esim Ldmpvtila on nollan ja miinus viiden 0$(B!D(B-5) asteen vdlilld toinen esimerkki Ldmpvtila on nollan ja plus viiden (0$(B!D(B+5) asteen vdlilld
-		  //4. Lukemat negatiivisia: ldmpimdmpi emsin esim Ldmpvtila on miinus viidestd miinus kymmeneen (-5$(B!D(B-10) asteeseen tai Pakkasta on viidestd kymmeneen asteeseen.
-
-		  
-		  int theRoundedMinimum = theMinimum;
-		  int theRoundedMaximum = theMaximum;
-
-		  if(theMinimum <=-15 && theMaximum <= -15 && theRoundTheNumber)
-			{
-			  theRoundedMinimum = round_temperature(theMinimum);
-			  theRoundedMaximum = round_temperature(theMaximum);
-			}
-
-		  if(theRoundedMinimum == theRoundedMaximum)
-			{
-			  sentence << "noin"
-					   << Integer(theRoundedMinimum)
-					   << *UnitFactory::create_unit(DegreesCelsius, theRoundedMinimum);
-			  interval = false;
-			  intervalStart = theRoundedMinimum;
-			}
-		  else
-			{
-			  sentence << temperature_range(theRoundedMinimum,
-											theRoundedMaximum,
-											theRangeSeparator,
-											intervalStart,
-											intervalEnd);
-			  sentence << *UnitFactory::create_unit(DegreesCelsius, intervalEnd);
-			  interval = true;			 
-
-			  /*
-			  if(theRoundedMinimum < 0 && theRoundedMaximum == 0)
-				{
-				  sentence << IntegerRange(theRoundedMaximum, theRoundedMinimum, theRangeSeparator)
-						   << *UnitFactory::create_unit(DegreesCelsius, theRoundedMinimum);
-
-				  if(theRoundedMaximum == theRoundedMinimum)
-					{
-					  intervalStart = theRoundedMaximum;
-					}
-				  else if(theRoundedMaximum<0 && theRoundedMinimum<0)
-					{
-					  intervalStart = theRoundedMinimum;
-					  intervalEnd = theRoundedMaximum;
-					  interval = true;			 
-					}
-				  else
-					{
-					  intervalStart = theRoundedMaximum;
-					  intervalEnd = theRoundedMinimum;
-					  interval = true;
-					}
-				}
-			  else
-				{
-				  int intervalEndValue = ((theRoundedMinimum < 0 && theRoundedMaximum < 0) ? theRoundedMinimum : theRoundedMaximum);
-
-				  sentence << IntegerRange(theRoundedMinimum, theRoundedMaximum, theRangeSeparator)
-						   << *UnitFactory::create_unit(DegreesCelsius, intervalEndValue);
-
-				  if(theRoundedMaximum == theRoundedMinimum)
-					{
-					  intervalStart = theRoundedMaximum;
-					}
-				  else if(theRoundedMaximum<0 && theRoundedMinimum<0)
-					{
-					  intervalStart = theRoundedMaximum;
-					  intervalEnd = theRoundedMinimum;
-					  interval = true;			 
-					}
-				  else
-					{
-					  intervalStart = theRoundedMinimum;
-					  intervalEnd = theRoundedMaximum;
-					  interval = true;
-					}
-				}
-			  */
-			}
+		  sentence << IntegerRange(intervalStart, intervalEnd, theRangeSeparator);
+		  sentence << *UnitFactory::create_unit(DegreesCelsius, intervalEnd);
+		  interval = true;			 
 		}
 	  else
 		{
-		  int theRoundedValue = theRoundTheNumber ? round_temperature(theMean) : theMean;
-
 		  sentence << "noin"
-				   << Integer(theRoundedValue)
-				   << *UnitFactory::create_unit(DegreesCelsius, theRoundedValue);
-		  interval = false;
-		  intervalStart = theRoundedValue;
-
+				   << Integer(intervalStart)
+				   << *UnitFactory::create_unit(DegreesCelsius, intervalStart);
 		}
-	  
+
 	  return sentence;
 	}
-
 
 	// ----------------------------------------------------------------------
 	/*!

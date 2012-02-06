@@ -1907,10 +1907,6 @@ using namespace std;
 							minAreaTwo,
 							maxAreaTwo,
 							meanAreaTwo);
-
-		if(abs(meanAreaOne.value() - meanAreaTwo.value()) >= difference)
-		  retval = true;
-
 	  }
 	else
 	  {
@@ -1929,10 +1925,54 @@ using namespace std;
 							  minAreaTwo,
 							  maxAreaTwo,
 							  meanAreaTwo);
-
-		if(abs(meanAreaOne.value() - meanAreaTwo.value()) >= difference)
-		  retval = true;
 	  }
+
+	int theMinimumIntAreaOne = static_cast<int>(round(minAreaOne.value()));
+	int theMeanIntAreaOne = static_cast<int>(round(meanAreaOne.value()));
+	int theMaximumIntAreaOne = static_cast<int>(round(maxAreaOne.value()));
+	int theMinimumIntAreaTwo = static_cast<int>(round(minAreaTwo.value()));
+	int theMeanIntAreaTwo = static_cast<int>(round(meanAreaTwo.value()));
+	int theMaximumIntAreaTwo = static_cast<int>(round(maxAreaTwo.value()));
+	const int mininterval = optional_int(theVar + "::mininterval", 2);
+	const bool interval_zero = optional_bool(theVar+"::always_interval_zero",false);
+	int intervalStartAreaOne;
+	int intervalEndAreaOne;
+	int intervalStartAreaTwo;
+	int intervalEndAreaTwo;
+
+	clamp_temperature(theVar,
+					  SeasonTools::isWinterHalf(thePeriod.localStartTime(), theVar),
+					  true,
+					  theMinimumIntAreaOne < theMaximumIntAreaOne ? theMinimumIntAreaOne : theMaximumIntAreaOne,
+					  theMaximumIntAreaOne > theMinimumIntAreaOne ? theMaximumIntAreaOne : theMinimumIntAreaOne);
+	clamp_temperature(theVar,
+					  SeasonTools::isWinterHalf(thePeriod.localStartTime(), theVar),
+					  true,
+					  theMinimumIntAreaTwo < theMaximumIntAreaTwo ? theMinimumIntAreaTwo : theMaximumIntAreaTwo,
+					  theMaximumIntAreaTwo > theMinimumIntAreaTwo ? theMaximumIntAreaTwo : theMinimumIntAreaTwo);
+
+	sort_out_temperature_interval(theMinimumIntAreaOne,
+								  theMeanIntAreaOne,
+								  theMaximumIntAreaOne,
+								  mininterval,
+								  interval_zero,
+								  intervalStartAreaOne,
+								  intervalEndAreaOne,
+								  true);
+	sort_out_temperature_interval(theMinimumIntAreaTwo,
+								  theMeanIntAreaTwo,
+								  theMaximumIntAreaTwo,
+								  mininterval,
+								  interval_zero,
+								  intervalStartAreaTwo,
+								  intervalEndAreaTwo,
+								  true);	
+	
+	bool differentInterval = (intervalStartAreaOne != intervalStartAreaTwo || intervalEndAreaOne != intervalEndAreaTwo);
+	bool differentMeanTemperature = (abs(meanAreaOne.value() - meanAreaTwo.value()) >= difference);
+
+	retval = (differentInterval && differentMeanTemperature);
+
 
 	if(morningTemperature)
 	  theLog << "Morning ";

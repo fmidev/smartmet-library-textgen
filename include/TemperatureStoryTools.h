@@ -193,14 +193,40 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief sort out temperature range interval
+	 */
+	// ----------------------------------------------------------------------
+	void temperature_range(const int& theTemperature1, 
+						   const int& theTemperature2,
+						   int& intervalStart,
+						   int& intervalEnd);
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief returns temperature range sentence
 	 */
 	// ----------------------------------------------------------------------
-	const Sentence temperature_range(const int& theTemperature1, 
-									 const int& theTemperature2,
-									 const std::string& theRangeSeparator,
-									 int& intervalStart,
-									 int& intervalEnd);
+	Sentence temperature_range(const int& theTemperature1, 
+							   const int& theTemperature2,
+							   const std::string& theRangeSeparator,
+							   int& intervalStart,
+							   int& intervalEnd);
+	
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief sorts out temperature interval lower and upper limit 
+	 * and returns bool if range expression is used
+	 */
+	// ----------------------------------------------------------------------
+	bool sort_out_temperature_interval(int theMinimum,
+									   int theMean,
+									   int theMaximum,
+									   int theMinInterval,
+									   bool theZeroFlag,
+									   int& intervalStart,
+									   int& intervalEnd,
+									   const bool& theRoundTheNumber);
+
 
   } // namespace TemperatureStoryTools
 } // namespace TextGen
