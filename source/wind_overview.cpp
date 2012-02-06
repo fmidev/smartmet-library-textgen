@@ -1124,20 +1124,18 @@ namespace TextGen
 	  {
 		const WindDataItemUnit& dataItemCurrent = (*dataVector[i])(areaPart);
   
+		wind_direction_id current_wind_direction_id(get_wind_direction_id(dataItemCurrent.theEqualizedWindDirection, 
+																		  storyParams.theVar));
+
 		/*
 		cout << "current period: " << dataItemCurrent.thePeriod.localStartTime() 
 			 << "..." 
 			 << dataItemCurrent.thePeriod.localEndTime() 
 			 << ": " << dataItemCurrent.theEqualizedWindDirection.value()
 			 << "; error: " << dataItemCurrent.theEqualizedWindDirection.error()
+			 << "; direction: " << get_wind_direction_string(current_wind_direction_id)
 			 << endl;
 		*/
-		wind_direction_id current_wind_direction_id(get_wind_direction_id(dataItemCurrent.theEqualizedWindDirection, 
-																		  storyParams.theVar));
-
-		//cout << "current: " << get_wind_direction_string(current_wind_direction_id) << endl;
-		//cout << "previous: " << get_wind_direction_string(previous_wind_direction_id) << endl;
-
 		if(current_wind_direction_id != previous_wind_direction_id)
 		  {
 			if(i < dataVector.size() - 1)
@@ -1149,6 +1147,9 @@ namespace TextGen
 				   get_wind_direction_id(dataItemNext.theEqualizedWindDirection, 
 										 storyParams.theVar))
 				  {
+					//					cout << "previous: " << get_wind_direction_string(get_wind_direction_id(dataItemPrevious.theEqualizedWindDirection, storyParams.theVar)) << endl;
+					//					cout << "next: " << get_wind_direction_string(get_wind_direction_id(dataItemNext.theEqualizedWindDirection, storyParams.theVar)) << endl;
+					
 					continue;
 				  }
 			  }
@@ -1378,16 +1379,14 @@ namespace TextGen
 
 		wind_direction_id windDirectionIdBeg = get_wind_direction_id(dataItemPeriodBegin->theWindDirection, storyParams.theVar);
 	
-		//		wind_direction_id windDirectionIdEnd = get_wind_direction_id(dataItemPeriodEnd->theWindDirection, storyParams.theVar);
+		wind_direction_id windDirectionIdEnd = get_wind_direction_id(dataItemPeriodEnd->theWindDirection, storyParams.theVar);
 
-		/*
 
 		cout << "area: " << storyParams.theAreaName << endl;
 		cout << "windEvent: " << get_wind_event_string(windEvent) << endl;
 		cout << "period: " << windEventPeriod.localStartTime() << "..." << windEventPeriod.localEndTime() << endl;
 		cout << "wind direction beg: " << get_wind_direction_string(windDirectionIdBeg) << endl;
 		cout << "wind direction end: " << get_wind_direction_string(windDirectionIdEnd) << endl;
-		*/
 
 		// merge the similar wind events
 		if(storyParams.theWindEventPeriodVector.size() > 0 && windEvent != MISSING_WIND_DIRECTION_EVENT)
@@ -1453,11 +1452,10 @@ namespace TextGen
 						windDirectionIdCurrent == VAIHTELEVA))
 					  {
 						NFmiTime intermediateTime(((*storyParams.theWindDataVector[k])(areaPart)).thePeriod.localStartTime());
-						/*
+
 						cout << "windEventPeriod.localStartTime(): " << windEventPeriod.localStartTime() << endl;
 						cout << "intermediateTime: " << intermediateTime << endl;
 						cout << "windEventPeriod.localEndTime(): " << windEventPeriod.localEndTime() << endl;
-						*/
 
 						if(intermediateTime.DifferenceInHours(windEventPeriod.localStartTime()) > 0)
 						  intermediateTime.ChangeByHours(-1);
@@ -1552,6 +1550,11 @@ namespace TextGen
 		// find the data item for the period start and end
 		const WindDataItemUnit& dataItemPeriodBegin = (*storyParams.theWindDataVector[periodBeginDataIndex])();
 		const WindDataItemUnit& dataItemPeriodEnd = (*storyParams.theWindDataVector[periodEndDataIndex])();
+
+		/*
+		wind_direction_id windDirectionId(get_wind_direction_id(dataItemPeriodBeg.theWindDirection, storyParams.theVar));
+		wind_direction_id windDirectionIdPrevious(get_wind_direction_id(dataItemPeriodEnd.theWindDirection, storyParams.theVar));
+		*/
 												   
 		// define the event period
 		WeatherPeriod windEventPeriod(dataItemPeriodBegin.thePeriod.localStartTime(), 
@@ -1563,10 +1566,15 @@ namespace TextGen
 											 storyParams.theVar,
 											 storyParams.theWindDirectionThreshold);
 
+		//cout << "windEventPeriod: " << windEventPeriod.localStartTime() << "..." << windEventPeriod.localEndTime() << endl;		 
+				//cout <<  "direction: " << get_wind_direction_string(get_wind_direction_id(dataItemPeriodEnd.theWindDirection, storyParams.theVar)) << endl;
+
+
 		// merge the similar wind events
 		if(storyParams.theWindEventPeriodVector.size() > 0)
 		  {
 			WindEventPeriodDataItem* previousEventPeriod = storyParams.theWindEventPeriodVector[storyParams.theWindEventPeriodVector.size()-1];
+
 
 			if(previousEventPeriod->theWindEvent == windEvent)
 			  {
@@ -1585,6 +1593,8 @@ namespace TextGen
 				storyParams.theWindEventPeriodVector.push_back(newEventPeriod);
 				
 				storyParams.theWindDirectionEventPeriodVector.push_back(newEventPeriod);
+
+				//cout << "merged" << endl;
 
 				continue;
 			  }

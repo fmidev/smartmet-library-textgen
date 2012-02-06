@@ -386,10 +386,10 @@ using namespace WindStoryTools;
 									  bool theUseAtItsStrongestPhrase) const;
 
 	//	Sentence getSpeedInterval(const WeatherPeriod& theWindSpeedFullPeriod) const;
-	Sentence getWindSpeedDecreasingIncreasingInterval(const WindEventPeriodDataItem& eventPeriodDataItem,
-													  const bool& firstSentenceInTheStory,
-													  const bool& startsToWeakenStrengthenPhraseUsed,
-													  const wind_event_id& eventId) const;	  
+	Sentence decreasingIncreasingInterval(const WindEventPeriodDataItem& eventPeriodDataItem,
+										  const bool& firstSentenceInTheStory,
+										  const bool& startsToWeakenStrengthenPhraseUsed,
+										  const wind_event_id& eventId) const;	  
 	Sentence getTimePhrase(const WeatherPeriod thePeriod,
 						   const bool& useAlkaenPhrase) const;
 
@@ -420,6 +420,11 @@ using namespace WindStoryTools;
 	Sentence directedWindSentenceAfterVaryingWind(const wo_story_params& theParameters,
 												  const WeatherPeriod& eventPeriod,
 												  const bool& firstSentenceInTheStory) const;
+	Sentence windDirectionChangesSentence(const wo_story_params& theParameters,
+										  const WeatherPeriod& eventPeriod,
+										  const bool& firstSentenceInTheStory,
+										  const wind_direction_id& windDirectionIdPrevious) const;
+
 	Sentence windDirectionAndSpeedChangesSentence(const wo_story_params& theParameters,
 												  const WeatherPeriod& eventPeriod,
 												  const bool& firstSentenceInTheStory,
