@@ -110,11 +110,14 @@ namespace TextGen
 	{
 	  Sentence sentence;
 	  
-	  bool range = true;
+	  bool range(false);
 	  
+	  // in winter theMaximum contains the lower value than the theMinimum
+	  int diff = abs(theMaximum - theMinimum);
+
 	  if(theMinimum == theMaximum)
 		range = false;
-	  else if(theMaximum - theMinimum >= theMinInterval)
+	  else if(diff >= theMinInterval && !theZeroFlag)
 		range = true;
 	  else if(theMinimum <= 0 && theMaximum >= 0)
 		range = true;
@@ -139,7 +142,7 @@ namespace TextGen
 	}
 
 	// if temperature is lower than -15 degrees, we can round 2 degrees otherwise 1 degrees
-	// to the nearest numer that is divisible by five 
+	// to the nearest number that is divisible by five 
 	int round_temperature(const int& theTemperatureToRound)
 	{
 	  int theRoundingLimit = theTemperatureToRound < -15 ? 2 : 1;
@@ -160,7 +163,6 @@ namespace TextGen
 	  return theRoundedValue;
 	}
 
-
 	void temperature_range(const int& theTemperature1, 
 						   const int& theTemperature2,
 						   int& intervalStart,
@@ -170,7 +172,7 @@ namespace TextGen
 	  int theMaximum = theTemperature1 > theTemperature2 ? theTemperature1 : theTemperature2;
 	  intervalStart = theMinimum;
 	  intervalEnd = theMaximum;
-
+	  
 	  if(theMinimum < 0 && theMaximum <= 0)
 		{
 		  intervalStart = theMaximum;
@@ -195,7 +197,6 @@ namespace TextGen
 
 	  return sentence;
 	}
-
 
 	bool sort_out_temperature_interval(int theMinimum,
 									   int theMean,
@@ -263,7 +264,6 @@ namespace TextGen
 	  
 	  return interval_used;
 	}
-
 
 	// ----------------------------------------------------------------------
 	/*!

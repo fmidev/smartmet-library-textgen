@@ -2832,7 +2832,6 @@ namespace TextGen
 									 << theDayPhasePhrase
 									 << theTemperaturePhrase
 									 << temperatureSentence;
-
 						  }
 						else if(dayPhasePhraseEmpty && !areaPhraseEmpty)
 						  {
@@ -2840,7 +2839,6 @@ namespace TextGen
 									 << theAreaPhrase
 									 << theTemperaturePhrase
 									 << temperatureSentence;
-
 						  }
 						else
 						  {
@@ -3229,12 +3227,6 @@ namespace TextGen
 										   intervalStart,
 										   intervalEnd);
 	  
-	  /*
-	  sentence << theSpecifiedDay;
-	  sentence << temperature_phrase(theParameters);
-	  sentence << temperatureSentence;
-	  */
-
 	  theParameters.theTomorrowTautologyFlag = false;
 
 	  return sentence;
@@ -3419,7 +3411,7 @@ namespace TextGen
 			  theParameters.theMinimum = theParameters.theWeatherResults[inlandMin]->value();
 			  theParameters.theMaximum = theParameters.theWeatherResults[inlandMax]->value();
 			  theParameters.theMean = theParameters.theWeatherResults[inlandMean]->value();
-				  
+			  
 			  if(theParameters.theDayAndNightSeparationFlag)
 				{
 				  sentence << night_sentence(theParameters);
@@ -3703,11 +3695,9 @@ namespace TextGen
 							   intervalUsedCoast,
 							   intervalStartCoast,
 							   intervalEndCoast);
-
-
+		  
 		  float temperature_diff_day1 = abs(round(theParameters.theWeatherResults[INLAND_MEAN_DAY1]->value() - 
 												  theParameters.theWeatherResults[COAST_MEAN_DAY1]->value()));
-
 		  
 		  if(temperature_diff_day1 >= temperature_limit_coast_inland &&
 			 !theParameters.theCoastalAndInlandTogetherFlag)
@@ -3966,12 +3956,11 @@ namespace TextGen
 				}
 			  continue;
 			}
-
+		  
 		  unsigned short story_forecast_areas(0x0);
 		  forecast_period_id period_id(NO_PERIOD);
 		  forecast_area_id area_id(NO_AREA);
-
-   
+		  
 		  if(periodArea == DAY1_INLAND || periodArea == DAY1_COASTAL || periodArea == DAY1_FULL)
 			{
 			  period_id = DAY1_PERIOD;
@@ -4140,6 +4129,7 @@ namespace TextGen
 
 	  return retval;
 	}
+
 
 
 
