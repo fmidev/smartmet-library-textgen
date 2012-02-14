@@ -546,6 +546,13 @@ using namespace std;
 	return theTimeStamp >= theWeatherPeriod.localStartTime() && theTimeStamp <= theWeatherPeriod.localEndTime();
   }
 
+  bool same_period(const WeatherPeriod& theWeatherPeriod1,
+				   const WeatherPeriod& theWeatherPeriod2)
+  {
+	return (theWeatherPeriod1.localStartTime() == theWeatherPeriod2.localStartTime() &&
+			theWeatherPeriod1.localEndTime() == theWeatherPeriod2.localEndTime());
+  }
+
   bool is_inside(const NFmiTime& theTimeStamp, 
 				 const part_of_the_day_id& thePartOfTheDayId)
   {
@@ -876,12 +883,6 @@ using namespace std;
 											get_narrow_time_phrase(theWeatherPeriod, 
 																   theVar, 
 																   theAlkaenPhrase));
-		/*	
-		thePhraseString = parse_time_phrase(weekday, 
-									  theSpecifyDayFlag, 
-									  get_time_phrase(theWeatherPeriod.localStartTime(), theVar, theAlkaenPhrase));
-	
-		*/
 		sentence << thePhraseString;
 	  }
 	else
@@ -927,10 +928,10 @@ using namespace std;
 
 			if(sentence.size() == 0)
 			  {
-				thePhraseString = parse_time_phrase(weekday, 
-													theSpecifyDayFlag, 
-													get_time_phrase(theWeatherPeriod.localStartTime(), 
-																	theVar, 
+				thePhraseString = parse_time_phrase(weekday,
+													theSpecifyDayFlag,
+													get_time_phrase(theWeatherPeriod.localStartTime(),
+																	theVar,
 																	theAlkaenPhrase));
 				sentence << thePhraseString;
 			  }
@@ -948,7 +949,7 @@ using namespace std;
 	std::string retval("");
 
 	bool specify_part_of_the_day = Settings::optional_bool(theVar + "::specify_part_of_the_day", true);
-	// AREE:
+
 	if(!specify_part_of_the_day)
 	  return retval;
 
@@ -1990,7 +1991,6 @@ using namespace std;
 
 	return retval;
   }
-
 
   split_method check_area_splitting(const std::string theVar,
 							const WeatherAnalysis::WeatherArea& theArea,

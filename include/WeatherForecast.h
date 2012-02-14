@@ -593,6 +593,8 @@ namespace TextGen
 				 const part_of_the_day_id& thePartOfTheDayId);
   bool is_inside(const NFmiTime& theTimeStamp, 
 				 const WeatherPeriod& theWeatherPeriod);
+  bool same_period(const WeatherPeriod& theWeatherPeriod1,
+				   const WeatherPeriod& theWeatherPeriod2);
   WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
 									const WeatherPeriod& theWeatherPeriod2);
 
