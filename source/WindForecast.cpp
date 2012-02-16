@@ -50,142 +50,6 @@ namespace TextGen
   using namespace boost;
   using namespace std;
 
-#define TUULI_WORD "tuuli"
-#define VAHAN_WORD "vahan"
-#define NOPEASTI_WORD "nopeasti"
-#define VAHITELLEN_WORD "vahitellen"
-#define KOVIMMILLAAN_PHRASE "kovimmillaan"
-#define HEIKKENEVAA_WORD "heikkenevaa"
-#define VOIMISTUVAA_WORD "voimistuvaa"
-#define TUULTA_WORD "tuulta"
-#define TUULI_TYYNTYY_PHRASE "tuuli tyyntyy"
-#define VOIMISTUVAA_TUULTA_PHRASE "voimistuvaa tuulta"
-#define HEIKKENEVAA_TUULTA_PHRASE "heikkenevaa tuulta"
-#define POHJOISEEN_PHRASE "pohjoiseen"
-#define ETELAAN_PHRASE "etelaan"
-#define ITAAN_PHRASE "itaan"
-#define LANTEEN_PHRASE "lanteen"
-#define KOILLISEEN_PHRASE "koilliseen"
-#define KAAKKOON_PHRASE "kaakkoon"
-#define LOUNAASEEN_PHRASE "lounaaseen"
-#define LUOTEESEEN_PHRASE "luoteeseen"
-#define POHJOISEN_PUOLELLE_PHRASE "pohjoisen puolelle"
-#define ETELAN_PUOLELLE_PHRASE "etelan puolelle"
-#define IDAN_PUOLELLE_PHRASE "idan puolelle"
-#define LANNEN_PUOLELLE_PHRASE "lannen puolelle"
-#define KOILLISEN_PUOLELLE_PHRASE "koillisen puolelle"
-#define KAAKON_PUOLELLE_PHRASE "kaakon puolelle"
-#define LOUNAAN_PUOLELLE_PHRASE "lounaan puolelle"
-#define LUOTEEN_PUOLELLE_PHRASE "luoteen puolelle"
-#define POHJOISEN_JA_KOILLISEN_VALILLE_PHRASE "pohjoisen ja koillisen valille"
-#define IDAN_JA_KOILLISEN_VALILLE_PHRASE "idan ja koillisen valille"
-#define IDAN_JA_KAAKON_VALILLE_PHRASE "idan ja kaakon valille"
-#define ETELAN_JA_KAAKON_VALILLE_PHRASE "etelan ja kaakon valille"
-#define ETELAN_JA_LOUNAAN_VALILLE_PHRASE "etelan ja lounaan valille"
-#define LANNEN_JA_LOUNAAN_VALILLE_PHRASE "lannen ja lounaan valille"
-#define LANNEN_JA_LUOTEEN_VALILLE_PHRASE "lannen ja luoteen valille"
-#define POHJOISEN_JA_LUOTEEN_VALILLE_PHRASE "pohjoisen ja luoteen valille"
-#define TUULI_MUUTTUU_VAIHTELEVAKSI_PHRASE "tuuli muuttuu vaihtelevaksi"
-#define TUULI_KAANTYY_PHRASE "tuuli kaantyy"
-
-#define POHJOINEN_TUULI_G "1-tuulta"
-#define POHJOINEN_TUULI "1-tuuli"
-#define POHJOISEN_PUOLEINEN_TUULI_G "1-puoleista tuulta"
-#define POHJOISEN_PUOLEINEN_TUULI "1-puoleinen tuuli"
-#define POHJOINEN_KOILLINEN_TUULI_G "1- ja 2-valista tuulta"
-#define POHJOINEN_KOILLINEN_TUULI "1- ja 2-valinen tuuli"
-#define KOILLINEN_TUULI_G "2-tuulta"
-#define KOILLINEN_TUULI "2-tuuli"
-#define KOILLISEN_PUOLEINEN_TUULI_G "2-puoleista tuulta"
-#define KOILLISEN_PUOLEINEN_TUULI "2-puoleinen tuuli"
-#define ITA_KOILLINEN_TUULI_G "3- ja 2-valista tuulta"
-#define ITA_KOILLINEN_TUULI "3- ja 2-valinen tuuli"
-#define ITA_TUULI_G "3-tuulta"
-#define ITA_TUULI "3-tuuli"
-#define IDAN_PUOLEINEN_TUULI_G "3-puoleista tuulta"
-#define IDAN_PUOLEINEN_TUULI "3-puoleinen tuuli"
-#define ITA_KAAKKO_TUULI_G "3- ja 4-valista tuulta"
-#define ITA_KAAKKO_TUULI "3- ja 4-valinen tuuli"
-#define KAAKKO_TUULI_G "4-tuulta"
-#define KAAKKO_TUULI "4-tuuli"
-#define KAAKON_PUOLEINEN_TUULI_G "4-puoleista tuulta"
-#define KAAKON_PUOLEINEN_TUULI "4-puoleinen tuuli"
-#define ETELA_KAAKKO_TUULI_G "5- ja 4-valista tuulta"
-#define ETELA_KAAKKO_TUULI "5- ja 4-valinen tuuli"
-#define ETELA_TUULI_G "5-tuulta"
-#define ETELA_TUULI "5-tuuli"
-#define ETELAN_PUOLEINEN_TUULI_G "5-puoleista tuulta"
-#define ETELAN_PUOLEINEN_TUULI "5-puoleinen tuuli"
-#define ETELA_LOUNAS_TUULI_G "5- ja 6-valista tuulta"
-#define ETELA_LOUNAS_TUULI "5- ja 6-valinen tuuli"
-#define LOUNAS_TUULI_G "6-tuulta"
-#define LOUNAS_TUULI "6-tuuli"
-#define LOUNAAN_PUOLEINEN_TUULI_G "6-puoleista tuulta"
-#define LOUNAAN_PUOLEINEN_TUULI "6-puoleinen tuuli"
-#define LANSI_LOUNAS_TUULI_G "7- ja 6-valista tuulta"
-#define LANSI_LOUNAS_TUULI "7- ja 6-valinen tuuli"
-#define LANSI_TUULI_G "7-tuulta"
-#define LANSI_TUULI "7-tuuli"
-#define LANNEN_PUOLEINEN_TUULI_G "7-puoleista tuulta"
-#define LANNEN_PUOLEINEN_TUULI "7-puoleinen tuuli"
-#define LANSI_LUODE_TUULI_G "7- ja 8-valista tuulta"
-#define LANSI_LUODE_TUULI "7- ja 8-valinen tuuli"
-#define LUODE_TUULI_G "8-tuulta"
-#define LUODE_TUULI "8-tuuli"
-#define LUOTEEN_PUOLEINEN_TUULI_G "8-puoleista tuulta"
-#define LUOTEEN_PUOLEINEN_TUULI "8-puoleinen tuuli"
-#define POHJOINEN_LUODE_TUULI_G "1- ja 8-valista tuulta"
-#define POHJOINEN_LUODE_TUULI "1- ja 8-valinen tuuli"
-#define VAIHTELEVA_TUULI_G "suunnaltaan vaihtelevaa tuulta"
-#define VAIHTELEVA_TUULI "suunnaltaan vaihteleva tuuli"
-
-
-
-#define ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA "[iltapaivalla] edelleen [heikkenevaa] [pohjoistuulta]"
-#define ILTAPAIVALLA_POHJOISTUULTA_JOKA_ALKAA_VOIMISTUA "[iltapaivalla] [pohjoistuulta], joka alkaa voimistua"
-#define ILTAPAIVALLA_POHJOISTUULTA_JOKA_VOIMISTUU_EDELLEEN "[iltapaivalla] [pohjoistuulta], joka voimistuu edelleen"
-#define ILTAPAIVALLA_POHJOISTUULTA_JOKA_ALKAA_HEIKETA "[iltapaivalla] [pohjoistuulta], joka alkaa heiketa"
-#define ILTAPAIVALLA_POHJOISTUULTA_JOKA_HEIKKENEE_EDELLEEN "[iltapaivalla] [pohjoistuulta], joka heikkenee edelleen"
-#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan] ja voimistuu edelleen"
-#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan] ja heikkenee edelleen"
-#define ILTAPAIVALLA_TUULI_VOIMISTUU_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli voimistuu ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] voimistuu ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_TUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli heikkenee ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] heikkenee ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_TUULI_TYYNTYY_COMPOSITE_PHRASE "[iltapaivalla] tuuli tyyntyy"
-  //#define ILTAPAIVALLA_TUULI_TYYNTYY_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli tyyntyy ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja voimistuu edelleen"
-#define ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli voimistuu ja muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] voimistuu ja muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja heikkenee edelleen"
-#define ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli heikkenee ja muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
-  //#define ILTAPAIVALLA_TUULI_TYYNTYY_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli tyyntyy ja muuttuu vaihtelevaksi"
-#define POHJOISTUULTA_INTERVALLI_MS_JOKA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka kaantyy [etelaan]"
-#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan]"
-#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan]"
-#define POHJOISTUULTA_INTERVALLI_MS_JOKA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_ETELAAN_KAANTYVAA_TUULTA_COMPOSITE_PHRASE "[iltapaivalla] [etelaan] kaantyvaa tuulta"
-#define ILTAPAIVALLA_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE "[iltapaivalla] [heikkenevaa] [etelatuulta]"
-#define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta]"
-#define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_POHJOISEEN_COMPOSITE_PHRASE "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [pohjoiseen]"
-#define ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE "[iltapaivalla] [etelatuulta]"
-#define ILTAPAIVALLA_HEIKKENEVAA_TUULTA_COMPOSITE_PHRASE "[iltapaivalla] [heikkenevaa tuulta]"
-#define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_TUULTA_COMPOSITE_PHRASE "[iltapaivalla] [nopeasti] [heikkenevaa tuulta]"
-
-#define ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli voimistuu ja muuttuu tilapaisesti vaihtelevaksi"
-#define ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] voimistuu ja muuttuu tilapaisesti vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja voimistuu edelleen"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja heikkenee edelleen"
-#define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi"
-
-#define ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI "[iltapaivalla] [etelatuuli] alkaa heiketa [nopeasti]"
-#define ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI "[iltapaivalla] [etelatuuli] alkaa voimistua [nopeasti]"
-#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_VOIMISTUA_JA_KAANTYA_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja kaantya [etelaan]"
-#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYA_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja kaantya [etelaan]"
 
   void print_period_and_text(const string& label, const WeatherPeriod& period, const string& text)
   {
@@ -208,14 +72,14 @@ namespace TextGen
   {
 	Paragraph paragraph;
 
-	wind_event_id eventIdPrevious(MISSING_WIND_EVENT);
+	WindEventId eventIdPrevious(MISSING_WIND_EVENT);
 
 	for(unsigned int i = 0; i < theParameters.theMergedWindEventPeriodVector.size(); i++)
 	  {
 		Sentence sentence;
 		const WindEventPeriodDataItem& eventPeriodItem = *(theParameters.theMergedWindEventPeriodVector[i]);
-		wind_event_id eventId = eventPeriodItem.theWindEvent;
-		wind_event_id nextWindEventId(MISSING_WIND_EVENT);
+		WindEventId eventId = eventPeriodItem.theWindEvent;
+		WindEventId nextWindEventId(MISSING_WIND_EVENT);
 		theParameters.theAlkaenPhraseUsed = false;
 
 		const WeatherPeriod& eventPeriod = eventPeriodItem.thePeriod;
@@ -225,21 +89,21 @@ namespace TextGen
 		WeatherPeriod eventEndPeriod(eventPeriod.localEndTime(),
 									 eventPeriod.localEndTime());
 		
-		wind_direction_id windDirectionIdBeg(get_wind_direction_at(theParameters,
+		WindDirectionId windDirectionIdBeg(get_wind_direction_at(theParameters,
 																   eventPeriod.localStartTime(),
 																   theParameters.theVar));
 		/*
-		wind_direction_id windDirectionIdEnd(get_wind_direction_at(theParameters,
+		WindDirectionId windDirectionIdEnd(get_wind_direction_at(theParameters,
 																   eventPeriod.localEndTime(),
 																   theParameters.theVar));
 		*/
-		wind_direction_id windDirectionIdAvg(get_wind_direction_at(theParameters,
+		WindDirectionId windDirectionIdAvg(get_wind_direction_at(theParameters,
 																   eventPeriod,
 																   theParameters.theVar));
 
 		//		getWindDirectionBegEnd(eventPeriod, windDirectionIdBeg, windDirectionIdEnd);
 		
-		wind_direction_id windDirectionIdPrevious(MISSING_WIND_DIRECTION_ID);
+		WindDirectionId windDirectionIdPrevious(MISSING_WIND_DIRECTION_ID);
 		
 		part_of_the_day_id partOfTheDayBeg(get_part_of_the_day_id(eventPeriod.localStartTime()));
 		part_of_the_day_id partOfTheDayEnd(get_part_of_the_day_id(eventPeriod.localEndTime()));
@@ -249,7 +113,7 @@ namespace TextGen
 		if(i > 0)
 		  {
 			WindEventPeriodDataItem* previousEventPeriodItem = theParameters.theMergedWindEventPeriodVector[i-1];
-			windDirectionIdPrevious = get_wind_direction_id(previousEventPeriodItem->thePeriodEndDataItem.theWindDirection, theParameters.theVar);
+			windDirectionIdPrevious = wind_direction_id(previousEventPeriodItem->thePeriodEndDataItem.theWindDirection, theParameters.theVar);
 		  }
 		if(i < theParameters.theMergedWindEventPeriodVector.size() - 1)
 		  {
@@ -265,7 +129,6 @@ namespace TextGen
 			if(!wind_speed_differ_enough(theParameters.theSources,
 										 theParameters.theArea,
 										 eventPeriod,
-										 theParameters.theAreaPart,
 										 theParameters.theVar,
 										 theParameters.theWindDataVector))
 			  eventId ~= ()
@@ -295,7 +158,7 @@ namespace TextGen
 						   << EMPTY_STRING
 						   << changeAttributeStr
 						   << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
-						   << windDirectionSentence(windDirectionIdBeg);
+						   << windDirectionSentence(windDirectionIdAvg);
 				}
 			  else
 				{
@@ -340,12 +203,14 @@ namespace TextGen
 						}
 					}
 				}
-
+			  //
 			  // if weakening/strengthening continues on the next period don't report speed yet
+			  /*
 			  if(nextWindEventId == MISSING_WIND_EVENT 
-				 || nextWindEventId == MISSING_WIND_SPEED_EVENT 
+				 || nextWindEventId == MISSING_WIND_SPEED_EVENT
 				 || !(nextWindEventId & eventId) ||
 				 firstSentenceInTheStory)
+			  */
 				sentence << decreasingIncreasingInterval(eventPeriodItem,
 																	 firstSentenceInTheStory,
 																	 useAlkaaHeiketaVoimistuaPhrase,
@@ -395,7 +260,6 @@ namespace TextGen
 			  if(!wind_speed_differ_enough(theParameters.theSources,
 										   theParameters.theArea,
 										   eventPeriod,
-										   theParameters.theAreaPart,
 										   theParameters.theVar,
 										   theParameters.theWindDataVector))
 				{
@@ -598,12 +462,12 @@ namespace TextGen
   Sentence WindForecast::windDirectionChangesSentence(const wo_story_params& theParameters,
 													  const WeatherPeriod& eventPeriod,
 													  const bool& firstSentenceInTheStory,
-													  const wind_direction_id& windDirectionIdPrevious) const
+													  const WindDirectionId& windDirectionIdPrevious) const
   {
 	Sentence sentence;
 
-	wind_direction_id windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
-	wind_direction_id windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
+	WindDirectionId windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
+	WindDirectionId windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
 	
 	getWindDirectionBegEnd(eventPeriod, windDirectionIdBeg, windDirectionIdEnd);
 
@@ -647,17 +511,17 @@ namespace TextGen
   Sentence WindForecast::windDirectionAndSpeedChangesSentence(const wo_story_params& theParameters,
 															  const WeatherPeriod& eventPeriod,
 															  const bool& firstSentenceInTheStory,
-															  const wind_event_id& previousWindEventId,
-															  const wind_event_id& currentWindEventId,
-															  const wind_direction_id& previousWindDirectionId,
+															  const WindEventId& previousWindEventId,
+															  const WindEventId& currentWindEventId,
+															  const WindDirectionId& previousWindDirectionId,
 															  bool& useAlkaaHeiketaVoimistuaPhrase) const
   {
 	Sentence sentence;
 	
-	wind_direction_id windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
-	wind_direction_id windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
+	WindDirectionId windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
+	WindDirectionId windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
 	getWindDirectionBegEnd(eventPeriod, windDirectionIdBeg, windDirectionIdEnd);
-	wind_direction_id windDirectionIdAvg(get_wind_direction_at(theParameters,
+	WindDirectionId windDirectionIdAvg(get_wind_direction_at(theParameters,
 															   eventPeriod,
 															   theParameters.theVar));
 
@@ -717,10 +581,10 @@ namespace TextGen
 
 		NFmiTime begTimePlus1(eventPeriod.localStartTime());
 		begTimePlus1.ChangeByHours(1);
-		wind_direction_id windDirectionIdBegPlus1(get_wind_direction_at(theParameters,
+		WindDirectionId windDirectionIdBegPlus1(get_wind_direction_at(theParameters,
 																		begTimePlus1,
 																		theParameters.theVar));
-		wind_direction_id windDirectionIdAvgPlus1(get_wind_direction_at(theParameters,
+		WindDirectionId windDirectionIdAvgPlus1(get_wind_direction_at(theParameters,
 																		WeatherPeriod(begTimePlus1, eventPeriod.localEndTime()),
 																		theParameters.theVar));
 		
@@ -829,7 +693,7 @@ namespace TextGen
 					  {
 						NFmiTime begTimePlus1(eventPeriod.localStartTime());
 						begTimePlus1.ChangeByHours(1);
-						wind_direction_id windDirectionIdBegPlus1(get_wind_direction_at(theParameters,
+						WindDirectionId windDirectionIdBegPlus1(get_wind_direction_at(theParameters,
 																						begTimePlus1,
 																						theParameters.theVar));
 
@@ -907,12 +771,12 @@ namespace TextGen
 	WeatherPeriod periodEnd(periodEndTime,
 							periodEndTime);
 
-	wind_direction_id windDirectionIdEnd(get_wind_direction_at(theParameters, 
+	WindDirectionId windDirectionIdEnd(get_wind_direction_at(theParameters, 
 															   periodEnd,
 															   theParameters.theVar));
 
 	WeatherPeriod periodStartPlus1(periodStartTimePlus1, periodStartTimePlus1);
-	wind_direction_id windDirectionIdPlus1(get_wind_direction_at(theParameters, 
+	WindDirectionId windDirectionIdPlus1(get_wind_direction_at(theParameters, 
 																 periodStartPlus1,
 																 theParameters.theVar));
 	// if only one hour in the beginning is VAIHTELEVAT, ignore it
@@ -947,7 +811,7 @@ namespace TextGen
 	return sentence;
   }
 
-  Sentence WindForecast::getWindDirectionSentence(const wind_direction_id& theWindDirectionId) const
+  Sentence WindForecast::getWindDirectionSentence(const WindDirectionId& theWindDirectionId) const
   {
 	Sentence sentence;
 	return sentence;
@@ -957,7 +821,7 @@ namespace TextGen
   Sentence WindForecast::decreasingIncreasingInterval(const WindEventPeriodDataItem& eventPeriodDataItem,
 													  const bool& firstSentenceInTheStory,
 													  const bool& startsToWeakenStrengthenPhraseUsed,
-													  const wind_event_id& eventId) const
+													  const WindEventId& eventId) const
   {
 	Sentence sentence;
 
@@ -973,15 +837,14 @@ namespace TextGen
 	bool windIsDecreasing =  (eventId & TUULI_HEIKKENEE);
 
 
-	wind_direction_id windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
-	wind_direction_id windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
+	WindDirectionId windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
+	WindDirectionId windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
 
 	getWindDirectionBegEnd(speedEventPeriod, windDirectionIdBeg, windDirectionIdEnd);
 
 	if(!wind_speed_differ_enough(theParameters.theSources,
 								 theParameters.theArea,
 								 speedEventPeriod,
-								 theParameters.theAreaPart,
 								 theParameters.theVar,
 								 theParameters.theWindDataVector))
 	  {
@@ -1152,7 +1015,8 @@ namespace TextGen
 			
 			Sentence intervalSentence;
 			intervalSentence << windSpeedIntervalSentence(currentPeriodEnd,
-														  (i == lastItemIndex));
+														  (i == lastItemIndex) &&
+														  USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
 			
 			if(!intervalSentence.empty())
 			  {
@@ -1181,24 +1045,6 @@ namespace TextGen
 	return sentence;
   }
 
-  int WindForecast::getLastSentenceIndex() const
-  {
-	int retval = -1;
-	for(unsigned int i = 0; i < theParameters.theMergedWindEventPeriodVector.size(); i++)
-	  {
-		const WindEventPeriodDataItem& eventPeriodItem = *(theParameters.theMergedWindEventPeriodVector[i]);
-		if(eventPeriodItem.theReportThisEventPeriodFlag)
-		  retval = i;
-	  }
-	return retval;
-  }
-
-  /*
-	wind_direction_id windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
-	wind_direction_id windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
-			getWindDirectionBegEnd(periodEnd, windDirectionIdBeg, windDirectionIdEnd);
-
-   */
   Sentence WindForecast::reportIntermediateSpeed(const WeatherPeriod& speedEventPeriod) const
   {
 	Sentence sentence;
@@ -1225,12 +1071,11 @@ namespace TextGen
 		if(wind_speed_differ_enough(theParameters.theSources,
 									theParameters.theArea,
 									period,
-									theParameters.theAreaPart,
 									theParameters.theVar,
 									theParameters.theWindDataVector))
 		  {
-			wind_direction_id windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
-			wind_direction_id windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
+			WindDirectionId windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
+			WindDirectionId windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
 			getWindDirectionBegEnd(intermediatePeriod, windDirectionIdBeg, windDirectionIdEnd);
 
 			sentence << Delimiter(COMMA_PUNCTUATION_MARK)
@@ -1291,12 +1136,12 @@ namespace TextGen
   }
   */
 
-  wind_direction_id WindForecast::getWindDirectionId(const WeatherPeriod& thePeriod,
+  WindDirectionId WindForecast::getWindDirectionId(const WeatherPeriod& thePeriod,
 													 const CompassType& theComapssType) const
   {
 	for(unsigned int i = 0; i < theParameters.theWindDataVector.size() ; i++)
 	  {
-		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theAreaPart);
+		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
 		if(!is_inside(item.thePeriod.localStartTime(), thePeriod))
 		  continue;
 		
@@ -1310,7 +1155,7 @@ namespace TextGen
 		if(accuracy == bad_accuracy)
 		  return VAIHTELEVA;
 		else
-		  return static_cast<wind_direction_id>(direction);
+		  return static_cast<WindDirectionId>(direction);
 		
 	  }
 
@@ -1323,7 +1168,7 @@ namespace TextGen
   {
 	for(unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
 	  {
-		const WindDataItemUnit& windDataItem = (*theParameters.theWindDataVector[i])();
+		const WindDataItemUnit& windDataItem = (*theParameters.theWindDataVector[i])(theParameters.theArea.type());
 		
 		if(period.localStartTime() == windDataItem.thePeriod.localStartTime())
 		  {
@@ -1340,7 +1185,7 @@ namespace TextGen
 
 
   NFmiTime WindForecast::getWindDirectionTurningTime(const WeatherPeriod& period,
-													 const wind_direction_id& directionId) const
+													 const WindDirectionId& directionId) const
   {
 	NFmiTime retTime(period.localStartTime());
 	unsigned int begIndex = UINT_MAX;
@@ -1354,8 +1199,8 @@ namespace TextGen
 	  {
 		for(unsigned int i = begIndex+1; i < endIndex; i++)
 		  {
-			const WindDataItemUnit& windDataItemCurrent = (*theParameters.theWindDataVector[i])();
-			wind_direction_id windDirectionIdCurrent = get_wind_direction_id(windDataItemCurrent.theWindDirection, theParameters.theVar);
+			const WindDataItemUnit& windDataItemCurrent = (*theParameters.theWindDataVector[i])(theParameters.theArea.type());
+			WindDirectionId windDirectionIdCurrent = wind_direction_id(windDataItemCurrent.theWindDirection, theParameters.theVar);
 
 			if(windDirectionIdCurrent == directionId)
 			  {
@@ -1381,13 +1226,13 @@ namespace TextGen
 
 	if(begIndex != UINT_MAX)
 	  {
-		const WindDataItemUnit& windDataItemBeg = (*theParameters.theWindDataVector[begIndex])();
-		wind_direction_id windDirectionBeg = get_wind_direction_id(windDataItemBeg.theWindDirection, theParameters.theVar);
+		const WindDataItemUnit& windDataItemBeg = (*theParameters.theWindDataVector[begIndex])(theParameters.theArea.type());
+		WindDirectionId windDirectionBeg = wind_direction_id(windDataItemBeg.theWindDirection, theParameters.theVar);
 
 		for(unsigned int i = begIndex+1; i < endIndex; i++)
 		  {
-			const WindDataItemUnit& windDataItemCurrent = (*theParameters.theWindDataVector[i])();
-			wind_direction_id windDirectionCurrent = get_wind_direction_id(windDataItemCurrent.theWindDirection, theParameters.theVar);
+			const WindDataItemUnit& windDataItemCurrent = (*theParameters.theWindDataVector[i])(theParameters.theArea.type());
+			WindDirectionId windDirectionCurrent = wind_direction_id(windDataItemCurrent.theWindDirection, theParameters.theVar);
 
 			if(windDirectionCurrent != windDirectionBeg)
 			  {
@@ -1398,7 +1243,7 @@ namespace TextGen
 				for(unsigned int k = i; k < endIndex; k++)
 				  {
 					const WindDataItemUnit& windDataItemIter = (*theParameters.theWindDataVector[k])();
-					wind_direction_id windDirectionIter = get_wind_direction_id(windDataItemIter.theWindDirection, theParameters.theVar);
+					WindDirectionId windDirectionIter = wind_direction_id(windDataItemIter.theWindDirection, theParameters.theVar);
 					if(windDirectionIter == windDirectionBeg)
 					  {
 						permanentChange = false;
@@ -1472,9 +1317,9 @@ namespace TextGen
 	return sentence;
   }
 
-  wind_direction_id WindForecast::getWindDirectionId(const WeatherPeriod& thePeriod) const
+  WindDirectionId WindForecast::getWindDirectionId(const WeatherPeriod& thePeriod) const
   {
-	wind_direction_id retval(VAIHTELEVA);
+	WindDirectionId retval(VAIHTELEVA);
 
 	// for short-term forecasts (8 hours or less) use 16-direction compass, for long-term forecasts 8-direction compass
 	if(thePeriod.localStartTime().DifferenceInHours(theParameters.theForecastTime) < 8)
@@ -1489,7 +1334,7 @@ namespace TextGen
 
   vector<WeatherPeriod> WindForecast::getWindSpeedReportingPoints(const WindEventPeriodDataItem& eventPeriodDataItem,
 																  const bool& firstSentenceInTheStory,
-																  const wind_event_id& eventId) const
+																  const WindEventId& eventId) const
   {
 	vector<WeatherPeriod> retVector;
 
@@ -1501,7 +1346,7 @@ namespace TextGen
 
 	do
 	  {
-		const WindDataItemUnit& windDataItem = (*theParameters.theWindDataVector[begIndex])();
+		const WindDataItemUnit& windDataItem = (*theParameters.theWindDataVector[begIndex])(theParameters.theArea.type());
 		if(is_inside(windDataItem.thePeriod.localStartTime(), speedEventPeriod) ||
 		   begIndex == theParameters.theWindDataVector.size() - 1)
 		  break;
@@ -1515,7 +1360,7 @@ namespace TextGen
 		float previousThresholdMaxWind(kFloatMissing);
 		for(unsigned int i = begIndex; i < theParameters.theWindDataVector.size(); i++)
 		  {
-			const WindDataItemUnit& windDataItem = (*theParameters.theWindDataVector[i])();
+			const WindDataItemUnit& windDataItem = (*theParameters.theWindDataVector[i])(theParameters.theArea.type());
 			if(!is_inside(windDataItem.thePeriod.localStartTime(), speedEventPeriod))
 			  break;
 			
@@ -1536,11 +1381,11 @@ namespace TextGen
 
 		if(reportingIndexes.size() > 1)
 		  {
-			const WindDataItemUnit& windDataItemLast = (*theParameters.theWindDataVector[endIndex])();
+			const WindDataItemUnit& windDataItemLast = (*theParameters.theWindDataVector[endIndex])(theParameters.theArea.type());
 			for(unsigned int i = 0; i < reportingIndexes.size(); i++)
 			  {
 				unsigned int index = reportingIndexes[i];
-				const WindDataItemUnit& windDataItem = (*theParameters.theWindDataVector[index])();
+				const WindDataItemUnit& windDataItem = (*theParameters.theWindDataVector[index])(theParameters.theArea.type());
 				if(i < reportingIndexes.size() - 1 &&
 				   abs(windDataItem.theEqualizedMaximumWind - windDataItemLast.theEqualizedMaximumWind) > theParameters.windSpeedReportingThreshold)
 				  {
@@ -1626,7 +1471,6 @@ namespace TextGen
 	get_wind_speed_interval_parameters(theParameters.theSources,
 									   theParameters.theArea,
 									   changePeriod,
-									   theParameters.theAreaPart,
 									   theParameters.theVar,
 									   theParameters.theWindDataVector,
 									   begLowerLimit,
@@ -1718,7 +1562,6 @@ namespace TextGen
 			get_wind_speed_interval(theParameters.theSources,
 									theParameters.theArea,
 									thePeriod,
-									theParameters.theAreaPart,
 									theParameters.theVar,
 									theParameters.theWindDataVector,
 									intervalMin,
@@ -1777,13 +1620,13 @@ namespace TextGen
 	double medianErrorSum = 0.0;
 	unsigned int counter = 0;
 
-	WindDataItemUnit dataItem = (*theParameters.theWindDataVector[0])();
-	WindDataItemUnit dataItemMinMax = (*theParameters.theWindDataVector[0])();
+	WindDataItemUnit dataItem = (*theParameters.theWindDataVector[0])(theParameters.theArea.type());
+	WindDataItemUnit dataItemMinMax = (*theParameters.theWindDataVector[0])(theParameters.theArea.type());
 
 	//	cout << "period: " << thePeriod.localStartTime() << "..." << thePeriod.localEndTime() << endl;
 	for(unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
 	  {
-		dataItem = (*theParameters.theWindDataVector[i])();
+		dataItem = (*theParameters.theWindDataVector[i])(theParameters.theArea.type());
 		
 		/*
 		if(dataItem.theWindMaximum.value() == kFloatMissing ||
@@ -1856,7 +1699,7 @@ namespace TextGen
 	return sentence;
   }
 
-  Sentence WindForecast::windDirectionSentence(const wind_direction_id& theWindDirectionId,
+  Sentence WindForecast::windDirectionSentence(const WindDirectionId& theWindDirectionId,
 											   const bool& theBasicForm /*=  false */) const
   {
 	Sentence sentence;
@@ -1945,8 +1788,8 @@ namespace TextGen
   }
 
   void WindForecast::getWindDirectionBegEnd(const WeatherPeriod& thePeriod,
-											wind_direction_id& theWindDirectionIdBeg,
-											wind_direction_id& theWindDirectionIdEnd) const
+											WindDirectionId& theWindDirectionIdBeg,
+											WindDirectionId& theWindDirectionIdEnd) const
   {
 	theWindDirectionIdBeg = get_wind_direction_at(theParameters,
 												  thePeriod.localStartTime(),
@@ -1993,7 +1836,7 @@ namespace TextGen
   }
 
 
-  std::string WindForecast::getWindDirectionTurntoString(const wind_direction_id& theWindDirectionId) const
+  std::string WindForecast::getWindDirectionTurntoString(const WindDirectionId& theWindDirectionId) const
   {
 	std::string retval;
 
@@ -2086,12 +1929,10 @@ namespace TextGen
   {
 	WeatherResult windDirectionBeg(kFloatMissing, kFloatMissing);
 	WeatherResult windDirectionEnd(kFloatMissing, kFloatMissing);
-	wind_direction_id windDirectionIdBeg(get_wind_direction_id(windDirectionBeg, theParameters.theVar));
-	wind_direction_id windDirectionIdEnd(get_wind_direction_id(windDirectionEnd, theParameters.theVar));
 	
 	for(unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
 	  {
-		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theAreaPart);
+		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
 		if(item.thePeriod.localStartTime() == thePeriod.localStartTime())
 		  {
 			windDirectionBeg = item.theWindDirection;
@@ -2102,6 +1943,9 @@ namespace TextGen
 			break;
 		  }
 	  }
+
+	WindDirectionId windDirectionIdBeg(wind_direction_id(windDirectionBeg, theParameters.theVar));
+	WindDirectionId windDirectionIdEnd(wind_direction_id(windDirectionEnd, theParameters.theVar));
 
 	float directionDifference(abs(direction_difference(windDirectionEnd.value(),
 													   windDirectionBeg.value())));
@@ -2123,180 +1967,22 @@ namespace TextGen
 	return retval;
   }
 
-
-  wind_speed_id get_wind_speed_id(const float& windSpeed)
-  {
-	if(windSpeed < 0.5)
-	  return TYYNI;
-	else if(windSpeed >= 0.5 && windSpeed < 3.5)
-	  return HEIKKO;
-	else if(windSpeed >= 3.5 && windSpeed < 7.5)
-	  return KOHTALAINEN;
-	else if(windSpeed >= 7.5 && windSpeed < 13.5)
-	  return NAVAKKA;
-	else if(windSpeed >= 13.5 && windSpeed < 20.5)
-	  return KOVA;
-	else if(windSpeed >= 20.5 && windSpeed < 32.5)
-	  return MYRSKY;
-	else
-	  return HIRMUMYRSKY;
-  }
-
-
-  wind_speed_id get_wind_speed_id(const WeatherResult& windSpeed)
-  {
-	return get_wind_speed_id(windSpeed.value());
-  }
-
-  wind_direction_id get_puoleinen_direction_id(const WeatherResult& windDirection, const string& var)
-  {
-	int windDirectionId = direction16th(windDirection.value());
-
-	switch(windDirectionId)
-	  {
-	  case 1:
-		{
-		  windDirectionId = POHJOISEN_PUOLEINEN;
-		}
-		break;
-	  case 2:
-		{
-		  if(windDirection.value() > 337.5 || windDirection.value() < 22.5)
-			windDirectionId = POHJOISEN_PUOLEINEN;
-		  else
-			windDirectionId = KOILLISEN_PUOLEINEN;
-		}
-		break;
-	  case 3:
-		{
-		  windDirectionId = KOILLISEN_PUOLEINEN;
-		}
-		break;
-	  case 4:
-		{
-		  if(windDirection.value() < 67.5)
-			windDirectionId = KOILLISEN_PUOLEINEN;
-		  else
-			windDirectionId = IDAN_PUOLEINEN;
-		}
-		break;
-	  case 5:
-		{
-		  windDirectionId = IDAN_PUOLEINEN;
-		}
-		break;
-	  case 6:
-		{
-		  if(windDirection.value() < 112.5)
-			windDirectionId = IDAN_PUOLEINEN;
-		  else
-			windDirectionId = KAAKON_PUOLEINEN;
-		}
-		break;
-	  case 7:
-		{
-		  windDirectionId = KAAKON_PUOLEINEN;
-		}
-		break;
-	  case 8:
-		{
-		  if(windDirection.value() < 157.5)
-			windDirectionId = KAAKON_PUOLEINEN;
-		  else
-			windDirectionId = ETELAN_PUOLEINEN;
-		}
-		break;
-	  case 9:
-		{
-		  windDirectionId = ETELAN_PUOLEINEN;
-		}
-		break;
-	  case 10:
-		{
-		  if(windDirection.value() < 202.5)
-			windDirectionId = ETELAN_PUOLEINEN;
-		  else
-			windDirectionId = LOUNAAN_PUOLEINEN;
-		}
-		break;
-	  case 11:
-		{
-		  windDirectionId = LOUNAAN_PUOLEINEN;
-		}
-		break;
-	  case 12:
-		{
-		  if(windDirection.value() < 247.5)
-			windDirectionId = LOUNAAN_PUOLEINEN;
-		  else
-			windDirectionId = LANNEN_PUOLEINEN;
-		}
-		break;
-	  case 13:
-		{
-		  windDirectionId = LANNEN_PUOLEINEN;
-		}
-		break;
-	  case 14:
-		{
-		  if(windDirection.value() < 292.5)
-			windDirectionId = LANNEN_PUOLEINEN;
-		  else
-			windDirectionId = LUOTEEN_PUOLEINEN;
-		}
-		break;
-	  case 15:
-		{
-		  windDirectionId = LUOTEEN_PUOLEINEN;
-		}
-		break;
-	  case 16:
-		{
-		  if(windDirection.value() < 337.5)
-			windDirectionId = LUOTEEN_PUOLEINEN;
-		  else
-			windDirectionId = POHJOISEN_PUOLEINEN;
-		}
-		break;
-	  default:
-		break;
-	  }
-	
-	return static_cast<wind_direction_id>(windDirectionId);
-  }
-
-  wind_direction_id get_wind_direction_id(const WeatherResult& windDirection, const string& var)
-  {
-	WindDirectionAccuracy accuracy(direction_accuracy(windDirection.error(), var));
-
-	int windDirectionId(MISSING_WIND_DIRECTION_ID);
-
-	if(accuracy == bad_accuracy)
-	  windDirectionId = VAIHTELEVA;
-	else if(accuracy == moderate_accuracy)
-	  windDirectionId = get_puoleinen_direction_id(windDirection, var);
-	else
-	  windDirectionId = direction16th(windDirection.value());	
-	
-	return static_cast<wind_direction_id>(windDirectionId);
-  }
-					  
-  wind_direction_id get_wind_direction_at(const wo_story_params& theParameters,
+  WindDirectionId get_wind_direction_at(const wo_story_params& theParameters,
 										  const NFmiTime& pointOfTime,
 										  const string& var)
   {
 	for(unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
 	  {
-		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theAreaPart);
+		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
 		if(item.thePeriod.localStartTime() == pointOfTime)
 		  {
-			return get_wind_direction_id(item.theWindDirection, var);
+			return wind_direction_id(item.theWindDirection, var);
 		  }
 	  }
 	return MISSING_WIND_DIRECTION_ID;
   }
 
-  wind_direction_id get_wind_direction_at(const wo_story_params& theParameters,
+  WindDirectionId get_wind_direction_at(const wo_story_params& theParameters,
 										  const WeatherPeriod& period,
 										  const string& var)
   {
@@ -2305,7 +1991,7 @@ namespace TextGen
 	float n(0.0);
 	for(unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
 	  {
-		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theAreaPart);
+		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
 		if(is_inside(item.thePeriod.localStartTime(), period))
 		  {
 			directionSum += item.theWindDirection.value();
@@ -2319,130 +2005,11 @@ namespace TextGen
 
 	WeatherResult resultDirection(directionSum / n, stdDevSum / n);
 
-	return get_wind_direction_id(resultDirection, var);
-  }
-
-  std::string get_wind_speed_string(const wind_speed_id& theWindSpeedId)
-  {
-	std::string retval;
-
-	switch(theWindSpeedId)
-	  {
-	  case TYYNI:
-		retval = "tyyni";
-		break;
-	  case HEIKKO:
-		retval = "heikko";
-		break;
-	  case KOHTALAINEN:
-		retval = "kohtalainen";
-		break;
-	  case NAVAKKA:
-		retval = "navakka";
-		break;
-	  case KOVA:
-		retval = "kova";
-		break;
-	  case MYRSKY:
-		retval = "myrsky";
-		break;
-	  case HIRMUMYRSKY:
-		retval = "hirmumyrsky";
-		break;
-	  }
-
-	return retval;
-  }
-
-  std::string get_wind_direction_string(const wind_direction_id& theWindDirectionId)
-  {
-	std::string retval;
-
-	switch(theWindDirectionId)
-	  {
-	  case POHJOINEN:
-		retval = "pohjoinen";
-		break;
-	  case POHJOISEN_PUOLEINEN:
-		retval = "pohjoisen puoleinen";
-		break;
-	  case POHJOINEN_KOILLINEN:
-		retval = "pohjoisen ja koillisen valinen";
-		break;
-	  case KOILLINEN:
-		retval = "koillinen";
-		break;
-	  case KOILLISEN_PUOLEINEN:
-		retval = "koillisen puoleinen";
-		break;
-	  case ITA_KOILLINEN:
-		retval = "idan ja koillisen valinen";
-		break;
-	  case ITA:
-		retval = "ita";
-		break;
-	  case IDAN_PUOLEINEN:
-		retval = "idan puoleinen";
-		break;
-	  case ITA_KAAKKO:
-		retval = "idan ja kaakon valinen";
-		break;
-	  case KAAKKO:
-		retval = "kaakko";
-		break;
-	  case KAAKON_PUOLEINEN:
-		retval = "kaakon puoleinen";
-		break;
-	  case ETELA_KAAKKO:
-		retval = "etelan ja kaakon valinen";
-		break;
-	  case ETELA:
-		retval = "etela";
-		break;
-	  case ETELAN_PUOLEINEN:
-		retval = "etelan puoleinen";
-		break;
-	  case ETELA_LOUNAS:
-		retval = "etelan ja lounaan valinen";
-		break;
-	  case LOUNAS:
-		retval = "lounas";
-		break;
-	  case LOUNAAN_PUOLEINEN:
-		retval = "lounaan puoleinen";
-		break;
-	  case LANSI_LOUNAS:
-		retval = "lannen ja lounaan valinen";
-		break;
-	  case LANSI:
-		retval = "lansi";
-		break;
-	  case LANNEN_PUOLEINEN:
-		retval = "lannen puoleinen";
-		break;
-	  case LANSI_LUODE:
-		retval = "lannen ja luoteen valinen";
-		break;
-	  case LUODE:
-		retval = "luode";
-		break;
-	  case LUOTEEN_PUOLEINEN:
-		retval = "luoteen puoleinen";
-		break;
-	  case POHJOINEN_LUODE:
-		retval = "pohjoisen ja luoteen valinen";
-		break;
-	  case VAIHTELEVA:
-	  case MISSING_WIND_DIRECTION_ID:
-		retval = "vaihteleva";
-		break;
-	  }
-
-	return retval;
+	return wind_direction_id(resultDirection, var);
   }
 
 
-  std::string get_wind_event_string(const wind_event_id& theWindEventId)
+  std::string get_wind_event_string(const WindEventId& theWindEventId)
   {
 	std::string retval;
 
@@ -2496,52 +2063,6 @@ namespace TextGen
 	return retval;
   }
 
-  wind_direction_id get_moderate_accuracy_direction(const wind_direction_id& directionId)
-  {
-	switch(directionId)
-	  {
-	  case POHJOINEN:
-		return POHJOISEN_PUOLEINEN;
-		break;
-	  case ETELA:
-		return ETELAN_PUOLEINEN;
-		break;
-	  case ITA:
-		return IDAN_PUOLEINEN;
-		break;
-	  case LANSI:
-		return LANNEN_PUOLEINEN;
-		break;
-	  case KOILLINEN:
-		return KOILLISEN_PUOLEINEN;
-		break;
-	  case KAAKKO:
-		return KAAKON_PUOLEINEN;
-		break;
-	  case LOUNAS:
-		return LOUNAAN_PUOLEINEN;
-		break;
-	  case LUODE:
-		return LUOTEEN_PUOLEINEN;
-		break;
-	  default:
-		return VAIHTELEVA;
-		break;
-	  }
-  }
-
-  bool is_principal_compass_point(const wind_direction_id& directionId)
-  {
-	return (directionId == POHJOINEN ||
-			directionId == ETELA ||
-			directionId == ITA ||
-			directionId == LANSI ||
-			directionId == KOILLINEN ||
-			directionId == KAAKKO ||
-			directionId == LOUNAS ||
-			directionId == LUODE);
-  }
-
   void populate_windspeed_distribution_time_series(const AnalysisSources& theSources,
 												   const WeatherArea& theArea,
 												   const WeatherPeriod& thePeriod,
@@ -2585,7 +2106,6 @@ namespace TextGen
   bool wind_speed_differ_enough(const AnalysisSources& theSources,
 								const WeatherArea& theArea,
 								const WeatherPeriod& thePeriod,
-								const string& theAreaPart,
 								const string& theVar,
 								const wind_data_item_vector& windDataVector)
   {
@@ -2604,7 +2124,6 @@ namespace TextGen
 	get_wind_speed_interval_parameters(theSources,
 									   theArea,
 									   thePeriod,
-									   theAreaPart,
 									   theVar,
 									   windDataVector,
 									   begLowerLimit,
@@ -2630,7 +2149,6 @@ namespace TextGen
   void get_wind_speed_interval_parameters(const AnalysisSources& theSources,
 										  const WeatherArea& theArea,
 										  const WeatherPeriod& thePeriod,
-										  const string& theAreaPart,
 										  const string& theVar,
 										  const wind_data_item_vector& windDataVector,
 										  int& begLowerLimit,
@@ -2642,7 +2160,6 @@ namespace TextGen
 	  get_wind_speed_interval(theSources,
 							  theArea,
 							  thePeriod.localStartTime(),
-							  theAreaPart,
 							  theVar,
 							  windDataVector,
 							  begLowerLimit,
@@ -2650,47 +2167,24 @@ namespace TextGen
 	  get_wind_speed_interval(theSources,
 							  theArea,
 							  thePeriod.localEndTime(),
-							  theAreaPart,
 							  theVar,
 							  windDataVector,
 							  endLowerLimit,
 							  endUpperLimit);
-	  /*	
-	  bool firstRound(true);
-	  for(unsigned int i = 0; i < windDataVector.size(); i++)
-		{
-		  const WindDataItemUnit& windDataItem = (*windDataVector[i])();
-			
-		  if(is_inside(windDataItem.thePeriod.localStartTime(), period))
-			{
-			  if(firstRound)
-				{
-				  begLowerLimit = windDataItem.theEqualizedMedianWindSpeed;
-				  begUpperLimit = windDataItem.theEqualizedMaximumWind;
-				  firstRound = false;
-				}
-			  else
-				{
-				  endLowerLimit = windDataItem.theEqualizedMedianWindSpeed;
-				  endUpperLimit = windDataItem.theEqualizedMaximumWind;
-				}
-			}
-		}
-	  */
 
 	  changeRatePerHour = abs(endUpperLimit - begUpperLimit) / wind_forecast_period_length(thePeriod);
 	}
 
   void get_plain_wind_speed_interval(const wind_data_item_vector& windDataVector,
 									 const NFmiTime& pointOfTime,
-									 const string& areaPart,
+									 const WeatherArea::Type& areaType,
 									 int& lowerLimit,
 									 int& upperLimit)
   {
 	bool found(false);
 	for(unsigned int i = 0; i < windDataVector.size(); i++)
 	  {
-		const WindDataItemUnit& windDataItem = (*windDataVector[i])(areaPart);
+		const WindDataItemUnit& windDataItem = (*windDataVector[i])(areaType);
 			
 		if(windDataItem.thePeriod.localStartTime() == pointOfTime)
 		  {
@@ -2703,15 +2197,15 @@ namespace TextGen
 	if(!found)
 	  {
 		cout << "pointOfTime: " << pointOfTime << endl;
-		cout << "whole period: " << ((*windDataVector[0])(areaPart)).thePeriod.localStartTime() << "..."
-			 << ((*windDataVector[windDataVector.size()-1])(areaPart)).thePeriod.localEndTime();
+		cout << "whole period: " << ((*windDataVector[0])(areaType)).thePeriod.localStartTime() << "..."
+			 << ((*windDataVector[windDataVector.size()-1])(areaType)).thePeriod.localEndTime();
 	  }
 	  
   }
 
   void get_plain_wind_speed_interval(const wind_data_item_vector& windDataVector,
 									 const WeatherPeriod& period,
-									 const string& areaPart,
+									 const WeatherArea::Type& areaType,
 									 int& lowerLimit,
 									 int& upperLimit)
   {
@@ -2722,7 +2216,7 @@ namespace TextGen
 	bool found(false);
 	for(unsigned int i = 0; i < windDataVector.size(); i++)
 	  {
-		const WindDataItemUnit& windDataItem = (*windDataVector[i])(areaPart);
+		const WindDataItemUnit& windDataItem = (*windDataVector[i])(areaType);
 			
 		if(is_inside(windDataItem.thePeriod,period))
 		  {
@@ -2750,8 +2244,8 @@ namespace TextGen
 	  {
 		cout << "period: " << period.localStartTime() << "..." 
 			 << period.localEndTime() << endl;
-		cout << "whole period: " << ((*windDataVector[0])(areaPart)).thePeriod.localStartTime() << "..."
-			 << ((*windDataVector[windDataVector.size()-1])(areaPart)).thePeriod.localEndTime();
+		cout << "whole period: " << ((*windDataVector[0])(areaType)).thePeriod.localStartTime() << "..."
+			 << ((*windDataVector[windDataVector.size()-1])(areaType)).thePeriod.localEndTime();
 	  }
   }
 
@@ -2760,7 +2254,7 @@ namespace TextGen
 									   const WeatherPeriod& thePeriod,
 									   const string& theVar,
 									   int& lowerLimit,
-									   const int& upperLimit)
+									   int& upperLimit)
   {
 	if(lowerLimit == static_cast<int>(kFloatMissing) ||
 	   upperLimit == static_cast<int>(kFloatMissing))
@@ -2796,7 +2290,6 @@ namespace TextGen
   void get_wind_speed_interval(const AnalysisSources& theSources,
 							   const WeatherArea& theArea,
 							   const WeatherPeriod& thePeriod,
-							   const string& theAreaPart,
 							   const string& theVar,
 							   const wind_data_item_vector& windDataVector,
 							   int& lowerLimit,
@@ -2804,7 +2297,7 @@ namespace TextGen
   {
 	get_plain_wind_speed_interval(windDataVector,
 								  thePeriod,
-								  theAreaPart,
+								  theArea.type(),
 								  lowerLimit,
 								  upperLimit);
 
@@ -2819,7 +2312,6 @@ namespace TextGen
   void get_wind_speed_interval(const AnalysisSources& theSources,
 							   const WeatherArea& theArea,
 							   const NFmiTime& pointOfTime,
-							   const string& theAreaPart,
 							   const string& theVar,
 							   const wind_data_item_vector& windDataVector,
 							   int& lowerLimit,
@@ -2827,7 +2319,7 @@ namespace TextGen
   {
 	get_plain_wind_speed_interval(windDataVector,
 								  pointOfTime,
-								  theAreaPart,
+								  theArea.type(),
 								  lowerLimit,
 								  upperLimit);
 
@@ -2841,15 +2333,6 @@ namespace TextGen
 									upperLimit);
   }
 
-  float direction_difference(const float& direction1, 
-							 const float& direction2)
-  {
-	float difference = direction2 - direction1;
-	if(abs(difference) > 180.0)
-	  difference = ((direction2 > direction1 ? direction2 - (direction1+360) : direction1 - (direction2+360)));
-
-	return difference;
-  }
 
   bool ascending_order(const float& direction1, 
 					   const float& direction2)
