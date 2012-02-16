@@ -215,49 +215,49 @@ namespace TextGen
 				retval = "pohjoistuulta";
 				break;
 			  case 2:
-				retval = "pohjoisen ja koillisen välistä tuulta";
+				retval = "pohjoisen ja koillisen valista tuulta";
 				break;
 			  case 3:
 				retval = "koillistuulta";
 				break;
 			  case 4:
-				retval = "idän ja koillisen välistä tuulta";
+				retval = "idan ja koillisen valista tuulta";
 				break;
 			  case 5:
-				retval = "itätuulta";
+				retval = "itatuulta";
 				break;
 			  case 6:
-				retval = "idän ja kaakon välistä tuulta";
+				retval = "idan ja kaakon valista tuulta";
 				break;
 			  case 7:
 				retval = "kaakkoistuulta";
 				break;
 			  case 8:
-				retval = "etelän ja kaakon välistä tuulta";
+				retval = "etelan ja kaakon valista tuulta";
 				break;
 			  case 9:
-				retval = "etelätuulta";
+				retval = "etelatuulta";
 				break;
 			  case 10:
-				retval = "etelän ja lounaan välistä tuulta";
+				retval = "etelan ja lounaan valista tuulta";
 				break;
 			  case 11:
 				retval = "lounaistuulta";
 				break;
 			  case 12:
-				retval = "lännen ja lounaan välistä tuulta";
+				retval = "lannen ja lounaan valista tuulta";
 				break;
 			  case 13:
-				retval = "länsituulta";
+				retval = "lansituulta";
 				break;
 			  case 14:
-				retval = "lännen ja luoteen välistä tuulta";
+				retval = "lannen ja luoteen valista tuulta";
 				break;
 			  case 15:
 				retval = "luoteistuulta";
 				break;
 			  case 16:
-				retval = "pohjoisen ja luoteen välistä tuulta";
+				retval = "pohjoisen ja luoteen valista tuulta";
 				break;
 			  default:
 				break;
@@ -287,16 +287,16 @@ namespace TextGen
 				  if(theDirection.value() < 67.5)
 					retval = "koillisen puoleista";
 				  else
-					retval = "idän puoleista";
+					retval = "idan puoleista";
 				}
 				break;
 			  case 5:
-				retval = "idän puoleista";
+				retval = "idan puoleista";
 				break;
 			  case 6:
 				{
 				  if(theDirection.value() < 112.5)
-					retval = "idän puoleista";
+					retval = "idan puoleista";
 				  else
 					retval = "kaakon puoleista";
 				}
@@ -309,16 +309,16 @@ namespace TextGen
 				  if(theDirection.value() < 157.5)
 					retval = "kaakon puoleista";
 				  else
-					retval = "etelän puoleista";
+					retval = "etelan puoleista";
 				}
 				break;
 			  case 9:
-				retval = "etelän puoleista";
+				retval = "etelan puoleista";
 				break;
 			  case 10:
 				{
 				  if(theDirection.value() < 202.5)
-					retval = "etelän puoleista";
+					retval = "etelan puoleista";
 				  else
 					retval = "lounaan puoleista";
 				}
@@ -331,16 +331,16 @@ namespace TextGen
 				  if(theDirection.value() < 247.5)
 					retval = "lounaan puoleista";
 				  else
-					retval = "lännen puoleista";
+					retval = "lannen puoleista";
 				}
 				break;
 			  case 13:
-				retval = "lännen puoleista";
+				retval = "lannen puoleista";
 				break;
 			  case 14:
 				{
 				  if(theDirection.value() < 292.5)
-					retval = "lännen puoleista";
+					retval = "lannen puoleista";
 				  else
 					retval = "luoteen puoleista";
 				}
@@ -596,6 +596,335 @@ namespace TextGen
   
 	  return retval;  
 	}
+
+	const WindSpeedId wind_speed_id(const WeatherResult& theWindSpeed)
+	{
+	  return wind_speed_id(theWindSpeed.value());
+	}
+
+	const WindSpeedId wind_speed_id(const float& theWindSpeed)
+	{
+	  if(theWindSpeed < HEIKKO_LOWER_LIMIT)
+		return TYYNI;
+	  else if(theWindSpeed >= HEIKKO_LOWER_LIMIT && theWindSpeed < HEIKKO_UPPER_LIMIT)
+		return HEIKKO;
+	  else if(theWindSpeed >= KOHTALAINEN_LOWER_LIMIT && theWindSpeed < KOHTALAINEN_UPPER_LIMIT)
+		return KOHTALAINEN;
+	  else if(theWindSpeed >= NAVAKKA_LOWER_LIMIT && theWindSpeed < NAVAKKA_UPPER_LIMIT)
+		return NAVAKKA;
+	  else if(theWindSpeed >= KOVA_LOWER_LIMIT && theWindSpeed < KOVA_UPPER_LIMIT)
+		return KOVA;
+	  else if(theWindSpeed >= MYRSKY_LOWER_LIMIT && theWindSpeed < MYRSKY_UPPER_LIMIT)
+		return MYRSKY;
+	  else
+		return HIRMUMYRSKY;
+	}
+
+	const std::string wind_speed_string(const WindSpeedId& theWindSpeedId)
+	{
+	  std::string retval;
+
+	  switch(theWindSpeedId)
+		{
+		case TYYNI:
+		  retval = TYYNI_WORD;		
+		  break;
+		case HEIKKO:
+		  retval = HEIKKO_WORD;
+		  break;
+		case KOHTALAINEN:
+		  retval = KOHTALAINEN_WORD;
+		  break;
+		case NAVAKKA:
+		  retval = NAVAKKA_WORD;
+		  break;
+		case KOVA:
+		  retval = KOVA_WORD;
+		  break;
+		case MYRSKY:
+		  retval = MYRSKY_WORD;
+		  break;
+		case HIRMUMYRSKY:
+		  retval = HIRMUMYRSKY_WORD;
+		  break;
+		}
+
+	  return retval;
+	}
+		
+	const pair<int, int> wind_speed_interval(const wind_speed_vector& theWindSpeedVector)
+	{
+	  pair<int, int> retval;
+	  
+	  float min_value(kFloatMissing);
+	  float max_value(kFloatMissing);
+	  
+	  for(unsigned int i = 0; i < theWindSpeedVector.size(); i++)
+		{
+		  if(i == 0)
+			{
+			  min_value = theWindSpeedVector[i].first;
+			  max_value = theWindSpeedVector[i].second;
+			}
+		  else
+			{
+			  if(theWindSpeedVector[i].first < min_value)
+				min_value = theWindSpeedVector[i].first;
+			  if(theWindSpeedVector[i].second < max_value)
+				max_value = theWindSpeedVector[i].second;
+			}
+		}
+	  retval.first = static_cast<int>(round(min_value));
+	  retval.second = static_cast<int>(round(max_value));
+
+	  return retval;
+	}
+
+
+	const WindDirectionId puoleinen_direction_id(const float& theWindDirection,
+												 const WindDirectionId& theWindDirectionId)
+	{
+
+	  WindDirectionId windDirectionId;
+
+	  switch(theWindDirectionId)
+		{
+		case 1:
+		  {
+			windDirectionId = POHJOISEN_PUOLEINEN;
+		  }
+		  break;
+		case 2:
+		  {
+			if(theWindDirection > 337.5 || theWindDirection < 22.5)
+			  windDirectionId = POHJOISEN_PUOLEINEN;
+			else
+			  windDirectionId = KOILLISEN_PUOLEINEN;
+		  }
+		  break;
+		case 3:
+		  {
+			windDirectionId = KOILLISEN_PUOLEINEN;
+		  }
+		  break;
+		case 4:
+		  {
+			if(theWindDirection < 67.5)
+			  windDirectionId = KOILLISEN_PUOLEINEN;
+			else
+			  windDirectionId = IDAN_PUOLEINEN;
+		  }
+		  break;
+		case 5:
+		  {
+			windDirectionId = IDAN_PUOLEINEN;
+		  }
+		  break;
+		case 6:
+		  {
+			if(theWindDirection < 112.5)
+			  windDirectionId = IDAN_PUOLEINEN;
+			else
+			  windDirectionId = KAAKON_PUOLEINEN;
+		  }
+		  break;
+		case 7:
+		  {
+			windDirectionId = KAAKON_PUOLEINEN;
+		  }
+		  break;
+		case 8:
+		  {
+			if(theWindDirection < 157.5)
+			  windDirectionId = KAAKON_PUOLEINEN;
+			else
+			  windDirectionId = ETELAN_PUOLEINEN;
+		  }
+		  break;
+		case 9:
+		  {
+			windDirectionId = ETELAN_PUOLEINEN;
+		  }
+		  break;
+		case 10:
+		  {
+			if(theWindDirection < 202.5)
+			  windDirectionId = ETELAN_PUOLEINEN;
+			else
+			  windDirectionId = LOUNAAN_PUOLEINEN;
+		  }
+		  break;
+		case 11:
+		  {
+			windDirectionId = LOUNAAN_PUOLEINEN;
+		  }
+		  break;
+		case 12:
+		  {
+			if(theWindDirection < 247.5)
+			  windDirectionId = LOUNAAN_PUOLEINEN;
+			else
+			  windDirectionId = LANNEN_PUOLEINEN;
+		  }
+		  break;
+		case 13:
+		  {
+			windDirectionId = LANNEN_PUOLEINEN;
+		  }
+		  break;
+		case 14:
+		  {
+			if(theWindDirection < 292.5)
+			  windDirectionId = LANNEN_PUOLEINEN;
+			else
+			  windDirectionId = LUOTEEN_PUOLEINEN;
+		  }
+		  break;
+		case 15:
+		  {
+			windDirectionId = LUOTEEN_PUOLEINEN;
+		  }
+		  break;
+		case 16:
+		  {
+			if(theWindDirection < 337.5)
+			  windDirectionId = LUOTEEN_PUOLEINEN;
+			else
+			  windDirectionId = POHJOISEN_PUOLEINEN;
+		  }
+		  break;
+		default:
+		  break;
+		}
+	
+	  return windDirectionId;
+	}
+
+	const WindDirectionId wind_direction_id(const WeatherResult& theWindDirection, const string& theVariable)
+	{
+	  WindDirectionAccuracy accuracy(direction_accuracy(theWindDirection.error(), theVariable));
+
+	  WindDirectionId windDirectionId(MISSING_WIND_DIRECTION_ID);
+
+	  if(accuracy == bad_accuracy)
+		windDirectionId = VAIHTELEVA;		  
+	  else
+		{
+		  windDirectionId = static_cast<WindDirectionId>(direction16th(theWindDirection.value()));
+
+		  if(accuracy == moderate_accuracy)
+			windDirectionId = puoleinen_direction_id(theWindDirection.value(), windDirectionId);
+		}
+
+	  return windDirectionId;
+
+	  /*
+ if(accuracy == moderate_accuracy)
+		windDirectionId = get_puoleinen_direction_id(wheWindDirection.value());
+	  else
+		windDirectionId = direction16th(windDirection.value());	
+	  */
+
+	  
+	  // return static_cast<WindDirectionId>(windDirectionId);
+	}
+
+
+  const std::string wind_direction_string(const WindDirectionId& theWindDirectionId)
+  {
+	std::string retval;
+
+	switch(theWindDirectionId)
+	  {
+	  case POHJOINEN:
+		retval = "pohjoinen";
+		break;
+	  case POHJOISEN_PUOLEINEN:
+		retval = "pohjoisen puoleinen";
+		break;
+	  case POHJOINEN_KOILLINEN:
+		retval = "pohjoisen ja koillisen valinen";
+		break;
+	  case KOILLINEN:
+		retval = "koillinen";
+		break;
+	  case KOILLISEN_PUOLEINEN:
+		retval = "koillisen puoleinen";
+		break;
+	  case ITA_KOILLINEN:
+		retval = "idan ja koillisen valinen";
+		break;
+	  case ITA:
+		retval = "ita";
+		break;
+	  case IDAN_PUOLEINEN:
+		retval = "idan puoleinen";
+		break;
+	  case ITA_KAAKKO:
+		retval = "idan ja kaakon valinen";
+		break;
+	  case KAAKKO:
+		retval = "kaakko";
+		break;
+	  case KAAKON_PUOLEINEN:
+		retval = "kaakon puoleinen";
+		break;
+	  case ETELA_KAAKKO:
+		retval = "etelan ja kaakon valinen";
+		break;
+	  case ETELA:
+		retval = "etela";
+		break;
+	  case ETELAN_PUOLEINEN:
+		retval = "etelan puoleinen";
+		break;
+	  case ETELA_LOUNAS:
+		retval = "etelan ja lounaan valinen";
+		break;
+	  case LOUNAS:
+		retval = "lounas";
+		break;
+	  case LOUNAAN_PUOLEINEN:
+		retval = "lounaan puoleinen";
+		break;
+	  case LANSI_LOUNAS:
+		retval = "lannen ja lounaan valinen";
+		break;
+	  case LANSI:
+		retval = "lansi";
+		break;
+	  case LANNEN_PUOLEINEN:
+		retval = "lannen puoleinen";
+		break;
+	  case LANSI_LUODE:
+		retval = "lannen ja luoteen valinen";
+		break;
+	  case LUODE:
+		retval = "luode";
+		break;
+	  case LUOTEEN_PUOLEINEN:
+		retval = "luoteen puoleinen";
+		break;
+	  case POHJOINEN_LUODE:
+		retval = "pohjoisen ja luoteen valinen";
+		break;
+	  case VAIHTELEVA:
+	  case MISSING_WIND_DIRECTION_ID:
+		retval = "vaihteleva";
+		break;
+	  }
+
+	return retval;
+  }
+
+  const float direction_difference(const float& direction1, const float& direction2)
+  {
+	float difference = direction2 - direction1;
+	if(abs(difference) > 180.0)
+	  difference = ((direction2 > direction1 ? direction2 - (direction1+360) : direction1 - (direction2+360)));
+
+	return difference;
+  }
 
 
   } // namespace WindStoryTools
