@@ -14,7 +14,7 @@
 
 #include "TemperatureStoryTools.h"
 #include "Integer.h"
-#include "IntegerRange.h"
+#include "TemperatureRange.h"
 #include "Sentence.h"
 #include "Settings.h"
 #include "UnitFactory.h"
@@ -128,7 +128,7 @@ namespace TextGen
 		{
 		  int intervalEndValue = ((theMinimum < 0 && theMaximum < 0) ? theMinimum : theMaximum);
 
-		  sentence << IntegerRange(theMinimum,theMaximum,theRangeSeparator)
+		  sentence << TemperatureRange(theMinimum,theMaximum,theRangeSeparator)
 				   << *UnitFactory::create_unit(DegreesCelsius, intervalEndValue);
 		}
 	  else
@@ -193,7 +193,7 @@ namespace TextGen
 						intervalStart,
 						intervalEnd);
 
-	  sentence << IntegerRange(intervalStart, intervalEnd, theRangeSeparator);
+	  sentence << TemperatureRange(intervalStart, intervalEnd, theRangeSeparator);
 
 	  return sentence;
 	}
@@ -308,7 +308,7 @@ namespace TextGen
 		
 	  if(interval)
 		{
-		  sentence << IntegerRange(intervalStart, intervalEnd, theRangeSeparator);
+		  sentence << TemperatureRange(intervalStart, intervalEnd, theRangeSeparator);
 		  sentence << *UnitFactory::create_unit(DegreesCelsius, intervalEnd);
 		  interval = true;			 
 		}
