@@ -15,7 +15,6 @@
 #include "GridForecaster.h"
 #include "HourPeriodGenerator.h"
 #include "Integer.h"
-#include "IntegerRange.h"
 #include "MathTools.h"
 #include "MessageLogger.h"
 #include "NightAndDayPeriodGenerator.h"
@@ -2758,12 +2757,6 @@ namespace TextGen
 			if(theParameters.theForecastAreaId == COASTAL_AREA &&
 			   theParameters.inlandAndCoastSeparated())
 			  {
-				/*
-				sentence << RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
-						 << IntegerRange(intervalStart, intervalEnd, theParameters.theRangeSeparator)
-						 << *UnitFactory::create_unit(DegreesCelsius, intervalEnd);
-				*/
-
 				Sentence temperatureRangeSentence;
 				int actualIntervalStart(intervalStart);
 				int actualIntervalEnd(intervalEnd);
