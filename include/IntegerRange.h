@@ -37,12 +37,15 @@ namespace TextGen
 	int startValue() const;
 	int endValue() const;
 
-  private:
+  protected:
 
-	IntegerRange();
 	std::string itsRangeSeparator;
 	int itsStartValue;
 	int itsEndValue;
+
+  private:
+
+	IntegerRange();
 
   }; // class IntegerRange
 } // namespace IntegerRange
