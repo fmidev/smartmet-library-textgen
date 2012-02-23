@@ -2211,7 +2211,7 @@ namespace TextGen
 			sentence << Integer(degrees) <<  "asteen(yksikko)";
 		  else
 			{
-			  if(abs(degrees) % 10 == 1)
+			  if(abs(degrees) % 10 == 1 && degrees != 11)
 				sentence << Integer(degrees) <<  "asteen(monikko mod 10=1)";
 			  else
 				sentence << Integer(degrees) <<  "asteen(monikko)";

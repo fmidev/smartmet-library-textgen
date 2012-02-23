@@ -131,7 +131,7 @@ namespace
 		  *sentence << "astetta";
 		else if(abs(value) == 1)
 		  *sentence << "astetta";
-		else if(abs(value) % 10 == 1)
+		else if(abs(value) % 10 == 1 && value != 11)
 		  *sentence << "astetta (mod 10=1)";
 		else
 		  *sentence << "astetta";
@@ -142,7 +142,7 @@ namespace
 			  *sentence << "0 astetta";
 			else if(abs(value) == 1)
 			  *sentence << "1 aste";
-			else if(abs(value) % 10 == 1)
+			else if(abs(value) % 10 == 1 && value != 11)
 			  *sentence << Integer(value) << "astetta (mod 10=1)";
 			else
 			  *sentence << Integer(value) << "astetta";
@@ -220,7 +220,7 @@ namespace
 			  *sentence << "metria sekunnissa";
 			else if(value == 1)
 			  *sentence << "metri sekunnissa";
-			else if(abs(value) % 10 == 1)
+			else if(abs(value) % 10 == 1 && value != 11)
 			  *sentence << "metria sekunnissa (mod 10=1)";
 			else
 			  *sentence << "metria sekunnissa";
@@ -231,7 +231,7 @@ namespace
 			  *sentence << "0 metria sekunnissa";
 			else if(value == 1)
 			  *sentence << "1 metri sekunnissa";
-			else if(abs(value) % 10 == 1)
+			else if(abs(value) % 10 == 1 && value != 11)
 			  *sentence << Integer(value) << "metria sekunnissa (mod 10=1)";
 			else
 			  *sentence << Integer(value) << "metria sekunnissa";
@@ -335,7 +335,7 @@ namespace
 			  *sentence << "millimetria";
 			else if(value == 1)
 			  *sentence << "millimetri";
-			else if(abs(value) % 10 == 1)
+			else if(abs(value) % 10 == 1 && value != 11)
 			  *sentence << "millimetria (mod 10=1)";
 			else
 			  *sentence << "millimetria";
@@ -346,7 +346,7 @@ namespace
 			  *sentence << "0 millimetria";
 			else if(value == 1)
 			  *sentence << "1 millimetri";
-			else if(abs(value) % 10 == 1)
+			else if(abs(value) % 10 == 1 && value != 11)
 			  *sentence << Integer(value) << "millimetria (mod 10=1)";
 			else
 			  *sentence << Integer(value) << "millimetria";
@@ -421,8 +421,8 @@ namespace
 			  *sentence << "prosenttia";
 			else if(value == 1)
 			  *sentence << "prosentti";
-			else if(abs(value) % 10 == 1)
-			  *sentence << "prodenttia (mod 10=1)";
+			else if(abs(value) % 10 == 1 && value != 11)
+			  *sentence << "prosenttia (mod 10=1)";
 			else
 			  *sentence << "prosenttia";
 		  }
@@ -432,8 +432,8 @@ namespace
 			  *sentence << "0 prosenttia";
 			else if(value == 1)
 			  *sentence << "1 prosentti";
-			else if(abs(value) % 10 == 1)
-			  *sentence << Integer(value) << "prodenttia (mod 10=1)";
+			else if(abs(value) % 10 == 1 && value != 11)
+			  *sentence << Integer(value) << "prosenttia (mod 10=1)";
 			else
 			  *sentence << Integer(value) << "prosenttia";
 		  }
@@ -506,7 +506,7 @@ namespace
 			  *sentence << "hehtopascalia";
 			else if(value == 1)
 			  *sentence << "hehtopascal";
-			else if(abs(value) % 10 == 1)
+			else if(abs(value) % 10 == 1 && value != 11)
 			  *sentence << "hehtopascalia (mod 10=1)";
 			else
 			  *sentence << "hehtopascalia";
@@ -517,7 +517,7 @@ namespace
 			  *sentence << "0 hehtopascalia";
 			else if(value == 1)
 			  *sentence << "1 hehtopascal";
-			else if(abs(value) % 10 == 1)
+			else if(abs(value) % 10 == 1 && value != 11)
 			  *sentence << Integer(value) << "hehtopascalia (mod 10=1)";
 			else
 			  *sentence << Integer(value) << "hehtopascalia";
