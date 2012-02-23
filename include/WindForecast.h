@@ -57,55 +57,55 @@ using namespace WindStoryTools;
 #define TUULI_MUUTTUU_VAIHTELEVAKSI_PHRASE "tuuli muuttuu vaihtelevaksi"
 #define TUULI_KAANTYY_PHRASE "tuuli kaantyy"
 
-#define POHJOINEN_TUULI_G "1-tuulta"
+#define POHJOINEN_TUULI_P "1-tuulta"
 #define POHJOINEN_TUULI "1-tuuli"
-#define POHJOISEN_PUOLEINEN_TUULI_G "1-puoleista tuulta"
+#define POHJOISEN_PUOLEINEN_TUULI_P "1-puoleista tuulta"
 #define POHJOISEN_PUOLEINEN_TUULI "1-puoleinen tuuli"
-#define POHJOINEN_KOILLINEN_TUULI_G "1- ja 2-valista tuulta"
+#define POHJOINEN_KOILLINEN_TUULI_P "1- ja 2-valista tuulta"
 #define POHJOINEN_KOILLINEN_TUULI "1- ja 2-valinen tuuli"
-#define KOILLINEN_TUULI_G "2-tuulta"
+#define KOILLINEN_TUULI_P "2-tuulta"
 #define KOILLINEN_TUULI "2-tuuli"
-#define KOILLISEN_PUOLEINEN_TUULI_G "2-puoleista tuulta"
+#define KOILLISEN_PUOLEINEN_TUULI_P "2-puoleista tuulta"
 #define KOILLISEN_PUOLEINEN_TUULI "2-puoleinen tuuli"
-#define ITA_KOILLINEN_TUULI_G "3- ja 2-valista tuulta"
+#define ITA_KOILLINEN_TUULI_P "3- ja 2-valista tuulta"
 #define ITA_KOILLINEN_TUULI "3- ja 2-valinen tuuli"
-#define ITA_TUULI_G "3-tuulta"
+#define ITA_TUULI_P "3-tuulta"
 #define ITA_TUULI "3-tuuli"
-#define IDAN_PUOLEINEN_TUULI_G "3-puoleista tuulta"
+#define IDAN_PUOLEINEN_TUULI_P "3-puoleista tuulta"
 #define IDAN_PUOLEINEN_TUULI "3-puoleinen tuuli"
-#define ITA_KAAKKO_TUULI_G "3- ja 4-valista tuulta"
+#define ITA_KAAKKO_TUULI_P "3- ja 4-valista tuulta"
 #define ITA_KAAKKO_TUULI "3- ja 4-valinen tuuli"
-#define KAAKKO_TUULI_G "4-tuulta"
+#define KAAKKO_TUULI_P "4-tuulta"
 #define KAAKKO_TUULI "4-tuuli"
-#define KAAKON_PUOLEINEN_TUULI_G "4-puoleista tuulta"
+#define KAAKON_PUOLEINEN_TUULI_P "4-puoleista tuulta"
 #define KAAKON_PUOLEINEN_TUULI "4-puoleinen tuuli"
-#define ETELA_KAAKKO_TUULI_G "5- ja 4-valista tuulta"
+#define ETELA_KAAKKO_TUULI_P "5- ja 4-valista tuulta"
 #define ETELA_KAAKKO_TUULI "5- ja 4-valinen tuuli"
-#define ETELA_TUULI_G "5-tuulta"
+#define ETELA_TUULI_P "5-tuulta"
 #define ETELA_TUULI "5-tuuli"
-#define ETELAN_PUOLEINEN_TUULI_G "5-puoleista tuulta"
+#define ETELAN_PUOLEINEN_TUULI_P "5-puoleista tuulta"
 #define ETELAN_PUOLEINEN_TUULI "5-puoleinen tuuli"
-#define ETELA_LOUNAS_TUULI_G "5- ja 6-valista tuulta"
+#define ETELA_LOUNAS_TUULI_P "5- ja 6-valista tuulta"
 #define ETELA_LOUNAS_TUULI "5- ja 6-valinen tuuli"
-#define LOUNAS_TUULI_G "6-tuulta"
+#define LOUNAS_TUULI_P "6-tuulta"
 #define LOUNAS_TUULI "6-tuuli"
-#define LOUNAAN_PUOLEINEN_TUULI_G "6-puoleista tuulta"
+#define LOUNAAN_PUOLEINEN_TUULI_P "6-puoleista tuulta"
 #define LOUNAAN_PUOLEINEN_TUULI "6-puoleinen tuuli"
-#define LANSI_LOUNAS_TUULI_G "7- ja 6-valista tuulta"
+#define LANSI_LOUNAS_TUULI_P "7- ja 6-valista tuulta"
 #define LANSI_LOUNAS_TUULI "7- ja 6-valinen tuuli"
-#define LANSI_TUULI_G "7-tuulta"
+#define LANSI_TUULI_P "7-tuulta"
 #define LANSI_TUULI "7-tuuli"
-#define LANNEN_PUOLEINEN_TUULI_G "7-puoleista tuulta"
+#define LANNEN_PUOLEINEN_TUULI_P "7-puoleista tuulta"
 #define LANNEN_PUOLEINEN_TUULI "7-puoleinen tuuli"
-#define LANSI_LUODE_TUULI_G "7- ja 8-valista tuulta"
+#define LANSI_LUODE_TUULI_P "7- ja 8-valista tuulta"
 #define LANSI_LUODE_TUULI "7- ja 8-valinen tuuli"
-#define LUODE_TUULI_G "8-tuulta"
+#define LUODE_TUULI_P "8-tuulta"
 #define LUODE_TUULI "8-tuuli"
-#define LUOTEEN_PUOLEINEN_TUULI_G "8-puoleista tuulta"
+#define LUOTEEN_PUOLEINEN_TUULI_P "8-puoleista tuulta"
 #define LUOTEEN_PUOLEINEN_TUULI "8-puoleinen tuuli"
-#define POHJOINEN_LUODE_TUULI_G "1- ja 8-valista tuulta"
+#define POHJOINEN_LUODE_TUULI_P "1- ja 8-valista tuulta"
 #define POHJOINEN_LUODE_TUULI "1- ja 8-valinen tuuli"
-#define VAIHTELEVA_TUULI_G "suunnaltaan vaihtelevaa tuulta"
+#define VAIHTELEVA_TUULI_P "suunnaltaan vaihtelevaa tuulta"
 #define VAIHTELEVA_TUULI "suunnaltaan vaihteleva tuuli"
 
 
@@ -122,14 +122,12 @@ using namespace WindStoryTools;
 #define ILTAPAIVALLA_TUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli heikkenee ja kaantyy [etelaan]"
 #define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] heikkenee ja kaantyy [etelaan]"
 #define ILTAPAIVALLA_TUULI_TYYNTYY_COMPOSITE_PHRASE "[iltapaivalla] tuuli tyyntyy"
-  //#define ILTAPAIVALLA_TUULI_TYYNTYY_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli tyyntyy ja kaantyy [etelaan]"
 #define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja voimistuu edelleen"
 #define ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli voimistuu ja muuttuu vaihtelevaksi"
 #define ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] voimistuu ja muuttuu vaihtelevaksi"
 #define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja heikkenee edelleen"
 #define ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli heikkenee ja muuttuu vaihtelevaksi"
 #define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
-  //#define ILTAPAIVALLA_TUULI_TYYNTYY_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli tyyntyy ja muuttuu vaihtelevaksi"
 #define POHJOISTUULTA_INTERVALLI_MS_JOKA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka kaantyy [etelaan]"
 #define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan]"
 #define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan]"
@@ -298,9 +296,10 @@ using namespace WindStoryTools;
 		theWindMaximum(windMaximum),
 		theWindDirection(windDirection),
 		theGustSpeed(gustSpeed),
-		theEqualizedMedianWindSpeed(windSpeedMedian.value()),
-		theEqualizedMaximumWind(windMaximum.value()),
-		theEqualizedWindDirection(theWindDirection)
+		theEqualizedMedianWindSpeed(windSpeedMedian),
+		theEqualizedMaximumWind(windMaximum),
+		theEqualizedWindDirection(theWindDirection),
+		theEqualizedWindDirectionOriginal(theWindDirection)
 	{}
 
 	const float getWindSpeedShare(const float& theLowerLimit, const float& theUpperLimit) const;
@@ -318,9 +317,10 @@ using namespace WindStoryTools;
 	WeatherResult theWindMaximum;
 	WeatherResult theWindDirection;
 	WeatherResult theGustSpeed;
-	float theEqualizedMedianWindSpeed;
-	float theEqualizedMaximumWind;
+	WeatherResult theEqualizedMedianWindSpeed;
+	WeatherResult theEqualizedMaximumWind;
 	WeatherResult theEqualizedWindDirection;
+	WeatherResult theEqualizedWindDirectionOriginal;
 	vector <pair<float, WeatherResult> > theWindSpeedDistribution;
   };
 
@@ -405,7 +405,8 @@ using namespace WindStoryTools;
 		theWindEvent(windEvent),
 		thePeriodBeginDataItem(periodBeginDataItem),
 		thePeriodEndDataItem(periodEndDataItem),
-		theTransientFlag(false),
+		theTransientDirectionChangeFlag(false),
+		theLongTermSpeedChangeFlag(false),
 		theReportThisEventPeriodFlag(true)
 	{}
 
@@ -413,7 +414,8 @@ using namespace WindStoryTools;
 	WindEventId theWindEvent;
 	const WindDataItemUnit& thePeriodBeginDataItem;
 	const WindDataItemUnit& thePeriodEndDataItem;
-	bool theTransientFlag; // direction change can be temporary
+	bool theTransientDirectionChangeFlag; // direction change can be temporary --> we can use "tilapäisesti"-phrase
+	bool theLongTermSpeedChangeFlag; // is speed changes for the loger period we can use "alkaen"-phrase
 	bool theReportThisEventPeriodFlag; // determines weather this event period is reported or not
 
 	
@@ -526,6 +528,9 @@ using namespace WindStoryTools;
 												   const WeatherPeriod& thePeriod,
 												   const string& theVar,
 												   vector <pair<float, WeatherResult> >& theWindSpeedDistribution);
+  WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
+											 const NFmiTime& pointOfTime,
+											 const string& var);
   WindDirectionId get_wind_direction_at(const wo_story_params& theParameters,
 										  const NFmiTime& pointOfTime,
 										  const string& var);

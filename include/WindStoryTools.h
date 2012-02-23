@@ -154,11 +154,24 @@ typedef vector<pair<float, float> > wind_speed_vector;
 
 	const pair<int, int> wind_speed_interval(const wind_speed_vector& theWindSpeedVector);
 
-	const WindDirectionId wind_direction_id(const WeatherAnalysis::WeatherResult& theWindDirection, const string& theVariable);
+	const WindDirectionId wind_direction_id(const WeatherAnalysis::WeatherResult& theWindDirection, 
+											const WeatherAnalysis::WeatherResult& theMaxWindSpeed,
+											const string& theVariable);
+
+	const WindDirectionId plain_wind_direction_id(const WeatherAnalysis::WeatherResult& theWindDirection, 
+												  const WeatherAnalysis::WeatherResult& theMaxWindSpeed,
+												  const string& theVariable);
 
 	const std::string wind_direction_string(const WindDirectionId& theWindDirectionId);
 
 	const float direction_difference(const float& direction1, const float& direction2);
+
+	const bool wind_direction_turns(const WeatherAnalysis::WeatherResult& theDirectionStart,
+									const WeatherAnalysis::WeatherResult& theDirectionEnd,
+									const WeatherAnalysis::WeatherResult& theMaxSpeedStart,
+									const WeatherAnalysis::WeatherResult& theMaxSpeedEnd,
+									const string& theVariable);
+
   } // namespace WindStoryTools
 } // namespace TextGen
 
