@@ -172,6 +172,13 @@ typedef vector<pair<float, float> > wind_speed_vector;
 									const WeatherAnalysis::WeatherResult& theMaxSpeedEnd,
 									const string& theVariable);
 
+	const bool same_direction(const WeatherAnalysis::WeatherResult& theDirection1,
+							  const WeatherAnalysis::WeatherResult& theDirection2,
+							  const WeatherAnalysis::WeatherResult& theMaxSpeed1,
+							  const WeatherAnalysis::WeatherResult& theMaxSpeed2,
+							  const string& theVariable,
+							  const bool& ignore_suuntainen);
+
   } // namespace WindStoryTools
 } // namespace TextGen
 

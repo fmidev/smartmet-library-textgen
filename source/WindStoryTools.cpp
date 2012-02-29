@@ -960,6 +960,27 @@ namespace TextGen
 	  return (directionDifference > 45.0 && windDirectionIdBeg != windDirectionIdEnd);
 	}
 
+	const bool same_direction(const WeatherAnalysis::WeatherResult& theDirection1,
+							  const WeatherAnalysis::WeatherResult& theDirection2,
+							  const WeatherAnalysis::WeatherResult& theMaxSpeed1,
+							  const WeatherAnalysis::WeatherResult& theMaxSpeed2,
+							  const string& theVariable,
+							  const bool& ignore_suuntainen)
+	{
+	  WindDirectionId direction1(wind_direction_id(theDirection1, theMaxSpeed1, theVariable));
+	  WindDirectionId direction2(wind_direction_id(theDirection2, theMaxSpeed2, theVariable));
+	  
+	  if(direction1 == direction2)
+		return true;
+
+	  WindDirectionId plainDirection1(plain_wind_direction_id(theDirection1, theMaxSpeed1, theVariable));
+	  WindDirectionId plainDirection2(plain_wind_direction_id(theDirection2, theMaxSpeed2, theVariable));
+
+	  if(plainDirection1 == plainDirection2 && ignore_suuntainen)
+		return true;
+
+	  return false;
+	}
 
   } // namespace WindStoryTools
 } // namespace TextGen
