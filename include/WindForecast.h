@@ -38,22 +38,23 @@ using namespace WindStoryTools;
 #define KAAKKOON_PHRASE "kaakkoon"
 #define LOUNAASEEN_PHRASE "lounaaseen"
 #define LUOTEESEEN_PHRASE "luoteeseen"
-#define POHJOISEN_PUOLELLE_PHRASE "pohjoisen puolelle"
-#define ETELAN_PUOLELLE_PHRASE "etelan puolelle"
-#define IDAN_PUOLELLE_PHRASE "idan puolelle"
-#define LANNEN_PUOLELLE_PHRASE "lannen puolelle"
-#define KOILLISEN_PUOLELLE_PHRASE "koillisen puolelle"
-#define KAAKON_PUOLELLE_PHRASE "kaakon puolelle"
-#define LOUNAAN_PUOLELLE_PHRASE "lounaan puolelle"
-#define LUOTEEN_PUOLELLE_PHRASE "luoteen puolelle"
-#define POHJOISEN_JA_KOILLISEN_VALILLE_PHRASE "pohjoisen ja koillisen valille"
-#define IDAN_JA_KOILLISEN_VALILLE_PHRASE "idan ja koillisen valille"
-#define IDAN_JA_KAAKON_VALILLE_PHRASE "idan ja kaakon valille"
-#define ETELAN_JA_KAAKON_VALILLE_PHRASE "etelan ja kaakon valille"
-#define ETELAN_JA_LOUNAAN_VALILLE_PHRASE "etelan ja lounaan valille"
-#define LANNEN_JA_LOUNAAN_VALILLE_PHRASE "lannen ja lounaan valille"
-#define LANNEN_JA_LUOTEEN_VALILLE_PHRASE "lannen ja luoteen valille"
-#define POHJOISEN_JA_LUOTEEN_VALILLE_PHRASE "pohjoisen ja luoteen valille"
+#define POHJOISEN_PUOLELLE_PHRASE "1-puolelle"
+#define ETELAN_PUOLELLE_PHRASE "5-puolelle"
+#define IDAN_PUOLELLE_PHRASE "3puolelle"
+#define LANNEN_PUOLELLE_PHRASE "7-puolelle"
+#define KOILLISEN_PUOLELLE_PHRASE "2-puolelle"
+#define KAAKON_PUOLELLE_PHRASE "4-puolelle"
+#define LOUNAAN_PUOLELLE_PHRASE "6-puolelle"
+#define LUOTEEN_PUOLELLE_PHRASE "8-puolelle"
+
+#define POHJOISEN_JA_KOILLISEN_VALILLE_PHRASE "1- ja 2-valille"
+#define IDAN_JA_KOILLISEN_VALILLE_PHRASE "3- ja 2-valille"
+#define IDAN_JA_KAAKON_VALILLE_PHRASE "3- ja 4-valille"
+#define ETELAN_JA_KAAKON_VALILLE_PHRASE "5- ja 4-valille"
+#define ETELAN_JA_LOUNAAN_VALILLE_PHRASE "5- ja 6-valille"
+#define LANNEN_JA_LOUNAAN_VALILLE_PHRASE "7- ja 6-valille"
+#define LANNEN_JA_LUOTEEN_VALILLE_PHRASE "7- ja 8-valille"
+#define POHJOISEN_JA_LUOTEEN_VALILLE_PHRASE "1- ja 8-valille"
 #define TUULI_MUUTTUU_VAIHTELEVAKSI_PHRASE "tuuli muuttuu vaihtelevaksi"
 #define TUULI_KAANTYY_PHRASE "tuuli kaantyy"
 
@@ -232,7 +233,6 @@ using namespace WindStoryTools;
 	double theMaxErrorWindSpeed;
 	double theMaxErrorWindDirection;
 	double theWindSpeedThreshold;
-	double windSpeedReportingThreshold;
 	double theWindDirectionThreshold;
 	string theRangeSeparator;
 	int theMinIntervalSize;
@@ -407,7 +407,8 @@ using namespace WindStoryTools;
 		thePeriodEndDataItem(periodEndDataItem),
 		theTransientDirectionChangeFlag(false),
 		theLongTermSpeedChangeFlag(false),
-		theReportThisEventPeriodFlag(true)
+		theReportThisEventPeriodFlag(true),
+		theWeakWindPeriodFlag(false)
 	{}
 
 	WeatherPeriod thePeriod;
@@ -417,7 +418,7 @@ using namespace WindStoryTools;
 	bool theTransientDirectionChangeFlag; // direction change can be temporary --> we can use "tilapäisesti"-phrase
 	bool theLongTermSpeedChangeFlag; // is speed changes for the loger period we can use "alkaen"-phrase
 	bool theReportThisEventPeriodFlag; // determines weather this event period is reported or not
-
+	bool theWeakWindPeriodFlag; //if wind speed is weak, event is MISSING_WIND_EVENT, but we dont merge it with faster wind speed periods and report it
 	
 	wind_event_type getWindEventType()
 	{
@@ -497,10 +498,10 @@ using namespace WindStoryTools;
 	Sentence directedWindSentenceAfterVaryingWind(const wo_story_params& theParameters,
 												  const WeatherPeriod& eventPeriod,
 												  const bool& firstSentenceInTheStory) const;
-	Sentence windDirectionChangesSentence(const wo_story_params& theParameters,
-										  const WeatherPeriod& eventPeriod,
-										  const bool& firstSentenceInTheStory,
-										  const WindDirectionId& windDirectionIdPrevious) const;
+	Sentence windDirectionChangeSentence(const wo_story_params& theParameters,
+										 const WeatherPeriod& eventPeriod,
+										 const bool& firstSentenceInTheStory,
+										 const WindDirectionId& windDirectionIdPrevious) const;
 
 	Sentence windDirectionAndSpeedChangesSentence(const wo_story_params& theParameters,
 												  const WeatherPeriod& eventPeriod,
@@ -531,12 +532,12 @@ using namespace WindStoryTools;
   WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
 											 const NFmiTime& pointOfTime,
 											 const string& var);
-  WindDirectionId get_wind_direction_at(const wo_story_params& theParameters,
-										  const NFmiTime& pointOfTime,
-										  const string& var);
-  WindDirectionId get_wind_direction_at(const wo_story_params& theParameters,
-										  const WeatherPeriod& period,
-										  const string& var);
+  WindDirectionId get_wind_direction_id_at(const wo_story_params& theParameters,
+											const NFmiTime& pointOfTime,
+											const string& var);
+  WindDirectionId get_wind_direction_id_at(const wo_story_params& theParameters,
+										   const WeatherPeriod& period,
+										   const string& var);
   bool wind_speed_differ_enough(const AnalysisSources& theSources,
 								const WeatherArea& theArea,
 								const WeatherPeriod& thePeriod,
