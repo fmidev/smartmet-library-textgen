@@ -877,14 +877,14 @@ namespace TextGen
 			WeatherPeriod currentPeriodEnd(speedChangePeriods[i].localEndTime(), 
 										   speedChangePeriods[i].localEndTime());
 			unsigned int lastItemIndex = (speedChangePeriods.size() - 1);
-			part_of_the_day_id currentDayPart(get_part_of_the_day_id(currentPeriodEnd, true));
+			part_of_the_day_id currentDayPart(get_part_of_the_day_id(currentPeriodEnd));
 			
 			if(i < lastItemIndex)
 			  {
 				WeatherPeriod nextPeriodEnd(speedChangePeriods[i+1].localEndTime(), 
 											speedChangePeriods[i+1].localEndTime());
 
-				part_of_the_day_id nextDayPart(get_part_of_the_day_id(nextPeriodEnd, true));
+				part_of_the_day_id nextDayPart(get_part_of_the_day_id(nextPeriodEnd));
 
 				// wind speed is mentioned only once per day part, for example we don't say
 				// iltapäivällä 10...13 m/s, iltapäivällä 15...18
@@ -1206,6 +1206,7 @@ namespace TextGen
 		if(reportingIndexes.size() > 1)
 		  {
 			const WindDataItemUnit& windDataItemLast = (*theParameters.theWindDataVector[endIndex])(theParameters.theArea.type());
+			WeatherPeriod previousPeriod((*theParameters.theWindDataVector[reportingIndexes[0]])(theParameters.theArea.type()).thePeriod);
 			for(unsigned int i = 0; i < reportingIndexes.size(); i++)
 			  {
 				unsigned int index = reportingIndexes[i];
@@ -1213,12 +1214,33 @@ namespace TextGen
 				if(i < reportingIndexes.size() - 1 &&
 				   abs(windDataItem.theEqualizedMaximumWind.value() - windDataItemLast.theEqualizedMaximumWind.value()) > theParameters.theWindSpeedThreshold)
 				  {
-					retVector.push_back(windDataItem.thePeriod);
+					// dont report two times on the same period
+					if(retVector.size() > 0 &&
+					   get_part_of_the_day_id(windDataItem.thePeriod) == get_part_of_the_day_id(previousPeriod))
+					  {
+						retVector[retVector.size()-1] = windDataItem.thePeriod;
+					  }
+					else
+					  {
+						retVector.push_back(windDataItem.thePeriod);
+					  }
+					previousPeriod = windDataItem.thePeriod;
 				  }
 				else
-				  {
-					retVector.push_back(WeatherPeriod(windDataItem.thePeriod.localStartTime(), 
-													  windDataItemLast.thePeriod.localEndTime()));
+				  {					
+					WeatherPeriod period(windDataItem.thePeriod.localStartTime(), 
+										 windDataItemLast.thePeriod.localEndTime());
+					// dont report two times on the same period
+					if(retVector.size() > 0 &&
+					   get_part_of_the_day_id(period) == get_part_of_the_day_id(previousPeriod))
+					  {
+						retVector[retVector.size()-1] = period;
+					  }
+					else
+					  {
+						retVector.push_back(WeatherPeriod(windDataItem.thePeriod.localStartTime(), 
+														  windDataItemLast.thePeriod.localEndTime()));
+					  }
 				  }
 			  }
 		  }

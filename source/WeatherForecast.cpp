@@ -311,8 +311,7 @@ using namespace std;
 	return MISSING_PART_OF_THE_DAY_ID;
  }
 
-  part_of_the_day_id get_part_of_the_day_id(const WeatherPeriod& thePeriod,
-											const bool& alkaenPhraseFlag)
+  part_of_the_day_id get_part_of_the_day_id(const WeatherPeriod& thePeriod)
   {
 	if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 10)
 	  return MISSING_PART_OF_THE_DAY_ID;
@@ -641,7 +640,7 @@ using namespace std;
 	if(!specify_part_of_the_day)
 	  return retval;
 
-	switch(get_part_of_the_day_id(theWeatherPeriod, theAlkaenPhrase))
+	switch(get_part_of_the_day_id(theWeatherPeriod))
 	  {
 	  case AAMU:
 		{
@@ -827,7 +826,7 @@ using namespace std;
 
   bool fit_into_short_day_part(const WeatherPeriod& thePeriod)
   {
-	part_of_the_day_id dayPart = get_part_of_the_day_id(thePeriod, false);
+	part_of_the_day_id dayPart = get_part_of_the_day_id(thePeriod);
 	
 	bool retval = true;
 

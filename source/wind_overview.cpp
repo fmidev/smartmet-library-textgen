@@ -1791,15 +1791,16 @@ namespace TextGen
   }
 
   WindEventId sort_out_wind_event2(const WindEventId& windEvent1, 
-									  const WindEventId& windEvent2)
+								   const WindEventId& windEvent2)
   {
 	WindEventId eventId1 = (windEvent1 == MISSING_WIND_SPEED_EVENT || windEvent1 == MISSING_WIND_DIRECTION_EVENT ?
-							  MISSING_WIND_EVENT : eventId1);
-	WindEventId eventId2 = (windEvent1 == MISSING_WIND_SPEED_EVENT || windEvent2 == MISSING_WIND_DIRECTION_EVENT ?
-							  MISSING_WIND_EVENT : eventId2);
+							  MISSING_WIND_EVENT : windEvent1);
+	WindEventId eventId2 = (windEvent2 == MISSING_WIND_SPEED_EVENT || windEvent2 == MISSING_WIND_DIRECTION_EVENT ?
+							  MISSING_WIND_EVENT : windEvent2);
 
-	return static_cast<WindEventId>(windEvent1 | windEvent2);
-  }
+	return static_cast<WindEventId>(eventId1 | eventId2);
+ }
+
 
   WindEventId sort_out_wind_event(const WindEventId& windDirectionEvent, 
 									const WindEventId& windSpeedEvent)
@@ -2302,7 +2303,7 @@ namespace TextGen
 						 pLaterPeriodItem->thePeriod.localEndTime());
 
 	WindEventId compositeWindEvent(sort_out_wind_event2(pEarlierPeriodItem->theWindEvent,
-														  pLaterPeriodItem->theWindEvent));
+														pLaterPeriodItem->theWindEvent));
 
 
 	WindEventPeriodDataItem* pNewItem = new WindEventPeriodDataItem(period,

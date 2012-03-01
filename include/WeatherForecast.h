@@ -580,7 +580,7 @@ namespace TextGen
   const char* story_part_id_string(const story_part_id& theStoryPartId);
 
   void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour);
-  part_of_the_day_id get_part_of_the_day_id(const WeatherPeriod& thePeriod, const bool& alkaenPhraseFlag);
+  part_of_the_day_id get_part_of_the_day_id(const WeatherPeriod& thePeriod);
   /*  bool get_part_of_the_day(const WeatherPeriod& theSourcePeriod, 
 	  const part_of_the_day_id& thePartOfTheDayId, 
 	  WeatherPeriod& theDestinationPeriod);*/
