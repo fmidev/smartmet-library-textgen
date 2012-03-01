@@ -86,7 +86,7 @@ namespace
 	shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
-	  *sentence << Delimiter("\260C");
+	  *sentence << Delimiter("\xc2\xb0"+string("C"));
 	else if(opt == "phrase")
 	  *sentence << "astetta";
 	else if(opt == "none")
@@ -119,9 +119,9 @@ namespace
 	if(opt == "SI")
 	  {
 		if(withoutNumber)
-		  *sentence << Delimiter("\260C");
+		  *sentence << Delimiter("\xc2\xb0"+string("C"));
 		else
-		  *sentence << Integer(value) << Delimiter("\260C");
+		  *sentence << Integer(value) <<  *sentence << Delimiter("\xc2\xb0"+string("C"));
 	  }
 	else if(opt == "phrase")
 	  {
