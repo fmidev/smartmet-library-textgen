@@ -40,7 +40,7 @@ using namespace WindStoryTools;
 #define LUOTEESEEN_PHRASE "luoteeseen"
 #define POHJOISEN_PUOLELLE_PHRASE "1-puolelle"
 #define ETELAN_PUOLELLE_PHRASE "5-puolelle"
-#define IDAN_PUOLELLE_PHRASE "3puolelle"
+#define IDAN_PUOLELLE_PHRASE "3-puolelle"
 #define LANNEN_PUOLELLE_PHRASE "7-puolelle"
 #define KOILLISEN_PUOLELLE_PHRASE "2-puolelle"
 #define KAAKON_PUOLELLE_PHRASE "4-puolelle"
