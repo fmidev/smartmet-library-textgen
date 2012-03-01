@@ -58,6 +58,7 @@ LIBS += \
         -lboost_regex \
         -lboost_filesystem \
         -lboost_iostreams \
+	-lboost_thread \
         -lboost_system \
         -lz -lbz2 -lpthread
 

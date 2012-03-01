@@ -1,14 +1,14 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 11.12.15
-Release: 3.el6.fmi
+Version: 12.3.1
+Release: 1.el6.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 11.10.17-3
+BuildRequires: libsmartmet-newbase >= 12.2.24
 BuildRequires: boost-devel >= 1.47
 BuildRequires: mysql-devel
 Provides: %{LIBNAME}
@@ -34,9 +34,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,0775)
 %{_includedir}/smartmet/%{LIBNAME}
 %{_libdir}/libsmartmet_%{LIBNAME}.a
-%{_libdir}/libsmartmet_%{LIBNAME}-mt.a
 
 %changelog
+* Thu Mar  1 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.3.1-1.el6.fmi
+- Improvements to temperature stories
+- Improvements to weather stories
+- Major improvements to wind stories
 * Thu Dec 15 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.12.15-3.el6.fmi
 - Fixed temperature clamping to work in all situations
 * Thu Dec 15 2011 mheiskan <mika.heiskanen@fmi.fi> - 11.12.15-2.el6.fmi

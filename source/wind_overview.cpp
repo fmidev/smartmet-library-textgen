@@ -1796,11 +1796,10 @@ namespace TextGen
 	WindEventId eventId1 = (windEvent1 == MISSING_WIND_SPEED_EVENT || windEvent1 == MISSING_WIND_DIRECTION_EVENT ?
 							  MISSING_WIND_EVENT : windEvent1);
 	WindEventId eventId2 = (windEvent2 == MISSING_WIND_SPEED_EVENT || windEvent2 == MISSING_WIND_DIRECTION_EVENT ?
-							  MISSING_WIND_EVENT : windEvent2);
+							MISSING_WIND_EVENT : windEvent2);
 
 	return static_cast<WindEventId>(eventId1 | eventId2);
- }
-
+  }
 
   WindEventId sort_out_wind_event(const WindEventId& windDirectionEvent, 
 									const WindEventId& windSpeedEvent)

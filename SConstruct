@@ -25,7 +25,7 @@
 import os.path
 
 Help(""" 
-    Usage: scons [-j 4] [-Q] [debug=1|profile=1] [objdir=<path>] smartmet_textgen[-mt].a|lib
+    Usage: scons [-j 4] [-Q] [debug=1|profile=1] [objdir=<path>] smartmet_textgen.a|lib
     
     Or just use 'make release|debug|profile', which point right back to us.
 """) 
@@ -91,12 +91,13 @@ if WINDOWS:
     env.Append( CPPPATH= [ BOOST_INSTALL_PATH ] )
     env.Append( LIBPATH= [ BOOST_INSTALL_PATH + "/lib" ] )
     if debug:
-        BOOST_POSTFIX= "-vc90-mt-gd-1_35"
+        BOOST_POSTFIX= "-vc90-gd-1_35"
     else:
-        BOOST_POSTFIX= "-vc90-mt-1_35"
+        BOOST_POSTFIX= "-vc90-1_35"
         BOOST_PREFIX= "lib"
     env.Append( libs= [ BOOST_PREFIX+"boost_iostreams"+BOOST_POSTFIX,
-                        BOOST_PREFIX+"boost_date_time"+BOOST_POSTFIX ] )
+                        BOOST_PREFIX+"boost_date_time"+BOOST_POSTFIX
+			 ] )
 
 if WINDOWS:
     env.Append( CPPPATH= [ "../newbase/include" ] )
@@ -192,17 +193,11 @@ if PROFILE:
 #
 
 objs= []
-objs_mt= []
-
-env_mt = env.Clone()
 
 env.Append( LIBS= [ "smartmet_newbase" ] )
-env.Append( CPPDEFINES="BOOST_DISABLE_THREADS" )
 
-env_mt.Append( LIBS= [ "smartmet_newbase-mt" ] )
-env_mt.Append( CPPDEFINES="FMI_MULTITHREAD" )
 if not WINDOWS:
-    env_mt.Append( CPPDEFINES= "_REENTRANT" )
+    env.Append( CPPDEFINES= "_REENTRANT" )
 
 if WINDOWS:
     for fn in glob("source/*.cpp"): 
@@ -210,42 +205,29 @@ if WINDOWS:
 	obj_s= OBJDIR+"/"+ s.replace(".cpp","")
 
         objs += env.object( obj_s, fn )
-        objs_mt += env_mt.object( obj_s+"_mt", fn )
 else:
     if DEBUG:
         e_o0= env.Clone()
 
         e_o0["CXXFLAGS"].append("-O0")
 
-        e_o0_mt= env_mt.Clone()
-        e_o0_mt["CXXFLAGS"].append("-O0")
-
         e_noerror= env    # anyways no -Werror
-        e_noerror_mt= env_mt
 
     else:
         e_o0= env       # no change, anyways
-        e_o0_mt= env_mt
 
         e_noerror= env.Clone()
         e_noerror["CXXFLAGS"].append( "-Wno-error" )
         e_noerror["CXXFLAGS"].append( "-Wuninitialized" )
 
-        e_noerror_mt= env_mt.Clone()
-        e_noerror_mt["CXXFLAGS"].append( "-Wno-error" )
-        e_noerror_mt["CXXFLAGS"].append( "-Wuninitialized" )
-    
     for fn in Glob("source/*.cpp"):
         s= os.path.basename( str(fn) )
 	obj_s= OBJDIR+"/"+ s.replace(".cpp","")
-
-        objs_mt += env_mt.Object( obj_s+"_mt", fn )
 
 	objs += env.Object( obj_s, fn )
 
 # make just the static lib (at least it should be default for just 'scons')
 
 env.Library( "smartmet_textgen", objs )
-env.Library( "smartmet_textgen-mt", objs_mt )
 
 
