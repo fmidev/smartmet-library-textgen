@@ -455,6 +455,9 @@ namespace TextGen
 
 	WindDirectionId windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
 	WindDirectionId windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
+	WindDirectionId windDirectionIdAvg(get_wind_direction_id_at(theParameters,
+																eventPeriod,
+																theParameters.theVar));
 	
 
 	getWindDirectionBegEnd(eventPeriod, windDirectionIdBeg, windDirectionIdEnd);
@@ -486,7 +489,7 @@ namespace TextGen
 			if(windDirectionIdEnd != VAIHTELEVA)
 			  sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
 					   << getTimePhrase(eventPeriod, useAlkaenPhrase)
-					   << windDirectionSentence(windDirectionIdEnd);
+					   << windDirectionSentence(windDirectionIdAvg);
 		  }
 		else
 		  {
@@ -767,6 +770,11 @@ namespace TextGen
 
 	WindDirectionId windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
 	WindDirectionId windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
+	/*
+	WindDirectionId windDirectionIdAvg(get_wind_direction_id_at(theParameters,
+																eventPeriod,
+																theParameters.theVar));
+	*/
 
 	getWindDirectionBegEnd(speedEventPeriod, windDirectionIdBeg, windDirectionIdEnd);
 
@@ -814,7 +822,7 @@ namespace TextGen
 		  {
 			sentence  << Delimiter(COMMA_PUNCTUATION_MARK)
 					  << ALUKSI_WORD
-					  << getWindDirectionSentence(windDirectionIdEnd)
+					  << getWindDirectionSentence(windDirectionIdBeg)
 					  << windSpeedIntervalSentence(periodBeg, 
 												   DONT_USE_AT_ITS_STRONGEST_PHRASE);
 
@@ -876,10 +884,14 @@ namespace TextGen
 		  {
 			WeatherPeriod currentPeriodEnd(speedChangePeriods[i].localEndTime(), 
 										   speedChangePeriods[i].localEndTime());
-			unsigned int lastItemIndex = (speedChangePeriods.size() - 1);
+			//			unsigned int lastItemIndex = (speedChangePeriods.size() - 1);
+			bool lastPeriod = (i == (speedChangePeriods.size() - 1));
 			part_of_the_day_id currentDayPart(get_part_of_the_day_id(currentPeriodEnd));
+			WindDirectionId windDirectionIdAvg(get_wind_direction_id_at(theParameters,
+																		speedChangePeriods[i],
+																		theParameters.theVar));
 			
-			if(i < lastItemIndex)
+			if(!lastPeriod)//i < lastItemIndex)
 			  {
 				WeatherPeriod nextPeriodEnd(speedChangePeriods[i+1].localEndTime(), 
 											speedChangePeriods[i+1].localEndTime());
@@ -915,8 +927,8 @@ namespace TextGen
 			  }
 			
 			Sentence intervalSentence;
-			intervalSentence << windSpeedIntervalSentence(currentPeriodEnd,
-														  (i == lastItemIndex) &&
+			intervalSentence << windSpeedIntervalSentence(lastPeriod ? speedChangePeriods[i] : currentPeriodEnd,
+														  lastPeriod &&
 														  USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
 			
 			if(!intervalSentence.empty())
@@ -924,7 +936,7 @@ namespace TextGen
 				if(useTimePhrase)
 				  {
 					sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-					if(i == lastItemIndex)
+					if(lastPeriod)
 					  sentence << getTimePhrase(speedChangePeriods[i], eventPeriodDataItem.theLongTermSpeedChangeFlag);
 					else
 					  sentence << getTimePhrase(currentPeriodEnd, DONT_USE_ALKAEN_PHRASE);
@@ -932,7 +944,7 @@ namespace TextGen
 
 				getWindDirectionBegEnd(speedChangePeriods[i], windDirectionIdBeg, windDirectionIdEnd);
 
-				sentence << getWindDirectionSentence(windDirectionIdEnd)
+				sentence << windDirectionSentence(windDirectionIdAvg)//getWindDirectionSentence(windDirectionIdEnd)
 						 << intervalSentence;
 			  }
 		  } // for(unsigned int i = 1; i < speedChangePeriods.size(); i++)
@@ -1194,7 +1206,7 @@ namespace TextGen
 				reportingIndexes.push_back(i);
 				previousThresholdMaxWind = windDataItem.theEqualizedMaximumWind.value();
 			  }
-			else if(abs(windDataItem.theEqualizedMaximumWind.value() - previousThresholdMaxWind) > theParameters.theWindSpeedThreshold)
+			else if(abs(windDataItem.theEqualizedMaximumWind.value() - previousThresholdMaxWind) > theParameters.theWindSpeedThreshold && previousThresholdMaxWind < KOHTALAINEN_UPPER_LIMIT-2.0)
 			  {
 				// speed is reported when it has changed theParameters.theWindSpeedThreshold from the previous raporting point
 				reportingIndexes.push_back(i);
