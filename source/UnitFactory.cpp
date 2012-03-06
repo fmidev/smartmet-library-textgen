@@ -61,6 +61,7 @@
 #include "TextGenError.h"
 
 #include <string>
+#include <boost/lexical_cast.hpp>
 
 using namespace std;
 using namespace boost;
@@ -125,27 +126,27 @@ namespace
 	  }
 	else if(opt == "phrase")
 	  {
+		string degrees_string("");
+
+		if(abs(value) <= 4)
+		  {
+			// in russian language 4,3,2...,-4 have different format, but this is not used yet
+			//degrees_string = string("astetta ("+boost::lexical_cast<std::string>(abs(value))+")");
+			degrees_string = "astetta";
+		  }
+		else if(abs(value) % 10 == 1 && value != 11)
+		  degrees_string = "astetta (mod 10=1)";
+		else
+		  degrees_string = "astetta";
+
+
 		if(withoutNumber)
 		  {
-		if(value == 0)
-		  *sentence << "astetta";
-		else if(abs(value) == 1)
-		  *sentence << "astetta";
-		else if(abs(value) % 10 == 1 && value != 11)
-		  *sentence << "astetta (mod 10=1)";
-		else
-		  *sentence << "astetta";
+			*sentence << degrees_string;
 		  }
 		else
 		  {
-			if(value == 0)
-			  *sentence << "0 astetta";
-			else if(abs(value) == 1)
-			  *sentence << "1 aste";
-			else if(abs(value) % 10 == 1 && value != 11)
-			  *sentence << Integer(value) << "astetta (mod 10=1)";
-			else
-			  *sentence << Integer(value) << "astetta";
+			*sentence << Integer(value) << degrees_string;			  
 		  }
 	  }
 	else if(opt == "none")
