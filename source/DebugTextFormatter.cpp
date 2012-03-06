@@ -104,8 +104,8 @@ namespace TextGen
 	string ret = TextFormatterTools::realize(theSentence.begin(),
 											 theSentence.end(),
 											 *this,
-											 " ",
-											 "");
+											 "",
+											 "\n");
 	TextFormatterTools::capitalize(ret);
 	TextFormatterTools::punctuate(ret);
 	
@@ -123,7 +123,7 @@ namespace TextGen
 	string ret = TextFormatterTools::realize(theParagraph.begin(),
 											 theParagraph.end(),
 											 *this,
-											 " ","");
+											 "","\n");
 	return ret;
   }
   
@@ -138,7 +138,7 @@ namespace TextGen
     string ret = TextFormatterTools::realize(theHeader.begin(),
 											 theHeader.end(),
 											 *this,
-											 " ","");
+											 "","\n");
 	TextFormatterTools::capitalize(ret);
 	if(!ret.empty())
 	  ret += ':';
