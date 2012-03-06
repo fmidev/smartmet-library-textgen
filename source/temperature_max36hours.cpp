@@ -2200,7 +2200,8 @@ namespace TextGen
 
 	  if(opt == "SI")
 		{
-		  sentence << Integer(degrees) << Delimiter("\260C");
+		  
+		  sentence << Integer(degrees) << *UnitFactory::create_unit(DegreesCelsius, degrees);
 		}
 	  
 	  else if(opt == "phrase")
