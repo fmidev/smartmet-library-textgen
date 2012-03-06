@@ -79,7 +79,6 @@ namespace TextGen
 #define PILVISTYVAA_WORD "pilvistyvaa"
 #define SELKENEVAA_WORD "selkenevaa"
 #define SAA_POUTAANTUU_PHRASE "saa poutaantuu"
-  //#define POUTAANTUUVAA_WORD "poutaantuvaa"
 #define MAHDOLLISESTI_UKKOSTA_PHRASE "mahdollisesti ukkosta"
 #define PIENI_UKKOSEN_TODENNAKOISYYS_PHRASE "pieni ukkosen todennakoisyys"
 #define AJOITTAIN_UKKOSTA_PHRASE "ajoittain ukkosta"
@@ -112,9 +111,7 @@ namespace TextGen
 #define VESI_TAI_LUMIKUUROJA_PHRASE "vesi- tai lumikuuroja"
 #define LUMI_TAI_VESIKUUROJA_PHRASE "lumi- tai vesikuuroja"
 
-#define HEIKKOJA_LUMIKUUROJA_PHRASE "heikkoja lumikuuroja"
 #define SAKEITA_LUMIKUUROJA_PHRASE "sakeita lumikuuroja"
-#define HEIKKOA_LUMISADETTA_PHRASE "heikkoa lumisadetta"
 #define JA_WORD "ja"
 #define JAATAVAA_VESISADETTA_PHRASE "jaatavaa vesisadetta"
 #define JOKA_VOI_OLLA_JAATAVAA_PHRASE "joka voi olla jaatavaa"
@@ -151,8 +148,6 @@ namespace TextGen
 #define ILLASTA_ALKAEN_PHRASE "illasta alkaen"
 #define ILTAYOSTA_ALKAEN_PHRASE "iltayosta alkaen"
 #define KESKIYOSTA_ALKAEN_PHRASE "keskiyosta alkaen"
-#define VASTAISESTA_YOSTA_ALKAEN_PHRASE "vastaisesta yosta alkaen"
-#define VASTAISENA_YONA_PHRASE "vastaisena yona"
 #define AAMUYOSTA_ALKAEN_PHRASE "aamuyosta alkaen"
 
 #define POHJOISESTA_ALKAEN_PHRASE "pohjoisesta alkaen"
