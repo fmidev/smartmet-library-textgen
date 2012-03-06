@@ -666,8 +666,8 @@ namespace TextGen
 	const int maxstarthour = Settings::optional_hour(itsVar+"::night::maxstarthour", starthour);
 	const int minendhour   = Settings::optional_hour(itsVar+"::night::minendhour",endhour);
 
-	const double required_night_frost_percentage = Settings::require_double(itsVar+"::required_night_frost_percentage");
-	const double required_severe_frost_probability = Settings::require_double(itsVar+"::required_severe_frost_probability");
+	const double required_night_frost_percentage = Settings::optional_double(itsVar+"::required_night_frost_percentage",20);
+	const double required_severe_frost_probability = Settings::optional_double(itsVar+"::required_severe_frost_probability",20);
 	std::string parameter_name(itsVar+"::required_growing_season_percentage::default");
 	if(itsArea.isNamed() && (Settings::isset(itsVar+"::required_growing_season_percentage::"+itsArea.name())))
 	  parameter_name = itsVar+"::required_growing_season_percentage::"+itsArea.name();
