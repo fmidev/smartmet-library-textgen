@@ -69,8 +69,6 @@ namespace TextGen
   {
 	if(theName == "cloudiness_overview")
 	  return true;
-	if(theName == "cloudiness_mean")
-	  return true;
 	return false;
   }
   
