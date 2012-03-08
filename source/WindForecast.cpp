@@ -106,9 +106,9 @@ namespace TextGen
 		bool firstSentenceInTheStory = paragraph.empty();
 
 		/*
-		if(i > 0)
+		  if(i > 0)
 		  {
-			WindEventPeriodDataItem* previousEventPeriodItem = theParameters.theMergedWindEventPeriodVector[i-1];
+		  WindEventPeriodDataItem* previousEventPeriodItem = theParameters.theMergedWindEventPeriodVector[i-1];
 		  }
 		*/
 		if(i < theParameters.theMergedWindEventPeriodVector.size() - 1)
@@ -147,6 +147,7 @@ namespace TextGen
 				  useAlkaaHeiketaVoimistuaPhrase = (!smallChange &&
 													wind_forecast_period_length(eventPeriod) > 6 && 
 													!same_part_of_the_day);
+				  bool useAlkaenPhrase(get_period_length(eventPeriod) >= 6);
 				  if(useAlkaaHeiketaVoimistuaPhrase)
 					{
 					  if((eventIdPrevious & TUULI_VOIMISTUU && eventId == TUULI_VOIMISTUU) ||
@@ -161,8 +162,8 @@ namespace TextGen
 						{
 						  sentence << (eventId == TUULI_HEIKKENEE ? ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI :
 									   ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI)
-								   << getTimePhrase(eventPeriod, DONT_USE_ALKAEN_PHRASE)
-								   << TUULI_WORD
+								   << getTimePhrase(eventPeriod, useAlkaenPhrase)
+								   << windDirectionSentence(windDirectionIdAvg, true)
 								   << changeAttributeStr;
 						}
 					}
@@ -178,10 +179,11 @@ namespace TextGen
 						}
 					  else
 						{
-						  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_TUULTA_COMPOSITE_PHRASE
-								   << getTimePhrase(eventPeriod, DONT_USE_ALKAEN_PHRASE)
+						  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
+								   << getTimePhrase(eventPeriod, useAlkaenPhrase)
 								   << changeAttributeStr
-								   << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_TUULTA_PHRASE : VOIMISTUVAA_TUULTA_PHRASE);
+								   << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
+								   << windDirectionSentence(windDirectionIdAvg);
 						}
 					}
 				}
@@ -771,9 +773,9 @@ namespace TextGen
 	WindDirectionId windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
 	WindDirectionId windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
 	/*
-	WindDirectionId windDirectionIdAvg(get_wind_direction_id_at(theParameters,
-																eventPeriod,
-																theParameters.theVar));
+	  WindDirectionId windDirectionIdAvg(get_wind_direction_id_at(theParameters,
+	  eventPeriod,
+	  theParameters.theVar));
 	*/
 
 	getWindDirectionBegEnd(speedEventPeriod, windDirectionIdBeg, windDirectionIdEnd);
@@ -1839,8 +1841,8 @@ namespace TextGen
 
 
   WeatherResult get_wind_direction_at(const wo_story_params& theParameters,
-									   const NFmiTime& pointOfTime,
-									   const string& var)
+									  const NFmiTime& pointOfTime,
+									  const string& var)
   {
 	return(get_wind_direction_pair_at(theParameters,
 									  pointOfTime,
@@ -1968,319 +1970,265 @@ namespace TextGen
 
 	  }
   }
-  
-  /*
-  bool wind_direction_differ_enough(const wo_story_params& theParameters,
-									const WeatherPeriod& thePeriod1,
-									const WeatherPeriod& thePeriod2,
-									const string& theVar)
+  bool wind_speed_differ_enough(const AnalysisSources& theSources,
+								const WeatherArea& theArea,
+								const WeatherPeriod& thePeriod,
+								const string& theVar,
+								const wind_data_item_vector& windDataVector)
   {
-	bool retval(true);
+	int begLowerLimit(0), 
+	  begUpperLimit(0), 
+	  endLowerLimit(0), 
+	  endUpperLimit(0);
+	float changeRatePerHour(kFloatMissing);
+   
+	NFmiTime startTime(thePeriod.localStartTime());
+	NFmiTime endTime(thePeriod.localEndTime());
+	// end of previous period
+	//	startTime.ChangeByHours(-1);
+	WeatherPeriod period(startTime, endTime);
+	
+	get_wind_speed_interval_parameters(theSources,
+									   theArea,
+									   thePeriod,
+									   theVar,
+									   windDataVector,
+									   begLowerLimit,
+									   begUpperLimit,
+									   endLowerLimit,
+									   endUpperLimit,
+									   changeRatePerHour);
 
-	WindDirectionId direction1(get_wind_direction_id_at(theParameters,
-														thePeriod1,
-														theVar));
-	WindDirectionId direction2(get_wind_direction_id_(theParameters,
-													  thePeriod2,
-													  theVar));
+	float lowerDiff = abs(endLowerLimit - begLowerLimit);
+	float upperDiff = abs(endUpperLimit - begUpperLimit);
 
-	if(direction1 != direction2)
-	  {
-		if(direction1 == POHJOINEN && 
-		   }
-	  }
-  }
-  */
 	/*
-	  POHJOINEN = 0x1,
-	  POHJOINEN_KOILLINEN,
-	  KOILLINEN,
-	  ITA_KOILLINEN,
-	  ITA,
-	  ITA_KAAKKO,
-	  KAAKKO,
-	  ETELA_KAAKKO,
-	  ETELA,
-	  ETELA_LOUNAS,
-	  LOUNAS,
-	  LANSI_LOUNAS,
-	  LANSI,
-	  LANSI_LUODE,
-	  LUODE,
-	  POHJOINEN_LUODE,
-	  POHJOISEN_PUOLEINEN,
-	  KOILLISEN_PUOLEINEN,
-	  IDAN_PUOLEINEN,
-	  KAAKON_PUOLEINEN,
-	  ETELAN_PUOLEINEN,
-	  LOUNAAN_PUOLEINEN,
-	  LANNEN_PUOLEINEN,
-	  LUOTEEN_PUOLEINEN,
-	  VAIHTELEVA,
-	  MISSING_WIND_DIRECTION_ID
-
+	  cout << "period: " << thePeriod.localStartTime() << "..." << thePeriod.localEndTime() << endl;
+	  cout << "period start interval: " << begLowerLimit << "..." << begUpperLimit << endl;
+	  cout << "period end interval: " << endLowerLimit << "..." << endUpperLimit << endl;
+	  cout << "lowerDiff: " << lowerDiff << "; upperDiff: " << upperDiff << endl;
 	*/
 
-	bool wind_speed_differ_enough(const AnalysisSources& theSources,
-								  const WeatherArea& theArea,
-								  const WeatherPeriod& thePeriod,
-								  const string& theVar,
-								  const wind_data_item_vector& windDataVector)
-	{
-	  int begLowerLimit(0), 
-		begUpperLimit(0), 
-		endLowerLimit(0), 
-		endUpperLimit(0);
-	  float changeRatePerHour(kFloatMissing);
-   
-	  NFmiTime startTime(thePeriod.localStartTime());
-	  NFmiTime endTime(thePeriod.localEndTime());
-	  // end of previous period
-	  //	startTime.ChangeByHours(-1);
-	  WeatherPeriod period(startTime, endTime);
-	
-	  get_wind_speed_interval_parameters(theSources,
-										 theArea,
-										 thePeriod,
-										 theVar,
-										 windDataVector,
-										 begLowerLimit,
-										 begUpperLimit,
-										 endLowerLimit,
-										 endUpperLimit,
-										 changeRatePerHour);
+	return (lowerDiff >= 2.0 || upperDiff >= 2.0);
+  }
 
-	  float lowerDiff = abs(endLowerLimit - begLowerLimit);
-	  float upperDiff = abs(endUpperLimit - begUpperLimit);
+  void get_wind_speed_interval_parameters(const AnalysisSources& theSources,
+										  const WeatherArea& theArea,
+										  const WeatherPeriod& thePeriod,
+										  const string& theVar,
+										  const wind_data_item_vector& windDataVector,
+										  int& begLowerLimit,
+										  int& begUpperLimit,
+										  int& endLowerLimit,
+										  int& endUpperLimit,
+										  float& changeRatePerHour)
+  {
+	get_wind_speed_interval(theSources,
+							theArea,
+							thePeriod.localStartTime(),
+							theVar,
+							windDataVector,
+							begLowerLimit,
+							begUpperLimit);
+	get_wind_speed_interval(theSources,
+							theArea,
+							thePeriod.localEndTime(),
+							theVar,
+							windDataVector,
+							endLowerLimit,
+							endUpperLimit);
 
-	  /*
-		cout << "period: " << thePeriod.localStartTime() << "..." << thePeriod.localEndTime() << endl;
-		cout << "period start interval: " << begLowerLimit << "..." << begUpperLimit << endl;
-		cout << "period end interval: " << endLowerLimit << "..." << endUpperLimit << endl;
-		cout << "lowerDiff: " << lowerDiff << "; upperDiff: " << upperDiff << endl;
-	  */
+	changeRatePerHour = abs(endUpperLimit - begUpperLimit) / wind_forecast_period_length(thePeriod);
+  }
 
-	  return (lowerDiff >= 2.0 || upperDiff >= 2.0);
-	}
-
-	void get_wind_speed_interval_parameters(const AnalysisSources& theSources,
-											const WeatherArea& theArea,
-											const WeatherPeriod& thePeriod,
-											const string& theVar,
-											const wind_data_item_vector& windDataVector,
-											int& begLowerLimit,
-											int& begUpperLimit,
-											int& endLowerLimit,
-											int& endUpperLimit,
-											float& changeRatePerHour)
-	{
-	  get_wind_speed_interval(theSources,
-							  theArea,
-							  thePeriod.localStartTime(),
-							  theVar,
-							  windDataVector,
-							  begLowerLimit,
-							  begUpperLimit);
-	  get_wind_speed_interval(theSources,
-							  theArea,
-							  thePeriod.localEndTime(),
-							  theVar,
-							  windDataVector,
-							  endLowerLimit,
-							  endUpperLimit);
-
-	  changeRatePerHour = abs(endUpperLimit - begUpperLimit) / wind_forecast_period_length(thePeriod);
-	}
-
-	void get_plain_wind_speed_interval(const wind_data_item_vector& windDataVector,
-									   const NFmiTime& pointOfTime,
-									   const WeatherArea::Type& areaType,
-									   int& lowerLimit,
-									   int& upperLimit)
-	{
-	  bool found(false);
-	  for(unsigned int i = 0; i < windDataVector.size(); i++)
-		{
-		  const WindDataItemUnit& windDataItem = (*windDataVector[i])(areaType);
+  void get_plain_wind_speed_interval(const wind_data_item_vector& windDataVector,
+									 const NFmiTime& pointOfTime,
+									 const WeatherArea::Type& areaType,
+									 int& lowerLimit,
+									 int& upperLimit)
+  {
+	bool found(false);
+	for(unsigned int i = 0; i < windDataVector.size(); i++)
+	  {
+		const WindDataItemUnit& windDataItem = (*windDataVector[i])(areaType);
 			
-		  if(windDataItem.thePeriod.localStartTime() == pointOfTime)
-			{
-			  lowerLimit = static_cast<int>(round(windDataItem.theEqualizedMedianWindSpeed.value()));
-			  upperLimit = static_cast<int>(round(windDataItem.theEqualizedMaximumWind.value()));
-			  found = true;
-			  break;
-			}
-		}
-	  /*
-		if(!found)
-		{
-		cout << "pointOfTime: " << pointOfTime << endl;
-		cout << "whole period: " << ((*windDataVector[0])(areaType)).thePeriod.localStartTime() << "..."
-		<< ((*windDataVector[windDataVector.size()-1])(areaType)).thePeriod.localEndTime();
-		}
-	  */
+		if(windDataItem.thePeriod.localStartTime() == pointOfTime)
+		  {
+			lowerLimit = static_cast<int>(round(windDataItem.theEqualizedMedianWindSpeed.value()));
+			upperLimit = static_cast<int>(round(windDataItem.theEqualizedMaximumWind.value()));
+			found = true;
+			break;
+		  }
+	  }
+	/*
+	  if(!found)
+	  {
+	  cout << "pointOfTime: " << pointOfTime << endl;
+	  cout << "whole period: " << ((*windDataVector[0])(areaType)).thePeriod.localStartTime() << "..."
+	  << ((*windDataVector[windDataVector.size()-1])(areaType)).thePeriod.localEndTime();
+	  }
+	*/
 	  
-	}
+  }
 
-	void get_plain_wind_speed_interval(const wind_data_item_vector& windDataVector,
-									   const WeatherPeriod& period,
-									   const WeatherArea::Type& areaType,
-									   int& lowerLimit,
-									   int& upperLimit)
-	{
-	  bool firstMatchProcessed(false);
+  void get_plain_wind_speed_interval(const wind_data_item_vector& windDataVector,
+									 const WeatherPeriod& period,
+									 const WeatherArea::Type& areaType,
+									 int& lowerLimit,
+									 int& upperLimit)
+  {
+	bool firstMatchProcessed(false);
 
-	  float minValue(lowerLimit);
-	  float maxValue(upperLimit);
-	  bool found(false);
-	  for(unsigned int i = 0; i < windDataVector.size(); i++)
-		{
-		  const WindDataItemUnit& windDataItem = (*windDataVector[i])(areaType);
+	float minValue(lowerLimit);
+	float maxValue(upperLimit);
+	bool found(false);
+	for(unsigned int i = 0; i < windDataVector.size(); i++)
+	  {
+		const WindDataItemUnit& windDataItem = (*windDataVector[i])(areaType);
 			
-		  if(is_inside(windDataItem.thePeriod,period))
-			{
-			  if(!firstMatchProcessed)
-				{
+		if(is_inside(windDataItem.thePeriod,period))
+		  {
+			if(!firstMatchProcessed)
+			  {
+				minValue = windDataItem.theEqualizedMedianWindSpeed.value();
+				maxValue = windDataItem.theEqualizedMaximumWind.value();
+				firstMatchProcessed = true;
+				found = true;
+			  }
+			else
+			  {
+				if(windDataItem.theEqualizedMedianWindSpeed.value() < minValue)
 				  minValue = windDataItem.theEqualizedMedianWindSpeed.value();
+				if(windDataItem.theEqualizedMaximumWind.value() > maxValue)
 				  maxValue = windDataItem.theEqualizedMaximumWind.value();
-				  firstMatchProcessed = true;
-				  found = true;
-				}
-			  else
-				{
-				  if(windDataItem.theEqualizedMedianWindSpeed.value() < minValue)
-					minValue = windDataItem.theEqualizedMedianWindSpeed.value();
-				  if(windDataItem.theEqualizedMaximumWind.value() > maxValue)
-					maxValue = windDataItem.theEqualizedMaximumWind.value();
-				  found = true;
-				}
-			}
-		}
-	  lowerLimit = static_cast<int>(round(minValue));
-	  upperLimit = static_cast<int>(round(maxValue));
-	  /*
-		if(!found)
-		{
-		cout << "period: " << period.localStartTime() << "..." 
-		<< period.localEndTime() << endl;
-		cout << "whole period: " << ((*windDataVector[0])(areaType)).thePeriod.localStartTime() << "..."
-		<< ((*windDataVector[windDataVector.size()-1])(areaType)).thePeriod.localEndTime();
-		}
-	  */
-	}
+				found = true;
+			  }
+		  }
+	  }
+	lowerLimit = static_cast<int>(round(minValue));
+	upperLimit = static_cast<int>(round(maxValue));
+	/*
+	  if(!found)
+	  {
+	  cout << "period: " << period.localStartTime() << "..." 
+	  << period.localEndTime() << endl;
+	  cout << "whole period: " << ((*windDataVector[0])(areaType)).thePeriod.localStartTime() << "..."
+	  << ((*windDataVector[windDataVector.size()-1])(areaType)).thePeriod.localEndTime();
+	  }
+	*/
+  }
 
-	void windspeed_distribution_interval(const AnalysisSources& theSources,
-										 const WeatherArea& theArea,
-										 const WeatherPeriod& thePeriod,
-										 const string& theVar,
-										 int& lowerLimit,
-										 int& upperLimit)
-	{
-	  if(lowerLimit == static_cast<int>(kFloatMissing) ||
-		 upperLimit == static_cast<int>(kFloatMissing))
-		return;
+  void windspeed_distribution_interval(const AnalysisSources& theSources,
+									   const WeatherArea& theArea,
+									   const WeatherPeriod& thePeriod,
+									   const string& theVar,
+									   int& lowerLimit,
+									   int& upperLimit)
+  {
+	if(lowerLimit == static_cast<int>(kFloatMissing) ||
+	   upperLimit == static_cast<int>(kFloatMissing))
+	  return;
 	
-	  const int maxvalue = upperLimit;
-	  const int minvalue = lowerLimit;
+	const int maxvalue = upperLimit;
+	const int minvalue = lowerLimit;
 
-	  // subtract 1 m/s from the lowest limit
-	  lowerLimit  = (maxvalue - (minvalue - 1) > 5 ? maxvalue - 5 : minvalue - 1);
+	// subtract 1 m/s from the lowest limit
+	lowerLimit  = (maxvalue - (minvalue - 1) > 5 ? maxvalue - 5 : minvalue - 1);
 
-	  // Make sure that 2/3 of values are inside the interval
-	  vector <pair<float, WeatherResult> > windSpeedDistribution;
+	// Make sure that 2/3 of values are inside the interval
+	vector <pair<float, WeatherResult> > windSpeedDistribution;
 	  
-	  populate_windspeed_distribution_time_series(theSources,
-												  theArea,
-												  thePeriod,
-												  theVar,
-												  windSpeedDistribution);
-	  int lower_index = maxvalue - 1;
+	populate_windspeed_distribution_time_series(theSources,
+												theArea,
+												thePeriod,
+												theVar,
+												windSpeedDistribution);
+	int lower_index = maxvalue - 1;
 	  
-	  float sumDistribution = windSpeedDistribution[maxvalue].second.value();
-	  while(sumDistribution < 67.0 && lower_index > 0)
-		{
-		  lower_index--;
-		  sumDistribution += windSpeedDistribution[lower_index].second.value();
-		}
+	float sumDistribution = windSpeedDistribution[maxvalue].second.value();
+	while(sumDistribution < 67.0 && lower_index > 0)
+	  {
+		lower_index--;
+		sumDistribution += windSpeedDistribution[lower_index].second.value();
+	  }
 
-	  //lowerLimit = lower_index;
-	  lowerLimit = lower_index + 1;
-	}
+	//lowerLimit = lower_index;
+	lowerLimit = lower_index + 1;
+  }
 
-	void get_wind_speed_interval(const AnalysisSources& theSources,
-								 const WeatherArea& theArea,
-								 const WeatherPeriod& thePeriod,
-								 const string& theVar,
-								 const wind_data_item_vector& windDataVector,
-								 int& lowerLimit,
-								 int& upperLimit)
-	{
-	  get_plain_wind_speed_interval(windDataVector,
+  void get_wind_speed_interval(const AnalysisSources& theSources,
+							   const WeatherArea& theArea,
+							   const WeatherPeriod& thePeriod,
+							   const string& theVar,
+							   const wind_data_item_vector& windDataVector,
+							   int& lowerLimit,
+							   int& upperLimit)
+  {
+	get_plain_wind_speed_interval(windDataVector,
+								  thePeriod,
+								  theArea.type(),
+								  lowerLimit,
+								  upperLimit);
+
+	windspeed_distribution_interval(theSources,
+									theArea,
 									thePeriod,
-									theArea.type(),
+									theVar,
 									lowerLimit,
 									upperLimit);
+  }
 
-	  windspeed_distribution_interval(theSources,
-									  theArea,
-									  thePeriod,
-									  theVar,
-									  lowerLimit,
-									  upperLimit);
-	}
+  void get_wind_speed_interval(const AnalysisSources& theSources,
+							   const WeatherArea& theArea,
+							   const NFmiTime& pointOfTime,
+							   const string& theVar,
+							   const wind_data_item_vector& windDataVector,
+							   int& lowerLimit,
+							   int& upperLimit)
+  {
+	get_plain_wind_speed_interval(windDataVector,
+								  pointOfTime,
+								  theArea.type(),
+								  lowerLimit,
+								  upperLimit);
 
-	void get_wind_speed_interval(const AnalysisSources& theSources,
-								 const WeatherArea& theArea,
-								 const NFmiTime& pointOfTime,
-								 const string& theVar,
-								 const wind_data_item_vector& windDataVector,
-								 int& lowerLimit,
-								 int& upperLimit)
-	{
-	  get_plain_wind_speed_interval(windDataVector,
-									pointOfTime,
-									theArea.type(),
+	WeatherPeriod period(pointOfTime, pointOfTime);
+
+	windspeed_distribution_interval(theSources,
+									theArea,
+									period,
+									theVar,
 									lowerLimit,
 									upperLimit);
+  }
 
-	  WeatherPeriod period(pointOfTime, pointOfTime);
+  bool ascending_order(const float& direction1, 
+					   const float& direction2)
+  {
+	bool retval(false);
 
-	  windspeed_distribution_interval(theSources,
-									  theArea,
-									  period,
-									  theVar,
-									  lowerLimit,
-									  upperLimit);
-	}
+	if(direction1 >= 180.0)
+	  {
+		if(direction2 > direction1 || direction2 < direction1 - 180.0)
+		  retval = true;
+	  }
+	else
+	  {
+		retval = (direction2 > direction1 && direction2 - direction1 < 180);
+	  }
+	return retval;
+  }
 
-
-	bool ascending_order(const float& direction1, 
-						 const float& direction2)
-	{
-	  bool retval(false);
-
-	  if(direction1 >= 180.0)
-		{
-		  if(direction2 > direction1 || direction2 < direction1 - 180.0)
-			retval = true;
-		}
-	  else
-		{
-		  retval = (direction2 > direction1 && direction2 - direction1 < 180);
-		}
-	  return retval;
-	}
-
-	bool wind_turns_to_the_same_direction(const float& direction1, 
-										  const float& direction2,  
-										  const float& direction3)
-	{
-	  bool ascending12 = ascending_order(direction1, direction2);
-	  bool ascending23 = ascending_order(direction2, direction3);
-	  bool ascending13 = ascending_order(direction1, direction3);
+  bool wind_turns_to_the_same_direction(const float& direction1, 
+										const float& direction2,  
+										const float& direction3)
+  {
+	bool ascending12 = ascending_order(direction1, direction2);
+	bool ascending23 = ascending_order(direction2, direction3);
+	bool ascending13 = ascending_order(direction1, direction3);
 	
-	  return ((ascending12 && ascending23 && ascending13) ||
-			  (!ascending12 && !ascending23 && !ascending13));	
-	}
+	return ((ascending12 && ascending23 && ascending13) ||
+			(!ascending12 && !ascending23 && !ascending13));	
+  }
 
-  } // namespace TextGen
+} // namespace TextGen
