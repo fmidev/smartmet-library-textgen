@@ -1606,6 +1606,7 @@ namespace TextGen
 					sentence << NOIN_PHRASE
 							 << Integer(theProximityNumber)
 							 << *UnitFactory::create_unit(DegreesCelsius, theProximityNumber);
+
 					theParameters.theTemperaturePhraseId = NOIN_ASTETTA_PHRASE_ID;
 					intervalStart = theProximityNumber;
 
@@ -2191,7 +2192,7 @@ namespace TextGen
 	  return sentence;
 	}
 
-	Sentence tienoilla_and_tuntumassa_astetta(const int& degrees)
+	Sentence tienoilla_and_tuntumassa_astetta(const int& degrees, const temperature_phrase_id& phrase_id)
 	{
 	  Sentence sentence;
 
@@ -2202,20 +2203,19 @@ namespace TextGen
 		{
 		  
 		  sentence << Integer(degrees) << *UnitFactory::create_unit(DegreesCelsius, degrees);
-		}
-	  
+		}	  
 	  else if(opt == "phrase")
 		{
-		  if(degrees == 0)
-			sentence << Integer(0) <<  "asteen(monikko)";
-		  else if(abs(degrees) == 1)
-			sentence << Integer(degrees) <<  "asteen(yksikko)";
+		  bool tienoilla(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID);
+
+		  sentence << Integer(degrees);
+		  if(abs(degrees) % 10 == 1 && abs(degrees) != 11)
+			{
+			  sentence << (tienoilla ? "asteen(tienoilla (mod 10=1))" : "asteen(tuntumassa (mod 10=1))");
+			}
 		  else
 			{
-			  if(abs(degrees) % 10 == 1 && degrees != 11)
-				sentence << Integer(degrees) <<  "asteen(monikko mod 10=1)";
-			  else
-				sentence << Integer(degrees) <<  "asteen(monikko)";
+			  sentence << (tienoilla ? "asteen(tienoilla)" : "asteen(tuntumassa)");
 			}
 		}
 	  else if(opt == "none")
@@ -2454,9 +2454,10 @@ namespace TextGen
 				  sentence << RANNIKOLLA_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
 			
 				if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
-				   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+				   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
+				   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 				  {
-					sentence << tienoilla_and_tuntumassa_astetta(intervalStart);
+					sentence << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
 				  }
 				else
 				  {
@@ -2483,9 +2484,10 @@ namespace TextGen
 						  sentence << PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
 
 						if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
-						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
+						   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 						  {
-							sentence << tienoilla_and_tuntumassa_astetta(intervalStart);
+							sentence << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
 						  }
 						else
 						  {
@@ -2508,10 +2510,11 @@ namespace TextGen
 						  sentence << HUOMENNA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
 
 						if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
-						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
+						   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 						  {
 							sentence << theDayPhasePhrase
-									 << tienoilla_and_tuntumassa_astetta(intervalStart);
+									 << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
 						  }
 						else
 						  {
@@ -2535,10 +2538,11 @@ namespace TextGen
 						  sentence << SISAMAASSA_PAKKANEN_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
 
 						if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
-						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
+						   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 						  {
 							sentence << theAreaPhrase
-									 << tienoilla_and_tuntumassa_astetta(intervalStart);
+									 << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
 						  }
 						else
 						  {
@@ -2563,11 +2567,12 @@ namespace TextGen
 							
 
 						if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
-						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
+						   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 						  {
 							sentence << theDayPhasePhrase
 									 << theAreaPhrase
-									 << tienoilla_and_tuntumassa_astetta(intervalStart);
+									 << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
 						  }
 						else
 						  {
@@ -2613,10 +2618,11 @@ namespace TextGen
 						  }
 								
 						if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
-						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
+						   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 						  {
 							sentence << theTemperaturePhrase
-									 << tienoilla_and_tuntumassa_astetta(intervalStart);
+									 << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
 						  }
 						else
 						  {
@@ -2647,10 +2653,11 @@ namespace TextGen
 							  sentence << HUOMENNA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
 
 							if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
-							   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+							   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
+							   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 							  {
 								sentence << theDayPhasePhrase
-										 << tienoilla_and_tuntumassa_astetta(intervalStart);
+										 << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
 							  }
 							else
 							  {
@@ -2674,11 +2681,12 @@ namespace TextGen
 							  sentence << HUOMENNA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
 
 							if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
-							   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+							   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
+							   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 							  {
 								sentence << theDayPhasePhrase
 										 << theTemperaturePhrase
-										 << tienoilla_and_tuntumassa_astetta(intervalStart);
+										 << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
 							  }
 							else
 							  {
@@ -2704,11 +2712,12 @@ namespace TextGen
 						  sentence << SISAMAASSA_LAMPOTILA_ON_LAHELLA_ASTETTA_COMPOSITE_PHRASE;
 
 						if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
-						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
+						   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 						  {
 							sentence << theAreaPhrase
 									 << theTemperaturePhrase
-									 << tienoilla_and_tuntumassa_astetta(intervalStart);
+									 << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
 						  }
 						else
 						  {
@@ -2734,12 +2743,13 @@ namespace TextGen
 
 
 						if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
-						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
+						   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
 						  {
 							sentence << theDayPhasePhrase
 									 << theAreaPhrase
 									 << theTemperaturePhrase
-									 << tienoilla_and_tuntumassa_astetta(intervalStart);
+									 << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
 						  }
 						else
 						  {
@@ -2769,7 +2779,7 @@ namespace TextGen
  
 				sentence << RANNIKOLLA_INTERVALLI_ASTETTA_COMPOSITE_PHRASE
 						 << temperatureRangeSentence
-						 << *UnitFactory::create_unit(DegreesCelsius, actualIntervalEnd);
+						 << *UnitFactory::create_unit(DegreesCelsius, actualIntervalEnd, true);
 			  }
 			else
 			  {
