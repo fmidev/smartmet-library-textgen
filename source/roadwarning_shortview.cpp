@@ -333,7 +333,7 @@ namespace TextGen
                                   sentence << "paikoin" << "tie on muuttumassa" << "jaiseksi vesisateesta johtuen";
                                   break;
                              case SLEET_TO_ICY:
-                                  sentence << "paikoin" << "rantasade jaiselle tai osittain jaiselle tienpinnalle" << "vaikeuttaa liikennetta";
+                                  sentence << "paikoin" << "rantasade jaiselle" << "vaikeuttaa liikennetta";
                                   break;
                              case FASTWORSENING:
                                   sentence << "paikoin" << "kelin nopea huononeminen" << "vaikeuttaa liikennetta";
@@ -369,7 +369,7 @@ namespace TextGen
                              case ICYRAIN:
                              case RAIN_TO_ICY:
                              case SLEET_TO_ICY:
-                                  sentence << "paikoin" << "rantasade jaiselle tai osittain jaiselle tienpinnalle" << "vaikeuttaa liikennetta";
+                                  sentence << "paikoin" << "rantasade jaiselle" << "vaikeuttaa liikennetta";
                                   break;
                              case FASTWORSENING:
                                   sentence << "paikoin" << "kelin nopea huononeminen" << "vaikeuttaa liikennetta";
