@@ -241,14 +241,9 @@ using namespace WindStoryTools;
 	bool theAlkaenPhraseUsed;
 
 	// contains raw data
-	wind_data_item_vector theWindDataVector; 
-	//	wind_data_item_vector theEqualizedDataVector;
-	// contains wind events (direction changes, wind speed increases/decreases)
-	//	wind_event_id_vector theWindEventVector; 
-	
+	wind_data_item_vector theWindDataVector;
 	wind_speed_period_data_item_vector theWindSpeedVector;
 	wind_direction_period_data_item_vector theWindDirectionVector;
-	wind_event_period_data_item_vector theWindEventPeriodVector;
 	wind_event_period_data_item_vector theWindSpeedEventPeriodVector;
 	wind_event_period_data_item_vector theWindDirectionEventPeriodVector;
 	wind_event_period_data_item_vector theMergedWindEventPeriodVector;

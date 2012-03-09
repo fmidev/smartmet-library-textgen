@@ -108,7 +108,7 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<TextGen::Sentence> degrees_celsius(int value, bool withoutNumber = false)
+  boost::shared_ptr<TextGen::Sentence> degrees_celsius(int value, bool isInterval = false)
   {
 	using namespace TextGen;
 
@@ -119,10 +119,7 @@ namespace
 
 	if(opt == "SI")
 	  {
-		if(withoutNumber)
 		  *sentence << Delimiter("\xc2\xb0"+string("C"));
-		else
-		  *sentence << Integer(value) <<  *sentence << Delimiter("\xc2\xb0"+string("C"));
 	  }
 	else if(opt == "phrase")
 	  {
@@ -130,24 +127,28 @@ namespace
 
 		if(abs(value) <= 4)
 		  {
-			// in russian language 4,3,2...,-4 have different format, but this is not used yet
-			//degrees_string = string("astetta ("+boost::lexical_cast<std::string>(abs(value))+")");
-			degrees_string = "astetta";
+			if(isInterval)
+			  degrees_string = string("astetta (n..."+boost::lexical_cast<std::string>(value)+")");
+			else
+			  degrees_string = string("astetta ("+boost::lexical_cast<std::string>(value)+")");
 		  }
-		else if(abs(value) % 10 == 1 && value != 11)
-		  degrees_string = "astetta (mod 10=1)";
-		else
-		  degrees_string = "astetta";
-
-
-		if(withoutNumber)
+		else if(abs(value) % 10 == 1 && abs(value) != 11)
 		  {
-			*sentence << degrees_string;
+			if(isInterval)
+			  degrees_string = (value < 0 ? "astetta (n...-(mod 10=1))" : "astetta (n...(mod 10=1))");
+			else
+			  degrees_string = (value < 0 ? "astetta -(mod 10=1)" : "astetta (mod 10=1)");
 		  }
 		else
 		  {
-			*sentence << Integer(value) << degrees_string;			  
+			if(isInterval)
+			  degrees_string = (value < 0 ? "astetta (m...-n)" : "astetta (m...n)");
+			else
+			  degrees_string = (value < 0 ? "astetta (-n)" : "astetta (n)");
 		  }
+
+
+		*sentence << degrees_string;
 	  }
 	else if(opt == "none")
 	  ;
@@ -221,7 +222,7 @@ namespace
 			  *sentence << "metria sekunnissa";
 			else if(value == 1)
 			  *sentence << "metri sekunnissa";
-			else if(abs(value) % 10 == 1 && value != 11)
+			else if(abs(value) % 10 == 1 && abs(value) != 11)
 			  *sentence << "metria sekunnissa (mod 10=1)";
 			else
 			  *sentence << "metria sekunnissa";
@@ -232,7 +233,7 @@ namespace
 			  *sentence << "0 metria sekunnissa";
 			else if(value == 1)
 			  *sentence << "1 metri sekunnissa";
-			else if(abs(value) % 10 == 1 && value != 11)
+			else if(abs(value) % 10 == 1 && abs(value) != 11)
 			  *sentence << Integer(value) << "metria sekunnissa (mod 10=1)";
 			else
 			  *sentence << Integer(value) << "metria sekunnissa";
@@ -336,7 +337,7 @@ namespace
 			  *sentence << "millimetria";
 			else if(value == 1)
 			  *sentence << "millimetri";
-			else if(abs(value) % 10 == 1 && value != 11)
+			else if(abs(value) % 10 == 1 && abs(value) != 11)
 			  *sentence << "millimetria (mod 10=1)";
 			else
 			  *sentence << "millimetria";
@@ -347,7 +348,7 @@ namespace
 			  *sentence << "0 millimetria";
 			else if(value == 1)
 			  *sentence << "1 millimetri";
-			else if(abs(value) % 10 == 1 && value != 11)
+			else if(abs(value) % 10 == 1 && abs(value) != 11)
 			  *sentence << Integer(value) << "millimetria (mod 10=1)";
 			else
 			  *sentence << Integer(value) << "millimetria";
@@ -422,7 +423,7 @@ namespace
 			  *sentence << "prosenttia";
 			else if(value == 1)
 			  *sentence << "prosentti";
-			else if(abs(value) % 10 == 1 && value != 11)
+			else if(abs(value) % 10 == 1 && abs(value) != 11)
 			  *sentence << "prosenttia (mod 10=1)";
 			else
 			  *sentence << "prosenttia";
@@ -433,7 +434,7 @@ namespace
 			  *sentence << "0 prosenttia";
 			else if(value == 1)
 			  *sentence << "1 prosentti";
-			else if(abs(value) % 10 == 1 && value != 11)
+			else if(abs(value) % 10 == 1 && abs(value) != 11)
 			  *sentence << Integer(value) << "prosenttia (mod 10=1)";
 			else
 			  *sentence << Integer(value) << "prosenttia";
@@ -507,7 +508,7 @@ namespace
 			  *sentence << "hehtopascalia";
 			else if(value == 1)
 			  *sentence << "hehtopascal";
-			else if(abs(value) % 10 == 1 && value != 11)
+			else if(abs(value) % 10 == 1 && abs(value) != 11)
 			  *sentence << "hehtopascalia (mod 10=1)";
 			else
 			  *sentence << "hehtopascalia";
@@ -518,7 +519,7 @@ namespace
 			  *sentence << "0 hehtopascalia";
 			else if(value == 1)
 			  *sentence << "1 hehtopascal";
-			else if(abs(value) % 10 == 1 && value != 11)
+			else if(abs(value) % 10 == 1 && abs(value) != 11)
 			  *sentence << Integer(value) << "hehtopascalia (mod 10=1)";
 			else
 			  *sentence << Integer(value) << "hehtopascalia";
@@ -608,12 +609,12 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	boost::shared_ptr<Sentence> create_unit(Units theUnit, int value)
+	boost::shared_ptr<Sentence> create_unit(Units theUnit, int value, bool isInterval/* = false*/)
 	{
 	  switch(theUnit)
 		{
 		case DegreesCelsius:
-		  return degrees_celsius(value, true);
+		  return degrees_celsius(value, isInterval);
 		case MetersPerSecond:
 		  return meters_per_second(value, true);
 		case Millimeters:

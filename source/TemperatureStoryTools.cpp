@@ -129,7 +129,7 @@ namespace TextGen
 		  int intervalEndValue = ((theMinimum < 0 && theMaximum < 0) ? theMinimum : theMaximum);
 
 		  sentence << TemperatureRange(theMinimum,theMaximum,theRangeSeparator)
-				   << *UnitFactory::create_unit(DegreesCelsius, intervalEndValue);
+				   << *UnitFactory::create_unit(DegreesCelsius, intervalEndValue, true);
 		}
 	  else
 		{
@@ -309,7 +309,7 @@ namespace TextGen
 	  if(interval)
 		{
 		  sentence << TemperatureRange(intervalStart, intervalEnd, theRangeSeparator);
-		  sentence << *UnitFactory::create_unit(DegreesCelsius, intervalEnd);
+		  sentence << *UnitFactory::create_unit(DegreesCelsius, intervalEnd, true);
 		  interval = true;			 
 		}
 	  else
