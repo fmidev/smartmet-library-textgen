@@ -236,7 +236,7 @@ namespace TextGen
 		return "";
 	  else if(thePercentage < theManyPlacesLimit)
 		return "paikoin";
-	  elseif(thePercentage < theGenerallyLimit)
+	  else if(thePercentage < theGenerallyLimit)
 		return "monin paikoin";
 	  else
 		return "yleisesti";
