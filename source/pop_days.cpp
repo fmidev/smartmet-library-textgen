@@ -50,7 +50,7 @@ namespace TextGen
 
 	const int minimum   = Settings::optional_percentage(itsVar+"::minimum",10);
 	const int maximum   = Settings::optional_percentage(itsVar+"::maximum",100);
-	const int precision = Settings::require_percentage(itsVar+"::precision");
+	const int precision = Settings::optional_percentage(itsVar+"::precision",10);
 	const bool negate   = Settings::optional_bool(itsVar+"::negate",false);
 
 	const int limit_significantly_greater = Settings::require_percentage(itsVar+"::comparison::significantly_greater");
