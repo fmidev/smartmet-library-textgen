@@ -128,23 +128,23 @@ namespace
 		if(abs(value) <= 4)
 		  {
 			if(isInterval)
-			  degrees_string = string("astetta (n..."+boost::lexical_cast<std::string>(value)+")");
+			  degrees_string = string("astetta (n..."+boost::lexical_cast<std::string>(abs(value))+")");
 			else
-			  degrees_string = string("astetta ("+boost::lexical_cast<std::string>(value)+")");
+			  degrees_string = string("astetta ("+boost::lexical_cast<std::string>(abs(value))+")");
 		  }
 		else if(abs(value) % 10 == 1 && abs(value) != 11)
 		  {
 			if(isInterval)
-			  degrees_string = (value < 0 ? "astetta (n...-(mod 10=1))" : "astetta (n...(mod 10=1))");
+			  degrees_string = "astetta (n...(mod 10=1))";
 			else
-			  degrees_string = (value < 0 ? "astetta -(mod 10=1)" : "astetta (mod 10=1)");
+			  degrees_string = "astetta (mod 10=1)";
 		  }
 		else
 		  {
 			if(isInterval)
-			  degrees_string = (value < 0 ? "astetta (m...-n)" : "astetta (m...n)");
+			  degrees_string = "astetta (m...n)";
 			else
-			  degrees_string = (value < 0 ? "astetta (-n)" : "astetta (n)");
+			  degrees_string = "astetta (n)";
 		  }
 
 
