@@ -302,6 +302,7 @@ namespace TextGen
 						  DAY1_DAY2_NIGHT,
 						  DAY1_NIGHT,
 						  NIGHT_DAY2,
+						  NIGHT,
 						  UNDEFINED_PROCESSING_ORDER};
 
 	enum sentence_part_id{DAY1_INLAND,
@@ -1742,7 +1743,7 @@ namespace TextGen
 	  
 	  if(theTemperaturePhrase.size() == 0)
 		{
-		  if(theParameters.theFullDayFlag)
+		  if(theParameters.theFullDayFlag && theParameters.numberOfPeriods() > 1)
 			{
 			  if(theParameters.theForecastPeriodId == NIGHT_PERIOD)
 				{
@@ -1831,7 +1832,10 @@ namespace TextGen
 					  }
 					else
 					  {
-						theTemperaturePhrase << YOLAMPOTILA_PHRASE;
+						if(theParameters.numberOfPeriods() > 1)
+						  theTemperaturePhrase << YOLAMPOTILA_PHRASE;
+						else
+						  theTemperaturePhrase << LAMPOTILA_WORD;
 					  }
 				  }
 				  break;
@@ -2073,7 +2077,11 @@ namespace TextGen
 				}
 			  else
 				{
-				  theDayPhasePhrase << YOLAMPOTILA_PHRASE << ON_WORD;
+
+				  if(theParameters.numberOfPeriods() > 1)
+					theDayPhasePhrase << YOLAMPOTILA_PHRASE << ON_WORD;
+				  else
+					theDayPhasePhrase << LAMPOTILA_WORD << ON_WORD;
 				  theParameters.theNightPeriodTautologyFlag = true;
 				}
 			  theParameters.theDayPeriodTautologyFlag = false;
@@ -2209,14 +2217,27 @@ namespace TextGen
 		  bool tienoilla(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID);
 
 		  sentence << Integer(degrees);
+		  string degrees_string("");
 		  if(abs(degrees) % 10 == 1 && abs(degrees) != 11)
 			{
-			  sentence << (tienoilla ? "asteen(tienoilla (mod 10=1))" : "asteen(tuntumassa (mod 10=1))");
+			  if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID || phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+				degrees_string = (tienoilla ? "asteen(tienoilla (mod 10=1))" : "asteen(tuntumassa (mod 10=1))");
+			  else if(phrase_id == NOIN_ASTETTA_PHRASE_ID)
+				degrees_string = "astetta(noin (mod 10=1))";
 			}
 		  else
 			{
-			  sentence << (tienoilla ? "asteen(tienoilla)" : "asteen(tuntumassa)");
+			  if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID || phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
+				degrees_string = (tienoilla ? "asteen(tienoilla)" : "asteen(tuntumassa)");
+			  else
+				{
+				  if(abs(degrees) > 4)
+					degrees_string = "astetta(noin n)";
+				  else
+					degrees_string = string("astetta(noin " + boost::lexical_cast<std::string>(abs(degrees)) + ")");
+				}
 			}
+		  sentence << degrees_string;
 		}
 	  else if(opt == "none")
 		;
@@ -2455,7 +2476,7 @@ namespace TextGen
 			
 				if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
 				   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
-				   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
+				   phrase_id == NOIN_ASTETTA_PHRASE_ID)
 				  {
 					sentence << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
 				  }
@@ -2485,7 +2506,7 @@ namespace TextGen
 
 						if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
 						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
-						   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
+						   phrase_id == NOIN_ASTETTA_PHRASE_ID)
 						  {
 							sentence << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
 						  }
@@ -2511,7 +2532,7 @@ namespace TextGen
 
 						if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
 						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
-						   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
+						   phrase_id == NOIN_ASTETTA_PHRASE_ID)
 						  {
 							sentence << theDayPhasePhrase
 									 << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
@@ -2539,7 +2560,7 @@ namespace TextGen
 
 						if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
 						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
-						   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
+						   phrase_id == NOIN_ASTETTA_PHRASE_ID)
 						  {
 							sentence << theAreaPhrase
 									 << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
@@ -2568,7 +2589,7 @@ namespace TextGen
 
 						if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
 						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
-						   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
+						   phrase_id == NOIN_ASTETTA_PHRASE_ID)
 						  {
 							sentence << theDayPhasePhrase
 									 << theAreaPhrase
@@ -2619,7 +2640,7 @@ namespace TextGen
 								
 						if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
 						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
-						   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
+						   phrase_id == NOIN_ASTETTA_PHRASE_ID)
 						  {
 							sentence << theTemperaturePhrase
 									 << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
@@ -2654,7 +2675,7 @@ namespace TextGen
 
 							if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
 							   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
-							   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
+							   phrase_id == NOIN_ASTETTA_PHRASE_ID)
 							  {
 								sentence << theDayPhasePhrase
 										 << tienoilla_and_tuntumassa_astetta(intervalStart, phrase_id);
@@ -2682,7 +2703,7 @@ namespace TextGen
 
 							if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
 							   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
-							   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
+							   phrase_id == NOIN_ASTETTA_PHRASE_ID)
 							  {
 								sentence << theDayPhasePhrase
 										 << theTemperaturePhrase
@@ -2713,7 +2734,7 @@ namespace TextGen
 
 						if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
 						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
-						   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
+						   phrase_id == NOIN_ASTETTA_PHRASE_ID)
 						  {
 							sentence << theAreaPhrase
 									 << theTemperaturePhrase
@@ -2744,7 +2765,7 @@ namespace TextGen
 
 						if(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID ||
 						   phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID ||
-						   phrase_id == LAHELLA_ASTETTA_PHRASE_ID)
+						   phrase_id == NOIN_ASTETTA_PHRASE_ID)
 						  {
 							sentence << theDayPhasePhrase
 									 << theAreaPhrase
@@ -3313,7 +3334,7 @@ namespace TextGen
 			  theParameters.theMaximum = theParameters.theWeatherResults[areaMax]->value();
 			  theParameters.theMean = theParameters.theWeatherResults[areaMean]->value();
 			  
-			  if(theParameters.theDayAndNightSeparationFlag)
+			  if(theParameters.theDayAndNightSeparationFlag || theParameters.theForecastPeriod == NIGHT_PERIOD)
 				{
 				  sentence << night_sentence(theParameters);
 				}
@@ -3416,7 +3437,7 @@ namespace TextGen
 			  theParameters.theMaximum = theParameters.theWeatherResults[inlandMax]->value();
 			  theParameters.theMean = theParameters.theWeatherResults[inlandMean]->value();
 			  
-			  if(theParameters.theDayAndNightSeparationFlag)
+			  if(theParameters.theDayAndNightSeparationFlag || theParameters.theForecastPeriod == NIGHT_PERIOD)
 				{
 				  sentence << night_sentence(theParameters);
 				}
@@ -3520,7 +3541,7 @@ namespace TextGen
 			  theParameters.theMaximum = theParameters.theWeatherResults[coastMax]->value();
 			  theParameters.theMean = theParameters.theWeatherResults[coastMean]->value();
 
-			  if(theParameters.theDayAndNightSeparationFlag)
+			  if(theParameters.theDayAndNightSeparationFlag || theParameters.theForecastPeriod == NIGHT_PERIOD)
 				{
 				  sentence << night_sentence(theParameters);
 				}
@@ -3640,6 +3661,10 @@ namespace TextGen
 	  // 1. Day1 inland 
 	  // 2. Day1 coastal
 
+	  // Night
+	  // 1. Night inland
+	  // 2. Night coastal
+
 	  vector<int> periodAreas;
 	  processing_order processingOrder(UNDEFINED_PROCESSING_ORDER);
 
@@ -3659,9 +3684,13 @@ namespace TextGen
 		{
 		  processingOrder = DAY1_NIGHT;
 		}
-	  else if(theParameters.theForecastPeriod & DAY1_PERIOD)
+	  else if(theParameters.theForecastPeriod == DAY1_PERIOD)
 		{
 		  processingOrder = DAY1;
+		}
+	  else if(theParameters.theForecastPeriod == NIGHT_PERIOD)
+		{
+		  processingOrder = NIGHT;
 		}
 
 	  bool separate_inland_and_coast_day1(false);
@@ -3905,6 +3934,19 @@ namespace TextGen
 		  else
 			{
 			  periodAreas.push_back(DAY1_FULL);
+			}
+		}
+	  else if(processingOrder == NIGHT)
+		{
+		  if(separate_inland_and_coast_night)
+			{
+			  periodAreas.push_back(NIGHT_INLAND);
+			  periodAreas.push_back(DELIMITER_COMMA);
+			  periodAreas.push_back(NIGHT_COASTAL);
+			}
+		  else
+			{
+			  periodAreas.push_back(NIGHT_FULL);
 			}
 		}
 	  

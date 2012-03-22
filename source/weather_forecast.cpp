@@ -1291,18 +1291,10 @@ using namespace std;
 
 	// Period generator
 	const HourPeriodGenerator periodgenerator(itsPeriod, itsVar+"::day");
-	const int ndays = periodgenerator.size();
 	
 	theLog << "Period " << itsPeriod.localStartTime() << "..." 
-		<< itsPeriod.localEndTime() << " covers " << ndays << " days" << endl;
+		   << itsPeriod.localEndTime();
 	
-	if(ndays<=0)
-	  {
-		theLog << "No weather periods available!" << endl;
-		theLog << paragraph;
-		return paragraph;
-	  }
-
 	NFmiTime dataPeriodStartTime(itsPeriod.localStartTime());
 	NFmiTime dataPeriodEndTime(itsPeriod.localEndTime());
 
