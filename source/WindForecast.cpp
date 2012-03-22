@@ -39,6 +39,7 @@
 #include <boost/lexical_cast.hpp>
 #include <vector>
 #include <map>
+#include <iomanip>
 
 namespace TextGen
 {
@@ -80,7 +81,6 @@ namespace TextGen
 		Sentence sentence;
 		const WindEventPeriodDataItem& eventPeriodItem = *(theParameters.theMergedWindEventPeriodVector[i]);
 		WindEventId eventId = eventPeriodItem.theWindEvent;
-		WindEventId nextWindEventId(MISSING_WIND_EVENT);
 		theParameters.theAlkaenPhraseUsed = false;
 
 		const WeatherPeriod& eventPeriod = eventPeriodItem.thePeriod;
@@ -97,26 +97,30 @@ namespace TextGen
 																	eventPeriod,
 																	theParameters.theVar));
 				
-		//		part_of_the_day_id partOfTheDayBeg(get_part_of_the_day_id(eventPeriod.localStartTime()));
-		//		part_of_the_day_id partOfTheDayEnd(get_part_of_the_day_id(eventPeriod.localEndTime()));
 		bool same_part_of_the_day(get_part_of_the_day_id(eventPeriod.localStartTime()) ==
 								  get_part_of_the_day_id(eventPeriod.localEndTime()) &&
 								  eventPeriod.localStartTime().GetDay() == eventPeriod.localEndTime().GetDay());
 				  
 		bool firstSentenceInTheStory = paragraph.empty();
 
-		/*
-		  if(i > 0)
-		  {
-		  WindEventPeriodDataItem* previousEventPeriodItem = theParameters.theMergedWindEventPeriodVector[i-1];
-		  }
-		*/
-		if(i < theParameters.theMergedWindEventPeriodVector.size() - 1)
-		  {
-			WindEventPeriodDataItem* nextEventPeriodItem = theParameters.theMergedWindEventPeriodVector[i+1];
-			nextWindEventId = nextEventPeriodItem->theWindEvent;
-		  }
 		
+		/*
+		theParameters.theLog << "ANSSI: " << endl;
+		theParameters.theLog << eventPeriod.localStartTime() << "..." << eventPeriod.localEndTime() << endl;
+		theParameters.theLog << "Beg: " << wind_direction_string(windDirectionIdBeg) << endl;
+		theParameters.theLog << "Avg: " << wind_direction_string(windDirectionIdAvg) << endl;
+		theParameters.theLog << "Share Beg: " 
+							 << fixed << setprecision(2) 
+							 << get_wind_direction_share(theParameters,
+														 eventPeriod,
+														 windDirectionIdBeg) << endl;
+		theParameters.theLog << "Share avg: "
+							 << fixed << setprecision(2) 
+							 << get_wind_direction_share(theParameters,
+														 eventPeriod,
+														 windDirectionIdAvg) << endl;
+		*/
+
 		switch(eventId)
 		  {
 		  case TUULI_HEIKKENEE:
@@ -211,19 +215,20 @@ namespace TextGen
 			{
 			  if(firstSentenceInTheStory)
 				{
-				  sentence << POHJOISTUULTA_INTERVALLI_MS_JOKA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
+				  sentence << POHJOISTUULTA_INTERVALLI_MS_JOKA_MUUTTUU_ILTAPAIVALLA_VAIHTELEVAKSI_COMPOSITE_PHRASE
 						   << windDirectionSentence(windDirectionIdBeg)
 						   << windSpeedIntervalSentence(eventPeriod, 
-														DONT_USE_AT_ITS_STRONGEST_PHRASE);
+														DONT_USE_AT_ITS_STRONGEST_PHRASE)
+						   << getTimePhrase(eventStartPeriod, DONT_USE_ALKAEN_PHRASE);
 				}
 			  else
 				{
 				  if(eventPeriodItem.theTransientDirectionChangeFlag)
 					sentence << ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
-							 << getTimePhrase(eventEndPeriod, DONT_USE_ALKAEN_PHRASE);
+							 << getTimePhrase(eventStartPeriod, DONT_USE_ALKAEN_PHRASE);
 				  else
 					sentence << ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
-							 << getTimePhrase(eventEndPeriod, DONT_USE_ALKAEN_PHRASE);
+							 << getTimePhrase(eventStartPeriod, DONT_USE_ALKAEN_PHRASE);
 				}
 			}
 			break;
@@ -260,26 +265,13 @@ namespace TextGen
 					}
 				  else
 					{
-					  /*
-						if(windDirectionIdBeg == VAIHTELEVA ||
-						windDirectionIdBeg == MISSING_WIND_DIRECTION_ID)
-						{
-						sentence << directedWindSentenceAfterVaryingWind(theParameters,
-						eventPeriod,
-						firstSentenceInTheStory);
-						appendDecreasingIncreasingInterval = false;
-						}
-						else
-					  */
-					  {
-						sentence << windDirectionAndSpeedChangesSentence(theParameters,
-																		 eventPeriod,
-																		 firstSentenceInTheStory,
-																		 eventIdPrevious,
-																		 eventId,
-																		 windDirectionIdPrevious,
-																		 useAlkaaHeiketaVoimistuaPhrase);
-					  }
+					  sentence << windDirectionAndSpeedChangesSentence(theParameters,
+																	   eventPeriod,
+																	   firstSentenceInTheStory,
+																	   eventIdPrevious,
+																	   eventId,
+																	   windDirectionIdPrevious,
+																	   useAlkaaHeiketaVoimistuaPhrase);
 					}
 				}
 
@@ -455,6 +447,7 @@ namespace TextGen
   {
 	Sentence sentence;
 
+	bool useAlkaenPhrase(get_period_length(eventPeriod) >= 6);
 	WindDirectionId windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
 	WindDirectionId windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
 	WindDirectionId windDirectionIdAvg(get_wind_direction_id_at(theParameters,
@@ -476,16 +469,16 @@ namespace TextGen
 		  }
 		else
 		  {
-			sentence << POHJOISTUULTA_INTERVALLI_MS_JOKA_KAANTYY_ETELAAN_COMPOSITE_PHRASE
+			sentence << POHJOISTUULTA_INTERVALLI_MS_JOKA_KAANTYY_ILTAPAIVALLA_ETELAAN_COMPOSITE_PHRASE
 					 << windDirectionSentence(windDirectionIdBeg)
 					 << windSpeedIntervalSentence(eventPeriod, 
 												  DONT_USE_AT_ITS_STRONGEST_PHRASE)
+					 << getTimePhrase(eventPeriod, useAlkaenPhrase)
 					 << getWindDirectionTurntoString(windDirectionIdEnd);
 		  }
 	  }
 	else
 	  {
-		bool useAlkaenPhrase(get_period_length(eventPeriod) >= 6);
 		if(windDirectionIdPrevious == VAIHTELEVA)
 		  {
 			if(windDirectionIdEnd != VAIHTELEVA)
@@ -1330,7 +1323,8 @@ namespace TextGen
 	   endUpperLimit == kFloatMissing)
 	  {
 		theParameters.theLog << "Error: failed to get wind speed change parameters!" << endl;
-		return false;
+
+		//	return false;
 	  }
 
 	float changeThreshold(5.0);
@@ -1742,7 +1736,7 @@ namespace TextGen
 								theParameters.theVar);
   }
 
-  const float WindDataItemUnit::getWindSpeedShare(const float& theLowerLimit, const float& theUpperLimit) const
+  float WindDataItemUnit::getWindSpeedShare(const float& theLowerLimit, const float& theUpperLimit) const
   {
 	float retval = 0.0;
 	
@@ -1754,6 +1748,51 @@ namespace TextGen
 	  }
 	
 	return retval;
+  }
+
+  float WindDataItemUnit::getWindDirectionShare(const WindDirectionId& windDirectionId) const
+  {
+	return get_wind_direction_share(theWindDirectionDistribution, windDirectionId);
+  }
+
+  float get_wind_direction_share(const vector<pair<float, WeatherResult> >& theWindDirectionDistribution,
+								 const WindDirectionId& windDirectionId)
+  {
+	float retval(0.0);
+
+	for(unsigned int i = 0; i < theWindDirectionDistribution.size(); i++)
+	  {
+		WeatherResult directionVar(theWindDirectionDistribution[i].first + 1.0, 0.0);
+		WeatherResult speedVar(WeatherResult(5.0, 0.0));
+		WindDirectionId directionId = wind_direction_id(directionVar,
+														speedVar,
+														"");
+		if(directionId == windDirectionId)
+		  retval += theWindDirectionDistribution[i].second.value();
+	  }
+
+	return retval;
+  }
+
+  float get_wind_direction_share(const wo_story_params& theParameters,
+								 const WeatherPeriod& period,
+								 const WindDirectionId& windDirectionId)
+  {
+	float sumShare(0.0);
+	unsigned int counter(0);
+
+	for(unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
+	  {
+		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
+		if(is_inside(item.thePeriod.localStartTime(), period))
+		  {
+			sumShare += get_wind_direction_share(item.theWindDirectionDistribution,
+											   windDirectionId);
+			counter++;
+		  }
+	  }
+
+	return (counter == 0 ? 0.0 : sumShare / counter);
   }
 
   WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
@@ -1939,8 +1978,8 @@ namespace TextGen
   {
 	GridForecaster forecaster;
 
-	float ws_lower_limit = 0.0;
-	float ws_upper_limit = 1.0;
+	float ws_lower_limit(0.0);
+	float ws_upper_limit(1.0);
 
 	while (ws_lower_limit < HIRMUMYRSKY_LOWER_LIMIT)
 	  {
@@ -1970,6 +2009,47 @@ namespace TextGen
 
 	  }
   }
+
+ void populate_winddirection_distribution_time_series(const AnalysisSources& theSources,
+													  const WeatherArea& theArea,
+													  const WeatherPeriod& thePeriod,
+													  const string& theVar,
+													  vector<pair<float, WeatherResult> >& theWindDirectionDistribution)
+ {
+   GridForecaster forecaster;
+
+   const float step(11.25);
+
+   float ws_lower_limit(step);
+   float ws_upper_limit(ws_lower_limit + step);
+
+   while (ws_lower_limit < 360.0)
+	 {
+	   RangeAcceptor acceptor;
+	   acceptor.lowerLimit(ws_lower_limit);
+	   if(ws_upper_limit < 360.0)
+		 acceptor.upperLimit(ws_upper_limit-0.0001);
+
+	   WeatherResult share =
+		 forecaster.analyze(theVar+"::fake::tyyni::share",
+							theSources,
+							WindDirection,
+							Mean,
+							Percentage,
+							theArea,
+							thePeriod,
+							DefaultAcceptor(),
+							DefaultAcceptor(),
+							acceptor);
+	   
+	   pair<float, WeatherResult> shareItem(ws_lower_limit, share);
+	   theWindDirectionDistribution.push_back(shareItem);
+
+	   ws_lower_limit += step;
+	   ws_upper_limit += step;
+	 }
+ }
+
   bool wind_speed_differ_enough(const AnalysisSources& theSources,
 								const WeatherArea& theArea,
 								const WeatherPeriod& thePeriod,

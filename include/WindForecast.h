@@ -129,10 +129,10 @@ using namespace WindStoryTools;
 #define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja heikkenee edelleen"
 #define ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli heikkenee ja muuttuu vaihtelevaksi"
 #define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
-#define POHJOISTUULTA_INTERVALLI_MS_JOKA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka kaantyy [etelaan]"
+#define POHJOISTUULTA_INTERVALLI_MS_JOKA_KAANTYY_ILTAPAIVALLA_ETELAAN_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka kaantyy [iltapaivalla] [etelaan]"
 #define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan]"
 #define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan]"
-#define POHJOISTUULTA_INTERVALLI_MS_JOKA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka muuttuu vaihtelevaksi"
+#define POHJOISTUULTA_INTERVALLI_MS_JOKA_MUUTTUU_ILTAPAIVALLA_VAIHTELEVAKSI_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka muuttuu [iltapaivalla] vaihtelevaksi"
 #define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu vaihtelevaksi"
 #define ILTAPAIVALLA_ETELAAN_KAANTYVAA_TUULTA_COMPOSITE_PHRASE "[iltapaivalla] [etelaan] kaantyvaa tuulta"
 #define ILTAPAIVALLA_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE "[iltapaivalla] [heikkenevaa] [etelatuulta]"
@@ -293,11 +293,12 @@ using namespace WindStoryTools;
 		theGustSpeed(gustSpeed),
 		theEqualizedMedianWindSpeed(windSpeedMedian),
 		theEqualizedMaximumWind(windMaximum),
-		theEqualizedWindDirection(theWindDirection),
-		theEqualizedWindDirectionOriginal(theWindDirection)
+		theEqualizedWindDirection(theWindDirection)
 	{}
 
-	const float getWindSpeedShare(const float& theLowerLimit, const float& theUpperLimit) const;
+	float getWindSpeedShare(const float& theLowerLimit, const float& theUpperLimit) const;
+	float getWindDirectionShare(const WindDirectionId& windDirectionId) const;
+
     bool operator==(const WindDataItemUnit& dataItemUnit) const
 	{
 	  return thePeriod == dataItemUnit.thePeriod;
@@ -315,8 +316,8 @@ using namespace WindStoryTools;
 	WeatherResult theEqualizedMedianWindSpeed;
 	WeatherResult theEqualizedMaximumWind;
 	WeatherResult theEqualizedWindDirection;
-	WeatherResult theEqualizedWindDirectionOriginal;
 	vector <pair<float, WeatherResult> > theWindSpeedDistribution;
+	vector<pair<float, WeatherResult> > theWindDirectionDistribution;
   };
 
   // contains WindDataItemUnit structs for different areas (coastal, inland, full area)
@@ -524,6 +525,17 @@ using namespace WindStoryTools;
 												   const WeatherPeriod& thePeriod,
 												   const string& theVar,
 												   vector <pair<float, WeatherResult> >& theWindSpeedDistribution);
+  void populate_winddirection_distribution_time_series(const AnalysisSources& theSources,
+													   const WeatherArea& theArea,
+													   const WeatherPeriod& thePeriod,
+													   const string& theVar,
+													   vector <pair<float, WeatherResult> >& theWindDirectionDistribution);
+  float get_wind_direction_share(const vector<pair<float, WeatherResult> >& theWindDirectionDistribution,
+								 const WindDirectionId& windDirectionId);
+  float get_wind_direction_share(const wo_story_params& theParameters,
+								 const WeatherPeriod& period,
+								 const WindDirectionId& windDirectionId);
+
   WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
 											 const NFmiTime& pointOfTime,
 											 const string& var);
