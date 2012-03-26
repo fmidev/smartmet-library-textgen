@@ -915,6 +915,88 @@ namespace TextGen
 	storyParams.indexes.clear();
   }
 
+
+  void populate_windspeed_distribution_time_series(const AnalysisSources& theSources,
+												   const WeatherArea& theArea,
+												   const WeatherPeriod& thePeriod,
+												   const string& theVar,
+												   vector <pair<float, WeatherResult> >& theWindSpeedDistribution)
+  {
+	GridForecaster forecaster;
+
+	float ws_lower_limit(0.0);
+	float ws_upper_limit(1.0);
+
+	while (ws_lower_limit < HIRMUMYRSKY_LOWER_LIMIT)
+	  {
+		RangeAcceptor acceptor;
+		acceptor.lowerLimit(ws_lower_limit);
+		if(ws_lower_limit < HIRMUMYRSKY_LOWER_LIMIT + 1)
+		  acceptor.upperLimit(ws_upper_limit-0.0001);
+
+				
+		WeatherResult share =
+		  forecaster.analyze(theVar+"::fake::tyyni::share",
+							 theSources,
+							 WindSpeed,
+							 Mean,
+							 Percentage,
+							 theArea,
+							 thePeriod,
+							 DefaultAcceptor(),
+							 DefaultAcceptor(),
+							 acceptor);
+
+		pair<float, WeatherResult> shareItem(ws_lower_limit, share);
+		theWindSpeedDistribution.push_back(shareItem);
+
+		ws_lower_limit += 1.0;
+		ws_upper_limit += 1.0;
+
+	  }
+  }
+
+  void populate_winddirection_distribution_time_series(const AnalysisSources& theSources,
+													   const WeatherArea& theArea,
+													   const WeatherPeriod& thePeriod,
+													   const string& theVar,
+													   vector<pair<float, WeatherResult> >& theWindDirectionDistribution)
+  {
+	GridForecaster forecaster;
+
+	const float step(11.25);
+
+	float ws_lower_limit(step);
+	float ws_upper_limit(ws_lower_limit + step);
+
+	while (ws_lower_limit < 360.0)
+	  {
+		RangeAcceptor acceptor;
+		acceptor.lowerLimit(ws_lower_limit);
+		if(ws_upper_limit < 360.0)
+		  acceptor.upperLimit(ws_upper_limit-0.0001);
+
+		WeatherResult share =
+		  forecaster.analyze(theVar+"::fake::tyyni::share",
+							 theSources,
+							 WindDirection,
+							 Mean,
+							 Percentage,
+							 theArea,
+							 thePeriod,
+							 DefaultAcceptor(),
+							 DefaultAcceptor(),
+							 acceptor);
+	   
+		pair<float, WeatherResult> shareItem(ws_lower_limit, share);
+		theWindDirectionDistribution.push_back(shareItem);
+
+		ws_lower_limit += step;
+		ws_upper_limit += step;
+	  }
+  }
+
+
   void populate_time_series(wo_story_params& storyParams)
   {
 	GridForecaster forecaster;
@@ -1002,6 +1084,7 @@ namespace TextGen
 														dataItem.thePeriod,
 														storyParams.theVar,
 														dataItem.theWindSpeedDistribution);
+
 			populate_winddirection_distribution_time_series(storyParams.theSources,
 															weatherArea,
 															dataItem.thePeriod,
@@ -2773,10 +2856,8 @@ namespace TextGen
 		  int lowerLimitCurrent(0);
 		  int upperLimitCurrent(0);
 
-		  get_wind_speed_interval(storyParams.theSources,
-								  storyParams.theArea,
-								  currentDataItem->thePeriod,
-								  storyParams.theVar,
+		  get_wind_speed_interval(currentDataItem->thePeriod,
+								  storyParams.theArea,								  
 								  storyParams.theWindDataVector,
 								  lowerLimitCurrent,
 								  upperLimitCurrent);
@@ -3115,10 +3196,8 @@ namespace TextGen
 		  int lowerLimitCurrent(0);
 		  int upperLimitCurrent(0);
 
-		  get_wind_speed_interval(storyParams.theSources,
+		  get_wind_speed_interval(currentDataItem->thePeriod,
 								  storyParams.theArea,
-								  currentDataItem->thePeriod,
-								  storyParams.theVar,
 								  storyParams.theWindDataVector,
 								  lowerLimitCurrent,
 								  upperLimitCurrent);

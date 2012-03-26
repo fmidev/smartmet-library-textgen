@@ -187,6 +187,7 @@ using namespace WindStoryTools;
   class WindDirectionPeriodDataItem;
   class WindEventPeriodDataItem;
 
+  typedef vector <pair<float, WeatherResult> > value_distribution_data_vector;
   typedef vector<WindDataItemsByArea*> wind_data_item_vector;
   typedef vector<WindSpeedPeriodDataItem*> wind_speed_period_data_item_vector;
   typedef vector<WindDirectionPeriodDataItem*> wind_direction_period_data_item_vector;
@@ -316,8 +317,8 @@ using namespace WindStoryTools;
 	WeatherResult theEqualizedMedianWindSpeed;
 	WeatherResult theEqualizedMaximumWind;
 	WeatherResult theEqualizedWindDirection;
-	vector <pair<float, WeatherResult> > theWindSpeedDistribution;
-	vector<pair<float, WeatherResult> > theWindDirectionDistribution;
+	value_distribution_data_vector theWindSpeedDistribution;
+	value_distribution_data_vector theWindDirectionDistribution;
   };
 
   // contains WindDataItemUnit structs for different areas (coastal, inland, full area)
@@ -520,6 +521,7 @@ using namespace WindStoryTools;
 
 
   std::string get_wind_event_string(const WindEventId& theWindEventId);
+  /*
   void populate_windspeed_distribution_time_series(const AnalysisSources& theSources,
 												   const WeatherArea& theArea,
 												   const WeatherPeriod& thePeriod,
@@ -530,7 +532,8 @@ using namespace WindStoryTools;
 													   const WeatherPeriod& thePeriod,
 													   const string& theVar,
 													   vector <pair<float, WeatherResult> >& theWindDirectionDistribution);
-  float get_wind_direction_share(const vector<pair<float, WeatherResult> >& theWindDirectionDistribution,
+  */
+  float get_wind_direction_share(const value_distribution_data_vector& theWindDirectionDistribution,
 								 const WindDirectionId& windDirectionId);
   float get_wind_direction_share(const wo_story_params& theParameters,
 								 const WeatherPeriod& period,
@@ -550,28 +553,22 @@ using namespace WindStoryTools;
 								const WeatherPeriod& thePeriod,
 								const string& theVar,
 								const wind_data_item_vector& windDataVector);
-  void get_wind_speed_interval_parameters(const AnalysisSources& theSources,
-										  const WeatherArea& theArea,
-										  const WeatherPeriod& thePeriod,
-										  const string& theVar,
+  void get_wind_speed_interval_parameters(const WeatherPeriod& thePeriod,
+										  const WeatherArea& theArea,										  
 										  const wind_data_item_vector& windDataVector,
 										  int& begLowerLimit,
 										  int& begUpperLimit,
 										  int& endLowerLimit,
 										  int& endUpperLimit,
 										  float& changeRatePerHour);
-  void get_wind_speed_interval(const AnalysisSources& theSources,
-							   const WeatherArea& theArea,
-							   const NFmiTime& pointOfTime,
-							   const string& theVar,
+  void get_wind_speed_interval(const NFmiTime& pointOfTime,
+							   const WeatherArea& area,
 							   const wind_data_item_vector& windDataVector,
 							   int& lowerLimit,
 							   int& upperLimit);
 
-  void get_wind_speed_interval(const AnalysisSources& theSources,
-							   const WeatherArea& theArea,
-							   const WeatherPeriod& thePeriod,
-							   const string& theVar,
+  void get_wind_speed_interval(const WeatherPeriod& thePeriod,
+							   const WeatherArea& area,
 							   const wind_data_item_vector& windDataVector,
 							   int& lowerLimit,
 							   int& upperLimit);
