@@ -20,7 +20,8 @@ namespace TextGen
 	  MetersPerSecond,
 	  Millimeters,
 	  Percent,
-	  HectoPascal
+	  HectoPascal,
+	  Meters,
 	};
 
   namespace UnitFactory

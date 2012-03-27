@@ -49,6 +49,11 @@
  * <td>textgen::units::hectopascal::format</td>
  * <td>phrase/SI/none</td>
  * </tr>
+ * <tr>
+ * <td>Meters</td>
+ * <td>textgen::units::meters::format</td>
+ * <td>phrase/SI/none</td>
+ * </tr>
  * </table>
  */
 // ======================================================================
@@ -364,6 +369,93 @@ namespace
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Return the Meters sentence
+   *
+   * \return The sentence
+   */
+  // ----------------------------------------------------------------------
+
+  boost::shared_ptr<TextGen::Sentence> meters()
+  {
+	using namespace TextGen;
+
+	const string var = "textgen::units::meters::format";
+	const string opt = Settings::optional_string(var,"SI");
+
+	shared_ptr<Sentence> sentence(new Sentence);
+
+	if(opt == "SI")
+	  *sentence << Delimiter("m");
+	else if(opt == "phrase")
+	  *sentence << "metria";
+	else if(opt == "none")
+	  ;
+	else
+	  throw TextGenError("Unknown format "+opt+" in variable "+var);
+
+	return sentence;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Return the Meters sentence
+   *
+   * \param value The value
+   * \return The sentence
+   */
+  // ----------------------------------------------------------------------
+
+  boost::shared_ptr<TextGen::Sentence> meters(int value, bool withoutNumber = false)
+  {
+	using namespace TextGen;
+
+	const string var = "textgen::units::meters::format";
+	const string opt = Settings::optional_string(var,"SI");
+
+	shared_ptr<Sentence> sentence(new Sentence);
+
+	if(opt == "SI")
+	  {
+		if(withoutNumber)
+		  *sentence << Delimiter("m");
+		else
+		  *sentence << Integer(value) << Delimiter("m");
+	  }
+	else if(opt == "phrase")
+	  {
+		if(withoutNumber)
+		  {
+			if(value == 0)
+			  *sentence << "metria";
+			else if(value == 1)
+			  *sentence << "metri";
+			else if(abs(value) % 10 == 1 && abs(value) != 11)
+			  *sentence << "metri (mod 10=1)";
+			else
+			  *sentence << "metria";
+		  }
+		else
+		  {
+			if(value == 0)
+			  *sentence << "0 metria";
+			else if(value == 1)
+			  *sentence << "1 metri";
+			else if(abs(value) % 10 == 1 && abs(value) != 11)
+			  *sentence << Integer(value) << "metria (mod 10=1)";
+			else
+			  *sentence << Integer(value) << "metria";
+		  }
+	  }
+	else if(opt == "none")
+	  ;
+	else
+	  throw TextGenError("Unknown format "+opt+" in variable "+var);
+
+	return sentence;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Return the Percent sentence
    *
    * \return The sentence
@@ -565,6 +657,8 @@ namespace TextGen
 		  return percent();
 		case HectoPascal:
 		  return hectopascal();
+		case Meters:
+		  return meters();
 		}
 
 	  throw TextGenError("UnitFactory::create failed - unknown unit");
@@ -594,6 +688,8 @@ namespace TextGen
 		  return percent(value);
 		case HectoPascal:
 		  return hectopascal(value);
+		case Meters:
+		  return meters(value);
 		}
 
 	  throw TextGenError("UnitFactory::create failed - unknown unit");
@@ -623,6 +719,8 @@ namespace TextGen
 		  return percent(value, true);
 		case HectoPascal:
 		  return hectopascal(value, true);
+		case Meters:
+		  return meters(value, true);
 		}
 
 	  throw TextGenError("UnitFactory::create failed - unknown unit");
