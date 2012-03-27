@@ -26,6 +26,7 @@
 #include "RoadStory.h"
 #include "TemperatureStory.h"
 #include "TextGenError.h"
+#include "WaveStory.h"
 #include "WeatherStory.h"
 #include "WindStory.h"
 
@@ -138,6 +139,12 @@ namespace TextGen
 	  if(PressureStory::hasStory(theName))
 		{
 		  PressureStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
+		  return story.makeStory(theName);
+		}
+
+	  if(WaveStory::hasStory(theName))
+		{
+		  WaveStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 
