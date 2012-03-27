@@ -18,6 +18,8 @@ using namespace std;
 
   int to_precision(float theValue, int thePrecision);
 
+  float to_float_precision(float theValue, float thePrecision);
+
   // ----------------------------------------------------------------------
   /*!
    * \brief Return mean of two arguments
