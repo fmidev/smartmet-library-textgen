@@ -1,14 +1,14 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 12.3.2
+Version: 12.3.27
 Release: 1.el6.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 12.2.24
+BuildRequires: libsmartmet-newbase >= 12.3.16
 BuildRequires: boost-devel >= 1.47
 BuildRequires: mysql-devel
 Provides: %{LIBNAME}
@@ -36,6 +36,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
+* Tue Mar 27 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.3.27-1.el6.fmi
+- Improvements to wind_overview
+- Improvements to temperature_max36hours
+- Improvements to weather_forecast
 * Fri Mar  2 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.3.2-1.el6.fmi
 - DebugTextFormatter now separates things with newlines
 * Thu Mar  1 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.3.1-3.el6.fmi
