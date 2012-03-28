@@ -58,11 +58,21 @@ namespace LocationPhraseTest
 	{
 	  LocationPhrase loc("pohjois-lappi");;
 	  if(loc.realize(*english) != "Pohjois-Lappi")
-		TEST_FAILED("realization of pohjois-lappi in English failed");
+		TEST_FAILED("realization of pohjois-lappi in English failed, got "+loc.realize(*english));
 	  
 	  if(loc.realize(*finnish) != "Pohjois-Lappi")
-		TEST_FAILED("realization of pohjois-lappi in Finnish failed");
+		TEST_FAILED("realization of pohjois-lappi in Finnish failed, got "+loc.realize(*finnish));
 	}
+
+	{
+	  LocationPhrase loc("nummi-pusula");;
+	  if(loc.realize(*english) != "Nummi-Pusula")
+		TEST_FAILED("realization of nummi-pusula in English failed, got "+loc.realize(*english));
+	  
+	  if(loc.realize(*finnish) != "Nummi-Pusula")
+		TEST_FAILED("realization of pohjois-lappi in Finnish failed, got "+loc.realize(*finnish));
+	}
+
 
 	{
 	  LocationPhrase loc("ulan bator");;
