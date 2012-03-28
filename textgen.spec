@@ -1,15 +1,15 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 12.3.27
+Version: 12.3.28
 Release: 1.el6.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 12.3.16
-BuildRequires: boost-devel >= 1.47
+BuildRequires: libsmartmet-newbase >= 12.3.28
+BuildRequires: boost-devel >= 1.49
 BuildRequires: mysql-devel
 Provides: %{LIBNAME}
 
@@ -36,6 +36,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
+* Wed Mar 28 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.3.28-1.el6.fmi
+- Removed debugging logging from wind_overview
+- Fixed UTF-8 capitalization of sentences
+- Fixed UTF-8 capitalization of location names
+- Added story wave_range
 * Tue Mar 27 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.3.27-1.el6.fmi
 - Improvements to wind_overview
 - Improvements to temperature_max36hours
