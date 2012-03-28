@@ -6,7 +6,9 @@ echo "=======================================\n";
 $link = mysql_connect("base.weatherproof.fi",
 		      "textgen",
 		      "w1w2w3") or die("Could not connect to mimir");
-mysql_select_db("textgen") or die("Could not select textgen database");
+mysql_select_db("textgen2") or die("Could not select textgen2 database");
+
+mysql_query("SET NAMES utf8");
 
 // Establish all active languages
 

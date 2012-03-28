@@ -58,8 +58,10 @@ LIBS += \
         -lboost_regex \
         -lboost_filesystem \
         -lboost_iostreams \
+	-lboost_locale \
 	-lboost_thread \
         -lboost_system \
+	`icu-config  --cppflags --ldflags` \
         -lz -lbz2 -lpthread
 
 all: $(PROG)
