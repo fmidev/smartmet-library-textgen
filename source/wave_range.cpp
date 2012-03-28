@@ -93,34 +93,28 @@ namespace TextGen
 	log << "WaveHeight Maximum(Mean)  = " << maxresult << endl;
 	log << "WaveHeight Mean(Mean)     = " << meanresult << endl;
 	
-	const float roundingprecision = Settings::optional_double(itsVar+"::roundingprecision",0.1);
-	const int precision = Settings::optional_int(itsVar+"::precision",1);
 	const float mininterval = Settings::optional_double(itsVar+"::mininterval",0.5);
 	const string rangeseparator = Settings::optional_string(itsVar+"::rangeseparator","-");
 
-	float n = MathTools::to_float_precision(meanresult.value(),roundingprecision);
-	float x = MathTools::to_float_precision(minresult.value(),roundingprecision);
-	float y = MathTools::to_float_precision(maxresult.value(),roundingprecision);
+	// 0.5 meter accuracy is sufficient according to Niko Tollman
+	float n = round(2*meanresult.value())/2;
+	float x = round(2*minresult.value())/2;
+	float y = round(2*maxresult.value())/2;
 
 	Sentence sentence;
 	sentence << "aallonkorkeus"
 			 << "on";
 
-	if(x-y < mininterval)
+	if(y-x < mininterval)
 	  {
-		sentence << Real(n,precision)
+		sentence << "noin"
+				 << Real(n,1)
 				 << *UnitFactory::create_unit(Meters, static_cast<int>(n));
-	  }
-	else if(y != round(y))
-	  {
-		sentence << RealRange(x,y,precision)
-				 << *UnitFactory::create(Meters);
 	  }
 	else
 	  {
-		int endvalue = static_cast<int>(round(y));
-		sentence << RealRange(x,y,precision)
-				 << *UnitFactory::create_unit(Meters,endvalue,false);
+		sentence << RealRange(x,y,1)
+				 << *UnitFactory::create(Meters);
 	  }
 
 	paragraph << sentence;
