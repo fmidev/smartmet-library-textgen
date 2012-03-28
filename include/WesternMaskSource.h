@@ -21,11 +21,11 @@ namespace WeatherAnalysis
 	
 	WesternMaskSource(const WeatherArea & theArea);
 
-	virtual const mask_type mask(const WeatherArea & theArea,
+	virtual mask_type mask(const WeatherArea & theArea,
 								 const std::string & theData,
 								 const WeatherSource & theWeatherSource) const;
 
-	virtual const masks_type masks(const WeatherArea & theArea,
+	virtual masks_type masks(const WeatherArea & theArea,
 								   const std::string & theData,
 								   const WeatherSource & theWeatherSource) const;
 

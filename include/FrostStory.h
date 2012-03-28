@@ -30,16 +30,16 @@ namespace TextGen
 			   const std::string & theVariable);
 
 	static bool hasStory(const std::string & theName);
-	virtual const Paragraph makeStory(const std::string & theName) const;
+	virtual Paragraph makeStory(const std::string & theName) const;
 
   private:
 
-	const Paragraph mean() const;
-	const Paragraph maximum() const;
-	const Paragraph range() const;
-	const Paragraph twonights() const;
-	const Paragraph onenight() const;
-	const Paragraph day() const;
+	Paragraph mean() const;
+	Paragraph maximum() const;
+	Paragraph range() const;
+	Paragraph twonights() const;
+	Paragraph onenight() const;
+	Paragraph day() const;
 
 	FrostStory();
 	FrostStory(const FrostStory & theStory);

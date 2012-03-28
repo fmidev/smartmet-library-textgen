@@ -69,7 +69,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph FrostStory::day() const
+  Paragraph FrostStory::day() const
   {
 	MessageLogger log("FrostStory::day");
 

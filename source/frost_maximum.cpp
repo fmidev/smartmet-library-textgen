@@ -32,7 +32,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph FrostStory::maximum() const
+  Paragraph FrostStory::maximum() const
   {
 	MessageLogger log("FrostStory::maximum");
 

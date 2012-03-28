@@ -90,11 +90,11 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const Sentence rain_phrase(const WeatherAnalysis::AnalysisSources & theSources,
-							   const WeatherAnalysis::WeatherArea & theArea,
-							   const WeatherAnalysis::WeatherPeriod & thePeriod,
-							   const std::string & theVar,
-							   int theDay)
+	Sentence rain_phrase(const WeatherAnalysis::AnalysisSources & theSources,
+						 const WeatherAnalysis::WeatherArea & theArea,
+						 const WeatherAnalysis::WeatherPeriod & thePeriod,
+						 const std::string & theVar,
+						 int theDay)
 	{
 	  Sentence s;
 	  s << places_phrase(theSources,theArea,thePeriod,theVar,theDay)
@@ -127,11 +127,11 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	const Sentence places_phrase(const AnalysisSources & theSources,
-								 const WeatherArea & theArea,
-								 const WeatherPeriod & thePeriod,
-								 const string & theVar,
-								 int theDay)
+	Sentence places_phrase(const AnalysisSources & theSources,
+						   const WeatherArea & theArea,
+						   const WeatherPeriod & thePeriod,
+						   const string & theVar,
+						   int theDay)
 	{
 	  MessageLogger log("PrecipitationStoryTools::places_phrase");
 	  
@@ -200,11 +200,11 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const Sentence type_phrase(const AnalysisSources & theSources,
-							   const WeatherArea & theArea,
-							   const WeatherPeriod & thePeriod,
-							   const string & theVar,
-							   int theDay)
+	Sentence type_phrase(const AnalysisSources & theSources,
+						 const WeatherArea & theArea,
+						 const WeatherPeriod & thePeriod,
+						 const string & theVar,
+						 int theDay)
 	{
 	  MessageLogger log("PrecipitationStoryTools::type_phrase");
 
@@ -457,11 +457,11 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const Sentence sum_phrase(const WeatherResult & theMinimum,
-							  const WeatherResult & theMaximum,
-							  const WeatherResult & theMean,
-							  int theMinInterval,
-							  const string & theRangeSeparator)
+	Sentence sum_phrase(const WeatherResult & theMinimum,
+						const WeatherResult & theMaximum,
+						const WeatherResult & theMean,
+						int theMinInterval,
+						const string & theRangeSeparator)
 	{
 	  Sentence sentence;
 	  

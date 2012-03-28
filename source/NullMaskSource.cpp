@@ -50,7 +50,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const NullMaskSource::mask_type
+  NullMaskSource::mask_type
   NullMaskSource::mask(const WeatherArea & theArea,
 					   const std::string & theData,
 					   const WeatherSource & theWeatherSource) const
@@ -68,7 +68,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const NullMaskSource::masks_type
+  NullMaskSource::masks_type
   NullMaskSource::masks(const WeatherArea & theArea,
 						   const std::string & theData,
 						   const WeatherSource & theWeatherSource) const

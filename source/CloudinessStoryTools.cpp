@@ -110,8 +110,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const CommonCloudiness similar_type(CloudinessType theType1,
-										CloudinessType theType2)
+	CommonCloudiness similar_type(CloudinessType theType1,
+								  CloudinessType theType2)
 	{
 	  static std::pair<CloudinessType,bool> notsimilar(VariableCloudiness,false);
 
@@ -362,7 +362,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	const CommonCloudiness similar_type(const std::vector<CloudinessType> & theTypes)
+	CommonCloudiness similar_type(const std::vector<CloudinessType> & theTypes)
 	{
 	  return similar_type(theTypes,0,theTypes.size()-1);
 	}
@@ -384,9 +384,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const CommonCloudiness similar_type(const std::vector<CloudinessType> & theTypes,
-										unsigned int theStart,
-										unsigned int theEnd)
+	CommonCloudiness similar_type(const std::vector<CloudinessType> & theTypes,
+								  unsigned int theStart,
+								  unsigned int theEnd)
 	{
 	  // handle zero types case
 	  if(theTypes.empty() || theEnd<theStart)
@@ -425,7 +425,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const Sentence cloudiness_phrase(CloudinessType theType)
+	Sentence cloudiness_phrase(CloudinessType theType)
 	{
 	  Sentence sentence;
 	  switch(theType)
@@ -478,11 +478,11 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	const Sentence cloudiness_phrase(const AnalysisSources & theSources,
-									 const WeatherArea & theArea,
-									 const WeatherPeriod & thePeriod,
-									 const string & theVar,
-									 int theDay)
+	Sentence cloudiness_phrase(const AnalysisSources & theSources,
+							   const WeatherArea & theArea,
+							   const WeatherPeriod & thePeriod,
+							   const string & theVar,
+							   int theDay)
 	{
 	  MessageLogger log("CloudinessStoryTools::cloudiness_phrase");
 	  

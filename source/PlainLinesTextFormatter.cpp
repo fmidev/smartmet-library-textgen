@@ -26,7 +26,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const string PlainLinesTextFormatter::visit(const Paragraph & theParagraph) const
+  string PlainLinesTextFormatter::visit(const Paragraph & theParagraph) const
   {
 	string ret = TextFormatterTools::realize(theParagraph.begin(),
 											 theParagraph.end(),

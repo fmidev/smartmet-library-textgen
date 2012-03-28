@@ -67,7 +67,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const std::string StoryTag::realize(const Dictionary & theDictionary) const
+  std::string StoryTag::realize(const Dictionary & theDictionary) const
   {
 	return itsName;
   }
@@ -81,7 +81,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const std::string StoryTag::realize(const TextFormatter & theFormatter) const
+  std::string StoryTag::realize(const TextFormatter & theFormatter) const
   {
 	return theFormatter.visit(*this);
   }

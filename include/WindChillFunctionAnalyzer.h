@@ -36,7 +36,7 @@ namespace WeatherAnalysis
 							const WeatherFunction & theTimeFunction,
 							const WeatherFunction & theSubTimeFunction);
 
-	virtual const WeatherResult
+	virtual WeatherResult
 	analyze(const AnalysisSources & theSources,
 			const WeatherDataType & theDataType,
 			const WeatherArea & theArea,

@@ -83,7 +83,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------.
   
-  const Paragraph CloudinessStory::makeStory(const string & theName) const
+  Paragraph CloudinessStory::makeStory(const string & theName) const
   {
 	if(theName == "cloudiness_overview")
 	  return overview();

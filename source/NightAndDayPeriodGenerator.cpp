@@ -174,7 +174,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherPeriod NightAndDayPeriodGenerator::period() const
+  WeatherPeriod NightAndDayPeriodGenerator::period() const
   {
 	return WeatherPeriod(itsPeriods.front().localStartTime(),
 						 itsPeriods.back().localEndTime());
@@ -191,7 +191,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherPeriod NightAndDayPeriodGenerator::period(size_type thePeriod) const
+  WeatherPeriod NightAndDayPeriodGenerator::period(size_type thePeriod) const
   {
 	if(thePeriod < 1 || thePeriod > itsPeriods.size())
 	  throw WeatherAnalysis::WeatherAnalysisError("NightAndDayPeriodGenerator::period(): invalid argument");

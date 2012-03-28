@@ -37,7 +37,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph PrecipitationStory::pop_max() const
+  Paragraph PrecipitationStory::pop_max() const
   {
 	MessageLogger log("PrecipitationStory::pop_max");
 

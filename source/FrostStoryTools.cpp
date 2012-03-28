@@ -48,8 +48,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	const Sentence severe_frost_sentence(const WeatherPeriod & thePeriod,
-										 int theProbability)
+	Sentence severe_frost_sentence(const WeatherPeriod & thePeriod,
+								   int theProbability)
 	{
 	  Sentence sentence;
 	  sentence << "ankaran hallan todennakoisyys"
@@ -70,8 +70,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	const Sentence frost_sentence(const WeatherPeriod & thePeriod,
-								  int theProbability)
+	Sentence frost_sentence(const WeatherPeriod & thePeriod,
+							int theProbability)
 	{
 	  Sentence sentence;
 	  sentence << "hallan todennakoisyys"

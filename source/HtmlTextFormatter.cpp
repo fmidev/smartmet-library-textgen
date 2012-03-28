@@ -55,7 +55,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const string HtmlTextFormatter::format(const Glyph & theGlyph) const
+  string HtmlTextFormatter::format(const Glyph & theGlyph) const
   {
 	return theGlyph.realize(*this);
   }
@@ -68,7 +68,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const string HtmlTextFormatter::visit(const Glyph & theGlyph) const
+  string HtmlTextFormatter::visit(const Glyph & theGlyph) const
   {
 	return theGlyph.realize(*itsDictionary);
   }
@@ -79,7 +79,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const string HtmlTextFormatter::visit(const Integer & theInteger) const
+  string HtmlTextFormatter::visit(const Integer & theInteger) const
   {
 	return theInteger.realize(*itsDictionary);
   }
@@ -90,7 +90,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const string HtmlTextFormatter::visit(const Real & theReal) const
+  string HtmlTextFormatter::visit(const Real & theReal) const
   {
 	return theReal.realize(*itsDictionary);
   }
@@ -101,7 +101,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const string HtmlTextFormatter::visit(const IntegerRange & theRange) const
+  string HtmlTextFormatter::visit(const IntegerRange & theRange) const
   {
 	return theRange.realize(*itsDictionary);
   }
@@ -112,7 +112,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const string HtmlTextFormatter::visit(const Sentence & theSentence) const
+  string HtmlTextFormatter::visit(const Sentence & theSentence) const
   {
 	string ret = TextFormatterTools::realize(theSentence.begin(),
 											 theSentence.end(),
@@ -131,7 +131,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const string HtmlTextFormatter::visit(const Paragraph & theParagraph) const
+  string HtmlTextFormatter::visit(const Paragraph & theParagraph) const
   {
 	const string tags = Settings::optional_string(itsSectionVar+"::paragraph::html::tags","");
 
@@ -157,7 +157,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const string HtmlTextFormatter::visit(const Header & theHeader) const
+  string HtmlTextFormatter::visit(const Header & theHeader) const
   {
 	const bool colon = Settings::optional_bool(itsSectionVar+"::header::colon",false);
 	const int level = Settings::optional_int(itsSectionVar+"::header::html::level",1);
@@ -190,7 +190,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const string HtmlTextFormatter::visit(const Document & theDocument) const
+  string HtmlTextFormatter::visit(const Document & theDocument) const
   {
 	const string tags = Settings::optional_string("textgen::document::html::tags","");
 
@@ -215,7 +215,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const string HtmlTextFormatter::visit(const SectionTag & theSection) const
+  string HtmlTextFormatter::visit(const SectionTag & theSection) const
   {
 	itsSectionVar = theSection.realize(*itsDictionary);
 	return "";
@@ -227,7 +227,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const string HtmlTextFormatter::visit(const StoryTag & theStory) const
+  string HtmlTextFormatter::visit(const StoryTag & theStory) const
   {
 	itsStoryVar = theStory.realize(*itsDictionary);
 	return "";

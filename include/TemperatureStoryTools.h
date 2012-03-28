@@ -51,23 +51,23 @@ namespace TextGen
 											   int theMean2,
 											   const std::string & theVariable);
 
-	const TextGen::Sentence temperature_sentence(int theMinimum,
-												 int theMean,
-												 int theMaximum,
-												 int theMinInterval,
-												 bool theZeroFlag,
-												 const std::string & theRangeSeparator);
+	TextGen::Sentence temperature_sentence(int theMinimum,
+										   int theMean,
+										   int theMaximum,
+										   int theMinInterval,
+										   bool theZeroFlag,
+										   const std::string & theRangeSeparator);
 
-	const TextGen::Sentence temperature_sentence2(int theMinimum,
-												  int theMean,
-												  int theMaximum,
-												  int theMinInterval,
-												  bool theZeroFlag,
-												  bool& interval,
-												  int& intervalStart,
-												  int& intervalEnd,
-												  const std::string & theRangeSeparator,
-												  const bool& theRoundTheNumber);
+	TextGen::Sentence temperature_sentence2(int theMinimum,
+											int theMean,
+											int theMaximum,
+											int theMinInterval,
+											bool theZeroFlag,
+											bool& interval,
+											int& intervalStart,
+											int& intervalEnd,
+											const std::string & theRangeSeparator,
+											const bool& theRoundTheNumber);
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -113,6 +113,7 @@ namespace TextGen
 	 * \brief returns  afternoon period
 	 */
 	// ----------------------------------------------------------------------
+
 	WeatherPeriod get_afternoon_period(const std::string& theVar, const NFmiTime& theTime);
 
 	// ----------------------------------------------------------------------
@@ -168,6 +169,7 @@ namespace TextGen
 	 * \brief determines the temperature of the given fractile id
 	 */
 	// ----------------------------------------------------------------------
+
 	WeatherResult get_fractile_temperature(const std::string& theVar,
 										   const fractile_id& theFractileId,
 										   const AnalysisSources& theSources,

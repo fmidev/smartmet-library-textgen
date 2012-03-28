@@ -51,7 +51,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherResult
+  WeatherResult
   GridClimatology::analyze(const AnalysisSources & theSources,
 						  const WeatherParameter & theParameter,
 						  const WeatherFunction & theAreaFunction,

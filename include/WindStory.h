@@ -37,7 +37,7 @@ namespace TextGen
 			  const std::string & theVariable);
 
 	static bool hasStory(const std::string & theName);
-	virtual const Paragraph makeStory(const std::string & theName) const;
+	virtual Paragraph makeStory(const std::string & theName) const;
 
   private:
 
@@ -45,11 +45,11 @@ namespace TextGen
 	WindStory(const WindStory & theStory);
 	WindStory & operator=(const WindStory & theStory);
 
-	const Paragraph simple_overview() const;
-	const Paragraph overview() const;
-	const Paragraph daily_ranges() const;
-	const Paragraph range() const;
-	const Paragraph anomaly() const;
+	Paragraph simple_overview() const;
+	Paragraph overview() const;
+	Paragraph daily_ranges() const;
+	Paragraph range() const;
+	Paragraph anomaly() const;
 
 	const NFmiTime itsForecastTime;
 	const WeatherAnalysis::AnalysisSources & itsSources;

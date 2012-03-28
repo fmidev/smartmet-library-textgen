@@ -35,7 +35,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const Paragraph WindStory::range() const
+  Paragraph WindStory::range() const
   {
 	MessageLogger log("WindStory::range");
 

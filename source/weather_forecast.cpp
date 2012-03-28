@@ -1395,7 +1395,7 @@ using namespace std;
    */
   // ----------------------------------------------------------------------
 
-  const Paragraph WeatherStory::forecast() const
+  Paragraph WeatherStory::forecast() const
   {
 	MessageLogger log("WeatherStory::forecast");
 

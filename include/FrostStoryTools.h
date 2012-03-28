@@ -21,11 +21,11 @@ namespace TextGen
   {
 	bool is_frost_season();
 
-	const Sentence frost_sentence(const WeatherAnalysis::WeatherPeriod & thePeriod,
-								  int theProbability);
+	Sentence frost_sentence(const WeatherAnalysis::WeatherPeriod & thePeriod,
+							int theProbability);
 
-	const Sentence severe_frost_sentence(const WeatherAnalysis::WeatherPeriod & thePeriod,
-										 int theProbability);
+	Sentence severe_frost_sentence(const WeatherAnalysis::WeatherPeriod & thePeriod,
+								   int theProbability);
 
   } // namespace FrostStoryTools
 } // namespace TextGen

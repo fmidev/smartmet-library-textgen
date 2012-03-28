@@ -36,7 +36,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const Paragraph RoadStory::shortrange() const
+  Paragraph RoadStory::shortrange() const
   {
 	MessageLogger log("RoadStory::shortrange");
 

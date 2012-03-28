@@ -37,20 +37,20 @@ namespace TextGen
 
 	virtual void dictionary(const boost::shared_ptr<Dictionary> & theDict) = 0;
 
-	virtual const std::string format(const Glyph & theGlyph) const = 0;
+	virtual std::string format(const Glyph & theGlyph) const = 0;
 
 	// override for all composites
-	virtual const std::string visit(const Glyph & theGlyph) const = 0;
-	virtual const std::string visit(const Integer & theInteger) const = 0;
-	virtual const std::string visit(const Real & theReal) const = 0;
-	virtual const std::string visit(const IntegerRange & theRange) const = 0;
-	virtual const std::string visit(const Sentence & theSentence) const = 0;
-	virtual const std::string visit(const Paragraph & theParagraph) const = 0;
-	virtual const std::string visit(const Header & theHeader) const = 0;
-	virtual const std::string visit(const Document & theDocument) const = 0;
+	virtual std::string visit(const Glyph & theGlyph) const = 0;
+	virtual std::string visit(const Integer & theInteger) const = 0;
+	virtual std::string visit(const Real & theReal) const = 0;
+	virtual std::string visit(const IntegerRange & theRange) const = 0;
+	virtual std::string visit(const Sentence & theSentence) const = 0;
+	virtual std::string visit(const Paragraph & theParagraph) const = 0;
+	virtual std::string visit(const Header & theHeader) const = 0;
+	virtual std::string visit(const Document & theDocument) const = 0;
 
-	virtual const std::string visit(const SectionTag & theSectionTag) const = 0;
-	virtual const std::string visit(const StoryTag & theStoryTag) const = 0;
+	virtual std::string visit(const SectionTag & theSectionTag) const = 0;
+	virtual std::string visit(const StoryTag & theStoryTag) const = 0;
 
   }; // class TextFormatter
 } // namespace TextGen

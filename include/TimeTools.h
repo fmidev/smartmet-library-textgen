@@ -17,17 +17,17 @@ namespace WeatherAnalysis
   namespace TimeTools
   {
 	
-	const NFmiTime toLocalTime(const NFmiTime & theUtcTime);
-	const NFmiTime toUtcTime(const NFmiTime & theLocalTime);
+	NFmiTime toLocalTime(const NFmiTime & theUtcTime);
+	NFmiTime toUtcTime(const NFmiTime & theLocalTime);
 
 	bool isSameDay(const NFmiTime & theDate1, const NFmiTime & theDate2);
 	bool isNextDay(const NFmiTime & theDate1, const NFmiTime & theDate2);
 	bool isSeveralDays(const NFmiTime & theDate1, const NFmiTime & theDate2);
 
-	const NFmiTime dayStart(const NFmiTime & theDate);
-	const NFmiTime dayEnd(const NFmiTime & theDate);
-	const NFmiTime nextDay(const NFmiTime & theDate);
-	const NFmiTime addHours(const NFmiTime & theDate, int theHours);
+	NFmiTime dayStart(const NFmiTime & theDate);
+	NFmiTime dayEnd(const NFmiTime & theDate);
+	NFmiTime nextDay(const NFmiTime & theDate);
+	NFmiTime addHours(const NFmiTime & theDate, int theHours);
 
   }
 } // namespace WeatherAnalysis

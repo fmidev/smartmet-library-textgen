@@ -55,12 +55,12 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const Paragraph create(const NFmiTime & theForecastTime,
-						   const AnalysisSources & theSources,
-						   const WeatherArea & theArea,
-						   const WeatherPeriod & thePeriod,
-						   const string & theName,
-						   const string & theVariable)
+	Paragraph create(const NFmiTime & theForecastTime,
+					 const AnalysisSources & theSources,
+					 const WeatherArea & theArea,
+					 const WeatherPeriod & thePeriod,
+					 const string & theName,
+					 const string & theVariable)
 	{
 	  if(theName == "none")
 		{

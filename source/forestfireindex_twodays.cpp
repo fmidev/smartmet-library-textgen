@@ -39,7 +39,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph ForestStory::forestfireindex_twodays() const
+  Paragraph ForestStory::forestfireindex_twodays() const
   {
 	MessageLogger log("ForestStory::forestfireindex_twodays");
 	

@@ -104,7 +104,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------.
   
-  const Paragraph TemperatureStory::makeStory(const string & theName) const
+  Paragraph TemperatureStory::makeStory(const string & theName) const
   {
 	if(theName == "temperature_mean")
 	  return mean();

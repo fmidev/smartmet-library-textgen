@@ -27,29 +27,29 @@ namespace TextGen
   namespace PrecipitationStoryTools
   {
 
-	const Sentence rain_phrase(const WeatherAnalysis::AnalysisSources & theSources,
-							   const WeatherAnalysis::WeatherArea & theArea,
-							   const WeatherAnalysis::WeatherPeriod & thePeriod,
-							   const std::string & theVar,
-							   int theDay);
+	Sentence rain_phrase(const WeatherAnalysis::AnalysisSources & theSources,
+						 const WeatherAnalysis::WeatherArea & theArea,
+						 const WeatherAnalysis::WeatherPeriod & thePeriod,
+						 const std::string & theVar,
+						 int theDay);
 
-	const Sentence places_phrase(const WeatherAnalysis::AnalysisSources & theSources,
-								 const WeatherAnalysis::WeatherArea & theArea,
-								 const WeatherAnalysis::WeatherPeriod & thePeriod,
-								 const std::string & theVar,
-								 int theDay);
+	Sentence places_phrase(const WeatherAnalysis::AnalysisSources & theSources,
+						   const WeatherAnalysis::WeatherArea & theArea,
+						   const WeatherAnalysis::WeatherPeriod & thePeriod,
+						   const std::string & theVar,
+						   int theDay);
 
-	const Sentence type_phrase(const WeatherAnalysis::AnalysisSources & theSources,
-							   const WeatherAnalysis::WeatherArea & theArea,
-							   const WeatherAnalysis::WeatherPeriod & thePeriod,
-							   const std::string & theVar,
-							   int theDay);
+	Sentence type_phrase(const WeatherAnalysis::AnalysisSources & theSources,
+						 const WeatherAnalysis::WeatherArea & theArea,
+						 const WeatherAnalysis::WeatherPeriod & thePeriod,
+						 const std::string & theVar,
+						 int theDay);
 
-	const Sentence sum_phrase(const WeatherAnalysis::WeatherResult & theMinimum,
-							  const WeatherAnalysis::WeatherResult & theMaximum,
-							  const WeatherAnalysis::WeatherResult & theMean,
-							  int theMinInterval,
-							  const std::string & theRangeSeparator);
+	Sentence sum_phrase(const WeatherAnalysis::WeatherResult & theMinimum,
+						const WeatherAnalysis::WeatherResult & theMaximum,
+						const WeatherAnalysis::WeatherResult & theMean,
+						int theMinInterval,
+						const std::string & theRangeSeparator);
 
   } // namespace PrecipitationStoryTools
 } // namespace TextGen

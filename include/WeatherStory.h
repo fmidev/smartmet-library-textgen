@@ -37,15 +37,15 @@ namespace TextGen
 					 const std::string & theVariable);
 
 	static bool hasStory(const std::string & theName);
-	virtual const Paragraph makeStory(const std::string & theName) const;
+	virtual Paragraph makeStory(const std::string & theName) const;
 
   private:
 
-	const Paragraph overview() const;
-	const Paragraph forecast() const;
-	const Paragraph shortoverview() const;
-	const Paragraph thunderprobability() const;
-	const Paragraph thunderprobability_simplified() const;
+	Paragraph overview() const;
+	Paragraph forecast() const;
+	Paragraph shortoverview() const;
+	Paragraph thunderprobability() const;
+	Paragraph thunderprobability_simplified() const;
 
 	WeatherStory();
 	WeatherStory(const WeatherStory & theStory);

@@ -67,7 +67,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const std::string Integer::realize(const Dictionary & theDictionary) const
+  std::string Integer::realize(const Dictionary & theDictionary) const
   {
 	ostringstream os;
 	os << itsInteger;
@@ -83,7 +83,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const std::string Integer::realize(const TextFormatter & theFormatter) const
+  std::string Integer::realize(const TextFormatter & theFormatter) const
   {
 	return theFormatter.visit(*this);
   }

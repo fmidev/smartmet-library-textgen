@@ -32,7 +32,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const Paragraph DewPointStory::range() const
+  Paragraph DewPointStory::range() const
   {
 	MessageLogger log("DewPointStory::range");
 

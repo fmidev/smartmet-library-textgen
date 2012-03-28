@@ -74,12 +74,12 @@ namespace TextGen
 	  return true;
 	if(theName == "roadwarning_overview")
 	  return true;
-        if(theName == "roadcondition_shortview")
-          return true;
-        if(theName == "roadwarning_shortview")
-          return true;
-        if(theName == "roadtemperature_shortrange")
-          return true;
+	if(theName == "roadcondition_shortview")
+	  return true;
+	if(theName == "roadwarning_shortview")
+	  return true;
+	if(theName == "roadtemperature_shortrange")
+	  return true;
 
 	return false;
   }
@@ -95,21 +95,21 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------.
   
-  const Paragraph RoadStory::makeStory(const string & theName) const
+  Paragraph RoadStory::makeStory(const string & theName) const
   {
 	if(theName == "roadtemperature_daynightranges")
 	  return daynightranges();
-        if(theName == "roadtemperature_shortrange")
-          return shortrange();
+	if(theName == "roadtemperature_shortrange")
+	  return shortrange();
 	if(theName == "roadcondition_overview")
 	  return condition_overview();
 	if(theName == "roadwarning_overview")
 	  return warning_overview();
-        if(theName == "roadwarning_shortview")
-          return warning_shortview();
-        if(theName == "roadcondition_shortview")
-          return condition_shortview();
-
+	if(theName == "roadwarning_shortview")
+	  return warning_shortview();
+	if(theName == "roadcondition_shortview")
+	  return condition_shortview();
+	
 	throw TextGenError("RoadStory cannot make story "+theName);
 
   }

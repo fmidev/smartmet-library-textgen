@@ -56,21 +56,21 @@ namespace TextGen
 
 	typedef std::pair<CloudinessType,bool> CommonCloudiness;
 
-	const CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2);
+	CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2);
 
-	const CommonCloudiness similar_type(const std::vector<CloudinessType> & theTypes);
+	CommonCloudiness similar_type(const std::vector<CloudinessType> & theTypes);
 
-	const CommonCloudiness similar_type(const std::vector<CloudinessType> & theTypes,
-										unsigned int theStart,
-										unsigned int theEnd);
+	CommonCloudiness similar_type(const std::vector<CloudinessType> & theTypes,
+								  unsigned int theStart,
+								  unsigned int theEnd);
 	
-	const Sentence cloudiness_phrase(CloudinessType theType);
+	Sentence cloudiness_phrase(CloudinessType theType);
 	
-	const Sentence cloudiness_phrase(const WeatherAnalysis::AnalysisSources & theSources,
-									 const WeatherAnalysis::WeatherArea & theArea,
-									 const WeatherAnalysis::WeatherPeriod & thePeriod,
-									 const std::string & theVar,
-									 int theDay);
+	Sentence cloudiness_phrase(const WeatherAnalysis::AnalysisSources & theSources,
+							   const WeatherAnalysis::WeatherArea & theArea,
+							   const WeatherAnalysis::WeatherPeriod & thePeriod,
+							   const std::string & theVar,
+							   int theDay);
 
 
   } // namespace CloudinessStoryTools

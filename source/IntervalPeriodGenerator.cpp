@@ -162,7 +162,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherPeriod IntervalPeriodGenerator::period() const
+  WeatherPeriod IntervalPeriodGenerator::period() const
   {
 	const NFmiTime start = period(1).localStartTime();
 	const NFmiTime end = period(size()).localEndTime();
@@ -180,7 +180,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherPeriod IntervalPeriodGenerator::period(size_type thePeriod) const
+  WeatherPeriod IntervalPeriodGenerator::period(size_type thePeriod) const
   {
     if(thePeriod < 1 || thePeriod > itsPeriods.size())
       throw WeatherAnalysis::WeatherAnalysisError("IntervalPeriodGenerator::period(): invalid argument");

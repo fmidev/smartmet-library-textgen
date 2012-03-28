@@ -45,7 +45,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const std::string Document::realize(const Dictionary & theDictionary) const
+  std::string Document::realize(const Dictionary & theDictionary) const
   {
 	throw TextGenError("Document::realize(Dictionary) should not be called");
   }
@@ -59,7 +59,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const std::string Document::realize(const TextFormatter & theFormatter) const
+  std::string Document::realize(const TextFormatter & theFormatter) const
   {
 	return theFormatter.visit(*this);
   }

@@ -91,7 +91,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph TemperatureStory::day() const
+  Paragraph TemperatureStory::day() const
   {
 	MessageLogger log("TemperatureStory::day");
 		      

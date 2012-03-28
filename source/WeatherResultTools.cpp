@@ -35,8 +35,8 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	const WeatherResult	min(const WeatherResult & theResult1,
-							const WeatherResult & theResult2)
+	WeatherResult min(const WeatherResult & theResult1,
+					  const WeatherResult & theResult2)
 	{
 	  WeatherResult result(std::min(theResult1.value(),theResult2.value()),
 						   std::max(theResult1.error(),theResult2.error()));
@@ -53,8 +53,8 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	const WeatherResult	max(const WeatherResult & theResult1,
-							const WeatherResult & theResult2)
+	WeatherResult max(const WeatherResult & theResult1,
+					  const WeatherResult & theResult2)
 	{
 	  WeatherResult result(std::max(theResult1.value(),theResult2.value()),
 						   std::max(theResult1.error(),theResult2.error()));
@@ -71,8 +71,8 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	const WeatherResult mean(const WeatherResult & theResult1,
-							 const WeatherResult & theResult2)
+	WeatherResult mean(const WeatherResult & theResult1,
+					   const WeatherResult & theResult2)
 	{
 	  WeatherResult result(MathTools::mean(theResult1.value(),theResult2.value()),
 						   std::max(theResult1.error(),theResult2.error()));
@@ -90,9 +90,9 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	const WeatherResult min(const WeatherResult & theResult1,
-							const WeatherResult & theResult2,
-							const WeatherResult & theResult3)
+	WeatherResult min(const WeatherResult & theResult1,
+					  const WeatherResult & theResult2,
+					  const WeatherResult & theResult3)
 	{
 	  WeatherResult result(MathTools::min(theResult1.value(),
 										  theResult2.value(),
@@ -114,9 +114,9 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	const WeatherResult	max(const WeatherResult & theResult1,
-							const WeatherResult & theResult2,
-							const WeatherResult & theResult3)
+	WeatherResult max(const WeatherResult & theResult1,
+					  const WeatherResult & theResult2,
+					  const WeatherResult & theResult3)
 	{
 	  WeatherResult result(MathTools::max(theResult1.value(),
 										  theResult2.value(),
@@ -138,9 +138,9 @@ namespace WeatherAnalysis
 	 */
 	// ----------------------------------------------------------------------
 
-	const WeatherResult	mean(const WeatherResult & theResult1,
-							 const WeatherResult & theResult2,
-							 const WeatherResult & theResult3)
+	WeatherResult mean(const WeatherResult & theResult1,
+					   const WeatherResult & theResult2,
+					   const WeatherResult & theResult3)
 	{
 	  WeatherResult result(MathTools::mean(theResult1.value(),
 										   theResult2.value(),

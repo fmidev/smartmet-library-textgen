@@ -25,12 +25,12 @@ namespace TextGen
 
   namespace StoryFactory
   {
-	const Paragraph create(const NFmiTime & theForecastTime,
-						   const WeatherAnalysis::AnalysisSources & theSources,
-						   const WeatherAnalysis::WeatherArea & theArea,
-						   const WeatherAnalysis::WeatherPeriod & thePeriod,
-						   const std::string & theName,
-						   const std::string & theVariable);
+	Paragraph create(const NFmiTime & theForecastTime,
+					 const WeatherAnalysis::AnalysisSources & theSources,
+					 const WeatherAnalysis::WeatherArea & theArea,
+					 const WeatherAnalysis::WeatherPeriod & thePeriod,
+					 const std::string & theName,
+					 const std::string & theVariable);
 
   } // namespace StoryFactory
 } // namespace TextGen

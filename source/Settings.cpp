@@ -57,7 +57,7 @@ namespace Settings
    */
   // ----------------------------------------------------------------------
   
-  const std::string require(const std::string & theName)
+  std::string require(const std::string & theName)
   {
 	return NFmiSettings::Require<string>(theName.c_str());
   }
@@ -73,7 +73,7 @@ namespace Settings
    */
   // ----------------------------------------------------------------------
   
-  const std::string require_string(const std::string & theName)
+  std::string require_string(const std::string & theName)
   {
 	const string value = require(theName);
 	if(value.empty())
@@ -190,7 +190,7 @@ namespace Settings
    */
   // ----------------------------------------------------------------------
   
-  const NFmiTime require_time(const std::string & theName)
+  NFmiTime require_time(const std::string & theName)
   {
 	const string value = require_string(theName.c_str());
 
@@ -238,7 +238,7 @@ namespace Settings
    */
   // ----------------------------------------------------------------------
 
-  const WeatherAnalysis::WeatherResult require_result(const std::string & theName)
+  WeatherAnalysis::WeatherResult require_result(const std::string & theName)
   {
 	const string value = require_string(theName.c_str());
 
@@ -268,8 +268,8 @@ namespace Settings
    */
   // ----------------------------------------------------------------------
 
-  const std::string optional_string(const std::string & theName,
-									const std::string & theDefault)
+  std::string optional_string(const std::string & theName,
+							  const std::string & theDefault)
   {
 	return NFmiSettings::Optional<string>(theName.c_str(),theDefault);
   }

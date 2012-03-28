@@ -27,17 +27,17 @@ namespace WeatherAnalysis
 					 int theMaxStartHour,
 					 int theMinEndHour);
 
-	const WeatherPeriod getPeriod(const WeatherPeriod & thePeriod,
-								  int theNumber,
-								  int theStartHour,
-								  int theEndHour);
+	WeatherPeriod getPeriod(const WeatherPeriod & thePeriod,
+							int theNumber,
+							int theStartHour,
+							int theEndHour);
 
-	const WeatherPeriod getPeriod(const WeatherPeriod & thePeriod,
-								  int theNumber,
-								  int theStartHour,
-								  int theEndHour,
-								  int theMaxStartHour,
-								  int theMinEndHour);
+	WeatherPeriod getPeriod(const WeatherPeriod & thePeriod,
+							int theNumber,
+							int theStartHour,
+							int theEndHour,
+							int theMaxStartHour,
+							int theMinEndHour);
 
 
   } // namespace WeatherPeriodTools

@@ -4494,7 +4494,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph TemperatureStory::max36hours() const
+  Paragraph TemperatureStory::max36hours() const
   {
 	MessageLogger log("TemperatureStory::max36h");
 

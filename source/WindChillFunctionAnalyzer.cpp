@@ -142,7 +142,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherResult
+  WeatherResult
   WindChillFunctionAnalyzer::analyze(const AnalysisSources & theSources,
 								   const WeatherDataType & theDataType,
 								   const WeatherArea & theArea,

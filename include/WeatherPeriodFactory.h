@@ -23,8 +23,8 @@ namespace TextGen
   namespace WeatherPeriodFactory
   {
 
-	const WeatherAnalysis::WeatherPeriod create(const NFmiTime & theTime,
-												const std::string & theVariable);
+	WeatherAnalysis::WeatherPeriod create(const NFmiTime & theTime,
+										  const std::string & theVariable);
 
 
   } // namespace WeatherPeriodFactory

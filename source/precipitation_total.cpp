@@ -34,7 +34,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const Paragraph PrecipitationStory::total() const
+  Paragraph PrecipitationStory::total() const
   {
 	MessageLogger log("PrecipitationStory::total");
 

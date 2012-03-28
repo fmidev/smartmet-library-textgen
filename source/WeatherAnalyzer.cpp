@@ -49,7 +49,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherResult
+  WeatherResult
   WeatherAnalyzer::analyze(const AnalysisSources & theSources,
 						   const WeatherParameter & theParameter,
 						   const WeatherFunction & theAreaFunction,
@@ -93,7 +93,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherResult
+  WeatherResult
   WeatherAnalyzer::analyze(const std::string & theFakeVariable,
 						   const AnalysisSources & theSources,
 						   const WeatherParameter & theParameter,
@@ -141,7 +141,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherResult
+  WeatherResult
   WeatherAnalyzer::analyze(const std::string & theFakeVariable,
 						   const AnalysisSources & theSources,
 						   const WeatherParameter & theParameter,

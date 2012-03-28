@@ -20,7 +20,7 @@ namespace TextGen
 	virtual ~PlainLinesTextFormatter() { }
 
 	using PlainTextFormatter::visit;
-	virtual const std::string visit(const Paragraph & theParagraph) const;
+	virtual std::string visit(const Paragraph & theParagraph) const;
 
   }; // class PlainLinesTextFormatter
 } // namespace TextGen

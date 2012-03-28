@@ -1145,7 +1145,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph RoadStory::warning_overview() const
+  Paragraph RoadStory::warning_overview() const
   {
 	MessageLogger log("RoadStory::warning_overview");
 	

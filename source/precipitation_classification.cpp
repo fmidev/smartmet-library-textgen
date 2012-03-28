@@ -122,7 +122,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const Paragraph PrecipitationStory::classification() const
+  Paragraph PrecipitationStory::classification() const
   {
 	MessageLogger log("PrecipitationStory::classification");
 

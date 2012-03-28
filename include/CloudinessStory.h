@@ -36,7 +36,7 @@ namespace TextGen
 					const std::string & theVariable);
 
 	static bool hasStory(const std::string & theName);
-	virtual const Paragraph makeStory(const std::string & theName) const;
+	virtual Paragraph makeStory(const std::string & theName) const;
 
   private:
 

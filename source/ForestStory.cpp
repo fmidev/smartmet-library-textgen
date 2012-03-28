@@ -87,7 +87,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------.
   
-  const Paragraph ForestStory::makeStory(const string & theName) const
+  Paragraph ForestStory::makeStory(const string & theName) const
   {
 	if(theName == "forestfireindex_twodays")
 	  return forestfireindex_twodays();

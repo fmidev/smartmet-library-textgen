@@ -71,7 +71,7 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  const string padzeros(const string & theString, unsigned int theCount)
+  string padzeros(const string & theString, unsigned int theCount)
   {
 	if(theString.size() >= theCount)
 	  return theString;
@@ -186,7 +186,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const string SoneraTextFormatter::format(const Glyph & theGlyph) const
+  string SoneraTextFormatter::format(const Glyph & theGlyph) const
   {
 	static string dummy("dummy");
 
@@ -237,7 +237,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const string SoneraTextFormatter::visit(const Glyph & theGlyph) const
+  string SoneraTextFormatter::visit(const Glyph & theGlyph) const
   {
 	static string dummy("glyph");
 	string tokens = theGlyph.realize(*itsDictionary);
@@ -252,7 +252,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const string SoneraTextFormatter::visit(const Integer & theInteger) const
+  string SoneraTextFormatter::visit(const Integer & theInteger) const
   {
 	static string dummy("integer");
 
@@ -267,7 +267,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const string SoneraTextFormatter::visit(const Real & theReal) const
+  string SoneraTextFormatter::visit(const Real & theReal) const
   {
 	throw TextGen::TextGenError("Cannot use Reals in Sonera phone service");
   }
@@ -279,7 +279,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const string SoneraTextFormatter::visit(const IntegerRange & theRange) const
+  string SoneraTextFormatter::visit(const IntegerRange & theRange) const
   {
 	static string dummy("integerrange");
 
@@ -300,7 +300,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const string SoneraTextFormatter::visit(const Sentence & theSentence) const
+  string SoneraTextFormatter::visit(const Sentence & theSentence) const
   {
 	static string dummy("sentence");
 	const container_type::size_type oldsize = itsParts.size();
@@ -321,7 +321,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const string SoneraTextFormatter::visit(const Paragraph & theParagraph) const
+  string SoneraTextFormatter::visit(const Paragraph & theParagraph) const
   {
 	static string dummy("paragraph");
 	const container_type::size_type oldsize = itsParts.size();
@@ -342,7 +342,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const string SoneraTextFormatter::visit(const Header & theHeader) const
+  string SoneraTextFormatter::visit(const Header & theHeader) const
   {
 	static string dummy("header");
 	const container_type::size_type oldsize = itsParts.size();
@@ -363,7 +363,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const string SoneraTextFormatter::visit(const Document & theDocument) const
+  string SoneraTextFormatter::visit(const Document & theDocument) const
   {
 	static string dummy("document");
 	sonera_realize(theDocument.begin(), theDocument.end(), *this, itsParts);
@@ -376,7 +376,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const string SoneraTextFormatter::visit(const SectionTag & theSection) const
+  string SoneraTextFormatter::visit(const SectionTag & theSection) const
   {
 	itsSectionVar = theSection.realize(*itsDictionary);
 	return "";
@@ -388,7 +388,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const string SoneraTextFormatter::visit(const StoryTag & theStory) const
+  string SoneraTextFormatter::visit(const StoryTag & theStory) const
   {
 	itsStoryVar = theStory.realize(*itsDictionary);
 	return "";

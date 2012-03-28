@@ -931,7 +931,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph RoadStory::condition_overview() const
+  Paragraph RoadStory::condition_overview() const
   {
 	MessageLogger log("RoadStory::condition_overview");
 

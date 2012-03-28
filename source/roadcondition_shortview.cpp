@@ -544,7 +544,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph RoadStory::condition_shortview() const
+  Paragraph RoadStory::condition_shortview() const
   {
 	MessageLogger log("RoadStory::condition_shortview");
 

@@ -1747,7 +1747,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph WindStory::anomaly() const
+  Paragraph WindStory::anomaly() const
   {
 	using namespace WindAnomaly;
 

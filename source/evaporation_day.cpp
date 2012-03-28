@@ -32,7 +32,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 	
-  const Paragraph ForestStory::evaporation_day() const
+  Paragraph ForestStory::evaporation_day() const
   {
 	MessageLogger log("ForestStory::evaporation_day");
 

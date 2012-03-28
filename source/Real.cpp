@@ -74,7 +74,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const std::string Real::realize(const Dictionary & theDictionary) const
+  std::string Real::realize(const Dictionary & theDictionary) const
   {
 	ostringstream os;
 	os << fixed
@@ -95,7 +95,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const std::string Real::realize(const TextFormatter & theFormatter) const
+  std::string Real::realize(const TextFormatter & theFormatter) const
   {
 	return theFormatter.visit(*this);
   }

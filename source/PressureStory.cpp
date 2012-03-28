@@ -84,7 +84,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------.
   
-  const Paragraph PressureStory::makeStory(const string & theName) const
+  Paragraph PressureStory::makeStory(const string & theName) const
   {
 	if(theName == "pressure_mean")
 	  return mean();

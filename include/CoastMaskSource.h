@@ -21,13 +21,13 @@ namespace WeatherAnalysis
 
 	CoastMaskSource(const WeatherArea & theCoast);
 
-	virtual const mask_type mask(const WeatherArea & theArea,
-								 const std::string & theData,
-								 const WeatherSource & theWeatherSource) const;
+	virtual mask_type mask(const WeatherArea & theArea,
+						   const std::string & theData,
+						   const WeatherSource & theWeatherSource) const;
 
-	virtual const masks_type masks(const WeatherArea & theArea,
-								   const std::string & theData,
-								   const WeatherSource & theWeatherSource) const;
+	virtual masks_type masks(const WeatherArea & theArea,
+							 const std::string & theData,
+							 const WeatherSource & theWeatherSource) const;
 
   private:
 

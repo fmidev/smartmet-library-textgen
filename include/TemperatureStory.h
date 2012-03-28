@@ -38,20 +38,20 @@ namespace TextGen
 					 const std::string & theVariable);
 
 	static bool hasStory(const std::string & theName);
-	virtual const Paragraph makeStory(const std::string & theName) const;
+	virtual Paragraph makeStory(const std::string & theName) const;
 
   private:
 
-	const Paragraph mean() const;
-	const Paragraph meanmax() const;
-	const Paragraph meanmin() const;
-	const Paragraph dailymax() const;
-	const Paragraph nightlymin() const;
-	const Paragraph weekly_minmax() const;
-	const Paragraph weekly_averages() const;
-	const Paragraph day() const;
-	const Paragraph range() const;
-	const Paragraph max36hours() const;
+	Paragraph mean() const;
+	Paragraph meanmax() const;
+	Paragraph meanmin() const;
+	Paragraph dailymax() const;
+	Paragraph nightlymin() const;
+	Paragraph weekly_minmax() const;
+	Paragraph weekly_averages() const;
+	Paragraph day() const;
+	Paragraph range() const;
+	Paragraph max36hours() const;
 	const Paragraph anomaly() const;
 
 	TemperatureStory();

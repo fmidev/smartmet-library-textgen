@@ -35,7 +35,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const Paragraph TemperatureStory::meanmin() const
+  Paragraph TemperatureStory::meanmin() const
   {
 	MessageLogger log("TemperatureStory::meanmin");
 

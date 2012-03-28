@@ -37,16 +37,16 @@ namespace TextGen
 			  const std::string & theVariable);
 	
 	static bool hasStory(const std::string & theName);
-	virtual const Paragraph makeStory(const std::string & theName) const;
+	virtual Paragraph makeStory(const std::string & theName) const;
 	
   private:
 	
-	const Paragraph daynightranges() const;
-	const Paragraph condition_overview() const;
-	const Paragraph warning_overview() const;
-	const Paragraph condition_shortview() const;
-	const Paragraph shortrange() const;
-	const Paragraph warning_shortview() const;
+	Paragraph daynightranges() const;
+	Paragraph condition_overview() const;
+	Paragraph warning_overview() const;
+	Paragraph condition_shortview() const;
+	Paragraph shortrange() const;
+	Paragraph warning_shortview() const;
 
 	RoadStory();
 	RoadStory(const RoadStory & theStory);

@@ -84,7 +84,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------.
   
-  const Paragraph DewPointStory::makeStory(const string & theName) const
+  Paragraph DewPointStory::makeStory(const string & theName) const
   {
 	if(theName == "dewpoint_range")
 	  return range();

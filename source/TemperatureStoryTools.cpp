@@ -101,12 +101,12 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	const TextGen::Sentence temperature_sentence(int theMinimum,
-												 int theMean,
-												 int theMaximum,
-												 int theMinInterval,
-												 bool theZeroFlag,
-												 const std::string & theRangeSeparator)
+	TextGen::Sentence temperature_sentence(int theMinimum,
+										   int theMean,
+										   int theMaximum,
+										   int theMinInterval,
+										   bool theZeroFlag,
+										   const std::string & theRangeSeparator)
 	{
 	  Sentence sentence;
 	  
@@ -225,10 +225,10 @@ namespace TextGen
 		{
 		  // changed 6.10.2010
 		  // Lea Saukkonen:
-		  // 1. Lukemat positiivisi: pienempi lukema ensin esim L-Admpvtila on viidestd kymmeneen (5…10) astetta
-		  // 2. Lukemat nollan molemmin puolin: kylmempi ensin esim Ldmpvtila on miinus kolmen ja plus kahden (-3…+2)asteen vdlilld
-		  //3. Lukemista toinen on nolla: nolla ensin esim Ldmpvtila on nollan ja miinus viiden 0…-5) asteen vdlilld toinen esimerkki Ldmpvtila on nollan ja plus viiden (0…+5) asteen vdlilld
-		  //4. Lukemat negatiivisia: ldmpimdmpi emsin esim Ldmpvtila on miinus viidestd miinus kymmeneen (-5…-10) asteeseen tai Pakkasta on viidestd kymmeneen asteeseen.
+		  // 1. Lukemat positiivisi: pienempi lukema ensin esim L-Admpvtila on viidestd kymmeneen (5…10) astetta
+		  // 2. Lukemat nollan molemmin puolin: kylmempi ensin esim Ldmpvtila on miinus kolmen ja plus kahden (-3…+2)asteen vdlilld
+		  //3. Lukemista toinen on nolla: nolla ensin esim Ldmpvtila on nollan ja miinus viiden 0…-5) asteen vdlilld toinen esimerkki Ldmpvtila on nollan ja plus viiden (0…+5) asteen vdlilld
+		  //4. Lukemat negatiivisia: ldmpimdmpi emsin esim Ldmpvtila on miinus viidestd miinus kymmeneen (-5…-10) asteeseen tai Pakkasta on viidestd kymmeneen asteeseen.
 
 		  
 		  int theRoundedMinimum = theMinimum;
@@ -284,16 +284,16 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	const TextGen::Sentence temperature_sentence2(int theMinimum,
-												  int theMean,
-												  int theMaximum,
-												  int theMinInterval,
-												  bool theZeroFlag,
-												  bool& interval,
-												  int& intervalStart,
-												  int& intervalEnd,
-												  const std::string & theRangeSeparator,
-												  const bool& theRoundTheNumber)
+	TextGen::Sentence temperature_sentence2(int theMinimum,
+											int theMean,
+											int theMaximum,
+											int theMinInterval,
+											bool theZeroFlag,
+											bool& interval,
+											int& intervalStart,
+											int& intervalEnd,
+											const std::string & theRangeSeparator,
+											const bool& theRoundTheNumber)
 	{
 	  Sentence sentence;
 	  

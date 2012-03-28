@@ -40,7 +40,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph RelativeHumidityStory::day() const
+  Paragraph RelativeHumidityStory::day() const
   {
 	MessageLogger log("RelativeHumidityStory::day");
 

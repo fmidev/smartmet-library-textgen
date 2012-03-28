@@ -49,7 +49,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const std::string Paragraph::realize(const Dictionary & theDictionary) const
+  std::string Paragraph::realize(const Dictionary & theDictionary) const
   { 
 	throw TextGenError("Paragraph::realize(Dictionary) should not be called");
   }
@@ -63,7 +63,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const std::string Paragraph::realize(const TextFormatter & theFormatter) const
+  std::string Paragraph::realize(const TextFormatter & theFormatter) const
   {
 	return theFormatter.visit(*this);
   }

@@ -40,7 +40,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph PrecipitationStory::pop_days() const
+  Paragraph PrecipitationStory::pop_days() const
   {
 	MessageLogger log("PrecipitationStory::pop_days");
 

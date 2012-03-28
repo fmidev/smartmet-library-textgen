@@ -32,7 +32,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const Paragraph TemperatureStory::range() const
+  Paragraph TemperatureStory::range() const
   {
 	MessageLogger log("TemperatureStory::range");
 

@@ -36,10 +36,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const string on_weekday(const NFmiTime & theTime)
+	string on_weekday(const NFmiTime & theTime)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-na");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-na");
 	  return out;
 	}
 
@@ -52,10 +52,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const string on_weekday_time(const NFmiTime & theTime)
+	string on_weekday_time(const NFmiTime & theTime)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-na kello");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-na kello");
 	  return out;
 	}
 
@@ -68,10 +68,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const string night_against_weekday(const NFmiTime & theTime)
+	string night_against_weekday(const NFmiTime & theTime)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-vastaisena yona");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-vastaisena yona");
 	  return out;
 	}
 
@@ -84,10 +84,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const string until_weekday_morning(const NFmiTime & theTime)
+	string until_weekday_morning(const NFmiTime & theTime)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-aamuun");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-aamuun");
 	  return out;
 	}
 
@@ -100,10 +100,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const string until_weekday_evening(const NFmiTime & theTime)
+	string until_weekday_evening(const NFmiTime & theTime)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-iltaan");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-iltaan");
 	  return out;
 	}
 
@@ -116,7 +116,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const string until_weekday_time(const NFmiTime & theTime)
+	string until_weekday_time(const NFmiTime & theTime)
 	{
 	  const int hour = theTime.GetHour();
 	  if(hour == 6)
@@ -140,10 +140,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const string from_weekday(const NFmiTime & theTime)
+	string from_weekday(const NFmiTime & theTime)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-alkaen");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-alkaen");
 	  return out;
 	}
 
@@ -156,10 +156,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const string from_weekday_morning(const NFmiTime & theTime)
+	string from_weekday_morning(const NFmiTime & theTime)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-aamusta");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-aamusta");
 	  return out;
 	}
 
@@ -172,10 +172,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const string from_weekday_evening(const NFmiTime & theTime)
+	string from_weekday_evening(const NFmiTime & theTime)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-illasta");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-illasta");
 	  return out;
 	}
 
@@ -188,7 +188,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const string from_weekday_time(const NFmiTime & theTime)
+	string from_weekday_time(const NFmiTime & theTime)
 	{
 	  const int hour = theTime.GetHour();
 	  if(hour == 6)
@@ -211,10 +211,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const string on_weekday_morning(const NFmiTime & theTime)
+	string on_weekday_morning(const NFmiTime & theTime)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-aamulla");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-aamulla");
 	  return out;
 	}
 
@@ -227,10 +227,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const string on_weekday_forenoon(const NFmiTime & theTime)
+	string on_weekday_forenoon(const NFmiTime & theTime)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-aamupaivalla");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-aamupaivalla");
 	  return out;
 	}
 
@@ -243,10 +243,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const string on_weekday_afternoon(const NFmiTime & theTime)
+	string on_weekday_afternoon(const NFmiTime & theTime)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-iltapaivalla");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-iltapaivalla");
 	  return out;
 	}
 
@@ -259,27 +259,20 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const string on_weekday_evening(const NFmiTime & theTime)
+	string on_weekday_evening(const NFmiTime & theTime)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-illalla");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-illalla");
 	  return out;
 	}
 
 
 
-
-
-
-
-
-
-
 	//using namespace WeatherAnalysis;
 
-	const std::string get_time_phrase(const NFmiTime & theTime, 
-									  const std::string theNewPhrase, 
-									  WeatherAnalysis::WeatherHistory& theHistory)
+	std::string get_time_phrase(const NFmiTime & theTime, 
+								const std::string theNewPhrase, 
+								WeatherAnalysis::WeatherHistory& theHistory)
 	{
 	  NFmiTime oldTime = theHistory.latestDate;
 	  const std::string& oldPhrase = theHistory.latestTimePhrase;
@@ -305,50 +298,50 @@ namespace TextGen
 	  return "";
 	}
 
-	const std::string on_weekday(const NFmiTime & theTime, 
-								 WeatherAnalysis::WeatherHistory& theHistory)
+	std::string on_weekday(const NFmiTime & theTime, 
+						   WeatherAnalysis::WeatherHistory& theHistory)
 	{
 
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-na");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-na");
 
 	  return get_time_phrase(theTime, out, theHistory);
 	}
    
-	const string on_weekday_time(const NFmiTime & theTime,
+	string on_weekday_time(const NFmiTime & theTime,
+						   WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-na kello");
+	  return get_time_phrase(theTime, out, theHistory);
+	}
+
+	string night_against_weekday(const NFmiTime & theTime,
 								 WeatherAnalysis::WeatherHistory& theHistory)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-na kello");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-vastaisena yona");
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	const string night_against_weekday(const NFmiTime & theTime,
-									   WeatherAnalysis::WeatherHistory& theHistory)
+	string until_weekday_morning(const NFmiTime & theTime,
+								 WeatherAnalysis::WeatherHistory& theHistory)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-vastaisena yona");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-aamuun");
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	const string until_weekday_morning(const NFmiTime & theTime,
-									   WeatherAnalysis::WeatherHistory& theHistory)
+	string until_weekday_evening(const NFmiTime & theTime,
+								 WeatherAnalysis::WeatherHistory& theHistory)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-aamuun");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-iltaan");
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	const string until_weekday_evening(const NFmiTime & theTime,
-									   WeatherAnalysis::WeatherHistory& theHistory)
-	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-iltaan");
-	  return get_time_phrase(theTime, out, theHistory);
-	}
-
-	const string until_weekday_time(const NFmiTime & theTime,
-									WeatherAnalysis::WeatherHistory& theHistory)
+	string until_weekday_time(const NFmiTime & theTime,
+							  WeatherAnalysis::WeatherHistory& theHistory)
 	{
 	  const int hour = theTime.GetHour();
 	  if(hour == 6)
@@ -362,32 +355,32 @@ namespace TextGen
 		}
 	}
 
-	const string from_weekday(const NFmiTime & theTime,
-							  WeatherAnalysis::WeatherHistory& theHistory)
+	string from_weekday(const NFmiTime & theTime,
+						WeatherAnalysis::WeatherHistory& theHistory)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-alkaen");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-alkaen");
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	const string from_weekday_morning(const NFmiTime & theTime,
-									  WeatherAnalysis::WeatherHistory& theHistory)
+	string from_weekday_morning(const NFmiTime & theTime,
+								WeatherAnalysis::WeatherHistory& theHistory)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-aamusta");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-aamusta");
+	  return get_time_phrase(theTime, out, theHistory);
+	}
+	
+	string from_weekday_evening(const NFmiTime & theTime,
+								WeatherAnalysis::WeatherHistory& theHistory)
+	{
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-illasta");
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	const string from_weekday_evening(const NFmiTime & theTime,
-									  WeatherAnalysis::WeatherHistory& theHistory)
-	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-illasta");
-	  return get_time_phrase(theTime, out, theHistory);
-	}
-
-	const string from_weekday_time(const NFmiTime & theTime,
-								   WeatherAnalysis::WeatherHistory& theHistory)
+	string from_weekday_time(const NFmiTime & theTime,
+							 WeatherAnalysis::WeatherHistory& theHistory)
 	{
 	  const int hour = theTime.GetHour();
 	  if(hour == 6)
@@ -401,35 +394,35 @@ namespace TextGen
 		}
 	}
 
-	const string on_weekday_morning(const NFmiTime & theTime,
-									WeatherAnalysis::WeatherHistory& theHistory)
+	string on_weekday_morning(const NFmiTime & theTime,
+							  WeatherAnalysis::WeatherHistory& theHistory)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-aamulla");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-aamulla");
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	const string on_weekday_forenoon(const NFmiTime & theTime,
-									 WeatherAnalysis::WeatherHistory& theHistory)
+	string on_weekday_forenoon(const NFmiTime & theTime,
+							   WeatherAnalysis::WeatherHistory& theHistory)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-aamupaivalla");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-aamupaivalla");
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	const string on_weekday_afternoon(const NFmiTime & theTime,
-									  WeatherAnalysis::WeatherHistory& theHistory)
+	string on_weekday_afternoon(const NFmiTime & theTime,
+								WeatherAnalysis::WeatherHistory& theHistory)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-iltapaivalla");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-iltapaivalla");
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	const string on_weekday_evening(const NFmiTime & theTime,
-									WeatherAnalysis::WeatherHistory& theHistory)
+	string on_weekday_evening(const NFmiTime & theTime,
+							  WeatherAnalysis::WeatherHistory& theHistory)
 	{
-	  const string out = (lexical_cast<string>(theTime.GetWeekday())
-						  +"-illalla");
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-illalla");
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 

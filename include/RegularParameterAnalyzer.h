@@ -25,7 +25,7 @@ namespace WeatherAnalysis
 	RegularParameterAnalyzer(const std::string & theVariable,
 							 const std::string & theParameter);
 
-	virtual const WeatherResult
+	virtual WeatherResult
 	analyze(const AnalysisSources & theSources,
 			const WeatherDataType & theDataType,
 			const WeatherFunction & theAreaFunction,

@@ -37,11 +37,11 @@ namespace TextGen
 				  const std::string & theVariable);
 
 	static bool hasStory(const std::string & theName);
-	virtual const Paragraph makeStory(const std::string & theName) const;
+	virtual Paragraph makeStory(const std::string & theName) const;
 
   private:
 
-	const Paragraph range() const;
+	Paragraph range() const;
 
 	DewPointStory();
 	DewPointStory(const DewPointStory & theStory);

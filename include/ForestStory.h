@@ -37,13 +37,13 @@ namespace TextGen
 				const std::string & theVariable);
 	
 	static bool hasStory(const std::string & theName);
-	virtual const Paragraph makeStory(const std::string & theName) const;
+	virtual Paragraph makeStory(const std::string & theName) const;
 	
   private:
 	
-	const Paragraph forestfireindex_twodays() const;
-	const Paragraph evaporation_day() const;
-	const Paragraph forestfirewarning_county() const;
+	Paragraph forestfireindex_twodays() const;
+	Paragraph evaporation_day() const;
+	Paragraph forestfirewarning_county() const;
 
 	ForestStory();
 	ForestStory(const ForestStory & theStory);

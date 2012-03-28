@@ -873,11 +873,11 @@ namespace TextGen
 	 * \param thePeriod The time period itself
 	 */
 	// ----------------------------------------------------------------------
-
-	const Sentence create(const string & theType,
-						  const string & theVariable,
-						  const NFmiTime & theForecastTime,
-						  const WeatherPeriod & thePeriod)
+	
+	Sentence create(const string & theType,
+					const string & theVariable,
+					const NFmiTime & theForecastTime,
+					const WeatherPeriod & thePeriod)
 	{
 	  theHistory = 0;
 
@@ -913,12 +913,12 @@ namespace TextGen
 
 	  throw TextGenError("PeriodPhraseFactory::create does not recognize type "+theType);
 	}
-
-	const Sentence create(const string & theType,
-						  const string & theVariable,
-						  const NFmiTime & theForecastTime,
-						  const WeatherPeriod & thePeriod,
-						  const WeatherArea & theArea)
+	
+	Sentence create(const string & theType,
+					const string & theVariable,
+					const NFmiTime & theForecastTime,
+					const WeatherPeriod & thePeriod,
+					const WeatherArea & theArea)
 	{
 	  theHistory = const_cast<WeatherAnalysis::WeatherHistory*>(&(theArea.history()));
 

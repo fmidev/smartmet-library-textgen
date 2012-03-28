@@ -126,7 +126,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherPeriod HourPeriodGenerator::period() const
+  WeatherPeriod HourPeriodGenerator::period() const
   {
 	const NFmiTime start = period(1).localStartTime();
 	const NFmiTime end = period(size()).localEndTime();
@@ -144,7 +144,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherPeriod HourPeriodGenerator::period(size_type thePeriod) const
+  WeatherPeriod HourPeriodGenerator::period(size_type thePeriod) const
   {
 	return WeatherPeriodTools::getPeriod(itsMainPeriod,
 										 thePeriod,

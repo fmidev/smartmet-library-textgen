@@ -32,7 +32,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const Paragraph TemperatureStory::meanmax() const
+  Paragraph TemperatureStory::meanmax() const
   {
 	MessageLogger log("TemperatureStory::meanmax");
 

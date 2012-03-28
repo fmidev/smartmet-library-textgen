@@ -638,7 +638,8 @@ namespace TextGen
    * \return The generated paragraph
    */
   // ----------------------------------------------------------------------
-  const Paragraph FrostStory::onenight() const
+
+  Paragraph FrostStory::onenight() const
   {
 	using namespace FrostOnenight;
 

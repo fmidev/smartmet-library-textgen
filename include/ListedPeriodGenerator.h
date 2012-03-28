@@ -28,8 +28,8 @@ namespace WeatherAnalysis
 	virtual ~ListedPeriodGenerator() { }
 	virtual bool undivided() const;
 	virtual size_type size() const;
-	virtual const WeatherPeriod period() const;
-	virtual const WeatherPeriod period(size_type thePeriod) const;
+	virtual WeatherPeriod period() const;
+	virtual WeatherPeriod period(size_type thePeriod) const;
 
 	void add(const WeatherPeriod & thePeriod);
 

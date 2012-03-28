@@ -34,7 +34,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const Paragraph RelativeHumidityStory::range() const
+  Paragraph RelativeHumidityStory::range() const
   {
 	MessageLogger log("RelativeHumidityStory::range");
 

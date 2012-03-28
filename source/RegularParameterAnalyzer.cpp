@@ -56,7 +56,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
   
-  const WeatherResult
+  WeatherResult
   RegularParameterAnalyzer::analyze(const AnalysisSources & theSources,
 									const WeatherDataType & theDataType,
 									const WeatherFunction & theAreaFunction,

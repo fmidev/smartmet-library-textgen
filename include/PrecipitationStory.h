@@ -36,19 +36,19 @@ namespace TextGen
 					   const std::string & theVariable);
 
 	static bool hasStory(const std::string & theName);
-	virtual const Paragraph makeStory(const std::string & theName) const;
+	virtual Paragraph makeStory(const std::string & theName) const;
 
   private:
 
-	const Paragraph total() const;
-	const Paragraph total_day() const;
-	const Paragraph range() const;
-	const Paragraph classification() const;
-	const Paragraph pop_twodays() const;
-	const Paragraph pop_days() const;
-	const Paragraph pop_max() const;
-	const Paragraph sums() const;
-	const Paragraph daily_sums() const;
+	Paragraph total() const;
+	Paragraph total_day() const;
+	Paragraph range() const;
+	Paragraph classification() const;
+	Paragraph pop_twodays() const;
+	Paragraph pop_days() const;
+	Paragraph pop_max() const;
+	Paragraph sums() const;
+	Paragraph daily_sums() const;
 
 	PrecipitationStory();
 	PrecipitationStory(const PrecipitationStory & theStory);

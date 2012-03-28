@@ -183,7 +183,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const NFmiPoint LocationSource::coordinates(const string & theLocation) const
+  NFmiPoint LocationSource::coordinates(const string & theLocation) const
   {
 	return itsPimple->coordinates(theLocation);
   }

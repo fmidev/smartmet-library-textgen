@@ -82,7 +82,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherPeriod ListedPeriodGenerator::period() const
+  WeatherPeriod ListedPeriodGenerator::period() const
   {
 	return itsMainPeriod;
   }
@@ -98,7 +98,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherPeriod ListedPeriodGenerator::period(size_type thePeriod) const
+  WeatherPeriod ListedPeriodGenerator::period(size_type thePeriod) const
   {
     if(thePeriod < 1 || thePeriod > itsPeriods.size())
       throw WeatherAnalysis::WeatherAnalysisError("ListedPeriodGenerator::period(): invalid argument");

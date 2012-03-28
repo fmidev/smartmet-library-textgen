@@ -3687,7 +3687,7 @@ namespace TextGen
   }
 
 
-  const Paragraph WindStory::overview() const
+  Paragraph WindStory::overview() const
   {
 	MessageLogger logger("WeatherStory::overview");
 

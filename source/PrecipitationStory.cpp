@@ -99,7 +99,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------.
   
-  const Paragraph PrecipitationStory::makeStory(const string & theName) const
+  Paragraph PrecipitationStory::makeStory(const string & theName) const
   {
 	if(theName == "precipitation_total")
 	  return total();

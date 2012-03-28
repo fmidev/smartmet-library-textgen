@@ -39,7 +39,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const Paragraph TemperatureStory::dailymax() const
+  Paragraph TemperatureStory::dailymax() const
   {
 	MessageLogger log("TemperatureStory::dailymax");
 

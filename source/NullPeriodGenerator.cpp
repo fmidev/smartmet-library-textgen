@@ -76,7 +76,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherPeriod NullPeriodGenerator::period() const
+  WeatherPeriod NullPeriodGenerator::period() const
   {
 	return itsMainPeriod;
   }
@@ -93,7 +93,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherPeriod NullPeriodGenerator::period(size_type thePeriod) const
+  WeatherPeriod NullPeriodGenerator::period(size_type thePeriod) const
   {
 	if(thePeriod == 1)
 	  return itsMainPeriod;

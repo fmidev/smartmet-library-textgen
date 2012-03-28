@@ -22,7 +22,7 @@ namespace WeatherAnalysis
 	static LocationSource & instance();
 
 	bool hasCoordinates(const std::string & theLocation) const;
-	const NFmiPoint coordinates(const std::string & theLocation) const;
+	NFmiPoint coordinates(const std::string & theLocation) const;
 
   private:
 

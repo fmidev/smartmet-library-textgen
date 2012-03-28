@@ -26,7 +26,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  const Paragraph ForestStory::forestfirewarning_county() const
+  Paragraph ForestStory::forestfirewarning_county() const
   {
 	MessageLogger log("ForestStory::forestfirewarning_county");
 

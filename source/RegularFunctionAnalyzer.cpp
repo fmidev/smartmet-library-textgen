@@ -140,7 +140,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const WeatherResult
+  WeatherResult
   RegularFunctionAnalyzer::analyze(const AnalysisSources & theSources,
 								   const WeatherDataType & theDataType,
 								   const WeatherArea & theArea,

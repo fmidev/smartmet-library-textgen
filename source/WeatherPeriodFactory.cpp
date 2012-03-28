@@ -199,8 +199,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const WeatherPeriod create(const NFmiTime & theTime,
-							   const std::string & theVariable)
+	WeatherPeriod create(const NFmiTime & theTime,
+						 const std::string & theVariable)
 	{
 	  const string var = theVariable + "::type";
 	  const string type = Settings::require_string(var);

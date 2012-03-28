@@ -37,8 +37,8 @@ namespace WeatherAnalysis
 	virtual ~NightAndDayPeriodGenerator() { }
 	virtual bool undivided() const;
 	virtual size_type size() const;
-	virtual const WeatherPeriod period() const;
-	virtual const WeatherPeriod period(size_type thePeriod) const;
+	virtual WeatherPeriod period() const;
+	virtual WeatherPeriod period(size_type thePeriod) const;
 
 	bool isday(size_type thePeriod) const;
 	bool isnight(size_type thePeriod) const

@@ -37,7 +37,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const Paragraph TemperatureStory::weekly_minmax() const
+  Paragraph TemperatureStory::weekly_minmax() const
   {
 	MessageLogger log("TemperatureStory::weekly_minmax");
 

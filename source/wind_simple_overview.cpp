@@ -32,7 +32,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const Paragraph WindStory::simple_overview() const
+  Paragraph WindStory::simple_overview() const
   {
 	MessageLogger log("WeatherStory::simple_overview");
 

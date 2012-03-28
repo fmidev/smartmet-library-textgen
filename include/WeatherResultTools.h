@@ -16,22 +16,22 @@ namespace WeatherAnalysis
   namespace WeatherResultTools
   {
 
-	const WeatherResult
+	WeatherResult
 	min(const WeatherResult & theResult1, const WeatherResult & theResult2);
 
-	const WeatherResult
+	WeatherResult
 	max(const WeatherResult & theResult1, const WeatherResult & theResult2);
 
-	const WeatherResult
+	WeatherResult
 	mean(const WeatherResult & theResult1, const WeatherResult & theResult2);
 
-	const WeatherResult
+	WeatherResult
 	min(const WeatherResult & theResult1, const WeatherResult & theResult2, const WeatherResult & theResult3);
 
-	const WeatherResult
+	WeatherResult
 	max(const WeatherResult & theResult1, const WeatherResult & theResult2, const WeatherResult & theResult3);
 
-	const WeatherResult
+	WeatherResult
 	mean(const WeatherResult & theResult1, const WeatherResult & theResult2, const WeatherResult & theResult3);
 
 

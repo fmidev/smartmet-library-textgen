@@ -23,9 +23,9 @@ namespace TextGen
 
   namespace HeaderFactory
   {
-	const Header create(const WeatherAnalysis::WeatherArea & theArea,
-						const WeatherAnalysis::WeatherPeriod & thePeriod,
-						const std::string & theVariable);
+	Header create(const WeatherAnalysis::WeatherArea & theArea,
+				  const WeatherAnalysis::WeatherPeriod & thePeriod,
+				  const std::string & theVariable);
 
   } // namespace HeaderFactory
 } // namespace TextGen

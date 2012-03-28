@@ -70,7 +70,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const std::string LocationPhrase::realize(const Dictionary & theDictionary) const
+  std::string LocationPhrase::realize(const Dictionary & theDictionary) const
   {
 	using namespace boost::locale;
 	using namespace boost::locale::boundary;
@@ -106,7 +106,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const std::string LocationPhrase::realize(const TextFormatter & theFormatter) const
+  std::string LocationPhrase::realize(const TextFormatter & theFormatter) const
   {
 	return theFormatter.visit(*this);
   }

@@ -244,7 +244,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const InlandMaskSource::mask_type
+  InlandMaskSource::mask_type
   InlandMaskSource::mask(const WeatherArea & theArea,
 						const std::string & theData,
 						const WeatherSource & theWeatherSource) const
@@ -281,7 +281,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const InlandMaskSource::masks_type
+  InlandMaskSource::masks_type
   InlandMaskSource::masks(const WeatherArea & theArea,
 						 const std::string & theData,
 						 const WeatherSource & theWeatherSource) const

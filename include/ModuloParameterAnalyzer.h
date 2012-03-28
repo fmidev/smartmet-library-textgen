@@ -26,7 +26,7 @@ namespace WeatherAnalysis
 							const std::string & theParameter,
 							int theModulo);
 
-	virtual const WeatherResult
+	virtual WeatherResult
 	analyze(const AnalysisSources & theSources,
 			const WeatherDataType & theDataType,
 			const WeatherFunction & theAreaFunction,

@@ -93,7 +93,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------.
   
-  const Paragraph WindStory::makeStory(const string & theName) const
+  Paragraph WindStory::makeStory(const string & theName) const
   {
 	if(theName == "wind_overview")
 	  return overview();

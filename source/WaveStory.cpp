@@ -84,7 +84,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------.
   
-  const Paragraph WaveStory::makeStory(const string & theName) const
+  Paragraph WaveStory::makeStory(const string & theName) const
   {
 	if(theName == "wave_range")
 	  return range();

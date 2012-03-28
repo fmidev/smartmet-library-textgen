@@ -23,7 +23,7 @@ namespace TextGen
 
 	Story() { }
 	virtual ~Story() { }
-	virtual const Paragraph makeStory(const std::string & theName) const = 0;
+	virtual Paragraph makeStory(const std::string & theName) const = 0;
 
   }; // class Story
 }
