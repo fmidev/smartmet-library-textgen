@@ -9,6 +9,8 @@
 #include <stdexcept>
 #include <string>
 
+#include <boost/locale.hpp>
+
 using namespace std;
 using namespace boost;
 
@@ -36,8 +38,9 @@ namespace UnitFactoryTest
 
 	NFmiSettings::Set("textgen::units::celsius::format","SI");
 	unit = create(DegreesCelsius);
-	if(unit->realize(formatter) != "\260C.")
-	  TEST_FAILED("create() failed to realize \260C.");
+	string celsius = string("\xc2\xb0")+"C.";
+	if(unit->realize(formatter) != celsius)
+	  TEST_FAILED("create() failed to realize "+celsius);
 
 	NFmiSettings::Set("textgen::units::celsius::format","phrase");
 	unit = create(DegreesCelsius);
@@ -79,8 +82,8 @@ namespace UnitFactoryTest
 
 	NFmiSettings::Set("textgen::units::meterspersecond::format","phrase");
 	unit = create(MetersPerSecond);
-	if(unit->realize(formatter) != "Metriä sekunnissa.")
-	  TEST_FAILED("create() failed to realize Metriä sekunnissa.");
+	if(unit->realize(formatter) != "MetriÃ¤ sekunnissa.")
+	  TEST_FAILED("create() failed to realize MetriÃ¤ sekunnissa.");
 	
 	NFmiSettings::Set("textgen::units::meterspersecond::format","none");
 	unit = create(MetersPerSecond);
@@ -117,8 +120,8 @@ namespace UnitFactoryTest
 
 	NFmiSettings::Set("textgen::units::millimeters::format","phrase");
 	unit = create(Millimeters);
-	if(unit->realize(formatter) != "Millimetriä.")
-	  TEST_FAILED("create() failed to realize Millimetriä.");
+	if(unit->realize(formatter) != "MillimetriÃ¤.")
+	  TEST_FAILED("create() failed to realize MillimetriÃ¤.");
 
 	NFmiSettings::Set("textgen::units::millimeters::format","none");
 	unit = create(Millimeters);
@@ -188,18 +191,18 @@ namespace UnitFactoryTest
 
 	NFmiSettings::Set("textgen::units::hectopascal::format","SI");
 	unit = create(HectoPascal);
-	if(unit->realize(formatter) != "HPa.")
-	  TEST_FAILED("create() failed to realize hPa");
+	if(unit->realize(formatter) != "Hpa.")
+	  TEST_FAILED("create() failed to realize Hpa, got: "+unit->realize(formatter));
 
 	NFmiSettings::Set("textgen::units::hectopascal::format","phrase");
 	unit = create(HectoPascal);
 	if(unit->realize(formatter) != "Hehtopascalia.")
-	  TEST_FAILED("create() failed to realize hehtopascalia.");
+	  TEST_FAILED("create() failed to realize hehtopascal, got :"+unit->realize(formatter));
 
 	NFmiSettings::Set("textgen::units::hectopascal::format","none");
 	unit = create(HectoPascal);
 	if(unit->realize(formatter) != "")
-	  TEST_FAILED("create() failed to realize empty hehtopascal.");
+	  TEST_FAILED("create() failed to realize empty hehtopascal, got: "+unit->realize(formatter));
 	
 	TEST_PASSED();
 
@@ -231,6 +234,12 @@ namespace UnitFactoryTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   cout << endl
 	   << "UnitFactory tester" << endl
 	   << "==================" << endl;

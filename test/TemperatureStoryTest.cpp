@@ -22,6 +22,8 @@
 #include <stdexcept>
 #include <string>
 
+#include <boost/locale.hpp>
+
 using namespace std;
 using namespace boost;
 
@@ -141,8 +143,8 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::night1::inland::min","15,0");
 	  NFmiSettings::Set("day::fake::night1::inland::max","15,0");
 	  
-	  require(story,"fi",fun,"Lämpötila on noin 15 astetta.");
-	  require(story,"sv",fun,"Temperatur är cirka 15 grader.");
+	  require(story,"fi",fun,"LÃ¤mpÃ¶tila on noin 15 astetta.");
+	  require(story,"sv",fun,"Temperatur Ã¤r cirka 15 grader.");
 	  require(story,"en",fun,"Temperature is about 15 degrees.");
 	  
 	  NFmiSettings::Set("day::fake::day1::coast::mean","10,0");
@@ -153,8 +155,8 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::day1::inland::min","15,0");
 	  NFmiSettings::Set("day::fake::day1::inland::max","14,0");
 	  
-	  require(story,"fi",fun,"Lämpötila on noin 16 astetta, rannikolla alempi.");
-	  require(story,"sv",fun,"Temperatur är cirka 16 grader, vid kusten lägre.");
+	  require(story,"fi",fun,"LÃ¤mpÃ¶tila on noin 16 astetta, rannikolla alempi.");
+	  require(story,"sv",fun,"Temperatur Ã¤r cirka 16 grader, vid kusten lÃ¤gre.");
 	  require(story,"en",fun,"Temperature is about 16 degrees, on the coastal area lower.");
 	  
 	  NFmiSettings::Set("day::fake::night1::area::mean","10,0");
@@ -169,8 +171,8 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::night1::inland::min","10,0");
 	  NFmiSettings::Set("day::fake::night1::inland::max","10,0");
 	  
-	  require(story,"fi",fun,"Päivän ylin lämpötila on noin 16 astetta, rannikolla huomattavasti alempi. Yön alin lämpötila on noin 10 astetta.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är cirka 16 grader, vid kusten betydligt lägre. Nattens lägsta temperatur är cirka 10 grader.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on noin 16 astetta, rannikolla huomattavasti alempi. YÃ¶n alin lÃ¤mpÃ¶tila on noin 10 astetta.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r cirka 16 grader, vid kusten betydligt lÃ¤gre. Nattens lÃ¤gsta temperatur Ã¤r cirka 10 grader.");
 	  require(story,"en",fun,"The maximum day temperature is about 16 degrees, on the coastal area significantly lower. The minimum night temperature is about 10 degrees.");
 	  
 	  NFmiSettings::Set("day::fake::day1::coast::mean","-10,0");
@@ -181,8 +183,8 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::night1::coast::min","7,0");
 	  NFmiSettings::Set("day::fake::night1::coast::max","7,0");
 	  
-	  require(story,"fi",fun,"Päivän ylin lämpötila on noin 16 astetta, rannikolla -8...-12 astetta. Yön alin lämpötila on noin 10 astetta, rannikolla alempi.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är cirka 16 grader, vid kusten -8...-12 grader. Nattens lägsta temperatur är cirka 10 grader, vid kusten lägre.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on noin 16 astetta, rannikolla -8...-12 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on noin 10 astetta, rannikolla alempi.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r cirka 16 grader, vid kusten -8...-12 grader. Nattens lÃ¤gsta temperatur Ã¤r cirka 10 grader, vid kusten lÃ¤gre.");
 	  require(story,"en",fun,"The maximum day temperature is about 16 degrees, on the coastal area -8...-12 degrees. The minimum night temperature is about 10 degrees, on the coastal area lower.");
 
 	}
@@ -248,8 +250,8 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::day2::inland::min","15,0");
 	  NFmiSettings::Set("day::fake::day2::inland::max","25,0");
 
-	  require(story,"fi",fun,"Lämpötila on tänään noin 15 astetta. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
-	  require(story,"sv",fun,"Temperatur är i dag cirka 15 grader. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...15 grader.");
+	  require(story,"fi",fun,"LÃ¤mpÃ¶tila on tÃ¤nÃ¤Ã¤n noin 15 astetta. PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
+	  require(story,"sv",fun,"Temperatur Ã¤r i dag cirka 15 grader. Dagens hÃ¶gsta temperatur Ã¤r i morgon 15...25 grader, vid kusten 0...15 grader.");
 	  require(story,"en",fun,"Temperature is today about 15 degrees. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...15 degrees.");
 	  
 	  NFmiSettings::Set("day::fake::day1::coast::mean","10,0");
@@ -260,8 +262,8 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::day1::inland::min","15,0");
 	  NFmiSettings::Set("day::fake::day1::inland::max","14,0");
 	  
-	  require(story,"fi",fun,"Lämpötila on tänään noin 16 astetta, rannikolla alempi. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
-	  require(story,"sv",fun,"Temperatur är i dag cirka 16 grader, vid kusten lägre. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...15 grader.");
+	  require(story,"fi",fun,"LÃ¤mpÃ¶tila on tÃ¤nÃ¤Ã¤n noin 16 astetta, rannikolla alempi. PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
+	  require(story,"sv",fun,"Temperatur Ã¤r i dag cirka 16 grader, vid kusten lÃ¤gre. Dagens hÃ¶gsta temperatur Ã¤r i morgon 15...25 grader, vid kusten 0...15 grader.");
 	  require(story,"en",fun,"Temperature is today about 16 degrees, on the coastal area lower. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...15 degrees.");
 	  
 	  NFmiSettings::Set("day::fake::night1::area::mean","10,0");
@@ -276,8 +278,8 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::night1::inland::min","10,0");
 	  NFmiSettings::Set("day::fake::night1::inland::max","10,0");
 	  
-	  require(story,"fi",fun,"Päivän ylin lämpötila on tänään noin 16 astetta, rannikolla huomattavasti alempi. Yön alin lämpötila on noin 10 astetta. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är i dag cirka 16 grader, vid kusten betydligt lägre. Nattens lägsta temperatur är cirka 10 grader. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...15 grader.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on tÃ¤nÃ¤Ã¤n noin 16 astetta, rannikolla huomattavasti alempi. YÃ¶n alin lÃ¤mpÃ¶tila on noin 10 astetta. PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r i dag cirka 16 grader, vid kusten betydligt lÃ¤gre. Nattens lÃ¤gsta temperatur Ã¤r cirka 10 grader. Dagens hÃ¶gsta temperatur Ã¤r i morgon 15...25 grader, vid kusten 0...15 grader.");
 	  require(story,"en",fun,"The maximum day temperature is today about 16 degrees, on the coastal area significantly lower. The minimum night temperature is about 10 degrees. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...15 degrees.");
 	  
 	  NFmiSettings::Set("day::fake::day1::coast::mean","-10,0");
@@ -288,8 +290,8 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::night1::coast::min","7,0");
 	  NFmiSettings::Set("day::fake::night1::coast::max","7,0");
 	  
-	  require(story,"fi",fun,"Päivän ylin lämpötila on tänään noin 16 astetta, rannikolla -8...-12 astetta. Yön alin lämpötila on noin 10 astetta, rannikolla alempi. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är i dag cirka 16 grader, vid kusten -8...-12 grader. Nattens lägsta temperatur är cirka 10 grader, vid kusten lägre. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...15 grader.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on tÃ¤nÃ¤Ã¤n noin 16 astetta, rannikolla -8...-12 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on noin 10 astetta, rannikolla alempi. PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r i dag cirka 16 grader, vid kusten -8...-12 grader. Nattens lÃ¤gsta temperatur Ã¤r cirka 10 grader, vid kusten lÃ¤gre. Dagens hÃ¶gsta temperatur Ã¤r i morgon 15...25 grader, vid kusten 0...15 grader.");
 	  require(story,"en",fun,"The maximum day temperature is today about 16 degrees, on the coastal area -8...-12 degrees. The minimum night temperature is about 10 degrees, on the coastal area lower. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...15 degrees.");
 
 	}
@@ -319,22 +321,22 @@ namespace TemperatureStoryTest
 	const string fun = "temperature_mean";
 
 	NFmiSettings::Set("mean::fake::mean","0.1,0");
-	require(story,"fi",fun,"Keskilämpötila 0 astetta.");
+	require(story,"fi",fun,"KeskilÃ¤mpÃ¶tila 0 astetta.");
 	require(story,"sv",fun,"Medeltemperaturen 0 grader.");
 	require(story,"en",fun,"Mean temperature 0 degrees.");
 
 	NFmiSettings::Set("mean::fake::mean","0.5,0");
-	require(story,"fi",fun,"Keskilämpötila 1 astetta.");
+	require(story,"fi",fun,"KeskilÃ¤mpÃ¶tila 1 astetta.");
 	require(story,"sv",fun,"Medeltemperaturen 1 grader.");
 	require(story,"en",fun,"Mean temperature 1 degrees.");
 
 	NFmiSettings::Set("mean::fake::mean","10,0");
-	require(story,"fi",fun,"Keskilämpötila 10 astetta.");
+	require(story,"fi",fun,"KeskilÃ¤mpÃ¶tila 10 astetta.");
 	require(story,"sv",fun,"Medeltemperaturen 10 grader.");
 	require(story,"en",fun,"Mean temperature 10 degrees.");
 
 	NFmiSettings::Set("mean::fake::mean","-10.5,0");
-	require(story,"fi",fun,"Keskilämpötila -11 astetta.");
+	require(story,"fi",fun,"KeskilÃ¤mpÃ¶tila -11 astetta.");
 	require(story,"sv",fun,"Medeltemperaturen -11 grader.");
 	require(story,"en",fun,"Mean temperature -11 degrees.");
 
@@ -363,22 +365,22 @@ namespace TemperatureStoryTest
 	const string fun = "temperature_meanmax";
 
 	NFmiSettings::Set("meanmax::fake::mean","0.1,0");
-	require(story,"fi",fun,"Keskimääräinen ylin lämpötila 0 astetta.");
+	require(story,"fi",fun,"KeskimÃ¤Ã¤rÃ¤inen ylin lÃ¤mpÃ¶tila 0 astetta.");
 	require(story,"sv",fun,"Maximitemperaturen i medeltal 0 grader.");
 	require(story,"en",fun,"Mean maximum temperature 0 degrees.");
 
 	NFmiSettings::Set("meanmax::fake::mean","0.5,0");
-	require(story,"fi",fun,"Keskimääräinen ylin lämpötila 1 astetta.");
+	require(story,"fi",fun,"KeskimÃ¤Ã¤rÃ¤inen ylin lÃ¤mpÃ¶tila 1 astetta.");
 	require(story,"sv",fun,"Maximitemperaturen i medeltal 1 grader.");
 	require(story,"en",fun,"Mean maximum temperature 1 degrees.");
 
 	NFmiSettings::Set("meanmax::fake::mean","10,0");
-	require(story,"fi",fun,"Keskimääräinen ylin lämpötila 10 astetta.");
+	require(story,"fi",fun,"KeskimÃ¤Ã¤rÃ¤inen ylin lÃ¤mpÃ¶tila 10 astetta.");
 	require(story,"sv",fun,"Maximitemperaturen i medeltal 10 grader.");
 	require(story,"en",fun,"Mean maximum temperature 10 degrees.");
 
 	NFmiSettings::Set("meanmax::fake::mean","-10.5,0");
-	require(story,"fi",fun,"Keskimääräinen ylin lämpötila -11 astetta.");
+	require(story,"fi",fun,"KeskimÃ¤Ã¤rÃ¤inen ylin lÃ¤mpÃ¶tila -11 astetta.");
 	require(story,"sv",fun,"Maximitemperaturen i medeltal -11 grader.");
 	require(story,"en",fun,"Mean maximum temperature -11 degrees.");
 
@@ -407,22 +409,22 @@ namespace TemperatureStoryTest
 	const string fun = "temperature_meanmin";
 
 	NFmiSettings::Set("meanmin::fake::mean","0.1,0");
-	require(story,"fi",fun,"Keskimääräinen alin lämpötila 0 astetta.");
+	require(story,"fi",fun,"KeskimÃ¤Ã¤rÃ¤inen alin lÃ¤mpÃ¶tila 0 astetta.");
 	require(story,"sv",fun,"Minimitemperaturen i medeltal 0 grader.");
 	require(story,"en",fun,"Mean minimum temperature 0 degrees.");
 
 	NFmiSettings::Set("meanmin::fake::mean","0.5,0");
-	require(story,"fi",fun,"Keskimääräinen alin lämpötila 1 astetta.");
+	require(story,"fi",fun,"KeskimÃ¤Ã¤rÃ¤inen alin lÃ¤mpÃ¶tila 1 astetta.");
 	require(story,"sv",fun,"Minimitemperaturen i medeltal 1 grader.");
 	require(story,"en",fun,"Mean minimum temperature 1 degrees.");
 
 	NFmiSettings::Set("meanmin::fake::mean","10,0");
-	require(story,"fi",fun,"Keskimääräinen alin lämpötila 10 astetta.");
+	require(story,"fi",fun,"KeskimÃ¤Ã¤rÃ¤inen alin lÃ¤mpÃ¶tila 10 astetta.");
 	require(story,"sv",fun,"Minimitemperaturen i medeltal 10 grader.");
 	require(story,"en",fun,"Mean minimum temperature 10 degrees.");
 
 	NFmiSettings::Set("meanmin::fake::mean","-10.5,0");
-	require(story,"fi",fun,"Keskimääräinen alin lämpötila -11 astetta.");
+	require(story,"fi",fun,"KeskimÃ¤Ã¤rÃ¤inen alin lÃ¤mpÃ¶tila -11 astetta.");
 	require(story,"sv",fun,"Minimitemperaturen i medeltal -11 grader.");
 	require(story,"en",fun,"Mean minimum temperature -11 degrees.");
 
@@ -468,50 +470,50 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("dailymax::fake::day1::minimum","5,0");
 	  NFmiSettings::Set("dailymax::fake::day1::mean","5,0");
 	  NFmiSettings::Set("dailymax::fake::day1::maximum","5,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina noin 5 astetta.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen cirka 5 grader.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina noin 5 astetta.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen cirka 5 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday about 5 degrees.");
 
 	  NFmiSettings::Set("dailymax::fake::day1::minimum","5,0");
 	  NFmiSettings::Set("dailymax::fake::day1::mean","6,0");
 	  NFmiSettings::Set("dailymax::fake::day1::maximum","6,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina noin 6 astetta.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen cirka 6 grader.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina noin 6 astetta.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen cirka 6 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday about 6 degrees.");
 
 	  NFmiSettings::Set("dailymax::fake::day1::minimum","5,0");
 	  NFmiSettings::Set("dailymax::fake::day1::mean","6,0");
 	  NFmiSettings::Set("dailymax::fake::day1::maximum","7,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina 5...7 astetta.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen 5...7 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees.");
 
 	  NFmiSettings::Set("dailymax::fake::day1::minimum","0,0");
 	  NFmiSettings::Set("dailymax::fake::day1::mean","0,0");
 	  NFmiSettings::Set("dailymax::fake::day1::maximum","0,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina noin 0 astetta.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen cirka 0 grader.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina noin 0 astetta.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen cirka 0 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday about 0 degrees.");
 
 	  NFmiSettings::Set("dailymax::fake::day1::minimum","0,0");
 	  NFmiSettings::Set("dailymax::fake::day1::mean","0,0");
 	  NFmiSettings::Set("dailymax::fake::day1::maximum","1,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 0...1 astetta.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 0...1 grader.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina 0...1 astetta.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen 0...1 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 0...1 degrees.");
 
 	  NFmiSettings::Set("dailymax::fake::day1::minimum","-1,0");
 	  NFmiSettings::Set("dailymax::fake::day1::mean","0,0");
 	  NFmiSettings::Set("dailymax::fake::day1::maximum","0,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina -1...0 astetta.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen -1...0 grader.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina -1...0 astetta.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen -1...0 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday -1...0 degrees.");
 
 	  NFmiSettings::Set("dailymax::fake::day1::minimum","-1,0");
 	  NFmiSettings::Set("dailymax::fake::day1::mean","0,0");
 	  NFmiSettings::Set("dailymax::fake::day1::maximum","1,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina -1...1 astetta.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen -1...1 grader.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina -1...1 astetta.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen -1...1 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday -1...1 degrees.");
 
 	}
@@ -531,64 +533,64 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("dailymax::fake::day2::minimum","5,0");
 	  NFmiSettings::Set("dailymax::fake::day2::mean","6,0");
 	  NFmiSettings::Set("dailymax::fake::day2::maximum","7,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä suunnilleen sama.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag ungefär densamma.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina 5...7 astetta, seuraavana pÃ¤ivÃ¤nÃ¤ suunnilleen sama.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen 5...7 grader, fÃ¶ljande dag ungefÃ¤r densamma.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day about the same.");
 
 	  // change 1 degrees
 	  NFmiSettings::Set("dailymax::fake::day2::minimum","6,0");
 	  NFmiSettings::Set("dailymax::fake::day2::mean","7,0");
 	  NFmiSettings::Set("dailymax::fake::day2::maximum","8,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä suunnilleen sama.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag ungefär densamma.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina 5...7 astetta, seuraavana pÃ¤ivÃ¤nÃ¤ suunnilleen sama.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen 5...7 grader, fÃ¶ljande dag ungefÃ¤r densamma.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day about the same.");
 
 	  // change 2 degrees
 	  NFmiSettings::Set("dailymax::fake::day2::minimum","7,0");
 	  NFmiSettings::Set("dailymax::fake::day2::mean","8,0");
 	  NFmiSettings::Set("dailymax::fake::day2::maximum","9,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä hieman korkeampi.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag något högre.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina 5...7 astetta, seuraavana pÃ¤ivÃ¤nÃ¤ hieman korkeampi.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen 5...7 grader, fÃ¶ljande dag nÃ¥got hÃ¶gre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day somewhat higher.");
 
 	  // change 4 degrees
 	  NFmiSettings::Set("dailymax::fake::day2::minimum","9,0");
 	  NFmiSettings::Set("dailymax::fake::day2::mean","10,0");
 	  NFmiSettings::Set("dailymax::fake::day2::maximum","11,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä korkeampi.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag högre.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina 5...7 astetta, seuraavana pÃ¤ivÃ¤nÃ¤ korkeampi.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen 5...7 grader, fÃ¶ljande dag hÃ¶gre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day higher.");
 
 	  // change 6 degrees
 	  NFmiSettings::Set("dailymax::fake::day2::minimum","11,0");
 	  NFmiSettings::Set("dailymax::fake::day2::mean","12,0");
 	  NFmiSettings::Set("dailymax::fake::day2::maximum","13,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä huomattavasti korkeampi.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag betydligt högre.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina 5...7 astetta, seuraavana pÃ¤ivÃ¤nÃ¤ huomattavasti korkeampi.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen 5...7 grader, fÃ¶ljande dag betydligt hÃ¶gre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day significantly higher.");
 
 	  // change - 2 degrees
 	  NFmiSettings::Set("dailymax::fake::day2::minimum","3,0");
 	  NFmiSettings::Set("dailymax::fake::day2::mean","4,0");
 	  NFmiSettings::Set("dailymax::fake::day2::maximum","5,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä hieman alempi.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag något lägre.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina 5...7 astetta, seuraavana pÃ¤ivÃ¤nÃ¤ hieman alempi.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen 5...7 grader, fÃ¶ljande dag nÃ¥got lÃ¤gre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day somewhat lower.");
 
 	  // change -4 degrees
 	  NFmiSettings::Set("dailymax::fake::day2::minimum","1,0");
 	  NFmiSettings::Set("dailymax::fake::day2::mean","2,0");
 	  NFmiSettings::Set("dailymax::fake::day2::maximum","3,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä alempi.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag lägre.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina 5...7 astetta, seuraavana pÃ¤ivÃ¤nÃ¤ alempi.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen 5...7 grader, fÃ¶ljande dag lÃ¤gre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day lower.");
 
 	  // change -6 degrees
 	  NFmiSettings::Set("dailymax::fake::day2::minimum","-1,0");
 	  NFmiSettings::Set("dailymax::fake::day2::mean","0,0");
 	  NFmiSettings::Set("dailymax::fake::day2::maximum","1,0");
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä huomattavasti alempi.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag betydligt lägre.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina 5...7 astetta, seuraavana pÃ¤ivÃ¤nÃ¤ huomattavasti alempi.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen 5...7 grader, fÃ¶ljande dag betydligt lÃ¤gre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day significantly lower.");
 
 	}
@@ -616,8 +618,8 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("dailymax::fake::day4::mean","4,0");
 	  NFmiSettings::Set("dailymax::fake::day4::maximum","4,0");
 
-	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä suunnilleen sama, tiistaina 8...12 astetta, keskiviikkona noin 4 astetta.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag ungefär densamma, på tisdagen 8...12 grader, på onsdagen cirka 4 grader.");
+	  require(story,"fi",fun,"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sunnuntaina 5...7 astetta, seuraavana pÃ¤ivÃ¤nÃ¤ suunnilleen sama, tiistaina 8...12 astetta, keskiviikkona noin 4 astetta.");
+	  require(story,"sv",fun,"Dagens hÃ¶gsta temperatur Ã¤r pÃ¥ sÃ¶ndagen 5...7 grader, fÃ¶ljande dag ungefÃ¤r densamma, pÃ¥ tisdagen 8...12 grader, pÃ¥ onsdagen cirka 4 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day about the same, on Tuesday 8...12 degrees, on Wednesday about 4 degrees.");
 
 	}
@@ -657,24 +659,24 @@ namespace TemperatureStoryTest
 	NFmiSettings::Set("weekly_minmax::fake::night::minimum","2,0");
 	NFmiSettings::Set("weekly_minmax::fake::night::mean","4,0");
 	NFmiSettings::Set("weekly_minmax::fake::night::maximum","5,0");
-	require(story,"fi",fun,"Päivien ylin lämpötila on 10...15 astetta, öiden alin lämpötila 2...5 astetta.");
-	require(story,"sv",fun,"Dagens maximi temperaturer är 10...15 grader, nattens minimi temperaturer 2...5 grader.");
+	require(story,"fi",fun,"PÃ¤ivien ylin lÃ¤mpÃ¶tila on 10...15 astetta, Ã¶iden alin lÃ¤mpÃ¶tila 2...5 astetta.");
+	require(story,"sv",fun,"Dagens maximi temperaturer Ã¤r 10...15 grader, nattens minimi temperaturer 2...5 grader.");
 	require(story,"en",fun,"Daily maximum temperature is 10...15 degrees, nightly minimum temperature 2...5 degrees.");
 
 	NFmiSettings::Set("weekly_minmax::night::mininterval","4");
-	require(story,"fi",fun,"Päivien ylin lämpötila on 10...15 astetta, öiden alin lämpötila noin 4 astetta.");
-	require(story,"sv",fun,"Dagens maximi temperaturer är 10...15 grader, nattens minimi temperaturer cirka 4 grader.");
+	require(story,"fi",fun,"PÃ¤ivien ylin lÃ¤mpÃ¶tila on 10...15 astetta, Ã¶iden alin lÃ¤mpÃ¶tila noin 4 astetta.");
+	require(story,"sv",fun,"Dagens maximi temperaturer Ã¤r 10...15 grader, nattens minimi temperaturer cirka 4 grader.");
 	require(story,"en",fun,"Daily maximum temperature is 10...15 degrees, nightly minimum temperature about 4 degrees.");
 
 	NFmiSettings::Set("weekly_minmax::day::mininterval","6");
 	NFmiSettings::Set("weekly_minmax::night::mininterval","2");
-	require(story,"fi",fun,"Päivien ylin lämpötila on noin 12 astetta, öiden alin lämpötila 2...5 astetta.");
-	require(story,"sv",fun,"Dagens maximi temperaturer är cirka 12 grader, nattens minimi temperaturer 2...5 grader.");
+	require(story,"fi",fun,"PÃ¤ivien ylin lÃ¤mpÃ¶tila on noin 12 astetta, Ã¶iden alin lÃ¤mpÃ¶tila 2...5 astetta.");
+	require(story,"sv",fun,"Dagens maximi temperaturer Ã¤r cirka 12 grader, nattens minimi temperaturer 2...5 grader.");
 	require(story,"en",fun,"Daily maximum temperature is about 12 degrees, nightly minimum temperature 2...5 degrees.");
 
 	NFmiSettings::Set("weekly_minmax::emphasize_night_minimum","true");
-	require(story,"fi",fun,"Päivien ylin lämpötila on noin 12 astetta, öiden alin lämpötila noin 2 astetta.");
-	require(story,"sv",fun,"Dagens maximi temperaturer är cirka 12 grader, nattens minimi temperaturer cirka 2 grader.");
+	require(story,"fi",fun,"PÃ¤ivien ylin lÃ¤mpÃ¶tila on noin 12 astetta, Ã¶iden alin lÃ¤mpÃ¶tila noin 2 astetta.");
+	require(story,"sv",fun,"Dagens maximi temperaturer Ã¤r cirka 12 grader, nattens minimi temperaturer cirka 2 grader.");
 	require(story,"en",fun,"Daily maximum temperature is about 12 degrees, nightly minimum temperature about 2 degrees.");
 
 	TEST_PASSED();
@@ -712,19 +714,19 @@ namespace TemperatureStoryTest
 	NFmiSettings::Set("weekly_averages::fake::night::minimum","2,0");
 	NFmiSettings::Set("weekly_averages::fake::night::mean","4,0");
 	NFmiSettings::Set("weekly_averages::fake::night::maximum","5,0");
-	require(story,"fi",fun,"Päivälämpötila on 10...15 astetta, yölämpötila 2...5 astetta.");
-	require(story,"sv",fun,"Dagstemperaturen är 10...15 grader, nattemperaturen 2...5 grader.");
+	require(story,"fi",fun,"PÃ¤ivÃ¤lÃ¤mpÃ¶tila on 10...15 astetta, yÃ¶lÃ¤mpÃ¶tila 2...5 astetta.");
+	require(story,"sv",fun,"Dagstemperaturen Ã¤r 10...15 grader, nattemperaturen 2...5 grader.");
 	require(story,"en",fun,"Daily temperature is 10...15 degrees, nightly temperature 2...5 degrees.");
 
 	NFmiSettings::Set("weekly_averages::night::mininterval","4");
-	require(story,"fi",fun,"Päivälämpötila on 10...15 astetta, yölämpötila noin 4 astetta.");
-	require(story,"sv",fun,"Dagstemperaturen är 10...15 grader, nattemperaturen cirka 4 grader.");
+	require(story,"fi",fun,"PÃ¤ivÃ¤lÃ¤mpÃ¶tila on 10...15 astetta, yÃ¶lÃ¤mpÃ¶tila noin 4 astetta.");
+	require(story,"sv",fun,"Dagstemperaturen Ã¤r 10...15 grader, nattemperaturen cirka 4 grader.");
 	require(story,"en",fun,"Daily temperature is 10...15 degrees, nightly temperature about 4 degrees.");
 
 	NFmiSettings::Set("weekly_averages::day::mininterval","6");
 	NFmiSettings::Set("weekly_averages::night::mininterval","2");
-	require(story,"fi",fun,"Päivälämpötila on noin 12 astetta, yölämpötila 2...5 astetta.");
-	require(story,"sv",fun,"Dagstemperaturen är cirka 12 grader, nattemperaturen 2...5 grader.");
+	require(story,"fi",fun,"PÃ¤ivÃ¤lÃ¤mpÃ¶tila on noin 12 astetta, yÃ¶lÃ¤mpÃ¶tila 2...5 astetta.");
+	require(story,"sv",fun,"Dagstemperaturen Ã¤r cirka 12 grader, nattemperaturen 2...5 grader.");
 	require(story,"en",fun,"Daily temperature is about 12 degrees, nightly temperature 2...5 degrees.");
 
 	TEST_PASSED();
@@ -757,43 +759,43 @@ namespace TemperatureStoryTest
 	NFmiSettings::Set("range::fake::minimum","5,0");
 	NFmiSettings::Set("range::fake::mean","5,0");
 	NFmiSettings::Set("range::fake::maximum","5,0");
-	require(story,"fi",fun,"Lämpötila on noin 5 astetta.");
-	require(story,"sv",fun,"Temperatur är cirka 5 grader.");
+	require(story,"fi",fun,"LÃ¤mpÃ¶tila on noin 5 astetta.");
+	require(story,"sv",fun,"Temperatur Ã¤r cirka 5 grader.");
 	require(story,"en",fun,"Temperature is about 5 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","5,0");
 	NFmiSettings::Set("range::fake::mean","6,0");
 	NFmiSettings::Set("range::fake::maximum","6,0");
-	require(story,"fi",fun,"Lämpötila on noin 6 astetta.");
-	require(story,"sv",fun,"Temperatur är cirka 6 grader.");
+	require(story,"fi",fun,"LÃ¤mpÃ¶tila on noin 6 astetta.");
+	require(story,"sv",fun,"Temperatur Ã¤r cirka 6 grader.");
 	require(story,"en",fun,"Temperature is about 6 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","5,0");
 	NFmiSettings::Set("range::fake::mean","6,0");
 	NFmiSettings::Set("range::fake::maximum","7,0");
-	require(story,"fi",fun,"Lämpötila on 5...7 astetta.");
-	require(story,"sv",fun,"Temperatur är 5...7 grader.");
+	require(story,"fi",fun,"LÃ¤mpÃ¶tila on 5...7 astetta.");
+	require(story,"sv",fun,"Temperatur Ã¤r 5...7 grader.");
 	require(story,"en",fun,"Temperature is 5...7 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","0,0");
 	NFmiSettings::Set("range::fake::mean","0,0");
 	NFmiSettings::Set("range::fake::maximum","1,0");
-	require(story,"fi",fun,"Lämpötila on 0...1 astetta.");
-	require(story,"sv",fun,"Temperatur är 0...1 grader.");
+	require(story,"fi",fun,"LÃ¤mpÃ¶tila on 0...1 astetta.");
+	require(story,"sv",fun,"Temperatur Ã¤r 0...1 grader.");
 	require(story,"en",fun,"Temperature is 0...1 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","-1,0");
 	NFmiSettings::Set("range::fake::mean","0,0");
 	NFmiSettings::Set("range::fake::maximum","0,0");
-	require(story,"fi",fun,"Lämpötila on -1...0 astetta.");
-	require(story,"sv",fun,"Temperatur är -1...0 grader.");
+	require(story,"fi",fun,"LÃ¤mpÃ¶tila on -1...0 astetta.");
+	require(story,"sv",fun,"Temperatur Ã¤r -1...0 grader.");
 	require(story,"en",fun,"Temperature is -1...0 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","-1,0");
 	NFmiSettings::Set("range::fake::mean","0,0");
 	NFmiSettings::Set("range::fake::maximum","1,0");
-	require(story,"fi",fun,"Lämpötila on -1...1 astetta.");
-	require(story,"sv",fun,"Temperatur är -1...1 grader.");
+	require(story,"fi",fun,"LÃ¤mpÃ¶tila on -1...1 astetta.");
+	require(story,"sv",fun,"Temperatur Ã¤r -1...1 grader.");
 	require(story,"en",fun,"Temperature is -1...1 degrees.");
 
 	TEST_PASSED();
@@ -1664,7 +1666,7 @@ std::ostream & operator<<(std::ostream & theOutput,
   theOutput << " Coast afternoon mean d1: " << theParam.temperature_d1_afternoon_coastmean << endl;
 
   theOutput << " Area minimum night: " << theParam.temperature_nite_areamin << endl;
-  theOutput << " Área maximum night: " << theParam.temperature_nite_areamax << endl;
+  theOutput << " Ãrea maximum night: " << theParam.temperature_nite_areamax << endl;
   theOutput << " Area mean night: " << theParam.temperature_nite_areamean << endl;
 
   theOutput << " Inland minimum night: " << theParam.temperature_nite_inlandmin << endl;
@@ -3176,7 +3178,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "4.79,0","5.30,0","5.04,0", // inland day2 afternoon: min, max, mean
 "5.29,0","6.83,0","6.06,0", // coast day2 afternoon: min, max, mean
 "4.76,0","10.25,0","7.51,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 4...8 astetta, huomenna suunnilleen sama. Yön alin lämpötila on sisämaassa noin 3 astetta, rannikolla nollan tienoilla."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 4...8 astetta, huomenna suunnilleen sama. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 3 astetta, rannikolla nollan tienoilla."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "4.52,0","7.14,0","5.83,0", // inland day1: min, max, mean
@@ -3200,7 +3202,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "7.91,0","8.11,0","8.01,0", // inland day2 afternoon: min, max, mean
 "8.53,0","10.74,0","9.63,0", // coast day2 afternoon: min, max, mean
 "7.04,0","9.29,0","8.16,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 6...9 astetta, huomenna suunnilleen sama. Yön alin lämpötila on vähän plussan puolella."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 6...9 astetta, huomenna suunnilleen sama. YÃ¶n alin lÃ¤mpÃ¶tila on vÃ¤hÃ¤n plussan puolella."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "4.98,0","9.05,0","7.01,0", // inland day1: min, max, mean
@@ -3224,7 +3226,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "7.91,0","8.36,0","8.13,0", // inland day2 afternoon: min, max, mean
 "8.18,0","10.84,0","9.51,0", // coast day2 afternoon: min, max, mean
 "7.03,0","11.87,0","9.45,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 7...9 astetta, huomenna hieman korkeampi. Yön alin lämpötila on 5 asteen tuntumassa."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 7...9 astetta, huomenna hieman korkeampi. YÃ¶n alin lÃ¤mpÃ¶tila on 5 asteen tuntumassa."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "5.62,0","7.12,0","6.37,0", // inland day1: min, max, mean
@@ -3248,7 +3250,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "8.61,0","9.09,0","8.85,0", // inland day2 afternoon: min, max, mean
 "9.05,0","10.25,0","9.65,0", // coast day2 afternoon: min, max, mean
 "7.97,0","8.48,0","8.23,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on sisämaassa noin 7 astetta, rannikolla 9...14 astetta. Huomenna päivän ylin lämpötila on noin 8 astetta. Yön alin lämpötila on sisämaassa vähän plussan puolella, rannikolla lähellä 5 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 7 astetta, rannikolla 9...14 astetta. Huomenna pÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on noin 8 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa vÃ¤hÃ¤n plussan puolella, rannikolla lÃ¤hellÃ¤ 5 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "6.46,0","8.91,0","7.69,0", // inland day1: min, max, mean
@@ -3272,7 +3274,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "15.15,0","15.76,0","15.46,0", // inland day2 afternoon: min, max, mean
 "15.59,0","18.32,0","16.95,0", // coast day2 afternoon: min, max, mean
 "14.45,0","18.81,0","16.63,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 10 asteen tienoilla, huomenna 14...19 astetta. Yön alin lämpötila on lähellä 5 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 10 asteen tienoilla, huomenna 14...19 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on lÃ¤hellÃ¤ 5 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "7.47,0","7.70,0","7.59,0", // inland day1: min, max, mean
@@ -3296,7 +3298,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "9.80,0","10.57,0","10.18,0", // inland day2 afternoon: min, max, mean
 "10.25,0","13.30,0","11.78,0", // coast day2 afternoon: min, max, mean
 "9.35,0","10.14,0","9.75,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on sisämaassa noin 8 astetta, rannikolla 8...12 astetta. Huomenna päivän ylin lämpötila on 10 asteen tuntumassa. Yön alin lämpötila on 5 asteen tuntumassa."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 8 astetta, rannikolla 8...12 astetta. Huomenna pÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 10 asteen tuntumassa. YÃ¶n alin lÃ¤mpÃ¶tila on 5 asteen tuntumassa."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "8.28,0","10.31,0","9.30,0", // inland day1: min, max, mean
@@ -3320,7 +3322,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "13.63,0","14.50,0","14.06,0", // inland day2 afternoon: min, max, mean
 "14.30,0","14.47,0","14.38,0", // coast day2 afternoon: min, max, mean
 "13.03,0","19.80,0","16.41,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 9...12 astetta, huomenna 15...20 astetta. Yön alin lämpötila on noin 5 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 9...12 astetta, huomenna 15...20 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on noin 5 astetta."))); // the story
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.11,0","11.11,0","10.61,0", // inland day1: min, max, mean
 "10.55,0","12.05,0","11.30,0", // coast day1: min, max, mean
@@ -3343,7 +3345,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "11.52,0","11.89,0","11.71,0", // inland day2 afternoon: min, max, mean
 "11.73,0","17.87,0","14.80,0", // coast day2 afternoon: min, max, mean
 "10.79,0","12.36,0","11.57,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 11...13 astetta. Huomenna päivän ylin lämpötila on sisämaassa vähän yli 10 astetta, rannikolla 13...18 astetta. Yön alin lämpötila on sisämaassa noin 7 astetta, rannikolla 10 asteen tuntumassa."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 11...13 astetta. Huomenna pÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sisÃ¤maassa vÃ¤hÃ¤n yli 10 astetta, rannikolla 13...18 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 7 astetta, rannikolla 10 asteen tuntumassa."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.39,0","12.25,0","11.32,0", // inland day1: min, max, mean
@@ -3367,7 +3369,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "19.58,0","19.93,0","19.75,0", // inland day2 afternoon: min, max, mean
 "19.61,0","20.91,0","20.26,0", // coast day2 afternoon: min, max, mean
 "18.89,0","20.73,0","19.81,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 11...14 astetta, huomenna lähellä 20 astetta. Yön alin lämpötila on 7...9 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 11...14 astetta, huomenna lÃ¤hellÃ¤ 20 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on 7...9 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.74,0","12.32,0","11.53,0", // inland day1: min, max, mean
@@ -3391,7 +3393,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "18.41,0","18.81,0","18.61,0", // inland day2 afternoon: min, max, mean
 "18.72,0","21.53,0","20.12,0", // coast day2 afternoon: min, max, mean
 "18.40,0","23.82,0","21.11,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 13...18 astetta, huomenna 19...24 astetta. Yön alin lämpötila on noin 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 13...18 astetta, huomenna 19...24 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on noin 10 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "11.76,0","14.58,0","13.17,0", // inland day1: min, max, mean
@@ -3415,7 +3417,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "15.95,0","16.94,0","16.45,0", // inland day2 afternoon: min, max, mean
 "16.53,0","19.67,0","18.10,0", // coast day2 afternoon: min, max, mean
 "15.39,0","17.27,0","16.33,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 13...17 astetta, huomenna suunnilleen sama. Yön alin lämpötila on sisämaassa noin 12 astetta, rannikolla noin 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 13...17 astetta, huomenna suunnilleen sama. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 12 astetta, rannikolla noin 10 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "14.07,0","15.16,0","14.62,0", // inland day1: min, max, mean
@@ -3439,7 +3441,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "18.06,0","18.88,0","18.47,0", // inland day2 afternoon: min, max, mean
 "18.45,0","23.69,0","21.07,0", // coast day2 afternoon: min, max, mean
 "17.52,0","22.13,0","19.83,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on sisämaassa 15 asteen tuntumassa, rannikolla 16...20 astetta. Huomenna päivän ylin lämpötila on 18...22 astetta. Yön alin lämpötila on vajaat 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sisÃ¤maassa 15 asteen tuntumassa, rannikolla 16...20 astetta. Huomenna pÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 18...22 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on vajaat 10 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.11,0","11.11,0","10.61,0", // inland day1: min, max, mean
@@ -3463,7 +3465,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "11.52,0","11.89,0","11.71,0", // inland day2 afternoon: min, max, mean
 "11.73,0","17.87,0","14.80,0", // coast day2 afternoon: min, max, mean
 "10.79,0","12.36,0","11.57,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 11...13 astetta. Huomenna päivän ylin lämpötila on sisämaassa vähän yli 10 astetta, rannikolla 13...18 astetta. Yön alin lämpötila on sisämaassa noin 7 astetta, rannikolla 10 asteen tuntumassa."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 11...13 astetta. Huomenna pÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sisÃ¤maassa vÃ¤hÃ¤n yli 10 astetta, rannikolla 13...18 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 7 astetta, rannikolla 10 asteen tuntumassa."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.39,0","12.25,0","11.32,0", // inland day1: min, max, mean
@@ -3487,7 +3489,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "19.58,0","19.93,0","19.75,0", // inland day2 afternoon: min, max, mean
 "19.61,0","20.91,0","20.26,0", // coast day2 afternoon: min, max, mean
 "18.89,0","20.73,0","19.81,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 11...14 astetta, huomenna lähellä 20 astetta. Yön alin lämpötila on 7...9 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 11...14 astetta, huomenna lÃ¤hellÃ¤ 20 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on 7...9 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.74,0","12.32,0","11.53,0", // inland day1: min, max, mean
@@ -3511,7 +3513,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "18.41,0","18.81,0","18.61,0", // inland day2 afternoon: min, max, mean
 "18.72,0","21.53,0","20.12,0", // coast day2 afternoon: min, max, mean
 "18.40,0","23.82,0","21.11,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 13...18 astetta, huomenna 19...24 astetta. Yön alin lämpötila on noin 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 13...18 astetta, huomenna 19...24 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on noin 10 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "11.76,0","14.58,0","13.17,0", // inland day1: min, max, mean
@@ -3535,7 +3537,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "15.95,0","16.94,0","16.45,0", // inland day2 afternoon: min, max, mean
 "16.53,0","19.67,0","18.10,0", // coast day2 afternoon: min, max, mean
 "15.39,0","17.27,0","16.33,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 13...17 astetta, huomenna suunnilleen sama. Yön alin lämpötila on sisämaassa noin 12 astetta, rannikolla noin 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 13...17 astetta, huomenna suunnilleen sama. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 12 astetta, rannikolla noin 10 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "14.07,0","15.16,0","14.62,0", // inland day1: min, max, mean
@@ -3559,7 +3561,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "18.06,0","18.88,0","18.47,0", // inland day2 afternoon: min, max, mean
 "18.45,0","23.69,0","21.07,0", // coast day2 afternoon: min, max, mean
 "17.52,0","22.13,0","19.83,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on sisämaassa 15 asteen tuntumassa, rannikolla 16...20 astetta. Huomenna päivän ylin lämpötila on 18...22 astetta. Yön alin lämpötila on vajaat 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sisÃ¤maassa 15 asteen tuntumassa, rannikolla 16...20 astetta. Huomenna pÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 18...22 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on vajaat 10 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.11,0","11.11,0","10.61,0", // inland day1: min, max, mean
@@ -3583,7 +3585,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "11.52,0","11.89,0","11.71,0", // inland day2 afternoon: min, max, mean
 "11.73,0","17.87,0","14.80,0", // coast day2 afternoon: min, max, mean
 "10.79,0","12.36,0","11.57,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 11...13 astetta. Huomenna päivän ylin lämpötila on sisämaassa vähän yli 10 astetta, rannikolla 13...18 astetta. Yön alin lämpötila on sisämaassa noin 7 astetta, rannikolla 10 asteen tuntumassa."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 11...13 astetta. Huomenna pÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sisÃ¤maassa vÃ¤hÃ¤n yli 10 astetta, rannikolla 13...18 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 7 astetta, rannikolla 10 asteen tuntumassa."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.39,0","12.25,0","11.32,0", // inland day1: min, max, mean
@@ -3607,7 +3609,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "19.58,0","19.93,0","19.75,0", // inland day2 afternoon: min, max, mean
 "19.61,0","20.91,0","20.26,0", // coast day2 afternoon: min, max, mean
 "18.89,0","20.73,0","19.81,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 11...14 astetta, huomenna lähellä 20 astetta. Yön alin lämpötila on 7...9 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 11...14 astetta, huomenna lÃ¤hellÃ¤ 20 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on 7...9 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.74,0","12.32,0","11.53,0", // inland day1: min, max, mean
@@ -3631,7 +3633,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "18.41,0","18.81,0","18.61,0", // inland day2 afternoon: min, max, mean
 "18.72,0","21.53,0","20.12,0", // coast day2 afternoon: min, max, mean
 "18.40,0","23.82,0","21.11,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 13...18 astetta, huomenna 19...24 astetta. Yön alin lämpötila on noin 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 13...18 astetta, huomenna 19...24 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on noin 10 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "11.76,0","14.58,0","13.17,0", // inland day1: min, max, mean
@@ -3655,7 +3657,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "15.95,0","16.94,0","16.45,0", // inland day2 afternoon: min, max, mean
 "16.53,0","19.67,0","18.10,0", // coast day2 afternoon: min, max, mean
 "15.39,0","17.27,0","16.33,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 13...17 astetta, huomenna suunnilleen sama. Yön alin lämpötila on sisämaassa noin 12 astetta, rannikolla noin 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 13...17 astetta, huomenna suunnilleen sama. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 12 astetta, rannikolla noin 10 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "14.07,0","15.16,0","14.62,0", // inland day1: min, max, mean
@@ -3679,7 +3681,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "18.06,0","18.88,0","18.47,0", // inland day2 afternoon: min, max, mean
 "18.45,0","23.69,0","21.07,0", // coast day2 afternoon: min, max, mean
 "17.52,0","22.13,0","19.83,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on sisämaassa 15 asteen tuntumassa, rannikolla 16...20 astetta. Huomenna päivän ylin lämpötila on 18...22 astetta. Yön alin lämpötila on vajaat 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sisÃ¤maassa 15 asteen tuntumassa, rannikolla 16...20 astetta. Huomenna pÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 18...22 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on vajaat 10 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.11,0","11.11,0","10.61,0", // inland day1: min, max, mean
@@ -3703,7 +3705,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "11.52,0","11.89,0","11.71,0", // inland day2 afternoon: min, max, mean
 "11.73,0","17.87,0","14.80,0", // coast day2 afternoon: min, max, mean
 "10.79,0","12.36,0","11.57,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 11...13 astetta. Huomenna päivän ylin lämpötila on sisämaassa vähän yli 10 astetta, rannikolla 13...18 astetta. Yön alin lämpötila on sisämaassa noin 7 astetta, rannikolla 10 asteen tuntumassa."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 11...13 astetta. Huomenna pÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sisÃ¤maassa vÃ¤hÃ¤n yli 10 astetta, rannikolla 13...18 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 7 astetta, rannikolla 10 asteen tuntumassa."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.39,0","12.25,0","11.32,0", // inland day1: min, max, mean
@@ -3727,7 +3729,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "19.58,0","19.93,0","19.75,0", // inland day2 afternoon: min, max, mean
 "19.61,0","20.91,0","20.26,0", // coast day2 afternoon: min, max, mean
 "18.89,0","20.73,0","19.81,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 11...14 astetta, huomenna lähellä 20 astetta. Yön alin lämpötila on 7...9 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 11...14 astetta, huomenna lÃ¤hellÃ¤ 20 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on 7...9 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.74,0","12.32,0","11.53,0", // inland day1: min, max, mean
@@ -3751,7 +3753,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "18.41,0","18.81,0","18.61,0", // inland day2 afternoon: min, max, mean
 "18.72,0","21.53,0","20.12,0", // coast day2 afternoon: min, max, mean
 "18.40,0","23.82,0","21.11,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 13...18 astetta, huomenna 19...24 astetta. Yön alin lämpötila on noin 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 13...18 astetta, huomenna 19...24 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on noin 10 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "11.76,0","14.58,0","13.17,0", // inland day1: min, max, mean
@@ -3775,7 +3777,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "15.95,0","16.94,0","16.45,0", // inland day2 afternoon: min, max, mean
 "16.53,0","19.67,0","18.10,0", // coast day2 afternoon: min, max, mean
 "15.39,0","17.27,0","16.33,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 13...17 astetta, huomenna suunnilleen sama. Yön alin lämpötila on sisämaassa noin 12 astetta, rannikolla noin 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 13...17 astetta, huomenna suunnilleen sama. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 12 astetta, rannikolla noin 10 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "14.07,0","15.16,0","14.62,0", // inland day1: min, max, mean
@@ -3799,7 +3801,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "18.06,0","18.88,0","18.47,0", // inland day2 afternoon: min, max, mean
 "18.45,0","23.69,0","21.07,0", // coast day2 afternoon: min, max, mean
 "17.52,0","22.13,0","19.83,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on sisämaassa 15 asteen tuntumassa, rannikolla 16...20 astetta. Huomenna päivän ylin lämpötila on 18...22 astetta. Yön alin lämpötila on vajaat 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sisÃ¤maassa 15 asteen tuntumassa, rannikolla 16...20 astetta. Huomenna pÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 18...22 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on vajaat 10 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.11,0","11.11,0","10.61,0", // inland day1: min, max, mean
@@ -3823,7 +3825,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "11.52,0","11.89,0","11.71,0", // inland day2 afternoon: min, max, mean
 "11.73,0","17.87,0","14.80,0", // coast day2 afternoon: min, max, mean
 "10.79,0","12.36,0","11.57,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 11...13 astetta. Huomenna päivän ylin lämpötila on sisämaassa vähän yli 10 astetta, rannikolla 13...18 astetta. Yön alin lämpötila on sisämaassa noin 7 astetta, rannikolla 10 asteen tuntumassa."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 11...13 astetta. Huomenna pÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on sisÃ¤maassa vÃ¤hÃ¤n yli 10 astetta, rannikolla 13...18 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 7 astetta, rannikolla 10 asteen tuntumassa."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.39,0","12.25,0","11.32,0", // inland day1: min, max, mean
@@ -3847,7 +3849,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "19.58,0","19.93,0","19.75,0", // inland day2 afternoon: min, max, mean
 "19.61,0","20.91,0","20.26,0", // coast day2 afternoon: min, max, mean
 "18.89,0","20.73,0","19.81,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 11...14 astetta, huomenna lähellä 20 astetta. Yön alin lämpötila on 7...9 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 11...14 astetta, huomenna lÃ¤hellÃ¤ 20 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on 7...9 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "10.74,0","12.32,0","11.53,0", // inland day1: min, max, mean
@@ -3871,7 +3873,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "18.41,0","18.81,0","18.61,0", // inland day2 afternoon: min, max, mean
 "18.72,0","21.53,0","20.12,0", // coast day2 afternoon: min, max, mean
 "18.40,0","23.82,0","21.11,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 13...18 astetta, huomenna 19...24 astetta. Yön alin lämpötila on noin 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 13...18 astetta, huomenna 19...24 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on noin 10 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "11.76,0","14.58,0","13.17,0", // inland day1: min, max, mean
@@ -3895,7 +3897,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "15.95,0","16.94,0","16.45,0", // inland day2 afternoon: min, max, mean
 "16.53,0","19.67,0","18.10,0", // coast day2 afternoon: min, max, mean
 "15.39,0","17.27,0","16.33,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 13...17 astetta, huomenna suunnilleen sama. Yön alin lämpötila on sisämaassa noin 12 astetta, rannikolla noin 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 13...17 astetta, huomenna suunnilleen sama. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 12 astetta, rannikolla noin 10 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "19.74,0","22.21,0","20.97,0", // inland day1: min, max, mean
@@ -3919,7 +3921,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "26.66,0","27.58,0","27.12,0", // inland day2 afternoon: min, max, mean
 "25.26,0","26.01,0","25.63,0", // coast day2 afternoon: min, max, mean
 "25.73,0","29.88,0","27.80,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on noin 22 astetta, huomenna 26...30 astetta. Yön alin lämpötila on 17...19 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on noin 22 astetta, huomenna 26...30 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on 17...19 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "19.95,0","22.78,0","21.36,0", // inland day1: min, max, mean
@@ -3943,7 +3945,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "23.76,0","24.56,0","24.16,0", // inland day2 afternoon: min, max, mean
 "23.43,0","27.43,0","25.43,0", // coast day2 afternoon: min, max, mean
 "23.47,0","28.43,0","25.95,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on noin 22 astetta, huomenna 23...28 astetta. Yön alin lämpötila on vajaat 20 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on noin 22 astetta, huomenna 23...28 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on vajaat 20 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "20.17,0","24.08,0","22.13,0", // inland day1: min, max, mean
@@ -3967,7 +3969,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "20.88,0","21.33,0","21.10,0", // inland day2 afternoon: min, max, mean
 "19.61,0","22.80,0","21.20,0", // coast day2 afternoon: min, max, mean
 "20.63,0","21.25,0","20.94,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 23...25 astetta, huomenna suunnilleen sama. Yön alin lämpötila on vähän yli 15 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 23...25 astetta, huomenna suunnilleen sama. YÃ¶n alin lÃ¤mpÃ¶tila on vÃ¤hÃ¤n yli 15 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "21.73,0","23.61,0","22.67,0", // inland day1: min, max, mean
@@ -3991,7 +3993,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "26.50,0","27.22,0","26.86,0", // inland day2 afternoon: min, max, mean
 "25.42,0","26.22,0","25.82,0", // coast day2 afternoon: min, max, mean
 "25.82,0","28.69,0","27.26,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 23...25 astetta, huomenna hieman korkeampi. Yön alin lämpötila on sisämaassa 17...19 astetta, rannikolla noin 20 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 23...25 astetta, huomenna hieman korkeampi. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa 17...19 astetta, rannikolla noin 20 astetta."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "23.15,0","24.14,0","23.65,0", // inland day1: min, max, mean
@@ -4015,7 +4017,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "27.15,0","28.02,0","27.59,0", // inland day2 afternoon: min, max, mean
 "25.56,0","27.46,0","26.51,0", // coast day2 afternoon: min, max, mean
 "27.06,0","27.72,0","27.39,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 25 asteen tuntumassa, huomenna hieman korkeampi. Yön alin lämpötila on sisämaassa noin 23 astetta, rannikolla 20 asteen tuntumassa."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 25 asteen tuntumassa, huomenna hieman korkeampi. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 23 astetta, rannikolla 20 asteen tuntumassa."))); // the story
 
 testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "15.85,0","17.32,0","16.58,0", // inland day1: min, max, mean
@@ -4039,7 +4041,7 @@ testCases.insert(make_pair(i++, new Max36HoursTestParam(
 "21.56,0","21.70,0","21.63,0", // inland day2 afternoon: min, max, mean
 "20.96,0","23.49,0","22.22,0", // coast day2 afternoon: min, max, mean
 "20.94,0","25.32,0","23.13,0", // area day2 afternoon: min, max, mean
-"Päivän ylin lämpötila on 16...18 astetta, huomenna 21...25 astetta. Yön alin lämpötila on sisämaassa noin 15 astetta, rannikolla noin 10 astetta."))); // the story
+"PÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila on 16...18 astetta, huomenna 21...25 astetta. YÃ¶n alin lÃ¤mpÃ¶tila on sisÃ¤maassa noin 15 astetta, rannikolla noin 10 astetta."))); // the story
 
 
 	}
@@ -4064,7 +4066,7 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
 																	 "Pakkanen kiristyy.")));
 
-		  // kireä pakkanen jatkuu
+		  // kireÃ¤ pakkanen jatkuu
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "-26.0,0","-27.0,0","-26.5,0", // d1 min, max, mean
 																	 "-6.0,0","-7.0,0","-6.5,0", // night min, max, mean
@@ -4072,9 +4074,9 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää on poikkeuksellisen kylmää. Kireä pakkanen jatkuu.")));
+																	 "SÃ¤Ã¤ on poikkeuksellisen kylmÃ¤Ã¤. KireÃ¤ pakkanen jatkuu.")));
 
-		  // sää on poikkeuksellisen kylmää ja pakkanen kiristyy
+		  // sÃ¤Ã¤ on poikkeuksellisen kylmÃ¤Ã¤ ja pakkanen kiristyy
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "-27.0,0","-28.0,0","-27.5,0", // d1 min, max, mean
 																	 "-27.0,0","-28.0,0","-27.5,0", // night min, max, mean
@@ -4082,8 +4084,8 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää on poikkeuksellisen kylmää. Pakkanen kiristyy.")));
-		  // kireä pakkanen heikkenee
+																	 "SÃ¤Ã¤ on poikkeuksellisen kylmÃ¤Ã¤. Pakkanen kiristyy.")));
+		  // kireÃ¤ pakkanen heikkenee
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "-27.0,0","-28.0,0","-27.5,0", // d1 min, max, mean
 																	 "-27.0,0","-28.0,0","-27.5,0", // night min, max, mean
@@ -4091,7 +4093,7 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää on poikkeuksellisen kylmää. Kireä pakkanen heikkenee.")));
+																	 "SÃ¤Ã¤ on poikkeuksellisen kylmÃ¤Ã¤. KireÃ¤ pakkanen heikkenee.")));
 		  // pakkanen heikkenee
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "-18.0,0","-19.0,0","-18.5,0", // d1 min, max, mean
@@ -4102,7 +4104,7 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
 																	 "Pakkanen heikkenee.")));
 		  /*
-		  // pakkanen hellittää (sää lauhtuu)
+		  // pakkanen hellittÃ¤Ã¤ (sÃ¤Ã¤ lauhtuu)
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 		  "-12.0,0","-14.0,0","-13.5,0", // d1 min, max, mean
 		  "-12.0,0","-14.0,0","-13.5,0", // night min, max, mean
@@ -4110,10 +4112,10 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 		  "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 		  "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 		  "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-		  "Pakkanen hellittää.")));
+		  "Pakkanen hellittÃ¤Ã¤.")));
 		  */
 
-		  // sää lauhtuu
+		  // sÃ¤Ã¤ lauhtuu
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "-18.0,0","-19.0,0","-18.5,0", // d1 min, max, mean
 																	 "-18.0,0","-19.0,0","-18.5,0", // night min, max, mean
@@ -4121,8 +4123,8 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää lauhtuu.")));
-		  // sää lauhtuu
+																	 "SÃ¤Ã¤ lauhtuu.")));
+		  // sÃ¤Ã¤ lauhtuu
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "-27.0,0","-28.0,0","-27.5,0", // d1 min, max, mean
 																	 "-27.0,0","-28.0,0","-27.5,0", // night min, max, mean
@@ -4130,10 +4132,10 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää on poikkeuksellisen kylmää. Sää lauhtuu.")));
+																	 "SÃ¤Ã¤ on poikkeuksellisen kylmÃ¤Ã¤. SÃ¤Ã¤ lauhtuu.")));
 
 
-		  // sää one edelleen lauhaa
+		  // sÃ¤Ã¤ one edelleen lauhaa
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "-2.0,0","-3.0,0","-2.5,0", // d1 min, max, mean
 																	 "-2.0,0","-3.0,0","-2.5,0", // night min, max, mean
@@ -4141,9 +4143,9 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää on edelleen lauhaa.")));
+																	 "SÃ¤Ã¤ on edelleen lauhaa.")));
 
-		  // sää one edelleen lauhaa. sää on erittäin tuulista
+		  // sÃ¤Ã¤ one edelleen lauhaa. sÃ¤Ã¤ on erittÃ¤in tuulista
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "-2.0,0","-3.0,0","-2.5,0", // d1 min, max, mean
 																	 "-2.0,0","-3.0,0","-2.5,0", // night min, max, mean
@@ -4151,9 +4153,9 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "10.0,0","12.0,0","11.0,0", //d2 windspeed morning min,max,mean
 																	 "10.0,0","12.0,0","11.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää on edelleen lauhaa. Sää on erittäin tuulinen.")));
+																	 "SÃ¤Ã¤ on edelleen lauhaa. SÃ¤Ã¤ on erittÃ¤in tuulinen.")));
 
-		  // sää on hyvin kylmää. kireä pakkanen jatkuu. sää on tuulinen. pakkanen on purevaa
+		  // sÃ¤Ã¤ on hyvin kylmÃ¤Ã¤. kireÃ¤ pakkanen jatkuu. sÃ¤Ã¤ on tuulinen. pakkanen on purevaa
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "-22.0,0","-23.0,0","-22.5,0", // d1 min, max, mean
 																	 "-22.0,0","-23.0,0","-22.5,0", // night min, max, mean
@@ -4161,9 +4163,9 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "8.0,0","10.0,0","9.0,0", //d2 windspeed morning min,max,mean
 																	 "9.0,0","11.0,0","9.6,0", //d2 windspeed afternoon min,max,me															    
 																	 "-26.0,0","-29.0,0","-27.0,0", //d2 windchill min,max,mean
-																	 "Sää on hyvin kylmää. Kireä pakkanen jatkuu. Sää on tuulinen. Pakkanen on purevaa.")));
+																	 "SÃ¤Ã¤ on hyvin kylmÃ¤Ã¤. KireÃ¤ pakkanen jatkuu. SÃ¤Ã¤ on tuulinen. Pakkanen on purevaa.")));
 
-		  // sää on hyvin kylmää. kireä pakkanen jatkuu. sää on erittäin tuulinen. pakkanen on erittäin purevaa
+		  // sÃ¤Ã¤ on hyvin kylmÃ¤Ã¤. kireÃ¤ pakkanen jatkuu. sÃ¤Ã¤ on erittÃ¤in tuulinen. pakkanen on erittÃ¤in purevaa
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "-22.0,0","-23.0,0","-22.5,0", // d1 min, max, mean
 																	 "-22.0,0","-23.0,0","-22.5,0", // night min, max, mean
@@ -4171,7 +4173,7 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "10.0,0","12.0,0","11.0,0", //d2 windspeed morning min,max,mean
 																	 "10.0,0","12.0,0","11.0,0", //d2 windspeed afternoon min,max,me															    
 																	 "-36.0,0","-39.0,0","-37.0,0", //d2 windchill min,max,mean
-																	 "Sää on hyvin kylmää. Kireä pakkanen jatkuu. Sää on erittäin tuulinen. Pakkanen on erittäin purevaa.")));
+																	 "SÃ¤Ã¤ on hyvin kylmÃ¤Ã¤. KireÃ¤ pakkanen jatkuu. SÃ¤Ã¤ on erittÃ¤in tuulinen. Pakkanen on erittÃ¤in purevaa.")));
 
 		}
 	}
@@ -4179,7 +4181,7 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 	{
 	  if(language == "fi")
 		{
-		  // sää muuttuu helteiseksi
+		  // sÃ¤Ã¤ muuttuu helteiseksi
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "18.0,0","19.0,0","18.5,0", // d1 min, max, mean
 																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
@@ -4187,9 +4189,9 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää muuttuu helteiseksi.")));
+																	 "SÃ¤Ã¤ muuttuu helteiseksi.")));
 
-		  // sää on harvinaisen lämmintä. sää on helteistä
+		  // sÃ¤Ã¤ on harvinaisen lÃ¤mmintÃ¤. sÃ¤Ã¤ on helteistÃ¤
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "23.0,0","24.8,0","23.5,0", // d1 min, max, mean
 																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
@@ -4197,9 +4199,9 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää on harvinaisen lämmintä. Sää on helteistä.")));
+																	 "SÃ¤Ã¤ on harvinaisen lÃ¤mmintÃ¤. SÃ¤Ã¤ on helteistÃ¤.")));
 
-		  // sää on harvinaisen lämmintä. sää muuttuu helteiseksi
+		  // sÃ¤Ã¤ on harvinaisen lÃ¤mmintÃ¤. sÃ¤Ã¤ muuttuu helteiseksi
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "23.0,0","24.8,0","22.5,0", // d1 min, max, mean
 																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
@@ -4207,9 +4209,9 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää on harvinaisen lämmintä. Sää muuttuu helteiseksi.")));
+																	 "SÃ¤Ã¤ on harvinaisen lÃ¤mmintÃ¤. SÃ¤Ã¤ muuttuu helteiseksi.")));
 
-		  // helteinen sää jatkuu (vaikka lämpötila laskee)
+		  // helteinen sÃ¤Ã¤ jatkuu (vaikka lÃ¤mpÃ¶tila laskee)
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "29.0,0","30.0,0","29.5,0", // d1 min, max, mean
 																	 "20.0,0","21.0,0","20.5,0", // night min, max, mean
@@ -4217,9 +4219,9 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Helteinen sää jatkuu.")));
+																	 "Helteinen sÃ¤Ã¤ jatkuu.")));
 
-		  // helteinen sää jatkuu (lämpötila pysyy samana)
+		  // helteinen sÃ¤Ã¤ jatkuu (lÃ¤mpÃ¶tila pysyy samana)
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "29.0,0","30.0,0","29.5,0", // d1 min, max, mean
 																	 "20.0,0","21.0,0","20.5,0", // night min, max, mean
@@ -4227,9 +4229,9 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Helteinen sää jatkuu.")));
+																	 "Helteinen sÃ¤Ã¤ jatkuu.")));
 
-		  // helteinen sää jatkuu (lämpötila nousee)
+		  // helteinen sÃ¤Ã¤ jatkuu (lÃ¤mpÃ¶tila nousee)
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "25.0,0","26.0,0","25.5,0", // d1 min, max, mean
 																	 "20.0,0","21.0,0","20.5,0", // night min, max, mean
@@ -4237,9 +4239,9 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Helteinen sää jatkuu.")));
+																	 "Helteinen sÃ¤Ã¤ jatkuu.")));
 
-		  // sää on koleaa. kolea sää jatkuu (lämpötila nousee)
+		  // sÃ¤Ã¤ on koleaa. kolea sÃ¤Ã¤ jatkuu (lÃ¤mpÃ¶tila nousee)
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "8.0,0","9.0,0","8.5,0", // d1 min, max, mean
 																	 "5.0,0","6.0,0","5.5,0", // night min, max, mean
@@ -4247,9 +4249,9 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää on koleaa. Kolea sää jatkuu.")));
+																	 "SÃ¤Ã¤ on koleaa. Kolea sÃ¤Ã¤ jatkuu.")));
 
-		  // sää on koleaa. kolea sää jatkuu
+		  // sÃ¤Ã¤ on koleaa. kolea sÃ¤Ã¤ jatkuu
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "8.0,0","9.0,0","8.5,0", // d1 min, max, mean
 																	 "5.0,0","6.0,0","5.5,0", // night min, max, mean
@@ -4257,9 +4259,9 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää on koleaa. Kolea sää jatkuu.")));
+																	 "SÃ¤Ã¤ on koleaa. Kolea sÃ¤Ã¤ jatkuu.")));
 
-		  // sää on koleaa. viileä sää jatkuu
+		  // sÃ¤Ã¤ on koleaa. viileÃ¤ sÃ¤Ã¤ jatkuu
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "8.0,0","9.0,0","8.5,0", // d1 min, max, mean
 																	 "5.0,0","6.0,0","5.5,0", // night min, max, mean
@@ -4267,9 +4269,9 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää on koleaa. Viileä sää jatkuu.")));
+																	 "SÃ¤Ã¤ on koleaa. ViileÃ¤ sÃ¤Ã¤ jatkuu.")));
 
-		  // sää viilenee vähän
+		  // sÃ¤Ã¤ viilenee vÃ¤hÃ¤n
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "17.0,0","18.0,0","17.5,0", // d1 min, max, mean
 																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
@@ -4277,8 +4279,8 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää viilenee vähän.")));
-		  // sää viilenee
+																	 "SÃ¤Ã¤ viilenee vÃ¤hÃ¤n.")));
+		  // sÃ¤Ã¤ viilenee
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "17.0,0","18.0,0","17.5,0", // d1 min, max, mean
 																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
@@ -4286,8 +4288,8 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää viilenee.")));
-		  // sää viilenee huomattavasti
+																	 "SÃ¤Ã¤ viilenee.")));
+		  // sÃ¤Ã¤ viilenee huomattavasti
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "17.0,0","18.0,0","17.5,0", // d1 min, max, mean
 																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
@@ -4295,8 +4297,8 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää viilenee huomattavasti.")));
-		  // sää lämpenee vähän
+																	 "SÃ¤Ã¤ viilenee huomattavasti.")));
+		  // sÃ¤Ã¤ lÃ¤mpenee vÃ¤hÃ¤n
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "14.0,0","15.0,0","14.6,0", // d1 min, max, mean
 																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
@@ -4304,8 +4306,8 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää lämpenee vähän.")));
-		  // sää lämpenee
+																	 "SÃ¤Ã¤ lÃ¤mpenee vÃ¤hÃ¤n.")));
+		  // sÃ¤Ã¤ lÃ¤mpenee
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "14.0,0","15.0,0","14.5,0", // d1 min, max, mean
 																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
@@ -4313,8 +4315,8 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää lämpenee.")));
-		  // sää on koleaa, sää lämpenee huomattavasti
+																	 "SÃ¤Ã¤ lÃ¤mpenee.")));
+		  // sÃ¤Ã¤ on koleaa, sÃ¤Ã¤ lÃ¤mpenee huomattavasti
 		  testCases.insert(make_pair(i++,TemperatureAnomalyTestParam(
 																	 "10.0,0","11.0,0","10.5,0", // d1 min, max, mean
 																	 "15.0,0","16.0,0","15.5,0", // night min, max, mean
@@ -4322,7 +4324,7 @@ void create_anomaly_testcases(TestCaseContainer& testCases, const string& langua
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed morning min,max,mean
 																	 "2.0,0","2.0,0","2.0,0", //d2 windspeed afternoon min,max,mean
 																	 "0.0,0","0.0,0","0.0,0", //d2 windchill min,max,mean
-																	 "Sää on koleaa. Sää lämpenee huomattavasti.")));
+																	 "SÃ¤Ã¤ on koleaa. SÃ¤Ã¤ lÃ¤mpenee huomattavasti.")));
 		}
 	}
 #endif
@@ -4674,6 +4676,13 @@ void delete_testcases(TestCaseContainer& testCases)
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+  NFmiSettings::Set("textgen::units::celsius::format","phrase");
+
   using namespace TemperatureStoryTest;
   MessageLogger::open("my.log");
 
@@ -4683,11 +4692,6 @@ int main(void)
 
   dict.reset(TextGen::DictionaryFactory::create("multimysql"));
 
-  NFmiSettings::Set("textgen::units::celsius::format","phrase");
-  NFmiSettings::Set("textgen::database","textgen2");
-
-
-  NFmiSettings::Init();
 
   dict->init("fi");
   dict->init("sv");

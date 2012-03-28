@@ -1,10 +1,14 @@
 #include <regression/tframe.h>
 #include "FireWarnings.h"
+
 #include <newbase/NFmiTime.h>
+#include <newbase/NFmiSettings.h>
 
 #include <iostream>
 #include <stdexcept>
 #include <string>
+
+#include <boost/locale.hpp>
 
 using namespace std;
 
@@ -142,6 +146,12 @@ namespace FireWarningsTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   using namespace FireWarningsTest;
 
   cout << endl

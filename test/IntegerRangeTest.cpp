@@ -2,10 +2,14 @@
 #include "NullDictionary.h"
 #include "IntegerRange.h"
 
+#include <newbase/NFmiSettings.h>
+
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
 #include <string>
+
+#include <boost/locale.hpp>
 
 using namespace std;
 
@@ -115,7 +119,7 @@ namespace IntegerRangeTest
 	  TEST_FAILED("realization of 1,2 failed");
 	
 	IntegerRange r3(-20,-10);
-	if(r3.realize(NullDictionary()) != "-10--20")
+	if(r3.realize(NullDictionary()) != "-20--10")
 	  TEST_FAILED("realization of -10,-20 failed: "+r3.realize(NullDictionary()));
 	
 	TEST_PASSED();
@@ -183,6 +187,12 @@ namespace IntegerRangeTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   cout << endl
 	   << "IntegerRange tester" << endl
 	   << "===================" << endl;

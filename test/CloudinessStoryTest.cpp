@@ -7,6 +7,7 @@
 #include "Story.h"
 
 #include <newbase/NFmiSettings.h>
+#include <boost/locale.hpp>
 
 #include <iostream>
 #include <stdexcept>
@@ -27,16 +28,24 @@ namespace CloudinessStoryTest
 				 const string & theName,
 				 const string & theExpected)
   {
-	dict->init(theLanguage);
-	formatter.dictionary(dict);
-
-	TextGen::Paragraph para = theStory.makeStory(theName);
-	const string result = para.realize(formatter);
-
-	if(result != theExpected)
-	  return (result + " < > " + theExpected);
-	else
-	  return "";
+	try
+	  {
+		dict->init(theLanguage);
+		formatter.dictionary(dict);
+		
+		TextGen::Paragraph para = theStory.makeStory(theName);
+		const string result = para.realize(formatter);
+		
+		if(result != theExpected)
+		  return (result + " < > " + theExpected);
+		else
+		  return "";
+	  }
+	catch(...)
+	  {
+		std::cerr << "Failed to get expected result: " << theExpected << std::endl;
+		throw;
+	  }
   }
 
 #define REQUIRE(story,lang,name,expected) \
@@ -75,43 +84,43 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::cloudy","90,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::clear","0,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Pilvistä.");
+	  REQUIRE(story,"fi",fun,"PilvistÃ¤.");
 	  REQUIRE(story,"sv",fun,"Mulet.");
 	  REQUIRE(story,"en",fun,"Cloudy.");
 
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::cloudy","70,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::clear","0,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Pilvistä tai puolipilvistä.");
+	  REQUIRE(story,"fi",fun,"PilvistÃ¤ tai puolipilvistÃ¤.");
 	  REQUIRE(story,"sv",fun,"Mulet eller halvmulet.");
 	  REQUIRE(story,"en",fun,"Cloudy or partly cloudy.");
 
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::cloudy","70,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::clear","30,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Vaihtelevaa pilvisyyttä.");
-	  REQUIRE(story,"sv",fun,"Växlande molnighet.");
+	  REQUIRE(story,"fi",fun,"Vaihtelevaa pilvisyyttÃ¤.");
+	  REQUIRE(story,"sv",fun,"VÃ¤xlande molnighet.");
 	  REQUIRE(story,"en",fun,"Variable cloudiness.");
 
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::cloudy","10,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::clear","10,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Enimmäkseen puolipilvistä.");
+	  REQUIRE(story,"fi",fun,"EnimmÃ¤kseen puolipilvistÃ¤.");
 	  REQUIRE(story,"sv",fun,"Mestadels halvmulet.");
 	  REQUIRE(story,"en",fun,"Mostly partly cloudy.");
 
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::cloudy","10,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::clear","80,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Enimmäkseen selkeää.");
+	  REQUIRE(story,"fi",fun,"EnimmÃ¤kseen selkeÃ¤Ã¤.");
 	  REQUIRE(story,"sv",fun,"Mestadels klart.");
 	  REQUIRE(story,"en",fun,"Mostly sunny.");
 
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::cloudy","30,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::clear","30,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::trend","90,0");
-	  REQUIRE(story,"fi",fun,"Pilvistyvää.");
-	  REQUIRE(story,"sv",fun,"Ökad molnighet.");
+	  REQUIRE(story,"fi",fun,"PilvistyvÃ¤Ã¤.");
+	  REQUIRE(story,"sv",fun,"Ã–kad molnighet.");
 	  REQUIRE(story,"en",fun,"Increasing cloudiness.");
 	  
 	}
@@ -130,7 +139,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::cloudy","90,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::clear","0,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Pilvistä.");
+	  REQUIRE(story,"fi",fun,"PilvistÃ¤.");
 	  REQUIRE(story,"sv",fun,"Mulet.");
 	  REQUIRE(story,"en",fun,"Cloudy.");
 
@@ -140,7 +149,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::cloudy","10,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::clear","10,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Pilvistä tai puolipilvistä.");
+	  REQUIRE(story,"fi",fun,"PilvistÃ¤ tai puolipilvistÃ¤.");
 	  REQUIRE(story,"sv",fun,"Mulet eller halvmulet.");
 	  REQUIRE(story,"en",fun,"Cloudy or partly cloudy.");
 
@@ -150,7 +159,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::cloudy","0,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::clear","80,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Pilvistä, huomenna enimmäkseen selkeää.");
+	  REQUIRE(story,"fi",fun,"PilvistÃ¤, huomenna enimmÃ¤kseen selkeÃ¤Ã¤.");
 	  REQUIRE(story,"sv",fun,"Mulet, i morgon mestadels klart.");
 	  REQUIRE(story,"en",fun,"Cloudy, tomorrow mostly sunny.");
 
@@ -160,8 +169,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::cloudy","0,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::clear","90,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Vaihtelevaa pilvisyyttä, huomenna selkeää.");
-	  REQUIRE(story,"sv",fun,"Växlande molnighet, i morgon klart.");
+	  REQUIRE(story,"fi",fun,"Vaihtelevaa pilvisyyttÃ¤, huomenna selkeÃ¤Ã¤.");
+	  REQUIRE(story,"sv",fun,"VÃ¤xlande molnighet, i morgon klart.");
 	  REQUIRE(story,"en",fun,"Variable cloudiness, tomorrow sunny.");
 
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::cloudy","30,0");
@@ -170,8 +179,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::cloudy","0,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::clear","80,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day2::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Vaihtelevaa pilvisyyttä, huomenna enimmäkseen selkeää.");
-	  REQUIRE(story,"sv",fun,"Växlande molnighet, i morgon mestadels klart.");
+	  REQUIRE(story,"fi",fun,"Vaihtelevaa pilvisyyttÃ¤, huomenna enimmÃ¤kseen selkeÃ¤Ã¤.");
+	  REQUIRE(story,"sv",fun,"VÃ¤xlande molnighet, i morgon mestadels klart.");
 	  REQUIRE(story,"en",fun,"Variable cloudiness, tomorrow mostly sunny.");
 
 	}
@@ -194,22 +203,22 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::cloudy","90,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::clear","0,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Pilvistä.");
+	  REQUIRE(story,"fi",fun,"PilvistÃ¤.");
 	  REQUIRE(story,"sv",fun,"Mulet.");
 	  REQUIRE(story,"en",fun,"Cloudy.");
 
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::cloudy","10,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::clear","0,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Pilvistä tai puolipilvistä.");
+	  REQUIRE(story,"fi",fun,"PilvistÃ¤ tai puolipilvistÃ¤.");
 	  REQUIRE(story,"sv",fun,"Mulet eller halvmulet.");
 	  REQUIRE(story,"en",fun,"Cloudy or partly cloudy.");
 
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::cloudy","0,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::clear","90,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Pilvistä, torstaina selkeää.");
-	  REQUIRE(story,"sv",fun,"Mulet, på torsdagen klart.");
+	  REQUIRE(story,"fi",fun,"PilvistÃ¤, torstaina selkeÃ¤Ã¤.");
+	  REQUIRE(story,"sv",fun,"Mulet, pÃ¥ torsdagen klart.");
 	  REQUIRE(story,"en",fun,"Cloudy, on Thursday sunny.");
 
 	  NFmiSettings::Set("cloudiness_overview::fake::day1::cloudy","90,0");
@@ -221,7 +230,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::cloudy","10,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::clear","0,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Pilvistä tai puolipilvistä.");
+	  REQUIRE(story,"fi",fun,"PilvistÃ¤ tai puolipilvistÃ¤.");
 	  REQUIRE(story,"sv",fun,"Mulet eller halvmulet.");
 	  REQUIRE(story,"en",fun,"Cloudy or partly cloudy.");
 
@@ -234,8 +243,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::cloudy","10,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::clear","90,0");
 	  NFmiSettings::Set("cloudiness_overview::fake::day3::trend","0,0");
-	  REQUIRE(story,"fi",fun,"Pilvistä, huomenna ja seuraavana päivänä enimmäkseen selkeää.");
-	  REQUIRE(story,"sv",fun,"Mulet, i morgon och följande dag mestadels klart.");
+	  REQUIRE(story,"fi",fun,"PilvistÃ¤, huomenna ja seuraavana pÃ¤ivÃ¤nÃ¤ enimmÃ¤kseen selkeÃ¤Ã¤.");
+	  REQUIRE(story,"sv",fun,"Mulet, i morgon och fÃ¶ljande dag mestadels klart.");
 	  REQUIRE(story,"en",fun,"Cloudy, tomorrow and the following day mostly sunny.");
 
 
@@ -272,11 +281,18 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   using namespace CloudinessStoryTest;
 
   cout << endl
 	   << "CloudinessStory tests" << endl
 	   << "=====================" << endl;
+
 
   dict.reset(TextGen::DictionaryFactory::create("multimysql"));
 

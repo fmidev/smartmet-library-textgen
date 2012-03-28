@@ -1,9 +1,12 @@
 #include <regression/tframe.h>
-#include <newbase/NFmiIndexMask.h>
-#include <newbase/NFmiStringTools.h>
+
 #include "CoastMaskSource.h"
 #include "UserWeatherSource.h"
 #include "WeatherArea.h"
+
+#include <newbase/NFmiIndexMask.h>
+#include <newbase/NFmiStringTools.h>
+#include <newbase/NFmiSettings.h>
 
 #include <iostream>
 #include <stdexcept>

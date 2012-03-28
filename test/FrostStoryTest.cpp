@@ -13,6 +13,8 @@
 #include <stdexcept>
 #include <string>
 
+#include <boost/locale.hpp>
+
 using namespace std;
 using namespace boost;
 
@@ -80,14 +82,14 @@ namespace FrostStoryTest
 
 	NFmiSettings::Set("mean::fake::mean","20,0");
 	NFmiSettings::Set("mean::fake::severe_mean","0,0");
-	require(story,"fi",fun,"Hallan todenn‰kˆisyys on 20%.");
-	require(story,"sv",fun,"Sannolikheten fˆr nattfrost ‰r 20%.");
+	require(story,"fi",fun,"Hallan todenn√§k√∂isyys on 20%.");
+	require(story,"sv",fun,"Sannolikheten f√∂r nattfrost √§r 20%.");
 	require(story,"en",fun,"Probability of frost is 20%.");
 
 	NFmiSettings::Set("mean::fake::mean","20,0");
 	NFmiSettings::Set("mean::fake::severe_mean","10,0");
-	require(story,"fi",fun,"Ankaran hallan todenn‰kˆisyys on 10%.");
-	require(story,"sv",fun,"Sannolikheten fˆr str‰ng nattfrost ‰r 10%.");
+	require(story,"fi",fun,"Ankaran hallan todenn√§k√∂isyys on 10%.");
+	require(story,"sv",fun,"Sannolikheten f√∂r str√§ng nattfrost √§r 10%.");
 	require(story,"en",fun,"Probability of severe frost is 10%.");
 
 	TEST_PASSED();
@@ -132,14 +134,14 @@ namespace FrostStoryTest
 
 	NFmiSettings::Set("maximum::fake::maximum","20,0");
 	NFmiSettings::Set("maximum::fake::severe_maximum","0,0");
-	require(story,"fi",fun,"Hallan todenn‰kˆisyys on 20%.");
-	require(story,"sv",fun,"Sannolikheten fˆr nattfrost ‰r 20%.");
+	require(story,"fi",fun,"Hallan todenn√§k√∂isyys on 20%.");
+	require(story,"sv",fun,"Sannolikheten f√∂r nattfrost √§r 20%.");
 	require(story,"en",fun,"Probability of frost is 20%.");
 
 	NFmiSettings::Set("maximum::fake::maximum","20,0");
 	NFmiSettings::Set("maximum::fake::severe_maximum","10,0");
-	require(story,"fi",fun,"Ankaran hallan todenn‰kˆisyys on 10%.");
-	require(story,"sv",fun,"Sannolikheten fˆr str‰ng nattfrost ‰r 10%.");
+	require(story,"fi",fun,"Ankaran hallan todenn√§k√∂isyys on 10%.");
+	require(story,"sv",fun,"Sannolikheten f√∂r str√§ng nattfrost √§r 10%.");
 	require(story,"en",fun,"Probability of severe frost is 10%.");
 
 	TEST_PASSED();
@@ -183,32 +185,32 @@ WeatherAnalysis;
 	NFmiSettings::Set("range::fake::maximum","50,0");
 	NFmiSettings::Set("range::fake::severe_minimum","0,0");
 	NFmiSettings::Set("range::fake::severe_maximum","0,0");
-	require(story,"fi",fun,"Hallan todenn‰kˆisyys on 50%.");
-	require(story,"sv",fun,"Sannolikheten fˆr nattfrost ‰r 50%.");
+	require(story,"fi",fun,"Hallan todenn√§k√∂isyys on 50%.");
+	require(story,"sv",fun,"Sannolikheten f√∂r nattfrost √§r 50%.");
 	require(story,"en",fun,"Probability of frost is 50%.");
 
 	NFmiSettings::Set("range::fake::minimum","40,0");
 	NFmiSettings::Set("range::fake::maximum","60,0");
 	NFmiSettings::Set("range::fake::severe_minimum","0,0");
 	NFmiSettings::Set("range::fake::severe_maximum","0,0");
-	require(story,"fi",fun,"Hallan todenn‰kˆisyys on 40-60%.");
-	require(story,"sv",fun,"Sannolikheten fˆr nattfrost ‰r 40-60%.");
+	require(story,"fi",fun,"Hallan todenn√§k√∂isyys on 40-60%.");
+	require(story,"sv",fun,"Sannolikheten f√∂r nattfrost √§r 40-60%.");
 	require(story,"en",fun,"Probability of frost is 40-60%.");
 
 	NFmiSettings::Set("range::fake::minimum","50,0");
 	NFmiSettings::Set("range::fake::maximum","70,0");
 	NFmiSettings::Set("range::fake::severe_minimum","10,0");
 	NFmiSettings::Set("range::fake::severe_maximum","20,0");
-	require(story,"fi",fun,"Hallan todenn‰kˆisyys on 50-70%.");
-	require(story,"sv",fun,"Sannolikheten fˆr nattfrost ‰r 50-70%.");
+	require(story,"fi",fun,"Hallan todenn√§k√∂isyys on 50-70%.");
+	require(story,"sv",fun,"Sannolikheten f√∂r nattfrost √§r 50-70%.");
 	require(story,"en",fun,"Probability of frost is 50-70%.");
 
 	NFmiSettings::Set("range::fake::minimum","40,0");
 	NFmiSettings::Set("range::fake::maximum","60,0");
 	NFmiSettings::Set("range::fake::severe_minimum","30,0");
 	NFmiSettings::Set("range::fake::severe_maximum","40,0");
-	require(story,"fi",fun,"Ankaran hallan todenn‰kˆisyys on 30-40%.");
-	require(story,"sv",fun,"Sannolikheten fˆr str‰ng nattfrost ‰r 30-40%.");
+	require(story,"fi",fun,"Ankaran hallan todenn√§k√∂isyys on 30-40%.");
+	require(story,"sv",fun,"Sannolikheten f√∂r str√§ng nattfrost √§r 30-40%.");
 	require(story,"en",fun,"Probability of severe frost is 30-40%.");
 
 	TEST_PASSED();
@@ -253,14 +255,14 @@ WeatherAnalysis;
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","20,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
-	  require(story,"fi",fun,"Hallan todenn‰kˆisyys on keskiviikon vastaisena yˆn‰ 20%.");
-	  require(story,"sv",fun,"Sannolikheten fˆr nattfrost ‰r natten mot onsdagen 20%.");
+	  require(story,"fi",fun,"Hallan todenn√§k√∂isyys on keskiviikon vastaisena y√∂n√§ 20%.");
+	  require(story,"sv",fun,"Sannolikheten f√∂r nattfrost √§r natten mot onsdagen 20%.");
 	  require(story,"en",fun,"Probability of frost is on Wednesday night 20%.");
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","80,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","20,0");
-	  require(story,"fi",fun,"Ankaran hallan todenn‰kˆisyys on keskiviikon vastaisena yˆn‰ 20%.");
-	  require(story,"sv",fun,"Sannolikheten fˆr str‰ng nattfrost ‰r natten mot onsdagen 20%.");
+	  require(story,"fi",fun,"Ankaran hallan todenn√§k√∂isyys on keskiviikon vastaisena y√∂n√§ 20%.");
+	  require(story,"sv",fun,"Sannolikheten f√∂r str√§ng nattfrost √§r natten mot onsdagen 20%.");
 	  require(story,"en",fun,"Probability of severe frost is on Wednesday night 20%.");
 
 	}
@@ -284,32 +286,32 @@ WeatherAnalysis;
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
 	  NFmiSettings::Set("twonights::fake::day2::mean","30,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
-	  require(story,"fi",fun,"Hallan todenn‰kˆisyys on keskiviikon vastaisena yˆn‰ 30%, seuraavana yˆn‰ sama.");
-	  require(story,"sv",fun,"Sannolikheten fˆr nattfrost ‰r natten mot onsdagen 30%, fˆljande natt densamma.");
+	  require(story,"fi",fun,"Hallan todenn√§k√∂isyys on keskiviikon vastaisena y√∂n√§ 30%, seuraavana y√∂n√§ sama.");
+	  require(story,"sv",fun,"Sannolikheten f√∂r nattfrost √§r natten mot onsdagen 30%, f√∂ljande natt densamma.");
 	  require(story,"en",fun,"Probability of frost is on Wednesday night 30%, the following night the same.");
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","30,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
 	  NFmiSettings::Set("twonights::fake::day2::mean","40,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
-	  require(story,"fi",fun,"Hallan todenn‰kˆisyys on keskiviikon vastaisena yˆn‰ 30%, seuraavana yˆn‰ 40%.");
-	  require(story,"sv",fun,"Sannolikheten fˆr nattfrost ‰r natten mot onsdagen 30%, fˆljande natt 40%.");
+	  require(story,"fi",fun,"Hallan todenn√§k√∂isyys on keskiviikon vastaisena y√∂n√§ 30%, seuraavana y√∂n√§ 40%.");
+	  require(story,"sv",fun,"Sannolikheten f√∂r nattfrost √§r natten mot onsdagen 30%, f√∂ljande natt 40%.");
 	  require(story,"en",fun,"Probability of frost is on Wednesday night 30%, the following night 40%.");
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","20,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
 	  NFmiSettings::Set("twonights::fake::day2::mean","0,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
-	  require(story,"fi",fun,"Hallan todenn‰kˆisyys on keskiviikon vastaisena yˆn‰ 20%, seuraava yˆ on l‰mpim‰mpi.");
-	  require(story,"sv",fun,"Sannolikheten fˆr nattfrost ‰r natten mot onsdagen 20%, fˆljande natt ‰r varmare.");
+	  require(story,"fi",fun,"Hallan todenn√§k√∂isyys on keskiviikon vastaisena y√∂n√§ 20%, seuraava y√∂ on l√§mpim√§mpi.");
+	  require(story,"sv",fun,"Sannolikheten f√∂r nattfrost √§r natten mot onsdagen 20%, f√∂ljande natt √§r varmare.");
 	  require(story,"en",fun,"Probability of frost is on Wednesday night 20%, the following night is warmer.");
 
 	  NFmiSettings::Set("twonights::fake::day1::mean","80,0");
 	  NFmiSettings::Set("twonights::fake::day1::severe_mean","20,0");
 	  NFmiSettings::Set("twonights::fake::day2::mean","0,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
-	  require(story,"fi",fun,"Ankaran hallan todenn‰kˆisyys on keskiviikon vastaisena yˆn‰ 20%, seuraava yˆ on huomattavasti l‰mpim‰mpi.");
-	  require(story,"sv",fun,"Sannolikheten fˆr str‰ng nattfrost ‰r natten mot onsdagen 20%, fˆljande natt ‰r betydligt varmare.");
+	  require(story,"fi",fun,"Ankaran hallan todenn√§k√∂isyys on keskiviikon vastaisena y√∂n√§ 20%, seuraava y√∂ on huomattavasti l√§mpim√§mpi.");
+	  require(story,"sv",fun,"Sannolikheten f√∂r str√§ng nattfrost √§r natten mot onsdagen 20%, f√∂ljande natt √§r betydligt varmare.");
 	  require(story,"en",fun,"Probability of severe frost is on Wednesday night 20%, the following night is significantly warmer.");
 
 	}
@@ -326,20 +328,20 @@ WeatherAnalysis;
 
 	  NFmiSettings::Set("twonights::fake::day2::mean","0,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
-	  require(story,"fi",fun,"Hallan todenn‰kˆisyys on keskiviikon vastaisena yˆn‰ 20%, seuraava yˆ on l‰mpim‰mpi.");
-	  require(story,"sv",fun,"Sannolikheten fˆr nattfrost ‰r natten mot onsdagen 20%, fˆljande natt ‰r varmare.");
+	  require(story,"fi",fun,"Hallan todenn√§k√∂isyys on keskiviikon vastaisena y√∂n√§ 20%, seuraava y√∂ on l√§mpim√§mpi.");
+	  require(story,"sv",fun,"Sannolikheten f√∂r nattfrost √§r natten mot onsdagen 20%, f√∂ljande natt √§r varmare.");
 	  require(story,"en",fun,"Probability of frost is on Wednesday night 20%, the following night is warmer.");
 
 	  NFmiSettings::Set("twonights::fake::day2::mean","30,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","00,0");
-	  require(story,"fi",fun,"Hallan todenn‰kˆisyys on keskiviikon vastaisena yˆn‰ 20%, seuraavana yˆn‰ 30%.");
-	  require(story,"sv",fun,"Sannolikheten fˆr nattfrost ‰r natten mot onsdagen 20%, fˆljande natt 30%.");
+	  require(story,"fi",fun,"Hallan todenn√§k√∂isyys on keskiviikon vastaisena y√∂n√§ 20%, seuraavana y√∂n√§ 30%.");
+	  require(story,"sv",fun,"Sannolikheten f√∂r nattfrost √§r natten mot onsdagen 20%, f√∂ljande natt 30%.");
 	  require(story,"en",fun,"Probability of frost is on Wednesday night 20%, the following night 30%.");
 
 	  NFmiSettings::Set("twonights::fake::day2::mean","80,0");
 	  NFmiSettings::Set("twonights::fake::day2::severe_mean","20,0");
-	  require(story,"fi",fun,"Hallan todenn‰kˆisyys on keskiviikon vastaisena yˆn‰ 20%, seuraavana yˆn‰ ankaran hallan todenn‰kˆisyys on 20%.");
-	  require(story,"sv",fun,"Sannolikheten fˆr nattfrost ‰r natten mot onsdagen 20%, fˆljande natt sannolikheten fˆr str‰ng nattfrost ‰r 20%.");
+	  require(story,"fi",fun,"Hallan todenn√§k√∂isyys on keskiviikon vastaisena y√∂n√§ 20%, seuraavana y√∂n√§ ankaran hallan todenn√§k√∂isyys on 20%.");
+	  require(story,"sv",fun,"Sannolikheten f√∂r nattfrost √§r natten mot onsdagen 20%, f√∂ljande natt sannolikheten f√∂r str√§ng nattfrost √§r 20%.");
 	  require(story,"en",fun,"Probability of frost is on Wednesday night 20%, the following night probability of severe frost is 20%.");
 
 	}
@@ -387,24 +389,24 @@ WeatherAnalysis;
 	NFmiSettings::Set("day::fake::area::severe_frost","0,0");
 	NFmiSettings::Set("day::fake::coast::value","60,0");
 	NFmiSettings::Set("day::fake::inland::value","60,0");
-	require(story,"fi",fun,"Hallan todenn‰kˆisyys on 60%.");
-	require(story,"sv",fun,"Sannolikheten fˆr nattfrost ‰r 60%.");
+	require(story,"fi",fun,"Hallan todenn√§k√∂isyys on 60%.");
+	require(story,"sv",fun,"Sannolikheten f√∂r nattfrost √§r 60%.");
 	require(story,"en",fun,"Probability of frost is 60%.");
 
 	NFmiSettings::Set("day::fake::area::frost","60,0");
 	NFmiSettings::Set("day::fake::area::severe_frost","40,0");
 	NFmiSettings::Set("day::fake::coast::value","40,0");
 	NFmiSettings::Set("day::fake::inland::value","40,0");
-	require(story,"fi",fun,"Ankaran hallan todenn‰kˆisyys on 40%.");
-	require(story,"sv",fun,"Sannolikheten fˆr str‰ng nattfrost ‰r 40%.");
+	require(story,"fi",fun,"Ankaran hallan todenn√§k√∂isyys on 40%.");
+	require(story,"sv",fun,"Sannolikheten f√∂r str√§ng nattfrost √§r 40%.");
 	require(story,"en",fun,"Probability of severe frost is 40%.");
 
 	NFmiSettings::Set("day::fake::area::frost","60,0");
 	NFmiSettings::Set("day::fake::area::severe_frost","40,0");
 	NFmiSettings::Set("day::fake::coast::value","10,0");
 	NFmiSettings::Set("day::fake::inland::value","60,0");
-	require(story,"fi",fun,"Ankaran hallan todenn‰kˆisyys on 60%, rannikolla 10%.");
-	require(story,"sv",fun,"Sannolikheten fˆr str‰ng nattfrost ‰r 60%, vid kusten 10%.");
+	require(story,"fi",fun,"Ankaran hallan todenn√§k√∂isyys on 60%, rannikolla 10%.");
+	require(story,"sv",fun,"Sannolikheten f√∂r str√§ng nattfrost √§r 60%, vid kusten 10%.");
 	require(story,"en",fun,"Probability of severe frost is 60%, on the coastal area 10%.");
 
 	NFmiSettings::Set("day::fake::area::frost","60,0");
@@ -996,7 +998,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "65.0,0", "15.0,0", 
 														   "", "", 
-														   translation("Sis‰maassa alavilla mailla hallan vaara, rannikolla monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa alavilla mailla hallan vaara, rannikolla monin paikoin hallaa.", language))));
 															
 	// growing season has started
 	// probability for frost at coastal and area is 75.0%
@@ -1007,7 +1009,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "75.0,0", "15.0,0", 
 														   "5.0,0", "", 
-														   translation("Sis‰maassa alavilla mailla hallan vaara, rannikolla monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa alavilla mailla hallan vaara, rannikolla monin paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal and area is 84.9%
@@ -1018,7 +1020,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "84.9,0", "15.0,0", 
 														   "20.1,0", "", 
-														   translation("Sis‰maassa alavilla mailla hallan vaara, rannikolla monin paikoin hallaa, joka voi olla ankaraa.", language))));
+														   translation("Sis√§maassa alavilla mailla hallan vaara, rannikolla monin paikoin hallaa, joka voi olla ankaraa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 85.0%
@@ -1029,7 +1031,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "85.0,0", "15.0,0", 
 														   "20.0,0", "", 
-														   translation("Sis‰maassa alavilla mailla hallan vaara, rannikolla hallaa.", language))));
+														   translation("Sis√§maassa alavilla mailla hallan vaara, rannikolla hallaa.", language))));
 															
 	// growing season has started
 	// probability for frost at coastal and area is 95.0%
@@ -1040,7 +1042,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "95.0,0", "15.0,0", 
 														   "20.1,0", "", 
-														   translation("Sis‰maassa alavilla mailla hallan vaara, rannikolla hallaa, joka voi olla ankaraa.", language))));
+														   translation("Sis√§maassa alavilla mailla hallan vaara, rannikolla hallaa, joka voi olla ankaraa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal and area is 99.9%
@@ -1051,7 +1053,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "99.9,0", "15.0,0", 
 														   "65.0,0", "", 
-														   translation("Sis‰maassa alavilla mailla hallan vaara, rannikolla hallaa, joka voi olla ankaraa.", language))));
+														   translation("Sis√§maassa alavilla mailla hallan vaara, rannikolla hallaa, joka voi olla ankaraa.", language))));
 
 	// growing season has started
 	// probability for frost at inland area is 15.0%
@@ -1190,7 +1192,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "65.0,0", "35.0,0", 
 														   "", "", 
-														   translation("Rannikolla monin paikoin hallaa, sis‰maassa mahdollisesti hallaa.", language))));
+														   translation("Rannikolla monin paikoin hallaa, sis√§maassa mahdollisesti hallaa.", language))));
 															
 	// growing season has started
 	// probability for frost at coastal and area is 75.0%
@@ -1201,7 +1203,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "75.0,0", "35.0,0", 
 														   "5.0,0", "", 
-														   translation("Rannikolla monin paikoin hallaa, sis‰maassa mahdollisesti hallaa.", language))));
+														   translation("Rannikolla monin paikoin hallaa, sis√§maassa mahdollisesti hallaa.", language))));
 
 
 	// growing season has started
@@ -1213,7 +1215,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "84.9,0", "35.0,0", 
 														   "20.1,0", "", 
-														   translation("Rannikolla monin paikoin hallaa, joka voi olla ankaraa, sis‰maassa mahdollisesti hallaa.", language))));
+														   translation("Rannikolla monin paikoin hallaa, joka voi olla ankaraa, sis√§maassa mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 85.0%
@@ -1224,7 +1226,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "85.0,0", "35.0,0", 
 														   "20.0,0", "", 
-														   translation("Rannikolla hallaa, sis‰maassa mahdollisesti hallaa.", language))));
+														   translation("Rannikolla hallaa, sis√§maassa mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal and area is 95.0%
@@ -1235,7 +1237,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "95.0,0", "35.0,0", 
 														   "20.1,0", "", 
-														   translation("Rannikolla hallaa, joka voi olla ankaraa, sis‰maassa mahdollisesti hallaa.", language))));
+														   translation("Rannikolla hallaa, joka voi olla ankaraa, sis√§maassa mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal and area is 99.9%
@@ -1246,7 +1248,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "99.9,0", "35.0,0", 
 														   "65.0,0", "", 
-														   translation("Rannikolla hallaa, joka voi olla ankaraa, sis‰maassa mahdollisesti hallaa.", language))));
+														   translation("Rannikolla hallaa, joka voi olla ankaraa, sis√§maassa mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at inland area is 35.0%
@@ -1276,7 +1278,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "5.0,0", "55.0,0", 
 														   "", "", 
-														   translation("Sis‰maassa paikoin hallaa.", language))));
+														   translation("Sis√§maassa paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 9.9%
@@ -1286,7 +1288,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "9.9,0", "55.0,0", 
 														   "", "", 
-														   translation("Sis‰maassa paikoin hallaa.", language))));
+														   translation("Sis√§maassa paikoin hallaa.", language))));
 	// growing season has started
 	// probability for frost at coastal area is 10.0%
 	// probability for frost at inland area is 55.0%
@@ -1419,7 +1421,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "85.0,0", "55.0,0", 
 														   "20.0,0", "", 
-														   translation("Rannikolla hallaa, sis‰maassa paikoin hallaa.", language))));
+														   translation("Rannikolla hallaa, sis√§maassa paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal and area is 95.0%
@@ -1430,7 +1432,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "95.0,0", "55.0,0", 
 														   "20.1,0", "", 
-														   translation("Rannikolla hallaa, joka voi olla ankaraa, sis‰maassa paikoin hallaa.", language))));
+														   translation("Rannikolla hallaa, joka voi olla ankaraa, sis√§maassa paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal and area is 99.9%
@@ -1441,7 +1443,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "99.9,0", "55.0,0", 
 														   "65.0,0", "", 
-														   translation("Rannikolla hallaa, joka voi olla ankaraa, sis‰maassa paikoin hallaa.", language))));
+														   translation("Rannikolla hallaa, joka voi olla ankaraa, sis√§maassa paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at inland area is 55.0%
@@ -1473,7 +1475,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "5.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 9.9%
@@ -1484,7 +1486,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "9.9,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 	// growing season has started
 	// probability for frost at coastal area is 10.0%
 	// probability for frost at inland area is 75.0%
@@ -1494,7 +1496,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "10.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 15.0%
@@ -1505,7 +1507,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "15.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 24.9%
@@ -1516,7 +1518,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "24.9,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 25.0%
@@ -1527,7 +1529,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "25.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal and area is 35.0%
@@ -1538,7 +1540,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "35.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal and area is 44.9%
@@ -1549,7 +1551,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "44.9,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 45.0%
@@ -1692,7 +1694,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "5.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 9.9%
@@ -1703,7 +1705,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "9.9,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 	// growing season has started
 	// probability for frost at coastal area is 10.0%
 	// probability for frost at inland area is 75.0%
@@ -1713,7 +1715,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "10.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 15.0%
@@ -1724,7 +1726,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "15.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 24.9%
@@ -1735,7 +1737,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "24.9,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 25.0%
@@ -1746,7 +1748,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "25.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal and area is 35.0%
@@ -1757,7 +1759,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "35.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal and area is 44.9%
@@ -1768,7 +1770,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "44.9,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 45.0%
@@ -1908,7 +1910,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "5.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 9.9%
@@ -1919,7 +1921,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "9.9,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 	// growing season has started
 	// probability for frost at coastal area is 10.0%
 	// probability for frost at inland area is 75.0%
@@ -1929,7 +1931,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "10.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 15.0%
@@ -1940,7 +1942,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "15.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 24.9%
@@ -1951,7 +1953,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "24.9,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 25.0%
@@ -1962,7 +1964,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "25.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal and area is 35.0%
@@ -1973,7 +1975,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "35.0,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal and area is 44.9%
@@ -1984,7 +1986,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "44.9,0", "75.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
+														   translation("Sis√§maassa monin paikoin hallaa, rannikolla mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 45.0%
@@ -2122,7 +2124,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "5.0,0", "95.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa hallaa.", language))));
+														   translation("Sis√§maassa hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 9.9%
@@ -2133,7 +2135,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "9.9,0", "95.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa hallaa.", language))));
+														   translation("Sis√§maassa hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 10.0%
@@ -2144,7 +2146,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "10.0,0", "95.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa hallaa.", language))));
+														   translation("Sis√§maassa hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 15.0%
@@ -2155,7 +2157,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "15.0,0", "95.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa hallaa.", language))));
+														   translation("Sis√§maassa hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 24.9%
@@ -2166,7 +2168,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "24.9,0", "95.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa hallaa.", language))));
+														   translation("Sis√§maassa hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 25.0%
@@ -2177,7 +2179,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "25.0,0", "95.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa hallaa, rannikolla mahdollisesti hallaa.", language))));
+														   translation("Sis√§maassa hallaa, rannikolla mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal and area is 35.0%
@@ -2188,7 +2190,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "35.0,0", "95.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa hallaa, rannikolla mahdollisesti hallaa.", language))));
+														   translation("Sis√§maassa hallaa, rannikolla mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal and area is 44.9%
@@ -2199,7 +2201,7 @@ WeatherAnalysis;
 														   "0,0", "0,0", 
 														   "44.9,0", "95.0,0", 
 														   "", "5.0,0", 
-														   translation("Sis‰maassa hallaa, rannikolla mahdollisesti hallaa.", language))));
+														   translation("Sis√§maassa hallaa, rannikolla mahdollisesti hallaa.", language))));
 
 	// growing season has started
 	// probability for frost at coastal area is 45.0%
@@ -2594,6 +2596,12 @@ WeatherAnalysis;
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   using namespace FrostStoryTest;
 
 

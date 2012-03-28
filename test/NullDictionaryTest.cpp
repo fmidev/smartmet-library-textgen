@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+#include <boost/locale.hpp>
+
 using namespace std;
 
 namespace NullDictionaryTest

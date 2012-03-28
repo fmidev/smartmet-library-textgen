@@ -9,6 +9,8 @@
 #include <stdexcept>
 #include <string>
 
+#include <boost/locale.hpp>
+
 using namespace std;
 using namespace boost;
 
@@ -605,17 +607,17 @@ sentence = CloudinessStoryTools::cloudiness_phrase(input); \
 if((result = sentence.realize(formatter)) != expected) \
 TEST_FAILED("Conversion of "+string(#input)+" to "+#output+" incorrect: "+result);
 
-	PHRASETEST(Cloudy,"Pilvist‰.");
-	PHRASETEST(PartlyCloudy,"Puolipilvist‰.");
-	PHRASETEST(Clear,"Selke‰‰.");
-	PHRASETEST(MostlyCloudy,"Enimm‰kseen pilvist‰.");
-	PHRASETEST(MostlyPartlyCloudy,"Enimm‰kseen puolipilvist‰.");
-	PHRASETEST(MostlyClear,"Enimm‰kseen selke‰‰.");
-	PHRASETEST(CloudyOrPartlyCloudy,"Pilvist‰ tai puolipilvist‰.");
-	PHRASETEST(ClearOrPartlyCloudy,"Selke‰‰ tai puolipilvist‰.");
-	PHRASETEST(DecreasingCloudiness,"Selkenev‰‰.");
-	PHRASETEST(IncreasingCloudiness,"Pilvistyv‰‰.");
-	PHRASETEST(VariableCloudiness,"Vaihtelevaa pilvisyytt‰.");
+	PHRASETEST(Cloudy,"Pilvista.");
+	PHRASETEST(PartlyCloudy,"Puolipilvista.");
+	PHRASETEST(Clear,"Selkeaa.");
+	PHRASETEST(MostlyCloudy,"Enimmakseen pilvista.");
+	PHRASETEST(MostlyPartlyCloudy,"Enimmakseen puolipilvista.");
+	PHRASETEST(MostlyClear,"Enimmakseen selkeaa.");
+	PHRASETEST(CloudyOrPartlyCloudy,"Pilvista tai puolipilvista.");
+	PHRASETEST(ClearOrPartlyCloudy,"Selkeaa tai puolipilvista.");
+	PHRASETEST(DecreasingCloudiness,"Selkenevaa.");
+	PHRASETEST(IncreasingCloudiness,"Pilvistyvaa.");
+	PHRASETEST(VariableCloudiness,"Vaihtelevaa pilvisyytta.");
 
 	TEST_PASSED();
   }
@@ -649,6 +651,12 @@ TEST_FAILED("Conversion of "+string(#input)+" to "+#output+" incorrect: "+result
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   using namespace CloudinessStoryToolsTest;
 
   cout << endl

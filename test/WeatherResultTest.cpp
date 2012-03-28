@@ -1,6 +1,8 @@
 #include <regression/tframe.h>
 #include "WeatherResult.h"
 
+#include <boost/locale.hpp>
+
 using namespace std;
 
 namespace WeatherResultTest

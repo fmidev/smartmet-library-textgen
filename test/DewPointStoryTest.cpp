@@ -12,6 +12,8 @@
 #include <stdexcept>
 #include <string>
 
+#include <boost/locale.hpp>
+
 using namespace std;
 using namespace boost;
 
@@ -68,43 +70,43 @@ namespace DewPointStoryTest
 	NFmiSettings::Set("range::fake::mean","5,0");
 	NFmiSettings::Set("range::fake::maximum","5,0");
 	require(story,"fi",fun,"Kastepiste on noin 5 astetta.");
-	require(story,"sv",fun,"Daggpunkt är cirka 5 grader.");
-	require(story,"en",fun,"Dewpoint is about 5 degrees.");
+	require(story,"sv",fun,"Daggpunkt Ã¤r cirka 5 grader.");
+	require(story,"en",fun,"Dew point is about 5 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","5,0");
 	NFmiSettings::Set("range::fake::mean","6,0");
 	NFmiSettings::Set("range::fake::maximum","6,0");
 	require(story,"fi",fun,"Kastepiste on noin 6 astetta.");
-	require(story,"sv",fun,"Daggpunkt är cirka 6 grader.");
-	require(story,"en",fun,"Dewpoint is about 6 degrees.");
+	require(story,"sv",fun,"Daggpunkt Ã¤r cirka 6 grader.");
+	require(story,"en",fun,"Dew point is about 6 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","5,0");
 	NFmiSettings::Set("range::fake::mean","6,0");
 	NFmiSettings::Set("range::fake::maximum","7,0");
 	require(story,"fi",fun,"Kastepiste on 5...7 astetta.");
-	require(story,"sv",fun,"Daggpunkt är 5...7 grader.");
-	require(story,"en",fun,"Dewpoint is 5...7 degrees.");
+	require(story,"sv",fun,"Daggpunkt Ã¤r 5...7 grader.");
+	require(story,"en",fun,"Dew point is 5...7 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","0,0");
 	NFmiSettings::Set("range::fake::mean","0,0");
 	NFmiSettings::Set("range::fake::maximum","1,0");
-	require(story,"fi",fun,"Kastepiste on 0...1 astetta.");
-	require(story,"sv",fun,"Daggpunkt är 0...1 grader.");
-	require(story,"en",fun,"Dewpoint is 0...1 degrees.");
+	require(story,"fi",fun,"Kastepiste on 0...+1 astetta.");
+	require(story,"sv",fun,"Daggpunkt Ã¤r 0...+1 grader.");
+	require(story,"en",fun,"Dew point is 0...+1 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","-1,0");
 	NFmiSettings::Set("range::fake::mean","0,0");
 	NFmiSettings::Set("range::fake::maximum","0,0");
 	require(story,"fi",fun,"Kastepiste on -1...0 astetta.");
-	require(story,"sv",fun,"Daggpunkt är -1...0 grader.");
-	require(story,"en",fun,"Dewpoint is -1...0 degrees.");
+	require(story,"sv",fun,"Daggpunkt Ã¤r -1...0 grader.");
+	require(story,"en",fun,"Dew point is -1...0 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","-1,0");
 	NFmiSettings::Set("range::fake::mean","0,0");
 	NFmiSettings::Set("range::fake::maximum","1,0");
-	require(story,"fi",fun,"Kastepiste on -1...1 astetta.");
-	require(story,"sv",fun,"Daggpunkt är -1...1 grader.");
-	require(story,"en",fun,"Dewpoint is -1...1 degrees.");
+	require(story,"fi",fun,"Kastepiste on -1...+1 astetta.");
+	require(story,"sv",fun,"Daggpunkt Ã¤r -1...+1 grader.");
+	require(story,"en",fun,"Dew point is -1...+1 degrees.");
 
 	TEST_PASSED();
 
@@ -137,6 +139,12 @@ namespace DewPointStoryTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   using namespace DewPointStoryTest;
 
   cout << endl
@@ -145,7 +153,6 @@ int main(void)
 
   dict.reset(TextGen::DictionaryFactory::create("multimysql"));
 
-  NFmiSettings::Init();
   NFmiSettings::Set("textgen::units::celsius::format","phrase");
 
   dict->init("fi");

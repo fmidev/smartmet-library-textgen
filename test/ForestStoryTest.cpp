@@ -12,6 +12,8 @@
 #include <stdexcept>
 #include <string>
 
+#include <boost/locale.hpp>
+
 using namespace std;
 using namespace boost;
 
@@ -73,8 +75,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  ForestStory story(time1,sources,area,period,"forestfireindex_twodays");
 	  
 	  NFmiSettings::Set("forestfireindex_twodays::fake::day1::maximum","10,0");
-	  REQUIRE(story,"fi",fun,"Metsäpaloindeksi on 10.0.");
-	  REQUIRE(story,"sv",fun,"Indexet för skogsbrand är 10.0.");
+	  REQUIRE(story,"fi",fun,"MetsÃ¤paloindeksi on 10.0.");
+	  REQUIRE(story,"sv",fun,"Indexet fÃ¶r skogsbrand Ã¤r 10.0.");
 	  REQUIRE(story,"en",fun,"The forest fire warning index is 10.0.");
 	  
 	}
@@ -88,8 +90,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  ForestStory story(time1,sources,area,period,"forestfireindex_twodays");
 	  
 	  NFmiSettings::Set("forestfireindex_twodays::fake::day1::maximum","20,0");
-	  REQUIRE(story,"fi",fun,"Metsäpaloindeksi on 20.0.");
-	  REQUIRE(story,"sv",fun,"Indexet för skogsbrand är 20.0.");
+	  REQUIRE(story,"fi",fun,"MetsÃ¤paloindeksi on 20.0.");
+	  REQUIRE(story,"sv",fun,"Indexet fÃ¶r skogsbrand Ã¤r 20.0.");
 	  REQUIRE(story,"en",fun,"The forest fire warning index is 20.0.");
 	  
 	}
@@ -103,8 +105,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  ForestStory story(time1,sources,area,period,"forestfireindex_twodays");
 	  
 	  NFmiSettings::Set("forestfireindex_twodays::fake::day1::maximum","0,0");
-	  REQUIRE(story,"fi",fun,"Metsäpaloindeksi on 0.0.");
-	  REQUIRE(story,"sv",fun,"Indexet för skogsbrand är 0.0.");
+	  REQUIRE(story,"fi",fun,"MetsÃ¤paloindeksi on 0.0.");
+	  REQUIRE(story,"sv",fun,"Indexet fÃ¶r skogsbrand Ã¤r 0.0.");
 	  REQUIRE(story,"en",fun,"The forest fire warning index is 0.0.");
 	  
 	}
@@ -119,14 +121,14 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  
 	  NFmiSettings::Set("forestfireindex_twodays::fake::day1::maximum","50,0");
 	  NFmiSettings::Set("forestfireindex_twodays::fake::day2::maximum","50,0");
-	  REQUIRE(story,"fi",fun,"Metsäpaloindeksi on 50.0, huomenna sama.");
-	  REQUIRE(story,"sv",fun,"Indexet för skogsbrand är 50.0, i morgon densamma.");
+	  REQUIRE(story,"fi",fun,"MetsÃ¤paloindeksi on 50.0, huomenna sama.");
+	  REQUIRE(story,"sv",fun,"Indexet fÃ¶r skogsbrand Ã¤r 50.0, i morgon densamma.");
 	  REQUIRE(story,"en",fun,"The forest fire warning index is 50.0, tomorrow the same.");
 
 	  NFmiSettings::Set("forestfireindex_twodays::fake::day1::maximum","60,0");
 	  NFmiSettings::Set("forestfireindex_twodays::fake::day2::maximum","10,0");
-	  REQUIRE(story,"fi",fun,"Metsäpaloindeksi on 60.0, huomenna 10.0.");
-	  REQUIRE(story,"sv",fun,"Indexet för skogsbrand är 60.0, i morgon 10.0.");
+	  REQUIRE(story,"fi",fun,"MetsÃ¤paloindeksi on 60.0, huomenna 10.0.");
+	  REQUIRE(story,"sv",fun,"Indexet fÃ¶r skogsbrand Ã¤r 60.0, i morgon 10.0.");
 	  REQUIRE(story,"en",fun,"The forest fire warning index is 60.0, tomorrow 10.0.");
 
 	}
@@ -162,6 +164,12 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   using namespace ForestStoryTest;
 
   cout << endl

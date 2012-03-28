@@ -3,9 +3,13 @@
 #include "DictionaryFactory.h"
 #include "Phrase.h"
 
+#include <newbase/NFmiSettings.h>
+
 #include <iostream>
 #include <stdexcept>
 #include <string>
+
+#include <boost/locale.hpp>
 
 using namespace std;
 using namespace boost;
@@ -47,32 +51,32 @@ namespace StoryPhrasesTest
 
   void timephrases()
   {
-	require("tänään");
+	require("tanaan","tÃ¤nÃ¤Ã¤n");
 	require("huomenna");
 	require("ylihuomenna");
-	require("ensi yönä");
+	require("ensi yona","ensi yÃ¶nÃ¤");
 	require("huomisaamuna");
-	require("päivällä");
+	require("paivalla","pÃ¤ivÃ¤llÃ¤");
 
-	require("yöllä");
-	require("aamuyöllä");
+	require("yolla","yÃ¶llÃ¤");
+	require("aamuyolla","aamuyÃ¶llÃ¤");
 	require("aamulla");
-	require("aamupäivällä");
-	require("keskipäivällä");
-	require("iltapäivällä");
+	require("aamupaivalla","aamupÃ¤ivÃ¤llÃ¤");
+	require("keskipaivalla","keskipÃ¤ivÃ¤llÃ¤");
+	require("iltapaivalla","iltapÃ¤ivÃ¤llÃ¤");
 	require("illalla");
-	require("iltayöllä");
-	require("keskiyöllä");
+	require("iltayolla","iltayÃ¶llÃ¤");
+	require("keskiyolla","keskiyÃ¶llÃ¤");
 
-	require("yöstä alkaen");
-	require("aamuyöstä alkaen");
+	require("yosta alkaen","yÃ¶stÃ¤ alkaen");
+	require("aamuyosta alkaen","aamuyÃ¶stÃ¤ alkaen");
 	require("aamusta alkaen");
-	require("aamupäivästä alkaen");
-	require("keskipäivästä alkaen");
-	require("iltapäivästä alkaen");
+	require("aamupaivasta alkaen","aamupÃ¤ivÃ¤stÃ¤ alkaen");
+	require("keskipaivasta alkaen","keskipÃ¤ivÃ¤stÃ¤ alkaen");
+	require("iltapaivasta alkaen","iltapÃ¤ivÃ¤stÃ¤ alkaen");
 	require("illasta alkaen");
-	require("iltayöstä alkaen");
-	require("keskiyöstä alkaen");
+	require("iltayosta alkaen","iltayÃ¶stÃ¤ alkaen");
+	require("keskiyosta alkaen","keskiyÃ¶stÃ¤ alkaen");
 
 	require("1-na","maanantaina");
 	require("2-na","tiistaina");
@@ -122,13 +126,13 @@ namespace StoryPhrasesTest
 	require("6-illasta","lauantai-illasta");
 	require("7-illasta","sunnuntai-illasta");
 
-	require("1-vastaisena yönä","maanantain vastaisena yönä");
-	require("2-vastaisena yönä","tiistain vastaisena yönä");
-	require("3-vastaisena yönä","keskiviikon vastaisena yönä");
-	require("4-vastaisena yönä","torstain vastaisena yönä");
-	require("5-vastaisena yönä","perjantain vastaisena yönä");
-	require("6-vastaisena yönä","lauantain vastaisena yönä");
-	require("7-vastaisena yönä","sunnuntain vastaisena yönä");
+	require("1-vastaisena yona","maanantain vastaisena yÃ¶nÃ¤");
+	require("2-vastaisena yona","tiistain vastaisena yÃ¶nÃ¤");
+	require("3-vastaisena yona","keskiviikon vastaisena yÃ¶nÃ¤");
+	require("4-vastaisena yona","torstain vastaisena yÃ¶nÃ¤");
+	require("5-vastaisena yona","perjantain vastaisena yÃ¶nÃ¤");
+	require("6-vastaisena yona","lauantain vastaisena yÃ¶nÃ¤");
+	require("7-vastaisena yona","sunnuntain vastaisena yÃ¶nÃ¤");
 
 	require("1-aamulla","maanantaina aamulla");
 	require("2-aamulla","tiistaina aamulla");
@@ -138,21 +142,21 @@ namespace StoryPhrasesTest
 	require("6-aamulla","lauantaina aamulla");
 	require("7-aamulla","sunnuntaina aamulla");
 
-	require("1-aamupäivällä","maanantaina aamupäivällä");
-	require("2-aamupäivällä","tiistaina aamupäivällä");
-	require("3-aamupäivällä","keskiviikkona aamupäivällä");
-	require("4-aamupäivällä","torstaina aamupäivällä");
-	require("5-aamupäivällä","perjantaina aamupäivällä");
-	require("6-aamupäivällä","lauantaina aamupäivällä");
-	require("7-aamupäivällä","sunnuntaina aamupäivällä");
+	require("1-aamupaivalla","maanantaina aamupÃ¤ivÃ¤llÃ¤");
+	require("2-aamupaivalla","tiistaina aamupÃ¤ivÃ¤llÃ¤");
+	require("3-aamupaivalla","keskiviikkona aamupÃ¤ivÃ¤llÃ¤");
+	require("4-aamupaivalla","torstaina aamupÃ¤ivÃ¤llÃ¤");
+	require("5-aamupaivalla","perjantaina aamupÃ¤ivÃ¤llÃ¤");
+	require("6-aamupaivalla","lauantaina aamupÃ¤ivÃ¤llÃ¤");
+	require("7-aamupaivalla","sunnuntaina aamupÃ¤ivÃ¤llÃ¤");
 
-	require("1-iltapäivällä","maanantaina iltapäivällä");
-	require("2-iltapäivällä","tiistaina iltapäivällä");
-	require("3-iltapäivällä","keskiviikkona iltapäivällä");
-	require("4-iltapäivällä","torstaina iltapäivällä");
-	require("5-iltapäivällä","perjantaina iltapäivällä");
-	require("6-iltapäivällä","lauantaina iltapäivällä");
-	require("7-iltapäivällä","sunnuntaina iltapäivällä");
+	require("1-iltapaivalla","maanantaina iltapÃ¤ivÃ¤llÃ¤");
+	require("2-iltapaivalla","tiistaina iltapÃ¤ivÃ¤llÃ¤");
+	require("3-iltapaivalla","keskiviikkona iltapÃ¤ivÃ¤llÃ¤");
+	require("4-iltapaivalla","torstaina iltapÃ¤ivÃ¤llÃ¤");
+	require("5-iltapaivalla","perjantaina iltapÃ¤ivÃ¤llÃ¤");
+	require("6-iltapaivalla","lauantaina iltapÃ¤ivÃ¤llÃ¤");
+	require("7-iltapaivalla","sunnuntaina iltapÃ¤ivÃ¤llÃ¤");
 
 	require("1-illalla","maanantaina illalla");
 	require("2-illalla","tiistaina illalla");
@@ -173,7 +177,7 @@ namespace StoryPhrasesTest
 
   void temperature_mean()
   {
-	require("keskilämpötila");
+	require("keskilampotila","keskilÃ¤mpÃ¶tila");
 	require("astetta");
 
 	TEST_PASSED();
@@ -188,7 +192,7 @@ namespace StoryPhrasesTest
 
   void temperature_range()
   {
-	require("lämpötila");
+	require("lampotila","lÃ¤mpÃ¶tila");
 	require("on");
 	require("noin");
 	require("astetta");
@@ -222,7 +226,7 @@ namespace StoryPhrasesTest
 
   void temperature_meanmax()
   {
-	require("keskimääräinen ylin lämpötila");
+	require("keskimaarainen ylin lampotila","keskimÃ¤Ã¤rÃ¤inen ylin lÃ¤mpÃ¶tila");
 	require("astetta");
 
 	TEST_PASSED();
@@ -237,7 +241,7 @@ namespace StoryPhrasesTest
 
   void temperature_meanmin()
   {
-	require("keskimääräinen alin lämpötila");
+	require("keskimaarainen alin lampotila","keskimÃ¤Ã¤rÃ¤inen alin lÃ¤mpÃ¶tila");
 	require("astetta");
 
 	TEST_PASSED();
@@ -252,11 +256,11 @@ namespace StoryPhrasesTest
 
   void temperature_dailymax()
   {
-	require("päivän ylin lämpötila");
+	require("paivan ylin lampotila","pÃ¤ivÃ¤n ylin lÃ¤mpÃ¶tila");
 	require("on");
 	require("noin");
 	require("astetta");
-	require("seuraavana päivänä");
+	require("seuraavana paivana","seuraavana pÃ¤ivÃ¤nÃ¤");
 	require("huomattavasti korkeampi");
 	require("korkeampi");
 	require("hieman korkeampi");
@@ -284,11 +288,11 @@ namespace StoryPhrasesTest
 
   void temperature_nightlymin()
   {
-	require("yön alin lämpötila");
+	require("yon alin lampotila","yÃ¶n alin lÃ¤mpÃ¶tila");
 	require("on");
 	require("noin");
 	require("astetta");
-	require("seuraavana yönä");
+	require("seuraavana yona","seuraavana yÃ¶nÃ¤");
 	require("huomattavasti korkeampi");
 	require("korkeampi");
 	require("hieman korkeampi");
@@ -297,13 +301,13 @@ namespace StoryPhrasesTest
 	require("alempi");
 	require("huomattavasti alempi");
 
-	require("1-vastaisena yönä","maanantain vastaisena yönä");
-	require("2-vastaisena yönä","tiistain vastaisena yönä");
-	require("3-vastaisena yönä","keskiviikon vastaisena yönä");
-	require("4-vastaisena yönä","torstain vastaisena yönä");
-	require("5-vastaisena yönä","perjantain vastaisena yönä");
-	require("6-vastaisena yönä","lauantain vastaisena yönä");
-	require("7-vastaisena yönä","sunnuntain vastaisena yönä");
+	require("1-vastaisena yona","maanantain vastaisena yÃ¶nÃ¤");
+	require("2-vastaisena yona","tiistain vastaisena yÃ¶nÃ¤");
+	require("3-vastaisena yona","keskiviikon vastaisena yÃ¶nÃ¤");
+	require("4-vastaisena yona","torstain vastaisena yÃ¶nÃ¤");
+	require("5-vastaisena yona","perjantain vastaisena yÃ¶nÃ¤");
+	require("6-vastaisena yona","lauantain vastaisena yÃ¶nÃ¤");
+	require("7-vastaisena yona","sunnuntain vastaisena yÃ¶nÃ¤");
 
 	TEST_PASSED();
   }
@@ -316,8 +320,8 @@ namespace StoryPhrasesTest
 
   void temperature_weekly_minmax()
   {
-	require("päivien ylin lämpötila");
-	require("öiden alin lämpötila");
+	require("paivien ylin lampotila","pÃ¤ivien ylin lÃ¤mpÃ¶tila");
+	require("oiden alin lampotila","Ã¶iden alin lÃ¤mpÃ¶tila");
 	require("on");
 	require("noin");
 	require("astetta");
@@ -333,8 +337,8 @@ namespace StoryPhrasesTest
 
   void temperature_weekly_averages()
   {
-	require("päivälämpötila");
-	require("yölämpötila");
+	require("paivalampotila","pÃ¤ivÃ¤lÃ¤mpÃ¶tila");
+	require("yolampotila","yÃ¶lÃ¤mpÃ¶tila");
 	require("on");
 	require("noin");
 	require("astetta");
@@ -350,8 +354,8 @@ namespace StoryPhrasesTest
 
   void temperature_weekly_averages_trend()
   {
-	require("päivälämpötila");
-	require("yölämpötila");
+	require("paivalampotila","pÃ¤ivÃ¤lÃ¤mpÃ¶tila");
+	require("yolampotila","yÃ¶lÃ¤mpÃ¶tila");
 	require("on");
 	require("noin");
 	require("astetta");
@@ -371,7 +375,7 @@ namespace StoryPhrasesTest
   {
 
 	require("sadesumma");
-	require("millimetriä");
+	require("millimetria","millimetriÃ¤");
 
 	TEST_PASSED();
 
@@ -388,7 +392,7 @@ namespace StoryPhrasesTest
 	require("sadesumma");
 	require("on");
 	require("yli");
-	require("millimetriä");
+	require("millimetria","millimetriÃ¤");
 
 	TEST_PASSED();
 
@@ -402,12 +406,12 @@ namespace StoryPhrasesTest
 
   void precipitation_sums()
   {
-	require("ensimmäisen 12 tunnin sademäärä");
+	require("ensimmaisen 12 tunnin sademaara","ensimmÃ¤isen 12 tunnin sademÃ¤Ã¤rÃ¤");
 	require("seuraavan 12 tunnin");
-	require("seuraavan 24 tunnin sademäärä");
+	require("seuraavan 24 tunnin sademaara","seuraavan 24 tunnin sademÃ¤Ã¤rÃ¤");
 	require("on");
 	require("noin");
-	require("millimetriä");
+	require("millimetria","millimetriÃ¤");
 
 	TEST_PASSED();
 
@@ -425,9 +429,9 @@ namespace StoryPhrasesTest
 	require("paikoin");
 	require("monin paikoin");
 	require("yli");
-	require("millimetriä");
-	require("paikoin enemmän");
-	require("monin paikoin enemmän");
+	require("millimetria","millimetriÃ¤");
+	require("paikoin enemman","paikoin enemmÃ¤n");
+	require("monin paikoin enemman","monin paikoin enemmÃ¤n");
 
 	TEST_PASSED();
 
@@ -441,7 +445,7 @@ namespace StoryPhrasesTest
 
   void pop_max()
   {
-	require("sateen todennäköisyys");
+	require("sateen todennakoisyys","sateen todennÃ¤kÃ¶isyys");
 	require("on");
 	require("prosenttia");
 
@@ -457,18 +461,18 @@ namespace StoryPhrasesTest
 
   void weather_shortoverview()
   {
-	require("enimmäkseen");
-	require("selkeää");
-	require("puolipilvistä");
-	require("pilvistä");
-	require("vaihtelevaa pilvisyyttä");
+	require("enimmakseen","enimmÃ¤kseen");
+	require("selkeaa","selkeÃ¤Ã¤");
+	require("puolipilvista","puolipilvistÃ¤");
+	require("pilvista","pilvistÃ¤");
+	require("vaihtelevaa pilvisyytta","vaihtelevaa pilvisyyttÃ¤");
 	require("poutaa");
 	require("paikoin");
 	require("sadetta");
 	require("ajoittain sateista");
-	require("sää on epävakaista");
+	require("saa on epavakaista","sÃ¤Ã¤ on epÃ¤vakaista");
 	require("tai");
-	require("räntäsadetta");
+	require("rantasadetta","rÃ¤ntÃ¤sadetta");
 	require("lumisadetta");
 	require("vesi-");
 	require("lumi-");
@@ -493,14 +497,14 @@ namespace StoryPhrasesTest
   void wind_overview()
   {
 	require("m/s");
-	require("metriä sekunnissa");
-	require("tyyntä");
+	require("metria sekunnissa","metriÃ¤ sekunnissa");
+	require("tyynta","tyyntÃ¤");
 	require("heikkoa");
 	require("kohtalaista");
 	require("navakkaa");
 	require("kovaa");
-	require("myrskyä");
-	require("hirmumyrskyä");
+	require("myrskya","myrskyÃ¤");
+	require("hirmumyrskya","hirmumyrskyÃ¤");
 	require("tyyneksi");
 	require("heikoksi");
 	require("kohtalaiseksi");
@@ -510,49 +514,49 @@ namespace StoryPhrasesTest
 	require("hirmumyrskyksi");
 	require("tuuli");
 	require("tuulta");
-	require("yöllä");
+	require("yolla","yÃ¶llÃ¤");
 	require("tuuli tyyntyy");
 	require("tuuli heikkenee");
 	require("tuuli voimistuu");
 	require("edelleen");
-	require("heikkenevää");
+	require("heikkenevaa","heikkenevÃ¤Ã¤");
 	require("voimistuvaa");
 	require("suunnaltaan vaihtelevaa");
 
 	require("1-tuulta","pohjoistuulta");
 	require("2-tuulta","koillistuulta");
-	require("3-tuulta","itätuulta");
+	require("3-tuulta","itÃ¤tuulta");
 	require("4-tuulta","kaakkoistuulta");
-	require("5-tuulta","etelätuulta");
+	require("5-tuulta","etelÃ¤tuulta");
 	require("6-tuulta","lounaistuulta");
-	require("7-tuulta","länsituulta");
+	require("7-tuulta","lÃ¤nsituulta");
 	require("8-tuulta","luoteistuulta");
 
 	require("1-tuuleksi","pohjoistuuleksi");
 	require("2-tuuleksi","koillistuuleksi");
-	require("3-tuuleksi","itätuuleksi");
+	require("3-tuuleksi","itÃ¤tuuleksi");
 	require("4-tuuleksi","kaakkoistuuleksi");
-	require("5-tuuleksi","etelätuuleksi");
+	require("5-tuuleksi","etelÃ¤tuuleksi");
 	require("6-tuuleksi","lounaistuuleksi");
-	require("7-tuuleksi","länsituuleksi");
+	require("7-tuuleksi","lÃ¤nsituuleksi");
 	require("8-tuuleksi","luoteistuuleksi");
 
 	require("1-puoleista tuulta","pohjoisen puoleista tuulta");
 	require("2-puoleista tuulta","koillisen puoleista tuulta");
-	require("3-puoleista tuulta","idän puoleista tuulta");
+	require("3-puoleista tuulta","idÃ¤n puoleista tuulta");
 	require("4-puoleista tuulta","kaakon puoleista tuulta");
-	require("5-puoleista tuulta","etelän puoleista tuulta");
+	require("5-puoleista tuulta","etelÃ¤n puoleista tuulta");
 	require("6-puoleista tuulta","lounaan puoleista tuulta");
-	require("7-puoleista tuulta","lännen puoleista tuulta");
+	require("7-puoleista tuulta","lÃ¤nnen puoleista tuulta");
 	require("8-puoleista tuulta","luoteen puoleista tuulta");
 
 	require("1-puoleiseksi tuuleksi","pohjoisen puoleiseksi tuuleksi");
 	require("2-puoleiseksi tuuleksi","koillisen puoleiseksi tuuleksi");
-	require("3-puoleiseksi tuuleksi","idän puoleiseksi tuuleksi");
+	require("3-puoleiseksi tuuleksi","idÃ¤n puoleiseksi tuuleksi");
 	require("4-puoleiseksi tuuleksi","kaakon puoleiseksi tuuleksi");
-	require("5-puoleiseksi tuuleksi","etelän puoleiseksi tuuleksi");
+	require("5-puoleiseksi tuuleksi","etelÃ¤n puoleiseksi tuuleksi");
 	require("6-puoleiseksi tuuleksi","lounaan puoleiseksi tuuleksi");
-	require("7-puoleiseksi tuuleksi","lännen puoleiseksi tuuleksi");
+	require("7-puoleiseksi tuuleksi","lÃ¤nnen puoleiseksi tuuleksi");
 	require("8-puoleiseksi tuuleksi","luoteen puoleiseksi tuuleksi");
 
 	require("1-na","maanantaina");
@@ -583,25 +587,25 @@ namespace StoryPhrasesTest
   void wind_daily_ranges()
   {
 	require("m/s");
-	require("metriä sekunnissa");
+	require("metria sekunnissa","metriÃ¤ sekunnissa");
 	require("suunnaltaan vaihtelevaa");
 
 	require("1-tuulta","pohjoistuulta");
 	require("2-tuulta","koillistuulta");
-	require("3-tuulta","itätuulta");
+	require("3-tuulta","itÃ¤tuulta");
 	require("4-tuulta","kaakkoistuulta");
-	require("5-tuulta","etelätuulta");
+	require("5-tuulta","etelÃ¤tuulta");
 	require("6-tuulta","lounaistuulta");
-	require("7-tuulta","länsituulta");
+	require("7-tuulta","lÃ¤nsituulta");
 	require("8-tuulta","luoteistuulta");
 
 	require("1-puoleista tuulta","pohjoisen puoleista tuulta");
 	require("2-puoleista tuulta","koillisen puoleista tuulta");
-	require("3-puoleista tuulta","idän puoleista tuulta");
+	require("3-puoleista tuulta","idÃ¤n puoleista tuulta");
 	require("4-puoleista tuulta","kaakon puoleista tuulta");
-	require("5-puoleista tuulta","etelän puoleista tuulta");
+	require("5-puoleista tuulta","etelÃ¤n puoleista tuulta");
 	require("6-puoleista tuulta","lounaan puoleista tuulta");
-	require("7-puoleista tuulta","lännen puoleista tuulta");
+	require("7-puoleista tuulta","lÃ¤nnen puoleista tuulta");
 	require("8-puoleista tuulta","luoteen puoleista tuulta");
 
 	require("1-na","maanantaina");
@@ -632,25 +636,25 @@ namespace StoryPhrasesTest
   void wind_range()
   {
 	require("m/s");
-	require("metriä sekunnissa");
+	require("metria sekunnissa","metriÃ¤ sekunnissa");
 	require("suunnaltaan vaihtelevaa");
 
 	require("1-tuulta","pohjoistuulta");
 	require("2-tuulta","koillistuulta");
-	require("3-tuulta","itätuulta");
+	require("3-tuulta","itÃ¤tuulta");
 	require("4-tuulta","kaakkoistuulta");
-	require("5-tuulta","etelätuulta");
+	require("5-tuulta","etelÃ¤tuulta");
 	require("6-tuulta","lounaistuulta");
-	require("7-tuulta","länsituulta");
+	require("7-tuulta","lÃ¤nsituulta");
 	require("8-tuulta","luoteistuulta");
 
 	require("1-puoleista tuulta","pohjoisen puoleista tuulta");
 	require("2-puoleista tuulta","koillisen puoleista tuulta");
-	require("3-puoleista tuulta","idän puoleista tuulta");
+	require("3-puoleista tuulta","idÃ¤n puoleista tuulta");
 	require("4-puoleista tuulta","kaakon puoleista tuulta");
-	require("5-puoleista tuulta","etelän puoleista tuulta");
+	require("5-puoleista tuulta","etelÃ¤n puoleista tuulta");
 	require("6-puoleista tuulta","lounaan puoleista tuulta");
-	require("7-puoleista tuulta","lännen puoleista tuulta");
+	require("7-puoleista tuulta","lÃ¤nnen puoleista tuulta");
 	require("8-puoleista tuulta","luoteen puoleista tuulta");
 
 	TEST_PASSED();
@@ -664,8 +668,8 @@ namespace StoryPhrasesTest
 
   void frost_mean()
   {
-	require("hallan todennäköisyys");
-	require("ankaran hallan todennäköisyys");
+	require("hallan todennakoisyys","hallan todennÃ¤kÃ¶isyys");
+	require("ankaran hallan todennakoisyys","ankaran hallan todennÃ¤kÃ¶isyys");
 	require("on");
 	TEST_PASSED();
 
@@ -679,8 +683,8 @@ namespace StoryPhrasesTest
 
   void frost_maximum()
   {
-	require("hallan todennäköisyys");
-	require("ankaran hallan todennäköisyys");
+	require("hallan todennakoisyys","hallan todennÃ¤kÃ¶isyys");
+	require("ankaran hallan todennakoisyys","ankaran hallan todennÃ¤kÃ¶isyys");
 	require("on");
 	TEST_PASSED();
   }
@@ -693,22 +697,22 @@ namespace StoryPhrasesTest
 
   void frost_twonights()
   {
-	require("hallan todennäköisyys");
-	require("ankaran hallan todennäköisyys");
+	require("hallan todennakoisyys","hallan todennÃ¤kÃ¶isyys");
+	require("ankaran hallan todennakoisyys","ankaran hallan todennÃ¤kÃ¶isyys");
 	require("on");
-	require("seuraavana yönä");
+	require("seuraavana yona","seuraavana yÃ¶nÃ¤");
 	require("sama");
-	require("seuraava yö");
-	require("lämpimämpi");
-	require("huomattavasti lämpimämpi");
+	require("seuraava yo","seuraava yÃ¶");
+	require("lampimampi","lÃ¤mpimÃ¤mpi");
+	require("huomattavasti lampimampi","huomattavasti lÃ¤mpimÃ¤mpi");
 
-	require("1-vastaisena yönä","maanantain vastaisena yönä");
-	require("2-vastaisena yönä","tiistain vastaisena yönä");
-	require("3-vastaisena yönä","keskiviikon vastaisena yönä");
-	require("4-vastaisena yönä","torstain vastaisena yönä");
-	require("5-vastaisena yönä","perjantain vastaisena yönä");
-	require("6-vastaisena yönä","lauantain vastaisena yönä");
-	require("7-vastaisena yönä","sunnuntain vastaisena yönä");
+	require("1-vastaisena yona","maanantain vastaisena yÃ¶nÃ¤");
+	require("2-vastaisena yona","tiistain vastaisena yÃ¶nÃ¤");
+	require("3-vastaisena yona","keskiviikon vastaisena yÃ¶nÃ¤");
+	require("4-vastaisena yona","torstain vastaisena yÃ¶nÃ¤");
+	require("5-vastaisena yona","perjantain vastaisena yÃ¶nÃ¤");
+	require("6-vastaisena yona","lauantain vastaisena yÃ¶nÃ¤");
+	require("7-vastaisena yona","sunnuntain vastaisena yÃ¶nÃ¤");
 
 	TEST_PASSED();
   }
@@ -788,12 +792,12 @@ namespace StoryPhrasesTest
 
   void roadtemperature_daynightranges()
   {
-	require("tienpintalämpötila");
+	require("tienpintalampotila","tienpintalÃ¤mpÃ¶tila");
 	require("on");
 	require("noin");
 	require("astetta");
-	require("päivällä");
-	require("yöllä");
+	require("paivalla","pÃ¤ivÃ¤llÃ¤");
+	require("yolla","yÃ¶llÃ¤");
 
 	TEST_PASSED();
   }
@@ -807,13 +811,13 @@ namespace StoryPhrasesTest
   void roadcondition_overview()
   {
 	require("tiet ovat");
-	require("teillä on");
-	require("jäisiä");
-	require("osittain jäisiä");
+	require("teilla on","teillÃ¤ on");
+	require("jaisia","jÃ¤isiÃ¤");
+	require("osittain jaisia","osittain jÃ¤isiÃ¤");
 	require("kuuraa");
 	require("sohjoa");
 	require("lunta");
-	require("märkiä");
+	require("markia","mÃ¤rkiÃ¤");
 	require("kosteita");
 	require("kuivia");
 	require("kuuraisia");
@@ -902,6 +906,12 @@ namespace StoryPhrasesTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   cout << endl
 	   << "StoryFactory requirements" << endl
 	   << "==========================" << endl;

@@ -1,8 +1,11 @@
 #include <regression/tframe.h>
 #include "MySQLDictionary.h"
 #include "TextGenError.h"
+#include <newbase/NFmiSettings.h>
 #include <iostream>
 #include <string>
+
+#include <boost/locale.hpp>
 
 using namespace std;
 
@@ -122,8 +125,8 @@ namespace MySQLDictionaryTest
 	dict.init("fi");
 	if(dict.contains("foobar"))
 	  TEST_FAILED("contains(foobar) should have failed");
-	if(!dict.contains("s‰‰"))
-	  TEST_FAILED("contains(s‰‰) should have succeeded");
+	if(!dict.contains("saa"))
+	  TEST_FAILED("contains(saa) should have succeeded");
 
 	TEST_PASSED();
   }
@@ -150,12 +153,12 @@ namespace MySQLDictionaryTest
 	  }
 	catch(const TextGenError & e) { }
 
-	if(dict.find("s‰‰") != "s‰‰")
-	  TEST_FAILED("find(s‰‰) should have returned s‰‰");
+	if(dict.find("saa") != "s√§√§")
+	  TEST_FAILED("find(saa) should have returned s√§√§");
 
 	dict.init("en");
-	if(dict.find("s‰‰") != "the weather")
-	  TEST_FAILED("find(s‰‰) should have returned the weather");
+	if(dict.find("saa") != "the weather")
+	  TEST_FAILED("find(saa) should have returned the weather");
 
 	TEST_PASSED();
   }
@@ -215,6 +218,12 @@ namespace MySQLDictionaryTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   cout << endl
 	   << "MySQLDictionary tester" << endl
 	   << "======================" << endl;

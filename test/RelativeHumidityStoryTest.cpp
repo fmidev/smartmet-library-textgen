@@ -12,6 +12,8 @@
 #include <stdexcept>
 #include <string>
 
+#include <boost/locale.hpp>
+
 using namespace std;
 using namespace boost;
 
@@ -81,7 +83,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  
 	  NFmiSettings::Set("lowest::fake::day1::minimum","10,0");
 	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 10%.");
-	  REQUIRE(story,"sv",fun,"Den l‰gsta relativa fuktigheten ‰r 10%.");
+	  REQUIRE(story,"sv",fun,"Den l√§gsta relativa fuktigheten √§r 10%.");
 	  REQUIRE(story,"en",fun,"The lowest relative humidity is 10%.");
 	  
 	}
@@ -96,7 +98,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  
 	  NFmiSettings::Set("lowest::fake::day1::minimum","20,0");
 	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 20%.");
-	  REQUIRE(story,"sv",fun,"Den l‰gsta relativa fuktigheten ‰r 20%.");
+	  REQUIRE(story,"sv",fun,"Den l√§gsta relativa fuktigheten √§r 20%.");
 	  REQUIRE(story,"en",fun,"The lowest relative humidity is 20%.");
 	  
 	}
@@ -112,43 +114,43 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  NFmiSettings::Set("lowest::fake::day1::minimum","50,0");
 	  NFmiSettings::Set("lowest::fake::day2::minimum","50,0");
 	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 50%, huomenna sama.");
-	  REQUIRE(story,"sv",fun,"Den l‰gsta relativa fuktigheten ‰r 50%, i morgon densamma.");
+	  REQUIRE(story,"sv",fun,"Den l√§gsta relativa fuktigheten √§r 50%, i morgon densamma.");
 	  REQUIRE(story,"en",fun,"The lowest relative humidity is 50%, tomorrow the same.");
 
 	  NFmiSettings::Set("lowest::fake::day1::minimum","50,0");
 	  NFmiSettings::Set("lowest::fake::day2::minimum","0,0");
 	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 50%, huomenna huomattavasti pienempi.");
-	  REQUIRE(story,"sv",fun,"Den l‰gsta relativa fuktigheten ‰r 50%, i morgon betydligt mindre.");
+	  REQUIRE(story,"sv",fun,"Den l√§gsta relativa fuktigheten √§r 50%, i morgon betydligt mindre.");
 	  REQUIRE(story,"en",fun,"The lowest relative humidity is 50%, tomorrow significantly smaller.");
 
 	  NFmiSettings::Set("lowest::fake::day1::minimum","50,0");
 	  NFmiSettings::Set("lowest::fake::day2::minimum","20,0");
 	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 50%, huomenna pienempi.");
-	  REQUIRE(story,"sv",fun,"Den l‰gsta relativa fuktigheten ‰r 50%, i morgon mindre.");
+	  REQUIRE(story,"sv",fun,"Den l√§gsta relativa fuktigheten √§r 50%, i morgon mindre.");
 	  REQUIRE(story,"en",fun,"The lowest relative humidity is 50%, tomorrow smaller.");
 
 	  NFmiSettings::Set("lowest::fake::day1::minimum","50,0");
 	  NFmiSettings::Set("lowest::fake::day2::minimum","40,0");
 	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 50%, huomenna hieman pienempi.");
-	  REQUIRE(story,"sv",fun,"Den l‰gsta relativa fuktigheten ‰r 50%, i morgon nÂgot mindre.");
+	  REQUIRE(story,"sv",fun,"Den l√§gsta relativa fuktigheten √§r 50%, i morgon n√•got mindre.");
 	  REQUIRE(story,"en",fun,"The lowest relative humidity is 50%, tomorrow somewhat smaller.");
 
 	  NFmiSettings::Set("lowest::fake::day1::minimum","50,0");
 	  NFmiSettings::Set("lowest::fake::day2::minimum","60,0");
 	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 50%, huomenna hieman suurempi.");
-	  REQUIRE(story,"sv",fun,"Den l‰gsta relativa fuktigheten ‰r 50%, i morgon nÂgot stˆrre.");
+	  REQUIRE(story,"sv",fun,"Den l√§gsta relativa fuktigheten √§r 50%, i morgon n√•got st√∂rre.");
 	  REQUIRE(story,"en",fun,"The lowest relative humidity is 50%, tomorrow somewhat greater.");
 
 	  NFmiSettings::Set("lowest::fake::day1::minimum","50,0");
 	  NFmiSettings::Set("lowest::fake::day2::minimum","80,0");
 	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 50%, huomenna suurempi.");
-	  REQUIRE(story,"sv",fun,"Den l‰gsta relativa fuktigheten ‰r 50%, i morgon stˆrre.");
+	  REQUIRE(story,"sv",fun,"Den l√§gsta relativa fuktigheten √§r 50%, i morgon st√∂rre.");
 	  REQUIRE(story,"en",fun,"The lowest relative humidity is 50%, tomorrow greater.");
 
 	  NFmiSettings::Set("lowest::fake::day1::minimum","50,0");
 	  NFmiSettings::Set("lowest::fake::day2::minimum","100,0");
 	  REQUIRE(story,"fi",fun,"Alin suhteellinen kosteus on 50%, huomenna huomattavasti suurempi.");
-	  REQUIRE(story,"sv",fun,"Den l‰gsta relativa fuktigheten ‰r 50%, i morgon betydligt stˆrre.");
+	  REQUIRE(story,"sv",fun,"Den l√§gsta relativa fuktigheten √§r 50%, i morgon betydligt st√∂rre.");
 	  REQUIRE(story,"en",fun,"The lowest relative humidity is 50%, tomorrow significantly greater.");
 	  
 	}
@@ -183,14 +185,14 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	NFmiSettings::Set("range::fake::mean","5,0");
 	NFmiSettings::Set("range::fake::maximum","5,0");
 	require(story,"fi",fun,"Suhteellinen kosteus on noin 10%.");
-	require(story,"sv",fun,"Relativ fuktighet ‰r cirka 10%.");
+	require(story,"sv",fun,"Relativ fuktighet √§r cirka 10%.");
 	require(story,"en",fun,"Relative humidity is about 10%.");
 	
 	NFmiSettings::Set("range::fake::minimum","50,0");
 	NFmiSettings::Set("range::fake::mean","60,0");
 	NFmiSettings::Set("range::fake::maximum","60,0");
 	require(story,"fi",fun,"Suhteellinen kosteus 50-60%.");
-	require(story,"sv",fun,"Relativ fuktighet ‰r 50-60%.");
+	require(story,"sv",fun,"Relativ fuktighet √§r 50-60%.");
 	require(story,"en",fun,"Relative humidity is 50-60%.");
 
 	TEST_PASSED();
@@ -225,6 +227,12 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   using namespace RelativeHumidityStoryTest;
 
   cout << endl

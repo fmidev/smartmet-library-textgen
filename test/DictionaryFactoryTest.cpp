@@ -1,10 +1,14 @@
 #include <regression/tframe.h>
 #include "DictionaryFactory.h"
 
+#include <newbase/NFmiSettings.h>
+
 #include <boost/shared_ptr.hpp>
 
 #include <iostream>
 #include <string>
+
+#include <boost/locale.hpp>
 
 using namespace std;
 
@@ -55,6 +59,12 @@ namespace DictionaryFactoryTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   cout << endl
 	   << "DictionaryFactory tester" << endl
 	   << "========================" << endl;

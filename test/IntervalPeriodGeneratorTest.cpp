@@ -2,6 +2,9 @@
 #include "IntervalPeriodGenerator.h"
 #include "WeatherPeriod.h"
 #include <newbase/NFmiTime.h>
+#include <newbase/NFmiSettings.h>
+
+#include <boost/locale.hpp>
 
 using namespace std;
 
@@ -323,6 +326,12 @@ namespace IntervalPeriodGeneratorTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   cout << endl
 	   << "IntervalPeriodGenerator tester" << endl
 	   << "==============================" << endl;

@@ -12,6 +12,8 @@
 #include <stdexcept>
 #include <string>
 
+#include <boost/locale.hpp>
+
 using namespace std;
 using namespace boost;
 
@@ -75,34 +77,34 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period1,"en","");
 
 	REQUIRE(mode,var,ftime,period2,"fi","Maanantaina.");
-	REQUIRE(mode,var,ftime,period2,"sv","PÂ mÂndagen.");
+	REQUIRE(mode,var,ftime,period2,"sv","P√• m√•ndagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Monday.");
 
 	NFmiSettings::Set(phrasesvar,"weekday");
 	REQUIRE(mode,var,ftime,period1,"fi","Sunnuntaina.");
-	REQUIRE(mode,var,ftime,period1,"sv","PÂ sˆndagen.");
+	REQUIRE(mode,var,ftime,period1,"sv","P√• s√∂ndagen.");
 	REQUIRE(mode,var,ftime,period1,"en","On Sunday.");
 
 	REQUIRE(mode,var,ftime,period2,"fi","Maanantaina.");
-	REQUIRE(mode,var,ftime,period2,"sv","PÂ mÂndagen.");
+	REQUIRE(mode,var,ftime,period2,"sv","P√• m√•ndagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Monday.");
 
 	NFmiSettings::Set(phrasesvar,"today");
-	REQUIRE(mode,var,ftime,period1,"fi","T‰n‰‰n.");
+	REQUIRE(mode,var,ftime,period1,"fi","T√§n√§√§n.");
 	REQUIRE(mode,var,ftime,period1,"sv","I dag.");
 	REQUIRE(mode,var,ftime,period1,"en","Today.");
 
 	REQUIRE(mode,var,ftime,period2,"fi","Maanantaina.");
-	REQUIRE(mode,var,ftime,period2,"sv","PÂ mÂndagen.");
+	REQUIRE(mode,var,ftime,period2,"sv","P√• m√•ndagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Monday.");
 
 	NFmiSettings::Set(phrasesvar,"atday");
-	REQUIRE(mode,var,ftime,period1,"fi","P‰iv‰ll‰.");
-	REQUIRE(mode,var,ftime,period1,"sv","PÂ dagen.");
+	REQUIRE(mode,var,ftime,period1,"fi","P√§iv√§ll√§.");
+	REQUIRE(mode,var,ftime,period1,"sv","P√• dagen.");
 	REQUIRE(mode,var,ftime,period1,"en","During the day.");
 
 	REQUIRE(mode,var,ftime,period2,"fi","Maanantaina.");
-	REQUIRE(mode,var,ftime,period2,"sv","PÂ mÂndagen.");
+	REQUIRE(mode,var,ftime,period2,"sv","P√• m√•ndagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Monday.");
 
 	NFmiSettings::Set(phrasesvar,"none");
@@ -111,7 +113,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period1,"en","");
 
 	REQUIRE(mode,var,ftime,period2,"fi","Maanantaina.");
-	REQUIRE(mode,var,ftime,period2,"sv","PÂ mÂndagen.");
+	REQUIRE(mode,var,ftime,period2,"sv","P√• m√•ndagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Monday.");
 
 	TEST_PASSED();
@@ -143,34 +145,34 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period1,"sv","");
 	REQUIRE(mode,var,ftime,period1,"en","");
 
-	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yˆn‰.");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena y√∂n√§.");
 	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
 	NFmiSettings::Set(phrasesvar,"weekday");
-	REQUIRE(mode,var,ftime,period1,"fi","Maanantain vastaisena yˆn‰.");
-	REQUIRE(mode,var,ftime,period1,"sv","Natten mot mÂndagen.");
+	REQUIRE(mode,var,ftime,period1,"fi","Maanantain vastaisena y√∂n√§.");
+	REQUIRE(mode,var,ftime,period1,"sv","Natten mot m√•ndagen.");
 	REQUIRE(mode,var,ftime,period1,"en","On Monday night.");
 
-	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yˆn‰.");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena y√∂n√§.");
 	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
 	NFmiSettings::Set(phrasesvar,"tonight");
-	REQUIRE(mode,var,ftime,period1,"fi","Ensi yˆn‰.");
+	REQUIRE(mode,var,ftime,period1,"fi","Ensi y√∂n√§.");
 	REQUIRE(mode,var,ftime,period1,"sv","I natt.");
 	REQUIRE(mode,var,ftime,period1,"en","At night.");
 
-	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yˆn‰.");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena y√∂n√§.");
 	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
 	NFmiSettings::Set(phrasesvar,"atnight");
-	REQUIRE(mode,var,ftime,period1,"fi","Yˆll‰.");
-	REQUIRE(mode,var,ftime,period1,"sv","PÂ natten.");
+	REQUIRE(mode,var,ftime,period1,"fi","Y√∂ll√§.");
+	REQUIRE(mode,var,ftime,period1,"sv","P√• natten.");
 	REQUIRE(mode,var,ftime,period1,"en","At night.");
 
-	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yˆn‰.");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena y√∂n√§.");
 	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
@@ -179,7 +181,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period1,"sv","");
 	REQUIRE(mode,var,ftime,period1,"en","");
 
-	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yˆn‰.");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena y√∂n√§.");
 	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
@@ -217,7 +219,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period2,"en","Tomorrow.");
 
 	NFmiSettings::Set(phrasesvar,"today");
-	REQUIRE(mode,var,ftime,period1,"fi","T‰n‰‰n.");
+	REQUIRE(mode,var,ftime,period1,"fi","T√§n√§√§n.");
 	REQUIRE(mode,var,ftime,period1,"sv","I dag.");
 	REQUIRE(mode,var,ftime,period1,"en","Today.");
 
@@ -226,17 +228,17 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period2,"en","Tomorrow.");
 
 	NFmiSettings::Set(phrasesvar,"atday");
-	REQUIRE(mode,var,ftime,period1,"fi","P‰iv‰ll‰.");
-	REQUIRE(mode,var,ftime,period1,"sv","PÂ dagen.");
+	REQUIRE(mode,var,ftime,period1,"fi","P√§iv√§ll√§.");
+	REQUIRE(mode,var,ftime,period1,"sv","P√• dagen.");
 	REQUIRE(mode,var,ftime,period1,"en","During the day.");
 
 	NFmiSettings::Set(phrasesvar,"weekday");
 	REQUIRE(mode,var,ftime,period1,"fi","Sunnuntaina.");
-	REQUIRE(mode,var,ftime,period1,"sv","PÂ sˆndagen.");
+	REQUIRE(mode,var,ftime,period1,"sv","P√• s√∂ndagen.");
 	REQUIRE(mode,var,ftime,period1,"en","On Sunday.");
 
 	REQUIRE(mode,var,ftime,period2,"fi","Maanantaina.");
-	REQUIRE(mode,var,ftime,period2,"sv","PÂ mÂndagen.");
+	REQUIRE(mode,var,ftime,period2,"sv","P√• m√•ndagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Monday.");
 
 	NFmiSettings::Set(phrasesvar,"tomorrow");
@@ -278,34 +280,34 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period1,"sv","");
 	REQUIRE(mode,var,ftime,period1,"en","");
 
-	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yˆn‰.");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena y√∂n√§.");
 	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
 	NFmiSettings::Set(phrasesvar,"tonight");
-	REQUIRE(mode,var,ftime,period1,"fi","Ensi yˆn‰.");
+	REQUIRE(mode,var,ftime,period1,"fi","Ensi y√∂n√§.");
 	REQUIRE(mode,var,ftime,period1,"sv","I natt.");
 	REQUIRE(mode,var,ftime,period1,"en","At night.");
 
-	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yˆn‰.");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena y√∂n√§.");
 	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
 	NFmiSettings::Set(phrasesvar,"atnight");
-	REQUIRE(mode,var,ftime,period1,"fi","Yˆll‰.");
-	REQUIRE(mode,var,ftime,period1,"sv","PÂ natten.");
+	REQUIRE(mode,var,ftime,period1,"fi","Y√∂ll√§.");
+	REQUIRE(mode,var,ftime,period1,"sv","P√• natten.");
 	REQUIRE(mode,var,ftime,period1,"en","At night.");
 
-	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yˆn‰.");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena y√∂n√§.");
 	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
 	NFmiSettings::Set(phrasesvar,"weekday");
-	REQUIRE(mode,var,ftime,period1,"fi","Maanantain vastaisena yˆn‰.");
-	REQUIRE(mode,var,ftime,period1,"sv","Natten mot mÂndagen.");
+	REQUIRE(mode,var,ftime,period1,"fi","Maanantain vastaisena y√∂n√§.");
+	REQUIRE(mode,var,ftime,period1,"sv","Natten mot m√•ndagen.");
 	REQUIRE(mode,var,ftime,period1,"en","On Monday night.");
 
-	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yˆn‰.");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena y√∂n√§.");
 	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
@@ -314,7 +316,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,period1,"sv","");
 	REQUIRE(mode,var,ftime,period1,"en","");
 
-	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena yˆn‰.");
+	REQUIRE(mode,var,ftime,period2,"fi","Tiistain vastaisena y√∂n√§.");
 	REQUIRE(mode,var,ftime,period2,"sv","Natten mot tisdagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Tuesday night.");
 
@@ -341,28 +343,28 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	string result;
 
-	REQUIRE(mode,var,ftime,period,"fi","Ensi yˆn‰.");
+	REQUIRE(mode,var,ftime,period,"fi","Ensi y√∂n√§.");
 	REQUIRE(mode,var,ftime,period,"sv","I natt.");
 	REQUIRE(mode,var,ftime,period,"en","At night.");
 
 	NFmiSettings::Set(phrasesvar,"weekday");
-	REQUIRE(mode,var,ftime,period,"fi","Maanantain vastaisena yˆn‰.");
-	REQUIRE(mode,var,ftime,period,"sv","Natten mot mÂndagen.");
+	REQUIRE(mode,var,ftime,period,"fi","Maanantain vastaisena y√∂n√§.");
+	REQUIRE(mode,var,ftime,period,"sv","Natten mot m√•ndagen.");
 	REQUIRE(mode,var,ftime,period,"en","On Monday night.");
 
 	NFmiSettings::Set(phrasesvar,"followingnight");
-	REQUIRE(mode,var,ftime,period,"fi","Seuraavana yˆn‰.");
-	REQUIRE(mode,var,ftime,period,"sv","Fˆljande natt.");
+	REQUIRE(mode,var,ftime,period,"fi","Seuraavana y√∂n√§.");
+	REQUIRE(mode,var,ftime,period,"sv","F√∂ljande natt.");
 	REQUIRE(mode,var,ftime,period,"en","The following night.");
 
 	NFmiSettings::Set(phrasesvar,"tonight");
-	REQUIRE(mode,var,ftime,period,"fi","Ensi yˆn‰.");
+	REQUIRE(mode,var,ftime,period,"fi","Ensi y√∂n√§.");
 	REQUIRE(mode,var,ftime,period,"sv","I natt.");
 	REQUIRE(mode,var,ftime,period,"en","At night.");
 
 	NFmiSettings::Set(phrasesvar,"atnight");
-	REQUIRE(mode,var,ftime,period,"fi","Yˆll‰.");
-	REQUIRE(mode,var,ftime,period,"sv","PÂ natten.");
+	REQUIRE(mode,var,ftime,period,"fi","Y√∂ll√§.");
+	REQUIRE(mode,var,ftime,period,"sv","P√• natten.");
 	REQUIRE(mode,var,ftime,period,"en","At night.");
 
 
@@ -391,8 +393,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	string result;
 
-	REQUIRE(mode,var,ftime,period1,"fi","Seuraavana p‰iv‰n‰.");
-	REQUIRE(mode,var,ftime,period1,"sv","Fˆljande dag.");
+	REQUIRE(mode,var,ftime,period1,"fi","Seuraavana p√§iv√§n√§.");
+	REQUIRE(mode,var,ftime,period1,"sv","F√∂ljande dag.");
 	REQUIRE(mode,var,ftime,period1,"en","The following day.");
 
 	REQUIRE(mode,var,ftime,period2,"fi","Huomenna.");
@@ -401,25 +403,25 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	NFmiSettings::Set(phrasesvar,"weekday");
 	REQUIRE(mode,var,ftime,period1,"fi","Sunnuntaina.");
-	REQUIRE(mode,var,ftime,period1,"sv","PÂ sˆndagen.");
+	REQUIRE(mode,var,ftime,period1,"sv","P√• s√∂ndagen.");
 	REQUIRE(mode,var,ftime,period1,"en","On Sunday.");
 
 	REQUIRE(mode,var,ftime,period2,"fi","Maanantaina.");
-	REQUIRE(mode,var,ftime,period2,"sv","PÂ mÂndagen.");
+	REQUIRE(mode,var,ftime,period2,"sv","P√• m√•ndagen.");
 	REQUIRE(mode,var,ftime,period2,"en","On Monday.");
 
 	NFmiSettings::Set(phrasesvar,"followingday");
-	REQUIRE(mode,var,ftime,period1,"fi","Seuraavana p‰iv‰n‰.");
-	REQUIRE(mode,var,ftime,period1,"sv","Fˆljande dag.");
+	REQUIRE(mode,var,ftime,period1,"fi","Seuraavana p√§iv√§n√§.");
+	REQUIRE(mode,var,ftime,period1,"sv","F√∂ljande dag.");
 	REQUIRE(mode,var,ftime,period1,"en","The following day.");
 
-	REQUIRE(mode,var,ftime,period2,"fi","Seuraavana p‰iv‰n‰.");
-	REQUIRE(mode,var,ftime,period2,"sv","Fˆljande dag.");
+	REQUIRE(mode,var,ftime,period2,"fi","Seuraavana p√§iv√§n√§.");
+	REQUIRE(mode,var,ftime,period2,"sv","F√∂ljande dag.");
 	REQUIRE(mode,var,ftime,period2,"en","The following day.");
 
 	NFmiSettings::Set(phrasesvar,"tomorrow");
-	REQUIRE(mode,var,ftime,period1,"fi","Seuraavana p‰iv‰n‰.");
-	REQUIRE(mode,var,ftime,period1,"sv","Fˆljande dag.");
+	REQUIRE(mode,var,ftime,period1,"fi","Seuraavana p√§iv√§n√§.");
+	REQUIRE(mode,var,ftime,period1,"sv","F√∂ljande dag.");
 	REQUIRE(mode,var,ftime,period1,"en","The following day.");
 
 	REQUIRE(mode,var,ftime,period2,"fi","Huomenna.");
@@ -452,27 +454,27 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	string result;
 
 	REQUIRE(mode,var,ftime,period1,"fi","Sunnuntaista alkaen.");
-	REQUIRE(mode,var,ftime,period1,"sv","FrÂn sˆndagen.");
+	REQUIRE(mode,var,ftime,period1,"sv","Fr√•n och med s√∂ndagen.");
 	REQUIRE(mode,var,ftime,period1,"en","From Sunday onwards.");
 
 	// REQUIRE(mode,var,ftime,period2,"fi","Huomisesta alkaen.");
-	// REQUIRE(mode,var,ftime,period2,"sv","FrÂn i morgon.");
+	// REQUIRE(mode,var,ftime,period2,"sv","Fr√•n i morgon.");
 	// REQUIRE(mode,var,ftime,period2,"en","Starting tomorrow.");
 	REQUIRE(mode,var,ftime,period2,"fi","Maanantaista alkaen.");
-	REQUIRE(mode,var,ftime,period2,"sv","FrÂn mÂndagen.");
+	REQUIRE(mode,var,ftime,period2,"sv","Fr√•n och med m√•ndagen.");
 	REQUIRE(mode,var,ftime,period2,"en","From Monday onwards.");
 
 	NFmiSettings::Set(phrasesvar,"weekday");
 	REQUIRE(mode,var,ftime,period2,"fi","Maanantaista alkaen.");
-	REQUIRE(mode,var,ftime,period2,"sv","FrÂn mÂndagen.");
+	REQUIRE(mode,var,ftime,period2,"sv","Fr√•n och med m√•ndagen.");
 	REQUIRE(mode,var,ftime,period2,"en","From Monday onwards.");
 
 	NFmiSettings::Set(phrasesvar,"tomorrow");
 	// REQUIRE(mode,var,ftime,period2,"fi","Huomisesta alkaen.");
-	// REQUIRE(mode,var,ftime,period2,"sv","FrÂn i morgon.");
+	// REQUIRE(mode,var,ftime,period2,"sv","Fr√•n i morgon.");
 	// REQUIRE(mode,var,ftime,period2,"en","Starting tomorrow.");
 	REQUIRE(mode,var,ftime,period2,"fi","Maanantaista alkaen.");
-	REQUIRE(mode,var,ftime,period2,"sv","FrÂn mÂndagen.");
+	REQUIRE(mode,var,ftime,period2,"sv","Fr√•n och med m√•ndagen.");
 	REQUIRE(mode,var,ftime,period2,"en","From Monday onwards.");
 
 	TEST_PASSED();
@@ -511,7 +513,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  REQUIRE(mode,var,ftime,period,"en","");
 
 	  NFmiSettings::Set(mode+"::days::phrases","today");
-	  REQUIRE(mode,var,ftime,period,"fi","T‰n‰‰n.");
+	  REQUIRE(mode,var,ftime,period,"fi","T√§n√§√§n.");
 	  REQUIRE(mode,var,ftime,period,"sv","I dag.");
 	  REQUIRE(mode,var,ftime,period,"en","Today.");
 
@@ -527,7 +529,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	  NFmiSettings::Set(mode+"::days::phrases","weekday");
 	  REQUIRE(mode,var,ftime,period,"fi","Sunnuntaina.");
-	  REQUIRE(mode,var,ftime,period,"sv","PÂ sˆndagen.");
+	  REQUIRE(mode,var,ftime,period,"sv","P√• s√∂ndagen.");
 	  REQUIRE(mode,var,ftime,period,"en","On Sunday.");
 	  
 	}
@@ -558,7 +560,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	  NFmiSettings::Set(mode+"::days::phrases","weekday");
 	  REQUIRE(mode,var,ftime,period,"fi","Maanantaina.");
-	  REQUIRE(mode,var,ftime,period,"sv","PÂ mÂndagen.");
+	  REQUIRE(mode,var,ftime,period,"sv","P√• m√•ndagen.");
 	  REQUIRE(mode,var,ftime,period,"en","On Monday.");
 	  
 	}
@@ -573,7 +575,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  REQUIRE(mode,var,ftime,period,"en","");
 
 	  NFmiSettings::Set(mode+"::days::phrases","today");
-	  REQUIRE(mode,var,ftime,period,"fi","T‰n‰‰n ja huomenna.");
+	  REQUIRE(mode,var,ftime,period,"fi","T√§n√§√§n ja huomenna.");
 	  REQUIRE(mode,var,ftime,period,"sv","I dag och i morgon.");
 	  REQUIRE(mode,var,ftime,period,"en","Today and tomorrow.");
 
@@ -589,7 +591,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	  NFmiSettings::Set(mode+"::days::phrases","weekday");
 	  REQUIRE(mode,var,ftime,period,"fi","Sunnuntaina ja maanantaina.");
-	  REQUIRE(mode,var,ftime,period,"sv","PÂ sˆndagen och pÂ mÂndagen.");
+	  REQUIRE(mode,var,ftime,period,"sv","P√• s√∂ndagen och p√• m√•ndagen.");
 	  REQUIRE(mode,var,ftime,period,"en","On Sunday and on Monday.");
 	  
 	}
@@ -599,28 +601,28 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  const WeatherAnalysis::WeatherPeriod period(day2,day4);
 
 	  NFmiSettings::Set(mode+"::days::phrases","none");
-	  REQUIRE(mode,var,ftime,period,"fi","Huomenna ja seuraavana p‰iv‰n‰.");
-	  REQUIRE(mode,var,ftime,period,"sv","I morgon och fˆljande dag.");
+	  REQUIRE(mode,var,ftime,period,"fi","Huomenna ja seuraavana p√§iv√§n√§.");
+	  REQUIRE(mode,var,ftime,period,"sv","I morgon och f√∂ljande dag.");
 	  REQUIRE(mode,var,ftime,period,"en","Tomorrow and the following day.");
 
 	  NFmiSettings::Set(mode+"::days::phrases","today");
-	  REQUIRE(mode,var,ftime,period,"fi","Huomenna ja seuraavana p‰iv‰n‰.");
-	  REQUIRE(mode,var,ftime,period,"sv","I morgon och fˆljande dag.");
+	  REQUIRE(mode,var,ftime,period,"fi","Huomenna ja seuraavana p√§iv√§n√§.");
+	  REQUIRE(mode,var,ftime,period,"sv","I morgon och f√∂ljande dag.");
 	  REQUIRE(mode,var,ftime,period,"en","Tomorrow and the following day.");
 
 	  NFmiSettings::Set(mode+"::days::phrases","tomorrow");
-	  REQUIRE(mode,var,ftime,period,"fi","Huomenna ja seuraavana p‰iv‰n‰.");
-	  REQUIRE(mode,var,ftime,period,"sv","I morgon och fˆljande dag.");
+	  REQUIRE(mode,var,ftime,period,"fi","Huomenna ja seuraavana p√§iv√§n√§.");
+	  REQUIRE(mode,var,ftime,period,"sv","I morgon och f√∂ljande dag.");
 	  REQUIRE(mode,var,ftime,period,"en","Tomorrow and the following day.");
 
 	  NFmiSettings::Set(mode+"::days::phrases","followingday");
-	  REQUIRE(mode,var,ftime,period,"fi","Huomenna ja seuraavana p‰iv‰n‰.");
-	  REQUIRE(mode,var,ftime,period,"sv","I morgon och fˆljande dag.");
+	  REQUIRE(mode,var,ftime,period,"fi","Huomenna ja seuraavana p√§iv√§n√§.");
+	  REQUIRE(mode,var,ftime,period,"sv","I morgon och f√∂ljande dag.");
 	  REQUIRE(mode,var,ftime,period,"en","Tomorrow and the following day.");
 
 	  NFmiSettings::Set(mode+"::days::phrases","weekday");
 	  REQUIRE(mode,var,ftime,period,"fi","Maanantaina ja tiistaina.");
-	  REQUIRE(mode,var,ftime,period,"sv","PÂ mÂndagen och pÂ tisdagen.");
+	  REQUIRE(mode,var,ftime,period,"sv","P√• m√•ndagen och p√• tisdagen.");
 	  REQUIRE(mode,var,ftime,period,"en","On Monday and on Tuesday.");
 	  
 	}
@@ -651,7 +653,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	  NFmiSettings::Set(mode+"::days::phrases","weekday");
 	  REQUIRE(mode,var,ftime,period,"fi","Sunnuntaista alkaen.");
-	  REQUIRE(mode,var,ftime,period,"sv","FrÂn sˆndagen.");
+	  REQUIRE(mode,var,ftime,period,"sv","Fr√•n och med s√∂ndagen.");
 	  REQUIRE(mode,var,ftime,period,"en","From Sunday onwards.");
 	  
 	}
@@ -705,27 +707,27 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	REQUIRE(mode,var,ftime,WeatherPeriod(hour00,hour24),"fi","");
 	REQUIRE(mode,var,ftime,WeatherPeriod(hour01,hour24),"fi","");
 	REQUIRE(mode,var,ftime,WeatherPeriod(hour02,hour24),"fi","");
-	REQUIRE(mode,var,ftime,WeatherPeriod(hour03,hour24),"fi","Aamuyˆst‰ alkaen.");
-	REQUIRE(mode,var,ftime,WeatherPeriod(hour04,hour24),"fi","Aamuyˆst‰ alkaen.");
-	REQUIRE(mode,var,ftime,WeatherPeriod(hour05,hour24),"fi","Aamuyˆst‰ alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour03,hour24),"fi","Aamuy√∂st√§ alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour04,hour24),"fi","Aamuy√∂st√§ alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour05,hour24),"fi","Aamuy√∂st√§ alkaen.");
 	REQUIRE(mode,var,ftime,WeatherPeriod(hour06,hour24),"fi","Aamusta alkaen.");
 	REQUIRE(mode,var,ftime,WeatherPeriod(hour07,hour24),"fi","Aamusta alkaen.");
 	REQUIRE(mode,var,ftime,WeatherPeriod(hour08,hour24),"fi","Aamusta alkaen.");
-	REQUIRE(mode,var,ftime,WeatherPeriod(hour09,hour24),"fi","Aamup‰iv‰st‰ alkaen.");
-	REQUIRE(mode,var,ftime,WeatherPeriod(hour10,hour24),"fi","Aamup‰iv‰st‰ alkaen.");
-	REQUIRE(mode,var,ftime,WeatherPeriod(hour11,hour24),"fi","Keskip‰iv‰st‰ alkaen.");
-	REQUIRE(mode,var,ftime,WeatherPeriod(hour12,hour24),"fi","Keskip‰iv‰st‰ alkaen.");
-	REQUIRE(mode,var,ftime,WeatherPeriod(hour13,hour24),"fi","Iltap‰iv‰st‰ alkaen.");
-	REQUIRE(mode,var,ftime,WeatherPeriod(hour14,hour24),"fi","Iltap‰iv‰st‰ alkaen.");
-	REQUIRE(mode,var,ftime,WeatherPeriod(hour15,hour24),"fi","Iltap‰iv‰st‰ alkaen.");
-	REQUIRE(mode,var,ftime,WeatherPeriod(hour16,hour24),"fi","Iltap‰iv‰st‰ alkaen.");
-	REQUIRE(mode,var,ftime,WeatherPeriod(hour17,hour24),"fi","Iltap‰iv‰st‰ alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour09,hour24),"fi","Aamup√§iv√§st√§ alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour10,hour24),"fi","Aamup√§iv√§st√§ alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour11,hour24),"fi","Keskip√§iv√§st√§ alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour12,hour24),"fi","Keskip√§iv√§st√§ alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour13,hour24),"fi","Iltap√§iv√§st√§ alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour14,hour24),"fi","Iltap√§iv√§st√§ alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour15,hour24),"fi","Iltap√§iv√§st√§ alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour16,hour24),"fi","Iltap√§iv√§st√§ alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour17,hour24),"fi","Iltap√§iv√§st√§ alkaen.");
 	REQUIRE(mode,var,ftime,WeatherPeriod(hour18,hour24),"fi","Illasta alkaen.");
 	REQUIRE(mode,var,ftime,WeatherPeriod(hour19,hour24),"fi","Illasta alkaen.");
 	REQUIRE(mode,var,ftime,WeatherPeriod(hour20,hour24),"fi","Illasta alkaen.");
 	REQUIRE(mode,var,ftime,WeatherPeriod(hour21,hour24),"fi","Illasta alkaen.");
-	REQUIRE(mode,var,ftime,WeatherPeriod(hour22,hour24),"fi","Yˆst‰ alkaen.");
-	REQUIRE(mode,var,ftime,WeatherPeriod(hour23,hour24),"fi","Yˆst‰ alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour22,hour24),"fi","Y√∂st√§ alkaen.");
+	REQUIRE(mode,var,ftime,WeatherPeriod(hour23,hour24),"fi","Y√∂st√§ alkaen.");
 	
 	TEST_PASSED();
   }
@@ -766,6 +768,12 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   using namespace PeriodPhraseFactoryTest;
 
   cout << endl

@@ -2,9 +2,12 @@
 #include "Delimiter.h"
 #include "NullDictionary.h"
 
+#include <newbase/NFmiSettings.h>
 #include <iostream>
 #include <stdexcept>
 #include <string>
+
+#include <boost/locale.hpp>
 
 using namespace std;
 
@@ -69,6 +72,12 @@ namespace DelimiterTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   cout << endl
 	   << "Delimiter tester" << endl
 	   << "================" << endl;

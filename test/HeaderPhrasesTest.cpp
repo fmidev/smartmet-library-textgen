@@ -3,9 +3,13 @@
 #include "DictionaryFactory.h"
 #include "Phrase.h"
 
+#include <newbase/NFmiSettings.h>
+
 #include <iostream>
 #include <stdexcept>
 #include <string>
+
+#include <boost/locale.hpp>
 
 using namespace std;
 using namespace boost;
@@ -143,15 +147,15 @@ namespace HeaderPhrasesTest
 
 	require("alkavan");
 
-	require("2-vuorokauden s‰‰","kahden vuorokauden s‰‰");
-	require("3-vuorokauden s‰‰","kolmen vuorokauden s‰‰");
-	require("4-vuorokauden s‰‰","nelj‰n vuorokauden s‰‰");
-	require("5-vuorokauden s‰‰","viiden vuorokauden s‰‰");
-	require("6-vuorokauden s‰‰","kuuden vuorokauden s‰‰");
-	require("7-vuorokauden s‰‰","seitsem‰n vuorokauden s‰‰");
-	require("8-vuorokauden s‰‰","kahdeksan vuorokauden s‰‰");
-	require("9-vuorokauden s‰‰","yhdeks‰n vuorokauden s‰‰");
-	require("10-vuorokauden s‰‰","kymmenen vuorokauden s‰‰");
+	require("2-vuorokauden saa","kahden vuorokauden s√§√§");
+	require("3-vuorokauden saa","kolmen vuorokauden s√§√§");
+	require("4-vuorokauden saa","nelj√§n vuorokauden s√§√§");
+	require("5-vuorokauden saa","viiden vuorokauden s√§√§");
+	require("6-vuorokauden saa","kuuden vuorokauden s√§√§");
+	require("7-vuorokauden saa","seitsem√§n vuorokauden s√§√§");
+	require("8-vuorokauden saa","kahdeksan vuorokauden s√§√§");
+	require("9-vuorokauden saa","yhdeks√§n vuorokauden s√§√§");
+	require("10-vuorokauden saa","kymmenen vuorokauden s√§√§");
 
 	TEST_PASSED();
   }
@@ -164,7 +168,6 @@ namespace HeaderPhrasesTest
 
   void header_report_area()
   {
-	require("s‰‰ennuste");
 	require("kello");
 	require("o'clock","");
 	
@@ -177,19 +180,19 @@ namespace HeaderPhrasesTest
 	require("7-na","sunnuntaina");
 
 	require("aland:lle","Ahvenanmaalle");
-	require("etela-karjala:lle","Etel‰-Karjalaan");
-	require("etela-pohjanmaa:lle","Etel‰-Pohjanmaalle");
-	require("etela-savo:lle","Etel‰-Savoon");
-	require("hame:lle","H‰meeseen");
+	require("etela-karjala:lle","Etel√§-Karjalaan");
+	require("etela-pohjanmaa:lle","Etel√§-Pohjanmaalle");
+	require("etela-savo:lle","Etel√§-Savoon");
+	require("hame:lle","H√§meeseen");
 	require("kainuu:lle","Kainuuseen");
 	require("keski-pohjanmaa:lle","Keski-Pohjanmaalle");
 	require("keski-suomi:lle","Keski-Suomeen");
 	require("koillismaa:lle","Koillismaalle");
 	require("kymenlaakso:lle","Kymenlaaksoon");
-	require("lansi-lappi:lle","L‰nsi-Lappiin");
+	require("lansi-lappi:lle","L√§nsi-Lappiin");
 	require("nyland:lle","Uudellemaalle");
 	require("osterbotten:lle","Pohjanmaalle");
-	require("paijat-hame:lle","P‰ij‰t-H‰meeseen");
+	require("paijat-hame:lle","P√§ij√§t-H√§meeseen");
 	require("pirkanmaa:lle","Pirkanmaalle");
 	require("pohjois-karjala:lle","Pohjois-Karjalaan");
 	require("pohjois-lappi:lle","Pohjois-Lappiin");
@@ -199,20 +202,20 @@ namespace HeaderPhrasesTest
 	require("uusimaa:lle","Uudellemaalle");
 	require("varsinais-suomi:lle","Varsinais-Suomeen");
 
-	require("tiepiiri-hame:lle","H‰meen tiepiiriin");
+	require("tiepiiri-hame:lle","H√§meen tiepiiriin");
 	require("tiepiiri-kaakkois-lappi:lle","Kaakkois-Lappiin");
 	require("tiepiiri-kaakkois-suomi:lle","Kaakkois-Suomen tiepiiriin");
-	require("tiepiiri-kasivarsi:lle","K‰sivarteen");
+	require("tiepiiri-kasivarsi:lle","K√§sivarteen");
 	require("tiepiiri-keski-lappi:lle","Keski-Lappiin");
 	require("tiepiiri-keski-suomi:lle","Keski-Suomen tiepiiriin");
 	require("tiepiiri-lounais-lappi:lle","Lounais-Lappiin");
-	require("tiepiiri-oulu-ita:lle","Oulun tiepiirin it‰osaan");
-	require("tiepiiri-oulu-lansi:lle","Oulun tiepiirin l‰nsiosaan");
+	require("tiepiiri-oulu-ita:lle","Oulun tiepiirin it√§osaan");
+	require("tiepiiri-oulu-lansi:lle","Oulun tiepiirin l√§nsiosaan");
 	require("tiepiiri-savo-karjala:lle","Savo-Karjalan tiepiiriin");
 	require("tiepiiri-turku:lle","Turun tiepiiriin");
 	require("tiepiiri-uusimaa:lle","Uudenmaan tiepiiriin");
 	require("tiepiiri-vaasa:lle","Vaasan tiepiiriin");
-	require("tiepiiri-yla-lappi:lle","Yl‰-Lappiin");
+	require("tiepiiri-yla-lappi:lle","Yl√§-Lappiin");
 
 	TEST_PASSED();
   }
@@ -244,6 +247,12 @@ namespace HeaderPhrasesTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   cout << endl
 	   << "HeaderFactory requirements" << endl
 	   << "==========================" << endl;

@@ -2,10 +2,14 @@
 #include "NullDictionary.h"
 #include "Integer.h"
 
+#include <newbase/NFmiSettings.h>
+
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
 #include <string>
+
+#include <boost/locale.hpp>
 
 using namespace std;
 
@@ -71,6 +75,12 @@ namespace IntegerTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   cout << endl
 	   << "Integer tester" << endl
 	   << "==============" << endl;

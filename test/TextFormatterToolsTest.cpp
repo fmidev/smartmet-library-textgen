@@ -12,6 +12,8 @@
 #include <stdexcept>
 #include <string>
 
+#include <boost/locale.hpp>
+
 using namespace std;
 using namespace boost;
 using namespace TextGen;
@@ -29,19 +31,19 @@ namespace TextFormatterToolsTest
   void capitalize()
   {
 	string tmp = "testi 1";
-	TextFormatterTools::capitalize(tmp);
-	if(tmp != "Testi 1")
-	  TEST_FAILED("Failed to capitalize 'testi 1'");
+	string res = TextFormatterTools::capitalize(tmp);
+	if(res != "Testi 1")
+	  TEST_FAILED("Failed to capitalize 'testi 1', got "+res);
 
 	tmp = "testi 2";
-	TextFormatterTools::capitalize(tmp);
-	if(tmp != "Testi 2")
-	  TEST_FAILED("Failed to handle 'Testi 2'");
+	res = TextFormatterTools::capitalize(tmp);
+	if(res != "Testi 2")
+	  TEST_FAILED("Failed to handle 'Testi 2', got "+res);
 
-	tmp = "‰ht‰ri";
-	TextFormatterTools::capitalize(tmp);
-	if(tmp != "ƒht‰ri")
-	  TEST_FAILED("Failed to capitalize '‰ht‰ri'");
+	tmp = "√§ht√§ri";
+	res = TextFormatterTools::capitalize(tmp);
+	if(res != "√Ñht√§ri")
+	  TEST_FAILED("Failed to capitalize '√§ht√§ri', got "+res);
 
 	TEST_PASSED();
 
@@ -86,21 +88,21 @@ namespace TextFormatterToolsTest
 	// Test 1: normal case
 	{
 	  Sentence s;
-	  s << "l‰mpˆtila" << "on" << "[1] asteen paikkeilla" << TextGen::Integer(10);
+	  s << "l√§mp√∂tila" << "on" << "[1] asteen paikkeilla" << TextGen::Integer(10);
 
 	  tmp = TextFormatterTools::realize(s.begin(),s.end(),formatter," ","");
-	  if(tmp != "l‰mpˆtila on 10 asteen paikkeilla")
+	  if(tmp != "l√§mp√∂tila on 10 asteen paikkeilla")
 		TEST_FAILED("Test 1 failed: " + tmp);
 	}
 
 	// Test 2: normal case with 2 values
 	{
 	  Sentence s;
-	  s << "l‰mpˆtila" << "on" << "[1] viiva [2] astetta"
+	  s << "l√§mp√∂tila" << "on" << "[1] viiva [2] astetta"
 		<< TextGen::Integer(10) << TextGen::Integer(15);	  
 
 	  tmp = TextFormatterTools::realize(s.begin(),s.end(),formatter," ","");
-	  if(tmp != "l‰mpˆtila on 10 viiva 15 astetta")
+	  if(tmp != "l√§mp√∂tila on 10 viiva 15 astetta")
 		TEST_FAILED("Test 2 failed: " + tmp);
 	}
 
@@ -110,11 +112,11 @@ namespace TextFormatterToolsTest
 	  NFmiSettings::Set("textgen::units::celsius::format","phrase");
 
 	  Sentence s;
-	  s << "l‰mpˆtila" << "on noin" << "[1] [2]"
+	  s << "l√§mp√∂tila" << "on noin" << "[1] [2]"
 		<< TextGen::Integer(10) << *UnitFactory::create(DegreesCelsius);
 
 	  tmp = TextFormatterTools::realize(s.begin(),s.end(),formatter," ","");
-	  if(tmp != "l‰mpˆtila on noin 10 astetta")
+	  if(tmp != "l√§mp√∂tila on noin 10 astetta")
 		TEST_FAILED("Test 3 failed: " + tmp);
 
 	}
@@ -124,11 +126,11 @@ namespace TextFormatterToolsTest
 	  NFmiSettings::Set("textgen::units::celsius::format","SI");
 
 	  Sentence s;
-	  s << "l‰mpˆtila" << "on noin" << "[1] [2]"
+	  s << "l√§mp√∂tila" << "on noin" << "[1] [2]"
 		<< TextGen::Integer(10) << *UnitFactory::create(DegreesCelsius);
 
 	  tmp = TextFormatterTools::realize(s.begin(),s.end(),formatter," ","");
-	  if(tmp != "l‰mpˆtila on noin 10∞C")
+	  if(tmp != "l√§mp√∂tila on noin 10¬∞C")
 		TEST_FAILED("Test 4 failed: " + tmp);
 
 	}
@@ -165,6 +167,12 @@ namespace TextFormatterToolsTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   using namespace TextFormatterToolsTest;
 
   cout << endl

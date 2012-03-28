@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 
+#include <boost/locale.hpp>
+
 using namespace std;
 
 namespace FileDictionaryTest
@@ -123,8 +125,8 @@ namespace FileDictionaryTest
 	dict.init("fi");
 	if(dict.contains("foobar"))
 	  TEST_FAILED("contains(foobar) should have failed");
-	if(!dict.contains("s‰‰"))
-	  TEST_FAILED("contains(s‰‰) should have succeeded");
+	if(!dict.contains("sama"))
+	  TEST_FAILED("contains(sama) should have succeeded");
 
 	TEST_PASSED();
   }
@@ -151,12 +153,12 @@ namespace FileDictionaryTest
 	  }
 	catch(const TextGenError & e) { }
 
-	if(dict.find("s‰‰") != "s‰‰")
-	  TEST_FAILED("find(s‰‰) should have returned s‰‰");
+	if(dict.find("sama") != "sama")
+	  TEST_FAILED("find(sama) should have returned sama");
 
 	dict.init("en");
-	if(dict.find("s‰‰") != "the weather")
-	  TEST_FAILED("find(s‰‰) should have returned the weather");
+	if(dict.find("sama") != "the same")
+	  TEST_FAILED("find(sama) should have returned the same");
 
 	TEST_PASSED();
   }
@@ -186,20 +188,6 @@ namespace FileDictionaryTest
 	TEST_PASSED();
   }
 
-  void latvia()
-  {
-	using namespace TextGen;
-	NFmiSettings::Set("textgen::filedictionaries",".");
-	FileDictionary dict;
-	dict.init("fi");
-
-	if(!dict.contains("5- ja 6-valista tuulta"))
-	  TEST_FAILED("contains(5- ja 67-valista tuulta) should have passed");
-
-	TEST_PASSED();
-
-  }
-
 
   //! The actual test driver
   class tests : public tframe::tests
@@ -221,7 +209,6 @@ namespace FileDictionaryTest
 	  TEST(contains);
 	  TEST(find);
 	  TEST(insert);
-	  TEST(latvia);
 	}
 
   }; // class tests
@@ -231,6 +218,12 @@ namespace FileDictionaryTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   cout << endl
 	   << "FileDictionary tester" << endl
 	   << "=====================" << endl;

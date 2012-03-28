@@ -13,6 +13,8 @@
 #include <stdexcept>
 #include <string>
 
+#include <boost/locale.hpp>
+
 using namespace std;
 using namespace boost;
 
@@ -95,7 +97,7 @@ namespace HeaderFactoryTest
 	result = require("fi",area,period1,var,"Odotettavissa maanantaiaamuun asti");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period1,var,"Utsikter till mÂndag morgon");
+	result = require("sv",area,period1,var,"Utsikter till m√•ndag morgon");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period1,var,"Expected weather until Monday morning");
@@ -104,7 +106,7 @@ namespace HeaderFactoryTest
 	result = require("fi",area,period2,var,"Odotettavissa maanantai-iltaan asti");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period2,var,"Utsikter till mÂndag kv‰ll");
+	result = require("sv",area,period2,var,"Utsikter till m√•ndag kv√§ll");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period2,var,"Expected weather until Monday evening");
@@ -135,7 +137,7 @@ namespace HeaderFactoryTest
 	result = require("fi",area,period1,var,"Odotettavissa sunnuntaiaamusta maanantaiaamuun");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period1,var,"Utsikter frÂn sˆndag morgon till mÂndag morgon");
+	result = require("sv",area,period1,var,"Utsikter fr√•n och med s√∂ndag morgon till m√•ndag morgon");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period1,var,"Expected weather from Sunday morning until Monday morning");
@@ -144,7 +146,7 @@ namespace HeaderFactoryTest
 	result = require("fi",area,period2,var,"Odotettavissa sunnuntaiaamusta maanantai-iltaan");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period2,var,"Utsikter frÂn sˆndag morgon till mÂndag kv‰ll");
+	result = require("sv",area,period2,var,"Utsikter fr√•n och med s√∂ndag morgon till m√•ndag kv√§ll");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period2,var,"Expected weather from Sunday morning until Monday evening");
@@ -171,10 +173,10 @@ namespace HeaderFactoryTest
 
 	string result;
 
-	result = require("fi",area,period,var,"Sunnuntaiaamusta alkavan kahden vuorokauden s‰‰");
+	result = require("fi",area,period,var,"Sunnuntaiaamusta alkavan kahden vuorokauden s√§√§");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"FrÂn sˆndag morgon fˆr de fˆljande tvÂ dygnen");
+	result = require("sv",area,period,var,"Fr√•n och med s√∂ndag morgon f√∂r de f√∂ljande tv√• dygnen");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period,var,"From Sunday morning for the next two days");
@@ -201,10 +203,10 @@ namespace HeaderFactoryTest
 
 	string result;
 
-	result = require("fi",area,period,var,"S‰‰ennuste Uudellemaalle sunnuntaina kello 6");
+	result = require("fi",area,period,var,"S√§√§ennuste Uudellemaalle sunnuntaina kello 6");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"V‰derrapport fˆr Nyland sˆndag klockan 6");
+	result = require("sv",area,period,var,"V√§derrapport f√∂r Nyland s√∂ndag klockan 6");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period,var,"Weather report for Uusimaa on Sunday 6 o'clock");
@@ -231,10 +233,10 @@ namespace HeaderFactoryTest
 
 	string result;
 
-	result = require("fi",area,period,var,"S‰‰ennuste sunnuntaina kello 6");
+	result = require("fi",area,period,var,"S√§√§ennuste sunnuntaina kello 6");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"V‰derrapport sˆndag klockan 6");
+	result = require("sv",area,period,var,"V√§derrapport s√∂ndag klockan 6");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period,var,"Weather report on Sunday 6 o'clock");
@@ -295,7 +297,7 @@ namespace HeaderFactoryTest
 	result = require("fi",area,period,var,"Odotettavissa aamulla");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"Utsikter pÂ morgonen");
+	result = require("sv",area,period,var,"Utsikter p√• morgonen");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period,var,"Expected weather in the morning");
@@ -306,7 +308,7 @@ namespace HeaderFactoryTest
 	result = require("fi",area,period,var,"Odotettavissa sunnuntaina aamulla");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"Utsikter pÂ sˆndag morgonen");
+	result = require("sv",area,period,var,"Utsikter p√• s√∂ndag morgonen");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period,var,"Expected weather on Sunday morning");
@@ -334,10 +336,10 @@ namespace HeaderFactoryTest
 
 	string result;
 
-	result = require("fi",area,period,var,"Odotettavissa aamup‰iv‰ll‰");
+	result = require("fi",area,period,var,"Odotettavissa aamup√§iv√§ll√§");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"Utsikter pÂ fˆrmiddagen");
+	result = require("sv",area,period,var,"Utsikter p√• f√∂rmiddagen");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period,var,"Expected weather in the forenoon");
@@ -345,10 +347,10 @@ namespace HeaderFactoryTest
 	
 	NFmiSettings::Set(var+"::weekdays","true");
 
-	result = require("fi",area,period,var,"Odotettavissa sunnuntaina aamup‰iv‰ll‰");
+	result = require("fi",area,period,var,"Odotettavissa sunnuntaina aamup√§iv√§ll√§");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"Utsikter pÂ sˆndag fˆrmiddagen");
+	result = require("sv",area,period,var,"Utsikter p√• s√∂ndag f√∂rmiddagen");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period,var,"Expected weather on Sunday forenoon");
@@ -376,10 +378,10 @@ namespace HeaderFactoryTest
 
 	string result;
 
-	result = require("fi",area,period,var,"Odotettavissa iltap‰iv‰ll‰");
+	result = require("fi",area,period,var,"Odotettavissa iltap√§iv√§ll√§");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"Utsikter pÂ eftermiddagen");
+	result = require("sv",area,period,var,"Utsikter p√• eftermiddagen");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period,var,"Expected weather in the afternoon");
@@ -387,10 +389,10 @@ namespace HeaderFactoryTest
 	
 	NFmiSettings::Set(var+"::weekdays","true");
 
-	result = require("fi",area,period,var,"Odotettavissa sunnuntaina iltap‰iv‰ll‰");
+	result = require("fi",area,period,var,"Odotettavissa sunnuntaina iltap√§iv√§ll√§");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"Utsikter pÂ sˆndag eftermiddagen");
+	result = require("sv",area,period,var,"Utsikter p√• s√∂ndag eftermiddagen");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period,var,"Expected weather on Sunday afternoon");
@@ -421,7 +423,7 @@ namespace HeaderFactoryTest
 	result = require("fi",area,period,var,"Odotettavissa illalla");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"Utsikter pÂ kv‰llen");
+	result = require("sv",area,period,var,"Utsikter p√• kv√§llen");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period,var,"Expected weather in the evening");
@@ -432,7 +434,7 @@ namespace HeaderFactoryTest
 	result = require("fi",area,period,var,"Odotettavissa sunnuntaina illalla");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"Utsikter pÂ sˆndag kv‰llen");
+	result = require("sv",area,period,var,"Utsikter p√• s√∂ndag kv√§llen");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period,var,"Expected weather on Sunday evening");
@@ -474,7 +476,7 @@ namespace HeaderFactoryTest
 	result = require("fi",area,period,var,"Odotettavissa sunnuntaina kello 6-12");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
-	result = require("sv",area,period,var,"Utsikter pÂ sˆndagen klockan 6-12");
+	result = require("sv",area,period,var,"Utsikter p√• s√∂ndagen klockan 6-12");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 
 	result = require("en",area,period,var,"Expected weather on Sunday 6-12 o'clock");
@@ -521,6 +523,12 @@ namespace HeaderFactoryTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   using namespace HeaderFactoryTest;
 
   cout << endl

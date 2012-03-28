@@ -2,9 +2,13 @@
 #include "DictionaryFactory.h"
 #include "Phrase.h"
 
+#include <newbase/NFmiSettings.h>
+
 #include <iostream>
 #include <stdexcept>
 #include <string>
+
+#include <boost/locale.hpp>
 
 using namespace std;
 
@@ -42,12 +46,12 @@ namespace PhraseTest
 	shared_ptr<Dictionary> english(DictionaryFactory::create("mysql"));
 	english->init("en");
 	
-	Phrase s1("lämpötila");;
+	Phrase s1("lampotila");;
 	if(s1.realize(*english) != "temperature")
-	  TEST_FAILED("realization of lämpötila in English failed");
+	  TEST_FAILED("realization of lampÃ¶tila in English failed");
 
-	if(s1.realize(*finnish) != "lämpötila")
-	  TEST_FAILED("realization of lämpötila in Finnish failed");
+	if(s1.realize(*finnish) != "lÃ¤mpÃ¶tila")
+	  TEST_FAILED("realization of lampÃ¶tila in Finnish failed");
 
 	TEST_PASSED();
 
@@ -76,6 +80,12 @@ namespace PhraseTest
 
 int main(void)
 {
+  boost::locale::generator generator;
+  std::locale::global(generator(""));
+
+  NFmiSettings::Init();
+  NFmiSettings::Set("textgen::database","textgen2");
+
   cout << endl
 	   << "Phrase tester" << endl
 	   << "=============" << endl;

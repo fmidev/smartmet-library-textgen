@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 
+#include <boost/locale.hpp>
+
 using namespace std;
 using namespace boost;
 
