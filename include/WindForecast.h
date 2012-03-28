@@ -292,7 +292,7 @@ using namespace WindStoryTools;
 		theWindMaximum(windMaximum),
 		theWindDirection(windDirection),
 		theGustSpeed(gustSpeed),
-		theEqualizedMedianWindSpeed(windSpeedMedian),
+		theEqualizedMedianWind(windSpeedMedian),
 		theEqualizedMaximumWind(windMaximum),
 		theEqualizedWindDirection(theWindDirection)
 	{}
@@ -314,7 +314,7 @@ using namespace WindStoryTools;
 	WeatherResult theWindMaximum;
 	WeatherResult theWindDirection;
 	WeatherResult theGustSpeed;
-	WeatherResult theEqualizedMedianWindSpeed;
+	WeatherResult theEqualizedMedianWind;
 	WeatherResult theEqualizedMaximumWind;
 	WeatherResult theEqualizedWindDirection;
 	value_distribution_data_vector theWindSpeedDistribution;
@@ -577,6 +577,11 @@ using namespace WindStoryTools;
   bool wind_turns_to_the_same_direction(const float& direction1, 
 										const float& direction2,  
 										const float& direction3);
+ WeatherResult mean_wind_direction(const AnalysisSources& theSources,
+								   const WeatherArea& theArea,
+								   const WeatherPeriod& thePeriod,
+								   const string& theFakeVar);
+
 } // namespace TextGen
 
 #endif // TEXTGEN_WIND_FORECAST_H

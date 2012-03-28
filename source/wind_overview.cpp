@@ -95,7 +95,7 @@ namespace TextGen
 			  << "; mediaani: "
 			  << fixed << setprecision(4) << theWindDataItem.theWindSpeedMedian.value()
 			  << "; tasoitettu mediaani: "
-			  << fixed << setprecision(4) << theWindDataItem.theEqualizedMedianWindSpeed.value()
+			  << fixed << setprecision(4) << theWindDataItem.theEqualizedMedianWind.value()
 			  << "; ka,k-hajonta: ("
 			  << fixed << setprecision(4) << theWindDataItem.theWindSpeedMean.value()
 			  << ", "
@@ -237,7 +237,7 @@ namespace TextGen
 		  }
 		if(theColumnSelectionBitset.test(9))
 		  {
-			output_file	<< ", "	<< fixed << setprecision(4) << theWindDataItem.theEqualizedMedianWindSpeed.value();
+			output_file	<< ", "	<< fixed << setprecision(4) << theWindDataItem.theEqualizedMedianWind.value();
 		  }
 		if(theColumnSelectionBitset.test(8))
 		  {
@@ -441,7 +441,7 @@ namespace TextGen
 		if(theColumnSelectionBitset.test(9))
 		  {
 			output_file << "<td>";
-			output_file	<< fixed << setprecision(2) << theWindDataItem.theEqualizedMedianWindSpeed.value();
+			output_file	<< fixed << setprecision(2) << theWindDataItem.theEqualizedMedianWind.value();
 			output_file << "</td>" << endl;
 		  }
 		if(theColumnSelectionBitset.test(8))
@@ -996,6 +996,21 @@ namespace TextGen
 	  }
   }
 
+  WeatherResult mean_wind_direction(const AnalysisSources& theSources,
+									const WeatherArea& theArea,
+									const WeatherPeriod& thePeriod,
+									const string& theFakeVar)
+  {
+	GridForecaster forecaster;
+
+	return forecaster.analyze(theFakeVar,
+							  theSources,
+							  WindDirection,
+							  Mean,
+							  Mean,
+							  theArea,
+							  thePeriod);
+  }
 
   void populate_time_series(wo_story_params& storyParams)
   {
@@ -1046,7 +1061,7 @@ namespace TextGen
 								 weatherArea,
 								 dataItem.thePeriod);
 
-			dataItem.theEqualizedMedianWindSpeed = dataItem.theWindSpeedMedian;
+			dataItem.theEqualizedMedianWind = dataItem.theWindSpeedMedian;
 
 			dataItem.theWindMaximum =
 			  forecaster.analyze(storyParams.theVar+"::fake::wind::maximumwind",
@@ -1114,7 +1129,7 @@ namespace TextGen
 		equalizedDataIndex = equalizedWSIndexesMedian[0];
 		const WindDataItemUnit& dataItem = (*storyParams.theWindDataVector[equalizedDataIndex])(areaType);
 		storyParams.theWindSpeedVector.push_back(new WindSpeedPeriodDataItem(dataItem.thePeriod,
-																			 wind_speed_id(dataItem.theEqualizedMedianWindSpeed)));
+																			 wind_speed_id(dataItem.theEqualizedMedianWind)));
 		return;
 	  }
 
@@ -1122,14 +1137,14 @@ namespace TextGen
 	unsigned int periodEndEqualizedDataIndex = equalizedWSIndexesMedian[0];
 	const WindDataItemUnit& dataItemFirst = (*storyParams.theWindDataVector[periodStartEqualizedDataIndex])(areaType);
 
-	WindSpeedId previous_wind_speed_id(wind_speed_id(dataItemFirst.theEqualizedMedianWindSpeed));	  
+	WindSpeedId previous_wind_speed_id(wind_speed_id(dataItemFirst.theEqualizedMedianWind));
 
 	for(unsigned int i = 1; i < equalizedWSIndexesMedian.size(); i++)
 	  {
 		equalizedDataIndex = equalizedWSIndexesMedian[i];
 		const WindDataItemUnit& dataItemCurrent = (*storyParams.theWindDataVector[equalizedDataIndex])(areaType);
   
-		WindSpeedId current_wind_speed_id(wind_speed_id(dataItemCurrent.theEqualizedMedianWindSpeed));
+		WindSpeedId current_wind_speed_id(wind_speed_id(dataItemCurrent.theEqualizedMedianWind));
 		
 		if(current_wind_speed_id != previous_wind_speed_id)
 		  {
@@ -2824,11 +2839,27 @@ namespace TextGen
 	storyParams.theLog << "* STEP 2 *" << endl;
 	log_merged_wind_event_periods(storyParams);
 
- 	// 3) if wind direction doesn't change (e.g. itätuuli -> idän puoleinen tuuli), remove the KAANTYY-event
+ 	// 3) a) if wind direction doesn't change (e.g. itätuuli -> idän puoleinen tuuli), remove the KAANTYY-event
+	// b) merge successive periods when tuuli kaantyy and direction remains the same 
+	unsigned int previousMergedIndex(UINT_MAX);
 	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
 	  {
+		unsigned int previousPeriodIndex(previousMergedIndex == UINT_MAX ? i - 1 : previousMergedIndex);
 		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
-		
+		previousDataItem = storyParams.theMergedWindEventPeriodVector[previousPeriodIndex];
+
+		WindDirectionId currentWindDirectionId(get_wind_direction_id_at(storyParams,
+																		currentDataItem->thePeriod,
+																		storyParams.theVar));
+		WindDirectionId previousWindDirectionId(get_wind_direction_id_at(storyParams,
+																		 previousDataItem->thePeriod,
+																		 storyParams.theVar));
+
+		if(previousWindDirectionId == VAIHTELEVA &&
+		   currentWindDirectionId != VAIHTELEVA)
+		  continue;
+
+		bool merge = false;
 		if(currentDataItem->theWindEvent & TUULI_KAANTYY)
 		  {
 			if(same_direction(currentDataItem->thePeriodBeginDataItem.theEqualizedWindDirection,
@@ -2840,6 +2871,34 @@ namespace TextGen
 			  {
 				currentDataItem->theWindEvent = mask_wind_event(currentDataItem->theWindEvent, TUULI_KAANTYY);
 			  }
+			else if(previousDataItem->theWindEvent & TUULI_KAANTYY &&
+					same_direction(currentWindDirectionId,
+								   previousWindDirectionId,
+								   true))
+			  {
+				merge = true;
+			  }
+
+		  }
+
+		if(merge)
+		  {
+			// merge
+			re_create_merged_item(&previousDataItem,
+								  currentDataItem,
+								  WeatherPeriod(previousDataItem->thePeriod.localStartTime(),
+												currentDataItem->thePeriod.localEndTime()),
+								  storyParams);
+			
+			storyParams.theMergedWindEventPeriodVector[previousPeriodIndex] = previousDataItem;
+			
+			currentDataItem->theReportThisEventPeriodFlag = false;
+			
+			previousMergedIndex = previousPeriodIndex;
+		  }
+		else
+		  {
+			previousMergedIndex = UINT_MAX;
 		  }
 	  }
 	
@@ -2932,8 +2991,7 @@ namespace TextGen
 	storyParams.theLog << "* STEP 7 *" << endl;
 	log_merged_wind_event_periods(storyParams);
 
-
-	unsigned int previousMergedIndex(UINT_MAX);
+	previousMergedIndex = UINT_MAX;
 	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
 	  {
 		unsigned int previousPeriodIndex(previousMergedIndex == UINT_MAX ? i - 1 : previousMergedIndex);
@@ -3059,542 +3117,6 @@ namespace TextGen
 	storyParams.theLog << "* STEP 9 *" << endl;
 	log_merged_wind_event_periods(storyParams);
   }
-
-
-#ifdef LATER
-  void merge_fragment_periods_when_feasible(wo_story_params& storyParams)
-  {
-	WindEventPeriodDataItem* currentDataItem = 0;
-	WindEventPeriodDataItem* previousDataItem = 0;
-	WindEventPeriodDataItem* nextDataItem = 0;
-
-	// 1) remove overlapping hours when the period changes
-	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
-	  {
-		WeatherArea::Type areaType(storyParams.theArea.type());
-		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
-		NFmiTime periodBegTime(currentDataItem->thePeriod.localStartTime());
-		periodBegTime.ChangeByHours(1);
-		NFmiTime periodEndTime(currentDataItem->thePeriod.localEndTime());
-		WeatherPeriod period(periodBegTime, periodEndTime);
-		currentDataItem->thePeriod = period;
-
-		for(unsigned int k = 0; k < storyParams.theWindDataVector.size(); k++)
-		  {
-			if(currentDataItem->thePeriodBeginDataItem == ((*storyParams.theWindDataVector[k])(areaType)))
-			  {
-				if(k < storyParams.theWindDataVector.size() - 1)
-				  {
-					const WindDataItemUnit& newPeriodBeginDataItem = ((*storyParams.theWindDataVector[k+1])(areaType));
-					WindEventPeriodDataItem* pNewItem = new WindEventPeriodDataItem(currentDataItem->thePeriod,
-																					currentDataItem->theWindEvent,
-																					newPeriodBeginDataItem,
-																					currentDataItem->thePeriodEndDataItem);
-					delete currentDataItem;
-					storyParams.theMergedWindEventPeriodVector[i] = pNewItem;
-					currentDataItem = pNewItem;
-					
-					/*
-					cout << "pNewItem->thePeriod " 
-						 << pNewItem->thePeriod.localStartTime() 
-						 << "..."
-						 << pNewItem->thePeriod.localEndTime() << endl;
-
-					cout << "pNewItem->thePeriodBeginDataItem.thePeriod " 
-						 << pNewItem->thePeriodBeginDataItem.thePeriod.localStartTime() 
-						 << "..."
-						 << pNewItem->thePeriodBeginDataItem.thePeriod.localEndTime() << endl;
-					cout << "pNewItem->thePeriodEndDataItem.thePeriod " 
-						 << pNewItem->thePeriodEndDataItem.thePeriod.localStartTime() 
-						 << "..."
-						 << pNewItem->thePeriodEndDataItem.thePeriod.localEndTime() << endl;
-					*/
-
-					break;
-				  }
-			  }
-		  }
-	  }
-
-	remove_reduntant_periods(storyParams);
-
-	storyParams.theLog << "* STEP 1 *" << endl;
-	log_merged_wind_event_periods(storyParams);	
-
-	// first separate the weak wind periods (turn them to MISSING_WIND_EVENT periods)
-	for(unsigned int i = 0; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
-	  {
-		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
-
-		if(currentDataItem->theWindEvent & TUULI_HEIKKENEE ||
-		   currentDataItem->theWindEvent & TUULI_VOIMISTUU)
-		  {
-			WindEventPeriodDataItem* weakItem = find_weak_period(&currentDataItem, storyParams);
-			if(weakItem)
-			  {
-				// update the new pointer
-				storyParams.theMergedWindEventPeriodVector[i] = currentDataItem;
-
-				vector<WindEventPeriodDataItem*>::iterator it = find(storyParams.theMergedWindEventPeriodVector.begin(),
-																	 storyParams.theMergedWindEventPeriodVector.end(),
-																	 currentDataItem);
-				if(weakItem->thePeriod.localStartTime() > currentDataItem->thePeriod.localStartTime())
-				  {
-					// insert after
-					if(it == storyParams.theMergedWindEventPeriodVector.end())
-					  {
-						storyParams.theMergedWindEventPeriodVector.push_back(weakItem);
-					  }
-					else
-					  {
-						it++;
-						storyParams.theMergedWindEventPeriodVector.insert(it, weakItem);
-					  }
-				  }
-				else
-				  {
-					storyParams.theMergedWindEventPeriodVector.insert(it, weakItem);
-				  }
-				i++;
-			  }
-		  }
-	  }
-
-	remove_reduntant_periods(storyParams);
-	storyParams.theLog << "* STEP 1.1 *" << endl;
-	log_merged_wind_event_periods(storyParams);
-
- 	// 2) if wind direction doesn't change (e.g. itätuuli -> idän puoleinen tuuli), remove the KAANTYY-event
-	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
-	  {
-		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
-		
-		if(currentDataItem->theWindEvent & TUULI_KAANTYY)
-		  {
-			if(same_direction(currentDataItem->thePeriodBeginDataItem.theEqualizedWindDirection,
-							  currentDataItem->thePeriodEndDataItem.theEqualizedWindDirection,
-							  currentDataItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
-							  currentDataItem->thePeriodEndDataItem.theEqualizedMaximumWind,
-							  storyParams.theVar,
-							  true))
-			  {
-				currentDataItem->theWindEvent = mask_wind_event(currentDataItem->theWindEvent, TUULI_KAANTYY);
-			  }
-		  }
-	  }
-	
-	remove_reduntant_periods(storyParams);
-	
-	storyParams.theLog << "* STEP 2 *" << endl;
-	log_merged_wind_event_periods(storyParams);
-
- 	// 3) if the wind is weak in current and previous periods, no changes in speed or direction are reported
-	for(unsigned int i = 0; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
-	  {
-		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
-		
-		  int lowerLimitCurrent(0);
-		  int upperLimitCurrent(0);
-
-		  get_wind_speed_interval(currentDataItem->thePeriod,
-								  storyParams.theArea,
-								  storyParams.theWindDataVector,
-								  lowerLimitCurrent,
-								  upperLimitCurrent);
-
-		  if(upperLimitCurrent <= KOHTALAINEN_UPPER_LIMIT-2.0)
-			{
-			  currentDataItem->theWindEvent = MISSING_WIND_EVENT;
-			  currentDataItem->theWeakWindPeriodFlag = true;
-			}
-	  }
-	
-	remove_reduntant_periods(storyParams);
-	
-	storyParams.theLog << "* STEP 3 *" << endl;
-	log_merged_wind_event_periods(storyParams);
-
-
-	// 4) Remove short MISSING_WIND_EVENT period from the beginning
-	if(storyParams.theMergedWindEventPeriodVector.size() > 1)
-	  {
-		previousDataItem = storyParams.theMergedWindEventPeriodVector[0];
-		currentDataItem = storyParams.theMergedWindEventPeriodVector[1];
-
-		if(currentDataItem->theWindEvent != MISSING_WIND_EVENT &&
-		   previousDataItem->theWindEvent == MISSING_WIND_EVENT &&
-		   (get_period_length(previousDataItem->thePeriod) <= 2))
-		  {
-			re_create_merged_item(&currentDataItem,
-								  previousDataItem,
-								  WeatherPeriod(previousDataItem->thePeriod.localStartTime(),
-												currentDataItem->thePeriod.localEndTime()),
-								  storyParams);
-			storyParams.theMergedWindEventPeriodVector[1] = currentDataItem;
-
-			previousDataItem->theReportThisEventPeriodFlag = false;
-		  }
-		remove_reduntant_periods(storyParams);
-		
-		storyParams.theLog << "* STEP 4 *" << endl;
-		log_merged_wind_event_periods(storyParams);
-	  }
-
-	// 5) if wind speed weakens/strengthens, check that weakening/strengthening is big enough
-	for(unsigned int i = 0; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
-	  {
-		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
-
-		if(currentDataItem->theWindEvent & TUULI_HEIKKENEE || currentDataItem->theWindEvent & TUULI_VOIMISTUU)
-		  {
-			bool windSpeedDifferEnough = wind_speed_differ_enough(storyParams.theSources,
-																  storyParams.theArea,
-																  currentDataItem->thePeriod,
-																  storyParams.theVar,
-																  storyParams.theWindDataVector);
-			if(!windSpeedDifferEnough)
-			  {
-				unsigned short mask(currentDataItem->theWindEvent & TUULI_HEIKKENEE ? TUULI_HEIKKENEE : TUULI_VOIMISTUU);
-				unsigned short value = currentDataItem->theWindEvent;
-				value &= (~mask);
-				currentDataItem->theWindEvent = static_cast<WindEventId>(value);
-			  }
-			  
-		  }
-	  }
-	remove_reduntant_periods(storyParams);
-
-	storyParams.theLog << "* STEP 5 *" << endl;
-	log_merged_wind_event_periods(storyParams);
-
-	// 6) If previous event is TUULI_KAANTYY, but it stays the same merge it to current period
-	// ARE 22.02.2012: this has been handled in STEP 2
-	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
-	  {
-		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
-		previousDataItem = storyParams.theMergedWindEventPeriodVector[i-1];
-
-		if(previousDataItem->theWindEvent == TUULI_KAANTYY &&
-		   wind_direction_id(previousDataItem->thePeriodBeginDataItem.theEqualizedWindDirection, 
-							 previousDataItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
-							 storyParams.theVar) == wind_direction_id(previousDataItem->thePeriodEndDataItem.theEqualizedWindDirection, previousDataItem->thePeriodEndDataItem.theEqualizedMaximumWind, storyParams.theVar) &&
-		   get_period_length(previousDataItem->thePeriod) == 0)
-		  {
-			re_create_merged_item(&currentDataItem,
-								  previousDataItem,
-								  WeatherPeriod(previousDataItem->thePeriod.localStartTime(),
-												currentDataItem->thePeriod.localEndTime()),
-								  storyParams);
-			storyParams.theMergedWindEventPeriodVector[i] = currentDataItem;
-			
-			previousDataItem->theReportThisEventPeriodFlag = false;
-		  }		
-	  }
-
-	remove_reduntant_periods(storyParams);
-	storyParams.theLog << "* STEP 6 *" << endl;
-	log_merged_wind_event_periods(storyParams);	
-
-	// 7) merge short period to larger one if there is no change during short period)
-	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
-	  {
-		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
-		previousDataItem = storyParams.theMergedWindEventPeriodVector[i-1];
-
-		if(get_period_length(currentDataItem->thePeriod) <= 2)
-		  {
-			bool mergePeriods = false;
-
-			/*
-			if(currentDataItem->theWindEvent == TUULI_KAANTYY &&
-			   previousDataItem->theWindEvent == MISSING_WIND_EVENT)
-			  {
-				WindDirectionId directionBeg = static_cast<WindDirectionId>(direction16th(currentDataItem->thePeriodBeginDataItem.theEqualizedWindDirection));
-				WindDirectionId directionEnd = static_cast<WindDirectionId>(direction16th(currentDataItem->thePeriodEndDataItem.theEqualizedWindDirection));
-				mergePeriods = (directionBeg == directionEnd);
-			  }
-			else if((currentDataItem->theWindEvent == TUULI_VOIMISTUU ||
-					 currentDataItem->theWindEvent == TUULI_HEIKKENEE) &&
-					previousDataItem->theWindEvent == MISSING_WIND_EVENT)
-			  {
-				float maxWindBeg = currentDataItem->thePeriodBeginDataItem.theEqualizedMaximumWind;
-				float maxWindEnd = currentDataItem->thePeriodEndDataItem.theEqualizedMaximumWind;
-				
-				mergePeriods = (abs(maxWindEnd - maxWindBeg) < storyParams.theWindSpeedThreshold);
-			  }
-			*/
-			/*
-			if(((currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU &&
-					 previousDataItem->theWindEvent == TUULI_VOIMISTUU)||
-					(currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE &&
-					 previousDataItem->theWindEvent == TUULI_HEIKKENEE)) &&
-					get_period_length(currentDataItem->thePeriod) <= 2)
-			  {
-				mergePeriods = true;
-			  }
-			*/
-			if(mergePeriods)
-			  {
-				/*
-				WeatherPeriod mergedPeriod(previousDataItem->thePeriod.localStartTime(),
-										   currentDataItem->thePeriod.localEndTime());
-				previousDataItem->thePeriod = mergedPeriod;
-				*/
-				re_create_merged_item(&previousDataItem,
-									  currentDataItem,
-									  WeatherPeriod(previousDataItem->thePeriod.localStartTime(),
-													currentDataItem->thePeriod.localEndTime()),
-									  storyParams);
-				storyParams.theMergedWindEventPeriodVector[i-1] = previousDataItem;
-
-				currentDataItem->theReportThisEventPeriodFlag = false;
-				i++;
-			  }
-		  }
-	  }
-	remove_reduntant_periods(storyParams);
-
-	storyParams.theLog << "* STEP 7 *" << endl;
-	log_merged_wind_event_periods(storyParams);
-	
-	// 8) merge simple period events with composite period events
-	merge_simple_and_composite_period_events(storyParams);
-	remove_reduntant_periods(storyParams);
-
-	storyParams.theLog << "* STEP 8 *" << endl;
-	log_merged_wind_event_periods(storyParams);
-
-	unsigned int previousMergedIndex(UINT_MAX);
-	// 9) merge similar successive periods
-	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
-	  {
-		unsigned int previousPeriodIndex(previousMergedIndex == UINT_MAX ? i - 1 : previousMergedIndex);
-		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
-		previousDataItem = storyParams.theMergedWindEventPeriodVector[previousPeriodIndex];
-
-		/*
-		const WeatherResult& windDirectionPrevious(previousDataItem->thePeriodEndDataItem.theEqualizedWindDirection);
-		const WeatherResult& maxWindSpeedPrevious(previousDataItem->thePeriodEndDataItem.theEqualizedMaximumWind);
-		WindDirectionId windDirectionIdPrevious(wind_direction_id(windDirectionPrevious, 
-																  maxWindSpeedPrevious,
-																  storyParams.theVar));
-		*/
-		const WeatherResult& windDirectionCurrent(currentDataItem->thePeriodBeginDataItem.theEqualizedWindDirection);
-		const WeatherResult& maxWindSpeedCurrent(currentDataItem->thePeriodBeginDataItem.theEqualizedMaximumWind);
-		WindDirectionId windDirectionIdCurrent(wind_direction_id(windDirectionCurrent, 
-																 maxWindSpeedCurrent,
-																 storyParams.theVar));
-
-		if(/*(currentDataItem->theWindEvent == MISSING_WIND_EVENT &&
-			!currentDataItem->theWeakWindPeriodFlag &&
-			previousDataItem->theWindEvent == MISSING_WIND_EVENT &&
-			!((windDirectionIdCurrent == VAIHTELEVA || windDirectionIdPrevious == VAIHTELEVA) &&
-			windDirectionIdCurrent != windDirectionIdPrevious))*/
-		   (currentDataItem->theWindEvent == MISSING_WIND_EVENT &&
-			previousDataItem->theWindEvent == MISSING_WIND_EVENT) ||
-		   (currentDataItem->theWindEvent == TUULI_VOIMISTUU &&
-			previousDataItem->theWindEvent == TUULI_VOIMISTUU &&
-			windDirectionIdCurrent != VAIHTELEVA) ||
-		   (currentDataItem->theWindEvent == TUULI_HEIKKENEE &&
-			previousDataItem->theWindEvent == TUULI_HEIKKENEE &&
-			windDirectionIdCurrent != VAIHTELEVA) ||
-		   (currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI &&
-			previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI) ||
-		   (currentDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU &&
-			previousDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU) ||
-		   (currentDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE &&
-			previousDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE))
-		  {
-			/*
-			if((currentDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU &&
-				previousDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU) ||
-			   (currentDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE &&
-				previousDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE))
-			  {
-				const WeatherResult& prevDirectionBeg(previousDataItem->thePeriodBeginDataItem.theWindDirection);
-				const WeatherResult& prevDirectionEnd(previousDataItem->thePeriodEndDataItem.theWindDirection);
-
-				if(wind_direction_id(prevDirectionBeg, storyParams.theVar) == VAIHTELEVA)
-				  continue;
-
-				WindEventId windEvent(get_wind_direction_event(prevDirectionBeg,
-																 prevDirectionEnd,
-																 storyParams.theVar,
-																 storyParams.theWindDirectionThreshold));
-				if(windEvent != MISSING_WIND_DIRECTION_EVENT)
-				  continue;
-			  }
-			*/
-			re_create_merged_item(&previousDataItem,
-								  currentDataItem,
-								  WeatherPeriod(previousDataItem->thePeriod.localStartTime(),
-												currentDataItem->thePeriod.localEndTime()),
-								  storyParams);
-			storyParams.theMergedWindEventPeriodVector[previousPeriodIndex] = previousDataItem;
-
-			currentDataItem->theReportThisEventPeriodFlag = false;
-			previousMergedIndex = previousPeriodIndex;
-		  }
-		else
-		  {
-			previousMergedIndex = UINT_MAX;
-		  }
-	  }
-	remove_reduntant_periods(storyParams);
-	storyParams.theLog << "* STEP 9 *" << endl;
-	log_merged_wind_event_periods(storyParams);
-
-	// 10)
-	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size() - 1; i++)
-	  {
-		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
-		previousDataItem = storyParams.theMergedWindEventPeriodVector[i-1];
-		nextDataItem = storyParams.theMergedWindEventPeriodVector[i+1];
-
-		if(((currentDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE &&
-			previousDataItem->theWindEvent == TUULI_HEIKKENEE &&
-			nextDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU) ||
-		   (currentDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU &&
-			previousDataItem->theWindEvent == TUULI_VOIMISTUU &&
-			nextDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE)) &&
-		   get_period_length(currentDataItem->thePeriod) <= 2)
-		  {
-			/*
-			  WeatherPeriod mergedPeriod(previousDataItem->thePeriod.localStartTime(),
-			  currentDataItem->thePeriod.localEndTime());
-			  previousDataItem->thePeriod = mergedPeriod;
-			*/
-			re_create_merged_item(&previousDataItem,
-								  currentDataItem,
-								  WeatherPeriod(previousDataItem->thePeriod.localStartTime(),
-												currentDataItem->thePeriod.localEndTime()),
-								  storyParams);
-			storyParams.theMergedWindEventPeriodVector[i-1] = previousDataItem;
-			
-			currentDataItem->theReportThisEventPeriodFlag = false;
-			i++;
-		  }
-	  }
-	remove_reduntant_periods(storyParams);
-	storyParams.theLog << "* STEP 10 *" << endl;
-	log_merged_wind_event_periods(storyParams);
-
-	// 11) remove short periods when event is MISSING_WIND_EVENT
-	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
-	  {
-		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
-		previousDataItem = storyParams.theMergedWindEventPeriodVector[i-1];
-
-		if(currentDataItem->theWindEvent == MISSING_WIND_EVENT &&
-		   !currentDataItem->theWeakWindPeriodFlag &&
-		   ((get_period_length(currentDataItem->thePeriod) <= 2)))
-		  {
-			/*
-			WeatherPeriod mergedPeriod(previousDataItem->thePeriod.localStartTime(),
-									   currentDataItem->thePeriod.localEndTime());
-			previousDataItem->thePeriod = mergedPeriod;
-			*/
-
-			re_create_merged_item(&previousDataItem,
-								  currentDataItem,
-								  WeatherPeriod(previousDataItem->thePeriod.localStartTime(),
-												currentDataItem->thePeriod.localEndTime()),
-								  storyParams);
-			storyParams.theMergedWindEventPeriodVector[i-1] = previousDataItem;
-
-			currentDataItem->theReportThisEventPeriodFlag = false;
-			i++;
-		  }
-	  }
-
-	remove_reduntant_periods(storyParams);
-	storyParams.theLog << "* STEP 11 *" << endl;
-	log_merged_wind_event_periods(storyParams);	
-
-
-	// 12) if wind direction in the previous period is VAIHTELEVA, 
-	// the event on this period can not be TUULI_MUUTTUU_VAIHTELEVAKSI
-	// Or if previous event is TUULI_MUUTTUU_VAIHTELEVAKSI and the
-	// current event is MISSING_WIND_EVENT merge them
-	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
-	  {
-		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
-		previousDataItem = storyParams.theMergedWindEventPeriodVector[i-1];
-
-		WindDirectionId windDirectionIdPrevious(get_wind_direction_id_at(storyParams,
-																		 previousDataItem->thePeriod,
-																		 storyParams.theVar));
-
-		if((windDirectionIdPrevious == VAIHTELEVA &&
-			currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI) ||
-		   (currentDataItem->theWindEvent == MISSING_WIND_EVENT &&
-			previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI))
-		  {
-			re_create_merged_item(&previousDataItem,
-								  currentDataItem,
-								  WeatherPeriod(previousDataItem->thePeriod.localStartTime(),
-												currentDataItem->thePeriod.localEndTime()),
-								  storyParams);
-			if(windDirectionIdPrevious == VAIHTELEVA)
-			  previousDataItem->theWindEvent = MISSING_WIND_EVENT;
-			else
-			  previousDataItem->theWindEvent = TUULI_MUUTTUU_VAIHTELEVAKSI;
-
-			storyParams.theMergedWindEventPeriodVector[i-1] = previousDataItem;
-
-			currentDataItem->theReportThisEventPeriodFlag = false;
-			i++;
-		  }
-	  }
-
-	remove_reduntant_periods(storyParams);
-	storyParams.theLog << "* STEP 12 *" << endl;
-	log_merged_wind_event_periods(storyParams);	
-
-	// 13)
-	previousMergedIndex = UINT_MAX;
-	previousDataItem = 0;
-	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
-	  {
-		unsigned int previousPeriodIndex(previousMergedIndex == UINT_MAX ? i - 1 : previousMergedIndex);
-		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
-		previousDataItem = storyParams.theMergedWindEventPeriodVector[previousPeriodIndex];
-
-		if(currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI &&
-			previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI)
-		  {
-			re_create_merged_item(&previousDataItem,
-								  currentDataItem,
-								  WeatherPeriod(previousDataItem->thePeriod.localStartTime(),
-												currentDataItem->thePeriod.localEndTime()),
-								  storyParams);
-			storyParams.theMergedWindEventPeriodVector[previousPeriodIndex] = previousDataItem;
-
-			currentDataItem->theReportThisEventPeriodFlag = false;
-			previousMergedIndex = previousPeriodIndex;
-		  }
-		else
-		  {
-			previousMergedIndex = UINT_MAX;
-		  }
-	  }
-
-	remove_reduntant_periods(storyParams);
-	storyParams.theLog << "* STEP 13 *" << endl;
-	log_merged_wind_event_periods(storyParams);
-
-	// 14) 
-	merge_simple_and_composite_period_events(storyParams);
-	remove_reduntant_periods(storyParams);
-
-	storyParams.theLog << "* STEP 14 *" << endl;
-	log_merged_wind_event_periods(storyParams);
-
-
-
-  }
-
-#endif
 
   void find_out_wind_event_periods(wo_story_params& storyParams)
   {
@@ -3835,7 +3357,7 @@ namespace TextGen
 		  {
 			float yValue = (slope * (k-previousIndex)) + previousItem.theWindSpeedMedian.value();
 			WindDataItemUnit& item = (storyParams.theWindDataVector[k])->getDataItem(areaType);
-			item.theEqualizedMedianWindSpeed = WeatherResult(yValue, 0.0);
+			item.theEqualizedMedianWind = WeatherResult(yValue, 0.0);
 		  }		
 	  }
   }
@@ -4199,16 +3721,18 @@ namespace TextGen
 	// equalize the data
 	calculate_equalized_data(storyParams);
 
-	// find out the wind speed periods (for loggig purposes)
-	find_out_wind_speed_periods(storyParams);
-
-	// find out the wind direction periods of 16-direction compass (for loggig purposes)
-	find_out_wind_direction_periods(storyParams);
-
 	// find out wind event periods:
 	// event periods are used to produce the story
 	find_out_wind_event_periods(storyParams);
 	
+	log_raw_data(storyParams);
+
+#ifndef NDEBUG
+	// find out the wind speed periods (for logging purposes)
+	find_out_wind_speed_periods(storyParams);
+	// find out the wind direction periods of 16-direction compass (for logging purposes)
+	find_out_wind_direction_periods(storyParams);
+
 	// log functions
 	save_raw_data(storyParams);
 	log_raw_data(storyParams);
@@ -4219,6 +3743,7 @@ namespace TextGen
 	//	log_wind_events(storyParams);
 	log_wind_event_periods(storyParams);
 	//	log_merged_wind_event_periods(storyParams);
+#endif
 
 	WindForecast windForecast(storyParams);
 

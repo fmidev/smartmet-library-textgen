@@ -40,9 +40,12 @@
 #include <vector>
 #include <map>
 #include <iomanip>
+#include <cmath>
 
 namespace TextGen
 {
+
+#define PI 3.14159265
 
   using namespace Settings;
   using namespace WeatherAnalysis;
@@ -427,9 +430,7 @@ namespace TextGen
 		if(!sentence.empty())
 		  {
 			eventIdPrevious = eventId;
-			windDirectionIdPrevious = wind_direction_id(eventPeriodItem.thePeriodEndDataItem.theEqualizedWindDirection, 
-														eventPeriodItem.thePeriodEndDataItem.theEqualizedMaximumWind,
-														theParameters.theVar);
+			windDirectionIdPrevious = windDirectionIdAvg;
 		  }
 
 		paragraph << sentence;
@@ -828,16 +829,30 @@ namespace TextGen
 					sentence << reportIntermediateSpeed(speedEventPeriod);
 				  }
 
-				if(!sentence.empty())
+				std::string dayPhasePhraseWholePeriod;
+				std::string dayPhasePhrasePeriodEnd;
+				get_time_phrase_large(speedEventPeriod,
+									  false,
+									  theParameters.theVar, 
+									  dayPhasePhraseWholePeriod,
+									  false);
+
+				get_time_phrase_large(periodEnd,
+									  false,
+									  theParameters.theVar, 
+									  dayPhasePhrasePeriodEnd,
+									  false);
+
+				if(dayPhasePhraseWholePeriod == dayPhasePhrasePeriodEnd)
 				  {
-					sentence << Delimiter(COMMA_PUNCTUATION_MARK)
-							 << getTimePhrase(periodEnd, eventPeriodDataItem.theLongTermSpeedChangeFlag)
-							 << windSpeedIntervalSentence(periodEnd,
+					sentence << windSpeedIntervalSentence(periodEnd,
 														  USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
 				  }
 				else
 				  {
-					sentence << windSpeedIntervalSentence(periodEnd,
+					sentence << Delimiter(COMMA_PUNCTUATION_MARK)
+							 << getTimePhrase(periodEnd, eventPeriodDataItem.theLongTermSpeedChangeFlag)
+							 << windSpeedIntervalSentence(periodEnd,
 														  USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
 				  }
 			  }
@@ -847,11 +862,11 @@ namespace TextGen
 	  {
 		if(firstSentenceInTheStory)
 		  {
-
 			sentence  << Delimiter(COMMA_PUNCTUATION_MARK)
 					  << ALUKSI_WORD
-					  << windSpeedIntervalSentence(speedChangePeriods[0], 
+					  << windSpeedIntervalSentence(periodBeg,
 												   USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
+
 			useTimePhrase = true;
 		  }
 		
@@ -1431,12 +1446,13 @@ namespace TextGen
 											WeatherResult& lowerLimit,
 											WeatherResult& upperLimit) const
   {
- 	double medianValueSum = 0.0;
-	double medianErrorSum = 0.0;
-	unsigned int counter = 0;
+	// 	double medianValueSum = 0.0;
+	//	double medianErrorSum = 0.0;
+	//unsigned int counter = 0;
 
 	WindDataItemUnit dataItem = (*theParameters.theWindDataVector[0])(theParameters.theArea.type());
 	WindDataItemUnit dataItemMinMax = (*theParameters.theWindDataVector[0])(theParameters.theArea.type());
+	bool firstRound(true);
 
 	for(unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
 	  {
@@ -1444,33 +1460,36 @@ namespace TextGen
 		
 		if(is_inside(dataItem.thePeriod.localStartTime(), thePeriod))
 		  {
-			if (counter == 0 ||
-				dataItem.theWindMaximum.value() > 
-				dataItemMinMax.theWindMaximum.value())
+			if(firstRound)
 			  {
-				dataItemMinMax.theWindMaximum = dataItem.theWindMaximum;
+				dataItemMinMax.theEqualizedMaximumWind = dataItem.theEqualizedMaximumWind;
+				dataItemMinMax.theEqualizedMedianWind = dataItem.theEqualizedMedianWind;
+				firstRound = false;
+				continue;
 			  }
-			if (counter == 0 ||
-				dataItem.theWindSpeedMin.value() < 
-				dataItemMinMax.theWindSpeedMin.value())
+
+			if (dataItem.theEqualizedMaximumWind.value() > 
+				dataItemMinMax.theEqualizedMaximumWind.value())
 			  {
-				dataItemMinMax.theWindSpeedMin = dataItem.theWindSpeedMin;
+				dataItemMinMax.theEqualizedMaximumWind = dataItem.theEqualizedMaximumWind;
 			  }
-			
-			medianValueSum += dataItem.theWindSpeedMedian.value();
-			medianErrorSum += dataItem.theWindSpeedMedian.error();
-			counter++;
+			if (dataItem.theEqualizedMedianWind.value() < 
+				dataItemMinMax.theEqualizedMedianWind.value())
+			  {
+				dataItemMinMax.theEqualizedMedianWind = dataItem.theEqualizedMedianWind;
+			  }
 		  }
 	  }
 
-	if(counter == 0)
+	// invalid period ?
+	if(firstRound)
 	  return false;
 
 	// claculate average value of median time series
-	WeatherResult medianResult(medianValueSum / counter, medianErrorSum / counter);
+	//	WeatherResult medianResult(medianValueSum / counter, medianErrorSum / counter);
 
-	lowerLimit = medianResult;
-	upperLimit = dataItemMinMax.theWindMaximum;
+	lowerLimit = dataItemMinMax.theEqualizedMedianWind;
+	upperLimit = dataItemMinMax.theEqualizedMaximumWind;
 
 	return true;
   }
@@ -1817,6 +1836,36 @@ namespace TextGen
 	return make_pair(directionValue, directionId);
   }
 
+  // think this: average of direction
+  pair<WeatherResult, WindDirectionId> get_wind_direction_pair_at(const wo_story_params& theParameters,
+																  const WeatherPeriod& period,
+																  const string& var)
+  {
+	float speedSum(0.0);
+	float speedStdDevSum(0.0);
+	unsigned int n(0);
+	for(unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
+	  {
+		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
+		if(is_inside(item.thePeriod.localStartTime(), period))
+		  {			
+			speedSum += item.theEqualizedMaximumWind.value();
+			speedStdDevSum += item.theEqualizedMaximumWind.error();
+			n++;
+		  }
+	  }
+	WeatherResult resultSpeed(speedSum / n, speedStdDevSum / n);
+
+	WeatherResult resultDirection = mean_wind_direction(theParameters.theSources,
+														theParameters.theArea,
+														period,
+														var);
+
+	return make_pair(resultDirection, wind_direction_id(resultDirection, resultSpeed, var));
+  }
+
+
+  /*
   pair<WeatherResult, WindDirectionId> get_wind_direction_pair_at(const wo_story_params& theParameters,
 																  const WeatherPeriod& period,
 																  const string& var)
@@ -1829,9 +1878,14 @@ namespace TextGen
 	for(unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
 	  {
 		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
+		float directionAsFloat(item.theEqualizedWindDirection.value());
+		// special treatment for pohjoinen
+		if(directionAsFloat < 11.25)
+		  directionAsFloat += 360.0;
 		if(is_inside(item.thePeriod.localStartTime(), period))
 		  {
-			directionSum += item.theEqualizedWindDirection.value();
+			theParameters.theLog << "direction: " << item.theEqualizedWindDirection.value() << endl;
+			directionSum += directionAsFloat;
 			// if wind speed is > 7.0 m/s it can not be vaihteleva
 			// and if we merge it with possibly weaker wind periods
 			// we have to make sure that we dont end to the situation where
@@ -1853,12 +1907,19 @@ namespace TextGen
 	if(directionSum == 0.0)
 	  return make_pair(directionValue, directionId);
 
-	WeatherResult resultDirection(directionSum / n, directionStdDevSum / n);
+	float directionSumAsFloat(directionSum / n);
+	if(directionSumAsFloat > 360.0)
+	  directionSumAsFloat -= 360.0;
+	WeatherResult resultDirection(directionSumAsFloat, directionStdDevSum / n);
 	WeatherResult resultSpeed(speedSum / n, speedStdDevSum / n);
+
+	theParameters.theLog << "n: " << n << endl;
+	theParameters.theLog << "directionSum: " << directionSum << endl;
+	theParameters.theLog << "directionStdDevSum: " << directionStdDevSum << endl;
 
 	return make_pair(resultDirection, wind_direction_id(resultDirection, resultSpeed, var));
   }
-
+  */
 
   WeatherResult get_wind_direction_at(const wo_story_params& theParameters,
 									  const NFmiTime& pointOfTime,
@@ -2028,7 +2089,7 @@ namespace TextGen
 			
 		if(windDataItem.thePeriod.localStartTime() == pointOfTime)
 		  {
-			lowerLimit = static_cast<int>(round(windDataItem.theEqualizedMedianWindSpeed.value()));
+			lowerLimit = static_cast<int>(round(windDataItem.theEqualizedMedianWind.value()));
 			upperLimit = static_cast<int>(round(windDataItem.theEqualizedMaximumWind.value()));
 			found = true;
 			break;
@@ -2064,15 +2125,15 @@ namespace TextGen
 		  {
 			if(!firstMatchProcessed)
 			  {
-				minValue = windDataItem.theEqualizedMedianWindSpeed.value();
+				minValue = windDataItem.theEqualizedMedianWind.value();
 				maxValue = windDataItem.theEqualizedMaximumWind.value();
 				firstMatchProcessed = true;
 				found = true;
 			  }
 			else
 			  {
-				if(windDataItem.theEqualizedMedianWindSpeed.value() < minValue)
-				  minValue = windDataItem.theEqualizedMedianWindSpeed.value();
+				if(windDataItem.theEqualizedMedianWind.value() < minValue)
+				  minValue = windDataItem.theEqualizedMedianWind.value();
 				if(windDataItem.theEqualizedMaximumWind.value() > maxValue)
 				  maxValue = windDataItem.theEqualizedMaximumWind.value();
 				found = true;
