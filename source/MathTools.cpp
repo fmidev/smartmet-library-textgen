@@ -40,23 +40,6 @@ namespace MathTools
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Round the input value to the given floating point precision
-   *
-   * \param theValue The floating value
-   * \param thePrecision The precision >= 0
-   * \return The rounded value
-   */
-  // ----------------------------------------------------------------------
-
-  float to_float_precision(float theValue, float thePrecision)
-  {
-	if(thePrecision <=0)
-	  return round(theValue);
-	return round(theValue/thePrecision)*thePrecision;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
    * \brief Calculates Pearson coefficient
    *
    * \param theValueVector The vector containg double values
