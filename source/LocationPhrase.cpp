@@ -15,6 +15,7 @@
 #include "TextFormatter.h"
 #include "TextFormatterTools.h"
 #include <newbase/NFmiStringTools.h>
+#include <boost/locale.hpp>
 
 using namespace std;
 using namespace boost;
@@ -71,11 +72,19 @@ namespace TextGen
 
   const std::string LocationPhrase::realize(const Dictionary & theDictionary) const
   {
+	using namespace boost::locale;
+	using namespace boost::locale::boundary;
+
 	if(theDictionary.contains(itsLocation))
 	  return theDictionary.find(itsLocation);
 
+	generator gen;
+	return to_title(itsLocation);
+
+#if 0
 	// Capitalize space-separated words
 	vector<string> words = NFmiStringTools::Split(itsLocation," ");
+
 	for_each(words.begin(),words.end(),TextFormatterTools::capitalize);
 	string name = NFmiStringTools::Join(words," ");
 
@@ -83,8 +92,9 @@ namespace TextGen
 	words = NFmiStringTools::Split(name,"-");
 	for_each(words.begin(),words.end(),TextFormatterTools::capitalize);
 	name = NFmiStringTools::Join(words,"-");
-
 	return name;
+#endif
+
   }
 
   // ----------------------------------------------------------------------
