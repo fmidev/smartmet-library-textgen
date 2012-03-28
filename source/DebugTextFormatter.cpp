@@ -106,7 +106,7 @@ namespace TextGen
 											 *this,
 											 "",
 											 "\n");
-	TextFormatterTools::capitalize(ret);
+	ret = TextFormatterTools::capitalize(ret);
 	TextFormatterTools::punctuate(ret);
 	
 	return ret;
@@ -139,7 +139,7 @@ namespace TextGen
 											 theHeader.end(),
 											 *this,
 											 "","\n");
-	TextFormatterTools::capitalize(ret);
+	ret = TextFormatterTools::capitalize(ret);
 	if(!ret.empty())
 	  ret += ':';
 	
