@@ -293,7 +293,7 @@ using namespace std;
 
   part_of_the_day_id get_part_of_the_day_id(const NFmiTime& theTimestamp)
   {	
- 	if(theTimestamp.GetHour() >= AAMU_START&& theTimestamp.GetHour() <= AAMU_END)
+ 	if(theTimestamp.GetHour() >= AAMU_START && theTimestamp.GetHour() <= AAMU_END)
 	  return AAMU;
 	else if(theTimestamp.GetHour() >= AAMUPAIVA_START && theTimestamp.GetHour() <= AAMUPAIVA_END)
 	  return AAMUPAIVA;

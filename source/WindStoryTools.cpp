@@ -982,6 +982,102 @@ namespace TextGen
 	  return false;
 	}
 
+	bool same_direction(const WindDirectionId& theDirection1,
+						const WindDirectionId& theDirection2,
+						const bool& ignore_suuntainen)
+	{
+	  if(theDirection1 == theDirection2)
+		return true;
+
+	  bool retval = false;
+
+	  // e.g. "pohjoinen" and "pohjoisen puoleinen" are considered the same
+	  if(ignore_suuntainen)
+		{
+		  switch(theDirection1)
+			{
+			case POHJOINEN:
+			  retval = (theDirection2 == POHJOISEN_PUOLEINEN);
+			  break;
+			case POHJOISEN_PUOLEINEN:
+			  retval = (theDirection2 == POHJOINEN);
+			  break;
+			case POHJOINEN_KOILLINEN:
+			  //empty
+			  break;
+			case KOILLINEN:
+			  retval = (theDirection2 == KOILLISEN_PUOLEINEN);
+			  break;
+			case KOILLISEN_PUOLEINEN:
+			  retval = (theDirection2 == KOILLINEN);
+			  break;
+			case ITA_KOILLINEN:
+			  //empty
+			  break;
+			case ITA:
+			  retval = (theDirection2 == IDAN_PUOLEINEN);
+			  break;
+			case IDAN_PUOLEINEN:
+			  retval = (theDirection2 == ITA);
+			  break;
+			case ITA_KAAKKO:
+			  //empty
+			  break;
+			case KAAKKO:
+			  retval = (theDirection2 == KAAKON_PUOLEINEN);
+			  break;
+			case KAAKON_PUOLEINEN:
+			  retval = (theDirection2 == KAAKKO);
+			  break;
+			case ETELA_KAAKKO:
+			  //empty
+			  break;
+			case ETELA:
+			  retval = (theDirection2 == ETELAN_PUOLEINEN);
+			  break;
+			case ETELAN_PUOLEINEN:
+			  retval = (theDirection2 == ETELA);
+			  break;
+			case ETELA_LOUNAS:
+			  //empty
+			  break;
+			case LOUNAS:
+			  retval = (theDirection2 == LOUNAAN_PUOLEINEN);
+			  break;
+			case LOUNAAN_PUOLEINEN:
+			  retval = (theDirection2 == LOUNAS);
+			  break;
+			case LANSI_LOUNAS:
+			  //empty
+			  break;
+			case LANSI:
+			  retval = (theDirection2 == LANNEN_PUOLEINEN);
+			  break;
+			case LANNEN_PUOLEINEN:
+			  retval = (theDirection2 == LANSI);
+			  break;
+			case LANSI_LUODE:
+			  //empty
+			  break;
+			case LUODE:
+			  retval = (theDirection2 == LUOTEEN_PUOLEINEN);
+			  break;
+			case LUOTEEN_PUOLEINEN:
+			  retval = (theDirection2 == LUODE);
+			  break;
+			case POHJOINEN_LUODE:
+			  //empty
+			  break;
+			case VAIHTELEVA:
+			case MISSING_WIND_DIRECTION_ID:
+			  //empty
+			  break;
+			}
+		}
+
+	  return retval;
+	}
+
   } // namespace WindStoryTools
 } // namespace TextGen
 

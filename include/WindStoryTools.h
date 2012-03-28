@@ -55,35 +55,35 @@ namespace TextGen
 		HIRMUMYRSKY   // 32.5...
 	  };
 
-  enum WindDirectionId
-	{
-	  POHJOINEN = 0x1,
-	  POHJOINEN_KOILLINEN,
-	  KOILLINEN,
-	  ITA_KOILLINEN,
-	  ITA,
-	  ITA_KAAKKO,
-	  KAAKKO,
-	  ETELA_KAAKKO,
-	  ETELA,
-	  ETELA_LOUNAS,
-	  LOUNAS,
-	  LANSI_LOUNAS,
-	  LANSI,
-	  LANSI_LUODE,
-	  LUODE,
-	  POHJOINEN_LUODE,
-	  POHJOISEN_PUOLEINEN,
-	  KOILLISEN_PUOLEINEN,
-	  IDAN_PUOLEINEN,
-	  KAAKON_PUOLEINEN,
-	  ETELAN_PUOLEINEN,
-	  LOUNAAN_PUOLEINEN,
-	  LANNEN_PUOLEINEN,
-	  LUOTEEN_PUOLEINEN,
-	  VAIHTELEVA,
-	  MISSING_WIND_DIRECTION_ID
-	};
+	enum WindDirectionId
+	  {
+		POHJOINEN = 0x1,
+		POHJOINEN_KOILLINEN,
+		KOILLINEN,
+		ITA_KOILLINEN,
+		ITA,
+		ITA_KAAKKO,
+		KAAKKO,
+		ETELA_KAAKKO,
+		ETELA,
+		ETELA_LOUNAS,
+		LOUNAS,
+		LANSI_LOUNAS,
+		LANSI,
+		LANSI_LUODE,
+		LUODE,
+		POHJOINEN_LUODE,
+		POHJOISEN_PUOLEINEN,
+		KOILLISEN_PUOLEINEN,
+		IDAN_PUOLEINEN,
+		KAAKON_PUOLEINEN,
+		ETELAN_PUOLEINEN,
+		LOUNAAN_PUOLEINEN,
+		LANNEN_PUOLEINEN,
+		LUOTEEN_PUOLEINEN,
+		VAIHTELEVA,
+		MISSING_WIND_DIRECTION_ID
+	  };
 
 #define HEIKKO_LOWER_LIMIT 0.5
 #define HEIKKO_UPPER_LIMIT 3.5
@@ -106,8 +106,8 @@ namespace TextGen
 #define HIRMUMYRSKY_WORD "hirmumyrsky"
 
 
-// contains wind speed interval minimum and maximum values
-typedef vector<pair<float, float> > wind_speed_vector;
+	// contains wind speed interval minimum and maximum values
+	typedef vector<pair<float, float> > wind_speed_vector;
 
 
 	WindDirectionAccuracy direction_accuracy(double theAccuracy,
@@ -179,6 +179,9 @@ typedef vector<pair<float, float> > wind_speed_vector;
 						const string& theVariable,
 						const bool& ignore_suuntainen);
 
+	bool same_direction(const WindDirectionId& theDirection1,
+						const WindDirectionId& theDirection2,
+						const bool& ignore_suuntainen);
   } // namespace WindStoryTools
 } // namespace TextGen
 
