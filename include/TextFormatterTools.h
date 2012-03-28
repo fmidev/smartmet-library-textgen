@@ -21,7 +21,7 @@ namespace TextGen
 {
   namespace TextFormatterTools
   {
-	void capitalize(std::string & theString);
+	std::string capitalize(std::string & theString);
 	void punctuate(std::string & theString);
 	std::string make_needle(int n);
 	int count_patterns(const std::string & theString);

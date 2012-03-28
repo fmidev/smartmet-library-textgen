@@ -14,8 +14,9 @@
 
 #include "TextFormatterTools.h"
 #include <newbase/NFmiStringTools.h>
-#include <cctype>
-#include <clocale>
+#include <boost/locale.hpp>
+// #include <cctype>
+// #include <clocale>
 
 using namespace std;
 
@@ -26,18 +27,35 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
-	 * \brief Capitalize the given string
+	 * \brief Capitalize the given string (UTF-8!!!)
 	 *
-	 * \todo Capitalize in global locale, we will assume that the user
-	 *       has set some local on.
+	 * TODO: Note that we use fi_FI.UTF-8 by default, this should be improved.
 	 *
 	 * \param theString The string to capitalize
 	 */
 	// ----------------------------------------------------------------------
 
-	void capitalize(std::string & theString)
+	std::string capitalize(std::string & theString)
 	{
-	  NFmiStringTools::FirstCharToUpper(theString);
+	  using namespace boost::locale;
+	  using namespace boost::locale::boundary;
+
+	  generator gen;
+	  ssegment_index wordmap(word,theString.begin(),theString.end(),gen("fi_FI.UTF-8"));
+
+	  std::string ret;
+	  for(ssegment_index::iterator it=wordmap.begin(),e=wordmap.end();it!=e;++it)
+		{
+		  if(it==wordmap.begin())
+			{
+			  ret += to_title(it->str());
+			}
+		  else
+			{
+			  ret += it->str();
+			}
+		}
+	  return ret;
 	}
 
 	// ----------------------------------------------------------------------
