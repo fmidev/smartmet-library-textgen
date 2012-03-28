@@ -96,8 +96,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	const Sentence direction_sentence(const WeatherResult & theDirection,
-									  const string & theVariable)
+	Sentence direction_sentence(const WeatherResult & theDirection,
+								const string & theVariable)
 	{
 	  Sentence sentence;
 
@@ -117,8 +117,8 @@ namespace TextGen
 	  return sentence;
 	}
 
-	const string direction_string(const WeatherResult & theDirection,
-								  const string & theVariable)
+	string direction_string(const WeatherResult & theDirection,
+							const string & theVariable)
 	{
 	  string retval;;
 
@@ -198,8 +198,8 @@ namespace TextGen
 	  return retval;
 	}
 
-	const string direction16_string(const WeatherResult & theDirection,
-									const string & theVariable)
+	string direction16_string(const WeatherResult & theDirection,
+							  const string & theVariable)
 	{
 	  string retval;
 
@@ -379,10 +379,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	const Sentence speed_range_sentence(const WeatherResult & theMinSpeed,
-										const WeatherResult & theMaxSpeed,
-										const WeatherResult & theMeanSpeed,
-										const string & theVariable)
+	Sentence speed_range_sentence(const WeatherResult & theMinSpeed,
+								  const WeatherResult & theMaxSpeed,
+								  const WeatherResult & theMeanSpeed,
+								  const string & theVariable)
 	{
 	  using Settings::optional_int;
 
@@ -435,11 +435,11 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	const Sentence directed_speed_sentence(const WeatherResult & theMinSpeed,
-										   const WeatherResult & theMaxSpeed,
-										   const WeatherResult & theMeanSpeed,
-										   const WeatherResult & theDirection,
-										   const string & theVariable)
+	Sentence directed_speed_sentence(const WeatherResult & theMinSpeed,
+									 const WeatherResult & theMaxSpeed,
+									 const WeatherResult & theMeanSpeed,
+									 const WeatherResult & theDirection,
+									 const string & theVariable)
 	{
 	  Sentence sentence;
 
@@ -471,7 +471,7 @@ namespace TextGen
 	  
 	}
 
-	const std::string speed_string(const WeatherResult& theMeanSpeed)
+	std::string speed_string(const WeatherResult& theMeanSpeed)
 	{
 	  std::string retval;
 
@@ -509,9 +509,9 @@ namespace TextGen
 	}
 
 
-	const string directed_speed_string(const WeatherResult & theMeanSpeed,
-									   const WeatherResult & theDirection,
-									   const string & theVariable)
+	string directed_speed_string(const WeatherResult & theMeanSpeed,
+								 const WeatherResult & theDirection,
+								 const string & theVariable)
 	{
 	  string retval;
 
@@ -554,9 +554,9 @@ namespace TextGen
 	  return retval;	  
 	}
 
-	const string directed16_speed_string(const WeatherResult & theMeanSpeed,
-										 const WeatherResult & theDirection,
-										 const string & theVariable)
+	string directed16_speed_string(const WeatherResult & theMeanSpeed,
+								   const WeatherResult & theDirection,
+								   const string & theVariable)
 	{
 	  string retval;
 
@@ -597,12 +597,12 @@ namespace TextGen
 	  return retval;  
 	}
 
-	const WindSpeedId wind_speed_id(const WeatherResult& theWindSpeed)
+	WindSpeedId wind_speed_id(const WeatherResult& theWindSpeed)
 	{
 	  return wind_speed_id(theWindSpeed.value());
 	}
 
-	const WindSpeedId wind_speed_id(const float& theWindSpeed)
+	WindSpeedId wind_speed_id(const float& theWindSpeed)
 	{
 	  if(theWindSpeed < HEIKKO_LOWER_LIMIT)
 		return TYYNI;
@@ -620,7 +620,7 @@ namespace TextGen
 		return HIRMUMYRSKY;
 	}
 
-	const std::string wind_speed_string(const WindSpeedId& theWindSpeedId)
+	std::string wind_speed_string(const WindSpeedId& theWindSpeedId)
 	{
 	  std::string retval;
 
@@ -652,7 +652,7 @@ namespace TextGen
 	  return retval;
 	}
 		
-	const pair<int, int> wind_speed_interval(const wind_speed_vector& theWindSpeedVector)
+	pair<int, int> wind_speed_interval(const wind_speed_vector& theWindSpeedVector)
 	{
 	  pair<int, int> retval;
 	  
@@ -681,8 +681,8 @@ namespace TextGen
 	}
 
 
-	const WindDirectionId puoleinen_direction_id(const float& theWindDirection,
-												 const WindDirectionId& theWindDirectionId)
+	WindDirectionId puoleinen_direction_id(const float& theWindDirection,
+										   const WindDirectionId& theWindDirectionId)
 	{
 
 	  WindDirectionId windDirectionId;
@@ -800,9 +800,9 @@ namespace TextGen
 	  return windDirectionId;
 	}
 
-	const WindDirectionId wind_direction_id(const WeatherAnalysis::WeatherResult& theWindDirection, 
-											const WeatherAnalysis::WeatherResult& theMaxWindSpeed,
-											const string& theVariable)
+	WindDirectionId wind_direction_id(const WeatherAnalysis::WeatherResult& theWindDirection, 
+									  const WeatherAnalysis::WeatherResult& theMaxWindSpeed,
+									  const string& theVariable)
 	{
 	  WindDirectionAccuracy accuracy(direction_accuracy(theWindDirection.error(), theVariable));
 
@@ -824,9 +824,9 @@ namespace TextGen
 	  return windDirectionId;
 	}
 
-	const WindDirectionId plain_wind_direction_id(const WeatherAnalysis::WeatherResult& theWindDirection, 
-												  const WeatherAnalysis::WeatherResult& theMaxWindSpeed,
-												  const string& theVariable)
+	WindDirectionId plain_wind_direction_id(const WeatherAnalysis::WeatherResult& theWindDirection, 
+											const WeatherAnalysis::WeatherResult& theMaxWindSpeed,
+											const string& theVariable)
 	{
 	  WindDirectionAccuracy accuracy(direction_accuracy(theWindDirection.error(), theVariable));
 
@@ -845,7 +845,7 @@ namespace TextGen
 	  return windDirectionId;
 	}
 
-	const std::string wind_direction_string(const WindDirectionId& theWindDirectionId)
+	std::string wind_direction_string(const WindDirectionId& theWindDirectionId)
 	{
 	  std::string retval;
 
@@ -932,7 +932,7 @@ namespace TextGen
 	  return retval;
 	}
 
-	const float direction_difference(const float& direction1, const float& direction2)
+	float direction_difference(const float& direction1, const float& direction2)
 	{
 	  float difference = direction2 - direction1;
 	  if(abs(difference) > 180.0)
@@ -941,11 +941,11 @@ namespace TextGen
 	  return difference;
 	}
 	
-	const bool wind_direction_turns(const WeatherAnalysis::WeatherResult& theDirectionStart,
-									const WeatherAnalysis::WeatherResult& theDirectionEnd,
-									const WeatherAnalysis::WeatherResult& theMaxSpeedStart,
-									const WeatherAnalysis::WeatherResult& theMaxSpeedEnd,
-									const string& theVariable)
+	bool wind_direction_turns(const WeatherAnalysis::WeatherResult& theDirectionStart,
+							  const WeatherAnalysis::WeatherResult& theDirectionEnd,
+							  const WeatherAnalysis::WeatherResult& theMaxSpeedStart,
+							  const WeatherAnalysis::WeatherResult& theMaxSpeedEnd,
+							  const string& theVariable)
 	{
 	  WindDirectionId windDirectionIdBeg(wind_direction_id(theDirectionStart,
 														   theMaxSpeedStart,
@@ -960,12 +960,12 @@ namespace TextGen
 	  return (directionDifference > 45.0 && windDirectionIdBeg != windDirectionIdEnd);
 	}
 
-	const bool same_direction(const WeatherAnalysis::WeatherResult& theDirection1,
-							  const WeatherAnalysis::WeatherResult& theDirection2,
-							  const WeatherAnalysis::WeatherResult& theMaxSpeed1,
-							  const WeatherAnalysis::WeatherResult& theMaxSpeed2,
-							  const string& theVariable,
-							  const bool& ignore_suuntainen)
+	bool same_direction(const WeatherAnalysis::WeatherResult& theDirection1,
+						const WeatherAnalysis::WeatherResult& theDirection2,
+						const WeatherAnalysis::WeatherResult& theMaxSpeed1,
+						const WeatherAnalysis::WeatherResult& theMaxSpeed2,
+						const string& theVariable,
+						const bool& ignore_suuntainen)
 	{
 	  WindDirectionId direction1(wind_direction_id(theDirection1, theMaxSpeed1, theVariable));
 	  WindDirectionId direction2(wind_direction_id(theDirection2, theMaxSpeed2, theVariable));
