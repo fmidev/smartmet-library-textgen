@@ -15,6 +15,8 @@
 #include <boost/filesystem.hpp>
 
 #include <cstdio>
+#include <fstream>
+#include <sstream>
 #include <unistd.h>
 
 using namespace WeatherAnalysis;
@@ -25,11 +27,24 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Read file contents
+   */
+  // ----------------------------------------------------------------------
+
+  string read_file(const string & filename)
+  {
+	stringstream ss;
+	ss << ifstream(filename.c_str(), ios::binary).rdbuf();
+	return ss.str();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Test if a file is executable
    */
   // ----------------------------------------------------------------------
 
-  bool is_executable(const std::string & filename)
+  bool is_executable(const string & filename)
   {
 	return !access(filename.c_str(), X_OK);
   }
@@ -42,7 +57,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  string execute(const std::string & cmd)
+  string execute(const string & cmd)
   {
     FILE* pipe = popen(cmd.c_str(), "r");
     if (!pipe)
@@ -107,20 +122,18 @@ namespace TextGen
 			log << "The file does not exist!" << endl;
 			throw runtime_error("File '"+filename+"' is not readable");
 		  }
+		
+		// Execute and catch stdout if the file is executable
 
-		// test here if file is executable
-
-		if(false)
+		if(is_executable(filename))
 		  {
-			string txt;
-			// txt = read_file_contents(filename);
+			string txt = execute(filename);
 			sentence << Text(txt);
 			paragraph << sentence;
 		  }
 		else
 		  {
-			string txt;
-			// txt = execute_file(filename);
+			string txt = read_file(filename);
 			sentence << Text(txt);
 			paragraph << sentence;
 		  }
