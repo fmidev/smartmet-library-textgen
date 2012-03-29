@@ -24,6 +24,7 @@
 #include "PressureStory.h"
 #include "RelativeHumidityStory.h"
 #include "RoadStory.h"
+#include "SpecialStory.h"
 #include "TemperatureStory.h"
 #include "TextGenError.h"
 #include "WaveStory.h"
@@ -62,12 +63,6 @@ namespace TextGen
 					 const string & theName,
 					 const string & theVariable)
 	{
-	  if(theName == "none")
-		{
-		  Paragraph paragraph;
-		  return paragraph;
-		}
-
 	  if(TemperatureStory::hasStory(theName))
 		{
 		  TemperatureStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
@@ -145,6 +140,12 @@ namespace TextGen
 	  if(WaveStory::hasStory(theName))
 		{
 		  WaveStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
+		  return story.makeStory(theName);
+		}
+
+	  if(SpecialStory::hasStory(theName))
+		{
+		  SpecialStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
 		  return story.makeStory(theName);
 		}
 
