@@ -36,6 +36,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
+TODO PHASE
+* Thu Mar 29 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.3.29-1.el6.fmi
+- Improved wave story now handles separately cases where range low value is zero
 * Wed Mar 28 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.3.28-1.el6.fmi
 - Removed debugging logging from wind_overview
 - Fixed UTF-8 capitalization of sentences

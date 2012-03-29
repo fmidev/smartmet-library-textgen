@@ -102,18 +102,29 @@ namespace TextGen
 	float y = round(2*maxresult.value())/2;
 
 	Sentence sentence;
-	sentence << "aallonkorkeus"
-			 << "on";
 
-	if(y-x < mininterval)
+	if(y <= 0.5 )
 	  {
-		sentence << "noin"
-				 << Real(n,1)
-				 << *UnitFactory::create_unit(Meters, static_cast<int>(n));
+		sentence << "aallonkorkeus on alle [N] [metria]"
+				 << Real(0.5)
+				 << *UnitFactory::create(Meters);
+	  }
+	else if(y-x < mininterval)
+	  {
+		sentence << "aallonkorkeus on noin [N] [metria]"
+				 << Real(n)
+				 << *UnitFactory::create(Meters);
+	  }
+	else if(x == 0)
+	  {
+		sentence << "aallonkorkeus on enimmillaan [N] [metria]"
+				 << Real(y)
+				 << *UnitFactory::create(Meters);
 	  }
 	else
 	  {
-		sentence << RealRange(x,y,1)
+		sentence << "aallonkorkeus on [N...M] [metria]"
+				 << RealRange(x,y)
 				 << *UnitFactory::create(Meters);
 	  }
 

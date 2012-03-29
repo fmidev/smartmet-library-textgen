@@ -83,7 +83,7 @@ namespace WaveStoryTest
 	
 	REQUIRE(story,"fi",fun,"Aallonkorkeus on noin 2.0m.");
 	REQUIRE(story,"sv",fun,"Våghöjden är cirka 2.0m.");
-	REQUIRE(story,"en",fun,"Wave height is about 2.0m.");
+	REQUIRE(story,"en",fun,"Wave height is around 2.0m.");
 
 	NFmiSettings::Set("a::fake::height::mean","4.7,0");
 	NFmiSettings::Set("a::fake::height::minimum","3.1,0");
@@ -93,6 +93,21 @@ namespace WaveStoryTest
 	REQUIRE(story,"sv",fun,"Våghöjden är 3.0-7.5m.");
 	REQUIRE(story,"en",fun,"Wave height is 3.0-7.5m.");
 
+	NFmiSettings::Set("a::fake::height::mean","0.2,0");
+	NFmiSettings::Set("a::fake::height::minimum","0.1,0");
+	NFmiSettings::Set("a::fake::height::maximum","0.2,0");
+
+	REQUIRE(story,"fi",fun,"Aallonkorkeus on alle 0.5m.");
+	REQUIRE(story,"sv",fun,"Våghöjden är mindre än 0.5m.");
+	REQUIRE(story,"en",fun,"Wave height is less than 0.5m.");
+
+	NFmiSettings::Set("a::fake::height::mean","0.8,0");
+	NFmiSettings::Set("a::fake::height::minimum","0.1,0");
+	NFmiSettings::Set("a::fake::height::maximum","1.3,0");
+
+	REQUIRE(story,"fi",fun,"Aallonkorkeus on enimmillään 1.5m.");
+	REQUIRE(story,"sv",fun,"Våghöjden är högst 1.5m.");
+	REQUIRE(story,"en",fun,"Wave height is at most 1.5m.");
 
 	TEST_PASSED();
   }
