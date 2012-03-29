@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 12.3.28
+Version: 12.3.29
 Release: 1.el6.fmi
 License: FMI
 Group: Development/Libraries
