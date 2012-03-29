@@ -112,7 +112,7 @@ namespace TextGen
 	  
 	  bool range(false);
 	  
-	  // in winter theMaximum contains the lower value than the theMinimum
+	  // theMaximum can contain lower value than the theMinimum
 	  int diff = abs(theMaximum - theMinimum);
 
 	  if(theMinimum == theMaximum)
@@ -126,9 +126,14 @@ namespace TextGen
 	  
 	  if(range)
 		{
-		  int intervalEndValue = ((theMinimum < 0 && theMaximum < 0) ? theMinimum : theMaximum);
+		  int intervalStartValue(theMinimum);
+		  int intervalEndValue(theMaximum);
+		  temperature_range(theMinimum,
+							theMaximum,
+							intervalStartValue,
+							intervalEndValue);
 
-		  sentence << TemperatureRange(theMinimum,theMaximum,theRangeSeparator)
+		  sentence << TemperatureRange(intervalStartValue,intervalEndValue,theRangeSeparator)
 				   << *UnitFactory::create_unit(DegreesCelsius, intervalEndValue, true);
 		}
 	  else
@@ -163,6 +168,12 @@ namespace TextGen
 	  return theRoundedValue;
 	}
 
+	// changed 6.10.2010
+	// Lea Saukkonen:
+	// 1. Lukemat positiivisi: pienempi lukema ensin esim L-Admpvtila on viidestd kymmeneen (5…10) astetta
+	// 2. Lukemat nollan molemmin puolin: kylmempi ensin esim Ldmpvtila on miinus kolmen ja plus kahden (-3…+2)asteen vdlilld
+	//3. Lukemista toinen on nolla: nolla ensin esim Ldmpvtila on nollan ja miinus viiden 0…-5) asteen vdlilld toinen esimerkki Ldmpvtila on nollan ja plus viiden (0…+5) asteen vdlilld
+	//4. Lukemat negatiivisia: ldmpimdmpi emsin esim Ldmpvtila on miinus viidestd miinus kymmeneen (-5…-10) asteeseen tai Pakkasta on viidestd kymmeneen asteeseen.		  
 	void temperature_range(const int& theTemperature1, 
 						   const int& theTemperature2,
 						   int& intervalStart,
@@ -223,14 +234,6 @@ namespace TextGen
 
 	  if(range)
 		{
-		  // changed 6.10.2010
-		  // Lea Saukkonen:
-		  // 1. Lukemat positiivisi: pienempi lukema ensin esim L-Admpvtila on viidestd kymmeneen (5…10) astetta
-		  // 2. Lukemat nollan molemmin puolin: kylmempi ensin esim Ldmpvtila on miinus kolmen ja plus kahden (-3…+2)asteen vdlilld
-		  //3. Lukemista toinen on nolla: nolla ensin esim Ldmpvtila on nollan ja miinus viiden 0…-5) asteen vdlilld toinen esimerkki Ldmpvtila on nollan ja plus viiden (0…+5) asteen vdlilld
-		  //4. Lukemat negatiivisia: ldmpimdmpi emsin esim Ldmpvtila on miinus viidestd miinus kymmeneen (-5…-10) asteeseen tai Pakkasta on viidestd kymmeneen asteeseen.
-
-		  
 		  int theRoundedMinimum = theMinimum;
 		  int theRoundedMaximum = theMaximum;
 
