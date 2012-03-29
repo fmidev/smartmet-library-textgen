@@ -8,7 +8,6 @@
 #include "SpecialStory.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
-#include "Sentence.h"
 #include "Settings.h"
 #include "Text.h"
 
@@ -103,15 +102,13 @@ namespace TextGen
 	const string default_text = Settings::optional_string(itsVar+"::value","");
 
 	Paragraph paragraph;
-	Sentence sentence;
 
 	if(default_text.empty())
 	  {
 	  }
 	else if(default_text[0] != '@')
 	  {
-		sentence << Text(default_text);
-		paragraph << sentence;
+		paragraph << Text(default_text);
 	  }
 	else
 	  {
@@ -128,14 +125,12 @@ namespace TextGen
 		if(is_executable(filename))
 		  {
 			string txt = execute(filename);
-			sentence << Text(txt);
-			paragraph << sentence;
+			paragraph << Text(txt);
 		  }
 		else
 		  {
 			string txt = read_file(filename);
-			sentence << Text(txt);
-			paragraph << sentence;
+			paragraph << Text(txt);
 		  }
 	  }
 
