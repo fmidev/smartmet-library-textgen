@@ -52,19 +52,10 @@ namespace TemperatureStoryTest
 	TextGen::Paragraph para = theStory.makeStory(theName);
 	const string value = para.realize(formatter);
 	
-	const string msg = value + " <> " + theExpected;
-	cout << endl << msg << endl << endl;
 	if(value != theExpected)
 	  {
-		//	const string msg = value + " <> " + theExpected;
-		//cout << endl << msg << endl << endl;
-		//		TEST_FAILED(msg.c_str());
-		cout << "FAILED!!" << endl;
-
-	  }
-	else
-	  {
-		cout << "PASSED!!" << endl;
+		const string msg = value + " <> " + theExpected;
+		TEST_FAILED(msg.c_str());
 	  }
   }
 
@@ -250,9 +241,9 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::day2::inland::min","15,0");
 	  NFmiSettings::Set("day::fake::day2::inland::max","25,0");
 
-	  require(story,"fi",fun,"Lämpötila on tänään noin 15 astetta. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
-	  require(story,"sv",fun,"Temperatur är i dag cirka 15 grader. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...15 grader.");
-	  require(story,"en",fun,"Temperature is today about 15 degrees. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...15 degrees.");
+	  require(story,"fi",fun,"Lämpötila on tänään noin 15 astetta. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...+15 astetta.");
+	  require(story,"sv",fun,"Temperatur är i dag cirka 15 grader. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...+15 grader.");
+	  require(story,"en",fun,"Temperature is today about 15 degrees. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...+15 degrees.");
 	  
 	  NFmiSettings::Set("day::fake::day1::coast::mean","10,0");
 	  NFmiSettings::Set("day::fake::day1::coast::min","8,0");
@@ -262,9 +253,9 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::day1::inland::min","15,0");
 	  NFmiSettings::Set("day::fake::day1::inland::max","14,0");
 	  
-	  require(story,"fi",fun,"Lämpötila on tänään noin 16 astetta, rannikolla alempi. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
-	  require(story,"sv",fun,"Temperatur är i dag cirka 16 grader, vid kusten lägre. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...15 grader.");
-	  require(story,"en",fun,"Temperature is today about 16 degrees, on the coastal area lower. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...15 degrees.");
+	  require(story,"fi",fun,"Lämpötila on tänään noin 16 astetta, rannikolla alempi. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...+15 astetta.");
+	  require(story,"sv",fun,"Temperatur är i dag cirka 16 grader, vid kusten lägre. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...+15 grader.");
+	  require(story,"en",fun,"Temperature is today about 16 degrees, on the coastal area lower. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...+15 degrees.");
 	  
 	  NFmiSettings::Set("day::fake::night1::area::mean","10,0");
 	  NFmiSettings::Set("day::fake::night1::area::min","10,0");
@@ -278,9 +269,9 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::night1::inland::min","10,0");
 	  NFmiSettings::Set("day::fake::night1::inland::max","10,0");
 	  
-	  require(story,"fi",fun,"Päivän ylin lämpötila on tänään noin 16 astetta, rannikolla huomattavasti alempi. Yön alin lämpötila on noin 10 astetta. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är i dag cirka 16 grader, vid kusten betydligt lägre. Nattens lägsta temperatur är cirka 10 grader. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...15 grader.");
-	  require(story,"en",fun,"The maximum day temperature is today about 16 degrees, on the coastal area significantly lower. The minimum night temperature is about 10 degrees. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...15 degrees.");
+	  require(story,"fi",fun,"Päivän ylin lämpötila on tänään noin 16 astetta, rannikolla huomattavasti alempi. Yön alin lämpötila on noin 10 astetta. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...+15 astetta.");
+	  require(story,"sv",fun,"Dagens högsta temperatur är i dag cirka 16 grader, vid kusten betydligt lägre. Nattens lägsta temperatur är cirka 10 grader. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...+15 grader.");
+	  require(story,"en",fun,"The maximum day temperature is today about 16 degrees, on the coastal area significantly lower. The minimum night temperature is about 10 degrees. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...+15 degrees.");
 	  
 	  NFmiSettings::Set("day::fake::day1::coast::mean","-10,0");
 	  NFmiSettings::Set("day::fake::day1::coast::min","-12,0");
@@ -290,9 +281,9 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::night1::coast::min","7,0");
 	  NFmiSettings::Set("day::fake::night1::coast::max","7,0");
 	  
-	  require(story,"fi",fun,"Päivän ylin lämpötila on tänään noin 16 astetta, rannikolla -8...-12 astetta. Yön alin lämpötila on noin 10 astetta, rannikolla alempi. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...15 astetta.");
-	  require(story,"sv",fun,"Dagens högsta temperatur är i dag cirka 16 grader, vid kusten -8...-12 grader. Nattens lägsta temperatur är cirka 10 grader, vid kusten lägre. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...15 grader.");
-	  require(story,"en",fun,"The maximum day temperature is today about 16 degrees, on the coastal area -8...-12 degrees. The minimum night temperature is about 10 degrees, on the coastal area lower. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...15 degrees.");
+	  require(story,"fi",fun,"Päivän ylin lämpötila on tänään noin 16 astetta, rannikolla -8...-12 astetta. Yön alin lämpötila on noin 10 astetta, rannikolla alempi. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...+15 astetta.");
+	  require(story,"sv",fun,"Dagens högsta temperatur är i dag cirka 16 grader, vid kusten -8...-12 grader. Nattens lägsta temperatur är cirka 10 grader, vid kusten lägre. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...+15 grader.");
+	  require(story,"en",fun,"The maximum day temperature is today about 16 degrees, on the coastal area -8...-12 degrees. The minimum night temperature is about 10 degrees, on the coastal area lower. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...+15 degrees.");
 
 	}
 
@@ -4451,6 +4442,9 @@ void delete_testcases(TestCaseContainer& testCases)
 			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::min",param->temperature_d1_afternoon_areamin);
 			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::max",param->temperature_d1_afternoon_areamax);
 			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::mean",param->temperature_d1_afternoon_areamean);
+			NFmiSettings::Set("max36hours::fake::temperature::day_before_day1::afternoon::area::min",param->temperature_d1_afternoon_areamin);
+			NFmiSettings::Set("max36hours::fake::temperature::day_before_day1::afternoon::area::max",param->temperature_d1_afternoon_areamax);
+			NFmiSettings::Set("max36hours::fake::temperature::day_before_day1::afternoon::area::mean",param->temperature_d1_afternoon_areamean);
 
 			NFmiSettings::Set("max36hours::fake::night::inland::min",param->temperature_nite_inlandmin);
 			NFmiSettings::Set("max36hours::fake::night::inland::max",param->temperature_nite_inlandmax);
@@ -4491,6 +4485,9 @@ void delete_testcases(TestCaseContainer& testCases)
 			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::min",param->temperature_d2_afternoon_areamin);
 			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::max",param->temperature_d2_afternoon_areamax);
 			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::mean",param->temperature_d2_afternoon_areamean);
+			NFmiSettings::Set("max36hours::fake::temperature::day_before_day1::afternoon::area::min",param->temperature_d2_afternoon_areamin);
+			NFmiSettings::Set("max36hours::fake::temperature::day_before_day1::afternoon::area::max",param->temperature_d2_afternoon_areamax);
+			NFmiSettings::Set("max36hours::fake::temperature::day_before_day1::afternoon::area::mean",param->temperature_d2_afternoon_areamean);
 
 			require(story1,languages[i],fun,param->theStory);
 		  }
@@ -4657,16 +4654,16 @@ void delete_testcases(TestCaseContainer& testCases)
 	void test(void)
 	{
 	  //TEST(generate_testcasefiles);
-	  TEST(temperature_max36hours);
+	  //TEST(temperature_max36hours);
 	  //TEST(temperature_anomaly);
-	  //TEST(temperature_day);
-	  //TEST(temperature_mean);
-	  //TEST(temperature_meanmax);
-	  //TEST(temperature_meanmin);
-	  //TEST(temperature_dailymax);
-	  //TEST(temperature_weekly_minmax);
-	  //TEST(temperature_weekly_averages);
-	  //TEST(temperature_range);
+	  TEST(temperature_day);
+	  TEST(temperature_mean);
+	  TEST(temperature_meanmax);
+	  TEST(temperature_meanmin);
+	  TEST(temperature_dailymax);
+	  TEST(temperature_weekly_minmax);
+	  TEST(temperature_weekly_averages);
+	  TEST(temperature_range);
 	}
 
   }; // class tests
