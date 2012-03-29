@@ -14,11 +14,25 @@
 
 #include <boost/filesystem.hpp>
 
+#include <cstdio>
+#include <unistd.h>
+
 using namespace WeatherAnalysis;
 using namespace std;
 
 namespace TextGen
 {
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Test if a file is executable
+   */
+  // ----------------------------------------------------------------------
+
+  bool is_executable(const std::string & filename)
+  {
+	return !access(filename.c_str(), X_OK);
+  }
 
   // ----------------------------------------------------------------------
   /*!
