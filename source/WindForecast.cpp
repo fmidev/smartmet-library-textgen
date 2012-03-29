@@ -1202,8 +1202,8 @@ namespace TextGen
 				previousThresholdMaxWind = windDataItem.theEqualizedMaximumWind.value();
 			  }
 			else if(abs(windDataItem.theEqualizedMaximumWind.value() - previousThresholdMaxWind) > 4.0 &&
-					((previousThresholdMaxWind > KOHTALAINEN_UPPER_LIMIT-2.0 && (eventId & TUULI_HEIKKENEE)) || 
-					 (windDataItem.theEqualizedMaximumWind.value() > KOHTALAINEN_UPPER_LIMIT-2.0  && (eventId & TUULI_VOIMISTUU))))
+					((previousThresholdMaxWind > KOHTALAINEN_LOWER_LIMIT && (eventId & TUULI_HEIKKENEE)) || 
+					 (windDataItem.theEqualizedMaximumWind.value() > KOHTALAINEN_LOWER_LIMIT  && (eventId & TUULI_VOIMISTUU))))
 			  {
 				// speed is reported when it has changed 4.0 from the previous raporting point
 				reportingIndexes.push_back(i);

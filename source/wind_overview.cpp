@@ -2659,7 +2659,7 @@ namespace TextGen
 		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
 		if(is_inside(item.thePeriod.localStartTime(), originalPeriod))
 		  {
-			if(item.theEqualizedMaximumWind.value() <= KOHTALAINEN_UPPER_LIMIT - 2.0)
+			if(item.theEqualizedMaximumWind.value() <= KOHTALAINEN_LOWER_LIMIT)
 			  {
 				if(startIndex == UINT_MAX)
 				  startIndex = i;
@@ -2921,7 +2921,7 @@ namespace TextGen
 								  lowerLimitCurrent,
 								  upperLimitCurrent);
 
-		  if(upperLimitCurrent <= KOHTALAINEN_UPPER_LIMIT-2.0)
+		  if(upperLimitCurrent <= KOHTALAINEN_LOWER_LIMIT)
 			{
 			  currentDataItem->theWindEvent = MISSING_WIND_EVENT;
 			  currentDataItem->theWeakWindPeriodFlag = true;
