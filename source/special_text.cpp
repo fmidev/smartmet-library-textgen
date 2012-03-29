@@ -36,6 +36,31 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Execute command and return stdout
+   *
+   * Note: To catch stderr too append 2>&1 to the command
+   */
+  // ----------------------------------------------------------------------
+
+  string execute(const std::string & cmd)
+  {
+    FILE* pipe = popen(cmd.c_str(), "r");
+    if (!pipe)
+	  throw runtime_error("Could not execute command '"+cmd+"'");
+
+    char buffer[128];
+    std::string result = "";
+    while(!feof(pipe))
+	  {
+		if(fgets(buffer, 128, pipe) != NULL)
+		  result += buffer;
+	  }
+    pclose(pipe);
+    return result;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Generate story on text
    *
    * Variables:
