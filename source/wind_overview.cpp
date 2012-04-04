@@ -192,6 +192,7 @@ namespace TextGen
 	  }
   }
 
+#ifndef NDEBUG
   void print_csv_table(const WeatherArea& theArea,
 					   const std::string& fileIdentifierString,
 					   const std::string& theVar,
@@ -828,18 +829,7 @@ namespace TextGen
 		  }
 	  }
   }
-
-
-
-
-
-
-
-
-
-
-
-
+#endif // NDEBUG
 
 
   void allocate_data_structures(wo_story_params& storyParams)
@@ -2794,7 +2784,9 @@ namespace TextGen
 	remove_reduntant_periods(storyParams);
 
 	storyParams.theLog << "* STEP 1 *" << endl;
+#ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);	
+#endif
 
 	// 2) separate the weak wind periods (turn them to MISSING_WIND_EVENT periods)
 	for(unsigned int i = 0; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
@@ -2837,7 +2829,9 @@ namespace TextGen
 
 	remove_reduntant_periods(storyParams);
 	storyParams.theLog << "* STEP 2 *" << endl;
+#ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
+#endif
 
  	// 3) a) if wind direction doesn't change (e.g. itätuuli -> idän puoleinen tuuli), remove the KAANTYY-event
 	// b) merge successive periods when tuuli kaantyy and direction remains the same 
@@ -2905,7 +2899,9 @@ namespace TextGen
 	remove_reduntant_periods(storyParams);
 	
 	storyParams.theLog << "* STEP 3 *" << endl;
+#ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
+#endif
 
  	// 4) If the wind is weak no changes in speed or direction are reported
 	for(unsigned int i = 0; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
@@ -2931,7 +2927,9 @@ namespace TextGen
 	remove_reduntant_periods(storyParams);
 	
 	storyParams.theLog << "* STEP 4 *" << endl;
+#ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
+#endif
 
 	// 5) Remove short MISSING_WIND_EVENT period from the beginning
 	if(storyParams.theMergedWindEventPeriodVector.size() > 1)
@@ -2955,7 +2953,9 @@ namespace TextGen
 		remove_reduntant_periods(storyParams);
 		
 		storyParams.theLog << "* STEP 5 *" << endl;
+#ifndef NDEBUG
 		log_merged_wind_event_periods(storyParams);
+#endif
 	  }
 
 	// 6) if wind speed weakens/strengthens, check that weakening/strengthening is big enough
@@ -2981,7 +2981,9 @@ namespace TextGen
 	remove_reduntant_periods(storyParams);
 
 	storyParams.theLog << "* STEP 6 *" << endl;
+#ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
+#endif
 
 
 	// 7) merge simple period events with composite period events
@@ -2989,7 +2991,9 @@ namespace TextGen
 	remove_reduntant_periods(storyParams);
 
 	storyParams.theLog << "* STEP 7 *" << endl;
+#ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
+#endif
 
 	previousMergedIndex = UINT_MAX;
 	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
@@ -3108,14 +3112,18 @@ namespace TextGen
 	remove_reduntant_periods(storyParams);
 
 	storyParams.theLog << "* STEP 8 *" << endl;
+#ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
+#endif
 
 	// Merge simple and composite periods
 	merge_simple_and_composite_period_events(storyParams);
 	remove_reduntant_periods(storyParams);
 
 	storyParams.theLog << "* STEP 9 *" << endl;
+#ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
+#endif
   }
 
   void find_out_wind_event_periods(wo_story_params& storyParams)
@@ -3123,9 +3131,10 @@ namespace TextGen
 	find_out_wind_speed_event_periods(storyParams);
 	find_out_wind_direction_event_periods2(storyParams);
 	//find_out_wind_direction_event_periods(storyParams);
+#ifndef NDEBUG
 	log_wind_event_periods(storyParams);
-
 	log_equalized_wind_direction_data_vector(storyParams);
+#endif
 
 	if(storyParams.theWindSpeedEventPeriodVector.size() > 1)
 	  std::sort(storyParams.theWindSpeedEventPeriodVector.begin(),
@@ -3138,13 +3147,21 @@ namespace TextGen
 
 	create_union_periods_of_wind_speed_and_direction_event_periods(storyParams);
 
+#ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);	
+#endif
 	merge_fragment_periods_when_feasible(storyParams);
+#ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);	
+#endif
 	find_out_transient_wind_direction_periods(storyParams); // wind direction
+#ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
+#endif
 	find_out_long_term_wind_speed_periods(storyParams);
+#ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);	
+#endif
   }
 
   WindEventId merge_wind_events(const WindEventId& speedEvent, const WindEventId& directionEvent)
@@ -3725,9 +3742,11 @@ namespace TextGen
 	// event periods are used to produce the story
 	find_out_wind_event_periods(storyParams);
 	
-	log_raw_data(storyParams);
 
 #ifndef NDEBUG
+
+	log_raw_data(storyParams);
+
 	// find out the wind speed periods (for logging purposes)
 	find_out_wind_speed_periods(storyParams);
 	// find out the wind direction periods of 16-direction compass (for logging purposes)

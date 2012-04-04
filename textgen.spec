@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 12.3.29
+Version: 12.4.4
 Release: 1.el6.fmi
 License: FMI
 Group: Development/Libraries
@@ -36,6 +36,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
+* Wed Apr  4 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.4.4-1.el6.fmi
+- Removed debugging logging from wind_overview
 * Thu Mar 29 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.3.29-1.el6.fmi
 - Improved wave story now handles separately cases where range low value is zero
 - Added text-story
