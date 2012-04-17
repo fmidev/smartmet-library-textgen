@@ -292,6 +292,7 @@ using namespace WindStoryTools;
 		theWindMaximum(windMaximum),
 		theWindDirection(windDirection),
 		theGustSpeed(gustSpeed),
+		theCorrectedWindDirection(windDirection),
 		theEqualizedMedianWind(windSpeedMedian),
 		theEqualizedMaximumWind(windMaximum),
 		theEqualizedWindDirection(theWindDirection)
@@ -314,6 +315,9 @@ using namespace WindStoryTools;
 	WeatherResult theWindMaximum;
 	WeatherResult theWindDirection;
 	WeatherResult theGustSpeed;
+	// if wind is varying and wind speed is high >= 7 m/s, we store corrected
+	// wind direction here and use it in calculations
+	WeatherResult theCorrectedWindDirection;
 	WeatherResult theEqualizedMedianWind;
 	WeatherResult theEqualizedMaximumWind;
 	WeatherResult theEqualizedWindDirection;
@@ -498,6 +502,7 @@ using namespace WindStoryTools;
 	Sentence windDirectionChangeSentence(const wo_story_params& theParameters,
 										 const WeatherPeriod& eventPeriod,
 										 const bool& firstSentenceInTheStory,
+										 const WindEventId& eventIdPrevious,
 										 const WindDirectionId& windDirectionIdPrevious) const;
 
 	Sentence windDirectionAndSpeedChangesSentence(const wo_story_params& theParameters,
@@ -577,10 +582,14 @@ using namespace WindStoryTools;
   bool wind_turns_to_the_same_direction(const float& direction1, 
 										const float& direction2,  
 										const float& direction3);
- WeatherResult mean_wind_direction(const AnalysisSources& theSources,
-								   const WeatherArea& theArea,
-								   const WeatherPeriod& thePeriod,
-								   const string& theFakeVar);
+  WeatherResult mean_wind_direction(const AnalysisSources& theSources,
+									const WeatherArea& theArea,
+									const WeatherPeriod& thePeriod,
+									const string& theFakeVar);
+  WindEventId mask_wind_event(const WindEventId& originalId, const WindEventId& maskToRemove);
+  
+  std::ostream& operator<<(std::ostream& theOutput,
+						   const WeatherPeriod& period);
 
 } // namespace TextGen
 
