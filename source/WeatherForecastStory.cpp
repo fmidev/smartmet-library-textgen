@@ -138,6 +138,17 @@ namespace TextGen
 		  const_cast<WeatherHistory&>(theWeatherArea.history()).updateTimePhrase("", NFmiTime(1970,1,1));
 	  }
 
+	// ARE 19.04.2012: yletv for kaakkois-suomi, empty story was created
+	// if story is empty take the whole forecast period and tell story of it
+	if(theStorySize == 0)
+	  {
+		Sentence periodPhrase;
+		paragraph << thePrecipitationForecast.precipitationSentence(theForecastPeriod, periodPhrase);
+	  }
+
+
+
+
 	return paragraph;
   }
 
