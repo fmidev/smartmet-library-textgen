@@ -45,8 +45,6 @@
 namespace TextGen
 {
 
-#define PI 3.14159265
-
   using namespace Settings;
   using namespace WeatherAnalysis;
   using namespace AreaTools;
@@ -80,10 +78,18 @@ namespace TextGen
 	WindDirectionId windDirectionIdPrevious(MISSING_WIND_DIRECTION_ID);
 
 	WindEventPeriodDataItem* eventPeriodItemPrevious(0);
+	WindEventPeriodDataItem* eventPeriodItemNext(0);
 	for(unsigned int i = 0; i < theParameters.theMergedWindEventPeriodVector.size(); i++)
 	  {
 		Sentence sentence;
 		const WindEventPeriodDataItem& eventPeriodItem = *(theParameters.theMergedWindEventPeriodVector[i]);
+		
+		// dont report weak wind periods
+		if(eventPeriodItem.theWeakWindPeriodFlag)
+		  continue;
+
+		if(i < theParameters.theMergedWindEventPeriodVector.size() - 1)
+		  eventPeriodItemNext = theParameters.theMergedWindEventPeriodVector[i+1];
 
 		// if the last period is 1 hour long, ignore it
 		if(i == theParameters.theMergedWindEventPeriodVector.size() - 1 &&
@@ -229,6 +235,43 @@ namespace TextGen
 			break;
 		  case TUULI_MUUTTUU_VAIHTELEVAKSI:
 			{
+			  /*
+			  cout << "eventPeriod: "
+				   << eventPeriod.localStartTime()
+				   << "..."
+				   << eventPeriod.localEndTime() << endl;
+			  cout << "eventPeriodItemNext->thePeriod: "
+				   << eventPeriodItemNext->thePeriod.localStartTime()
+				   << "..."
+				   << eventPeriodItemNext->thePeriod.localEndTime() << endl;
+			  cout << "eventPeriod.localStartTime().GetDay(): "
+				   << eventPeriod.localStartTime().GetDay()
+				   << endl;
+			  cout << " eventPeriodItemNext->thePeriod.localStartTime().GetDay(): "
+				   << eventPeriodItemNext->thePeriod.localStartTime().GetDay()
+				   << endl;
+			  cout << "get_part_of_the_day_id(eventPeriod): "
+				   << part_of_the_day_string(get_part_of_the_day_id(eventPeriod))
+				   << endl;
+			  cout << "get_part_of_the_day_id(eventPeriodItemNext->thePeriod.localStartTime()): "
+				   << part_of_the_day_string(get_part_of_the_day_id(eventPeriodItemNext->thePeriod.localStartTime()))
+				   << endl;
+			  */
+			  /*
+			  WeatherPeriod periodNextStart(eventPeriodItemNext->thePeriod.localStartTime(),
+											eventPeriodItemNext->thePeriod.localStartTime());
+			  if(eventPeriodItemNext &&
+				 eventPeriod.localStartTime().GetDay() ==
+				 eventPeriodItemNext->thePeriod.localStartTime().GetDay() &&
+				 ((get_part_of_the_day_id(eventPeriod) == 
+				  get_part_of_the_day_id(eventPeriodItemNext->thePeriod) ||
+				   ((get_part_of_the_day_id(eventPeriod) ==
+					 get_part_of_the_day_id(periodNextStart) && periodNextStart-)))
+				{
+				  continue;
+				}
+			  */
+
 			  if(firstSentenceInTheStory)
 				{
 				  sentence << POHJOISTUULTA_INTERVALLI_MS_JOKA_MUUTTUU_ILTAPAIVALLA_VAIHTELEVAKSI_COMPOSITE_PHRASE
@@ -1247,8 +1290,8 @@ namespace TextGen
 				previousThresholdMaxWind = windDataItem.theEqualizedMaximumWind.value();
 			  }
 			else if(abs(windDataItem.theEqualizedMaximumWind.value() - previousThresholdMaxWind) > 4.0 &&
-					((previousThresholdMaxWind > KOHTALAINEN_LOWER_LIMIT && (eventId & TUULI_HEIKKENEE)) || 
-					 (windDataItem.theEqualizedMaximumWind.value() > KOHTALAINEN_LOWER_LIMIT  && (eventId & TUULI_VOIMISTUU))))
+					((previousThresholdMaxWind >= KOHTALAINEN_LOWER_LIMIT+1.5 && (eventId & TUULI_HEIKKENEE)) || 
+					 (windDataItem.theEqualizedMaximumWind.value() >= KOHTALAINEN_LOWER_LIMIT+1.5  && (eventId & TUULI_VOIMISTUU))))
 			  {
 				// speed is reported when it has changed 4.0 from the previous raporting point
 				reportingIndexes.push_back(i);
@@ -1978,7 +2021,6 @@ namespace TextGen
 	  case TUULI_KAANTYY_JA_VOIMISTUU:
 		retval = "tuuli kaantyy ja voimistuu";
 		break;
-
 	  case TUULI_KAANTYY_JA_TYYNTYY:
 		retval = "tuuli kaantyy ja tyyntyy";
 		break;
@@ -2008,6 +2050,32 @@ namespace TextGen
 	return retval;
   }
 
+  bool is_valid_wind_event_id(const int& eventId)
+  {
+	bool retval(false);
+
+	switch(eventId)
+	  {
+	  case TUULI_HEIKKENEE:
+	  case TUULI_VOIMISTUU:
+	  case TUULI_TYYNTYY:
+	  case TUULI_KAANTYY:
+	  case TUULI_KAANTYY_JA_HEIKKENEE:
+	  case TUULI_KAANTYY_JA_VOIMISTUU:
+	  case TUULI_KAANTYY_JA_TYYNTYY:
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI:
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE:
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU:
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY:
+	  case MISSING_WIND_EVENT:
+	  case MISSING_WIND_SPEED_EVENT:
+	  case MISSING_WIND_DIRECTION_EVENT:
+		retval = true;
+		break;
+	  }
+
+	return retval;
+  }
 
   bool wind_speed_differ_enough(const AnalysisSources& theSources,
 								const WeatherArea& theArea,

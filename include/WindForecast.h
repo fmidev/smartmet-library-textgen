@@ -523,8 +523,8 @@ using namespace WindStoryTools;
 
 
 
-
-
+  bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod);
+  bool is_valid_wind_event_id(const int& eventId);
   std::string get_wind_event_string(const WindEventId& theWindEventId);
   /*
   void populate_windspeed_distribution_time_series(const AnalysisSources& theSources,
