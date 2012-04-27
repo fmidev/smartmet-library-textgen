@@ -853,7 +853,7 @@ using namespace std;
 		WeatherPeriod theWeatherPeriod(periodEndTime, periodEndTime);
 		WeatherResult theWeatherResult(kFloatMissing, kFloatMissing);
 
-		part_of_the_day_id  partOfTheDayId = get_part_of_the_day_id(theWeatherPeriod);
+		part_of_the_day_id  partOfTheDayId = get_part_of_the_day_id_large(theWeatherPeriod);
 
 		hourlyMaxPrecipitation->push_back(new WeatherResultDataItem(theWeatherPeriod, 
 																	theWeatherResult, 
