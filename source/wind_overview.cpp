@@ -2875,7 +2875,7 @@ namespace TextGen
 #endif
 
 	// 9) Merge successive missing event periods. Merge if previous period directions is VAIHTELEVA
-	// and on current period event is TUULI_MUUTTUU_VAIHTELEVAKSI
+	// and on current period event is TUULI_MUUTTUU_VAIHTELEVAKSI.
 	previousMergedIndex = UINT_MAX;
 	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
 	  {
@@ -2903,15 +2903,17 @@ namespace TextGen
 			currentDataItem->theWindEvent = MISSING_WIND_EVENT;
 			merge = true;
 		  }
+		/*
 		else if(previousDataItem->thePeriod.localStartTime().GetDay() ==
 				currentDataItem->thePeriod.localStartTime().GetDay() &&
-				get_part_of_the_day_id_large(previousDataItem->thePeriod) ==
-				get_part_of_the_day_id_large(currentDataItem->thePeriod))
+				get_adjusted_part_of_the_day_id(previousDataItem->thePeriod) ==
+				get_adjusted_part_of_the_day_id(currentDataItem->thePeriod) && 
+				get_adjusted_part_of_the_day_id(previousDataItem->thePeriod) != MISSING_WIND_EVENT)
 		  {
 			merge = true;
 			mergePreviousToCurrent = true;
 		  }
-
+		*/
 		previousMergedIndex = UINT_MAX;
 		if(merge)
 		  {			
