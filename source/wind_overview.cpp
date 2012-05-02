@@ -277,7 +277,6 @@ namespace TextGen
 		if(theColumnSelectionBitset.test(3))
 		  {
 			output_file	<< ", "	<< fixed << setprecision(4) << theWindDataItem.theCorrectedWindDirection.value();
-			//			output_file	<< ", "	<< fixed << setprecision(4) << theWindDataItem.theWindDirection.value();
 		  }
 		if(theColumnSelectionBitset.test(2))
 		  {
@@ -1126,17 +1125,46 @@ namespace TextGen
   WeatherResult mean_wind_direction(const AnalysisSources& theSources,
 									const WeatherArea& theArea,
 									const WeatherPeriod& thePeriod,
-									const string& theFakeVar)
+									const string& theVar)
   {
 	GridForecaster forecaster;
 
-	return forecaster.analyze(theFakeVar,
-							  theSources,
-							  WindDirection,
-							  Mean,
-							  Mean,
-							  theArea,
-							  thePeriod);
+	WeatherResult windMaximum =
+	  forecaster.analyze(theVar+"::fake::wind::maximumwind",
+						 theSources,
+						 MaximumWind,
+						 Maximum,
+						 Mean,
+						 theArea,
+						 thePeriod);
+
+	WeatherResult meanDirection = forecaster.analyze(theVar+"::fake::wind:direction",
+													 theSources,
+													 WindDirection,
+													 Mean,
+													 Mean,
+													 theArea,
+													 thePeriod);
+
+	if(direction_accuracy(meanDirection.error(), theVar) == bad_accuracy &&
+	   windMaximum.value() >= 7.0)
+	  {
+		value_distribution_data_vector directionDistribution;
+		
+		populate_winddirection_distribution_time_series(theSources,
+														theArea,
+														thePeriod,
+														theVar,
+														directionDistribution);
+
+		std::sort(directionDistribution.begin(), 
+				  directionDistribution.end(),
+				  wind_direction_item_sort);
+
+		return  WeatherResult(directionDistribution[0].first, meanDirection.error());
+	  }
+
+	return meanDirection;
   }
 
   void populate_time_series(wo_story_params& storyParams)
