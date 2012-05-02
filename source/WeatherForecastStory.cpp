@@ -399,7 +399,8 @@ namespace TextGen
 				NFmiTime gapPeriodStartTime(previousPrecipitationStoryItem->thePeriod.localEndTime());
 				gapPeriodStartTime.ChangeByHours(+1);
 				NFmiTime gapPeriodEndTime(currentPrecipitationStoryItem->thePeriod.localStartTime());
-				gapPeriodEndTime.ChangeByHours(-1);
+				if(gapPeriodStartTime < gapPeriodEndTime)
+				  gapPeriodEndTime.ChangeByHours(-1);
 				WeatherPeriod gapPeriod(gapPeriodStartTime, gapPeriodEndTime);
 
 				// merge periods
@@ -470,7 +471,8 @@ namespace TextGen
 				NFmiTime gapPeriodStartTime(previousCloudinessStoryItem->thePeriod.localEndTime());
 				gapPeriodStartTime.ChangeByHours(+1);
 				NFmiTime gapPeriodEndTime(currentCloudinessStoryItem->thePeriod.localStartTime());
-				gapPeriodEndTime.ChangeByHours(-1);
+				if(gapPeriodStartTime < gapPeriodEndTime)
+				  gapPeriodEndTime.ChangeByHours(-1);
 				WeatherPeriod gapPeriod(gapPeriodStartTime, gapPeriodEndTime);
 
 				// merge periods if the precipitation period in between is short and
