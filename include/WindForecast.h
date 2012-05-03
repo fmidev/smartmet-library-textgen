@@ -110,7 +110,8 @@ using namespace WindStoryTools;
 #define VAIHTELEVA_TUULI "suunnaltaan vaihteleva tuuli"
 
 
-
+#define POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa heiketa"
+#define POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa voimistua"
 #define ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA "[iltapaivalla] edelleen [heikkenevaa] [pohjoistuulta]"
 #define ILTAPAIVALLA_POHJOISTUULTA_JOKA_ALKAA_VOIMISTUA "[iltapaivalla] [pohjoistuulta], joka alkaa voimistua"
 #define ILTAPAIVALLA_POHJOISTUULTA_JOKA_VOIMISTUU_EDELLEEN "[iltapaivalla] [pohjoistuulta], joka voimistuu edelleen"
@@ -152,8 +153,10 @@ using namespace WindStoryTools;
 
 #define ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI "[iltapaivalla] [etelatuuli] alkaa heiketa [nopeasti]"
 #define ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI "[iltapaivalla] [etelatuuli] alkaa voimistua [nopeasti]"
-#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_VOIMISTUA_JA_KAANTYA_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja kaantya [etelaan]"
-#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYA_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja kaantya [etelaan]"
+//#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_VOIMISTUA_JA_KAANTYA_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja kaantya [etelaan]"
+//#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYA_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja kaantya [etelaan]"
+#define ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja kaantyy [etelaan]"
+#define ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]"
 
   enum WindEventId 
 	{
@@ -409,7 +412,9 @@ using namespace WindStoryTools;
 		theTransientDirectionChangeFlag(false),
 		theLongTermSpeedChangeFlag(false),
 		theReportThisEventPeriodFlag(true),
-		theWeakWindPeriodFlag(false)
+		theWeakWindPeriodFlag(false),
+		theWindSpeedChangeStarts(false),
+		theWindSpeedChangeEnds(false)	
 	{}
 
 	WeatherPeriod thePeriod;
@@ -420,6 +425,8 @@ using namespace WindStoryTools;
 	bool theLongTermSpeedChangeFlag; // is speed changes for the loger period we can use "alkaen"-phrase
 	bool theReportThisEventPeriodFlag; // determines weather this event period is reported or not
 	bool theWeakWindPeriodFlag; //if wind speed is weak, event is MISSING_WIND_EVENT, but we dont merge it with faster wind speed periods and report it
+	bool theWindSpeedChangeStarts; // indicates that wind speed starts to weaken/strengthen
+	bool theWindSpeedChangeEnds; // indicates that wind speed weakening/strengthening ends
 	
 	wind_event_type getWindEventType()
 	{
@@ -511,7 +518,9 @@ using namespace WindStoryTools;
 												  const WindEventId& previousWindEventId,
 												  const WindEventId& currentWindEventId,
 												  const WindDirectionId& previousWindDirectionId,
-												  bool& useAlkaaHeiketaVoimistuaPhrase) const;
+												  const bool& theWindSpeedChangeStarts,
+												  const bool& theWindSpeedChangeEnds,
+												  bool& appendDecreasingIncreasingInterval) const;
 	void getWindDirectionBegEnd(const WeatherPeriod& thePeriod,
 								WindDirectionId& theWindDirectionIdBeg,
 								WindDirectionId& theWindDirectionIdEnd) const;
