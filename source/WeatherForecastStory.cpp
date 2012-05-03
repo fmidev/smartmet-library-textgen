@@ -146,9 +146,6 @@ namespace TextGen
 		paragraph << thePrecipitationForecast.precipitationSentence(theForecastPeriod, periodPhrase);
 	  }
 
-
-
-
 	return paragraph;
   }
 
