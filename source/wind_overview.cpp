@@ -1147,7 +1147,7 @@ namespace TextGen
 													 thePeriod);
 
 	if(direction_accuracy(meanDirection.error(), theVar) == bad_accuracy &&
-	   windMaximum.value() > 6.0)
+	   windMaximum.value() > 6.5)
 	  {
 		value_distribution_data_vector directionDistribution;
 		
@@ -1269,7 +1269,7 @@ namespace TextGen
 															dataItem.theWindDirectionDistribution);
 
 			if(direction_accuracy(dataItem.theWindDirection.error(), storyParams.theVar) == bad_accuracy &&
-			   dataItem.theWindMaximum.value() >= 7.0)
+			   dataItem.theWindMaximum.value() > 6.5)
 			  {
 				value_distribution_data_vector directionDistribution(dataItem.theWindDirectionDistribution);
 
@@ -2941,7 +2941,7 @@ namespace TextGen
 #ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
 #endif
-	find_out_transient_wind_direction_periods(storyParams); // wind direction
+	find_out_transient_wind_direction_periods(storyParams);
 #ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
 #endif
@@ -2949,17 +2949,6 @@ namespace TextGen
 #ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
 #endif
-  }
-
-  WindEventId merge_wind_events(const WindEventId& speedEvent, const WindEventId& directionEvent)
-  {
-	
-	return static_cast<WindEventId>(speedEvent + directionEvent);
-  }
-
-  bool wind_event_sort(const timestamp_wind_event_id_pair& first, const timestamp_wind_event_id_pair& second) 
-  { 
-	return (first.first < second.first);
   }
 
   double distance_from_line1(const NFmiPoint& point,  const NFmiPoint& lineBeg, const NFmiPoint& lineEnd)

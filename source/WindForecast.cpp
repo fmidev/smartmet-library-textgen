@@ -1138,32 +1138,6 @@ namespace TextGen
 	return (iterTime == time2);
   }
 
-  WindDirectionId WindForecast::getWindDirectionId(const WeatherPeriod& thePeriod,
-												   const CompassType& theComapssType) const
-  {
-	for(unsigned int i = 0; i < theParameters.theWindDataVector.size() ; i++)
-	  {
-		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
-		if(!is_inside(item.thePeriod.localStartTime(), thePeriod))
-		  continue;
-		
-		WindDirectionAccuracy accuracy(direction_accuracy(item.theWindDirection.error(), theParameters.theVar));
-
-		int direction(eight_directions ? 
-					  direction8th(item.theEqualizedWindDirection.value()) :
-					  direction16th(item.theEqualizedWindDirection.value()));
-
-		
-		if(accuracy == bad_accuracy)
-		  return VAIHTELEVA;
-		else
-		  return static_cast<WindDirectionId>(direction);
-		
-	  }
-
-	return VAIHTELEVA;
-  }
-
   void WindForecast::getPeriodStartAndEndIndex(const WeatherPeriod& period,
 											   unsigned int& begIndex,
 											   unsigned int& endIndex) const
@@ -1183,73 +1157,6 @@ namespace TextGen
 			break;
 		  }
 	  }
-  }
-
-
-  NFmiTime WindForecast::getWindDirectionTurningTime(const WeatherPeriod& period,
-													 const WindDirectionId& directionId) const
-  {
-	NFmiTime retTime(period.localStartTime());
-	unsigned int begIndex = UINT_MAX;
-	unsigned int endIndex = theParameters.theWindDataVector.size();
-
-	getPeriodStartAndEndIndex(period,
-							  begIndex,
-							  endIndex);
-
-	if(begIndex != UINT_MAX)
-	  {
-		for(unsigned int i = begIndex+1; i < endIndex; i++)
-		  {
-			const WindDataItemUnit& windDataItemCurrent = (*theParameters.theWindDataVector[i])(theParameters.theArea.type());
-			WindDirectionId windDirectionIdCurrent = wind_direction_id(windDataItemCurrent.theEqualizedWindDirection, 
-																	   windDataItemCurrent.theEqualizedMaximumWind,
-																	   theParameters.theVar);
-
-			if(windDirectionIdCurrent == directionId)
-			  {
-				retTime = windDataItemCurrent.thePeriod.localStartTime();
-				break;
-			  }
-		  }
-	  }
-	return retTime;
-  }
-
-  // returns the timestamp when the wind turns to the other direction
-  // and stays away from the original direction till the end of period
-  NFmiTime WindForecast::getWindDirectionTurningTime(const WeatherPeriod& period) const
-  {
-	NFmiTime retTime(period.localStartTime());
-	unsigned int begIndex = UINT_MAX;
-	unsigned int endIndex = theParameters.theWindDataVector.size();
-
-	getPeriodStartAndEndIndex(period,
-							  begIndex,
-							  endIndex);
-
-	if(begIndex != UINT_MAX)
-	  {
-		const WindDataItemUnit& windDataItemBeg = (*theParameters.theWindDataVector[begIndex])(theParameters.theArea.type());
-		WindDirectionId windDirectionBeg = wind_direction_id(windDataItemBeg.theEqualizedWindDirection, 
-															 windDataItemBeg.theEqualizedMaximumWind,
-															 theParameters.theVar);
-
-		for(unsigned int i = begIndex+1; i < endIndex; i++)
-		  {
-			const WindDataItemUnit& windDataItemCurrent = (*theParameters.theWindDataVector[i])(theParameters.theArea.type());
-			WindDirectionId windDirectionCurrent = wind_direction_id(windDataItemCurrent.theEqualizedWindDirection,
-																	 windDataItemCurrent.theEqualizedMaximumWind,
-																	 theParameters.theVar);
-
-			if(windDirectionCurrent != windDirectionBeg)
-			  {
-				retTime = windDataItemCurrent.thePeriod.localStartTime();
-				break;
-			  }
-		  }
-	  }
-	return retTime;
   }
 
   Sentence WindForecast::getTimePhrase(const WeatherPeriod thePeriod,
@@ -1281,21 +1188,6 @@ namespace TextGen
 	  thePreviousDayNumber = thePeriod.localStartTime().GetWeekday();
 
 	return sentence;
-  }
-
-  WindDirectionId WindForecast::getWindDirectionId(const WeatherPeriod& thePeriod) const
-  {
-	WindDirectionId retval(VAIHTELEVA);
-
-	// for short-term forecasts (8 hours or less) use 16-direction compass, for long-term forecasts 8-direction compass
-	if(thePeriod.localStartTime().DifferenceInHours(theParameters.theForecastTime) < 8)
-	  retval = getWindDirectionId(thePeriod,
-								  sixteen_directions);
-	else
-	  retval = getWindDirectionId(thePeriod,
-								  eight_directions);
-	
-	return retval;
   }
 
   vector<WeatherPeriod> WindForecast::getWindSpeedReportingPoints(const WindEventPeriodDataItem& eventPeriodDataItem,
@@ -1543,17 +1435,11 @@ namespace TextGen
 			if(intervalMax == 2)
 			  intervalMin = 0;
 
-			// TODO: check this
-			// don't report (almost) the same interval
-			//if(abs(intervalMin - thePreviousRangeBeg) >= 1 || abs(intervalMax - thePreviousRangeEnd) >= 1)
-			{
-				
-			  sentence << IntegerRange(intervalMin , intervalMax, theParameters.theRangeSeparator)
-					   << *UnitFactory::create(MetersPerSecond);
-
-			  thePreviousRangeBeg = intervalMin;
-			  thePreviousRangeEnd = intervalMax;
-			}
+			sentence << IntegerRange(intervalMin , intervalMax, theParameters.theRangeSeparator)
+					 << *UnitFactory::create(MetersPerSecond);
+			
+			thePreviousRangeBeg = intervalMin;
+			thePreviousRangeEnd = intervalMax;
 
 			if(peakWind > intervalMax)
 			  {
@@ -1577,12 +1463,9 @@ namespace TextGen
 											WeatherResult& lowerLimit,
 											WeatherResult& upperLimit) const
   {
-	// 	double medianValueSum = 0.0;
-	//	double medianErrorSum = 0.0;
-	//unsigned int counter = 0;
+	WindDataItemUnit dataItem((*theParameters.theWindDataVector[0])(theParameters.theArea.type()));
+	WindDataItemUnit dataItemMinMax((*theParameters.theWindDataVector[0])(theParameters.theArea.type()));
 
-	WindDataItemUnit dataItem = (*theParameters.theWindDataVector[0])(theParameters.theArea.type());
-	WindDataItemUnit dataItemMinMax = (*theParameters.theWindDataVector[0])(theParameters.theArea.type());
 	bool firstRound(true);
 
 	for(unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
@@ -1612,12 +1495,9 @@ namespace TextGen
 		  }
 	  }
 
-	// invalid period ?
+	// no data found for thePeriod
 	if(firstRound)
 	  return false;
-
-	// claculate average value of median time series
-	//	WeatherResult medianResult(medianValueSum / counter, medianErrorSum / counter);
 
 	lowerLimit = dataItemMinMax.theEqualizedMedianWind;
 	upperLimit = dataItemMinMax.theEqualizedMaximumWind;

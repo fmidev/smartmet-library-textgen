@@ -477,13 +477,6 @@ using namespace WindStoryTools;
 	Sentence getTimePhrase(const WeatherPeriod thePeriod,
 						   const bool& useAlkaenPhrase) const;
 
-	WindDirectionId getWindDirectionId(const WeatherPeriod& thePeriod,
-										 const CompassType& theComapssType) const;
-	WindDirectionId getWindDirectionId(const WeatherPeriod& thePeriod) const;
-	NFmiTime getWindDirectionTurningTime(const WeatherPeriod& period) const;
-	NFmiTime getWindDirectionTurningTime(const WeatherPeriod& period,
-										 const WindDirectionId& directionId) const;
-
 	vector<WeatherPeriod> getWindSpeedReportingPoints(const WindEventPeriodDataItem& eventPeriodDataItem,
 													  const bool& firstSentenceInTheStory,
 													  const WindEventId& eventId) const;
@@ -497,11 +490,6 @@ using namespace WindStoryTools;
 									 bool& fastChange) const;
 	std::string getWindDirectionTurntoString(const WindDirectionId& theWindDirectionId) const;
 	Sentence reportIntermediateSpeed(const WeatherPeriod& speedEventPeriod) const;
-	/*
-	Sentence windSpeedIntervalSentence2(const WeatherPeriod& speedEventPeriod,
-										bool theUseAtItsStrongestPhrase,
-										bool theFirstSentenceInTheStory) const;
-	*/
 	bool samePartOfTheDay(const NFmiTime& time1, const NFmiTime& time2) const;
 	Sentence directedWindSentenceAfterVaryingWind(const wo_story_params& theParameters,
 												  const WeatherPeriod& eventPeriod,

@@ -808,8 +808,8 @@ namespace TextGen
 
 	  WindDirectionId windDirectionId(MISSING_WIND_DIRECTION_ID);
 
-	  // wind speed is > 7.0 m/s it can not be vaihteleva
-	  if(accuracy == bad_accuracy && theMaxWindSpeed.value() < 8.0)
+	  // wind speed is > 6.5 m/s it can not be vaihteleva
+	  if(accuracy == bad_accuracy && theMaxWindSpeed.value() <= 6.5)
 		{
 		  windDirectionId = VAIHTELEVA;
 		}
@@ -832,8 +832,8 @@ namespace TextGen
 
 	  WindDirectionId windDirectionId(MISSING_WIND_DIRECTION_ID);
 
-	  // wind speed is > 7.0 m/s it can not be vaihteleva
-	  if(accuracy == bad_accuracy && theMaxWindSpeed.value() < 8.0)
+	  // wind speed is > 6.5 m/s it can not be vaihteleva
+	  if(accuracy == bad_accuracy && theMaxWindSpeed.value() <= 6.5)
 		{
 		  windDirectionId = VAIHTELEVA;
 		}
