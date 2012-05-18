@@ -845,28 +845,30 @@ using namespace std;
   }
 
 
-  part_of_the_day_id get_adjusted_part_of_the_day_id(const WeatherPeriod& theWeatherPeriod)
+  part_of_the_day_id get_adjusted_part_of_the_day_id(const WeatherPeriod& theWeatherPeriod, bool theAlkaenPhrase /*= false*/)
   {
 	part_of_the_day_id id(MISSING_PART_OF_THE_DAY_ID);
 
-	if(theWeatherPeriod.localStartTime().GetJulianDay() == 
-	   theWeatherPeriod.localEndTime().GetJulianDay() &&
-	   get_part_of_the_day_id(theWeatherPeriod.localStartTime()) == 
-	   get_part_of_the_day_id(theWeatherPeriod.localEndTime()))
+	WeatherPeriod period(theAlkaenPhrase ? WeatherPeriod(theWeatherPeriod.localStartTime(), theWeatherPeriod.localStartTime()) : theWeatherPeriod);
+
+	if(period.localStartTime().GetJulianDay() == 
+	   period.localEndTime().GetJulianDay() &&
+	   get_part_of_the_day_id(period.localStartTime()) == 
+	   get_part_of_the_day_id(period.localEndTime()))
 	  {
-		id = get_part_of_the_day_id_narrow(theWeatherPeriod);
+		id = get_part_of_the_day_id_narrow(period);
 	  }
 	else
 	  {
-		id = get_part_of_the_day_id_narrow(theWeatherPeriod);
+		id = get_part_of_the_day_id_narrow(period);
 
 		if(id == MISSING_PART_OF_THE_DAY_ID)
 		  {
-			if(theWeatherPeriod.localEndTime().DifferenceInHours(theWeatherPeriod.localStartTime()) > 2)
+			if(period.localEndTime().DifferenceInHours(period.localStartTime()) > 2)
 			  {
 				// 1 hour tolerance
-				NFmiTime startTime(theWeatherPeriod.localStartTime());
-				NFmiTime endTime(theWeatherPeriod.localEndTime());
+				NFmiTime startTime(period.localStartTime());
+				NFmiTime endTime(period.localEndTime());
 				startTime.ChangeByHours(1);
 				endTime.ChangeByHours(-1);
 				WeatherPeriod narrowerPeriod(startTime, endTime);
@@ -878,7 +880,7 @@ using namespace std;
 
 				if(id == MISSING_PART_OF_THE_DAY_ID)
 				  {
-					id = get_part_of_the_day_id_large(theWeatherPeriod);
+					id = get_part_of_the_day_id_large(period);
 
 					if(id == MISSING_PART_OF_THE_DAY_ID)
 					  {
@@ -888,14 +890,8 @@ using namespace std;
 			  }
 			else
 			  {
-				id = get_part_of_the_day_id_large(theWeatherPeriod);
+				id = get_part_of_the_day_id_large(period);
 			  }			
-			/*
-			if(id == MISSING_PART_OF_THE_DAY_ID)
-			  {
-				id = get_part_of_the_day_id(theWeatherPeriod.localStartTime());
-			  }
-			*/
 		  }
 	  }
 	return id;
@@ -1013,9 +1009,11 @@ using namespace std;
 	  }
 	else if(is_inside(theTimestamp, ILTA))
 	  {
+		/*
 		if(is_inside(theTimestamp, ILTAPAIVA))
-		retval = (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
-		else if(is_inside(theTimestamp, ILTAYO))
+		  retval = (theAlkaenPhrase ? ILTAPAIVASTA_ALKAEN_PHRASE : ILTAPAIVALLA_WORD);
+		*/
+		if(is_inside(theTimestamp, ILTAYO))
 		  retval = (theAlkaenPhrase ? ILTAYOSTA_ALKAEN_PHRASE : ILTAYOLLA_WORD);
 		else
 		  retval = (theAlkaenPhrase ? ILLASTA_ALKAEN_PHRASE : ILLALLA_WORD);

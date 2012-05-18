@@ -577,7 +577,7 @@ namespace TextGen
   void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour);
   part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod);
   part_of_the_day_id get_part_of_the_day_id_large(const WeatherPeriod& thePeriod);
-  part_of_the_day_id get_adjusted_part_of_the_day_id(const WeatherPeriod& theWeatherPeriod);
+  part_of_the_day_id get_adjusted_part_of_the_day_id(const WeatherPeriod& theWeatherPeriod, bool theAlkaenPhrase = false);
  /*  bool get_part_of_the_day(const WeatherPeriod& theSourcePeriod, 
 	  const part_of_the_day_id& thePartOfTheDayId, 
 	  WeatherPeriod& theDestinationPeriod);*/

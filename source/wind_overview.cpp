@@ -76,7 +76,11 @@ namespace TextGen
 
   std::string get_area_name_string(const WeatherArea& theArea)
   {
-	return (theArea.isNamed() ? theArea.name() : "");
+	std::string retval(theArea.isNamed() ? theArea.name() : "");
+	retval += "_";
+	retval += get_area_type_string(theArea.type());
+
+	return retval;
   }
 
   std::ostream& operator<<(std::ostream& theOutput,
@@ -542,35 +546,54 @@ namespace TextGen
 	// suunnan k-hajonta == 1
 	// fraasi == 0
 
-	columnSelectionBitset.set();
-	print_csv_table(storyParams.theArea,
-					id_str,
-					storyParams.theVar,
-					storyParams.theWindDataVector,
-					storyParams.originalWindDataIndexes(storyParams.theArea.type()),
-					columnSelectionBitset);
+
+
 
 	/*
-	  print_html_table(storyParams.theAreaName,
-	  id_str,
-	  storyParams.theVar,
-	  storyParams.theWindDataVector,
-	  storyParams.theOriginalWindSpeedIndexes,
-	  columnSelectionBitset);
-	*/
+	for(unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
+	  {
+		for(unsigned int k = 0; k < storyParams.theWeatherAreas.size(); k++)
+		  {
+			const WeatherArea& weatherArea = storyParams.theWeatherAreas[k];
+			WeatherArea::Type areaType(weatherArea.type());
 
-	print_windspeed_distribution(storyParams.theArea,
-								 "_windspeed_distribution",
-								 storyParams.theVar,
-								 storyParams.theWindDataVector,
-								 storyParams.originalWindDataIndexes(storyParams.theArea.type()));
+			WindDataItemUnit& dataItem = (storyParams.theWindDataVector[i])->getDataItem(areaType);
 
-	print_winddirection_distribution(storyParams.theArea,
-									 "_winddirection_distribution",
+	 */
+
+	for(unsigned int i = 0; i < storyParams.theWeatherAreas.size(); i++)
+	  {
+		const WeatherArea& weatherArea = storyParams.theWeatherAreas[i];
+
+		columnSelectionBitset.set();
+		print_csv_table(weatherArea,
+						id_str,
+						storyParams.theVar,
+						storyParams.theWindDataVector,
+						storyParams.originalWindDataIndexes(storyParams.theArea.type()),
+						columnSelectionBitset);
+
+		/*
+		  print_html_table(storyParams.theAreaName,
+		  id_str,
+		  storyParams.theVar,
+		  storyParams.theWindDataVector,
+		  storyParams.theOriginalWindSpeedIndexes,
+		  columnSelectionBitset);
+		*/
+
+		print_windspeed_distribution(weatherArea,
+									 "_windspeed_distribution",
 									 storyParams.theVar,
 									 storyParams.theWindDataVector,
 									 storyParams.originalWindDataIndexes(storyParams.theArea.type()));
 
+		print_winddirection_distribution(weatherArea,
+										 "_winddirection_distribution",
+										 storyParams.theVar,
+										 storyParams.theWindDataVector,
+										 storyParams.originalWindDataIndexes(storyParams.theArea.type()));
+	  }
 
 	/*
 	  columnSelectionBitset.set();
@@ -635,10 +658,11 @@ namespace TextGen
 		for(unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
 		  {
 			const WindDataItemUnit& windDataItem = (*storyParams.theWindDataVector[i])(areaType);
+			WindDirectionId windDirectionId = wind_direction_id(windDataItem.theCorrectedWindDirection,
+																windDataItem.theEqualizedMaximumWind,
+																storyParams.theVar);
 			storyParams.theLog << windDataItem;
-			storyParams.theLog << "; fraasi: "<< directed16_speed_string(windDataItem.theWindSpeedMean, 
-																		 windDataItem.theCorrectedWindDirection, // windDataItem.theWindDirection, 
-																		 storyParams.theVar)
+			storyParams.theLog << "; fraasi: "<< wind_direction_string(windDirectionId)
 							   << endl;
 		  }
 	  }
@@ -1125,10 +1149,12 @@ namespace TextGen
   WeatherResult mean_wind_direction(const AnalysisSources& theSources,
 									const WeatherArea& theArea,
 									const WeatherPeriod& thePeriod,
+									const WeatherResult& theEqualizedWindMaximum,
 									const string& theVar)
   {
 	GridForecaster forecaster;
 
+	/*
 	WeatherResult windMaximum =
 	  forecaster.analyze(theVar+"::fake::wind::maximumwind",
 						 theSources,
@@ -1137,7 +1163,7 @@ namespace TextGen
 						 Mean,
 						 theArea,
 						 thePeriod);
-
+	*/
 	WeatherResult meanDirection = forecaster.analyze(theVar+"::fake::wind:direction",
 													 theSources,
 													 WindDirection,
@@ -1147,7 +1173,7 @@ namespace TextGen
 													 thePeriod);
 
 	if(direction_accuracy(meanDirection.error(), theVar) == bad_accuracy &&
-	   windMaximum.value() > 6.5)
+	   theEqualizedWindMaximum.value() > 6.5)
 	  {
 		value_distribution_data_vector directionDistribution;
 		
@@ -1472,6 +1498,23 @@ namespace TextGen
 	return (difference > windDirectionThreshold && direction1 != direction2  ? TUULI_KAANTYY : MISSING_WIND_DIRECTION_EVENT);
   }
 
+  WindEventId get_wind_direction_event(const WindEventPeriodDataItem& windEventPeriodDataItem,
+									   const string& var,
+									   const double& windDirectionThreshold)
+  {
+	const WeatherResult& windDirection1(windEventPeriodDataItem.thePeriodBeginDataItem.theEqualizedWindDirection);
+	const WeatherResult& windDirection2(windEventPeriodDataItem.thePeriodEndDataItem.theEqualizedWindDirection);
+	const WeatherResult& maximumWind1(windEventPeriodDataItem.thePeriodBeginDataItem.theEqualizedMaximumWind);
+	const WeatherResult& maximumWind2(windEventPeriodDataItem.thePeriodEndDataItem.theEqualizedMaximumWind);
+	
+	return get_wind_direction_event(windDirection1, 
+									windDirection2,
+									maximumWind1, 
+									maximumWind2,
+									var,
+									windDirectionThreshold);
+  }
+
   // find out wind events: strengthening wind, weakening wind, 
   // or missing wind speed event (no signifigant change in speed
   void find_out_wind_speed_event_periods(wo_story_params& storyParams)
@@ -1544,6 +1587,73 @@ namespace TextGen
 																						dataItemPeriodBegin,
 																						dataItemPeriodEnd));
 	  }
+  }
+
+  void sort_out_wind_direction_events(wo_story_params& storyParams)
+  {
+	/*
+	for(int i = storyParams.theMergedWindEventPeriodVector.size() - 1; i >= 0; i--)
+	  {
+		WindEventPeriodDataItem* currentItem = storyParams.theMergedWindEventPeriodVector[i];
+		WindEventPeriodDataItem* previousItem(i > 0 ? storyParams.theMergedWindEventPeriodVector[i-1] : 0);
+
+		if(currentItem->theWindEvent & TUULI_KAANTYY)
+		  {
+			WindEventId directionEventId(get_wind_direction_event(currentItem->thePeriodBeginDataItem.theEqualizedWindDirection,
+																  currentItem->thePeriodEndDataItem.theEqualizedWindDirection,
+																  currentItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
+																  currentItem->thePeriodEndDataItem.theEqualizedMaximumWind,
+																  storyParams.theVar,
+																  storyParams.theWindDirectionThreshold));
+
+			if(directionEventId == MISSING_WIND_DIRECTION_EVENT)
+			  {
+				if(!previousItem)
+				  {
+					currentItem->theWindEvent = mask_wind_event(currentItem->theWindEvent, TUULI_KAANTYY);
+				  }
+				else
+				  {
+					if(get_wind_direction_id_at(storyParams,
+												previousItem->thePeriod,
+												storyParams.theVar) != VAIHTELEVA &&
+					   !(previousItem->theWindEvent & TUULI_KAANTYY))
+					  {
+						currentItem->theWindEvent = mask_wind_event(currentItem->theWindEvent, TUULI_KAANTYY);						
+					  }
+				  }
+			  }
+		  }
+	  }
+	*/
+
+	/*
+	for(unsigned int i = 0; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
+	  {
+		WindEventPeriodDataItem* currentItem = storyParams.theMergedWindEventPeriodVector[i];
+		WindEventPeriodDataItem* previousItem((i > 0 ? storyParams.theMergedWindEventPeriodVector[i-1] : 0));
+		WindEventPeriodDataItem* nextItem((i < storyParams.theMergedWindEventPeriodVector.size() -1 ? 
+										   storyParams.theMergedWindEventPeriodVector[i+1] : 0));
+
+		if(currentItem->theWindEvent & TUULI_KAANTYY)
+		  {
+			WindEventId directionEventId(get_wind_direction_event(currentItem->thePeriodBeginDataItem.theEqualizedWindDirection,
+																  currentItem->thePeriodEndDataItem.theEqualizedWindDirection,
+																  currentItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
+																  currentItem->thePeriodEndDataItem.theEqualizedMaximumWind,
+																  storyParams.theVar,
+																  storyParams.theWindDirectionThreshold));
+
+			bool previousVaihteleva = (previousItem && get_wind_direction_id_at(storyParams,
+																				previousItem->thePeriod,
+																				storyParams.theVar) == VAIHTELEVA);
+
+
+			if(directionEventId == MISSING_WIND_DIRECTION_EVENT && !previousVaihteleva)
+			  currentItem->theWindEvent = mask_wind_event(currentItem->theWindEvent, TUULI_KAANTYY);
+		  }
+	  }
+	*/
   }
 
   void find_out_wind_direction_event_periods(wo_story_params& storyParams)
@@ -1656,7 +1766,6 @@ namespace TextGen
 									   storyParams.theWindDirectionThreshold);
 		  }
 	  }
-
   }
 
 
@@ -1671,13 +1780,31 @@ namespace TextGen
 
 		if(windEventIdCurrent & TUULI_MUUTTUU_VAIHTELEVAKSI)
 		  {
+			if(storyParams.theMergedWindEventPeriodVector.size() > i + 1)
+			  {
+				WindEventPeriodDataItem* eventItemNext(storyParams.theMergedWindEventPeriodVector[i+1]);
+
+				WindDirectionId windDirectionIdAvg(get_wind_direction_id_at(storyParams,
+																			eventItemNext->thePeriod,
+																			storyParams.theVar));
+
+				if(eventItemNext->theWindEvent == MISSING_WIND_EVENT && 
+				   windDirectionIdAvg != VAIHTELEVA &&
+				   get_period_length(eventItem->thePeriod) <= 3)
+				  {
+					eventItem->theTransientDirectionChangeFlag = true;
+					continue;
+				  }
+			  }
+
 			for(unsigned int k = i+1; k < storyParams.theMergedWindEventPeriodVector.size(); k++)
 			  {
-				WindEventId windEventLater = storyParams.theMergedWindEventPeriodVector[k]->theWindEvent;
+				WindEventPeriodDataItem* eventItemLater(storyParams.theMergedWindEventPeriodVector[k]);
+				WindEventId windEventLater = eventItemLater->theWindEvent;
 				if((windEventLater & TUULI_KAANTYY || windEventLater & TUULI_VOIMISTUU) &&
-				   storyParams.theMergedWindEventPeriodVector[k]->thePeriod.localStartTime().DifferenceInHours(eventItem->thePeriod.localStartTime()) <= 3)
+				   eventItemLater->thePeriod.localStartTime().DifferenceInHours(eventItem->thePeriod.localStartTime()) <= 3)
 				  {
-					storyParams.theMergedWindEventPeriodVector[i]->theTransientDirectionChangeFlag = true;
+					eventItem->theTransientDirectionChangeFlag = true;
 					break;
 				  }
 			  }
@@ -2131,8 +2258,6 @@ namespace TextGen
 	  }
   }
 
-  // retrns difference between directions: if direction increases value is positive, if direction decreases value is negative
-
   void remove_reduntant_periods(wo_story_params& storyParams)
   {
 	unsigned int endIndex = storyParams.theMergedWindEventPeriodVector.size()-1;
@@ -2178,23 +2303,27 @@ namespace TextGen
   // theOldItem1 is the item that will be updated
   // theOldItem2 is the item that is merged to another and later removed
   bool re_create_merged_item(WindEventPeriodDataItem** theOldItem1, 
-							 WindEventPeriodDataItem* theOldItme2,
+							 WindEventPeriodDataItem* theOldItem2,
 							 const WeatherPeriod& thePeriod,
 							 const wo_story_params& storyParams)
   {
-	const WindEventPeriodDataItem* pEarlierPeriodItem = (*theOldItem1)->thePeriod.localStartTime() < theOldItme2->thePeriod.localStartTime() ? (*theOldItem1) : theOldItme2;
-	const WindEventPeriodDataItem* pLaterPeriodItem = pEarlierPeriodItem == (*theOldItem1) ? theOldItme2 : (*theOldItem1);
+	const WindEventPeriodDataItem* pEarlierPeriodItem = (*theOldItem1)->thePeriod.localStartTime() < theOldItem2->thePeriod.localStartTime() ? (*theOldItem1) : theOldItem2;
+	const WindEventPeriodDataItem* pLaterPeriodItem = pEarlierPeriodItem == (*theOldItem1) ? theOldItem2 : (*theOldItem1);
 	
 	if(((!pEarlierPeriodItem->theWeakWindPeriodFlag && pLaterPeriodItem->theWeakWindPeriodFlag) ||
-	   (pEarlierPeriodItem->theWeakWindPeriodFlag && !pLaterPeriodItem->theWeakWindPeriodFlag)) &&
-	   !(pEarlierPeriodItem->theWindEvent == MISSING_WIND_EVENT && pLaterPeriodItem->theWindEvent == MISSING_WIND_EVENT))
-	  return false;
+		(pEarlierPeriodItem->theWeakWindPeriodFlag && !pLaterPeriodItem->theWeakWindPeriodFlag)))
+	  {
+		if(!(pEarlierPeriodItem->theWindEvent == MISSING_WIND_EVENT && pLaterPeriodItem->theWindEvent == MISSING_WIND_EVENT))
+		  return false;
+	  }
 
 	WeatherPeriod period(pEarlierPeriodItem->thePeriod.localStartTime(),
 						 pLaterPeriodItem->thePeriod.localEndTime());
 
 	WindEventId compositeWindEvent(sort_out_wind_event(pEarlierPeriodItem->theWindEvent, pLaterPeriodItem->theWindEvent));
+
 	// check if direction changes enough
+	/*
 	if(compositeWindEvent & TUULI_KAANTYY)
 	  {
 		WindEventId windDirectionEvent = 
@@ -2208,7 +2337,9 @@ namespace TextGen
 		if(windDirectionEvent == MISSING_WIND_DIRECTION_EVENT)
 		  compositeWindEvent = mask_wind_event(compositeWindEvent, TUULI_KAANTYY);
 	  }
+	*/
 	// check if speed changes enough
+	/*
 	if(compositeWindEvent & TUULI_HEIKKENEE ||
 	   compositeWindEvent & TUULI_VOIMISTUU)
 	  {
@@ -2223,25 +2354,20 @@ namespace TextGen
 			compositeWindEvent = mask_wind_event(compositeWindEvent, mask);
 		  }
 	  }
-
+	*/
 	WindEventPeriodDataItem* pNewItem = new WindEventPeriodDataItem(period,
 																	compositeWindEvent,
 																	pEarlierPeriodItem->thePeriodBeginDataItem,
 																	pLaterPeriodItem->thePeriodEndDataItem);
 
-	pNewItem->theWeakWindPeriodFlag = pLaterPeriodItem->theWeakWindPeriodFlag;
+	pNewItem->theWeakWindPeriodFlag = is_weak_period(storyParams, period);
 
-	/*
-	// TODO: check these flags
-	theTransientDirectionChangeFlag(false),
-	theLongTermSpeedChangeFlag(false),
-	*/
-	
 	delete (*theOldItem1);
 
 	(*theOldItem1) = pNewItem; 
 
-	theOldItme2->theReportThisEventPeriodFlag = false;
+	theOldItem2->theReportThisEventPeriodFlag = false;
+
 
 	return true;
   }
@@ -2258,7 +2384,21 @@ namespace TextGen
 		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
 		previousDataItem = storyParams.theMergedWindEventPeriodVector[i-1];
 
-		if(currentDataItem->theWindEvent == TUULI_KAANTYY &&
+		bool vaihtelevaTuuli((get_wind_direction_id_at(storyParams,
+													   currentDataItem->thePeriod,
+													   storyParams.theVar) == VAIHTELEVA &&
+							  get_wind_direction_id_at(storyParams,
+													   previousDataItem->thePeriod,
+													   storyParams.theVar) != VAIHTELEVA) ||
+							 (get_wind_direction_id_at(storyParams,
+													   currentDataItem->thePeriod,
+													   storyParams.theVar) != VAIHTELEVA &&
+							  get_wind_direction_id_at(storyParams,
+													   previousDataItem->thePeriod,
+													   storyParams.theVar) == VAIHTELEVA));
+
+		if(!vaihtelevaTuuli &&
+		   currentDataItem->theWindEvent == TUULI_KAANTYY &&
 		   previousDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU)
 		  {
 			WindDirectionId directionBeg = wind_direction_id(currentDataItem->thePeriodBeginDataItem.theEqualizedWindDirection, currentDataItem->thePeriodBeginDataItem.theEqualizedMaximumWind, storyParams.theVar);
@@ -2279,22 +2419,23 @@ namespace TextGen
 				  previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI) ||
 				(currentDataItem->theWindEvent == TUULI_HEIKKENEE &&
 				previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI) ||*/
-				(currentDataItem->theWindEvent == TUULI_VOIMISTUU &&
-				 previousDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU) ||
-				(currentDataItem->theWindEvent == TUULI_HEIKKENEE &&
-				 previousDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE) ||
-				(currentDataItem->theWindEvent == TUULI_VOIMISTUU &&
-				 previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU) ||
-				(currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI &&
-				 previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU) ||
-				(currentDataItem->theWindEvent == TUULI_HEIKKENEE &&
-				 previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE) ||
-				(currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI &&
-				 previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE))
+				!vaihtelevaTuuli &&
+				((currentDataItem->theWindEvent == TUULI_VOIMISTUU &&
+				  previousDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU) ||
+				 (currentDataItem->theWindEvent == TUULI_HEIKKENEE &&
+				  previousDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE) ||
+				 (currentDataItem->theWindEvent == TUULI_VOIMISTUU &&
+				  previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU) ||
+				 (currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI &&
+				  previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU) ||
+				 (currentDataItem->theWindEvent == TUULI_HEIKKENEE &&
+				  previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE) ||
+				 (currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI &&
+				  previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE)))
 		  {
 			if(re_create_merged_item(&previousDataItem,
-								  currentDataItem,
-								  WeatherPeriod(previousDataItem->thePeriod.localStartTime(),
+									 currentDataItem,
+									 WeatherPeriod(previousDataItem->thePeriod.localStartTime(),
 												currentDataItem->thePeriod.localEndTime()),
 									 storyParams))
 			  {
@@ -2302,14 +2443,15 @@ namespace TextGen
 				i++;
 			  }
 		  }
-		else if((currentDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU &&
-				 previousDataItem->theWindEvent == TUULI_KAANTYY) ||
-				(currentDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE &&
-				 previousDataItem->theWindEvent == TUULI_KAANTYY) ||
-				(currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU &&
-				 previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI) ||
-				(currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE &&
-				 previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI))
+		else if(!vaihtelevaTuuli &&
+				((currentDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU &&
+				  previousDataItem->theWindEvent == TUULI_KAANTYY) ||
+				 (currentDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE &&
+				  previousDataItem->theWindEvent == TUULI_KAANTYY) ||
+				 (currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU &&
+				  previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI) ||
+				 (currentDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE &&
+				  previousDataItem->theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI)))
 		  {
 			if(previousDataItem->theWindEvent == TUULI_KAANTYY &&
 			   !wind_turns_to_the_same_direction(previousDataItem->thePeriodBeginDataItem.theEqualizedWindDirection.value(),
@@ -2325,10 +2467,11 @@ namespace TextGen
 			  storyParams.theMergedWindEventPeriodVector[i] = currentDataItem;
 
 		  }		
-		else if((currentDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU &&
-				 previousDataItem->theWindEvent == TUULI_VOIMISTUU) ||
-				(currentDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE &&
-				 previousDataItem->theWindEvent == TUULI_HEIKKENEE))
+		else if(!vaihtelevaTuuli &&
+				((currentDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU &&
+				  previousDataItem->theWindEvent == TUULI_VOIMISTUU) ||
+				 (currentDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE &&
+				  previousDataItem->theWindEvent == TUULI_HEIKKENEE)))
 		  {
 			WindDirectionId windDirectionId(wind_direction_id(previousDataItem->thePeriodBeginDataItem.theEqualizedWindDirection,
 															  previousDataItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
@@ -2491,7 +2634,8 @@ namespace TextGen
 																					currentDataItem->thePeriodEndDataItem);
 					delete currentDataItem;
 					storyParams.theMergedWindEventPeriodVector[i] = pNewItem;
-					currentDataItem = pNewItem;					
+					currentDataItem = pNewItem;	
+
 					break;
 				  }
 			  }
@@ -2557,11 +2701,16 @@ namespace TextGen
  	// 3) a) if wind direction doesn't change (e.g. itätuuli -> idän puoleinen tuuli), remove the KAANTYY-event
 	// b) merge successive periods when tuuli kaantyy and direction remains the same 
 	unsigned int previousMergedIndex(UINT_MAX);
+	nextDataItem = 0;
 	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
 	  {
 		unsigned int previousPeriodIndex(previousMergedIndex == UINT_MAX ? i - 1 : previousMergedIndex);
 		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
 		previousDataItem = storyParams.theMergedWindEventPeriodVector[previousPeriodIndex];
+		if(i < storyParams.theMergedWindEventPeriodVector.size() - 1)
+		  nextDataItem = storyParams.theMergedWindEventPeriodVector[i+1];
+		else
+		  nextDataItem = 0;
 
 		WindDirectionId currentWindDirectionId(get_wind_direction_id_at(storyParams,
 																		currentDataItem->thePeriod,
@@ -2577,26 +2726,26 @@ namespace TextGen
 		bool merge = false;
 		if(currentDataItem->theWindEvent & TUULI_KAANTYY)
 		  {
-			if(same_direction(currentDataItem->thePeriodBeginDataItem.theEqualizedWindDirection,
-							  currentDataItem->thePeriodEndDataItem.theEqualizedWindDirection,
-							  currentDataItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
-							  currentDataItem->thePeriodEndDataItem.theEqualizedMaximumWind,
-							  storyParams.theVar,
-							  true) ||
-			   previousWindDirectionId == wind_direction_id(currentDataItem->thePeriodEndDataItem.theEqualizedWindDirection, 
-															currentDataItem->thePeriodEndDataItem.theEqualizedMaximumWind, 
-															storyParams.theVar))
-			  {
-				currentDataItem->theWindEvent = mask_wind_event(currentDataItem->theWindEvent, TUULI_KAANTYY);
-			  }
-			else if(previousDataItem->theWindEvent & TUULI_KAANTYY &&
-					same_direction(currentWindDirectionId,
-								   previousWindDirectionId,
-								   true))
+			if(previousDataItem->theWindEvent & TUULI_KAANTYY &&
+			   same_direction(currentWindDirectionId,
+							  previousWindDirectionId,
+							  true))
 			  {
 				merge = true;
 			  }
-
+			else if(same_direction(currentDataItem->thePeriodBeginDataItem.theEqualizedWindDirection,
+								   currentDataItem->thePeriodEndDataItem.theEqualizedWindDirection,
+								   currentDataItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
+								   currentDataItem->thePeriodEndDataItem.theEqualizedMaximumWind,
+								   storyParams.theVar,
+								   true) ||
+					previousWindDirectionId == wind_direction_id(currentDataItem->thePeriodEndDataItem.theEqualizedWindDirection, 
+																 currentDataItem->thePeriodEndDataItem.theEqualizedMaximumWind, 
+																 storyParams.theVar))
+			  {
+				if(!nextDataItem || !(nextDataItem->theWindEvent & TUULI_KAANTYY))
+				  currentDataItem->theWindEvent = mask_wind_event(currentDataItem->theWindEvent, TUULI_KAANTYY);
+			  }
 		  }
 
 		previousMergedIndex = UINT_MAX;
@@ -2615,6 +2764,7 @@ namespace TextGen
 		  }
 	  }
 	
+	sort_out_wind_direction_events(storyParams);
 	remove_reduntant_periods(storyParams);
 	
 #ifndef NDEBUG
@@ -2649,6 +2799,7 @@ namespace TextGen
 
 	// 5) merge simple period events with composite period events
 	merge_simple_and_composite_period_events(storyParams);
+	sort_out_wind_direction_events(storyParams);
 	remove_reduntant_periods(storyParams);
 
 #ifndef NDEBUG
@@ -2761,6 +2912,12 @@ namespace TextGen
 			currentDataItem->theWindEvent = MISSING_WIND_EVENT;
 			mergePeriods = true;
 		  }
+		else if(previousDataItem->theWindEvent == TUULI_KAANTYY && 
+				currentDataItem->theWindEvent == MISSING_WIND_EVENT)
+		  {
+			storyParams.theLog << "* Merge case #7 *" << endl;
+			mergePeriods = true;
+		  }
 
 		previousMergedIndex = UINT_MAX;
 		if(mergePeriods)
@@ -2784,6 +2941,7 @@ namespace TextGen
 		  }
 	  }
 
+	sort_out_wind_direction_events(storyParams);
 	remove_reduntant_periods(storyParams);
 
 #ifndef NDEBUG
@@ -2793,6 +2951,7 @@ namespace TextGen
 
     // 7) Merge simple and composite periods
 	merge_simple_and_composite_period_events(storyParams);
+	sort_out_wind_direction_events(storyParams);
 	remove_reduntant_periods(storyParams);
 
 #ifndef NDEBUG
@@ -2816,6 +2975,12 @@ namespace TextGen
 		bool mergePreviousToCurrent(false);
 		if(currentDataItem->theWindEvent == MISSING_WIND_EVENT &&
 		   previousDataItem->theWindEvent == MISSING_WIND_EVENT)
+		  {
+			merge = true;
+		  }
+		if(currentDataItem->theWindEvent == MISSING_WIND_EVENT &&
+		   currentDataItem->theWeakWindPeriodFlag &&
+		   previousDataItem->theWindEvent == TUULI_HEIKKENEE)
 		  {
 			merge = true;
 		  }
@@ -2868,6 +3033,7 @@ namespace TextGen
 		  }
 	  }
 
+	sort_out_wind_direction_events(storyParams);
 	remove_reduntant_periods(storyParams);
 
 #ifndef NDEBUG
@@ -2875,7 +3041,7 @@ namespace TextGen
 	log_merged_wind_event_periods(storyParams);
 #endif
 
-	// 9) if wind speed weakens/strengthens, check wheather it starts or stops on this period
+	// 9) if wind speed weakens/strengthens, check wheather it starts or stops on that period
 	for(unsigned int i = 0; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
 	  {		
 		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
@@ -3079,297 +3245,301 @@ namespace TextGen
 
   void calculate_equalized_wind_speed_indexes_for_median_wind(wo_story_params& storyParams)
   {
-	unsigned int index1, index2, index3;
-	WeatherArea::Type areaType(storyParams.theArea.type());
-
-	vector<unsigned int>& eqIndexVector = storyParams.equalizedWSIndexesMedian(areaType);
-
-	while(1)
+	for(unsigned int j = 0; j < storyParams.theWeatherAreas.size(); j++)
 	  {
-		double minError = UINT_MAX;
-		unsigned int minErrorIndex = UINT_MAX;
+		const WeatherArea& weatherArea = storyParams.theWeatherAreas[j];
 
-		for(unsigned int i = 0; i < eqIndexVector.size() - 2; i++)
-		  {	
-			index1 = eqIndexVector[i];
-			index2 = eqIndexVector[i+1];
-			index3 = eqIndexVector[i+2];
-			
-			const WindDataItemUnit& dataItemIndex1 = (*storyParams.theWindDataVector[index1])(areaType);
-			const WindDataItemUnit& dataItemIndex2 = (*storyParams.theWindDataVector[index2])(areaType);
-			const WindDataItemUnit& dataItemIndex3 = (*storyParams.theWindDataVector[index3])(areaType);
+		unsigned int index1, index2, index3;
+		WeatherArea::Type areaType(weatherArea.type());//storyParams.theArea.type());
 
-			double lineBegX = index1;
-			double lineBegY = dataItemIndex1.theWindSpeedMedian.value();
-			double lineEndX = index3;
-			double lineEndY = dataItemIndex3.theWindSpeedMedian.value();
-			double coordX = index2;
-			double coordY = dataItemIndex2.theWindSpeedMedian.value();
-			NFmiPoint point(coordX, coordY);
-			NFmiPoint lineBegPoint(lineBegX, lineBegY);
-			NFmiPoint lineEndPoint(lineEndX, lineEndY);
-			double deviation_from_line = distance_from_line(point, lineBegPoint, lineEndPoint);
+		vector<unsigned int>& eqIndexVector = storyParams.equalizedWSIndexesMedian(areaType);
 
-			if(deviation_from_line < minError)
-			  {
-				minError = deviation_from_line;
-				minErrorIndex = i+1;
-			  }
-		  }
-
-		if(minError > storyParams.theMaxErrorWindSpeed)
+		while(1)
 		  {
-			break;
-		  }
-		// remove the point with minimum error
-		eqIndexVector.erase(eqIndexVector.begin()+minErrorIndex);
-	  } // while
+			double minError = UINT_MAX;
+			unsigned int minErrorIndex = UINT_MAX;
 
-	bool valuesToAdd = true;
-	do {
-	  valuesToAdd = add_local_min_max_values(eqIndexVector, storyParams, true);
-	} while(valuesToAdd);
+			for(unsigned int i = 0; i < eqIndexVector.size() - 2; i++)
+			  {	
+				index1 = eqIndexVector[i];
+				index2 = eqIndexVector[i+1];
+				index3 = eqIndexVector[i+2];
+			
+				const WindDataItemUnit& dataItemIndex1 = (*storyParams.theWindDataVector[index1])(areaType);
+				const WindDataItemUnit& dataItemIndex2 = (*storyParams.theWindDataVector[index2])(areaType);
+				const WindDataItemUnit& dataItemIndex3 = (*storyParams.theWindDataVector[index3])(areaType);
+
+				double lineBegX = index1;
+				double lineBegY = dataItemIndex1.theWindSpeedMedian.value();
+				double lineEndX = index3;
+				double lineEndY = dataItemIndex3.theWindSpeedMedian.value();
+				double coordX = index2;
+				double coordY = dataItemIndex2.theWindSpeedMedian.value();
+				NFmiPoint point(coordX, coordY);
+				NFmiPoint lineBegPoint(lineBegX, lineBegY);
+				NFmiPoint lineEndPoint(lineEndX, lineEndY);
+				double deviation_from_line = distance_from_line(point, lineBegPoint, lineEndPoint);
+
+				if(deviation_from_line < minError)
+				  {
+					minError = deviation_from_line;
+					minErrorIndex = i+1;
+				  }
+			  }
+
+			if(minError > storyParams.theMaxErrorWindSpeed)
+			  {
+				break;
+			  }
+			// remove the point with minimum error
+			eqIndexVector.erase(eqIndexVector.begin()+minErrorIndex);
+		  } // while
+
+		bool valuesToAdd = true;
+		do {
+		  valuesToAdd = add_local_min_max_values(eqIndexVector, storyParams, true);
+		} while(valuesToAdd);
 	
-	// re-calculate equalized values for the removed points
-	for(unsigned int i = 1; i < eqIndexVector.size(); i++)
-	  {
-		unsigned int currentIndex = eqIndexVector[i];
-		unsigned int previousIndex = eqIndexVector[i-1];
-		const WindDataItemUnit& previousItem = (*storyParams.theWindDataVector[previousIndex])(areaType);
-		const WindDataItemUnit& currentItem = (*storyParams.theWindDataVector[currentIndex])(areaType);
+		// re-calculate equalized values for the removed points
+		for(unsigned int i = 1; i < eqIndexVector.size(); i++)
+		  {
+			unsigned int currentIndex = eqIndexVector[i];
+			unsigned int previousIndex = eqIndexVector[i-1];
+			const WindDataItemUnit& previousItem = (*storyParams.theWindDataVector[previousIndex])(areaType);
+			const WindDataItemUnit& currentItem = (*storyParams.theWindDataVector[currentIndex])(areaType);
 
-		if(currentIndex == previousIndex + 1)
-		  continue;
+			if(currentIndex == previousIndex + 1)
+			  continue;
 		
 
-		float oppositeLen = currentItem.theWindSpeedMedian.value() - previousItem.theWindSpeedMedian.value();
-		float adjacentLen = currentIndex - previousIndex;
-		float slope = oppositeLen / adjacentLen;
+			float oppositeLen = currentItem.theWindSpeedMedian.value() - previousItem.theWindSpeedMedian.value();
+			float adjacentLen = currentIndex - previousIndex;
+			float slope = oppositeLen / adjacentLen;
 
-		for(unsigned int k = previousIndex+1; k < currentIndex; k++)
-		  {
-			float yValue = (slope * (k-previousIndex)) + previousItem.theWindSpeedMedian.value();
-			WindDataItemUnit& item = (storyParams.theWindDataVector[k])->getDataItem(areaType);
-			item.theEqualizedMedianWind = WeatherResult(yValue, 0.0);
-		  }		
+			for(unsigned int k = previousIndex+1; k < currentIndex; k++)
+			  {
+				float yValue = (slope * (k-previousIndex)) + previousItem.theWindSpeedMedian.value();
+				WindDataItemUnit& item = (storyParams.theWindDataVector[k])->getDataItem(areaType);
+				item.theEqualizedMedianWind = WeatherResult(yValue, 0.0);
+			  }		
+		  }
 	  }
   }
 
   void calculate_equalized_wind_speed_indexes_for_maximum_wind(wo_story_params& storyParams)
   {
-	unsigned int index1, index2, index3;
-	WeatherArea::Type areaType(storyParams.theArea.type());
-
-	vector<unsigned int>& eqIndexVector = storyParams.equalizedWSIndexesMaximum(areaType);
-
-	while(1)
+	for(unsigned int j = 0; j < storyParams.theWeatherAreas.size(); j++)
 	  {
-		double minError = UINT_MAX;
-		unsigned int minErrorIndex = UINT_MAX;
+		const WeatherArea& weatherArea = storyParams.theWeatherAreas[j];
 
-		for(unsigned int i = 0; i < eqIndexVector.size() - 2; i++)
-		  {	
-			index1 = eqIndexVector[i];
-			index2 = eqIndexVector[i+1];
-			index3 = eqIndexVector[i+2];
+		unsigned int index1, index2, index3;
+		WeatherArea::Type areaType(weatherArea.type());//storyParams.theArea.type());
+
+		vector<unsigned int>& eqIndexVector = storyParams.equalizedWSIndexesMaximum(areaType);
+
+		while(1)
+		  {
+			double minError = UINT_MAX;
+			unsigned int minErrorIndex = UINT_MAX;
+
+			for(unsigned int i = 0; i < eqIndexVector.size() - 2; i++)
+			  {	
+				index1 = eqIndexVector[i];
+				index2 = eqIndexVector[i+1];
+				index3 = eqIndexVector[i+2];
 			
-			const WindDataItemUnit& dataItemIndex1 = (*storyParams.theWindDataVector[index1])(areaType);
-			const WindDataItemUnit& dataItemIndex2 = (*storyParams.theWindDataVector[index2])(areaType);
-			const WindDataItemUnit& dataItemIndex3 = (*storyParams.theWindDataVector[index3])(areaType);
+				const WindDataItemUnit& dataItemIndex1 = (*storyParams.theWindDataVector[index1])(areaType);
+				const WindDataItemUnit& dataItemIndex2 = (*storyParams.theWindDataVector[index2])(areaType);
+				const WindDataItemUnit& dataItemIndex3 = (*storyParams.theWindDataVector[index3])(areaType);
 
-			double lineBegX = index1;
-			double lineBegY = dataItemIndex1.theWindMaximum.value();
-			double lineEndX = index3;
-			double lineEndY = dataItemIndex3.theWindMaximum.value();
-			double coordX = index2;
-			double coordY = dataItemIndex2.theWindMaximum.value();
-			NFmiPoint point(coordX, coordY);
-			NFmiPoint lineBegPoint(lineBegX, lineBegY);
-			NFmiPoint lineEndPoint(lineEndX, lineEndY);
-			double deviation_from_line = distance_from_line(point, lineBegPoint, lineEndPoint);
+				double lineBegX = index1;
+				double lineBegY = dataItemIndex1.theWindMaximum.value();
+				double lineEndX = index3;
+				double lineEndY = dataItemIndex3.theWindMaximum.value();
+				double coordX = index2;
+				double coordY = dataItemIndex2.theWindMaximum.value();
+				NFmiPoint point(coordX, coordY);
+				NFmiPoint lineBegPoint(lineBegX, lineBegY);
+				NFmiPoint lineEndPoint(lineEndX, lineEndY);
+				double deviation_from_line = distance_from_line(point, lineBegPoint, lineEndPoint);
 
-			if(deviation_from_line < minError)
-			  {
-				minError = deviation_from_line;
-				minErrorIndex = i+1;
+				if(deviation_from_line < minError)
+				  {
+					minError = deviation_from_line;
+					minErrorIndex = i+1;
+				  }
 			  }
-		  }
 
-		if(minError > storyParams.theMaxErrorWindSpeed)
+			if(minError > storyParams.theMaxErrorWindSpeed)
+			  {
+				break;
+			  }
+			// remove the point with minimum error
+			eqIndexVector.erase(eqIndexVector.begin()+minErrorIndex);
+		  } //while
+
+		bool valuesToAdd = true;
+		do {
+		  valuesToAdd = add_local_min_max_values(eqIndexVector, storyParams, false);
+		} while(valuesToAdd);
+
+		// re-calculate equalized values for the removed points
+		for(unsigned int i = 1; i < eqIndexVector.size(); i++)
 		  {
-			break;
-		  }
-		// remove the point with minimum error
-		eqIndexVector.erase(eqIndexVector.begin()+minErrorIndex);
-	  } //while
+			unsigned int currentIndex = eqIndexVector[i];
+			unsigned int previousIndex = eqIndexVector[i-1];
+			const WindDataItemUnit& previousItem = (*storyParams.theWindDataVector[previousIndex])(areaType);
+			const WindDataItemUnit& currentItem = (*storyParams.theWindDataVector[currentIndex])(areaType);
 
-	bool valuesToAdd = true;
-	do {
-	  valuesToAdd = add_local_min_max_values(eqIndexVector, storyParams, false);
-	} while(valuesToAdd);
-
-	// re-calculate equalized values for the removed points
-	for(unsigned int i = 1; i < eqIndexVector.size(); i++)
-	  {
-		unsigned int currentIndex = eqIndexVector[i];
-		unsigned int previousIndex = eqIndexVector[i-1];
-		const WindDataItemUnit& previousItem = (*storyParams.theWindDataVector[previousIndex])(areaType);
-		const WindDataItemUnit& currentItem = (*storyParams.theWindDataVector[currentIndex])(areaType);
-
-		if(currentIndex == previousIndex + 1)
-		  continue;
+			if(currentIndex == previousIndex + 1)
+			  continue;
 		
-		float oppositeLen = currentItem.theWindMaximum.value() - previousItem.theWindMaximum.value();
-		float adjacentLen = currentIndex - previousIndex;
-		float slope = oppositeLen / adjacentLen;
+			float oppositeLen = currentItem.theWindMaximum.value() - previousItem.theWindMaximum.value();
+			float adjacentLen = currentIndex - previousIndex;
+			float slope = oppositeLen / adjacentLen;
 
 
-		for(unsigned int k = previousIndex+1; k < currentIndex; k++)
-		  {
-			float yValue = (slope * (k-previousIndex)) + previousItem.theWindMaximum.value();
-			WindDataItemUnit& item = (storyParams.theWindDataVector[k])->getDataItem(areaType);
-			item.theEqualizedMaximumWind = WeatherResult(yValue, 0.0);
-		  }		
+			for(unsigned int k = previousIndex+1; k < currentIndex; k++)
+			  {
+				float yValue = (slope * (k-previousIndex)) + previousItem.theWindMaximum.value();
+				WindDataItemUnit& item = (storyParams.theWindDataVector[k])->getDataItem(areaType);
+				item.theEqualizedMaximumWind = WeatherResult(yValue, 0.0);
+			  }		
+		  }
 	  }
   }
 
   void calculate_equalized_wind_direction_indexes(wo_story_params& storyParams)
   {
-	unsigned int index1, index2, index3;
-	WeatherArea::Type areaType(storyParams.theArea.type());
-
-	vector<unsigned int>& eqIndexVector = storyParams.equalizedWDIndexes(areaType);
-
-	while(1)
+	for(unsigned int j = 0; j < storyParams.theWeatherAreas.size(); j++)
 	  {
-		double minError(UINT_MAX);
-		unsigned int minErrorIndex(UINT_MAX);
-		WindDirectionId directionIdIndex1(MISSING_WIND_DIRECTION_ID);
-		WindDirectionId directionIdIndex2(MISSING_WIND_DIRECTION_ID);
-		WindDirectionId directionIdIndex3(MISSING_WIND_DIRECTION_ID);
+		const WeatherArea& weatherArea = storyParams.theWeatherAreas[j];
 
-		for(unsigned int i = 0; i < eqIndexVector.size() - 2; i++)
+		unsigned int index1, index2, index3;
+		WeatherArea::Type areaType(weatherArea.type());
+
+		vector<unsigned int>& eqIndexVector = storyParams.equalizedWDIndexes(areaType);
+
+		while(1)
 		  {
-			index1 = eqIndexVector[i];
-			index2 = eqIndexVector[i+1];
-			index3 = eqIndexVector[i+2];
-			
-			const WindDataItemUnit& dataItemIndex1 = (*storyParams.theWindDataVector[index1])(areaType);
-			const WindDataItemUnit& dataItemIndex2 = (*storyParams.theWindDataVector[index2])(areaType);
-			const WindDataItemUnit& dataItemIndex3 = (*storyParams.theWindDataVector[index3])(areaType);
+			double minError(UINT_MAX);
+			unsigned int minErrorIndex(UINT_MAX);
+			WindDirectionId directionIdIndex1(MISSING_WIND_DIRECTION_ID);
+			WindDirectionId directionIdIndex2(MISSING_WIND_DIRECTION_ID);
+			WindDirectionId directionIdIndex3(MISSING_WIND_DIRECTION_ID);
 
-			directionIdIndex1 = wind_direction_id(dataItemIndex1.theCorrectedWindDirection,
-												  dataItemIndex1.theWindMaximum,
-												  storyParams.theVar);
-			directionIdIndex2 = wind_direction_id(dataItemIndex2.theCorrectedWindDirection,
-												  dataItemIndex3.theWindMaximum,
-												  storyParams.theVar);
-			directionIdIndex3 = wind_direction_id(dataItemIndex3.theCorrectedWindDirection,
-												  dataItemIndex3.theWindMaximum,
-												  storyParams.theVar);
-			/*
-			  directionIdIndex1 = wind_direction_id(dataItemIndex1.theWindDirection,
-			  dataItemIndex1.theWindMaximum,
-			  storyParams.theVar);
-			  directionIdIndex2 = wind_direction_id(dataItemIndex2.theWindDirection,
-			  dataItemIndex3.theWindMaximum,
-			  storyParams.theVar);
-			  directionIdIndex3 = wind_direction_id(dataItemIndex3.theWindDirection,
-			  dataItemIndex3.theWindMaximum,
-			  storyParams.theVar);
-			*/
-
-			if(directionIdIndex1 == VAIHTELEVA || 
-			   directionIdIndex3 == VAIHTELEVA || 
-			   directionIdIndex2 == VAIHTELEVA)
-			  continue;
-
-			double lineBegX = index1;
-			double lineBegY = dataItemIndex1.theCorrectedWindDirection.value();
-			double lineEndX = index3;
-			double lineEndY = dataItemIndex3.theCorrectedWindDirection.value();
-			double coordX = index2;
-			double coordY = dataItemIndex2.theCorrectedWindDirection.value();
-
-			NFmiPoint point(coordX, coordY);
-			NFmiPoint lineBegPoint(lineBegX, lineBegY);
-			NFmiPoint lineEndPoint(lineEndX, lineEndY);
-			double deviation_from_line = distance_from_line(point, lineBegPoint, lineEndPoint);
-
-			if(deviation_from_line < minError)
+			for(unsigned int i = 0; i < eqIndexVector.size() - 2; i++)
 			  {
-				minError = deviation_from_line;
-				minErrorIndex = i+1;
-			  }
-		  }		
+				index1 = eqIndexVector[i];
+				index2 = eqIndexVector[i+1];
+				index3 = eqIndexVector[i+2];
+			
+				const WindDataItemUnit& dataItemIndex1 = (*storyParams.theWindDataVector[index1])(areaType);
+				const WindDataItemUnit& dataItemIndex2 = (*storyParams.theWindDataVector[index2])(areaType);
+				const WindDataItemUnit& dataItemIndex3 = (*storyParams.theWindDataVector[index3])(areaType);
 
-		if(minError > storyParams.theMaxErrorWindDirection)
-		  {
-			break;
-		  }	
-		WeatherResult windDirectionMinus1(((*storyParams.theWindDataVector[minErrorIndex-1])(areaType)).theCorrectedWindDirection);
-		WeatherResult windDirection(((*storyParams.theWindDataVector[minErrorIndex])(areaType)).theCorrectedWindDirection);
-		WeatherResult windDirectionPlus1(((*storyParams.theWindDataVector[minErrorIndex+1])(areaType)).theCorrectedWindDirection);
+				directionIdIndex1 = wind_direction_id(dataItemIndex1.theCorrectedWindDirection,
+													  dataItemIndex1.theWindMaximum,
+													  storyParams.theVar);
+				directionIdIndex2 = wind_direction_id(dataItemIndex2.theCorrectedWindDirection,
+													  dataItemIndex3.theWindMaximum,
+													  storyParams.theVar);
+				directionIdIndex3 = wind_direction_id(dataItemIndex3.theCorrectedWindDirection,
+													  dataItemIndex3.theWindMaximum,
+													  storyParams.theVar);
+				// dont remove vaihteleva wind points
+				if(directionIdIndex1 == VAIHTELEVA || 
+				   directionIdIndex3 == VAIHTELEVA || 
+				   directionIdIndex2 == VAIHTELEVA)
+				  continue;
 
-		WeatherResult maxWindSpeedMinus1(((*storyParams.theWindDataVector[minErrorIndex-1])(areaType)).theWindMaximum);
-		WeatherResult maxWindSpeed(((*storyParams.theWindDataVector[minErrorIndex])(areaType)).theWindMaximum);
-		WeatherResult maxWindSpeedPlus1(((*storyParams.theWindDataVector[minErrorIndex+1])(areaType)).theWindMaximum);
+				double lineBegX = index1;
+				double lineBegY = dataItemIndex1.theCorrectedWindDirection.value();
+				double lineEndX = index3;
+				double lineEndY = dataItemIndex3.theCorrectedWindDirection.value();
+				double coordX = index2;
+				double coordY = dataItemIndex2.theCorrectedWindDirection.value();
 
-		directionIdIndex1 = wind_direction_id(windDirectionMinus1, maxWindSpeedMinus1, storyParams.theVar);
-		directionIdIndex2 = wind_direction_id(windDirection, maxWindSpeed, storyParams.theVar);
-		directionIdIndex3 = wind_direction_id(windDirectionPlus1, maxWindSpeedPlus1, storyParams.theVar);
+				NFmiPoint point(coordX, coordY);
+				NFmiPoint lineBegPoint(lineBegX, lineBegY);
+				NFmiPoint lineEndPoint(lineEndX, lineEndY);
+				double deviation_from_line = distance_from_line(point, lineBegPoint, lineEndPoint);
 
-		eqIndexVector.erase(eqIndexVector.begin()+minErrorIndex);
-	  }
+				if(deviation_from_line < minError)
+				  {
+					minError = deviation_from_line;
+					minErrorIndex = i+1;
+				  }
+			  }		
 
-	// re-calculate equalized values for the removed points
-	for(unsigned int i = 1; i < eqIndexVector.size(); i++)
-	  {
-		unsigned int currentIndex = eqIndexVector[i];
-		unsigned int previousIndex = eqIndexVector[i-1];
-		const WindDataItemUnit& previousItem = (*storyParams.theWindDataVector[previousIndex])(areaType);
-		const WindDataItemUnit& currentItem = (*storyParams.theWindDataVector[currentIndex])(areaType);
+			if(minError > storyParams.theMaxErrorWindDirection)
+			  {
+				break;
+			  }	
+			WeatherResult windDirectionMinus1(((*storyParams.theWindDataVector[minErrorIndex-1])(areaType)).theCorrectedWindDirection);
+			WeatherResult windDirection(((*storyParams.theWindDataVector[minErrorIndex])(areaType)).theCorrectedWindDirection);
+			WeatherResult windDirectionPlus1(((*storyParams.theWindDataVector[minErrorIndex+1])(areaType)).theCorrectedWindDirection);
 
-		if(currentIndex == previousIndex + 1)
-		  continue;
-		
-		float oppositeLen = currentItem.theCorrectedWindDirection.value() - previousItem.theCorrectedWindDirection.value();
-		float adjacentLen = currentIndex - previousIndex;
-		float slope = oppositeLen / adjacentLen;
+			WeatherResult maxWindSpeedMinus1(((*storyParams.theWindDataVector[minErrorIndex-1])(areaType)).theWindMaximum);
+			WeatherResult maxWindSpeed(((*storyParams.theWindDataVector[minErrorIndex])(areaType)).theWindMaximum);
+			WeatherResult maxWindSpeedPlus1(((*storyParams.theWindDataVector[minErrorIndex+1])(areaType)).theWindMaximum);
 
-		for(unsigned int k = previousIndex+1; k < currentIndex; k++)
-		  {
-			float yValue = (slope * (k-previousIndex)) + previousItem.theCorrectedWindDirection.value();
+			directionIdIndex1 = wind_direction_id(windDirectionMinus1, maxWindSpeedMinus1, storyParams.theVar);
+			directionIdIndex2 = wind_direction_id(windDirection, maxWindSpeed, storyParams.theVar);
+			directionIdIndex3 = wind_direction_id(windDirectionPlus1, maxWindSpeedPlus1, storyParams.theVar);
 
-			WindDataItemUnit& item = (storyParams.theWindDataVector[k])->getDataItem(areaType);
-			item.theEqualizedWindDirection = WeatherResult(yValue, item.theWindDirection.error());
+			eqIndexVector.erase(eqIndexVector.begin()+minErrorIndex);
 		  }
-	  }
 
-	unsigned int startIndex(eqIndexVector[0]);
-	unsigned int endIndex(eqIndexVector[eqIndexVector.size()-1]);
+		// re-calculate equalized values for the removed points
+		for(unsigned int i = 1; i < eqIndexVector.size(); i++)
+		  {
+			unsigned int currentIndex = eqIndexVector[i];
+			unsigned int previousIndex = eqIndexVector[i-1];
+			const WindDataItemUnit& previousItem = (*storyParams.theWindDataVector[previousIndex])(areaType);
+			const WindDataItemUnit& currentItem = (*storyParams.theWindDataVector[currentIndex])(areaType);
+
+			if(currentIndex == previousIndex + 1)
+			  continue;
+		
+			float oppositeLen = currentItem.theCorrectedWindDirection.value() - previousItem.theCorrectedWindDirection.value();
+			float adjacentLen = currentIndex - previousIndex;
+			float slope = oppositeLen / adjacentLen;
+
+			for(unsigned int k = previousIndex+1; k < currentIndex; k++)
+			  {
+				float yValue = (slope * (k-previousIndex)) + previousItem.theCorrectedWindDirection.value();
+
+				WindDataItemUnit& item = (storyParams.theWindDataVector[k])->getDataItem(areaType);
+				item.theEqualizedWindDirection = WeatherResult(yValue, item.theWindDirection.error());
+			  }
+		  }
+
+		unsigned int startIndex(eqIndexVector[0]);
+		unsigned int endIndex(eqIndexVector[eqIndexVector.size()-1]);
 
 	
-	for(unsigned int i = startIndex+1; i < endIndex-1; i++)
-	  {
-		WindDataItemUnit& item1 = (storyParams.theWindDataVector[i-1])->getDataItem(areaType);
-		WindDataItemUnit& item2 = (storyParams.theWindDataVector[i])->getDataItem(areaType);
-		WindDataItemUnit& item3 = (storyParams.theWindDataVector[i+1])->getDataItem(areaType);
-
-		WindDirectionId directionId1(wind_direction_id(item1.theEqualizedWindDirection,
-													   item1.theEqualizedMaximumWind,
-													   storyParams.theVar));
-		WindDirectionId directionId2(wind_direction_id(item2.theEqualizedWindDirection,
-													   item2.theEqualizedMaximumWind,
-													   storyParams.theVar));
-		WindDirectionId directionId3(wind_direction_id(item3.theEqualizedWindDirection,
-													   item3.theEqualizedMaximumWind,
-													   storyParams.theVar));
-		if(directionId1 != VAIHTELEVA &&
-		   directionId2 == VAIHTELEVA &&
-		   directionId3 != VAIHTELEVA)
+		for(unsigned int i = startIndex+1; i < endIndex-1; i++)
 		  {
-			item2.theEqualizedWindDirection = WeatherResult(item2.theEqualizedWindDirection.value(), 40.0);
+			WindDataItemUnit& item1 = (storyParams.theWindDataVector[i-1])->getDataItem(areaType);
+			WindDataItemUnit& item2 = (storyParams.theWindDataVector[i])->getDataItem(areaType);
+			WindDataItemUnit& item3 = (storyParams.theWindDataVector[i+1])->getDataItem(areaType);
+
+			WindDirectionId directionId1(wind_direction_id(item1.theEqualizedWindDirection,
+														   item1.theEqualizedMaximumWind,
+														   storyParams.theVar));
+			WindDirectionId directionId2(wind_direction_id(item2.theEqualizedWindDirection,
+														   item2.theEqualizedMaximumWind,
+														   storyParams.theVar));
+			WindDirectionId directionId3(wind_direction_id(item3.theEqualizedWindDirection,
+														   item3.theEqualizedMaximumWind,
+														   storyParams.theVar));
+			if(directionId1 != VAIHTELEVA &&
+			   directionId2 == VAIHTELEVA &&
+			   directionId3 != VAIHTELEVA)
+			  {
+				item2.theEqualizedWindDirection = WeatherResult(item2.theEqualizedWindDirection.value(), 40.0);
+			  }
 		  }
 	  }
   }
@@ -3394,8 +3564,8 @@ namespace TextGen
 	double maxErrorWindSpeed = Settings::optional_double(storyParams.theVar+"::max_error_wind_speed", 2.0);
 	double maxErrorWindDirection = Settings::optional_double(storyParams.theVar+"::max_error_wind_direction", 4.0);
 	double windSpeedThreshold = Settings::optional_double(storyParams.theVar+"::wind_speed_threshold", 3.0);
-	//	double windSpeedReportingThreshold = Settings::optional_double(storyParams.theVar+"::wind_speed_reporting_threshold", 4.0);
 	double windDirectionThreshold = Settings::optional_double(storyParams.theVar+"::wind_direction_threshold", 45.0);
+	double gustyWindMaximumWindDifference = Settings::optional_double(storyParams.theVar+"::gusty_wind_max_wind_difference", 5.0);
 	string rangeSeparator = Settings::optional_string(storyParams.theVar+"::rangeseparator","-");
 	unsigned int minIntervalSize = optional_int(storyParams.theVar+"::wind_speed_interval_min_size",2);
 	unsigned int maxIntervalSize = optional_int(storyParams.theVar+"::wind_speed_interval_max_size",5);
@@ -3406,13 +3576,17 @@ namespace TextGen
 	storyParams.theMaxErrorWindDirection = maxErrorWindDirection;
 	storyParams.theWindSpeedThreshold = windSpeedThreshold;
 	storyParams.theWindDirectionThreshold = windDirectionThreshold;
-	//	storyParams.windSpeedReportingThreshold =windSpeedReportingThreshold;
+	storyParams.theGustyWindMaximumWindDifference = gustyWindMaximumWindDifference;
 	storyParams.theRangeSeparator = rangeSeparator;
 	storyParams.theMinIntervalSize = minIntervalSize;
 	storyParams.theMaxIntervalSize = maxIntervalSize;
 	storyParams.theMetersPerSecondFormat = metersPerSecondFormat;
 	
 	storyParams.theWeatherAreas.push_back(storyParams.theArea);
+
+	WeatherArea coastalArea = storyParams.theArea;
+	coastalArea.type(WeatherArea::Coast);
+	storyParams.theWeatherAreas.push_back(coastalArea);
 
 	std::string split_section_name("textgen::split_the_area::" + get_area_name_string(storyParams.theArea));
 	std::string split_method_name(split_section_name + "::method");

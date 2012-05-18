@@ -110,6 +110,7 @@ using namespace WindStoryTools;
 #define VAIHTELEVA_TUULI "suunnaltaan vaihteleva tuuli"
 
 
+#define PUUSKITTAISTA_ETELATUULTA_COMPOSITE_PHRASE "puuskittaista [etelatuulta]"
 #define POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa heiketa"
 #define POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa voimistua"
 #define ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA "[iltapaivalla] edelleen [heikkenevaa] [pohjoistuulta]"
@@ -117,6 +118,8 @@ using namespace WindStoryTools;
 #define ILTAPAIVALLA_POHJOISTUULTA_JOKA_VOIMISTUU_EDELLEEN "[iltapaivalla] [pohjoistuulta], joka voimistuu edelleen"
 #define ILTAPAIVALLA_POHJOISTUULTA_JOKA_ALKAA_HEIKETA "[iltapaivalla] [pohjoistuulta], joka alkaa heiketa"
 #define ILTAPAIVALLA_POHJOISTUULTA_JOKA_HEIKKENEE_EDELLEEN "[iltapaivalla] [pohjoistuulta], joka heikkenee edelleen"
+#define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_EDELLEEN "[iltapaivalla] [pohjoistuuli] heikkenee edelleen"
+#define ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_EDELLEEN "[iltapaivalla] [pohjoistuuli] voimistuu edelleen"
 #define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan] ja voimistuu edelleen"
 #define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan] ja heikkenee edelleen"
 #define ILTAPAIVALLA_TUULI_VOIMISTUU_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli voimistuu ja kaantyy [etelaan]"
@@ -137,8 +140,11 @@ using namespace WindStoryTools;
 #define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu vaihtelevaksi"
 #define ILTAPAIVALLA_ETELAAN_KAANTYVAA_TUULTA_COMPOSITE_PHRASE "[iltapaivalla] [etelaan] kaantyvaa tuulta"
 #define ILTAPAIVALLA_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE "[iltapaivalla] [heikkenevaa] [etelatuulta]"
+#define ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE "[iltapaivalla] [etelatuuli] heikkenee [nopeasti]"
+#define ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE "[iltapaivalla] [etelatuuli] voimistuu [nopeasti]"
 #define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta]"
 #define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_POHJOISEEN_COMPOSITE_PHRASE "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [pohjoiseen]"
+#define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [illalla] [pohjoiseen]"
 #define ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE "[iltapaivalla] [etelatuulta]"
 #define ILTAPAIVALLA_HEIKKENEVAA_TUULTA_COMPOSITE_PHRASE "[iltapaivalla] [heikkenevaa tuulta]"
 #define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_TUULTA_COMPOSITE_PHRASE "[iltapaivalla] [nopeasti] [heikkenevaa tuulta]"
@@ -151,12 +157,17 @@ using namespace WindStoryTools;
 #define ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
 #define ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi"
 
-#define ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI "[iltapaivalla] [etelatuuli] alkaa heiketa [nopeasti]"
-#define ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI "[iltapaivalla] [etelatuuli] alkaa voimistua [nopeasti]"
+#define ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE "[iltapaivalla] [etelatuuli] alkaa heiketa [nopeasti]"
+#define ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE "[iltapaivalla] [etelatuuli] alkaa voimistua [nopeasti]"
 //#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_VOIMISTUA_JA_KAANTYA_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja kaantya [etelaan]"
 //#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYA_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja kaantya [etelaan]"
 #define ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja kaantyy [etelaan]"
 #define ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]"
+#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]"
+#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_VOIMISTUA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]"
+
+#define ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE "[ip] [p-tuulta] [m...n] [m/s], joka alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]"
+#define ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE "[ip] [p-tuulta] [m...n] [m/s], joka alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]"
 
   enum WindEventId 
 	{
@@ -222,7 +233,16 @@ using namespace WindStoryTools;
 	  theSources(sources),
 	  theDataPeriod(forecastPeriod),
 	  theLog(log),
-	  theSplitMethod(NO_SPLITTING)
+	  theSplitMethod(NO_SPLITTING),
+	  theMaxErrorWindSpeed(2.0),
+	  theMaxErrorWindDirection(4.0),
+	  theWindSpeedThreshold(3.0),
+	  theWindDirectionThreshold(45),
+	  theGustyWindMaximumWindDifference(5.0),
+	  theRangeSeparator("-"),
+	  theMinIntervalSize(2),
+	  theMaxIntervalSize(5),
+	  theMetersPerSecondFormat("SI")
 	{}
 
 	const string& theVar;
@@ -238,6 +258,7 @@ using namespace WindStoryTools;
 	double theMaxErrorWindDirection;
 	double theWindSpeedThreshold;
 	double theWindDirectionThreshold;
+	double theGustyWindMaximumWindDifference;
 	string theRangeSeparator;
 	int theMinIntervalSize;
 	int theMaxIntervalSize;
@@ -406,6 +427,7 @@ using namespace WindStoryTools;
 							const WindDataItemUnit& periodBeginDataItem,
 							const WindDataItemUnit& periodEndDataItem)
 	  : thePeriod(period),
+		theWindSpeedChangePeriod(period),
 		theWindEvent(windEvent),
 		thePeriodBeginDataItem(periodBeginDataItem),
 		thePeriodEndDataItem(periodEndDataItem),
@@ -418,6 +440,7 @@ using namespace WindStoryTools;
 	{}
 
 	WeatherPeriod thePeriod;
+	WeatherPeriod theWindSpeedChangePeriod; // can be longer than thePeriod
 	WindEventId theWindEvent;
 	const WindDataItemUnit& thePeriodBeginDataItem;
 	const WindDataItemUnit& thePeriodEndDataItem;
@@ -457,6 +480,7 @@ using namespace WindStoryTools;
 	mutable int thePreviousRangeBeg;
 	mutable int thePreviousRangeEnd;
 	mutable short thePreviousDayNumber;
+	mutable short thePreviousPartOfTheDay;
 
 	//	Sentence windSentence(const WeatherPeriod& thePeriod) const;
 	Sentence getWindDirectionSentence(const WindDirectionId& theWindDirectionId) const;
@@ -501,6 +525,10 @@ using namespace WindStoryTools;
 										 const WindDirectionId& windDirectionIdPrevious) const;
 
 	Sentence windDirectionAndSpeedChangesSentence(const wo_story_params& theParameters,
+												  /*
+												  WindEventPeriodDataItem* eventPeriodItem;
+												  WindEventPeriodDataItem* eventPeriodItemnext;
+												  */
 												  const WeatherPeriod& eventPeriod,
 												  const bool& firstSentenceInTheStory,
 												  const WindEventId& previousWindEventId,
@@ -515,7 +543,11 @@ using namespace WindStoryTools;
 	bool windDirectionTurns(const WeatherPeriod& thePeriod) const;
 	void getPeriodStartAndEndIndex(const WeatherPeriod& period,
 								   unsigned int& begIndex,
-								   unsigned int& endIndex) const;	  
+								   unsigned int& endIndex) const;
+	void logWindSpeedPeriod(const WeatherPeriod& period, 
+							const Sentence& intervalSentence) const;
+	void findOutActualWindSpeedChangePeriod(WindEventPeriodDataItem* currentEventPeriodItem,
+											WindEventPeriodDataItem* nextEventPeriodItem) const;	  
   };
 
 
@@ -550,6 +582,12 @@ using namespace WindStoryTools;
   WindDirectionId get_wind_direction_id_at(const wo_story_params& theParameters,
 										   const WeatherPeriod& period,
 										   const string& var);
+  bool is_gusty_wind(const wo_story_params& theParameters,
+					 const NFmiTime& pointOfTime,
+					 const string& var);
+  bool is_gusty_wind(const wo_story_params& theParameters,
+					 const WeatherPeriod& period,
+					 const string& var);
   bool wind_speed_differ_enough(const AnalysisSources& theSources,
 								const WeatherArea& theArea,
 								const WeatherPeriod& thePeriod,
@@ -582,8 +620,16 @@ using namespace WindStoryTools;
   WeatherResult mean_wind_direction(const AnalysisSources& theSources,
 									const WeatherArea& theArea,
 									const WeatherPeriod& thePeriod,
-									const string& theFakeVar);
+									const WeatherResult& theEqualizedWindMaximum,
+									const string& theVar);
   WindEventId mask_wind_event(const WindEventId& originalId, const WindEventId& maskToRemove);
+  WeatherPeriod get_wind_turning_period(const WeatherPeriod& thePeriod,
+										const wind_event_period_data_item_vector& theDirectionEventVector);
+
+
+  WindEventId get_wind_direction_event(const WindEventPeriodDataItem& windEventPeriodDataItem,
+									   const string& var,
+									   const double& windDirectionThreshold);
   
   std::ostream& operator<<(std::ostream& theOutput,
 						   const WeatherPeriod& period);
