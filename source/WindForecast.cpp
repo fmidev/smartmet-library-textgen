@@ -245,7 +245,7 @@ namespace TextGen
 						sentence << POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_COMPOSITE_PHRASE;
 					  else
 						sentence << POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE;
-					  sentence << windDirectionSentence(windDirectionIdBeg)
+					  sentence << directionSentenceP
 							   << windSpeedIntervalSentence(eventStartPeriod,
 															DONT_USE_AT_ITS_STRONGEST_PHRASE);
 					  appendDecreasingIncreasingInterval = false;
