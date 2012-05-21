@@ -381,20 +381,13 @@ using namespace std;
 	else if(thePeriod.localStartTime().GetHour() >= AAMUPAIVA_START && 
 			thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
 	  {
-		if(thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START && 
-		   thePeriod.localEndTime().GetHour() <= ILTAPAIVA_END && insideSameDay)
-		  return ILTAPAIVA;
-		else
-		  return AAMUPAIVA;
+		return AAMUPAIVA;
 	  }
 	else if(thePeriod.localStartTime().GetHour() >= ILTA_START && 
 			thePeriod.localEndTime().GetHour() <= ILTA_END && insideSameDay)
 	  {
-		if(thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START && 
-		   thePeriod.localEndTime().GetHour() <= ILTAPAIVA_END && insideSameDay)
-		  return ILTAPAIVA;
-		else if(thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
-			thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay)
+		if(thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
+		   thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay)
 		  return ILTAYO;
 		else
 		  return ILTA;
