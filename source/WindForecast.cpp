@@ -363,13 +363,6 @@ namespace TextGen
 			  
 			  if(firstSentenceInTheStory)
 				{
-				  /*
-				  sentence << POHJOISTUULTA_INTERVALLI_MS_JOKA_MUUTTUU_ILTAPAIVALLA_VAIHTELEVAKSI_COMPOSITE_PHRASE
-						   << windDirectionSentence(windDirectionIdBeg)
-						   << windSpeedIntervalSentence(eventPeriod, 
-														DONT_USE_AT_ITS_STRONGEST_PHRASE)
-						   << getTimePhrase(eventStartPeriod, DONT_USE_ALKAEN_PHRASE);
-				  */
 				  sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
 						   << EMPTY_STRING
 						   << windDirectionSentence(VAIHTELEVA)

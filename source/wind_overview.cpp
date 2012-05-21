@@ -2181,7 +2181,6 @@ namespace TextGen
 	unsigned int directionEventIndex(0);
 
 	WindEventPeriodDataItem* remainderItem = 0;
-	//int i(0);
 
 	while(speedEventIndex < storyParams.theWindSpeedEventPeriodVector.size() ||
 		  directionEventIndex < storyParams.theWindDirectionEventPeriodVector.size())
@@ -2488,7 +2487,37 @@ namespace TextGen
 										 storyParams))
 				  storyParams.theMergedWindEventPeriodVector[i] = currentDataItem;
 			  }
-		  }		
+		  }
+		else if(!vaihtelevaTuuli &&
+				((previousDataItem->theWindEvent == TUULI_KAANTYY_JA_VOIMISTUU &&
+				  currentDataItem->theWindEvent == TUULI_HEIKKENEE) ||
+				 (previousDataItem->theWindEvent == TUULI_KAANTYY_JA_HEIKKENEE &&
+				  currentDataItem->theWindEvent == TUULI_VOIMISTUU)))
+		  {
+			if(get_part_of_the_day_id_narrow(previousDataItem->thePeriod) ==
+			   get_part_of_the_day_id_narrow(currentDataItem->thePeriod) &&
+			   get_part_of_the_day_id_narrow(previousDataItem->thePeriod) != MISSING_PART_OF_THE_DAY_ID)
+			  {
+				if(re_create_merged_item(&previousDataItem,
+										 currentDataItem,
+										 WeatherPeriod(previousDataItem->thePeriod.localStartTime(),
+													   currentDataItem->thePeriod.localEndTime()),
+										 storyParams))
+
+				  previousDataItem->theWindEvent =  
+					static_cast<WindEventId>(get_wind_direction_event(*previousDataItem,
+																	  storyParams.theVar,
+																	  storyParams.theWindDirectionThreshold) | 
+											 get_wind_speed_event(previousDataItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
+																  previousDataItem->thePeriodEndDataItem.theEqualizedMaximumWind,
+																  storyParams.theWindSpeedThreshold));
+				if(previousDataItem->theWindEvent == MISSING_WIND_SPEED_EVENT ||
+				   previousDataItem->theWindEvent == MISSING_WIND_DIRECTION_EVENT)
+				  previousDataItem->theWindEvent = MISSING_WIND_EVENT;
+
+				  storyParams.theMergedWindEventPeriodVector[i-1] = previousDataItem;
+			  }
+		  }
 	  }
   }
 
@@ -2635,7 +2664,6 @@ namespace TextGen
 					delete currentDataItem;
 					storyParams.theMergedWindEventPeriodVector[i] = pNewItem;
 					currentDataItem = pNewItem;	
-
 					break;
 				  }
 			  }
@@ -3103,15 +3131,21 @@ namespace TextGen
 #ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
 #endif
+
 	merge_fragment_periods_when_feasible(storyParams);
+
 #ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
 #endif
+
 	find_out_transient_wind_direction_periods(storyParams);
+
 #ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
 #endif
+
 	find_out_long_term_wind_speed_periods(storyParams);
+
 #ifndef NDEBUG
 	log_merged_wind_event_periods(storyParams);
 #endif
@@ -3451,7 +3485,7 @@ namespace TextGen
 				if(directionIdIndex1 == VAIHTELEVA || 
 				   directionIdIndex3 == VAIHTELEVA || 
 				   directionIdIndex2 == VAIHTELEVA)
-				  continue;
+				  break;
 
 				double lineBegX = index1;
 				double lineBegY = dataItemIndex1.theCorrectedWindDirection.value();
@@ -3470,7 +3504,7 @@ namespace TextGen
 					minError = deviation_from_line;
 					minErrorIndex = i+1;
 				  }
-			  }		
+			  }
 
 			if(minError > storyParams.theMaxErrorWindDirection)
 			  {
