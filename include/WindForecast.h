@@ -136,7 +136,6 @@ using namespace WindStoryTools;
 #define POHJOISTUULTA_INTERVALLI_MS_JOKA_KAANTYY_ILTAPAIVALLA_ETELAAN_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka kaantyy [iltapaivalla] [etelaan]"
 #define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan]"
 #define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan]"
-#define POHJOISTUULTA_INTERVALLI_MS_JOKA_MUUTTUU_ILTAPAIVALLA_VAIHTELEVAKSI_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka muuttuu [iltapaivalla] vaihtelevaksi"
 #define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu vaihtelevaksi"
 #define ILTAPAIVALLA_ETELAAN_KAANTYVAA_TUULTA_COMPOSITE_PHRASE "[iltapaivalla] [etelaan] kaantyvaa tuulta"
 #define ILTAPAIVALLA_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE "[iltapaivalla] [heikkenevaa] [etelatuulta]"
@@ -477,8 +476,6 @@ using namespace WindStoryTools;
 	
 
 	wo_story_params& theParameters;
-	mutable int thePreviousRangeBeg;
-	mutable int thePreviousRangeEnd;
 	mutable short thePreviousDayNumber;
 	mutable short thePreviousPartOfTheDay;
 
@@ -555,18 +552,6 @@ using namespace WindStoryTools;
   bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod);
   bool is_valid_wind_event_id(const int& eventId);
   std::string get_wind_event_string(const WindEventId& theWindEventId);
-  /*
-  void populate_windspeed_distribution_time_series(const AnalysisSources& theSources,
-												   const WeatherArea& theArea,
-												   const WeatherPeriod& thePeriod,
-												   const string& theVar,
-												   vector <pair<float, WeatherResult> >& theWindSpeedDistribution);
-  void populate_winddirection_distribution_time_series(const AnalysisSources& theSources,
-													   const WeatherArea& theArea,
-													   const WeatherPeriod& thePeriod,
-													   const string& theVar,
-													   vector <pair<float, WeatherResult> >& theWindDirectionDistribution);
-  */
   float get_wind_direction_share(const value_distribution_data_vector& theWindDirectionDistribution,
 								 const WindDirectionId& windDirectionId);
   float get_wind_direction_share(const wo_story_params& theParameters,
@@ -576,12 +561,25 @@ using namespace WindStoryTools;
   WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
 											 const NFmiTime& pointOfTime,
 											 const string& var);
-  WindDirectionId get_wind_direction_id_at(const wo_story_params& theParameters,
-											const NFmiTime& pointOfTime,
-											const string& var);
-  WindDirectionId get_wind_direction_id_at(const wo_story_params& theParameters,
+  WindDirectionId get_wind_direction_id_at(const wind_data_item_vector& theWindDataVector,
+										   const WeatherArea& theArea,
+										   const NFmiTime& pointOfTime,
+										   const string& var);
+  WindDirectionId get_wind_direction_id_at(const wind_data_item_vector& theWindDataVector,
+										   const WeatherArea& theArea,
+										   const AnalysisSources& theSources,
 										   const WeatherPeriod& period,
 										   const string& var);
+  WeatherResult get_wind_direction_at(const wind_data_item_vector& theWindDataVector,
+									  const WeatherArea& theArea,
+									  const NFmiTime& pointOfTime,
+									  const string& var);
+  WeatherResult get_wind_direction_at(const wind_data_item_vector& theWindDataVector,
+									  const WeatherArea& theArea,
+									  const AnalysisSources& theSources,
+									  const WeatherPeriod& period,
+									  const string& var);
+
   bool is_gusty_wind(const wo_story_params& theParameters,
 					 const NFmiTime& pointOfTime,
 					 const string& var);
@@ -630,7 +628,22 @@ using namespace WindStoryTools;
   WindEventId get_wind_direction_event(const WindEventPeriodDataItem& windEventPeriodDataItem,
 									   const string& var,
 									   const double& windDirectionThreshold);
-  
+  void get_median_wind_speed_by_area(const wind_data_item_vector& theWindDataVector,
+									 const WeatherArea& theFullArea,
+									 const WeatherPeriod& thePeriod,									 
+									 float& medianWindFull,
+									 float& medianWindCoastal,
+									 float& medianWindInland);
+  void get_wind_direction_by_area(const wind_data_item_vector& theWindDataVector,
+								  const WeatherArea& theFullArea,
+								  const AnalysisSources& theSources,
+								  const WeatherPeriod& thePeriod,
+								  const string& theVar,
+								  WeatherResult& windDirectionFull,
+								  WeatherResult& windDirectionCoastal,
+								  WeatherResult& windDirectionInland);
+ 
+
   std::ostream& operator<<(std::ostream& theOutput,
 						   const WeatherPeriod& period);
 
