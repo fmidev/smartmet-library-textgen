@@ -14,6 +14,8 @@ using namespace boost;
 using namespace std;
 using namespace WindStoryTools;
 
+#define WEAK_WIND_SPEED_UPPER_LIMIT 5.0
+
 #define USE_AT_ITS_STRONGEST_PHRASE true
 #define DONT_USE_AT_ITS_STRONGEST_PHRASE false
 #define USE_ALKAEN_PHRASE true
@@ -642,7 +644,13 @@ using namespace WindStoryTools;
 								  WeatherResult& windDirectionFull,
 								  WeatherResult& windDirectionCoastal,
 								  WeatherResult& windDirectionInland);
- 
+  float get_median_wind(const WeatherPeriod& period,
+						const WeatherArea& area,
+						const wind_data_item_vector& windDataVector);
+  float get_maximum_wind(const WeatherPeriod& period,
+						 const WeatherArea& area,
+						 const wind_data_item_vector& windDataVector);
+	
 
   std::ostream& operator<<(std::ostream& theOutput,
 						   const WeatherPeriod& period);
