@@ -685,7 +685,7 @@ namespace TextGen
 										   const WindDirectionId& theWindDirectionId)
 	{
 
-	  WindDirectionId windDirectionId;
+	  WindDirectionId windDirectionId(MISSING_WIND_DIRECTION_ID);
 
 	  switch(theWindDirectionId)
 		{
