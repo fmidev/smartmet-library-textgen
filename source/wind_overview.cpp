@@ -825,7 +825,7 @@ namespace TextGen
 							   << fixed << setprecision(4) << maxWindBeg
 							   <<  " -> "
 							   << fixed << setprecision(4) << maxWindEnd
-							   << ")" << endl;
+							   << ")";
 		  }
 		else if(windEventId == TUULI_KAANTYY)
 		  {
@@ -836,9 +836,6 @@ namespace TextGen
 							   << wind_direction_string(directionIdEnd)
 							   << " " << directionEnd.value()
 							   << ")";
-			if(ppp->theWeakWindPeriodFlag)
-			  storyParams.theLog << " - weak";
-			storyParams.theLog << "" << endl;
 		  }
 		else if(windEventId >= TUULI_KAANTYY_JA_HEIKKENEE && windEventId <= TUULI_KAANTYY_JA_TYYNTYY)
 		  {
@@ -855,16 +852,10 @@ namespace TextGen
 							   <<  " -> "
 							   << fixed << setprecision(4) << maxWindEnd
 							   << ")"; 
-			if(ppp->theWeakWindPeriodFlag)
-			  storyParams.theLog << " - weak";
-			storyParams.theLog << "" << endl;
 		  }
-		else
-		  {
-			if(ppp->theWeakWindPeriodFlag)
-			  storyParams.theLog << " - weak";
-			storyParams.theLog << "" << endl;
-		  }
+		if(ppp->theWeakWindPeriodFlag)
+		  storyParams.theLog << " - weak";
+		storyParams.theLog << "" << endl;
 	  }
   }
 #endif // NDEBUG
@@ -2465,7 +2456,7 @@ namespace TextGen
 		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
 		if(is_inside(item.thePeriod.localStartTime(), thePeriod))
 		  {
-			if(round(item.theEqualizedMaximumWind.value()) <= KOHTALAINEN_LOWER_LIMIT + 1.5)
+			if(round(item.theEqualizedMaximumWind.value()) <= WEAK_WIND_SPEED_UPPER_LIMIT)
 			  {
 				cumulativeMaxWind += item.theEqualizedMaximumWind.value();
 				counter++;
@@ -2473,7 +2464,7 @@ namespace TextGen
 		  }
 	  }
 
-	return (counter > 0 ? round(cumulativeMaxWind / counter) <= KOHTALAINEN_LOWER_LIMIT + 1.5 : false);
+	return (counter > 0 ? (cumulativeMaxWind / counter) <= WEAK_WIND_SPEED_UPPER_LIMIT : false);
  }
 
   WindEventPeriodDataItem* find_weak_period(WindEventPeriodDataItem** theDataItem, wo_story_params& theParameters)
@@ -2489,7 +2480,7 @@ namespace TextGen
 		WindDataItemUnit& item = theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
 		if(is_inside(item.thePeriod.localStartTime(), originalPeriod))
 		  {
-			if(round(item.theEqualizedMaximumWind.value()) <= KOHTALAINEN_LOWER_LIMIT + 1.5)
+			if(item.theEqualizedMaximumWind.value() <= WEAK_WIND_SPEED_UPPER_LIMIT)
 			  {
 				if(startIndex == UINT_MAX)
 				  startIndex = i;
