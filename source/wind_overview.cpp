@@ -202,7 +202,6 @@ namespace TextGen
 	  }
   }
 
-#ifndef NDEBUG
   void print_csv_table(const WeatherArea& theArea,
 					   const std::string& fileIdentifierString,
 					   const std::string& theVar,
@@ -858,7 +857,6 @@ namespace TextGen
 		storyParams.theLog << "" << endl;
 	  }
   }
-#endif // NDEBUG
 
 
 
@@ -1177,7 +1175,7 @@ namespace TextGen
 	return meanDirection;
   }
 
-  void populate_time_series(wo_story_params& storyParams)
+  bool populate_time_series(wo_story_params& storyParams)
   {
 	GridForecaster forecaster;
 
@@ -1199,6 +1197,12 @@ namespace TextGen
 								 weatherArea,
 								 dataItem.thePeriod);
 
+			if(dataItem.theWindSpeedMin.value() == kFloatMissing)
+			  {
+				storyParams.theLog << "Minimum wind speed value missing, cannot continue!" << endl;
+				return false;
+			  }
+
 			dataItem.theWindSpeedMax =
 			  forecaster.analyze(storyParams.theVar+"::fake::wind::speed::maximum",
 								 storyParams.theSources,
@@ -1207,6 +1211,12 @@ namespace TextGen
 								 Mean,
 								 weatherArea,
 								 dataItem.thePeriod);
+
+			if(dataItem.theWindSpeedMax.value() == kFloatMissing)
+			  {
+				storyParams.theLog << "Maximum wind speed value missing, cannot continue!" << endl;
+				return false;
+			  }
 
 			dataItem.theWindSpeedMean =
 			  forecaster.analyze(storyParams.theVar+"::fake::wind::speed::mean",
@@ -1217,6 +1227,12 @@ namespace TextGen
 								 weatherArea,
 								 dataItem.thePeriod);
 
+			if(dataItem.theWindSpeedMean.value() == kFloatMissing)
+			  {
+				storyParams.theLog << "Mean wind speed value missing, cannot continue!" << endl;
+				return false;
+			  }
+
 			dataItem.theWindSpeedMedian =
 			  forecaster.analyze(storyParams.theVar+"::fake::wind::medianwind",
 								 storyParams.theSources,
@@ -1225,6 +1241,12 @@ namespace TextGen
 								 Mean,
 								 weatherArea,
 								 dataItem.thePeriod);
+
+			if(dataItem.theWindSpeedMedian.value() == kFloatMissing)
+			  {
+				storyParams.theLog << "Median wind speed value missing, cannot continue!" << endl;
+				return false;
+			  }
 
 			dataItem.theEqualizedMedianWind = dataItem.theWindSpeedMedian;
 
@@ -1252,6 +1274,12 @@ namespace TextGen
 								 weatherArea,
 								 dataItem.thePeriod);
 
+			if(dataItem.theWindDirection.value() == kFloatMissing)
+			  {
+				storyParams.theLog << "Wind direction value missing, cannot continue!" << endl;
+				return false;
+			  }
+
 			dataItem.theCorrectedWindDirection = dataItem.theWindDirection;
 			dataItem.theEqualizedWindDirection = dataItem.theWindDirection;
 
@@ -1263,6 +1291,12 @@ namespace TextGen
 								 Mean,
 								 weatherArea,
 								 dataItem.thePeriod);
+
+			if(dataItem.theGustSpeed.value() == kFloatMissing)
+			  {
+				storyParams.theLog << "Gust speed value missing, cannot continue!" << endl;
+				return false;
+			  }
 
 			populate_windspeed_distribution_time_series(storyParams.theSources,
 														weatherArea,
@@ -1298,6 +1332,8 @@ namespace TextGen
 			storyParams.equalizedWDIndexes(areaType).push_back(i);
 		  }
 	  }
+
+	return true;
   }
     
   void find_out_wind_speed_periods(wo_story_params& storyParams)
@@ -2216,6 +2252,32 @@ namespace TextGen
 	  }
   }
 
+  bool valid_wind_event(const WindEventId& windEvent)
+  {
+	bool retval(false);
+	switch(windEvent)
+	  {
+	  case TUULI_HEIKKENEE:
+	  case TUULI_VOIMISTUU:
+	  case TUULI_TYYNTYY:
+	  case TUULI_KAANTYY:
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI:
+	  case TUULI_KAANTYY_JA_HEIKKENEE:
+	  case TUULI_KAANTYY_JA_VOIMISTUU:
+	  case TUULI_KAANTYY_JA_TYYNTYY:
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE:
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU:
+	  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY:
+	  case MISSING_WIND_EVENT:
+	  case MISSING_WIND_SPEED_EVENT:
+	  case MISSING_WIND_DIRECTION_EVENT:
+		retval = true;
+		break;
+	  }
+
+	return retval;
+  }
+
   // theOldItem1 is the item that will be updated
   // theOldItem2 is the item that is merged to another and later removed
   bool re_create_merged_item(WindEventPeriodDataItem** theOldItem1, 
@@ -2238,39 +2300,27 @@ namespace TextGen
 
 	WindEventId compositeWindEvent(sort_out_wind_event(pEarlierPeriodItem->theWindEvent, pLaterPeriodItem->theWindEvent));
 
-	// check if direction changes enough
-	/*
-	if(compositeWindEvent & TUULI_KAANTYY)
+	if(!valid_wind_event(compositeWindEvent))
 	  {
-		WindEventId windDirectionEvent = 
-		  get_wind_direction_event(pEarlierPeriodItem->thePeriodBeginDataItem.theEqualizedWindDirection,
-								   pLaterPeriodItem->thePeriodBeginDataItem.theEqualizedWindDirection,
-								   pEarlierPeriodItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
-								   pLaterPeriodItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
-								   storyParams.theVar,
-								   storyParams.theWindDirectionThreshold);
+		WindEventId windDirectionEvent(get_wind_direction_event(pEarlierPeriodItem->thePeriodBeginDataItem.theEqualizedWindDirection,
+																pLaterPeriodItem->thePeriodBeginDataItem.theEqualizedWindDirection,
+																pEarlierPeriodItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
+																pLaterPeriodItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
+																storyParams.theVar,
+																storyParams.theWindDirectionThreshold));
+		if(windDirectionEvent < 0)
+		  windDirectionEvent = MISSING_WIND_EVENT;
+		
+		WindEventId windSpeedEvent(get_wind_speed_event(pEarlierPeriodItem->thePeriodBeginDataItem.theWindMaximum,
+														pLaterPeriodItem->thePeriodEndDataItem.theWindMaximum,
+														storyParams.theWindSpeedThreshold));
+		
+		if(windSpeedEvent < 0)
+		  windSpeedEvent = MISSING_WIND_EVENT;
+		
+		compositeWindEvent = sort_out_wind_event(windSpeedEvent, windDirectionEvent);
+	  }
 
-		if(windDirectionEvent == MISSING_WIND_DIRECTION_EVENT)
-		  compositeWindEvent = mask_wind_event(compositeWindEvent, TUULI_KAANTYY);
-	  }
-	*/
-	// check if speed changes enough
-	/*
-	if(compositeWindEvent & TUULI_HEIKKENEE ||
-	   compositeWindEvent & TUULI_VOIMISTUU)
-	  {
-		bool windSpeedDifferEnough = wind_speed_differ_enough(storyParams.theSources,
-															  storyParams.theArea,
-															  period,
-															  storyParams.theVar,
-															  storyParams.theWindDataVector);
-		if(!windSpeedDifferEnough)
-		  {
-			WindEventId mask(compositeWindEvent & TUULI_HEIKKENEE ? TUULI_HEIKKENEE : TUULI_VOIMISTUU);
-			compositeWindEvent = mask_wind_event(compositeWindEvent, mask);
-		  }
-	  }
-	*/
 	WindEventPeriodDataItem* pNewItem = new WindEventPeriodDataItem(period,
 																	compositeWindEvent,
 																	pEarlierPeriodItem->thePeriodBeginDataItem,
@@ -3551,8 +3601,6 @@ namespace TextGen
 	unsigned int minIntervalSize = optional_int(storyParams.theVar+"::wind_speed_interval_min_size",2);
 	unsigned int maxIntervalSize = optional_int(storyParams.theVar+"::wind_speed_interval_max_size",5);
 	
-	string metersPerSecondFormat = Settings::optional_string("textgen::units::meterspersecond::format", "SI");
-
 	storyParams.theMaxErrorWindSpeed = maxErrorWindSpeed;
 	storyParams.theMaxErrorWindDirection = maxErrorWindDirection;
 	storyParams.theWindSpeedThreshold = windSpeedThreshold;
@@ -3561,16 +3609,17 @@ namespace TextGen
 	storyParams.theRangeSeparator = rangeSeparator;
 	storyParams.theMinIntervalSize = minIntervalSize;
 	storyParams.theMaxIntervalSize = maxIntervalSize;
-	storyParams.theMetersPerSecondFormat = metersPerSecondFormat;
 	
 	storyParams.theWeatherAreas.push_back(storyParams.theArea);
 
+	/*
 	WeatherArea coastalArea = storyParams.theArea;
 	coastalArea.type(WeatherArea::Coast);
 	storyParams.theWeatherAreas.push_back(coastalArea);
 	WeatherArea inlandArea = storyParams.theArea;
 	inlandArea.type(WeatherArea::Inland);
 	storyParams.theWeatherAreas.push_back(inlandArea);
+	*/
 
 	std::string split_section_name("textgen::split_the_area::" + get_area_name_string(storyParams.theArea));
 	std::string split_method_name(split_section_name + "::method");
@@ -3631,38 +3680,41 @@ namespace TextGen
 	allocate_data_structures(storyParams);
 
 	// populate the data structures with the relevant data
-	populate_time_series(storyParams);
+	if(populate_time_series(storyParams))
+	  {
+		// equalize the data
+		calculate_equalized_data(storyParams);
 
-	// equalize the data
-	calculate_equalized_data(storyParams);
-
-	// find out wind event periods:
-	// event periods are used to produce the story
-	find_out_wind_event_periods(storyParams);
+		// find out wind event periods:
+		// event periods are used to produce the story
+		find_out_wind_event_periods(storyParams);
 	
 #ifndef NDEBUG
-	log_raw_data(storyParams);
+		log_raw_data(storyParams);
 
-	// find out the wind speed periods (for logging purposes)
-	find_out_wind_speed_periods(storyParams);
-	// find out the wind direction periods of 16-direction compass (for logging purposes)
-	find_out_wind_direction_periods(storyParams);
+		// find out the wind speed periods (for logging purposes)
+		find_out_wind_speed_periods(storyParams);
+		// find out the wind direction periods of 16-direction compass (for logging purposes)
+		find_out_wind_direction_periods(storyParams);
 
-	// log functions
-	save_raw_data(storyParams);
-	log_raw_data(storyParams);
-	log_equalized_wind_speed_data_vector(storyParams);
-	log_equalized_wind_direction_data_vector(storyParams);
-	log_wind_speed_periods(storyParams);
-	log_wind_direction_periods(storyParams);
-	//	log_wind_events(storyParams);
-	log_wind_event_periods(storyParams);
-	//	log_merged_wind_event_periods(storyParams);
+		// log functions
+		save_raw_data(storyParams);
+		log_raw_data(storyParams);
+		log_equalized_wind_speed_data_vector(storyParams);
+		log_equalized_wind_direction_data_vector(storyParams);
+		log_wind_speed_periods(storyParams);
+		log_wind_direction_periods(storyParams);
+		log_wind_event_periods(storyParams);
+#else
+		log_wind_event_periods(storyParams);
+		log_merged_wind_event_periods(storyParams);
+		log_raw_data(storyParams);
 #endif
 
-	WindForecast windForecast(storyParams);
+		WindForecast windForecast(storyParams);
 
-	paragraph << windForecast.getWindStory(itsPeriod);
+		paragraph << windForecast.getWindStory(itsPeriod);
+	  }
  
 	deallocate_data_structures(storyParams);
 
