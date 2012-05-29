@@ -1394,6 +1394,14 @@ enum anomaly_phrase_id
 		theLog << " falls into fractile " 
 			   << fractile_name(theFractileDay2) << fractileTemperatureDay2 << endl;
 	  }
+
+	if(parameters.theDay1TemperatureAreaAfternoonMaximum.value() == kFloatMissing ||
+	   parameters.theDay2TemperatureAreaAfternoonMaximum.value() == kFloatMissing)
+	  {
+		theLog << "Maximum temperature value(s) missing, no story generated!" << endl; 
+		theLog << paragraph;
+		return paragraph;
+	  }
 	
 	WeatherResult fractile02Temperature = get_fractile_temperature(itsVar,
 																   FRACTILE_02,
@@ -1518,6 +1526,16 @@ enum anomaly_phrase_id
 	   fractile98Temperature.value() == kFloatMissing)
 	  {
 		theLog << "Fractile temperature value(s) missing, no story generated!" << endl; 
+		theLog << paragraph;
+		return paragraph;
+	  }
+
+	if(fractile02Share.value() == kFloatMissing ||
+	   fractile12Share.value() == kFloatMissing ||
+	   fractile88Share.value() == kFloatMissing ||
+	   fractile98Share.value() == kFloatMissing)
+	  {
+		theLog << "Fractile share value(s) missing, no story generated!" << endl; 
 		theLog << paragraph;
 		return paragraph;
 	  }

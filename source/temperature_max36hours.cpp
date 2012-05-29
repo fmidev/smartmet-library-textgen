@@ -4298,7 +4298,7 @@ namespace TextGen
 
 		  if(forecast_area == NO_AREA)
 			{
-			  theLog << "Something wrong, NO Coastal area NOR Inland area is included! " << endl;
+			  theLog << "Something wrong, NO Coastal area NOR Inland area is included!" << endl;
 			}
 		  else
 			{
@@ -4382,8 +4382,6 @@ namespace TextGen
 		  forecast_area |= (weatherResults[COAST_MIN_NIGHT]->value() != kFloatMissing ? COASTAL_AREA : 0x0); 
 		  forecast_area |= (weatherResults[INLAND_MIN_NIGHT]->value() != kFloatMissing ? INLAND_AREA : 0x0);
 		  forecast_area |= (weatherResults[AREA_MIN_NIGHT]->value() != kFloatMissing ? FULL_AREA : 0x0);
-
-		  //		if(!(forecast_area & (COASTAL_AREA | INLAND_AREA)))
 
 		  if(forecast_area == NO_AREA)
 			{
