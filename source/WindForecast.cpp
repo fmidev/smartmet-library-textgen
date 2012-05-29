@@ -363,7 +363,6 @@ namespace TextGen
 			  if(eventPeriodItem->theWindSpeedChangeEnds)
 				sentence << decreasingIncreasingInterval(*eventPeriodItem,
 														 firstSentenceInTheStory,
-														 useAlkaaHeiketaVoimistuaPhrase,
 														 eventId);
 			}
 			break;
@@ -431,7 +430,6 @@ namespace TextGen
 		  case TUULI_KAANTYY_JA_VOIMISTUU:
 		  case TUULI_KAANTYY_JA_HEIKKENEE:
 			{
-			  bool useAlkaaHeiketaVoimistuaPhrase(false);
 			  bool appendDecreasingIncreasingInterval(true);
 
 			  sentence << windDirectionAndSpeedChangesSentence(theParameters,
@@ -450,7 +448,6 @@ namespace TextGen
 					{
 					  sentence << decreasingIncreasingInterval(*eventPeriodItem,
 															   firstSentenceInTheStory,
-															   useAlkaaHeiketaVoimistuaPhrase,
 															   eventId);
 					}
 				}
@@ -508,10 +505,8 @@ namespace TextGen
 					}
 				}
 
-			  bool useAlkaaHeiketaVoimistuaPhrase(false);
 			  sentence << decreasingIncreasingInterval(*eventPeriodItem,
 													   firstSentenceInTheStory,
-													   useAlkaaHeiketaVoimistuaPhrase,
 													   eventId);
 			}
 			break;
@@ -561,10 +556,8 @@ namespace TextGen
 					}
 				}
 
-			  bool useAlkaaHeiketaVoimistuaPhrase(false);
 			  sentence << decreasingIncreasingInterval(*eventPeriodItem,
 													   firstSentenceInTheStory,
-													   useAlkaaHeiketaVoimistuaPhrase,
 													   eventId);
 			}
 			break;
@@ -770,7 +763,6 @@ namespace TextGen
 				  }
 				else
 				  {
-					//	ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
 					if(strengtheningWind)
 					  sentence << ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE;
 					else
@@ -806,7 +798,6 @@ namespace TextGen
 						  }
 						else
 						  {
-							//ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
 							sentence << ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
 									 << getTimePhrase(eventPeriod, useAlkaenPhrase)
 									 << TUULI_WORD
@@ -835,7 +826,6 @@ namespace TextGen
 						  }
 						else
 						  {
-							//ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
 							sentence << ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE
 									 << getTimePhrase(eventPeriod, useAlkaenPhrase)
 									 << TUULI_WORD
@@ -947,7 +937,6 @@ namespace TextGen
 					  }
 					else
 					  {
-						//ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
 						if(strengtheningWind)
 						  sentence << ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE;
 						else
@@ -971,7 +960,7 @@ namespace TextGen
 								 << windDirectionSentence(windDirectionIdBegPlus1)
 								 << windSpeedIntervalSentence(WeatherPeriod(eventPeriod.localStartTime(),eventPeriod.localStartTime()),
 															  DONT_USE_AT_ITS_STRONGEST_PHRASE)
-								 << changeAttributeStr
+								 << (smallChange ? EMPTY_STRING : changeAttributeStr)
 								 << EMPTY_STRING
 								 << getWindDirectionTurntoString(windDirectionIdEnd);
 					  }
@@ -1232,7 +1221,6 @@ namespace TextGen
 
   Sentence WindForecast::decreasingIncreasingInterval(const WindEventPeriodDataItem& eventPeriodDataItem,
 													  const bool& firstSentenceInTheStory,
-													  const bool& startsToWeakenStrengthenPhraseUsed,
 													  const WindEventId& eventId) const
   {
 	Sentence sentence;
@@ -1243,9 +1231,13 @@ namespace TextGen
 							speedEventPeriod.localStartTime());
 	WeatherPeriod periodEnd(speedEventPeriod.localEndTime(), 
 							speedEventPeriod.localEndTime());
-	
+
+	/*	
 	bool useTimePhrase = ((theParameters.theAlkaenPhraseUsed 
-						   || startsToWeakenStrengthenPhraseUsed) && !fit_into_short_day_part(speedEventPeriod));
+						   || startsToWeakenStrengthenPhraseUsed) && !fit_into_narrow_day_part(speedEventPeriod));
+*/
+	bool useTimePhrase = !fit_into_large_day_part(speedEventPeriod);
+
 	bool windIsDecreasing =  (eventId & TUULI_HEIKKENEE);
 
 	if(!wind_speed_differ_enough(theParameters.theSources,
@@ -1546,7 +1538,7 @@ namespace TextGen
 
 	theParameters.theAlkaenPhraseUsed = (wind_forecast_period_length(thePeriod) >= 6 
 										 && useAlkaenPhrase 
-										 && !fit_into_short_day_part(thePeriod));
+										 && !fit_into_narrow_day_part(thePeriod));
 
 	// try to prevent tautology, like "iltapäivällä"... "iltapäivästä alkaen"
 	if(thePreviousPartOfTheDay == 
@@ -1559,7 +1551,7 @@ namespace TextGen
 		WeatherPeriod shortenedPeriod(startTime, thePeriod.localEndTime());
 		theParameters.theAlkaenPhraseUsed = (wind_forecast_period_length(shortenedPeriod) >= 6 
 											 && useAlkaenPhrase 
-											 && !fit_into_short_day_part(shortenedPeriod));
+											 && !fit_into_narrow_day_part(shortenedPeriod));
 		sentence << get_time_phrase_large(shortenedPeriod,
 										  specifyDay,
 										  theParameters.theVar, 
@@ -1813,60 +1805,53 @@ namespace TextGen
 	
 	int peakWind = -1;
 
-	if(theParameters.theMetersPerSecondFormat == TEXTPHRASE_WORD)
+	int intervalLowerLimit(medianvalue);
+	int intervalUpperLimit(maxvalue);
+	get_wind_speed_interval(thePeriod,
+							theParameters.theArea,									
+							theParameters.theWindDataVector,
+							intervalLowerLimit,
+							intervalUpperLimit);
+
+	int actualIntervalSize(abs(intervalUpperLimit - intervalLowerLimit));
+
+	if(actualIntervalSize < theParameters.theMinIntervalSize)
 	  {
-		sentence << *UnitFactory::create(MetersPerSecond, maxvalue) << TUULTA_WORD;
+		sentence << intervalLowerLimit
+				 << *UnitFactory::create(MetersPerSecond);
 	  }
 	else
 	  {
-		int intervalLowerLimit(medianvalue);
-		int intervalUpperLimit(maxvalue);
-		get_wind_speed_interval(thePeriod,
-								theParameters.theArea,									
-								theParameters.theWindDataVector,
-								intervalLowerLimit,
-								intervalUpperLimit);
-
-		int actualIntervalSize(abs(intervalUpperLimit - intervalLowerLimit));
-
-		if(actualIntervalSize < theParameters.theMinIntervalSize)
+		if(actualIntervalSize > theParameters.theMaxIntervalSize)
 		  {
-			sentence << intervalLowerLimit
-					 << *UnitFactory::create(MetersPerSecond);				
-		  }
-		else
-		  {
-			if(actualIntervalSize > theParameters.theMaxIntervalSize)
+			// if size of the interval is one mopre than allowed, we increase lower limit by 1
+			// else we use 'kovimmillaan'-phrase
+			if(actualIntervalSize == theParameters.theMaxIntervalSize + 1)
 			  {
-				// if size of the interval is one mopre than allowed, we increase lower limit by 1
-				// else we use 'kovimmillaan'-phrase
-				if(actualIntervalSize == theParameters.theMaxIntervalSize + 1)
-				  {
-					intervalLowerLimit++;
-				  }
-				else
-				  {
-					peakWind = maxvalue;
-					intervalUpperLimit = intervalLowerLimit + theParameters.theMaxIntervalSize;
-				  }
+				intervalLowerLimit++;
 			  }
-
-			// if interval upper limit is 2, we set lower limit to zero
-			if(intervalUpperLimit == 2)
-			  intervalLowerLimit = 0;
-
-			sentence << IntegerRange(intervalLowerLimit , intervalUpperLimit, theParameters.theRangeSeparator)
-					 << *UnitFactory::create(MetersPerSecond);
-			
-			if(peakWind > intervalUpperLimit)
+			else
 			  {
-				if(theUseAtItsStrongestPhrase)
-				  {
-					sentence << Delimiter(COMMA_PUNCTUATION_MARK) 
-							 << KOVIMMILLAAN_PHRASE
-							 << peakWind
-							 << *UnitFactory::create(MetersPerSecond);
-				  }
+				peakWind = maxvalue;
+				intervalUpperLimit = intervalLowerLimit + theParameters.theMaxIntervalSize;
+			  }
+		  }
+
+		// if interval upper limit is 2, we set lower limit to zero
+		if(intervalUpperLimit == 2)
+		  intervalLowerLimit = 0;
+
+		sentence << IntegerRange(intervalLowerLimit , intervalUpperLimit, theParameters.theRangeSeparator)
+				 << *UnitFactory::create(MetersPerSecond);
+			
+		if(peakWind > intervalUpperLimit)
+		  {
+			if(theUseAtItsStrongestPhrase)
+			  {
+				sentence << Delimiter(COMMA_PUNCTUATION_MARK) 
+						 << KOVIMMILLAAN_PHRASE
+						 << peakWind
+						 << *UnitFactory::create(MetersPerSecond);
 			  }
 		  }
 	  }

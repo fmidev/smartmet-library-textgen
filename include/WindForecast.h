@@ -495,7 +495,6 @@ using namespace WindStoryTools;
 
 	Sentence decreasingIncreasingInterval(const WindEventPeriodDataItem& eventPeriodDataItem,
 										  const bool& firstSentenceInTheStory,
-										  const bool& startsToWeakenStrengthenPhraseUsed,
 										  const WindEventId& eventId) const;	  
 	Sentence getTimePhrase(const WeatherPeriod thePeriod,
 						   const bool& useAlkaenPhrase) const;
