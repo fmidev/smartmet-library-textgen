@@ -832,11 +832,15 @@ using namespace std;
 	return oss.str();
   }
 
-  bool fit_into_short_day_part(const WeatherPeriod& thePeriod)
+  bool fit_into_narrow_day_part(const WeatherPeriod& thePeriod)
   {
 	return get_part_of_the_day_id_narrow(thePeriod) != MISSING_PART_OF_THE_DAY_ID;
   }
 
+  bool fit_into_large_day_part(const WeatherPeriod& thePeriod)
+  {
+	return get_part_of_the_day_id_large(thePeriod) != MISSING_PART_OF_THE_DAY_ID;
+  }
 
   part_of_the_day_id get_adjusted_part_of_the_day_id(const WeatherPeriod& theWeatherPeriod, bool theAlkaenPhrase /*= false*/)
   {

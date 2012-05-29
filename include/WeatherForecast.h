@@ -694,7 +694,8 @@ namespace TextGen
 									WeatherAnalysis::WeatherArea& theFirstArea,
 									WeatherAnalysis::WeatherArea& theSecondArea,
 									MessageLogger& theLog);
-  bool fit_into_short_day_part(const WeatherPeriod& thePeriod);
+  bool fit_into_narrow_day_part(const WeatherPeriod& thePeriod);
+  bool fit_into_large_day_part(const WeatherPeriod& thePeriod);
 
 
 
