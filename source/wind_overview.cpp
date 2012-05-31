@@ -1570,8 +1570,14 @@ namespace TextGen
 									  dataItemPeriodEnd.thePeriod.localStartTime());
 		WindEventId windEvent(MISSING_WIND_SPEED_EVENT);
 		
-		windEvent = get_wind_speed_event(dataItemPeriodBegin.theWindMaximum,
-										 dataItemPeriodEnd.theWindMaximum,
+		// let's take 80% of maximum wind and 20 % of median wind
+		WeatherResult begSpeed((dataItemPeriodBegin.theEqualizedMaximumWind.value()*0.8) + 
+							   (dataItemPeriodBegin.theEqualizedMedianWind.value()*0.2), 0.0);
+		WeatherResult endSpeed((dataItemPeriodEnd.theEqualizedMaximumWind.value()*0.8) + 
+							   (dataItemPeriodEnd.theEqualizedMedianWind.value()*0.2), 0.0);
+
+		windEvent = get_wind_speed_event(begSpeed,
+										 endSpeed,
 										 storyParams.theWindSpeedThreshold);
 
 		// merge the similar wind events
