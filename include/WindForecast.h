@@ -649,6 +649,7 @@ using namespace WindStoryTools;
   float get_maximum_wind(const WeatherPeriod& period,
 						 const WeatherArea& area,
 						 const wind_data_item_vector& windDataVector);
+  NFmiTime get_phrase_period_end_timestamp(const NFmiTime& originalTimestamp);
 	
 
   std::ostream& operator<<(std::ostream& theOutput,

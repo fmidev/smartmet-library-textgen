@@ -127,14 +127,23 @@ namespace TextGen
 								  get_part_of_the_day_id(eventPeriod.localEndTime()) &&
 								  eventPeriod.localStartTime().GetDay() == eventPeriod.localEndTime().GetDay());
 
+		bool windSpeedDifferEnough(wind_speed_differ_enough(theParameters.theSources,
+															theParameters.theArea,
+															eventPeriod,
+															theParameters.theVar,
+															theParameters.theWindDataVector));
+
+		bool windSpeedDifferEnoughOnNextPeriod(eventPeriodItemNext &&
+											   wind_speed_differ_enough(theParameters.theSources,
+																		theParameters.theArea,
+																		eventPeriodItemNext->thePeriod,
+																		theParameters.theVar,
+																		theParameters.theWindDataVector));
+
 		if((eventId & TUULI_HEIKKENEE || eventId & TUULI_VOIMISTUU) &&
 		   (eventPeriodItem->theWindSpeedChangeStarts &&
 			eventPeriodItem->theWindSpeedChangeEnds) &&
-		   !wind_speed_differ_enough(theParameters.theSources,
-									 theParameters.theArea,
-									 eventPeriod,
-									 theParameters.theVar,
-									 theParameters.theWindDataVector))
+		   !windSpeedDifferEnough)
 		  {
 			eventId = mask_wind_event(eventId,  (eventId & TUULI_HEIKKENEE ? TUULI_HEIKKENEE : TUULI_VOIMISTUU));
 		  }
@@ -160,12 +169,6 @@ namespace TextGen
 		   windDirectionIdAvg == VAIHTELEVA)
 		  continue;
 
-		/*
-		if(eventId == TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE 
-		   && get_period_length(eventPeriod) == 0)
-		  eventId = mask_wind_event(eventId, TUULI_HEIKKENEE);
-*/
-	  		  
 		// if wind vas vaihteleva on previous period, dont report 'tuuli muuttuu vaihtelevaksi'
 		// on this period
 		if(eventId & TUULI_MUUTTUU_VAIHTELEVAKSI &&
@@ -215,14 +218,15 @@ namespace TextGen
 			  }
 		  }
 
-		if(eventId & TUULI_HEIKKENEE)
+		if(eventId & TUULI_HEIKKENEE && 
+		   (eventPeriodItem->theWindSpeedChangeStarts &&
+			eventPeriodItem->theWindSpeedChangeEnds))
 		  {
 			if(get_maximum_wind(eventStartPeriod,
 								theParameters.theArea,
 								theParameters.theWindDataVector) < WEAK_WIND_SPEED_UPPER_LIMIT + 1.0)
 			  eventId = mask_wind_event(eventId, TUULI_HEIKKENEE);
 		  }
-
 
 		switch(eventId)
 		  {
@@ -265,7 +269,10 @@ namespace TextGen
 
 			  bool windStrengthStartsToChange(eventPeriodItem->theWindSpeedChangeStarts &&
 											  !eventPeriodItem->theWindSpeedChangeEnds);
-			  
+
+			  bool reportSpeedEvenIfSpeedChangeContinues(!eventPeriodItem->theWindSpeedChangeEnds && 
+														 windSpeedDifferEnough && 
+														 windSpeedDifferEnoughOnNextPeriod);			  
 			  if(firstSentenceInTheStory)
 				{
 				  if(windStrengthStartsToChange)
@@ -359,8 +366,8 @@ namespace TextGen
 						}
 					}
 				}
-
-			  if(eventPeriodItem->theWindSpeedChangeEnds)
+			  
+			  if(appendDecreasingIncreasingInterval && (eventPeriodItem->theWindSpeedChangeEnds || reportSpeedEvenIfSpeedChangeContinues))
 				sentence << decreasingIncreasingInterval(*eventPeriodItem,
 														 firstSentenceInTheStory,
 														 eventId);
@@ -444,7 +451,11 @@ namespace TextGen
 
 			  if(!sentence.empty())
 				{
-				  if(eventPeriodItem->theWindSpeedChangeEnds)
+				  bool reportSpeedEvenIfSpeedChangeContinues(!eventPeriodItem->theWindSpeedChangeEnds && 
+															 windSpeedDifferEnough && 
+															 windSpeedDifferEnoughOnNextPeriod);
+
+				  if(appendDecreasingIncreasingInterval && (eventPeriodItem->theWindSpeedChangeEnds || reportSpeedEvenIfSpeedChangeContinues))
 					{
 					  sentence << decreasingIncreasingInterval(*eventPeriodItem,
 															   firstSentenceInTheStory,
@@ -653,11 +664,6 @@ namespace TextGen
 	bool useAlkaenPhrase(get_period_length(eventPeriod) >= 6);
 	WindDirectionId windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
 	WindDirectionId windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
-	/*
-	WindDirectionId windDirectionIdAvg(get_wind_direction_id_at(theParameters,
-																eventPeriod,
-																theParameters.theVar));	
-	*/
 
 	getWindDirectionBegEnd(eventPeriod, windDirectionIdBeg, windDirectionIdEnd);
 
@@ -1232,10 +1238,9 @@ namespace TextGen
 	WeatherPeriod periodEnd(speedEventPeriod.localEndTime(), 
 							speedEventPeriod.localEndTime());
 
-	/*	
-	bool useTimePhrase = ((theParameters.theAlkaenPhraseUsed 
-						   || startsToWeakenStrengthenPhraseUsed) && !fit_into_narrow_day_part(speedEventPeriod));
-*/
+	NFmiTime phrasePeriodEndTimestamp(get_phrase_period_end_timestamp(speedEventPeriod.localEndTime()));
+	WeatherPeriod periodEndPhrasePeriod(phrasePeriodEndTimestamp, phrasePeriodEndTimestamp);
+
 	bool useTimePhrase = !fit_into_large_day_part(speedEventPeriod);
 
 	bool windIsDecreasing =  (eventId & TUULI_HEIKKENEE);
@@ -1250,7 +1255,7 @@ namespace TextGen
 		  {
 		
 			sentence  << Delimiter(COMMA_PUNCTUATION_MARK)
-					  << getTimePhrase(periodEnd, eventPeriodDataItem.theLongTermSpeedChangeFlag)
+					  << getTimePhrase(periodEndPhrasePeriod, eventPeriodDataItem.theLongTermSpeedChangeFlag)
 					  << windSpeedIntervalSentence(periodEnd,
 												   USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
 			logWindSpeedPeriod(periodEnd, windSpeedIntervalSentence(periodEnd, 
@@ -1299,7 +1304,7 @@ namespace TextGen
 												   DONT_USE_AT_ITS_STRONGEST_PHRASE);
 
 			sentence << Delimiter(COMMA_PUNCTUATION_MARK)
-					 << getTimePhrase(periodEnd, eventPeriodDataItem.theLongTermSpeedChangeFlag)
+					 << getTimePhrase(periodEndPhrasePeriod, eventPeriodDataItem.theLongTermSpeedChangeFlag)
 					 << windSpeedIntervalSentence(periodEnd, 
 												  USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
 
@@ -1345,7 +1350,7 @@ namespace TextGen
 				else
 				  {
 					sentence << Delimiter(COMMA_PUNCTUATION_MARK)
-							 << getTimePhrase(periodEnd, eventPeriodDataItem.theLongTermSpeedChangeFlag)
+							 << getTimePhrase(periodEndPhrasePeriod, eventPeriodDataItem.theLongTermSpeedChangeFlag)
 							 << windSpeedIntervalSentence(periodEnd,
 														  USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
 
@@ -1369,6 +1374,8 @@ namespace TextGen
 		  }
 		
 		// Note! Speed at start is not reported: starting from index 1
+		if(!useTimePhrase)
+		  useTimePhrase = speedChangePeriods.size() > 2;
 		for(unsigned int i = 1; i < speedChangePeriods.size(); i++)
 		  {
 			WeatherPeriod currentPeriodEnd(speedChangePeriods[i].localEndTime(), 
@@ -1387,27 +1394,27 @@ namespace TextGen
 				// iltapäivällä 10...13 m/s, iltapäivällä 15...18
 				if(currentDayPart == nextDayPart)
 				  continue;
-								
-				WeatherResult lowerLimit1(kFloatMissing, 0), 
-				  lowerLimit2(kFloatMissing, 0), 
-				  upperLimit1(kFloatMissing, 0), 
-				  upperLimit2(kFloatMissing, 0);
 
-				getSpeedIntervalLimits(currentPeriodEnd,
-									   lowerLimit1,
-									   upperLimit1);
+				int lowerLimit1(kFloatMissing),
+				  lowerLimit2(kFloatMissing),
+				  upperLimit1(kFloatMissing),
+				  upperLimit2(kFloatMissing);
 
-				getSpeedIntervalLimits(nextPeriodEnd,
-									   lowerLimit2,
-									   upperLimit2);
+				get_wind_speed_interval(currentPeriodEnd,
+										theParameters.theArea,
+										theParameters.theWindDataVector,
+										lowerLimit1,
+										upperLimit1);
 
-				int lowerLimit1Int(static_cast<int>(lowerLimit1.value())), 
-				  lowerLimit2Int(static_cast<int>(lowerLimit2.value())), 
-				  upperLimit1Int(static_cast<int>(upperLimit1.value())), 
-				  upperLimit2Int(static_cast<int>(upperLimit2.value()));
+				get_wind_speed_interval(nextPeriodEnd,
+										theParameters.theArea,
+										theParameters.theWindDataVector,
+										lowerLimit2,
+										upperLimit2);
 
-				if(abs(lowerLimit2Int-lowerLimit1Int) <= 1 && 
-				   abs(upperLimit2Int-upperLimit1Int) <= 1)
+
+				if(abs(lowerLimit2 - lowerLimit1) <= 1 && 
+				   abs(upperLimit2 - upperLimit1) <= 1)
 				  continue;
 			  }
 		
@@ -1422,19 +1429,31 @@ namespace TextGen
 			  {
 				if(useTimePhrase)
 				  {
+					if(i < speedChangePeriods.size() - 1)
+					  {
+						NFmiTime currentTimestamp(speedChangePeriods[i].localStartTime());
+						NFmiTime nextTimestamp(get_phrase_period_end_timestamp(speedChangePeriods[i+1].localStartTime()));
+						if(get_part_of_the_day_id(currentTimestamp) == get_part_of_the_day_id(nextTimestamp))
+						  continue;
+					  }
+					
 					sentence << Delimiter(COMMA_PUNCTUATION_MARK);
+					
+					NFmiTime phrasePeriodEndTimestamp(get_phrase_period_end_timestamp(lastPeriod ? speedChangePeriods[i].localStartTime() : currentPeriodEnd.localStartTime()));
+
+					WeatherPeriod phrasePeriod(phrasePeriodEndTimestamp, phrasePeriodEndTimestamp);
 					if(lastPeriod)
 					  {
 						Sentence timePhrase;
-						if(get_adjusted_part_of_the_day_id(speedChangePeriods[i]) != MISSING_PART_OF_THE_DAY_ID)
-						  timePhrase << getTimePhrase(speedChangePeriods[i], eventPeriodDataItem.theLongTermSpeedChangeFlag);
+						if(get_adjusted_part_of_the_day_id(phrasePeriod) != MISSING_PART_OF_THE_DAY_ID)
+						  timePhrase << getTimePhrase(phrasePeriod, eventPeriodDataItem.theLongTermSpeedChangeFlag);
 						if(timePhrase.empty())
-						  timePhrase << getTimePhrase(speedChangePeriods[i], USE_ALKAEN_PHRASE);
+						  timePhrase << getTimePhrase(phrasePeriod, USE_ALKAEN_PHRASE);
 						sentence << timePhrase;
 					  }
 					else
 					  {
-						sentence << getTimePhrase(currentPeriodEnd, DONT_USE_ALKAEN_PHRASE);
+						sentence << getTimePhrase(phrasePeriod, DONT_USE_ALKAEN_PHRASE);
 					  }
 				  }
 
@@ -1629,48 +1648,6 @@ namespace TextGen
 			endIndex = i;
 		  }
 
-		/*
-		if(reportingIndexes.size() > 1)
-		  {
-			const WindDataItemUnit& windDataItemLast = (*theParameters.theWindDataVector[endIndex])(theParameters.theArea.type());
-			WeatherPeriod previousPeriod((*theParameters.theWindDataVector[reportingIndexes[0]])(theParameters.theArea.type()).thePeriod);
-			for(unsigned int i = 0; i < reportingIndexes.size(); i++)
-			  {
-				unsigned int index = reportingIndexes[i];
-				const WindDataItemUnit& windDataItem = (*theParameters.theWindDataVector[index])(theParameters.theArea.type());
-				if(i < reportingIndexes.size() - 1 &&
-				   abs(windDataItem.theEqualizedMaximumWind.value() - windDataItemLast.theEqualizedMaximumWind.value()) > 4.0)
-				  {
-					// dont report two times on the same period
-					if(retVector.size() > 0 &&
-					   get_part_of_the_day_id_large(windDataItem.thePeriod) == get_part_of_the_day_id_large(previousPeriod))
-					  {
-						retVector[retVector.size()-1] = windDataItem.thePeriod;
-					  }
-					else
-					  {
-						retVector.push_back(windDataItem.thePeriod);
-					  }
-					previousPeriod = windDataItem.thePeriod;
-				  }
-				else
-				  {					
-					WeatherPeriod period(windDataItem.thePeriod.localEndTime(),
-										 windDataItemLast.thePeriod.localEndTime());
-					// dont report two times on the same period
-					if(retVector.size() > 0 &&
-					   get_part_of_the_day_id_large(period) == get_part_of_the_day_id_large(previousPeriod))
-					  {
-						retVector[retVector.size()-1] = period;
-					  }
-					else
-					  {
-						retVector.push_back(period);
-					  }
-				  }
-			  }
-		  }
-		*/
 		for(unsigned int i = 0; i < reportingIndexes.size(); i++)
 		  {
 			unsigned int index = reportingIndexes[i];
@@ -1738,20 +1715,22 @@ namespace TextGen
 												 bool& gradualChange,
 												 bool& fastChange) const
   {
-	int begLowerLimit(0), 
-	  begUpperLimit(0), 
-	  endLowerLimit(0), 
-	  endUpperLimit(0);
-	float changeRatePerHour(0.0);
+	int begLowerLimit(kFloatMissing), 
+	  begUpperLimit(kFloatMissing), 
+	  endLowerLimit(kFloatMissing), 
+	  endUpperLimit(kFloatMissing);
 
-	get_wind_speed_interval_parameters(changePeriod,
-									   theParameters.theArea,
-									   theParameters.theWindDataVector,
-									   begLowerLimit,
-									   begUpperLimit,
-									   endLowerLimit,
-									   endUpperLimit,
-									   changeRatePerHour);
+	get_wind_speed_interval(changePeriod.localStartTime(),
+							theParameters.theArea,							
+							theParameters.theWindDataVector,
+							begLowerLimit,
+							begUpperLimit);
+	get_wind_speed_interval(changePeriod.localEndTime(),
+							theParameters.theArea,							
+							theParameters.theWindDataVector,
+							endLowerLimit,
+							endUpperLimit);
+
 
 	if(begLowerLimit == kFloatMissing ||
 	   begUpperLimit == kFloatMissing ||
@@ -1803,8 +1782,6 @@ namespace TextGen
 	const int maxvalue = static_cast<int>(round(theMaxSpeed.value()));
 	const int medianvalue = static_cast<int>(round(theMedianSpeed.value()));
 	
-	int peakWind = -1;
-
 	int intervalLowerLimit(medianvalue);
 	int intervalUpperLimit(maxvalue);
 	get_wind_speed_interval(thePeriod,
@@ -1814,6 +1791,7 @@ namespace TextGen
 							intervalUpperLimit);
 
 	int actualIntervalSize(abs(intervalUpperLimit - intervalLowerLimit));
+	int peakWind(intervalUpperLimit);
 
 	if(actualIntervalSize < theParameters.theMinIntervalSize)
 	  {
@@ -1824,7 +1802,7 @@ namespace TextGen
 	  {
 		if(actualIntervalSize > theParameters.theMaxIntervalSize)
 		  {
-			// if size of the interval is one mopre than allowed, we increase lower limit by 1
+			// if size of the interval is one more than allowed, we increase lower limit by 1
 			// else we use 'kovimmillaan'-phrase
 			if(actualIntervalSize == theParameters.theMaxIntervalSize + 1)
 			  {
@@ -1832,7 +1810,6 @@ namespace TextGen
 			  }
 			else
 			  {
-				peakWind = maxvalue;
 				intervalUpperLimit = intervalLowerLimit + theParameters.theMaxIntervalSize;
 			  }
 		  }
@@ -1841,18 +1818,28 @@ namespace TextGen
 		if(intervalUpperLimit == 2)
 		  intervalLowerLimit = 0;
 
-		sentence << IntegerRange(intervalLowerLimit , intervalUpperLimit, theParameters.theRangeSeparator)
-				 << *UnitFactory::create(MetersPerSecond);
-			
+
 		if(peakWind > intervalUpperLimit)
 		  {
 			if(theUseAtItsStrongestPhrase)
 			  {
+				sentence << IntegerRange(intervalLowerLimit, intervalUpperLimit, theParameters.theRangeSeparator)
+						 << *UnitFactory::create(MetersPerSecond);
 				sentence << Delimiter(COMMA_PUNCTUATION_MARK) 
 						 << KOVIMMILLAAN_PHRASE
 						 << peakWind
 						 << *UnitFactory::create(MetersPerSecond);
 			  }
+			else
+			  {
+				sentence << IntegerRange(peakWind - theParameters.theMaxIntervalSize, peakWind, theParameters.theRangeSeparator)
+						 << *UnitFactory::create(MetersPerSecond);
+			  }
+		  }
+		else
+		  {
+			sentence << IntegerRange(intervalLowerLimit, intervalUpperLimit, theParameters.theRangeSeparator)
+					 << *UnitFactory::create(MetersPerSecond);
 		  }
 	  }
 	  
@@ -1917,7 +1904,7 @@ namespace TextGen
 	WeatherResult lowerLimit(kFloatMissing, 0.0);
 	WeatherResult upperLimit(kFloatMissing, 0.0);
 
-	if(getSpeedIntervalLimits(thePeriod, lowerLimit, upperLimit))
+	//	if(getSpeedIntervalLimits(thePeriod, lowerLimit, upperLimit))
 	  {
 		sentence << speedRangeSentence(thePeriod,
 									   upperLimit,
@@ -2494,20 +2481,19 @@ namespace TextGen
 	  begUpperLimit(0), 
 	  endLowerLimit(0), 
 	  endUpperLimit(0);
-	float changeRatePerHour(kFloatMissing);
-   
-	NFmiTime startTime(thePeriod.localStartTime());
-	NFmiTime endTime(thePeriod.localEndTime());
-	WeatherPeriod period(startTime, endTime);
-	
-	get_wind_speed_interval_parameters(thePeriod,
-									   theArea,									   
-									   windDataVector,
-									   begLowerLimit,
-									   begUpperLimit,
-									   endLowerLimit,
-									   endUpperLimit,
-									   changeRatePerHour);
+
+	get_wind_speed_interval(thePeriod.localStartTime(),
+							theArea,							
+							windDataVector,
+							begLowerLimit,
+							begUpperLimit);
+	get_wind_speed_interval(thePeriod.localEndTime(),
+							theArea,							
+							windDataVector,
+							endLowerLimit,
+							endUpperLimit);
+
+
 
 	//	float lowerDiff = abs(endLowerLimit - begLowerLimit);
 	float upperDiff = abs(endUpperLimit - begUpperLimit);
@@ -2570,7 +2556,6 @@ namespace TextGen
 
 	float minValue(lowerLimit);
 	float maxValue(upperLimit);
-	bool found(false);
 	for(unsigned int i = 0; i < windDataVector.size(); i++)
 	  {
 		const WindDataItemUnit& windDataItem = (*windDataVector[i])(area.type());
@@ -2582,7 +2567,6 @@ namespace TextGen
 				minValue = windDataItem.theEqualizedMedianWind.value();
 				maxValue = windDataItem.theEqualizedMaximumWind.value();
 				firstMatchProcessed = true;
-				found = true;
 			  }
 			else
 			  {
@@ -2590,7 +2574,6 @@ namespace TextGen
 				  minValue = windDataItem.theEqualizedMedianWind.value();
 				if(windDataItem.theEqualizedMaximumWind.value() > maxValue)
 				  maxValue = windDataItem.theEqualizedMaximumWind.value();
-				found = true;
 			  }
 		  }
 	  }
@@ -2652,6 +2635,7 @@ namespace TextGen
 
 	value_distribution_data_vector windSpeedDistributionVector;
 
+	// first calculte the sum of the distribution values for the period
 	unsigned int counter(0);
 	for(unsigned int i = 0; i < windDataVector.size(); i++)
 	  {
@@ -2678,16 +2662,17 @@ namespace TextGen
 		  }
 	  }
 
+	// then calculate mean value of the distribution values of the period
 	for(unsigned int i = 0; i < windSpeedDistributionVector.size(); i++)
 	  {
 		WeatherResult cumulativeShare(windSpeedDistributionVector[i].second);
 		windSpeedDistributionVector[i].second = WeatherResult(cumulativeShare.value() / counter, 0.0);
 	  }
-
+	
 	const int maxvalue = upperLimit;
 	const int minvalue = lowerLimit;
 
-	// subtract 1 m/s from the lowest limit
+	// subtract 1 m/s from the lower limit
 	lowerLimit  = (maxvalue - (minvalue - 1) > 5 ? maxvalue - 5 : minvalue - 1);
 
 	// Make sure that 2/3 of values are inside the interval
@@ -2847,54 +2832,18 @@ namespace TextGen
 												theVar);
   }
 
+  NFmiTime get_phrase_period_end_timestamp(const NFmiTime& originalTimestamp)
+  {
+	NFmiTime phrasePeriodTimestamp(originalTimestamp);
+
+	if(phrasePeriodTimestamp.GetHour() == 18)
+	  phrasePeriodTimestamp.ChangeByHours(-2);
+	else if(phrasePeriodTimestamp.GetHour() == 17)
+	  phrasePeriodTimestamp.ChangeByHours(-1);
+
+	return phrasePeriodTimestamp;
+  }
+
+
 } // namespace TextGen
-
-
-		/*
-		for(int k = 0; k < get_period_length(eventPeriod); k++)
-		  {
-			NFmiTime startTime(eventPeriod.localStartTime());
-			startTime.ChangeByHours(k);			 
-			NFmiTime endTime(startTime);
-			WeatherPeriod tstPeriod(startTime, endTime);
-			
-			WeatherResult windDirectionFull(kFloatMissing,kFloatMissing);
-			WeatherResult windDirectionCoastal(kFloatMissing,kFloatMissing);
-			WeatherResult windDirectionInland(kFloatMissing,kFloatMissing);
-			float medianWindFull(0.0);
-			float medianWindCoastal(0.0);
-			float medianWindInland(0.0);
-		
-
-			get_wind_direction_by_area(theParameters.theWindDataVector,
-									   theParameters.theArea,
-									   theParameters.theSources,
-									   tstPeriod,
-									   theParameters.theVar,
-									   windDirectionFull,
-									   windDirectionCoastal,
-									   windDirectionInland);
-
-			get_median_wind_speed_by_area(theParameters.theWindDataVector,
-										  theParameters.theArea,
-										  tstPeriod,
-										  medianWindFull,
-										  medianWindCoastal,
-										  medianWindInland);
-
-			cout << tstPeriod.localStartTime() << "..." << tstPeriod.localEndTime() << ": " << endl;
-			cout << "medianWindCoastal, medianWindInland, windDirectionFull: " 
-				 << medianWindCoastal << ", " << medianWindInland << ", " << medianWindFull << endl;
-			cout << "windDirectionCoastal, medianDirectionInland, windDirectionFull: " 
-				 << windDirectionCoastal.value() 
-				 << " (" << windDirectionCoastal.error() << ")"
-				 << ", " 
-				 << windDirectionInland.value() 
-				 << " (" << windDirectionInland.error() << ")"
-				 << ", " 
-				 << windDirectionFull.value() 
-				 << " (" << windDirectionFull.error() << ")"
-				 << endl;
-		  }
-		*/
 
