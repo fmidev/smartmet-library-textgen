@@ -884,17 +884,17 @@ namespace TextGen
 	if(thePeriodToMergeTo)
 	  return sentence;
 
-	// precipitation periods aroud are merged
-	//	if(thePreviousPrecipitationStoryItem && thePreviousPrecipitationStoryItem->thePeriodToMergeWith)
-	//return sentence;
-
 	WeatherPeriod storyItemPeriod(getStoryItemPeriod());
 	// if the cloudiness period is max 2 hours and it is in the end of the forecast period and
 	// the previous precipitation period is long > 6h -> don't report cloudiness
 	if(storyItemPeriod.localEndTime() == theWeatherForecastStory.theForecastPeriod.localEndTime() &&
-	   storyItemPeriodLength() <= 2 &&
-	   thePreviousPrecipitationStoryItem && thePreviousPrecipitationStoryItem->storyItemPeriodLength() >= 6)
-	  return sentence;
+	   storyItemPeriodLength() <= 2)
+	  {
+		if(thePreviousPrecipitationStoryItem && (thePreviousPrecipitationStoryItem->storyItemPeriodLength() >= 6 ||
+												 get_part_of_the_day_id_narrow(thePreviousPrecipitationStoryItem->getStoryItemPeriod()) ==
+												 get_part_of_the_day_id_narrow(getStoryItemPeriod())))
+		  return sentence;
+	  }
 
 	const CloudinessForecast& clForecast = theWeatherForecastStory.theCloudinessForecast;
 	const PrecipitationForecast& prForecast = theWeatherForecastStory.thePrecipitationForecast;
