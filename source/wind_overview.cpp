@@ -2991,8 +2991,10 @@ namespace TextGen
 
 		bool merge(false);
 		bool mergePreviousToCurrent(false);
-		if(currentDataItem->theWindEvent == MISSING_WIND_EVENT &&
-		   previousDataItem->theWindEvent == MISSING_WIND_EVENT)
+		if((currentDataItem->theWindEvent == MISSING_WIND_EVENT &&
+			previousDataItem->theWindEvent == MISSING_WIND_EVENT) ||
+		   (currentDataItem->theWindEvent & TUULI_MUUTTUU_VAIHTELEVAKSI &&
+				previousDataItem->theWindEvent & TUULI_MUUTTUU_VAIHTELEVAKSI))
 		  {
 			merge = true;
 		  }
