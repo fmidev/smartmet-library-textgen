@@ -97,9 +97,9 @@ namespace DewPointStoryTest
 	NFmiSettings::Set("range::fake::minimum","-1,0");
 	NFmiSettings::Set("range::fake::mean","0,0");
 	NFmiSettings::Set("range::fake::maximum","0,0");
-	require(story,"fi",fun,"Kastepiste on -1...0 astetta.");
-	require(story,"sv",fun,"Daggpunkt är -1...0 grader.");
-	require(story,"en",fun,"Dew point is -1...0 degrees.");
+	require(story,"fi",fun,"Kastepiste on 0...-1 astetta.");
+	require(story,"sv",fun,"Daggpunkt är 0...-1 grader.");
+	require(story,"en",fun,"Dew point is 0...-1 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","-1,0");
 	NFmiSettings::Set("range::fake::mean","0,0");

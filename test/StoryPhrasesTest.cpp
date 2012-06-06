@@ -541,14 +541,14 @@ namespace StoryPhrasesTest
 	require("7-tuuleksi","länsituuleksi");
 	require("8-tuuleksi","luoteistuuleksi");
 
-	require("1-puoleista tuulta","pohjoisen puoleista tuulta");
-	require("2-puoleista tuulta","koillisen puoleista tuulta");
-	require("3-puoleista tuulta","idän puoleista tuulta");
-	require("4-puoleista tuulta","kaakon puoleista tuulta");
-	require("5-puoleista tuulta","etelän puoleista tuulta");
-	require("6-puoleista tuulta","lounaan puoleista tuulta");
-	require("7-puoleista tuulta","lännen puoleista tuulta");
-	require("8-puoleista tuulta","luoteen puoleista tuulta");
+	require("1-puoleista tuulta","pohjoisenpuoleista tuulta");
+	require("2-puoleista tuulta","koillisenpuoleista tuulta");
+	require("3-puoleista tuulta","idänpuoleista tuulta");
+	require("4-puoleista tuulta","kaakonpuoleista tuulta");
+	require("5-puoleista tuulta","etelänpuoleista tuulta");
+	require("6-puoleista tuulta","lounaanpuoleista tuulta");
+	require("7-puoleista tuulta","lännenpuoleista tuulta");
+	require("8-puoleista tuulta","luoteenpuoleista tuulta");
 
 	require("1-puoleiseksi tuuleksi","pohjoisen puoleiseksi tuuleksi");
 	require("2-puoleiseksi tuuleksi","koillisen puoleiseksi tuuleksi");
@@ -599,14 +599,14 @@ namespace StoryPhrasesTest
 	require("7-tuulta","länsituulta");
 	require("8-tuulta","luoteistuulta");
 
-	require("1-puoleista tuulta","pohjoisen puoleista tuulta");
-	require("2-puoleista tuulta","koillisen puoleista tuulta");
-	require("3-puoleista tuulta","idän puoleista tuulta");
-	require("4-puoleista tuulta","kaakon puoleista tuulta");
-	require("5-puoleista tuulta","etelän puoleista tuulta");
-	require("6-puoleista tuulta","lounaan puoleista tuulta");
-	require("7-puoleista tuulta","lännen puoleista tuulta");
-	require("8-puoleista tuulta","luoteen puoleista tuulta");
+	require("1-puoleista tuulta","pohjoisenpuoleista tuulta");
+	require("2-puoleista tuulta","koillisenpuoleista tuulta");
+	require("3-puoleista tuulta","idänpuoleista tuulta");
+	require("4-puoleista tuulta","kaakonpuoleista tuulta");
+	require("5-puoleista tuulta","etelänpuoleista tuulta");
+	require("6-puoleista tuulta","lounaanpuoleista tuulta");
+	require("7-puoleista tuulta","lännenpuoleista tuulta");
+	require("8-puoleista tuulta","luoteenpuoleista tuulta");
 
 	require("1-na","maanantaina");
 	require("2-na","tiistaina");
@@ -648,14 +648,14 @@ namespace StoryPhrasesTest
 	require("7-tuulta","länsituulta");
 	require("8-tuulta","luoteistuulta");
 
-	require("1-puoleista tuulta","pohjoisen puoleista tuulta");
-	require("2-puoleista tuulta","koillisen puoleista tuulta");
-	require("3-puoleista tuulta","idän puoleista tuulta");
-	require("4-puoleista tuulta","kaakon puoleista tuulta");
-	require("5-puoleista tuulta","etelän puoleista tuulta");
-	require("6-puoleista tuulta","lounaan puoleista tuulta");
-	require("7-puoleista tuulta","lännen puoleista tuulta");
-	require("8-puoleista tuulta","luoteen puoleista tuulta");
+	require("1-puoleista tuulta","pohjoisenpuoleista tuulta");
+	require("2-puoleista tuulta","koillisenpuoleista tuulta");
+	require("3-puoleista tuulta","idänpuoleista tuulta");
+	require("4-puoleista tuulta","kaakonpuoleista tuulta");
+	require("5-puoleista tuulta","etelänpuoleista tuulta");
+	require("6-puoleista tuulta","lounaanpuoleista tuulta");
+	require("7-puoleista tuulta","lännenpuoleista tuulta");
+	require("8-puoleista tuulta","luoteenpuoleista tuulta");
 
 	TEST_PASSED();
   }

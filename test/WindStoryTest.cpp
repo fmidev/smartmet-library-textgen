@@ -95,7 +95,7 @@ namespace WindStoryTest
 
 	  NFmiSettings::Set("a::fake::day1::direction::mean","0,30");
 	   //
-	   REQUIRE(story,"fi",fun,"Pohjoisen puoleista tuulta 0-2 m/s.");
+	   REQUIRE(story,"fi",fun,"Pohjoisenpuoleista tuulta 0-2 m/s.");
 	   REQUIRE(story,"sv",fun,"Vind omkring nord 0-2 m/s.");
 	   REQUIRE(story,"en",fun,"Mainly northerly wind 0-2 m/s.");
 
@@ -182,7 +182,7 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::day2::direction::mean","90,0");
 	  NFmiSettings::Set("a::fake::days1-2::direction::mean","45,30");
 	   //
-	   REQUIRE(story,"fi",fun,"Koillisen puoleista tuulta 0-2 m/s, huomenna 4-5 m/s.");
+	   REQUIRE(story,"fi",fun,"Koillisenpuoleista tuulta 0-2 m/s, huomenna 4-5 m/s.");
 	   REQUIRE(story,"sv",fun,"Vind omkring nordost 0-2 m/s, i morgon 4-5 m/s.");
 	   REQUIRE(story,"en",fun,"Mainly north-easterly wind 0-2 m/s, tomorrow 4-5 m/s.");
 
@@ -206,19 +206,19 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::day2::direction::mean","90,0");
 	  NFmiSettings::Set("a::fake::days1-2::direction::mean","45,30");
 	   //
-	   REQUIRE(story,"fi",fun,"Koillisen puoleista tuulta 0-2 m/s.");
+	   REQUIRE(story,"fi",fun,"Koillisenpuoleista tuulta 0-2 m/s.");
 	   REQUIRE(story,"sv",fun,"Vind omkring nordost 0-2 m/s.");
 	   REQUIRE(story,"en",fun,"Mainly north-easterly wind 0-2 m/s.");
 
 	  NFmiSettings::Set("a::days::phrases","today,tomorrow,followingday,weekday,none");
 	   //
-	   REQUIRE(story,"fi",fun,"Tänään ja huomenna koillisen puoleista tuulta 0-2 m/s.");
+	   REQUIRE(story,"fi",fun,"Tänään ja huomenna koillisenpuoleista tuulta 0-2 m/s.");
 	   REQUIRE(story,"sv",fun,"I dag och i morgon vind omkring nordost 0-2 m/s.");
 	   REQUIRE(story,"en",fun,"Today and tomorrow mainly north-easterly wind 0-2 m/s.");
 
 	  NFmiSettings::Set("a::days::phrases","today,weekday,tomorrow,followingday,none");
 	   //
-	   REQUIRE(story,"fi",fun,"Tänään ja maanantaina koillisen puoleista tuulta 0-2 m/s.");
+	   REQUIRE(story,"fi",fun,"Tänään ja maanantaina koillisenpuoleista tuulta 0-2 m/s.");
 	   REQUIRE(story,"sv",fun,"I dag och på måndagen vind omkring nordost 0-2 m/s.");
 	   REQUIRE(story,"en",fun,"Today and on Monday mainly north-easterly wind 0-2 m/s.");
 	}
@@ -251,7 +251,7 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::day2::direction::mean","90,0");
 	  NFmiSettings::Set("a::fake::days1-2::direction::mean","45,30");
 	   //
-	   REQUIRE(story,"fi",fun,"Huomenna koillisen puoleista tuulta 0-2 m/s, tiistaina 4-5 m/s.");
+	   REQUIRE(story,"fi",fun,"Huomenna koillisenpuoleista tuulta 0-2 m/s, tiistaina 4-5 m/s.");
 	   REQUIRE(story,"sv",fun,"I morgon vind omkring nordost 0-2 m/s, på tisdagen 4-5 m/s.");
 	   REQUIRE(story,"en",fun,"Tomorrow mainly north-easterly wind 0-2 m/s, on Tuesday 4-5 m/s.");
 
@@ -275,19 +275,19 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::day2::direction::mean","90,0");
 	  NFmiSettings::Set("a::fake::days1-2::direction::mean","45,30");
 	   //
-	   REQUIRE(story,"fi",fun,"Huomenna ja seuraavana päivänä koillisen puoleista tuulta 0-2 m/s.");
+	   REQUIRE(story,"fi",fun,"Huomenna ja seuraavana päivänä koillisenpuoleista tuulta 0-2 m/s.");
 	   REQUIRE(story,"sv",fun,"I morgon och följande dag vind omkring nordost 0-2 m/s.");
 	   REQUIRE(story,"en",fun,"Tomorrow and the following day mainly north-easterly wind 0-2 m/s.");
 
 	  NFmiSettings::Set("a::days::phrases","today,tomorrow,followingday,weekday,none");
 	   //
-	   REQUIRE(story,"fi",fun,"Huomenna ja seuraavana päivänä koillisen puoleista tuulta 0-2 m/s.");
+	   REQUIRE(story,"fi",fun,"Huomenna ja seuraavana päivänä koillisenpuoleista tuulta 0-2 m/s.");
 	   REQUIRE(story,"sv",fun,"I morgon och följande dag vind omkring nordost 0-2 m/s.");
 	   REQUIRE(story,"en",fun,"Tomorrow and the following day mainly north-easterly wind 0-2 m/s.");
 
 	  NFmiSettings::Set("a::days::phrases","weekday");
 	   //
-	   REQUIRE(story,"fi",fun,"Maanantaina ja tiistaina koillisen puoleista tuulta 0-2 m/s.");
+	   REQUIRE(story,"fi",fun,"Maanantaina ja tiistaina koillisenpuoleista tuulta 0-2 m/s.");
 	   REQUIRE(story,"sv",fun,"På måndagen och på tisdagen vind omkring nordost 0-2 m/s.");
 	   REQUIRE(story,"en",fun,"On Monday and on Tuesday mainly north-easterly wind 0-2 m/s.");
 	}
@@ -331,7 +331,7 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::days2-3::direction::mean","135,50");
 	  NFmiSettings::Set("a::fake::days1-3::direction::mean","90,90");
 	   //
-	   REQUIRE(story,"fi",fun,"Koillisen puoleista tuulta 0-2 m/s, huomenna 3-5 m/s, tiistaina etelätuulta 6-8 m/s.");
+	   REQUIRE(story,"fi",fun,"Koillisenpuoleista tuulta 0-2 m/s, huomenna 3-5 m/s, tiistaina etelätuulta 6-8 m/s.");
 	   REQUIRE(story,"sv",fun,"Vind omkring nordost 0-2 m/s, i morgon 3-5 m/s, på tisdagen sydlig vind 6-8 m/s.");
 	   REQUIRE(story,"en",fun,"Mainly north-easterly wind 0-2 m/s, tomorrow 3-5 m/s, on Tuesday southerly wind 6-8 m/s.");
 
@@ -340,7 +340,7 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::days2-3::direction::mean","135,30");
 	  NFmiSettings::Set("a::fake::days1-3::direction::mean","90,90");
 	   //
-	   REQUIRE(story,"fi",fun,"Pohjoistuulta 0-2 m/s, huomenna kaakon puoleista tuulta 3-5 m/s, tiistaina 6-8 m/s.");
+	   REQUIRE(story,"fi",fun,"Pohjoistuulta 0-2 m/s, huomenna kaakonpuoleista tuulta 3-5 m/s, tiistaina 6-8 m/s.");
 	   REQUIRE(story,"sv",fun,"Nordlig vind 0-2 m/s, i morgon vind omkring sydost 3-5 m/s, på tisdagen 6-8 m/s.");
 	   REQUIRE(story,"en",fun,"Northerly wind 0-2 m/s, tomorrow mainly south-easterly wind 3-5 m/s, on Tuesday 6-8 m/s.");
 
@@ -349,7 +349,7 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::days2-3::direction::mean","135,50");
 	  NFmiSettings::Set("a::fake::days1-3::direction::mean","90,30");
 	   //
-	   REQUIRE(story,"fi",fun,"Idän puoleista tuulta 0-2 m/s, huomenna 3-5 m/s, tiistaina 6-8 m/s.");
+	   REQUIRE(story,"fi",fun,"Idänpuoleista tuulta 0-2 m/s, huomenna 3-5 m/s, tiistaina 6-8 m/s.");
 	   REQUIRE(story,"sv",fun,"Vind omkring ost 0-2 m/s, i morgon 3-5 m/s, på tisdagen 6-8 m/s.");
 	   REQUIRE(story,"en",fun,"Mainly easterly wind 0-2 m/s, tomorrow 3-5 m/s, on Tuesday 6-8 m/s.");
 
@@ -381,7 +381,7 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::days1-2::direction::mean","45,30");
 	  NFmiSettings::Set("a::fake::days2-3::direction::mean","135,50");
 	  NFmiSettings::Set("a::fake::days1-3::direction::mean","90,90");
-	  REQUIRE(story,"fi",fun,"Koillisen puoleista tuulta 0-2 m/s, tiistaina etelätuulta 6-8 m/s.");
+	  REQUIRE(story,"fi",fun,"Koillisenpuoleista tuulta 0-2 m/s, tiistaina etelätuulta 6-8 m/s.");
 	  REQUIRE(story,"sv",fun,"Vind omkring nordost 0-2 m/s, på tisdagen sydlig vind 6-8 m/s.");
 	  REQUIRE(story,"en",fun,"Mainly north-easterly wind 0-2 m/s, on Tuesday southerly wind 6-8 m/s.");
 
@@ -389,7 +389,7 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::days1-2::direction::mean","45,50");
 	  NFmiSettings::Set("a::fake::days2-3::direction::mean","135,30");
 	  NFmiSettings::Set("a::fake::days1-3::direction::mean","90,90");
-	  REQUIRE(story,"fi",fun,"Pohjoistuulta 0-2 m/s, huomenna kaakon puoleista tuulta, tiistaina 6-8 m/s.");
+	  REQUIRE(story,"fi",fun,"Pohjoistuulta 0-2 m/s, huomenna kaakonpuoleista tuulta, tiistaina 6-8 m/s.");
 	  REQUIRE(story,"sv",fun,"Nordlig vind 0-2 m/s, i morgon vind omkring sydost, på tisdagen 6-8 m/s.");
 	  REQUIRE(story,"en",fun,"Northerly wind 0-2 m/s, tomorrow mainly south-easterly wind, on Tuesday 6-8 m/s.");
 
@@ -420,7 +420,7 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::days1-2::direction::mean","45,30");
 	  NFmiSettings::Set("a::fake::days2-3::direction::mean","135,50");
 	  NFmiSettings::Set("a::fake::days1-3::direction::mean","90,90");
-	  REQUIRE(story,"fi",fun,"Koillisen puoleista tuulta 0-2 m/s, huomenna 3-5 m/s, tiistaina etelätuulta.");
+	  REQUIRE(story,"fi",fun,"Koillisenpuoleista tuulta 0-2 m/s, huomenna 3-5 m/s, tiistaina etelätuulta.");
 	  REQUIRE(story,"sv",fun,"Vind omkring nordost 0-2 m/s, i morgon 3-5 m/s, på tisdagen sydlig vind.");
 	  REQUIRE(story,"en",fun,"Mainly north-easterly wind 0-2 m/s, tomorrow 3-5 m/s, on Tuesday southerly wind.");
 
@@ -428,7 +428,7 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::days1-2::direction::mean","45,50");
 	  NFmiSettings::Set("a::fake::days2-3::direction::mean","135,30");
 	  NFmiSettings::Set("a::fake::days1-3::direction::mean","90,90");
-	  REQUIRE(story,"fi",fun,"Pohjoistuulta 0-2 m/s, maanantaista alkaen kaakon puoleista tuulta 3-5 m/s.");
+	  REQUIRE(story,"fi",fun,"Pohjoistuulta 0-2 m/s, maanantaista alkaen kaakonpuoleista tuulta 3-5 m/s.");
 	  REQUIRE(story,"sv",fun,"Nordlig vind 0-2 m/s, från och med måndagen vind omkring sydost 3-5 m/s.");
 	  REQUIRE(story,"en",fun,"Northerly wind 0-2 m/s, from Monday onwards mainly south-easterly wind 3-5 m/s.");
 
@@ -436,7 +436,7 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::days1-2::direction::mean","45,50");
 	  NFmiSettings::Set("a::fake::days2-3::direction::mean","135,50");
 	  NFmiSettings::Set("a::fake::days1-3::direction::mean","90,30");
-	  REQUIRE(story,"fi",fun,"Idän puoleista tuulta 0-2 m/s, maanantaista alkaen 3-5 m/s.");
+	  REQUIRE(story,"fi",fun,"Idänpuoleista tuulta 0-2 m/s, maanantaista alkaen 3-5 m/s.");
 	  REQUIRE(story,"sv",fun,"Vind omkring ost 0-2 m/s, från och med måndagen 3-5 m/s.");
 	  REQUIRE(story,"en",fun,"Mainly easterly wind 0-2 m/s, from Monday onwards 3-5 m/s.");
 
@@ -467,7 +467,7 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::days1-2::direction::mean","45,30");
 	  NFmiSettings::Set("a::fake::days2-3::direction::mean","135,50");
 	  NFmiSettings::Set("a::fake::days1-3::direction::mean","90,90");
-	  REQUIRE(story,"fi",fun,"Koillisen puoleista tuulta 0-2 m/s, tiistaina etelätuulta.");
+	  REQUIRE(story,"fi",fun,"Koillisenpuoleista tuulta 0-2 m/s, tiistaina etelätuulta.");
 	  REQUIRE(story,"sv",fun,"Vind omkring nordost 0-2 m/s, på tisdagen sydlig vind.");
 	  REQUIRE(story,"en",fun,"Mainly north-easterly wind 0-2 m/s, on Tuesday southerly wind.");
 
@@ -475,7 +475,7 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::days1-2::direction::mean","45,50");
 	  NFmiSettings::Set("a::fake::days2-3::direction::mean","135,30");
 	  NFmiSettings::Set("a::fake::days1-3::direction::mean","90,90");
-	  REQUIRE(story,"fi",fun,"Pohjoistuulta 0-2 m/s, maanantaista alkaen kaakon puoleista tuulta.");
+	  REQUIRE(story,"fi",fun,"Pohjoistuulta 0-2 m/s, maanantaista alkaen kaakonpuoleista tuulta.");
 	  REQUIRE(story,"sv",fun,"Nordlig vind 0-2 m/s, från och med måndagen vind omkring sydost.");
 	  REQUIRE(story,"en",fun,"Northerly wind 0-2 m/s, from Monday onwards mainly south-easterly wind.");
 
@@ -483,7 +483,7 @@ namespace WindStoryTest
 	  NFmiSettings::Set("a::fake::days1-2::direction::mean","45,50");
 	  NFmiSettings::Set("a::fake::days2-3::direction::mean","135,50");
 	  NFmiSettings::Set("a::fake::days1-3::direction::mean","90,30");
-	  REQUIRE(story,"fi",fun,"Idän puoleista tuulta 0-2 m/s.");
+	  REQUIRE(story,"fi",fun,"Idänpuoleista tuulta 0-2 m/s.");
 	  REQUIRE(story,"sv",fun,"Vind omkring ost 0-2 m/s.");
 	  REQUIRE(story,"en",fun,"Mainly easterly wind 0-2 m/s.");
 
@@ -726,7 +726,7 @@ namespace WindStoryTest
 	REQUIRE(story,"en",fun,"Northerly wind 0-2 m/s.");
 	
 	NFmiSettings::Set("a::fake::direction::mean","0,30");
-	REQUIRE(story,"fi",fun,"Pohjoisen puoleista tuulta 0-2 m/s.");
+	REQUIRE(story,"fi",fun,"Pohjoisenpuoleista tuulta 0-2 m/s.");
 	REQUIRE(story,"sv",fun,"Vind omkring nord 0-2 m/s.");
 	REQUIRE(story,"en",fun,"Mainly northerly wind 0-2 m/s.");
 	
