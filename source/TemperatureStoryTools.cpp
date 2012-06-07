@@ -117,7 +117,7 @@ namespace TextGen
 
 	  if(theMinimum == theMaximum)
 		range = false;
-	  else if(diff >= theMinInterval && !theZeroFlag)
+	  else if(diff >= theMinInterval)
 		range = true;
 	  else if(theMinimum <= 0 && theMaximum >= 0)
 		range = true;
@@ -227,9 +227,9 @@ namespace TextGen
 
 	  if(theMinimum == theMaximum)
 		range = false;
-	  else if(diff >= theMinInterval && !theZeroFlag)
+	  else if(diff >= theMinInterval)
 		range = true;
-	  else if(theMinimum <= 0 && theMaximum >= 0 && !theZeroFlag)
+	  else if(theMinimum <= 0 && theMaximum >= 0)
 		range = true;
 
 	  if(range)
