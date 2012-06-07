@@ -127,12 +127,14 @@ namespace WeatherAnalysis
 	, itsPolygon(new NFmiSvgPath())
 	, itsRadius(0)
 	, itsSortKey(theName+'='+theSpecs)
-	, itsHistory()
 	, itsLatitude(90.0)
 	, itsLongitude(180.0)
+	, itsBooleanParameters(0x0)
+	, itsHistory()
   {
 	parse_specs(theSpecs);
-  }
+ 	set_boolean_parameters();
+ }
 
   // ----------------------------------------------------------------------
   /*!
@@ -155,11 +157,13 @@ namespace WeatherAnalysis
 	, itsPolygon(new NFmiSvgPath())
 	, itsRadius(0)
 	, itsSortKey(theSpecs)
-	, itsHistory()
 	, itsLatitude(90.0)
 	, itsLongitude(180.0)
-  {
+	, itsBooleanParameters(0x0)
+ 	, itsHistory()
+ {
 	parse_specs(theSpecs);
+	set_boolean_parameters();
   }
 
 
@@ -187,15 +191,17 @@ namespace WeatherAnalysis
 				 ',' +
 				 NFmiStringTools::Convert(thePoint.Y()) +
 				 (theRadius == 0 ? "" : ":" +  NFmiStringTools::Convert(theRadius)))
-	, itsHistory()
 	, itsLatitude(90.0)
 	, itsLongitude(180.0)
+	, itsBooleanParameters(0x0)
+	, itsHistory()
   {
 	if(theRadius < 0)
 	  throw WeatherAnalysisError("A weather point cannot have a negative expansion radius");
 	if(theRadius > 0)
 	  make_point_path(*itsPolygon,thePoint);
-  }
+ 	set_boolean_parameters();
+ }
 
   // ----------------------------------------------------------------------
   /*!
@@ -225,45 +231,19 @@ namespace WeatherAnalysis
 				 ',' +
 				 NFmiStringTools::Convert(thePoint.Y()) +
 				 (theRadius == 0 ? "" : ":" +  NFmiStringTools::Convert(theRadius)))
-	, itsHistory()
 	, itsLatitude(90.0)
 	, itsLongitude(180.0)
-  {
+	, itsBooleanParameters(0x0)
+ 	, itsHistory()
+ {
 	if(theRadius < 0)
 	  throw WeatherAnalysisError("A weather point cannot have a negative expansion radius");
 	if(theRadius > 0)
 	  make_point_path(*itsPolygon,thePoint);
-  }
-  /*
-	WeatherArea& WeatherArea::operator=(const WeatherArea& theArea)
-	{
-	  itsType = theArea.itsType;
-	  itsPointFlag = theArea.itsPointFlag;
-	  itsNamedFlag = theArea.itsNamedFlag;
-	  itsName = theArea.itsName;
-	  itsPoint = theArea.itsPoint;
-	  itsPolygon = theArea.itsPolygon;
-	  itsRadius = theArea.itsRadius;
-	  itsSortKey = theArea.itsSortKey;
-	  itsHistory = theArea.itsHistory;
-
-	  return *this;
-	}
-*/
-
+ 	set_boolean_parameters();
+ }
 
   WeatherArea::WeatherArea(const WeatherArea& theArea)
-  /*
-	: itsType(theArea.itsType)
-	, itsPointFlag(theArea.itsPointFlag)
-	, itsNamedFlag(theArea.itsNamedFlag)
-	, itsName(theArea.itsName)
-	, itsPoint(theArea.itsPoint)
-	, itsPolygon(theArea.itsPolygon)
-	, itsRadius(theArea.itsRadius)
-	, itsSortKey(theArea.itsSortKey)
-	, itsHistory(theArea.itsHistory)
-  */
   {
 	  itsType = theArea.itsType;
 	  itsPointFlag = theArea.itsPointFlag;
@@ -273,11 +253,11 @@ namespace WeatherAnalysis
 	  itsPolygon = theArea.itsPolygon;
 	  itsRadius = theArea.itsRadius;
 	  itsSortKey = theArea.itsSortKey;
-	  itsHistory = theArea.itsHistory;
 	  itsLatitude = theArea.itsLatitude;
 	  itsLongitude = theArea.itsLongitude;
-
-  }
+	  itsBooleanParameters = theArea.itsBooleanParameters;
+	  itsHistory = theArea.itsHistory;
+}
 
   // ----------------------------------------------------------------------
   /*!
@@ -591,6 +571,50 @@ namespace WeatherAnalysis
 	itsLatitude = theLatitude;
   }
 
+  bool WeatherArea::booleanParameterValue(const ParameterId& parameterId)
+  {
+	bool retval(false);
+	
+	string parameterName("");
+	
+	switch(parameterId)
+	  {
+	  case WeatherArea::Marine:
+		parameterName = "marine";
+		break;
+	  case WeatherArea::Mountains:
+		parameterName = "mountain";
+		break;
+	  }
+	
+	if(!parameterName.empty())
+	  {
+		if(Settings::isset("qdtext::areas::" + parameterName + "::" + itsName))
+		  retval = Settings::require_bool("qdtext::areas::" + parameterName + "::" + itsName);
+		else
+		  retval = Settings::optional_bool("qdtext::areas::" + parameterName + "::default", false);
+	  }
+	
+	return retval;
+  }
+  
+  void WeatherArea::set_boolean_parameters()
+  {
+	itsBooleanParameters |=  (booleanParameterValue(Marine) ? Marine : 0x0);
+	itsBooleanParameters |=  (booleanParameterValue(Mountains) ? Mountains : 0x0);
+  }
+
+ // ----------------------------------------------------------------------
+  /*!
+   * \brief Returns true if the corresponding boolean parameter is true, false otherwise. 
+   *
+   * \param parameterId The parameter of which we are interested in
+   */
+  // ----------------------------------------------------------------------
+  bool WeatherArea::booleanParameter(const ParameterId& parameterId) const
+  {
+	return (itsBooleanParameters & parameterId);
+  }
 
 } // namespace WeatherAnalysis
 

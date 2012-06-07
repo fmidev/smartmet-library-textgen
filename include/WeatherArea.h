@@ -34,6 +34,9 @@ namespace WeatherAnalysis
 		Western
 	  };
 
+	enum ParameterId{Marine = 0x1,
+					 Mountains = 0x2};
+	
   public:
 
 #ifdef NO_COMPILER_GENERATED
@@ -82,11 +85,14 @@ namespace WeatherAnalysis
 	const double& getLatitudeDivisionLine() const { return itsLatitude; }
 	bool longitudeDivisionLineSet() const { return itsLongitude < 180.0 && itsLongitude > -180.0; }
 	bool latitudeDivisionLineSet() const { return itsLatitude < 90.0 && itsLatitude > -90.0; }
+	bool booleanParameter(const ParameterId& parameterId) const;
 
   private:
 
 	WeatherArea();
 	void parse_specs(const std::string & theSpecs);
+	void set_boolean_parameters();
+	bool booleanParameterValue(const ParameterId& parameterId);
 
 	Type itsType;
 	bool itsPointFlag;
@@ -100,9 +106,11 @@ namespace WeatherAnalysis
 
 	std::string itsSortKey;		// for sorting purposes only
 
-	mutable WeatherHistory itsHistory;  // for handling time phrases
 	double itsLatitude; //  this is utilized when the area is split horizontally
 	double itsLongitude; // this is utilized when the area is split vertically
+	unsigned int itsBooleanParameters; // contain boolean parameters
+
+	mutable WeatherHistory itsHistory;  // for handling time phrases
 	
   }; // class WeatherArea
 
@@ -112,4 +120,3 @@ namespace WeatherAnalysis
 #endif // WEATHERANALYSIS_WEATHERAREA_H
 
 // ======================================================================
-
