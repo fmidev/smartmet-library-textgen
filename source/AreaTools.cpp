@@ -28,22 +28,11 @@
 
 typedef RegularMaskSource::mask_type mask_type;
 
-
-//#include "Settings.h"
-//#include "TextGenError.h"
-//#include <newbase/NFmiTime.h>
-//#include <newbase/NFmiStringTools.h>
-
-//#include <ctime>
-
-//using namespace Settings;
-//using namespace TextGen;
-
-
 namespace TextGen
 {
   namespace AreaTools
   {
+
 	// ----------------------------------------------------------------------
 	/*!
 	 * \brief Tests if the are1 is part of are2
@@ -56,9 +45,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const bool isPartOfArea(const UserWeatherSource& theWeatherSource,
-							const WeatherArea& theWeatherArea1,
-							const WeatherArea& theWeatherArea2)
+	bool isPartOfArea(const UserWeatherSource& theWeatherSource,
+					  const WeatherArea& theWeatherArea1,
+					  const WeatherArea& theWeatherArea2)
 	{
 	  if(theWeatherArea1.isPoint())
 		{
@@ -88,9 +77,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	const bool isPartOfArea(const WeatherArea& theWeatherArea1,
-							const std::string& theArea2SvgFile,
-							const std::string theQueryData)
+	bool isPartOfArea(const WeatherArea& theWeatherArea1,
+					  const std::string& theArea2SvgFile,
+					  const std::string theQueryData)
 	{
 	  shared_ptr<NFmiStreamQueryData> sqd(new NFmiStreamQueryData());
 	  if(!sqd->ReadData(theQueryData))
@@ -104,10 +93,10 @@ namespace TextGen
 	  return isPartOfArea(theWeatherSource, theWeatherArea1, theWeatherArea2);
 	}
 
-	const bool isPartOfArea(const WeatherArea& theWeatherArea,
-							const AnalysisSources& theSources,
-							const WeatherParameter& theParameter,
-							const NFmiIndexMask& theIndexMask)
+	bool isPartOfArea(const WeatherArea& theWeatherArea,
+					  const AnalysisSources& theSources,
+					  const WeatherParameter& theParameter,
+					  const NFmiIndexMask& theIndexMask)
 	{
 	  std::string parameterName("");
 	  std::string dataName("");

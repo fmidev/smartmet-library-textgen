@@ -46,19 +46,19 @@ namespace TextGen
 					  NORTHWEST, 
 					  NO_DIRECTION};
 
-	const bool isPartOfArea(const UserWeatherSource& theWeatherSource,
-							const WeatherArea& theWeatherArea1,
-							const WeatherArea& theWeatherArea2);
+	bool isPartOfArea(const UserWeatherSource& theWeatherSource,
+					  const WeatherArea& theWeatherArea1,
+					  const WeatherArea& theWeatherArea2);
 	
+	
+	bool isPartOfArea(const WeatherArea& theWeatherArea1,
+					  const std::string& theArea2SvgFile,
+					  const std::string theQueryData);
 
-	const bool isPartOfArea(const WeatherArea& theWeatherArea1,
-							const std::string& theArea2SvgFile,
-							const std::string theQueryData);
-
-	const bool isPartOfArea(const WeatherArea& theWeatherArea,
-							const AnalysisSources& theSources,
-							const WeatherParameter& theParameter,
-							const NFmiIndexMask& theIndexMask);
+	bool isPartOfArea(const WeatherArea& theWeatherArea,
+					  const AnalysisSources& theSources,
+					  const WeatherParameter& theParameter,
+					  const NFmiIndexMask& theIndexMask);
 
 
 	class Rect
