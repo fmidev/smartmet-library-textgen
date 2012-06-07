@@ -4003,7 +4003,6 @@ namespace TextGen
 			  continue;
 			}
 		  
-		  unsigned short story_forecast_areas(0x0);
 		  forecast_period_id period_id(NO_PERIOD);
 		  forecast_area_id area_id(NO_AREA);
 		  
@@ -4017,34 +4016,28 @@ namespace TextGen
 				  if(separate_inland_and_coast_day1)
 					{
 					  area_id = periodAreas[i] == DAY1_INLAND ? INLAND_AREA : COASTAL_AREA;
-					  story_forecast_areas |= COASTAL_AREA;
-					  story_forecast_areas |= INLAND_AREA;
 					  theParameters.theForecastAreaDay1 |= COASTAL_AREA;
 					  theParameters.theForecastAreaDay1 |= INLAND_AREA;
 					}
 				  else
 					{
 					  area_id = FULL_AREA;
-					  story_forecast_areas |= FULL_AREA;
 					  theParameters.theForecastAreaDay1 |= FULL_AREA;
 					}
 				}
 			  else if(theParameters.theForecastArea & INLAND_AREA)
 				{
 				  area_id = INLAND_AREA;
-				  story_forecast_areas |= INLAND_AREA;
 				  theParameters.theForecastAreaDay1 |= INLAND_AREA;
 				}
 			  else if(theParameters.theForecastArea & COASTAL_AREA)
 				{
 				  area_id = COASTAL_AREA;
-				  story_forecast_areas |= COASTAL_AREA;
 				  theParameters.theForecastAreaDay1 |= COASTAL_AREA;
 				}
 			  else if(theParameters.theForecastArea & FULL_AREA)
 				{
 				  area_id = FULL_AREA;
-				  story_forecast_areas |= FULL_AREA;
 				  theParameters.theForecastAreaDay1 |= FULL_AREA;
 				}
 			}
@@ -4063,34 +4056,28 @@ namespace TextGen
 				  if(separate_inland_and_coast_night)
 					{
 					  area_id = periodAreas[i] == NIGHT_INLAND ? INLAND_AREA : COASTAL_AREA;
-					  story_forecast_areas |= COASTAL_AREA;
-					  story_forecast_areas |= INLAND_AREA;
 					  theParameters.theForecastAreaNight |= COASTAL_AREA;
 					  theParameters.theForecastAreaNight |= INLAND_AREA;
 					}
 				  else
 					{
 					  area_id = FULL_AREA;
-					  story_forecast_areas |= FULL_AREA;
 					  theParameters.theForecastAreaNight |= FULL_AREA;
 					}
 				}
 			  else if(theParameters.theForecastArea & INLAND_AREA)
 				{
 				  area_id = INLAND_AREA;
-				  story_forecast_areas |= INLAND_AREA;
 				  theParameters.theForecastAreaNight |= INLAND_AREA;
 				}
 			  else if(theParameters.theForecastArea & COASTAL_AREA)
 				{
 				  area_id = COASTAL_AREA;
-				  story_forecast_areas |= COASTAL_AREA;
 				  theParameters.theForecastAreaNight |= COASTAL_AREA;
 				}
 			  else if(theParameters.theForecastArea & FULL_AREA)
 				{
 				  area_id = FULL_AREA;
-				  story_forecast_areas |= FULL_AREA;
 				  theParameters.theForecastAreaNight |= FULL_AREA;
 				}
 			}
@@ -4109,34 +4096,28 @@ namespace TextGen
 				  if(separate_inland_and_coast_day2)
 					{
 					  area_id = periodAreas[i] == DAY2_INLAND ? INLAND_AREA : COASTAL_AREA;
-					  story_forecast_areas |= COASTAL_AREA;
-					  story_forecast_areas |= INLAND_AREA;
 					  theParameters.theForecastAreaDay2 |= COASTAL_AREA;
 					  theParameters.theForecastAreaDay2 |= INLAND_AREA;
 					}
 				  else
 					{
 					  area_id = FULL_AREA;
-					  story_forecast_areas |= FULL_AREA;
 					  theParameters.theForecastAreaDay2 |= FULL_AREA;
 					}
 				}
 			  else if(theParameters.theForecastArea & INLAND_AREA)
 				{
 				  area_id = INLAND_AREA;
-				  story_forecast_areas |= INLAND_AREA;
 				  theParameters.theForecastAreaDay2 |= INLAND_AREA;
 				}
 			  else if(theParameters.theForecastArea & COASTAL_AREA)
 				{
 				  area_id = COASTAL_AREA;
-				  story_forecast_areas |= COASTAL_AREA;
 				  theParameters.theForecastAreaDay2 |= COASTAL_AREA;
 				}
 			  else if(theParameters.theForecastArea & FULL_AREA)
 				{
 				  area_id = FULL_AREA;
-				  story_forecast_areas |= FULL_AREA;
 				  theParameters.theForecastAreaDay2 |= FULL_AREA;
 				}
 			}
@@ -4461,11 +4442,17 @@ namespace TextGen
 	  parameters.theMinInterval = mininterval;
 	  parameters.theZeroIntervalFlag = interval_zero;
 
+
+	  if(itsArea.booleanParameter(WeatherArea::Marine))
+		{
+		  parameters.theCoastalAndInlandTogetherFlag = true;
+		}
+	  
 	  if(forecast_area != NO_AREA)
 		{
 		  paragraph << temperature_max36hours_sentence(parameters);
 		}
-
+	  
 	  log_weather_results(parameters);
 
 	  // delete the allocated WeatherResult-objects

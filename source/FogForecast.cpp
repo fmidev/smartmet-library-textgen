@@ -509,22 +509,6 @@ namespace TextGen
 	return (count > 0 ? sum / count : 0);
   }
 
-  bool FogForecast::separateCoastInlandFog(const WeatherPeriod& theWeatherPeriod) const
-  {
-	float coastalFogAvgExtent(getMean(theCoastalFog, theWeatherPeriod));
-	float inlandFogAvgExtent(getMean(theInlandFog, theWeatherPeriod));
-	
-	if(abs(coastalFogAvgExtent - inlandFogAvgExtent) > 50.0 && 
-	   coastalFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG && 
-	   inlandFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG &&
-	   !theParameters.theCoastalAndInlandTogetherFlag)
-	  {
-		return true;
-	  }
-	
-	return false;
-  }
-
   Sentence FogForecast::getFogPhrase(const fog_type_id& theFogTypeId) const
   {
 	Sentence sentence;
@@ -962,53 +946,48 @@ namespace TextGen
 	return sentence;
   }
 
-  /*
-	float coastalFogAvgExtent(getMean(theCoastalFog, theWeatherPeriod));
-	float inlandFogAvgExtent(getMean(theInlandFog, theWeatherPeriod));
-	
-	if(abs(coastalFogAvgExtent - inlandFogAvgExtent) > 50.0 && 
-	   coastalFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG && 
-	   inlandFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG &&
-	   !theParameters.theCoastalAndInlandTogetherFlag)
-	  {
-		return true;
-	  }
-   */
-  Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod) const
+ Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod) const
   {
 	Sentence sentence;
 
-	if(theParameters.theForecastArea & FULL_AREA)
-	  {
-		float coastalFogAvgExtent(getMean(theCoastalFog, thePeriod));
-		float inlandFogAvgExtent(getMean(theInlandFog, thePeriod));
-
-		if(coastalFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG &&
-		   inlandFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG)
-		  {
-			// ARE 31.10.2011: if fog exisis on both areas report the whole area together
-			sentence << fogSentence(thePeriod, theFullAreaFogType, EMPTY_STRING);
-		  }
-		else if(coastalFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG &&
-				inlandFogAvgExtent < IN_SOME_PLACES_LOWER_LIMIT_FOG)
-		  {
-			sentence << fogSentence(thePeriod, theCoastalFogType, COAST_PHRASE);
-		  }
-		else if(coastalFogAvgExtent < IN_SOME_PLACES_LOWER_LIMIT_FOG &&
-				inlandFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG)
-		  {
-			sentence << fogSentence(thePeriod, theInlandFogType, INLAND_PHRASE);
-		  }
-	  }
-	else if(theParameters.theForecastArea & INLAND_AREA)
+	if(theParameters.theArea.booleanParameter(WeatherArea::Marine))
 	  {
 		sentence << fogSentence(thePeriod, theInlandFogType, EMPTY_STRING);
 	  }
-	else if(theParameters.theForecastArea & COASTAL_AREA)
+	else
 	  {
-		sentence << fogSentence(thePeriod, theCoastalFogType, EMPTY_STRING);
+		if(theParameters.theForecastArea & FULL_AREA)
+		  {
+			float coastalFogAvgExtent(getMean(theCoastalFog, thePeriod));
+			float inlandFogAvgExtent(getMean(theInlandFog, thePeriod));
+			
+			if(coastalFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG &&
+			   inlandFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG)
+			  {
+				// ARE 31.10.2011: if fog exisis on both areas report the whole area together
+				sentence << fogSentence(thePeriod, theFullAreaFogType, EMPTY_STRING);
+			  }
+			else if(coastalFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG &&
+					inlandFogAvgExtent < IN_SOME_PLACES_LOWER_LIMIT_FOG)
+			  {
+				sentence << fogSentence(thePeriod, theCoastalFogType, COAST_PHRASE);
+			  }
+			else if(coastalFogAvgExtent < IN_SOME_PLACES_LOWER_LIMIT_FOG &&
+					inlandFogAvgExtent >= IN_SOME_PLACES_LOWER_LIMIT_FOG)
+			  {
+				sentence << fogSentence(thePeriod, theInlandFogType, INLAND_PHRASE);
+			  }
+		  }
+		else if(theParameters.theForecastArea & INLAND_AREA)
+		  {
+			sentence << fogSentence(thePeriod, theInlandFogType, EMPTY_STRING);
+		  }
+		else if(theParameters.theForecastArea & COASTAL_AREA)
+		  {
+			sentence << fogSentence(thePeriod, theCoastalFogType, EMPTY_STRING);
+		  }
 	  }
-
+	
 	theDayPhasePhraseOld.clear();
 
 	return sentence;
