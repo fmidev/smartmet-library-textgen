@@ -76,11 +76,11 @@ namespace TextGen
 	Paragraph paragraph;
 
 	WindEventId eventIdPreviousReported(MISSING_WIND_EVENT);
-	WindDirectionId windDirectionIdPreviousReported(MISSING_WIND_DIRECTION_ID);
 	WeatherPeriod weatherPeriodPreviousReported(WeatherPeriod(NFmiTime(1971,1,1),NFmiTime(1971,1,1)));
 
 	WindEventPeriodDataItem* eventPeriodItemPrevious(0);
 	WindEventPeriodDataItem* eventPeriodItemNext(0);
+	WindDirectionId previousWindDirectionId(MISSING_WIND_DIRECTION_ID);
 	for(unsigned int i = 0; i < theParameters.theMergedWindEventPeriodVector.size(); i++)
 	  {
 		Sentence sentence;
@@ -122,6 +122,8 @@ namespace TextGen
 																	theParameters.theSources,
 																	eventPeriod,
 																	theParameters.theVar));
+		if(get_period_length(eventPeriod) == 0)
+		  windDirectionIdAvg = windDirectionIdBeg;
 				
 		bool same_part_of_the_day(get_part_of_the_day_id(eventPeriod.localStartTime()) ==
 								  get_part_of_the_day_id(eventPeriod.localEndTime()) &&
@@ -181,40 +183,24 @@ namespace TextGen
 
 		// if wind direction changes in two successive periods,
 		// it can not be the same in the end of these periods
-		if(eventPeriodItemPrevious && 
-		   (eventId & TUULI_KAANTYY) && 
-		   (eventIdPreviousReported & TUULI_KAANTYY))
+		if(eventId & TUULI_KAANTYY)
 		  {
-			if(get_wind_direction_id_at(theParameters.theWindDataVector,
-										theParameters.theArea,
-										eventPeriodItem->thePeriod.localEndTime(),
-										theParameters.theVar) ==
-			   get_wind_direction_id_at(theParameters.theWindDataVector,
-										theParameters.theArea,
-										weatherPeriodPreviousReported.localEndTime(),
-										theParameters.theVar))
-			  eventId = mask_wind_event(eventId, TUULI_KAANTYY);
-		  }
-
-		WindDirectionId directionIdPrevious(windDirectionIdPreviousReported);
-		if(eventPeriodItemPrevious && eventIdPreviousReported & TUULI_KAANTYY)
-		  {
-			if(get_wind_direction_event(*eventPeriodItemPrevious,
-										theParameters.theVar,
-										theParameters.theWindDirectionThreshold) == MISSING_WIND_DIRECTION_EVENT)
+			if(eventPeriodItemPrevious && eventIdPreviousReported & TUULI_KAANTYY)
 			  {
-				directionIdPrevious =  get_wind_direction_id_at(theParameters.theWindDataVector,
-																theParameters.theArea,
-																theParameters.theSources,
-																weatherPeriodPreviousReported,
-																theParameters.theVar);
+				if(get_wind_direction_id_at(theParameters.theWindDataVector,
+											theParameters.theArea,
+											eventPeriodItem->thePeriod.localEndTime(),
+											theParameters.theVar) ==
+				   get_wind_direction_id_at(theParameters.theWindDataVector,
+											theParameters.theArea,
+											weatherPeriodPreviousReported.localEndTime(),
+											theParameters.theVar))
+				  eventId = mask_wind_event(eventId, TUULI_KAANTYY);
 			  }
-			else
+
+			if(get_period_length(eventPeriod) == 0 && windDirectionIdAvg != VAIHTELEVA)
 			  {
-				directionIdPrevious =  get_wind_direction_id_at(theParameters.theWindDataVector,
-																theParameters.theArea,
-																weatherPeriodPreviousReported.localEndTime(),
-																theParameters.theVar);
+				eventId = mask_wind_event(eventId, TUULI_KAANTYY);
 			  }
 		  }
 
@@ -251,7 +237,7 @@ namespace TextGen
 			  Sentence directionSentenceP;
 			  Sentence directionSentence;
 
-			  if((i > 0 && same_direction(directionIdPrevious, windDirectionIdAvg, true)) ||
+			  if((i > 0 && same_direction(previousWindDirectionId, windDirectionIdAvg, true)) ||
 				 (eventIdPreviousReported == TUULI_MUUTTUU_VAIHTELEVAKSI && windDirectionIdAvg == VAIHTELEVA))
 				{
 				  directionSentenceP << TUULTA_WORD;
@@ -262,7 +248,7 @@ namespace TextGen
 				  directionSentenceP << windDirectionSentence(windDirectionIdAvg);
 				  directionSentence << windDirectionSentence(windDirectionIdAvg, true);
 				}
-			  
+
 			  bool useAlkaaHeiketaVoimistuaPhrase(false);
 
 			  bool appendDecreasingIncreasingInterval(true);
@@ -371,6 +357,8 @@ namespace TextGen
 				sentence << decreasingIncreasingInterval(*eventPeriodItem,
 														 firstSentenceInTheStory,
 														 eventId);
+
+			  previousWindDirectionId = windDirectionIdAvg;
 			}
 			break;
 		  case TUULI_TYYNTYY:
@@ -384,7 +372,7 @@ namespace TextGen
 													  eventPeriod,
 													  firstSentenceInTheStory,
 													  eventIdPreviousReported,
-													  directionIdPrevious);
+													  previousWindDirectionId);
 			}
 			break;
 		  case TUULI_MUUTTUU_VAIHTELEVAKSI:
@@ -432,6 +420,7 @@ namespace TextGen
 						}
 					}
 				}
+			  previousWindDirectionId = VAIHTELEVA;
 			}
 			break;
 		  case TUULI_KAANTYY_JA_VOIMISTUU:
@@ -444,7 +433,7 @@ namespace TextGen
 															   firstSentenceInTheStory,
 															   eventIdPreviousReported,
 															   eventId,
-															   directionIdPrevious,
+															   previousWindDirectionId,
 															   eventPeriodItem->theWindSpeedChangeStarts,
 															   eventPeriodItem->theWindSpeedChangeEnds,
 															   appendDecreasingIncreasingInterval);
@@ -519,6 +508,7 @@ namespace TextGen
 			  sentence << decreasingIncreasingInterval(*eventPeriodItem,
 													   firstSentenceInTheStory,
 													   eventId);
+			  previousWindDirectionId = VAIHTELEVA;
 			}
 			break;
 		  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU:
@@ -570,6 +560,7 @@ namespace TextGen
 			  sentence << decreasingIncreasingInterval(*eventPeriodItem,
 													   firstSentenceInTheStory,
 													   eventId);
+			  previousWindDirectionId = VAIHTELEVA;
 			}
 			break;
 		  case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY:
@@ -588,7 +579,7 @@ namespace TextGen
 				  
 				  sentence << windDirectionSentence(windDirectionIdAvg);
 				  sentence << windSpeedIntervalSentence(eventPeriod, 
-														USE_AT_ITS_STRONGEST_PHRASE);
+														USE_AT_ITS_STRONGEST_PHRASE);			  
 				}
 			  else if(eventPeriodItem->theWeakWindPeriodFlag ||
 					  eventIdPreviousReported & TUULI_MUUTTUU_VAIHTELEVAKSI)
@@ -603,7 +594,7 @@ namespace TextGen
 
 				  bool useAlkaenPhrase(get_period_length(eventPeriod) >= 6);
 
-				  if(directionIdPrevious == windDirectionIdAvg)
+				  if(previousWindDirectionId == windDirectionIdAvg)
 					{
 					  if(windSpeedDifferEnough)
 						sentence << getTimePhrase(eventPeriod, useAlkaenPhrase);
@@ -629,8 +620,10 @@ namespace TextGen
 														  eventPeriod,
 														  firstSentenceInTheStory,
 														  eventIdPreviousReported,
-														  directionIdPrevious);
+														  previousWindDirectionId);
 				}
+			  if(!sentence.empty())
+				previousWindDirectionId = windDirectionIdAvg;
 			}
 			break;
 		  default:
@@ -640,7 +633,6 @@ namespace TextGen
 		if(!sentence.empty())
 		  {
 			eventIdPreviousReported = eventId;
-			windDirectionIdPreviousReported = windDirectionIdAvg;
 			weatherPeriodPreviousReported = eventPeriod;
 			eventPeriodItemPrevious = eventPeriodItem;
 		  }
@@ -657,7 +649,7 @@ namespace TextGen
 													 const WeatherPeriod& eventPeriod,
 													 const bool& firstSentenceInTheStory,
 													 const WindEventId& eventIdPreviousReported,
-													 const WindDirectionId& windDirectionIdPreviousReported) const
+													 WindDirectionId& previousWindDirectionId) const
   {
 	Sentence sentence;
 
@@ -671,11 +663,12 @@ namespace TextGen
 	  {
 		if(windDirectionIdBeg == VAIHTELEVA ||
 		   windDirectionIdBeg == MISSING_WIND_DIRECTION_ID ||
-		   windDirectionIdPreviousReported == VAIHTELEVA)
+		   previousWindDirectionId == VAIHTELEVA)
 		  {
 			sentence << directedWindSentenceAfterVaryingWind(theParameters,
 															 eventPeriod,
-															 firstSentenceInTheStory);
+															 firstSentenceInTheStory,
+															 previousWindDirectionId);
 		  }
 		else
 		  {
@@ -685,22 +678,25 @@ namespace TextGen
 												  DONT_USE_AT_ITS_STRONGEST_PHRASE)
 					 << getTimePhrase(eventPeriod, useAlkaenPhrase)
 					 << getWindDirectionTurntoString(windDirectionIdEnd);
+			previousWindDirectionId = windDirectionIdEnd;
 		  }
 	  }
 	else
 	  {
-		if(windDirectionIdPreviousReported == VAIHTELEVA ||
+		if(previousWindDirectionId == VAIHTELEVA ||
 		   eventIdPreviousReported & TUULI_MUUTTUU_VAIHTELEVAKSI)
 		  {
 			sentence << directedWindSentenceAfterVaryingWind(theParameters,
 															 eventPeriod,
-															 firstSentenceInTheStory);
+															 firstSentenceInTheStory,
+															 previousWindDirectionId);
 		  }
-		else if(windDirectionIdEnd != windDirectionIdPreviousReported)
+		else if(windDirectionIdEnd != previousWindDirectionId)
 		  {
 			sentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE
 					 << getTimePhrase(eventPeriod, useAlkaenPhrase)
 					 << getWindDirectionTurntoString(windDirectionIdEnd);
+			previousWindDirectionId = windDirectionIdEnd;
 		  }
 	  }
 
@@ -712,7 +708,7 @@ namespace TextGen
 															  const bool& firstSentenceInTheStory,
 															  const WindEventId& previousWindEventId,
 															  const WindEventId& currentWindEventId,
-															  const WindDirectionId& previousWindDirectionId,
+															  WindDirectionId& previousWindDirectionId,
 															  const bool& theWindSpeedChangeStarts,
 															  const bool& theWindSpeedChangeEnds,
 															  bool& appendDecreasingIncreasingInterval) const
@@ -756,6 +752,7 @@ namespace TextGen
 						 << windDirectionSentence(windDirectionIdAvg, true)
 						 << EMPTY_STRING;
 				appendDecreasingIncreasingInterval = false;
+				previousWindDirectionId = windDirectionIdAvg;
 			  }
 			else
 			  {
@@ -766,6 +763,7 @@ namespace TextGen
 							 << getTimePhrase(eventPeriod, useAlkaenPhrase)
 							 << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
 							 << windDirectionSentence(windDirectionIdAvg);
+					previousWindDirectionId = windDirectionIdAvg;
 				  }
 				else
 				  {
@@ -776,6 +774,7 @@ namespace TextGen
 					sentence  << getTimePhrase(eventPeriod, useAlkaenPhrase)
 							  << windDirectionSentence(windDirectionIdEnd, true)
 							  << changeAttributeStr;
+					previousWindDirectionId = windDirectionIdEnd;
 				  }
 			  }
 		  }
@@ -898,6 +897,7 @@ namespace TextGen
 							 << getWindDirectionTurntoString(windDirectionIdEnd);
 				  }
 			  }
+			previousWindDirectionId = windDirectionIdEnd;
 		  }
 	  }
 	else
@@ -951,6 +951,7 @@ namespace TextGen
 								  << windDirectionSentence(windDirectionIdAvgPlus1, true)
 								  << changeAttributeStr;
 					  }
+					previousWindDirectionId = windDirectionIdAvgPlus1;
 				  }
 				else
 				  {
@@ -979,6 +980,7 @@ namespace TextGen
 								 << windDirectionSentence(windDirectionIdBegPlus1)
 								 << getWindDirectionTurntoString(windDirectionIdEnd);
 					  }
+					previousWindDirectionId = windDirectionIdEnd;
 				  }
 			  }
 			else
@@ -1028,6 +1030,7 @@ namespace TextGen
 								 << timePhrase2
 								 << getWindDirectionTurntoString(windDirectionIdEnd);
 					  }
+					previousWindDirectionId = windDirectionIdEnd;
 				  }
 				else
 				  {
@@ -1051,6 +1054,7 @@ namespace TextGen
 								 << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
 								 << windDirectionSentence(windDirectionIdAvg);
 					  }
+					previousWindDirectionId = windDirectionIdAvg;
 				  }
 			  }
 		  }
@@ -1082,6 +1086,7 @@ namespace TextGen
 								 << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
 								 << windDirectionSentence(windDirectionIdAvgPlus1);
 					  }
+					previousWindDirectionId = windDirectionIdAvgPlus1;
 				  }
 				else
 				  {
@@ -1126,6 +1131,7 @@ namespace TextGen
 								 << timePhrase2
 								 << getWindDirectionTurntoString(windDirectionIdEnd);
 					  }
+					previousWindDirectionId = windDirectionIdEnd;
 				  }
 			  }
 			else
@@ -1155,6 +1161,7 @@ namespace TextGen
 							 << windDirectionSentence(windDirectionIdBeg)
 							 << timePhrase2
 							 << getWindDirectionTurntoString(windDirectionIdEnd);
+					previousWindDirectionId = windDirectionIdEnd;
 				  }
 				else
 				  {
@@ -1163,6 +1170,7 @@ namespace TextGen
 							 << changeAttributeStr
 							 << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
 							 << windDirectionSentence(windDirectionIdAvg);
+					previousWindDirectionId = windDirectionIdAvg;
 				  }
 			  }
 		  }
@@ -1174,7 +1182,8 @@ namespace TextGen
 
   Sentence WindForecast::directedWindSentenceAfterVaryingWind(const wo_story_params& theParameters,
 															  const WeatherPeriod& eventPeriod,
-															  const bool& firstSentenceInTheStory) const
+															  const bool& firstSentenceInTheStory,
+															  WindDirectionId& previousWindDirectionId) const
   {
 	Sentence sentence;
 
@@ -1205,6 +1214,8 @@ namespace TextGen
 				   << getTimePhrase(eventPeriod, DONT_USE_ALKAEN_PHRASE)
 				   << windDirectionSentence(windDirectionIdAvg);
 	  }
+
+	previousWindDirectionId = windDirectionIdAvg;
 	
 	return sentence;
   }
