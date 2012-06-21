@@ -1134,16 +1134,6 @@ namespace TextGen
   {
 	GridForecaster forecaster;
 
-	/*
-	WeatherResult windMaximum =
-	  forecaster.analyze(theVar+"::fake::wind::maximumwind",
-						 theSources,
-						 MaximumWind,
-						 Maximum,
-						 Mean,
-						 theArea,
-						 thePeriod);
-	*/
 	WeatherResult meanDirection = forecaster.analyze(theVar+"::fake::wind:direction",
 													 theSources,
 													 WindDirection,
@@ -2988,6 +2978,18 @@ namespace TextGen
 																		 storyParams.theSources,
 																		 previousDataItem->thePeriod,
 																		 storyParams.theVar));
+		if(i < storyParams.theMergedWindEventPeriodVector.size() - 1)
+		  nextDataItem = storyParams.theMergedWindEventPeriodVector[i+1];
+		else
+		  nextDataItem = 0;
+
+		WindDirectionId windDirectionIdNext(MISSING_WIND_DIRECTION_ID);
+		if(nextDataItem)
+		  windDirectionIdNext = get_wind_direction_id_at(storyParams.theWindDataVector,
+														 storyParams.theArea,
+														 storyParams.theSources,
+														 nextDataItem->thePeriod,
+														 storyParams.theVar);
 
 		bool merge(false);
 		bool mergePreviousToCurrent(false);
@@ -3018,6 +3020,14 @@ namespace TextGen
 		  {
 			merge = true;
 			mergePreviousToCurrent = true;
+		  }
+		else if(windDirectionIdPrevious == VAIHTELEVA && 
+				(nextDataItem &&  windDirectionIdNext == VAIHTELEVA) &&
+				get_period_length(currentDataItem->thePeriod) <= 2)
+		  {
+			// if short directed wind period is between two vaihteleva periods, merge it to previous 
+			currentDataItem->theWindEvent = MISSING_WIND_EVENT;
+			merge = true;
 		  }
 
 		previousMergedIndex = UINT_MAX;
@@ -3472,10 +3482,11 @@ namespace TextGen
 				directionIdIndex3 = wind_direction_id(dataItemIndex3.theEqualizedWindDirection,
 													  dataItemIndex3.theEqualizedMaximumWind,
 													  storyParams.theVar);
+
 				// dont remove variable wind
 				if(directionIdIndex1 == VAIHTELEVA || 
-				   directionIdIndex3 == VAIHTELEVA || 
-				   directionIdIndex2 == VAIHTELEVA)
+				   directionIdIndex2 == VAIHTELEVA || 
+				   directionIdIndex3 == VAIHTELEVA)
 				  continue;
 
 				double lineBegX = index1;
@@ -3578,6 +3589,7 @@ namespace TextGen
 			   directionId3 != VAIHTELEVA)
 			  {
 				item2.theEqualizedWindDirection = WeatherResult(item2.theEqualizedWindDirection.value(), 40.0);
+				item2.theCorrectedWindDirection = WeatherResult(item2.theEqualizedWindDirection.value(), 40.0);
 			  }
 		  }
 	  }
