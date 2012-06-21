@@ -4443,7 +4443,7 @@ namespace TextGen
 	  parameters.theZeroIntervalFlag = interval_zero;
 
 
-	  if(itsArea.booleanParameter(WeatherArea::Marine))
+	  if(itsArea.isMarine())
 		{
 		  parameters.theCoastalAndInlandTogetherFlag = true;
 		}

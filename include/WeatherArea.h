@@ -35,7 +35,7 @@ namespace WeatherAnalysis
 	  };
 
 	enum ParameterId{Marine = 0x1,
-					 Mountains = 0x2};
+					 Mountain = 0x2};
 	
   public:
 
@@ -86,6 +86,8 @@ namespace WeatherAnalysis
 	bool longitudeDivisionLineSet() const { return itsLongitude < 180.0 && itsLongitude > -180.0; }
 	bool latitudeDivisionLineSet() const { return itsLatitude < 90.0 && itsLatitude > -90.0; }
 	bool booleanParameter(const ParameterId& parameterId) const;
+    bool isMarine() const;
+	bool isMountain() const;
 
   private:
 

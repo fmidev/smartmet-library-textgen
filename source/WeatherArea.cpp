@@ -582,7 +582,7 @@ namespace WeatherAnalysis
 	  case WeatherArea::Marine:
 		parameterName = "marine";
 		break;
-	  case WeatherArea::Mountains:
+	  case WeatherArea::Mountain:
 		parameterName = "mountain";
 		break;
 	  }
@@ -601,7 +601,7 @@ namespace WeatherAnalysis
   void WeatherArea::set_boolean_parameters()
   {
 	itsBooleanParameters |=  (booleanParameterValue(Marine) ? Marine : 0x0);
-	itsBooleanParameters |=  (booleanParameterValue(Mountains) ? Mountains : 0x0);
+	itsBooleanParameters |=  (booleanParameterValue(Mountain) ? Mountain : 0x0);
   }
 
  // ----------------------------------------------------------------------
@@ -614,6 +614,28 @@ namespace WeatherAnalysis
   bool WeatherArea::booleanParameter(const ParameterId& parameterId) const
   {
 	return (itsBooleanParameters & parameterId);
+  }
+
+ // ----------------------------------------------------------------------
+  /*!
+   * \brief Returns true if the area is sea area, false otherwise
+   *
+   */
+  // ----------------------------------------------------------------------
+  bool WeatherArea::isMarine() const
+  {
+	return (itsBooleanParameters & Marine);
+  }
+
+ // ----------------------------------------------------------------------
+  /*!
+   * \brief Returns true if the area is mountain area, false otherwise
+   *
+   */
+  // ----------------------------------------------------------------------
+   bool WeatherArea::isMountain() const
+  {
+	return (itsBooleanParameters & Mountain);
   }
 
 } // namespace WeatherAnalysis
