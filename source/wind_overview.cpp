@@ -3029,7 +3029,36 @@ namespace TextGen
 			currentDataItem->theWindEvent = MISSING_WIND_EVENT;
 			merge = true;
 		  }
-
+		else if(previousDataItem->theWindEvent & TUULI_KAANTYY &&
+				currentDataItem->theWindEvent & TUULI_KAANTYY &&
+				same_direction(previousDataItem->thePeriodBeginDataItem.theEqualizedWindDirection,
+							   currentDataItem->thePeriodEndDataItem.theEqualizedWindDirection,
+							   previousDataItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
+							   currentDataItem->thePeriodEndDataItem.theEqualizedMaximumWind,
+							   storyParams.theVar,
+							   true) &&
+				get_period_length(currentDataItem->thePeriod) <= 3)
+		  {
+			// if wind direction turns to another direction for a short time and returns then to the original, dont report the direction change
+			currentDataItem->theWindEvent = mask_wind_event(currentDataItem->theWindEvent, TUULI_KAANTYY);
+		  }
+		/*
+		  TODO: 27.06
+		else if(same_direction(currentDataItem->thePeriodBeginDataItem.theEqualizedWindDirection,
+							   currentDataItem->thePeriodEndDataItem.theEqualizedWindDirection,
+							   currentDataItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
+							   currentDataItem->thePeriodEndDataItem.theEqualizedMaximumWind,
+							   storyParams.theVar,
+							   true))
+		  {
+			currentDataItem->theWindEvent = mask_wind_event(currentDataItem->theWindEvent, TUULI_KAANTYY);
+			if((currentDataItem->theWindEvent == TUULI_HEIKKENEE &&
+				previousDataItem->theWindEvent == TUULI_HEIKKENEE) ||
+			   (currentDataItem->theWindEvent == TUULI_VOIMISTUU &&
+				previousDataItem->theWindEvent == TUULI_VOIMISTUU))
+			  merge = true;
+		  }
+		*/
 		previousMergedIndex = UINT_MAX;
 		if(merge)
 		  {			
@@ -3064,6 +3093,7 @@ namespace TextGen
 	  }
 
 	remove_reduntant_periods(storyParams);
+
 
 #ifndef NDEBUG
 	storyParams.theLog << "* STEP 8 *" << endl;
