@@ -217,7 +217,7 @@ namespace
 		if(withoutNumber)
 		  *sentence << "m/s";
 		else
-		  *sentence << Integer(value) << "m/s";
+		  *sentence << TextGen::Integer(value) << "m/s";
 	  }
 	else if(opt == "phrase")
 	  {
@@ -239,9 +239,9 @@ namespace
 			else if(value == 1)
 			  *sentence << "1 metri sekunnissa";
 			else if(abs(value) % 10 == 1 && abs(value) != 11)
-			  *sentence << Integer(value) << "metria sekunnissa (mod 10=1)";
+			  *sentence << TextGen::Integer(value) << "metria sekunnissa (mod 10=1)";
 			else
-			  *sentence << Integer(value) << "metria sekunnissa";
+			  *sentence << TextGen::Integer(value) << "metria sekunnissa";
 		  }
 	  }
 	else if(opt == "textphrase")
@@ -332,7 +332,7 @@ namespace
 		if(withoutNumber)
 		  *sentence << Delimiter("mm");
 		else
-		  *sentence << Integer(value) << Delimiter("mm");
+		  *sentence << TextGen::Integer(value) << Delimiter("mm");
 	  }
 	else if(opt == "phrase")
 	  {
@@ -354,9 +354,9 @@ namespace
 			else if(value == 1)
 			  *sentence << "1 millimetri";
 			else if(abs(value) % 10 == 1 && abs(value) != 11)
-			  *sentence << Integer(value) << "millimetria (mod 10=1)";
+			  *sentence << TextGen::Integer(value) << "millimetria (mod 10=1)";
 			else
-			  *sentence << Integer(value) << "millimetria";
+			  *sentence << TextGen::Integer(value) << "millimetria";
 		  }
 	  }
 	else if(opt == "none")
@@ -419,7 +419,7 @@ namespace
 		if(withoutNumber)
 		  *sentence << Delimiter("m");
 		else
-		  *sentence << Integer(value) << Delimiter("m");
+		  *sentence << TextGen::Integer(value) << Delimiter("m");
 	  }
 	else if(opt == "phrase")
 	  {
@@ -441,9 +441,9 @@ namespace
 			else if(value == 1)
 			  *sentence << "1 metri";
 			else if(abs(value) % 10 == 1 && abs(value) != 11)
-			  *sentence << Integer(value) << "metria (mod 10=1)";
+			  *sentence << TextGen::Integer(value) << "metria (mod 10=1)";
 			else
-			  *sentence << Integer(value) << "metria";
+			  *sentence << TextGen::Integer(value) << "metria";
 		  }
 	  }
 	else if(opt == "none")
@@ -505,7 +505,7 @@ namespace
 		if(withoutNumber)
 		  *sentence << Delimiter("%");
 		else
-		  *sentence << Integer(value) << Delimiter("%");
+		  *sentence << TextGen::Integer(value) << Delimiter("%");
 	  }
 	else if(opt == "phrase")
 	  {
@@ -527,9 +527,9 @@ namespace
 			else if(value == 1)
 			  *sentence << "1 prosentti";
 			else if(abs(value) % 10 == 1 && abs(value) != 11)
-			  *sentence << Integer(value) << "prosenttia (mod 10=1)";
+			  *sentence << TextGen::Integer(value) << "prosenttia (mod 10=1)";
 			else
-			  *sentence << Integer(value) << "prosenttia";
+			  *sentence << TextGen::Integer(value) << "prosenttia";
 		  }
 	  }
 	else if(opt == "none")
@@ -590,7 +590,7 @@ namespace
 		if(withoutNumber)
 		  *sentence << Delimiter("hPa");
 		else
-		  *sentence << Integer(value) << Delimiter("hPa");
+		  *sentence << TextGen::Integer(value) << Delimiter("hPa");
 	  }
 	else if(opt == "phrase")
 	  {
@@ -612,9 +612,9 @@ namespace
 			else if(value == 1)
 			  *sentence << "1 hehtopascal";
 			else if(abs(value) % 10 == 1 && abs(value) != 11)
-			  *sentence << Integer(value) << "hehtopascalia (mod 10=1)";
+			  *sentence << TextGen::Integer(value) << "hehtopascalia (mod 10=1)";
 			else
-			  *sentence << Integer(value) << "hehtopascalia";
+			  *sentence << TextGen::Integer(value) << "hehtopascalia";
 		  }
 	  }
 	else if(opt == "none")

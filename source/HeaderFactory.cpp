@@ -181,7 +181,7 @@ namespace
 	header << "saaennuste"
 		   << theArea.name()+":lle"
 		   << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
-		   << Integer(starthour)
+		   << TextGen::Integer(starthour)
 		   << "o'clock";
 
 	log << header;
@@ -241,7 +241,7 @@ namespace
 
 	header << "saaennuste"
 		   << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
-		   << Integer(starthour)
+		   << TextGen::Integer(starthour)
 		   << "o'clock";
 
 	log << header;

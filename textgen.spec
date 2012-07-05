@@ -1,15 +1,15 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 12.4.4
+Version: 12.7.5
 Release: 1.el6.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 12.3.28
-BuildRequires: boost-devel >= 1.49
+BuildRequires: libsmartmet-newbase >= 12.7.5
+BuildRequires: boost-devel >= 1.50
 BuildRequires: mysql-devel
 Provides: %{LIBNAME}
 
@@ -36,6 +36,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
+* Thu Jul  5 2012 Mika Heiskanen <mika.heiskanen@fmi.fi> - 12.7.5-1.el6.fmi
+- Migration to boost 1.50
+- Latest updates from Anssi Reponen
 * Wed Apr  4 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.4.4-1.el6.fmi
 - Removed debugging logging from wind_overview
 * Thu Mar 29 2012 mheiskan <mika.heiskanen@fmi.fi> - 12.3.29-1.el6.fmi
