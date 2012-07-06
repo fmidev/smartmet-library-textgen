@@ -749,7 +749,7 @@ namespace TextGen
 	return false;
   }
 
-  Sentence FogForecast::constructFogSentence(const std::string theDayPhasePhrase,
+  Sentence FogForecast::constructFogSentence(const std::string& theDayPhasePhrase,
 											 const std::string& theAreaString,
 											 const std::string& theInPlacesString,
 											 const bool& thePossiblyDenseFlag) const

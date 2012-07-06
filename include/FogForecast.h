@@ -69,7 +69,7 @@ namespace TextGen
 						   const fog_type_period_vector& theFogTypePeriods,
 						   WeatherPeriod& theResultPeriod,
 						   fog_type_id& theFogTypeId) const;
-	Sentence constructFogSentence(const std::string theDayPhasePhrase,
+	Sentence constructFogSentence(const std::string& theDayPhasePhrase,
 								  const std::string& theAreaString,
 								  const std::string& theInPlacesString,
 								  const bool& thePossiblyDenseFlag) const;

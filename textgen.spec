@@ -2,13 +2,13 @@
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
 Version: 12.7.6
-Release: 1.el6.fmi
+Release: 2.el6.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 12.7.5
+BuildRequires: libsmartmet-newbase >= 12.7.6
 BuildRequires: boost-devel >= 1.50
 BuildRequires: mysql-devel
 Provides: %{LIBNAME}
@@ -36,6 +36,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
+* Fri Jul  6 2012 Mika Heiskanen <mika.heiskanen@fmi.fi> - 12.7.6-2.el6.fmi
+- Fixed cppcheck issues
 * Fri Jul  6 2012 Mika Heiskanen <mika.heiskanen@fmi.fi> - 12.7.6-1.el6.fmi
 - Fixed namespace pollution issues
 * Thu Jul  5 2012 Mika Heiskanen <mika.heiskanen@fmi.fi> - 12.7.5-1.el6.fmi
