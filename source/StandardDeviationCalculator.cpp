@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::StandardDeviationCalculator
+ * \brief Implementation of class TextGen::StandardDeviationCalculator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::StandardDeviationCalculator
+ * \class TextGen::StandardDeviationCalculator
  *
  * \brief StandardDeviation intergator
  *
@@ -26,7 +26,7 @@
 using namespace boost;
 using namespace std;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -120,6 +120,6 @@ namespace WeatherAnalysis
 	itsSquaredSum = 0;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

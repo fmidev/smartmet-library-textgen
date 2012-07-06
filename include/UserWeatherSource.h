@@ -1,19 +1,19 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::UserWeatherSource
+ * \brief Interface of class TextGen::UserWeatherSource
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_USERWEATHERSOURCE_H
-#define WEATHERANALYSIS_USERWEATHERSOURCE_H
+#ifndef TEXTGEN_USERWEATHERSOURCE_H
+#define TEXTGEN_USERWEATHERSOURCE_H
 
 #include "WeatherSource.h"
 #include <boost/shared_ptr.hpp>
 
 class NFmiQueryData;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class UserWeatherSource : public WeatherSource
   {
@@ -33,9 +33,9 @@ namespace WeatherAnalysis
 
   }; // class UserWeatherSource
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_USERWEATHERSOURCE_H
+#endif // TEXTGEN_USERWEATHERSOURCE_H
 
 // ======================================================================
 

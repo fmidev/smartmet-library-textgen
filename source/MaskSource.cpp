@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::MaskSource
+ * \brief Implementation of class TextGen::MaskSource
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::MaskSource
+ * \class TextGen::MaskSource
  *
  * \brief Provides mask services to clients
  *

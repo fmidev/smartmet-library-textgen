@@ -34,7 +34,7 @@
 #include <newbase/NFmiSettings.h>
 #include <newbase/NFmiMetMath.h>
 
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include "WeatherArea.h"
 #include "WeatherSource.h"
 
@@ -50,7 +50,7 @@ namespace TextGen
   namespace WindAnomaly
   {
 	using NFmiStringTools::Convert;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 	using namespace WindStoryTools;
 	using namespace TemperatureStoryTools;
 	using namespace boost;
@@ -380,7 +380,7 @@ namespace TextGen
 	}
 
 	void calculate_windspeed_and_chill(wind_anomaly_params& theParameters, 
-									   const WeatherAnalysis::WeatherArea::Type& theType,
+									   const TextGen::WeatherArea::Type& theType,
 									   const bool& theMorningPeriod,
 									   const bool& theWindspeed)
 	{

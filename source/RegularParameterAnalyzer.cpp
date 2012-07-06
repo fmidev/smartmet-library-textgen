@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::RegularParameterAnalyzer
+ * \brief Implementation of class TextGen::RegularParameterAnalyzer
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::RegularParameterAnalyzer
+ * \class TextGen::RegularParameterAnalyzer
  *
  * \brief Regular parameter analysis functions
  *
@@ -20,7 +20,7 @@
 using namespace std;
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -78,6 +78,6 @@ namespace WeatherAnalysis
 
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

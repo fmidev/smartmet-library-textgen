@@ -28,7 +28,7 @@
 #include "TemperatureStoryTools.h"
 #include "TextGenError.h"
 #include "UnitFactory.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include "WeatherArea.h"
 #include "WeatherForecast.h"
 #include "WeatherPeriodTools.h"
@@ -58,7 +58,7 @@ namespace TextGen
   namespace TemperatureMax36Hours
   {
 	using NFmiStringTools::Convert;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 	using namespace TextGen::TemperatureStoryTools;
 	using namespace boost;
 	using namespace std;
@@ -4160,9 +4160,9 @@ namespace TextGen
 
 
 
-	const Paragraph max36hours(const WeatherAnalysis::WeatherArea& itsArea,
-							   const WeatherAnalysis::WeatherPeriod& itsPeriod,
-							   const WeatherAnalysis::AnalysisSources& itsSources,
+	const Paragraph max36hours(const TextGen::WeatherArea& itsArea,
+							   const TextGen::WeatherPeriod& itsPeriod,
+							   const TextGen::AnalysisSources& itsSources,
 							   const NFmiTime& itsForecastTime,
 							   const std::string& itsVar,
 							   MessageLogger& theLog)

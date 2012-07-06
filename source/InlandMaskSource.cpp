@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::InlandMaskSource
+ * \brief Implementation of class TextGen::InlandMaskSource
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::InlandMaskSource
+ * \class TextGen::InlandMaskSource
  *
  * \brief Provides mask services to clients (masked to inlandal areas)
  *
@@ -21,7 +21,7 @@
 
 #include "InlandMaskSource.h"
 
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include "WeatherArea.h"
 #include "WeatherSource.h"
 
@@ -37,7 +37,7 @@ using namespace std;
 using namespace boost;
 using namespace NFmiIndexMaskTools;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -74,7 +74,7 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Implementation hiding detail for WeatherAnalysis::InlandMaskSource
+   * \brief Implementation hiding detail for TextGen::InlandMaskSource
    */
   // ----------------------------------------------------------------------
 
@@ -167,7 +167,7 @@ namespace WeatherAnalysis
 	itsMaskStorage.insert(value_type(key,theMask));
 
 	if(itsMaskStorage.insert(value_type(key,theMask)).second)
-	  throw WeatherAnalysisError("Could not cache mask for "+theArea.name());
+	  throw TextGenError("Could not cache mask for "+theArea.name());
   }
 
   // ----------------------------------------------------------------------
@@ -191,7 +191,7 @@ namespace WeatherAnalysis
 	shared_ptr<NFmiStreamQueryData> qdata = theWeatherSource.data(theData);
 	NFmiFastQueryInfo * qi = qdata->QueryInfoIter();
 	if(!qi->IsGrid())
-	  throw WeatherAnalysisError("The data in "+theData+" is not gridded - cannot generate mask for it");
+	  throw TextGenError("The data in "+theData+" is not gridded - cannot generate mask for it");
 
 	// First build the area mask
 
@@ -250,7 +250,7 @@ namespace WeatherAnalysis
 						const WeatherSource & theWeatherSource) const
   {
 	if(theArea.isPoint())
-	  throw WeatherAnalysisError("Trying to generate mask for point");
+	  throw TextGenError("Trying to generate mask for point");
 
 	// Establish the ID for the data
 
@@ -286,10 +286,10 @@ namespace WeatherAnalysis
 						 const std::string & theData,
 						 const WeatherSource & theWeatherSource) const
   {
-	throw WeatherAnalysisError("InlandMaskSource::masks not implemented");
+	throw TextGenError("InlandMaskSource::masks not implemented");
   }
 
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

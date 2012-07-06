@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of namespace WeatherAnalysis::WeatherPeriodTools
+ * \brief Implementation of namespace TextGen::WeatherPeriodTools
  */
 // ======================================================================
 /*!
- * \namespace WeatherAnalysis::WeatherPeriodTools
+ * \namespace TextGen::WeatherPeriodTools
  *
  * \brief Various tools related to WeatherPeriod objects
  *
@@ -22,7 +22,7 @@
 
 #include "WeatherPeriodTools.h"
 #include "WeatherPeriod.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 
 #include <newbase/NFmiTime.h>
 
@@ -30,7 +30,7 @@
 using namespace std;
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   
   namespace WeatherPeriodTools
@@ -188,7 +188,7 @@ namespace WeatherAnalysis
 	  const string msg = "WeatherPeriodTools: Cannot extract subperiod "+lexical_cast<string>(theNumber);
 
 	  if(theNumber <= 0)
-		throw WeatherAnalysisError(msg);
+		throw TextGenError(msg);
 
 	  NFmiTime start(thePeriod.localStartTime());
 	  start.ChangeByDays(-1);
@@ -231,7 +231,7 @@ namespace WeatherAnalysis
 			  }
 		}
 
-	  throw WeatherAnalysisError(msg);
+	  throw TextGenError(msg);
 	}
   }
 }

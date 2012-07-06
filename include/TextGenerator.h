@@ -13,7 +13,7 @@
 
 class NFmiTime;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherArea;
   class AnalysisSources;
@@ -36,9 +36,9 @@ namespace TextGen
 
 	const NFmiTime & time() const;
 	void time(const NFmiTime & theForecastTime);
-	void sources(const WeatherAnalysis::AnalysisSources & theSources);
+	void sources(const TextGen::AnalysisSources & theSources);
 
-	Document generate(const WeatherAnalysis::WeatherArea & theArea) const;
+	Document generate(const TextGen::WeatherArea & theArea) const;
 
   private:
 

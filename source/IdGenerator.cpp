@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::IdGenerator
+ * \brief Interface of class TextGen::IdGenerator
  */
 // ======================================================================
 
@@ -17,7 +17,7 @@
  static MutexType mymutex;
 #endif
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -46,7 +46,7 @@ namespace WeatherAnalysis
 #endif
 
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================
 

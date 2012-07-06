@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of abstract class WeatherAnalysis::WeatherSource
+ * \brief Implementation of abstract class TextGen::WeatherSource
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::WeatherSource
+ * \class TextGen::WeatherSource
  *
  * \brief Weather data source
  *

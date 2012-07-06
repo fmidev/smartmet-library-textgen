@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::PositiveValueAcceptor
+ * \brief Interface of class TextGen::PositiveValueAcceptor
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_POSITIVEVALUEACCEPTOR_H
-#define WEATHERANALYSIS_POSITIVEVALUEACCEPTOR_H
+#ifndef TEXTGEN_POSITIVEVALUEACCEPTOR_H
+#define TEXTGEN_POSITIVEVALUEACCEPTOR_H
 
 #include "Acceptor.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class PositiveValueAcceptor : public Acceptor
   {
@@ -21,8 +21,8 @@ namespace WeatherAnalysis
 	virtual Acceptor * clone() const;
 
   }; // class PositiveValueAcceptor
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_POSITIVEVALUEACCEPTOR_H
+#endif // TEXTGEN_POSITIVEVALUEACCEPTOR_H
 
 // ======================================================================

@@ -5,15 +5,15 @@
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_LOCATIONSOURCE_H
-#define WEATHERANALYSIS_LOCATIONSOURCE_H
+#ifndef TEXTGEN_LOCATIONSOURCE_H
+#define TEXTGEN_LOCATIONSOURCE_H
 
 #include <boost/shared_ptr.hpp>
 #include <string>
 
 class NFmiPoint;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class LocationSource
   {
@@ -37,8 +37,8 @@ namespace WeatherAnalysis
 
   }; // class LocationSource
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_LOCATIONSOURCE_H
+#endif // TEXTGEN_LOCATIONSOURCE_H
 
 // ======================================================================

@@ -1,19 +1,19 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::FireWarnings
+ * \brief Implementation of class TextGen::FireWarnings
  */
 // ======================================================================
 
 #include "FireWarnings.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include <newbase/NFmiFileSystem.h>
 #include <newbase/NFmiStringTools.h>
 #include <fstream>
 
 using namespace std;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   //! Firewarning areas run from 1 to 46
@@ -32,7 +32,7 @@ namespace WeatherAnalysis
 	, itsWarnings(MaxAreaCode+1,Undefined)
   {
 	if(!NFmiFileSystem::DirectoryExists(theDirectory))
-	  throw WeatherAnalysisError("Directory '"+theDirectory+"' required by class FireWarnings does not exist");
+	  throw TextGenError("Directory '"+theDirectory+"' required by class FireWarnings does not exist");
 
 	// Form the expected filename of form YYYYMMDD.palot_koodina
 	// If we cannot find the file, an exception is thrown
@@ -50,14 +50,14 @@ namespace WeatherAnalysis
 					tmp.ToStr(kYYYYMMDD).CharPtr() +
 					".palot_koodina");
 		if(!NFmiFileSystem::FileExists(filename))
-		  throw WeatherAnalysisError("Cannot find warnings from '"+theDirectory+"'");
+		  throw TextGenError("Cannot find warnings from '"+theDirectory+"'");
 	  }
 
 	// Read the file
 
 	ifstream input(filename.c_str(), ios::in);
 	if(!input)
-	  throw WeatherAnalysisError("Failed to open '"+filename+"' for reading");
+	  throw TextGenError("Failed to open '"+filename+"' for reading");
 
 	// Skip the date
 	string tmp;
@@ -70,7 +70,7 @@ namespace WeatherAnalysis
 	while(input >> areacode >> areastate)
 	  {
 		if(areacode < 1 || areacode > MaxAreaCode)
-		  throw WeatherAnalysisError("File '"+filename+"' contains invalid areacode "+NFmiStringTools::Convert(areacode));
+		  throw TextGenError("File '"+filename+"' contains invalid areacode "+NFmiStringTools::Convert(areacode));
 		switch(State(areastate))
 		  {
 		  case None:
@@ -79,7 +79,7 @@ namespace WeatherAnalysis
 			itsWarnings[areacode] = State(areastate);
 			break;
 		  default:
-			throw WeatherAnalysisError("File '"+filename+"' contains invalid warningcode "+NFmiStringTools::Convert(areastate));
+			throw TextGenError("File '"+filename+"' contains invalid warningcode "+NFmiStringTools::Convert(areastate));
 		  }
 	  }
 	input.close();
@@ -97,13 +97,13 @@ namespace WeatherAnalysis
   FireWarnings::State FireWarnings::state(int theArea) const
   {
 	if(theArea < 1 || theArea > MaxAreaCode)
-	  throw WeatherAnalysisError("Only area codes 1...46 are allowed in FireWarnings");
+	  throw TextGenError("Only area codes 1...46 are allowed in FireWarnings");
 	return itsWarnings[theArea];
   }
 
   
 
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

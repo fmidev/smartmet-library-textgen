@@ -1,17 +1,17 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::MaximumCalculator
+ * \brief Interface of class TextGen::MaximumCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_MAXIMUMCALCULATOR_H
-#define WEATHERANALYSIS_MAXIMUMCALCULATOR_H
+#ifndef TEXTGEN_MAXIMUMCALCULATOR_H
+#define TEXTGEN_MAXIMUMCALCULATOR_H
 
 #include "Calculator.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class MaximumCalculator : public Calculator
   {
@@ -33,8 +33,8 @@ namespace WeatherAnalysis
 
   }; // class MaximumCalculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_MAXIMUMCALCULATOR_H
+#endif // TEXTGEN_MAXIMUMCALCULATOR_H
 
 // ======================================================================

@@ -1,26 +1,26 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace WeatherAnalysis::ParameterAnalyzerFactory
+ * \brief Interface of namespace TextGen::ParameterAnalyzerFactory
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_PARAMETERANALYZERFACTORY_H
-#define WEATHERANALYSIS_PARAMETERANALYZERFACTORY_H
+#ifndef TEXTGEN_PARAMETERANALYZERFACTORY_H
+#define TEXTGEN_PARAMETERANALYZERFACTORY_H
 
 #include "ParameterAnalyzer.h"
 #include "WeatherParameter.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace ParameterAnalyzerFactory
   {
-	ParameterAnalyzer * create(WeatherAnalysis::WeatherParameter theParameter);
+	ParameterAnalyzer * create(TextGen::WeatherParameter theParameter);
 
   } // namespace ParameterAnalyzerFactory
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_PARAMETERANALYZERFACTORY_H
+#endif // TEXTGEN_PARAMETERANALYZERFACTORY_H
 
 // ======================================================================
 

@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::RangeAcceptor
+ * \brief Interface of class TextGen::RangeAcceptor
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_RANGEACCEPTOR_H
-#define WEATHERANALYSIS_RANGEACCEPTOR_H
+#ifndef TEXTGEN_RANGEACCEPTOR_H
+#define TEXTGEN_RANGEACCEPTOR_H
 
 #include "Acceptor.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class RangeAcceptor : public Acceptor
   {
@@ -30,8 +30,8 @@ namespace WeatherAnalysis
 	float itsHiLimit;
 
   }; // class RangeAcceptor
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_RANGEACCEPTOR_H
+#endif // TEXTGEN_RANGEACCEPTOR_H
 
 // ======================================================================

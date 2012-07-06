@@ -1,19 +1,19 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::NullPeriodGenerator
+ * \brief Interface of class TextGen::NullPeriodGenerator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_NULLPERIODGENERATOR_H
-#define WEATHERANALYSIS_NULLPERIODGENERATOR_H
+#ifndef TEXTGEN_NULLPERIODGENERATOR_H
+#define TEXTGEN_NULLPERIODGENERATOR_H
 
 #include "WeatherPeriodGenerator.h"
 #include "WeatherPeriod.h"
 
 #include <string>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherPeriod;
 
@@ -38,9 +38,9 @@ namespace WeatherAnalysis
 
   }; // class NullPeriodGenerator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_NULLPERIODGENERATOR_H
+#endif // TEXTGEN_NULLPERIODGENERATOR_H
 
 // ======================================================================
 

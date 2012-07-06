@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_FROSTSTORYTOOLS_H
 #define TEXTGEN_FROSTSTORYTOOLS_H
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherPeriod;
 }
@@ -21,10 +21,10 @@ namespace TextGen
   {
 	bool is_frost_season();
 
-	Sentence frost_sentence(const WeatherAnalysis::WeatherPeriod & thePeriod,
+	Sentence frost_sentence(const TextGen::WeatherPeriod & thePeriod,
 							int theProbability);
 
-	Sentence severe_frost_sentence(const WeatherAnalysis::WeatherPeriod & thePeriod,
+	Sentence severe_frost_sentence(const TextGen::WeatherPeriod & thePeriod,
 								   int theProbability);
 
   } // namespace FrostStoryTools

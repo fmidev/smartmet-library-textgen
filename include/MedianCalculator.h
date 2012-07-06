@@ -1,19 +1,19 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::MedianCalculator
+ * \brief Interface of class TextGen::MedianCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_MEDIANCALCULATOR_H
-#define WEATHERANALYSIS_MEDINACALCULATOR_H
+#ifndef TEXTGEN_MEDIANCALCULATOR_H
+#define TEXTGEN_MEDINACALCULATOR_H
 
 #include "Calculator.h"
 #include <boost/shared_ptr.hpp>
 #include <vector>
 
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class MedianCalculator : public Calculator
   {
@@ -34,8 +34,8 @@ namespace WeatherAnalysis
 
   }; // class MedianCalculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_MEDIANCALCULATOR_H
+#endif // TEXTGEN_MEDIANCALCULATOR_H
 
 // ======================================================================

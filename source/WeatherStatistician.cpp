@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of abstract class WeatherAnalysis::WeatherStatistician
+ * \brief Implementation of abstract class TextGen::WeatherStatistician
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::WeatherStatistician
+ * \class TextGen::WeatherStatistician
  *
  * \brief Provides statistical analysis services to clients
  *

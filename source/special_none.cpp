@@ -9,7 +9,7 @@
 #include "MessageLogger.h"
 #include "Paragraph.h"
 
-using namespace WeatherAnalysis;
+using namespace TextGen;
 using namespace std;
 
 namespace TextGen

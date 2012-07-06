@@ -458,36 +458,36 @@ namespace TextGen
   class CloudinessDataItem;
   class ThunderDataItem;
 
-  typedef vector<WeatherResultDataItem*> weather_result_data_item_vector;
+  typedef std::vector<WeatherResultDataItem*> weather_result_data_item_vector;
   typedef std::pair<NFmiTime, weather_event_id> timestamp_weather_event_id_pair;
-  typedef vector<timestamp_weather_event_id_pair> weather_event_id_vector;
-  typedef vector<PrecipitationDataItemData*> precipitation_data_vector;
-  typedef vector<FogIntensityDataItem*> fog_data_vector;
-  typedef map<int, PrecipitationDataItem*> precipitation_data_item_container;
-  typedef vector<precipitation_data_item_container*> precipitation_data_container;
-  typedef map<int, weather_result_data_item_vector*> weather_forecast_result_container;
-  typedef map<int, weather_forecast_result_container*> weather_forecast_data_container;
-  typedef map<int, CloudinessDataItem*> cloudiness_data_item_container;
-  typedef vector<cloudiness_data_item_container*> cloudiness_data_container;
-  typedef map<int, ThunderDataItem*> thunder_data_item_container;
-  typedef vector<thunder_data_item_container*> thunder_data_container;
-  typedef map<int, FogIntensityDataItem*> fog_data_item_container;
-  typedef vector<fog_data_item_container*> fog_data_container;
-  typedef vector<NFmiPoint*> location_coordinate_vector;
+  typedef std::vector<timestamp_weather_event_id_pair> weather_event_id_vector;
+  typedef std::vector<PrecipitationDataItemData*> precipitation_data_vector;
+  typedef std::vector<FogIntensityDataItem*> fog_data_vector;
+  typedef std::map<int, PrecipitationDataItem*> precipitation_data_item_container;
+  typedef std::vector<precipitation_data_item_container*> precipitation_data_container;
+  typedef std::map<int, weather_result_data_item_vector*> weather_forecast_result_container;
+  typedef std::map<int, weather_forecast_result_container*> weather_forecast_data_container;
+  typedef std::map<int, CloudinessDataItem*> cloudiness_data_item_container;
+  typedef std::vector<cloudiness_data_item_container*> cloudiness_data_container;
+  typedef std::map<int, ThunderDataItem*> thunder_data_item_container;
+  typedef std::vector<thunder_data_item_container*> thunder_data_container;
+  typedef std::map<int, FogIntensityDataItem*> fog_data_item_container;
+  typedef std::vector<fog_data_item_container*> fog_data_container;
+  typedef std::vector<NFmiPoint*> location_coordinate_vector;
   typedef std::pair<WeatherPeriod, unsigned int> weather_period_story_part_id_pair;
-  typedef vector<weather_period_story_part_id_pair> story_part_vector;
+  typedef std::vector<weather_period_story_part_id_pair> story_part_vector;
 
 
 
   struct wf_story_params
   {								 
-	wf_story_params(const string& variable,
+	wf_story_params(const std::string& variable,
 					const WeatherArea& weatherArea,
-					const WeatherPeriod dataPeriod,
-					const WeatherPeriod forecastPeriod,
-					const NFmiTime forecastTime,
-					const AnalysisSources& analysisSources,
-					MessageLogger& log) :
+					const WeatherPeriod & dataPeriod,
+					const WeatherPeriod & forecastPeriod,
+					const NFmiTime & forecastTime,
+					const AnalysisSources & analysisSources,
+					MessageLogger & log) :
 	  theVariable(variable),
 	  theArea(weatherArea),
 	  theDataPeriod(dataPeriod),
@@ -506,7 +506,7 @@ namespace TextGen
 	{
 	}
 
-	const string& theVariable;
+	const std::string& theVariable;
 	const WeatherArea& theArea;
 	const WeatherPeriod theDataPeriod;
 	const WeatherPeriod theForecastPeriod;
@@ -605,11 +605,11 @@ namespace TextGen
 							  const std::string& theVar,
 							  bool theAlkaenPhrase = false);
   Sentence get_today_phrase(const NFmiTime& theEventTimestamp,
-							const string& theVariable,
+							const std::string& theVariable,
 							const WeatherArea& theArea,
 							const WeatherPeriod thePeriod,
 							const NFmiTime& theForecastTime);
-  precipitation_form_id get_complete_precipitation_form(const string& theVariable,
+  precipitation_form_id get_complete_precipitation_form(const std::string& theVariable,
 														const float thePrecipitationFormWater,
 														const float thePrecipitationFormDrizzle,
 														const float thePrecipitationFormSleet,
@@ -640,11 +640,11 @@ namespace TextGen
 								  const float& southWest,
 								  const float& northWest,
 								  const bool& mostlyFlag = true);
-  int get_today_vector(const string& theVariable,
+  int get_today_vector(const std::string& theVariable,
 					   const WeatherArea& theArea,
 					   const WeatherPeriod& thePeriod,
 					   const NFmiTime& theForecastTime,
-					   vector<Sentence*>& theTodayVector);
+					   std::vector<Sentence*>& theTodayVector);
   area_specific_sentence_id get_area_specific_sentence_id(const float& north,
 														  const float& south,
 														  const float& east,
@@ -657,7 +657,7 @@ namespace TextGen
   int get_period_length(const WeatherPeriod& thePeriod);
   float get_area_percentage(const std::string& theVar,
 							const WeatherArea& theArea,
-							const WeatherAnalysis::WeatherArea::Type& theType,
+							const TextGen::WeatherArea::Type& theType,
 							const AnalysisSources& theSources,
 							const WeatherPeriod& thePeriod);
   std::string parse_weekday_phrase(const short& weekday, std::string part_of_the_day);
@@ -668,31 +668,31 @@ namespace TextGen
 
   /*
   bool split_the_area(const std::string theVar,
-					  const WeatherAnalysis::WeatherArea& theArea,
-					  const WeatherAnalysis::WeatherPeriod& thePeriod,
-					  const WeatherAnalysis::AnalysisSources& theSources);
+					  const TextGen::WeatherArea& theArea,
+					  const TextGen::WeatherPeriod& thePeriod,
+					  const TextGen::AnalysisSources& theSources);
   */
 
   split_method split_the_area(const std::string theVar,
-							  const WeatherAnalysis::WeatherArea& theArea,
-							  const WeatherAnalysis::WeatherPeriod& thePeriod,
-							  const WeatherAnalysis::AnalysisSources& theSources,
+							  const TextGen::WeatherArea& theArea,
+							  const TextGen::WeatherPeriod& thePeriod,
+							  const TextGen::AnalysisSources& theSources,
 							  double& theDivisionLine,
 							  MessageLogger& theLog);
 
   bool test_temperature_split_criterion(const std::string theVar,
 										const bool& morningTemperature,
-										const WeatherAnalysis::WeatherArea& theAreaOne,
-										const WeatherAnalysis::WeatherArea& theAreaTwo,
-										const WeatherAnalysis::WeatherPeriod& thePeriod,
-										const WeatherAnalysis::AnalysisSources& theSources,
+										const TextGen::WeatherArea& theAreaOne,
+										const TextGen::WeatherArea& theAreaTwo,
+										const TextGen::WeatherPeriod& thePeriod,
+										const TextGen::AnalysisSources& theSources,
 										MessageLogger& theLog);
   split_method check_area_splitting(const std::string theVar,
-									const WeatherAnalysis::WeatherArea& theArea,
-									const WeatherAnalysis::WeatherPeriod& thePeriod,
-									const WeatherAnalysis::AnalysisSources& theSources,
-									WeatherAnalysis::WeatherArea& theFirstArea,
-									WeatherAnalysis::WeatherArea& theSecondArea,
+									const TextGen::WeatherArea& theArea,
+									const TextGen::WeatherPeriod& thePeriod,
+									const TextGen::AnalysisSources& theSources,
+									TextGen::WeatherArea& theFirstArea,
+									TextGen::WeatherArea& theSecondArea,
 									MessageLogger& theLog);
   bool fit_into_narrow_day_part(const WeatherPeriod& thePeriod);
   bool fit_into_large_day_part(const WeatherPeriod& thePeriod);

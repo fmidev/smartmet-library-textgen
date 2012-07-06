@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of abstract class WeatherAnalysis::ParameterAnalyzer
+ * \brief Implementation of abstract class TextGen::ParameterAnalyzer
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::ParameterAnalyzer
+ * \class TextGen::ParameterAnalyzer
  *
  * \brief Parameter analysis functions
  *
@@ -13,9 +13,9 @@
 // ======================================================================
 
 #include "ParameterAnalyzer.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   void ParameterAnalyzer::getParameterStrings(const WeatherParameter& 
 											  theParameter,	
@@ -329,7 +329,7 @@ namespace WeatherAnalysis
 	  }
   }
 
-  const char* getDataTypeName(const WeatherAnalysis::WeatherDataType& theDataType)
+  const char* getDataTypeName(const TextGen::WeatherDataType& theDataType)
   {
 	switch(theDataType)
 	  {
@@ -341,7 +341,7 @@ namespace WeatherAnalysis
 		return "climatology";
 	  }
 
-	throw WeatherAnalysisError("Unrecognized WeatherDataType in ParameterAnalyzer::getDataTypeName");
+	throw TextGenError("Unrecognized WeatherDataType in ParameterAnalyzer::getDataTypeName");
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen

@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::Acceptor
+ * \brief Implementation of class TextGen::Acceptor
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::Acceptor
+ * \class TextGen::Acceptor
  *
  * \brief Acceptor is a class which either accepts or rejects a value
  *

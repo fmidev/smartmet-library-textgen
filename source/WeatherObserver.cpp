@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of abstract class WeatherAnalysis::WeatherObserver
+ * \brief Implementation of abstract class TextGen::WeatherObserver
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::WeatherObserver
+ * \class TextGen::WeatherObserver
  *
  * \brief Provides observation analysis services to clients
  *

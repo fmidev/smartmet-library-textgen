@@ -5,7 +5,7 @@
  */
 // ======================================================================
 /*!
- * \namespace WeatherAnalysis::TimeTools
+ * \namespace TextGen::TimeTools
  *
  * \brief Various NFmiTime related utilities
  *
@@ -23,7 +23,7 @@
 
 #include <ctime>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace TimeTools
   {
@@ -251,6 +251,6 @@ namespace WeatherAnalysis
 	}
 
   } // namespace TimeTools
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

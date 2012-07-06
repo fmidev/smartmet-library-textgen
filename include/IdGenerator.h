@@ -1,14 +1,14 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::IdGenerator
+ * \brief Interface of class TextGen::IdGenerator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_IDGENERATOR_H
-#define WEATHERANALYSIS_IDGENERATOR_H
+#ifndef TEXTGEN_IDGENERATOR_H
+#define TEXTGEN_IDGENERATOR_H
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class IdGenerator
   {
@@ -16,9 +16,9 @@ namespace WeatherAnalysis
 	static long generate();
 
   }; // class IdGenerator
-} // namespace namespace WeatherAnalysis
+} // namespace namespace TextGen
 
-#endif // WEATHERANALYSIS_IDGENERATOR_H
+#endif // TEXTGEN_IDGENERATOR_H
 
 // ======================================================================
 

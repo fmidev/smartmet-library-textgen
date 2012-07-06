@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::NightAndDayPeriodGenerator
+ * \brief Implementation of class TextGen::NightAndDayPeriodGenerator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::NightAndDayPeriodGenerator
+ * \class TextGen::NightAndDayPeriodGenerator
  *
  * \brief Generates a sequence of consecutive night/day periods
  *
@@ -14,14 +14,14 @@
 
 #include "NightAndDayPeriodGenerator.h"
 #include "Settings.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include "WeatherPeriodTools.h"
 
 #include <algorithm>
 
 using namespace std;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   
   // ----------------------------------------------------------------------
@@ -194,7 +194,7 @@ namespace WeatherAnalysis
   WeatherPeriod NightAndDayPeriodGenerator::period(size_type thePeriod) const
   {
 	if(thePeriod < 1 || thePeriod > itsPeriods.size())
-	  throw WeatherAnalysis::WeatherAnalysisError("NightAndDayPeriodGenerator::period(): invalid argument");
+	  throw TextGen::TextGenError("NightAndDayPeriodGenerator::period(): invalid argument");
 	return itsPeriods[thePeriod-1];
   }
 
@@ -207,7 +207,7 @@ namespace WeatherAnalysis
   bool NightAndDayPeriodGenerator::isday(size_type thePeriod) const
   {
 	if(thePeriod < 1 || thePeriod > itsPeriods.size())
-	  throw WeatherAnalysis::WeatherAnalysisError("NightAndDayPeriodGenerator::isday(): invalid argument");
+	  throw TextGen::TextGenError("NightAndDayPeriodGenerator::isday(): invalid argument");
 
 	const int starthour = itsPeriods[thePeriod-1].localStartTime().GetHour();
 	const int endhour = itsPeriods[thePeriod-1].localEndTime().GetHour();
@@ -218,6 +218,6 @@ namespace WeatherAnalysis
   }
 
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

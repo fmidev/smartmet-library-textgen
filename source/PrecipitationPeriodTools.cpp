@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of namespace WeatherAnalysis::PrecipitationPeriodTools
+ * \brief Implementation of namespace TextGen::PrecipitationPeriodTools
  */
 // ======================================================================
 /*!
- * \namespace WeatherAnalysis::PrecipitationPeriodTools
+ * \namespace TextGen::PrecipitationPeriodTools
  *
  * \brief Tools related to finding precipitation time intervals
  *
@@ -27,7 +27,7 @@
 #include "RangeAcceptor.h"
 #include "Settings.h"
 #include "TimeTools.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
 #include "WeatherPeriodTools.h"
@@ -42,7 +42,7 @@
 using namespace std;
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace PrecipitationPeriodTools
   {
@@ -172,12 +172,12 @@ namespace WeatherAnalysis
 	  // Try activating the parameter
 
 	  if(!qi->Param(kFmiPrecipitation1h))
-		throw WeatherAnalysisError("Precipitation1h is not available in "+dataname);
+		throw TextGenError("Precipitation1h is not available in "+dataname);
 
 	  // Handle points and areas separately
 
 	  if(!QueryDataTools::firstTime(*qi,thePeriod.utcStartTime(),thePeriod.utcEndTime()))
-		 throw WeatherAnalysisError("The required time period is not available in "+dataname);
+		 throw TextGenError("The required time period is not available in "+dataname);
 
 	  RainTimes times;
 
@@ -215,7 +215,7 @@ namespace WeatherAnalysis
 			  if(theArea.isNamed())
 				msg << " named " << theArea.name();
 			  msg << " in " << dataname;
-			  throw WeatherAnalysisError(msg.str());
+			  throw TextGenError(msg.str());
 			}
 
 		  do
@@ -409,6 +409,6 @@ namespace WeatherAnalysis
 	}
 
   } // namespace PrecipitationPeriodTools
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

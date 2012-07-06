@@ -1,17 +1,17 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::PercentageCalculator
+ * \brief Interface of class TextGen::PercentageCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_PERCENTAGECALCULATOR_H
-#define WEATHERANALYSIS_PERCENTAGECALCULATOR_H
+#ifndef TEXTGEN_PERCENTAGECALCULATOR_H
+#define TEXTGEN_PERCENTAGECALCULATOR_H
 
 #include "Calculator.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class PercentageCalculator : public Calculator
   {
@@ -37,8 +37,8 @@ namespace WeatherAnalysis
 
   }; // class PercentageCalculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_PERCENTAGECALCULATOR_H
+#endif // TEXTGEN_PERCENTAGECALCULATOR_H
 
 // ======================================================================

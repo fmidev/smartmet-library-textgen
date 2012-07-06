@@ -1,20 +1,20 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::WeatherAnalysisError
+ * \brief Implementation of class TextGen::TextGenError
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::WeatherAnalysisError
+ * \class TextGen::TextGenError
  *
- * \brief The generic exception thrown by WeatherAnalysis namespace
+ * \brief The generic exception thrown by TextGen namespace
  *
  */
 // ======================================================================
 
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   
   // ----------------------------------------------------------------------
@@ -25,7 +25,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  WeatherAnalysisError::WeatherAnalysisError(const std::string & theError)
+  TextGenError::TextGenError(const std::string & theError)
 	: itsError(theError)
   {
   }
@@ -38,11 +38,11 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
 
-  const char * WeatherAnalysisError::what(void) const throw()
+  const char * TextGenError::what(void) const throw()
   {
 	return itsError.c_str();
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

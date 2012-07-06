@@ -1,17 +1,17 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::ModStandardDeviationCalculator
+ * \brief Interface of class TextGen::ModStandardDeviationCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_MODSTANDARDDEVIATIONCALCULATOR_H
-#define WEATHERANALYSIS_MODSTANDARDDEVIATIONCALCULATOR_H
+#ifndef TEXTGEN_MODSTANDARDDEVIATIONCALCULATOR_H
+#define TEXTGEN_MODSTANDARDDEVIATIONCALCULATOR_H
 
 #include "Calculator.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class ModStandardDeviationCalculator : public Calculator
   {
@@ -39,8 +39,8 @@ namespace WeatherAnalysis
 
   }; // class ModStandardDeviationCalculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_MODSTANDARDDEVIATIONCALCULATOR_H
+#endif // TEXTGEN_MODSTANDARDDEVIATIONCALCULATOR_H
 
 // ======================================================================

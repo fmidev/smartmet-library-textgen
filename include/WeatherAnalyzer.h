@@ -1,12 +1,12 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of abstract class WeatherAnalysis::WeatherAnalyzer
+ * \brief Interface of abstract class TextGen::WeatherAnalyzer
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WEATHERANALYZER_H
-#define WEATHERANALYSIS_WEATHERANALYZER_H
+#ifndef TEXTGEN_WEATHERANALYZER_H
+#define TEXTGEN_WEATHERANALYZER_H
 
 #include "WeatherDataType.h"
 #include "WeatherParameter.h"
@@ -18,7 +18,7 @@
 
 class NFmiPoint;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class AnalysisSources;
   class WeatherArea;
@@ -87,8 +87,8 @@ namespace WeatherAnalysis
 	
   }; // class WeatherAnalyzer
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_WEATHERANALYZER_H
+#endif // TEXTGEN_WEATHERANALYZER_H
 
 // ======================================================================

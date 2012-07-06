@@ -12,7 +12,7 @@
 
 class NFmiTime;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class AnalysisSources;
   class WeatherArea;
@@ -26,9 +26,9 @@ namespace TextGen
   namespace StoryFactory
   {
 	Paragraph create(const NFmiTime & theForecastTime,
-					 const WeatherAnalysis::AnalysisSources & theSources,
-					 const WeatherAnalysis::WeatherArea & theArea,
-					 const WeatherAnalysis::WeatherPeriod & thePeriod,
+					 const TextGen::AnalysisSources & theSources,
+					 const TextGen::WeatherArea & theArea,
+					 const TextGen::WeatherPeriod & thePeriod,
 					 const std::string & theName,
 					 const std::string & theVariable);
 

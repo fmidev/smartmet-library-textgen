@@ -1,24 +1,24 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::FunctionAnalyzer
+ * \brief Interface of class TextGen::FunctionAnalyzer
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::FunctionAnalyzer
+ * \class TextGen::FunctionAnalyzer
  *
  * \brief Function analysis
  *
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_FUNCTIONANALYZER_H
-#define WEATHERANALYSIS_FUNCTIONANALYZER_H
+#ifndef TEXTGEN_FUNCTIONANALYZER_H
+#define TEXTGEN_FUNCTIONANALYZER_H
 
 #include "WeatherDataType.h"
 #include <string>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class Acceptor;
   class AnalysisSources;
@@ -46,8 +46,8 @@ namespace WeatherAnalysis
 
   }; // class FunctionAnalyzer
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_FUNCTIONANALYZER_H
+#endif // TEXTGEN_FUNCTIONANALYZER_H
 
 // ======================================================================

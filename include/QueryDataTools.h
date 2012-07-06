@@ -1,17 +1,17 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace WeatherAnalysis::QueryDataTools
+ * \brief Interface of namespace TextGen::QueryDataTools
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_QUERYDATATOOLS_H
-#define WEATHERANALYSIS_QUERYDATATOOLS_H
+#ifndef TEXTGEN_QUERYDATATOOLS_H
+#define TEXTGEN_QUERYDATATOOLS_H
 
 class NFmiFastQueryInfo;
 class NFmiTime;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace QueryDataTools
   {
@@ -30,6 +30,6 @@ namespace WeatherAnalysis
   }
 }
 
-#endif // WEATHERANALYSIS_QUERYDATATOOLS_H
+#endif // TEXTGEN_QUERYDATATOOLS_H
 
 // ======================================================================

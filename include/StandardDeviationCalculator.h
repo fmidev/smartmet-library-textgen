@@ -1,18 +1,18 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::StandardDeviationCalculator
+ * \brief Interface of class TextGen::StandardDeviationCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_STANDARDDEVIATIONCALCULATOR_H
-#define WEATHERANALYSIS_STANDARDDEVIATIONCALCULATOR_H
+#ifndef TEXTGEN_STANDARDDEVIATIONCALCULATOR_H
+#define TEXTGEN_STANDARDDEVIATIONCALCULATOR_H
 
 #include "Calculator.h"
 #include "Acceptor.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class StandardDeviationCalculator : public Calculator
   {
@@ -35,8 +35,8 @@ namespace WeatherAnalysis
 
   }; // class StandardDeviationCalculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_STANDARDDEVIATIONCALCULATOR_H
+#endif // TEXTGEN_STANDARDDEVIATIONCALCULATOR_H
 
 // ======================================================================

@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::CountCalculator
+ * \brief Implementation of class TextGen::CountCalculator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::CountCalculator
+ * \class TextGen::CountCalculator
  *
  * \brief Count intergator
  *
@@ -20,7 +20,7 @@
 
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -120,6 +120,6 @@ namespace WeatherAnalysis
 	itsTotalCounter = 0;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

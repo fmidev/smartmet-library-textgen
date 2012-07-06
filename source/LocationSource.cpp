@@ -5,7 +5,7 @@
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::LocationSource
+ * \class TextGen::LocationSource
  *
  * \brief Provides information of named points of the world
  *
@@ -23,13 +23,13 @@
 
 #include "LocationSource.h"
 #include "Settings.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include <newbase/NFmiLocationFinder.h>
 #include <newbase/NFmiPoint.h>
 
 using namespace std;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -84,7 +84,7 @@ namespace WeatherAnalysis
   bool LocationSource::Pimple::hasCoordinates(const string & theLocation) const
   {
 	if(theLocation.empty())
-	  throw WeatherAnalysisError("Cannot request coordinates for an empty location name");
+	  throw TextGenError("Cannot request coordinates for an empty location name");
 
 	if(theLocation == itsLastSuccesfulName)
 	  return true;
@@ -117,7 +117,7 @@ namespace WeatherAnalysis
 	if(hasCoordinates(theLocation))
 	  return itsLastSuccesfulPoint;
 
-	throw WeatherAnalysisError("Cannot request coordinates for unknown location '"+theLocation+"'");
+	throw TextGenError("Cannot request coordinates for unknown location '"+theLocation+"'");
   }
 
   // ----------------------------------------------------------------------
@@ -189,6 +189,6 @@ namespace WeatherAnalysis
   }
 
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

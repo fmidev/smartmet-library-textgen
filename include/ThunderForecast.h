@@ -6,14 +6,6 @@
 
 namespace TextGen
 {
-
-using namespace Settings;
-using namespace WeatherAnalysis;
-using namespace AreaTools;
-using namespace boost;
-using namespace std;
-
-
   class ThunderForecast
   {
   public:
@@ -21,8 +13,8 @@ using namespace std;
 	ThunderForecast(wf_story_params& parameters);
 		
 	Sentence thunderSentence(const WeatherPeriod& thePeriod,
-							 const forecast_area_id& theForecastAreaId,
-							 const string& theVariable) const;
+							 const AreaTools::forecast_area_id& theForecastAreaId,
+							 const std::string& theVariable) const;
 
   private:
 	

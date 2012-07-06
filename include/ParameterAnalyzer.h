@@ -1,12 +1,12 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of abstract class WeatherAnalysis::ParameterAnalyzer
+ * \brief Interface of abstract class TextGen::ParameterAnalyzer
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_PARAMETERANALYZER_H
-#define WEATHERANALYSIS_PARAMETERANALYZER_H
+#ifndef TEXTGEN_PARAMETERANALYZER_H
+#define TEXTGEN_PARAMETERANALYZER_H
 
 #include "NullAcceptor.h"
 #include "WeatherDataType.h"
@@ -14,7 +14,7 @@
 #include "WeatherParameter.h"
 #include <string>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class AnalysisSources;
   class WeatherArea;
@@ -43,12 +43,12 @@ namespace WeatherAnalysis
 									std::string& theParameterName, 
 									std::string& theDataName);
 
-	static const char* getDataTypeName(const WeatherAnalysis::WeatherDataType & theDataType);
+	static const char* getDataTypeName(const TextGen::WeatherDataType & theDataType);
 
   }; // class ParameterAnalyzer
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_PARAMETERANALYZER_H
+#endif // TEXTGEN_PARAMETERANALYZER_H
 
 // ======================================================================

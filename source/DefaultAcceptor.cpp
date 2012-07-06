@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::DefaultAcceptor
+ * \brief Implementation of class TextGen::DefaultAcceptor
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::DefaultAcceptor
+ * \class TextGen::DefaultAcceptor
  *
  * \brief DefaultAcceptor is a class which accepts everything but kFloatMissing
  *
@@ -15,7 +15,7 @@
 #include "DefaultAcceptor.h"
 #include <newbase/NFmiGlobals.h>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -45,6 +45,6 @@ namespace WeatherAnalysis
 	return(theValue != kFloatMissing);
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

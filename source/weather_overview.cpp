@@ -27,7 +27,7 @@
 #include <boost/lexical_cast.hpp>
 #include <vector>
 
-using namespace WeatherAnalysis;
+using namespace TextGen;
 using namespace boost;
 using namespace std;
 

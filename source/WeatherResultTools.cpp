@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of namespace WeatherAnalysis::WeatherResultTools
+ * \brief Implementation of namespace TextGen::WeatherResultTools
  */
 // ======================================================================
 /*!
- * \namespace WeatherAnalysis::WeatherResultTools
+ * \namespace TextGen::WeatherResultTools
  *
  * \brief Utility functions operating on WeatherResult objects
  */
@@ -20,7 +20,7 @@
 #include <cstdlib>
 #include <utility>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace WeatherResultTools
   {
@@ -192,6 +192,6 @@ namespace WeatherAnalysis
 	}
 
   } // namespace WeatherResultTools
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

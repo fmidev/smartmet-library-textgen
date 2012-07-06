@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::WeatherResult
+ * \brief Implementation of class TextGen::WeatherResult
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::WeatherResult
+ * \class TextGen::WeatherResult
  *
  * \brief A storage class for an analysis result and its accuracy
  *
@@ -22,7 +22,7 @@
 #include <cassert>
 #include <iostream>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -75,7 +75,7 @@ namespace WeatherAnalysis
 	return itsError;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ----------------------------------------------------------------------
 /*!
@@ -87,8 +87,8 @@ namespace WeatherAnalysis
  */
 // ----------------------------------------------------------------------
 
-bool operator==(const WeatherAnalysis::WeatherResult & theLhs,
-				const WeatherAnalysis::WeatherResult & theRhs)
+bool operator==(const TextGen::WeatherResult & theLhs,
+				const TextGen::WeatherResult & theRhs)
 {
   return (theLhs.value() == theRhs.value() &&
 		  theLhs.error() == theRhs.error());
@@ -104,8 +104,8 @@ bool operator==(const WeatherAnalysis::WeatherResult & theLhs,
  */
 // ----------------------------------------------------------------------
 
-bool operator!=(const WeatherAnalysis::WeatherResult & theLhs,
-				const WeatherAnalysis::WeatherResult & theRhs)
+bool operator!=(const TextGen::WeatherResult & theLhs,
+				const TextGen::WeatherResult & theRhs)
 {
   return !(theLhs == theRhs);
 }
@@ -123,7 +123,7 @@ bool operator!=(const WeatherAnalysis::WeatherResult & theLhs,
 // ----------------------------------------------------------------------
 
 std::ostream & operator<<(std::ostream & theOutput,
-						  const WeatherAnalysis::WeatherResult & theResult)
+						  const TextGen::WeatherResult & theResult)
 {
   theOutput << '('
 			<< theResult.value()

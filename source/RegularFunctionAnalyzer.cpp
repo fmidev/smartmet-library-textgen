@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::RegularFunctionAnalyzer
+ * \brief Implementation of class TextGen::RegularFunctionAnalyzer
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::RegularFunctionAnalyzer
+ * \class TextGen::RegularFunctionAnalyzer
  *
  * \brief Regular function analysis
  *
@@ -19,7 +19,7 @@
 #include "CalculatorFactory.h"
 #include "MaskSource.h"
 #include "Settings.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
@@ -52,9 +52,9 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  const char * data_type_name(const WeatherAnalysis::WeatherDataType & theDataType)
+  const char * data_type_name(const TextGen::WeatherDataType & theDataType)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	switch(theDataType)
 	  {
@@ -66,13 +66,13 @@ namespace
 		return "climatology";
 	  }
 
-	throw WeatherAnalysisError("Unrecognized WeatherDataType in RegularFunctionAnalyzer");
+	throw TextGenError("Unrecognized WeatherDataType in RegularFunctionAnalyzer");
   }
 
 } // namespace anonymous
 
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -109,7 +109,7 @@ namespace WeatherAnalysis
   void RegularFunctionAnalyzer::modulo(int theModulo)
   {
 	if(theModulo <= 0)
-	  throw WeatherAnalysisError("Trying to analyze data modulo "+lexical_cast<string>(theModulo));
+	  throw TextGenError("Trying to analyze data modulo "+lexical_cast<string>(theModulo));
 	itsModulo = theModulo;
 	itIsModulo = true;
   }
@@ -168,10 +168,10 @@ namespace WeatherAnalysis
 
 	FmiParameterName param = FmiParameterName(converter.ToEnum(theParameterName));
 	if(param == kFmiBadParameter)
-	  throw WeatherAnalysisError("Parameter "+theParameterName+" is not defined in newbase");
+	  throw TextGenError("Parameter "+theParameterName+" is not defined in newbase");
 
 	if(!qi->Param(param))
-	  throw WeatherAnalysisError(theParameterName+" is not available in "+dataname);
+	  throw TextGenError(theParameterName+" is not available in "+dataname);
 	
 	// Handle points and areas separately
 
@@ -277,7 +277,7 @@ namespace WeatherAnalysis
 			  if(theArea.isNamed())
 				msg << " named " << theArea.name();
 			  msg << " in " << dataname;
-			  throw WeatherAnalysisError(msg.str());
+			  throw TextGenError(msg.str());
 	  }
 
 	float result = QueryDataIntegrator::Integrate(*qi,
@@ -290,7 +290,7 @@ namespace WeatherAnalysis
   }
 
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================
 

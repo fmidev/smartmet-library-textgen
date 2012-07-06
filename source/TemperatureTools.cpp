@@ -8,7 +8,7 @@
 #include "SeasonTools.h"
 
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace TemperatureTools
   {
@@ -140,4 +140,4 @@ namespace WeatherAnalysis
 	}
 
   } // namespace TemperatureTools
-} // namespace WeatherAnalysis
+} // namespace TextGen

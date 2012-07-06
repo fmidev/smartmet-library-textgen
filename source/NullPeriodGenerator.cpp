@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::NullPeriodGenerator
+ * \brief Implementation of class TextGen::NullPeriodGenerator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::NullPeriodGenerator
+ * \class TextGen::NullPeriodGenerator
  *
  * \brief Generates a sequence of periods
  *
@@ -19,13 +19,13 @@
 #include <boost/lexical_cast.hpp>
 
 #include "NullPeriodGenerator.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 
 
 using namespace std;
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   
   // ----------------------------------------------------------------------
@@ -100,9 +100,9 @@ namespace WeatherAnalysis
 
 	const string msg = ("NullPeriodGenerator cannot return period "
 						+lexical_cast<string>(thePeriod));
-	throw WeatherAnalysisError(msg);
+	throw TextGenError(msg);
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

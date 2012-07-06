@@ -1,30 +1,28 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace WeatherAnalysis::ClimatologyTools
+ * \brief Interface of namespace TextGen::ClimatologyTools
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_CLIMATOLOGYTOOLS_H
-#define WEATHERANALYSIS_CLIMATOLOGYTOOLS_H
+#ifndef TEXTGEN_CLIMATOLOGYTOOLS_H
+#define TEXTGEN_CLIMATOLOGYTOOLS_H
 
 #include "WeatherPeriod.h"
 #include "AnalysisSources.h"
 #include <string>
 
-using namespace std;
-
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace ClimatologyTools
   {
 	
-	WeatherPeriod getClimatologyPeriod(const WeatherAnalysis::WeatherPeriod& thePeriod,
+	WeatherPeriod getClimatologyPeriod(const TextGen::WeatherPeriod& thePeriod,
 									   const std::string& theDataName,
-									   const WeatherAnalysis::AnalysisSources& theSources);
+									   const TextGen::AnalysisSources& theSources);
   } // namespace ClimatologyTools
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_SEASO NTOOLS_H
+#endif // TEXTGEN_CLIMATOLOGYTOOLS_H
 
 // ======================================================================

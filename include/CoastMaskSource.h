@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::CoastMaskSource
+ * \brief Interface of class TextGen::CoastMaskSource
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_COASTMASKSOURCE_H
-#define WEATHERANALYSIS_COASTMASKSOURCE_H
+#ifndef TEXTGEN_COASTMASKSOURCE_H
+#define TEXTGEN_COASTMASKSOURCE_H
 
 #include "MaskSource.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class CoastMaskSource : public MaskSource
   {
@@ -38,8 +38,8 @@ namespace WeatherAnalysis
 
   }; // class CoastMaskSource
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_COASTMASKSOURCE_H
+#endif // TEXTGEN_COASTMASKSOURCE_H
 
 // ======================================================================

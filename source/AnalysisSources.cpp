@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::AnalysisSources
+ * \brief Implementation of class TextGen::AnalysisSources
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::AnalysisSources
+ * \class TextGen::AnalysisSources
  *
  * \brief Contains weather analysis data sources and caches
  *
@@ -17,7 +17,7 @@
 #include "WeatherSource.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -255,7 +255,7 @@ namespace WeatherAnalysis
 	itsWesternMaskSource = theSource;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================
 

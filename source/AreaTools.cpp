@@ -5,7 +5,7 @@
  */
 // ======================================================================
 /*!
- * \namespace WeatherAnalysis::SeasonTools
+ * \namespace TextGen::SeasonTools
  *
  * \brief Utilities to determine the season of the given date
  *
@@ -26,7 +26,10 @@
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiSvgPath.h>
 
-typedef RegularMaskSource::mask_type mask_type;
+typedef TextGen::RegularMaskSource::mask_type mask_type;
+
+using namespace std;
+using namespace boost;
 
 namespace TextGen
 {
@@ -77,9 +80,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	bool isPartOfArea(const WeatherArea& theWeatherArea1,
-					  const std::string& theArea2SvgFile,
-					  const std::string theQueryData)
+	bool isPartOfArea(const WeatherArea & theWeatherArea1,
+					  const std::string & theArea2SvgFile,
+					  const std::string & theQueryData)
 	{
 	  shared_ptr<NFmiStreamQueryData> sqd(new NFmiStreamQueryData());
 	  if(!sqd->ReadData(theQueryData))
@@ -168,7 +171,7 @@ namespace TextGen
 		  latitudeLongitudeCoordinates.push_back(new NFmiPoint(theQI->LatLon(*it)));
 		}
 
-	  if(latitudeLongitudeCoordinates.size() > 0)
+	  if(!latitudeLongitudeCoordinates.empty())
 		{
 		  map<direction_id, double> arealDistribution;
 		  getArealDistribution(latitudeLongitudeCoordinates, arealDistribution);
@@ -399,7 +402,7 @@ namespace TextGen
 
 	  ParameterAnalyzer::getParameterStrings(theParameter, parameterName, dataName);
 	  const string default_forecast = Settings::optional_string("textgen::default_forecast","");
-	  const string datavar = dataName + '_' + "forecast";//ParameterAnalyzer::getDataTypeName(WeatherAnalysis::Forecast);
+	  const string datavar = dataName + '_' + "forecast";//ParameterAnalyzer::getDataTypeName(TextGen::Forecast);
 	  const string dataname = Settings::optional_string(datavar, default_forecast);
 
 	  shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();

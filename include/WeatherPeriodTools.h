@@ -1,14 +1,14 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace WeatherAnalysis::WeatherPeriodTools
+ * \brief Interface of namespace TextGen::WeatherPeriodTools
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WEATHERPERIODTOOLS_H
-#define WEATHERANALYSIS_WEATHERPERIODTOOLS_H
+#ifndef TEXTGEN_WEATHERPERIODTOOLS_H
+#define TEXTGEN_WEATHERPERIODTOOLS_H
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherPeriod;
 
@@ -41,8 +41,8 @@ namespace WeatherAnalysis
 
 
   } // namespace WeatherPeriodTools
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_WEATHERPERIODTOOLS_H
+#endif // TEXTGEN_WEATHERPERIODTOOLS_H
 
 // ======================================================================

@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::ListedPeriodGenerator
+ * \brief Implementation of class TextGen::ListedPeriodGenerator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::ListedPeriodGenerator
+ * \class TextGen::ListedPeriodGenerator
  *
  * \brief Generates a sequence of periods
  *
@@ -16,11 +16,11 @@
 
 #include "ListedPeriodGenerator.h"
 #include "Settings.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 
 using namespace std;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   
   // ----------------------------------------------------------------------
@@ -101,11 +101,11 @@ namespace WeatherAnalysis
   WeatherPeriod ListedPeriodGenerator::period(size_type thePeriod) const
   {
     if(thePeriod < 1 || thePeriod > itsPeriods.size())
-      throw WeatherAnalysis::WeatherAnalysisError("ListedPeriodGenerator::period(): invalid argument");
+      throw TextGen::TextGenError("ListedPeriodGenerator::period(): invalid argument");
     return itsPeriods[thePeriod-1];
 
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

@@ -1,19 +1,19 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace WeatherAnalysis::PrecipitationPeriodTools
+ * \brief Interface of namespace TextGen::PrecipitationPeriodTools
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_PRECIPITATIONPERIODTOOLS_H
-#define WEATHERANALYSIS_PRECIPITATIONPERIODTOOLS_H
+#ifndef TEXTGEN_PRECIPITATIONPERIODTOOLS_H
+#define TEXTGEN_PRECIPITATIONPERIODTOOLS_H
 
 #include <list>
 #include <string>
 
 class NFmiTime;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class AnalysisSources;
   class WeatherArea;
@@ -56,8 +56,8 @@ namespace WeatherAnalysis
 									  const std::string & theVar);
 
   } // namespace PrecipitationPeriodTools
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_PRECIPITATIONPERIODTOOLS_H
+#endif // TEXTGEN_PRECIPITATIONPERIODTOOLS_H
 
 // ======================================================================

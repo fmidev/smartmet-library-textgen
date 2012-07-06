@@ -12,7 +12,7 @@
 #include "AnalysisSources.h"
 #include <newbase/NFmiTime.h>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherPeriod;
   class WeatherResult;
@@ -27,8 +27,6 @@ namespace TextGen
 
   namespace TemperatureStoryTools
   {
-	using namespace WeatherAnalysis;
-
 	enum fractile_id{
 	  FRACTILE_02,
 	  FRACTILE_12,
@@ -77,12 +75,12 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 
 	void min_max_mean_temperature(const std::string& theVar,
-								  const WeatherAnalysis::AnalysisSources& theSources,
-								  const WeatherAnalysis::WeatherArea& theArea,
-								  const WeatherAnalysis::WeatherPeriod& thePeriod,
-								  WeatherAnalysis::WeatherResult& theMin,
-								  WeatherAnalysis::WeatherResult& theMax,
-								  WeatherAnalysis::WeatherResult& theMean);
+								  const TextGen::AnalysisSources& theSources,
+								  const TextGen::WeatherArea& theArea,
+								  const TextGen::WeatherPeriod& thePeriod,
+								  TextGen::WeatherResult& theMin,
+								  TextGen::WeatherResult& theMax,
+								  TextGen::WeatherResult& theMean);
 
 
 	void min_max_mean_temperature(const std::string& theVar,
@@ -101,12 +99,12 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 
 	void morning_temperature(const std::string& theVar,
-							 const WeatherAnalysis::AnalysisSources& theSources,
-							 const WeatherAnalysis::WeatherArea& theArea,
-							 const WeatherAnalysis::WeatherPeriod& thePeriod,
-							 WeatherAnalysis::WeatherResult& theMin,
-							 WeatherAnalysis::WeatherResult& theMax,
-							 WeatherAnalysis::WeatherResult& theMean);
+							 const TextGen::AnalysisSources& theSources,
+							 const TextGen::WeatherArea& theArea,
+							 const TextGen::WeatherPeriod& thePeriod,
+							 TextGen::WeatherResult& theMin,
+							 TextGen::WeatherResult& theMax,
+							 TextGen::WeatherResult& theMean);
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -123,20 +121,20 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 
 	void afternoon_temperature(const std::string& theVar,
-							   const WeatherAnalysis::AnalysisSources& theSources,
-							   const WeatherAnalysis::WeatherArea& theArea,
-							   const WeatherAnalysis::WeatherPeriod& thePeriod,
-							   WeatherAnalysis::WeatherResult& theMin,
-							   WeatherAnalysis::WeatherResult& theMax,
-							   WeatherAnalysis::WeatherResult& theMean);
+							   const TextGen::AnalysisSources& theSources,
+							   const TextGen::WeatherArea& theArea,
+							   const TextGen::WeatherPeriod& thePeriod,
+							   TextGen::WeatherResult& theMin,
+							   TextGen::WeatherResult& theMax,
+							   TextGen::WeatherResult& theMean);
 
 	void afternoon_temperature(const std::string& theVar,
-							   const WeatherAnalysis::AnalysisSources& theSources,
-							   const WeatherAnalysis::WeatherArea& theArea,
+							   const TextGen::AnalysisSources& theSources,
+							   const TextGen::WeatherArea& theArea,
 							   const WeatherPeriodGenerator &thePeriods,
-							   WeatherAnalysis::WeatherResult& theMin,
-							   WeatherAnalysis::WeatherResult& theMax,
-							   WeatherAnalysis::WeatherResult& theMean);
+							   TextGen::WeatherResult& theMin,
+							   TextGen::WeatherResult& theMax,
+							   TextGen::WeatherResult& theMean);
 
 	// ----------------------------------------------------------------------
 	/*!

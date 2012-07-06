@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::ModuloParameterAnalyzer
+ * \brief Interface of class TextGen::ModuloParameterAnalyzer
  */
 // ======================================================================
 
@@ -11,7 +11,7 @@
 #include "ParameterAnalyzer.h"
 #include <string>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class AnalyzerSources;
   class WeatherArea;
@@ -49,6 +49,6 @@ namespace WeatherAnalysis
   };
 }
 
-#endif // WEATHERANALYSIS_MODULOPARAMETERANALYZER_H
+#endif // TEXTGEN_MODULOPARAMETERANALYZER_H
 
 // ======================================================================

@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::WeatherResult
+ * \brief Interface of class TextGen::WeatherResult
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WEATHERRESULT_H
-#define WEATHERANALYSIS_WEATHERRESULT_H
+#ifndef TEXTGEN_WEATHERRESULT_H
+#define TEXTGEN_WEATHERRESULT_H
 
 #include <iosfwd>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherResult
   {
@@ -35,20 +35,20 @@ namespace WeatherAnalysis
 
   }; // class WeatherResult
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // Free functions
 
-bool operator==(const WeatherAnalysis::WeatherResult & theLhs,
-				const WeatherAnalysis::WeatherResult & theRhs);
+bool operator==(const TextGen::WeatherResult & theLhs,
+				const TextGen::WeatherResult & theRhs);
 
-bool operator!=(const WeatherAnalysis::WeatherResult & theLhs,
-				const WeatherAnalysis::WeatherResult & theRhs);
+bool operator!=(const TextGen::WeatherResult & theLhs,
+				const TextGen::WeatherResult & theRhs);
 
 std::ostream & operator<<(std::ostream & theOutput,
-						  const WeatherAnalysis::WeatherResult & theResult);
+						  const TextGen::WeatherResult & theResult);
 
 
-#endif // WEATHERANALYSIS_WEATHERRESULT_H
+#endif // TEXTGEN_WEATHERRESULT_H
 
 // ======================================================================

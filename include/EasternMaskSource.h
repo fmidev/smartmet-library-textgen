@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::EasternMaskSource
+ * \brief Interface of class TextGen::EasternMaskSource
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_EASTERNMASKSOURCE_H
-#define WEATHERANALYSIS_EASTERNMASKSOURCE_H
+#ifndef TEXTGEN_EASTERNMASKSOURCE_H
+#define TEXTGEN_EASTERNMASKSOURCE_H
 
 #include "MaskSource.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class EasternMaskSource : public MaskSource
   {
@@ -38,8 +38,8 @@ namespace WeatherAnalysis
 
   }; // class EasternMaskSource
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_EASTERNMASKSOURCE_H
+#endif // TEXTGEN_EASTERNMASKSOURCE_H
 
 // ======================================================================

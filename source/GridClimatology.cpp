@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::GridClimatology
+ * \brief Implementation of class TextGen::GridClimatology
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::GridClimatology
+ * \class TextGen::GridClimatology
  *
  * \brief Provides climatology analysis services to clients
  *
@@ -30,7 +30,7 @@
 
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -79,6 +79,6 @@ namespace WeatherAnalysis
   }
 
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

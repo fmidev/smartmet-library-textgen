@@ -1,17 +1,17 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::MeanCalculator
+ * \brief Interface of class TextGen::MeanCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_MEANCALCULATOR_H
-#define WEATHERANALYSIS_MEANCALCULATOR_H
+#ifndef TEXTGEN_MEANCALCULATOR_H
+#define TEXTGEN_MEANCALCULATOR_H
 
 #include "Calculator.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class MeanCalculator : public Calculator
   {
@@ -33,8 +33,8 @@ namespace WeatherAnalysis
 
   }; // class MeanCalculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_MEANCALCULATOR_H
+#endif // TEXTGEN_MEANCALCULATOR_H
 
 // ======================================================================

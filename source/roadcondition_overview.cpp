@@ -24,7 +24,7 @@
 
 #include <map>
 
-using namespace WeatherAnalysis;
+using namespace TextGen;
 using namespace boost;
 using namespace std;
 
@@ -146,8 +146,8 @@ namespace TextGen
 	const ConditionPercentages
 	calculate_percentages(const WeatherPeriod & thePeriod,
 						  int thePeriodIndex,
-						  const WeatherAnalysis::AnalysisSources & theSources,
-						  const WeatherAnalysis::WeatherArea & theArea,
+						  const TextGen::AnalysisSources & theSources,
+						  const TextGen::WeatherArea & theArea,
 						  const std::string & theVar)
 	{
 	  GridForecaster forecaster;

@@ -1,10 +1,10 @@
-#ifndef WEATHERANALYSIS_WEATHERHISTORY_H
-#define WEATHERANALYSIS_WEATHERHISTORY_H
+#ifndef TEXTGEN_WEATHERHISTORY_H
+#define TEXTGEN_WEATHERHISTORY_H
 
 #include <newbase/NFmiTime.h>
 #include <string>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   class WeatherHistory
@@ -22,7 +22,7 @@ namespace WeatherAnalysis
   };
 
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 
-#endif //  WEATHERANALYSIS_WEATHERHISTORY_H
+#endif //  TEXTGEN_WEATHERHISTORY_H

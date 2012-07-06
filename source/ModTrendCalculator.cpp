@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::ModTrendCalculator
+ * \brief Implementation of class TextGen::ModTrendCalculator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::ModTrendCalculator
+ * \class TextGen::ModTrendCalculator
  *
  * \brief ModTrend intergator
  *
@@ -19,7 +19,7 @@
 
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -131,6 +131,6 @@ namespace WeatherAnalysis
 	itsLastValue = kFloatMissing;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

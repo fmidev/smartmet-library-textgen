@@ -1,19 +1,19 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace WeatherAnalysis::QueryDataIntegrator
+ * \brief Interface of namespace TextGen::QueryDataIntegrator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_QUERYDATAINTEGRATOR_H
-#define WEATHERANALYSIS_QUERYDATAINTEGRATOR_H
+#ifndef TEXTGEN_QUERYDATAINTEGRATOR_H
+#define TEXTGEN_QUERYDATAINTEGRATOR_H
 
 class NFmiFastQueryInfo;
 class NFmiIndexMask;
 class NFmiIndexMaskSource;
 class NFmiTime;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class Calculator;
   class WeatherPeriodGenerator;
@@ -77,8 +77,8 @@ namespace WeatherAnalysis
 					Calculator & theSpaceCalculator);
 	
  } // namespace QueryDataIntegrator
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_QUERYDATAINTEGRATOR_H
+#endif // TEXTGEN_QUERYDATAINTEGRATOR_H
 
 // ======================================================================

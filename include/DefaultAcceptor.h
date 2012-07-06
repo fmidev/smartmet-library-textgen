@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::DefaultAcceptor
+ * \brief Interface of class TextGen::DefaultAcceptor
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_DEFAULTACCEPTOR_H
-#define WEATHERANALYSIS_DEFAULTACCEPTOR_H
+#ifndef TEXTGEN_DEFAULTACCEPTOR_H
+#define TEXTGEN_DEFAULTACCEPTOR_H
 
 #include "Acceptor.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class DefaultAcceptor : public Acceptor
   {
@@ -21,8 +21,8 @@ namespace WeatherAnalysis
 	virtual Acceptor * clone() const;
 
   }; // class DefaultAcceptor
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_DEFAULTACCEPTOR_H
+#endif // TEXTGEN_DEFAULTACCEPTOR_H
 
 // ======================================================================

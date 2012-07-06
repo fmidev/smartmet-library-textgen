@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::TemplateAcceptor
+ * \brief Interface of class TextGen::TemplateAcceptor
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_TEMPLATEACCEPTOR_H
-#define WEATHERANALYSIS_TEMPLATEACCEPTOR_H
+#ifndef TEXTGEN_TEMPLATEACCEPTOR_H
+#define TEXTGEN_TEMPLATEACCEPTOR_H
 
 #include "Acceptor.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   template <class T>
@@ -41,8 +41,8 @@ namespace WeatherAnalysis
 
   typedef TemplateAcceptor<bool (*)(float)> FunctionAcceptor;
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_TEMPLATEACCEPTOR_H
+#endif // TEXTGEN_TEMPLATEACCEPTOR_H
 
 // ======================================================================

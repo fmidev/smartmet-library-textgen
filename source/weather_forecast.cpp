@@ -53,7 +53,7 @@
 namespace TextGen
 {
 using namespace Settings;
-using namespace WeatherAnalysis;
+using namespace TextGen;
 using namespace AreaTools;
 using namespace boost;
 using namespace std;
@@ -1276,9 +1276,9 @@ using namespace std;
 	theLog << "THE COMPLETE SENTENCE END" << endl;
   }
 
-  const Paragraph weather_forecast(const WeatherAnalysis::WeatherArea& itsArea,
-								   const WeatherAnalysis::WeatherPeriod& itsPeriod,
-								   const WeatherAnalysis::AnalysisSources& itsSources,
+  const Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
+								   const TextGen::WeatherPeriod& itsPeriod,
+								   const TextGen::AnalysisSources& itsSources,
 								   const NFmiTime& itsForecastTime,
 								   const std::string itsVar,
 								   MessageLogger& theLog)

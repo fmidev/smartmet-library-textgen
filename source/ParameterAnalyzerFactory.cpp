@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of namespace WeatherAnalysis::ParameterAnalyzerFactory
+ * \brief Implementation of namespace TextGen::ParameterAnalyzerFactory
  */
 // ======================================================================
 /*!
- * \namespace WeatherAnalysis::ParameterAnalyzerFactory
+ * \namespace TextGen::ParameterAnalyzerFactory
  *
  * \brief ParameterAnalyzer creation services
  *
@@ -24,9 +24,9 @@
 #include "ModuloParameterAnalyzer.h"
 #include "RegularParameterAnalyzer.h"
 #include "WindChillParameterAnalyzer.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace ParameterAnalyzerFactory
   {
@@ -242,10 +242,10 @@ namespace WeatherAnalysis
 
 	  // Should never reach this place
 
-	  throw WeatherAnalysisError("Error: ParameterAnalyzerFactory does not recognize given parameter enumeration");
+	  throw TextGenError("Error: ParameterAnalyzerFactory does not recognize given parameter enumeration");
 	}
 
   } // namespace ParameterAnalyzerFactory
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

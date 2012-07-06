@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of abstract class WeatherAnalysis::WeatherForecaster
+ * \brief Interface of abstract class TextGen::WeatherForecaster
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::WeatherForecaster
+ * \class TextGen::WeatherForecaster
  *
  * \brief Provides forecast analysis services to clients
  *

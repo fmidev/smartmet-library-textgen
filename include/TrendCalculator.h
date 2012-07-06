@@ -1,18 +1,18 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::TrendCalculator
+ * \brief Interface of class TextGen::TrendCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_TRENDCALCULATOR_H
-#define WEATHERANALYSIS_TRENDCALCULATOR_H
+#ifndef TEXTGEN_TRENDCALCULATOR_H
+#define TEXTGEN_TRENDCALCULATOR_H
 
 #include "Calculator.h"
 #include "Acceptor.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class TrendCalculator : public Calculator
   {
@@ -39,8 +39,8 @@ namespace WeatherAnalysis
 
   }; // class TrendCalculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_TRENDCALCULATOR_H
+#endif // TEXTGEN_TRENDCALCULATOR_H
 
 // ======================================================================

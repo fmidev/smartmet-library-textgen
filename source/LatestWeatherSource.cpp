@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::LatestWeatherSource
+ * \brief Implementation of class TextGen::LatestWeatherSource
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::LatestWeatherSource
+ * \class TextGen::LatestWeatherSource
  *
  * \brief Weather data source for the latest forecasts
  *
@@ -18,7 +18,7 @@
 #include "LatestWeatherSource.h"
 #include "IdGenerator.h"
 #include "Settings.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 
 #include <newbase/NFmiFileSystem.h>
 #include <newbase/NFmiStreamQueryData.h>
@@ -39,7 +39,7 @@ struct WeatherDataStruct
   time_t itsModTime;
   time_t itsLastCheckTime;
   string itsFilename;
-  WeatherAnalysis::WeatherId itsId;
+  TextGen::WeatherId itsId;
   boost::shared_ptr<NFmiStreamQueryData> itsData;
 };
 
@@ -58,10 +58,10 @@ namespace
 
   string complete_filename(const string & theName)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	if(theName.empty())
-	  throw WeatherAnalysisError("Trying to search unnamed querydata");
+	  throw TextGenError("Trying to search unnamed querydata");
 
 	const string varname = "textgen::"+theName;
 	const string queryname = Settings::optional_string(varname,theName);
@@ -70,11 +70,11 @@ namespace
 	  return queryname;
 
 	if(!NFmiFileSystem::DirectoryExists(queryname))
-	  throw WeatherAnalysisError("No directory named '"+queryname+"' containing querydata found");
+	  throw TextGenError("No directory named '"+queryname+"' containing querydata found");
 
 	string newestfile = NFmiFileSystem::NewestFile(queryname);
 	if(newestfile.empty())
-	  throw WeatherAnalysisError("Directory '"+queryname+"' does not contain any querydata");
+	  throw TextGenError("Directory '"+queryname+"' does not contain any querydata");
 
 	string fullname = queryname;
 	const char lastchar = fullname[fullname.size()-1];
@@ -88,7 +88,7 @@ namespace
 
 } // namespace anonymous
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   // ----------------------------------------------------------------------
   /*!
@@ -174,7 +174,7 @@ namespace WeatherAnalysis
 
 	boost::shared_ptr<NFmiStreamQueryData> qdata(new NFmiStreamQueryData);
 	if(!qdata->ReadData(filename.c_str()))
-	  throw WeatherAnalysisError("Failed to read querydata from "+filename);
+	  throw TextGenError("Failed to read querydata from "+filename);
 
 	WeatherDataStruct newdata;
 	newdata.itsId = IdGenerator::generate();
@@ -205,11 +205,11 @@ namespace WeatherAnalysis
 	typedef Pimple::container_type::const_iterator const_iterator;
 	const_iterator it = itsPimple->itsData.find(theName);
 	if(it == itsPimple->itsData.end())
-	  throw WeatherAnalysisError("No data named "+theName+" stored in LatestWeatherSource");
+	  throw TextGenError("No data named "+theName+" stored in LatestWeatherSource");
 
 	return it->second.itsId;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

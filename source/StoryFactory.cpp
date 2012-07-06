@@ -33,7 +33,7 @@
 
 #include <newbase/NFmiTime.h>
 
-using namespace WeatherAnalysis;
+using namespace TextGen;
 using namespace std;
 
 namespace TextGen

@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::ModMeanCalculator
+ * \brief Implementation of class TextGen::ModMeanCalculator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::ModMeanCalculator
+ * \class TextGen::ModMeanCalculator
  *
  * \brief Modular mean intergator
  *
@@ -31,7 +31,7 @@
 using namespace boost;
 using namespace std;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -140,7 +140,7 @@ namespace WeatherAnalysis
 	itsPreviousDirection = kFloatMissing;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================
 

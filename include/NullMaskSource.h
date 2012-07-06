@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::NullMaskSource
+ * \brief Interface of class TextGen::NullMaskSource
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_NULLMASKSOURCE_H
-#define WEATHERANALYSIS_NULLMASKSOURCE_H
+#ifndef TEXTGEN_NULLMASKSOURCE_H
+#define TEXTGEN_NULLMASKSOURCE_H
 
 #include "MaskSource.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class NullMaskSource : public MaskSource
   {
@@ -35,8 +35,8 @@ namespace WeatherAnalysis
 
   }; // class NullMaskSource
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_NULLMASKSOURCE_H
+#endif // TEXTGEN_NULLMASKSOURCE_H
 
 // ======================================================================

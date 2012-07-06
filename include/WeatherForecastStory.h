@@ -30,7 +30,7 @@ class WeatherForecastStory;
 	unsigned int getPeriodLength();
 	int forecastPeriodLength() const;
 	int storyItemPeriodLength() const;
-	Sentence getTodayVectorSentence(const vector<Sentence*>& todayVector,
+	Sentence getTodayVectorSentence(const std::vector<Sentence*>& todayVector,
 									const unsigned int& theBegIndex, 
 									const unsigned int& theEndIndex);
 	Sentence getPeriodPhrase(const bool& theFromSpecifier,
@@ -132,8 +132,8 @@ class WeatherForecastStory;
   {
   public:
 	WeatherForecastStory(const std::string& var,
-						 const WeatherAnalysis::WeatherPeriod& forecastPeriod,
-						 const WeatherAnalysis::WeatherArea& weatherArea,
+						 const TextGen::WeatherPeriod& forecastPeriod,
+						 const TextGen::WeatherArea& weatherArea,
 						 const unsigned short& forecastArea,
 						 const NFmiTime& theForecastTime,
 						 PrecipitationForecast& precipitationForecast,
@@ -146,7 +146,7 @@ class WeatherForecastStory;
 
 	Paragraph getWeatherForecastStory();
 	const WeatherPeriod& getStoryPeriod() const { return theForecastPeriod; }
-	const vector<WeatherForecastStoryItem*>& getStoryItemVector() const { return theStoryItemVector; }
+	const std::vector<WeatherForecastStoryItem*>& getStoryItemVector() const { return theStoryItemVector; }
 	const void logTheStoryItems() const;
 
   private:
@@ -173,7 +173,7 @@ class WeatherForecastStory;
 	bool theReportTimePhraseFlag;
 	bool theCloudinessReportedFlag;
 
-	vector<WeatherForecastStoryItem*> theStoryItemVector;
+	std::vector<WeatherForecastStoryItem*> theStoryItemVector;
 
 	friend class PrecipitationForecastStoryItem;
 	friend class CloudinessForecastStoryItem;

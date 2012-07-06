@@ -1,13 +1,13 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of namespace WeatherAnalysis::CalculatorFactory
+ * \brief Implementation of namespace TextGen::CalculatorFactory
  */
 // ======================================================================
 /*!
- * \namespace WeatherAnalysis::CalculatorFactory
+ * \namespace TextGen::CalculatorFactory
  *
- * \brief Creating WeatherAnalysis::Calculator objects
+ * \brief Creating TextGen::Calculator objects
  *
  */
 // ======================================================================
@@ -29,7 +29,7 @@
 #include "StandardDeviationCalculator.h"
 #include "SumCalculator.h"
 #include "TrendCalculator.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 
 #include <boost/lexical_cast.hpp>
 
@@ -38,7 +38,7 @@
 using namespace boost;
 using namespace std;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace CalculatorFactory
   {
@@ -82,7 +82,7 @@ namespace WeatherAnalysis
 		  return new StandardDeviationCalculator;
 		}
 
-	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
+	  throw TextGenError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
 	}
 
 	// ----------------------------------------------------------------------
@@ -118,16 +118,16 @@ namespace WeatherAnalysis
 		  return new NullCalculator;
 
 		case Median:
-		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Median analyzer");
+		  throw TextGenError("CalculatorFactory cannot create modular Median analyzer");
 		case Maximum:
-		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Maximum analyzer");
+		  throw TextGenError("CalculatorFactory cannot create modular Maximum analyzer");
 		case Minimum:
-		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Minimum analyzer");
+		  throw TextGenError("CalculatorFactory cannot create modular Minimum analyzer");
 		case Sum:
-		  throw WeatherAnalysisError("CalculatorFactory cannot create modular Sum analyzer");
+		  throw TextGenError("CalculatorFactory cannot create modular Sum analyzer");
 		}
 
-	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
+	  throw TextGenError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
 	}
 
 	// ----------------------------------------------------------------------
@@ -171,7 +171,7 @@ namespace WeatherAnalysis
 		  }
 		}
 	  
-	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
+	  throw TextGenError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
 	}
 
 	// ----------------------------------------------------------------------
@@ -217,12 +217,12 @@ namespace WeatherAnalysis
 		  }
 		}
 	  
-	  throw WeatherAnalysisError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
+	  throw TextGenError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
 	}
 
 
   } // namespace CalculatorFactory
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================
 

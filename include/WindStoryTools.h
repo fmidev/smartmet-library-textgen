@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherResult;
 }
@@ -22,8 +22,6 @@ namespace TextGen
 
   namespace WindStoryTools
   {
-
-	using namespace std;
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -107,7 +105,7 @@ namespace TextGen
 
 
 	// contains wind speed interval minimum and maximum values
-	typedef vector<pair<float, float> > wind_speed_vector;
+	typedef std::vector<std::pair<float, float> > wind_speed_vector;
 
 
 	WindDirectionAccuracy direction_accuracy(double theAccuracy,
@@ -116,67 +114,67 @@ namespace TextGen
 
 	int direction16th(double theDirection);
 
-	Sentence direction_sentence(const WeatherAnalysis::WeatherResult & theDirection,
+	Sentence direction_sentence(const TextGen::WeatherResult & theDirection,
 								const std::string & theVariable);
 
-	std::string direction_string(const WeatherAnalysis::WeatherResult & theDirection,
+	std::string direction_string(const TextGen::WeatherResult & theDirection,
 								 const std::string & theVariable);
 
-	std::string direction16_string(const WeatherAnalysis::WeatherResult & theDirection,
+	std::string direction16_string(const TextGen::WeatherResult & theDirection,
 								   const std::string & theVariable);
 
-	Sentence speed_range_sentence(const WeatherAnalysis::WeatherResult & theMinSpeed,
-								  const WeatherAnalysis::WeatherResult & theMaxSpeed,
-								  const WeatherAnalysis::WeatherResult & theMeanSpeed,
+	Sentence speed_range_sentence(const TextGen::WeatherResult & theMinSpeed,
+								  const TextGen::WeatherResult & theMaxSpeed,
+								  const TextGen::WeatherResult & theMeanSpeed,
 								  const std::string & theVariable);
 	
-	Sentence directed_speed_sentence(const WeatherAnalysis::WeatherResult & theMinSpeed,
-									 const WeatherAnalysis::WeatherResult & theMaxSpeed,
-									 const WeatherAnalysis::WeatherResult & theMeanSpeed,
-									 const WeatherAnalysis::WeatherResult & theDirection,
+	Sentence directed_speed_sentence(const TextGen::WeatherResult & theMinSpeed,
+									 const TextGen::WeatherResult & theMaxSpeed,
+									 const TextGen::WeatherResult & theMeanSpeed,
+									 const TextGen::WeatherResult & theDirection,
 									 const std::string & theVariable);
 	
-	std::string directed_speed_string(const WeatherAnalysis::WeatherResult & theMeanSpeed,
-									  const WeatherAnalysis::WeatherResult & theDirection,
+	std::string directed_speed_string(const TextGen::WeatherResult & theMeanSpeed,
+									  const TextGen::WeatherResult & theDirection,
 									  const std::string & theVariable);
 
-	std::string directed16_speed_string(const WeatherAnalysis::WeatherResult & theMeanSpeed,
-										const WeatherAnalysis::WeatherResult & theDirection,
+	std::string directed16_speed_string(const TextGen::WeatherResult & theMeanSpeed,
+										const TextGen::WeatherResult & theDirection,
 										const std::string & theVariable);
 	
-	std::string speed_string(const WeatherAnalysis::WeatherResult& theMeanSpeed);
+	std::string speed_string(const TextGen::WeatherResult& theMeanSpeed);
 	
-	WindSpeedId wind_speed_id(const WeatherAnalysis::WeatherResult& theWindSpeed);
+	WindSpeedId wind_speed_id(const TextGen::WeatherResult& theWindSpeed);
 
 	WindSpeedId wind_speed_id(const float& theWindSpeed);
 
 	std::string wind_speed_string(const WindSpeedId& theWindSpeedId);
 
-	pair<int, int> wind_speed_interval(const wind_speed_vector& theWindSpeedVector);
+	std::pair<int, int> wind_speed_interval(const wind_speed_vector& theWindSpeedVector);
 
-	WindDirectionId wind_direction_id(const WeatherAnalysis::WeatherResult& theWindDirection, 
-									  const WeatherAnalysis::WeatherResult& theMaxWindSpeed,
-									  const string& theVariable);
+	WindDirectionId wind_direction_id(const TextGen::WeatherResult& theWindDirection, 
+									  const TextGen::WeatherResult& theMaxWindSpeed,
+									  const std::string& theVariable);
 
-	WindDirectionId plain_wind_direction_id(const WeatherAnalysis::WeatherResult& theWindDirection, 
-											const WeatherAnalysis::WeatherResult& theMaxWindSpeed,
-											const string& theVariable);
+	WindDirectionId plain_wind_direction_id(const TextGen::WeatherResult& theWindDirection, 
+											const TextGen::WeatherResult& theMaxWindSpeed,
+											const std::string& theVariable);
 
 	std::string wind_direction_string(const WindDirectionId& theWindDirectionId);
 
 	float direction_difference(const float& direction1, const float& direction2);
 
-	bool wind_direction_turns(const WeatherAnalysis::WeatherResult& theDirectionStart,
-							  const WeatherAnalysis::WeatherResult& theDirectionEnd,
-							  const WeatherAnalysis::WeatherResult& theMaxSpeedStart,
-							  const WeatherAnalysis::WeatherResult& theMaxSpeedEnd,
-							  const string& theVariable);
+	bool wind_direction_turns(const TextGen::WeatherResult& theDirectionStart,
+							  const TextGen::WeatherResult& theDirectionEnd,
+							  const TextGen::WeatherResult& theMaxSpeedStart,
+							  const TextGen::WeatherResult& theMaxSpeedEnd,
+							  const std::string& theVariable);
 
-	bool same_direction(const WeatherAnalysis::WeatherResult& theDirection1,
-						const WeatherAnalysis::WeatherResult& theDirection2,
-						const WeatherAnalysis::WeatherResult& theMaxSpeed1,
-						const WeatherAnalysis::WeatherResult& theMaxSpeed2,
-						const string& theVariable,
+	bool same_direction(const TextGen::WeatherResult& theDirection1,
+						const TextGen::WeatherResult& theDirection2,
+						const TextGen::WeatherResult& theMaxSpeed1,
+						const TextGen::WeatherResult& theMaxSpeed2,
+						const std::string& theVariable,
 						const bool& ignore_suuntainen);
 
 	bool same_direction(const WindDirectionId& theDirection1,

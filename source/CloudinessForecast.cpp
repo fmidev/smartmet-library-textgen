@@ -41,7 +41,7 @@ namespace TextGen
 {
 
   using namespace Settings;
-  using namespace WeatherAnalysis;
+  using namespace TextGen;
   using namespace AreaTools;
   using namespace boost;
   using namespace std;
@@ -619,7 +619,7 @@ namespace TextGen
 									   const cloudiness_period_vector& theCloudinessPeriodsSource,
 									   cloudiness_period_vector& theCloudinessPeriodsDestination)
   {
-	if(theCloudinessPeriodsSource.size() == 0)
+	if(theCloudinessPeriodsSource.empty())
 	  return;
 
 	vector<int> theCloudinessPuolipilvisestaPilviseen;
@@ -733,19 +733,19 @@ namespace TextGen
   {
 	theOutput << "** CLOUDINESS WEATHER EVENTS **" << endl; 
 	bool isWeatherEvents = false;
-	if(theCloudinessWeatherEventsCoastal.size() > 0)
+	if(!theCloudinessWeatherEventsCoastal.empty())
 	  {
 		theOutput << "Coastal weather events: " << endl; 
 		print_out_weather_event_vector(theOutput, theCloudinessWeatherEventsCoastal);
 		isWeatherEvents = true;
 	  }
-	if(theCloudinessWeatherEventsInland.size() > 0)
+	if(!theCloudinessWeatherEventsInland.empty())
 	  {
 		theOutput << "Inland weather events: " << endl; 
 		print_out_weather_event_vector(theOutput, theCloudinessWeatherEventsInland);
 		isWeatherEvents = true;
 	  }
-	if(theCloudinessWeatherEventsFull.size() > 0)
+	if(!theCloudinessWeatherEventsFull.empty())
 	  {
 		theOutput << "Full area weather events: " << endl; 
 		print_out_weather_event_vector(theOutput, theCloudinessWeatherEventsFull);

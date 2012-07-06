@@ -1,18 +1,18 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace WeatherAnalysis::TimeTools
+ * \brief Interface of namespace TextGen::TimeTools
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_TIMETOOLS_H
-#define WEATHERANALYSIS_TIMETOOLS_H
+#ifndef TEXTGEN_TIMETOOLS_H
+#define TEXTGEN_TIMETOOLS_H
 
 #include <ctime>
 
 class NFmiTime;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace TimeTools
   {
@@ -30,8 +30,8 @@ namespace WeatherAnalysis
 	NFmiTime addHours(const NFmiTime & theDate, int theHours);
 
   }
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_TIMETOOLS_H
+#endif // TEXTGEN_TIMETOOLS_H
 
 // ======================================================================

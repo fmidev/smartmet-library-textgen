@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::RangeAcceptor
+ * \brief Implementation of class TextGen::RangeAcceptor
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::RangeAcceptor
+ * \class TextGen::RangeAcceptor
  *
  * \brief RangeAcceptor accepths a range of values
  *
@@ -15,7 +15,7 @@
 #include "RangeAcceptor.h"
 #include <newbase/NFmiGlobals.h>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -89,6 +89,6 @@ namespace WeatherAnalysis
 	itsHiLimit = theLimit;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

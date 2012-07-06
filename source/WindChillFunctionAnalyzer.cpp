@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::WindChillFunctionAnalyzer
+ * \brief Implementation of class TextGen::WindChillFunctionAnalyzer
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::WindChillFunctionAnalyzer
+ * \class TextGen::WindChillFunctionAnalyzer
  *
  * \brief Regular function analysis
  *
@@ -19,7 +19,7 @@
 #include "CalculatorFactory.h"
 #include "MaskSource.h"
 #include "Settings.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
@@ -53,9 +53,9 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  const char * data_type_name(const WeatherAnalysis::WeatherDataType & theDataType)
+  const char * data_type_name(const TextGen::WeatherDataType & theDataType)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	switch(theDataType)
 	  {
@@ -67,13 +67,13 @@ namespace
 		return "climatology";
 	  }
 
-	throw WeatherAnalysisError("Unrecognized WeatherDataType in WindChillFunctionAnalyzer");
+	throw TextGenError("Unrecognized WeatherDataType in WindChillFunctionAnalyzer");
   }
 
 } // namespace anonymous
 
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -110,7 +110,7 @@ namespace WeatherAnalysis
   void WindChillFunctionAnalyzer::modulo(int theModulo)
   {
 	if(theModulo <= 0)
-	  throw WeatherAnalysisError("Trying to analyze data modulo "+lexical_cast<string>(theModulo));
+	  throw TextGenError("Trying to analyze data modulo "+lexical_cast<string>(theModulo));
 	itsModulo = theModulo;
 	itIsModulo = true;
   }
@@ -176,10 +176,10 @@ namespace WeatherAnalysis
 	// it is composed of wind speed and temperature
 	FmiParameterName param = FmiParameterName(converter.ToEnum(theParameterName));
 	if(param == kFmiBadParameter)
-	throw WeatherAnalysisError("Parameter "+theParameterName+" is not defined in newbase");
+	throw TextGenError("Parameter "+theParameterName+" is not defined in newbase");
 
 	if(!qi.Param(param))
-	throw WeatherAnalysisError(theParameterName+" is not available in "+dataname);
+	throw TextGenError(theParameterName+" is not available in "+dataname);
 	*/
 
 	shared_ptr<Calculator> spacemod, timemod, subtimemod;
@@ -283,7 +283,7 @@ namespace WeatherAnalysis
 		if(theArea.isNamed())
 		  msg << " named " << theArea.name();
 		msg << " in " << dataname;
-		throw WeatherAnalysisError(msg.str());
+		throw TextGenError(msg.str());
 	  }
 
 	float result = QueryDataIntegrator::Integrate(wi,
@@ -296,7 +296,7 @@ namespace WeatherAnalysis
   }
 
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================
 

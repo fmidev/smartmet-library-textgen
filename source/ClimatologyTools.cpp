@@ -5,7 +5,7 @@
  */
 // ======================================================================
 /*!
- * \namespace WeatherAnalysis::ClimatologyTools
+ * \namespace TextGen::ClimatologyTools
  *
  * \brief Utilities to determine the season of the given date
  *
@@ -20,7 +20,7 @@
 #include <newbase/NFmiStreamQueryData.h>
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace ClimatologyTools
   {
@@ -38,12 +38,12 @@ namespace WeatherAnalysis
 	// ----------------------------------------------------------------------
 	
 
-	WeatherPeriod getClimatologyPeriod(const WeatherAnalysis::WeatherPeriod& thePeriod, 
+	WeatherPeriod getClimatologyPeriod(const TextGen::WeatherPeriod& thePeriod, 
 									   const std::string& theDataName, 
-									   const WeatherAnalysis::AnalysisSources& theSources)
+									   const TextGen::AnalysisSources& theSources)
 	{
-	  const string datavar = theDataName + "_climatology";
-	  const string dataname = Settings::require_string(datavar);
+	  const std::string datavar = theDataName + "_climatology";
+	  const std::string dataname = Settings::require_string(datavar);
 	  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
 	  boost::shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
 	  NFmiFastQueryInfo * qi = qd->QueryInfoIter();
@@ -58,5 +58,5 @@ namespace WeatherAnalysis
 
 
   } // namespace ClimatologyTools
-} // namespace WeatherAnalysis
+} // namespace TextGen
 // ======================================================================

@@ -1,14 +1,14 @@
 // ======================================================================
 /*!
  * \file
- * \brief Enumeration of WeatherAnalysis::WeatherFunction
+ * \brief Enumeration of TextGen::WeatherFunction
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WEATHERFUNCTION_H
-#define WEATHERANALYSIS_WEATHERFUNCTION_H
+#ifndef TEXTGEN_WEATHERFUNCTION_H
+#define TEXTGEN_WEATHERFUNCTION_H
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   enum WeatherFunction
@@ -27,9 +27,9 @@ namespace WeatherAnalysis
 
 	}; // enum Weatherfunction
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_WEATHERFUNCTION_H
+#endif // TEXTGEN_WEATHERFUNCTION_H
 
 // ======================================================================
 

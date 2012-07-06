@@ -17,7 +17,7 @@
 #include "Paragraph.h"
 #include "TextGenError.h"
 
-using namespace WeatherAnalysis;
+using namespace TextGen;
 using namespace std;
 
 namespace TextGen

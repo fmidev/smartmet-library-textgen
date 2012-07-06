@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::TemplateAcceptor
+ * \brief Implementation of class TextGen::TemplateAcceptor
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::TemplateAcceptor
+ * \class TextGen::TemplateAcceptor
  *
  * \brief TemplateAcceptor is a templated acceptor
  *

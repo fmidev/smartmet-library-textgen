@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::AndAcceptor
+ * \brief Implementation of class TextGen::AndAcceptor
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::AndAcceptor
+ * \class TextGen::AndAcceptor
  *
  * \brief AndAcceptor combines two Acceptors with a logical AND
  *
@@ -16,7 +16,7 @@
 #include "AndAcceptor.h"
 #include <newbase/NFmiGlobals.h>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -76,6 +76,6 @@ namespace WeatherAnalysis
 	return itsLhs->accept(theValue) && itsRhs->accept(theValue);
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

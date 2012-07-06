@@ -25,7 +25,7 @@
 #include <boost/lexical_cast.hpp>
 #include <cmath>
 
-using namespace WeatherAnalysis;
+using namespace TextGen;
 using namespace boost;
 using namespace std;
 
@@ -800,8 +800,8 @@ namespace TextGen
 	  return windDirectionId;
 	}
 
-	WindDirectionId wind_direction_id(const WeatherAnalysis::WeatherResult& theWindDirection, 
-									  const WeatherAnalysis::WeatherResult& theMaxWindSpeed,
+	WindDirectionId wind_direction_id(const TextGen::WeatherResult& theWindDirection, 
+									  const TextGen::WeatherResult& theMaxWindSpeed,
 									  const string& theVariable)
 	{
 	  WindDirectionAccuracy accuracy(direction_accuracy(theWindDirection.error(), theVariable));
@@ -824,8 +824,8 @@ namespace TextGen
 	  return windDirectionId;
 	}
 
-	WindDirectionId plain_wind_direction_id(const WeatherAnalysis::WeatherResult& theWindDirection, 
-											const WeatherAnalysis::WeatherResult& theMaxWindSpeed,
+	WindDirectionId plain_wind_direction_id(const TextGen::WeatherResult& theWindDirection, 
+											const TextGen::WeatherResult& theMaxWindSpeed,
 											const string& theVariable)
 	{
 	  WindDirectionAccuracy accuracy(direction_accuracy(theWindDirection.error(), theVariable));
@@ -941,10 +941,10 @@ namespace TextGen
 	  return difference;
 	}
 	
-	bool wind_direction_turns(const WeatherAnalysis::WeatherResult& theDirectionStart,
-							  const WeatherAnalysis::WeatherResult& theDirectionEnd,
-							  const WeatherAnalysis::WeatherResult& theMaxSpeedStart,
-							  const WeatherAnalysis::WeatherResult& theMaxSpeedEnd,
+	bool wind_direction_turns(const TextGen::WeatherResult& theDirectionStart,
+							  const TextGen::WeatherResult& theDirectionEnd,
+							  const TextGen::WeatherResult& theMaxSpeedStart,
+							  const TextGen::WeatherResult& theMaxSpeedEnd,
 							  const string& theVariable)
 	{
 	  WindDirectionId windDirectionIdBeg(wind_direction_id(theDirectionStart,
@@ -960,10 +960,10 @@ namespace TextGen
 	  return (directionDifference > 45.0 && windDirectionIdBeg != windDirectionIdEnd);
 	}
 
-	bool same_direction(const WeatherAnalysis::WeatherResult& theDirection1,
-						const WeatherAnalysis::WeatherResult& theDirection2,
-						const WeatherAnalysis::WeatherResult& theMaxSpeed1,
-						const WeatherAnalysis::WeatherResult& theMaxSpeed2,
+	bool same_direction(const TextGen::WeatherResult& theDirection1,
+						const TextGen::WeatherResult& theDirection2,
+						const TextGen::WeatherResult& theMaxSpeed1,
+						const TextGen::WeatherResult& theMaxSpeed2,
 						const string& theVariable,
 						const bool& ignore_suuntainen)
 	{

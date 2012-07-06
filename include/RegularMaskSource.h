@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::RegularMaskSource
+ * \brief Interface of class TextGen::RegularMaskSource
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_REGULARMASKSOURCE_H
-#define WEATHERANALYSIS_REGULARMASKSOURCE_H
+#ifndef TEXTGEN_REGULARMASKSOURCE_H
+#define TEXTGEN_REGULARMASKSOURCE_H
 
 #include "MaskSource.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class RegularMaskSource : public MaskSource
   {
@@ -36,8 +36,8 @@ namespace WeatherAnalysis
 
   }; // class RegularMaskSource
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_REGULARMASKSOURCE_H
+#endif // TEXTGEN_REGULARMASKSOURCE_H
 
 // ======================================================================

@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::NullAcceptor
+ * \brief Interface of class TextGen::NullAcceptor
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_NULLACCEPTOR_H
-#define WEATHERANALYSIS_NULLACCEPTOR_H
+#ifndef TEXTGEN_NULLACCEPTOR_H
+#define TEXTGEN_NULLACCEPTOR_H
 
 #include "Acceptor.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class NullAcceptor : public Acceptor
   {
@@ -21,8 +21,8 @@ namespace WeatherAnalysis
 	virtual Acceptor * clone() const;
 
   }; // class NullAcceptor
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_NULLACCEPTOR_H
+#endif // TEXTGEN_NULLACCEPTOR_H
 
 // ======================================================================

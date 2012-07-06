@@ -1,12 +1,12 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::RegularFunctionAnalyzer
+ * \brief Interface of class TextGen::RegularFunctionAnalyzer
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_REGULARFUNCTIONANALYZER_H
-#define WEATHERANALYSIS_REGULARFUNCTIONANALYZER_H
+#ifndef TEXTGEN_REGULARFUNCTIONANALYZER_H
+#define TEXTGEN_REGULARFUNCTIONANALYZER_H
 
 #include "FunctionAnalyzer.h"
 #include "WeatherFunction.h"
@@ -15,7 +15,7 @@
 
 class NFmiDataModifier;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class AnalysisSources;
   class Calculator;
@@ -60,8 +60,8 @@ namespace WeatherAnalysis
 
   }; // class RegularFunctionAnalyzer
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_REGULARFUNCTIONANALYZER_H
+#endif // TEXTGEN_REGULARFUNCTIONANALYZER_H
 
 // ======================================================================

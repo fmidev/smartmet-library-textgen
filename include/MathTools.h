@@ -13,9 +13,6 @@
 namespace MathTools
 {
 
-  //using namespace boost;
-using namespace std;
-
   int to_precision(float theValue, int thePrecision);
 
   // ----------------------------------------------------------------------
@@ -132,7 +129,7 @@ using namespace std;
    * \brief Calculates Pearson coefficient
    */
   // ----------------------------------------------------------------------
-  double pearson_coefficient(const vector<double>& theValueVector);
+  double pearson_coefficient(const std::vector<double>& theValueVector);
 
 } // namespace MathTools
 

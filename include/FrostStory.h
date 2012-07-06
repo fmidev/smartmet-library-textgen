@@ -24,9 +24,9 @@ namespace TextGen
 
 	virtual ~FrostStory();
 	FrostStory(const NFmiTime & theForecastTime,
-			   const WeatherAnalysis::AnalysisSources & theSources,
-			   const WeatherAnalysis::WeatherArea & theArea,
-			   const WeatherAnalysis::WeatherPeriod & thePeriod,
+			   const TextGen::AnalysisSources & theSources,
+			   const TextGen::WeatherArea & theArea,
+			   const TextGen::WeatherPeriod & thePeriod,
 			   const std::string & theVariable);
 
 	static bool hasStory(const std::string & theName);
@@ -46,9 +46,9 @@ namespace TextGen
 	FrostStory & operator=(const FrostStory & theStory);
 
 	const NFmiTime itsForecastTime;
-	const WeatherAnalysis::AnalysisSources & itsSources;
-	const WeatherAnalysis::WeatherArea & itsArea;
-	const WeatherAnalysis::WeatherPeriod & itsPeriod;
+	const TextGen::AnalysisSources & itsSources;
+	const TextGen::WeatherArea & itsArea;
+	const TextGen::WeatherPeriod & itsPeriod;
 	const std::string itsVar;
 
   }; // class FrostStory

@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::ModStandardDeviationCalculator
+ * \brief Implementation of class TextGen::ModStandardDeviationCalculator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::ModStandardDeviationCalculator
+ * \class TextGen::ModStandardDeviationCalculator
  *
  * \brief Modular standard deviation intergator
  *
@@ -31,7 +31,7 @@
 using namespace boost;
 using namespace std;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -153,6 +153,6 @@ namespace WeatherAnalysis
 	itsPreviousDirection = kFloatMissing;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

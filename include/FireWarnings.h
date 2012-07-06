@@ -1,18 +1,18 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::FireWarnings
+ * \brief Interface of class TextGen::FireWarnings
  */
 // ----------------------------------------------------------------------
 
-#ifndef WEATHERANALYSIS_FIREWARNINGS_H
-#define WEATHERANALYSIS_FIREWARNINGS_H
+#ifndef TEXTGEN_FIREWARNINGS_H
+#define TEXTGEN_FIREWARNINGS_H
 
 #include <newbase/NFmiTime.h>
 #include <string>
 #include <vector>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class FireWarnings
   {
@@ -37,8 +37,8 @@ namespace WeatherAnalysis
 	std::vector<State> itsWarnings;
 
   }; // class FireWarnings
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_FIREWARNINGS_H
+#endif // TEXTGEN_FIREWARNINGS_H
 
 // ======================================================================

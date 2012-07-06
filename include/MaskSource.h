@@ -1,12 +1,12 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::MaskSource
+ * \brief Interface of class TextGen::MaskSource
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_MASKSOURCE_H
-#define WEATHERANALYSIS_MASKSOURCE_H
+#ifndef TEXTGEN_MASKSOURCE_H
+#define TEXTGEN_MASKSOURCE_H
 
 #include <boost/shared_ptr.hpp>
 #include <string>
@@ -15,7 +15,7 @@ class NFmiIndexMask;
 class NFmiIndexMaskSource;
 class NFmiPoint;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class MapSource;
   class WeatherArea;
@@ -40,8 +40,8 @@ namespace WeatherAnalysis
 
   }; // class MaskSource
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_MASKSOURCE_H
+#endif // TEXTGEN_MASKSOURCE_H
 
 // ======================================================================

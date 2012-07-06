@@ -1,17 +1,17 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::OrAcceptor
+ * \brief Interface of class TextGen::OrAcceptor
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_ORACCEPTOR_H
-#define WEATHERANALYSIS_ORACCEPTOR_H
+#ifndef TEXTGEN_ORACCEPTOR_H
+#define TEXTGEN_ORACCEPTOR_H
 
 #include "Acceptor.h"
 #include <functional>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class OrAcceptor : public Acceptor
   {
@@ -31,8 +31,8 @@ namespace WeatherAnalysis
 	Acceptor * itsRhs;
 
   }; // class OrAcceptor
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_ORACCEPTOR_H
+#endif // TEXTGEN_ORACCEPTOR_H
 
 // ======================================================================

@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::WindChillParameterAnalyzer
+ * \brief Interface of class TextGen::WindChillParameterAnalyzer
  */
 // ======================================================================
 
@@ -11,7 +11,7 @@
 #include "ParameterAnalyzer.h"
 #include <string>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class AnalyzerSources;
   class WeatherArea;
@@ -47,6 +47,6 @@ namespace WeatherAnalysis
   };
 }
 
-#endif // WEATHERANALYSIS_WINDCHILLPARAMETERANALYZER_H
+#endif // TEXTGEN_WINDCHILLPARAMETERANALYZER_H
 
 // ======================================================================

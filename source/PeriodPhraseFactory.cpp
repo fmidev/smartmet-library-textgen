@@ -30,16 +30,16 @@
 #include <newbase/NFmiTime.h>
 
 
-using WeatherAnalysis::WeatherPeriod;
-using WeatherAnalysis::WeatherArea;
-using namespace WeatherAnalysis::TimeTools;
+using TextGen::WeatherPeriod;
+using TextGen::WeatherArea;
+using namespace TextGen::TimeTools;
 using namespace boost;
 using namespace std;
 
 namespace
 {
 
-  WeatherAnalysis::WeatherHistory* theHistory = 0;
+  TextGen::WeatherHistory* theHistory = 0;
 
   // ----------------------------------------------------------------------
   /*!
@@ -639,7 +639,7 @@ namespace TextGen
 	{
 	  using WeekdayTools::from_weekday;
 	  using WeekdayTools::on_weekday;
-	  using WeatherAnalysis::HourPeriodGenerator;
+	  using TextGen::HourPeriodGenerator;
 
 	  Sentence sentence;
 
@@ -920,7 +920,7 @@ namespace TextGen
 					const WeatherPeriod & thePeriod,
 					const WeatherArea & theArea)
 	{
-	  theHistory = const_cast<WeatherAnalysis::WeatherHistory*>(&(theArea.history()));
+	  theHistory = const_cast<TextGen::WeatherHistory*>(&(theArea.history()));
 
 	  if(theType == "until_tonight")
 		return until_tonight(theVariable,theForecastTime,thePeriod);

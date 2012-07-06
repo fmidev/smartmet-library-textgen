@@ -15,17 +15,14 @@
 #include <newbase/NFmiGrid.h>
 #include <newbase/NFmiSvgPath.h>
 
-using namespace std;
-using namespace TextGen::AreaTools;
-
-namespace WeatherAnalysis
+namespace TextGen
 {
   double GetLocationCoordinates(const AnalysisSources& theSources,
 								const WeatherParameter& theParameter,
 								const WeatherArea& theArea,
 								const WeatherPeriod& thePeriod,
 								const Acceptor& theAcceptor,
-								vector<NFmiPoint*>& theResultData);
+								std::vector<NFmiPoint*>& theResultData);
 
   double ExtractMask(const AnalysisSources& theSources,
 					 const WeatherParameter& theParameter,
@@ -36,11 +33,11 @@ namespace WeatherAnalysis
 
   const NFmiIndexMask MaskDirection(const NFmiGrid & theGrid,
 									const WeatherArea & theArea,
-									const direction_id& theDirectionId);
+									const AreaTools::direction_id& theDirectionId);
 
  void PrintLatLon(const AnalysisSources& theSources,
-				   const WeatherParameter& theParameter,
-				   const NFmiIndexMask& theIndexMask);
+				  const WeatherParameter& theParameter,
+				  const NFmiIndexMask& theIndexMask);
 }
 
 #endif

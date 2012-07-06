@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::MorningAndEveningPeriodGenerator
+ * \brief Implementation of class TextGen::MorningAndEveningPeriodGenerator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::MorningAndEveningPeriodGenerator
+ * \class TextGen::MorningAndEveningPeriodGenerator
  *
  * \brief Generates a sequence of consecutive morning/day/evening/night periods
  *
@@ -17,14 +17,14 @@
 
 #include "MorningAndEveningPeriodGenerator.h"
 #include "Settings.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include "WeatherPeriodTools.h"
 
 #include <algorithm>
 
 using namespace std;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   
   // ----------------------------------------------------------------------
@@ -121,29 +121,29 @@ namespace WeatherAnalysis
 	// morning, day, evening and night must start during the same day
 
 	if(itsDayStartHour <= itsMorningStartHour)
-	  throw WeatherAnalysisError("MorningAndEveningPeriodGenerator: Morning must start before day");
+	  throw TextGenError("MorningAndEveningPeriodGenerator: Morning must start before day");
 	if(itsEveningStartHour <= itsDayStartHour)
-	  throw WeatherAnalysisError("MorningAndEveningPeriodGenerator: Day must start before evening");
+	  throw TextGenError("MorningAndEveningPeriodGenerator: Day must start before evening");
 	if(itsNightStartHour <= itsEveningStartHour)
-	  throw WeatherAnalysisError("MorningAndEveningPeriodGenerator: Evening must start before night");
+	  throw TextGenError("MorningAndEveningPeriodGenerator: Evening must start before night");
 	if(itsMorningStartHour >= itsNightStartHour)
-	  throw WeatherAnalysisError("MorningAndEveningPeriodGenerator: Night must start before morning");
+	  throw TextGenError("MorningAndEveningPeriodGenerator: Night must start before morning");
 
 	if(itsMorningMaxStartHour < itsMorningStartHour ||
 	   itsMorningMaxStartHour >= itsDayStartHour)
-	  throw WeatherAnalysisError("MorningAndEveningPeriodGenerator: Maximum morning start hour must be during the morning");
+	  throw TextGenError("MorningAndEveningPeriodGenerator: Maximum morning start hour must be during the morning");
 
 	if(itsDayMaxStartHour < itsDayStartHour ||
 	   itsDayMaxStartHour >= itsEveningStartHour)
-	  throw WeatherAnalysisError("MorningAndEveningPeriodGenerator: Maximum day start hour must be during the day");
+	  throw TextGenError("MorningAndEveningPeriodGenerator: Maximum day start hour must be during the day");
 
 	if(itsEveningMaxStartHour < itsEveningStartHour ||
 	   itsEveningMaxStartHour >= itsNightStartHour)
-	  throw WeatherAnalysisError("MorningAndEveningPeriodGenerator: Maximum evening start hour must be during the evening");
+	  throw TextGenError("MorningAndEveningPeriodGenerator: Maximum evening start hour must be during the evening");
 
 	if(itsNightMaxStartHour < itsNightStartHour &&
 	   itsNightMaxStartHour >= itsMorningStartHour)
-	  throw WeatherAnalysisError("MorningAndEveningPeriodGenerator: Maximum night start hour must be during the night");
+	  throw TextGenError("MorningAndEveningPeriodGenerator: Maximum night start hour must be during the night");
 
 
 	const int mornings = countPeriods(itsMainPeriod,
@@ -268,10 +268,10 @@ namespace WeatherAnalysis
   WeatherPeriod MorningAndEveningPeriodGenerator::period(size_type thePeriod) const
   {
 	if(thePeriod < 1 || thePeriod > itsPeriods.size())
-	  throw WeatherAnalysis::WeatherAnalysisError("MorningAndEveningPeriodGenerator::period(): invalid argument");
+	  throw TextGen::TextGenError("MorningAndEveningPeriodGenerator::period(): invalid argument");
 	return itsPeriods[thePeriod-1];
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

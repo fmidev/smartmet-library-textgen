@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of namespace WeatherAnalysis::QueryDataIntegrator
+ * \brief Implementation of namespace TextGen::QueryDataIntegrator
  */
 // ======================================================================
 /*!
- * \namespace WeatherAnalysis::QueryDataIntegrator
+ * \namespace TextGen::QueryDataIntegrator
  *
  * \brief Functions for integrating query data
  *
@@ -27,7 +27,7 @@
 #include <newbase/NFmiTime.h>
 #include <newbase/NFmiMetMath.h>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace QueryDataIntegrator
   {
@@ -425,7 +425,7 @@ namespace WeatherAnalysis
 	}
 
   } // namespace QueryDataIntegrator
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================
   

@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::WeatherAnalyzer
+ * \brief Implementation of class TextGen::WeatherAnalyzer
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::WeatherAnalyzer
+ * \class TextGen::WeatherAnalyzer
  *
  * \brief Provides analysis services to clients
  *
@@ -29,7 +29,7 @@
 #include "WeatherPeriodGenerator.h"
 #include "WeatherResult.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -168,6 +168,6 @@ namespace WeatherAnalysis
 				   theTester);
   }
   
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

@@ -238,7 +238,7 @@ namespace Settings
    */
   // ----------------------------------------------------------------------
 
-  WeatherAnalysis::WeatherResult require_result(const std::string & theName)
+  TextGen::WeatherResult require_result(const std::string & theName)
   {
 	const string value = require_string(theName.c_str());
 
@@ -250,7 +250,7 @@ namespace Settings
 		  throw runtime_error(msg);
 		const float result = lexical_cast<float>(values[0]);
 		const float accuracy = lexical_cast<float>(values[1]);
-		return WeatherAnalysis::WeatherResult(result,accuracy);
+		return TextGen::WeatherResult(result,accuracy);
 	  }
 	catch(std::exception & )
 	  {

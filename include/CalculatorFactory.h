@@ -1,18 +1,18 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace WeatherAnalysis::CalculatorFactory
+ * \brief Interface of namespace TextGen::CalculatorFactory
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_CALCULATORFACTORY_H
-#define WEATHERANALYSIS_CALCULATORFACTORY_H
+#ifndef TEXTGEN_CALCULATORFACTORY_H
+#define TEXTGEN_CALCULATORFACTORY_H
 
 #include "WeatherFunction.h"
 
 #include "Calculator.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class Acceptor;
 
@@ -31,8 +31,8 @@ namespace WeatherAnalysis
 						int theModulo);
 
   } // namespace CalculatorFactory
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_CALCULATORFACTORY_H
+#endif // TEXTGEN_CALCULATORFACTORY_H
 
 // ======================================================================

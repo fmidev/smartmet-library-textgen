@@ -1,14 +1,14 @@
 // ======================================================================
 /*!
  * \file
- * \brief Definition of enumeration WeatherAnalysis::WeatherDataType
+ * \brief Definition of enumeration TextGen::WeatherDataType
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WEATHERDATATYPE_H
-#define WEATHERANALYSIS_WEATHERDATATYPE_H
+#ifndef TEXTGEN_WEATHERDATATYPE_H
+#define TEXTGEN_WEATHERDATATYPE_H
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   enum WeatherDataType
@@ -18,8 +18,8 @@ namespace WeatherAnalysis
 	  Climatology
 	};
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_WEATHERDATATYPE_H
+#endif // TEXTGEN_WEATHERDATATYPE_H
 
 // ======================================================================

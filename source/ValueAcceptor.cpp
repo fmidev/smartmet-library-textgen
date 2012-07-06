@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::ValueAcceptor
+ * \brief Implementation of class TextGen::ValueAcceptor
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::ValueAcceptor
+ * \class TextGen::ValueAcceptor
  *
  * \brief ValueAcceptor accepts only a single value
  *
@@ -17,7 +17,7 @@
 #include "ValueAcceptor.h"
 #include <newbase/NFmiGlobals.h>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -73,6 +73,6 @@ namespace WeatherAnalysis
 	itsValue = theValue;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

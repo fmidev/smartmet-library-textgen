@@ -5,7 +5,7 @@
  */
 // ======================================================================
 /*!
- * \namespace WeatherAnalysis::SeasonTools
+ * \namespace TextGen::SeasonTools
  *
  * \brief Utilities to determine the season of the given date
  *
@@ -27,10 +27,11 @@
 
 #include <ctime>
 
+using namespace std;
 using namespace Settings;
 using namespace TextGen;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace SeasonTools
   {
@@ -394,5 +395,5 @@ namespace WeatherAnalysis
 
 
   } // namespace SeasonTools
-} // namespace WeatherAnalysis
+} // namespace TextGen
 // ======================================================================

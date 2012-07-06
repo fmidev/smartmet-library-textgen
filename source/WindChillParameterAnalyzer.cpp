@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::WindChillParameterAnalyzer
+ * \brief Implementation of class TextGen::WindChillParameterAnalyzer
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::WindChillParameterAnalyzer
+ * \class TextGen::WindChillParameterAnalyzer
  *
  * \brief WindChill parameter analysis functions
  *
@@ -21,7 +21,7 @@
 using namespace std;
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -77,6 +77,6 @@ namespace WeatherAnalysis
 							 itsVariable,itsParameter);
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

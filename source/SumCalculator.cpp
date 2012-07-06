@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::SumCalculator
+ * \brief Implementation of class TextGen::SumCalculator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::SumCalculator
+ * \class TextGen::SumCalculator
  *
  * \brief Sum intergator
  *
@@ -19,7 +19,7 @@
 
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -104,6 +104,6 @@ namespace WeatherAnalysis
 	itsSum = 0;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

@@ -34,7 +34,7 @@
 #include <boost/lexical_cast.hpp>
 #include <cmath>
 
-using namespace WeatherAnalysis;
+using namespace TextGen;
 using namespace boost;
 using namespace std;
 
@@ -90,9 +90,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	Sentence rain_phrase(const WeatherAnalysis::AnalysisSources & theSources,
-						 const WeatherAnalysis::WeatherArea & theArea,
-						 const WeatherAnalysis::WeatherPeriod & thePeriod,
+	Sentence rain_phrase(const TextGen::AnalysisSources & theSources,
+						 const TextGen::WeatherArea & theArea,
+						 const TextGen::WeatherPeriod & thePeriod,
 						 const std::string & theVar,
 						 int theDay)
 	{

@@ -1,12 +1,12 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::WindChillFunctionAnalyzer
+ * \brief Interface of class TextGen::WindChillFunctionAnalyzer
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WINDCHILLFUNCTIONALYZER_H
-#define WEATHERANALYSIS_WINDCHILLFUNCTIONANALYZER_H
+#ifndef TEXTGEN_WINDCHILLFUNCTIONALYZER_H
+#define TEXTGEN_WINDCHILLFUNCTIONANALYZER_H
 
 #include "FunctionAnalyzer.h"
 #include "WeatherFunction.h"
@@ -16,7 +16,7 @@
 
 class NFmiDataModifier;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class AnalysisSources;
   class Calculator;
@@ -62,8 +62,8 @@ namespace WeatherAnalysis
 
   }; // class WindChillFunctionAnalyzer
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_WINDCHILLFUNCTIONANALYZER_H
+#endif // TEXTGEN_WINDCHILLFUNCTIONANALYZER_H
 
 // ======================================================================

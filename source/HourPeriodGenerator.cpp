@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::HourPeriodGenerator
+ * \brief Implementation of class TextGen::HourPeriodGenerator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::HourPeriodGenerator
+ * \class TextGen::HourPeriodGenerator
  *
  * \brief Generates a sequence of periods
  *
@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   
   // ----------------------------------------------------------------------
@@ -154,6 +154,6 @@ namespace WeatherAnalysis
 										 itsMinEndHour);
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

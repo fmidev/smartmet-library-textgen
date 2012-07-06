@@ -1,12 +1,12 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::NightAndDayPeriodGenerator
+ * \brief Interface of class TextGen::NightAndDayPeriodGenerator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_NIGHTANDDAYPERIODGENERATOR_H
-#define WEATHERANALYSIS_NIGHTANDDAYPERIODGENERATOR_H
+#ifndef TEXTGEN_NIGHTANDDAYPERIODGENERATOR_H
+#define TEXTGEN_NIGHTANDDAYPERIODGENERATOR_H
 
 #include "WeatherPeriodGenerator.h"
 #include "WeatherPeriod.h"
@@ -14,7 +14,7 @@
 #include <string>
 #include <vector>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherPeriod;
 
@@ -64,9 +64,9 @@ namespace WeatherAnalysis
 
   }; // class NightAndDayPeriodGenerator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_NIGHTANDDAYPERIODGENERATOR_H
+#endif // TEXTGEN_NIGHTANDDAYPERIODGENERATOR_H
 
 // ======================================================================
 

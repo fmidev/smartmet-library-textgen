@@ -1,12 +1,12 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::WeatherFact
+ * \brief Interface of class TextGen::WeatherFact
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WEATHERFACT_H
-#define WEATHERANALYSIS_WEATHERFACT_H
+#ifndef TEXTGEN_WEATHERFACT_H
+#define TEXTGEN_WEATHERFACT_H
 
 #include "WeatherArea.h"
 #include "WeatherFunction.h"
@@ -14,7 +14,7 @@
 #include "WeatherPeriod.h"
 #include "WeatherResult.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherFact
   {
@@ -48,16 +48,16 @@ namespace WeatherAnalysis
 
   }; // class WeatherFact
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // Free functions
 
-bool operator==(const WeatherAnalysis::WeatherFact & theLhs,
-				const WeatherAnalysis::WeatherFact & theRhs);
+bool operator==(const TextGen::WeatherFact & theLhs,
+				const TextGen::WeatherFact & theRhs);
 
-bool operator!=(const WeatherAnalysis::WeatherFact & theLhs,
-				const WeatherAnalysis::WeatherFact & theRhs);
+bool operator!=(const TextGen::WeatherFact & theLhs,
+				const TextGen::WeatherFact & theRhs);
 
-#endif // WEATHERANALYSIS_WEATHERFACT_H
+#endif // TEXTGEN_WEATHERFACT_H
 
 // ======================================================================

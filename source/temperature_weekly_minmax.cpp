@@ -20,7 +20,7 @@
 #include "WeatherResult.h"
 
 using namespace TextGen::TemperatureStoryTools;
-using namespace WeatherAnalysis;
+using namespace TextGen;
 using namespace std;
 
 namespace TextGen

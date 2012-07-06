@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::ValueAcceptor
+ * \brief Interface of class TextGen::ValueAcceptor
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_VALUEACCEPTOR_H
-#define WEATHERANALYSIS_VALUEACCEPTOR_H
+#ifndef TEXTGEN_VALUEACCEPTOR_H
+#define TEXTGEN_VALUEACCEPTOR_H
 
 #include "Acceptor.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class ValueAcceptor : public Acceptor
   {
@@ -28,8 +28,8 @@ namespace WeatherAnalysis
 	float itsValue;
 
   }; // class ValueAcceptor
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_VALUEACCEPTOR_H
+#endif // TEXTGEN_VALUEACCEPTOR_H
 
 // ======================================================================

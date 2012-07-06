@@ -5,7 +5,7 @@
 #include "CalculatorFactory.h"
 #include "MaskSource.h"
 #include "Settings.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include "WeatherResult.h"
 #include "WeatherSource.h"
 #include "QueryDataTools.h"
@@ -59,9 +59,9 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  const char * data_type_name(const WeatherAnalysis::WeatherDataType & theDataType)
+  const char * data_type_name(const TextGen::WeatherDataType & theDataType)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	switch(theDataType)
 	  {
@@ -73,11 +73,11 @@ namespace
 		return "climatology";
 	  }
 
-	throw WeatherAnalysisError("Unrecognized WeatherDataType in RegularFunctionAnalyzer");
+	throw TextGenError("Unrecognized WeatherDataType in RegularFunctionAnalyzer");
   }
 } // namespace anonymous
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
 
@@ -107,10 +107,10 @@ namespace WeatherAnalysis
 
 	FmiParameterName param = FmiParameterName(itsConverter.ToEnum(parameterName));
 	if(param == kFmiBadParameter)
-	  throw WeatherAnalysisError("Parameter "+parameterName+" is not defined in newbase");
+	  throw TextGenError("Parameter "+parameterName+" is not defined in newbase");
   
 	if(!theQI->Param(param))
-	  throw WeatherAnalysisError(parameterName+" is not available in "+dataname);
+	  throw TextGenError(parameterName+" is not available in "+dataname);
 
 	if(!theArea.isPoint())
 	  {
@@ -212,10 +212,10 @@ namespace WeatherAnalysis
 
 	FmiParameterName param = FmiParameterName(itsConverter.ToEnum(parameterName));
 	if(param == kFmiBadParameter)
-	  throw WeatherAnalysisError("Parameter "+parameterName+" is not defined in newbase");
+	  throw TextGenError("Parameter "+parameterName+" is not defined in newbase");
   
 	if(!theQI->Param(param))
-	  throw WeatherAnalysisError(parameterName+" is not available in "+dataname);
+	  throw TextGenError(parameterName+" is not available in "+dataname);
 
 	if(!theArea.isPoint())
 	  {
@@ -393,7 +393,7 @@ namespace WeatherAnalysis
 
   const NFmiIndexMask MaskDirection(const NFmiGrid & theGrid,
 									const WeatherArea & theArea,
-									const direction_id& theDirectionId)
+									const AreaTools::direction_id& theDirectionId)
   {
 	NFmiIndexMask mask;
 
@@ -448,28 +448,28 @@ namespace WeatherAnalysis
 				  bool insert = false;
 				  switch(theDirectionId)
 					{
-					case NORTH:
+					case AreaTools::NORTH:
 					  insert = p.Y() >= latitudeDivisionLine;
 					break;
-					case SOUTH:
+					case AreaTools::SOUTH:
 					  insert = p.Y() < latitudeDivisionLine;
 					break;
-					case EAST:
+					case AreaTools::EAST:
 					  insert = p.X() >= longitudeDivisionLine;
 					break;
-					case WEST:
+					case AreaTools::WEST:
 					  insert = p.X() < longitudeDivisionLine;
 					break;
-					case NORTHEAST:
+					case AreaTools::NORTHEAST:
 					  insert = p.Y() >= latitudeDivisionLine && p.X() >= longitudeDivisionLine;
 					break;
-					case SOUTHEAST:
+					case AreaTools::SOUTHEAST:
 					  insert = p.Y() < latitudeDivisionLine && p.X() >= longitudeDivisionLine;
 					break;
-					case NORTHWEST:
+					case AreaTools::NORTHWEST:
 					  insert = p.Y() >= latitudeDivisionLine && p.X() < longitudeDivisionLine;
 					break;
-					case SOUTHWEST:
+					case AreaTools::SOUTHWEST:
 					  insert = p.Y() < latitudeDivisionLine && p.X() < longitudeDivisionLine;
 					break;
 					default:

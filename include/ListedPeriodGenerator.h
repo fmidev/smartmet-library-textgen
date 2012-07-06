@@ -1,12 +1,12 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::ListedPeriodGenerator
+ * \brief Interface of class TextGen::ListedPeriodGenerator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_LISTEDPERIODGENERATOR_H
-#define WEATHERANALYSIS_LISTEDPERIODGENERATOR_H
+#ifndef TEXTGEN_LISTEDPERIODGENERATOR_H
+#define TEXTGEN_LISTEDPERIODGENERATOR_H
 
 #include "WeatherPeriodGenerator.h"
 #include "WeatherPeriod.h"
@@ -14,7 +14,7 @@
 #include <string>
 #include <vector>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherPeriod;
 
@@ -42,9 +42,9 @@ namespace WeatherAnalysis
 
   }; // class ListedPeriodGenerator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_LISTEDPERIODGENERATOR_H
+#endif // TEXTGEN_LISTEDPERIODGENERATOR_H
 
 // ======================================================================
 

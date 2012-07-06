@@ -7,13 +7,6 @@
 namespace TextGen
 {
 
-using namespace Settings;
-using namespace WeatherAnalysis;
-using namespace AreaTools;
-using namespace boost;
-using namespace std;
-using namespace WindStoryTools;
-
 #define WEAK_WIND_SPEED_UPPER_LIMIT 5.0
 
 #define USE_AT_ITS_STRONGEST_PHRASE true
@@ -200,26 +193,26 @@ using namespace WindStoryTools;
   class WindDirectionPeriodDataItem;
   class WindEventPeriodDataItem;
 
-  typedef vector <pair<float, WeatherResult> > value_distribution_data_vector;
-  typedef vector<WindDataItemsByArea*> wind_data_item_vector;
-  typedef vector<WindSpeedPeriodDataItem*> wind_speed_period_data_item_vector;
-  typedef vector<WindDirectionPeriodDataItem*> wind_direction_period_data_item_vector;
-  typedef vector<WindEventPeriodDataItem*> wind_event_period_data_item_vector;
+  typedef std::vector <std::pair<float, WeatherResult> > value_distribution_data_vector;
+  typedef std::vector<WindDataItemsByArea*> wind_data_item_vector;
+  typedef std::vector<WindSpeedPeriodDataItem*> wind_speed_period_data_item_vector;
+  typedef std::vector<WindDirectionPeriodDataItem*> wind_direction_period_data_item_vector;
+  typedef std::vector<WindEventPeriodDataItem*> wind_event_period_data_item_vector;
   typedef std::pair<NFmiTime, WindEventId> timestamp_wind_event_id_pair;
-  typedef vector<timestamp_wind_event_id_pair> wind_event_id_vector;
+  typedef std::vector<timestamp_wind_event_id_pair> wind_event_id_vector;
 
   struct index_vectors
   {
 	// contains all indexes to 
-	vector<unsigned int> theOriginalWindDataIndexes;
-	vector<unsigned int> theEqualizedWindSpeedIndexesForMedianWind;
-	vector<unsigned int> theEqualizedWindSpeedIndexesForMaximumWind;
-	vector<unsigned int> theEqualizedWindDirectionIndexes;
+	std::vector<unsigned int> theOriginalWindDataIndexes;
+	std::vector<unsigned int> theEqualizedWindSpeedIndexesForMedianWind;
+	std::vector<unsigned int> theEqualizedWindSpeedIndexesForMaximumWind;
+	std::vector<unsigned int> theEqualizedWindDirectionIndexes;
   };
 
   struct wo_story_params
   {
-	wo_story_params(const string& var,
+	wo_story_params(const std::string& var,
 					const WeatherArea& area,
 					const WeatherPeriod& forecastPeriod,
 					const NFmiTime& forecastTime,
@@ -244,7 +237,7 @@ using namespace WindStoryTools;
 	  theMetersPerSecondFormat("SI")
 	{}
 
-	const string& theVar;
+	const std::string& theVar;
 	const WeatherArea& theArea;
 	const WeatherPeriod& theForecastPeriod;
 	const NFmiTime& theForecastTime;
@@ -258,10 +251,10 @@ using namespace WindStoryTools;
 	double theWindSpeedThreshold;
 	double theWindDirectionThreshold;
 	double theGustyWindMaximumWindDifference;
-	string theRangeSeparator;
+	std::string theRangeSeparator;
 	int theMinIntervalSize;
 	int theMaxIntervalSize;
-	string theMetersPerSecondFormat;
+	std::string theMetersPerSecondFormat;
 	bool theAlkaenPhraseUsed;
 
 	// contains raw data
@@ -272,27 +265,27 @@ using namespace WindStoryTools;
 	wind_event_period_data_item_vector theWindDirectionEventPeriodVector;
 	wind_event_period_data_item_vector theMergedWindEventPeriodVector;
 
-	map<WeatherArea::Type, index_vectors*> indexes;
+	std::map<WeatherArea::Type, index_vectors*> indexes;
 
-	inline vector<unsigned int>& originalWindDataIndexes(WeatherArea::Type type)
+	inline std::vector<unsigned int>& originalWindDataIndexes(WeatherArea::Type type)
 	{ 
 	  return indexes[type]->theOriginalWindDataIndexes; 
 	}
-	inline vector<unsigned int>& equalizedWSIndexesMedian(WeatherArea::Type type)
+	inline std::vector<unsigned int>& equalizedWSIndexesMedian(WeatherArea::Type type)
 	{ 
 	  return indexes[type]->theEqualizedWindSpeedIndexesForMedianWind;
 	}
-	inline vector<unsigned int>& equalizedWSIndexesMaximum(WeatherArea::Type type)
+	inline std::vector<unsigned int>& equalizedWSIndexesMaximum(WeatherArea::Type type)
 	{ 
 	  return indexes[type]->theEqualizedWindSpeedIndexesForMaximumWind;
 	}
-	inline vector<unsigned int>& equalizedWDIndexes(WeatherArea::Type type)
+	inline std::vector<unsigned int>& equalizedWDIndexes(WeatherArea::Type type)
 	{ 
 	  return indexes[type]->theEqualizedWindDirectionIndexes;
 	}
 
 	// If the area is split this contains e.g. inland coast, full, eastern, western areas
-	vector<WeatherArea> theWeatherAreas;
+	std::vector<WeatherArea> theWeatherAreas;
 
 	std::string areaName() { return (theArea.isNamed() ? theArea.name() : ""); }
   };
@@ -322,7 +315,7 @@ using namespace WindStoryTools;
 	{}
 
 	float getWindSpeedShare(const float& theLowerLimit, const float& theUpperLimit) const;
-	float getWindDirectionShare(const WindDirectionId& windDirectionId) const;
+	float getWindDirectionShare(const WindStoryTools::WindDirectionId& windDirectionId) const;
 
     bool operator==(const WindDataItemUnit& dataItemUnit) const
 	{
@@ -356,7 +349,7 @@ using namespace WindStoryTools;
 	
 	~WindDataItemsByArea()
 	{
-	  map<WeatherArea::Type, WindDataItemUnit*>::iterator it;
+	  std::map<WeatherArea::Type, WindDataItemUnit*>::iterator it;
 	  for (it=theDataItems.begin() ; it != theDataItems.end(); it++)
 		delete it->second;
 	}
@@ -379,7 +372,7 @@ using namespace WindStoryTools;
 														windMaximum,
 														windDirection,
 														gustSpeed);
-	  theDataItems.insert(make_pair(type, dataItem));
+	  theDataItems.insert(std::make_pair(type, dataItem));
 	}
 
 	const WindDataItemUnit& operator()(const WeatherArea::Type& type = WeatherArea::Full) const
@@ -394,29 +387,29 @@ using namespace WindStoryTools;
 
   private:
 
-	map<WeatherArea::Type, WindDataItemUnit*> theDataItems;
+	std::map<WeatherArea::Type, WindDataItemUnit*> theDataItems;
   };
 
   struct WindSpeedPeriodDataItem
   {
 	WindSpeedPeriodDataItem(const WeatherPeriod& period,
-							const WindSpeedId& windSpeedId)
+							const WindStoryTools::WindSpeedId& windSpeedId)
 	  : thePeriod(period),
 		theWindSpeedId(windSpeedId)
 	{}
 	WeatherPeriod thePeriod;
-	WindSpeedId theWindSpeedId;
+	WindStoryTools::WindSpeedId theWindSpeedId;
   };
 
   struct WindDirectionPeriodDataItem
   {
 	WindDirectionPeriodDataItem(const WeatherPeriod& period,
-								  const WindDirectionId& windDirection)
+								const WindStoryTools::WindDirectionId& windDirection)
 	  : thePeriod(period),
 		theWindDirection(windDirection)
 	{}
 	WeatherPeriod thePeriod;
-	WindDirectionId theWindDirection;
+	WindStoryTools::WindDirectionId theWindDirection;
   };
 
   struct WindEventPeriodDataItem
@@ -480,15 +473,15 @@ using namespace WindStoryTools;
 	mutable short thePreviousPartOfTheDay;
 
 	//	Sentence windSentence(const WeatherPeriod& thePeriod) const;
-	Sentence getWindDirectionSentence(const WindDirectionId& theWindDirectionId) const;
-	Sentence windDirectionSentence(const WindDirectionId& theDirectionId,
+	Sentence getWindDirectionSentence(const WindStoryTools::WindDirectionId& theWindDirectionId) const;
+	Sentence windDirectionSentence(const WindStoryTools::WindDirectionId& theDirectionId,
 								   const bool& theBasicForm = false) const;
 	Sentence windSpeedIntervalSentence(const WeatherPeriod& thePeriod, 
 									   bool theUseAtItsStrongestPhrase = true) const;
 	Sentence speedRangeSentence(const WeatherPeriod& thePeriod,
 								const WeatherResult & theMaxSpeed,
 								const WeatherResult & theMeanSpeed,
-								const string & theVariable, 
+								const std::string & theVariable, 
 								bool theUseAtItsStrongestPhrase) const;
 
 	Sentence decreasingIncreasingInterval(const WindEventPeriodDataItem& eventPeriodDataItem,
@@ -497,9 +490,9 @@ using namespace WindStoryTools;
 	Sentence getTimePhrase(const WeatherPeriod thePeriod,
 						   const bool& useAlkaenPhrase) const;
 
-	vector<WeatherPeriod> getWindSpeedReportingPoints(const WindEventPeriodDataItem& eventPeriodDataItem,
-													  const bool& firstSentenceInTheStory,
-													  const WindEventId& eventId) const;
+	std::vector<WeatherPeriod> getWindSpeedReportingPoints(const WindEventPeriodDataItem& eventPeriodDataItem,
+														   const bool& firstSentenceInTheStory,
+														   const WindEventId& eventId) const;
 	bool getSpeedIntervalLimits(const WeatherPeriod& thePeriod, 
 								WeatherResult& lowerLimit,
 								WeatherResult& upperLimit) const;
@@ -508,31 +501,31 @@ using namespace WindStoryTools;
 									 bool& smallChange,
 									 bool& gradualChange,
 									 bool& fastChange) const;
-	std::string getWindDirectionTurntoString(const WindDirectionId& theWindDirectionId) const;
+	std::string getWindDirectionTurntoString(const WindStoryTools::WindDirectionId& theWindDirectionId) const;
 	Sentence reportIntermediateSpeed(const WeatherPeriod& speedEventPeriod) const;
 	bool samePartOfTheDay(const NFmiTime& time1, const NFmiTime& time2) const;
 	Sentence directedWindSentenceAfterVaryingWind(const wo_story_params& theParameters,
 												  const WeatherPeriod& eventPeriod,
 												  const bool& firstSentenceInTheStory,
-												  WindDirectionId& previousWindDirectionId) const;
+												  WindStoryTools::WindDirectionId& previousWindDirectionId) const;
 	Sentence windDirectionChangeSentence(const wo_story_params& theParameters,
 										 const WeatherPeriod& eventPeriod,
 										 const bool& firstSentenceInTheStory,
 										 const WindEventId& eventIdPrevious,
-										 WindDirectionId& previousWindDirectionId) const;
+										 WindStoryTools::WindDirectionId& previousWindDirectionId) const;
 
 	Sentence windDirectionAndSpeedChangesSentence(const wo_story_params& theParameters,
 												  const WeatherPeriod& eventPeriod,
 												  const bool& firstSentenceInTheStory,
 												  const WindEventId& previousWindEventId,
 												  const WindEventId& currentWindEventId,
-												  WindDirectionId& previousWindDirectionId,
+												  WindStoryTools::WindDirectionId& previousWindDirectionId,
 												  const bool& theWindSpeedChangeStarts,
 												  const bool& theWindSpeedChangeEnds,
 												  bool& appendDecreasingIncreasingInterval) const;
 	void getWindDirectionBegEnd(const WeatherPeriod& thePeriod,
-								WindDirectionId& theWindDirectionIdBeg,
-								WindDirectionId& theWindDirectionIdEnd) const;
+								WindStoryTools::WindDirectionId& theWindDirectionIdBeg,
+								WindStoryTools::WindDirectionId& theWindDirectionIdEnd) const;
 	bool windDirectionTurns(const WeatherPeriod& thePeriod) const;
 	void getPeriodStartAndEndIndex(const WeatherPeriod& period,
 								   unsigned int& begIndex,
@@ -549,43 +542,43 @@ using namespace WindStoryTools;
   bool is_valid_wind_event_id(const int& eventId);
   std::string get_wind_event_string(const WindEventId& theWindEventId);
   float get_wind_direction_share(const value_distribution_data_vector& theWindDirectionDistribution,
-								 const WindDirectionId& windDirectionId);
+								 const WindStoryTools::WindDirectionId& windDirectionId);
   float get_wind_direction_share(const wo_story_params& theParameters,
 								 const WeatherPeriod& period,
-								 const WindDirectionId& windDirectionId);
+								 const WindStoryTools::WindDirectionId& windDirectionId);
 
   WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
 											 const NFmiTime& pointOfTime,
-											 const string& var);
-  WindDirectionId get_wind_direction_id_at(const wind_data_item_vector& theWindDataVector,
-										   const WeatherArea& theArea,
-										   const NFmiTime& pointOfTime,
-										   const string& var);
-  WindDirectionId get_wind_direction_id_at(const wind_data_item_vector& theWindDataVector,
-										   const WeatherArea& theArea,
-										   const AnalysisSources& theSources,
-										   const WeatherPeriod& period,
-										   const string& var);
+											 const std::string& var);
+  WindStoryTools::WindDirectionId get_wind_direction_id_at(const wind_data_item_vector& theWindDataVector,
+														   const WeatherArea& theArea,
+														   const NFmiTime& pointOfTime,
+														   const std::string& var);
+  WindStoryTools::WindDirectionId get_wind_direction_id_at(const wind_data_item_vector& theWindDataVector,
+														   const WeatherArea& theArea,
+														   const AnalysisSources& theSources,
+														   const WeatherPeriod& period,
+														   const std::string& var);
   WeatherResult get_wind_direction_at(const wind_data_item_vector& theWindDataVector,
 									  const WeatherArea& theArea,
 									  const NFmiTime& pointOfTime,
-									  const string& var);
+									  const std::string& var);
   WeatherResult get_wind_direction_at(const wind_data_item_vector& theWindDataVector,
 									  const WeatherArea& theArea,
 									  const AnalysisSources& theSources,
 									  const WeatherPeriod& period,
-									  const string& var);
+									  const std::string& var);
 
   bool is_gusty_wind(const wo_story_params& theParameters,
 					 const NFmiTime& pointOfTime,
-					 const string& var);
+					 const std::string& var);
   bool is_gusty_wind(const wo_story_params& theParameters,
 					 const WeatherPeriod& period,
-					 const string& var);
+					 const std::string& var);
   bool wind_speed_differ_enough(const AnalysisSources& theSources,
 								const WeatherArea& theArea,
 								const WeatherPeriod& thePeriod,
-								const string& theVar,
+								const std::string& theVar,
 								const wind_data_item_vector& windDataVector);
   void get_wind_speed_interval_parameters(const WeatherPeriod& thePeriod,
 										  const WeatherArea& theArea,										  
@@ -615,14 +608,14 @@ using namespace WindStoryTools;
 									const WeatherArea& theArea,
 									const WeatherPeriod& thePeriod,
 									const WeatherResult& theEqualizedWindMaximum,
-									const string& theVar);
+									const std::string& theVar);
   WindEventId mask_wind_event(const WindEventId& originalId, const WindEventId& maskToRemove);
   WeatherPeriod get_wind_turning_period(const WeatherPeriod& thePeriod,
 										const wind_event_period_data_item_vector& theDirectionEventVector);
 
 
   WindEventId get_wind_direction_event(const WindEventPeriodDataItem& windEventPeriodDataItem,
-									   const string& var,
+									   const std::string& var,
 									   const double& windDirectionThreshold);
   void get_median_wind_speed_by_area(const wind_data_item_vector& theWindDataVector,
 									 const WeatherArea& theFullArea,
@@ -634,7 +627,7 @@ using namespace WindStoryTools;
 								  const WeatherArea& theFullArea,
 								  const AnalysisSources& theSources,
 								  const WeatherPeriod& thePeriod,
-								  const string& theVar,
+								  const std::string& theVar,
 								  WeatherResult& windDirectionFull,
 								  WeatherResult& windDirectionCoastal,
 								  WeatherResult& windDirectionInland);

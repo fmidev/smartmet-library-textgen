@@ -1,14 +1,14 @@
 // ======================================================================
 /*!
  * \file
- * \brief Enumeration of WeatherAnalysis::WeatherParameter
+ * \brief Enumeration of TextGen::WeatherParameter
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WEATHERPARAMETER_H
-#define WEATHERANALYSIS_WEATHERPARAMETER_H
+#ifndef TEXTGEN_WEATHERPARAMETER_H
+#define TEXTGEN_WEATHERPARAMETER_H
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   enum WeatherParameter
@@ -65,9 +65,9 @@ namespace WeatherAnalysis
 	  GrowthPeriodOnOff
 	}; // enum WeatherParameter
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_WEATHERPARAMETER_H
+#endif // TEXTGEN_WEATHERPARAMETER_H
 
 // ======================================================================
 

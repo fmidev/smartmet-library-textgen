@@ -1,17 +1,17 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::CountCalculator
+ * \brief Interface of class TextGen::CountCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_COUNTCALCULATOR_H
-#define WEATHERANALYSIS_COUNTCALCULATOR_H
+#ifndef TEXTGEN_COUNTCALCULATOR_H
+#define TEXTGEN_COUNTCALCULATOR_H
 
 #include "Calculator.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class CountCalculator : public Calculator
   {
@@ -36,8 +36,8 @@ namespace WeatherAnalysis
 
   }; // class CountCalculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_COUNTCALCULATOR_H
+#endif // TEXTGEN_COUNTCALCULATOR_H
 
 // ======================================================================

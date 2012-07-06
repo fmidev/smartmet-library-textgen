@@ -1,17 +1,17 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::AndAcceptor
+ * \brief Interface of class TextGen::AndAcceptor
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_ANDACCEPTOR_H
-#define WEATHERANALYSIS_ANDACCEPTOR_H
+#ifndef TEXTGEN_ANDACCEPTOR_H
+#define TEXTGEN_ANDACCEPTOR_H
 
 #include "Acceptor.h"
 #include <functional>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class AndAcceptor : public Acceptor
   {
@@ -31,8 +31,8 @@ namespace WeatherAnalysis
 	Acceptor * itsRhs;
 
   }; // class AndAcceptor
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_ANDACCEPTOR_H
+#endif // TEXTGEN_ANDACCEPTOR_H
 
 // ======================================================================

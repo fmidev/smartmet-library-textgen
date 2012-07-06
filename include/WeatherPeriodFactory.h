@@ -12,7 +12,7 @@
 
 class NFmiTime;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherPeriod;
 }
@@ -23,7 +23,7 @@ namespace TextGen
   namespace WeatherPeriodFactory
   {
 
-	WeatherAnalysis::WeatherPeriod create(const NFmiTime & theTime,
+	TextGen::WeatherPeriod create(const NFmiTime & theTime,
 										  const std::string & theVariable);
 
 

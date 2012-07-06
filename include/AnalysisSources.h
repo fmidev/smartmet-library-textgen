@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::AnalysisSources
+ * \brief Interface of class TextGen::AnalysisSources
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_ANALYSISSOURCES_H
-#define WEATHERANALYSIS_ANALYSISSOURCES_H
+#ifndef TEXTGEN_ANALYSISSOURCES_H
+#define TEXTGEN_ANALYSISSOURCES_H
 
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class MaskSource;
   class WeatherSource;
@@ -53,9 +53,9 @@ namespace WeatherAnalysis
 
   }; // class AnalysisSources
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_ANALYSISSOURCES_H
+#endif // TEXTGEN_ANALYSISSOURCES_H
 
 // ======================================================================
 

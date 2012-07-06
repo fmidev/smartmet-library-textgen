@@ -18,7 +18,7 @@
 #include "WindStoryTools.h"
 
 using namespace TextGen::WindStoryTools;
-using namespace WeatherAnalysis;
+using namespace TextGen;
 using namespace std;
 
 namespace TextGen

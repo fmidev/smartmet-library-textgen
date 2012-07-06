@@ -25,7 +25,7 @@
 
 using namespace boost;
 using namespace std;
-using namespace WeatherAnalysis;
+using namespace TextGen;
 
 namespace TextGen
 {

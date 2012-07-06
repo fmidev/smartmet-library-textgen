@@ -1,18 +1,18 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::SumCalculator
+ * \brief Interface of class TextGen::SumCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_SUMCALCULATOR_H
-#define WEATHERANALYSIS_SUMCALCULATOR_H
+#ifndef TEXTGEN_SUMCALCULATOR_H
+#define TEXTGEN_SUMCALCULATOR_H
 
 #include "Calculator.h"
 #include "Acceptor.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class SumCalculator : public Calculator
   {
@@ -34,8 +34,8 @@ namespace WeatherAnalysis
 
   }; // class SumCalculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_SUMCALCULATOR_H
+#endif // TEXTGEN_SUMCALCULATOR_H
 
 // ======================================================================

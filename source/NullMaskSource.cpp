@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::NullMaskSource
+ * \brief Implementation of class TextGen::NullMaskSource
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::NullMaskSource
+ * \class TextGen::NullMaskSource
  *
  * \brief Provides mask services to clients
  *
@@ -18,7 +18,7 @@
 
 #include "NullMaskSource.h"
 
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include "WeatherArea.h"
 #include "WeatherSource.h"
 #include <newbase/NFmiIndexMask.h>
@@ -26,7 +26,7 @@
 using namespace std;
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -73,10 +73,10 @@ namespace WeatherAnalysis
 						   const std::string & theData,
 						   const WeatherSource & theWeatherSource) const
   {
-	throw WeatherAnalysisError("NullMaskSource::masks not implemented");
+	throw TextGenError("NullMaskSource::masks not implemented");
   }
 
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

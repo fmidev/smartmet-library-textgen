@@ -2,22 +2,19 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace WeatherAnalysis::SeasonTools
+ * \brief Interface of namespace TextGen::SeasonTools
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_SEASONTOOLS_H
-#define WEATHERANALYSIS_SEASONTOOLS_H
+#ifndef TEXTGEN_SEASONTOOLS_H
+#define TEXTGEN_SEASONTOOLS_H
 
 #include <ctime>
-
-//using namespace NFmiLocation;
-using namespace std;
 #include <string>
 
 class NFmiTime;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherPeriod;
   class WeatherResult;
@@ -56,8 +53,8 @@ namespace WeatherAnalysis
 										   const std::string theVariable);
 
   } // namespace SeasonTools
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_SEASONTOOLS_H
+#endif // TEXTGEN_SEASONTOOLS_H
 
 // ======================================================================

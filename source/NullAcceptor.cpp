@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::NullAcceptor
+ * \brief Implementation of class TextGen::NullAcceptor
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::NullAcceptor
+ * \class TextGen::NullAcceptor
  *
  * \brief Acceptor is a class which accepts everything
  *
@@ -15,7 +15,7 @@
 #include "NullAcceptor.h"
 #include <newbase/NFmiGlobals.h>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -45,6 +45,6 @@ namespace WeatherAnalysis
 	return true;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

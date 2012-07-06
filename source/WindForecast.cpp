@@ -46,7 +46,7 @@ namespace TextGen
 {
 
   using namespace Settings;
-  using namespace WeatherAnalysis;
+  using namespace TextGen;
   using namespace AreaTools;
   using namespace WindStoryTools;
   using namespace boost;

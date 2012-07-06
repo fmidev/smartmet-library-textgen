@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::NullCalculator
+ * \brief Interface of class TextGen::NullCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_NULLCALCULATOR_H
-#define WEATHERANALYSIS_NULLCALCULATOR_H
+#ifndef TEXTGEN_NULLCALCULATOR_H
+#define TEXTGEN_NULLCALCULATOR_H
 
 #include "Calculator.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class Acceptor;
 
@@ -27,8 +27,8 @@ namespace WeatherAnalysis
 	
   }; // class Calculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_NULLCALCULATOR_H
+#endif // TEXTGEN_NULLCALCULATOR_H
 
 // ======================================================================

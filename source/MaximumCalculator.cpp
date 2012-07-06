@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::MaximumCalculator
+ * \brief Implementation of class TextGen::MaximumCalculator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::MaximumCalculator
+ * \class TextGen::MaximumCalculator
  *
  * \brief Maximum calculator
  *
@@ -19,7 +19,7 @@
 
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -107,6 +107,6 @@ namespace WeatherAnalysis
 	itsMaximum = 0;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::IntervalPeriodGenerator
+ * \brief Implementation of class TextGen::IntervalPeriodGenerator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::IntervalPeriodGenerator
+ * \class TextGen::IntervalPeriodGenerator
  *
  * \brief Generates a sequence of periods
  *
@@ -18,11 +18,11 @@
 
 #include "IntervalPeriodGenerator.h"
 #include "Settings.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 
 using namespace std;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   
   // ----------------------------------------------------------------------
@@ -96,14 +96,14 @@ namespace WeatherAnalysis
   void IntervalPeriodGenerator::init()
   {
 	if( (itsInterval != 0) && (24 % itsInterval != 0 && itsInterval % 24 != 0) )
-	  throw WeatherAnalysisError("IntervalPeriodGenerator: Interval must divide 24 evenly or be divisible by 24");
+	  throw TextGenError("IntervalPeriodGenerator: Interval must divide 24 evenly or be divisible by 24");
 	if(itsInterval < 0)
-	  throw WeatherAnalysisError("IntervalPeriodGenerator: Interval length must be positive");
+	  throw TextGenError("IntervalPeriodGenerator: Interval length must be positive");
 
 	if(itsMinimumInterval < 0)
-	  throw WeatherAnalysisError("IntervalPeriodGenerator: Minimum interval must be positive");
+	  throw TextGenError("IntervalPeriodGenerator: Minimum interval must be positive");
 	if(itsMinimumInterval > itsInterval)
-	  throw WeatherAnalysisError("IntervalPeriodGenerator: Minimum interval must be in range 1-interval or be zero");
+	  throw TextGenError("IntervalPeriodGenerator: Minimum interval must be in range 1-interval or be zero");
 
 	// Now we can generate the periods in advance
 
@@ -183,11 +183,11 @@ namespace WeatherAnalysis
   WeatherPeriod IntervalPeriodGenerator::period(size_type thePeriod) const
   {
     if(thePeriod < 1 || thePeriod > itsPeriods.size())
-      throw WeatherAnalysis::WeatherAnalysisError("IntervalPeriodGenerator::period(): invalid argument");
+      throw TextGen::TextGenError("IntervalPeriodGenerator::period(): invalid argument");
     return itsPeriods[thePeriod-1];
 
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

@@ -23,10 +23,6 @@
 #include <map>
 #include <vector>
 
-using namespace std;
-using namespace boost;
-using namespace WeatherAnalysis;
-
 namespace TextGen
 {
   namespace AreaTools
@@ -69,7 +65,7 @@ namespace TextGen
 	  Rect(const Rect& theRect) : m_topLeft(theRect.m_topLeft), m_bottomRight(theRect.m_bottomRight)
 	  {}
 	  Rect(const double& topLeftX, const double& topLeftY, const double& bottomRightX, const double& bottomRightY); 
-	  Rect(const vector<NFmiPoint*>& thePointVector);
+	  Rect(const std::vector<NFmiPoint*>& thePointVector);
 	  Rect(const NFmiPoint& topLeft, const NFmiPoint& bottomRight) : 
 		m_topLeft(topLeft), 
 		m_bottomRight(bottomRight)
@@ -131,8 +127,8 @@ namespace TextGen
 								   WeatherResult& theSouthWestShare,
 								   WeatherResult& theNortWestShare);
 
-	void getArealDistribution(const vector<NFmiPoint*>& thePointVector,
-							  map<direction_id, double>& theResultData);
+	void getArealDistribution(const std::vector<NFmiPoint*>& thePointVector,
+							  std::map<direction_id, double>& theResultData);
 
 	std::string getDirectionString(const direction_id& theDirectionId); 
 

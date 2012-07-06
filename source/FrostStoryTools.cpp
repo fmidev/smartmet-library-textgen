@@ -20,7 +20,7 @@
 #include "WeatherPeriod.h"
 #include "WeekdayTools.h"
 
-using WeatherAnalysis::WeatherPeriod;
+using TextGen::WeatherPeriod;
 
 namespace TextGen
 {

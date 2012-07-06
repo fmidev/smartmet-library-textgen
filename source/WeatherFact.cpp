@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::WeatherFact
+ * \brief Implementation of class TextGen::WeatherFact
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::WeatherFact
+ * \class TextGen::WeatherFact
  *
  * \brief Representation of a single fact about weather
  *
@@ -18,7 +18,7 @@
 
 #include "WeatherFact.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -160,7 +160,7 @@ namespace WeatherAnalysis
 	return itsResult;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ----------------------------------------------------------------------
 /*!
@@ -172,8 +172,8 @@ namespace WeatherAnalysis
  */
 // ----------------------------------------------------------------------
 
-bool operator==(const WeatherAnalysis::WeatherFact & theLhs,
-				const WeatherAnalysis::WeatherFact & theRhs)
+bool operator==(const TextGen::WeatherFact & theLhs,
+				const TextGen::WeatherFact & theRhs)
 {
   return (theLhs.parameter() == theRhs.parameter() &&
 		  theLhs.function() == theRhs.function() &&
@@ -192,8 +192,8 @@ bool operator==(const WeatherAnalysis::WeatherFact & theLhs,
  */
 // ----------------------------------------------------------------------
 
-bool operator!=(const WeatherAnalysis::WeatherFact & theLhs,
-				const WeatherAnalysis::WeatherFact & theRhs)
+bool operator!=(const TextGen::WeatherFact & theLhs,
+				const TextGen::WeatherFact & theRhs)
 {
   return !(theLhs == theRhs);
 }

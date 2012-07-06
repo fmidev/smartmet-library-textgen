@@ -1,17 +1,17 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::LatestWeatherSource
+ * \brief Interface of class TextGen::LatestWeatherSource
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_LATESTWEATHERSOURCE_H
-#define WEATHERANALYSIS_LATESTWEATHERSOURCE_H
+#ifndef TEXTGEN_LATESTWEATHERSOURCE_H
+#define TEXTGEN_LATESTWEATHERSOURCE_H
 
 #include "WeatherSource.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class LatestWeatherSource : public WeatherSource
   {
@@ -28,9 +28,9 @@ namespace WeatherAnalysis
 
   }; // class LatestWeatherSource
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_LATESTWEATHERSOURCE_H
+#endif // TEXTGEN_LATESTWEATHERSOURCE_H
 
 // ======================================================================
 

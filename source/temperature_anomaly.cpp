@@ -39,7 +39,7 @@
 #include <newbase/NFmiSettings.h>
 #include <newbase/NFmiMetMath.h>
 
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include "WeatherArea.h"
 #include "WeatherSource.h"
 #include "WeatherForecast.h"
@@ -57,7 +57,7 @@ namespace TextGen
   namespace TemperatureAnomaly
   {
 	using NFmiStringTools::Convert;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 	using namespace TemperatureStoryTools;
 	using namespace boost;
 	using namespace std;
@@ -1181,9 +1181,9 @@ enum anomaly_phrase_id
 	}
 
 
-  const Paragraph anomaly(const WeatherAnalysis::WeatherArea& itsArea,
-						  const WeatherAnalysis::WeatherPeriod& itsPeriod,
-						  const WeatherAnalysis::AnalysisSources& itsSources,
+  const Paragraph anomaly(const TextGen::WeatherArea& itsArea,
+						  const TextGen::WeatherPeriod& itsPeriod,
+						  const TextGen::AnalysisSources& itsSources,
 						  const NFmiTime& itsForecastTime,
 						  const std::string& itsVar,
 						  const std::string& theAreaName,

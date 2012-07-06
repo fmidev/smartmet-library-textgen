@@ -6,15 +6,8 @@
 namespace TextGen
 {
 
-using namespace Settings;
-using namespace WeatherAnalysis;
-using namespace AreaTools;
-using namespace boost;
-using namespace std;
-
-  
   typedef std::pair<WeatherPeriod, cloudiness_id> weather_period_cloudiness_id_pair;
-  typedef vector<weather_period_cloudiness_id_pair> cloudiness_period_vector;
+  typedef std::vector<weather_period_cloudiness_id_pair> cloudiness_period_vector;
 
   class CloudinessForecast
   {
@@ -114,7 +107,7 @@ using namespace std;
 								  const float& theStandardDeviation) const;
 	cloudiness_id getCloudinessId(const float& theCloudiness) const;
 	void joinPuolipilvisestaPilviseen(const weather_result_data_item_vector* theData,
-									  vector<int>& theCloudinessPuolipilvisestaPilviseen) const;
+									  std::vector<int>& theCloudinessPuolipilvisestaPilviseen) const;
 
 	wf_story_params& theParameters;
 	const weather_result_data_item_vector* theCoastalData;

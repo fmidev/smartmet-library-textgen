@@ -1,18 +1,18 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::ModTrendCalculator
+ * \brief Interface of class TextGen::ModTrendCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_MODTRENDCALCULATOR_H
-#define WEATHERANALYSIS_MODTRENDCALCULATOR_H
+#ifndef TEXTGEN_MODTRENDCALCULATOR_H
+#define TEXTGEN_MODTRENDCALCULATOR_H
 
 #include "Calculator.h"
 #include "Acceptor.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class ModTrendCalculator : public Calculator
   {
@@ -42,8 +42,8 @@ namespace WeatherAnalysis
 
   }; // class ModTrendCalculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_MODTRENDCALCULATOR_H
+#endif // TEXTGEN_MODTRENDCALCULATOR_H
 
 // ======================================================================

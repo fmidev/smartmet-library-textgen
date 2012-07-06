@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of abstract class WeatherAnalysis::WeatherPeriodGenerator
+ * \brief Implementation of abstract class TextGen::WeatherPeriodGenerator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::WeatherPeriodGenerator
+ * \class TextGen::WeatherPeriodGenerator
  *
  * \brief Generates a sequence of periods
  *

@@ -15,7 +15,7 @@
 #include "UnitFactory.h"
 #include "WeatherResult.h"
 
-using namespace WeatherAnalysis;
+using namespace TextGen;
 using namespace std;
 
 namespace TextGen

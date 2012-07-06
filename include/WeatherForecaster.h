@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of abstract class WeatherAnalysis::WeatherForecaster
+ * \brief Interface of abstract class TextGen::WeatherForecaster
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WEATHERFORECASTER_H
-#define WEATHERANALYSIS_WEATHERFORECASTER_H
+#ifndef TEXTGEN_WEATHERFORECASTER_H
+#define TEXTGEN_WEATHERFORECASTER_H
 
 #include "WeatherAnalyzer.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class Acceptor;
   class AnalysisSources;
@@ -40,8 +40,8 @@ namespace WeatherAnalysis
 
   }; // class WeatherForecaster
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_WEATHERFORECASTER_H
+#endif // TEXTGEN_WEATHERFORECASTER_H
 
 // ======================================================================

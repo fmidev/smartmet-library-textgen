@@ -1,17 +1,17 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::ComparativeAcceptor
+ * \brief Interface of class TextGen::ComparativeAcceptor
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_COMPARATIVEACCEPTOR_H
-#define WEATHERANALYSIS_COMPARATIVEACCEPTOR_H
+#ifndef TEXTGEN_COMPARATIVEACCEPTOR_H
+#define TEXTGEN_COMPARATIVEACCEPTOR_H
 
 #include "Acceptor.h"
 #include <newbase/NFmiGlobals.h>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   enum comparative_operator{LESS_THAN, 
 							LESS_OR_EQUAL, 
@@ -39,8 +39,8 @@ namespace WeatherAnalysis
 	comparative_operator itsOperator;
 
   }; // class ComparativeAcceptor
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_COMPARATIVEACCEPTOR_H
+#endif // TEXTGEN_COMPARATIVEACCEPTOR_H
 
 // ======================================================================

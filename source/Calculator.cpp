@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::Calculator
+ * \brief Implementation of class TextGen::Calculator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::Calculator
+ * \class TextGen::Calculator
  *
  * \brief Base class for data calculators
  *

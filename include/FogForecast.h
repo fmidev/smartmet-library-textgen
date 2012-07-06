@@ -7,13 +7,6 @@
 namespace TextGen
 {
 
-using namespace Settings;
-using namespace WeatherAnalysis;
-using namespace AreaTools;
-using namespace boost;
-using namespace std;
-
-
   enum fog_type_id
 	{
 	  FOG,
@@ -27,8 +20,8 @@ using namespace std;
 
   typedef std::pair<WeatherPeriod, FogIntensityDataItem> weather_period_fog_intensity_pair;
   typedef std::pair<WeatherPeriod, fog_type_id> weather_period_fog_type_intensity_pair;
-  typedef vector<weather_period_fog_intensity_pair> fog_period_vector;
-  typedef vector<weather_period_fog_type_intensity_pair> fog_type_period_vector;
+  typedef std::vector<weather_period_fog_intensity_pair> fog_period_vector;
+  typedef std::vector<weather_period_fog_type_intensity_pair> fog_type_period_vector;
 
   class FogForecast
   {

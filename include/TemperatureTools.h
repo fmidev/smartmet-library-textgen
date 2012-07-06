@@ -11,7 +11,7 @@
 using namespace std;
 #include <string>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherResult;
   class WeatherPeriod;
@@ -19,7 +19,7 @@ namespace WeatherAnalysis
   class WeatherArea;
 }
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace TemperatureTools
   {
@@ -32,12 +32,12 @@ namespace WeatherAnalysis
 	// ----------------------------------------------------------------------
 
 	void min_max_mean_temperature(const string& theVar,
-								  const WeatherAnalysis::AnalysisSources& theSources,
-								  const WeatherAnalysis::WeatherArea& theArea,
-								  const WeatherAnalysis::WeatherPeriod& thePeriod,
-								  WeatherAnalysis::WeatherResult& theMin,
-								  WeatherAnalysis::WeatherResult& theMax,
-								  WeatherAnalysis::WeatherResult& theMean);
+								  const TextGen::AnalysisSources& theSources,
+								  const TextGen::WeatherArea& theArea,
+								  const TextGen::WeatherPeriod& thePeriod,
+								  TextGen::WeatherResult& theMin,
+								  TextGen::WeatherResult& theMax,
+								  TextGen::WeatherResult& theMean);
 
 
 	// ----------------------------------------------------------------------
@@ -47,12 +47,12 @@ namespace WeatherAnalysis
 	// ----------------------------------------------------------------------
 
 	void morning_temperature(const string& theVar,
-							 const WeatherAnalysis::AnalysisSources& theSources,
-							 const WeatherAnalysis::WeatherArea& theArea,
-							 const WeatherAnalysis::WeatherPeriod& thePeriod,
-							 WeatherAnalysis::WeatherResult& theMin,
-							 WeatherAnalysis::WeatherResult& theMax,
-							 WeatherAnalysis::WeatherResult& theMean);
+							 const TextGen::AnalysisSources& theSources,
+							 const TextGen::WeatherArea& theArea,
+							 const TextGen::WeatherPeriod& thePeriod,
+							 TextGen::WeatherResult& theMin,
+							 TextGen::WeatherResult& theMax,
+							 TextGen::WeatherResult& theMean);
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -61,12 +61,12 @@ namespace WeatherAnalysis
 	// ----------------------------------------------------------------------
 
 	void afternoon_temperature(const string& theVar,
-							   const WeatherAnalysis::AnalysisSources& theSources,
-							   const WeatherAnalysis::WeatherArea& theArea,
-							   const WeatherAnalysis::WeatherPeriod& thePeriod,
-							   WeatherAnalysis::WeatherResult& theMin,
-							   WeatherAnalysis::WeatherResult& theMax,
-							   WeatherAnalysis::WeatherResult& theMean);
+							   const TextGen::AnalysisSources& theSources,
+							   const TextGen::WeatherArea& theArea,
+							   const TextGen::WeatherPeriod& thePeriod,
+							   TextGen::WeatherResult& theMin,
+							   TextGen::WeatherResult& theMax,
+							   TextGen::WeatherResult& theMean);
 
 	// ----------------------------------------------------------------------
 	/*!
@@ -81,7 +81,7 @@ namespace WeatherAnalysis
 						   int& theMaximum);
 
   } // namespace TemperatureTools
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 #endif // TEMPERATURETOOLS_H
 

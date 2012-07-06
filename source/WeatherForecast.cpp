@@ -38,7 +38,7 @@ namespace TextGen
 {
 
 using namespace Settings;
-using namespace WeatherAnalysis;
+using namespace TextGen;
 using namespace TemperatureStoryTools;
 using namespace AreaTools;
 using namespace boost;
@@ -1686,7 +1686,7 @@ using namespace std;
 
   float get_area_percentage(const std::string& theVar,
 							const WeatherArea& theArea,
-							const WeatherAnalysis::WeatherArea::Type& theType,
+							const TextGen::WeatherArea::Type& theType,
 							const AnalysisSources& theSources,
 							const WeatherPeriod& thePeriod)
   {
@@ -1831,9 +1831,9 @@ using namespace std;
   }
 
   split_method split_the_area(const std::string theVar,
-							  const WeatherAnalysis::WeatherArea& theArea,
-							  const WeatherAnalysis::WeatherPeriod& thePeriod,
-							  const WeatherAnalysis::AnalysisSources& theSources,
+							  const TextGen::WeatherArea& theArea,
+							  const TextGen::WeatherPeriod& thePeriod,
+							  const TextGen::AnalysisSources& theSources,
 							  double& theDivisionLine,
 							  MessageLogger& theLog)
   {
@@ -1901,10 +1901,10 @@ using namespace std;
 
   bool test_temperature_split_criterion(const std::string theVar,
 										const bool& morningTemperature,
-										const WeatherAnalysis::WeatherArea& theAreaOne,
-										const WeatherAnalysis::WeatherArea& theAreaTwo,
-										const WeatherAnalysis::WeatherPeriod& thePeriod,
-										const WeatherAnalysis::AnalysisSources& theSources,
+										const TextGen::WeatherArea& theAreaOne,
+										const TextGen::WeatherArea& theAreaTwo,
+										const TextGen::WeatherPeriod& thePeriod,
+										const TextGen::AnalysisSources& theSources,
 										MessageLogger& theLog)
   {
 	bool retval = false;
@@ -2032,11 +2032,11 @@ using namespace std;
   }
 
   split_method check_area_splitting(const std::string theVar,
-							const WeatherAnalysis::WeatherArea& theArea,
-							const WeatherAnalysis::WeatherPeriod& thePeriod,
-							const WeatherAnalysis::AnalysisSources& theSources,
-							WeatherAnalysis::WeatherArea& theFirstArea,
-							WeatherAnalysis::WeatherArea& theSecondArea,
+							const TextGen::WeatherArea& theArea,
+							const TextGen::WeatherPeriod& thePeriod,
+							const TextGen::AnalysisSources& theSources,
+							TextGen::WeatherArea& theFirstArea,
+							TextGen::WeatherArea& theSecondArea,
 							MessageLogger& theLog)
   {
 	bool splitCriterionFulfilled = false;

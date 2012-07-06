@@ -1,17 +1,17 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::MinimumCalculator
+ * \brief Interface of class TextGen::MinimumCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_MINIMUMCALCULATOR_H
-#define WEATHERANALYSIS_MINIMUMCALCULATOR_H
+#ifndef TEXTGEN_MINIMUMCALCULATOR_H
+#define TEXTGEN_MINIMUMCALCULATOR_H
 
 #include "Calculator.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class MinimumCalculator : public Calculator
   {
@@ -33,8 +33,8 @@ namespace WeatherAnalysis
 
   }; // class MinimumCalculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_MINIMUMCALCULATOR_H
+#endif // TEXTGEN_MINIMUMCALCULATOR_H
 
 // ======================================================================

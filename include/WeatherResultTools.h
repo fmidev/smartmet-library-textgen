@@ -1,17 +1,17 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of namespace WeatherAnalysis::WeatherResultTools
+ * \brief Interface of namespace TextGen::WeatherResultTools
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WEATHERRESULTTOOLS_H
-#define WEATHERANALYSIS_WEATHERRESULTTOOLS_H
+#ifndef TEXTGEN_WEATHERRESULTTOOLS_H
+#define TEXTGEN_WEATHERRESULTTOOLS_H
 
 #include "WeatherResult.h"
 #include <string>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace WeatherResultTools
   {

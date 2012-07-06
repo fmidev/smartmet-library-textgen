@@ -5,7 +5,7 @@
  */
 // ======================================================================
 /*!
- * \namespace WeatherAnalysis::QueryDataTools
+ * \namespace TextGen::QueryDataTools
  *
  * \brief Various small querydata related utility functions
  *
@@ -23,7 +23,7 @@
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiTime.h>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   namespace QueryDataTools
   {
@@ -160,6 +160,6 @@ namespace WeatherAnalysis
 	}
 	
   } // namespace QueryDataTools
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

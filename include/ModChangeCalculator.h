@@ -1,17 +1,17 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::ModChangeCalculator
+ * \brief Interface of class TextGen::ModChangeCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_MODCHANGECALCULATOR_H
-#define WEATHERANALYSIS_MODCHANGECALCULATOR_H
+#ifndef TEXTGEN_MODCHANGECALCULATOR_H
+#define TEXTGEN_MODCHANGECALCULATOR_H
 
 #include "Calculator.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class ModChangeCalculator : public Calculator
   {
@@ -38,8 +38,8 @@ namespace WeatherAnalysis
 
   }; // class ModChangeCalculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_MODCHANGECALCULATOR_H
+#endif // TEXTGEN_MODCHANGECALCULATOR_H
 
 // ======================================================================

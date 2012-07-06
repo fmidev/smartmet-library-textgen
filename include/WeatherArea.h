@@ -1,12 +1,12 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::WeatherArea
+ * \brief Interface of class TextGen::WeatherArea
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WEATHERAREA_H
-#define WEATHERANALYSIS_WEATHERAREA_H
+#ifndef TEXTGEN_WEATHERAREA_H
+#define TEXTGEN_WEATHERAREA_H
 
 #include "WeatherHistory.h"
 
@@ -16,7 +16,7 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherArea
   {
@@ -116,9 +116,9 @@ namespace WeatherAnalysis
 	
   }; // class WeatherArea
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 
-#endif // WEATHERANALYSIS_WEATHERAREA_H
+#endif // TEXTGEN_WEATHERAREA_H
 
 // ======================================================================

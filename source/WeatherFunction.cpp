@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Documentation of WeatherAnalysis::WeatherFunction
+ * \brief Documentation of TextGen::WeatherFunction
  */
 // ======================================================================
 /*!
- * \enum WeatherAnalysis::WeatherFunction
+ * \enum TextGen::WeatherFunction
  *
  * \brief Enumeration of functions on parameters that can be analyzed
  *

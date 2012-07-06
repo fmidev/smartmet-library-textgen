@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::NullCalculator
+ * \brief Implementation of class TextGen::NullCalculator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::NullCalculator
+ * \class TextGen::NullCalculator
  *
  * \brief Dummy calculator
  *
@@ -14,9 +14,9 @@
 
 #include "NullCalculator.h"
 #include "DefaultAcceptor.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -41,7 +41,7 @@ namespace WeatherAnalysis
 
   float NullCalculator::operator()() const
   {
-	throw WeatherAnalysisError("NullCalculator should never be asked for a result");
+	throw TextGenError("NullCalculator should never be asked for a result");
   }
   
   // ----------------------------------------------------------------------
@@ -77,6 +77,6 @@ namespace WeatherAnalysis
   {
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

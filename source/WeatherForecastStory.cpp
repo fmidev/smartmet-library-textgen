@@ -27,7 +27,7 @@ namespace TextGen
 {
   using namespace boost;
   using namespace std;
-  using namespace WeatherAnalysis;
+  using namespace TextGen;
   using namespace Settings;
 
  std::ostream& operator<<(std::ostream & theOutput,

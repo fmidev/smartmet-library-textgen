@@ -1,14 +1,14 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::Acceptor
+ * \brief Interface of class TextGen::Acceptor
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_ACCEPTOR_H
-#define WEATHERANALYSIS_ACCEPTOR_H
+#ifndef TEXTGEN_ACCEPTOR_H
+#define TEXTGEN_ACCEPTOR_H
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class Acceptor
   {
@@ -20,8 +20,8 @@ namespace WeatherAnalysis
 	virtual Acceptor * clone() const = 0;
 
   }; // class Acceptor
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_ACCEPTOR_H
+#endif // TEXTGEN_ACCEPTOR_H
 
 // ======================================================================

@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::PercentageCalculator
+ * \brief Implementation of class TextGen::PercentageCalculator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::PercentageCalculator
+ * \class TextGen::PercentageCalculator
  *
  * \brief Percentage intergator
  *
@@ -20,7 +20,7 @@
 
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -134,6 +134,6 @@ namespace WeatherAnalysis
 	itsTotalCounter = 0;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

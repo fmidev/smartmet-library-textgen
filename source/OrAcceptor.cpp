@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::OrAcceptor
+ * \brief Implementation of class TextGen::OrAcceptor
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::OrAcceptor
+ * \class TextGen::OrAcceptor
  *
  * \brief OrAcceptor combines two Acceptors with a logical OR
  *
@@ -14,7 +14,7 @@
 
 #include "OrAcceptor.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -74,6 +74,6 @@ namespace WeatherAnalysis
 	return itsLhs->accept(theValue) || itsRhs->accept(theValue);
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

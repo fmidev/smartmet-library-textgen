@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::MinimumCalculator
+ * \brief Implementation of class TextGen::MinimumCalculator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::MinimumCalculator
+ * \class TextGen::MinimumCalculator
  *
  * \brief Minimum calculator
  *
@@ -19,7 +19,7 @@
 
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -107,6 +107,6 @@ namespace WeatherAnalysis
 	itsMinimum = 0;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

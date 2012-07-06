@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::UserWeatherSource
+ * \brief Implementation of class TextGen::UserWeatherSource
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::UserWeatherSource
+ * \class TextGen::UserWeatherSource
  *
  * \brief Weather data source
  *
@@ -19,14 +19,14 @@
 
 #include "UserWeatherSource.h"
 #include "IdGenerator.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include <newbase/NFmiStreamQueryData.h>
 #include <cassert>
 #include <map>
 
 using namespace std;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   // ----------------------------------------------------------------------
   /*!
@@ -73,7 +73,7 @@ namespace WeatherAnalysis
 	typedef Pimple::container_type::const_iterator const_iterator;
 	const_iterator it = itsPimple->itsData.find(theName);
 	if(it == itsPimple->itsData.end())
-	  throw WeatherAnalysisError("No data named "+theName+" stored in UserWeatherSource");
+	  throw TextGenError("No data named "+theName+" stored in UserWeatherSource");
 
 	return it->second;
   }
@@ -93,7 +93,7 @@ namespace WeatherAnalysis
 	typedef Pimple::id_container_type::const_iterator const_iterator;
 	const_iterator it = itsPimple->itsIdData.find(theName);
 	if(it == itsPimple->itsIdData.end())
-	  throw WeatherAnalysisError("No data named "+theName+" stored in UserWeatherSource");
+	  throw TextGenError("No data named "+theName+" stored in UserWeatherSource");
 
 	return it->second;
   }
@@ -127,6 +127,6 @@ namespace WeatherAnalysis
   }
 
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

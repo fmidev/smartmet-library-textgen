@@ -12,7 +12,7 @@
 #include "Sentence.h"
 #include "Settings.h"
 
-using namespace WeatherAnalysis;
+using namespace TextGen;
 using namespace boost;
 using namespace std;
 

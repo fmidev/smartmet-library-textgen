@@ -1,17 +1,17 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::ModMeanCalculator
+ * \brief Interface of class TextGen::ModMeanCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_MODMEANCALCULATOR_H
-#define WEATHERANALYSIS_MODMEANCALCULATOR_H
+#ifndef TEXTGEN_MODMEANCALCULATOR_H
+#define TEXTGEN_MODMEANCALCULATOR_H
 
 #include "Calculator.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class ModMeanCalculator : public Calculator
   {
@@ -38,8 +38,8 @@ namespace WeatherAnalysis
 
   }; // class ModMeanCalculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_MODMEANCALCULATOR_H
+#endif // TEXTGEN_MODMEANCALCULATOR_H
 
 // ======================================================================

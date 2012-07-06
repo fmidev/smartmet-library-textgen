@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::Calculator
+ * \brief Interface of class TextGen::Calculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_CALCULATOR_H
-#define WEATHERANALYSIS_CALCULATOR_H
+#ifndef TEXTGEN_CALCULATOR_H
+#define TEXTGEN_CALCULATOR_H
 
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class Acceptor;
 
@@ -28,8 +28,8 @@ namespace WeatherAnalysis
 	
   }; // class Calculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_CALCULATOR_H
+#endif // TEXTGEN_CALCULATOR_H
 
 // ======================================================================

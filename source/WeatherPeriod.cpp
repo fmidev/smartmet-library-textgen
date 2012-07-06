@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::WeatherPeriod
+ * \brief Implementation of class TextGen::WeatherPeriod
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::WeatherPeriod
+ * \class TextGen::WeatherPeriod
  *
  * \brief Representation of an analysis time period
  *
@@ -27,10 +27,10 @@
 
 #include "WeatherPeriod.h"
 #include "TimeTools.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include <cassert>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -65,7 +65,7 @@ namespace WeatherAnalysis
 	, itsUtcEndTime(TimeTools::toUtcTime(theLocalEndTime))
   {
 	if(theLocalEndTime.IsLessThan(theLocalStartTime))
-	  throw WeatherAnalysisError("WeatherPeriod: end time must be after start time");
+	  throw TextGenError("WeatherPeriod: end time must be after start time");
   }
 
   // ----------------------------------------------------------------------
@@ -122,7 +122,7 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Less-than comparison for WeatherAnalysis::WeatherPeriod
+   * \brief Less-than comparison for TextGen::WeatherPeriod
    *
    * We define < to mean the lexicographic ordering based on the
    * start time and then the end time.
@@ -132,7 +132,7 @@ namespace WeatherAnalysis
    */
   // ----------------------------------------------------------------------
   
-  bool WeatherPeriod::operator<(const WeatherAnalysis::WeatherPeriod & theRhs) const
+  bool WeatherPeriod::operator<(const TextGen::WeatherPeriod & theRhs) const
   {
 	if(utcStartTime() != theRhs.utcStartTime())
 	  return (utcStartTime() < theRhs.utcStartTime());
@@ -140,11 +140,11 @@ namespace WeatherAnalysis
   }
 
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Equality comparison for WeatherAnalysis::WeatherPeriod
+ * \brief Equality comparison for TextGen::WeatherPeriod
  *
  * \param theLhs The left hand side
  * \param theRhs The right hand side
@@ -152,8 +152,8 @@ namespace WeatherAnalysis
  */
 // ----------------------------------------------------------------------
 
-bool operator==(const WeatherAnalysis::WeatherPeriod & theLhs,
-				const WeatherAnalysis::WeatherPeriod & theRhs)
+bool operator==(const TextGen::WeatherPeriod & theLhs,
+				const TextGen::WeatherPeriod & theRhs)
 {
   return(theLhs.utcStartTime() == theRhs.utcStartTime() &&
 		 theLhs.utcEndTime() == theRhs.utcEndTime());
@@ -161,7 +161,7 @@ bool operator==(const WeatherAnalysis::WeatherPeriod & theLhs,
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Inequality comparison for WeatherAnalysis::WeatherPeriod
+ * \brief Inequality comparison for TextGen::WeatherPeriod
  *
  * \param theLhs The left hand side
  * \param theRhs The right hand side
@@ -169,8 +169,8 @@ bool operator==(const WeatherAnalysis::WeatherPeriod & theLhs,
  */
 // ----------------------------------------------------------------------
 
-bool operator!=(const WeatherAnalysis::WeatherPeriod & theLhs,
-				const WeatherAnalysis::WeatherPeriod & theRhs)
+bool operator!=(const TextGen::WeatherPeriod & theLhs,
+				const TextGen::WeatherPeriod & theRhs)
 {
   return !(theLhs == theRhs);
 }

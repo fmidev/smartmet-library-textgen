@@ -1,12 +1,12 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of abstract class WeatherAnalysis::WeatherSource
+ * \brief Interface of abstract class TextGen::WeatherSource
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WEATHERSOURCE_H
-#define WEATHERANALYSIS_WEATHERSOURCE_H
+#ifndef TEXTGEN_WEATHERSOURCE_H
+#define TEXTGEN_WEATHERSOURCE_H
 
 #include <string>
 #include <boost/shared_ptr.hpp>
@@ -14,7 +14,7 @@
 
 class NFmiStreamQueryData;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   typedef long WeatherId;
 
@@ -28,9 +28,9 @@ namespace WeatherAnalysis
 
   }; // class WeatherSource
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_WEATHERSOURCE_H
+#endif // TEXTGEN_WEATHERSOURCE_H
 
 // ======================================================================
 

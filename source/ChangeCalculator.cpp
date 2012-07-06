@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::ChangeCalculator
+ * \brief Implementation of class TextGen::ChangeCalculator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::ChangeCalculator
+ * \class TextGen::ChangeCalculator
  *
  * \brief Change intergator
  *
@@ -19,7 +19,7 @@
 
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -110,6 +110,6 @@ namespace WeatherAnalysis
 	itsEndValue = kFloatMissing;
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

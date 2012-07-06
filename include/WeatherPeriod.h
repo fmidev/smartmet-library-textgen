@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::WeatherPeriod
+ * \brief Interface of class TextGen::WeatherPeriod
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WEATHERPERIOD_H
-#define WEATHERANALYSIS_WEATHERPERIOD_H
+#ifndef TEXTGEN_WEATHERPERIOD_H
+#define TEXTGEN_WEATHERPERIOD_H
 
 #include <newbase/NFmiTime.h>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class WeatherPeriod
   {
@@ -45,18 +45,18 @@ namespace WeatherAnalysis
 
   }; // class WeatherPeriod
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 
 // Free functions
 
-bool operator==(const WeatherAnalysis::WeatherPeriod & theLhs,
-				const WeatherAnalysis::WeatherPeriod & theRhs);
+bool operator==(const TextGen::WeatherPeriod & theLhs,
+				const TextGen::WeatherPeriod & theRhs);
 
-bool operator!=(const WeatherAnalysis::WeatherPeriod & theLhs,
-				const WeatherAnalysis::WeatherPeriod & theRhs);
+bool operator!=(const TextGen::WeatherPeriod & theLhs,
+				const TextGen::WeatherPeriod & theRhs);
 
-#endif // WEATHERANALYSIS_WEATHERPERIOD_H
+#endif // TEXTGEN_WEATHERPERIOD_H
 
 // ======================================================================
 

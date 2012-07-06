@@ -22,7 +22,7 @@
 #include <algorithm>
 
 using namespace boost;
-using namespace WeatherAnalysis;
+using namespace TextGen;
 using namespace TextGen::WindStoryTools;
 using namespace std;
 
@@ -3648,8 +3648,8 @@ namespace TextGen
 	double windDirectionThreshold = Settings::optional_double(storyParams.theVar+"::wind_direction_threshold", 45.0);
 	double gustyWindMaximumWindDifference = Settings::optional_double(storyParams.theVar+"::gusty_wind_max_wind_difference", 5.0);
 	string rangeSeparator = Settings::optional_string(storyParams.theVar+"::rangeseparator","-");
-	unsigned int minIntervalSize = optional_int(storyParams.theVar+"::wind_speed_interval_min_size",2);
-	unsigned int maxIntervalSize = optional_int(storyParams.theVar+"::wind_speed_interval_max_size",5);
+	unsigned int minIntervalSize = Settings::optional_int(storyParams.theVar+"::wind_speed_interval_min_size",2);
+	unsigned int maxIntervalSize = Settings::optional_int(storyParams.theVar+"::wind_speed_interval_max_size",5);
 	
 	storyParams.theMaxErrorWindSpeed = maxErrorWindSpeed;
 	storyParams.theMaxErrorWindDirection = maxErrorWindDirection;

@@ -1,30 +1,30 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::WeatherAnalysisError
+ * \brief Interface of class TextGen::TextGenError
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WEATHERANALYSISERROR_H
-#define WEATHERANALYSIS_WEATHERANALYSISERROR_H
+#ifndef TEXTGEN_TEXTGENERROR_H
+#define TEXTGEN_TEXTGENERROR_H
 
 #include <stdexcept>
 #include <string>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
-  class WeatherAnalysisError : public std::exception
+  class TextGenError : public std::exception
   {
   public:
-	~WeatherAnalysisError() throw() { }
-	WeatherAnalysisError(const std::string & theError);
+	~TextGenError() throw() { }
+	TextGenError(const std::string & theError);
 	virtual const char * what(void) const throw();
   private:
 	std::string itsError;
 
-  }; // class WeatherAnalysisError
-} // namespace WeatherAnalysis
+  }; // class TextGenError
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_WEATHERANALYSISERROR_H
+#endif // TEXTGEN_TEXTGENERROR_H
 
 // ======================================================================

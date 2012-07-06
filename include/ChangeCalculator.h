@@ -1,18 +1,18 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class WeatherAnalysis::ChangeCalculator
+ * \brief Interface of class TextGen::ChangeCalculator
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_CHANGECALCULATOR_H
-#define WEATHERANALYSIS_CHANGECALCULATOR_H
+#ifndef TEXTGEN_CHANGECALCULATOR_H
+#define TEXTGEN_CHANGECALCULATOR_H
 
 #include "Calculator.h"
 #include "Acceptor.h"
 #include <boost/shared_ptr.hpp>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class ChangeCalculator : public Calculator
   {
@@ -36,8 +36,8 @@ namespace WeatherAnalysis
 
   }; // class ChangeCalculator
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_CHANGECALCULATOR_H
+#endif // TEXTGEN_CHANGECALCULATOR_H
 
 // ======================================================================

@@ -1,16 +1,16 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of abstract class WeatherAnalysis::WeatherStatistician
+ * \brief Interface of abstract class TextGen::WeatherStatistician
  */
 // ======================================================================
 
-#ifndef WEATHERANALYSIS_WEATHERSTATISTICIAN_H
-#define WEATHERANALYSIS_WEATHERSTATISTICIAN_H
+#ifndef TEXTGEN_WEATHERSTATISTICIAN_H
+#define TEXTGEN_WEATHERSTATISTICIAN_H
 
 #include "WeatherAnalyzer.h"
 
-namespace WeatherAnalysis
+namespace TextGen
 {
   class Acceptor;
   class AnalysisSources;
@@ -40,8 +40,8 @@ namespace WeatherAnalysis
 
   }; // class WeatherStatistician
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
-#endif // WEATHERANALYSIS_WEATHERSTATISTICIAN_H
+#endif // TEXTGEN_WEATHERSTATISTICIAN_H
 
 // ======================================================================

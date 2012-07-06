@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::NorthernMaskSource
+ * \brief Implementation of class TextGen::NorthernMaskSource
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::NorthernMaskSource
+ * \class TextGen::NorthernMaskSource
  *
  * \brief Provides mask services to clients (masked to inlandal areas)
  *
@@ -19,7 +19,7 @@
 
 #include "NorthernMaskSource.h"
 
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include "WeatherArea.h"
 #include "WeatherSource.h"
 #include "SubMaskExtractor.h"
@@ -36,7 +36,7 @@ using namespace std;
 using namespace boost;
 using namespace NFmiIndexMaskTools;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -73,7 +73,7 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Implementation hiding detail for WeatherAnalysis::NorthernMaskSource
+   * \brief Implementation hiding detail for TextGen::NorthernMaskSource
    */
   // ----------------------------------------------------------------------
 
@@ -185,7 +185,7 @@ namespace WeatherAnalysis
 	itsMaskStorage.insert(value_type(key,theMask));
 
 	if(itsMaskStorage.insert(value_type(key,theMask)).second)
-	  throw WeatherAnalysisError("Could not cache mask for "+theArea.name());
+	  throw TextGenError("Could not cache mask for "+theArea.name());
   }
 
   // ----------------------------------------------------------------------
@@ -209,13 +209,13 @@ namespace WeatherAnalysis
 	shared_ptr<NFmiStreamQueryData> qdata = theWeatherSource.data(theData);
 	NFmiFastQueryInfo * qi = qdata->QueryInfoIter();
 	if(!qi->IsGrid())
-	  throw WeatherAnalysisError("The data in "+theData+" is not gridded - cannot generate mask for it");
+	  throw TextGenError("The data in "+theData+" is not gridded - cannot generate mask for it");
 
 	// First build the area mask
 
 	mask_type return_mask(new NFmiIndexMask(MaskDirection(*(qi->Grid()),
 														  theArea,
-														  NORTH)));
+														  AreaTools::NORTH)));
 
 	return return_mask;
   }
@@ -247,7 +247,7 @@ namespace WeatherAnalysis
 						   const WeatherSource & theWeatherSource) const
   {
 	if(theArea.isPoint())
-	  throw WeatherAnalysisError("Trying to generate mask for point");
+	  throw TextGenError("Trying to generate mask for point");
 
 	// Establish the ID for the data
 
@@ -283,10 +283,10 @@ namespace WeatherAnalysis
 							const std::string & theData,
 							const WeatherSource & theWeatherSource) const
   {
-	throw WeatherAnalysisError("NorthernMaskSource::masks not implemented");
+	throw TextGenError("NorthernMaskSource::masks not implemented");
   }
 
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

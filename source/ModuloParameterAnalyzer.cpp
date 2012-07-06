@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::ModuloParameterAnalyzer
+ * \brief Implementation of class TextGen::ModuloParameterAnalyzer
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::ModuloParameterAnalyzer
+ * \class TextGen::ModuloParameterAnalyzer
  *
  * \brief Modulo parameter analysis functions
  *
@@ -20,7 +20,7 @@
 using namespace std;
 using namespace boost;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -82,6 +82,6 @@ namespace WeatherAnalysis
 
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

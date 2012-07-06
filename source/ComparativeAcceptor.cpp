@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::ComparativeAcceptor
+ * \brief Implementation of class TextGen::ComparativeAcceptor
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::ComparativeAcceptor
+ * \class TextGen::ComparativeAcceptor
  *
  * \brief ComparativeAcceptor accepths a range of values
  *
@@ -15,7 +15,7 @@
 #include "ComparativeAcceptor.h"
 
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -109,6 +109,6 @@ namespace WeatherAnalysis
   {
 	itsOperator = theOperator;
   }
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

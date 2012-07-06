@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::PositiveValueAcceptor
+ * \brief Implementation of class TextGen::PositiveValueAcceptor
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::PositiveValueAcceptor
+ * \class TextGen::PositiveValueAcceptor
  *
  * \brief PositiveValueAcceptor accepts only positive values
  *
@@ -16,7 +16,7 @@
 #include "PositiveValueAcceptor.h"
 #include <newbase/NFmiGlobals.h>
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -46,6 +46,6 @@ namespace WeatherAnalysis
 	return (theValue != kFloatMissing && theValue > 0.0);
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

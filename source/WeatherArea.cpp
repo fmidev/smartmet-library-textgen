@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::WeatherArea
+ * \brief Implementation of class TextGen::WeatherArea
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::WeatherArea
+ * \class TextGen::WeatherArea
  *
  * \brief Representation of an area to be analyzed
  *
@@ -68,7 +68,7 @@
 #include "WeatherArea.h"
 #include "LocationSource.h"
 #include "Settings.h"
-#include "WeatherAnalysisError.h"
+#include "TextGenError.h"
 #include <newbase/NFmiFileSystem.h>
 #include <newbase/NFmiStringTools.h>
 #include <fstream>
@@ -102,7 +102,7 @@ namespace
 
 }
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -197,7 +197,7 @@ namespace WeatherAnalysis
 	, itsHistory()
   {
 	if(theRadius < 0)
-	  throw WeatherAnalysisError("A weather point cannot have a negative expansion radius");
+	  throw TextGenError("A weather point cannot have a negative expansion radius");
 	if(theRadius > 0)
 	  make_point_path(*itsPolygon,thePoint);
  	set_boolean_parameters();
@@ -237,7 +237,7 @@ namespace WeatherAnalysis
  	, itsHistory()
  {
 	if(theRadius < 0)
-	  throw WeatherAnalysisError("A weather point cannot have a negative expansion radius");
+	  throw TextGenError("A weather point cannot have a negative expansion radius");
 	if(theRadius > 0)
 	  make_point_path(*itsPolygon,thePoint);
  	set_boolean_parameters();
@@ -297,7 +297,7 @@ namespace WeatherAnalysis
   {
 	if(itsNamedFlag)
 	  return itsName;
-	throw WeatherAnalysisError("Trying to access name of unnamed weather area");
+	throw TextGenError("Trying to access name of unnamed weather area");
   }
 
   // ----------------------------------------------------------------------
@@ -312,7 +312,7 @@ namespace WeatherAnalysis
   {
 	if(itsPointFlag)
 	  return itsPoint;
-	throw WeatherAnalysisError("Trying to access coordinate of polygonal weather area");
+	throw TextGenError("Trying to access coordinate of polygonal weather area");
   }
 
   // ----------------------------------------------------------------------
@@ -326,9 +326,9 @@ namespace WeatherAnalysis
   const NFmiSvgPath & WeatherArea::path() const
   {
 	if(itsPointFlag)
-	  throw WeatherAnalysisError("Trying to access path of a point");
+	  throw TextGenError("Trying to access path of a point");
 	if(itsPolygon.get() == 0)
-	  throw WeatherAnalysisError("Internal polygon allocation error in WeatherArea");
+	  throw TextGenError("Internal polygon allocation error in WeatherArea");
 	return *itsPolygon;
   }
 
@@ -390,11 +390,11 @@ namespace WeatherAnalysis
   void WeatherArea::parse_specs(const std::string & theSpecs)
   {
 	if(theSpecs.empty())
-	  throw WeatherAnalysisError("Trying to construct WeatherArea from empty string description");
+	  throw TextGenError("Trying to construct WeatherArea from empty string description");
 
 	vector<string> words = NFmiStringTools::Split(theSpecs,":");
 	if(words.size() > 2)
-	  throw WeatherAnalysisError("Too many ':' characters in WeatherArea specification '"+theSpecs+"'");
+	  throw TextGenError("Too many ':' characters in WeatherArea specification '"+theSpecs+"'");
 
 	// Parse the radius part
 
@@ -406,7 +406,7 @@ namespace WeatherAnalysis
 		  }
 		catch(...)
 		  {
-			throw WeatherAnalysisError("Expecting a valid radius after the ':' character in WeatherArea '"+theSpecs+"'");
+			throw TextGenError("Expecting a valid radius after the ':' character in WeatherArea '"+theSpecs+"'");
 		  }
 	  }
 
@@ -432,19 +432,19 @@ namespace WeatherAnalysis
 
 		ifstream in(filename.c_str(), ios::in);
 		if(!in)
-		  throw WeatherAnalysisError("Could not open map file '"+filename+"' for reading");
+		  throw TextGenError("Could not open map file '"+filename+"' for reading");
 		in >> *itsPolygon;
 		in.close();
 
 		if(itsPolygon->empty())
-		  throw WeatherAnalysisError("Map file '"+filename+"' does not contain an acceptable SVG path");
+		  throw TextGenError("Map file '"+filename+"' does not contain an acceptable SVG path");
 		return;
 	  }
 
 	// Not a polygon - must be pointlike then
 
 	if(itsRadius < 0)
-	  throw WeatherAnalysisError("Location '"+spec+"' cannot have negative expansion radius");
+	  throw TextGenError("Location '"+spec+"' cannot have negative expansion radius");
 
 	if(LocationSource::instance().hasCoordinates(spec))
 	  {
@@ -459,7 +459,7 @@ namespace WeatherAnalysis
 		  }
 		catch(...)
 		  {
-			throw WeatherAnalysisError("Location '"+spec+"' has no known coordinates");
+			throw TextGenError("Location '"+spec+"' has no known coordinates");
 		  }
 	  }
 
@@ -471,7 +471,7 @@ namespace WeatherAnalysis
  
   // ----------------------------------------------------------------------
   /*!
-   * \brief Lexical less-than comparison for WeatherAnalysis::WeatherArea
+   * \brief Lexical less-than comparison for TextGen::WeatherArea
    *
    * This is implemented solely for the benefit of putting WeatherArea
    * objects into standard associative containers. For example, MaskSource
@@ -490,7 +490,7 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Equality comparison for WeatherAnalysis::WeatherArea
+   * \brief Equality comparison for TextGen::WeatherArea
    *
    * \param theOther The area to compare with
    * \return True if \c this is lexicographically less than theOther
@@ -504,7 +504,7 @@ namespace WeatherAnalysis
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Inequality comparison for WeatherAnalysis::WeatherArea
+   * \brief Inequality comparison for TextGen::WeatherArea
    *
    * \param theOther The area to compare with
    * \return True if \c this is lexicographically less than theOther
@@ -518,7 +518,7 @@ namespace WeatherAnalysis
 
  // ----------------------------------------------------------------------
   /*!
-   * \brief Equality comparison for WeatherAnalysis::WeatherArea
+   * \brief Equality comparison for TextGen::WeatherArea
    *
    * \param theOther The area to compare with
    * \return True if \c this is lexicographically less than theOther
@@ -638,6 +638,6 @@ namespace WeatherAnalysis
 	return (itsBooleanParameters & Mountain);
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

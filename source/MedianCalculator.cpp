@@ -1,11 +1,11 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class WeatherAnalysis::MedianCalculator
+ * \brief Implementation of class TextGen::MedianCalculator
  */
 // ======================================================================
 /*!
- * \class WeatherAnalysis::MedianCalculator
+ * \class TextGen::MedianCalculator
  *
  * \brief Median intergator
  *
@@ -22,7 +22,7 @@
 using namespace boost;
 using namespace std;
 
-namespace WeatherAnalysis
+namespace TextGen
 {
 
   // ----------------------------------------------------------------------
@@ -110,6 +110,6 @@ namespace WeatherAnalysis
 	theValueVector.clear();
   }
 
-} // namespace WeatherAnalysis
+} // namespace TextGen
 
 // ======================================================================

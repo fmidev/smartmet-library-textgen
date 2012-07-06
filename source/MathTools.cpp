@@ -46,7 +46,7 @@ namespace MathTools
    * \return The Pearson coefficient
    */
   // ----------------------------------------------------------------------
-  double pearson_coefficient(const vector<double>& theValueVector)
+  double pearson_coefficient(const std::vector<double>& theValueVector)
   {
 	double coefficient = 0.0;
 	
