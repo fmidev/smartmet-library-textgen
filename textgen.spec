@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 12.7.5
+Version: 12.7.6
 Release: 1.el6.fmi
 License: FMI
 Group: Development/Libraries
@@ -36,6 +36,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
+* Fri Jul  6 2012 Mika Heiskanen <mika.heiskanen@fmi.fi> - 12.7.6-1.el6.fmi
+- Fixed namespace pollution issues
 * Thu Jul  5 2012 Mika Heiskanen <mika.heiskanen@fmi.fi> - 12.7.5-1.el6.fmi
 - Migration to boost 1.50
 - Latest updates from Anssi Reponen
