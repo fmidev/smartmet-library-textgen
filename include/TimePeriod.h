@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class TextGen::Period
+ * \brief Interface of class TextGen::TimePeriod
  */
 // ======================================================================
 
