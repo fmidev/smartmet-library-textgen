@@ -43,33 +43,6 @@ namespace
   //! A static instance to avoid construction costs
 
   NFmiEnumConverter converter;
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return data type as string
-   *
-   * \param theDataType The data type
-   * \return The string
-   */
-  // ----------------------------------------------------------------------
-
-  const char * data_type_name(const TextGen::WeatherDataType & theDataType)
-  {
-	using namespace TextGen;
-
-	switch(theDataType)
-	  {
-	  case Forecast:
-		return "forecast";
-	  case Observation:
-		return "observation";
-	  case Climatology:
-		return "climatology";
-	  }
-
-	throw TextGenError("Unrecognized WeatherDataType in WindChillFunctionAnalyzer");
-  }
-
 } // namespace anonymous
 
 
