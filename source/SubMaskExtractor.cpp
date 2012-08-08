@@ -48,39 +48,11 @@ using namespace boost;
 	
 namespace
 {
-  NFmiEnumConverter itsConverter;
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return data type as string
-   *
-   * \param theDataType The data type
-   * \return The string
-   */
-  // ----------------------------------------------------------------------
-
-  const char * data_type_name(const TextGen::WeatherDataType & theDataType)
-  {
-	using namespace TextGen;
-
-	switch(theDataType)
-	  {
-	  case Forecast:
-		return "forecast";
-	  case Observation:
-		return "observation";
-	  case Climatology:
-		return "climatology";
-	  }
-
-	throw TextGenError("Unrecognized WeatherDataType in RegularFunctionAnalyzer");
-  }
+  NFmiEnumConverter converter;
 } // namespace anonymous
 
 namespace TextGen
 {
-
-
 
   double GetLocationCoordinates(const AnalysisSources& theSources,
 								const WeatherParameter& theParameter,
@@ -105,7 +77,7 @@ namespace TextGen
 	shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
 	NFmiFastQueryInfo* theQI = qd->QueryInfoIter();
 
-	FmiParameterName param = FmiParameterName(itsConverter.ToEnum(parameterName));
+	FmiParameterName param = FmiParameterName(converter.ToEnum(parameterName));
 	if(param == kFmiBadParameter)
 	  throw TextGenError("Parameter "+parameterName+" is not defined in newbase");
   
@@ -210,7 +182,7 @@ namespace TextGen
 	shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
 	NFmiFastQueryInfo* theQI = qd->QueryInfoIter();
 
-	FmiParameterName param = FmiParameterName(itsConverter.ToEnum(parameterName));
+	FmiParameterName param = FmiParameterName(converter.ToEnum(parameterName));
 	if(param == kFmiBadParameter)
 	  throw TextGenError("Parameter "+parameterName+" is not defined in newbase");
   
