@@ -21,7 +21,7 @@ namespace TextGen
   public:
 
 	virtual ~SectionTag();
-	SectionTag(const std::string & theName);
+	SectionTag(const std::string & theName, const bool& prefixTag = true);
 #ifdef NO_COMPILER_GENERATED
 	SectionTag(const SectionTag & theSectionTag);
 	SectionTag & operator=(const SectionTag & theSectionTag);
@@ -32,11 +32,13 @@ namespace TextGen
 	virtual std::string realize(const TextFormatter & theFormatter) const;
 
 	virtual bool isDelimiter() const;
+	virtual bool isPrefixTag() const;
 
   private:
 
 	SectionTag();
 	std::string itsName;
+	bool itsPrefixTag;
 
   }; // class SectionTag
 } // namespace SectionTag
