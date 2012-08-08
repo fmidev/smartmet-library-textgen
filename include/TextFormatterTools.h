@@ -15,15 +15,25 @@
 #include <string>
 #include <iostream>
 
+class NFmiTime;
+
 namespace TextGen
 {
+  class WeatherPeriod;
+
   namespace TextFormatterTools
   {
 	std::string capitalize(std::string & theString);
 	void punctuate(std::string & theString);
 	std::string make_needle(int n);
 	int count_patterns(const std::string & theString);
-
+	std::string format_time(const NFmiTime& theTime, const std::string& theFormattingString);
+	std::string format_time(const NFmiTime& theTime, 
+							const std::string& theStoryVar,
+							const std::string& theFormatterName);
+	std::string format_time(const WeatherPeriod& thePeriod, 
+							const std::string& theStoryVar,
+							const std::string& theFormatterName);
 
 	// ----------------------------------------------------------------------
 	/*!

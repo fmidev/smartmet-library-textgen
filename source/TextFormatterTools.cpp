@@ -13,12 +13,16 @@
 // ======================================================================
 
 #include "TextFormatterTools.h"
+#include "WeatherPeriod.h"
+#include "Settings.h"
 #include <newbase/NFmiStringTools.h>
+#include <newbase/NFmiTime.h>
 #include <boost/locale.hpp>
 // #include <cctype>
 // #include <clocale>
 
 using namespace std;
+using namespace boost::locale::as;
 
 namespace TextGen
 {
@@ -105,6 +109,79 @@ namespace TextGen
 		  ++n;
 		  needle = make_needle(n+1);
 		}
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Format the timestamp using strftime style formatting
+	 *
+	 * \param theTime the timestamp
+	 * \param theFormattingString strftime style formatting string
+	 */
+	// ----------------------------------------------------------------------
+	std::string format_time(const NFmiTime& theTime, const std::string& theFormattingString)
+	{
+	  if(theFormattingString.empty())
+		return "";
+
+	  std::ostringstream string_stream;
+
+	  string_stream <<  ftime(theFormattingString) << theTime.EpochTime();
+	  
+	  std::string formatted_string(string_stream.str());
+
+	  if(formatted_string.at(0) == '"')
+		formatted_string = formatted_string.substr(1, formatted_string.length() - 2);
+
+	  return formatted_string;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Format the time period using strftime style formatting
+	 *
+	 * \param theTime NFmiTime timestamp
+	 * \param theStoryVar the story variable
+	 * \param theFormatterName the formatter name
+	 */
+	// ----------------------------------------------------------------------
+	std::string format_time(const NFmiTime& theTime, 
+							const std::string& theStoryVar,
+							const std::string& theFormatterName)
+	{
+	  std::string timeformat = Settings::optional_string(theStoryVar+"::"+theFormatterName+"::timeformat","");
+	  
+	  if(timeformat.empty())
+		timeformat = Settings::optional_string(theStoryVar+"::timeformat","");
+
+	  return format_time(theTime, timeformat);
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Format the time period using strftime style formatting
+	 *
+	 * \param thePeriod the weather period
+	 * \param theStartFormattingString strftime style formatting string for start time of the period
+	 * \param theEndFormattingString strftime style formatting string for end time of the period
+	 */
+	// ----------------------------------------------------------------------
+	std::string format_time(const WeatherPeriod& thePeriod, 
+							const std::string& theStoryVar,
+							const std::string& theFormatterName)
+	{
+	  std::string startformat = Settings::optional_string(theStoryVar+"::"+theFormatterName+"::startformat","");
+	  std::string endformat = Settings::optional_string(theStoryVar+"::"+theFormatterName+"::endformat","");
+	  
+	if(startformat.empty())
+	  startformat = Settings::optional_string(theStoryVar+"::startformat","");
+	if(endformat.empty())
+	  endformat = Settings::optional_string(theStoryVar+"::endformat","");
+
+	  std::string start_time_string(format_time(thePeriod.localStartTime(), startformat));
+	  std::string end_time_string(format_time(thePeriod.localEndTime(), endformat));
+
+	  return start_time_string + end_time_string;
 	}
 
   } // namespace TextFormatterTools
