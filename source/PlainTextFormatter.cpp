@@ -25,6 +25,8 @@
 #include "Settings.h"
 #include "StoryTag.h"
 #include "TextFormatterTools.h"
+#include "Time.h"
+#include "TimePeriod.h"
 
 using namespace std;
 using namespace boost;
@@ -198,6 +200,28 @@ namespace TextGen
   {
 	itsStoryVar = theStory.realize(*itsDictionary);
 	return "";
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit Time
+   */
+  // ----------------------------------------------------------------------
+
+  string PlainTextFormatter::visit(const Time & theTime) const
+  {
+	return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "plain");
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit TimePeriod
+   */
+  // ----------------------------------------------------------------------
+
+  string PlainTextFormatter::visit(const TimePeriod & thePeriod) const
+  {
+	return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "plain");
   }
 
 } // namespace TextGen

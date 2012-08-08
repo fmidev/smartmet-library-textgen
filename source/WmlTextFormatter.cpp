@@ -25,6 +25,8 @@
 #include "Settings.h"
 #include "StoryTag.h"
 #include "TextFormatterTools.h"
+#include "Time.h"
+#include "TimePeriod.h"
 
 #include <boost/lexical_cast.hpp>
 
@@ -225,6 +227,28 @@ namespace TextGen
   {
 	itsStoryVar = theStory.realize(*itsDictionary);
 	return "";
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit Time
+   */
+  // ----------------------------------------------------------------------
+
+  string WmlTextFormatter::visit(const Time & theTime) const
+  {
+	return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "wml");
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit TimePeriod
+   */
+  // ----------------------------------------------------------------------
+
+  string WmlTextFormatter::visit(const TimePeriod & thePeriod) const
+  {
+	return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "wml");
   }
 
 } // namespace TextGen
