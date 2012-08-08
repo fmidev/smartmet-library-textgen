@@ -23,6 +23,8 @@ namespace TextGen
   class IntegerRange;
   class Paragraph;
   class Sentence;
+  class TimePeriod;
+  class Time;
 
   class SectionTag;
   class StoryTag;
@@ -48,10 +50,11 @@ namespace TextGen
 	virtual std::string visit(const Paragraph & theParagraph) const = 0;
 	virtual std::string visit(const Header & theHeader) const = 0;
 	virtual std::string visit(const Document & theDocument) const = 0;
+	virtual std::string visit(const Time & theTime) const = 0;
+	virtual std::string visit(const TimePeriod & thePeriod) const = 0;
 
 	virtual std::string visit(const SectionTag & theSectionTag) const = 0;
 	virtual std::string visit(const StoryTag & theStoryTag) const = 0;
-
   }; // class TextFormatter
 } // namespace TextGen
 
