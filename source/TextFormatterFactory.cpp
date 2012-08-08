@@ -27,6 +27,7 @@
 #include "PlainLinesTextFormatter.h"
 #include "SpeechTextFormatter.h"
 #include "HtmlTextFormatter.h"
+#include "CssTextFormatter.h"
 #include "WmlTextFormatter.h"
 #include "SoneraTextFormatter.h"
 #include "TextGenError.h"
@@ -60,6 +61,8 @@ namespace TextGen
 		return new PlainLinesTextFormatter();
 	  if(theType == "html")
 		return new HtmlTextFormatter();
+	  if(theType == "css")
+		return new CssTextFormatter();
 	  if(theType == "speechtext")
 		return new SpeechTextFormatter();
 	  if(theType == "wml")
