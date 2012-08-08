@@ -3042,8 +3042,43 @@ namespace TextGen
 			// if wind direction turns to another direction for a short time and returns then to the original, dont report the direction change
 			currentDataItem->theWindEvent = mask_wind_event(currentDataItem->theWindEvent, TUULI_KAANTYY);
 		  }
+		else if(previousDataItem->theWindEvent == MISSING_WIND_EVENT && 
+				((currentDataItem->theWindEvent == TUULI_VOIMISTUU &&
+				  (!nextDataItem || !(nextDataItem->theWindEvent & TUULI_VOIMISTUU))) 
+				 || (currentDataItem->theWindEvent == TUULI_HEIKKENEE && 
+					 (!nextDataItem || !(nextDataItem->theWindEvent & TUULI_HEIKKENEE)))) &&
+				(currentDataItem->theWeakWindPeriodFlag == previousDataItem->theWeakWindPeriodFlag))
+		  {
+			// if wind first weakens/strenghtens but not enough (MISSING_WIND_EVENT) and then sthrengthens and weakens just barely enough
+			// we can end to a situation where wind speed ranges are the same on two successive periods -> merge periods
+
+			int lowerLimitPrevious(0);
+			int upperLimitPrevious(0);
+			int lowerLimitCurrent(0);
+			int upperLimitCurrent(0);
+			
+			WeatherPeriod currentPeriodEnd(currentDataItem->thePeriod.localEndTime(), currentDataItem->thePeriod.localEndTime());
+			get_wind_speed_interval(previousDataItem->thePeriod,
+									storyParams.theArea,
+									storyParams.theWindDataVector,
+									lowerLimitPrevious,
+									upperLimitPrevious);
+			get_wind_speed_interval(currentPeriodEnd,
+									storyParams.theArea,
+									storyParams.theWindDataVector,
+									lowerLimitCurrent,
+									upperLimitCurrent);
+
+			if(abs(lowerLimitPrevious - lowerLimitCurrent) < 2 &&
+			   abs(upperLimitPrevious - upperLimitCurrent) < 2)
+			  {
+				currentDataItem->theWindEvent = MISSING_WIND_EVENT;
+				merge = true;
+			  }
+		  }
+
 		/*
-		  TODO: 27.06
+		  TODO: 27.06: tuuli kaantyy suuntaisesta puoleseksi ??
 		else if(same_direction(currentDataItem->thePeriodBeginDataItem.theEqualizedWindDirection,
 							   currentDataItem->thePeriodEndDataItem.theEqualizedWindDirection,
 							   currentDataItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
