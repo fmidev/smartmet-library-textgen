@@ -291,7 +291,7 @@ namespace TextGen
 	itsStoryVar = theStory.realize(*itsDictionary);
 
 	ostringstream out;
-	const string css_tag = Settings::optional_string(itsStoryVar+"::css::tag","div");
+	const string css_tag = Settings::optional_string(itsStoryVar+"::css::tag","span");
 	const string css_class = Settings::optional_string(itsStoryVar+"::css::class","");
 
 	if(theStory.isPrefixTag())
