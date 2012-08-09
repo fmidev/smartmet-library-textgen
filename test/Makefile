@@ -61,7 +61,7 @@ LIBS += \
 	-lboost_locale \
 	-lboost_thread \
         -lboost_system \
-	`icu-config  --cppflags --ldflags` \
+	`pkg-config --cflags --libs icu-i18n` \
         -lz -lbz2 -lpthread
 
 all: $(PROG)
