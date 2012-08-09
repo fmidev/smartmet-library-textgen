@@ -5,6 +5,7 @@
 #include "PlainTextFormatter.h"
 #include "SpecialStory.h"
 #include "Story.h"
+#include "StoryTag.h"
 #include "MessageLogger.h"
 
 #include <newbase/NFmiSettings.h>
@@ -18,7 +19,6 @@
 using namespace std;
 using namespace boost;
 
-
 namespace SpecialStoryTest
 {
   shared_ptr<TextGen::Dictionary> dict;
@@ -28,12 +28,15 @@ namespace SpecialStoryTest
   void require(const TextGen::Story & theStory,
 			   const string & theLanguage,
 			   const string & theName,
-			   const string & theExpected)
+			   const string & theExpected,
+  			   const string & theStoryVar = "")
   {
 	dict->init(theLanguage);
 	formatter.dictionary(dict);
 
-	TextGen::Paragraph para = theStory.makeStory(theName);
+	TextGen::Paragraph para;
+	para << TextGen::StoryTag(theStoryVar);
+	para << theStory.makeStory(theName);
 	const string value = para.realize(formatter);
 
 	if(value != theExpected)
@@ -53,7 +56,6 @@ namespace SpecialStoryTest
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -81,7 +83,6 @@ namespace SpecialStoryTest
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -112,6 +113,61 @@ namespace SpecialStoryTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test SpecialStory::date()
+   */
+  // ----------------------------------------------------------------------
+
+  void special_date()
+  {
+	using namespace std;
+	using namespace TextGen;
+
+	AnalysisSources sources;
+	WeatherArea area("25,60");
+	NFmiTime time1(2000,1,1,6,30);
+	NFmiTime time2(2000,1,2,9,30);
+	WeatherPeriod period(time1,time2);
+	SpecialStory story(time1,sources,area,period,"date");
+
+	const string fun = "date";
+
+	// startformat and endformat included
+	NFmiSettings::Set("textgen::part1::story::date::startformat","%d.%m.%Y %H:%M - ");
+	NFmiSettings::Set("textgen::part1::story::date::endformat","%d.%m.%Y %H:%M");
+
+	require(story,"fi",fun,"01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
+	require(story,"sv",fun,"01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
+	require(story,"en",fun,"01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
+
+	// endformat modified
+	NFmiSettings::Set("textgen::part1::story::date::startformat","%d.%m.%Y %H - ");
+	NFmiSettings::Set("textgen::part1::story::date::endformat","%H");
+
+	require(story,"fi",fun,"01.01.2000 06 - 09", "textgen::part1::story::date");
+	require(story,"sv",fun,"01.01.2000 06 - 09", "textgen::part1::story::date");
+	require(story,"en",fun,"01.01.2000 06 - 09", "textgen::part1::story::date");
+
+	// endformat missing
+	NFmiSettings::Set("textgen::part1::story::date::startformat","%d.%m.%Y %H:%M");
+	NFmiSettings::Set("textgen::part1::story::date::endformat","");
+
+	require(story,"fi",fun,"01.01.2000 06:30", "textgen::part1::story::date");
+	require(story,"sv",fun,"01.01.2000 06:30", "textgen::part1::story::date");
+	require(story,"en",fun,"01.01.2000 06:30", "textgen::part1::story::date");
+
+	// 
+	NFmiSettings::Set("textgen::part1::story::date::startformat","%d.%m.%Y %H:%M - ");
+	NFmiSettings::Set("textgen::part1::story::endformat","%d.%m.%Y %H:%M");
+
+	require(story,"fi",fun,"01.01.2000 06:30 - 01.01.2000 06:30", "textgen::part1::story::date");
+	require(story,"sv",fun,"01.01.2000 06:30 - 01.01.2000 06:30", "textgen::part1::story::date");
+	require(story,"en",fun,"01.01.2000 06:30 - 01.01.2000 06:30", "textgen::part1::story::date");
+
+	TEST_PASSED();
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -129,6 +185,7 @@ namespace SpecialStoryTest
 	{
 	  TEST(special_none);
 	  TEST(special_text);
+	  TEST(special_date);
 	}
 
   }; // class tests
