@@ -126,8 +126,8 @@ namespace TextGen
 
 	  std::ostringstream string_stream;
 
-	  string_stream <<  ftime(theFormattingString) << theTime.EpochTime();
-	  
+	  string_stream << ftime(theFormattingString) << gmt << theTime.EpochTime();
+
 	  std::string formatted_string(string_stream.str());
 
 	  if(formatted_string.at(0) == '"')
