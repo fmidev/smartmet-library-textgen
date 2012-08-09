@@ -131,37 +131,41 @@ namespace SpecialStoryTest
 
 	const string fun = "date";
 
+	// Note! plain text formatter used
+
 	// startformat and endformat included
-	NFmiSettings::Set("textgen::part1::story::date::startformat","%d.%m.%Y %H:%M - ");
-	NFmiSettings::Set("textgen::part1::story::date::endformat","%d.%m.%Y %H:%M");
+	NFmiSettings::Set("textgen::part1::story::date::plain::startformat","%d.%m.%Y %H:%M - ");
+	NFmiSettings::Set("textgen::part1::story::date::plain::endformat","%d.%m.%Y %H:%M");
 
 	require(story,"fi",fun,"01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
 	require(story,"sv",fun,"01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
 	require(story,"en",fun,"01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
 
+	NFmiSettings::Clear();
 	// endformat modified
-	NFmiSettings::Set("textgen::part1::story::date::startformat","%d.%m.%Y %H - ");
-	NFmiSettings::Set("textgen::part1::story::date::endformat","%H");
+	NFmiSettings::Set("textgen::part1::story::date::plain::startformat","%d.%m.%Y %H - ");
+	NFmiSettings::Set("textgen::part1::story::date::plain::endformat","%H");
 
 	require(story,"fi",fun,"01.01.2000 06 - 09", "textgen::part1::story::date");
 	require(story,"sv",fun,"01.01.2000 06 - 09", "textgen::part1::story::date");
 	require(story,"en",fun,"01.01.2000 06 - 09", "textgen::part1::story::date");
 
+	NFmiSettings::Clear();
 	// endformat missing
-	NFmiSettings::Set("textgen::part1::story::date::startformat","%d.%m.%Y %H:%M");
-	NFmiSettings::Set("textgen::part1::story::date::endformat","");
+	NFmiSettings::Set("textgen::part1::story::date::plain::startformat","%d.%m.%Y %H:%M");
 
 	require(story,"fi",fun,"01.01.2000 06:30", "textgen::part1::story::date");
 	require(story,"sv",fun,"01.01.2000 06:30", "textgen::part1::story::date");
 	require(story,"en",fun,"01.01.2000 06:30", "textgen::part1::story::date");
 
-	// 
-	NFmiSettings::Set("textgen::part1::story::date::startformat","%d.%m.%Y %H:%M - ");
-	NFmiSettings::Set("textgen::part1::story::endformat","%d.%m.%Y %H:%M");
+	NFmiSettings::Clear();
+	// endformat is here NOT formatter specific
+	NFmiSettings::Set("textgen::part1::story::date::plain::startformat","%d.%m.%Y %H:%M - ");
+	NFmiSettings::Set("textgen::part1::story::date::endformat","%d.%m.%Y %H:%M");
 
-	require(story,"fi",fun,"01.01.2000 06:30 - 01.01.2000 06:30", "textgen::part1::story::date");
-	require(story,"sv",fun,"01.01.2000 06:30 - 01.01.2000 06:30", "textgen::part1::story::date");
-	require(story,"en",fun,"01.01.2000 06:30 - 01.01.2000 06:30", "textgen::part1::story::date");
+	require(story,"fi",fun,"01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
+	require(story,"sv",fun,"01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
+	require(story,"en",fun,"01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
 
 	TEST_PASSED();
   }
