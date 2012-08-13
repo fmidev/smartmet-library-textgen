@@ -35,8 +35,9 @@ namespace SpecialStoryTest
 	formatter.dictionary(dict);
 
 	TextGen::Paragraph para;
-	para << TextGen::StoryTag(theStoryVar);
+	para << TextGen::StoryTag(theStoryVar, true);
 	para << theStory.makeStory(theName);
+	para << TextGen::StoryTag(theStoryVar, false);
 	const string value = para.realize(formatter);
 
 	if(value != theExpected)
