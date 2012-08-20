@@ -68,18 +68,18 @@ namespace SpecialStoryTest
 
 	NFmiSettings::Set("text::value","This is the value of the string.");
 
-	require(story,"fi",fun,"<span>\nThis is the value of the string.\n</span>\n");
-	require(story,"sv",fun,"<span>\nThis is the value of the string.\n</span>\n");
-	require(story,"en",fun,"<span>\nThis is the value of the string.\n</span>\n");
+	require(story,"fi",fun,"<span>\nThis is the value of the string.\n</span>\n", "text");
+	require(story,"sv",fun,"<span>\nThis is the value of the string.\n</span>\n", "text");
+	require(story,"en",fun,"<span>\nThis is the value of the string.\n</span>\n", "text");
 
 	NFmiSettings::Set("text::value","@data/special_text.fi");
-	require(story,"fi",fun,"<span>\nSuomenkielinen teksti.\n</span>\n");
+	require(story,"fi",fun,"<span>\n\nSuomenkielinen teksti.\n</span>\n");
 
 	NFmiSettings::Set("text::value","@data/special_text.en");
-	require(story,"fi",fun,"<span>\nEnglish text.\n</span>\n");
+	require(story,"fi",fun,"<span>\n\nEnglish text.\n</span>\n");
 
 	NFmiSettings::Set("text::value","@data/special_text.php");
-	require(story,"fi",fun,"<span>\nSuomenkieltä PHP-ohjelmasta\n</span>\n");
+	require(story,"fi",fun,"<span>\n\nSuomenkieltä PHP-ohjelmasta\n</span>\n");
 
 	TEST_PASSED();
   }

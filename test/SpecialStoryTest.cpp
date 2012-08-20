@@ -96,9 +96,9 @@ namespace SpecialStoryTest
 
 	NFmiSettings::Set("text::value","This is the value of the string.");
 
-	require(story,"fi",fun,"This is the value of the string.");
-	require(story,"sv",fun,"This is the value of the string.");
-	require(story,"en",fun,"This is the value of the string.");
+	require(story,"fi",fun,"This is the value of the string.", "text");
+	require(story,"sv",fun,"This is the value of the string.", "text");
+	require(story,"en",fun,"This is the value of the string.", "text");
 
 	NFmiSettings::Set("text::value","@data/special_text.fi");
 	require(story,"fi",fun,"Suomenkielinen teksti.");
