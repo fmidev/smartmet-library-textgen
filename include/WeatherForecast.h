@@ -483,11 +483,11 @@ namespace TextGen
   {								 
 	wf_story_params(const std::string& variable,
 					const WeatherArea& weatherArea,
-					const WeatherPeriod & dataPeriod,
-					const WeatherPeriod & forecastPeriod,
-					const NFmiTime & forecastTime,
-					const AnalysisSources & analysisSources,
-					MessageLogger & log) :
+					const WeatherPeriod& dataPeriod,
+					const WeatherPeriod& forecastPeriod,
+					const NFmiTime& forecastTime,
+					const AnalysisSources& analysisSources,
+					MessageLogger& log) :
 	  theVariable(variable),
 	  theArea(weatherArea),
 	  theDataPeriod(dataPeriod),
