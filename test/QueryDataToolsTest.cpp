@@ -17,7 +17,7 @@ namespace QueryDataToolsTest
 
   void firstTime()
   {
-	using WeatherAnalysis::QueryDataTools::firstTime;
+	using TextGen::QueryDataTools::firstTime;
 
 	NFmiStreamQueryData qd;
 	if(!qd.ReadData("data/skandinavia_pinta.sqd"))
@@ -45,7 +45,7 @@ namespace QueryDataToolsTest
 
   void lastTime()
   {
-	using WeatherAnalysis::QueryDataTools::lastTime;
+	using TextGen::QueryDataTools::lastTime;
 
 	NFmiStreamQueryData qd;
 	if(!qd.ReadData("data/skandinavia_pinta.sqd"))
@@ -73,7 +73,7 @@ namespace QueryDataToolsTest
 
   void findIndices()
   {
-	using WeatherAnalysis::QueryDataTools::findIndices;
+	using TextGen::QueryDataTools::findIndices;
 
 	// The data has timesteps from 200308140600 to 200308220900
 	NFmiStreamQueryData qd;

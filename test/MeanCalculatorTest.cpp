@@ -22,7 +22,7 @@ namespace MeanCalculatorTest
 
   void mean()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	MeanCalculator calc;
 

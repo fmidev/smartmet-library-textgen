@@ -55,7 +55,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -95,7 +95,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -140,7 +140,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -197,7 +197,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -248,7 +248,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -351,7 +351,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -494,7 +494,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -675,7 +675,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -727,7 +727,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");

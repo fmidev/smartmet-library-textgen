@@ -20,7 +20,7 @@ namespace MinimumCalculatorTest
 
   void minimum()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	MinimumCalculator calc;
 

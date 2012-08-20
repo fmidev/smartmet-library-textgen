@@ -39,9 +39,9 @@ namespace PrecipitationPeriodToolsTest
 
   void findRainTimes()
   {
-	using namespace WeatherAnalysis;
-	using namespace WeatherAnalysis::PrecipitationPeriodTools;
-	using WeatherAnalysis::PrecipitationPeriodTools::findRainTimes;
+	using namespace TextGen;
+	using namespace TextGen::PrecipitationPeriodTools;
+	using TextGen::PrecipitationPeriodTools::findRainTimes;
 
 	NFmiFastQueryInfo q(*theQD->QueryInfoIter());
 	q.First();
@@ -108,10 +108,10 @@ namespace PrecipitationPeriodToolsTest
 
   void findRainPeriods()
   {
-	using namespace WeatherAnalysis;
-	using namespace WeatherAnalysis::PrecipitationPeriodTools;
-	using WeatherAnalysis::PrecipitationPeriodTools::findRainTimes;
-	using WeatherAnalysis::PrecipitationPeriodTools::findRainPeriods;
+	using namespace TextGen;
+	using namespace TextGen::PrecipitationPeriodTools;
+	using TextGen::PrecipitationPeriodTools::findRainTimes;
+	using TextGen::PrecipitationPeriodTools::findRainPeriods;
 
 	NFmiFastQueryInfo q(*theQD->QueryInfoIter());
 	q.First();
@@ -198,7 +198,7 @@ namespace PrecipitationPeriodToolsTest
 
   void overlappingPeriods()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	PrecipitationPeriodTools::RainPeriods periods;
 	periods.push_back(WeatherPeriod(NFmiTime(2003,9,1,10),
@@ -249,7 +249,7 @@ namespace PrecipitationPeriodToolsTest
 
   void inclusivePeriods()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	PrecipitationPeriodTools::RainPeriods periods;
 	periods.push_back(WeatherPeriod(NFmiTime(2003,9,1,10),

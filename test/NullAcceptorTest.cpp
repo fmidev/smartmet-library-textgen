@@ -18,7 +18,7 @@ namespace NullAcceptorTest
 
   void accept()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	NullAcceptor acc;
 

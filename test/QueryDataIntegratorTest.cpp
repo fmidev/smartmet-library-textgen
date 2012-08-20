@@ -14,8 +14,8 @@
 
 using namespace std;
 using namespace boost;
-using namespace WeatherAnalysis;
-using namespace WeatherAnalysis::QueryDataIntegrator;
+using namespace TextGen;
+using namespace TextGen::QueryDataIntegrator;
 
 namespace QueryDataIntegratorTest
 {
@@ -104,7 +104,7 @@ namespace QueryDataIntegratorTest
   void integrate_space(void)
   {
 	using namespace std;
-	using namespace WeatherAnalysis::QueryDataIntegrator;
+	using namespace TextGen::QueryDataIntegrator;
 	using namespace NFmiIndexMaskTools;
 
 	NFmiFastQueryInfo * q = theQD.QueryInfoIter();
@@ -175,7 +175,7 @@ namespace QueryDataIntegratorTest
   void integrate_time_space(void)
   {
 	using namespace std;
-	using namespace WeatherAnalysis::QueryDataIntegrator;
+	using namespace TextGen::QueryDataIntegrator;
 	using namespace NFmiIndexMaskTools;
 
 	NFmiFastQueryInfo * q = theQD.QueryInfoIter();
@@ -301,7 +301,7 @@ namespace QueryDataIntegratorTest
   void integrate_space_time(void)
   {
 	using namespace std;
-	using namespace WeatherAnalysis::QueryDataIntegrator;
+	using namespace TextGen::QueryDataIntegrator;
 	using namespace NFmiIndexMaskTools;
 
 	NFmiFastQueryInfo * q = theQD.QueryInfoIter();
@@ -379,7 +379,7 @@ namespace QueryDataIntegratorTest
   void integrate_time_space_masks(void)
   {
 	using namespace std;
-	using namespace WeatherAnalysis::QueryDataIntegrator;
+	using namespace TextGen::QueryDataIntegrator;
 	using namespace NFmiIndexMaskTools;
 
 	NFmiFastQueryInfo * q = theQD.QueryInfoIter();

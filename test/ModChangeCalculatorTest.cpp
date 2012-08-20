@@ -20,7 +20,7 @@ namespace ModChangeCalculatorTest
 
   void modchange()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	ModChangeCalculator calc(10);
 
