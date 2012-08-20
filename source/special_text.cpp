@@ -20,6 +20,7 @@
 
 using namespace TextGen;
 using namespace std;
+using namespace boost;
 
 namespace TextGen
 {
@@ -108,7 +109,8 @@ namespace TextGen
 	  }
 	else if(default_text[0] != '@')
 	  {
-		paragraph << Text(default_text);
+		// text is set in formatter, since you must be able to give format-specific text
+		//	paragraph << Text(default_text);
 	  }
 	else
 	  {
