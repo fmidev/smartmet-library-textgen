@@ -24,7 +24,7 @@ namespace LocationSourceTest
 
   void hascoordinates()
   {
-	using WeatherAnalysis::LocationSource;
+	using TextGen::LocationSource;
 
 	if(LocationSource::instance().hasCoordinates("foobar"))
 	  TEST_FAILED("Location foobar should not have coordinates");
@@ -44,7 +44,7 @@ namespace LocationSourceTest
 
   void coordinates()
   {
-	using WeatherAnalysis::LocationSource;
+	using TextGen::LocationSource;
 
 	try
 	  {

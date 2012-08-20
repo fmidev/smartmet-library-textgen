@@ -24,7 +24,7 @@ namespace FireWarningsTest
   void constructors()
   {
 	using namespace std;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	// 24.05.2005 has data
 	try
@@ -83,7 +83,7 @@ namespace FireWarningsTest
   void state()
   {
 	using namespace std;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	NFmiTime date(2005,5,24);
 	FireWarnings warnings("data",date);

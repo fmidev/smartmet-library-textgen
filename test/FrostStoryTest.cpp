@@ -53,7 +53,7 @@ namespace FrostStoryTest
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -105,7 +105,7 @@ namespace FrostStoryTest
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -158,7 +158,7 @@ namespace FrostStoryTest
 	using namespace std;
 	using namespace TextGen;
 	using namespace 
-WeatherAnalysis;
+TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -226,7 +226,7 @@ WeatherAnalysis;
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -359,7 +359,7 @@ WeatherAnalysis;
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -2516,7 +2516,7 @@ WeatherAnalysis;
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
