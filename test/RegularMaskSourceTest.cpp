@@ -23,7 +23,7 @@ namespace RegularMaskSourceTest
 
   void mask()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 	using NFmiStringTools::Convert;
 	typedef RegularMaskSource::mask_type mask_type;
 

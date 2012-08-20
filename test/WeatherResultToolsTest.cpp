@@ -19,7 +19,7 @@ namespace WeatherResultToolsTest
 
   void min()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	WeatherResult result1(1,1);
 	WeatherResult result2(2,2);
@@ -48,7 +48,7 @@ namespace WeatherResultToolsTest
 
   void max()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	WeatherResult result1(1,1);
 	WeatherResult result2(2,2);
@@ -78,7 +78,7 @@ namespace WeatherResultToolsTest
 
   void mean()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	WeatherResult result1(1,1);
 	WeatherResult result2(2,2);
@@ -108,7 +108,7 @@ namespace WeatherResultToolsTest
 
   void isSimilarRange()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	const string var = "X";
 

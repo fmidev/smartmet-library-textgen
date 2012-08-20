@@ -85,7 +85,7 @@ namespace TemperatureStoryTest
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -303,7 +303,7 @@ namespace TemperatureStoryTest
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -347,7 +347,7 @@ namespace TemperatureStoryTest
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -391,7 +391,7 @@ namespace TemperatureStoryTest
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -435,7 +435,7 @@ namespace TemperatureStoryTest
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -631,7 +631,7 @@ namespace TemperatureStoryTest
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -686,7 +686,7 @@ namespace TemperatureStoryTest
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -736,7 +736,7 @@ namespace TemperatureStoryTest
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
@@ -1928,7 +1928,7 @@ namespace TemperatureStoryTest
 
   using namespace std;
   using namespace TextGen;
-  using namespace WeatherAnalysis;
+  using namespace TextGen;
 
   void create_wind_anomaly_testcase_stories(TestCaseContainer& testCases,
 											const string & theLanguage,
@@ -6680,7 +6680,7 @@ namespace TemperatureStoryTest
   {
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	NFmiSettings::Set("textgen::tmax_climatology","/smartmet/data/climate/suomi/daily/querydata/tmax_textgen.sqd");
 	NFmiSettings::Set("textgen::fractiles_climatology","/smartmet/data/climate/suomi/daily/querydata/tmax_textgen.sqd");
@@ -6827,7 +6827,7 @@ namespace TemperatureStoryTest
 
 	using namespace std;
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	NFmiSettings::Set("textgen::tmax_climatology","/smartmet/data/climate/suomi/daily/querydata/tmax_textgen.sqd");
 	NFmiSettings::Set("textgen::fractiles_climatology","/smartmet/data/climate/suomi/daily/querydata/tmax_textgen.sqd");

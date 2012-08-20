@@ -20,7 +20,7 @@ namespace SumCalculatorTest
 
   void sum()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	SumCalculator calc;
 

@@ -27,7 +27,7 @@ namespace WeatherPeriodToolsTest
 
   void countperiods(void)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	// A simple period from 12 to 17
 	{
@@ -93,8 +93,8 @@ namespace WeatherPeriodToolsTest
 
   void getperiod(void)
   {
-	using namespace WeatherAnalysis;
-	using namespace WeatherAnalysis::WeatherPeriodTools;
+	using namespace TextGen;
+	using namespace TextGen::WeatherPeriodTools;
 
 	// A simple period from 12 to 17
 	{
