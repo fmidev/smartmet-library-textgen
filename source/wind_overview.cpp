@@ -1165,6 +1165,24 @@ namespace TextGen
 	return meanDirection;
   }
 
+  float mean_wind_direction_error(const wind_data_item_vector& theWindDataVector, const WeatherArea& theArea, const WeatherPeriod& thePeriod)
+  {
+	unsigned int counter(0);
+	float cumulativeWindDirectionError(0.0);
+
+ 	for(unsigned int i = 0; i < theWindDataVector.size() ; i++)
+	  {
+		WindDataItemUnit& item = theWindDataVector[i]->getDataItem(theArea.type());
+		if(is_inside(item.thePeriod.localStartTime(), thePeriod))
+		  {
+			cumulativeWindDirectionError += item.theEqualizedWindDirection.error();
+			counter++;
+		  }
+	  }
+
+	return (counter > 0 ? (cumulativeWindDirectionError / counter) : 0.0);
+  }
+
   bool populate_time_series(wo_story_params& storyParams)
   {
 	GridForecaster forecaster;
@@ -1325,8 +1343,8 @@ namespace TextGen
 
 	return true;
   }
-    
-  void find_out_wind_speed_periods(wo_story_params& storyParams)
+
+ void find_out_wind_speed_periods(wo_story_params& storyParams)
 								   
   {
 	unsigned int equalizedDataIndex;
@@ -3076,7 +3094,28 @@ namespace TextGen
 				merge = true;
 			  }
 		  }
+		/*
+		  // bug 15.08.2012: B4E area klo 0700
+		else if(previousDataItem->theWindEvent != TUULI_MUUTTUU_VAIHTELEVAKSI &&
+				previousDataItem->theWindEvent != MISSING_WIND_EVENT &&
+				currentDataItem->theWindEvent != TUULI_MUUTTUU_VAIHTELEVAKSI &&
+				currentDataItem->theWindEvent != MISSING_WIND_EVENT)
+		  {
+			if(get_period_length(previousDataItem->thePeriod) <= 3 &&
+			   get_period_length(currentDataItem->thePeriod) > 3)
+			  {
+				mergePreviousToCurrent = true;
+				merge = true;		
+			  }
+			else if(get_period_length(currentDataItem->thePeriod) <= 3 &&
+					get_period_length(previousDataItem->thePeriod) > 3)
+			  {
+				merge = true;		
+			  }
+		  }
+		*/
 
+		
 		/*
 		  TODO: 27.06: tuuli kaantyy suuntaisesta puoleseksi ??
 		else if(same_direction(currentDataItem->thePeriodBeginDataItem.theEqualizedWindDirection,
@@ -3161,7 +3200,7 @@ namespace TextGen
 			  currentDataItem->theWindSpeedChangeStarts = true;
 			if(!nextDataItem || !(nextDataItem->theWindEvent & TUULI_VOIMISTUU))
 			  currentDataItem->theWindSpeedChangeEnds = true;
-		  }
+		  }		
 	  }
 	remove_reduntant_periods(storyParams);
 	
