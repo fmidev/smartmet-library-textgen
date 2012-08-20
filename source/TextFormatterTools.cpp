@@ -18,10 +18,10 @@
 #include <newbase/NFmiStringTools.h>
 #include <newbase/NFmiTime.h>
 #include <boost/locale.hpp>
-// #include <cctype>
-// #include <clocale>
+#include <boost/algorithm/string/replace.hpp>
 
 using namespace std;
+using namespace boost;
 using namespace boost::locale::as;
 
 namespace TextGen
@@ -183,6 +183,35 @@ namespace TextGen
 
 	  return start_time_string + end_time_string;
 	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Returns value parameter for the story
+	 *
+	 * \param theStoryVar the story parameter
+	 * \param theProductName the ptoduct name
+	 */
+	// ----------------------------------------------------------------------
+	std::string get_story_value_param(const std::string& theStoryVar, const std::string& theProductName)
+	{
+	  std::string retval("");
+
+	  if(Settings::isset(theStoryVar+"::value::" + theProductName))
+		retval = Settings::require_string(theStoryVar+"::value::" + theProductName);
+	  else
+		retval = Settings::optional_string(theStoryVar+"::value","");
+
+	  // line feed
+	  replace_all(retval, "\\n", "\n");
+	  // carrige return
+	  replace_all(retval, "\\r", "\r");
+	  // horizontal tabulator
+	  replace_all(retval, "\\t", "\t");
+
+	  return retval;
+	}
+
+
 
   } // namespace TextFormatterTools
 } // namespace T
