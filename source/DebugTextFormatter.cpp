@@ -186,6 +186,12 @@ namespace TextGen
   string DebugTextFormatter::visit(const StoryTag & theStory) const
   {
 	itsStoryVar = theStory.realize(itsDictionary);
+
+	if(theStory.isPrefixTag())
+	  {
+		return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
+	  }
+
 	return "";
   }
 

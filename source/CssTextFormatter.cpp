@@ -303,6 +303,7 @@ namespace TextGen
 			  out << " class=\"" << css_class << "\"";
 			out << ">";
 		  }
+		out << TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
 	  }
 	else
 	  {
