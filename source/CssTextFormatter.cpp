@@ -301,9 +301,9 @@ namespace TextGen
 			out << '<' << css_tag;
 			if(!css_class.empty())
 			  out << " class=\"" << css_class << "\"";
-			out << ">";
+			out << ">\n";
 		  }
-		out << TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
+		out << TextFormatterTools::get_story_value_param(itsStoryVar, name());
 	  }
 	else
 	  {

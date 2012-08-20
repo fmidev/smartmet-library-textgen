@@ -39,6 +39,8 @@ namespace TextGen
 	virtual std::string visit(const SectionTag & theSectionTag) const;
 	virtual std::string visit(const StoryTag & theStoryTag) const;
 
+	std::string name() const {return "sonera"; }
+
   private:
 
 	typedef std::list<std::string> container_type;

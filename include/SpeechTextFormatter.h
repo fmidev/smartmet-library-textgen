@@ -37,6 +37,8 @@ namespace TextGen
 	virtual std::string visit(const SectionTag & theSectionTag) const;
 	virtual std::string visit(const StoryTag & theStoryTag) const;
 
+	std::string name() const {return "speech"; }
+
   private:
 
 	boost::shared_ptr<Dictionary> itsDictionary;

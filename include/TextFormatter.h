@@ -55,6 +55,8 @@ namespace TextGen
 
 	virtual std::string visit(const SectionTag & theSectionTag) const = 0;
 	virtual std::string visit(const StoryTag & theStoryTag) const = 0;
+	virtual std::string name() const = 0;
+
   }; // class TextFormatter
 } // namespace TextGen
 

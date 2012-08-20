@@ -397,7 +397,7 @@ namespace TextGen
 
 	if(theStory.isPrefixTag())
 	  {
-		return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
+		return TextFormatterTools::get_story_value_param(itsStoryVar, name());
 	  }
 
 	return "";
