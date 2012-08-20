@@ -34,6 +34,7 @@ namespace TextGen
 	std::string format_time(const WeatherPeriod& thePeriod, 
 							const std::string& theStoryVar,
 							const std::string& theFormatterName);
+	std::string get_story_value_param(const std::string& theStoryVar, const std::string& theProductName);
 
 	// ----------------------------------------------------------------------
 	/*!
