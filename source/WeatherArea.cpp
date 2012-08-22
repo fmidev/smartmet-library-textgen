@@ -134,7 +134,7 @@ namespace TextGen
   {
 	parse_specs(theSpecs);
  	set_boolean_parameters();
- }
+  }
 
   // ----------------------------------------------------------------------
   /*!
@@ -258,6 +258,23 @@ namespace TextGen
 	  itsBooleanParameters = theArea.itsBooleanParameters;
 	  itsHistory = theArea.itsHistory;
 }
+
+  WeatherArea::WeatherArea(const NFmiSvgPath& theSvgPath,
+						   const std::string& theName)
+	: itsType(Full)
+	, itsPointFlag()
+	, itsNamedFlag(true)
+	, itsName(theName)
+	, itsPoint(kFloatMissing,kFloatMissing)
+	, itsPolygon(new NFmiSvgPath(theSvgPath))
+	, itsRadius(0)
+	, itsSortKey(theName)
+	, itsLatitude(90.0)
+	, itsLongitude(180.0)
+	, itsBooleanParameters(0x0)
+	, itsHistory()
+   {
+   }
 
   // ----------------------------------------------------------------------
   /*!
