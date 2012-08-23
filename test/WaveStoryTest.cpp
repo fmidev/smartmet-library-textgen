@@ -59,7 +59,7 @@ namespace WaveStoryTest
   void wave_range()
   {
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	const WeatherArea area("25,60");

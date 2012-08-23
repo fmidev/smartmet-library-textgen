@@ -20,7 +20,7 @@ namespace MaximumCalculatorTest
 
   void maximum()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	MaximumCalculator calc;
 

@@ -31,9 +31,13 @@ namespace TextGen
 	virtual std::string visit(const Paragraph & theParagraph) const;
 	virtual std::string visit(const Header & theHeader) const;
 	virtual std::string visit(const Document & theDocument) const;
+	virtual std::string visit(const Time & theTime) const;
+	virtual std::string visit(const TimePeriod & theTimePeriod) const;
 
 	virtual std::string visit(const SectionTag & theSectionTag) const;
 	virtual std::string visit(const StoryTag & theStoryTag) const;
+
+	std::string name() const {return "speech"; }
 
   private:
 

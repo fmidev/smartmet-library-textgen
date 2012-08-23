@@ -9,7 +9,7 @@ namespace WeatherPeriodTest
   //! Test structors
   void structors(void)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	NFmiTime time1;
 	NFmiTime time2;
@@ -27,7 +27,7 @@ namespace WeatherPeriodTest
   //! Test accessors
   void accessors(void)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	NFmiTime time1(1999,1,1);
 	NFmiTime time2(2003,12,31);
@@ -44,7 +44,7 @@ namespace WeatherPeriodTest
   //! Test comparisons
   void comparisons(void)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	NFmiTime time1(1999,1,1);
 	NFmiTime time2(2003,12,31);

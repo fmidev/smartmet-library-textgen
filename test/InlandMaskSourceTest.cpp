@@ -25,7 +25,7 @@ namespace InlandMaskSourceTest
 
   void mask()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 	using NFmiStringTools::Convert;
 	typedef InlandMaskSource::mask_type mask_type;
 

@@ -20,7 +20,7 @@ namespace DefaultAcceptorTest
 
   void accept()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	DefaultAcceptor acc;
 

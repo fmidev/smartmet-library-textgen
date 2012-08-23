@@ -11,7 +11,7 @@ namespace WeatherResultTest
   //! Test structors
   void structors(void)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	// Should succeed
 	WeatherResult s(1,0.5);
@@ -26,7 +26,7 @@ namespace WeatherResultTest
   //! Test accessors()
   void accessors(void)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	WeatherResult result(1,0.5);
 	if(result.value() != 1)

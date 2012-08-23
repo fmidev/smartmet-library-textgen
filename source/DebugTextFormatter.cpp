@@ -22,8 +22,11 @@
 #include "Paragraph.h"
 #include "SectionTag.h"
 #include "Sentence.h"
+#include "Settings.h"
 #include "StoryTag.h"
 #include "TextFormatterTools.h"
+#include "Time.h"
+#include "TimePeriod.h"
 
 #include <sstream>
 #include <string>
@@ -183,9 +186,36 @@ namespace TextGen
   string DebugTextFormatter::visit(const StoryTag & theStory) const
   {
 	itsStoryVar = theStory.realize(itsDictionary);
+
+	if(theStory.isPrefixTag())
+	  {
+		return TextFormatterTools::get_story_value_param(itsStoryVar, name());
+	  }
+
 	return "";
   }
 
+   // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit Time
+   */
+  // ----------------------------------------------------------------------
+
+  string DebugTextFormatter::visit(const Time & theTime) const
+  {
+	return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "debug");
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit TimePeriod
+   */
+  // ----------------------------------------------------------------------
+
+  string DebugTextFormatter::visit(const TimePeriod & thePeriod) const
+  {
+	return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "debug");
+  }
 } // namespace TextGen
   
 // ======================================================================

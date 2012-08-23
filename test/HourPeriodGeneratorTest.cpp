@@ -16,7 +16,7 @@ namespace HourPeriodGeneratorTest
 
   void size(void)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	// A simple period from 12 to 17
 	{
@@ -87,7 +87,7 @@ namespace HourPeriodGeneratorTest
 
   void period(void)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 	
 	// A simple period from 12 to 17
 	{

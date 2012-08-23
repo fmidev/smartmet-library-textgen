@@ -72,9 +72,9 @@ namespace TextGen
 	  return true;
 	if(theName == "text")
 	  return true;
-#if 0
 	if(theName == "date")
 	  return true;
+#if 0
 	if(theName == "table")
 	  return true;
 #endif
@@ -98,9 +98,9 @@ namespace TextGen
 	  return none();
 	if(theName == "text")
 	  return text();
-#if 0
 	if(theName == "date")
 	  return date();
+#if 0
 	if(theName == "table")
 	  return table();
 #endif

@@ -59,7 +59,7 @@ namespace WindStoryTest
   void wind_daily_ranges()
   {
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	const WeatherArea area("25,60");
@@ -698,7 +698,7 @@ namespace WindStoryTest
   void wind_range()
   {
 	using namespace TextGen;
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	AnalysisSources sources;
 	const WeatherArea area("25,60");

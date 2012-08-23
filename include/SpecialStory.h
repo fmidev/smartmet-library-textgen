@@ -44,8 +44,8 @@ namespace TextGen
 
 	Paragraph none() const;
 	Paragraph text() const;
-#if 0
 	Paragraph date() const;
+#if 0
 	Paragraph table() const;
 #endif
 

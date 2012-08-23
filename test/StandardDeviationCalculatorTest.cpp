@@ -21,7 +21,7 @@ namespace StandardDeviationCalculatorTest
 
   void standarddeviation()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	StandardDeviationCalculator calc;
 

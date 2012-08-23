@@ -2345,10 +2345,16 @@ namespace TextGen
 	WeatherResult resultSpeed(avgMaximumWind, avgStdDev);
 
 	WeatherResult resultDirection = mean_wind_direction(theSources,
-														theArea,
-														period,
-														resultSpeed,
-														var);
+												  theArea,
+												  period,
+												  resultSpeed,
+												  var);
+	/*
+	float directionError = mean_wind_direction_error(theWindDataVector, theArea, period);
+
+	if(directionError < resultDirection.error())
+	  resultDirection = WeatherResult(resultDirection.value(), directionError);
+*/
 
 	return make_pair(resultDirection, wind_direction_id(resultDirection, resultSpeed, var));
   }

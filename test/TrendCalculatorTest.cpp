@@ -20,7 +20,7 @@ namespace TrendCalculatorTest
 
   void trend()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	TrendCalculator calc;
 

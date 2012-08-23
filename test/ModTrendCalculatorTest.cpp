@@ -20,7 +20,7 @@ namespace ModTrendCalculatorTest
 
   void modtrend()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	ModTrendCalculator calc(10);
 

@@ -9,7 +9,7 @@ namespace WeatherAreaTest
   //! Test structors
   void structors(void)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	WeatherArea s1(NFmiPoint(25,60),"Helsinki");
 	WeatherArea s2(NFmiPoint(25,60),"Helsingin seutu",30);
@@ -27,7 +27,7 @@ namespace WeatherAreaTest
   //! Test accessors
   void accessors(void)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	WeatherArea area1("25,60");
 	WeatherArea area2("25,60:30","Helsinki");
@@ -76,7 +76,7 @@ namespace WeatherAreaTest
   //! Test comparisons
   void comparisons(void)
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	WeatherArea area1(NFmiPoint(25,60),"Helsinki");
 	WeatherArea area2(NFmiPoint(25,60),"Helsingin seutu",30);

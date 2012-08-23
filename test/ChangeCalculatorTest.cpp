@@ -20,7 +20,7 @@ namespace ChangeCalculatorTest
 
   void change()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	ChangeCalculator calc;
 

@@ -41,8 +41,8 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  StoryTag::StoryTag(const std::string & theName)
-	: itsName(theName)
+  StoryTag::StoryTag(const std::string & theName, const bool& prefixTag /*= true*/)
+	: itsName(theName), itsPrefixTag(prefixTag)
   {
   }
 
@@ -95,6 +95,17 @@ namespace TextGen
   bool StoryTag::isDelimiter() const
   {
 	return false;
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Returns true if tag is locatated before the story, false if after the story
+   */
+  // ----------------------------------------------------------------------
+
+  bool StoryTag::isPrefixTag() const
+  {
+	return itsPrefixTag;
   }
 
 } // namespace TextGen

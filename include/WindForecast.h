@@ -609,6 +609,9 @@ namespace TextGen
 									const WeatherPeriod& thePeriod,
 									const WeatherResult& theEqualizedWindMaximum,
 									const std::string& theVar);
+  float mean_wind_direction_error(const wind_data_item_vector& theWindDataVector,
+								  const WeatherArea& theArea,
+								  const WeatherPeriod& thePeriod);
   WindEventId mask_wind_event(const WindEventId& originalId, const WindEventId& maskToRemove);
   WeatherPeriod get_wind_turning_period(const WeatherPeriod& thePeriod,
 										const wind_event_period_data_item_vector& theDirectionEventVector);

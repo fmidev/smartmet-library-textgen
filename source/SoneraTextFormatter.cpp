@@ -20,6 +20,7 @@
  */
 // ======================================================================
 
+#include "TextFormatterTools.h"
 #include "SoneraTextFormatter.h"
 #include "Dictionary.h"
 #include "Document.h"
@@ -35,6 +36,8 @@
 #include "Settings.h"
 #include "StoryTag.h"
 #include "TextGenError.h"
+#include "Time.h"
+#include "TimePeriod.h"
 
 #include <newbase/NFmiStringTools.h>
 
@@ -391,7 +394,35 @@ namespace TextGen
   string SoneraTextFormatter::visit(const StoryTag & theStory) const
   {
 	itsStoryVar = theStory.realize(*itsDictionary);
+
+	if(theStory.isPrefixTag())
+	  {
+		return TextFormatterTools::get_story_value_param(itsStoryVar, name());
+	  }
+
 	return "";
+  }
+
+   // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit Time
+   */
+  // ----------------------------------------------------------------------
+
+  string SoneraTextFormatter::visit(const Time & theTime) const
+  {
+	return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "sonera");
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Visit TimePeriod
+   */
+  // ----------------------------------------------------------------------
+
+  string SoneraTextFormatter::visit(const TimePeriod & thePeriod) const
+  {
+	return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "sonera");
   }
 
 } // namespace TextGen

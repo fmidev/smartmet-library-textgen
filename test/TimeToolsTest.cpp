@@ -15,7 +15,7 @@ namespace TimeToolsTest
 
   void is_same_day()
   {
-	using WeatherAnalysis::TimeTools::isSameDay;
+	using TextGen::TimeTools::isSameDay;
 
 	NFmiTime date(2003,07,11);
 
@@ -39,7 +39,7 @@ namespace TimeToolsTest
 
   void is_next_day()
   {
-	using WeatherAnalysis::TimeTools::isNextDay;
+	using TextGen::TimeTools::isNextDay;
 
 	NFmiTime date(2003,07,11);
 	
@@ -61,7 +61,7 @@ namespace TimeToolsTest
 
   void is_several_days()
   {
-	using WeatherAnalysis::TimeTools::isSeveralDays;
+	using TextGen::TimeTools::isSeveralDays;
 
 	NFmiTime date(2003,07,11);
 	
@@ -85,7 +85,7 @@ namespace TimeToolsTest
 
   void day_start()
   {
-	using WeatherAnalysis::TimeTools::dayStart;
+	using TextGen::TimeTools::dayStart;
 	if(!dayStart(NFmiTime(2003,9,29)).IsEqual(NFmiTime(2003,9,29)))
 	  TEST_FAILED("Failed to round down 29.09.2003 00:00");
 	if(!dayStart(NFmiTime(2003,9,29,1)).IsEqual(NFmiTime(2003,9,29)))
@@ -106,7 +106,7 @@ namespace TimeToolsTest
 
   void day_end()
   {
-	using WeatherAnalysis::TimeTools::dayEnd;
+	using TextGen::TimeTools::dayEnd;
 
 	if(!dayEnd(NFmiTime(2003,9,29)).IsEqual(NFmiTime(2003,9,29)))
 	  TEST_FAILED("Failed to round up 29.09.2003 00:00");
@@ -128,7 +128,7 @@ namespace TimeToolsTest
 
   void toutctime()
   {
-	using WeatherAnalysis::TimeTools::toUtcTime;
+	using TextGen::TimeTools::toUtcTime;
 
 	const char * hki = "TZ=Europe/Helsinki";
 	putenv(const_cast<char *>(hki));
@@ -158,7 +158,7 @@ namespace TimeToolsTest
 
   void tolocaltime()
   {
-	using WeatherAnalysis::TimeTools::toLocalTime;
+	using TextGen::TimeTools::toLocalTime;
 
 	const char * hki = "TZ=Europe/Helsinki";
 	putenv(const_cast<char *>(hki));

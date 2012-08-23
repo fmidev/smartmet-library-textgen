@@ -21,7 +21,7 @@ namespace ModStandardDeviationCalculatorTest
 
   void modmean()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	ModStandardDeviationCalculator calc(10);
 

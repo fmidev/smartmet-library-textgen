@@ -395,6 +395,9 @@ namespace TextGen
 
   bool CloudinessForecast::separateCoastInlandCloudiness(const WeatherPeriod& theWeatherPeriod) const
   {
+	if(theParameters.theCoastalAndInlandTogetherFlag == true)
+	  return false;
+
 	weather_result_data_item_vector theInterestingDataCoastal;
 	weather_result_data_item_vector theInterestingDataInland;
 	

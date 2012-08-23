@@ -1165,6 +1165,24 @@ namespace TextGen
 	return meanDirection;
   }
 
+  float mean_wind_direction_error(const wind_data_item_vector& theWindDataVector, const WeatherArea& theArea, const WeatherPeriod& thePeriod)
+  {
+	unsigned int counter(0);
+	float cumulativeWindDirectionError(0.0);
+
+ 	for(unsigned int i = 0; i < theWindDataVector.size() ; i++)
+	  {
+		WindDataItemUnit& item = theWindDataVector[i]->getDataItem(theArea.type());
+		if(is_inside(item.thePeriod.localStartTime(), thePeriod))
+		  {
+			cumulativeWindDirectionError += item.theEqualizedWindDirection.error();
+			counter++;
+		  }
+	  }
+
+	return (counter > 0 ? (cumulativeWindDirectionError / counter) : 0.0);
+  }
+
   bool populate_time_series(wo_story_params& storyParams)
   {
 	GridForecaster forecaster;
@@ -1325,8 +1343,8 @@ namespace TextGen
 
 	return true;
   }
-    
-  void find_out_wind_speed_periods(wo_story_params& storyParams)
+
+ void find_out_wind_speed_periods(wo_story_params& storyParams)
 								   
   {
 	unsigned int equalizedDataIndex;
@@ -3042,8 +3060,64 @@ namespace TextGen
 			// if wind direction turns to another direction for a short time and returns then to the original, dont report the direction change
 			currentDataItem->theWindEvent = mask_wind_event(currentDataItem->theWindEvent, TUULI_KAANTYY);
 		  }
+		else if(previousDataItem->theWindEvent == MISSING_WIND_EVENT && 
+				((currentDataItem->theWindEvent == TUULI_VOIMISTUU &&
+				  (!nextDataItem || !(nextDataItem->theWindEvent & TUULI_VOIMISTUU))) 
+				 || (currentDataItem->theWindEvent == TUULI_HEIKKENEE && 
+					 (!nextDataItem || !(nextDataItem->theWindEvent & TUULI_HEIKKENEE)))) &&
+				(currentDataItem->theWeakWindPeriodFlag == previousDataItem->theWeakWindPeriodFlag))
+		  {
+			// if wind first weakens/strenghtens but not enough (MISSING_WIND_EVENT) and then sthrengthens and weakens just barely enough
+			// we can end to a situation where wind speed ranges are the same on two successive periods -> merge periods
+
+			int lowerLimitPrevious(0);
+			int upperLimitPrevious(0);
+			int lowerLimitCurrent(0);
+			int upperLimitCurrent(0);
+			
+			WeatherPeriod currentPeriodEnd(currentDataItem->thePeriod.localEndTime(), currentDataItem->thePeriod.localEndTime());
+			get_wind_speed_interval(previousDataItem->thePeriod,
+									storyParams.theArea,
+									storyParams.theWindDataVector,
+									lowerLimitPrevious,
+									upperLimitPrevious);
+			get_wind_speed_interval(currentPeriodEnd,
+									storyParams.theArea,
+									storyParams.theWindDataVector,
+									lowerLimitCurrent,
+									upperLimitCurrent);
+
+			if(abs(lowerLimitPrevious - lowerLimitCurrent) < 2 &&
+			   abs(upperLimitPrevious - upperLimitCurrent) < 2)
+			  {
+				currentDataItem->theWindEvent = MISSING_WIND_EVENT;
+				merge = true;
+			  }
+		  }
 		/*
-		  TODO: 27.06
+		  // bug 15.08.2012: B4E area klo 0700
+		else if(previousDataItem->theWindEvent != TUULI_MUUTTUU_VAIHTELEVAKSI &&
+				previousDataItem->theWindEvent != MISSING_WIND_EVENT &&
+				currentDataItem->theWindEvent != TUULI_MUUTTUU_VAIHTELEVAKSI &&
+				currentDataItem->theWindEvent != MISSING_WIND_EVENT)
+		  {
+			if(get_period_length(previousDataItem->thePeriod) <= 3 &&
+			   get_period_length(currentDataItem->thePeriod) > 3)
+			  {
+				mergePreviousToCurrent = true;
+				merge = true;		
+			  }
+			else if(get_period_length(currentDataItem->thePeriod) <= 3 &&
+					get_period_length(previousDataItem->thePeriod) > 3)
+			  {
+				merge = true;		
+			  }
+		  }
+		*/
+
+		
+		/*
+		  TODO: 27.06: tuuli kaantyy suuntaisesta puoleseksi ??
 		else if(same_direction(currentDataItem->thePeriodBeginDataItem.theEqualizedWindDirection,
 							   currentDataItem->thePeriodEndDataItem.theEqualizedWindDirection,
 							   currentDataItem->thePeriodBeginDataItem.theEqualizedMaximumWind,
@@ -3126,7 +3200,7 @@ namespace TextGen
 			  currentDataItem->theWindSpeedChangeStarts = true;
 			if(!nextDataItem || !(nextDataItem->theWindEvent & TUULI_VOIMISTUU))
 			  currentDataItem->theWindSpeedChangeEnds = true;
-		  }
+		  }		
 	  }
 	remove_reduntant_periods(storyParams);
 	

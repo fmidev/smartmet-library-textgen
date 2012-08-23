@@ -5,8 +5,12 @@
 #include "PlainTextFormatter.h"
 #include "TextFormatterTools.h"
 #include "UnitFactory.h"
+#include "Time.h"
+#include "TimePeriod.h"
+#include "WeatherPeriod.h"
 
 #include <newbase/NFmiSettings.h>
+#include <newbase/NFmiTime.h>
 
 #include <iostream>
 #include <stdexcept>
@@ -140,6 +144,64 @@ namespace TextFormatterToolsTest
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Test TextFormatterTools::format_time functions
+   */
+  // ----------------------------------------------------------------------
+
+  void format_time()
+  {
+ 	PlainTextFormatter formatter;
+	formatter.dictionary(dict);
+
+	// Test 1: format_time(const NFmiTime& theTime, const std::string& theFormattingString)
+	{
+	  NFmiTime nfmiTime(2012,8,9,14,39);
+	  
+	  Sentence s;
+	  s << Time(nfmiTime);
+
+	 string  tmp = TextFormatterTools::format_time(nfmiTime,"%d.%m.%Y %H:%M");
+	  if(tmp != "09.08.2012 14:39")
+		TEST_FAILED("format_time-test 1 failed: " + tmp);
+	}
+
+	// Test 2: std::string format_time(const NFmiTime& theTime, const std::string& theStoryVar,	const std::string& theFormatterName)
+	{
+	  NFmiTime nfmiTime(2012,8,9,14,39);
+	  
+	  Sentence s;
+	  s << Time(nfmiTime);
+
+	  NFmiSettings::Set("textgen::part1::story::test::timeformat","%d.%m.%Y %H");
+
+	  string  tmp = TextFormatterTools::format_time(nfmiTime,"textgen::part1::story::test", "%d.%m.%Y %H");
+	  if(tmp != "09.08.2012 14")
+		TEST_FAILED("format_time-test 2 failed: " + tmp);
+	}
+	// Test 3: std::string format_time(const WeatherPeriod& thePeriod, const std::string& theStoryVar, const std::string& theFormatterName)
+	{
+	  NFmiTime startTime(2012,8,9,14,39);
+	  NFmiTime endTime(2012,8,10,12,00);
+	  WeatherPeriod weatherPeriod(startTime, endTime);
+	  
+	  Sentence s;
+	  s << TimePeriod(weatherPeriod);
+
+	  NFmiSettings::Set("textgen::part1::story::test::plain::startformat", "%d.%m.%Y %H:%M - ");
+	  NFmiSettings::Set("textgen::part1::story::test::plain::endformat", "%d.%m.%Y %H:%M");
+
+	  string  tmp = TextFormatterTools::format_time(weatherPeriod,"textgen::part1::story::test", "plain");
+	  if(tmp != "09.08.2012 14:39 - 10.08.2012 12:00")
+		TEST_FAILED("format_time-test 3 failed: " + tmp);
+	}
+
+
+	TEST_PASSED();
+
+ }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief The actual test driver
    */
   // ----------------------------------------------------------------------
@@ -158,6 +220,7 @@ namespace TextFormatterToolsTest
 	  TEST(capitalize);
 	  TEST(punctuate);
 	  TEST(realize);
+	  TEST(format_time);
 	}
 
   }; // class tests

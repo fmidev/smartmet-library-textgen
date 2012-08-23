@@ -25,7 +25,7 @@ namespace PeriodPhraseFactoryTest
   string require(const string & theMode,
 				 const string & theVariable,
 				 const NFmiTime & theForecastTime,
-				 const WeatherAnalysis::WeatherPeriod & thePeriod,
+				 const TextGen::WeatherPeriod & thePeriod,
 				 const string & theLanguage,
 				 const string & theResult)
   {
@@ -67,8 +67,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
 	const NFmiTime ftime(day1);
-	const WeatherAnalysis::WeatherPeriod period1(day1,day2);
-	const WeatherAnalysis::WeatherPeriod period2(day2,day3);
+	const TextGen::WeatherPeriod period1(day1,day2);
+	const TextGen::WeatherPeriod period2(day2,day3);
 
 	string result;
 
@@ -136,8 +136,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
 	const NFmiTime ftime(day1);
-	const WeatherAnalysis::WeatherPeriod period1(day1,day2);
-	const WeatherAnalysis::WeatherPeriod period2(day2,day3);
+	const TextGen::WeatherPeriod period1(day1,day2);
+	const TextGen::WeatherPeriod period2(day2,day3);
 
 	string result;
 
@@ -205,8 +205,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
 	const NFmiTime ftime(day1);
-	const WeatherAnalysis::WeatherPeriod period1(day1,day2);
-	const WeatherAnalysis::WeatherPeriod period2(day2,day3);
+	const TextGen::WeatherPeriod period1(day1,day2);
+	const TextGen::WeatherPeriod period2(day2,day3);
 
 	string result;
 
@@ -271,8 +271,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
 	const NFmiTime ftime(day1);
-	const WeatherAnalysis::WeatherPeriod period1(day1,day2);
-	const WeatherAnalysis::WeatherPeriod period2(day2,day3);
+	const TextGen::WeatherPeriod period1(day1,day2);
+	const TextGen::WeatherPeriod period2(day2,day3);
 
 	string result;
 
@@ -339,7 +339,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
 	const NFmiTime ftime(day1);
-	const WeatherAnalysis::WeatherPeriod period(day1,day2);
+	const TextGen::WeatherPeriod period(day1,day2);
 
 	string result;
 
@@ -388,8 +388,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
 	const NFmiTime ftime(day1);
-	const WeatherAnalysis::WeatherPeriod period1(day1,day2);
-	const WeatherAnalysis::WeatherPeriod period2(day2,day3);
+	const TextGen::WeatherPeriod period1(day1,day2);
+	const TextGen::WeatherPeriod period2(day2,day3);
 
 	string result;
 
@@ -448,8 +448,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
 	const NFmiTime ftime(day1);
-	const WeatherAnalysis::WeatherPeriod period1(day1,day2);
-	const WeatherAnalysis::WeatherPeriod period2(day2,day3);
+	const TextGen::WeatherPeriod period1(day1,day2);
+	const TextGen::WeatherPeriod period2(day2,day3);
 
 	string result;
 
@@ -505,7 +505,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	// 1 day, starting today
 	{
-	  const WeatherAnalysis::WeatherPeriod period(day1,day2);
+	  const TextGen::WeatherPeriod period(day1,day2);
 
 	  NFmiSettings::Set(mode+"::days::phrases","none");
 	  REQUIRE(mode,var,ftime,period,"fi","");
@@ -536,7 +536,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	// 1 day, starting tomorrow
 	{
-	  const WeatherAnalysis::WeatherPeriod period(day2,day3);
+	  const TextGen::WeatherPeriod period(day2,day3);
 
 	  NFmiSettings::Set(mode+"::days::phrases","none");
 	  REQUIRE(mode,var,ftime,period,"fi","Huomenna.");
@@ -567,7 +567,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	// 2 days, starting today
 	{
-	  const WeatherAnalysis::WeatherPeriod period(day1,day3);
+	  const TextGen::WeatherPeriod period(day1,day3);
 
 	  NFmiSettings::Set(mode+"::days::phrases","none");
 	  REQUIRE(mode,var,ftime,period,"fi","");
@@ -598,7 +598,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	// 2 days, starting tomorrow
 	{
-	  const WeatherAnalysis::WeatherPeriod period(day2,day4);
+	  const TextGen::WeatherPeriod period(day2,day4);
 
 	  NFmiSettings::Set(mode+"::days::phrases","none");
 	  REQUIRE(mode,var,ftime,period,"fi","Huomenna ja seuraavana päivänä.");
@@ -629,7 +629,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	// 3 days, starting today
 	{
-	  const WeatherAnalysis::WeatherPeriod period(day1,day4);
+	  const TextGen::WeatherPeriod period(day1,day4);
 
 	  NFmiSettings::Set(mode+"::days::phrases","none");
 	  REQUIRE(mode,var,ftime,period,"fi","");
@@ -669,7 +669,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   void remaining_day()
   {
-	using WeatherAnalysis::WeatherPeriod;
+	using TextGen::WeatherPeriod;
 
 	const NFmiTime ftime(2003,06,29);
 

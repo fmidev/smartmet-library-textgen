@@ -60,6 +60,9 @@ namespace TextGen
 				const std::string & theName,
 				float theRadius = 0);
 
+	WeatherArea(const NFmiSvgPath& theSvgPath,
+				const std::string & theName);
+
 	bool isPoint() const;
 	bool isNamed() const;
 

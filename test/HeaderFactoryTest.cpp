@@ -25,8 +25,8 @@ namespace HeaderFactoryTest
   
 
   string require(const string & theLanguage,
-				 const WeatherAnalysis::WeatherArea & theArea,
-				 const WeatherAnalysis::WeatherPeriod & thePeriod,
+				 const TextGen::WeatherArea & theArea,
+				 const TextGen::WeatherPeriod & thePeriod,
 				 const string & theName,
 				 const string & theResult)
   {
@@ -53,7 +53,7 @@ namespace HeaderFactoryTest
 
   void header_none()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	string var = "variable";
 	NFmiSettings::Set(var+"::type","none");
@@ -83,7 +83,7 @@ namespace HeaderFactoryTest
 
   void header_until()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	string var = "variable";
 	NFmiSettings::Set(var+"::type","until");
@@ -123,7 +123,7 @@ namespace HeaderFactoryTest
 
   void header_from_until()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	string var = "variable";
 	NFmiSettings::Set(var+"::type","from_until");
@@ -163,7 +163,7 @@ namespace HeaderFactoryTest
 
   void header_several_days()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	string var = "variable";
 	NFmiSettings::Set(var+"::type","several_days");
@@ -193,7 +193,7 @@ namespace HeaderFactoryTest
 
   void header_report_area()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	string var = "variable";
 	NFmiSettings::Set(var+"::type","report_area");
@@ -223,7 +223,7 @@ namespace HeaderFactoryTest
 
   void header_report_time()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	string var = "variable";
 	NFmiSettings::Set(var+"::type","report_time");
@@ -253,7 +253,7 @@ namespace HeaderFactoryTest
 
   void header_report_location()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	string var = "variable";
 	NFmiSettings::Set(var+"::type","report_location");
@@ -283,7 +283,7 @@ namespace HeaderFactoryTest
 
   void header_morning()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	string var = "variable";
 	NFmiSettings::Set(var+"::type","morning");
@@ -325,7 +325,7 @@ namespace HeaderFactoryTest
 
   void header_forenoon()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	string var = "variable";
 	NFmiSettings::Set(var+"::type","forenoon");
@@ -367,7 +367,7 @@ namespace HeaderFactoryTest
 
   void header_afternoon()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	string var = "variable";
 	NFmiSettings::Set(var+"::type","afternoon");
@@ -409,7 +409,7 @@ namespace HeaderFactoryTest
 
   void header_evening()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	string var = "variable";
 	NFmiSettings::Set(var+"::type","evening");
@@ -451,7 +451,7 @@ namespace HeaderFactoryTest
 
   void header_clock_range()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	string var = "variable";
 	NFmiSettings::Set(var+"::type","clock_range");

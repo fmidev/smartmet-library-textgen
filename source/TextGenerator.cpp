@@ -81,7 +81,7 @@ namespace TextGen
 		{
 		  const string storyvar = theVar+"::story::"+*iter;
 
-		  paragraph << StoryTag(storyvar);
+		  paragraph << StoryTag(storyvar, true);
 		  Paragraph p = StoryFactory::create(theForecastTime,
 											 theSources,
 											 theArea,
@@ -89,6 +89,7 @@ namespace TextGen
 											 *iter,
 											 storyvar);
 		  paragraph << p;
+		  paragraph << StoryTag(storyvar, false);
 		}
 
 	  return paragraph;
@@ -251,7 +252,7 @@ namespace TextGen
 		it != paragraphs.end();
 		++it)
 	  {
-		doc << SectionTag("textgen::"+*it);
+		doc << SectionTag("textgen::"+*it, true);
 
 		const string periodvar = "textgen::"+*it+"::period";
 		const WeatherPeriod period = WeatherPeriodFactory::create(itsPimple->itsForecastTime,
@@ -314,6 +315,7 @@ namespace TextGen
 									 subperiod);
 			  }
 		  }
+		doc << SectionTag("textgen::"+*it, false);
 	  }
 	return doc;
 

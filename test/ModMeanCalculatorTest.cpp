@@ -20,7 +20,7 @@ namespace ModMeanCalculatorTest
 
   void modmean()
   {
-	using namespace WeatherAnalysis;
+	using namespace TextGen;
 
 	ModMeanCalculator calc(10);
 

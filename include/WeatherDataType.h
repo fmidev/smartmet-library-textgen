@@ -20,6 +20,8 @@ namespace TextGen
 
 } // namespace TextGen
 
+const char * data_type_name(const TextGen::WeatherDataType & theDataType);
+
 #endif // TEXTGEN_WEATHERDATATYPE_H
 
 // ======================================================================
