@@ -124,7 +124,7 @@ namespace TextGen
 						pMultiPolygon->exportToWkt(&wkt_buffer);
 						svg_string.append(wkt_buffer);
 						CPLFree(wkt_buffer);
-						//						cout << "RAWMULTIPOLYGON: " << svg_string << endl;
+												cout << "RAWMULTIPOLYGON: " << svg_string << endl;
 					  }
 					else
 					  {
@@ -133,21 +133,20 @@ namespace TextGen
 						pPolygon->exportToWkt(&wkt_buffer);
 						svg_string.append(wkt_buffer);
 						CPLFree(wkt_buffer);
-						//						cout << "RAWPOLYGON: " << svg_string << endl;
+												cout << "RAWPOLYGON: " << svg_string << endl;
 					  }
 
 
 					replace_all(svg_string, "MULTIPOLYGON ", "");
 					replace_all(svg_string, "POLYGON ", "");
-					//					replace_first(svg_string, "MULTIPOLYGON (((", "\"M ");
+					replace_all(svg_string, "),(", " Z M ");
 					replace_all(svg_string, ",", " L ");
-					//					replace_first(svg_string, ")))", " Z\"\n");
 					replace_all(svg_string, "(", "");
 					replace_all(svg_string, ")", "");
 					svg_string.insert(0, "\"M ");
 					svg_string.append(" Z\"\n");
 
-					// cout << "POLYGON in SVG format(" << area_name << "): " << svg_string << endl;
+					cout << "POLYGON in SVG format(" << area_name << "): " << svg_string << endl;
 
 					stringstream ss;
 					ss << svg_string;
