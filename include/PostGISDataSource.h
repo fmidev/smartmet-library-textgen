@@ -20,6 +20,8 @@ class NFmiPoint;
 namespace TextGen
 {
 
+class WeatherArea;
+
   class PostGISDataSource
   {
 
@@ -36,13 +38,8 @@ namespace TextGen
 				  const std::string table,
 				  const std::string fieldname);
 
-	bool numberOfPolygons() { return polygonmap.size(); }
-	bool numberOfPoints() { return pointmap.size(); }
-	bool isPolygon(const std::string name) { return polygonmap.find(name) != polygonmap.end(); }
-	bool isPoint(const std::string name) { return pointmap.find(name) != pointmap.end(); }
-
-	NFmiSvgPath getSVGPath(const std::string name);	
-	NFmiPoint getPoint(const std::string name);	
+	TextGen::WeatherArea makeArea(const std::string& thePostGISName, const std::string& theConfigName);
+	bool areaExists(const std::string& theName);
 
   private:
 
@@ -51,6 +48,13 @@ namespace TextGen
 						   const std::string dbname,
 						   const std::string user,
 						   const std::string password);
+
+	bool isPolygon(const std::string name) { return polygonmap.find(name) != polygonmap.end(); }
+	bool isPoint(const std::string name) { return pointmap.find(name) != pointmap.end(); }
+
+	NFmiSvgPath getSVGPath(const std::string name);	
+	NFmiPoint getPoint(const std::string name);	
+
 	
 	std::map<std::string, NFmiSvgPath> polygonmap;
 	std::map<std::string, NFmiPoint> pointmap;

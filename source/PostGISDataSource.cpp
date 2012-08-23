@@ -1,5 +1,6 @@
 #include "PostGISDataSource.h"
 #include "TextGenError.h"
+#include "WeatherArea.h"
 
 #include <newbase/NFmiSvgPath.h>
 #include <newbase/NFmiPoint.h>
@@ -216,5 +217,29 @@ namespace TextGen
   
 	return pOGRDriver->Open(ss.str().c_str());
   }
+
+  TextGen::WeatherArea PostGISDataSource::makeArea(const std::string& thePostGISName, const std::string& theConfigName)
+  {
+	if(isPolygon(thePostGISName))
+	  {
+		const NFmiSvgPath svgPath(getSVGPath(thePostGISName));
+		return TextGen::WeatherArea(svgPath, theConfigName);
+	  }
+	else if(isPoint(thePostGISName))
+	  {
+		const NFmiPoint point(getPoint(thePostGISName));
+		return TextGen::WeatherArea(point, theConfigName);
+	  }
+	else
+	  {
+		return TextGen::WeatherArea(NFmiPoint(), "");
+	  }
+  }
+
+  bool PostGISDataSource::areaExists(const std::string& theName)
+  {
+	return (isPolygon(theName) || isPoint(theName));
+  }
+  
 
 } // namespace TextGen
