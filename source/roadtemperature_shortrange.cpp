@@ -17,7 +17,7 @@
 #include "TemperatureStoryTools.h"
 #include "WeatherResult.h"
 
-#include "boost/lexical_cast.hpp"
+#include <boost/lexical_cast.hpp>
 
 using namespace TextGen;
 using namespace boost;

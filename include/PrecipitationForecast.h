@@ -209,7 +209,7 @@ namespace TextGen
 	Sentence constructPrecipitationSentence(const WeatherPeriod& thePeriod,
 											const Sentence& thePeriodPhrase,
 											const unsigned short& theForecastAreaId,
-											const std::string theAreaPhrase) const;
+											const std::string & theAreaPhrase) const;
 
 	void calculatePrecipitationParameters(const WeatherPeriod& thePeriod,
 										  const precipitation_data_vector& theDataVector,

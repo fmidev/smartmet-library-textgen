@@ -3622,7 +3622,7 @@ vesi- tai lumisadetta.
   Sentence  PrecipitationForecast::constructPrecipitationSentence(const WeatherPeriod& thePeriod,
 																  const Sentence& thePeriodPhrase,
 																  const unsigned short& theForecastAreaId,
-																  const std::string theAreaPhrase) const
+																  const std::string & theAreaPhrase) const
   {
 	Sentence sentence;
 

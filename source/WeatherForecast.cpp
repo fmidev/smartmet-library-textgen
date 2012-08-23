@@ -261,8 +261,7 @@ using namespace std;
 
   const char* story_part_id_string(const story_part_id& theStoryPartId)
   {
-	string retval("");
-	//	const char* retval = "";
+	const char* retval = "";
 
 	switch(theStoryPartId)
 	  {
@@ -288,7 +287,7 @@ using namespace std;
 
 	retval += " story part";
 	
-	return retval.c_str();
+	return retval;
   }
 
   part_of_the_day_id get_part_of_the_day_id(const NFmiTime& theTimestamp)

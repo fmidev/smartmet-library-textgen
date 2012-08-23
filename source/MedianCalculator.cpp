@@ -62,7 +62,7 @@ namespace TextGen
 
   float MedianCalculator::operator()() const
   {
-	if(theValueVector.size() == 0)
+	if(theValueVector.empty())
 	  {
 		return kFloatMissing;
 	  }
