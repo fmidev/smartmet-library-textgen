@@ -53,6 +53,7 @@ if WINDOWS:
     env.replace( ENV= os.environ )
 
 env.Append( CPPPATH= [ "./include" ] )
+env.Append( CPPPATH= [ "/usr/include/gdal" ] )
 
 # Asko's temporary
 #
