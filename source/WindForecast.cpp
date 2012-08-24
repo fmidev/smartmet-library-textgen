@@ -166,26 +166,27 @@ namespace TextGen
 		  }
 		// if previous event was 'tuuli muuttuu vaihtelevaksi',
 		// dont report 'tuuli on vaihtelevaa' on current period
-		if(eventIdPreviousReported & TUULI_MUUTTUU_VAIHTELEVAKSI &&
+		if((eventIdPreviousReported & TUULI_MUUTTUU_VAIHTELEVAKSI) &&
 		   eventId == MISSING_WIND_EVENT &&
 		   windDirectionIdAvg == VAIHTELEVA)
 		  continue;
 
 		// if wind vas vaihteleva on previous period, dont report 'tuuli muuttuu vaihtelevaksi'
 		// on this period
-		if(eventId & TUULI_MUUTTUU_VAIHTELEVAKSI &&
-		   eventPeriodItemPrevious && get_wind_direction_id_at(theParameters.theWindDataVector,
-															   theParameters.theArea,
-															   theParameters.theSources,
-															   eventPeriodItemPrevious->thePeriod,
-															   theParameters.theVar) == VAIHTELEVA)
+		if((eventId & TUULI_MUUTTUU_VAIHTELEVAKSI) &&
+		   eventPeriodItemPrevious &&
+		   get_wind_direction_id_at(theParameters.theWindDataVector,
+									theParameters.theArea,
+									theParameters.theSources,
+									eventPeriodItemPrevious->thePeriod,
+									theParameters.theVar) == VAIHTELEVA)
 		  continue;
 
 		// if wind direction changes in two successive periods,
 		// it can not be the same in the end of these periods
 		if(eventId & TUULI_KAANTYY)
 		  {
-			if(eventPeriodItemPrevious && eventIdPreviousReported & TUULI_KAANTYY)
+			if(eventPeriodItemPrevious && (eventIdPreviousReported & TUULI_KAANTYY))
 			  {
 				if(get_wind_direction_id_at(theParameters.theWindDataVector,
 											theParameters.theArea,
@@ -204,7 +205,7 @@ namespace TextGen
 			  }
 		  }
 
-		if(eventId & TUULI_HEIKKENEE && 
+		if((eventId & TUULI_HEIKKENEE) && 
 		   (eventPeriodItem->theWindSpeedChangeStarts &&
 			eventPeriodItem->theWindSpeedChangeEnds))
 		  {

@@ -46,248 +46,166 @@ using namespace std;
 
  const char* weather_event_string(const weather_event_id& theWeatherEventId)
   {
-	const char* retval = "";
-
 	switch(theWeatherEventId)
 	  {
 	  case PILVISTYY:
-		retval = PILVISTYVAA_WORD;
-		break;
+		return PILVISTYVAA_WORD;
 	  case SELKENEE:
-		retval = SELKENEVAA_WORD;
-		break;
+		return SELKENEVAA_WORD;
 	  case POUTAANTUU:
-		retval = SAA_POUTAANTUU_PHRASE;
-		break;
+		return SAA_POUTAANTUU_PHRASE;
 	  case POUTAANTUU_WHEN_EXTENT_SMALL:
-		retval = "saa poutaantuu kattavuudeltaan suppean sateen jalkeen";
-		break;
+		return "saa poutaantuu kattavuudeltaan suppean sateen jalkeen";
 	  case SADE_ALKAA:
-		retval = SADE_ALKAA_PHRASE;
-		break;
+		return SADE_ALKAA_PHRASE;
 	  default:
-		retval = "missing weather event";
-		break;
+		return "missing weather event";
 	  }
-
-	return retval;
   }
 
   const char* precipitation_form_string(const precipitation_form_id& thePrecipitationForm)
   {
-	const char* retval = "";
-
 	switch(thePrecipitationForm)
 	  {
 	  case WATER_FORM:
-		retval = "WATER";
-		break;
+		return "WATER";
 	  case DRIZZLE_FORM:
-		retval = "DRIZZLE";
-		break;
+		return "DRIZZLE";
 	  case SLEET_FORM:
-		retval = "SLEET";
-		break;
+		return "SLEET";
 	  case SNOW_FORM:
-		retval = "SNOW";
-		break;
+		return "SNOW";
 	  case FREEZING_FORM:
-		retval = "FREEZING";
-		break;
+		return "FREEZING";
 	  case WATER_DRIZZLE_FORM:
-		retval = "WATER_DRIZZLE";
-		break;
+		return "WATER_DRIZZLE";
 	  case WATER_SLEET_FORM:
-		retval = "WATER_SLEET";
-		break;
+		return "WATER_SLEET";
 	  case WATER_SNOW_FORM:
-		retval = "WATER_SNOW";
-		break;
+		return "WATER_SNOW";
 	  case WATER_FREEZING_FORM:
-		retval = "WATER_FREEZING";
-		break;
+		return "WATER_FREEZING";
 	  case WATER_DRIZZLE_SLEET_FORM:
-		retval = "WATER_DRIZZLE_SLEET";
-		break;
+		return "WATER_DRIZZLE_SLEET";
 	  case WATER_DRIZZLE_SNOW_FORM:
-		retval = "WATER_DRIZZLE_SNOW";
-		break;
+		return "WATER_DRIZZLE_SNOW";
 	  case WATER_DRIZZLE_FREEZING_FORM:
-		retval = "WATER_DRIZZLE_FREEZING";
-		break;
+		return "WATER_DRIZZLE_FREEZING";
 	  case WATER_SLEET_SNOW_FORM:
-		retval = "WATER_SLEET_SNOW";
-		break;
+		return "WATER_SLEET_SNOW";
 	  case WATER_SLEET_FREEZING_FORM:
-		retval = "WATER_SLEET_FREEZING";
-		break;
+		return "WATER_SLEET_FREEZING";
 	  case WATER_SNOW_FREEZING_FORM:
-		retval = "WATER_SNOW_FREEZING";
-		break;
+		return "WATER_SNOW_FREEZING";
 	  case DRIZZLE_SLEET_FORM:
-		retval = "DRIZZLE_SLEET";
-		break;
+		return "DRIZZLE_SLEET";
 	  case DRIZZLE_SNOW_FORM:
-		retval = "DRIZZLE_SNOW";
-		break;
+		return "DRIZZLE_SNOW";
 	  case DRIZZLE_FREEZING_FORM:
-		retval = "DRIZZLE_FREEZING";
-		break;
+		return "DRIZZLE_FREEZING";
 	  case DRIZZLE_SLEET_SNOW_FORM:
-		retval = "DRIZZLE_SLEET_SNOW";
-		break;
+		return "DRIZZLE_SLEET_SNOW";
 	  case DRIZZLE_SLEET_FREEZING_FORM:
-		retval = "DRIZZLE_SLEET_FREEZING";
-		break;
+		return "DRIZZLE_SLEET_FREEZING";
 	  case DRIZZLE_SNOW_FREEZING_FORM:
-		retval = "DRIZZLE_SNOW_FREEZING";
-		break;
+		return "DRIZZLE_SNOW_FREEZING";
 	  case SLEET_SNOW_FORM:
-		retval = "SLEET_SNOW";
-		break;
+		return "SLEET_SNOW";
 	  case SLEET_FREEZING_FORM:
-		retval = "SLEET_FREEZING";
-		break;
+		return "SLEET_FREEZING";
 	  case SLEET_SNOW_FREEZING_FORM:
-		retval = "SLEET_SNOW_FREEZING";
-		break;
+		return "SLEET_SNOW_FREEZING";
 	  case SNOW_FREEZING_FORM:
-		retval = "SNOW_FREEZING";
-		break;
+		return "SNOW_FREEZING";
 	  default:
-		retval = "MISSING_VALUE";
-		break;
+		return "MISSING_VALUE";
 	  }
-	return retval;
   }
 
   const char* precipitation_traverse_string(const precipitation_traverse_id& thePrecipitationTraverseId)
   {
-	const char* retval = "";
-
 	switch(thePrecipitationTraverseId)
 	  {
 	  case FROM_SOUTH_TO_NORTH:
-		retval = "etelasta pohjoiseen";
-		break;
+		return "etelasta pohjoiseen";
 	  case FROM_NORTH_TO_SOUTH:
-		retval = "pohjoiseta etelaan";
-		break;
+		return "pohjoiseta etelaan";
 	  case FROM_EAST_TO_WEST:
-		retval = "idasta lanteen";
-		break;
+		return "idasta lanteen";
 	  case FROM_WEST_TO_EAST:
-		retval = "lannesta itaan";
-		break;
+		return "lannesta itaan";
 	  case FROM_NORTHEAST_TO_SOUTHWEST:
-		retval = "koillisesta lounaaseen";
-		break;
+		return "koillisesta lounaaseen";
 	  case FROM_SOUTHWEST_TO_NORTHEAST:
-		retval = "lounaasta koilliseen";
-		break;
+		return "lounaasta koilliseen";
 	  case FROM_NORTHWEST_TO_SOUTHEAST:
-		retval = "luoteesta kaakkoon";
-		break;
+		return "luoteesta kaakkoon";
 	  case FROM_SOUTHEAST_TO_NORTHWEST:
-		retval = "kaakosta luoteeseen";
-		break;
+		return "kaakosta luoteeseen";
 	  case MISSING_TRAVERSE_ID:
-		retval = "ei minnekaan";
-		break;
-
-		 }
-
-	return retval;
+		return "ei minnekaan";
+		// For some reason g++ wants this even though all enum values are handled above
+	  default:
+		return "";
+	  }
   }
 
   const char* part_of_the_day_string(const part_of_the_day_id& thePartOfTheDayId)
   {
-	const char* retval = "";
-
 	switch(thePartOfTheDayId)
 	  {
 	  case AAMU:
-		retval = "aamu";
-		break;
+		return "aamu";
 	  case AAMUPAIVA:
-		retval = "aamupaiva";
-		break;
+		return "aamupaiva";
 	  case ILTAPAIVA:
-		retval = "iltapaiva";
-		break;
+		return "iltapaiva";
 	  case ILTA:
-		retval = "ilta";
-		break;
+		return "ilta";
 	  case ILTAYO:
-		retval = "iltayo";
-		break;
+		return "iltayo";
 	  case KESKIYO:
-		retval = "keskiyo";
-		break;
+		return "keskiyo";
 	  case AAMUYO:
-		retval = "aamuyo";
-		break;
+		return "aamuyo";
 	  case PAIVA:
-		retval = "paiva";
-		break;
+		return "paiva";
 	  case YO:
-		retval = "yo";
-		break;
+		return "yo";
 	  case AAMU_JA_AAMUPAIVA:
-		retval = "aamu- ja aamupaiva";
-		break;
+		return "aamu- ja aamupaiva";
 	  case ILTAPAIVA_JA_ILTA:
-		retval = "iltapaiva ja ilta";
-		break;
+		return "iltapaiva ja ilta";
 	  case ILTA_JA_ILTAYO:
-		retval = "ilta ja iltayo";
-		break;
+		return "ilta ja iltayo";
 	  case ILTAYO_JA_KESKIYO:
-		retval = "iltayo-ja keskiyo";
-		break;
+		return "iltayo-ja keskiyo";
 	  case KESKIYO_JA_AAMUYO:
-		retval = "keskiyo ja aamu";
-		break;
+		return "keskiyo ja aamu";
 	  case AAMUYO_JA_AAMU:
-		retval = "aamuyo ja aamu";
-		break;
+		return "aamuyo ja aamu";
 	  default:
-		retval = "missing";
-		break;
+		return "missing";
 	  }
-
-	return retval;
   }
 
-  const char* story_part_id_string(const story_part_id& theStoryPartId)
+  const char * story_part_id_string(const story_part_id& theStoryPartId)
   {
-	const char* retval = "";
-
 	switch(theStoryPartId)
 	  {
 	  case PRECIPITATION_STORY_PART:
-		retval = "precipitation";
-		break;
+		return "precipitation story part";
  	  case CLOUDINESS_STORY_PART:
-		retval = "cloudiness";
-		break;
+		return "cloudiness story part";
  	  case GETTING_CLOUDY_STORY_PART:
-		retval = "getting cloudy";
-		break;
+		return "getting cloudy story part";
  	  case CLEARING_UP_STORY_PART:
-		retval = "clearing up";
-		break;
+		return "clearing up story part";
  	  case PRECIPITATION_TYPE_CHANGE_STORY_PART:
-		retval = "precipitation type change";
-		break;
+		return "precipitation type change story part";
 	  default:
-		retval = "missing";
-		break;
-	  };
-
-	retval += " story part";
-	
-	return retval;
+		return "missing story part";
+	  }
   }
 
   part_of_the_day_id get_part_of_the_day_id(const NFmiTime& theTimestamp)
