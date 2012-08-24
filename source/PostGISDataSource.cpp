@@ -10,7 +10,7 @@
 
 #include <boost/algorithm/string/replace.hpp>
 
-#include "ogrsf_frmts.h"
+#include <ogrsf_frmts.h>
 
 using namespace std;
 using namespace boost;
