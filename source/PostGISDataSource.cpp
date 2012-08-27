@@ -5,12 +5,12 @@
 #include <newbase/NFmiSvgPath.h>
 #include <newbase/NFmiPoint.h>
 
-#include <iostream>
-#include <sstream>
+#include <ogrsf_frmts.h>
 
 #include <boost/algorithm/string/replace.hpp>
 
-#include <ogrsf_frmts.h>
+#include <iostream>
+#include <sstream>
 
 using namespace std;
 using namespace boost;
@@ -22,14 +22,14 @@ namespace TextGen
   {
   }
 
-  bool PostGISDataSource::readData(const std::string host, 
-								   const std::string port,
-								   const std::string dbname,
-								   const std::string user,
-								   const std::string password,
-								   const std::string schema,
-								   const std::string table,
-								   const std::string fieldname)
+  bool PostGISDataSource::readData(const std::string & host, 
+								   const std::string & port,
+								   const std::string & dbname,
+								   const std::string & user,
+								   const std::string & password,
+								   const std::string & schema,
+								   const std::string & table,
+								   const std::string & fieldname)
   {
 
 	try
@@ -175,7 +175,7 @@ namespace TextGen
 	return true;
   }
 
-  NFmiSvgPath PostGISDataSource::getSVGPath(const std::string name)
+  NFmiSvgPath PostGISDataSource::getSVGPath(const std::string & name)
   {
 	if(polygonmap.find(name) != polygonmap.end())
 	  return polygonmap[name];
@@ -183,7 +183,7 @@ namespace TextGen
 	  return NFmiSvgPath();
   }
 
-  NFmiPoint PostGISDataSource::getPoint(const std::string name)
+  NFmiPoint PostGISDataSource::getPoint(const std::string & name)
   {
 	if(pointmap.find(name) != pointmap.end())
 	  return pointmap[name];
@@ -191,11 +191,11 @@ namespace TextGen
 	  return NFmiPoint();
   }
 
-  OGRDataSource* PostGISDataSource::connect(const std::string host, 
-											const std::string port,
-											const std::string dbname,
-											const std::string user,
-											const std::string password)
+  OGRDataSource* PostGISDataSource::connect(const std::string & host, 
+											const std::string & port,
+											const std::string & dbname,
+											const std::string & user,
+											const std::string & password)
   {
 	OGRRegisterAll();
 

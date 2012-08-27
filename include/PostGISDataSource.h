@@ -29,31 +29,31 @@ class WeatherArea;
 
 	PostGISDataSource();
 
-	bool readData(const std::string host, 
-				  const std::string port,
-				  const std::string dbname,
-				  const std::string user,
-				  const std::string password,
-				  const std::string schema,
-				  const std::string table,
-				  const std::string fieldname);
+	bool readData(const std::string & host, 
+				  const std::string & port,
+				  const std::string & dbname,
+				  const std::string & user,
+				  const std::string & password,
+				  const std::string & schema,
+				  const std::string & table,
+				  const std::string & fieldname);
 
 	TextGen::WeatherArea makeArea(const std::string& thePostGISName, const std::string& theConfigName);
 	bool areaExists(const std::string& theName);
 
   private:
 
-	OGRDataSource* connect(const std::string host, 
-						   const std::string port,
-						   const std::string dbname,
-						   const std::string user,
-						   const std::string password);
+	OGRDataSource* connect(const std::string & host, 
+						   const std::string & port,
+						   const std::string & dbname,
+						   const std::string & user,
+						   const std::string & password);
 
-	bool isPolygon(const std::string name) { return polygonmap.find(name) != polygonmap.end(); }
-	bool isPoint(const std::string name) { return pointmap.find(name) != pointmap.end(); }
+	bool isPolygon(const std::string & name) { return polygonmap.find(name) != polygonmap.end(); }
+	bool isPoint(const std::string & name) { return pointmap.find(name) != pointmap.end(); }
 
-	NFmiSvgPath getSVGPath(const std::string name);	
-	NFmiPoint getPoint(const std::string name);	
+	NFmiSvgPath getSVGPath(const std::string & name);	
+	NFmiPoint getPoint(const std::string & name);	
 
 	
 	std::map<std::string, NFmiSvgPath> polygonmap;
