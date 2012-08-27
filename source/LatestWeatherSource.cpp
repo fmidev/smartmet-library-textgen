@@ -21,7 +21,7 @@
 #include "TextGenError.h"
 
 #include <newbase/NFmiFileSystem.h>
-#include <newbase/NFmiStreamQueryData.h>
+#include <newbase/NFmiQueryData.h>
 
 #include <cassert>
 #include <map>
@@ -40,7 +40,7 @@ struct WeatherDataStruct
   time_t itsLastCheckTime;
   string itsFilename;
   TextGen::WeatherId itsId;
-  boost::shared_ptr<NFmiStreamQueryData> itsData;
+  boost::shared_ptr<NFmiQueryData> itsData;
 };
 
 namespace
@@ -126,7 +126,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<NFmiStreamQueryData> LatestWeatherSource::data(const std::string & theName) const
+  boost::shared_ptr<NFmiQueryData> LatestWeatherSource::data(const std::string & theName) const
   {
 	// Age limit for checking for new query data is 1 minute
 	const int agelimit = 1*60;
@@ -171,10 +171,7 @@ namespace TextGen
 	  itsPimple->itsData.erase(it);
 
 	// Read the new data
-
-	boost::shared_ptr<NFmiStreamQueryData> qdata(new NFmiStreamQueryData);
-	if(!qdata->ReadData(filename.c_str()))
-	  throw TextGenError("Failed to read querydata from "+filename);
+	boost::shared_ptr<NFmiQueryData> qdata(new NFmiQueryData(filename));
 
 	WeatherDataStruct newdata;
 	newdata.itsId = IdGenerator::generate();

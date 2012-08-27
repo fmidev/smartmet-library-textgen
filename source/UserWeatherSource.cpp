@@ -20,7 +20,7 @@
 #include "UserWeatherSource.h"
 #include "IdGenerator.h"
 #include "TextGenError.h"
-#include <newbase/NFmiStreamQueryData.h>
+#include <newbase/NFmiQueryData.h>
 #include <cassert>
 #include <map>
 
@@ -37,7 +37,7 @@ namespace TextGen
   class UserWeatherSource::Pimple
   {
   public:
-	typedef map<string,boost::shared_ptr<NFmiStreamQueryData> > container_type;
+	typedef map<string,boost::shared_ptr<NFmiQueryData> > container_type;
 	container_type itsData;
 
 	typedef map<string,WeatherId> id_container_type;
@@ -67,7 +67,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  boost::shared_ptr<NFmiStreamQueryData> UserWeatherSource::data(const std::string & theName) const
+  boost::shared_ptr<NFmiQueryData> UserWeatherSource::data(const std::string & theName) const
   {
 	// See if we have a stored result
 	typedef Pimple::container_type::const_iterator const_iterator;
@@ -108,7 +108,7 @@ namespace TextGen
   // ----------------------------------------------------------------------
 
   void UserWeatherSource::insert(const std::string & theName,
-								 boost::shared_ptr<NFmiStreamQueryData> theData) const
+								 boost::shared_ptr<NFmiQueryData> theData) const
   {
 	// The constructor should guarantee valid pimple
 	assert(itsPimple.get() != 0);

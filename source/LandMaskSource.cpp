@@ -30,6 +30,7 @@
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiIndexMaskSource.h>
 #include <newbase/NFmiIndexMaskTools.h>
+#include <newbase/NFmiFastQueryInfo.h>
 
 #include <map>
 
@@ -188,9 +189,9 @@ namespace TextGen
   {
 	// Establish the grid which to mask
 
-	shared_ptr<NFmiStreamQueryData> qdata = theWeatherSource.data(theData);
-	NFmiFastQueryInfo * qi = qdata->QueryInfoIter();
-	if(!qi->IsGrid())
+	shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
+	NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
+	if(!qi.IsGrid())
 	  throw TextGenError("The data in "+theData+" is not gridded - cannot generate mask for it");
 
 	// First build the area mask
@@ -198,7 +199,7 @@ namespace TextGen
 	const NFmiSvgPath svg = theArea.path();
 	const float radius = theArea.radius();
 
-	mask_type areamask(new NFmiIndexMask(MaskExpand(*(qi->Grid()),
+	mask_type areamask(new NFmiIndexMask(MaskExpand(*(qi.Grid()),
 													svg,
 													radius)));
 
@@ -206,7 +207,7 @@ namespace TextGen
 
 	const NFmiSvgPath & lsvg = itsLand.path();
 	const float ldistance = itsLand.radius();
-	mask_type landmask(new NFmiIndexMask(MaskExpand(*(qi->Grid()),
+	mask_type landmask(new NFmiIndexMask(MaskExpand(*(qi.Grid()),
 													lsvg,
 													ldistance)));
 

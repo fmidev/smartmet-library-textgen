@@ -29,6 +29,7 @@
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiIndexMaskSource.h>
 #include <newbase/NFmiIndexMaskTools.h>
+#include <newbase/NFmiFastQueryInfo.h>
 
 #include <map>
 
@@ -209,14 +210,14 @@ namespace TextGen
   {
 	// Establish the grid which to mask
 
-	shared_ptr<NFmiStreamQueryData> qdata = theWeatherSource.data(theData);
-	NFmiFastQueryInfo * qi = qdata->QueryInfoIter();
-	if(!qi->IsGrid())
+	shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
+	NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
+	if(!qi.IsGrid())
 	  throw TextGenError("The data in "+theData+" is not gridded - cannot generate mask for it");
 
 	// First build the area mask
 
-	mask_type return_mask(new NFmiIndexMask(MaskDirection(*(qi->Grid()),
+	mask_type return_mask(new NFmiIndexMask(MaskDirection(*(qi.Grid()),
 														  theArea,
 														  AreaTools::WEST)));
 	return return_mask;

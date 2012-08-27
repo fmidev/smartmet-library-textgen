@@ -166,17 +166,17 @@ namespace TextGen
 	  // Get the data into use
 	  
 	  shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	  shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
-	  NFmiFastQueryInfo * qi = qd->QueryInfoIter();
+	  shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	  NFmiFastQueryInfo qi = NFmiFastQueryInfo(qd.get());
 
 	  // Try activating the parameter
 
-	  if(!qi->Param(kFmiPrecipitation1h))
+	  if(!qi.Param(kFmiPrecipitation1h))
 		throw TextGenError("Precipitation1h is not available in "+dataname);
 
 	  // Handle points and areas separately
 
-	  if(!QueryDataTools::firstTime(*qi,thePeriod.utcStartTime(),thePeriod.utcEndTime()))
+	  if(!QueryDataTools::firstTime(qi,thePeriod.utcStartTime(),thePeriod.utcEndTime()))
 		 throw TextGenError("The required time period is not available in "+dataname);
 
 	  RainTimes times;
@@ -192,19 +192,19 @@ namespace TextGen
 
 		  do
 			{
-			  const float tmp = QueryDataIntegrator::Integrate(*qi,
+			  const float tmp = QueryDataIntegrator::Integrate(qi,
 															   *mask,
 															   calculator);
 			  if(tmp != kFloatMissing && tmp >= minimum_area)
-				times.push_back(TimeTools::toLocalTime(qi->Time()));
+				times.push_back(TimeTools::toLocalTime(qi.Time()));
 			}
-		  while(qi->NextTime() && qi->Time() <= thePeriod.utcEndTime());
+		  while(qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
 		  
 
 		}
 	  else
 		{
-		  if(!(qi->Location(theArea.point())))
+		  if(!(qi.Location(theArea.point())))
 			{
 			  ostringstream msg;
 			  msg << "Could not set desired coordinate ("
@@ -220,11 +220,11 @@ namespace TextGen
 
 		  do
 			{
-			  const float tmp = qi->FloatValue();
+			  const float tmp = qi.FloatValue();
 			  if(tmp != kFloatMissing && tmp >= minimum_rain)
-				times.push_back(TimeTools::toLocalTime(qi->Time()));
+				times.push_back(TimeTools::toLocalTime(qi.Time()));
 			}
-		  while(qi->NextTime() && qi->Time() <= thePeriod.utcEndTime());
+		  while(qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
 
 		}
 	  

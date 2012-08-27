@@ -136,10 +136,10 @@ namespace TextGen
 	// Get the data into use
 
 	shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
+	shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
 
-	NFmiFastQueryInfo * qi = qd->QueryInfoIter();
-	WindChillQueryInfo wi(*qi);
+	NFmiFastQueryInfo qi = NFmiFastQueryInfo(qd.get());
+	WindChillQueryInfo wi(qi);
 
 
 	// Try activating the parameter
@@ -245,7 +245,7 @@ namespace TextGen
 
 	  }
 
-	if(!(qi->Location(theArea.point())))
+	if(!(qi.Location(theArea.point())))
 	  {
 		ostringstream msg;
 		msg << "Could not set desired coordinate ("

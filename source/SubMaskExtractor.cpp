@@ -74,14 +74,14 @@ namespace TextGen
 	// Get the data into use
 	  
 	shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
-	NFmiFastQueryInfo* theQI = qd->QueryInfoIter();
+	shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
 	FmiParameterName param = FmiParameterName(converter.ToEnum(parameterName));
 	if(param == kFmiBadParameter)
 	  throw TextGenError("Parameter "+parameterName+" is not defined in newbase");
   
-	if(!theQI->Param(param))
+	if(!theQI.Param(param))
 	  throw TextGenError(parameterName+" is not available in "+dataname);
 
 	if(!theArea.isPoint())
@@ -121,7 +121,7 @@ namespace TextGen
 	  
 		unsigned long startindex, endindex;
 		
-		if(!QueryDataTools::findIndices(*theQI,
+		if(!QueryDataTools::findIndices(theQI,
 										thePeriod.utcStartTime(),
 										thePeriod.utcEndTime(),
 										startindex,
@@ -135,24 +135,24 @@ namespace TextGen
 			++it)
 		  {
 		  
-			theQI->TimeIndex(startindex);
+			theQI.TimeIndex(startindex);
 
 			do
 			  {
 				// possible -1 is handled by IndexFloatValue
-				const unsigned long idx = theQI->Index(theQI->ParamIndex(),
+				const unsigned long idx = theQI.Index(theQI.ParamIndex(),
 													   *it,
-													   theQI->LevelIndex(),
-													   theQI->TimeIndex());
-				const float tmp = theQI->GetFloatValue(idx);
+													   theQI.LevelIndex(),
+													   theQI.TimeIndex());
+				const float tmp = theQI.GetFloatValue(idx);
 			
 				if(theAcceptor.accept(tmp))
 				  {
-					theResultData.push_back(new NFmiPoint(theQI->LatLon(*it)));
+					theResultData.push_back(new NFmiPoint(theQI.LatLon(*it)));
 					retval += tmp;
 				  }
 			  }
-			while(theQI->NextTime() && theQI->TimeIndex() < endindex);
+			while(theQI.NextTime() && theQI.TimeIndex() < endindex);
 		  }
 	  }
 	
@@ -179,14 +179,14 @@ namespace TextGen
 	// Get the data into use
 	  
 	shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
-	NFmiFastQueryInfo* theQI = qd->QueryInfoIter();
+	shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
 	FmiParameterName param = FmiParameterName(converter.ToEnum(parameterName));
 	if(param == kFmiBadParameter)
 	  throw TextGenError("Parameter "+parameterName+" is not defined in newbase");
   
-	if(!theQI->Param(param))
+	if(!theQI.Param(param))
 	  throw TextGenError(parameterName+" is not available in "+dataname);
 
 	if(!theArea.isPoint())
@@ -226,7 +226,7 @@ namespace TextGen
 	  
 		unsigned long startindex, endindex;
 		
-		if(!QueryDataTools::findIndices(*theQI,
+		if(!QueryDataTools::findIndices(theQI,
 										thePeriod.utcStartTime(),
 										thePeriod.utcEndTime(),
 										startindex,
@@ -238,16 +238,16 @@ namespace TextGen
 			++it)
 		  {
 			
-			theQI->TimeIndex(startindex);
+			theQI.TimeIndex(startindex);
 			
 			do
 			  {
 				// possible -1 is handled by IndexFloatValue
-				const unsigned long idx = theQI->Index(theQI->ParamIndex(),
+				const unsigned long idx = theQI.Index(theQI.ParamIndex(),
 													   *it,
-													   theQI->LevelIndex(),
-													   theQI->TimeIndex());
-				const float tmp = theQI->GetFloatValue(idx);
+													   theQI.LevelIndex(),
+													   theQI.TimeIndex());
+				const float tmp = theQI.GetFloatValue(idx);
 				
 				if(theAcceptor.accept(tmp))
 				  {
@@ -255,7 +255,7 @@ namespace TextGen
 					retval += tmp;
 				  }
 			  }
-			while(theQI->NextTime() && theQI->TimeIndex() < endindex);
+			while(theQI.NextTime() && theQI.TimeIndex() < endindex);
 		  }
 	  }
 
@@ -471,15 +471,14 @@ namespace TextGen
 	const string dataname = Settings::optional_string(datavar, default_forecast);
 
 	shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
-	NFmiFastQueryInfo* theQI = qd->QueryInfoIter();
+	shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
 	for(NFmiIndexMask::const_iterator it = theIndexMask.begin();
 		it != theIndexMask.end();
 		++it)
 	  {
-		cout << theQI->LatLon(*it);
+		cout << theQI.LatLon(*it);
 	  }
   }
-
 } // namespace

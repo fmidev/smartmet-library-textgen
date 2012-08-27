@@ -160,8 +160,8 @@ namespace TextGen
 	// Get the data into use
 
 	shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
-	NFmiFastQueryInfo * qi = qd->QueryInfoIter();
+	shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	NFmiFastQueryInfo qi = NFmiFastQueryInfo(qd.get());
 
 	// Try activating the parameter
 
@@ -169,7 +169,7 @@ namespace TextGen
 	if(param == kFmiBadParameter)
 	  throw TextGenError("Parameter "+theParameterName+" is not defined in newbase");
 
-	if(!qi->Param(param))
+	if(!qi.Param(param))
 	  throw TextGenError(theParameterName+" is not available in "+dataname);
 	
 	// Handle points and areas separately
@@ -229,7 +229,7 @@ namespace TextGen
 		  spacemod.reset(CalculatorFactory::create(itsAreaFunction,theTester,itsModulo));
 		spacemod->acceptor(theAreaAcceptor);
 
-		float result = QueryDataIntegrator::Integrate(*qi,
+		float result = QueryDataIntegrator::Integrate(qi,
 													  thePeriods,
 													  *subtimemod,
 													  *timemod,
@@ -250,7 +250,7 @@ namespace TextGen
 		  spacemod.reset(CalculatorFactory::create(StandardDeviation,theTester,itsModulo));
 		spacemod->acceptor(theAreaAcceptor);
 		
-		float error = QueryDataIntegrator::Integrate(*qi,
+		float error = QueryDataIntegrator::Integrate(qi,
 													 thePeriods,
 													 *subtimemod,
 													 *timemod,
@@ -265,7 +265,7 @@ namespace TextGen
 
 	  }
 
-	if(!(qi->Location(theArea.point())))
+	if(!(qi.Location(theArea.point())))
 	  {
 			  ostringstream msg;
 			  msg << "Could not set desired coordinate ("
@@ -279,7 +279,7 @@ namespace TextGen
 			  throw TextGenError(msg.str());
 	  }
 
-	float result = QueryDataIntegrator::Integrate(*qi,
+	float result = QueryDataIntegrator::Integrate(qi,
 												  thePeriods,
 												  *subtimemod,
 												  *timemod);
