@@ -17,7 +17,8 @@
 #include "WeatherSource.h"
 #include "Settings.h"
 
-#include <newbase/NFmiStreamQueryData.h>
+#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiFastQueryInfo.h>
 #include <boost/shared_ptr.hpp>
 
 namespace TextGen
@@ -45,10 +46,10 @@ namespace TextGen
 	  const std::string datavar = theDataName + "_climatology";
 	  const std::string dataname = Settings::require_string(datavar);
 	  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	  boost::shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
-	  NFmiFastQueryInfo * qi = qd->QueryInfoIter();
-	  qi->FirstTime();
-	  int year = qi->ValidTime().GetYear();
+	  boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	  NFmiFastQueryInfo qi = NFmiFastQueryInfo(qd.get());
+	  qi.FirstTime();
+	  int year = qi.ValidTime().GetYear();
 	  NFmiTime t1 = thePeriod.localStartTime();
 	  NFmiTime t2 = thePeriod.localEndTime();
 	  t1.SetYear(year);

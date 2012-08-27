@@ -25,6 +25,7 @@
 #include <newbase/NFmiSvgTools.h>
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiSvgPath.h>
+#include <newbase/NFmiFastQueryInfo.h>
 
 typedef TextGen::RegularMaskSource::mask_type mask_type;
 
@@ -84,10 +85,8 @@ namespace TextGen
 					  const std::string & theArea2SvgFile,
 					  const std::string & theQueryData)
 	{
-	  shared_ptr<NFmiStreamQueryData> sqd(new NFmiStreamQueryData());
-	  if(!sqd->ReadData(theQueryData))
-		throw runtime_error("Failed to read '"+theQueryData+"'");
-	
+	  shared_ptr<NFmiQueryData> sqd(new NFmiQueryData(theQueryData));
+
 	  UserWeatherSource theWeatherSource;
 	  theWeatherSource.insert("data", sqd);
 
@@ -110,14 +109,14 @@ namespace TextGen
 	  const string dataname = Settings::optional_string(datavar, default_forecast);
 
 	  shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	  shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
-	  NFmiFastQueryInfo* theQI = qd->QueryInfoIter();
+	  shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	  NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
 	  for(NFmiIndexMask::const_iterator it = theIndexMask.begin();
 		  it != theIndexMask.end();
 		  ++it)
 		{
-		  NFmiPoint point(theQI->LatLon(*it).X(), theQI->LatLon(*it).Y());
+		  NFmiPoint point(theQI.LatLon(*it).X(), theQI.LatLon(*it).Y());
 		  if(!theWeatherArea.path().IsInside(point))
 			return false;
 		}
@@ -148,8 +147,8 @@ namespace TextGen
 	  const string dataname = Settings::optional_string(datavar, default_forecast);
 
 	  shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	  shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
-	  NFmiFastQueryInfo* theQI = qd->QueryInfoIter();
+	  shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	  NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 	  
 	  NFmiIndexMask indexMask;
 	
@@ -166,9 +165,9 @@ namespace TextGen
 		  it != indexMask.end();
 		  ++it)
 		{
-		  lonSum += theQI->LatLon(*it).X();
-		  latSum += theQI->LatLon(*it).Y();
-		  latitudeLongitudeCoordinates.push_back(new NFmiPoint(theQI->LatLon(*it)));
+		  lonSum += theQI.LatLon(*it).X();
+		  latSum += theQI.LatLon(*it).Y();
+		  latitudeLongitudeCoordinates.push_back(new NFmiPoint(theQI.LatLon(*it)));
 		}
 
 	  if(!latitudeLongitudeCoordinates.empty())
@@ -406,8 +405,8 @@ namespace TextGen
 	  const string dataname = Settings::optional_string(datavar, default_forecast);
 
 	  shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	  shared_ptr<NFmiStreamQueryData> qd = wsource->data(dataname);
-	  NFmiFastQueryInfo* theQI = qd->QueryInfoIter();
+	  shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	  NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
 	  double lon_min = 180.0;
 	  double lat_min = 90.0;
@@ -418,7 +417,7 @@ namespace TextGen
 		  it != theIndexMask.end();
 		  ++it)
 		{
-		  NFmiPoint point(theQI->LatLon(*it));
+		  NFmiPoint point(theQI.LatLon(*it));
 		  if(lon_min > point.X())
 			lon_min = point.X();
 		  if(lon_max < point.X())

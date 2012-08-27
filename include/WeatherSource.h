@@ -10,9 +10,9 @@
 
 #include <string>
 #include <boost/shared_ptr.hpp>
-#include <newbase/NFmiStreamQueryData.h>
+#include <newbase/NFmiQueryData.h>
 
-class NFmiStreamQueryData;
+class NFmiQueryData;
 
 namespace TextGen
 {
@@ -23,7 +23,7 @@ namespace TextGen
   public:
 
 	virtual ~WeatherSource() { }
-	virtual boost::shared_ptr<NFmiStreamQueryData> data(const std::string & theName) const = 0;
+	virtual boost::shared_ptr<NFmiQueryData> data(const std::string & theName) const = 0;
 	virtual WeatherId id(const std::string & theName) const = 0;
 
   }; // class WeatherSource

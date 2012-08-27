@@ -18,7 +18,7 @@ namespace TextGen
   public:
 
 	LatestWeatherSource();
-	virtual boost::shared_ptr<NFmiStreamQueryData> data(const std::string & theName) const;
+	virtual boost::shared_ptr<NFmiQueryData> data(const std::string & theName) const;
 	virtual WeatherId id(const std::string & theName) const;
 
   private:
