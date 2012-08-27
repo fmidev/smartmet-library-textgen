@@ -4151,6 +4151,7 @@ namespace TextGen
 	{
 	  bool retval = (value != kFloatMissing);
 
+	  // clear the bit
 	  if(!retval)
 		forecast_period &= (~mask);
 
