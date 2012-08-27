@@ -1,14 +1,14 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 12.7.6
-Release: 2.el6.fmi
+Version: 12.8.27
+Release: 1.el6.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 12.7.6
+BuildRequires: libsmartmet-newbase >= 12.7.23
 BuildRequires: boost-devel >= 1.50
 BuildRequires: mysql-devel
 Provides: %{LIBNAME}
@@ -36,6 +36,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
+* Fri Aug 27 2012 Mika Heiskanen <mika.heiskanen@fmi.fi> - 12.8.27-1.el6.fmi
+- Added 'date' story
+- Added PostGIS support
+- Added CSS text formatter
+- Output for several products can now be directed to the same file
+- Output now goes by default to standard output
+- Output can be directed to standard output using - as the file name
 * Fri Jul  6 2012 Mika Heiskanen <mika.heiskanen@fmi.fi> - 12.7.6-2.el6.fmi
 - Fixed cppcheck issues
 * Fri Jul  6 2012 Mika Heiskanen <mika.heiskanen@fmi.fi> - 12.7.6-1.el6.fmi
