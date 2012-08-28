@@ -4,10 +4,11 @@
 #include "MaximumCalculator.h"
 #include "MinimumCalculator.h"
 #include "MeanCalculator.h"
+#include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiIndexMaskSource.h>
 #include <newbase/NFmiIndexMaskTools.h>
-#include <newbase/NFmiStreamQueryData.h>
+#include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiSvgPath.h>
 #include <boost/lexical_cast.hpp>
 #include <fstream>
@@ -20,15 +21,15 @@ using namespace TextGen::QueryDataIntegrator;
 namespace QueryDataIntegratorTest
 {
 
-  NFmiStreamQueryData theQD;
-  const NFmiGrid * theGrid;
+  shared_ptr<NFmiQueryData> theQD;
+  const NFmiGrid* theGrid;
 
   NFmiSvgPath theArea;
 
   void read_querydata(const std::string & theFilename)
   {
-	theQD.ReadData(theFilename);
-	theGrid = theQD.QueryInfoIter()->Grid();
+	theQD.reset(new NFmiQueryData(theFilename));
+	theGrid = theQD.get()->Info()->Grid();
   }
 
   void read_svg()
@@ -48,16 +49,16 @@ namespace QueryDataIntegratorTest
   {
 	using namespace std;
 
-	NFmiFastQueryInfo * q = theQD.QueryInfoIter();
-	q->First();
-	q->Param(kFmiTemperature);
-	NFmiMetTime time1 = q->Time();
+	NFmiFastQueryInfo q = NFmiFastQueryInfo(theQD.get());
+	q.First();
+	q.Param(kFmiTemperature);
+	NFmiMetTime time1 = q.Time();
 	NFmiMetTime time2 = time1;
 	time2.ChangeByHours(10);
 
 	{
 	  MaximumCalculator modifier;
-	  float result = Integrate(*q,time1,time2,modifier);
+	  float result = Integrate(q,time1,time2,modifier);
 	  float expected = 24.55971;
 
 	  if(std::abs(result-expected) > 0.1)
@@ -66,7 +67,7 @@ namespace QueryDataIntegratorTest
 
 	{
 	  MinimumCalculator modifier;
-	  float result = Integrate(*q,time1,time2,modifier);
+	  float result = Integrate(q,time1,time2,modifier);
 	  float expected = 16.02036;
 
 	  if(std::abs(result-expected) > 0.1)
@@ -75,7 +76,7 @@ namespace QueryDataIntegratorTest
 
 	{
 	  SumCalculator modifier;
-	  float result = Integrate(*q,time1,time2,modifier);
+	  float result = Integrate(q,time1,time2,modifier);
 	  float expected = 219.6678;
 	  
 	  if(std::abs(result-expected) > 0.1)
@@ -84,7 +85,7 @@ namespace QueryDataIntegratorTest
 
 	{
 	  MeanCalculator modifier;
-	  float result = Integrate(*q,time1,time2,modifier);
+	  float result = Integrate(q,time1,time2,modifier);
 	  float expected = 19.9698;
 	  
 	  if(std::abs(result-expected) > 0.1)
@@ -107,9 +108,9 @@ namespace QueryDataIntegratorTest
 	using namespace TextGen::QueryDataIntegrator;
 	using namespace NFmiIndexMaskTools;
 
-	NFmiFastQueryInfo * q = theQD.QueryInfoIter();
-	q->First();
-	q->Param(kFmiTemperature);
+	NFmiFastQueryInfo q = NFmiFastQueryInfo(theQD.get());
+	q.First();
+	q.Param(kFmiTemperature);
 
 	NFmiIndexMask helsinki = MaskDistance(*theGrid,NFmiPoint(25,60),50);
 
@@ -118,7 +119,7 @@ namespace QueryDataIntegratorTest
 
 	{
 	  MaximumCalculator modifier;
-	  float result = Integrate(*q,helsinki,modifier);
+	  float result = Integrate(q,helsinki,modifier);
 	  float expected = 16.58555;
 
 	  if(std::abs(result-expected)>0.01)
@@ -127,7 +128,7 @@ namespace QueryDataIntegratorTest
 
 	{
 	  MinimumCalculator modifier;
-	  float result = Integrate(*q,helsinki,modifier);
+	  float result = Integrate(q,helsinki,modifier);
 	  float expected = 11.56234;
 
 	  if(std::abs(result-expected)>0.01)
@@ -136,7 +137,7 @@ namespace QueryDataIntegratorTest
 
 	{
 	  MeanCalculator modifier;
-	  float result = Integrate(*q,helsinki,modifier);
+	  float result = Integrate(q,helsinki,modifier);
 	  float expected = 14.92822;
 	  
 	  if(std::abs(result-expected)>0.01)
@@ -146,7 +147,7 @@ namespace QueryDataIntegratorTest
 
 	{
 	  MaximumCalculator modifier;
-	  float result = Integrate(*q,uusimaa,modifier);
+	  float result = Integrate(q,uusimaa,modifier);
 	  float expected = 14.86401;
 
 	  if(std::abs(result-expected)>0.01)
@@ -155,7 +156,7 @@ namespace QueryDataIntegratorTest
 
 	{
 	  MinimumCalculator modifier;
-	  float result = Integrate(*q,uusimaa,modifier);
+	  float result = Integrate(q,uusimaa,modifier);
 	  float expected = 9.620665;
 
 	  if(std::abs(result-expected)>0.01)
@@ -178,10 +179,10 @@ namespace QueryDataIntegratorTest
 	using namespace TextGen::QueryDataIntegrator;
 	using namespace NFmiIndexMaskTools;
 
-	NFmiFastQueryInfo * q = theQD.QueryInfoIter();
-	q->First();
-	q->Param(kFmiTemperature);
-	NFmiMetTime time1 = q->Time();
+	NFmiFastQueryInfo q = NFmiFastQueryInfo(theQD.get());
+	q.First();
+	q.Param(kFmiTemperature);
+	NFmiMetTime time1 = q.Time();
 	NFmiMetTime time2 = time1;
 	time2.ChangeByHours(10);
 
@@ -191,7 +192,7 @@ namespace QueryDataIntegratorTest
 	{
 	  MaximumCalculator spacemodifier;
 	  MaximumCalculator timemodifier;
-	  float result = Integrate(*q,helsinki,spacemodifier,
+	  float result = Integrate(q,helsinki,spacemodifier,
 							   time1,time2,timemodifier);
 
 	  float expected = 20.90618;
@@ -203,7 +204,7 @@ namespace QueryDataIntegratorTest
 	{
 	  MinimumCalculator spacemodifier;
 	  MinimumCalculator timemodifier;
-	  float result = Integrate(*q,helsinki,spacemodifier,
+	  float result = Integrate(q,helsinki,spacemodifier,
 							   time1,time2,timemodifier);
 
 	  float expected = 11.56234;
@@ -215,7 +216,7 @@ namespace QueryDataIntegratorTest
 	{
 	  MaximumCalculator spacemodifier;
 	  MaximumCalculator timemodifier;
-	  float result = Integrate(*q,uusimaa,spacemodifier,
+	  float result = Integrate(q,uusimaa,spacemodifier,
 							   time1,time2,timemodifier);
 
 	  float expected = 20.90618;
@@ -227,7 +228,7 @@ namespace QueryDataIntegratorTest
 	{
 	  MinimumCalculator spacemodifier;
 	  MinimumCalculator timemodifier;
-	  float result = Integrate(*q,uusimaa,spacemodifier,
+	  float result = Integrate(q,uusimaa,spacemodifier,
 							   time1,time2,timemodifier);
 
 	  float expected = 9.620665;
@@ -239,7 +240,7 @@ namespace QueryDataIntegratorTest
 	{
 	  MaximumCalculator spacemodifier;
 	  MinimumCalculator timemodifier;
-	  float result = Integrate(*q,
+	  float result = Integrate(q,
 							   helsinki,spacemodifier,
 							   time1,time2,timemodifier);
 
@@ -252,7 +253,7 @@ namespace QueryDataIntegratorTest
 	{
 	  MinimumCalculator spacemodifier;
 	  MaximumCalculator timemodifier;
-	  float result = Integrate(*q,
+	  float result = Integrate(q,
 							   helsinki,spacemodifier,
 							   time1,time2,timemodifier);
 
@@ -265,7 +266,7 @@ namespace QueryDataIntegratorTest
 	{
 	  MaximumCalculator spacemodifier;
 	  MinimumCalculator timemodifier;
-	  float result = Integrate(*q,
+	  float result = Integrate(q,
 							   uusimaa,spacemodifier,
 							   time1,time2,timemodifier);
 
@@ -278,7 +279,7 @@ namespace QueryDataIntegratorTest
 	{
 	  MinimumCalculator spacemodifier;
 	  MaximumCalculator timemodifier;
-	  float result = Integrate(*q,
+	  float result = Integrate(q,
 							   uusimaa,spacemodifier,
 							   time1,time2,timemodifier);
 
@@ -304,10 +305,10 @@ namespace QueryDataIntegratorTest
 	using namespace TextGen::QueryDataIntegrator;
 	using namespace NFmiIndexMaskTools;
 
-	NFmiFastQueryInfo * q = theQD.QueryInfoIter();
-	q->First();
-	q->Param(kFmiTemperature);
-	NFmiMetTime time1 = q->Time();
+	NFmiFastQueryInfo q = NFmiFastQueryInfo(theQD.get());
+	q.First();
+	q.Param(kFmiTemperature);
+	NFmiMetTime time1 = q.Time();
 	NFmiMetTime time2 = time1;
 	time2.ChangeByHours(10);
 
@@ -317,7 +318,7 @@ namespace QueryDataIntegratorTest
 	{
 	  MaximumCalculator spacemodifier;
 	  MinimumCalculator timemodifier;
-	  float result = Integrate(*q,
+	  float result = Integrate(q,
 							   time1,time2,timemodifier,
 							   helsinki,spacemodifier);
 
@@ -330,7 +331,7 @@ namespace QueryDataIntegratorTest
 	{
 	  MinimumCalculator spacemodifier;
 	  MaximumCalculator timemodifier;
-	  float result = Integrate(*q,
+	  float result = Integrate(q,
 							   time1,time2,timemodifier,
 							   helsinki,spacemodifier);
 
@@ -343,7 +344,7 @@ namespace QueryDataIntegratorTest
 	{
 	  MaximumCalculator spacemodifier;
 	  MinimumCalculator timemodifier;
-	  float result = Integrate(*q,
+	  float result = Integrate(q,
 							   time1,time2,timemodifier,
 							   uusimaa,spacemodifier);
 
@@ -356,7 +357,7 @@ namespace QueryDataIntegratorTest
 	{
 	  MinimumCalculator spacemodifier;
 	  MaximumCalculator timemodifier;
-	  float result = Integrate(*q,
+	  float result = Integrate(q,
 							   time1,time2,timemodifier,
 							   uusimaa,spacemodifier);
 
@@ -382,10 +383,10 @@ namespace QueryDataIntegratorTest
 	using namespace TextGen::QueryDataIntegrator;
 	using namespace NFmiIndexMaskTools;
 
-	NFmiFastQueryInfo * q = theQD.QueryInfoIter();
-	q->First();
-	q->Param(kFmiTemperature);
-	NFmiMetTime time1 = q->Time();
+	NFmiFastQueryInfo q = NFmiFastQueryInfo(theQD.get());
+	q.First();
+	q.Param(kFmiTemperature);
+	NFmiMetTime time1 = q.Time();
 	NFmiMetTime time2 = time1;
 	time2.ChangeByHours(1);
 
@@ -399,12 +400,12 @@ namespace QueryDataIntegratorTest
 	{
 	  MaximumCalculator spacemodifier;
 	  MaximumCalculator timemodifier;
-	  float result = Integrate(*q,source,spacemodifier,
+	  float result = Integrate(q,source,spacemodifier,
 							   time1,time2,timemodifier);
 
-	  float expected1 = Integrate(*q,uusimaa1,spacemodifier,
+	  float expected1 = Integrate(q,uusimaa1,spacemodifier,
 								  time1,time1,timemodifier);
-	  float expected2 = Integrate(*q,uusimaa2,spacemodifier,
+	  float expected2 = Integrate(q,uusimaa2,spacemodifier,
 								  time2,time2,timemodifier);
 								
 	  float expected = std::max(expected1,expected2);
@@ -416,12 +417,12 @@ namespace QueryDataIntegratorTest
 	{
 	  MinimumCalculator spacemodifier;
 	  MinimumCalculator timemodifier;
-	  float result = Integrate(*q,source,spacemodifier,
+	  float result = Integrate(q,source,spacemodifier,
 							   time1,time2,timemodifier);
 
-	  float expected1 = Integrate(*q,uusimaa1,spacemodifier,
+	  float expected1 = Integrate(q,uusimaa1,spacemodifier,
 								  time1,time1,timemodifier);
-	  float expected2 = Integrate(*q,uusimaa2,spacemodifier,
+	  float expected2 = Integrate(q,uusimaa2,spacemodifier,
 								  time2,time2,timemodifier);
 								
 	  float expected = std::min(expected1,expected2);

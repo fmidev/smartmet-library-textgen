@@ -1,7 +1,8 @@
 #include <regression/tframe.h>
 #include "QueryDataTools.h"
 
-#include <newbase/NFmiStreamQueryData.h>
+#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiFastQueryInfo.h>
 #include <stdexcept>
 
 using namespace std;
@@ -19,19 +20,17 @@ namespace QueryDataToolsTest
   {
 	using TextGen::QueryDataTools::firstTime;
 
-	NFmiStreamQueryData qd;
-	if(!qd.ReadData("data/skandinavia_pinta.sqd"))
-	  throw runtime_error("Reading data/skandinavia_pinta.sqd failed");
+	NFmiQueryData qd("data/skandinavia_pinta.sqd");
 
-	NFmiFastQueryInfo * qi = qd.QueryInfoIter();
+	NFmiFastQueryInfo qi(*qd.Info());
 
-	if(firstTime(*qi,NFmiTime(1999,1,1),NFmiTime(1999,1,2)))
+	if(firstTime(qi,NFmiTime(1999,1,1),NFmiTime(1999,1,2)))
 	  TEST_FAILED("Should fail for 1.1.1999");
 
-	if(!firstTime(*qi,NFmiTime(2003,8,15),NFmiTime(2003,8,16)))
+	if(!firstTime(qi,NFmiTime(2003,8,15),NFmiTime(2003,8,16)))
 	  TEST_FAILED("Should succeed for 15.08.2003");
 
-	if(firstTime(*qi,NFmiTime(2030,1,1),NFmiTime(2030,1,2)))
+	if(firstTime(qi,NFmiTime(2030,1,1),NFmiTime(2030,1,2)))
 	  TEST_FAILED("Should fail for 1.1.2030");
 
 	TEST_PASSED();
@@ -47,19 +46,17 @@ namespace QueryDataToolsTest
   {
 	using TextGen::QueryDataTools::lastTime;
 
-	NFmiStreamQueryData qd;
-	if(!qd.ReadData("data/skandinavia_pinta.sqd"))
-	  throw runtime_error("Reading data/skandinavia_pinta.sqd failed");
+	NFmiQueryData qd("data/skandinavia_pinta.sqd");
 
-	NFmiFastQueryInfo * qi = qd.QueryInfoIter();
+	NFmiFastQueryInfo qi = NFmiFastQueryInfo(*qd.Info());
 
-	if(!lastTime(*qi,NFmiTime(1999,1,1)))
+	if(!lastTime(qi,NFmiTime(1999,1,1)))
 	  TEST_FAILED("Should succeed for 1.1.1999");
 
-	if(!lastTime(*qi,NFmiTime(2003,8,15)))
+	if(!lastTime(qi,NFmiTime(2003,8,15)))
 	  TEST_FAILED("Should succeed for 15.08.2003");
 
-	if(lastTime(*qi,NFmiTime(2030,1,1)))
+	if(lastTime(qi,NFmiTime(2030,1,1)))
 	  TEST_FAILED("Should fail for 1.1.2030");
 
 	TEST_PASSED();
@@ -76,15 +73,13 @@ namespace QueryDataToolsTest
 	using TextGen::QueryDataTools::findIndices;
 
 	// The data has timesteps from 200308140600 to 200308220900
-	NFmiStreamQueryData qd;
-	if(!qd.ReadData("data/skandinavia_pinta.sqd"))
-	  throw runtime_error("Reading data/skandinavia_pinta.sqd failed");
+	NFmiQueryData qd("data/skandinavia_pinta.sqd");
 
-	NFmiFastQueryInfo * qi = qd.QueryInfoIter();
+	NFmiFastQueryInfo qi = NFmiFastQueryInfo(*qd.Info());
 
 	unsigned long startindex, endindex;
 
-	if(!findIndices(*qi,
+	if(!findIndices(qi,
 					NFmiTime(2003,8,15),
 					NFmiTime(2003,8,16),
 					startindex,

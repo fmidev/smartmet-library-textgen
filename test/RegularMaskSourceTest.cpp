@@ -36,9 +36,7 @@ namespace RegularMaskSourceTest
 
 	// Initialize all the data
 
-	shared_ptr<NFmiStreamQueryData> sqd(new NFmiStreamQueryData());
-	if(!sqd->ReadData(datafile))
-	  throw runtime_error("Failed to read '"+datafile+"'");
+	shared_ptr<NFmiQueryData> sqd(new NFmiQueryData(datafile));
 
 	UserWeatherSource wsource;
 	wsource.insert("data",sqd);

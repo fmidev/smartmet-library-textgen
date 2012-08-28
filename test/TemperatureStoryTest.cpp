@@ -13,7 +13,7 @@
 #include "TemperatureStoryTools.h"
 #include "SeasonTools.h"
 
-#include <newbase/NFmiStreamQueryData.h>
+#include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiSvgPath.h>
 #include <newbase/NFmiGrid.h>
 #include <newbase/NFmiSettings.h>
@@ -6710,13 +6710,11 @@ namespace TemperatureStoryTest
 	TEST_PASSED();
   }
 
-  shared_ptr<NFmiStreamQueryData> theQD;
+  shared_ptr<NFmiQueryData> theQD;
 
   void read_querydata(const std::string & theFilename)
-  {
-	theQD.reset(new NFmiStreamQueryData());
-	if(!theQD->ReadData(theFilename.c_str()))
-	  throw runtime_error("Failed to read "+theFilename);
+  {	
+	theQD.reset(new NFmiQueryData(theFilename));
   }
 
   void temperature_season_anomaly(const WeatherPeriod& period)

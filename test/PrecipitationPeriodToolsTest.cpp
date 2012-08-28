@@ -3,11 +3,13 @@
 #include "AnalysisSources.h"
 #include "RegularMaskSource.h"
 #include "Settings.h"
+#include "WeatherSource.h"
 #include "UserWeatherSource.h"
 #include "MaskSource.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
-#include <newbase/NFmiStreamQueryData.h>
+#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiSvgPath.h>
 #include <newbase/NFmiGrid.h>
 #include <newbase/NFmiSettings.h>
@@ -22,13 +24,11 @@ using namespace boost;
 
 namespace PrecipitationPeriodToolsTest
 {
-  shared_ptr<NFmiStreamQueryData> theQD;
+  shared_ptr<NFmiQueryData> theQD;
 
   void read_querydata(const std::string & theFilename)
   {
-	theQD.reset(new NFmiStreamQueryData());
-	if(!theQD->ReadData(theFilename.c_str()))
-	  throw runtime_error("Failed to read "+theFilename);
+	theQD.reset(new NFmiQueryData(theFilename));
   }
   
   // ----------------------------------------------------------------------
@@ -43,7 +43,7 @@ namespace PrecipitationPeriodToolsTest
 	using namespace TextGen::PrecipitationPeriodTools;
 	using TextGen::PrecipitationPeriodTools::findRainTimes;
 
-	NFmiFastQueryInfo q(*theQD->QueryInfoIter());
+	NFmiFastQueryInfo q = NFmiFastQueryInfo(theQD.get());
 	q.First();
 
 	NFmiTime time1 = q.Time();
@@ -113,7 +113,7 @@ namespace PrecipitationPeriodToolsTest
 	using TextGen::PrecipitationPeriodTools::findRainTimes;
 	using TextGen::PrecipitationPeriodTools::findRainPeriods;
 
-	NFmiFastQueryInfo q(*theQD->QueryInfoIter());
+	NFmiFastQueryInfo q = NFmiFastQueryInfo(theQD.get());
 	q.First();
 
 	NFmiTime time1 = q.Time();
