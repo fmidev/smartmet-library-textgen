@@ -36,13 +36,6 @@ namespace TextGen
 	  {
 		OGRRegisterAll();
 
-		OGRSFDriver* pOGRDriver(OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("PostgreSQL"));
-  
-		if(!pOGRDriver)
-		  {
-			throw TextGenError("Error: PostgreSQL driver not found!");
-		  }
-	
 		std::stringstream connection_ss;
 	  
 		connection_ss << "PG:host='" << host 
@@ -51,11 +44,11 @@ namespace TextGen
 					  << "' user='" << user 
 					  << "' password='" << password << "'";
   
-		OGRDataSource* pDS =  pOGRDriver->Open(connection_ss.str().c_str());
-		
+		OGRDataSource* pDS = OGRSFDriverRegistrar::Open(connection_ss.str().c_str(), FALSE);
+
 		if(!pDS)
 		  {
-			throw TextGenError("Error: OGRSFDriver::Open(" + connection_ss.str() + ") failed!");
+			throw TextGenError("Error: OGRSFDriverRegistrar::Open(" + connection_ss.str() + ") failed!");
 		  }
 
 		std::stringstream schema_table_ss;
