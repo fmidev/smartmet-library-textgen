@@ -2438,10 +2438,8 @@ TextGen;
 
 			require(story,languages[i],fun,iter->second.froststory);
 		  }
-		cout << endl << "test cases(" << languages[i] << "): " << testCases.size();
 		testCases.clear();
 	  }
-	cout << endl;
 	
 	TEST_PASSED();
   }
