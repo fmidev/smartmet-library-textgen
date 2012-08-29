@@ -727,7 +727,7 @@ namespace TextGen
 	if(!growingSeasonInland)
 	  {
 		if(growingSeasonCoastal)
-		  log << "Growing season not going on on inland area, coastal area is not reported alone!" << endl;
+		  log << "Growing season not going started on inland area, coastal area is not reported alone!" << endl;
 
 		return paragraph;
 	  }
