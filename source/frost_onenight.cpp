@@ -652,8 +652,10 @@ namespace TextGen
 	Paragraph paragraph;
 
 	boostfs::path temperatureSumFile(Settings::optional_string("textgen::temperaturesum_forecast", ""));
+	bool temperatureSumFileExists(boostfs::exists(temperatureSumFile));
+	bool resressionTestRun(Settings::require_bool(itsVar+"::regression_test"));
 	
-	if(!boostfs::exists(temperatureSumFile)) 
+	if(!temperatureSumFileExists && !resressionTestRun)
 	  {
 		log << "The temperature sum file " << temperatureSumFile << " does not exist!" << endl;
 		return paragraph;

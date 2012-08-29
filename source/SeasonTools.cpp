@@ -255,6 +255,16 @@ namespace TextGen
 										 const WeatherPeriod& thePeriod,
 										 const std::string& theVariable)
 	{
+	  string fake_var("onenight::fake::growing_season_percentange");
+	  if(theArea.type() == WeatherArea::Inland)
+		fake_var += "::inland";
+	  if(theArea.type() ==  WeatherArea::Coast)
+		fake_var += "::coastal";
+
+	  if(Settings::isset(fake_var))
+		return Settings::optional_double(fake_var, 0.0);
+
+
 	  GridForecaster forecaster;
 	  // 5 days average temperature
 	  NFmiTime startTime(thePeriod.localStartTime());
