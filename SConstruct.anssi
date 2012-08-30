@@ -106,11 +106,11 @@ if WINDOWS:
 elif LINUX:
     # newbase from system install
     #
-    env.Append( CPPPATH= [ "../newbase/include" ] )
     env.Append( CPPPATH= [ "/home/reponen/work/gdal-1.9.1/ogr" ] )
     env.Append( CPPPATH= [ "/home/reponen/work/gdal-1.9.1/ogr/ogrsf_frmts" ] )
     env.Append( CPPPATH= [ "/home/reponen/work/gdal-1.9.1/port" ] )
     env.Append( CPPPATH= [ "/home/reponen/work/gdal-1.9.1/gcore" ] )
+    env.Append( CPPPATH= [ "../newbase/include" ] )
 
     env.Append( LIBPATH= [ "../newbase" ] )
     env.Append( CPPPATH= [ PREFIX+"/include/smartmet" ] )
