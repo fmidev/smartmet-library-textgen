@@ -653,7 +653,7 @@ namespace TextGen
 
 	boostfs::path temperatureSumFile(Settings::optional_string("textgen::temperaturesum_forecast", ""));
 	bool temperatureSumFileExists(boostfs::exists(temperatureSumFile));
-	bool resressionTestRun(Settings::require_bool(itsVar+"::regression_test"));
+	bool resressionTestRun(Settings::optional_bool(itsVar+"::regression_test", false));
 	
 	if(!temperatureSumFileExists && !resressionTestRun)
 	  {
