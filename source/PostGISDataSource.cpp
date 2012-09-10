@@ -1,6 +1,7 @@
 #include "PostGISDataSource.h"
 #include "TextGenError.h"
 #include "WeatherArea.h"
+#include "MessageLogger.h"
 
 #include <newbase/NFmiSvgPath.h>
 #include <newbase/NFmiPoint.h>
@@ -18,7 +19,7 @@ using namespace boost;
 namespace TextGen
 {
 
-  PostGISDataSource::PostGISDataSource()
+  PostGISDataSource::PostGISDataSource(MessageLogger& log) : theLog(log)
   {
   }
 
@@ -61,10 +62,36 @@ namespace TextGen
 		  {
 			throw TextGenError("Error: OGRDataSource::GetLayerByName(" + schema_table_ss.str() + ") failed!");
 		  }
-
-		OGRFeature* pFeature(0);
 	
+		// get spatial reference
+		OGRSpatialReference* pLayerSRS = pLayer->GetSpatialRef();
+		OGRCoordinateTransformation* pCoordinateTransform(0);
+		OGRSpatialReference  targetTransformSRS;
+		int UTMZone(0);
+		if(pLayerSRS)
+		  {
+			UTMZone = pLayerSRS->GetUTMZone();
+			/*
+			cout << "UTMZone: " << UTMZone << endl;
+			cout << "IsGeographic: " << pLayerSRS->IsGeographic() << endl;
+			cout << "IsProjected: " << pLayerSRS->IsProjected() << endl;
+			char* wkt_buffer(0);	
+			pLayerSRS->exportToPrettyWkt(&wkt_buffer);					
+			cout <<  wkt_buffer << endl;
+			CPLFree(wkt_buffer);
+			*/
+			
+			// set WGS84 coordinate system
+			targetTransformSRS.SetWellKnownGeogCS("WGS84");
+			
+			// create transformation object
+			pCoordinateTransform = OGRCreateCoordinateTransformation(pLayerSRS,
+																	 &targetTransformSRS);
+		  }
+
+		OGRFeature* pFeature(0);	
 		pLayer->ResetReading();
+
 		while((pFeature = pLayer->GetNextFeature()) != NULL)
 		  {
 			OGRFeatureDefn* pFDefn = pLayer->GetLayerDefn();
@@ -85,27 +112,28 @@ namespace TextGen
 
 			if(area_name.empty())
 			  {
-				throw TextGenError("Error: PostGISDataSource::readData() field " + fieldname + " not found!");
+				theLog << "field " << fieldname << " not found for the feature " << pFDefn->GetName() << endl;
+				continue;
 			  }
 
 			// get geometry
 			OGRGeometry* pGeometry(pFeature->GetGeometryRef());
 		  
 			if(pGeometry)
-			  {
+			  {				
+				if(pLayerSRS && pCoordinateTransform)
+				  {
+					// transform the coordinates to wgs84
+					if(OGRERR_NONE != pGeometry->transform(pCoordinateTransform))
+					  theLog << "pGeometry->transform() failed" << endl;
+				  }
+
 				OGRwkbGeometryType geometryType(wkbFlatten(pGeometry->getGeometryType()));
 
-				if(geometryType == wkbPoint )
+				if(geometryType == wkbPoint)
 				  {
 					OGRPoint* pPoint = (OGRPoint*) pGeometry;
 					pointmap.insert(make_pair(area_name, NFmiPoint(pPoint->getX(), pPoint->getY())));
-					//					cout << "pointdata: " << pPoint->getX() << ", " <<  pPoint->getY() << endl;
-					/*
-					char* wkt_buffer(0);	
-					pPoint->exportToWkt(&wkt_buffer);					
-					cout << area_name << ": " << wkt_buffer << endl;
-					CPLFree(wkt_buffer);					
-					*/
 				  }
 				else if(geometryType == wkbMultiPolygon || geometryType == wkbPolygon)
 				  {
@@ -117,18 +145,18 @@ namespace TextGen
 						pMultiPolygon->exportToWkt(&wkt_buffer);
 						svg_string.append(wkt_buffer);
 						CPLFree(wkt_buffer);
-						//												cout << "RAWMULTIPOLYGON: " << svg_string << endl;
+						  // cout << "RAWMULTIPOLYGON: " << svg_string << endl;
 					  }
 					else
 					  {
-						OGRPolygon* pPolygon = (OGRPolygon*) pGeometry;						
+						OGRPolygon* pPolygon = (OGRPolygon*) pGeometry;
+
 						char* wkt_buffer(0);						
 						pPolygon->exportToWkt(&wkt_buffer);
 						svg_string.append(wkt_buffer);
 						CPLFree(wkt_buffer);
-						//												cout << "RAWPOLYGON: " << svg_string << endl;
+						//cout << "RAWPOLYGON: " << svg_string << endl;
 					  }
-
 
 					replace_all(svg_string, "MULTIPOLYGON ", "");
 					replace_all(svg_string, "POLYGON ", "");
@@ -139,7 +167,7 @@ namespace TextGen
 					svg_string.insert(0, "\"M ");
 					svg_string.append(" Z\"\n");
 
-					//					cout << "POLYGON in SVG format(" << area_name << "): " << svg_string << endl;
+					//	cout << "POLYGON in SVG format: " << svg_string << endl;
 
 					stringstream ss;
 					ss << svg_string;
@@ -156,7 +184,10 @@ namespace TextGen
 			// destroy feature
 			OGRFeature::DestroyFeature(pFeature); 
 		  }
-	
+		if(pCoordinateTransform) {
+		  delete pCoordinateTransform;
+		}
+
 		// in the end destroy data source
 		OGRDataSource::DestroyDataSource(pDS);
 	  }

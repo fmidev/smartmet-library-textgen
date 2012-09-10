@@ -16,6 +16,7 @@
 class OGRDataSource;
 class NFmiSvgPath;
 class NFmiPoint;
+class MessageLogger;
 
 namespace TextGen
 {
@@ -27,7 +28,7 @@ class WeatherArea;
 
   public:
 
-	PostGISDataSource();
+	PostGISDataSource(MessageLogger& log);
 
 	bool readData(const std::string & host, 
 				  const std::string & port,
@@ -59,6 +60,7 @@ class WeatherArea;
 	std::map<std::string, NFmiSvgPath> polygonmap;
 	std::map<std::string, NFmiPoint> pointmap;
 
+	MessageLogger& theLog;
   }; // class PostGISDataSource
 }
 
