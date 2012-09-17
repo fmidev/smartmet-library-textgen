@@ -205,8 +205,9 @@ namespace TextGen
   {
 	// contains all indexes to 
 	std::vector<unsigned int> theOriginalWindDataIndexes;
+	std::vector<unsigned int> theEqualizedWindSpeedIndexesForMaxWind;
 	std::vector<unsigned int> theEqualizedWindSpeedIndexesForMedianWind;
-	std::vector<unsigned int> theEqualizedWindSpeedIndexesForMaximumWind;
+	std::vector<unsigned int> theEqualizedWindSpeedIndexesForTopWind;
 	std::vector<unsigned int> theEqualizedWindDirectionIndexes;
   };
 
@@ -226,11 +227,11 @@ namespace TextGen
 	  theDataPeriod(forecastPeriod),
 	  theLog(log),
 	  theSplitMethod(NO_SPLITTING),
-	  theMaxErrorWindSpeed(2.0),
-	  theMaxErrorWindDirection(4.0),
+	  theWindSpeedMaxError(2.0),
+	  theWindDirectionMaxError(4.0),
 	  theWindSpeedThreshold(3.0),
 	  theWindDirectionThreshold(45),
-	  theGustyWindMaximumWindDifference(5.0),
+	  theGustyWindTopWindDifference(5.0),
 	  theRangeSeparator("-"),
 	  theMinIntervalSize(2),
 	  theMaxIntervalSize(5),
@@ -246,11 +247,11 @@ namespace TextGen
 	MessageLogger& theLog;
 	split_method theSplitMethod;
 
-	double theMaxErrorWindSpeed;
-	double theMaxErrorWindDirection;
+	double theWindSpeedMaxError;
+	double theWindDirectionMaxError;
 	double theWindSpeedThreshold;
 	double theWindDirectionThreshold;
-	double theGustyWindMaximumWindDifference;
+	double theGustyWindTopWindDifference;
 	std::string theRangeSeparator;
 	int theMinIntervalSize;
 	int theMaxIntervalSize;
@@ -271,13 +272,17 @@ namespace TextGen
 	{ 
 	  return indexes[type]->theOriginalWindDataIndexes; 
 	}
+	inline std::vector<unsigned int>& equalizedWSIndexesMaxWind(WeatherArea::Type type)
+	{ 
+	  return indexes[type]->theEqualizedWindSpeedIndexesForMaxWind;
+	}
 	inline std::vector<unsigned int>& equalizedWSIndexesMedian(WeatherArea::Type type)
 	{ 
 	  return indexes[type]->theEqualizedWindSpeedIndexesForMedianWind;
 	}
-	inline std::vector<unsigned int>& equalizedWSIndexesMaximum(WeatherArea::Type type)
+	inline std::vector<unsigned int>& equalizedWSIndexesTopWind(WeatherArea::Type type)
 	{ 
-	  return indexes[type]->theEqualizedWindSpeedIndexesForMaximumWind;
+	  return indexes[type]->theEqualizedWindSpeedIndexesForTopWind;
 	}
 	inline std::vector<unsigned int>& equalizedWDIndexes(WeatherArea::Type type)
 	{ 
@@ -297,7 +302,7 @@ namespace TextGen
 					 const WeatherResult& windSpeedMax, 
 					 const WeatherResult& windSpeedMean,
 					 const WeatherResult& windSpeedMedian,
-					 const WeatherResult& windMaximum,
+					 const WeatherResult& windSpeedTop,
 					 const WeatherResult& windDirection,
 					 const WeatherResult& gustSpeed)
 	  : thePeriod(period),
@@ -305,12 +310,13 @@ namespace TextGen
 		theWindSpeedMax(windSpeedMax),
 		theWindSpeedMean(windSpeedMean),
 		theWindSpeedMedian(windSpeedMedian),
-		theWindMaximum(windMaximum),
+		theWindSpeedTop(windSpeedTop),
 		theWindDirection(windDirection),
 		theGustSpeed(gustSpeed),
 		theCorrectedWindDirection(windDirection),
 		theEqualizedMedianWind(windSpeedMedian),
-		theEqualizedMaximumWind(windMaximum),
+		theEqualizedMaxWind(windSpeedMax),
+		theEqualizedTopWind(windSpeedTop),
 		theEqualizedWindDirection(theWindDirection)
 	{}
 
@@ -328,14 +334,15 @@ namespace TextGen
 	WeatherResult theWindSpeedMax;
 	WeatherResult theWindSpeedMean;
 	WeatherResult theWindSpeedMedian;
-	WeatherResult theWindMaximum;
+	WeatherResult theWindSpeedTop;
 	WeatherResult theWindDirection;
 	WeatherResult theGustSpeed;
 	// if wind is varying and wind speed is high >= 7 m/s, we store corrected
 	// wind direction here and use it in calculations
 	WeatherResult theCorrectedWindDirection;
 	WeatherResult theEqualizedMedianWind;
-	WeatherResult theEqualizedMaximumWind;
+	WeatherResult theEqualizedMaxWind;
+	WeatherResult theEqualizedTopWind;
 	WeatherResult theEqualizedWindDirection;
 	value_distribution_data_vector theWindSpeedDistribution;
 	value_distribution_data_vector theWindDirectionDistribution;
@@ -359,7 +366,7 @@ namespace TextGen
 				 const WeatherResult& windSpeedMax, 
 				 const WeatherResult& windSpeedMean,
 				 const WeatherResult& windSpeedMedian,
-				 const WeatherResult& windMaximum,
+				 const WeatherResult& windSpeedTop,
 				 const WeatherResult& windDirection,
 				 const WeatherResult& gustSpeed,
 				 const WeatherArea::Type& type)
@@ -369,7 +376,7 @@ namespace TextGen
 														windSpeedMax,	
 														windSpeedMean,
 														windSpeedMedian,
-														windMaximum,
+														windSpeedTop,
 														windDirection,
 														gustSpeed);
 	  theDataItems.insert(std::make_pair(type, dataItem));
@@ -607,7 +614,7 @@ namespace TextGen
   WeatherResult mean_wind_direction(const AnalysisSources& theSources,
 									const WeatherArea& theArea,
 									const WeatherPeriod& thePeriod,
-									const WeatherResult& theEqualizedWindMaximum,
+									const WeatherResult& theEqualizedWindSpeedTop,
 									const std::string& theVar);
   float mean_wind_direction_error(const wind_data_item_vector& theWindDataVector,
 								  const WeatherArea& theArea,
