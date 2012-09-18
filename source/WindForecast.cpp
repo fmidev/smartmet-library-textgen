@@ -92,9 +92,16 @@ namespace TextGen
 		if(!lastPeriod)
 		  {
 			eventPeriodItemNext = theParameters.theMergedWindEventPeriodVector[i+1];
-			eventPeriodNextIsMissingEvent = (eventPeriodItemNext->theWindEvent == MISSING_WIND_EVENT);
+			if(get_period_length(eventPeriodItemNext->thePeriod) == 0)
+			  {
+				eventPeriodItem->theWindSpeedChangeEnds = true;
+			  }
+			else
+			  {
+				eventPeriodNextIsMissingEvent = (eventPeriodItemNext->theWindEvent == MISSING_WIND_EVENT);
+			  }
 		  }
-		
+
 		// if the last period is 1 hour long, ignore it
 		if(lastPeriod && get_period_length(eventPeriodItem->thePeriod) == 0)
 		  continue;
