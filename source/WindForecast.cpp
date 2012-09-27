@@ -102,8 +102,8 @@ namespace TextGen
 			  }
 		  }
 
-		// if the last period is 1 hour long, ignore it
-		if(lastPeriod && get_period_length(eventPeriodItem->thePeriod) == 0)
+		// if the first or last period is 1 hour long, ignore it
+		if((firstPeriod || lastPeriod) && get_period_length(eventPeriodItem->thePeriod) == 0)
 		  continue;
 
 		WindEventId eventId = eventPeriodItem->theWindEvent;
