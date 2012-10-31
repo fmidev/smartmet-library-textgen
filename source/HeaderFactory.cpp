@@ -179,7 +179,7 @@ namespace
 	const int starthour = thePeriod.localStartTime().GetHour();
 
 	header << "saaennuste"
-		   << theArea.name()+":lle"
+		   << LocationPhrase(theArea.name()+":lle")
 		   << WeekdayTools::on_weekday_time(thePeriod.localStartTime())
 		   << TextGen::Integer(starthour)
 		   << "o'clock";
