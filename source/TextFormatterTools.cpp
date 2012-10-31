@@ -45,14 +45,15 @@ namespace TextGen
 	  using namespace boost::locale::boundary;
 
 	  generator gen;
-	  ssegment_index wordmap(word,theString.begin(),theString.end(),gen("fi_FI.UTF-8"));
+	  std::locale loc(gen("fi_FI.UTF-8")); 
+	  ssegment_index wordmap(word,theString.begin(),theString.end(), loc);
 
 	  std::string ret;
 	  for(ssegment_index::iterator it=wordmap.begin(),e=wordmap.end();it!=e;++it)
 		{
 		  if(it==wordmap.begin())
 			{
-			  ret += to_title(it->str());
+			  ret += to_title(it->str(), loc);
 			}
 		  else
 			{
@@ -60,6 +61,7 @@ namespace TextGen
 			}
 		}
 	  return ret;
+	  
 	}
 
 	// ----------------------------------------------------------------------
