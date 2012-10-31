@@ -8,8 +8,14 @@
 #ifndef TEXTGEN_DICTIONARY_H
 #define TEXTGEN_DICTIONARY_H
 
+#include <brainstorm/server/BrainStorm.h>
+#include <brainstorm/server/Reactor.h>
+#include <brainstorm/server/ContentEngine.h>
+#include <textgen/TextGenError.h>
 #include <map>
 #include <string>
+#include <iostream>
+#include <sstream>
 
 namespace TextGen
 {
@@ -31,6 +37,25 @@ namespace TextGen
 	virtual bool contains(const std::string & theKey) const = 0;
 	virtual const std::string & find(const std::string & theKey) const = 0;
 	virtual void insert(const std::string & theKey, const std::string & thePhrase) = 0;
+
+	virtual void geoinit(const BrainStorm::Server::Reactor& theReactor) {}
+   	virtual bool geocontains(const std::string & theKey) const { return false; }
+   	virtual bool geocontains(const double& theLongitude, const double& theLatitude, const double& theMaxDistance) const { return false; }
+	virtual const std::string& geofind(const std::string & theKey) const 
+	{	
+	  throw TextGenError("Error: Dictionary::geofind("+theKey+") failed"); 
+	}
+	virtual const std::string& geofind(const double& theLongitude, const double& theLatitude, const double& theMaxDistance) const
+	{
+	  std::stringstream ss;
+	  ss << "Error: Dictionary::geofind("
+		 << theLongitude << ", " 
+		 << theLatitude << ", " 
+		 << theMaxDistance
+		 << ") failed";
+	  
+	  throw TextGenError(ss.str());
+	}
 
 	virtual size_type size(void) const = 0;
 	virtual bool empty(void) const = 0;
