@@ -69,7 +69,8 @@ namespace TextGen
 	else
 	  {
 		sort(theValueVector.begin(), theValueVector.end());
-		const unsigned int medianIndex = ((theValueVector.size() / 2) - 1);
+		unsigned int vectorSize(theValueVector.size());
+		const unsigned int medianIndex = (vectorSize < 2 ? 0 : ((vectorSize / 2) - 1));
 
 		return theValueVector.at(medianIndex);
 	  }
