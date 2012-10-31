@@ -41,6 +41,7 @@ class WeatherArea;
 
 	TextGen::WeatherArea makeArea(const std::string& thePostGISName, const std::string& theConfigName);
 	bool areaExists(const std::string& theName);
+	void resetQueryParameters() { queryparametermap.clear(); }
 
   private:
 
@@ -59,6 +60,8 @@ class WeatherArea;
 	
 	std::map<std::string, NFmiSvgPath> polygonmap;
 	std::map<std::string, NFmiPoint> pointmap;
+	std::map<std::string, int>  queryparametermap;
+	
 
 	MessageLogger& theLog;
   }; // class PostGISDataSource

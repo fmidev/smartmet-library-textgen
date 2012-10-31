@@ -35,8 +35,10 @@ namespace TextGen
 
 	try
 	  {
-		OGRRegisterAll();
-
+		std::string queryparameter(host+port+dbname+schema+table+fieldname);
+		if(queryparametermap.find(queryparameter) != queryparametermap.end())
+		  return true;
+		
 		std::stringstream connection_ss;
 	  
 		connection_ss << "PG:host='" << host 
@@ -44,6 +46,9 @@ namespace TextGen
 					  << "' dbname='" << dbname 
 					  << "' user='" << user 
 					  << "' password='" << password << "'";
+
+
+		OGRRegisterAll();
   
 		OGRDataSource* pDS = OGRSFDriverRegistrar::Open(connection_ss.str().c_str(), FALSE);
 
@@ -191,6 +196,8 @@ namespace TextGen
 
 		// in the end destroy data source
 		OGRDataSource::DestroyDataSource(pDS);
+
+		queryparametermap.insert(make_pair(queryparameter, 1));
 	  }
 	catch(...)
 	  {
