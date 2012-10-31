@@ -28,6 +28,8 @@ namespace TextGen
   public:
 
 	TextGenerator();
+	TextGenerator(const TextGen::WeatherArea& theLandMaskArea,
+				  const TextGen::WeatherArea& theCoastMaskArea);
 #ifdef NO_COMPILER_GENERATOR
 	~TextGenerator();
 	TextGenerator(const TextGenerator & theGenerator);

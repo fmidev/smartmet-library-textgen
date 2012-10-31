@@ -113,6 +113,8 @@ namespace TextGen
   {
   public:
 	Pimple();
+	Pimple(const WeatherArea& theLandMaskArea,
+		   const WeatherArea& theCoastMaskArea);
 
 	AnalysisSources itsSources;
 	NFmiTime itsForecastTime;
@@ -169,6 +171,63 @@ namespace TextGen
 	itsSources.setEasternMaskSource(shared_ptr<MaskSource> (new EasternMaskSource(theArea)));
 	itsSources.setWesternMaskSource(shared_ptr<MaskSource> (new WesternMaskSource(theArea)));
 
+  }
+
+ // ----------------------------------------------------------------------
+  /*!
+   * \brief Constructor
+   *
+   * The constructor initializes reasonable defaults for all
+   * the analysis sources components. Inland and coastal masks are provided as parameter
+   */
+  // ----------------------------------------------------------------------
+
+  TextGenerator::Pimple::Pimple(const WeatherArea& theLandMaskArea,
+								const WeatherArea& theCoastMaskArea)
+  {
+ 	shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
+	itsSources.setWeatherSource(weathersource);
+
+	typedef shared_ptr<MaskSource> mask_source;
+
+	mask_source masksource(new RegularMaskSource());
+	itsSources.setMaskSource(masksource);
+
+	if(!theLandMaskArea.isPoint() && theLandMaskArea.path().size() > 0)
+	  itsSources.setLandMaskSource(mask_source(new LandMaskSource(theLandMaskArea)));
+	else
+	  itsSources.setLandMaskSource(masksource);
+
+	if(!theCoastMaskArea.isPoint() && theCoastMaskArea.path().size() > 0)
+	  {
+		itsSources.setCoastMaskSource(mask_source(new CoastMaskSource(theCoastMaskArea)));
+		itsSources.setInlandMaskSource(mask_source(new InlandMaskSource(theCoastMaskArea)));
+	  }
+	else
+	  {
+		mask_source nullsource(new NullMaskSource);
+		itsSources.setCoastMaskSource(nullsource);
+		itsSources.setInlandMaskSource(nullsource);
+	  }
+
+	// mask sources for split areas
+	NFmiPoint point(0.0, 0.0);
+	WeatherArea theArea(point);
+
+	itsSources.setNorthernMaskSource(shared_ptr<MaskSource> (new NorthernMaskSource(theArea)));
+	itsSources.setSouthernMaskSource(shared_ptr<MaskSource> (new SouthernMaskSource(theArea)));
+	itsSources.setEasternMaskSource(shared_ptr<MaskSource> (new EasternMaskSource(theArea)));
+	itsSources.setWesternMaskSource(shared_ptr<MaskSource> (new WesternMaskSource(theArea)));
+ }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Constructor
+   */
+  TextGenerator::TextGenerator(const WeatherArea& theLandMaskArea,
+							   const WeatherArea& theCoastMaskArea)
+	: itsPimple(new Pimple(theLandMaskArea, theCoastMaskArea))
+  {
   }
 
   // ----------------------------------------------------------------------
