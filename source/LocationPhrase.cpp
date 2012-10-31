@@ -75,11 +75,24 @@ namespace TextGen
 	using namespace boost::locale;
 	using namespace boost::locale::boundary;
 
-	if(theDictionary.contains(itsLocation))
-	  return theDictionary.find(itsLocation);
+	std::string location(itsLocation);
+	if(theDictionary.contains(location))
+	  return theDictionary.find(location);
+	else
+	  {
+		if(location.size() > 4) {
+		  string ending = location.substr(location.size()-4);
+		  if(ending.compare(":lle") == 0)
+			location  = location.substr(0, location.size()-4);
+		}
+		std::transform(location.begin(), location.begin()+1, location.begin(), ::toupper);
+		if(theDictionary.geocontains(location))
+		  return theDictionary.geofind(location);
+	  }
 
 	generator gen;
-	return to_title(itsLocation);
+	std::locale loc(gen("fi_FI.UTF-8")); 
+	return to_title(location, loc);
 
 #if 0
 	// Capitalize space-separated words
