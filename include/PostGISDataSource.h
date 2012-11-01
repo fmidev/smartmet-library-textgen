@@ -30,14 +30,15 @@ class WeatherArea;
 
 	PostGISDataSource(MessageLogger& log);
 
-	bool readData(const std::string & host, 
-				  const std::string & port,
-				  const std::string & dbname,
-				  const std::string & user,
-				  const std::string & password,
-				  const std::string & schema,
-				  const std::string & table,
-				  const std::string & fieldname);
+	bool readData(const std::string& host, 
+				  const std::string& port,
+				  const std::string& dbname,
+				  const std::string& user,
+				  const std::string& password,
+				  const std::string& schema,
+				  const std::string& table,
+				  const std::string& fieldname,
+				  const std::string& client_encoding);
 
 	TextGen::WeatherArea makeArea(const std::string& thePostGISName, const std::string& theConfigName);
 	bool areaExists(const std::string& theName);

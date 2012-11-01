@@ -23,19 +23,20 @@ namespace TextGen
   {
   }
 
-  bool PostGISDataSource::readData(const std::string & host, 
-								   const std::string & port,
-								   const std::string & dbname,
-								   const std::string & user,
-								   const std::string & password,
-								   const std::string & schema,
-								   const std::string & table,
-								   const std::string & fieldname)
+  bool PostGISDataSource::readData(const std::string& host, 
+								   const std::string& port,
+								   const std::string& dbname,
+								   const std::string& user,
+								   const std::string& password,
+								   const std::string& schema,
+								   const std::string& table,
+								   const std::string& fieldname,
+								   const std::string& client_encoding)
   {
 
 	try
 	  {
-		std::string queryparameter(host+port+dbname+schema+table+fieldname);
+		std::string queryparameter(host+port+dbname+schema+table+fieldname+client_encoding);
 		if(queryparametermap.find(queryparameter) != queryparametermap.end())
 		  return true;
 		
@@ -51,11 +52,14 @@ namespace TextGen
 		OGRRegisterAll();
   
 		OGRDataSource* pDS = OGRSFDriverRegistrar::Open(connection_ss.str().c_str(), FALSE);
-
+		
 		if(!pDS)
 		  {
 			throw TextGenError("Error: OGRSFDriverRegistrar::Open(" + connection_ss.str() + ") failed!");
 		  }
+
+		std::string sqlstmt("SET CLIENT_ENCODING TO '" + client_encoding + "'");
+		pDS->ExecuteSQL(sqlstmt.c_str(), 0, 0);
 
 		std::stringstream schema_table_ss;
 	  
@@ -138,7 +142,10 @@ namespace TextGen
 				if(geometryType == wkbPoint)
 				  {
 					OGRPoint* pPoint = (OGRPoint*) pGeometry;
-					pointmap.insert(make_pair(area_name, NFmiPoint(pPoint->getX(), pPoint->getY())));
+					if(pointmap.find(area_name) != pointmap.end())
+					  pointmap[area_name] = NFmiPoint(pPoint->getX(), pPoint->getY());
+					else
+					  pointmap.insert(make_pair(area_name, NFmiPoint(pPoint->getX(), pPoint->getY())));
 				  }
 				else if(geometryType == wkbMultiPolygon || geometryType == wkbPolygon)
 				  {
@@ -180,7 +187,10 @@ namespace TextGen
 					NFmiSvgPath svgPath;
 					svgPath.Read(ss);
 
-					polygonmap.insert(make_pair(area_name, svgPath));
+					if(polygonmap.find(area_name) != polygonmap.end())
+					  polygonmap[area_name] = svgPath;
+					else
+					  polygonmap.insert(make_pair(area_name, svgPath));
 				  }
 				else
 				  {
