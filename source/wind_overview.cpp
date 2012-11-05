@@ -3851,7 +3851,7 @@ namespace TextGen
 		find_out_wind_direction_periods(storyParams);
 
 		// log functions
-		save_raw_data(storyParams);
+		//		save_raw_data(storyParams);
 		log_raw_data(storyParams);
 		log_equalized_wind_speed_data_vector(storyParams);
 		log_equalized_wind_direction_data_vector(storyParams);
