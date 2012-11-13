@@ -173,13 +173,13 @@ using namespace std;
 	  case YO:
 		return "yo";
 	  case AAMU_JA_AAMUPAIVA:
-		return "aamu- ja aamupaiva";
+		return "aamu ja aamupaiva";
 	  case ILTAPAIVA_JA_ILTA:
 		return "iltapaiva ja ilta";
 	  case ILTA_JA_ILTAYO:
 		return "ilta ja iltayo";
 	  case ILTAYO_JA_KESKIYO:
-		return "iltayo-ja keskiyo";
+		return "iltayo ja keskiyo";
 	  case KESKIYO_JA_AAMUYO:
 		return "keskiyo ja aamu";
 	  case AAMUYO_JA_AAMU:
@@ -679,9 +679,6 @@ using namespace std;
 		if(theSpecifyDayFlag)
 		  {
 			oss << theWeatherPeriod.localEndTime().GetWeekday() << "-vastaisena yona";
-
-			//			oss  << weekday << "-" << KESKIYOLLA_WORD << SPACE_STRING << JA_WORD << SPACE_STRING << AAMUYOLLA_WORD;
-
 			sentence << oss.str();			
 			thePhraseString = oss.str();
 		  }
