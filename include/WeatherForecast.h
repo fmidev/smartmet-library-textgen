@@ -149,6 +149,19 @@ namespace TextGen
 #define ILTAYOSTA_ALKAEN_PHRASE "iltayosta alkaen"
 #define KESKIYOSTA_ALKAEN_PHRASE "keskiyosta alkaen"
 #define AAMUYOSTA_ALKAEN_PHRASE "aamuyosta alkaen"
+#define AAMUUN_ASTI_PHRASE "aamuun asti"
+#define AAMUPAIVAAN_ASTI_PHRASE "aamupaivaan asti"
+#define ILTAPAIVAAN_ASTI_PHRASE "iltapaivaan asti"
+#define ILTAAN_ASTI_PHRASE "iltaan asti"
+#define ILTAYOHON_ASTI_PHRASE "iltayohon asti"
+#define KESKIYOHON_ASTI_PHRASE "keskiyohon asti"
+#define AAMUYOHON_ASTI_PHRASE "aamuyohon asti"
+#define AAMULLA_JA_AAMUPAIVALLA_PHRASE "aamulla ja aamupaivalla"
+#define ILTAPAIVALLA_JA_ILLALLA "iltapaivalla ja illalla"
+#define ILLALLA_JA_ILTAYOLLA "illalla ja ilatayolla"
+#define ILTAYOLLA_JA_KESKIYOLLA "iltayolla ja keskiyolla"
+#define KESKIYOLLA_JA_AAMUYIOLLA "keskiyolla ja aamuyolla"
+#define AAMUYOLLA_JA_AAMULLA "aamuyolla ja aamulla"
 
 #define POHJOISESTA_ALKAEN_PHRASE "pohjoisesta alkaen"
 #define ETELASTA_ALKAEN_PHRASE "etelasta alkaen"
@@ -449,6 +462,13 @@ namespace TextGen
 	  HORIZONTAL,
 	  VERTICAL,
 	  NO_SPLITTING
+	};
+
+  enum time_phrase_format
+	{
+	  FROM_FORMAT,
+	  TILL_FORMAT,
+	  AT_FORMAT
 	};
 
   class WeatherResultDataItem;
