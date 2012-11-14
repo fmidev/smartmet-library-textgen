@@ -789,7 +789,7 @@ namespace TextGen
 		return NO_PROXIMITY;
 
 	  float theMinimumCalc = theMinimum;
-	  float theMeanCalc = theMean;
+	  //	  float theMeanCalc = theMean;
 	  float theMaximumCalc = theMaximum;
 
 	  proximity_id retval = NO_PROXIMITY;
@@ -798,7 +798,7 @@ namespace TextGen
 	  if(bBelowZeroDegrees)
 		{
 		  theMaximumCalc = abs(theMinimum);
-		  theMeanCalc = abs(theMean);
+		  //		  theMeanCalc = abs(theMean);
 		  theMinimumCalc = abs(theMaximum);
 		}
 
@@ -943,17 +943,20 @@ namespace TextGen
 						   const forecast_area_id& theAreaId,
 						   weather_result_container_type& theWeatherResults)
 	{
-	  weather_result_id min_id_full, max_id_full, mean_id_full;
-	  weather_result_id min_id_morning, max_id_morning, mean_id_morning;
-	  weather_result_id min_id_afternoon, max_id_afternoon, mean_id_afternoon;
+	  weather_result_id min_id_full(UNDEFINED_WEATHER_RESULT_ID), 
+		max_id_full(UNDEFINED_WEATHER_RESULT_ID),
+		mean_id_full(UNDEFINED_WEATHER_RESULT_ID);
+	  weather_result_id min_id_morning(UNDEFINED_WEATHER_RESULT_ID), 
+		max_id_morning(UNDEFINED_WEATHER_RESULT_ID),
+		mean_id_morning(UNDEFINED_WEATHER_RESULT_ID);
+	  weather_result_id min_id_afternoon(UNDEFINED_WEATHER_RESULT_ID),
+		max_id_afternoon(UNDEFINED_WEATHER_RESULT_ID),
+		mean_id_afternoon(UNDEFINED_WEATHER_RESULT_ID);
 
 	  std::string fakeVarFull("::fake");
 	  std::string fakeVarMorning("::fake");
 	  std::string fakeVarAfternoon("::fake");
 
-	  min_id_full = max_id_full = mean_id_full = UNDEFINED_WEATHER_RESULT_ID;
-	  min_id_morning = max_id_morning = mean_id_morning = UNDEFINED_WEATHER_RESULT_ID;
-	  min_id_afternoon = max_id_afternoon = mean_id_afternoon = UNDEFINED_WEATHER_RESULT_ID;
 	  
 	  if(thePeriodId == DAY1_PERIOD)
 		{

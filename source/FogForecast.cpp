@@ -287,12 +287,10 @@ namespace TextGen
 	NFmiTime fogPeriodStartTime(theFogPeriods.at(0).first.localStartTime());
 	fog_type_id previousFogType = get_fog_type(theFogPeriods.at(0).second.theModerateFogExtent,
 											   theFogPeriods.at(0).second.theDenseFogExtent);
-	fog_type_id currentFogType = currentFogType;
-
 	for(unsigned int i = 1; i < theFogPeriods.size(); i++)
 	  {
-		currentFogType = get_fog_type(theFogPeriods.at(i).second.theModerateFogExtent,
-									  theFogPeriods.at(i).second.theDenseFogExtent);
+		fog_type_id currentFogType = get_fog_type(theFogPeriods.at(i).second.theModerateFogExtent,
+												  theFogPeriods.at(i).second.theDenseFogExtent);
 
 		if(i == theFogPeriods.size() - 1)
 		  {
@@ -865,7 +863,6 @@ namespace TextGen
 						 fogTypeId))
 	  {
 		Sentence todayPhrase;
-		short dayNumber = 0;
 
 		if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
 		  {
@@ -874,7 +871,6 @@ namespace TextGen
 													   theParameters.theForecastTime,
 													   fogPeriod,
 													   theParameters.theArea);
-			dayNumber = fogPeriod.localStartTime().GetWeekday();
 		  }
 
 		theParameters.theLog << todayPhrase;

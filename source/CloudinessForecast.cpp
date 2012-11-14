@@ -630,20 +630,21 @@ namespace TextGen
 
 	int periodStartIndex = 0;
 	cloudiness_id clidPrevious(theCloudinessPeriodsSource.at(0).second);
-	cloudiness_id clidCurrent(clidPrevious);
 
 	for(unsigned int i = 1; i < theCloudinessPeriodsSource.size(); i++)
 	  {
 		bool lastPeriod = (i == theCloudinessPeriodsSource.size() - 1);
-		clidCurrent = theCloudinessPeriodsSource.at(i).second;
+		cloudiness_id clidCurrent = theCloudinessPeriodsSource.at(i).second;
 
 		if(abs(clidPrevious - clidCurrent) >= 2 || lastPeriod)
 		  {
 			// check if "puolipilvisesta pilviseen"
+			/*
 			if((clidPrevious == PUOLIPILVINEN && clidCurrent == PILVINEN) || 
 			   (clidPrevious == PILVINEN && clidCurrent == PUOLIPILVINEN))
 			  {
 			  }
+			*/
 
 			NFmiTime startTime(theCloudinessPeriodsSource.at(periodStartIndex).first.localStartTime());
 			NFmiTime endTime(theCloudinessPeriodsSource.at(lastPeriod ? i : i-1).first.localEndTime());

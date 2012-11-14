@@ -1329,11 +1329,12 @@ namespace TextGen
 																	"::generate_wind_cooling_sentence", 
 																	true);
 
-
+	  /*
 	  bool inlandIncluded = theParameters.theWindspeedInlandMorningMinimum.value() != kFloatMissing || 
 		theParameters.theWindspeedInlandAfternoonMinimum.value() != kFloatMissing;
 	  bool coastIncluded = theParameters.theWindspeedCoastalMorningMinimum.value() != kFloatMissing ||
 		theParameters.theWindspeedCoastalAfternoonMinimum.value() != kFloatMissing;
+	  */
 	  std::string aamupaivalla(theParameters.theMorningWord);
 	  std::string iltapaivalla(theParameters.theAfternoonWord);
 	  std::string part_of_the_day("");
@@ -1384,8 +1385,8 @@ namespace TextGen
 		  int temperatureCoastalMorning = static_cast<int>(round(theParameters.theTemperatureCoastalMorningMean.value()));
 		  int temperatureCoastalAfternoon = static_cast<int>(round(theParameters.theTemperatureCoastalAfternoonMean.value()));
 
-		  inlandIncluded = windCoolingTheWeatherInlandMorning || windCoolingTheWeatherInlandAfternoon;
-		  coastIncluded = windCoolingTheWeatherCoastalMorning || windCoolingTheWeatherCoastalAfternoon;
+		  bool inlandIncluded = windCoolingTheWeatherInlandMorning || windCoolingTheWeatherInlandAfternoon;
+		  bool coastIncluded = windCoolingTheWeatherCoastalMorning || windCoolingTheWeatherCoastalAfternoon;
 
 		  if(inlandIncluded && coastIncluded)
 			{
@@ -1623,15 +1624,11 @@ namespace TextGen
 							   windChillAndTemperatureDifferenceMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
 	  bool windChillAfternoon = (afternoonIncluded && windChillAfternoonMean.value() >= EXTREME_WINDCHILL_LIMIT &&
 								 windChillAfternoonMean.value() <= MILD_WINDCHILL_LIMIT &&
-								 windChillAndTemperatureDifferenceMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
+								 windChillAndTemperatureDifferenceAfternoon >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
 	  bool extremelyWindChillMorning = (morningIncluded && windChillMorningMean.value() < EXTREME_WINDCHILL_LIMIT &&
 										windChillAndTemperatureDifferenceMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
 	  bool extremelyWindChillAfternoon = (afternoonIncluded && windChillAfternoonMean.value() < EXTREME_WINDCHILL_LIMIT &&
-										  windChillAndTemperatureDifferenceMorning >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
-
-	  std::string areaString((areaMorning == INLAND_AREA ? SISAMAASSA_WORD 
-							  : (areaMorning == COASTAL_AREA ? RANNIKOLLA_WORD : EMPTY_STRING)));
-	  bool areaStringEmpty(areaString.compare(EMPTY_STRING) == 0);
+										  windChillAndTemperatureDifferenceAfternoon >= TEMPERATURE_AND_WINDCHILL_DIFFERENCE_LIMIT);
 
 	  if(windChill >= EXTREME_WINDCHILL_LIMIT && windChill <= MILD_WINDCHILL_LIMIT)
 		{
@@ -1641,7 +1638,9 @@ namespace TextGen
 			}
 		  else if(windChillMorning && !windChillAfternoon)
 			{
-			  if(areaStringEmpty)
+			  std::string areaString((areaMorning == INLAND_AREA ? SISAMAASSA_WORD 
+									  : (areaMorning == COASTAL_AREA ? RANNIKOLLA_WORD : EMPTY_STRING)));
+			  if(areaString.empty())
 				sentence << ILTAPAIVALLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE
 						 << parse_weekday_phrase(dayNumber, aamupaivalla);
 			  else
@@ -1651,7 +1650,9 @@ namespace TextGen
 			}
 		  else if(!windChillMorning && windChillAfternoon)
 			{
-			  if(areaStringEmpty)
+			  std::string areaString((areaAfternoon == INLAND_AREA ? SISAMAASSA_WORD 
+									  : (areaAfternoon == COASTAL_AREA ? RANNIKOLLA_WORD : EMPTY_STRING)));		  
+			  if(areaString.empty())
 				sentence << ILTAPAIVALLA_PAKKANEN_ON_PUREVAA_COMPOSITE_PHRASE
 						 << parse_weekday_phrase(dayNumber, iltapaivalla);
 			  else
@@ -1668,7 +1669,10 @@ namespace TextGen
 			}
 		  if(extremelyWindChillMorning && !extremelyWindChillAfternoon)
 			{
-			  if(areaStringEmpty)
+			  std::string areaString((areaMorning == INLAND_AREA ? SISAMAASSA_WORD 
+									  : (areaMorning == COASTAL_AREA ? RANNIKOLLA_WORD : EMPTY_STRING)));
+
+			  if(areaString.empty())
 				sentence << ILTAPAIVALLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE
 						 << parse_weekday_phrase(dayNumber, aamupaivalla);
 			  else
@@ -1678,7 +1682,9 @@ namespace TextGen
 			}
 		  else if(!extremelyWindChillMorning && extremelyWindChillAfternoon)
 			{
-			  if(areaStringEmpty)
+			  std::string areaString((areaAfternoon == INLAND_AREA ? SISAMAASSA_WORD 
+									  : (areaAfternoon == COASTAL_AREA ? RANNIKOLLA_WORD : EMPTY_STRING)));		  
+			  if(areaString.empty())
 				sentence << ILTAPAIVALLA_PAKKANEN_ON_ERITTAIN_PUREVAA_COMPOSITE_PHRASE
 						 << parse_weekday_phrase(dayNumber, iltapaivalla);
 			  else

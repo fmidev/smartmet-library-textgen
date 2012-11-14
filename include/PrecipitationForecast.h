@@ -249,7 +249,8 @@ namespace TextGen
 	std::vector<WeatherPeriod> thePrecipitationPeriodsInland;
 	std::vector<WeatherPeriod> thePrecipitationPeriodsFull;
 
-	mutable wf_story_params& theParameters;
+	wf_story_params& theParameters;
+
 	mutable bool theUseOllaVerbFlag;
 	mutable bool theDryPeriodTautologyFlag;
 	mutable bool theSinglePrecipitationFormFlag;
