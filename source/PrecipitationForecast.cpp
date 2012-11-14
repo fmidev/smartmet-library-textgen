@@ -34,6 +34,8 @@
 #include "PrecipitationForecast.h"
 #include "CloudinessForecast.h"
 #include "ThunderForecast.h"
+#include "DebugTextFormatter.h"
+
 
 #include <newbase/NFmiMercatorArea.h>
 
@@ -50,6 +52,7 @@ namespace TextGen
   using namespace Settings;
   using namespace TextGen;
   using namespace AreaTools;
+  using namespace TimeTools;
   using namespace boost;
   using namespace std;
 
@@ -66,6 +69,8 @@ namespace TextGen
 #define HUOMENNA_SAA_ON_ENIMMAKSEEN_POUTAINEN_COMPOSITE_PHRASE "[huomenna] saa on enimmakseen poutainen, [yksittaiset sadekuurot mahdollisia]"
 
   // sade
+#define ILTAPAIVALLA_KUUROT_VOIVAT_OLLA_VOIMAKKAITA "[iltapaivalla] kuurot voivat olla voimakkaita"
+#define ILTAPAIVALLA_SADE_VOI_OLLA_RUNSASTA "[iltapaivalla] sade voi olla runsasta"
 #define HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [paikoin] [heikkoa] [sadetta]"
 #define HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [heikkoa] [sadetta]"
 #define HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [paikoin] [sadetta]"
@@ -201,6 +206,7 @@ namespace TextGen
   {
 	theOutput << thePrecipitationDataItemData.theObservationTime << ": ";
 	theOutput << setw(8) << setfill(' ') << fixed << setprecision(3) << thePrecipitationDataItemData.thePrecipitationIntensity;
+	theOutput << setw(8) << setfill(' ') << fixed << setprecision(3) << thePrecipitationDataItemData.thePrecipitationMaxIntensity;
 	theOutput << setw(8) << setfill(' ') << fixed << setprecision(1) 
 			  << thePrecipitationDataItemData.thePrecipitationExtent;
 	if(thePrecipitationDataItemData.thePrecipitationIntensity > 0)
@@ -500,6 +506,10 @@ namespace TextGen
 	  {
 		theCompositePhraseElements[INTENSITY_PARAMETER] << RUNSAITA_WORD;
 	  }
+	else
+	  {
+		theCheckHeavyIntensityFlag = SHOWERS;
+	  }
 
 	if(theCanBeFreezingFlag)
 	  {
@@ -565,6 +575,9 @@ namespace TextGen
 	  thePrecipitationExtent <= theParameters.theInSomePlacesUpperLimit;
 	const bool in_many_places = thePrecipitationExtent > theParameters.theInManyPlacesLowerLimit && 
 	  thePrecipitationExtent <= theParameters.theInManyPlacesUpperLimit;
+
+	// check if intensity is heavy
+	theCheckHeavyIntensityFlag = CONTINUOUS;
 
 	InPlacesPhrase* inPlacesPhraseMaker = InPlacesPhrase::Instance();
 
@@ -664,6 +677,8 @@ namespace TextGen
 															 const NFmiTime& theTypeChangeTime,
 															 map<string, Sentence>& theCompositePhraseElements) const
   {
+	theCheckHeavyIntensityFlag = MISSING_PRECIPITATION_TYPE;
+
 	bool dry_weather = is_dry_weather(theParameters, thePrecipitationForm, thePrecipitationIntensity, thePrecipitationExtent);
 
 	if(dry_weather)
@@ -744,6 +759,7 @@ namespace TextGen
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] <<
 								(use_summer_phrase ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
+							  theCheckHeavyIntensityFlag = SHOWERS;
 							}
 						  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, true);
 						}
@@ -764,6 +780,7 @@ namespace TextGen
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] <<
 								(use_summer_phrase ? SADETTA_WORD : VESISADETTA_WORD);
+							  theCheckHeavyIntensityFlag = CONTINUOUS;
 							}
 
 						  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
@@ -801,10 +818,12 @@ namespace TextGen
 					  if(is_showers)
 						{				
 						  theCompositePhraseElements[PRECIPITATION_PARAMETER] << RANTAKUUROJA_WORD;
+						  theCheckHeavyIntensityFlag = SHOWERS;
 						}
 					  else
 						{
 						  theCompositePhraseElements[PRECIPITATION_PARAMETER] << RANTASADETTA_WORD;
+						  theCheckHeavyIntensityFlag = CONTINUOUS;
 						  if(can_be_freezing)
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] << JA_WORD << JAATAVAA_VESISADETTA_PHRASE;
@@ -855,6 +874,10 @@ namespace TextGen
 							{
 							  theCompositePhraseElements[INTENSITY_PARAMETER] << SAKEITA_WORD;
 							}
+						  else
+							{
+							  theCheckHeavyIntensityFlag = SHOWERS;
+							}
 
 						  theCompositePhraseElements[PRECIPITATION_PARAMETER] << LUMIKUUROJA_WORD;
 						}
@@ -868,6 +891,10 @@ namespace TextGen
 						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
 							{
 							  theCompositePhraseElements[INTENSITY_PARAMETER] << SAKEAA_WORD;
+							}
+						  else
+							{
+							  theCheckHeavyIntensityFlag = CONTINUOUS;
 							}
 
 						  theCompositePhraseElements[PRECIPITATION_PARAMETER] << LUMISADETTA_WORD;
@@ -912,6 +939,7 @@ namespace TextGen
 						{
 						  theCompositePhraseElements[PRECIPITATION_PARAMETER] << 
 							(use_summer_phrase ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
+						  theCheckHeavyIntensityFlag = SHOWERS;
 
 						  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, true);
 						}
@@ -955,6 +983,7 @@ namespace TextGen
 						{
 						  theCompositePhraseElements[PRECIPITATION_PARAMETER] <<
 							(use_summer_phrase ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
+						  theCheckHeavyIntensityFlag = SHOWERS;
 
 						  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, true);
 						}
@@ -969,6 +998,7 @@ namespace TextGen
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] << TIHKUSADETTA_WORD;
 							}
+						  theCheckHeavyIntensityFlag = CONTINUOUS;
 						  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
 						}
 					  theDryPeriodTautologyFlag = false;
@@ -1018,6 +1048,8 @@ namespace TextGen
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] 
 								<< RANTA_TAI_VESIKUUROJA_PHRASE;
 							}
+
+						  theCheckHeavyIntensityFlag = SHOWERS;
 						  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, true);
 						}
 					  else
@@ -1026,11 +1058,13 @@ namespace TextGen
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] 
 								<< VESI_TAI_RANTASADETTA_PHRASE;
+							  theCheckHeavyIntensityFlag = CONTINUOUS;
 							}
 						  else
 							{
 							  theCompositePhraseElements[PRECIPITATION_PARAMETER] 
 								<< RANTA_TAI_VESISADETTA_PHRASE;
+							  theCheckHeavyIntensityFlag = CONTINUOUS;
 							}
 						  can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
 						}
@@ -1044,7 +1078,6 @@ namespace TextGen
 				}
 			  break;
 			}
-
 
  		  case WATER_SNOW_FORM:
 		  case DRIZZLE_SNOW_FORM:
@@ -1095,6 +1128,10 @@ vesi- tai lumisadetta.
 						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
 							{
 							  theCompositePhraseElements[INTENSITY_PARAMETER] << KOVAA_WORD;
+							}
+						  else
+							{
+							  theCheckHeavyIntensityFlag = CONTINUOUS;
 							}
 
 						  if(thePrecipitationFormWater >= thePrecipitationFormSnow)
@@ -1160,6 +1197,10 @@ vesi- tai lumisadetta.
 						  else if(thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
 							{
 							  theCompositePhraseElements[INTENSITY_PARAMETER] << SAKEAA_WORD;
+							}
+						  else
+							{
+							  theCheckHeavyIntensityFlag = CONTINUOUS;
 							}
 
 						  if(thePrecipitationFormSnow >= thePrecipitationFormSleet)
@@ -1447,7 +1488,7 @@ vesi- tai lumisadetta.
 			  if(count == 0 || minValue > theData[i]->thePrecipitationMaxIntensity)
 				minValue = theData[i]->thePrecipitationIntensity;
 			  if(count == 0 || maxValue < theData[i]->thePrecipitationMaxIntensity)
-				maxValue = theData[i]->thePrecipitationMaxIntensity;
+				maxValue = theData[i]->thePrecipitationMaxIntensity;			  
 			  cumulativeSum += theData[i]->thePrecipitationMaxIntensity;
 			  count++;
 			}
@@ -1868,7 +1909,7 @@ vesi- tai lumisadetta.
   void PrecipitationForecast::printOutPrecipitationData(std::ostream & theOutput) const
   {
 	theOutput << "** PRECIPITATION DATA **" << endl;
-	theOutput << "time:**intensity**extent**water**drizzle**sleet**snow**freezing**showers**northeast**southeast**southwest**northwest)" << endl;
+	theOutput << "time:**mean intensity**max intensity**extent**water**drizzle**sleet**snow**freezing**showers**northeast**southeast**southwest**northwest)" << endl;
 	
 	if(theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
 	  {
@@ -2588,7 +2629,8 @@ vesi- tai lumisadetta.
   
   Sentence PrecipitationForecast::precipitationChangeSentence(const WeatherPeriod& thePeriod,
 															  const Sentence& thePeriodPhrase,
-															  const weather_event_id& theWeatherEvent) const
+															  const weather_event_id& theWeatherEvent,
+															  std::vector<Sentence>& theAdditionalSentences) const
   {
 	Sentence sentence;
 
@@ -2610,16 +2652,13 @@ vesi- tai lumisadetta.
 			break;
 		  }
 
-		/*
-		sentence << SAA_POUTAANTUU_COMPOSITE_PHRASE
-				 << thePeriodPhrase;
-		*/
-
 		theDryPeriodTautologyFlag = true;
 	  }
 	else // sade alkaa
 	  {
-		sentence << precipitationSentence(thePeriod, thePeriodPhrase);
+		sentence << precipitationSentence(thePeriod,
+										  thePeriodPhrase,
+										  theAdditionalSentences);
 	  }
 
 	return sentence;
@@ -2842,6 +2881,97 @@ vesi- tai lumisadetta.
 
 	return NO_FORM_TRANSFORMATION;
 
+  }
+
+  WeatherPeriod  PrecipitationForecast::getHeavyPrecipitationPeriod(const WeatherPeriod& thePeriod,
+																	const precipitation_data_vector& theDataVector) const
+  {
+	vector<WeatherPeriod> heavyPrecipitationPeriods;
+
+	// First find out all heavy precipitation periods
+	int heavyPrecipitationStartIndex(-1);
+	int heavyPrecipitationEndIndex(-1);
+	for(unsigned int i = 0; i < theDataVector.size(); i++)
+	  {
+		const PrecipitationDataItemData* precipitationItem(theDataVector[i]);
+
+		if(precipitationItem->theObservationTime < thePeriod.localStartTime())
+		  continue;
+		if(precipitationItem->theObservationTime > thePeriod.localEndTime())
+		  break;
+
+		precipitation_form_id precipitationForm(get_complete_precipitation_form(theParameters.theVariable,
+																				precipitationItem->thePrecipitationFormWater,
+																				precipitationItem->thePrecipitationFormDrizzle,
+																				precipitationItem->thePrecipitationFormSleet,
+																				precipitationItem->thePrecipitationFormSnow,
+																				precipitationItem->thePrecipitationFormFreezing));
+		float lowerLimit(kFloatMissing), upperLimit(kFloatMissing);
+		get_precipitation_limit_value(theParameters,
+									  precipitationForm,
+									  HEAVY_PRECIPITATION,
+									  lowerLimit,
+									  upperLimit);
+
+		if(theDataVector[i]->thePrecipitationMaxIntensity >= lowerLimit)
+		  {			
+			if(heavyPrecipitationStartIndex == -1)
+			  heavyPrecipitationStartIndex = i; // heavy precipitation starts
+			heavyPrecipitationEndIndex = i;
+		  }
+		else if(heavyPrecipitationStartIndex != -1)
+		  {
+			WeatherPeriod heavyPeriod(theDataVector[heavyPrecipitationStartIndex]->theObservationTime,
+									  theDataVector[heavyPrecipitationEndIndex]->theObservationTime);
+			// heavy precipitation ended
+			heavyPrecipitationPeriods.push_back(heavyPeriod);
+			heavyPrecipitationStartIndex = -1;
+			heavyPrecipitationEndIndex = -1;
+		  }
+	  }
+	if(heavyPrecipitationStartIndex != -1 && heavyPrecipitationPeriods.size() == 0)
+	  {
+		WeatherPeriod heavyPeriod(theDataVector[heavyPrecipitationStartIndex]->theObservationTime,
+								  theDataVector[heavyPrecipitationEndIndex]->theObservationTime);
+		heavyPrecipitationPeriods.push_back(heavyPeriod);		
+	  }
+
+	// then find out if you can merge periods (if there is a smaall gap between them)
+	vector<WeatherPeriod> mergedHeavyPrecipitationPeriods;
+	if(heavyPrecipitationPeriods.size() > 0)
+	  {
+		for(int i = heavyPrecipitationPeriods.size() - 2; i >= 0; i--)
+		  {
+			NFmiTime currentPeriodStartTime(heavyPrecipitationPeriods[i].localEndTime());
+			NFmiTime nextPeriodStartTime(heavyPrecipitationPeriods[i+1].localStartTime());
+			if(abs(nextPeriodStartTime.DifferenceInHours(currentPeriodStartTime)) <= 2 &&
+			   (get_period_length(heavyPrecipitationPeriods[i]) >= 2 || get_period_length(heavyPrecipitationPeriods[i+1]) >= 2))
+			  {
+				// merge
+				heavyPrecipitationPeriods[i] = WeatherPeriod(heavyPrecipitationPeriods[i].localStartTime(), 
+															 heavyPrecipitationPeriods[i+1].localEndTime());
+			  }
+			else
+			  {
+				mergedHeavyPrecipitationPeriods.push_back(heavyPrecipitationPeriods[i+1]);
+			  }
+		  }
+		mergedHeavyPrecipitationPeriods.push_back(heavyPrecipitationPeriods[0]);
+		sort(mergedHeavyPrecipitationPeriods.begin(), mergedHeavyPrecipitationPeriods.end());
+	  }
+	
+	// find out the longest heavy precipitation period and return it
+	int heavyIndex = mergedHeavyPrecipitationPeriods.size() > 0 ? 0 : -1;
+	for(unsigned int i = 1; i < mergedHeavyPrecipitationPeriods.size(); i++)
+	  {
+		if(get_period_length(mergedHeavyPrecipitationPeriods[i]) > get_period_length(mergedHeavyPrecipitationPeriods[heavyIndex]))
+		  heavyIndex = i;
+	  }
+	  
+	if(heavyIndex >= 0)
+	  return mergedHeavyPrecipitationPeriods[heavyIndex];
+	else
+	  return WeatherPeriod(thePeriod.localStartTime(), thePeriod.localStartTime());
   }
 
   void  PrecipitationForecast::calculatePrecipitationParameters(const WeatherPeriod& thePeriod,
@@ -3622,7 +3752,8 @@ vesi- tai lumisadetta.
   Sentence  PrecipitationForecast::constructPrecipitationSentence(const WeatherPeriod& thePeriod,
 																  const Sentence& thePeriodPhrase,
 																  const unsigned short& theForecastAreaId,
-																  const std::string & theAreaPhrase) const
+																  const std::string & theAreaPhrase,
+																  std::vector<Sentence>& theAdditionalSentences) const
   {
 	Sentence sentence;
 
@@ -3645,7 +3776,8 @@ vesi- tai lumisadetta.
 			sentence << constructPrecipitationSentence(thePeriod,
 													   thePeriodPhrase,
 													   INLAND_AREA,
-													   INLAND_PHRASE);
+													   INLAND_PHRASE,
+													   theAdditionalSentences);
 
 			// ARE 22.02.2011: this is to prevent tautology e.g. sisamaassa moinin paikoin rantasadetta,
 			// rannikolla monin paikoin vesisadetta
@@ -3656,7 +3788,8 @@ vesi- tai lumisadetta.
 			sentence << constructPrecipitationSentence(thePeriod,
 													   thePeriodPhrase,
 													   COASTAL_AREA,
-													   COAST_PHRASE);
+													   COAST_PHRASE,
+													   theAdditionalSentences);
 
 			InPlacesPhrase::Instance()->preventTautology(false);
 
@@ -3735,6 +3868,7 @@ vesi- tai lumisadetta.
 										 precipitationFormSnow,
 										 precipitationFormFreezing);
 
+		theParameters.theLog << "Period: " << thePeriod.localStartTime() << "..." << thePeriod.localEndTime() << endl;
 		theParameters.theLog << "Mean intensity (max+mean/2.0): " << precipitationIntensity << endl;
 		theParameters.theLog << "Maximum intensity: " << precipitationAbsoluteMaxIntensity << endl;
 
@@ -3777,7 +3911,7 @@ vesi- tai lumisadetta.
 										  precipitationIntensity, 
 										  precipitationExtent);
 		
-		//		bool mostly_dry_weather = precipitationExtent <= theParameters.theMostlyDryWeatherLimit;
+
 
 		if(!dry_weather)
 		  {
@@ -3790,10 +3924,238 @@ vesi- tai lumisadetta.
 			  {
 				sentence << thunderSentence;
 			  }
+
+			if(theCheckHeavyIntensityFlag != MISSING_PRECIPITATION_TYPE)
+			  {
+				WeatherPeriod heavyPrecipitationPeriod(getHeavyPrecipitationPeriod(thePeriod, *dataVector));
+
+				if(get_period_length(heavyPrecipitationPeriod) >= 2)
+				  {
+					part_of_the_day_id partOfTheDayIdStart(get_part_of_the_day_id(heavyPrecipitationPeriod.localStartTime()));
+					part_of_the_day_id partOfTheDayId(MISSING_PART_OF_THE_DAY_ID);
+					time_phrase_format timePhraseFormat(AT_FORMAT);
+
+					if(heavyPrecipitationPeriod.localStartTime() == thePeriod.localStartTime())
+					  {
+						// heavy precipitation in the beginning
+						partOfTheDayId = get_part_of_the_day_id(heavyPrecipitationPeriod.localEndTime());
+						timePhraseFormat = TILL_FORMAT;
+					  }
+					else if(heavyPrecipitationPeriod.localEndTime() == thePeriod.localEndTime())
+					  {
+						// heavy precipitation in the end
+						partOfTheDayId = get_part_of_the_day_id(heavyPrecipitationPeriod.localStartTime());
+						timePhraseFormat = FROM_FORMAT;
+					  }
+					else
+					  {
+						partOfTheDayId = get_part_of_the_day_id_large(heavyPrecipitationPeriod);
+						timePhraseFormat = AT_FORMAT;
+					  }
+
+					std::string numberString;
+					Sentence heavyPrecipitationSentence;
+					if(partOfTheDayId != MISSING_PART_OF_THE_DAY_ID && 
+					   !(timePhraseFormat == TILL_FORMAT && partOfTheDayId == partOfTheDayIdStart))
+					  {
+						Sentence todayPhrase;
+						todayPhrase << PeriodPhraseFactory::create("today",
+																   theParameters.theVariable,
+																   theParameters.theForecastTime,
+																   heavyPrecipitationPeriod,
+																   theParameters.theArea);
+						bool samedayStart = isSameDay(theParameters.theForecastTime, heavyPrecipitationPeriod.localStartTime());
+						bool samedayEnd = isSameDay(theParameters.theForecastTime, heavyPrecipitationPeriod.localEndTime());
+						bool dontUseTodayPhrase = (get_period_length(theParameters.theForecastPeriod) <= 24 ||
+												   (timePhraseFormat == TILL_FORMAT && samedayEnd) ||
+												   (timePhraseFormat == FROM_FORMAT && samedayStart) ||
+												   (timePhraseFormat == AT_FORMAT && samedayStart && samedayEnd));
+
+						if(!todayPhrase.empty() && !dontUseTodayPhrase)
+						  {
+							DebugTextFormatter dtf;
+							boost::shared_ptr<Dictionary> dict(new DebugDictionary());
+							dtf.dictionary(dict);
+							std::string todayString(dtf.format(todayPhrase));
+							if(todayString.find('-') != string::npos)
+							  numberString = todayString.substr(0,  todayString.find('-')+1);
+							else
+							  heavyPrecipitationSentence << todayPhrase;
+						  }
+
+						if(theCheckHeavyIntensityFlag == SHOWERS)
+						  heavyPrecipitationSentence << ILTAPAIVALLA_KUUROT_VOIVAT_OLLA_VOIMAKKAITA;
+						else
+						  heavyPrecipitationSentence << ILTAPAIVALLA_SADE_VOI_OLLA_RUNSASTA;
+
+						heavyPrecipitationSentence << (numberString + getTimePhrase(partOfTheDayId, timePhraseFormat));
+						theAdditionalSentences.push_back(heavyPrecipitationSentence);
+
+						theParameters.theLog <<  "HEAVY PRECIPITATION PERIOD: " 
+											 << heavyPrecipitationPeriod.localStartTime() << "..."
+											 << heavyPrecipitationPeriod.localEndTime() << " (" 
+											 << getTimePhrase(partOfTheDayId, timePhraseFormat) << ")" << endl;
+					  }
+				  }
+			  }
 		  }
 	  }
 
 	return sentence;
+  }
+
+  string PrecipitationForecast::getTimePhrase(const part_of_the_day_id& thePartOfTheDayId, 
+											  const time_phrase_format& theTimePhraseFormat) const
+  {
+	switch(thePartOfTheDayId)
+	  {
+	  case AAMU:
+		{
+		  if(theTimePhraseFormat == FROM_FORMAT)
+			return AAMUSTA_ALKAEN_PHRASE;
+		  else if(theTimePhraseFormat == TILL_FORMAT)
+			return AAMUUN_ASTI_PHRASE;
+		  else
+			return AAMULLA_WORD;
+		  break;
+		}
+	  case AAMUPAIVA:
+		{
+		  if(theTimePhraseFormat == FROM_FORMAT)
+			return AAMUPAIVASTA_ALKAEN_PHRASE;
+		  else if(theTimePhraseFormat == TILL_FORMAT)
+			return AAMUPAIVAAN_ASTI_PHRASE;
+		  else
+			return AAMUPAIVALLA_WORD;
+		  break;
+		}
+	  case ILTAPAIVA:
+		{
+		  if(theTimePhraseFormat == FROM_FORMAT)
+			return ILTAPAIVASTA_ALKAEN_PHRASE;
+		  else if(theTimePhraseFormat == TILL_FORMAT)
+			return ILTAPAIVAAN_ASTI_PHRASE;
+		  else
+			return ILTAPAIVALLA_WORD;
+		  break;
+		}
+	  case ILTA:
+		{
+		  if(theTimePhraseFormat == FROM_FORMAT)
+			return ILLASTA_ALKAEN_PHRASE;
+		  else if(theTimePhraseFormat == TILL_FORMAT)
+			return ILTAAN_ASTI_PHRASE;
+		  else
+			return ILLALLA_WORD;
+		  break;
+		}
+	  case ILTAYO:
+		{
+		  if(theTimePhraseFormat == FROM_FORMAT)
+			return  ILTAYOSTA_ALKAEN_PHRASE;
+		  else if(theTimePhraseFormat == TILL_FORMAT)
+			return ILTAYOHON_ASTI_PHRASE;
+		  else
+			return ILTAYOLLA_WORD;
+		  break;
+		}
+	  case KESKIYO:
+		{
+		  if(theTimePhraseFormat == FROM_FORMAT)
+			return KESKIYOSTA_ALKAEN_PHRASE;
+		  else if(theTimePhraseFormat == TILL_FORMAT)
+			return KESKIYOHON_ASTI_PHRASE;
+		  else
+			return KESKIYOLLA_WORD;
+		  break;
+		}
+	  case AAMUYO:
+		{
+		  if(theTimePhraseFormat == FROM_FORMAT)
+			return AAMUYOSTA_ALKAEN_PHRASE;
+		  else if(theTimePhraseFormat == TILL_FORMAT)
+			return AAMUYOHON_ASTI_PHRASE;
+		  else
+			return AAMUYOLLA_WORD;
+		  break;
+		}
+	  case PAIVA:
+		{
+		  if(theTimePhraseFormat == AT_FORMAT)
+			return PAIVALLA_WORD;
+		  break;
+		}
+	  case YO:
+		{
+		  if(theTimePhraseFormat == AT_FORMAT)
+			return YOLLA_WORD;
+		  break;
+		}
+	  case AAMU_JA_AAMUPAIVA:
+		{
+		  if(theTimePhraseFormat == FROM_FORMAT)
+			return AAMUSTA_ALKAEN_PHRASE;
+		  else if(theTimePhraseFormat == TILL_FORMAT)
+			return AAMUPAIVAAN_ASTI_PHRASE;
+		  else
+			return AAMULLA_JA_AAMUPAIVALLA_PHRASE;
+		  break;
+		}
+	  case ILTAPAIVA_JA_ILTA:
+		{
+		  if(theTimePhraseFormat == FROM_FORMAT)
+			return ILTAPAIVASTA_ALKAEN_PHRASE;
+		  else if(theTimePhraseFormat == TILL_FORMAT)
+			return ILTAAN_ASTI_PHRASE;
+		  else
+			return ILTAPAIVALLA_JA_ILLALLA;
+		  break;
+		}
+	  case ILTA_JA_ILTAYO:
+		{
+		  if(theTimePhraseFormat == FROM_FORMAT)
+			return ILLASTA_ALKAEN_PHRASE;
+		  else if(theTimePhraseFormat == TILL_FORMAT)
+			return ILTAYOHON_ASTI_PHRASE;
+		  else
+			return ILLALLA_JA_ILTAYOLLA;
+		  break;
+		}
+	  case ILTAYO_JA_KESKIYO:
+		{
+		  if(theTimePhraseFormat == FROM_FORMAT)
+			return ILTAYOSTA_ALKAEN_PHRASE;
+		  else if(theTimePhraseFormat == TILL_FORMAT)
+			return KESKIYOHON_ASTI_PHRASE;
+		  else
+			return ILTAYOLLA_JA_KESKIYOLLA;
+		  break;
+		}
+	  case KESKIYO_JA_AAMUYO:
+		{
+		  if(theTimePhraseFormat == FROM_FORMAT)
+			return KESKIYOSTA_ALKAEN_PHRASE;
+		  else if(theTimePhraseFormat == TILL_FORMAT)
+			return AAMUYOHON_ASTI_PHRASE;
+		  else
+			return KESKIYOLLA_JA_AAMUYIOLLA;
+		  break;
+		}
+	  case AAMUYO_JA_AAMU:
+		{
+		  if(theTimePhraseFormat == FROM_FORMAT)
+			return AAMUYOSTA_ALKAEN_PHRASE;
+		  else if(theTimePhraseFormat == TILL_FORMAT)
+			return AAMUUN_ASTI_PHRASE;
+		  else
+			return AAMUYOLLA_JA_AAMULLA;
+		  break;
+		}
+	  case MISSING_PART_OF_THE_DAY_ID:
+		return "missing part of the day";
+	  };
+
+	return "missing part of the day";
   }
 
   bool PrecipitationForecast::shortTermPrecipitationExists(const WeatherPeriod& thePeriod) const
@@ -3831,11 +4193,14 @@ vesi- tai lumisadetta.
 																 const Sentence& thePeriodPhrase) const
   {
 	Sentence sentence;
+	
+	std::vector<Sentence> theAdditionalSentences;
 
 	sentence << constructPrecipitationSentence(thePeriod,
 											   thePeriodPhrase,
 											   theParameters.theForecastArea,
-											   EMPTY_STRING);
+											   EMPTY_STRING,
+											   theAdditionalSentences);
 
 	theParameters.theLog << "Short term precipitation sentence: ";
 	theParameters.theLog << sentence;
@@ -3844,14 +4209,16 @@ vesi- tai lumisadetta.
   }
 
   Sentence PrecipitationForecast::precipitationSentence(const WeatherPeriod& thePeriod,
-														const Sentence& thePeriodPhrase) const
+														const Sentence& thePeriodPhrase,
+														std::vector<Sentence>& theAdditionalSentences) const
   {
 	Sentence sentence;
 	
 	sentence <<  constructPrecipitationSentence(thePeriod,
 												thePeriodPhrase,
 												theParameters.theForecastArea,
-												EMPTY_STRING);
+												EMPTY_STRING,
+												theAdditionalSentences);
 
 	return sentence;
   }
@@ -4230,6 +4597,7 @@ vesi- tai lumisadetta.
 	, theDryPeriodTautologyFlag(false)
 	, theSinglePrecipitationFormFlag(true)
 	, thePrecipitationFormBeforeDryPeriod(MISSING_PRECIPITATION_FORM)
+	, theCheckHeavyIntensityFlag(MISSING_PRECIPITATION_TYPE)
   {
 	gatherPrecipitationData();
 	findOutPrecipitationPeriods();

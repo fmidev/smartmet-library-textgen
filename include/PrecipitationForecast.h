@@ -31,12 +31,14 @@ namespace TextGen
 
 	Sentence precipitationChangeSentence(const WeatherPeriod& thePeriod,
 										 const Sentence& thePeriodPhrase,
-										 const weather_event_id& theWeatherEvent) const;
+										 const weather_event_id& theWeatherEvent,
+										 std::vector<Sentence>& theAdditionalSentences) const;
 	Sentence precipitationPoutaantuuAndCloudiness(const Sentence& thePeriodPhrase,
 												  const cloudiness_id& theCloudinessId) const;
 
 	Sentence precipitationSentence(const WeatherPeriod& thePeriod,
-								   const Sentence& thePeriodPhrase) const;
+								   const Sentence& thePeriodPhrase,
+								   std::vector<Sentence>& theAdditionalSentences) const;
 	bool shortTermPrecipitationExists(const WeatherPeriod& thePeriod) const;
 	Sentence shortTermPrecipitationSentence(const WeatherPeriod& thePeriod,
 											const Sentence& thePeriodPhrase) const;
@@ -82,6 +84,11 @@ namespace TextGen
 	
   private:
 	  
+	std::string getTimePhrase(const part_of_the_day_id& thePartOfTheDayId, 
+							  const time_phrase_format& theTimePhraseFormat) const;
+	WeatherPeriod  getHeavyPrecipitationPeriod(const WeatherPeriod& thePeriod,
+											   const precipitation_data_vector& theDataVector) const;
+
 	Sentence parseFinalSentence(std::map<std::string, Sentence>& theCompositePhraseElements, 
 								const Sentence& thePeriodPhrase,
 								const std::string& theAreaPhrase) const;
@@ -90,10 +97,7 @@ namespace TextGen
 								float& theIntensity,
 								precipitation_form_id& theForm,
 								float& theExtent) const;
-	/*
-	void precipitationTypeChangePhrase(const precipitation_type& thePrecipitationType,
-									   const NFmiTime& theTypeChangeTime) const;
-	*/
+
 	AreaTools::Rect getPrecipitationRect(const NFmiTime& theTimestamp, 
 										 const float& theLowerLimit,
 										 const float& theUpperLimit) const;
@@ -209,7 +213,8 @@ namespace TextGen
 	Sentence constructPrecipitationSentence(const WeatherPeriod& thePeriod,
 											const Sentence& thePeriodPhrase,
 											const unsigned short& theForecastAreaId,
-											const std::string & theAreaPhrase) const;
+											const std::string & theAreaPhrase,
+											std::vector<Sentence>& theAdditionalSentences) const;
 
 	void calculatePrecipitationParameters(const WeatherPeriod& thePeriod,
 										  const precipitation_data_vector& theDataVector,
@@ -244,12 +249,12 @@ namespace TextGen
 	std::vector<WeatherPeriod> thePrecipitationPeriodsInland;
 	std::vector<WeatherPeriod> thePrecipitationPeriodsFull;
 
-	wf_story_params& theParameters;
-
+	mutable wf_story_params& theParameters;
 	mutable bool theUseOllaVerbFlag;
 	mutable bool theDryPeriodTautologyFlag;
 	mutable bool theSinglePrecipitationFormFlag;
 	mutable precipitation_form_id thePrecipitationFormBeforeDryPeriod;
+	mutable precipitation_type theCheckHeavyIntensityFlag;	
   };
 
 

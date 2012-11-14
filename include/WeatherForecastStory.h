@@ -1,6 +1,7 @@
 #ifndef WEATHER_FORECAST_STORY_H
 #define WEATHER_FORECAST_STORY_H
 
+//#include <vector>
 
 class MessageLogger;
 
@@ -42,11 +43,14 @@ class WeatherForecastStory;
 
 	const story_part_id& getStoryPartId() const { return theStoryPartId; }
 	const WeatherPeriod& getPeriod() const { return thePeriod; }
-	const bool isIncluded() const { return theIncludeInTheStoryFlag; }
+	bool isIncluded() const { return theIncludeInTheStoryFlag; }
+
+	unsigned int numberOfAdditionalSentences() { return theAdditionalSentences.size(); }
+	Sentence getAdditionalSentence(const unsigned int& index) const;
 
   protected:
 
-
+	std::vector<Sentence> theAdditionalSentences;
 	WeatherForecastStory& theWeatherForecastStory;
 	WeatherPeriod thePeriod;
 	story_part_id theStoryPartId;

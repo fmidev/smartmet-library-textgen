@@ -125,6 +125,11 @@ namespace TextGen
 			theStorySize += storyItemSentence.size();
 
 			paragraph << storyItemSentence;
+
+			// additional sentences: currently only in precipitation story: like "iltapäivästä alkaen sade voi olla runsasta"
+			for(unsigned int k = 0; k < theStoryItemVector[i]->numberOfAdditionalSentences(); k++)
+			  paragraph << theStoryItemVector[i]->getAdditionalSentence(k);
+
 			// possible fog sentence after 
 			if( theStoryItemVector[i]->theStoryPartId == CLOUDINESS_STORY_PART)
 			  {
@@ -143,7 +148,10 @@ namespace TextGen
 	if(theStorySize == 0)
 	  {
 		Sentence periodPhrase;
-		paragraph << thePrecipitationForecast.precipitationSentence(theForecastPeriod, periodPhrase);
+		std::vector<Sentence> theAdditionalSentences;
+		paragraph << thePrecipitationForecast.precipitationSentence(theForecastPeriod, periodPhrase, theAdditionalSentences);
+		for(unsigned int i = 0; i < theAdditionalSentences.size(); i++)
+		  paragraph << theAdditionalSentences[i];
 	  }
 
 	return paragraph;
@@ -575,6 +583,8 @@ namespace TextGen
   {
 	Sentence sentence;
 
+	theAdditionalSentences.clear();
+
 	if(theIncludeInTheStoryFlag)
 	  {
 		sentence << getStoryItemSentence();
@@ -582,6 +592,14 @@ namespace TextGen
 
 	return sentence;
   }
+
+	Sentence WeatherForecastStoryItem::getAdditionalSentence(const unsigned int& index) const
+	{
+	  if(index >= theAdditionalSentences.size())
+		return Sentence();
+	  else
+		return theAdditionalSentences[index];
+	}
 
   WeatherPeriod WeatherForecastStoryItem::getStoryItemPeriod() const 
   {
@@ -689,7 +707,7 @@ namespace TextGen
 
 	if(!time_phrase.empty() && time_phrase.compare(time_phrase_previous) == 0)
 	  {
-		//	sentence << "myohemmin";
+		//sentence << "myohemmin";
 		time_phrase_previous = time_phrase;
 	  }
 
@@ -703,9 +721,10 @@ namespace TextGen
 							  time_phrase,
 							  theFromSpecifier);
 		
-		//	if(!time_phrase.empty() && time_phrase.compare(time_phrase_previous) == 0)
-		// sentence << "myohemmin";
-
+		/*
+		if(!time_phrase.empty() && time_phrase.compare(time_phrase_previous) == 0)
+		  sentence << "myohemmin";
+		*/
 		sentence << time_phrase;
 
 		time_phrase_previous = time_phrase;
@@ -771,7 +790,7 @@ namespace TextGen
 			if(thePeriodPhrase.size() == 0)
 			  thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
 			
-			sentence << prForecast.precipitationChangeSentence(thePeriod, thePeriodPhrase, SADE_ALKAA);
+			sentence << prForecast.precipitationChangeSentence(storyItemPeriod, thePeriodPhrase, SADE_ALKAA, theAdditionalSentences);
 		  }
 		else
 		  {			
@@ -780,7 +799,7 @@ namespace TextGen
 			if(thePeriodPhrase.size() == 0)
 			  thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
 
-			sentence << prForecast.precipitationSentence(thePeriod, thePeriodPhrase);
+			sentence << prForecast.precipitationSentence(storyItemPeriod, thePeriodPhrase, theAdditionalSentences);
 		  }
 		  
 		if(storyItemPeriod.localEndTime() != forecastPeriod.localEndTime() && 
@@ -794,7 +813,7 @@ namespace TextGen
 			
 			if(sentence.size() > 0)
 			  sentence << Delimiter(",");
-			sentence << prForecast.precipitationChangeSentence(thePeriod, thePeriodPhrase, POUTAANTUU);
+			sentence << prForecast.precipitationChangeSentence(storyItemPeriod, thePeriodPhrase, POUTAANTUU, theAdditionalSentences);
 		  }
 		theWeatherForecastStory.theShortTimePrecipitationReportedFlag = false;
 	  }
@@ -812,7 +831,7 @@ namespace TextGen
 		  }
 		else
 		  {
-			sentence << prForecast.precipitationSentence(thePeriod, thePeriodPhrase);
+			sentence << prForecast.precipitationSentence(storyItemPeriod, thePeriodPhrase, theAdditionalSentences);
 		  }
 	  }
 	return sentence;
@@ -834,7 +853,7 @@ namespace TextGen
 	  theReportAboutDryWeatherFlag(true)
 		
   {
-	if(thePreviousPrecipitationStoryItem)
+	if(thePreviousPrecipitationStoryItem && thePreviousPrecipitationStoryItem->isIncluded())
 	  {
 		if(thePreviousPrecipitationStoryItem->thePoutaantuuFlag)
 		  {
@@ -890,9 +909,11 @@ namespace TextGen
 	if(storyItemPeriod.localEndTime() == theWeatherForecastStory.theForecastPeriod.localEndTime() &&
 	   storyItemPeriodLength() <= 2)
 	  {
-		if(thePreviousPrecipitationStoryItem && (thePreviousPrecipitationStoryItem->storyItemPeriodLength() >= 6 ||
-												 get_part_of_the_day_id_narrow(thePreviousPrecipitationStoryItem->getStoryItemPeriod()) ==
-												 get_part_of_the_day_id_narrow(getStoryItemPeriod())))
+		if(thePreviousPrecipitationStoryItem && 
+		   thePreviousPrecipitationStoryItem->isIncluded() &&
+		   (thePreviousPrecipitationStoryItem->storyItemPeriodLength() >= 6 ||
+			get_part_of_the_day_id_narrow(thePreviousPrecipitationStoryItem->getStoryItemPeriod()) ==
+			get_part_of_the_day_id_narrow(getStoryItemPeriod())))
 		  return sentence;
 	  }
 
@@ -906,7 +927,7 @@ namespace TextGen
 
 	theChangeSentence << cloudinessChangeSentence();
 
-	if(thePreviousPrecipitationStoryItem)
+	if(thePreviousPrecipitationStoryItem && thePreviousPrecipitationStoryItem->isIncluded())
 	  {
 		if(thePreviousPrecipitationStoryItem->thePoutaantuuFlag)
 		  {

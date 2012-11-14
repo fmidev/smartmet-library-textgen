@@ -1264,6 +1264,9 @@ using namespace std;
 	  {
 		WeatherForecastStoryItem& storyItem = *(storyItemVector[i]);
 
+		if(!storyItem.isIncluded())
+		  continue;
+
 		if(storyItem.getStoryPartId() == PRECIPITATION_STORY_PART)
 		  theLog << "PRECIPITATION STORY PART";
 		else if(storyItem.getStoryPartId() == CLOUDINESS_STORY_PART)
@@ -1349,7 +1352,7 @@ using namespace std;
 	theParameters.theFogForecast = &fogForecast;
 	theParameters.theThunderForecast = &thunderForecast;
 
-	//precipitationForecast.printOutPrecipitationData(theLog);
+	precipitationForecast.printOutPrecipitationData(theLog);
 	precipitationForecast.printOutPrecipitationPeriods(theLog, itsArea.isPoint());
 	precipitationForecast.printOutPrecipitationWeatherEvents(theLog);
 	//	cloudinessForecast.printOutCloudinessData(theLog);
