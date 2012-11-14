@@ -614,6 +614,7 @@ namespace TextGen
   WeatherResult mean_wind_direction(const AnalysisSources& theSources,
 									const WeatherArea& theArea,
 									const WeatherPeriod& thePeriod,
+									const WeatherResult& theEqualizedWindSpeedMedian,
 									const WeatherResult& theEqualizedWindSpeedTop,
 									const std::string& theVar);
   float mean_wind_direction_error(const wind_data_item_vector& theWindDataVector,

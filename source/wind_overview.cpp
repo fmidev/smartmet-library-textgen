@@ -1097,7 +1097,8 @@ namespace TextGen
   WeatherResult mean_wind_direction(const AnalysisSources& theSources,
 									const WeatherArea& theArea,
 									const WeatherPeriod& thePeriod,
-									const WeatherResult& theMaximumWind,
+									const WeatherResult& theMedianWind,
+									const WeatherResult& theTopWind,
 									const string& theVar)
   {
 
@@ -1124,9 +1125,24 @@ namespace TextGen
 			  wind_direction_item_sort);
 
 	float error(meanDirection.error());
-	if(direction_accuracy(meanDirection.error(), theVar) == bad_accuracy &&
-	   theMaximumWind.value() > WEAK_WIND_SPEED_UPPER_LIMIT)
-	  error = 30.0;
+	if(direction_accuracy(meanDirection.error(), theVar) == bad_accuracy)
+	  {
+		if(theTopWind.value() > WEAK_WIND_SPEED_UPPER_LIMIT)
+		  {
+			if(theMedianWind.value() >= WEAK_WIND_SPEED_UPPER_LIMIT)
+			  {
+				error = 30.0;
+			  }
+			else
+			  {
+				float underWeakLimit = abs(theMedianWind.value() - WEAK_WIND_SPEED_UPPER_LIMIT);
+				float overWeakLimit = abs(theTopWind.value() - WEAK_WIND_SPEED_UPPER_LIMIT);
+				// if most of the wind speed range is over WEAK_WIND_SPEED_UPPER_LIMIT, direction must be mentioned
+				if(overWeakLimit >= underWeakLimit)
+				  error = 30;
+			  }
+		  }
+  }
 	
 	if(directionDistribution.size() == 1 || directionDistribution[0].second.value() >= 95.0)
 	  {
@@ -1180,7 +1196,7 @@ namespace TextGen
 		/*
 		  cout << "first direction: " 
 		  << directionDistribution[0].first 
-		  << " (" << wind_direction_string(wind_direction_id(WeatherResult(directionDistribution[0].first, 0.0), theMaximumWind,"var")) << ")"
+		  << " (" << wind_direction_string(wind_direction_id(WeatherResult(directionDistribution[0].first, 0.0), theTopWind,"var")) << ")"
 		  << "; first share: "
 		  << directionDistribution[0].second.value()
 		  << "; first weighted direction: "
@@ -1188,7 +1204,7 @@ namespace TextGen
 		  << endl;
 		  cout << "second direction: " 
 		  << directionDistribution[1].first 
-		  << " (" << wind_direction_string(wind_direction_id(WeatherResult(directionDistribution[1].first, 0.0), theMaximumWind,"var")) << ")"
+		  << " (" << wind_direction_string(wind_direction_id(WeatherResult(directionDistribution[1].first, 0.0), theTopWind,"var")) << ")"
 		  << "; second share: "
 		  << directionDistribution[1].second.value()
 		  << "; second weighted direction: "
@@ -1197,7 +1213,7 @@ namespace TextGen
 		  cout << "calculatedWeightedDirection: "
 		  << calculatedWeightedDirection 
 		  << ": " 
-		  << wind_direction_string(wind_direction_id(retval, theMaximumWind,"var"))
+		  << wind_direction_string(wind_direction_id(retval, theTopWind,"var"))
 		  << "; error: "
 		  << meanDirection.error()
 		  << endl;

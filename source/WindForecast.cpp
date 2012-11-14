@@ -1073,7 +1073,8 @@ namespace TextGen
 			if(previousWindEventId & TUULI_MUUTTUU_VAIHTELEVAKSI ||
 			   previousWindDirectionId == VAIHTELEVA)
 			  {
-				bool directionTurns = windDirectionTurns(WeatherPeriod(begTimePlus1, eventPeriod.localEndTime()));
+				// direction doesn't turn if turn is puolienen -> suuntainen
+				bool directionTurns = windDirectionTurns(WeatherPeriod(begTimePlus1, eventPeriod.localEndTime()));				
 				if(windDirectionIdBegPlus1 == windDirectionIdEnd || !directionTurns)
 				  {
 					if(theWindSpeedChangeStarts &&
@@ -1124,7 +1125,7 @@ namespace TextGen
 						  sentence << ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE;
 
 						sentence << timePhrase
-								 << windDirectionSentence(windDirectionIdBeg)
+								 << windDirectionSentence(windDirectionIdBegPlus1)
 								 << windSpeedIntervalSentence(WeatherPeriod(eventPeriod.localStartTime(),eventPeriod.localStartTime()),
 															  DONT_USE_AT_ITS_STRONGEST_PHRASE)					  
 								 << changeAttributeStr
@@ -1137,7 +1138,7 @@ namespace TextGen
 								 << timePhrase
 								 << changeAttributeStr
 								 << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-								 << windDirectionSentence(windDirectionIdBeg)
+								 << windDirectionSentence(windDirectionIdBegPlus1)
 								 << timePhrase2
 								 << getWindDirectionTurntoString(windDirectionIdEnd);
 					  }
@@ -2337,35 +2338,43 @@ namespace TextGen
 																  const WeatherPeriod& period,
 																  const string& var)
   {
-	float speedSum(0.0);
-	float speedStdDevSum(0.0);
+	float topSpeedSum(0.0);
+	float topSpeedStdDevSum(0.0);
+	float medianSpeedSum(0.0);
+	float medianSpeedStdDevSum(0.0);
 	unsigned int n(0);
 	for(unsigned int i = 0; i < theWindDataVector.size(); i++)
 	  {
 		WindDataItemUnit& item = theWindDataVector[i]->getDataItem(theArea.type());
 		if(is_inside(item.thePeriod.localStartTime(), period))
 		  {
-			speedSum += item.theEqualizedTopWind.value();
-			speedStdDevSum += item.theEqualizedTopWind.error();
+			topSpeedSum += item.theEqualizedTopWind.value();
+			topSpeedStdDevSum += item.theEqualizedTopWind.error();
+			medianSpeedSum += item.theEqualizedMedianWind.value();
+			medianSpeedStdDevSum += item.theEqualizedMedianWind.error();
 			n++;
 		  }
 	  }
-	float avgTopWind(speedSum / n);
-	float avgStdDev(speedStdDevSum / n);
-	WeatherResult resultSpeed(avgTopWind, avgStdDev);
+	float avgTopWind(topSpeedSum / n);
+	float avgTopWindStdDev(topSpeedStdDevSum / n);
+	float avgMedianWind(medianSpeedSum / n);
+	float avgMedianWindStdDev(medianSpeedStdDevSum / n);
+	WeatherResult topWindSpeed(avgTopWind, avgTopWindStdDev);
+	WeatherResult medianWindSpeed(avgMedianWind, avgMedianWindStdDev);
 
 	WeatherResult resultDirection = mean_wind_direction(theSources,
-												  theArea,
-												  period,
-												  resultSpeed,
-												  var);
+														theArea,
+														period,
+														medianWindSpeed,
+														topWindSpeed,
+														var);
 
 	float directionError = mean_wind_direction_error(theWindDataVector, theArea, period);
 
 	if(directionError < resultDirection.error())
 	  resultDirection = WeatherResult(resultDirection.value(), directionError);
 
-	return make_pair(resultDirection, wind_direction_id(resultDirection, resultSpeed, var));
+	return make_pair(resultDirection, wind_direction_id(resultDirection, topWindSpeed, var));
   }
 
   WeatherResult get_wind_direction_at(const wind_data_item_vector& theWindDataVector,
