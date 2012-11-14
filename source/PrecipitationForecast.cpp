@@ -3932,6 +3932,7 @@ vesi- tai lumisadetta.
 				if(get_period_length(heavyPrecipitationPeriod) >= 2)
 				  {
 					part_of_the_day_id partOfTheDayIdStart(get_part_of_the_day_id(heavyPrecipitationPeriod.localStartTime()));
+					part_of_the_day_id partOfTheDayIdEnd(get_part_of_the_day_id(heavyPrecipitationPeriod.localEndTime()));
 					part_of_the_day_id partOfTheDayId(MISSING_PART_OF_THE_DAY_ID);
 					time_phrase_format timePhraseFormat(AT_FORMAT);
 
@@ -3953,10 +3954,14 @@ vesi- tai lumisadetta.
 						timePhraseFormat = AT_FORMAT;
 					  }
 
+					if(timePhraseFormat == TILL_FORMAT && partOfTheDayIdStart == partOfTheDayIdEnd)
+					  {
+						timePhraseFormat = AT_FORMAT;
+					  }
+
 					std::string numberString;
 					Sentence heavyPrecipitationSentence;
-					if(partOfTheDayId != MISSING_PART_OF_THE_DAY_ID && 
-					   !(timePhraseFormat == TILL_FORMAT && partOfTheDayId == partOfTheDayIdStart))
+					if(partOfTheDayId != MISSING_PART_OF_THE_DAY_ID)
 					  {
 						Sentence todayPhrase;
 						todayPhrase << PeriodPhraseFactory::create("today",
