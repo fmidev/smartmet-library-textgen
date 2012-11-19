@@ -76,11 +76,11 @@ namespace TextGen
 		OGRSpatialReference* pLayerSRS = pLayer->GetSpatialRef();
 		OGRCoordinateTransformation* pCoordinateTransform(0);
 		OGRSpatialReference  targetTransformSRS;
-		int UTMZone(0);
 		if(pLayerSRS)
 		  {
-			UTMZone = pLayerSRS->GetUTMZone();
 			/*
+			int UTMZone(0);
+			UTMZone = pLayerSRS->GetUTMZone();
 			cout << "UTMZone: " << UTMZone << endl;
 			cout << "IsGeographic: " << pLayerSRS->IsGeographic() << endl;
 			cout << "IsProjected: " << pLayerSRS->IsProjected() << endl;

@@ -1423,7 +1423,6 @@ namespace TextGen
 	  }
 
 	unsigned int periodStartEqualizedDataIndex = equalizedWSIndexesMedian[0];
-	unsigned int periodEndEqualizedDataIndex = equalizedWSIndexesMedian[0];
 	const WindDataItemUnit& dataItemFirst = (*storyParams.theWindDataVector[periodStartEqualizedDataIndex])(areaType);
 
 	WindSpeedId previous_wind_speed_id(wind_speed_id(dataItemFirst.theEqualizedMedianWind));
@@ -1437,7 +1436,6 @@ namespace TextGen
 		
 		if(current_wind_speed_id != previous_wind_speed_id)
 		  {
-			periodEndEqualizedDataIndex = equalizedWSIndexesMedian[i-1];
 			const WindDataItemUnit& dataItemPrevious = (*storyParams.theWindDataVector[periodStartEqualizedDataIndex])(areaType);
 			
 			NFmiTime periodStartTime(dataItemPrevious.thePeriod.localStartTime());

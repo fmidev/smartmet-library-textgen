@@ -2566,7 +2566,6 @@ namespace TextGen
 									 int& lowerLimit,
 									 int& upperLimit)
   {
-	bool found(false);
 	for(unsigned int i = 0; i < windDataVector.size(); i++)
 	  {
 		const WindDataItemUnit& windDataItem = (*windDataVector[i])(area.type());
@@ -2575,7 +2574,6 @@ namespace TextGen
 		  {
 			lowerLimit = static_cast<int>(round(windDataItem.theEqualizedMedianWind.value()));
 			upperLimit = static_cast<int>(round(windDataItem.theEqualizedTopWind.value()));
-			found = true;
 			break;
 		  }
 	  }

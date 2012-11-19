@@ -3759,7 +3759,6 @@ vesi- tai lumisadetta.
 
 	const precipitation_data_vector* dataVector = 0;
 
-	precipitation_form_id precipitationFormInlandOrCoast(MISSING_PRECIPITATION_FORM);
 	float precipitationIntensity = kFloatMissing;
 	float precipitationAbsoluteMaxIntensity = kFloatMissing;
 	float precipitationExtent = kFloatMissing;
@@ -3803,6 +3802,7 @@ vesi- tai lumisadetta.
 	  {
 		dataVector = &theInlandData;
 
+		/*
 		// This block is here to find out, whether more than one precipitation form is included in the sentence
 		// when both coast and inland are included. That information we need to choose 
 		// the right phrase for example vesisadetta vs. sadetta:
@@ -3820,19 +3820,14 @@ vesi- tai lumisadetta.
 											 precipitationFormSleet,
 											 precipitationFormSnow,
 											 precipitationFormFreezing);
-
-			precipitationFormInlandOrCoast = get_complete_precipitation_form(theParameters.theVariable,
-																			 precipitationFormWater,
-																			 precipitationFormDrizzle,
-																			 precipitationFormSleet,
-																			 precipitationFormSnow,
-																			 precipitationFormFreezing);
 		  }
+		*/
 	  }
 	else if(theForecastAreaId & COASTAL_AREA)
 	  {
 		dataVector = &theCoastalData;
 
+		/*
 		if(separateCoastInlandPrecipitation(thePeriod))
 		  {
 			calculatePrecipitationParameters(thePeriod,
@@ -3845,14 +3840,8 @@ vesi- tai lumisadetta.
 											 precipitationFormSleet,
 											 precipitationFormSnow,
 											 precipitationFormFreezing);
-
-			precipitationFormInlandOrCoast = get_complete_precipitation_form(theParameters.theVariable,
-																			 precipitationFormWater,
-																			 precipitationFormDrizzle,
-																			 precipitationFormSleet,
-																			 precipitationFormSnow,
-																			 precipitationFormFreezing);
 		  }
+		*/
 	  }
 
 	if(dataVector)
