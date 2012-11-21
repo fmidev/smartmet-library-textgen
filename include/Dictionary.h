@@ -35,7 +35,7 @@ namespace TextGen
 	virtual const std::string & find(const std::string & theKey) const = 0;
 	virtual void insert(const std::string & theKey, const std::string & thePhrase) = 0;
 
-	virtual void geoinit(const void* theReactor) {}
+	virtual void geoinit(void* theReactor) {}
    	virtual bool geocontains(const std::string & theKey) const { return false; }
    	virtual bool geocontains(const double& theLongitude, const double& theLatitude, const double& theMaxDistance) const { return false; }
 	virtual const std::string& geofind(const std::string & theKey) const 
