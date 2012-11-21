@@ -959,49 +959,97 @@ namespace TextGen
 	  case POHJOINEN:
 		{
 		  ws_lower_limit = 0.0;
-		  ws_upper_limit = 22.5;
+		  ws_upper_limit = 11.25;
 		}
 		break;
-	  case ETELA:
+	  case POHJOINEN_KOILLINEN:
 		{
-		  ws_lower_limit = 157.5;
-		  ws_upper_limit = 202.5;
-		}
-		break;
-	  case ITA:
-		{
-		  ws_lower_limit = 67.5;
-		  ws_upper_limit = 112.5;
-		}
-		break;
-	  case LANSI:
-		{
-		  ws_lower_limit = 247.5;
-		  ws_upper_limit = 292.5;
+		  ws_lower_limit = 11.25;
+		  ws_upper_limit = 33.75;
 		}
 		break;
 	  case KOILLINEN:
 		{
-		  ws_lower_limit = 22.5;
-		  ws_upper_limit = 67.5;
+		  ws_lower_limit = 33.75;
+		  ws_upper_limit = 56.25;
+		}
+		break;
+	  case ITA_KOILLINEN:
+		{
+		  ws_lower_limit = 56.25;
+		  ws_upper_limit = 78.75;
+		}
+		break;
+	  case ITA:
+		{
+		  ws_lower_limit = 78.75;
+		  ws_upper_limit = 101.25;
+		}
+		break;
+	  case ITA_KAAKKO:
+		{
+		  ws_lower_limit = 101.25;
+		  ws_upper_limit = 123.75;
 		}
 		break;
 	  case KAAKKO:
 		{
-		  ws_lower_limit = 112.5;
-		  ws_upper_limit = 157.5;
+		  ws_lower_limit = 123.75;
+		  ws_upper_limit = 146.25;
+		}
+		break;
+	  case ETELA_KAAKKO:
+		{
+		  ws_lower_limit = 146.25;
+		  ws_upper_limit = 168.75;
+		}
+		break;
+	  case ETELA:
+		{
+		  ws_lower_limit = 168.75;
+		  ws_upper_limit = 191.25;
+		}
+		break;
+	  case ETELA_LOUNAS:
+		{
+		  ws_lower_limit = 191.25;
+		  ws_upper_limit = 213.75;
 		}
 		break;
 	  case LOUNAS:
 		{
-		  ws_lower_limit = 202.5;
-		  ws_upper_limit = 247.5;
+		  ws_lower_limit = 213.75;
+		  ws_upper_limit = 236.25;
+		}
+		break;
+	  case LANSI_LOUNAS:
+		{
+		  ws_lower_limit = 236.25;
+		  ws_upper_limit = 258.75;
+		}
+		break;
+	  case LANSI:
+		{
+		  ws_lower_limit = 258.75;
+		  ws_upper_limit = 281.25;
+		}
+		break;
+	  case LANSI_LUODE:
+		{
+		  ws_lower_limit = 281.25;
+		  ws_upper_limit = 303.75;
 		}
 		break;
 	  case LUODE:
 		{
-		  ws_lower_limit = 292.5;
-		  ws_upper_limit = 337.5;
+		  ws_lower_limit = 303.75;
+		  ws_upper_limit = 326.25;
+		}
+		break;
+	  case POHJOINEN_LUODE:
+		{
+		  ws_lower_limit = 326.25;
+		  ws_upper_limit = 348.75;
 		}
 		break;
 	  default:
@@ -1023,7 +1071,7 @@ namespace TextGen
 
 	if(theWindDirection == POHJOINEN)
 	  {
-		ws_lower_limit = 337.5;
+		ws_lower_limit = 348.75;
 		ws_upper_limit = 360.0;
 		acceptor.lowerLimit(ws_lower_limit);
 		acceptor.upperLimit(ws_upper_limit);
@@ -1040,7 +1088,7 @@ namespace TextGen
 		share = WeatherResult(share.value()+share2.value(), 0.0);
 	  }
 
-	pair<float, WeatherResult> shareItem(ws_lower_limit+22.5, share);
+	pair<float, WeatherResult> shareItem(ws_lower_limit+11.25, share);
 
 	return shareItem;
   }
@@ -1051,7 +1099,6 @@ namespace TextGen
 													   const string& theVar,
 													   vector<pair<float, WeatherResult> >& theWindDirectionDistribution)
   {
-
 	theWindDirectionDistribution.push_back(get_share_item(theSources,
 														  theArea,
 														  thePeriod,
@@ -1061,17 +1108,7 @@ namespace TextGen
 														  theArea,
 														  thePeriod,
 														  theVar,
-														  ETELA));
-	theWindDirectionDistribution.push_back(get_share_item(theSources,
-														  theArea,
-														  thePeriod,
-														  theVar,
-														  ITA));
-	theWindDirectionDistribution.push_back(get_share_item(theSources,
-														  theArea,
-														  thePeriod,
-														  theVar,
-														  LANSI));
+														  POHJOINEN_KOILLINEN));
 	theWindDirectionDistribution.push_back(get_share_item(theSources,
 														  theArea,
 														  thePeriod,
@@ -1081,7 +1118,37 @@ namespace TextGen
 														  theArea,
 														  thePeriod,
 														  theVar,
+														  ITA_KOILLINEN));
+	theWindDirectionDistribution.push_back(get_share_item(theSources,
+														  theArea,
+														  thePeriod,
+														  theVar,
+														  ITA));
+	theWindDirectionDistribution.push_back(get_share_item(theSources,
+														  theArea,
+														  thePeriod,
+														  theVar,
+														  ITA_KAAKKO));
+	theWindDirectionDistribution.push_back(get_share_item(theSources,
+														  theArea,
+														  thePeriod,
+														  theVar,
 														  KAAKKO));
+	theWindDirectionDistribution.push_back(get_share_item(theSources,
+														  theArea,
+														  thePeriod,
+														  theVar,
+														  ETELA_KAAKKO));
+	theWindDirectionDistribution.push_back(get_share_item(theSources,
+														  theArea,
+														  thePeriod,
+														  theVar,
+														  ETELA));
+	theWindDirectionDistribution.push_back(get_share_item(theSources,
+														  theArea,
+														  thePeriod,
+														  theVar,
+														  ETELA_LOUNAS));
 	theWindDirectionDistribution.push_back(get_share_item(theSources,
 														  theArea,
 														  thePeriod,
@@ -1091,69 +1158,43 @@ namespace TextGen
 														  theArea,
 														  thePeriod,
 														  theVar,
+														  LANSI_LOUNAS));
+	theWindDirectionDistribution.push_back(get_share_item(theSources,
+														  theArea,
+														  thePeriod,
+														  theVar,
+														  LANSI));
+	theWindDirectionDistribution.push_back(get_share_item(theSources,
+														  theArea,
+														  thePeriod,
+														  theVar,
+														  LANSI_LUODE));
+	theWindDirectionDistribution.push_back(get_share_item(theSources,
+														  theArea,
+														  thePeriod,
+														  theVar,
 														  LUODE));
+	theWindDirectionDistribution.push_back(get_share_item(theSources,
+														  theArea,
+														  thePeriod,
+														  theVar,
+														  POHJOINEN_LUODE));
   }
 
-  WeatherResult mean_wind_direction(const AnalysisSources& theSources,
-									const WeatherArea& theArea,
-									const WeatherPeriod& thePeriod,
-									const WeatherResult& theMedianWind,
-									const WeatherResult& theTopWind,
-									const string& theVar)
+  WeatherResult calculate_wind_direction_from_distribution(const value_distribution_data_vector& theDirectionDistribution,
+														   const float& error)
   {
 
-	GridForecaster forecaster;
-
-	WeatherResult meanDirection = forecaster.analyze(theVar+"::fake::wind:direction",
-													 theSources,
-													 WindDirection,
-													 Mean,
-													 Mean,
-													 theArea,
-													 thePeriod);
-
-	value_distribution_data_vector directionDistribution;
-	
-	populate_winddirection_distribution_time_series(theSources,
-													theArea,
-													thePeriod,
-													theVar,
-													directionDistribution);
-
-	std::sort(directionDistribution.begin(), 
-			  directionDistribution.end(),
-			  wind_direction_item_sort);
-
-	float error(meanDirection.error());
-	if(direction_accuracy(meanDirection.error(), theVar) == bad_accuracy)
-	  {
-		if(theTopWind.value() > WEAK_WIND_SPEED_UPPER_LIMIT)
-		  {
-			if(theMedianWind.value() >= WEAK_WIND_SPEED_UPPER_LIMIT)
-			  {
-				error = 30.0;
-			  }
-			else
-			  {
-				float underWeakLimit = abs(theMedianWind.value() - WEAK_WIND_SPEED_UPPER_LIMIT);
-				float overWeakLimit = abs(theTopWind.value() - WEAK_WIND_SPEED_UPPER_LIMIT);
-				// if most of the wind speed range is over WEAK_WIND_SPEED_UPPER_LIMIT, direction must be mentioned
-				if(overWeakLimit >= underWeakLimit)
-				  error = 30;
-			  }
-		  }
-  }
-	
-	if(directionDistribution.size() == 1 || directionDistribution[0].second.value() >= 95.0)
+	if(theDirectionDistribution.size() == 1 || theDirectionDistribution[0].second.value() >= 95.0)
 	  {
 		// lets set moderate accuracy
-		WeatherResult retval(directionDistribution[0].first, error);
+		WeatherResult retval(theDirectionDistribution[0].first, error);
 		return  retval;
 	  }
 	else
 	  {
-		float firstValue(directionDistribution[0].first);
-		float secondValue(directionDistribution[1].first);
+		float firstValue(theDirectionDistribution[0].first);
+		float secondValue(theDirectionDistribution[1].first);
 		
 		if((firstValue > 180.0 && firstValue <= 360.0) &&
 		   (secondValue >= 0 && secondValue <= 180))
@@ -1181,9 +1222,9 @@ namespace TextGen
 		  }
 
 		// take average of the two first directions, weighted with the share
-		float totalShare(directionDistribution[0].second.value() + directionDistribution[1].second.value());
-		float firstWeightedDirection(firstValue * directionDistribution[0].second.value());
-		float secondWeightedDirection(secondValue *  directionDistribution[1].second.value() );
+		float totalShare(theDirectionDistribution[0].second.value() + theDirectionDistribution[1].second.value());
+		float firstWeightedDirection(firstValue * theDirectionDistribution[0].second.value());
+		float secondWeightedDirection(secondValue *  theDirectionDistribution[1].second.value() );
 		float calculatedWeightedDirection((firstWeightedDirection + secondWeightedDirection) / totalShare);
 		
 		while(calculatedWeightedDirection > 360.0)
@@ -1219,6 +1260,59 @@ namespace TextGen
 		  << endl;
 		*/
 	  }
+}
+
+  WeatherResult mean_wind_direction(const AnalysisSources& theSources,
+									const WeatherArea& theArea,
+									const WeatherPeriod& thePeriod,
+									const WeatherResult& theMedianWind,
+									const WeatherResult& theTopWind,
+									const string& theVar)
+  {
+
+	GridForecaster forecaster;
+
+	WeatherResult meanDirection = forecaster.analyze(theVar+"::fake::wind:direction",
+													 theSources,
+													 WindDirection,
+													 Mean,
+													 Mean,
+													 theArea,
+													 thePeriod);
+
+	float error(meanDirection.error());
+	if(direction_accuracy(meanDirection.error(), theVar) == bad_accuracy)
+	  {
+		if(theTopWind.value() > WEAK_WIND_SPEED_UPPER_LIMIT)
+		  {
+			if(theMedianWind.value() >= WEAK_WIND_SPEED_UPPER_LIMIT)
+			  {
+				error = 30.0;
+			  }
+			else
+			  {
+				float underWeakLimit = abs(theMedianWind.value() - WEAK_WIND_SPEED_UPPER_LIMIT);
+				float overWeakLimit = abs(theTopWind.value() - WEAK_WIND_SPEED_UPPER_LIMIT);
+				// if most of the wind speed range is over WEAK_WIND_SPEED_UPPER_LIMIT, direction must be mentioned
+				if(overWeakLimit >= underWeakLimit)
+				  error = 30;
+			  }
+		  }
+	  }
+	
+	value_distribution_data_vector directionDistribution;
+	
+	populate_winddirection_distribution_time_series(theSources,
+													theArea,
+													thePeriod,
+													theVar,
+													directionDistribution);
+
+	std::sort(directionDistribution.begin(), 
+			  directionDistribution.end(),
+			  wind_direction_item_sort);
+
+	return calculate_wind_direction_from_distribution(directionDistribution, error);
   }
 
   float mean_wind_direction_error(const wind_data_item_vector& theWindDataVector, const WeatherArea& theArea, const WeatherPeriod& thePeriod)
@@ -1386,7 +1480,9 @@ namespace TextGen
 						  wind_direction_item_sort);
 
 				// first implementation: lets just take the biggest share
-				WeatherResult correctedDirection(directionDistribution[0].first, dataItem.theWindDirection.error());
+				//				WeatherResult correctedDirection(directionDistribution[0].first, dataItem.theWindDirection.error());
+				WeatherResult correctedDirection(calculate_wind_direction_from_distribution(directionDistribution, dataItem.theWindDirection.error()));
+
 
 				dataItem.theCorrectedWindDirection = correctedDirection;
 				dataItem.theEqualizedWindDirection =  correctedDirection;
