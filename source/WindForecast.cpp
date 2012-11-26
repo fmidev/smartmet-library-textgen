@@ -169,6 +169,17 @@ namespace TextGen
 			   i > 0 && !firstPeriod && !lastPeriod)
 			  continue;
 
+			// if short weak period is the last period and on previous period wind weakened and
+			// part of the day on last period and in the end of previous period are the same, dont report the last period
+			// expect when wind was varying in the previous period
+			WeatherPeriod previousEndPeriod(weatherPeriodPreviousReported.localEndTime(), 
+											weatherPeriodPreviousReported.localEndTime());
+			
+			if(lastPeriod && period_len <= 2 && eventIdPreviousReported & TUULI_HEIKKENEE &&
+			   get_part_of_the_day_id_narrow(previousEndPeriod) == get_part_of_the_day_id_narrow(eventPeriod) &&
+			   !(eventIdPreviousReported & TUULI_MUUTTUU_VAIHTELEVAKSI))
+			  continue;
+
 			  eventId = MISSING_WIND_EVENT;
 		  }
 		else if((eventIdPreviousReported & TUULI_MUUTTUU_VAIHTELEVAKSI) &&
@@ -1464,6 +1475,7 @@ namespace TextGen
 					NFmiTime phrasePeriodEndTimestamp(get_phrase_period_end_timestamp(lastPeriod ? speedChangePeriods[i].localStartTime() : currentPeriodEnd.localStartTime()));
 
 					WeatherPeriod phrasePeriod(phrasePeriodEndTimestamp, phrasePeriodEndTimestamp);
+
 					if(lastPeriod)
 					  {
 						Sentence timePhrase;
