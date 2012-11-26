@@ -1280,6 +1280,9 @@ namespace TextGen
 													 theArea,
 													 thePeriod);
 
+	if(direction_accuracy(meanDirection.error(), theVar) == good_accuracy)
+	  return meanDirection;
+
 	float error(meanDirection.error());
 	if(direction_accuracy(meanDirection.error(), theVar) == bad_accuracy)
 	  {
@@ -1311,6 +1314,11 @@ namespace TextGen
 	std::sort(directionDistribution.begin(), 
 			  directionDistribution.end(),
 			  wind_direction_item_sort);
+
+	/*
+	for(unsigned int i = 0; i < directionDistribution.size(); i++)
+	  cout << "direction, share: " << directionDistribution[i].first << ", " << directionDistribution[i].second.value() << endl;
+	*/
 
 	return calculate_wind_direction_from_distribution(directionDistribution, error);
   }
