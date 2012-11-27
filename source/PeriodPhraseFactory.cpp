@@ -39,8 +39,6 @@ using namespace std;
 namespace
 {
 
-  TextGen::WeatherHistory* theHistory = 0;
-
   // ----------------------------------------------------------------------
   /*!
    * \brief Reorganizes preferred phrases
@@ -119,7 +117,8 @@ namespace TextGen
 	
 	Sentence until_tonight(const string & theVariable,
 						   const NFmiTime & theForecastTime,
-						   const WeatherPeriod & thePeriod)
+						   const WeatherPeriod & thePeriod,
+						   TextGen::WeatherHistory* theHistory = 0)
 	{
 	  using WeekdayTools::on_weekday;
 	  Sentence sentence;
@@ -150,10 +149,6 @@ namespace TextGen
 			{
 				if(theHistory)
 				  {
-					/*
-					  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
-					  theHistory->updateTimePhrase("",thePeriod.localStartTime());
-					*/
 					return (sentence << on_weekday(thePeriod.localStartTime(),  *theHistory));
 				  }
 				else
@@ -182,7 +177,8 @@ namespace TextGen
 	
 	Sentence until_morning(const string & theVariable,
 						   const NFmiTime & theForecastTime,
-						   const WeatherPeriod & thePeriod)
+						   const WeatherPeriod & thePeriod,
+						   TextGen::WeatherHistory* theHistory = 0)
 	{
 	  using WeekdayTools::night_against_weekday;
 	  Sentence sentence;
@@ -213,10 +209,6 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
-				  /*
-					if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
-					theHistory->updateTimePhrase("",thePeriod.localStartTime());
-				  */
 				  return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
 				}
 			  else
@@ -245,7 +237,8 @@ namespace TextGen
 	
 	Sentence today(const string & theVariable,
 				   const NFmiTime & theForecastTime,
-				   const WeatherPeriod & thePeriod)
+				   const WeatherPeriod & thePeriod,
+				   TextGen::WeatherHistory* theHistory = 0)
 	{
 	  using WeekdayTools::on_weekday;
 	  Sentence sentence;
@@ -261,10 +254,6 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
-				  /*
-				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
-					theHistory->updateTimePhrase("",thePeriod.localStartTime());
-				  */
 				  return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -324,7 +313,8 @@ namespace TextGen
 	
 	Sentence tonight(const string & theVariable,
 					 const NFmiTime & theForecastTime,
-					 const WeatherPeriod & thePeriod)
+					 const WeatherPeriod & thePeriod,
+					 TextGen::WeatherHistory* theHistory = 0)
 	{
 	  using WeekdayTools::night_against_weekday;
 	  Sentence sentence;
@@ -340,10 +330,6 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
-				  /*
-				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
-					theHistory->updateTimePhrase("",thePeriod.localStartTime());
-				  */
 				  return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
 				}
 			  else
@@ -387,7 +373,8 @@ namespace TextGen
 	
 	Sentence next_night(const string & theVariable,
 						const NFmiTime & theForecastTime,
-						const WeatherPeriod & thePeriod)
+						const WeatherPeriod & thePeriod,
+						TextGen::WeatherHistory* theHistory = 0)
 	{
 	  using WeekdayTools::night_against_weekday;
 	  Sentence sentence;
@@ -403,10 +390,6 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
-				  /*
-				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
-					theHistory->updateTimePhrase("",thePeriod.localStartTime());
-				  */
 				  return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
 				}
 			  else
@@ -447,7 +430,8 @@ namespace TextGen
 	
 	Sentence next_day(const string & theVariable,
 					  const NFmiTime & theForecastTime,
-					  const WeatherPeriod & thePeriod)
+					  const WeatherPeriod & thePeriod,
+					  TextGen::WeatherHistory* theHistory = 0)
 	{
 	  using WeekdayTools::on_weekday;
 	  Sentence sentence;
@@ -463,10 +447,6 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
-				  /*
-				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
-					theHistory->updateTimePhrase("",thePeriod.localStartTime());
-				  */
 				  return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -513,7 +493,8 @@ namespace TextGen
 	
 	Sentence next_days(const string & theVariable,
 					   const NFmiTime & theForecastTime,
-					   const WeatherPeriod & thePeriod)
+					   const WeatherPeriod & thePeriod,
+					   TextGen::WeatherHistory* theHistory = 0)
 	{
 	  using WeekdayTools::from_weekday;
 	  Sentence sentence;
@@ -529,10 +510,6 @@ namespace TextGen
 			{
 			  if(theHistory)
 				{
-				  /*
-				  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
-					theHistory->updateTimePhrase("",thePeriod.localStartTime());
-				  */
 				  return (sentence << from_weekday(thePeriod.localStartTime(), *theHistory));
 				}
 			  else
@@ -567,12 +544,13 @@ namespace TextGen
 	
 	Sentence remaining_days(const string & theVariable,
 							const NFmiTime & theForecastTime,
-							const WeatherPeriod & thePeriod)
+							const WeatherPeriod & thePeriod,
+							TextGen::WeatherHistory* theHistory = 0)
 	{
 	  if(isSeveralDays(thePeriod.localStartTime(),thePeriod.localEndTime()))
-		return next_days(theVariable,theForecastTime,thePeriod);
+		return next_days(theVariable,theForecastTime,thePeriod,theHistory);
 	  else
-		return next_day(theVariable,theForecastTime,thePeriod);
+		return next_day(theVariable,theForecastTime,thePeriod,theHistory);
 	}
 
 	// ----------------------------------------------------------------------
@@ -635,7 +613,8 @@ namespace TextGen
 	
 	Sentence days(const string & theVariable,
 				  const NFmiTime & theForecastTime,
-				  const WeatherPeriod & thePeriod)
+				  const WeatherPeriod & thePeriod,
+				  TextGen::WeatherHistory* theHistory = 0)
 	{
 	  using WeekdayTools::from_weekday;
 	  using WeekdayTools::on_weekday;
@@ -699,10 +678,6 @@ namespace TextGen
 				{
 				  if(theHistory)
 					{
-					  /*
-						if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
-						theHistory->updateTimePhrase("",thePeriod.localStartTime());
-					  */
 					  return (sentence << on_weekday(starttime, *theHistory));
 					}
 				  else
@@ -744,10 +719,6 @@ namespace TextGen
 							{
 							  if(theHistory)
 								{
-								  /*
-								  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
-									theHistory->updateTimePhrase("",thePeriod.localStartTime());
-								  */
 								  return (sentence << on_weekday(nextday, *theHistory));
 								}
 							  else
@@ -773,10 +744,6 @@ namespace TextGen
 							{
 							  if(theHistory)
 								{
-								  /*
-								  if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
-									theHistory->updateTimePhrase("",thePeriod.localStartTime());
-								  */
 								  return (sentence << on_weekday(nextday, *theHistory));
 								}
 							  else
@@ -793,10 +760,6 @@ namespace TextGen
 				{
 				  if(theHistory)
 					{
-					  /*
-						if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
-						theHistory->updateTimePhrase("",thePeriod.localStartTime());
-					  */
 					  sentence << on_weekday(starttime, *theHistory)
 							   << "ja"
 							   << on_weekday(nextday, *theHistory);
@@ -863,6 +826,45 @@ namespace TextGen
   namespace PeriodPhraseFactory
   {
 
+	Sentence create_sentence(const string & theType,
+							 const string & theVariable,
+							 const NFmiTime & theForecastTime,
+							 const WeatherPeriod & thePeriod,
+							 TextGen::WeatherHistory* theHistory = 0)
+	{
+	  if(theType == "until_tonight")
+		return until_tonight(theVariable,theForecastTime,thePeriod, theHistory);
+
+	  if(theType == "until_morning")
+		return until_morning(theVariable,theForecastTime,thePeriod, theHistory);
+
+	  if(theType == "today")
+		return today(theVariable,theForecastTime,thePeriod, theHistory);
+
+	  if(theType == "tonight")
+		return tonight(theVariable,theForecastTime,thePeriod, theHistory);
+
+	  if(theType == "next_night")
+		return next_night(theVariable,theForecastTime,thePeriod, theHistory);
+
+	  if(theType == "next_day")
+		return next_day(theVariable,theForecastTime,thePeriod, theHistory);
+
+	  if(theType == "next_days")
+		return next_days(theVariable,theForecastTime,thePeriod, theHistory);
+
+	  if(theType == "remaining_days")
+		return remaining_days(theVariable,theForecastTime,thePeriod, theHistory);
+
+	  if(theType == "days")
+		return days(theVariable,theForecastTime,thePeriod, theHistory);
+
+	  if(theType == "remaining_day")
+		return remaining_day(thePeriod);
+
+	  throw TextGenError("PeriodPhraseFactory::create does not recognize type "+theType);
+	}
+
 	// ----------------------------------------------------------------------
 	/*!
 	 * \brief Return sentence describing the period
@@ -879,8 +881,13 @@ namespace TextGen
 					const NFmiTime & theForecastTime,
 					const WeatherPeriod & thePeriod)
 	{
-	  theHistory = 0;
 
+		return create_sentence(theType,
+							   theVariable,
+							   theForecastTime,
+							   thePeriod);
+
+#if 0
 	  if(theType == "until_tonight")
 		return until_tonight(theVariable,theForecastTime,thePeriod);
 
@@ -912,6 +919,7 @@ namespace TextGen
 		return remaining_day(thePeriod);
 
 	  throw TextGenError("PeriodPhraseFactory::create does not recognize type "+theType);
+#endif
 	}
 	
 	Sentence create(const string & theType,
@@ -920,39 +928,47 @@ namespace TextGen
 					const WeatherPeriod & thePeriod,
 					const WeatherArea & theArea)
 	{
-	  theHistory = const_cast<TextGen::WeatherHistory*>(&(theArea.history()));
+	    TextGen::WeatherHistory* theHistory = const_cast<TextGen::WeatherHistory*>(&(theArea.history()));
 
+		return create_sentence(theType,
+							   theVariable,
+							   theForecastTime,
+							   thePeriod,
+							   theHistory);
+
+#if 0
 	  if(theType == "until_tonight")
-		return until_tonight(theVariable,theForecastTime,thePeriod);
+		return until_tonight(theVariable,theForecastTime,thePeriod, theHistory);
 
 	  if(theType == "until_morning")
-		return until_morning(theVariable,theForecastTime,thePeriod);
+		return until_morning(theVariable,theForecastTime,thePeriod, theHistory);
 
 	  if(theType == "today")
-		return today(theVariable,theForecastTime,thePeriod);
+		return today(theVariable,theForecastTime,thePeriod, theHistory);
 
 	  if(theType == "tonight")
-		return tonight(theVariable,theForecastTime,thePeriod);
+		return tonight(theVariable,theForecastTime,thePeriod, theHistory);
 
 	  if(theType == "next_night")
-		return next_night(theVariable,theForecastTime,thePeriod);
+		return next_night(theVariable,theForecastTime,thePeriod, theHistory);
 
 	  if(theType == "next_day")
-		return next_day(theVariable,theForecastTime,thePeriod);
+		return next_day(theVariable,theForecastTime,thePeriod, theHistory);
 
 	  if(theType == "next_days")
-		return next_days(theVariable,theForecastTime,thePeriod);
+		return next_days(theVariable,theForecastTime,thePeriod, theHistory);
 
 	  if(theType == "remaining_days")
-		return remaining_days(theVariable,theForecastTime,thePeriod);
+		return remaining_days(theVariable,theForecastTime,thePeriod, theHistory);
 
 	  if(theType == "days")
-		return days(theVariable,theForecastTime,thePeriod);
+		return days(theVariable,theForecastTime,thePeriod, theHistory);
 
 	  if(theType == "remaining_day")
-		return remaining_day(thePeriod);
+		return remaining_day(thePeriod, theHistory);
 
 	  throw TextGenError("PeriodPhraseFactory::create does not recognize type "+theType);
+#endif
 
 	}
 
