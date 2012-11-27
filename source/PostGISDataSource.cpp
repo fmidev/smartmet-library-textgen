@@ -1,7 +1,6 @@
 #include "PostGISDataSource.h"
 #include "TextGenError.h"
 #include "WeatherArea.h"
-#include "MessageLogger.h"
 
 #include <newbase/NFmiSvgPath.h>
 #include <newbase/NFmiPoint.h>
@@ -19,10 +18,6 @@ using namespace boost;
 namespace TextGen
 {
 
-  PostGISDataSource::PostGISDataSource(MessageLogger& log) : theLog(log)
-  {
-  }
-
   bool PostGISDataSource::readData(const std::string& host, 
 								   const std::string& port,
 								   const std::string& dbname,
@@ -31,7 +26,8 @@ namespace TextGen
 								   const std::string& schema,
 								   const std::string& table,
 								   const std::string& fieldname,
-								   const std::string& client_encoding)
+								   const std::string& client_encoding,
+								   std::string& log_message)
   {
 
 	try
@@ -47,7 +43,6 @@ namespace TextGen
 					  << "' dbname='" << dbname 
 					  << "' user='" << user 
 					  << "' password='" << password << "'";
-
 
 		OGRRegisterAll();
   
@@ -121,7 +116,7 @@ namespace TextGen
 
 			if(area_name.empty())
 			  {
-				theLog << "field " << fieldname << " not found for the feature " << pFDefn->GetName() << endl;
+				log_message = "field " + fieldname + " not found for the feature " + pFDefn->GetName();
 				continue;
 			  }
 
@@ -134,7 +129,7 @@ namespace TextGen
 				  {
 					// transform the coordinates to wgs84
 					if(OGRERR_NONE != pGeometry->transform(pCoordinateTransform))
-					  theLog << "pGeometry->transform() failed" << endl;
+					  log_message = "pGeometry->transform() failed";
 				  }
 
 				OGRwkbGeometryType geometryType(wkbFlatten(pGeometry->getGeometryType()));
