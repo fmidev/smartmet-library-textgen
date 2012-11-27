@@ -158,7 +158,7 @@ namespace TextGen
 #define AAMUYOHON_ASTI_PHRASE "aamuyohon asti"
 #define AAMULLA_JA_AAMUPAIVALLA_PHRASE "aamulla ja aamupaivalla"
 #define ILTAPAIVALLA_JA_ILLALLA "iltapaivalla ja illalla"
-#define ILLALLA_JA_ILTAYOLLA "illalla ja ilatayolla"
+#define ILLALLA_JA_ILTAYOLLA "illalla ja iltayolla"
 #define ILTAYOLLA_JA_KESKIYOLLA "iltayolla ja keskiyolla"
 #define KESKIYOLLA_JA_AAMUYIOLLA "keskiyolla ja aamuyolla"
 #define AAMUYOLLA_JA_AAMULLA "aamuyolla ja aamulla"
