@@ -1181,9 +1181,76 @@ namespace TextGen
 														  POHJOINEN_LUODE));
   }
 
+  float calculate_mean_wind_direction(const float& direction1,
+									  const float& direction2,
+									  const float& share1,
+									  const float& share2)
+  {
+	float firstDirection(direction1);
+	float secondDirection(direction2);
+	
+	if((firstDirection > 180.0 && firstDirection <= 360.0) &&
+	   (secondDirection >= 0 && secondDirection <= 180))
+	  {
+		if(firstDirection == 360.0)
+		  {
+			firstDirection = 0;
+		  }
+		else if(firstDirection - secondDirection > 180.0)
+		  {
+			secondDirection += 360.0;
+		  }				
+		  }
+	else if((secondDirection > 180.0 && secondDirection <= 360.0) &&
+			(firstDirection >= 0 && firstDirection <= 180))
+	  {
+		if(secondDirection == 360.0)
+		  {
+			secondDirection = 0;
+		  }
+		else if(secondDirection - firstDirection > 180.0)
+		  {
+			firstDirection += 360.0;
+		  }
+	  }
+
+	float totalShare(share1+share2);
+	float firstWeightedDirection(firstDirection * share1);
+	float secondWeightedDirection(secondDirection * share2);
+	float calculatedWeightedDirection((firstWeightedDirection + secondWeightedDirection) / totalShare);
+	
+	while(calculatedWeightedDirection > 360.0)
+	  calculatedWeightedDirection -= 360.0;
+
+	return calculatedWeightedDirection;
+  }
+
   WeatherResult calculate_wind_direction_from_distribution(const value_distribution_data_vector& theDirectionDistribution,
 														   const float& error)
   {
+	float cumulativeShare(theDirectionDistribution[0].second.value());
+	float cumulativeWeightedDirection(theDirectionDistribution[0].first);
+
+	// calculate mean direction till share is more than 95%
+	if(cumulativeShare < 95.0)
+	  {
+		for(unsigned int i = 1; i < theDirectionDistribution.size(); i++)
+		  {
+			cumulativeWeightedDirection = calculate_mean_wind_direction(cumulativeWeightedDirection,
+																		theDirectionDistribution[i].first,
+																		cumulativeShare,
+																		theDirectionDistribution[i].second.value());
+			cumulativeShare += theDirectionDistribution[i].second.value();
+
+			if(cumulativeShare >= 95.0)
+			  break;
+		  }
+	  }
+	
+	return WeatherResult(cumulativeWeightedDirection, error);
+
+
+#ifdef OLD_IMPLEMENTATION
 
 	if(theDirectionDistribution.size() == 1 || theDirectionDistribution[0].second.value() >= 95.0)
 	  {
@@ -1260,6 +1327,7 @@ namespace TextGen
 		  << endl;
 		*/
 	  }
+#endif
 }
 
   WeatherResult mean_wind_direction(const AnalysisSources& theSources,
