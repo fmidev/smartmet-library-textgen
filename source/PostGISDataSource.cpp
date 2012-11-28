@@ -1,9 +1,4 @@
 #include "PostGISDataSource.h"
-#include "TextGenError.h"
-#include "WeatherArea.h"
-
-#include <newbase/NFmiSvgPath.h>
-#include <newbase/NFmiPoint.h>
 
 #include <ogrsf_frmts.h>
 
@@ -11,12 +6,28 @@
 
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 
 using namespace std;
 using namespace boost;
 
 namespace TextGen
 {
+
+  bool PostGISDataSource::readData(const postgis_identifier& postGISIdentifier,
+								   std::string& log_message)
+  {
+	return readData(postGISIdentifier.postGISHost,
+					postGISIdentifier.postGISPort,
+					postGISIdentifier.postGISDatabase,
+					postGISIdentifier.postGISUsername,
+					postGISIdentifier.postGISPassword,
+					postGISIdentifier.postGISSchema,
+					postGISIdentifier.postGISTable,
+					postGISIdentifier.postGISField,
+					postGISIdentifier.postGISClientEncoding,
+					log_message);
+  }
 
   bool PostGISDataSource::readData(const std::string& host, 
 								   const std::string& port,
@@ -50,7 +61,7 @@ namespace TextGen
 		
 		if(!pDS)
 		  {
-			throw TextGenError("Error: OGRSFDriverRegistrar::Open(" + connection_ss.str() + ") failed!");
+			throw std::runtime_error("Error: OGRSFDriverRegistrar::Open(" + connection_ss.str() + ") failed!");
 		  }
 
 		std::string sqlstmt("SET CLIENT_ENCODING TO '" + client_encoding + "'");
@@ -64,7 +75,7 @@ namespace TextGen
 	
 		if(pLayer == NULL)
 		  {
-			throw TextGenError("Error: OGRDataSource::GetLayerByName(" + schema_table_ss.str() + ") failed!");
+			throw std::runtime_error("Error: OGRDataSource::GetLayerByName(" + schema_table_ss.str() + ") failed!");
 		  }
 	
 		// get spatial reference
@@ -138,9 +149,9 @@ namespace TextGen
 				  {
 					OGRPoint* pPoint = (OGRPoint*) pGeometry;
 					if(pointmap.find(area_name) != pointmap.end())
-					  pointmap[area_name] = NFmiPoint(pPoint->getX(), pPoint->getY());
+					  pointmap[area_name] = make_pair(pPoint->getX(), pPoint->getY());
 					else
-					  pointmap.insert(make_pair(area_name, NFmiPoint(pPoint->getX(), pPoint->getY())));
+					  pointmap.insert(make_pair(area_name, make_pair(pPoint->getX(), pPoint->getY())));
 				  }
 				else if(geometryType == wkbMultiPolygon || geometryType == wkbPolygon)
 				  {
@@ -176,16 +187,10 @@ namespace TextGen
 					svg_string.append(" Z\"\n");
 
 					// cout << "POLYGON in SVG format: " << svg_string << endl;
-
-					stringstream ss;
-					ss << svg_string;
-					NFmiSvgPath svgPath;
-					svgPath.Read(ss);
-
 					if(polygonmap.find(area_name) != polygonmap.end())
-					  polygonmap[area_name] = svgPath;
+					  polygonmap[area_name] = svg_string;
 					else
-					  polygonmap.insert(make_pair(area_name, svgPath));
+					  polygonmap.insert(make_pair(area_name, svg_string));
 				  }
 				else
 				  {
@@ -212,21 +217,21 @@ namespace TextGen
 	return true;
   }
 
-  NFmiSvgPath PostGISDataSource::getSVGPath(const std::string & name)
+  std::string  PostGISDataSource::getSVGPath(const std::string & name)
   {
 	if(polygonmap.find(name) != polygonmap.end()) 
 		return polygonmap[name];
 	else
-	  return NFmiSvgPath();
+	  return "";
   }
-
-  NFmiPoint PostGISDataSource::getPoint(const std::string & name)
+  
+  std::pair<float, float>  PostGISDataSource::getPoint(const std::string & name)
   {
-	if(pointmap.find(name) != pointmap.end())
+ 	if(pointmap.find(name) != pointmap.end())
 	  return pointmap[name];
 	else
-	  return NFmiPoint();
-  }
+	  return make_pair(32700.0, 32700.0);
+ }
 
   OGRDataSource* PostGISDataSource::connect(const std::string & host, 
 											const std::string & port,
@@ -240,7 +245,7 @@ namespace TextGen
   
 	if(!pOGRDriver)
 	  {
-		throw TextGenError("Error: PostgreSQL driver not found!");
+		throw std::runtime_error("Error: PostgreSQL driver not found!");
 	  }
 	
 	std::stringstream ss;
@@ -252,24 +257,6 @@ namespace TextGen
 	   << "' password='" << password << "'";
   
 	return pOGRDriver->Open(ss.str().c_str());
-  }
-
-  TextGen::WeatherArea PostGISDataSource::makeArea(const std::string& thePostGISName, const std::string& theConfigName)
-  {
-	if(isPolygon(thePostGISName))
-	  {
-		const NFmiSvgPath svgPath(getSVGPath(thePostGISName));
-		return TextGen::WeatherArea(svgPath, theConfigName);
-	  }
-	else if(isPoint(thePostGISName))
-	  {
-		const NFmiPoint point(getPoint(thePostGISName));
-		return TextGen::WeatherArea(point, theConfigName);
-	  }
-	else
-	  {
-		return TextGen::WeatherArea(NFmiPoint(), "");
-	  }
   }
 
   bool PostGISDataSource::areaExists(const std::string& theName)

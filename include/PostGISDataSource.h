@@ -14,13 +14,42 @@
 #include <boost/any.hpp>
 
 class OGRDataSource;
-class NFmiSvgPath;
-class NFmiPoint;
 
 namespace TextGen
 {
+	struct postgis_identifier
+	{		
+	  std::string postGISHost;
+	  std::string postGISPort;
+	  std::string postGISDatabase;
+	  std::string postGISUsername;
+	  std::string postGISPassword;
+	  std::string postGISSchema;
+	  std::string postGISTable;
+	  std::string postGISField;
+	  std::string postGISClientEncoding;
+	  std::string key() { return (postGISHost+";"+ \
+								  postGISPort+";"+ \
+								  postGISDatabase+";"+ \
+								  postGISUsername+";"+ \
+								  postGISPassword+";"+ \
+								  postGISSchema+";"+ \
+								  postGISTable+";"+ \
+								  postGISField+";"+ \
+								  postGISClientEncoding);}
+	  bool allFieldsDefined() { return (!postGISHost.empty() &&
+										!postGISPort.empty() &&
+										!postGISDatabase.empty() &&
+										!postGISUsername.empty() &&
+										!postGISPassword.empty() &&
+										!postGISSchema.empty() &&
+										!postGISTable.empty() &&
+										!postGISField.empty() &&
+										!postGISClientEncoding.empty()); }
+	};
 
-class WeatherArea;
+
+  //  class WeatherArea;
 
   class PostGISDataSource
   {
@@ -40,8 +69,15 @@ class WeatherArea;
 				  const std::string& client_encoding,
 				  std::string& log_message);
 
-	TextGen::WeatherArea makeArea(const std::string& thePostGISName, const std::string& theConfigName);
+	bool readData(const postgis_identifier& postGISIdentifier, 
+				  std::string& log_message);
+
 	bool areaExists(const std::string& theName);
+	bool isPolygon(const std::string & name) { return polygonmap.find(name) != polygonmap.end(); }
+	bool isPoint(const std::string & name) { return pointmap.find(name) != pointmap.end(); }
+	std::string getSVGPath(const std::string& name);
+	std::pair<float, float>  getPoint(const std::string& name);
+
 	void resetQueryParameters() { queryparametermap.clear(); }
 
   private:
@@ -52,15 +88,9 @@ class WeatherArea;
 						   const std::string & user,
 						   const std::string & password);
 
-	bool isPolygon(const std::string & name) { return polygonmap.find(name) != polygonmap.end(); }
-	bool isPoint(const std::string & name) { return pointmap.find(name) != pointmap.end(); }
+	std::map<std::string, std::string> polygonmap;
+	std::map<std::string, std::pair<float, float> > pointmap;
 
-	NFmiSvgPath getSVGPath(const std::string & name);	
-	NFmiPoint getPoint(const std::string & name);	
-
-	
-	std::map<std::string, NFmiSvgPath> polygonmap;
-	std::map<std::string, NFmiPoint> pointmap;
 	std::map<std::string, int>  queryparametermap;
 
   }; // class PostGISDataSource
