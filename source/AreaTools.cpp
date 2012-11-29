@@ -242,9 +242,7 @@ namespace TextGen
 		return NO_DIRECTION;
 
 	  NFmiPoint topLeftPrimary = thePrimaryRect.getTopLeft();
-	  NFmiPoint topLeftSecondary = theSecondaryRect.getTopLeft();
 	  NFmiPoint bottomRightPrimary = thePrimaryRect.getBottomRight();
-	  NFmiPoint bottomRightSecondary = theSecondaryRect.getBottomRight();
 
 	  double centerCoordinateYPrimary =  bottomRightPrimary.Y() + ((topLeftPrimary.Y() - bottomRightPrimary.Y()) / 2.0);
 	  double centerCoordinateXPrimary =  topLeftPrimary.X() + ((bottomRightPrimary.X() - topLeftPrimary.X()) / 2.0);
