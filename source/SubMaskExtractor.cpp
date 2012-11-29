@@ -413,7 +413,7 @@ namespace TextGen
 			  const unsigned long idx = j*nx+i;
 			  const NFmiPoint p = theGrid.LatLon(idx);
 
-			  const NFmiPoint xy = theGrid.GridToWorldXY(i,j);
+			  // const NFmiPoint xy = theGrid.GridToWorldXY(i,j);
 			  
 			  if(NFmiSvgTools::IsInside(svgPath,p))
 				{
