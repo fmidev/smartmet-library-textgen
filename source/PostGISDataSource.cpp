@@ -3,6 +3,7 @@
 #include <ogrsf_frmts.h>
 
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/foreach.hpp>
 
 #include <iostream>
 #include <sstream>
@@ -192,6 +193,55 @@ namespace TextGen
 					else
 					  polygonmap.insert(make_pair(area_name, svg_string));
 				  }
+				else if(geometryType == wkbMultiLineString || geometryType == wkbLineString)
+				  {
+					string svg_string("");
+					if(geometryType == wkbMultiLineString)
+					  {
+						OGRMultiLineString* pMultiLine = (OGRMultiLineString*) pGeometry;						
+						char* wkt_buffer(0);						
+						pMultiLine->exportToWkt(&wkt_buffer);
+						svg_string.append(wkt_buffer);
+						CPLFree(wkt_buffer);
+					  }
+					else
+					  {
+						OGRLineString* pLine = (OGRLineString*) pGeometry;
+
+						char* wkt_buffer(0);						
+						pLine->exportToWkt(&wkt_buffer);
+						svg_string.append(wkt_buffer);
+						CPLFree(wkt_buffer);
+						//	cout << "LINESTRING: " << svg_string << endl;
+					  }
+					
+					replace_all(svg_string, "MULTILINESTRING ", "");
+					replace_all(svg_string, "LINESTRING ", "");
+					replace_all(svg_string, "))((", ",");
+					replace_all(svg_string, ",", " L ");
+					replace_all(svg_string, "(", "");
+					replace_all(svg_string, ")", "");
+					svg_string.append(" \"\n");
+
+					if(linemap.find(area_name) != linemap.end())
+					  {
+						string previous_part(linemap[area_name]);
+						replace_all(previous_part, " \"", " ");
+						replace_all(previous_part, " \n", " ");
+						//						replace_all(previous_part, "M", "L");
+						svg_string = (previous_part + "L " + svg_string);
+					  }
+					else
+					  {
+						svg_string.insert(0, "\"M ");
+					  }
+
+					// cout << "LINE in SVG format: " << svg_string << endl;
+					if(linemap.find(area_name) != linemap.end())
+					  linemap[area_name] = svg_string;
+					else
+					  linemap.insert(make_pair(area_name, svg_string));
+				  }
 				else
 				  {
 					// no other geometries handled
@@ -217,15 +267,17 @@ namespace TextGen
 	return true;
   }
 
-  std::string  PostGISDataSource::getSVGPath(const std::string & name)
+  std::string PostGISDataSource::getSVGPath(const std::string & name)
   {
 	if(polygonmap.find(name) != polygonmap.end()) 
-		return polygonmap[name];
+	  return polygonmap[name];
+	else if(linemap.find(name) != linemap.end()) 
+	  return linemap[name];
 	else
 	  return "";
   }
-  
-  std::pair<float, float>  PostGISDataSource::getPoint(const std::string & name)
+
+  std::pair<double, double>  PostGISDataSource::getPoint(const std::string & name)
   {
  	if(pointmap.find(name) != pointmap.end())
 	  return pointmap[name];
@@ -259,10 +311,29 @@ namespace TextGen
 	return pOGRDriver->Open(ss.str().c_str());
   }
 
-  bool PostGISDataSource::areaExists(const std::string& theName)
+  bool PostGISDataSource::geoObjectExists(const std::string& name) const
   {
-	return (isPolygon(theName) || isPoint(theName));
+	return (isPolygon(name) || isLine(name) || isPoint(name));
   }
   
+
+  std::list<string> PostGISDataSource::areaNames()
+  {
+	std::list<string> return_list;
+	typedef std::map<std::string, std::string> polygonmap_t;
+	typedef std::map<std::string, std::pair<double, double> > pointmap_t;
+
+	BOOST_FOREACH(const polygonmap_t::value_type& vt, polygonmap)
+	  {
+		return_list.push_back(vt.first);
+	  }
+	BOOST_FOREACH(const pointmap_t::value_type& vt, pointmap)
+	  {
+		return_list.push_back(vt.first);
+	  }
+
+	return return_list;
+  }
+
 
 } // namespace TextGen

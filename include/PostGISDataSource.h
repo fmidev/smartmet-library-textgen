@@ -8,10 +8,9 @@
 #ifndef POSTGIS_DATA_SOURCE_H
 #define POSTGIS_DATA_SOURCE_H
 
+#include <list>
 #include <string>
 #include <map>
-
-#include <boost/any.hpp>
 
 class OGRDataSource;
 
@@ -72,13 +71,16 @@ namespace TextGen
 	bool readData(const postgis_identifier& postGISIdentifier, 
 				  std::string& log_message);
 
-	bool areaExists(const std::string& theName);
-	bool isPolygon(const std::string & name) { return polygonmap.find(name) != polygonmap.end(); }
-	bool isPoint(const std::string & name) { return pointmap.find(name) != pointmap.end(); }
+	bool geoObjectExists(const std::string& name) const;
+	bool isPolygon(const std::string & name)  const { return polygonmap.find(name) != polygonmap.end(); }
+	bool isLine(const std::string & name)  const { return linemap.find(name) != linemap.end(); }
+	bool isPoint(const std::string & name)  const { return pointmap.find(name) != pointmap.end(); }
 	std::string getSVGPath(const std::string& name);
-	std::pair<float, float>  getPoint(const std::string& name);
+	std::pair<double, double>  getPoint(const std::string& name);
 
 	void resetQueryParameters() { queryparametermap.clear(); }
+
+	std::list<std::string> areaNames();
 
   private:
 
@@ -89,7 +91,8 @@ namespace TextGen
 						   const std::string & password);
 
 	std::map<std::string, std::string> polygonmap;
-	std::map<std::string, std::pair<float, float> > pointmap;
+	std::map<std::string, std::string> linemap;
+	std::map<std::string, std::pair<double, double> > pointmap;
 
 	std::map<std::string, int>  queryparametermap;
 
