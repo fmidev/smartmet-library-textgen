@@ -2,7 +2,7 @@
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
 Version: 12.11.14
-Release: 1.el6.fmi
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
@@ -38,7 +38,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
-* Wed Nov 14 2012 Mika Heiskanen <mika.heiskanen@fmi.fi> - 12.11.14-1-e.6.fmi
+* Wed Nov 14 2012 Mika Heiskanen <mika.heiskanen@fmi.fi> - 12.11.14-1.fmi
 - Improved weather stories
 - Updates required for making a BrainStorm plugin
 * Tue Aug 28 2012 Mika Heiskanen <mika.heiskanen@fmi.fi> - 12.8.28-1.el6.fmi
