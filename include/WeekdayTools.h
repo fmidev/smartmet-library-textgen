@@ -12,43 +12,43 @@
 
 #include "WeatherHistory.h"
 
-class NFmiTime;
+class TextGenTime;
 
 namespace TextGen
 {
   namespace WeekdayTools
   {
 
-	std::string on_weekday(const NFmiTime & theTime);
-	std::string on_weekday_time(const NFmiTime & theTime);
-	std::string night_against_weekday(const NFmiTime & theTime);
-	std::string until_weekday_morning(const NFmiTime & theTime);
-	std::string until_weekday_evening(const NFmiTime & theTime);
-	std::string until_weekday_time(const NFmiTime & theTime);
-	std::string from_weekday(const NFmiTime & theTime);
-	std::string from_weekday_morning(const NFmiTime & theTime);
-	std::string from_weekday_evening(const NFmiTime & theTime);
-	std::string from_weekday_time(const NFmiTime & theTime);
-	std::string on_weekday_morning(const NFmiTime & theTime);
-	std::string on_weekday_forenoon(const NFmiTime & theTime);
-	std::string on_weekday_afternoon(const NFmiTime & theTime);
-	std::string on_weekday_evening(const NFmiTime & theTime);
+	std::string on_weekday(const TextGenTime & theTime);
+	std::string on_weekday_time(const TextGenTime & theTime);
+	std::string night_against_weekday(const TextGenTime & theTime);
+	std::string until_weekday_morning(const TextGenTime & theTime);
+	std::string until_weekday_evening(const TextGenTime & theTime);
+	std::string until_weekday_time(const TextGenTime & theTime);
+	std::string from_weekday(const TextGenTime & theTime);
+	std::string from_weekday_morning(const TextGenTime & theTime);
+	std::string from_weekday_evening(const TextGenTime & theTime);
+	std::string from_weekday_time(const TextGenTime & theTime);
+	std::string on_weekday_morning(const TextGenTime & theTime);
+	std::string on_weekday_forenoon(const TextGenTime & theTime);
+	std::string on_weekday_afternoon(const TextGenTime & theTime);
+	std::string on_weekday_evening(const TextGenTime & theTime);
 
-	std::string on_weekday(const NFmiTime & theTime, TextGen::WeatherHistory& theHistory);
-	std::string on_weekday_time(const NFmiTime & theTime, TextGen::WeatherHistory& theHistory);
-	std::string night_against_weekday(const NFmiTime & theTime, TextGen::WeatherHistory& theHistory);
-	std::string until_weekday_morning(const NFmiTime & theTime, TextGen::WeatherHistory& theHistory);
-	std::string until_weekday_evening(const NFmiTime & theTime, TextGen::WeatherHistory& theHistory);
-	std::string until_weekday_time(const NFmiTime & theTime, TextGen::WeatherHistory& theHistory);
-	std::string from_weekday(const NFmiTime & theTime, TextGen::WeatherHistory& theHistory);
-	std::string from_weekday_morning(const NFmiTime & theTime, TextGen::WeatherHistory& theHistory);
-	std::string from_weekday_evening(const NFmiTime & theTime, TextGen::WeatherHistory& theHistory);
-	std::string from_weekday_time(const NFmiTime & theTime, TextGen::WeatherHistory& theHistory);
-	std::string on_weekday_morning(const NFmiTime & theTime, TextGen::WeatherHistory& theHistory);
-	std::string on_weekday_forenoon(const NFmiTime & theTime, TextGen::WeatherHistory& theHistory);
-	std::string on_weekday_afternoon(const NFmiTime & theTime, TextGen::WeatherHistory& theHistory);
-	std::string on_weekday_evening(const NFmiTime & theTime, TextGen::WeatherHistory& theHistory);
-	std::string get_time_phrase(const NFmiTime & theTime, 
+	std::string on_weekday(const TextGenTime & theTime, TextGen::WeatherHistory& theHistory);
+	std::string on_weekday_time(const TextGenTime & theTime, TextGen::WeatherHistory& theHistory);
+	std::string night_against_weekday(const TextGenTime & theTime, TextGen::WeatherHistory& theHistory);
+	std::string until_weekday_morning(const TextGenTime & theTime, TextGen::WeatherHistory& theHistory);
+	std::string until_weekday_evening(const TextGenTime & theTime, TextGen::WeatherHistory& theHistory);
+	std::string until_weekday_time(const TextGenTime & theTime, TextGen::WeatherHistory& theHistory);
+	std::string from_weekday(const TextGenTime & theTime, TextGen::WeatherHistory& theHistory);
+	std::string from_weekday_morning(const TextGenTime & theTime, TextGen::WeatherHistory& theHistory);
+	std::string from_weekday_evening(const TextGenTime & theTime, TextGen::WeatherHistory& theHistory);
+	std::string from_weekday_time(const TextGenTime & theTime, TextGen::WeatherHistory& theHistory);
+	std::string on_weekday_morning(const TextGenTime & theTime, TextGen::WeatherHistory& theHistory);
+	std::string on_weekday_forenoon(const TextGenTime & theTime, TextGen::WeatherHistory& theHistory);
+	std::string on_weekday_afternoon(const TextGenTime & theTime, TextGen::WeatherHistory& theHistory);
+	std::string on_weekday_evening(const TextGenTime & theTime, TextGen::WeatherHistory& theHistory);
+	std::string get_time_phrase(const TextGenTime & theTime, 
 								const std::string theNewPhrase, 
 								TextGen::WeatherHistory& theHistory);
 

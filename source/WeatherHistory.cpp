@@ -27,7 +27,7 @@ namespace TextGen
   */
 
   void WeatherHistory::updateTimePhrase(const std::string& thePhrase,
-										const NFmiTime& theTime)
+										const TextGenTime& theTime)
   {
 	latestTimePhrase = thePhrase;
 	latestDate = theTime;

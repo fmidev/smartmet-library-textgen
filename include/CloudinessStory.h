@@ -10,7 +10,7 @@
 
 #include "Story.h"
 
-class NFmiTime;
+class TextGenTime;
 
 namespace TextGen
 {
@@ -29,7 +29,7 @@ namespace TextGen
   public:
 
 	virtual ~CloudinessStory();
-	CloudinessStory(const NFmiTime & theForecastTime,
+	CloudinessStory(const TextGenTime & theForecastTime,
 					const TextGen::AnalysisSources & theSources,
 					const TextGen::WeatherArea & theArea,
 					const TextGen::WeatherPeriod & thePeriod,
@@ -46,7 +46,7 @@ namespace TextGen
 	CloudinessStory(const CloudinessStory & theStory);
 	CloudinessStory & operator=(const CloudinessStory & theStory);
 
-	const NFmiTime itsForecastTime;
+	const TextGenTime itsForecastTime;
 	const TextGen::AnalysisSources & itsSources;
 	const TextGen::WeatherArea & itsArea;
 	const TextGen::WeatherPeriod & itsPeriod;

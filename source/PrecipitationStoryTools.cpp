@@ -29,6 +29,7 @@
 #include "UnitFactory.h"
 #include "ValueAcceptor.h"
 #include "WeatherResult.h"
+#include "WeatherPeriod.h"
 
 #include <newbase/NFmiGlobals.h>
 #include <boost/lexical_cast.hpp>

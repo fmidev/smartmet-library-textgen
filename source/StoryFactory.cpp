@@ -31,7 +31,7 @@
 #include "WeatherStory.h"
 #include "WindStory.h"
 
-#include <newbase/NFmiTime.h>
+#include "TextGenTime.h"
 
 using namespace TextGen;
 using namespace std;
@@ -56,7 +56,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	Paragraph create(const NFmiTime & theForecastTime,
+	Paragraph create(const TextGenTime & theForecastTime,
 					 const AnalysisSources & theSources,
 					 const WeatherArea & theArea,
 					 const WeatherPeriod & thePeriod,

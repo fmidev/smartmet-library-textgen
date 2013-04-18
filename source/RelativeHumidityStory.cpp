@@ -44,7 +44,7 @@ namespace TextGen
   */
   // ----------------------------------------------------------------------
   
-  RelativeHumidityStory::RelativeHumidityStory(const NFmiTime & theForecastTime,
+  RelativeHumidityStory::RelativeHumidityStory(const TextGenTime & theForecastTime,
 											   const AnalysisSources & theSources,
 											   const WeatherArea & theArea,
 											   const WeatherPeriod & thePeriod,

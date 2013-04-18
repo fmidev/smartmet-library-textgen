@@ -23,7 +23,7 @@
 #include "Settings.h"
 #include "TextGenError.h"
 
-#include <newbase/NFmiTime.h>
+#include "TextGenTime.h"
 
 using namespace TextGen;
 using namespace std;
@@ -43,9 +43,9 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  NFmiTime round_up(const NFmiTime & theTime)
+  TextGenTime round_up(const TextGenTime & theTime)
   {
-	NFmiTime ret(theTime);
+	TextGenTime ret(theTime);
 	if(ret.GetMin()>0 || ret.GetSec()>0)
 	  ret.ChangeByHours(1);
 	ret.SetMin(0);
@@ -65,7 +65,7 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  WeatherPeriod period_now(const NFmiTime & theTime,
+  WeatherPeriod period_now(const TextGenTime & theTime,
 						   const string & theVariable)
   {
 	WeatherPeriod period(theTime,theTime);
@@ -98,16 +98,16 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  WeatherPeriod period_until(const NFmiTime & theTime,
+  WeatherPeriod period_until(const TextGenTime & theTime,
 							 const string & theVariable)
   {
 	const int days       = Settings::require_days(theVariable+"::days");
 	const int endhour    = Settings::require_hour(theVariable+"::endhour");
 	const int switchhour = Settings::require_hour(theVariable+"::switchhour");
 
-	NFmiTime start(round_up(theTime));
+	TextGenTime start(round_up(theTime));
 
-	NFmiTime end(start);
+	TextGenTime end(start);
 	end.ChangeByDays(days);
 	end.SetHour(endhour);
 	if(start.GetHour() >= switchhour)
@@ -149,7 +149,7 @@ namespace
    */
   // ----------------------------------------------------------------------
 
-  WeatherPeriod period_from_until(const NFmiTime & theTime,
+  WeatherPeriod period_from_until(const TextGenTime & theTime,
 								  const string & theVariable)
   {
 	const int startday   = Settings::require_days(theVariable+"::startday");
@@ -158,13 +158,13 @@ namespace
 	const int days       = Settings::require_days(theVariable+"::days");
 	const int endhour    = Settings::require_hour(theVariable+"::endhour");
 
-	NFmiTime start(round_up(theTime));
+	TextGenTime start(round_up(theTime));
 	start.ChangeByDays(startday);
 	if(start.GetHour() >= switchhour)
 	  start.ChangeByDays(1);
 	start.SetHour(starthour);
 
-	NFmiTime end(start);
+	TextGenTime end(start);
 	end.ChangeByDays(days);
 	end.SetHour(endhour);
 
@@ -199,7 +199,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	WeatherPeriod create(const NFmiTime & theTime,
+	WeatherPeriod create(const TextGenTime & theTime,
 						 const std::string & theVariable)
 	{
 	  const string var = theVariable + "::type";

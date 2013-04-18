@@ -45,7 +45,7 @@ namespace TextGen
 											 const WeatherPeriod& forecastPeriod,
 											 const WeatherArea& weatherArea,
 											 const unsigned short& forecastArea,
-											 const NFmiTime& theForecastTime,
+											 const TextGenTime& theForecastTime,
 											 PrecipitationForecast& precipitationForecast,
 											 const CloudinessForecast& cloudinessForecast,
 											 const FogForecast& fogForecast,
@@ -140,7 +140,7 @@ namespace TextGen
 		if(i > 0 && theStoryItemVector[i-1]->thePeriod.localEndTime().GetJulianDay() !=
 		   theStoryItemVector[i]->thePeriod.localEndTime().GetJulianDay() &&
 		   get_period_length(theForecastPeriod) > 24)
-		  const_cast<WeatherHistory&>(theWeatherArea.history()).updateTimePhrase("", NFmiTime(1970,1,1));
+		  const_cast<WeatherHistory&>(theWeatherArea.history()).updateTimePhrase("", TextGenTime(1970,1,1));
 	  }
 
 	// ARE 19.04.2012: yletv for kaakkois-suomi, empty story was created
@@ -192,8 +192,8 @@ namespace TextGen
 																				  type,
 																				  thunder);
 
-		NFmiTime startTimeFull;
-		NFmiTime endTimeFull;
+		TextGenTime startTimeFull;
+		TextGenTime endTimeFull;
 		thePrecipitationForecast.getPrecipitationPeriod(precipitationPeriods[i].localStartTime(), 
 														startTimeFull, endTimeFull);
 		// This parameter shows if the precipitation starts 
@@ -203,8 +203,8 @@ namespace TextGen
 
 		if(previousPrItem != 0)
 		  {
-			NFmiTime startTime(previousPrItem->thePeriod.localEndTime());
-			NFmiTime endTime(precipitationPeriods[i].localStartTime());
+			TextGenTime startTime(previousPrItem->thePeriod.localEndTime());
+			TextGenTime endTime(precipitationPeriods[i].localStartTime());
 			if(endTime.DifferenceInHours(startTime) > 1)
 			  {
 				startTime.ChangeByHours(1);
@@ -244,8 +244,8 @@ namespace TextGen
 	else
 	  {
 		// check if first period is missing
-		NFmiTime firstPeriodStartTime(theForecastPeriod.localStartTime());
-		NFmiTime firstPeriodEndTime(theStoryItemVector[0]->thePeriod.localStartTime());
+		TextGenTime firstPeriodStartTime(theForecastPeriod.localStartTime());
+		TextGenTime firstPeriodEndTime(theStoryItemVector[0]->thePeriod.localStartTime());
 
 		WeatherPeriod firstPeriod(theForecastPeriod.localStartTime(),
 								  theStoryItemVector[0]->thePeriod.localStartTime());
@@ -261,8 +261,8 @@ namespace TextGen
 									  missingStoryItem);
 		  }
 
-		NFmiTime lastPeriodStartTime(theStoryItemVector[theStoryItemVector.size()-1]->thePeriod.localEndTime());
-		NFmiTime lastPeriodEndTime(theForecastPeriod.localEndTime());
+		TextGenTime lastPeriodStartTime(theStoryItemVector[theStoryItemVector.size()-1]->thePeriod.localEndTime());
+		TextGenTime lastPeriodEndTime(theForecastPeriod.localEndTime());
 		// chek if the last period is missing
 		if(lastPeriodEndTime.DifferenceInHours(lastPeriodStartTime) > 0)
 		  {
@@ -282,8 +282,8 @@ namespace TextGen
 			// place placeholder in the missing slots
 			for(unsigned int i = 1; i < theStoryItemVector.size(); i++)
 			  {
-				NFmiTime middlePeriodStartTime(theStoryItemVector[i-1]->thePeriod.localEndTime());
-				NFmiTime middlePeriodEndTime(theStoryItemVector[i]->thePeriod.localStartTime());
+				TextGenTime middlePeriodStartTime(theStoryItemVector[i-1]->thePeriod.localEndTime());
+				TextGenTime middlePeriodEndTime(theStoryItemVector[i]->thePeriod.localStartTime());
 
 				if(middlePeriodEndTime.DifferenceInHours(middlePeriodStartTime) > 1)
 				  {
@@ -401,9 +401,9 @@ namespace TextGen
 					continue;
 				  }
 
-				NFmiTime gapPeriodStartTime(previousPrecipitationStoryItem->thePeriod.localEndTime());
+				TextGenTime gapPeriodStartTime(previousPrecipitationStoryItem->thePeriod.localEndTime());
 				gapPeriodStartTime.ChangeByHours(+1);
-				NFmiTime gapPeriodEndTime(currentPrecipitationStoryItem->thePeriod.localStartTime());
+				TextGenTime gapPeriodEndTime(currentPrecipitationStoryItem->thePeriod.localStartTime());
 				if(gapPeriodStartTime < gapPeriodEndTime)
 				  gapPeriodEndTime.ChangeByHours(-1);
 				WeatherPeriod gapPeriod(gapPeriodStartTime, gapPeriodEndTime);
@@ -473,9 +473,9 @@ namespace TextGen
 			currentCloudinessStoryItem = static_cast<CloudinessForecastStoryItem*>(theStoryItemVector[i]);
 			if(previousCloudinessStoryItem)
 			  {
-				NFmiTime gapPeriodStartTime(previousCloudinessStoryItem->thePeriod.localEndTime());
+				TextGenTime gapPeriodStartTime(previousCloudinessStoryItem->thePeriod.localEndTime());
 				gapPeriodStartTime.ChangeByHours(+1);
-				NFmiTime gapPeriodEndTime(currentCloudinessStoryItem->thePeriod.localStartTime());
+				TextGenTime gapPeriodEndTime(currentCloudinessStoryItem->thePeriod.localStartTime());
 				if(gapPeriodStartTime < gapPeriodEndTime)
 				  gapPeriodEndTime.ChangeByHours(-1);
 				WeatherPeriod gapPeriod(gapPeriodStartTime, gapPeriodEndTime);
@@ -874,7 +874,7 @@ namespace TextGen
 	  
 	for(unsigned int i = 0; i < cloudinessEvents.size(); i++)
 	  {
-		NFmiTime cloudinessEventTimestamp(cloudinessEvents.at(i).first);
+		TextGenTime cloudinessEventTimestamp(cloudinessEvents.at(i).first);
 		if(cloudinessEventTimestamp >= thePeriod.localStartTime() &&
 		   cloudinessEventTimestamp <= thePeriod.localEndTime())
 		  {

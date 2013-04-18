@@ -1213,7 +1213,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Sentence one_inclusive_rain(const NFmiTime & theForecastTime,
+  Sentence one_inclusive_rain(const TextGenTime & theForecastTime,
 							  const AnalysisSources & theSources,
 							  const WeatherArea & theArea,
 							  const WeatherPeriod & thePeriod,
@@ -1292,7 +1292,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Paragraph one_twoday_inclusive_rain(const NFmiTime & theForecastTime,
+  Paragraph one_twoday_inclusive_rain(const TextGenTime & theForecastTime,
 									  const AnalysisSources & theSources,
 									  const WeatherArea & theArea,
 									  const WeatherPeriod & thePeriod,
@@ -1321,13 +1321,13 @@ namespace TextGen
 							 TimeTools::nextDay(day1.localEndTime()));
 
 	// the period before the rain
-	const NFmiTime before_rain_start(TimeTools::dayStart(theRainPeriod.localStartTime()));
-	const NFmiTime before_rain_end(theRainPeriod.localStartTime());
+	const TextGenTime before_rain_start(TimeTools::dayStart(theRainPeriod.localStartTime()));
+	const TextGenTime before_rain_end(theRainPeriod.localStartTime());
 	const WeatherPeriod before_rain(before_rain_start,before_rain_end);
 
 	// the period after the rain
-	const NFmiTime after_rain_start(TimeTools::addHours(theRainPeriod.localEndTime(),1));
-	const NFmiTime after_rain_end(TimeTools::dayEnd(after_rain_start));
+	const TextGenTime after_rain_start(TimeTools::addHours(theRainPeriod.localEndTime(),1));
+	const TextGenTime after_rain_end(TimeTools::dayEnd(after_rain_start));
 	const WeatherPeriod after_rain(after_rain_start,after_rain_end);
 
 	Paragraph paragraph;
@@ -1549,7 +1549,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
    
-  Sentence many_inclusive_rains(const NFmiTime & theForecastTime,
+  Sentence many_inclusive_rains(const TextGenTime & theForecastTime,
 								const AnalysisSources & theSources,
 								const WeatherArea & theArea,
 								const WeatherPeriod & thePeriod,
@@ -1594,7 +1594,7 @@ namespace TextGen
 	// need some trickery...
 
 	// extended end time
-	const NFmiTime endtime = (itsPeriod.localEndTime().GetHour() < 12 ?
+	const TextGenTime endtime = (itsPeriod.localEndTime().GetHour() < 12 ?
 							  TimeTools::dayStart(itsPeriod.localEndTime()) :
 							  TimeTools::dayEnd(itsPeriod.localEndTime()));
 

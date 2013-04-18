@@ -1,7 +1,7 @@
 #ifndef TEXTGEN_WEATHERHISTORY_H
 #define TEXTGEN_WEATHERHISTORY_H
 
-#include <newbase/NFmiTime.h>
+#include "TextGenTime.h"
 #include <string>
 
 namespace TextGen
@@ -15,9 +15,9 @@ namespace TextGen
 	WeatherHistory(const WeatherHistory& theWeatherHistory);
 	//	WeatherHistory& operator=(const WeatherHistory& theWeatherHistory);
 
-	void updateTimePhrase(const std::string& thePhrase, const NFmiTime& theTime);
+	void updateTimePhrase(const std::string& thePhrase, const TextGenTime& theTime);
 
-	NFmiTime latestDate;
+	TextGenTime latestDate;
     std::string latestTimePhrase;
   };
 

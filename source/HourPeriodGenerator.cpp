@@ -128,8 +128,8 @@ namespace TextGen
 
   WeatherPeriod HourPeriodGenerator::period() const
   {
-	const NFmiTime start = period(1).localStartTime();
-	const NFmiTime end = period(size()).localEndTime();
+	const TextGenTime start = period(1).localStartTime();
+	const TextGenTime end = period(size()).localEndTime();
 	return WeatherPeriod(start,end);
   }
 

@@ -27,7 +27,7 @@
 #include "WeekdayTools.h"
 
 #include <newbase/NFmiStringTools.h>
-#include <newbase/NFmiTime.h>
+#include "TextGenTime.h"
 
 
 using TextGen::WeatherPeriod;
@@ -116,7 +116,7 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 	
 	Sentence until_tonight(const string & theVariable,
-						   const NFmiTime & theForecastTime,
+						   const TextGenTime & theForecastTime,
 						   const WeatherPeriod & thePeriod,
 						   TextGen::WeatherHistory* theHistory = 0)
 	{
@@ -176,7 +176,7 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 	
 	Sentence until_morning(const string & theVariable,
-						   const NFmiTime & theForecastTime,
+						   const TextGenTime & theForecastTime,
 						   const WeatherPeriod & thePeriod,
 						   TextGen::WeatherHistory* theHistory = 0)
 	{
@@ -236,7 +236,7 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 	
 	Sentence today(const string & theVariable,
-				   const NFmiTime & theForecastTime,
+				   const TextGenTime & theForecastTime,
 				   const WeatherPeriod & thePeriod,
 				   TextGen::WeatherHistory* theHistory = 0)
 	{
@@ -312,7 +312,7 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 	
 	Sentence tonight(const string & theVariable,
-					 const NFmiTime & theForecastTime,
+					 const TextGenTime & theForecastTime,
 					 const WeatherPeriod & thePeriod,
 					 TextGen::WeatherHistory* theHistory = 0)
 	{
@@ -372,7 +372,7 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 	
 	Sentence next_night(const string & theVariable,
-						const NFmiTime & theForecastTime,
+						const TextGenTime & theForecastTime,
 						const WeatherPeriod & thePeriod,
 						TextGen::WeatherHistory* theHistory = 0)
 	{
@@ -429,7 +429,7 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 	
 	Sentence next_day(const string & theVariable,
-					  const NFmiTime & theForecastTime,
+					  const TextGenTime & theForecastTime,
 					  const WeatherPeriod & thePeriod,
 					  TextGen::WeatherHistory* theHistory = 0)
 	{
@@ -492,7 +492,7 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 	
 	Sentence next_days(const string & theVariable,
-					   const NFmiTime & theForecastTime,
+					   const TextGenTime & theForecastTime,
 					   const WeatherPeriod & thePeriod,
 					   TextGen::WeatherHistory* theHistory = 0)
 	{
@@ -543,7 +543,7 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 	
 	Sentence remaining_days(const string & theVariable,
-							const NFmiTime & theForecastTime,
+							const TextGenTime & theForecastTime,
 							const WeatherPeriod & thePeriod,
 							TextGen::WeatherHistory* theHistory = 0)
 	{
@@ -612,7 +612,7 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 	
 	Sentence days(const string & theVariable,
-				  const NFmiTime & theForecastTime,
+				  const TextGenTime & theForecastTime,
 				  const WeatherPeriod & thePeriod,
 				  TextGen::WeatherHistory* theHistory = 0)
 	{
@@ -640,7 +640,7 @@ namespace TextGen
 	  // the first day may not be the same as thePeriod.localStartTime
 	  // due to starthour etc settings
 
-	  const NFmiTime starttime = hours.period(1).localStartTime();
+	  const TextGenTime starttime = hours.period(1).localStartTime();
 
 	  if(ndays==1)
 		{
@@ -693,7 +693,7 @@ namespace TextGen
 		}
 	  else if(ndays==2)
 		{
-		  NFmiTime nextday(starttime);
+		  TextGenTime nextday(starttime);
 		  nextday.ChangeByDays(1);
 		  for(vector<string>::const_iterator it=order.begin(); it!=order.end(); ++it)
 			{
@@ -828,7 +828,7 @@ namespace TextGen
 
 	Sentence create_sentence(const string & theType,
 							 const string & theVariable,
-							 const NFmiTime & theForecastTime,
+							 const TextGenTime & theForecastTime,
 							 const WeatherPeriod & thePeriod,
 							 TextGen::WeatherHistory* theHistory = 0)
 	{
@@ -878,7 +878,7 @@ namespace TextGen
 	
 	Sentence create(const string & theType,
 					const string & theVariable,
-					const NFmiTime & theForecastTime,
+					const TextGenTime & theForecastTime,
 					const WeatherPeriod & thePeriod)
 	{
 
@@ -924,7 +924,7 @@ namespace TextGen
 	
 	Sentence create(const string & theType,
 					const string & theVariable,
-					const NFmiTime & theForecastTime,
+					const TextGenTime & theForecastTime,
 					const WeatherPeriod & thePeriod,
 					const WeatherArea & theArea)
 	{

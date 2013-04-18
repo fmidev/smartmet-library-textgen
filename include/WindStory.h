@@ -18,7 +18,7 @@ namespace TextGen
   class WeatherPeriod;
 }
 
-class NFmiTime;
+class TextGenTime;
 
 namespace TextGen
 {
@@ -30,7 +30,7 @@ namespace TextGen
   public:
 
 	virtual ~WindStory();
-	WindStory(const NFmiTime & theForecastTime,
+	WindStory(const TextGenTime & theForecastTime,
 			  const TextGen::AnalysisSources & theSources,
 			  const TextGen::WeatherArea & theArea,
 			  const TextGen::WeatherPeriod & thePeriod,
@@ -51,7 +51,7 @@ namespace TextGen
 	Paragraph range() const;
 	Paragraph anomaly() const;
 
-	const NFmiTime itsForecastTime;
+	const TextGenTime itsForecastTime;
 	const TextGen::AnalysisSources & itsSources;
 	const TextGen::WeatherArea & itsArea;
 	const TextGen::WeatherPeriod & itsPeriod;

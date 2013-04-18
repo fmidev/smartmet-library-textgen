@@ -7,9 +7,9 @@
 /*!
  * \namespace TextGen::TimeTools
  *
- * \brief Various NFmiTime related utilities
+ * \brief Various TextGenTime related utilities
  *
- * This namespace contains functions which depend on NFmiTime but
+ * This namespace contains functions which depend on TextGenTime but
  * do not depend on any other textgen library classes or namespaces.
  *
  * That is, miscellaneous time utilities which could have been
@@ -19,7 +19,7 @@
 // ======================================================================
 
 #include "TimeTools.h"
-#include <newbase/NFmiTime.h>
+#include "TextGenTime.h"
 
 #include <ctime>
 
@@ -37,8 +37,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	NFmiTime toUtcTime(const NFmiTime & theLocalTime)
+	TextGenTime toUtcTime(const TextGenTime & theLocalTime)
 	{
+	  /*
 	  ::tm tlocal;
 	  tlocal.tm_sec   = theLocalTime.GetSec();
 	  tlocal.tm_min   = theLocalTime.GetMin();
@@ -55,7 +56,7 @@ namespace TextGen
 	  ::tm tutc;
 	  ::gmtime_r(&tsec,&tutc);
 	  
-	  NFmiTime out(tutc.tm_year + 1900,
+	  TextGenTime out(tutc.tm_year + 1900,
 				   tutc.tm_mon + 1,
 				   tutc.tm_mday,
 				   tutc.tm_hour,
@@ -63,6 +64,8 @@ namespace TextGen
 				   tutc.tm_sec);
 	  
 	  return out;
+	  */
+	  return theLocalTime.UtcTime();
 	}
 
 	// ----------------------------------------------------------------------
@@ -74,8 +77,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	NFmiTime toLocalTime(const NFmiTime & theUtcTime)
+	TextGenTime toLocalTime(const TextGenTime & theUtcTime)
 	{
+	  /*
 	  // The UTC time
 	  struct ::tm utc;
 	  utc.tm_sec = theUtcTime.GetSec();
@@ -97,9 +101,9 @@ namespace TextGen
 	  struct ::tm tlocal;
 	  ::localtime_r(&epochtime,&tlocal);
 	  
-	  // And build a NFmiTime from the result
+	  // And build a TextGenTime from the result
 	  
-	  NFmiTime out(tlocal.tm_year + 1900,
+	  TextGenTime out(tlocal.tm_year + 1900,
 				   tlocal.tm_mon + 1,
 				   tlocal.tm_mday,
 				   tlocal.tm_hour,
@@ -107,6 +111,9 @@ namespace TextGen
 				   tlocal.tm_sec);
 	  
 	  return out;
+	  */
+
+	  return theUtcTime.LocalTime();
 	}
 
 	// ----------------------------------------------------------------------
@@ -119,8 +126,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	bool isSameDay(const NFmiTime & theDate1,
-				   const NFmiTime & theDate2)
+	bool isSameDay(const TextGenTime & theDate1,
+				   const TextGenTime & theDate2)
 	{
 	  return(theDate1.GetDay() == theDate2.GetDay() &&
 			 theDate1.GetMonth() == theDate2.GetMonth() &&
@@ -137,10 +144,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	bool isNextDay(const NFmiTime & theDate1,
-				   const NFmiTime & theDate2)
+	bool isNextDay(const TextGenTime & theDate1,
+				   const TextGenTime & theDate2)
 	{
-	  NFmiTime date1(theDate1);
+	  TextGenTime date1(theDate1);
 	  date1.ChangeByDays(1);
 	  
 	  return(date1.GetDay() == theDate2.GetDay() &&
@@ -162,8 +169,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	bool isSeveralDays(const NFmiTime & theDate1,
-					   const NFmiTime & theDate2)
+	bool isSeveralDays(const TextGenTime & theDate1,
+					   const TextGenTime & theDate2)
   {
 	if(isSameDay(theDate1,theDate2))
 	  return false;
@@ -185,9 +192,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	NFmiTime dayStart(const NFmiTime & theDate)
+	TextGenTime dayStart(const TextGenTime & theDate)
 	{
-	  return NFmiTime(theDate.GetYear(),
+	  return TextGenTime(theDate.GetYear(),
 					  theDate.GetMonth(),
 					  theDate.GetDay());
 	}
@@ -206,9 +213,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	NFmiTime dayEnd(const NFmiTime & theDate)
+	TextGenTime dayEnd(const TextGenTime & theDate)
 	{
-	  NFmiTime tmp(dayStart(theDate));
+	  TextGenTime tmp(dayStart(theDate));
 	  if(!tmp.IsEqual(theDate))
 		tmp.ChangeByDays(1);
 	  return tmp;
@@ -226,9 +233,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	NFmiTime nextDay(const NFmiTime & theDate)
+	TextGenTime nextDay(const TextGenTime & theDate)
 	{
-	  NFmiTime tmp(dayStart(theDate));
+	  TextGenTime tmp(dayStart(theDate));
 	  tmp.ChangeByDays(1);
 	  return tmp;
 	}
@@ -243,9 +250,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	NFmiTime addHours(const NFmiTime & theDate, int theHours)
+	TextGenTime addHours(const TextGenTime & theDate, int theHours)
 	{
-	  NFmiTime tmp(theDate);
+	  TextGenTime tmp(theDate);
 	  tmp.ChangeByHours(theHours);
 	  return tmp;
 	}

@@ -55,6 +55,7 @@ endif
 INCLUDES += -I ../include
 
 LIBS += \
+        -lboost_date_time \
         -lboost_regex \
         -lboost_filesystem \
         -lboost_iostreams \

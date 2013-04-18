@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_FIREWARNINGS_H
 #define TEXTGEN_FIREWARNINGS_H
 
-#include <newbase/NFmiTime.h>
+#include "TextGenTime.h"
 #include <string>
 #include <vector>
 
@@ -27,13 +27,13 @@ namespace TextGen
 	  };
 
 	FireWarnings(const std::string & theDirectory,
-				 const NFmiTime & theTime);
+				 const TextGenTime & theTime);
 	State state(int theArea) const;
 
   private:
 
 	FireWarnings();
-	const NFmiTime itsTime;
+	const TextGenTime itsTime;
 	std::vector<State> itsWarnings;
 
   }; // class FireWarnings

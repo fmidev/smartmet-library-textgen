@@ -11,7 +11,7 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 
-class NFmiTime;
+class TextGenTime;
 
 namespace TextGen
 {
@@ -36,8 +36,8 @@ namespace TextGen
 	TextGenerator & operator=(const TextGenerator & theGenerator);
 #endif
 
-	const NFmiTime & time() const;
-	void time(const NFmiTime & theForecastTime);
+	const TextGenTime & time() const;
+	void time(const TextGenTime & theForecastTime);
 	void sources(const TextGen::AnalysisSources & theSources);
 
 	Document generate(const TextGen::WeatherArea & theArea) const;

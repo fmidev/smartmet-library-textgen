@@ -43,7 +43,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  PrecipitationStory::PrecipitationStory(const NFmiTime & theForecastTime,
+  PrecipitationStory::PrecipitationStory(const TextGenTime & theForecastTime,
 										 const AnalysisSources & theSources,
 										 const WeatherArea & theArea,
 										 const WeatherPeriod & thePeriod,

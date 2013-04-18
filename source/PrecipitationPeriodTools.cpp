@@ -35,9 +35,8 @@
 
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiQueryData.h>
-#include <newbase/NFmiTime.h>
+#include "TextGenTime.h"
 #include <boost/shared_ptr.hpp>
-#include <sstream>
 
 using namespace std;
 using namespace boost;
@@ -196,7 +195,17 @@ namespace TextGen
 															   *mask,
 															   calculator);
 			  if(tmp != kFloatMissing && tmp >= minimum_area)
-				times.push_back(TimeTools::toLocalTime(qi.Time()));
+				{
+				  NFmiMetTime metTime(qi.Time());
+				  TextGenTime textgenTime(metTime.GetYear(),
+										  metTime.GetMonth(),
+										  metTime.GetDay(),
+										  metTime.GetHour(),
+										  metTime.GetMin(),
+										  metTime.GetSec());
+				  times.push_back(textgenTime.LocalTime());
+			  //				times.push_back(TimeTools::toLocalTime(qi.Time()));
+				}
 			}
 		  while(qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
 		  
@@ -222,7 +231,17 @@ namespace TextGen
 			{
 			  const float tmp = qi.FloatValue();
 			  if(tmp != kFloatMissing && tmp >= minimum_rain)
-				times.push_back(TimeTools::toLocalTime(qi.Time()));
+				{
+				  NFmiMetTime metTime(qi.Time());
+				  TextGenTime textgenTime(metTime.GetYear(),
+										  metTime.GetMonth(),
+										  metTime.GetDay(),
+										  metTime.GetHour(),
+										  metTime.GetMin(),
+										  metTime.GetSec());
+				  times.push_back(textgenTime.LocalTime());
+			  //				times.push_back(TimeTools::toLocalTime(qi.Time()));
+				}
 			}
 		  while(qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
 
@@ -268,8 +287,8 @@ namespace TextGen
 
 	  // Initialize current period to consist of first time only
 	  RainTimes::const_iterator it = theTimes.begin();
-	  NFmiTime first_time = *it;
-	  NFmiTime last_time = first_time;
+	  TextGenTime first_time = *it;
+	  TextGenTime last_time = first_time;
 
 	  // Then append new times until interval becomes too long,
 	  // at which point we save the period and start a new one.

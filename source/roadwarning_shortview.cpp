@@ -773,8 +773,8 @@ namespace TextGen
 	
 	const int maxhours = Settings::optional_int(itsVar+"::maxhours",30);
 	
-	const NFmiTime time1(itsPeriod.localStartTime());
-	NFmiTime time2 = TimeTools::addHours(time1,maxhours);
+	const TextGenTime time1(itsPeriod.localStartTime());
+	TextGenTime time2 = TimeTools::addHours(time1,maxhours);
 	if(itsPeriod.localEndTime().IsLessThan(time2))
 	  time2 = itsPeriod.localEndTime();
 	
@@ -859,7 +859,7 @@ namespace TextGen
 	// Some old date guaranteed to be different than any
 	// period to be handled:
 	
-	NFmiTime last_mentioned_date(1970,1,1);
+	TextGenTime last_mentioned_date(1970,1,1);
 	
 	Sentence sentence;
 	

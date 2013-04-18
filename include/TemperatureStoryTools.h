@@ -10,7 +10,7 @@
 
 #include <string>
 #include "AnalysisSources.h"
-#include <newbase/NFmiTime.h>
+#include "TextGenTime.h"
 
 namespace TextGen
 {
@@ -112,7 +112,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	WeatherPeriod get_afternoon_period(const std::string& theVar, const NFmiTime& theTime);
+	WeatherPeriod get_afternoon_period(const std::string& theVar, const TextGenTime& theTime);
 
 	// ----------------------------------------------------------------------
 	/*!

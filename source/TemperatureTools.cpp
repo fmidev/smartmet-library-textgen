@@ -79,8 +79,8 @@ namespace TextGen
 	  int morning_starthour    = optional_hour(thePlainVar+season+"::morning_temperature::starthour", default_starthour);
 	  int morning_endhour      = optional_hour(thePlainVar+season+"::morning_temperature::endhour", default_endhour);
 
-	  NFmiTime time1(year, month, day, morning_starthour, 0,0);
-	  NFmiTime time2(year, month, day, morning_endhour, 0,0);
+	  TextGenTime time1(year, month, day, morning_starthour, 0,0);
+	  TextGenTime time2(year, month, day, morning_endhour, 0,0);
 
 	  WeatherPeriod morningPeriod(time1,time2);
 	  
@@ -125,8 +125,8 @@ namespace TextGen
 	  int afternoon_starthour    =  optional_hour(thePlainVar+season+"::day_temperature::starthour", default_starthour);
 	  int afternoon_endhour      =  optional_hour(thePlainVar+season+"::day_temperature::endhour", default_endhour);
 
-	  NFmiTime time1(year, month, day, afternoon_starthour, 0,0);
-	  NFmiTime time2(year, month, day, afternoon_endhour, 0,0);
+	  TextGenTime time1(year, month, day, afternoon_starthour, 0,0);
+	  TextGenTime time2(year, month, day, afternoon_endhour, 0,0);
 
 	  WeatherPeriod dayPeriod(time1,time2);
 

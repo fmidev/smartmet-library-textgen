@@ -8,7 +8,6 @@
 #include "Paragraph.h"
 #include "NightAndDayPeriodGenerator.h"
 #include "PeriodPhraseFactory.h"
-#include "PrecipitationPeriodTools.h"
 #include "PrecipitationStoryTools.h"
 #include "RangeAcceptor.h"
 #include "ValueAcceptor.h"
@@ -208,7 +207,7 @@ using namespace std;
 	  }
   }
 
-  part_of_the_day_id get_part_of_the_day_id(const NFmiTime& theTimestamp)
+  part_of_the_day_id get_part_of_the_day_id(const TextGenTime& theTimestamp)
   {	
  	if(theTimestamp.GetHour() >= AAMU_START && theTimestamp.GetHour() <= AAMU_END)
 	  return AAMU;
@@ -438,7 +437,7 @@ using namespace std;
   {
 	if(theWeatherPeriod1.localEndTime() < theWeatherPeriod2.localStartTime() ||
 	   theWeatherPeriod1.localStartTime() > theWeatherPeriod2.localEndTime())
-	  return WeatherPeriod(NFmiTime(1970,1,1), NFmiTime(1970,1,1));
+	  return WeatherPeriod(TextGenTime(1970,1,1), TextGenTime(1970,1,1));
 
 	if(is_inside(theWeatherPeriod1.localStartTime(), theWeatherPeriod2) && 
 	   is_inside(theWeatherPeriod1.localEndTime(), theWeatherPeriod2))
@@ -448,9 +447,9 @@ using namespace std;
 	   is_inside(theWeatherPeriod2.localEndTime(), theWeatherPeriod1))
 	  return theWeatherPeriod2;
 
-	NFmiTime startTime(theWeatherPeriod1.localStartTime() > theWeatherPeriod2.localStartTime() ?
+	TextGenTime startTime(theWeatherPeriod1.localStartTime() > theWeatherPeriod2.localStartTime() ?
 					   theWeatherPeriod1.localStartTime() : theWeatherPeriod2.localStartTime());
-	NFmiTime endTime(theWeatherPeriod1.localEndTime() < theWeatherPeriod2.localEndTime() ?
+	TextGenTime endTime(theWeatherPeriod1.localEndTime() < theWeatherPeriod2.localEndTime() ?
 					   theWeatherPeriod1.localEndTime() : theWeatherPeriod2.localEndTime());
 
 	return WeatherPeriod(startTime, endTime);
@@ -464,7 +463,7 @@ using namespace std;
 			is_inside(theWeatherPeriod1.localEndTime(), theWeatherPeriod2));
   }
 
-  bool is_inside(const NFmiTime& theTimeStamp, 
+  bool is_inside(const TextGenTime& theTimeStamp, 
 				 const WeatherPeriod& theWeatherPeriod)
   {
 	return theTimeStamp >= theWeatherPeriod.localStartTime() && theTimeStamp <= theWeatherPeriod.localEndTime();
@@ -477,7 +476,7 @@ using namespace std;
 			theWeatherPeriod1.localEndTime() == theWeatherPeriod2.localEndTime());
   }
 
-  bool is_inside(const NFmiTime& theTimeStamp, 
+  bool is_inside(const TextGenTime& theTimeStamp, 
 				 const part_of_the_day_id& thePartOfTheDayId)
   {
 	int startHour, endHour;
@@ -532,8 +531,8 @@ using namespace std;
 
 	int startHour, endHour;
 	get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
-	NFmiTime startTimeCompare(theWeatherPeriod.localStartTime());
-	NFmiTime endTimeCompare(theWeatherPeriod.localStartTime());
+	TextGenTime startTimeCompare(theWeatherPeriod.localStartTime());
+	TextGenTime endTimeCompare(theWeatherPeriod.localStartTime());
 
 	startTimeCompare.SetHour(startHour);
 	startTimeCompare.SetMin(0);
@@ -778,8 +777,8 @@ using namespace std;
 			if(period.localEndTime().DifferenceInHours(period.localStartTime()) > 2)
 			  {
 				// 1 hour tolerance
-				NFmiTime startTime(period.localStartTime());
-				NFmiTime endTime(period.localEndTime());
+				TextGenTime startTime(period.localStartTime());
+				TextGenTime endTime(period.localEndTime());
 				startTime.ChangeByHours(1);
 				endTime.ChangeByHours(-1);
 				WeatherPeriod narrowerPeriod(startTime, endTime);
@@ -848,8 +847,8 @@ using namespace std;
 			if(theWeatherPeriod.localEndTime().DifferenceInHours(theWeatherPeriod.localStartTime()) > 2)
 			  {
 				// 1 hour tolerance
-				NFmiTime startTime(theWeatherPeriod.localStartTime());
-				NFmiTime endTime(theWeatherPeriod.localEndTime());
+				TextGenTime startTime(theWeatherPeriod.localStartTime());
+				TextGenTime endTime(theWeatherPeriod.localEndTime());
 				startTime.ChangeByHours(1);
 				endTime.ChangeByHours(-1);
 				WeatherPeriod narrowerPeriod(startTime, endTime);
@@ -893,7 +892,7 @@ using namespace std;
   }
 
 
-  std::string get_time_phrase(const NFmiTime& theTimestamp,
+  std::string get_time_phrase(const TextGenTime& theTimestamp,
 							  const std::string& theVar,
 							  bool theAlkaenPhrase /*= false*/)
   {
@@ -998,7 +997,7 @@ using namespace std;
   int get_today_vector(const string& theVariable,
 					   const WeatherArea& theArea,
 					   const WeatherPeriod& thePeriod,
-					   const NFmiTime& theForecastTime,
+					   const TextGenTime& theForecastTime,
 					   vector<Sentence*>& theTodayVector)
   {
 	int retval = -1;
@@ -1029,11 +1028,11 @@ using namespace std;
   }
   
 
-  Sentence get_today_phrase(const NFmiTime& theEventTimestamp,
+  Sentence get_today_phrase(const TextGenTime& theEventTimestamp,
 							const string& theVariable,
 							const WeatherArea& theArea,
 							const WeatherPeriod thePeriod,
-							const NFmiTime& theForecastTime)
+							const TextGenTime& theForecastTime)
   {
 	Sentence sentence;
 
@@ -1734,8 +1733,8 @@ using namespace std;
 
 	   if(theIntersectionPeriodFound)
 	  {
-		NFmiTime startTime(start_year, start_month, start_day, start_hour);
-		NFmiTime endTime(end_year, end_month, end_day, end_hour);
+		TextGenTime startTime(start_year, start_month, start_day, start_hour);
+		TextGenTime endTime(end_year, end_month, end_day, end_hour);
 		WeatherPeriod resultPeriod(startTime, endTime);
 
 		return resultPeriod;

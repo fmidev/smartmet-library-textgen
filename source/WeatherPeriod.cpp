@@ -29,6 +29,8 @@
 #include "TimeTools.h"
 #include "TextGenError.h"
 #include <cassert>
+#include <iostream>     // std::cout
+#include <sstream>      // std::stringstream
 
 namespace TextGen
 {
@@ -57,12 +59,12 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  WeatherPeriod::WeatherPeriod(const NFmiTime & theLocalStartTime,
-							   const NFmiTime & theLocalEndTime)
+  WeatherPeriod::WeatherPeriod(const TextGenTime & theLocalStartTime,
+							   const TextGenTime & theLocalEndTime)
 	: itsLocalStartTime(theLocalStartTime)
 	, itsLocalEndTime(theLocalEndTime)
-	, itsUtcStartTime(TimeTools::toUtcTime(theLocalStartTime))
-	, itsUtcEndTime(TimeTools::toUtcTime(theLocalEndTime))
+	, itsUtcStartTime(theLocalStartTime.UtcTime())
+	, itsUtcEndTime(itsLocalEndTime.UtcTime())
   {
 	if(theLocalEndTime.IsLessThan(theLocalStartTime))
 	  throw TextGenError("WeatherPeriod: end time must be after start time");
@@ -76,7 +78,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const NFmiTime & WeatherPeriod::localStartTime() const
+  const TextGenTime & WeatherPeriod::localStartTime() const
   {
 	return itsLocalStartTime;
   }
@@ -89,7 +91,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const NFmiTime & WeatherPeriod::localEndTime() const
+  const TextGenTime & WeatherPeriod::localEndTime() const
   {
 	return itsLocalEndTime;
   }
@@ -102,7 +104,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const NFmiTime & WeatherPeriod::utcStartTime() const
+  const TextGenTime & WeatherPeriod::utcStartTime() const
   {
 	return itsUtcStartTime;
   }
@@ -115,7 +117,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const NFmiTime & WeatherPeriod::utcEndTime() const
+  const TextGenTime & WeatherPeriod::utcEndTime() const
   {
 	return itsUtcEndTime;
   }

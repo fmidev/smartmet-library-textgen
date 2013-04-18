@@ -44,7 +44,7 @@ namespace TextGen
   */
   // ----------------------------------------------------------------------
   
-  DewPointStory::DewPointStory(const NFmiTime & theForecastTime,
+  DewPointStory::DewPointStory(const TextGenTime & theForecastTime,
 							   const AnalysisSources & theSources,
 							   const WeatherArea & theArea,
 							   const WeatherPeriod & thePeriod,

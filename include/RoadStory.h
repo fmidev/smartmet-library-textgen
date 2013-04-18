@@ -18,7 +18,7 @@ namespace TextGen
   class WeatherPeriod;
 }
 
-class NFmiTime;
+class TextGenTime;
 
 namespace TextGen
 {
@@ -30,7 +30,7 @@ namespace TextGen
   public:
 
 	virtual ~RoadStory();
-	RoadStory(const NFmiTime & theForecastTime,
+	RoadStory(const TextGenTime & theForecastTime,
 			  const TextGen::AnalysisSources & theSources,
 			  const TextGen::WeatherArea & theArea,
 			  const TextGen::WeatherPeriod & thePeriod,
@@ -52,7 +52,7 @@ namespace TextGen
 	RoadStory(const RoadStory & theStory);
 	RoadStory & operator=(const RoadStory & theStory);
 
-	const NFmiTime itsForecastTime;
+	const TextGenTime itsForecastTime;
 	const TextGen::AnalysisSources & itsSources;
 	const TextGen::WeatherArea & itsArea;
 	const TextGen::WeatherPeriod & itsPeriod;

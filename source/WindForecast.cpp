@@ -76,7 +76,7 @@ namespace TextGen
 	Paragraph paragraph;
 
 	WindEventId eventIdPreviousReported(MISSING_WIND_EVENT);
-	WeatherPeriod weatherPeriodPreviousReported(WeatherPeriod(NFmiTime(1971,1,1),NFmiTime(1971,1,1)));
+	WeatherPeriod weatherPeriodPreviousReported(WeatherPeriod(TextGenTime(1971,1,1),TextGenTime(1971,1,1)));
 
 	WindEventPeriodDataItem* eventPeriodItemPrevious(0);
 	WindEventPeriodDataItem* eventPeriodItemNext(0);
@@ -929,7 +929,7 @@ namespace TextGen
 		else
 		  timePhrase << getTimePhrase(eventPeriod, useAlkaenPhrase);
 
-		NFmiTime begTimePlus1(eventPeriod.localStartTime());
+		TextGenTime begTimePlus1(eventPeriod.localStartTime());
 		if(get_period_length(eventPeriod) > 0)
 		  begTimePlus1.ChangeByHours(1);
 		WindDirectionId windDirectionIdBegPlus1(get_wind_direction_id_at(theParameters.theWindDataVector,
@@ -1271,7 +1271,7 @@ namespace TextGen
 	WeatherPeriod periodEnd(speedEventPeriod.localEndTime(), 
 							speedEventPeriod.localEndTime());
 
-	NFmiTime phrasePeriodEndTimestamp(get_phrase_period_end_timestamp(speedEventPeriod.localEndTime()));
+	TextGenTime phrasePeriodEndTimestamp(get_phrase_period_end_timestamp(speedEventPeriod.localEndTime()));
 	WeatherPeriod periodEndPhrasePeriod(phrasePeriodEndTimestamp, phrasePeriodEndTimestamp);
 
 	bool useTimePhrase = !fit_into_large_day_part(speedEventPeriod);
@@ -1464,15 +1464,15 @@ namespace TextGen
 				  {
 					if(i < speedChangePeriods.size() - 1)
 					  {
-						NFmiTime currentTimestamp(speedChangePeriods[i].localStartTime());
-						NFmiTime nextTimestamp(get_phrase_period_end_timestamp(speedChangePeriods[i+1].localStartTime()));
+						TextGenTime currentTimestamp(speedChangePeriods[i].localStartTime());
+						TextGenTime nextTimestamp(get_phrase_period_end_timestamp(speedChangePeriods[i+1].localStartTime()));
 						if(get_part_of_the_day_id(currentTimestamp) == get_part_of_the_day_id(nextTimestamp))
 						  continue;
 					  }
 					
 					sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 					
-					NFmiTime phrasePeriodEndTimestamp(get_phrase_period_end_timestamp(lastPeriod ? speedChangePeriods[i].localStartTime() : currentPeriodEnd.localStartTime()));
+					TextGenTime phrasePeriodEndTimestamp(get_phrase_period_end_timestamp(lastPeriod ? speedChangePeriods[i].localStartTime() : currentPeriodEnd.localStartTime()));
 
 					WeatherPeriod phrasePeriod(phrasePeriodEndTimestamp, phrasePeriodEndTimestamp);
 
@@ -1505,7 +1505,7 @@ namespace TextGen
 
 	int periodLength(wind_forecast_period_length(speedEventPeriod));
 
-	NFmiTime intermediateReportTime(speedEventPeriod.localStartTime());
+	TextGenTime intermediateReportTime(speedEventPeriod.localStartTime());
 	while((intermediateReportTime.DifferenceInHours(speedEventPeriod.localStartTime()) < periodLength / 2 ||
 		   get_part_of_the_day_id(speedEventPeriod.localStartTime()) ==
 		   get_part_of_the_day_id(intermediateReportTime)) &&
@@ -1540,9 +1540,9 @@ namespace TextGen
 	return sentence;
   }
 
-  bool WindForecast::samePartOfTheDay(const NFmiTime& time1, const NFmiTime& time2) const
+  bool WindForecast::samePartOfTheDay(const TextGenTime& time1, const TextGenTime& time2) const
   {
-	NFmiTime iterTime(time1);
+	TextGenTime iterTime(time1);
 
 	while(iterTime < time2 &&
 		  get_part_of_the_day_id(iterTime) == get_part_of_the_day_id(time2))
@@ -1599,7 +1599,7 @@ namespace TextGen
 	   thePreviousPartOfTheDay != MISSING_PART_OF_THE_DAY_ID &&
 	   get_period_length(thePeriod) > 4)
 	  {
-		NFmiTime startTime(thePeriod.localStartTime());
+		TextGenTime startTime(thePeriod.localStartTime());
 		startTime.ChangeByHours(2);
 		WeatherPeriod shortenedPeriod(startTime, thePeriod.localEndTime());
 		theParameters.theAlkaenPhraseUsed = (wind_forecast_period_length(shortenedPeriod) >= 6 
@@ -1716,8 +1716,8 @@ namespace TextGen
 										 unsigned int theBegIndex)
   {
 	WindEventPeriodDataItem* eventPeriodItem = theWindEventPeriodVector[theBegIndex];
-	NFmiTime periodStartTime(eventPeriodItem->thePeriod.localStartTime());
-	NFmiTime periodEndTime(eventPeriodItem->thePeriod.localStartTime());
+	TextGenTime periodStartTime(eventPeriodItem->thePeriod.localStartTime());
+	TextGenTime periodEndTime(eventPeriodItem->thePeriod.localStartTime());
 	
 	bool firstWindSpeedEvent = (eventPeriodItem->theWindEvent == TUULI_HEIKKENEE ||
 								eventPeriodItem->theWindEvent == TUULI_VOIMISTUU ||
@@ -2258,7 +2258,7 @@ namespace TextGen
   }
 
   WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
-											 const NFmiTime& pointOfTime,
+											 const TextGenTime& pointOfTime,
 											 const string& var)
   {
 	WeatherResult retval(kFloatMissing, 0.0);
@@ -2277,7 +2277,7 @@ namespace TextGen
   }  
 
   bool is_gusty_wind(const wo_story_params& theParameters,
-					 const NFmiTime& pointOfTime,
+					 const TextGenTime& pointOfTime,
 					 const string& var)
   {
 	for(unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
@@ -2323,7 +2323,7 @@ namespace TextGen
 
   pair<WeatherResult, WindDirectionId> get_wind_direction_pair_at(const wind_data_item_vector& theWindDataVector,
 																  const WeatherArea& theArea,
-																  const NFmiTime& pointOfTime,
+																  const TextGenTime& pointOfTime,
 																  const string& var)
   {
 	WeatherResult directionValue(kFloatMissing, 0.0);
@@ -2391,7 +2391,7 @@ namespace TextGen
 
   WeatherResult get_wind_direction_at(const wind_data_item_vector& theWindDataVector,
 									  const WeatherArea& theArea,
-									  const NFmiTime& pointOfTime,
+									  const TextGenTime& pointOfTime,
 									  const string& var)
   {
 	return(get_wind_direction_pair_at(theWindDataVector,
@@ -2415,7 +2415,7 @@ namespace TextGen
 
   WindDirectionId get_wind_direction_id_at(const wind_data_item_vector& theWindDataVector,
 										   const WeatherArea& theArea,
-										   const NFmiTime& pointOfTime,
+										   const TextGenTime& pointOfTime,
 										   const string& var)
   {
 	return(get_wind_direction_pair_at(theWindDataVector,
@@ -2572,7 +2572,7 @@ namespace TextGen
 	changeRatePerHour = abs(endUpperLimit - begUpperLimit) / wind_forecast_period_length(thePeriod);
   }
 
-  void get_plain_wind_speed_interval(const NFmiTime& pointOfTime,
+  void get_plain_wind_speed_interval(const TextGenTime& pointOfTime,
 									 const WeatherArea& area,
 									 const wind_data_item_vector& windDataVector,
 									 int& lowerLimit,
@@ -2753,7 +2753,7 @@ namespace TextGen
 									upperLimit);
   }
 
-  void get_wind_speed_interval(const NFmiTime& pointOfTime,
+  void get_wind_speed_interval(const TextGenTime& pointOfTime,
 							   const WeatherArea& theArea,							   
 							   const wind_data_item_vector& windDataVector,
 							   int& lowerLimit,
@@ -2877,9 +2877,9 @@ namespace TextGen
 												theVar);
   }
 
-  NFmiTime get_phrase_period_end_timestamp(const NFmiTime& originalTimestamp)
+  TextGenTime get_phrase_period_end_timestamp(const TextGenTime& originalTimestamp)
   {
-	NFmiTime phrasePeriodTimestamp(originalTimestamp);
+	TextGenTime phrasePeriodTimestamp(originalTimestamp);
 
 	if(phrasePeriodTimestamp.GetHour() == 18)
 	  phrasePeriodTimestamp.ChangeByHours(-2);

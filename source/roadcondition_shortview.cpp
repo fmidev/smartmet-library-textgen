@@ -555,8 +555,8 @@ namespace TextGen
 
 	const int maxhours = Settings::optional_int(itsVar+"::maxhours",30);
 
-	const NFmiTime time1(itsPeriod.localStartTime());
-	NFmiTime time2 = TimeTools::addHours(time1,maxhours);
+	const TextGenTime time1(itsPeriod.localStartTime());
+	TextGenTime time2 = TimeTools::addHours(time1,maxhours);
 	if(itsPeriod.localEndTime().IsLessThan(time2))
 	  time2 = itsPeriod.localEndTime();
 

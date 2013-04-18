@@ -479,7 +479,7 @@ namespace TextGen
   class ThunderDataItem;
 
   typedef std::vector<WeatherResultDataItem*> weather_result_data_item_vector;
-  typedef std::pair<NFmiTime, weather_event_id> timestamp_weather_event_id_pair;
+  typedef std::pair<TextGenTime, weather_event_id> timestamp_weather_event_id_pair;
   typedef std::vector<timestamp_weather_event_id_pair> weather_event_id_vector;
   typedef std::vector<PrecipitationDataItemData*> precipitation_data_vector;
   typedef std::vector<FogIntensityDataItem*> fog_data_vector;
@@ -505,7 +505,7 @@ namespace TextGen
 					const WeatherArea& weatherArea,
 					const WeatherPeriod& dataPeriod,
 					const WeatherPeriod& forecastPeriod,
-					const NFmiTime& forecastTime,
+					const TextGenTime& forecastTime,
 					const AnalysisSources& analysisSources,
 					MessageLogger& log) :
 	  theVariable(variable),
@@ -530,7 +530,7 @@ namespace TextGen
 	const WeatherArea& theArea;
 	const WeatherPeriod theDataPeriod;
 	const WeatherPeriod theForecastPeriod;
-	const NFmiTime theForecastTime;
+	const TextGenTime theForecastTime;
 	const AnalysisSources& theSources;
 	MessageLogger& theLog;
 	bool theCoastalAndInlandTogetherFlag;
@@ -601,14 +601,14 @@ namespace TextGen
  /*  bool get_part_of_the_day(const WeatherPeriod& theSourcePeriod, 
 	  const part_of_the_day_id& thePartOfTheDayId, 
 	  WeatherPeriod& theDestinationPeriod);*/
-  part_of_the_day_id get_part_of_the_day_id(const NFmiTime& theTimestamp);
+  part_of_the_day_id get_part_of_the_day_id(const TextGenTime& theTimestamp);
   bool is_inside(const WeatherPeriod& theWeatherPeriod1,
 				 const WeatherPeriod& theWeatherPeriod2);
   bool is_inside(const WeatherPeriod& theWeatherPeriod,
 				 const part_of_the_day_id& thePartOfTheDayId);
-  bool is_inside(const NFmiTime& theTimeStamp, 
+  bool is_inside(const TextGenTime& theTimeStamp, 
 				 const part_of_the_day_id& thePartOfTheDayId);
-  bool is_inside(const NFmiTime& theTimeStamp, 
+  bool is_inside(const TextGenTime& theTimeStamp, 
 				 const WeatherPeriod& theWeatherPeriod);
   bool same_period(const WeatherPeriod& theWeatherPeriod1,
 				   const WeatherPeriod& theWeatherPeriod2);
@@ -621,14 +621,14 @@ namespace TextGen
 								 const std::string& theVar,
 								 std::string& thePhraseString,
 								 bool theAlkaenPhrase = false);
-  std::string get_time_phrase(const NFmiTime& theTimestamp,
+  std::string get_time_phrase(const TextGenTime& theTimestamp,
 							  const std::string& theVar,
 							  bool theAlkaenPhrase = false);
-  Sentence get_today_phrase(const NFmiTime& theEventTimestamp,
+  Sentence get_today_phrase(const TextGenTime& theEventTimestamp,
 							const std::string& theVariable,
 							const WeatherArea& theArea,
 							const WeatherPeriod thePeriod,
-							const NFmiTime& theForecastTime);
+							const TextGenTime& theForecastTime);
   precipitation_form_id get_complete_precipitation_form(const std::string& theVariable,
 														const float thePrecipitationFormWater,
 														const float thePrecipitationFormDrizzle,
@@ -663,7 +663,7 @@ namespace TextGen
   int get_today_vector(const std::string& theVariable,
 					   const WeatherArea& theArea,
 					   const WeatherPeriod& thePeriod,
-					   const NFmiTime& theForecastTime,
+					   const TextGenTime& theForecastTime,
 					   std::vector<Sentence*>& theTodayVector);
   area_specific_sentence_id get_area_specific_sentence_id(const float& north,
 														  const float& south,
@@ -832,7 +832,7 @@ namespace TextGen
 							  const float& precipitationTypeShowers,
 							  const weather_event_id weatherEventId,
 							  const float& pearsonCoefficient,
-							  const NFmiTime& observationTime) :
+							  const TextGenTime& observationTime) :
 	  thePrecipitationForm(precipitationForm),
 	  thePrecipitationIntensity(precipitationIntensity),
 	  thePrecipitationMaxIntensity(precipitationMaxIntensity),
@@ -906,7 +906,7 @@ namespace TextGen
 	float thePrecipitationTypeShowers;
 	weather_event_id theWeatherEventId;
 	float thePearsonCoefficient;
-	NFmiTime theObservationTime;
+	TextGenTime theObservationTime;
 	float thePrecipitationPercentageNorthEast;
 	float thePrecipitationPercentageSouthEast;
 	float thePrecipitationPercentageSouthWest;

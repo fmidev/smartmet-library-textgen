@@ -230,7 +230,7 @@ enum anomaly_phrase_id
 								 const WeatherPeriod& day2Period,
 								 const WeatherPeriod& dayAfterDay2Period,
 								 const forecast_season_id& season,
-								 const NFmiTime& forecastTime,
+								 const TextGenTime& forecastTime,
 								 const short& periodLength) 
 		: theVariable(variable),
 		  theLog(log),
@@ -272,7 +272,7 @@ enum anomaly_phrase_id
 	  const WeatherPeriod& theDay2Period;
 	  const WeatherPeriod& theDayAfterDay2Period;
 	  const forecast_season_id& theSeason;
-	  const NFmiTime& theForecastTime;
+	  const TextGenTime& theForecastTime;
 	  const short& thePeriodLength;
 	  anomaly_phrase_id theAnomalyPhrase;
 	  shortrun_trend_id theShortrunTrend;
@@ -341,8 +341,8 @@ enum anomaly_phrase_id
 											 const WeatherPeriod& thePeriod,
 											 const fractile_type_id& theFractileType)
 	{
-	  NFmiTime startTime(thePeriod.localStartTime());
-	  NFmiTime endTime(thePeriod.localStartTime());
+	  TextGenTime startTime(thePeriod.localStartTime());
+	  TextGenTime endTime(thePeriod.localStartTime());
 
 	  startTime.SetHour(6);
 	  startTime.SetMin(0);
@@ -720,7 +720,7 @@ enum anomaly_phrase_id
 
 
 	  // kova pakkanen: F12,5 fractile on 1. Feb 12:00
-	  NFmiTime veryColdRefTime(theParameters.theForecastTime.GetYear(), 2, 1, 12, 0, 0);
+	  TextGenTime veryColdRefTime(theParameters.theForecastTime.GetYear(), 2, 1, 12, 0, 0);
 	  WeatherPeriod veryColdWeatherPeriod(veryColdRefTime, veryColdRefTime);
 
 	  WeatherResult wr = get_fractile_temperature(theParameters.theVariable,
@@ -1184,7 +1184,7 @@ enum anomaly_phrase_id
   const Paragraph anomaly(const TextGen::WeatherArea& itsArea,
 						  const TextGen::WeatherPeriod& itsPeriod,
 						  const TextGen::AnalysisSources& itsSources,
-						  const NFmiTime& itsForecastTime,
+						  const TextGenTime& itsForecastTime,
 						  const std::string& itsVar,
 						  const std::string& theAreaName,
 						  MessageLogger& theLog)
@@ -1202,8 +1202,8 @@ enum anomaly_phrase_id
 	// the anomaly sentence relates always to the upcoming day,
 	// so the period is defined to start in the previous day	
 
-	NFmiTime periodStartTime(itsPeriod.localStartTime());
-	NFmiTime periodEndTime(itsPeriod.localEndTime());
+	TextGenTime periodStartTime(itsPeriod.localStartTime());
+	TextGenTime periodEndTime(itsPeriod.localEndTime());
 	int periodLength = periodEndTime.DifferenceInHours(periodStartTime);
 
 	int ndays = HourPeriodGenerator(itsPeriod, itsVar+"::day").size();
@@ -1235,10 +1235,10 @@ enum anomaly_phrase_id
 	WeatherPeriod day1Period(generator.period(1));
 	WeatherPeriod day2Period(generator.period(2));
 
-	NFmiTime periodDayBeforeDay1StartTime;
-	NFmiTime periodDayBeforeDay1EndTime;
-	NFmiTime periodDayAfterDay2StartTime;
-	NFmiTime periodDayAfterDay2EndTime;
+	TextGenTime periodDayBeforeDay1StartTime;
+	TextGenTime periodDayBeforeDay1EndTime;
+	TextGenTime periodDayAfterDay2StartTime;
+	TextGenTime periodDayAfterDay2EndTime;
 
 	periodDayBeforeDay1StartTime = day1Period.localStartTime();
 	periodDayBeforeDay1StartTime.ChangeByHours(-24);

@@ -843,12 +843,12 @@ using namespace std;
 	weather_result_data_item_vector* hourlyFogShareNorthWest = new weather_result_data_item_vector();
 
 	// first split the whole period to one-hour subperiods
-	NFmiTime periodStartTime = theParameters.theDataPeriod.localStartTime();
+	TextGenTime periodStartTime = theParameters.theDataPeriod.localStartTime();
 
 	theParameters.theHourPeriodCount = 0;
 	while(periodStartTime.IsLessThan(theParameters.theDataPeriod.localEndTime()))
 	  {
-		NFmiTime periodEndTime = periodStartTime;
+		TextGenTime periodEndTime = periodStartTime;
 		periodEndTime.ChangeByHours(1);
 		WeatherPeriod theWeatherPeriod(periodEndTime, periodEndTime);
 		WeatherResult theWeatherResult(kFloatMissing, kFloatMissing);
@@ -1286,7 +1286,7 @@ using namespace std;
   const Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
 								   const TextGen::WeatherPeriod& itsPeriod,
 								   const TextGen::AnalysisSources& itsSources,
-								   const NFmiTime& itsForecastTime,
+								   const TextGenTime& itsForecastTime,
 								   const std::string itsVar,
 								   MessageLogger& theLog)
   {
@@ -1302,8 +1302,8 @@ using namespace std;
 	theLog << "Period " << itsPeriod.localStartTime() << "..." 
 		   << itsPeriod.localEndTime();
 	
-	NFmiTime dataPeriodStartTime(itsPeriod.localStartTime());
-	NFmiTime dataPeriodEndTime(itsPeriod.localEndTime());
+	TextGenTime dataPeriodStartTime(itsPeriod.localStartTime());
+	TextGenTime dataPeriodEndTime(itsPeriod.localEndTime());
 
 	dataPeriodStartTime.ChangeByHours(-12);
 	dataPeriodEndTime.ChangeByHours(12);
@@ -1377,7 +1377,7 @@ using namespace std;
 
 	wfs.logTheStoryItems();
 
-	const_cast<WeatherHistory&>(itsArea.history()).updateTimePhrase("", NFmiTime(1970,1,1));
+	const_cast<WeatherHistory&>(itsArea.history()).updateTimePhrase("", TextGenTime(1970,1,1));
 
 	paragraph << wfs.getWeatherForecastStory();
 

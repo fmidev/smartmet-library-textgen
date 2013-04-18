@@ -394,7 +394,7 @@ namespace TextGen
 				 forecast_season_id& seasonId,
 				 const unsigned short& forecastArea,
 				 const unsigned short& forecastPeriod,
-				 const NFmiTime& forecastTime,
+				 const TextGenTime& forecastTime,
 				 const WeatherPeriod& fullPeriod,
 				 WeatherPeriod& weatherPeriod,
 				 const WeatherArea& weatherArea,
@@ -448,7 +448,7 @@ namespace TextGen
 	  forecast_season_id& theSeasonId;
 	  const unsigned short& theForecastArea;
 	  const unsigned short& theForecastPeriod;
-	  const NFmiTime& theForecastTime;
+	  const TextGenTime& theForecastTime;
 	  const WeatherPeriod& theFullPeriod;
 	  WeatherPeriod& theWeatherPeriod;
 	  const WeatherArea& theWeatherArea;
@@ -1530,7 +1530,7 @@ namespace TextGen
 			  break;
 			case PIKKUPAKKASTA_PHRASE_ID:
 			  {
-				NFmiTime startTime(theParameters.theGenerator.period(1).localStartTime());
+				TextGenTime startTime(theParameters.theGenerator.period(1).localStartTime());
 				if(SeasonTools::isSpring(startTime, theParameters.theVariable) ||
 				   abs(theParameters.theMaximum - theParameters.theMinimum) < AROUND_ZERO_UPPER_LIMIT)
 				  {
@@ -3192,7 +3192,7 @@ namespace TextGen
 		{
 		  // ARE 07.02.2011: if day1 and day2 are included
 		  if(theParameters.theForecastPeriod & DAY1_PERIOD)
-			const_cast<WeatherHistory&>(theParameters.theWeatherArea.history()).updateTimePhrase("", NFmiTime(1970,1,1));
+			const_cast<WeatherHistory&>(theParameters.theWeatherArea.history()).updateTimePhrase("", TextGenTime(1970,1,1));
 		  
 		  nextDaySentence << PeriodPhraseFactory::create("next_day",
 														 theParameters.theVariable,
@@ -4167,7 +4167,7 @@ namespace TextGen
 	const Paragraph max36hours(const TextGen::WeatherArea& itsArea,
 							   const TextGen::WeatherPeriod& itsPeriod,
 							   const TextGen::AnalysisSources& itsSources,
-							   const NFmiTime& itsForecastTime,
+							   const TextGenTime& itsForecastTime,
 							   const std::string& itsVar,
 							   MessageLogger& theLog)
 	  
@@ -4179,8 +4179,8 @@ namespace TextGen
 	  log_start_time_and_end_time(theLog, "Whole period: ", itsPeriod);
 	
 
-	  NFmiTime periodStartTime(itsPeriod.localStartTime());
-	  NFmiTime periodEndTime(itsPeriod.localEndTime());
+	  TextGenTime periodStartTime(itsPeriod.localStartTime());
+	  TextGenTime periodEndTime(itsPeriod.localEndTime());
 
 	  // Period generator
 	  NightAndDayPeriodGenerator generator00(itsPeriod, itsVar);

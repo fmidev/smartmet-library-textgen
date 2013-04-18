@@ -15,7 +15,7 @@
 #include <string>
 #include <iostream>
 
-class NFmiTime;
+class TextGenTime;
 
 namespace TextGen
 {
@@ -27,8 +27,8 @@ namespace TextGen
 	void punctuate(std::string & theString);
 	std::string make_needle(int n);
 	int count_patterns(const std::string & theString);
-	std::string format_time(const NFmiTime& theTime, const std::string& theFormattingString);
-	std::string format_time(const NFmiTime& theTime, 
+	std::string format_time(const TextGenTime& theTime, const std::string& theFormattingString);
+	std::string format_time(const TextGenTime& theTime, 
 							const std::string& theStoryVar,
 							const std::string& theFormatterName);
 	std::string format_time(const WeatherPeriod& thePeriod, 

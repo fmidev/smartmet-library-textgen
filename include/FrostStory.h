@@ -11,7 +11,7 @@
 #include "Story.h"
 #include <string>
 
-class NFmiTime;
+class TextGenTime;
 
 namespace TextGen
 {
@@ -23,7 +23,7 @@ namespace TextGen
   public:
 
 	virtual ~FrostStory();
-	FrostStory(const NFmiTime & theForecastTime,
+	FrostStory(const TextGenTime & theForecastTime,
 			   const TextGen::AnalysisSources & theSources,
 			   const TextGen::WeatherArea & theArea,
 			   const TextGen::WeatherPeriod & thePeriod,
@@ -45,7 +45,7 @@ namespace TextGen
 	FrostStory(const FrostStory & theStory);
 	FrostStory & operator=(const FrostStory & theStory);
 
-	const NFmiTime itsForecastTime;
+	const TextGenTime itsForecastTime;
 	const TextGen::AnalysisSources & itsSources;
 	const TextGen::WeatherArea & itsArea;
 	const TextGen::WeatherPeriod & itsPeriod;

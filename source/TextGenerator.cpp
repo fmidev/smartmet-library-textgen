@@ -40,7 +40,7 @@
 #include "WesternMaskSource.h"
 
 #include <newbase/NFmiStringTools.h>
-#include <newbase/NFmiTime.h>
+#include "TextGenTime.h"
 
 using namespace TextGen;
 using namespace std;
@@ -68,7 +68,7 @@ namespace TextGen
 
 	const Paragraph make_contents(const string & theContents,
 								  const string & theVar,
-								  const NFmiTime & theForecastTime,
+								  const TextGenTime & theForecastTime,
 								  const AnalysisSources & theSources,
 								  const WeatherArea & theArea,
 								  const WeatherPeriod & thePeriod)
@@ -117,7 +117,7 @@ namespace TextGen
 		   const WeatherArea& theCoastMaskArea);
 
 	AnalysisSources itsSources;
-	NFmiTime itsForecastTime;
+	TextGenTime itsForecastTime;
 
   }; // class Pimple
 
@@ -249,7 +249,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const NFmiTime & TextGenerator::time() const
+  const TextGenTime & TextGenerator::time() const
   {
 	return itsPimple->itsForecastTime;
   }
@@ -266,7 +266,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  void TextGenerator::time(const NFmiTime & theForecastTime)
+  void TextGenerator::time(const TextGenTime & theForecastTime)
   {
 	itsPimple->itsForecastTime = theForecastTime;
   }

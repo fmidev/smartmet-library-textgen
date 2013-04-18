@@ -44,7 +44,7 @@ namespace TextGen
   */
   // ----------------------------------------------------------------------
   
-  SpecialStory::SpecialStory(const NFmiTime & theForecastTime,
+  SpecialStory::SpecialStory(const TextGenTime & theForecastTime,
 							 const AnalysisSources & theSources,
 							 const WeatherArea & theArea,
 							 const WeatherPeriod & thePeriod,

@@ -452,8 +452,8 @@ namespace TextGen
 	  int morning_starthour    = optional_hour(thePlainVar+season+"::morning_temperature::starthour", default_starthour);
 	  int morning_endhour      = optional_hour(thePlainVar+season+"::morning_temperature::endhour", default_endhour);
 
-	  NFmiTime time1(year, month, day, morning_starthour, 0,0);
-	  NFmiTime time2(year, month, day, morning_endhour, 0,0);
+	  TextGenTime time1(year, month, day, morning_starthour, 0,0);
+	  TextGenTime time2(year, month, day, morning_endhour, 0,0);
 
 	  WeatherPeriod morningPeriod(time1,time2);
 	  
@@ -476,7 +476,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	WeatherPeriod get_afternoon_period(const string& theVar, 
-									   const NFmiTime& theTime)
+									   const TextGenTime& theTime)
 	{
 	  int fakeStrPos = theVar.find("::fake");
 	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
@@ -496,8 +496,8 @@ namespace TextGen
 	  int month = theTime.GetMonth();
 	  int day = theTime.GetDay();
 
-	  NFmiTime time1(year, month, day, afternoon_starthour, 0,0);
-	  NFmiTime time2(year, month, day, afternoon_endhour, 0,0);
+	  TextGenTime time1(year, month, day, afternoon_starthour, 0,0);
+	  TextGenTime time2(year, month, day, afternoon_endhour, 0,0);
 
 	  return WeatherPeriod(time1,time2);
 	}

@@ -45,7 +45,7 @@ namespace TextGen
   */
   // ----------------------------------------------------------------------
   
-  FrostStory::FrostStory(const NFmiTime & theForecastTime,
+  FrostStory::FrostStory(const TextGenTime & theForecastTime,
 						 const AnalysisSources & theSources,
 						 const WeatherArea & theArea,
 						 const WeatherPeriod & thePeriod,

@@ -50,8 +50,8 @@ namespace TextGen
 	  NFmiFastQueryInfo qi = NFmiFastQueryInfo(qd.get());
 	  qi.FirstTime();
 	  int year = qi.ValidTime().GetYear();
-	  NFmiTime t1 = thePeriod.localStartTime();
-	  NFmiTime t2 = thePeriod.localEndTime();
+	  TextGenTime t1 = thePeriod.localStartTime();
+	  TextGenTime t2 = thePeriod.localEndTime();
 	  t1.SetYear(year);
 	  t2.SetYear(year);
 	  return WeatherPeriod(t1,t2); 

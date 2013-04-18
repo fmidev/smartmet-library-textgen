@@ -9,6 +9,7 @@
 #include "TextGenError.h"
 #include <newbase/NFmiFileSystem.h>
 #include <newbase/NFmiStringTools.h>
+#include <newbase/NFmiStaticTime.h>
 #include <fstream>
 
 using namespace std;
@@ -27,7 +28,7 @@ namespace TextGen
   // ----------------------------------------------------------------------
 
   FireWarnings::FireWarnings(const string & theDirectory,
-							 const NFmiTime & theTime)
+							 const TextGenTime & theTime)
 	: itsTime(theTime)
 	, itsWarnings(MaxAreaCode+1,Undefined)
   {
@@ -39,15 +40,15 @@ namespace TextGen
 
 	string filename = (theDirectory +
 					   '/' +
-					   theTime.ToStr(kYYYYMMDD).CharPtr() +
+					   theTime.ToStr(kYYYYMMDD) +
 					   ".palot_koodina");
 	if(!NFmiFileSystem::FileExists(filename))
 	  {
-		NFmiTime tmp = theTime;
+		TextGenTime tmp = theTime;
 		tmp.ChangeByDays(-1);
 		filename = (theDirectory +
 					'/' +
-					tmp.ToStr(kYYYYMMDD).CharPtr() +
+					tmp.ToStr(kYYYYMMDD) +
 					".palot_koodina");
 		if(!NFmiFileSystem::FileExists(filename))
 		  throw TextGenError("Cannot find warnings from '"+theDirectory+"'");

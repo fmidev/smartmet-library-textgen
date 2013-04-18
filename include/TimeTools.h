@@ -10,24 +10,24 @@
 
 #include <ctime>
 
-class NFmiTime;
+class TextGenTime;
 
 namespace TextGen
 {
   namespace TimeTools
   {
 	
-	NFmiTime toLocalTime(const NFmiTime & theUtcTime);
-	NFmiTime toUtcTime(const NFmiTime & theLocalTime);
+	TextGenTime toLocalTime(const TextGenTime & theUtcTime);
+	TextGenTime toUtcTime(const TextGenTime & theLocalTime);
 
-	bool isSameDay(const NFmiTime & theDate1, const NFmiTime & theDate2);
-	bool isNextDay(const NFmiTime & theDate1, const NFmiTime & theDate2);
-	bool isSeveralDays(const NFmiTime & theDate1, const NFmiTime & theDate2);
+	bool isSameDay(const TextGenTime & theDate1, const TextGenTime & theDate2);
+	bool isNextDay(const TextGenTime & theDate1, const TextGenTime & theDate2);
+	bool isSeveralDays(const TextGenTime & theDate1, const TextGenTime & theDate2);
 
-	NFmiTime dayStart(const NFmiTime & theDate);
-	NFmiTime dayEnd(const NFmiTime & theDate);
-	NFmiTime nextDay(const NFmiTime & theDate);
-	NFmiTime addHours(const NFmiTime & theDate, int theHours);
+	TextGenTime dayStart(const TextGenTime & theDate);
+	TextGenTime dayEnd(const TextGenTime & theDate);
+	TextGenTime nextDay(const TextGenTime & theDate);
+	TextGenTime addHours(const TextGenTime & theDate, int theHours);
 
   }
 } // namespace TextGen

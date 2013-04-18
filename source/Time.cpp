@@ -38,7 +38,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Time::Time(const NFmiTime& theTime)
+  Time::Time(const TextGenTime& theTime)
 	: itsTime(theTime)
   {
   }

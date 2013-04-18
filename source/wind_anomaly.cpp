@@ -120,7 +120,7 @@ namespace TextGen
 						  const WeatherArea& area,
 						  const WeatherPeriod& windAnomalyPeriod,
 						  const forecast_season_id& season,
-						  const NFmiTime& forecastTime,
+						  const TextGenTime& forecastTime,
 						  const short& periodLength,
 						  const bool& specifyPartOfTheDayFlag) 
 		: theVariable(variable),
@@ -186,7 +186,7 @@ namespace TextGen
 	  const WeatherArea& theArea;
 	  const WeatherPeriod& thePeriod;
 	  const forecast_season_id& theSeason;
-	  const NFmiTime& theForecastTime;
+	  const TextGenTime& theForecastTime;
 	  const short& thePeriodLength;
 	  bool theSpecifyPartOfTheDayFlag;
 	  string theFakeVariable;
@@ -411,13 +411,13 @@ namespace TextGen
 					  (theCompletePeriod.localStartTime().GetHour() < 12 ? 
 					   theCompletePeriod.localStartTime().GetHour() : 12));
 	  
-	  NFmiTime noonTime(theCompletePeriod.localStartTime().GetYear(),
+	  TextGenTime noonTime(theCompletePeriod.localStartTime().GetYear(),
 						theCompletePeriod.localStartTime().GetMonth(),
 						theCompletePeriod.localStartTime().GetDay(), 
 						noonHour, 0, 0);
 
-	  NFmiTime theStartTime(theMorningPeriod ? theCompletePeriod.localStartTime() : noonTime);
-	  NFmiTime theEndTime(theMorningPeriod ? noonTime : theCompletePeriod.localEndTime());
+	  TextGenTime theStartTime(theMorningPeriod ? theCompletePeriod.localStartTime() : noonTime);
+	  TextGenTime theEndTime(theMorningPeriod ? noonTime : theCompletePeriod.localEndTime());
 
 	  WeatherPeriod thePeriod(theStartTime > theEndTime ? theParameters.thePeriod.localStartTime() : theStartTime, 
 							  theStartTime > theEndTime ? theParameters.thePeriod.localEndTime() : theEndTime);
@@ -1783,8 +1783,8 @@ namespace TextGen
 								"the original period: ",
 								itsPeriod);
 
-	NFmiTime periodStartTime(itsPeriod.localStartTime());
-	NFmiTime periodEndTime(itsPeriod.localEndTime());
+	TextGenTime periodStartTime(itsPeriod.localStartTime());
+	TextGenTime periodEndTime(itsPeriod.localEndTime());
 	int periodLength = periodEndTime.DifferenceInHours(periodStartTime);
 
 	// Period generator
