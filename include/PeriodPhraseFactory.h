@@ -9,7 +9,7 @@
 #define TEXTGEN_PERIODPHRASEFACTORY_H
 
 #include <string>
-class TextGenTime;
+class TextGenPosixTime;
 namespace TextGen { class WeatherPeriod; class WeatherArea; }
 
 namespace TextGen
@@ -21,11 +21,11 @@ namespace TextGen
 
 	Sentence create(const std::string & theType,
 					const std::string & theVariable,
-					const TextGenTime & theForecastTime,
+					const TextGenPosixTime & theForecastTime,
 					const TextGen::WeatherPeriod & thePeriod);
 	Sentence create(const std::string & theType,
 					const std::string & theVariable,
-					const TextGenTime & theForecastTime,
+					const TextGenPosixTime & theForecastTime,
 					const TextGen::WeatherPeriod & thePeriod,
 					const TextGen::WeatherArea & theArea);
 

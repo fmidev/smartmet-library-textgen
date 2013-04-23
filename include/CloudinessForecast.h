@@ -98,7 +98,7 @@ namespace TextGen
 					 const cloudiness_period_vector& theCloudinessPeriodsSource,
 					 cloudiness_period_vector& theCloudinessPeriodsDestination);
 	void joinPeriods();
-	cloudiness_id getCloudinessPeriodId(const TextGenTime& theObservationTime,
+	cloudiness_id getCloudinessPeriodId(const TextGenPosixTime& theObservationTime,
 										const cloudiness_period_vector& theCloudinessPeriodVector) const;
 	Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;
 	cloudiness_id getCloudinessId(const float& theMin, 

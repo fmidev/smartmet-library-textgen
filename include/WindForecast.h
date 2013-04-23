@@ -198,7 +198,7 @@ namespace TextGen
   typedef std::vector<WindSpeedPeriodDataItem*> wind_speed_period_data_item_vector;
   typedef std::vector<WindDirectionPeriodDataItem*> wind_direction_period_data_item_vector;
   typedef std::vector<WindEventPeriodDataItem*> wind_event_period_data_item_vector;
-  typedef std::pair<TextGenTime, WindEventId> timestamp_wind_event_id_pair;
+  typedef std::pair<TextGenPosixTime, WindEventId> timestamp_wind_event_id_pair;
   typedef std::vector<timestamp_wind_event_id_pair> wind_event_id_vector;
 
   struct index_vectors
@@ -216,7 +216,7 @@ namespace TextGen
 	wo_story_params(const std::string& var,
 					const WeatherArea& area,
 					const WeatherPeriod& forecastPeriod,
-					const TextGenTime& forecastTime,
+					const TextGenPosixTime& forecastTime,
 					const AnalysisSources& sources,
 					MessageLogger& log) :
 	  theVar(var),
@@ -241,7 +241,7 @@ namespace TextGen
 	const std::string& theVar;
 	const WeatherArea& theArea;
 	const WeatherPeriod& theForecastPeriod;
-	const TextGenTime& theForecastTime;
+	const TextGenPosixTime& theForecastTime;
 	const AnalysisSources& theSources;
 	WeatherPeriod theDataPeriod; // currently same as forecast period, but could be longer in both ends
 	MessageLogger& theLog;
@@ -510,7 +510,7 @@ namespace TextGen
 									 bool& fastChange) const;
 	std::string getWindDirectionTurntoString(const WindStoryTools::WindDirectionId& theWindDirectionId) const;
 	Sentence reportIntermediateSpeed(const WeatherPeriod& speedEventPeriod) const;
-	bool samePartOfTheDay(const TextGenTime& time1, const TextGenTime& time2) const;
+	bool samePartOfTheDay(const TextGenPosixTime& time1, const TextGenPosixTime& time2) const;
 	Sentence directedWindSentenceAfterVaryingWind(const wo_story_params& theParameters,
 												  const WeatherPeriod& eventPeriod,
 												  const bool& firstSentenceInTheStory,
@@ -555,11 +555,11 @@ namespace TextGen
 								 const WindStoryTools::WindDirectionId& windDirectionId);
 
   WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
-											 const TextGenTime& pointOfTime,
+											 const TextGenPosixTime& pointOfTime,
 											 const std::string& var);
   WindStoryTools::WindDirectionId get_wind_direction_id_at(const wind_data_item_vector& theWindDataVector,
 														   const WeatherArea& theArea,
-														   const TextGenTime& pointOfTime,
+														   const TextGenPosixTime& pointOfTime,
 														   const std::string& var);
   WindStoryTools::WindDirectionId get_wind_direction_id_at(const wind_data_item_vector& theWindDataVector,
 														   const WeatherArea& theArea,
@@ -568,7 +568,7 @@ namespace TextGen
 														   const std::string& var);
   WeatherResult get_wind_direction_at(const wind_data_item_vector& theWindDataVector,
 									  const WeatherArea& theArea,
-									  const TextGenTime& pointOfTime,
+									  const TextGenPosixTime& pointOfTime,
 									  const std::string& var);
   WeatherResult get_wind_direction_at(const wind_data_item_vector& theWindDataVector,
 									  const WeatherArea& theArea,
@@ -577,7 +577,7 @@ namespace TextGen
 									  const std::string& var);
 
   bool is_gusty_wind(const wo_story_params& theParameters,
-					 const TextGenTime& pointOfTime,
+					 const TextGenPosixTime& pointOfTime,
 					 const std::string& var);
   bool is_gusty_wind(const wo_story_params& theParameters,
 					 const WeatherPeriod& period,
@@ -595,7 +595,7 @@ namespace TextGen
 										  int& endLowerLimit,
 										  int& endUpperLimit,
 										  float& changeRatePerHour);
-  void get_wind_speed_interval(const TextGenTime& pointOfTime,
+  void get_wind_speed_interval(const TextGenPosixTime& pointOfTime,
 							   const WeatherArea& area,
 							   const wind_data_item_vector& windDataVector,
 							   int& lowerLimit,
@@ -648,7 +648,7 @@ namespace TextGen
   float get_maximum_wind(const WeatherPeriod& period,
 						 const WeatherArea& area,
 						 const wind_data_item_vector& windDataVector);
-  TextGenTime get_phrase_period_end_timestamp(const TextGenTime& originalTimestamp);
+  TextGenPosixTime get_phrase_period_end_timestamp(const TextGenPosixTime& originalTimestamp);
 	
 
   std::ostream& operator<<(std::ostream& theOutput,

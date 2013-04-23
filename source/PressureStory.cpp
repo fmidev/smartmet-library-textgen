@@ -44,7 +44,7 @@ namespace TextGen
   */
   // ----------------------------------------------------------------------
   
-  PressureStory::PressureStory(const TextGenTime & theForecastTime,
+  PressureStory::PressureStory(const TextGenPosixTime & theForecastTime,
 							   const AnalysisSources & theSources,
 							   const WeatherArea & theArea,
 							   const WeatherPeriod & thePeriod,

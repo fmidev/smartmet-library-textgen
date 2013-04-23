@@ -44,7 +44,7 @@ namespace TextGen
   */
   // ----------------------------------------------------------------------
   
-  RoadStory::RoadStory(const TextGenTime & theForecastTime,
+  RoadStory::RoadStory(const TextGenPosixTime & theForecastTime,
 					   const AnalysisSources & theSources,
 					   const WeatherArea & theArea,
 					   const WeatherPeriod & thePeriod,

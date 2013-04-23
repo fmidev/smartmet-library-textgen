@@ -73,7 +73,7 @@ namespace TextGen
 									   const unsigned short theForecastArea) const;
 	float getMeanIntensity(const WeatherPeriod& thePeriod,
 										const unsigned short theForecastArea) const;
-	bool getPrecipitationPeriod(const TextGenTime& theTimestamp, TextGenTime& theStartTime, TextGenTime& theEndTime) const;
+	bool getPrecipitationPeriod(const TextGenPosixTime& theTimestamp, TextGenPosixTime& theStartTime, TextGenPosixTime& theEndTime) const;
 	static bool singleForm(const precipitation_form_id& thePrecipitationForm);
 	Sentence getThunderSentence(const WeatherPeriod& thePeriod,
 								const unsigned short& theForecastAreaId,
@@ -98,7 +98,7 @@ namespace TextGen
 								precipitation_form_id& theForm,
 								float& theExtent) const;
 
-	AreaTools::Rect getPrecipitationRect(const TextGenTime& theTimestamp, 
+	AreaTools::Rect getPrecipitationRect(const TextGenPosixTime& theTimestamp, 
 										 const float& theLowerLimit,
 										 const float& theUpperLimit) const;
 	NFmiPoint getPrecipitationRepresentativePoint(const WeatherPeriod& thePeriod) const;
@@ -181,7 +181,7 @@ namespace TextGen
 										const float& thePrecipitationFormSnow,
 										const float& thePrecipitationFormFreezing,
 										const precipitation_type& thePrecipitationType,
-										const TextGenTime& theTypeChangeTime,
+										const TextGenPosixTime& theTypeChangeTime,
 										std::map<std::string, Sentence>& theCompositePhraseElements) const;
 	std::string precipitationSentenceString(const WeatherPeriod& thePeriod,
 											const precipitation_form_id& thePrecipitationForm,
@@ -194,7 +194,7 @@ namespace TextGen
 											const float thePrecipitationFormSnow,
 											const float thePrecipitationFormFreezing,
 											const precipitation_type& thePrecipitationType,
-											const TextGenTime& theTypeChangeTime) const;
+											const TextGenPosixTime& theTypeChangeTime) const;
 	void selectPrecipitationSentence(const WeatherPeriod& thePeriod,
 									 const precipitation_form_id& thePrecipitationForm,
 									 const float thePrecipitationIntensity,
@@ -206,7 +206,7 @@ namespace TextGen
 									 const float thePrecipitationFormSnow,
 									 const float thePrecipitationFormFreezing,
 									 const precipitation_type& thePrecipitationType,
-									 const TextGenTime& theTypeChangeTime,
+									 const TextGenPosixTime& theTypeChangeTime,
 									 const precipitation_form_transformation_id& theTransformationId,
 									 std::map<std::string, Sentence>& theCompositePhraseElements) const;
 

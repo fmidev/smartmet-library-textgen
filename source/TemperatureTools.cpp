@@ -79,8 +79,8 @@ namespace TextGen
 	  int morning_starthour    = optional_hour(thePlainVar+season+"::morning_temperature::starthour", default_starthour);
 	  int morning_endhour      = optional_hour(thePlainVar+season+"::morning_temperature::endhour", default_endhour);
 
-	  TextGenTime time1(year, month, day, morning_starthour, 0,0);
-	  TextGenTime time2(year, month, day, morning_endhour, 0,0);
+	  TextGenPosixTime time1(year, month, day, morning_starthour, 0,0);
+	  TextGenPosixTime time2(year, month, day, morning_endhour, 0,0);
 
 	  WeatherPeriod morningPeriod(time1,time2);
 	  
@@ -115,7 +115,7 @@ namespace TextGen
 	  std::string thePlainVar(fakeStrPos == -1 ? theVar : theVar.substr(0, fakeStrPos));
 
 	  bool is_winter = SeasonTools::isWinterHalf(thePeriod.localStartTime(), thePlainVar);
-	  int timezone = thePeriod.localStartTime().GetZoneDifferenceHour();
+	  int timezone =  TextGenPosixTime::GetZoneDifferenceHour(thePeriod.localStartTime(), false);
 	  std::string season(is_winter ? "::winter" : "::summer");
 				
 	  // in wintertime convert the default value to localtime
@@ -125,8 +125,8 @@ namespace TextGen
 	  int afternoon_starthour    =  optional_hour(thePlainVar+season+"::day_temperature::starthour", default_starthour);
 	  int afternoon_endhour      =  optional_hour(thePlainVar+season+"::day_temperature::endhour", default_endhour);
 
-	  TextGenTime time1(year, month, day, afternoon_starthour, 0,0);
-	  TextGenTime time2(year, month, day, afternoon_endhour, 0,0);
+	  TextGenPosixTime time1(year, month, day, afternoon_starthour, 0,0);
+	  TextGenPosixTime time2(year, month, day, afternoon_endhour, 0,0);
 
 	  WeatherPeriod dayPeriod(time1,time2);
 

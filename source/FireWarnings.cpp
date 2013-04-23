@@ -28,7 +28,7 @@ namespace TextGen
   // ----------------------------------------------------------------------
 
   FireWarnings::FireWarnings(const string & theDirectory,
-							 const TextGenTime & theTime)
+							 const TextGenPosixTime & theTime)
 	: itsTime(theTime)
 	, itsWarnings(MaxAreaCode+1,Undefined)
   {
@@ -44,7 +44,7 @@ namespace TextGen
 					   ".palot_koodina");
 	if(!NFmiFileSystem::FileExists(filename))
 	  {
-		TextGenTime tmp = theTime;
+		TextGenPosixTime tmp = theTime;
 		tmp.ChangeByDays(-1);
 		filename = (theDirectory +
 					'/' +

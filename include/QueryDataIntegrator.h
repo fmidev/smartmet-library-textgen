@@ -11,7 +11,7 @@
 class NFmiFastQueryInfo;
 class NFmiIndexMask;
 class NFmiIndexMaskSource;
-class TextGenTime;
+class TextGenPosixTime;
 
 namespace TextGen
 {
@@ -23,8 +23,8 @@ namespace TextGen
 	// Integrate over time with current location & param & level
 	
 	float Integrate(NFmiFastQueryInfo & theQI,
-					const TextGenTime & theStartTime,
-					const TextGenTime & theEndTime,
+					const TextGenPosixTime & theStartTime,
+					const TextGenPosixTime & theEndTime,
 					Calculator & theTimeCalculator);
 
 	// Integrate over time with subinterval generator w/ current location/param/level
@@ -45,15 +45,15 @@ namespace TextGen
 	float Integrate(NFmiFastQueryInfo & theQI,
 					const NFmiIndexMask & theIndexMask,
 					Calculator & theSpaceCalculator,
-					const TextGenTime & theStartTime,
-					const TextGenTime & theEndTime,
+					const TextGenPosixTime & theStartTime,
+					const TextGenPosixTime & theEndTime,
 					Calculator & theTimeCalculator);
 	
 	// Integrate over time and grid with current param & level
 	
 	float Integrate(NFmiFastQueryInfo & theQI,
-					const TextGenTime & theStartTime,
-					const TextGenTime & theEndTime,
+					const TextGenPosixTime & theStartTime,
+					const TextGenPosixTime & theEndTime,
 					Calculator & theTimeCalculator,
 					const NFmiIndexMask & theIndexMask,
 					Calculator & theSpaceCalculator);
@@ -63,8 +63,8 @@ namespace TextGen
 	float Integrate(NFmiFastQueryInfo & theQI,
 					const NFmiIndexMaskSource & theMaskSource,
 					Calculator & theSpaceCalculator,
-					const TextGenTime & theStartTime,
-					const TextGenTime & theEndTime,
+					const TextGenPosixTime & theStartTime,
+					const TextGenPosixTime & theEndTime,
 					Calculator & theTimeCalculator);
 	
 	// Integrate over time, sub time and grid with current param & level

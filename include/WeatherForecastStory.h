@@ -127,7 +127,7 @@ class WeatherForecastStory;
 	Sentence thePoutaantuuSentence;
  	Sentence theShortFormSentence;
  	Sentence theChangeSentence;
-	TextGenTime theCloudinessChangeTimestamp;
+	TextGenPosixTime theCloudinessChangeTimestamp;
 
 	friend class WeatherForecastStory;
   };
@@ -139,7 +139,7 @@ class WeatherForecastStory;
 						 const TextGen::WeatherPeriod& forecastPeriod,
 						 const TextGen::WeatherArea& weatherArea,
 						 const unsigned short& forecastArea,
-						 const TextGenTime& theForecastTime,
+						 const TextGenPosixTime& theForecastTime,
 						 PrecipitationForecast& precipitationForecast,
 						 const CloudinessForecast& cloudinessForecast,
 						 const FogForecast& fogForecast,
@@ -166,7 +166,7 @@ class WeatherForecastStory;
 	const WeatherPeriod& theForecastPeriod;
 	const WeatherArea& theWeatherArea;
 	const unsigned short& theForecastArea;
-	const TextGenTime& theForecastTime;
+	const TextGenPosixTime& theForecastTime;
 	const PrecipitationForecast& thePrecipitationForecast;
 	const CloudinessForecast& theCloudinessForecast;
 	const FogForecast& theFogForecast;

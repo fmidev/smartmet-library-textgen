@@ -98,8 +98,8 @@ namespace TextGen
   */
 
   
-  pair<WeatherPeriod, FogIntensityDataItem> get_fog_wp(const TextGenTime& theStartTime,
-													   const TextGenTime& theEndTime,
+  pair<WeatherPeriod, FogIntensityDataItem> get_fog_wp(const TextGenPosixTime& theStartTime,
+													   const TextGenPosixTime& theEndTime,
 													   const float& theModerateFogExtent,
 													   const float& theDenseFogExtent)
   {
@@ -107,8 +107,8 @@ namespace TextGen
 					 FogIntensityDataItem(theModerateFogExtent, theDenseFogExtent));
   }
 
-  pair<WeatherPeriod, fog_type_id> get_fog_type_wp(const TextGenTime& theStartTime,
-												   const TextGenTime& theEndTime,
+  pair<WeatherPeriod, fog_type_id> get_fog_type_wp(const TextGenPosixTime& theStartTime,
+												   const TextGenPosixTime& theEndTime,
 												   const fog_type_id& theFogTypeId)
   {
 	return make_pair(WeatherPeriod(theStartTime, theEndTime), theFogTypeId);
@@ -219,7 +219,7 @@ namespace TextGen
   {
 	if(theModerateFogData && theDenseFogData && theModerateFogData->size() > 0)
 	  {
-		TextGenTime fogPeriodStartTime(theModerateFogData->at(0)->thePeriod.localStartTime());
+		TextGenPosixTime fogPeriodStartTime(theModerateFogData->at(0)->thePeriod.localStartTime());
 
 		for(unsigned int i = 1; i < theModerateFogData->size(); i++)
 		  {
@@ -284,7 +284,7 @@ namespace TextGen
 	if(theFogPeriods.size() == 0)
 	  return;
 
-	TextGenTime fogPeriodStartTime(theFogPeriods.at(0).first.localStartTime());
+	TextGenPosixTime fogPeriodStartTime(theFogPeriods.at(0).first.localStartTime());
 	fog_type_id previousFogType = get_fog_type(theFogPeriods.at(0).second.theModerateFogExtent,
 											   theFogPeriods.at(0).second.theDenseFogExtent);
 	for(unsigned int i = 1; i < theFogPeriods.size(); i++)
@@ -601,8 +601,8 @@ namespace TextGen
 
 	if(theFogPeriodOkFlag)
 	  {
-		TextGenTime startTime(start_year, start_month, start_day, start_hour);
-		TextGenTime endTime(end_year, end_month, end_day, end_hour);
+		TextGenPosixTime startTime(start_year, start_month, start_day, start_hour);
+		TextGenPosixTime endTime(end_year, end_month, end_day, end_hour);
 
 		WeatherPeriod theResultFogPeriod(startTime, endTime);
 		

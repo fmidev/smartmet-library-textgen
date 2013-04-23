@@ -9,24 +9,24 @@
 #define TEXTGEN_QUERYDATATOOLS_H
 
 class NFmiFastQueryInfo;
-class TextGenTime;
+class TextGenPosixTime;
 
 namespace TextGen
 {
   namespace QueryDataTools
   {
 	bool findIndices(NFmiFastQueryInfo & theQI,
-					 const TextGenTime & theStartTime,
-					 const TextGenTime & theEndTime,
+					 const TextGenPosixTime & theStartTime,
+					 const TextGenPosixTime & theEndTime,
 					 unsigned long & theStartIndex,
 					 unsigned long & theEndIndex);
 
 	bool firstTime(NFmiFastQueryInfo & theQI,
-				   const TextGenTime & theTime,
-				   const TextGenTime & theEndTime);
+				   const TextGenPosixTime & theTime,
+				   const TextGenPosixTime & theEndTime);
 
 	bool lastTime(NFmiFastQueryInfo & theQI,
-				  const TextGenTime & theTime);
+				  const TextGenPosixTime & theTime);
   }
 }
 

@@ -547,8 +547,8 @@ namespace TextGen
 	  const int starthour = require_hour(theVar+"::morning::starthour");
 	  const int endhour = require_hour(theVar+"::day::starthour");
 
-	  const TextGenTime & starttime = thePeriod.localStartTime();
-	  const TextGenTime & endtime = thePeriod.localEndTime();
+	  const TextGenPosixTime & starttime = thePeriod.localStartTime();
+	  const TextGenPosixTime & endtime = thePeriod.localEndTime();
 
 	  if(!TimeTools::isSameDay(starttime,endtime))
 		return false;
@@ -578,8 +578,8 @@ namespace TextGen
 	  const int starthour = require_hour(theVar+"::day::starthour");
 	  const int endhour = require_hour(theVar+"::evening::starthour");
 
-	  const TextGenTime & starttime = thePeriod.localStartTime();
-	  const TextGenTime & endtime = thePeriod.localEndTime();
+	  const TextGenPosixTime & starttime = thePeriod.localStartTime();
+	  const TextGenPosixTime & endtime = thePeriod.localEndTime();
 
 	  if(!TimeTools::isSameDay(starttime,endtime))
 		return false;
@@ -609,8 +609,8 @@ namespace TextGen
 	  const int starthour = require_hour(theVar+"::evening::starthour");
 	  const int endhour = require_hour(theVar+"::night::starthour");
 
-	  const TextGenTime & starttime = thePeriod.localStartTime();
-	  const TextGenTime & endtime = thePeriod.localEndTime();
+	  const TextGenPosixTime & starttime = thePeriod.localStartTime();
+	  const TextGenPosixTime & endtime = thePeriod.localEndTime();
 
 	  if(!TimeTools::isSameDay(starttime,endtime))
 		return false;
@@ -640,8 +640,8 @@ namespace TextGen
 	  const int starthour = require_hour(theVar+"::night::starthour");
 	  const int endhour = require_hour(theVar+"::morning::starthour");
 
-	  const TextGenTime & starttime = thePeriod.localStartTime();
-	  const TextGenTime & endtime = thePeriod.localEndTime();
+	  const TextGenPosixTime & starttime = thePeriod.localStartTime();
+	  const TextGenPosixTime & endtime = thePeriod.localEndTime();
 
 	  if(!TimeTools::isNextDay(starttime,endtime))
 		return false;
@@ -771,8 +771,8 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 
 	const Sentence during_period_phrase(const WeatherPeriod & thePeriod,
-										const TextGenTime & theLastTime,
-										const TextGenTime & theForecastTime,
+										const TextGenPosixTime & theLastTime,
+										const TextGenPosixTime & theForecastTime,
 										const string & theVar)
 	{
 	  if(TimeTools::isSameDay(theLastTime,thePeriod.localStartTime()))
@@ -902,8 +902,8 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 
 	const Sentence starting_period_phrase(const WeatherPeriod & thePeriod,
-										  const TextGenTime & theLastTime,
-										  const TextGenTime & theForecastTime,
+										  const TextGenPosixTime & theLastTime,
+										  const TextGenPosixTime & theForecastTime,
 										  const string & theVar)
 	{
 
@@ -942,8 +942,8 @@ namespace TextGen
 
 	const int maxhours = Settings::optional_int(itsVar+"::maxhours",30);
 
-	const TextGenTime time1(itsPeriod.localStartTime());
-	TextGenTime time2 = TimeTools::addHours(time1,maxhours);
+	const TextGenPosixTime time1(itsPeriod.localStartTime());
+	TextGenPosixTime time2 = TimeTools::addHours(time1,maxhours);
 	if(itsPeriod.localEndTime().IsLessThan(time2))
 	  time2 = itsPeriod.localEndTime();
 
@@ -1016,7 +1016,7 @@ namespace TextGen
 	// Some old date guaranteed to be different than any
 	// period to be handled:
 
-	TextGenTime last_mentioned_date(1970,1,1);
+	TextGenPosixTime last_mentioned_date(1970,1,1);
 
 	Sentence sentence;
 

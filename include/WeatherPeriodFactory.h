@@ -10,7 +10,7 @@
 
 #include <string>
 
-class TextGenTime;
+class TextGenPosixTime;
 
 namespace TextGen
 {
@@ -23,7 +23,7 @@ namespace TextGen
   namespace WeatherPeriodFactory
   {
 
-	TextGen::WeatherPeriod create(const TextGenTime & theTime,
+	TextGen::WeatherPeriod create(const TextGenPosixTime & theTime,
 										  const std::string & theVariable);
 
 

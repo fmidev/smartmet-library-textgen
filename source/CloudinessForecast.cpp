@@ -353,7 +353,7 @@ namespace TextGen
 
 	for(unsigned int i = 0; i < cloudinessWeatherEvents.size(); i++)
 	  {
-		TextGenTime weatherEventTimestamp(cloudinessWeatherEvents.at(i).first);
+		TextGenPosixTime weatherEventTimestamp(cloudinessWeatherEvents.at(i).first);
 
 		if(!(weatherEventTimestamp >= thePeriod.localStartTime() &&
 			 weatherEventTimestamp <= thePeriod.localEndTime()))
@@ -536,8 +536,8 @@ namespace TextGen
   {
 	if(theData)
 	  {
-		TextGenTime previousStartTime;
-		TextGenTime previousEndTime;
+		TextGenPosixTime previousStartTime;
+		TextGenPosixTime previousEndTime;
 		cloudiness_id previousCloudinessId(MISSING_CLOUDINESS_ID);
 		for(unsigned int i = 0; i < theData->size(); i++)
 		  {
@@ -646,8 +646,8 @@ namespace TextGen
 			  }
 			*/
 
-			TextGenTime startTime(theCloudinessPeriodsSource.at(periodStartIndex).first.localStartTime());
-			TextGenTime endTime(theCloudinessPeriodsSource.at(lastPeriod ? i : i-1).first.localEndTime());
+			TextGenPosixTime startTime(theCloudinessPeriodsSource.at(periodStartIndex).first.localStartTime());
+			TextGenPosixTime endTime(theCloudinessPeriodsSource.at(lastPeriod ? i : i-1).first.localEndTime());
 
 			weather_result_data_item_vector thePeriodCloudiness;
 
@@ -802,8 +802,8 @@ namespace TextGen
 		if(thePeriod.localStartTime() >= theSourceCloudinessPeriods.at(i).first.localStartTime() &&
 		   thePeriod.localEndTime() <= theSourceCloudinessPeriods.at(i).first.localEndTime())
 		  {
-			TextGenTime startTime(thePeriod.localStartTime());
-			TextGenTime endTime(thePeriod.localEndTime());
+			TextGenPosixTime startTime(thePeriod.localStartTime());
+			TextGenPosixTime endTime(thePeriod.localEndTime());
 			cloudiness_id clid(theSourceCloudinessPeriods.at(i).second);
 			pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
 			theWeatherPeriodCloudiness.push_back(item);
@@ -812,8 +812,8 @@ namespace TextGen
 				thePeriod.localStartTime() < theSourceCloudinessPeriods.at(i).first.localEndTime() &&
 				thePeriod.localEndTime() > theSourceCloudinessPeriods.at(i).first.localEndTime())
 		  {
-			TextGenTime startTime(thePeriod.localStartTime());
-			TextGenTime endTime(theSourceCloudinessPeriods.at(i).first.localEndTime());
+			TextGenPosixTime startTime(thePeriod.localStartTime());
+			TextGenPosixTime endTime(theSourceCloudinessPeriods.at(i).first.localEndTime());
 			cloudiness_id clid(theSourceCloudinessPeriods.at(i).second);
 			pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
 			theWeatherPeriodCloudiness.push_back(item);
@@ -822,8 +822,8 @@ namespace TextGen
 				thePeriod.localEndTime() > theSourceCloudinessPeriods.at(i).first.localStartTime() &&
 				thePeriod.localEndTime() <= theSourceCloudinessPeriods.at(i).first.localEndTime())
 		  {
-			TextGenTime startTime(theSourceCloudinessPeriods.at(i).first.localStartTime());
-			TextGenTime endTime(thePeriod.localEndTime());
+			TextGenPosixTime startTime(theSourceCloudinessPeriods.at(i).first.localStartTime());
+			TextGenPosixTime endTime(thePeriod.localEndTime());
 			cloudiness_id clid(theSourceCloudinessPeriods.at(i).second);
 			pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
 			theWeatherPeriodCloudiness.push_back(item);				
@@ -831,8 +831,8 @@ namespace TextGen
 		else if(thePeriod.localStartTime() < theSourceCloudinessPeriods.at(i).first.localStartTime() &&
 				thePeriod.localEndTime() > theSourceCloudinessPeriods.at(i).first.localEndTime())
 		  {
-			TextGenTime startTime(theSourceCloudinessPeriods.at(i).first.localStartTime());
-			TextGenTime endTime( theSourceCloudinessPeriods.at(i).first.localEndTime());
+			TextGenPosixTime startTime(theSourceCloudinessPeriods.at(i).first.localStartTime());
+			TextGenPosixTime endTime( theSourceCloudinessPeriods.at(i).first.localEndTime());
 			cloudiness_id clid(theSourceCloudinessPeriods.at(i).second);
 			pair<WeatherPeriod, cloudiness_id> item = make_pair(WeatherPeriod(startTime, endTime), clid);
 			theWeatherPeriodCloudiness.push_back(item);				
@@ -966,7 +966,7 @@ namespace TextGen
 	return sentence;
   }
 
-  cloudiness_id CloudinessForecast::getCloudinessPeriodId(const TextGenTime& theObservationTime,
+  cloudiness_id CloudinessForecast::getCloudinessPeriodId(const TextGenPosixTime& theObservationTime,
 													const cloudiness_period_vector& theCloudinessPeriodVector) const
   {
 

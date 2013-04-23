@@ -22,7 +22,7 @@
 #include "WeatherResult.h"
 #include "GridForecaster.h"
 #include "RangeAcceptor.h"
-#include "TextGenTime.h"
+#include "TextGenPosixTime.h"
 #include <newbase/NFmiStringTools.h>
 
 #include <ctime>
@@ -100,7 +100,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	bool isWinter(const TextGenTime& theDate, const string& theVar)
+	bool isWinter(const TextGenPosixTime& theDate, const string& theVar)
 	{
 	  int winterStartMonth = -1, winterStartDay = -1, winterEndMonth = -1, winterEndDay = -1;
 
@@ -124,7 +124,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	bool isSpring(const TextGenTime& theDate, const string& theVar)
+	bool isSpring(const TextGenPosixTime& theDate, const string& theVar)
 	{
 	  int springStartMonth = -1, springStartDay = -1, springEndMonth = -1, springEndDay = -1;
 
@@ -148,7 +148,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	bool isSummer(const TextGenTime& theDate, const string& theVar)
+	bool isSummer(const TextGenPosixTime& theDate, const string& theVar)
 	{
 	  int summerStartMonth = -1, summerStartDay = -1, summerEndMonth = -1, summerEndDay = -1;
 
@@ -172,7 +172,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	bool isAutumn(const TextGenTime& theDate, const string& theVar)
+	bool isAutumn(const TextGenPosixTime& theDate, const string& theVar)
 	{
 	  int autumnStartMonth = -1, autumnStartDay = -1, autumnEndMonth = -1, autumnEndDay = -1;
 
@@ -196,7 +196,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	bool isSummerHalf(const TextGenTime& theDate, const string& theVar)
+	bool isSummerHalf(const TextGenPosixTime& theDate, const string& theVar)
 	{
 	  int summerStartMonth = -1, summerStartDay = -1, summerEndMonth = -1, summerEndDay = -1;
 
@@ -219,7 +219,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	bool isWinterHalf(const TextGenTime& theDate, const string& theVar)
+	bool isWinterHalf(const TextGenPosixTime& theDate, const string& theVar)
 	{
 	  return !isSummerHalf(theDate, theVar);
 	}
@@ -267,8 +267,8 @@ namespace TextGen
 
 	  GridForecaster forecaster;
 	  // 5 days average temperature
-	  TextGenTime startTime(thePeriod.localStartTime());
-	  TextGenTime endTime(thePeriod.localStartTime());
+	  TextGenPosixTime startTime(thePeriod.localStartTime());
+	  TextGenPosixTime endTime(thePeriod.localStartTime());
 	  endTime.ChangeByDays(5);
 	  WeatherPeriod period(startTime, endTime);
 	  

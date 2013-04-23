@@ -24,7 +24,7 @@
 #include "WeatherPeriod.h"
 #include "TextGenError.h"
 
-#include "TextGenTime.h"
+#include "TextGenPosixTime.h"
 
 
 using namespace std;
@@ -91,7 +91,7 @@ namespace TextGen
 	{
 	  int count = 0;
 
-	  TextGenTime start(thePeriod.localStartTime());
+	  TextGenPosixTime start(thePeriod.localStartTime());
 	  start.ChangeByDays(-1);
 	  start.SetHour(theStartHour);
 
@@ -109,7 +109,7 @@ namespace TextGen
 		  !thePeriod.localEndTime().IsLessThan(start);
 		  start.ChangeByDays(1))
 		{
-		  TextGenTime end(start);
+		  TextGenPosixTime end(start);
 		  if(theEndHour <= theStartHour)
 			end.ChangeByDays(1);
 		  end.SetHour(theEndHour);
@@ -190,7 +190,7 @@ namespace TextGen
 	  if(theNumber <= 0)
 		throw TextGenError(msg);
 
-	  TextGenTime start(thePeriod.localStartTime());
+	  TextGenPosixTime start(thePeriod.localStartTime());
 	  start.ChangeByDays(-1);
 	  start.SetHour(theStartHour);
 
@@ -208,7 +208,7 @@ namespace TextGen
 		  !thePeriod.localEndTime().IsLessThan(start);
 		  start.ChangeByDays(1))
 		{
-		  TextGenTime end(start);
+		  TextGenPosixTime end(start);
 		  if(theEndHour <= theStartHour)
 			end.ChangeByDays(1);
 		  end.SetHour(theEndHour);

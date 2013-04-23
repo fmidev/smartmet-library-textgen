@@ -673,7 +673,7 @@ namespace TextGen
 															 const float& thePrecipitationFormSnow,
 															 const float& thePrecipitationFormFreezing,
 															 const precipitation_type& thePrecipitationType,
-															 const TextGenTime& theTypeChangeTime,
+															 const TextGenPosixTime& theTypeChangeTime,
 															 map<string, Sentence>& theCompositePhraseElements) const
   {
 	theCheckHeavyIntensityFlag = MISSING_PRECIPITATION_TYPE;
@@ -1242,7 +1242,7 @@ vesi- tai lumisadetta.
 														  const float thePrecipitationFormSnow,
 														  const float thePrecipitationFormFreezing,
 														  const precipitation_type& thePrecipitationType,
-														  const TextGenTime& theTypeChangeTime,
+														  const TextGenPosixTime& theTypeChangeTime,
 														  const precipitation_form_transformation_id& theTransformationId,
 														  map<string, Sentence>& theCompositePhraseElements) const
   {
@@ -2038,8 +2038,8 @@ vesi- tai lumisadetta.
 
 	for(unsigned int i = thePrecipitationPeriodVector.size()-1; i > 0; i--)
 	  {
-		TextGenTime currentPeriodStartTime(thePrecipitationPeriodVector.at(i).localStartTime());
-		TextGenTime previousPeriodEndTime(thePrecipitationPeriodVector.at(i-1).localEndTime());
+		TextGenPosixTime currentPeriodStartTime(thePrecipitationPeriodVector.at(i).localStartTime());
+		TextGenPosixTime previousPeriodEndTime(thePrecipitationPeriodVector.at(i-1).localEndTime());
 
 	    if(currentPeriodStartTime.DifferenceInHours(previousPeriodEndTime) <= 2)
 		  {
@@ -2106,10 +2106,10 @@ vesi- tai lumisadetta.
 		  {
 			if(!isDryPrevious)
 			  {
-				TextGenTime startTime((*dataSourceVector)[periodStartIndex]->theObservationTime);
+				TextGenPosixTime startTime((*dataSourceVector)[periodStartIndex]->theObservationTime);
 				if(periodStartIndex == 0)
 				  startTime.SetDate(1970,1,1); // precipitation starts before forecast period
-				TextGenTime endTime((*dataSourceVector)[i-1]->theObservationTime);
+				TextGenPosixTime endTime((*dataSourceVector)[i-1]->theObservationTime);
 				dataDestinationVector->push_back(WeatherPeriod(startTime, endTime));
 			  }
 			periodStartIndex = i;
@@ -2117,10 +2117,10 @@ vesi- tai lumisadetta.
 	  }
 	if(!isDryPrevious && periodStartIndex != dataSourceVector->size() - 1)
 	  {
-		TextGenTime startTime((*dataSourceVector)[periodStartIndex]->theObservationTime);
+		TextGenPosixTime startTime((*dataSourceVector)[periodStartIndex]->theObservationTime);
 		if(periodStartIndex == 0)
 		  startTime.SetDate(1970,1,1); // precipitation starts before forecast period
-		TextGenTime endTime((*dataSourceVector)[dataSourceVector->size()-1]->theObservationTime);
+		TextGenPosixTime endTime((*dataSourceVector)[dataSourceVector->size()-1]->theObservationTime);
 		if(endTime == theParameters.theForecastPeriod.localEndTime())
 		  endTime.SetDate(2037,1,1); // precipitation continues when forecast period ends
 
@@ -2166,8 +2166,8 @@ vesi- tai lumisadetta.
 	
 	for(unsigned int i = 0; i < thePrecipitationPeriods.size(); i++)
 	  {
-		TextGenTime precipitationStartTime(thePrecipitationPeriods.at(i).localStartTime());
-		TextGenTime precipitationEndTime(thePrecipitationPeriods.at(i).localEndTime());
+		TextGenPosixTime precipitationStartTime(thePrecipitationPeriods.at(i).localStartTime());
+		TextGenPosixTime precipitationEndTime(thePrecipitationPeriods.at(i).localEndTime());
 		if(precipitationEndTime.DifferenceInHours(precipitationStartTime) >= 6)
 		  {
 			
@@ -2275,8 +2275,8 @@ vesi- tai lumisadetta.
 
 	for(unsigned int i = 1; i < thePrecipitationWeatherEvents.size(); i++)
 	  {
-		TextGenTime previousPeriodEndTime(thePrecipitationWeatherEvents[i-1].first);
-		TextGenTime currentPeriodStartTime(thePrecipitationWeatherEvents[i].first);
+		TextGenPosixTime previousPeriodEndTime(thePrecipitationWeatherEvents[i-1].first);
+		TextGenPosixTime currentPeriodStartTime(thePrecipitationWeatherEvents[i].first);
 		weather_event_id previousPeriodWeatherEventId(thePrecipitationWeatherEvents[i-1].second);
 		weather_event_id currentPeriodWeatherEventId(thePrecipitationWeatherEvents[i].second);
 		if(abs(previousPeriodEndTime.DifferenceInHours(currentPeriodStartTime)) < 2 &&
@@ -2471,9 +2471,9 @@ vesi- tai lumisadetta.
 	  }
   }
 
-  bool PrecipitationForecast::getPrecipitationPeriod(const TextGenTime& theTimestamp, 
-													 TextGenTime& theStartTime,
-													 TextGenTime& theEndTime) const
+  bool PrecipitationForecast::getPrecipitationPeriod(const TextGenPosixTime& theTimestamp, 
+													 TextGenPosixTime& theStartTime,
+													 TextGenPosixTime& theEndTime) const
   {
 	const vector<WeatherPeriod>* precipitationPeriodVector = 0;
 
@@ -2718,16 +2718,16 @@ vesi- tai lumisadetta.
 	if(thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) < 5)
 	  return NO_FORM_TRANSFORMATION;
 	
-	TextGenTime atStartBeg(thePeriod.localStartTime());
+	TextGenPosixTime atStartBeg(thePeriod.localStartTime());
 	if(atStartBeg.GetYear() == 1970)
 	  atStartBeg = theParameters.theForecastPeriod.localStartTime();
-	TextGenTime atStartEnd(atStartBeg);
+	TextGenPosixTime atStartEnd(atStartBeg);
 	atStartEnd.ChangeByHours(2);
 	WeatherPeriod atStartPeriod(atStartBeg, atStartEnd);
-	TextGenTime atEndBeg(thePeriod.localEndTime());
+	TextGenPosixTime atEndBeg(thePeriod.localEndTime());
 	if(atEndBeg.GetYear() == 2037)
 	  atEndBeg = theParameters.theForecastPeriod.localEndTime();	
-	TextGenTime atEndEnd(atEndBeg);
+	TextGenPosixTime atEndEnd(atEndBeg);
 	atEndBeg.ChangeByHours(-2);
 	WeatherPeriod atEndPeriod(atEndBeg, atEndEnd);
 
@@ -2941,8 +2941,8 @@ vesi- tai lumisadetta.
 	  {
 		for(int i = heavyPrecipitationPeriods.size() - 2; i >= 0; i--)
 		  {
-			TextGenTime currentPeriodStartTime(heavyPrecipitationPeriods[i].localEndTime());
-			TextGenTime nextPeriodStartTime(heavyPrecipitationPeriods[i+1].localStartTime());
+			TextGenPosixTime currentPeriodStartTime(heavyPrecipitationPeriods[i].localEndTime());
+			TextGenPosixTime nextPeriodStartTime(heavyPrecipitationPeriods[i+1].localStartTime());
 			if(abs(nextPeriodStartTime.DifferenceInHours(currentPeriodStartTime)) <= 2 &&
 			   (get_period_length(heavyPrecipitationPeriods[i]) >= 2 || get_period_length(heavyPrecipitationPeriods[i+1]) >= 2))
 			  {
@@ -4166,8 +4166,8 @@ vesi- tai lumisadetta.
 	  {
 		for(unsigned int i = 0; i < precipitationPeriodVector->size(); i++)
 		  {
-			TextGenTime startTime(precipitationPeriodVector->at(i).localStartTime());
-			TextGenTime endTime(precipitationPeriodVector->at(i).localEndTime());
+			TextGenPosixTime startTime(precipitationPeriodVector->at(i).localStartTime());
+			TextGenPosixTime endTime(precipitationPeriodVector->at(i).localEndTime());
 
 			if(endTime.DifferenceInHours(startTime) < 6 && 
 			   is_inside(startTime, thePeriod) &&
@@ -4303,7 +4303,7 @@ vesi- tai lumisadetta.
 	  thePrecipitationWeatherEvents = *vectorToRefer;
   }
 
-  Rect PrecipitationForecast::getPrecipitationRect(const TextGenTime& theTimestamp, 
+  Rect PrecipitationForecast::getPrecipitationRect(const TextGenPosixTime& theTimestamp, 
 												   const float& theLowerLimit,
 												   const float& theUpperLimit) const
   {
@@ -4327,8 +4327,8 @@ vesi- tai lumisadetta.
   {
 	direction_id retval(NO_DIRECTION);
 
-	TextGenTime startTime(thePeriod.localEndTime());
-	TextGenTime endTime(thePeriod.localEndTime());
+	TextGenPosixTime startTime(thePeriod.localEndTime());
+	TextGenPosixTime endTime(thePeriod.localEndTime());
 	endTime.ChangeByHours(1);
 	startTime.ChangeByHours(1);
 	WeatherPeriod checkPeriod(startTime, endTime);
@@ -4375,9 +4375,9 @@ vesi- tai lumisadetta.
   {
 	direction_id retval(NO_DIRECTION);
 
-	TextGenTime startTime(thePeriod.localStartTime());
+	TextGenPosixTime startTime(thePeriod.localStartTime());
 	startTime.ChangeByHours(-1);
-	TextGenTime endTime(thePeriod.localStartTime());
+	TextGenPosixTime endTime(thePeriod.localStartTime());
 	WeatherPeriod checkPeriod(startTime, endTime);
 
 	unsigned int startIndex, endIndex;

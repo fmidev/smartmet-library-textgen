@@ -1213,7 +1213,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Sentence one_inclusive_rain(const TextGenTime & theForecastTime,
+  Sentence one_inclusive_rain(const TextGenPosixTime & theForecastTime,
 							  const AnalysisSources & theSources,
 							  const WeatherArea & theArea,
 							  const WeatherPeriod & thePeriod,
@@ -1292,7 +1292,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  Paragraph one_twoday_inclusive_rain(const TextGenTime & theForecastTime,
+  Paragraph one_twoday_inclusive_rain(const TextGenPosixTime & theForecastTime,
 									  const AnalysisSources & theSources,
 									  const WeatherArea & theArea,
 									  const WeatherPeriod & thePeriod,
@@ -1321,13 +1321,13 @@ namespace TextGen
 							 TimeTools::nextDay(day1.localEndTime()));
 
 	// the period before the rain
-	const TextGenTime before_rain_start(TimeTools::dayStart(theRainPeriod.localStartTime()));
-	const TextGenTime before_rain_end(theRainPeriod.localStartTime());
+	const TextGenPosixTime before_rain_start(TimeTools::dayStart(theRainPeriod.localStartTime()));
+	const TextGenPosixTime before_rain_end(theRainPeriod.localStartTime());
 	const WeatherPeriod before_rain(before_rain_start,before_rain_end);
 
 	// the period after the rain
-	const TextGenTime after_rain_start(TimeTools::addHours(theRainPeriod.localEndTime(),1));
-	const TextGenTime after_rain_end(TimeTools::dayEnd(after_rain_start));
+	const TextGenPosixTime after_rain_start(TimeTools::addHours(theRainPeriod.localEndTime(),1));
+	const TextGenPosixTime after_rain_end(TimeTools::dayEnd(after_rain_start));
 	const WeatherPeriod after_rain(after_rain_start,after_rain_end);
 
 	Paragraph paragraph;
@@ -1549,7 +1549,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
    
-  Sentence many_inclusive_rains(const TextGenTime & theForecastTime,
+  Sentence many_inclusive_rains(const TextGenPosixTime & theForecastTime,
 								const AnalysisSources & theSources,
 								const WeatherArea & theArea,
 								const WeatherPeriod & thePeriod,
@@ -1594,7 +1594,7 @@ namespace TextGen
 	// need some trickery...
 
 	// extended end time
-	const TextGenTime endtime = (itsPeriod.localEndTime().GetHour() < 12 ?
+	const TextGenPosixTime endtime = (itsPeriod.localEndTime().GetHour() < 12 ?
 							  TimeTools::dayStart(itsPeriod.localEndTime()) :
 							  TimeTools::dayEnd(itsPeriod.localEndTime()));
 

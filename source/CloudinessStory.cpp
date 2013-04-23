@@ -43,7 +43,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  CloudinessStory::CloudinessStory(const TextGenTime & theForecastTime,
+  CloudinessStory::CloudinessStory(const TextGenPosixTime & theForecastTime,
 										 const AnalysisSources & theSources,
 										 const WeatherArea & theArea,
 										 const WeatherPeriod & thePeriod,

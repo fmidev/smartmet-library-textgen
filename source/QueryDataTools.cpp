@@ -21,7 +21,7 @@
 #include "QueryDataTools.h"
 
 #include <newbase/NFmiFastQueryInfo.h>
-#include "TextGenTime.h"
+#include "TextGenPosixTime.h"
 
 namespace TextGen
 {
@@ -51,8 +51,8 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 
 	bool findIndices(NFmiFastQueryInfo & theQI,
-					 const TextGenTime & theStartTime,
-					 const TextGenTime & theEndTime,
+					 const TextGenPosixTime & theStartTime,
+					 const TextGenPosixTime & theEndTime,
 					 unsigned long & theStartIndex,
 					 unsigned long & theEndIndex)
 	{
@@ -87,8 +87,8 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 	
 	bool firstTime(NFmiFastQueryInfo & theQI,
-				   const TextGenTime & theTime,
-				   const TextGenTime & theEndTime)
+				   const TextGenPosixTime & theTime,
+				   const TextGenPosixTime & theEndTime)
 	{
 	  // Abort if endtime is before start of date
 	  if(theQI.TimeDescriptor().FirstTime() > theEndTime)
@@ -133,7 +133,7 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 	
 	bool lastTime(NFmiFastQueryInfo & theQI,
-				  const TextGenTime & theTime)
+				  const TextGenPosixTime & theTime)
 	{
 	  theQI.FirstTime();
 	  unsigned long idx1 = theQI.TimeIndex();

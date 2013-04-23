@@ -832,7 +832,7 @@ namespace TextGen
 
   void allocate_data_structures(wo_story_params& storyParams)
   {
-	TextGenTime periodStartTime = storyParams.theDataPeriod.localStartTime();
+	TextGenPosixTime periodStartTime = storyParams.theDataPeriod.localStartTime();
 	
 	while(periodStartTime.IsLessThan(storyParams.theDataPeriod.localEndTime()))
 	  {
@@ -1610,8 +1610,8 @@ namespace TextGen
 		  {
 			const WindDataItemUnit& dataItemPrevious = (*storyParams.theWindDataVector[periodStartEqualizedDataIndex])(areaType);
 			
-			TextGenTime periodStartTime(dataItemPrevious.thePeriod.localStartTime());
-			TextGenTime periodEndTime(dataItemCurrent.thePeriod.localStartTime());
+			TextGenPosixTime periodStartTime(dataItemPrevious.thePeriod.localStartTime());
+			TextGenPosixTime periodEndTime(dataItemCurrent.thePeriod.localStartTime());
 			periodEndTime.ChangeByHours(-1);
 
 			WeatherPeriod windSpeedPeriod(periodStartTime, periodEndTime);
@@ -1654,8 +1654,8 @@ namespace TextGen
 																 dataItemFirst.theEqualizedTopWind,
 																 storyParams.theVar));
 
-	TextGenTime periodStartTime(dataItemFirst.thePeriod.localStartTime());
-	TextGenTime periodEndTime(dataItemFirst.thePeriod.localStartTime());
+	TextGenPosixTime periodStartTime(dataItemFirst.thePeriod.localStartTime());
+	TextGenPosixTime periodEndTime(dataItemFirst.thePeriod.localStartTime());
 
 	for(unsigned int i = 1; i < dataVector.size(); i++)
 	  {
@@ -2800,8 +2800,8 @@ namespace TextGen
 			retval->theWeakWindPeriodFlag = true;
 
 			// create a new WindEventPeriodDataItem
-			TextGenTime startTime;
-			TextGenTime endTime;
+			TextGenPosixTime startTime;
+			TextGenPosixTime endTime;
 			
 			// period of the new WindEventPeriodDataItem
 			if(period.localStartTime() == originalPeriod.localStartTime())
@@ -2858,9 +2858,9 @@ namespace TextGen
 	  {
 		WeatherArea::Type areaType(storyParams.theArea.type());
 		currentDataItem = storyParams.theMergedWindEventPeriodVector[i];
-		TextGenTime periodBegTime(currentDataItem->thePeriod.localStartTime());
+		TextGenPosixTime periodBegTime(currentDataItem->thePeriod.localStartTime());
 		periodBegTime.ChangeByHours(1);
-		TextGenTime periodEndTime(currentDataItem->thePeriod.localEndTime());
+		TextGenPosixTime periodEndTime(currentDataItem->thePeriod.localEndTime());
 		WeatherPeriod period(periodBegTime, periodEndTime);
 		currentDataItem->thePeriod = period;
 

@@ -9,7 +9,7 @@
 #define TEXTGEN_TIME_H
 
 #include "Glyph.h"
-#include "TextGenTime.h"
+#include "TextGenPosixTime.h"
 #include <string>
 
 namespace TextGen
@@ -21,7 +21,7 @@ namespace TextGen
   public:
 
 	virtual ~Time();
-	Time(const TextGenTime& theTime);
+	Time(const TextGenPosixTime& theTime);
 #ifdef NO_COMPILER_GENERATED
 	Time(const Time& theTime);
 	Time & operator=(const Time& theTime);
@@ -31,11 +31,11 @@ namespace TextGen
 	virtual std::string realize(const TextFormatter & theFormatter) const;
 	virtual bool isDelimiter() const;
 
-	inline const TextGenTime& nfmiTime() const { return itsTime; }
+	inline const TextGenPosixTime& nfmiTime() const { return itsTime; }
   private:
 
 	Time();
-	TextGenTime itsTime;
+	TextGenPosixTime itsTime;
 
   }; // class Time
 

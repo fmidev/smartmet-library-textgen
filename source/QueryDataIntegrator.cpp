@@ -24,7 +24,7 @@
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiIndexMaskSource.h>
-#include "TextGenTime.h"
+#include "TextGenPosixTime.h"
 #include <newbase/NFmiMetMath.h>
 
 namespace TextGen
@@ -50,8 +50,8 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 	
 	float Integrate(NFmiFastQueryInfo & theQI,
-					const TextGenTime & theStartTime,
-					const TextGenTime & theEndTime,
+					const TextGenPosixTime & theStartTime,
+					const TextGenPosixTime & theEndTime,
 					Calculator & theTimeCalculator)
 	{
 	  theTimeCalculator.reset();
@@ -200,8 +200,8 @@ namespace TextGen
 	float Integrate(NFmiFastQueryInfo & theQI,
 					const NFmiIndexMask & theIndexMask,
 					Calculator & theSpaceCalculator,
-					const TextGenTime & theStartTime,
-					const TextGenTime & theEndTime,
+					const TextGenPosixTime & theStartTime,
+					const TextGenPosixTime & theEndTime,
 					Calculator & theTimeCalculator)
 	{
 	  theTimeCalculator.reset();
@@ -245,8 +245,8 @@ namespace TextGen
 	// ----------------------------------------------------------------------
 	
 	float Integrate(NFmiFastQueryInfo & theQI,
-					const TextGenTime & theStartTime,
-					const TextGenTime & theEndTime,
+					const TextGenPosixTime & theStartTime,
+					const TextGenPosixTime & theEndTime,
 					Calculator & theTimeCalculator,
 					const NFmiIndexMask & theIndexMask,
 					Calculator & theSpaceCalculator)
@@ -317,8 +317,8 @@ namespace TextGen
 	float Integrate(NFmiFastQueryInfo & theQI,
 					const NFmiIndexMaskSource & theMaskSource,
 					Calculator & theSpaceCalculator,
-					const TextGenTime & theStartTime,
-					const TextGenTime & theEndTime,
+					const TextGenPosixTime & theStartTime,
+					const TextGenPosixTime & theEndTime,
 					Calculator & theTimeCalculator)
 	{
 	  theTimeCalculator.reset();

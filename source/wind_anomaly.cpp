@@ -120,7 +120,7 @@ namespace TextGen
 						  const WeatherArea& area,
 						  const WeatherPeriod& windAnomalyPeriod,
 						  const forecast_season_id& season,
-						  const TextGenTime& forecastTime,
+						  const TextGenPosixTime& forecastTime,
 						  const short& periodLength,
 						  const bool& specifyPartOfTheDayFlag) 
 		: theVariable(variable),
@@ -186,7 +186,7 @@ namespace TextGen
 	  const WeatherArea& theArea;
 	  const WeatherPeriod& thePeriod;
 	  const forecast_season_id& theSeason;
-	  const TextGenTime& theForecastTime;
+	  const TextGenPosixTime& theForecastTime;
 	  const short& thePeriodLength;
 	  bool theSpecifyPartOfTheDayFlag;
 	  string theFakeVariable;
@@ -411,13 +411,13 @@ namespace TextGen
 					  (theCompletePeriod.localStartTime().GetHour() < 12 ? 
 					   theCompletePeriod.localStartTime().GetHour() : 12));
 	  
-	  TextGenTime noonTime(theCompletePeriod.localStartTime().GetYear(),
+	  TextGenPosixTime noonTime(theCompletePeriod.localStartTime().GetYear(),
 						theCompletePeriod.localStartTime().GetMonth(),
 						theCompletePeriod.localStartTime().GetDay(), 
 						noonHour, 0, 0);
 
-	  TextGenTime theStartTime(theMorningPeriod ? theCompletePeriod.localStartTime() : noonTime);
-	  TextGenTime theEndTime(theMorningPeriod ? noonTime : theCompletePeriod.localEndTime());
+	  TextGenPosixTime theStartTime(theMorningPeriod ? theCompletePeriod.localStartTime() : noonTime);
+	  TextGenPosixTime theEndTime(theMorningPeriod ? noonTime : theCompletePeriod.localEndTime());
 
 	  WeatherPeriod thePeriod(theStartTime > theEndTime ? theParameters.thePeriod.localStartTime() : theStartTime, 
 							  theStartTime > theEndTime ? theParameters.thePeriod.localEndTime() : theEndTime);
@@ -1783,8 +1783,8 @@ namespace TextGen
 								"the original period: ",
 								itsPeriod);
 
-	TextGenTime periodStartTime(itsPeriod.localStartTime());
-	TextGenTime periodEndTime(itsPeriod.localEndTime());
+	TextGenPosixTime periodStartTime(itsPeriod.localStartTime());
+	TextGenPosixTime periodEndTime(itsPeriod.localEndTime());
 	int periodLength = periodEndTime.DifferenceInHours(periodStartTime);
 
 	// Period generator

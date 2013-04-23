@@ -17,7 +17,7 @@
 #include "WeatherHistory.h"
 #include "WeekdayTools.h"
 #include "TextGenError.h"
-#include "TextGenTime.h"
+#include "TextGenPosixTime.h"
 
 using namespace std;
 using namespace boost;
@@ -36,7 +36,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string on_weekday(const TextGenTime & theTime)
+	string on_weekday(const TextGenPosixTime & theTime)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
 					+"-na");
@@ -52,7 +52,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string on_weekday_time(const TextGenTime & theTime)
+	string on_weekday_time(const TextGenPosixTime & theTime)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
 					+"-na kello");
@@ -68,7 +68,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string night_against_weekday(const TextGenTime & theTime)
+	string night_against_weekday(const TextGenPosixTime & theTime)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
 					+"-vastaisena yona");
@@ -84,7 +84,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string until_weekday_morning(const TextGenTime & theTime)
+	string until_weekday_morning(const TextGenPosixTime & theTime)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
 					+"-aamuun");
@@ -100,7 +100,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string until_weekday_evening(const TextGenTime & theTime)
+	string until_weekday_evening(const TextGenPosixTime & theTime)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
 					+"-iltaan");
@@ -116,7 +116,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string until_weekday_time(const TextGenTime & theTime)
+	string until_weekday_time(const TextGenPosixTime & theTime)
 	{
 	  const int hour = theTime.GetHour();
 	  if(hour == 6)
@@ -140,7 +140,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string from_weekday(const TextGenTime & theTime)
+	string from_weekday(const TextGenPosixTime & theTime)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
 					+"-alkaen");
@@ -156,7 +156,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string from_weekday_morning(const TextGenTime & theTime)
+	string from_weekday_morning(const TextGenPosixTime & theTime)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
 					+"-aamusta");
@@ -172,7 +172,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string from_weekday_evening(const TextGenTime & theTime)
+	string from_weekday_evening(const TextGenPosixTime & theTime)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
 					+"-illasta");
@@ -188,7 +188,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string from_weekday_time(const TextGenTime & theTime)
+	string from_weekday_time(const TextGenPosixTime & theTime)
 	{
 	  const int hour = theTime.GetHour();
 	  if(hour == 6)
@@ -211,7 +211,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string on_weekday_morning(const TextGenTime & theTime)
+	string on_weekday_morning(const TextGenPosixTime & theTime)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
 					+"-aamulla");
@@ -227,7 +227,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string on_weekday_forenoon(const TextGenTime & theTime)
+	string on_weekday_forenoon(const TextGenPosixTime & theTime)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
 					+"-aamupaivalla");
@@ -243,7 +243,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string on_weekday_afternoon(const TextGenTime & theTime)
+	string on_weekday_afternoon(const TextGenPosixTime & theTime)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
 					+"-iltapaivalla");
@@ -259,7 +259,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	string on_weekday_evening(const TextGenTime & theTime)
+	string on_weekday_evening(const TextGenPosixTime & theTime)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
 					+"-illalla");
@@ -270,11 +270,11 @@ namespace TextGen
 
 	//using namespace TextGen;
 
-	std::string get_time_phrase(const TextGenTime & theTime, 
+	std::string get_time_phrase(const TextGenPosixTime & theTime, 
 								const std::string theNewPhrase, 
 								TextGen::WeatherHistory& theHistory)
 	{
-	  TextGenTime oldTime = theHistory.latestDate;
+	  TextGenPosixTime oldTime = theHistory.latestDate;
 	  const std::string& oldPhrase = theHistory.latestTimePhrase;
 
 	  if(theTime.GetJulianDay() == oldTime.GetJulianDay())
@@ -298,7 +298,7 @@ namespace TextGen
 	  return "";
 	}
 
-	std::string on_weekday(const TextGenTime & theTime, 
+	std::string on_weekday(const TextGenPosixTime & theTime, 
 						   TextGen::WeatherHistory& theHistory)
 	{
 
@@ -308,7 +308,7 @@ namespace TextGen
 	  return get_time_phrase(theTime, out, theHistory);
 	}
    
-	string on_weekday_time(const TextGenTime & theTime,
+	string on_weekday_time(const TextGenPosixTime & theTime,
 						   TextGen::WeatherHistory& theHistory)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
@@ -316,7 +316,7 @@ namespace TextGen
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	string night_against_weekday(const TextGenTime & theTime,
+	string night_against_weekday(const TextGenPosixTime & theTime,
 								 TextGen::WeatherHistory& theHistory)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
@@ -324,7 +324,7 @@ namespace TextGen
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	string until_weekday_morning(const TextGenTime & theTime,
+	string until_weekday_morning(const TextGenPosixTime & theTime,
 								 TextGen::WeatherHistory& theHistory)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
@@ -332,7 +332,7 @@ namespace TextGen
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	string until_weekday_evening(const TextGenTime & theTime,
+	string until_weekday_evening(const TextGenPosixTime & theTime,
 								 TextGen::WeatherHistory& theHistory)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
@@ -340,7 +340,7 @@ namespace TextGen
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	string until_weekday_time(const TextGenTime & theTime,
+	string until_weekday_time(const TextGenPosixTime & theTime,
 							  TextGen::WeatherHistory& theHistory)
 	{
 	  const int hour = theTime.GetHour();
@@ -355,7 +355,7 @@ namespace TextGen
 		}
 	}
 
-	string from_weekday(const TextGenTime & theTime,
+	string from_weekday(const TextGenPosixTime & theTime,
 						TextGen::WeatherHistory& theHistory)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
@@ -363,7 +363,7 @@ namespace TextGen
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	string from_weekday_morning(const TextGenTime & theTime,
+	string from_weekday_morning(const TextGenPosixTime & theTime,
 								TextGen::WeatherHistory& theHistory)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
@@ -371,7 +371,7 @@ namespace TextGen
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 	
-	string from_weekday_evening(const TextGenTime & theTime,
+	string from_weekday_evening(const TextGenPosixTime & theTime,
 								TextGen::WeatherHistory& theHistory)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
@@ -379,7 +379,7 @@ namespace TextGen
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	string from_weekday_time(const TextGenTime & theTime,
+	string from_weekday_time(const TextGenPosixTime & theTime,
 							 TextGen::WeatherHistory& theHistory)
 	{
 	  const int hour = theTime.GetHour();
@@ -394,7 +394,7 @@ namespace TextGen
 		}
 	}
 
-	string on_weekday_morning(const TextGenTime & theTime,
+	string on_weekday_morning(const TextGenPosixTime & theTime,
 							  TextGen::WeatherHistory& theHistory)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
@@ -402,7 +402,7 @@ namespace TextGen
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	string on_weekday_forenoon(const TextGenTime & theTime,
+	string on_weekday_forenoon(const TextGenPosixTime & theTime,
 							   TextGen::WeatherHistory& theHistory)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
@@ -410,7 +410,7 @@ namespace TextGen
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	string on_weekday_afternoon(const TextGenTime & theTime,
+	string on_weekday_afternoon(const TextGenPosixTime & theTime,
 								TextGen::WeatherHistory& theHistory)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
@@ -418,7 +418,7 @@ namespace TextGen
 	  return get_time_phrase(theTime, out, theHistory);
 	}
 
-	string on_weekday_evening(const TextGenTime & theTime,
+	string on_weekday_evening(const TextGenPosixTime & theTime,
 							  TextGen::WeatherHistory& theHistory)
 	{
 	  string out = (lexical_cast<string>(theTime.GetWeekday())
@@ -432,25 +432,25 @@ namespace TextGen
 
 
 	/*
-	const std::string on_weekday_time(const TextGenTime & theTime, const WeatherHistory& theHistory);
-	const std::string night_against_weekday(const TextGenTime & theTime, const WeatherHistory& theHistory);
-	const std::string until_weekday_morning(const TextGenTime & theTime, const WeatherHistory& theHistory);
-	const std::string until_weekday_evening(const TextGenTime & theTime, const WeatherHistory& theHistory);
-	const std::string until_weekday_time(const TextGenTime & theTime, const WeatherHistory& theHistory);
-	const std::string from_weekday(const TextGenTime & theTime, const WeatherHistory& theHistory);
-	const std::string from_weekday_morning(const TextGenTime & theTime, const WeatherHistory& theHistory);
-	const std::string from_weekday_evening(const TextGenTime & theTime, const WeatherHistory& theHistory);
-	const std::string from_weekday_time(const TextGenTime & theTime, const WeatherHistory& theHistory);
-	const std::string on_weekday_morning(const TextGenTime & theTime, const WeatherHistory& theHistory);
-	const std::string on_weekday_forenoon(const TextGenTime & theTime, const WeatherHistory& theHistory);
-	const std::string on_weekday_afternoon(const TextGenTime & theTime, const WeatherHistory& theHistory);
-	const std::string on_weekday_evening(const TextGenTime & theTime, const WeatherHistory& theHistory);
+	const std::string on_weekday_time(const TextGenPosixTime & theTime, const WeatherHistory& theHistory);
+	const std::string night_against_weekday(const TextGenPosixTime & theTime, const WeatherHistory& theHistory);
+	const std::string until_weekday_morning(const TextGenPosixTime & theTime, const WeatherHistory& theHistory);
+	const std::string until_weekday_evening(const TextGenPosixTime & theTime, const WeatherHistory& theHistory);
+	const std::string until_weekday_time(const TextGenPosixTime & theTime, const WeatherHistory& theHistory);
+	const std::string from_weekday(const TextGenPosixTime & theTime, const WeatherHistory& theHistory);
+	const std::string from_weekday_morning(const TextGenPosixTime & theTime, const WeatherHistory& theHistory);
+	const std::string from_weekday_evening(const TextGenPosixTime & theTime, const WeatherHistory& theHistory);
+	const std::string from_weekday_time(const TextGenPosixTime & theTime, const WeatherHistory& theHistory);
+	const std::string on_weekday_morning(const TextGenPosixTime & theTime, const WeatherHistory& theHistory);
+	const std::string on_weekday_forenoon(const TextGenPosixTime & theTime, const WeatherHistory& theHistory);
+	const std::string on_weekday_afternoon(const TextGenPosixTime & theTime, const WeatherHistory& theHistory);
+	const std::string on_weekday_evening(const TextGenPosixTime & theTime, const WeatherHistory& theHistory);
 
 
 WeekdayTools.h headeriin pitaa sitten lisata tarvittavia funktioita
 tyyliin
 
-  const std::string on_weekday_time(const TextGenTime & theTime,
+  const std::string on_weekday_time(const TextGenPosixTime & theTime,
                                     WeatherHistory & theHistory)
   {
       // jos paiva on sama kuin historiassa, tutkitaan vain kellon

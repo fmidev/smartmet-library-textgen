@@ -42,7 +42,7 @@ namespace TextGen
 	const Sentence plain_frost_sentence(bool isSevere,
 										int theValue,
 										const string & theVar,
-										const TextGenTime & theForecastTime,
+										const TextGenPosixTime & theForecastTime,
 										const WeatherPeriod & thePeriod)
 	{
 	  Sentence sentence;

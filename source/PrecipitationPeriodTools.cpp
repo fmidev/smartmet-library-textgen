@@ -35,7 +35,7 @@
 
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiQueryData.h>
-#include "TextGenTime.h"
+#include "TextGenPosixTime.h"
 #include <boost/shared_ptr.hpp>
 
 using namespace std;
@@ -188,7 +188,6 @@ namespace TextGen
 		  acceptor.lowerLimit(minimum_rain);
 		  PercentageCalculator calculator;
 		  calculator.condition(acceptor);
-
 		  do
 			{
 			  const float tmp = QueryDataIntegrator::Integrate(qi,
@@ -197,14 +196,14 @@ namespace TextGen
 			  if(tmp != kFloatMissing && tmp >= minimum_area)
 				{
 				  NFmiMetTime metTime(qi.Time());
-				  TextGenTime textgenTime(metTime.GetYear(),
+				  TextGenPosixTime textgenTime(metTime.GetYear(),
 										  metTime.GetMonth(),
 										  metTime.GetDay(),
 										  metTime.GetHour(),
 										  metTime.GetMin(),
 										  metTime.GetSec());
-				  times.push_back(textgenTime.LocalTime());
-			  //				times.push_back(TimeTools::toLocalTime(qi.Time()));
+				  times.push_back(TextGenPosixTime::LocalTime(textgenTime));
+				  //				  cout << qi.Time() << ", " << textgenTime << ", " << TextGenPosixTime::LocalTime(textgenTime) << ", " << TextGenPosixTime::UtcTime(textgenTime) << endl;			  //				times.push_back(TimeTools::toLocalTime(qi.Time()));
 				}
 			}
 		  while(qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
@@ -226,20 +225,22 @@ namespace TextGen
 			  msg << " in " << dataname;
 			  throw TextGenError(msg.str());
 			}
-
+		  
 		  do
 			{
 			  const float tmp = qi.FloatValue();
 			  if(tmp != kFloatMissing && tmp >= minimum_rain)
 				{
 				  NFmiMetTime metTime(qi.Time());
-				  TextGenTime textgenTime(metTime.GetYear(),
+				  TextGenPosixTime textgenTime(metTime.GetYear(),
 										  metTime.GetMonth(),
 										  metTime.GetDay(),
 										  metTime.GetHour(),
 										  metTime.GetMin(),
 										  metTime.GetSec());
-				  times.push_back(textgenTime.LocalTime());
+				  //				  cout << qi.Time() << ", " << textgenTime << ", " << TextGenPosixTime::LocalTime(textgenTime) << ", " << TextGenPosixTime::UtcTime(textgenTime) << endl;
+
+				  times.push_back(TextGenPosixTime::LocalTime(textgenTime));
 			  //				times.push_back(TimeTools::toLocalTime(qi.Time()));
 				}
 			}
@@ -287,8 +288,8 @@ namespace TextGen
 
 	  // Initialize current period to consist of first time only
 	  RainTimes::const_iterator it = theTimes.begin();
-	  TextGenTime first_time = *it;
-	  TextGenTime last_time = first_time;
+	  TextGenPosixTime first_time = *it;
+	  TextGenPosixTime last_time = first_time;
 
 	  // Then append new times until interval becomes too long,
 	  // at which point we save the period and start a new one.

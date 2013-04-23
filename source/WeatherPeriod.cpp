@@ -59,12 +59,12 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  WeatherPeriod::WeatherPeriod(const TextGenTime & theLocalStartTime,
-							   const TextGenTime & theLocalEndTime)
+  WeatherPeriod::WeatherPeriod(const TextGenPosixTime & theLocalStartTime,
+							   const TextGenPosixTime & theLocalEndTime)
 	: itsLocalStartTime(theLocalStartTime)
 	, itsLocalEndTime(theLocalEndTime)
-	, itsUtcStartTime(theLocalStartTime.UtcTime())
-	, itsUtcEndTime(itsLocalEndTime.UtcTime())
+	, itsUtcStartTime(TextGenPosixTime::UtcTime(theLocalStartTime))
+	, itsUtcEndTime(TextGenPosixTime::UtcTime(theLocalEndTime))
   {
 	if(theLocalEndTime.IsLessThan(theLocalStartTime))
 	  throw TextGenError("WeatherPeriod: end time must be after start time");
@@ -78,7 +78,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const TextGenTime & WeatherPeriod::localStartTime() const
+  const TextGenPosixTime & WeatherPeriod::localStartTime() const
   {
 	return itsLocalStartTime;
   }
@@ -91,7 +91,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const TextGenTime & WeatherPeriod::localEndTime() const
+  const TextGenPosixTime & WeatherPeriod::localEndTime() const
   {
 	return itsLocalEndTime;
   }
@@ -104,7 +104,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const TextGenTime & WeatherPeriod::utcStartTime() const
+  const TextGenPosixTime & WeatherPeriod::utcStartTime() const
   {
 	return itsUtcStartTime;
   }
@@ -117,7 +117,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  const TextGenTime & WeatherPeriod::utcEndTime() const
+  const TextGenPosixTime & WeatherPeriod::utcEndTime() const
   {
 	return itsUtcEndTime;
   }

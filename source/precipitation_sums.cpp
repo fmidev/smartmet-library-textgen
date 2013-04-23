@@ -50,9 +50,9 @@ namespace TextGen
 
 	GridForecaster forecaster;
 
-	const TextGenTime time1 = itsPeriod.localStartTime();
-	const TextGenTime time2 = TimeTools::addHours(time1,12);
-	const TextGenTime time3 = TimeTools::addHours(time1,24);
+	const TextGenPosixTime time1 = itsPeriod.localStartTime();
+	const TextGenPosixTime time2 = TimeTools::addHours(time1,12);
+	const TextGenPosixTime time3 = TimeTools::addHours(time1,24);
 
 	log << "Period 1 = " << time1 << " ... " << time2 << endl;
 	log << "Period 2 = " << time2 << " ... " << time3 << endl;

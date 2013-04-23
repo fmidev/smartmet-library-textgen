@@ -31,8 +31,8 @@ namespace TextGen
 	virtual std::string realize(const TextFormatter & theFormatter) const;
 	virtual bool isDelimiter() const;
 
-	inline const TextGenTime& localStartTime() const { return itsPeriod.localStartTime(); }
-	inline const TextGenTime& localEndTime() const { return itsPeriod.localEndTime(); }
+	inline const TextGenPosixTime& localStartTime() const { return itsPeriod.localStartTime(); }
+	inline const TextGenPosixTime& localEndTime() const { return itsPeriod.localEndTime(); }
 	inline const WeatherPeriod& weatherPeriod() const { return itsPeriod; }
   private:
 

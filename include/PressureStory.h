@@ -18,7 +18,7 @@ namespace TextGen
   class WeatherPeriod;
 }
 
-class TextGenTime;
+class TextGenPosixTime;
 
 namespace TextGen
 {
@@ -30,7 +30,7 @@ namespace TextGen
   public:
 
 	virtual ~PressureStory();
-	PressureStory(const TextGenTime & theForecastTime,
+	PressureStory(const TextGenPosixTime & theForecastTime,
 				  const TextGen::AnalysisSources & theSources,
 				  const TextGen::WeatherArea & theArea,
 				  const TextGen::WeatherPeriod & thePeriod,
@@ -47,7 +47,7 @@ namespace TextGen
 	PressureStory(const PressureStory & theStory);
 	PressureStory & operator=(const PressureStory & theStory);
 
-	const TextGenTime itsForecastTime;
+	const TextGenPosixTime itsForecastTime;
 	const TextGen::AnalysisSources & itsSources;
 	const TextGen::WeatherArea & itsArea;
 	const TextGen::WeatherPeriod & itsPeriod;

@@ -21,7 +21,7 @@
 #include "WeatherResult.h"
 #include <newbase/NFmiSettings.h>
 #include <newbase/NFmiStringTools.h>
-#include "TextGenTime.h"
+#include "TextGenPosixTime.h"
 
 #include <cctype>	// for std::isdigit
 #include <list>
@@ -190,7 +190,7 @@ namespace Settings
    */
   // ----------------------------------------------------------------------
   
-  TextGenTime require_time(const std::string & theName)
+  TextGenPosixTime require_time(const std::string & theName)
   {
 	const string value = require_string(theName.c_str());
 
@@ -216,10 +216,10 @@ namespace Settings
 		if(hh<0 || hh>23) throw runtime_error(msg);
 		if(mi<0 || mi>59) throw runtime_error(msg);
 
-		if(dd > TextGenTime::DaysInMonth(mm,yy))
+		if(dd > TextGenPosixTime::DaysInMonth(mm,yy))
 		  throw runtime_error(msg);
 
-		return TextGenTime(yy,mm,dd,hh,mi);
+		return TextGenPosixTime(yy,mm,dd,hh,mi);
 
 	  }
 	catch(std::exception & )

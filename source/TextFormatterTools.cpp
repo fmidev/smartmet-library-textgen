@@ -16,7 +16,7 @@
 #include "WeatherPeriod.h"
 #include "Settings.h"
 #include <newbase/NFmiStringTools.h>
-#include "TextGenTime.h"
+#include "TextGenPosixTime.h"
 #include <boost/locale.hpp>
 #include <boost/algorithm/string/replace.hpp>
 
@@ -121,7 +121,7 @@ namespace TextGen
 	 * \param theFormattingString strftime style formatting string
 	 */
 	// ----------------------------------------------------------------------
-	std::string format_time(const TextGenTime& theTime, const std::string& theFormattingString)
+	std::string format_time(const TextGenPosixTime& theTime, const std::string& theFormattingString)
 	{
 	  if(theFormattingString.empty())
 		return "";
@@ -142,12 +142,12 @@ namespace TextGen
 	/*!
 	 * \brief Format the time period using strftime style formatting
 	 *
-	 * \param theTime TextGenTime timestamp
+	 * \param theTime TextGenPosixTime timestamp
 	 * \param theStoryVar the story variable
 	 * \param theFormatterName the formatter name
 	 */
 	// ----------------------------------------------------------------------
-	std::string format_time(const TextGenTime& theTime, 
+	std::string format_time(const TextGenPosixTime& theTime, 
 							const std::string& theStoryVar,
 							const std::string& theFormatterName)
 	{

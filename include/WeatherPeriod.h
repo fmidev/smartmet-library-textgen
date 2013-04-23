@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_WEATHERPERIOD_H
 #define TEXTGEN_WEATHERPERIOD_H
 
-#include "TextGenTime.h"
+#include "TextGenPosixTime.h"
 
 namespace TextGen
 {
@@ -22,14 +22,14 @@ namespace TextGen
 	WeatherPeriod & operator=(const WeatherPeriod & thePeriod);
 #endif
 
-	WeatherPeriod(const TextGenTime & theLocalStartTime,
-				  const TextGenTime & theLocalEndTime);
+	WeatherPeriod(const TextGenPosixTime & theLocalStartTime,
+				  const TextGenPosixTime & theLocalEndTime);
 
-	const TextGenTime & localStartTime() const;
-	const TextGenTime & localEndTime() const;
+	const TextGenPosixTime & localStartTime() const;
+	const TextGenPosixTime & localEndTime() const;
 
-	const TextGenTime & utcStartTime() const;
-	const TextGenTime & utcEndTime() const;
+	const TextGenPosixTime & utcStartTime() const;
+	const TextGenPosixTime & utcEndTime() const;
 
 	bool operator<(const WeatherPeriod & theRhs) const;
 
@@ -37,11 +37,11 @@ namespace TextGen
 
 	WeatherPeriod();
 
-	TextGenTime itsLocalStartTime;
-	TextGenTime itsLocalEndTime;
+	TextGenPosixTime itsLocalStartTime;
+	TextGenPosixTime itsLocalEndTime;
 
-	TextGenTime itsUtcStartTime;
-	TextGenTime itsUtcEndTime;
+	TextGenPosixTime itsUtcStartTime;
+	TextGenPosixTime itsUtcEndTime;
   }; // class WeatherPeriod
 
 } // namespace TextGen

@@ -18,7 +18,7 @@ namespace TextGen
   class WeatherPeriod;
 }
 
-class TextGenTime;
+class TextGenPosixTime;
 
 namespace TextGen
 {
@@ -30,7 +30,7 @@ namespace TextGen
   public:
 
 	virtual ~ForestStory();
-	ForestStory(const TextGenTime & theForecastTime,
+	ForestStory(const TextGenPosixTime & theForecastTime,
 				const TextGen::AnalysisSources & theSources,
 				const TextGen::WeatherArea & theArea,
 				const TextGen::WeatherPeriod & thePeriod,
@@ -49,7 +49,7 @@ namespace TextGen
 	ForestStory(const ForestStory & theStory);
 	ForestStory & operator=(const ForestStory & theStory);
 
-	const TextGenTime itsForecastTime;
+	const TextGenPosixTime itsForecastTime;
 	const TextGen::AnalysisSources & itsSources;
 	const TextGen::WeatherArea & itsArea;
 	const TextGen::WeatherPeriod & itsPeriod;

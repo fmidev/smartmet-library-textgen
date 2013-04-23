@@ -7,9 +7,9 @@
 /*!
  * \namespace TextGen::TimeTools
  *
- * \brief Various TextGenTime related utilities
+ * \brief Various TextGenPosixTime related utilities
  *
- * This namespace contains functions which depend on TextGenTime but
+ * This namespace contains functions which depend on TextGenPosixTime but
  * do not depend on any other textgen library classes or namespaces.
  *
  * That is, miscellaneous time utilities which could have been
@@ -19,7 +19,7 @@
 // ======================================================================
 
 #include "TimeTools.h"
-#include "TextGenTime.h"
+#include "TextGenPosixTime.h"
 
 #include <ctime>
 
@@ -37,7 +37,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	TextGenTime toUtcTime(const TextGenTime & theLocalTime)
+	TextGenPosixTime toUtcTime(const TextGenPosixTime & theLocalTime)
 	{
 	  /*
 	  ::tm tlocal;
@@ -56,7 +56,7 @@ namespace TextGen
 	  ::tm tutc;
 	  ::gmtime_r(&tsec,&tutc);
 	  
-	  TextGenTime out(tutc.tm_year + 1900,
+	  TextGenPosixTime out(tutc.tm_year + 1900,
 				   tutc.tm_mon + 1,
 				   tutc.tm_mday,
 				   tutc.tm_hour,
@@ -65,7 +65,7 @@ namespace TextGen
 	  
 	  return out;
 	  */
-	  return theLocalTime.UtcTime();
+	  return TextGenPosixTime::UtcTime(theLocalTime);
 	}
 
 	// ----------------------------------------------------------------------
@@ -77,7 +77,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	TextGenTime toLocalTime(const TextGenTime & theUtcTime)
+	TextGenPosixTime toLocalTime(const TextGenPosixTime & theUtcTime)
 	{
 	  /*
 	  // The UTC time
@@ -101,9 +101,9 @@ namespace TextGen
 	  struct ::tm tlocal;
 	  ::localtime_r(&epochtime,&tlocal);
 	  
-	  // And build a TextGenTime from the result
+	  // And build a TextGenPosixTime from the result
 	  
-	  TextGenTime out(tlocal.tm_year + 1900,
+	  TextGenPosixTime out(tlocal.tm_year + 1900,
 				   tlocal.tm_mon + 1,
 				   tlocal.tm_mday,
 				   tlocal.tm_hour,
@@ -113,7 +113,7 @@ namespace TextGen
 	  return out;
 	  */
 
-	  return theUtcTime.LocalTime();
+	  return TextGenPosixTime::LocalTime(theUtcTime);
 	}
 
 	// ----------------------------------------------------------------------
@@ -126,8 +126,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	bool isSameDay(const TextGenTime & theDate1,
-				   const TextGenTime & theDate2)
+	bool isSameDay(const TextGenPosixTime & theDate1,
+				   const TextGenPosixTime & theDate2)
 	{
 	  return(theDate1.GetDay() == theDate2.GetDay() &&
 			 theDate1.GetMonth() == theDate2.GetMonth() &&
@@ -144,10 +144,10 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	bool isNextDay(const TextGenTime & theDate1,
-				   const TextGenTime & theDate2)
+	bool isNextDay(const TextGenPosixTime & theDate1,
+				   const TextGenPosixTime & theDate2)
 	{
-	  TextGenTime date1(theDate1);
+	  TextGenPosixTime date1(theDate1);
 	  date1.ChangeByDays(1);
 	  
 	  return(date1.GetDay() == theDate2.GetDay() &&
@@ -169,8 +169,8 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 	
-	bool isSeveralDays(const TextGenTime & theDate1,
-					   const TextGenTime & theDate2)
+	bool isSeveralDays(const TextGenPosixTime & theDate1,
+					   const TextGenPosixTime & theDate2)
   {
 	if(isSameDay(theDate1,theDate2))
 	  return false;
@@ -192,9 +192,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	TextGenTime dayStart(const TextGenTime & theDate)
+	TextGenPosixTime dayStart(const TextGenPosixTime & theDate)
 	{
-	  return TextGenTime(theDate.GetYear(),
+	  return TextGenPosixTime(theDate.GetYear(),
 					  theDate.GetMonth(),
 					  theDate.GetDay());
 	}
@@ -213,9 +213,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	TextGenTime dayEnd(const TextGenTime & theDate)
+	TextGenPosixTime dayEnd(const TextGenPosixTime & theDate)
 	{
-	  TextGenTime tmp(dayStart(theDate));
+	  TextGenPosixTime tmp(dayStart(theDate));
 	  if(!tmp.IsEqual(theDate))
 		tmp.ChangeByDays(1);
 	  return tmp;
@@ -233,9 +233,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	TextGenTime nextDay(const TextGenTime & theDate)
+	TextGenPosixTime nextDay(const TextGenPosixTime & theDate)
 	{
-	  TextGenTime tmp(dayStart(theDate));
+	  TextGenPosixTime tmp(dayStart(theDate));
 	  tmp.ChangeByDays(1);
 	  return tmp;
 	}
@@ -250,9 +250,9 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	TextGenTime addHours(const TextGenTime & theDate, int theHours)
+	TextGenPosixTime addHours(const TextGenPosixTime & theDate, int theHours)
 	{
-	  TextGenTime tmp(theDate);
+	  TextGenPosixTime tmp(theDate);
 	  tmp.ChangeByHours(theHours);
 	  return tmp;
 	}

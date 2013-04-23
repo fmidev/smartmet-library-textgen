@@ -17,7 +17,7 @@
 #include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiIndexMaskSource.h>
-#include "TextGenTime.h"
+#include "TextGenPosixTime.h"
 #include <newbase/NFmiMetMath.h>
 #include <newbase/NFmiSvgTools.h>
 #include <cassert>

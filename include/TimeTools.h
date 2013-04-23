@@ -10,24 +10,24 @@
 
 #include <ctime>
 
-class TextGenTime;
+class TextGenPosixTime;
 
 namespace TextGen
 {
   namespace TimeTools
   {
 	
-	TextGenTime toLocalTime(const TextGenTime & theUtcTime);
-	TextGenTime toUtcTime(const TextGenTime & theLocalTime);
+	TextGenPosixTime toLocalTime(const TextGenPosixTime & theUtcTime);
+	TextGenPosixTime toUtcTime(const TextGenPosixTime & theLocalTime);
 
-	bool isSameDay(const TextGenTime & theDate1, const TextGenTime & theDate2);
-	bool isNextDay(const TextGenTime & theDate1, const TextGenTime & theDate2);
-	bool isSeveralDays(const TextGenTime & theDate1, const TextGenTime & theDate2);
+	bool isSameDay(const TextGenPosixTime & theDate1, const TextGenPosixTime & theDate2);
+	bool isNextDay(const TextGenPosixTime & theDate1, const TextGenPosixTime & theDate2);
+	bool isSeveralDays(const TextGenPosixTime & theDate1, const TextGenPosixTime & theDate2);
 
-	TextGenTime dayStart(const TextGenTime & theDate);
-	TextGenTime dayEnd(const TextGenTime & theDate);
-	TextGenTime nextDay(const TextGenTime & theDate);
-	TextGenTime addHours(const TextGenTime & theDate, int theHours);
+	TextGenPosixTime dayStart(const TextGenPosixTime & theDate);
+	TextGenPosixTime dayEnd(const TextGenPosixTime & theDate);
+	TextGenPosixTime nextDay(const TextGenPosixTime & theDate);
+	TextGenPosixTime addHours(const TextGenPosixTime & theDate, int theHours);
 
   }
 } // namespace TextGen

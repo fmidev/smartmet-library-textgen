@@ -31,7 +31,7 @@
 #include "WeatherStory.h"
 #include "WindStory.h"
 
-#include "TextGenTime.h"
+#include "TextGenPosixTime.h"
 
 using namespace TextGen;
 using namespace std;
@@ -56,7 +56,7 @@ namespace TextGen
 	 */
 	// ----------------------------------------------------------------------
 
-	Paragraph create(const TextGenTime & theForecastTime,
+	Paragraph create(const TextGenPosixTime & theForecastTime,
 					 const AnalysisSources & theSources,
 					 const WeatherArea & theArea,
 					 const WeatherPeriod & thePeriod,

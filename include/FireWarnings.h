@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_FIREWARNINGS_H
 #define TEXTGEN_FIREWARNINGS_H
 
-#include "TextGenTime.h"
+#include "TextGenPosixTime.h"
 #include <string>
 #include <vector>
 
@@ -27,13 +27,13 @@ namespace TextGen
 	  };
 
 	FireWarnings(const std::string & theDirectory,
-				 const TextGenTime & theTime);
+				 const TextGenPosixTime & theTime);
 	State state(int theArea) const;
 
   private:
 
 	FireWarnings();
-	const TextGenTime itsTime;
+	const TextGenPosixTime itsTime;
 	std::vector<State> itsWarnings;
 
   }; // class FireWarnings

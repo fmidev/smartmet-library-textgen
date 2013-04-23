@@ -12,7 +12,7 @@
 #include <ctime>
 #include <string>
 
-class TextGenTime;
+class TextGenPosixTime;
 
 namespace TextGen
 {
@@ -29,13 +29,13 @@ namespace TextGen
 							UNDEFINED_SEASON};
 	
 
-	bool isWinter(const TextGenTime& theDate, const std::string& theVar);
-	bool isSpring(const TextGenTime& theDate, const std::string& theVar);
-	bool isSummer(const TextGenTime& theDate, const std::string& theVar);
-	bool isAutumn(const TextGenTime& theDate, const std::string& theVar);
+	bool isWinter(const TextGenPosixTime& theDate, const std::string& theVar);
+	bool isSpring(const TextGenPosixTime& theDate, const std::string& theVar);
+	bool isSummer(const TextGenPosixTime& theDate, const std::string& theVar);
+	bool isAutumn(const TextGenPosixTime& theDate, const std::string& theVar);
 
-	bool isWinterHalf(const TextGenTime& theDate, const std::string& theVar);
-	bool isSummerHalf(const TextGenTime& theDate, const std::string& theVar);
+	bool isWinterHalf(const TextGenPosixTime& theDate, const std::string& theVar);
+	bool isSummerHalf(const TextGenPosixTime& theDate, const std::string& theVar);
 
 	float growing_season_percentage(const WeatherArea& theArea, 
 									const AnalysisSources& theSources,

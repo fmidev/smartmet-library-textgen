@@ -107,14 +107,14 @@ namespace TextGen
 
 	// Now we can generate the periods in advance
 
-	TextGenTime time(itsMainPeriod.localStartTime());
+	TextGenPosixTime time(itsMainPeriod.localStartTime());
 	time.ChangeByDays(-1);
 	time.SetHour(itsStartHour);
 
 	while(time <= itsMainPeriod.localEndTime())
 	  {
-		TextGenTime starttime(time);
-		TextGenTime endtime(time);
+		TextGenPosixTime starttime(time);
+		TextGenPosixTime endtime(time);
 		endtime.ChangeByHours(itsInterval);
 
 		if(starttime.IsLessThan(itsMainPeriod.localStartTime()))
@@ -164,8 +164,8 @@ namespace TextGen
 
   WeatherPeriod IntervalPeriodGenerator::period() const
   {
-	const TextGenTime start = period(1).localStartTime();
-	const TextGenTime end = period(size()).localEndTime();
+	const TextGenPosixTime start = period(1).localStartTime();
+	const TextGenPosixTime end = period(size()).localEndTime();
 	return WeatherPeriod(start,end);
   }
 

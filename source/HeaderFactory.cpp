@@ -138,8 +138,8 @@ namespace
 	using namespace TextGen;
 	Header header;
 
-	const TextGenTime & startTime = thePeriod.localStartTime();
-	const TextGenTime & endTime = thePeriod.localEndTime();
+	const TextGenPosixTime & startTime = thePeriod.localStartTime();
+	const TextGenPosixTime & endTime = thePeriod.localEndTime();
 	const long diff = endTime.DifferenceInHours(startTime);
 	const long days = diff/24;
 

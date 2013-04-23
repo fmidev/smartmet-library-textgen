@@ -11,7 +11,7 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 
-class TextGenTime;
+class TextGenPosixTime;
 
 namespace TextGen
 {
@@ -36,8 +36,8 @@ namespace TextGen
 	TextGenerator & operator=(const TextGenerator & theGenerator);
 #endif
 
-	const TextGenTime & time() const;
-	void time(const TextGenTime & theForecastTime);
+	const TextGenPosixTime & time() const;
+	void time(const TextGenPosixTime & theForecastTime);
 	void sources(const TextGen::AnalysisSources & theSources);
 
 	Document generate(const TextGen::WeatherArea & theArea) const;

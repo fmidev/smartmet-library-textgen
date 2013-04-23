@@ -10,7 +10,7 @@
 
 #include <string>
 
-class TextGenTime;
+class TextGenPosixTime;
 
 namespace TextGen
 {
@@ -25,7 +25,7 @@ namespace TextGen
 
   namespace StoryFactory
   {
-	Paragraph create(const TextGenTime & theForecastTime,
+	Paragraph create(const TextGenPosixTime & theForecastTime,
 					 const TextGen::AnalysisSources & theSources,
 					 const TextGen::WeatherArea & theArea,
 					 const TextGen::WeatherPeriod & thePeriod,

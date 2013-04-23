@@ -11,7 +11,7 @@
 #include <list>
 #include <string>
 
-class TextGenTime;
+class TextGenPosixTime;
 
 namespace TextGen
 {
@@ -21,7 +21,7 @@ namespace TextGen
   
   namespace PrecipitationPeriodTools
   {
-	typedef std::list<TextGenTime> RainTimes;
+	typedef std::list<TextGenPosixTime> RainTimes;
 	typedef std::list<WeatherPeriod> RainPeriods;
 
 	// The main function
