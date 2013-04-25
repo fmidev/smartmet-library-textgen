@@ -76,8 +76,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	// 1-day forecasts for today
 	{
-	  NFmiTime time1(2003,6,3,0,0);
-	  NFmiTime time2(2003,6,4,0,0);
+	  TextGenPosixTime time1(2003,6,3,0,0);
+	  TextGenPosixTime time2(2003,6,4,0,0);
 	  WeatherPeriod period(time1,time2);
 	  CloudinessStory story(time1,sources,area,period,"cloudiness_overview");
 	  
@@ -127,9 +127,9 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	// 2-day forecasts starting today
 	{
-	  NFmiTime time1(2003,6,3,0,0);
-	  NFmiTime time2(2003,6,4,0,0);
-	  NFmiTime time3(2003,6,5,0,0);
+	  TextGenPosixTime time1(2003,6,3,0,0);
+	  TextGenPosixTime time2(2003,6,4,0,0);
+	  TextGenPosixTime time3(2003,6,5,0,0);
 	  WeatherPeriod period(time1,time3);
 	  CloudinessStory story(time1,sources,area,period,"cloudiness_overview");
 	  
@@ -187,10 +187,10 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	// 3-day forecasts starting today
 	{
-	  NFmiTime time1(2003,6,3,0,0);
-	  NFmiTime time2(2003,6,4,0,0);
-	  NFmiTime time3(2003,6,5,0,0);
-	  NFmiTime time4(2003,6,6,0,0);
+	  TextGenPosixTime time1(2003,6,3,0,0);
+	  TextGenPosixTime time2(2003,6,4,0,0);
+	  TextGenPosixTime time3(2003,6,5,0,0);
+	  TextGenPosixTime time4(2003,6,6,0,0);
 	  WeatherPeriod period(time1,time4);
 	  CloudinessStory story(time1,sources,area,period,"cloudiness_overview");
 	  

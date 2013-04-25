@@ -93,8 +93,8 @@ namespace TemperatureStoryTest
 	// 1 day forecast
 
 	{
-	  NFmiTime time1(2000,1,1,6);
-	  NFmiTime time2(2000,1,2,6);
+	  TextGenPosixTime time1(2000,1,1,6);
+	  TextGenPosixTime time2(2000,1,2,6);
 	  WeatherPeriod period(time1,time2);
 	  TemperatureStory story(time1,sources,area,period,"day");
 	  
@@ -138,7 +138,7 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::night1::inland::max","15,0");
 	  
 	  require(story,"fi",fun,"Lämpötila on noin 15 astetta.");
-	  require(story,"sv",fun,"Temperatur är cirka 15 grader.");
+	  require(story,"sv",fun,"Temperaturen är cirka 15 grader.");
 	  require(story,"en",fun,"Temperature is about 15 degrees.");
 	  
 	  NFmiSettings::Set("day::fake::day1::coast::mean","10,0");
@@ -150,7 +150,7 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::day1::inland::max","14,0");
 	  
 	  require(story,"fi",fun,"Lämpötila on noin 16 astetta, rannikolla alempi.");
-	  require(story,"sv",fun,"Temperatur är cirka 16 grader, vid kusten lägre.");
+	  require(story,"sv",fun,"Temperaturen är cirka 16 grader, vid kusten lägre.");
 	  require(story,"en",fun,"Temperature is about 16 degrees, on the coastal area lower.");
 	  
 	  NFmiSettings::Set("day::fake::night1::area::mean","10,0");
@@ -186,8 +186,8 @@ namespace TemperatureStoryTest
 	// 1 1/2 days
 
 	{
-	  NFmiTime time1(2000,1,1,6);
-	  NFmiTime time2(2000,1,2,18);
+	  TextGenPosixTime time1(2000,1,1,6);
+	  TextGenPosixTime time2(2000,1,2,18);
 	  WeatherPeriod period(time1,time2);
 	  TemperatureStory story(time1,sources,area,period,"day");
 	  
@@ -245,7 +245,7 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::day2::inland::max","25,0");
 
 	  require(story,"fi",fun,"Lämpötila on tänään noin 15 astetta. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...+15 astetta.");
-	  require(story,"sv",fun,"Temperatur är i dag cirka 15 grader. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...+15 grader.");
+	  require(story,"sv",fun,"Temperaturen är i dag cirka 15 grader. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...+15 grader.");
 	  require(story,"en",fun,"Temperature is today about 15 degrees. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...+15 degrees.");
 	  
 	  NFmiSettings::Set("day::fake::day1::coast::mean","10,0");
@@ -257,7 +257,7 @@ namespace TemperatureStoryTest
 	  NFmiSettings::Set("day::fake::day1::inland::max","14,0");
 	  
 	  require(story,"fi",fun,"Lämpötila on tänään noin 16 astetta, rannikolla alempi. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...+15 astetta.");
-	  require(story,"sv",fun,"Temperatur är i dag cirka 16 grader, vid kusten lägre. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...+15 grader.");
+	  require(story,"sv",fun,"Temperaturen är i dag cirka 16 grader, vid kusten lägre. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...+15 grader.");
 	  require(story,"en",fun,"Temperature is today about 16 degrees, on the coastal area lower. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...+15 degrees.");
 	  
 	  NFmiSettings::Set("day::fake::night1::area::mean","10,0");
@@ -307,8 +307,8 @@ namespace TemperatureStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
 	TemperatureStory story(time1,sources,area,period,"mean");
 
@@ -351,8 +351,8 @@ namespace TemperatureStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
 	TemperatureStory story(time1,sources,area,period,"meanmax");
 
@@ -395,8 +395,8 @@ namespace TemperatureStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
 	TemperatureStory story(time1,sources,area,period,"meanmin");
 
@@ -456,8 +456,8 @@ namespace TemperatureStoryTest
 
 	// Test the part concerning day 1
 	{
-	  NFmiTime time1(2003,6,1);
-	  NFmiTime time2(2003,6,2);
+	  TextGenPosixTime time1(2003,6,1);
+	  TextGenPosixTime time2(2003,6,2);
 	  WeatherPeriod period(time1,time2);
 	  TemperatureStory story(time1,sources,area,period,"dailymax");
 	
@@ -514,8 +514,8 @@ namespace TemperatureStoryTest
 
 	// Test the part concerning day 2
 	{
-	  NFmiTime time1(2003,6,1);
-	  NFmiTime time2(2003,6,3);
+	  TextGenPosixTime time1(2003,6,1);
+	  TextGenPosixTime time2(2003,6,3);
 	  WeatherPeriod period(time1,time2);
 	  TemperatureStory story(time1,sources,area,period,"dailymax");
 	
@@ -591,8 +591,8 @@ namespace TemperatureStoryTest
 
 	// Test the part concerning days 3 and 4
 	{
-	  NFmiTime time1(2003,6,1);
-	  NFmiTime time2(2003,6,5);
+	  TextGenPosixTime time1(2003,6,1);
+	  TextGenPosixTime time2(2003,6,5);
 	  WeatherPeriod period(time1,time2);
 	  TemperatureStory story(time1,sources,area,period,"dailymax");
 	
@@ -635,8 +635,8 @@ namespace TemperatureStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,5);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,5);
 	WeatherPeriod period(time1,time2);
 	TemperatureStory story(time1,sources,area,period,"weekly_minmax");
 
@@ -690,8 +690,8 @@ namespace TemperatureStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,5);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,5);
 	WeatherPeriod period(time1,time2);
 	TemperatureStory story(time1,sources,area,period,"weekly_averages");
 
@@ -745,8 +745,8 @@ namespace TemperatureStoryTest
 	NFmiSettings::Set("range::mininterval","2");
 	NFmiSettings::Set("range::always_interval_zero","true");
 
-	NFmiTime time1(2003,6,1);
-	NFmiTime time2(2003,6,2);
+	TextGenPosixTime time1(2003,6,1);
+	TextGenPosixTime time2(2003,6,2);
 	WeatherPeriod period(time1,time2);
 	TemperatureStory story(time1,sources,area,period,"range");
 	
@@ -754,42 +754,42 @@ namespace TemperatureStoryTest
 	NFmiSettings::Set("range::fake::mean","5,0");
 	NFmiSettings::Set("range::fake::maximum","5,0");
 	require(story,"fi",fun,"Lämpötila on noin 5 astetta.");
-	require(story,"sv",fun,"Temperatur är cirka 5 grader.");
+	require(story,"sv",fun,"Temperaturen är cirka 5 grader.");
 	require(story,"en",fun,"Temperature is about 5 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","5,0");
 	NFmiSettings::Set("range::fake::mean","6,0");
 	NFmiSettings::Set("range::fake::maximum","6,0");
 	require(story,"fi",fun,"Lämpötila on noin 6 astetta.");
-	require(story,"sv",fun,"Temperatur är cirka 6 grader.");
+	require(story,"sv",fun,"Temperaturen är cirka 6 grader.");
 	require(story,"en",fun,"Temperature is about 6 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","5,0");
 	NFmiSettings::Set("range::fake::mean","6,0");
 	NFmiSettings::Set("range::fake::maximum","7,0");
 	require(story,"fi",fun,"Lämpötila on 5...7 astetta.");
-	require(story,"sv",fun,"Temperatur är 5...7 grader.");
+	require(story,"sv",fun,"Temperaturen är 5...7 grader.");
 	require(story,"en",fun,"Temperature is 5...7 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","0,0");
 	NFmiSettings::Set("range::fake::mean","0,0");
 	NFmiSettings::Set("range::fake::maximum","1,0");
 	require(story,"fi",fun,"Lämpötila on 0...+1 astetta.");
-	require(story,"sv",fun,"Temperatur är 0...+1 grader.");
+	require(story,"sv",fun,"Temperaturen är 0...+1 grader.");
 	require(story,"en",fun,"Temperature is 0...+1 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","-1,0");
 	NFmiSettings::Set("range::fake::mean","0,0");
 	NFmiSettings::Set("range::fake::maximum","0,0");
 	require(story,"fi",fun,"Lämpötila on 0...-1 astetta.");
-	require(story,"sv",fun,"Temperatur är 0...-1 grader.");
+	require(story,"sv",fun,"Temperaturen är 0...-1 grader.");
 	require(story,"en",fun,"Temperature is 0...-1 degrees.");
 	
 	NFmiSettings::Set("range::fake::minimum","-1,0");
 	NFmiSettings::Set("range::fake::mean","0,0");
 	NFmiSettings::Set("range::fake::maximum","1,0");
 	require(story,"fi",fun,"Lämpötila on -1...+1 astetta.");
-	require(story,"sv",fun,"Temperatur är -1...+1 grader.");
+	require(story,"sv",fun,"Temperaturen är -1...+1 grader.");
 	require(story,"en",fun,"Temperature is -1...+1 degrees.");
 
 	TEST_PASSED();
@@ -2030,8 +2030,8 @@ namespace TemperatureStoryTest
 						  pTestParam->anomaly_d2_windchill_afternoon_coastmean);
 
 
-		NFmiTime time1(2009, 6, 1, 6, 0, 0);
-		NFmiTime time2(2009, 6, 2, 18, 0, 0);
+		TextGenPosixTime time1(2009, 6, 1, 6, 0, 0);
+		TextGenPosixTime time2(2009, 6, 2, 18, 0, 0);
 		WeatherPeriod period_day1_night_day2(time1,time2);
 		TemperatureStory story(time1,sources, area, period_day1_night_day2,"anomaly");
 		const string fun = "wind_anomaly";
@@ -2044,7 +2044,7 @@ namespace TemperatureStoryTest
 
   string get_fractile_share(const fractile_id& fractileId, 
 							const float& referenceTemperature,
-							const NFmiTime& timestmp)
+							const TextGenPosixTime& timestmp)
   {
 	// winter
 	if(timestmp.GetMonth() > 10 || timestmp.GetMonth() < 4)
@@ -2265,10 +2265,10 @@ namespace TemperatureStoryTest
 		NFmiSettings::Set("anomaly::fake::temperature::day_after_day2::afternoon::area::mean",
 						  pTestParam->temperature_d2_afternoon_areamean);
 
-		//	  NFmiTime time1(2009, 1, 1, 6, 0, 0);
-		//NFmiTime time2(2009, 1, 2, 18, 0, 0);
-		NFmiTime time1(2009, 6, 1, 6, 0, 0);
-		NFmiTime time2(2009, 6, 2, 18, 0, 0);
+		//	  TextGenPosixTime time1(2009, 1, 1, 6, 0, 0);
+		//TextGenPosixTime time2(2009, 1, 2, 18, 0, 0);
+		TextGenPosixTime time1(2009, 6, 1, 6, 0, 0);
+		TextGenPosixTime time2(2009, 6, 2, 18, 0, 0);
 		WeatherPeriod period_day1_night_day2(time1,time2);
 		TemperatureStory story(time1,sources, area, period_day1_night_day2,"anomaly");
 		const string fun = "temperature_anomaly";
@@ -2381,8 +2381,8 @@ namespace TemperatureStoryTest
 		NFmiSettings::Set("max36hours::fake::day2::afternoon::area::mean",param->temperature_d2_afternoon_areamean);
 
 
-		NFmiTime time1(2009,6,1,6,0,0);
-		NFmiTime time2(2009,6,2,18,0,0);
+		TextGenPosixTime time1(2009,6,1,6,0,0);
+		TextGenPosixTime time2(2009,6,2,18,0,0);
 		WeatherPeriod period_day1_night_day2(time1, time2);
 		TemperatureStory story1(time1,sources,area,period_day1_night_day2,"max36hours");
 		const string fun = "temperature_max36hours";
@@ -6682,8 +6682,8 @@ namespace TemperatureStoryTest
 	using namespace TextGen;
 	using namespace TextGen;
 
-	NFmiSettings::Set("textgen::tmax_climatology","/smartmet/data/climate/suomi/daily/querydata/tmax_textgen.sqd");
-	NFmiSettings::Set("textgen::fractiles_climatology","/smartmet/data/climate/suomi/daily/querydata/tmax_textgen.sqd");
+	NFmiSettings::Set("textgen::tmax_climatology","/smartmet/data/climate/suomi/daily/querydata/1970-2001/tmax_textgen.sqd");
+	NFmiSettings::Set("textgen::fractiles_climatology","/smartmet/data/climate/suomi/daily/querydata/1970-2001/tmax_textgen.sqd");
 	NFmiSettings::Set("max36hours::fake::fractile02_limit", "2.0");
 	NFmiSettings::Set("max36hours::day::starthour","6");
 	NFmiSettings::Set("max36hours::day::maxstarthour","11");
@@ -6694,10 +6694,10 @@ namespace TemperatureStoryTest
 	NFmiSettings::Set("max36hours::fake::growing_season_on", "false");
 
 
-	NFmiTime summertime1(2009, 6, 1, 6, 0, 0);
-	NFmiTime summertime2(2009, 6, 2, 18, 0, 0);
-	NFmiTime wintertime1(2009, 1, 1, 6, 0, 0);
-	NFmiTime wintertime2(2009, 1, 2, 18, 0, 0);
+	TextGenPosixTime summertime1(2009, 6, 1, 6, 0, 0);
+	TextGenPosixTime summertime2(2009, 6, 2, 18, 0, 0);
+	TextGenPosixTime wintertime1(2009, 1, 1, 6, 0, 0);
+	TextGenPosixTime wintertime2(2009, 1, 2, 18, 0, 0);
 	
 	WeatherPeriod summerPeriod(summertime1, summertime2);
 	WeatherPeriod winterPeriod(wintertime1, wintertime2);
@@ -6827,8 +6827,8 @@ namespace TemperatureStoryTest
 	using namespace TextGen;
 	using namespace TextGen;
 
-	NFmiSettings::Set("textgen::tmax_climatology","/smartmet/data/climate/suomi/daily/querydata/tmax_textgen.sqd");
-	NFmiSettings::Set("textgen::fractiles_climatology","/smartmet/data/climate/suomi/daily/querydata/tmax_textgen.sqd");
+	NFmiSettings::Set("textgen::tmax_climatology","/smartmet/data/climate/suomi/daily/querydata/1970-2001/tmax_textgen.sqd");
+	NFmiSettings::Set("textgen::fractiles_climatology","/smartmet/data/climate/suomi/daily/querydata/1970-2001/tmax_textgen.sqd");
 	NFmiSettings::Set("anomaly::fake::fractile02_limit", "2.0");
 	NFmiSettings::Set("anomaly::day::starthour","6");
 	NFmiSettings::Set("anomaly::day::maxstarthour","11");
@@ -6854,10 +6854,10 @@ namespace TemperatureStoryTest
 	NFmiSettings::Set("anomaly::fake::fractile::summer::F98", "25.0");
 	NFmiSettings::Set("anomaly::fake::growing_season_on", "false");
 
-	NFmiTime summertime1(2009, 6, 1, 6, 0, 0);
-	NFmiTime summertime2(2009, 6, 2, 18, 0, 0);
-	NFmiTime wintertime1(2009, 1, 1, 6, 0, 0);
-	NFmiTime wintertime2(2009, 1, 2, 18, 0, 0);
+	TextGenPosixTime summertime1(2009, 6, 1, 6, 0, 0);
+	TextGenPosixTime summertime2(2009, 6, 2, 18, 0, 0);
+	TextGenPosixTime wintertime1(2009, 1, 1, 6, 0, 0);
+	TextGenPosixTime wintertime2(2009, 1, 2, 18, 0, 0);
 	
 	WeatherPeriod summerPeriod(summertime1, summertime2);
 	WeatherPeriod winterPeriod(wintertime1, wintertime2);

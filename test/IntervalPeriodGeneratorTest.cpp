@@ -1,7 +1,7 @@
 #include <regression/tframe.h>
 #include "IntervalPeriodGenerator.h"
 #include "WeatherPeriod.h"
-#include <newbase/NFmiTime.h>
+#include "TextGenPosixTime.h"
 #include <newbase/NFmiSettings.h>
 
 #include <boost/locale.hpp>
@@ -23,8 +23,8 @@ namespace IntervalPeriodGeneratorTest
 
 	{
 	  // A simple period from 0 to 24
-	  WeatherPeriod period(NFmiTime(2000,1,1,0,0),
-						   NFmiTime(2000,1,2,0,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,0,0),
+						   TextGenPosixTime(2000,1,2,0,0));
 	  
 	  {
 		// 0-3, 3-6, 6-9, 9-12, 12-15, 15-18, 18-21, 21-24
@@ -155,8 +155,8 @@ namespace IntervalPeriodGeneratorTest
 
 	{
 	  // A simple several day period from 0 to 24
-	  WeatherPeriod period(NFmiTime(2000,1,1,0,0),
-						   NFmiTime(2000,1,11,0,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,0,0),
+						   TextGenPosixTime(2000,1,11,0,0));
 	  
 	  {
 		// 1-2, 2-3, 3-4, ... 9-10, 10-11
@@ -191,27 +191,27 @@ namespace IntervalPeriodGeneratorTest
 
 	{
 	  // A simple period from 0 to 24
-	  WeatherPeriod period(NFmiTime(2000,1,1,0,0),
-						   NFmiTime(2000,1,2,0,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,0,0),
+						   TextGenPosixTime(2000,1,2,0,0));
 	  
 	  {
 		// 0-3, 3-6, 6-9, 9-12, 12-15, 15-18, 18-21, 21-24
 		IntervalPeriodGenerator generator(period,0,3,3);
 
 		WeatherPeriod p = generator.period(1);
-		if(p != WeatherPeriod(NFmiTime(2000,1,1,0,0),NFmiTime(2000,1,1,3,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,0,0),TextGenPosixTime(2000,1,1,3,0)))
 		  TEST_FAILED("Failed to generate period 1");
 
 		p = generator.period(2);
-		if(p != WeatherPeriod(NFmiTime(2000,1,1,3,0),NFmiTime(2000,1,1,6,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,3,0),TextGenPosixTime(2000,1,1,6,0)))
 		  TEST_FAILED("Failed to generate period 2");
 
 		p = generator.period(3);
-		if(p != WeatherPeriod(NFmiTime(2000,1,1,6,0),NFmiTime(2000,1,1,9,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,6,0),TextGenPosixTime(2000,1,1,9,0)))
 		  TEST_FAILED("Failed to generate period 3");
 
 		p = generator.period(8);
-		if(p != WeatherPeriod(NFmiTime(2000,1,1,21,0),NFmiTime(2000,1,2,0,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,21,0),TextGenPosixTime(2000,1,2,0,0)))
 		  TEST_FAILED("Failed to generate period 8");
 		  
 	  }
@@ -221,11 +221,11 @@ namespace IntervalPeriodGeneratorTest
 		IntervalPeriodGenerator generator(period,2,3,3);
 
 		WeatherPeriod p = generator.period(1);
-		if(p != WeatherPeriod(NFmiTime(2000,1,1,2,0),NFmiTime(2000,1,1,5,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,2,0),TextGenPosixTime(2000,1,1,5,0)))
 		  TEST_FAILED("Failed to generate period 1");
 
 		p = generator.period(7);
-		if(p != WeatherPeriod(NFmiTime(2000,1,1,20,0),NFmiTime(2000,1,1,23,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,20,0),TextGenPosixTime(2000,1,1,23,0)))
 		  TEST_FAILED("Failed to generate period 2");
 	  }
 
@@ -234,15 +234,15 @@ namespace IntervalPeriodGeneratorTest
 		IntervalPeriodGenerator generator(period,2,3,2);
 
 		WeatherPeriod p = generator.period(1);
-		if(p != WeatherPeriod(NFmiTime(2000,1,1,0,0),NFmiTime(2000,1,1,2,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,0,0),TextGenPosixTime(2000,1,1,2,0)))
 		  TEST_FAILED("Failed to generate period 1");
 
 		p = generator.period(2);
-		if(p != WeatherPeriod(NFmiTime(2000,1,1,2,0),NFmiTime(2000,1,1,5,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,2,0),TextGenPosixTime(2000,1,1,5,0)))
 		  TEST_FAILED("Failed to generate period 2");
 
 		p = generator.period(8);
-		if(p != WeatherPeriod(NFmiTime(2000,1,1,20,0),NFmiTime(2000,1,1,23,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,20,0),TextGenPosixTime(2000,1,1,23,0)))
 		  TEST_FAILED("Failed to generate period 3");
 
 	  }
@@ -252,11 +252,11 @@ namespace IntervalPeriodGeneratorTest
 		IntervalPeriodGenerator generator(period,2,6,3);
 	
 		WeatherPeriod p = generator.period(1);
-		if(p != WeatherPeriod(NFmiTime(2000,1,1,2,0),NFmiTime(2000,1,1,8,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,2,0),TextGenPosixTime(2000,1,1,8,0)))
 		  TEST_FAILED("Failed to generate period 1");
 
 		p = generator.period(4);
-		if(p != WeatherPeriod(NFmiTime(2000,1,1,20,0),NFmiTime(2000,1,2,0,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,20,0),TextGenPosixTime(2000,1,2,0,0)))
 		  TEST_FAILED("Failed to generate period 4");
 
 	  }
@@ -265,18 +265,18 @@ namespace IntervalPeriodGeneratorTest
 
 	{
 	  // A simple several day period from 0 to 24
-	  WeatherPeriod period(NFmiTime(2000,1,1,0,0),
-						   NFmiTime(2000,1,11,0,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,0,0),
+						   TextGenPosixTime(2000,1,11,0,0));
 	  
 	  {
 		IntervalPeriodGenerator generator(period,0,24,24);
 
 		WeatherPeriod p = generator.period(1);
-		if(p != WeatherPeriod(NFmiTime(2000,1,1,0,0),NFmiTime(2000,1,2,0,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,0,0),TextGenPosixTime(2000,1,2,0,0)))
 		  TEST_FAILED("Failed to generate day period 1");
 
 		p = generator.period(3);
-		if(p != WeatherPeriod(NFmiTime(2000,1,3,0,0),NFmiTime(2000,1,4,0,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,3,0,0),TextGenPosixTime(2000,1,4,0,0)))
 		  TEST_FAILED("Failed to generate day period 3");
 	  }
 
@@ -284,11 +284,11 @@ namespace IntervalPeriodGeneratorTest
 		IntervalPeriodGenerator generator(period,0,3*24,3*24);
 
 		WeatherPeriod p = generator.period(1);
-		if(p != WeatherPeriod(NFmiTime(2000,1,1,0,0),NFmiTime(2000,1,4,0,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,0,0),TextGenPosixTime(2000,1,4,0,0)))
 		  TEST_FAILED("Failed to generate 3-day period 1");
 
 		p = generator.period(3);
-		if(p != WeatherPeriod(NFmiTime(2000,1,7,0,0),NFmiTime(2000,1,10,0,0)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,7,0,0),TextGenPosixTime(2000,1,10,0,0)))
 		  TEST_FAILED("Failed to generate 3-day period 3");
 	  }
 

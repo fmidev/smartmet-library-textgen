@@ -4,6 +4,8 @@
 #include "MaximumCalculator.h"
 #include "MinimumCalculator.h"
 #include "MeanCalculator.h"
+#include "TextGenPosixTime.h"
+
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiIndexMaskSource.h>
@@ -52,8 +54,9 @@ namespace QueryDataIntegratorTest
 	NFmiFastQueryInfo q = NFmiFastQueryInfo(theQD.get());
 	q.First();
 	q.Param(kFmiTemperature);
-	NFmiMetTime time1 = q.Time();
-	NFmiMetTime time2 = time1;
+	TextGenPosixTime time1 = q.Time();
+	TextGenPosixTime time2 = time1;
+	//	NFmiMetTime time2 = time1;
 	time2.ChangeByHours(10);
 
 	{

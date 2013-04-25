@@ -57,8 +57,8 @@ namespace FrostStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
 	FrostStory story(time1,sources,area,period,"mean");
 
@@ -109,8 +109,8 @@ namespace FrostStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
 	FrostStory story(time1,sources,area,period,"maximum");
 
@@ -162,8 +162,8 @@ TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
 	FrostStory story(time1,sources,area,period,"range");
 
@@ -242,8 +242,8 @@ TextGen;
 
 	// One night
 	{
-	  NFmiTime time1(2003,6,3,12,0);
-	  NFmiTime time2(2003,6,4,12,0);
+	  TextGenPosixTime time1(2003,6,3,12,0);
+	  TextGenPosixTime time2(2003,6,4,12,0);
 	  WeatherPeriod period(time1,time2);
 	  FrostStory story(time1,sources,area,period,"twonights");
 
@@ -269,8 +269,8 @@ TextGen;
 
 	// Two nights, nothing on second day
 	{
-	  NFmiTime time1(2003,6,3,12,0);
-	  NFmiTime time2(2003,6,5,12,0);
+	  TextGenPosixTime time1(2003,6,3,12,0);
+	  TextGenPosixTime time2(2003,6,5,12,0);
 	  WeatherPeriod period(time1,time2);
 	  FrostStory story(time1,sources,area,period,"twonights");
 
@@ -318,8 +318,8 @@ TextGen;
 
 	// First day frost
 	{
-	  NFmiTime time1(2003,6,3,12,0);
-	  NFmiTime time2(2003,6,5,12,0);
+	  TextGenPosixTime time1(2003,6,3,12,0);
+	  TextGenPosixTime time2(2003,6,5,12,0);
 	  WeatherPeriod period(time1,time2);
 	  FrostStory story(time1,sources,area,period,"twonights");
 
@@ -363,8 +363,8 @@ TextGen;
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,6,1,18);
-	NFmiTime time2(2000,6,2,6);
+	TextGenPosixTime time1(2000,6,1,18);
+	TextGenPosixTime time2(2000,6,2,6);
 	WeatherPeriod period(time1,time2);
 	FrostStory story(time1,sources,area,period,"day");
 
@@ -2412,8 +2412,8 @@ TextGen;
 	//	NFmiSettings::Set("onenight::fake::growing_season_on","true");
 	NFmiSettings::Set("onenight::fake::area_percentage","40.0");
 
-	NFmiTime time1(2003,6,3,12);
-	NFmiTime time2(2003,6,4,12);
+	TextGenPosixTime time1(2003,6,3,12);
+	TextGenPosixTime time2(2003,6,4,12);
 	WeatherPeriod period(time1,time2);
 	FrostStory story(time1,sources,area,period,"onenight");
 

@@ -59,8 +59,8 @@ namespace WeatherStoryTest
 
 	const string fun = "weather_shortoverview";
 
-	NFmiTime time1(2003,6,1);
-	NFmiTime time2(2003,6,4);
+	TextGenPosixTime time1(2003,6,1);
+	TextGenPosixTime time2(2003,6,4);
 	WeatherPeriod period(time1,time2);
 	WeatherStory story(time1,sources,area,period,"a");
 
@@ -195,8 +195,8 @@ namespace WeatherStoryTest
 
 	const string fun = "weather_thunderprobability";
 
-	NFmiTime time1(2003,6,1);
-	NFmiTime time2(2003,6,4);
+	TextGenPosixTime time1(2003,6,1);
+	TextGenPosixTime time2(2003,6,4);
 	WeatherPeriod period(time1,time2);
 	WeatherStory story(time1,sources,area,period,"b");
 
@@ -245,8 +245,8 @@ namespace WeatherStoryTest
 
 	const string fun = "weather_thunderprobability_simplified";
 
-	NFmiTime time1(2003,6,1);
-	NFmiTime time2(2003,6,4);
+	TextGenPosixTime time1(2003,6,1);
+	TextGenPosixTime time2(2003,6,4);
 	WeatherPeriod period(time1,time2);
 	WeatherStory story(time1,sources,area,period,"b");
 	

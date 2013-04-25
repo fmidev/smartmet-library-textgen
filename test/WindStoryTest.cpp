@@ -66,10 +66,10 @@ namespace WindStoryTest
 
 	const string fun = "wind_daily_ranges";
 
-	const NFmiTime time1(2003,6,1,0,0);
-	const NFmiTime time2(2003,6,2,0,0);
-	const NFmiTime time3(2003,6,3,0,0);
-	const NFmiTime time4(2003,6,4,0,0);
+	const TextGenPosixTime time1(2003,6,1,0,0);
+	const TextGenPosixTime time2(2003,6,2,0,0);
+	const TextGenPosixTime time3(2003,6,3,0,0);
+	const TextGenPosixTime time4(2003,6,4,0,0);
 
 	string result;
 
@@ -705,8 +705,8 @@ namespace WindStoryTest
 
 	const string fun = "wind_range";
 
-	const NFmiTime time1(2003,6,1,0,0);
-	const NFmiTime time2(2003,6,2,0,0);
+	const TextGenPosixTime time1(2003,6,1,0,0);
+	const TextGenPosixTime time2(2003,6,2,0,0);
 
 	string result;
 	

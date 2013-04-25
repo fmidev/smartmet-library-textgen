@@ -59,8 +59,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
 	PrecipitationStory story(time1,sources,area,period,"total");
 
@@ -99,8 +99,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
 	PrecipitationStory story(time1,sources,area,period,"total_day");
 
@@ -144,8 +144,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
 	PrecipitationStory story(time1,sources,area,period,"range");
 
@@ -201,8 +201,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,3);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,3);
 	WeatherPeriod period(time1,time2);
 	PrecipitationStory story(time1,sources,area,period,"sums");
 
@@ -252,8 +252,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
 	PrecipitationStory story(time1,sources,area,period,"classification");
 
@@ -373,8 +373,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	// 1-day forecasts
 	{
-	  NFmiTime time1(2003,6,3,6,0);
-	  NFmiTime time2(2003,6,4,6,0);
+	  TextGenPosixTime time1(2003,6,3,6,0);
+	  TextGenPosixTime time2(2003,6,4,6,0);
 	  WeatherPeriod period(time1,time2);
 	  PrecipitationStory story(time1,sources,area,period,"pop_twodays");
 	  
@@ -388,8 +388,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	// Another 1-day forecast, because 17 < 18 (minendhour)
 
 	{
-	  NFmiTime time1(2003,6,3,6,0);
-	  NFmiTime time2(2003,6,4,17,0);
+	  TextGenPosixTime time1(2003,6,3,6,0);
+	  TextGenPosixTime time2(2003,6,4,17,0);
 	  WeatherPeriod period(time1,time2);
 	  PrecipitationStory story(time1,sources,area,period,"pop_twodays");
 	  
@@ -403,8 +403,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	// Another 1-day forecast with small PoP
 
 	{
-	  NFmiTime time1(2003,6,3,6,0);
-	  NFmiTime time2(2003,6,4,6,0);
+	  TextGenPosixTime time1(2003,6,3,6,0);
+	  TextGenPosixTime time2(2003,6,4,6,0);
 	  WeatherPeriod period(time1,time2);
 	  PrecipitationStory story(time1,sources,area,period,"pop_twodays");
 	  
@@ -418,8 +418,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	// 2-day forecasts
 
 	{
-	  NFmiTime time1(2003,6,3,6,0);
-	  NFmiTime time2(2003,6,4,18,0);
+	  TextGenPosixTime time1(2003,6,3,6,0);
+	  TextGenPosixTime time2(2003,6,4,18,0);
 	  WeatherPeriod period(time1,time2);
 	  PrecipitationStory story(time1,sources,area,period,"pop_twodays");
 	  
@@ -517,8 +517,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	// 1-day forecasts
 	{
-	  NFmiTime time1(2003,6,3,6,0);
-	  NFmiTime time2(2003,6,4,6,0);
+	  TextGenPosixTime time1(2003,6,3,6,0);
+	  TextGenPosixTime time2(2003,6,4,6,0);
 	  WeatherPeriod period(time1,time2);
 	  PrecipitationStory story(time1,sources,area,period,"pop_days");
 	  
@@ -533,8 +533,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	// Another 1-day forecast, because 17 < 18 (minendhour)
 
 	{
-	  NFmiTime time1(2003,6,3,6,0);
-	  NFmiTime time2(2003,6,4,17,0);
+	  TextGenPosixTime time1(2003,6,3,6,0);
+	  TextGenPosixTime time2(2003,6,4,17,0);
 	  WeatherPeriod period(time1,time2);
 	  PrecipitationStory story(time1,sources,area,period,"pop_days");
 	  
@@ -549,8 +549,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	// Another 1-day forecast with small PoP
 
 	{
-	  NFmiTime time1(2003,6,3,6,0);
-	  NFmiTime time2(2003,6,4,6,0);
+	  TextGenPosixTime time1(2003,6,3,6,0);
+	  TextGenPosixTime time2(2003,6,4,6,0);
 	  WeatherPeriod period(time1,time2);
 	  PrecipitationStory story(time1,sources,area,period,"pop_days");
 	  
@@ -565,8 +565,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	// Another 1-day forecast with large PoP
 
 	{
-	  NFmiTime time1(2003,6,3,6,0);
-	  NFmiTime time2(2003,6,4,6,0);
+	  TextGenPosixTime time1(2003,6,3,6,0);
+	  TextGenPosixTime time2(2003,6,4,6,0);
 	  WeatherPeriod period(time1,time2);
 	  PrecipitationStory story(time1,sources,area,period,"pop_days");
 	  
@@ -581,8 +581,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	// 2-day forecasts
 
 	{
-	  NFmiTime time1(2003,6,3,6,0);
-	  NFmiTime time2(2003,6,4,18,0);
+	  TextGenPosixTime time1(2003,6,3,6,0);
+	  TextGenPosixTime time2(2003,6,4,18,0);
 	  WeatherPeriod period(time1,time2);
 	  PrecipitationStory story(time1,sources,area,period,"pop_days");
 	  
@@ -688,8 +688,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	NFmiSettings::Set("pop_max::minimum","10");
 	NFmiSettings::Set("pop_max::maximum","90");
 
-	NFmiTime time1(2003,6,3,6,0);
-	NFmiTime time2(2003,6,4,6,0);
+	TextGenPosixTime time1(2003,6,3,6,0);
+	TextGenPosixTime time2(2003,6,4,6,0);
 	WeatherPeriod period(time1,time2);
 	PrecipitationStory story(time1,sources,area,period,"pop_max");
 	
@@ -731,9 +731,9 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,3);
-	NFmiTime time3(2000,1,4);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,3);
+	TextGenPosixTime time3(2000,1,4);
 
 	const string fun = "precipitation_daily_sums";
 	string result;

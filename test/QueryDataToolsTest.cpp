@@ -1,5 +1,6 @@
 #include <regression/tframe.h>
 #include "QueryDataTools.h"
+#include "TextGenPosixTime.h"
 
 #include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiFastQueryInfo.h>
@@ -24,13 +25,13 @@ namespace QueryDataToolsTest
 
 	NFmiFastQueryInfo qi(*qd.Info());
 
-	if(firstTime(qi,NFmiTime(1999,1,1),NFmiTime(1999,1,2)))
+	if(firstTime(qi,TextGenPosixTime(1999,1,1),TextGenPosixTime(1999,1,2)))
 	  TEST_FAILED("Should fail for 1.1.1999");
 
-	if(!firstTime(qi,NFmiTime(2003,8,15),NFmiTime(2003,8,16)))
+	if(!firstTime(qi,TextGenPosixTime(2003,8,15),TextGenPosixTime(2003,8,16)))
 	  TEST_FAILED("Should succeed for 15.08.2003");
 
-	if(firstTime(qi,NFmiTime(2030,1,1),NFmiTime(2030,1,2)))
+	if(firstTime(qi,TextGenPosixTime(2030,1,1),TextGenPosixTime(2030,1,2)))
 	  TEST_FAILED("Should fail for 1.1.2030");
 
 	TEST_PASSED();
@@ -50,13 +51,13 @@ namespace QueryDataToolsTest
 
 	NFmiFastQueryInfo qi = NFmiFastQueryInfo(*qd.Info());
 
-	if(!lastTime(qi,NFmiTime(1999,1,1)))
+	if(!lastTime(qi,TextGenPosixTime(1999,1,1)))
 	  TEST_FAILED("Should succeed for 1.1.1999");
 
-	if(!lastTime(qi,NFmiTime(2003,8,15)))
+	if(!lastTime(qi,TextGenPosixTime(2003,8,15)))
 	  TEST_FAILED("Should succeed for 15.08.2003");
 
-	if(lastTime(qi,NFmiTime(2030,1,1)))
+	if(lastTime(qi,TextGenPosixTime(2030,1,1)))
 	  TEST_FAILED("Should fail for 1.1.2030");
 
 	TEST_PASSED();
@@ -80,8 +81,8 @@ namespace QueryDataToolsTest
 	unsigned long startindex, endindex;
 
 	if(!findIndices(qi,
-					NFmiTime(2003,8,15),
-					NFmiTime(2003,8,16),
+					TextGenPosixTime(2003,8,15),
+					TextGenPosixTime(2003,8,16),
 					startindex,
 					endindex))
 	  TEST_FAILED("Should succeed for 15.08.2003-16.08.2003");

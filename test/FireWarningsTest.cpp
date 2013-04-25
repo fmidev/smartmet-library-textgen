@@ -1,7 +1,7 @@
 #include <regression/tframe.h>
 #include "FireWarnings.h"
+#include "TextGenPosixTime.h"
 
-#include <newbase/NFmiTime.h>
 #include <newbase/NFmiSettings.h>
 
 #include <iostream>
@@ -29,7 +29,7 @@ namespace FireWarningsTest
 	// 24.05.2005 has data
 	try
 	  {
-		NFmiTime date(2005,5,24);
+		TextGenPosixTime date(2005,5,24);
 		FireWarnings warnings("data",date);
 	  }
 	catch(...)
@@ -40,7 +40,7 @@ namespace FireWarningsTest
 	// Next day finds previous day data
 	try
 	  {
-		NFmiTime date(2005,5,25);
+		TextGenPosixTime date(2005,5,25);
 		FireWarnings warnings("data",date);
 	  }
 	catch(...)
@@ -51,7 +51,7 @@ namespace FireWarningsTest
 	// The following day must fail
 	try
 	  {
-		NFmiTime date(2005,5,26);
+		TextGenPosixTime date(2005,5,26);
 		FireWarnings warnings("data",date);
 		TEST_FAILED("Should have failed to construct a FireWarnings object for 26.05.2005");
 	  }
@@ -62,7 +62,7 @@ namespace FireWarningsTest
 	// And the day before 24.05.2005
 	try
 	  {
-		NFmiTime date(2005,5,23);
+		TextGenPosixTime date(2005,5,23);
 		FireWarnings warnings("data",date);
 		TEST_FAILED("Should have failed to construct a FireWarnings object for 23.05.2005");
 	  }
@@ -85,7 +85,7 @@ namespace FireWarningsTest
 	using namespace std;
 	using namespace TextGen;
 
-	NFmiTime date(2005,5,24);
+	TextGenPosixTime date(2005,5,24);
 	FireWarnings warnings("data",date);
 
 	if(warnings.state(1) != FireWarnings::FireWarning)

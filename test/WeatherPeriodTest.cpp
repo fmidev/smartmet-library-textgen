@@ -11,8 +11,8 @@ namespace WeatherPeriodTest
   {
 	using namespace TextGen;
 
-	NFmiTime time1;
-	NFmiTime time2;
+	TextGenPosixTime time1;
+	TextGenPosixTime time2;
 
 	// Should succeed
 	WeatherPeriod s(time1,time2);
@@ -29,8 +29,8 @@ namespace WeatherPeriodTest
   {
 	using namespace TextGen;
 
-	NFmiTime time1(1999,1,1);
-	NFmiTime time2(2003,12,31);
+	TextGenPosixTime time1(1999,1,1);
+	TextGenPosixTime time2(2003,12,31);
 
 	WeatherPeriod period(time1,time2);
 	if(!period.localStartTime().IsEqual(time1))
@@ -46,9 +46,9 @@ namespace WeatherPeriodTest
   {
 	using namespace TextGen;
 
-	NFmiTime time1(1999,1,1);
-	NFmiTime time2(2003,12,31);
-	NFmiTime time3(2004,1,1);
+	TextGenPosixTime time1(1999,1,1);
+	TextGenPosixTime time2(2003,12,31);
+	TextGenPosixTime time3(2004,1,1);
 
 	WeatherPeriod period1(time1,time2);
 	WeatherPeriod period2(time1,time3);

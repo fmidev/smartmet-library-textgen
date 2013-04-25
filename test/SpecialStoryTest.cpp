@@ -60,8 +60,8 @@ namespace SpecialStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
 	SpecialStory story(time1,sources,area,period,"none");
 
@@ -87,8 +87,8 @@ namespace SpecialStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1);
-	NFmiTime time2(2000,1,2);
+	TextGenPosixTime time1(2000,1,1);
+	TextGenPosixTime time2(2000,1,2);
 	WeatherPeriod period(time1,time2);
 	SpecialStory story(time1,sources,area,period,"text");
 
@@ -125,8 +125,8 @@ namespace SpecialStoryTest
 
 	AnalysisSources sources;
 	WeatherArea area("25,60");
-	NFmiTime time1(2000,1,1,6,30);
-	NFmiTime time2(2000,1,2,9,30);
+	TextGenPosixTime time1(2000,1,1,6,30);
+	TextGenPosixTime time2(2000,1,2,9,30);
 	WeatherPeriod period(time1,time2);
 	SpecialStory story(time1,sources,area,period,"date");
 

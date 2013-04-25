@@ -1,6 +1,6 @@
 #include <regression/tframe.h>
 #include "TimeTools.h"
-#include <newbase/NFmiTime.h>
+#include "TextGenPosixTime.h"
 
 using namespace std;
 
@@ -17,15 +17,15 @@ namespace TimeToolsTest
   {
 	using TextGen::TimeTools::isSameDay;
 
-	NFmiTime date(2003,07,11);
+	TextGenPosixTime date(2003,07,11);
 
-	if(!isSameDay(date,NFmiTime(2003,07,11)))
+	if(!isSameDay(date,TextGenPosixTime(2003,07,11)))
 	  TEST_FAILED("Failed for 11.07.2003");
-	if(isSameDay(date,NFmiTime(2003,07,10)))
+	if(isSameDay(date,TextGenPosixTime(2003,07,10)))
 	  TEST_FAILED("Failed for 10.07.2003");
-	if(isSameDay(date,NFmiTime(2003,06,11)))
+	if(isSameDay(date,TextGenPosixTime(2003,06,11)))
 	  TEST_FAILED("Failed for 11.06.2003");
-	if(isSameDay(date,NFmiTime(2002,07,11)))
+	if(isSameDay(date,TextGenPosixTime(2002,07,11)))
 	  TEST_FAILED("Failed for 11.07.2002");
 
 	TEST_PASSED();
@@ -41,13 +41,13 @@ namespace TimeToolsTest
   {
 	using TextGen::TimeTools::isNextDay;
 
-	NFmiTime date(2003,07,11);
+	TextGenPosixTime date(2003,07,11);
 	
-	if(isNextDay(date,NFmiTime(2003,07,11)))
+	if(isNextDay(date,TextGenPosixTime(2003,07,11)))
 	  TEST_FAILED("Failed for 11.07.2003");
-	if(isNextDay(date,NFmiTime(2003,07,10)))
+	if(isNextDay(date,TextGenPosixTime(2003,07,10)))
 	  TEST_FAILED("Failed for 10.07.2003");
-	if(!isNextDay(date,NFmiTime(2003,07,12)))
+	if(!isNextDay(date,TextGenPosixTime(2003,07,12)))
 	  TEST_FAILED("Failed for 12.07.2003");
 
 	TEST_PASSED();
@@ -63,15 +63,15 @@ namespace TimeToolsTest
   {
 	using TextGen::TimeTools::isSeveralDays;
 
-	NFmiTime date(2003,07,11);
+	TextGenPosixTime date(2003,07,11);
 	
-	if(isSeveralDays(date,NFmiTime(2003,07,11)))
+	if(isSeveralDays(date,TextGenPosixTime(2003,07,11)))
 	  TEST_FAILED("Failed for 11.07.2003");
-	if(isSeveralDays(date,NFmiTime(2003,07,12)))
+	if(isSeveralDays(date,TextGenPosixTime(2003,07,12)))
 	  TEST_FAILED("Failed for 12.07.2003");
-	if(!isSeveralDays(date,NFmiTime(2003,07,12,1)))
+	if(!isSeveralDays(date,TextGenPosixTime(2003,07,12,1)))
 	  TEST_FAILED("Failed for 12.07.2003 01:00");
-	if(!isSeveralDays(date,NFmiTime(2003,07,13)))
+	if(!isSeveralDays(date,TextGenPosixTime(2003,07,13)))
 	  TEST_FAILED("Failed for 13.07.2003");
 
 	TEST_PASSED();
@@ -86,13 +86,13 @@ namespace TimeToolsTest
   void day_start()
   {
 	using TextGen::TimeTools::dayStart;
-	if(!dayStart(NFmiTime(2003,9,29)).IsEqual(NFmiTime(2003,9,29)))
+	if(!dayStart(TextGenPosixTime(2003,9,29)).IsEqual(TextGenPosixTime(2003,9,29)))
 	  TEST_FAILED("Failed to round down 29.09.2003 00:00");
-	if(!dayStart(NFmiTime(2003,9,29,1)).IsEqual(NFmiTime(2003,9,29)))
+	if(!dayStart(TextGenPosixTime(2003,9,29,1)).IsEqual(TextGenPosixTime(2003,9,29)))
 	  TEST_FAILED("Failed to round down 29.09.2003 01:00");
-	if(!dayStart(NFmiTime(2003,9,29,0,1)).IsEqual(NFmiTime(2003,9,29)))
+	if(!dayStart(TextGenPosixTime(2003,9,29,0,1)).IsEqual(TextGenPosixTime(2003,9,29)))
 	  TEST_FAILED("Failed to round down 29.09.2003 00:01");
-	if(!dayStart(NFmiTime(2003,9,29,0,0,1)).IsEqual(NFmiTime(2003,9,29)))
+	if(!dayStart(TextGenPosixTime(2003,9,29,0,0,1)).IsEqual(TextGenPosixTime(2003,9,29)))
 	  TEST_FAILED("Failed to round down 29.09.2003 00:00:01");
 
 	TEST_PASSED();
@@ -108,13 +108,13 @@ namespace TimeToolsTest
   {
 	using TextGen::TimeTools::dayEnd;
 
-	if(!dayEnd(NFmiTime(2003,9,29)).IsEqual(NFmiTime(2003,9,29)))
+	if(!dayEnd(TextGenPosixTime(2003,9,29)).IsEqual(TextGenPosixTime(2003,9,29)))
 	  TEST_FAILED("Failed to round up 29.09.2003 00:00");
-	if(!dayEnd(NFmiTime(2003,9,29,1)).IsEqual(NFmiTime(2003,9,30)))
+	if(!dayEnd(TextGenPosixTime(2003,9,29,1)).IsEqual(TextGenPosixTime(2003,9,30)))
 	  TEST_FAILED("Failed to round up 29.09.2003 01:00");
-	if(!dayEnd(NFmiTime(2003,9,29,0,1)).IsEqual(NFmiTime(2003,9,30)))
+	if(!dayEnd(TextGenPosixTime(2003,9,29,0,1)).IsEqual(TextGenPosixTime(2003,9,30)))
 	  TEST_FAILED("Failed to round up 29.09.2003 00:01");
-	if(!dayEnd(NFmiTime(2003,9,29,0,0,1)).IsEqual(NFmiTime(2003,9,30)))
+	if(!dayEnd(TextGenPosixTime(2003,9,29,0,0,1)).IsEqual(TextGenPosixTime(2003,9,30)))
 	  TEST_FAILED("Failed to round up 29.09.2003 00:00:01");
 
 	TEST_PASSED();
@@ -122,28 +122,25 @@ namespace TimeToolsTest
 
   // ----------------------------------------------------------------------
   /*!
-   * \brief Test TimeTools::toUtcTime()
+   * \brief Test TextGenPosixTime::UtcTime()
    */
   // ----------------------------------------------------------------------
 
   void toutctime()
   {
-	using TextGen::TimeTools::toUtcTime;
+	TextGenPosixTime::AddTimeZone("helsinki", "EET+02EEST+01,M3.5.0/03:00:00,M10.5.0/04:00:00");
+	TextGenPosixTime::AddTimeZone("stockholm", "CET+01CEST+01,M3.5.0/03:00:00,M10.5.0/04:00:00");
 
-	const char * hki = "TZ=Europe/Helsinki";
-	putenv(const_cast<char *>(hki));
-	tzset();
-	if(!toUtcTime(NFmiTime(2003,11,7,12)).IsEqual(NFmiTime(2003,11,7,10)))
+	TextGenPosixTime::UseTimeZone("helsinki");
+	if(!TextGenPosixTime::UtcTime(TextGenPosixTime(2003,11,7,12)).IsEqual(TextGenPosixTime(2003,11,7,10)))
 	  TEST_FAILED("Failed to convert 7.11.2003 12:00 FIN to 10:00 UTC");
-	if(!toUtcTime(NFmiTime(2003,9,7,12)).IsEqual(NFmiTime(2003,9,7,9)))
+	if(!TextGenPosixTime::UtcTime(TextGenPosixTime(2003,9,7,12)).IsEqual(TextGenPosixTime(2003,9,7,9)))
 	  TEST_FAILED("Failed to convert 7.9.2003 12:00 FIN to 9:00 UTC");
 
-	const char * sto = "TZ=Europe/Stockholm";
-	putenv(const_cast<char *>(sto));
-	tzset();
-	if(!toUtcTime(NFmiTime(2003,11,7,12)).IsEqual(NFmiTime(2003,11,7,11)))
+	TextGenPosixTime::UseTimeZone("stockholm");
+	if(!TextGenPosixTime::UtcTime(TextGenPosixTime(2003,11,7,12)).IsEqual(TextGenPosixTime(2003,11,7,11)))
 	  TEST_FAILED("Failed to convert 7.11.2003 12:00 SWE to 11:00 UTC");
-	if(!toUtcTime(NFmiTime(2003,9,7,12)).IsEqual(NFmiTime(2003,9,7,10)))
+	if(!TextGenPosixTime::UtcTime(TextGenPosixTime(2003,9,7,12)).IsEqual(TextGenPosixTime(2003,9,7,10)))
 	  TEST_FAILED("Failed to convert 7.9.2003 12:00 SWE to 10:00 UTC");
 
 	TEST_PASSED();
@@ -158,22 +155,19 @@ namespace TimeToolsTest
 
   void tolocaltime()
   {
-	using TextGen::TimeTools::toLocalTime;
+	TextGenPosixTime::AddTimeZone("helsinki", "EET+02EEST+01,M3.5.0/03:00:00,M10.5.0/04:00:00");
+	TextGenPosixTime::AddTimeZone("stockholm", "CET+01CEST+01,M3.5.0/03:00:00,M10.5.0/04:00:00");
 
-	const char * hki = "TZ=Europe/Helsinki";
-	putenv(const_cast<char *>(hki));
-	tzset();
-	if(!toLocalTime(NFmiTime(2003,11,7,12)).IsEqual(NFmiTime(2003,11,7,14)))
+	TextGenPosixTime::UseTimeZone("helsinki");
+	if(!TextGenPosixTime::LocalTime(TextGenPosixTime(2003,11,7,12)).IsEqual(TextGenPosixTime(2003,11,7,14)))
 	  TEST_FAILED("Failed to convert 7.11.2003 12:00 UTC to 14:00 UTC");
-	if(!toLocalTime(NFmiTime(2003,9,7,12)).IsEqual(NFmiTime(2003,9,7,15)))
+	if(!TextGenPosixTime::LocalTime(TextGenPosixTime(2003,9,7,12)).IsEqual(TextGenPosixTime(2003,9,7,15)))
 	  TEST_FAILED("Failed to convert 7.9.2003 12:00 UTC to 15:00 UTC");
 
-	const char * sto = "TZ=Europe/Stockholm";
-	putenv(const_cast<char *>(sto));
-	tzset();
-	if(!toLocalTime(NFmiTime(2003,11,7,12)).IsEqual(NFmiTime(2003,11,7,13)))
+	TextGenPosixTime::UseTimeZone("stockholm");
+	if(!TextGenPosixTime::LocalTime(TextGenPosixTime(2003,11,7,12)).IsEqual(TextGenPosixTime(2003,11,7,13)))
 	  TEST_FAILED("Failed to convert 7.11.2003 12:00 UTC to 13:00 SWE");
-	if(!toLocalTime(NFmiTime(2003,9,7,12)).IsEqual(NFmiTime(2003,9,7,14)))
+	if(!TextGenPosixTime::LocalTime(TextGenPosixTime(2003,9,7,12)).IsEqual(TextGenPosixTime(2003,9,7,14)))
 	  TEST_FAILED("Failed to convert 7.9.2003 12:00 UTC to 14:00 UTC");
 
 	TEST_PASSED();

@@ -69,8 +69,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	// 1-day forecasts
 	{
-	  NFmiTime time1(2003,6,3,6,0);
-	  NFmiTime time2(2003,6,4,6,0);
+	  TextGenPosixTime time1(2003,6,3,6,0);
+	  TextGenPosixTime time2(2003,6,4,6,0);
 	  WeatherPeriod period(time1,time2);
 	  ForestStory story(time1,sources,area,period,"forestfireindex_twodays");
 	  
@@ -84,8 +84,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	// Another 1-day forecast, because 17 < 18 (minendhour)
 
 	{
-	  NFmiTime time1(2003,6,3,6,0);
-	  NFmiTime time2(2003,6,4,17,0);
+	  TextGenPosixTime time1(2003,6,3,6,0);
+	  TextGenPosixTime time2(2003,6,4,17,0);
 	  WeatherPeriod period(time1,time2);
 	  ForestStory story(time1,sources,area,period,"forestfireindex_twodays");
 	  
@@ -99,8 +99,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	// Another 1-day forecast with small PoP
 
 	{
-	  NFmiTime time1(2003,6,3,6,0);
-	  NFmiTime time2(2003,6,4,6,0);
+	  TextGenPosixTime time1(2003,6,3,6,0);
+	  TextGenPosixTime time2(2003,6,4,6,0);
 	  WeatherPeriod period(time1,time2);
 	  ForestStory story(time1,sources,area,period,"forestfireindex_twodays");
 	  
@@ -114,8 +114,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	// 2-day forecasts
 
 	{
-	  NFmiTime time1(2003,6,3,6,0);
-	  NFmiTime time2(2003,6,4,18,0);
+	  TextGenPosixTime time1(2003,6,3,6,0);
+	  TextGenPosixTime time2(2003,6,4,18,0);
 	  WeatherPeriod period(time1,time2);
 	  ForestStory story(time1,sources,area,period,"forestfireindex_twodays");
 	  

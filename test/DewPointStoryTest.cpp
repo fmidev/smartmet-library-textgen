@@ -61,8 +61,8 @@ namespace DewPointStoryTest
 	NFmiSettings::Set("range::mininterval","2");
 	NFmiSettings::Set("range::always_interval_zero","true");
 
-	NFmiTime time1(2003,6,1);
-	NFmiTime time2(2003,6,2);
+	TextGenPosixTime time1(2003,6,1);
+	TextGenPosixTime time2(2003,6,2);
 	WeatherPeriod period(time1,time2);
 	DewPointStory story(time1,sources,area,period,"range");
 	

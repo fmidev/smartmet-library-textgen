@@ -8,9 +8,9 @@
 #include "Time.h"
 #include "TimePeriod.h"
 #include "WeatherPeriod.h"
+#include "TextGenPosixTime.h"
 
 #include <newbase/NFmiSettings.h>
-#include <newbase/NFmiTime.h>
 
 #include <iostream>
 #include <stdexcept>
@@ -153,9 +153,9 @@ namespace TextFormatterToolsTest
  	PlainTextFormatter formatter;
 	formatter.dictionary(dict);
 
-	// Test 1: format_time(const NFmiTime& theTime, const std::string& theFormattingString)
+	// Test 1: format_time(const TextGenPosixTime& theTime, const std::string& theFormattingString)
 	{
-	  NFmiTime nfmiTime(2012,8,9,14,39);
+	  TextGenPosixTime nfmiTime(2012,8,9,14,39);
 	  
 	  Sentence s;
 	  s << Time(nfmiTime);
@@ -165,9 +165,9 @@ namespace TextFormatterToolsTest
 		TEST_FAILED("format_time-test 1 failed: " + tmp);
 	}
 
-	// Test 2: std::string format_time(const NFmiTime& theTime, const std::string& theStoryVar,	const std::string& theFormatterName)
+	// Test 2: std::string format_time(const TextGenPosixTime& theTime, const std::string& theStoryVar,	const std::string& theFormatterName)
 	{
-	  NFmiTime nfmiTime(2012,8,9,14,39);
+	  TextGenPosixTime nfmiTime(2012,8,9,14,39);
 	  
 	  Sentence s;
 	  s << Time(nfmiTime);
@@ -180,8 +180,8 @@ namespace TextFormatterToolsTest
 	}
 	// Test 3: std::string format_time(const WeatherPeriod& thePeriod, const std::string& theStoryVar, const std::string& theFormatterName)
 	{
-	  NFmiTime startTime(2012,8,9,14,39);
-	  NFmiTime endTime(2012,8,10,12,00);
+	  TextGenPosixTime startTime(2012,8,9,14,39);
+	  TextGenPosixTime endTime(2012,8,10,12,00);
 	  WeatherPeriod weatherPeriod(startTime, endTime);
 	  
 	  Sentence s;

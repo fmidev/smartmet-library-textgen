@@ -66,8 +66,8 @@ namespace WaveStoryTest
 
 	const string fun = "wave_range";
 
-	const NFmiTime time1(2003,6,1,0,0);
-	const NFmiTime time2(2003,6,2,0,0);
+	const TextGenPosixTime time1(2003,6,1,0,0);
+	const TextGenPosixTime time2(2003,6,2,0,0);
 
 	string result;
 	

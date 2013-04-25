@@ -4,9 +4,9 @@
 #include "PlainTextFormatter.h"
 #include "Sentence.h"
 #include "WeatherPeriod.h"
+#include "TextGenPosixTime.h"
 
 #include <newbase/NFmiSettings.h>
-#include <newbase/NFmiTime.h>
 
 #include <iostream>
 #include <stdexcept>
@@ -24,7 +24,7 @@ namespace PeriodPhraseFactoryTest
 
   string require(const string & theMode,
 				 const string & theVariable,
-				 const NFmiTime & theForecastTime,
+				 const TextGenPosixTime & theForecastTime,
 				 const TextGen::WeatherPeriod & thePeriod,
 				 const string & theLanguage,
 				 const string & theResult)
@@ -58,15 +58,15 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   void until_tonight()
   {
-	const NFmiTime day1(2003,06,29);
-	const NFmiTime day2(2003,06,30);
-	const NFmiTime day3(2003,07,01);
+	const TextGenPosixTime day1(2003,06,29);
+	const TextGenPosixTime day2(2003,06,30);
+	const TextGenPosixTime day3(2003,07,01);
 
 	const string mode = "until_tonight";
 	const string var = mode;
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
-	const NFmiTime ftime(day1);
+	const TextGenPosixTime ftime(day1);
 	const TextGen::WeatherPeriod period1(day1,day2);
 	const TextGen::WeatherPeriod period2(day2,day3);
 
@@ -127,15 +127,15 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   void until_morning()
   {
-	const NFmiTime day1(2003,06,29);
-	const NFmiTime day2(2003,06,30);
-	const NFmiTime day3(2003,07,01);
+	const TextGenPosixTime day1(2003,06,29);
+	const TextGenPosixTime day2(2003,06,30);
+	const TextGenPosixTime day3(2003,07,01);
 
 	const string mode = "until_morning";
 	const string var = mode;
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
-	const NFmiTime ftime(day1);
+	const TextGenPosixTime ftime(day1);
 	const TextGen::WeatherPeriod period1(day1,day2);
 	const TextGen::WeatherPeriod period2(day2,day3);
 
@@ -196,15 +196,15 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   void today()
   {
-	const NFmiTime day1(2003,06,29);
-	const NFmiTime day2(2003,06,30);
-	const NFmiTime day3(2003,07,01);
+	const TextGenPosixTime day1(2003,06,29);
+	const TextGenPosixTime day2(2003,06,30);
+	const TextGenPosixTime day3(2003,07,01);
 
 	const string mode = "today";
 	const string var = mode;
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
-	const NFmiTime ftime(day1);
+	const TextGenPosixTime ftime(day1);
 	const TextGen::WeatherPeriod period1(day1,day2);
 	const TextGen::WeatherPeriod period2(day2,day3);
 
@@ -262,15 +262,15 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   void tonight()
   {
-	const NFmiTime day1(2003,06,29,18);
-	const NFmiTime day2(2003,06,30,06);
-	const NFmiTime day3(2003,07,01,06);
+	const TextGenPosixTime day1(2003,06,29,18);
+	const TextGenPosixTime day2(2003,06,30,06);
+	const TextGenPosixTime day3(2003,07,01,06);
 
 	const string mode = "tonight";
 	const string var = mode;
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
-	const NFmiTime ftime(day1);
+	const TextGenPosixTime ftime(day1);
 	const TextGen::WeatherPeriod period1(day1,day2);
 	const TextGen::WeatherPeriod period2(day2,day3);
 
@@ -331,14 +331,14 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   void next_night()
   {
-	const NFmiTime day1(2003,06,29);
-	const NFmiTime day2(2003,06,30);
+	const TextGenPosixTime day1(2003,06,29);
+	const TextGenPosixTime day2(2003,06,30);
 
 	const string mode = "next_night";
 	const string var = mode;
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
-	const NFmiTime ftime(day1);
+	const TextGenPosixTime ftime(day1);
 	const TextGen::WeatherPeriod period(day1,day2);
 
 	string result;
@@ -379,15 +379,15 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   void next_day()
   {
-	const NFmiTime day1(2003,06,29);
-	const NFmiTime day2(2003,06,30);
-	const NFmiTime day3(2003,07,01);
+	const TextGenPosixTime day1(2003,06,29);
+	const TextGenPosixTime day2(2003,06,30);
+	const TextGenPosixTime day3(2003,07,01);
 
 	const string mode = "next_day";
 	const string var = mode;
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
-	const NFmiTime ftime(day1);
+	const TextGenPosixTime ftime(day1);
 	const TextGen::WeatherPeriod period1(day1,day2);
 	const TextGen::WeatherPeriod period2(day2,day3);
 
@@ -439,15 +439,15 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   void next_days()
   {
-	const NFmiTime day1(2003,06,29);
-	const NFmiTime day2(2003,06,30);
-	const NFmiTime day3(2003,07,01);
+	const TextGenPosixTime day1(2003,06,29);
+	const TextGenPosixTime day2(2003,06,30);
+	const TextGenPosixTime day3(2003,07,01);
 
 	const string mode = "next_days";
 	const string var = mode;
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
-	const NFmiTime ftime(day1);
+	const TextGenPosixTime ftime(day1);
 	const TextGen::WeatherPeriod period1(day1,day2);
 	const TextGen::WeatherPeriod period2(day2,day3);
 
@@ -488,16 +488,16 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
   void days()
   {
-	const NFmiTime day1(2003,06,29);
-	const NFmiTime day2(2003,06,30);
-	const NFmiTime day3(2003,07,01);
-	const NFmiTime day4(2003,07,02);
+	const TextGenPosixTime day1(2003,06,29);
+	const TextGenPosixTime day2(2003,06,30);
+	const TextGenPosixTime day3(2003,07,01);
+	const TextGenPosixTime day4(2003,07,02);
 
 	const string mode = "days";
 	const string var = mode;
 	const string phrasesvar = var+"::"+mode+"::phrases";
 
-	const NFmiTime ftime(day1);
+	const TextGenPosixTime ftime(day1);
 	string result;
 
 	NFmiSettings::Set("days::day::starthour","06");
@@ -671,33 +671,33 @@ if(!result.empty()) TEST_FAILED(result.c_str());
   {
 	using TextGen::WeatherPeriod;
 
-	const NFmiTime ftime(2003,06,29);
+	const TextGenPosixTime ftime(2003,06,29);
 
-	const NFmiTime hour00(2003,06,29,0);
-	const NFmiTime hour01(2003,06,29,1);
-	const NFmiTime hour02(2003,06,29,2);
-	const NFmiTime hour03(2003,06,29,3);
-	const NFmiTime hour04(2003,06,29,4);
-	const NFmiTime hour05(2003,06,29,5);
-	const NFmiTime hour06(2003,06,29,6);
-	const NFmiTime hour07(2003,06,29,7);
-	const NFmiTime hour08(2003,06,29,8);
-	const NFmiTime hour09(2003,06,29,9);
-	const NFmiTime hour10(2003,06,29,10);
-	const NFmiTime hour11(2003,06,29,11);
-	const NFmiTime hour12(2003,06,29,12);
-	const NFmiTime hour13(2003,06,29,13);
-	const NFmiTime hour14(2003,06,29,14);
-	const NFmiTime hour15(2003,06,29,15);
-	const NFmiTime hour16(2003,06,29,16);
-	const NFmiTime hour17(2003,06,29,17);
-	const NFmiTime hour18(2003,06,29,18);
-	const NFmiTime hour19(2003,06,29,19);
-	const NFmiTime hour20(2003,06,29,20);
-	const NFmiTime hour21(2003,06,29,21);
-	const NFmiTime hour22(2003,06,29,22);
-	const NFmiTime hour23(2003,06,29,23);
-	const NFmiTime hour24(2003,06,30,0);
+	const TextGenPosixTime hour00(2003,06,29,0);
+	const TextGenPosixTime hour01(2003,06,29,1);
+	const TextGenPosixTime hour02(2003,06,29,2);
+	const TextGenPosixTime hour03(2003,06,29,3);
+	const TextGenPosixTime hour04(2003,06,29,4);
+	const TextGenPosixTime hour05(2003,06,29,5);
+	const TextGenPosixTime hour06(2003,06,29,6);
+	const TextGenPosixTime hour07(2003,06,29,7);
+	const TextGenPosixTime hour08(2003,06,29,8);
+	const TextGenPosixTime hour09(2003,06,29,9);
+	const TextGenPosixTime hour10(2003,06,29,10);
+	const TextGenPosixTime hour11(2003,06,29,11);
+	const TextGenPosixTime hour12(2003,06,29,12);
+	const TextGenPosixTime hour13(2003,06,29,13);
+	const TextGenPosixTime hour14(2003,06,29,14);
+	const TextGenPosixTime hour15(2003,06,29,15);
+	const TextGenPosixTime hour16(2003,06,29,16);
+	const TextGenPosixTime hour17(2003,06,29,17);
+	const TextGenPosixTime hour18(2003,06,29,18);
+	const TextGenPosixTime hour19(2003,06,29,19);
+	const TextGenPosixTime hour20(2003,06,29,20);
+	const TextGenPosixTime hour21(2003,06,29,21);
+	const TextGenPosixTime hour22(2003,06,29,22);
+	const TextGenPosixTime hour23(2003,06,29,23);
+	const TextGenPosixTime hour24(2003,06,30,0);
 
 	const string mode = "remaining_day";
 	const string var = mode;

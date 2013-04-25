@@ -59,7 +59,7 @@ namespace HeaderFactoryTest
 	NFmiSettings::Set(var+"::type","none");
 
 	WeatherArea area("25,60");
-	WeatherPeriod period(NFmiTime(2003,6,1),NFmiTime(2003,6,2));
+	WeatherPeriod period(TextGenPosixTime(2003,6,1),TextGenPosixTime(2003,6,2));
 
 	string result;
 
@@ -89,8 +89,8 @@ namespace HeaderFactoryTest
 	NFmiSettings::Set(var+"::type","until");
 
 	WeatherArea area("25,60");
-	WeatherPeriod period1(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,2,6));
-	WeatherPeriod period2(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,2,18));
+	WeatherPeriod period1(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,2,6));
+	WeatherPeriod period2(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,2,18));
 
 	string result;
 
@@ -129,8 +129,8 @@ namespace HeaderFactoryTest
 	NFmiSettings::Set(var+"::type","from_until");
 
 	WeatherArea area("25,60");
-	WeatherPeriod period1(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,2,6));
-	WeatherPeriod period2(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,2,18));
+	WeatherPeriod period1(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,2,6));
+	WeatherPeriod period2(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,2,18));
 
 	string result;
 
@@ -169,7 +169,7 @@ namespace HeaderFactoryTest
 	NFmiSettings::Set(var+"::type","several_days");
 
 	WeatherArea area("25,60");
-	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,3,6));
+	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,3,6));
 
 	string result;
 
@@ -199,7 +199,7 @@ namespace HeaderFactoryTest
 	NFmiSettings::Set(var+"::type","report_area");
 
 	WeatherArea area("25,60:30","uusimaa");
-	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,3,6));
+	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,3,6));
 
 	string result;
 
@@ -229,7 +229,7 @@ namespace HeaderFactoryTest
 	NFmiSettings::Set(var+"::type","report_time");
 
 	WeatherArea area("25,60:30","uusimaa");
-	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,3,6));
+	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,3,6));
 
 	string result;
 
@@ -259,7 +259,7 @@ namespace HeaderFactoryTest
 	NFmiSettings::Set(var+"::type","report_location");
 
 	WeatherArea area("25,60","helsinki");
-	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,3,6));
+	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,3,6));
 
 	string result;
 
@@ -290,7 +290,7 @@ namespace HeaderFactoryTest
 	NFmiSettings::Set(var+"::weekdays","false");
 
 	WeatherArea area("25,60");
-	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,1,12));
+	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,1,12));
 
 	string result;
 
@@ -332,7 +332,7 @@ namespace HeaderFactoryTest
 	NFmiSettings::Set(var+"::weekdays","false");
 
 	WeatherArea area("25,60");
-	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,1,12));
+	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,1,12));
 
 	string result;
 
@@ -374,7 +374,7 @@ namespace HeaderFactoryTest
 	NFmiSettings::Set(var+"::weekdays","false");
 
 	WeatherArea area("25,60");
-	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,1,12));
+	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,1,12));
 
 	string result;
 
@@ -416,7 +416,7 @@ namespace HeaderFactoryTest
 	NFmiSettings::Set(var+"::weekdays","false");
 
 	WeatherArea area("25,60");
-	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,1,12));
+	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,1,12));
 
 	string result;
 
@@ -458,7 +458,7 @@ namespace HeaderFactoryTest
 	NFmiSettings::Set(var+"::weekdays","false");
 
 	WeatherArea area("25,60");
-	WeatherPeriod period(NFmiTime(2003,6,1,6,0),NFmiTime(2003,6,1,12));
+	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,1,12));
 
 	string result;
 

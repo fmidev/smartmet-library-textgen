@@ -1,7 +1,7 @@
 #include <regression/tframe.h>
 #include "WeatherPeriodTools.h"
 #include "WeatherPeriod.h"
-#include <newbase/NFmiTime.h>
+#include "TextGenPosixTime.h"
 
 using namespace std;
 
@@ -31,8 +31,8 @@ namespace WeatherPeriodToolsTest
 
 	// A simple period from 12 to 17
 	{
-	  WeatherPeriod period(NFmiTime(2000,1,1,12,0),
-						   NFmiTime(2000,1,1,17,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,12,0),
+						   TextGenPosixTime(2000,1,1,17,0));
 
 	  if(WeatherPeriodTools::countPeriods(period,06,18,06,18) != 0)
 		TEST_FAILED("Failed to get 0 subperiod 06-18");
@@ -46,8 +46,8 @@ namespace WeatherPeriodToolsTest
 
 	// A two-day period from 12 to 17
 	{
-	  WeatherPeriod period(NFmiTime(2000,1,1,12,0),
-						   NFmiTime(2000,1,2,17,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,12,0),
+						   TextGenPosixTime(2000,1,2,17,0));
 
 	  if(WeatherPeriodTools::countPeriods(period,06,18,06,18) != 0)
 		TEST_FAILED("Failed to get 0 subperiod 06-18");
@@ -64,8 +64,8 @@ namespace WeatherPeriodToolsTest
 
 	// A three-day period from 12 to 17
 	{
-	  WeatherPeriod period(NFmiTime(2000,1,1,12,0),
-						   NFmiTime(2000,1,3,17,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,12,0),
+						   TextGenPosixTime(2000,1,3,17,0));
 
 	  if(WeatherPeriodTools::countPeriods(period,06,18,06,18) != 1)
 		TEST_FAILED("Failed to get 1 subperiod 06-18");
@@ -98,8 +98,8 @@ namespace WeatherPeriodToolsTest
 
 	// A simple period from 12 to 17
 	{
-	  WeatherPeriod period(NFmiTime(2000,1,1,12,0),
-						   NFmiTime(2000,1,1,17,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,12,0),
+						   TextGenPosixTime(2000,1,1,17,0));
 
 	  try
 		{
@@ -116,8 +116,8 @@ namespace WeatherPeriodToolsTest
 	  catch(...) { }
 	  
 	  {
-		WeatherPeriod expected = WeatherPeriod(NFmiTime(2000,1,1,12,0),
-											   NFmiTime(2000,1,1,17,0));
+		WeatherPeriod expected = WeatherPeriod(TextGenPosixTime(2000,1,1,12,0),
+											   TextGenPosixTime(2000,1,1,17,0));
 		WeatherPeriod result = getPeriod(period,1,06,18,12,17);
 		if(expected != result)
 		  TEST_FAILED("Failed to get 1st subperiod 12-17");
@@ -126,36 +126,36 @@ namespace WeatherPeriodToolsTest
 
 	// A two-day period from 12 to 17
 	{
-	  WeatherPeriod period(NFmiTime(2000,1,1,12,0),
-						   NFmiTime(2000,1,2,17,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,12,0),
+						   TextGenPosixTime(2000,1,2,17,0));
 
 	  {
-		WeatherPeriod expected = WeatherPeriod(NFmiTime(2000,1,1,12,0),
-											   NFmiTime(2000,1,1,18,0));
+		WeatherPeriod expected = WeatherPeriod(TextGenPosixTime(2000,1,1,12,0),
+											   TextGenPosixTime(2000,1,1,18,0));
 		WeatherPeriod result = getPeriod(period,1,06,18,12,18);
 		if(result != expected)
 		  TEST_FAILED("Failed to get 1/1 subperiod 12-18");
 	  }
 
 	  {
-		WeatherPeriod expected = WeatherPeriod(NFmiTime(2000,1,1,12,0),
-											   NFmiTime(2000,1,1,18,0));
+		WeatherPeriod expected = WeatherPeriod(TextGenPosixTime(2000,1,1,12,0),
+											   TextGenPosixTime(2000,1,1,18,0));
 		WeatherPeriod result = getPeriod(period,1,06,18,12,17);
 		if(result != expected)
 		  TEST_FAILED("Failed to get 1/2 subperiod 12-18");
 	  }
 
 	  {
-		WeatherPeriod expected = WeatherPeriod(NFmiTime(2000,1,2,06,0),
-											   NFmiTime(2000,1,2,17,0));
+		WeatherPeriod expected = WeatherPeriod(TextGenPosixTime(2000,1,2,06,0),
+											   TextGenPosixTime(2000,1,2,17,0));
 		WeatherPeriod result = getPeriod(period,2,06,18,12,17);
 		if(result != expected)
 		  TEST_FAILED("Failed to get 2/2 subperiod 06-17");
 	  }
 
 	  {
-		WeatherPeriod expected = WeatherPeriod(NFmiTime(2000,1,1,18,0),
-											   NFmiTime(2000,1,2,06,0));
+		WeatherPeriod expected = WeatherPeriod(TextGenPosixTime(2000,1,1,18,0),
+											   TextGenPosixTime(2000,1,2,06,0));
 		WeatherPeriod result = getPeriod(period,1,18,06,18,06);
 		
 		if(result != expected)

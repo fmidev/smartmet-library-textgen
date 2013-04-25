@@ -1,7 +1,7 @@
 #include <regression/tframe.h>
 #include "MorningAndEveningPeriodGenerator.h"
 #include "WeatherPeriod.h"
-#include <newbase/NFmiTime.h>
+#include "TextGenPosixTime.h"
 
 using namespace std;
 
@@ -20,8 +20,8 @@ namespace MorningAndEveningPeriodGeneratorTest
 
 	// A simple period from 12 to 18
 	{
-	  WeatherPeriod period(NFmiTime(2000,1,1,12,0),
-						   NFmiTime(2000,1,1,18,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,12,0),
+						   TextGenPosixTime(2000,1,1,18,0));
 
 	  {
 		MorningAndEveningPeriodGenerator generator(period,6,9,18,22, 6,9,18,22);
@@ -38,8 +38,8 @@ namespace MorningAndEveningPeriodGeneratorTest
 
 	// A two-day period from 12 to 18
 	{
-	  WeatherPeriod period(NFmiTime(2000,1,1,12,0),
-						   NFmiTime(2000,1,2,18,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,12,0),
+						   TextGenPosixTime(2000,1,2,18,0));
 
 
 	  {
@@ -58,8 +58,8 @@ namespace MorningAndEveningPeriodGeneratorTest
 
 	// A three-day period from 12 to 18
 	{
-	  WeatherPeriod period(NFmiTime(2000,1,1,12,0),
-						   NFmiTime(2000,1,3,18,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,12,0),
+						   TextGenPosixTime(2000,1,3,18,0));
 
 	  {
 		MorningAndEveningPeriodGenerator generator(period,6,9,18,22, 6,9,18,22);
@@ -85,8 +85,8 @@ namespace MorningAndEveningPeriodGeneratorTest
 
 	// A simple period from 12 to 18
 	{
-	  WeatherPeriod period(NFmiTime(2000,1,1,12,0),
-						   NFmiTime(2000,1,1,18,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,12,0),
+						   TextGenPosixTime(2000,1,1,18,0));
 
 	  {
 		MorningAndEveningPeriodGenerator generator(period,6,9,18,22, 6,9,18,22);
@@ -101,63 +101,63 @@ namespace MorningAndEveningPeriodGeneratorTest
 	  {
 		MorningAndEveningPeriodGenerator generator(period,6,9,18,22, 6,12,18,22);
 		WeatherPeriod p = generator.period(1);
-		if(p != WeatherPeriod(NFmiTime(2000,1,1,12),NFmiTime(2000,1,1,18)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,12),TextGenPosixTime(2000,1,1,18)))
 		  TEST_FAILED("Failed to generate correct first 12-18 period");
 	  }
 	}
 
 	// A two-day period from 12 to 18
 	{
-	  WeatherPeriod period(NFmiTime(2000,1,1,12,0),
-						   NFmiTime(2000,1,2,18,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,12,0),
+						   TextGenPosixTime(2000,1,2,18,0));
 
 
 	  MorningAndEveningPeriodGenerator generator(period,6,9,18,22, 6,9,18,22);
 	  WeatherPeriod p = generator.period(1);
-	  if(p != WeatherPeriod(NFmiTime(2000,1,1,18),NFmiTime(2000,1,1,22)))
+	  if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,18),TextGenPosixTime(2000,1,1,22)))
 		TEST_FAILED("Failed to generator 1st of 4 periods (18-22)");
 	  p = generator.period(2);
-	  if(p != WeatherPeriod(NFmiTime(2000,1,1,22),NFmiTime(2000,1,2,6)))
+	  if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,22),TextGenPosixTime(2000,1,2,6)))
 		TEST_FAILED("Failed to generator 2nd of 4 periods (22-06)");
 	  p = generator.period(3);
-	  if(p != WeatherPeriod(NFmiTime(2000,1,2,6),NFmiTime(2000,1,2,9)))
+	  if(p != WeatherPeriod(TextGenPosixTime(2000,1,2,6),TextGenPosixTime(2000,1,2,9)))
 		TEST_FAILED("Failed to generator 3rd of 4 periods (06-09)");
 	  p = generator.period(4);
-	  if(p != WeatherPeriod(NFmiTime(2000,1,2,9),NFmiTime(2000,1,2,18)))
+	  if(p != WeatherPeriod(TextGenPosixTime(2000,1,2,9),TextGenPosixTime(2000,1,2,18)))
 		TEST_FAILED("Failed to generator 4th of 4 periods (09-18)");
 
 	}
 
 	// A three-day period from 12 to 18
 	{
-	  WeatherPeriod period(NFmiTime(2000,1,1,12,0),
-						   NFmiTime(2000,1,3,18,0));
+	  WeatherPeriod period(TextGenPosixTime(2000,1,1,12,0),
+						   TextGenPosixTime(2000,1,3,18,0));
 
 	  MorningAndEveningPeriodGenerator generator(period,6,9,18,22, 6,9,18,22);
 
 	  WeatherPeriod p = generator.period(1);
-	  if(p != WeatherPeriod(NFmiTime(2000,1,1,18),NFmiTime(2000,1,1,22)))
+	  if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,18),TextGenPosixTime(2000,1,1,22)))
 		TEST_FAILED("Failed to generator 1st of 8 periods (18-22)");
 	  p = generator.period(2);
-	  if(p != WeatherPeriod(NFmiTime(2000,1,1,22),NFmiTime(2000,1,2,6)))
+	  if(p != WeatherPeriod(TextGenPosixTime(2000,1,1,22),TextGenPosixTime(2000,1,2,6)))
 		TEST_FAILED("Failed to generator 2nd of 8 periods (22-06)");
 	  p = generator.period(3);
-	  if(p != WeatherPeriod(NFmiTime(2000,1,2,6),NFmiTime(2000,1,2,9)))
+	  if(p != WeatherPeriod(TextGenPosixTime(2000,1,2,6),TextGenPosixTime(2000,1,2,9)))
 		TEST_FAILED("Failed to generator 3rd of 8 periods (06-09)");
 	  p = generator.period(4);
-	  if(p != WeatherPeriod(NFmiTime(2000,1,2,9),NFmiTime(2000,1,2,18)))
+	  if(p != WeatherPeriod(TextGenPosixTime(2000,1,2,9),TextGenPosixTime(2000,1,2,18)))
 		  TEST_FAILED("Failed to generator 4th of 8 periods (09-18)");
 	  p = generator.period(5);
-	  if(p != WeatherPeriod(NFmiTime(2000,1,2,18),NFmiTime(2000,1,2,22)))
+	  if(p != WeatherPeriod(TextGenPosixTime(2000,1,2,18),TextGenPosixTime(2000,1,2,22)))
 		TEST_FAILED("Failed to generator 5th of 8 periods (18-22)");
 	  p = generator.period(6);
-	  if(p != WeatherPeriod(NFmiTime(2000,1,2,22),NFmiTime(2000,1,3,6)))
+	  if(p != WeatherPeriod(TextGenPosixTime(2000,1,2,22),TextGenPosixTime(2000,1,3,6)))
 		TEST_FAILED("Failed to generator 6th of 8 periods (22-06)");
 		p = generator.period(7);
-		if(p != WeatherPeriod(NFmiTime(2000,1,3,6),NFmiTime(2000,1,3,9)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,3,6),TextGenPosixTime(2000,1,3,9)))
 		  TEST_FAILED("Failed to generator 7th of 8 periods (06-09)");
 		p = generator.period(8);
-		if(p != WeatherPeriod(NFmiTime(2000,1,3,9),NFmiTime(2000,1,3,18)))
+		if(p != WeatherPeriod(TextGenPosixTime(2000,1,3,9),TextGenPosixTime(2000,1,3,18)))
 		  TEST_FAILED("Failed to generator 8th of 8 periods (09-18)");
 
 	}
