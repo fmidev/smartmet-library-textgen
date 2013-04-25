@@ -485,9 +485,9 @@ namespace TextGen
 	  int timezone = TextGenPosixTime::GetZoneDifferenceHour(theTime, false);
 	  std::string season(is_winter ? "::wintertime" : "::summertime");
 				
-	  // in wintertime convert the default value to localtime
-	  int default_starthour = (is_winter ? 12 - timezone : 13);
-	  int default_endhour = (is_winter ? 12 - timezone : 17);
+	  // in wintertime afternoon temperature is 12:00 UTC
+	  int default_starthour = (is_winter ? 12+timezone : 13);
+	  int default_endhour = (is_winter ? 12+timezone : 17);
 	  
 	  int afternoon_starthour    =  optional_hour(thePlainVar+season+"::day_temperature::starthour", default_starthour);
 	  int afternoon_endhour      =  optional_hour(thePlainVar+season+"::day_temperature::endhour", default_endhour);
