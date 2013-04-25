@@ -203,7 +203,6 @@ namespace TextGen
 										  metTime.GetMin(),
 										  metTime.GetSec());
 				  times.push_back(TextGenPosixTime::LocalTime(textgenTime));
-				  //				  cout << qi.Time() << ", " << textgenTime << ", " << TextGenPosixTime::LocalTime(textgenTime) << ", " << TextGenPosixTime::UtcTime(textgenTime) << endl;			  //				times.push_back(TimeTools::toLocalTime(qi.Time()));
 				}
 			}
 		  while(qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
@@ -238,10 +237,7 @@ namespace TextGen
 										  metTime.GetHour(),
 										  metTime.GetMin(),
 										  metTime.GetSec());
-				  //				  cout << qi.Time() << ", " << textgenTime << ", " << TextGenPosixTime::LocalTime(textgenTime) << ", " << TextGenPosixTime::UtcTime(textgenTime) << endl;
-
 				  times.push_back(TextGenPosixTime::LocalTime(textgenTime));
-			  //				times.push_back(TimeTools::toLocalTime(qi.Time()));
 				}
 			}
 		  while(qi.NextTime() && qi.Time() <= thePeriod.utcEndTime());
