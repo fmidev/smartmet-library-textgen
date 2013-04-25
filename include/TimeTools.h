@@ -16,10 +16,6 @@ namespace TextGen
 {
   namespace TimeTools
   {
-	
-	TextGenPosixTime toLocalTime(const TextGenPosixTime & theUtcTime);
-	TextGenPosixTime toUtcTime(const TextGenPosixTime & theLocalTime);
-
 	bool isSameDay(const TextGenPosixTime & theDate1, const TextGenPosixTime & theDate2);
 	bool isNextDay(const TextGenPosixTime & theDate1, const TextGenPosixTime & theDate2);
 	bool isSeveralDays(const TextGenPosixTime & theDate1, const TextGenPosixTime & theDate2);
@@ -28,7 +24,6 @@ namespace TextGen
 	TextGenPosixTime dayEnd(const TextGenPosixTime & theDate);
 	TextGenPosixTime nextDay(const TextGenPosixTime & theDate);
 	TextGenPosixTime addHours(const TextGenPosixTime & theDate, int theHours);
-
   }
 } // namespace TextGen
 
