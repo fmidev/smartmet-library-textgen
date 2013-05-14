@@ -128,20 +128,19 @@ namespace TimeToolsTest
 
   void toutctime()
   {
-	TextGenPosixTime::AddTimeZone("helsinki", "EET+02EEST+01,M3.5.0/03:00:00,M10.5.0/04:00:00");
-	TextGenPosixTime::AddTimeZone("stockholm", "CET+01CEST+01,M3.5.0/03:00:00,M10.5.0/04:00:00");
-
-	TextGenPosixTime::UseTimeZone("helsinki");
+	TextGenPosixTime::SetThreadTimeZone("Europe/Helsinki");
 	if(!TextGenPosixTime::UtcTime(TextGenPosixTime(2003,11,7,12)).IsEqual(TextGenPosixTime(2003,11,7,10)))
 	  TEST_FAILED("Failed to convert 7.11.2003 12:00 FIN to 10:00 UTC");
 	if(!TextGenPosixTime::UtcTime(TextGenPosixTime(2003,9,7,12)).IsEqual(TextGenPosixTime(2003,9,7,9)))
 	  TEST_FAILED("Failed to convert 7.9.2003 12:00 FIN to 9:00 UTC");
 
-	TextGenPosixTime::UseTimeZone("stockholm");
+	TextGenPosixTime::SetThreadTimeZone("Europe/Stockholm");
 	if(!TextGenPosixTime::UtcTime(TextGenPosixTime(2003,11,7,12)).IsEqual(TextGenPosixTime(2003,11,7,11)))
 	  TEST_FAILED("Failed to convert 7.11.2003 12:00 SWE to 11:00 UTC");
 	if(!TextGenPosixTime::UtcTime(TextGenPosixTime(2003,9,7,12)).IsEqual(TextGenPosixTime(2003,9,7,10)))
 	  TEST_FAILED("Failed to convert 7.9.2003 12:00 SWE to 10:00 UTC");
+
+	TextGenPosixTime::ResetThreadTimeZone();
 
 	TEST_PASSED();
 
@@ -155,20 +154,19 @@ namespace TimeToolsTest
 
   void tolocaltime()
   {
-	TextGenPosixTime::AddTimeZone("helsinki", "EET+02EEST+01,M3.5.0/03:00:00,M10.5.0/04:00:00");
-	TextGenPosixTime::AddTimeZone("stockholm", "CET+01CEST+01,M3.5.0/03:00:00,M10.5.0/04:00:00");
-
-	TextGenPosixTime::UseTimeZone("helsinki");
+	TextGenPosixTime::SetThreadTimeZone("Europe/Helsinki");
 	if(!TextGenPosixTime::LocalTime(TextGenPosixTime(2003,11,7,12)).IsEqual(TextGenPosixTime(2003,11,7,14)))
 	  TEST_FAILED("Failed to convert 7.11.2003 12:00 UTC to 14:00 UTC");
 	if(!TextGenPosixTime::LocalTime(TextGenPosixTime(2003,9,7,12)).IsEqual(TextGenPosixTime(2003,9,7,15)))
 	  TEST_FAILED("Failed to convert 7.9.2003 12:00 UTC to 15:00 UTC");
 
-	TextGenPosixTime::UseTimeZone("stockholm");
+	TextGenPosixTime::SetThreadTimeZone("Europe/Stockholm");
 	if(!TextGenPosixTime::LocalTime(TextGenPosixTime(2003,11,7,12)).IsEqual(TextGenPosixTime(2003,11,7,13)))
 	  TEST_FAILED("Failed to convert 7.11.2003 12:00 UTC to 13:00 SWE");
 	if(!TextGenPosixTime::LocalTime(TextGenPosixTime(2003,9,7,12)).IsEqual(TextGenPosixTime(2003,9,7,14)))
 	  TEST_FAILED("Failed to convert 7.9.2003 12:00 UTC to 14:00 UTC");
+
+	TextGenPosixTime::ResetThreadTimeZone();
 
 	TEST_PASSED();
 

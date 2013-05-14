@@ -5,6 +5,7 @@
 #include "PlainTextFormatter.h"
 #include "ForestStory.h"
 #include "Story.h"
+#include "Settings.h"
 
 #include <newbase/NFmiSettings.h>
 
@@ -64,8 +65,8 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 
 	string result;
 
-	NFmiSettings::Set("forestfireindex_twodays::day::starthour","6");
-	NFmiSettings::Set("forestfireindex_twodays::day::endhour","18");
+	Settings::set("forestfireindex_twodays::day::starthour","6");
+	Settings::set("forestfireindex_twodays::day::endhour","18");
 
 	// 1-day forecasts
 	{
@@ -74,7 +75,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  WeatherPeriod period(time1,time2);
 	  ForestStory story(time1,sources,area,period,"forestfireindex_twodays");
 	  
-	  NFmiSettings::Set("forestfireindex_twodays::fake::day1::maximum","10,0");
+	  Settings::set("forestfireindex_twodays::fake::day1::maximum","10,0");
 	  REQUIRE(story,"fi",fun,"Metsäpaloindeksi on 10.0.");
 	  REQUIRE(story,"sv",fun,"Indexet för skogsbrand är 10.0.");
 	  REQUIRE(story,"en",fun,"The forest fire warning index is 10.0.");
@@ -89,7 +90,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  WeatherPeriod period(time1,time2);
 	  ForestStory story(time1,sources,area,period,"forestfireindex_twodays");
 	  
-	  NFmiSettings::Set("forestfireindex_twodays::fake::day1::maximum","20,0");
+	  Settings::set("forestfireindex_twodays::fake::day1::maximum","20,0");
 	  REQUIRE(story,"fi",fun,"Metsäpaloindeksi on 20.0.");
 	  REQUIRE(story,"sv",fun,"Indexet för skogsbrand är 20.0.");
 	  REQUIRE(story,"en",fun,"The forest fire warning index is 20.0.");
@@ -104,7 +105,7 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  WeatherPeriod period(time1,time2);
 	  ForestStory story(time1,sources,area,period,"forestfireindex_twodays");
 	  
-	  NFmiSettings::Set("forestfireindex_twodays::fake::day1::maximum","0,0");
+	  Settings::set("forestfireindex_twodays::fake::day1::maximum","0,0");
 	  REQUIRE(story,"fi",fun,"Metsäpaloindeksi on 0.0.");
 	  REQUIRE(story,"sv",fun,"Indexet för skogsbrand är 0.0.");
 	  REQUIRE(story,"en",fun,"The forest fire warning index is 0.0.");
@@ -119,14 +120,14 @@ if(!result.empty()) TEST_FAILED(result.c_str());
 	  WeatherPeriod period(time1,time2);
 	  ForestStory story(time1,sources,area,period,"forestfireindex_twodays");
 	  
-	  NFmiSettings::Set("forestfireindex_twodays::fake::day1::maximum","50,0");
-	  NFmiSettings::Set("forestfireindex_twodays::fake::day2::maximum","50,0");
+	  Settings::set("forestfireindex_twodays::fake::day1::maximum","50,0");
+	  Settings::set("forestfireindex_twodays::fake::day2::maximum","50,0");
 	  REQUIRE(story,"fi",fun,"Metsäpaloindeksi on 50.0, huomenna sama.");
 	  REQUIRE(story,"sv",fun,"Indexet för skogsbrand är 50.0, i morgon densamma.");
 	  REQUIRE(story,"en",fun,"The forest fire warning index is 50.0, tomorrow the same.");
 
-	  NFmiSettings::Set("forestfireindex_twodays::fake::day1::maximum","60,0");
-	  NFmiSettings::Set("forestfireindex_twodays::fake::day2::maximum","10,0");
+	  Settings::set("forestfireindex_twodays::fake::day1::maximum","60,0");
+	  Settings::set("forestfireindex_twodays::fake::day2::maximum","10,0");
 	  REQUIRE(story,"fi",fun,"Metsäpaloindeksi on 60.0, huomenna 10.0.");
 	  REQUIRE(story,"sv",fun,"Indexet för skogsbrand är 60.0, i morgon 10.0.");
 	  REQUIRE(story,"en",fun,"The forest fire warning index is 60.0, tomorrow 10.0.");
@@ -169,6 +170,7 @@ int main(void)
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
+  Settings::set(NFmiSettings::ToString());
 
   using namespace ForestStoryTest;
 

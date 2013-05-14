@@ -7,7 +7,7 @@
 /*!
  * \namespace Settings
  *
- * \brief Provides parsed and checked access to NFmiSettings
+ * \brief Provides parsed and checked access to Config
  *
  */
 // ----------------------------------------------------------------------
@@ -19,13 +19,14 @@
 
 #include "Settings.h"
 #include "WeatherResult.h"
-#include <newbase/NFmiSettings.h>
+#include "Config.h"
 #include <newbase/NFmiStringTools.h>
 #include "TextGenPosixTime.h"
 
 #include <cctype>	// for std::isdigit
 #include <list>
 #include <stdexcept>
+#include <sstream>      // std::stringstream
 
 using namespace std;
 using namespace boost;
@@ -43,9 +44,19 @@ namespace Settings
   
   bool isset(const std::string & theName)
   {
-	return NFmiSettings::IsSet(theName);
+	return Fmi::Config().isset(theName);
   }
   
+  void set(const std::string & theName, const std::string & theValue)
+  {
+	Fmi::Config().set(theName, theValue);
+  }
+
+  void set(const std::string& theSettingsString)
+  {
+	Fmi::Config().set(theSettingsString);
+  }
+
   // ----------------------------------------------------------------------
   /*!
    * \brief Require the string value of the given variable
@@ -59,7 +70,7 @@ namespace Settings
   
   std::string require(const std::string & theName)
   {
-	return NFmiSettings::Require<string>(theName.c_str());
+	return Fmi::Config().require<std::string>(theName.c_str());
   }
   
   // ----------------------------------------------------------------------
@@ -94,7 +105,7 @@ namespace Settings
   
   int require_int(const std::string & theName)
   {
-	return NFmiSettings::Require<int>(theName.c_str());
+	return Fmi::Config().require<int>(theName.c_str());
   }  
 
   // ----------------------------------------------------------------------
@@ -111,7 +122,7 @@ namespace Settings
   
   bool require_bool(const std::string & theName)
   {
-	return NFmiSettings::Require<bool>(theName.c_str());
+	return Fmi::Config().require<bool>(theName.c_str());
   }
   
   // ----------------------------------------------------------------------
@@ -127,7 +138,7 @@ namespace Settings
   
   double require_double(const std::string & theName)
   {
-	return NFmiSettings::Require<double>(theName.c_str());
+	return Fmi::Config().require<double>(theName.c_str());
   }
   
   // ----------------------------------------------------------------------
@@ -143,7 +154,7 @@ namespace Settings
   
   int require_hour(const std::string & theName)
   {
-	return NFmiSettings::RequireRange<int>(theName.c_str(),0,23);
+	return Fmi::Config().require(theName.c_str(),0,23);
   }
   
   // ----------------------------------------------------------------------
@@ -160,7 +171,7 @@ namespace Settings
   int require_days(const std::string & theName)
   {
 	const int maxdays = 100000;
-	return NFmiSettings::RequireRange<int>(theName.c_str(),0,maxdays);
+	return Fmi::Config().require(theName.c_str(),0,maxdays);
   }
 
   // ----------------------------------------------------------------------
@@ -176,7 +187,7 @@ namespace Settings
   
   int require_percentage(const std::string & theName)
   {
-	return NFmiSettings::RequireRange<int>(theName.c_str(),0,100);
+	return Fmi::Config().require(theName.c_str(),0,100);
   }
 
   // ----------------------------------------------------------------------
@@ -271,7 +282,7 @@ namespace Settings
   std::string optional_string(const std::string & theName,
 							  const std::string & theDefault)
   {
-	return NFmiSettings::Optional<string>(theName.c_str(),theDefault);
+	return Fmi::Config().optional<string>(theName ,theDefault);
   }
 
   // ----------------------------------------------------------------------
@@ -286,8 +297,13 @@ namespace Settings
 
   int optional_int(const std::string & theName, int theDefault)
   {
-	return NFmiSettings::Optional<int>(theName.c_str(),theDefault);
-  }
+
+	stringstream ss;
+	ss << theDefault;
+	return boost::lexical_cast<int>(Fmi::Config().optional<string>(theName , ss.str()));
+
+ 	//return Fmi::Config().optional<int>(theName ,theDefault);
+ }
 
   // ----------------------------------------------------------------------
   /*!
@@ -301,7 +317,7 @@ namespace Settings
 
   bool optional_bool(const std::string & theName, bool theDefault)
   {
-	return NFmiSettings::Optional<bool>(theName.c_str(),theDefault);
+	return Fmi::Config().optional(theName ,theDefault);
   }
 
   // ----------------------------------------------------------------------
@@ -316,7 +332,12 @@ namespace Settings
 
   double optional_double(const std::string & theName, double theDefault)
   {
-	return NFmiSettings::Optional<double>(theName.c_str(),theDefault);
+	/*
+	stringstream ss;
+	ss << theDefault;
+	return boost::lexical_cast<double>(Fmi::Config().optional<string>(theName ,ss.str()));
+*/
+	return Fmi::Config().optional<double>(theName ,theDefault);
   }
 
   // ----------------------------------------------------------------------
@@ -331,7 +352,7 @@ namespace Settings
 
   int optional_hour(const std::string & theName, int theDefault)
   {
-	return NFmiSettings::OptionalRange<int>(theName.c_str(),theDefault,0,23);
+	return Fmi::Config().optional(theName ,theDefault,0,23);
   }
 
   // ----------------------------------------------------------------------
@@ -346,7 +367,17 @@ namespace Settings
 
   int optional_percentage(const std::string & theName, int theDefault)
   {
-	return NFmiSettings::OptionalRange<int>(theName.c_str(),theDefault,0,100);
+	return Fmi::Config().optional(theName ,theDefault,0,100);
+  }
+
+  void clear()
+  {
+	Fmi::Config::clear();
+  }
+
+  void release()
+  {
+	Fmi::Config::release();
   }
 
 }

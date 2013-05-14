@@ -26,8 +26,6 @@
 #include "WeatherForecast.h"
 #include "TemperatureStoryTools.h"
 
-#include <newbase/NFmiSettings.h>
-
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <vector>
@@ -1752,7 +1750,7 @@ using namespace std;
   {
 	split_method retval(NO_SPLITTING);
 
-	if(NFmiSettings::IsSet(theVar +"::areas_to_split"))
+	if(Settings::isset(theVar +"::areas_to_split"))
 	  {
 		std::string areasToSplit(require_string(theVar +"::areas_to_split"));
 		vector<string> areas = NFmiStringTools::Split(areasToSplit, ",");
@@ -1834,7 +1832,7 @@ using namespace std;
 
 	std::string split_section_name("textgen::split_the_area::" + nimi);
 
-	if(!NFmiSettings::IsSet(split_section_name + "::method"))
+	if(!Settings::isset(split_section_name + "::method"))
 	  return false;
 	  
 	const std::string criterion = optional_string(split_section_name + "::criterion", "temperature_difference");

@@ -40,6 +40,7 @@
 
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/thread.hpp>
 
 #include <vector>
 #include <map>
@@ -200,6 +201,17 @@ namespace TextGen
 #define SAA_POUTAANTUU_LUMISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu lumisateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
 #define SAA_POUTAANTUU_TIHKUSATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja vaihtelee puolipilvisesta pilviseen"
 
+InPlacesPhrase& get_in_places_phrase()
+{
+  static boost::thread_specific_ptr<InPlacesPhrase> tls; 
+
+  if (!tls.get()) 
+    tls.reset(new InPlacesPhrase); 
+
+  return *tls;
+}
+
+
   std::ostream& operator<<(std::ostream& theOutput,
 						   const PrecipitationDataItemData& thePrecipitationDataItemData)
   {
@@ -261,35 +273,24 @@ namespace TextGen
 	return theDestinationString;
   }
 
-  // Definition
-  InPlacesPhrase* InPlacesPhrase::_instance = 0;
-  InPlacesPhrase* InPlacesPhrase::Instance() {
-	if(_instance == 0) {
-	  _instance = new InPlacesPhrase();
-	}
-	return _instance;
-  }
-
   InPlacesPhrase::InPlacesPhrase()
-	: thePreviousPhrase(0), thePreventTautologyFlag(false)
+	: thePreviousPhrase(NONEXISTENT_PHRASE), thePreventTautologyFlag(false)
   {
   }
 
-  Sentence InPlacesPhrase::getInPlacesPhrase(const bool& inSomePlaces, 
-											 const bool& inManyPlaces, 
-											 const bool& useOllaVerbFlag)
+  Sentence InPlacesPhrase::getInPlacesPhrase(PhraseType thePhraseType, bool useOllaVerbFlag)
   {
 	Sentence sentence;
 
-	if(thePreventTautologyFlag && thePreviousPhrase == (inSomePlaces ? 1 : 2))
+	if(thePreventTautologyFlag && thePreviousPhrase == thePhraseType)
 	  {
 		sentence << EMPTY_STRING;
 		return sentence;
 	  }
-
-	thePreventTautologyFlag = false;
 	
-	if(inSomePlaces || inManyPlaces)
+	thePreventTautologyFlag = false;
+
+	if(thePhraseType != NONEXISTENT_PHRASE)
 	  {
 		/*
 		if(useOllaVerbFlag)
@@ -297,8 +298,8 @@ namespace TextGen
 			stringVector.push_back(SAADAAN_WORD);
 		  }
 		*/
-		thePreviousPhrase = (inSomePlaces ? 1 : 2);
-		sentence << (inSomePlaces ? PAIKOIN_WORD : MONIN_PAIKOIN_WORD);
+		thePreviousPhrase = thePhraseType;
+		sentence << (thePhraseType == IN_SOME_PLACES_PHRASE ? PAIKOIN_WORD : MONIN_PAIKOIN_WORD);
 	  }
 	else
 	  {
@@ -307,7 +308,6 @@ namespace TextGen
 
 	return sentence;
   }
-
 
   bool get_period_start_end_index(const WeatherPeriod& thePeriod, 
 								  const precipitation_data_vector& theDataVector,
@@ -578,12 +578,15 @@ namespace TextGen
 	// check if intensity is heavy
 	theCheckHeavyIntensityFlag = CONTINUOUS;
 
-	InPlacesPhrase* inPlacesPhraseMaker = InPlacesPhrase::Instance();
+	InPlacesPhrase& inPlacesPhraseMaker = get_in_places_phrase();
+	InPlacesPhrase::PhraseType phraseType(InPlacesPhrase::NONEXISTENT_PHRASE);
+	if(in_some_places)
+	  phraseType = InPlacesPhrase::IN_SOME_PLACES_PHRASE;
+	else if(in_many_places)
+	  phraseType = InPlacesPhrase::IN_MANY_PLACES_PHRASE;
 
 	theCompositePhraseElements[IN_PLACES_PARAMETER] << 
-	  inPlacesPhraseMaker->getInPlacesPhrase(in_some_places,
-											 in_many_places,
-											 theUseOllaVerbFlag);
+	  inPlacesPhraseMaker.getInPlacesPhrase(phraseType,	theUseOllaVerbFlag);
 
 	std::string jokaMuuttuuString;
 
@@ -701,10 +704,15 @@ namespace TextGen
 		  thePrecipitationExtent <= theParameters.theInSomePlacesUpperLimit;
 		const bool in_many_places = thePrecipitationExtent > theParameters.theInManyPlacesLowerLimit && 
 		  thePrecipitationExtent <= theParameters.theInManyPlacesUpperLimit;
-		  		
+		InPlacesPhrase::PhraseType phraseType(InPlacesPhrase::NONEXISTENT_PHRASE);
+		if(in_some_places)
+		  phraseType = InPlacesPhrase::IN_SOME_PLACES_PHRASE;
+		else if(in_many_places)
+		  phraseType = InPlacesPhrase::IN_MANY_PLACES_PHRASE;
+	  		
 		bool can_be_freezing =  thePrecipitationFormFreezing > theParameters.theFreezingPrecipitationLimit;
 
-		InPlacesPhrase* inPlacesPhraseMaker = InPlacesPhrase::Instance();
+		InPlacesPhrase& inPlacesPhraseMaker = get_in_places_phrase();
 
 		theParameters.theLog << "Precipitation form is " 
 							 << precipitation_form_string(thePrecipitationForm) 
@@ -733,9 +741,7 @@ namespace TextGen
 				  else
 					{
 					  theCompositePhraseElements[IN_PLACES_PARAMETER] 
-						<< inPlacesPhraseMaker->getInPlacesPhrase(in_some_places,
-																  in_many_places,
-																  theUseOllaVerbFlag);
+						<< inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
 
 					  if(is_showers)
 						{
@@ -810,9 +816,7 @@ namespace TextGen
 				  else
 					{
 					  theCompositePhraseElements[IN_PLACES_PARAMETER] 
-						<< inPlacesPhraseMaker->getInPlacesPhrase(in_some_places,
-																  in_many_places,
-																  theUseOllaVerbFlag);
+						<< inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
 
 					  if(is_showers)
 						{				
@@ -854,9 +858,7 @@ namespace TextGen
 				  else
 					{
 					  theCompositePhraseElements[IN_PLACES_PARAMETER] 
-						<< inPlacesPhraseMaker->getInPlacesPhrase(in_some_places,
-																  in_many_places,
-																  theUseOllaVerbFlag);
+						<< inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
 
 					  if(is_showers)
 						{
@@ -931,9 +933,7 @@ namespace TextGen
 				  else
 					{
 					  theCompositePhraseElements[IN_PLACES_PARAMETER] 
-						<< inPlacesPhraseMaker->getInPlacesPhrase(in_some_places,
-																  in_many_places,
-																  theUseOllaVerbFlag);
+						<< inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
 					  if(is_showers)
 						{
 						  theCompositePhraseElements[PRECIPITATION_PARAMETER] << 
@@ -975,9 +975,7 @@ namespace TextGen
 				  else
 					{
 					  theCompositePhraseElements[IN_PLACES_PARAMETER] 
-						<< inPlacesPhraseMaker->getInPlacesPhrase(in_some_places,
-																  in_many_places,
-																  theUseOllaVerbFlag);
+						<< inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
 					  if(is_showers)
 						{
 						  theCompositePhraseElements[PRECIPITATION_PARAMETER] <<
@@ -1031,9 +1029,7 @@ namespace TextGen
 				  else
 					{
 					  theCompositePhraseElements[IN_PLACES_PARAMETER] 
-						<< inPlacesPhraseMaker->getInPlacesPhrase(in_some_places,
-																  in_many_places,
-																  theUseOllaVerbFlag);
+						<< inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
 
 					  if(is_showers)
 						{
@@ -1098,9 +1094,8 @@ namespace TextGen
 				  else
 					{
 					  theCompositePhraseElements[IN_PLACES_PARAMETER] 
-						<< inPlacesPhraseMaker->getInPlacesPhrase(in_some_places,
-																  in_many_places,
-																  theUseOllaVerbFlag);
+						<< inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
+
 					  if(is_showers)
 						{
 						  waterAndSnowShowersPhrase(thePrecipitationIntensity,
@@ -1172,9 +1167,7 @@ vesi- tai lumisadetta.
 				  else
 					{
 					  theCompositePhraseElements[IN_PLACES_PARAMETER] 
-						<< inPlacesPhraseMaker->getInPlacesPhrase(in_some_places,
-																  in_many_places,
-																  theUseOllaVerbFlag);
+						<< inPlacesPhraseMaker.getInPlacesPhrase(phraseType, theUseOllaVerbFlag);
 
 					  if(is_showers)
 						{
@@ -3779,7 +3772,7 @@ vesi- tai lumisadetta.
 
 			// ARE 22.02.2011: this is to prevent tautology e.g. sisamaassa moinin paikoin rantasadetta,
 			// rannikolla monin paikoin vesisadetta
-			InPlacesPhrase::Instance()->preventTautology(true);
+			get_in_places_phrase().preventTautology(true);
 
 			sentence << Delimiter(COMMA_PUNCTUATION_MARK);
 
@@ -3789,7 +3782,7 @@ vesi- tai lumisadetta.
 													   COAST_PHRASE,
 													   theAdditionalSentences);
 
-			InPlacesPhrase::Instance()->preventTautology(false);
+			get_in_places_phrase().preventTautology(false);
 
 		  }
 		else

@@ -90,8 +90,6 @@ namespace TextGen
 	fog_type_period_vector theCoastalFogType;
 	fog_type_period_vector theInlandFogType;
 	fog_type_period_vector theFullAreaFogType;
-
-	static std::string theDayPhasePhraseOld;
   };
 } // namespace TextGen
 

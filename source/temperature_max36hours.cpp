@@ -43,7 +43,6 @@
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiIndexMaskSource.h>
 #include <newbase/NFmiIndexMaskTools.h>
-#include <newbase/NFmiSettings.h>
 #include <newbase/NFmiGlobals.h>
 
 #include <boost/lexical_cast.hpp>

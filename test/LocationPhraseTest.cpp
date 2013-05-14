@@ -1,6 +1,7 @@
 #include <regression/tframe.h>
 #include "DictionaryFactory.h"
 #include "LocationPhrase.h"
+#include "Settings.h"
 
 #include <newbase/NFmiSettings.h>
 
@@ -115,6 +116,7 @@ int main(void)
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
+  Settings::set(NFmiSettings::ToString());
 
   cout << endl
 	   << "LocationPhrase tester" << endl

@@ -19,6 +19,8 @@ namespace TextGen
 namespace Settings
 {
   bool isset(const std::string & theName);
+  void set(const std::string & theName, const std::string & theValue);
+  void set(const std::string& theSettingsString);
   std::string require(const std::string & theName);
   std::string require_string(const std::string & theName);
   int require_int(const std::string & theName);
@@ -37,6 +39,10 @@ namespace Settings
   int optional_hour(const std::string & theName, int theDefault);
   int optional_percentage(const std::string & theName, int theDefault);
 
+  // clears settings of the thread
+  void clear();
+  // deletes settings of the thread
+  void release();
 } // namespace Settings
 
 #endif // SETTINGS_H

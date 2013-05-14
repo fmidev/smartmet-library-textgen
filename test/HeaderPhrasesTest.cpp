@@ -2,6 +2,7 @@
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "Phrase.h"
+#include "Settings.h"
 
 #include <newbase/NFmiSettings.h>
 
@@ -252,6 +253,7 @@ int main(void)
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
+  Settings::set(NFmiSettings::ToString());
 
   cout << endl
 	   << "HeaderFactory requirements" << endl

@@ -8,19 +8,15 @@ namespace TextGen
   // Declaration
   class InPlacesPhrase {
   public:
-	static InPlacesPhrase* Instance();
-	void preventTautology(const bool& preventTautologyFlag) { thePreventTautologyFlag = preventTautologyFlag; }
-	Sentence getInPlacesPhrase(const bool& inSomePlaces, 
-							   const bool& inManyPlaces, 
-							   const bool& useOllaVerbFlag);
-  protected:
+	enum PhraseType{NONEXISTENT_PHRASE, IN_SOME_PLACES_PHRASE, IN_MANY_PLACES_PHRASE};
+
 	InPlacesPhrase();
+	void preventTautology(bool preventTautologyFlag) { thePreventTautologyFlag = preventTautologyFlag; }
+	Sentence getInPlacesPhrase(PhraseType thePhraseType, bool useOllaVerbFlag);
   private:
-	static InPlacesPhrase* _instance;
-	unsigned int thePreviousPhrase; // 0: none, 1: in some places, 2: in many places
+	PhraseType thePreviousPhrase;
 	bool thePreventTautologyFlag;
   };
-  
 
   class PrecipitationForecast
   {

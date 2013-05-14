@@ -1,5 +1,6 @@
 #include <regression/tframe.h>
 #include "LocationSource.h"
+#include "Settings.h"
 
 #include <newbase/NFmiPoint.h>
 #include <newbase/NFmiSettings.h>
@@ -92,6 +93,7 @@ int main(void)
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
+  Settings::set(NFmiSettings::ToString());
 
   cout << endl
 	   << "LocationSource tester" << endl

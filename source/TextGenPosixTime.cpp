@@ -1,5 +1,6 @@
 #include "TextGenPosixTime.h"
 #include <newbase/NFmiStaticTime.h>
+#include <macgyver/TimeZoneFactory.h>
 #include <boost/thread.hpp>
 
 #include <iostream>     // std::cout
@@ -12,11 +13,22 @@ using namespace std;
 
 
 #define DEFAULT_TZ_ID "Europe/Helsinki"
-#define DEFAULT_TZ_POSIX_STRING "EET+02EEST+01,M3.5.0/03:00,M10.5.0/04:00"
 
-static boost::shared_mutex itsTimeZoneMutex;
+static boost::thread_specific_ptr<std::string> tls; 
 
-TextGenPosixTime::TimeZone* TextGenPosixTime::pTZ = new TextGenPosixTime::TimeZone();
+void release_timezone_id()
+{
+  if(tls.get()) 
+    delete tls.release();
+}
+
+string& get_timezone_id()
+{
+  if (!tls.get()) 
+    tls.reset(new std::string()); 
+
+  return *tls;
+}
 
 
 TextGenPosixTime::TextGenPosixTime(void) : istPosixTime(second_clock::local_time())
@@ -256,10 +268,13 @@ std::string TextGenPosixTime::ToStr(const unsigned long theTimeMask) const
 
 short TextGenPosixTime::GetZoneDifferenceHour(const TextGenPosixTime& theTime, bool isUtc)
 {
-  short dst_offset(pTZ->GetTimeZone()->base_utc_offset().hours() + pTZ->GetTimeZone()->dst_offset().hours());
-  short normal_time_offset(pTZ->GetTimeZone()->base_utc_offset().hours());
-  ptime dst_local_start_time(pTZ->GetTimeZone()->dst_local_start_time(theTime.GetYear()));
-  ptime dst_local_end_time(pTZ->GetTimeZone()->dst_local_end_time(theTime.GetYear()));
+  std::string timeZoneId(get_timezone_id().empty() ? DEFAULT_TZ_ID : get_timezone_id());
+  const boost::local_time::time_zone_ptr timeZone = Fmi::TimeZoneFactory::instance().time_zone_from_string(timeZoneId);
+
+  short dst_offset(timeZone->base_utc_offset().hours() + timeZone->dst_offset().hours());
+  short normal_time_offset(timeZone->base_utc_offset().hours());
+  ptime dst_local_start_time(timeZone->dst_local_start_time(theTime.GetYear())); 
+  ptime dst_local_end_time(timeZone->dst_local_end_time(theTime.GetYear()));
   bool dst_on(false);
 
   // in the southern hemisphere dst is in wintertime
@@ -288,9 +303,6 @@ time_t TextGenPosixTime::EpochTime() const
 {
   ptime time_t_epoch(date(1970,1,1)); 
 
-  //  TextGenPosixTime currentUtcTime(TextGenPosixTime::UtcTime(*this));
-
-  //  return (currentUtcTime.istPosixTime - time_t_epoch).total_seconds();
   return (istPosixTime - time_t_epoch).total_seconds();
 }
 
@@ -342,108 +354,18 @@ TextGenPosixTime TextGenPosixTime::LocalTime(const TextGenPosixTime& utcTime)
   return TextGenPosixTime(localptime);
 }
 
-void TextGenPosixTime::AddTimeZone(const std::string& theTimeZoneId, const std::string& thePosixZoneString) 
-{ 
-  TextGenPosixTime::pTZ->AddTimeZone(theTimeZoneId, thePosixZoneString); 
-}
-
-void TextGenPosixTime::UseTimeZone(const std::string& theTimeZoneId) 
-{ 
-  TextGenPosixTime::pTZ->UseTimeZone(theTimeZoneId); 
-}
-
-void TextGenPosixTime::ResetTimeZone() 
-{ 
-  TextGenPosixTime::pTZ->ResetTimeZone(); 
-}
-
-
-
-
-
-
-TextGenPosixTime::TimeZone::TimeZone()
+void TextGenPosixTime::SetThreadTimeZone(const std::string& theTimeZoneId /*= ""*/)
 {
-  AddTimeZone(DEFAULT_TZ_ID, DEFAULT_TZ_POSIX_STRING);
+  if(theTimeZoneId.empty())	
+	release_timezone_id();
+  else
+	get_timezone_id() = theTimeZoneId;
 }
 
-void TextGenPosixTime::TimeZone::AddTimeZone(const std::string& theTimeZoneId, const std::string& thePosixZoneString)
+void TextGenPosixTime::ResetThreadTimeZone()
 {
-  boost::unique_lock<boost::shared_mutex> lock(itsTimeZoneMutex);
-
-  if(tz_db.time_zone_from_region(theTimeZoneId) != 0)
-	return;
-
-  time_zone_ptr zone(new posix_time_zone(thePosixZoneString));
-  tz_db.add_record(theTimeZoneId, zone);
-  //  cout << "Added timezone " << theTimeZoneId << " = " << thePosixZoneString << endl;
+  release_timezone_id();
 }
-
-void TextGenPosixTime::TimeZone::UseTimeZone(const std::string& theTimeZoneId)
-{
-  pthread_t thread_id(0);
-#ifdef UNIX
-  thread_id = pthread_self();
-#else
-  thread_id = GetCurrentThreadId();
-#endif
-
-  boost::unique_lock<boost::shared_mutex> lock(itsTimeZoneMutex);
-
-  bool zoneDefined(tz_db.time_zone_from_region(theTimeZoneId) != 0);
-  string zone_id(zoneDefined ? theTimeZoneId : DEFAULT_TZ_ID);
-
-  if(time_zones.find(thread_id) != time_zones.end())
-	{
-	  time_zones[thread_id] = zone_id;
-	}
-
-  time_zones.insert(make_pair(thread_id, zone_id));
-  //  cout << "timezone " << zone_id << " used for thread "  << thread_id << endl;
-}
-
-void TextGenPosixTime::TimeZone::ResetTimeZone()
-{
-  pthread_t thread_id(0);
-#ifdef UNIX
-  thread_id = pthread_self();
-#else
-  thread_id = GetCurrentThreadId();
-#endif
-  //  pthread_t thread_id(pthread_self());
-
-  boost::unique_lock<boost::shared_mutex> lock(itsTimeZoneMutex);
-
-  if(time_zones.find(thread_id) == time_zones.end())
-	return;
-  
-  time_zones.erase(thread_id);
-}
-
-boost::local_time::time_zone_ptr TextGenPosixTime::TimeZone::GetTimeZone()
-{
-  pthread_t thread_id(0);
-#ifdef UNIX
-  thread_id = pthread_self();
-#else
-  thread_id = GetCurrentThreadId();
-#endif
-  //  pthread_t thread_id(pthread_self());
-  
-  boost::unique_lock<boost::shared_mutex> lock(itsTimeZoneMutex);
-  /*  
-  if(time_zones.size() > 1)
-	cout << "threads: " << time_zones.size() << endl;
-  */
-
-  if(time_zones.find(thread_id) == time_zones.end())
-	return tz_db.time_zone_from_region(DEFAULT_TZ_ID);
-  
-  return tz_db.time_zone_from_region(time_zones[thread_id]);
-}
-
-
-
 
 
 std::ostream& operator<<(std::ostream& os, const TextGenPosixTime& tgTime)

@@ -2,6 +2,7 @@
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "FrostStoryTools.h"
+#include "Settings.h"
 
 #include <newbase/NFmiSettings.h>
 
@@ -75,6 +76,8 @@ int main(void)
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
+  NFmiSettings::Set("textgen::units::celsius::format","phrase");
+  Settings::set(NFmiSettings::ToString());
 
   using namespace FrostStoryToolsTest;
 
@@ -84,7 +87,6 @@ int main(void)
 
   dict.reset(TextGen::DictionaryFactory::create("null"));
 
-  NFmiSettings::Set("textgen::units::celsius::format","phrase");
 
   tests t;
   return t.run();

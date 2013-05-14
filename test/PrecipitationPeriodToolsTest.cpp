@@ -8,6 +8,7 @@
 #include "MaskSource.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
+#include "Settings.h"
 #include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiSvgPath.h>
@@ -56,7 +57,7 @@ namespace PrecipitationPeriodToolsTest
 	shared_ptr<UserWeatherSource> weathersource(new UserWeatherSource());
 	weathersource->insert("data",theQD);
 
-	NFmiSettings::Set("textgen::precipitation_forecast","data");
+	Settings::set("textgen::precipitation_forecast","data");
 
 	shared_ptr<MaskSource> masksource(new RegularMaskSource());
 	sources.setWeatherSource(weathersource);
@@ -125,15 +126,15 @@ namespace PrecipitationPeriodToolsTest
 	AnalysisSources sources;
 	shared_ptr<UserWeatherSource> weathersource(new UserWeatherSource());
 	weathersource->insert("data",theQD);
-	NFmiSettings::Set("textgen::precipitation_forecast","data");
+	Settings::set("textgen::precipitation_forecast","data");
 
 
 	shared_ptr<MaskSource> masksource(new RegularMaskSource());
 	sources.setWeatherSource(weathersource);
 	sources.setMaskSource(masksource);
 
-	NFmiSettings::Set("a::rainyperiod::maximum_interval","1");
-	NFmiSettings::Set("b::rainyperiod::maximum_interval","3");
+	Settings::set("a::rainyperiod::maximum_interval","1");
+	Settings::set("b::rainyperiod::maximum_interval","3");
 
 	const string mappath = Settings::require_string("textgen::mappath");
 	const string uusimaa = mappath + "/sonera/uusimaa.svg:10";
@@ -334,7 +335,8 @@ int main(void)
 	   << "===============================" << endl;
 
   NFmiSettings::Init();
-  
+  Settings::set(NFmiSettings::ToString());
+
   PrecipitationPeriodToolsTest::read_querydata("data/skandinavia_pinta.sqd");
 
   PrecipitationPeriodToolsTest::tests t;

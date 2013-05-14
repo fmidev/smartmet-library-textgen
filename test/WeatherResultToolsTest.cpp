@@ -1,6 +1,6 @@
 #include <regression/tframe.h>
 #include "WeatherResultTools.h"
-#include <newbase/NFmiSettings.h>
+#include "Settings.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -128,8 +128,8 @@ namespace WeatherResultToolsTest
 										  var))
 	  TEST_FAILED("1-2 is not similar to 1-3 by default");
 
-	NFmiSettings::Set(var+"::same::minimum","1");
-	NFmiSettings::Set(var+"::same::maximum","1");
+	Settings::set(var+"::same::minimum","1");
+	Settings::set(var+"::same::maximum","1");
 
 	if(!WeatherResultTools::isSimilarRange(result1,result2,
 										   result1,result3,

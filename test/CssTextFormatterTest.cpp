@@ -7,6 +7,7 @@
 #include "Story.h"
 #include "StoryTag.h"
 #include "MessageLogger.h"
+#include "Settings.h"
 
 #include <newbase/NFmiSettings.h>
 
@@ -66,19 +67,19 @@ namespace SpecialStoryTest
 
 	const string fun = "text";
 
-	NFmiSettings::Set("text::value","This is the value of the string.");
+	Settings::set("text::value","This is the value of the string.");
 
 	require(story,"fi",fun,"<span>\nThis is the value of the string.\n</span>\n", "text");
 	require(story,"sv",fun,"<span>\nThis is the value of the string.\n</span>\n", "text");
 	require(story,"en",fun,"<span>\nThis is the value of the string.\n</span>\n", "text");
 
-	NFmiSettings::Set("text::value","@data/special_text.fi");
+	Settings::set("text::value","@data/special_text.fi");
 	require(story,"fi",fun,"<span>\n\nSuomenkielinen teksti.\n</span>\n");
 
-	NFmiSettings::Set("text::value","@data/special_text.en");
+	Settings::set("text::value","@data/special_text.en");
 	require(story,"fi",fun,"<span>\n\nEnglish text.\n</span>\n");
 
-	NFmiSettings::Set("text::value","@data/special_text.php");
+	Settings::set("text::value","@data/special_text.php");
 	require(story,"fi",fun,"<span>\n\nSuomenkieltä PHP-ohjelmasta\n</span>\n");
 
 	TEST_PASSED();
@@ -116,9 +117,10 @@ int main(void)
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
+  NFmiSettings::Set("textgen::specialseason","true");
+  Settings::set(NFmiSettings::ToString());
 
   using namespace SpecialStoryTest;
-
 
   MessageLogger::open("my.log");
 
@@ -132,8 +134,6 @@ int main(void)
   dict->init("fi");
   dict->init("sv");
   dict->init("en");
-
-  NFmiSettings::Set("textgen::specialseason","true");
 
   tests t;
   return t.run();

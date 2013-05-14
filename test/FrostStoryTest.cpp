@@ -5,6 +5,7 @@
 #include "PlainTextFormatter.h"
 #include "FrostStory.h"
 #include "Story.h"
+#include "Settings.h"
 #include "MessageLogger.h"
 
 #include <newbase/NFmiSettings.h>
@@ -64,30 +65,30 @@ namespace FrostStoryTest
 
 	const string fun = "frost_mean";
 
-	NFmiSettings::Set("mean::precision","10");
-	NFmiSettings::Set("mean::frost_limit","20");
-	NFmiSettings::Set("mean::severe_frost_limit","10");
+	Settings::set("mean::precision","10");
+	Settings::set("mean::frost_limit","20");
+	Settings::set("mean::severe_frost_limit","10");
 
-	NFmiSettings::Set("mean::fake::mean","0,0");
-	NFmiSettings::Set("mean::fake::severe_mean","0,0");
+	Settings::set("mean::fake::mean","0,0");
+	Settings::set("mean::fake::severe_mean","0,0");
 	require(story,"fi",fun,"");
 	require(story,"sv",fun,"");
 	require(story,"en",fun,"");
 
-	NFmiSettings::Set("mean::fake::mean","10,0");
-	NFmiSettings::Set("mean::fake::severe_mean","0,0");
+	Settings::set("mean::fake::mean","10,0");
+	Settings::set("mean::fake::severe_mean","0,0");
 	require(story,"fi",fun,"");
 	require(story,"sv",fun,"");
 	require(story,"en",fun,"");
 
-	NFmiSettings::Set("mean::fake::mean","20,0");
-	NFmiSettings::Set("mean::fake::severe_mean","0,0");
+	Settings::set("mean::fake::mean","20,0");
+	Settings::set("mean::fake::severe_mean","0,0");
 	require(story,"fi",fun,"Hallan todennäköisyys on 20%.");
 	require(story,"sv",fun,"Sannolikheten för nattfrost är 20%.");
 	require(story,"en",fun,"Probability of frost is 20%.");
 
-	NFmiSettings::Set("mean::fake::mean","20,0");
-	NFmiSettings::Set("mean::fake::severe_mean","10,0");
+	Settings::set("mean::fake::mean","20,0");
+	Settings::set("mean::fake::severe_mean","10,0");
 	require(story,"fi",fun,"Ankaran hallan todennäköisyys on 10%.");
 	require(story,"sv",fun,"Sannolikheten för sträng nattfrost är 10%.");
 	require(story,"en",fun,"Probability of severe frost is 10%.");
@@ -116,30 +117,30 @@ namespace FrostStoryTest
 
 	const string fun = "frost_maximum";
 
-	NFmiSettings::Set("maximum::precision","10");
-	NFmiSettings::Set("maximum::frost_limit","20");
-	NFmiSettings::Set("maximum::severe_frost_limit","10");
+	Settings::set("maximum::precision","10");
+	Settings::set("maximum::frost_limit","20");
+	Settings::set("maximum::severe_frost_limit","10");
 
-	NFmiSettings::Set("maximum::fake::maximum","0,0");
-	NFmiSettings::Set("maximum::fake::severe_maximum","0,0");
+	Settings::set("maximum::fake::maximum","0,0");
+	Settings::set("maximum::fake::severe_maximum","0,0");
 	require(story,"fi",fun,"");
 	require(story,"sv",fun,"");
 	require(story,"en",fun,"");
 
-	NFmiSettings::Set("maximum::fake::maximum","10,0");
-	NFmiSettings::Set("maximum::fake::severe_maximum","0,0");
+	Settings::set("maximum::fake::maximum","10,0");
+	Settings::set("maximum::fake::severe_maximum","0,0");
 	require(story,"fi",fun,"");
 	require(story,"sv",fun,"");
 	require(story,"en",fun,"");
 
-	NFmiSettings::Set("maximum::fake::maximum","20,0");
-	NFmiSettings::Set("maximum::fake::severe_maximum","0,0");
+	Settings::set("maximum::fake::maximum","20,0");
+	Settings::set("maximum::fake::severe_maximum","0,0");
 	require(story,"fi",fun,"Hallan todennäköisyys on 20%.");
 	require(story,"sv",fun,"Sannolikheten för nattfrost är 20%.");
 	require(story,"en",fun,"Probability of frost is 20%.");
 
-	NFmiSettings::Set("maximum::fake::maximum","20,0");
-	NFmiSettings::Set("maximum::fake::severe_maximum","10,0");
+	Settings::set("maximum::fake::maximum","20,0");
+	Settings::set("maximum::fake::severe_maximum","10,0");
 	require(story,"fi",fun,"Ankaran hallan todennäköisyys on 10%.");
 	require(story,"sv",fun,"Sannolikheten för sträng nattfrost är 10%.");
 	require(story,"en",fun,"Probability of severe frost is 10%.");
@@ -169,46 +170,46 @@ TextGen;
 
 	const string fun = "frost_range";
 
-	NFmiSettings::Set("range::precision","10");
-	NFmiSettings::Set("range::frost_limit","50");
-	NFmiSettings::Set("range::severe_frost_limit","30");
+	Settings::set("range::precision","10");
+	Settings::set("range::frost_limit","50");
+	Settings::set("range::severe_frost_limit","30");
 
-	NFmiSettings::Set("range::fake::minimum","0,0");
-	NFmiSettings::Set("range::fake::maximum","0,0");
-	NFmiSettings::Set("range::fake::severe_minimum","0,0");
-	NFmiSettings::Set("range::fake::severe_maximum","0,0");
+	Settings::set("range::fake::minimum","0,0");
+	Settings::set("range::fake::maximum","0,0");
+	Settings::set("range::fake::severe_minimum","0,0");
+	Settings::set("range::fake::severe_maximum","0,0");
 	require(story,"fi",fun,"");
 	require(story,"sv",fun,"");
 	require(story,"en",fun,"");
 
-	NFmiSettings::Set("range::fake::minimum","50,0");
-	NFmiSettings::Set("range::fake::maximum","50,0");
-	NFmiSettings::Set("range::fake::severe_minimum","0,0");
-	NFmiSettings::Set("range::fake::severe_maximum","0,0");
+	Settings::set("range::fake::minimum","50,0");
+	Settings::set("range::fake::maximum","50,0");
+	Settings::set("range::fake::severe_minimum","0,0");
+	Settings::set("range::fake::severe_maximum","0,0");
 	require(story,"fi",fun,"Hallan todennäköisyys on 50%.");
 	require(story,"sv",fun,"Sannolikheten för nattfrost är 50%.");
 	require(story,"en",fun,"Probability of frost is 50%.");
 
-	NFmiSettings::Set("range::fake::minimum","40,0");
-	NFmiSettings::Set("range::fake::maximum","60,0");
-	NFmiSettings::Set("range::fake::severe_minimum","0,0");
-	NFmiSettings::Set("range::fake::severe_maximum","0,0");
+	Settings::set("range::fake::minimum","40,0");
+	Settings::set("range::fake::maximum","60,0");
+	Settings::set("range::fake::severe_minimum","0,0");
+	Settings::set("range::fake::severe_maximum","0,0");
 	require(story,"fi",fun,"Hallan todennäköisyys on 40-60%.");
 	require(story,"sv",fun,"Sannolikheten för nattfrost är 40-60%.");
 	require(story,"en",fun,"Probability of frost is 40-60%.");
 
-	NFmiSettings::Set("range::fake::minimum","50,0");
-	NFmiSettings::Set("range::fake::maximum","70,0");
-	NFmiSettings::Set("range::fake::severe_minimum","10,0");
-	NFmiSettings::Set("range::fake::severe_maximum","20,0");
+	Settings::set("range::fake::minimum","50,0");
+	Settings::set("range::fake::maximum","70,0");
+	Settings::set("range::fake::severe_minimum","10,0");
+	Settings::set("range::fake::severe_maximum","20,0");
 	require(story,"fi",fun,"Hallan todennäköisyys on 50-70%.");
 	require(story,"sv",fun,"Sannolikheten för nattfrost är 50-70%.");
 	require(story,"en",fun,"Probability of frost is 50-70%.");
 
-	NFmiSettings::Set("range::fake::minimum","40,0");
-	NFmiSettings::Set("range::fake::maximum","60,0");
-	NFmiSettings::Set("range::fake::severe_minimum","30,0");
-	NFmiSettings::Set("range::fake::severe_maximum","40,0");
+	Settings::set("range::fake::minimum","40,0");
+	Settings::set("range::fake::maximum","60,0");
+	Settings::set("range::fake::severe_minimum","30,0");
+	Settings::set("range::fake::severe_maximum","40,0");
 	require(story,"fi",fun,"Ankaran hallan todennäköisyys on 30-40%.");
 	require(story,"sv",fun,"Sannolikheten för sträng nattfrost är 30-40%.");
 	require(story,"en",fun,"Probability of severe frost is 30-40%.");
@@ -233,12 +234,12 @@ TextGen;
 
 	const string fun = "frost_twonights";
 
-	NFmiSettings::Set("twonights::precision","10");
-	NFmiSettings::Set("twonights::frost_limit","20");
-	NFmiSettings::Set("twonights::severe_frost_limit","10");
+	Settings::set("twonights::precision","10");
+	Settings::set("twonights::frost_limit","20");
+	Settings::set("twonights::severe_frost_limit","10");
 
-	NFmiSettings::Set("twonights::night::starthour","21");
-	NFmiSettings::Set("twonights::night::endhour","09");
+	Settings::set("twonights::night::starthour","21");
+	Settings::set("twonights::night::endhour","09");
 
 	// One night
 	{
@@ -247,20 +248,20 @@ TextGen;
 	  WeatherPeriod period(time1,time2);
 	  FrostStory story(time1,sources,area,period,"twonights");
 
-	  NFmiSettings::Set("twonights::fake::day1::mean","10,0");
-	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
+	  Settings::set("twonights::fake::day1::mean","10,0");
+	  Settings::set("twonights::fake::day1::severe_mean","0,0");
 	  require(story,"fi",fun,"");
 	  require(story,"sv",fun,"");
 	  require(story,"en",fun,"");
 
-	  NFmiSettings::Set("twonights::fake::day1::mean","20,0");
-	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
+	  Settings::set("twonights::fake::day1::mean","20,0");
+	  Settings::set("twonights::fake::day1::severe_mean","0,0");
 	  require(story,"fi",fun,"Hallan todennäköisyys on keskiviikon vastaisena yönä 20%.");
 	  require(story,"sv",fun,"Sannolikheten för nattfrost är natten mot onsdagen 20%.");
 	  require(story,"en",fun,"Probability of frost is on Wednesday night 20%.");
 
-	  NFmiSettings::Set("twonights::fake::day1::mean","80,0");
-	  NFmiSettings::Set("twonights::fake::day1::severe_mean","20,0");
+	  Settings::set("twonights::fake::day1::mean","80,0");
+	  Settings::set("twonights::fake::day1::severe_mean","20,0");
 	  require(story,"fi",fun,"Ankaran hallan todennäköisyys on keskiviikon vastaisena yönä 20%.");
 	  require(story,"sv",fun,"Sannolikheten för sträng nattfrost är natten mot onsdagen 20%.");
 	  require(story,"en",fun,"Probability of severe frost is on Wednesday night 20%.");
@@ -274,42 +275,42 @@ TextGen;
 	  WeatherPeriod period(time1,time2);
 	  FrostStory story(time1,sources,area,period,"twonights");
 
-	  NFmiSettings::Set("twonights::fake::day1::mean","10,0");
-	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
-	  NFmiSettings::Set("twonights::fake::day2::mean","0,0");
-	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
+	  Settings::set("twonights::fake::day1::mean","10,0");
+	  Settings::set("twonights::fake::day1::severe_mean","0,0");
+	  Settings::set("twonights::fake::day2::mean","0,0");
+	  Settings::set("twonights::fake::day2::severe_mean","0,0");
 	  require(story,"fi",fun,"");
 	  require(story,"sv",fun,"");
 	  require(story,"en",fun,"");
 
-	  NFmiSettings::Set("twonights::fake::day1::mean","30,0");
-	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
-	  NFmiSettings::Set("twonights::fake::day2::mean","30,0");
-	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
+	  Settings::set("twonights::fake::day1::mean","30,0");
+	  Settings::set("twonights::fake::day1::severe_mean","0,0");
+	  Settings::set("twonights::fake::day2::mean","30,0");
+	  Settings::set("twonights::fake::day2::severe_mean","0,0");
 	  require(story,"fi",fun,"Hallan todennäköisyys on keskiviikon vastaisena yönä 30%, seuraavana yönä sama.");
 	  require(story,"sv",fun,"Sannolikheten för nattfrost är natten mot onsdagen 30%, följande natt densamma.");
 	  require(story,"en",fun,"Probability of frost is on Wednesday night 30%, the following night the same.");
 
-	  NFmiSettings::Set("twonights::fake::day1::mean","30,0");
-	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
-	  NFmiSettings::Set("twonights::fake::day2::mean","40,0");
-	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
+	  Settings::set("twonights::fake::day1::mean","30,0");
+	  Settings::set("twonights::fake::day1::severe_mean","0,0");
+	  Settings::set("twonights::fake::day2::mean","40,0");
+	  Settings::set("twonights::fake::day2::severe_mean","0,0");
 	  require(story,"fi",fun,"Hallan todennäköisyys on keskiviikon vastaisena yönä 30%, seuraavana yönä 40%.");
 	  require(story,"sv",fun,"Sannolikheten för nattfrost är natten mot onsdagen 30%, följande natt 40%.");
 	  require(story,"en",fun,"Probability of frost is on Wednesday night 30%, the following night 40%.");
 
-	  NFmiSettings::Set("twonights::fake::day1::mean","20,0");
-	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
-	  NFmiSettings::Set("twonights::fake::day2::mean","0,0");
-	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
+	  Settings::set("twonights::fake::day1::mean","20,0");
+	  Settings::set("twonights::fake::day1::severe_mean","0,0");
+	  Settings::set("twonights::fake::day2::mean","0,0");
+	  Settings::set("twonights::fake::day2::severe_mean","0,0");
 	  require(story,"fi",fun,"Hallan todennäköisyys on keskiviikon vastaisena yönä 20%, seuraava yö on lämpimämpi.");
 	  require(story,"sv",fun,"Sannolikheten för nattfrost är natten mot onsdagen 20%, följande natt är varmare.");
 	  require(story,"en",fun,"Probability of frost is on Wednesday night 20%, the following night is warmer.");
 
-	  NFmiSettings::Set("twonights::fake::day1::mean","80,0");
-	  NFmiSettings::Set("twonights::fake::day1::severe_mean","20,0");
-	  NFmiSettings::Set("twonights::fake::day2::mean","0,0");
-	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
+	  Settings::set("twonights::fake::day1::mean","80,0");
+	  Settings::set("twonights::fake::day1::severe_mean","20,0");
+	  Settings::set("twonights::fake::day2::mean","0,0");
+	  Settings::set("twonights::fake::day2::severe_mean","0,0");
 	  require(story,"fi",fun,"Ankaran hallan todennäköisyys on keskiviikon vastaisena yönä 20%, seuraava yö on huomattavasti lämpimämpi.");
 	  require(story,"sv",fun,"Sannolikheten för sträng nattfrost är natten mot onsdagen 20%, följande natt är betydligt varmare.");
 	  require(story,"en",fun,"Probability of severe frost is on Wednesday night 20%, the following night is significantly warmer.");
@@ -323,23 +324,23 @@ TextGen;
 	  WeatherPeriod period(time1,time2);
 	  FrostStory story(time1,sources,area,period,"twonights");
 
-	  NFmiSettings::Set("twonights::fake::day1::mean","20,0");
-	  NFmiSettings::Set("twonights::fake::day1::severe_mean","0,0");
+	  Settings::set("twonights::fake::day1::mean","20,0");
+	  Settings::set("twonights::fake::day1::severe_mean","0,0");
 
-	  NFmiSettings::Set("twonights::fake::day2::mean","0,0");
-	  NFmiSettings::Set("twonights::fake::day2::severe_mean","0,0");
+	  Settings::set("twonights::fake::day2::mean","0,0");
+	  Settings::set("twonights::fake::day2::severe_mean","0,0");
 	  require(story,"fi",fun,"Hallan todennäköisyys on keskiviikon vastaisena yönä 20%, seuraava yö on lämpimämpi.");
 	  require(story,"sv",fun,"Sannolikheten för nattfrost är natten mot onsdagen 20%, följande natt är varmare.");
 	  require(story,"en",fun,"Probability of frost is on Wednesday night 20%, the following night is warmer.");
 
-	  NFmiSettings::Set("twonights::fake::day2::mean","30,0");
-	  NFmiSettings::Set("twonights::fake::day2::severe_mean","00,0");
+	  Settings::set("twonights::fake::day2::mean","30,0");
+	  Settings::set("twonights::fake::day2::severe_mean","00,0");
 	  require(story,"fi",fun,"Hallan todennäköisyys on keskiviikon vastaisena yönä 20%, seuraavana yönä 30%.");
 	  require(story,"sv",fun,"Sannolikheten för nattfrost är natten mot onsdagen 20%, följande natt 30%.");
 	  require(story,"en",fun,"Probability of frost is on Wednesday night 20%, the following night 30%.");
 
-	  NFmiSettings::Set("twonights::fake::day2::mean","80,0");
-	  NFmiSettings::Set("twonights::fake::day2::severe_mean","20,0");
+	  Settings::set("twonights::fake::day2::mean","80,0");
+	  Settings::set("twonights::fake::day2::severe_mean","20,0");
 	  require(story,"fi",fun,"Hallan todennäköisyys on keskiviikon vastaisena yönä 20%, seuraavana yönä ankaran hallan todennäköisyys on 20%.");
 	  require(story,"sv",fun,"Sannolikheten för nattfrost är natten mot onsdagen 20%, följande natt sannolikheten för sträng nattfrost är 20%.");
 	  require(story,"en",fun,"Probability of frost is on Wednesday night 20%, the following night probability of severe frost is 20%.");
@@ -370,49 +371,49 @@ TextGen;
 
 	const string fun = "frost_day";
 
-	NFmiSettings::Set("day::night::starthour","18");
-	NFmiSettings::Set("day::night::endhour","6");
+	Settings::set("day::night::starthour","18");
+	Settings::set("day::night::endhour","6");
 
-	NFmiSettings::Set("day::precision","10");
-	NFmiSettings::Set("day::frost_limit","50");
-	NFmiSettings::Set("day::severe_frost_limit","30");
+	Settings::set("day::precision","10");
+	Settings::set("day::frost_limit","50");
+	Settings::set("day::severe_frost_limit","30");
 
-	NFmiSettings::Set("day::fake::area::frost","0,0");
-	NFmiSettings::Set("day::fake::area::severe_frost","0,0");
-	NFmiSettings::Set("day::fake::coast::value","0,0");
-	NFmiSettings::Set("day::fake::inland::value","0,0");
+	Settings::set("day::fake::area::frost","0,0");
+	Settings::set("day::fake::area::severe_frost","0,0");
+	Settings::set("day::fake::coast::value","0,0");
+	Settings::set("day::fake::inland::value","0,0");
 	require(story,"fi",fun,"");
 	require(story,"sv",fun,"");
 	require(story,"en",fun,"");
 
-	NFmiSettings::Set("day::fake::area::frost","60,0");
-	NFmiSettings::Set("day::fake::area::severe_frost","0,0");
-	NFmiSettings::Set("day::fake::coast::value","60,0");
-	NFmiSettings::Set("day::fake::inland::value","60,0");
+	Settings::set("day::fake::area::frost","60,0");
+	Settings::set("day::fake::area::severe_frost","0,0");
+	Settings::set("day::fake::coast::value","60,0");
+	Settings::set("day::fake::inland::value","60,0");
 	require(story,"fi",fun,"Hallan todennäköisyys on 60%.");
 	require(story,"sv",fun,"Sannolikheten för nattfrost är 60%.");
 	require(story,"en",fun,"Probability of frost is 60%.");
 
-	NFmiSettings::Set("day::fake::area::frost","60,0");
-	NFmiSettings::Set("day::fake::area::severe_frost","40,0");
-	NFmiSettings::Set("day::fake::coast::value","40,0");
-	NFmiSettings::Set("day::fake::inland::value","40,0");
+	Settings::set("day::fake::area::frost","60,0");
+	Settings::set("day::fake::area::severe_frost","40,0");
+	Settings::set("day::fake::coast::value","40,0");
+	Settings::set("day::fake::inland::value","40,0");
 	require(story,"fi",fun,"Ankaran hallan todennäköisyys on 40%.");
 	require(story,"sv",fun,"Sannolikheten för sträng nattfrost är 40%.");
 	require(story,"en",fun,"Probability of severe frost is 40%.");
 
-	NFmiSettings::Set("day::fake::area::frost","60,0");
-	NFmiSettings::Set("day::fake::area::severe_frost","40,0");
-	NFmiSettings::Set("day::fake::coast::value","10,0");
-	NFmiSettings::Set("day::fake::inland::value","60,0");
+	Settings::set("day::fake::area::frost","60,0");
+	Settings::set("day::fake::area::severe_frost","40,0");
+	Settings::set("day::fake::coast::value","10,0");
+	Settings::set("day::fake::inland::value","60,0");
 	require(story,"fi",fun,"Ankaran hallan todennäköisyys on 60%, rannikolla 10%.");
 	require(story,"sv",fun,"Sannolikheten för sträng nattfrost är 60%, vid kusten 10%.");
 	require(story,"en",fun,"Probability of severe frost is 60%, on the coastal area 10%.");
 
-	NFmiSettings::Set("day::fake::area::frost","60,0");
-	NFmiSettings::Set("day::fake::area::severe_frost","90,0");
-	NFmiSettings::Set("day::fake::coast::value","90,0");
-	NFmiSettings::Set("day::fake::inland::value","90,0");
+	Settings::set("day::fake::area::frost","60,0");
+	Settings::set("day::fake::area::severe_frost","90,0");
+	Settings::set("day::fake::coast::value","90,0");
+	Settings::set("day::fake::inland::value","90,0");
 	require(story,"fi",fun,"");
 	require(story,"sv",fun,"");
 	require(story,"en",fun,"");
@@ -2401,16 +2402,16 @@ TextGen;
 
 	const string fun = "frost_onenight";
 
-	NFmiSettings::Set("onenight::night::starthour","21");
-	NFmiSettings::Set("onenight::night::endhour","09");
-	NFmiSettings::Set("onenight::required_growing_season_percentage::default","33.333");
-	NFmiSettings::Set("onenight::required_growing_season_percentage::lansi-lappi","50.0");
-	NFmiSettings::Set("onenight::required_night_frost_percentage","20.0");
-	NFmiSettings::Set("onenight::required_severe_frost_probability","20.0");
-	NFmiSettings::Set("onenight::required_severe_frost_probability","20.0");
-	NFmiSettings::Set("onenight::regression_test","true");
-	//	NFmiSettings::Set("onenight::fake::growing_season_on","true");
-	NFmiSettings::Set("onenight::fake::area_percentage","40.0");
+	Settings::set("onenight::night::starthour","21");
+	Settings::set("onenight::night::endhour","09");
+	Settings::set("onenight::required_growing_season_percentage::default","33.333");
+	Settings::set("onenight::required_growing_season_percentage::lansi-lappi","50.0");
+	Settings::set("onenight::required_night_frost_percentage","20.0");
+	Settings::set("onenight::required_severe_frost_probability","20.0");
+	Settings::set("onenight::required_severe_frost_probability","20.0");
+	Settings::set("onenight::regression_test","true");
+	//	Settings::set("onenight::fake::growing_season_on","true");
+	Settings::set("onenight::fake::area_percentage","40.0");
 
 	TextGenPosixTime time1(2003,6,3,12);
 	TextGenPosixTime time2(2003,6,4,12);
@@ -2427,14 +2428,14 @@ TextGen;
 		create_testcases(testCases, languages[i]);
 		for(iter = testCases.begin(); iter != testCases.end(); iter++)
 		  {
-			NFmiSettings::Set("onenight::fake::growing_season_percentange::coastal",iter->second.temperaturesumcoastal);
-			NFmiSettings::Set("onenight::fake::growing_season_percentange::inland",iter->second.temperaturesuminland);
-			NFmiSettings::Set("onenight::fake::night_frost_percentage::coastal",iter->second.nightfrostcoastal);
-			NFmiSettings::Set("onenight::fake::night_frost_percentage::inland",iter->second.nightfrostinland);
-			NFmiSettings::Set("onenight::fake::frost_probability::coastal",iter->second.frostcoastal);
-			NFmiSettings::Set("onenight::fake::frost_probability::inland",iter->second.frostinland);
-			NFmiSettings::Set("onenight::fake::severe_frost_probability::coastal",iter->second.severefrostcoastal);
-			NFmiSettings::Set("onenight::fake::severe_frost_probability::inland",iter->second.severefrostinland);
+			Settings::set("onenight::fake::growing_season_percentange::coastal",iter->second.temperaturesumcoastal);
+			Settings::set("onenight::fake::growing_season_percentange::inland",iter->second.temperaturesuminland);
+			Settings::set("onenight::fake::night_frost_percentage::coastal",iter->second.nightfrostcoastal);
+			Settings::set("onenight::fake::night_frost_percentage::inland",iter->second.nightfrostinland);
+			Settings::set("onenight::fake::frost_probability::coastal",iter->second.frostcoastal);
+			Settings::set("onenight::fake::frost_probability::inland",iter->second.frostinland);
+			Settings::set("onenight::fake::severe_frost_probability::coastal",iter->second.severefrostcoastal);
+			Settings::set("onenight::fake::severe_frost_probability::inland",iter->second.severefrostinland);
 
 			require(story,languages[i],fun,iter->second.froststory);
 		  }
@@ -2482,6 +2483,8 @@ int main(void)
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
+  NFmiSettings::Set("textgen::frostseason","true");
+  Settings::set(NFmiSettings::ToString());
 
   using namespace FrostStoryTest;
 
@@ -2498,8 +2501,6 @@ int main(void)
   dict->init("fi");
   dict->init("sv");
   dict->init("en");
-
-  NFmiSettings::Set("textgen::frostseason","true");
 
   tests t;
   return t.run();

@@ -69,34 +69,14 @@
 	static short DaysInYear(short aYear);
 	static short DaysInMonth(short aMonth, short aYear);
 
-	static void AddTimeZone(const std::string& theTimeZoneId, const std::string& thePosixZoneString); 
-	static void UseTimeZone(const std::string& theTimeZoneId);
-	static void ResetTimeZone();
+	static void SetThreadTimeZone(const std::string& theTimeZoneId = "");
+	static void ResetThreadTimeZone();
 
   private:
-
-	class TimeZone
-	{
-	public:
-	  TimeZone();
-
-	  void AddTimeZone(const std::string& theTimeZoneId, const std::string& thePosixZoneString);
-	  void UseTimeZone(const std::string& theTimeZoneId);
-	  void ResetTimeZone();
-	  boost::local_time::time_zone_ptr GetTimeZone();
-	private:
-	  // timezone database
-	  boost::local_time::tz_database tz_db;
-	  // timezones per thread-id
-	  std::map<unsigned long, std::string> time_zones;
-	};
-	
-	static TimeZone* pTZ;
 
 	boost::posix_time::ptime istPosixTime;
 
   }; // class TextGenPosixTime
-
 
   std::ostream& operator<<(std::ostream & os, const TextGenPosixTime& tgTime);
 

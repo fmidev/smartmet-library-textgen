@@ -31,7 +31,6 @@
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiIndexMaskSource.h>
 #include <newbase/NFmiIndexMaskTools.h>
-#include <newbase/NFmiSettings.h>
 #include <newbase/NFmiMetMath.h>
 
 #include "TextGenError.h"

@@ -5,6 +5,7 @@
 #include "PlainTextFormatter.h"
 #include "DewPointStory.h"
 #include "Story.h"
+#include "Settings.h"
 
 #include <newbase/NFmiSettings.h>
 
@@ -58,52 +59,52 @@ namespace DewPointStoryTest
 	WeatherArea area("25,60");
 	const string fun = "dewpoint_range";
 
-	NFmiSettings::Set("range::mininterval","2");
-	NFmiSettings::Set("range::always_interval_zero","true");
+	Settings::set("range::mininterval","2");
+	Settings::set("range::always_interval_zero","true");
 
 	TextGenPosixTime time1(2003,6,1);
 	TextGenPosixTime time2(2003,6,2);
 	WeatherPeriod period(time1,time2);
 	DewPointStory story(time1,sources,area,period,"range");
 	
-	NFmiSettings::Set("range::fake::minimum","5,0");
-	NFmiSettings::Set("range::fake::mean","5,0");
-	NFmiSettings::Set("range::fake::maximum","5,0");
+	Settings::set("range::fake::minimum","5,0");
+	Settings::set("range::fake::mean","5,0");
+	Settings::set("range::fake::maximum","5,0");
 	require(story,"fi",fun,"Kastepiste on noin 5 astetta.");
 	require(story,"sv",fun,"Daggpunkt är cirka 5 grader.");
 	require(story,"en",fun,"Dew point is about 5 degrees.");
 	
-	NFmiSettings::Set("range::fake::minimum","5,0");
-	NFmiSettings::Set("range::fake::mean","6,0");
-	NFmiSettings::Set("range::fake::maximum","6,0");
+	Settings::set("range::fake::minimum","5,0");
+	Settings::set("range::fake::mean","6,0");
+	Settings::set("range::fake::maximum","6,0");
 	require(story,"fi",fun,"Kastepiste on noin 6 astetta.");
 	require(story,"sv",fun,"Daggpunkt är cirka 6 grader.");
 	require(story,"en",fun,"Dew point is about 6 degrees.");
 	
-	NFmiSettings::Set("range::fake::minimum","5,0");
-	NFmiSettings::Set("range::fake::mean","6,0");
-	NFmiSettings::Set("range::fake::maximum","7,0");
+	Settings::set("range::fake::minimum","5,0");
+	Settings::set("range::fake::mean","6,0");
+	Settings::set("range::fake::maximum","7,0");
 	require(story,"fi",fun,"Kastepiste on 5...7 astetta.");
 	require(story,"sv",fun,"Daggpunkt är 5...7 grader.");
 	require(story,"en",fun,"Dew point is 5...7 degrees.");
 	
-	NFmiSettings::Set("range::fake::minimum","0,0");
-	NFmiSettings::Set("range::fake::mean","0,0");
-	NFmiSettings::Set("range::fake::maximum","1,0");
+	Settings::set("range::fake::minimum","0,0");
+	Settings::set("range::fake::mean","0,0");
+	Settings::set("range::fake::maximum","1,0");
 	require(story,"fi",fun,"Kastepiste on 0...+1 astetta.");
 	require(story,"sv",fun,"Daggpunkt är 0...+1 grader.");
 	require(story,"en",fun,"Dew point is 0...+1 degrees.");
 	
-	NFmiSettings::Set("range::fake::minimum","-1,0");
-	NFmiSettings::Set("range::fake::mean","0,0");
-	NFmiSettings::Set("range::fake::maximum","0,0");
+	Settings::set("range::fake::minimum","-1,0");
+	Settings::set("range::fake::mean","0,0");
+	Settings::set("range::fake::maximum","0,0");
 	require(story,"fi",fun,"Kastepiste on 0...-1 astetta.");
 	require(story,"sv",fun,"Daggpunkt är 0...-1 grader.");
 	require(story,"en",fun,"Dew point is 0...-1 degrees.");
 	
-	NFmiSettings::Set("range::fake::minimum","-1,0");
-	NFmiSettings::Set("range::fake::mean","0,0");
-	NFmiSettings::Set("range::fake::maximum","1,0");
+	Settings::set("range::fake::minimum","-1,0");
+	Settings::set("range::fake::mean","0,0");
+	Settings::set("range::fake::maximum","1,0");
 	require(story,"fi",fun,"Kastepiste on -1...+1 astetta.");
 	require(story,"sv",fun,"Daggpunkt är -1...+1 grader.");
 	require(story,"en",fun,"Dew point is -1...+1 degrees.");
@@ -154,6 +155,8 @@ int main(void)
   dict.reset(TextGen::DictionaryFactory::create("multimysql"));
 
   NFmiSettings::Set("textgen::units::celsius::format","phrase");
+
+  Settings::set(NFmiSettings::ToString());
 
   dict->init("fi");
   dict->init("sv");

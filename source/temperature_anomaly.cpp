@@ -36,7 +36,6 @@
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiIndexMaskSource.h>
 #include <newbase/NFmiIndexMaskTools.h>
-#include <newbase/NFmiSettings.h>
 #include <newbase/NFmiMetMath.h>
 
 #include "TextGenError.h"
@@ -1440,13 +1439,6 @@ enum anomaly_phrase_id
 	lowerLimitF88Acceptor.lowerLimit(fractile88Temperature.value());
 	RangeAcceptor lowerLimitF98Acceptor;
 	lowerLimitF98Acceptor.lowerLimit(fractile98Temperature.value());
-
-	/*
-	  NFmiSettings::Set("anomaly::fake::fractile::share::F02", "0, 0");
-	  NFmiSettings::Set("anomaly::fake::fractile::share::F12", "0, 0");
-	  NFmiSettings::Set("anomaly::fake::fractile::share::F88", "0, 0");
-	  NFmiSettings::Set("anomaly::fake::fractile::share::F98", "0, 0");
-	*/
 
 	WeatherResult fractile02Share = theForecaster.analyze(itsVar + "::fake::fractile::share::F02",
 														  itsSources,

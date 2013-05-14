@@ -1,6 +1,7 @@
 #include <regression/tframe.h>
 #include "MySQLDictionary.h"
 #include "TextGenError.h"
+#include "Settings.h"
 #include <newbase/NFmiSettings.h>
 #include <iostream>
 #include <string>
@@ -223,6 +224,7 @@ int main(void)
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
+  Settings::set(NFmiSettings::ToString());
 
   cout << endl
 	   << "MySQLDictionary tester" << endl

@@ -181,8 +181,6 @@ namespace TextGen
 	  }
   }
 
-  std::string FogForecast::theDayPhasePhraseOld = "";
-
   FogForecast::FogForecast(wf_story_params& parameters):
 	theParameters(parameters),
 	theCoastalModerateFogData(0),
@@ -886,14 +884,7 @@ namespace TextGen
 							  theParameters.theVariable, 
 							  dayPhasePhrase,
 							  false);
-		
-		if(dayPhasePhrase != theDayPhasePhraseOld)
-		  {
-			theDayPhasePhraseOld = dayPhasePhrase;
-		  }
-
-
-
+	
 		switch(fogTypeId)
 		  {
 		  case FOG:
@@ -984,8 +975,6 @@ namespace TextGen
 		  }
 	  }
 	
-	theDayPhasePhraseOld.clear();
-
 	return sentence;
   }
 

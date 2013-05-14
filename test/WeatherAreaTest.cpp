@@ -1,5 +1,8 @@
 #include <regression/tframe.h>
 #include "WeatherArea.h"
+#include "Settings.h"
+
+#include <newbase/NFmiSettings.h>
 
 using namespace std;
 
@@ -131,6 +134,9 @@ namespace WeatherAreaTest
 
 int main(void)
 {
+  NFmiSettings::Init();
+  Settings::set(NFmiSettings::ToString());
+
   cout << endl
 	   << "WeatherArea tester" << endl
 	   << "==================" << endl;

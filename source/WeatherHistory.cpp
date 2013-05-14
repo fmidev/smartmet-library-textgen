@@ -16,15 +16,6 @@ namespace TextGen
 	, latestTimePhrase(theWeatherHistory.latestTimePhrase)
   {
   }
-  /*
-  WeatherHistory& WeatherHistory::operator=(const WeatherHistory& theWeatherHistory)
-  {
-	latestTimePhrase = theWeatherHistory.latestTimePhrase;
-	latestDate = theWeatherHistory.latestDate;
-
-	return *this;
-  }
-  */
 
   void WeatherHistory::updateTimePhrase(const std::string& thePhrase,
 										const TextGenPosixTime& theTime)

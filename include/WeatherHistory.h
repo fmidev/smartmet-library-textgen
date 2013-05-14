@@ -13,7 +13,6 @@ namespace TextGen
 
     WeatherHistory();
 	WeatherHistory(const WeatherHistory& theWeatherHistory);
-	//	WeatherHistory& operator=(const WeatherHistory& theWeatherHistory);
 
 	void updateTimePhrase(const std::string& thePhrase, const TextGenPosixTime& theTime);
 

@@ -13,8 +13,6 @@
 #include "RangeAcceptor.h"
 #include "SubMaskExtractor.h"
 
-#include <newbase/NFmiSettings.h>
-
 #include <bitset>
 #include <iomanip>
 #include <fstream>
@@ -3963,7 +3961,7 @@ namespace TextGen
 	std::string split_section_name("textgen::split_the_area::" + get_area_name_string(storyParams.theArea));
 	std::string split_method_name(split_section_name + "::method");
 
-	if(NFmiSettings::IsSet(split_method_name))
+	if(Settings::isset(split_method_name))
 	  {
 		WeatherArea northernArea(storyParams.theArea);
 		WeatherArea southernArea(storyParams.theArea);

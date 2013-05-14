@@ -75,7 +75,9 @@ namespace TextGen
 	bool moreThanOnePrecipitationForms(false);
 	for(unsigned int i = 0; i < theStoryItemVector.size(); i++)
 	  {
-		if(!specifyPartOfTheDayFlag) // this indicates that the period is short
+		// when specifyPartOfTheDayFlag is false it means 
+		// that the period is short and part of the day should not be expressed
+		if(!specifyPartOfTheDayFlag) 
 		  {
 			// ARE 14.4.2011: checking theIncludeInTheStoryFlag
 			if(theStoryItemVector[i]->theIncludeInTheStoryFlag == true &&
@@ -671,10 +673,6 @@ namespace TextGen
 	return retValue;
   }
 
-  // this is for testing puropses: to prevent two events on same period 
-  // like "Iltap‰iv‰ll‰ vesikuuroja."Iltap‰iv‰ll‰ s‰‰ on verrattain pilvinen ja poutainen"
-  std::string time_phrase_previous("");
-
   Sentence WeatherForecastStoryItem::getPeriodPhrase(const bool& theFromSpecifier,
 													 const WeatherPeriod* thePhrasePeriod /*= 0*/,
 													 const bool& theStoryUnderConstructionEmpty /*= true*/)
@@ -705,12 +703,6 @@ namespace TextGen
 	time_phrase = checkForAamuyoAndAamuPhrase(theFromSpecifier,
 											  phrasePeriod);
 
-	if(!time_phrase.empty() && time_phrase.compare(time_phrase_previous) == 0)
-	  {
-		//sentence << "myohemmin";
-		time_phrase_previous = time_phrase;
-	  }
-
 	sentence << time_phrase;
 
 	if(sentence.size() == 0)
@@ -720,14 +712,8 @@ namespace TextGen
 							  theWeatherForecastStory.theVar,
 							  time_phrase,
 							  theFromSpecifier);
-		
-		/*
-		if(!time_phrase.empty() && time_phrase.compare(time_phrase_previous) == 0)
-		  sentence << "myohemmin";
-		*/
-		sentence << time_phrase;
 
-		time_phrase_previous = time_phrase;
+		sentence << time_phrase;
 	  }
 
 	theWeatherForecastStory.theLogger << "PHRASE PERIOD: " 

@@ -3,6 +3,7 @@
 #include "DictionaryFactory.h"
 #include "PlainTextFormatter.h"
 #include "Sentence.h"
+#include "Settings.h"
 #include <newbase/NFmiSettings.h>
 
 #include <iostream>
@@ -36,18 +37,18 @@ namespace UnitFactoryTest
 
 	shared_ptr<Sentence> unit;
 
-	NFmiSettings::Set("textgen::units::celsius::format","SI");
+	Settings::set("textgen::units::celsius::format","SI");
 	unit = create(DegreesCelsius);
 	string celsius = string("\xc2\xb0")+"C.";
 	if(unit->realize(formatter) != celsius)
 	  TEST_FAILED("create() failed to realize "+celsius);
 
-	NFmiSettings::Set("textgen::units::celsius::format","phrase");
+	Settings::set("textgen::units::celsius::format","phrase");
 	unit = create(DegreesCelsius);
 	if(unit->realize(formatter) != "Astetta.")
 	  TEST_FAILED("create() failed to realize Astetta.");
 
-	NFmiSettings::Set("textgen::units::celsius::format","none");
+	Settings::set("textgen::units::celsius::format","none");
 	unit = create(DegreesCelsius);
 	if(unit->realize(formatter) != "")
 	  TEST_FAILED("create() failed to realize empty celsius.");
@@ -75,17 +76,17 @@ namespace UnitFactoryTest
 
 	shared_ptr<Sentence> unit;
 
-	NFmiSettings::Set("textgen::units::meterspersecond::format","SI");
+	Settings::set("textgen::units::meterspersecond::format","SI");
 	unit = create(MetersPerSecond);
 	if(unit->realize(formatter) != "M/s.")
 	  TEST_FAILED("create() failed to realize M/s.");
 
-	NFmiSettings::Set("textgen::units::meterspersecond::format","phrase");
+	Settings::set("textgen::units::meterspersecond::format","phrase");
 	unit = create(MetersPerSecond);
 	if(unit->realize(formatter) != "Metriä sekunnissa.")
 	  TEST_FAILED("create() failed to realize Metriä sekunnissa.");
 	
-	NFmiSettings::Set("textgen::units::meterspersecond::format","none");
+	Settings::set("textgen::units::meterspersecond::format","none");
 	unit = create(MetersPerSecond);
 	if(unit->realize(formatter) != "")
 	  TEST_FAILED("create() failed to realize empty meterspersecond.");
@@ -113,17 +114,17 @@ namespace UnitFactoryTest
 
 	shared_ptr<Sentence> unit;
 
-	NFmiSettings::Set("textgen::units::millimeters::format","SI");
+	Settings::set("textgen::units::millimeters::format","SI");
 	unit = create(Millimeters);
 	if(unit->realize(formatter) != "Mm.")
 	  TEST_FAILED("create() failed to realize Mm.");
 
-	NFmiSettings::Set("textgen::units::millimeters::format","phrase");
+	Settings::set("textgen::units::millimeters::format","phrase");
 	unit = create(Millimeters);
 	if(unit->realize(formatter) != "Millimetriä.")
 	  TEST_FAILED("create() failed to realize Millimetriä.");
 
-	NFmiSettings::Set("textgen::units::millimeters::format","none");
+	Settings::set("textgen::units::millimeters::format","none");
 	unit = create(Millimeters);
 	if(unit->realize(formatter) != "")
 	  TEST_FAILED("create() failed to realize empty millimeters.");
@@ -151,17 +152,17 @@ namespace UnitFactoryTest
 
 	shared_ptr<Sentence> unit;
 
-	NFmiSettings::Set("textgen::units::percent::format","SI");
+	Settings::set("textgen::units::percent::format","SI");
 	unit = create(Percent);
 	if(unit->realize(formatter) != "%.")
 	  TEST_FAILED("create() failed to realize %.");
 
-	NFmiSettings::Set("textgen::units::percent::format","phrase");
+	Settings::set("textgen::units::percent::format","phrase");
 	unit = create(Percent);
 	if(unit->realize(formatter) != "Prosenttia.")
 	  TEST_FAILED("create() failed to realize Prosenttia.");
 
-	NFmiSettings::Set("textgen::units::percent::format","none");
+	Settings::set("textgen::units::percent::format","none");
 	unit = create(Percent);
 	if(unit->realize(formatter) != "")
 	  TEST_FAILED("create() failed to realize empty percent.");
@@ -189,17 +190,17 @@ namespace UnitFactoryTest
 
 	shared_ptr<Sentence> unit;
 
-	NFmiSettings::Set("textgen::units::hectopascal::format","SI");
+	Settings::set("textgen::units::hectopascal::format","SI");
 	unit = create(HectoPascal);
 	if(unit->realize(formatter) != "Hpa.")
 	  TEST_FAILED("create() failed to realize Hpa, got: "+unit->realize(formatter));
 
-	NFmiSettings::Set("textgen::units::hectopascal::format","phrase");
+	Settings::set("textgen::units::hectopascal::format","phrase");
 	unit = create(HectoPascal);
 	if(unit->realize(formatter) != "Hehtopascalia.")
 	  TEST_FAILED("create() failed to realize hehtopascal, got :"+unit->realize(formatter));
 
-	NFmiSettings::Set("textgen::units::hectopascal::format","none");
+	Settings::set("textgen::units::hectopascal::format","none");
 	unit = create(HectoPascal);
 	if(unit->realize(formatter) != "")
 	  TEST_FAILED("create() failed to realize empty hehtopascal, got: "+unit->realize(formatter));
@@ -239,6 +240,7 @@ int main(void)
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
+  Settings::set(NFmiSettings::ToString());
 
   cout << endl
 	   << "UnitFactory tester" << endl

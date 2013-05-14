@@ -27,7 +27,6 @@
 #include "TextFormatterTools.h"
 #include "Time.h"
 #include "TimePeriod.h"
-#include <newbase/NFmiSettings.h>
 
 #include <boost/lexical_cast.hpp>
 #include <set>

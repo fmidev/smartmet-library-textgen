@@ -44,7 +44,6 @@
 #include "ParameterAnalyzer.h"
 
 #include <newbase/NFmiCombinedParam.h>
-#include <newbase/NFmiSettings.h>
 
 #include <boost/lexical_cast.hpp>
 #include <vector>

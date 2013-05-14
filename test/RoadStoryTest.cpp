@@ -5,6 +5,7 @@
 #include "PlainTextFormatter.h"
 #include "RoadStory.h"
 #include "Story.h"
+#include "Settings.h"
 
 #include <newbase/NFmiSettings.h>
 
@@ -91,6 +92,7 @@ int main(void)
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
+  Settings::set(NFmiSettings::ToString());
 
   using namespace RoadStoryTest;
 

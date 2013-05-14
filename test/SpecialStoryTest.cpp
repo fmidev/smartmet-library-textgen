@@ -7,6 +7,7 @@
 #include "Story.h"
 #include "StoryTag.h"
 #include "MessageLogger.h"
+#include "Settings.h"
 
 #include <newbase/NFmiSettings.h>
 
@@ -94,19 +95,19 @@ namespace SpecialStoryTest
 
 	const string fun = "text";
 
-	NFmiSettings::Set("text::value","This is the value of the string.");
+	Settings::set("text::value","This is the value of the string.");
 
 	require(story,"fi",fun,"This is the value of the string.", "text");
 	require(story,"sv",fun,"This is the value of the string.", "text");
 	require(story,"en",fun,"This is the value of the string.", "text");
 
-	NFmiSettings::Set("text::value","@data/special_text.fi");
+	Settings::set("text::value","@data/special_text.fi");
 	require(story,"fi",fun,"Suomenkielinen teksti.");
 
-	NFmiSettings::Set("text::value","@data/special_text.en");
+	Settings::set("text::value","@data/special_text.en");
 	require(story,"fi",fun,"English text.");
 
-	NFmiSettings::Set("text::value","@data/special_text.php");
+	Settings::set("text::value","@data/special_text.php");
 	require(story,"fi",fun,"Suomenkieltä PHP-ohjelmasta");
 
 	TEST_PASSED();
@@ -135,34 +136,34 @@ namespace SpecialStoryTest
 	// Note! plain text formatter used
 
 	// startformat and endformat included
-	NFmiSettings::Set("textgen::part1::story::date::plain::startformat","%d.%m.%Y %H:%M - ");
-	NFmiSettings::Set("textgen::part1::story::date::plain::endformat","%d.%m.%Y %H:%M");
+	Settings::set("textgen::part1::story::date::plain::startformat","%d.%m.%Y %H:%M - ");
+	Settings::set("textgen::part1::story::date::plain::endformat","%d.%m.%Y %H:%M");
 
 	require(story,"fi",fun,"01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
 	require(story,"sv",fun,"01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
 	require(story,"en",fun,"01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
 
-	NFmiSettings::Clear();
+	Settings::clear();
 	// endformat modified
-	NFmiSettings::Set("textgen::part1::story::date::plain::startformat","%d.%m.%Y %H - ");
-	NFmiSettings::Set("textgen::part1::story::date::plain::endformat","%H");
+	Settings::set("textgen::part1::story::date::plain::startformat","%d.%m.%Y %H - ");
+	Settings::set("textgen::part1::story::date::plain::endformat","%H");
 
 	require(story,"fi",fun,"01.01.2000 06 - 09", "textgen::part1::story::date");
 	require(story,"sv",fun,"01.01.2000 06 - 09", "textgen::part1::story::date");
 	require(story,"en",fun,"01.01.2000 06 - 09", "textgen::part1::story::date");
 
-	NFmiSettings::Clear();
+	Settings::clear();
 	// endformat missing
-	NFmiSettings::Set("textgen::part1::story::date::plain::startformat","%d.%m.%Y %H:%M");
+	Settings::set("textgen::part1::story::date::plain::startformat","%d.%m.%Y %H:%M");
 
 	require(story,"fi",fun,"01.01.2000 06:30", "textgen::part1::story::date");
 	require(story,"sv",fun,"01.01.2000 06:30", "textgen::part1::story::date");
 	require(story,"en",fun,"01.01.2000 06:30", "textgen::part1::story::date");
 
-	NFmiSettings::Clear();
+	Settings::clear();
 	// endformat is here NOT formatter specific
-	NFmiSettings::Set("textgen::part1::story::date::plain::startformat","%d.%m.%Y %H:%M - ");
-	NFmiSettings::Set("textgen::part1::story::date::endformat","%d.%m.%Y %H:%M");
+	Settings::set("textgen::part1::story::date::plain::startformat","%d.%m.%Y %H:%M - ");
+	Settings::set("textgen::part1::story::date::endformat","%d.%m.%Y %H:%M");
 
 	require(story,"fi",fun,"01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
 	require(story,"sv",fun,"01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
@@ -205,6 +206,8 @@ int main(void)
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
+  NFmiSettings::Set("textgen::specialseason","true");
+  Settings::set(NFmiSettings::ToString());
 
   using namespace SpecialStoryTest;
 
@@ -221,8 +224,6 @@ int main(void)
   dict->init("fi");
   dict->init("sv");
   dict->init("en");
-
-  NFmiSettings::Set("textgen::specialseason","true");
 
   tests t;
   return t.run();

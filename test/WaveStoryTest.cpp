@@ -9,6 +9,7 @@
 #include "PlainTextFormatter.h"
 #include "WaveStory.h"
 #include "Story.h"
+#include "Settings.h"
 
 #include <newbase/NFmiSettings.h>
 
@@ -71,39 +72,39 @@ namespace WaveStoryTest
 
 	string result;
 	
-	NFmiSettings::Set("a::day::starthour","6");
-	NFmiSettings::Set("a::day::endhour","18");
+	Settings::set("a::day::starthour","6");
+	Settings::set("a::day::endhour","18");
 
 	const WeatherPeriod period(time1,time2);
 	WaveStory story(time1,sources,area,period,"a");
 	
-	NFmiSettings::Set("a::fake::height::mean","1.9,0");
-	NFmiSettings::Set("a::fake::height::minimum","1.8,0");
-	NFmiSettings::Set("a::fake::height::maximum","2.2,0");
+	Settings::set("a::fake::height::mean","1.9,0");
+	Settings::set("a::fake::height::minimum","1.8,0");
+	Settings::set("a::fake::height::maximum","2.2,0");
 	
 	REQUIRE(story,"fi",fun,"Aallonkorkeus on noin 2.0m.");
 	REQUIRE(story,"sv",fun,"Våghöjden är cirka 2.0m.");
 	REQUIRE(story,"en",fun,"Wave height is around 2.0m.");
 
-	NFmiSettings::Set("a::fake::height::mean","4.7,0");
-	NFmiSettings::Set("a::fake::height::minimum","3.1,0");
-	NFmiSettings::Set("a::fake::height::maximum","7.3,0");
+	Settings::set("a::fake::height::mean","4.7,0");
+	Settings::set("a::fake::height::minimum","3.1,0");
+	Settings::set("a::fake::height::maximum","7.3,0");
 
 	REQUIRE(story,"fi",fun,"Aallonkorkeus on 3.0-7.5m.");
 	REQUIRE(story,"sv",fun,"Våghöjden är 3.0-7.5m.");
 	REQUIRE(story,"en",fun,"Wave height is 3.0-7.5m.");
 
-	NFmiSettings::Set("a::fake::height::mean","0.2,0");
-	NFmiSettings::Set("a::fake::height::minimum","0.1,0");
-	NFmiSettings::Set("a::fake::height::maximum","0.2,0");
+	Settings::set("a::fake::height::mean","0.2,0");
+	Settings::set("a::fake::height::minimum","0.1,0");
+	Settings::set("a::fake::height::maximum","0.2,0");
 
 	REQUIRE(story,"fi",fun,"Aallonkorkeus on alle 0.5m.");
 	REQUIRE(story,"sv",fun,"Våghöjden är mindre än 0.5m.");
 	REQUIRE(story,"en",fun,"Wave height is less than 0.5m.");
 
-	NFmiSettings::Set("a::fake::height::mean","0.8,0");
-	NFmiSettings::Set("a::fake::height::minimum","0.1,0");
-	NFmiSettings::Set("a::fake::height::maximum","1.3,0");
+	Settings::set("a::fake::height::mean","0.8,0");
+	Settings::set("a::fake::height::minimum","0.1,0");
+	Settings::set("a::fake::height::maximum","1.3,0");
 
 	REQUIRE(story,"fi",fun,"Aallonkorkeus on enimmillään 1.5m.");
 	REQUIRE(story,"sv",fun,"Våghöjden är högst 1.5m.");
@@ -144,6 +145,7 @@ int main(void)
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
+  Settings::set(NFmiSettings::ToString());
 
   using namespace WaveStoryTest;
 

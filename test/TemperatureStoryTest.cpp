@@ -12,6 +12,7 @@
 #include "RegularMaskSource.h"
 #include "TemperatureStoryTools.h"
 #include "SeasonTools.h"
+#include "Settings.h"
 
 #include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiSvgPath.h>
@@ -100,82 +101,82 @@ namespace TemperatureStoryTest
 	  
 	  const string fun = "temperature_day";
 	  
-	  NFmiSettings::Set("day::day::starthour","6");
-	  NFmiSettings::Set("day::day::endhour","18");
-	  NFmiSettings::Set("day::night::starthour","18");
-	  NFmiSettings::Set("day::night::endhour","6");
+	  Settings::set("day::day::starthour","6");
+	  Settings::set("day::day::endhour","18");
+	  Settings::set("day::night::starthour","18");
+	  Settings::set("day::night::endhour","6");
 	  
-	  NFmiSettings::Set("day::comparison::significantly_higher","5");
-	  NFmiSettings::Set("day::comparison::higher","3");
-	  NFmiSettings::Set("day::comparison::somewhat_higher","2");
-	  NFmiSettings::Set("day::comparison::somewhat_lower","2");
-	  NFmiSettings::Set("day::comparison::lower","3");
-	  NFmiSettings::Set("day::comparison::significantly_lower","5");
+	  Settings::set("day::comparison::significantly_higher","5");
+	  Settings::set("day::comparison::higher","3");
+	  Settings::set("day::comparison::somewhat_higher","2");
+	  Settings::set("day::comparison::somewhat_lower","2");
+	  Settings::set("day::comparison::lower","3");
+	  Settings::set("day::comparison::significantly_lower","5");
 	  
 	  
-	  NFmiSettings::Set("day::fake::day1::area::mean","15,0");
-	  NFmiSettings::Set("day::fake::day1::area::min","15,0");
-	  NFmiSettings::Set("day::fake::day1::area::max","15,0");
+	  Settings::set("day::fake::day1::area::mean","15,0");
+	  Settings::set("day::fake::day1::area::min","15,0");
+	  Settings::set("day::fake::day1::area::max","15,0");
 	  
-	  NFmiSettings::Set("day::fake::day1::coast::mean","15,0");
-	  NFmiSettings::Set("day::fake::day1::coast::min","15,0");
-	  NFmiSettings::Set("day::fake::day1::coast::max","15,0");
+	  Settings::set("day::fake::day1::coast::mean","15,0");
+	  Settings::set("day::fake::day1::coast::min","15,0");
+	  Settings::set("day::fake::day1::coast::max","15,0");
 	  
-	  NFmiSettings::Set("day::fake::day1::inland::mean","15,0");
-	  NFmiSettings::Set("day::fake::day1::inland::min","15,0");
-	  NFmiSettings::Set("day::fake::day1::inland::max","15,0");
+	  Settings::set("day::fake::day1::inland::mean","15,0");
+	  Settings::set("day::fake::day1::inland::min","15,0");
+	  Settings::set("day::fake::day1::inland::max","15,0");
 	  
-	  NFmiSettings::Set("day::fake::night1::area::mean","15,0");
-	  NFmiSettings::Set("day::fake::night1::area::min","15,0");
-	  NFmiSettings::Set("day::fake::night1::area::max","15,0");
+	  Settings::set("day::fake::night1::area::mean","15,0");
+	  Settings::set("day::fake::night1::area::min","15,0");
+	  Settings::set("day::fake::night1::area::max","15,0");
 	  
-	  NFmiSettings::Set("day::fake::night1::coast::mean","15,0");
-	  NFmiSettings::Set("day::fake::night1::coast::min","15,0");
-	  NFmiSettings::Set("day::fake::night1::coast::max","15,0");
+	  Settings::set("day::fake::night1::coast::mean","15,0");
+	  Settings::set("day::fake::night1::coast::min","15,0");
+	  Settings::set("day::fake::night1::coast::max","15,0");
 	  
-	  NFmiSettings::Set("day::fake::night1::inland::mean","15,0");
-	  NFmiSettings::Set("day::fake::night1::inland::min","15,0");
-	  NFmiSettings::Set("day::fake::night1::inland::max","15,0");
+	  Settings::set("day::fake::night1::inland::mean","15,0");
+	  Settings::set("day::fake::night1::inland::min","15,0");
+	  Settings::set("day::fake::night1::inland::max","15,0");
 	  
 	  require(story,"fi",fun,"Lämpötila on noin 15 astetta.");
 	  require(story,"sv",fun,"Temperaturen är cirka 15 grader.");
 	  require(story,"en",fun,"Temperature is about 15 degrees.");
 	  
-	  NFmiSettings::Set("day::fake::day1::coast::mean","10,0");
-	  NFmiSettings::Set("day::fake::day1::coast::min","8,0");
-	  NFmiSettings::Set("day::fake::day1::coast::max","12,0");
+	  Settings::set("day::fake::day1::coast::mean","10,0");
+	  Settings::set("day::fake::day1::coast::min","8,0");
+	  Settings::set("day::fake::day1::coast::max","12,0");
 	  
-	  NFmiSettings::Set("day::fake::day1::inland::mean","16,0");
-	  NFmiSettings::Set("day::fake::day1::inland::min","15,0");
-	  NFmiSettings::Set("day::fake::day1::inland::max","14,0");
+	  Settings::set("day::fake::day1::inland::mean","16,0");
+	  Settings::set("day::fake::day1::inland::min","15,0");
+	  Settings::set("day::fake::day1::inland::max","14,0");
 	  
 	  require(story,"fi",fun,"Lämpötila on noin 16 astetta, rannikolla alempi.");
 	  require(story,"sv",fun,"Temperaturen är cirka 16 grader, vid kusten lägre.");
 	  require(story,"en",fun,"Temperature is about 16 degrees, on the coastal area lower.");
 	  
-	  NFmiSettings::Set("day::fake::night1::area::mean","10,0");
-	  NFmiSettings::Set("day::fake::night1::area::min","10,0");
-	  NFmiSettings::Set("day::fake::night1::area::max","10,0");
+	  Settings::set("day::fake::night1::area::mean","10,0");
+	  Settings::set("day::fake::night1::area::min","10,0");
+	  Settings::set("day::fake::night1::area::max","10,0");
 	  
-	  NFmiSettings::Set("day::fake::night1::coast::mean","10,0");
-	  NFmiSettings::Set("day::fake::night1::coast::min","10,0");
-	  NFmiSettings::Set("day::fake::night1::coast::max","10,0");
+	  Settings::set("day::fake::night1::coast::mean","10,0");
+	  Settings::set("day::fake::night1::coast::min","10,0");
+	  Settings::set("day::fake::night1::coast::max","10,0");
 	  
-	  NFmiSettings::Set("day::fake::night1::inland::mean","10,0");
-	  NFmiSettings::Set("day::fake::night1::inland::min","10,0");
-	  NFmiSettings::Set("day::fake::night1::inland::max","10,0");
+	  Settings::set("day::fake::night1::inland::mean","10,0");
+	  Settings::set("day::fake::night1::inland::min","10,0");
+	  Settings::set("day::fake::night1::inland::max","10,0");
 	  
 	  require(story,"fi",fun,"Päivän ylin lämpötila on noin 16 astetta, rannikolla huomattavasti alempi. Yön alin lämpötila on noin 10 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är cirka 16 grader, vid kusten betydligt lägre. Nattens lägsta temperatur är cirka 10 grader.");
 	  require(story,"en",fun,"The maximum day temperature is about 16 degrees, on the coastal area significantly lower. The minimum night temperature is about 10 degrees.");
 	  
-	  NFmiSettings::Set("day::fake::day1::coast::mean","-10,0");
-	  NFmiSettings::Set("day::fake::day1::coast::min","-12,0");
-	  NFmiSettings::Set("day::fake::day1::coast::max","-8,0");
+	  Settings::set("day::fake::day1::coast::mean","-10,0");
+	  Settings::set("day::fake::day1::coast::min","-12,0");
+	  Settings::set("day::fake::day1::coast::max","-8,0");
 	  
-	  NFmiSettings::Set("day::fake::night1::coast::mean","7,0");
-	  NFmiSettings::Set("day::fake::night1::coast::min","7,0");
-	  NFmiSettings::Set("day::fake::night1::coast::max","7,0");
+	  Settings::set("day::fake::night1::coast::mean","7,0");
+	  Settings::set("day::fake::night1::coast::min","7,0");
+	  Settings::set("day::fake::night1::coast::max","7,0");
 	  
 	  require(story,"fi",fun,"Päivän ylin lämpötila on noin 16 astetta, rannikolla -8...-12 astetta. Yön alin lämpötila on noin 10 astetta, rannikolla alempi.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är cirka 16 grader, vid kusten -8...-12 grader. Nattens lägsta temperatur är cirka 10 grader, vid kusten lägre.");
@@ -193,96 +194,96 @@ namespace TemperatureStoryTest
 	  
 	  const string fun = "temperature_day";
 
-	  NFmiSettings::Set("day::today::phrases","today,tomorrow,weekday");
+	  Settings::set("day::today::phrases","today,tomorrow,weekday");
 	  
-	  NFmiSettings::Set("day::day::starthour","6");
-	  NFmiSettings::Set("day::day::endhour","18");
-	  NFmiSettings::Set("day::night::starthour","18");
-	  NFmiSettings::Set("day::night::endhour","6");
+	  Settings::set("day::day::starthour","6");
+	  Settings::set("day::day::endhour","18");
+	  Settings::set("day::night::starthour","18");
+	  Settings::set("day::night::endhour","6");
 	  
-	  NFmiSettings::Set("day::comparison::significantly_higher","5");
-	  NFmiSettings::Set("day::comparison::higher","3");
-	  NFmiSettings::Set("day::comparison::somewhat_higher","2");
-	  NFmiSettings::Set("day::comparison::somewhat_lower","2");
-	  NFmiSettings::Set("day::comparison::lower","3");
-	  NFmiSettings::Set("day::comparison::significantly_lower","5");
+	  Settings::set("day::comparison::significantly_higher","5");
+	  Settings::set("day::comparison::higher","3");
+	  Settings::set("day::comparison::somewhat_higher","2");
+	  Settings::set("day::comparison::somewhat_lower","2");
+	  Settings::set("day::comparison::lower","3");
+	  Settings::set("day::comparison::significantly_lower","5");
 	  
 	  
-	  NFmiSettings::Set("day::fake::day1::area::mean","15,0");
-	  NFmiSettings::Set("day::fake::day1::area::min","15,0");
-	  NFmiSettings::Set("day::fake::day1::area::max","15,0");
+	  Settings::set("day::fake::day1::area::mean","15,0");
+	  Settings::set("day::fake::day1::area::min","15,0");
+	  Settings::set("day::fake::day1::area::max","15,0");
 	  
-	  NFmiSettings::Set("day::fake::day1::coast::mean","15,0");
-	  NFmiSettings::Set("day::fake::day1::coast::min","15,0");
-	  NFmiSettings::Set("day::fake::day1::coast::max","15,0");
+	  Settings::set("day::fake::day1::coast::mean","15,0");
+	  Settings::set("day::fake::day1::coast::min","15,0");
+	  Settings::set("day::fake::day1::coast::max","15,0");
 	  
-	  NFmiSettings::Set("day::fake::day1::inland::mean","15,0");
-	  NFmiSettings::Set("day::fake::day1::inland::min","15,0");
-	  NFmiSettings::Set("day::fake::day1::inland::max","15,0");
+	  Settings::set("day::fake::day1::inland::mean","15,0");
+	  Settings::set("day::fake::day1::inland::min","15,0");
+	  Settings::set("day::fake::day1::inland::max","15,0");
 	  
-	  NFmiSettings::Set("day::fake::night1::area::mean","15,0");
-	  NFmiSettings::Set("day::fake::night1::area::min","15,0");
-	  NFmiSettings::Set("day::fake::night1::area::max","15,0");
+	  Settings::set("day::fake::night1::area::mean","15,0");
+	  Settings::set("day::fake::night1::area::min","15,0");
+	  Settings::set("day::fake::night1::area::max","15,0");
 	  
-	  NFmiSettings::Set("day::fake::night1::coast::mean","15,0");
-	  NFmiSettings::Set("day::fake::night1::coast::min","15,0");
-	  NFmiSettings::Set("day::fake::night1::coast::max","15,0");
+	  Settings::set("day::fake::night1::coast::mean","15,0");
+	  Settings::set("day::fake::night1::coast::min","15,0");
+	  Settings::set("day::fake::night1::coast::max","15,0");
 	  
-	  NFmiSettings::Set("day::fake::night1::inland::mean","15,0");
-	  NFmiSettings::Set("day::fake::night1::inland::min","15,0");
-	  NFmiSettings::Set("day::fake::night1::inland::max","15,0");
+	  Settings::set("day::fake::night1::inland::mean","15,0");
+	  Settings::set("day::fake::night1::inland::min","15,0");
+	  Settings::set("day::fake::night1::inland::max","15,0");
 	  
-	  NFmiSettings::Set("day::fake::day2::area::mean","11,0");
-	  NFmiSettings::Set("day::fake::day2::area::min","10,0");
-	  NFmiSettings::Set("day::fake::day2::area::max","13,0");
+	  Settings::set("day::fake::day2::area::mean","11,0");
+	  Settings::set("day::fake::day2::area::min","10,0");
+	  Settings::set("day::fake::day2::area::max","13,0");
 	  
-	  NFmiSettings::Set("day::fake::day2::coast::mean","5,0");
-	  NFmiSettings::Set("day::fake::day2::coast::min","0,0");
-	  NFmiSettings::Set("day::fake::day2::coast::max","15,0");
+	  Settings::set("day::fake::day2::coast::mean","5,0");
+	  Settings::set("day::fake::day2::coast::min","0,0");
+	  Settings::set("day::fake::day2::coast::max","15,0");
 	  
-	  NFmiSettings::Set("day::fake::day2::inland::mean","20,0");
-	  NFmiSettings::Set("day::fake::day2::inland::min","15,0");
-	  NFmiSettings::Set("day::fake::day2::inland::max","25,0");
+	  Settings::set("day::fake::day2::inland::mean","20,0");
+	  Settings::set("day::fake::day2::inland::min","15,0");
+	  Settings::set("day::fake::day2::inland::max","25,0");
 
 	  require(story,"fi",fun,"Lämpötila on tänään noin 15 astetta. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...+15 astetta.");
 	  require(story,"sv",fun,"Temperaturen är i dag cirka 15 grader. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...+15 grader.");
 	  require(story,"en",fun,"Temperature is today about 15 degrees. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...+15 degrees.");
 	  
-	  NFmiSettings::Set("day::fake::day1::coast::mean","10,0");
-	  NFmiSettings::Set("day::fake::day1::coast::min","8,0");
-	  NFmiSettings::Set("day::fake::day1::coast::max","12,0");
+	  Settings::set("day::fake::day1::coast::mean","10,0");
+	  Settings::set("day::fake::day1::coast::min","8,0");
+	  Settings::set("day::fake::day1::coast::max","12,0");
 	  
-	  NFmiSettings::Set("day::fake::day1::inland::mean","16,0");
-	  NFmiSettings::Set("day::fake::day1::inland::min","15,0");
-	  NFmiSettings::Set("day::fake::day1::inland::max","14,0");
+	  Settings::set("day::fake::day1::inland::mean","16,0");
+	  Settings::set("day::fake::day1::inland::min","15,0");
+	  Settings::set("day::fake::day1::inland::max","14,0");
 	  
 	  require(story,"fi",fun,"Lämpötila on tänään noin 16 astetta, rannikolla alempi. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...+15 astetta.");
 	  require(story,"sv",fun,"Temperaturen är i dag cirka 16 grader, vid kusten lägre. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...+15 grader.");
 	  require(story,"en",fun,"Temperature is today about 16 degrees, on the coastal area lower. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...+15 degrees.");
 	  
-	  NFmiSettings::Set("day::fake::night1::area::mean","10,0");
-	  NFmiSettings::Set("day::fake::night1::area::min","10,0");
-	  NFmiSettings::Set("day::fake::night1::area::max","10,0");
+	  Settings::set("day::fake::night1::area::mean","10,0");
+	  Settings::set("day::fake::night1::area::min","10,0");
+	  Settings::set("day::fake::night1::area::max","10,0");
 	  
-	  NFmiSettings::Set("day::fake::night1::coast::mean","10,0");
-	  NFmiSettings::Set("day::fake::night1::coast::min","10,0");
-	  NFmiSettings::Set("day::fake::night1::coast::max","10,0");
+	  Settings::set("day::fake::night1::coast::mean","10,0");
+	  Settings::set("day::fake::night1::coast::min","10,0");
+	  Settings::set("day::fake::night1::coast::max","10,0");
 	  
-	  NFmiSettings::Set("day::fake::night1::inland::mean","10,0");
-	  NFmiSettings::Set("day::fake::night1::inland::min","10,0");
-	  NFmiSettings::Set("day::fake::night1::inland::max","10,0");
+	  Settings::set("day::fake::night1::inland::mean","10,0");
+	  Settings::set("day::fake::night1::inland::min","10,0");
+	  Settings::set("day::fake::night1::inland::max","10,0");
 	  
 	  require(story,"fi",fun,"Päivän ylin lämpötila on tänään noin 16 astetta, rannikolla huomattavasti alempi. Yön alin lämpötila on noin 10 astetta. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...+15 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är i dag cirka 16 grader, vid kusten betydligt lägre. Nattens lägsta temperatur är cirka 10 grader. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...+15 grader.");
 	  require(story,"en",fun,"The maximum day temperature is today about 16 degrees, on the coastal area significantly lower. The minimum night temperature is about 10 degrees. The maximum day temperature is tomorrow 15...25 degrees, on the coastal area 0...+15 degrees.");
 	  
-	  NFmiSettings::Set("day::fake::day1::coast::mean","-10,0");
-	  NFmiSettings::Set("day::fake::day1::coast::min","-12,0");
-	  NFmiSettings::Set("day::fake::day1::coast::max","-8,0");
+	  Settings::set("day::fake::day1::coast::mean","-10,0");
+	  Settings::set("day::fake::day1::coast::min","-12,0");
+	  Settings::set("day::fake::day1::coast::max","-8,0");
 	  
-	  NFmiSettings::Set("day::fake::night1::coast::mean","7,0");
-	  NFmiSettings::Set("day::fake::night1::coast::min","7,0");
-	  NFmiSettings::Set("day::fake::night1::coast::max","7,0");
+	  Settings::set("day::fake::night1::coast::mean","7,0");
+	  Settings::set("day::fake::night1::coast::min","7,0");
+	  Settings::set("day::fake::night1::coast::max","7,0");
 	  
 	  require(story,"fi",fun,"Päivän ylin lämpötila on tänään noin 16 astetta, rannikolla -8...-12 astetta. Yön alin lämpötila on noin 10 astetta, rannikolla alempi. Päivän ylin lämpötila on huomenna 15...25 astetta, rannikolla 0...+15 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är i dag cirka 16 grader, vid kusten -8...-12 grader. Nattens lägsta temperatur är cirka 10 grader, vid kusten lägre. Dagens högsta temperatur är i morgon 15...25 grader, vid kusten 0...+15 grader.");
@@ -314,22 +315,22 @@ namespace TemperatureStoryTest
 
 	const string fun = "temperature_mean";
 
-	NFmiSettings::Set("mean::fake::mean","0.1,0");
+	Settings::set("mean::fake::mean","0.1,0");
 	require(story,"fi",fun,"Keskilämpötila 0 astetta.");
 	require(story,"sv",fun,"Medeltemperaturen 0 grader.");
 	require(story,"en",fun,"Mean temperature 0 degrees.");
 
-	NFmiSettings::Set("mean::fake::mean","0.5,0");
+	Settings::set("mean::fake::mean","0.5,0");
 	require(story,"fi",fun,"Keskilämpötila 1 astetta.");
 	require(story,"sv",fun,"Medeltemperaturen 1 grader.");
 	require(story,"en",fun,"Mean temperature 1 degrees.");
 
-	NFmiSettings::Set("mean::fake::mean","10,0");
+	Settings::set("mean::fake::mean","10,0");
 	require(story,"fi",fun,"Keskilämpötila 10 astetta.");
 	require(story,"sv",fun,"Medeltemperaturen 10 grader.");
 	require(story,"en",fun,"Mean temperature 10 degrees.");
 
-	NFmiSettings::Set("mean::fake::mean","-10.5,0");
+	Settings::set("mean::fake::mean","-10.5,0");
 	require(story,"fi",fun,"Keskilämpötila -11 astetta.");
 	require(story,"sv",fun,"Medeltemperaturen -11 grader.");
 	require(story,"en",fun,"Mean temperature -11 degrees.");
@@ -358,22 +359,22 @@ namespace TemperatureStoryTest
 
 	const string fun = "temperature_meanmax";
 
-	NFmiSettings::Set("meanmax::fake::mean","0.1,0");
+	Settings::set("meanmax::fake::mean","0.1,0");
 	require(story,"fi",fun,"Keskimääräinen ylin lämpötila 0 astetta.");
 	require(story,"sv",fun,"Maximitemperaturen i medeltal 0 grader.");
 	require(story,"en",fun,"Mean maximum temperature 0 degrees.");
 
-	NFmiSettings::Set("meanmax::fake::mean","0.5,0");
+	Settings::set("meanmax::fake::mean","0.5,0");
 	require(story,"fi",fun,"Keskimääräinen ylin lämpötila 1 astetta.");
 	require(story,"sv",fun,"Maximitemperaturen i medeltal 1 grader.");
 	require(story,"en",fun,"Mean maximum temperature 1 degrees.");
 
-	NFmiSettings::Set("meanmax::fake::mean","10,0");
+	Settings::set("meanmax::fake::mean","10,0");
 	require(story,"fi",fun,"Keskimääräinen ylin lämpötila 10 astetta.");
 	require(story,"sv",fun,"Maximitemperaturen i medeltal 10 grader.");
 	require(story,"en",fun,"Mean maximum temperature 10 degrees.");
 
-	NFmiSettings::Set("meanmax::fake::mean","-10.5,0");
+	Settings::set("meanmax::fake::mean","-10.5,0");
 	require(story,"fi",fun,"Keskimääräinen ylin lämpötila -11 astetta.");
 	require(story,"sv",fun,"Maximitemperaturen i medeltal -11 grader.");
 	require(story,"en",fun,"Mean maximum temperature -11 degrees.");
@@ -402,22 +403,22 @@ namespace TemperatureStoryTest
 
 	const string fun = "temperature_meanmin";
 
-	NFmiSettings::Set("meanmin::fake::mean","0.1,0");
+	Settings::set("meanmin::fake::mean","0.1,0");
 	require(story,"fi",fun,"Keskimääräinen alin lämpötila 0 astetta.");
 	require(story,"sv",fun,"Minimitemperaturen i medeltal 0 grader.");
 	require(story,"en",fun,"Mean minimum temperature 0 degrees.");
 
-	NFmiSettings::Set("meanmin::fake::mean","0.5,0");
+	Settings::set("meanmin::fake::mean","0.5,0");
 	require(story,"fi",fun,"Keskimääräinen alin lämpötila 1 astetta.");
 	require(story,"sv",fun,"Minimitemperaturen i medeltal 1 grader.");
 	require(story,"en",fun,"Mean minimum temperature 1 degrees.");
 
-	NFmiSettings::Set("meanmin::fake::mean","10,0");
+	Settings::set("meanmin::fake::mean","10,0");
 	require(story,"fi",fun,"Keskimääräinen alin lämpötila 10 astetta.");
 	require(story,"sv",fun,"Minimitemperaturen i medeltal 10 grader.");
 	require(story,"en",fun,"Mean minimum temperature 10 degrees.");
 
-	NFmiSettings::Set("meanmin::fake::mean","-10.5,0");
+	Settings::set("meanmin::fake::mean","-10.5,0");
 	require(story,"fi",fun,"Keskimääräinen alin lämpötila -11 astetta.");
 	require(story,"sv",fun,"Minimitemperaturen i medeltal -11 grader.");
 	require(story,"en",fun,"Mean minimum temperature -11 degrees.");
@@ -441,18 +442,18 @@ namespace TemperatureStoryTest
 	WeatherArea area("25,60");
 	const string fun = "temperature_dailymax";
 
-	NFmiSettings::Set("dailymax::comparison::significantly_higher","6");
-	NFmiSettings::Set("dailymax::comparison::higher","4");
-	NFmiSettings::Set("dailymax::comparison::somewhat_higher","2");
-	NFmiSettings::Set("dailymax::comparison::somewhat_lower","2");
-	NFmiSettings::Set("dailymax::comparison::lower","4");
-	NFmiSettings::Set("dailymax::comparison::significantly_lower","6");
-	NFmiSettings::Set("dailymax::mininterval","2");
-	NFmiSettings::Set("dailymax::always_interval_zero","true");
-	NFmiSettings::Set("dailymax::day::starthour","6");
-	NFmiSettings::Set("dailymax::day::endhour","18");
-	NFmiSettings::Set("dailymax::today::phrases","weekday");
-	NFmiSettings::Set("dailymax::next_day::phrases","followingday");
+	Settings::set("dailymax::comparison::significantly_higher","6");
+	Settings::set("dailymax::comparison::higher","4");
+	Settings::set("dailymax::comparison::somewhat_higher","2");
+	Settings::set("dailymax::comparison::somewhat_lower","2");
+	Settings::set("dailymax::comparison::lower","4");
+	Settings::set("dailymax::comparison::significantly_lower","6");
+	Settings::set("dailymax::mininterval","2");
+	Settings::set("dailymax::always_interval_zero","true");
+	Settings::set("dailymax::day::starthour","6");
+	Settings::set("dailymax::day::endhour","18");
+	Settings::set("dailymax::today::phrases","weekday");
+	Settings::set("dailymax::next_day::phrases","followingday");
 
 	// Test the part concerning day 1
 	{
@@ -461,51 +462,51 @@ namespace TemperatureStoryTest
 	  WeatherPeriod period(time1,time2);
 	  TemperatureStory story(time1,sources,area,period,"dailymax");
 	
-	  NFmiSettings::Set("dailymax::fake::day1::minimum","5,0");
-	  NFmiSettings::Set("dailymax::fake::day1::mean","5,0");
-	  NFmiSettings::Set("dailymax::fake::day1::maximum","5,0");
+	  Settings::set("dailymax::fake::day1::minimum","5,0");
+	  Settings::set("dailymax::fake::day1::mean","5,0");
+	  Settings::set("dailymax::fake::day1::maximum","5,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina noin 5 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen cirka 5 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday about 5 degrees.");
 
-	  NFmiSettings::Set("dailymax::fake::day1::minimum","5,0");
-	  NFmiSettings::Set("dailymax::fake::day1::mean","6,0");
-	  NFmiSettings::Set("dailymax::fake::day1::maximum","6,0");
+	  Settings::set("dailymax::fake::day1::minimum","5,0");
+	  Settings::set("dailymax::fake::day1::mean","6,0");
+	  Settings::set("dailymax::fake::day1::maximum","6,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina noin 6 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen cirka 6 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday about 6 degrees.");
 
-	  NFmiSettings::Set("dailymax::fake::day1::minimum","5,0");
-	  NFmiSettings::Set("dailymax::fake::day1::mean","6,0");
-	  NFmiSettings::Set("dailymax::fake::day1::maximum","7,0");
+	  Settings::set("dailymax::fake::day1::minimum","5,0");
+	  Settings::set("dailymax::fake::day1::mean","6,0");
+	  Settings::set("dailymax::fake::day1::maximum","7,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees.");
 
-	  NFmiSettings::Set("dailymax::fake::day1::minimum","0,0");
-	  NFmiSettings::Set("dailymax::fake::day1::mean","0,0");
-	  NFmiSettings::Set("dailymax::fake::day1::maximum","0,0");
+	  Settings::set("dailymax::fake::day1::minimum","0,0");
+	  Settings::set("dailymax::fake::day1::mean","0,0");
+	  Settings::set("dailymax::fake::day1::maximum","0,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina noin 0 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen cirka 0 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday about 0 degrees.");
 
-	  NFmiSettings::Set("dailymax::fake::day1::minimum","0,0");
-	  NFmiSettings::Set("dailymax::fake::day1::mean","0,0");
-	  NFmiSettings::Set("dailymax::fake::day1::maximum","1,0");
+	  Settings::set("dailymax::fake::day1::minimum","0,0");
+	  Settings::set("dailymax::fake::day1::mean","0,0");
+	  Settings::set("dailymax::fake::day1::maximum","1,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 0...+1 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 0...+1 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 0...+1 degrees.");
 
-	  NFmiSettings::Set("dailymax::fake::day1::minimum","-1,0");
-	  NFmiSettings::Set("dailymax::fake::day1::mean","0,0");
-	  NFmiSettings::Set("dailymax::fake::day1::maximum","0,0");
+	  Settings::set("dailymax::fake::day1::minimum","-1,0");
+	  Settings::set("dailymax::fake::day1::mean","0,0");
+	  Settings::set("dailymax::fake::day1::maximum","0,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 0...-1 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 0...-1 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 0...-1 degrees.");
 
-	  NFmiSettings::Set("dailymax::fake::day1::minimum","-1,0");
-	  NFmiSettings::Set("dailymax::fake::day1::mean","0,0");
-	  NFmiSettings::Set("dailymax::fake::day1::maximum","1,0");
+	  Settings::set("dailymax::fake::day1::minimum","-1,0");
+	  Settings::set("dailymax::fake::day1::mean","0,0");
+	  Settings::set("dailymax::fake::day1::maximum","1,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina -1...+1 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen -1...+1 grader.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday -1...+1 degrees.");
@@ -519,70 +520,70 @@ namespace TemperatureStoryTest
 	  WeatherPeriod period(time1,time2);
 	  TemperatureStory story(time1,sources,area,period,"dailymax");
 	
-	  NFmiSettings::Set("dailymax::fake::day1::minimum","5,0");
-	  NFmiSettings::Set("dailymax::fake::day1::mean","6,0");
-	  NFmiSettings::Set("dailymax::fake::day1::maximum","7,0");
+	  Settings::set("dailymax::fake::day1::minimum","5,0");
+	  Settings::set("dailymax::fake::day1::mean","6,0");
+	  Settings::set("dailymax::fake::day1::maximum","7,0");
 
 	  // change 0 degrees
-	  NFmiSettings::Set("dailymax::fake::day2::minimum","5,0");
-	  NFmiSettings::Set("dailymax::fake::day2::mean","6,0");
-	  NFmiSettings::Set("dailymax::fake::day2::maximum","7,0");
+	  Settings::set("dailymax::fake::day2::minimum","5,0");
+	  Settings::set("dailymax::fake::day2::mean","6,0");
+	  Settings::set("dailymax::fake::day2::maximum","7,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä suunnilleen sama.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag ungefär densamma.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day about the same.");
 
 	  // change 1 degrees
-	  NFmiSettings::Set("dailymax::fake::day2::minimum","6,0");
-	  NFmiSettings::Set("dailymax::fake::day2::mean","7,0");
-	  NFmiSettings::Set("dailymax::fake::day2::maximum","8,0");
+	  Settings::set("dailymax::fake::day2::minimum","6,0");
+	  Settings::set("dailymax::fake::day2::mean","7,0");
+	  Settings::set("dailymax::fake::day2::maximum","8,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä suunnilleen sama.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag ungefär densamma.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day about the same.");
 
 	  // change 2 degrees
-	  NFmiSettings::Set("dailymax::fake::day2::minimum","7,0");
-	  NFmiSettings::Set("dailymax::fake::day2::mean","8,0");
-	  NFmiSettings::Set("dailymax::fake::day2::maximum","9,0");
+	  Settings::set("dailymax::fake::day2::minimum","7,0");
+	  Settings::set("dailymax::fake::day2::mean","8,0");
+	  Settings::set("dailymax::fake::day2::maximum","9,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä hieman korkeampi.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag något högre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day somewhat higher.");
 
 	  // change 4 degrees
-	  NFmiSettings::Set("dailymax::fake::day2::minimum","9,0");
-	  NFmiSettings::Set("dailymax::fake::day2::mean","10,0");
-	  NFmiSettings::Set("dailymax::fake::day2::maximum","11,0");
+	  Settings::set("dailymax::fake::day2::minimum","9,0");
+	  Settings::set("dailymax::fake::day2::mean","10,0");
+	  Settings::set("dailymax::fake::day2::maximum","11,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä korkeampi.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag högre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day higher.");
 
 	  // change 6 degrees
-	  NFmiSettings::Set("dailymax::fake::day2::minimum","11,0");
-	  NFmiSettings::Set("dailymax::fake::day2::mean","12,0");
-	  NFmiSettings::Set("dailymax::fake::day2::maximum","13,0");
+	  Settings::set("dailymax::fake::day2::minimum","11,0");
+	  Settings::set("dailymax::fake::day2::mean","12,0");
+	  Settings::set("dailymax::fake::day2::maximum","13,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä huomattavasti korkeampi.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag betydligt högre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day significantly higher.");
 
 	  // change - 2 degrees
-	  NFmiSettings::Set("dailymax::fake::day2::minimum","3,0");
-	  NFmiSettings::Set("dailymax::fake::day2::mean","4,0");
-	  NFmiSettings::Set("dailymax::fake::day2::maximum","5,0");
+	  Settings::set("dailymax::fake::day2::minimum","3,0");
+	  Settings::set("dailymax::fake::day2::mean","4,0");
+	  Settings::set("dailymax::fake::day2::maximum","5,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä hieman alempi.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag något lägre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day somewhat lower.");
 
 	  // change -4 degrees
-	  NFmiSettings::Set("dailymax::fake::day2::minimum","1,0");
-	  NFmiSettings::Set("dailymax::fake::day2::mean","2,0");
-	  NFmiSettings::Set("dailymax::fake::day2::maximum","3,0");
+	  Settings::set("dailymax::fake::day2::minimum","1,0");
+	  Settings::set("dailymax::fake::day2::mean","2,0");
+	  Settings::set("dailymax::fake::day2::maximum","3,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä alempi.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag lägre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day lower.");
 
 	  // change -6 degrees
-	  NFmiSettings::Set("dailymax::fake::day2::minimum","-1,0");
-	  NFmiSettings::Set("dailymax::fake::day2::mean","0,0");
-	  NFmiSettings::Set("dailymax::fake::day2::maximum","1,0");
+	  Settings::set("dailymax::fake::day2::minimum","-1,0");
+	  Settings::set("dailymax::fake::day2::mean","0,0");
+	  Settings::set("dailymax::fake::day2::maximum","1,0");
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä huomattavasti alempi.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag betydligt lägre.");
 	  require(story,"en",fun,"The maximum day temperature is on Sunday 5...7 degrees, the following day significantly lower.");
@@ -596,21 +597,21 @@ namespace TemperatureStoryTest
 	  WeatherPeriod period(time1,time2);
 	  TemperatureStory story(time1,sources,area,period,"dailymax");
 	
-	  NFmiSettings::Set("dailymax::fake::day1::minimum","5,0");
-	  NFmiSettings::Set("dailymax::fake::day1::mean","6,0");
-	  NFmiSettings::Set("dailymax::fake::day1::maximum","7,0");
+	  Settings::set("dailymax::fake::day1::minimum","5,0");
+	  Settings::set("dailymax::fake::day1::mean","6,0");
+	  Settings::set("dailymax::fake::day1::maximum","7,0");
 
-	  NFmiSettings::Set("dailymax::fake::day2::minimum","5,0");
-	  NFmiSettings::Set("dailymax::fake::day2::mean","6,0");
-	  NFmiSettings::Set("dailymax::fake::day2::maximum","7,0");
+	  Settings::set("dailymax::fake::day2::minimum","5,0");
+	  Settings::set("dailymax::fake::day2::mean","6,0");
+	  Settings::set("dailymax::fake::day2::maximum","7,0");
 
-	  NFmiSettings::Set("dailymax::fake::day3::minimum","8,0");
-	  NFmiSettings::Set("dailymax::fake::day3::mean","10,0");
-	  NFmiSettings::Set("dailymax::fake::day3::maximum","12,0");
+	  Settings::set("dailymax::fake::day3::minimum","8,0");
+	  Settings::set("dailymax::fake::day3::mean","10,0");
+	  Settings::set("dailymax::fake::day3::maximum","12,0");
 
-	  NFmiSettings::Set("dailymax::fake::day4::minimum","3,0");
-	  NFmiSettings::Set("dailymax::fake::day4::mean","4,0");
-	  NFmiSettings::Set("dailymax::fake::day4::maximum","4,0");
+	  Settings::set("dailymax::fake::day4::minimum","3,0");
+	  Settings::set("dailymax::fake::day4::mean","4,0");
+	  Settings::set("dailymax::fake::day4::maximum","4,0");
 
 	  require(story,"fi",fun,"Päivän ylin lämpötila on sunnuntaina 5...7 astetta, seuraavana päivänä suunnilleen sama, tiistaina 8...12 astetta, keskiviikkona noin 4 astetta.");
 	  require(story,"sv",fun,"Dagens högsta temperatur är på söndagen 5...7 grader, följande dag ungefär densamma, på tisdagen 8...12 grader, på onsdagen cirka 4 grader.");
@@ -642,33 +643,33 @@ namespace TemperatureStoryTest
 
 	const string fun = "temperature_weekly_minmax";
 
-	NFmiSettings::Set("weekly_minmax::day::starthour","6");
-	NFmiSettings::Set("weekly_minmax::day::endhour","18");
-	NFmiSettings::Set("weekly_minmax::night::starthour","18");
-	NFmiSettings::Set("weekly_minmax::night::endhour","6");
+	Settings::set("weekly_minmax::day::starthour","6");
+	Settings::set("weekly_minmax::day::endhour","18");
+	Settings::set("weekly_minmax::night::starthour","18");
+	Settings::set("weekly_minmax::night::endhour","6");
 
-	NFmiSettings::Set("weekly_minmax::fake::day::minimum","10,0");
-	NFmiSettings::Set("weekly_minmax::fake::day::mean","12,0");
-	NFmiSettings::Set("weekly_minmax::fake::day::maximum","15,0");
-	NFmiSettings::Set("weekly_minmax::fake::night::minimum","2,0");
-	NFmiSettings::Set("weekly_minmax::fake::night::mean","4,0");
-	NFmiSettings::Set("weekly_minmax::fake::night::maximum","5,0");
+	Settings::set("weekly_minmax::fake::day::minimum","10,0");
+	Settings::set("weekly_minmax::fake::day::mean","12,0");
+	Settings::set("weekly_minmax::fake::day::maximum","15,0");
+	Settings::set("weekly_minmax::fake::night::minimum","2,0");
+	Settings::set("weekly_minmax::fake::night::mean","4,0");
+	Settings::set("weekly_minmax::fake::night::maximum","5,0");
 	require(story,"fi",fun,"Päivien ylin lämpötila on 10...15 astetta, öiden alin lämpötila 2...5 astetta.");
 	require(story,"sv",fun,"Dagens maximi temperaturer är 10...15 grader, nattens minimi temperaturer 2...5 grader.");
 	require(story,"en",fun,"Daily maximum temperature is 10...15 degrees, nightly minimum temperature 2...5 degrees.");
 
-	NFmiSettings::Set("weekly_minmax::night::mininterval","4");
+	Settings::set("weekly_minmax::night::mininterval","4");
 	require(story,"fi",fun,"Päivien ylin lämpötila on 10...15 astetta, öiden alin lämpötila noin 4 astetta.");
 	require(story,"sv",fun,"Dagens maximi temperaturer är 10...15 grader, nattens minimi temperaturer cirka 4 grader.");
 	require(story,"en",fun,"Daily maximum temperature is 10...15 degrees, nightly minimum temperature about 4 degrees.");
 
-	NFmiSettings::Set("weekly_minmax::day::mininterval","6");
-	NFmiSettings::Set("weekly_minmax::night::mininterval","2");
+	Settings::set("weekly_minmax::day::mininterval","6");
+	Settings::set("weekly_minmax::night::mininterval","2");
 	require(story,"fi",fun,"Päivien ylin lämpötila on noin 12 astetta, öiden alin lämpötila 2...5 astetta.");
 	require(story,"sv",fun,"Dagens maximi temperaturer är cirka 12 grader, nattens minimi temperaturer 2...5 grader.");
 	require(story,"en",fun,"Daily maximum temperature is about 12 degrees, nightly minimum temperature 2...5 degrees.");
 
-	NFmiSettings::Set("weekly_minmax::emphasize_night_minimum","true");
+	Settings::set("weekly_minmax::emphasize_night_minimum","true");
 	require(story,"fi",fun,"Päivien ylin lämpötila on noin 12 astetta, öiden alin lämpötila noin 2 astetta.");
 	require(story,"sv",fun,"Dagens maximi temperaturer är cirka 12 grader, nattens minimi temperaturer cirka 2 grader.");
 	require(story,"en",fun,"Daily maximum temperature is about 12 degrees, nightly minimum temperature about 2 degrees.");
@@ -697,28 +698,28 @@ namespace TemperatureStoryTest
 
 	const string fun = "temperature_weekly_averages";
 
-	NFmiSettings::Set("weekly_averages::day::starthour","6");
-	NFmiSettings::Set("weekly_averages::day::endhour","18");
-	NFmiSettings::Set("weekly_averages::night::starthour","18");
-	NFmiSettings::Set("weekly_averages::night::endhour","6");
+	Settings::set("weekly_averages::day::starthour","6");
+	Settings::set("weekly_averages::day::endhour","18");
+	Settings::set("weekly_averages::night::starthour","18");
+	Settings::set("weekly_averages::night::endhour","6");
 
-	NFmiSettings::Set("weekly_averages::fake::day::minimum","10,0");
-	NFmiSettings::Set("weekly_averages::fake::day::mean","12,0");
-	NFmiSettings::Set("weekly_averages::fake::day::maximum","15,0");
-	NFmiSettings::Set("weekly_averages::fake::night::minimum","2,0");
-	NFmiSettings::Set("weekly_averages::fake::night::mean","4,0");
-	NFmiSettings::Set("weekly_averages::fake::night::maximum","5,0");
+	Settings::set("weekly_averages::fake::day::minimum","10,0");
+	Settings::set("weekly_averages::fake::day::mean","12,0");
+	Settings::set("weekly_averages::fake::day::maximum","15,0");
+	Settings::set("weekly_averages::fake::night::minimum","2,0");
+	Settings::set("weekly_averages::fake::night::mean","4,0");
+	Settings::set("weekly_averages::fake::night::maximum","5,0");
 	require(story,"fi",fun,"Päivälämpötila on 10...15 astetta, yölämpötila 2...5 astetta.");
 	require(story,"sv",fun,"Dagstemperaturen är 10...15 grader, nattemperaturen 2...5 grader.");
 	require(story,"en",fun,"Daily temperature is 10...15 degrees, nightly temperature 2...5 degrees.");
 
-	NFmiSettings::Set("weekly_averages::night::mininterval","4");
+	Settings::set("weekly_averages::night::mininterval","4");
 	require(story,"fi",fun,"Päivälämpötila on 10...15 astetta, yölämpötila noin 4 astetta.");
 	require(story,"sv",fun,"Dagstemperaturen är 10...15 grader, nattemperaturen cirka 4 grader.");
 	require(story,"en",fun,"Daily temperature is 10...15 degrees, nightly temperature about 4 degrees.");
 
-	NFmiSettings::Set("weekly_averages::day::mininterval","6");
-	NFmiSettings::Set("weekly_averages::night::mininterval","2");
+	Settings::set("weekly_averages::day::mininterval","6");
+	Settings::set("weekly_averages::night::mininterval","2");
 	require(story,"fi",fun,"Päivälämpötila on noin 12 astetta, yölämpötila 2...5 astetta.");
 	require(story,"sv",fun,"Dagstemperaturen är cirka 12 grader, nattemperaturen 2...5 grader.");
 	require(story,"en",fun,"Daily temperature is about 12 degrees, nightly temperature 2...5 degrees.");
@@ -742,52 +743,52 @@ namespace TemperatureStoryTest
 	WeatherArea area("25,60");
 	const string fun = "temperature_range";
 
-	NFmiSettings::Set("range::mininterval","2");
-	NFmiSettings::Set("range::always_interval_zero","true");
+	Settings::set("range::mininterval","2");
+	Settings::set("range::always_interval_zero","true");
 
 	TextGenPosixTime time1(2003,6,1);
 	TextGenPosixTime time2(2003,6,2);
 	WeatherPeriod period(time1,time2);
 	TemperatureStory story(time1,sources,area,period,"range");
 	
-	NFmiSettings::Set("range::fake::minimum","5,0");
-	NFmiSettings::Set("range::fake::mean","5,0");
-	NFmiSettings::Set("range::fake::maximum","5,0");
+	Settings::set("range::fake::minimum","5,0");
+	Settings::set("range::fake::mean","5,0");
+	Settings::set("range::fake::maximum","5,0");
 	require(story,"fi",fun,"Lämpötila on noin 5 astetta.");
 	require(story,"sv",fun,"Temperaturen är cirka 5 grader.");
 	require(story,"en",fun,"Temperature is about 5 degrees.");
 	
-	NFmiSettings::Set("range::fake::minimum","5,0");
-	NFmiSettings::Set("range::fake::mean","6,0");
-	NFmiSettings::Set("range::fake::maximum","6,0");
+	Settings::set("range::fake::minimum","5,0");
+	Settings::set("range::fake::mean","6,0");
+	Settings::set("range::fake::maximum","6,0");
 	require(story,"fi",fun,"Lämpötila on noin 6 astetta.");
 	require(story,"sv",fun,"Temperaturen är cirka 6 grader.");
 	require(story,"en",fun,"Temperature is about 6 degrees.");
 	
-	NFmiSettings::Set("range::fake::minimum","5,0");
-	NFmiSettings::Set("range::fake::mean","6,0");
-	NFmiSettings::Set("range::fake::maximum","7,0");
+	Settings::set("range::fake::minimum","5,0");
+	Settings::set("range::fake::mean","6,0");
+	Settings::set("range::fake::maximum","7,0");
 	require(story,"fi",fun,"Lämpötila on 5...7 astetta.");
 	require(story,"sv",fun,"Temperaturen är 5...7 grader.");
 	require(story,"en",fun,"Temperature is 5...7 degrees.");
 	
-	NFmiSettings::Set("range::fake::minimum","0,0");
-	NFmiSettings::Set("range::fake::mean","0,0");
-	NFmiSettings::Set("range::fake::maximum","1,0");
+	Settings::set("range::fake::minimum","0,0");
+	Settings::set("range::fake::mean","0,0");
+	Settings::set("range::fake::maximum","1,0");
 	require(story,"fi",fun,"Lämpötila on 0...+1 astetta.");
 	require(story,"sv",fun,"Temperaturen är 0...+1 grader.");
 	require(story,"en",fun,"Temperature is 0...+1 degrees.");
 	
-	NFmiSettings::Set("range::fake::minimum","-1,0");
-	NFmiSettings::Set("range::fake::mean","0,0");
-	NFmiSettings::Set("range::fake::maximum","0,0");
+	Settings::set("range::fake::minimum","-1,0");
+	Settings::set("range::fake::mean","0,0");
+	Settings::set("range::fake::maximum","0,0");
 	require(story,"fi",fun,"Lämpötila on 0...-1 astetta.");
 	require(story,"sv",fun,"Temperaturen är 0...-1 grader.");
 	require(story,"en",fun,"Temperature is 0...-1 degrees.");
 	
-	NFmiSettings::Set("range::fake::minimum","-1,0");
-	NFmiSettings::Set("range::fake::mean","0,0");
-	NFmiSettings::Set("range::fake::maximum","1,0");
+	Settings::set("range::fake::minimum","-1,0");
+	Settings::set("range::fake::mean","0,0");
+	Settings::set("range::fake::maximum","1,0");
 	require(story,"fi",fun,"Lämpötila on -1...+1 astetta.");
 	require(story,"sv",fun,"Temperaturen är -1...+1 grader.");
 	require(story,"en",fun,"Temperature is -1...+1 degrees.");
@@ -1941,92 +1942,92 @@ namespace TemperatureStoryTest
 	  {
 		WindAnomalyTestParam* pTestParam = static_cast<WindAnomalyTestParam*>(iter->second);
 
-		NFmiSettings::Set("anomaly::fake::temperature::day2::morning::inland::min",
+		Settings::set("anomaly::fake::temperature::day2::morning::inland::min",
 						  pTestParam->temperature_d2_morning_inlandmin);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::morning::inland::max",
+		Settings::set("anomaly::fake::temperature::day2::morning::inland::max",
 						  pTestParam->temperature_d2_morning_inlandmax);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::morning::inland::mean",
+		Settings::set("anomaly::fake::temperature::day2::morning::inland::mean",
 						  pTestParam->temperature_d2_morning_inlandmean);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::morning::coast::min",
+		Settings::set("anomaly::fake::temperature::day2::morning::coast::min",
 						  pTestParam->temperature_d2_morning_coastmin);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::morning::coast::max",
+		Settings::set("anomaly::fake::temperature::day2::morning::coast::max",
 						  pTestParam->temperature_d2_morning_coastmax);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::morning::coast::mean",
+		Settings::set("anomaly::fake::temperature::day2::morning::coast::mean",
 						  pTestParam->temperature_d2_morning_coastmean);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::morning::area::min",
+		Settings::set("anomaly::fake::temperature::day2::morning::area::min",
 						  pTestParam->temperature_d2_morning_areamin);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::morning::area::max",
+		Settings::set("anomaly::fake::temperature::day2::morning::area::max",
 						  pTestParam->temperature_d2_morning_areamax);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::morning::area::mean",
+		Settings::set("anomaly::fake::temperature::day2::morning::area::mean",
 						  pTestParam->temperature_d2_morning_areamean);
 
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::min",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::inland::min",
 						  pTestParam->temperature_d2_afternoon_inlandmin);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::max",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::inland::max",
 						  pTestParam->temperature_d2_afternoon_inlandmax);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::mean",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::inland::mean",
 						  pTestParam->temperature_d2_afternoon_inlandmean);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::min",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::coast::min",
 						  pTestParam->temperature_d2_afternoon_coastmin);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::max",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::coast::max",
 						  pTestParam->temperature_d2_afternoon_coastmax);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::mean",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::coast::mean",
 						  pTestParam->temperature_d2_afternoon_coastmean);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::min",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::area::min",
 						  pTestParam->temperature_d2_afternoon_areamin);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::max",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::area::max",
 						  pTestParam->temperature_d2_afternoon_areamax);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::mean",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::area::mean",
 						  pTestParam->temperature_d2_afternoon_areamean);
 
-		NFmiSettings::Set("anomaly::fake::windspeed::morning::inland::min",
+		Settings::set("anomaly::fake::windspeed::morning::inland::min",
 						  pTestParam->anomaly_d2_windspeed_morning_inlandmin);
-		NFmiSettings::Set("anomaly::fake::windspeed::morning::inland::max",
+		Settings::set("anomaly::fake::windspeed::morning::inland::max",
 						  pTestParam->anomaly_d2_windspeed_morning_inlandmax);
-		NFmiSettings::Set("anomaly::fake::windspeed::morning::inland::mean",
+		Settings::set("anomaly::fake::windspeed::morning::inland::mean",
 						  pTestParam->anomaly_d2_windspeed_morning_inlandmean);
-		NFmiSettings::Set("anomaly::fake::windspeed::morning::coast::min",
+		Settings::set("anomaly::fake::windspeed::morning::coast::min",
 						  pTestParam->anomaly_d2_windspeed_morning_coastmin);
-		NFmiSettings::Set("anomaly::fake::windspeed::morning::coast::max",
+		Settings::set("anomaly::fake::windspeed::morning::coast::max",
 						  pTestParam->anomaly_d2_windspeed_morning_coastmax);
-		NFmiSettings::Set("anomaly::fake::windspeed::morning::coast::mean",
+		Settings::set("anomaly::fake::windspeed::morning::coast::mean",
 						  pTestParam->anomaly_d2_windspeed_morning_coastmean);
-		NFmiSettings::Set("anomaly::fake::windspeed::afternoon::inland::min",
+		Settings::set("anomaly::fake::windspeed::afternoon::inland::min",
 						  pTestParam->anomaly_d2_windspeed_afternoon_inlandmin);
-		NFmiSettings::Set("anomaly::fake::windspeed::afternoon::inland::max",
+		Settings::set("anomaly::fake::windspeed::afternoon::inland::max",
 						  pTestParam->anomaly_d2_windspeed_afternoon_inlandmax);
-		NFmiSettings::Set("anomaly::fake::windspeed::afternoon::inland::mean",
+		Settings::set("anomaly::fake::windspeed::afternoon::inland::mean",
 						  pTestParam->anomaly_d2_windspeed_afternoon_inlandmean);
-		NFmiSettings::Set("anomaly::fake::windspeed::afternoon::coast::min",
+		Settings::set("anomaly::fake::windspeed::afternoon::coast::min",
 						  pTestParam->anomaly_d2_windspeed_afternoon_coastmin);
-		NFmiSettings::Set("anomaly::fake::windspeed::afternoon::coast::max",
+		Settings::set("anomaly::fake::windspeed::afternoon::coast::max",
 						  pTestParam->anomaly_d2_windspeed_afternoon_coastmax);
-		NFmiSettings::Set("anomaly::fake::windspeed::afternoon::coast::mean",
+		Settings::set("anomaly::fake::windspeed::afternoon::coast::mean",
 						  pTestParam->anomaly_d2_windspeed_afternoon_coastmean);
 
-		NFmiSettings::Set("anomaly::fake::windchill::morning::inland::min",
+		Settings::set("anomaly::fake::windchill::morning::inland::min",
 						  pTestParam->anomaly_d2_windchill_morning_inlandmin);
-		NFmiSettings::Set("anomaly::fake::windchill::morning::inland::max",
+		Settings::set("anomaly::fake::windchill::morning::inland::max",
 						  pTestParam->anomaly_d2_windchill_morning_inlandmax);
-		NFmiSettings::Set("anomaly::fake::windchill::morning::inland::mean",
+		Settings::set("anomaly::fake::windchill::morning::inland::mean",
 						  pTestParam->anomaly_d2_windchill_morning_inlandmean);
-		NFmiSettings::Set("anomaly::fake::windchill::morning::coast::min",
+		Settings::set("anomaly::fake::windchill::morning::coast::min",
 						  pTestParam->anomaly_d2_windchill_morning_coastmin);
-		NFmiSettings::Set("anomaly::fake::windchill::morning::coast::max",
+		Settings::set("anomaly::fake::windchill::morning::coast::max",
 						  pTestParam->anomaly_d2_windchill_morning_coastmax);
-		NFmiSettings::Set("anomaly::fake::windchill::morning::coast::mean",
+		Settings::set("anomaly::fake::windchill::morning::coast::mean",
 						  pTestParam->anomaly_d2_windchill_morning_coastmean);
-		NFmiSettings::Set("anomaly::fake::windchill::afternoon::inland::min",
+		Settings::set("anomaly::fake::windchill::afternoon::inland::min",
 						  pTestParam->anomaly_d2_windchill_afternoon_inlandmin);
-		NFmiSettings::Set("anomaly::fake::windchill::afternoon::inland::max",
+		Settings::set("anomaly::fake::windchill::afternoon::inland::max",
 						  pTestParam->anomaly_d2_windchill_afternoon_inlandmax);
-		NFmiSettings::Set("anomaly::fake::windchill::afternoon::inland::mean",
+		Settings::set("anomaly::fake::windchill::afternoon::inland::mean",
 						  pTestParam->anomaly_d2_windchill_afternoon_inlandmean);
-		NFmiSettings::Set("anomaly::fake::windchill::afternoon::coast::min",
+		Settings::set("anomaly::fake::windchill::afternoon::coast::min",
 						  pTestParam->anomaly_d2_windchill_afternoon_coastmin);
-		NFmiSettings::Set("anomaly::fake::windchill::afternoon::coast::max",
+		Settings::set("anomaly::fake::windchill::afternoon::coast::max",
 						  pTestParam->anomaly_d2_windchill_afternoon_coastmax);
-		NFmiSettings::Set("anomaly::fake::windchill::afternoon::coast::mean",
+		Settings::set("anomaly::fake::windchill::afternoon::coast::mean",
 						  pTestParam->anomaly_d2_windchill_afternoon_coastmean);
 
 
@@ -2215,54 +2216,54 @@ namespace TemperatureStoryTest
 	  {
 		TemperatureAnomalyTestParam* pTestParam = static_cast<TemperatureAnomalyTestParam*>(iter->second);
 
-		NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::min",
+		Settings::set("anomaly::fake::temperature::day1::afternoon::inland::min",
 						  pTestParam->temperature_d1_afternoon_inlandmin);
-		NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::max",
+		Settings::set("anomaly::fake::temperature::day1::afternoon::inland::max",
 						  pTestParam->temperature_d1_afternoon_inlandmax);
-		NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::mean",
+		Settings::set("anomaly::fake::temperature::day1::afternoon::inland::mean",
 						  pTestParam->temperature_d1_afternoon_inlandmean);
-		NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::min",
+		Settings::set("anomaly::fake::temperature::day1::afternoon::coast::min",
 						  pTestParam->temperature_d1_afternoon_coastmin);
-		NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::max",
+		Settings::set("anomaly::fake::temperature::day1::afternoon::coast::max",
 						  pTestParam->temperature_d1_afternoon_coastmax);
-		NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::mean",
+		Settings::set("anomaly::fake::temperature::day1::afternoon::coast::mean",
 						  pTestParam->temperature_d1_afternoon_coastmean);
-		NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::min",
+		Settings::set("anomaly::fake::temperature::day1::afternoon::area::min",
 						  pTestParam->temperature_d1_afternoon_areamin);
-		NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::max",
+		Settings::set("anomaly::fake::temperature::day1::afternoon::area::max",
 						  pTestParam->temperature_d1_afternoon_areamax);
-		NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::mean",
+		Settings::set("anomaly::fake::temperature::day1::afternoon::area::mean",
 						  pTestParam->temperature_d1_afternoon_areamean);
 
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::min",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::inland::min",
 						  pTestParam->temperature_d2_afternoon_inlandmin);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::max",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::inland::max",
 						  pTestParam->temperature_d2_afternoon_inlandmax);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::mean",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::inland::mean",
 						  pTestParam->temperature_d2_afternoon_inlandmean);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::min",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::coast::min",
 						  pTestParam->temperature_d2_afternoon_coastmin);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::max",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::coast::max",
 						  pTestParam->temperature_d2_afternoon_coastmax);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::mean",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::coast::mean",
 						  pTestParam->temperature_d2_afternoon_coastmean);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::min",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::area::min",
 						  pTestParam->temperature_d2_afternoon_areamin);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::max",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::area::max",
 						  pTestParam->temperature_d2_afternoon_areamax);
-		NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::mean",
+		Settings::set("anomaly::fake::temperature::day2::afternoon::area::mean",
 						  pTestParam->temperature_d2_afternoon_areamean);
-		NFmiSettings::Set("anomaly::fake::temperature::day_before_day1::afternoon::area::min",
+		Settings::set("anomaly::fake::temperature::day_before_day1::afternoon::area::min",
 						  pTestParam->temperature_d1_afternoon_areamin);
-		NFmiSettings::Set("anomaly::fake::temperature::day_before_day1::afternoon::area::max",
+		Settings::set("anomaly::fake::temperature::day_before_day1::afternoon::area::max",
 						  pTestParam->temperature_d1_afternoon_areamax);
-		NFmiSettings::Set("anomaly::fake::temperature::day_before_day1::afternoon::area::mean",
+		Settings::set("anomaly::fake::temperature::day_before_day1::afternoon::area::mean",
 						  pTestParam->temperature_d1_afternoon_areamean);
-		NFmiSettings::Set("anomaly::fake::temperature::day_after_day2::afternoon::area::min",
+		Settings::set("anomaly::fake::temperature::day_after_day2::afternoon::area::min",
 						  pTestParam->temperature_d2_afternoon_areamin);
-		NFmiSettings::Set("anomaly::fake::temperature::day_after_day2::afternoon::area::max",
+		Settings::set("anomaly::fake::temperature::day_after_day2::afternoon::area::max",
 						  pTestParam->temperature_d2_afternoon_areamax);
-		NFmiSettings::Set("anomaly::fake::temperature::day_after_day2::afternoon::area::mean",
+		Settings::set("anomaly::fake::temperature::day_after_day2::afternoon::area::mean",
 						  pTestParam->temperature_d2_afternoon_areamean);
 
 		//	  TextGenPosixTime time1(2009, 1, 1, 6, 0, 0);
@@ -2276,16 +2277,16 @@ namespace TemperatureStoryTest
 		size_t index( pTestParam->temperature_d1_afternoon_areamean.find(","));
 		float mean_temperature(atof(pTestParam->temperature_d1_afternoon_areamean.substr(0, index).c_str()));
 
-		NFmiSettings::Set("anomaly::fake::fractile::share::F02", get_fractile_share(FRACTILE_02,
+		Settings::set("anomaly::fake::fractile::share::F02", get_fractile_share(FRACTILE_02,
 																					mean_temperature,
 																					time2));
-		NFmiSettings::Set("anomaly::fake::fractile::share::F12", get_fractile_share(FRACTILE_12,
+		Settings::set("anomaly::fake::fractile::share::F12", get_fractile_share(FRACTILE_12,
 																					mean_temperature,
 																					time2));
-		NFmiSettings::Set("anomaly::fake::fractile::share::F88", get_fractile_share(FRACTILE_88,
+		Settings::set("anomaly::fake::fractile::share::F88", get_fractile_share(FRACTILE_88,
 																					mean_temperature,
 																					time2));
-		NFmiSettings::Set("anomaly::fake::fractile::share::F98", get_fractile_share(FRACTILE_98,
+		Settings::set("anomaly::fake::fractile::share::F98", get_fractile_share(FRACTILE_98,
 																					mean_temperature,
 																					time2));
 	  
@@ -2310,75 +2311,75 @@ namespace TemperatureStoryTest
 	  {
 		param = static_cast<Max36HoursTestParam*>(iter->second);
 
-		NFmiSettings::Set("max36hours::fake::day1::inland::min",param->temperature_d1_inlandmin);
-		NFmiSettings::Set("max36hours::fake::day1::inland::max",param->temperature_d1_inlandmax);
-		NFmiSettings::Set("max36hours::fake::day1::inland::mean",param->temperature_d1_inlandmean);
-		NFmiSettings::Set("max36hours::fake::day1::coast::min",param->temperature_d1_coastmin);
-		NFmiSettings::Set("max36hours::fake::day1::coast::max",param->temperature_d1_coastmax);
-		NFmiSettings::Set("max36hours::fake::day1::coast::mean",param->temperature_d1_coastmean);
-		NFmiSettings::Set("max36hours::fake::day1::area::min",param->temperature_d1_areamin);
-		NFmiSettings::Set("max36hours::fake::day1::area::max",param->temperature_d1_areamax);
-		NFmiSettings::Set("max36hours::fake::day1::area::mean",param->temperature_d1_areamean);
+		Settings::set("max36hours::fake::day1::inland::min",param->temperature_d1_inlandmin);
+		Settings::set("max36hours::fake::day1::inland::max",param->temperature_d1_inlandmax);
+		Settings::set("max36hours::fake::day1::inland::mean",param->temperature_d1_inlandmean);
+		Settings::set("max36hours::fake::day1::coast::min",param->temperature_d1_coastmin);
+		Settings::set("max36hours::fake::day1::coast::max",param->temperature_d1_coastmax);
+		Settings::set("max36hours::fake::day1::coast::mean",param->temperature_d1_coastmean);
+		Settings::set("max36hours::fake::day1::area::min",param->temperature_d1_areamin);
+		Settings::set("max36hours::fake::day1::area::max",param->temperature_d1_areamax);
+		Settings::set("max36hours::fake::day1::area::mean",param->temperature_d1_areamean);
 
-		NFmiSettings::Set("max36hours::fake::day1::morning::inland::min",param->temperature_d1_morning_inlandmin);
-		NFmiSettings::Set("max36hours::fake::day1::morning::inland::max",param->temperature_d1_morning_inlandmax);
-		NFmiSettings::Set("max36hours::fake::day1::morning::inland::mean",param->temperature_d1_morning_inlandmean);
-		NFmiSettings::Set("max36hours::fake::day1::morning::coast::min",param->temperature_d1_morning_coastmin);
-		NFmiSettings::Set("max36hours::fake::day1::morning::coast::max",param->temperature_d1_morning_coastmax);
-		NFmiSettings::Set("max36hours::fake::day1::morning::coast::mean",param->temperature_d1_morning_coastmean);
-		NFmiSettings::Set("max36hours::fake::day1::morning::area::min",param->temperature_d1_morning_areamin);
-		NFmiSettings::Set("max36hours::fake::day1::morning::area::max",param->temperature_d1_morning_areamax);
-		NFmiSettings::Set("max36hours::fake::day1::morning::area::mean",param->temperature_d1_morning_areamean);
+		Settings::set("max36hours::fake::day1::morning::inland::min",param->temperature_d1_morning_inlandmin);
+		Settings::set("max36hours::fake::day1::morning::inland::max",param->temperature_d1_morning_inlandmax);
+		Settings::set("max36hours::fake::day1::morning::inland::mean",param->temperature_d1_morning_inlandmean);
+		Settings::set("max36hours::fake::day1::morning::coast::min",param->temperature_d1_morning_coastmin);
+		Settings::set("max36hours::fake::day1::morning::coast::max",param->temperature_d1_morning_coastmax);
+		Settings::set("max36hours::fake::day1::morning::coast::mean",param->temperature_d1_morning_coastmean);
+		Settings::set("max36hours::fake::day1::morning::area::min",param->temperature_d1_morning_areamin);
+		Settings::set("max36hours::fake::day1::morning::area::max",param->temperature_d1_morning_areamax);
+		Settings::set("max36hours::fake::day1::morning::area::mean",param->temperature_d1_morning_areamean);
 
-		NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::min",param->temperature_d1_afternoon_inlandmin);
-		NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::max",param->temperature_d1_afternoon_inlandmax);
-		NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::mean",param->temperature_d1_afternoon_inlandmean);
-		NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::min",param->temperature_d1_afternoon_coastmin);
-		NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::max",param->temperature_d1_afternoon_coastmax);
-		NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::mean",param->temperature_d1_afternoon_coastmean);
-		NFmiSettings::Set("max36hours::fake::day1::afternoon::area::min",param->temperature_d1_afternoon_areamin);
-		NFmiSettings::Set("max36hours::fake::day1::afternoon::area::max",param->temperature_d1_afternoon_areamax);
-		NFmiSettings::Set("max36hours::fake::day1::afternoon::area::mean",param->temperature_d1_afternoon_areamean);
+		Settings::set("max36hours::fake::day1::afternoon::inland::min",param->temperature_d1_afternoon_inlandmin);
+		Settings::set("max36hours::fake::day1::afternoon::inland::max",param->temperature_d1_afternoon_inlandmax);
+		Settings::set("max36hours::fake::day1::afternoon::inland::mean",param->temperature_d1_afternoon_inlandmean);
+		Settings::set("max36hours::fake::day1::afternoon::coast::min",param->temperature_d1_afternoon_coastmin);
+		Settings::set("max36hours::fake::day1::afternoon::coast::max",param->temperature_d1_afternoon_coastmax);
+		Settings::set("max36hours::fake::day1::afternoon::coast::mean",param->temperature_d1_afternoon_coastmean);
+		Settings::set("max36hours::fake::day1::afternoon::area::min",param->temperature_d1_afternoon_areamin);
+		Settings::set("max36hours::fake::day1::afternoon::area::max",param->temperature_d1_afternoon_areamax);
+		Settings::set("max36hours::fake::day1::afternoon::area::mean",param->temperature_d1_afternoon_areamean);
 
-		NFmiSettings::Set("max36hours::fake::night::inland::min",param->temperature_nite_inlandmin);
-		NFmiSettings::Set("max36hours::fake::night::inland::max",param->temperature_nite_inlandmax);
-		NFmiSettings::Set("max36hours::fake::night::inland::mean",param->temperature_nite_inlandmean);
-		NFmiSettings::Set("max36hours::fake::night::coast::min",param->temperature_nite_coastmin);
-		NFmiSettings::Set("max36hours::fake::night::coast::max",param->temperature_nite_coastmax);
-		NFmiSettings::Set("max36hours::fake::night::coast::mean",param->temperature_nite_coastmean);
-		NFmiSettings::Set("max36hours::fake::night::area::min",param->temperature_nite_areamin);
-		NFmiSettings::Set("max36hours::fake::night::area::max",param->temperature_nite_areamax);
-		NFmiSettings::Set("max36hours::fake::night::area::mean",param->temperature_nite_areamean);
+		Settings::set("max36hours::fake::night::inland::min",param->temperature_nite_inlandmin);
+		Settings::set("max36hours::fake::night::inland::max",param->temperature_nite_inlandmax);
+		Settings::set("max36hours::fake::night::inland::mean",param->temperature_nite_inlandmean);
+		Settings::set("max36hours::fake::night::coast::min",param->temperature_nite_coastmin);
+		Settings::set("max36hours::fake::night::coast::max",param->temperature_nite_coastmax);
+		Settings::set("max36hours::fake::night::coast::mean",param->temperature_nite_coastmean);
+		Settings::set("max36hours::fake::night::area::min",param->temperature_nite_areamin);
+		Settings::set("max36hours::fake::night::area::max",param->temperature_nite_areamax);
+		Settings::set("max36hours::fake::night::area::mean",param->temperature_nite_areamean);
 
-		NFmiSettings::Set("max36hours::fake::day2::inland::min",param->temperature_d2_inlandmin);
-		NFmiSettings::Set("max36hours::fake::day2::inland::max",param->temperature_d2_inlandmax);
-		NFmiSettings::Set("max36hours::fake::day2::inland::mean",param->temperature_d2_inlandmean);
-		NFmiSettings::Set("max36hours::fake::day2::coast::min",param->temperature_d2_coastmin);
-		NFmiSettings::Set("max36hours::fake::day2::coast::max",param->temperature_d2_coastmax);
-		NFmiSettings::Set("max36hours::fake::day2::coast::mean",param->temperature_d2_coastmean);
-		NFmiSettings::Set("max36hours::fake::day2::area::min",param->temperature_d2_areamin);
-		NFmiSettings::Set("max36hours::fake::day2::area::max",param->temperature_d2_areamax);
-		NFmiSettings::Set("max36hours::fake::day2::area::mean",param->temperature_d2_areamean);
+		Settings::set("max36hours::fake::day2::inland::min",param->temperature_d2_inlandmin);
+		Settings::set("max36hours::fake::day2::inland::max",param->temperature_d2_inlandmax);
+		Settings::set("max36hours::fake::day2::inland::mean",param->temperature_d2_inlandmean);
+		Settings::set("max36hours::fake::day2::coast::min",param->temperature_d2_coastmin);
+		Settings::set("max36hours::fake::day2::coast::max",param->temperature_d2_coastmax);
+		Settings::set("max36hours::fake::day2::coast::mean",param->temperature_d2_coastmean);
+		Settings::set("max36hours::fake::day2::area::min",param->temperature_d2_areamin);
+		Settings::set("max36hours::fake::day2::area::max",param->temperature_d2_areamax);
+		Settings::set("max36hours::fake::day2::area::mean",param->temperature_d2_areamean);
 
-		NFmiSettings::Set("max36hours::fake::day2::morning::inland::min",param->temperature_d2_morning_inlandmin);
-		NFmiSettings::Set("max36hours::fake::day2::morning::inland::max",param->temperature_d2_morning_inlandmax);
-		NFmiSettings::Set("max36hours::fake::day2::morning::inland::mean",param->temperature_d2_morning_inlandmean);
-		NFmiSettings::Set("max36hours::fake::day2::morning::coast::min",param->temperature_d2_morning_coastmin);
-		NFmiSettings::Set("max36hours::fake::day2::morning::coast::max",param->temperature_d2_morning_coastmax);
-		NFmiSettings::Set("max36hours::fake::day2::morning::coast::mean",param->temperature_d2_morning_coastmean);
-		NFmiSettings::Set("max36hours::fake::day2::morning::area::min",param->temperature_d2_morning_areamin);
-		NFmiSettings::Set("max36hours::fake::day2::morning::area::max",param->temperature_d2_morning_areamax);
-		NFmiSettings::Set("max36hours::fake::day2::morning::area::mean",param->temperature_d2_morning_areamean);
+		Settings::set("max36hours::fake::day2::morning::inland::min",param->temperature_d2_morning_inlandmin);
+		Settings::set("max36hours::fake::day2::morning::inland::max",param->temperature_d2_morning_inlandmax);
+		Settings::set("max36hours::fake::day2::morning::inland::mean",param->temperature_d2_morning_inlandmean);
+		Settings::set("max36hours::fake::day2::morning::coast::min",param->temperature_d2_morning_coastmin);
+		Settings::set("max36hours::fake::day2::morning::coast::max",param->temperature_d2_morning_coastmax);
+		Settings::set("max36hours::fake::day2::morning::coast::mean",param->temperature_d2_morning_coastmean);
+		Settings::set("max36hours::fake::day2::morning::area::min",param->temperature_d2_morning_areamin);
+		Settings::set("max36hours::fake::day2::morning::area::max",param->temperature_d2_morning_areamax);
+		Settings::set("max36hours::fake::day2::morning::area::mean",param->temperature_d2_morning_areamean);
 
-		NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::min",param->temperature_d2_afternoon_inlandmin);
-		NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::max",param->temperature_d2_afternoon_inlandmax);
-		NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::mean",param->temperature_d2_afternoon_inlandmean);
-		NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::min",param->temperature_d2_afternoon_coastmin);
-		NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::max",param->temperature_d2_afternoon_coastmax);
-		NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::mean",param->temperature_d2_afternoon_coastmean);
-		NFmiSettings::Set("max36hours::fake::day2::afternoon::area::min",param->temperature_d2_afternoon_areamin);
-		NFmiSettings::Set("max36hours::fake::day2::afternoon::area::max",param->temperature_d2_afternoon_areamax);
-		NFmiSettings::Set("max36hours::fake::day2::afternoon::area::mean",param->temperature_d2_afternoon_areamean);
+		Settings::set("max36hours::fake::day2::afternoon::inland::min",param->temperature_d2_afternoon_inlandmin);
+		Settings::set("max36hours::fake::day2::afternoon::inland::max",param->temperature_d2_afternoon_inlandmax);
+		Settings::set("max36hours::fake::day2::afternoon::inland::mean",param->temperature_d2_afternoon_inlandmean);
+		Settings::set("max36hours::fake::day2::afternoon::coast::min",param->temperature_d2_afternoon_coastmin);
+		Settings::set("max36hours::fake::day2::afternoon::coast::max",param->temperature_d2_afternoon_coastmax);
+		Settings::set("max36hours::fake::day2::afternoon::coast::mean",param->temperature_d2_afternoon_coastmean);
+		Settings::set("max36hours::fake::day2::afternoon::area::min",param->temperature_d2_afternoon_areamin);
+		Settings::set("max36hours::fake::day2::afternoon::area::max",param->temperature_d2_afternoon_areamax);
+		Settings::set("max36hours::fake::day2::afternoon::area::mean",param->temperature_d2_afternoon_areamean);
 
 
 		TextGenPosixTime time1(2009,6,1,6,0,0);
@@ -6592,81 +6593,81 @@ namespace TemperatureStoryTest
 		  {
 			param = static_cast<Max36HoursTestParam*>(iter->second);
 
-			NFmiSettings::Set("max36hours::fake::day1::inland::min",param->temperature_d1_inlandmin);
-			NFmiSettings::Set("max36hours::fake::day1::inland::max",param->temperature_d1_inlandmax);
-			NFmiSettings::Set("max36hours::fake::day1::inland::mean",param->temperature_d1_inlandmean);
-			NFmiSettings::Set("max36hours::fake::day1::coast::min",param->temperature_d1_coastmin);
-			NFmiSettings::Set("max36hours::fake::day1::coast::max",param->temperature_d1_coastmax);
-			NFmiSettings::Set("max36hours::fake::day1::coast::mean",param->temperature_d1_coastmean);
-			NFmiSettings::Set("max36hours::fake::day1::area::min",param->temperature_d1_areamin);
-			NFmiSettings::Set("max36hours::fake::day1::area::max",param->temperature_d1_areamax);
-			NFmiSettings::Set("max36hours::fake::day1::area::mean",param->temperature_d1_areamean);
+			Settings::set("max36hours::fake::day1::inland::min",param->temperature_d1_inlandmin);
+			Settings::set("max36hours::fake::day1::inland::max",param->temperature_d1_inlandmax);
+			Settings::set("max36hours::fake::day1::inland::mean",param->temperature_d1_inlandmean);
+			Settings::set("max36hours::fake::day1::coast::min",param->temperature_d1_coastmin);
+			Settings::set("max36hours::fake::day1::coast::max",param->temperature_d1_coastmax);
+			Settings::set("max36hours::fake::day1::coast::mean",param->temperature_d1_coastmean);
+			Settings::set("max36hours::fake::day1::area::min",param->temperature_d1_areamin);
+			Settings::set("max36hours::fake::day1::area::max",param->temperature_d1_areamax);
+			Settings::set("max36hours::fake::day1::area::mean",param->temperature_d1_areamean);
 
-			NFmiSettings::Set("max36hours::fake::day1::morning::inland::min",param->temperature_d1_morning_inlandmin);
-			NFmiSettings::Set("max36hours::fake::day1::morning::inland::max",param->temperature_d1_morning_inlandmax);
-			NFmiSettings::Set("max36hours::fake::day1::morning::inland::mean",param->temperature_d1_morning_inlandmean);
-			NFmiSettings::Set("max36hours::fake::day1::morning::coast::min",param->temperature_d1_morning_coastmin);
-			NFmiSettings::Set("max36hours::fake::day1::morning::coast::max",param->temperature_d1_morning_coastmax);
-			NFmiSettings::Set("max36hours::fake::day1::morning::coast::mean",param->temperature_d1_morning_coastmean);
-			NFmiSettings::Set("max36hours::fake::day1::morning::area::min",param->temperature_d1_morning_areamin);
-			NFmiSettings::Set("max36hours::fake::day1::morning::area::max",param->temperature_d1_morning_areamax);
-			NFmiSettings::Set("max36hours::fake::day1::morning::area::mean",param->temperature_d1_morning_areamean);
+			Settings::set("max36hours::fake::day1::morning::inland::min",param->temperature_d1_morning_inlandmin);
+			Settings::set("max36hours::fake::day1::morning::inland::max",param->temperature_d1_morning_inlandmax);
+			Settings::set("max36hours::fake::day1::morning::inland::mean",param->temperature_d1_morning_inlandmean);
+			Settings::set("max36hours::fake::day1::morning::coast::min",param->temperature_d1_morning_coastmin);
+			Settings::set("max36hours::fake::day1::morning::coast::max",param->temperature_d1_morning_coastmax);
+			Settings::set("max36hours::fake::day1::morning::coast::mean",param->temperature_d1_morning_coastmean);
+			Settings::set("max36hours::fake::day1::morning::area::min",param->temperature_d1_morning_areamin);
+			Settings::set("max36hours::fake::day1::morning::area::max",param->temperature_d1_morning_areamax);
+			Settings::set("max36hours::fake::day1::morning::area::mean",param->temperature_d1_morning_areamean);
 
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::min",param->temperature_d1_afternoon_inlandmin);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::max",param->temperature_d1_afternoon_inlandmax);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::inland::mean",param->temperature_d1_afternoon_inlandmean);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::min",param->temperature_d1_afternoon_coastmin);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::max",param->temperature_d1_afternoon_coastmax);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::coast::mean",param->temperature_d1_afternoon_coastmean);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::min",param->temperature_d1_afternoon_areamin);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::max",param->temperature_d1_afternoon_areamax);
-			NFmiSettings::Set("max36hours::fake::day1::afternoon::area::mean",param->temperature_d1_afternoon_areamean);
-			NFmiSettings::Set("max36hours::fake::temperature::day_before_day1::afternoon::area::min",param->temperature_d1_afternoon_areamin);
-			NFmiSettings::Set("max36hours::fake::temperature::day_before_day1::afternoon::area::max",param->temperature_d1_afternoon_areamax);
-			NFmiSettings::Set("max36hours::fake::temperature::day_before_day1::afternoon::area::mean",param->temperature_d1_afternoon_areamean);
+			Settings::set("max36hours::fake::day1::afternoon::inland::min",param->temperature_d1_afternoon_inlandmin);
+			Settings::set("max36hours::fake::day1::afternoon::inland::max",param->temperature_d1_afternoon_inlandmax);
+			Settings::set("max36hours::fake::day1::afternoon::inland::mean",param->temperature_d1_afternoon_inlandmean);
+			Settings::set("max36hours::fake::day1::afternoon::coast::min",param->temperature_d1_afternoon_coastmin);
+			Settings::set("max36hours::fake::day1::afternoon::coast::max",param->temperature_d1_afternoon_coastmax);
+			Settings::set("max36hours::fake::day1::afternoon::coast::mean",param->temperature_d1_afternoon_coastmean);
+			Settings::set("max36hours::fake::day1::afternoon::area::min",param->temperature_d1_afternoon_areamin);
+			Settings::set("max36hours::fake::day1::afternoon::area::max",param->temperature_d1_afternoon_areamax);
+			Settings::set("max36hours::fake::day1::afternoon::area::mean",param->temperature_d1_afternoon_areamean);
+			Settings::set("max36hours::fake::temperature::day_before_day1::afternoon::area::min",param->temperature_d1_afternoon_areamin);
+			Settings::set("max36hours::fake::temperature::day_before_day1::afternoon::area::max",param->temperature_d1_afternoon_areamax);
+			Settings::set("max36hours::fake::temperature::day_before_day1::afternoon::area::mean",param->temperature_d1_afternoon_areamean);
 
-			NFmiSettings::Set("max36hours::fake::night::inland::min",param->temperature_nite_inlandmin);
-			NFmiSettings::Set("max36hours::fake::night::inland::max",param->temperature_nite_inlandmax);
-			NFmiSettings::Set("max36hours::fake::night::inland::mean",param->temperature_nite_inlandmean);
-			NFmiSettings::Set("max36hours::fake::night::coast::min",param->temperature_nite_coastmin);
-			NFmiSettings::Set("max36hours::fake::night::coast::max",param->temperature_nite_coastmax);
-			NFmiSettings::Set("max36hours::fake::night::coast::mean",param->temperature_nite_coastmean);
-			NFmiSettings::Set("max36hours::fake::night::area::min",param->temperature_nite_areamin);
-			NFmiSettings::Set("max36hours::fake::night::area::max",param->temperature_nite_areamax);
-			NFmiSettings::Set("max36hours::fake::night::area::mean",param->temperature_nite_areamean);
+			Settings::set("max36hours::fake::night::inland::min",param->temperature_nite_inlandmin);
+			Settings::set("max36hours::fake::night::inland::max",param->temperature_nite_inlandmax);
+			Settings::set("max36hours::fake::night::inland::mean",param->temperature_nite_inlandmean);
+			Settings::set("max36hours::fake::night::coast::min",param->temperature_nite_coastmin);
+			Settings::set("max36hours::fake::night::coast::max",param->temperature_nite_coastmax);
+			Settings::set("max36hours::fake::night::coast::mean",param->temperature_nite_coastmean);
+			Settings::set("max36hours::fake::night::area::min",param->temperature_nite_areamin);
+			Settings::set("max36hours::fake::night::area::max",param->temperature_nite_areamax);
+			Settings::set("max36hours::fake::night::area::mean",param->temperature_nite_areamean);
 
-			NFmiSettings::Set("max36hours::fake::day2::inland::min",param->temperature_d2_inlandmin);
-			NFmiSettings::Set("max36hours::fake::day2::inland::max",param->temperature_d2_inlandmax);
-			NFmiSettings::Set("max36hours::fake::day2::inland::mean",param->temperature_d2_inlandmean);
-			NFmiSettings::Set("max36hours::fake::day2::coast::min",param->temperature_d2_coastmin);
-			NFmiSettings::Set("max36hours::fake::day2::coast::max",param->temperature_d2_coastmax);
-			NFmiSettings::Set("max36hours::fake::day2::coast::mean",param->temperature_d2_coastmean);
-			NFmiSettings::Set("max36hours::fake::day2::area::min",param->temperature_d2_areamin);
-			NFmiSettings::Set("max36hours::fake::day2::area::max",param->temperature_d2_areamax);
-			NFmiSettings::Set("max36hours::fake::day2::area::mean",param->temperature_d2_areamean);
+			Settings::set("max36hours::fake::day2::inland::min",param->temperature_d2_inlandmin);
+			Settings::set("max36hours::fake::day2::inland::max",param->temperature_d2_inlandmax);
+			Settings::set("max36hours::fake::day2::inland::mean",param->temperature_d2_inlandmean);
+			Settings::set("max36hours::fake::day2::coast::min",param->temperature_d2_coastmin);
+			Settings::set("max36hours::fake::day2::coast::max",param->temperature_d2_coastmax);
+			Settings::set("max36hours::fake::day2::coast::mean",param->temperature_d2_coastmean);
+			Settings::set("max36hours::fake::day2::area::min",param->temperature_d2_areamin);
+			Settings::set("max36hours::fake::day2::area::max",param->temperature_d2_areamax);
+			Settings::set("max36hours::fake::day2::area::mean",param->temperature_d2_areamean);
 
-			NFmiSettings::Set("max36hours::fake::day2::morning::inland::min",param->temperature_d2_morning_inlandmin);
-			NFmiSettings::Set("max36hours::fake::day2::morning::inland::max",param->temperature_d2_morning_inlandmax);
-			NFmiSettings::Set("max36hours::fake::day2::morning::inland::mean",param->temperature_d2_morning_inlandmean);
-			NFmiSettings::Set("max36hours::fake::day2::morning::coast::min",param->temperature_d2_morning_coastmin);
-			NFmiSettings::Set("max36hours::fake::day2::morning::coast::max",param->temperature_d2_morning_coastmax);
-			NFmiSettings::Set("max36hours::fake::day2::morning::coast::mean",param->temperature_d2_morning_coastmean);
-			NFmiSettings::Set("max36hours::fake::day2::morning::area::min",param->temperature_d2_morning_areamin);
-			NFmiSettings::Set("max36hours::fake::day2::morning::area::max",param->temperature_d2_morning_areamax);
-			NFmiSettings::Set("max36hours::fake::day2::morning::area::mean",param->temperature_d2_morning_areamean);
+			Settings::set("max36hours::fake::day2::morning::inland::min",param->temperature_d2_morning_inlandmin);
+			Settings::set("max36hours::fake::day2::morning::inland::max",param->temperature_d2_morning_inlandmax);
+			Settings::set("max36hours::fake::day2::morning::inland::mean",param->temperature_d2_morning_inlandmean);
+			Settings::set("max36hours::fake::day2::morning::coast::min",param->temperature_d2_morning_coastmin);
+			Settings::set("max36hours::fake::day2::morning::coast::max",param->temperature_d2_morning_coastmax);
+			Settings::set("max36hours::fake::day2::morning::coast::mean",param->temperature_d2_morning_coastmean);
+			Settings::set("max36hours::fake::day2::morning::area::min",param->temperature_d2_morning_areamin);
+			Settings::set("max36hours::fake::day2::morning::area::max",param->temperature_d2_morning_areamax);
+			Settings::set("max36hours::fake::day2::morning::area::mean",param->temperature_d2_morning_areamean);
 
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::min",param->temperature_d2_afternoon_inlandmin);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::max",param->temperature_d2_afternoon_inlandmax);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::inland::mean",param->temperature_d2_afternoon_inlandmean);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::min",param->temperature_d2_afternoon_coastmin);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::max",param->temperature_d2_afternoon_coastmax);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::coast::mean",param->temperature_d2_afternoon_coastmean);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::min",param->temperature_d2_afternoon_areamin);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::max",param->temperature_d2_afternoon_areamax);
-			NFmiSettings::Set("max36hours::fake::day2::afternoon::area::mean",param->temperature_d2_afternoon_areamean);
-			NFmiSettings::Set("max36hours::fake::temperature::day_before_day1::afternoon::area::min",param->temperature_d2_afternoon_areamin);
-			NFmiSettings::Set("max36hours::fake::temperature::day_before_day1::afternoon::area::max",param->temperature_d2_afternoon_areamax);
-			NFmiSettings::Set("max36hours::fake::temperature::day_before_day1::afternoon::area::mean",param->temperature_d2_afternoon_areamean);
+			Settings::set("max36hours::fake::day2::afternoon::inland::min",param->temperature_d2_afternoon_inlandmin);
+			Settings::set("max36hours::fake::day2::afternoon::inland::max",param->temperature_d2_afternoon_inlandmax);
+			Settings::set("max36hours::fake::day2::afternoon::inland::mean",param->temperature_d2_afternoon_inlandmean);
+			Settings::set("max36hours::fake::day2::afternoon::coast::min",param->temperature_d2_afternoon_coastmin);
+			Settings::set("max36hours::fake::day2::afternoon::coast::max",param->temperature_d2_afternoon_coastmax);
+			Settings::set("max36hours::fake::day2::afternoon::coast::mean",param->temperature_d2_afternoon_coastmean);
+			Settings::set("max36hours::fake::day2::afternoon::area::min",param->temperature_d2_afternoon_areamin);
+			Settings::set("max36hours::fake::day2::afternoon::area::max",param->temperature_d2_afternoon_areamax);
+			Settings::set("max36hours::fake::day2::afternoon::area::mean",param->temperature_d2_afternoon_areamean);
+			Settings::set("max36hours::fake::temperature::day_before_day1::afternoon::area::min",param->temperature_d2_afternoon_areamin);
+			Settings::set("max36hours::fake::temperature::day_before_day1::afternoon::area::max",param->temperature_d2_afternoon_areamax);
+			Settings::set("max36hours::fake::temperature::day_before_day1::afternoon::area::mean",param->temperature_d2_afternoon_areamean);
 
 			require(story1,languages[i],fun,param->theStory);
 		  }
@@ -6682,16 +6683,16 @@ namespace TemperatureStoryTest
 	using namespace TextGen;
 	using namespace TextGen;
 
-	NFmiSettings::Set("textgen::tmax_climatology","/smartmet/data/climate/suomi/daily/querydata/1970-2001/tmax_textgen.sqd");
-	NFmiSettings::Set("textgen::fractiles_climatology","/smartmet/data/climate/suomi/daily/querydata/1970-2001/tmax_textgen.sqd");
-	NFmiSettings::Set("max36hours::fake::fractile02_limit", "2.0");
-	NFmiSettings::Set("max36hours::day::starthour","6");
-	NFmiSettings::Set("max36hours::day::maxstarthour","11");
-	NFmiSettings::Set("max36hours::day::endhour","18");
-	NFmiSettings::Set("max36hours::night::starthour","18");
-	NFmiSettings::Set("max36hours::night::endhour","6");
-	NFmiSettings::Set("max36hours::fake::area_percentage", "10.0");
-	NFmiSettings::Set("max36hours::fake::growing_season_on", "false");
+	Settings::set("textgen::tmax_climatology","/smartmet/data/climate/suomi/daily/querydata/1970-2001/tmax_textgen.sqd");
+	Settings::set("textgen::fractiles_climatology","/smartmet/data/climate/suomi/daily/querydata/1970-2001/tmax_textgen.sqd");
+	Settings::set("max36hours::fake::fractile02_limit", "2.0");
+	Settings::set("max36hours::day::starthour","6");
+	Settings::set("max36hours::day::maxstarthour","11");
+	Settings::set("max36hours::day::endhour","18");
+	Settings::set("max36hours::night::starthour","18");
+	Settings::set("max36hours::night::endhour","6");
+	Settings::set("max36hours::fake::area_percentage", "10.0");
+	Settings::set("max36hours::fake::growing_season_on", "false");
 
 
 	TextGenPosixTime summertime1(2009, 6, 1, 6, 0, 0);
@@ -6748,68 +6749,68 @@ namespace TemperatureStoryTest
 			size_t index(param->temperature_d1_afternoon_areamean.find(","));
 			float mean_temperature(atof(param->temperature_d1_afternoon_areamean.substr(0, index).c_str()));
 			
-			NFmiSettings::Set("anomaly::fake::fractile::share::F02", get_fractile_share(FRACTILE_02,
+			Settings::set("anomaly::fake::fractile::share::F02", get_fractile_share(FRACTILE_02,
 																						mean_temperature,
 																						period.localEndTime()));
-			NFmiSettings::Set("anomaly::fake::fractile::share::F12", get_fractile_share(FRACTILE_12,
+			Settings::set("anomaly::fake::fractile::share::F12", get_fractile_share(FRACTILE_12,
 																						mean_temperature,
 																						period.localEndTime()));
-			NFmiSettings::Set("anomaly::fake::fractile::share::F88", get_fractile_share(FRACTILE_88,
+			Settings::set("anomaly::fake::fractile::share::F88", get_fractile_share(FRACTILE_88,
 																						mean_temperature,
 																						period.localEndTime()));
-			NFmiSettings::Set("anomaly::fake::fractile::share::F98", get_fractile_share(FRACTILE_98,
+			Settings::set("anomaly::fake::fractile::share::F98", get_fractile_share(FRACTILE_98,
 																						mean_temperature,
 																						period.localEndTime()));
 				
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::min",
+			Settings::set("anomaly::fake::temperature::day1::afternoon::area::min",
 							  param->temperature_d1_afternoon_areamin);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::max",
+			Settings::set("anomaly::fake::temperature::day1::afternoon::area::max",
 							  param->temperature_d1_afternoon_areamax);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::area::mean",
+			Settings::set("anomaly::fake::temperature::day1::afternoon::area::mean",
 							  param->temperature_d1_afternoon_areamean);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::min",
+			Settings::set("anomaly::fake::temperature::day1::afternoon::inland::min",
 							  param->temperature_d1_afternoon_inlandmin);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::max",
+			Settings::set("anomaly::fake::temperature::day1::afternoon::inland::max",
 							  param->temperature_d1_afternoon_inlandmax);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::inland::mean",
+			Settings::set("anomaly::fake::temperature::day1::afternoon::inland::mean",
 							  param->temperature_d1_afternoon_inlandmean);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::min",
+			Settings::set("anomaly::fake::temperature::day1::afternoon::coast::min",
 							  param->temperature_d1_afternoon_coastmin);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::max",
+			Settings::set("anomaly::fake::temperature::day1::afternoon::coast::max",
 							  param->temperature_d1_afternoon_coastmax);
-			NFmiSettings::Set("anomaly::fake::temperature::day1::afternoon::coast::mean",
+			Settings::set("anomaly::fake::temperature::day1::afternoon::coast::mean",
 							  param->temperature_d1_afternoon_coastmean);
 
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::min",
+			Settings::set("anomaly::fake::temperature::day2::afternoon::area::min",
 							  param->temperature_d2_afternoon_areamin);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::max",
+			Settings::set("anomaly::fake::temperature::day2::afternoon::area::max",
 							  param->temperature_d2_afternoon_areamax);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::area::mean",
+			Settings::set("anomaly::fake::temperature::day2::afternoon::area::mean",
 							  param->temperature_d2_afternoon_areamean);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::min",
+			Settings::set("anomaly::fake::temperature::day2::afternoon::inland::min",
 							  param->temperature_d2_afternoon_inlandmin);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::max",
+			Settings::set("anomaly::fake::temperature::day2::afternoon::inland::max",
 							  param->temperature_d2_afternoon_inlandmax);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::inland::mean",
+			Settings::set("anomaly::fake::temperature::day2::afternoon::inland::mean",
 							  param->temperature_d2_afternoon_inlandmean);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::min",
+			Settings::set("anomaly::fake::temperature::day2::afternoon::coast::min",
 							  param->temperature_d2_afternoon_coastmin);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::max",
+			Settings::set("anomaly::fake::temperature::day2::afternoon::coast::max",
 							  param->temperature_d2_afternoon_coastmax);
-			NFmiSettings::Set("anomaly::fake::temperature::day2::afternoon::coast::mean",
+			Settings::set("anomaly::fake::temperature::day2::afternoon::coast::mean",
 							  param->temperature_d2_afternoon_coastmean);
 
-			NFmiSettings::Set("anomaly::fake::temperature::day_before_day1::afternoon::area::min",
+			Settings::set("anomaly::fake::temperature::day_before_day1::afternoon::area::min",
 							  param->temperature_d1_afternoon_areamin);
-			NFmiSettings::Set("anomaly::fake::temperature::day_before_day1::afternoon::area::max",
+			Settings::set("anomaly::fake::temperature::day_before_day1::afternoon::area::max",
 							  param->temperature_d1_afternoon_areamax);
-			NFmiSettings::Set("anomaly::fake::temperature::day_before_day1::afternoon::area::mean",
+			Settings::set("anomaly::fake::temperature::day_before_day1::afternoon::area::mean",
 							  param->temperature_d1_afternoon_areamean);
-			NFmiSettings::Set("anomaly::fake::temperature::day_after_day2::afternoon::area::min",
+			Settings::set("anomaly::fake::temperature::day_after_day2::afternoon::area::min",
 							  param->temperature_d2_afternoon_areamin);
-			NFmiSettings::Set("anomaly::fake::temperature::day_after_day2::afternoon::area::max",
+			Settings::set("anomaly::fake::temperature::day_after_day2::afternoon::area::max",
 							  param->temperature_d2_afternoon_areamax);
-			NFmiSettings::Set("anomaly::fake::temperature::day_after_day2::afternoon::area::mean",
+			Settings::set("anomaly::fake::temperature::day_after_day2::afternoon::area::mean",
 							  param->temperature_d2_afternoon_areamean);
 
 
@@ -6827,32 +6828,32 @@ namespace TemperatureStoryTest
 	using namespace TextGen;
 	using namespace TextGen;
 
-	NFmiSettings::Set("textgen::tmax_climatology","/smartmet/data/climate/suomi/daily/querydata/1970-2001/tmax_textgen.sqd");
-	NFmiSettings::Set("textgen::fractiles_climatology","/smartmet/data/climate/suomi/daily/querydata/1970-2001/tmax_textgen.sqd");
-	NFmiSettings::Set("anomaly::fake::fractile02_limit", "2.0");
-	NFmiSettings::Set("anomaly::day::starthour","6");
-	NFmiSettings::Set("anomaly::day::maxstarthour","11");
-	NFmiSettings::Set("anomaly::day::endhour","18");
-	NFmiSettings::Set("anomaly::night::starthour","18");
-	NFmiSettings::Set("anomaly::night::endhour","6");
+	Settings::set("textgen::tmax_climatology","/smartmet/data/climate/suomi/daily/querydata/1970-2001/tmax_textgen.sqd");
+	Settings::set("textgen::fractiles_climatology","/smartmet/data/climate/suomi/daily/querydata/1970-2001/tmax_textgen.sqd");
+	Settings::set("anomaly::fake::fractile02_limit", "2.0");
+	Settings::set("anomaly::day::starthour","6");
+	Settings::set("anomaly::day::maxstarthour","11");
+	Settings::set("anomaly::day::endhour","18");
+	Settings::set("anomaly::night::starthour","18");
+	Settings::set("anomaly::night::endhour","6");
 
 	// winter fractiles
-	NFmiSettings::Set("anomaly::fake::fractile::winter::F02", "-25.0");
-	NFmiSettings::Set("anomaly::fake::fractile::winter::F12", "-20.0");
-	NFmiSettings::Set("anomaly::fake::fractile::winter::F37", "-15.0");
-	NFmiSettings::Set("anomaly::fake::fractile::winter::F50", "-10.0");
-	NFmiSettings::Set("anomaly::fake::fractile::winter::F63", "-5.0");
-	NFmiSettings::Set("anomaly::fake::fractile::winter::F88", "0.0");
-	NFmiSettings::Set("anomaly::fake::fractile::winter::F98", "3.0");
+	Settings::set("anomaly::fake::fractile::winter::F02", "-25.0");
+	Settings::set("anomaly::fake::fractile::winter::F12", "-20.0");
+	Settings::set("anomaly::fake::fractile::winter::F37", "-15.0");
+	Settings::set("anomaly::fake::fractile::winter::F50", "-10.0");
+	Settings::set("anomaly::fake::fractile::winter::F63", "-5.0");
+	Settings::set("anomaly::fake::fractile::winter::F88", "0.0");
+	Settings::set("anomaly::fake::fractile::winter::F98", "3.0");
 	// summer fractiles
-	NFmiSettings::Set("anomaly::fake::fractile::summer::F02", "5.0");
-	NFmiSettings::Set("anomaly::fake::fractile::summer::F12", "12.0");
-	NFmiSettings::Set("anomaly::fake::fractile::summer::F37", "14.0");
-	NFmiSettings::Set("anomaly::fake::fractile::summer::F50", "16.0");
-	NFmiSettings::Set("anomaly::fake::fractile::summer::F63", "19.0");
-	NFmiSettings::Set("anomaly::fake::fractile::summer::F88", "22.0");
-	NFmiSettings::Set("anomaly::fake::fractile::summer::F98", "25.0");
-	NFmiSettings::Set("anomaly::fake::growing_season_on", "false");
+	Settings::set("anomaly::fake::fractile::summer::F02", "5.0");
+	Settings::set("anomaly::fake::fractile::summer::F12", "12.0");
+	Settings::set("anomaly::fake::fractile::summer::F37", "14.0");
+	Settings::set("anomaly::fake::fractile::summer::F50", "16.0");
+	Settings::set("anomaly::fake::fractile::summer::F63", "19.0");
+	Settings::set("anomaly::fake::fractile::summer::F88", "22.0");
+	Settings::set("anomaly::fake::fractile::summer::F98", "25.0");
+	Settings::set("anomaly::fake::growing_season_on", "false");
 
 	TextGenPosixTime summertime1(2009, 6, 1, 6, 0, 0);
 	TextGenPosixTime summertime2(2009, 6, 2, 18, 0, 0);
@@ -6912,6 +6913,7 @@ int main(void)
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
   NFmiSettings::Set("textgen::units::celsius::format","phrase");
+  Settings::set(NFmiSettings::ToString());
 
   using namespace TemperatureStoryTest;
   MessageLogger::open("my.log");

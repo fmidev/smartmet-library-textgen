@@ -6,6 +6,7 @@
 #include "PlainTextFormatter.h"
 #include "WeatherArea.h"
 #include "WeatherPeriod.h"
+#include "Settings.h"
 
 #include <newbase/NFmiSettings.h>
 
@@ -56,7 +57,7 @@ namespace HeaderFactoryTest
 	using namespace TextGen;
 
 	string var = "variable";
-	NFmiSettings::Set(var+"::type","none");
+	Settings::set(var+"::type","none");
 
 	WeatherArea area("25,60");
 	WeatherPeriod period(TextGenPosixTime(2003,6,1),TextGenPosixTime(2003,6,2));
@@ -86,7 +87,7 @@ namespace HeaderFactoryTest
 	using namespace TextGen;
 
 	string var = "variable";
-	NFmiSettings::Set(var+"::type","until");
+	Settings::set(var+"::type","until");
 
 	WeatherArea area("25,60");
 	WeatherPeriod period1(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,2,6));
@@ -126,7 +127,7 @@ namespace HeaderFactoryTest
 	using namespace TextGen;
 
 	string var = "variable";
-	NFmiSettings::Set(var+"::type","from_until");
+	Settings::set(var+"::type","from_until");
 
 	WeatherArea area("25,60");
 	WeatherPeriod period1(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,2,6));
@@ -166,7 +167,7 @@ namespace HeaderFactoryTest
 	using namespace TextGen;
 
 	string var = "variable";
-	NFmiSettings::Set(var+"::type","several_days");
+	Settings::set(var+"::type","several_days");
 
 	WeatherArea area("25,60");
 	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,3,6));
@@ -196,7 +197,7 @@ namespace HeaderFactoryTest
 	using namespace TextGen;
 
 	string var = "variable";
-	NFmiSettings::Set(var+"::type","report_area");
+	Settings::set(var+"::type","report_area");
 
 	WeatherArea area("25,60:30","uusimaa");
 	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,3,6));
@@ -226,7 +227,7 @@ namespace HeaderFactoryTest
 	using namespace TextGen;
 
 	string var = "variable";
-	NFmiSettings::Set(var+"::type","report_time");
+	Settings::set(var+"::type","report_time");
 
 	WeatherArea area("25,60:30","uusimaa");
 	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,3,6));
@@ -256,7 +257,7 @@ namespace HeaderFactoryTest
 	using namespace TextGen;
 
 	string var = "variable";
-	NFmiSettings::Set(var+"::type","report_location");
+	Settings::set(var+"::type","report_location");
 
 	WeatherArea area("25,60","helsinki");
 	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,3,6));
@@ -286,8 +287,8 @@ namespace HeaderFactoryTest
 	using namespace TextGen;
 
 	string var = "variable";
-	NFmiSettings::Set(var+"::type","morning");
-	NFmiSettings::Set(var+"::weekdays","false");
+	Settings::set(var+"::type","morning");
+	Settings::set(var+"::weekdays","false");
 
 	WeatherArea area("25,60");
 	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,1,12));
@@ -303,7 +304,7 @@ namespace HeaderFactoryTest
 	result = require("en",area,period,var,"Expected weather in the morning");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 	
-	NFmiSettings::Set(var+"::weekdays","true");
+	Settings::set(var+"::weekdays","true");
 
 	result = require("fi",area,period,var,"Odotettavissa sunnuntaina aamulla");
 	if(!result.empty()) TEST_FAILED(result.c_str());
@@ -328,8 +329,8 @@ namespace HeaderFactoryTest
 	using namespace TextGen;
 
 	string var = "variable";
-	NFmiSettings::Set(var+"::type","forenoon");
-	NFmiSettings::Set(var+"::weekdays","false");
+	Settings::set(var+"::type","forenoon");
+	Settings::set(var+"::weekdays","false");
 
 	WeatherArea area("25,60");
 	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,1,12));
@@ -345,7 +346,7 @@ namespace HeaderFactoryTest
 	result = require("en",area,period,var,"Expected weather in the forenoon");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 	
-	NFmiSettings::Set(var+"::weekdays","true");
+	Settings::set(var+"::weekdays","true");
 
 	result = require("fi",area,period,var,"Odotettavissa sunnuntaina aamupäivällä");
 	if(!result.empty()) TEST_FAILED(result.c_str());
@@ -370,8 +371,8 @@ namespace HeaderFactoryTest
 	using namespace TextGen;
 
 	string var = "variable";
-	NFmiSettings::Set(var+"::type","afternoon");
-	NFmiSettings::Set(var+"::weekdays","false");
+	Settings::set(var+"::type","afternoon");
+	Settings::set(var+"::weekdays","false");
 
 	WeatherArea area("25,60");
 	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,1,12));
@@ -387,7 +388,7 @@ namespace HeaderFactoryTest
 	result = require("en",area,period,var,"Expected weather in the afternoon");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 	
-	NFmiSettings::Set(var+"::weekdays","true");
+	Settings::set(var+"::weekdays","true");
 
 	result = require("fi",area,period,var,"Odotettavissa sunnuntaina iltapäivällä");
 	if(!result.empty()) TEST_FAILED(result.c_str());
@@ -412,8 +413,8 @@ namespace HeaderFactoryTest
 	using namespace TextGen;
 
 	string var = "variable";
-	NFmiSettings::Set(var+"::type","evening");
-	NFmiSettings::Set(var+"::weekdays","false");
+	Settings::set(var+"::type","evening");
+	Settings::set(var+"::weekdays","false");
 
 	WeatherArea area("25,60");
 	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,1,12));
@@ -429,7 +430,7 @@ namespace HeaderFactoryTest
 	result = require("en",area,period,var,"Expected weather in the evening");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 	
-	NFmiSettings::Set(var+"::weekdays","true");
+	Settings::set(var+"::weekdays","true");
 
 	result = require("fi",area,period,var,"Odotettavissa sunnuntaina illalla");
 	if(!result.empty()) TEST_FAILED(result.c_str());
@@ -454,8 +455,8 @@ namespace HeaderFactoryTest
 	using namespace TextGen;
 
 	string var = "variable";
-	NFmiSettings::Set(var+"::type","clock_range");
-	NFmiSettings::Set(var+"::weekdays","false");
+	Settings::set(var+"::type","clock_range");
+	Settings::set(var+"::weekdays","false");
 
 	WeatherArea area("25,60");
 	WeatherPeriod period(TextGenPosixTime(2003,6,1,6,0),TextGenPosixTime(2003,6,1,12));
@@ -471,7 +472,7 @@ namespace HeaderFactoryTest
 	result = require("en",area,period,var,"Expected weather 6-12 o'clock");
 	if(!result.empty()) TEST_FAILED(result.c_str());
 	
-	NFmiSettings::Set(var+"::weekdays","true");
+	Settings::set(var+"::weekdays","true");
 
 	result = require("fi",area,period,var,"Odotettavissa sunnuntaina kello 6-12");
 	if(!result.empty()) TEST_FAILED(result.c_str());
@@ -528,6 +529,7 @@ int main(void)
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
+  Settings::set(NFmiSettings::ToString());
 
   using namespace HeaderFactoryTest;
 

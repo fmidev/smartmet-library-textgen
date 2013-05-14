@@ -153,19 +153,6 @@ namespace TextGen
 	  itsMaskStorage.erase(iter);
 
 	return dummy;
-
-	/*
-	static shared_ptr<NFmiIndexMask> dummy;
-
-	WeatherAreaAndID key(theID,theArea);
-
-	mask_storage::const_iterator it = itsMaskStorage.find(key);
-	if(it == itsMaskStorage.end())
-	  return dummy;
-
-	return it->second;
-	*/
-
   }
 
   // ----------------------------------------------------------------------

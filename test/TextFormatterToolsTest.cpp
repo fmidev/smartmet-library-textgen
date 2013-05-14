@@ -9,6 +9,7 @@
 #include "TimePeriod.h"
 #include "WeatherPeriod.h"
 #include "TextGenPosixTime.h"
+#include "Settings.h"
 
 #include <newbase/NFmiSettings.h>
 
@@ -113,7 +114,7 @@ namespace TextFormatterToolsTest
 
 	// Test 3: degrees
 	{
-	  NFmiSettings::Set("textgen::units::celsius::format","phrase");
+	  Settings::set("textgen::units::celsius::format","phrase");
 
 	  Sentence s;
 	  s << "lämpötila" << "on noin" << "[1] [2]"
@@ -127,7 +128,7 @@ namespace TextFormatterToolsTest
 
 	// Test 4: SI units
 	{
-	  NFmiSettings::Set("textgen::units::celsius::format","SI");
+	  Settings::set("textgen::units::celsius::format","SI");
 
 	  Sentence s;
 	  s << "lämpötila" << "on noin" << "[1] [2]"
@@ -172,7 +173,7 @@ namespace TextFormatterToolsTest
 	  Sentence s;
 	  s << Time(nfmiTime);
 
-	  NFmiSettings::Set("textgen::part1::story::test::timeformat","%d.%m.%Y %H");
+	  Settings::set("textgen::part1::story::test::timeformat","%d.%m.%Y %H");
 
 	  string  tmp = TextFormatterTools::format_time(nfmiTime,"textgen::part1::story::test", "%d.%m.%Y %H");
 	  if(tmp != "09.08.2012 14")
@@ -187,8 +188,8 @@ namespace TextFormatterToolsTest
 	  Sentence s;
 	  s << TimePeriod(weatherPeriod);
 
-	  NFmiSettings::Set("textgen::part1::story::test::plain::startformat", "%d.%m.%Y %H:%M - ");
-	  NFmiSettings::Set("textgen::part1::story::test::plain::endformat", "%d.%m.%Y %H:%M");
+	  Settings::set("textgen::part1::story::test::plain::startformat", "%d.%m.%Y %H:%M - ");
+	  Settings::set("textgen::part1::story::test::plain::endformat", "%d.%m.%Y %H:%M");
 
 	  string  tmp = TextFormatterTools::format_time(weatherPeriod,"textgen::part1::story::test", "plain");
 	  if(tmp != "09.08.2012 14:39 - 10.08.2012 12:00")
@@ -235,6 +236,7 @@ int main(void)
 
   NFmiSettings::Init();
   NFmiSettings::Set("textgen::database","textgen2");
+  Settings::set(NFmiSettings::ToString());
 
   using namespace TextFormatterToolsTest;
 

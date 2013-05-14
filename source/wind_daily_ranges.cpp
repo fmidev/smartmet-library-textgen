@@ -86,7 +86,7 @@ namespace TextGen
 	for(int day=1; day<=std::min(ndays,3); day++)
 	  {
 		const WeatherPeriod period(periodgenerator.period(day));
-
+		
 		const string daystr = "day"+lexical_cast<string>(day);
 
 		const WeatherResult minspeed =
