@@ -605,7 +605,7 @@ InPlacesPhrase& get_in_places_phrase()
 		  
 		  theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE] 
 			<< VESISADETTA_WORD 
-			<< Delimiter(",")
+			<< Delimiter(COMMA_PUNCTUATION_MARK)
 			<< jokaMuuttuuString;
 		}
 		break;
@@ -622,7 +622,7 @@ InPlacesPhrase& get_in_places_phrase()
 
 		  theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE] 
 			<< LUMISADETTA_WORD
-			<< Delimiter(",")
+			<< Delimiter(COMMA_PUNCTUATION_MARK)
 			<< jokaMuuttuuString;
 		}
 		break;
@@ -639,7 +639,7 @@ InPlacesPhrase& get_in_places_phrase()
 
 		  theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE] 
 			<< TIHKUSADETTA_WORD
-			<< Delimiter(",")
+			<< Delimiter(COMMA_PUNCTUATION_MARK)
 			<< jokaMuuttuuString;
 		}
 		break;
@@ -656,7 +656,7 @@ InPlacesPhrase& get_in_places_phrase()
 
 		  theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE] 
 			<< RANTASADETTA_WORD
-			<< Delimiter(",")
+			<< Delimiter(COMMA_PUNCTUATION_MARK)
 			<< jokaMuuttuuString;
 		}
 		break;
@@ -3088,13 +3088,13 @@ vesi- tai lumisadetta.
 		  {
 			if(inPlacesPhraseEmpty)
 			  sentence << HUOMENNA_SISAMAASSA_SADETTA_COMPOSITE_PHRASE
-					   << areaPhrase
 					   << periodPhrase
+					   << areaPhrase
 					   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
 			else
 			  sentence << HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE
-					   << areaPhrase
 					   << periodPhrase
+					   << areaPhrase
 					   << inPlacesPhrase
 					   << theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE];
 		  }
@@ -3122,7 +3122,7 @@ vesi- tai lumisadetta.
 			if(periodPhraseEmpty && areaPhraseEmpty)
 			  {
 				sentence << SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE
-						 << Delimiter(",")
+						 << Delimiter(COMMA_PUNCTUATION_MARK)
 						 << precipitation;
 			  }
 			else if((periodPhraseEmpty && !areaPhraseEmpty) ||
@@ -3451,13 +3451,13 @@ vesi- tai lumisadetta.
 						  {
 							if(intensityEmpty)
 							  sentence << HUOMENNA_SISAMAASSA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-									   << areaPhrase
 									   << periodPhrase
+									   << areaPhrase
 									   << precipitation;
 							else
 							  sentence << HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-									   << areaPhrase
 									   << periodPhrase
+									   << areaPhrase
 									   << intensity
 									   << precipitation;
 						  }
@@ -3465,14 +3465,14 @@ vesi- tai lumisadetta.
 						  {
 							if(intensityEmpty)
 							  sentence << HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-									   << areaPhrase
 									   << periodPhrase
+									   << areaPhrase
 									   << inPlacesPhrase
 									   << precipitation;
 							else
 							  sentence << HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_JOKA_VOI_OLLA_JAATAVAA_COMPOSITE_PHRASE
-									   << areaPhrase
 									   << periodPhrase
+									   << areaPhrase
 									   << inPlacesPhrase
 									   << intensity
 									   << precipitation;
@@ -3578,13 +3578,13 @@ vesi- tai lumisadetta.
 						  {
 							if(intensityEmpty)
 							  sentence << HUOMENNA_SISAMAASSA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-									   << areaPhrase
 									   << periodPhrase
+									   << areaPhrase
 									   << precipitation;
 							else
 							  sentence << HUOMENNA_SISAMAASSA_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-									   << areaPhrase
 									   << periodPhrase
+									   << areaPhrase
 									   << intensity
 									   << precipitation;
 						  }
@@ -3592,14 +3592,14 @@ vesi- tai lumisadetta.
 						  {
 							if(intensityEmpty)
 							  sentence << HUOMENNA_SISAMAASSA_PAIKOIN_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-									   << areaPhrase
 									   << periodPhrase
+									   << areaPhrase
 									   << inPlacesPhrase
 									   << precipitation;
 							else
 							  sentence << HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOJA_SADEKUUROJA_JOTKA_VOIVAT_OLLA_JAATAVIA_COMPOSITE_PHRASE
-									   << areaPhrase
 									   << periodPhrase
+									   << areaPhrase
 									   << inPlacesPhrase
 									   << intensity
 									   << precipitation;
@@ -3704,13 +3704,13 @@ vesi- tai lumisadetta.
 						  {
 							if(intensityEmpty)
 							  sentence << HUOMENNA_SISAMAASSA_SADETTA_COMPOSITE_PHRASE
-									   << areaPhrase
 									   << periodPhrase
+									   << areaPhrase
 									   << precipitation;
 							else
 							  sentence << HUOMENNA_SISAMAASSA_HEIKKOA_SADETTA_COMPOSITE_PHRASE
-									   << areaPhrase
 									   << periodPhrase
+									   << areaPhrase
 									   << intensity
 									   << precipitation;								
 						  }
@@ -3718,14 +3718,14 @@ vesi- tai lumisadetta.
 						  {
 							if(intensityEmpty)
 							  sentence << HUOMENNA_SISAMAASSA_PAIKOIN_SADETTA_COMPOSITE_PHRASE
-									   << areaPhrase
 									   << periodPhrase
+									   << areaPhrase
 									   << inPlacesPhrase
 									   << precipitation;
 							else
 							  sentence << HUOMENNA_SISAMAASSA_PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE
-									   << areaPhrase
 									   << periodPhrase
+									   << areaPhrase
 									   << inPlacesPhrase
 									   << intensity
 									   << precipitation;
