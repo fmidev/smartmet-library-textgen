@@ -42,9 +42,12 @@
 #include "WeatherHistory.h"
 #include "WeatherForecastStory.h"
 #include "ParameterAnalyzer.h"
+#include "DebugTextFormatter.h"
+#include "Phrase.h"
 
 #include <newbase/NFmiCombinedParam.h>
 
+#include <typeinfo>
 #include <boost/lexical_cast.hpp>
 #include <vector>
 #include <map>
@@ -1389,6 +1392,83 @@ using namespace std;
 	return paragraph;
   }
 
+  bool is_same_part_of_the_day(const std::string& phrase1, const std::string& phrase2)
+  {
+	if((phrase1 == AAMULLA_WORD && (phrase2 == AAMULLA_WORD || phrase2 == AAMUSTA_ALKAEN_PHRASE)) ||
+	   (phrase1 == AAMUPAIVALLA_WORD && (phrase2 == AAMUPAIVALLA_WORD || phrase2 == AAMUPAIVASTA_ALKAEN_PHRASE)) ||
+	   (phrase1 == ILTAPAIVALLA_WORD && (phrase2 == ILTAPAIVALLA_WORD || phrase2 == ILTAPAIVASTA_ALKAEN_PHRASE)) ||
+	   (phrase1 == ILLALLA_WORD && (phrase2 == ILLALLA_WORD || phrase2 == ILLASTA_ALKAEN_PHRASE)) ||
+	   (phrase1 == ILTAYOLLA_WORD && (phrase2 == ILTAYOLLA_WORD || phrase2 == ILTAYOSTA_ALKAEN_PHRASE)) ||
+	   (phrase1 == KESKIYOLLA_WORD && (phrase2 == KESKIYOLLA_WORD || phrase2 == KESKIYOSTA_ALKAEN_PHRASE)) ||
+	   (phrase1 == AAMUYOLLA_WORD && (phrase2 == AAMUYOLLA_WORD || phrase2 == AAMUYOSTA_ALKAEN_PHRASE)) ||
+	   (phrase1 == YOLLA_WORD && phrase2 == YOLLA_WORD) || (phrase1 == PAIVALLA_WORD && phrase2 == PAIVALLA_WORD))	
+	  return true;
+
+	return false;
+  }
+
+  // if the successive sentences contains the same time phrase, insert 
+  // aluksi, myohemmin to the beginning of the sentence
+  void check_sentences(shared_ptr<Glyph>& theSentence1, shared_ptr<Glyph>& theSentence2)
+  {
+	GlyphContainer& gc1 = static_cast<GlyphContainer& >(*theSentence1);
+	GlyphContainer& gc2 = static_cast<GlyphContainer& >(*theSentence2);
+
+	DebugTextFormatter dtf;
+
+	if(gc1.size() < 2 || gc2.size() < 2)
+	  return;
+
+	GlyphContainer::iterator iter1(gc1.begin());
+	GlyphContainer::iterator iter2(gc2.begin()); 	
+	iter1++;
+	iter2++;
+	
+	stringstream ss1;
+	stringstream ss2;
+	ss1 << dtf.format(**iter1);
+	ss2 << dtf.format(**iter2);
+	if(is_same_part_of_the_day(ss1.str(), ss2.str()))
+	  {
+		gc1.push_front(Phrase("aluksi"));
+		gc2.push_front(Phrase("myohemmin"));
+	  }
+  }
+
+  void get_sentences(const Glyph& glyphi, vector<shared_ptr<Glyph> >& sentences)
+  {
+	if(typeid(glyphi) == typeid(Sentence))
+	  {
+		const GlyphContainer& gc = static_cast<const GlyphContainer& >(glyphi);
+		if(gc.size() > 0)
+		  sentences.push_back(glyphi.clone());
+	  }
+	else
+	  {
+		const GlyphContainer& containeri = static_cast<const GlyphContainer&>(glyphi);
+		for(GlyphContainer::const_iterator iter = containeri.begin(); iter != containeri.end(); ++iter)
+		  get_sentences(**iter, sentences);
+	  }
+  }
+
+  void analyze_sentences(Paragraph& paragraph)
+  {
+	Paragraph paragraph_tmp;
+	paragraph_tmp << paragraph;
+	paragraph.clear();
+
+	vector<shared_ptr<Glyph> > sentences;
+	get_sentences(paragraph_tmp, sentences);
+
+	for(unsigned int i = 0; i < sentences.size(); i++)
+	  {
+		if(i < sentences.size() - 1)
+		  check_sentences(sentences[i], sentences[i+1]);
+		Sentence& sen = static_cast<Sentence& >(*(sentences[i]));
+		paragraph << sen;
+	  }
+  }
+
   // ----------------------------------------------------------------------
   /*!
    * \brief Generate overview on weather
@@ -1472,6 +1552,8 @@ using namespace std;
 									   log);
 
 	  }
+
+	analyze_sentences(paragraph);
 
 	return paragraph;
   }
