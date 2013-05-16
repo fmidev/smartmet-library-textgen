@@ -40,6 +40,8 @@ namespace TextGen
 
 	void push_back(const Glyph & theGlyph);
 	void push_back(const_reference theGlyph);
+	void push_front(const Glyph & theGlyph);
+	void push_front(const_reference theGlyph);
 	
 	const_iterator begin() const;
 	const_iterator end() const;

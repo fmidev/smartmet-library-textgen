@@ -84,6 +84,32 @@ namespace TextGen
 
   // ----------------------------------------------------------------------
   /*!
+   * \brief Insert a new glyph to the container
+   *
+   * \param theGlyph The glyph to insert
+   */
+  // ----------------------------------------------------------------------
+
+  void GlyphContainer::push_front(const Glyph & theGlyph)
+  {
+	itsData.push_front(theGlyph.clone());
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
+   * \brief Insert a new glyph to the container
+   *
+   * \param theGlyph The glyph to insert
+   */
+  // ----------------------------------------------------------------------
+
+  void GlyphContainer::push_front(const_reference theGlyph)
+  {
+	itsData.push_front(theGlyph);
+  }
+
+  // ----------------------------------------------------------------------
+  /*!
    * \brief Return the begin iterator (const)
    *
    * \return The begin iterator
