@@ -2940,7 +2940,7 @@ namespace TextGen
 	log_merged_wind_event_periods(storyParams);
 #endif
  	// 3) a) if wind direction doesn't change (e.g. itätuuli -> idän puoleinen tuuli), remove the KAANTYY-event
-	// b) merge successive periods when tuuli kaantyy and direction remains the same 
+	// b) merge successive periods when tuuli kaantyy and direction remains the same: ARE removed 20130523
 	unsigned int previousMergedIndex(UINT_MAX);
 	nextDataItem = 0;
 	for(unsigned int i = 1; i < storyParams.theMergedWindEventPeriodVector.size(); i++)
@@ -2971,6 +2971,10 @@ namespace TextGen
 		bool merge = false;
 		if(currentDataItem->theWindEvent & TUULI_KAANTYY)
 		  {
+			/*
+			// ARE-20130523. Error case: itätuulta, joka kääntyy itään
+			// error case config err_B5_201305220800.cnf
+
 			if(previousDataItem->theWindEvent & TUULI_KAANTYY &&
 			   same_direction(currentWindDirectionId,
 							  previousWindDirectionId,
@@ -2978,7 +2982,7 @@ namespace TextGen
 			  {
 				merge = true;
 			  }
-			else if(same_direction(currentDataItem->thePeriodBeginDataItem.theEqualizedWindDirection,
+			  else*/ if(same_direction(currentDataItem->thePeriodBeginDataItem.theEqualizedWindDirection,
 								   currentDataItem->thePeriodEndDataItem.theEqualizedWindDirection,
 								   currentDataItem->thePeriodBeginDataItem.theEqualizedTopWind,
 								   currentDataItem->thePeriodEndDataItem.theEqualizedTopWind,
@@ -3153,12 +3157,16 @@ namespace TextGen
 			currentDataItem->theWindEvent = MISSING_WIND_EVENT;
 			mergePeriods = true;
 		  }
+		/*
+		  //  ARE-20130523. Error case: itätuulta, joka kääntyy idän puolelle. 
+		  // error case config err_B3_201305230900.cnf
 		else if(previousDataItem->theWindEvent == TUULI_KAANTYY && 
 				currentDataItem->theWindEvent == MISSING_WIND_EVENT)
 		  {
 			storyParams.theLog << "* Merge case #7 *" << endl;
 			mergePeriods = true;
 		  }
+		*/
 
 		previousMergedIndex = UINT_MAX;
 		if(mergePeriods)
