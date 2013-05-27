@@ -2246,7 +2246,7 @@ namespace TextGen
 
 	if(theDirectionEventItem.thePeriod.localEndTime() > theSpeedEventItem.thePeriod.localEndTime())
 	  {
-		// direction period contimues after speed period ends
+		// direction period continues after speed period
 		//    |---------|   direction
 		// |---------|      speed
 		// |--|------|--|   speed, speed-direction, returned period (direction)
@@ -2307,10 +2307,10 @@ namespace TextGen
 
 	if(theSpeedEventItem.thePeriod.localEndTime() > theDirectionEventItem.thePeriod.localEndTime())
 	  {
-		// direction period continues after speed period ends
+		// speed period continues after direction period
 		// |---------|    direction
 		//    |---------| speed
-		// |--|------|--| direction, direction-speed, returned period (direction)
+		// |--|------|--| direction, direction-speed, returned period (speed)
 
 		if(theDirectionEventItem.theWindEvent == MISSING_WIND_DIRECTION_EVENT &&
 		   theSpeedEventItem.theWindEvent == MISSING_WIND_SPEED_EVENT)
