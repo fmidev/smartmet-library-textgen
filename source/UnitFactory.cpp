@@ -184,7 +184,7 @@ namespace
 
 	if(opt == "SI")
 	  *sentence << "m/s";
-	else if(opt == "phrase")
+	else if(opt == "phrase" || opt == "textphrase")
 	  *sentence << "metria sekunnissa";
 	else if(opt == "none")
 	  ;
