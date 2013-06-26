@@ -370,21 +370,26 @@ void TextGenPosixTime::ResetThreadTimeZone()
 
 std::ostream& operator<<(std::ostream& os, const TextGenPosixTime& tgTime)
 {
-  os.width( 2 );
-  os.fill( '0' );
-  os << tgTime.GetDay() << ".";
-  os.width( 2 );
-  os.fill( '0' );
-  os << tgTime.GetMonth() << "." << tgTime.GetYear() << " "; 
-  os.width( 2 );
-  os.fill( '0' );
-  os << tgTime.GetHour() << ":";
-  os.width( 2 );
-  os.fill( '0' );
-  os << tgTime.GetMin() << ":";
-  os.width( 2 );
-  os.fill( '0' );
-  os << tgTime.GetSec(); 
+  os << std::setw(2)
+	 << std::setfill('0')
+	 << std::right
+	 << tgTime.GetDay() << "."
+	 << std::setw(2)
+	 << std::setfill('0')
+	 << std::right
+	 << tgTime.GetMonth() << "." << tgTime.GetYear() << " "
+	 << std::setw(2)
+	 << std::setfill('0')
+	 << std::right
+	 << tgTime.GetHour() << ":"
+	 << std::setw(2)
+	 << std::setfill('0')
+	 << std::right
+	 << tgTime.GetMin() << ":"
+	 << std::setw(2)
+	 << std::setfill('0')
+	 << std::right
+	 << tgTime.GetSec(); 
 
   return os;
 }
