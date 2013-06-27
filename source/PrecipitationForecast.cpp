@@ -241,7 +241,9 @@ InPlacesPhrase& get_in_places_phrase()
 		if(thePrecipitationDataItemData.thePrecipitationTypeShowers > 0.0)
 		  theOutput << " showers=" << setw(3) << setfill(' ') << fixed << setprecision(0) 
 					<< thePrecipitationDataItemData.thePrecipitationTypeShowers;
+		theOutput << endl;
 
+		/*
 		theOutput << " ne=" << fixed << setprecision(0) 
 				  << thePrecipitationDataItemData.thePrecipitationPercentageNorthEast << " "
 				  << "se=" << fixed << setprecision(0) 
@@ -256,6 +258,7 @@ InPlacesPhrase& get_in_places_phrase()
 				  << ", " 
 				  << setw(3) << setfill(' ') << fixed << setprecision(2) 
 				  << thePrecipitationDataItemData.thePrecipitationPoint.Y() << endl;
+		*/
 	  }
 	else
 	  {
@@ -716,6 +719,9 @@ InPlacesPhrase& get_in_places_phrase()
 
 		theParameters.theLog << "Precipitation form is " 
 							 << precipitation_form_string(thePrecipitationForm) 
+							 << endl;
+		theParameters.theLog << "Precipitation extent is " 
+							 << thePrecipitationExtent
 							 << endl;
 
 		if(!(thePrecipitationIntensity >= theParameters.theDryWeatherLimitSnow && mostly_dry_weather))

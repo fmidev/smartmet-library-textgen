@@ -101,20 +101,25 @@ namespace TextGen
 	const weather_result_data_item_vector* thunderProbabilityData = 0;
 	const weather_result_data_item_vector* thunderExtentData = 0;
 
+	std::string areaString("");
+
 	if(theForecastAreaId == FULL_AREA)
 	  {
 		thunderProbabilityData = ((*theParameters.theCompleteData[FULL_AREA])[THUNDER_PROBABILITY_DATA]);
 		thunderExtentData = ((*theParameters.theCompleteData[FULL_AREA])[THUNDER_EXTENT_DATA]);
+		areaString = "full area";
 	  }
 	if(theForecastAreaId == COASTAL_AREA)
 	  {
 		thunderProbabilityData = ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_PROBABILITY_DATA]);
 		thunderExtentData = ((*theParameters.theCompleteData[COASTAL_AREA])[THUNDER_EXTENT_DATA]);
+		areaString = "coast";
 	  }
 	if(theForecastAreaId == INLAND_AREA)
 	  {
 		thunderProbabilityData = ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_PROBABILITY_DATA]);
 		thunderExtentData = ((*theParameters.theCompleteData[INLAND_AREA])[THUNDER_EXTENT_DATA]);
+		areaString = "inland";
 	  }
 
 	if(thunderProbabilityData && thunderExtentData)
@@ -131,8 +136,16 @@ namespace TextGen
 
 		if(maxThunderProbability > 0.0 || maxThunderExtent > 0.0)
 		  {
-			theParameters.theLog << "Thunder probability (max): " << maxThunderProbability << endl;
-			theParameters.theLog << "Thunder extent (max): " << maxThunderExtent << endl;
+			theParameters.theLog << "Area, period: " 
+								 << areaString 
+								 << ", " 
+								 << thePeriod.localStartTime() 
+								 << "..."  
+								 << thePeriod.localEndTime() << endl;
+			theParameters.theLog << "Thunder probability (max): " 
+								 << maxThunderProbability << endl;
+			theParameters.theLog << "Thunder extent (max): " 
+								 << maxThunderExtent << endl;
 		  }
   
 		if(maxThunderExtent >= thunderExtentLowerLimit && maxThunderExtent < 30.0)
