@@ -104,15 +104,20 @@ namespace TextGen
 #define VAIHTELEVA_TUULI_P "suunnaltaan vaihtelevaa tuulta"
 #define VAIHTELEVA_TUULI "suunnaltaan vaihteleva tuuli"
 
+//#define ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli alkaa heiketa ja muuttuu vaihtelevaksi"
+//#define ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
+//#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
+//#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
+
+//#define ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli alkaa voimistua ja muuttuu vaihtelevaksi"
+//#define ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
+//#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja muuttuu vaihtelevaksi"
+//#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
 
 #define PUUSKITTAISTA_ETELATUULTA_COMPOSITE_PHRASE "puuskittaista [etelatuulta]"
 #define POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa heiketa"
 #define POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa voimistua"
 #define ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA "[iltapaivalla] edelleen [heikkenevaa] [pohjoistuulta]"
-  //#define ILTAPAIVALLA_POHJOISTUULTA_JOKA_ALKAA_VOIMISTUA "[iltapaivalla] [pohjoistuulta], joka alkaa voimistua"
-  //#define ILTAPAIVALLA_POHJOISTUULTA_JOKA_VOIMISTUU_EDELLEEN "[iltapaivalla] [pohjoistuulta], joka voimistuu edelleen"
-  //#define ILTAPAIVALLA_POHJOISTUULTA_JOKA_ALKAA_HEIKETA "[iltapaivalla] [pohjoistuulta], joka alkaa heiketa"
-  //#define ILTAPAIVALLA_POHJOISTUULTA_JOKA_HEIKKENEE_EDELLEEN "[iltapaivalla] [pohjoistuulta], joka heikkenee edelleen"
 #define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_EDELLEEN "[iltapaivalla] [pohjoistuuli] heikkenee edelleen"
 #define ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_EDELLEEN "[iltapaivalla] [pohjoistuuli] voimistuu edelleen"
 #define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan] ja voimistuu edelleen"
@@ -121,12 +126,15 @@ namespace TextGen
 #define ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] voimistuu ja kaantyy [etelaan]"
 #define ILTAPAIVALLA_TUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli heikkenee ja kaantyy [etelaan]"
 #define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] heikkenee ja kaantyy [etelaan]"
-//#define ILTAPAIVALLA_TUULI_TYYNTYY_COMPOSITE_PHRASE "[iltapaivalla] tuuli tyyntyy"
 #define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja voimistuu edelleen"
+#define ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli alkaa voimistua ja muuttuu vaihtelevaksi"
 #define ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli voimistuu ja muuttuu vaihtelevaksi"
+#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja muuttuu vaihtelevaksi"
 #define ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] voimistuu ja muuttuu vaihtelevaksi"
 #define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja heikkenee edelleen"
 #define ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli heikkenee ja muuttuu vaihtelevaksi"
+#define ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli alkaa heiketa ja muuttuu vaihtelevaksi"
+#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
 #define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
 #define POHJOISTUULTA_INTERVALLI_MS_JOKA_KAANTYY_ILTAPAIVALLA_ETELAAN_COMPOSITE_PHRASE "[pohjoistuulta] [m...n] [metria sekunnissa], joka kaantyy [iltapaivalla] [etelaan]"
 #define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan]"
@@ -144,11 +152,15 @@ namespace TextGen
 #define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_TUULTA_COMPOSITE_PHRASE "[iltapaivalla] [nopeasti] [heikkenevaa tuulta]"
 
 #define ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli voimistuu ja muuttuu tilapaisesti vaihtelevaksi"
+#define ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
 #define ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] voimistuu ja muuttuu tilapaisesti vaihtelevaksi"
+#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
 #define ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja voimistuu edelleen"
 #define ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja heikkenee edelleen"
 #define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
+#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
 #define ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
+#define ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
 #define ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi"
 
 #define ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE "[iltapaivalla] [etelatuuli] alkaa heiketa [nopeasti]"
@@ -449,7 +461,7 @@ namespace TextGen
 	bool theWeakWindPeriodFlag; //if wind speed is weak, event is MISSING_WIND_EVENT, but we dont merge it with faster wind speed periods and report it
 	bool theWindSpeedChangeStarts; // indicates that wind speed starts to weaken/strengthen
 	bool theWindSpeedChangeEnds; // indicates that wind speed weakening/strengthening ends
-	
+
 	wind_event_type getWindEventType()
 	{
 	  if(theWindEvent == MISSING_WIND_EVENT)
@@ -459,6 +471,7 @@ namespace TextGen
 				 theWindEvent == MISSING_WIND_DIRECTION_EVENT ||
 				 theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI) ? WIND_DIRECTION_EVENT : WIND_SPEED_EVENT);
 	}
+
   };
 
 
@@ -479,8 +492,6 @@ namespace TextGen
 	mutable short thePreviousDayNumber;
 	mutable short thePreviousPartOfTheDay;
 
-	//	Sentence windSentence(const WeatherPeriod& thePeriod) const;
-	Sentence getWindDirectionSentence(const WindStoryTools::WindDirectionId& theWindDirectionId) const;
 	Sentence windDirectionSentence(const WindStoryTools::WindDirectionId& theDirectionId,
 								   const bool& theBasicForm = false) const;
 	Sentence windSpeedIntervalSentence(const WeatherPeriod& thePeriod, 
@@ -509,17 +520,12 @@ namespace TextGen
 									 bool& gradualChange,
 									 bool& fastChange) const;
 	std::string getWindDirectionTurntoString(const WindStoryTools::WindDirectionId& theWindDirectionId) const;
-	Sentence reportIntermediateSpeed(const WeatherPeriod& speedEventPeriod) const;
 	bool samePartOfTheDay(const TextGenPosixTime& time1, const TextGenPosixTime& time2) const;
-	Sentence directedWindSentenceAfterVaryingWind(const wo_story_params& theParameters,
-												  const WeatherPeriod& eventPeriod,
-												  const bool& firstSentenceInTheStory,
-												  WindStoryTools::WindDirectionId& previousWindDirectionId) const;
 	Sentence windDirectionChangeSentence(const wo_story_params& theParameters,
 										 const WeatherPeriod& eventPeriod,
-										 const bool& firstSentenceInTheStory,
 										 const WindEventId& eventIdPrevious,
-										 WindStoryTools::WindDirectionId& previousWindDirectionId) const;
+										 WindStoryTools::WindDirectionId& previousWindDirectionId,
+										 const WindEventPeriodDataItem* eventPeriodItemNext) const;
 
 	Sentence windDirectionAndSpeedChangesSentence(const wo_story_params& theParameters,
 												  const WeatherPeriod& eventPeriod,
@@ -529,6 +535,7 @@ namespace TextGen
 												  WindStoryTools::WindDirectionId& previousWindDirectionId,
 												  const bool& theWindSpeedChangeStarts,
 												  const bool& theWindSpeedChangeEnds,
+												  WeatherPeriod& windSpeedIntervalPeriodPreviousReported,
 												  bool& appendDecreasingIncreasingInterval) const;
 	void getWindDirectionBegEnd(const WeatherPeriod& thePeriod,
 								WindStoryTools::WindDirectionId& theWindDirectionIdBeg,
@@ -585,8 +592,13 @@ namespace TextGen
   bool wind_speed_differ_enough(const AnalysisSources& theSources,
 								const WeatherArea& theArea,
 								const WeatherPeriod& thePeriod,
-								const std::string& theVar,
+								const int theWindSpeedThreshold,
 								const wind_data_item_vector& windDataVector);
+  int wind_speed_difference(const AnalysisSources& theSources,
+							const WeatherArea& theArea,
+							const WeatherPeriod& thePeriod1,
+							const WeatherPeriod& thePeriod2,
+							const wind_data_item_vector& windDataVector);
   void get_wind_speed_interval_parameters(const WeatherPeriod& thePeriod,
 										  const WeatherArea& theArea,										  
 										  const wind_data_item_vector& windDataVector,
@@ -648,12 +660,11 @@ namespace TextGen
   float get_maximum_wind(const WeatherPeriod& period,
 						 const WeatherArea& area,
 						 const wind_data_item_vector& windDataVector);
-  TextGenPosixTime get_phrase_period_end_timestamp(const TextGenPosixTime& originalTimestamp);
-	
 
   std::ostream& operator<<(std::ostream& theOutput,
 						   const WeatherPeriod& period);
-
+ std::ostream& operator<<(std::ostream& theOutput,
+						  const WindEventPeriodDataItem& theWindEventPeriodDataItem);
 } // namespace TextGen
 
 #endif // TEXTGEN_WIND_FORECAST_H
