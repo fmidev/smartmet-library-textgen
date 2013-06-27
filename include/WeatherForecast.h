@@ -590,6 +590,7 @@ namespace TextGen
 											float& theWeakPrecipitationLimit);
   const char* weather_event_string(const weather_event_id& theWeatherEventId);
   const char* precipitation_form_string(const precipitation_form_id& thePrecipitationForm);
+  const char* precipitation_type_string(const precipitation_type& thePrecipitationType);
   const char* precipitation_traverse_string(const precipitation_traverse_id& thePrecipitationTraverseId);
   const char* part_of_the_day_string(const part_of_the_day_id& thePartOfTheDayId);
   const char* story_part_id_string(const story_part_id& theStoryPartId);

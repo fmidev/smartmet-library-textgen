@@ -119,6 +119,21 @@ using namespace std;
 	  }
   }
 
+  const char* precipitation_type_string(const precipitation_type& thePrecipitationType)
+  {
+	switch(thePrecipitationType)
+	  {
+	  case CONTINUOUS:
+		return "continuous";
+	  case SHOWERS:
+		return "showers";
+	  case MISSING_PRECIPITATION_TYPE:
+		return "MISSING_PRECIPITATION_TYPE";
+	  default:
+		return "";
+	  }
+  }
+
   const char* precipitation_traverse_string(const precipitation_traverse_id& thePrecipitationTraverseId)
   {
 	switch(thePrecipitationTraverseId)
