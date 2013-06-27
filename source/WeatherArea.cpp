@@ -602,6 +602,9 @@ namespace TextGen
 	  case WeatherArea::Mountain:
 		parameterName = "mountain";
 		break;
+	  case WeatherArea::Island:
+		parameterName = "island";
+		break;
 	  }
 	
 	if(!parameterName.empty())
@@ -619,6 +622,7 @@ namespace TextGen
   {
 	itsBooleanParameters |=  (booleanParameterValue(Marine) ? Marine : 0x0);
 	itsBooleanParameters |=  (booleanParameterValue(Mountain) ? Mountain : 0x0);
+	itsBooleanParameters |=  (booleanParameterValue(Island) ? Island : 0x0);
   }
 
  // ----------------------------------------------------------------------
@@ -654,6 +658,19 @@ namespace TextGen
   {
 	return (itsBooleanParameters & Mountain);
   }
+
+ // ----------------------------------------------------------------------
+  /*!
+   * \brief Returns true if the area is island, false otherwise
+   *
+   */
+  // ----------------------------------------------------------------------
+   bool WeatherArea::isIsland() const
+  {
+	return (itsBooleanParameters & Island);
+  }
+
+
 
 } // namespace TextGen
 

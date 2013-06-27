@@ -35,7 +35,8 @@ namespace TextGen
 	  };
 
 	enum ParameterId{Marine = 0x1,
-					 Mountain = 0x2};
+					 Mountain = 0x2,
+					 Island = 0x4};
 	
   public:
 
@@ -91,6 +92,7 @@ namespace TextGen
 	bool booleanParameter(const ParameterId& parameterId) const;
     bool isMarine() const;
 	bool isMountain() const;
+	bool isIsland() const;
 
   private:
 
