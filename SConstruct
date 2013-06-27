@@ -66,6 +66,7 @@ else:
     env.Append( CPPDEFINES= ["UNIX"] )
     env.Append( CXXFLAGS= [
         # mainflags from orig. makefile ('-fpic' is automatically added by scons)
+	"-fPIC",
         "-Wall", 
         "-Wno-unused-parameter",
         "-Wno-variadic-macros",

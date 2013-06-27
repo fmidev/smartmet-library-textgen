@@ -1,14 +1,14 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 12.11.14
-Release: 1%{?dist}.fmi
+Version: 13.6.3
+Release: 2%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 12.11.7
+BuildRequires: libsmartmet-newbase >= 13.5.27
 BuildRequires: boost-devel >= 1.52
 BuildRequires: mysql-devel
 BuildRequires: gdal-devel >= 1.9.1
@@ -38,6 +38,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
+* Mon Jun  3 2013 Mika Heiskanen <mika.heiskanen@fmi.fi> - 13.6.3-2.fmi
+- Compiled with -fPIC
+* Mon Jun  3 2013 Mika Heiskanen <mika.heiskanen@fmi.fi> - 13.6.3-1.fmi
+- First UTF-8 release
 * Wed Nov 14 2012 Mika Heiskanen <mika.heiskanen@fmi.fi> - 12.11.14-1.fmi
 - Improved weather stories
 - Updates required for making a BrainStorm plugin
