@@ -127,6 +127,10 @@ namespace TextGen
 		if(get_period_length(eventPeriod) == 0)
 		  windDirectionIdAvg = windDirectionIdBeg;
 				
+		// when varying wind strenghtens, we ignore it
+		if(eventId & TUULI_VOIMISTUU && windDirectionIdAvg == VAIHTELEVA)
+		  eventId = mask_wind_event(eventId,  TUULI_VOIMISTUU);
+
 		bool same_part_of_the_day(get_part_of_the_day_id(eventPeriod.localStartTime()) ==
 								  get_part_of_the_day_id(eventPeriod.localEndTime()) &&
 								  eventPeriod.localStartTime().GetDay() == eventPeriod.localEndTime().GetDay());
@@ -183,7 +187,7 @@ namespace TextGen
 		   ((eventPeriodItem->theWindSpeedChangeEnds && !windSpeedDifferEnough) ||
 			(eventPeriodItemNext && eventPeriodItem->theWindSpeedChangeStarts && 
 			 eventPeriodItemNext->theWindSpeedChangeEnds &&
-			 !windSpeedDifferEnoughOnCombinedPeriodPeriod)))//!windSpeedDifferEnough && !windSpeedDifferEnoughOnNextPeriod)))
+			 !windSpeedDifferEnoughOnCombinedPeriodPeriod)))
 		  {
 			WindEventId mask(MISSING_WIND_EVENT);
 			if(eventId & TUULI_HEIKKENEE)
