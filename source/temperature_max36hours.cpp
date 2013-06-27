@@ -4445,8 +4445,7 @@ namespace TextGen
 	  parameters.theMinInterval = mininterval;
 	  parameters.theZeroIntervalFlag = interval_zero;
 
-
-	  if(itsArea.isMarine())
+	  if(itsArea.isMarine() || itsArea.isIsland())
 		{
 		  parameters.theCoastalAndInlandTogetherFlag = true;
 		}

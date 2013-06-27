@@ -1242,12 +1242,13 @@ using namespace std;
 																	   SEPARATE_COASTAL_AREA_PERCENTAGE);
 
 	theParameters.theCoastalAndInlandTogetherFlag = (theParameters.theArea.isMarine() ||
+													 theParameters.theArea.isIsland() ||
 													 (coastalPercentage > 0 && 
 													  coastalPercentage < separate_coastal_area_percentage));
 	
 	if(theParameters.theCoastalAndInlandTogetherFlag)
 	  {
-		if(theParameters.theArea.isMarine() == false)
+		if(theParameters.theArea.isMarine() == false && theParameters.theArea.isIsland() == false)
 		  theParameters.theLog << "Inland and coastal area(" << coastalPercentage << ") not separated!" << endl;
 	  }
   }

@@ -937,7 +937,7 @@ namespace TextGen
   {
 	Sentence sentence;
 
-	if(theParameters.theArea.isMarine())
+	if(theParameters.theArea.isMarine() || theParameters.theArea.isIsland())
 	  {
 		sentence << fogSentence(thePeriod, theInlandFogType, EMPTY_STRING);
 	  }
