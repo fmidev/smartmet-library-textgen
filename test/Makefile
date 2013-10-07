@@ -64,7 +64,7 @@ LIBS += \
 	-lboost_thread-mt \
         -lboost_system-mt\
 	`pkg-config --cflags --libs icu-i18n` \
-        -lz -lbz2 -lpthread
+        -lz -lbz2 -lpthread -lrt
 
 all: $(PROG)
 clean:
