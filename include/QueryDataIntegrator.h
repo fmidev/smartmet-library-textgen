@@ -11,7 +11,9 @@
 class NFmiFastQueryInfo;
 class NFmiIndexMask;
 class NFmiIndexMaskSource;
+class NFmiPoint;
 class TextGenPosixTime;
+
 
 namespace TextGen
 {
@@ -27,9 +29,25 @@ namespace TextGen
 					const TextGenPosixTime & theEndTime,
 					Calculator & theTimeCalculator);
 
+	// Integrate over time with current param & level and given latlon
+	
+	float Integrate(NFmiFastQueryInfo & theQI,
+					const NFmiPoint & theLatLon,
+					const TextGenPosixTime & theStartTime,
+					const TextGenPosixTime & theEndTime,
+					Calculator & theTimeCalculator);
+
 	// Integrate over time with subinterval generator w/ current location/param/level
 	
 	float Integrate(NFmiFastQueryInfo & theQI,
+					const WeatherPeriodGenerator & thePeriods,
+					Calculator & theSubTimeCalculator,
+					Calculator & theMainTimeCalculator);
+	
+	// Integrate over time with subinterval generator w/ current param/level for given latlon
+	
+	float Integrate(NFmiFastQueryInfo & theQI,
+					const NFmiPoint & theLatLon,
 					const WeatherPeriodGenerator & thePeriods,
 					Calculator & theSubTimeCalculator,
 					Calculator & theMainTimeCalculator);

@@ -2,7 +2,7 @@
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
 Version: 13.12.17
-Release: 1%{?dist}.fmi
+Release: 2%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
+* Tue Dec 17 2013 Mika Heiskanen <mika.heiskanen@fmi.fi> - 13.12.17-2.fmi
+- Fixed to calculate aggregates correctly for specific coordinates
 * Tue Dec 17 2013 Mika Heiskanen <mika.heiskanen@fmi.fi> - 13.12.17-1.fmi
 - Updated to latest newbase
 * Mon Oct  7 2013 Mika Heiskanen <mika.heiskanen@fmi.fi> - 13.10.7-1.fmi

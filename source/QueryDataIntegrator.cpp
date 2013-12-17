@@ -24,6 +24,7 @@
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiIndexMaskSource.h>
+#include <newbase/NFmiPoint.h>
 #include "TextGenPosixTime.h"
 #include <newbase/NFmiMetMath.h>
 
@@ -65,7 +66,46 @@ namespace TextGen
 		  theTimeCalculator(tmp);
 		}
 	  while(theQI.NextTime() && theQI.Time()<=theEndTime);
+
+	  return theTimeCalculator();
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Integrate over time
+	 *
+	 * Integrate over time with current parameter and level and given latlon
+	 *
+	 * If the start time does not exist in the data, a missing value
+	 * is returned.
+	 *
+	 * \param theQI The query info
+	 * \param theLatLon The coordinate
+	 * \param theStartTime The start time of the integration.
+	 * \param theEndTime The end time of the integration.
+	 * \param theTimeCalculator The calculator for accumulating the result
+	 * \return The accumulation result
+	 */
+	// ----------------------------------------------------------------------
+	
+	float Integrate(NFmiFastQueryInfo & theQI,
+					const NFmiPoint & theLatLon,
+					const TextGenPosixTime & theStartTime,
+					const TextGenPosixTime & theEndTime,
+					Calculator & theTimeCalculator)
+	{
+	  theTimeCalculator.reset();
+
+	  if(!QueryDataTools::firstTime(theQI,theStartTime,theEndTime))
+		return kFloatMissing;
 	  
+	  do
+		{
+		  const float tmp = theQI.InterpolatedValue(theLatLon);
+		  theTimeCalculator(tmp);
+		}
+	  while(theQI.NextTime() && theQI.Time()<=theEndTime);
+
 	  return theTimeCalculator();
 	}
 
@@ -122,6 +162,73 @@ namespace TextGen
 		  do
 			{
 			  const float tmp = theQI.FloatValue();
+			  theSubTimeCalculator(tmp);
+			}
+		  while(theQI.NextTime() && theQI.Time()<=period.utcEndTime());
+			  
+		  const float subresult = theSubTimeCalculator();
+		  theMainTimeCalculator(subresult);
+		  
+		}
+	  
+	  return theMainTimeCalculator();
+	}
+	
+	// ----------------------------------------------------------------------
+	/*!
+	 * \brief Integrate over time with subinterval generator
+	 *
+	 * Integrate over time with current parameter and level and given latlon
+	 * The time interval is divided into subinterval by a given
+	 * generator and the subintervals are integrated using a separate
+	 * calculator.
+	 *
+	 * Note that the generated periods are inclusive, both the start
+	 * and end time are considered to belong into the period.
+	 *
+	 * If no subintervals can be created, a missing value is returned.
+	 *
+	 * \param theQI The query info
+	 * \param thePeriods The subperiod generator
+	 * \param theSubTimeCalculator The calculator for accumulating the subresult
+	 * \param theMainTimeCalculator The calculator for subresults
+	 * \return The accumulation result
+	 */
+	// ----------------------------------------------------------------------
+	
+	float Integrate(NFmiFastQueryInfo & theQI,
+					const NFmiPoint & theLatLon,
+					const WeatherPeriodGenerator & thePeriods,
+					Calculator & theSubTimeCalculator,
+					Calculator & theMainTimeCalculator)
+	{
+	  if(thePeriods.undivided())
+		{
+		  return Integrate(theQI,
+						   theLatLon,
+						   thePeriods.period(1).utcStartTime(),
+						   thePeriods.period(1).utcEndTime(),
+						   theMainTimeCalculator);
+		}
+
+	  // Safety against bad loop
+	  if(thePeriods.size() <= 0)
+		return kFloatMissing;
+
+	  theMainTimeCalculator.reset();
+
+	  for(unsigned int i=1; i<thePeriods.size(); i++)
+		{
+		  WeatherPeriod period = thePeriods.period(i);
+
+		  if(!QueryDataTools::firstTime(theQI,period.utcStartTime(),period.utcEndTime()))
+			return kFloatMissing;
+		  
+		  theSubTimeCalculator.reset();
+		  
+		  do
+			{
+			  const float tmp = theQI.InterpolatedValue(theLatLon);
 			  theSubTimeCalculator(tmp);
 			}
 		  while(theQI.NextTime() && theQI.Time()<=period.utcEndTime());
