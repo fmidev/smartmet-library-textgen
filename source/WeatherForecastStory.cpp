@@ -142,7 +142,7 @@ namespace TextGen
 		if(i > 0 && theStoryItemVector[i-1]->thePeriod.localEndTime().GetJulianDay() !=
 		   theStoryItemVector[i]->thePeriod.localEndTime().GetJulianDay() &&
 		   get_period_length(theForecastPeriod) > 24)
-		  const_cast<WeatherHistory&>(theWeatherArea.history()).updateTimePhrase("", TextGenPosixTime(1970,1,1));
+		  const_cast<WeatherHistory&>(theWeatherArea.history()).updateTimePhrase("", "", TextGenPosixTime(1970,1,1));
 	  }
 
 	// ARE 19.04.2012: yletv for kaakkois-suomi, empty story was created
@@ -698,22 +698,34 @@ namespace TextGen
 		if(todaySentence.size() > 0)
 		  specifyDay = true;
 	  }
-	std::string time_phrase("");
+	std::string day_phase_phrase("");
 
-	time_phrase = checkForAamuyoAndAamuPhrase(theFromSpecifier,
-											  phrasePeriod);
+	day_phase_phrase = checkForAamuyoAndAamuPhrase(theFromSpecifier,
+													 phrasePeriod);
+	WeatherHistory& thePhraseHistory = const_cast<WeatherArea&>(theWeatherForecastStory.theWeatherArea).history();
 
-	sentence << time_phrase;
+	if(!day_phase_phrase.empty())
+	  {
+		if(day_phase_phrase != thePhraseHistory.latestDayPhasePhrase)
+		  {
+			thePhraseHistory.updateDayPhasePhrase(day_phase_phrase);
+			sentence << day_phase_phrase;
+		  }
+	  }
 
 	if(sentence.size() == 0)
 	  {
 		get_time_phrase_large(phrasePeriod,
 							  specifyDay,
 							  theWeatherForecastStory.theVar,
-							  time_phrase,
+							  day_phase_phrase,
 							  theFromSpecifier);
 
-		sentence << time_phrase;
+		if(day_phase_phrase != thePhraseHistory.latestDayPhasePhrase)
+		  {
+			thePhraseHistory.updateDayPhasePhrase(day_phase_phrase);
+			sentence << day_phase_phrase;
+		  }
 	  }
 
 	theWeatherForecastStory.theLogger << "PHRASE PERIOD: " 

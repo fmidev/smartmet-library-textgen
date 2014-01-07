@@ -1380,7 +1380,7 @@ using namespace std;
 
 	wfs.logTheStoryItems();
 
-	const_cast<WeatherHistory&>(itsArea.history()).updateTimePhrase("", TextGenPosixTime(1970,1,1));
+	const_cast<WeatherHistory&>(itsArea.history()).updateTimePhrase("", "", TextGenPosixTime(1970,1,1));
 
 	paragraph << wfs.getWeatherForecastStory();
 

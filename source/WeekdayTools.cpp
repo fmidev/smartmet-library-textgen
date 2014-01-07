@@ -266,23 +266,19 @@ namespace TextGen
 	  return out;
 	}
 
-
-
-	//using namespace TextGen;
-
 	std::string get_time_phrase(const TextGenPosixTime & theTime, 
-								const std::string theNewPhrase, 
+								const std::string theNewWeekdayPhrase, 
 								TextGen::WeatherHistory& theHistory)
 	{
 	  TextGenPosixTime oldTime = theHistory.latestDate;
-	  const std::string& oldPhrase = theHistory.latestTimePhrase;
+	  const std::string& oldWeekdayPhrase = theHistory.latestWeekdayPhrase;
 
 	  if(theTime.GetJulianDay() == oldTime.GetJulianDay())
 		{
-		  if(oldPhrase.compare(theNewPhrase) != 0)
+		  if(oldWeekdayPhrase.compare(theNewWeekdayPhrase) != 0)
 			{
-			  theHistory.updateTimePhrase(theNewPhrase, theTime);
-			  return theNewPhrase;
+			  theHistory.updateWeekdayPhrase(theNewWeekdayPhrase, theTime);
+			  return theNewWeekdayPhrase;
 			}
 		  else
 			{
@@ -291,8 +287,8 @@ namespace TextGen
 		}
 	  else
 		{
-		  theHistory.updateTimePhrase(theNewPhrase, theTime);
-		  return theNewPhrase;
+		  theHistory.updateWeekdayPhrase(theNewWeekdayPhrase, theTime);
+		  return theNewWeekdayPhrase;
 		}
 
 	  return "";

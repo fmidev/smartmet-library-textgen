@@ -3191,7 +3191,7 @@ namespace TextGen
 		{
 		  // ARE 07.02.2011: if day1 and day2 are included
 		  if(theParameters.theForecastPeriod & DAY1_PERIOD)
-			const_cast<WeatherHistory&>(theParameters.theWeatherArea.history()).updateTimePhrase("", TextGenPosixTime(1970,1,1));
+			const_cast<WeatherHistory&>(theParameters.theWeatherArea.history()).updateTimePhrase("", "", TextGenPosixTime(1970,1,1));
 		  
 		  nextDaySentence << PeriodPhraseFactory::create("next_day",
 														 theParameters.theVariable,

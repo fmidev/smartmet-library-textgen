@@ -884,7 +884,14 @@ namespace TextGen
 							  theParameters.theVariable, 
 							  dayPhasePhrase,
 							  false);
-	
+
+		WeatherHistory& thePhraseHistory =  const_cast<WeatherArea&>(theParameters.theArea).history();
+
+		if(dayPhasePhrase == thePhraseHistory.latestDayPhasePhrase)
+		  dayPhasePhrase = ""; 
+		else
+		  thePhraseHistory.updateDayPhasePhrase(dayPhasePhrase);
+
 		switch(fogTypeId)
 		  {
 		  case FOG:
