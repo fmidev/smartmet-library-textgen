@@ -14,10 +14,16 @@ namespace TextGen
     WeatherHistory();
 	WeatherHistory(const WeatherHistory& theWeatherHistory);
 
-	void updateTimePhrase(const std::string& thePhrase, const TextGenPosixTime& theTime);
-
+	void updateTimePhrase(const std::string& theWeekdayPhrase,
+						  const std::string& theDayPhasePhrase,
+						  const TextGenPosixTime& theTime);	  
+	void updateWeekdayPhrase(const std::string& theWeekdayPhrase, 
+							 const TextGenPosixTime& theTime);
+	void updateDayPhasePhrase(const std::string& theDayPhasePhrase);
+	
 	TextGenPosixTime latestDate;
-    std::string latestTimePhrase;
+    std::string latestWeekdayPhrase;
+    std::string latestDayPhasePhrase;
   };
 
 
