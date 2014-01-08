@@ -709,8 +709,8 @@ namespace TextGen
 		if(day_phase_phrase != thePhraseHistory.latestDayPhasePhrase)
 		  {
 			thePhraseHistory.updateDayPhasePhrase(day_phase_phrase);
-			sentence << day_phase_phrase;
 		  }
+		sentence << day_phase_phrase;
 	  }
 
 	if(sentence.size() == 0)
@@ -724,8 +724,9 @@ namespace TextGen
 		if(day_phase_phrase != thePhraseHistory.latestDayPhasePhrase)
 		  {
 			thePhraseHistory.updateDayPhasePhrase(day_phase_phrase);
-			sentence << day_phase_phrase;
 		  }
+
+		sentence << day_phase_phrase;
 	  }
 
 	theWeatherForecastStory.theLogger << "PHRASE PERIOD: " 

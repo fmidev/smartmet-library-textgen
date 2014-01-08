@@ -46,7 +46,6 @@ namespace TextGen
 #define SAKEITA_WORD "sakeita"
 #define RUNSAITA_WORD "runsaita"
 #define ENIMMAKSEEN_WORD "enimmakseen"
-#define ALUKSI_WORD "aluksi"
 #define SAA_WORD "saa"
 #define ON_WORD "on"
 #define SAADAAN_WORD "saadaan"
