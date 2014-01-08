@@ -38,6 +38,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
+* Upcoming (Reponen)
+- Wind-related phrases modified, redundant phrases removed. 'Voimakas tuuli heikkenee'-phrase used when maximum wind is first greater than 17.5 m/s and then wekens.
 * Tue Dec 17 2013 Mika Heiskanen <mika.heiskanen@fmi.fi> - 13.12.17-2.fmi
 - Fixed to calculate aggregates correctly for specific coordinates
 * Tue Dec 17 2013 Mika Heiskanen <mika.heiskanen@fmi.fi> - 13.12.17-1.fmi
