@@ -189,21 +189,22 @@ namespace TextGen
 			 eventPeriodItemNext->theWindSpeedChangeEnds &&
 			 !windSpeedDifferEnoughOnCombinedPeriodPeriod)))
 		  {
-			WindEventId mask(MISSING_WIND_EVENT);
 			if(eventId & TUULI_HEIKKENEE)
 			  {
-				mask = TUULI_HEIKKENEE;
 				if((eventPeriodItemNext && (eventPeriodItemNext->theWindEvent & TUULI_HEIKKENEE)))
-				  reportWindSpeed = false;
+				  {
+					eventId = mask_wind_event(eventId, TUULI_HEIKKENEE);
+					reportWindSpeed = false;
+				  }
 			  }
 			else if(eventId & TUULI_VOIMISTUU)
 			  {
-				mask = TUULI_VOIMISTUU;
 				if((eventPeriodItemNext && (eventPeriodItemNext->theWindEvent & TUULI_VOIMISTUU)))
-				  reportWindSpeed = false;
+				  {
+					eventId = mask_wind_event(eventId, TUULI_VOIMISTUU);
+					reportWindSpeed = false;
+				  }
 			  }
-			if(mask != MISSING_WIND_EVENT)
-			  eventId = mask_wind_event(eventId,  mask);
 		  }
 
 		// when wind is weak dont report changes in speed and direction, just
@@ -293,6 +294,10 @@ namespace TextGen
 		bool windStrengthStartsToChange(eventPeriodItem->theWindSpeedChangeStarts &&
 										!eventPeriodItem->theWindSpeedChangeEnds);
 
+		int windSpeedUpperLimit(get_maximum_wind(eventStartPeriod,
+												 theParameters.theArea,
+												 theParameters.theWindDataVector));
+
 		switch(eventId)
 		  {
 		  case TUULI_HEIKKENEE:
@@ -350,11 +355,18 @@ namespace TextGen
 					}
 				  else
 					{
-					  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
-							   << EMPTY_STRING
-							   << changeAttributeStr
-							   << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
-							   << directionSentenceP;
+					  if(eventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+						{
+						  sentence << VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
+								   << windDirectionSentenceWithAttribute(windDirectionIdAvg)
+								   << (smallChange ? EMPTY_STRING : changeAttributeStr);
+						}
+					  else
+						{
+						  sentence << (eventId == TUULI_HEIKKENEE ? POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE : POHJOISTUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE)
+								   << directionSentence
+								   << changeAttributeStr;
+						}
 					}
 				}
 			  else
@@ -369,29 +381,58 @@ namespace TextGen
 						 ((eventIdPreviousReported & TUULI_VOIMISTUU && eventId == TUULI_VOIMISTUU) ||
 						  (eventIdPreviousReported & TUULI_HEIKKENEE && eventId == TUULI_HEIKKENEE)))
 						{
-						  sentence << ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA
-								   << getTimePhrase(eventPeriod, USE_ALKAEN_PHRASE)
-								   << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
-								   << directionSentenceP;
+						  if(eventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+							{
+							  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE
+									   << getTimePhrase(eventPeriod, USE_ALKAEN_PHRASE)
+									   << windDirectionSentenceWithAttribute(windDirectionIdAvg);
+							}
+						  else
+							{
+							  sentence << ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA
+									   << getTimePhrase(eventPeriod, USE_ALKAEN_PHRASE)
+									   << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
+									   << directionSentenceP;
+							}
 						}
 					  else
 						{
 						  if(windStrengthStartsToChange)
 							{
-							  sentence << (eventId == TUULI_HEIKKENEE ? ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE :
-										   ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE)
-									   << getTimePhrase(eventPeriod, useAlkaenPhrase)
-									   << directionSentence
-									   << EMPTY_STRING;
+							  if(eventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+								{
+								  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
+										   << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										   << windDirectionSentenceWithAttribute(windDirectionIdAvg)
+										   << (smallChange ? EMPTY_STRING : changeAttributeStr);
+								}
+							  else
+								{
+								  sentence << (eventId == TUULI_HEIKKENEE ? ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE :
+											   ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE)
+										   << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										   << directionSentence
+										   << changeAttributeStr;
+								}
 							  appendDecreasingIncreasingInterval = false;
 							}
 						  else
 							{
-							  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
-									   << getTimePhrase(eventPeriod, useAlkaenPhrase)
-									   << changeAttributeStr
-									   << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
-									   << directionSentenceP;
+							  if(eventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+								{
+								  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
+										   << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										   << windDirectionSentenceWithAttribute(windDirectionIdAvg)
+										   << changeAttributeStr;
+								}
+							  else
+								{
+								  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
+										   << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										   << changeAttributeStr
+										   << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
+										   << directionSentenceP;
+								}
 							}
 						}
 					}
@@ -401,29 +442,58 @@ namespace TextGen
 						 ((eventIdPreviousReported & TUULI_VOIMISTUU && eventId == TUULI_VOIMISTUU) ||
 						  (eventIdPreviousReported & TUULI_HEIKKENEE && eventId == TUULI_HEIKKENEE)))
 						{
-						  sentence << ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA
-								   << getTimePhrase(eventPeriod, useAlkaenPhrase)
-								   << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
-								   << directionSentenceP;
+							  if(eventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+								{
+								  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE
+										   << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										   << windDirectionSentenceWithAttribute(windDirectionIdAvg);
+								}
+							  else
+								{
+								  sentence << ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA
+										   << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										   << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
+										   << directionSentenceP;
+								}
 						}
 					  else
 						{
 						  if(windStrengthStartsToChange)
 							{
-							  sentence << (eventId == TUULI_HEIKKENEE ? ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE :
-										   ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE)
-									   << getTimePhrase(eventPeriod, useAlkaenPhrase)
-									   << directionSentence
-									   << EMPTY_STRING;
+							  if(eventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+								{
+								  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
+										   << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										   << windDirectionSentenceWithAttribute(windDirectionIdAvg)
+										   << (smallChange ? EMPTY_STRING : changeAttributeStr);
+								}
+							  else
+								{
+								  sentence << (eventId == TUULI_HEIKKENEE ? ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE :
+											   ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE)
+										   << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										   << directionSentence
+										   << EMPTY_STRING;
+								}
 							  appendDecreasingIncreasingInterval = false;
 							}
 						  else
 							{
-							  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
-									   << getTimePhrase(eventPeriod, useAlkaenPhrase)
-									   << changeAttributeStr
-									   << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
-									   << directionSentenceP;
+							  if(eventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+								{
+								  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
+										   << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										   << windDirectionSentenceWithAttribute(windDirectionIdAvg)
+										   << changeAttributeStr;
+								}
+							  else
+								{
+								  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
+										   << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										   << changeAttributeStr
+										   << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
+										   << directionSentenceP;
+								}
 							}
 						}
 					}
@@ -593,46 +663,87 @@ namespace TextGen
 					{
 					  if(eventPeriodItem->theTransientDirectionChangeFlag)
 						{
-						  if(windStrengthStartsToChange)
-							sentence << ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
-									 << EMPTY_STRING
-									 << windDirectionSentence(windDirectionIdBeg, true);
+						  if(eventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+							{
+							  if(windStrengthStartsToChange)
+								sentence << VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
+										 << windDirectionSentenceWithAttribute(windDirectionIdAvg);
+							  else
+								sentence << VOIMAKAS_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
+										 << windDirectionSentenceWithAttribute(windDirectionIdAvg);
+							}
 						  else
-							sentence << ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
-									 << EMPTY_STRING
-									 << windDirectionSentence(windDirectionIdBeg, true);
+							{
+							  if(windStrengthStartsToChange)
+								sentence << POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
+										 << windDirectionSentence(windDirectionIdBeg, true);
+							  else
+								sentence << POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
+										 << windDirectionSentence(windDirectionIdBeg, true);
+							}
 						}
 					  else
 						{
-						  if(windStrengthStartsToChange)
-							sentence << ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
-									 << EMPTY_STRING
-									 << windDirectionSentence(windDirectionIdBeg, true);
+						  if(eventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+							{
+							  if(windStrengthStartsToChange)
+								sentence << VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
+										 << windDirectionSentenceWithAttribute(windDirectionIdAvg);
+							  else
+								sentence << VOIMAKAS_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
+										 << windDirectionSentenceWithAttribute(windDirectionIdAvg);
+							}
 						  else
-							sentence << ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
-									 << EMPTY_STRING
-									 << windDirectionSentence(windDirectionIdBeg, true);
+							{
+							  if(windStrengthStartsToChange)
+								sentence << POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
+										 << windDirectionSentence(windDirectionIdBeg, true);
+							  else
+								sentence << POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
+										 << windDirectionSentence(windDirectionIdBeg, true);
+							}
 					    }
 					}
 				  else
 					{
-					  if(eventPeriodItem->theTransientDirectionChangeFlag)
+					  if(eventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
 						{
-						  if(windStrengthStartsToChange)
-							sentence << ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE;
+						  if(eventPeriodItem->theTransientDirectionChangeFlag)
+							{
+							  if(windStrengthStartsToChange)
+								sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE;
+							  else
+								sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE;
+							}
 						  else
-							sentence << ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE;
-
+							{
+							  if(windStrengthStartsToChange)
+								sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE;
+							  else
+								sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE;
+							}
+						  sentence << getTimePhrase(eventStartPeriod, !firstSentenceInTheStory)					 
+								   << windDirectionSentenceWithAttribute(windDirectionIdAvg);
 						}
 					  else
 						{
-						  if(windStrengthStartsToChange)
-							sentence << ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE;
+						  if(eventPeriodItem->theTransientDirectionChangeFlag)
+							{
+							  if(windStrengthStartsToChange)
+								sentence << ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE;
+							  else
+								sentence << ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE;
+							  
+							}
 						  else
-							sentence << ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE;
-						}
-
-					  sentence << getTimePhrase(eventStartPeriod, !firstSentenceInTheStory);
+							{
+							  if(windStrengthStartsToChange)
+								sentence << ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE;
+							  else
+								sentence << ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE;
+							}
+						  sentence << getTimePhrase(eventStartPeriod, !firstSentenceInTheStory);
+						}					  
 					}
 				}
 
@@ -671,23 +782,19 @@ namespace TextGen
 					  if(eventPeriodItem->theTransientDirectionChangeFlag)
 						{
 						  if(windStrengthStartsToChange)
-							sentence << ILTAPAIVALLA_POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
-									 << EMPTY_STRING
+							sentence << POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
 									 << windDirectionSentence(windDirectionIdBeg, true);
 						  else
-							sentence << ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
-									 << EMPTY_STRING
+							sentence << POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
 									 << windDirectionSentence(windDirectionIdBeg, true);
 						}
 					  else
 						{
 						  if(windStrengthStartsToChange)
-							sentence << ILTAPAIVALLA_POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
-									 << EMPTY_STRING
+							sentence << POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
 									 << windDirectionSentence(windDirectionIdBeg, true);
 						  else
-							sentence << ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
-									 << EMPTY_STRING
+							sentence << POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
 									 << windDirectionSentence(windDirectionIdBeg, true);
 						}
 					}
@@ -758,29 +865,6 @@ namespace TextGen
 						  windSpeedIntervalPeriodPreviousReported = eventPeriod;
 						}
 					}
-
-				  /*
-				  if(previousWindDirectionId == windDirectionIdAvg)
-					{
-					  if(windSpeedDifferEnough)
-						sentence << getTimePhrase(eventPeriod, useAlkaenPhrase);
-					}
-				  else
-					{
-					  sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
-							   << getTimePhrase(eventPeriod, useAlkaenPhrase)
-							   << windDirectionSentence(windDirectionIdAvg);
-					}
-
-				  // report the speed if it differs from what has been reported
-				  // in the end of the previous period
-				  if(windSpeedDifferEnough)
-					{
-					  sentence << windSpeedIntervalSentence(eventPeriod, 
-															USE_AT_ITS_STRONGEST_PHRASE);
-					  windSpeedIntervalPeriodPreviousReported = eventPeriod;
-					}
-				  */
 				}
 			  else if((eventIdPreviousReported & TUULI_MUUTTUU_VAIHTELEVAKSI) && 
 					  i < theParameters.theMergedWindEventPeriodVector.size() - 1 &&
@@ -900,19 +984,36 @@ namespace TextGen
 
 	bool useAlkaenPhrase(get_period_length(eventPeriod) >= 6);
 	bool strengtheningWind =  (currentWindEventId & TUULI_VOIMISTUU);
-
-	if(previousWindEventId & TUULI_VOIMISTUU || previousWindEventId & TUULI_HEIKKENEE) // indicates that this is jot first period
+	
+	WeatherPeriod eventStartPeriod(eventPeriod.localStartTime(),
+								   eventPeriod.localStartTime());
+	
+	int windSpeedUpperLimit(get_maximum_wind(eventStartPeriod,
+											 theParameters.theArea,
+											 theParameters.theWindDataVector));
+	
+	if(previousWindEventId & TUULI_VOIMISTUU || previousWindEventId & TUULI_HEIKKENEE) // indicates that this is not first period
 	  {
 		if(previousWindDirectionId == VAIHTELEVA)
 		  {
 			if(theWindSpeedChangeStarts &&
 			   !theWindSpeedChangeEnds)
 			  {
-				sentence << (currentWindEventId == TUULI_HEIKKENEE ? ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE :
-							 ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE)
-						 << getTimePhrase(eventPeriod, useAlkaenPhrase)
-						 << windDirectionSentence(windDirectionIdAvg, true)
-						 << EMPTY_STRING;
+				if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+				  {
+					sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
+							 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+							 << windDirectionSentenceWithAttribute(windDirectionIdAvg)
+							 << (smallChange ? EMPTY_STRING : changeAttributeStr);
+				  }
+				else
+				  {
+					sentence << (currentWindEventId == TUULI_HEIKKENEE ? ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE :
+								 ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE)
+							 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+							 << windDirectionSentence(windDirectionIdAvg, true)
+							 << (smallChange ? EMPTY_STRING : changeAttributeStr);
+				  }
 				appendDecreasingIncreasingInterval = false;
 				previousWindDirectionId = windDirectionIdAvg;
 			  }
@@ -921,21 +1022,40 @@ namespace TextGen
 				if((previousWindEventId & TUULI_HEIKKENEE && currentWindEventId & TUULI_HEIKKENEE) ||
 				   (previousWindEventId & TUULI_VOIMISTUU && currentWindEventId & TUULI_VOIMISTUU))
 				  {
-					sentence << ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA
-							 << getTimePhrase(eventPeriod, useAlkaenPhrase)
-							 << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-							 << windDirectionSentence(windDirectionIdAvg);
+					if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+					  {
+						sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE
+								 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+								 << windDirectionSentenceWithAttribute(windDirectionIdAvg);
+					  }
+					else
+					  {
+						sentence << ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA
+								 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+								 << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
+								 << windDirectionSentence(windDirectionIdAvg);
+					  }
 					previousWindDirectionId = windDirectionIdAvg;
 				  }
 				else
 				  {
-					if(strengtheningWind)
-					  sentence << ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE;
+					if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+					  {						
+						sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
+								 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+								 << windDirectionSentenceWithAttribute(windDirectionIdAvg)
+								 << changeAttributeStr;
+					  }
 					else
-					  sentence << ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE;
-					sentence  << getTimePhrase(eventPeriod, useAlkaenPhrase)
-							  << windDirectionSentence(windDirectionIdEnd, true)
-							  << changeAttributeStr;
+					  {
+						if(strengtheningWind)
+						  sentence << ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE;
+						else
+						  sentence << ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE;
+						sentence  << getTimePhrase(eventPeriod, useAlkaenPhrase)
+								  << windDirectionSentence(windDirectionIdEnd, true)
+								  << changeAttributeStr;
+					  }
 					previousWindDirectionId = windDirectionIdEnd;
 				  }
 			  }
@@ -954,21 +1074,43 @@ namespace TextGen
 					  }
 					else
 					  {
-						if(theWindSpeedChangeStarts &&
-						   !theWindSpeedChangeEnds)
-						  {
-							sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
-									 << getTimePhrase(eventPeriod, useAlkaenPhrase)
-									 << TUULI_WORD
-									 << (smallChange ? EMPTY_STRING : changeAttributeStr);
-							appendDecreasingIncreasingInterval = false;
+						if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+						  {		
+							if(theWindSpeedChangeStarts &&
+							   !theWindSpeedChangeEnds)
+							  {
+								sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
+										 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										 << VOIMAKAS_TUULI_PHRASE
+										 << (smallChange ? EMPTY_STRING : changeAttributeStr);
+								appendDecreasingIncreasingInterval = false;
+							  }
+							else
+							  {
+								sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
+										 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										 << VOIMAKAS_TUULI_PHRASE
+										 << (smallChange ? EMPTY_STRING : changeAttributeStr);
+								  }
 						  }
 						else
 						  {
-							sentence << ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
-									 << getTimePhrase(eventPeriod, useAlkaenPhrase)
-									 << TUULI_WORD
-									 << changeAttributeStr;
+							if(theWindSpeedChangeStarts &&
+							   !theWindSpeedChangeEnds)
+							  {
+								sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
+										 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										 << TUULI_WORD
+										 << (smallChange ? EMPTY_STRING : changeAttributeStr);
+								appendDecreasingIncreasingInterval = false;
+							  }
+							else
+							  {
+								sentence << ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
+										 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										 << TUULI_WORD
+										 << changeAttributeStr;
+							  }
 						  }
 					  }
 				  }
@@ -976,9 +1118,18 @@ namespace TextGen
 				  {
 					if(currentWindEventId & TUULI_HEIKKENEE)
 					  {
-						sentence << ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_EDELLEEN
-								 << getTimePhrase(eventPeriod, useAlkaenPhrase)
-								 << TUULI_WORD;
+						if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+						  {		
+							sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE
+									 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+									 << VOIMAKAS_TUULI_PHRASE;
+						  }
+						else
+						  {
+							sentence << ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_EDELLEEN
+									 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+									 << TUULI_WORD;
+						  }
 					  }
 					else 
 					  {
@@ -1003,60 +1154,86 @@ namespace TextGen
 			  }
 			else
 			  {
-				bool changeStarts(false);
-
 				if(previousWindEventId & TUULI_VOIMISTUU)
 				  {
 					if(currentWindEventId & TUULI_VOIMISTUU)
 					  {
-						sentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE;
+						sentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE
+								 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+								 << getWindDirectionTurntoString(windDirectionIdEnd);
+
 					  }
 					else
 					  {
-						if(theWindSpeedChangeStarts &&
-						   !theWindSpeedChangeEnds)
-						  {
-							sentence << ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE;
-							changeStarts = true;
+						if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+						  {		
+							if(theWindSpeedChangeStarts &&
+							   !theWindSpeedChangeEnds)
+							  {
+								sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE;
+								appendDecreasingIncreasingInterval = false;
+							  }
+							else
+							  {
+								sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE;
+							  }
+							sentence << getTimePhrase(eventPeriod, useAlkaenPhrase)
+									 << windDirectionSentenceWithAttribute(windDirectionIdBeg)
+									 << getWindDirectionTurntoString(windDirectionIdEnd);
 						  }
 						else
 						  {
-							sentence << ILTAPAIVALLA_TUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE;
+							if(theWindSpeedChangeStarts &&
+							   !theWindSpeedChangeEnds)
+							  {
+								sentence << ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE;
+								appendDecreasingIncreasingInterval = false;
+							  }
+							else
+							  {
+								sentence << ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE;
+							  }
+							sentence << getTimePhrase(eventPeriod, useAlkaenPhrase)
+									 << windDirectionSentence(windDirectionIdBeg, true)
+									 << getWindDirectionTurntoString(windDirectionIdEnd);
 						  }
 					  }
 				  }
 				else
 				  {
-					if(currentWindEventId & TUULI_HEIKKENEE)
+					if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
 					  {
-						sentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE;
+						sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE
+								 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+								 << windDirectionSentenceWithAttribute(windDirectionIdBeg)
+								 << getWindDirectionTurntoString(windDirectionIdEnd);
 					  }
-					else 
+					else
 					  {
-						if(theWindSpeedChangeStarts &&
-						   !theWindSpeedChangeEnds)
+						if(currentWindEventId & TUULI_HEIKKENEE)
 						  {
-							sentence << ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE;
-							changeStarts = true;
+							sentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE
+									 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+									 << getWindDirectionTurntoString(windDirectionIdEnd);
 						  }
-						else
+						else 
 						  {
-							sentence << ILTAPAIVALLA_TUULI_VOIMISTUU_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE;
+							if(theWindSpeedChangeStarts &&
+							   !theWindSpeedChangeEnds)
+							  {
+								sentence << ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE
+										 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										 << getWindDirectionTurntoString(windDirectionIdEnd);
+								appendDecreasingIncreasingInterval = false;
+							  }
+							else
+							  {
+								sentence << ILTAPAIVALLA_TUULI_VOIMISTUU_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE
+										 << getTimePhrase(eventPeriod, useAlkaenPhrase)
+										 << getWindDirectionTurntoString(windDirectionIdEnd);
+							  }
 						  }
 					  }
-				  }
-
-				if(changeStarts)
-				  {
-					sentence << getTimePhrase(eventPeriod, useAlkaenPhrase)
-							 << windDirectionSentence(windDirectionIdBeg, true)
-							 << getWindDirectionTurntoString(windDirectionIdEnd);
-					appendDecreasingIncreasingInterval = false;
-				  }
-				else
-				  {
-					sentence << getTimePhrase(eventPeriod, useAlkaenPhrase)
-							 << getWindDirectionTurntoString(windDirectionIdEnd);
 				  }
 			  }
 			previousWindDirectionId = windDirectionIdEnd;
@@ -1097,21 +1274,39 @@ namespace TextGen
 						if(strengtheningWind)
 						  sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE;
 						else
-						  sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE;
-
-						sentence << timePhrase
-								 << windDirectionSentence(windDirectionIdAvgPlus1)
-								 << (smallChange ? EMPTY_STRING : changeAttributeStr);
+						  {
+							if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)							  
+							  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
+									   << timePhrase
+									   << windDirectionSentenceWithAttribute(windDirectionIdAvgPlus1)
+									   << (smallChange ? EMPTY_STRING : changeAttributeStr);
+							else
+							  sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
+									   << timePhrase
+									   << windDirectionSentence(windDirectionIdAvgPlus1)
+									   << (smallChange ? EMPTY_STRING : changeAttributeStr);
+						  }
 					  }
 					else
 					  {
 						if(strengtheningWind)
-						  sentence << ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE;
+						  sentence << ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE
+								   << timePhrase
+								   << windDirectionSentence(windDirectionIdAvgPlus1, true)
+								   << changeAttributeStr;
 						else
-						  sentence << ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE;
-						sentence  << getTimePhrase(eventPeriod, useAlkaenPhrase)
-								  << windDirectionSentence(windDirectionIdAvgPlus1, true)
-								  << changeAttributeStr;
+						  {
+							if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)							  
+							  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
+									   << timePhrase
+									   << windDirectionSentenceWithAttribute(windDirectionIdAvgPlus1)
+									   << changeAttributeStr;
+							else
+							  sentence << ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
+									   << timePhrase
+									   << windDirectionSentence(windDirectionIdAvgPlus1, true)
+									   << changeAttributeStr;
+						  }
 					  }
 					previousWindDirectionId = windDirectionIdAvgPlus1;
 				  }
@@ -1137,12 +1332,19 @@ namespace TextGen
 					  }
 					else
 					  {
-						sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_POHJOISEEN_COMPOSITE_PHRASE
-								 << timePhrase
-								 << changeAttributeStr
-								 << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-								 << windDirectionSentence(windDirectionIdBegPlus1)
-								 << getWindDirectionTurntoString(windDirectionIdEnd);
+						if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+						  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE
+								   << timePhrase
+								   << windDirectionSentenceWithAttribute(windDirectionIdBegPlus1)
+								   << changeAttributeStr
+								   << getWindDirectionTurntoString(windDirectionIdEnd);
+						else
+						  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_POHJOISEEN_COMPOSITE_PHRASE
+								   << timePhrase
+								   << changeAttributeStr
+								   << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
+								   << windDirectionSentence(windDirectionIdBegPlus1)
+								   << getWindDirectionTurntoString(windDirectionIdEnd);
 					  }
 					previousWindDirectionId = windDirectionIdEnd;
 				  }
@@ -1188,13 +1390,21 @@ namespace TextGen
 					  }
 					else
 					  {
-						sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE
-								 << timePhrase
-								 << changeAttributeStr
-								 << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-								 << windDirectionSentence(windDirectionIdBeg)
-								 << timePhrase2
-								 << getWindDirectionTurntoString(windDirectionIdEnd);
+						if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+						  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE
+								   << timePhrase
+								   << windDirectionSentenceWithAttribute(windDirectionIdBeg)
+								   << changeAttributeStr
+								   << timePhrase2
+								   << getWindDirectionTurntoString(windDirectionIdEnd);
+						else
+						  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE
+								   << timePhrase
+								   << changeAttributeStr
+								   << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
+								   << windDirectionSentence(windDirectionIdBeg)
+								   << timePhrase2
+								   << getWindDirectionTurntoString(windDirectionIdEnd);
 					  }
 					previousWindDirectionId = windDirectionIdEnd;
 				  }
@@ -1204,21 +1414,38 @@ namespace TextGen
 					   !theWindSpeedChangeEnds)
 					  {
 						if(strengtheningWind)
-						  sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE;
-						else
-						  sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE;
+						  sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE	
+								   << timePhrase
+								   << windDirectionSentence(windDirectionIdAvg)
+								   << (smallChange ? EMPTY_STRING : changeAttributeStr);
 
-						sentence << timePhrase
-								 << windDirectionSentence(windDirectionIdAvg)
-								 << (smallChange ? EMPTY_STRING : changeAttributeStr);
+						else
+						  {
+							if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+							  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
+									   << timePhrase
+									   << windDirectionSentenceWithAttribute(windDirectionIdAvg)
+									   << (smallChange ? EMPTY_STRING : changeAttributeStr);
+							else
+							  sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
+									   << timePhrase
+									   << windDirectionSentence(windDirectionIdAvg)
+									   << (smallChange ? EMPTY_STRING : changeAttributeStr);
+						  }
 					  }
 					else
 					  {
-						sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
-								 << timePhrase
-								 << changeAttributeStr
-								 << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-								 << windDirectionSentence(windDirectionIdAvg);
+							if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+							  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
+									   << timePhrase
+									   << windDirectionSentenceWithAttribute(windDirectionIdAvg)
+									   << changeAttributeStr;
+							else
+							  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
+									   << timePhrase
+									   << changeAttributeStr
+									   << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
+									   << windDirectionSentence(windDirectionIdAvg);
 					  }
 					previousWindDirectionId = windDirectionIdAvg;
 				  }
@@ -1237,21 +1464,37 @@ namespace TextGen
 					   !theWindSpeedChangeEnds)
 					  {
 						if(strengtheningWind)
-						  sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE;
+						  sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE
+								   << timePhrase
+								   << windDirectionSentence(windDirectionIdAvgPlus1)
+								   << (smallChange ? EMPTY_STRING : changeAttributeStr);
 						else
-						  sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE;
-
-						sentence << timePhrase
-								 << windDirectionSentence(windDirectionIdAvgPlus1)
-								 << (smallChange ? EMPTY_STRING : changeAttributeStr);
+						  {
+							if(windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+							  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
+									   << timePhrase
+									   << windDirectionSentenceWithAttribute(windDirectionIdAvgPlus1)
+									   << (smallChange ? EMPTY_STRING : changeAttributeStr);
+							else
+							  sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
+									   << timePhrase
+									   << windDirectionSentence(windDirectionIdAvgPlus1)
+									   << (smallChange ? EMPTY_STRING : changeAttributeStr);
+						  }
 					  }
 					else
 					  {
-						sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
-								 << timePhrase
-								 << changeAttributeStr
-								 << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-								 << windDirectionSentence(windDirectionIdAvgPlus1);
+						if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+						  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
+								   << timePhrase
+								   << windDirectionSentenceWithAttribute(windDirectionIdAvgPlus1)
+								   << changeAttributeStr;
+						else
+						  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
+								   << timePhrase
+								   << changeAttributeStr
+								   << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
+								   << windDirectionSentence(windDirectionIdAvgPlus1);
 					  }
 					previousWindDirectionId = windDirectionIdAvgPlus1;
 				  }
@@ -1292,13 +1535,21 @@ namespace TextGen
 					  }
 					else
 					  {
-						sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE
-								 << timePhrase
-								 << changeAttributeStr
-								 << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-								 << windDirectionSentence(windDirectionIdBegPlus1)
-								 << timePhrase2
-								 << getWindDirectionTurntoString(windDirectionIdEnd);
+						if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+						  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE
+								   << timePhrase
+								   << windDirectionSentenceWithAttribute(windDirectionIdBegPlus1)
+								   << changeAttributeStr
+								   << timePhrase2
+								   << getWindDirectionTurntoString(windDirectionIdEnd);
+						else
+						  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE
+								   << timePhrase
+								   << changeAttributeStr
+								   << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
+								   << windDirectionSentence(windDirectionIdBegPlus1)
+								   << timePhrase2
+								   << getWindDirectionTurntoString(windDirectionIdEnd);
 					  }
 					previousWindDirectionId = windDirectionIdEnd;
 				  }
@@ -1323,22 +1574,36 @@ namespace TextGen
 						timePhrase2 << getTimePhrase(windTurnignPeriod, useAlkaenPhrase2);
 					  }
 
-					sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE
-							 << timePhrase
-							 << changeAttributeStr
-							 << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-							 << windDirectionSentence(windDirectionIdBeg)
-							 << timePhrase2
-							 << getWindDirectionTurntoString(windDirectionIdEnd);
+					if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+					  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE
+							   << timePhrase
+							   << windDirectionSentenceWithAttribute(windDirectionIdBeg)
+							   << changeAttributeStr
+							   << timePhrase2
+							   << getWindDirectionTurntoString(windDirectionIdEnd);
+					else
+					  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE
+							   << timePhrase
+							   << changeAttributeStr
+							   << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
+							   << windDirectionSentence(windDirectionIdBeg)
+							   << timePhrase2
+							   << getWindDirectionTurntoString(windDirectionIdEnd);
 					previousWindDirectionId = windDirectionIdEnd;
 				  }
 				else
 				  {
-					sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
-							 << timePhrase
-							 << changeAttributeStr
-							 << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-							 << windDirectionSentence(windDirectionIdAvg);
+					if(currentWindEventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+					  sentence << ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
+							   << timePhrase
+							   << windDirectionSentenceWithAttribute(windDirectionIdAvg)
+							   << changeAttributeStr;
+					else
+					  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
+							   << timePhrase
+							   << changeAttributeStr
+							   << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
+							   << windDirectionSentence(windDirectionIdAvg);
 					previousWindDirectionId = windDirectionIdAvg;
 				  }
 			  }
@@ -2004,14 +2269,11 @@ namespace TextGen
 	WeatherResult lowerLimit(kFloatMissing, 0.0);
 	WeatherResult upperLimit(kFloatMissing, 0.0);
 
-	//	if(getSpeedIntervalLimits(thePeriod, lowerLimit, upperLimit))
-	  {
-		sentence << speedRangeSentence(thePeriod,
-									   upperLimit,
-									   lowerLimit,
-									   theParameters.theVar,
-									   theUseAtItsStrongestPhrase);
-	  }
+	sentence << speedRangeSentence(thePeriod,
+								   upperLimit,
+								   lowerLimit,
+								   theParameters.theVar,
+								   theUseAtItsStrongestPhrase);
 	return sentence;
   }
 
@@ -2097,6 +2359,93 @@ namespace TextGen
 	  case VAIHTELEVA:
 	  case MISSING_WIND_DIRECTION_ID:
 		sentence << (theBasicForm ? VAIHTELEVA_TUULI : VAIHTELEVA_TUULI_P);
+		break;
+	  }
+
+	return sentence;
+  }
+
+  Sentence WindForecast::windDirectionSentenceWithAttribute(const WindDirectionId& theWindDirectionId) const
+  {
+	Sentence sentence;
+
+	switch(theWindDirectionId)
+	  {
+	  case POHJOINEN:
+		sentence << VOIMAKAS_POHJOISTUULI_PHRASE;
+		break;
+	  case POHJOISEN_PUOLEINEN:
+		sentence << VOIMAKAS_POHJOISEN_PUOLEINEN_TUULI_PHRASE;
+		break;
+	  case POHJOINEN_KOILLINEN:
+		sentence << VOIMAKAS_POHJOINEN_KAAKKO_TUULI_PHRASE;
+		break;
+	  case KOILLINEN:
+		sentence << VOIMAKAS_KOILLISTUULI_PHRASE;
+		break;
+	  case KOILLISEN_PUOLEINEN:
+		sentence << VOIMAKAS_KOILLISEN_PUOLEINEN_TUULI_PHRASE;
+		break;
+	  case ITA_KOILLINEN:
+		sentence << VOIMAKAS_ITA_KOILLINEN_TUULI_PHRASE;
+		break;
+	  case ITA:
+		sentence << VOIMAKAS_ITATUULI_PHRASE;
+		break;
+	  case IDAN_PUOLEINEN:
+		sentence << VOIMAKAS_IDAN_PUOLEINEN_TUULI_PHRASE;
+		break;
+	  case ITA_KAAKKO:
+		sentence << VOIMAKAS_ITA_KAAKKO_TUULI_PHRASE;
+		break;
+	  case KAAKKO:
+		sentence << VOIMAKAS_KAAKOISTUULI_PHRASE;
+		break;
+	  case KAAKON_PUOLEINEN:
+		sentence << VOIMAKAS_KAAKON_PUOLEINEN_TUULI_PHRASE;
+		break;
+	  case ETELA_KAAKKO:
+		sentence << VOIMAKAS_ETELA_KAAKKO_TUULI_PHRASE;
+		break;
+	  case ETELA:
+		sentence << VOIMAKAS_ETALATUULI_PHRASE;
+		break;
+	  case ETELAN_PUOLEINEN:
+		sentence << VOIMAKAS_ETALAN_PUOLEINEN_TUULI_PHRASE;
+		break;
+	  case ETELA_LOUNAS:
+		sentence << VOIMAKAS_ETALA_LOUNAS_TUULI_PHRASE;
+		break;
+	  case LOUNAS:
+		sentence << VOIMAKAS_LOUNAISTUULI_PHRASE;
+		break;
+	  case LOUNAAN_PUOLEINEN:
+		sentence << VOIMAKAS_LOUNAAN_PUOLEINEN_TUULI_PHRASE;
+		break;
+	  case LANSI_LOUNAS:
+		sentence << VOIMAKAS_LANSI_LOUNAS_TUULI_PHRASE;
+		break;
+	  case LANSI:
+		sentence << VOIMAKAS_LANSITUULI_PHRASE;
+		break;
+	  case LANNEN_PUOLEINEN:
+		sentence << VOIMAKAS_LANNEN_PUOLEINEN_TUULI_PHRASE;
+		break;
+	  case LANSI_LUODE:
+		sentence << VOIMAKAS_LANSI_LUODE_TUULI_PHRASE;
+		break;
+	  case LUODE:
+		sentence << VOIMAKAS_LUODETUULI_PHRASE;
+		break;
+	  case LUOTEEN_PUOLEINEN:
+		sentence << VOIMAKAS_LUOTEEN_PUOLEINEN_TUULI_PHRASE;
+		break;
+	  case POHJOINEN_LUODE:
+		sentence << VOIMAKAS_POHJOINEN_LUODE_TUULI_PHRASE;
+		break;
+	  case VAIHTELEVA:
+	  case MISSING_WIND_DIRECTION_ID:
+		sentence << VOIMAKAS_TUULI_PHRASE;
 		break;
 	  }
 
