@@ -1,18 +1,18 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 13.6.3
+Version: 13.12.17
 Release: 2%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 13.5.27
-BuildRequires: boost-devel >= 1.52
+BuildRequires: libsmartmet-newbase >= 13.12.5
+BuildRequires: boost-devel
 BuildRequires: mysql-devel
-BuildRequires: gdal-devel >= 1.9.1
-Requires: gdal >= 1.9.1
+BuildRequires: gdal-devel >= 1.9.2
+Requires: gdal >= 1.9.2
 Provides: %{LIBNAME}
 
 %description
@@ -38,6 +38,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
+* Tue Dec 17 2013 Mika Heiskanen <mika.heiskanen@fmi.fi> - 13.12.17-2.fmi
+- Fixed to calculate aggregates correctly for specific coordinates
+* Tue Dec 17 2013 Mika Heiskanen <mika.heiskanen@fmi.fi> - 13.12.17-1.fmi
+- Updated to latest newbase
+* Mon Oct  7 2013 Mika Heiskanen <mika.heiskanen@fmi.fi> - 13.10.7-1.fmi
+- New UTF-8 beta release
 * Mon Jun  3 2013 Mika Heiskanen <mika.heiskanen@fmi.fi> - 13.6.3-2.fmi
 - Compiled with -fPIC
 * Mon Jun  3 2013 Mika Heiskanen <mika.heiskanen@fmi.fi> - 13.6.3-1.fmi

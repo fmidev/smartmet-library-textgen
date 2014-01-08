@@ -56,15 +56,15 @@ INCLUDES += -I ../include
 
 LIBS += \
 	-lsmartmet_macgyver \
-	-lboost_date_time \
-        -lboost_regex \
-        -lboost_filesystem \
-        -lboost_iostreams \
-	-lboost_locale \
-	-lboost_thread \
-        -lboost_system \
+	-lboost_date_time-mt \
+        -lboost_regex-mt\
+        -lboost_filesystem-mt\
+        -lboost_iostreams-mt\
+	-lboost_locale-mt \
+	-lboost_thread-mt \
+        -lboost_system-mt\
 	`pkg-config --cflags --libs icu-i18n` \
-        -lz -lbz2 -lpthread
+        -lz -lbz2 -lpthread -lrt
 
 all: $(PROG)
 clean:

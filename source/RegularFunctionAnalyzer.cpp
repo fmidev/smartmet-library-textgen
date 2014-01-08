@@ -280,6 +280,7 @@ namespace TextGen
 	  }
 
 	float result = QueryDataIntegrator::Integrate(qi,
+												  theArea.point(),
 												  thePeriods,
 												  *subtimemod,
 												  *timemod);
