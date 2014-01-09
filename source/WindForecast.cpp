@@ -211,6 +211,8 @@ namespace TextGen
 		// tell speed and direction for the whole weak period if it is different from the perevious
 		if(eventPeriodItem->theWeakWindPeriodFlag)
 		  {
+			if(eventIdPreviousReported & TUULI_MUUTTUU_VAIHTELEVAKSI)
+			  continue;
 			// if we have short weak period in the middle, ignore it
 			float period_len(get_period_length(eventPeriod));
 			float forecast_period_len( get_period_length(theParameters.theForecastPeriod));
