@@ -92,7 +92,7 @@ namespace MorningAndEveningPeriodGeneratorTest
 		MorningAndEveningPeriodGenerator generator(period,6,9,18,22, 6,9,18,22);
 		try
 		  {
-			WeatherPeriod p = generator.period(1);
+			(void) generator.period(1);
 			TEST_FAILED("Should have thrown - there are 0 periods");
 		  }
 		catch(...) { }
