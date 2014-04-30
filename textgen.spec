@@ -1,8 +1,8 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 13.12.17
-Release: 2%{?dist}.fmi
+Version: 14.4.25
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
@@ -38,8 +38,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
-* Upcoming (Reponen)
-- Wind-related phrases modified, redundant phrases removed. 'Voimakas tuuli heikkenee'-phrase used when maximum wind is first greater than 17.5 m/s and then wekens.
+* Fri Apr 25 2014 Mika Heiskanen <mika.heiskanen@fmi.fi> - 14.4.25-1.fmi
+- Wind-related phrases modified
+- Redundant phrases removed.
+- 'Voimakas tuuli heikkenee'-phrase used when maximum wind is first greater than 17.5 m/s and then weakens.
 * Tue Dec 17 2013 Mika Heiskanen <mika.heiskanen@fmi.fi> - 13.12.17-2.fmi
 - Fixed to calculate aggregates correctly for specific coordinates
 * Tue Dec 17 2013 Mika Heiskanen <mika.heiskanen@fmi.fi> - 13.12.17-1.fmi
