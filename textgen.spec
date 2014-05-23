@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 14.4.25
+Version: 14.5.23
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -38,6 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
+* Fri May 23 2014 Tuomo Lauri <tuomo.lauri@fmi.fi> - 14.5.23-1.fmi
+- Fixed raw text inclusions
+- Text-stories can now begin with any 'text*' - identifier
 * Fri Apr 25 2014 Mika Heiskanen <mika.heiskanen@fmi.fi> - 14.4.25-1.fmi
 - Wind-related phrases modified
 - Redundant phrases removed.
