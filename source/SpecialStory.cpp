@@ -70,7 +70,7 @@ namespace TextGen
   {
 	if(theName == "none")
 	  return true;
-	if(theName == "text")
+	if(theName.substr(0,4) == "text") //Allows more flexible definitions
 	  return true;
 	if(theName == "date")
 	  return true;
@@ -96,7 +96,7 @@ namespace TextGen
   {
 	if(theName == "none")
 	  return none();
-	if(theName == "text")
+	if(theName.substr(0,4) == "text") //Allows more flexible definitions
 	  return text();
 	if(theName == "date")
 	  return date();
