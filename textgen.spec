@@ -40,6 +40,9 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Oct  3 2014 Mika Heiskanen <mika.heiskanen@fmi.fi> - 14.10.3-1.fmi
 - textgen::coordinates setting now has a default value
+* Fri May 23 2014 Tuomo Lauri <tuomo.lauri@fmi.fi> - 14.5.23-1.fmi
+- Fixed raw text inclusions
+- Text-stories can now begin with any 'text*' - identifier
 * Fri Apr 25 2014 Mika Heiskanen <mika.heiskanen@fmi.fi> - 14.4.25-1.fmi
 - Wind-related phrases modified
 - Redundant phrases removed.

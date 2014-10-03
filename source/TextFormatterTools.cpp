@@ -210,6 +210,12 @@ namespace TextGen
 	  // horizontal tabulator
 	  replace_all(retval, "\\t", "\t");
 
+	  // this is for raw text inclusions
+	  if (!retval.empty() && retval[0] == '@')
+		{
+		  return "";
+		}
+
 	  return retval;
 	}
 
