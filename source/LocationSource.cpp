@@ -91,7 +91,7 @@ namespace TextGen
 
 	if(itsFinder.Empty())
 	  {
-		string filename = Settings::require_string("textgen::coordinates");
+		string filename = Settings::optional_string("textgen::coordinates","/smartmet/share/coordinates/default.txt");
 		itsFinder.AddFile(filename,false);
 	  }
 
