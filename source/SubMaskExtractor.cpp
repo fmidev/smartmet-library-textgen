@@ -73,8 +73,8 @@ namespace TextGen
 
 	// Get the data into use
 	  
-	shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+	boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
 	NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
 	FmiParameterName param = FmiParameterName(converter.ToEnum(parameterName));
@@ -178,8 +178,8 @@ namespace TextGen
 
 	// Get the data into use
 	  
-	shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+	boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
 	NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
 	FmiParameterName param = FmiParameterName(converter.ToEnum(parameterName));
@@ -470,8 +470,8 @@ namespace TextGen
 	const string datavar = dataName + '_' + data_type_name(Forecast);
 	const string dataname = Settings::optional_string(datavar, default_forecast);
 
-	shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+	boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
 	NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
 	for(NFmiIndexMask::const_iterator it = theIndexMask.begin();

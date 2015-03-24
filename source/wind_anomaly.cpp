@@ -497,9 +497,9 @@ namespace TextGen
 
 
 
-	const void log_start_time_and_end_time(MessageLogger& theLog, 
-										   const std::string& theLogMessage, 
-										   const WeatherPeriod& thePeriod)
+	void log_start_time_and_end_time(MessageLogger& theLog, 
+									 const std::string& theLogMessage, 
+									 const WeatherPeriod& thePeriod)
 	{
 	  theLog << NFmiStringTools::Convert(theLogMessage)
 			 << thePeriod.localStartTime()

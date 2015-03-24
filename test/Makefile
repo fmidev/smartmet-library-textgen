@@ -30,39 +30,25 @@ endif
 CC = g++
 CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
 
-# Getting 'regression/tframe.h' on OS X
-#
-ifeq ($(UNAME_S), Darwin)
-  INCLUDES = \
-    -I ../../newbase/test \
-    -I /sw/include \
-    -I /sw/include/mysql \
-    -I ..
-  LIBS = \
-    -L.. -lsmartmet_textgen \
-	-L../../newbase -lsmartmet_newbase \
-    -L/sw/lib -lmysqlclient -lmysqlpp
-else
-  INCLUDES = \
-    -I /usr/include/smartmet \
+INCLUDES = \
+	-I /usr/include/smartmet \
 	-I /usr/include/mysql
-  LIBS = \
-    -L .. -lsmartmet_textgen \
+LIBS = \
+	../libsmartmet_textgen.so \
 	-lsmartmet_newbase \
-    -L $(libdir)/mysql -lmysqlclient -lmysqlpp
-endif
+	-L $(libdir)/mysql -lmysqlclient -lmysqlpp
 
 INCLUDES += -I ../include
 
 LIBS += \
 	-lsmartmet_macgyver \
-	-lboost_date_time-mt \
-        -lboost_regex-mt\
-        -lboost_filesystem-mt\
-        -lboost_iostreams-mt\
-	-lboost_locale-mt \
-	-lboost_thread-mt \
-        -lboost_system-mt\
+	-lboost_date_time \
+        -lboost_regex\
+        -lboost_filesystem\
+        -lboost_iostreams\
+	-lboost_locale \
+	-lboost_thread \
+        -lboost_system\
 	`pkg-config --cflags --libs icu-i18n` \
         -lz -lbz2 -lpthread -lrt
 
@@ -80,6 +66,6 @@ test: $(PROG)
 	 php -q $$prog; \
 	done
 
-$(PROG) : % : %.cpp ../libsmartmet_textgen.a
+$(PROG) : % : %.cpp ../libsmartmet_textgen.so
 	$(CC) $(CFLAGS) -o $@ $@.cpp $(INCLUDES) $(LIBS)
 

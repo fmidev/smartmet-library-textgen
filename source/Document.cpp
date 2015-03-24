@@ -30,9 +30,9 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  shared_ptr<Glyph> Document::clone() const
+  boost::shared_ptr<Glyph> Document::clone() const
   {
-	shared_ptr<Glyph> ret(new Document(*this));
+	boost::shared_ptr<Glyph> ret(new Document(*this));
 	return ret;
   }
 

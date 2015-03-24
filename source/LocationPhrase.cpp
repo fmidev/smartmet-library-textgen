@@ -51,9 +51,9 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  shared_ptr<Glyph> LocationPhrase::clone() const
+  boost::shared_ptr<Glyph> LocationPhrase::clone() const
   {
-	shared_ptr<Glyph> ret(new LocationPhrase(*this));
+	boost::shared_ptr<Glyph> ret(new LocationPhrase(*this));
 	return ret;
   }
 

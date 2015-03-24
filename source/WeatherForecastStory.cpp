@@ -558,14 +558,14 @@ namespace TextGen
 
 
 
-	const void WeatherForecastStory::logTheStoryItems() const
-	{
-	  theLogger << "******** STORY ITEMS ********" << endl;
-	  for(unsigned int i = 0; i < theStoryItemVector.size(); i++)
-		{
-		  theLogger << *theStoryItemVector[i];
-		}
-	}
+  void WeatherForecastStory::logTheStoryItems() const
+  {
+	theLogger << "******** STORY ITEMS ********" << endl;
+	for(unsigned int i = 0; i < theStoryItemVector.size(); i++)
+	  {
+		theLogger << *theStoryItemVector[i];
+	  }
+  }
 
 
   WeatherForecastStoryItem::WeatherForecastStoryItem(WeatherForecastStory& weatherForecastStory,

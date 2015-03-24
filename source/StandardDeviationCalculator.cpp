@@ -93,7 +93,7 @@ namespace TextGen
 
   void StandardDeviationCalculator::acceptor(const Acceptor & theAcceptor)
   {
-	itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
+	itsAcceptor = boost::shared_ptr<Acceptor>(theAcceptor.clone());
   }
 
   // ----------------------------------------------------------------------

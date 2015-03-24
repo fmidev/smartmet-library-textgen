@@ -67,7 +67,7 @@ namespace TextGen
   {
   public:
 
-	typedef map<string,shared_ptr<MySQLDictionary> > storage_type;
+	typedef map<string,boost::shared_ptr<MySQLDictionary> > storage_type;
 
 	storage_type itsData;
 	string itsLanguage;
@@ -153,7 +153,7 @@ namespace TextGen
 
 	// Load new language
 
-	shared_ptr<MySQLDictionary> dict(new MySQLDictionary);
+	boost::shared_ptr<MySQLDictionary> dict(new MySQLDictionary);
 	if(dict.get() == 0)
 	  throw TextGenError("Failed to allocate a new MySQLDictionary");
 

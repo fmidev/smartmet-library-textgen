@@ -134,7 +134,7 @@ namespace TextGen
   SouthernMaskSource::Pimple::find(const WeatherId & theID,
 								   const WeatherArea & theArea) const
   {
-	static shared_ptr<NFmiIndexMask> dummy;
+	static boost::shared_ptr<NFmiIndexMask> dummy;
 
 	mask_storage::const_iterator it;
 
@@ -153,16 +153,6 @@ namespace TextGen
 	  itsMaskStorage.erase(iter);
 
 	return dummy;
-
-	/*
-	WeatherAreaAndID key(theID,theArea);
-
-	mask_storage::const_iterator it = itsMaskStorage.find(key);
-	if(it == itsMaskStorage.end())
-	  return dummy;
-
-	return it->second;
-	*/
 
   }
 
@@ -208,7 +198,7 @@ namespace TextGen
   {
 	// Establish the grid which to mask
 
-	shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
+	boost::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
 	NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
 	if(!qi.IsGrid())
 	  throw TextGenError("The data in "+theData+" is not gridded - cannot generate mask for it");

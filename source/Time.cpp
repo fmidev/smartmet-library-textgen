@@ -49,9 +49,9 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  shared_ptr<Glyph> Time::clone() const
+  boost::shared_ptr<Glyph> Time::clone() const
   {
-	shared_ptr<Glyph> ret(new Time(*this));
+	boost::shared_ptr<Glyph> ret(new Time(*this));
 	return ret;
   }
 

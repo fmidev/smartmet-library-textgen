@@ -44,9 +44,9 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  shared_ptr<Glyph> TemperatureRange::clone() const
+  boost::shared_ptr<Glyph> TemperatureRange::clone() const
   {
-	shared_ptr<Glyph> ret(new TemperatureRange(*this));
+	boost::shared_ptr<Glyph> ret(new TemperatureRange(*this));
 	return ret;
   }
 

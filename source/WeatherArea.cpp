@@ -435,13 +435,13 @@ namespace TextGen
 
 	string filename = spec;
 	if(NFmiFileSystem::FileExists(filename))
-	  ;
+	  {}
 	else if(NFmiFileSystem::FileExists(filename = spec + ".svg"))
-	  ;
+	  {}
 	else if(NFmiFileSystem::FileExists(filename = searchpath + '/' + spec))
-	  ;
+	  {}
 	else if(NFmiFileSystem::FileExists(filename = searchpath + '/' + spec + ".svg"))
-	  ;
+	  {}
 
 	if(NFmiFileSystem::FileExists(filename))
 	  {

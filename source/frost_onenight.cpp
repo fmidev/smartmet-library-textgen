@@ -78,11 +78,11 @@ namespace TextGen
 						 SISAMAASSA_MONIN_PAIKOIN_HALLAA, 
 						 SISAMAASSA_YLEISESTI_HALLAA};
 
-	const frost_category get_frost_category(const double& frostProbability, 
-											const unsigned short& forecast_areas, 
-											const unsigned short& growing_season_started, 
-											const unsigned short& night_frost, 
-											const forecast_area_id& area_id)
+	frost_category get_frost_category(const double& frostProbability, 
+									  const unsigned short& forecast_areas, 
+									  const unsigned short& growing_season_started, 
+									  const unsigned short& night_frost, 
+									  const forecast_area_id& area_id)
 	{
 	  // area not included or growing season not yet started
 	  if(!(forecast_areas & area_id) || !(growing_season_started & area_id))
@@ -106,11 +106,11 @@ namespace TextGen
 		return CAT_NA;
 	}
 
-	const int get_frost_onenight_phrase_id(const double& coastalFrostProbability, 
-										   const double& inlandFrostProbability, 
-										   const unsigned short& forecast_areas, 
-										   const unsigned short& growing_season_started, 
-										   const unsigned short& night_frost)
+	 int get_frost_onenight_phrase_id(const double& coastalFrostProbability, 
+									  const double& inlandFrostProbability, 
+									  const unsigned short& forecast_areas, 
+									  const unsigned short& growing_season_started, 
+									  const unsigned short& night_frost)
 	{
 	  frost_category categoryCoastal = get_frost_category(coastalFrostProbability, 
 														  forecast_areas, 
@@ -539,14 +539,14 @@ namespace TextGen
 	  return sentence;
 	}
 	
-	const bool is_night_frost(MessageLogger& log, 
-							  const std::string& theLogMessage, 
-							  const std::string& theFakeVariable,
-							  const double& theNightFrostLimit,
-							  const GridForecaster& forecaster, 
-							  const AnalysisSources& theSources, 
-							  const WeatherArea& theArea, 
-							  const WeatherPeriod& thePeriod)
+	bool is_night_frost(MessageLogger& log, 
+						const std::string& theLogMessage, 
+						const std::string& theFakeVariable,
+						const double& theNightFrostLimit,
+						const GridForecaster& forecaster, 
+						const AnalysisSources& theSources, 
+						const WeatherArea& theArea, 
+						const WeatherPeriod& thePeriod)
 	{
 	  ComparativeAcceptor comparativeAcceptor(0.0, LESS_THAN);
 	  WeatherResult nightFrostPercentage = forecaster.analyze(theFakeVariable,
@@ -568,12 +568,12 @@ namespace TextGen
 	  return retval;
 	}
 
-	const bool growing_season_going_on(const WeatherArea& theArea, 
-									   const AnalysisSources& theSources,
-									   const WeatherPeriod& thePeriod,
-									   const std::string& theVariable,
-									   MessageLogger& log, 
-									   const std::string& theLogMessage)									   									   
+	bool growing_season_going_on(const WeatherArea& theArea, 
+								 const AnalysisSources& theSources,
+								 const WeatherPeriod& thePeriod,
+								 const std::string& theVariable,
+								 MessageLogger& log, 
+								 const std::string& theLogMessage)									   									   
 	{
 	  float growingSeasonPercentage = SeasonTools::growing_season_percentage(theArea, 
 																			 theSources,

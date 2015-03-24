@@ -98,7 +98,7 @@ using namespace std;
 
   bool same_content(const Sentence& sentence1, const Sentence& sentence2)
   {
-	shared_ptr<TextGen::Dictionary> dict;
+	boost::shared_ptr<TextGen::Dictionary> dict;
 	dict.reset(TextGen::DictionaryFactory::create("multimysql"));
 
 	dict->init("fi");
@@ -118,9 +118,9 @@ using namespace std;
   {
   }
 
-  const void log_start_time_and_end_time(MessageLogger& theLog, 
-										 const std::string& theLogMessage, 
-										 const WeatherPeriod& thePeriod)
+  void log_start_time_and_end_time(MessageLogger& theLog, 
+								   const std::string& theLogMessage, 
+								   const WeatherPeriod& thePeriod)
   {
 	theLog << NFmiStringTools::Convert(theLogMessage)
 		   << thePeriod.localStartTime()
@@ -129,9 +129,9 @@ using namespace std;
 		   << endl;
 	}
 
-  const void log_weather_result_time_series(MessageLogger& theLog, 
-											const std::string& theLogMessage, 
-											const weather_result_data_item_vector& theTimeSeries)
+  void log_weather_result_time_series(MessageLogger& theLog, 
+									  const std::string& theLogMessage, 
+									  const weather_result_data_item_vector& theTimeSeries)
   {
 	theLog << NFmiStringTools::Convert(theLogMessage) << endl;
 
@@ -220,7 +220,7 @@ using namespace std;
 	  }
   }
 
-  const void log_weather_result_data(wf_story_params& theParameters)
+  void log_weather_result_data(wf_story_params& theParameters)
   {
 	if(theParameters.theForecastArea & INLAND_AREA)
 	  {
@@ -239,7 +239,7 @@ using namespace std;
 	  }
   }
   
-  const void log_subperiods(wf_story_params& theParameters)
+  void log_subperiods(wf_story_params& theParameters)
   {
 	NightAndDayPeriodGenerator generator(theParameters.theForecastPeriod, theParameters.theVariable);
 
@@ -1410,7 +1410,7 @@ using namespace std;
 
   // if the successive sentences contains the same time phrase, insert 
   // aluksi, myohemmin to the beginning of the sentence
-  void check_sentences(shared_ptr<Glyph>& theSentence1, shared_ptr<Glyph>& theSentence2)
+  void check_sentences(boost::shared_ptr<Glyph>& theSentence1, boost::shared_ptr<Glyph>& theSentence2)
   {
 	GlyphContainer& gc1 = static_cast<GlyphContainer& >(*theSentence1);
 	GlyphContainer& gc2 = static_cast<GlyphContainer& >(*theSentence2);
@@ -1436,7 +1436,7 @@ using namespace std;
 	  }
   }
 
-  void get_sentences(const Glyph& glyphi, vector<shared_ptr<Glyph> >& sentences)
+  void get_sentences(const Glyph& glyphi, vector<boost::shared_ptr<Glyph> >& sentences)
   {
 	if(typeid(glyphi) == typeid(Sentence))
 	  {
@@ -1458,7 +1458,7 @@ using namespace std;
 	paragraph_tmp << paragraph;
 	paragraph.clear();
 
-	vector<shared_ptr<Glyph> > sentences;
+	vector<boost::shared_ptr<Glyph> > sentences;
 	get_sentences(paragraph_tmp, sentences);
 
 	for(unsigned int i = 0; i < sentences.size(); i++)

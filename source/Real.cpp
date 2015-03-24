@@ -59,9 +59,9 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  shared_ptr<Glyph> Real::clone() const
+  boost::shared_ptr<Glyph> Real::clone() const
   {
-	shared_ptr<Glyph> ret(new Real(*this));
+	boost::shared_ptr<Glyph> ret(new Real(*this));
 	return ret;
   }
 

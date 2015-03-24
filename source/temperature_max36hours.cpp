@@ -1173,9 +1173,9 @@ namespace TextGen
 
 	}
 
-	const void log_start_time_and_end_time(MessageLogger& theLog, 
-										   const std::string& theLogMessage, 
-										   const WeatherPeriod& thePeriod)
+	void log_start_time_and_end_time(MessageLogger& theLog, 
+									 const std::string& theLogMessage, 
+									 const WeatherPeriod& thePeriod)
 	{
 	  theLog << NFmiStringTools::Convert(theLogMessage)
 			 << thePeriod.localStartTime()
@@ -1185,7 +1185,7 @@ namespace TextGen
 	}
 
 
-	const void log_weather_results(const t36hparams& theParameters)
+	void log_weather_results(const t36hparams& theParameters)
 	{
 	  theParameters.theLog << "Weather results: " << endl;
 
@@ -1204,10 +1204,10 @@ namespace TextGen
 		} 
 	}
 
-	const temperature_phrase_id around_zero_phrase(const float theMinimum,
-												   const float theMean,
-												   const float theMaximum,
-												   const bool& theZeroIntervalFlag)
+	temperature_phrase_id around_zero_phrase(const float theMinimum,
+											 const float theMean,
+											 const float theMaximum,
+											 const bool& theZeroIntervalFlag)
 	{
 	  temperature_phrase_id retval = NO_PHRASE_ID;
 
@@ -1234,7 +1234,7 @@ namespace TextGen
 	  return retval;
 	}
 
-	const temperature_phrase_id around_zero_phrase(const t36hparams& theParameters)
+	temperature_phrase_id around_zero_phrase(const t36hparams& theParameters)
 	{
 	  temperature_phrase_id retval = NO_PHRASE_ID;
 
@@ -1266,8 +1266,8 @@ namespace TextGen
 	  return retval;
 	}
 
-	const bool separate_day_and_night(const t36hparams& theParameters,
-									  const forecast_area_id& theForecastAreaId)
+	bool separate_day_and_night(const t36hparams& theParameters,
+								const forecast_area_id& theForecastAreaId)
 	{
 	  // if only one day or one night is included ==> nothing to separate
 	  if(theParameters.theForecastPeriod == DAY1_PERIOD || 
@@ -1783,10 +1783,10 @@ namespace TextGen
 		}
 	}
 
-	const void temperature_phrase(t36hparams& theParameters, 
-								  Sentence& theDayPhasePhrase,
-								  Sentence& theTemperaturePhrase,
-								  Sentence& theAreaPhrase)
+	void temperature_phrase(t36hparams& theParameters, 
+							Sentence& theDayPhasePhrase,
+							Sentence& theTemperaturePhrase,
+							Sentence& theAreaPhrase)
 	{
 	  Sentence sentence;
 
@@ -3599,13 +3599,13 @@ namespace TextGen
 	  return sentence;
 	}
 
-	const void get_interval_details(t36hparams& theParameters,
-									const float& minValue, 
-									const float& meanValue, 
-									const float& maxValue, 
-									bool& intervalUsed,
-									int& intervalStart,
-									int& intervalEnd)
+	void get_interval_details(t36hparams& theParameters,
+							  const float& minValue, 
+							  const float& meanValue, 
+							  const float& maxValue, 
+							  bool& intervalUsed,
+							  int& intervalStart,
+							  int& intervalEnd)
 	{
 	  int theMinimumInt = static_cast<int>(round(minValue));
 	  int theMeanInt = static_cast<int>(round(meanValue));

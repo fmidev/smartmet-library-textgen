@@ -159,8 +159,8 @@ namespace TextGen
 
 	// Get the data into use
 
-	shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+	boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
 	NFmiFastQueryInfo qi = NFmiFastQueryInfo(qd.get());
 
 	// Try activating the parameter
@@ -174,7 +174,7 @@ namespace TextGen
 	
 	// Handle points and areas separately
 
-	shared_ptr<Calculator> spacemod, timemod, subtimemod;
+	boost::shared_ptr<Calculator> spacemod, timemod, subtimemod;
 
 	if(!itIsModulo)
 	  {

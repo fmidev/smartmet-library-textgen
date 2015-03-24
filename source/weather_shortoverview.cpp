@@ -87,15 +87,15 @@ namespace TextGen
 	  n1limits.upperLimit(c_clear);
 	  n3limits.lowerLimit(c_cloudy);
 
-	  shared_ptr<WeatherPeriodGenerator> periods;
+	  boost::shared_ptr<WeatherPeriodGenerator> periods;
 	  if(c_fullrange)
-		periods = shared_ptr<WeatherPeriodGenerator>(new NullPeriodGenerator(itsPeriod));
+		periods = boost::shared_ptr<WeatherPeriodGenerator>(new NullPeriodGenerator(itsPeriod));
 	  else
-		periods = shared_ptr<WeatherPeriodGenerator>(new HourPeriodGenerator(itsPeriod,
-																			 c_starthour,
-																			 c_endhour,
-																			 c_maxstarthour,
-																			 c_minendhour));
+		periods = boost::shared_ptr<WeatherPeriodGenerator>(new HourPeriodGenerator(itsPeriod,
+																					c_starthour,
+																					c_endhour,
+																					c_maxstarthour,
+																					c_minendhour));
 
 	  const WeatherResult n1result
 		= forecaster.analyze(itsVar+"::fake::clear_percentage",

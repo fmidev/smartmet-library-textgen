@@ -44,7 +44,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  void WmlTextFormatter::dictionary(const shared_ptr<Dictionary> & theDict)
+  void WmlTextFormatter::dictionary(const boost::shared_ptr<Dictionary> & theDict)
   {
 	itsDictionary = theDict;
   }

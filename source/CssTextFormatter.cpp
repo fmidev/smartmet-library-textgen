@@ -47,7 +47,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  void CssTextFormatter::dictionary(const shared_ptr<Dictionary> & theDict)
+  void CssTextFormatter::dictionary(const boost::shared_ptr<Dictionary> & theDict)
   {
 	itsDictionary = theDict;
   }

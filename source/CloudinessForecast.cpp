@@ -483,7 +483,7 @@ namespace TextGen
 			  continue;
 
 			changeIndex = i+1;
-			while(changeIndex-1 >= 0 &&
+			while(changeIndex >= 1 &&
 				  theData->at(changeIndex-1)->theResult.value() <= PILVISTYVAA_LOWER_LIMIT)
 			  changeIndex--;
 
@@ -504,7 +504,7 @@ namespace TextGen
 			  continue;
 
 			changeIndex = i+1;
-			while(changeIndex-1 >= 0 &&
+			while(changeIndex >= 1 &&
 				  theData->at(changeIndex-1)->theResult.value() >= PILVISTYVAA_UPPER_LIMIT)
 			  changeIndex--;
 

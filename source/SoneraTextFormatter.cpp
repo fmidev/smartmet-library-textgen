@@ -176,7 +176,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  void SoneraTextFormatter::dictionary(const shared_ptr<Dictionary> & theDict)
+  void SoneraTextFormatter::dictionary(const boost::shared_ptr<Dictionary> & theDict)
   {
 	itsDictionary = theDict;
   }

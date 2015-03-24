@@ -54,9 +54,9 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  shared_ptr<Glyph> IntegerRange::clone() const
+  boost::shared_ptr<Glyph> IntegerRange::clone() const
   {
-	shared_ptr<Glyph> ret(new IntegerRange(*this));
+	boost::shared_ptr<Glyph> ret(new IntegerRange(*this));
 	return ret;
   }
 

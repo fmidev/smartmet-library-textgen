@@ -52,9 +52,9 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  shared_ptr<Glyph> Text::clone() const
+  boost::shared_ptr<Glyph> Text::clone() const
   {
-	shared_ptr<Glyph> ret(new Text(*this));
+	boost::shared_ptr<Glyph> ret(new Text(*this));
 	return ret;
   }
 

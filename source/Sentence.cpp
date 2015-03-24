@@ -23,7 +23,6 @@
 #include "PlainTextFormatter.h"
 #include "TextFormatter.h"
 #include "TextGenError.h"
-
 #include <algorithm>
 
 using namespace std;
@@ -38,9 +37,9 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  shared_ptr<Glyph> Sentence::clone() const
+  boost::shared_ptr<Glyph> Sentence::clone() const
   {
-	shared_ptr<Glyph> ret(new Sentence(*this));
+	boost::shared_ptr<Glyph> ret(new Sentence(*this));
 	return ret;
   }
 
@@ -136,7 +135,7 @@ namespace TextGen
   {
 	if(!thePhrase.empty())
 	  {
-		shared_ptr<Phrase> phrase(new Phrase(thePhrase));
+		boost::shared_ptr<Phrase> phrase(new Phrase(thePhrase));
 		itsData.push_back(phrase);
 	  }
 	return *this;

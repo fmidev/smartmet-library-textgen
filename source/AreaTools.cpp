@@ -85,7 +85,7 @@ namespace TextGen
 					  const std::string & theArea2SvgFile,
 					  const std::string & theQueryData)
 	{
-	  shared_ptr<NFmiQueryData> sqd(new NFmiQueryData(theQueryData));
+	  boost::shared_ptr<NFmiQueryData> sqd(new NFmiQueryData(theQueryData));
 
 	  UserWeatherSource theWeatherSource;
 	  theWeatherSource.insert("data", sqd);
@@ -108,8 +108,8 @@ namespace TextGen
 	  const string datavar = dataName + '_' + "forecast";
 	  const string dataname = Settings::optional_string(datavar, default_forecast);
 
-	  shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	  shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+	  boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
 	  NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
 	  for(NFmiIndexMask::const_iterator it = theIndexMask.begin();
@@ -146,8 +146,8 @@ namespace TextGen
 	  const string datavar = dataName + '_' + "forecast";
 	  const string dataname = Settings::optional_string(datavar, default_forecast);
 
-	  shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	  shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+	  boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
 	  NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 	  
 	  NFmiIndexMask indexMask;
@@ -402,8 +402,8 @@ namespace TextGen
 	  const string datavar = dataName + '_' + "forecast";//ParameterAnalyzer::getDataTypeName(TextGen::Forecast);
 	  const string dataname = Settings::optional_string(datavar, default_forecast);
 
-	  shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	  shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	  boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+	  boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
 	  NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
 	  double lon_min = 180.0;

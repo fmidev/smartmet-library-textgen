@@ -135,8 +135,8 @@ namespace TextGen
 
 	// Get the data into use
 
-	shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
-	shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
+	boost::shared_ptr<WeatherSource> wsource = theSources.getWeatherSource();
+	boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
 
 	NFmiFastQueryInfo qi = NFmiFastQueryInfo(qd.get());
 	WindChillQueryInfo wi(qi);
@@ -155,7 +155,7 @@ namespace TextGen
 	throw TextGenError(theParameterName+" is not available in "+dataname);
 	*/
 
-	shared_ptr<Calculator> spacemod, timemod, subtimemod;
+	boost::shared_ptr<Calculator> spacemod, timemod, subtimemod;
 
 	if(!itIsModulo)
 	  {

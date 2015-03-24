@@ -127,7 +127,7 @@ namespace TextGen
    *
    * \param theID The weather ID
    * \param theArea The weather area
-   * \return shared_ptr to mask or 0
+   * \return boost::shared_ptr to mask or 0
    */
   // ----------------------------------------------------------------------
 
@@ -135,7 +135,7 @@ namespace TextGen
   LandMaskSource::Pimple::find(const WeatherId & theID,
 							   const WeatherArea & theArea) const
   {
-	static shared_ptr<NFmiIndexMask> dummy;
+	static boost::shared_ptr<NFmiIndexMask> dummy;
 
 	WeatherAreaAndID key(theID,theArea);
 
@@ -189,7 +189,7 @@ namespace TextGen
   {
 	// Establish the grid which to mask
 
-	shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
+	boost::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
 	NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
 	if(!qi.IsGrid())
 	  throw TextGenError("The data in "+theData+" is not gridded - cannot generate mask for it");

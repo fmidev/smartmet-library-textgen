@@ -321,9 +321,9 @@ enum anomaly_phrase_id
 
 	}
 
-	const void log_start_time_and_end_time(MessageLogger& theLog, 
-										   const std::string& theLogMessage, 
-										   const WeatherPeriod& thePeriod)
+	 void log_start_time_and_end_time(MessageLogger& theLog, 
+									  const std::string& theLogMessage, 
+									  const WeatherPeriod& thePeriod)
 	{
 	  theLog << NFmiStringTools::Convert(theLogMessage)
 			 << thePeriod.localStartTime()
@@ -332,13 +332,13 @@ enum anomaly_phrase_id
 			 << endl;
 	}
 
-	const void log_daily_factiles_for_period(MessageLogger& theLog,
-											 const string& theVariable,											
-											 const AnalysisSources& theSources,
-											 const WeatherArea& theArea,
-											 const std::string& theLogMessage, 
-											 const WeatherPeriod& thePeriod,
-											 const fractile_type_id& theFractileType)
+	void log_daily_factiles_for_period(MessageLogger& theLog,
+									   const string& theVariable,											
+									   const AnalysisSources& theSources,
+									   const WeatherArea& theArea,
+									   const std::string& theLogMessage, 
+									   const WeatherPeriod& thePeriod,
+									   const fractile_type_id& theFractileType)
 	{
 	  TextGenPosixTime startTime(thePeriod.localStartTime());
 	  TextGenPosixTime endTime(thePeriod.localStartTime());

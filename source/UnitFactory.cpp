@@ -89,7 +89,7 @@ namespace
 	const string var = "textgen::units::celsius::format";
 	const string opt = Settings::optional_string(var,"SI");
 
-	shared_ptr<Sentence> sentence(new Sentence);
+	boost::shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
 	  *sentence << Delimiter("\xc2\xb0"+string("C"));
@@ -120,7 +120,7 @@ namespace
 	const string var = "textgen::units::celsius::format";
 	const string opt = Settings::optional_string(var,"SI");
 
-	shared_ptr<Sentence> sentence(new Sentence);
+	boost::shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
 	  {
@@ -180,7 +180,7 @@ namespace
 	const string var = "textgen::units::meterspersecond::format";
 	const string opt = Settings::optional_string(var,"SI");
 
-	shared_ptr<Sentence> sentence(new Sentence);
+	boost::shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
 	  *sentence << "m/s";
@@ -210,7 +210,7 @@ namespace
 	const string var = "textgen::units::meterspersecond::format";
 	const string opt = Settings::optional_string(var,"SI");
 
-	shared_ptr<Sentence> sentence(new Sentence);
+	boost::shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
 	  {
@@ -295,7 +295,7 @@ namespace
 	const string var = "textgen::units::millimeters::format";
 	const string opt = Settings::optional_string(var,"SI");
 
-	shared_ptr<Sentence> sentence(new Sentence);
+	boost::shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
 	  *sentence << Delimiter("mm");
@@ -325,7 +325,7 @@ namespace
 	const string var = "textgen::units::millimeters::format";
 	const string opt = Settings::optional_string(var,"SI");
 
-	shared_ptr<Sentence> sentence(new Sentence);
+	boost::shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
 	  {
@@ -382,7 +382,7 @@ namespace
 	const string var = "textgen::units::meters::format";
 	const string opt = Settings::optional_string(var,"SI");
 
-	shared_ptr<Sentence> sentence(new Sentence);
+	boost::shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
 	  *sentence << Delimiter("m");
@@ -412,7 +412,7 @@ namespace
 	const string var = "textgen::units::meters::format";
 	const string opt = Settings::optional_string(var,"SI");
 
-	shared_ptr<Sentence> sentence(new Sentence);
+	boost::shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
 	  {
@@ -469,7 +469,7 @@ namespace
 	const string var = "textgen::units::percent::format";
 	const string opt = Settings::optional_string(var,"SI");
 
-	shared_ptr<Sentence> sentence(new Sentence);
+	boost::shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
 	  *sentence << Delimiter("%");
@@ -498,7 +498,7 @@ namespace
 	const string var = "textgen::units::percent::format";
 	const string opt = Settings::optional_string(var,"SI");
 
-	shared_ptr<Sentence> sentence(new Sentence);
+	boost::shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
 	  {
@@ -554,7 +554,7 @@ namespace
 	const string var = "textgen::units::hectopascal::format";
 	const string opt = Settings::optional_string(var,"SI");
 
-	shared_ptr<Sentence> sentence(new Sentence);
+	boost::shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
 	  *sentence << Delimiter("hPa");
@@ -583,7 +583,7 @@ namespace
 	const string var = "textgen::units::hectopascal::format";
 	const string opt = Settings::optional_string(var,"SI");
 
-	shared_ptr<Sentence> sentence(new Sentence);
+	boost::shared_ptr<Sentence> sentence(new Sentence);
 
 	if(opt == "SI")
 	  {

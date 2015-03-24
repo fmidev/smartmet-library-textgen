@@ -151,7 +151,7 @@ class WeatherForecastStory;
 	Paragraph getWeatherForecastStory();
 	const WeatherPeriod& getStoryPeriod() const { return theForecastPeriod; }
 	const std::vector<WeatherForecastStoryItem*>& getStoryItemVector() const { return theStoryItemVector; }
-	const void logTheStoryItems() const;
+	void logTheStoryItems() const;
 
   private:
 

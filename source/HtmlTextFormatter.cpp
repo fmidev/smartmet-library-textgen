@@ -44,7 +44,7 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
   
-  void HtmlTextFormatter::dictionary(const shared_ptr<Dictionary> & theDict)
+  void HtmlTextFormatter::dictionary(const boost::shared_ptr<Dictionary> & theDict)
   {
 	itsDictionary = theDict;
   }

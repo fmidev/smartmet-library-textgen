@@ -52,9 +52,9 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  shared_ptr<Glyph> SectionTag::clone() const
+  boost::shared_ptr<Glyph> SectionTag::clone() const
   {
-	shared_ptr<Glyph> ret(new SectionTag(*this));
+	boost::shared_ptr<Glyph> ret(new SectionTag(*this));
 	return ret;
   }
 

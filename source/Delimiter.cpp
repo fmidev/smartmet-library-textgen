@@ -48,9 +48,9 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  shared_ptr<Glyph> Delimiter::clone() const
+  boost::shared_ptr<Glyph> Delimiter::clone() const
   {
-	shared_ptr<Glyph> ret(new Delimiter(*this));
+	boost::shared_ptr<Glyph> ret(new Delimiter(*this));
 	return ret;
   }
 

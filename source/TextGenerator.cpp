@@ -132,10 +132,10 @@ namespace TextGen
 
   TextGenerator::Pimple::Pimple()
   {
-	shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
+	boost::shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
 	itsSources.setWeatherSource(weathersource);
 
-	typedef shared_ptr<MaskSource> mask_source;
+	typedef boost::shared_ptr<MaskSource> mask_source;
 
 	mask_source masksource(new RegularMaskSource());
 	itsSources.setMaskSource(masksource);
@@ -166,10 +166,10 @@ namespace TextGen
 	NFmiPoint point(0.0, 0.0);
 	WeatherArea theArea(point);
 
-	itsSources.setNorthernMaskSource(shared_ptr<MaskSource> (new NorthernMaskSource(theArea)));
-	itsSources.setSouthernMaskSource(shared_ptr<MaskSource> (new SouthernMaskSource(theArea)));
-	itsSources.setEasternMaskSource(shared_ptr<MaskSource> (new EasternMaskSource(theArea)));
-	itsSources.setWesternMaskSource(shared_ptr<MaskSource> (new WesternMaskSource(theArea)));
+	itsSources.setNorthernMaskSource(boost::shared_ptr<MaskSource> (new NorthernMaskSource(theArea)));
+	itsSources.setSouthernMaskSource(boost::shared_ptr<MaskSource> (new SouthernMaskSource(theArea)));
+	itsSources.setEasternMaskSource(boost::shared_ptr<MaskSource> (new EasternMaskSource(theArea)));
+	itsSources.setWesternMaskSource(boost::shared_ptr<MaskSource> (new WesternMaskSource(theArea)));
 
   }
 
@@ -185,10 +185,10 @@ namespace TextGen
   TextGenerator::Pimple::Pimple(const WeatherArea& theLandMaskArea,
 								const WeatherArea& theCoastMaskArea)
   {
- 	shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
+ 	boost::shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
 	itsSources.setWeatherSource(weathersource);
 
-	typedef shared_ptr<MaskSource> mask_source;
+	typedef boost::shared_ptr<MaskSource> mask_source;
 
 	mask_source masksource(new RegularMaskSource());
 	itsSources.setMaskSource(masksource);
@@ -214,10 +214,10 @@ namespace TextGen
 	NFmiPoint point(0.0, 0.0);
 	WeatherArea theArea(point);
 
-	itsSources.setNorthernMaskSource(shared_ptr<MaskSource> (new NorthernMaskSource(theArea)));
-	itsSources.setSouthernMaskSource(shared_ptr<MaskSource> (new SouthernMaskSource(theArea)));
-	itsSources.setEasternMaskSource(shared_ptr<MaskSource> (new EasternMaskSource(theArea)));
-	itsSources.setWesternMaskSource(shared_ptr<MaskSource> (new WesternMaskSource(theArea)));
+	itsSources.setNorthernMaskSource(boost::shared_ptr<MaskSource> (new NorthernMaskSource(theArea)));
+	itsSources.setSouthernMaskSource(boost::shared_ptr<MaskSource> (new SouthernMaskSource(theArea)));
+	itsSources.setEasternMaskSource(boost::shared_ptr<MaskSource> (new EasternMaskSource(theArea)));
+	itsSources.setWesternMaskSource(boost::shared_ptr<MaskSource> (new WesternMaskSource(theArea)));
  }
 
   // ----------------------------------------------------------------------

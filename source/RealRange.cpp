@@ -57,9 +57,9 @@ namespace TextGen
    */
   // ----------------------------------------------------------------------
 
-  shared_ptr<Glyph> RealRange::clone() const
+  boost::shared_ptr<Glyph> RealRange::clone() const
   {
-	shared_ptr<Glyph> ret(new RealRange(*this));
+	boost::shared_ptr<Glyph> ret(new RealRange(*this));
 	return ret;
   }
 
