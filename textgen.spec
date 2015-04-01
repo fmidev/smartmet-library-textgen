@@ -1,18 +1,19 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 14.10.3
+Version: 15.3.30
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase >= 13.12.5
+BuildRequires: libsmartmet-newbase-devel >= 15.3.30
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
-BuildRequires: gdal-devel >= 1.9.2
-Requires: gdal >= 1.9.2
+BuildRequires: gdal-devel >= 1.11.1
+Requires: libsmartmet-newbase >= 15.3.30
+Requires: gdal >= 1.11.1
 Provides: %{LIBNAME}
 
 %description
@@ -27,17 +28,32 @@ rm -rf $RPM_BUILD_ROOT
 make %{_smp_mflags}
 
 %install
-%makeinstall includedir=%{buildroot}%{_includedir}/smartmet
+%makeinstall includedir=%{buildroot}%{_includedir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root,0775)
+%defattr(0775,root,root,-)
+%{_libdir}/libsmartmet_%{LIBNAME}.so
+
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+
+%package -n libsmartmet-%{LIBNAME}-devel
+Summary: FMI textgen development files
+Provides: %{LIBNAME}-devel
+
+%description -n libsmartmet-%{LIBNAME}-devel
+FMI textgen development files
+
+%files -n libsmartmet-%{LIBNAME}-devel
+%defattr(0664,root,root,-)
 %{_includedir}/smartmet/%{LIBNAME}
-%{_libdir}/libsmartmet_%{LIBNAME}.a
 
 %changelog
+* Mon Mar 30 2015  <mheiskan@centos7.fmi.fi> - 15.3.30-1.fmi
+- Use dynamic linking for smartmet libraries
 * Fri Oct  3 2014 Mika Heiskanen <mika.heiskanen@fmi.fi> - 14.10.3-1.fmi
 - textgen::coordinates setting now has a default value
 * Fri May 23 2014 Tuomo Lauri <tuomo.lauri@fmi.fi> - 14.5.23-1.fmi
