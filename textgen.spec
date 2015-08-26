@@ -1,19 +1,19 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 15.4.15
+Version: 15.8.26
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase-devel >= 15.4.15
+BuildRequires: libsmartmet-newbase-devel >= 15.8.26
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
-BuildRequires: gdal-devel >= 1.11.1
-Requires: libsmartmet-newbase >= 15.4.15
-Requires: gdal >= 1.11.1
+BuildRequires: gdal-devel >= 1.11.2
+Requires: libsmartmet-newbase >= 15.8.26
+Requires: gdal >= 1.11.2
 Provides: %{LIBNAME}
 
 %description
@@ -52,6 +52,8 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Wed Aug 26 2015 Mika Heiskanen <mika.heiskanen@fmi.fi> - 15.8.26-1.fmi
+- Recompiled with latest newbase with faster parameter changing
 * Wed Apr 15 2015 Mika Heiskanen <mika.heiskanen@fmi.fi> - 15.4.15-1.fmi
 - newbase API changed
 * Thu Apr  9 2015 Mika Heiskanen <mika.heiskanen@fmi.fi> - 15.4.9-1.fmi
