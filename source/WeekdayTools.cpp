@@ -93,6 +93,22 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Return the "N-keskipaivaan" phrase
+	 *
+	 * \param theTime The time
+	 * \return The "N-keskipaivaan" phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	string until_weekday_noon(const TextGenPosixTime & theTime)
+	{
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-keskipaivaan");
+	  return out;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Return the "N-iltaan" phrase
 	 *
 	 * \param theTime The time
@@ -121,11 +137,13 @@ namespace TextGen
 	  const int hour = theTime.GetHour();
 	  if(hour == 6)
 		return until_weekday_morning(theTime);
+	  else if(hour == 12)
+		return until_weekday_noon(theTime);
 	  else if(hour == 18)
 		return until_weekday_evening(theTime);
 	  else
 		{
-		  const string msg = "WeekdayTools::until_weekday_time: Cannot generate -aamuun or -iltaan phrase for hour "+lexical_cast<int>(hour);
+		  const string msg = "WeekdayTools::until_weekday_time: Cannot generate -aamuun, -keskipaivaan or -iltaan phrase for hour "+lexical_cast<int>(hour);
 		  throw TextGenError(msg);
 		}
 	}
@@ -165,6 +183,22 @@ namespace TextGen
 
 	// ----------------------------------------------------------------------
 	/*!
+	 * \brief Return the "N-keskipaivasta" phrase
+	 *
+	 * \param theTime The time
+	 * \return The "N-keskipaivasta" phrase
+	 */
+	// ----------------------------------------------------------------------
+
+	string from_weekday_noon(const TextGenPosixTime & theTime)
+	{
+	  string out = (lexical_cast<string>(theTime.GetWeekday())
+					+"-keskipaivasta");
+	  return out;
+	}
+
+	// ----------------------------------------------------------------------
+	/*!
 	 * \brief Return the "N-illasta" phrase
 	 *
 	 * \param theTime The time
@@ -193,11 +227,13 @@ namespace TextGen
 	  const int hour = theTime.GetHour();
 	  if(hour == 6)
 		return from_weekday_morning(theTime);
+	  if(hour == 12)
+		return from_weekday_noon(theTime);
 	  else if(hour == 18)
 		return from_weekday_evening(theTime);
 	  else
 		{
-		  const string msg = "WeekdayTools::from_weekday_time: Cannot generate -aamusta or -illasta phrase for hour "+lexical_cast<int>(hour);
+		  const string msg = "WeekdayTools::from_weekday_time: Cannot generate -aamusta, -keskipaivasta or -illasta phrase for hour "+lexical_cast<int>(hour);
 		  throw TextGenError(msg);
 		}
 	}
