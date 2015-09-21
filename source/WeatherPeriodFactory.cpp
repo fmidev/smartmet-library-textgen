@@ -110,7 +110,7 @@ namespace
 	TextGenPosixTime end(start);
 	end.ChangeByDays(days);
 	end.SetHour(endhour);
-	if(start.GetHour() >= switchhour)
+	if(switchhour > 0 && start.GetHour() >= switchhour)
 	  end.ChangeByDays(1);
 
 	WeatherPeriod period(start,end);
@@ -160,7 +160,7 @@ namespace
 
 	TextGenPosixTime start(round_up(theTime));
 	start.ChangeByDays(startday);
-	if(start.GetHour() >= switchhour)
+	if(switchhour > 0 && start.GetHour() >= switchhour)
 	  start.ChangeByDays(1);
 	start.SetHour(starthour);
 

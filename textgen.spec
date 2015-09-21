@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 15.8.26
+Version: 15.9.18
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -52,6 +52,8 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Fri Sep 18 2015 Anssi Reponen <anssi reponen@fmi.fi> - 15.9.18-1.fmi
+- New phrases (keskipaivasta/keskipaivaan) added. If 'switchhour' is 0 it is ignored.
 * Wed Aug 26 2015 Mika Heiskanen <mika.heiskanen@fmi.fi> - 15.8.26-1.fmi
 - Recompiled with latest newbase with faster parameter changing
 * Wed Apr 15 2015 Mika Heiskanen <mika.heiskanen@fmi.fi> - 15.4.15-1.fmi
