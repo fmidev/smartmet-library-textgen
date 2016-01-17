@@ -15,37 +15,35 @@
 
 namespace TextGen
 {
-  class FileDictionary : public Dictionary
-  {
-  public:
+class FileDictionary : public Dictionary
+{
+ public:
+  typedef Dictionary::size_type size_type;
 
-	typedef Dictionary::size_type size_type;
-
-	virtual ~FileDictionary();
-	FileDictionary();
+  virtual ~FileDictionary();
+  FileDictionary();
 #ifdef NO_COMPILER_OPTIMIZE
-	FileDictionary(const FileDictionary & theDict);
-	FileDictionary & operator=(const FileDictionary & theDict);
+  FileDictionary(const FileDictionary& theDict);
+  FileDictionary& operator=(const FileDictionary& theDict);
 #endif
 
-	virtual void init(const std::string & theLanguage);
-	virtual const std::string & language(void) const;
-	virtual bool contains(const std::string & theKey) const;
-	virtual const std::string & find(const std::string & theKey) const;
-	virtual void insert(const std::string & theKey, const std::string & thePhrase);
+  virtual void init(const std::string& theLanguage);
+  virtual const std::string& language(void) const;
+  virtual bool contains(const std::string& theKey) const;
+  virtual const std::string& find(const std::string& theKey) const;
+  virtual void insert(const std::string& theKey, const std::string& thePhrase);
 
-	virtual size_type size(void) const;
-	virtual bool empty(void) const;
+  virtual size_type size(void) const;
+  virtual bool empty(void) const;
 
-  private:
+ private:
+  class Pimple;
+  boost::shared_ptr<Pimple> itsPimple;
 
-	class Pimple;
-	boost::shared_ptr<Pimple> itsPimple;
+};  // class FileDictionary
 
-  }; // class FileDictionary
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_FILEDICTIONARY_H
+#endif  // TEXTGEN_FILEDICTIONARY_H
 
 // ======================================================================

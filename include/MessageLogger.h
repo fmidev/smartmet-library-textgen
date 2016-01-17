@@ -14,41 +14,37 @@
 
 namespace TextGen
 {
-  class Glyph;
+class Glyph;
 }
 
 class MessageLogger : public MessageLoggerStream<>
 {
-
-public:
-
+ public:
   ~MessageLogger();
-  MessageLogger(const std::string & theFunction);
+  MessageLogger(const std::string& theFunction);
 
-  virtual void onNewMessage(const string_type & theMessage);
+  virtual void onNewMessage(const string_type& theMessage);
 
-  static void open(const std::string & theFilename);
+  static void open(const std::string& theFilename);
   static void indent(char theChar) { itsIndentChar = theChar; }
   static void indentstep(unsigned int theStep) { itsIndentStep = theStep; }
   static void timestamp(bool theFlag) { itsTimeStampOn = theFlag; }
+  MessageLogger& operator<<(const TextGen::Glyph& theGlyph);
 
-  MessageLogger & operator<<(const TextGen::Glyph & theGlyph);
-
-private:
-
+ private:
   MessageLogger();
-  MessageLogger(const MessageLogger & theLogger);
-  MessageLogger & operator=(const MessageLogger & theLogger);
+  MessageLogger(const MessageLogger& theLogger);
+  MessageLogger& operator=(const MessageLogger& theLogger);
 
   std::string itsFunction;
   static unsigned long itsDepth;
-  static std::ostream * itsOutput;
+  static std::ostream* itsOutput;
   static char itsIndentChar;
   static unsigned int itsIndentStep;
   static bool itsTimeStampOn;
 
-}; // MessageLogger
+};  // MessageLogger
 
-#endif // MESSAGELOGGER_H
+#endif  // MESSAGELOGGER_H
 
 // ======================================================================

@@ -10,15 +10,14 @@
 
 namespace TextGen
 {
-  class IdGenerator
-  {
-  public:
-	static long generate();
+class IdGenerator
+{
+ public:
+  static long generate();
 
-  }; // class IdGenerator
-} // namespace namespace TextGen
+};  // class IdGenerator
+}  // namespace namespace TextGen
 
-#endif // TEXTGEN_IDGENERATOR_H
+#endif  // TEXTGEN_IDGENERATOR_H
 
 // ======================================================================
-

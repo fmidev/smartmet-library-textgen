@@ -7,17 +7,16 @@
 
 namespace TextGen
 {
+class PrecipitationForecast;
+class CloudinessForecast;
+class FogForecast;
+class ThunderForecast;
+class Sentence;
 
-  class PrecipitationForecast;
-  class CloudinessForecast;
-  class FogForecast;
-  class ThunderForecast;
-  class Sentence;
-
-#define EMPTY_STRING "empty_string" 
-#define SPACE_STRING " " 
-#define COMMA_PUNCTUATION_MARK "," 
-#define COLON_PUNCTUATION_MARK ":" 
+#define EMPTY_STRING "empty_string"
+#define SPACE_STRING " "
+#define COMMA_PUNCTUATION_MARK ","
+#define COLON_PUNCTUATION_MARK ":"
 #define INTENSITY_PARAMETER "intensity"
 #define PRECIPITATION_PARAMETER "precipitation"
 #define IN_PLACES_PARAMETER "paikoin"
@@ -108,10 +107,14 @@ namespace TextGen
 #define YKSITTAISET_VESIKUUROT_MAHDOLLISIA_PHRASE "yksittaiset vesikuurot mahdollisia"
 #define YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_PHRASE "yksittaiset rantakuurot mahdollisia"
 #define YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_PHRASE "yksittaiset lumikuurot mahdollisia"
-#define YKSITTAISET_VESI_RANTA_KUUROT_MAHDOLLISIA_PHRASE "yksittaiset vesi- tai rantakuurot mahdollisia"
-#define YKSITTAISET_RANTA_VESI_KUUROT_MAHDOLLISIA_PHRASE "yksittaiset ranta- tai vesikuurot mahdollisia"
-#define YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA_PHRASE "yksittaiset lumi- tai rantakuurot mahdollisia"
-#define YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA_PHRASE "yksittaiset vesi- tai lumikuurot mahdollisia"
+#define YKSITTAISET_VESI_RANTA_KUUROT_MAHDOLLISIA_PHRASE \
+  "yksittaiset vesi- tai rantakuurot mahdollisia"
+#define YKSITTAISET_RANTA_VESI_KUUROT_MAHDOLLISIA_PHRASE \
+  "yksittaiset ranta- tai vesikuurot mahdollisia"
+#define YKSITTAISET_LUMI_RANTA_KUUROT_MAHDOLLISIA_PHRASE \
+  "yksittaiset lumi- tai rantakuurot mahdollisia"
+#define YKSITTAISET_VESI_LUMI_KUUROT_MAHDOLLISIA_PHRASE \
+  "yksittaiset vesi- tai lumikuurot mahdollisia"
 #define JOKA_MUUTTUU_LUMISATEEKSI_PHRASE "joka muuttuu lumisateeksi"
 #define JOKA_MUUTTUU_VESISATEEKSI_PHRASE "joka muuttuu vesisateeksi"
 #define JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE "joka muuttuu tihkusateeksi"
@@ -206,7 +209,7 @@ namespace TextGen
 #define IN_MANY_PLACES_LOWER_LIMIT 50.0
 #define IN_MANY_PLACES_UPPER_LIMIT 90.0
 #define FREEZING_RAIN_LIMIT 10
-#define PRECIPITATION_FORM_REPORTING_LIMIT 10.0 // at least 10% must be of the type to be mentioned
+#define PRECIPITATION_FORM_REPORTING_LIMIT 10.0  // at least 10% must be of the type to be mentioned
 
 #define SMALL_PROBABILITY_FOR_THUNDER_LOWER_LIMIT 0.1
 #define SMALL_PROBABILITY_FOR_THUNDER_UPPER_LIMIT 15.0
@@ -217,7 +220,7 @@ namespace TextGen
 #define MAJORITY_LIMIT 50.0
 #define SEPARATE_COASTAL_AREA_PERCENTAGE 5.0
 
-#define TREND_CHANGE_COEFFICIENT_TRESHOLD 0.65 // pearson coefficient
+#define TREND_CHANGE_COEFFICIENT_TRESHOLD 0.65  // pearson coefficient
 #define PEARSON_CO_FORM_TRANSFORM 0.65
 
 #define KESKIYO_START 0
@@ -239,730 +242,713 @@ namespace TextGen
 #define YO_START 22
 #define YO_END 6
 
-  enum weather_result_data_id
-	{
-	  CLOUDINESS_DATA = 0x1,
-	  CLOUDINESS_NORTHEAST_SHARE_DATA,
-	  CLOUDINESS_SOUTHEAST_SHARE_DATA,
-	  CLOUDINESS_SOUTHWEST_SHARE_DATA,
-	  CLOUDINESS_NORTHWEST_SHARE_DATA,
-	  PRECIPITATION_MAX_DATA,
-	  PRECIPITATION_MEAN_DATA,
-	  PRECIPITATION_EXTENT_DATA,
-	  PRECIPITATION_TYPE_DATA,
-	  PRECIPITATION_FORM_WATER_DATA,
-	  PRECIPITATION_FORM_DRIZZLE_DATA,
-	  PRECIPITATION_FORM_SLEET_DATA,
-	  PRECIPITATION_FORM_SNOW_DATA,
-	  PRECIPITATION_FORM_FREEZING_DATA,
-	  PRECIPITATION_NORTHEAST_SHARE_DATA,
-	  PRECIPITATION_SOUTHEAST_SHARE_DATA,
-	  PRECIPITATION_SOUTHWEST_SHARE_DATA,
-	  PRECIPITATION_NORTHWEST_SHARE_DATA,
-	  PRECIPITATION_POINT_DATA,
-	  THUNDER_PROBABILITY_DATA,
-	  THUNDER_EXTENT_DATA,
-	  THUNDER_NORTHEAST_SHARE_DATA,
-	  THUNDER_SOUTHEAST_SHARE_DATA,
-	  THUNDER_SOUTHWEST_SHARE_DATA,
-	  THUNDER_NORTHWEST_SHARE_DATA,
-	  FOG_INTENSITY_MODERATE_DATA,
-	  FOG_INTENSITY_DENSE_DATA,
-	  FOG_NORTHEAST_SHARE_DATA,
-	  FOG_SOUTHEAST_SHARE_DATA,
-	  FOG_SOUTHWEST_SHARE_DATA,
-	  FOG_NORTHWEST_SHARE_DATA,
-	  UNDEFINED_DATA_ID
-	};
+enum weather_result_data_id
+{
+  CLOUDINESS_DATA = 0x1,
+  CLOUDINESS_NORTHEAST_SHARE_DATA,
+  CLOUDINESS_SOUTHEAST_SHARE_DATA,
+  CLOUDINESS_SOUTHWEST_SHARE_DATA,
+  CLOUDINESS_NORTHWEST_SHARE_DATA,
+  PRECIPITATION_MAX_DATA,
+  PRECIPITATION_MEAN_DATA,
+  PRECIPITATION_EXTENT_DATA,
+  PRECIPITATION_TYPE_DATA,
+  PRECIPITATION_FORM_WATER_DATA,
+  PRECIPITATION_FORM_DRIZZLE_DATA,
+  PRECIPITATION_FORM_SLEET_DATA,
+  PRECIPITATION_FORM_SNOW_DATA,
+  PRECIPITATION_FORM_FREEZING_DATA,
+  PRECIPITATION_NORTHEAST_SHARE_DATA,
+  PRECIPITATION_SOUTHEAST_SHARE_DATA,
+  PRECIPITATION_SOUTHWEST_SHARE_DATA,
+  PRECIPITATION_NORTHWEST_SHARE_DATA,
+  PRECIPITATION_POINT_DATA,
+  THUNDER_PROBABILITY_DATA,
+  THUNDER_EXTENT_DATA,
+  THUNDER_NORTHEAST_SHARE_DATA,
+  THUNDER_SOUTHEAST_SHARE_DATA,
+  THUNDER_SOUTHWEST_SHARE_DATA,
+  THUNDER_NORTHWEST_SHARE_DATA,
+  FOG_INTENSITY_MODERATE_DATA,
+  FOG_INTENSITY_DENSE_DATA,
+  FOG_NORTHEAST_SHARE_DATA,
+  FOG_SOUTHEAST_SHARE_DATA,
+  FOG_SOUTHWEST_SHARE_DATA,
+  FOG_NORTHWEST_SHARE_DATA,
+  UNDEFINED_DATA_ID
+};
 
-  enum precipitation_form_id
-	{
-	  WATER_FORM = 0x1,
-	  DRIZZLE_FORM = 0x2,
-	  SLEET_FORM = 0x4,
-	  SNOW_FORM = 0x8,
-	  FREEZING_FORM = 0x10,
-	  WATER_DRIZZLE_FORM = 0x3,
-	  WATER_SLEET_FORM = 0x5,
-	  WATER_SNOW_FORM = 0x9,
-      WATER_FREEZING_FORM = 0x11,
-	  WATER_DRIZZLE_SLEET_FORM = 0x7,
-	  WATER_DRIZZLE_SNOW_FORM = 0xB,
-	  WATER_DRIZZLE_FREEZING_FORM = 0x13,
-	  WATER_SLEET_SNOW_FORM = 0xD,
-	  WATER_SLEET_FREEZING_FORM = 0x15,
-	  WATER_SNOW_FREEZING_FORM = 0x19,
-	  DRIZZLE_SLEET_FORM = 0x6,
-	  DRIZZLE_SNOW_FORM = 0xA,
-	  DRIZZLE_FREEZING_FORM = 0x12,
-	  DRIZZLE_SLEET_SNOW_FORM = 0xE,
-	  DRIZZLE_SLEET_FREEZING_FORM = 0x16,
-	  DRIZZLE_SNOW_FREEZING_FORM = 0x1A,
-	  SLEET_SNOW_FORM = 0xC,
-	  SLEET_FREEZING_FORM = 0x14,
-	  SLEET_SNOW_FREEZING_FORM = 0x1C,
-	  SNOW_FREEZING_FORM = 0x18,
-	  MISSING_PRECIPITATION_FORM = 0x0
-	};
+enum precipitation_form_id
+{
+  WATER_FORM = 0x1,
+  DRIZZLE_FORM = 0x2,
+  SLEET_FORM = 0x4,
+  SNOW_FORM = 0x8,
+  FREEZING_FORM = 0x10,
+  WATER_DRIZZLE_FORM = 0x3,
+  WATER_SLEET_FORM = 0x5,
+  WATER_SNOW_FORM = 0x9,
+  WATER_FREEZING_FORM = 0x11,
+  WATER_DRIZZLE_SLEET_FORM = 0x7,
+  WATER_DRIZZLE_SNOW_FORM = 0xB,
+  WATER_DRIZZLE_FREEZING_FORM = 0x13,
+  WATER_SLEET_SNOW_FORM = 0xD,
+  WATER_SLEET_FREEZING_FORM = 0x15,
+  WATER_SNOW_FREEZING_FORM = 0x19,
+  DRIZZLE_SLEET_FORM = 0x6,
+  DRIZZLE_SNOW_FORM = 0xA,
+  DRIZZLE_FREEZING_FORM = 0x12,
+  DRIZZLE_SLEET_SNOW_FORM = 0xE,
+  DRIZZLE_SLEET_FREEZING_FORM = 0x16,
+  DRIZZLE_SNOW_FREEZING_FORM = 0x1A,
+  SLEET_SNOW_FORM = 0xC,
+  SLEET_FREEZING_FORM = 0x14,
+  SLEET_SNOW_FREEZING_FORM = 0x1C,
+  SNOW_FREEZING_FORM = 0x18,
+  MISSING_PRECIPITATION_FORM = 0x0
+};
 
-  enum precipitation_form_transformation_id
-	{
-	  WATER_TO_SNOW,
-	  WATER_TO_DRIZZLE,
-	  WATER_TO_SLEET,
-	  SNOW_TO_WATER,
-	  SNOW_TO_DRIZZLE,
-	  SNOW_TO_SLEET,
-	  DRIZZLE_TO_WATER,
-	  DRIZZLE_TO_SNOW,
-	  DRIZZLE_TO_SLEET,
-	  SLEET_TO_WATER,
-	  SLEET_TO_DRIZZLE,
-	  SLEET_TO_SNOW,
-	  NO_FORM_TRANSFORMATION
-	};
+enum precipitation_form_transformation_id
+{
+  WATER_TO_SNOW,
+  WATER_TO_DRIZZLE,
+  WATER_TO_SLEET,
+  SNOW_TO_WATER,
+  SNOW_TO_DRIZZLE,
+  SNOW_TO_SLEET,
+  DRIZZLE_TO_WATER,
+  DRIZZLE_TO_SNOW,
+  DRIZZLE_TO_SLEET,
+  SLEET_TO_WATER,
+  SLEET_TO_DRIZZLE,
+  SLEET_TO_SNOW,
+  NO_FORM_TRANSFORMATION
+};
 
-  enum precipitation_intesity_id
-	{
-	  DRY_WEATHER,
-	  WEAK_PRECIPITATION,
-	  MODERATE_PRECIPITATION,
-	  HEAVY_PRECIPITATION,
-	  MISSING_INTENSITY_ID
-	};
+enum precipitation_intesity_id
+{
+  DRY_WEATHER,
+  WEAK_PRECIPITATION,
+  MODERATE_PRECIPITATION,
+  HEAVY_PRECIPITATION,
+  MISSING_INTENSITY_ID
+};
 
-  enum precipitation_category_id
-	{
-	  WEAK_WATER_PRECIPITATION,
-	  MODERATE_WATER_PRECIPITATION,
-	  HEAVY_WATER_PRECIPITATION,
-	  WEAK_SLEET_PRECIPITATION,
-	  MODERATE_SLEET_PRECIPITATION,
-	  HEAVY_SLEET_PRECIPITATION,
-	  WEAK_SNOW_PRECIPITATION,
-	  MODERATE_SNOW_PRECIPITATION,
-	  HEAVY_SNOW_PRECIPITATION,
-	  DRY_WEATHER_CATEGORY
-	};
+enum precipitation_category_id
+{
+  WEAK_WATER_PRECIPITATION,
+  MODERATE_WATER_PRECIPITATION,
+  HEAVY_WATER_PRECIPITATION,
+  WEAK_SLEET_PRECIPITATION,
+  MODERATE_SLEET_PRECIPITATION,
+  HEAVY_SLEET_PRECIPITATION,
+  WEAK_SNOW_PRECIPITATION,
+  MODERATE_SNOW_PRECIPITATION,
+  HEAVY_SNOW_PRECIPITATION,
+  DRY_WEATHER_CATEGORY
+};
 
-  enum precipitation_traverse_id
-	{
-	  FROM_SOUTH_TO_NORTH,
-	  FROM_NORTH_TO_SOUTH,
-	  FROM_EAST_TO_WEST,
-	  FROM_WEST_TO_EAST,
-	  FROM_NORTHEAST_TO_SOUTHWEST,
-	  FROM_SOUTHWEST_TO_NORTHEAST,
-	  FROM_NORTHWEST_TO_SOUTHEAST,
-	  FROM_SOUTHEAST_TO_NORTHWEST,
-	  MISSING_TRAVERSE_ID
-	};
+enum precipitation_traverse_id
+{
+  FROM_SOUTH_TO_NORTH,
+  FROM_NORTH_TO_SOUTH,
+  FROM_EAST_TO_WEST,
+  FROM_WEST_TO_EAST,
+  FROM_NORTHEAST_TO_SOUTHWEST,
+  FROM_SOUTHWEST_TO_NORTHEAST,
+  FROM_NORTHWEST_TO_SOUTHEAST,
+  FROM_SOUTHEAST_TO_NORTHWEST,
+  MISSING_TRAVERSE_ID
+};
 
-  enum cloudiness_id
-	{
-	  SELKEA,
-	  MELKO_SELKEA,
-	  PUOLIPILVINEN,
-	  VERRATTAIN_PILVINEN,
-	  PILVINEN,
-	  PUOLIPILVINEN_JA_PILVINEN,
-	  MISSING_CLOUDINESS_ID
-	};
+enum cloudiness_id
+{
+  SELKEA,
+  MELKO_SELKEA,
+  PUOLIPILVINEN,
+  VERRATTAIN_PILVINEN,
+  PILVINEN,
+  PUOLIPILVINEN_JA_PILVINEN,
+  MISSING_CLOUDINESS_ID
+};
 
-  enum thunder_probability_id
-	{
-	  SMALL_PROBABILITY_FOR_THUNDER,
-	  POSSIBLY_THUNDER,
-	  OCCASIONALLY_THUNDER,
-	  NO_THUNDER
-	};
+enum thunder_probability_id
+{
+  SMALL_PROBABILITY_FOR_THUNDER,
+  POSSIBLY_THUNDER,
+  OCCASIONALLY_THUNDER,
+  NO_THUNDER
+};
 
-  enum part_of_the_day_id
-	{
-	  AAMU, // 06-09
-	  AAMUPAIVA, // 09-12
-	  ILTAPAIVA, // 12-18
-	  ILTA, // 17-22
-	  ILTAYO, // 21-24
-	  KESKIYO, // 00-03
-	  AAMUYO, // 02-06
-	  PAIVA, // 10-18
-	  YO, // 22-06
-	  AAMU_JA_AAMUPAIVA, // 06-12
-	  ILTAPAIVA_JA_ILTA, // 13-21
-	  ILTA_JA_ILTAYO, //18-00
-	  ILTAYO_JA_KESKIYO, // 22-03
-	  KESKIYO_JA_AAMUYO, // 00-06
-	  AAMUYO_JA_AAMU, // 03-09
-	  MISSING_PART_OF_THE_DAY_ID
-	};
+enum part_of_the_day_id
+{
+  AAMU,               // 06-09
+  AAMUPAIVA,          // 09-12
+  ILTAPAIVA,          // 12-18
+  ILTA,               // 17-22
+  ILTAYO,             // 21-24
+  KESKIYO,            // 00-03
+  AAMUYO,             // 02-06
+  PAIVA,              // 10-18
+  YO,                 // 22-06
+  AAMU_JA_AAMUPAIVA,  // 06-12
+  ILTAPAIVA_JA_ILTA,  // 13-21
+  ILTA_JA_ILTAYO,  // 18-00
+  ILTAYO_JA_KESKIYO,  // 22-03
+  KESKIYO_JA_AAMUYO,  // 00-06
+  AAMUYO_JA_AAMU,     // 03-09
+  MISSING_PART_OF_THE_DAY_ID
+};
 
-  enum weather_event_id
-	{
-	  PILVISTYY,
-	  SELKENEE,
-	  POUTAANTUU, // >= 6h
-	  POUTAANTUU_WHEN_EXTENT_SMALL, // >= 6h, but extent is not large
-	  SADE_ALKAA, // >= 6h
-	  //TYPE_CHANGES,
-	  MISSING_WEATHER_EVENT
-	};
+enum weather_event_id
+{
+  PILVISTYY,
+  SELKENEE,
+  POUTAANTUU,                    // >= 6h
+  POUTAANTUU_WHEN_EXTENT_SMALL,  // >= 6h, but extent is not large
+  SADE_ALKAA,                    // >= 6h
+  // TYPE_CHANGES,
+  MISSING_WEATHER_EVENT
+};
 
-  enum story_part_id
-	{
-	  PRECIPITATION_STORY_PART = 0x1,
-	  CLOUDINESS_STORY_PART = 0x2,
-	  GETTING_CLOUDY_STORY_PART = 0x4,
-	  CLEARING_UP_STORY_PART = 0x8,
-	  PRECIPITATION_TYPE_CHANGE_STORY_PART = 0x10,
-	  MISSING_STORY_PART = 0x0
-	};
+enum story_part_id
+{
+  PRECIPITATION_STORY_PART = 0x1,
+  CLOUDINESS_STORY_PART = 0x2,
+  GETTING_CLOUDY_STORY_PART = 0x4,
+  CLEARING_UP_STORY_PART = 0x8,
+  PRECIPITATION_TYPE_CHANGE_STORY_PART = 0x10,
+  MISSING_STORY_PART = 0x0
+};
 
-  enum stat_func_id
-	{
-	  MIN,
-	  MAX,
-	  MEAN
-	};
+enum stat_func_id
+{
+  MIN,
+  MAX,
+  MEAN
+};
 
-  enum area_specific_sentence_id
-	{
-	  ALUEEN_POHJOISOSASSA,
-	  ALUEEN_ETELAOSASSA,
-	  ALUEEN_ITAOSASSA,
-	  ALUEEN_LANSIOSASSA,
-	  ENIMMAKSEEN_ALUEEN_POHJOISOSASSA,
-	  ENIMMAKSEEN_ALUEEN_ETELAOSASSA,
-	  ENIMMAKSEEN_ALUEEN_ITAOSASSA,
-	  ENIMMAKSEEN_ALUEEN_LANSIOSASSA,
-	  MISSING_AREA_SPECIFIC_SENTENCE_ID
-	};
+enum area_specific_sentence_id
+{
+  ALUEEN_POHJOISOSASSA,
+  ALUEEN_ETELAOSASSA,
+  ALUEEN_ITAOSASSA,
+  ALUEEN_LANSIOSASSA,
+  ENIMMAKSEEN_ALUEEN_POHJOISOSASSA,
+  ENIMMAKSEEN_ALUEEN_ETELAOSASSA,
+  ENIMMAKSEEN_ALUEEN_ITAOSASSA,
+  ENIMMAKSEEN_ALUEEN_LANSIOSASSA,
+  MISSING_AREA_SPECIFIC_SENTENCE_ID
+};
 
-  enum precipitation_type
-	{
-	  CONTINUOUS = 1,
-	  SHOWERS = 2,
-	  MISSING_PRECIPITATION_TYPE
-	};
+enum precipitation_type
+{
+  CONTINUOUS = 1,
+  SHOWERS = 2,
+  MISSING_PRECIPITATION_TYPE
+};
 
-  enum split_method
-	{
-	  HORIZONTAL,
-	  VERTICAL,
-	  NO_SPLITTING
-	};
+enum split_method
+{
+  HORIZONTAL,
+  VERTICAL,
+  NO_SPLITTING
+};
 
-  enum time_phrase_format
-	{
-	  FROM_FORMAT,
-	  TILL_FORMAT,
-	  AT_FORMAT
-	};
+enum time_phrase_format
+{
+  FROM_FORMAT,
+  TILL_FORMAT,
+  AT_FORMAT
+};
 
-  class WeatherResultDataItem;
-  class PrecipitationDataItemData;
-  class FogIntensityDataItem;
-  class PrecipitationDataItem;
-  class CloudinessDataItem;
-  class ThunderDataItem;
+class WeatherResultDataItem;
+class PrecipitationDataItemData;
+class FogIntensityDataItem;
+class PrecipitationDataItem;
+class CloudinessDataItem;
+class ThunderDataItem;
 
-  typedef std::vector<WeatherResultDataItem*> weather_result_data_item_vector;
-  typedef std::pair<TextGenPosixTime, weather_event_id> timestamp_weather_event_id_pair;
-  typedef std::vector<timestamp_weather_event_id_pair> weather_event_id_vector;
-  typedef std::vector<PrecipitationDataItemData*> precipitation_data_vector;
-  typedef std::vector<FogIntensityDataItem*> fog_data_vector;
-  typedef std::map<int, PrecipitationDataItem*> precipitation_data_item_container;
-  typedef std::vector<precipitation_data_item_container*> precipitation_data_container;
-  typedef std::map<int, weather_result_data_item_vector*> weather_forecast_result_container;
-  typedef std::map<int, weather_forecast_result_container*> weather_forecast_data_container;
-  typedef std::map<int, CloudinessDataItem*> cloudiness_data_item_container;
-  typedef std::vector<cloudiness_data_item_container*> cloudiness_data_container;
-  typedef std::map<int, ThunderDataItem*> thunder_data_item_container;
-  typedef std::vector<thunder_data_item_container*> thunder_data_container;
-  typedef std::map<int, FogIntensityDataItem*> fog_data_item_container;
-  typedef std::vector<fog_data_item_container*> fog_data_container;
-  typedef std::vector<NFmiPoint*> location_coordinate_vector;
-  typedef std::pair<WeatherPeriod, unsigned int> weather_period_story_part_id_pair;
-  typedef std::vector<weather_period_story_part_id_pair> story_part_vector;
+typedef std::vector<WeatherResultDataItem*> weather_result_data_item_vector;
+typedef std::pair<TextGenPosixTime, weather_event_id> timestamp_weather_event_id_pair;
+typedef std::vector<timestamp_weather_event_id_pair> weather_event_id_vector;
+typedef std::vector<PrecipitationDataItemData*> precipitation_data_vector;
+typedef std::vector<FogIntensityDataItem*> fog_data_vector;
+typedef std::map<int, PrecipitationDataItem*> precipitation_data_item_container;
+typedef std::vector<precipitation_data_item_container*> precipitation_data_container;
+typedef std::map<int, weather_result_data_item_vector*> weather_forecast_result_container;
+typedef std::map<int, weather_forecast_result_container*> weather_forecast_data_container;
+typedef std::map<int, CloudinessDataItem*> cloudiness_data_item_container;
+typedef std::vector<cloudiness_data_item_container*> cloudiness_data_container;
+typedef std::map<int, ThunderDataItem*> thunder_data_item_container;
+typedef std::vector<thunder_data_item_container*> thunder_data_container;
+typedef std::map<int, FogIntensityDataItem*> fog_data_item_container;
+typedef std::vector<fog_data_item_container*> fog_data_container;
+typedef std::vector<NFmiPoint*> location_coordinate_vector;
+typedef std::pair<WeatherPeriod, unsigned int> weather_period_story_part_id_pair;
+typedef std::vector<weather_period_story_part_id_pair> story_part_vector;
 
-
-
-  struct wf_story_params
-  {								 
-	wf_story_params(const std::string& variable,
-					const WeatherArea& weatherArea,
-					const WeatherPeriod& dataPeriod,
-					const WeatherPeriod& forecastPeriod,
-					const TextGenPosixTime& forecastTime,
-					const AnalysisSources& analysisSources,
-					MessageLogger& log) :
-	  theVariable(variable),
-	  theArea(weatherArea),
-	  theDataPeriod(dataPeriod),
-	  theForecastPeriod(forecastPeriod),
-	  theForecastTime(forecastTime),
-	  theSources(analysisSources),
-	  theLog(log),
-	  theCoastalAndInlandTogetherFlag(false),
-	  thePrecipitationForecast(0),
-	  theCloudinessForecast(0),
-	  theFogForecast(0),
-	  theThunderForecast(0),
-	  theHourPeriodCount(0),
-	  theOriginalPeriodCount(0),
-	  theForecastArea(TextGen::AreaTools::NO_AREA)
-	{
-	}
-
-	const std::string& theVariable;
-	const WeatherArea& theArea;
-	const WeatherPeriod theDataPeriod;
-	const WeatherPeriod theForecastPeriod;
-	const TextGenPosixTime theForecastTime;
-	const AnalysisSources& theSources;
-	MessageLogger& theLog;
-	bool theCoastalAndInlandTogetherFlag;
-	PrecipitationForecast* thePrecipitationForecast;
-	CloudinessForecast* theCloudinessForecast;
-	FogForecast* theFogForecast;
-	ThunderForecast* theThunderForecast;
-	unsigned int theHourPeriodCount;
-	unsigned int theOriginalPeriodCount;
-	unsigned short theForecastArea;
-	float theDryWeatherLimitWater;
-	float theDryWeatherLimitDrizzle;
-	float theDryWeatherLimitSleet;
-	float theDryWeatherLimitSnow;
-	float theWeakPrecipitationLimitWater;
-	float theWeakPrecipitationLimitSleet;
-	float theWeakPrecipitationLimitSnow;
-	float theHeavyPrecipitationLimitWater;
-	float theHeavyPrecipitationLimitSleet;
-	float theHeavyPrecipitationLimitSnow;
-	float thePrecipitationStormLimit;
-	float theMostlyDryWeatherLimit;
-	float theInSomePlacesLowerLimit;
-	float theInSomePlacesUpperLimit;
-	float theInManyPlacesLowerLimit;
-	float theInManyPlacesUpperLimit;
-	float theFreezingPrecipitationLimit;
-	float theClearSkyUpperLimit;
-	float theAlmostClearSkyUpperLimit;
-	float thePartlyCloudySkyUpperLimit;
-	float theMostlyCloudySkyUpperLimit;
-	weather_forecast_data_container theCompleteData;
-	cloudiness_data_container theCloudinessData;
-	precipitation_data_container thePrecipitationData;
-	thunder_data_container theThunderData;
-	fog_data_container theFogData;
-  };
-
-
-
-
-
-  Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
-								 const bool& theSpecifyDayFlag,
-								 std::string& thePhraseString);
-  std::string get_narrow_time_phrase(const WeatherPeriod& theWeatherPeriod,
-									 const std::string& theVar,
-									 bool theAlkaenPhrase = false);
-  void get_precipitation_limit_value(const wf_story_params& theParameters,
-									 const unsigned int& thePrecipitationForm,
-									 const precipitation_intesity_id& theIntensityId,
-									 float& theLowerLimit,
-									 float& theUpperLimit);
-  void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
-											const unsigned int& thePrecipitationForm,
-											float& theDryWeatherLimit, 
-											float& theWeakPrecipitationLimit);
-  const char* weather_event_string(const weather_event_id& theWeatherEventId);
-  const char* precipitation_form_string(const precipitation_form_id& thePrecipitationForm);
-  const char* precipitation_type_string(const precipitation_type& thePrecipitationType);
-  const char* precipitation_traverse_string(const precipitation_traverse_id& thePrecipitationTraverseId);
-  const char* part_of_the_day_string(const part_of_the_day_id& thePartOfTheDayId);
-  const char* story_part_id_string(const story_part_id& theStoryPartId);
-
-  void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId, int& theStartHour, int& theEndHour);
-  part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod);
-  part_of_the_day_id get_part_of_the_day_id_large(const WeatherPeriod& thePeriod);
-  part_of_the_day_id get_adjusted_part_of_the_day_id(const WeatherPeriod& theWeatherPeriod, bool theAlkaenPhrase = false);
- /*  bool get_part_of_the_day(const WeatherPeriod& theSourcePeriod, 
-	  const part_of_the_day_id& thePartOfTheDayId, 
-	  WeatherPeriod& theDestinationPeriod);*/
-  part_of_the_day_id get_part_of_the_day_id(const TextGenPosixTime& theTimestamp);
-  bool is_inside(const WeatherPeriod& theWeatherPeriod1,
-				 const WeatherPeriod& theWeatherPeriod2);
-  bool is_inside(const WeatherPeriod& theWeatherPeriod,
-				 const part_of_the_day_id& thePartOfTheDayId);
-  bool is_inside(const TextGenPosixTime& theTimeStamp, 
-				 const part_of_the_day_id& thePartOfTheDayId);
-  bool is_inside(const TextGenPosixTime& theTimeStamp, 
-				 const WeatherPeriod& theWeatherPeriod);
-  bool same_period(const WeatherPeriod& theWeatherPeriod1,
-				   const WeatherPeriod& theWeatherPeriod2);
-  WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
-									const WeatherPeriod& theWeatherPeriod2);
-
-  Sentence get_direction_phrase(const AreaTools::direction_id& theDirectionId, bool theAlkaenPhrase = false);
-  Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
-								 const bool& theSpecifyDayFlag,
-								 const std::string& theVar,
-								 std::string& thePhraseString,
-								 bool theAlkaenPhrase = false);
-  std::string get_time_phrase(const TextGenPosixTime& theTimestamp,
-							  const std::string& theVar,
-							  bool theAlkaenPhrase = false);
-  Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
-							const std::string& theVariable,
-							const WeatherArea& theArea,
-							const WeatherPeriod thePeriod,
-							const TextGenPosixTime& theForecastTime);
-  precipitation_form_id get_complete_precipitation_form(const std::string& theVariable,
-														const float thePrecipitationFormWater,
-														const float thePrecipitationFormDrizzle,
-														const float thePrecipitationFormSleet,
-														const float thePrecipitationFormSnow,
-														const float thePrecipitationFormFreezing); 
-  void get_sub_time_series(const WeatherPeriod& thePeriod,
-						   const weather_result_data_item_vector& theSourceVector,						   
-						   weather_result_data_item_vector& theDestinationVector);
-  void get_sub_time_series(const part_of_the_day_id& thePartOfTheDay,
-						   const weather_result_data_item_vector& theSourceVector,
-						   weather_result_data_item_vector& theDestinationVector);
-  float get_mean(const weather_result_data_item_vector& theTimeSeries, 
-				 const int& theStartIndex = 0, 
-				 const int& theEndIndex = 0);
-  float get_standard_deviation(const weather_result_data_item_vector& theTimeSeries);
-  void get_min_max(const weather_result_data_item_vector& theTimeSeries, float& theMin, float& theMax);
-  double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSeries,
-								 const unsigned int& theStartIndex,
-								 const unsigned int& theEndIndex,
-								 const bool& theUseErrorValueFlag = false);
-  void print_out_weather_event_vector(std::ostream& theOutput, const weather_event_id_vector& theWeatherEventVector);
-  Sentence area_specific_sentence(const float& north,
-								  const float& south,
-								  const float& east,
-								  const float& west,
-								  const float& northEast,
-								  const float& southEast,
-								  const float& southWest,
-								  const float& northWest,
-								  const bool& mostlyFlag = true);
-  int get_today_vector(const std::string& theVariable,
-					   const WeatherArea& theArea,
-					   const WeatherPeriod& thePeriod,
-					   const TextGenPosixTime& theForecastTime,
-					   std::vector<Sentence*>& theTodayVector);
-  area_specific_sentence_id get_area_specific_sentence_id(const float& north,
-														  const float& south,
-														  const float& east,
-														  const float& west,
-														  const float& northEast,
-														  const float& southEast,
-														  const float& southWest,
-														  const float& northWest,
-														  const bool& mostlyFlag = true);
-  int get_period_length(const WeatherPeriod& thePeriod);
-  float get_area_percentage(const std::string& theVar,
-							const WeatherArea& theArea,
-							const TextGen::WeatherArea::Type& theType,
-							const AnalysisSources& theSources,
-							const WeatherPeriod& thePeriod);
-  std::string parse_weekday_phrase(const short& weekday, std::string part_of_the_day);
-  Sentence parse_weekday_phrase(const short& weekday, const Sentence& part_of_the_day);
-  WeatherPeriod get_intersection_period(const WeatherPeriod& thePeriod1, 
-										const WeatherPeriod& thePeriod2,
-										bool& theIntersectionPeriodFound);
-
-  /*
-  bool split_the_area(const std::string theVar,
-					  const TextGen::WeatherArea& theArea,
-					  const TextGen::WeatherPeriod& thePeriod,
-					  const TextGen::AnalysisSources& theSources);
-  */
-
-  split_method split_the_area(const std::string theVar,
-							  const TextGen::WeatherArea& theArea,
-							  const TextGen::WeatherPeriod& thePeriod,
-							  const TextGen::AnalysisSources& theSources,
-							  double& theDivisionLine,
-							  MessageLogger& theLog);
-
-  bool test_temperature_split_criterion(const std::string theVar,
-										const bool& morningTemperature,
-										const TextGen::WeatherArea& theAreaOne,
-										const TextGen::WeatherArea& theAreaTwo,
-										const TextGen::WeatherPeriod& thePeriod,
-										const TextGen::AnalysisSources& theSources,
-										MessageLogger& theLog);
-  split_method check_area_splitting(const std::string theVar,
-									const TextGen::WeatherArea& theArea,
-									const TextGen::WeatherPeriod& thePeriod,
-									const TextGen::AnalysisSources& theSources,
-									TextGen::WeatherArea& theFirstArea,
-									TextGen::WeatherArea& theSecondArea,
-									MessageLogger& theLog);
-  bool fit_into_narrow_day_part(const WeatherPeriod& thePeriod);
-  bool fit_into_large_day_part(const WeatherPeriod& thePeriod);
-
-
-
-  struct WeatherResultDataItem
+struct wf_story_params
+{
+  wf_story_params(const std::string& variable,
+                  const WeatherArea& weatherArea,
+                  const WeatherPeriod& dataPeriod,
+                  const WeatherPeriod& forecastPeriod,
+                  const TextGenPosixTime& forecastTime,
+                  const AnalysisSources& analysisSources,
+                  MessageLogger& log)
+      : theVariable(variable),
+        theArea(weatherArea),
+        theDataPeriod(dataPeriod),
+        theForecastPeriod(forecastPeriod),
+        theForecastTime(forecastTime),
+        theSources(analysisSources),
+        theLog(log),
+        theCoastalAndInlandTogetherFlag(false),
+        thePrecipitationForecast(0),
+        theCloudinessForecast(0),
+        theFogForecast(0),
+        theThunderForecast(0),
+        theHourPeriodCount(0),
+        theOriginalPeriodCount(0),
+        theForecastArea(TextGen::AreaTools::NO_AREA)
   {
-	WeatherResultDataItem(const WeatherPeriod& period, 
-						  const WeatherResult& result, 
-						  const part_of_the_day_id& partOfTheDay) :
-	  thePeriod(period),
-	  theResult(result),
-	  thePartOfTheDay(partOfTheDay)
-	{}
-	
-	WeatherPeriod thePeriod;
-	WeatherResult theResult;
-	part_of_the_day_id thePartOfTheDay;
-  };
+  }
 
-  struct CloudinessDataItemData
+  const std::string& theVariable;
+  const WeatherArea& theArea;
+  const WeatherPeriod theDataPeriod;
+  const WeatherPeriod theForecastPeriod;
+  const TextGenPosixTime theForecastTime;
+  const AnalysisSources& theSources;
+  MessageLogger& theLog;
+  bool theCoastalAndInlandTogetherFlag;
+  PrecipitationForecast* thePrecipitationForecast;
+  CloudinessForecast* theCloudinessForecast;
+  FogForecast* theFogForecast;
+  ThunderForecast* theThunderForecast;
+  unsigned int theHourPeriodCount;
+  unsigned int theOriginalPeriodCount;
+  unsigned short theForecastArea;
+  float theDryWeatherLimitWater;
+  float theDryWeatherLimitDrizzle;
+  float theDryWeatherLimitSleet;
+  float theDryWeatherLimitSnow;
+  float theWeakPrecipitationLimitWater;
+  float theWeakPrecipitationLimitSleet;
+  float theWeakPrecipitationLimitSnow;
+  float theHeavyPrecipitationLimitWater;
+  float theHeavyPrecipitationLimitSleet;
+  float theHeavyPrecipitationLimitSnow;
+  float thePrecipitationStormLimit;
+  float theMostlyDryWeatherLimit;
+  float theInSomePlacesLowerLimit;
+  float theInSomePlacesUpperLimit;
+  float theInManyPlacesLowerLimit;
+  float theInManyPlacesUpperLimit;
+  float theFreezingPrecipitationLimit;
+  float theClearSkyUpperLimit;
+  float theAlmostClearSkyUpperLimit;
+  float thePartlyCloudySkyUpperLimit;
+  float theMostlyCloudySkyUpperLimit;
+  weather_forecast_data_container theCompleteData;
+  cloudiness_data_container theCloudinessData;
+  precipitation_data_container thePrecipitationData;
+  thunder_data_container theThunderData;
+  fog_data_container theFogData;
+};
+
+Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
+                               const bool& theSpecifyDayFlag,
+                               std::string& thePhraseString);
+std::string get_narrow_time_phrase(const WeatherPeriod& theWeatherPeriod,
+                                   const std::string& theVar,
+                                   bool theAlkaenPhrase = false);
+void get_precipitation_limit_value(const wf_story_params& theParameters,
+                                   const unsigned int& thePrecipitationForm,
+                                   const precipitation_intesity_id& theIntensityId,
+                                   float& theLowerLimit,
+                                   float& theUpperLimit);
+void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
+                                          const unsigned int& thePrecipitationForm,
+                                          float& theDryWeatherLimit,
+                                          float& theWeakPrecipitationLimit);
+const char* weather_event_string(const weather_event_id& theWeatherEventId);
+const char* precipitation_form_string(const precipitation_form_id& thePrecipitationForm);
+const char* precipitation_type_string(const precipitation_type& thePrecipitationType);
+const char* precipitation_traverse_string(
+    const precipitation_traverse_id& thePrecipitationTraverseId);
+const char* part_of_the_day_string(const part_of_the_day_id& thePartOfTheDayId);
+const char* story_part_id_string(const story_part_id& theStoryPartId);
+
+void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId,
+                         int& theStartHour,
+                         int& theEndHour);
+part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod);
+part_of_the_day_id get_part_of_the_day_id_large(const WeatherPeriod& thePeriod);
+part_of_the_day_id get_adjusted_part_of_the_day_id(const WeatherPeriod& theWeatherPeriod,
+                                                   bool theAlkaenPhrase = false);
+/*  bool get_part_of_the_day(const WeatherPeriod& theSourcePeriod,
+         const part_of_the_day_id& thePartOfTheDayId,
+         WeatherPeriod& theDestinationPeriod);*/
+part_of_the_day_id get_part_of_the_day_id(const TextGenPosixTime& theTimestamp);
+bool is_inside(const WeatherPeriod& theWeatherPeriod1, const WeatherPeriod& theWeatherPeriod2);
+bool is_inside(const WeatherPeriod& theWeatherPeriod, const part_of_the_day_id& thePartOfTheDayId);
+bool is_inside(const TextGenPosixTime& theTimeStamp, const part_of_the_day_id& thePartOfTheDayId);
+bool is_inside(const TextGenPosixTime& theTimeStamp, const WeatherPeriod& theWeatherPeriod);
+bool same_period(const WeatherPeriod& theWeatherPeriod1, const WeatherPeriod& theWeatherPeriod2);
+WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
+                                  const WeatherPeriod& theWeatherPeriod2);
+
+Sentence get_direction_phrase(const AreaTools::direction_id& theDirectionId,
+                              bool theAlkaenPhrase = false);
+Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
+                               const bool& theSpecifyDayFlag,
+                               const std::string& theVar,
+                               std::string& thePhraseString,
+                               bool theAlkaenPhrase = false);
+std::string get_time_phrase(const TextGenPosixTime& theTimestamp,
+                            const std::string& theVar,
+                            bool theAlkaenPhrase = false);
+Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
+                          const std::string& theVariable,
+                          const WeatherArea& theArea,
+                          const WeatherPeriod thePeriod,
+                          const TextGenPosixTime& theForecastTime);
+precipitation_form_id get_complete_precipitation_form(const std::string& theVariable,
+                                                      const float thePrecipitationFormWater,
+                                                      const float thePrecipitationFormDrizzle,
+                                                      const float thePrecipitationFormSleet,
+                                                      const float thePrecipitationFormSnow,
+                                                      const float thePrecipitationFormFreezing);
+void get_sub_time_series(const WeatherPeriod& thePeriod,
+                         const weather_result_data_item_vector& theSourceVector,
+                         weather_result_data_item_vector& theDestinationVector);
+void get_sub_time_series(const part_of_the_day_id& thePartOfTheDay,
+                         const weather_result_data_item_vector& theSourceVector,
+                         weather_result_data_item_vector& theDestinationVector);
+float get_mean(const weather_result_data_item_vector& theTimeSeries,
+               const int& theStartIndex = 0,
+               const int& theEndIndex = 0);
+float get_standard_deviation(const weather_result_data_item_vector& theTimeSeries);
+void get_min_max(const weather_result_data_item_vector& theTimeSeries,
+                 float& theMin,
+                 float& theMax);
+double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSeries,
+                               const unsigned int& theStartIndex,
+                               const unsigned int& theEndIndex,
+                               const bool& theUseErrorValueFlag = false);
+void print_out_weather_event_vector(std::ostream& theOutput,
+                                    const weather_event_id_vector& theWeatherEventVector);
+Sentence area_specific_sentence(const float& north,
+                                const float& south,
+                                const float& east,
+                                const float& west,
+                                const float& northEast,
+                                const float& southEast,
+                                const float& southWest,
+                                const float& northWest,
+                                const bool& mostlyFlag = true);
+int get_today_vector(const std::string& theVariable,
+                     const WeatherArea& theArea,
+                     const WeatherPeriod& thePeriod,
+                     const TextGenPosixTime& theForecastTime,
+                     std::vector<Sentence*>& theTodayVector);
+area_specific_sentence_id get_area_specific_sentence_id(const float& north,
+                                                        const float& south,
+                                                        const float& east,
+                                                        const float& west,
+                                                        const float& northEast,
+                                                        const float& southEast,
+                                                        const float& southWest,
+                                                        const float& northWest,
+                                                        const bool& mostlyFlag = true);
+int get_period_length(const WeatherPeriod& thePeriod);
+float get_area_percentage(const std::string& theVar,
+                          const WeatherArea& theArea,
+                          const TextGen::WeatherArea::Type& theType,
+                          const AnalysisSources& theSources,
+                          const WeatherPeriod& thePeriod);
+std::string parse_weekday_phrase(const short& weekday, std::string part_of_the_day);
+Sentence parse_weekday_phrase(const short& weekday, const Sentence& part_of_the_day);
+WeatherPeriod get_intersection_period(const WeatherPeriod& thePeriod1,
+                                      const WeatherPeriod& thePeriod2,
+                                      bool& theIntersectionPeriodFound);
+
+/*
+bool split_the_area(const std::string theVar,
+                                        const TextGen::WeatherArea& theArea,
+                                        const TextGen::WeatherPeriod& thePeriod,
+                                        const TextGen::AnalysisSources& theSources);
+*/
+
+split_method split_the_area(const std::string theVar,
+                            const TextGen::WeatherArea& theArea,
+                            const TextGen::WeatherPeriod& thePeriod,
+                            const TextGen::AnalysisSources& theSources,
+                            double& theDivisionLine,
+                            MessageLogger& theLog);
+
+bool test_temperature_split_criterion(const std::string theVar,
+                                      const bool& morningTemperature,
+                                      const TextGen::WeatherArea& theAreaOne,
+                                      const TextGen::WeatherArea& theAreaTwo,
+                                      const TextGen::WeatherPeriod& thePeriod,
+                                      const TextGen::AnalysisSources& theSources,
+                                      MessageLogger& theLog);
+split_method check_area_splitting(const std::string theVar,
+                                  const TextGen::WeatherArea& theArea,
+                                  const TextGen::WeatherPeriod& thePeriod,
+                                  const TextGen::AnalysisSources& theSources,
+                                  TextGen::WeatherArea& theFirstArea,
+                                  TextGen::WeatherArea& theSecondArea,
+                                  MessageLogger& theLog);
+bool fit_into_narrow_day_part(const WeatherPeriod& thePeriod);
+bool fit_into_large_day_part(const WeatherPeriod& thePeriod);
+
+struct WeatherResultDataItem
+{
+  WeatherResultDataItem(const WeatherPeriod& period,
+                        const WeatherResult& result,
+                        const part_of_the_day_id& partOfTheDay)
+      : thePeriod(period), theResult(result), thePartOfTheDay(partOfTheDay)
   {
-	CloudinessDataItemData(const cloudiness_id& id,
-						   const float& min,
-						   const float& mean,
-						   const float& max,
-						   const float& standardDeviation,
-						   const weather_event_id& weatherEventId,
-						   const float& pearsonCoefficient) :
-	  theId(id),
-	  theMin(min),
-	  theMean(mean),
-	  theMax(max),
-	  theStandardDeviation(standardDeviation),
-	  theWeatherEventId(weatherEventId),
-	  thePearsonCoefficient(pearsonCoefficient)
-	{
-	}
+  }
 
-	cloudiness_id theId;
-	float theMin;
-	float theMean;
-	float theMax;
-	float theStandardDeviation;
-	weather_event_id theWeatherEventId;
-	float thePearsonCoefficient;
-  };
+  WeatherPeriod thePeriod;
+  WeatherResult theResult;
+  part_of_the_day_id thePartOfTheDay;
+};
 
-  struct CloudinessDataItem
+struct CloudinessDataItemData
+{
+  CloudinessDataItemData(const cloudiness_id& id,
+                         const float& min,
+                         const float& mean,
+                         const float& max,
+                         const float& standardDeviation,
+                         const weather_event_id& weatherEventId,
+                         const float& pearsonCoefficient)
+      : theId(id),
+        theMin(min),
+        theMean(mean),
+        theMax(max),
+        theStandardDeviation(standardDeviation),
+        theWeatherEventId(weatherEventId),
+        thePearsonCoefficient(pearsonCoefficient)
   {
-	CloudinessDataItem(const CloudinessDataItemData* coastalData,
-					   const CloudinessDataItemData* inlandData,
-					   const CloudinessDataItemData* fullData) :
-	  theCoastalData(coastalData),
-	  theInlandData(inlandData),
-	  theFullData(fullData)
-	{}
+  }
 
-	const CloudinessDataItemData* theCoastalData;
-	const CloudinessDataItemData* theInlandData;
-	const CloudinessDataItemData* theFullData;
-	
-	~CloudinessDataItem()
-	{
-	  if(theCoastalData)
-		delete theCoastalData;
-	  if(theInlandData)
-		delete theInlandData;
-	  if(theFullData)
-		delete theFullData;
-	}
-  };
+  cloudiness_id theId;
+  float theMin;
+  float theMean;
+  float theMax;
+  float theStandardDeviation;
+  weather_event_id theWeatherEventId;
+  float thePearsonCoefficient;
+};
 
-  struct ThunderDataItem
+struct CloudinessDataItem
+{
+  CloudinessDataItem(const CloudinessDataItemData* coastalData,
+                     const CloudinessDataItemData* inlandData,
+                     const CloudinessDataItemData* fullData)
+      : theCoastalData(coastalData), theInlandData(inlandData), theFullData(fullData)
   {
-	ThunderDataItem(const float& minProbability,
-					const float& meanProbability,
-					const float& maxProbability,
-					const float& standardDeviationProbability):
-	  theMinProbability(minProbability),
-	  theMeanProbability(meanProbability),
-	  theMaxProbability(maxProbability),
-	  theStandardDeviationProbability(standardDeviationProbability)
-	{}
+  }
 
-	float theMinProbability;
-	float theMeanProbability;
-	float theMaxProbability;
-	float theStandardDeviationProbability;
-  };
+  const CloudinessDataItemData* theCoastalData;
+  const CloudinessDataItemData* theInlandData;
+  const CloudinessDataItemData* theFullData;
 
-  struct FogIntensityDataItem
+  ~CloudinessDataItem()
   {
-	FogIntensityDataItem(const float& moderateFogExtent,
-						 const float& denseFogExtent):
-	  theModerateFogExtent(moderateFogExtent),
-	  theDenseFogExtent(denseFogExtent)
-	{}
+    if (theCoastalData) delete theCoastalData;
+    if (theInlandData) delete theInlandData;
+    if (theFullData) delete theFullData;
+  }
+};
 
-	float theModerateFogExtent;
-	float theDenseFogExtent;
-  };
-
-  struct PrecipitationDataItemData
+struct ThunderDataItem
+{
+  ThunderDataItem(const float& minProbability,
+                  const float& meanProbability,
+                  const float& maxProbability,
+                  const float& standardDeviationProbability)
+      : theMinProbability(minProbability),
+        theMeanProbability(meanProbability),
+        theMaxProbability(maxProbability),
+        theStandardDeviationProbability(standardDeviationProbability)
   {
-	PrecipitationDataItemData(const wf_story_params& theParameters,
-							  const precipitation_form_id& precipitationForm,
-							  const float& precipitationIntensity,
-							  const float& precipitationMaxIntensity,
-							  const float& precipitationExtent,
-							  const float& precipitationFormWater,
-							  const float& precipitationFormDrizzle,
-							  const float& precipitationFormSleet,
-							  const float& precipitationFormSnow,
-							  const float& precipitationFormFreezing,
-							  const float& precipitationTypeShowers,
-							  const weather_event_id weatherEventId,
-							  const float& pearsonCoefficient,
-							  const TextGenPosixTime& observationTime) :
-	  thePrecipitationForm(precipitationForm),
-	  thePrecipitationIntensity(precipitationIntensity),
-	  thePrecipitationMaxIntensity(precipitationMaxIntensity),
-	  thePrecipitationExtent(precipitationExtent),
-	  thePrecipitationFormWater(precipitationFormWater),
-	  thePrecipitationFormDrizzle(precipitationFormDrizzle),
-	  thePrecipitationFormSleet(precipitationFormSleet),
-	  thePrecipitationFormSnow(precipitationFormSnow),
-	  thePrecipitationFormFreezing(precipitationFormFreezing),
-	  thePrecipitationTypeShowers(precipitationTypeShowers),
-	  theWeatherEventId(weatherEventId),
-	  thePearsonCoefficient(pearsonCoefficient),
-	  theObservationTime(observationTime),
-	  thePrecipitationPercentageNorthEast(0.0),
-	  thePrecipitationPercentageSouthEast(0.0),
-	  thePrecipitationPercentageSouthWest(0.0),
-	  thePrecipitationPercentageNorthWest(0.0),
-	  thePrecipitationPoint(0.0, 0.0),
-	  thePrecipitationType(MISSING_PRECIPITATION_TYPE),
-	  thePrecipitationIntensityId(MISSING_INTENSITY_ID)
-	{
-	  if(precipitationTypeShowers != kFloatMissing)
-		thePrecipitationType = precipitationTypeShowers >= MAJORITY_LIMIT ? SHOWERS : CONTINUOUS;
-	  
-	  if(precipitationIntensity == kFloatMissing)
-		{
-		  thePrecipitationIntensityId = DRY_WEATHER;
-		}
-	  else
-		{
-		  float lowerLimit(0.0);
-		  float dryUpperLimit(0.0);
-		  float weakUpperLimit(0.0);
-		  float moderateUpperLimit(0.0);
-		  get_precipitation_limit_value(theParameters,
-										precipitationForm,
-										DRY_WEATHER,
-										lowerLimit,
-										dryUpperLimit);
-		  get_precipitation_limit_value(theParameters,
-										precipitationForm,
-										WEAK_PRECIPITATION,
-										lowerLimit,
-										weakUpperLimit);
-		  get_precipitation_limit_value(theParameters,
-										precipitationForm,
-										MODERATE_PRECIPITATION,
-										lowerLimit,
-										moderateUpperLimit);
+  }
 
-		  if(precipitationIntensity < dryUpperLimit)
-			thePrecipitationIntensityId = DRY_WEATHER;
-		  else if(precipitationIntensity < weakUpperLimit)
-			thePrecipitationIntensityId = WEAK_PRECIPITATION;
-		  else if(precipitationIntensity < moderateUpperLimit)
-			thePrecipitationIntensityId = MODERATE_PRECIPITATION;
-		  else
-			thePrecipitationIntensityId = HEAVY_PRECIPITATION;
-		}
-	}
+  float theMinProbability;
+  float theMeanProbability;
+  float theMaxProbability;
+  float theStandardDeviationProbability;
+};
 
-	precipitation_form_id thePrecipitationForm;
-	float thePrecipitationIntensity;
-	float thePrecipitationMaxIntensity;
-	float thePrecipitationExtent;
-	float thePrecipitationFormWater;
-	float thePrecipitationFormDrizzle;
-	float thePrecipitationFormSleet;
-	float thePrecipitationFormSnow;
-	float thePrecipitationFormFreezing;
-	float thePrecipitationTypeShowers;
-	weather_event_id theWeatherEventId;
-	float thePearsonCoefficient;
-	TextGenPosixTime theObservationTime;
-	float thePrecipitationPercentageNorthEast;
-	float thePrecipitationPercentageSouthEast;
-	float thePrecipitationPercentageSouthWest;
-	float thePrecipitationPercentageNorthWest;
-	weather_result_data_item_vector thePrecipitationShareNorthEast;
-	weather_result_data_item_vector thePrecipitationShareSouthEast;
-	weather_result_data_item_vector thePrecipitationShareSouthWest;
-	weather_result_data_item_vector thePrecipitationShareNorthWest;
-	NFmiPoint thePrecipitationPoint;
-	precipitation_type thePrecipitationType;
-	precipitation_intesity_id thePrecipitationIntensityId;
-
-	float precipitationPercentageNorth() const
-	{ return thePrecipitationPercentageNorthEast + thePrecipitationPercentageNorthWest; }
-	float precipitationPercentageSouth() const
-	{ return thePrecipitationPercentageSouthEast + thePrecipitationPercentageSouthWest; }
-	float precipitationPercentageEast() const
-	{ return thePrecipitationPercentageNorthEast + thePrecipitationPercentageSouthEast; }
-	float precipitationPercentageWest() const
-	{ return thePrecipitationPercentageNorthWest + thePrecipitationPercentageSouthWest; }
-
-	bool operator==(const PrecipitationDataItemData& theItem)
-	{
-	  return(thePrecipitationForm == theItem.thePrecipitationForm &&
-			 thePrecipitationIntensity == theItem.thePrecipitationIntensity &&
-			 thePrecipitationExtent == theItem.thePrecipitationExtent &&
-			 thePrecipitationFormWater == theItem.thePrecipitationFormWater &&
-			 thePrecipitationFormDrizzle == theItem.thePrecipitationFormDrizzle &&
-			 thePrecipitationFormSleet == theItem.thePrecipitationFormSleet &&
-			 thePrecipitationFormSnow == theItem.thePrecipitationFormSnow &&
-			 thePrecipitationFormFreezing == theItem.thePrecipitationFormFreezing &&
-			 thePrecipitationTypeShowers == theItem.thePrecipitationTypeShowers &&
-			 theWeatherEventId == theItem.theWeatherEventId &&
-			 thePearsonCoefficient == theItem.thePearsonCoefficient &&
-			 thePrecipitationShareNorthEast == theItem.thePrecipitationShareNorthEast &&
-			 thePrecipitationShareSouthEast == theItem.thePrecipitationShareSouthEast &&
-			 thePrecipitationShareSouthWest == theItem.thePrecipitationShareSouthWest &&
-			 thePrecipitationShareNorthWest == theItem.thePrecipitationShareNorthWest);
-	}
-  };
-
-  struct PrecipitationDataItem
+struct FogIntensityDataItem
+{
+  FogIntensityDataItem(const float& moderateFogExtent, const float& denseFogExtent)
+      : theModerateFogExtent(moderateFogExtent), theDenseFogExtent(denseFogExtent)
   {
-	PrecipitationDataItem(const PrecipitationDataItemData* coastalData,
-						  const PrecipitationDataItemData* inlandData,
-						  const PrecipitationDataItemData* fullData) :
-	  theCoastalData(coastalData),
-	  theInlandData(inlandData),
-	  theFullData(fullData)
-	{}
+  }
 
-	const PrecipitationDataItemData* theCoastalData;
-	const PrecipitationDataItemData* theInlandData;
-	const PrecipitationDataItemData* theFullData;
-	
-	~PrecipitationDataItem()
-	{
-	  if(theCoastalData)
-		delete theCoastalData;
-	  if(theInlandData)
-		delete theInlandData;
-	  if(theFullData)
-		delete theFullData;
-	}
-  };
+  float theModerateFogExtent;
+  float theDenseFogExtent;
+};
 
+struct PrecipitationDataItemData
+{
+  PrecipitationDataItemData(const wf_story_params& theParameters,
+                            const precipitation_form_id& precipitationForm,
+                            const float& precipitationIntensity,
+                            const float& precipitationMaxIntensity,
+                            const float& precipitationExtent,
+                            const float& precipitationFormWater,
+                            const float& precipitationFormDrizzle,
+                            const float& precipitationFormSleet,
+                            const float& precipitationFormSnow,
+                            const float& precipitationFormFreezing,
+                            const float& precipitationTypeShowers,
+                            const weather_event_id weatherEventId,
+                            const float& pearsonCoefficient,
+                            const TextGenPosixTime& observationTime)
+      : thePrecipitationForm(precipitationForm),
+        thePrecipitationIntensity(precipitationIntensity),
+        thePrecipitationMaxIntensity(precipitationMaxIntensity),
+        thePrecipitationExtent(precipitationExtent),
+        thePrecipitationFormWater(precipitationFormWater),
+        thePrecipitationFormDrizzle(precipitationFormDrizzle),
+        thePrecipitationFormSleet(precipitationFormSleet),
+        thePrecipitationFormSnow(precipitationFormSnow),
+        thePrecipitationFormFreezing(precipitationFormFreezing),
+        thePrecipitationTypeShowers(precipitationTypeShowers),
+        theWeatherEventId(weatherEventId),
+        thePearsonCoefficient(pearsonCoefficient),
+        theObservationTime(observationTime),
+        thePrecipitationPercentageNorthEast(0.0),
+        thePrecipitationPercentageSouthEast(0.0),
+        thePrecipitationPercentageSouthWest(0.0),
+        thePrecipitationPercentageNorthWest(0.0),
+        thePrecipitationPoint(0.0, 0.0),
+        thePrecipitationType(MISSING_PRECIPITATION_TYPE),
+        thePrecipitationIntensityId(MISSING_INTENSITY_ID)
+  {
+    if (precipitationTypeShowers != kFloatMissing)
+      thePrecipitationType = precipitationTypeShowers >= MAJORITY_LIMIT ? SHOWERS : CONTINUOUS;
 
+    if (precipitationIntensity == kFloatMissing)
+    {
+      thePrecipitationIntensityId = DRY_WEATHER;
+    }
+    else
+    {
+      float lowerLimit(0.0);
+      float dryUpperLimit(0.0);
+      float weakUpperLimit(0.0);
+      float moderateUpperLimit(0.0);
+      get_precipitation_limit_value(
+          theParameters, precipitationForm, DRY_WEATHER, lowerLimit, dryUpperLimit);
+      get_precipitation_limit_value(
+          theParameters, precipitationForm, WEAK_PRECIPITATION, lowerLimit, weakUpperLimit);
+      get_precipitation_limit_value(
+          theParameters, precipitationForm, MODERATE_PRECIPITATION, lowerLimit, moderateUpperLimit);
+
+      if (precipitationIntensity < dryUpperLimit)
+        thePrecipitationIntensityId = DRY_WEATHER;
+      else if (precipitationIntensity < weakUpperLimit)
+        thePrecipitationIntensityId = WEAK_PRECIPITATION;
+      else if (precipitationIntensity < moderateUpperLimit)
+        thePrecipitationIntensityId = MODERATE_PRECIPITATION;
+      else
+        thePrecipitationIntensityId = HEAVY_PRECIPITATION;
+    }
+  }
+
+  precipitation_form_id thePrecipitationForm;
+  float thePrecipitationIntensity;
+  float thePrecipitationMaxIntensity;
+  float thePrecipitationExtent;
+  float thePrecipitationFormWater;
+  float thePrecipitationFormDrizzle;
+  float thePrecipitationFormSleet;
+  float thePrecipitationFormSnow;
+  float thePrecipitationFormFreezing;
+  float thePrecipitationTypeShowers;
+  weather_event_id theWeatherEventId;
+  float thePearsonCoefficient;
+  TextGenPosixTime theObservationTime;
+  float thePrecipitationPercentageNorthEast;
+  float thePrecipitationPercentageSouthEast;
+  float thePrecipitationPercentageSouthWest;
+  float thePrecipitationPercentageNorthWest;
+  weather_result_data_item_vector thePrecipitationShareNorthEast;
+  weather_result_data_item_vector thePrecipitationShareSouthEast;
+  weather_result_data_item_vector thePrecipitationShareSouthWest;
+  weather_result_data_item_vector thePrecipitationShareNorthWest;
+  NFmiPoint thePrecipitationPoint;
+  precipitation_type thePrecipitationType;
+  precipitation_intesity_id thePrecipitationIntensityId;
+
+  float precipitationPercentageNorth() const
+  {
+    return thePrecipitationPercentageNorthEast + thePrecipitationPercentageNorthWest;
+  }
+  float precipitationPercentageSouth() const
+  {
+    return thePrecipitationPercentageSouthEast + thePrecipitationPercentageSouthWest;
+  }
+  float precipitationPercentageEast() const
+  {
+    return thePrecipitationPercentageNorthEast + thePrecipitationPercentageSouthEast;
+  }
+  float precipitationPercentageWest() const
+  {
+    return thePrecipitationPercentageNorthWest + thePrecipitationPercentageSouthWest;
+  }
+
+  bool operator==(const PrecipitationDataItemData& theItem)
+  {
+    return (thePrecipitationForm == theItem.thePrecipitationForm &&
+            thePrecipitationIntensity == theItem.thePrecipitationIntensity &&
+            thePrecipitationExtent == theItem.thePrecipitationExtent &&
+            thePrecipitationFormWater == theItem.thePrecipitationFormWater &&
+            thePrecipitationFormDrizzle == theItem.thePrecipitationFormDrizzle &&
+            thePrecipitationFormSleet == theItem.thePrecipitationFormSleet &&
+            thePrecipitationFormSnow == theItem.thePrecipitationFormSnow &&
+            thePrecipitationFormFreezing == theItem.thePrecipitationFormFreezing &&
+            thePrecipitationTypeShowers == theItem.thePrecipitationTypeShowers &&
+            theWeatherEventId == theItem.theWeatherEventId &&
+            thePearsonCoefficient == theItem.thePearsonCoefficient &&
+            thePrecipitationShareNorthEast == theItem.thePrecipitationShareNorthEast &&
+            thePrecipitationShareSouthEast == theItem.thePrecipitationShareSouthEast &&
+            thePrecipitationShareSouthWest == theItem.thePrecipitationShareSouthWest &&
+            thePrecipitationShareNorthWest == theItem.thePrecipitationShareNorthWest);
+  }
+};
+
+struct PrecipitationDataItem
+{
+  PrecipitationDataItem(const PrecipitationDataItemData* coastalData,
+                        const PrecipitationDataItemData* inlandData,
+                        const PrecipitationDataItemData* fullData)
+      : theCoastalData(coastalData), theInlandData(inlandData), theFullData(fullData)
+  {
+  }
+
+  const PrecipitationDataItemData* theCoastalData;
+  const PrecipitationDataItemData* theInlandData;
+  const PrecipitationDataItemData* theFullData;
+
+  ~PrecipitationDataItem()
+  {
+    if (theCoastalData) delete theCoastalData;
+    if (theInlandData) delete theInlandData;
+    if (theFullData) delete theFullData;
+  }
+};
 }
 
-#endif // TEXTGEN_WEATHER_FORECAST_H
+#endif  // TEXTGEN_WEATHER_FORECAST_H

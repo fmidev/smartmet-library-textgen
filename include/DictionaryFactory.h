@@ -12,14 +12,13 @@
 
 namespace TextGen
 {
-  namespace DictionaryFactory
-  {
-	Dictionary * create(const std::string & theType);
+namespace DictionaryFactory
+{
+Dictionary* create(const std::string& theType);
 
-  } // namespace DictionaryFactory
-} // namespace TextGen
+}  // namespace DictionaryFactory
+}  // namespace TextGen
 
-#endif // TEXTGEN_DICTIONARYFACTORY_H
+#endif  // TEXTGEN_DICTIONARYFACTORY_H
 
 // ======================================================================
-

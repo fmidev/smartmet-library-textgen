@@ -21,77 +21,60 @@ using namespace std;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Generate story on dewpoint min/max
+ *
+ * \return The story
+ *
+ * \see page_dewpoint_range
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Generate story on dewpoint min/max
-   *
-   * \return The story
-   *
-   * \see page_dewpoint_range
-   */
-  // ----------------------------------------------------------------------
+Paragraph DewPointStory::range() const
+{
+  MessageLogger log("DewPointStory::range");
 
-  Paragraph DewPointStory::range() const
-  {
-	MessageLogger log("DewPointStory::range");
+  using namespace Settings;
 
-	using namespace Settings;
+  const int mininterval = optional_int(itsVar + "::mininterval", 2);
+  const string rangeseparator = optional_string(itsVar + "::rangeseparator", "...");
 
-	const int mininterval = optional_int(itsVar+"::mininterval",2);
-	const string rangeseparator = optional_string(itsVar+"::rangeseparator","...");
+  Paragraph paragraph;
+  Sentence sentence;
 
-	Paragraph paragraph;
-	Sentence sentence;
+  GridForecaster forecaster;
 
-	GridForecaster forecaster;
+  WeatherResult minresult = forecaster.analyze(
+      itsVar + "::fake::minimum", itsSources, DewPoint, Mean, Minimum, itsArea, itsPeriod);
 
-	WeatherResult minresult = forecaster.analyze(itsVar+"::fake::minimum",
-												 itsSources,
-												 DewPoint,
-												 Mean,
-												 Minimum,
-												 itsArea,
-												 itsPeriod);
+  WeatherResult maxresult = forecaster.analyze(
+      itsVar + "::fake::maximum", itsSources, DewPoint, Mean, Maximum, itsArea, itsPeriod);
 
-	WeatherResult maxresult = forecaster.analyze(itsVar+"::fake::maximum",
-												 itsSources,
-												 DewPoint,
-												 Mean,
-												 Maximum,
-												 itsArea,
-												 itsPeriod);
+  WeatherResult meanresult = forecaster.analyze(
+      itsVar + "::fake::mean", itsSources, DewPoint, Mean, Mean, itsArea, itsPeriod);
 
-	WeatherResult meanresult = forecaster.analyze(itsVar+"::fake::mean",
-												  itsSources,
-												  DewPoint,
-												  Mean,
-												  Mean,
-												  itsArea,
-												  itsPeriod);
+  if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
+      meanresult.value() == kFloatMissing)
+    throw TextGenError("DewPoint is not available for dewpoint_range");
 
-	if(minresult.value() == kFloatMissing ||
-	   maxresult.value() == kFloatMissing ||
-	   meanresult.value() == kFloatMissing)
-	  throw TextGenError("DewPoint is not available for dewpoint_range");
+  log << "DewPoint Mean(Min(Maximum())) = " << minresult << endl
+      << "DewPoint Mean(Mean(Maximum())) = " << meanresult << endl
+      << "DewPoint Mean(Max(Maximum())) = " << maxresult << endl;
 
-	log << "DewPoint Mean(Min(Maximum())) = "  << minresult << endl
-		<< "DewPoint Mean(Mean(Maximum())) = " << meanresult << endl
-		<< "DewPoint Mean(Max(Maximum())) = "  << maxresult << endl;
+  const int tmin = static_cast<int>(round(minresult.value()));
+  const int tmax = static_cast<int>(round(maxresult.value()));
+  const int tmean = static_cast<int>(round(meanresult.value()));
 
-	const int tmin  = static_cast<int>(round(minresult.value()));
-	const int tmax  = static_cast<int>(round(maxresult.value()));
-	const int tmean = static_cast<int>(round(meanresult.value()));
+  sentence << "kastepiste"
+           << "on" << TemperatureStoryTools::temperature_sentence(
+                          tmin, tmean, tmax, mininterval, false, rangeseparator);
 
-	sentence << "kastepiste"
-			 << "on"
-			 << TemperatureStoryTools::temperature_sentence(tmin,tmean,tmax,mininterval,false,rangeseparator);
+  paragraph << sentence;
+  log << paragraph;
+  return paragraph;
+}
 
-	paragraph << sentence;
-	log << paragraph;
-	return paragraph;
-  }
+}  // namespace TextGen
 
-} // namespace TextGen
-  
 // ======================================================================

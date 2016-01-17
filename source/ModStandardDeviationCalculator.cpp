@@ -33,126 +33,125 @@ using namespace std;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+ModStandardDeviationCalculator::ModStandardDeviationCalculator(int theModulo)
+    : itsAcceptor(new DefaultAcceptor()),
+      itsModulo(theModulo),
+      itsCounter(0),
+      itsSum(0),
+      itsSquaredSum(0),
+      itsPreviousDirection(kFloatMissing)
+{
+}
 
-  ModStandardDeviationCalculator::ModStandardDeviationCalculator(int theModulo)
-	: itsAcceptor(new DefaultAcceptor())
-	, itsModulo(theModulo)
-	, itsCounter(0)
-	, itsSum(0)
-	, itsSquaredSum(0)
-	, itsPreviousDirection(kFloatMissing)
+// ----------------------------------------------------------------------
+/*!
+ * \brief Integrate a new value
+ *
+ * Uses the Mitsuta algorithm.
+ *
+ * \param theValue
+ */
+// ----------------------------------------------------------------------
+
+void ModStandardDeviationCalculator::operator()(float theValue)
+{
+  if (itsAcceptor->accept(theValue))
   {
+    ++itsCounter;
+    if (itsCounter == 1)
+    {
+      itsSum = theValue;
+      itsSquaredSum = theValue * theValue;
+      itsPreviousDirection = theValue;
+    }
+    else
+    {
+      const double diff = theValue - itsPreviousDirection;
+      double dir = itsPreviousDirection + diff;
+      if (diff < -itsModulo / 2)
+      {
+        while (dir < itsModulo / 2)
+          dir += itsModulo;
+      }
+      else if (diff > itsModulo / 2)
+      {
+        while (dir > itsModulo / 2)
+          dir -= itsModulo;
+      }
+      itsSum += dir;
+      itsSquaredSum += dir * dir;
+
+      itsPreviousDirection = dir;
+    }
   }
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Integrate a new value
-   *
-   * Uses the Mitsuta algorithm.
-   *
-   * \param theValue
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the integrated value
+ *
+ * \return The integrated mean value
+ */
+// ----------------------------------------------------------------------
 
-  void ModStandardDeviationCalculator::operator()(float theValue)
+float ModStandardDeviationCalculator::operator()() const
+{
+  if (itsCounter < 1)
+    return kFloatMissing;
+  else
   {
-	if(itsAcceptor->accept(theValue))
-	  {
-		++itsCounter;
-		if(itsCounter==1)
-		  {
-			itsSum = theValue;
-			itsSquaredSum = theValue*theValue;
-			itsPreviousDirection = theValue;
-		  }
-		else
-		  {
-			const double diff = theValue - itsPreviousDirection;
-			double dir = itsPreviousDirection + diff;
-			if(diff < -itsModulo/2)
-			  {
-				while(dir < itsModulo/2)
-				  dir += itsModulo;
-			  }
-			else if(diff > itsModulo/2)
-			  {
-				while(dir > itsModulo/2)
-				  dir -= itsModulo;
-			  }
-			itsSum += dir;
-			itsSquaredSum += dir*dir;
-
-			itsPreviousDirection = dir;
-		  }
-	  }
+    const double tmp = itsSquaredSum - itsSum * itsSum / itsCounter;
+    if (tmp < 0)
+      return 0.0;
+    else
+      return sqrt(tmp / itsCounter);
   }
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the integrated value
-   *
-   * \return The integrated mean value
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set the internal acceptor
+ *
+ * \param theAcceptor The acceptor to be used
+ */
+// ----------------------------------------------------------------------
 
-  float ModStandardDeviationCalculator::operator()() const
-  {
-	if(itsCounter<1)
-	  return kFloatMissing;
-	else
-	  {
-		const double tmp = itsSquaredSum-itsSum*itsSum/itsCounter;
-		if(tmp<0)
-		  return 0.0;
-		else
-		  return sqrt(tmp/itsCounter);
-	  }
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the internal acceptor
-   *
-   * \param theAcceptor The acceptor to be used
-   */
-  // ----------------------------------------------------------------------
+void ModStandardDeviationCalculator::acceptor(const Acceptor& theAcceptor)
+{
+  itsAcceptor = boost::shared_ptr<Acceptor>(theAcceptor.clone());
+}
 
-  void ModStandardDeviationCalculator::acceptor(const Acceptor & theAcceptor)
-  {
-	itsAcceptor = boost::shared_ptr<Acceptor>(theAcceptor.clone());
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+boost::shared_ptr<Calculator> ModStandardDeviationCalculator::clone() const
+{
+  return boost::shared_ptr<Calculator>(new ModStandardDeviationCalculator(*this));
+}
 
-  boost::shared_ptr<Calculator> ModStandardDeviationCalculator::clone() const
-  {
-	return boost::shared_ptr<Calculator>(new ModStandardDeviationCalculator(*this));
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Reset
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Reset
-   */
-  // ----------------------------------------------------------------------
+void ModStandardDeviationCalculator::reset()
+{
+  itsCounter = 0;
+  itsSum = 0;
+  itsSquaredSum = 0;
+  itsPreviousDirection = kFloatMissing;
+}
 
-  void ModStandardDeviationCalculator::reset()
-  {
-	itsCounter = 0;
-	itsSum = 0;
-	itsSquaredSum = 0;
-	itsPreviousDirection = kFloatMissing;
-  }
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

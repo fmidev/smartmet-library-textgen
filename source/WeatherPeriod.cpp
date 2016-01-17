@@ -29,120 +29,101 @@
 #include "TimeTools.h"
 #include "TextGenError.h"
 #include <cassert>
-#include <iostream>     // std::cout
-#include <sstream>      // std::stringstream
+#include <iostream>  // std::cout
+#include <sstream>   // std::stringstream
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ *
+ * Construction is possible only by explicitly stating the
+ * start and end times, or by copy constructing. The void
+ * constructor is intentionally disabled.
+ *
+ * It is assumed that the proper timezone has been set
+ * prior to constructing the object. This can be done
+ * for example by using
+ * \code
+ * putenv("TZ=Europe/Helsinki");
+ * tzset();
+ * \endcode
+ * See the man-pages for \c tzset for more information.
+ * In Linux the available timezones are listed in
+ * directory \c /usr/share/zoneinfo
+ *
+ * \param theLocalStartTime The start time of the period
+ * \param theLocalEndTime The end time of the period
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   *
-   * Construction is possible only by explicitly stating the
-   * start and end times, or by copy constructing. The void
-   * constructor is intentionally disabled.
-   *
-   * It is assumed that the proper timezone has been set
-   * prior to constructing the object. This can be done
-   * for example by using
-   * \code
-   * putenv("TZ=Europe/Helsinki");
-   * tzset();
-   * \endcode
-   * See the man-pages for \c tzset for more information.
-   * In Linux the available timezones are listed in
-   * directory \c /usr/share/zoneinfo
-   *
-   * \param theLocalStartTime The start time of the period
-   * \param theLocalEndTime The end time of the period
-   */
-  // ----------------------------------------------------------------------
+WeatherPeriod::WeatherPeriod(const TextGenPosixTime& theLocalStartTime,
+                             const TextGenPosixTime& theLocalEndTime)
+    : itsLocalStartTime(theLocalStartTime),
+      itsLocalEndTime(theLocalEndTime),
+      itsUtcStartTime(TextGenPosixTime::UtcTime(theLocalStartTime)),
+      itsUtcEndTime(TextGenPosixTime::UtcTime(theLocalEndTime))
+{
+  if (theLocalEndTime.IsLessThan(theLocalStartTime))
+    throw TextGenError("WeatherPeriod: end time must be after start time");
+}
 
-  WeatherPeriod::WeatherPeriod(const TextGenPosixTime & theLocalStartTime,
-							   const TextGenPosixTime & theLocalEndTime)
-	: itsLocalStartTime(theLocalStartTime)
-	, itsLocalEndTime(theLocalEndTime)
-	, itsUtcStartTime(TextGenPosixTime::UtcTime(theLocalStartTime))
-	, itsUtcEndTime(TextGenPosixTime::UtcTime(theLocalEndTime))
-  {
-	if(theLocalEndTime.IsLessThan(theLocalStartTime))
-	  throw TextGenError("WeatherPeriod: end time must be after start time");
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Start time accessor
+ *
+ * \return The start time
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Start time accessor
-   *
-   * \return The start time
-   */
-  // ----------------------------------------------------------------------
+const TextGenPosixTime& WeatherPeriod::localStartTime() const { return itsLocalStartTime; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief End time accessor
+ *
+ * \return The end time
+ */
+// ----------------------------------------------------------------------
 
-  const TextGenPosixTime & WeatherPeriod::localStartTime() const
-  {
-	return itsLocalStartTime;
-  }
+const TextGenPosixTime& WeatherPeriod::localEndTime() const { return itsLocalEndTime; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Start time accessor
+ *
+ * \return The start time
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief End time accessor
-   *
-   * \return The end time
-   */
-  // ----------------------------------------------------------------------
+const TextGenPosixTime& WeatherPeriod::utcStartTime() const { return itsUtcStartTime; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief End time accessor
+ *
+ * \return The end time
+ */
+// ----------------------------------------------------------------------
 
-  const TextGenPosixTime & WeatherPeriod::localEndTime() const
-  {
-	return itsLocalEndTime;
-  }
+const TextGenPosixTime& WeatherPeriod::utcEndTime() const { return itsUtcEndTime; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Less-than comparison for TextGen::WeatherPeriod
+ *
+ * We define < to mean the lexicographic ordering based on the
+ * start time and then the end time.
+ *
+ * \param theRhs The right hand side
+ * \return True if the theLhs < theRhs
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Start time accessor
-   *
-   * \return The start time
-   */
-  // ----------------------------------------------------------------------
+bool WeatherPeriod::operator<(const TextGen::WeatherPeriod& theRhs) const
+{
+  if (utcStartTime() != theRhs.utcStartTime()) return (utcStartTime() < theRhs.utcStartTime());
+  return (utcEndTime() < theRhs.utcEndTime());
+}
 
-  const TextGenPosixTime & WeatherPeriod::utcStartTime() const
-  {
-	return itsUtcStartTime;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief End time accessor
-   *
-   * \return The end time
-   */
-  // ----------------------------------------------------------------------
-
-  const TextGenPosixTime & WeatherPeriod::utcEndTime() const
-  {
-	return itsUtcEndTime;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Less-than comparison for TextGen::WeatherPeriod
-   *
-   * We define < to mean the lexicographic ordering based on the
-   * start time and then the end time.
-   *
-   * \param theRhs The right hand side
-   * \return True if the theLhs < theRhs
-   */
-  // ----------------------------------------------------------------------
-  
-  bool WeatherPeriod::operator<(const TextGen::WeatherPeriod & theRhs) const
-  {
-	if(utcStartTime() != theRhs.utcStartTime())
-	  return (utcStartTime() < theRhs.utcStartTime());
-	return (utcEndTime() < theRhs.utcEndTime());
-  }
-
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ----------------------------------------------------------------------
 /*!
@@ -154,11 +135,10 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-bool operator==(const TextGen::WeatherPeriod & theLhs,
-				const TextGen::WeatherPeriod & theRhs)
+bool operator==(const TextGen::WeatherPeriod& theLhs, const TextGen::WeatherPeriod& theRhs)
 {
-  return(theLhs.utcStartTime() == theRhs.utcStartTime() &&
-		 theLhs.utcEndTime() == theRhs.utcEndTime());
+  return (theLhs.utcStartTime() == theRhs.utcStartTime() &&
+          theLhs.utcEndTime() == theRhs.utcEndTime());
 }
 
 // ----------------------------------------------------------------------
@@ -171,8 +151,7 @@ bool operator==(const TextGen::WeatherPeriod & theLhs,
  */
 // ----------------------------------------------------------------------
 
-bool operator!=(const TextGen::WeatherPeriod & theLhs,
-				const TextGen::WeatherPeriod & theRhs)
+bool operator!=(const TextGen::WeatherPeriod& theLhs, const TextGen::WeatherPeriod& theRhs)
 {
   return !(theLhs == theRhs);
 }

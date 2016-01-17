@@ -10,39 +10,35 @@
 
 namespace TextGen
 {
-  class WeatherPeriod;
+class WeatherPeriod;
 
-  namespace WeatherPeriodTools
-  {
+namespace WeatherPeriodTools
+{
+int hours(const WeatherPeriod& thePeriod);
 
-	int hours(const WeatherPeriod & thePeriod);
+int countPeriods(const WeatherPeriod& thePeriod, int theStartHour, int theEndHour);
 
-	int countPeriods(const WeatherPeriod & thePeriod,
-					 int theStartHour,
-					 int theEndHour);
-	
-	int countPeriods(const WeatherPeriod & thePeriod,
-					 int theStartHour,
-					 int theEndHour,
-					 int theMaxStartHour,
-					 int theMinEndHour);
+int countPeriods(const WeatherPeriod& thePeriod,
+                 int theStartHour,
+                 int theEndHour,
+                 int theMaxStartHour,
+                 int theMinEndHour);
 
-	WeatherPeriod getPeriod(const WeatherPeriod & thePeriod,
-							int theNumber,
-							int theStartHour,
-							int theEndHour);
+WeatherPeriod getPeriod(const WeatherPeriod& thePeriod,
+                        int theNumber,
+                        int theStartHour,
+                        int theEndHour);
 
-	WeatherPeriod getPeriod(const WeatherPeriod & thePeriod,
-							int theNumber,
-							int theStartHour,
-							int theEndHour,
-							int theMaxStartHour,
-							int theMinEndHour);
+WeatherPeriod getPeriod(const WeatherPeriod& thePeriod,
+                        int theNumber,
+                        int theStartHour,
+                        int theEndHour,
+                        int theMaxStartHour,
+                        int theMinEndHour);
 
+}  // namespace WeatherPeriodTools
+}  // namespace TextGen
 
-  } // namespace WeatherPeriodTools
-} // namespace TextGen
-
-#endif // TEXTGEN_WEATHERPERIODTOOLS_H
+#endif  // TEXTGEN_WEATHERPERIODTOOLS_H
 
 // ======================================================================

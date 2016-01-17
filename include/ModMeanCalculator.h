@@ -13,33 +13,31 @@
 
 namespace TextGen
 {
-  class ModMeanCalculator : public Calculator
-  {
-  public:
+class ModMeanCalculator : public Calculator
+{
+ public:
+  ModMeanCalculator(int theModulo);
+  virtual ~ModMeanCalculator() {}
+  virtual void operator()(float theValue);
+  virtual float operator()() const;
+  virtual void acceptor(const Acceptor& theAcceptor);
+  virtual boost::shared_ptr<Calculator> clone() const;
+  virtual void reset();
 
-	ModMeanCalculator(int theModulo);
-	virtual ~ModMeanCalculator() { }
-	virtual void operator()(float theValue);
-	virtual float operator()() const;
-	virtual void acceptor(const Acceptor & theAcceptor);
-	virtual boost::shared_ptr<Calculator> clone() const;
-	virtual void reset();
+ private:
+  ModMeanCalculator();
 
-  private:
+  boost::shared_ptr<Acceptor> itsAcceptor;
+  const int itsModulo;
 
-	ModMeanCalculator();
+  long itsCounter;
+  double itsSum;
+  double itsPreviousDirection;
 
-	boost::shared_ptr<Acceptor> itsAcceptor;
-	const int itsModulo;
+};  // class ModMeanCalculator
 
-	long itsCounter;
-	double itsSum;
-	double itsPreviousDirection;
+}  // namespace TextGen
 
-  }; // class ModMeanCalculator
-
-} // namespace TextGen
-
-#endif // TEXTGEN_MODMEANCALCULATOR_H
+#endif  // TEXTGEN_MODMEANCALCULATOR_H
 
 // ======================================================================

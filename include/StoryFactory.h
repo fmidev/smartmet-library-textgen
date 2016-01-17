@@ -14,27 +14,27 @@ class TextGenPosixTime;
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriod;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriod;
 }
 
 namespace TextGen
 {
-  class Paragraph;
+class Paragraph;
 
-  namespace StoryFactory
-  {
-	Paragraph create(const TextGenPosixTime & theForecastTime,
-					 const TextGen::AnalysisSources & theSources,
-					 const TextGen::WeatherArea & theArea,
-					 const TextGen::WeatherPeriod & thePeriod,
-					 const std::string & theName,
-					 const std::string & theVariable);
+namespace StoryFactory
+{
+Paragraph create(const TextGenPosixTime& theForecastTime,
+                 const TextGen::AnalysisSources& theSources,
+                 const TextGen::WeatherArea& theArea,
+                 const TextGen::WeatherPeriod& thePeriod,
+                 const std::string& theName,
+                 const std::string& theVariable);
 
-  } // namespace StoryFactory
-} // namespace TextGen
+}  // namespace StoryFactory
+}  // namespace TextGen
 
-#endif // TEXTGEN_STORYFACTORY_H
+#endif  // TEXTGEN_STORYFACTORY_H
 
 // ======================================================================

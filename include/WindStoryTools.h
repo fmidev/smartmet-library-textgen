@@ -13,75 +13,74 @@
 
 namespace TextGen
 {
-  class WeatherResult;
+class WeatherResult;
 }
 
 namespace TextGen
 {
-  class Sentence;
+class Sentence;
 
-  namespace WindStoryTools
-  {
+namespace WindStoryTools
+{
+// ----------------------------------------------------------------------
+/*!
+ * \brief Wind direction accuracy class
+ */
+// ----------------------------------------------------------------------
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Wind direction accuracy class
-	 */
-	// ----------------------------------------------------------------------
-	
-	enum WindDirectionAccuracy
-	  {
-		good_accuracy,
-		moderate_accuracy,
-		bad_accuracy
-	  };
+enum WindDirectionAccuracy
+{
+  good_accuracy,
+  moderate_accuracy,
+  bad_accuracy
+};
 
-	enum CompassType
-	  {
-		eight_directions,
-		sixteen_directions
-	  };
+enum CompassType
+{
+  eight_directions,
+  sixteen_directions
+};
 
-	enum WindSpeedId
-	  {
-		TYYNI,
-		HEIKKO,       // 0.5...3.5
-		KOHTALAINEN,  // 3.5...7.5
-		NAVAKKA,      // 7.5...13.5
-		KOVA,         // 13.5...20.5
-		MYRSKY,       // 20.5...32.5
-		HIRMUMYRSKY   // 32.5...
-	  };
+enum WindSpeedId
+{
+  TYYNI,
+  HEIKKO,       // 0.5...3.5
+  KOHTALAINEN,  // 3.5...7.5
+  NAVAKKA,      // 7.5...13.5
+  KOVA,         // 13.5...20.5
+  MYRSKY,       // 20.5...32.5
+  HIRMUMYRSKY   // 32.5...
+};
 
-	enum WindDirectionId
-	  {
-		POHJOINEN = 0x1,
-		POHJOINEN_KOILLINEN,
-		KOILLINEN,
-		ITA_KOILLINEN,
-		ITA,
-		ITA_KAAKKO,
-		KAAKKO,
-		ETELA_KAAKKO,
-		ETELA,
-		ETELA_LOUNAS,
-		LOUNAS,
-		LANSI_LOUNAS,
-		LANSI,
-		LANSI_LUODE,
-		LUODE,
-		POHJOINEN_LUODE,
-		POHJOISEN_PUOLEINEN,
-		KOILLISEN_PUOLEINEN,
-		IDAN_PUOLEINEN,
-		KAAKON_PUOLEINEN,
-		ETELAN_PUOLEINEN,
-		LOUNAAN_PUOLEINEN,
-		LANNEN_PUOLEINEN,
-		LUOTEEN_PUOLEINEN,
-		VAIHTELEVA,
-		MISSING_WIND_DIRECTION_ID
-	  };
+enum WindDirectionId
+{
+  POHJOINEN = 0x1,
+  POHJOINEN_KOILLINEN,
+  KOILLINEN,
+  ITA_KOILLINEN,
+  ITA,
+  ITA_KAAKKO,
+  KAAKKO,
+  ETELA_KAAKKO,
+  ETELA,
+  ETELA_LOUNAS,
+  LOUNAS,
+  LANSI_LOUNAS,
+  LANSI,
+  LANSI_LUODE,
+  LUODE,
+  POHJOINEN_LUODE,
+  POHJOISEN_PUOLEINEN,
+  KOILLISEN_PUOLEINEN,
+  IDAN_PUOLEINEN,
+  KAAKON_PUOLEINEN,
+  ETELAN_PUOLEINEN,
+  LOUNAAN_PUOLEINEN,
+  LANNEN_PUOLEINEN,
+  LUOTEEN_PUOLEINEN,
+  VAIHTELEVA,
+  MISSING_WIND_DIRECTION_ID
+};
 
 #define HEIKKO_LOWER_LIMIT 0.5
 #define HEIKKO_UPPER_LIMIT 3.5
@@ -104,86 +103,83 @@ namespace TextGen
 #define MYRSKY_WORD "myrsky"
 #define HIRMUMYRSKY_WORD "hirmumyrsky"
 
+// contains wind speed interval minimum and maximum values
+typedef std::vector<std::pair<float, float> > wind_speed_vector;
 
-	// contains wind speed interval minimum and maximum values
-	typedef std::vector<std::pair<float, float> > wind_speed_vector;
+WindDirectionAccuracy direction_accuracy(double theAccuracy, const std::string& theVariable);
+int direction8th(double theDirection);
 
+int direction16th(double theDirection);
 
-	WindDirectionAccuracy direction_accuracy(double theAccuracy,
-											 const std::string & theVariable);
-	int direction8th(double theDirection);
+Sentence direction_sentence(const TextGen::WeatherResult& theDirection,
+                            const std::string& theVariable);
 
-	int direction16th(double theDirection);
+std::string direction_string(const TextGen::WeatherResult& theDirection,
+                             const std::string& theVariable);
 
-	Sentence direction_sentence(const TextGen::WeatherResult & theDirection,
-								const std::string & theVariable);
+std::string direction16_string(const TextGen::WeatherResult& theDirection,
+                               const std::string& theVariable);
 
-	std::string direction_string(const TextGen::WeatherResult & theDirection,
-								 const std::string & theVariable);
+Sentence speed_range_sentence(const TextGen::WeatherResult& theMinSpeed,
+                              const TextGen::WeatherResult& theMaxSpeed,
+                              const TextGen::WeatherResult& theMeanSpeed,
+                              const std::string& theVariable);
 
-	std::string direction16_string(const TextGen::WeatherResult & theDirection,
-								   const std::string & theVariable);
+Sentence directed_speed_sentence(const TextGen::WeatherResult& theMinSpeed,
+                                 const TextGen::WeatherResult& theMaxSpeed,
+                                 const TextGen::WeatherResult& theMeanSpeed,
+                                 const TextGen::WeatherResult& theDirection,
+                                 const std::string& theVariable);
 
-	Sentence speed_range_sentence(const TextGen::WeatherResult & theMinSpeed,
-								  const TextGen::WeatherResult & theMaxSpeed,
-								  const TextGen::WeatherResult & theMeanSpeed,
-								  const std::string & theVariable);
-	
-	Sentence directed_speed_sentence(const TextGen::WeatherResult & theMinSpeed,
-									 const TextGen::WeatherResult & theMaxSpeed,
-									 const TextGen::WeatherResult & theMeanSpeed,
-									 const TextGen::WeatherResult & theDirection,
-									 const std::string & theVariable);
-	
-	std::string directed_speed_string(const TextGen::WeatherResult & theMeanSpeed,
-									  const TextGen::WeatherResult & theDirection,
-									  const std::string & theVariable);
+std::string directed_speed_string(const TextGen::WeatherResult& theMeanSpeed,
+                                  const TextGen::WeatherResult& theDirection,
+                                  const std::string& theVariable);
 
-	std::string directed16_speed_string(const TextGen::WeatherResult & theMeanSpeed,
-										const TextGen::WeatherResult & theDirection,
-										const std::string & theVariable);
-	
-	std::string speed_string(const TextGen::WeatherResult& theMeanSpeed);
-	
-	WindSpeedId wind_speed_id(const TextGen::WeatherResult& theWindSpeed);
+std::string directed16_speed_string(const TextGen::WeatherResult& theMeanSpeed,
+                                    const TextGen::WeatherResult& theDirection,
+                                    const std::string& theVariable);
 
-	WindSpeedId wind_speed_id(const float& theWindSpeed);
+std::string speed_string(const TextGen::WeatherResult& theMeanSpeed);
 
-	std::string wind_speed_string(const WindSpeedId& theWindSpeedId);
+WindSpeedId wind_speed_id(const TextGen::WeatherResult& theWindSpeed);
 
-	std::pair<int, int> wind_speed_interval(const wind_speed_vector& theWindSpeedVector);
+WindSpeedId wind_speed_id(const float& theWindSpeed);
 
-	WindDirectionId wind_direction_id(const TextGen::WeatherResult& theWindDirection, 
-									  const TextGen::WeatherResult& theMaxWindSpeed,
-									  const std::string& theVariable);
+std::string wind_speed_string(const WindSpeedId& theWindSpeedId);
 
-	WindDirectionId plain_wind_direction_id(const TextGen::WeatherResult& theWindDirection, 
-											const TextGen::WeatherResult& theMaxWindSpeed,
-											const std::string& theVariable);
+std::pair<int, int> wind_speed_interval(const wind_speed_vector& theWindSpeedVector);
 
-	std::string wind_direction_string(const WindDirectionId& theWindDirectionId);
+WindDirectionId wind_direction_id(const TextGen::WeatherResult& theWindDirection,
+                                  const TextGen::WeatherResult& theMaxWindSpeed,
+                                  const std::string& theVariable);
 
-	float direction_difference(const float& direction1, const float& direction2);
+WindDirectionId plain_wind_direction_id(const TextGen::WeatherResult& theWindDirection,
+                                        const TextGen::WeatherResult& theMaxWindSpeed,
+                                        const std::string& theVariable);
 
-	bool wind_direction_turns(const TextGen::WeatherResult& theDirectionStart,
-							  const TextGen::WeatherResult& theDirectionEnd,
-							  const TextGen::WeatherResult& theMaxSpeedStart,
-							  const TextGen::WeatherResult& theMaxSpeedEnd,
-							  const std::string& theVariable);
+std::string wind_direction_string(const WindDirectionId& theWindDirectionId);
 
-	bool same_direction(const TextGen::WeatherResult& theDirection1,
-						const TextGen::WeatherResult& theDirection2,
-						const TextGen::WeatherResult& theMaxSpeed1,
-						const TextGen::WeatherResult& theMaxSpeed2,
-						const std::string& theVariable,
-						const bool& ignore_suuntainen);
+float direction_difference(const float& direction1, const float& direction2);
 
-	bool same_direction(const WindDirectionId& theDirection1,
-						const WindDirectionId& theDirection2,
-						const bool& ignore_suuntainen);
-  } // namespace WindStoryTools
-} // namespace TextGen
+bool wind_direction_turns(const TextGen::WeatherResult& theDirectionStart,
+                          const TextGen::WeatherResult& theDirectionEnd,
+                          const TextGen::WeatherResult& theMaxSpeedStart,
+                          const TextGen::WeatherResult& theMaxSpeedEnd,
+                          const std::string& theVariable);
 
-#endif // TEXTGEN_WINDSTORYTOOLS_H
+bool same_direction(const TextGen::WeatherResult& theDirection1,
+                    const TextGen::WeatherResult& theDirection2,
+                    const TextGen::WeatherResult& theMaxSpeed1,
+                    const TextGen::WeatherResult& theMaxSpeed2,
+                    const std::string& theVariable,
+                    const bool& ignore_suuntainen);
+
+bool same_direction(const WindDirectionId& theDirection1,
+                    const WindDirectionId& theDirection2,
+                    const bool& ignore_suuntainen);
+}  // namespace WindStoryTools
+}  // namespace TextGen
+
+#endif  // TEXTGEN_WINDSTORYTOOLS_H
 
 // ======================================================================

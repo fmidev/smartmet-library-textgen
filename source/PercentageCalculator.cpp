@@ -22,118 +22,116 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+PercentageCalculator::PercentageCalculator()
+    : itsAcceptor(new DefaultAcceptor()),
+      itsCondition(new NullAcceptor()),
+      itsCounter(0),
+      itsTotalCounter(0)
+{
+}
 
-  PercentageCalculator::PercentageCalculator()
-	: itsAcceptor(new DefaultAcceptor())
-	, itsCondition(new NullAcceptor())
-	, itsCounter(0)
-	, itsTotalCounter(0)
+// ----------------------------------------------------------------------
+/*!
+ * \brief Copy constructor
+ */
+// ----------------------------------------------------------------------
+
+PercentageCalculator::PercentageCalculator(const PercentageCalculator& theOther)
+    : itsAcceptor(theOther.itsAcceptor->clone()),
+      itsCondition(theOther.itsCondition->clone()),
+      itsCounter(theOther.itsCounter),
+      itsTotalCounter(theOther.itsTotalCounter)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Integrate a new value
+ *
+ * \param theValue
+ */
+// ----------------------------------------------------------------------
+
+void PercentageCalculator::operator()(float theValue)
+{
+  if (itsAcceptor->accept(theValue))
   {
+    ++itsTotalCounter;
+    if (itsCondition->accept(theValue)) ++itsCounter;
   }
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Copy constructor
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the integrated value
+ *
+ * \return The integrated percentage value in the range 0-100
+ */
+// ----------------------------------------------------------------------
 
-  PercentageCalculator::PercentageCalculator(const PercentageCalculator & theOther)
-	: itsAcceptor(theOther.itsAcceptor->clone())
-	, itsCondition(theOther.itsCondition->clone())
-	, itsCounter(theOther.itsCounter)
-	, itsTotalCounter(theOther.itsTotalCounter)
-  {
-  }
+float PercentageCalculator::operator()() const
+{
+  if (itsTotalCounter == 0)
+    return kFloatMissing;
+  else
+    return 100 * static_cast<float>(itsCounter) / itsTotalCounter;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Integrate a new value
-   *
-   * \param theValue
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set the internal acceptor
+ *
+ * \param theAcceptor The acceptor to be used
+ */
+// ----------------------------------------------------------------------
 
-  void PercentageCalculator::operator()(float theValue)
-  {
-	if(itsAcceptor->accept(theValue))
-	  {
-		++itsTotalCounter;
-		if(itsCondition->accept(theValue))
-		  ++itsCounter;
-	  }
-  }
+void PercentageCalculator::acceptor(const Acceptor& theAcceptor)
+{
+  itsAcceptor = theAcceptor.clone();
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the integrated value
-   *
-   * \return The integrated percentage value in the range 0-100
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set the actual percentage calculator condition
+ *
+ * \param theCondition The condition to be used
+ */
+// ----------------------------------------------------------------------
 
-  float PercentageCalculator::operator()() const
-  {
-	if(itsTotalCounter==0)
-	  return kFloatMissing;
-	else
-	  return 100*static_cast<float>(itsCounter)/itsTotalCounter;
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the internal acceptor
-   *
-   * \param theAcceptor The acceptor to be used
-   */
-  // ----------------------------------------------------------------------
+void PercentageCalculator::condition(const Acceptor& theCondition)
+{
+  itsCondition = theCondition.clone();
+}
 
-  void PercentageCalculator::acceptor(const Acceptor & theAcceptor)
-  {
-	itsAcceptor = theAcceptor.clone();
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the actual percentage calculator condition
-   *
-   * \param theCondition The condition to be used
-   */
-  // ----------------------------------------------------------------------
+boost::shared_ptr<Calculator> PercentageCalculator::clone() const
+{
+  return boost::shared_ptr<Calculator>(new PercentageCalculator(*this));
+}
 
-  void PercentageCalculator::condition(const Acceptor & theCondition)
-  {
-	itsCondition = theCondition.clone();
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Reset
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+void PercentageCalculator::reset()
+{
+  itsCounter = 0;
+  itsTotalCounter = 0;
+}
 
-  boost::shared_ptr<Calculator> PercentageCalculator::clone() const
-  {
-	return boost::shared_ptr<Calculator>(new PercentageCalculator(*this));
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Reset
-   */
-  // ----------------------------------------------------------------------
-
-  void PercentageCalculator::reset()
-  {
-	itsCounter = 0;
-	itsTotalCounter = 0;
-  }
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

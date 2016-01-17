@@ -22,104 +22,102 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+CountCalculator::CountCalculator()
+    : itsAcceptor(new DefaultAcceptor()),
+      itsCondition(new NullAcceptor()),
+      itsCounter(0),
+      itsTotalCounter(0)
+{
+}
 
-  CountCalculator::CountCalculator()
-	: itsAcceptor(new DefaultAcceptor())
-	, itsCondition(new NullAcceptor())
-	, itsCounter(0)
-	, itsTotalCounter(0)
+// ----------------------------------------------------------------------
+/*!
+ * \brief Integrate a new value
+ *
+ * \param theValue
+ */
+// ----------------------------------------------------------------------
+
+void CountCalculator::operator()(float theValue)
+{
+  if (itsAcceptor->accept(theValue))
   {
+    ++itsTotalCounter;
+    if (itsCondition->accept(theValue)) ++itsCounter;
   }
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Integrate a new value
-   *
-   * \param theValue
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the integrated value
+ *
+ * \return The integrated count value in the range 0-100
+ */
+// ----------------------------------------------------------------------
 
-  void CountCalculator::operator()(float theValue)
-  {
-	if(itsAcceptor->accept(theValue))
-	  {
-		++itsTotalCounter;
-		if(itsCondition->accept(theValue))
-		  ++itsCounter;
-	  }
-  }
+float CountCalculator::operator()() const
+{
+  if (itsTotalCounter == 0)
+    return kFloatMissing;
+  else
+    return itsCounter;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the integrated value
-   *
-   * \return The integrated count value in the range 0-100
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set the internal acceptor
+ *
+ * \param theAcceptor The acceptor to be used
+ */
+// ----------------------------------------------------------------------
 
-  float CountCalculator::operator()() const
-  {
-	if(itsTotalCounter==0)
-	  return kFloatMissing;
-	else
-	  return itsCounter;
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the internal acceptor
-   *
-   * \param theAcceptor The acceptor to be used
-   */
-  // ----------------------------------------------------------------------
+void CountCalculator::acceptor(const Acceptor& theAcceptor)
+{
+  itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
+}
 
-  void CountCalculator::acceptor(const Acceptor & theAcceptor)
-  {
-	itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set the actual count calculator condition
+ *
+ * \param theCondition The condition to be used
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the actual count calculator condition
-   *
-   * \param theCondition The condition to be used
-   */
-  // ----------------------------------------------------------------------
+void CountCalculator::condition(const Acceptor& theCondition)
+{
+  itsCondition = shared_ptr<Acceptor>(theCondition.clone());
+}
 
-  void CountCalculator::condition(const Acceptor & theCondition)
-  {
-	itsCondition = shared_ptr<Acceptor>(theCondition.clone());
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+boost::shared_ptr<Calculator> CountCalculator::clone() const
+{
+  return boost::shared_ptr<Calculator>(new CountCalculator(*this));
+}
 
-  boost::shared_ptr<Calculator> CountCalculator::clone() const
-  {
-	return boost::shared_ptr<Calculator>(new CountCalculator(*this));
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Reset
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Reset
-   */
-  // ----------------------------------------------------------------------
+void CountCalculator::reset()
+{
+  itsCounter = 0;
+  itsTotalCounter = 0;
+}
 
-  void CountCalculator::reset()
-  {
-	itsCounter = 0;
-	itsTotalCounter = 0;
-  }
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

@@ -12,43 +12,37 @@
 
 namespace TextGen
 {
-  class WeatherResult
-  {
-  public:
-
+class WeatherResult
+{
+ public:
 #ifdef NO_COMPILER_GENERATED
-	~WeatherResult();
-	WeatherResult(const WeatherResult & theResult);
-	WeatherResult & operator=(const WeatherResult & theResult);
+  ~WeatherResult();
+  WeatherResult(const WeatherResult& theResult);
+  WeatherResult& operator=(const WeatherResult& theResult);
 #endif
 
-	WeatherResult(float theValue, float theError);
+  WeatherResult(float theValue, float theError);
 
-	float value() const;
-	float error() const;
+  float value() const;
+  float error() const;
 
-  private:
+ private:
+  WeatherResult();
+  float itsValue;
+  float itsError;
 
-	WeatherResult();
-	float itsValue;
-	float itsError;
+};  // class WeatherResult
 
-  }; // class WeatherResult
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // Free functions
 
-bool operator==(const TextGen::WeatherResult & theLhs,
-				const TextGen::WeatherResult & theRhs);
+bool operator==(const TextGen::WeatherResult& theLhs, const TextGen::WeatherResult& theRhs);
 
-bool operator!=(const TextGen::WeatherResult & theLhs,
-				const TextGen::WeatherResult & theRhs);
+bool operator!=(const TextGen::WeatherResult& theLhs, const TextGen::WeatherResult& theRhs);
 
-std::ostream & operator<<(std::ostream & theOutput,
-						  const TextGen::WeatherResult & theResult);
+std::ostream& operator<<(std::ostream& theOutput, const TextGen::WeatherResult& theResult);
 
-
-#endif // TEXTGEN_WEATHERRESULT_H
+#endif  // TEXTGEN_WEATHERRESULT_H
 
 // ======================================================================

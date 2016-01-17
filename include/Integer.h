@@ -13,36 +13,34 @@
 
 namespace TextGen
 {
-  class Dictionary;
-  class TextFormatter;
+class Dictionary;
+class TextFormatter;
 
-  class Integer : public Glyph
-  {
-  public:
-
-	virtual ~Integer();
-	explicit Integer(int theInteger);
+class Integer : public Glyph
+{
+ public:
+  virtual ~Integer();
+  explicit Integer(int theInteger);
 
 #ifdef NO_COMPILER_GENERATED
-	Integer(const Integer & theInteger);
-	Integer & operator=(const Integer & theInteger);
+  Integer(const Integer& theInteger);
+  Integer& operator=(const Integer& theInteger);
 #endif
 
-	virtual boost::shared_ptr<Glyph> clone() const;
-	virtual std::string realize(const Dictionary & theDictionary) const;
-	virtual std::string realize(const TextFormatter & theFormatter) const;
+  virtual boost::shared_ptr<Glyph> clone() const;
+  virtual std::string realize(const Dictionary& theDictionary) const;
+  virtual std::string realize(const TextFormatter& theFormatter) const;
 
-	virtual bool isDelimiter() const;
-	int value() const;
+  virtual bool isDelimiter() const;
+  int value() const;
 
-  private:
+ private:
+  Integer();
+  int itsInteger;
 
-	Integer();
-	int itsInteger;
+};  // class Integer
+}  // namespace Integer
 
-  }; // class Integer
-} // namespace Integer
-
-#endif // TEXTGEN_INTEGER_H
+#endif  // TEXTGEN_INTEGER_H
 
 // ======================================================================

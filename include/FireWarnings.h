@@ -14,31 +14,28 @@
 
 namespace TextGen
 {
-  class FireWarnings
+class FireWarnings
+{
+ public:
+  enum State
   {
-  public:
+    None = 0,
+    GrassFireWarning = 1,
+    FireWarning = 2,
+    Undefined = 999
+  };
 
-	enum State
-	  {
-		None = 0,
-		GrassFireWarning = 1,
-		FireWarning = 2,
-		Undefined = 999
-	  };
+  FireWarnings(const std::string& theDirectory, const TextGenPosixTime& theTime);
+  State state(int theArea) const;
 
-	FireWarnings(const std::string & theDirectory,
-				 const TextGenPosixTime & theTime);
-	State state(int theArea) const;
+ private:
+  FireWarnings();
+  const TextGenPosixTime itsTime;
+  std::vector<State> itsWarnings;
 
-  private:
+};  // class FireWarnings
+}  // namespace TextGen
 
-	FireWarnings();
-	const TextGenPosixTime itsTime;
-	std::vector<State> itsWarnings;
-
-  }; // class FireWarnings
-} // namespace TextGen
-
-#endif // TEXTGEN_FIREWARNINGS_H
+#endif  // TEXTGEN_FIREWARNINGS_H
 
 // ======================================================================

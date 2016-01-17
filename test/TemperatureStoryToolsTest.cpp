@@ -17,55 +17,42 @@ using namespace boost;
 
 namespace TemperatureStoryToolsTest
 {
-  shared_ptr<TextGen::Dictionary> dict;
+shared_ptr<TextGen::Dictionary> dict;
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test TemperatureStoryTools::temperature_comparison_phrase
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test TemperatureStoryTools::temperature_comparison_phrase
+ */
+// ----------------------------------------------------------------------
 
-  void temperature_comparison_phrase()
+void temperature_comparison_phrase() { TEST_NOT_IMPLEMENTED(); }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test TemperatureStoryTools::temperature_sentence
+ */
+// ----------------------------------------------------------------------
+
+void temperature_sentence() { TEST_NOT_IMPLEMENTED(); }
+// ----------------------------------------------------------------------
+/*!
+ * \brief The actual test driver
+ */
+// ----------------------------------------------------------------------
+
+class tests : public tframe::tests
+{
+  //! Overridden message separator
+  virtual const char* error_message_prefix() const { return "\n\t"; }
+  //! Main test suite
+  void test(void)
   {
-	TEST_NOT_IMPLEMENTED();
+    TEST(temperature_comparison_phrase);
+    TEST(temperature_sentence);
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test TemperatureStoryTools::temperature_sentence
-   */
-  // ----------------------------------------------------------------------
+};  // class tests
 
-  void temperature_sentence()
-  {
-	TEST_NOT_IMPLEMENTED();
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief The actual test driver
-   */
-  // ----------------------------------------------------------------------
-
-  class tests : public tframe::tests
-  {
-	//! Overridden message separator
-	virtual const char * error_message_prefix() const
-	{
-	  return "\n\t";
-	}
-
-	//! Main test suite
-	void test(void)
-	{
-	  TEST(temperature_comparison_phrase);
-	  TEST(temperature_sentence);
-	}
-
-  }; // class tests
-
-} // namespace TemperatureStoryToolsTest
-
+}  // namespace TemperatureStoryToolsTest
 
 int main(void)
 {
@@ -73,18 +60,16 @@ int main(void)
   std::locale::global(generator(""));
 
   NFmiSettings::Init();
-  NFmiSettings::Set("textgen::database","textgen2");
+  NFmiSettings::Set("textgen::database", "textgen2");
   Settings::set(NFmiSettings::ToString());
 
   using namespace TemperatureStoryToolsTest;
 
-  cout << endl
-	   << "TemperatureStoryTools tests" << endl
-	   << "===========================" << endl;
+  cout << endl << "TemperatureStoryTools tests" << endl << "===========================" << endl;
 
   dict.reset(TextGen::DictionaryFactory::create("null"));
 
-  NFmiSettings::Set("textgen::units::celsius::format","phrase");
+  NFmiSettings::Set("textgen::units::celsius::format", "phrase");
 
   tests t;
   return t.run();

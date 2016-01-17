@@ -14,23 +14,22 @@ using namespace std;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Generate story on none
+ *
+ * \return The story
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Generate story on none
-   *
-   * \return The story
-   */
-  // ----------------------------------------------------------------------
+Paragraph SpecialStory::none() const
+{
+  MessageLogger log("SpecialStory::none");
 
-  Paragraph SpecialStory::none() const
-  {
-	MessageLogger log("SpecialStory::none");
+  Paragraph paragraph;
+  return paragraph;
+}
 
-	Paragraph paragraph;
-	return paragraph;
-  }
+}  // namespace TextGen
 
-} // namespace TextGen
-  
 // ======================================================================

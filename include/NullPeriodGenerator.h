@@ -15,32 +15,30 @@
 
 namespace TextGen
 {
-  class WeatherPeriod;
+class WeatherPeriod;
 
-  class NullPeriodGenerator : public WeatherPeriodGenerator
-  {
-  public:
-	typedef WeatherPeriodGenerator::size_type size_type;
+class NullPeriodGenerator : public WeatherPeriodGenerator
+{
+ public:
+  typedef WeatherPeriodGenerator::size_type size_type;
 
-	NullPeriodGenerator(const WeatherPeriod & theMainPeriod);
+  NullPeriodGenerator(const WeatherPeriod& theMainPeriod);
 
-	virtual ~NullPeriodGenerator() { }
-	virtual bool undivided() const;
-	virtual size_type size() const;
-	virtual WeatherPeriod period() const;
-	virtual WeatherPeriod period(size_type thePeriod) const;
+  virtual ~NullPeriodGenerator() {}
+  virtual bool undivided() const;
+  virtual size_type size() const;
+  virtual WeatherPeriod period() const;
+  virtual WeatherPeriod period(size_type thePeriod) const;
 
-  private:
+ private:
+  NullPeriodGenerator(void);
 
-	NullPeriodGenerator(void);
+  const WeatherPeriod itsMainPeriod;
 
-	const WeatherPeriod itsMainPeriod;
+};  // class NullPeriodGenerator
 
-  }; // class NullPeriodGenerator
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_NULLPERIODGENERATOR_H
+#endif  // TEXTGEN_NULLPERIODGENERATOR_H
 
 // ======================================================================
-

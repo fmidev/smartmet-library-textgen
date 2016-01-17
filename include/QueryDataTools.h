@@ -13,23 +13,22 @@ class TextGenPosixTime;
 
 namespace TextGen
 {
-  namespace QueryDataTools
-  {
-	bool findIndices(NFmiFastQueryInfo & theQI,
-					 const TextGenPosixTime & theStartTime,
-					 const TextGenPosixTime & theEndTime,
-					 unsigned long & theStartIndex,
-					 unsigned long & theEndIndex);
+namespace QueryDataTools
+{
+bool findIndices(NFmiFastQueryInfo& theQI,
+                 const TextGenPosixTime& theStartTime,
+                 const TextGenPosixTime& theEndTime,
+                 unsigned long& theStartIndex,
+                 unsigned long& theEndIndex);
 
-	bool firstTime(NFmiFastQueryInfo & theQI,
-				   const TextGenPosixTime & theTime,
-				   const TextGenPosixTime & theEndTime);
+bool firstTime(NFmiFastQueryInfo& theQI,
+               const TextGenPosixTime& theTime,
+               const TextGenPosixTime& theEndTime);
 
-	bool lastTime(NFmiFastQueryInfo & theQI,
-				  const TextGenPosixTime & theTime);
-  }
+bool lastTime(NFmiFastQueryInfo& theQI, const TextGenPosixTime& theTime);
+}
 }
 
-#endif // TEXTGEN_QUERYDATATOOLS_H
+#endif  // TEXTGEN_QUERYDATATOOLS_H
 
 // ======================================================================

@@ -39,255 +39,233 @@ using namespace NFmiIndexMaskTools;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Utility structure to each cache management
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Utility structure to each cache management
-   */
-  // ----------------------------------------------------------------------
+struct WeatherAreaAndID
+{
+  WeatherId itsID;
+  WeatherArea itsArea;
 
-  struct WeatherAreaAndID
-  {
-	WeatherId itsID;
-	WeatherArea itsArea;
-
-	WeatherAreaAndID(const WeatherId & theID,
-					 const WeatherArea & theArea)
-	  : itsID(theID)
-	  , itsArea(theArea)
-	{ }
-
-	bool operator==(const WeatherAreaAndID & theOther) const
-	{
-	  return (itsID == theOther.itsID &&
-			  itsArea == theOther.itsArea);
-	}
-
-	bool operator<(const WeatherAreaAndID & theOther) const
-	{
-	  return (itsID != theOther.itsID ?
-			  itsID < theOther.itsID :
-			  itsArea < theOther.itsArea);
-	}
-
-  };
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Implementation hiding detail for TextGen::NorthernMaskSource
-   */
-  // ----------------------------------------------------------------------
-
-  class NorthernMaskSource::Pimple
-  {
-  public:
-
-	Pimple(const WeatherArea& theArea);
-
-	const WeatherArea itsArea;
-
-	typedef map<WeatherAreaAndID,mask_type> mask_storage;
-	typedef map<WeatherAreaAndID,masks_type> masks_storage;
-
-	mutable mask_storage itsMaskStorage;
-	mutable masks_storage itsMasksStorage;
-
-	mask_type find(const WeatherId & theID,
-				   const WeatherArea & theArea) const;
-
-	void insert(const WeatherId & theID,
-				const WeatherArea & theArea,
-				const mask_type & theMask) const;
-
-	mask_type create_mask(const WeatherArea & theArea,
-						  const std::string & theData,
-						  const WeatherSource & theWeatherSource) const;
-
-  }; // class NorthernMaskSource::Pimple
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Pimple constructor
-   */
-  // ----------------------------------------------------------------------
-
-  NorthernMaskSource::Pimple::Pimple(const WeatherArea& theArea)
-	: itsArea(theArea)
-	, itsMaskStorage()
-	, itsMasksStorage()
+  WeatherAreaAndID(const WeatherId& theID, const WeatherArea& theArea)
+      : itsID(theID), itsArea(theArea)
   {
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Find mask from cache
-   *
-   * Returns a 0-shared pointer if mask is not found
-   *
-   * \param theID The weather ID
-   * \param theArea The weather area
-   * \return shared_ptr to mask or 0
-   */
-  // ----------------------------------------------------------------------
-
-  NorthernMaskSource::mask_type
-  NorthernMaskSource::Pimple::find(const WeatherId & theID,
-								   const WeatherArea & theArea) const
+  bool operator==(const WeatherAreaAndID& theOther) const
   {
-	static boost::shared_ptr<NFmiIndexMask> dummy;
-
-	mask_storage::const_iterator it;
-
-	for(it = itsMaskStorage.begin(); it != itsMaskStorage.end(); ++it)
-	  {
-		// identicalArea-function compares more than operator ==
-		if(it->first.itsArea.identicalArea(theArea))
-		  return it->second;
-	  }
-
-	mask_storage::iterator iter;
-
-	WeatherAreaAndID key(theID,theArea);
-	iter = itsMaskStorage.find(key);
-	if(iter != itsMaskStorage.end())
-	  itsMaskStorage.erase(iter);
-
-	return dummy;
-
-	/*
-	WeatherAreaAndID key(theID,theArea);
-
-	mask_storage::const_iterator it = itsMaskStorage.find(key);
-	if(it == itsMaskStorage.end())
-	  return dummy;
-
-	return it->second;
-	*/
+    return (itsID == theOther.itsID && itsArea == theOther.itsArea);
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Insert a new mask into the cache
-   *
-   * \param theID The data ID
-   * \param theArea The weather area
-   * \param theMask The mask itself
-   */
-  // ----------------------------------------------------------------------
-
-  void NorthernMaskSource::Pimple::insert(const WeatherId & theID,
-										  const WeatherArea & theArea,
-										  const mask_type & theMask) const
+  bool operator<(const WeatherAreaAndID& theOther) const
   {
-	typedef mask_storage::value_type value_type;
+    return (itsID != theOther.itsID ? itsID < theOther.itsID : itsArea < theOther.itsArea);
+  }
+};
 
-	WeatherAreaAndID key(theID,theArea);
+// ----------------------------------------------------------------------
+/*!
+ * \brief Implementation hiding detail for TextGen::NorthernMaskSource
+ */
+// ----------------------------------------------------------------------
 
-	itsMaskStorage.insert(value_type(key,theMask));
+class NorthernMaskSource::Pimple
+{
+ public:
+  Pimple(const WeatherArea& theArea);
 
-	if(itsMaskStorage.insert(value_type(key,theMask)).second)
-	  throw TextGenError("Could not cache mask for "+theArea.name());
+  const WeatherArea itsArea;
+
+  typedef map<WeatherAreaAndID, mask_type> mask_storage;
+  typedef map<WeatherAreaAndID, masks_type> masks_storage;
+
+  mutable mask_storage itsMaskStorage;
+  mutable masks_storage itsMasksStorage;
+
+  mask_type find(const WeatherId& theID, const WeatherArea& theArea) const;
+
+  void insert(const WeatherId& theID, const WeatherArea& theArea, const mask_type& theMask) const;
+
+  mask_type create_mask(const WeatherArea& theArea,
+                        const std::string& theData,
+                        const WeatherSource& theWeatherSource) const;
+
+};  // class NorthernMaskSource::Pimple
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Pimple constructor
+ */
+// ----------------------------------------------------------------------
+
+NorthernMaskSource::Pimple::Pimple(const WeatherArea& theArea)
+    : itsArea(theArea), itsMaskStorage(), itsMasksStorage()
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Find mask from cache
+ *
+ * Returns a 0-shared pointer if mask is not found
+ *
+ * \param theID The weather ID
+ * \param theArea The weather area
+ * \return shared_ptr to mask or 0
+ */
+// ----------------------------------------------------------------------
+
+NorthernMaskSource::mask_type NorthernMaskSource::Pimple::find(const WeatherId& theID,
+                                                               const WeatherArea& theArea) const
+{
+  static boost::shared_ptr<NFmiIndexMask> dummy;
+
+  mask_storage::const_iterator it;
+
+  for (it = itsMaskStorage.begin(); it != itsMaskStorage.end(); ++it)
+  {
+    // identicalArea-function compares more than operator ==
+    if (it->first.itsArea.identicalArea(theArea)) return it->second;
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Create a new weather area
-   *
-   * \param theArea The area
-   * \param theData The data name
-   * \param theWeatherSource The weather source
-   * \return The mask
-   */
-  // ----------------------------------------------------------------------
+  mask_storage::iterator iter;
 
-  NorthernMaskSource::mask_type
-  NorthernMaskSource::Pimple::create_mask(const WeatherArea & theArea,
-										  const std::string & theData,
-										  const WeatherSource & theWeatherSource) const
-  {
-	// Establish the grid which to mask
+  WeatherAreaAndID key(theID, theArea);
+  iter = itsMaskStorage.find(key);
+  if (iter != itsMaskStorage.end()) itsMaskStorage.erase(iter);
 
-	boost::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
-	NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
-	if(!qi.IsGrid())
-	  throw TextGenError("The data in "+theData+" is not gridded - cannot generate mask for it");
+  return dummy;
 
-	// First build the area mask
+  /*
+  WeatherAreaAndID key(theID,theArea);
 
-	mask_type return_mask(new NFmiIndexMask(MaskDirection(*(qi.Grid()),
-														  theArea,
-														  AreaTools::NORTH)));
+  mask_storage::const_iterator it = itsMaskStorage.find(key);
+  if(it == itsMaskStorage.end())
+    return dummy;
 
-	return return_mask;
-  }
+  return it->second;
+  */
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Insert a new mask into the cache
+ *
+ * \param theID The data ID
+ * \param theArea The weather area
+ * \param theMask The mask itself
+ */
+// ----------------------------------------------------------------------
 
-  NorthernMaskSource::NorthernMaskSource(const WeatherArea & theArea)
-	: itsPimple(new Pimple(theArea))
-  {
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the mask for the given area
-   *
-   * \param theArea The weather area
-   * \param theData The data name
-   * \param theWeatherSource The source for weather data
-   */
-  // ----------------------------------------------------------------------
+void NorthernMaskSource::Pimple::insert(const WeatherId& theID,
+                                        const WeatherArea& theArea,
+                                        const mask_type& theMask) const
+{
+  typedef mask_storage::value_type value_type;
 
-  NorthernMaskSource::mask_type
-  NorthernMaskSource::mask(const WeatherArea & theArea,
-						   const std::string & theData,
-						   const WeatherSource & theWeatherSource) const
-  {
-	if(theArea.isPoint())
-	  throw TextGenError("Trying to generate mask for point");
+  WeatherAreaAndID key(theID, theArea);
 
-	// Establish the ID for the data
+  itsMaskStorage.insert(value_type(key, theMask));
 
-	WeatherId id = theWeatherSource.id(theData);
+  if (itsMaskStorage.insert(value_type(key, theMask)).second)
+    throw TextGenError("Could not cache mask for " + theArea.name());
+}
 
-	// Try to find cached mask first
+// ----------------------------------------------------------------------
+/*!
+ * \brief Create a new weather area
+ *
+ * \param theArea The area
+ * \param theData The data name
+ * \param theWeatherSource The weather source
+ * \return The mask
+ */
+// ----------------------------------------------------------------------
 
-	mask_type areamask = itsPimple->find(id,theArea);
-	
-	if(areamask.get()!=0)
-	  return areamask;
-	
-	// Calculate new mask and cache it
-	
-	areamask = itsPimple->create_mask(theArea,theData,theWeatherSource);
-	itsPimple->insert(id,theArea,areamask);
+NorthernMaskSource::mask_type NorthernMaskSource::Pimple::create_mask(
+    const WeatherArea& theArea,
+    const std::string& theData,
+    const WeatherSource& theWeatherSource) const
+{
+  // Establish the grid which to mask
 
-	return areamask;
-  }
+  boost::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
+  NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
+  if (!qi.IsGrid())
+    throw TextGenError("The data in " + theData + " is not gridded - cannot generate mask for it");
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the mask source for the given area
-   *
-   * \param theArea The weather area
-   * \param theData The data name
-   * \param theWeatherSource The source for weather data
-   */
-  // ----------------------------------------------------------------------
+  // First build the area mask
 
-  NorthernMaskSource::masks_type
-  NorthernMaskSource::masks(const WeatherArea & theArea,
-							const std::string & theData,
-							const WeatherSource & theWeatherSource) const
-  {
-	throw TextGenError("NorthernMaskSource::masks not implemented");
-  }
+  mask_type return_mask(new NFmiIndexMask(MaskDirection(*(qi.Grid()), theArea, AreaTools::NORTH)));
 
+  return return_mask;
+}
 
-} // namespace TextGen
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
+
+NorthernMaskSource::NorthernMaskSource(const WeatherArea& theArea) : itsPimple(new Pimple(theArea))
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the mask for the given area
+ *
+ * \param theArea The weather area
+ * \param theData The data name
+ * \param theWeatherSource The source for weather data
+ */
+// ----------------------------------------------------------------------
+
+NorthernMaskSource::mask_type NorthernMaskSource::mask(const WeatherArea& theArea,
+                                                       const std::string& theData,
+                                                       const WeatherSource& theWeatherSource) const
+{
+  if (theArea.isPoint()) throw TextGenError("Trying to generate mask for point");
+
+  // Establish the ID for the data
+
+  WeatherId id = theWeatherSource.id(theData);
+
+  // Try to find cached mask first
+
+  mask_type areamask = itsPimple->find(id, theArea);
+
+  if (areamask.get() != 0) return areamask;
+
+  // Calculate new mask and cache it
+
+  areamask = itsPimple->create_mask(theArea, theData, theWeatherSource);
+  itsPimple->insert(id, theArea, areamask);
+
+  return areamask;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the mask source for the given area
+ *
+ * \param theArea The weather area
+ * \param theData The data name
+ * \param theWeatherSource The source for weather data
+ */
+// ----------------------------------------------------------------------
+
+NorthernMaskSource::masks_type NorthernMaskSource::masks(
+    const WeatherArea& theArea,
+    const std::string& theData,
+    const WeatherSource& theWeatherSource) const
+{
+  throw TextGenError("NorthernMaskSource::masks not implemented");
+}
+
+}  // namespace TextGen
 
 // ======================================================================

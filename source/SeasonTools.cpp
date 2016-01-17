@@ -33,377 +33,352 @@ using namespace TextGen;
 
 namespace TextGen
 {
-  namespace SeasonTools
+namespace SeasonTools
+{
+template <class T>
+bool from_string(T& t, const std::string& s, std::ios_base& (*f)(std::ios_base&))
+{
+  std::istringstream iss(s);
+  return !(iss >> f >> t).fail();
+}
+
+bool is_parameter_valid(int theMonth, int theDay)
+{
+  if (theMonth < 1 || theMonth > 12) return false;
+
+  bool retval = true;
+
+  switch (theMonth)
   {
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+    case 10:
+    case 12:
+      retval = theDay >= 1 && theDay <= 31;
+      break;
+    case 2:
+      retval = theDay >= 1 && theDay <= 29;
+      break;
+    case 4:
+    case 6:
+    case 9:
+    case 11:
+      retval = theDay >= 1 && theDay <= 31;
+      break;
+  }
 
-	template <class T>
-	bool from_string(T& t, 
-					 const std::string& s, 
-					 std::ios_base& (*f)(std::ios_base&))
-	{
-	  std::istringstream iss(s);
-	  return !(iss >> f >> t).fail();
-	}
+  return retval;
+}
 
-	bool is_parameter_valid(int theMonth, int theDay)
-	{
-	  if(theMonth < 1 || theMonth > 12)
-		return false;
+void read_date_variable(const std::string& theVariableName,
+                        const std::string& theDefaultValue,
+                        int& theMonth,
+                        int& theDay)
+{
+  // mmdd
+  string date = optional_string(theVariableName, theDefaultValue);
 
-	  bool retval = true;
+  if (!from_string(theMonth, date.substr(0, 2), std::dec) ||
+      !from_string(theDay, date.substr(2, 2), std::dec) || !is_parameter_valid(theMonth, theDay))
+    throw TextGenError("Variable " + theVariableName + "is not of correct type (mmdd): " + date);
+}
 
-	  switch(theMonth)
-		{
-		case 1:
-		case 3:
-		case 5:
-		case 7:
-		case 8:
-		case 10:
-		case 12:
-		  retval = theDay >=1 && theDay <= 31;
-		  break;
-		case 2:
-		  retval = theDay >=1 && theDay <= 29;
-		  break;
-		case 4:
-		case 6:
-		case 9:
-		case 11:
-		  retval = theDay >=1 && theDay <= 31;
-		  break;
-		}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test if the given date is in wintertime
+ *
+ * \param theDate The date
+ * \return True if the date belongs to winter season, false otherwise
+ */
+// ----------------------------------------------------------------------
 
-	  return retval;
-	}
+bool isWinter(const TextGenPosixTime& theDate, const string& theVar)
+{
+  int winterStartMonth = -1, winterStartDay = -1, winterEndMonth = -1, winterEndDay = -1;
 
-	void read_date_variable(const std::string& theVariableName, 
-							const std::string& theDefaultValue, 
-							int& theMonth, int& theDay)
-	{
-	  // mmdd
-	  string date = optional_string(theVariableName, theDefaultValue);
+  // by default dec-feb
+  read_date_variable(theVar + "::winter::startdate", "1201", winterStartMonth, winterStartDay);
+  read_date_variable(theVar + "::winter::enddate", "0229", winterEndMonth, winterEndDay);
 
-	  if(!from_string(theMonth, date.substr(0, 2), std::dec) ||
-		 !from_string(theDay, date.substr(2, 2), std::dec) ||
-		 !is_parameter_valid(theMonth, theDay))
-		throw TextGenError("Variable " + theVariableName + "is not of correct type (mmdd): " + date);
+  int compareDate = theDate.GetMonth() * 100 + theDate.GetDay();
+  int winterStartDate = winterStartMonth * 100 + winterStartDay;
+  int winterEndDate = winterEndMonth * 100 + winterEndDay;
 
-	}
+  return (compareDate >= winterStartDate && compareDate <= winterEndDate);
+}
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Test if the given date is in wintertime
-	 *
-	 * \param theDate The date
-	 * \return True if the date belongs to winter season, false otherwise
-	 */
-	// ----------------------------------------------------------------------
-	
-	bool isWinter(const TextGenPosixTime& theDate, const string& theVar)
-	{
-	  int winterStartMonth = -1, winterStartDay = -1, winterEndMonth = -1, winterEndDay = -1;
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test if the given date is in springtime
+ *
+ * \param theDate The date
+ * \return True if the date belongs to spring season, false otherwise
+ */
+// ----------------------------------------------------------------------
 
-	  // by default dec-feb
-	  read_date_variable(theVar+"::winter::startdate", "1201", winterStartMonth, winterStartDay);
-	  read_date_variable(theVar+"::winter::enddate", "0229", winterEndMonth, winterEndDay);
+bool isSpring(const TextGenPosixTime& theDate, const string& theVar)
+{
+  int springStartMonth = -1, springStartDay = -1, springEndMonth = -1, springEndDay = -1;
 
-	  int compareDate  = theDate.GetMonth()*100 + theDate.GetDay();
-	  int winterStartDate  = winterStartMonth*100 + winterStartDay;
-	  int winterEndDate  = winterEndMonth*100 + winterEndDay;
+  // by default mar-may
+  read_date_variable(theVar + "::spring::startdate", "0301", springStartMonth, springStartDay);
+  read_date_variable(theVar + "::spring::enddate", "0531", springEndMonth, springEndDay);
 
-	  return(compareDate >= winterStartDate && compareDate <= winterEndDate);
-	}
+  int compareDate = theDate.GetMonth() * 100 + theDate.GetDay();
+  int springStartDate = springStartMonth * 100 + springStartDay;
+  int springEndDate = springEndMonth * 100 + springEndDay;
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Test if the given date is in springtime
-	 *
-	 * \param theDate The date
-	 * \return True if the date belongs to spring season, false otherwise
-	 */
-	// ----------------------------------------------------------------------
-	
-	bool isSpring(const TextGenPosixTime& theDate, const string& theVar)
-	{
-	  int springStartMonth = -1, springStartDay = -1, springEndMonth = -1, springEndDay = -1;
+  return (compareDate >= springStartDate && compareDate <= springEndDate);
+}
 
-	  // by default mar-may
-	  read_date_variable(theVar+"::spring::startdate", "0301", springStartMonth, springStartDay);
-	  read_date_variable(theVar+"::spring::enddate", "0531", springEndMonth, springEndDay);
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test if the given date is in summer
+ *
+ * \param theDate The date
+ * \return True if the date belongs to summer season, false otherwise
+ */
+// ----------------------------------------------------------------------
 
-	  int compareDate  = theDate.GetMonth()*100 + theDate.GetDay();
-	  int springStartDate  = springStartMonth*100 + springStartDay;
-	  int springEndDate  = springEndMonth*100 + springEndDay;
+bool isSummer(const TextGenPosixTime& theDate, const string& theVar)
+{
+  int summerStartMonth = -1, summerStartDay = -1, summerEndMonth = -1, summerEndDay = -1;
 
-	  return(compareDate >= springStartDate && compareDate <= springEndDate);
-	}
+  // by default jun-aug
+  read_date_variable(theVar + "::summer::startdate", "0601", summerStartMonth, summerStartDay);
+  read_date_variable(theVar + "::summer::enddate", "0831", summerEndMonth, summerEndDay);
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Test if the given date is in summer
-	 *
-	 * \param theDate The date
-	 * \return True if the date belongs to summer season, false otherwise
-	 */
-	// ----------------------------------------------------------------------
-	
-	bool isSummer(const TextGenPosixTime& theDate, const string& theVar)
-	{
-	  int summerStartMonth = -1, summerStartDay = -1, summerEndMonth = -1, summerEndDay = -1;
+  int compareDate = theDate.GetMonth() * 100 + theDate.GetDay();
+  int summerStartDate = summerStartMonth * 100 + summerStartDay;
+  int summerEndDate = summerEndMonth * 100 + summerEndDay;
 
-	  // by default jun-aug
-	  read_date_variable(theVar+"::summer::startdate", "0601", summerStartMonth, summerStartDay);
-	  read_date_variable(theVar+"::summer::enddate", "0831", summerEndMonth, summerEndDay);
+  return (compareDate >= summerStartDate && compareDate <= summerEndDate);
+}
 
-	  int compareDate  = theDate.GetMonth()*100 + theDate.GetDay();
-	  int summerStartDate  = summerStartMonth*100 + summerStartDay;
-	  int summerEndDate  = summerEndMonth*100 + summerEndDay;
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test if the given date is in autumntime
+ *
+ * \param theDate The date
+ * \return True if the date belongs to autumn season, false otherwise
+ */
+// ----------------------------------------------------------------------
 
-	  return(compareDate >= summerStartDate && compareDate <= summerEndDate);
-	}
+bool isAutumn(const TextGenPosixTime& theDate, const string& theVar)
+{
+  int autumnStartMonth = -1, autumnStartDay = -1, autumnEndMonth = -1, autumnEndDay = -1;
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Test if the given date is in autumntime
-	 *
-	 * \param theDate The date
-	 * \return True if the date belongs to autumn season, false otherwise
-	 */
-	// ----------------------------------------------------------------------
-	
-	bool isAutumn(const TextGenPosixTime& theDate, const string& theVar)
-	{
-	  int autumnStartMonth = -1, autumnStartDay = -1, autumnEndMonth = -1, autumnEndDay = -1;
+  // by default sep-nov
+  read_date_variable(theVar + "::autumn::startdate", "0901", autumnStartMonth, autumnStartDay);
+  read_date_variable(theVar + "::autumn::enddate", "1130", autumnEndMonth, autumnEndDay);
 
-	  // by default sep-nov
-	  read_date_variable(theVar+"::autumn::startdate", "0901", autumnStartMonth, autumnStartDay);
-	  read_date_variable(theVar+"::autumn::enddate", "1130", autumnEndMonth, autumnEndDay);
+  int compareDate = theDate.GetMonth() * 100 + theDate.GetDay();
+  int autumnStartDate = autumnStartMonth * 100 + autumnStartDay;
+  int autumnEndDate = autumnEndMonth * 100 + autumnEndDay;
 
-	  int compareDate  = theDate.GetMonth()*100 + theDate.GetDay();
-	  int autumnStartDate  = autumnStartMonth*100 + autumnStartDay;
-	  int autumnEndDate  = autumnEndMonth*100 + autumnEndDay;
+  return (compareDate >= autumnStartDate && compareDate <= autumnEndDate);
+}
 
-	  return(compareDate >= autumnStartDate && compareDate <= autumnEndDate);
-	}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test if the given date is in summertime
+ *
+ * \param theDate The date
+ * \return True if the date belongs to summer part of the year, false otherwise
+ */
+// ----------------------------------------------------------------------
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Test if the given date is in summertime
-	 *
-	 * \param theDate The date
-	 * \return True if the date belongs to summer part of the year, false otherwise
-	 */
-	// ----------------------------------------------------------------------
-	
-	bool isSummerHalf(const TextGenPosixTime& theDate, const string& theVar)
-	{
-	  int summerStartMonth = -1, summerStartDay = -1, summerEndMonth = -1, summerEndDay = -1;
+bool isSummerHalf(const TextGenPosixTime& theDate, const string& theVar)
+{
+  int summerStartMonth = -1, summerStartDay = -1, summerEndMonth = -1, summerEndDay = -1;
 
-	  read_date_variable(theVar+"::summertime::startdate", "0401", summerStartMonth, summerStartDay);
-	  read_date_variable(theVar+"::summertime::enddate", "0930", summerEndMonth, summerEndDay);
+  read_date_variable(theVar + "::summertime::startdate", "0401", summerStartMonth, summerStartDay);
+  read_date_variable(theVar + "::summertime::enddate", "0930", summerEndMonth, summerEndDay);
 
-	  int compareDate  = theDate.GetMonth()*100 + theDate.GetDay();
-	  int summerStartDate  = summerStartMonth*100 + summerStartDay;
-	  int summerEndDate  = summerEndMonth*100 + summerEndDay;
+  int compareDate = theDate.GetMonth() * 100 + theDate.GetDay();
+  int summerStartDate = summerStartMonth * 100 + summerStartDay;
+  int summerEndDate = summerEndMonth * 100 + summerEndDay;
 
-	  return(compareDate >= summerStartDate && compareDate <= summerEndDate);
-	}
+  return (compareDate >= summerStartDate && compareDate <= summerEndDate);
+}
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Test if the given date is in winter
-	 *
-	 * \param theDate The date
-	 * \return True if the date belongs to winter part of the year, false otherwise
-	 */
-	// ----------------------------------------------------------------------
-	
-	bool isWinterHalf(const TextGenPosixTime& theDate, const string& theVar)
-	{
-	  return !isSummerHalf(theDate, theVar);
-	}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test if the given date is in winter
+ *
+ * \param theDate The date
+ * \return True if the date belongs to winter part of the year, false otherwise
+ */
+// ----------------------------------------------------------------------
 
+bool isWinterHalf(const TextGenPosixTime& theDate, const string& theVar)
+{
+  return !isSummerHalf(theDate, theVar);
+}
 
-	float get_GrowthPeriodOnOff_percentage(const WeatherArea& theArea, 
-										   const AnalysisSources& theSources,
-										   const WeatherPeriod& thePeriod,
-										   const std::string& theVariable)
-	{
-	  if(Settings::isset("textgen::effectivetemperaturesum_forecast"))
-		{	   
-		  GridForecaster forecaster;
-		  PositiveValueAcceptor acceptor;
-		  WeatherResult growingSeasonPercentage = forecaster.analyze(theVariable,
-																	 theSources,
-																	 GrowthPeriodOnOff,
-																	 Percentage,
-																	 Mean,
-																	 theArea,
-																	 thePeriod,
-																	 DefaultAcceptor(),
-																	 DefaultAcceptor(),
-																	 acceptor);
-		  
-		  return growingSeasonPercentage.value();
-		}
-	  return -1.0;	  
-	}
+float get_GrowthPeriodOnOff_percentage(const WeatherArea& theArea,
+                                       const AnalysisSources& theSources,
+                                       const WeatherPeriod& thePeriod,
+                                       const std::string& theVariable)
+{
+  if (Settings::isset("textgen::effectivetemperaturesum_forecast"))
+  {
+    GridForecaster forecaster;
+    PositiveValueAcceptor acceptor;
+    WeatherResult growingSeasonPercentage = forecaster.analyze(theVariable,
+                                                               theSources,
+                                                               GrowthPeriodOnOff,
+                                                               Percentage,
+                                                               Mean,
+                                                               theArea,
+                                                               thePeriod,
+                                                               DefaultAcceptor(),
+                                                               DefaultAcceptor(),
+                                                               acceptor);
 
-	float get_OverFiveDegrees_percentage(const WeatherArea& theArea, 
-										 const AnalysisSources& theSources,
-										 const WeatherPeriod& thePeriod,
-										 const std::string& theVariable)
-	{
-	  string fake_var("onenight::fake::growing_season_percentange");
-	  if(theArea.type() == WeatherArea::Inland)
-		fake_var += "::inland";
-	  if(theArea.type() ==  WeatherArea::Coast)
-		fake_var += "::coastal";
+    return growingSeasonPercentage.value();
+  }
+  return -1.0;
+}
 
-	  if(Settings::isset(fake_var))
-		return Settings::optional_double(fake_var, 0.0);
+float get_OverFiveDegrees_percentage(const WeatherArea& theArea,
+                                     const AnalysisSources& theSources,
+                                     const WeatherPeriod& thePeriod,
+                                     const std::string& theVariable)
+{
+  string fake_var("onenight::fake::growing_season_percentange");
+  if (theArea.type() == WeatherArea::Inland) fake_var += "::inland";
+  if (theArea.type() == WeatherArea::Coast) fake_var += "::coastal";
 
+  if (Settings::isset(fake_var)) return Settings::optional_double(fake_var, 0.0);
 
-	  GridForecaster forecaster;
-	  // 5 days average temperature
-	  TextGenPosixTime startTime(thePeriod.localStartTime());
-	  TextGenPosixTime endTime(thePeriod.localStartTime());
-	  endTime.ChangeByDays(5);
-	  WeatherPeriod period(startTime, endTime);
-	  
-	  RangeAcceptor temperatureAcceptor;
-	  temperatureAcceptor.lowerLimit(5.0); // temperatures > 5 degrees
-	  WeatherResult meanTemperaturePercentage = forecaster.analyze(theVariable,
-																   theSources,
-																   Temperature,
-																   Percentage,
-																   Mean,
-																   theArea,
-																   period,
-																   DefaultAcceptor(),
-																   DefaultAcceptor(),
-																   temperatureAcceptor);
-	  
-	  return  meanTemperaturePercentage.value();	  
-	}
+  GridForecaster forecaster;
+  // 5 days average temperature
+  TextGenPosixTime startTime(thePeriod.localStartTime());
+  TextGenPosixTime endTime(thePeriod.localStartTime());
+  endTime.ChangeByDays(5);
+  WeatherPeriod period(startTime, endTime);
 
-	float growing_season_percentage(const WeatherArea& theArea, 
-									const AnalysisSources& theSources,
-									const WeatherPeriod& thePeriod,
-									const std::string& theVariable)
-	{
-	  float growthPeriodOnOffPercentage = get_GrowthPeriodOnOff_percentage(theArea, 
-																		   theSources,
-																		   thePeriod,
-																		   theVariable);
+  RangeAcceptor temperatureAcceptor;
+  temperatureAcceptor.lowerLimit(5.0);  // temperatures > 5 degrees
+  WeatherResult meanTemperaturePercentage = forecaster.analyze(theVariable,
+                                                               theSources,
+                                                               Temperature,
+                                                               Percentage,
+                                                               Mean,
+                                                               theArea,
+                                                               period,
+                                                               DefaultAcceptor(),
+                                                               DefaultAcceptor(),
+                                                               temperatureAcceptor);
 
-	  if(growthPeriodOnOffPercentage != -1.0)
-		return growthPeriodOnOffPercentage;
+  return meanTemperaturePercentage.value();
+}
 
+float growing_season_percentage(const WeatherArea& theArea,
+                                const AnalysisSources& theSources,
+                                const WeatherPeriod& thePeriod,
+                                const std::string& theVariable)
+{
+  float growthPeriodOnOffPercentage =
+      get_GrowthPeriodOnOff_percentage(theArea, theSources, thePeriod, theVariable);
 
-	  float overFiveDegreesPercentage = get_OverFiveDegrees_percentage(theArea, 
-																	   theSources,
-																	   thePeriod,
-																	   theVariable);
-	  
-	  return overFiveDegreesPercentage;
-	}
+  if (growthPeriodOnOffPercentage != -1.0) return growthPeriodOnOffPercentage;
+
+  float overFiveDegreesPercentage =
+      get_OverFiveDegrees_percentage(theArea, theSources, thePeriod, theVariable);
+
+  return overFiveDegreesPercentage;
+}
 
 #ifdef OLD_IMPL
-	bool growing_season_going_on(const WeatherArea& theArea,
-								 const AnalysisSources& theSources,
-								 const WeatherPeriod& thePeriod,
-								 const std::string theVariable)
-	{
-	  bool retval(false);
-	  
-	  std::string parameter_name(theVariable+"::required_growing_season_percentage::default");
-	  if(theArea.isNamed() && (Settings::isset(theVariable+"::required_growing_season_percentage::"+theArea.name())))
-		parameter_name = theVariable+"::required_growing_season_percentage::"+theArea.name();
-	  
-	  const double required_growing_season_percentage = Settings::optional_double(parameter_name, 33.33);
+bool growing_season_going_on(const WeatherArea& theArea,
+                             const AnalysisSources& theSources,
+                             const WeatherPeriod& thePeriod,
+                             const std::string theVariable)
+{
+  bool retval(false);
 
-	  float growingSeasonPercentage = growing_season_percentage(theArea, 
-																theSources,
-																thePeriod,
-															    theVariable);
+  std::string parameter_name(theVariable + "::required_growing_season_percentage::default");
+  if (theArea.isNamed() &&
+      (Settings::isset(theVariable + "::required_growing_season_percentage::" + theArea.name())))
+    parameter_name = theVariable + "::required_growing_season_percentage::" + theArea.name();
 
-	  if(theArea.isPoint())
-		{
-		  retval = growingSeasonPercentage != kFloatMissing && 
-			growingSeasonPercentage > 0;
-		}
-	  else
-		{
-		  retval = growingSeasonPercentage != kFloatMissing && 
-			growingSeasonPercentage >= required_growing_season_percentage;
-		}
+  const double required_growing_season_percentage =
+      Settings::optional_double(parameter_name, 33.33);
 
-	  return retval;
-	}
+  float growingSeasonPercentage =
+      growing_season_percentage(theArea, theSources, thePeriod, theVariable);
+
+  if (theArea.isPoint())
+  {
+    retval = growingSeasonPercentage != kFloatMissing && growingSeasonPercentage > 0;
+  }
+  else
+  {
+    retval = growingSeasonPercentage != kFloatMissing &&
+             growingSeasonPercentage >= required_growing_season_percentage;
+  }
+
+  return retval;
+}
 #endif
 
-	bool growing_season_going_on(const WeatherArea& theArea,
-								 const AnalysisSources& theSources,
-								 const WeatherPeriod& thePeriod,
-								 const std::string theVariable)
-	{
-	  if(isset(theVariable+"::fake::growing_season_on"))
-		{
-		  return Settings::require_bool(theVariable+"::fake::growing_season_on");
-		}
+bool growing_season_going_on(const WeatherArea& theArea,
+                             const AnalysisSources& theSources,
+                             const WeatherPeriod& thePeriod,
+                             const std::string theVariable)
+{
+  if (isset(theVariable + "::fake::growing_season_on"))
+  {
+    return Settings::require_bool(theVariable + "::fake::growing_season_on");
+  }
 
-	  std::string parameter_name(theVariable+"::required_growing_season_percentage::default");
-	  if(theArea.isNamed() && (Settings::isset(theVariable+"::required_growing_season_percentage::"+theArea.name())))
-		parameter_name = theVariable+"::required_growing_season_percentage::"+theArea.name();
+  std::string parameter_name(theVariable + "::required_growing_season_percentage::default");
+  if (theArea.isNamed() &&
+      (Settings::isset(theVariable + "::required_growing_season_percentage::" + theArea.name())))
+    parameter_name = theVariable + "::required_growing_season_percentage::" + theArea.name();
 
-	  const double required_growing_season_percentage = Settings::optional_double(parameter_name, 33.33);
+  const double required_growing_season_percentage =
+      Settings::optional_double(parameter_name, 33.33);
 
-	  float growthPeriodOnOffPercentage = get_GrowthPeriodOnOff_percentage(theArea, 
-																		   theSources,
-																		   thePeriod,
-																		   theVariable);
+  float growthPeriodOnOffPercentage =
+      get_GrowthPeriodOnOff_percentage(theArea, theSources, thePeriod, theVariable);
 
-	  float overFiveDegreesPercentage = get_OverFiveDegrees_percentage(theArea, 
-																	   theSources,
-																	   thePeriod,
-																	   theVariable);
-	  
-	  if(growthPeriodOnOffPercentage >= 0)
-		{
-		  return(growthPeriodOnOffPercentage != kFloatMissing &&
-				 growthPeriodOnOffPercentage >= required_growing_season_percentage &&
-				 overFiveDegreesPercentage != kFloatMissing &&
-				 overFiveDegreesPercentage >= required_growing_season_percentage);
-		}
-	  else if(growthPeriodOnOffPercentage == -1.0) // indicates that GrowthPeriodOnOff can not be used
-		{
-		  return(overFiveDegreesPercentage != kFloatMissing &&
-				 overFiveDegreesPercentage >= required_growing_season_percentage);
-		  
-		}
+  float overFiveDegreesPercentage =
+      get_OverFiveDegrees_percentage(theArea, theSources, thePeriod, theVariable);
 
-	  return false;
-	}
+  if (growthPeriodOnOffPercentage >= 0)
+  {
+    return (growthPeriodOnOffPercentage != kFloatMissing &&
+            growthPeriodOnOffPercentage >= required_growing_season_percentage &&
+            overFiveDegreesPercentage != kFloatMissing &&
+            overFiveDegreesPercentage >= required_growing_season_percentage);
+  }
+  else if (growthPeriodOnOffPercentage == -1.0)  // indicates that GrowthPeriodOnOff can not be used
+  {
+    return (overFiveDegreesPercentage != kFloatMissing &&
+            overFiveDegreesPercentage >= required_growing_season_percentage);
+  }
 
+  return false;
+}
 
-	forecast_season_id get_forecast_season(const WeatherArea& theArea,
-										   const AnalysisSources& theSources,
-										   const WeatherPeriod& thePeriod,
-										   const std::string theVariable)
-	{
-	  bool growingSeasonGoingOn =  growing_season_going_on(theArea,
-														   theSources,
-														   thePeriod,
-														   theVariable);
+forecast_season_id get_forecast_season(const WeatherArea& theArea,
+                                       const AnalysisSources& theSources,
+                                       const WeatherPeriod& thePeriod,
+                                       const std::string theVariable)
+{
+  bool growingSeasonGoingOn = growing_season_going_on(theArea, theSources, thePeriod, theVariable);
 
-	  bool isSummer = SeasonTools::isSummerHalf(thePeriod.localStartTime(), theVariable);
+  bool isSummer = SeasonTools::isSummerHalf(thePeriod.localStartTime(), theVariable);
 
-	  return ((isSummer || growingSeasonGoingOn) ? SUMMER_SEASON : WINTER_SEASON);
-	}
+  return ((isSummer || growingSeasonGoingOn) ? SUMMER_SEASON : WINTER_SEASON);
+}
 
-
-  } // namespace SeasonTools
-} // namespace TextGen
+}  // namespace SeasonTools
+}  // namespace TextGen
 // ======================================================================

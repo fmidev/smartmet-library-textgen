@@ -13,32 +13,30 @@
 
 namespace TextGen
 {
-  class Dictionary;
+class Dictionary;
 
-  class LocationPhrase : public Glyph
-  {
-  public:
-
-	virtual ~LocationPhrase();
-	LocationPhrase(const std::string & theLocation);
+class LocationPhrase : public Glyph
+{
+ public:
+  virtual ~LocationPhrase();
+  LocationPhrase(const std::string& theLocation);
 #ifdef NO_COMPILER_GENERATED
-	LocationPhrase(const LocationPhrase & theLocationPhrase);
-	LocationPhrase & operator=(const LocationPhrase & theLocationPhrase);
+  LocationPhrase(const LocationPhrase& theLocationPhrase);
+  LocationPhrase& operator=(const LocationPhrase& theLocationPhrase);
 #endif
-	virtual boost::shared_ptr<Glyph> clone() const;
-	virtual std::string realize(const Dictionary & theDictionary) const;
-	virtual std::string realize(const TextFormatter & theFormatter) const;
-	virtual bool isDelimiter() const;
+  virtual boost::shared_ptr<Glyph> clone() const;
+  virtual std::string realize(const Dictionary& theDictionary) const;
+  virtual std::string realize(const TextFormatter& theFormatter) const;
+  virtual bool isDelimiter() const;
 
-  private:
+ private:
+  LocationPhrase();
+  std::string itsLocation;
 
-	LocationPhrase();
-	std::string itsLocation;
+};  // class LocationPhrase
 
-  }; // class LocationPhrase
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_LOCATIONPHRASE_H
+#endif  // TEXTGEN_LOCATIONPHRASE_H
 
 // ======================================================================

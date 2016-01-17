@@ -14,15 +14,14 @@
 
 namespace TextGen
 {
-  namespace ClimatologyTools
-  {
-	
-	WeatherPeriod getClimatologyPeriod(const TextGen::WeatherPeriod& thePeriod,
-									   const std::string& theDataName,
-									   const TextGen::AnalysisSources& theSources);
-  } // namespace ClimatologyTools
-} // namespace TextGen
+namespace ClimatologyTools
+{
+WeatherPeriod getClimatologyPeriod(const TextGen::WeatherPeriod& thePeriod,
+                                   const std::string& theDataName,
+                                   const TextGen::AnalysisSources& theSources);
+}  // namespace ClimatologyTools
+}  // namespace TextGen
 
-#endif // TEXTGEN_CLIMATOLOGYTOOLS_H
+#endif  // TEXTGEN_CLIMATOLOGYTOOLS_H
 
 // ======================================================================

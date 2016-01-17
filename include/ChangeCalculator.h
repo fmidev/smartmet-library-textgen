@@ -14,30 +14,28 @@
 
 namespace TextGen
 {
-  class ChangeCalculator : public Calculator
-  {
-  public:
+class ChangeCalculator : public Calculator
+{
+ public:
+  ChangeCalculator();
+  virtual ~ChangeCalculator() {}
+  virtual void operator()(float theValue);
+  virtual float operator()() const;
+  virtual void acceptor(const Acceptor& theAcceptor);
+  virtual boost::shared_ptr<Calculator> clone() const;
+  virtual void reset();
 
-	ChangeCalculator();
-	virtual ~ChangeCalculator() { }
-	virtual void operator()(float theValue);
-	virtual float operator()() const;
-	virtual void acceptor(const Acceptor & theAcceptor);
-	virtual boost::shared_ptr<Calculator> clone() const;
-	virtual void reset();
+ private:
+  boost::shared_ptr<Acceptor> itsAcceptor;
 
-  private:
+  long itsCounter;
+  float itsStartValue;
+  float itsEndValue;
 
-	boost::shared_ptr<Acceptor> itsAcceptor;
-	
-	long itsCounter;
-	float itsStartValue;
-	float itsEndValue;
+};  // class ChangeCalculator
 
-  }; // class ChangeCalculator
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_CHANGECALCULATOR_H
+#endif  // TEXTGEN_CHANGECALCULATOR_H
 
 // ======================================================================

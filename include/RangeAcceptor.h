@@ -12,26 +12,24 @@
 
 namespace TextGen
 {
-  class RangeAcceptor : public Acceptor
-  {
-  public:
+class RangeAcceptor : public Acceptor
+{
+ public:
+  virtual ~RangeAcceptor() {}
+  virtual bool accept(float theValue) const;
+  virtual Acceptor* clone() const;
 
-	virtual ~RangeAcceptor() { }
-	virtual bool accept(float theValue) const;
-	virtual Acceptor * clone() const;
+  RangeAcceptor();
+  void lowerLimit(float theLimit);
+  void upperLimit(float theLimit);
 
-	RangeAcceptor();
-	void lowerLimit(float theLimit);
-	void upperLimit(float theLimit);
+ private:
+  float itsLoLimit;
+  float itsHiLimit;
 
-  private:
+};  // class RangeAcceptor
+}  // namespace TextGen
 
-	float itsLoLimit;
-	float itsHiLimit;
-
-  }; // class RangeAcceptor
-} // namespace TextGen
-
-#endif // TEXTGEN_RANGEACCEPTOR_H
+#endif  // TEXTGEN_RANGEACCEPTOR_H
 
 // ======================================================================

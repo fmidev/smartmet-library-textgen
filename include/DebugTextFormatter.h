@@ -13,42 +13,38 @@
 
 namespace TextGen
 {
-  class DebugTextFormatter : public TextFormatter
-  {
-  public:
-	DebugTextFormatter() { }
+class DebugTextFormatter : public TextFormatter
+{
+ public:
+  DebugTextFormatter() {}
+  virtual ~DebugTextFormatter() {}
+  virtual void dictionary(const boost::shared_ptr<Dictionary>& theDict) {}
+  virtual std::string format(const Glyph& theGlyph) const;
 
-	virtual ~DebugTextFormatter() { }
-	virtual void dictionary(const boost::shared_ptr<Dictionary> & theDict) { }
+  // override for all composites
+  virtual std::string visit(const Glyph& theGlyph) const;
+  virtual std::string visit(const Integer& theInteger) const;
+  virtual std::string visit(const Real& theReal) const;
+  virtual std::string visit(const IntegerRange& theRange) const;
+  virtual std::string visit(const Sentence& theSentence) const;
+  virtual std::string visit(const Paragraph& theParagraph) const;
+  virtual std::string visit(const Header& theHeader) const;
+  virtual std::string visit(const Document& theDocument) const;
+  virtual std::string visit(const Time& theTime) const;
+  virtual std::string visit(const TimePeriod& theTimePeriod) const;
 
-	virtual std::string format(const Glyph & theGlyph) const;
+  virtual std::string visit(const SectionTag& theSectionTag) const;
+  virtual std::string visit(const StoryTag& theStoryTag) const;
 
-	// override for all composites
-	virtual std::string visit(const Glyph & theGlyph) const;
-	virtual std::string visit(const Integer & theInteger) const;
-	virtual std::string visit(const Real & theReal) const;
-	virtual std::string visit(const IntegerRange & theRange) const;
-	virtual std::string visit(const Sentence & theSentence) const;
-	virtual std::string visit(const Paragraph & theParagraph) const;
-	virtual std::string visit(const Header & theHeader) const;
-	virtual std::string visit(const Document & theDocument) const;
-	virtual std::string visit(const Time & theTime) const;
-	virtual std::string visit(const TimePeriod & theTimePeriod) const;
+  std::string name() const { return "debug"; }
+ private:
+  DebugDictionary itsDictionary;
+  mutable std::string itsSectionVar;
+  mutable std::string itsStoryVar;
 
-	virtual std::string visit(const SectionTag & theSectionTag) const;
-	virtual std::string visit(const StoryTag & theStoryTag) const;
+};  // class DebugTextFormatter
+}  // namespace TextGen
 
-	std::string name() const {return "debug"; }
-
-  private:
-
-	DebugDictionary itsDictionary;
-	mutable std::string itsSectionVar;
-	mutable std::string itsStoryVar;
-
-  }; // class DebugTextFormatter
-} // namespace TextGen
-
-#endif // TEXTGEN_DEBUGTEXTFORMATTER_H
+#endif  // TEXTGEN_DEBUGTEXTFORMATTER_H
 
 // ======================================================================

@@ -14,46 +14,45 @@
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriod;
-  class WeatherResult;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriod;
+class WeatherResult;
 }
 
 namespace TextGen
 {
-  class Sentence;
+class Sentence;
 
-  namespace PrecipitationStoryTools
-  {
+namespace PrecipitationStoryTools
+{
+Sentence rain_phrase(const TextGen::AnalysisSources& theSources,
+                     const TextGen::WeatherArea& theArea,
+                     const TextGen::WeatherPeriod& thePeriod,
+                     const std::string& theVar,
+                     int theDay);
 
-	Sentence rain_phrase(const TextGen::AnalysisSources & theSources,
-						 const TextGen::WeatherArea & theArea,
-						 const TextGen::WeatherPeriod & thePeriod,
-						 const std::string & theVar,
-						 int theDay);
+Sentence places_phrase(const TextGen::AnalysisSources& theSources,
+                       const TextGen::WeatherArea& theArea,
+                       const TextGen::WeatherPeriod& thePeriod,
+                       const std::string& theVar,
+                       int theDay);
 
-	Sentence places_phrase(const TextGen::AnalysisSources & theSources,
-						   const TextGen::WeatherArea & theArea,
-						   const TextGen::WeatherPeriod & thePeriod,
-						   const std::string & theVar,
-						   int theDay);
+Sentence type_phrase(const TextGen::AnalysisSources& theSources,
+                     const TextGen::WeatherArea& theArea,
+                     const TextGen::WeatherPeriod& thePeriod,
+                     const std::string& theVar,
+                     int theDay);
 
-	Sentence type_phrase(const TextGen::AnalysisSources & theSources,
-						 const TextGen::WeatherArea & theArea,
-						 const TextGen::WeatherPeriod & thePeriod,
-						 const std::string & theVar,
-						 int theDay);
+Sentence sum_phrase(const TextGen::WeatherResult& theMinimum,
+                    const TextGen::WeatherResult& theMaximum,
+                    const TextGen::WeatherResult& theMean,
+                    int theMinInterval,
+                    const std::string& theRangeSeparator);
 
-	Sentence sum_phrase(const TextGen::WeatherResult & theMinimum,
-						const TextGen::WeatherResult & theMaximum,
-						const TextGen::WeatherResult & theMean,
-						int theMinInterval,
-						const std::string & theRangeSeparator);
+}  // namespace PrecipitationStoryTools
+}  // namespace TextGen
 
-  } // namespace PrecipitationStoryTools
-} // namespace TextGen
-
-#endif // TEXTGEN_PRECIPITATIONSTORYTOOLS_H
+#endif  // TEXTGEN_PRECIPITATIONSTORYTOOLS_H
 
 // ======================================================================

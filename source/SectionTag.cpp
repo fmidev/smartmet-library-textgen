@@ -24,90 +24,74 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Destructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Destructor
-   */
-  // ----------------------------------------------------------------------
+SectionTag::~SectionTag() {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  SectionTag::~SectionTag()
-  {
-  }
+SectionTag::SectionTag(const std::string& theName, const bool& prefixTag /*= true*/)
+    : itsName(theName), itsPrefixTag(prefixTag)
+{
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return a clone
+ */
+// ----------------------------------------------------------------------
 
-  SectionTag::SectionTag(const std::string & theName, const bool& prefixTag /*= true*/)
-	: itsName(theName), itsPrefixTag(prefixTag)
-  {
-  }
+boost::shared_ptr<Glyph> SectionTag::clone() const
+{
+  boost::shared_ptr<Glyph> ret(new SectionTag(*this));
+  return ret;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return a clone
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the text for the SectionTag
+ *
+ * \param theDictionary The dictionary to be used
+ * \return The text
+ */
+// ----------------------------------------------------------------------
 
-  boost::shared_ptr<Glyph> SectionTag::clone() const
-  {
-	boost::shared_ptr<Glyph> ret(new SectionTag(*this));
-	return ret;
-  }
+std::string SectionTag::realize(const Dictionary& theDictionary) const { return itsName; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the text for the number
+ *
+ * \param theFormatter The formatter
+ * \return The text
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the SectionTag
-   *
-   * \param theDictionary The dictionary to be used
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
+std::string SectionTag::realize(const TextFormatter& theFormatter) const
+{
+  return theFormatter.visit(*this);
+}
 
-  std::string SectionTag::realize(const Dictionary & theDictionary) const
-  {
-	return itsName;
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Returns false since SectionTag is not a separator
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the number
-   *
-   * \param theFormatter The formatter
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
+bool SectionTag::isDelimiter() const { return false; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Returns true if tag is locatated before the story, false if after the story
+ */
+// ----------------------------------------------------------------------
 
-  std::string SectionTag::realize(const TextFormatter & theFormatter) const
-  {
-	return theFormatter.visit(*this);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Returns false since SectionTag is not a separator
-   */
-  // ----------------------------------------------------------------------
-
-  bool SectionTag::isDelimiter() const
-  {
-	return false;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Returns true if tag is locatated before the story, false if after the story
-   */
-  // ----------------------------------------------------------------------
-
-  bool SectionTag::isPrefixTag() const
-  {
-	return itsPrefixTag;
-  }
-
-} // namespace TextGen
+bool SectionTag::isPrefixTag() const { return itsPrefixTag; }
+}  // namespace TextGen
 
 // ======================================================================

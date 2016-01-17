@@ -13,60 +13,56 @@
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriod;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriod;
 }
 
 class TextGenPosixTime;
 
 namespace TextGen
 {
+class Paragraph;
 
-  class Paragraph;
+class TemperatureStory : public Story
+{
+ public:
+  virtual ~TemperatureStory();
+  TemperatureStory(const TextGenPosixTime& theForecastTime,
+                   const TextGen::AnalysisSources& theSources,
+                   const TextGen::WeatherArea& theArea,
+                   const TextGen::WeatherPeriod& thePeriod,
+                   const std::string& theVariable);
 
-  class TemperatureStory : public Story
-  {
+  static bool hasStory(const std::string& theName);
+  virtual Paragraph makeStory(const std::string& theName) const;
 
-  public:
+ private:
+  Paragraph mean() const;
+  Paragraph meanmax() const;
+  Paragraph meanmin() const;
+  Paragraph dailymax() const;
+  Paragraph nightlymin() const;
+  Paragraph weekly_minmax() const;
+  Paragraph weekly_averages() const;
+  Paragraph day() const;
+  Paragraph range() const;
+  Paragraph max36hours() const;
+  const Paragraph anomaly() const;
 
-	virtual ~TemperatureStory();
-	TemperatureStory(const TextGenPosixTime & theForecastTime,
-					 const TextGen::AnalysisSources & theSources,
-					 const TextGen::WeatherArea & theArea,
-					 const TextGen::WeatherPeriod & thePeriod,
-					 const std::string & theVariable);
+  TemperatureStory();
+  TemperatureStory(const TemperatureStory& theStory);
+  TemperatureStory& operator=(const TemperatureStory& theStory);
 
-	static bool hasStory(const std::string & theName);
-	virtual Paragraph makeStory(const std::string & theName) const;
+  const TextGenPosixTime itsForecastTime;
+  const TextGen::AnalysisSources& itsSources;
+  const TextGen::WeatherArea& itsArea;
+  const TextGen::WeatherPeriod& itsPeriod;
+  const std::string itsVar;
 
-  private:
-
-	Paragraph mean() const;
-	Paragraph meanmax() const;
-	Paragraph meanmin() const;
-	Paragraph dailymax() const;
-	Paragraph nightlymin() const;
-	Paragraph weekly_minmax() const;
-	Paragraph weekly_averages() const;
-	Paragraph day() const;
-	Paragraph range() const;
-	Paragraph max36hours() const;
-	const Paragraph anomaly() const;
-
-	TemperatureStory();
-	TemperatureStory(const TemperatureStory & theStory);
-	TemperatureStory & operator=(const TemperatureStory & theStory);
-
-	const TextGenPosixTime itsForecastTime;
-	const TextGen::AnalysisSources & itsSources;
-	const TextGen::WeatherArea & itsArea;
-	const TextGen::WeatherPeriod & itsPeriod;
-	const std::string itsVar;
-
-  }; // class TemperatureStory
+};  // class TemperatureStory
 }
 
-#endif // TEXTGEN_TEMPERATURESTORY_H
+#endif  // TEXTGEN_TEMPERATURESTORY_H
 
 // ======================================================================

@@ -19,60 +19,46 @@
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+ValueAcceptor::ValueAcceptor() : itsValue(kFloatMissing) {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  ValueAcceptor::ValueAcceptor()
-	: itsValue(kFloatMissing)
-  {
-  }
+Acceptor* ValueAcceptor::clone() const { return new ValueAcceptor(*this); }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Accept or reject a value
+ *
+ * The value kFloatMissing is never accepted.
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+ * \param theValue The value to be accepted
+ * \return True if the value is accepted
+ */
+// ----------------------------------------------------------------------
 
-  Acceptor * ValueAcceptor::clone() const
-  {
-	return new ValueAcceptor(*this);
-  }
+bool ValueAcceptor::accept(float theValue) const
+{
+  if (theValue == kFloatMissing) return false;
+  return (theValue == itsValue);
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Accept or reject a value
-   *
-   * The value kFloatMissing is never accepted.
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set the accepted value
+ *
+ * \param theValue The value
+ */
+// ----------------------------------------------------------------------
 
-   * \param theValue The value to be accepted
-   * \return True if the value is accepted
-   */
-  // ----------------------------------------------------------------------
-
-  bool ValueAcceptor::accept(float theValue) const
-  {
-	if(theValue == kFloatMissing)
-	  return false;
-	return (theValue == itsValue);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the accepted value
-   *
-   * \param theValue The value
-   */
-  // ----------------------------------------------------------------------
-
-  void ValueAcceptor::value(float theValue)
-  {
-	itsValue = theValue;
-  }
-
-} // namespace TextGen
+void ValueAcceptor::value(float theValue) { itsValue = theValue; }
+}  // namespace TextGen
 
 // ======================================================================

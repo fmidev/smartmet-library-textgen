@@ -12,18 +12,15 @@
 
 class WindChillQueryInfo : public NFmiFastQueryInfo
 {
-public:
-
+ public:
   WindChillQueryInfo(const NFmiFastQueryInfo& theInfo);
 
   float GetFloatValue(unsigned long theIndex) const;
 
   using NFmiFastQueryInfo::FloatValue;
 
-private:
-
+ private:
   long itsParameterOffset;
-
 };
 
 #endif

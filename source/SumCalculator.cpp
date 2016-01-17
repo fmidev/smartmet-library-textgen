@@ -21,89 +21,82 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+SumCalculator::SumCalculator() : itsAcceptor(new DefaultAcceptor()), itsCounter(0), itsSum(0) {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Integrate a new value
+ *
+ * \param theValue
+ */
+// ----------------------------------------------------------------------
 
-  SumCalculator::SumCalculator()
-	: itsAcceptor(new DefaultAcceptor())
-	, itsCounter(0)
-	, itsSum(0)
+void SumCalculator::operator()(float theValue)
+{
+  ++itsCounter;
+  if (itsAcceptor->accept(theValue))
   {
+    itsSum += theValue;
   }
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Integrate a new value
-   *
-   * \param theValue
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the integrated value
+ *
+ * \return The integrated sum value
+ */
+// ----------------------------------------------------------------------
 
-  void SumCalculator::operator()(float theValue)
-  {
-	++itsCounter;
-	if(itsAcceptor->accept(theValue))
-	  {
-		itsSum += theValue;
-	  }
-  }
+float SumCalculator::operator()() const
+{
+  if (itsCounter == 0)
+    return kFloatMissing;
+  else
+    return itsSum;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the integrated value
-   *
-   * \return The integrated sum value
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set the internal acceptor
+ *
+ * \param theAcceptor The acceptor to be used
+ */
+// ----------------------------------------------------------------------
 
-  float SumCalculator::operator()() const
-  {
-	if(itsCounter == 0)
-	  return kFloatMissing;
-	else
-	  return itsSum;
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the internal acceptor
-   *
-   * \param theAcceptor The acceptor to be used
-   */
-  // ----------------------------------------------------------------------
+void SumCalculator::acceptor(const Acceptor& theAcceptor)
+{
+  itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
+}
 
-  void SumCalculator::acceptor(const Acceptor & theAcceptor)
-  {
-	itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+boost::shared_ptr<Calculator> SumCalculator::clone() const
+{
+  return boost::shared_ptr<Calculator>(new SumCalculator(*this));
+}
 
-  boost::shared_ptr<Calculator> SumCalculator::clone() const
-  {
-	return boost::shared_ptr<Calculator>(new SumCalculator(*this));
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Reset
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Reset
-   */
-  // ----------------------------------------------------------------------
+void SumCalculator::reset()
+{
+  itsCounter = 0;
+  itsSum = 0;
+}
 
-  void SumCalculator::reset()
-  {
-	itsCounter = 0;
-	itsSum = 0;
-  }
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

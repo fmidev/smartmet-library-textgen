@@ -13,34 +13,32 @@
 
 namespace TextGen
 {
-  class ModStandardDeviationCalculator : public Calculator
-  {
-  public:
+class ModStandardDeviationCalculator : public Calculator
+{
+ public:
+  ModStandardDeviationCalculator(int theModulo);
+  virtual ~ModStandardDeviationCalculator() {}
+  virtual void operator()(float theValue);
+  virtual float operator()() const;
+  virtual void acceptor(const Acceptor& theAcceptor);
+  virtual boost::shared_ptr<Calculator> clone() const;
+  virtual void reset();
 
-	ModStandardDeviationCalculator(int theModulo);
-	virtual ~ModStandardDeviationCalculator() { }
-	virtual void operator()(float theValue);
-	virtual float operator()() const;
-	virtual void acceptor(const Acceptor & theAcceptor);
-	virtual boost::shared_ptr<Calculator> clone() const;
-	virtual void reset();
+ private:
+  ModStandardDeviationCalculator();
 
-  private:
+  boost::shared_ptr<Acceptor> itsAcceptor;
+  const int itsModulo;
 
-	ModStandardDeviationCalculator();
+  long itsCounter;
+  double itsSum;
+  double itsSquaredSum;
+  double itsPreviousDirection;
 
-	boost::shared_ptr<Acceptor> itsAcceptor;
-	const int itsModulo;
+};  // class ModStandardDeviationCalculator
 
-	long itsCounter;
-	double itsSum;
-	double itsSquaredSum;
-	double itsPreviousDirection;
+}  // namespace TextGen
 
-  }; // class ModStandardDeviationCalculator
-
-} // namespace TextGen
-
-#endif // TEXTGEN_MODSTANDARDDEVIATIONCALCULATOR_H
+#endif  // TEXTGEN_MODSTANDARDDEVIATIONCALCULATOR_H
 
 // ======================================================================

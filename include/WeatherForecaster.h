@@ -12,36 +12,33 @@
 
 namespace TextGen
 {
-  class Acceptor;
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriodGenerator;
-  class WeatherResult;
+class Acceptor;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriodGenerator;
+class WeatherResult;
 
-  class WeatherForecaster : public WeatherAnalyzer
-  {
-  public:
+class WeatherForecaster : public WeatherAnalyzer
+{
+ public:
+  virtual ~WeatherForecaster() {}
+  using WeatherAnalyzer::analyze;
 
-	virtual ~WeatherForecaster() { }
+  virtual WeatherResult analyze(const AnalysisSources& theSources,
+                                const WeatherParameter& theParameter,
+                                const WeatherFunction& theAreaFunction,
+                                const WeatherFunction& theTimeFunction,
+                                const WeatherFunction& theSubTimeFunction,
+                                const WeatherArea& theArea,
+                                const WeatherPeriodGenerator& thePeriods,
+                                const Acceptor& theAreaAcceptor = DefaultAcceptor(),
+                                const Acceptor& theTimeAcceptor = DefaultAcceptor(),
+                                const Acceptor& theTester = NullAcceptor()) const = 0;
 
-	using WeatherAnalyzer::analyze;
+};  // class WeatherForecaster
 
-	virtual WeatherResult
-	analyze(const AnalysisSources & theSources,
-			const WeatherParameter & theParameter,
-			const WeatherFunction & theAreaFunction,
-			const WeatherFunction & theTimeFunction,
-			const WeatherFunction & theSubTimeFunction,
-			const WeatherArea & theArea,
-			const WeatherPeriodGenerator & thePeriods,
-			const Acceptor & theAreaAcceptor = DefaultAcceptor(),
-			const Acceptor & theTimeAcceptor = DefaultAcceptor(),
-			const Acceptor & theTester = NullAcceptor()) const = 0;
+}  // namespace TextGen
 
-  }; // class WeatherForecaster
-
-} // namespace TextGen
-
-#endif // TEXTGEN_WEATHERFORECASTER_H
+#endif  // TEXTGEN_WEATHERFORECASTER_H
 
 // ======================================================================

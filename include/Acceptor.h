@@ -10,18 +10,17 @@
 
 namespace TextGen
 {
-  class Acceptor
-  {
-  public:
+class Acceptor
+{
+ public:
+  Acceptor() {}
+  virtual ~Acceptor() {}
+  virtual bool accept(float theValue) const = 0;
+  virtual Acceptor* clone() const = 0;
 
-	Acceptor() { }
-	virtual ~Acceptor() { }
-	virtual bool accept(float theValue) const = 0;
-	virtual Acceptor * clone() const = 0;
+};  // class Acceptor
+}  // namespace TextGen
 
-  }; // class Acceptor
-} // namespace TextGen
-
-#endif // TEXTGEN_ACCEPTOR_H
+#endif  // TEXTGEN_ACCEPTOR_H
 
 // ======================================================================

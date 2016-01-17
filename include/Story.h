@@ -14,20 +14,18 @@
 
 namespace TextGen
 {
-  class Paragraph;
+class Paragraph;
 
-  class Story
-  {
+class Story
+{
+ public:
+  Story() {}
+  virtual ~Story() {}
+  virtual Paragraph makeStory(const std::string& theName) const = 0;
 
-  public:
-
-	Story() { }
-	virtual ~Story() { }
-	virtual Paragraph makeStory(const std::string & theName) const = 0;
-
-  }; // class Story
+};  // class Story
 }
 
-#endif // TEXTGEN_STORY_H
+#endif  // TEXTGEN_STORY_H
 
 // ======================================================================

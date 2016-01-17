@@ -12,25 +12,23 @@
 
 namespace TextGen
 {
-  class WeatherArea;
-  class WeatherPeriod;
+class WeatherArea;
+class WeatherPeriod;
 }
-
 
 namespace TextGen
 {
-  class Header;
+class Header;
 
-  namespace HeaderFactory
-  {
-	Header create(const TextGen::WeatherArea & theArea,
-				  const TextGen::WeatherPeriod & thePeriod,
-				  const std::string & theVariable);
+namespace HeaderFactory
+{
+Header create(const TextGen::WeatherArea& theArea,
+              const TextGen::WeatherPeriod& thePeriod,
+              const std::string& theVariable);
 
-  } // namespace HeaderFactory
-} // namespace TextGen
+}  // namespace HeaderFactory
+}  // namespace TextGen
 
-
-#endif // TEXTGEN_HEADERFACTORY_H
+#endif  // TEXTGEN_HEADERFACTORY_H
 
 // ======================================================================

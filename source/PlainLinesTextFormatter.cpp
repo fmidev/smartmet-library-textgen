@@ -19,25 +19,19 @@ using namespace std;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a paragraph
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Visit a paragraph
-   */
-  // ----------------------------------------------------------------------
-  
-  string PlainLinesTextFormatter::visit(const Paragraph & theParagraph) const
-  {
-	string ret = TextFormatterTools::realize(theParagraph.begin(),
-											 theParagraph.end(),
-											 *this,
-											 "\n","");
-	return ret;
-  }
- 
+string PlainLinesTextFormatter::visit(const Paragraph& theParagraph) const
+{
+  string ret =
+      TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, "\n", "");
+  return ret;
+}
 
-} // namespace TextGen
-  
+}  // namespace TextGen
+
 // ======================================================================
-  
-  

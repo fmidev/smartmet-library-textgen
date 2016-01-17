@@ -13,28 +13,26 @@
 
 namespace TextGen
 {
-  class MinimumCalculator : public Calculator
-  {
-  public:
+class MinimumCalculator : public Calculator
+{
+ public:
+  MinimumCalculator();
+  virtual ~MinimumCalculator() {}
+  virtual void operator()(float theValue);
+  virtual float operator()() const;
+  virtual void acceptor(const Acceptor& theAcceptor);
+  virtual boost::shared_ptr<Calculator> clone() const;
+  virtual void reset();
 
-	MinimumCalculator();
-	virtual ~MinimumCalculator() { }
-	virtual void operator()(float theValue);
-	virtual float operator()() const;
-	virtual void acceptor(const Acceptor & theAcceptor);
-	virtual boost::shared_ptr<Calculator> clone() const;
-	virtual void reset();
+ private:
+  boost::shared_ptr<Acceptor> itsAcceptor;
+  long itsCounter;
+  float itsMinimum;
 
-  private:
+};  // class MinimumCalculator
 
-	boost::shared_ptr<Acceptor> itsAcceptor;
-	long itsCounter;
-	float itsMinimum;
+}  // namespace TextGen
 
-  }; // class MinimumCalculator
-
-} // namespace TextGen
-
-#endif // TEXTGEN_MINIMUMCALCULATOR_H
+#endif  // TEXTGEN_MINIMUMCALCULATOR_H
 
 // ======================================================================

@@ -19,55 +19,42 @@ using namespace boost;
 
 namespace FrostStoryToolsTest
 {
-  shared_ptr<TextGen::Dictionary> dict;
+shared_ptr<TextGen::Dictionary> dict;
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test FrostStoryTools::frost_sentence
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test FrostStoryTools::frost_sentence
+ */
+// ----------------------------------------------------------------------
 
-  void frost_sentence()
+void frost_sentence() { TEST_NOT_IMPLEMENTED(); }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test FrostStoryTools::severe_frost_sentence
+ */
+// ----------------------------------------------------------------------
+
+void severe_frost_sentence() { TEST_NOT_IMPLEMENTED(); }
+// ----------------------------------------------------------------------
+/*!
+ * \brief The actual test driver
+ */
+// ----------------------------------------------------------------------
+
+class tests : public tframe::tests
+{
+  //! Overridden message separator
+  virtual const char* error_message_prefix() const { return "\n\t"; }
+  //! Main test suite
+  void test(void)
   {
-	TEST_NOT_IMPLEMENTED();
+    TEST(frost_sentence);
+    TEST(severe_frost_sentence);
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test FrostStoryTools::severe_frost_sentence
-   */
-  // ----------------------------------------------------------------------
+};  // class tests
 
-  void severe_frost_sentence()
-  {
-	TEST_NOT_IMPLEMENTED();
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief The actual test driver
-   */
-  // ----------------------------------------------------------------------
-
-  class tests : public tframe::tests
-  {
-	//! Overridden message separator
-	virtual const char * error_message_prefix() const
-	{
-	  return "\n\t";
-	}
-
-	//! Main test suite
-	void test(void)
-	{
-	  TEST(frost_sentence);
-	  TEST(severe_frost_sentence);
-	}
-
-  }; // class tests
-
-} // namespace FrostStoryToolsTest
-
+}  // namespace FrostStoryToolsTest
 
 int main(void)
 {
@@ -75,18 +62,15 @@ int main(void)
   std::locale::global(generator(""));
 
   NFmiSettings::Init();
-  NFmiSettings::Set("textgen::database","textgen2");
-  NFmiSettings::Set("textgen::units::celsius::format","phrase");
+  NFmiSettings::Set("textgen::database", "textgen2");
+  NFmiSettings::Set("textgen::units::celsius::format", "phrase");
   Settings::set(NFmiSettings::ToString());
 
   using namespace FrostStoryToolsTest;
 
-  cout << endl
-	   << "FrostStoryTools tests" << endl
-	   << "=====================" << endl;
+  cout << endl << "FrostStoryTools tests" << endl << "=====================" << endl;
 
   dict.reset(TextGen::DictionaryFactory::create("null"));
-
 
   tests t;
   return t.run();

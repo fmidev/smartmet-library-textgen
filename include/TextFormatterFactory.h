@@ -12,14 +12,13 @@
 
 namespace TextGen
 {
-  namespace TextFormatterFactory
-  {
-	TextFormatter * create(const std::string & theType);
+namespace TextFormatterFactory
+{
+TextFormatter* create(const std::string& theType);
 
-  } // namespace TextFormatterFactory
-} // namespace TextGen
+}  // namespace TextFormatterFactory
+}  // namespace TextGen
 
-#endif // TEXTGEN_TEXTFORMATTERFACTORY_H
+#endif  // TEXTGEN_TEXTFORMATTERFACTORY_H
 
 // ======================================================================
-

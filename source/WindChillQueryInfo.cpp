@@ -2,7 +2,7 @@
 #include <newbase/NFmiMetMath.h>
 
 WindChillQueryInfo::WindChillQueryInfo(const NFmiFastQueryInfo& theInfo)
-  : NFmiFastQueryInfo(theInfo)
+    : NFmiFastQueryInfo(theInfo)
 {
   First();
 
@@ -24,8 +24,8 @@ WindChillQueryInfo::WindChillQueryInfo(const NFmiFastQueryInfo& theInfo)
 // ----------------------------------------------------------------------
 // ----------------------------------------------------------------------
 /*!
- * Get the wind chill float value. The value is composed of 
- * wind speed and temperature components. Offset between wind speed 
+ * Get the wind chill float value. The value is composed of
+ * wind speed and temperature components. Offset between wind speed
  * and temperature parameters has been saved in itsParameterOffset in constructor.
  *
  * \return The value

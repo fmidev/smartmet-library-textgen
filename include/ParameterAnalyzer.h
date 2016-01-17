@@ -16,39 +16,36 @@
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriodGenerator;
-  class WeatherResult;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriodGenerator;
+class WeatherResult;
 
-  class ParameterAnalyzer
-  {
-  public:
+class ParameterAnalyzer
+{
+ public:
+  virtual ~ParameterAnalyzer() {}
+  virtual WeatherResult analyze(const AnalysisSources& theSources,
+                                const WeatherDataType& theDataType,
+                                const WeatherFunction& theAreaFunction,
+                                const WeatherFunction& theTimeFunction,
+                                const WeatherFunction& theSubTimeFunction,
+                                const WeatherArea& theArea,
+                                const WeatherPeriodGenerator& thePeriods,
+                                const Acceptor& theAreaAcceptor,
+                                const Acceptor& theTimeAcceptor,
+                                const Acceptor& theTester = NullAcceptor()) const = 0;
 
-	virtual ~ParameterAnalyzer() { }
+  static void getParameterStrings(const WeatherParameter& theParameter,
+                                  std::string& theParameterName,
+                                  std::string& theDataName);
 
-	virtual WeatherResult
-	analyze(const AnalysisSources & theSources,
-			const WeatherDataType & theDataType,
-			const WeatherFunction & theAreaFunction,
-			const WeatherFunction & theTimeFunction,
-			const WeatherFunction & theSubTimeFunction,
-			const WeatherArea & theArea,
-			const WeatherPeriodGenerator & thePeriods,
-			const Acceptor & theAreaAcceptor,
-			const Acceptor & theTimeAcceptor,
-			const Acceptor & theTester = NullAcceptor()) const = 0;
+  static const char* getDataTypeName(const TextGen::WeatherDataType& theDataType);
 
-	static void getParameterStrings(const WeatherParameter& theParameter,	
-									std::string& theParameterName, 
-									std::string& theDataName);
+};  // class ParameterAnalyzer
 
-	static const char* getDataTypeName(const TextGen::WeatherDataType & theDataType);
+}  // namespace TextGen
 
-  }; // class ParameterAnalyzer
-
-} // namespace TextGen
-
-#endif // TEXTGEN_PARAMETERANALYZER_H
+#endif  // TEXTGEN_PARAMETERANALYZER_H
 
 // ======================================================================

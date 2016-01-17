@@ -14,28 +14,28 @@
 
 namespace TextGen
 {
-  class Document : public GlyphContainer
-  {
-  public:
-	virtual ~Document() { }
+class Document : public GlyphContainer
+{
+ public:
+  virtual ~Document() {}
 #ifdef NO_COMPILER_GENERATED
-	Document();
-	Document(const Document & theDocument);
-	Document & operator=(const Document & theDocument);
+  Document();
+  Document(const Document& theDocument);
+  Document& operator=(const Document& theDocument);
 #endif
 
-	virtual boost::shared_ptr<Glyph> clone() const;
-	virtual std::string realize(const Dictionary & theDictionary) const;
-	virtual std::string realize(const TextFormatter & theFormatter) const;
-	virtual bool isDelimiter() const;
+  virtual boost::shared_ptr<Glyph> clone() const;
+  virtual std::string realize(const Dictionary& theDictionary) const;
+  virtual std::string realize(const TextFormatter& theFormatter) const;
+  virtual bool isDelimiter() const;
 
-	Document & operator<<(const Document & theDocument);
-	Document & operator<<(const Glyph & theGlyph);
+  Document& operator<<(const Document& theDocument);
+  Document& operator<<(const Glyph& theGlyph);
 
-  }; // class Document
+};  // class Document
 
-} // namespace TextGen
+}  // namespace TextGen
 
-#endif // TEXTGEN_DOCUMENT_H
+#endif  // TEXTGEN_DOCUMENT_H
 
 // ======================================================================

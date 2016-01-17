@@ -3,9 +3,9 @@
 echo "MySQLDictionary keyword validity tester\n";
 echo "=======================================\n";
 
-$link = mysql_connect("base.weatherproof.fi",
-		      "textgen",
-		      "w1w2w3") or die("Could not connect to mimir");
+$link = mysql_connect("alppen.fmi.fi",
+                      "textgen",
+                      "w1w2w3") or die("Could not connect to mimir");
 mysql_select_db("textgen2") or die("Could not select textgen2 database");
 
 mysql_query("SET NAMES utf8");

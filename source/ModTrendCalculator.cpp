@@ -21,116 +21,114 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+ModTrendCalculator::ModTrendCalculator(int theModulo)
+    : itsAcceptor(new DefaultAcceptor()),
+      itsModulo(theModulo),
+      itsCounter(0),
+      itsPositiveChanges(0),
+      itsNegativeChanges(0),
+      itsZeroChanges(0),
+      itsLastValue(kFloatMissing)
+{
+}
 
-  ModTrendCalculator::ModTrendCalculator(int theModulo)
-	: itsAcceptor(new DefaultAcceptor())
-	, itsModulo(theModulo)
-	, itsCounter(0)
-	, itsPositiveChanges(0)
-	, itsNegativeChanges(0)
-	, itsZeroChanges(0)
-	, itsLastValue(kFloatMissing)
+// ----------------------------------------------------------------------
+/*!
+ * \brief Integrate a new value
+ *
+ * \param theValue
+ */
+// ----------------------------------------------------------------------
+
+void ModTrendCalculator::operator()(float theValue)
+{
+  if (itsAcceptor->accept(theValue))
   {
+    if (itsCounter > 0)
+    {
+      const float diff = theValue - itsLastValue;
+      if (diff < -itsModulo / 2)
+        ++itsPositiveChanges;
+      else if (diff > itsModulo / 2)
+        ++itsNegativeChanges;
+      else if (diff < 0)
+        ++itsNegativeChanges;
+      else if (diff > 0)
+        ++itsPositiveChanges;
+      else
+        ++itsZeroChanges;
+    }
+    ++itsCounter;
+    itsLastValue = theValue;
   }
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Integrate a new value
-   *
-   * \param theValue
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the integrated value
+ *
+ * \return The integrated trend value
+ */
+// ----------------------------------------------------------------------
 
-  void ModTrendCalculator::operator()(float theValue)
-  {
-	if(itsAcceptor->accept(theValue))
-	  {
-		if(itsCounter>0)
-		  {
-			const float diff = theValue - itsLastValue;
-			if(diff < -itsModulo/2)
-			  ++itsPositiveChanges;
-			else if(diff > itsModulo/2)
-			  ++itsNegativeChanges;
-			else if(diff<0)
-			  ++itsNegativeChanges;
-			else if(diff>0)
-			  ++itsPositiveChanges;
-			else
-			  ++itsZeroChanges;
-		  }
-		++itsCounter;
-		itsLastValue = theValue;
-	  }
-  }
+float ModTrendCalculator::operator()() const
+{
+  // The total number of numbers is one greater than number of changes,
+  // hence the -1 in the divisor itsCounter-1
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the integrated value
-   *
-   * \return The integrated trend value
-   */
-  // ----------------------------------------------------------------------
+  if (itsCounter < 1)
+    return kFloatMissing;
+  else if (itsCounter > 1)
+    return (itsPositiveChanges + itsZeroChanges / 2.0) / (itsCounter - 1.0) * 100;
+  else
+    return 0.0;
+}
 
-  float ModTrendCalculator::operator()() const
-  {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set the internal acceptor
+ *
+ * \param theAcceptor The acceptor to be used
+ */
+// ----------------------------------------------------------------------
 
-	// The total number of numbers is one greater than number of changes,
-	// hence the -1 in the divisor itsCounter-1
+void ModTrendCalculator::acceptor(const Acceptor& theAcceptor)
+{
+  itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
+}
 
-	if(itsCounter<1)
-	  return kFloatMissing;
-	else if(itsCounter>1)
-	  return (itsPositiveChanges+itsZeroChanges/2.0)/(itsCounter-1.0)*100;
-	else
-	  return 0.0;
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the internal acceptor
-   *
-   * \param theAcceptor The acceptor to be used
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  void ModTrendCalculator::acceptor(const Acceptor & theAcceptor)
-  {
-	itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
-  }
+boost::shared_ptr<Calculator> ModTrendCalculator::clone() const
+{
+  return boost::shared_ptr<Calculator>(new ModTrendCalculator(*this));
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Reset
+ */
+// ----------------------------------------------------------------------
 
-  boost::shared_ptr<Calculator> ModTrendCalculator::clone() const
-  {
-	return boost::shared_ptr<Calculator>(new ModTrendCalculator(*this));
-  }
+void ModTrendCalculator::reset()
+{
+  itsCounter = 0;
+  itsPositiveChanges = 0;
+  itsNegativeChanges = 0;
+  itsZeroChanges = 0;
+  itsLastValue = kFloatMissing;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Reset
-   */
-  // ----------------------------------------------------------------------
-
-  void ModTrendCalculator::reset()
-  {
-	itsCounter = 0;
-	itsPositiveChanges = 0;
-	itsNegativeChanges = 0;
-	itsZeroChanges = 0;
-	itsLastValue = kFloatMissing;
-  }
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

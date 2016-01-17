@@ -14,28 +14,26 @@
 
 namespace TextGen
 {
-  class SumCalculator : public Calculator
-  {
-  public:
+class SumCalculator : public Calculator
+{
+ public:
+  SumCalculator();
+  virtual ~SumCalculator() {}
+  virtual void operator()(float theValue);
+  virtual float operator()() const;
+  virtual void acceptor(const Acceptor& theAcceptor);
+  virtual boost::shared_ptr<Calculator> clone() const;
+  virtual void reset();
 
-	SumCalculator();
-	virtual ~SumCalculator() { }
-	virtual void operator()(float theValue);
-	virtual float operator()() const;
-	virtual void acceptor(const Acceptor & theAcceptor);
-	virtual boost::shared_ptr<Calculator> clone() const;
-	virtual void reset();
+ private:
+  boost::shared_ptr<Acceptor> itsAcceptor;
+  long itsCounter;
+  double itsSum;
 
-  private:
+};  // class SumCalculator
 
-	boost::shared_ptr<Acceptor> itsAcceptor;
-	long itsCounter;
-	double itsSum;
+}  // namespace TextGen
 
-  }; // class SumCalculator
-
-} // namespace TextGen
-
-#endif // TEXTGEN_SUMCALCULATOR_H
+#endif  // TEXTGEN_SUMCALCULATOR_H
 
 // ======================================================================

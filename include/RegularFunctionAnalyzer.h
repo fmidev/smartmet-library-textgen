@@ -17,51 +17,47 @@ class NFmiDataModifier;
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class Calculator;
-  class WeatherArea;
-  class WeatherLimits;
-  class WeatherPeriod;
-  class WeatherPeriodGenerator;
-  class WeatherResult;
+class AnalysisSources;
+class Calculator;
+class WeatherArea;
+class WeatherLimits;
+class WeatherPeriod;
+class WeatherPeriodGenerator;
+class WeatherResult;
 
-  class RegularFunctionAnalyzer : public FunctionAnalyzer
-  {
-  public:
+class RegularFunctionAnalyzer : public FunctionAnalyzer
+{
+ public:
+  virtual ~RegularFunctionAnalyzer() {}
+  RegularFunctionAnalyzer(const WeatherFunction& theAreaFunction,
+                          const WeatherFunction& theTimeFunction,
+                          const WeatherFunction& theSubTimeFunction);
 
-	virtual ~RegularFunctionAnalyzer() { }
+  virtual WeatherResult analyze(const AnalysisSources& theSources,
+                                const WeatherDataType& theDataType,
+                                const WeatherArea& theArea,
+                                const WeatherPeriodGenerator& thePeriods,
+                                const Acceptor& theAreaAcceptor,
+                                const Acceptor& theTimeAcceptor,
+                                const Acceptor& theTester,
+                                const std::string& theDataName,
+                                const std::string& theParameterName) const;
 
-	RegularFunctionAnalyzer(const WeatherFunction & theAreaFunction,
-							const WeatherFunction & theTimeFunction,
-							const WeatherFunction & theSubTimeFunction);
+  void modulo(int theModulo);
 
-	virtual WeatherResult
-	analyze(const AnalysisSources & theSources,
-			const WeatherDataType & theDataType,
-			const WeatherArea & theArea,
-			const WeatherPeriodGenerator & thePeriods,
-			const Acceptor & theAreaAcceptor,
-			const Acceptor & theTimeAcceptor,
-			const Acceptor & theTester,
-			const std::string & theDataName,
-			const std::string & theParameterName) const;
+ private:
+  RegularFunctionAnalyzer();
+  const WeatherFunction itsAreaFunction;
+  const WeatherFunction itsTimeFunction;
+  const WeatherFunction itsSubTimeFunction;
 
-	void modulo(int theModulo);
+  bool itIsModulo;
+  int itsModulo;
 
-  private:
+};  // class RegularFunctionAnalyzer
 
-	RegularFunctionAnalyzer();
-	const WeatherFunction itsAreaFunction;
-	const WeatherFunction itsTimeFunction;
-	const WeatherFunction itsSubTimeFunction;
+}  // namespace TextGen
 
-	bool itIsModulo;
-	int itsModulo;
-
-  }; // class RegularFunctionAnalyzer
-
-} // namespace TextGen
-
-#endif // TEXTGEN_REGULARFUNCTIONANALYZER_H
+#endif  // TEXTGEN_REGULARFUNCTIONANALYZER_H
 
 // ======================================================================

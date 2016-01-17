@@ -16,64 +16,56 @@
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ *
+ * \param theLhs The first acceptor
+ * \param theRhs The second acceptor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   *
-   * \param theLhs The first acceptor
-   * \param theRhs The second acceptor
-   */
-  // ----------------------------------------------------------------------
+OrAcceptor::OrAcceptor(const Acceptor& theLhs, const Acceptor& theRhs)
+    : itsLhs(theLhs.clone()), itsRhs(theRhs.clone())
+{
+}
 
-  OrAcceptor::OrAcceptor(const Acceptor & theLhs,
-						 const Acceptor & theRhs)
-	: itsLhs(theLhs.clone())
-	, itsRhs(theRhs.clone())
-  {
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Copy constructor
+ *
+ * \param theOther The acceptor to copy
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Copy constructor
-   *
-   * \param theOther The acceptor to copy
-   */
-  // ----------------------------------------------------------------------
+OrAcceptor::OrAcceptor(const OrAcceptor& theOther)
+    : itsLhs(theOther.itsLhs->clone()), itsRhs(theOther.itsRhs->clone())
+{
+}
 
-  OrAcceptor::OrAcceptor(const OrAcceptor & theOther)
-	: itsLhs(theOther.itsLhs->clone())
-	, itsRhs(theOther.itsRhs->clone())
-  {
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+Acceptor* OrAcceptor::clone() const { return new OrAcceptor(*this); }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Accept or reject a value
+ *
+ * The value kFloatMissing is never accepted.
 
-  Acceptor * OrAcceptor::clone() const
-  {
-	return new OrAcceptor(*this);
-  }
+ * \param theValue The value to be accepted
+ * \return True if the value is accepted
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Accept or reject a value
-   *
-   * The value kFloatMissing is never accepted.
+bool OrAcceptor::accept(float theValue) const
+{
+  return itsLhs->accept(theValue) || itsRhs->accept(theValue);
+}
 
-   * \param theValue The value to be accepted
-   * \return True if the value is accepted
-   */
-  // ----------------------------------------------------------------------
-
-  bool OrAcceptor::accept(float theValue) const
-  {
-	return itsLhs->accept(theValue) || itsRhs->accept(theValue);
-  }
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

@@ -13,76 +13,74 @@ using namespace std;
 
 namespace TextGen
 {
-  class WeatherResult;
-  class WeatherPeriod;
-  class AnalysisSources;
-  class WeatherArea;
+class WeatherResult;
+class WeatherPeriod;
+class AnalysisSources;
+class WeatherArea;
 }
 
 namespace TextGen
 {
-  namespace TemperatureTools
-  {
+namespace TemperatureTools
+{
+// ----------------------------------------------------------------------
+/*!
+ * \brief calculate Minimum, Maximum and Mean temperatures of
+ * areal maximum temperatures
+ */
+// ----------------------------------------------------------------------
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief calculate Minimum, Maximum and Mean temperatures of 
-	 * areal maximum temperatures
-	 */
-	// ----------------------------------------------------------------------
+void min_max_mean_temperature(const string& theVar,
+                              const TextGen::AnalysisSources& theSources,
+                              const TextGen::WeatherArea& theArea,
+                              const TextGen::WeatherPeriod& thePeriod,
+                              TextGen::WeatherResult& theMin,
+                              TextGen::WeatherResult& theMax,
+                              TextGen::WeatherResult& theMean);
 
-	void min_max_mean_temperature(const string& theVar,
-								  const TextGen::AnalysisSources& theSources,
-								  const TextGen::WeatherArea& theArea,
-								  const TextGen::WeatherPeriod& thePeriod,
-								  TextGen::WeatherResult& theMin,
-								  TextGen::WeatherResult& theMax,
-								  TextGen::WeatherResult& theMean);
+// ----------------------------------------------------------------------
+/*!
+ * \brief calculate morning temperature, default values follow finnish convention
+ */
+// ----------------------------------------------------------------------
 
+void morning_temperature(const string& theVar,
+                         const TextGen::AnalysisSources& theSources,
+                         const TextGen::WeatherArea& theArea,
+                         const TextGen::WeatherPeriod& thePeriod,
+                         TextGen::WeatherResult& theMin,
+                         TextGen::WeatherResult& theMax,
+                         TextGen::WeatherResult& theMean);
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief calculate morning temperature, default values follow finnish convention
-	 */
-	// ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief calculate afternoon temperature, default values follow finnish convention
+ */
+// ----------------------------------------------------------------------
 
-	void morning_temperature(const string& theVar,
-							 const TextGen::AnalysisSources& theSources,
-							 const TextGen::WeatherArea& theArea,
-							 const TextGen::WeatherPeriod& thePeriod,
-							 TextGen::WeatherResult& theMin,
-							 TextGen::WeatherResult& theMax,
-							 TextGen::WeatherResult& theMean);
+void afternoon_temperature(const string& theVar,
+                           const TextGen::AnalysisSources& theSources,
+                           const TextGen::WeatherArea& theArea,
+                           const TextGen::WeatherPeriod& thePeriod,
+                           TextGen::WeatherResult& theMin,
+                           TextGen::WeatherResult& theMax,
+                           TextGen::WeatherResult& theMean);
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief calculate afternoon temperature, default values follow finnish convention
-	 */
-	// ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief clamp the big temperature interval into smaller according to configuration file settings
+ */
+// ----------------------------------------------------------------------
 
-	void afternoon_temperature(const string& theVar,
-							   const TextGen::AnalysisSources& theSources,
-							   const TextGen::WeatherArea& theArea,
-							   const TextGen::WeatherPeriod& thePeriod,
-							   TextGen::WeatherResult& theMin,
-							   TextGen::WeatherResult& theMax,
-							   TextGen::WeatherResult& theMean);
+void clamp_temperature(const string& theVar,
+                       const bool& isWinter,
+                       const bool& isDay,
+                       int& theMinimum,
+                       int& theMaximum);
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief clamp the big temperature interval into smaller according to configuration file settings
-	 */
-	// ----------------------------------------------------------------------
+}  // namespace TemperatureTools
+}  // namespace TextGen
 
-	void clamp_temperature(const string& theVar,
-						   const bool& isWinter,
-						   const bool& isDay,
-						   int& theMinimum,
-						   int& theMaximum);
-
-  } // namespace TemperatureTools
-} // namespace TextGen
-
-#endif // TEMPERATURETOOLS_H
+#endif  // TEMPERATURETOOLS_H
 
 // ======================================================================

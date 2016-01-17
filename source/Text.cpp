@@ -24,92 +24,68 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Destructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Destructor
-   */
-  // ----------------------------------------------------------------------
+Text::~Text() {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  Text::~Text()
-  {
-  }
+Text::Text(const std::string& theText) : itsText(theText) {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return a clone
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+boost::shared_ptr<Glyph> Text::clone() const
+{
+  boost::shared_ptr<Glyph> ret(new Text(*this));
+  return ret;
+}
 
-  Text::Text(const std::string & theText)
-	: itsText(theText)
-  {
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the text for the Text
+ *
+ * \param theDictionary The dictionary to be used
+ * \return The text
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return a clone
-   */
-  // ----------------------------------------------------------------------
+std::string Text::realize(const Dictionary& theDictionary) const { return itsText; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the text for the number
+ *
+ * \param theFormatter The formatter
+ * \return The text
+ */
+// ----------------------------------------------------------------------
 
-  boost::shared_ptr<Glyph> Text::clone() const
-  {
-	boost::shared_ptr<Glyph> ret(new Text(*this));
-	return ret;
-  }
+std::string Text::realize(const TextFormatter& theFormatter) const { return itsText; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Returns false since Text is not a separator
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the Text
-   *
-   * \param theDictionary The dictionary to be used
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
+bool Text::isDelimiter() const { return false; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the value of the text
+ *
+ * \return The text
+ */
+// ----------------------------------------------------------------------
 
-  std::string Text::realize(const Dictionary & theDictionary) const
-  {
-	return itsText;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the number
-   *
-   * \param theFormatter The formatter
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
-
-  std::string Text::realize(const TextFormatter & theFormatter) const
-  {
-	return itsText;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Returns false since Text is not a separator
-   */
-  // ----------------------------------------------------------------------
-
-  bool Text::isDelimiter() const
-  {
-	return false;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the value of the text
-   *
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
-
-  const std::string & Text::value() const
-  {
-	return itsText;
-  }
-
-} // namespace TextGen
+const std::string& Text::value() const { return itsText; }
+}  // namespace TextGen
 
 // ======================================================================

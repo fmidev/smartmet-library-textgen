@@ -13,49 +13,46 @@
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriod;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriod;
 }
 
 class TextGenPosixTime;
 
 namespace TextGen
 {
-  class Paragraph;
+class Paragraph;
 
-  class PressureStory : public Story
-  {
+class PressureStory : public Story
+{
+ public:
+  virtual ~PressureStory();
+  PressureStory(const TextGenPosixTime& theForecastTime,
+                const TextGen::AnalysisSources& theSources,
+                const TextGen::WeatherArea& theArea,
+                const TextGen::WeatherPeriod& thePeriod,
+                const std::string& theVariable);
 
-  public:
+  static bool hasStory(const std::string& theName);
+  virtual Paragraph makeStory(const std::string& theName) const;
 
-	virtual ~PressureStory();
-	PressureStory(const TextGenPosixTime & theForecastTime,
-				  const TextGen::AnalysisSources & theSources,
-				  const TextGen::WeatherArea & theArea,
-				  const TextGen::WeatherPeriod & thePeriod,
-				  const std::string & theVariable);
+ private:
+  const Paragraph mean() const;
 
-	static bool hasStory(const std::string & theName);
-	virtual Paragraph makeStory(const std::string & theName) const;
+  PressureStory();
+  PressureStory(const PressureStory& theStory);
+  PressureStory& operator=(const PressureStory& theStory);
 
-  private:
+  const TextGenPosixTime itsForecastTime;
+  const TextGen::AnalysisSources& itsSources;
+  const TextGen::WeatherArea& itsArea;
+  const TextGen::WeatherPeriod& itsPeriod;
+  const std::string itsVar;
 
-	const Paragraph mean() const;
-
-	PressureStory();
-	PressureStory(const PressureStory & theStory);
-	PressureStory & operator=(const PressureStory & theStory);
-
-	const TextGenPosixTime itsForecastTime;
-	const TextGen::AnalysisSources & itsSources;
-	const TextGen::WeatherArea & itsArea;
-	const TextGen::WeatherPeriod & itsPeriod;
-	const std::string itsVar;
-
-  }; // class PressureStory
+};  // class PressureStory
 }
 
-#endif // TEXTGEN_PRESSURESTORY_H
+#endif  // TEXTGEN_PRESSURESTORY_H
 
 // ======================================================================

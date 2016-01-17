@@ -12,34 +12,32 @@
 
 namespace TextGen
 {
-  class Acceptor;
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriodGenerator;
-  class WeatherResult;
+class Acceptor;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriodGenerator;
+class WeatherResult;
 
-  class GridClimatology : public WeatherForecaster
-  {
-  public:
+class GridClimatology : public WeatherForecaster
+{
+ public:
+  using WeatherAnalyzer::analyze;
 
-	using WeatherAnalyzer::analyze;
+  virtual WeatherResult analyze(const AnalysisSources& theSources,
+                                const WeatherParameter& theParameter,
+                                const WeatherFunction& theAreaFunction,
+                                const WeatherFunction& theTimeFunction,
+                                const WeatherFunction& theSubTimeFunction,
+                                const WeatherArea& theArea,
+                                const WeatherPeriodGenerator& thePeriods,
+                                const Acceptor& theAreaAcceptor = DefaultAcceptor(),
+                                const Acceptor& theTimeAcceptor = DefaultAcceptor(),
+                                const Acceptor& theTester = NullAcceptor()) const;
 
-	virtual WeatherResult
-	analyze(const AnalysisSources & theSources,
-			const WeatherParameter & theParameter,
-			const WeatherFunction & theAreaFunction,
-			const WeatherFunction & theTimeFunction,
-			const WeatherFunction & theSubTimeFunction,
-			const WeatherArea & theArea,
-			const WeatherPeriodGenerator & thePeriods,
-			const Acceptor & theAreaAcceptor = DefaultAcceptor(),
-			const Acceptor & theTimeAcceptor = DefaultAcceptor(),
-			const Acceptor & theTester = NullAcceptor()) const;
-	
-  }; // class GridClimatology
+};  // class GridClimatology
 
-} // namespace TextGen
+}  // namespace TextGen
 
-#endif // TEXTGEN_GRIDCLIMATOLOGY_H
+#endif  // TEXTGEN_GRIDCLIMATOLOGY_H
 
 // ======================================================================

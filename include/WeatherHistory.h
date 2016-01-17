@@ -6,28 +6,23 @@
 
 namespace TextGen
 {
+class WeatherHistory
+{
+ public:
+  WeatherHistory();
+  WeatherHistory(const WeatherHistory& theWeatherHistory);
 
-  class WeatherHistory
-  {
-  public:
+  void updateTimePhrase(const std::string& theWeekdayPhrase,
+                        const std::string& theDayPhasePhrase,
+                        const TextGenPosixTime& theTime);
+  void updateWeekdayPhrase(const std::string& theWeekdayPhrase, const TextGenPosixTime& theTime);
+  void updateDayPhasePhrase(const std::string& theDayPhasePhrase);
 
-    WeatherHistory();
-	WeatherHistory(const WeatherHistory& theWeatherHistory);
+  TextGenPosixTime latestDate;
+  std::string latestWeekdayPhrase;
+  std::string latestDayPhasePhrase;
+};
 
-	void updateTimePhrase(const std::string& theWeekdayPhrase,
-						  const std::string& theDayPhasePhrase,
-						  const TextGenPosixTime& theTime);	  
-	void updateWeekdayPhrase(const std::string& theWeekdayPhrase, 
-							 const TextGenPosixTime& theTime);
-	void updateDayPhasePhrase(const std::string& theDayPhasePhrase);
-	
-	TextGenPosixTime latestDate;
-    std::string latestWeekdayPhrase;
-    std::string latestDayPhasePhrase;
-  };
+}  // namespace TextGen
 
-
-} // namespace TextGen
-
-
-#endif //  TEXTGEN_WEATHERHISTORY_H
+#endif  //  TEXTGEN_WEATHERHISTORY_H

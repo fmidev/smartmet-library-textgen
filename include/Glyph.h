@@ -13,28 +13,23 @@
 
 namespace TextGen
 {
-  class Dictionary;
-  class TextFormatter;
+class Dictionary;
+class TextFormatter;
 
-  class Glyph
-  {
-  public:
+class Glyph
+{
+ public:
+  virtual ~Glyph() {}
+  virtual boost::shared_ptr<Glyph> clone() const = 0;
+  virtual std::string realize(const Dictionary& theDictionary) const = 0;
+  virtual std::string realize(const TextFormatter& theFormatter) const = 0;
+  virtual bool isDelimiter() const = 0;
 
-	virtual ~Glyph() { }
+ protected:
+  Glyph() {}
+};  // class Glyph
+}  // namespace TextGen
 
-	virtual boost::shared_ptr<Glyph> clone() const = 0;
-	virtual std::string realize(const Dictionary & theDictionary) const = 0;
-	virtual std::string realize(const TextFormatter & theFormatter) const = 0;
-	virtual bool isDelimiter() const = 0;
-
-  protected:
-
-	Glyph() { }
-
-  }; // class Glyph
-} // namespace TextGen
-
-#endif // TEXTGEN_GLYPH_H
+#endif  // TEXTGEN_GLYPH_H
 
 // ======================================================================
-

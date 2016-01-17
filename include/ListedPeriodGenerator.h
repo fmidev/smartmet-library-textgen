@@ -16,35 +16,33 @@
 
 namespace TextGen
 {
-  class WeatherPeriod;
+class WeatherPeriod;
 
-  class ListedPeriodGenerator : public WeatherPeriodGenerator
-  {
-  public:
-	typedef WeatherPeriodGenerator::size_type size_type;
+class ListedPeriodGenerator : public WeatherPeriodGenerator
+{
+ public:
+  typedef WeatherPeriodGenerator::size_type size_type;
 
-	ListedPeriodGenerator(const WeatherPeriod & theMainPeriod);
-		
-	virtual ~ListedPeriodGenerator() { }
-	virtual bool undivided() const;
-	virtual size_type size() const;
-	virtual WeatherPeriod period() const;
-	virtual WeatherPeriod period(size_type thePeriod) const;
+  ListedPeriodGenerator(const WeatherPeriod& theMainPeriod);
 
-	void add(const WeatherPeriod & thePeriod);
+  virtual ~ListedPeriodGenerator() {}
+  virtual bool undivided() const;
+  virtual size_type size() const;
+  virtual WeatherPeriod period() const;
+  virtual WeatherPeriod period(size_type thePeriod) const;
 
-  private:
+  void add(const WeatherPeriod& thePeriod);
 
-	ListedPeriodGenerator(void);
+ private:
+  ListedPeriodGenerator(void);
 
-	const WeatherPeriod itsMainPeriod;
-	std::vector<WeatherPeriod> itsPeriods;
+  const WeatherPeriod itsMainPeriod;
+  std::vector<WeatherPeriod> itsPeriods;
 
-  }; // class ListedPeriodGenerator
+};  // class ListedPeriodGenerator
 
-} // namespace TextGen
+}  // namespace TextGen
 
-#endif // TEXTGEN_LISTEDPERIODGENERATOR_H
+#endif  // TEXTGEN_LISTEDPERIODGENERATOR_H
 
 // ======================================================================
-

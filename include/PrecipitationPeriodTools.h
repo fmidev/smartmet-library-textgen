@@ -15,49 +15,44 @@ class TextGenPosixTime;
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriod;
-  
-  namespace PrecipitationPeriodTools
-  {
-	typedef std::list<TextGenPosixTime> RainTimes;
-	typedef std::list<WeatherPeriod> RainPeriods;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriod;
 
-	// The main function
+namespace PrecipitationPeriodTools
+{
+typedef std::list<TextGenPosixTime> RainTimes;
+typedef std::list<WeatherPeriod> RainPeriods;
 
-	RainPeriods analyze(const AnalysisSources & theSources,
-						const WeatherArea & theArea,
-						const WeatherPeriod & thePeriod,
-						const std::string & theVar);
+// The main function
 
-	// Extract parts of rainy periods
+RainPeriods analyze(const AnalysisSources& theSources,
+                    const WeatherArea& theArea,
+                    const WeatherPeriod& thePeriod,
+                    const std::string& theVar);
 
-	RainPeriods overlappingPeriods(const RainPeriods & thePeriods,
-								   const WeatherPeriod & thePeriod);
+// Extract parts of rainy periods
 
-	RainPeriods inclusivePeriods(const RainPeriods & thePeriods,
-								 const WeatherPeriod & thePeriod);
-	
-	// Utility functions used by analyze
-	
-	RainTimes findRainTimes(const AnalysisSources & theSources,
-							const WeatherArea & theArea,
-							const WeatherPeriod & thePeriod,
-							const std::string & theVar);
+RainPeriods overlappingPeriods(const RainPeriods& thePeriods, const WeatherPeriod& thePeriod);
 
-	RainPeriods findRainPeriods(const RainTimes & theTimes,
-								const std::string & theVar);
+RainPeriods inclusivePeriods(const RainPeriods& thePeriods, const WeatherPeriod& thePeriod);
 
-	RainPeriods mergeNightlyRainPeriods(const RainPeriods & thePeriods,
-										const std::string & theVar);
+// Utility functions used by analyze
 
-	RainPeriods mergeLargeRainPeriods(const RainPeriods & thePeriods,
-									  const std::string & theVar);
+RainTimes findRainTimes(const AnalysisSources& theSources,
+                        const WeatherArea& theArea,
+                        const WeatherPeriod& thePeriod,
+                        const std::string& theVar);
 
-  } // namespace PrecipitationPeriodTools
-} // namespace TextGen
+RainPeriods findRainPeriods(const RainTimes& theTimes, const std::string& theVar);
 
-#endif // TEXTGEN_PRECIPITATIONPERIODTOOLS_H
+RainPeriods mergeNightlyRainPeriods(const RainPeriods& thePeriods, const std::string& theVar);
+
+RainPeriods mergeLargeRainPeriods(const RainPeriods& thePeriods, const std::string& theVar);
+
+}  // namespace PrecipitationPeriodTools
+}  // namespace TextGen
+
+#endif  // TEXTGEN_PRECIPITATIONPERIODTOOLS_H
 
 // ======================================================================

@@ -13,42 +13,38 @@
 
 namespace TextGen
 {
-  class AnalyzerSources;
-  class WeatherArea;
-  class WeatherPeriodGenerator;
-  class WeatherResult;
+class AnalyzerSources;
+class WeatherArea;
+class WeatherPeriodGenerator;
+class WeatherResult;
 
-  class ModuloParameterAnalyzer : public ParameterAnalyzer
-  {
-  public:
+class ModuloParameterAnalyzer : public ParameterAnalyzer
+{
+ public:
+  ModuloParameterAnalyzer(const std::string& theVariable,
+                          const std::string& theParameter,
+                          int theModulo);
 
-	ModuloParameterAnalyzer(const std::string & theVariable,
-							const std::string & theParameter,
-							int theModulo);
+  virtual WeatherResult analyze(const AnalysisSources& theSources,
+                                const WeatherDataType& theDataType,
+                                const WeatherFunction& theAreaFunction,
+                                const WeatherFunction& theTimeFunction,
+                                const WeatherFunction& theSubTimeFunction,
+                                const WeatherArea& theArea,
+                                const WeatherPeriodGenerator& thePeriods,
+                                const Acceptor& theAreaAcceptor,
+                                const Acceptor& theTimeAcceptor,
+                                const Acceptor& theTester = NullAcceptor()) const;
 
-	virtual WeatherResult
-	analyze(const AnalysisSources & theSources,
-			const WeatherDataType & theDataType,
-			const WeatherFunction & theAreaFunction,
-			const WeatherFunction & theTimeFunction,
-			const WeatherFunction & theSubTimeFunction,
-			const WeatherArea & theArea,
-			const WeatherPeriodGenerator & thePeriods,
-			const Acceptor & theAreaAcceptor,
-			const Acceptor & theTimeAcceptor,
-			const Acceptor & theTester = NullAcceptor()) const;
+ private:
+  ModuloParameterAnalyzer();
 
-  private:
-	
-	ModuloParameterAnalyzer();
-
-	const std::string itsVariable;
-	const std::string itsParameter;
-	const int itsModulo;
-
-  };
+  const std::string itsVariable;
+  const std::string itsParameter;
+  const int itsModulo;
+};
 }
 
-#endif // TEXTGEN_MODULOPARAMETERANALYZER_H
+#endif  // TEXTGEN_MODULOPARAMETERANALYZER_H
 
 // ======================================================================

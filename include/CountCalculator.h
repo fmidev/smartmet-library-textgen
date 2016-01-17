@@ -13,31 +13,29 @@
 
 namespace TextGen
 {
-  class CountCalculator : public Calculator
-  {
-  public:
+class CountCalculator : public Calculator
+{
+ public:
+  CountCalculator();
+  virtual ~CountCalculator() {}
+  virtual void operator()(float theValue);
+  virtual float operator()() const;
+  virtual void acceptor(const Acceptor& theAcceptor);
+  virtual boost::shared_ptr<Calculator> clone() const;
+  virtual void reset();
 
-	CountCalculator();
-	virtual ~CountCalculator() { }
-	virtual void operator()(float theValue);
-	virtual float operator()() const;
-	virtual void acceptor(const Acceptor & theAcceptor);
-	virtual boost::shared_ptr<Calculator> clone() const;
-	virtual void reset();
+  void condition(const Acceptor& theCondition);
 
-	void condition(const Acceptor & theCondition);
+ private:
+  boost::shared_ptr<Acceptor> itsAcceptor;
+  boost::shared_ptr<Acceptor> itsCondition;
+  long itsCounter;
+  long itsTotalCounter;
 
-  private:
+};  // class CountCalculator
 
-	boost::shared_ptr<Acceptor> itsAcceptor;
-	boost::shared_ptr<Acceptor> itsCondition;
-	long itsCounter;
-	long itsTotalCounter;
+}  // namespace TextGen
 
-  }; // class CountCalculator
-
-} // namespace TextGen
-
-#endif // TEXTGEN_COUNTCALCULATOR_H
+#endif  // TEXTGEN_COUNTCALCULATOR_H
 
 // ======================================================================

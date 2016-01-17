@@ -12,21 +12,18 @@
 
 namespace TextGen
 {
-  class PlainLinesTextFormatter : public PlainTextFormatter
-  {
-  public:
-	PlainLinesTextFormatter() { }
+class PlainLinesTextFormatter : public PlainTextFormatter
+{
+ public:
+  PlainLinesTextFormatter() {}
+  virtual ~PlainLinesTextFormatter() {}
+  using PlainTextFormatter::visit;
+  virtual std::string visit(const Paragraph& theParagraph) const;
 
-	virtual ~PlainLinesTextFormatter() { }
+  std::string name() const { return "plainlines"; }
+};  // class PlainLinesTextFormatter
+}  // namespace TextGen
 
-	using PlainTextFormatter::visit;
-	virtual std::string visit(const Paragraph & theParagraph) const;
-
-	std::string name() const {return "plainlines"; }
-
-  }; // class PlainLinesTextFormatter
-} // namespace TextGen
-
-#endif // TEXTGEN_PLAINLINESTEXTFORMATTER_H
+#endif  // TEXTGEN_PLAINLINESTEXTFORMATTER_H
 
 // ======================================================================

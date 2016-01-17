@@ -20,75 +20,68 @@ class NFmiPoint;
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriod;
-  class WeatherPeriodGenerator;
-  class WeatherResult;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriod;
+class WeatherPeriodGenerator;
+class WeatherResult;
 
-  class WeatherAnalyzer
-  {
-  public:
+class WeatherAnalyzer
+{
+ public:
+  virtual ~WeatherAnalyzer() {}
+  // derivatives override
+  virtual WeatherResult analyze(const AnalysisSources& theSources,
+                                const WeatherParameter& theParameter,
+                                const WeatherFunction& theAreaFunction,
+                                const WeatherFunction& theTimeFunction,
+                                const WeatherFunction& theSubTimeFunction,
+                                const WeatherArea& theArea,
+                                const WeatherPeriodGenerator& thePeriods,
+                                const Acceptor& theAreaAcceptor = DefaultAcceptor(),
+                                const Acceptor& theTimeAcceptor = DefaultAcceptor(),
+                                const Acceptor& theTester = NullAcceptor()) const = 0;
 
-	virtual ~WeatherAnalyzer() { }
+  // has default implementation
+  virtual WeatherResult analyze(const AnalysisSources& theSources,
+                                const WeatherParameter& theParameter,
+                                const WeatherFunction& theAreaFunction,
+                                const WeatherFunction& theTimeFunction,
+                                const WeatherArea& theArea,
+                                const WeatherPeriod& thePeriod,
+                                const Acceptor& theAreaAcceptor = DefaultAcceptor(),
+                                const Acceptor& theTimeAcceptor = DefaultAcceptor(),
+                                const Acceptor& theTester = NullAcceptor()) const;
 
-	// derivatives override
-	virtual WeatherResult
-	analyze(const AnalysisSources & theSources,
-			const WeatherParameter & theParameter,
-			const WeatherFunction & theAreaFunction,
-			const WeatherFunction & theTimeFunction,
-			const WeatherFunction & theSubTimeFunction,
-			const WeatherArea & theArea,
-			const WeatherPeriodGenerator & thePeriods,
-			const Acceptor & theAreaAcceptor = DefaultAcceptor(),
-			const Acceptor & theTimeAcceptor = DefaultAcceptor(),
-			const Acceptor & theTester = NullAcceptor()) const = 0;
+  // has default implementation
+  virtual WeatherResult analyze(const std::string& theFakeVariable,
+                                const AnalysisSources& theSources,
+                                const WeatherParameter& theParameter,
+                                const WeatherFunction& theAreaFunction,
+                                const WeatherFunction& theTimeFunction,
+                                const WeatherFunction& theSubTimeFunction,
+                                const WeatherArea& theArea,
+                                const WeatherPeriodGenerator& thePeriods,
+                                const Acceptor& theAreaAcceptor = DefaultAcceptor(),
+                                const Acceptor& theTimeAcceptor = DefaultAcceptor(),
+                                const Acceptor& theTester = NullAcceptor()) const;
 
-	// has default implementation
-	virtual WeatherResult
-	analyze(const AnalysisSources & theSources,
-			const WeatherParameter & theParameter,
-			const WeatherFunction & theAreaFunction,
-			const WeatherFunction & theTimeFunction,
-			const WeatherArea & theArea,
-			const WeatherPeriod & thePeriod,
-			const Acceptor & theAreaAcceptor = DefaultAcceptor(),
-			const Acceptor & theTimeAcceptor = DefaultAcceptor(),
-			const Acceptor & theTester = NullAcceptor()) const;
+  // has default implementation
+  virtual WeatherResult analyze(const std::string& theFakeVariable,
+                                const AnalysisSources& theSources,
+                                const WeatherParameter& theParameter,
+                                const WeatherFunction& theAreaFunction,
+                                const WeatherFunction& theTimeFunction,
+                                const WeatherArea& theArea,
+                                const WeatherPeriod& thePeriod,
+                                const Acceptor& theAreaAcceptor = DefaultAcceptor(),
+                                const Acceptor& theTimeAcceptor = DefaultAcceptor(),
+                                const Acceptor& theTester = NullAcceptor()) const;
 
-	// has default implementation
-	virtual WeatherResult
-	analyze(const std::string & theFakeVariable,
-			const AnalysisSources & theSources,
-			const WeatherParameter & theParameter,
-			const WeatherFunction & theAreaFunction,
-			const WeatherFunction & theTimeFunction,
-			const WeatherFunction & theSubTimeFunction,
-			const WeatherArea & theArea,
-			const WeatherPeriodGenerator & thePeriods,
-			const Acceptor & theAreaAcceptor = DefaultAcceptor(),
-			const Acceptor & theTimeAcceptor = DefaultAcceptor(),
-			const Acceptor & theTester = NullAcceptor()) const;
+};  // class WeatherAnalyzer
 
-	// has default implementation
-	virtual WeatherResult
-	analyze(const std::string & theFakeVariable,
-			const AnalysisSources & theSources,
-			const WeatherParameter & theParameter,
-			const WeatherFunction & theAreaFunction,
-			const WeatherFunction & theTimeFunction,
-			const WeatherArea & theArea,
-			const WeatherPeriod & thePeriod,
-			const Acceptor & theAreaAcceptor = DefaultAcceptor(),
-			const Acceptor & theTimeAcceptor = DefaultAcceptor(),
-			const Acceptor & theTester = NullAcceptor()) const;
+}  // namespace TextGen
 
-	
-  }; // class WeatherAnalyzer
-
-} // namespace TextGen
-
-#endif // TEXTGEN_WEATHERANALYZER_H
+#endif  // TEXTGEN_WEATHERANALYZER_H
 
 // ======================================================================

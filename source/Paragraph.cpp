@@ -27,98 +27,91 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return a clone
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return a clone
-   */
-  // ----------------------------------------------------------------------
+boost::shared_ptr<Glyph> Paragraph::clone() const
+{
+  boost::shared_ptr<Glyph> ret(new Paragraph(*this));
+  return ret;
+}
 
-  boost::shared_ptr<Glyph> Paragraph::clone() const
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the text for the paragraph
+ *
+ * \param theDictionary The dictionary to be used
+ * \return The text
+ */
+// ----------------------------------------------------------------------
+
+std::string Paragraph::realize(const Dictionary& theDictionary) const
+{
+  throw TextGenError("Paragraph::realize(Dictionary) should not be called");
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the text for the sentence
+ *
+ * \param theFormatter The formatter
+ * \return The text
+ */
+// ----------------------------------------------------------------------
+
+std::string Paragraph::realize(const TextFormatter& theFormatter) const
+{
+  return theFormatter.visit(*this);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Returns false since paragraph is not a separator
+ */
+// ----------------------------------------------------------------------
+
+bool Paragraph::isDelimiter() const { return false; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Add a paragraph to the end of this paragraph
+ *
+ * \param theParagraph The paragraph to be added
+ * \result The paragraph added to
+ */
+// ----------------------------------------------------------------------
+
+Paragraph& Paragraph::operator<<(const Paragraph& theParagraph)
+{
+  if (this != &theParagraph)
   {
-	boost::shared_ptr<Glyph> ret(new Paragraph(*this));
-	return ret;
+    copy(theParagraph.itsData.begin(), theParagraph.itsData.end(), back_inserter(itsData));
   }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the paragraph
-   *
-   * \param theDictionary The dictionary to be used
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
-
-  std::string Paragraph::realize(const Dictionary & theDictionary) const
-  { 
-	throw TextGenError("Paragraph::realize(Dictionary) should not be called");
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the sentence
-   *
-   * \param theFormatter The formatter
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
-
-  std::string Paragraph::realize(const TextFormatter & theFormatter) const
+  else
   {
-	return theFormatter.visit(*this);
+    storage_type tmp(itsData);
+    copy(tmp.begin(), tmp.end(), back_inserter(itsData));
   }
+  return *this;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Returns false since paragraph is not a separator
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Adding a glyph to a paragraph
+ *
+ * \param theGlyph The glyph to be added
+ * \result The paragraph added to
+ */
+// ----------------------------------------------------------------------
 
-  bool Paragraph::isDelimiter() const
-  {
-	return false;
-  }
+Paragraph& Paragraph::operator<<(const Glyph& theGlyph)
+{
+  itsData.push_back(theGlyph.clone());
+  return *this;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Add a paragraph to the end of this paragraph
-   *
-   * \param theParagraph The paragraph to be added
-   * \result The paragraph added to
-   */
-  // ----------------------------------------------------------------------
-
-  Paragraph & Paragraph::operator<<(const Paragraph & theParagraph)
-  {
-	if(this != &theParagraph)
-	  {
-		copy(theParagraph.itsData.begin(),
-			 theParagraph.itsData.end(),
-			 back_inserter(itsData));
-	  }
-	else
-	  {
-		storage_type tmp(itsData);
-		copy(tmp.begin(),tmp.end(), back_inserter(itsData));
-	  }
-	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Adding a glyph to a paragraph
-   *
-   * \param theGlyph The glyph to be added
-   * \result The paragraph added to
-   */
-  // ----------------------------------------------------------------------
-
-  Paragraph & Paragraph::operator<<(const Glyph & theGlyph)
-  {
-	itsData.push_back(theGlyph.clone());
-	return *this;
-  }
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

@@ -31,143 +31,137 @@
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Analyze weather data for area
+ *
+ * \param theSources Analysis sources
+ * \param theParameter The weather phenomenon to analyze
+ * \param theAreaFunction The area function
+ * \param theTimeFunction The time function
+ * \param thePeriod The time period
+ * \param theArea The name of the area to analyze
+ * \param theAreaAcceptor The weather data acceptor in area integration
+ * \param theTimeAcceptor The weather data acceptor in time integration
+ * \param theTester The acceptor for Percentage calculations
+ * \return The result of the analysis
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Analyze weather data for area
-   *
-   * \param theSources Analysis sources
-   * \param theParameter The weather phenomenon to analyze
-   * \param theAreaFunction The area function
-   * \param theTimeFunction The time function
-   * \param thePeriod The time period
-   * \param theArea The name of the area to analyze
-   * \param theAreaAcceptor The weather data acceptor in area integration
-   * \param theTimeAcceptor The weather data acceptor in time integration
-   * \param theTester The acceptor for Percentage calculations
-   * \return The result of the analysis
-   */
-  // ----------------------------------------------------------------------
+WeatherResult WeatherAnalyzer::analyze(const AnalysisSources& theSources,
+                                       const WeatherParameter& theParameter,
+                                       const WeatherFunction& theAreaFunction,
+                                       const WeatherFunction& theTimeFunction,
+                                       const WeatherArea& theArea,
+                                       const WeatherPeriod& thePeriod,
+                                       const Acceptor& theAreaAcceptor,
+                                       const Acceptor& theTimeAcceptor,
+                                       const Acceptor& theTester) const
+{
+  return analyze(theSources,
+                 theParameter,
+                 theAreaFunction,
+                 theTimeFunction,
+                 NullFunction,
+                 theArea,
+                 NullPeriodGenerator(thePeriod),
+                 theAreaAcceptor,
+                 theTimeAcceptor,
+                 theTester);
+}
 
-  WeatherResult
-  WeatherAnalyzer::analyze(const AnalysisSources & theSources,
-						   const WeatherParameter & theParameter,
-						   const WeatherFunction & theAreaFunction,
-						   const WeatherFunction & theTimeFunction,
-						   const WeatherArea & theArea,
-						   const WeatherPeriod & thePeriod,
-						   const Acceptor & theAreaAcceptor,
-						   const Acceptor & theTimeAcceptor,
-						   const Acceptor & theTester) const
-  {
-	return analyze(theSources,
-				   theParameter,
-				   theAreaFunction,
-				   theTimeFunction,
-				   NullFunction,
-				   theArea,
-				   NullPeriodGenerator(thePeriod),
-				   theAreaAcceptor,
-				   theTimeAcceptor,
-				   theTester);
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Analyze weather data for area
+ *
+ * \param theFakeVariable The Settings variable containing the optional
+ *                        result. Useful for debugging and regression
+ *                        testing.
+ * \param theSources Analysis sources
+ * \param theParameter The weather phenomenon to analyze
+ * \param theAreaFunction The area function
+ * \param theTimeFunction The time function
+ * \param theSubTimeFunction The time function for subperiods
+ * \param thePeriods The time periods to analyze
+ * \param theArea The name of the area to analyze
+ * \param theAreaAcceptor The weather data acceptor in area integration
+ * \param theTimeAcceptor The weather data acceptor in time integration
+ * \param theTester The acceptor for Percentage calculations
+ * \return The result of the analysis
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Analyze weather data for area
-   *
-   * \param theFakeVariable The Settings variable containing the optional
-   *                        result. Useful for debugging and regression
-   *                        testing.
-   * \param theSources Analysis sources
-   * \param theParameter The weather phenomenon to analyze
-   * \param theAreaFunction The area function
-   * \param theTimeFunction The time function
-   * \param theSubTimeFunction The time function for subperiods
-   * \param thePeriods The time periods to analyze
-   * \param theArea The name of the area to analyze
-   * \param theAreaAcceptor The weather data acceptor in area integration
-   * \param theTimeAcceptor The weather data acceptor in time integration
-   * \param theTester The acceptor for Percentage calculations
-   * \return The result of the analysis
-   */
-  // ----------------------------------------------------------------------
+WeatherResult WeatherAnalyzer::analyze(const std::string& theFakeVariable,
+                                       const AnalysisSources& theSources,
+                                       const WeatherParameter& theParameter,
+                                       const WeatherFunction& theAreaFunction,
+                                       const WeatherFunction& theTimeFunction,
+                                       const WeatherFunction& theSubTimeFunction,
+                                       const WeatherArea& theArea,
+                                       const WeatherPeriodGenerator& thePeriods,
+                                       const Acceptor& theAreaAcceptor,
+                                       const Acceptor& theTimeAcceptor,
+                                       const Acceptor& theTester) const
+{
+  if (Settings::isset(theFakeVariable)) return Settings::require_result(theFakeVariable);
 
-  WeatherResult
-  WeatherAnalyzer::analyze(const std::string & theFakeVariable,
-						   const AnalysisSources & theSources,
-						   const WeatherParameter & theParameter,
-						   const WeatherFunction & theAreaFunction,
-						   const WeatherFunction & theTimeFunction,
-						   const WeatherFunction & theSubTimeFunction,
-						   const WeatherArea & theArea,
-						   const WeatherPeriodGenerator & thePeriods,
-						   const Acceptor & theAreaAcceptor,
-						   const Acceptor & theTimeAcceptor,
-						   const Acceptor & theTester) const
-  {
-	if(Settings::isset(theFakeVariable))
-	  return Settings::require_result(theFakeVariable);
+  return analyze(theSources,
+                 theParameter,
+                 theAreaFunction,
+                 theTimeFunction,
+                 theSubTimeFunction,
+                 theArea,
+                 thePeriods,
+                 theAreaAcceptor,
+                 theTimeAcceptor,
+                 theTester);
+}
 
-	return analyze(theSources,
-				   theParameter,
-				   theAreaFunction,
-				   theTimeFunction,
-				   theSubTimeFunction,
-				   theArea,
-				   thePeriods,
-				   theAreaAcceptor,
-				   theTimeAcceptor,
-				   theTester);
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Analyze weather data for area
+ *
+ * \param theFakeVariable The Settings variable containing the optional
+ *                        result. Useful for debugging and regression
+ *                        testing.
+ * \param theSources Analysis sources
+ * \param theParameter The weather phenomenon to analyze
+ * \param theAreaFunction The area function
+ * \param theTimeFunction The time function
+ * \param thePeriod The time period to analyze
+ * \param theArea The name of the area to analyze
+ * \param theAreaAcceptor The weather data acceptor in area integration
+ * \param theTimeAcceptor The weather data acceptor in time integration
+ * \param theTester The acceptor for Percentage calculations
+ * \return The result of the analysis
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Analyze weather data for area
-   *
-   * \param theFakeVariable The Settings variable containing the optional
-   *                        result. Useful for debugging and regression
-   *                        testing.
-   * \param theSources Analysis sources
-   * \param theParameter The weather phenomenon to analyze
-   * \param theAreaFunction The area function
-   * \param theTimeFunction The time function
-   * \param thePeriod The time period to analyze
-   * \param theArea The name of the area to analyze
-   * \param theAreaAcceptor The weather data acceptor in area integration
-   * \param theTimeAcceptor The weather data acceptor in time integration
-   * \param theTester The acceptor for Percentage calculations
-   * \return The result of the analysis
-   */
-  // ----------------------------------------------------------------------
+WeatherResult WeatherAnalyzer::analyze(const std::string& theFakeVariable,
+                                       const AnalysisSources& theSources,
+                                       const WeatherParameter& theParameter,
+                                       const WeatherFunction& theAreaFunction,
+                                       const WeatherFunction& theTimeFunction,
+                                       const WeatherArea& theArea,
+                                       const WeatherPeriod& thePeriod,
+                                       const Acceptor& theAreaAcceptor,
+                                       const Acceptor& theTimeAcceptor,
+                                       const Acceptor& theTester) const
+{
+  if (Settings::isset(theFakeVariable)) return Settings::require_result(theFakeVariable);
 
-  WeatherResult
-  WeatherAnalyzer::analyze(const std::string & theFakeVariable,
-						   const AnalysisSources & theSources,
-						   const WeatherParameter & theParameter,
-						   const WeatherFunction & theAreaFunction,
-						   const WeatherFunction & theTimeFunction,
-						   const WeatherArea & theArea,
-						   const WeatherPeriod & thePeriod,
-						   const Acceptor & theAreaAcceptor,
-						   const Acceptor & theTimeAcceptor,
-						   const Acceptor & theTester) const
-  {
-	if(Settings::isset(theFakeVariable))
-	  return Settings::require_result(theFakeVariable);
+  return analyze(theSources,
+                 theParameter,
+                 theAreaFunction,
+                 theTimeFunction,
+                 NullFunction,
+                 theArea,
+                 NullPeriodGenerator(thePeriod),
+                 theAreaAcceptor,
+                 theTimeAcceptor,
+                 theTester);
+}
 
-	return analyze(theSources,
-				   theParameter,
-				   theAreaFunction,
-				   theTimeFunction,
-				   NullFunction,
-				   theArea,
-				   NullPeriodGenerator(thePeriod),
-				   theAreaAcceptor,
-				   theTimeAcceptor,
-				   theTester);
-  }
-  
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

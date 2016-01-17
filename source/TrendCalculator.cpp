@@ -21,110 +21,108 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+TrendCalculator::TrendCalculator()
+    : itsAcceptor(new DefaultAcceptor()),
+      itsCounter(0),
+      itsPositiveChanges(0),
+      itsNegativeChanges(0),
+      itsZeroChanges(0),
+      itsLastValue(kFloatMissing)
+{
+}
 
-  TrendCalculator::TrendCalculator()
-	: itsAcceptor(new DefaultAcceptor())
-	, itsCounter(0)
-	, itsPositiveChanges(0)
-	, itsNegativeChanges(0)
-	, itsZeroChanges(0)
-	, itsLastValue(kFloatMissing)
+// ----------------------------------------------------------------------
+/*!
+ * \brief Integrate a new value
+ *
+ * \param theValue
+ */
+// ----------------------------------------------------------------------
+
+void TrendCalculator::operator()(float theValue)
+{
+  if (itsAcceptor->accept(theValue))
   {
+    if (itsCounter > 0)
+    {
+      if (theValue > itsLastValue)
+        ++itsPositiveChanges;
+      else if (theValue < itsLastValue)
+        ++itsNegativeChanges;
+      else
+        ++itsZeroChanges;
+    }
+    ++itsCounter;
+    itsLastValue = theValue;
   }
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Integrate a new value
-   *
-   * \param theValue
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the integrated value
+ *
+ * \return The integrated trend value
+ */
+// ----------------------------------------------------------------------
 
-  void TrendCalculator::operator()(float theValue)
-  {
-	if(itsAcceptor->accept(theValue))
-	  {
-		if(itsCounter>0)
-		  {
-			if(theValue>itsLastValue)
-			  ++itsPositiveChanges;
-			else if(theValue<itsLastValue)
-			  ++itsNegativeChanges;
-			else
-			  ++itsZeroChanges;
-		  }
-		++itsCounter;
-		itsLastValue = theValue;
-	  }
-  }
+float TrendCalculator::operator()() const
+{
+  // The total number of numbers is one greater than number of changes,
+  // hence the -1 in the divisor itsCounter-1
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the integrated value
-   *
-   * \return The integrated trend value
-   */
-  // ----------------------------------------------------------------------
+  if (itsCounter < 1)
+    return kFloatMissing;
+  else if (itsCounter == 1)
+    return 0.0;
+  else
+    return (itsPositiveChanges - itsNegativeChanges) / (itsCounter - 1.0) * 100;
+}
 
-  float TrendCalculator::operator()() const
-  {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set the internal acceptor
+ *
+ * \param theAcceptor The acceptor to be used
+ */
+// ----------------------------------------------------------------------
 
-	// The total number of numbers is one greater than number of changes,
-	// hence the -1 in the divisor itsCounter-1
+void TrendCalculator::acceptor(const Acceptor& theAcceptor)
+{
+  itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
+}
 
-	if(itsCounter<1)
-	  return kFloatMissing;
-	else if(itsCounter==1)
-	  return 0.0;
-	else
-	  return (itsPositiveChanges-itsNegativeChanges)/(itsCounter-1.0)*100;
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the internal acceptor
-   *
-   * \param theAcceptor The acceptor to be used
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  void TrendCalculator::acceptor(const Acceptor & theAcceptor)
-  {
-	itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
-  }
+boost::shared_ptr<Calculator> TrendCalculator::clone() const
+{
+  return boost::shared_ptr<Calculator>(new TrendCalculator(*this));
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Reset
+ */
+// ----------------------------------------------------------------------
 
-  boost::shared_ptr<Calculator> TrendCalculator::clone() const
-  {
-	return boost::shared_ptr<Calculator>(new TrendCalculator(*this));
-  }
+void TrendCalculator::reset()
+{
+  itsCounter = 0;
+  itsPositiveChanges = 0;
+  itsNegativeChanges = 0;
+  itsZeroChanges = 0;
+  itsLastValue = kFloatMissing;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Reset
-   */
-  // ----------------------------------------------------------------------
-
-  void TrendCalculator::reset()
-  {
-	itsCounter = 0;
-	itsPositiveChanges = 0;
-	itsNegativeChanges = 0;
-	itsZeroChanges = 0;
-	itsLastValue = kFloatMissing;
-  }
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

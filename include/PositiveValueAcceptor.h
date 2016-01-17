@@ -12,17 +12,16 @@
 
 namespace TextGen
 {
-  class PositiveValueAcceptor : public Acceptor
-  {
-  public:
+class PositiveValueAcceptor : public Acceptor
+{
+ public:
+  virtual ~PositiveValueAcceptor() {}
+  virtual bool accept(float theValue) const;
+  virtual Acceptor* clone() const;
 
-	virtual ~PositiveValueAcceptor() { }
-	virtual bool accept(float theValue) const;
-	virtual Acceptor * clone() const;
+};  // class PositiveValueAcceptor
+}  // namespace TextGen
 
-  }; // class PositiveValueAcceptor
-} // namespace TextGen
-
-#endif // TEXTGEN_POSITIVEVALUEACCEPTOR_H
+#endif  // TEXTGEN_POSITIVEVALUEACCEPTOR_H
 
 // ======================================================================

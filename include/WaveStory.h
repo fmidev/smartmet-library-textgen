@@ -13,49 +13,46 @@
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriod;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriod;
 }
 
 class TextGenPosixTime;
 
 namespace TextGen
 {
-  class Paragraph;
+class Paragraph;
 
-  class WaveStory : public Story
-  {
+class WaveStory : public Story
+{
+ public:
+  virtual ~WaveStory();
+  WaveStory(const TextGenPosixTime& theForecastTime,
+            const TextGen::AnalysisSources& theSources,
+            const TextGen::WeatherArea& theArea,
+            const TextGen::WeatherPeriod& thePeriod,
+            const std::string& theVariable);
 
-  public:
+  static bool hasStory(const std::string& theName);
+  virtual Paragraph makeStory(const std::string& theName) const;
 
-	virtual ~WaveStory();
-	WaveStory(const TextGenPosixTime & theForecastTime,
-			  const TextGen::AnalysisSources & theSources,
-			  const TextGen::WeatherArea & theArea,
-			  const TextGen::WeatherPeriod & thePeriod,
-			  const std::string & theVariable);
+ private:
+  WaveStory();
+  WaveStory(const WaveStory& theStory);
+  WaveStory& operator=(const WaveStory& theStory);
 
-	static bool hasStory(const std::string & theName);
-	virtual Paragraph makeStory(const std::string & theName) const;
+  Paragraph range() const;
 
-  private:
+  const TextGenPosixTime itsForecastTime;
+  const TextGen::AnalysisSources& itsSources;
+  const TextGen::WeatherArea& itsArea;
+  const TextGen::WeatherPeriod& itsPeriod;
+  const std::string itsVar;
 
-	WaveStory();
-	WaveStory(const WaveStory & theStory);
-	WaveStory & operator=(const WaveStory & theStory);
-
-	Paragraph range() const;
-
-	const TextGenPosixTime itsForecastTime;
-	const TextGen::AnalysisSources & itsSources;
-	const TextGen::WeatherArea & itsArea;
-	const TextGen::WeatherPeriod & itsPeriod;
-	const std::string itsVar;
-
-  }; // class WaveStory
+};  // class WaveStory
 }
 
-#endif // TEXTGEN_WAVESTORY_H
+#endif  // TEXTGEN_WAVESTORY_H
 
 // ======================================================================

@@ -13,26 +13,28 @@
 
 namespace TextGen
 {
-  class AndAcceptor : public Acceptor
+class AndAcceptor : public Acceptor
+{
+ public:
+  AndAcceptor(const AndAcceptor& theOther);
+  AndAcceptor(const Acceptor& theLhs, const Acceptor& theRhs);
+  virtual ~AndAcceptor()
   {
-  public:
+    delete itsLhs;
+    delete itsRhs;
+  }
+  virtual bool accept(float theValue) const;
+  virtual Acceptor* clone() const;
 
-	AndAcceptor(const AndAcceptor & theOther);
-	AndAcceptor(const Acceptor & theLhs, const Acceptor & theRhs);
-	virtual ~AndAcceptor() { delete itsLhs; delete itsRhs; }
-	virtual bool accept(float theValue) const;
-	virtual Acceptor * clone() const;
+ private:
+  AndAcceptor();
 
-  private:
-	
-	AndAcceptor();
+  Acceptor* itsLhs;
+  Acceptor* itsRhs;
 
-	Acceptor * itsLhs;
-	Acceptor * itsRhs;
+};  // class AndAcceptor
+}  // namespace TextGen
 
-  }; // class AndAcceptor
-} // namespace TextGen
-
-#endif // TEXTGEN_ANDACCEPTOR_H
+#endif  // TEXTGEN_ANDACCEPTOR_H
 
 // ======================================================================

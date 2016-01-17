@@ -14,33 +14,31 @@
 
 namespace TextGen
 {
-  class Dictionary;
+class Dictionary;
 
-  class Time : public Glyph
-  {
-  public:
-
-	virtual ~Time();
-	Time(const TextGenPosixTime& theTime);
+class Time : public Glyph
+{
+ public:
+  virtual ~Time();
+  Time(const TextGenPosixTime& theTime);
 #ifdef NO_COMPILER_GENERATED
-	Time(const Time& theTime);
-	Time & operator=(const Time& theTime);
+  Time(const Time& theTime);
+  Time& operator=(const Time& theTime);
 #endif
-	virtual boost::shared_ptr<Glyph> clone() const;
-	virtual std::string realize(const Dictionary & theDictionary) const;
-	virtual std::string realize(const TextFormatter & theFormatter) const;
-	virtual bool isDelimiter() const;
+  virtual boost::shared_ptr<Glyph> clone() const;
+  virtual std::string realize(const Dictionary& theDictionary) const;
+  virtual std::string realize(const TextFormatter& theFormatter) const;
+  virtual bool isDelimiter() const;
 
-	inline const TextGenPosixTime& nfmiTime() const { return itsTime; }
-  private:
+  inline const TextGenPosixTime& nfmiTime() const { return itsTime; }
+ private:
+  Time();
+  TextGenPosixTime itsTime;
 
-	Time();
-	TextGenPosixTime itsTime;
+};  // class Time
 
-  }; // class Time
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_TIME_H
+#endif  // TEXTGEN_TIME_H
 
 // ======================================================================

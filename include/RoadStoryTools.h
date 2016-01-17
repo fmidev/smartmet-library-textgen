@@ -10,12 +10,11 @@
 
 namespace TextGen
 {
-  namespace RoadStoryTools
-  {
+namespace RoadStoryTools
+{
+}  // namespace RoadStoryTools
+}  // namespace TextGen
 
-  } // namespace RoadStoryTools
-} // namespace TextGen
-
-#endif // TEXTGEN_ROADSTORYTOOLS_H
+#endif  // TEXTGEN_ROADSTORYTOOLS_H
 
 // ======================================================================

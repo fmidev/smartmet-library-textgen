@@ -12,28 +12,27 @@
 
 namespace TextGen
 {
-  class Sentence;
+class Sentence;
 
-  enum Units
-	{
-	  DegreesCelsius,
-	  MetersPerSecond,
-	  Millimeters,
-	  Percent,
-	  HectoPascal,
-	  Meters,
-	};
+enum Units
+{
+  DegreesCelsius,
+  MetersPerSecond,
+  Millimeters,
+  Percent,
+  HectoPascal,
+  Meters,
+};
 
-  namespace UnitFactory
-  {
+namespace UnitFactory
+{
+boost::shared_ptr<Sentence> create(Units theUnit);
+boost::shared_ptr<Sentence> create(Units theUnit, int value);
+boost::shared_ptr<Sentence> create_unit(Units theUnit, int value, bool isInterval = false);
 
-	boost::shared_ptr<Sentence> create(Units theUnit);
-	boost::shared_ptr<Sentence> create(Units theUnit, int value);
-	boost::shared_ptr<Sentence> create_unit(Units theUnit, int value, bool isInterval = false);
+}  // namespace NumberFactory
+}  // namespace TextGen
 
-  } // namespace NumberFactory
-} // namespace TextGen
-
-#endif // TEXTGEN_UNITFACTORY_H
+#endif  // TEXTGEN_UNITFACTORY_H
 
 // ======================================================================

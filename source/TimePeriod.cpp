@@ -20,80 +20,65 @@ using namespace boost;
 
 namespace TextGen
 {
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Destructor
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Destructor
+ */
+// ----------------------------------------------------------------------
 
-  TimePeriod::~TimePeriod()
-  {
-  }
+TimePeriod::~TimePeriod() {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ *
+ * \param thePeriod The period
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   *
-   * \param thePeriod The period
-   */
-  // ----------------------------------------------------------------------
+TimePeriod::TimePeriod(const WeatherPeriod& thePeriod) : itsPeriod(thePeriod) {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return a clone
+ */
+// ----------------------------------------------------------------------
 
-  TimePeriod::TimePeriod(const WeatherPeriod& thePeriod)
-	: itsPeriod(thePeriod)
-  {
-  }
+boost::shared_ptr<Glyph> TimePeriod::clone() const
+{
+  boost::shared_ptr<Glyph> ret(new TimePeriod(*this));
+  return ret;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return a clone
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Realize using the given dictionary
+ *
+ * \param theDictionary The dictionary to realize with
+ * \return The realized string
+ */
+// ----------------------------------------------------------------------
 
-  boost::shared_ptr<Glyph> TimePeriod::clone() const
-  {
-	boost::shared_ptr<Glyph> ret(new TimePeriod(*this));
-	return ret;
-  }
+std::string TimePeriod::realize(const Dictionary& theDictionary) const { return ""; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Realize using the given text formatter
+ *
+ * \param theFormatter The formatter
+ * \return The formatter string
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Realize using the given dictionary
-   *
-   * \param theDictionary The dictionary to realize with
-   * \return The realized string
-   */
-  // ----------------------------------------------------------------------
+std::string TimePeriod::realize(const TextFormatter& theFormatter) const
+{
+  return theFormatter.visit(*this);
+}
 
-  std::string TimePeriod::realize(const Dictionary & theDictionary) const
-  {
-	return "";
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Returns false since phrase is not a separator
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Realize using the given text formatter
-   *
-   * \param theFormatter The formatter
-   * \return The formatter string
-   */
-  // ----------------------------------------------------------------------
-
-  std::string TimePeriod::realize(const TextFormatter & theFormatter) const
-  {
-	return theFormatter.visit(*this);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Returns false since phrase is not a separator
-   */
-  // ----------------------------------------------------------------------
-
-  bool TimePeriod::isDelimiter() const
-  {
-	return false;
-  }
-
-} // namespace TextGen
+bool TimePeriod::isDelimiter() const { return false; }
+}  // namespace TextGen
 
 // ======================================================================

@@ -17,34 +17,25 @@
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+Acceptor* NullAcceptor::clone() const { return new NullAcceptor(*this); }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Accept or reject a value
+ *
+ * NullAcceptor accepts all values
+ *
+ * \param theValue The value to be accepted
+ * \return True if the value is accepted
+ */
+// ----------------------------------------------------------------------
 
-  Acceptor * NullAcceptor::clone() const
-  {
-	return new NullAcceptor(*this);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Accept or reject a value
-   *
-   * NullAcceptor accepts all values
-   *
-   * \param theValue The value to be accepted
-   * \return True if the value is accepted
-   */
-  // ----------------------------------------------------------------------
-
-  bool NullAcceptor::accept(float theValue) const
-  {
-	return true;
-  }
-
-} // namespace TextGen
+bool NullAcceptor::accept(float theValue) const { return true; }
+}  // namespace TextGen
 
 // ======================================================================

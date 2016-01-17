@@ -13,32 +13,30 @@
 
 namespace TextGen
 {
-  class Dictionary;
+class Dictionary;
 
-  class Phrase : public Glyph
-  {
-  public:
-
-	virtual ~Phrase();
-	Phrase(const std::string & theWord);
+class Phrase : public Glyph
+{
+ public:
+  virtual ~Phrase();
+  Phrase(const std::string& theWord);
 #ifdef NO_COMPILER_GENERATED
-	Phrase(const Phrase & thePhrase);
-	Phrase & operator=(const Phrase & thePhrase);
+  Phrase(const Phrase& thePhrase);
+  Phrase& operator=(const Phrase& thePhrase);
 #endif
-	virtual boost::shared_ptr<Glyph> clone() const;
-	virtual std::string realize(const Dictionary & theDictionary) const;
-	virtual std::string realize(const TextFormatter & theFormatter) const;
-	virtual bool isDelimiter() const;
+  virtual boost::shared_ptr<Glyph> clone() const;
+  virtual std::string realize(const Dictionary& theDictionary) const;
+  virtual std::string realize(const TextFormatter& theFormatter) const;
+  virtual bool isDelimiter() const;
 
-  private:
+ private:
+  Phrase();
+  std::string itsWord;
 
-	Phrase();
-	std::string itsWord;
+};  // class Phrase
 
-  }; // class Phrase
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_PHRASE_H
+#endif  // TEXTGEN_PHRASE_H
 
 // ======================================================================

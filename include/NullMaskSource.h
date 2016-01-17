@@ -12,31 +12,29 @@
 
 namespace TextGen
 {
-  class NullMaskSource : public MaskSource
-  {
-  public:
+class NullMaskSource : public MaskSource
+{
+ public:
+  typedef MaskSource::mask_type mask_type;
+  typedef MaskSource::masks_type masks_type;
 
-	typedef MaskSource::mask_type mask_type;
-	typedef MaskSource::masks_type masks_type;
+  NullMaskSource();
 
-	NullMaskSource();
+  virtual mask_type mask(const WeatherArea& theArea,
+                         const std::string& theData,
+                         const WeatherSource& theWeatherSource) const;
 
-	virtual mask_type mask(const WeatherArea & theArea,
-						   const std::string & theData,
-						   const WeatherSource & theWeatherSource) const;
-	
-	virtual masks_type masks(const WeatherArea & theArea,
-							 const std::string & theData,
-							 const WeatherSource & theWeatherSource) const;
+  virtual masks_type masks(const WeatherArea& theArea,
+                           const std::string& theData,
+                           const WeatherSource& theWeatherSource) const;
 
-  private:
+ private:
+  boost::shared_ptr<NFmiIndexMask> itsData;
 
-	boost::shared_ptr<NFmiIndexMask> itsData;
+};  // class NullMaskSource
 
-  }; // class NullMaskSource
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_NULLMASKSOURCE_H
+#endif  // TEXTGEN_NULLMASKSOURCE_H
 
 // ======================================================================

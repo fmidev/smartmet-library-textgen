@@ -14,35 +14,33 @@
 
 namespace TextGen
 {
-  class Dictionary;
+class Dictionary;
 
-  class TimePeriod : public Glyph
-  {
-  public:
-
-	virtual ~TimePeriod();
-	TimePeriod(const WeatherPeriod& thePeriod);
+class TimePeriod : public Glyph
+{
+ public:
+  virtual ~TimePeriod();
+  TimePeriod(const WeatherPeriod& thePeriod);
 #ifdef NO_COMPILER_GENERATED
-	TimePeriod(const TimePeriod& thePeriod);
-	TimePeriod & operator=(const WeatherPeriod & thePeriod);
+  TimePeriod(const TimePeriod& thePeriod);
+  TimePeriod& operator=(const WeatherPeriod& thePeriod);
 #endif
-	virtual boost::shared_ptr<Glyph> clone() const;
-	virtual std::string realize(const Dictionary & theDictionary) const;
-	virtual std::string realize(const TextFormatter & theFormatter) const;
-	virtual bool isDelimiter() const;
+  virtual boost::shared_ptr<Glyph> clone() const;
+  virtual std::string realize(const Dictionary& theDictionary) const;
+  virtual std::string realize(const TextFormatter& theFormatter) const;
+  virtual bool isDelimiter() const;
 
-	inline const TextGenPosixTime& localStartTime() const { return itsPeriod.localStartTime(); }
-	inline const TextGenPosixTime& localEndTime() const { return itsPeriod.localEndTime(); }
-	inline const WeatherPeriod& weatherPeriod() const { return itsPeriod; }
-  private:
+  inline const TextGenPosixTime& localStartTime() const { return itsPeriod.localStartTime(); }
+  inline const TextGenPosixTime& localEndTime() const { return itsPeriod.localEndTime(); }
+  inline const WeatherPeriod& weatherPeriod() const { return itsPeriod; }
+ private:
+  TimePeriod();
+  WeatherPeriod itsPeriod;
 
-	TimePeriod();
-	WeatherPeriod itsPeriod;
+};  // class TimePeriod
 
-  }; // class TimePeriod
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_TIME_PERIOD_H
+#endif  // TEXTGEN_TIME_PERIOD_H
 
 // ======================================================================

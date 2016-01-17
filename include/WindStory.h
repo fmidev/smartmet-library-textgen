@@ -13,53 +13,50 @@
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriod;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriod;
 }
 
 class TextGenPosixTime;
 
 namespace TextGen
 {
-  class Paragraph;
+class Paragraph;
 
-  class WindStory : public Story
-  {
+class WindStory : public Story
+{
+ public:
+  virtual ~WindStory();
+  WindStory(const TextGenPosixTime& theForecastTime,
+            const TextGen::AnalysisSources& theSources,
+            const TextGen::WeatherArea& theArea,
+            const TextGen::WeatherPeriod& thePeriod,
+            const std::string& theVariable);
 
-  public:
+  static bool hasStory(const std::string& theName);
+  virtual Paragraph makeStory(const std::string& theName) const;
 
-	virtual ~WindStory();
-	WindStory(const TextGenPosixTime & theForecastTime,
-			  const TextGen::AnalysisSources & theSources,
-			  const TextGen::WeatherArea & theArea,
-			  const TextGen::WeatherPeriod & thePeriod,
-			  const std::string & theVariable);
+ private:
+  WindStory();
+  WindStory(const WindStory& theStory);
+  WindStory& operator=(const WindStory& theStory);
 
-	static bool hasStory(const std::string & theName);
-	virtual Paragraph makeStory(const std::string & theName) const;
+  Paragraph simple_overview() const;
+  Paragraph overview() const;
+  Paragraph daily_ranges() const;
+  Paragraph range() const;
+  Paragraph anomaly() const;
 
-  private:
+  const TextGenPosixTime itsForecastTime;
+  const TextGen::AnalysisSources& itsSources;
+  const TextGen::WeatherArea& itsArea;
+  const TextGen::WeatherPeriod& itsPeriod;
+  const std::string itsVar;
 
-	WindStory();
-	WindStory(const WindStory & theStory);
-	WindStory & operator=(const WindStory & theStory);
-
-	Paragraph simple_overview() const;
-	Paragraph overview() const;
-	Paragraph daily_ranges() const;
-	Paragraph range() const;
-	Paragraph anomaly() const;
-
-	const TextGenPosixTime itsForecastTime;
-	const TextGen::AnalysisSources & itsSources;
-	const TextGen::WeatherArea & itsArea;
-	const TextGen::WeatherPeriod & itsPeriod;
-	const std::string itsVar;
-
-  }; // class WindStory
+};  // class WindStory
 }
 
-#endif // TEXTGEN_WINDSTORY_H
+#endif  // TEXTGEN_WINDSTORY_H
 
 // ======================================================================

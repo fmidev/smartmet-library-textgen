@@ -15,44 +15,41 @@
 
 namespace TextGen
 {
-  class WeatherPeriod;
+class WeatherPeriod;
 
-  class HourPeriodGenerator : public WeatherPeriodGenerator
-  {
-  public:
-	typedef WeatherPeriodGenerator::size_type size_type;
+class HourPeriodGenerator : public WeatherPeriodGenerator
+{
+ public:
+  typedef WeatherPeriodGenerator::size_type size_type;
 
-	HourPeriodGenerator(const WeatherPeriod & theMainPeriod,
-						int theStartHour,
-						int theEndHour,
-						int theMaxStartHour,
-						int theMinEndHour);
-	
-	HourPeriodGenerator(const WeatherPeriod & theMainPeriod,
-						const std::string & theVariable);
-	
-	virtual ~HourPeriodGenerator() { }
-	virtual bool undivided() const;
-	virtual size_type size() const;
-	virtual WeatherPeriod period() const;
-	virtual WeatherPeriod period(size_type thePeriod) const;
+  HourPeriodGenerator(const WeatherPeriod& theMainPeriod,
+                      int theStartHour,
+                      int theEndHour,
+                      int theMaxStartHour,
+                      int theMinEndHour);
 
-  private:
+  HourPeriodGenerator(const WeatherPeriod& theMainPeriod, const std::string& theVariable);
 
-	HourPeriodGenerator(void);
+  virtual ~HourPeriodGenerator() {}
+  virtual bool undivided() const;
+  virtual size_type size() const;
+  virtual WeatherPeriod period() const;
+  virtual WeatherPeriod period(size_type thePeriod) const;
 
-	const WeatherPeriod itsMainPeriod;
-	const int itsStartHour;
-	const int itsEndHour;
-	const int itsMaxStartHour;
-	const int itsMinEndHour;
-	const size_type itsSize;
+ private:
+  HourPeriodGenerator(void);
 
-  }; // class HourPeriodGenerator
+  const WeatherPeriod itsMainPeriod;
+  const int itsStartHour;
+  const int itsEndHour;
+  const int itsMaxStartHour;
+  const int itsMinEndHour;
+  const size_type itsSize;
 
-} // namespace TextGen
+};  // class HourPeriodGenerator
 
-#endif // TEXTGEN_HOURPERIODGENERATOR_H
+}  // namespace TextGen
+
+#endif  // TEXTGEN_HOURPERIODGENERATOR_H
 
 // ======================================================================
-

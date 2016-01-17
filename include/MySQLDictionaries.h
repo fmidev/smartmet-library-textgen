@@ -15,37 +15,35 @@
 
 namespace TextGen
 {
-  class MySQLDictionaries : public Dictionary
-  {
-  public:
+class MySQLDictionaries : public Dictionary
+{
+ public:
+  typedef Dictionary::size_type size_type;
 
-	typedef Dictionary::size_type size_type;
-
-	virtual ~MySQLDictionaries();
-	MySQLDictionaries();
+  virtual ~MySQLDictionaries();
+  MySQLDictionaries();
 #ifdef NO_COMPILER_OPTIMIZE
-	MySQLDictionaries(const MySQLDictionaries & theDict);
-	MySQLDictionaries & operator=(const MySQLDictionaries & theDict);
+  MySQLDictionaries(const MySQLDictionaries& theDict);
+  MySQLDictionaries& operator=(const MySQLDictionaries& theDict);
 #endif
 
-	virtual void init(const std::string & theLanguage);
-	virtual const std::string & language(void) const;
-	virtual bool contains(const std::string & theKey) const;
-	virtual const std::string & find(const std::string & theKey) const;
-	virtual void insert(const std::string & theKey, const std::string & thePhrase);
+  virtual void init(const std::string& theLanguage);
+  virtual const std::string& language(void) const;
+  virtual bool contains(const std::string& theKey) const;
+  virtual const std::string& find(const std::string& theKey) const;
+  virtual void insert(const std::string& theKey, const std::string& thePhrase);
 
-	virtual size_type size(void) const;
-	virtual bool empty(void) const;
+  virtual size_type size(void) const;
+  virtual bool empty(void) const;
 
-  private:
+ private:
+  class Pimple;
+  boost::shared_ptr<Pimple> itsPimple;
 
-	class Pimple;
-	boost::shared_ptr<Pimple> itsPimple;
+};  // class MySQLDictionaries
 
-  }; // class MySQLDictionaries
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_MYSQLDICTIONARIES_H
+#endif  // TEXTGEN_MYSQLDICTIONARIES_H
 
 // ======================================================================

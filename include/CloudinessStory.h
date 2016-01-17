@@ -14,47 +14,44 @@ class TextGenPosixTime;
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriod;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriod;
 }
 
 namespace TextGen
 {
-  class Paragraph;
+class Paragraph;
 
-  class CloudinessStory : public Story
-  {
+class CloudinessStory : public Story
+{
+ public:
+  virtual ~CloudinessStory();
+  CloudinessStory(const TextGenPosixTime& theForecastTime,
+                  const TextGen::AnalysisSources& theSources,
+                  const TextGen::WeatherArea& theArea,
+                  const TextGen::WeatherPeriod& thePeriod,
+                  const std::string& theVariable);
 
-  public:
+  static bool hasStory(const std::string& theName);
+  virtual Paragraph makeStory(const std::string& theName) const;
 
-	virtual ~CloudinessStory();
-	CloudinessStory(const TextGenPosixTime & theForecastTime,
-					const TextGen::AnalysisSources & theSources,
-					const TextGen::WeatherArea & theArea,
-					const TextGen::WeatherPeriod & thePeriod,
-					const std::string & theVariable);
+ private:
+  const Paragraph overview(void) const;
 
-	static bool hasStory(const std::string & theName);
-	virtual Paragraph makeStory(const std::string & theName) const;
+  CloudinessStory();
+  CloudinessStory(const CloudinessStory& theStory);
+  CloudinessStory& operator=(const CloudinessStory& theStory);
 
-  private:
+  const TextGenPosixTime itsForecastTime;
+  const TextGen::AnalysisSources& itsSources;
+  const TextGen::WeatherArea& itsArea;
+  const TextGen::WeatherPeriod& itsPeriod;
+  const std::string itsVar;
 
-	const Paragraph overview(void) const;
-
-	CloudinessStory();
-	CloudinessStory(const CloudinessStory & theStory);
-	CloudinessStory & operator=(const CloudinessStory & theStory);
-
-	const TextGenPosixTime itsForecastTime;
-	const TextGen::AnalysisSources & itsSources;
-	const TextGen::WeatherArea & itsArea;
-	const TextGen::WeatherPeriod & itsPeriod;
-	const std::string itsVar;
-
-  }; // class CloudinessStory
+};  // class CloudinessStory
 }
 
-#endif // TEXTGEN_CLOUDINESSSTORY_H
+#endif  // TEXTGEN_CLOUDINESSSTORY_H
 
 // ======================================================================

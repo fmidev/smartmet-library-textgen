@@ -13,49 +13,46 @@
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriod;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriod;
 }
 
 class TextGenPosixTime;
 
 namespace TextGen
 {
-  class Paragraph;
+class Paragraph;
 
-  class DewPointStory : public Story
-  {
+class DewPointStory : public Story
+{
+ public:
+  virtual ~DewPointStory();
+  DewPointStory(const TextGenPosixTime& theForecastTime,
+                const TextGen::AnalysisSources& theSources,
+                const TextGen::WeatherArea& theArea,
+                const TextGen::WeatherPeriod& thePeriod,
+                const std::string& theVariable);
 
-  public:
+  static bool hasStory(const std::string& theName);
+  virtual Paragraph makeStory(const std::string& theName) const;
 
-	virtual ~DewPointStory();
-	DewPointStory(const TextGenPosixTime & theForecastTime,
-				  const TextGen::AnalysisSources & theSources,
-				  const TextGen::WeatherArea & theArea,
-				  const TextGen::WeatherPeriod & thePeriod,
-				  const std::string & theVariable);
+ private:
+  Paragraph range() const;
 
-	static bool hasStory(const std::string & theName);
-	virtual Paragraph makeStory(const std::string & theName) const;
+  DewPointStory();
+  DewPointStory(const DewPointStory& theStory);
+  DewPointStory& operator=(const DewPointStory& theStory);
 
-  private:
+  const TextGenPosixTime itsForecastTime;
+  const TextGen::AnalysisSources& itsSources;
+  const TextGen::WeatherArea& itsArea;
+  const TextGen::WeatherPeriod& itsPeriod;
+  const std::string itsVar;
 
-	Paragraph range() const;
-
-	DewPointStory();
-	DewPointStory(const DewPointStory & theStory);
-	DewPointStory & operator=(const DewPointStory & theStory);
-
-	const TextGenPosixTime itsForecastTime;
-	const TextGen::AnalysisSources & itsSources;
-	const TextGen::WeatherArea & itsArea;
-	const TextGen::WeatherPeriod & itsPeriod;
-	const std::string itsVar;
-
-  }; // class DewPointStory
+};  // class DewPointStory
 }
 
-#endif // TEXTGEN_DEWPOINTSTORY_H
+#endif  // TEXTGEN_DEWPOINTSTORY_H
 
 // ======================================================================

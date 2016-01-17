@@ -27,129 +27,102 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Destructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Destructor
-   */
-  // ----------------------------------------------------------------------
+Real::~Real() {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  Real::~Real()
-  {
-  }
+Real::Real(float theReal, int thePrecision, bool theComma)
+    : itsReal(theReal), itsPrecision(thePrecision), itsComma(theComma)
+{
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return a clone
+ */
+// ----------------------------------------------------------------------
 
-  Real::Real(float theReal,
-			 int thePrecision,
-			 bool theComma)
-	: itsReal(theReal)
-	, itsPrecision(thePrecision)
-	, itsComma(theComma)
-  {
-  }
+boost::shared_ptr<Glyph> Real::clone() const
+{
+  boost::shared_ptr<Glyph> ret(new Real(*this));
+  return ret;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return a clone
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the text for the Real
+ *
+ * \param theDictionary The dictionary to be used
+ * \return The text
+ */
+// ----------------------------------------------------------------------
 
-  boost::shared_ptr<Glyph> Real::clone() const
-  {
-	boost::shared_ptr<Glyph> ret(new Real(*this));
-	return ret;
-  }
+std::string Real::realize(const Dictionary& theDictionary) const
+{
+  ostringstream os;
+  os << fixed << setprecision(itsPrecision) << itsReal;
+  string result = os.str();
+  if (!itsComma) NFmiStringTools::ReplaceChars(result, '.', ',');
+  return result;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the Real
-   *
-   * \param theDictionary The dictionary to be used
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the text for the number
+ *
+ * \param theFormatter The formatter
+ * \return The text
+ */
+// ----------------------------------------------------------------------
 
-  std::string Real::realize(const Dictionary & theDictionary) const
-  {
-	ostringstream os;
-	os << fixed
-	   << setprecision(itsPrecision)
-	   << itsReal;
-	string result = os.str();
-	if(!itsComma)
-	  NFmiStringTools::ReplaceChars(result,'.',',');
-	return result;
-  }
+std::string Real::realize(const TextFormatter& theFormatter) const
+{
+  return theFormatter.visit(*this);
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the number
-   *
-   * \param theFormatter The formatter
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Returns false since Real is not a separator
+ */
+// ----------------------------------------------------------------------
 
-  std::string Real::realize(const TextFormatter & theFormatter) const
-  {
-	return theFormatter.visit(*this);
-  }
+bool Real::isDelimiter() const { return false; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the value of the integer
+ *
+ * \return The integer
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Returns false since Real is not a separator
-   */
-  // ----------------------------------------------------------------------
+float Real::value() const { return itsReal; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the precision of the real
+ *
+ * \return The precision
+ */
+// ----------------------------------------------------------------------
 
-  bool Real::isDelimiter() const
-  {
-	return false;
-  }
+int Real::precision() const { return itsPrecision; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return true if comma is in use
+ *
+ * \return True, if comma is in use
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the value of the integer
-   *
-   * \return The integer
-   */
-  // ----------------------------------------------------------------------
-
-  float Real::value() const
-  {
-	return itsReal;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the precision of the real
-   *
-   * \return The precision
-   */
-  // ----------------------------------------------------------------------
-
-  int Real::precision() const
-  {
-	return itsPrecision;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return true if comma is in use
-   *
-   * \return True, if comma is in use
-   */
-  // ----------------------------------------------------------------------
-
-  bool Real::comma() const
-  {
-	return itsComma;
-  }
-
-} // namespace TextGen
+bool Real::comma() const { return itsComma; }
+}  // namespace TextGen
 
 // ======================================================================

@@ -13,18 +13,19 @@
 
 namespace TextGen
 {
-  class TextGenError : public std::exception
-  {
-  public:
-	~TextGenError() throw() { }
-	TextGenError(const std::string & theError);
-	virtual const char * what(void) const throw();
-  private:
-	std::string itsError;
+class TextGenError : public std::exception
+{
+ public:
+  ~TextGenError() throw() {}
+  TextGenError(const std::string& theError);
+  virtual const char* what(void) const throw();
 
-  }; // class TextGenError
-} // namespace TextGen
+ private:
+  std::string itsError;
 
-#endif // TEXTGEN_TEXTGENERROR_H
+};  // class TextGenError
+}  // namespace TextGen
+
+#endif  // TEXTGEN_TEXTGENERROR_H
 
 // ======================================================================

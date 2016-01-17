@@ -28,98 +28,94 @@ using namespace std;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+StandardDeviationCalculator::StandardDeviationCalculator()
+    : itsAcceptor(new DefaultAcceptor()), itsCounter(0), itsSum(0), itsSquaredSum(0)
+{
+}
 
-  StandardDeviationCalculator::StandardDeviationCalculator()
-	: itsAcceptor(new DefaultAcceptor())
-	, itsCounter(0)
-	, itsSum(0)
-	, itsSquaredSum(0)
+// ----------------------------------------------------------------------
+/*!
+ * \brief Integrate a new value
+ *
+ * \param theValue
+ */
+// ----------------------------------------------------------------------
+
+void StandardDeviationCalculator::operator()(float theValue)
+{
+  if (itsAcceptor->accept(theValue))
   {
+    ++itsCounter;
+    itsSum += theValue;
+    itsSquaredSum += theValue * theValue;
   }
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Integrate a new value
-   *
-   * \param theValue
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the integrated value
+ *
+ * \return The integrated sum value
+ */
+// ----------------------------------------------------------------------
 
-  void StandardDeviationCalculator::operator()(float theValue)
+float StandardDeviationCalculator::operator()() const
+{
+  if (itsCounter < 2)
+    return kFloatMissing;
+  else
   {
-	if(itsAcceptor->accept(theValue))
-	  {
-		++itsCounter;
-		itsSum += theValue;
-		itsSquaredSum += theValue*theValue;
-	  }
+    const double tmp = itsSquaredSum - itsSum * itsSum / itsCounter;
+    if (tmp < 0)
+      return 0.0;
+    else
+      return sqrt(tmp / (itsCounter - 1));
   }
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the integrated value
-   *
-   * \return The integrated sum value
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set the internal acceptor
+ *
+ * \param theAcceptor The acceptor to be used
+ */
+// ----------------------------------------------------------------------
 
-  float StandardDeviationCalculator::operator()() const
-  {
-	if(itsCounter<2)
-	  return kFloatMissing;
-	else
-	  {
-		const double tmp = itsSquaredSum-itsSum*itsSum/itsCounter;
-		if(tmp < 0)
-		  return 0.0;
-		else
-		  return sqrt(tmp/(itsCounter-1));
-	  }
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the internal acceptor
-   *
-   * \param theAcceptor The acceptor to be used
-   */
-  // ----------------------------------------------------------------------
+void StandardDeviationCalculator::acceptor(const Acceptor& theAcceptor)
+{
+  itsAcceptor = boost::shared_ptr<Acceptor>(theAcceptor.clone());
+}
 
-  void StandardDeviationCalculator::acceptor(const Acceptor & theAcceptor)
-  {
-	itsAcceptor = boost::shared_ptr<Acceptor>(theAcceptor.clone());
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+boost::shared_ptr<Calculator> StandardDeviationCalculator::clone() const
+{
+  return boost::shared_ptr<Calculator>(new StandardDeviationCalculator(*this));
+}
 
-  boost::shared_ptr<Calculator> StandardDeviationCalculator::clone() const
-  {
-	return boost::shared_ptr<Calculator>(new StandardDeviationCalculator(*this));
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Reset
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Reset
-   */
-  // ----------------------------------------------------------------------
+void StandardDeviationCalculator::reset()
+{
+  itsCounter = 0;
+  itsSum = 0;
+  itsSquaredSum = 0;
+}
 
-  void StandardDeviationCalculator::reset()
-  {
-	itsCounter = 0;
-	itsSum = 0;
-	itsSquaredSum = 0;
-  }
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

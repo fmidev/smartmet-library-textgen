@@ -17,78 +17,57 @@
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+RangeAcceptor::RangeAcceptor() : itsLoLimit(kFloatMissing), itsHiLimit(kFloatMissing) {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  RangeAcceptor::RangeAcceptor()
-	: itsLoLimit(kFloatMissing)
-	, itsHiLimit(kFloatMissing)
-  {
-  }
+Acceptor* RangeAcceptor::clone() const { return new RangeAcceptor(*this); }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Accept or reject a value
+ *
+ * The value kFloatMissing is never accepted.
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+ * \param theValue The value to be accepted
+ * \return True if the value is accepted
+ */
+// ----------------------------------------------------------------------
 
-  Acceptor * RangeAcceptor::clone() const
-  {
-	return new RangeAcceptor(*this);
-  }
+bool RangeAcceptor::accept(float theValue) const
+{
+  if (theValue == kFloatMissing) return false;
+  if (itsLoLimit != kFloatMissing && theValue < itsLoLimit) return false;
+  if (itsHiLimit != kFloatMissing && theValue > itsHiLimit) return false;
+  return true;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Accept or reject a value
-   *
-   * The value kFloatMissing is never accepted.
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set a lower limit for acceptable values
+ *
+ * \param theLimit The limiting value
+ */
+// ----------------------------------------------------------------------
 
-   * \param theValue The value to be accepted
-   * \return True if the value is accepted
-   */
-  // ----------------------------------------------------------------------
+void RangeAcceptor::lowerLimit(float theLimit) { itsLoLimit = theLimit; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set an upper limit for acceptable values
+ *
+ * \param theLimit The limiting value
+ */
+// ----------------------------------------------------------------------
 
-  bool RangeAcceptor::accept(float theValue) const
-  {
-	if(theValue == kFloatMissing)
-	  return false;
-	if(itsLoLimit != kFloatMissing && theValue < itsLoLimit)
-	  return false;
-	if(itsHiLimit != kFloatMissing && theValue > itsHiLimit)
-	  return false;
-	return true;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set a lower limit for acceptable values
-   *
-   * \param theLimit The limiting value
-   */
-  // ----------------------------------------------------------------------
-
-  void RangeAcceptor::lowerLimit(float theLimit)
-  {
-	itsLoLimit = theLimit;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set an upper limit for acceptable values
-   *
-   * \param theLimit The limiting value
-   */
-  // ----------------------------------------------------------------------
-
-  void RangeAcceptor::upperLimit(float theLimit)
-  {
-	itsHiLimit = theLimit;
-  }
-
-} // namespace TextGen
+void RangeAcceptor::upperLimit(float theLimit) { itsHiLimit = theLimit; }
+}  // namespace TextGen
 
 // ======================================================================

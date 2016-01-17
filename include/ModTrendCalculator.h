@@ -14,36 +14,34 @@
 
 namespace TextGen
 {
-  class ModTrendCalculator : public Calculator
-  {
-  public:
+class ModTrendCalculator : public Calculator
+{
+ public:
+  ModTrendCalculator(int theModulo);
+  virtual ~ModTrendCalculator() {}
+  virtual void operator()(float theValue);
+  virtual float operator()() const;
+  virtual void acceptor(const Acceptor& theAcceptor);
+  virtual boost::shared_ptr<Calculator> clone() const;
+  virtual void reset();
 
-	ModTrendCalculator(int theModulo);
-	virtual ~ModTrendCalculator() { }
-	virtual void operator()(float theValue);
-	virtual float operator()() const;
-	virtual void acceptor(const Acceptor & theAcceptor);
-	virtual boost::shared_ptr<Calculator> clone() const;
-	virtual void reset();
+ private:
+  ModTrendCalculator();
 
-  private:
+  boost::shared_ptr<Acceptor> itsAcceptor;
+  const int itsModulo;
 
-	ModTrendCalculator();
+  unsigned long itsCounter;
+  unsigned long itsPositiveChanges;
+  unsigned long itsNegativeChanges;
+  unsigned long itsZeroChanges;
 
-	boost::shared_ptr<Acceptor> itsAcceptor;
-	const int itsModulo;
+  float itsLastValue;
 
-	unsigned long itsCounter;
-	unsigned long itsPositiveChanges;
-	unsigned long itsNegativeChanges;
-	unsigned long itsZeroChanges;
+};  // class ModTrendCalculator
 
-	float itsLastValue;
+}  // namespace TextGen
 
-  }; // class ModTrendCalculator
-
-} // namespace TextGen
-
-#endif // TEXTGEN_MODTRENDCALCULATOR_H
+#endif  // TEXTGEN_MODTRENDCALCULATOR_H
 
 // ======================================================================

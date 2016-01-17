@@ -14,42 +14,39 @@
 
 namespace TextGen
 {
-  class Dictionary;
+class Dictionary;
 
-  class IntegerRange : public Glyph
-  {
-  public:
-
-	virtual ~IntegerRange();
-	explicit IntegerRange(int theStartValue, int theEndValue, const std::string & theSeparator = "-");
+class IntegerRange : public Glyph
+{
+ public:
+  virtual ~IntegerRange();
+  explicit IntegerRange(int theStartValue, int theEndValue, const std::string& theSeparator = "-");
 #ifdef NO_COMPILER_GENERATED
-	IntegerRange(const IntegerRange & theIntegerRange);
-	IntegerRange & operator=(const IntegerRange & theIntegerRange);
+  IntegerRange(const IntegerRange& theIntegerRange);
+  IntegerRange& operator=(const IntegerRange& theIntegerRange);
 #endif
 
-	virtual boost::shared_ptr<Glyph> clone() const;
-	virtual std::string realize(const Dictionary & theDictionary) const;
-	virtual std::string realize(const TextFormatter & theFormatter) const;
+  virtual boost::shared_ptr<Glyph> clone() const;
+  virtual std::string realize(const Dictionary& theDictionary) const;
+  virtual std::string realize(const TextFormatter& theFormatter) const;
 
-	virtual bool isDelimiter() const;
+  virtual bool isDelimiter() const;
 
-	const std::string & rangeSeparator() const;
-	int startValue() const;
-	int endValue() const;
+  const std::string& rangeSeparator() const;
+  int startValue() const;
+  int endValue() const;
 
-  protected:
+ protected:
+  std::string itsRangeSeparator;
+  int itsStartValue;
+  int itsEndValue;
 
-	std::string itsRangeSeparator;
-	int itsStartValue;
-	int itsEndValue;
+ private:
+  IntegerRange();
 
-  private:
+};  // class IntegerRange
+}  // namespace IntegerRange
 
-	IntegerRange();
-
-  }; // class IntegerRange
-} // namespace IntegerRange
-
-#endif // TEXTGEN_INTEGER_H
+#endif  // TEXTGEN_INTEGER_H
 
 // ======================================================================

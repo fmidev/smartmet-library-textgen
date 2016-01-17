@@ -16,75 +16,71 @@ using namespace boost;
 
 namespace LocationSourceTest
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test hasCoordinates
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test hasCoordinates
-   */
-  // ----------------------------------------------------------------------
+void hascoordinates()
+{
+  using TextGen::LocationSource;
 
-  void hascoordinates()
+  if (LocationSource::instance().hasCoordinates("foobar"))
+    TEST_FAILED("Location foobar should not have coordinates");
+
+  if (!LocationSource::instance().hasCoordinates("Helsinki"))
+    TEST_FAILED("Location Helsinki should have coordinates");
+
+  TEST_PASSED();
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test coordinates
+ */
+// ----------------------------------------------------------------------
+
+void coordinates()
+{
+  using TextGen::LocationSource;
+
+  try
   {
-	using TextGen::LocationSource;
-
-	if(LocationSource::instance().hasCoordinates("foobar"))
-	  TEST_FAILED("Location foobar should not have coordinates");
-
-	if(!LocationSource::instance().hasCoordinates("Helsinki"))
-	  TEST_FAILED("Location Helsinki should have coordinates");
-
-	TEST_PASSED();
-
+    LocationSource::instance().coordinates("foobar");
+    TEST_FAILED("Location foobar should not have coordinates");
+  }
+  catch (...)
+  {
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test coordinates
-   */
-  // ----------------------------------------------------------------------
-
-  void coordinates()
+  try
   {
-	using TextGen::LocationSource;
-
-	try
-	  {
-		LocationSource::instance().coordinates("foobar");
-		TEST_FAILED("Location foobar should not have coordinates");
-	  }
-	catch(...) { }
-
-	try
-	  {
-		LocationSource::instance().coordinates("Helsinki");
-	  }
-	catch(...)
-	  { TEST_FAILED("Location Helsinki should have coordinates"); }
-
-	TEST_PASSED();
-
+    LocationSource::instance().coordinates("Helsinki");
+  }
+  catch (...)
+  {
+    TEST_FAILED("Location Helsinki should have coordinates");
   }
 
-  //! The actual test driver
-  class tests : public tframe::tests
+  TEST_PASSED();
+}
+
+//! The actual test driver
+class tests : public tframe::tests
+{
+  //! Overridden message separator
+  virtual const char* error_message_prefix() const { return "\n\t"; }
+  //! Main test suite
+  void test(void)
   {
-	//! Overridden message separator
-	virtual const char * error_message_prefix() const
-	{
-	  return "\n\t";
-	}
+    TEST(hascoordinates);
+    TEST(coordinates);
+  }
 
-	//! Main test suite
-	void test(void)
-	{
-	  TEST(hascoordinates);
-	  TEST(coordinates);
-	}
+};  // class tests
 
-  }; // class tests
-
-} // namespace LocationSourceTest
-
+}  // namespace LocationSourceTest
 
 int main(void)
 {
@@ -92,12 +88,10 @@ int main(void)
   std::locale::global(generator(""));
 
   NFmiSettings::Init();
-  NFmiSettings::Set("textgen::database","textgen2");
+  NFmiSettings::Set("textgen::database", "textgen2");
   Settings::set(NFmiSettings::ToString());
 
-  cout << endl
-	   << "LocationSource tester" << endl
-	   << "=====================" << endl;
+  cout << endl << "LocationSource tester" << endl << "=====================" << endl;
   LocationSourceTest::tests t;
   return t.run();
 }

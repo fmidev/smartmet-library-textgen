@@ -32,53 +32,49 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Analyze weather climatology for area
+ *
+ * \param theSources Analysis sources
+ * \param theParameter The weather phenomenon to analyze
+ * \param theAreaFunction The area function
+ * \param theTimeFunction The time function
+ * \param theSubTimeFunction The time function for subperiods
+ * \param theArea The name of the area to analyze
+ * \param thePeriods The time period to analyze
+ * \param theAreaAcceptor The weather data acceptor in area integration
+ * \param theTimeAcceptor The weather data acceptor in time integration
+ * \param theTester The acceptor for Percentage calculations
+ * \return The result of the analysis
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Analyze weather climatology for area
-   *
-   * \param theSources Analysis sources
-   * \param theParameter The weather phenomenon to analyze
-   * \param theAreaFunction The area function
-   * \param theTimeFunction The time function
-   * \param theSubTimeFunction The time function for subperiods
-   * \param theArea The name of the area to analyze
-   * \param thePeriods The time period to analyze
-   * \param theAreaAcceptor The weather data acceptor in area integration
-   * \param theTimeAcceptor The weather data acceptor in time integration
-   * \param theTester The acceptor for Percentage calculations
-   * \return The result of the analysis
-   */
-  // ----------------------------------------------------------------------
+WeatherResult GridClimatology::analyze(const AnalysisSources& theSources,
+                                       const WeatherParameter& theParameter,
+                                       const WeatherFunction& theAreaFunction,
+                                       const WeatherFunction& theTimeFunction,
+                                       const WeatherFunction& theSubTimeFunction,
+                                       const WeatherArea& theArea,
+                                       const WeatherPeriodGenerator& thePeriods,
+                                       const Acceptor& theAreaAcceptor,
+                                       const Acceptor& theTimeAcceptor,
+                                       const Acceptor& theTester) const
+{
+  shared_ptr<ParameterAnalyzer> analyzer(ParameterAnalyzerFactory::create(theParameter));
 
-  WeatherResult
-  GridClimatology::analyze(const AnalysisSources & theSources,
-						  const WeatherParameter & theParameter,
-						  const WeatherFunction & theAreaFunction,
-						  const WeatherFunction & theTimeFunction,
-						  const WeatherFunction & theSubTimeFunction,
-						  const WeatherArea & theArea,
-						  const WeatherPeriodGenerator & thePeriods,
-						  const Acceptor & theAreaAcceptor,
-						  const Acceptor & theTimeAcceptor,
-						  const Acceptor & theTester) const
-  {
+  return analyzer->analyze(theSources,
+                           Climatology,
+                           theAreaFunction,
+                           theTimeFunction,
+                           theSubTimeFunction,
+                           theArea,
+                           thePeriods,
+                           theAreaAcceptor,
+                           theTimeAcceptor,
+                           theTester);
+}
 
-	shared_ptr<ParameterAnalyzer> analyzer(ParameterAnalyzerFactory::create(theParameter));
-
-	return analyzer->analyze(theSources,
-							 Climatology,
-							 theAreaFunction,
-							 theTimeFunction,
-							 theSubTimeFunction,
-							 theArea,
-							 thePeriods,
-							 theAreaAcceptor,
-							 theTimeAcceptor,
-							 theTester);
-  }
-
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

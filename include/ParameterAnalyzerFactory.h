@@ -13,14 +13,13 @@
 
 namespace TextGen
 {
-  namespace ParameterAnalyzerFactory
-  {
-	ParameterAnalyzer * create(TextGen::WeatherParameter theParameter);
+namespace ParameterAnalyzerFactory
+{
+ParameterAnalyzer* create(TextGen::WeatherParameter theParameter);
 
-  } // namespace ParameterAnalyzerFactory
-} // namespace TextGen
+}  // namespace ParameterAnalyzerFactory
+}  // namespace TextGen
 
-#endif // TEXTGEN_PARAMETERANALYZERFACTORY_H
+#endif  // TEXTGEN_PARAMETERANALYZERFACTORY_H
 
 // ======================================================================
-

@@ -13,28 +13,26 @@
 
 namespace TextGen
 {
-  class MaximumCalculator : public Calculator
-  {
-  public:
+class MaximumCalculator : public Calculator
+{
+ public:
+  MaximumCalculator();
+  virtual ~MaximumCalculator() {}
+  virtual void operator()(float theValue);
+  virtual float operator()() const;
+  virtual void acceptor(const Acceptor& theAcceptor);
+  virtual boost::shared_ptr<Calculator> clone() const;
+  virtual void reset();
 
-	MaximumCalculator();
-	virtual ~MaximumCalculator() { }
-	virtual void operator()(float theValue);
-	virtual float operator()() const;
-	virtual void acceptor(const Acceptor & theAcceptor);
-	virtual boost::shared_ptr<Calculator> clone() const;
-	virtual void reset();
+ private:
+  boost::shared_ptr<Acceptor> itsAcceptor;
+  long itsCounter;
+  float itsMaximum;
 
-  private:
+};  // class MaximumCalculator
 
-	boost::shared_ptr<Acceptor> itsAcceptor;
-	long itsCounter;
-	float itsMaximum;
+}  // namespace TextGen
 
-  }; // class MaximumCalculator
-
-} // namespace TextGen
-
-#endif // TEXTGEN_MAXIMUMCALCULATOR_H
+#endif  // TEXTGEN_MAXIMUMCALCULATOR_H
 
 // ======================================================================

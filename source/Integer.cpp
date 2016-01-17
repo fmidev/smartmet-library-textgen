@@ -24,94 +24,78 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Destructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Destructor
-   */
-  // ----------------------------------------------------------------------
+Integer::~Integer() {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  Integer::~Integer()
-  {
-  }
+Integer::Integer(int theInteger) : itsInteger(theInteger) {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return a clone
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+boost::shared_ptr<Glyph> Integer::clone() const
+{
+  boost::shared_ptr<Glyph> ret(new Integer(*this));
+  return ret;
+}
 
-  Integer::Integer(int theInteger)
-	: itsInteger(theInteger)
-  {
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the text for the Integer
+ *
+ * \param theDictionary The dictionary to be used
+ * \return The text
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return a clone
-   */
-  // ----------------------------------------------------------------------
+std::string Integer::realize(const Dictionary& theDictionary) const
+{
+  ostringstream os;
+  os << itsInteger;
+  return os.str();
+}
 
-  boost::shared_ptr<Glyph> Integer::clone() const
-  {
-	boost::shared_ptr<Glyph> ret(new Integer(*this));
-	return ret;
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the text for the number
+ *
+ * \param theFormatter The formatter
+ * \return The text
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the Integer
-   *
-   * \param theDictionary The dictionary to be used
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
+std::string Integer::realize(const TextFormatter& theFormatter) const
+{
+  return theFormatter.visit(*this);
+}
 
-  std::string Integer::realize(const Dictionary & theDictionary) const
-  {
-	ostringstream os;
-	os << itsInteger;
-	return os.str();
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Returns false since Integer is not a separator
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the number
-   *
-   * \param theFormatter The formatter
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
+bool Integer::isDelimiter() const { return false; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the value of the integer
+ *
+ * \return The integer
+ */
+// ----------------------------------------------------------------------
 
-  std::string Integer::realize(const TextFormatter & theFormatter) const
-  {
-	return theFormatter.visit(*this);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Returns false since Integer is not a separator
-   */
-  // ----------------------------------------------------------------------
-
-  bool Integer::isDelimiter() const
-  {
-	return false;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the value of the integer
-   *
-   * \return The integer
-   */
-  // ----------------------------------------------------------------------
-
-  int Integer::value() const
-  {
-	return itsInteger;
-  }
-
-} // namespace TextGen
+int Integer::value() const { return itsInteger; }
+}  // namespace TextGen
 
 // ======================================================================

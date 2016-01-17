@@ -36,45 +36,36 @@ using namespace boost;
 
 namespace TextGen
 {
-  namespace TextFormatterFactory
-  {
+namespace TextFormatterFactory
+{
+// ----------------------------------------------------------------------
+/*!
+ * \brief Create a text formatter of given type
+ *
+ * The available formatters are
+ *
+ *    - plain for plain text
+ *    - html for html
+ *
+ * \param theType The type of the text formatter
+ * \return An uninitialized text formatter
+ */
+// ----------------------------------------------------------------------
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Create a text formatter of given type
-	 *
-	 * The available formatters are
-	 *
-	 *    - plain for plain text
-	 *    - html for html
-	 *
-	 * \param theType The type of the text formatter
-	 * \return An uninitialized text formatter
-	 */
-	// ----------------------------------------------------------------------
-	
-	TextFormatter * create(const std::string & theType)
-	{
-	  if(theType == "plain")
-		return new PlainTextFormatter();
-	  if(theType == "plainlines")
-		return new PlainLinesTextFormatter();
-	  if(theType == "html")
-		return new HtmlTextFormatter();
-	  if(theType == "css")
-		return new CssTextFormatter();
-	  if(theType == "speechtext")
-		return new SpeechTextFormatter();
-	  if(theType == "wml")
-		return new WmlTextFormatter();
-	  if(theType == "sonera")
-		return new SoneraTextFormatter();
-	  if(theType == "debug")
-		return new DebugTextFormatter();
-	  throw TextGenError("Error: Unknown text formatter type "+theType);
-	}
+TextFormatter* create(const std::string& theType)
+{
+  if (theType == "plain") return new PlainTextFormatter();
+  if (theType == "plainlines") return new PlainLinesTextFormatter();
+  if (theType == "html") return new HtmlTextFormatter();
+  if (theType == "css") return new CssTextFormatter();
+  if (theType == "speechtext") return new SpeechTextFormatter();
+  if (theType == "wml") return new WmlTextFormatter();
+  if (theType == "sonera") return new SoneraTextFormatter();
+  if (theType == "debug") return new DebugTextFormatter();
+  throw TextGenError("Error: Unknown text formatter type " + theType);
+}
 
-  } // namespace TextFormatterFactory
-} // namespace TextGen
+}  // namespace TextFormatterFactory
+}  // namespace TextGen
 
 // ======================================================================

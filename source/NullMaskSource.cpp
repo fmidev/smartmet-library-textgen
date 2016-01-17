@@ -28,55 +28,47 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+NullMaskSource::NullMaskSource() : itsData(new NFmiIndexMask()) {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the mask for the given area
+ *
+ * \param theArea The weather area
+ * \param theData The data name
+ * \param theWeatherSource The source for weather data
+ */
+// ----------------------------------------------------------------------
 
-  NullMaskSource::NullMaskSource()
-	: itsData(new NFmiIndexMask())
-  {
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the mask for the given area
-   *
-   * \param theArea The weather area
-   * \param theData The data name
-   * \param theWeatherSource The source for weather data
-   */
-  // ----------------------------------------------------------------------
+NullMaskSource::mask_type NullMaskSource::mask(const WeatherArea& theArea,
+                                               const std::string& theData,
+                                               const WeatherSource& theWeatherSource) const
+{
+  return itsData;
+}
 
-  NullMaskSource::mask_type
-  NullMaskSource::mask(const WeatherArea & theArea,
-					   const std::string & theData,
-					   const WeatherSource & theWeatherSource) const
-  {
-	return itsData;
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the mask source for the given area
+ *
+ * \param theArea The weather area
+ * \param theData The data name
+ * \param theWeatherSource The source for weather data
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the mask source for the given area
-   *
-   * \param theArea The weather area
-   * \param theData The data name
-   * \param theWeatherSource The source for weather data
-   */
-  // ----------------------------------------------------------------------
+NullMaskSource::masks_type NullMaskSource::masks(const WeatherArea& theArea,
+                                                 const std::string& theData,
+                                                 const WeatherSource& theWeatherSource) const
+{
+  throw TextGenError("NullMaskSource::masks not implemented");
+}
 
-  NullMaskSource::masks_type
-  NullMaskSource::masks(const WeatherArea & theArea,
-						   const std::string & theData,
-						   const WeatherSource & theWeatherSource) const
-  {
-	throw TextGenError("NullMaskSource::masks not implemented");
-  }
-
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

@@ -15,42 +15,39 @@ class TextGenPosixTime;
 
 namespace TextGen
 {
-  class WeatherArea;
-  class AnalysisSources;
+class WeatherArea;
+class AnalysisSources;
 }
 
 namespace TextGen
 {
-  class Document;
+class Document;
 
-  class TextGenerator
-  {
-  public:
-
-	TextGenerator();
-	TextGenerator(const TextGen::WeatherArea& theLandMaskArea,
-				  const TextGen::WeatherArea& theCoastMaskArea);
+class TextGenerator
+{
+ public:
+  TextGenerator();
+  TextGenerator(const TextGen::WeatherArea& theLandMaskArea,
+                const TextGen::WeatherArea& theCoastMaskArea);
 #ifdef NO_COMPILER_GENERATOR
-	~TextGenerator();
-	TextGenerator(const TextGenerator & theGenerator);
-	TextGenerator & operator=(const TextGenerator & theGenerator);
+  ~TextGenerator();
+  TextGenerator(const TextGenerator& theGenerator);
+  TextGenerator& operator=(const TextGenerator& theGenerator);
 #endif
 
-	const TextGenPosixTime & time() const;
-	void time(const TextGenPosixTime & theForecastTime);
-	void sources(const TextGen::AnalysisSources & theSources);
+  const TextGenPosixTime& time() const;
+  void time(const TextGenPosixTime& theForecastTime);
+  void sources(const TextGen::AnalysisSources& theSources);
 
-	Document generate(const TextGen::WeatherArea & theArea) const;
+  Document generate(const TextGen::WeatherArea& theArea) const;
 
-  private:
+ private:
+  class Pimple;
+  boost::shared_ptr<Pimple> itsPimple;
 
-	class Pimple;
-	boost::shared_ptr<Pimple> itsPimple;
+};  // class TextGenerator
+}  // namespace TextGen
 
-  }; // class TextGenerator
-} // namespace TextGen
-
-#endif // TEXTGEN_TEXTGENERATOR_H
+#endif  // TEXTGEN_TEXTGENERATOR_H
 
 // ======================================================================
-

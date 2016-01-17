@@ -15,45 +15,42 @@ class TextGenPosixTime;
 
 namespace TextGen
 {
-  class Paragraph;
+class Paragraph;
 
-  class FrostStory : public Story
-  {
+class FrostStory : public Story
+{
+ public:
+  virtual ~FrostStory();
+  FrostStory(const TextGenPosixTime& theForecastTime,
+             const TextGen::AnalysisSources& theSources,
+             const TextGen::WeatherArea& theArea,
+             const TextGen::WeatherPeriod& thePeriod,
+             const std::string& theVariable);
 
-  public:
+  static bool hasStory(const std::string& theName);
+  virtual Paragraph makeStory(const std::string& theName) const;
 
-	virtual ~FrostStory();
-	FrostStory(const TextGenPosixTime & theForecastTime,
-			   const TextGen::AnalysisSources & theSources,
-			   const TextGen::WeatherArea & theArea,
-			   const TextGen::WeatherPeriod & thePeriod,
-			   const std::string & theVariable);
+ private:
+  Paragraph mean() const;
+  Paragraph maximum() const;
+  Paragraph range() const;
+  Paragraph twonights() const;
+  Paragraph onenight() const;
+  Paragraph day() const;
 
-	static bool hasStory(const std::string & theName);
-	virtual Paragraph makeStory(const std::string & theName) const;
+  FrostStory();
+  FrostStory(const FrostStory& theStory);
+  FrostStory& operator=(const FrostStory& theStory);
 
-  private:
+  const TextGenPosixTime itsForecastTime;
+  const TextGen::AnalysisSources& itsSources;
+  const TextGen::WeatherArea& itsArea;
+  const TextGen::WeatherPeriod& itsPeriod;
+  const std::string itsVar;
 
-	Paragraph mean() const;
-	Paragraph maximum() const;
-	Paragraph range() const;
-	Paragraph twonights() const;
-	Paragraph onenight() const;
-	Paragraph day() const;
-
-	FrostStory();
-	FrostStory(const FrostStory & theStory);
-	FrostStory & operator=(const FrostStory & theStory);
-
-	const TextGenPosixTime itsForecastTime;
-	const TextGen::AnalysisSources & itsSources;
-	const TextGen::WeatherArea & itsArea;
-	const TextGen::WeatherPeriod & itsPeriod;
-	const std::string itsVar;
-
-  }; // class FrostStory
+};  // class FrostStory
 }
 
-#endif // TEXTGEN_FROSTSTORY_H
+#endif  // TEXTGEN_FROSTSTORY_H
 
 // ======================================================================

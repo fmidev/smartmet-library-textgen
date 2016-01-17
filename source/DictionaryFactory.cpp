@@ -35,32 +35,26 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Create a dictionary of given type
+ *
+ * \param theType The type of the dictionary (null|basic|mysql)
+ * \return An uninitialized dictionary
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Create a dictionary of given type
-   *
-   * \param theType The type of the dictionary (null|basic|mysql)
-   * \return An uninitialized dictionary
-   */
-  // ----------------------------------------------------------------------
+Dictionary* DictionaryFactory::create(const std::string& theType)
+{
+  if (theType == "null") return new NullDictionary();
+  if (theType == "basic") return new BasicDictionary();
+  if (theType == "file") return new FileDictionary();
+  if (theType == "mysql") return new MySQLDictionary();
+  if (theType == "multimysql") return new MySQLDictionaries();
 
-  Dictionary * DictionaryFactory::create(const std::string & theType)
-  {
-	if(theType == "null")
-	  return new NullDictionary();
-	if(theType == "basic")
-	  return new BasicDictionary();
-	if(theType == "file")
-	  return new FileDictionary();
-	if(theType == "mysql")
-	  return new MySQLDictionary();
-	if(theType == "multimysql")
-	  return new MySQLDictionaries();
-	  
-	throw TextGenError("Error: Unknown dictionary type "+theType);
-  }
- 
-} // namespace TextGen
+  throw TextGenError("Error: Unknown dictionary type " + theType);
+}
+
+}  // namespace TextGen
 
 // ======================================================================

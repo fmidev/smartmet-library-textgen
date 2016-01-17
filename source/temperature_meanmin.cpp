@@ -21,53 +21,45 @@ using namespace std;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Generate story on mean minimum temperature
+ *
+ * Throws if the weather period does not evenly divide into 24 hour
+ * segments.
+ *
+ * \return The story
+ *
+ * \see page_temperature_meanmin
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Generate story on mean minimum temperature
-   *
-   * Throws if the weather period does not evenly divide into 24 hour
-   * segments.
-   *
-   * \return The story
-   *
-   * \see page_temperature_meanmin
-   */
-  // ----------------------------------------------------------------------
+Paragraph TemperatureStory::meanmin() const
+{
+  MessageLogger log("TemperatureStory::meanmin");
 
-  Paragraph TemperatureStory::meanmin() const
-  {
-	MessageLogger log("TemperatureStory::meanmin");
+  Paragraph paragraph;
+  Sentence sentence;
 
-	Paragraph paragraph;
-	Sentence sentence;
+  GridForecaster forecaster;
 
-	GridForecaster forecaster;
+  HourPeriodGenerator periods(itsPeriod, 18, 06, 18, 06);
 
-	HourPeriodGenerator periods(itsPeriod,18,06,18,06);
+  WeatherResult result = forecaster.analyze(
+      itsVar + "::fake::mean", itsSources, Temperature, Mean, Mean, Minimum, itsArea, periods);
 
-	WeatherResult result = forecaster.analyze(itsVar+"::fake::mean",
-											  itsSources,
-											  Temperature,
-											  Mean,
-											  Mean,
-											  Minimum,
-											  itsArea,
-											  periods);
+  if (result.value() == kFloatMissing)
+    throw TextGenError("Mean daily minimum temperature not available");
 
-	if(result.value() == kFloatMissing)
-	  throw TextGenError("Mean daily minimum temperature not available");
+  log << "Temperature Mean(Mean(Minimum())) = " << result << endl;
 
-	log << "Temperature Mean(Mean(Minimum())) = " << result << endl;
+  sentence << "keskimaarainen alin lampotila" << Integer(static_cast<int>(round(result.value())))
+           << *UnitFactory::create(DegreesCelsius);
+  paragraph << sentence;
+  log << paragraph;
+  return paragraph;
+}
 
-	sentence << "keskimaarainen alin lampotila"
-			 << Integer(static_cast<int>(round(result.value())))
-			 << *UnitFactory::create(DegreesCelsius);
-	paragraph << sentence;
-	log << paragraph;
-	return paragraph;
-  }
+}  // namespace TextGen
 
-} // namespace TextGen
-  
 // ======================================================================

@@ -40,257 +40,228 @@ using namespace NFmiIndexMaskTools;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Utility structure to each cache management
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Utility structure to each cache management
-   */
-  // ----------------------------------------------------------------------
+struct WeatherAreaAndID
+{
+  WeatherId itsID;
+  WeatherArea itsArea;
 
-  struct WeatherAreaAndID
-  {
-	WeatherId itsID;
-	WeatherArea itsArea;
-
-	WeatherAreaAndID(const WeatherId & theID,
-					 const WeatherArea & theArea)
-	  : itsID(theID)
-	  , itsArea(theArea)
-	{ }
-
-	bool operator==(const WeatherAreaAndID & theOther) const
-	{
-	  return (itsID == theOther.itsID &&
-			  itsArea == theOther.itsArea);
-	}
-
-	bool operator<(const WeatherAreaAndID & theOther) const
-	{
-	  return (itsID != theOther.itsID ?
-			  itsID < theOther.itsID :
-			  itsArea < theOther.itsArea);
-	}
-
-  };
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Implementation hiding detail for TextGen::InlandMaskSource
-   */
-  // ----------------------------------------------------------------------
-
-  class InlandMaskSource::Pimple
-  {
-  public:
-
-	Pimple(const WeatherArea & theInland);
-
-	typedef map<WeatherAreaAndID,mask_type> mask_storage;
-	typedef map<WeatherAreaAndID,masks_type> masks_storage;
-
-	const WeatherArea itsCoast;
-
-	mutable mask_storage itsMaskStorage;
-	mutable masks_storage itsMasksStorage;
-
-	mask_type find(const WeatherId & theID,
-				   const WeatherArea & theArea) const;
-
-	void insert(const WeatherId & theID,
-				const WeatherArea & theArea,
-				const mask_type & theMask) const;
-
-	mask_type create_mask(const WeatherArea & theArea,
-						  const std::string & theData,
-						  const WeatherSource & theWeatherSource) const;
-
-  }; // class InlandMaskSource::Pimple
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Pimple constructor
-   */
-  // ----------------------------------------------------------------------
-
-  InlandMaskSource::Pimple::Pimple(const WeatherArea & theInland)
-	: itsCoast(theInland)
-	, itsMaskStorage()
-	, itsMasksStorage()
+  WeatherAreaAndID(const WeatherId& theID, const WeatherArea& theArea)
+      : itsID(theID), itsArea(theArea)
   {
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Find mask from cache
-   *
-   * Returns a 0-shared pointer if mask is not found
-   *
-   * \param theID The weather ID
-   * \param theArea The weather area
-   * \return shared_ptr to mask or 0
-   */
-  // ----------------------------------------------------------------------
-
-  InlandMaskSource::mask_type
-  InlandMaskSource::Pimple::find(const WeatherId & theID,
-								const WeatherArea & theArea) const
+  bool operator==(const WeatherAreaAndID& theOther) const
   {
-	static boost::shared_ptr<NFmiIndexMask> dummy;
-
-	WeatherAreaAndID key(theID,theArea);
-
-	mask_storage::const_iterator it = itsMaskStorage.find(key);
-	if(it == itsMaskStorage.end())
-	  return dummy;
-
-	return it->second;
-
+    return (itsID == theOther.itsID && itsArea == theOther.itsArea);
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Insert a new mask into the cache
-   *
-   * \param theID The data ID
-   * \param theArea The weather area
-   * \param theMask The mask itself
-   */
-  // ----------------------------------------------------------------------
-
-  void InlandMaskSource::Pimple::insert(const WeatherId & theID,
-									   const WeatherArea & theArea,
-									   const mask_type & theMask) const
+  bool operator<(const WeatherAreaAndID& theOther) const
   {
-	typedef mask_storage::value_type value_type;
+    return (itsID != theOther.itsID ? itsID < theOther.itsID : itsArea < theOther.itsArea);
+  }
+};
 
-	WeatherAreaAndID key(theID,theArea);
+// ----------------------------------------------------------------------
+/*!
+ * \brief Implementation hiding detail for TextGen::InlandMaskSource
+ */
+// ----------------------------------------------------------------------
 
-	itsMaskStorage.insert(value_type(key,theMask));
+class InlandMaskSource::Pimple
+{
+ public:
+  Pimple(const WeatherArea& theInland);
 
-	if(itsMaskStorage.insert(value_type(key,theMask)).second)
-	  throw TextGenError("Could not cache mask for "+theArea.name());
+  typedef map<WeatherAreaAndID, mask_type> mask_storage;
+  typedef map<WeatherAreaAndID, masks_type> masks_storage;
+
+  const WeatherArea itsCoast;
+
+  mutable mask_storage itsMaskStorage;
+  mutable masks_storage itsMasksStorage;
+
+  mask_type find(const WeatherId& theID, const WeatherArea& theArea) const;
+
+  void insert(const WeatherId& theID, const WeatherArea& theArea, const mask_type& theMask) const;
+
+  mask_type create_mask(const WeatherArea& theArea,
+                        const std::string& theData,
+                        const WeatherSource& theWeatherSource) const;
+
+};  // class InlandMaskSource::Pimple
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Pimple constructor
+ */
+// ----------------------------------------------------------------------
+
+InlandMaskSource::Pimple::Pimple(const WeatherArea& theInland)
+    : itsCoast(theInland), itsMaskStorage(), itsMasksStorage()
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Find mask from cache
+ *
+ * Returns a 0-shared pointer if mask is not found
+ *
+ * \param theID The weather ID
+ * \param theArea The weather area
+ * \return shared_ptr to mask or 0
+ */
+// ----------------------------------------------------------------------
+
+InlandMaskSource::mask_type InlandMaskSource::Pimple::find(const WeatherId& theID,
+                                                           const WeatherArea& theArea) const
+{
+  static boost::shared_ptr<NFmiIndexMask> dummy;
+
+  WeatherAreaAndID key(theID, theArea);
+
+  mask_storage::const_iterator it = itsMaskStorage.find(key);
+  if (it == itsMaskStorage.end()) return dummy;
+
+  return it->second;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Insert a new mask into the cache
+ *
+ * \param theID The data ID
+ * \param theArea The weather area
+ * \param theMask The mask itself
+ */
+// ----------------------------------------------------------------------
+
+void InlandMaskSource::Pimple::insert(const WeatherId& theID,
+                                      const WeatherArea& theArea,
+                                      const mask_type& theMask) const
+{
+  typedef mask_storage::value_type value_type;
+
+  WeatherAreaAndID key(theID, theArea);
+
+  itsMaskStorage.insert(value_type(key, theMask));
+
+  if (itsMaskStorage.insert(value_type(key, theMask)).second)
+    throw TextGenError("Could not cache mask for " + theArea.name());
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Create a new weather area
+ *
+ * \param theArea The area
+ * \param theData The data name
+ * \param theWeatherSource The weather source
+ * \return The mask
+ */
+// ----------------------------------------------------------------------
+
+InlandMaskSource::mask_type InlandMaskSource::Pimple::create_mask(
+    const WeatherArea& theArea,
+    const std::string& theData,
+    const WeatherSource& theWeatherSource) const
+{
+  // Establish the grid which to mask
+
+  boost::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
+  NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
+  if (!qi.IsGrid())
+    throw TextGenError("The data in " + theData + " is not gridded - cannot generate mask for it");
+
+  // First build the area mask
+
+  const NFmiSvgPath svg = theArea.path();
+  const float radius = theArea.radius();
+  mask_type areamask(new NFmiIndexMask(MaskExpand(*(qi.Grid()), svg, radius)));
+
+  // Then build the coast mask
+
+  WeatherId id = theWeatherSource.id(theData);
+  mask_type coastmask = find(id, itsCoast);
+  if (coastmask.get() == 0)
+  {
+    const NFmiSvgPath& csvg = itsCoast.path();
+    const float cdistance = itsCoast.radius();
+    coastmask.reset(new NFmiIndexMask(MaskDistance(*(qi.Grid()), csvg, cdistance)));
+    insert(id, itsCoast, coastmask);
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Create a new weather area
-   *
-   * \param theArea The area
-   * \param theData The data name
-   * \param theWeatherSource The weather source
-   * \return The mask
-   */
-  // ----------------------------------------------------------------------
+  // Substract the coast from th area
 
-  InlandMaskSource::mask_type
-  InlandMaskSource::Pimple::create_mask(const WeatherArea & theArea,
-									   const std::string & theData,
-									   const WeatherSource & theWeatherSource) const
-  {
-	// Establish the grid which to mask
+  *areamask -= *coastmask;
 
-	boost::shared_ptr<NFmiQueryData> qdata = theWeatherSource.data(theData);
-	NFmiFastQueryInfo qi = NFmiFastQueryInfo(qdata.get());
-	if(!qi.IsGrid())
-	  throw TextGenError("The data in "+theData+" is not gridded - cannot generate mask for it");
+  return areamask;
+}
 
-	// First build the area mask
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-	const NFmiSvgPath svg = theArea.path();
-	const float radius = theArea.radius();
-	mask_type areamask(new NFmiIndexMask(MaskExpand(*(qi.Grid()),
-													svg,
-													radius)));
-	
-	// Then build the coast mask
+InlandMaskSource::InlandMaskSource(const WeatherArea& theCoast) : itsPimple(new Pimple(theCoast)) {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the mask for the given area
+ *
+ * \param theArea The weather area
+ * \param theData The data name
+ * \param theWeatherSource The source for weather data
+ */
+// ----------------------------------------------------------------------
 
-	WeatherId id = theWeatherSource.id(theData);
-	mask_type coastmask = find(id,itsCoast);
-	if(coastmask.get() == 0)
-	  {
-		const NFmiSvgPath & csvg = itsCoast.path();
-		const float cdistance = itsCoast.radius();
-		coastmask.reset(new NFmiIndexMask(MaskDistance(*(qi.Grid()),
-													   csvg,
-													   cdistance)));
-		insert(id,itsCoast,coastmask);
+InlandMaskSource::mask_type InlandMaskSource::mask(const WeatherArea& theArea,
+                                                   const std::string& theData,
+                                                   const WeatherSource& theWeatherSource) const
+{
+  if (theArea.isPoint()) throw TextGenError("Trying to generate mask for point");
 
-	  }
+  // Establish the ID for the data
 
-	// Substract the coast from th area
-	
-	*areamask -= *coastmask;
+  WeatherId id = theWeatherSource.id(theData);
 
-	return areamask;
-  }
+  // Try to find cached mask first
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+  mask_type areamask = itsPimple->find(id, theArea);
 
-  InlandMaskSource::InlandMaskSource(const WeatherArea & theCoast)
-	: itsPimple(new Pimple(theCoast))
-  {
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the mask for the given area
-   *
-   * \param theArea The weather area
-   * \param theData The data name
-   * \param theWeatherSource The source for weather data
-   */
-  // ----------------------------------------------------------------------
+  if (areamask.get() != 0) return areamask;
 
-  InlandMaskSource::mask_type
-  InlandMaskSource::mask(const WeatherArea & theArea,
-						const std::string & theData,
-						const WeatherSource & theWeatherSource) const
-  {
-	if(theArea.isPoint())
-	  throw TextGenError("Trying to generate mask for point");
+  // Calculate new mask and cache it
 
-	// Establish the ID for the data
+  areamask = itsPimple->create_mask(theArea, theData, theWeatherSource);
+  itsPimple->insert(id, theArea, areamask);
 
-	WeatherId id = theWeatherSource.id(theData);
+  return areamask;
+}
 
-	// Try to find cached mask first
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the mask source for the given area
+ *
+ * \param theArea The weather area
+ * \param theData The data name
+ * \param theWeatherSource The source for weather data
+ */
+// ----------------------------------------------------------------------
 
-	mask_type areamask = itsPimple->find(id,theArea);
-	
-	if(areamask.get()!=0)
-	  return areamask;
-	
-	// Calculate new mask and cache it
-	
-	areamask = itsPimple->create_mask(theArea,theData,theWeatherSource);
-	itsPimple->insert(id,theArea,areamask);
+InlandMaskSource::masks_type InlandMaskSource::masks(const WeatherArea& theArea,
+                                                     const std::string& theData,
+                                                     const WeatherSource& theWeatherSource) const
+{
+  throw TextGenError("InlandMaskSource::masks not implemented");
+}
 
-	return areamask;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the mask source for the given area
-   *
-   * \param theArea The weather area
-   * \param theData The data name
-   * \param theWeatherSource The source for weather data
-   */
-  // ----------------------------------------------------------------------
-
-  InlandMaskSource::masks_type
-  InlandMaskSource::masks(const WeatherArea & theArea,
-						 const std::string & theData,
-						 const WeatherSource & theWeatherSource) const
-  {
-	throw TextGenError("InlandMaskSource::masks not implemented");
-  }
-
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

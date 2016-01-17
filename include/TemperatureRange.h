@@ -14,22 +14,23 @@
 
 namespace TextGen
 {
-  class Dictionary;
+class Dictionary;
 
-  class TemperatureRange : public IntegerRange
-  {
-  public:
+class TemperatureRange : public IntegerRange
+{
+ public:
+  explicit TemperatureRange(int theStartValue,
+                            int theEndValue,
+                            const std::string& theSeparator = "-");
 
-	explicit TemperatureRange(int theStartValue, int theEndValue, const std::string & theSeparator = "-");
+  virtual boost::shared_ptr<Glyph> clone() const;
+  virtual std::string realize(const Dictionary& theDictionary) const;
+  virtual std::string realize(const TextFormatter& theFormatter) const;
 
-	virtual boost::shared_ptr<Glyph> clone() const;
-	virtual std::string realize(const Dictionary & theDictionary) const;
-	virtual std::string realize(const TextFormatter & theFormatter) const;
+};  // class TemperatureRange
 
-  }; // class TemperatureRange
+}  // namespace Textgen
 
-} // namespace Textgen
-
-#endif // TEXTGEN_TEMPERATURERANGE_H
+#endif  // TEXTGEN_TEMPERATURERANGE_H
 
 // ======================================================================

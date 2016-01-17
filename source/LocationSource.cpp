@@ -31,164 +31,148 @@ using namespace std;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Implementation hiding pimple
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Implementation hiding pimple
-   */
-  // ----------------------------------------------------------------------
+class LocationSource::Pimple
+{
+ public:
+  ~Pimple();
+  Pimple();
 
-  class LocationSource::Pimple
+  bool hasCoordinates(const string& theLocation) const;
+  const NFmiPoint coordinates(const string& theLocation) const;
+
+  mutable string itsLastSuccesfulName;
+  mutable NFmiPoint itsLastSuccesfulPoint;
+  mutable NFmiLocationFinder itsFinder;
+
+};  // Pimple
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Pimple destructor
+ */
+// ----------------------------------------------------------------------
+
+LocationSource::Pimple::~Pimple() {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Pimple constructor
+ */
+// ----------------------------------------------------------------------
+
+LocationSource::Pimple::Pimple()
+    : itsLastSuccesfulName(), itsLastSuccesfulPoint(kFloatMissing, kFloatMissing)
+{
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test whether the given location name has known coordinates
+ */
+// ----------------------------------------------------------------------
+
+bool LocationSource::Pimple::hasCoordinates(const string& theLocation) const
+{
+  if (theLocation.empty())
+    throw TextGenError("Cannot request coordinates for an empty location name");
+
+  if (theLocation == itsLastSuccesfulName) return true;
+
+  if (itsFinder.Empty())
   {
-  public:
-	~Pimple();
-	Pimple();
-
-	bool hasCoordinates(const string & theLocation) const;
-	const NFmiPoint coordinates(const string & theLocation) const;
-
-	mutable string itsLastSuccesfulName;
-	mutable NFmiPoint itsLastSuccesfulPoint;
-	mutable NFmiLocationFinder itsFinder;
-
-  }; // Pimple
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Pimple destructor
-   */
-  // ----------------------------------------------------------------------
-
-  LocationSource::Pimple::~Pimple()
-  {
+    string filename = Settings::optional_string("textgen::coordinates",
+                                                "/smartmet/share/coordinates/default.txt");
+    itsFinder.AddFile(filename, false);
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Pimple constructor
-   */
-  // ----------------------------------------------------------------------
+  NFmiPoint point = itsFinder.Find(theLocation);
+  if (itsFinder.LastSearchFailed()) return false;
 
-  LocationSource::Pimple::Pimple()
-	: itsLastSuccesfulName()
-	, itsLastSuccesfulPoint(kFloatMissing,kFloatMissing)
-  {
-  }
+  itsLastSuccesfulName = theLocation;
+  itsLastSuccesfulPoint = point;
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test whether the given location name has known coordinates
-   */
-  // ----------------------------------------------------------------------
+  return true;
+}
 
-  bool LocationSource::Pimple::hasCoordinates(const string & theLocation) const
-  {
-	if(theLocation.empty())
-	  throw TextGenError("Cannot request coordinates for an empty location name");
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the coordinate of the given named point
+ */
+// ----------------------------------------------------------------------
 
-	if(theLocation == itsLastSuccesfulName)
-	  return true;
+const NFmiPoint LocationSource::Pimple::coordinates(const string& theLocation) const
+{
+  if (hasCoordinates(theLocation)) return itsLastSuccesfulPoint;
 
-	if(itsFinder.Empty())
-	  {
-		string filename = Settings::optional_string("textgen::coordinates","/smartmet/share/coordinates/default.txt");
-		itsFinder.AddFile(filename,false);
-	  }
+  throw TextGenError("Cannot request coordinates for unknown location '" + theLocation + "'");
+}
 
-	NFmiPoint point = itsFinder.Find(theLocation);
-	if(itsFinder.LastSearchFailed())
-	  return false;
+// ----------------------------------------------------------------------
+/*!
+ * \brief Destructor
+ */
+// ----------------------------------------------------------------------
 
-	itsLastSuccesfulName = theLocation;
-	itsLastSuccesfulPoint = point;
+LocationSource::~LocationSource() {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Private constructor for instance()
+ */
+// ----------------------------------------------------------------------
 
-	return true;
+LocationSource::LocationSource() : itsPimple(new Pimple()) {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return an instance of LocationSource
+ *
+ * \return A reference to a LocationSource singleton
+ */
+// ----------------------------------------------------------------------
 
-  }
+LocationSource& LocationSource::instance()
+{
+  static LocationSource source;
+  return source;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the coordinate of the given named point
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test whether the given location name has known coordinates
+ *
+ * Note that the result is cached internally so that a subsequent
+ * coordinate request would be very fast.
+ *
+ * \param theLocation The location name
+ * \return True, if the location has known coordinates
+ */
+// ----------------------------------------------------------------------
 
-  const NFmiPoint LocationSource::Pimple::coordinates(const string & theLocation) const
-  {
-	if(hasCoordinates(theLocation))
-	  return itsLastSuccesfulPoint;
+bool LocationSource::hasCoordinates(const string& theLocation) const
+{
+  return itsPimple->hasCoordinates(theLocation);
+}
 
-	throw TextGenError("Cannot request coordinates for unknown location '"+theLocation+"'");
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the coordinate of the given named point
+ *
+ * Throws if the location has no known coordinates
+ *
+ * \param theLocation The location name
+ * \return The coordinates (lonlat)
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Destructor
-   */
-  // ----------------------------------------------------------------------
+NFmiPoint LocationSource::coordinates(const string& theLocation) const
+{
+  return itsPimple->coordinates(theLocation);
+}
 
-  LocationSource::~LocationSource()
-  {
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Private constructor for instance()
-   */
-  // ----------------------------------------------------------------------
-
-  LocationSource::LocationSource()
-	: itsPimple(new Pimple())
-  {
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return an instance of LocationSource
-   *
-   * \return A reference to a LocationSource singleton
-   */
-  // ----------------------------------------------------------------------
-
-  LocationSource & LocationSource::instance()
-  {
-	static LocationSource source;
-	return source;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test whether the given location name has known coordinates
-   *
-   * Note that the result is cached internally so that a subsequent
-   * coordinate request would be very fast.
-   *
-   * \param theLocation The location name
-   * \return True, if the location has known coordinates
-   */
-  // ----------------------------------------------------------------------
-
-  bool LocationSource::hasCoordinates(const string & theLocation) const
-  {
-	return itsPimple->hasCoordinates(theLocation);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the coordinate of the given named point
-   *
-   * Throws if the location has no known coordinates
-   *
-   * \param theLocation The location name
-   * \return The coordinates (lonlat)
-   */
-  // ----------------------------------------------------------------------
-
-  NFmiPoint LocationSource::coordinates(const string & theLocation) const
-  {
-	return itsPimple->coordinates(theLocation);
-  }
-
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

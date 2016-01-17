@@ -13,36 +13,34 @@
 
 namespace TextGen
 {
-  class Dictionary;
-  class TextFormatter;
+class Dictionary;
+class TextFormatter;
 
-  class SectionTag : public Glyph
-  {
-  public:
-
-	virtual ~SectionTag();
-	SectionTag(const std::string & theName, const bool& prefixTag = true);
+class SectionTag : public Glyph
+{
+ public:
+  virtual ~SectionTag();
+  SectionTag(const std::string& theName, const bool& prefixTag = true);
 #ifdef NO_COMPILER_GENERATED
-	SectionTag(const SectionTag & theSectionTag);
-	SectionTag & operator=(const SectionTag & theSectionTag);
+  SectionTag(const SectionTag& theSectionTag);
+  SectionTag& operator=(const SectionTag& theSectionTag);
 #endif
 
-	virtual boost::shared_ptr<Glyph> clone() const;
-	virtual std::string realize(const Dictionary & theDictionary) const;
-	virtual std::string realize(const TextFormatter & theFormatter) const;
+  virtual boost::shared_ptr<Glyph> clone() const;
+  virtual std::string realize(const Dictionary& theDictionary) const;
+  virtual std::string realize(const TextFormatter& theFormatter) const;
 
-	virtual bool isDelimiter() const;
-	virtual bool isPrefixTag() const;
+  virtual bool isDelimiter() const;
+  virtual bool isPrefixTag() const;
 
-  private:
+ private:
+  SectionTag();
+  std::string itsName;
+  bool itsPrefixTag;
 
-	SectionTag();
-	std::string itsName;
-	bool itsPrefixTag;
+};  // class SectionTag
+}  // namespace SectionTag
 
-  }; // class SectionTag
-} // namespace SectionTag
-
-#endif // TEXTGEN_SECTIONTAG_H
+#endif  // TEXTGEN_SECTIONTAG_H
 
 // ======================================================================

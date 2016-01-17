@@ -17,27 +17,27 @@
 
 namespace TextGen
 {
-  double GetLocationCoordinates(const AnalysisSources& theSources,
-								const WeatherParameter& theParameter,
-								const WeatherArea& theArea,
-								const WeatherPeriod& thePeriod,
-								const Acceptor& theAcceptor,
-								std::vector<NFmiPoint*>& theResultData);
+double GetLocationCoordinates(const AnalysisSources& theSources,
+                              const WeatherParameter& theParameter,
+                              const WeatherArea& theArea,
+                              const WeatherPeriod& thePeriod,
+                              const Acceptor& theAcceptor,
+                              std::vector<NFmiPoint*>& theResultData);
 
-  double ExtractMask(const AnalysisSources& theSources,
-					 const WeatherParameter& theParameter,
-					 const WeatherArea& theArea,
-					 const WeatherPeriod& thePeriod,
-					 const Acceptor& theAcceptor,
-					 NFmiIndexMask& theResultIndexMask);
+double ExtractMask(const AnalysisSources& theSources,
+                   const WeatherParameter& theParameter,
+                   const WeatherArea& theArea,
+                   const WeatherPeriod& thePeriod,
+                   const Acceptor& theAcceptor,
+                   NFmiIndexMask& theResultIndexMask);
 
-  const NFmiIndexMask MaskDirection(const NFmiGrid & theGrid,
-									const WeatherArea & theArea,
-									const AreaTools::direction_id& theDirectionId);
+const NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
+                                  const WeatherArea& theArea,
+                                  const AreaTools::direction_id& theDirectionId);
 
- void PrintLatLon(const AnalysisSources& theSources,
-				  const WeatherParameter& theParameter,
-				  const NFmiIndexMask& theIndexMask);
+void PrintLatLon(const AnalysisSources& theSources,
+                 const WeatherParameter& theParameter,
+                 const NFmiIndexMask& theIndexMask);
 }
 
 #endif

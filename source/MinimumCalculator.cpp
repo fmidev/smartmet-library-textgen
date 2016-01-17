@@ -21,92 +21,89 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+MinimumCalculator::MinimumCalculator()
+    : itsAcceptor(new DefaultAcceptor()), itsCounter(0), itsMinimum(kFloatMissing)
+{
+}
 
-  MinimumCalculator::MinimumCalculator()
-	: itsAcceptor(new DefaultAcceptor())
-	, itsCounter(0)
-	, itsMinimum(kFloatMissing)
+// ----------------------------------------------------------------------
+/*!
+ * \brief Integrate a new value
+ *
+ * \param theValue
+ */
+// ----------------------------------------------------------------------
+
+void MinimumCalculator::operator()(float theValue)
+{
+  if (itsAcceptor->accept(theValue))
   {
+    if (itsCounter == 0)
+      itsMinimum = theValue;
+    else
+      itsMinimum = std::min(itsMinimum, theValue);
+    ++itsCounter;
   }
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Integrate a new value
-   *
-   * \param theValue
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the integrated value
+ *
+ * \return The integrated minimum value
+ */
+// ----------------------------------------------------------------------
 
-  void MinimumCalculator::operator()(float theValue)
-  {
-	if(itsAcceptor->accept(theValue))
-	  {
-		if(itsCounter == 0)
-		  itsMinimum = theValue;
-		else
-		  itsMinimum = std::min(itsMinimum,theValue);
-		++itsCounter;
-	  }
-  }
+float MinimumCalculator::operator()() const
+{
+  if (itsCounter == 0)
+    return kFloatMissing;
+  else
+    return itsMinimum;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the integrated value
-   *
-   * \return The integrated minimum value
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set the internal acceptor
+ *
+ * \param theAcceptor The acceptor to be used
+ */
+// ----------------------------------------------------------------------
 
-  float MinimumCalculator::operator()() const
-  {
-	if(itsCounter==0)
-	  return kFloatMissing;
-	else
-	  return itsMinimum;
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the internal acceptor
-   *
-   * \param theAcceptor The acceptor to be used
-   */
-  // ----------------------------------------------------------------------
+void MinimumCalculator::acceptor(const Acceptor& theAcceptor)
+{
+  itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
+}
 
-  void MinimumCalculator::acceptor(const Acceptor & theAcceptor)
-  {
-	itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+boost::shared_ptr<Calculator> MinimumCalculator::clone() const
+{
+  return boost::shared_ptr<Calculator>(new MinimumCalculator(*this));
+}
 
-  boost::shared_ptr<Calculator> MinimumCalculator::clone() const
-  {
-	return boost::shared_ptr<Calculator>(new MinimumCalculator(*this));
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Reset
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Reset
-   */
-  // ----------------------------------------------------------------------
+void MinimumCalculator::reset()
+{
+  itsCounter = 0;
+  itsMinimum = 0;
+}
 
-  void MinimumCalculator::reset()
-  {
-	itsCounter = 0;
-	itsMinimum = 0;
-  }
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

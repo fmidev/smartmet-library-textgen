@@ -14,23 +14,19 @@ class TextGenPosixTime;
 
 namespace TextGen
 {
-  class WeatherPeriod;
+class WeatherPeriod;
 }
 
 namespace TextGen
 {
+namespace WeatherPeriodFactory
+{
+TextGen::WeatherPeriod create(const TextGenPosixTime& theTime, const std::string& theVariable);
 
-  namespace WeatherPeriodFactory
-  {
+}  // namespace WeatherPeriodFactory
 
-	TextGen::WeatherPeriod create(const TextGenPosixTime & theTime,
-										  const std::string & theVariable);
+}  // namespace TextGen
 
-
-  } // namespace WeatherPeriodFactory
-
-} // namespace TextGen
-
-#endif // TEXTGEN_WEATHERPERIODFACTORY_H
+#endif  // TEXTGEN_WEATHERPERIODFACTORY_H
 
 // ======================================================================

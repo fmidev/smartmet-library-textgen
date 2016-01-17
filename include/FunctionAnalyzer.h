@@ -20,34 +20,31 @@
 
 namespace TextGen
 {
-  class Acceptor;
-  class AnalysisSources;
-  class Calculator;
-  class WeatherArea;
-  class WeatherPeriodGenerator;
-  class WeatherResult;
+class Acceptor;
+class AnalysisSources;
+class Calculator;
+class WeatherArea;
+class WeatherPeriodGenerator;
+class WeatherResult;
 
-  class FunctionAnalyzer
-  {
-  public:
+class FunctionAnalyzer
+{
+ public:
+  virtual ~FunctionAnalyzer() {}
+  virtual WeatherResult analyze(const AnalysisSources& theSources,
+                                const WeatherDataType& theDataType,
+                                const WeatherArea& theArea,
+                                const WeatherPeriodGenerator& thePeriods,
+                                const Acceptor& theAreaAcceptor,
+                                const Acceptor& theTimeAcceptor,
+                                const Acceptor& theTester,
+                                const std::string& theDataName,
+                                const std::string& theParameterName) const = 0;
 
-	virtual ~FunctionAnalyzer() { }
+};  // class FunctionAnalyzer
 
-	virtual WeatherResult
-	analyze(const AnalysisSources & theSources,
-			const WeatherDataType & theDataType,
-			const WeatherArea & theArea,
-			const WeatherPeriodGenerator & thePeriods,
-			const Acceptor & theAreaAcceptor,
-			const Acceptor & theTimeAcceptor,
-			const Acceptor & theTester,
-			const std::string & theDataName,
-			const std::string & theParameterName) const = 0;
+}  // namespace TextGen
 
-  }; // class FunctionAnalyzer
-
-} // namespace TextGen
-
-#endif // TEXTGEN_FUNCTIONANALYZER_H
+#endif  // TEXTGEN_FUNCTIONANALYZER_H
 
 // ======================================================================

@@ -24,90 +24,74 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Destructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Destructor
-   */
-  // ----------------------------------------------------------------------
+StoryTag::~StoryTag() {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  StoryTag::~StoryTag()
-  {
-  }
+StoryTag::StoryTag(const std::string& theName, const bool& prefixTag /*= true*/)
+    : itsName(theName), itsPrefixTag(prefixTag)
+{
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return a clone
+ */
+// ----------------------------------------------------------------------
 
-  StoryTag::StoryTag(const std::string & theName, const bool& prefixTag /*= true*/)
-	: itsName(theName), itsPrefixTag(prefixTag)
-  {
-  }
+boost::shared_ptr<Glyph> StoryTag::clone() const
+{
+  boost::shared_ptr<Glyph> ret(new StoryTag(*this));
+  return ret;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return a clone
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the text for the StoryTag
+ *
+ * \param theDictionary The dictionary to be used
+ * \return The text
+ */
+// ----------------------------------------------------------------------
 
-  boost::shared_ptr<Glyph> StoryTag::clone() const
-  {
-	boost::shared_ptr<Glyph> ret(new StoryTag(*this));
-	return ret;
-  }
+std::string StoryTag::realize(const Dictionary& theDictionary) const { return itsName; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the text for the number
+ *
+ * \param theFormatter The formatter
+ * \return The text
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the StoryTag
-   *
-   * \param theDictionary The dictionary to be used
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
+std::string StoryTag::realize(const TextFormatter& theFormatter) const
+{
+  return theFormatter.visit(*this);
+}
 
-  std::string StoryTag::realize(const Dictionary & theDictionary) const
-  {
-	return itsName;
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Returns false since StoryTag is not a separator
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the number
-   *
-   * \param theFormatter The formatter
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
+bool StoryTag::isDelimiter() const { return false; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Returns true if tag is locatated before the story, false if after the story
+ */
+// ----------------------------------------------------------------------
 
-  std::string StoryTag::realize(const TextFormatter & theFormatter) const
-  {
-	return theFormatter.visit(*this);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Returns false since StoryTag is not a separator
-   */
-  // ----------------------------------------------------------------------
-
-  bool StoryTag::isDelimiter() const
-  {
-	return false;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Returns true if tag is locatated before the story, false if after the story
-   */
-  // ----------------------------------------------------------------------
-
-  bool StoryTag::isPrefixTag() const
-  {
-	return itsPrefixTag;
-  }
-
-} // namespace TextGen
+bool StoryTag::isPrefixTag() const { return itsPrefixTag; }
+}  // namespace TextGen
 
 // ======================================================================

@@ -10,26 +10,24 @@
 
 namespace TextGen
 {
+enum WeatherFunction
+{
+  NullFunction,
+  Mean,
+  Maximum,
+  Minimum,
+  Median,
+  Sum,
+  StandardDeviation,
+  Percentage,
+  Count,
+  Change,
+  Trend
 
-  enum WeatherFunction
-	{
-	  NullFunction,
-	  Mean,
-	  Maximum,
-	  Minimum,
-	  Median,
-	  Sum,
-	  StandardDeviation,
-	  Percentage,
-	  Count,
-	  Change,
-	  Trend
+};  // enum Weatherfunction
 
-	}; // enum Weatherfunction
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_WEATHERFUNCTION_H
+#endif  // TEXTGEN_WEATHERFUNCTION_H
 
 // ======================================================================
-

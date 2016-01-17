@@ -18,52 +18,48 @@ class NFmiDataModifier;
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class Calculator;
-  class WeatherArea;
-  class WeatherLimits;
-  class WeatherPeriod;
-  class WeatherPeriodGenerator;
-  class WeatherResult;
+class AnalysisSources;
+class Calculator;
+class WeatherArea;
+class WeatherLimits;
+class WeatherPeriod;
+class WeatherPeriodGenerator;
+class WeatherResult;
 
-  class WindChillFunctionAnalyzer : public FunctionAnalyzer
-  {
-  public:
+class WindChillFunctionAnalyzer : public FunctionAnalyzer
+{
+ public:
+  virtual ~WindChillFunctionAnalyzer() {}
+  WindChillFunctionAnalyzer(const WeatherFunction& theAreaFunction,
+                            const WeatherFunction& theTimeFunction,
+                            const WeatherFunction& theSubTimeFunction);
 
-	virtual ~WindChillFunctionAnalyzer() { }
+  virtual WeatherResult analyze(const AnalysisSources& theSources,
+                                const WeatherDataType& theDataType,
+                                const WeatherArea& theArea,
+                                const WeatherPeriodGenerator& thePeriods,
+                                const Acceptor& theAreaAcceptor,
+                                const Acceptor& theTimeAcceptor,
+                                const Acceptor& theTester,
+                                const std::string& theDataName,
+                                const std::string& theParameterName) const;
 
-	WindChillFunctionAnalyzer(const WeatherFunction & theAreaFunction,
-							const WeatherFunction & theTimeFunction,
-							const WeatherFunction & theSubTimeFunction);
+  void modulo(int theModulo);
 
-	virtual WeatherResult
-	analyze(const AnalysisSources & theSources,
-			const WeatherDataType & theDataType,
-			const WeatherArea & theArea,
-			const WeatherPeriodGenerator & thePeriods,
-			const Acceptor & theAreaAcceptor,
-			const Acceptor & theTimeAcceptor,
-			const Acceptor & theTester,
-			const std::string & theDataName,
-			const std::string & theParameterName) const;
+ private:
+  WindChillFunctionAnalyzer();
 
-	void modulo(int theModulo);
+  const WeatherFunction itsAreaFunction;
+  const WeatherFunction itsTimeFunction;
+  const WeatherFunction itsSubTimeFunction;
 
-  private:
+  bool itIsModulo;
+  int itsModulo;
 
-	WindChillFunctionAnalyzer();
+};  // class WindChillFunctionAnalyzer
 
-	const WeatherFunction itsAreaFunction;
-	const WeatherFunction itsTimeFunction;
-	const WeatherFunction itsSubTimeFunction;
+}  // namespace TextGen
 
-	bool itIsModulo;
-	int itsModulo;
-
-  }; // class WindChillFunctionAnalyzer
-
-} // namespace TextGen
-
-#endif // TEXTGEN_WINDCHILLFUNCTIONANALYZER_H
+#endif  // TEXTGEN_WINDCHILLFUNCTIONANALYZER_H
 
 // ======================================================================

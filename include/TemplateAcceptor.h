@@ -12,37 +12,25 @@
 
 namespace TextGen
 {
+template <class T>
+class TemplateAcceptor : public Acceptor
+{
+ public:
+  virtual ~TemplateAcceptor() {}
+  TemplateAcceptor(const T& theFunctor) : itsFunctor(theFunctor) {}
+  virtual bool accept(float theValue) const { return itsFunctor(theValue); }
+  virtual Acceptor* clone() const { return new TemplateAcceptor(*this); }
+ private:
+  TemplateAcceptor(void);
 
-  template <class T>
-  class TemplateAcceptor : public Acceptor
-  {
-  public:
+  T itsFunctor;
 
-	virtual ~TemplateAcceptor() { }
-	TemplateAcceptor(const T & theFunctor) : itsFunctor(theFunctor) { }
-	  
-	virtual bool accept(float theValue) const
-	{
-	  return itsFunctor(theValue);
-	}
+};  // class TemplateAcceptor
 
-	virtual Acceptor * clone() const
-	{
-	  return new TemplateAcceptor(*this);
-	}
+typedef TemplateAcceptor<bool (*)(float)> FunctionAcceptor;
 
-  private:
+}  // namespace TextGen
 
-	TemplateAcceptor(void);
-
-	T itsFunctor;
-
-  }; // class TemplateAcceptor
-
-  typedef TemplateAcceptor<bool (*)(float)> FunctionAcceptor;
-
-} // namespace TextGen
-
-#endif // TEXTGEN_TEMPLATEACCEPTOR_H
+#endif  // TEXTGEN_TEMPLATEACCEPTOR_H
 
 // ======================================================================

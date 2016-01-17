@@ -16,57 +16,51 @@
 
 namespace TextGen
 {
-  class WeatherPeriod;
+class WeatherPeriod;
 
-  class NightAndDayPeriodGenerator : public WeatherPeriodGenerator
-  {
-  public:
-	typedef WeatherPeriodGenerator::size_type size_type;
+class NightAndDayPeriodGenerator : public WeatherPeriodGenerator
+{
+ public:
+  typedef WeatherPeriodGenerator::size_type size_type;
 
-	NightAndDayPeriodGenerator(const WeatherPeriod & theMainPeriod,
-							   int theDayStartHour,
-							   int theDayEndHour,
-							   int theDayMaxStartHour,
-							   int theDayMinEndHour,
-							   int theNightMaxStartHour,
-							   int theNightMinEndHour);
-	
-	NightAndDayPeriodGenerator(const WeatherPeriod & theMainPeriod,
-							   const std::string & theVariable);
-	
-	virtual ~NightAndDayPeriodGenerator() { }
-	virtual bool undivided() const;
-	virtual size_type size() const;
-	virtual WeatherPeriod period() const;
-	virtual WeatherPeriod period(size_type thePeriod) const;
+  NightAndDayPeriodGenerator(const WeatherPeriod& theMainPeriod,
+                             int theDayStartHour,
+                             int theDayEndHour,
+                             int theDayMaxStartHour,
+                             int theDayMinEndHour,
+                             int theNightMaxStartHour,
+                             int theNightMinEndHour);
 
-	bool isday(size_type thePeriod) const;
-	bool isnight(size_type thePeriod) const
-	{ return !isday(thePeriod); }
+  NightAndDayPeriodGenerator(const WeatherPeriod& theMainPeriod, const std::string& theVariable);
 
-  private:
+  virtual ~NightAndDayPeriodGenerator() {}
+  virtual bool undivided() const;
+  virtual size_type size() const;
+  virtual WeatherPeriod period() const;
+  virtual WeatherPeriod period(size_type thePeriod) const;
 
-	NightAndDayPeriodGenerator(void);
-	void init();
+  bool isday(size_type thePeriod) const;
+  bool isnight(size_type thePeriod) const { return !isday(thePeriod); }
+ private:
+  NightAndDayPeriodGenerator(void);
+  void init();
 
-	const WeatherPeriod itsMainPeriod;
-	const int itsDayStartHour;
-	const int itsDayEndHour;
-	const int itsDayMaxStartHour;
-	const int itsDayMinEndHour;
-	const int itsNightStartHour;
-	const int itsNightEndHour;
-	const int itsNightMaxStartHour;
-	const int itsNightMinEndHour;
+  const WeatherPeriod itsMainPeriod;
+  const int itsDayStartHour;
+  const int itsDayEndHour;
+  const int itsDayMaxStartHour;
+  const int itsDayMinEndHour;
+  const int itsNightStartHour;
+  const int itsNightEndHour;
+  const int itsNightMaxStartHour;
+  const int itsNightMinEndHour;
 
-	std::vector<WeatherPeriod> itsPeriods;
+  std::vector<WeatherPeriod> itsPeriods;
 
+};  // class NightAndDayPeriodGenerator
 
-  }; // class NightAndDayPeriodGenerator
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_NIGHTANDDAYPERIODGENERATOR_H
+#endif  // TEXTGEN_NIGHTANDDAYPERIODGENERATOR_H
 
 // ======================================================================
-

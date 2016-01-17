@@ -17,31 +17,29 @@ class NFmiPoint;
 
 namespace TextGen
 {
-  class MapSource;
-  class WeatherArea;
-  class WeatherSource;
+class MapSource;
+class WeatherArea;
+class WeatherSource;
 
-  class MaskSource
-  {
-  public:
+class MaskSource
+{
+ public:
+  typedef boost::shared_ptr<NFmiIndexMask> mask_type;
+  typedef boost::shared_ptr<NFmiIndexMaskSource> masks_type;
 
-	typedef boost::shared_ptr<NFmiIndexMask> mask_type;
-	typedef boost::shared_ptr<NFmiIndexMaskSource> masks_type;
+  virtual ~MaskSource() {}
+  virtual mask_type mask(const WeatherArea& theArea,
+                         const std::string& theData,
+                         const WeatherSource& theWeatherSource) const = 0;
 
-	virtual ~MaskSource() {}
+  virtual masks_type masks(const WeatherArea& theArea,
+                           const std::string& theData,
+                           const WeatherSource& theWeatherSource) const = 0;
 
-	virtual mask_type mask(const WeatherArea & theArea,
-						   const std::string & theData,
-						   const WeatherSource & theWeatherSource) const = 0;
-	
-	virtual masks_type masks(const WeatherArea & theArea,
-							 const std::string & theData,
-							 const WeatherSource & theWeatherSource) const = 0;
+};  // class MaskSource
 
-  }; // class MaskSource
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_MASKSOURCE_H
+#endif  // TEXTGEN_MASKSOURCE_H
 
 // ======================================================================

@@ -13,24 +13,21 @@
 
 namespace TextGen
 {
-  class LatestWeatherSource : public WeatherSource
-  {
-  public:
+class LatestWeatherSource : public WeatherSource
+{
+ public:
+  LatestWeatherSource();
+  virtual boost::shared_ptr<NFmiQueryData> data(const std::string& theName) const;
+  virtual WeatherId id(const std::string& theName) const;
 
-	LatestWeatherSource();
-	virtual boost::shared_ptr<NFmiQueryData> data(const std::string & theName) const;
-	virtual WeatherId id(const std::string & theName) const;
+ private:
+  class Pimple;
+  boost::shared_ptr<Pimple> itsPimple;
 
-  private:
+};  // class LatestWeatherSource
 
-	class Pimple;
-	boost::shared_ptr<Pimple> itsPimple;
+}  // namespace TextGen
 
-  }; // class LatestWeatherSource
-
-} // namespace TextGen
-
-#endif // TEXTGEN_LATESTWEATHERSOURCE_H
+#endif  // TEXTGEN_LATESTWEATHERSOURCE_H
 
 // ======================================================================
-

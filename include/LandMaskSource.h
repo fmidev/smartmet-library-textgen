@@ -12,34 +12,32 @@
 
 namespace TextGen
 {
-  class LandMaskSource : public MaskSource
-  {
-  public:
+class LandMaskSource : public MaskSource
+{
+ public:
+  typedef MaskSource::mask_type mask_type;
+  typedef MaskSource::masks_type masks_type;
 
-	typedef MaskSource::mask_type mask_type;
-	typedef MaskSource::masks_type masks_type;
+  LandMaskSource(const WeatherArea& theLand);
 
-	LandMaskSource(const WeatherArea & theLand);
+  virtual mask_type mask(const WeatherArea& theArea,
+                         const std::string& theData,
+                         const WeatherSource& theWeatherSource) const;
 
-	virtual mask_type mask(const WeatherArea & theArea,
-						   const std::string & theData,
-						   const WeatherSource & theWeatherSource) const;
-	
-	virtual masks_type masks(const WeatherArea & theArea,
-							 const std::string & theData,
-							 const WeatherSource & theWeatherSource) const;
+  virtual masks_type masks(const WeatherArea& theArea,
+                           const std::string& theData,
+                           const WeatherSource& theWeatherSource) const;
 
-  private:
+ private:
+  LandMaskSource();
 
-	LandMaskSource();
+  class Pimple;
+  boost::shared_ptr<Pimple> itsPimple;
 
-	class Pimple;
-	boost::shared_ptr<Pimple> itsPimple;
+};  // class LandMaskSource
 
-  }; // class LandMaskSource
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_LANDMASKSOURCE_H
+#endif  // TEXTGEN_LANDMASKSOURCE_H
 
 // ======================================================================

@@ -12,17 +12,16 @@
 
 namespace TextGen
 {
-  class DefaultAcceptor : public Acceptor
-  {
-  public:
+class DefaultAcceptor : public Acceptor
+{
+ public:
+  virtual ~DefaultAcceptor() {}
+  virtual bool accept(float theValue) const;
+  virtual Acceptor* clone() const;
 
-	virtual ~DefaultAcceptor() { }
-	virtual bool accept(float theValue) const;
-	virtual Acceptor * clone() const;
+};  // class DefaultAcceptor
+}  // namespace TextGen
 
-  }; // class DefaultAcceptor
-} // namespace TextGen
-
-#endif // TEXTGEN_DEFAULTACCEPTOR_H
+#endif  // TEXTGEN_DEFAULTACCEPTOR_H
 
 // ======================================================================

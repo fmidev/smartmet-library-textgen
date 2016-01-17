@@ -14,55 +14,52 @@ class TextGenPosixTime;
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriod;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriod;
 }
 
 namespace TextGen
 {
-  class Paragraph;
+class Paragraph;
 
-  class PrecipitationStory : public Story
-  {
+class PrecipitationStory : public Story
+{
+ public:
+  virtual ~PrecipitationStory();
+  PrecipitationStory(const TextGenPosixTime& theForecastTime,
+                     const TextGen::AnalysisSources& theSources,
+                     const TextGen::WeatherArea& theArea,
+                     const TextGen::WeatherPeriod& thePeriod,
+                     const std::string& theVariable);
 
-  public:
+  static bool hasStory(const std::string& theName);
+  virtual Paragraph makeStory(const std::string& theName) const;
 
-	virtual ~PrecipitationStory();
-	PrecipitationStory(const TextGenPosixTime & theForecastTime,
-					   const TextGen::AnalysisSources & theSources,
-					   const TextGen::WeatherArea & theArea,
-					   const TextGen::WeatherPeriod & thePeriod,
-					   const std::string & theVariable);
+ private:
+  Paragraph total() const;
+  Paragraph total_day() const;
+  Paragraph range() const;
+  Paragraph classification() const;
+  Paragraph pop_twodays() const;
+  Paragraph pop_days() const;
+  Paragraph pop_max() const;
+  Paragraph sums() const;
+  Paragraph daily_sums() const;
 
-	static bool hasStory(const std::string & theName);
-	virtual Paragraph makeStory(const std::string & theName) const;
+  PrecipitationStory();
+  PrecipitationStory(const PrecipitationStory& theStory);
+  PrecipitationStory& operator=(const PrecipitationStory& theStory);
 
-  private:
+  const TextGenPosixTime itsForecastTime;
+  const TextGen::AnalysisSources& itsSources;
+  const TextGen::WeatherArea& itsArea;
+  const TextGen::WeatherPeriod& itsPeriod;
+  const std::string itsVar;
 
-	Paragraph total() const;
-	Paragraph total_day() const;
-	Paragraph range() const;
-	Paragraph classification() const;
-	Paragraph pop_twodays() const;
-	Paragraph pop_days() const;
-	Paragraph pop_max() const;
-	Paragraph sums() const;
-	Paragraph daily_sums() const;
-
-	PrecipitationStory();
-	PrecipitationStory(const PrecipitationStory & theStory);
-	PrecipitationStory & operator=(const PrecipitationStory & theStory);
-
-	const TextGenPosixTime itsForecastTime;
-	const TextGen::AnalysisSources & itsSources;
-	const TextGen::WeatherArea & itsArea;
-	const TextGen::WeatherPeriod & itsPeriod;
-	const std::string itsVar;
-
-  }; // class PrecipitationStory
+};  // class PrecipitationStory
 }
 
-#endif // TEXTGEN_PRECIPITATIONSTORY_H
+#endif  // TEXTGEN_PRECIPITATIONSTORY_H
 
 // ======================================================================

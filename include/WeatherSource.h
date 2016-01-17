@@ -16,21 +16,19 @@ class NFmiQueryData;
 
 namespace TextGen
 {
-  typedef long WeatherId;
+typedef long WeatherId;
 
-  class WeatherSource
-  {
-  public:
+class WeatherSource
+{
+ public:
+  virtual ~WeatherSource() {}
+  virtual boost::shared_ptr<NFmiQueryData> data(const std::string& theName) const = 0;
+  virtual WeatherId id(const std::string& theName) const = 0;
 
-	virtual ~WeatherSource() { }
-	virtual boost::shared_ptr<NFmiQueryData> data(const std::string & theName) const = 0;
-	virtual WeatherId id(const std::string & theName) const = 0;
+};  // class WeatherSource
 
-  }; // class WeatherSource
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_WEATHERSOURCE_H
+#endif  // TEXTGEN_WEATHERSOURCE_H
 
 // ======================================================================
-

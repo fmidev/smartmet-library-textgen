@@ -20,51 +20,42 @@ using namespace std;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Generate story on mean temperature
+ *
+ * \return The generated paragraph
+ *
+ * \todo Is throwing the best way to handle missing results?
+ *
+ * \see page_temperature_mean
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Generate story on mean temperature
-   *
-   * \return The generated paragraph
-   *
-   * \todo Is throwing the best way to handle missing results?
-   *
-   * \see page_temperature_mean
-   */
-  // ----------------------------------------------------------------------
-  
-  Paragraph TemperatureStory::mean() const
-  {
-	MessageLogger log("TemperatureStory::mean");
+Paragraph TemperatureStory::mean() const
+{
+  MessageLogger log("TemperatureStory::mean");
 
-	Paragraph paragraph;
-	Sentence sentence;
+  Paragraph paragraph;
+  Sentence sentence;
 
-	GridForecaster forecaster;
+  GridForecaster forecaster;
 
-	WeatherResult result = forecaster.analyze(itsVar+"::fake::mean",
-											  itsSources,
-											  Temperature,
-											  Mean,
-											  Mean,
-											  itsArea,
-											  itsPeriod);
+  WeatherResult result = forecaster.analyze(
+      itsVar + "::fake::mean", itsSources, Temperature, Mean, Mean, itsArea, itsPeriod);
 
-	if(result.value() == kFloatMissing)
-	  throw TextGenError("Mean temperature not available");
+  if (result.value() == kFloatMissing) throw TextGenError("Mean temperature not available");
 
-	log << "Temperature Mean(Mean) = " << result << endl;
+  log << "Temperature Mean(Mean) = " << result << endl;
 
-	sentence << "keskilampotila"
-			 << Integer(static_cast<int>(round(result.value())))
-			 << *UnitFactory::create(DegreesCelsius);
-	
-	paragraph << sentence;
-	log << paragraph;
-	return paragraph;
-  }
+  sentence << "keskilampotila" << Integer(static_cast<int>(round(result.value())))
+           << *UnitFactory::create(DegreesCelsius);
 
+  paragraph << sentence;
+  log << paragraph;
+  return paragraph;
+}
 
-} // namespace TextGen
-  
+}  // namespace TextGen
+
 // ======================================================================

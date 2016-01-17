@@ -12,40 +12,38 @@
 
 namespace TextGen
 {
-  class CssTextFormatter : public TextFormatter
-  {
-  public:
-	virtual ~CssTextFormatter() { }
-	virtual void dictionary(const boost::shared_ptr<Dictionary> & theDict);
+class CssTextFormatter : public TextFormatter
+{
+ public:
+  virtual ~CssTextFormatter() {}
+  virtual void dictionary(const boost::shared_ptr<Dictionary>& theDict);
 
-	virtual std::string format(const Glyph & theGlyph) const;
+  virtual std::string format(const Glyph& theGlyph) const;
 
-	// override for all composites
-	virtual std::string visit(const Glyph & theGlyph) const;
-	virtual std::string visit(const Integer & theInteger) const;
-	virtual std::string visit(const Real & theReal) const;
-	virtual std::string visit(const IntegerRange & theRange) const;
-	virtual std::string visit(const Sentence & theSentence) const;
-	virtual std::string visit(const Paragraph & theParagraph) const;
-	virtual std::string visit(const Header & theHeader) const;
-	virtual std::string visit(const Document & theDocument) const;
-	virtual std::string visit(const Time & theTime) const;
-	virtual std::string visit(const TimePeriod & theTimePeriod) const;
+  // override for all composites
+  virtual std::string visit(const Glyph& theGlyph) const;
+  virtual std::string visit(const Integer& theInteger) const;
+  virtual std::string visit(const Real& theReal) const;
+  virtual std::string visit(const IntegerRange& theRange) const;
+  virtual std::string visit(const Sentence& theSentence) const;
+  virtual std::string visit(const Paragraph& theParagraph) const;
+  virtual std::string visit(const Header& theHeader) const;
+  virtual std::string visit(const Document& theDocument) const;
+  virtual std::string visit(const Time& theTime) const;
+  virtual std::string visit(const TimePeriod& theTimePeriod) const;
 
-	virtual std::string visit(const SectionTag & theSectionTag) const;
-	virtual std::string visit(const StoryTag & theStoryTag) const;
+  virtual std::string visit(const SectionTag& theSectionTag) const;
+  virtual std::string visit(const StoryTag& theStoryTag) const;
 
-	std::string name() const {return "css"; }
+  std::string name() const { return "css"; }
+ private:
+  boost::shared_ptr<Dictionary> itsDictionary;
+  mutable std::string itsSectionVar;
+  mutable std::string itsStoryVar;
 
-  private:
+};  // class CssTextFormatter
+}  // namespace TextGen
 
-	boost::shared_ptr<Dictionary> itsDictionary;
-	mutable std::string itsSectionVar;
-	mutable std::string itsStoryVar;
-
-  }; // class CssTextFormatter
-} // namespace TextGen
-
-#endif // TEXTGEN_CSSTEXTFORMATTER_H
+#endif  // TEXTGEN_CSSTEXTFORMATTER_H
 
 // ======================================================================

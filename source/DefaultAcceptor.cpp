@@ -17,34 +17,25 @@
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+Acceptor* DefaultAcceptor::clone() const { return new DefaultAcceptor(*this); }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Accept or reject a value
+ *
+ * The value kFloatMissing is never accepted.
+ *
+ * \param theValue The value to be accepted
+ * \return True if the value is accepted
+ */
+// ----------------------------------------------------------------------
 
-  Acceptor * DefaultAcceptor::clone() const
-  {
-	return new DefaultAcceptor(*this);
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Accept or reject a value
-   *
-   * The value kFloatMissing is never accepted.
-   *
-   * \param theValue The value to be accepted
-   * \return True if the value is accepted
-   */
-  // ----------------------------------------------------------------------
-
-  bool DefaultAcceptor::accept(float theValue) const
-  {
-	return(theValue != kFloatMissing);
-  }
-
-} // namespace TextGen
+bool DefaultAcceptor::accept(float theValue) const { return (theValue != kFloatMissing); }
+}  // namespace TextGen
 
 // ======================================================================

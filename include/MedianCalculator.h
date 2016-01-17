@@ -12,30 +12,27 @@
 #include <boost/shared_ptr.hpp>
 #include <vector>
 
-
 namespace TextGen
 {
-  class MedianCalculator : public Calculator
-  {
-  public:
+class MedianCalculator : public Calculator
+{
+ public:
+  MedianCalculator();
+  virtual ~MedianCalculator() {}
+  virtual void operator()(float theValue);
+  virtual float operator()() const;
+  virtual void acceptor(const Acceptor& theAcceptor);
+  virtual boost::shared_ptr<Calculator> clone() const;
+  virtual void reset();
 
-	MedianCalculator();
-	virtual ~MedianCalculator() { }
-	virtual void operator()(float theValue);
-	virtual float operator()() const;
-	virtual void acceptor(const Acceptor & theAcceptor);
-	virtual boost::shared_ptr<Calculator> clone() const;
-	virtual void reset();
+ private:
+  boost::shared_ptr<Acceptor> itsAcceptor;
+  mutable std::vector<float> theValueVector;
 
-  private:
+};  // class MedianCalculator
 
-	boost::shared_ptr<Acceptor> itsAcceptor;
-	mutable std::vector<float> theValueVector;
+}  // namespace TextGen
 
-  }; // class MedianCalculator
-
-} // namespace TextGen
-
-#endif // TEXTGEN_MEDIANCALCULATOR_H
+#endif  // TEXTGEN_MEDIANCALCULATOR_H
 
 // ======================================================================

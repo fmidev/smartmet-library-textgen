@@ -30,132 +30,125 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return a clone
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return a clone
-   */
-  // ----------------------------------------------------------------------
+boost::shared_ptr<Glyph> Sentence::clone() const
+{
+  boost::shared_ptr<Glyph> ret(new Sentence(*this));
+  return ret;
+}
 
-  boost::shared_ptr<Glyph> Sentence::clone() const
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the text for the sentence
+ *
+ * \param theDictionary The dictionary to be used
+ * \return The text
+ */
+// ----------------------------------------------------------------------
+
+std::string Sentence::realize(const Dictionary& theDictionary) const
+{
+  throw TextGenError("Sentence::realize(Dictionary) should not be called");
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the text for the sentence
+ *
+ * \param theFormatter The formatter
+ * \return The text
+ */
+// ----------------------------------------------------------------------
+
+std::string Sentence::realize(const TextFormatter& theFormatter) const
+{
+  return theFormatter.visit(*this);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Returns false since sentence is not a separator
+ */
+// ----------------------------------------------------------------------
+
+bool Sentence::isDelimiter() const { return false; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Add a sentence to the end of this sentence
+ *
+ * \param theSentence The sentence to be added
+ * \result The sentence added to
+ */
+// ----------------------------------------------------------------------
+
+Sentence& Sentence::operator<<(const Sentence& theSentence)
+{
+  if (this != &theSentence)
   {
-	boost::shared_ptr<Glyph> ret(new Sentence(*this));
-	return ret;
+    copy(theSentence.itsData.begin(), theSentence.itsData.end(), back_inserter(itsData));
   }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the sentence
-   *
-   * \param theDictionary The dictionary to be used
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
-
-  std::string Sentence::realize(const Dictionary & theDictionary) const
+  else
   {
-	throw TextGenError("Sentence::realize(Dictionary) should not be called");
+    storage_type tmp(itsData);
+    copy(tmp.begin(), tmp.end(), back_inserter(itsData));
   }
+  return *this;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the text for the sentence
-   *
-   * \param theFormatter The formatter
-   * \return The text
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Add a glyph to a sentence
+ *
+ * \param theGlyph The glyph to be added
+ * \result The sentence added to
+ */
+// ----------------------------------------------------------------------
 
-  std::string Sentence::realize(const TextFormatter & theFormatter) const
+Sentence& Sentence::operator<<(const Glyph& theGlyph)
+{
+  itsData.push_back(theGlyph.clone());
+  return *this;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Add a phrase to a sentence with automatic conversion
+ *
+ * \param thePhrase The string initializer for the phrase
+ * \return The sentence added to
+ */
+// ----------------------------------------------------------------------
+
+Sentence& Sentence::operator<<(const string& thePhrase)
+{
+  if (!thePhrase.empty())
   {
-	return theFormatter.visit(*this);
+    boost::shared_ptr<Phrase> phrase(new Phrase(thePhrase));
+    itsData.push_back(phrase);
   }
+  return *this;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Returns false since sentence is not a separator
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Add a number to a sentence with automatic conversion
+ *
+ * \param theNumber The integer initializer for the number
+ * \return The sentence added to
+ */
+// ----------------------------------------------------------------------
 
-  bool Sentence::isDelimiter() const
-  {
-	return false;
-  }
+Sentence& Sentence::operator<<(int theNumber)
+{
+  *this << Integer(theNumber);
+  return *this;
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Add a sentence to the end of this sentence
-   *
-   * \param theSentence The sentence to be added
-   * \result The sentence added to
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence & Sentence::operator<<(const Sentence & theSentence)
-  {
-	if(this != &theSentence)
-	  {
-		copy(theSentence.itsData.begin(),
-			 theSentence.itsData.end(),
-			 back_inserter(itsData));
-	  }
-	else
-	  {
-		storage_type tmp(itsData);
-		copy(tmp.begin(),tmp.end(), back_inserter(itsData));
-	  }
-	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Add a glyph to a sentence
-   *
-   * \param theGlyph The glyph to be added
-   * \result The sentence added to
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence & Sentence::operator<<(const Glyph & theGlyph)
-  {
-	itsData.push_back(theGlyph.clone());
-	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Add a phrase to a sentence with automatic conversion
-   *
-   * \param thePhrase The string initializer for the phrase
-   * \return The sentence added to
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence & Sentence::operator<<(const string & thePhrase)
-  {
-	if(!thePhrase.empty())
-	  {
-		boost::shared_ptr<Phrase> phrase(new Phrase(thePhrase));
-		itsData.push_back(phrase);
-	  }
-	return *this;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Add a number to a sentence with automatic conversion
-   *
-   * \param theNumber The integer initializer for the number
-   * \return The sentence added to
-   */
-  // ----------------------------------------------------------------------
-
-  Sentence & Sentence::operator<<(int theNumber)
-  {
-	*this << Integer(theNumber);
-	return *this;
-  }
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

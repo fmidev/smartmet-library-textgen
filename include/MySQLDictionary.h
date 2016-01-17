@@ -14,37 +14,35 @@
 
 namespace TextGen
 {
-  class MySQLDictionary : public Dictionary
-  {
-  public:
+class MySQLDictionary : public Dictionary
+{
+ public:
+  typedef Dictionary::size_type size_type;
 
-	typedef Dictionary::size_type size_type;
-
-	virtual ~MySQLDictionary();
-	MySQLDictionary();
+  virtual ~MySQLDictionary();
+  MySQLDictionary();
 #ifdef NO_COMPILER_OPTIMIZE
-	MySQLDictionary(const MySQLDictionary & theDict);
-	MySQLDictionary & operator=(const MySQLDictionary & theDict);
+  MySQLDictionary(const MySQLDictionary& theDict);
+  MySQLDictionary& operator=(const MySQLDictionary& theDict);
 #endif
 
-	virtual void init(const std::string & theLanguage);
-	virtual const std::string & language(void) const;
-	virtual bool contains(const std::string & theKey) const;
-	virtual const std::string & find(const std::string & theKey) const;
-	virtual void insert(const std::string & theKey, const std::string & thePhrase);
+  virtual void init(const std::string& theLanguage);
+  virtual const std::string& language(void) const;
+  virtual bool contains(const std::string& theKey) const;
+  virtual const std::string& find(const std::string& theKey) const;
+  virtual void insert(const std::string& theKey, const std::string& thePhrase);
 
-	virtual size_type size(void) const;
-	virtual bool empty(void) const;
+  virtual size_type size(void) const;
+  virtual bool empty(void) const;
 
-  private:
+ private:
+  class Pimple;
+  boost::shared_ptr<Pimple> itsPimple;
 
-	class Pimple;
-	boost::shared_ptr<Pimple> itsPimple;
+};  // class MySQLDictionary
 
-  }; // class MySQLDictionary
+}  // namespace TextGen
 
-} // namespace TextGen
-
-#endif // TEXTGEN_MYSQLDICTIONARY_H
+#endif  // TEXTGEN_MYSQLDICTIONARY_H
 
 // ======================================================================

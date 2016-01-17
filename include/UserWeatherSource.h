@@ -15,27 +15,23 @@ class NFmiQueryData;
 
 namespace TextGen
 {
-  class UserWeatherSource : public WeatherSource
-  {
-  public:
+class UserWeatherSource : public WeatherSource
+{
+ public:
+  UserWeatherSource();
+  virtual boost::shared_ptr<NFmiQueryData> data(const std::string& theName) const;
+  virtual WeatherId id(const std::string& theName) const;
 
-	UserWeatherSource();
-	virtual boost::shared_ptr<NFmiQueryData> data(const std::string & theName) const;
-	virtual WeatherId id(const std::string & theName) const;
+  void insert(const std::string& theName, boost::shared_ptr<NFmiQueryData> theData) const;
 
-	void insert(const std::string & theName,
-				boost::shared_ptr<NFmiQueryData> theData) const;
+ private:
+  class Pimple;
+  boost::shared_ptr<Pimple> itsPimple;
 
-  private:
+};  // class UserWeatherSource
 
-	class Pimple;
-	boost::shared_ptr<Pimple> itsPimple;
+}  // namespace TextGen
 
-  }; // class UserWeatherSource
-
-} // namespace TextGen
-
-#endif // TEXTGEN_USERWEATHERSOURCE_H
+#endif  // TEXTGEN_USERWEATHERSOURCE_H
 
 // ======================================================================
-

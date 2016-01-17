@@ -6,9 +6,9 @@
 echo "Sonera keyword validity tester\n";
 echo "==============================\n";
 
-$link = mysql_connect("base.weatherproof.fi",
-		      "textgen",
-		      "w1w2w3") or die("Could not connect to base.weatherproof.fi");
+$link = mysql_connect("alppen.fmi.fi",
+                      "textgen",
+                      "w1w2w3") or die("Could not connect to base.weatherproof.fi");
 mysql_select_db("textgen") or die("Could not select textgen database");
 
 // Establish all active languages

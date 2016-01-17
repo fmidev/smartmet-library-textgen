@@ -40,189 +40,187 @@ using namespace std;
 
 namespace TextGen
 {
-  namespace CalculatorFactory
+namespace CalculatorFactory
+{
+// ----------------------------------------------------------------------
+/*!
+ * \brief Create an calculator suitable for the given WeatherFunction
+ *
+ * Throws if there is no suitable data modifier.
+ *
+ * \param theFunction The weather function
+ * \return The data modifier
+ */
+// ----------------------------------------------------------------------
+
+Calculator* create(WeatherFunction theFunction)
+{
+  switch (theFunction)
   {
+    case Mean:
+      return new MeanCalculator;
+    case Maximum:
+      return new MaximumCalculator;
+    case Minimum:
+      return new MinimumCalculator;
+    case Median:
+      return new MedianCalculator;
+    case Sum:
+      return new SumCalculator;
+    case Percentage:
+      return new PercentageCalculator;
+    case Count:
+      return new CountCalculator;
+    case Trend:
+      return new TrendCalculator;
+    case Change:
+      return new ChangeCalculator;
+    case NullFunction:
+      return new NullCalculator;
+    case StandardDeviation:
+      return new StandardDeviationCalculator;
+  }
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Create an calculator suitable for the given WeatherFunction
-	 *
-	 * Throws if there is no suitable data modifier.
-	 *
-	 * \param theFunction The weather function
-	 * \return The data modifier
-	 */
-	// ----------------------------------------------------------------------
+  throw TextGenError("CalculatorFactory failed to recognize the given function" +
+                     lexical_cast<string>(static_cast<int>(theFunction)));
+}
 
-	Calculator * create(WeatherFunction theFunction)
-	{
-	  switch(theFunction)
-		{
-		case Mean:
-		  return new MeanCalculator;
-		case Maximum:
-		  return new MaximumCalculator;
-		case Minimum:
-		  return new MinimumCalculator;
-		case Median:
-		  return new MedianCalculator;
-		case Sum:
-		  return new SumCalculator;
-		case Percentage:
-		  return new PercentageCalculator;
-		case Count:
-		  return new CountCalculator;
-		case Trend:
-		  return new TrendCalculator;
-		case Change:
-		  return new ChangeCalculator;
-		case NullFunction:
-		  return new NullCalculator;
-		case StandardDeviation:
-		  return new StandardDeviationCalculator;
-		}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Create a modular calculator suitable for the given WeatherFunction
+ *
+ * Throws if there is no suitable data modifier.
+ *
+ * \param theFunction The weather function
+ * \param theModulo The modulo value
+ * \return The data modifier
+ */
+// ----------------------------------------------------------------------
 
-	  throw TextGenError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
-	}
+Calculator* create(WeatherFunction theFunction, int theModulo)
+{
+  switch (theFunction)
+  {
+    case Mean:
+      return new ModMeanCalculator(theModulo);
+    case StandardDeviation:
+      return new ModStandardDeviationCalculator(theModulo);
+    case Change:
+      return new ModChangeCalculator(theModulo);
+    case Trend:
+      return new ModTrendCalculator(theModulo);
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Create a modular calculator suitable for the given WeatherFunction
-	 *
-	 * Throws if there is no suitable data modifier.
-	 *
-	 * \param theFunction The weather function
-	 * \param theModulo The modulo value
-	 * \return The data modifier
-	 */
-	// ----------------------------------------------------------------------
+    case Percentage:
+      return new PercentageCalculator;
+    case Count:
+      return new CountCalculator;
+    case NullFunction:
+      return new NullCalculator;
 
-	Calculator * create(WeatherFunction theFunction, int theModulo)
-	{
-	  switch(theFunction)
-		{
-		case Mean:
-		  return new ModMeanCalculator(theModulo);
-		case StandardDeviation:
-		  return new ModStandardDeviationCalculator(theModulo);
-		case Change:
-		  return new ModChangeCalculator(theModulo);
-		case Trend:
-		  return new ModTrendCalculator(theModulo);
+    case Median:
+      throw TextGenError("CalculatorFactory cannot create modular Median analyzer");
+    case Maximum:
+      throw TextGenError("CalculatorFactory cannot create modular Maximum analyzer");
+    case Minimum:
+      throw TextGenError("CalculatorFactory cannot create modular Minimum analyzer");
+    case Sum:
+      throw TextGenError("CalculatorFactory cannot create modular Sum analyzer");
+  }
 
-		case Percentage:
-		  return new PercentageCalculator;
-		case Count:
-		  return new CountCalculator;
-		case NullFunction:
-		  return new NullCalculator;
+  throw TextGenError("CalculatorFactory failed to recognize the given function" +
+                     lexical_cast<string>(static_cast<int>(theFunction)));
+}
 
-		case Median:
-		  throw TextGenError("CalculatorFactory cannot create modular Median analyzer");
-		case Maximum:
-		  throw TextGenError("CalculatorFactory cannot create modular Maximum analyzer");
-		case Minimum:
-		  throw TextGenError("CalculatorFactory cannot create modular Minimum analyzer");
-		case Sum:
-		  throw TextGenError("CalculatorFactory cannot create modular Sum analyzer");
-		}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Create an calculator suitable for the given WeatherFunction
+ *
+ * Throws if there is no suitable data modifier.
+ *
+ * \param theFunction The weather function
+ * \param theTester The tester for Percentage calculations
+ * \return The data modifier
+ */
+// ----------------------------------------------------------------------
 
-	  throw TextGenError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
-	}
+Calculator* create(WeatherFunction theFunction, const Acceptor& theTester)
+{
+  switch (theFunction)
+  {
+    case Mean:
+    case Maximum:
+    case Minimum:
+    case Median:
+    case StandardDeviation:
+    case Sum:
+    case Trend:
+    case Change:
+    case NullFunction:
+      return create(theFunction);
+    case Percentage:
+    {
+      PercentageCalculator* tmp = new PercentageCalculator;
+      tmp->condition(theTester);
+      return tmp;
+    }
+    case Count:
+    {
+      CountCalculator* tmp = new CountCalculator;
+      tmp->condition(theTester);
+      return tmp;
+    }
+  }
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Create an calculator suitable for the given WeatherFunction
-	 *
-	 * Throws if there is no suitable data modifier.
-	 *
-	 * \param theFunction The weather function
-	 * \param theTester The tester for Percentage calculations
-	 * \return The data modifier
-	 */
-	// ----------------------------------------------------------------------
+  throw TextGenError("CalculatorFactory failed to recognize the given function" +
+                     lexical_cast<string>(static_cast<int>(theFunction)));
+}
 
-	Calculator * create(WeatherFunction theFunction,
-						const Acceptor & theTester)
-	{
-	  switch(theFunction)
-		{
-		case Mean:
-		case Maximum:
-		case Minimum:
-		case Median:
-		case StandardDeviation:
-		case Sum:
-		case Trend:
-		case Change:
-		case NullFunction:
-		  return create(theFunction);
-		case Percentage:
-		  {
-			PercentageCalculator * tmp = new PercentageCalculator;
-			tmp->condition(theTester);
-			return tmp;
-		  }
-		case Count:
-		  {
-			CountCalculator * tmp = new CountCalculator;
-			tmp->condition(theTester);
-			return tmp;
-		  }
-		}
-	  
-	  throw TextGenError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
-	}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Create a modular calculator suitable for the given WeatherFunction
+ *
+ * Throws if there is no suitable data modifier.
+ *
+ * \param theFunction The weather function
+ * \param theTester The tester for Percentage calculations
+ * \param theModulo The modulo value
+ * \return The data modifier
+ */
+// ----------------------------------------------------------------------
 
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Create a modular calculator suitable for the given WeatherFunction
-	 *
-	 * Throws if there is no suitable data modifier.
-	 *
-	 * \param theFunction The weather function
-	 * \param theTester The tester for Percentage calculations
-	 * \param theModulo The modulo value
-	 * \return The data modifier
-	 */
-	// ----------------------------------------------------------------------
+Calculator* create(WeatherFunction theFunction, const Acceptor& theTester, int theModulo)
+{
+  switch (theFunction)
+  {
+    case Mean:
+    case Maximum:
+    case Minimum:
+    case Median:
+    case StandardDeviation:
+    case Sum:
+    case Trend:
+    case Change:
+    case NullFunction:
+      return create(theFunction, theModulo);
+    case Percentage:
+    {
+      PercentageCalculator* tmp = new PercentageCalculator;
+      tmp->condition(theTester);
+      return tmp;
+    }
+    case Count:
+    {
+      CountCalculator* tmp = new CountCalculator;
+      tmp->condition(theTester);
+      return tmp;
+    }
+  }
 
-	Calculator * create(WeatherFunction theFunction,
-						const Acceptor & theTester,
-						int theModulo)
-	{
-	  switch(theFunction)
-		{
-		case Mean:
-		case Maximum:
-		case Minimum:
-		case Median:
-		case StandardDeviation:
-		case Sum:
-		case Trend:
-		case Change:
-		case NullFunction:
-		  return create(theFunction,theModulo);
-		case Percentage:
-		  {
-			PercentageCalculator * tmp = new PercentageCalculator;
-			tmp->condition(theTester);
-			return tmp;
-		  }
-		case Count:
-		  {
-			CountCalculator * tmp = new CountCalculator;
-			tmp->condition(theTester);
-			return tmp;
-		  }
-		}
-	  
-	  throw TextGenError("CalculatorFactory failed to recognize the given function"+lexical_cast<string>(static_cast<int>(theFunction)));
-	}
+  throw TextGenError("CalculatorFactory failed to recognize the given function" +
+                     lexical_cast<string>(static_cast<int>(theFunction)));
+}
 
-
-  } // namespace CalculatorFactory
-} // namespace TextGen
+}  // namespace CalculatorFactory
+}  // namespace TextGen
 
 // ======================================================================
-

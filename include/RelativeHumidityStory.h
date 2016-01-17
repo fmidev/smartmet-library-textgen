@@ -13,51 +13,48 @@
 
 namespace TextGen
 {
-  class AnalysisSources;
-  class WeatherArea;
-  class WeatherPeriod;
+class AnalysisSources;
+class WeatherArea;
+class WeatherPeriod;
 }
 
 class TextGenPosixTime;
 
 namespace TextGen
 {
-  class Paragraph;
+class Paragraph;
 
-  class RelativeHumidityStory : public Story
-  {
+class RelativeHumidityStory : public Story
+{
+ public:
+  virtual ~RelativeHumidityStory();
+  RelativeHumidityStory(const TextGenPosixTime& theForecastTime,
+                        const TextGen::AnalysisSources& theSources,
+                        const TextGen::WeatherArea& theArea,
+                        const TextGen::WeatherPeriod& thePeriod,
+                        const std::string& theVariable);
 
-  public:
+  static bool hasStory(const std::string& theName);
+  virtual Paragraph makeStory(const std::string& theName) const;
 
-	virtual ~RelativeHumidityStory();
-	RelativeHumidityStory(const TextGenPosixTime & theForecastTime,
-						  const TextGen::AnalysisSources & theSources,
-						  const TextGen::WeatherArea & theArea,
-						  const TextGen::WeatherPeriod & thePeriod,
-						  const std::string & theVariable);
-	
-	static bool hasStory(const std::string & theName);
-	virtual Paragraph makeStory(const std::string & theName) const;
+ private:
+  Paragraph lowest() const;
+  Paragraph day() const;
+  Paragraph range() const;
 
-  private:
+  RelativeHumidityStory();
+  RelativeHumidityStory(const RelativeHumidityStory& theStory);
+  RelativeHumidityStory& operator=(const RelativeHumidityStory& theStory);
 
-	Paragraph lowest() const;
-	Paragraph day() const;
-	Paragraph range() const;
+  const TextGenPosixTime itsForecastTime;
+  const TextGen::AnalysisSources& itsSources;
+  const TextGen::WeatherArea& itsArea;
+  const TextGen::WeatherPeriod& itsPeriod;
+  const std::string itsVar;
 
-	RelativeHumidityStory();
-	RelativeHumidityStory(const RelativeHumidityStory & theStory);
-	RelativeHumidityStory & operator=(const RelativeHumidityStory & theStory);
-
-	const TextGenPosixTime itsForecastTime;
-	const TextGen::AnalysisSources & itsSources;
-	const TextGen::WeatherArea & itsArea;
-	const TextGen::WeatherPeriod & itsPeriod;
-	const std::string itsVar;
-
-  }; // class RelativeHumidityStory
+};  // class RelativeHumidityStory
 }
 
-#endif // TEXTGEN_RELATIVEHUMIDITYSTORY_H
+#endif  // TEXTGEN_RELATIVEHUMIDITYSTORY_H
 
 // ======================================================================

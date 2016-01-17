@@ -15,30 +15,28 @@ class NFmiPoint;
 
 namespace TextGen
 {
-  class LocationSource
-  {
-  public:
+class LocationSource
+{
+ public:
+  static LocationSource& instance();
 
-	static LocationSource & instance();
+  bool hasCoordinates(const std::string& theLocation) const;
+  NFmiPoint coordinates(const std::string& theLocation) const;
 
-	bool hasCoordinates(const std::string & theLocation) const;
-	NFmiPoint coordinates(const std::string & theLocation) const;
+ private:
+  class Pimple;
+  boost::shared_ptr<Pimple> itsPimple;
 
-  private:
+  // Singleton protection
+  ~LocationSource();
+  LocationSource();
+  LocationSource(const LocationSource& theSrc);
+  LocationSource& operator=(const LocationSource& theSrc);
 
-	class Pimple;
-	boost::shared_ptr<Pimple> itsPimple;
+};  // class LocationSource
 
-	// Singleton protection
-	~LocationSource();
-	LocationSource();
-	LocationSource(const LocationSource & theSrc);
-	LocationSource & operator=(const LocationSource & theSrc);
+}  // namespace TextGen
 
-  }; // class LocationSource
-
-} // namespace TextGen
-
-#endif // TEXTGEN_LOCATIONSOURCE_H
+#endif  // TEXTGEN_LOCATIONSOURCE_H
 
 // ======================================================================

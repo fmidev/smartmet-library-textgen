@@ -27,36 +27,35 @@ using namespace boost::locale::as;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Generate story on text
+ *
+ * Variables:
+ *
+ *     value = "Text to be inserted into paragraph as is."
+ *     value = @filename
+ *     value = @filename.php
+ *
+ * Product specific variables are possible:
+ *
+ *     value::en_html = "<underline>Text to be underlined.</underline>"
+ *
+ * \return The story
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Generate story on text
-   *
-   * Variables:
-   *
-   *     value = "Text to be inserted into paragraph as is."
-   *     value = @filename
-   *     value = @filename.php
-   *
-   * Product specific variables are possible:
-   *
-   *     value::en_html = "<underline>Text to be underlined.</underline>"
-   *
-   * \return The story
-   */
-  // ----------------------------------------------------------------------
+Paragraph SpecialStory::date() const
+{
+  MessageLogger log("SpecialStory::date");
 
-  Paragraph SpecialStory::date() const
-  {
-	MessageLogger log("SpecialStory::date");
+  Paragraph paragraph;
 
-	Paragraph paragraph;
+  paragraph << TimePeriod(itsPeriod);
 
-	paragraph << TimePeriod(itsPeriod);
+  return paragraph;
+}
 
-	return paragraph;
-  }
+}  // namespace TextGen
 
-} // namespace TextGen
-  
 // ======================================================================

@@ -16,48 +16,44 @@
 
 namespace TextGen
 {
-  class WeatherFact
-  {
-  public:
+class WeatherFact
+{
+ public:
+  ~WeatherFact();
+  WeatherFact(const WeatherFact& theFact);
+  WeatherFact& operator=(const WeatherFact& theFact);
 
-	~WeatherFact();
-	WeatherFact(const WeatherFact & theFact);
-	WeatherFact & operator=(const WeatherFact & theFact);
+  WeatherFact(WeatherParameter theParameter,
+              WeatherFunction theFunction,
+              const WeatherPeriod& thePeriod,
+              const WeatherArea& theArea,
+              const WeatherResult& theResult);
 
-	WeatherFact(WeatherParameter theParameter,
-				WeatherFunction theFunction,
-				const WeatherPeriod & thePeriod,
-				const WeatherArea & theArea,
-				const WeatherResult & theResult);
+  WeatherParameter parameter() const;
+  WeatherFunction function() const;
+  const WeatherPeriod& period() const;
+  const WeatherArea& area() const;
+  const WeatherResult& result() const;
 
-	WeatherParameter parameter() const;
-	WeatherFunction function() const;
-	const WeatherPeriod & period() const;
-	const WeatherArea & area() const;
-	const WeatherResult & result() const;
+ private:
+  WeatherFact();
 
-  private:
+  WeatherParameter itsParameter;
+  WeatherFunction itsFunction;
+  WeatherPeriod itsPeriod;
+  WeatherArea itsArea;
+  WeatherResult itsResult;
 
-	WeatherFact();
+};  // class WeatherFact
 
-	WeatherParameter itsParameter;
-	WeatherFunction itsFunction;
-	WeatherPeriod itsPeriod;
-	WeatherArea itsArea;
-	WeatherResult itsResult;
-
-  }; // class WeatherFact
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // Free functions
 
-bool operator==(const TextGen::WeatherFact & theLhs,
-				const TextGen::WeatherFact & theRhs);
+bool operator==(const TextGen::WeatherFact& theLhs, const TextGen::WeatherFact& theRhs);
 
-bool operator!=(const TextGen::WeatherFact & theLhs,
-				const TextGen::WeatherFact & theRhs);
+bool operator!=(const TextGen::WeatherFact& theLhs, const TextGen::WeatherFact& theRhs);
 
-#endif // TEXTGEN_WEATHERFACT_H
+#endif  // TEXTGEN_WEATHERFACT_H
 
 // ======================================================================

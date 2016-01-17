@@ -21,95 +21,91 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   */
-  // ----------------------------------------------------------------------
+ChangeCalculator::ChangeCalculator()
+    : itsAcceptor(new DefaultAcceptor()),
+      itsCounter(0),
+      itsStartValue(kFloatMissing),
+      itsEndValue(kFloatMissing)
+{
+}
 
-  ChangeCalculator::ChangeCalculator()
-	: itsAcceptor(new DefaultAcceptor())
-	, itsCounter(0)
-	, itsStartValue(kFloatMissing)
-	, itsEndValue(kFloatMissing)
+// ----------------------------------------------------------------------
+/*!
+ * \brief Integrate a new value
+ *
+ * \param theValue
+ */
+// ----------------------------------------------------------------------
+
+void ChangeCalculator::operator()(float theValue)
+{
+  if (itsAcceptor->accept(theValue))
   {
+    if (itsCounter == 0) itsStartValue = theValue;
+    itsEndValue = theValue;
+    ++itsCounter;
   }
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Integrate a new value
-   *
-   * \param theValue
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the integrated value
+ *
+ * \return The integrated change value
+ */
+// ----------------------------------------------------------------------
 
-  void ChangeCalculator::operator()(float theValue)
-  {
-	if(itsAcceptor->accept(theValue))
-	  {
-		if(itsCounter==0)
-		  itsStartValue = theValue;
-		itsEndValue = theValue;
-		++itsCounter;
-	  }
-  }
+float ChangeCalculator::operator()() const
+{
+  if (itsCounter < 1 || itsStartValue == kFloatMissing || itsEndValue == kFloatMissing)
+    return kFloatMissing;
+  else
+    return (itsEndValue - itsStartValue);
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the integrated value
-   *
-   * \return The integrated change value
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set the internal acceptor
+ *
+ * \param theAcceptor The acceptor to be used
+ */
+// ----------------------------------------------------------------------
 
-  float ChangeCalculator::operator()() const
-  {
-	if(itsCounter<1 ||
-	   itsStartValue==kFloatMissing ||
-	   itsEndValue==kFloatMissing)
-	  return kFloatMissing;
-	else
-	  return (itsEndValue-itsStartValue);
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the internal acceptor
-   *
-   * \param theAcceptor The acceptor to be used
-   */
-  // ----------------------------------------------------------------------
+void ChangeCalculator::acceptor(const Acceptor& theAcceptor)
+{
+  itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
+}
 
-  void ChangeCalculator::acceptor(const Acceptor & theAcceptor)
-  {
-	itsAcceptor = shared_ptr<Acceptor>(theAcceptor.clone());
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+boost::shared_ptr<Calculator> ChangeCalculator::clone() const
+{
+  return boost::shared_ptr<Calculator>(new ChangeCalculator(*this));
+}
 
-  boost::shared_ptr<Calculator> ChangeCalculator::clone() const
-  {
-	return boost::shared_ptr<Calculator>(new ChangeCalculator(*this));
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Reset
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Reset
-   */
-  // ----------------------------------------------------------------------
+void ChangeCalculator::reset()
+{
+  itsCounter = 0;
+  itsStartValue = kFloatMissing;
+  itsEndValue = kFloatMissing;
+}
 
-  void ChangeCalculator::reset()
-  {
-	itsCounter = 0;
-	itsStartValue = kFloatMissing;
-	itsEndValue = kFloatMissing;
-  }
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

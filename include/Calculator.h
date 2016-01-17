@@ -12,24 +12,23 @@
 
 namespace TextGen
 {
-  class Acceptor;
+class Acceptor;
 
-  class Calculator
-  {
-  public:
+class Calculator
+{
+ public:
+  Calculator() {}
+  virtual ~Calculator() {}
+  virtual void operator()(float theValue) = 0;
+  virtual float operator()() const = 0;
+  virtual void acceptor(const Acceptor& theAcceptor) = 0;
+  virtual boost::shared_ptr<Calculator> clone() const = 0;
+  virtual void reset() = 0;
 
-	Calculator() { }
-	virtual ~Calculator() { }
-	virtual void operator()(float theValue) = 0;
-	virtual float operator()() const = 0;
-	virtual void acceptor(const Acceptor & theAcceptor) = 0;
-	virtual boost::shared_ptr<Calculator> clone() const = 0;
-	virtual void reset() = 0;
-	
-  }; // class Calculator
+};  // class Calculator
 
-} // namespace TextGen
+}  // namespace TextGen
 
-#endif // TEXTGEN_CALCULATOR_H
+#endif  // TEXTGEN_CALCULATOR_H
 
 // ======================================================================

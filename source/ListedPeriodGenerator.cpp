@@ -22,90 +22,71 @@ using namespace std;
 
 namespace TextGen
 {
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   *
-   * \param theMainPeriod The period to iterate
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ *
+ * \param theMainPeriod The period to iterate
+ */
+// ----------------------------------------------------------------------
 
-  ListedPeriodGenerator::ListedPeriodGenerator(const WeatherPeriod & theMainPeriod)
-	: itsMainPeriod(theMainPeriod)
-  {
-  }
+ListedPeriodGenerator::ListedPeriodGenerator(const WeatherPeriod& theMainPeriod)
+    : itsMainPeriod(theMainPeriod)
+{
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Test if the period is undivided
-   *
-   * \return Always false, listed period is never in principle the original
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Test if the period is undivided
+ *
+ * \return Always false, listed period is never in principle the original
+ */
+// ----------------------------------------------------------------------
 
-  bool ListedPeriodGenerator::undivided() const
-  {
-	return false;
-  }
+bool ListedPeriodGenerator::undivided() const { return false; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Add a new period to be processed
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Add a new period to be processed
-   */
-  // ----------------------------------------------------------------------
+void ListedPeriodGenerator::add(const WeatherPeriod& thePeriod) { itsPeriods.push_back(thePeriod); }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the number of subperiods
+ *
+ * \return The number of subperiods
+ */
+// ----------------------------------------------------------------------
 
-  void ListedPeriodGenerator::add(const WeatherPeriod & thePeriod)
-  {
-	itsPeriods.push_back(thePeriod);
-  }
+ListedPeriodGenerator::size_type ListedPeriodGenerator::size() const { return itsPeriods.size(); }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the minimal period covered by the generator
+ *
+ * \return The minimal period
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the number of subperiods
-   *
-   * \return The number of subperiods
-   */
-  // ----------------------------------------------------------------------
+WeatherPeriod ListedPeriodGenerator::period() const { return itsMainPeriod; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the desired subperiod
+ *
+ * Throws if there is no such subperiod
+ *
+ * \param thePeriod The index of the subperiod
+ * \return The subperiod
+ */
+// ----------------------------------------------------------------------
 
-  ListedPeriodGenerator::size_type
-  ListedPeriodGenerator::size() const
-  {
-	return itsPeriods.size();
-  }
+WeatherPeriod ListedPeriodGenerator::period(size_type thePeriod) const
+{
+  if (thePeriod < 1 || thePeriod > itsPeriods.size())
+    throw TextGen::TextGenError("ListedPeriodGenerator::period(): invalid argument");
+  return itsPeriods[thePeriod - 1];
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the minimal period covered by the generator
-   *
-   * \return The minimal period
-   */
-  // ----------------------------------------------------------------------
-
-  WeatherPeriod ListedPeriodGenerator::period() const
-  {
-	return itsMainPeriod;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the desired subperiod
-   *
-   * Throws if there is no such subperiod
-   *
-   * \param thePeriod The index of the subperiod
-   * \return The subperiod
-   */
-  // ----------------------------------------------------------------------
-
-  WeatherPeriod ListedPeriodGenerator::period(size_type thePeriod) const
-  {
-    if(thePeriod < 1 || thePeriod > itsPeriods.size())
-      throw TextGen::TextGenError("ListedPeriodGenerator::period(): invalid argument");
-    return itsPeriods[thePeriod-1];
-
-  }
-
-} // namespace TextGen
+}  // namespace TextGen
 
 // ======================================================================

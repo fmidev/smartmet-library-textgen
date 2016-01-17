@@ -13,41 +13,37 @@
 
 namespace TextGen
 {
-  class Dictionary;
-  class TextFormatter;
+class Dictionary;
+class TextFormatter;
 
-  class Real : public Glyph
-  {
-  public:
-
-	virtual ~Real();
-	explicit Real(float theReal,
-				  int thePrecision = 1,
-				  bool theComma = true);
+class Real : public Glyph
+{
+ public:
+  virtual ~Real();
+  explicit Real(float theReal, int thePrecision = 1, bool theComma = true);
 
 #ifdef NO_COMPILER_GENERATED
-	Real(const Real & theReal);
-	Real & operator=(const Real & theReal);
+  Real(const Real& theReal);
+  Real& operator=(const Real& theReal);
 #endif
 
-	virtual boost::shared_ptr<Glyph> clone() const;
-	virtual std::string realize(const Dictionary & theDictionary) const;
-	virtual std::string realize(const TextFormatter & theFormatter) const;
-	virtual bool isDelimiter() const;
-	float value() const;
-	int precision() const;
-	bool comma() const;
+  virtual boost::shared_ptr<Glyph> clone() const;
+  virtual std::string realize(const Dictionary& theDictionary) const;
+  virtual std::string realize(const TextFormatter& theFormatter) const;
+  virtual bool isDelimiter() const;
+  float value() const;
+  int precision() const;
+  bool comma() const;
 
-  private:
+ private:
+  Real();
+  float itsReal;
+  int itsPrecision;
+  bool itsComma;
 
-	Real();
-	float itsReal;
-	int itsPrecision;
-	bool itsComma;
+};  // class Real
+}  // namespace Real
 
-  }; // class Real
-} // namespace Real
-
-#endif // TEXTGEN_REAL_H
+#endif  // TEXTGEN_REAL_H
 
 // ======================================================================

@@ -13,28 +13,26 @@
 
 namespace TextGen
 {
-  class MeanCalculator : public Calculator
-  {
-  public:
+class MeanCalculator : public Calculator
+{
+ public:
+  MeanCalculator();
+  virtual ~MeanCalculator() {}
+  virtual void operator()(float theValue);
+  virtual float operator()() const;
+  virtual void acceptor(const Acceptor& theAcceptor);
+  virtual boost::shared_ptr<Calculator> clone() const;
+  virtual void reset();
 
-	MeanCalculator();
-	virtual ~MeanCalculator() { }
-	virtual void operator()(float theValue);
-	virtual float operator()() const;
-	virtual void acceptor(const Acceptor & theAcceptor);
-	virtual boost::shared_ptr<Calculator> clone() const;
-	virtual void reset();
+ private:
+  boost::shared_ptr<Acceptor> itsAcceptor;
+  long itsCounter;
+  double itsSum;
 
-  private:
+};  // class MeanCalculator
 
-	boost::shared_ptr<Acceptor> itsAcceptor;
-	long itsCounter;
-	double itsSum;
+}  // namespace TextGen
 
-  }; // class MeanCalculator
-
-} // namespace TextGen
-
-#endif // TEXTGEN_MEANCALCULATOR_H
+#endif  // TEXTGEN_MEANCALCULATOR_H
 
 // ======================================================================

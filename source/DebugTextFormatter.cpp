@@ -36,186 +36,167 @@ using namespace boost;
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Format a glyph
+ *
+ * \param theGlyph The glyph
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Format a glyph
-   *
-   * \param theGlyph The glyph
-   */
-  // ----------------------------------------------------------------------
-  
-  string DebugTextFormatter::format(const Glyph & theGlyph) const
-  {
-	return theGlyph.realize(*this);
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Visit a glyph
-   *
-   * \param theGlyph The glyph
-   */
-  // ----------------------------------------------------------------------
-  
-  string DebugTextFormatter::visit(const Glyph & theGlyph) const
-  {
-	return theGlyph.realize(itsDictionary);
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Visit an integer number
-   */
-  // ----------------------------------------------------------------------
+string DebugTextFormatter::format(const Glyph& theGlyph) const { return theGlyph.realize(*this); }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a glyph
+ *
+ * \param theGlyph The glyph
+ */
+// ----------------------------------------------------------------------
 
-  string DebugTextFormatter::visit(const Integer & theInteger) const
-  {
-	return theInteger.realize(itsDictionary);
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Visit a float
-   */
-  // ----------------------------------------------------------------------
+string DebugTextFormatter::visit(const Glyph& theGlyph) const
+{
+  return theGlyph.realize(itsDictionary);
+}
 
-  string DebugTextFormatter::visit(const Real & theReal) const
-  {
-	return theReal.realize(itsDictionary);
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit an integer number
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Visit an integer range
-   */
-  // ----------------------------------------------------------------------
+string DebugTextFormatter::visit(const Integer& theInteger) const
+{
+  return theInteger.realize(itsDictionary);
+}
 
-  string DebugTextFormatter::visit(const IntegerRange & theRange) const
-  {
-	return theRange.realize(itsDictionary);
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a float
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Visit a sentence
-   */
-  // ----------------------------------------------------------------------
-  
-  string DebugTextFormatter::visit(const Sentence & theSentence) const
-  {
-	string ret = TextFormatterTools::realize(theSentence.begin(),
-											 theSentence.end(),
-											 *this,
-											 "",
-											 "\n");
-	ret = TextFormatterTools::capitalize(ret);
-	TextFormatterTools::punctuate(ret);
-	
-	return ret;
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Visit a paragraph
-   */
-  // ----------------------------------------------------------------------
-  
-  string DebugTextFormatter::visit(const Paragraph & theParagraph) const
-  {
-	string ret = TextFormatterTools::realize(theParagraph.begin(),
-											 theParagraph.end(),
-											 *this,
-											 "","\n");
-	return ret;
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Visit a header
-   */
-  // ----------------------------------------------------------------------
-  
-  string DebugTextFormatter::visit(const Header & theHeader) const
-  {
-    string ret = TextFormatterTools::realize(theHeader.begin(),
-											 theHeader.end(),
-											 *this,
-											 "","\n");
-	ret = TextFormatterTools::capitalize(ret);
-	if(!ret.empty())
-	  ret += ':';
-	
-	return ret;
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Visit a document
-   */
-  // ----------------------------------------------------------------------
-  
-  string DebugTextFormatter::visit(const Document & theDocument) const
-  {
-	string ret = TextFormatterTools::realize(theDocument.begin(),
-											 theDocument.end(),
-											 *this,
-											 " ",
-											 "");
-	return ret;
-  }
+string DebugTextFormatter::visit(const Real& theReal) const
+{
+  return theReal.realize(itsDictionary);
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Visit a section tag
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit an integer range
+ */
+// ----------------------------------------------------------------------
 
-  string DebugTextFormatter::visit(const SectionTag & theSection) const
+string DebugTextFormatter::visit(const IntegerRange& theRange) const
+{
+  return theRange.realize(itsDictionary);
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a sentence
+ */
+// ----------------------------------------------------------------------
+
+string DebugTextFormatter::visit(const Sentence& theSentence) const
+{
+  string ret = TextFormatterTools::realize(theSentence.begin(), theSentence.end(), *this, "", "\n");
+  ret = TextFormatterTools::capitalize(ret);
+  TextFormatterTools::punctuate(ret);
+
+  return ret;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a paragraph
+ */
+// ----------------------------------------------------------------------
+
+string DebugTextFormatter::visit(const Paragraph& theParagraph) const
+{
+  string ret =
+      TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, "", "\n");
+  return ret;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a header
+ */
+// ----------------------------------------------------------------------
+
+string DebugTextFormatter::visit(const Header& theHeader) const
+{
+  string ret = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, "", "\n");
+  ret = TextFormatterTools::capitalize(ret);
+  if (!ret.empty()) ret += ':';
+
+  return ret;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a document
+ */
+// ----------------------------------------------------------------------
+
+string DebugTextFormatter::visit(const Document& theDocument) const
+{
+  string ret = TextFormatterTools::realize(theDocument.begin(), theDocument.end(), *this, " ", "");
+  return ret;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a section tag
+ */
+// ----------------------------------------------------------------------
+
+string DebugTextFormatter::visit(const SectionTag& theSection) const
+{
+  itsSectionVar = theSection.realize(itsDictionary);
+  return "";
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit a story tag
+ */
+// ----------------------------------------------------------------------
+
+string DebugTextFormatter::visit(const StoryTag& theStory) const
+{
+  itsStoryVar = theStory.realize(itsDictionary);
+
+  if (theStory.isPrefixTag())
   {
-	itsSectionVar = theSection.realize(itsDictionary);
-	return "";
+    return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
   }
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Visit a story tag
-   */
-  // ----------------------------------------------------------------------
+  return "";
+}
 
-  string DebugTextFormatter::visit(const StoryTag & theStory) const
-  {
-	itsStoryVar = theStory.realize(itsDictionary);
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit Time
+ */
+// ----------------------------------------------------------------------
 
-	if(theStory.isPrefixTag())
-	  {
-		return TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
-	  }
+string DebugTextFormatter::visit(const Time& theTime) const
+{
+  return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "debug");
+}
 
-	return "";
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Visit TimePeriod
+ */
+// ----------------------------------------------------------------------
 
-   // ----------------------------------------------------------------------
-  /*!
-   * \brief Visit Time
-   */
-  // ----------------------------------------------------------------------
+string DebugTextFormatter::visit(const TimePeriod& thePeriod) const
+{
+  return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "debug");
+}
+}  // namespace TextGen
 
-  string DebugTextFormatter::visit(const Time & theTime) const
-  {
-	return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "debug");
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Visit TimePeriod
-   */
-  // ----------------------------------------------------------------------
-
-  string DebugTextFormatter::visit(const TimePeriod & thePeriod) const
-  {
-	return TextFormatterTools::format_time(thePeriod.weatherPeriod(), itsStoryVar, "debug");
-  }
-} // namespace TextGen
-  
 // ======================================================================

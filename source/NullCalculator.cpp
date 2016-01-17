@@ -18,65 +18,55 @@
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Integrate a new value
+ *
+ * \param theValue
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Integrate a new value
-   *
-   * \param theValue
-   */
-  // ----------------------------------------------------------------------
+void NullCalculator::operator()(float theValue) {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Return the integrated value
+ *
+ * \return The integrated null value
+ */
+// ----------------------------------------------------------------------
 
-  void NullCalculator::operator()(float theValue)
-  {
-  }
+float NullCalculator::operator()() const
+{
+  throw TextGenError("NullCalculator should never be asked for a result");
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Return the integrated value
-   *
-   * \return The integrated null value
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Set the internal acceptor
+ *
+ * \param theAcceptor The acceptor to be used
+ */
+// ----------------------------------------------------------------------
 
-  float NullCalculator::operator()() const
-  {
-	throw TextGenError("NullCalculator should never be asked for a result");
-  }
-  
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Set the internal acceptor
-   *
-   * \param theAcceptor The acceptor to be used
-   */
-  // ----------------------------------------------------------------------
+void NullCalculator::acceptor(const Acceptor& theAcceptor) {}
+// ----------------------------------------------------------------------
+/*!
+ * \brief Clone
+ */
+// ----------------------------------------------------------------------
 
-  void NullCalculator::acceptor(const Acceptor & theAcceptor)
-  {
-  }
+boost::shared_ptr<Calculator> NullCalculator::clone() const
+{
+  return boost::shared_ptr<Calculator>(new NullCalculator(*this));
+}
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Clone
-   */
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+/*!
+ * \brief Reset
+ */
+// ----------------------------------------------------------------------
 
-  boost::shared_ptr<Calculator> NullCalculator::clone() const
-  {
-	return boost::shared_ptr<Calculator>(new NullCalculator(*this));
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Reset
-   */
-  // ----------------------------------------------------------------------
-
-  void NullCalculator::reset()
-  {
-  }
-
-} // namespace TextGen
+void NullCalculator::reset() {}
+}  // namespace TextGen
 
 // ======================================================================

@@ -38,66 +38,65 @@ using namespace std;
 
 namespace TextGen
 {
-  namespace StoryFactory
+namespace StoryFactory
+{
+// ----------------------------------------------------------------------
+/*!
+ * \brief Create a story on the desired subject
+ *
+ * Throws if the given name is not recognized.
+ *
+ * \param theForecastTime The forecast time
+ * \param theSources The associated analysis sources
+ * \param theArea The area for which to generate the story
+ * \param thePeriod The period for which to generate the story
+ * \param theName The story to create
+ * \param theVariable The configuration variable prefix
+ */
+// ----------------------------------------------------------------------
+
+Paragraph create(const TextGenPosixTime& theForecastTime,
+                 const AnalysisSources& theSources,
+                 const WeatherArea& theArea,
+                 const WeatherPeriod& thePeriod,
+                 const string& theName,
+                 const string& theVariable)
+{
+  if (TemperatureStory::hasStory(theName))
   {
-	
-	// ----------------------------------------------------------------------
-	/*!
-	 * \brief Create a story on the desired subject
-	 *
-	 * Throws if the given name is not recognized.
-	 *
-	 * \param theForecastTime The forecast time
-	 * \param theSources The associated analysis sources
-	 * \param theArea The area for which to generate the story
-	 * \param thePeriod The period for which to generate the story
-	 * \param theName The story to create
-	 * \param theVariable The configuration variable prefix
-	 */
-	// ----------------------------------------------------------------------
+    TemperatureStory story(theForecastTime, theSources, theArea, thePeriod, theVariable);
+    return story.makeStory(theName);
+  }
 
-	Paragraph create(const TextGenPosixTime & theForecastTime,
-					 const AnalysisSources & theSources,
-					 const WeatherArea & theArea,
-					 const WeatherPeriod & thePeriod,
-					 const string & theName,
-					 const string & theVariable)
-	{
-	  if(TemperatureStory::hasStory(theName))
-		{
-		  TemperatureStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
-		  return story.makeStory(theName);
-		}
+  if (PrecipitationStory::hasStory(theName))
+  {
+    PrecipitationStory story(theForecastTime, theSources, theArea, thePeriod, theVariable);
+    return story.makeStory(theName);
+  }
 
-	  if(PrecipitationStory::hasStory(theName))
-		{
-		  PrecipitationStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
-		  return story.makeStory(theName);
-		}
+  if (CloudinessStory::hasStory(theName))
+  {
+    CloudinessStory story(theForecastTime, theSources, theArea, thePeriod, theVariable);
+    return story.makeStory(theName);
+  }
 
-	  if(CloudinessStory::hasStory(theName))
-		{
-		  CloudinessStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
-		  return story.makeStory(theName);
-		}
+  if (WeatherStory::hasStory(theName))
+  {
+    WeatherStory story(theForecastTime, theSources, theArea, thePeriod, theVariable);
+    return story.makeStory(theName);
+  }
 
-	  if(WeatherStory::hasStory(theName))
-		{
-		  WeatherStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
-		  return story.makeStory(theName);
-		}
+  if (WindStory::hasStory(theName))
+  {
+    WindStory story(theForecastTime, theSources, theArea, thePeriod, theVariable);
+    return story.makeStory(theName);
+  }
 
-	  if(WindStory::hasStory(theName))
-		{
-		  WindStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
-		  return story.makeStory(theName);
-		}
-
-	  if(FrostStory::hasStory(theName))
-		{
-		  FrostStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
-		  return story.makeStory(theName);
-		}
+  if (FrostStory::hasStory(theName))
+  {
+    FrostStory story(theForecastTime, theSources, theArea, thePeriod, theVariable);
+    return story.makeStory(theName);
+  }
 
 #if 0
 	  if(FrostStoryAk::hasStory(theName))  // AKa 30-Sep-2009
@@ -107,52 +106,52 @@ namespace TextGen
 		}
 #endif
 
-	  if(RelativeHumidityStory::hasStory(theName))
-		{
-		  RelativeHumidityStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
-		  return story.makeStory(theName);
-		}
+  if (RelativeHumidityStory::hasStory(theName))
+  {
+    RelativeHumidityStory story(theForecastTime, theSources, theArea, thePeriod, theVariable);
+    return story.makeStory(theName);
+  }
 
-	  if(RoadStory::hasStory(theName))
-		{
-		  RoadStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
-		  return story.makeStory(theName);
-		}
+  if (RoadStory::hasStory(theName))
+  {
+    RoadStory story(theForecastTime, theSources, theArea, thePeriod, theVariable);
+    return story.makeStory(theName);
+  }
 
-	  if(ForestStory::hasStory(theName))
-		{
-		  ForestStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
-		  return story.makeStory(theName);
-		}
+  if (ForestStory::hasStory(theName))
+  {
+    ForestStory story(theForecastTime, theSources, theArea, thePeriod, theVariable);
+    return story.makeStory(theName);
+  }
 
-	  if(DewPointStory::hasStory(theName))
-		{
-		  DewPointStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
-		  return story.makeStory(theName);
-		}
+  if (DewPointStory::hasStory(theName))
+  {
+    DewPointStory story(theForecastTime, theSources, theArea, thePeriod, theVariable);
+    return story.makeStory(theName);
+  }
 
-	  if(PressureStory::hasStory(theName))
-		{
-		  PressureStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
-		  return story.makeStory(theName);
-		}
+  if (PressureStory::hasStory(theName))
+  {
+    PressureStory story(theForecastTime, theSources, theArea, thePeriod, theVariable);
+    return story.makeStory(theName);
+  }
 
-	  if(WaveStory::hasStory(theName))
-		{
-		  WaveStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
-		  return story.makeStory(theName);
-		}
+  if (WaveStory::hasStory(theName))
+  {
+    WaveStory story(theForecastTime, theSources, theArea, thePeriod, theVariable);
+    return story.makeStory(theName);
+  }
 
-	  if(SpecialStory::hasStory(theName))
-		{
-		  SpecialStory story(theForecastTime,theSources,theArea,thePeriod,theVariable);
-		  return story.makeStory(theName);
-		}
+  if (SpecialStory::hasStory(theName))
+  {
+    SpecialStory story(theForecastTime, theSources, theArea, thePeriod, theVariable);
+    return story.makeStory(theName);
+  }
 
-	  throw TextGenError("StoryFactory: Unrecognized story '"+theName+"'");
-	}
+  throw TextGenError("StoryFactory: Unrecognized story '" + theName + "'");
+}
 
-  } // namespace StoryFactory
-} // namespace TextGen
+}  // namespace StoryFactory
+}  // namespace TextGen
 
 // ======================================================================

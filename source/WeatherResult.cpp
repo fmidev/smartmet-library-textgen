@@ -24,58 +24,48 @@
 
 namespace TextGen
 {
+// ----------------------------------------------------------------------
+/*!
+ * \brief Constructor
+ *
+ * Construction is possible only by explicitly stating the
+ * value and accuracy, or by copy constructing. The void
+ * constructor is intentionally disabled.
+ *
+ * \param theValue The value part of the result
+ * \param theError The error part of the result
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Constructor
-   *
-   * Construction is possible only by explicitly stating the
-   * value and accuracy, or by copy constructing. The void
-   * constructor is intentionally disabled.
-   *
-   * \param theValue The value part of the result
-   * \param theError The error part of the result
-   */
-  // ----------------------------------------------------------------------
+WeatherResult::WeatherResult(float theValue, float theError)
+    : itsValue(theValue), itsError(theError)
+{
+  assert(itsError >= 0);
+}
 
-  WeatherResult::WeatherResult(float theValue, float theError)
-	: itsValue(theValue)
-	, itsError(theError)
-  {
-	assert(itsError>=0);
-  }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Value accessor
+ *
+ * Returns the value part of the result
+ *
+ * \return The value part of the result
+ */
+// ----------------------------------------------------------------------
 
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Value accessor
-   *
-   * Returns the value part of the result
-   *
-   * \return The value part of the result
-   */
-  // ----------------------------------------------------------------------
+float WeatherResult::value() const { return itsValue; }
+// ----------------------------------------------------------------------
+/*!
+ * \brief Error accessor
+ *
+ * Returns the error part of the result
+ *
+ * \return The error part of the result
+ */
+// ----------------------------------------------------------------------
 
-  float WeatherResult::value() const
-  {
-	return itsValue;
-  }
-
-  // ----------------------------------------------------------------------
-  /*!
-   * \brief Error accessor
-   *
-   * Returns the error part of the result
-   *
-   * \return The error part of the result
-   */
-  // ----------------------------------------------------------------------
-
-  float WeatherResult::error() const
-  {
-	return itsError;
-  }
-
-} // namespace TextGen
+float WeatherResult::error() const { return itsError; }
+}  // namespace TextGen
 
 // ----------------------------------------------------------------------
 /*!
@@ -87,11 +77,9 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-bool operator==(const TextGen::WeatherResult & theLhs,
-				const TextGen::WeatherResult & theRhs)
+bool operator==(const TextGen::WeatherResult& theLhs, const TextGen::WeatherResult& theRhs)
 {
-  return (theLhs.value() == theRhs.value() &&
-		  theLhs.error() == theRhs.error());
+  return (theLhs.value() == theRhs.value() && theLhs.error() == theRhs.error());
 }
 
 // ----------------------------------------------------------------------
@@ -104,8 +92,7 @@ bool operator==(const TextGen::WeatherResult & theLhs,
  */
 // ----------------------------------------------------------------------
 
-bool operator!=(const TextGen::WeatherResult & theLhs,
-				const TextGen::WeatherResult & theRhs)
+bool operator!=(const TextGen::WeatherResult& theLhs, const TextGen::WeatherResult& theRhs)
 {
   return !(theLhs == theRhs);
 }
@@ -122,14 +109,9 @@ bool operator!=(const TextGen::WeatherResult & theLhs,
  */
 // ----------------------------------------------------------------------
 
-std::ostream & operator<<(std::ostream & theOutput,
-						  const TextGen::WeatherResult & theResult)
+std::ostream& operator<<(std::ostream& theOutput, const TextGen::WeatherResult& theResult)
 {
-  theOutput << '('
-			<< theResult.value()
-			<< ','
-			<< theResult.error()
-			<< ')';
+  theOutput << '(' << theResult.value() << ',' << theResult.error() << ')';
   return theOutput;
 }
 

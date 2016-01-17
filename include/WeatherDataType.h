@@ -10,18 +10,17 @@
 
 namespace TextGen
 {
+enum WeatherDataType
+{
+  Forecast,
+  Observation,
+  Climatology
+};
 
-  enum WeatherDataType
-	{
-	  Forecast,
-	  Observation,
-	  Climatology
-	};
+}  // namespace TextGen
 
-} // namespace TextGen
+const char* data_type_name(const TextGen::WeatherDataType& theDataType);
 
-const char * data_type_name(const TextGen::WeatherDataType & theDataType);
-
-#endif // TEXTGEN_WEATHERDATATYPE_H
+#endif  // TEXTGEN_WEATHERDATATYPE_H
 
 // ======================================================================
