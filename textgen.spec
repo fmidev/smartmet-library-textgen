@@ -34,7 +34,7 @@ make %{_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(0775,root,root,-)
+%defattr(0775,root,root,0775)
 %{_libdir}/libsmartmet_%{LIBNAME}.so
 
 %post -p /sbin/ldconfig
@@ -48,8 +48,8 @@ Provides: %{LIBNAME}-devel
 FMI textgen development files
 
 %files -n libsmartmet-%{LIBNAME}-devel
-%defattr(0664,root,root,-)
-%{_includedir}/smartmet/%{LIBNAME}/*.h
+%defattr(0664,root,root,0775)
+%{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
 * Sun Jan 17 2016 Mika Heiskanen <mika.heiskanen@fmi.fi> - 16.1.17-1.fmi
