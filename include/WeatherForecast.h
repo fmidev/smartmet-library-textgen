@@ -393,7 +393,7 @@ enum part_of_the_day_id
   YO,                 // 22-06
   AAMU_JA_AAMUPAIVA,  // 06-12
   ILTAPAIVA_JA_ILTA,  // 13-21
-  ILTA_JA_ILTAYO,  // 18-00
+  ILTA_JA_ILTAYO,     // 18-00
   ILTAYO_JA_KESKIYO,  // 22-03
   KESKIYO_JA_AAMUYO,  // 00-06
   AAMUYO_JA_AAMU,     // 03-09

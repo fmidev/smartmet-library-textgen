@@ -162,7 +162,7 @@ bool PostGISDataSource::readData(const std::string& host,
 
         // wkbFlatten-macro uses old-style cast
         //				OGRwkbGeometryType
-        //geometryType(wkbFlatten(pGeometry->getGeometryType()));
+        // geometryType(wkbFlatten(pGeometry->getGeometryType()));
         OGRwkbGeometryType geometryType =
             static_cast<OGRwkbGeometryType>(pGeometry->getGeometryType() & (~wkb25DBit));
 
