@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.1.17
+Version: 16.1.20
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -52,6 +52,14 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Wed Jan 20 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.1.20-1.fmi
+- Wind story bug fixes and improvements: Handling of last hour of forecast period corrected. 
+Calculaton of wind speed corrected: same functions and precision used everywhere. 
+In order to be able to verify correctness of generated text two new configuration parameters are
+taken in use in wind story: If 'qdtext::append_graph' parameter is true a graph (highcharts) 
+showing the relevant parameters is appended to html document of wind story. 
+If 'qdtext::append_rawdata' parameter is true a table presenting rawdata 
+is appended to html document of wind story.
 * Sun Jan 17 2016 Mika Heiskanen <mika.heiskanen@fmi.fi> - 16.1.17-1.fmi
 - newbase API changed
 * Thu Nov 12 2015 Mika Heiskanen <mika.heiskanen@fmi.fi> - 15.11.12-1.fmi
