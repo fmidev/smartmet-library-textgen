@@ -19,6 +19,9 @@
 #include <cmath>
 #include <algorithm>
 
+#include <macgyver/String.h>
+#include <boost/date_time/gregorian/gregorian.hpp> //include all types plus i/o
+
 using namespace boost;
 using namespace TextGen;
 using namespace TextGen::WindStoryTools;
@@ -717,11 +720,12 @@ std::string get_js_code(unsigned int js_id, bool addExternalScripts)
   std::stringstream js_code;
 
   if (addExternalScripts)
-    js_code << "<script src=\"http://code.jquery.com/jquery-1.12.0.min.js\"></script>" << std::endl
-            << "<script src=\"https://code.highcharts.com/highcharts.js\"></script>" << std::endl
-            << "<script src=\"https://code.highcharts.com/modules/data.js\"></script>" << std::endl
-            << "<script src=\"https://code.highcharts.com/modules/exporting.js\"></script>"
-            << std::endl;
+    js_code << std::endl
+			<< "<script src=\"http://code.jquery.com/jquery-1.12.0.min.js\"></script>" << std::endl
+			<< "<script src=\"https://code.highcharts.com/highcharts.js\"></script>" << std::endl
+			<< "<script src=\"https://code.highcharts.com/modules/data.js\"></script>" << std::endl
+			<< "<script src=\"https://code.highcharts.com/modules/exporting.js\"></script>"
+			<< std::endl;
 
   js_code << "<script>"
              "$(function () {"
@@ -4235,6 +4239,25 @@ Paragraph WindStory::overview() const
     {
       std::string html_string(Settings::optional_string("html__append", ""));
       html_string += get_js_code(js_id, html_string.empty());
+
+	  html_string += "</br><br>\n";
+	  html_string += "<hr size=\"3\" color=\"black\">\n";
+	  html_string += "<h5>";
+	  boost::gregorian::date startDate(boost::gregorian::from_undelimited_string(itsPeriod.localStartTime().ToStr(kYYYYMMDD)));
+	  html_string += boost::gregorian::to_simple_string(startDate);
+	  html_string += (itsPeriod.localStartTime().GetHour() < 10 ? " 0" : " ");
+	  html_string += Fmi::to_string(itsPeriod.localStartTime().GetHour());
+	  html_string += (itsPeriod.localStartTime().GetMin() < 10 ? ":0" : ":");
+	  html_string += Fmi::to_string(itsPeriod.localStartTime().GetMin());
+	  html_string += " - ";
+	  boost::gregorian::date endDate(boost::gregorian::from_undelimited_string(itsPeriod.localEndTime().ToStr(kYYYYMMDD)));
+	  html_string +=  boost::gregorian::to_simple_string(endDate);
+	  html_string += (itsPeriod.localEndTime().GetHour() < 10 ? " 0" : " ");
+	  html_string += Fmi::to_string(itsPeriod.localEndTime().GetHour());
+	  html_string += (itsPeriod.localEndTime().GetMin() < 10 ? ":0" : ":");
+	  html_string += Fmi::to_string(itsPeriod.localEndTime().GetMin());
+	  html_string += "</h5>";
+
       Settings::set("html__append", html_string);
     }
 
