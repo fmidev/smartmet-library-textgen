@@ -133,50 +133,56 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
                                   eventPeriod.localEndTime().GetDay());
 
     bool windSpeedDifferEnough(false);
-    if (eventPeriodItemPrevious &&
-        windSpeedIntervalPeriodPreviousReported.localStartTime().GetYear() != 1971)
+    bool windSpeedDifferEnoughOnNextPeriod(false);
+    bool windSpeedDifferEnoughOnCombinedPeriodPeriod(false);
+
+    if (theParameters.theMergedWindEventPeriodVector.size() > 1 && eventId == MISSING_WIND_EVENT)
     {
-      WeatherPeriod windSpeedPeriod(eventPeriod);
-      if (eventId & TUULI_HEIKKENEE || eventId & TUULI_VOIMISTUU)
-        windSpeedPeriod = WeatherPeriod(eventPeriod.localEndTime(), eventPeriod.localEndTime());
-
-      int windSpeedDiff = wind_speed_difference(theParameters.theSources,
-                                                theParameters.theArea,
-                                                windSpeedIntervalPeriodPreviousReported,
-                                                windSpeedPeriod,
-                                                theParameters.theWindDataVector);
-      windSpeedDifferEnough = abs(windSpeedDiff) >= 3;
-
-      if (lastPeriod && eventPeriodItemPrevious->theWindEvent == MISSING_WIND_EVENT &&
-          (eventId & TUULI_HEIKKENEE || eventId & TUULI_VOIMISTUU) && !windSpeedDifferEnough)
+      if (eventPeriodItemPrevious &&
+          windSpeedIntervalPeriodPreviousReported.localStartTime().GetYear() != 1971)
       {
-        continue;
+        WeatherPeriod windSpeedPeriod(eventPeriod);
+        if (eventId & TUULI_HEIKKENEE || eventId & TUULI_VOIMISTUU)
+          windSpeedPeriod = WeatherPeriod(eventPeriod.localEndTime(), eventPeriod.localEndTime());
+
+        int windSpeedDiff = wind_speed_difference(theParameters.theSources,
+                                                  theParameters.theArea,
+                                                  windSpeedIntervalPeriodPreviousReported,
+                                                  windSpeedPeriod,
+                                                  theParameters.theWindDataVector);
+        windSpeedDifferEnough = abs(windSpeedDiff) >= 3;
+
+        if (lastPeriod && eventPeriodItemPrevious->theWindEvent == MISSING_WIND_EVENT &&
+            (eventId & TUULI_HEIKKENEE || eventId & TUULI_VOIMISTUU) && !windSpeedDifferEnough)
+        {
+          continue;
+        }
       }
-    }
-    else
-    {
-      windSpeedDifferEnough = wind_speed_differ_enough(theParameters.theSources,
-                                                       theParameters.theArea,
-                                                       eventPeriod,
-                                                       theParameters.theWindSpeedThreshold,
-                                                       theParameters.theWindDataVector);
-    }
+      else
+      {
+        windSpeedDifferEnough = wind_speed_differ_enough(theParameters.theSources,
+                                                         theParameters.theArea,
+                                                         eventPeriod,
+                                                         theParameters.theWindSpeedThreshold,
+                                                         theParameters.theWindDataVector);
+      }
 
-    bool windSpeedDifferEnoughOnNextPeriod(
-        eventPeriodItemNext && wind_speed_differ_enough(theParameters.theSources,
-                                                        theParameters.theArea,
-                                                        eventPeriodItemNext->thePeriod,
-                                                        theParameters.theWindSpeedThreshold,
-                                                        theParameters.theWindDataVector));
+      windSpeedDifferEnoughOnNextPeriod =
+          (eventPeriodItemNext && wind_speed_differ_enough(theParameters.theSources,
+                                                           theParameters.theArea,
+                                                           eventPeriodItemNext->thePeriod,
+                                                           theParameters.theWindSpeedThreshold,
+                                                           theParameters.theWindDataVector));
 
-    bool windSpeedDifferEnoughOnCombinedPeriodPeriod(
-        eventPeriodItemNext &&
-        wind_speed_differ_enough(theParameters.theSources,
-                                 theParameters.theArea,
-                                 WeatherPeriod(eventPeriod.localStartTime(),
-                                               eventPeriodItemNext->thePeriod.localEndTime()),
-                                 theParameters.theWindSpeedThreshold,
-                                 theParameters.theWindDataVector));
+      windSpeedDifferEnoughOnCombinedPeriodPeriod =
+          (eventPeriodItemNext &&
+           wind_speed_differ_enough(theParameters.theSources,
+                                    theParameters.theArea,
+                                    WeatherPeriod(eventPeriod.localStartTime(),
+                                                  eventPeriodItemNext->thePeriod.localEndTime()),
+                                    theParameters.theWindSpeedThreshold,
+                                    theParameters.theWindDataVector));
+    }
     // default condition for wind speed reporting
     bool reportWindSpeed(firstPeriod || windSpeedDifferEnough);
 
@@ -351,19 +357,30 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
           }
           else
           {
-            if (eventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
-            {
-              sentence << VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
-                       << windDirectionSentenceWithAttribute(windDirectionIdAvg)
-                       << (smallChange ? EMPTY_STRING : changeAttributeStr);
-            }
+            sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
+                     << EMPTY_STRING << changeAttributeStr
+                     << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
+                     << directionSentenceP;
+
+            windSpeedIntervalPeriodPreviousReported = eventPeriod;
+            appendDecreasingIncreasingInterval = true;
+
+            /*
+            if(eventId == TUULI_HEIKKENEE && windSpeedUpperLimit >= GALE_LOWER_LIMIT)
+                  {
+                    sentence << VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
+                                     << windDirectionSentenceWithAttribute(windDirectionIdAvg)
+                                     << (smallChange ? EMPTY_STRING : changeAttributeStr);
+                  }
             else
-            {
-              sentence << (eventId == TUULI_HEIKKENEE
-                               ? POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
-                               : POHJOISTUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE)
-                       << directionSentence << changeAttributeStr;
-            }
+                  {
+                    sentence << (eventId == TUULI_HEIKKENEE ?
+            POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE :
+            POHJOISTUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE)
+                                     << directionSentence
+                                     << changeAttributeStr;
+                  }
+            */
           }
         }
         else
@@ -1773,7 +1790,7 @@ Sentence WindForecast::decreasingIncreasingInterval(
         // iltapäivällä 10...13 m/s, iltapäivällä 15...18
         if (currentDayPart == nextDayPart) continue;
 
-        int lowerLimit1(kFloatMissing), lowerLimit2(kFloatMissing), upperLimit1(kFloatMissing),
+        float lowerLimit1(kFloatMissing), lowerLimit2(kFloatMissing), upperLimit1(kFloatMissing),
             upperLimit2(kFloatMissing);
 
         get_wind_speed_interval(currentPeriodEnd,
@@ -1788,7 +1805,13 @@ Sentence WindForecast::decreasingIncreasingInterval(
                                 lowerLimit2,
                                 upperLimit2);
 
-        if (abs(lowerLimit2 - lowerLimit1) <= 1 && abs(upperLimit2 - upperLimit1) <= 1) continue;
+        lowerLimit1 = round(lowerLimit1);
+        upperLimit1 = round(upperLimit1);
+        lowerLimit2 = round(lowerLimit2);
+        upperLimit2 = round(upperLimit2);
+
+        if (abs(lowerLimit2 - lowerLimit1) <= 1.0 && abs(upperLimit2 - upperLimit1) <= 1.0)
+          continue;
       }
 
       Sentence intervalSentence;
@@ -2057,7 +2080,7 @@ bool WindForecast::getWindSpeedChangeAttribute(const WeatherPeriod& changePeriod
                                                bool& gradualChange,
                                                bool& fastChange) const
 {
-  int begLowerLimit(kFloatMissing), begUpperLimit(kFloatMissing), endLowerLimit(kFloatMissing),
+  float begLowerLimit(kFloatMissing), begUpperLimit(kFloatMissing), endLowerLimit(kFloatMissing),
       endUpperLimit(kFloatMissing);
 
   get_wind_speed_interval(changePeriod.localStartTime(),
@@ -2078,6 +2101,11 @@ bool WindForecast::getWindSpeedChangeAttribute(const WeatherPeriod& changePeriod
 
     //	return false;
   }
+
+  begLowerLimit = round(begLowerLimit);
+  begUpperLimit = round(begUpperLimit);
+  endLowerLimit = round(endLowerLimit);
+  endUpperLimit = round(endUpperLimit);
 
   float changeThreshold(5.0);
   int periodLength(wind_forecast_period_length(changePeriod));
@@ -2119,13 +2147,16 @@ Sentence WindForecast::speedRangeSentence(const WeatherPeriod& thePeriod,
   const int maxvalue = static_cast<int>(round(theTopSpeed.value()));
   const int medianvalue = static_cast<int>(round(theMedianSpeed.value()));
 
-  int intervalLowerLimit(medianvalue);
-  int intervalUpperLimit(maxvalue);
+  float intervalLowerLimit(medianvalue);
+  float intervalUpperLimit(maxvalue);
   get_wind_speed_interval(thePeriod,
                           theParameters.theArea,
                           theParameters.theWindDataVector,
                           intervalLowerLimit,
                           intervalUpperLimit);
+
+  intervalLowerLimit = round(intervalLowerLimit);
+  intervalUpperLimit = round(intervalUpperLimit);
 
   int actualIntervalSize(intervalUpperLimit - intervalLowerLimit);
   int peakWind(intervalUpperLimit);
@@ -2890,10 +2921,10 @@ bool is_valid_wind_event_id(const int& eventId)
 bool wind_speed_differ_enough(const AnalysisSources& theSources,
                               const WeatherArea& theArea,
                               const WeatherPeriod& thePeriod,
-                              const int theWindSpeedThreshold,
+                              float theWindSpeedThreshold,
                               const wind_data_item_vector& windDataVector)
 {
-  int begLowerLimit(0), begUpperLimit(0), endLowerLimit(0), endUpperLimit(0);
+  float begLowerLimit(0), begUpperLimit(0), endLowerLimit(0), endUpperLimit(0);
 
   get_wind_speed_interval(
       thePeriod.localStartTime(), theArea, windDataVector, begLowerLimit, begUpperLimit);
@@ -2901,12 +2932,12 @@ bool wind_speed_differ_enough(const AnalysisSources& theSources,
       thePeriod.localEndTime(), theArea, windDataVector, endLowerLimit, endUpperLimit);
 
   // 80% of upper limit change and 20% of lower limit change
-  float begSpeed(begUpperLimit * 0.8 + begLowerLimit * 0.2);
-  float endSpeed(endUpperLimit * 0.8 + endLowerLimit * 0.2);
+  int begSpeed = static_cast<int>(round(begUpperLimit * 0.8 + begLowerLimit * 0.2));
+  int endSpeed = static_cast<int>(round(endUpperLimit * 0.8 + endLowerLimit * 0.2));
 
-  double difference = endSpeed - begSpeed;
+  int difference = endSpeed - begSpeed;
 
-  if (abs(difference) <= theWindSpeedThreshold)
+  if (abs(difference) <= round(theWindSpeedThreshold))
     return false;
   else
     return true;
@@ -2918,7 +2949,7 @@ int wind_speed_difference(const AnalysisSources& theSources,
                           const WeatherPeriod& thePeriod2,
                           const wind_data_item_vector& windDataVector)
 {
-  int lowerLim1(0), upperLim1(0), lowerLim2(0), upperLim2(0);
+  float lowerLim1(0), upperLim1(0), lowerLim2(0), upperLim2(0);
 
   get_wind_speed_interval(thePeriod1, theArea, windDataVector, lowerLim1, upperLim1);
 
@@ -2936,10 +2967,16 @@ void get_wind_speed_interval_parameters(const WeatherPeriod& thePeriod,
                                         int& endUpperLimit,
                                         float& changeRatePerHour)
 {
-  get_wind_speed_interval(
-      thePeriod.localStartTime(), theArea, windDataVector, begLowerLimit, begUpperLimit);
-  get_wind_speed_interval(
-      thePeriod.localEndTime(), theArea, windDataVector, endLowerLimit, endUpperLimit);
+  float begLower(begLowerLimit), begUpper(begUpperLimit), endLower(endLowerLimit),
+      endUpper(endUpperLimit);
+
+  get_wind_speed_interval(thePeriod.localStartTime(), theArea, windDataVector, begLower, begUpper);
+  get_wind_speed_interval(thePeriod.localEndTime(), theArea, windDataVector, endLower, endUpper);
+
+  begLowerLimit = round(begLower);
+  begUpperLimit = round(begUpper);
+  endLowerLimit = round(endLower);
+  endUpperLimit = round(endUpper);
 
   changeRatePerHour = abs(endUpperLimit - begUpperLimit) / wind_forecast_period_length(thePeriod);
 }
@@ -2947,8 +2984,8 @@ void get_wind_speed_interval_parameters(const WeatherPeriod& thePeriod,
 void get_plain_wind_speed_interval(const TextGenPosixTime& pointOfTime,
                                    const WeatherArea& area,
                                    const wind_data_item_vector& windDataVector,
-                                   int& lowerLimit,
-                                   int& upperLimit)
+                                   float& lowerLimit,
+                                   float& upperLimit)
 {
   for (unsigned int i = 0; i < windDataVector.size(); i++)
   {
@@ -2956,18 +2993,73 @@ void get_plain_wind_speed_interval(const TextGenPosixTime& pointOfTime,
 
     if (windDataItem.thePeriod.localStartTime() == pointOfTime)
     {
-      lowerLimit = static_cast<int>(round(windDataItem.theEqualizedMedianWind.value()));
-      upperLimit = static_cast<int>(round(windDataItem.theEqualizedTopWind.value()));
+      lowerLimit = windDataItem.theEqualizedMedianWind.value();
+      upperLimit = windDataItem.theEqualizedTopWind.value();
       break;
     }
   }
 }
+/*
+void get_plain_wind_speed_interval(const TextGenPosixTime& pointOfTime,
+                                 const WeatherArea& area,
+                                 const wind_data_item_vector& windDataVector,
+                                 int& lowerLimit,
+                                 int& upperLimit)
+{
+for (unsigned int i = 0; i < windDataVector.size(); i++)
+{
+  const WindDataItemUnit& windDataItem = (*windDataVector[i])(area.type());
+
+  if (windDataItem.thePeriod.localStartTime() == pointOfTime)
+  {
+    lowerLimit = static_cast<int>(round(windDataItem.theEqualizedMedianWind.value()));
+    upperLimit = static_cast<int>(round(windDataItem.theEqualizedTopWind.value()));
+    break;
+  }
+}
+}
+
+void get_plain_wind_speed_interval(const WeatherPeriod& period,
+                                 const WeatherArea& area,
+                                 const wind_data_item_vector& windDataVector,
+                                 int& lowerLimit,
+                                 int& upperLimit)
+{
+bool firstMatchProcessed(false);
+
+float minValue(lowerLimit);
+float maxValue(upperLimit);
+for (unsigned int i = 0; i < windDataVector.size(); i++)
+{
+  const WindDataItemUnit& windDataItem = (*windDataVector[i])(area.type());
+
+  if (is_inside(windDataItem.thePeriod, period))
+  {
+    if (!firstMatchProcessed)
+    {
+      minValue = windDataItem.theEqualizedMedianWind.value();
+      maxValue = windDataItem.theEqualizedTopWind.value();
+      firstMatchProcessed = true;
+    }
+    else
+    {
+      if (windDataItem.theEqualizedMedianWind.value() < minValue)
+        minValue = windDataItem.theEqualizedMedianWind.value();
+      if (windDataItem.theEqualizedTopWind.value() > maxValue)
+        maxValue = windDataItem.theEqualizedTopWind.value();
+    }
+  }
+}
+lowerLimit = static_cast<int>(round(minValue));
+upperLimit = static_cast<int>(round(maxValue));
+}
+*/
 
 void get_plain_wind_speed_interval(const WeatherPeriod& period,
                                    const WeatherArea& area,
                                    const wind_data_item_vector& windDataVector,
-                                   int& lowerLimit,
-                                   int& upperLimit)
+                                   float& lowerLimit,
+                                   float& upperLimit)
 {
   bool firstMatchProcessed(false);
 
@@ -2994,8 +3086,8 @@ void get_plain_wind_speed_interval(const WeatherPeriod& period,
       }
     }
   }
-  lowerLimit = static_cast<int>(round(minValue));
-  upperLimit = static_cast<int>(round(maxValue));
+  lowerLimit = minValue;
+  upperLimit = maxValue;
 }
 
 float get_median_wind(const WeatherPeriod& period,
@@ -3038,6 +3130,69 @@ float get_maximum_wind(const WeatherPeriod& period,
   }
 
   return (counter == 0 ? retval : retval / counter);
+}
+
+void windspeed_distribution_interval(const WeatherPeriod& thePeriod,
+                                     const WeatherArea& area,
+                                     const wind_data_item_vector& windDataVector,
+                                     float& lowerLimit,
+                                     float& upperLimit)
+{
+  if (lowerLimit == kFloatMissing || upperLimit == kFloatMissing) return;
+
+  value_distribution_data_vector windSpeedDistributionVector;
+
+  // first calculte the sum of the distribution values for the period
+  unsigned int counter(0);
+  for (unsigned int i = 0; i < windDataVector.size(); i++)
+  {
+    const WindDataItemUnit& windDataItem = (*windDataVector[i])(area.type());
+
+    if (is_inside(windDataItem.thePeriod, thePeriod))
+    {
+      if (windSpeedDistributionVector.size() == 0)
+      {
+        windSpeedDistributionVector = windDataItem.theWindSpeedDistribution;
+      }
+      else
+      {
+        for (unsigned int k = 0; k < windDataItem.theWindSpeedDistribution.size(); k++)
+        {
+          WeatherResult originalShare(windSpeedDistributionVector[k].second);
+          WeatherResult shareToAdd(windDataItem.theWindSpeedDistribution[k].second);
+          windSpeedDistributionVector[k].second =
+              WeatherResult(originalShare.value() + shareToAdd.value(), 0.0);
+        }
+      }
+      counter++;
+    }
+  }
+
+  // then calculate mean value of the distribution values of the period
+  for (unsigned int i = 0; i < windSpeedDistributionVector.size(); i++)
+  {
+    WeatherResult cumulativeShare(windSpeedDistributionVector[i].second);
+    windSpeedDistributionVector[i].second = WeatherResult(cumulativeShare.value() / counter, 0.0);
+  }
+
+  float maxvalue = upperLimit;
+  float minvalue = lowerLimit;
+
+  // subtract 1 m/s from the lower limit
+  lowerLimit = (maxvalue - (minvalue - 1.0) > 5.0 ? maxvalue - 5.0 : minvalue - 1.0);
+
+  // Make sure that 2/3 of values are inside the interval
+  int lower_index = static_cast<int>(round(maxvalue));
+
+  float sumDistribution = windSpeedDistributionVector[maxvalue].second.value();
+  while (sumDistribution < 67.0 && lower_index > 0)
+  {
+    lower_index--;
+    sumDistribution += windSpeedDistributionVector[lower_index].second.value();
+  }
+
+  // lowerLimit = lower_index;
+  lowerLimit = lower_index + 1;
 }
 
 void windspeed_distribution_interval(const WeatherPeriod& thePeriod,
@@ -3108,8 +3263,8 @@ void windspeed_distribution_interval(const WeatherPeriod& thePeriod,
 void get_wind_speed_interval(const WeatherPeriod& thePeriod,
                              const WeatherArea& theArea,
                              const wind_data_item_vector& windDataVector,
-                             int& lowerLimit,
-                             int& upperLimit)
+                             float& lowerLimit,
+                             float& upperLimit)
 {
   get_plain_wind_speed_interval(thePeriod, theArea, windDataVector, lowerLimit, upperLimit);
 
@@ -3119,8 +3274,8 @@ void get_wind_speed_interval(const WeatherPeriod& thePeriod,
 void get_wind_speed_interval(const TextGenPosixTime& pointOfTime,
                              const WeatherArea& theArea,
                              const wind_data_item_vector& windDataVector,
-                             int& lowerLimit,
-                             int& upperLimit)
+                             float& lowerLimit,
+                             float& upperLimit)
 {
   get_plain_wind_speed_interval(pointOfTime, theArea, windDataVector, lowerLimit, upperLimit);
 
@@ -3128,7 +3283,31 @@ void get_wind_speed_interval(const TextGenPosixTime& pointOfTime,
 
   windspeed_distribution_interval(period, theArea, windDataVector, lowerLimit, upperLimit);
 }
+/*
+void get_wind_speed_interval(const WeatherPeriod& thePeriod,
+                           const WeatherArea& theArea,
+                           const wind_data_item_vector& windDataVector,
+                           int& lowerLimit,
+                           int& upperLimit)
+{
+get_plain_wind_speed_interval(thePeriod, theArea, windDataVector, lowerLimit, upperLimit);
 
+windspeed_distribution_interval(thePeriod, theArea, windDataVector, lowerLimit, upperLimit);
+}
+
+void get_wind_speed_interval(const TextGenPosixTime& pointOfTime,
+                           const WeatherArea& theArea,
+                           const wind_data_item_vector& windDataVector,
+                           int& lowerLimit,
+                           int& upperLimit)
+{
+get_plain_wind_speed_interval(pointOfTime, theArea, windDataVector, lowerLimit, upperLimit);
+
+WeatherPeriod period(pointOfTime, pointOfTime);
+
+windspeed_distribution_interval(period, theArea, windDataVector, lowerLimit, upperLimit);
+}
+*/
 bool ascending_order(const float& direction1, const float& direction2)
 {
   bool retval(false);

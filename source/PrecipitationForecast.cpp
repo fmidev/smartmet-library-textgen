@@ -274,7 +274,7 @@ using namespace std;
   "[iltapaivalla] saa poutaantuu tihkusateen jalkeen ja on pilvinen"
 
 //#define SAA_POUTAANTUU_JA_VAIHTELEE_COMPOSITE_PHRASE "[iltapaivalla] saa poutaantuu ja vaihtelee
-//puolipilvisesta pilviseen"
+// puolipilvisesta pilviseen"
 
 #define SAA_POUTAANTUU_VESISATEEN_JALKEEN_JA_VAIHTELEE_COMPOSITE_PHRASE \
   "[iltapaivalla] saa poutaantuu vesisateen jalkeen ja vaihtelee puolipilvisesta pilviseen"

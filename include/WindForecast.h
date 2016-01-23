@@ -558,8 +558,8 @@ struct WindEventPeriodDataItem
   bool theLongTermSpeedChangeFlag;       // is speed changes for the loger period we can use
                                          // "alkaen"-phrase
   bool theReportThisEventPeriodFlag;     // determines weather this event period is reported or not
-  bool theWeakWindPeriodFlag;  // if wind speed is weak, event is MISSING_WIND_EVENT, but we dont
-                               // merge it with faster wind speed periods and report it
+  bool theWeakWindPeriodFlag;     // if wind speed is weak, event is MISSING_WIND_EVENT, but we dont
+                                  // merge it with faster wind speed periods and report it
   bool theWindSpeedChangeStarts;  // indicates that wind speed starts to weaken/strengthen
   bool theWindSpeedChangeEnds;    // indicates that wind speed weakening/strengthening ends
 
@@ -691,7 +691,7 @@ bool is_gusty_wind(const wo_story_params& theParameters,
 bool wind_speed_differ_enough(const AnalysisSources& theSources,
                               const WeatherArea& theArea,
                               const WeatherPeriod& thePeriod,
-                              const int theWindSpeedThreshold,
+                              float theWindSpeedThreshold,
                               const wind_data_item_vector& windDataVector);
 int wind_speed_difference(const AnalysisSources& theSources,
                           const WeatherArea& theArea,
@@ -706,17 +706,32 @@ void get_wind_speed_interval_parameters(const WeatherPeriod& thePeriod,
                                         int& endLowerLimit,
                                         int& endUpperLimit,
                                         float& changeRatePerHour);
+/*
+void get_wind_speed_interval(const TextGenPosixTime& pointOfTime,
+                           const WeatherArea& area,
+                           const wind_data_item_vector& windDataVector,
+                           int& lowerLimit,
+                           int& upperLimit);
+
+void get_wind_speed_interval(const WeatherPeriod& thePeriod,
+                           const WeatherArea& area,
+                           const wind_data_item_vector& windDataVector,
+                           int& lowerLimit,
+                           int& upperLimit);
+*/
+
 void get_wind_speed_interval(const TextGenPosixTime& pointOfTime,
                              const WeatherArea& area,
                              const wind_data_item_vector& windDataVector,
-                             int& lowerLimit,
-                             int& upperLimit);
+                             float& lowerLimit,
+                             float& upperLimit);
 
 void get_wind_speed_interval(const WeatherPeriod& thePeriod,
                              const WeatherArea& area,
                              const wind_data_item_vector& windDataVector,
-                             int& lowerLimit,
-                             int& upperLimit);
+                             float& lowerLimit,
+                             float& upperLimit);
+
 bool ascending_order(const float& direction1, const float& direction2);
 bool wind_turns_to_the_same_direction(const float& direction1,
                                       const float& direction2,
