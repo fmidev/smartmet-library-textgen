@@ -1,18 +1,18 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.1.23
+Version: 16.2.16
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase-devel >= 16.1.17
+BuildRequires: libsmartmet-newbase-devel >= 16.2.4
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: gdal-devel >= 1.11.2
-Requires: libsmartmet-newbase >= 16.1.17
+Requires: libsmartmet-newbase >= 16.2.4
 Requires: gdal >= 1.11.2
 Provides: %{LIBNAME}
 
@@ -52,8 +52,21 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Tue Feb 16 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.2.16-1.fmi
+- One new phrase added to database
+- Word 'voimakas' not used any more in wind-phrases
+- Last time-pharse in 'Iltaan asti' -forecast can not be 'illalla' but 'iltapäivällä'
+- Last time-pharse in 'Aamuun asti' -forecast can not be 'aamulla' but 'aamuyöllä'
+- Tautology of time-phrases removed
+- New configuration parameters added: 
+  If qdtext::append_windspeed_distribution is true a table representing windspeed distribution 
+  on area during forecast period is appended to html-document.
+  If qdtext::append_winddirection_distribution is true a table representing winddirection distribution 
+  on area during forecast period is appended to html-document
+
 * Sat Jan 23 2016 Mika Heiskanen <mika.heiskanen@fmi.fi> - 16.1.23-1.fmi
 - Fmi::TimeZoneFactory API change
+
 * Wed Jan 20 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.1.20-1.fmi
 - Handling of last hour of forecast period corrected. 
 - Calculaton of wind speed corrected: same functions and precision used everywhere.
