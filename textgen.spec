@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.1.20
+Version: 16.2.16
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -52,6 +52,17 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Tue Feb 16 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.2.16-1.fmi
+- One new phrase added to database
+- Word 'voimakas' not used any more in wind-phrases
+- Last time-pharse in 'Iltaan asti' -forecast can not be 'illalla' but 'iltapäivällä'
+- Last time-pharse in 'Aamuun asti' -forecast can not be 'aamulla' but 'aamuyöllä'
+- Tautology of time-phrases removed
+- New configuration parameters added: 
+If qdtext::append_windspeed_distribution is true a table representing windspeed distribution 
+on area during forecast period is appended to html-document.
+If qdtext::append_winddirection_distribution is true a table representing winddirection distribution 
+on area during forecast period is appended to html-document
 * Wed Jan 20 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.1.20-1.fmi
 - Wind story bug fixes and improvements: Handling of last hour of forecast period corrected. 
 Calculaton of wind speed corrected: same functions and precision used everywhere. 

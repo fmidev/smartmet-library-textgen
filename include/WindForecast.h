@@ -100,82 +100,6 @@ namespace TextGen
 #define VAIHTELEVA_TUULI_P "suunnaltaan vaihtelevaa tuulta"
 #define VAIHTELEVA_TUULI "suunnaltaan vaihteleva tuuli"
 
-#define VOIMAKAS_POHJOISTUULI_PHRASE "voimakas 1-tuuli"
-#define VOIMAKAS_POHJOISEN_PUOLEINEN_TUULI_PHRASE "voimakas 1-puoleinen tuuli"
-#define VOIMAKAS_POHJOINEN_KAAKKO_TUULI_PHRASE "voimakas 1- ja 2-valinen tuuli"
-#define VOIMAKAS_KOILLISTUULI_PHRASE "voimakas 2-tuuli"
-#define VOIMAKAS_KOILLISEN_PUOLEINEN_TUULI_PHRASE "voimakas 2-puoleinen tuuli"
-#define VOIMAKAS_ITA_KOILLINEN_TUULI_PHRASE "voimakas 3- ja 2-valinen tuuli"
-#define VOIMAKAS_ITATUULI_PHRASE "voimakas 3-tuuli"
-#define VOIMAKAS_IDAN_PUOLEINEN_TUULI_PHRASE "voimakas 3-puoleinen tuuli"
-#define VOIMAKAS_ITA_KAAKKO_TUULI_PHRASE "voimakas 3- ja 4-valinen tuuli"
-#define VOIMAKAS_KAAKOISTUULI_PHRASE "voimakas 4-tuuli"
-#define VOIMAKAS_KAAKON_PUOLEINEN_TUULI_PHRASE "voimakas 4-puoleinen tuuli"
-#define VOIMAKAS_ETELA_KAAKKO_TUULI_PHRASE "voimakas 5- ja 4-valinen tuuli"
-#define VOIMAKAS_ETALATUULI_PHRASE "voimakas 5-tuuli"
-#define VOIMAKAS_ETALAN_PUOLEINEN_TUULI_PHRASE "voimakas 5-puoleinen tuuli"
-#define VOIMAKAS_ETALA_LOUNAS_TUULI_PHRASE "voimakas 5- ja 6-valinen tuuli"
-#define VOIMAKAS_LOUNAISTUULI_PHRASE "voimakas 6-tuuli"
-#define VOIMAKAS_LOUNAAN_PUOLEINEN_TUULI_PHRASE "voimakas 6-puoleinen tuuli"
-#define VOIMAKAS_LANSI_LOUNAS_TUULI_PHRASE "voimakas 7- ja 6-valinen tuuli"
-#define VOIMAKAS_LANSITUULI_PHRASE "voimakas 7-tuuli"
-#define VOIMAKAS_LANNEN_PUOLEINEN_TUULI_PHRASE "voimakas 7-puoleinen tuuli"
-#define VOIMAKAS_LANSI_LUODE_TUULI_PHRASE "voimakas 7- ja 8-valinen tuuli"
-#define VOIMAKAS_LUODETUULI_PHRASE "voimakas 8-tuuli"
-#define VOIMAKAS_LUOTEEN_PUOLEINEN_TUULI_PHRASE "voimakas 8-puoleinen tuuli"
-#define VOIMAKAS_POHJOINEN_LUODE_TUULI_PHRASE "voimakas 1- ja 8-valinen tuuli"
-#define VOIMAKAS_TUULI_PHRASE "voimakas tuuli"
-
-#define ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE \
-  "[iltapaivalla] [voimakas pohjoistuuli] heikkenee [nopeasti]"
-#define ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [voimakas pohjoistuuli] heikkenee edelleen"
-#define ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE \
-  "[iltapaivalla] [voimakas pohjoistuuli] alkaa heiketa [nopeasti]"
-#define ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] [voimakas pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
-#define ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] [voimakas pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
-#define ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] [voimakas pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] [voimakas pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [voimakas pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [voimakas pohjoistuuli] heikkenee ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [voimakas pohjoistuuli] kaantyy [etelaan] ja heikkenee edelleen"
-#define ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [voimakas pohjoistuuli] heikkenee [nopeasti] ja kaantyy [illalla] [etelaan]"
-#define ILTAPAIVALLA_VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [voimakas pohjoistuuli] heikkenee [nopeasti] ja kaantyy [etelaan]"
-
-#define VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE \
-  "[voimakas pohjoistuuli] heikkenee [nopeasti]"
-#define VOIMAKAS_POHJOISTUULI_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE \
-  "[voimakas pohjoistuuli] heikkenee edelleen"
-#define VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE \
-  "[voimakas pohjoistuuli] alkaa heiketa [nopeasti]"
-#define VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[voimakas pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
-#define VOIMAKAS_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[voimakas pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
-#define VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[voimakas pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
-#define VOIMAKAS_POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[voimakas pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
-#define VOIMAKAS_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE \
-  "[voimakas pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]"
-#define VOIMAKAS_POHJOISTUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE \
-  "[voimakas pohjoistuuli] heikkenee ja kaantyy [etelaan]"
-#define VOIMAKAS_POHJOISTUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE \
-  "[voimakas pohjoistuuli] kaantyy [etelaan] ja heikkenee edelleen"
-#define VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE \
-  "[voimakas pohjoistuuli] heikkenee [nopeasti] ja kaantyy [illalla] [etelaan]"
-#define VOIMAKAS_POHJOISTUULI_HEIKKENEE_NOPEASTI_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE \
-  "[voimakas pohjoistuuli] heikkenee [nopeasti] ja kaantyy [etelaan]"
-
 #define POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
   "[pohjoistuuli] alkaa voimistua ja muuttuu vaihtelevaksi"
 #define POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
@@ -242,6 +166,8 @@ namespace TextGen
   "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [pohjoiseen]"
 #define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE \
   "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [illalla] [pohjoiseen]"
+#define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_INTERVALLI_MS_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE \
+  "[iltap] [nop] [heikken] [tuulta] [m...n] [m sek], joka kaantyy [illalla] [pohj]"
 #define ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE "[iltapaivalla] [etelatuulta]"
 
 #define ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
@@ -433,6 +359,7 @@ struct WindDataItemUnit
   {
   }
 
+  float getTopWindSpeedShare(const float& theLowerLimit, const float& theUpperLimit) const;
   float getWindSpeedShare(const float& theLowerLimit, const float& theUpperLimit) const;
   float getWindDirectionShare(const WindStoryTools::WindDirectionId& windDirectionId) const;
 
@@ -457,6 +384,7 @@ struct WindDataItemUnit
   WeatherResult theEqualizedTopWind;
   WeatherResult theEqualizedWindDirection;
   value_distribution_data_vector theWindSpeedDistribution;
+  value_distribution_data_vector theWindSpeedDistributionTop;
   value_distribution_data_vector theWindDirectionDistribution;
 };
 
@@ -706,20 +634,6 @@ void get_wind_speed_interval_parameters(const WeatherPeriod& thePeriod,
                                         int& endLowerLimit,
                                         int& endUpperLimit,
                                         float& changeRatePerHour);
-/*
-void get_wind_speed_interval(const TextGenPosixTime& pointOfTime,
-                           const WeatherArea& area,
-                           const wind_data_item_vector& windDataVector,
-                           int& lowerLimit,
-                           int& upperLimit);
-
-void get_wind_speed_interval(const WeatherPeriod& thePeriod,
-                           const WeatherArea& area,
-                           const wind_data_item_vector& windDataVector,
-                           int& lowerLimit,
-                           int& upperLimit);
-*/
-
 void get_wind_speed_interval(const TextGenPosixTime& pointOfTime,
                              const WeatherArea& area,
                              const wind_data_item_vector& windDataVector,
