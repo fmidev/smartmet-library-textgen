@@ -8,11 +8,13 @@ Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase-devel >= 16.1.17
+BuildRequires: libsmartmet-newbase-devel >= 16.2.4
+BuildRequires: libsmartmet-macgyver-devel >= 16.1.23
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: gdal-devel >= 1.11.2
-Requires: libsmartmet-newbase >= 16.1.17
+Requires: libsmartmet-newbase >= 16.2.4
+Requires: libsmartmet-macgyver >= 16.1.23
 Requires: gdal >= 1.11.2
 Provides: %{LIBNAME}
 
