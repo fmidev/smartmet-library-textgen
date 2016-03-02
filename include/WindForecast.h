@@ -264,9 +264,10 @@ struct wo_story_params
         theLog(log),
         theSplitMethod(NO_SPLITTING),
         theWindSpeedMaxError(2.0),
-        theWindDirectionMaxError(4.0),
+        theWindDirectionMaxError(10.0),
         theWindSpeedThreshold(3.0),
-        theWindDirectionThreshold(45),
+        theWindDirectionThreshold(25.0),
+        theWindCalcTopShare(80.0),
         theGustyWindTopWindDifference(5.0),
         theRangeSeparator("-"),
         theMinIntervalSize(2),
@@ -280,8 +281,8 @@ struct wo_story_params
   const WeatherPeriod& theForecastPeriod;
   const TextGenPosixTime& theForecastTime;
   const AnalysisSources& theSources;
-  WeatherPeriod
-      theDataPeriod;  // currently same as forecast period, but could be longer in both ends
+  WeatherPeriod theDataPeriod;  // currently same as forecast period, but could be longer in both
+                                // ends
   MessageLogger& theLog;
   split_method theSplitMethod;
 
@@ -289,6 +290,7 @@ struct wo_story_params
   double theWindDirectionMaxError;
   double theWindSpeedThreshold;
   double theWindDirectionThreshold;
+  double theWindCalcTopShare;
   double theGustyWindTopWindDifference;
   std::string theRangeSeparator;
   int theMinIntervalSize;
@@ -361,7 +363,9 @@ struct WindDataItemUnit
 
   float getTopWindSpeedShare(const float& theLowerLimit, const float& theUpperLimit) const;
   float getWindSpeedShare(const float& theLowerLimit, const float& theUpperLimit) const;
-  float getWindDirectionShare(const WindStoryTools::WindDirectionId& windDirectionId) const;
+  float getWindDirectionShare(const WindStoryTools::WindDirectionId& windDirectionId,
+                              WindStoryTools::CompassType compass_type =
+                                  WindStoryTools::CompassType::sixteen_directions) const;
 
   bool operator==(const WindDataItemUnit& dataItemUnit) const
   {
@@ -385,7 +389,8 @@ struct WindDataItemUnit
   WeatherResult theEqualizedWindDirection;
   value_distribution_data_vector theWindSpeedDistribution;
   value_distribution_data_vector theWindSpeedDistributionTop;
-  value_distribution_data_vector theWindDirectionDistribution;
+  value_distribution_data_vector theWindDirectionDistribution16;
+  value_distribution_data_vector theWindDirectionDistribution8;
 };
 
 // contains WindDataItemUnit structs for different areas (coastal, inland, full area)
@@ -616,11 +621,9 @@ bool is_gusty_wind(const wo_story_params& theParameters,
 bool is_gusty_wind(const wo_story_params& theParameters,
                    const WeatherPeriod& period,
                    const std::string& var);
-bool wind_speed_differ_enough(const AnalysisSources& theSources,
-                              const WeatherArea& theArea,
-                              const WeatherPeriod& thePeriod,
-                              float theWindSpeedThreshold,
-                              const wind_data_item_vector& windDataVector);
+
+bool wind_speed_differ_enough(const wo_story_params& theParameter, const WeatherPeriod& thePeriod);
+
 int wind_speed_difference(const AnalysisSources& theSources,
                           const WeatherArea& theArea,
                           const WeatherPeriod& thePeriod1,

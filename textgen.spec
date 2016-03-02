@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.2.16
+Version: 16.3.2
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -52,6 +52,11 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Wed Mar 02 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.3.2-1.fmi
+- Optional data tables of wind direction distribution and wind speed distribution improved.
+- Data smoothening algorithm modified and default values for related configuration parameters changed
+- New confoguration parameter 'wind_calc_top_share' added, this parameter is used 
+when calculating generic wind speed values
 * Tue Feb 16 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.2.16-1.fmi
 - One new phrase added to database
 - Word 'voimakas' not used any more in wind-phrases
