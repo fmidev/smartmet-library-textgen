@@ -94,6 +94,70 @@ std::ostream& operator<<(std::ostream& theOutput, const WeatherPeriod& period)
   return theOutput;
 }
 
+std::string get_direction_abbreviation(
+    float direction, WindStoryTools::CompassType compass_type = sixteen_directions)
+{
+  direction = abs(direction);
+
+  while (direction > 360.0)
+    direction = -360.0;
+
+  if (compass_type == sixteen_directions)
+  {
+    if (direction >= 348.75 || direction < 11.25)
+      return "N";
+    else if (direction >= 11.25 && direction < 33.75)
+      return "n-ne";
+    else if (direction >= 33.75 && direction < 56.25)
+      return "NE";
+    else if (direction >= 56.25 && direction < 78.75)
+      return "ne-e";
+    else if (direction >= 78.75 && direction < 101.25)
+      return "E";
+    else if (direction >= 101.25 && direction < 123.75)
+      return "e-se";
+    else if (direction >= 123.75 && direction < 146.25)
+      return "SE";
+    else if (direction >= 146.25 && direction < 168.75)
+      return "se-s";
+    else if (direction >= 168.75 && direction < 191.25)
+      return "S";
+    else if (direction >= 191.25 && direction < 213.75)
+      return "s-sw";
+    else if (direction >= 213.75 && direction < 236.25)
+      return "SW";
+    else if (direction >= 236.25 && direction < 258.75)
+      return "sw-w";
+    else if (direction >= 258.75 && direction < 281.25)
+      return "W";
+    else if (direction >= 281.25 && direction < 303.75)
+      return "w-nw";
+    else if (direction >= 303.75 && direction < 326.25)
+      return "NW";
+    else
+      return "nw-n";
+  }
+  else
+  {
+    if (direction >= 337.50 || direction < 22.50)
+      return "N";
+    else if (direction >= 22.50 && direction < 67.50)
+      return "NE";
+    else if (direction >= 67.50 && direction < 112.50)
+      return "E";
+    else if (direction >= 112.50 && direction < 157.50)
+      return "SE";
+    else if (direction >= 157.50 && direction < 202.50)
+      return "S";
+    else if (direction >= 202.50 && direction < 247.50)
+      return "SW";
+    else if (direction >= 247.50 && direction < 292.50)
+      return "W";
+    else
+      return "NW";
+  }
+}
+
 std::ostream& operator<<(std::ostream& theOutput, const WindDataItemUnit& theWindDataItem)
 {
   theOutput << theWindDataItem.thePeriod.localStartTime() << " ... "
@@ -612,6 +676,8 @@ std::string get_csv_data(wo_story_params& storyParams, const std::string& param)
     csv_data << std::endl << "time,direction,eq-direction" << std::endl;
 
   WeatherArea::Type areaType(storyParams.theWeatherAreas[0].type());
+  double topWindWeight = (storyParams.theWindCalcTopShare / 100.0);
+  double topMedianWindWeight = 1.0 - topWindWeight;
 
   for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
   {
@@ -629,8 +695,9 @@ std::string get_csv_data(wo_story_params& storyParams, const std::string& param)
                << setprecision(2) << windDataItem.theWindSpeedMean.error() << ", " << fixed
                << setprecision(2) << windDataItem.theWindSpeedTop.value() << ", " << fixed
                << setprecision(2) << windDataItem.theEqualizedTopWind.value() << ", " << fixed
-               << setprecision(2) << (windDataItem.theEqualizedMedianWind.value() * 0.2 +
-                                      windDataItem.theEqualizedTopWind.value() * 0.8)
+               << setprecision(2)
+               << (windDataItem.theEqualizedMedianWind.value() * topMedianWindWeight +
+                   windDataItem.theEqualizedTopWind.value() * topWindWeight)
                << ", " << fixed << setprecision(2) << windDataItem.theGustSpeed.value() << ", "
                << fixed << setprecision(2) << windDataItem.theCorrectedWindDirection.value() << ", "
                << fixed << setprecision(2) << windDataItem.theCorrectedWindDirection.error() << ", "
@@ -642,8 +709,9 @@ std::string get_csv_data(wo_story_params& storyParams, const std::string& param)
                << ", " << fixed << setprecision(2) << windDataItem.theEqualizedMedianWind.value()
                << ", " << fixed << setprecision(2) << windDataItem.theWindSpeedTop.value() << ", "
                << fixed << setprecision(2) << windDataItem.theEqualizedTopWind.value() << ", "
-               << fixed << setprecision(2) << (windDataItem.theEqualizedMedianWind.value() * 0.2 +
-                                               windDataItem.theEqualizedTopWind.value() * 0.8);
+               << fixed << setprecision(2)
+               << (windDataItem.theEqualizedMedianWind.value() * topMedianWindWeight +
+                   windDataItem.theEqualizedTopWind.value() * topWindWeight);
     }
     else if (param == "winddirection")
     {
@@ -675,6 +743,8 @@ std::string get_html_rawdata(wo_story_params& storyParams)
             << "</tr>" << std::endl;
 
   WeatherArea::Type areaType(storyParams.theWeatherAreas[0].type());
+  double topWindWeight = (storyParams.theWindCalcTopShare / 100.0);
+  double topMedianWindWeight = 1.0 - topWindWeight;
 
   for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
   {
@@ -695,8 +765,8 @@ std::string get_html_rawdata(wo_story_params& storyParams)
         << "<td BGCOLOR=lightgreen>" << fixed << setprecision(2)
         << windDataItem.theEqualizedTopWind.value() << "</td>"
         << "<td BGCOLOR=gold>" << fixed << setprecision(2)
-        << (windDataItem.theEqualizedMedianWind.value() * 0.2 +
-            windDataItem.theEqualizedTopWind.value() * 0.8)
+        << (windDataItem.theEqualizedMedianWind.value() * topMedianWindWeight +
+            windDataItem.theEqualizedTopWind.value() * topWindWeight)
         << "</td>"
         << "<td>" << fixed << setprecision(2) << windDataItem.theGustSpeed.value() << "</td>"
         << "<td>" << fixed << setprecision(2) << windDataItem.theCorrectedWindDirection.value()
@@ -713,22 +783,60 @@ std::string get_html_rawdata(wo_story_params& storyParams)
   return html_data.str();
 }
 
-std::string get_html_winddirection_distribution(wo_story_params& storyParams)
+std::string get_html_winddirection_distribution(
+    wo_story_params& storyParams, WindStoryTools::CompassType compass_type = sixteen_directions)
 {
   std::stringstream html_data;
 
-  html_data << "<h5>Wind direction distribution</h5>" << endl;
+  html_data << "<h5>Wind direction distribution - "
+            << (compass_type == sixteen_directions ? "16-compass" : "8-compass") << "</h5>" << endl;
+  html_data << "<font face=\"Serif\" size=\"2\" color=\"darkblue\">" << endl;
+  html_data << "<p>" << endl;
+  if (compass_type == sixteen_directions)
+  {
+    html_data << "N=348.75-11.25 / n-ne=11.25-33.75 / NE=33.75-56.25 / "
+                 "ne-e=56.25-78.75 / "
+                 "E=78.75-101.25 / e-se=101.25-123.75 / SE=123.75-146.25 / "
+                 "se-s=146.25-168.75</br>"
+              << endl;
+    html_data << "S=168.75-191.25 / s-sw=191.25-213.75 / SW=213.75-236.25 / "
+                 "sw-w=236.25-258.75 / "
+                 "W=258.75-281.25 / w-nw=281.25-303.75 / NW=303.75-326.25 / "
+                 "nw-n=326.25-348.75</br>"
+              << endl;
+  }
+  else
+  {
+    html_data << "N=337.50-22.50 / NE=22.20-67.50 / E=67.50-112.50 SE=112.50-157.50 / "
+                 "S=157.50-202.50</br>"
+              << endl;
+    html_data << "SW=202.50-247.50 W=247.50-292.50 NW=292.50-337.50</br>" << endl;
+  }
 
+  html_data << "</p>" << endl;
+  html_data << "</font>" << endl;
   html_data << "<table border=\"1\">" << endl;
 
-  html_data << std::endl
-            << "<tr>" << std::endl
-            << "<td>time</td><td>N</td><td>n-ne "
-               "</td><td>NE</td><td>ne-e</td><td>E</td><td>e-se</td><td>SE</td><td>se-s</td>"
-               "<td>S</td><td>s-sw</td><td>SW</td><td>sw-w</td><td>W</td><td>w-nw</td><td>NW</"
-               "td><td>nw-n</td><td>sdev</td>"
-            << std::endl
-            << "</tr>" << std::endl;
+  if (compass_type == sixteen_directions)
+  {
+    html_data << std::endl
+              << "<tr>" << std::endl
+              << "<td>time</td><td>N</td><td>n-ne</td><td>NE</td><td>ne-e</td><td>E</"
+                 "td><td>e-se</td><td>SE</td><td>se-s</td><td>S</td><td>s-sw</td><td>SW</"
+                 "td><td>sw-w</td><td>W</td><td>w-nw</td><td>NW</"
+                 "td><td>nw-n</td><td>mean</td><td>sdev</td>"
+              << std::endl
+              << "</tr>" << std::endl;
+  }
+  else
+  {
+    html_data << std::endl
+              << "<tr>" << std::endl
+              << "<td>time</td><td>N</td><td>NE</td><td>E</td><td>SE</td><td>S</td><td>SW</"
+                 "td><td>W</td><td>NW</td><td>mean</td><td>sdev</td>"
+              << std::endl
+              << "</tr>" << std::endl;
+  }
 
   const wind_data_item_vector& theWindDataItemVector(storyParams.theWindDataVector);
   const vector<unsigned int>& theIndexVector(
@@ -741,18 +849,28 @@ std::string get_html_winddirection_distribution(wo_story_params& storyParams)
     const WindDataItemUnit& theWindDataItem =
         (*theWindDataItemVector[index])(storyParams.theArea.type());
 
-    html_data << "<tr>"
+    html_data << "<tr>" << std::endl
               << "<td>" << theWindDataItem.thePeriod.localEndTime() << "</td>";
 
-    for (unsigned int i = POHJOINEN; i <= POHJOINEN_LUODE; i++)
+    for (unsigned int i = POHJOINEN; i <= POHJOINEN_LUODE;
+         i += (compass_type == sixteen_directions ? 1 : 2))
     {
-      double share = theWindDataItem.getWindDirectionShare(static_cast<WindDirectionId>(i));
-      html_data << (share > 0.0 ? "<td BGCOLOR=lightblue>" : "<td>") << fixed << setprecision(2)
-                << share << "</td>";
+      double share =
+          theWindDataItem.getWindDirectionShare(static_cast<WindDirectionId>(i), compass_type);
+      std::string cell_effect("<td>");
+      if (share > 50.0)
+        cell_effect = "<td BGCOLOR=\"#228B22\">";
+      else if (share > 0.0)
+        cell_effect = "<td BGCOLOR=lightgreen>";
+      html_data << cell_effect << fixed << setprecision(2) << share << "</td>";
     }
 
-    html_data << "<td>" << fixed << setprecision(2) << theWindDataItem.theWindDirection.error()
-              << "</td>" << std::endl;
+    float direction(theWindDataItem.theCorrectedWindDirection.value());
+    html_data << "<td>" << fixed << setprecision(2) << direction << "("
+              << get_direction_abbreviation(direction, compass_type) << ")</td>" << std::endl
+              << "<td>" << fixed << setprecision(2) << theWindDataItem.theWindDirection.error()
+              << "</td>" << std::endl
+              << "</tr>" << std::endl;
   }
 
   html_data << "</table>" << std::endl;
@@ -766,7 +884,7 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, std::s
 
   std::stringstream html_data;
 
-  html_data << "<h5>Wind speed (" + type + ") distribution</h5>" << endl;
+  html_data << "<h5>Wind speed distribution - " + type + " wind </h5>" << endl;
   html_data << "<table border=\"1\">" << endl;
 
   const wind_data_item_vector& theWindDataItemVector(storyParams.theWindDataVector);
@@ -831,16 +949,15 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, std::s
                                                               (k == 0 ? 0.5 : k + 0.5))
                           : theWindDataItem.getTopWindSpeedShare((k == 0 ? 0.0 : k - 0.5),
                                                                  (k == 0 ? 0.5 : k + 0.5)));
+      std::string cell_effect("<td>");
+      if (share > 10.0)
+        cell_effect = "<td BGCOLOR=\"#228B22\">";
+      else if (share > 0.0)
+        cell_effect = "<td BGCOLOR=lightgreen>";
 
-      /*
-double share = (type == "mean" ? theWindDataItem.getWindSpeedShare(k, k + 1)
-                           : theWindDataItem.getTopWindSpeedShare(k, k + 1));
-      */
-      html_data << (share > 0.0 ? "<td BGCOLOR=lightgreen>" : "<td>") << fixed << setprecision(2)
-                << share << "</td>";
+      html_data << cell_effect << fixed << setprecision(2) << share << "</td>";
     }
-    //	  html_data << "<td>" << fixed << setprecision(2) << theWindDataItem.getWindSpeedShare(k, k
-    //+ 1) << "</td>";
+
     html_data << std::endl << "</tr>" << std::endl;
   }
 
@@ -848,36 +965,6 @@ double share = (type == "mean" ? theWindDataItem.getWindSpeedShare(k, k + 1)
 
   return html_data.str();
 }
-/*
-const WindDataItemUnit& firstWindDataItem = (*theWindDataItemVector[0])(theArea.type());
-
-unsigned int numberOfWindSpeedCategories = firstWindDataItem.theWindSpeedDistribution.size();
-
-for (unsigned int i = 0; i < numberOfWindSpeedCategories; i++)
-{
-  if (i == numberOfWindSpeedCategories - 1)
-    output_file << ", > " << i + 1 << " m/s";
-  else
-    output_file << ", " << i + 1 << " m/s";
-}
-output_file << endl;
-
-for (unsigned int i = 0; i < theIndexVector.size(); i++)
-{
-  const unsigned int& index = theIndexVector[i];
-
-  const WindDataItemUnit& theWindDataItem = (*theWindDataItemVector[index])(theArea.type());
-
-  output_file << theWindDataItem.thePeriod.localEndTime();
-
-  for (unsigned int k = 0; k < numberOfWindSpeedCategories; k++)
-  {
-    output_file << ", ";
-    output_file << fixed << setprecision(2) << theWindDataItem.getWindSpeedShare(k, k + 1);
-  }
-  output_file << endl;
-}
-*/
 
 std::string get_js_code(unsigned int js_id, bool addExternalScripts)
 {
@@ -919,7 +1006,6 @@ std::string get_js_code(unsigned int js_id, bool addExternalScripts)
                       "}]"
                       "});"
                       "});"
-
                       "$(function () {"
                       "$('#wd_container"
           << js_id + 1 << "').highcharts({"
@@ -1418,117 +1504,178 @@ void populate_windspeed_distribution_time_series(
   }
 }
 
-pair<float, WeatherResult> get_share_item(const AnalysisSources& theSources,
-                                          const WeatherArea& theArea,
-                                          const WeatherPeriod& thePeriod,
-                                          const string& theVar,
-                                          const WindDirectionId& theWindDirection)
+pair<float, WeatherResult> get_share_item(
+    const AnalysisSources& theSources,
+    const WeatherArea& theArea,
+    const WeatherPeriod& thePeriod,
+    const string& theVar,
+    const WindDirectionId& theWindDirection,
+    WindStoryTools::CompassType compass_type = sixteen_directions)
 {
   GridForecaster forecaster;
   RangeAcceptor acceptor;
   float ws_lower_limit(0.0);
   float ws_upper_limit(360.0);
 
-  switch (theWindDirection)
+  if (compass_type == sixteen_directions)
   {
-    case POHJOINEN:
+    switch (theWindDirection)
     {
-      ws_lower_limit = 0.0;
-      ws_upper_limit = 11.25;
-    }
-    break;
-    case POHJOINEN_KOILLINEN:
-    {
-      ws_lower_limit = 11.25;
-      ws_upper_limit = 33.75;
-    }
-    break;
-    case KOILLINEN:
-    {
-      ws_lower_limit = 33.75;
-      ws_upper_limit = 56.25;
-    }
-    break;
-    case ITA_KOILLINEN:
-    {
-      ws_lower_limit = 56.25;
-      ws_upper_limit = 78.75;
-    }
-    break;
-    case ITA:
-    {
-      ws_lower_limit = 78.75;
-      ws_upper_limit = 101.25;
-    }
-    break;
-    case ITA_KAAKKO:
-    {
-      ws_lower_limit = 101.25;
-      ws_upper_limit = 123.75;
-    }
-    break;
-    case KAAKKO:
-    {
-      ws_lower_limit = 123.75;
-      ws_upper_limit = 146.25;
-    }
-    break;
-    case ETELA_KAAKKO:
-    {
-      ws_lower_limit = 146.25;
-      ws_upper_limit = 168.75;
-    }
-    break;
-    case ETELA:
-    {
-      ws_lower_limit = 168.75;
-      ws_upper_limit = 191.25;
-    }
-    break;
-    case ETELA_LOUNAS:
-    {
-      ws_lower_limit = 191.25;
-      ws_upper_limit = 213.75;
-    }
-    break;
-    case LOUNAS:
-    {
-      ws_lower_limit = 213.75;
-      ws_upper_limit = 236.25;
-    }
-    break;
-    case LANSI_LOUNAS:
-    {
-      ws_lower_limit = 236.25;
-      ws_upper_limit = 258.75;
-    }
-    break;
-    case LANSI:
-    {
-      ws_lower_limit = 258.75;
-      ws_upper_limit = 281.25;
-    }
-    break;
-    case LANSI_LUODE:
-    {
-      ws_lower_limit = 281.25;
-      ws_upper_limit = 303.75;
-    }
-    break;
-    case LUODE:
-    {
-      ws_lower_limit = 303.75;
-      ws_upper_limit = 326.25;
-    }
-    break;
-    case POHJOINEN_LUODE:
-    {
-      ws_lower_limit = 326.25;
-      ws_upper_limit = 348.75;
-    }
-    break;
-    default:
+      case POHJOINEN:
+      {
+        ws_lower_limit = 0.0;
+        ws_upper_limit = 11.25;
+      }
       break;
+      case POHJOINEN_KOILLINEN:
+      {
+        ws_lower_limit = 11.25;
+        ws_upper_limit = 33.75;
+      }
+      break;
+      case KOILLINEN:
+      {
+        ws_lower_limit = 33.75;
+        ws_upper_limit = 56.25;
+      }
+      break;
+      case ITA_KOILLINEN:
+      {
+        ws_lower_limit = 56.25;
+        ws_upper_limit = 78.75;
+      }
+      break;
+      case ITA:
+      {
+        ws_lower_limit = 78.75;
+        ws_upper_limit = 101.25;
+      }
+      break;
+      case ITA_KAAKKO:
+      {
+        ws_lower_limit = 101.25;
+        ws_upper_limit = 123.75;
+      }
+      break;
+      case KAAKKO:
+      {
+        ws_lower_limit = 123.75;
+        ws_upper_limit = 146.25;
+      }
+      break;
+      case ETELA_KAAKKO:
+      {
+        ws_lower_limit = 146.25;
+        ws_upper_limit = 168.75;
+      }
+      break;
+      case ETELA:
+      {
+        ws_lower_limit = 168.75;
+        ws_upper_limit = 191.25;
+      }
+      break;
+      case ETELA_LOUNAS:
+      {
+        ws_lower_limit = 191.25;
+        ws_upper_limit = 213.75;
+      }
+      break;
+      case LOUNAS:
+      {
+        ws_lower_limit = 213.75;
+        ws_upper_limit = 236.25;
+      }
+      break;
+      case LANSI_LOUNAS:
+      {
+        ws_lower_limit = 236.25;
+        ws_upper_limit = 258.75;
+      }
+      break;
+      case LANSI:
+      {
+        ws_lower_limit = 258.75;
+        ws_upper_limit = 281.25;
+      }
+      break;
+      case LANSI_LUODE:
+      {
+        ws_lower_limit = 281.25;
+        ws_upper_limit = 303.75;
+      }
+      break;
+      case LUODE:
+      {
+        ws_lower_limit = 303.75;
+        ws_upper_limit = 326.25;
+      }
+      break;
+      case POHJOINEN_LUODE:
+      {
+        ws_lower_limit = 326.25;
+        ws_upper_limit = 348.75;
+      }
+      break;
+      default:
+        break;
+    }
+  }
+  else
+  {
+    switch (theWindDirection)
+    {
+      case POHJOINEN:
+      {
+        ws_lower_limit = 0.0;
+        ws_upper_limit = 22.50;
+      }
+      break;
+      case KOILLINEN:
+      {
+        ws_lower_limit = 22.50;
+        ws_upper_limit = 67.50;
+      }
+      break;
+      case ITA:
+      {
+        ws_lower_limit = 67.50;
+        ws_upper_limit = 112.50;
+      }
+      break;
+      case KAAKKO:
+      {
+        ws_lower_limit = 112.50;
+        ws_upper_limit = 157.50;
+      }
+      break;
+      case ETELA:
+      {
+        ws_lower_limit = 157.50;
+        ws_upper_limit = 202.50;
+      }
+      break;
+      case LOUNAS:
+      {
+        ws_lower_limit = 202.50;
+        ws_upper_limit = 247.50;
+      }
+      break;
+      case LANSI:
+      {
+        ws_lower_limit = 247.50;
+        ws_upper_limit = 292.50;
+      }
+      break;
+      case LUODE:
+      {
+        ws_lower_limit = 292.50;
+        ws_upper_limit = 337.50;
+      }
+      break;
+      default:
+        break;
+    }
   }
 
   acceptor.lowerLimit(ws_lower_limit);
@@ -1546,7 +1693,7 @@ pair<float, WeatherResult> get_share_item(const AnalysisSources& theSources,
 
   if (theWindDirection == POHJOINEN)
   {
-    ws_lower_limit = 348.75;
+    ws_lower_limit = (compass_type == sixteen_directions ? 348.75 : 337.50);
     ws_upper_limit = 360.0;
     acceptor.lowerLimit(ws_lower_limit);
     acceptor.upperLimit(ws_upper_limit);
@@ -1563,7 +1710,8 @@ pair<float, WeatherResult> get_share_item(const AnalysisSources& theSources,
     share = WeatherResult(share.value() + share2.value(), 0.0);
   }
 
-  pair<float, WeatherResult> shareItem(ws_lower_limit + 11.25, share);
+  pair<float, WeatherResult> shareItem(
+      ws_lower_limit + (compass_type == sixteen_directions ? 11.25 : 22.50), share);
 
   return shareItem;
 }
@@ -1573,40 +1721,49 @@ void populate_winddirection_distribution_time_series(
     const WeatherArea& theArea,
     const WeatherPeriod& thePeriod,
     const string& theVar,
-    vector<pair<float, WeatherResult> >& theWindDirectionDistribution)
+    vector<pair<float, WeatherResult> >& theWindDirectionDistribution,
+    WindStoryTools::CompassType compass_type = sixteen_directions)
 {
   theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, POHJOINEN));
+      get_share_item(theSources, theArea, thePeriod, theVar, POHJOINEN, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, POHJOINEN_KOILLINEN, compass_type));
   theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, POHJOINEN_KOILLINEN));
+      get_share_item(theSources, theArea, thePeriod, theVar, KOILLINEN, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, ITA_KOILLINEN, compass_type));
   theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, KOILLINEN));
+      get_share_item(theSources, theArea, thePeriod, theVar, ITA, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, ITA_KAAKKO, compass_type));
   theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, ITA_KOILLINEN));
+      get_share_item(theSources, theArea, thePeriod, theVar, KAAKKO, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, ETELA_KAAKKO, compass_type));
   theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, ITA));
+      get_share_item(theSources, theArea, thePeriod, theVar, ETELA, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, ETELA_LOUNAS, compass_type));
   theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, ITA_KAAKKO));
+      get_share_item(theSources, theArea, thePeriod, theVar, LOUNAS, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, LANSI_LOUNAS, compass_type));
   theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, KAAKKO));
+      get_share_item(theSources, theArea, thePeriod, theVar, LANSI, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, LANSI_LUODE, compass_type));
   theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, ETELA_KAAKKO));
-  theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, ETELA));
-  theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, ETELA_LOUNAS));
-  theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, LOUNAS));
-  theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, LANSI_LOUNAS));
-  theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, LANSI));
-  theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, LANSI_LUODE));
-  theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, LUODE));
-  theWindDirectionDistribution.push_back(
-      get_share_item(theSources, theArea, thePeriod, theVar, POHJOINEN_LUODE));
+      get_share_item(theSources, theArea, thePeriod, theVar, LUODE, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, POHJOINEN_LUODE, compass_type));
 }
 
 float calculate_mean_wind_direction(const float& direction1,
@@ -1875,17 +2032,29 @@ bool populate_time_series(wo_story_params& storyParams)
                                                   dataItem.theWindSpeedDistribution,
                                                   dataItem.theWindSpeedDistributionTop);
 
-      populate_winddirection_distribution_time_series(storyParams.theSources,
-                                                      weatherArea,
-                                                      dataItem.thePeriod,
-                                                      storyParams.theVar,
-                                                      dataItem.theWindDirectionDistribution);
+      populate_winddirection_distribution_time_series(
+          storyParams.theSources,
+          weatherArea,
+          dataItem.thePeriod,
+          storyParams.theVar,
+          dataItem.theWindDirectionDistribution16,
+          WindStoryTools::CompassType::sixteen_directions);
 
+      populate_winddirection_distribution_time_series(
+          storyParams.theSources,
+          weatherArea,
+          dataItem.thePeriod,
+          storyParams.theVar,
+          dataItem.theWindDirectionDistribution8,
+          WindStoryTools::CompassType::eight_directions);
+
+      // if standard deviation of wind is big, use distribution to decide the direction
       if (direction_accuracy(dataItem.theWindDirection.error(), storyParams.theVar) ==
               bad_accuracy &&
           dataItem.theEqualizedTopWind.value() > WEAK_WIND_SPEED_UPPER_LIMIT)
       {
-        value_distribution_data_vector directionDistribution(dataItem.theWindDirectionDistribution);
+        value_distribution_data_vector directionDistribution(
+            dataItem.theWindDirectionDistribution16);
 
         std::sort(
             directionDistribution.begin(), directionDistribution.end(), wind_direction_item_sort);
@@ -2154,13 +2323,18 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
                                   dataItemPeriodEnd.thePeriod.localStartTime());
     WindEventId windEvent(MISSING_WIND_SPEED_EVENT);
 
-    // let's take 80% of top wind and 20 % of median wind
-    WeatherResult begSpeed((dataItemPeriodBegin.theEqualizedTopWind.value() * 0.8) +
-                               (dataItemPeriodBegin.theEqualizedMedianWind.value() * 0.2),
-                           0.0);
-    WeatherResult endSpeed((dataItemPeriodEnd.theEqualizedTopWind.value() * 0.8) +
-                               (dataItemPeriodEnd.theEqualizedMedianWind.value() * 0.2),
-                           0.0);
+    // weights are read from config file
+    double topWindWeight = (storyParams.theWindCalcTopShare / 100.0);
+    double topMedianWindWeight = 1.0 - topWindWeight;
+
+    WeatherResult begSpeed(
+        (dataItemPeriodBegin.theEqualizedTopWind.value() * topWindWeight) +
+            (dataItemPeriodBegin.theEqualizedMedianWind.value() * topMedianWindWeight),
+        0.0);
+    WeatherResult endSpeed(
+        (dataItemPeriodEnd.theEqualizedTopWind.value() * topWindWeight) +
+            (dataItemPeriodEnd.theEqualizedMedianWind.value() * topMedianWindWeight),
+        0.0);
 
     windEvent = get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
 
@@ -3476,10 +3650,16 @@ void merge_fragment_periods_when_feasible(wo_story_params& storyParams)
       // next period: direction change continues wind starts to strenghten
       mergeCaseNumber = 6.2;
     }
-    else if (currentDataItem->theWindEvent == MISSING_WIND_EVENT &&
-             get_period_length(currentDataItem->thePeriod) <= 2)
+    else if ((currentDataItem->theWindEvent == MISSING_WIND_EVENT &&
+              get_period_length(currentDataItem->thePeriod) <= 2) ||
+             (currentDataItem->theWindEvent == MISSING_WIND_EVENT &&
+              previousDataItem->theWindEvent == TUULI_KAANTYY &&
+              previousDataItem->thePeriod.localStartTime() ==
+                  previousDataItem->thePeriod.localEndTime()))
     {
       // if period is short and event is MISSING_WIND_EVENT, merge it to the previous
+      // or if previous period is first period after vaying wind (starttime==endtime) and
+      // no changes on current period -> merge current to previous
       mergeCaseNumber = 6.3;
     }
     else if (windDirectionIdPrevious == VAIHTELEVA &&
@@ -3831,37 +4011,11 @@ void find_out_wind_event_periods(wo_story_params& storyParams)
 #endif
 }
 
-double distance_from_line1(const NFmiPoint& point,
-                           const NFmiPoint& lineBeg,
-                           const NFmiPoint& lineEnd)
+double distance_from_line(const NFmiPoint& point,
+                          const NFmiPoint& lineBeg,
+                          const NFmiPoint& lineEnd)
 {
-  double slope = (lineEnd.Y() - lineBeg.Y()) / (lineEnd.X() - lineBeg.X());
-  double c = lineBeg.Y() - (slope * lineBeg.X());
-  double numerator = fabs((slope * point.X()) + (-1.0 * point.Y()) + c);
-  double denominator = sqrt(pow(slope, 2.0) + 1);
-  double distance = numerator / denominator;
-
-  return distance;
-}
-
-double distance_from_line2(const NFmiPoint& point,
-                           const NFmiPoint& lineBeg,
-                           const NFmiPoint& lineEnd)
-{
-  double slope = (lineEnd.Y() - lineBeg.Y()) / (lineEnd.X() - lineBeg.X());
-  double c = lineBeg.Y() - (slope * lineBeg.X());
-  double missingX = (point.Y() - c) / slope;
-  double missingY = (slope * point.X()) + c;
-  double angle = atan(fabs(missingY - point.Y()) / fabs(point.X() - missingX));
-  double distance = sin(angle) * fabs((point.X() - missingX));
-
-  return distance;
-}
-
-double distance_from_line3(const NFmiPoint& point,
-                           const NFmiPoint& lineBeg,
-                           const NFmiPoint& lineEnd)
-{
+  /*
   double side1Len =
       sqrt(pow(fabs(point.X() - lineEnd.X()), 2) + pow(fabs(point.Y() - lineEnd.Y()), 2));
   double side2Len =
@@ -3874,32 +4028,15 @@ double distance_from_line3(const NFmiPoint& point,
   double distance = (A / (0.5 * baseLen));
 
   return distance;
-}
+  */
 
-double distance_from_line4(const NFmiPoint& point,
-                           const NFmiPoint& lineBeg,
-                           const NFmiPoint& lineEnd)
-{
-  double slopeOfLine1 = (lineEnd.Y() - lineBeg.Y()) / (lineEnd.X() - lineBeg.X());
-  double constantOfLine1 = lineBeg.Y() - (slopeOfLine1 * lineBeg.X());
-  double slopeOfLine2 = -1.0 / slopeOfLine1;
-  double constantOfLine2 = point.Y() - (slopeOfLine2 * point.X());
+  double slope = (lineEnd.Y() - lineBeg.Y()) / (lineEnd.X() - lineBeg.X());
 
-  double missingX = (constantOfLine2 - constantOfLine1) / (slopeOfLine1 - slopeOfLine2);
-  double missingY = slopeOfLine1 * missingX + constantOfLine1;
+  double yvalue = lineBeg.Y() + (slope * (point.X() - lineBeg.X()));
 
-  double distance = sqrt(pow(point.X() - missingX, 2.0) + pow(point.Y() - missingY, 2.0));
+  double deviation = abs(point.Y() - yvalue);
 
-  return distance;
-}
-
-double distance_from_line(const NFmiPoint& point,
-                          const NFmiPoint& lineBeg,
-                          const NFmiPoint& lineEnd)
-{
-  double distance = distance_from_line3(point, lineBeg, lineEnd);
-
-  return distance;
+  return deviation;
 }
 
 bool add_local_min_max_values(vector<unsigned int>& eqIndexVector,
@@ -4194,7 +4331,9 @@ void calculate_equalized_wind_direction_indexes(wo_story_params& storyParams)
         // dont remove variable wind
         if (directionIdIndex1 == VAIHTELEVA || directionIdIndex2 == VAIHTELEVA ||
             directionIdIndex3 == VAIHTELEVA)
+        {
           continue;
+        }
 
         double lineBegX = index1;
         double lineBegY = dataItemIndex1.theEqualizedWindDirection.value();
@@ -4202,6 +4341,13 @@ void calculate_equalized_wind_direction_indexes(wo_story_params& storyParams)
         double lineEndY = dataItemIndex3.theEqualizedWindDirection.value();
         double coordX = index2;
         double coordY = dataItemIndex2.theEqualizedWindDirection.value();
+
+        // if wind changes more than 180 degrees in three steps, dont try to smoothen
+        if (abs(coordY - lineBegY) > 180.0 || abs(coordY - lineEndY) > 180.0 ||
+            abs(lineBegY - lineEndY) > 180.0)
+        {
+          continue;
+        }
 
         NFmiPoint point(coordX, coordY);
         NFmiPoint lineBegPoint(lineBegX, lineBegY);
@@ -4220,8 +4366,15 @@ void calculate_equalized_wind_direction_indexes(wo_story_params& storyParams)
         break;
       }
 
+      unsigned int remove_index = eqIndexVector[minErrorIndex];
+
+      const WindDataItemUnit& iii = (*storyParams.theWindDataVector[remove_index])(areaType);
+      WeatherPeriod per(iii.thePeriod);
+      WeatherResult res(iii.theEqualizedWindDirection);
+
       eqIndexVector.erase(eqIndexVector.begin() + minErrorIndex);
-    }
+
+    }  // for (unsigned int i = 0; i < eqIndexVector.size() - 2; i++)
 
     // re-calculate equalized values for the removed points
     for (unsigned int i = 1; i < eqIndexVector.size(); i++)
@@ -4298,11 +4451,13 @@ void read_configuration_params(wo_story_params& storyParams)
   double windSpeedMaxError =
       Settings::optional_double(storyParams.theVar + "::max_error_wind_speed", 2.0);
   double windDirectionMaxError =
-      Settings::optional_double(storyParams.theVar + "::max_error_wind_direction", 4.0);
+      Settings::optional_double(storyParams.theVar + "::max_error_wind_direction", 10.0);
   double windSpeedThreshold =
       Settings::optional_double(storyParams.theVar + "::wind_speed_threshold", 3.0);
   double windDirectionThreshold =
-      Settings::optional_double(storyParams.theVar + "::wind_direction_threshold", 45.0);
+      Settings::optional_double(storyParams.theVar + "::wind_direction_threshold", 25.0);
+  double windCalcTopShare =
+      Settings::optional_double(storyParams.theVar + "::wind_calc_top_share", 80.0);
   double gustyWindTopWindDifference =
       Settings::optional_double(storyParams.theVar + "::gusty_wind_max_wind_difference", 5.0);
   string rangeSeparator = Settings::optional_string(storyParams.theVar + "::rangeseparator", "-");
@@ -4315,6 +4470,7 @@ void read_configuration_params(wo_story_params& storyParams)
   storyParams.theWindDirectionMaxError = windDirectionMaxError;
   storyParams.theWindSpeedThreshold = windSpeedThreshold;
   storyParams.theWindDirectionThreshold = windDirectionThreshold;
+  storyParams.theWindCalcTopShare = windCalcTopShare;
   storyParams.theGustyWindTopWindDifference = gustyWindTopWindDifference;
   storyParams.theRangeSeparator = rangeSeparator;
   storyParams.theMinIntervalSize = minIntervalSize;
@@ -4393,7 +4549,7 @@ Paragraph WindStory::overview() const
     find_out_wind_direction_periods(storyParams);
 
     // log functions
-    save_raw_data(storyParams);
+    // save_raw_data(storyParams);
     log_windirection_distribution(storyParams);
     log_raw_data(storyParams);
     log_equalized_wind_speed_data_vector(storyParams);
@@ -4467,7 +4623,8 @@ Paragraph WindStory::overview() const
     if (Settings::optional_bool("qdtext::append_winddirection_distribution", false))
     {
       std::string html_string(Settings::optional_string("html__append", ""));
-      html_string += get_html_winddirection_distribution(storyParams);
+      html_string += get_html_winddirection_distribution(storyParams, sixteen_directions);
+      html_string += get_html_winddirection_distribution(storyParams, eight_directions);
       Settings::set("html__append", html_string);
     }
   }
