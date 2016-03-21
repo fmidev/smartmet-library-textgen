@@ -3676,7 +3676,7 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
                         "-31.36,0",
                         "-33.53,0",  // area day2 afternoon: min, max, mean
                         "Päivälämpötila on -25...-30 astetta, huomenna pakkanen on hieman "
-                        "kireämpää. Yöllä pakkasta on vajaat -35 astetta."  // the story
+                        "kireämpää. Yöllä pakkasta on vajaat 35 astetta."  // the story
                         )));
       // #3
       testCases.insert(make_pair(
@@ -3886,74 +3886,74 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
                                   "astetta. Yölämpötila on noin -35 astetta."  // the story
                                   )));
       // #6
-      testCases.insert(make_pair(
-          i++,
-          new Max36HoursTestParam(
-              "-28.73,0",
-              "-26.32,0",
-              "-27.53,0",  // inland day1: min, max, mean
-              "-29.55,0",
-              "-23.60,0",
-              "-26.57,0",  // coast day1: min, max, mean
-              "-29.52,0",
-              "-23.21,0",
-              "-26.37,0",  // area day1: min, max, mean
-              "-28.73,0",
-              "-28.30,0",
-              "-28.51,0",  // inland day1 morning: min, max, mean
-              "-29.55,0",
-              "-27.84,0",
-              "-28.70,0",  // coast day1 morning: min, max, mean
-              "-29.52,0",
-              "-28.22,0",
-              "-28.87,0",  // area day1 morning: min, max, mean
-              "-27.06,0",
-              "-26.32,0",
-              "-26.69,0",  // inland day1 afternoon: min, max, mean
-              "-28.59,0",
-              "-23.60,0",
-              "-26.09,0",  // coast day1 afternoon: min, max, mean
-              "-27.51,0",
-              "-23.21,0",
-              "-25.36,0",  // area day1 afternoon: min, max, mean
-              "-29.73,0",
-              "-28.89,0",
-              "-29.31,0",  // inland night: min, max, mean
-              "-31.94,0",
-              "-30.90,0",
-              "-31.42,0",  // coast night: min, max, mean
-              "-29.69,0",
-              "-28.71,0",
-              "-29.20,0",  // area night: min, max, mean
-              "-34.31,0",
-              "-29.63,0",
-              "-31.97,0",  // inland day2: min, max, mean
-              "-33.97,0",
-              "-30.12,0",
-              "-32.05,0",  // coast day2: min, max, mean
-              "-34.93,0",
-              "-30.87,0",
-              "-32.90,0",  // area day2: min, max, mean
-              "-34.00,0",
-              "-33.58,0",
-              "-33.79,0",  // inland day2 morning: min, max, mean
-              "-33.55,0",
-              "-31.61,0",
-              "-32.58,0",  // coast day2 morning: min, max, mean
-              "-34.25,0",
-              "-33.19,0",
-              "-33.72,0",  // area day2 morning: min, max, mean
-              "-30.21,0",
-              "-29.86,0",
-              "-30.04,0",  // inland day2 afternoon: min, max, mean
-              "-31.12,0",
-              "-30.90,0",
-              "-31.01,0",  // coast day2 afternoon: min, max, mean
-              "-31.12,0",
-              "-31.06,0",
-              "-31.09,0",  // area day2 afternoon: min, max, mean
-              "Lämpötila on -25 asteen tienoilla, huomenna vähän yli -30 astetta."  // the story
-              )));
+      testCases.insert(
+          make_pair(i++,
+                    new Max36HoursTestParam("-28.73,0",
+                                            "-26.32,0",
+                                            "-27.53,0",  // inland day1: min, max, mean
+                                            "-29.55,0",
+                                            "-23.60,0",
+                                            "-26.57,0",  // coast day1: min, max, mean
+                                            "-29.52,0",
+                                            "-23.21,0",
+                                            "-26.37,0",  // area day1: min, max, mean
+                                            "-28.73,0",
+                                            "-28.30,0",
+                                            "-28.51,0",  // inland day1 morning: min, max, mean
+                                            "-29.55,0",
+                                            "-27.84,0",
+                                            "-28.70,0",  // coast day1 morning: min, max, mean
+                                            "-29.52,0",
+                                            "-28.22,0",
+                                            "-28.87,0",  // area day1 morning: min, max, mean
+                                            "-27.06,0",
+                                            "-26.32,0",
+                                            "-26.69,0",  // inland day1 afternoon: min, max, mean
+                                            "-28.59,0",
+                                            "-23.60,0",
+                                            "-26.09,0",  // coast day1 afternoon: min, max, mean
+                                            "-27.51,0",
+                                            "-23.21,0",
+                                            "-25.36,0",  // area day1 afternoon: min, max, mean
+                                            "-29.73,0",
+                                            "-28.89,0",
+                                            "-29.31,0",  // inland night: min, max, mean
+                                            "-31.94,0",
+                                            "-30.90,0",
+                                            "-31.42,0",  // coast night: min, max, mean
+                                            "-29.69,0",
+                                            "-28.71,0",
+                                            "-29.20,0",  // area night: min, max, mean
+                                            "-34.31,0",
+                                            "-29.63,0",
+                                            "-31.97,0",  // inland day2: min, max, mean
+                                            "-33.97,0",
+                                            "-30.12,0",
+                                            "-32.05,0",  // coast day2: min, max, mean
+                                            "-34.93,0",
+                                            "-30.87,0",
+                                            "-32.90,0",  // area day2: min, max, mean
+                                            "-34.00,0",
+                                            "-33.58,0",
+                                            "-33.79,0",  // inland day2 morning: min, max, mean
+                                            "-33.55,0",
+                                            "-31.61,0",
+                                            "-32.58,0",  // coast day2 morning: min, max, mean
+                                            "-34.25,0",
+                                            "-33.19,0",
+                                            "-33.72,0",  // area day2 morning: min, max, mean
+                                            "-30.21,0",
+                                            "-29.86,0",
+                                            "-30.04,0",  // inland day2 afternoon: min, max, mean
+                                            "-31.12,0",
+                                            "-30.90,0",
+                                            "-31.01,0",  // coast day2 afternoon: min, max, mean
+                                            "-31.12,0",
+                                            "-31.06,0",
+                                            "-31.09,0",  // area day2 afternoon: min, max, mean
+                                            "Lämpötila on -25 asteen tienoilla, huomenna pakkasta "
+                                            "on vähän yli 30 astetta."  // the story
+                                            )));
       // #7
       testCases.insert(make_pair(
           i++,
@@ -4090,8 +4090,8 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
                         "-20.55,0",
                         "-19.04,0",
                         "-19.80,0",  // area day2 afternoon: min, max, mean
-                        "Päivällä pakkasta on vähän yli -25 astetta, huomenna lähellä -20 astetta. "
-                        "Yöllä pakkasta on vähän yli -30 astetta."  // the story
+                        "Päivällä pakkasta on vähän yli 25 astetta, huomenna lähellä -20 astetta. "
+                        "Yöllä pakkasta on vähän yli 30 astetta."  // the story
                         )));
       // #9
       testCases.insert(
@@ -4161,7 +4161,7 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
                         "-24.52,0",
                         "-25.26,0",  // area day2 afternoon: min, max, mean
                         "Päivälämpötila on -25...-30 astetta, huomenna pakkanen on hieman "
-                        "heikompaa. Yöllä pakkasta on vähän yli -30 astetta."  // the story
+                        "heikompaa. Yöllä pakkasta on vähän yli 30 astetta."  // the story
                         )));
       // #10
       testCases.insert(make_pair(
@@ -4506,7 +4506,7 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
                                   "-20.78,0",
                                   "-21.04,0",  // area day2 afternoon: min, max, mean
                                   "Päivälämpötila on -20 asteen tienoilla, huomenna suunnilleen "
-                                  "sama. Yöllä pakkasta on vähän yli -25 astetta."  // the story
+                                  "sama. Yöllä pakkasta on vähän yli 25 astetta."  // the story
                                   )));
       // #15
       testCases.insert(make_pair(
@@ -4575,77 +4575,77 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
                                   "-13.68,0",
                                   "-15.01,0",  // area day2 afternoon: min, max, mean
                                   "Päivälämpötila on -20 asteen tienoilla, huomenna noin -15 "
-                                  "astetta. Yöllä pakkasta on vähän yli -25 astetta."  // the story
+                                  "astetta. Yöllä pakkasta on vähän yli 25 astetta."  // the story
                                   )));
       // #16
-      testCases.insert(make_pair(
-          i++,
-          new Max36HoursTestParam(
-              "-23.39,0",
-              "-21.80,0",
-              "-22.60,0",  // inland day1: min, max, mean
-              "-24.27,0",
-              "-19.31,0",
-              "-21.79,0",  // coast day1: min, max, mean
-              "-23.65,0",
-              "-21.95,0",
-              "-22.80,0",  // area day1: min, max, mean
-              "-23.39,0",
-              "-22.58,0",
-              "-22.98,0",  // inland day1 morning: min, max, mean
-              "-24.27,0",
-              "-23.30,0",
-              "-23.79,0",  // coast day1 morning: min, max, mean
-              "-23.65,0",
-              "-23.09,0",
-              "-23.37,0",  // area day1 morning: min, max, mean
-              "-22.41,0",
-              "-21.80,0",
-              "-22.10,0",  // inland day1 afternoon: min, max, mean
-              "-23.11,0",
-              "-19.31,0",
-              "-21.21,0",  // coast day1 afternoon: min, max, mean
-              "-22.84,0",
-              "-21.95,0",
-              "-22.40,0",  // area day1 afternoon: min, max, mean
-              "-25.09,0",
-              "-23.52,0",
-              "-24.31,0",  // inland night: min, max, mean
-              "-27.48,0",
-              "-25.93,0",
-              "-26.71,0",  // coast night: min, max, mean
-              "-24.06,0",
-              "-24.04,0",
-              "-24.05,0",  // area night: min, max, mean
-              "-27.77,0",
-              "-23.48,0",
-              "-25.62,0",  // inland day2: min, max, mean
-              "-26.48,0",
-              "-22.06,0",
-              "-24.27,0",  // coast day2: min, max, mean
-              "-28.12,0",
-              "-21.02,0",
-              "-24.57,0",  // area day2: min, max, mean
-              "-26.87,0",
-              "-26.52,0",
-              "-26.70,0",  // inland day2 morning: min, max, mean
-              "-26.22,0",
-              "-25.15,0",
-              "-25.69,0",  // coast day2 morning: min, max, mean
-              "-27.46,0",
-              "-26.89,0",
-              "-27.17,0",  // area day2 morning: min, max, mean
-              "-25.11,0",
-              "-24.45,0",
-              "-24.78,0",  // inland day2 afternoon: min, max, mean
-              "-25.72,0",
-              "-22.48,0",
-              "-24.10,0",  // coast day2 afternoon: min, max, mean
-              "-25.78,0",
-              "-21.85,0",
-              "-23.81,0",  // area day2 afternoon: min, max, mean
-              "Pakkasta on vähän yli -20 astetta, huomenna suunnilleen sama."  // the story
-              )));
+      testCases.insert(
+          make_pair(i++,
+                    new Max36HoursTestParam(
+                        "-23.39,0",
+                        "-21.80,0",
+                        "-22.60,0",  // inland day1: min, max, mean
+                        "-24.27,0",
+                        "-19.31,0",
+                        "-21.79,0",  // coast day1: min, max, mean
+                        "-23.65,0",
+                        "-21.95,0",
+                        "-22.80,0",  // area day1: min, max, mean
+                        "-23.39,0",
+                        "-22.58,0",
+                        "-22.98,0",  // inland day1 morning: min, max, mean
+                        "-24.27,0",
+                        "-23.30,0",
+                        "-23.79,0",  // coast day1 morning: min, max, mean
+                        "-23.65,0",
+                        "-23.09,0",
+                        "-23.37,0",  // area day1 morning: min, max, mean
+                        "-22.41,0",
+                        "-21.80,0",
+                        "-22.10,0",  // inland day1 afternoon: min, max, mean
+                        "-23.11,0",
+                        "-19.31,0",
+                        "-21.21,0",  // coast day1 afternoon: min, max, mean
+                        "-22.84,0",
+                        "-21.95,0",
+                        "-22.40,0",  // area day1 afternoon: min, max, mean
+                        "-25.09,0",
+                        "-23.52,0",
+                        "-24.31,0",  // inland night: min, max, mean
+                        "-27.48,0",
+                        "-25.93,0",
+                        "-26.71,0",  // coast night: min, max, mean
+                        "-24.06,0",
+                        "-24.04,0",
+                        "-24.05,0",  // area night: min, max, mean
+                        "-27.77,0",
+                        "-23.48,0",
+                        "-25.62,0",  // inland day2: min, max, mean
+                        "-26.48,0",
+                        "-22.06,0",
+                        "-24.27,0",  // coast day2: min, max, mean
+                        "-28.12,0",
+                        "-21.02,0",
+                        "-24.57,0",  // area day2: min, max, mean
+                        "-26.87,0",
+                        "-26.52,0",
+                        "-26.70,0",  // inland day2 morning: min, max, mean
+                        "-26.22,0",
+                        "-25.15,0",
+                        "-25.69,0",  // coast day2 morning: min, max, mean
+                        "-27.46,0",
+                        "-26.89,0",
+                        "-27.17,0",  // area day2 morning: min, max, mean
+                        "-25.11,0",
+                        "-24.45,0",
+                        "-24.78,0",  // inland day2 afternoon: min, max, mean
+                        "-25.72,0",
+                        "-22.48,0",
+                        "-24.10,0",  // coast day2 afternoon: min, max, mean
+                        "-25.78,0",
+                        "-21.85,0",
+                        "-23.81,0",  // area day2 afternoon: min, max, mean
+                        "Pakkasta on vähän yli 20 astetta, huomenna suunnilleen sama."  // the story
+                        )));
       // #17
       testCases.insert(
           make_pair(i++,
@@ -5196,7 +5196,7 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
               "-14.63,0",
               "-10.49,0",
               "-12.56,0",  // area day2 afternoon: min, max, mean
-              "Pakkasta on vähän yli -15 astetta, huomenna -10...-15 astetta."  // the story
+              "Pakkasta on vähän yli 15 astetta, huomenna -10...-15 astetta."  // the story
               )));
       // #25
       testCases.insert(make_pair(
@@ -5402,7 +5402,7 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
                                   "-8.66,0",
                                   "-5.42,0",
                                   "-7.04,0",  // area day2 afternoon: min, max, mean
-                                  "Päivällä pakkasta on vajaat -15 astetta, huomenna -5...-9 "
+                                  "Päivällä pakkasta on vajaat 15 astetta, huomenna -5...-9 "
                                   "astetta. Yölämpötila on lähellä -20 astetta."  // the story
                                   )));
       // #28
@@ -5610,7 +5610,7 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
                                   "-15.02,0",
                                   "-15.03,0",  // area day2 afternoon: min, max, mean
                                   "Päivälämpötila on -11...-14 astetta, huomenna suunnilleen sama. "
-                                  "Yöllä pakkasta on vajaat -20 astetta."  // the story
+                                  "Yöllä pakkasta on vajaat 20 astetta."  // the story
                                   )));
       // #31
       testCases.insert(make_pair(
@@ -5817,7 +5817,7 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
                                             "-13.09,0",
                                             "-15.33,0",  // area day2 afternoon: min, max, mean
                                             "Lämpötila on noin -10 astetta, huomenna on hieman "
-                                            "kylmempää. Yöllä sisämaassa pakkasta on vähän yli -15 "
+                                            "kylmempää. Yöllä sisämaassa pakkasta on vähän yli 15 "
                                             "astetta, rannikolla noin -13 astetta."  // the story
                                             )));
       // #34
@@ -6095,7 +6095,7 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
                         "-3.84,0",
                         "-4.41,0",  // area day2 afternoon: min, max, mean
                         "Päivälämpötila on noin -8 astetta, huomenna on hieman lauhempaa. Yöllä "
-                        "pakkasta on vähän yli -10 astetta."  // the story
+                        "pakkasta on vähän yli 10 astetta."  // the story
                         )));
       // #38
       testCases.insert(
@@ -6234,7 +6234,7 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
               "-8.07,0",
               "-3.21,0",
               "-5.64,0",  // area day2 afternoon: min, max, mean
-              "Päivällä pakkasta on vajaat -10 astetta, huomenna on hieman lauhempaa. Sisämaassa "
+              "Päivällä pakkasta on vajaat 10 astetta, huomenna on hieman lauhempaa. Sisämaassa "
               "yölämpötila on -10 asteen tuntumassa, rannikolla noin -15 astetta."  // the story
               )));
       // #40
@@ -6304,7 +6304,7 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
                                   "-1.15,0",
                                   "-1.28,0",  // area day2 afternoon: min, max, mean
                                   "Päivälämpötila on -6...-9 astetta, huomenna noin -1 astetta. "
-                                  "Yöllä pakkasta on vähän yli -10 astetta."  // the story
+                                  "Yöllä pakkasta on vähän yli 10 astetta."  // the story
                                   )));
       // #41
       testCases.insert(make_pair(
@@ -6586,72 +6586,73 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
       // #45
       testCases.insert(make_pair(
           i++,
-          new Max36HoursTestParam("-5.39,0",
-                                  "-2.44,0",
-                                  "-3.91,0",  // inland day1: min, max, mean
-                                  "-6.39,0",
-                                  "-0.08,0",
-                                  "-3.24,0",  // coast day1: min, max, mean
-                                  "-5.92,0",
-                                  "-2.09,0",
-                                  "-4.01,0",  // area day1: min, max, mean
-                                  "-5.39,0",
-                                  "-4.97,0",
-                                  "-5.18,0",  // inland day1 morning: min, max, mean
-                                  "-6.39,0",
-                                  "-5.95,0",
-                                  "-6.17,0",  // coast day1 morning: min, max, mean
-                                  "-5.92,0",
-                                  "-3.99,0",
-                                  "-4.96,0",  // area day1 morning: min, max, mean
-                                  "-3.15,0",
-                                  "-2.44,0",
-                                  "-2.79,0",  // inland day1 afternoon: min, max, mean
-                                  "-4.32,0",
-                                  "-0.08,0",
-                                  "-2.20,0",  // coast day1 afternoon: min, max, mean
-                                  "-3.16,0",
-                                  "-2.09,0",
-                                  "-2.63,0",  // area day1 afternoon: min, max, mean
-                                  "-8.90,0",
-                                  "-8.79,0",
-                                  "-8.85,0",  // inland night: min, max, mean
-                                  "-9.57,0",
-                                  "-8.14,0",
-                                  "-8.85,0",  // coast night: min, max, mean
-                                  "-9.78,0",
-                                  "-7.99,0",
-                                  "-8.88,0",  // area night: min, max, mean
-                                  "-9.03,0",
-                                  "-8.71,0",
-                                  "-8.87,0",  // inland day2: min, max, mean
-                                  "-8.97,0",
-                                  "-5.26,0",
-                                  "-7.12,0",  // coast day2: min, max, mean
-                                  "-10.10,0",
-                                  "-8.09,0",
-                                  "-9.10,0",  // area day2: min, max, mean
-                                  "-8.78,0",
-                                  "-8.36,0",
-                                  "-8.57,0",  // inland day2 morning: min, max, mean
-                                  "-8.73,0",
-                                  "-8.34,0",
-                                  "-8.54,0",  // coast day2 morning: min, max, mean
-                                  "-9.33,0",
-                                  "-8.99,0",
-                                  "-9.16,0",  // area day2 morning: min, max, mean
-                                  "-8.81,0",
-                                  "-8.80,0",
-                                  "-8.81,0",  // inland day2 afternoon: min, max, mean
-                                  "-9.80,0",
-                                  "-6.18,0",
-                                  "-7.99,0",  // coast day2 afternoon: min, max, mean
-                                  "-8.96,0",
-                                  "-8.22,0",
-                                  "-8.59,0",  // area day2 afternoon: min, max, mean
-                                  "Päivälämpötila on noin -3 astetta, päivällä vajaat -10 astetta. "
-                                  "Yölämpötila on -8...-10 astetta."  // the story
-                                  )));
+          new Max36HoursTestParam(
+              "-5.39,0",
+              "-2.44,0",
+              "-3.91,0",  // inland day1: min, max, mean
+              "-6.39,0",
+              "-0.08,0",
+              "-3.24,0",  // coast day1: min, max, mean
+              "-5.92,0",
+              "-2.09,0",
+              "-4.01,0",  // area day1: min, max, mean
+              "-5.39,0",
+              "-4.97,0",
+              "-5.18,0",  // inland day1 morning: min, max, mean
+              "-6.39,0",
+              "-5.95,0",
+              "-6.17,0",  // coast day1 morning: min, max, mean
+              "-5.92,0",
+              "-3.99,0",
+              "-4.96,0",  // area day1 morning: min, max, mean
+              "-3.15,0",
+              "-2.44,0",
+              "-2.79,0",  // inland day1 afternoon: min, max, mean
+              "-4.32,0",
+              "-0.08,0",
+              "-2.20,0",  // coast day1 afternoon: min, max, mean
+              "-3.16,0",
+              "-2.09,0",
+              "-2.63,0",  // area day1 afternoon: min, max, mean
+              "-8.90,0",
+              "-8.79,0",
+              "-8.85,0",  // inland night: min, max, mean
+              "-9.57,0",
+              "-8.14,0",
+              "-8.85,0",  // coast night: min, max, mean
+              "-9.78,0",
+              "-7.99,0",
+              "-8.88,0",  // area night: min, max, mean
+              "-9.03,0",
+              "-8.71,0",
+              "-8.87,0",  // inland day2: min, max, mean
+              "-8.97,0",
+              "-5.26,0",
+              "-7.12,0",  // coast day2: min, max, mean
+              "-10.10,0",
+              "-8.09,0",
+              "-9.10,0",  // area day2: min, max, mean
+              "-8.78,0",
+              "-8.36,0",
+              "-8.57,0",  // inland day2 morning: min, max, mean
+              "-8.73,0",
+              "-8.34,0",
+              "-8.54,0",  // coast day2 morning: min, max, mean
+              "-9.33,0",
+              "-8.99,0",
+              "-9.16,0",  // area day2 morning: min, max, mean
+              "-8.81,0",
+              "-8.80,0",
+              "-8.81,0",  // inland day2 afternoon: min, max, mean
+              "-9.80,0",
+              "-6.18,0",
+              "-7.99,0",  // coast day2 afternoon: min, max, mean
+              "-8.96,0",
+              "-8.22,0",
+              "-8.59,0",  // area day2 afternoon: min, max, mean
+              "Päivälämpötila on noin -3 astetta, päivällä pakkasta on vajaat 10 astetta. "
+              "Yölämpötila on -8...-10 astetta."  // the story
+              )));
       // #46
       testCases.insert(
           make_pair(i++,
@@ -8045,73 +8046,75 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
   else  // summer
   {
     // #66
-    testCases.insert(make_pair(
-        i++,
-        new Max36HoursTestParam("-3.05,0",
-                                "-1.68,0",
-                                "-2.36,0",  // inland day1: min, max, mean
-                                "-3.61,0",
-                                "-0.58,0",
-                                "-2.09,0",  // coast day1: min, max, mean
-                                "-3.99,0",
-                                "0.86,0",
-                                "-1.56,0",  // area day1: min, max, mean
-                                "-3.05,0",
-                                "-2.64,0",
-                                "-2.85,0",  // inland day1 morning: min, max, mean
-                                "-3.61,0",
-                                "-3.17,0",
-                                "-3.39,0",  // coast day1 morning: min, max, mean
-                                "-3.99,0",
-                                "-3.41,0",
-                                "-3.70,0",  // area day1 morning: min, max, mean
-                                "-2.60,0",
-                                "-1.68,0",
-                                "-2.14,0",  // inland day1 afternoon: min, max, mean
-                                "-4.46,0",
-                                "-0.58,0",
-                                "-2.52,0",  // coast day1 afternoon: min, max, mean
-                                "-2.82,0",
-                                "0.86,0",
-                                "-0.98,0",  // area day1 afternoon: min, max, mean
-                                "-6.14,0",
-                                "-5.43,0",
-                                "-5.78,0",  // inland night: min, max, mean
-                                "-4.39,0",
-                                "-3.09,0",
-                                "-3.74,0",  // coast night: min, max, mean
-                                "-5.82,0",
-                                "-4.70,0",
-                                "-5.26,0",  // area night: min, max, mean
-                                "-8.97,0",
-                                "-6.09,0",
-                                "-7.53,0",  // inland day2: min, max, mean
-                                "-8.32,0",
-                                "-5.10,0",
-                                "-6.71,0",  // coast day2: min, max, mean
-                                "-9.20,0",
-                                "-7.33,0",
-                                "-8.27,0",  // area day2: min, max, mean
-                                "-8.40,0",
-                                "-7.75,0",
-                                "-8.07,0",  // inland day2 morning: min, max, mean
-                                "-7.77,0",
-                                "-7.37,0",
-                                "-7.57,0",  // coast day2 morning: min, max, mean
-                                "-9.18,0",
-                                "-8.54,0",
-                                "-8.86,0",  // area day2 morning: min, max, mean
-                                "-7.45,0",
-                                "-6.51,0",
-                                "-6.98,0",  // inland day2 afternoon: min, max, mean
-                                "-9.00,0",
-                                "-5.95,0",
-                                "-7.48,0",  // coast day2 afternoon: min, max, mean
-                                "-8.35,0",
-                                "-8.02,0",
-                                "-8.19,0",  // area day2 afternoon: min, max, mean
-                                "Päivän ylin lämpötila on -3...+1 astetta, päivällä vajaat -10 "
-                                "astetta. Yön alin lämpötila on noin -5 astetta.")));
+    testCases.insert(
+        make_pair(i++,
+                  new Max36HoursTestParam(
+                      "-3.05,0",
+                      "-1.68,0",
+                      "-2.36,0",  // inland day1: min, max, mean
+                      "-3.61,0",
+                      "-0.58,0",
+                      "-2.09,0",  // coast day1: min, max, mean
+                      "-3.99,0",
+                      "0.86,0",
+                      "-1.56,0",  // area day1: min, max, mean
+                      "-3.05,0",
+                      "-2.64,0",
+                      "-2.85,0",  // inland day1 morning: min, max, mean
+                      "-3.61,0",
+                      "-3.17,0",
+                      "-3.39,0",  // coast day1 morning: min, max, mean
+                      "-3.99,0",
+                      "-3.41,0",
+                      "-3.70,0",  // area day1 morning: min, max, mean
+                      "-2.60,0",
+                      "-1.68,0",
+                      "-2.14,0",  // inland day1 afternoon: min, max, mean
+                      "-4.46,0",
+                      "-0.58,0",
+                      "-2.52,0",  // coast day1 afternoon: min, max, mean
+                      "-2.82,0",
+                      "0.86,0",
+                      "-0.98,0",  // area day1 afternoon: min, max, mean
+                      "-6.14,0",
+                      "-5.43,0",
+                      "-5.78,0",  // inland night: min, max, mean
+                      "-4.39,0",
+                      "-3.09,0",
+                      "-3.74,0",  // coast night: min, max, mean
+                      "-5.82,0",
+                      "-4.70,0",
+                      "-5.26,0",  // area night: min, max, mean
+                      "-8.97,0",
+                      "-6.09,0",
+                      "-7.53,0",  // inland day2: min, max, mean
+                      "-8.32,0",
+                      "-5.10,0",
+                      "-6.71,0",  // coast day2: min, max, mean
+                      "-9.20,0",
+                      "-7.33,0",
+                      "-8.27,0",  // area day2: min, max, mean
+                      "-8.40,0",
+                      "-7.75,0",
+                      "-8.07,0",  // inland day2 morning: min, max, mean
+                      "-7.77,0",
+                      "-7.37,0",
+                      "-7.57,0",  // coast day2 morning: min, max, mean
+                      "-9.18,0",
+                      "-8.54,0",
+                      "-8.86,0",  // area day2 morning: min, max, mean
+                      "-7.45,0",
+                      "-6.51,0",
+                      "-6.98,0",  // inland day2 afternoon: min, max, mean
+                      "-9.00,0",
+                      "-5.95,0",
+                      "-7.48,0",  // coast day2 afternoon: min, max, mean
+                      "-8.35,0",
+                      "-8.02,0",
+                      "-8.19,0",  // area day2 afternoon: min, max, mean
+                      "Päivän ylin lämpötila on -3...+1 astetta, päivällä pakkasta on vajaat 10 "
+                      "astetta. Yön alin lämpötila on noin -5 astetta.")));
+
     // #67
     testCases.insert(make_pair(
         i++,

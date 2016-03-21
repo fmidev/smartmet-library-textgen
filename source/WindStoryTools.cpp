@@ -47,10 +47,8 @@ WindDirectionAccuracy direction_accuracy(double theError, const string& theVaria
 {
   using Settings::optional_double;
 
-  const double accurate_limit =
-      optional_double(theVariable + "::wind_direction::accurate_limit", 22.5);
-  const double variable_limit =
-      optional_double(theVariable + "::wind_direction::variable_limit", 45);
+  double accurate_limit = optional_double(theVariable + "::wind_direction::accurate_limit", 22.5);
+  double variable_limit = optional_double(theVariable + "::wind_direction::variable_limit", 45);
 
   if (theError <= accurate_limit) return good_accuracy;
   if (theError <= variable_limit) return moderate_accuracy;
@@ -91,7 +89,7 @@ Sentence direction_sentence(const WeatherResult& theDirection, const string& the
 {
   Sentence sentence;
 
-  const int n = direction8th(theDirection.value());
+  int n = direction8th(theDirection.value());
   switch (direction_accuracy(theDirection.error(), theVariable))
   {
     case good_accuracy:
@@ -111,9 +109,8 @@ Sentence direction_sentence(const WeatherResult& theDirection, const string& the
 string direction_string(const WeatherResult& theDirection, const string& theVariable)
 {
   string retval;
-  ;
 
-  const int n = direction8th(theDirection.value());
+  int n = direction8th(theDirection.value());
   switch (direction_accuracy(theDirection.error(), theVariable))
   {
     case good_accuracy:
@@ -193,7 +190,7 @@ string direction16_string(const WeatherResult& theDirection, const string& theVa
 {
   string retval;
 
-  const int n = direction16th(theDirection.value());
+  int n = direction16th(theDirection.value());
 
   switch (direction_accuracy(theDirection.error(), theVariable))
   {
@@ -382,8 +379,8 @@ Sentence speed_range_sentence(const WeatherResult& theMinSpeed,
   const int maxvalue = static_cast<int>(round(theMaxSpeed.value()));
   const int meanvalue = static_cast<int>(round(theMeanSpeed.value()));
 
-  const string var = "textgen::units::meterspersecond::format";
-  const string opt = Settings::optional_string(var, "SI");
+  string var = "textgen::units::meterspersecond::format";
+  string opt = Settings::optional_string(var, "SI");
 
   if (opt == "textphrase")
   {
@@ -579,7 +576,7 @@ WindSpeedId wind_speed_id(const WeatherResult& theWindSpeed)
   return wind_speed_id(theWindSpeed.value());
 }
 
-WindSpeedId wind_speed_id(const float& theWindSpeed)
+WindSpeedId wind_speed_id(float theWindSpeed)
 {
   if (theWindSpeed < HEIKKO_LOWER_LIMIT)
     return TYYNI;
@@ -655,7 +652,7 @@ pair<int, int> wind_speed_interval(const wind_speed_vector& theWindSpeedVector)
   return retval;
 }
 
-WindDirectionId puoleinen_direction_id(const float& theWindDirection,
+WindDirectionId puoleinen_direction_id(float theWindDirection,
                                        const WindDirectionId& theWindDirectionId)
 {
   WindDirectionId windDirectionId(MISSING_WIND_DIRECTION_ID);
@@ -775,14 +772,15 @@ WindDirectionId puoleinen_direction_id(const float& theWindDirection,
 
 WindDirectionId wind_direction_id(const TextGen::WeatherResult& theWindDirection,
                                   const TextGen::WeatherResult& theMaxWindSpeed,
-                                  const string& theVariable)
+                                  const string& theVariable,
+                                  double theWindDirectionMinSpeed)
 {
   WindDirectionAccuracy accuracy(direction_accuracy(theWindDirection.error(), theVariable));
 
   WindDirectionId windDirectionId(MISSING_WIND_DIRECTION_ID);
 
-  // wind speed is > 6.5 m/s it can not be vaihteleva
-  if (accuracy == bad_accuracy && theMaxWindSpeed.value() <= 6.5)
+  // wind speed is >= theWindDirectionMinSpeed it can not be vaihteleva
+  if (accuracy == bad_accuracy && theMaxWindSpeed.value() < theWindDirectionMinSpeed)
   {
     windDirectionId = VAIHTELEVA;
   }
@@ -799,14 +797,16 @@ WindDirectionId wind_direction_id(const TextGen::WeatherResult& theWindDirection
 
 WindDirectionId plain_wind_direction_id(const TextGen::WeatherResult& theWindDirection,
                                         const TextGen::WeatherResult& theMaxWindSpeed,
-                                        const string& theVariable)
+                                        const string& theVariable,
+                                        double theWindDirectionMinSpeed)
+
 {
   WindDirectionAccuracy accuracy(direction_accuracy(theWindDirection.error(), theVariable));
 
   WindDirectionId windDirectionId(MISSING_WIND_DIRECTION_ID);
 
-  // wind speed is > 6.5 m/s it can not be vaihteleva
-  if (accuracy == bad_accuracy && theMaxWindSpeed.value() <= 6.5)
+  // wind speed is >= theWindDirectionMinSpeed m/s it can not be vaihteleva
+  if (accuracy == bad_accuracy && theMaxWindSpeed.value() < theWindDirectionMinSpeed)
   {
     windDirectionId = VAIHTELEVA;
   }
@@ -905,7 +905,7 @@ std::string wind_direction_string(const WindDirectionId& theWindDirectionId)
   return retval;
 }
 
-float direction_difference(const float& direction1, const float& direction2)
+float direction_difference(float direction1, float direction2)
 {
   float difference = direction2 - direction1;
   if (abs(difference) > 180.0)
@@ -919,12 +919,13 @@ bool wind_direction_turns(const TextGen::WeatherResult& theDirectionStart,
                           const TextGen::WeatherResult& theDirectionEnd,
                           const TextGen::WeatherResult& theMaxSpeedStart,
                           const TextGen::WeatherResult& theMaxSpeedEnd,
-                          const string& theVariable)
+                          const string& theVariable,
+                          double theWindDirectionMinSpeed)
 {
-  WindDirectionId windDirectionIdBeg(
-      wind_direction_id(theDirectionStart, theMaxSpeedStart, theVariable));
+  WindDirectionId windDirectionIdBeg(wind_direction_id(
+      theDirectionStart, theMaxSpeedStart, theVariable, theWindDirectionMinSpeed));
   WindDirectionId windDirectionIdEnd(
-      wind_direction_id(theDirectionEnd, theMaxSpeedEnd, theVariable));
+      wind_direction_id(theDirectionEnd, theMaxSpeedEnd, theVariable, theWindDirectionMinSpeed));
 
   float directionDifference(
       abs(direction_difference(theDirectionEnd.value(), theDirectionStart.value())));
@@ -937,17 +938,20 @@ bool same_direction(const TextGen::WeatherResult& theDirection1,
                     const TextGen::WeatherResult& theMaxSpeed1,
                     const TextGen::WeatherResult& theMaxSpeed2,
                     const string& theVariable,
-                    const bool& ignore_suuntainen)
+                    double theWindDirectionMinSpeed,
+                    bool ignore_suuntainen)
 {
-  WindDirectionId direction1(wind_direction_id(theDirection1, theMaxSpeed1, theVariable));
-  WindDirectionId direction2(wind_direction_id(theDirection2, theMaxSpeed2, theVariable));
+  WindDirectionId direction1(
+      wind_direction_id(theDirection1, theMaxSpeed1, theVariable, theWindDirectionMinSpeed));
+  WindDirectionId direction2(
+      wind_direction_id(theDirection2, theMaxSpeed2, theVariable, theWindDirectionMinSpeed));
 
   if (direction1 == direction2) return true;
 
   WindDirectionId plainDirection1(
-      plain_wind_direction_id(theDirection1, theMaxSpeed1, theVariable));
+      plain_wind_direction_id(theDirection1, theMaxSpeed1, theVariable, theWindDirectionMinSpeed));
   WindDirectionId plainDirection2(
-      plain_wind_direction_id(theDirection2, theMaxSpeed2, theVariable));
+      plain_wind_direction_id(theDirection2, theMaxSpeed2, theVariable, theWindDirectionMinSpeed));
 
   if (plainDirection1 == plainDirection2 && ignore_suuntainen) return true;
 
@@ -956,7 +960,7 @@ bool same_direction(const TextGen::WeatherResult& theDirection1,
 
 bool same_direction(const WindDirectionId& theDirection1,
                     const WindDirectionId& theDirection2,
-                    const bool& ignore_suuntainen)
+                    bool ignore_suuntainen)
 {
   if (theDirection1 == theDirection2) return true;
 

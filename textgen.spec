@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.3.2
+Version: 16.3.21
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -52,6 +52,20 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Wed Mar 21 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 18.3.21-1.fmi
+- No minus('-') sign with sub-zero temperatures when 'pakkanen'-phrase is used: 'Pakkasta vajaat -5 astetta' -> 'Pakkasta vajaat 5 astetta'
+- 'Vajaat nolla astetta'-phrase corrected to form 'Vähän nollan alapuolella'
+- new phrases to database ('vähän nollan alapuolella')
+- Highcharts graphs (in wind_overview story) improved for better readibility
+- new configuration parameters:
+* wind_speed_top_coverage (default value 98.0): This parameter tells how many percent the reported 
+top wind speed must cover of the total area.
+For example if top wind on the area is 11 m/s, but it is predicted only on 1.9 % of total area, the reported top wind is 10 m/s. 
+* wind_direction_min_speed (oletusarvo 6.5): This is limiting value of wind speed for wind direction when 
+standard deviation of wind direction is big (> 45.0). 
+If standard deviation of wind direction is big and top wind speed is smaller or equal 
+than 'wind_direction_min_speed' wind direction is reportedf as varying.
+- code cleaned and refactored
 * Wed Mar 02 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.3.2-1.fmi
 - Optional data tables of wind direction distribution and wind speed distribution improved.
 - Data smoothening algorithm modified and default values for related configuration parameters changed
