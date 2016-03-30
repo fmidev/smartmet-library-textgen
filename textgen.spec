@@ -8,12 +8,12 @@ Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase-devel >= 16.2.4
+BuildRequires: libsmartmet-newbase-devel >= 16.3.17
 BuildRequires: libsmartmet-macgyver-devel >= 16.1.23
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: gdal-devel >= 1.11.2
-Requires: libsmartmet-newbase >= 16.2.4
+Requires: libsmartmet-newbase >= 16.3.17
 Requires: libsmartmet-macgyver >= 16.1.23
 Requires: gdal >= 1.11.2
 Provides: %{LIBNAME}
@@ -54,25 +54,19 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
-* Wed Mar 21 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 18.3.21-1.fmi
+* Mon Mar 21 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.3.21-1.fmi
 - No minus('-') sign with sub-zero temperatures when 'pakkanen'-phrase is used: 'Pakkasta vajaat -5 astetta' -> 'Pakkasta vajaat 5 astetta'
 - 'Vajaat nolla astetta'-phrase corrected to form 'Vähän nollan alapuolella'
 - new phrases to database ('vähän nollan alapuolella')
 - Highcharts graphs (in wind_overview story) improved for better readibility
 - new configuration parameters:
-* wind_speed_top_coverage (default value 98.0): This parameter tells how many percent the reported 
-top wind speed must cover of the total area.
-For example if top wind on the area is 11 m/s, but it is predicted only on 1.9 % of total area, the reported top wind is 10 m/s. 
-* wind_direction_min_speed (oletusarvo 6.5): This is limiting value of wind speed for wind direction when 
-standard deviation of wind direction is big (> 45.0). 
-If standard deviation of wind direction is big and top wind speed is smaller or equal 
-than 'wind_direction_min_speed' wind direction is reportedf as varying.
+- wind_speed_top_coverage (default value 98.0): This parameter tells how many percent the reported top wind speed must cover of the total area. For example if top wind on the area is 11 m/s, but it is predicted only on 1.9 % of total area, the reported top wind is 10 m/s. 
+- wind_direction_min_speed (oletusarvo 6.5): This is limiting value of wind speed for wind direction when standard deviation of wind direction is big (> 45.0). If standard deviation of wind direction is big and top wind speed is smaller or equal than 'wind_direction_min_speed' wind direction is reportedf as varying.
 - code cleaned and refactored
 * Wed Mar 02 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.3.2-1.fmi
 - Optional data tables of wind direction distribution and wind speed distribution improved.
 - Data smoothening algorithm modified and default values for related configuration parameters changed
-- New confoguration parameter 'wind_calc_top_share' added, this parameter is used 
-when calculating generic wind speed values
+- New confoguration parameter 'wind_calc_top_share' added, this parameter is used when calculating generic wind speed values
 * Tue Feb 16 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.2.16-1.fmi
 - One new phrase added to database
 - Word 'voimakas' not used any more in wind-phrases
