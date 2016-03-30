@@ -82,6 +82,31 @@ enum WindDirectionId
   MISSING_WIND_DIRECTION_ID
 };
 
+enum WindEventId
+{
+  TUULI_HEIKKENEE = 0x1,
+  TUULI_VOIMISTUU = 0x2,
+  TUULI_TYYNTYY = 0x4,
+  TUULI_KAANTYY = 0x8,
+  TUULI_MUUTTUU_VAIHTELEVAKSI = 0x10,
+  TUULI_KAANTYY_JA_HEIKKENEE = 0x9,
+  TUULI_KAANTYY_JA_VOIMISTUU = 0xA,
+  TUULI_KAANTYY_JA_TYYNTYY = 0xC,
+  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE = 0x11,
+  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU = 0x12,
+  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY = 0x14,
+  MISSING_WIND_EVENT = 0x0,
+  MISSING_WIND_SPEED_EVENT = -0x1,
+  MISSING_WIND_DIRECTION_EVENT = -0x2
+};
+
+enum WindEventType
+{
+  WIND_DIRECTION_EVENT,
+  WIND_SPEED_EVENT,
+  MISSING_EVENT_TYPE
+};
+
 #define HEIKKO_LOWER_LIMIT 0.5
 #define HEIKKO_UPPER_LIMIT 3.5
 #define KOHTALAINEN_LOWER_LIMIT 3.5
@@ -94,6 +119,7 @@ enum WindDirectionId
 #define MYRSKY_LOWER_LIMIT 20.5
 #define MYRSKY_UPPER_LIMIT 32.5
 #define HIRMUMYRSKY_LOWER_LIMIT 32.5
+#define WEAK_WIND_SPEED_UPPER_LIMIT 5.0
 
 #define TYYNI_WORD "tyyni"
 #define HEIKKO_WORD "heikko"
@@ -143,7 +169,7 @@ std::string speed_string(const TextGen::WeatherResult& theMeanSpeed);
 
 WindSpeedId wind_speed_id(const TextGen::WeatherResult& theWindSpeed);
 
-WindSpeedId wind_speed_id(const float& theWindSpeed);
+WindSpeedId wind_speed_id(float theWindSpeed);
 
 std::string wind_speed_string(const WindSpeedId& theWindSpeedId);
 
@@ -151,32 +177,37 @@ std::pair<int, int> wind_speed_interval(const wind_speed_vector& theWindSpeedVec
 
 WindDirectionId wind_direction_id(const TextGen::WeatherResult& theWindDirection,
                                   const TextGen::WeatherResult& theMaxWindSpeed,
-                                  const std::string& theVariable);
+                                  const std::string& theVariable,
+                                  double theWindDirectionMinSpeed);
 
 WindDirectionId plain_wind_direction_id(const TextGen::WeatherResult& theWindDirection,
                                         const TextGen::WeatherResult& theMaxWindSpeed,
-                                        const std::string& theVariable);
+                                        const std::string& theVariable,
+                                        double theWindDirectionMinSpeed);
 
 std::string wind_direction_string(const WindDirectionId& theWindDirectionId);
 
-float direction_difference(const float& direction1, const float& direction2);
+float direction_difference(float direction1, float direction2);
 
 bool wind_direction_turns(const TextGen::WeatherResult& theDirectionStart,
                           const TextGen::WeatherResult& theDirectionEnd,
                           const TextGen::WeatherResult& theMaxSpeedStart,
                           const TextGen::WeatherResult& theMaxSpeedEnd,
-                          const std::string& theVariable);
+                          const std::string& theVariable,
+                          double theWindDirectionMinSpeed);
 
 bool same_direction(const TextGen::WeatherResult& theDirection1,
                     const TextGen::WeatherResult& theDirection2,
                     const TextGen::WeatherResult& theMaxSpeed1,
                     const TextGen::WeatherResult& theMaxSpeed2,
                     const std::string& theVariable,
-                    const bool& ignore_suuntainen);
+                    double theWindDirectionMinSpeed,
+                    bool ignore_suuntainen);
 
 bool same_direction(const WindDirectionId& theDirection1,
                     const WindDirectionId& theDirection2,
-                    const bool& ignore_suuntainen);
+                    bool ignore_suuntainen);
+
 }  // namespace WindStoryTools
 }  // namespace TextGen
 

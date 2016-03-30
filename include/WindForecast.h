@@ -1,513 +1,13 @@
 #ifndef TEXTGEN_WIND_FORECAST_H
 #define TEXTGEN_WIND_FORECAST_H
 
-#include "WeatherForecast.h"
 #include "WindStoryTools.h"
+#include "WindForecastStructs.h"
+#include "WeatherForecast.h"
+#include "Paragraph.h"
 
 namespace TextGen
 {
-#define WEAK_WIND_SPEED_UPPER_LIMIT 5.0
-
-#define USE_AT_ITS_STRONGEST_PHRASE true
-#define DONT_USE_AT_ITS_STRONGEST_PHRASE false
-#define USE_ALKAEN_PHRASE true
-#define DONT_USE_ALKAEN_PHRASE false
-
-#define TUULI_WORD "tuuli"
-#define VAHAN_WORD "vahan"
-#define NOPEASTI_WORD "nopeasti"
-#define VAHITELLEN_WORD "vahitellen"
-#define KOVIMMILLAAN_PHRASE "kovimmillaan"
-#define HEIKKENEVAA_WORD "heikkenevaa"
-#define VOIMISTUVAA_WORD "voimistuvaa"
-#define TUULTA_WORD "tuulta"
-#define TUULI_TYYNTYY_PHRASE "tuuli tyyntyy"
-#define POHJOISEEN_PHRASE "pohjoiseen"
-#define ETELAAN_PHRASE "etelaan"
-#define ITAAN_PHRASE "itaan"
-#define LANTEEN_PHRASE "lanteen"
-#define KOILLISEEN_PHRASE "koilliseen"
-#define KAAKKOON_PHRASE "kaakkoon"
-#define LOUNAASEEN_PHRASE "lounaaseen"
-#define LUOTEESEEN_PHRASE "luoteeseen"
-#define POHJOISEN_PUOLELLE_PHRASE "1-puolelle"
-#define ETELAN_PUOLELLE_PHRASE "5-puolelle"
-#define IDAN_PUOLELLE_PHRASE "3-puolelle"
-#define LANNEN_PUOLELLE_PHRASE "7-puolelle"
-#define KOILLISEN_PUOLELLE_PHRASE "2-puolelle"
-#define KAAKON_PUOLELLE_PHRASE "4-puolelle"
-#define LOUNAAN_PUOLELLE_PHRASE "6-puolelle"
-#define LUOTEEN_PUOLELLE_PHRASE "8-puolelle"
-
-#define POHJOISEN_JA_KOILLISEN_VALILLE_PHRASE "1- ja 2-valille"
-#define IDAN_JA_KOILLISEN_VALILLE_PHRASE "3- ja 2-valille"
-#define IDAN_JA_KAAKON_VALILLE_PHRASE "3- ja 4-valille"
-#define ETELAN_JA_KAAKON_VALILLE_PHRASE "5- ja 4-valille"
-#define ETELAN_JA_LOUNAAN_VALILLE_PHRASE "5- ja 6-valille"
-#define LANNEN_JA_LOUNAAN_VALILLE_PHRASE "7- ja 6-valille"
-#define LANNEN_JA_LUOTEEN_VALILLE_PHRASE "7- ja 8-valille"
-#define POHJOISEN_JA_LUOTEEN_VALILLE_PHRASE "1- ja 8-valille"
-#define TUULI_MUUTTUU_VAIHTELEVAKSI_PHRASE "tuuli muuttuu vaihtelevaksi"
-
-#define POHJOINEN_TUULI_P "1-tuulta"
-#define POHJOINEN_TUULI "1-tuuli"
-#define POHJOISEN_PUOLEINEN_TUULI_P "1-puoleista tuulta"
-#define POHJOISEN_PUOLEINEN_TUULI "1-puoleinen tuuli"
-#define POHJOINEN_KOILLINEN_TUULI_P "1- ja 2-valista tuulta"
-#define POHJOINEN_KOILLINEN_TUULI "1- ja 2-valinen tuuli"
-#define KOILLINEN_TUULI_P "2-tuulta"
-#define KOILLINEN_TUULI "2-tuuli"
-#define KOILLISEN_PUOLEINEN_TUULI_P "2-puoleista tuulta"
-#define KOILLISEN_PUOLEINEN_TUULI "2-puoleinen tuuli"
-#define ITA_KOILLINEN_TUULI_P "3- ja 2-valista tuulta"
-#define ITA_KOILLINEN_TUULI "3- ja 2-valinen tuuli"
-#define ITA_TUULI_P "3-tuulta"
-#define ITA_TUULI "3-tuuli"
-#define IDAN_PUOLEINEN_TUULI_P "3-puoleista tuulta"
-#define IDAN_PUOLEINEN_TUULI "3-puoleinen tuuli"
-#define ITA_KAAKKO_TUULI_P "3- ja 4-valista tuulta"
-#define ITA_KAAKKO_TUULI "3- ja 4-valinen tuuli"
-#define KAAKKO_TUULI_P "4-tuulta"
-#define KAAKKO_TUULI "4-tuuli"
-#define KAAKON_PUOLEINEN_TUULI_P "4-puoleista tuulta"
-#define KAAKON_PUOLEINEN_TUULI "4-puoleinen tuuli"
-#define ETELA_KAAKKO_TUULI_P "5- ja 4-valista tuulta"
-#define ETELA_KAAKKO_TUULI "5- ja 4-valinen tuuli"
-#define ETELA_TUULI_P "5-tuulta"
-#define ETELA_TUULI "5-tuuli"
-#define ETELAN_PUOLEINEN_TUULI_P "5-puoleista tuulta"
-#define ETELAN_PUOLEINEN_TUULI "5-puoleinen tuuli"
-#define ETELA_LOUNAS_TUULI_P "5- ja 6-valista tuulta"
-#define ETELA_LOUNAS_TUULI "5- ja 6-valinen tuuli"
-#define LOUNAS_TUULI_P "6-tuulta"
-#define LOUNAS_TUULI "6-tuuli"
-#define LOUNAAN_PUOLEINEN_TUULI_P "6-puoleista tuulta"
-#define LOUNAAN_PUOLEINEN_TUULI "6-puoleinen tuuli"
-#define LANSI_LOUNAS_TUULI_P "7- ja 6-valista tuulta"
-#define LANSI_LOUNAS_TUULI "7- ja 6-valinen tuuli"
-#define LANSI_TUULI_P "7-tuulta"
-#define LANSI_TUULI "7-tuuli"
-#define LANNEN_PUOLEINEN_TUULI_P "7-puoleista tuulta"
-#define LANNEN_PUOLEINEN_TUULI "7-puoleinen tuuli"
-#define LANSI_LUODE_TUULI_P "7- ja 8-valista tuulta"
-#define LANSI_LUODE_TUULI "7- ja 8-valinen tuuli"
-#define LUODE_TUULI_P "8-tuulta"
-#define LUODE_TUULI "8-tuuli"
-#define LUOTEEN_PUOLEINEN_TUULI_P "8-puoleista tuulta"
-#define LUOTEEN_PUOLEINEN_TUULI "8-puoleinen tuuli"
-#define POHJOINEN_LUODE_TUULI_P "1- ja 8-valista tuulta"
-#define POHJOINEN_LUODE_TUULI "1- ja 8-valinen tuuli"
-#define VAIHTELEVA_TUULI_P "suunnaltaan vaihtelevaa tuulta"
-#define VAIHTELEVA_TUULI "suunnaltaan vaihteleva tuuli"
-
-#define POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] alkaa voimistua ja muuttuu vaihtelevaksi"
-#define POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] voimistuu ja muuttuu vaihtelevaksi"
-#define POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] alkaa heiketa ja muuttuu vaihtelevaksi"
-#define POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] heikkenee ja muuttuu vaihtelevaksi"
-#define POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] voimistuu ja muuttuu tilapaisesti vaihtelevaksi"
-#define POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
-#define POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
-#define POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[pohjoistuuli] alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
-#define POHJOISTUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE "[pohjoistuuli] heikkenee [nopeasti]"
-#define POHJOISTUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE "[pohjoistuuli] voimistuu [nopeasti]"
-
-#define PUUSKITTAISTA_ETELATUULTA_COMPOSITE_PHRASE "puuskittaista [etelatuulta]"
-#define POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_COMPOSITE_PHRASE \
-  "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa heiketa"
-#define POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE \
-  "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa voimistua"
-#define ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA \
-  "[iltapaivalla] edelleen [heikkenevaa] [pohjoistuulta]"
-#define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_EDELLEEN \
-  "[iltapaivalla] [pohjoistuuli] heikkenee edelleen"
-#define ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_EDELLEEN \
-  "[iltapaivalla] [pohjoistuuli] voimistuu edelleen"
-#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli kaantyy [etelaan] ja voimistuu edelleen"
-#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli kaantyy [etelaan] ja heikkenee edelleen"
-#define ILTAPAIVALLA_TUULI_VOIMISTUU_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli voimistuu ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [pohjoistuuli] heikkenee ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja voimistuu edelleen"
-#define ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli alkaa voimistua ja muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli voimistuu ja muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli muuttuu vaihtelevaksi ja heikkenee edelleen"
-#define ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli heikkenee ja muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli alkaa heiketa ja muuttuu vaihtelevaksi"
-#define POHJOISTUULTA_INTERVALLI_MS_JOKA_KAANTYY_ILTAPAIVALLA_ETELAAN_COMPOSITE_PHRASE \
-  "[pohjoistuulta] [m...n] [metria sekunnissa], joka kaantyy [iltapaivalla] [etelaan]"
-#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan]"
-#define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE "[iltapaivalla] tuuli kaantyy [etelaan]"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli muuttuu vaihtelevaksi"
-#define ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE \
-  "[iltapaivalla] [etelatuuli] heikkenee [nopeasti]"
-#define ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE \
-  "[iltapaivalla] [etelatuuli] voimistuu [nopeasti]"
-#define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE \
-  "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta]"
-#define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_POHJOISEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [pohjoiseen]"
-#define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [nopeasti] [heikkenevaa] [etelatuulta], joka kaantyy [illalla] [pohjoiseen]"
-#define ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_INTERVALLI_MS_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE \
-  "[iltap] [nop] [heikken] [tuulta] [m...n] [m sek], joka kaantyy [illalla] [pohj]"
-#define ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE "[iltapaivalla] [etelatuulta]"
-
-#define ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli voimistuu ja muuttuu tilapaisesti vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli alkaa voimistua ja muuttuu tilapaisesti vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja voimistuu edelleen"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi ja heikkenee edelleen"
-#define ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli heikkenee ja muuttuu tilapaisesti vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli alkaa heiketa ja muuttuu tilapaisesti vaihtelevaksi"
-#define ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli muuttuu tilapaisesti vaihtelevaksi"
-
-#define ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE \
-  "[iltapaivalla] [etelatuuli] alkaa heiketa [nopeasti]"
-#define ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE \
-  "[iltapaivalla] [etelatuuli] alkaa voimistua [nopeasti]"
-#define ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE \
-  "[iltapaivalla] tuuli alkaa voimistua ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE \
-  "[iltapaivalla] [pohjoistuuli] alkaa heiketa ja kaantyy [etelaan]"
-#define ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE \
-  "[ip] [p-tuulta] [m...n] [m/s], joka alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]"
-#define ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE \
-  "[ip] [p-tuulta] [m...n] [m/s], joka alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]"
-
-enum WindEventId
-{
-  TUULI_HEIKKENEE = 0x1,
-  TUULI_VOIMISTUU = 0x2,
-  TUULI_TYYNTYY = 0x4,
-  TUULI_KAANTYY = 0x8,
-  TUULI_MUUTTUU_VAIHTELEVAKSI = 0x10,
-  TUULI_KAANTYY_JA_HEIKKENEE = 0x9,
-  TUULI_KAANTYY_JA_VOIMISTUU = 0xA,
-  TUULI_KAANTYY_JA_TYYNTYY = 0xC,
-  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE = 0x11,
-  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU = 0x12,
-  TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY = 0x14,
-  MISSING_WIND_EVENT = 0x0,
-  MISSING_WIND_SPEED_EVENT = -0x1,
-  MISSING_WIND_DIRECTION_EVENT = -0x2
-};
-
-enum wind_event_type
-{
-  WIND_DIRECTION_EVENT,
-  WIND_SPEED_EVENT,
-  MISSING_EVENT_TYPE
-};
-
-class WindDataItemUnit;
-class WindDataItemsByArea;
-class WindSpeedPeriodDataItem;
-class WindDirectionPeriodDataItem;
-class WindEventPeriodDataItem;
-
-typedef std::vector<std::pair<float, WeatherResult> > value_distribution_data_vector;
-typedef std::vector<WindDataItemsByArea*> wind_data_item_vector;
-typedef std::vector<WindSpeedPeriodDataItem*> wind_speed_period_data_item_vector;
-typedef std::vector<WindDirectionPeriodDataItem*> wind_direction_period_data_item_vector;
-typedef std::vector<WindEventPeriodDataItem*> wind_event_period_data_item_vector;
-typedef std::pair<TextGenPosixTime, WindEventId> timestamp_wind_event_id_pair;
-typedef std::vector<timestamp_wind_event_id_pair> wind_event_id_vector;
-
-struct index_vectors
-{
-  // contains all indexes to
-  std::vector<unsigned int> theOriginalWindDataIndexes;
-  std::vector<unsigned int> theEqualizedWindSpeedIndexesForMaxWind;
-  std::vector<unsigned int> theEqualizedWindSpeedIndexesForMedianWind;
-  std::vector<unsigned int> theEqualizedWindSpeedIndexesForTopWind;
-  std::vector<unsigned int> theEqualizedWindDirectionIndexes;
-};
-
-struct wo_story_params
-{
-  wo_story_params(const std::string& var,
-                  const WeatherArea& area,
-                  const WeatherPeriod& forecastPeriod,
-                  const TextGenPosixTime& forecastTime,
-                  const AnalysisSources& sources,
-                  MessageLogger& log)
-      : theVar(var),
-        theArea(area),
-        theForecastPeriod(forecastPeriod),
-        theForecastTime(forecastTime),
-        theSources(sources),
-        theDataPeriod(forecastPeriod),
-        theLog(log),
-        theSplitMethod(NO_SPLITTING),
-        theWindSpeedMaxError(2.0),
-        theWindDirectionMaxError(10.0),
-        theWindSpeedThreshold(3.0),
-        theWindDirectionThreshold(25.0),
-        theWindCalcTopShare(80.0),
-        theGustyWindTopWindDifference(5.0),
-        theRangeSeparator("-"),
-        theMinIntervalSize(2),
-        theMaxIntervalSize(5),
-        theMetersPerSecondFormat("SI")
-  {
-  }
-
-  const std::string& theVar;
-  const WeatherArea& theArea;
-  const WeatherPeriod& theForecastPeriod;
-  const TextGenPosixTime& theForecastTime;
-  const AnalysisSources& theSources;
-  WeatherPeriod theDataPeriod;  // currently same as forecast period, but could be longer in both
-                                // ends
-  MessageLogger& theLog;
-  split_method theSplitMethod;
-
-  double theWindSpeedMaxError;
-  double theWindDirectionMaxError;
-  double theWindSpeedThreshold;
-  double theWindDirectionThreshold;
-  double theWindCalcTopShare;
-  double theGustyWindTopWindDifference;
-  std::string theRangeSeparator;
-  int theMinIntervalSize;
-  int theMaxIntervalSize;
-  std::string theMetersPerSecondFormat;
-  bool theAlkaenPhraseUsed;
-
-  // contains raw data
-  wind_data_item_vector theWindDataVector;
-  wind_speed_period_data_item_vector theWindSpeedVector;
-  wind_direction_period_data_item_vector theWindDirectionVector;
-  wind_event_period_data_item_vector theWindSpeedEventPeriodVector;
-  wind_event_period_data_item_vector theWindDirectionEventPeriodVector;
-  wind_event_period_data_item_vector theMergedWindEventPeriodVector;
-
-  std::map<WeatherArea::Type, index_vectors*> indexes;
-
-  inline std::vector<unsigned int>& originalWindDataIndexes(WeatherArea::Type type)
-  {
-    return indexes[type]->theOriginalWindDataIndexes;
-  }
-  inline std::vector<unsigned int>& equalizedWSIndexesMaxWind(WeatherArea::Type type)
-  {
-    return indexes[type]->theEqualizedWindSpeedIndexesForMaxWind;
-  }
-  inline std::vector<unsigned int>& equalizedWSIndexesMedian(WeatherArea::Type type)
-  {
-    return indexes[type]->theEqualizedWindSpeedIndexesForMedianWind;
-  }
-  inline std::vector<unsigned int>& equalizedWSIndexesTopWind(WeatherArea::Type type)
-  {
-    return indexes[type]->theEqualizedWindSpeedIndexesForTopWind;
-  }
-  inline std::vector<unsigned int>& equalizedWDIndexes(WeatherArea::Type type)
-  {
-    return indexes[type]->theEqualizedWindDirectionIndexes;
-  }
-
-  // If the area is split this contains e.g. inland coast, full, eastern, western areas
-  std::vector<WeatherArea> theWeatherAreas;
-
-  std::string areaName() { return (theArea.isNamed() ? theArea.name() : ""); }
-};
-
-struct WindDataItemUnit
-{
-  WindDataItemUnit(const WeatherPeriod& period,
-                   const WeatherResult& windSpeedMin,
-                   const WeatherResult& windSpeedMax,
-                   const WeatherResult& windSpeedMean,
-                   const WeatherResult& windSpeedMedian,
-                   const WeatherResult& windSpeedTop,
-                   const WeatherResult& windDirection,
-                   const WeatherResult& gustSpeed)
-      : thePeriod(period),
-        theWindSpeedMin(windSpeedMin),
-        theWindSpeedMax(windSpeedMax),
-        theWindSpeedMean(windSpeedMean),
-        theWindSpeedMedian(windSpeedMedian),
-        theWindSpeedTop(windSpeedTop),
-        theWindDirection(windDirection),
-        theGustSpeed(gustSpeed),
-        theCorrectedWindDirection(windDirection),
-        theEqualizedMedianWind(windSpeedMedian),
-        theEqualizedMaxWind(windSpeedMax),
-        theEqualizedTopWind(windSpeedTop),
-        theEqualizedWindDirection(theWindDirection)
-  {
-  }
-
-  float getTopWindSpeedShare(const float& theLowerLimit, const float& theUpperLimit) const;
-  float getWindSpeedShare(const float& theLowerLimit, const float& theUpperLimit) const;
-  float getWindDirectionShare(const WindStoryTools::WindDirectionId& windDirectionId,
-                              WindStoryTools::CompassType compass_type =
-                                  WindStoryTools::CompassType::sixteen_directions) const;
-
-  bool operator==(const WindDataItemUnit& dataItemUnit) const
-  {
-    return thePeriod == dataItemUnit.thePeriod;
-  }
-
-  WeatherPeriod thePeriod;
-  WeatherResult theWindSpeedMin;
-  WeatherResult theWindSpeedMax;
-  WeatherResult theWindSpeedMean;
-  WeatherResult theWindSpeedMedian;
-  WeatherResult theWindSpeedTop;
-  WeatherResult theWindDirection;
-  WeatherResult theGustSpeed;
-  // if wind is varying and wind speed is high >= 7 m/s, we store corrected
-  // wind direction here and use it in calculations
-  WeatherResult theCorrectedWindDirection;
-  WeatherResult theEqualizedMedianWind;
-  WeatherResult theEqualizedMaxWind;
-  WeatherResult theEqualizedTopWind;
-  WeatherResult theEqualizedWindDirection;
-  value_distribution_data_vector theWindSpeedDistribution;
-  value_distribution_data_vector theWindSpeedDistributionTop;
-  value_distribution_data_vector theWindDirectionDistribution16;
-  value_distribution_data_vector theWindDirectionDistribution8;
-};
-
-// contains WindDataItemUnit structs for different areas (coastal, inland, full area)
-struct WindDataItemsByArea
-{
-  WindDataItemsByArea() {}
-  ~WindDataItemsByArea()
-  {
-    std::map<WeatherArea::Type, WindDataItemUnit*>::iterator it;
-    for (it = theDataItems.begin(); it != theDataItems.end(); it++)
-      delete it->second;
-  }
-
-  void addItem(const WeatherPeriod& period,
-               const WeatherResult& windSpeedMin,
-               const WeatherResult& windSpeedMax,
-               const WeatherResult& windSpeedMean,
-               const WeatherResult& windSpeedMedian,
-               const WeatherResult& windSpeedTop,
-               const WeatherResult& windDirection,
-               const WeatherResult& gustSpeed,
-               const WeatherArea::Type& type)
-  {
-    WindDataItemUnit* dataItem = new WindDataItemUnit(period,
-                                                      windSpeedMin,
-                                                      windSpeedMax,
-                                                      windSpeedMean,
-                                                      windSpeedMedian,
-                                                      windSpeedTop,
-                                                      windDirection,
-                                                      gustSpeed);
-    theDataItems.insert(std::make_pair(type, dataItem));
-  }
-
-  const WindDataItemUnit& operator()(const WeatherArea::Type& type = WeatherArea::Full) const
-  {
-    return *(theDataItems.find(type)->second);
-  }
-
-  WindDataItemUnit& getDataItem(const WeatherArea::Type& type = WeatherArea::Full) const
-  {
-    return *(theDataItems.find(type)->second);
-  }
-
- private:
-  std::map<WeatherArea::Type, WindDataItemUnit*> theDataItems;
-};
-
-struct WindSpeedPeriodDataItem
-{
-  WindSpeedPeriodDataItem(const WeatherPeriod& period,
-                          const WindStoryTools::WindSpeedId& windSpeedId)
-      : thePeriod(period), theWindSpeedId(windSpeedId)
-  {
-  }
-  WeatherPeriod thePeriod;
-  WindStoryTools::WindSpeedId theWindSpeedId;
-};
-
-struct WindDirectionPeriodDataItem
-{
-  WindDirectionPeriodDataItem(const WeatherPeriod& period,
-                              const WindStoryTools::WindDirectionId& windDirection)
-      : thePeriod(period), theWindDirection(windDirection)
-  {
-  }
-  WeatherPeriod thePeriod;
-  WindStoryTools::WindDirectionId theWindDirection;
-};
-
-struct WindEventPeriodDataItem
-{
-  WindEventPeriodDataItem(const WeatherPeriod& period,
-                          const WindEventId& windEvent,
-                          const WindDataItemUnit& periodBeginDataItem,
-                          const WindDataItemUnit& periodEndDataItem)
-      : thePeriod(period),
-        theWindSpeedChangePeriod(period),
-        theWindEvent(windEvent),
-        thePeriodBeginDataItem(periodBeginDataItem),
-        thePeriodEndDataItem(periodEndDataItem),
-        theTransientDirectionChangeFlag(false),
-        theLongTermSpeedChangeFlag(false),
-        theReportThisEventPeriodFlag(true),
-        theWeakWindPeriodFlag(false),
-        theWindSpeedChangeStarts(false),
-        theWindSpeedChangeEnds(false)
-  {
-  }
-
-  WeatherPeriod thePeriod;
-  WeatherPeriod theWindSpeedChangePeriod;  // can be longer than thePeriod
-  WindEventId theWindEvent;
-  const WindDataItemUnit& thePeriodBeginDataItem;
-  const WindDataItemUnit& thePeriodEndDataItem;
-  bool theTransientDirectionChangeFlag;  // direction change can be temporary --> we can use
-                                         // "tilapäisesti"-phrase
-  bool theLongTermSpeedChangeFlag;       // is speed changes for the loger period we can use
-                                         // "alkaen"-phrase
-  bool theReportThisEventPeriodFlag;     // determines weather this event period is reported or not
-  bool theWeakWindPeriodFlag;     // if wind speed is weak, event is MISSING_WIND_EVENT, but we dont
-                                  // merge it with faster wind speed periods and report it
-  bool theWindSpeedChangeStarts;  // indicates that wind speed starts to weaken/strengthen
-  bool theWindSpeedChangeEnds;    // indicates that wind speed weakening/strengthening ends
-
-  wind_event_type getWindEventType()
-  {
-    if (theWindEvent == MISSING_WIND_EVENT)
-      return MISSING_EVENT_TYPE;
-    else
-      return ((theWindEvent == TUULI_KAANTYY || theWindEvent == MISSING_WIND_DIRECTION_EVENT ||
-               theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI)
-                  ? WIND_DIRECTION_EVENT
-                  : WIND_SPEED_EVENT);
-  }
-};
-
 class WindForecast
 {
  public:
@@ -522,9 +22,9 @@ class WindForecast
   mutable short thePreviousPartOfTheDay;
 
   Sentence windDirectionSentenceWithAttribute(
-      const WindStoryTools::WindDirectionId& theWindDirectionId) const;
-  Sentence windDirectionSentence(const WindStoryTools::WindDirectionId& theDirectionId,
-                                 const bool& theBasicForm = false) const;
+      WindStoryTools::WindDirectionId theWindDirectionId) const;
+  Sentence windDirectionSentence(WindStoryTools::WindDirectionId theDirectionId,
+                                 bool theBasicForm = false) const;
   Sentence windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
                                      bool theUseAtItsStrongestPhrase = true) const;
   Sentence speedRangeSentence(const WeatherPeriod& thePeriod,
@@ -532,16 +32,17 @@ class WindForecast
                               const WeatherResult& theMeanSpeed,
                               const std::string& theVariable,
                               bool theUseAtItsStrongestPhrase) const;
-
   Sentence decreasingIncreasingInterval(const WindEventPeriodDataItem& eventPeriodDataItem,
-                                        const bool& firstSentenceInTheStory,
-                                        const WindEventId& eventId) const;
-  Sentence getTimePhrase(const WeatherPeriod thePeriod, const bool& useAlkaenPhrase) const;
+                                        WindEventPeriodDataItem* nextItemWithMissingEvent,
+                                        bool firstSentenceInTheStory,
+                                        WindEventId eventId) const;
+  Sentence getTimePhrase(const WeatherPeriod& thePeriod, bool useAlkaenPhrase) const;
+  Sentence getTimePhrase(const TextGenPosixTime& theTime, bool useAlkaenPhrase) const;
 
   std::vector<WeatherPeriod> getWindSpeedReportingPoints(
       const WindEventPeriodDataItem& eventPeriodDataItem,
-      const bool& firstSentenceInTheStory,
-      const WindEventId& eventId) const;
+      bool firstSentenceInTheStory,
+      WindEventId eventId) const;
   bool getSpeedIntervalLimits(const WeatherPeriod& thePeriod,
                               WeatherResult& lowerLimit,
                               WeatherResult& upperLimit) const;
@@ -551,23 +52,23 @@ class WindForecast
                                    bool& gradualChange,
                                    bool& fastChange) const;
   std::string getWindDirectionTurntoString(
-      const WindStoryTools::WindDirectionId& theWindDirectionId) const;
+      WindStoryTools::WindDirectionId theWindDirectionId) const;
   bool samePartOfTheDay(const TextGenPosixTime& time1, const TextGenPosixTime& time2) const;
   Sentence windDirectionChangeSentence(const wo_story_params& theParameters,
                                        const WeatherPeriod& eventPeriod,
-                                       const WindEventId& eventIdPrevious,
+                                       WindEventId eventIdPrevious,
                                        WindStoryTools::WindDirectionId& previousWindDirectionId,
                                        const WindEventPeriodDataItem* eventPeriodItemNext) const;
 
-  Sentence windDirectionAndSpeedChangesSentence(
+  std::vector<Sentence> windDirectionAndSpeedChangesSentence(
       const wo_story_params& theParameters,
       const WeatherPeriod& eventPeriod,
-      const bool& firstSentenceInTheStory,
-      const WindEventId& previousWindEventId,
-      const WindEventId& currentWindEventId,
+      bool firstSentenceInTheStory,
+      WindEventId previousWindEventId,
+      WindEventId currentWindEventId,
       WindStoryTools::WindDirectionId& previousWindDirectionId,
-      const bool& theWindSpeedChangeStarts,
-      const bool& theWindSpeedChangeEnds,
+      bool theWindSpeedChangeStarts,
+      bool theWindSpeedChangeEnds,
       WeatherPeriod& windSpeedIntervalPeriodPreviousReported,
       bool& appendDecreasingIncreasingInterval) const;
   void getWindDirectionBegEnd(const WeatherPeriod& thePeriod,
@@ -580,120 +81,9 @@ class WindForecast
   void logWindSpeedPeriod(const WeatherPeriod& period, const Sentence& intervalSentence) const;
   void findOutActualWindSpeedChangePeriod(WindEventPeriodDataItem* currentEventPeriodItem,
                                           WindEventPeriodDataItem* nextEventPeriodItem) const;
+  int windSpeedDifference(const WeatherPeriod& thePeriod1, const WeatherPeriod& thePeriod2) const;
 };
 
-bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod);
-bool is_valid_wind_event_id(const int& eventId);
-std::string get_wind_event_string(const WindEventId& theWindEventId);
-float get_wind_direction_share(const value_distribution_data_vector& theWindDirectionDistribution,
-                               const WindStoryTools::WindDirectionId& windDirectionId);
-float get_wind_direction_share(const wo_story_params& theParameters,
-                               const WeatherPeriod& period,
-                               const WindStoryTools::WindDirectionId& windDirectionId);
-
-WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
-                                           const TextGenPosixTime& pointOfTime,
-                                           const std::string& var);
-WindStoryTools::WindDirectionId get_wind_direction_id_at(
-    const wind_data_item_vector& theWindDataVector,
-    const WeatherArea& theArea,
-    const TextGenPosixTime& pointOfTime,
-    const std::string& var);
-WindStoryTools::WindDirectionId get_wind_direction_id_at(
-    const wind_data_item_vector& theWindDataVector,
-    const WeatherArea& theArea,
-    const AnalysisSources& theSources,
-    const WeatherPeriod& period,
-    const std::string& var);
-WeatherResult get_wind_direction_at(const wind_data_item_vector& theWindDataVector,
-                                    const WeatherArea& theArea,
-                                    const TextGenPosixTime& pointOfTime,
-                                    const std::string& var);
-WeatherResult get_wind_direction_at(const wind_data_item_vector& theWindDataVector,
-                                    const WeatherArea& theArea,
-                                    const AnalysisSources& theSources,
-                                    const WeatherPeriod& period,
-                                    const std::string& var);
-
-bool is_gusty_wind(const wo_story_params& theParameters,
-                   const TextGenPosixTime& pointOfTime,
-                   const std::string& var);
-bool is_gusty_wind(const wo_story_params& theParameters,
-                   const WeatherPeriod& period,
-                   const std::string& var);
-
-bool wind_speed_differ_enough(const wo_story_params& theParameter, const WeatherPeriod& thePeriod);
-
-int wind_speed_difference(const AnalysisSources& theSources,
-                          const WeatherArea& theArea,
-                          const WeatherPeriod& thePeriod1,
-                          const WeatherPeriod& thePeriod2,
-                          const wind_data_item_vector& windDataVector);
-void get_wind_speed_interval_parameters(const WeatherPeriod& thePeriod,
-                                        const WeatherArea& theArea,
-                                        const wind_data_item_vector& windDataVector,
-                                        int& begLowerLimit,
-                                        int& begUpperLimit,
-                                        int& endLowerLimit,
-                                        int& endUpperLimit,
-                                        float& changeRatePerHour);
-void get_wind_speed_interval(const TextGenPosixTime& pointOfTime,
-                             const WeatherArea& area,
-                             const wind_data_item_vector& windDataVector,
-                             float& lowerLimit,
-                             float& upperLimit);
-
-void get_wind_speed_interval(const WeatherPeriod& thePeriod,
-                             const WeatherArea& area,
-                             const wind_data_item_vector& windDataVector,
-                             float& lowerLimit,
-                             float& upperLimit);
-
-bool ascending_order(const float& direction1, const float& direction2);
-bool wind_turns_to_the_same_direction(const float& direction1,
-                                      const float& direction2,
-                                      const float& direction3);
-WeatherResult mean_wind_direction(const AnalysisSources& theSources,
-                                  const WeatherArea& theArea,
-                                  const WeatherPeriod& thePeriod,
-                                  const WeatherResult& theEqualizedWindSpeedMedian,
-                                  const WeatherResult& theEqualizedWindSpeedTop,
-                                  const std::string& theVar);
-float mean_wind_direction_error(const wind_data_item_vector& theWindDataVector,
-                                const WeatherArea& theArea,
-                                const WeatherPeriod& thePeriod);
-WindEventId mask_wind_event(const WindEventId& originalId, const WindEventId& maskToRemove);
-WeatherPeriod get_wind_turning_period(
-    const WeatherPeriod& thePeriod,
-    const wind_event_period_data_item_vector& theDirectionEventVector);
-
-WindEventId get_wind_direction_event(const WindEventPeriodDataItem& windEventPeriodDataItem,
-                                     const std::string& var,
-                                     const double& windDirectionThreshold);
-void get_median_wind_speed_by_area(const wind_data_item_vector& theWindDataVector,
-                                   const WeatherArea& theFullArea,
-                                   const WeatherPeriod& thePeriod,
-                                   float& medianWindFull,
-                                   float& medianWindCoastal,
-                                   float& medianWindInland);
-void get_wind_direction_by_area(const wind_data_item_vector& theWindDataVector,
-                                const WeatherArea& theFullArea,
-                                const AnalysisSources& theSources,
-                                const WeatherPeriod& thePeriod,
-                                const std::string& theVar,
-                                WeatherResult& windDirectionFull,
-                                WeatherResult& windDirectionCoastal,
-                                WeatherResult& windDirectionInland);
-float get_median_wind(const WeatherPeriod& period,
-                      const WeatherArea& area,
-                      const wind_data_item_vector& windDataVector);
-float get_maximum_wind(const WeatherPeriod& period,
-                       const WeatherArea& area,
-                       const wind_data_item_vector& windDataVector);
-
-std::ostream& operator<<(std::ostream& theOutput, const WeatherPeriod& period);
-std::ostream& operator<<(std::ostream& theOutput,
-                         const WindEventPeriodDataItem& theWindEventPeriodDataItem);
 }  // namespace TextGen
 
 #endif  // TEXTGEN_WIND_FORECAST_H
