@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.3.21
+Version: 16.4.28
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -52,7 +52,12 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
-* Wed Mar 21 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 18.3.21-1.fmi
+* Thu Apr 28 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.4.28-1.fmi
+- Wind forecast code simplified and cleaned: speed and direction changes are now processed more separately.
+- Wind direction is now determined by most common direction (moodi) in all cases (earlier just for varying wind) 
+- New configuration parameter 'wind_calc_top_share_weak' added, in order to be able to give different weight to top wind based on top wind speed
+- Time phrase handling modified, for example: Iltayö ja keskiyö / Keskiyö ja aamuyö -> Yö
+* Wed Mar 21 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.3.21-1.fmi
 - No minus('-') sign with sub-zero temperatures when 'pakkanen'-phrase is used: 'Pakkasta vajaat -5 astetta' -> 'Pakkasta vajaat 5 astetta'
 - 'Vajaat nolla astetta'-phrase corrected to form 'Vähän nollan alapuolella'
 - new phrases to database ('vähän nollan alapuolella')
@@ -64,7 +69,7 @@ For example if top wind on the area is 11 m/s, but it is predicted only on 1.9 %
 * wind_direction_min_speed (oletusarvo 6.5): This is limiting value of wind speed for wind direction when 
 standard deviation of wind direction is big (> 45.0). 
 If standard deviation of wind direction is big and top wind speed is smaller or equal 
-than 'wind_direction_min_speed' wind direction is reportedf as varying.
+than 'wind_direction_min_speed' wind direction is reported as varying.
 - code cleaned and refactored
 * Wed Mar 02 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.3.2-1.fmi
 - Optional data tables of wind direction distribution and wind speed distribution improved.
