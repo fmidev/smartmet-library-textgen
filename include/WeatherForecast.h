@@ -610,6 +610,9 @@ Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
 std::string get_time_phrase(const TextGenPosixTime& theTimestamp,
                             const std::string& theVar,
                             bool theAlkaenPhrase = false);
+std::string get_time_phrase_from_id(part_of_the_day_id thePartOfTheDayId,
+                                    const std::string& theVar,
+                                    bool theAlkaenPhrase = false);
 Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
                           const std::string& theVariable,
                           const WeatherArea& theArea,

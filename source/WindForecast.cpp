@@ -242,6 +242,7 @@ namespace WindForecastPhrases
   "[ip] [p-tuulta] [m...n] [m/s], joka alkaa heiketa [nopeasti] ja kaantyy [illalla] [etelaan]"
 #define ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE \
   "[ip] [p-tuulta] [m...n] [m/s], joka alkaa voimistua [nopeasti] ja kaantyy [illalla] [etelaan]"
+
 }  // namespace WindForecastPhrases
 
 using namespace WindForecastPhrases;
@@ -251,21 +252,6 @@ std::string as_string(const GlyphContainer& gc)
   DebugTextFormatter dtf;
 
   return gc.realize(dtf);
-}
-
-bool same_content(const GlyphContainer& gc1, const GlyphContainer& gc2)
-{
-  return (as_string(gc1) == as_string(gc2));
-}
-
-void print_period_and_text(const string& label, const WeatherPeriod& period, const string& text)
-{
-  cout << label << period.localStartTime() << "..." << period.localEndTime() << " " << text << endl;
-}
-
-int wind_forecast_period_length(const WeatherPeriod& thePeriod)
-{
-  return get_period_length(thePeriod) + 1;
 }
 
 unsigned int get_peak_wind(const WeatherPeriod& thePeriod, const wo_story_params& theParameters)
@@ -425,6 +411,7 @@ pair<WeatherResult, WindDirectionId> get_wind_direction_pair_at(
   {
     WindDataItemUnit& item =
         theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
+
     if (item.thePeriod.localStartTime() == pointOfTime)
     {
       directionValue = item.theEqualizedWindDirection;
@@ -508,6 +495,119 @@ WindDirectionId get_wind_direction_id_at(const wo_story_params& theParameters,
                                          const WeatherPeriod& period)
 {
   return (get_wind_direction_pair_at(theParameters, period).second);
+}
+
+std::vector<WeatherPeriod> get_wind_direction_periods(const wo_story_params& theParameters,
+                                                      const WeatherPeriod& thePeriod)
+{
+  std::vector<WeatherPeriod> ret;
+
+  unsigned int firstIndex(UINT_MAX);
+  unsigned int lastIndex(UINT_MAX);
+
+  // find start and end index
+  bool periodFound = false;
+  for (unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
+  {
+    const WindDataItemUnit& windDataItem =
+        theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
+
+    if (is_inside(windDataItem.thePeriod, thePeriod))
+    {
+      if (firstIndex == UINT_MAX) firstIndex = i;
+      lastIndex = i;
+      periodFound = true;
+      ;
+    }
+  }
+
+  if (!periodFound) return ret;
+
+  WindDataItemUnit previousWindDataItem =
+      theParameters.theWindDataVector[firstIndex]->getDataItem(theParameters.theArea.type());
+
+  WeatherResult previousDirection =
+      get_wind_direction_at(theParameters, previousWindDataItem.thePeriod);
+
+  WindDirectionId idPrevious = wind_direction_id(previousWindDataItem.theEqualizedWindDirection,
+                                                 previousWindDataItem.theEqualizedTopWind,
+                                                 theParameters.theVar,
+                                                 theParameters.theWindDirectionMinSpeed);
+
+  std::vector<TextGenPosixTime> changeTimes;
+  changeTimes.push_back(previousWindDataItem.thePeriod.localStartTime());
+
+  for (unsigned int index = firstIndex + 1; index < lastIndex; index++)
+  {
+    WindDataItemUnit currentWindDataItem =
+        theParameters.theWindDataVector[index]->getDataItem(theParameters.theArea.type());
+
+    WindDirectionId idCurrent = wind_direction_id(currentWindDataItem.theEqualizedWindDirection,
+                                                  currentWindDataItem.theEqualizedTopWind,
+                                                  theParameters.theVar,
+                                                  theParameters.theWindDirectionMinSpeed);
+
+    WeatherResult currentDirection =
+        get_wind_direction_at(theParameters, currentWindDataItem.thePeriod);
+
+    if (idCurrent == idPrevious) continue;
+    if (idCurrent != VAIHTELEVA && idPrevious != VAIHTELEVA &&
+        !wind_direction_differ_enough(
+            previousDirection, currentDirection, theParameters.theWindDirectionThreshold))
+      continue;
+
+    changeTimes.push_back(currentWindDataItem.thePeriod.localStartTime());
+
+    previousWindDataItem = currentWindDataItem;
+    previousDirection = currentDirection;
+    idPrevious = idCurrent;
+  }
+
+  std::vector<WeatherPeriod> directionPeriods;
+
+  for (unsigned int i = 0; i < changeTimes.size(); i++)
+  {
+    if (i < changeTimes.size() - 1)
+    {
+      TextGenPosixTime startTime = changeTimes[i];
+      TextGenPosixTime endTime = changeTimes[i + 1];
+      endTime.ChangeByHours(-1);
+      directionPeriods.push_back(WeatherPeriod(startTime, endTime));
+    }
+    else
+    {
+      TextGenPosixTime startTime = changeTimes[i];
+      TextGenPosixTime endTime = thePeriod.localEndTime();
+      directionPeriods.push_back(WeatherPeriod(startTime, endTime));
+    }
+  }
+
+  // remove short periods (max 2 hours) aroud varying wind, except the last period
+  std::set<unsigned int> indexesToRemove;
+  for (unsigned int i = 1; i < directionPeriods.size() - 1; i++)
+  {
+    WeatherPeriod previousPeriod = directionPeriods[i - 1];
+    WeatherPeriod currentPeriod = directionPeriods[i];
+    WeatherPeriod nextPeriod = directionPeriods[i + 1];
+    WindDirectionId currentId =
+        get_wind_direction_id_at(theParameters, currentPeriod.localStartTime());
+    if (currentId == VAIHTELEVA)
+    {
+      if (i != 1 && get_period_length(previousPeriod) <= 2)
+      {
+        indexesToRemove.insert(i - 1);
+      }
+      if (i + 1 != directionPeriods.size() - 1 && get_period_length(nextPeriod) <= 2)
+      {
+        indexesToRemove.insert(i + 1);
+      }
+    }
+  }
+
+  for (unsigned int i = 0; i < directionPeriods.size(); i++)
+    if (indexesToRemove.find(i) == indexesToRemove.end()) ret.push_back(directionPeriods[i]);
+
+  return ret;
 }
 
 TextGenPosixTime get_wind_direction_change_time(const wo_story_params& theParameter,
@@ -630,6 +730,182 @@ bool is_valid_wind_event_id(const int& eventId)
     case MISSING_WIND_SPEED_EVENT:
     case MISSING_WIND_DIRECTION_EVENT:
       retval = true;
+      break;
+  }
+
+  return retval;
+}
+
+Sentence windDirectionSentence(WindDirectionId theWindDirectionId, bool theBasicForm = false)
+{
+  Sentence sentence;
+
+  switch (theWindDirectionId)
+  {
+    case POHJOINEN:
+      sentence << (theBasicForm ? POHJOINEN_TUULI : POHJOINEN_TUULI_P);
+      break;
+    case POHJOISEN_PUOLEINEN:
+      sentence << (theBasicForm ? POHJOISEN_PUOLEINEN_TUULI : POHJOISEN_PUOLEINEN_TUULI_P);
+      break;
+    case POHJOINEN_KOILLINEN:
+      sentence << (theBasicForm ? POHJOINEN_KOILLINEN_TUULI : POHJOINEN_KOILLINEN_TUULI_P);
+      break;
+    case KOILLINEN:
+      sentence << (theBasicForm ? KOILLINEN_TUULI : KOILLINEN_TUULI_P);
+      break;
+    case KOILLISEN_PUOLEINEN:
+      sentence << (theBasicForm ? KOILLISEN_PUOLEINEN_TUULI : KOILLISEN_PUOLEINEN_TUULI_P);
+      break;
+    case ITA_KOILLINEN:
+      sentence << (theBasicForm ? ITA_KOILLINEN_TUULI : ITA_KOILLINEN_TUULI_P);
+      break;
+    case ITA:
+      sentence << (theBasicForm ? ITA_TUULI : ITA_TUULI_P);
+      break;
+    case IDAN_PUOLEINEN:
+      sentence << (theBasicForm ? IDAN_PUOLEINEN_TUULI : IDAN_PUOLEINEN_TUULI_P);
+      break;
+    case ITA_KAAKKO:
+      sentence << (theBasicForm ? ITA_KAAKKO_TUULI : ITA_KAAKKO_TUULI_P);
+      break;
+    case KAAKKO:
+      sentence << (theBasicForm ? KAAKKO_TUULI : KAAKKO_TUULI_P);
+      break;
+    case KAAKON_PUOLEINEN:
+      sentence << (theBasicForm ? KAAKON_PUOLEINEN_TUULI : KAAKON_PUOLEINEN_TUULI_P);
+      break;
+    case ETELA_KAAKKO:
+      sentence << (theBasicForm ? ETELA_KAAKKO_TUULI : ETELA_KAAKKO_TUULI_P);
+      break;
+    case ETELA:
+      sentence << (theBasicForm ? ETELA_TUULI : ETELA_TUULI_P);
+      break;
+    case ETELAN_PUOLEINEN:
+      sentence << (theBasicForm ? ETELAN_PUOLEINEN_TUULI : ETELAN_PUOLEINEN_TUULI_P);
+      break;
+    case ETELA_LOUNAS:
+      sentence << (theBasicForm ? ETELA_LOUNAS_TUULI : ETELA_LOUNAS_TUULI_P);
+      break;
+    case LOUNAS:
+      sentence << (theBasicForm ? LOUNAS_TUULI : LOUNAS_TUULI_P);
+      break;
+    case LOUNAAN_PUOLEINEN:
+      sentence << (theBasicForm ? LOUNAAN_PUOLEINEN_TUULI : LOUNAAN_PUOLEINEN_TUULI_P);
+      break;
+    case LANSI_LOUNAS:
+      sentence << (theBasicForm ? LANSI_LOUNAS_TUULI : LANSI_LOUNAS_TUULI_P);
+      break;
+    case LANSI:
+      sentence << (theBasicForm ? LANSI_TUULI : LANSI_TUULI_P);
+      break;
+    case LANNEN_PUOLEINEN:
+      sentence << (theBasicForm ? LANNEN_PUOLEINEN_TUULI : LANNEN_PUOLEINEN_TUULI_P);
+      break;
+    case LANSI_LUODE:
+      sentence << (theBasicForm ? LANSI_LUODE_TUULI : LANSI_LUODE_TUULI_P);
+      break;
+    case LUODE:
+      sentence << (theBasicForm ? LUODE_TUULI : LUODE_TUULI_P);
+      break;
+    case LUOTEEN_PUOLEINEN:
+      sentence << (theBasicForm ? LUOTEEN_PUOLEINEN_TUULI : LUOTEEN_PUOLEINEN_TUULI_P);
+      break;
+    case POHJOINEN_LUODE:
+      sentence << (theBasicForm ? POHJOINEN_LUODE_TUULI : POHJOINEN_LUODE_TUULI_P);
+      break;
+    case VAIHTELEVA:
+    case MISSING_WIND_DIRECTION_ID:
+      sentence << (theBasicForm ? VAIHTELEVA_TUULI : VAIHTELEVA_TUULI_P);
+      break;
+  }
+
+  return sentence;
+}
+
+std::string getWindDirectionTurntoString(WindDirectionId theWindDirectionId)
+{
+  std::string retval;
+
+  switch (theWindDirectionId)
+  {
+    case POHJOINEN:
+      retval = POHJOISEEN_PHRASE;
+      break;
+    case POHJOISEN_PUOLEINEN:
+      retval = POHJOISEN_PUOLELLE_PHRASE;
+      break;
+    case POHJOINEN_KOILLINEN:
+      retval = POHJOISEN_JA_KOILLISEN_VALILLE_PHRASE;
+      break;
+    case KOILLINEN:
+      retval = KOILLISEEN_PHRASE;
+      break;
+    case KOILLISEN_PUOLEINEN:
+      retval = KOILLISEN_PUOLELLE_PHRASE;
+      break;
+    case ITA_KOILLINEN:
+      retval = IDAN_JA_KOILLISEN_VALILLE_PHRASE;
+      break;
+    case ITA:
+      retval = ITAAN_PHRASE;
+      break;
+    case IDAN_PUOLEINEN:
+      retval = IDAN_PUOLELLE_PHRASE;
+      break;
+    case ITA_KAAKKO:
+      retval = IDAN_JA_KAAKON_VALILLE_PHRASE;
+      break;
+    case KAAKKO:
+      retval = KAAKKOON_PHRASE;
+      break;
+    case KAAKON_PUOLEINEN:
+      retval = KAAKON_PUOLELLE_PHRASE;
+      break;
+    case ETELA_KAAKKO:
+      retval = ETELAN_JA_KAAKON_VALILLE_PHRASE;
+      break;
+    case ETELA:
+      retval = ETELAAN_PHRASE;
+      break;
+    case ETELAN_PUOLEINEN:
+      retval = ETELAN_PUOLELLE_PHRASE;
+      break;
+    case ETELA_LOUNAS:
+      retval = ETELAN_JA_LOUNAAN_VALILLE_PHRASE;
+      break;
+    case LOUNAS:
+      retval = LOUNAASEEN_PHRASE;
+      break;
+    case LOUNAAN_PUOLEINEN:
+      retval = LOUNAAN_PUOLELLE_PHRASE;
+      break;
+    case LANSI_LOUNAS:
+      retval = LANNEN_JA_LOUNAAN_VALILLE_PHRASE;
+      break;
+    case LANSI:
+      retval = LANTEEN_PHRASE;
+      break;
+    case LANNEN_PUOLEINEN:
+      retval = LANNEN_PUOLELLE_PHRASE;
+      break;
+    case LANSI_LUODE:
+      retval = LANNEN_JA_LUOTEEN_VALILLE_PHRASE;
+      break;
+    case LUODE:
+      retval = LUOTEESEEN_PHRASE;
+      break;
+    case LUOTEEN_PUOLEINEN:
+      retval = LUOTEEN_PUOLELLE_PHRASE;
+      break;
+    case POHJOINEN_LUODE:
+      retval = POHJOISEN_JA_LUOTEEN_VALILLE_PHRASE;
+      break;
+    case VAIHTELEVA:
+      retval = TUULI_MUUTTUU_VAIHTELEVAKSI_PHRASE;
+      break;
+    case MISSING_WIND_DIRECTION_ID:
+      retval = EMPTY_STRING;
       break;
   }
 
@@ -854,15 +1130,56 @@ bool wind_speed_differ_enough(const wo_story_params& theParameter, const Weather
   get_wind_speed_interval(thePeriod.localStartTime(), theParameter, begLowerLimit, begUpperLimit);
   get_wind_speed_interval(thePeriod.localEndTime(), theParameter, endLowerLimit, endUpperLimit);
 
-  double topWindWeight = (theParameter.theWindCalcTopShare / 100.0);
+  double topWindShare =
+      (begUpperLimit < 10.0 && endUpperLimit < 10.0 ? theParameter.theWindCalcTopShareWeak
+                                                    : theParameter.theWindCalcTopShare);
+
+  double topWindWeight = (topWindShare / 100.0);
   double topMedianWindWeight = 1.0 - topWindWeight;
 
   float begSpeed = (begUpperLimit * topWindWeight + begLowerLimit * topMedianWindWeight);
   float endSpeed = (endUpperLimit * topWindWeight + endLowerLimit * topMedianWindWeight);
 
-  float difference = endSpeed - begSpeed;
+  float difference = round(abs(endSpeed - begSpeed));
 
-  return (abs(difference) >= theParameter.theWindSpeedThreshold);
+  return (difference >= theParameter.theWindSpeedThreshold);
+}
+
+bool wind_direction_differ_enough(const WeatherResult theWindDirection1,
+                                  const WeatherResult theWindDirection2,
+                                  float theWindDirectionThreshold)
+{
+  float dire1 = theWindDirection1.value();
+  float dire2 = theWindDirection2.value();
+
+  float difference = abs(dire2 - dire1);
+  if (difference > 180.0)
+    difference = abs((dire2 > dire1 ? dire2 - (dire1 + 360) : dire1 - (dire2 + 360)));
+
+  return (difference >= theWindDirectionThreshold);
+}
+
+bool wind_direction_differ_enough(const wo_story_params& theParameter,
+                                  const WindEventPeriodDataItem& windEventPeriodDataItem)
+{
+  const WeatherResult& windDirection1(
+      windEventPeriodDataItem.thePeriodBeginDataItem.theEqualizedWindDirection);
+  const WeatherResult& windDirection2(
+      windEventPeriodDataItem.thePeriodEndDataItem.theEqualizedWindDirection);
+  const WeatherResult& maximumWind1(
+      windEventPeriodDataItem.thePeriodBeginDataItem.theEqualizedTopWind);
+  const WeatherResult& maximumWind2(
+      windEventPeriodDataItem.thePeriodEndDataItem.theEqualizedTopWind);
+
+  WindDirectionId directionIdBeg = wind_direction_id(
+      windDirection1, maximumWind1, theParameter.theVar, theParameter.theWindDirectionMinSpeed);
+  WindDirectionId directionIdEnd = wind_direction_id(
+      windDirection2, maximumWind2, theParameter.theVar, theParameter.theWindDirectionMinSpeed);
+
+  if (directionIdBeg == directionIdEnd) return false;
+
+  return wind_direction_differ_enough(
+      windDirection1, windDirection2, theParameter.theWindDirectionThreshold);
 }
 
 bool ascending_order(float direction1, float direction2)
@@ -926,6 +1243,108 @@ void get_median_wind_speed_by_area(const wind_data_item_vector& theWindDataVecto
   medianWindInland = get_median_wind(thePeriod, inlandArea, theWindDataVector);
 }
 
+void compose_wind_speed_range(const wo_story_params& theParameters,
+                              int& intervalLowerLimit,
+                              int& intervalUpperLimit,
+                              int& peakWind)
+{
+  int actualIntervalSize(intervalUpperLimit - intervalLowerLimit);
+
+  if (actualIntervalSize < theParameters.theMinIntervalSize)
+  {
+    // Mikael Frisk 07.03.2013: pelkk‰ 5 m/s on kˆkkˆ => n‰ytet‰‰n minimi-intervalli
+    /*
+      sentence << intervalLowerLimit
+      << *UnitFactory::create(MetersPerSecond);
+    */
+
+    intervalUpperLimit = intervalLowerLimit + theParameters.theMinIntervalSize;
+    actualIntervalSize = intervalUpperLimit - intervalLowerLimit;
+  }
+
+  if (actualIntervalSize > theParameters.theMaxIntervalSize)
+  {
+    // if size of the interval is one more than allowed, we increase lower limit by 1
+    // else we use 'kovimmillaan'-phrase
+    if (actualIntervalSize == theParameters.theMaxIntervalSize + 1)
+    {
+      intervalLowerLimit++;
+    }
+    else
+    {
+      intervalUpperLimit = intervalLowerLimit + theParameters.theMaxIntervalSize;
+    }
+  }
+
+  // if there is only 1 m/s difference between peak wind adn upper limit, make them equal
+  if (peakWind - intervalUpperLimit == 1)
+  {
+    intervalUpperLimit++;
+    // and increase lower limit if necessary
+    if (intervalUpperLimit - intervalLowerLimit > theParameters.theMaxIntervalSize)
+      intervalLowerLimit++;
+  }
+}
+
+Sentence compose_wind_speed_sentence(const wo_story_params& theParameters,
+                                     int intervalLowerLimit,
+                                     int intervalUpperLimit,
+                                     int peakWind,
+                                     bool theUseAtItsStrongestPhrase)
+{
+  Sentence sentence;
+
+  if (peakWind > intervalUpperLimit)
+  {
+    if (theUseAtItsStrongestPhrase)
+    {
+      sentence << IntegerRange(
+                      intervalLowerLimit, intervalUpperLimit, theParameters.theRangeSeparator)
+               << *UnitFactory::create(MetersPerSecond);
+      sentence << Delimiter(COMMA_PUNCTUATION_MARK) << KOVIMMILLAAN_PHRASE << peakWind
+               << *UnitFactory::create(MetersPerSecond);
+    }
+    else
+    {
+      sentence << IntegerRange(peakWind - theParameters.theMaxIntervalSize,
+                               peakWind,
+                               theParameters.theRangeSeparator)
+               << *UnitFactory::create(MetersPerSecond);
+    }
+  }
+  else
+  {
+    sentence << IntegerRange(
+                    intervalLowerLimit, intervalUpperLimit, theParameters.theRangeSeparator)
+             << *UnitFactory::create(MetersPerSecond);
+  }
+
+  return sentence;
+}
+
+bool sortti(const wind_event_period& item1, const wind_event_period& item2)
+{
+  // if same starttime direction event is priorized
+  if (item1.second.localStartTime() == item2.second.localStartTime())
+    return ((item1.first <= TUULI_TYYNTYY || item1.first == MISSING_WIND_SPEED_EVENT) ? true
+                                                                                      : false);
+
+  return (item1.second.localStartTime() < item2.second.localStartTime());
+}
+
+void handle_period_end(WeatherPeriod& period)
+{
+  int periodLength = get_period_length(period);
+  int endHour = period.localEndTime().GetHour();
+
+  if (periodLength < 2 && (endHour == 18 || endHour == 17 || endHour == 6))
+  {
+    TextGenPosixTime startTime(period.localEndTime());
+    startTime.ChangeByHours(-2);
+    period = WeatherPeriod(startTime, period.localEndTime());
+  }
+}
+
 WindForecast::WindForecast(wo_story_params& parameters)
     : theParameters(parameters),
       thePreviousDayNumber(parameters.theForecastPeriod.localStartTime().GetWeekday()),
@@ -933,1653 +1352,572 @@ WindForecast::WindForecast(wo_story_params& parameters)
 {
 }
 
-int WindForecast::windSpeedDifference(const WeatherPeriod& thePeriod1,
-                                      const WeatherPeriod& thePeriod2) const
+std::vector<Sentence> WindForecast::reportDirectionChanges(
+    const WeatherPeriod& thePeriod,
+    std::vector<WeatherPeriod>& theDirectionPeriods,
+    WindDirectionInfo& thePreviousWindDirection,
+    std::string& thePreviousTimePhrase,
+    bool lastPeriod) const
 {
-  float lowerLim1(0), upperLim1(0), lowerLim2(0), upperLim2(0);
+  std::vector<Sentence> sentences;
 
-  get_wind_speed_interval(thePeriod1, theParameters, lowerLim1, upperLim1);
+  unsigned int lastReportedIndex = UINT_MAX;
+  TextGenPosixTime previousPeriodStartTime;
 
-  get_wind_speed_interval(thePeriod2, theParameters, lowerLim2, upperLim2);
+  for (unsigned int i = 0; i < theDirectionPeriods.size(); i++)
+  {
+    const WeatherPeriod& period = theDirectionPeriods[i];
 
-  return ((upperLim2 - upperLim1) + (lowerLim2 - lowerLim1));
+    if (is_inside(period.localStartTime(), thePeriod))
+    {
+      lastReportedIndex = i;
+
+      if (i < theDirectionPeriods.size() - 1 && get_period_length(period) < 3) continue;
+
+      WindDirectionId windDirectionId = get_wind_direction_id_at(theParameters, period);
+      bool temporaryChange = get_period_length(period) <= 5;
+
+      //      if (windDirectionId == VAIHTELEVA && thePreviousWindDirection.id == VAIHTELEVA)
+      //      continue;
+      if (windDirectionId == thePreviousWindDirection.id) continue;
+      // dont report 'tilapaisesti vaihteleva' when this is not the last period
+      if (windDirectionId == VAIHTELEVA && temporaryChange && !lastPeriod) continue;
+
+      WeatherResult windDirectionValue = get_wind_direction_at(theParameters, period);
+
+      Sentence timePhrase(getTimePhrase(period, get_period_length(period) >= 6));
+
+      Sentence sentence;
+
+      if (windDirectionId == VAIHTELEVA)
+      {
+        if (temporaryChange)
+          sentence << ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
+                   << timePhrase;
+        else
+          sentence << ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE << timePhrase;
+      }
+      else
+      {
+        sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE << timePhrase
+                 << windDirectionSentence(windDirectionId);
+      }
+
+      // if wind direction changes rapidly on the period report only the the latest direction
+      if (i > 0 && sentences.size() > 0 &&
+          period.localStartTime().DifferenceInHours(previousPeriodStartTime) < 8 &&
+          as_string(timePhrase) == thePreviousTimePhrase)
+        sentences[sentences.size() - 1] = sentence;
+      else
+        sentences.push_back(sentence);
+
+      thePreviousTimePhrase = as_string(timePhrase);
+      thePreviousWindDirection = WindDirectionInfo(windDirectionValue, windDirectionId);
+      previousPeriodStartTime = period.localStartTime();
+    }
+    //    else
+    //  break;
+  }
+
+  if (lastReportedIndex != UINT_MAX)
+  {
+    if (lastReportedIndex == theDirectionPeriods.size() - 1)
+      theDirectionPeriods.clear();
+    else
+      theDirectionPeriods.assign(theDirectionPeriods.begin() + lastReportedIndex + 1,
+                                 theDirectionPeriods.end());
+  }
+
+  return sentences;
+}
+
+std::vector<Sentence> WindForecast::constructWindSentence(
+    const WindEventPeriodDataItem* windSpeedItem,
+    const WindEventPeriodDataItem* nextWindSpeedItem,
+    std::vector<WeatherPeriod> windDirectionReportingPeriods,
+    WindDirectionInfo& thePreviousWindDirection,
+    TextGenPosixTime& previouslyReportedWindSpeedTime,
+    bool firstSentence) const
+{
+  std::vector<Sentence> ret;
+
+  const WeatherPeriod& windSpeedEventPeriod = windSpeedItem->thePeriod;
+
+  if (windSpeedItem)
+  {
+    // get direction changes during whole period
+    std::vector<WeatherPeriod> windDirectionChangePeriods;
+    for (auto period : windDirectionReportingPeriods)
+      if (period.localStartTime() >= windSpeedEventPeriod.localStartTime() &&
+          period.localStartTime() <= windSpeedEventPeriod.localEndTime())
+        windDirectionChangePeriods.push_back(period);
+
+    WindEventId windSpeedEventId = windSpeedItem->theWindEvent;
+
+    bool lastPeriod = !nextWindSpeedItem;
+
+    switch (windSpeedEventId)
+    {
+      case MISSING_WIND_SPEED_EVENT:
+      {
+        theParameters.theLog << "Processing MISSING_WIND_SPEED_EVENT at " << windSpeedEventPeriod
+                             << std::endl;
+
+        unsigned int numberOfDirectionChanges = 0;
+        for (std::vector<WeatherPeriod>::const_iterator it = windDirectionChangePeriods.begin();
+             it != windDirectionChangePeriods.end();
+             it++)
+        {
+          Sentence sentence;
+          std::vector<WeatherPeriod>::const_iterator iterNext = it;
+          iterNext++;
+          bool lastDirectionChangeOnCurrentPeriod = (iterNext == windDirectionChangePeriods.end());
+
+          WeatherPeriod directionChangePeriod = *it;
+          if (!firstSentence &&
+              windSpeedEventPeriod.localStartTime() == directionChangePeriod.localStartTime())
+          {
+            TextGenPosixTime startTime = directionChangePeriod.localStartTime();
+            startTime.ChangeByHours(1);
+            directionChangePeriod = WeatherPeriod(startTime, directionChangePeriod.localEndTime());
+          }
+
+          handle_period_end(directionChangePeriod);
+
+          WeatherResult windDirectionValue =
+              get_wind_direction_at(theParameters, directionChangePeriod);
+          WindDirectionId windDirectionId =
+              get_wind_direction_id_at(theParameters, directionChangePeriod);
+
+          if (windDirectionId == thePreviousWindDirection.id) continue;
+          //          if (windDirectionId == VAIHTELEVA && thePreviousWindDirection.id ==
+          //          VAIHTELEVA) continue;
+
+          WeatherPeriod dirPeriod(directionChangePeriod.localStartTime(),
+                                  windSpeedEventPeriod.localEndTime());
+
+          // if we are in the end of the forecast and the last period is short dont report it,
+          // except when previous direction was VAIHTELEVA
+          bool shortPeriod = get_period_length(dirPeriod) < 2;
+          bool shortLastPeriod = (shortPeriod && lastPeriod && lastDirectionChangeOnCurrentPeriod &&
+                                  thePreviousWindDirection.id != VAIHTELEVA);
+
+          bool reportDirection =
+              ((windDirectionId != thePreviousWindDirection.id && !shortLastPeriod) ||
+               firstSentence);
+
+          // dont report short period in the middle
+          if (reportDirection)
+            reportDirection = !(!lastDirectionChangeOnCurrentPeriod && shortPeriod);
+
+          if (!reportDirection) continue;
+
+          if (firstSentence && it == windDirectionChangePeriods.begin())
+          {
+            sentence << windDirectionSentence(windDirectionId)
+                     << windSpeedIntervalSentence(windSpeedItem->thePeriod,
+                                                  USE_AT_ITS_STRONGEST_PHRASE);
+
+            previouslyReportedWindSpeedTime = directionChangePeriod.localEndTime();
+            thePreviousWindDirection = WindDirectionInfo(windDirectionValue, windDirectionId);
+          }
+          else
+          {
+            bool useAlkaenPhrase = get_period_length(directionChangePeriod) >= 6;
+
+            if (windDirectionId == VAIHTELEVA)
+            {
+              bool temporaryChange = get_period_length(directionChangePeriod) <= 5;
+
+              // dont report temporary change if it is not last change
+              if (temporaryChange && !lastDirectionChangeOnCurrentPeriod) continue;
+
+              if (temporaryChange && !lastPeriod)
+                sentence << ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE;
+              else
+                sentence << ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE;
+
+              sentence << getTimePhrase(directionChangePeriod, useAlkaenPhrase);
+            }
+            else
+            {
+              /*
+  sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
+           << getTimePhrase(directionChangePeriod, useAlkaenPhrase)
+           << windDirectionSentence(windDirectionId);
+              */
+
+              if (thePreviousWindDirection.id == VAIHTELEVA)
+                sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
+                         << getTimePhrase(directionChangePeriod, useAlkaenPhrase)
+                         << windDirectionSentence(windDirectionId);
+              else
+              {
+                // to get some variation in phrases
+                if (lastDirectionChangeOnCurrentPeriod)
+                  sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
+                           << getTimePhrase(directionChangePeriod, useAlkaenPhrase)
+                           << windDirectionSentence(windDirectionId);
+                else
+                  sentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE
+                           << getTimePhrase(directionChangePeriod, false)
+                           << getWindDirectionTurntoString(windDirectionId);
+              }
+            }
+          }
+          numberOfDirectionChanges++;
+          ret.push_back(sentence);
+          sentence.clear();
+          thePreviousWindDirection = WindDirectionInfo(windDirectionValue, windDirectionId);
+        }
+        theParameters.theLog << "Reporting " << numberOfDirectionChanges
+                             << " direction changes on period " << windSpeedEventPeriod
+                             << std::endl;
+      }
+      break;
+      case TUULI_VOIMISTUU:
+      case TUULI_HEIKKENEE:
+      {
+        // get point of times/periods to report wind speed diring sthrenghtening/weakening period
+        std::vector<WeatherPeriod> windSpeedReportingPoints =
+            getWindSpeedReportingPoints(*windSpeedItem, firstSentence, windSpeedEventId);
+
+        theParameters.theLog << "Processing "
+                             << (windSpeedEventId == TUULI_VOIMISTUU ? "TUULI_VOIMISTUU event at "
+                                                                     : "TUULI_HEIKKENEE event at ")
+                             << windSpeedEventPeriod << " (" << windSpeedReportingPoints.size()
+                             << " reporting times)" << std::endl;
+        bool smallChange = false;
+        bool gradualChange = false;
+        bool fastChange = false;
+        std::string changeAttributeStr = EMPTY_STRING;
+
+        if (!getWindSpeedChangeAttribute(
+                windSpeedEventPeriod, changeAttributeStr, smallChange, gradualChange, fastChange))
+          return ret;
+
+        Sentence sentence;
+        std::string previousTimePhrase;
+
+        theParameters.theLog << "Wind speed change sentence_0: " << std::endl
+                             << as_string(sentence) << std::endl;
+
+        // iterate reporting points
+        for (unsigned int i = 0; i < windSpeedReportingPoints.size(); i++)
+        {
+          WeatherPeriod period = windSpeedReportingPoints[i];
+
+          bool nextWindSpeedEventMissing =
+              (nextWindSpeedItem && nextWindSpeedItem->theWindEvent == MISSING_WIND_SPEED_EVENT);
+
+          // if no wind speed is happening on next period report wind speed for that period
+          // here too
+          if (i == windSpeedReportingPoints.size() - 1 && nextWindSpeedEventMissing)
+          {
+            period =
+                WeatherPeriod(period.localStartTime(), nextWindSpeedItem->thePeriod.localEndTime());
+          }
+
+          Sentence speedIntervalSentence(
+              windSpeedIntervalSentence(period, USE_AT_ITS_STRONGEST_PHRASE));
+
+          bool startOfTheStory = (firstSentence && i == 0);
+
+          TextGenPosixTime prePeriodStart = windSpeedEventPeriod.localStartTime();
+          TextGenPosixTime prePeriodEnd = period.localStartTime();
+          // in the beginning there is no previous period
+          if (startOfTheStory)
+          {
+            prePeriodStart.ChangeByHours(-1);
+            prePeriodEnd.ChangeByHours(-1);
+          }
+          else
+          {
+            if (prePeriodStart < prePeriodEnd) prePeriodStart.ChangeByHours(1);
+          }
+
+          WeatherPeriod prePeriod(prePeriodStart, prePeriodEnd);
+
+          Sentence timePhrase;
+
+          WeatherPeriod speedChangePeriod = period;
+
+          if (i == 0)
+          {
+            if (firstSentence)
+              timePhrase << EMPTY_STRING;
+            else
+            {
+              speedChangePeriod =
+                  WeatherPeriod(windSpeedItem->thePeriod.localStartTime(), period.localEndTime());
+
+              timePhrase << getTimePhrase(speedChangePeriod,
+                                          get_period_length(speedChangePeriod) >= 6);
+
+              previousTimePhrase = as_string(timePhrase);
+            }
+            theParameters.theLog << "Wind speed change sentence_2: " << std::endl
+                                 << as_string(sentence) << std::endl;
+
+            bool tuuliBasicForm = false;
+            if (changeAttributeStr == EMPTY_STRING && thePreviousWindDirection.id == VAIHTELEVA)
+            {
+              if (windSpeedEventId == TUULI_HEIKKENEE)
+                sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE;
+              else
+                sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE;
+              sentence << timePhrase;
+              tuuliBasicForm = true;
+            }
+            else
+            {
+              sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
+                       << timePhrase << changeAttributeStr
+                       << (windSpeedEventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD
+                                                               : VOIMISTUVAA_WORD);
+            }
+            previousTimePhrase = as_string(timePhrase);
+            theParameters.theLog << "Wind speed change sentence_3: " << std::endl
+                                 << as_string(sentence) << std::endl;
+
+            if (firstSentence)
+            {
+              // handle just first period
+              WeatherPeriod& directionPeriod = windDirectionChangePeriods[0];
+              WindDirectionId windDirectionId =
+                  get_wind_direction_id_at(theParameters, directionPeriod);
+              WeatherResult windDirectionValue =
+                  get_wind_direction_at(theParameters, directionPeriod);
+
+              Sentence firstSentence;
+              sentence << windDirectionSentence(windDirectionId);
+              thePreviousWindDirection = WindDirectionInfo(windDirectionValue, windDirectionId);
+              windDirectionChangePeriods.assign(windDirectionChangePeriods.begin() + 1,
+                                                windDirectionChangePeriods.end());
+              theParameters.theLog << "Wind speed change sentence_4: " << std::endl
+                                   << as_string(sentence) << std::endl;
+            }
+            else
+            {
+              part_of_the_day_id speedDayPartId =
+                  get_part_of_the_day_id(speedChangePeriod.localStartTime());
+
+              // handle special cases
+              bool windDirectionAdded = false;
+              // if sentence starts 'aamuyolla'/'aamuyosta alkaen' (and the actual period
+              // starts
+              // couple of hours before), then direction change can not happen at 'keskiyo'
+
+              if (windDirectionChangePeriods.size() > 0)
+              {
+                const WeatherPeriod& directionPeriod = windDirectionChangePeriods[0];
+                if (thePreviousPartOfTheDay == AAMUYO &&
+                    (speedDayPartId == ILTAYO || speedDayPartId == KESKIYO))
+                {
+                  // handle just first period
+                  part_of_the_day_id directionDayPart =
+                      get_part_of_the_day_id(directionPeriod.localStartTime());
+
+                  if (directionDayPart == KESKIYO)
+                  {
+                    WindDirectionId windDirectionId =
+                        get_wind_direction_id_at(theParameters, directionPeriod);
+                    WeatherResult windDirectionValue =
+                        get_wind_direction_at(theParameters, directionPeriod);
+                    sentence << windDirectionSentence(windDirectionId, tuuliBasicForm);
+                    thePreviousWindDirection =
+                        WindDirectionInfo(windDirectionValue, windDirectionId);
+                    windDirectionChangePeriods.assign(windDirectionChangePeriods.begin() + 1,
+                                                      windDirectionChangePeriods.end());
+                    windDirectionAdded = true;
+                  }
+                }
+                if (!windDirectionAdded)
+                {
+                  // report here direction if part of the day is same as for interval
+                  part_of_the_day_id intervalPeriodId = get_adjusted_part_of_the_day_id(period);
+                  part_of_the_day_id directionPeriodId =
+                      get_adjusted_part_of_the_day_id(directionPeriod);
+
+                  if (intervalPeriodId == directionPeriodId)
+                  {
+                    WindDirectionId windDirectionId =
+                        get_wind_direction_id_at(theParameters, directionPeriod);
+
+                    if (windDirectionId != thePreviousWindDirection.id)
+                    {
+                      WeatherResult windDirectionValue =
+                          get_wind_direction_at(theParameters, directionPeriod);
+
+                      sentence << windDirectionSentence(windDirectionId);
+
+                      thePreviousWindDirection =
+                          WindDirectionInfo(windDirectionValue, windDirectionId);
+                      windDirectionChangePeriods.assign(windDirectionChangePeriods.begin() + 1,
+                                                        windDirectionChangePeriods.end());
+                      windDirectionAdded = true;
+                    }
+                  }
+                }
+              }  // if(windDirectionChangePeriods.size() > 0)
+              if (!windDirectionAdded) sentence << (tuuliBasicForm ? TUULI_WORD : TUULTA_WORD);
+            }
+          }  // if (i == 0)
+          theParameters.theLog << "Wind speed change sentence_5: " << std::endl
+                               << as_string(sentence) << std::endl;
+
+          if (startOfTheStory)
+          {
+            sentence << Delimiter(COMMA_PUNCTUATION_MARK) << ALUKSI_WORD;
+            if (windSpeedEventId == TUULI_HEIKKENEE)
+            {
+              speedIntervalSentence.clear();
+              speedIntervalSentence << windSpeedIntervalSentence(
+                  period, windSpeedEventPeriod, DONT_USE_AT_ITS_STRONGEST_PHRASE);
+            }
+          }
+          else
+          {
+            // report here if wind direction has changed
+            std::vector<Sentence> directionChangeSentences =
+                reportDirectionChanges(prePeriod,
+                                       windDirectionChangePeriods,
+                                       thePreviousWindDirection,
+                                       previousTimePhrase,
+                                       lastPeriod);
+            for (auto s : directionChangeSentences)
+            {
+              if (!sentence.empty()) sentence << Delimiter(COMMA_PUNCTUATION_MARK);
+              sentence << s;
+            }
+          }
+          theParameters.theLog << "Wind speed change sentence_6: " << std::endl
+                               << as_string(sentence) << std::endl;
+
+          if (i < windSpeedReportingPoints.size() - 1 && !startOfTheStory)
+          {
+            WeatherPeriod nextPeriod = windSpeedReportingPoints[i + 1];
+
+            // dont report several speed interval on same part of the day
+            if (nextPeriod.localStartTime().DifferenceInHours(period.localStartTime()) < 6 &&
+                get_part_of_the_day_id(nextPeriod.localStartTime() ==
+                                       get_part_of_the_day_id(period.localStartTime())))
+              continue;
+          }
+          theParameters.theLog << "Wind speed change sentence_7: " << std::endl
+                               << as_string(sentence) << std::endl;
+
+          if (!startOfTheStory)
+          {
+            timePhrase.clear();
+            timePhrase << getTimePhrase(period, get_period_length(period) >= 6);
+
+            if (as_string(timePhrase) != previousTimePhrase)
+            {
+              sentence << Delimiter(COMMA_PUNCTUATION_MARK) << timePhrase;
+              previousTimePhrase = as_string(timePhrase);
+            }
+            timePhrase.clear();
+          }
+          theParameters.theLog << "Wind speed change sentence_8: " << std::endl
+                               << as_string(sentence) << std::endl;
+
+          sentence << speedIntervalSentence;
+
+          previouslyReportedWindSpeedTime = period.localStartTime();
+
+          theParameters.theLog << "Wind speed change sentence_100: " << std::endl
+                               << as_string(sentence) << std::endl;
+        }
+
+        if (!sentence.empty())
+        {
+          theParameters.theLog << "Wind speed change sentence: " << std::endl
+                               << as_string(sentence) << std::endl;
+          ret.push_back(sentence);
+        }
+
+        // in the end report rest of wind direction changes during this wind speed change period
+        for (auto period : windDirectionChangePeriods)
+        {
+          if (get_period_length(period) <= 2) continue;
+
+          Sentence timePhrase;
+          timePhrase << getTimePhrase(period, get_period_length(period) >= 6);
+          previousTimePhrase = as_string(timePhrase);
+
+          WindDirectionId windDirectionId = get_wind_direction_id_at(theParameters, period);
+
+          if (windDirectionId != thePreviousWindDirection.id)
+          {
+            WeatherResult windDirectionValue = get_wind_direction_at(theParameters, period);
+
+            Sentence sentence;
+            sentence << timePhrase << windDirectionSentence(windDirectionId);
+            ret.push_back(sentence);
+
+            thePreviousWindDirection = WindDirectionInfo(windDirectionValue, windDirectionId);
+          }
+        }
+      }
+      break;
+      default:
+        break;
+    }
+  }
+
+  return ret;
 }
 
 Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
 {
   Paragraph paragraph;
+  std::vector<Sentence> sentences;
 
-  WindEventId eventIdPreviousReported(MISSING_WIND_EVENT);
-  WeatherPeriod weatherPeriodPreviousReported(
-      WeatherPeriod(TextGenPosixTime(1971, 1, 1), TextGenPosixTime(1971, 1, 1)));
-  WeatherPeriod windSpeedIntervalPeriodPreviousReported(
-      WeatherPeriod(TextGenPosixTime(1971, 1, 1), TextGenPosixTime(1971, 1, 1)));
+  WindDirectionInfo previouslyReportedWindDirection;
+  TextGenPosixTime previouslyReportedWindSpeedTime;
 
-  WindEventPeriodDataItem* eventPeriodItemPrevious(0);
-  WindEventPeriodDataItem* eventPeriodItemNext(0);
-  WindDirectionId previousWindDirectionId(MISSING_WIND_DIRECTION_ID);
-  unsigned int nPeriods = theParameters.theMergedWindEventPeriodVector.size();
+  std::vector<WeatherPeriod> windDirectionPeriods =
+      get_wind_direction_periods(theParameters, thePeriod);
 
-  for (unsigned int i = 0; i < nPeriods; i++)
+  theParameters.theLog << "*** WIND DIRECTION REPORTING PERIODS ***" << std::endl;
+
+  for (auto period : windDirectionPeriods)
+    theParameters.theLog << period << " - "
+                         << wind_direction_string(get_wind_direction_id_at(theParameters, period))
+                         << std::endl;
+
+  theParameters.theLog << "*** WIND SPEED REPORTING PERIODS ***" << std::endl;
+
+  for (auto item : theParameters.theWindSpeedEventPeriodVector)
+    theParameters.theLog << item->thePeriod << " - " << get_wind_event_string(item->theWindEvent)
+                         << std::endl;
+
+  // iterate wind speed events and report speed and direction changes
+  for (unsigned int i = 0; i < theParameters.theWindSpeedEventPeriodVector.size(); i++)
   {
-    std::vector<Sentence> sentences;
-    Sentence sentence;
-    WindEventPeriodDataItem* eventPeriodItem = theParameters.theMergedWindEventPeriodVector[i];
-
-    WindEventId eventId = eventPeriodItem->theWindEvent;
-    bool lastPeriod(i == theParameters.theMergedWindEventPeriodVector.size() - 1);
-    bool firstSentenceInTheStory = paragraph.empty();
     bool firstPeriod(i == 0);
-    bool eventPeriodNextIsMissingEvent(false);
-    eventPeriodItemNext = 0;
+    const WindEventPeriodDataItem* windSpeedEventPeriodDataItem =
+        theParameters.theWindSpeedEventPeriodVector[i];
 
-    // if the first or last period is 1 hour long or wind weakens/strenthens in 1 hour, ignore it
-    if ((firstPeriod || lastPeriod || (eventId == TUULI_HEIKKENEE || eventId == TUULI_VOIMISTUU)) &&
-        get_period_length(eventPeriodItem->thePeriod) == 0)
-      continue;
+    const WindEventPeriodDataItem* nextWindSpeedEventPeriodDataItem =
+        (i < theParameters.theWindSpeedEventPeriodVector.size() - 1
+             ? theParameters.theWindSpeedEventPeriodVector[i + 1]
+             : 0);
 
-    if (!lastPeriod)
-    {
-      eventPeriodItemNext = theParameters.theMergedWindEventPeriodVector[i + 1];
-      eventPeriodNextIsMissingEvent = (eventPeriodItemNext->theWindEvent == MISSING_WIND_EVENT);
-    }
+    std::vector<Sentence> retval = constructWindSentence(windSpeedEventPeriodDataItem,
+                                                         nextWindSpeedEventPeriodDataItem,
+                                                         windDirectionPeriods,
+                                                         previouslyReportedWindDirection,
+                                                         previouslyReportedWindSpeedTime,
+                                                         firstPeriod);
+    sentences.insert(sentences.end(), retval.begin(), retval.end());
+  }
 
-    theParameters.theAlkaenPhraseUsed = false;
-
-    const WeatherPeriod& eventPeriod = eventPeriodItem->thePeriod;
-
-    WeatherPeriod eventStartPeriod(eventPeriod.localStartTime(), eventPeriod.localStartTime());
-    WeatherPeriod eventEndPeriod(eventPeriod.localEndTime(), eventPeriod.localEndTime());
-
-    WindDirectionId windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
-    WindDirectionId windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
-
-    getWindDirectionBegEnd(eventPeriod, windDirectionIdBeg, windDirectionIdEnd);
-
-    WindDirectionId windDirectionIdAvg(get_wind_direction_id_at(theParameters, eventPeriod));
-
-    if (get_period_length(eventPeriod) == 0) windDirectionIdAvg = windDirectionIdBeg;
-
-    // when varying wind strenghtens, we ignore it
-    if (eventId & TUULI_VOIMISTUU && windDirectionIdAvg == VAIHTELEVA)
-      eventId = mask_wind_event(eventId, TUULI_VOIMISTUU);
-
-    bool same_part_of_the_day(get_part_of_the_day_id(eventPeriod.localStartTime()) ==
-                                  get_part_of_the_day_id(eventPeriod.localEndTime()) &&
-                              eventPeriod.localStartTime().GetDay() ==
-                                  eventPeriod.localEndTime().GetDay());
-
-    bool windSpeedDifferEnough(false);
-    bool windSpeedDifferEnoughOnNextPeriod(false);
-    bool windSpeedDifferEnoughOnCombinedPeriodPeriod(false);
-
-    if ((theParameters.theMergedWindEventPeriodVector.size() > 1 &&
-         eventId == MISSING_WIND_EVENT) ||
-        firstSentenceInTheStory)
-    {
-      if (eventPeriodItemPrevious &&
-          windSpeedIntervalPeriodPreviousReported.localStartTime().GetYear() != 1971)
-      {
-        WeatherPeriod windSpeedPeriod(eventPeriod);
-
-        if (eventId & TUULI_HEIKKENEE || eventId & TUULI_VOIMISTUU)
-          windSpeedPeriod = WeatherPeriod(eventPeriod.localEndTime(), eventPeriod.localEndTime());
-
-        int windSpeedDiff =
-            windSpeedDifference(windSpeedIntervalPeriodPreviousReported, windSpeedPeriod);
-
-        windSpeedDifferEnough = abs(windSpeedDiff) >= theParameters.theWindSpeedThreshold;
-
-        if (lastPeriod && eventPeriodItemPrevious->theWindEvent == MISSING_WIND_EVENT &&
-            (eventId & TUULI_HEIKKENEE || eventId & TUULI_VOIMISTUU) && !windSpeedDifferEnough)
-        {
-          continue;
-        }
-      }
-      else
-      {
-        windSpeedDifferEnough = wind_speed_differ_enough(theParameters, eventPeriod);
-      }
-
-      windSpeedDifferEnoughOnNextPeriod =
-          (eventPeriodItemNext &&
-           wind_speed_differ_enough(theParameters, eventPeriodItemNext->thePeriod));
-
-      windSpeedDifferEnoughOnCombinedPeriodPeriod =
-          (eventPeriodItemNext &&
-           wind_speed_differ_enough(theParameters,
-                                    WeatherPeriod(eventPeriod.localStartTime(),
-                                                  eventPeriodItemNext->thePeriod.localEndTime())));
-    }
-    // default condition for wind speed reporting
-    bool reportWindSpeed(firstPeriod || windSpeedDifferEnough);
-
-    if ((eventId & TUULI_HEIKKENEE || eventId & TUULI_VOIMISTUU) &&
-        ((eventPeriodItem->theWindSpeedChangeEnds && !windSpeedDifferEnough) ||
-         (eventPeriodItemNext && eventPeriodItem->theWindSpeedChangeStarts &&
-          eventPeriodItemNext->theWindSpeedChangeEnds &&
-          !windSpeedDifferEnoughOnCombinedPeriodPeriod)))
-    {
-      if (eventId & TUULI_HEIKKENEE)
-      {
-        if ((eventPeriodItemNext && (eventPeriodItemNext->theWindEvent & TUULI_HEIKKENEE)))
-        {
-          eventId = mask_wind_event(eventId, TUULI_HEIKKENEE);
-          reportWindSpeed = false;
-        }
-      }
-      else if (eventId & TUULI_VOIMISTUU)
-      {
-        if ((eventPeriodItemNext && (eventPeriodItemNext->theWindEvent & TUULI_VOIMISTUU)))
-        {
-          eventId = mask_wind_event(eventId, TUULI_VOIMISTUU);
-          reportWindSpeed = false;
-        }
-      }
-    }
-
-    // when wind is weak dont report changes in speed and direction, just
-    // tell speed and direction for the whole weak period if it is different from the perevious
-    if (eventPeriodItem->theWeakWindPeriodFlag)
-    {
-      if (eventIdPreviousReported & TUULI_MUUTTUU_VAIHTELEVAKSI) continue;
-      // if we have short weak period in the middle, ignore it
-      float period_len(get_period_length(eventPeriod));
-      float forecast_period_len(get_period_length(theParameters.theForecastPeriod));
-
-      if (period_len <= 2 && period_len / forecast_period_len < 0.2 && i > 0 && !firstPeriod &&
-          !lastPeriod)
-        continue;
-
-      // if previous period event was MISSING_WIND_EVENT and it was not weak (has been reported) ->
-      // dont report this period
-      if (eventId == MISSING_WIND_EVENT && eventPeriodItemPrevious &&
-          eventIdPreviousReported == MISSING_WIND_EVENT &&
-          !eventPeriodItemPrevious->theWeakWindPeriodFlag)
-        continue;
-
-      // if short weak period is the last period and on previous period wind weakened and
-      // part of the day on last period and in the end of previous period are the same, dont report
-      // the last period
-      // expect when wind was varying in the previous period
-      WeatherPeriod previousEndPeriod(weatherPeriodPreviousReported.localEndTime(),
-                                      weatherPeriodPreviousReported.localEndTime());
-
-      if (lastPeriod && period_len <= 2 && eventIdPreviousReported & TUULI_HEIKKENEE &&
-          get_part_of_the_day_id_narrow(previousEndPeriod) ==
-              get_part_of_the_day_id_narrow(eventPeriod) &&
-          !(eventIdPreviousReported & TUULI_MUUTTUU_VAIHTELEVAKSI))
-        continue;
-
-      eventId = MISSING_WIND_EVENT;
-    }
-    else if ((eventIdPreviousReported & TUULI_MUUTTUU_VAIHTELEVAKSI) &&
-             eventId == MISSING_WIND_EVENT && windDirectionIdAvg == VAIHTELEVA)
-    {
-      // if previous event was 'tuuli muuttuu vaihtelevaksi',
-      // dont report 'tuuli on vaihtelevaa' on current period
-      continue;
-    }
-
-    // if wind vas vaihteleva on previous period, dont report 'tuuli muuttuu vaihtelevaksi'
-    // on this period
-    if ((eventId & TUULI_MUUTTUU_VAIHTELEVAKSI) && eventPeriodItemPrevious &&
-        get_wind_direction_id_at(theParameters, eventPeriodItemPrevious->thePeriod) == VAIHTELEVA)
-      continue;
-
-    // if wind direction changes in two successive periods,
-    // it can not be the same in the end of these periods
-    if (eventId & TUULI_KAANTYY)
-    {
-      if (windDirectionIdBeg == windDirectionIdEnd && get_period_length(eventPeriod) > 0)
-      {
-        eventId = mask_wind_event(eventId, TUULI_KAANTYY);
-      }
-      else if (eventPeriodItemPrevious && (eventIdPreviousReported & TUULI_KAANTYY))
-      {
-        if (get_wind_direction_id_at(theParameters, eventPeriodItem->thePeriod.localEndTime()) ==
-            get_wind_direction_id_at(theParameters, weatherPeriodPreviousReported.localEndTime()))
-          eventId = mask_wind_event(eventId, TUULI_KAANTYY);
-      }
-    }
-
-    if ((eventId & TUULI_HEIKKENEE) &&
-        (eventPeriodItem->theWindSpeedChangeStarts && eventPeriodItem->theWindSpeedChangeEnds))
-    {
-      if (get_maximum_wind(eventStartPeriod,
-                           theParameters.theArea,
-                           theParameters.theWindDataVector) < WEAK_WIND_SPEED_UPPER_LIMIT + 1.0)
-        eventId = mask_wind_event(eventId, TUULI_HEIKKENEE);
-    }
-
-    bool windStrengthStartsToChange(eventPeriodItem->theWindSpeedChangeStarts &&
-                                    !eventPeriodItem->theWindSpeedChangeEnds);
-
-    switch (eventId)
-    {
-      case TUULI_HEIKKENEE:
-      case TUULI_VOIMISTUU:
-      {
-        bool smallChange(false);
-        bool gradualChange(false);
-        bool fastChange(false);
-        std::string changeAttributeStr(EMPTY_STRING);
-
-        if (!getWindSpeedChangeAttribute(
-                eventPeriod, changeAttributeStr, smallChange, gradualChange, fastChange))
-        {
-          return paragraph;
-        }
-
-        Sentence directionSentenceP;
-        Sentence directionSentence;
-
-        if ((i > 0 && same_direction(previousWindDirectionId, windDirectionIdAvg, true)) ||
-            (eventIdPreviousReported == TUULI_MUUTTUU_VAIHTELEVAKSI &&
-             windDirectionIdAvg == VAIHTELEVA))
-        {
-          directionSentenceP << TUULTA_WORD;
-          directionSentence << TUULI_WORD;
-        }
-        else
-        {
-          directionSentenceP << windDirectionSentence(windDirectionIdAvg);
-          directionSentence << windDirectionSentence(windDirectionIdAvg, true);
-        }
-        bool useAlkaaHeiketaVoimistuaPhrase(false);
-        bool appendDecreasingIncreasingInterval(true);
-
-        reportWindSpeed = (eventPeriodItem->theWindSpeedChangeEnds ||
-                           (!eventPeriodItem->theWindSpeedChangeEnds && windSpeedDifferEnough &&
-                            windSpeedDifferEnoughOnNextPeriod));
-
-        if (firstSentenceInTheStory)
-        {
-          if (windStrengthStartsToChange)
-          {
-            if (eventId == TUULI_HEIKKENEE)
-              sentence << POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_COMPOSITE_PHRASE;
-            else
-              sentence << POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE;
-
-            sentence << directionSentenceP
-                     << windSpeedIntervalSentence(eventStartPeriod,
-                                                  DONT_USE_AT_ITS_STRONGEST_PHRASE);
-            windSpeedIntervalPeriodPreviousReported = eventStartPeriod;
-            appendDecreasingIncreasingInterval = false;
-          }
-          else
-          {
-            sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
-                     << EMPTY_STRING << changeAttributeStr
-                     << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
-                     << directionSentenceP;
-            /*
-if (windSpeedDifferEnough)
-sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
-         << EMPTY_STRING << changeAttributeStr
-         << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
-         << directionSentenceP;
-else
-sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE << EMPTY_STRING
-         << directionSentenceP;
-            */
-
-            windSpeedIntervalPeriodPreviousReported = eventPeriod;
-            appendDecreasingIncreasingInterval = true;
-          }
-        }
-        else
-        {
-          useAlkaaHeiketaVoimistuaPhrase =
-              (!smallChange && wind_forecast_period_length(eventPeriod) > 6 &&
-               !same_part_of_the_day);
-          bool useAlkaenPhrase(get_period_length(eventPeriod) >= 6);
-          if (useAlkaaHeiketaVoimistuaPhrase)
-          {
-            if ((eventPeriodItemPrevious &&
-                 eventPeriodItemPrevious->theWindEvent != MISSING_WIND_EVENT) &&
-                ((eventIdPreviousReported & TUULI_VOIMISTUU && eventId == TUULI_VOIMISTUU) ||
-                 (eventIdPreviousReported & TUULI_HEIKKENEE && eventId == TUULI_HEIKKENEE)))
-            {
-              sentence << ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA
-                       << getTimePhrase(eventPeriod, USE_ALKAEN_PHRASE)
-                       << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
-                       << directionSentenceP;
-            }
-            else
-            {
-              if (windStrengthStartsToChange)
-              {
-                sentence
-                    << (eventId == TUULI_HEIKKENEE
-                            ? ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
-                            : ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE)
-                    << getTimePhrase(eventPeriod, useAlkaenPhrase) << directionSentence
-                    << changeAttributeStr;
-
-                appendDecreasingIncreasingInterval = false;
-              }
-              else
-              {
-                sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
-                         << getTimePhrase(eventPeriod, useAlkaenPhrase) << changeAttributeStr
-                         << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
-                         << directionSentenceP;
-              }
-            }
-          }
-          else
-          {
-            if ((eventPeriodItemPrevious &&
-                 eventPeriodItemPrevious->theWindEvent != MISSING_WIND_EVENT) &&
-                ((eventIdPreviousReported & TUULI_VOIMISTUU && eventId == TUULI_VOIMISTUU) ||
-                 (eventIdPreviousReported & TUULI_HEIKKENEE && eventId == TUULI_HEIKKENEE)))
-            {
-              sentence << ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA
-                       << getTimePhrase(eventPeriod, useAlkaenPhrase)
-                       << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
-                       << directionSentenceP;
-            }
-            else
-            {
-              if (windStrengthStartsToChange)
-              {
-                sentence
-                    << (eventId == TUULI_HEIKKENEE
-                            ? ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
-                            : ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE)
-                    << getTimePhrase(eventPeriod, useAlkaenPhrase) << directionSentence
-                    << EMPTY_STRING;
-
-                appendDecreasingIncreasingInterval = false;
-              }
-              else
-              {
-                sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
-                         << getTimePhrase(eventPeriod, useAlkaenPhrase) << changeAttributeStr
-                         << (eventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD)
-                         << directionSentenceP;
-              }
-            }
-          }
-        }
-
-        if (appendDecreasingIncreasingInterval && reportWindSpeed)
-        {
-          sentence << decreasingIncreasingInterval(
-              *eventPeriodItem,
-              (eventPeriodNextIsMissingEvent ? eventPeriodItemNext : NULL),
-              firstSentenceInTheStory,
-              eventId);
-
-          windSpeedIntervalPeriodPreviousReported =
-              WeatherPeriod(eventPeriod.localEndTime(), eventPeriod.localEndTime());
-        }
-
-        previousWindDirectionId = windDirectionIdAvg;
-      }
-      break;
-      case TUULI_TYYNTYY:
-      {
-        sentence << TUULI_TYYNTYY_PHRASE;
-      }
-      break;
-      case TUULI_KAANTYY:
-      {
-        if (firstSentenceInTheStory)
-        {
-          int periodLengthAfterDirectionChange(get_period_length(eventPeriod) + 1);
-          if (eventPeriodItemNext && eventPeriodItemNext->theWindEvent == MISSING_WIND_EVENT)
-            periodLengthAfterDirectionChange +=
-                get_period_length(eventPeriodItemNext->thePeriod) + 1;
-          bool useAlkaenPhrase(periodLengthAfterDirectionChange >= 5);
-
-          if (windDirectionIdBeg == VAIHTELEVA || windDirectionIdBeg == MISSING_WIND_DIRECTION_ID)
-          {
-            sentence << windDirectionSentence(windDirectionIdAvg);
-            sentence << windSpeedIntervalSentence(eventPeriod, USE_AT_ITS_STRONGEST_PHRASE);
-            previousWindDirectionId = windDirectionIdAvg;
-          }
-          else
-          {
-            sentence
-                << POHJOISTUULTA_INTERVALLI_MS_JOKA_KAANTYY_ILTAPAIVALLA_ETELAAN_COMPOSITE_PHRASE
-                << windDirectionSentence(windDirectionIdBeg)
-                << windSpeedIntervalSentence(eventPeriod, DONT_USE_AT_ITS_STRONGEST_PHRASE)
-                << getTimePhrase(eventPeriod, useAlkaenPhrase)
-                << getWindDirectionTurntoString(windDirectionIdEnd);
-            previousWindDirectionId = windDirectionIdEnd;
-          }
-          windSpeedIntervalPeriodPreviousReported = eventPeriod;
-        }
-        else
-        {
-          sentence << windDirectionChangeSentence(theParameters,
-                                                  eventPeriod,
-                                                  eventIdPreviousReported,
-                                                  previousWindDirectionId,
-                                                  eventPeriodItemNext);
-
-          if (lastPeriod && eventIdPreviousReported == TUULI_MUUTTUU_VAIHTELEVAKSI)
-            sentence << windSpeedIntervalSentence(eventPeriod, USE_AT_ITS_STRONGEST_PHRASE);
-        }
-      }
-      break;
-      case TUULI_MUUTTUU_VAIHTELEVAKSI:
-      {
-        WeatherPeriod actualEventPeriod(eventPeriod);
-        // report together
-        if (eventPeriodItemNext && eventPeriodNextIsMissingEvent &&
-            get_wind_direction_id_at(theParameters, eventPeriodItemNext->thePeriod) == VAIHTELEVA)
-          actualEventPeriod = WeatherPeriod(eventPeriod.localStartTime(),
-                                            eventPeriodItemNext->thePeriod.localEndTime());
-
-        if (firstSentenceInTheStory)
-        {
-          sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE << EMPTY_STRING
-                   << windDirectionSentence(VAIHTELEVA)
-                   << windSpeedIntervalSentence(actualEventPeriod, USE_AT_ITS_STRONGEST_PHRASE);
-        }
-        else
-        {
-          if (eventPeriodItem->theTransientDirectionChangeFlag)
-          {
-            sentence << ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
-                     << getTimePhrase(eventStartPeriod, DONT_USE_ALKAEN_PHRASE);
-          }
-          else
-          {
-            if (get_period_length(actualEventPeriod) >= 6)
-            {
-              sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
-                       << getTimePhrase(eventStartPeriod, USE_ALKAEN_PHRASE)
-                       << windDirectionSentence(VAIHTELEVA);
-            }
-            else
-            {
-              sentence << ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
-                       << getTimePhrase(eventStartPeriod, DONT_USE_ALKAEN_PHRASE);
-            }
-          }
-        }
-        previousWindDirectionId = VAIHTELEVA;
-      }
-      break;
-      case TUULI_KAANTYY_JA_VOIMISTUU:
-      case TUULI_KAANTYY_JA_HEIKKENEE:
-      {
-        bool appendDecreasingIncreasingInterval(true);
-
-        sentences = windDirectionAndSpeedChangesSentence(theParameters,
-                                                         eventPeriod,
-                                                         firstSentenceInTheStory,
-                                                         eventIdPreviousReported,
-                                                         eventId,
-                                                         previousWindDirectionId,
-                                                         eventPeriodItem->theWindSpeedChangeStarts,
-                                                         eventPeriodItem->theWindSpeedChangeEnds,
-                                                         windSpeedIntervalPeriodPreviousReported,
-                                                         appendDecreasingIncreasingInterval);
-
-        if (!sentences.empty() && appendDecreasingIncreasingInterval)
-        {
-          reportWindSpeed = (eventPeriodItem->theWindSpeedChangeEnds ||
-                             (!eventPeriodItem->theWindSpeedChangeEnds && windSpeedDifferEnough &&
-                              windSpeedDifferEnoughOnNextPeriod));
-          if (reportWindSpeed)
-          {
-            // append to the end of last sentence
-            sentences.back() << decreasingIncreasingInterval(
-                *eventPeriodItem,
-                (eventPeriodNextIsMissingEvent ? eventPeriodItemNext : NULL),
-                firstSentenceInTheStory,
-                eventId);
-
-            windSpeedIntervalPeriodPreviousReported =
-                WeatherPeriod(eventPeriod.localEndTime(), eventPeriod.localEndTime());
-          }
-        }
-      }
-      break;
-      case TUULI_KAANTYY_JA_TYYNTYY:
-      {
-        // cout << "TUULI_KAANTYY_JA_TYYNTYY NOT ALLOWED!!" << endl;
-      }
-      break;
-      case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE:
-      {
-        reportWindSpeed = ((eventPeriodItem->theWindSpeedChangeEnds && windSpeedDifferEnough) ||
-                           (!eventPeriodItem->theWindSpeedChangeEnds && windSpeedDifferEnough &&
-                            windSpeedDifferEnoughOnNextPeriod));
-
-        if (eventIdPreviousReported & TUULI_HEIKKENEE)
-        {
-          if (eventPeriodItem->theTransientDirectionChangeFlag)
-          {
-            sentence
-                << ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE
-                << getTimePhrase(eventStartPeriod, DONT_USE_ALKAEN_PHRASE);
-          }
-          else
-          {
-            sentence
-                << ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE
-                << getTimePhrase(eventStartPeriod, DONT_USE_ALKAEN_PHRASE);
-          }
-        }
-        else
-        {
-          if (firstSentenceInTheStory)
-          {
-            if (eventPeriodItem->theTransientDirectionChangeFlag)
-            {
-              if (windStrengthStartsToChange)
-                sentence
-                    << POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
-                    << windDirectionSentence(windDirectionIdBeg, true);
-              else
-                sentence
-                    << POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
-                    << windDirectionSentence(windDirectionIdBeg, true);
-            }
-            else
-            {
-              if (windStrengthStartsToChange)
-                sentence << POHJOISTUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
-                         << windDirectionSentence(windDirectionIdBeg, true);
-              else
-                sentence << POHJOISTUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
-                         << windDirectionSentence(windDirectionIdBeg, true);
-            }
-          }
-          else
-          {
-            if (eventPeriodItem->theTransientDirectionChangeFlag)
-            {
-              if (windStrengthStartsToChange)
-                sentence
-                    << ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE;
-              else
-                sentence
-                    << ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE;
-            }
-            else
-            {
-              if (windStrengthStartsToChange)
-                sentence
-                    << ILTAPAIVALLA_TUULI_ALKAA_HEIKETA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE;
-              else
-                sentence << ILTAPAIVALLA_TUULI_HEIKKENEE_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE;
-            }
-            sentence << getTimePhrase(eventStartPeriod, !firstSentenceInTheStory);
-          }
-        }
-
-        if (reportWindSpeed)
-        {
-          sentence << decreasingIncreasingInterval(
-              *eventPeriodItem,
-              (eventPeriodNextIsMissingEvent ? eventPeriodItemNext : NULL),
-              firstSentenceInTheStory,
-              eventId);
-
-          WeatherPeriod windSpeedPeriod(
-              eventPeriod.localEndTime(),
-              (eventPeriodNextIsMissingEvent ? eventPeriodItemNext->thePeriod.localEndTime()
-                                             : eventPeriod.localEndTime()));
-
-          windSpeedIntervalPeriodPreviousReported = windSpeedPeriod;
-        }
-        previousWindDirectionId = VAIHTELEVA;
-      }
-      break;
-      case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU:
-      {
-        reportWindSpeed = (eventPeriodItem->theWindSpeedChangeEnds ||
-                           (!eventPeriodItem->theWindSpeedChangeEnds && windSpeedDifferEnough &&
-                            windSpeedDifferEnoughOnNextPeriod));
-        if (eventIdPreviousReported == TUULI_VOIMISTUU)
-        {
-          if (eventPeriodItem->theTransientDirectionChangeFlag)
-          {
-            sentence
-                << ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE
-                << getTimePhrase(eventStartPeriod, !firstSentenceInTheStory);
-          }
-          else
-          {
-            sentence
-                << ILTAPAIVALLA_TUULI_MUUTTUU_VAIHTELEVAKSI_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE
-                << getTimePhrase(eventStartPeriod, !firstSentenceInTheStory);
-          }
-        }
-        else
-        {
-          if (firstSentenceInTheStory)
-          {
-            if (eventPeriodItem->theTransientDirectionChangeFlag)
-            {
-              if (windStrengthStartsToChange)
-                sentence
-                    << POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
-                    << windDirectionSentence(windDirectionIdBeg, true);
-              else
-                sentence
-                    << POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE
-                    << windDirectionSentence(windDirectionIdBeg, true);
-            }
-            else
-            {
-              if (windStrengthStartsToChange)
-                sentence << POHJOISTUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
-                         << windDirectionSentence(windDirectionIdBeg, true);
-              else
-                sentence << POHJOISTUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE
-                         << windDirectionSentence(windDirectionIdBeg, true);
-            }
-          }
-          else
-          {
-            if (eventPeriodItem->theTransientDirectionChangeFlag)
-            {
-              if (windStrengthStartsToChange)
-                sentence
-                    << ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE;
-              else
-                sentence
-                    << ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE;
-            }
-            else
-            {
-              if (windStrengthStartsToChange)
-                sentence
-                    << ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE;
-              else
-                sentence << ILTAPAIVALLA_TUULI_VOIMISTUU_JA_MUUTTUU_VAIHTELEVAKSI_COMPOSITE_PHRASE;
-            }
-            sentence << getTimePhrase(eventStartPeriod, !firstSentenceInTheStory);
-          }
-        }
-
-        if (reportWindSpeed)
-        {
-          sentence << decreasingIncreasingInterval(
-              *eventPeriodItem,
-              (eventPeriodNextIsMissingEvent ? eventPeriodItemNext : NULL),
-              firstSentenceInTheStory,
-              eventId);
-          windSpeedIntervalPeriodPreviousReported =
-              WeatherPeriod(eventPeriod.localEndTime(), eventPeriod.localEndTime());
-        }
-        previousWindDirectionId = VAIHTELEVA;
-      }
-      break;
-      case TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY:
-      {
-        // cout << "TUULI_MUUTTUU_VAIHTELEVAKSI_JA_TYYNTYY NOT ALLOWED!!" << endl;
-      }
-      break;
-      case MISSING_WIND_EVENT:
-      {
-        if (firstSentenceInTheStory)
-        {
-          if (is_gusty_wind(theParameters, eventPeriod, theParameters.theVar))
-            sentence << PUUSKITTAISTA_ETELATUULTA_COMPOSITE_PHRASE;
-
-          sentence << windDirectionSentence(windDirectionIdAvg);
-          sentence << windSpeedIntervalSentence(eventPeriod, USE_AT_ITS_STRONGEST_PHRASE);
-          windSpeedIntervalPeriodPreviousReported = eventPeriod;
-        }
-        else if (eventPeriodItem->theWeakWindPeriodFlag ||
-                 eventIdPreviousReported & TUULI_MUUTTUU_VAIHTELEVAKSI)
-        {
-          bool useAlkaenPhrase(get_period_length(eventPeriod) >= 6);
-
-          if (previousWindDirectionId != windDirectionIdAvg || windSpeedDifferEnough)
-          {
-            sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
-                     << getTimePhrase(eventPeriod, useAlkaenPhrase)
-                     << windDirectionSentence(windDirectionIdAvg);
-
-            if (windSpeedDifferEnough)  // || windDirectionIdAvg & VAIHTELEVA)
-            {
-              sentence << windSpeedIntervalSentence(eventPeriod, USE_AT_ITS_STRONGEST_PHRASE);
-              windSpeedIntervalPeriodPreviousReported = eventPeriod;
-            }
-          }
-        }
-        else if ((eventIdPreviousReported & TUULI_MUUTTUU_VAIHTELEVAKSI) &&
-                 i < theParameters.theMergedWindEventPeriodVector.size() - 1 &&
-                 get_period_length(eventPeriod) > 2)
-        {
-          sentence << windDirectionChangeSentence(theParameters,
-                                                  eventPeriod,
-                                                  eventIdPreviousReported,
-                                                  previousWindDirectionId,
-                                                  eventPeriodItemNext);
-        }
-
-        if (!sentence.empty()) previousWindDirectionId = windDirectionIdAvg;
-      }
-      break;
-      default:
-        break;
-    };
-
-    if (sentences.empty()) sentences.push_back(sentence);
-
-    if (!sentences.front().empty())
-    {
-      eventIdPreviousReported = eventId;
-      weatherPeriodPreviousReported = eventPeriod;
-      eventPeriodItemPrevious = eventPeriodItem;
-    }
-
-    for (auto s : sentences)
-      paragraph << s;
-  }  // for
+  for (auto s : sentences)
+    paragraph << s;
 
   return paragraph;
-}
-
-Sentence WindForecast::windDirectionChangeSentence(
-    const wo_story_params& theParameters,
-    const WeatherPeriod& eventPeriod,
-    WindEventId eventIdPreviousReported,
-    WindDirectionId& previousWindDirectionId,
-    const WindEventPeriodDataItem* eventPeriodItemNext) const
-{
-  Sentence sentence;
-
-  int periodLengthAfterDirectionChange(get_period_length(eventPeriod) + 1);
-  if (eventPeriodItemNext && eventPeriodItemNext->theWindEvent == MISSING_WIND_EVENT)
-    periodLengthAfterDirectionChange += get_period_length(eventPeriodItemNext->thePeriod) + 1;
-  bool useAlkaenPhrase(periodLengthAfterDirectionChange >= 5);
-  WindDirectionId windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
-  WindDirectionId windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
-
-  getWindDirectionBegEnd(eventPeriod, windDirectionIdBeg, windDirectionIdEnd);
-
-  if (previousWindDirectionId == VAIHTELEVA ||
-      eventIdPreviousReported & TUULI_MUUTTUU_VAIHTELEVAKSI)
-  {
-    WindDirectionId windDirectionIdAvg(get_wind_direction_id_at(theParameters, eventPeriod));
-
-    if (useAlkaenPhrase)
-      sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
-               << getTimePhrase(
-                      WeatherPeriod(eventPeriod.localStartTime(), eventPeriod.localStartTime()),
-                      USE_ALKAEN_PHRASE)
-               << windDirectionSentence(windDirectionIdAvg);
-    else
-      sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE
-               << getTimePhrase(eventPeriod, DONT_USE_ALKAEN_PHRASE)
-               << windDirectionSentence(windDirectionIdAvg);
-    previousWindDirectionId = windDirectionIdAvg;
-  }
-  else if (windDirectionIdEnd != previousWindDirectionId)
-  {
-    // etsit‰‰n se ajankohta, jolloin tuuli on k‰‰ntynyt lopulliseen suuntaansa,
-    // ja raportoidaan, ett‰ senn suuntaista tuulta
-    TextGenPosixTime windDirectionChangeTime =
-        get_wind_direction_change_time(theParameters, eventPeriod);
-
-    TextGenPosixTime periodEndTime = eventPeriod.localEndTime();
-    if (eventPeriodItemNext && eventPeriodItemNext->theWindEvent == MISSING_WIND_EVENT)
-      periodEndTime = eventPeriodItemNext->thePeriod.localEndTime();
-
-    useAlkaenPhrase = periodEndTime.DifferenceInHours(windDirectionChangeTime) >= 5;
-
-    sentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE
-             << getTimePhrase(WeatherPeriod(windDirectionChangeTime, windDirectionChangeTime),
-                              useAlkaenPhrase)
-             << getWindDirectionTurntoString(windDirectionIdEnd);
-
-    previousWindDirectionId = windDirectionIdEnd;
-  }
-
-  return sentence;
-}
-
-std::vector<Sentence> WindForecast::windDirectionAndSpeedChangesSentence(
-    const wo_story_params& theParameters,
-    const WeatherPeriod& eventPeriod,
-    bool firstSentenceInTheStory,
-    WindEventId previousWindEventId,
-    WindEventId currentWindEventId,
-    WindDirectionId& previousWindDirectionId,
-    bool theWindSpeedChangeStarts,
-    bool theWindSpeedChangeEnds,
-    WeatherPeriod& windSpeedIntervalPeriodPreviousReported,
-    bool& appendDecreasingIncreasingInterval) const
-{
-  std::vector<Sentence> sentences;
-  Sentence sentence;
-
-  WindDirectionId windDirectionIdBeg(MISSING_WIND_DIRECTION_ID);
-  WindDirectionId windDirectionIdEnd(MISSING_WIND_DIRECTION_ID);
-  getWindDirectionBegEnd(eventPeriod, windDirectionIdBeg, windDirectionIdEnd);
-  WindDirectionId windDirectionIdAvg(get_wind_direction_id_at(theParameters, eventPeriod));
-
-  bool smallChange(false);
-  bool gradualChange(false);
-  bool fastChange(false);
-  std::string changeAttributeStr(EMPTY_STRING);
-  bool windSpeedChangeAttribute(getWindSpeedChangeAttribute(
-      eventPeriod, changeAttributeStr, smallChange, gradualChange, fastChange));
-
-  if (!windSpeedChangeAttribute)
-  {
-    sentences.push_back(sentence);
-    appendDecreasingIncreasingInterval = false;
-    return sentences;
-  }
-
-  bool useAlkaenPhrase(get_period_length(eventPeriod) >= 5);
-  bool strengtheningWind = (currentWindEventId & TUULI_VOIMISTUU);
-
-  WeatherPeriod eventStartPeriod(eventPeriod.localStartTime(), eventPeriod.localStartTime());
-
-  if (previousWindEventId & TUULI_VOIMISTUU ||
-      previousWindEventId & TUULI_HEIKKENEE)  // indicates that this is not first period
-  {
-    if (previousWindDirectionId == VAIHTELEVA)
-    {
-      if (theWindSpeedChangeStarts && !theWindSpeedChangeEnds)
-      {
-        sentence << (currentWindEventId == TUULI_HEIKKENEE
-                         ? ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
-                         : ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE)
-                 << getTimePhrase(eventPeriod, useAlkaenPhrase)
-                 << windDirectionSentence(windDirectionIdAvg, true)
-                 << (smallChange ? EMPTY_STRING : changeAttributeStr);
-
-        appendDecreasingIncreasingInterval = false;
-        previousWindDirectionId = windDirectionIdAvg;
-      }
-      else
-      {
-        if ((previousWindEventId & TUULI_HEIKKENEE && currentWindEventId & TUULI_HEIKKENEE) ||
-            (previousWindEventId & TUULI_VOIMISTUU && currentWindEventId & TUULI_VOIMISTUU))
-        {
-          sentence << ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA
-                   << getTimePhrase(eventPeriod, useAlkaenPhrase)
-                   << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-                   << windDirectionSentence(windDirectionIdAvg);
-
-          previousWindDirectionId = windDirectionIdAvg;
-        }
-        else
-        {
-          if (strengtheningWind)
-            sentence << ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE;
-          else
-            sentence << ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE;
-          sentence << getTimePhrase(eventPeriod, useAlkaenPhrase)
-                   << windDirectionSentence(windDirectionIdEnd, true) << changeAttributeStr;
-
-          previousWindDirectionId = windDirectionIdEnd;
-        }
-      }
-    }
-    else
-    {
-      if (previousWindDirectionId == windDirectionIdEnd)
-      {
-        if (previousWindEventId & TUULI_VOIMISTUU)
-        {
-          if (currentWindEventId & TUULI_VOIMISTUU)
-          {
-            sentence << ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_EDELLEEN
-                     << getTimePhrase(eventPeriod, useAlkaenPhrase) << TUULI_WORD;
-          }
-          else
-          {
-            if (theWindSpeedChangeStarts && !theWindSpeedChangeEnds)
-            {
-              sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
-                       << getTimePhrase(eventPeriod, useAlkaenPhrase) << TUULI_WORD
-                       << (smallChange ? EMPTY_STRING : changeAttributeStr);
-              appendDecreasingIncreasingInterval = false;
-            }
-            else
-            {
-              sentence << ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE
-                       << getTimePhrase(eventPeriod, useAlkaenPhrase) << TUULI_WORD
-                       << changeAttributeStr;
-            }
-          }
-        }
-        else
-        {
-          if (currentWindEventId & TUULI_HEIKKENEE)
-          {
-            sentence << ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_EDELLEEN
-                     << getTimePhrase(eventPeriod, useAlkaenPhrase) << TUULI_WORD;
-          }
-          else
-          {
-            if (theWindSpeedChangeStarts && !theWindSpeedChangeEnds)
-            {
-              sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE
-                       << getTimePhrase(eventPeriod, useAlkaenPhrase) << TUULI_WORD
-                       << (smallChange ? EMPTY_STRING : changeAttributeStr);
-              appendDecreasingIncreasingInterval = false;
-            }
-            else
-            {
-              sentence << ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE
-                       << getTimePhrase(eventPeriod, useAlkaenPhrase) << TUULI_WORD
-                       << changeAttributeStr;
-            }
-          }
-        }
-      }
-      else
-      {
-        if (previousWindEventId & TUULI_VOIMISTUU)
-        {
-          if (currentWindEventId & TUULI_VOIMISTUU)
-          {
-            sentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE
-                     << getTimePhrase(eventPeriod, useAlkaenPhrase)
-                     << getWindDirectionTurntoString(windDirectionIdEnd);
-          }
-          else
-          {
-            Sentence timePhraseAtWindDirectionChange;
-            /*
-TextGenPosixTime directionChangeTime =
-    get_wind_direction_change_time(theParameters, eventPeriod, true);
-            */
-
-            if (theWindSpeedChangeStarts && !theWindSpeedChangeEnds)
-            {
-              sentence
-                  << ILTAPAIVALLA_POHJOISTUULI_ALKAA_HEIKETA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE
-                  << getTimePhrase(eventPeriod, useAlkaenPhrase)
-                  << windDirectionSentence(windDirectionIdBeg, true)
-                  << getWindDirectionTurntoString(windDirectionIdEnd);
-              appendDecreasingIncreasingInterval = false;
-            }
-            else
-            {
-              bool speedDifferEnough = wind_speed_differ_enough(theParameters, eventPeriod);
-              if (!speedDifferEnough)
-                sentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_COMPOSITE_PHRASE
-                         << getTimePhrase(eventPeriod, useAlkaenPhrase)
-                         << getWindDirectionTurntoString(windDirectionIdEnd);
-              else
-                sentence << ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE
-                         << getTimePhrase(eventPeriod, useAlkaenPhrase)
-                         << windDirectionSentence(windDirectionIdBeg, true)
-                         << getWindDirectionTurntoString(windDirectionIdEnd);
-
-              appendDecreasingIncreasingInterval = speedDifferEnough;
-            }
-          }
-        }
-        else
-        {
-          if (currentWindEventId & TUULI_HEIKKENEE)
-          {
-            sentence << ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE
-                     << getTimePhrase(eventPeriod, useAlkaenPhrase)
-                     << getWindDirectionTurntoString(windDirectionIdEnd);
-          }
-          else
-          {
-            if (theWindSpeedChangeStarts && !theWindSpeedChangeEnds)
-            {
-              sentence << ILTAPAIVALLA_TUULI_ALKAA_VOIMISTUA_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE
-                       << getTimePhrase(eventPeriod, useAlkaenPhrase)
-                       << getWindDirectionTurntoString(windDirectionIdEnd);
-              appendDecreasingIncreasingInterval = false;
-            }
-            else
-            {
-              sentence << ILTAPAIVALLA_TUULI_VOIMISTUU_JA_KAANTYY_ETELAAN_COMPOSITE_PHRASE
-                       << getTimePhrase(eventPeriod, useAlkaenPhrase)
-                       << getWindDirectionTurntoString(windDirectionIdEnd);
-            }
-          }
-        }
-      }
-      previousWindDirectionId = windDirectionIdEnd;
-    }
-  }
-  else
-  {
-    Sentence timePhrase;
-    if (firstSentenceInTheStory)
-      timePhrase << EMPTY_STRING;
-    else
-      timePhrase << getTimePhrase(eventPeriod, useAlkaenPhrase);
-
-    TextGenPosixTime begTimePlus1(eventPeriod.localStartTime());
-    if (get_period_length(eventPeriod) > 0) begTimePlus1.ChangeByHours(1);
-    WindDirectionId windDirectionIdBegPlus1(get_wind_direction_id_at(theParameters, begTimePlus1));
-    WindDirectionId windDirectionIdAvgPlus1(get_wind_direction_id_at(
-        theParameters, WeatherPeriod(begTimePlus1, eventPeriod.localEndTime())));
-    if (firstSentenceInTheStory)
-    {
-      if (windDirectionIdBeg == VAIHTELEVA || windDirectionIdBeg == MISSING_WIND_DIRECTION_ID)
-      {
-        bool directionTurns =
-            windDirectionTurns(WeatherPeriod(begTimePlus1, eventPeriod.localEndTime()));
-        if (windDirectionIdBegPlus1 == windDirectionIdEnd || !directionTurns)
-        {
-          if (theWindSpeedChangeStarts && !theWindSpeedChangeEnds)
-          {
-            if (strengtheningWind)
-              sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE;
-            else
-            {
-              sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
-                       << timePhrase << windDirectionSentence(windDirectionIdAvgPlus1)
-                       << (smallChange ? EMPTY_STRING : changeAttributeStr);
-            }
-          }
-          else
-          {
-            if (strengtheningWind)
-            {
-              Sentence sentence1;
-              sentence1 << POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE
-                        << windDirectionSentence(windDirectionIdBegPlus1)
-                        << windSpeedIntervalSentence(WeatherPeriod(eventPeriod.localStartTime(),
-                                                                   eventPeriod.localStartTime()),
-                                                     DONT_USE_AT_ITS_STRONGEST_PHRASE);
-
-              TextGenPosixTime directionChangeTime =
-                  get_wind_direction_change_time(theParameters, eventPeriod, true);
-
-              WindDirectionId windDirectionIdAfterChange(
-                  get_wind_direction_id_at(theParameters, directionChangeTime));
-
-              useAlkaenPhrase =
-                  eventPeriod.localEndTime().DifferenceInHours(directionChangeTime) >= 5;
-
-              Sentence sentence2;
-              sentence2 << ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA
-                        << getTimePhrase(WeatherPeriod(directionChangeTime, directionChangeTime),
-                                         useAlkaenPhrase)
-                        << VOIMISTUVAA_WORD << windDirectionSentence(windDirectionIdAfterChange)
-                        << windSpeedIntervalSentence(
-                               WeatherPeriod(directionChangeTime, directionChangeTime),
-                               DONT_USE_AT_ITS_STRONGEST_PHRASE)
-                        << Delimiter(COMMA_PUNCTUATION_MARK)
-                        << getTimePhrase(WeatherPeriod(eventPeriod.localEndTime(),
-                                                       eventPeriod.localEndTime()),
-                                         DONT_USE_ALKAEN_PHRASE)
-                        << windSpeedIntervalSentence(WeatherPeriod(eventPeriod.localEndTime(),
-                                                                   eventPeriod.localEndTime()),
-                                                     USE_AT_ITS_STRONGEST_PHRASE);
-
-              // TODO: ReportingPoints
-
-              appendDecreasingIncreasingInterval = false;
-
-              sentences.push_back(sentence1);
-              sentences.push_back(sentence2);
-
-              /*
-                                sentence <<
-                 ILTAPAIVALLA_ETELATUULI_VOIMISTUU_NOPEASTI_COMPOSITE_PHRASE << timePhrase
-                                << windDirectionSentence(windDirectionIdAvgPlus1, true)
-                                << changeAttributeStr;
-               */
-            }
-            else
-            {
-              sentence << ILTAPAIVALLA_ETELATUULI_HEIKKENEE_NOPEASTI_COMPOSITE_PHRASE << timePhrase
-                       << windDirectionSentence(windDirectionIdAvgPlus1, true)
-                       << changeAttributeStr;
-            }
-          }
-          previousWindDirectionId = windDirectionIdAvgPlus1;
-        }
-        else
-        {
-          if (theWindSpeedChangeStarts && !theWindSpeedChangeEnds)
-          {
-            if (strengtheningWind)
-              sentence
-                  << ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE;
-            else
-              sentence
-                  << ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE;
-
-            sentence << timePhrase << windDirectionSentence(windDirectionIdBegPlus1)
-                     << windSpeedIntervalSentence(WeatherPeriod(eventPeriod.localStartTime(),
-                                                                eventPeriod.localStartTime()),
-                                                  DONT_USE_AT_ITS_STRONGEST_PHRASE)
-                     << (smallChange ? EMPTY_STRING : changeAttributeStr) << EMPTY_STRING
-                     << getWindDirectionTurntoString(windDirectionIdEnd);
-            windSpeedIntervalPeriodPreviousReported =
-                WeatherPeriod(eventPeriod.localStartTime(), eventPeriod.localStartTime());
-            appendDecreasingIncreasingInterval = false;
-          }
-          else
-          {
-            sentence
-                << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_POHJOISEEN_COMPOSITE_PHRASE
-                << timePhrase << changeAttributeStr
-                << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-                << windDirectionSentence(windDirectionIdBegPlus1)
-                << getWindDirectionTurntoString(windDirectionIdEnd);
-          }
-          previousWindDirectionId = windDirectionIdEnd;
-        }
-      }
-      else
-      {
-        bool directionTurns = windDirectionTurns(eventPeriod);
-        if (directionTurns)
-        {
-          Sentence timePhraseAtWindDirectionChange;
-          TextGenPosixTime directionChangeTime =
-              get_wind_direction_change_time(theParameters, eventPeriod, true);
-
-          if (get_part_of_the_day_id(directionChangeTime) ==
-              get_part_of_the_day_id(eventPeriod.localStartTime()))
-          {
-            timePhraseAtWindDirectionChange << EMPTY_STRING;
-          }
-          else
-          {
-            timePhraseAtWindDirectionChange
-                << getTimePhrase(WeatherPeriod(directionChangeTime, directionChangeTime), false);
-          }
-
-          if (theWindSpeedChangeStarts && !theWindSpeedChangeEnds)
-          {
-            if (strengtheningWind)
-              sentence
-                  << ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE;
-            else
-              sentence
-                  << ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE;
-
-            sentence << timePhrase << windDirectionSentence(windDirectionIdBeg)
-                     << windSpeedIntervalSentence(WeatherPeriod(eventPeriod.localStartTime(),
-                                                                eventPeriod.localStartTime()),
-                                                  DONT_USE_AT_ITS_STRONGEST_PHRASE)
-                     << (smallChange ? EMPTY_STRING : changeAttributeStr)
-                     << timePhraseAtWindDirectionChange
-                     << getWindDirectionTurntoString(windDirectionIdEnd);
-            windSpeedIntervalPeriodPreviousReported =
-                WeatherPeriod(eventPeriod.localStartTime(), eventPeriod.localStartTime());
-            appendDecreasingIncreasingInterval = false;
-          }
-          else
-          {
-            sentence
-                << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE
-                << timePhrase << changeAttributeStr
-                << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-                << windDirectionSentence(windDirectionIdBeg) << timePhraseAtWindDirectionChange
-                << getWindDirectionTurntoString(windDirectionIdEnd);
-          }
-          previousWindDirectionId = windDirectionIdEnd;
-        }
-        else
-        {
-          if (theWindSpeedChangeStarts && !theWindSpeedChangeEnds)
-          {
-            if (strengtheningWind)
-              sentence << POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE;
-            else
-              sentence << POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_COMPOSITE_PHRASE;
-
-            sentence << windDirectionSentence(windDirectionIdAvg)
-                     << windSpeedIntervalSentence(eventStartPeriod,
-                                                  DONT_USE_AT_ITS_STRONGEST_PHRASE);
-            windSpeedIntervalPeriodPreviousReported = eventStartPeriod;
-            appendDecreasingIncreasingInterval = false;
-          }
-          else
-          {
-            sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE << timePhrase
-                     << changeAttributeStr
-                     << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-                     << windDirectionSentence(windDirectionIdAvg);
-          }
-          previousWindDirectionId = windDirectionIdAvg;
-        }
-      }
-    }
-    else  // not first sentence
-    {
-      if (previousWindEventId & TUULI_MUUTTUU_VAIHTELEVAKSI ||
-          previousWindDirectionId == VAIHTELEVA)
-      {
-        // direction doesn't turn if turn is puolienen -> suuntainen
-        bool directionTurns =
-            windDirectionTurns(WeatherPeriod(begTimePlus1, eventPeriod.localEndTime()));
-        if (windDirectionIdBegPlus1 == windDirectionIdEnd || !directionTurns)
-        {
-          if (theWindSpeedChangeStarts && !theWindSpeedChangeEnds)
-          {
-            if (strengtheningWind)
-              sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_VOIMISTUA_NOPEASTI_COMPOSITE_PHRASE
-                       << timePhrase << windDirectionSentence(windDirectionIdAvgPlus1)
-                       << (smallChange ? EMPTY_STRING : changeAttributeStr);
-            else
-            {
-              sentence << ILTAPAIVALLA_ETELATUULI_ALKAA_HEIKETA_NOPEASTI_COMPOSITE_PHRASE
-                       << timePhrase << windDirectionSentence(windDirectionIdAvgPlus1)
-                       << (smallChange ? EMPTY_STRING : changeAttributeStr);
-            }
-          }
-          else
-          {
-            sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE << timePhrase
-                     << changeAttributeStr
-                     << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-                     << windDirectionSentence(windDirectionIdAvgPlus1);
-          }
-          previousWindDirectionId = windDirectionIdAvgPlus1;
-        }
-        else
-        {
-          Sentence timePhraseAtWindDirectionChange;
-          TextGenPosixTime directionChangeTime =
-              get_wind_direction_change_time(theParameters, eventPeriod, true);
-
-          if (get_part_of_the_day_id(directionChangeTime) ==
-              get_part_of_the_day_id(eventPeriod.localStartTime()))
-          {
-            timePhraseAtWindDirectionChange << EMPTY_STRING;
-          }
-          else
-          {
-            timePhraseAtWindDirectionChange
-                << getTimePhrase(WeatherPeriod(directionChangeTime, directionChangeTime), false);
-          }
-
-          if (theWindSpeedChangeStarts && !theWindSpeedChangeEnds)
-          {
-            if (strengtheningWind)
-              sentence
-                  << ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE;
-            else
-              sentence
-                  << ILTAPAIVALLA_POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_HEIKETA_NOPEASTI_JA_KAANTYY_ILLALLA_ETELAAN_COMPOSITE_PHRASE;
-
-            sentence << timePhrase << windDirectionSentence(windDirectionIdBegPlus1)
-                     << windSpeedIntervalSentence(WeatherPeriod(eventPeriod.localStartTime(),
-                                                                eventPeriod.localStartTime()),
-                                                  DONT_USE_AT_ITS_STRONGEST_PHRASE)
-                     << (smallChange ? EMPTY_STRING : changeAttributeStr)
-                     << timePhraseAtWindDirectionChange
-                     << getWindDirectionTurntoString(windDirectionIdEnd);
-            windSpeedIntervalPeriodPreviousReported =
-                WeatherPeriod(eventPeriod.localStartTime(), eventPeriod.localStartTime());
-            appendDecreasingIncreasingInterval = false;
-          }
-          else
-          {
-            sentence
-                << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE
-                << timePhrase << changeAttributeStr
-                << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-                << windDirectionSentence(windDirectionIdBegPlus1) << timePhraseAtWindDirectionChange
-                << getWindDirectionTurntoString(windDirectionIdEnd);
-          }
-          previousWindDirectionId = windDirectionIdEnd;
-        }
-      }
-      else
-      {
-        bool directionTurns = windDirectionTurns(eventPeriod);
-        if (directionTurns)
-        {
-          Sentence timePhraseAtWindDirectionChange;
-          TextGenPosixTime directionChangeTime =
-              get_wind_direction_change_time(theParameters, eventPeriod, true);
-
-          if (get_part_of_the_day_id(directionChangeTime) ==
-              get_part_of_the_day_id(eventPeriod.localStartTime()))
-          {
-            timePhraseAtWindDirectionChange << EMPTY_STRING;
-          }
-          else
-          {
-            timePhraseAtWindDirectionChange
-                << getTimePhrase(WeatherPeriod(directionChangeTime, directionChangeTime), false);
-          }
-
-          sentence
-              << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_JOKA_KAANTYY_ILLALLA_POHJOISEEN_COMPOSITE_PHRASE
-              << timePhrase << changeAttributeStr
-              << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-              << windDirectionSentence(windDirectionIdBeg);
-          if (get_part_of_the_day_id(directionChangeTime) ==
-              get_part_of_the_day_id(eventPeriod.localStartTime()))
-            sentence << EMPTY_STRING << getWindDirectionTurntoString(windDirectionIdEnd);
-          else
-            sentence << timePhraseAtWindDirectionChange
-                     << getWindDirectionTurntoString(windDirectionIdEnd);
-          previousWindDirectionId = windDirectionIdEnd;
-        }
-        else
-        {
-          sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE << timePhrase
-                   << changeAttributeStr
-                   << (strengtheningWind ? VOIMISTUVAA_WORD : HEIKKENEVAA_WORD)
-                   << windDirectionSentence(windDirectionIdAvg);
-          previousWindDirectionId = windDirectionIdAvg;
-        }
-      }
-    }
-  }
-
-  if (sentences.empty()) sentences.push_back(sentence);
-
-  return sentences;
-}
-
-void WindForecast::logWindSpeedPeriod(const WeatherPeriod& period,
-                                      const Sentence& intervalSentence) const
-{
-  theParameters.theLog << "windspeed reporting period: ";
-  theParameters.theLog << period;
-  theParameters.theLog << ": ";
-  theParameters.theLog << intervalSentence;
-}
-
-// nextItemWithMissingEvent is set only when there is no change on next period (MISSING_WIND_EVENT)
-Sentence WindForecast::decreasingIncreasingInterval(
-    const WindEventPeriodDataItem& eventPeriodDataItem,
-    WindEventPeriodDataItem* nextItemWithMissingEvent,
-    bool firstSentenceInTheStory,
-    WindEventId eventId) const
-{
-  Sentence sentence;
-
-  WeatherPeriod speedEventPeriod(eventPeriodDataItem.theWindSpeedChangePeriod);
-  WeatherPeriod periodBeg(speedEventPeriod.localStartTime(), speedEventPeriod.localStartTime());
-  WeatherPeriod periodEnd(speedEventPeriod.localEndTime(), speedEventPeriod.localEndTime());
-
-  if (speedEventPeriod.localEndTime().GetHour() == 18 ||
-      speedEventPeriod.localEndTime().GetHour() == 17 ||
-      speedEventPeriod.localEndTime().GetHour() == 6)
-  {
-    TextGenPosixTime endPeriodStartTime(speedEventPeriod.localEndTime());
-    endPeriodStartTime.ChangeByHours(-3);
-    periodEnd = WeatherPeriod(endPeriodStartTime, speedEventPeriod.localEndTime());
-  }
-
-  TextGenPosixTime phrasePeriodEndTimestamp(speedEventPeriod.localEndTime());
-
-  bool useTimePhrase = true;
-
-  bool windIsDecreasing = (eventId & TUULI_HEIKKENEE);
-
-#ifdef TODO
-  // lieneekˆ tarpeen
-  if (!wind_speed_differ_enough(theParameters, speedEventPeriod))
-  {
-    if (useTimePhrase && !firstSentenceInTheStory)
-    {
-      if (thePreviousPartOfTheDay ==
-          get_adjusted_part_of_the_day_id(speedEventPeriod, theParameters.theAlkaenPhraseUsed))
-      {
-        sentence << windSpeedIntervalSentence(periodEnd,
-                                              USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
-      }
-      else
-      {
-        sentence << Delimiter(COMMA_PUNCTUATION_MARK)
-                 << getTimePhrase(periodEnd, eventPeriodDataItem.theLongTermSpeedChangeFlag)
-                 << windSpeedIntervalSentence(periodEnd,
-                                              USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
-      }
-      logWindSpeedPeriod(
-          periodEnd,
-          windSpeedIntervalSentence(periodEnd, USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing));
-    }
-    else
-    {
-      if (firstSentenceInTheStory)
-      {
-        sentence << windSpeedIntervalSentence(speedEventPeriod,
-                                              USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
-        logWindSpeedPeriod(speedEventPeriod,
-                           windSpeedIntervalSentence(
-                               speedEventPeriod, USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing));
-      }
-      else
-      {
-        sentence << windSpeedIntervalSentence(periodEnd,
-                                              USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
-
-        logWindSpeedPeriod(
-            periodEnd,
-            windSpeedIntervalSentence(periodEnd, USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing));
-      }
-    }
-    return sentence;
-  }
-#endif
-
-  if (get_period_length(speedEventPeriod) <= 2)
-  {
-    WeatherPeriod intervalPeriod = WeatherPeriod(
-        speedEventPeriod.localEndTime(),
-        (nextItemWithMissingEvent != NULL ? nextItemWithMissingEvent->thePeriod.localEndTime()
-                                          : speedEventPeriod.localEndTime()));
-
-    sentence << windSpeedIntervalSentence(intervalPeriod,
-                                          USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
-    return sentence;
-  }
-
-  vector<WeatherPeriod> speedChangePeriods =
-      getWindSpeedReportingPoints(eventPeriodDataItem, firstSentenceInTheStory, eventId);
-
-  if (speedChangePeriods.size() <= 1)
-  {
-    WeatherPeriod intervalPeriod = WeatherPeriod(
-        speedEventPeriod.localEndTime(),
-        (nextItemWithMissingEvent != NULL ? nextItemWithMissingEvent->thePeriod.localEndTime()
-                                          : speedEventPeriod.localEndTime()));
-
-    if (firstSentenceInTheStory)
-    {
-      sentence << Delimiter(COMMA_PUNCTUATION_MARK) << ALUKSI_WORD
-               << windSpeedIntervalSentence(periodBeg, DONT_USE_AT_ITS_STRONGEST_PHRASE);
-
-      sentence << Delimiter(COMMA_PUNCTUATION_MARK)
-               << getTimePhrase(periodEnd, eventPeriodDataItem.theLongTermSpeedChangeFlag)
-               << windSpeedIntervalSentence(intervalPeriod,
-                                            USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
-
-      logWindSpeedPeriod(periodBeg,
-                         windSpeedIntervalSentence(periodBeg, DONT_USE_AT_ITS_STRONGEST_PHRASE));
-      logWindSpeedPeriod(periodBeg,
-                         windSpeedIntervalSentence(
-                             intervalPeriod, USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing));
-    }
-    else
-    {
-      std::string dayPhasePhraseWholePeriod;
-      std::string dayPhasePhrasePeriodEnd;
-      get_time_phrase_large(
-          speedEventPeriod, false, theParameters.theVar, dayPhasePhraseWholePeriod, false);
-
-      get_time_phrase_large(periodEnd, false, theParameters.theVar, dayPhasePhrasePeriodEnd, false);
-
-      if (dayPhasePhraseWholePeriod == dayPhasePhrasePeriodEnd &&
-          get_adjusted_part_of_the_day_id(speedEventPeriod) ==
-              get_part_of_the_day_id_narrow(periodEnd))
-      {
-        sentence << windSpeedIntervalSentence(intervalPeriod,
-                                              USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
-
-        logWindSpeedPeriod(periodEnd, sentence);
-      }
-      else
-      {
-        sentence << Delimiter(COMMA_PUNCTUATION_MARK)
-                 << getTimePhrase(periodEnd, eventPeriodDataItem.theLongTermSpeedChangeFlag)
-                 << windSpeedIntervalSentence(intervalPeriod,
-                                              USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
-
-        logWindSpeedPeriod(periodEnd,
-                           windSpeedIntervalSentence(
-                               intervalPeriod, USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing));
-      }
-    }
-  }
-  else
-  {
-    if (firstSentenceInTheStory)
-    {
-      // first sentence in the story -> report wind speed in the beginning of whole period
-      sentence << Delimiter(COMMA_PUNCTUATION_MARK) << ALUKSI_WORD
-               << windSpeedIntervalSentence(periodBeg,
-                                            USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
-
-      useTimePhrase = true;
-      logWindSpeedPeriod(
-          periodBeg,
-          windSpeedIntervalSentence(periodBeg, USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing));
-    }
-
-    if (!useTimePhrase) useTimePhrase = speedChangePeriods.size() > 2;
-
-    for (unsigned int i = 0; i < speedChangePeriods.size(); i++)
-    {
-      Sentence intervalSentence;
-      bool lastPeriod(i == speedChangePeriods.size() - 1);
-
-      if (!lastPeriod)
-      {
-        // here we check that we have different wind speed intervals in successive periods
-        // so that we dont end up for example to phrase
-        // aamup‰iv‰ll‰ 13-18 m/s, iltap‰iv‰ll‰ 13-18 m/s, ylimmill‰‰n 23 m/s.
-        WeatherPeriod currentPeriodEnd(speedChangePeriods[i].localEndTime(),
-                                       speedChangePeriods[i].localEndTime());
-        WeatherPeriod nextPeriodEnd(speedChangePeriods[i + 1].localEndTime(),
-                                    speedChangePeriods[i + 1].localEndTime());
-        part_of_the_day_id currentDayPart(get_part_of_the_day_id_narrow(currentPeriodEnd));
-        part_of_the_day_id nextDayPart(get_part_of_the_day_id_narrow(nextPeriodEnd));
-
-        if (nextPeriodEnd.localEndTime().GetHour() == 18 ||
-            nextPeriodEnd.localEndTime().GetHour() == 17 ||
-            nextPeriodEnd.localEndTime().GetHour() == 6)
-        {
-          TextGenPosixTime endPeriodStartTime(speedEventPeriod.localEndTime());
-          endPeriodStartTime.ChangeByHours(-3);
-          nextPeriodEnd = WeatherPeriod(endPeriodStartTime, endPeriodStartTime);
-        }
-
-        // wind speed is mentioned only once per day part, for example we don't say
-        // iltap‰iv‰ll‰ 10...13 m/s, iltap‰iv‰ll‰ 15...18
-        if (currentDayPart == nextDayPart) continue;
-
-        float lowerLimit1(kFloatMissing), lowerLimit2(kFloatMissing), upperLimit1(kFloatMissing),
-            upperLimit2(kFloatMissing);
-
-        get_wind_speed_interval(currentPeriodEnd, theParameters, lowerLimit1, upperLimit1);
-
-        get_wind_speed_interval(nextPeriodEnd, theParameters, lowerLimit2, upperLimit2);
-
-        lowerLimit1 = round(lowerLimit1);
-        upperLimit1 = round(upperLimit1);
-        lowerLimit2 = round(lowerLimit2);
-        upperLimit2 = round(upperLimit2);
-
-        if (abs(lowerLimit2 - lowerLimit1) <= 1.0) continue;
-      }
-
-      WeatherPeriod intervalPeriod(speedChangePeriods[i].localStartTime(),
-                                   lastPeriod && nextItemWithMissingEvent != NULL
-                                       ? nextItemWithMissingEvent->thePeriod.localEndTime()
-                                       : speedChangePeriods[i].localEndTime());
-
-      intervalSentence << windSpeedIntervalSentence(
-          intervalPeriod, lastPeriod && USE_AT_ITS_STRONGEST_PHRASE && !windIsDecreasing);
-
-      if (!intervalSentence.empty())
-      {
-        if (useTimePhrase)
-        {
-          if (!lastPeriod)
-          {
-            TextGenPosixTime currentTimestamp(speedChangePeriods[i].localStartTime());
-            TextGenPosixTime nextTimestamp(speedChangePeriods[i + 1].localStartTime());
-            if (get_part_of_the_day_id(currentTimestamp) == get_part_of_the_day_id(nextTimestamp))
-              continue;
-          }
-
-          sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-
-          TextGenPosixTime phrasePeriodEndTimestamp(intervalPeriod.localStartTime());
-
-          WeatherPeriod phrasePeriod(phrasePeriodEndTimestamp, phrasePeriodEndTimestamp);
-
-          if (lastPeriod)
-          {
-            Sentence timePhrase;
-            if (get_adjusted_part_of_the_day_id(phrasePeriod) != MISSING_PART_OF_THE_DAY_ID)
-              timePhrase << getTimePhrase(phrasePeriod,
-                                          eventPeriodDataItem.theLongTermSpeedChangeFlag);
-            if (timePhrase.empty()) timePhrase << getTimePhrase(phrasePeriod, USE_ALKAEN_PHRASE);
-            sentence << timePhrase << intervalSentence;
-          }
-          else
-          {
-            sentence << getTimePhrase(phrasePeriod, DONT_USE_ALKAEN_PHRASE) << intervalSentence;
-          }
-        }
-        else
-        {
-          sentence << intervalSentence;
-        }
-      }
-    }  // for(unsigned int i = 1; i < speedChangePeriods.size(); i++)
-  }
-
-  return sentence;
-}
-
-bool WindForecast::samePartOfTheDay(const TextGenPosixTime& time1,
-                                    const TextGenPosixTime& time2) const
-{
-  TextGenPosixTime iterTime(time1);
-
-  while (iterTime < time2 && get_part_of_the_day_id(iterTime) == get_part_of_the_day_id(time2))
-  {
-    iterTime.ChangeByHours(1);
-  }
-
-  return (iterTime == time2);
-}
-
-void WindForecast::getPeriodStartAndEndIndex(const WeatherPeriod& period,
-                                             unsigned int& begIndex,
-                                             unsigned int& endIndex) const
-{
-  for (unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
-  {
-    const WindDataItemUnit& windDataItem =
-        (*theParameters.theWindDataVector[i])(theParameters.theArea.type());
-
-    if (period.localStartTime() == windDataItem.thePeriod.localStartTime())
-    {
-      begIndex = i;
-      endIndex = i;
-    }
-    else if (period.localEndTime() == windDataItem.thePeriod.localEndTime())
-    {
-      endIndex = i;
-      break;
-    }
-  }
 }
 
 Sentence WindForecast::getTimePhrase(const TextGenPosixTime& theTime, bool useAlkaenPhrase) const
@@ -2604,8 +1942,32 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod, bool useAlk
 
   std::string dayPhasePhrase;
 
-  theParameters.theAlkaenPhraseUsed = (wind_forecast_period_length(thePeriod) >= 6 &&
-                                       useAlkaenPhrase && !fit_into_narrow_day_part(thePeriod));
+  theParameters.theAlkaenPhraseUsed = (get_period_length(thePeriod) >= 6 && useAlkaenPhrase &&
+                                       !fit_into_narrow_day_part(thePeriod));
+
+#ifdef LATER
+  part_of_the_day_id newPartOfTheDay = MISSING_PART_OF_THE_DAY_ID;
+
+  if (theParameters.theAlkaenPhraseUsed)
+  {
+    newPartOfTheDay = get_part_of_the_day_id(thePeriod.localStartTime());
+  }
+  else
+  {
+    newPartOfTheDay = get_adjusted_part_of_the_day_id(thePeriod, theParameters.theAlkaenPhraseUsed);
+  }
+
+  if (specifyDay)
+  {
+    thePreviousDayNumber = thePeriod.localStartTime().GetWeekday();
+    sentence << thePreviousDayNumber << "-";
+  }
+
+  sentence << get_time_phrase_from_id(
+      newPartOfTheDay, theParameters.theVar, theParameters.theAlkaenPhraseUsed);
+
+  thePreviousPartOfTheDay = newPartOfTheDay;
+#endif
 
   // try to prevent tautology, like "iltap‰iv‰ll‰"... "iltap‰iv‰st‰ alkaen"
   if (thePreviousPartOfTheDay ==
@@ -2616,7 +1978,7 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod, bool useAlk
     startTime.ChangeByHours(2);
     WeatherPeriod shortenedPeriod(startTime, thePeriod.localEndTime());
     theParameters.theAlkaenPhraseUsed =
-        (wind_forecast_period_length(shortenedPeriod) >= 6 && useAlkaenPhrase &&
+        (get_period_length(shortenedPeriod) >= 6 && useAlkaenPhrase &&
          !fit_into_narrow_day_part(shortenedPeriod));
     sentence << get_time_phrase_large(
         shortenedPeriod, specifyDay, theParameters.theVar, dayPhasePhrase, useAlkaenPhrase);
@@ -2650,6 +2012,7 @@ vector<WeatherPeriod> WindForecast::getWindSpeedReportingPoints(
   vector<WeatherPeriod> retVector;
 
   WeatherPeriod speedEventPeriod(eventPeriodDataItem.theWindSpeedChangePeriod);
+
   // find the point of time when max wind has changed theParameters.theWindSpeedThreshold from
   // the previous take the period from there to the end of the speedEventPeriod
   unsigned int begIndex = 0;
@@ -2668,28 +2031,46 @@ vector<WeatherPeriod> WindForecast::getWindSpeedReportingPoints(
   if (begIndex < theParameters.theWindDataVector.size())
   {
     vector<unsigned int> reportingIndexes;
-    float previousThresholdTopWind(kFloatMissing);
+    float previousReportingPointTopWind(kFloatMissing);
+    TextGenPosixTime previousReportTime;
     for (unsigned int i = begIndex; i < theParameters.theWindDataVector.size(); i++)
     {
       const WindDataItemUnit& windDataItem =
           (*theParameters.theWindDataVector[i])(theParameters.theArea.type());
-      if (!is_inside(windDataItem.thePeriod.localStartTime(), speedEventPeriod)) break;
+      if (!is_inside(windDataItem.thePeriod.localStartTime(), speedEventPeriod))
+      {
+        // we must have at least one reporting point and for the first sentence two reporting points
+        if ((firstSentenceInTheStory && reportingIndexes.size() == 1) ||
+            reportingIndexes.size() == 0)
+        {
+          const WindDataItemUnit& previousWindDataItem =
+              (*theParameters.theWindDataVector[i - 1])(theParameters.theArea.type());
+          reportingIndexes.push_back(i - 1);
+          previousReportingPointTopWind = previousWindDataItem.theEqualizedTopWind.value();
+          previousReportTime = previousWindDataItem.thePeriod.localStartTime();
+        }
+        break;
+      }
 
       if (i == begIndex)
       {
         // speed at the beginning of the period is reported
-        // reportingIndexes.push_back(i);
-        previousThresholdTopWind = windDataItem.theEqualizedTopWind.value();
+        if (firstSentenceInTheStory) reportingIndexes.push_back(i);
+        previousReportingPointTopWind = windDataItem.theEqualizedTopWind.value();
+        previousReportTime = windDataItem.thePeriod.localStartTime();
       }
-      else if (abs(windDataItem.theEqualizedTopWind.value() - previousThresholdTopWind) > 4.0 &&
-               ((round(previousThresholdTopWind) > WEAK_WIND_SPEED_UPPER_LIMIT &&
-                 (eventId & TUULI_HEIKKENEE)) ||
-                (round(windDataItem.theEqualizedTopWind.value()) > WEAK_WIND_SPEED_UPPER_LIMIT &&
-                 (eventId & TUULI_VOIMISTUU))))
+      else
       {
-        // speed is reported when it has changed 4.0 from the previous reporting point
-        reportingIndexes.push_back(i);
-        previousThresholdTopWind = windDataItem.theEqualizedTopWind.value();
+        // add reporting point when speed has changed enough
+        WeatherPeriod p(previousReportTime, windDataItem.thePeriod.localStartTime());
+        if (previousReportingPointTopWind > WEAK_WIND_SPEED_UPPER_LIMIT &&
+            windDataItem.theEqualizedTopWind.value() > WEAK_WIND_SPEED_UPPER_LIMIT &&
+            wind_speed_differ_enough(theParameters, p))
+        {
+          reportingIndexes.push_back(i);
+          previousReportingPointTopWind = windDataItem.theEqualizedTopWind.value();
+          previousReportTime = windDataItem.thePeriod.localStartTime();
+        }
       }
       endIndex = i;
     }
@@ -2728,6 +2109,7 @@ vector<WeatherPeriod> WindForecast::getWindSpeedReportingPoints(
         if (endTime.GetHour() == 18 || endTime.GetHour() == 17 || endTime.GetHour() == 6)
           startTime.ChangeByHours(-3);
         WeatherPeriod lastReportingPeriod(startTime, endTime);
+
         retVector.push_back(lastReportingPeriod);
       }
     }
@@ -2809,7 +2191,7 @@ bool WindForecast::getWindSpeedChangeAttribute(const WeatherPeriod& changePeriod
   endUpperLimit = round(endUpperLimit);
 
   float changeThreshold(5.0);
-  int periodLength(wind_forecast_period_length(changePeriod));
+  int periodLength(get_period_length(changePeriod));
 
   phraseStr = EMPTY_STRING;
 
@@ -2820,7 +2202,7 @@ bool WindForecast::getWindSpeedChangeAttribute(const WeatherPeriod& changePeriod
   }
   else if (abs(endUpperLimit - begUpperLimit) >= changeThreshold)
   {
-    if (periodLength <= 6)
+    if (periodLength <= 6 && endUpperLimit >= NAVAKKA_UPPER_LIMIT)
     {
       phraseStr = NOPEASTI_WORD;
       fastChange = true;
@@ -2850,112 +2232,39 @@ Sentence WindForecast::speedRangeSentence(const WeatherPeriod& thePeriod,
 
   get_wind_speed_interval(thePeriod, theParameters, intervalLowerLimit, intervalUpperLimit);
 
-  intervalLowerLimit = round(intervalLowerLimit);
-  intervalUpperLimit = round(intervalUpperLimit);
+  int lowerLimit = round(intervalLowerLimit);
+  int upperLimit = round(intervalUpperLimit);
 
-  int actualIntervalSize(intervalUpperLimit - intervalLowerLimit);
   int peakWind(intervalUpperLimit);
 
-  if (actualIntervalSize < theParameters.theMinIntervalSize)
-  {
-    // Mikael Frisk 07.03.2013: pelkk‰ 5 m/s on kˆkkˆ => n‰ytet‰‰n minimi-intervalli
-    /*
-      sentence << intervalLowerLimit
-      << *UnitFactory::create(MetersPerSecond);
-    */
+  compose_wind_speed_range(theParameters, lowerLimit, upperLimit, peakWind);
 
-    intervalUpperLimit = intervalLowerLimit + theParameters.theMinIntervalSize;
-    actualIntervalSize = intervalUpperLimit - intervalLowerLimit;
-  }
-
-  if (actualIntervalSize > theParameters.theMaxIntervalSize)
-  {
-    // if size of the interval is one more than allowed, we increase lower limit by 1
-    // else we use 'kovimmillaan'-phrase
-    if (actualIntervalSize == theParameters.theMaxIntervalSize + 1)
-    {
-      intervalLowerLimit++;
-    }
-    else
-    {
-      intervalUpperLimit = intervalLowerLimit + theParameters.theMaxIntervalSize;
-    }
-  }
-
-  // if interval upper limit is 2, we set lower limit to zero
-  if (intervalUpperLimit == 2) intervalLowerLimit = 0;
-
-  if (peakWind > intervalUpperLimit)
-  {
-    if (theUseAtItsStrongestPhrase)
-    {
-      sentence << IntegerRange(
-                      intervalLowerLimit, intervalUpperLimit, theParameters.theRangeSeparator)
-               << *UnitFactory::create(MetersPerSecond);
-      sentence << Delimiter(COMMA_PUNCTUATION_MARK) << KOVIMMILLAAN_PHRASE << peakWind
-               << *UnitFactory::create(MetersPerSecond);
-    }
-    else
-    {
-      sentence << IntegerRange(peakWind - theParameters.theMaxIntervalSize,
-                               peakWind,
-                               theParameters.theRangeSeparator)
-               << *UnitFactory::create(MetersPerSecond);
-    }
-  }
-  else
-  {
-    sentence << IntegerRange(
-                    intervalLowerLimit, intervalUpperLimit, theParameters.theRangeSeparator)
-             << *UnitFactory::create(MetersPerSecond);
-  }
-
-  return sentence;
+  return compose_wind_speed_sentence(
+      theParameters, lowerLimit, upperLimit, peakWind, theUseAtItsStrongestPhrase);
 }
 
-// return upper and lower limit for the interval
-bool WindForecast::getSpeedIntervalLimits(const WeatherPeriod& thePeriod,
-                                          WeatherResult& lowerLimit,
-                                          WeatherResult& upperLimit) const
+Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& thePeriodLowerLimit,
+                                                 const WeatherPeriod& thePeriodUpperLimit,
+                                                 bool theUseAtItsStrongestPhrase /* = true*/) const
 {
-  WindDataItemUnit dataItem((*theParameters.theWindDataVector[0])(theParameters.theArea.type()));
-  WindDataItemUnit dataItemMinTop(
-      (*theParameters.theWindDataVector[0])(theParameters.theArea.type()));
+  float intervalLowerLimit(-kFloatMissing);
+  float intervalUpperLimit(kFloatMissing);
 
-  bool firstRound(true);
+  // get upper limit
+  get_wind_speed_interval(
+      thePeriodUpperLimit, theParameters, intervalLowerLimit, intervalUpperLimit);
+  int upperLimit = round(intervalUpperLimit);
+  int peakWind = upperLimit;
 
-  for (unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
-  {
-    dataItem = (*theParameters.theWindDataVector[i])(theParameters.theArea.type());
+  // get lower limit
+  get_wind_speed_interval(
+      thePeriodLowerLimit, theParameters, intervalLowerLimit, intervalUpperLimit);
+  int lowerLimit = round(intervalLowerLimit);
 
-    if (is_inside(dataItem.thePeriod.localStartTime(), thePeriod))
-    {
-      if (firstRound)
-      {
-        dataItemMinTop.theEqualizedTopWind = dataItem.theEqualizedTopWind;
-        dataItemMinTop.theEqualizedMedianWind = dataItem.theEqualizedMedianWind;
-        firstRound = false;
-        continue;
-      }
+  compose_wind_speed_range(theParameters, lowerLimit, upperLimit, peakWind);
 
-      if (dataItem.theEqualizedTopWind.value() > dataItemMinTop.theEqualizedTopWind.value())
-      {
-        dataItemMinTop.theEqualizedTopWind = dataItem.theEqualizedTopWind;
-      }
-      if (dataItem.theEqualizedMedianWind.value() < dataItemMinTop.theEqualizedMedianWind.value())
-      {
-        dataItemMinTop.theEqualizedMedianWind = dataItem.theEqualizedMedianWind;
-      }
-    }
-  }
-
-  // no data found for thePeriod
-  if (firstRound) return false;
-
-  lowerLimit = dataItemMinTop.theEqualizedMedianWind;
-  upperLimit = dataItemMinTop.theEqualizedTopWind;
-
-  return true;
+  return compose_wind_speed_sentence(
+      theParameters, lowerLimit, upperLimit, peakWind, theUseAtItsStrongestPhrase);
 }
 
 Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
@@ -2969,247 +2278,6 @@ Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
   sentence << speedRangeSentence(
       thePeriod, upperLimit, lowerLimit, theParameters.theVar, theUseAtItsStrongestPhrase);
   return sentence;
-}
-
-Sentence WindForecast::windDirectionSentence(WindDirectionId theWindDirectionId,
-                                             bool theBasicForm /*=  false */) const
-{
-  Sentence sentence;
-
-  switch (theWindDirectionId)
-  {
-    case POHJOINEN:
-      sentence << (theBasicForm ? POHJOINEN_TUULI : POHJOINEN_TUULI_P);
-      break;
-    case POHJOISEN_PUOLEINEN:
-      sentence << (theBasicForm ? POHJOISEN_PUOLEINEN_TUULI : POHJOISEN_PUOLEINEN_TUULI_P);
-      break;
-    case POHJOINEN_KOILLINEN:
-      sentence << (theBasicForm ? POHJOINEN_KOILLINEN_TUULI : POHJOINEN_KOILLINEN_TUULI_P);
-      break;
-    case KOILLINEN:
-      sentence << (theBasicForm ? KOILLINEN_TUULI : KOILLINEN_TUULI_P);
-      break;
-    case KOILLISEN_PUOLEINEN:
-      sentence << (theBasicForm ? KOILLISEN_PUOLEINEN_TUULI : KOILLISEN_PUOLEINEN_TUULI_P);
-      break;
-    case ITA_KOILLINEN:
-      sentence << (theBasicForm ? ITA_KOILLINEN_TUULI : ITA_KOILLINEN_TUULI_P);
-      break;
-    case ITA:
-      sentence << (theBasicForm ? ITA_TUULI : ITA_TUULI_P);
-      break;
-    case IDAN_PUOLEINEN:
-      sentence << (theBasicForm ? IDAN_PUOLEINEN_TUULI : IDAN_PUOLEINEN_TUULI_P);
-      break;
-    case ITA_KAAKKO:
-      sentence << (theBasicForm ? ITA_KAAKKO_TUULI : ITA_KAAKKO_TUULI_P);
-      break;
-    case KAAKKO:
-      sentence << (theBasicForm ? KAAKKO_TUULI : KAAKKO_TUULI_P);
-      break;
-    case KAAKON_PUOLEINEN:
-      sentence << (theBasicForm ? KAAKON_PUOLEINEN_TUULI : KAAKON_PUOLEINEN_TUULI_P);
-      break;
-    case ETELA_KAAKKO:
-      sentence << (theBasicForm ? ETELA_KAAKKO_TUULI : ETELA_KAAKKO_TUULI_P);
-      break;
-    case ETELA:
-      sentence << (theBasicForm ? ETELA_TUULI : ETELA_TUULI_P);
-      break;
-    case ETELAN_PUOLEINEN:
-      sentence << (theBasicForm ? ETELAN_PUOLEINEN_TUULI : ETELAN_PUOLEINEN_TUULI_P);
-      break;
-    case ETELA_LOUNAS:
-      sentence << (theBasicForm ? ETELA_LOUNAS_TUULI : ETELA_LOUNAS_TUULI_P);
-      break;
-    case LOUNAS:
-      sentence << (theBasicForm ? LOUNAS_TUULI : LOUNAS_TUULI_P);
-      break;
-    case LOUNAAN_PUOLEINEN:
-      sentence << (theBasicForm ? LOUNAAN_PUOLEINEN_TUULI : LOUNAAN_PUOLEINEN_TUULI_P);
-      break;
-    case LANSI_LOUNAS:
-      sentence << (theBasicForm ? LANSI_LOUNAS_TUULI : LANSI_LOUNAS_TUULI_P);
-      break;
-    case LANSI:
-      sentence << (theBasicForm ? LANSI_TUULI : LANSI_TUULI_P);
-      break;
-    case LANNEN_PUOLEINEN:
-      sentence << (theBasicForm ? LANNEN_PUOLEINEN_TUULI : LANNEN_PUOLEINEN_TUULI_P);
-      break;
-    case LANSI_LUODE:
-      sentence << (theBasicForm ? LANSI_LUODE_TUULI : LANSI_LUODE_TUULI_P);
-      break;
-    case LUODE:
-      sentence << (theBasicForm ? LUODE_TUULI : LUODE_TUULI_P);
-      break;
-    case LUOTEEN_PUOLEINEN:
-      sentence << (theBasicForm ? LUOTEEN_PUOLEINEN_TUULI : LUOTEEN_PUOLEINEN_TUULI_P);
-      break;
-    case POHJOINEN_LUODE:
-      sentence << (theBasicForm ? POHJOINEN_LUODE_TUULI : POHJOINEN_LUODE_TUULI_P);
-      break;
-    case VAIHTELEVA:
-    case MISSING_WIND_DIRECTION_ID:
-      sentence << (theBasicForm ? VAIHTELEVA_TUULI : VAIHTELEVA_TUULI_P);
-      break;
-  }
-
-  return sentence;
-}
-
-void WindForecast::getWindDirectionBegEnd(const WeatherPeriod& thePeriod,
-                                          WindDirectionId& theWindDirectionIdBeg,
-                                          WindDirectionId& theWindDirectionIdEnd) const
-{
-  theWindDirectionIdBeg = get_wind_direction_id_at(theParameters, thePeriod.localStartTime());
-  theWindDirectionIdEnd = get_wind_direction_id_at(theParameters, thePeriod.localEndTime());
-}
-
-std::string WindForecast::getWindDirectionTurntoString(WindDirectionId theWindDirectionId) const
-{
-  std::string retval;
-
-  switch (theWindDirectionId)
-  {
-    case POHJOINEN:
-      retval = POHJOISEEN_PHRASE;
-      break;
-    case POHJOISEN_PUOLEINEN:
-      retval = POHJOISEN_PUOLELLE_PHRASE;
-      break;
-    case POHJOINEN_KOILLINEN:
-      retval = POHJOISEN_JA_KOILLISEN_VALILLE_PHRASE;
-      break;
-    case KOILLINEN:
-      retval = KOILLISEEN_PHRASE;
-      break;
-    case KOILLISEN_PUOLEINEN:
-      retval = KOILLISEN_PUOLELLE_PHRASE;
-      break;
-    case ITA_KOILLINEN:
-      retval = IDAN_JA_KOILLISEN_VALILLE_PHRASE;
-      break;
-    case ITA:
-      retval = ITAAN_PHRASE;
-      break;
-    case IDAN_PUOLEINEN:
-      retval = IDAN_PUOLELLE_PHRASE;
-      break;
-    case ITA_KAAKKO:
-      retval = IDAN_JA_KAAKON_VALILLE_PHRASE;
-      break;
-    case KAAKKO:
-      retval = KAAKKOON_PHRASE;
-      break;
-    case KAAKON_PUOLEINEN:
-      retval = KAAKON_PUOLELLE_PHRASE;
-      break;
-    case ETELA_KAAKKO:
-      retval = ETELAN_JA_KAAKON_VALILLE_PHRASE;
-      break;
-    case ETELA:
-      retval = ETELAAN_PHRASE;
-      break;
-    case ETELAN_PUOLEINEN:
-      retval = ETELAN_PUOLELLE_PHRASE;
-      break;
-    case ETELA_LOUNAS:
-      retval = ETELAN_JA_LOUNAAN_VALILLE_PHRASE;
-      break;
-    case LOUNAS:
-      retval = LOUNAASEEN_PHRASE;
-      break;
-    case LOUNAAN_PUOLEINEN:
-      retval = LOUNAAN_PUOLELLE_PHRASE;
-      break;
-    case LANSI_LOUNAS:
-      retval = LANNEN_JA_LOUNAAN_VALILLE_PHRASE;
-      break;
-    case LANSI:
-      retval = LANTEEN_PHRASE;
-      break;
-    case LANNEN_PUOLEINEN:
-      retval = LANNEN_PUOLELLE_PHRASE;
-      break;
-    case LANSI_LUODE:
-      retval = LANNEN_JA_LUOTEEN_VALILLE_PHRASE;
-      break;
-    case LUODE:
-      retval = LUOTEESEEN_PHRASE;
-      break;
-    case LUOTEEN_PUOLEINEN:
-      retval = LUOTEEN_PUOLELLE_PHRASE;
-      break;
-    case POHJOINEN_LUODE:
-      retval = POHJOISEN_JA_LUOTEEN_VALILLE_PHRASE;
-      break;
-    case VAIHTELEVA:
-      retval = TUULI_MUUTTUU_VAIHTELEVAKSI_PHRASE;
-      break;
-    case MISSING_WIND_DIRECTION_ID:
-      retval = EMPTY_STRING;
-      break;
-  }
-
-  return retval;
-}
-
-bool WindForecast::windDirectionTurns(const WeatherPeriod& thePeriod) const
-{
-  WeatherResult windDirectionBeg(kFloatMissing, kFloatMissing);
-  WeatherResult windDirectionEnd(kFloatMissing, kFloatMissing);
-  WeatherResult windTopSpeedBeg(kFloatMissing, kFloatMissing);
-  WeatherResult windTopSpeedEnd(kFloatMissing, kFloatMissing);
-
-  for (unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
-  {
-    WindDataItemUnit& item =
-        theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
-    if (item.thePeriod.localStartTime() == thePeriod.localStartTime())
-    {
-      windDirectionBeg = item.theEqualizedWindDirection;
-      windTopSpeedBeg = item.theEqualizedTopWind;
-    }
-    else if (item.thePeriod.localStartTime() == thePeriod.localEndTime())
-    {
-      windDirectionEnd = item.theEqualizedWindDirection;
-      windTopSpeedEnd = item.theEqualizedTopWind;
-      break;
-    }
-  }
-
-  return wind_direction_turns(windDirectionBeg,
-                              windDirectionEnd,
-                              windTopSpeedBeg,
-                              windTopSpeedEnd,
-                              theParameters.theVar,
-                              theParameters.theWindDirectionMinSpeed);
-}
-
-void WindForecast::findOutActualWindSpeedChangePeriod(
-    WindEventPeriodDataItem* currentEventPeriodItem,
-    WindEventPeriodDataItem* nextEventPeriodItem) const
-{
-  bool windStrengthStartsToChange(currentEventPeriodItem->theWindSpeedChangeStarts &&
-                                  !currentEventPeriodItem->theWindSpeedChangeEnds);
-
-  if (windStrengthStartsToChange && nextEventPeriodItem)
-  {
-    if (!wind_speed_differ_enough(theParameters, nextEventPeriodItem->thePeriod))
-    {
-      currentEventPeriodItem->theWindSpeedChangePeriod =
-          WeatherPeriod(currentEventPeriodItem->thePeriod.localStartTime(),
-                        nextEventPeriodItem->thePeriod.localEndTime());
-      currentEventPeriodItem->theWindSpeedChangeEnds = true;
-      nextEventPeriodItem->theWindSpeedChangeEnds = false;
-
-      WindEventId nextEventId(nextEventPeriodItem->theWindEvent);
-      nextEventPeriodItem->theWindEvent = mask_wind_event(
-          nextEventId, (nextEventId & TUULI_HEIKKENEE ? TUULI_HEIKKENEE : TUULI_VOIMISTUU));
-    }
-  }
 }
 
 float WindDataItemUnit::getWindSpeedShare(float theLowerLimit, float theUpperLimit) const
