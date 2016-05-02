@@ -8,14 +8,14 @@ Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase-devel >= 16.3.17
-BuildRequires: libsmartmet-macgyver-devel >= 16.1.23
+BuildRequires: libsmartmet-newbase-devel >= 16.4.8
+BuildRequires: libsmartmet-macgyver-devel >= 16.4.18
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
-BuildRequires: gdal-devel >= 1.11.2
-Requires: libsmartmet-newbase >= 16.3.17
-Requires: libsmartmet-macgyver >= 16.1.23
-Requires: gdal >= 1.11.2
+BuildRequires: gdal-devel >= 1.11.4
+Requires: libsmartmet-newbase >= 16.4.8
+Requires: libsmartmet-macgyver >= 16.4.18
+Requires: gdal >= 1.11.4
 Provides: %{LIBNAME}
 
 %description
@@ -61,10 +61,10 @@ FMI textgen development files
 - Time phrase handling modified, for example: Iltayö ja keskiyö / Keskiyö ja aamuyö -> Yö
 - wind_speed_top_coverage (default value 98.0): This parameter tells how many percent the reported top wind speed must cover of the total area. For example if top wind on the area is 11 m/s, but it is predicted only on 1.9 % of total area, the reported top wind is 10 m/s. 
 - wind_direction_min_speed (oletusarvo 6.5): This is limiting value of wind speed for wind direction when standard deviation of wind direction is big (> 45.0). If standard deviation of wind direction is big and top wind speed is smaller or equal than 'wind_direction_min_speed' wind direction is reportedf as varying.
-* wind_speed_top_coverage (default value 98.0): This parameter tells how many percent the reported 
+- wind_speed_top_coverage (default value 98.0): This parameter tells how many percent the reported 
 top wind speed must cover of the total area.
 For example if top wind on the area is 11 m/s, but it is predicted only on 1.9 % of total area, the reported top wind is 10 m/s. 
-* wind_direction_min_speed (oletusarvo 6.5): This is limiting value of wind speed for wind direction when 
+- wind_direction_min_speed (oletusarvo 6.5): This is limiting value of wind speed for wind direction when 
 standard deviation of wind direction is big (> 45.0). 
 If standard deviation of wind direction is big and top wind speed is smaller or equal 
 than 'wind_direction_min_speed' wind direction is reported as varying.
