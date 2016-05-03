@@ -26,7 +26,6 @@ class WindForecast
       const WindEventPeriodDataItem* nextWindSpeedItem,
       std::vector<WeatherPeriod> windDirectionReportingPoints,
       WindDirectionInfo& thePreviousWindDirection,
-      TextGenPosixTime& previouslyReportedWindSpeedTime,
       bool firstSentence) const;
 
   Sentence windDirectionSentenceWithAttribute(
