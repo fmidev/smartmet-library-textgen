@@ -53,9 +53,9 @@ FMI textgen development files
 
 %changelog
 * Tue May 03 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.3-1.fmi
-- Wind forecast bug corrections improvements:
+- Wind forecast bug corrections and improvements:
 - Handling of 'wind_calc_top_share_weak' parameter corrected
-- Handling of wind speed changes correctes
+- Handling of wind speed changes corrected
 - Code cleaned
 * Thu Apr 28 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.4.28-1.fmi
 - Wind forecast code simplified and cleaned: speed and direction changes are now processed more separately.
