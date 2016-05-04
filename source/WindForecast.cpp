@@ -254,6 +254,21 @@ std::string as_string(const GlyphContainer& gc)
   return gc.realize(dtf);
 }
 
+// return true if equalized top wind is weak duuring whole period
+bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod)
+{
+  for (auto item : theParameters.theWindDataVector)
+  {
+    WindDataItemUnit& dataitem = item->getDataItem(theParameters.theArea.type());
+
+    if (is_inside(dataitem.thePeriod.localStartTime(), thePeriod) &&
+        dataitem.theEqualizedTopWind.value() > WEAK_WIND_SPEED_UPPER_LIMIT)
+      return false;
+  }
+
+  return true;
+}
+
 unsigned int get_peak_wind(const WeatherPeriod& thePeriod, const wo_story_params& theParameters)
 {
   unsigned int upper_index = 0;
@@ -1396,6 +1411,10 @@ std::vector<Sentence> WindForecast::reportDirectionChanges(
   unsigned int lastReportedIndex = UINT_MAX;
   TextGenPosixTime previousPeriodStartTime;
 
+  theParameters.theLog << "Reporting wind direction changes during wind speed change period "
+                       << thePeriod << ". Number of direction changes "
+                       << theDirectionPeriods.size() << std::endl;
+
   for (unsigned int i = 0; i < theDirectionPeriods.size(); i++)
   {
     const WeatherPeriod& period = theDirectionPeriods[i];
@@ -1404,16 +1423,30 @@ std::vector<Sentence> WindForecast::reportDirectionChanges(
     {
       lastReportedIndex = i;
 
-      if (i < theDirectionPeriods.size() - 1 && get_period_length(period) < 3) continue;
+      if (i < theDirectionPeriods.size() - 1 && get_period_length(period) < 3)
+      {
+        theParameters.theLog << "Short direction period " << period << " (< 3h) skipped."
+                             << std::endl;
+        continue;
+      }
 
       WindDirectionId windDirectionId = get_wind_direction_id_at(theParameters, period);
       bool temporaryChange = get_period_length(period) <= 5;
 
-      //      if (windDirectionId == VAIHTELEVA && thePreviousWindDirection.id == VAIHTELEVA)
-      //      continue;
-      if (windDirectionId == thePreviousWindDirection.id) continue;
+      if (windDirectionId == thePreviousWindDirection.id)
+      {
+        theParameters.theLog << "Same direction as previous "
+                             << wind_direction_string(windDirectionId) << " -> skipped."
+                             << std::endl;
+        continue;
+      }
       // dont report 'tilapaisesti vaihteleva' when this is not the last period
-      if (windDirectionId == VAIHTELEVA && temporaryChange && !lastPeriod) continue;
+      if (windDirectionId == VAIHTELEVA && temporaryChange && !lastPeriod)
+      {
+        theParameters.theLog << "Temporary varying wind at period " << period
+                             << " (not last period) is skipped." << std::endl;
+        continue;
+      }
 
       WeatherResult windDirectionValue = get_wind_direction_at(theParameters, period);
 
@@ -1484,6 +1517,8 @@ std::vector<Sentence> WindForecast::constructWindSentence(
     }
     else
     {
+      theParameters.theLog << "Wind is weak on period " << windSpeedEventPeriod
+                           << " -> reporting the whole period at once!" << std::endl;
       Sentence sentence;
       WeatherResult windDirectionValue = get_wind_direction_at(theParameters, windSpeedEventPeriod);
       WindDirectionId windDirectionId =
@@ -1513,7 +1548,8 @@ std::vector<Sentence> WindForecast::constructWindSentence(
     case MISSING_WIND_SPEED_EVENT:
     {
       theParameters.theLog << "Processing MISSING_WIND_SPEED_EVENT at " << windSpeedEventPeriod
-                           << std::endl;
+                           << ". " << windDirectionChangePeriods.size()
+                           << " direction changes during the period." << std::endl;
 
       unsigned int numberOfDirectionChanges = 0;
       for (std::vector<WeatherPeriod>::const_iterator it = windDirectionChangePeriods.begin();
@@ -1541,25 +1577,32 @@ std::vector<Sentence> WindForecast::constructWindSentence(
         WindDirectionId windDirectionId =
             get_wind_direction_id_at(theParameters, directionChangePeriod);
 
-        if (windDirectionId == thePreviousWindDirection.id) continue;
+        if (windDirectionId == thePreviousWindDirection.id)
+        {
+          theParameters.theLog << "Direction " << wind_direction_string(windDirectionId)
+                               << " is the same as previous period -> skipping" << std::endl;
+          continue;
+        }
 
         WeatherPeriod dirPeriod(directionChangePeriod.localStartTime(),
                                 windSpeedEventPeriod.localEndTime());
 
-        // if we are in the end of the forecast and the last period is short dont report it,
-        // except when previous direction was VAIHTELEVA
-        bool shortPeriod = get_period_length(dirPeriod) < 2;
-        bool shortLastPeriod = (shortPeriod && lastPeriod && lastDirectionChangeOnCurrentPeriod &&
-                                thePreviousWindDirection.id != VAIHTELEVA);
+        bool reportDirection = true;
+        // first sentence is always reported
+        if (!firstSentence)
+        {
+          bool shortPeriod = get_period_length(dirPeriod) < 2;
+          // short period is not reported, except when it is the last period in the whole forecast
+          reportDirection = (shortPeriod && lastPeriod && lastDirectionChangeOnCurrentPeriod);
+        }
 
-        bool reportDirection =
-            ((windDirectionId != thePreviousWindDirection.id && !shortLastPeriod) || firstSentence);
-
-        // dont report short period in the middle
-        if (reportDirection)
-          reportDirection = !(!lastDirectionChangeOnCurrentPeriod && shortPeriod);
-
-        if (!reportDirection) continue;
+        if (!reportDirection)
+        {
+          theParameters.theLog << "Short period in the middle ("
+                               << wind_direction_string(windDirectionId) << ") -> skipping"
+                               << std::endl;
+          continue;
+        }
 
         if (firstSentence && it == windDirectionChangePeriods.begin())
         {
@@ -1746,7 +1789,6 @@ std::vector<Sentence> WindForecast::constructWindSentence(
               if (thePreviousPartOfTheDay == AAMUYO &&
                   (speedDayPartId == ILTAYO || speedDayPartId == KESKIYO))
               {
-                // handle just first period
                 part_of_the_day_id directionDayPart =
                     get_part_of_the_day_id(directionPeriod.localStartTime());
 
