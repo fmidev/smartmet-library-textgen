@@ -1660,6 +1660,9 @@ std::vector<Sentence> WindForecast::constructWindSentence(
       std::vector<WeatherPeriod> windSpeedReportingPeriods =
           getWindSpeedReportingPeriods(*windSpeedItem, firstSentence, windSpeedEventId);
 
+      if (windSpeedReportingPeriods.size() == 0)
+        windSpeedReportingPeriods.push_back(windSpeedEventPeriod);
+
       theParameters.theLog << "Processing "
                            << (windSpeedEventId == TUULI_VOIMISTUU ? "TUULI_VOIMISTUU event at "
                                                                    : "TUULI_HEIKKENEE event at ")
@@ -1886,22 +1889,6 @@ std::vector<Sentence> WindForecast::constructWindSentence(
 
         if (!startOfTheStory)
         {
-          if (windDirectionChangePeriods.size() > 0)
-          {
-            std::vector<Sentence> directionChangeSentences =
-                reportDirectionChanges(period,
-                                       windDirectionChangePeriods,
-                                       thePreviousWindDirection,
-                                       previousTimePhrase,
-                                       lastPeriod);
-
-            for (auto s : directionChangeSentences)
-            {
-              if (!sentence.empty()) sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-              sentence << s;
-            }
-          }
-
           timePhrase.clear();
           timePhrase << getTimePhrase(period, get_period_length(period) >= 6);
 
@@ -2199,7 +2186,6 @@ vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
     while (retVector.size() > 3)
       retVector.pop_back();
   }
-  if (retVector.size() == 0) retVector.push_back(speedEventPeriod);
 
   return retVector;
 }
