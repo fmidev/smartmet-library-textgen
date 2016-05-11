@@ -43,7 +43,7 @@ class WindForecast
   Sentence getTimePhrase(const WeatherPeriod& thePeriod, bool useAlkaenPhrase) const;
   Sentence getTimePhrase(const TextGenPosixTime& theTime, bool useAlkaenPhrase) const;
 
-  std::vector<WeatherPeriod> getWindSpeedReportingPoints(
+  std::vector<WeatherPeriod> getWindSpeedReportingPeriods(
       const WindEventPeriodDataItem& eventPeriodDataItem,
       bool firstSentenceInTheStory,
       WindEventId eventId) const;

@@ -321,7 +321,9 @@ float mean_wind_direction_error(const wind_data_item_vector& theWindDataVector,
                                 const WeatherPeriod& thePeriod);
 // in WindForecast.cpp
 std::string get_wind_event_string(WindEventId theWindEventId);
-bool wind_speed_differ_enough(const wo_story_params& theParameter, const WeatherPeriod& thePeriod);
+bool wind_speed_differ_enough(const wo_story_params& theParameter,
+                              const WeatherPeriod& thePeriod,
+                              bool aboveWeakWind = false);
 bool wind_direction_differ_enough(const WeatherResult theWindDirection1,
                                   const WeatherResult theWindDirection2,
                                   float theWindDirectionThreshold);
