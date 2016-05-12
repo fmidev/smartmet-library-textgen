@@ -53,8 +53,8 @@ FMI textgen development files
 
 %changelog
 * Thu May 12 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.12-1.fmi
-- Wind story corrections: error in weak wind period determination
-- More log writng
+- Wind story corrections: corrected error in weak wind period deduction, time phrase placement
+- More log writing
 * Wed May 11 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.11-1.fmi
 - Correction in timing of wind direction changes
 * Tue May 10 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.10-1.fmi
