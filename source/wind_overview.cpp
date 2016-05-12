@@ -3335,22 +3335,6 @@ void calculate_equalized_wind_speed_indexes_for_maximum_wind(wo_story_params& st
           item.theEqualizedMaxWind = WeatherResult(yValue, 0.0);
       }
     }
-
-    // if top wind is < 10 m/s during whole periods set the flag
-    if (topWind)
-    {
-      // if top wind > 10.0 m/s at any timestep it is not weak
-      storyParams.theWeakTopWind = true;
-      for (unsigned int i = 0; i < eqIndexVector.size(); i++)
-      {
-        const WindDataItemUnit& dataItem = (*storyParams.theWindDataVector[i])(areaType);
-        if (dataItem.theEqualizedTopWind.value() >= 10.0)
-        {
-          storyParams.theWeakTopWind = false;
-          break;
-        }
-      }
-    }
   }
 }
 
@@ -3518,6 +3502,20 @@ void calculate_equalized_data(wo_story_params& storyParams)
 
   if (storyParams.equalizedWDIndexes(areaType).size() > 3)
     calculate_equalized_wind_direction_indexes(storyParams);
+
+  // check if wind is weak during whole period
+  storyParams.theWeakTopWind = true;
+  for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
+  {
+    const WindDataItemUnit& dataItem = (*storyParams.theWindDataVector[i])(areaType);
+    double eqTopWind = dataItem.theEqualizedTopWind.value();
+
+    if (eqTopWind >= 10.0)
+    {
+      storyParams.theWeakTopWind = false;
+      break;
+    }
+  }
 }
 
 void read_configuration_params(wo_story_params& storyParams)
