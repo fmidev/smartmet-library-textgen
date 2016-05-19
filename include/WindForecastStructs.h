@@ -308,6 +308,23 @@ struct WindDirectionInfo
   WindDirectionInfo(const WeatherResult& d, WindDirectionId i) : direction(d), id(i) {}
 };
 
+struct TimePhraseInfo
+{
+  TextGenPosixTime starttime;
+  TextGenPosixTime endtime;
+  short day_number;
+  part_of_the_day_id part_of_the_day;
+
+  TimePhraseInfo() : day_number(-1), part_of_the_day(MISSING_PART_OF_THE_DAY_ID) {}
+  TimePhraseInfo(const TextGenPosixTime& st,
+                 const TextGenPosixTime& et,
+                 short d,
+                 part_of_the_day_id pd)
+      : starttime(st), endtime(et), day_number(d), part_of_the_day(pd)
+  {
+  }
+};
+
 // in wind_overview.cpp
 WeatherResult mean_wind_direction(const AnalysisSources& theSources,
                                   const WeatherArea& theArea,

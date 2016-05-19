@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.5.12
+Version: 16.5.19
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -52,6 +52,12 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Thu May 19 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.19-1.fmi
+- Wind story corrections:
+- Handling situation where wind weakens/strenghtens during long time, but there are short steady periods between
+- Corrected bug in timing of reporting the wind speed and direction changes when they occur at the same time or close to each other
+- Missing time phrase before wind speed interval corrected
+- More log writing added
 * Thu May 12 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.12-1.fmi
 - Wind story corrections: corrected error in weak wind period deduction, time phrase placement
 - More log writing

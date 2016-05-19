@@ -3027,9 +3027,55 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
       mergedEventPeriods.push_back(newDataItem);
     }
   }
+
+  // iterate merged event periods and remove short missing period if it is between
+  // strenghtening/weakening period
+  wind_event_period_data_item_vector cleanedEventPeriods;
+  for (unsigned int i = 0; i < mergedEventPeriods.size(); i++)
+  {
+    WindEventPeriodDataItem* currentDataItem = mergedEventPeriods[i];
+
+    if (mergedEventPeriods.size() < 2 || i >= mergedEventPeriods.size() - 2)
+    {
+      cleanedEventPeriods.push_back(currentDataItem);
+      continue;
+    }
+
+    WindEventPeriodDataItem* nextDataItem = mergedEventPeriods[i + 1];
+    WindEventPeriodDataItem* afterNextDataItem = mergedEventPeriods[i + 2];
+    if (nextDataItem->theWindEvent == MISSING_WIND_SPEED_EVENT &&
+        get_period_length(nextDataItem->thePeriod) < 3 &&
+        currentDataItem->theWindEvent == afterNextDataItem->theWindEvent)
+    {
+      // merge the three event periods
+      WeatherPeriod newPeriod(currentDataItem->thePeriod.localStartTime(),
+                              afterNextDataItem->thePeriod.localEndTime());
+
+      float begSpeed =
+          calculate_weighted_wind_speed(storyParams, currentDataItem->thePeriodBeginDataItem);
+      float endSpeed =
+          calculate_weighted_wind_speed(storyParams, afterNextDataItem->thePeriodEndDataItem);
+      WindEventId newWindEvent =
+          get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
+
+      WindEventPeriodDataItem* newDataItem =
+          new WindEventPeriodDataItem(newPeriod,
+                                      newWindEvent,
+                                      currentDataItem->thePeriodBeginDataItem,
+                                      afterNextDataItem->thePeriodEndDataItem);
+      cleanedEventPeriods.push_back(newDataItem);
+      i += 2;
+    }
+    else
+    {
+      cleanedEventPeriods.push_back(currentDataItem);
+    }
+  }
+
+  mergedEventPeriods.clear();
   storyParams.theWindSpeedEventPeriodVector.clear();
-  storyParams.theWindSpeedEventPeriodVector.assign(mergedEventPeriods.begin(),
-                                                   mergedEventPeriods.end());
+  storyParams.theWindSpeedEventPeriodVector.assign(cleanedEventPeriods.begin(),
+                                                   cleanedEventPeriods.end());
 }
 
 void find_out_wind_event_periods(wo_story_params& storyParams)

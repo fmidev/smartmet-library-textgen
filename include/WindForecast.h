@@ -18,14 +18,15 @@ class WindForecast
 
  private:
   wo_story_params& theParameters;
-  mutable short thePreviousDayNumber;
-  mutable part_of_the_day_id thePreviousPartOfTheDay;
+  //  mutable short thePreviousDayNumber;
+  //  mutable part_of_the_day_id thePreviousPartOfTheDay;
 
   std::vector<Sentence> constructWindSentence(
       const WindEventPeriodDataItem* windSpeedItem,
       const WindEventPeriodDataItem* nextWindSpeedItem,
       std::vector<WeatherPeriod> windDirectionReportingPoints,
       WindDirectionInfo& thePreviousWindDirection,
+      TimePhraseInfo& thePreviousTimePhrase,
       bool firstSentence) const;
 
   Sentence windDirectionSentenceWithAttribute(
@@ -40,8 +41,12 @@ class WindForecast
                               const WeatherResult& theMeanSpeed,
                               const std::string& theVariable,
                               bool theUseAtItsStrongestPhrase) const;
-  Sentence getTimePhrase(const WeatherPeriod& thePeriod, bool useAlkaenPhrase) const;
-  Sentence getTimePhrase(const TextGenPosixTime& theTime, bool useAlkaenPhrase) const;
+  Sentence getTimePhrase(const WeatherPeriod& thePeriod,
+                         TimePhraseInfo& timePhraseInfo,
+                         bool useAlkaenPhrase) const;
+  Sentence getTimePhrase(const TextGenPosixTime& theTime,
+                         TimePhraseInfo& timePhraseInfo,
+                         bool useAlkaenPhrase) const;
 
   std::vector<WeatherPeriod> getWindSpeedReportingPeriods(
       const WindEventPeriodDataItem& eventPeriodDataItem,
@@ -52,10 +57,14 @@ class WindForecast
                                    bool& smallChange,
                                    bool& gradualChange,
                                    bool& fastChange) const;
+  std::vector<Sentence> reportDirectionChanges(
+      std::vector<WeatherPeriod>& theDirectionPeriods,
+      WindDirectionInfo& thePreviousWindDirection,
+      const TimePhraseInfo& thePreviousTimePhraseInfo) const;
   std::vector<Sentence> reportDirectionChanges(const WeatherPeriod& thePeriod,
                                                std::vector<WeatherPeriod>& theDirectionPeriods,
                                                WindDirectionInfo& thePreviousWindDirection,
-                                               std::string& thePreviousTimePhrase,
+                                               TimePhraseInfo& thePreviousTimePhrase,
                                                bool lastPeriod) const;
 };
 
