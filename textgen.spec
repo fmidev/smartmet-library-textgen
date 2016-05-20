@@ -52,7 +52,7 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
-* Fri May 10 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.20-1.fmi
+* Fri May 20 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.20-1.fmi
 - Wind story corrections:
 - Wind speed interval is not reported if wind speed changes during short time 
 in the end of forecast period
