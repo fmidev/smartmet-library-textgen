@@ -1815,6 +1815,7 @@ std::vector<Sentence> WindForecast::constructWindSentence(
       for (unsigned int i = 0; i < windSpeedReportingPeriods.size(); i++)
       {
         WeatherPeriod period = windSpeedReportingPeriods[i];
+        WindDirectionId windDirectionId = MISSING_WIND_DIRECTION_ID;
 
         theParameters.theLog << "Reporting period " << period << std::endl;
 
@@ -1916,13 +1917,22 @@ std::vector<Sentence> WindForecast::constructWindSentence(
           {
             // handle just first period
             WeatherPeriod& directionPeriod = windDirectionChangePeriods[0];
-            WindDirectionId windDirectionId =
-                get_wind_direction_id_at(theParameters, directionPeriod);
+            windDirectionId = get_wind_direction_id_at(theParameters, directionPeriod);
             WeatherResult windDirectionValue =
                 get_wind_direction_at(theParameters, directionPeriod);
 
             Sentence firstSentence;
-            sentence << windDirectionSentence(windDirectionId);
+
+            if (windDirectionId == VAIHTELEVA)
+            {
+              sentence.clear();
+              sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE << timePhrase
+                       << windDirectionSentence(windDirectionId);
+            }
+            else
+            {
+              sentence << windDirectionSentence(windDirectionId);
+            }
             thePreviousWindDirection = WindDirectionInfo(windDirectionValue, windDirectionId);
             windDirectionChangePeriods.assign(windDirectionChangePeriods.begin() + 1,
                                               windDirectionChangePeriods.end());
@@ -1949,8 +1959,7 @@ std::vector<Sentence> WindForecast::constructWindSentence(
 
                 if (directionDayPart == KESKIYO)
                 {
-                  WindDirectionId windDirectionId =
-                      get_wind_direction_id_at(theParameters, directionPeriod);
+                  windDirectionId = get_wind_direction_id_at(theParameters, directionPeriod);
                   WeatherResult windDirectionValue =
                       get_wind_direction_at(theParameters, directionPeriod);
                   sentence << windDirectionSentence(windDirectionId, tuuliBasicForm);
@@ -1970,8 +1979,7 @@ std::vector<Sentence> WindForecast::constructWindSentence(
 
                 if (intervalPeriodId == directionPeriodId)
                 {
-                  WindDirectionId windDirectionId =
-                      get_wind_direction_id_at(theParameters, directionPeriod);
+                  windDirectionId = get_wind_direction_id_at(theParameters, directionPeriod);
 
                   if (windDirectionId != thePreviousWindDirection.id)
                   {
@@ -2023,7 +2031,8 @@ std::vector<Sentence> WindForecast::constructWindSentence(
 
         if (startOfTheStory)
         {
-          sentence << Delimiter(COMMA_PUNCTUATION_MARK) << ALUKSI_WORD;
+          if (windSpeedReportingPeriods.size() > 1 && windDirectionId != VAIHTELEVA)
+            sentence << Delimiter(COMMA_PUNCTUATION_MARK) << ALUKSI_WORD;
           if (windSpeedEventId == TUULI_HEIKKENEE)
           {
             speedIntervalSentence.clear();
@@ -2113,6 +2122,12 @@ std::vector<Sentence> WindForecast::constructWindSentence(
           }
 
           sentence << speedIntervalSentence;
+
+          if (i == 0 && firstSentence && windDirectionId == VAIHTELEVA)
+          {
+            ret.push_back(sentence);
+            sentence.clear();
+          }
         }
       }  // reporting periods
 

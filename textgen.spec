@@ -52,6 +52,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Fri May 20 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.20-2.fmi
+- Wind story corrections:
+- Dont use speed change phrases with varying wind
 * Fri May 20 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.20-1.fmi
 - Wind story corrections:
 - Wind speed interval is not reported if wind speed changes during short time 
