@@ -2,7 +2,7 @@
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
 Version: 16.5.20
-Release: 1%{?dist}.fmi
+Release: 2%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: http://www.weatherproof.fi
@@ -54,8 +54,17 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Fri May 20 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.20-2.fmi
+- Wind story corrections:
+- Dont use speed change phrases with varying wind
 * Fri May 20 2016 Mika Heiskanen <mika.heiskanen@fmi.fi> - 16.5.20-1.fmi
 - Wind story corrections
+* Fri May 20 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.20-1.fmi
+- Wind story corrections:
+- Wind speed interval is not reported if wind speed changes during short time 
+in the end of forecast period
+- Handling of steady period (no significant speed/direction changes) in the end corrected
+- Code cleaned
 * Thu May 19 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.19-1.fmi
 - Wind story corrections:
 - Handling situation where wind weakens/strenghtens during long time, but there are short steady periods between
