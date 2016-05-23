@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.5.20
+Version: 16.5.23
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -52,6 +52,10 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Mon May 23 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.23-1.fmi
+- Wind story corrections:
+- Tautology removed in direction change phrases
+- When wind direction changes many times during wind speed change period, report only last direction
 * Fri May 20 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.20-2.fmi
 - Wind story corrections:
 - Dont use speed change phrases with varying wind
