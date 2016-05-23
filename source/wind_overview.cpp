@@ -3086,6 +3086,9 @@ void find_out_wind_event_periods(wo_story_params& storyParams)
 
   find_out_wind_direction_event_periods(storyParams);
 
+  for (auto ep : storyParams.theWindSpeedEventPeriodVector)
+    ep->theWeakWindPeriodFlag = is_weak_period(storyParams, ep->thePeriod);
+
 #ifndef NDEBUG
   log_wind_event_periods(storyParams);
   log_equalized_wind_direction_data_vector(storyParams);
