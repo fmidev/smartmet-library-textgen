@@ -1708,7 +1708,8 @@ std::vector<Sentence> WindForecast::constructWindSentence(
 
         bool shortPeriod = get_period_length(directionChangePeriod) < 2;
 
-        if (shortPeriod)
+        // dont report short period except in the beginning
+        if (shortPeriod && (!firstSentence || (firstSentence && !ret.empty())))
         {
           theParameters.theLog << "Short period " << directionChangePeriod << " in the middle ("
                                << wind_direction_string(windDirectionId) << ") -> skipping"
@@ -2335,11 +2336,19 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
 
   if (tps.find("aamuyo") != std::string::npos && timePhraseInfo.part_of_the_day != AAMUYO)
   {
-    if (previousPartOfTheDay == ILTAYO)  // || previousDayNumber == YO)
-      timePhraseInfo.day_number =
-          (timePhraseInfo.day_number == 7 ? 1 : timePhraseInfo.day_number + 1);
+    if (previousPartOfTheDay == ILTAYO)
+    {
+      short lastDayNumberOfPeriod = thePeriod.localStartTime().GetWeekday();
 
-    if (!isdigit(tps[0])) tps.insert(0, (Fmi::to_string(timePhraseInfo.day_number) + "-"));
+      short newDayNumber = (timePhraseInfo.day_number == 7 ? 1 : timePhraseInfo.day_number + 1);
+
+      if (newDayNumber <= lastDayNumberOfPeriod &&
+          !(lastDayNumberOfPeriod == 7 && newDayNumber == 1))
+        timePhraseInfo.day_number = newDayNumber;
+    }
+
+    if (!isdigit(tps[0]) && specifyDay)
+      tps.insert(0, (Fmi::to_string(timePhraseInfo.day_number) + "-"));
     timePhraseInfo.part_of_the_day = AAMUYO;
   }
 
@@ -2351,10 +2360,6 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
   }
 
   sentence << tps;
-  /*
-  std::cout << "timePhrase: " << as_string(sentence) << std::endl;
-  std::cout << "timePhraseInfo: " << timePhraseInfo << std::endl;
-  */
 
   return sentence;
 }
