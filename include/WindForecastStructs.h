@@ -351,7 +351,6 @@ WindStoryTools::WindDirectionId get_wind_direction_id_at(const wo_story_params& 
                                                          const WeatherPeriod& thePeriod);
 bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod);
 bool is_valid_wind_event_id(const int& eventId);
-WindEventId mask_wind_event(WindEventId originalId, WindEventId maskToRemove);
 void get_wind_speed_interval(const TextGenPosixTime& pointOfTime,
                              const wo_story_params& theParameter,
                              float& lowerLimit,
