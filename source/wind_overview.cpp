@@ -3274,7 +3274,6 @@ Paragraph WindStory::overview() const
     log_equalized_wind_speed_data_vector(storyParams);
     log_equalized_wind_direction_data_vector(storyParams);
     log_wind_event_periods(storyParams);
-    log_merged_wind_event_periods(storyParams);
     log_raw_data(storyParams);
 #endif
     WindForecast windForecast(storyParams);
