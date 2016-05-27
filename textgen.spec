@@ -57,6 +57,7 @@ FMI textgen development files
 - If wind is weakening and direction changes to varying, report
 wind speed interval for the rest of the period, not at the end of
 weakening period
+- Report wind direction in the beginning even if it changes to varying very soon
 * Thu May 26 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.26-1.fmi
 - Wind Story corrections:
 - Corrected time phrase when wind speed and direction change at the same time

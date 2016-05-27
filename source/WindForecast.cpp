@@ -1753,7 +1753,8 @@ std::vector<Sentence> WindForecast::constructWindSentence(
           }
         }
 
-        if (ret.size() > 0 && timePhraseInfo == thePreviousTimePhraseInfo)
+        if (ret.size() > 0 && timePhraseInfo == thePreviousTimePhraseInfo &&
+            !(ret.size() == 1 && firstSentence))
         {
           // show only latest change at same period, for example direction changes two times during
           // afternoon
