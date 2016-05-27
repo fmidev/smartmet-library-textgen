@@ -1537,7 +1537,8 @@ std::vector<Sentence> WindForecast::reportDirectionChanges(
 
       if (windDirectionId == VAIHTELEVA)
       {
-        timePhrase << getTimePhrase(period.localStartTime(), timePhraseInfo, false);
+        timePhrase << getTimePhrase(
+            period.localStartTime(), timePhraseInfo, get_period_length(period) >= 6);
 
         sentence << timePhrase << VAIHTELEVA_TUULI_P;
       }
@@ -1812,7 +1813,10 @@ std::vector<Sentence> WindForecast::constructWindSentence(
         WeatherPeriod period = windSpeedReportingPeriods[i];
         WindDirectionId windDirectionId = MISSING_WIND_DIRECTION_ID;
 
-        theParameters.theLog << "Reporting period " << period << std::endl;
+        theParameters.theLog << "Reporting "
+                             << (windSpeedEventId == TUULI_VOIMISTUU ? "strenghtening wind at "
+                                                                     : "weakening wind at ")
+                             << period << std::endl;
 
         bool nextWindSpeedEventMissing =
             (nextWindSpeedItem && nextWindSpeedItem->theWindEvent == MISSING_WIND_SPEED_EVENT);
@@ -2036,7 +2040,7 @@ std::vector<Sentence> WindForecast::constructWindSentence(
 
               if (directionChangeSentences.size() > 0)
               {
-                theParameters.theLog << "Direction changes (during speed change): " << std::endl;
+                theParameters.theLog << "Direction changes #1 (during speed change): " << std::endl;
               }
 
               for (auto s : directionChangeSentences)
@@ -2088,6 +2092,22 @@ std::vector<Sentence> WindForecast::constructWindSentence(
             if (!sentence.empty()) sentence << Delimiter(COMMA_PUNCTUATION_MARK);
             sentence << s;
             theParameters.theLog << as_string(s) << std::endl;
+          }
+
+          // if the previous change vas to varying wind, just report
+          // interval till next change
+          if (directionChangeSentences.size() > 0 && thePreviousWindDirection.id == VAIHTELEVA)
+          {
+            speedIntervalSentence.clear();
+            WeatherPeriod intervalPeriod(thePreviousTimePhraseInfo.starttime,
+                                         period.localEndTime());
+            speedIntervalSentence << windSpeedIntervalSentence(intervalPeriod,
+                                                               USE_AT_ITS_STRONGEST_PHRASE);
+            theParameters.theLog << "Because wind has changed to varying, report just interval at "
+                                 << intervalPeriod << " -> " << as_string(speedIntervalSentence)
+                                 << std::endl;
+            sentence << speedIntervalSentence;
+            continue;
           }
         }
 
