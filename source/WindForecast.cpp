@@ -1059,6 +1059,27 @@ void get_plain_wind_speed_interval(const WeatherPeriod& period,
   upperLimit = maxValue;
 }
 
+float get_peak_wind(const WeatherPeriod& period,
+                    const WeatherArea& area,
+                    const wind_data_item_vector& windDataVector)
+{
+  float retval(0.0);
+  unsigned int counter(0);
+
+  for (unsigned int i = 0; i < windDataVector.size(); i++)
+  {
+    const WindDataItemUnit& windDataItem = (*windDataVector[i])(area.type());
+
+    if (is_inside(windDataItem.thePeriod, period))
+    {
+      retval += windDataItem.theEqualizedTopWind.value();
+      counter++;
+    }
+  }
+
+  return (counter == 0 ? retval : retval / counter);
+}
+
 float get_median_wind(const WeatherPeriod& period,
                       const WeatherArea& area,
                       const wind_data_item_vector& windDataVector)
@@ -1211,8 +1232,13 @@ bool wind_speed_differ_enough(const wo_story_params& theParameter,
 {
   float begLowerLimit(0), begUpperLimit(0), endLowerLimit(0), endUpperLimit(0);
 
-  get_wind_speed_interval(thePeriod.localStartTime(), theParameter, begLowerLimit, begUpperLimit);
-  get_wind_speed_interval(thePeriod.localEndTime(), theParameter, endLowerLimit, endUpperLimit);
+  WeatherPeriod beg(thePeriod.localStartTime(), thePeriod.localStartTime());
+  WeatherPeriod end(thePeriod.localEndTime(), thePeriod.localEndTime());
+
+  begLowerLimit = get_median_wind(beg, theParameter.theArea, theParameter.theWindDataVector);
+  endLowerLimit = get_median_wind(end, theParameter.theArea, theParameter.theWindDataVector);
+  begUpperLimit = get_peak_wind(beg, theParameter.theArea, theParameter.theWindDataVector);
+  endUpperLimit = get_peak_wind(end, theParameter.theArea, theParameter.theWindDataVector);
 
   double topWindShare =
       (begUpperLimit < 10.0 && endUpperLimit < 10.0 ? theParameter.theWindCalcTopShareWeak
@@ -1230,7 +1256,7 @@ bool wind_speed_differ_enough(const wo_story_params& theParameter,
     if (endSpeed < WEAK_WIND_SPEED_UPPER_LIMIT) endSpeed = WEAK_WIND_SPEED_UPPER_LIMIT;
   }
 
-  float difference = round(abs(endSpeed - begSpeed));
+  float difference = abs(endSpeed - begSpeed);
 
   return (difference >= theParameter.theWindSpeedThreshold);
 }
@@ -1306,23 +1332,6 @@ WeatherPeriod get_wind_turning_period(
       return theDirectionEventVector[i]->thePeriod;
 
   return thePeriod;
-}
-
-void get_median_wind_speed_by_area(const wind_data_item_vector& theWindDataVector,
-                                   const WeatherArea& theFullArea,
-                                   const WeatherPeriod& thePeriod,
-                                   float& medianWindFull,
-                                   float& medianWindCoastal,
-                                   float& medianWindInland)
-{
-  WeatherArea coastalArea(theFullArea);
-  coastalArea.type(WeatherArea::Coast);
-  WeatherArea inlandArea(theFullArea);
-  inlandArea.type(WeatherArea::Inland);
-
-  medianWindFull = get_median_wind(thePeriod, theFullArea, theWindDataVector);
-  medianWindCoastal = get_median_wind(thePeriod, coastalArea, theWindDataVector);
-  medianWindInland = get_median_wind(thePeriod, inlandArea, theWindDataVector);
 }
 
 void compose_wind_speed_range(const wo_story_params& theParameters,
@@ -2209,6 +2218,9 @@ std::vector<Sentence> WindForecast::constructWindSentence(
 
         if (windDirectionId != thePreviousWindDirection.id)
         {
+          theParameters.theLog << "Wind direction change reported for wind speed change period "
+                               << period << std::endl;
+
           WeatherResult windDirectionValue = get_wind_direction_at(theParameters, period);
 
           Sentence sentence;
