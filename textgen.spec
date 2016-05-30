@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.5.27
+Version: 16.5.30
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -54,6 +54,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Mon May 30 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.30-1.fmi
+- Wind story corrections:
+- Wind speed calculaton when determining if wind speed has changed enough to be reported
 * Fri May 27 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.27-1.fmi
 - Wind story correction:
 - If wind is weakening and direction changes to varying, report wind speed interval for the rest of the period, not at the end of weakening period
