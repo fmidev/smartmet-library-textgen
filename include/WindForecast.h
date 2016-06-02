@@ -57,10 +57,10 @@ class WindForecast
                                    bool& smallChange,
                                    bool& gradualChange,
                                    bool& fastChange) const;
-  std::vector<Sentence> reportDirectionChanges(
-      std::vector<WeatherPeriod>& theDirectionPeriods,
-      WindDirectionInfo& thePreviousWindDirection,
-      const TimePhraseInfo& thePreviousTimePhraseInfo) const;
+  std::vector<Sentence> reportDirectionChanges(std::vector<WeatherPeriod>& theDirectionPeriods,
+                                               WindDirectionInfo& thePreviousWindDirection,
+                                               const TimePhraseInfo& thePreviousTimePhraseInfo,
+                                               bool theTuuliBasicForm) const;
   std::vector<Sentence> reportDirectionChanges(const WeatherPeriod& thePeriod,
                                                std::vector<WeatherPeriod>& theDirectionPeriods,
                                                WindDirectionInfo& thePreviousWindDirection,

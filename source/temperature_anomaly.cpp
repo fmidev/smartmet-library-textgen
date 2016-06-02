@@ -1529,8 +1529,6 @@ const Paragraph TemperatureStory::anomaly() const
   }
   else
   {
-    log << areaName << endl;
-
     paragraph << TemperatureAnomaly::anomaly(
         itsArea, itsPeriod, itsSources, itsForecastTime, itsVar, areaName, log);
   }

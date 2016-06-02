@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.5.30
+Version: 16.6.2
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -54,6 +54,14 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Thu Jun 2 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.2-1.fmi
+Wind Story corrections:
+- Spelling of wind direction phrase corrected
+- If reporting time of wind speed change and direction change is 
+near each other (max 2 hurs), report them at once
+- Short varying wind period is not reported if it is not the last direction change
+- Weekday name reported when day changes if forecast period is longer than 6 hours
+- Code cleaned, more log writing added
 * Mon May 30 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.30-1.fmi
 - Wind story corrections:
 - Wind speed calculaton when determining if wind speed has changed enough to be reported

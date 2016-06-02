@@ -22,9 +22,6 @@ typedef std::vector<WindEventPeriodDataItem*> wind_event_period_data_item_vector
 typedef std::pair<WindEventId, WeatherPeriod> wind_event_period;
 typedef std::vector<wind_event_period> wind_event_period_vector;
 
-// typedef std::pair<TextGenPosixTime, WindEventId> timestamp_wind_event_id_pair;
-// typedef std::vector<timestamp_wind_event_id_pair> wind_event_id_vector;
-
 struct index_vectors
 {
   // contains all indexes to
@@ -100,8 +97,6 @@ struct wo_story_params
   wind_speed_period_data_item_vector theWindSpeedVector;
   wind_direction_period_data_item_vector theWindDirectionVector;
   wind_event_period_data_item_vector theWindSpeedEventPeriodVector;
-  wind_event_period_data_item_vector theWindDirectionEventPeriodVector;
-  wind_event_period_data_item_vector theMergedWindEventPeriodVector;
 
   std::map<WeatherArea::Type, index_vectors*> indexes;
 
@@ -279,21 +274,8 @@ struct WindEventPeriodDataItem
   WindEventId theWindEvent;
   const WindDataItemUnit& thePeriodBeginDataItem;
   const WindDataItemUnit& thePeriodEndDataItem;
-  bool theLongTermSpeedChangeFlag;  // is speed changes for the loger period we can use
-                                    // "alkaen"-phrase
   bool theWeakWindPeriodFlag;  // if wind speed is weak, event is MISSING_WIND_EVENT, but we dont
                                // merge it with faster wind speed periods and report it
-
-  WindEventType getWindEventType()
-  {
-    if (theWindEvent == MISSING_WIND_EVENT)
-      return MISSING_EVENT_TYPE;
-    else
-      return ((theWindEvent == TUULI_KAANTYY || theWindEvent == MISSING_WIND_DIRECTION_EVENT ||
-               theWindEvent == TUULI_MUUTTUU_VAIHTELEVAKSI)
-                  ? WIND_DIRECTION_EVENT
-                  : WIND_SPEED_EVENT);
-  }
 };
 
 struct WindDirectionInfo
@@ -344,13 +326,11 @@ bool wind_speed_differ_enough(const wo_story_params& theParameter,
 bool wind_direction_differ_enough(const WeatherResult theWindDirection1,
                                   const WeatherResult theWindDirection2,
                                   float theWindDirectionThreshold);
-bool wind_turns_to_the_same_direction(float direction1, float direction2, float direction3);
 WindStoryTools::WindDirectionId get_wind_direction_id_at(const wo_story_params& theParameters,
                                                          const TextGenPosixTime& thePointOfTime);
 WindStoryTools::WindDirectionId get_wind_direction_id_at(const wo_story_params& theParameters,
                                                          const WeatherPeriod& thePeriod);
 bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod);
-bool is_valid_wind_event_id(const int& eventId);
 void get_wind_speed_interval(const TextGenPosixTime& pointOfTime,
                              const wo_story_params& theParameter,
                              float& lowerLimit,
