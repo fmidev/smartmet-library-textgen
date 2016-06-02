@@ -55,10 +55,8 @@ FMI textgen development files
 
 %changelog
 * Thu Jun 2 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.2-1.fmi
-Wind Story corrections:
 - Spelling of wind direction phrase corrected
-- If reporting time of wind speed change and direction change is 
-near each other (max 2 hurs), report them at once
+- If reporting time of wind speed change and direction change is near each other (max 2 hurs), report them at once
 - Short varying wind period is not reported if it is not the last direction change
 - Weekday name reported when day changes if forecast period is longer than 6 hours
 - Code cleaned, more log writing added
