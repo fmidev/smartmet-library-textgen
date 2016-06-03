@@ -687,8 +687,9 @@ std::vector<WeatherPeriod> get_wind_direction_periods(const wo_story_params& the
   {
     WeatherPeriod period = cleanedPeriods[i];
     WindDirectionId id = get_wind_direction_id_at(theParameters, period);
-    // dont report short varying wind if it is not the last one
-    if (i < cleanedPeriods.size() - 1 && id == VAIHTELEVA && get_period_length(period) < 4)
+    // dont report short varying wind if it is not the first/last one
+    if (i < cleanedPeriods.size() - 1 && id == VAIHTELEVA && get_period_length(period) < 4 &&
+        i != 0)
       continue;
     ret.push_back(period);
   }
