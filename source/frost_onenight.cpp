@@ -26,6 +26,7 @@
 #include "AreaTools.h"
 #include "SeasonTools.h"
 #include "WeatherForecast.h"
+#include "RangeAcceptor.h"
 
 #include <iomanip>
 #include <map>
@@ -647,6 +648,26 @@ Paragraph FrostStory::onenight() const
   WeatherPeriod night1 =
       WeatherPeriodTools::getPeriod(itsPeriod, 1, starthour, endhour, maxstarthour, minendhour);
 
+  RangeAcceptor precipitationlimits;
+  precipitationlimits.lowerLimit(DRY_WEATHER_LIMIT_DRIZZLE);
+
+  WeatherResult precipitationResult = forecaster.analyze(itsVar,
+                                                         itsSources,
+                                                         Precipitation,
+                                                         Maximum,
+                                                         Sum,
+                                                         itsArea,
+                                                         night1,
+                                                         DefaultAcceptor(),
+                                                         precipitationlimits);
+
+  if (precipitationResult.value() > 0)
+  {
+    log << "There is some rain during period " << night1.localStartTime() << "..."
+        << night1.localEndTime() << " -> frost is not reported!" << std::endl;
+    return paragraph;
+  }
+
   // Calculate values for coastal and inland area separately
   WeatherArea coastalArea = itsArea;
   coastalArea.type(WeatherArea::Coast);
@@ -663,7 +684,7 @@ Paragraph FrostStory::onenight() const
   if (!growingSeasonInland)
   {
     if (growingSeasonCoastal)
-      log << "Growing season not going started on inland area, coastal area is not reported alone!"
+      log << "Growing season not started on inland area, coastal area is not reported alone!"
           << endl;
 
     return paragraph;
