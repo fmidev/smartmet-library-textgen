@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.6.3
+Version: 16.6.6
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -54,6 +54,8 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Mon Jun 6 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.6-1.fmi
+- Frost is not reported, if there is any rain
 * Fri Jun 3 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.3-1.fmi
 - Wind Story correction:
 - Short (< 4h) varying wind period in the beginning is now reported
