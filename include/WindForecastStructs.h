@@ -51,6 +51,7 @@ struct wo_story_params
         theWindSpeedMaxError(2.0),
         theWindDirectionMaxError(10.0),
         theWindSpeedThreshold(4.0),
+        theWindSpeedWarningThreshold(11.0),
         theWindDirectionThreshold(25.0),
         theWindDirectionMinSpeed(6.5),
         theWindCalcTopShare(80.0),
@@ -60,6 +61,7 @@ struct wo_story_params
         theRangeSeparator("-"),
         theMinIntervalSize(2),
         theMaxIntervalSize(5),
+        theContextualMaxIntervalSize(5),
         theMetersPerSecondFormat("SI"),
         theAlkaenPhraseUsed(false),
         theWeakTopWind(false)
@@ -79,6 +81,7 @@ struct wo_story_params
   double theWindSpeedMaxError;
   double theWindDirectionMaxError;
   double theWindSpeedThreshold;
+  double theWindSpeedWarningThreshold;
   double theWindDirectionThreshold;
   double theWindDirectionMinSpeed;
   double theWindCalcTopShare;
@@ -88,6 +91,7 @@ struct wo_story_params
   std::string theRangeSeparator;
   int theMinIntervalSize;
   int theMaxIntervalSize;
+  int theContextualMaxIntervalSize;
   std::string theMetersPerSecondFormat;
   bool theAlkaenPhraseUsed;
   bool theWeakTopWind;  // if top wind strays under 10 m/s the whole period
@@ -331,14 +335,16 @@ WindStoryTools::WindDirectionId get_wind_direction_id_at(const wo_story_params& 
 WindStoryTools::WindDirectionId get_wind_direction_id_at(const wo_story_params& theParameters,
                                                          const WeatherPeriod& thePeriod);
 bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod);
+/*
 void get_wind_speed_interval(const TextGenPosixTime& pointOfTime,
-                             const wo_story_params& theParameter,
-                             float& lowerLimit,
-                             float& upperLimit);
+                           wo_story_params& theParameter,
+                           float& lowerLimit,
+                           float& upperLimit);
 void get_wind_speed_interval(const WeatherPeriod& thePeriod,
-                             const wo_story_params& theParameter,
-                             float& lowerLimit,
-                             float& upperLimit);
+                           wo_story_params& theParameter,
+                           float& lowerLimit,
+                           float& upperLimit);
+*/
 unsigned int get_peak_wind(const WeatherPeriod& thePeriod, const wo_story_params& theParameters);
 unsigned int get_top_wind(const WeatherPeriod& thePeriod, const wo_story_params& theParameters);
 

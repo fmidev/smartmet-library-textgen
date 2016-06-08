@@ -1921,8 +1921,10 @@ bool populate_time_series(wo_story_params& storyParams)
 
       // ARE 2012-04-26: if MaximumWind parameter is missing, use WindSpeed maximum + 1.0 instead
       if (dataItem.theWindSpeedTop.value() == kFloatMissing)
+      {
         dataItem.theWindSpeedTop =
             WeatherResult(dataItem.theWindSpeedMax.value() + 1.0, dataItem.theWindSpeedMax.error());
+      }
 
       dataItem.theEqualizedTopWind = dataItem.theWindSpeedTop;
 
@@ -2517,9 +2519,62 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
   }
 
   mergedEventPeriods.clear();
+
+  for (auto p : cleanedEventPeriods)
+  {
+    if (p->theWindEvent != MISSING_WIND_SPEED_EVENT)
+    {
+      mergedEventPeriods.push_back(p);
+      continue;
+    }
+
+    bool missingPeriodSplit = false;
+    // check missing period once more if it contains weakening/strenghtening period in the end
+    float endSpeed = calculate_weighted_wind_speed(storyParams, p->thePeriodEndDataItem);
+
+    WeatherArea::Type areaType(storyParams.theArea.type());
+    for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
+    {
+      const WindDataItemUnit& dataItem = (*storyParams.theWindDataVector[i])(areaType);
+
+      if (dataItem.thePeriod.localStartTime() > p->thePeriod.localStartTime() &&
+          dataItem.thePeriod.localStartTime() < p->thePeriod.localEndTime())
+      {
+        float begSpeed = calculate_weighted_wind_speed(storyParams, dataItem);
+        WindEventId newWindEvent =
+            get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
+
+        if (newWindEvent != MISSING_WIND_SPEED_EVENT)
+        {
+          // split missing period into two
+          WeatherPeriod newPeriod1(p->thePeriod.localStartTime(),
+                                   dataItem.thePeriod.localStartTime());
+          WeatherPeriod newPeriod2(dataItem.thePeriod.localStartTime(),
+                                   p->thePeriod.localEndTime());
+          WindEventPeriodDataItem* newDataItem1 = new WindEventPeriodDataItem(
+              newPeriod1, p->theWindEvent, p->thePeriodBeginDataItem, dataItem);
+          WindEventPeriodDataItem* newDataItem2 = new WindEventPeriodDataItem(
+              newPeriod2, newWindEvent, dataItem, p->thePeriodEndDataItem);
+          mergedEventPeriods.push_back(newDataItem1);
+          mergedEventPeriods.push_back(newDataItem2);
+          missingPeriodSplit = true;
+          storyParams.theLog << "Missing wind speed event period " << p->thePeriod
+                             << " split into two:\n" << newPeriod1 << " -> "
+                             << get_wind_event_string(p->theWindEvent) << " and " << newPeriod2
+                             << " -> " << get_wind_event_string(newWindEvent) << std::endl;
+          break;
+        }
+      }
+    }
+
+    if (!missingPeriodSplit) mergedEventPeriods.push_back(p);
+  }
+
   storyParams.theWindSpeedEventPeriodVector.clear();
-  storyParams.theWindSpeedEventPeriodVector.assign(cleanedEventPeriods.begin(),
-                                                   cleanedEventPeriods.end());
+  storyParams.theWindSpeedEventPeriodVector.assign(mergedEventPeriods.begin(),
+                                                   mergedEventPeriods.end());
+  mergedEventPeriods.clear();
+  cleanedEventPeriods.clear();
 }
 
 void find_out_wind_event_periods(wo_story_params& storyParams)
@@ -3006,6 +3061,8 @@ void read_configuration_params(wo_story_params& storyParams)
       Settings::optional_double(storyParams.theVar + "::max_error_wind_direction", 10.0);
   double windSpeedThreshold =
       Settings::optional_double(storyParams.theVar + "::wind_speed_threshold", 3.0);
+  double windSpeedWarningThreshold =
+      Settings::optional_double(storyParams.theVar + "::wind_speed_warning_threshold", 11.0);
   double windDirectionThreshold =
       Settings::optional_double(storyParams.theVar + "::wind_direction_threshold", 25.0);
   double windCalcTopShare =
@@ -3027,6 +3084,7 @@ void read_configuration_params(wo_story_params& storyParams)
   storyParams.theWindSpeedMaxError = windSpeedMaxError;
   storyParams.theWindDirectionMaxError = windDirectionMaxError;
   storyParams.theWindSpeedThreshold = windSpeedThreshold;
+  storyParams.theWindSpeedWarningThreshold = windSpeedWarningThreshold;
   storyParams.theWindDirectionThreshold = windDirectionThreshold;
   storyParams.theWindCalcTopShare = windCalcTopShare;
   storyParams.theWindCalcTopShareWeak = windCalcTopShareWeak;
@@ -3036,6 +3094,7 @@ void read_configuration_params(wo_story_params& storyParams)
   storyParams.theRangeSeparator = rangeSeparator;
   storyParams.theMinIntervalSize = minIntervalSize;
   storyParams.theMaxIntervalSize = maxIntervalSize;
+  storyParams.theContextualMaxIntervalSize = maxIntervalSize;
 
   storyParams.theWeatherAreas.push_back(storyParams.theArea);
 

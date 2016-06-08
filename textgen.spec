@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.6.6
+Version: 16.6.8
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -54,6 +54,17 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Wed Jun 8 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.8-1.fmi
+- Wind story corrections, improvements:
+- If speed changes rapidly on the same part of the day, report the latest speed 
+- Algorithm to detect wind speed changes improved: some periods that before were 
+reported to have unchanged wind speed is now split to two and and latter is reported
+to have strengthening or weakening wind
+- Algorithm to determine wind speed interval modified: new configuration parameter 
+'wind_speed_warning_threshold' added, if top wind value is smaller than
+'wind_speed_warning_threshold', interval size is 4 and upper limit is taken 
+from maximum value of mean mean wind on the period
+- Code cleaned
 * Mon Jun 6 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.6-1.fmi
 - Frost is not reported, if there is any rain
 * Fri Jun 3 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.3-1.fmi
