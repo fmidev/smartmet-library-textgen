@@ -29,6 +29,7 @@ struct index_vectors
   std::vector<unsigned int> theEqualizedWindSpeedIndexesForMaxWind;
   std::vector<unsigned int> theEqualizedWindSpeedIndexesForMedianWind;
   std::vector<unsigned int> theEqualizedWindSpeedIndexesForTopWind;
+  std::vector<unsigned int> theEqualizedWindSpeedIndexesForCalcWind;
   std::vector<unsigned int> theEqualizedWindDirectionIndexes;
 };
 
@@ -120,6 +121,10 @@ struct wo_story_params
   {
     return indexes[type]->theEqualizedWindSpeedIndexesForTopWind;
   }
+  inline std::vector<unsigned int>& equalizedWSIndexesCalcWind(WeatherArea::Type type)
+  {
+    return indexes[type]->theEqualizedWindSpeedIndexesForCalcWind;
+  }
   inline std::vector<unsigned int>& equalizedWDIndexes(WeatherArea::Type type)
   {
     return indexes[type]->theEqualizedWindDirectionIndexes;
@@ -147,12 +152,14 @@ struct WindDataItemUnit
         theWindSpeedMean(windSpeedMean),
         theWindSpeedMedian(windSpeedMedian),
         theWindSpeedTop(windSpeedTop),
+        theWindSpeedCalc(WeatherResult(kFloatMissing, kFloatMissing)),
         theWindDirection(windDirection),
         theGustSpeed(gustSpeed),
         theCorrectedWindDirection(windDirection),
         theEqualizedMedianWind(windSpeedMedian),
         theEqualizedMaxWind(windSpeedMax),
         theEqualizedTopWind(windSpeedTop),
+        theEqualizedCalcWind(WeatherResult(kFloatMissing, kFloatMissing)),
         theEqualizedWindDirection(theWindDirection)
   {
   }
@@ -175,6 +182,7 @@ struct WindDataItemUnit
   WeatherResult theWindSpeedMean;
   WeatherResult theWindSpeedMedian;
   WeatherResult theWindSpeedTop;
+  WeatherResult theWindSpeedCalc;
   WeatherResult theWindDirection;
   WeatherResult theGustSpeed;
   // if wind is varying and wind speed is high >= 7 m/s, we store corrected
@@ -183,6 +191,7 @@ struct WindDataItemUnit
   WeatherResult theEqualizedMedianWind;
   WeatherResult theEqualizedMaxWind;
   WeatherResult theEqualizedTopWind;
+  WeatherResult theEqualizedCalcWind;
   WeatherResult theEqualizedWindDirection;
   value_distribution_data_vector theWindSpeedDistribution;
   value_distribution_data_vector theWindSpeedDistributionTop;
