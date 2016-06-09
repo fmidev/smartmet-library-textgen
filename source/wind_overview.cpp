@@ -2026,18 +2026,19 @@ bool populate_time_series(wo_story_params& storyParams)
       WeatherArea::Type areaType(weatherArea.type());
 
       WindDataItemUnit& dataItem = (storyParams.theWindDataVector[i])->getDataItem(areaType);
-      if (dataItem.theWindSpeedTop.value() >= 10) counter++;
+      if (dataItem.theWindSpeedTop.value() >= storyParams.theWindSpeedWarningThreshold) counter++;
       total_counter++;
     }
   }
-  // if more than 10 % above 10 m/s wind is not weak
+  // if more than 10 % above 'storyParams.theWindSpeedWarningThreshold' m/s wind is not weak
   double topWindWeakShare =
       ((static_cast<float>(counter) / static_cast<float>(total_counter)) * 100.0);
   if (topWindWeakShare > 10.0) storyParams.theWeakTopWind = false;
 
   storyParams.theLog << "Top wind is " << (storyParams.theWeakTopWind ? "weak" : "NOT weak")
                      << " at period " << storyParams.theForecastPeriod << ", " << fixed
-                     << setprecision(2) << topWindWeakShare << "% is above 10 m/s" << std::endl;
+                     << setprecision(2) << topWindWeakShare << "% is above "
+                     << storyParams.theWindSpeedWarningThreshold << " m/s" << std::endl;
 
   // get claculated wind speed
   for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
