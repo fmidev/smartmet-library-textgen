@@ -54,6 +54,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Thu Jun 9 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.9-2.fmi
+- Wind story correction:
+- Parameter 'wind_speed_warning_threshold' value read from configuration file (hardcoded value used before)
 * Thu Jun 9 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.9-1.fmi
 - Wind story correction:
 - Improved algorithm to detect wind speed changes when wind is weak
