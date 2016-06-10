@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.6.9
+Version: 16.6.10
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -54,6 +54,10 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Fri Jun 10 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.10-1.fmi
+- Wind story correction:
+- Reporting together two weakening/stregthening periods, when there is 
+ relatively short period (< 6h) of unchanged wind between them
 * Thu Jun 9 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.9-2.fmi
 - Wind story correction:
 - Parameter 'wind_speed_warning_threshold' value read from configuration file (hardcoded value used before)
