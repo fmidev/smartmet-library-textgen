@@ -18,8 +18,6 @@ class WindForecast
 
  private:
   wo_story_params& theParameters;
-  //  mutable short thePreviousDayNumber;
-  //  mutable part_of_the_day_id thePreviousPartOfTheDay;
 
   std::vector<Sentence> constructWindSentence(
       const WindEventPeriodDataItem* windSpeedItem,

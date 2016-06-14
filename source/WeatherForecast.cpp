@@ -480,13 +480,17 @@ part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeri
 
     return idBeg;
   }
-
   int hoursInTheFirstPart(0);
   int hoursInTheSecondPart(0);
   int startHour(0);
   int endHour(0);
 
   get_part_of_the_day(idBeg, startHour, endHour);
+
+  // change endtime forwards till endHour for the part_of_the_day is reached
+  TextGenPosixTime endTimeFirstPart = thePeriod.localStartTime();
+  while (endTimeFirstPart.GetHour() != endHour)
+    endTimeFirstPart.ChangeByHours(1);
 
   if (idBeg == YO && thePeriod.localStartTime().GetHour() > 6)
     hoursInTheFirstPart = (24 - thePeriod.localStartTime().GetHour()) + endHour;
@@ -499,6 +503,16 @@ part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeri
     hoursInTheSecondPart = (24 - thePeriod.localEndTime().GetHour()) + endHour;
   else
     hoursInTheSecondPart = endHour - thePeriod.localEndTime().GetHour();
+
+  TextGenPosixTime endTimeSecondPart = thePeriod.localEndTime();
+
+  // change endtime backwards till startHour for the part_of_the_day is reached
+  while (endTimeSecondPart.GetHour() != startHour)
+    endTimeSecondPart.ChangeByHours(-1);
+
+  hoursInTheFirstPart = abs(endTimeFirstPart.DifferenceInHours(thePeriod.localStartTime()));
+
+  hoursInTheSecondPart = abs(endTimeSecondPart.DifferenceInHours(thePeriod.localEndTime()));
 
   return ((hoursInTheFirstPart >= hoursInTheSecondPart || theAlkaenPhrase) ? idBeg : idEnd);
 }

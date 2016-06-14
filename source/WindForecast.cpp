@@ -249,6 +249,9 @@ namespace WindForecastPhrases
 
 using namespace WindForecastPhrases;
 
+part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
+                                                               bool theAlkaenPhrase);
+
 bool operator==(const TimePhraseInfo& p1, const TimePhraseInfo& p2)
 {
   if (abs(p1.starttime.DifferenceInHours(p2.starttime)) <= 2) return true;
@@ -1652,14 +1655,20 @@ std::vector<Sentence> WindForecast::constructWindSentence(
   }
 
   for (auto period : windDirectionReportingPeriods)
+  {
     if (period.localStartTime() >= directionReportingStartTime &&
         period.localStartTime() < directionReportingEndTime)
       windDirectionChangePeriods.push_back(period);
+  }
 
   switch (windSpeedEventId)
   {
     case MISSING_WIND_SPEED_EVENT:
     {
+      // first period must be reported
+      if (firstSentence && windDirectionChangePeriods.empty())
+        windDirectionChangePeriods.push_back(windSpeedEventPeriod);
+
       theParameters.theLog << "Processing MISSING_WIND_SPEED_EVENT at " << windSpeedEventPeriod
                            << ". " << windDirectionChangePeriods.size()
                            << " direction changes during the period." << std::endl;
@@ -1882,8 +1891,9 @@ std::vector<Sentence> WindForecast::constructWindSentence(
       theParameters.theLog << "Processing "
                            << (windSpeedEventId == TUULI_VOIMISTUU ? "TUULI_VOIMISTUU event at "
                                                                    : "TUULI_HEIKKENEE event at ")
-                           << windSpeedEventPeriod << " (" << windSpeedReportingPeriods.size()
-                           << " reporting times)" << std::endl;
+                           << windSpeedEventPeriod
+                           << (firstSentence ? " - first sentence" : " not first sentence") << " ("
+                           << windSpeedReportingPeriods.size() << " reporting times)" << std::endl;
 
       bool smallChange = false;
       bool gradualChange = false;
@@ -2025,7 +2035,6 @@ if (lastPeriod && get_period_length(windSpeedEventPeriod) < 6 &&
               else
                 sentence << POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE
                          << windDirectionSentence(windDirectionId);
-              //              << "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa heiketa"
             }
             else
             {
@@ -2195,12 +2204,24 @@ if (lastPeriod && get_period_length(windSpeedEventPeriod) < 6 &&
                 // if direction changes same time as interval, report it here
                 theParameters.theLog << "Direction changes #3: " << period << std::endl;
 
-                TextGenPosixTime periodStart = period.localStartTime();
-                TextGenPosixTime periodEnd = period.localStartTime();
-                // if wind direction changes maximum two hours later than
+                part_of_the_day_id id_period = get_part_of_the_day_id_narrow(period);
+                TextGenPosixTime periodEndTime = period.localStartTime();
+                while (get_part_of_the_day_id_narrow(
+                           WeatherPeriod(period.localStartTime(), periodEndTime)) == id_period)
+                  periodEndTime.ChangeByHours(1);
+
+                if (periodEndTime.GetHour() != period.localStartTime().GetHour())
+                  periodEndTime.ChangeByHours(-1);
+                else
+                  periodEndTime.ChangeByHours(2);  // direction can change maximum two hours later
+
+                theParameters.theLog
+                    << "Actual direction change period: " << period.localStartTime() << "..."
+                    << periodEndTime << std::endl;
+
+                // if wind direction changes in the same part of the day as
                 // reported wind speed change, report it at the same time
-                periodEnd.ChangeByHours(2);
-                WeatherPeriod windDirectionChangePeriod(periodStart, periodEnd);
+                WeatherPeriod windDirectionChangePeriod(period.localStartTime(), periodEndTime);
 
                 TimePhraseInfo tpi = thePreviousTimePhraseInfo;
                 std::vector<Sentence> directionChangeSentences =
@@ -2360,6 +2381,7 @@ Sentence WindForecast::getTimePhrase(const TextGenPosixTime& theTime,
   return getTimePhrase(WeatherPeriod(theTime, theTime), timePhraseInfo, useAlkaenPhrase);
 }
 
+// get_adjusted_part_of_the_day_id
 Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
                                      TimePhraseInfo& timePhraseInfo,
                                      bool useAlkaenPhrase) const
@@ -2378,8 +2400,8 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
                                        !fit_into_narrow_day_part(thePeriod));
 
   // try to prevent tautology, like "iltapäivällä"... "iltapäivästä alkaen"
-  if (timePhraseInfo.part_of_the_day ==
-          get_adjusted_part_of_the_day_id(thePeriod, theParameters.theAlkaenPhraseUsed) &&
+  if (timePhraseInfo.part_of_the_day == get_most_relevant_part_of_the_day_id_narrow(
+                                            thePeriod, theParameters.theAlkaenPhraseUsed) &&
       timePhraseInfo.day_number != MISSING_PART_OF_THE_DAY_ID && get_period_length(thePeriod) > 4)
   {
     TextGenPosixTime startTime(thePeriod.localStartTime());
@@ -2404,7 +2426,7 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
   timePhraseInfo.endtime = actualPeriod.localEndTime();
   timePhraseInfo.day_number = actualPeriod.localStartTime().GetWeekday();
   timePhraseInfo.part_of_the_day =
-      get_adjusted_part_of_the_day_id(actualPeriod, theParameters.theAlkaenPhraseUsed);
+      get_most_relevant_part_of_the_day_id_narrow(actualPeriod, theParameters.theAlkaenPhraseUsed);
 
   std::string tps = as_string(timePhrase);
 
@@ -2439,7 +2461,8 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
 
   sentence << tps;
 
-  //  std::cout << "timePhrase: " << actualPeriod << " -> " << tps << std::endl;
+  //  std::cout << "timePhrase: " << thePeriod << " -> " << actualPeriod << " -> " << tps << " --> "
+  //          << timePhraseInfo << std::endl;
 
   return sentence;
 }
