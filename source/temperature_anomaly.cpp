@@ -347,6 +347,15 @@ void log_start_time_and_end_time(MessageLogger& theLog,
          << thePeriod.localEndTime() << endl;
 }
 
+std::string period2string(const WeatherPeriod& period)
+{
+  std::stringstream ss;
+
+  ss << period.localStartTime() << "..." << period.localEndTime();
+
+  return ss.str();
+}
+
 void log_daily_factiles_for_period(MessageLogger& theLog,
                                    const string& theVariable,
                                    const AnalysisSources& theSources,
@@ -645,16 +654,25 @@ const Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaInclud
 }
 
 const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& theParameters,
-                                                  const fractile_type_id& theFractileType)
+                                                  fractile_type_id theFractileType)
 {
   Sentence sentence;
 
+  // 20160803: in wintertime use mean temperatures in summertime max temperatures
   double dayBeforeDay1Temperature =
-      theParameters.theDayBeforeDay1TemperatureAreaAfternoonMean.value();
-  double day1Temperature = theParameters.theDay1TemperatureAreaAfternoonMean.value();
-  double day2Temperature = theParameters.theDay2TemperatureAreaAfternoonMean.value();
+      (theParameters.theSeason == WINTER_SEASON
+           ? theParameters.theDayBeforeDay1TemperatureAreaAfternoonMean.value()
+           : theParameters.theDayBeforeDay1TemperatureAreaAfternoonMaximum.value());
+  double day1Temperature = (theParameters.theSeason == WINTER_SEASON
+                                ? theParameters.theDay1TemperatureAreaAfternoonMean.value()
+                                : theParameters.theDay1TemperatureAreaAfternoonMaximum.value());
+  double day2Temperature = (theParameters.theSeason == WINTER_SEASON
+                                ? theParameters.theDay2TemperatureAreaAfternoonMean.value()
+                                : theParameters.theDay2TemperatureAreaAfternoonMaximum.value());
   double dayAfterDay2Temperature =
-      theParameters.theDayAfterDay2TemperatureAreaAfternoonMean.value();
+      (theParameters.theSeason == WINTER_SEASON
+           ? theParameters.theDayAfterDay2TemperatureAreaAfternoonMean.value()
+           : theParameters.theDayAfterDay2TemperatureAreaAfternoonMaximum.value());
 
   float temperatureDifferenceDay1Day2 = abs(day2Temperature - day1Temperature);
   float temperatureDifferenceDay1DayAfterDay2 = abs(dayAfterDay2Temperature - day1Temperature);
@@ -704,29 +722,151 @@ const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& th
                                   ? wr.value()
                                   : VERY_COLD_TEMPERATURE_UPPER_LIMIT;
 
-  WeatherPeriod fractileTemperaturePeriod(get_afternoon_period(
+  WeatherPeriod fractileTemperatureDay1Period(get_afternoon_period(
       theParameters.theVariable, theParameters.theDay1Period.localStartTime()));
+  WeatherPeriod fractileTemperatureDayBeforeDay1Period(get_afternoon_period(
+      theParameters.theVariable, theParameters.theDayBeforeDay1Period.localStartTime()));
+  WeatherPeriod fractileTemperatureDay2Period(get_afternoon_period(
+      theParameters.theVariable, theParameters.theDay2Period.localStartTime()));
+  WeatherPeriod fractileTemperatureDayAfterDay2Period(get_afternoon_period(
+      theParameters.theVariable, theParameters.theDayAfterDay2Period.localStartTime()));
 
-  WeatherResult fractile37Temperature = get_fractile_temperature(theParameters.theVariable,
-                                                                 FRACTILE_37,
-                                                                 theParameters.theSources,
-                                                                 theParameters.theArea,
-                                                                 fractileTemperaturePeriod,
-                                                                 theFractileType);
+  WeatherResult fractile37TemperatureDay1 = get_fractile_temperature(theParameters.theVariable,
+                                                                     FRACTILE_37,
+                                                                     theParameters.theSources,
+                                                                     theParameters.theArea,
+                                                                     fractileTemperatureDay1Period,
+                                                                     theFractileType);
 
-  WeatherResult fractile12Temperature = get_fractile_temperature(theParameters.theVariable,
-                                                                 FRACTILE_12,
-                                                                 theParameters.theSources,
-                                                                 theParameters.theArea,
-                                                                 fractileTemperaturePeriod,
-                                                                 theFractileType);
+  WeatherResult fractile12TemperatureDay1 = get_fractile_temperature(theParameters.theVariable,
+                                                                     FRACTILE_12,
+                                                                     theParameters.theSources,
+                                                                     theParameters.theArea,
+                                                                     fractileTemperatureDay1Period,
+                                                                     theFractileType);
 
-  WeatherResult fractile63Temperature = get_fractile_temperature(theParameters.theVariable,
-                                                                 FRACTILE_63,
-                                                                 theParameters.theSources,
-                                                                 theParameters.theArea,
-                                                                 fractileTemperaturePeriod,
-                                                                 theFractileType);
+  WeatherResult fractile63TemperatureDay1 = get_fractile_temperature(theParameters.theVariable,
+                                                                     FRACTILE_63,
+                                                                     theParameters.theSources,
+                                                                     theParameters.theArea,
+                                                                     fractileTemperatureDay1Period,
+                                                                     theFractileType);
+  WeatherResult fractile37TemperatureDayBeforeDay1 =
+      get_fractile_temperature(theParameters.theVariable,
+                               FRACTILE_37,
+                               theParameters.theSources,
+                               theParameters.theArea,
+                               fractileTemperatureDayBeforeDay1Period,
+                               theFractileType);
+
+  WeatherResult fractile12TemperatureDayBeforeDay1 =
+      get_fractile_temperature(theParameters.theVariable,
+                               FRACTILE_12,
+                               theParameters.theSources,
+                               theParameters.theArea,
+                               fractileTemperatureDayBeforeDay1Period,
+                               theFractileType);
+
+  WeatherResult fractile63TemperatureDayBeforeDay1 =
+      get_fractile_temperature(theParameters.theVariable,
+                               FRACTILE_63,
+                               theParameters.theSources,
+                               theParameters.theArea,
+                               fractileTemperatureDayBeforeDay1Period,
+                               theFractileType);
+
+  WeatherResult fractile37TemperatureDay2 = get_fractile_temperature(theParameters.theVariable,
+                                                                     FRACTILE_37,
+                                                                     theParameters.theSources,
+                                                                     theParameters.theArea,
+                                                                     fractileTemperatureDay2Period,
+                                                                     theFractileType);
+
+  WeatherResult fractile12TemperatureDay2 = get_fractile_temperature(theParameters.theVariable,
+                                                                     FRACTILE_12,
+                                                                     theParameters.theSources,
+                                                                     theParameters.theArea,
+                                                                     fractileTemperatureDay2Period,
+                                                                     theFractileType);
+
+  WeatherResult fractile63TemperatureDay2 = get_fractile_temperature(theParameters.theVariable,
+                                                                     FRACTILE_63,
+                                                                     theParameters.theSources,
+                                                                     theParameters.theArea,
+                                                                     fractileTemperatureDay2Period,
+                                                                     theFractileType);
+
+  WeatherResult fractile37TemperatureDayAfterDay2 =
+      get_fractile_temperature(theParameters.theVariable,
+                               FRACTILE_37,
+                               theParameters.theSources,
+                               theParameters.theArea,
+                               fractileTemperatureDayAfterDay2Period,
+                               theFractileType);
+
+  WeatherResult fractile12TemperatureDayAfterDay2 =
+      get_fractile_temperature(theParameters.theVariable,
+                               FRACTILE_12,
+                               theParameters.theSources,
+                               theParameters.theArea,
+                               fractileTemperatureDayAfterDay2Period,
+                               theFractileType);
+
+  WeatherResult fractile63TemperatureDayAfterDay2 =
+      get_fractile_temperature(theParameters.theVariable,
+                               FRACTILE_63,
+                               theParameters.theSources,
+                               theParameters.theArea,
+                               fractileTemperatureDayAfterDay2Period,
+                               theFractileType);
+
+  theParameters.theLog << "thePeriod: " << period2string(theParameters.thePeriod) << std::endl;
+  theParameters.theLog << "fractileTemperatureDayBeforeDay1Period: "
+                       << period2string(fractileTemperatureDayBeforeDay1Period) << std::endl;
+  theParameters.theLog << "fractileTemperatureDay1Period: "
+                       << period2string(fractileTemperatureDay1Period) << std::endl;
+  theParameters.theLog << "fractileTemperatureDay2Period: "
+                       << period2string(fractileTemperatureDay2Period) << std::endl;
+  theParameters.theLog << "fractileTemperatureDayAfterDay2Period: "
+                       << period2string(fractileTemperatureDayAfterDay2Period) << std::endl;
+
+  theParameters.theLog << "F12 temperature for period "
+                       << period2string(fractileTemperatureDayBeforeDay1Period) << ": "
+                       << fractile12TemperatureDayBeforeDay1.value() << endl;
+  theParameters.theLog << "F37 temperature for period "
+                       << period2string(fractileTemperatureDayBeforeDay1Period) << ": "
+                       << fractile37TemperatureDayBeforeDay1.value() << endl;
+  theParameters.theLog << "F63 temperature for period "
+                       << period2string(fractileTemperatureDayBeforeDay1Period) << ": "
+                       << fractile63TemperatureDayBeforeDay1.value() << endl;
+  theParameters.theLog << "F12 temperature for period "
+                       << period2string(fractileTemperatureDay1Period) << ": "
+                       << fractile12TemperatureDay1.value() << endl;
+  theParameters.theLog << "F37 temperature for period "
+                       << period2string(fractileTemperatureDay1Period) << ": "
+                       << fractile37TemperatureDay1.value() << endl;
+  theParameters.theLog << "F63 temperature for period "
+                       << period2string(fractileTemperatureDay1Period) << ": "
+                       << fractile63TemperatureDay1.value() << endl;
+  theParameters.theLog << "F12 temperature for period "
+                       << period2string(fractileTemperatureDay2Period) << ": "
+                       << fractile12TemperatureDay2.value() << endl;
+  theParameters.theLog << "F37 temperature for period "
+                       << period2string(fractileTemperatureDay2Period) << ": "
+                       << fractile37TemperatureDay2.value() << endl;
+  theParameters.theLog << "F63 temperature for period "
+                       << period2string(fractileTemperatureDay2Period) << ": "
+                       << fractile63TemperatureDay2.value() << endl;
+  theParameters.theLog << "F12 temperature for period "
+                       << period2string(fractileTemperatureDayAfterDay2Period) << ": "
+                       << fractile12TemperatureDayAfterDay2.value() << endl;
+  theParameters.theLog << "F37 temperature for period "
+                       << period2string(fractileTemperatureDayAfterDay2Period) << ": "
+                       << fractile37TemperatureDayAfterDay2.value() << endl;
+  theParameters.theLog << "F63 temperature for period "
+                       << period2string(fractileTemperatureDayAfterDay2Period) << ": "
+                       << fractile63TemperatureDayAfterDay2.value() << endl;
+
   Sentence theSpecifiedDay;
 
   if (theParameters.thePeriodLength > 24)
@@ -770,8 +910,8 @@ const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& th
           day2Temperature < MILD_TEMPERATURE_UPPER_LIMIT &&
           dayAfterDay2Temperature > MILD_TEMPERATURE_LOWER_LIMIT &&
           dayAfterDay2Temperature < MILD_TEMPERATURE_UPPER_LIMIT &&
-          day2Temperature > fractile63Temperature.value() &&
-          dayAfterDay2Temperature > fractile63Temperature.value() &&
+          day2Temperature > fractile63TemperatureDay2.value() &&
+          dayAfterDay2Temperature > fractile63TemperatureDayAfterDay2.value() &&
           !theParameters.theGrowingSeasonUnderway)
       {
         sentence << get_shortruntrend_sentence(
@@ -940,10 +1080,10 @@ const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& th
             theAreaPhrase);
         theParameters.theShortrunTrend = HELTEINEN_SAA_JATKUU;
       }
-      else if (dayBeforeDay1Temperature < fractile12Temperature.value() &&
-               day1Temperature < fractile12Temperature.value() &&
-               day2Temperature < fractile12Temperature.value() &&
-               dayAfterDay2Temperature < fractile12Temperature.value())
+      else if (dayBeforeDay1Temperature < fractile12TemperatureDayBeforeDay1.value() &&
+               day1Temperature < fractile12TemperatureDay1.value() &&
+               day2Temperature < fractile12TemperatureDay2.value() &&
+               dayAfterDay2Temperature < fractile12TemperatureDayAfterDay2.value())
       {
         sentence << get_shortruntrend_sentence(
             MAANANTAINA_ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
@@ -954,10 +1094,10 @@ const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& th
             theAreaPhrase);
         theParameters.theShortrunTrend = KOLEA_SAA_JATKUU;
       }
-      else if (dayBeforeDay1Temperature < fractile37Temperature.value() &&
-               day1Temperature < fractile37Temperature.value() &&
-               day2Temperature < fractile37Temperature.value() &&
-               dayAfterDay2Temperature < fractile37Temperature.value())
+      else if (dayBeforeDay1Temperature < fractile37TemperatureDayBeforeDay1.value() &&
+               day1Temperature < fractile37TemperatureDay1.value() &&
+               day2Temperature < fractile37TemperatureDay2.value() &&
+               dayAfterDay2Temperature < fractile37TemperatureDayAfterDay2.value())
       {
         sentence << get_shortruntrend_sentence(
             MAANANTAINA_ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
@@ -1047,10 +1187,10 @@ const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& th
             theAreaPhrase);
         theParameters.theShortrunTrend = HELTEINEN_SAA_JATKUU;
       }
-      else if (dayBeforeDay1Temperature < fractile12Temperature.value() &&
-               day1Temperature < fractile12Temperature.value() &&
-               day2Temperature < fractile12Temperature.value() &&
-               dayAfterDay2Temperature < fractile12Temperature.value())
+      else if (dayBeforeDay1Temperature < fractile12TemperatureDayBeforeDay1.value() &&
+               day1Temperature < fractile12TemperatureDay1.value() &&
+               day2Temperature < fractile12TemperatureDay2.value() &&
+               dayAfterDay2Temperature < fractile12TemperatureDayAfterDay2.value())
       {
         sentence << get_shortruntrend_sentence(
             MAANANTAINA_ALUEELLA_KOLEA_SAA_JATKUU_COMPOSITE_PHRASE,
@@ -1061,10 +1201,10 @@ const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& th
             theAreaPhrase);
         theParameters.theShortrunTrend = KOLEA_SAA_JATKUU;
       }
-      else if (day1Temperature < fractile37Temperature.value() &&
-               dayBeforeDay1Temperature < fractile37Temperature.value() &&
-               day2Temperature < fractile37Temperature.value() &&
-               dayAfterDay2Temperature < fractile37Temperature.value())
+      else if (day1Temperature < fractile37TemperatureDay1.value() &&
+               dayBeforeDay1Temperature < fractile37TemperatureDayBeforeDay1.value() &&
+               day2Temperature < fractile37TemperatureDay2.value() &&
+               dayAfterDay2Temperature < fractile37TemperatureDayAfterDay2.value())
       {
         sentence << get_shortruntrend_sentence(
             MAANANTAINA_ALUEELLA_VIILEA_SAA_JATKUU_COMPOSITE_PHRASE,
@@ -1415,6 +1555,7 @@ const Paragraph anomaly(const TextGen::WeatherArea& itsArea,
                                                         DefaultAcceptor(),
                                                         lowerLimitF98Acceptor);
 
+  theLog << "Fractiles for period: " << period2string(fractileTemperaturePeriod) << std::endl;
   theLog << "Fractile 02 temperature and share (" << theAreaName << "): " << fractile02Temperature
          << "; " << fractile02Share << endl;
   theLog << "Fractile 12 temperature and share (" << theAreaName << "): " << fractile12Temperature

@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.6.10
+Version: 16.8.3
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -54,6 +54,10 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Wed Aug 3 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.8.3-1.fmi
+- Temperature anomaly bug fix for summertime: Afternoon maximum (before mean was used) temperature
+is compared to fractile maximum temperatue.
+- More log writing added
 * Fri Jun 10 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.10-1.fmi
 - Wind story correction:
 - Reporting together two weakening/stregthening periods, when there is relatively short period (< 6h) of unchanged wind between them
