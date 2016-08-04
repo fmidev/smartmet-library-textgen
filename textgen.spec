@@ -8,12 +8,12 @@ Group: Development/Libraries
 URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase-devel >= 16.5.26
+BuildRequires: libsmartmet-newbase-devel >= 16.6.3
 BuildRequires: libsmartmet-macgyver-devel >= 16.5.6
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: libsmartmet-newbase >= 16.5.26
+Requires: libsmartmet-newbase >= 16.6.3
 Requires: libsmartmet-macgyver >= 16.5.6
 Requires: gdal >= 1.11.4
 Provides: %{LIBNAME}
@@ -59,14 +59,17 @@ FMI textgen development files
 - 'Aamuyöllä-ja aamulla'-phrase replaced with 'Aamuyöllä'
 - Reporting wind direction and wind speed change together when
 they happen close to each other (on the same part of the day)
+* Wed Aug 3 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.8.3-1.fmi
+- Temperature anomaly bug fix for summertime: Afternoon maximum (before mean was used) temperature
+is compared to fractile maximum temperatue.
+- More log writing added
 * Tue Jun 14 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.14-1.fmi
 - Wind story correction:
 - Reporting wind speed change and wind direction change together when 
 they happen at the same part of the day
 * Fri Jun 10 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.10-1.fmi
 - Wind story correction:
-- Reporting together two weakening/stregthening periods, when there is 
- relatively short period (< 6h) of unchanged wind between them
+- Reporting together two weakening/stregthening periods, when there is relatively short period (< 6h) of unchanged wind between them
 * Thu Jun 9 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.9-2.fmi
 - Wind story correction:
 - Parameter 'wind_speed_warning_threshold' value read from configuration file (hardcoded value used before)
