@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.8.3
+Version: 16.8.4
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -54,6 +54,10 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Thu Aug 4 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.8.4-1.fmi
+- Wind story correction:
+- 'Aamuyöllä-ja aamulla'-phrase replaced with 'Aamuyöllä'
+- Reporting wind direction and wind speed change together when they happen close to each other (on the same part of the day)
 * Wed Aug 3 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.8.3-1.fmi
 - Temperature anomaly bug fix for summertime: Afternoon maximum (before mean was used) temperature is compared to fractile maximum temperatue.
 - More log writing added

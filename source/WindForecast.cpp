@@ -2198,55 +2198,74 @@ if (lastPeriod && get_period_length(windSpeedEventPeriod) < 6 &&
             {
               theParameters.theLog << "thePreviousTimePhraseInfo != timePhraseInfo: " << std::endl;
               bool directionChangeHappened = false;
-              theParameters.theLog << "period: " << period << std::endl;
-              // if (get_period_length(period) > 0 && get_period_length(period) < 6)
+              part_of_the_day_id id_period = get_part_of_the_day_id_narrow(period);
+              theParameters.theLog << "period: " << period << " -> "
+                                   << part_of_the_day_string(id_period) << std::endl;
+
+              // if direction changes same time as interval, report it here
+              theParameters.theLog << "Direction changes #3: " << period << std::endl;
+
+              TextGenPosixTime periodEndTime = period.localStartTime();
+              while (get_part_of_the_day_id_narrow(
+                         WeatherPeriod(period.localStartTime(), periodEndTime)) == id_period)
+                periodEndTime.ChangeByHours(1);
+
+              if (periodEndTime.GetHour() != period.localStartTime().GetHour())
+                periodEndTime.ChangeByHours(-1);
+
+              id_period = get_part_of_the_day_id_narrow(
+                  WeatherPeriod(period.localStartTime(), periodEndTime));
+              if (id_period == KESKIYO) id_period = AAMUYO;
+
+              int startHour = -1;
+              int endHour = -1;
+              get_part_of_the_day(id_period, startHour, endHour);
+
+              // increase end time as long as end hour is reached: direction can change on same
+              // period
+              while (periodEndTime.GetHour() != endHour)
+                periodEndTime.ChangeByHours(1);
+
+              theParameters.theLog << "Actual direction change period: " << period.localStartTime()
+                                   << "..." << periodEndTime << " -> "
+                                   << part_of_the_day_string(id_period) << std::endl;
+
+              theParameters.theLog
+                  << "thePreviousTimePhraseInfo.part_of_the_day: "
+                  << part_of_the_day_string(thePreviousTimePhraseInfo.part_of_the_day) << std::endl;
+
+              // if wind direction changes in the same part of the day as
+              // reported wind speed change, report it at the same time
+              WeatherPeriod windDirectionChangePeriod(period.localStartTime(), periodEndTime);
+
+              TimePhraseInfo tpi = thePreviousTimePhraseInfo;
+              std::vector<Sentence> directionChangeSentences =
+                  reportDirectionChanges(windDirectionChangePeriod,
+                                         windDirectionChangePeriods,
+                                         thePreviousWindDirection,
+                                         tpi,
+                                         lastPeriod);
+
+              if (directionChangeSentences.size() > 0)
               {
-                // if direction changes same time as interval, report it here
-                theParameters.theLog << "Direction changes #3: " << period << std::endl;
-
-                part_of_the_day_id id_period = get_part_of_the_day_id_narrow(period);
-                TextGenPosixTime periodEndTime = period.localStartTime();
-                while (get_part_of_the_day_id_narrow(
-                           WeatherPeriod(period.localStartTime(), periodEndTime)) == id_period)
-                  periodEndTime.ChangeByHours(1);
-
-                if (periodEndTime.GetHour() != period.localStartTime().GetHour())
-                  periodEndTime.ChangeByHours(-1);
-                else
-                  periodEndTime.ChangeByHours(2);  // direction can change maximum two hours later
-
+                thePreviousTimePhraseInfo = tpi;
+                theParameters.theLog << "Direction changes (during speed "
+                                        "changes) same time as interval: "
+                                     << std::endl;
                 theParameters.theLog
-                    << "Actual direction change period: " << period.localStartTime() << "..."
-                    << periodEndTime << std::endl;
-
-                // if wind direction changes in the same part of the day as
-                // reported wind speed change, report it at the same time
-                WeatherPeriod windDirectionChangePeriod(period.localStartTime(), periodEndTime);
-
-                TimePhraseInfo tpi = thePreviousTimePhraseInfo;
-                std::vector<Sentence> directionChangeSentences =
-                    reportDirectionChanges(windDirectionChangePeriod,
-                                           windDirectionChangePeriods,
-                                           thePreviousWindDirection,
-                                           tpi,
-                                           lastPeriod);
-
-                if (directionChangeSentences.size() > 0)
-                {
-                  thePreviousTimePhraseInfo = tpi;
-                  theParameters.theLog
-                      << "Direction changes (during speed changes) same time as interval: "
-                      << std::endl;
-                }
-
-                for (auto s : directionChangeSentences)
-                {
-                  if (!sentence.empty()) sentence << Delimiter(COMMA_PUNCTUATION_MARK);
-                  sentence << s;
-                  theParameters.theLog << as_string(s) << std::endl;
-                }
-                directionChangeHappened = (directionChangeSentences.size() > 0);
+                    << "thePreviousTimePhraseInfo.part_of_the_day2: "
+                    << part_of_the_day_string(thePreviousTimePhraseInfo.part_of_the_day)
+                    << std::endl;
               }
+
+              for (auto s : directionChangeSentences)
+              {
+                if (!sentence.empty()) sentence << Delimiter(COMMA_PUNCTUATION_MARK);
+                sentence << s;
+                theParameters.theLog << as_string(s) << std::endl;
+              }
+              directionChangeHappened = (directionChangeSentences.size() > 0);
+
               // if there was no direction change at the same time report time here
               if (!directionChangeHappened && timePhraseInfo != thePreviousTimePhraseInfo)
               {
@@ -2290,15 +2309,16 @@ if (lastPeriod && get_period_length(windSpeedEventPeriod) < 6 &&
 
         if (windDirectionId != thePreviousWindDirection.id)
         {
-          theParameters.theLog
-              << "Wind direction change reported in the end of wind speed change period " << period
-              << std::endl;
-
           WeatherResult windDirectionValue = get_wind_direction_at(theParameters, period);
 
           Sentence sentence;
 
           sentence << timePhrase << windDirectionSentence(windDirectionId);
+
+          theParameters.theLog
+              << "Wind direction change reported in the end of wind speed change periodddd "
+              << period << ": " << std::endl
+              << as_string(sentence) << std::endl;
 
           ret.push_back(sentence);
 
@@ -2451,6 +2471,11 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
       tps.insert(0, (Fmi::to_string(timePhraseInfo.day_number) + "-"));
     timePhraseInfo.part_of_the_day = AAMUYO;
   }
+  if (tps.find("aamuyolla ja aamulla") != std::string::npos)
+  {
+    tps.replace(tps.find("aamuyolla ja aamulla"), 20, "aamuyolla");
+    timePhraseInfo.part_of_the_day = AAMUYO;
+  }
 
   // replace keskiyo with aamuyo
   if (tps.find("keskiyo") != std::string::npos)
@@ -2461,8 +2486,10 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
 
   sentence << tps;
 
-  //  std::cout << "timePhrase: " << thePeriod << " -> " << actualPeriod << " -> " << tps << " --> "
-  //          << timePhraseInfo << std::endl;
+  /*
+  std::cout << "timePhrase: " << thePeriod << " -> " << actualPeriod << " -> " << tps << " --> "
+            << timePhraseInfo << std::endl;
+  */
 
   return sentence;
 }
