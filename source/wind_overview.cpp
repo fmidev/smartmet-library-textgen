@@ -21,7 +21,8 @@
 
 #include <macgyver/String.h>
 #include <boost/date_time/gregorian/gregorian.hpp>    //include all types plus i/o
-#include "boost/date_time/posix_time/posix_time.hpp"  //include all types plus i/o
+#include <boost/date_time/posix_time/posix_time.hpp>  //include all types plus i/o
+#include <boost/foreach.hpp>
 
 using namespace boost;
 using namespace TextGen;
@@ -2366,7 +2367,7 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
 
   // iterate through and check against actual threshold value that wind speed differ enough
   // if it doesnt, set event as missing
-  for (auto windEventPeriodDataItem : storyParams.theWindSpeedEventPeriodVector)
+  BOOST_FOREACH(WindEventPeriodDataItem * windEventPeriodDataItem, storyParams.theWindSpeedEventPeriodVector)
   {
     if (!wind_speed_differ_enough(storyParams, windEventPeriodDataItem->thePeriod))
       windEventPeriodDataItem->theWindEvent = MISSING_WIND_SPEED_EVENT;
@@ -2598,7 +2599,7 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
 
   mergedEventPeriods.clear();
 
-  for (auto p : cleanedEventPeriods)
+  BOOST_FOREACH(WindEventPeriodDataItem * p, cleanedEventPeriods)
   {
     if (p->theWindEvent != MISSING_WIND_SPEED_EVENT)
     {

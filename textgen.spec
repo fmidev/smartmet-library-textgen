@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.8.4
+Version: 16.9.8
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -9,13 +9,13 @@ URL: http://www.weatherproof.fi
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: libsmartmet-newbase-devel >= 16.6.16
-BuildRequires: libsmartmet-macgyver-devel >= 16.5.6
+BuildRequires: libsmartmet-macgyver-devel >= 16.4.18
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
-BuildRequires: gdal-devel >= 1.11.4
+BuildRequires: gdal-devel >= 1.11.0
 Requires: libsmartmet-newbase >= 16.6.16
-Requires: libsmartmet-macgyver >= 16.5.6
-Requires: gdal >= 1.11.4
+Requires: libsmartmet-macgyver >= 16.4.18
+Requires: gdal >= 1.11.0
 Provides: %{LIBNAME}
 
 %description
@@ -54,6 +54,8 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Thu Sep  8 2016 Mika Heiskanen <mika.heiskanen@fmi.fi> - 16.9.8-1.fmi
+- Changed not to use C++11 features to enable compiling on RHEL6
 * Thu Aug 4 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.8.4-1.fmi
 - Wind story correction:
 - 'Aamuyöllä-ja aamulla'-phrase replaced with 'Aamuyöllä'

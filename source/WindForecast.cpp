@@ -40,6 +40,7 @@
 #include <macgyver/String.h>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/foreach.hpp>
 #include <vector>
 #include <map>
 #include <iomanip>
@@ -306,7 +307,7 @@ std::string as_string(const GlyphContainer& gc)
 // return true if equalized top wind is weak duuring whole period
 bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod)
 {
-  for (auto item : theParameters.theWindDataVector)
+  BOOST_FOREACH(const WindDataItemsByArea * item, theParameters.theWindDataVector)
   {
     WindDataItemUnit& dataitem = item->getDataItem(theParameters.theArea.type());
 
@@ -666,7 +667,8 @@ std::vector<WeatherPeriod> get_wind_direction_periods(const wo_story_params& the
   }
 
   theParameters.theLog << "** ORIGINAL DIRECTION PERIODS **" << std::endl;
-  for (auto p : directionPeriods)
+
+  BOOST_FOREACH(const WeatherPeriod & p, directionPeriods)
   {
     pair<WeatherResult, WindDirectionId> wdp = get_wind_direction_pair_at(theParameters, p);
 
@@ -1597,6 +1599,16 @@ std::vector<Sentence> WindForecast::reportDirectionChanges(
   return sentences;
 }
 
+// typedef std::pair<TimePhraseInfo, Sentence>
+struct DirectionSentenceInfo
+{
+  TextGenPosixTime startTime;
+  TextGenPosixTime endTime;
+  Sentence sentence;
+  TimePhraseInfo timePhraseInfo;
+  WindDirectionInfo windDirectionInfo;
+};
+
 std::vector<Sentence> WindForecast::constructWindSentence(
     const WindEventPeriodDataItem* windSpeedItem,
     const WindEventPeriodDataItem* nextWindSpeedItem,
@@ -1654,7 +1666,7 @@ std::vector<Sentence> WindForecast::constructWindSentence(
     directionReportingStartTime.ChangeByHours(-2);
   }
 
-  for (auto period : windDirectionReportingPeriods)
+  BOOST_FOREACH(const WeatherPeriod & period, windDirectionReportingPeriods)
   {
     if (period.localStartTime() >= directionReportingStartTime &&
         period.localStartTime() < directionReportingEndTime)
@@ -1674,15 +1686,6 @@ std::vector<Sentence> WindForecast::constructWindSentence(
                            << " direction changes during the period." << std::endl;
 
       TimePhraseInfo timePhraseInfo;
-      // typedef std::pair<TimePhraseInfo, Sentence>
-      struct DirectionSentenceInfo
-      {
-        TextGenPosixTime startTime;
-        TextGenPosixTime endTime;
-        Sentence sentence;
-        TimePhraseInfo timePhraseInfo;
-        WindDirectionInfo windDirectionInfo;
-      };
 
       std::vector<DirectionSentenceInfo> directionSentences;
       WindDirectionInfo previousWindDirection = thePreviousWindDirection;
@@ -1850,7 +1853,7 @@ std::vector<Sentence> WindForecast::constructWindSentence(
 
       theParameters.theLog << "Final: directions reported at period : " << windSpeedEventPeriod
                            << std::endl;
-      for (auto item : directionSentences)
+      BOOST_FOREACH(const DirectionSentenceInfo & item, directionSentences)
       {
         theParameters.theLog << item.startTime << "..." << item.endTime << " -> "
                              << wind_direction_string(item.windDirectionInfo.id) << std::endl;
@@ -1924,7 +1927,7 @@ std::vector<Sentence> WindForecast::constructWindSentence(
         // here too
         if (i == windSpeedReportingPeriods.size() - 1 && nextWindSpeedEventMissing)
         {
-          for (auto reportPeriod : windDirectionReportingPeriods)
+	  BOOST_FOREACH(const WeatherPeriod & reportPeriod, windDirectionReportingPeriods)
             if (reportPeriod.localStartTime() >= period.localEndTime() &&
                 reportPeriod.localStartTime() <= nextWindSpeedItem->thePeriod.localEndTime())
             {
@@ -2099,7 +2102,7 @@ if (lastPeriod && get_period_length(windSpeedEventPeriod) < 6 &&
                 theParameters.theLog << "Direction changes #1 (during speed change): " << std::endl;
               }
 
-              for (auto s : directionChangeSentences)
+              BOOST_FOREACH(const Sentence & s, directionChangeSentences)
               {
                 sentence << s;
                 theParameters.theLog << as_string(s) << std::endl;
@@ -2145,7 +2148,7 @@ if (lastPeriod && get_period_length(windSpeedEventPeriod) < 6 &&
                                  << std::endl;
           }
 
-          for (auto s : directionChangeSentences)
+          BOOST_FOREACH(const Sentence & s, directionChangeSentences)
           {
             if (!sentence.empty()) sentence << Delimiter(COMMA_PUNCTUATION_MARK);
             sentence << s;
@@ -2258,7 +2261,7 @@ if (lastPeriod && get_period_length(windSpeedEventPeriod) < 6 &&
                     << std::endl;
               }
 
-              for (auto s : directionChangeSentences)
+              BOOST_FOREACH(const Sentence & s, directionChangeSentences)
               {
                 if (!sentence.empty()) sentence << Delimiter(COMMA_PUNCTUATION_MARK);
                 sentence << s;
@@ -2294,7 +2297,7 @@ if (lastPeriod && get_period_length(windSpeedEventPeriod) < 6 &&
       }
 
       // in the end report rest of wind direction changes during this wind speed change period
-      for (auto period : windDirectionChangePeriods)
+      BOOST_FOREACH(const WeatherPeriod & period, windDirectionChangePeriods)
       {
         if (get_period_length(period) <= 2) continue;
 
@@ -2347,14 +2350,14 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
 
   theParameters.theLog << "*** WIND DIRECTION REPORTING PERIODS ***" << std::endl;
 
-  for (auto period : windDirectionPeriods)
+  BOOST_FOREACH(const WeatherPeriod & period, windDirectionPeriods)
     theParameters.theLog << period << " - "
                          << wind_direction_string(get_wind_direction_id_at(theParameters, period))
                          << std::endl;
 
   theParameters.theLog << "*** WIND SPEED REPORTING PERIODS ***" << std::endl;
 
-  for (auto item : theParameters.theWindSpeedEventPeriodVector)
+  BOOST_FOREACH(const WindEventPeriodDataItem * item, theParameters.theWindSpeedEventPeriodVector)
     theParameters.theLog << item->thePeriod << " - " << get_wind_event_string(item->theWindEvent)
                          << std::endl;
 
@@ -2388,7 +2391,7 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
       i++;
   }
 
-  for (auto s : sentences)
+  BOOST_FOREACH(const Sentence & s, sentences)
     paragraph << s;
 
   return paragraph;
