@@ -283,7 +283,7 @@ struct WindEventPeriodDataItem
   }
 
   WeatherPeriod thePeriod;
-  WeatherPeriod theWindSpeedChangePeriod;  // can be longer than thePeriod
+  WeatherPeriod theWindSpeedChangePeriod;  // can be shorter than thePeriod
   WindEventId theWindEvent;
   const WindDataItemUnit& thePeriodBeginDataItem;
   const WindDataItemUnit& thePeriodEndDataItem;
@@ -333,29 +333,15 @@ float mean_wind_direction_error(const wind_data_item_vector& theWindDataVector,
                                 const WeatherPeriod& thePeriod);
 // in WindForecast.cpp
 std::string get_wind_event_string(WindEventId theWindEventId);
-bool wind_speed_differ_enough(const wo_story_params& theParameter,
-                              const WeatherPeriod& thePeriod,
-                              bool aboveWeakWind = false);
+bool wind_speed_differ_enough(const wo_story_params& theParameter, const WeatherPeriod& thePeriod);
 bool wind_direction_differ_enough(const WeatherResult theWindDirection1,
                                   const WeatherResult theWindDirection2,
                                   float theWindDirectionThreshold);
-WindStoryTools::WindDirectionId get_wind_direction_id_at(const wo_story_params& theParameters,
-                                                         const TextGenPosixTime& thePointOfTime);
-WindStoryTools::WindDirectionId get_wind_direction_id_at(const wo_story_params& theParameters,
-                                                         const WeatherPeriod& thePeriod);
+
 bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod);
-/*
-void get_wind_speed_interval(const TextGenPosixTime& pointOfTime,
-                           wo_story_params& theParameter,
-                           float& lowerLimit,
-                           float& upperLimit);
-void get_wind_speed_interval(const WeatherPeriod& thePeriod,
-                           wo_story_params& theParameter,
-                           float& lowerLimit,
-                           float& upperLimit);
-*/
+
 unsigned int get_peak_wind(const WeatherPeriod& thePeriod, const wo_story_params& theParameters);
-unsigned int get_top_wind(const WeatherPeriod& thePeriod, const wo_story_params& theParameters);
+float get_top_wind(const WeatherPeriod& thePeriod, const wo_story_params& theParameters);
 
 std::ostream& operator<<(std::ostream& theOutput, const WeatherPeriod& period);
 std::ostream& operator<<(std::ostream& theOutput,

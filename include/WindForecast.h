@@ -47,9 +47,7 @@ class WindForecast
                          bool useAlkaenPhrase) const;
 
   std::vector<WeatherPeriod> getWindSpeedReportingPeriods(
-      const WindEventPeriodDataItem& eventPeriodDataItem,
-      bool firstSentenceInTheStory,
-      WindEventId eventId) const;
+      const WindEventPeriodDataItem& eventPeriodDataItem, bool firstSentenceInTheStory) const;
   bool getWindSpeedChangeAttribute(const WeatherPeriod& changePeriod,
                                    std::string& phraseStr,
                                    bool& smallChange,

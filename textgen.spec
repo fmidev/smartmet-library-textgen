@@ -1,7 +1,7 @@
 %define LIBNAME textgen
 Summary: textgen library
 Name: libsmartmet-%{LIBNAME}
-Version: 16.8.4
+Version: 16.9.14
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -54,6 +54,16 @@ FMI textgen development files
 %{_includedir}/smartmet/%{LIBNAME}
 
 %changelog
+* Wed Sep 14 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.9.14-1.fmi
+- cardinal direction and 'puoleinen'-expresson with same cardinal direction 
+can not be successively (e.g. etelätuulta-etelänpuoleista tuulta), but we 
+have to use 'välistä'-expression in the latter (eg. etelätuulta-etelän ja 
+kaakon välistä tuulta)
+- calculation of wind speed lower and upper limit corrected (rounding)
+- calculated wind in the graph corrected
+- log writing added
+- version string added
+- code cleaned
 * Thu Aug 4 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.8.4-1.fmi
 - Wind story correction:
 - 'Aamuyöllä-ja aamulla'-phrase replaced with 'Aamuyöllä'

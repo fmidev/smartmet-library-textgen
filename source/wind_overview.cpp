@@ -22,6 +22,7 @@
 #include <macgyver/String.h>
 #include <boost/date_time/gregorian/gregorian.hpp>    //include all types plus i/o
 #include "boost/date_time/posix_time/posix_time.hpp"  //include all types plus i/o
+#include <boost/foreach.hpp>
 
 using namespace boost;
 using namespace TextGen;
@@ -48,10 +49,6 @@ float calculate_weighted_wind_speed(const wo_story_params& storyParams,
 {
   return calculate_weighted_wind_speed(
       storyParams, dataItem.theWindSpeedTop.value(), dataItem.theWindSpeedMedian.value());
-  /*
-  return calculate_weighted_wind_speed(
-      storyParams, dataItem.theEqualizedTopWind.value(), dataItem.theEqualizedMedianWind.value());
-  */
 }
 
 bool wind_event_period_sort(const WindEventPeriodDataItem* first,
@@ -2030,17 +2027,17 @@ bool populate_time_series(wo_story_params& storyParams)
       total_counter++;
     }
   }
-  // if more than 10 % above 'storyParams.theWindSpeedWarningThreshold' m/s wind is not weak
-  double topWindWeakShare =
+  // if more than 10% above 'storyParams.theWindSpeedWarningThreshold' m/s wind is not weak
+  double topWindAboveWeakShare =
       ((static_cast<float>(counter) / static_cast<float>(total_counter)) * 100.0);
-  if (topWindWeakShare > 10.0) storyParams.theWeakTopWind = false;
+  if (topWindAboveWeakShare > 10.0) storyParams.theWeakTopWind = false;
 
   storyParams.theLog << "Top wind is " << (storyParams.theWeakTopWind ? "weak" : "NOT weak")
                      << " at period " << storyParams.theForecastPeriod << ", " << fixed
-                     << setprecision(2) << topWindWeakShare << "% is above "
+                     << setprecision(2) << topWindAboveWeakShare << "% is above "
                      << storyParams.theWindSpeedWarningThreshold << " m/s" << std::endl;
 
-  // get claculated wind speed
+  // get calculated wind speed
   for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
   {
     for (unsigned int k = 0; k < storyParams.theWeatherAreas.size(); k++)
@@ -2286,10 +2283,10 @@ WindEventId get_wind_direction_event(const WindEventPeriodDataItem& windEventPer
 // fill up the storyParams.theWindSpeedEventPeriodVector
 void find_out_wind_speed_event_periods(wo_story_params& storyParams)
 {
-  const vector<unsigned int>& theEqualizedIndexes =
-      storyParams.equalizedWSIndexesCalcWind(storyParams.theArea.type());
-
   WeatherArea::Type areaType(storyParams.theArea.type());
+
+  const vector<unsigned int>& theEqualizedIndexes =
+      storyParams.equalizedWSIndexesCalcWind(areaType);
 
   if (theEqualizedIndexes.size() == 0)
   {
@@ -2323,11 +2320,11 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
     // find out wind speed event; for that we need speed at the beginnig and the end
 
     float begSpeed = dataItemPeriodBegin.theEqualizedCalcWind.value();
-    float endSpeed = dataItemPeriodEnd.theWindSpeedCalc.value();
+    float endSpeed = dataItemPeriodEnd.theEqualizedCalcWind.value();
 
     // at first use small threshold value, in the end
     // when periods has been (possibly) merged, check again with actual threshold
-    WindEventId currentPeriodWindEvent = get_wind_speed_event(begSpeed, endSpeed, 0.1);
+    WindEventId currentPeriodWindEvent = get_wind_speed_event(begSpeed, endSpeed, 0.001);
 
     bool firstRound(i == 1);
     WindEventPeriodDataItem* previousEventPeriod =
@@ -2341,6 +2338,7 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
       // add the original period
       storyParams.theWindSpeedEventPeriodVector.push_back(new WindEventPeriodDataItem(
           windEventPeriod, currentPeriodWindEvent, dataItemPeriodBegin, dataItemPeriodEnd));
+
       continue;
     }
     else
@@ -2366,10 +2364,12 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
 
   // iterate through and check against actual threshold value that wind speed differ enough
   // if it doesnt, set event as missing
-  for (auto windEventPeriodDataItem : storyParams.theWindSpeedEventPeriodVector)
+  BOOST_FOREACH (WindEventPeriodDataItem* item, storyParams.theWindSpeedEventPeriodVector)
   {
-    if (!wind_speed_differ_enough(storyParams, windEventPeriodDataItem->thePeriod))
-      windEventPeriodDataItem->theWindEvent = MISSING_WIND_SPEED_EVENT;
+    if (!wind_speed_differ_enough(storyParams, item->thePeriod))
+    {
+      item->theWindEvent = MISSING_WIND_SPEED_EVENT;
+    }
   }
 }
 
@@ -2598,7 +2598,7 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
 
   mergedEventPeriods.clear();
 
-  for (auto p : cleanedEventPeriods)
+  BOOST_FOREACH (WindEventPeriodDataItem* p, cleanedEventPeriods)
   {
     if (p->theWindEvent != MISSING_WIND_SPEED_EVENT)
     {
@@ -2662,13 +2662,7 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
 void find_out_wind_event_periods(wo_story_params& storyParams)
 {
   find_out_wind_speed_event_periods(storyParams);
-
   merge_missing_wind_speed_event_periods(storyParams);
-
-#ifndef NDEBUG
-  log_wind_event_periods(storyParams);
-  log_equalized_wind_direction_data_vector(storyParams);
-#endif
 
   if (storyParams.theWindSpeedEventPeriodVector.size() > 1)
     std::sort(storyParams.theWindSpeedEventPeriodVector.begin(),
@@ -3004,7 +2998,7 @@ void calculate_equalized_wind_speed_indexes_for_maximum_wind(wo_story_params& st
     const WeatherArea& weatherArea = storyParams.theWeatherAreas[j];
 
     unsigned int index1, index2, index3;
-    WeatherArea::Type areaType(weatherArea.type());  // storyParams.theArea.type());
+    WeatherArea::Type areaType(weatherArea.type());
 
     vector<unsigned int>& eqIndexVector =
         (topWind ? storyParams.equalizedWSIndexesTopWind(areaType)
@@ -3096,86 +3090,38 @@ void calculate_equalized_wind_speed_indexes_for_maximum_wind(wo_story_params& st
 
 void calculate_equalized_wind_speed_indexes_for_calc_wind(wo_story_params& storyParams)
 {
-  for (unsigned int j = 0; j < storyParams.theWeatherAreas.size(); j++)
+  // get claculated wind speed
+  for (unsigned int k = 0; k < storyParams.theWeatherAreas.size(); k++)
   {
-    const WeatherArea& weatherArea = storyParams.theWeatherAreas[j];
-
-    unsigned int index1, index2, index3;
+    const WeatherArea& weatherArea = storyParams.theWeatherAreas[k];
     WeatherArea::Type areaType(weatherArea.type());
 
-    vector<unsigned int>& eqIndexVector = storyParams.equalizedWSIndexesCalcWind(areaType);
+    //	add equalized indexes of top and median wind first to set to get unique indexes
+    std::set<unsigned int> index_set;
 
-    while (1)
+    BOOST_FOREACH (unsigned int ind, storyParams.equalizedWSIndexesTopWind(areaType))
+      index_set.insert(ind);
+
+    BOOST_FOREACH (unsigned int ind, storyParams.equalizedWSIndexesMedian(areaType))
+      index_set.insert(ind);
+
+    // clear equalized calculated wind indexes and then insert indexes from set
+    vector<unsigned int>* eqCalcWindIndexVector =
+        &(storyParams.equalizedWSIndexesCalcWind(areaType));
+    eqCalcWindIndexVector->clear();
+
+    BOOST_FOREACH (unsigned int ind, index_set)
+      eqCalcWindIndexVector->push_back(ind);
+
+    // recalculate equalized calculated wind speed
+    for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
     {
-      double minError = UINT_MAX;
-      unsigned int minErrorIndex = UINT_MAX;
-
-      for (unsigned int i = 0; i < eqIndexVector.size() - 2; i++)
-      {
-        index1 = eqIndexVector[i];
-        index2 = eqIndexVector[i + 1];
-        index3 = eqIndexVector[i + 2];
-
-        const WindDataItemUnit& dataItemIndex1 = (*storyParams.theWindDataVector[index1])(areaType);
-        const WindDataItemUnit& dataItemIndex2 = (*storyParams.theWindDataVector[index2])(areaType);
-        const WindDataItemUnit& dataItemIndex3 = (*storyParams.theWindDataVector[index3])(areaType);
-
-        double lineBegX = index1;
-        double lineBegY = dataItemIndex1.theWindSpeedCalc.value();
-        double lineEndX = index3;
-        double lineEndY = dataItemIndex3.theWindSpeedCalc.value();
-        double coordX = index2;
-        double coordY = dataItemIndex2.theWindSpeedCalc.value();
-        NFmiPoint point(coordX, coordY);
-        NFmiPoint lineBegPoint(lineBegX, lineBegY);
-        NFmiPoint lineEndPoint(lineEndX, lineEndY);
-        double deviation_from_line = distance_from_line(point, lineBegPoint, lineEndPoint);
-
-        if (deviation_from_line < minError)
-        {
-          minError = deviation_from_line;
-          minErrorIndex = i + 1;
-        }
-      }
-
-      if (minError > storyParams.theWindSpeedMaxError)
-      {
-        break;
-      }
-      // remove the point with minimum error
-      eqIndexVector.erase(eqIndexVector.begin() + minErrorIndex);
-    }  // while
-
-    bool valuesToAdd = true;
-    do
-    {
-      valuesToAdd = add_local_min_max_values(eqIndexVector, storyParams, StatValueType::CALC);
-    } while (valuesToAdd);
-
-    // re-calculate equalized values for the removed points
-    for (unsigned int i = 1; i < eqIndexVector.size(); i++)
-    {
-      unsigned int currentIndex = eqIndexVector[i];
-      unsigned int previousIndex = eqIndexVector[i - 1];
-
-      const WindDataItemUnit& previousItem =
-          (*storyParams.theWindDataVector[previousIndex])(areaType);
-      const WindDataItemUnit& currentItem =
-          (*storyParams.theWindDataVector[currentIndex])(areaType);
-
-      if (currentIndex == previousIndex + 1) continue;
-
-      float oppositeLen =
-          currentItem.theWindSpeedCalc.value() - previousItem.theWindSpeedCalc.value();
-      float adjacentLen = currentIndex - previousIndex;
-      float slope = oppositeLen / adjacentLen;
-
-      for (unsigned int k = previousIndex + 1; k < currentIndex; k++)
-      {
-        float yValue = (slope * (k - previousIndex)) + previousItem.theWindSpeedCalc.value();
-        WindDataItemUnit& item = (storyParams.theWindDataVector[k])->getDataItem(areaType);
-        item.theEqualizedCalcWind = WeatherResult(yValue, 0.0);
-      }
+      WindDataItemUnit& dataItem = (storyParams.theWindDataVector[i])->getDataItem(areaType);
+      dataItem.theEqualizedCalcWind =
+          WeatherResult(calculate_weighted_wind_speed(storyParams,
+                                                      dataItem.theEqualizedTopWind.value(),
+                                                      dataItem.theEqualizedMedianWind.value()),
+                        0.0);
     }
   }
 }
@@ -3347,20 +3293,6 @@ void calculate_equalized_data(wo_story_params& storyParams)
 
   if (storyParams.equalizedWSIndexesCalcWind(areaType).size() > 3)
     calculate_equalized_wind_speed_indexes_for_calc_wind(storyParams);
-
-  // check if wind is weak during whole period
-  storyParams.theWeakTopWind = true;
-  for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
-  {
-    const WindDataItemUnit& dataItem = (*storyParams.theWindDataVector[i])(areaType);
-    double eqTopWind = dataItem.theEqualizedTopWind.value();
-
-    if (eqTopWind >= 10.0)
-    {
-      storyParams.theWeakTopWind = false;
-      break;
-    }
-  }
 }
 
 void read_configuration_params(wo_story_params& storyParams)
@@ -3488,10 +3420,8 @@ Paragraph WindStory::overview() const
     log_wind_direction_periods(storyParams);
     log_wind_event_periods(storyParams);
 #else
-    log_windirection_distribution(storyParams);
-    log_equalized_wind_speed_data_vector(storyParams);
-    log_equalized_wind_direction_data_vector(storyParams);
-    log_wind_event_periods(storyParams);
+    log_wind_speed_periods(storyParams);
+    log_wind_direction_periods(storyParams);
     log_raw_data(storyParams);
 #endif
     WindForecast windForecast(storyParams);
@@ -3503,8 +3433,9 @@ Paragraph WindStory::overview() const
     if (Settings::optional_bool("qdtext::append_graph", false))
     {
       std::string html_string(Settings::optional_string("html__append", ""));
-      html_string += get_js_code(
-          js_id, html_string.empty(), get_top_wind(storyParams.theForecastPeriod, storyParams));
+      html_string += get_js_code(js_id,
+                                 html_string.empty(),
+                                 ceil(get_top_wind(storyParams.theForecastPeriod, storyParams)));
 
       html_string += "</br><br>\n";
       html_string += "<hr size=\"3\" color=\"black\">\n";
