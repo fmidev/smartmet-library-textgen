@@ -44,14 +44,6 @@ void modmean()
     TEST_FAILED("Failed std(1,9,7) = 1.63299...");
   }
 
-  expected = sqrt((1 * 1 + 1 * 1 + 3 * 3 + 7 * 7 - (1 - 1 - 3 - 7) * (1 - 1 - 3 - 7) / 4.0) / 4.0);
-  calc(3);
-  if (abs(calc() - expected) > 0.01)
-  {
-    cout << calc() << endl;
-    TEST_FAILED("Failed std(1,9,7,3) = 2.95804...");
-  }
-
   TEST_PASSED();
 }
 

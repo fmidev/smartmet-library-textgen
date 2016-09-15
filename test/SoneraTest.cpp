@@ -4,6 +4,8 @@
 #include "Phrase.h"
 #include "Settings.h"
 
+#include <boost/lexical_cast.hpp>
+
 #include <newbase/NFmiSettings.h>
 
 #include <iostream>
@@ -385,14 +387,31 @@ void phrases()
   require("pakkanen heikkenee", "545");
   require("ja", "546");
 
+  // New additions (14) with same pronounciation:
+  require("astetta (2)", "315");
+  require("astetta (0)", "315");
+  require("astetta (n...4)", "315");
+  require("astetta (n...3)", "315");
+  require("astetta (n...2)", "315");
+  require("astetta (n...1)", "315");
+  require("astetta (n...0)", "315");
+  require("astetta (m...n)", "315");
+  require("astetta (n)", "315");
+  require("astetta (4)", "315");
+  require("astetta (3)", "315");
+  require("astetta (mod 10=1)", "315");
+  require("astetta (n...(mod 10=1))", "315");
+  require("astetta (1)", "315");
+
   // extras:
   // pohjanmaa:lle == osterbotten::lle
   // ahvenanmaa:lle == aland::lle
   // o'clock = <empty>
 
-  const int extras = 3;
+  const int extras = 3 + 14;
   if (dict->size() != 546 - 200 + 1 + extras)
-    TEST_FAILED("Sonera dictionary should have 350 phrases");
+    TEST_FAILED("Sonera dictionary should have 350 phrases, not " +
+                boost::lexical_cast<std::string>(dict->size()));
 
   TEST_PASSED();
 }

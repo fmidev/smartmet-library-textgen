@@ -652,6 +652,30 @@ pair<int, int> wind_speed_interval(const wind_speed_vector& theWindSpeedVector)
   return retval;
 }
 
+WindDirectionId direction_between_id(float theWindDirection)
+{
+  WindDirectionId retval(MISSING_WIND_DIRECTION_ID);
+
+  if (theWindDirection > 0.0 && theWindDirection <= 45)
+    retval = POHJOINEN_KOILLINEN;
+  else if (theWindDirection > 45 && theWindDirection <= 90.0)
+    retval = ITA_KOILLINEN;
+  else if (theWindDirection > 90.0 && theWindDirection <= 135.0)
+    retval = ITA_KAAKKO;
+  else if (theWindDirection > 135.0 && theWindDirection <= 180.0)
+    retval = ETELA_KAAKKO;
+  else if (theWindDirection > 180.0 && theWindDirection <= 225.0)
+    retval = ETELA_LOUNAS;
+  else if (theWindDirection > 225.0 && theWindDirection <= 270.0)
+    retval = LANSI_LOUNAS;
+  else if (theWindDirection > 270.0 && theWindDirection <= 315.0)
+    retval = LANSI_LUODE;
+  else if (theWindDirection > 315.0 && theWindDirection <= 360.0)
+    retval = LANSI_LUODE;
+
+  return retval;
+}
+
 WindDirectionId puoleinen_direction_id(float theWindDirection,
                                        const WindDirectionId& theWindDirectionId)
 {

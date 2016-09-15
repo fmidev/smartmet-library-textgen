@@ -208,6 +208,8 @@ bool same_direction(const WindDirectionId& theDirection1,
                     const WindDirectionId& theDirection2,
                     bool ignore_suuntainen);
 
+WindDirectionId direction_between_id(float theWindDirection);
+
 }  // namespace WindStoryTools
 }  // namespace TextGen
 

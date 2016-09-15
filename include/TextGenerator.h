@@ -11,6 +11,8 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 
+#define VERSION_STRING "16.9.14-1"
+
 class TextGenPosixTime;
 
 namespace TextGen
@@ -41,6 +43,7 @@ class TextGenerator
 
   Document generate(const TextGen::WeatherArea& theArea) const;
 
+  static std::string version() { return VERSION_STRING; }
  private:
   class Pimple;
   boost::shared_ptr<Pimple> itsPimple;
