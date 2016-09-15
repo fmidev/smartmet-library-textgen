@@ -651,7 +651,7 @@ Paragraph FrostStory::onenight() const
   RangeAcceptor precipitationlimits;
   precipitationlimits.lowerLimit(DRY_WEATHER_LIMIT_DRIZZLE);
 
-  WeatherResult precipitationResult = forecaster.analyze(itsVar,
+  WeatherResult precipitationResult = forecaster.analyze(itsVar + "::fake::precipitation",
                                                          itsSources,
                                                          Precipitation,
                                                          Maximum,

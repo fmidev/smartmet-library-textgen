@@ -12055,8 +12055,8 @@ void create_anomaly_testcases(TestCaseContainer& testCases,
                                           "13.04,0",  // coast day2 afternoon: min, max, mean
                                           "12.84,0",
                                           "13.22,0",
-                                          "13.03,0",  // area day2 afternoon: min, max, mean
-                                          "Sää viilenee vähän."  // the story
+                                          "13.03,0",       // area day2 afternoon: min, max, mean
+                                          "Sää viilenee."  // the story
                                           )));
       testCases.insert(make_pair(
           i++,
@@ -12188,7 +12188,7 @@ void create_anomaly_testcases(TestCaseContainer& testCases,
                                           "24.75,0",
                                           "26.11,0",
                                           "25.43,0",  // area day2 afternoon: min, max, mean
-                                          "Sää on helteistä."  // the story
+                                          "Helteinen sää jatkuu."  // the story
                                           )));
       testCases.insert(make_pair(
           i++,

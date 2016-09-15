@@ -3332,6 +3332,7 @@ void frost_onenight()
   Settings::set("onenight::regression_test", "true");
   //	Settings::set("onenight::fake::growing_season_on","true");
   Settings::set("onenight::fake::area_percentage", "40.0");
+  Settings::set("onenight::fake::precipitation", "0.0,0.0");
 
   TextGenPosixTime time1(2003, 6, 3, 12);
   TextGenPosixTime time2(2003, 6, 4, 12);

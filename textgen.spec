@@ -61,6 +61,7 @@ FMI textgen development files
 - log writing added
 - version string added
 - code cleaned
+- regression tests corrected
 * Thu Sep  8 2016 Mika Heiskanen <mika.heiskanen@fmi.fi> - 16.9.8-1.fmi
 - Changed not to use C++11 features to enable compiling on RHEL6
 * Thu Aug 4 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.8.4-1.fmi
