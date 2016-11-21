@@ -45,6 +45,7 @@
 // ----------------------------------------------------------------------
 
 #include "MySQLDictionaries.h"
+#ifdef UNIX
 #include "MySQLDictionary.h"
 #include "TextGenError.h"
 #include <boost/shared_ptr.hpp>
@@ -236,3 +237,4 @@ bool MySQLDictionaries::empty(void) const
 }  // namespace TextGen
 
 // ======================================================================
+#endif // UNIX

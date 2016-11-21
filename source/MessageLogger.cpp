@@ -36,6 +36,7 @@
 #include "MessageLogger.h"
 
 #include "DebugTextFormatter.h"
+#include "newbase\NFmiTime.h"
 
 #include <fstream>
 #include <iomanip>
@@ -61,14 +62,8 @@ void output_timestamp(bool theFlag, ostream* theOutput)
 {
   if (theOutput != 0 && theFlag)
   {
-    time_t t;
-    static_cast<void>(time(&t));
-    struct tm loc;
-    localtime_r(&t, &loc);
-
-    *theOutput << setfill('0') << setw(2) << loc.tm_hour << ':' << setw(2) << loc.tm_min << ':'
-               << setw(2) << loc.tm_sec << ' ' << setw(2) << loc.tm_mday << '.' << setw(2)
-               << loc.tm_mon + 1 << '.' << setw(4) << loc.tm_year + 1900 << ' ';
+      NFmiTime now;
+      *theOutput << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
   }
 }
 }

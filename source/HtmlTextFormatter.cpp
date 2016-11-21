@@ -25,8 +25,10 @@
 #include "Settings.h"
 #include "StoryTag.h"
 #include "TextFormatterTools.h"
-#include "Time.h"
+#include "WeatherTime.h"
 #include "TimePeriod.h"
+
+
 
 #include <boost/lexical_cast.hpp>
 
@@ -222,7 +224,7 @@ string HtmlTextFormatter::visit(const StoryTag& theStory) const
  */
 // ----------------------------------------------------------------------
 
-string HtmlTextFormatter::visit(const Time& theTime) const
+string HtmlTextFormatter::visit(const WeatherTime& theTime) const
 {
   return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "html");
 }

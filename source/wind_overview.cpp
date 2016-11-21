@@ -19,7 +19,7 @@
 #include <cmath>
 #include <algorithm>
 
-#include <macgyver/String.h>
+#include <macgyver/StringUtil.h>
 #include <boost/date_time/gregorian/gregorian.hpp>    //include all types plus i/o
 #include <boost/date_time/posix_time/posix_time.hpp>  //include all types plus i/o
 #include <boost/foreach.hpp>

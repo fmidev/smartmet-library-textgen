@@ -39,8 +39,9 @@
  * erases the language initialized earlier.
  */
 // ----------------------------------------------------------------------
-
 #include "MySQLDictionary.h"
+#ifdef UNIX
+
 #include "Settings.h"
 #include "TextGenError.h"
 
@@ -50,8 +51,8 @@
 #include <stdexcept>
 
 #include <map>
+
 #include <mysql++/mysql++.h>
-//<mysql.h>
 
 using namespace std;
 
@@ -303,3 +304,4 @@ bool MySQLDictionary::empty(void) const { return itsPimple->itsData.empty(); }
 }  // namespace TextGen
 
 // ======================================================================
+#endif // UNIX

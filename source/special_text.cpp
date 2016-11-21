@@ -16,7 +16,13 @@
 #include <cstdio>
 #include <fstream>
 #include <sstream>
+
+#ifdef UNIX
 #include <unistd.h>
+#else
+#define R_OK    4
+#include <io.h>
+#endif
 
 using namespace TextGen;
 using namespace std;
@@ -43,7 +49,14 @@ string read_file(const string& filename)
  */
 // ----------------------------------------------------------------------
 
-bool is_executable(const string& filename) { return !access(filename.c_str(), X_OK); }
+bool is_executable(const string& filename) 
+{
+#ifdef UNIX
+    return !access(filename.c_str(), X_OK);
+#else
+    return !access(filename.c_str(), R_OK);
+#endif
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Execute command and return stdout
@@ -54,7 +67,11 @@ bool is_executable(const string& filename) { return !access(filename.c_str(), X_
 
 string execute(const string& cmd)
 {
-  FILE* pipe = popen(cmd.c_str(), "r");
+#ifdef UNIX
+    FILE* pipe = popen(cmd.c_str(), "r");
+#else
+    FILE* pipe = _popen(cmd.c_str(), "r");
+#endif
   if (!pipe) throw runtime_error("Could not execute command '" + cmd + "'");
 
   char buffer[128];
@@ -63,7 +80,11 @@ string execute(const string& cmd)
   {
     if (fgets(buffer, 128, pipe) != NULL) result += buffer;
   }
+#ifdef UNIX
   pclose(pipe);
+#else
+  _pclose(pipe);
+#endif
   return result;
 }
 

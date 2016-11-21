@@ -7,6 +7,7 @@
 
 #ifndef TEXTGEN_MYSQLDICTIONARIES_H
 #define TEXTGEN_MYSQLDICTIONARIES_H
+#ifdef UNIX
 
 #include "Dictionary.h"
 
@@ -44,6 +45,7 @@ class MySQLDictionaries : public Dictionary
 
 }  // namespace TextGen
 
+#endif // UNIX
 #endif  // TEXTGEN_MYSQLDICTIONARIES_H
 
 // ======================================================================

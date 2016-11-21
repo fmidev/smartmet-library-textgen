@@ -22,6 +22,8 @@
 #include "TextFormatter.h"
 #include "TextGenError.h"
 
+#include <iterator>
+
 using namespace std;
 using namespace boost;
 

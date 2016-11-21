@@ -1,5 +1,6 @@
 #include "PostGISDataSource.h"
 
+#ifdef UNIX
 #include <gdal/ogrsf_frmts.h>
 
 #include <boost/algorithm/string/replace.hpp>
@@ -354,3 +355,4 @@ std::list<string> PostGISDataSource::areaNames() const
 }
 
 }  // namespace BrainStorm
+#endif // UNIX

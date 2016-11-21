@@ -37,7 +37,7 @@
 #include <newbase/NFmiCombinedParam.h>
 #include <newbase/NFmiMercatorArea.h>
 
-#include <macgyver/String.h>
+#include <macgyver/StringUtil.h>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
