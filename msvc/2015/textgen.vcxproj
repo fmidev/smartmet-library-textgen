@@ -1,0 +1,620 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\macgyver\macgyver.vcxproj">
+      <Project>{4fabcb7a-bae4-4e56-ac0d-74e5d72337cb}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Acceptor.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\AnalysisSources.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\AndAcceptor.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\AreaTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\BasicDictionary.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Calculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\CalculatorFactory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\ChangeCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\ClimatologyTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\CloudinessForecast.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\CloudinessStory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\CloudinessStoryTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\CoastMaskSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\ComparativeAcceptor.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Config.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\CountCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\CssTextFormatter.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\DebugDictionary.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\DebugTextFormatter.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\DefaultAcceptor.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Delimiter.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\DewPointStory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Dictionary.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\DictionaryFactory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Document.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\EasternMaskSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\FileDictionary.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\FireWarnings.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\FogForecast.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\ForestStory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\FrostStory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\FrostStoryTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\FunctionAnalyzer.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Glyph.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\GlyphContainer.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\GridClimatology.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\GridForecaster.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Header.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\HeaderFactory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\HourPeriodGenerator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\HtmlTextFormatter.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\IdGenerator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\InlandMaskSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Integer.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\IntegerRange.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\IntervalPeriodGenerator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\LandMaskSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\LatestWeatherSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\ListedPeriodGenerator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\LocationPhrase.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\LocationSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\MaskSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\MathTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\MaximumCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\MeanCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\MedianCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\MessageLogger.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\MessageLoggerStream.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\MinimumCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\ModChangeCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\ModMeanCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\ModStandardDeviationCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\ModTrendCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\ModuloParameterAnalyzer.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\MorningAndEveningPeriodGenerator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\MySQLDictionaries.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\MySQLDictionary.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\NightAndDayPeriodGenerator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\NorthernMaskSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\NullAcceptor.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\NullCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\NullDictionary.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\NullMaskSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\NullPeriodGenerator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\OrAcceptor.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Paragraph.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\ParameterAnalyzer.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\ParameterAnalyzerFactory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\PercentageCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\PeriodPhraseFactory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Phrase.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\PlainLinesTextFormatter.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\PlainTextFormatter.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\PositiveValueAcceptor.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\PostGISDataSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\PrecipitationForecast.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\PrecipitationPeriodTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\PrecipitationStory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\PrecipitationStoryTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\PressureStory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\QueryDataIntegrator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\QueryDataTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\RangeAcceptor.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Real.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\RealRange.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\RegularFunctionAnalyzer.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\RegularMaskSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\RegularParameterAnalyzer.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\RelativeHumidityStory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\RoadStory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\RoadStoryTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\SeasonTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\SectionTag.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Sentence.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Settings.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\SoneraTextFormatter.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\SouthernMaskSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\SpecialStory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\SpeechTextFormatter.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\StandardDeviationCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Story.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\StoryFactory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\StoryTag.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\SubMaskExtractor.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\SumCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\TemperatureRange.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\TemperatureStory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\TemperatureStoryTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\TemperatureTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\TemplateAcceptor.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\Text.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\TextFormatter.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\TextFormatterFactory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\TextFormatterTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\TextGenerator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\TextGenError.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\TextGenPosixTime.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\ThunderForecast.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\TimePeriod.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\TimeTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\TrendCalculator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\UnitFactory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\UserWeatherSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\ValueAcceptor.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WaveStory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherAnalyzer.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherArea.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherDataType.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherFact.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherForecast.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherForecaster.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherForecastStory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherFunction.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherHistory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherObserver.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherParameter.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherPeriod.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherPeriodFactory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherPeriodGenerator.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherPeriodTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherResult.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherResultTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherStatistician.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherStory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeatherTime.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WeekdayTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WesternMaskSource.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WindChillFunctionAnalyzer.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WindChillParameterAnalyzer.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WindChillQueryInfo.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WindForecast.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WindForecastStructs.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WindStory.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WindStoryTools.h" />
+    <ClInclude Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\include\WmlTextFormatter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Acceptor.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\AnalysisSources.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\AndAcceptor.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\AreaTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\BasicDictionary.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Calculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\CalculatorFactory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\ChangeCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\ClimatologyTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\CloudinessForecast.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\CloudinessStory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\CloudinessStoryTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\cloudiness_overview.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\CoastMaskSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\ComparativeAcceptor.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Config.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\CountCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\CssTextFormatter.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\DebugDictionary.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\DebugTextFormatter.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\DefaultAcceptor.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Delimiter.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\DewPointStory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\dewpoint_range.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Dictionary.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\DictionaryFactory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Document.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\EasternMaskSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\evaporation_day.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\FileDictionary.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\FireWarnings.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\FogForecast.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\forestfireindex_twodays.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\forestfirewarning_county.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\ForestStory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\FrostStory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\FrostStoryTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\frost_day.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\frost_maximum.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\frost_mean.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\frost_onenight.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\frost_range.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\frost_twonights.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Glyph.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\GlyphContainer.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\GridClimatology.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\GridForecaster.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Header.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\HeaderFactory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\HourPeriodGenerator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\HtmlTextFormatter.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\IdGenerator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\InlandMaskSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Integer.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\IntegerRange.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\IntervalPeriodGenerator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\LandMaskSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\LatestWeatherSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\ListedPeriodGenerator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\LocationPhrase.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\LocationSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\MaskSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\MathTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\MaximumCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\MeanCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\MedianCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\MessageLogger.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\MessageLoggerStream.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\MinimumCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\ModChangeCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\ModMeanCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\ModStandardDeviationCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\ModTrendCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\ModuloParameterAnalyzer.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\MorningAndEveningPeriodGenerator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\MySQLDictionaries.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\MySQLDictionary.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\NightAndDayPeriodGenerator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\NorthernMaskSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\NullAcceptor.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\NullCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\NullDictionary.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\NullMaskSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\NullPeriodGenerator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\OrAcceptor.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Paragraph.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\ParameterAnalyzer.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\ParameterAnalyzerFactory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\PercentageCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\PeriodPhraseFactory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Phrase.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\PlainLinesTextFormatter.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\PlainTextFormatter.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\pop_days.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\pop_max.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\pop_twodays.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\PositiveValueAcceptor.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\PostGISDataSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\PrecipitationForecast.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\PrecipitationPeriodTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\PrecipitationStory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\PrecipitationStoryTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\precipitation_classification.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\precipitation_daily_sums.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\precipitation_range.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\precipitation_sums.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\precipitation_total.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\precipitation_total_day.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\PressureStory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\pressure_mean.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\QueryDataIntegrator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\QueryDataTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\RangeAcceptor.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Real.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\RealRange.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\RegularFunctionAnalyzer.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\RegularMaskSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\RegularParameterAnalyzer.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\RelativeHumidityStory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\relativehumidity_day.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\relativehumidity_lowest.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\relativehumidity_range.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\roadcondition_overview.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\roadcondition_shortview.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\RoadStory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\RoadStoryTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\roadtemperature_daynightranges.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\roadtemperature_shortrange.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\roadwarning_overview.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\roadwarning_shortview.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\SeasonTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\SectionTag.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Sentence.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Settings.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\SoneraTextFormatter.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\SouthernMaskSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\SpecialStory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\special_date.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\special_none.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\special_text.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\SpeechTextFormatter.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\StandardDeviationCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Story.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\StoryFactory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\StoryTag.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\SubMaskExtractor.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\SumCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\TemperatureRange.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\TemperatureStory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\TemperatureStoryTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\TemperatureTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\temperature_anomaly.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\temperature_dailymax.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\temperature_day.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\temperature_max36hours.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\temperature_mean.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\temperature_meanmax.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\temperature_meanmin.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\temperature_nightlymin.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\temperature_range.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\temperature_weekly_averages.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\temperature_weekly_minmax.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\TemplateAcceptor.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\Text.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\TextFormatter.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\TextFormatterFactory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\TextFormatterTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\TextGenerator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\TextGenError.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\TextGenPosixTime.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\ThunderForecast.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\TimePeriod.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\TimeTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\TrendCalculator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\UnitFactory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\UserWeatherSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\ValueAcceptor.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WaveStory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\wave_range.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherAnalyzer.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherArea.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherFact.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherForecast.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherForecaster.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherForecastStory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherFunction.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherHistory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherObserver.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherParameter.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherPeriod.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherPeriodFactory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherPeriodGenerator.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherPeriodTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherResult.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherResultTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherStatistician.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherStory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeatherTime.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\weather_forecast.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\weather_overview.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\weather_shortoverview.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\weather_thunderprobability.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\weather_thunderprobability_simplified.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WeekdayTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WesternMaskSource.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WindChillFunctionAnalyzer.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WindChillParameterAnalyzer.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WindChillQueryInfo.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WindForecast.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WindStory.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WindStoryTools.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\wind_anomaly.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\wind_daily_ranges.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\wind_overview.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\wind_range.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\wind_simple_overview.cpp" />
+    <ClCompile Include="..\..\ProjApp\SmartMet\libs\fmi\textgen\source\WmlTextFormatter.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E9CA811C-9C1F-4FB7-BD00-1AAC9512FF78}</ProjectGuid>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.60315.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\..\$(Platform)\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir>..\..\$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(BUILD_DIR)\$(Platform)\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir>$(BUILD_DIR)\$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\$(Platform)\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir>..\..\$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(BUILD_DIR)\$(Platform)\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir>$(BUILD_DIR)\$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(BOOST_INCLUDE_DIR);..\..\Src\textgen\include;..\..\Src\newbase\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;DISABLE_MYSQL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation />
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc90.pdb</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x040b</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(BOOST_INCLUDE_DIR);$(LIBS_FMI)\macgyver\include;$(LIBS_FMI)\textgen\include;$(LIBS_FMI)\newbase\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WIN64;_DEBUG;_LIB;DISABLE_MYSQL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation />
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc90.pdb</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x040b</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/EHa %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>$(BOOST_INCLUDE_DIR);..\..\Src\textgen\include;..\..\Src\newbase\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;DISABLE_MYSQL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation />
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc90.pdb</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x040b</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/EHa %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>$(BOOST_INCLUDE_DIR);$(LIBS_FMI)\macgyver\include;$(LIBS_FMI)\textgen\include;$(LIBS_FMI)\newbase\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WIN64;NDEBUG;_LIB;DISABLE_MYSQL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation />
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc90.pdb</ProgramDataBaseFileName>
+      <BrowseInformation />
+      <BrowseInformationFile>$(IntDir)</BrowseInformationFile>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x040b</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
