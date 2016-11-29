@@ -19,11 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\macgyver\macgyver.vcxproj">
-      <Project>{4fabcb7a-bae4-4e56-ac0d-74e5d72337cb}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\include\Acceptor.h" />
     <ClInclude Include="..\..\include\AnalysisSources.h" />
     <ClInclude Include="..\..\include\AndAcceptor.h" />
@@ -410,6 +405,11 @@
     <ClCompile Include="..\..\source\wind_range.cpp" />
     <ClCompile Include="..\..\source\wind_simple_overview.cpp" />
     <ClCompile Include="..\..\source\WmlTextFormatter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\macgyver\msvc\2015\macgyver.vcxproj">
+      <Project>{4fabcb7a-bae4-4e56-ac0d-74e5d72337cb}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E9CA811C-9C1F-4FB7-BD00-1AAC9512FF78}</ProjectGuid>
