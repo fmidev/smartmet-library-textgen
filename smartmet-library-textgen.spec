@@ -1,22 +1,25 @@
-%define LIBNAME textgen
+%define DIRNAME textgen
+%define LIBNAME smartmet-%{DIRNAME}
+%define SPECNAME smartmet-library-%{DIRNAME}
+%define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
-Name: libsmartmet-%{LIBNAME}
-Version: 16.9.14
+Name: %{SPECNAME}
+Version: 17.1.4
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
-URL: http://www.weatherproof.fi
+URL: https://github.com/fmidev/smartmet-library-textgen
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: libsmartmet-newbase-devel >= 16.6.16
-BuildRequires: libsmartmet-macgyver-devel >= 16.4.18
+BuildRequires: smartmet-library-newbase-devel >= 16.12.19
+BuildRequires: smartmet-library-macgyver-devel >= 16.12.20
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
-BuildRequires: gdal-devel >= 1.11.0
-Requires: libsmartmet-newbase >= 16.6.16
-Requires: libsmartmet-macgyver >= 16.4.18
-Requires: gdal >= 1.11.0
-Provides: %{LIBNAME}
+BuildRequires: gdal-devel >= 1.11.4
+Requires: smartmet-library-newbase >= 16.12.19
+Requires: smartmet-library-macgyver >= 16.12.20
+Requires: gdal >= 1.11.4
+Provides: %{SPECNAME}
 
 %description
 FMI textgen library
@@ -24,36 +27,39 @@ FMI textgen library
 %prep
 rm -rf $RPM_BUILD_ROOT
 
-%setup -q -n %{LIBNAME}
+%setup -q -n %{DIRNAME}
  
 %build
 make %{_smp_mflags}
 
 %install
-%makeinstall includedir=%{buildroot}%{_includedir}
+%makeinstall
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(0775,root,root,0775)
-%{_libdir}/libsmartmet_%{LIBNAME}.so
+%{_libdir}/lib%{LIBNAME}.so
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
-%package -n libsmartmet-%{LIBNAME}-devel
+%package -n %{DEVELNAME}
 Summary: FMI textgen development files
-Provides: %{LIBNAME}-devel
+Provides: %{DEVELNAME}
 
-%description -n libsmartmet-%{LIBNAME}-devel
+%description -n %{DEVELNAME}
 FMI textgen development files
 
-%files -n libsmartmet-%{LIBNAME}-devel
+%files -n %{DEVELNAME}
 %defattr(0664,root,root,0775)
-%{_includedir}/smartmet/%{LIBNAME}
+%{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Jan  4 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.1.4-1.fmi
+- Switched to FMI open source naming conventions
+
 * Wed Sep 14 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.9.14-1.fmi
 - cardinal direction and 'puoleinen'-expresson with same cardinal direction can not be successively (e.g. etelätuulta-etelänpuoleista tuulta), but we have to use 'välistä'-expression in the latter (eg. etelätuulta-etelän ja kaakon välistä tuulta)
 - calculation of wind speed lower and upper limit corrected (rounding)
@@ -62,96 +68,122 @@ FMI textgen development files
 - version string added
 - code cleaned
 - regression tests corrected
+
 * Thu Sep  8 2016 Mika Heiskanen <mika.heiskanen@fmi.fi> - 16.9.8-1.fmi
 - Changed not to use C++11 features to enable compiling on RHEL6
+
 * Thu Aug 4 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.8.4-1.fmi
 - Wind story correction:
 - 'Aamuyöllä-ja aamulla'-phrase replaced with 'Aamuyöllä'
 - Reporting wind direction and wind speed change together when they happen close to each other (on the same part of the day)
+
 * Wed Aug 3 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.8.3-1.fmi
 - Temperature anomaly bug fix for summertime: Afternoon maximum (before mean was used) temperature is compared to fractile maximum temperatue.
 - More log writing added
+
 * Tue Jun 14 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.14-1.fmi
 - Wind story correction:
 - Reporting wind speed change and wind direction change together when they happen at the same part of the day
+
 * Fri Jun 10 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.10-1.fmi
 - Wind story correction:
 - Reporting together two weakening/stregthening periods, when there is relatively short period (< 6h) of unchanged wind between them
+
 * Thu Jun 9 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.9-2.fmi
 - Wind story correction:
 - Parameter 'wind_speed_warning_threshold' value read from configuration file (hardcoded value used before)
+
 * Thu Jun 9 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.9-1.fmi
 - Wind story correction:
 - Improved algorithm to detect wind speed changes when wind is weak
+
 * Wed Jun 8 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.8-1.fmi
 - Wind story corrections, improvements:
 - If speed changes rapidly on the same part of the day, report the latest speed 
 - Algorithm to detect wind speed changes improved: some periods that before were reported to have unchanged wind speed is now split to two and and latter is reported to have strengthening or weakening wind
 - Algorithm to determine wind speed interval modified: new configuration parameter 'wind_speed_warning_threshold' added, if top wind value is smaller than 'wind_speed_warning_threshold', interval size is 4 and upper limit is taken from maximum value of mean mean wind on the period
 - Code cleaned
+
 * Mon Jun 6 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.6-1.fmi
 - Frost is not reported, if there is any rain
+
 * Fri Jun 3 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.3-1.fmi
 - Wind Story correction:
 - Short (< 4h) varying wind period in the beginning is now reported
+
 * Thu Jun 2 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.6.2-1.fmi
 - Spelling of wind direction phrase corrected
 - If reporting time of wind speed change and direction change is near each other (max 2 hurs), report them at once
 - Short varying wind period is not reported if it is not the last direction change
 - Weekday name reported when day changes if forecast period is longer than 6 hours
 - Code cleaned, more log writing added
+
 * Mon May 30 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.30-1.fmi
 - Wind story corrections:
 - Wind speed calculaton when determining if wind speed has changed enough to be reported
+
 * Fri May 27 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.27-1.fmi
 - Wind story correction:
 - If wind is weakening and direction changes to varying, report wind speed interval for the rest of the period, not at the end of weakening period
 - Report wind direction in the beginning even if it changes to varying very soon
+
 * Thu May 26 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.26-1.fmi
 - Wind Story corrections:
 - Corrected time phrase when wind speed and direction change at the same time
 - Code cleaned, comments added
+
 * Tue May 24 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.24-1.fmi
 - WindStory corrections:
 - Weekday error corrected
 - Short wind direction period in the beginning of the story is reported
+
 * Mon May 23 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.23-1.fmi
 - Wind story corrections:
 - Tautology removed in direction change phrases
 - When wind direction changes many times during wind speed change period, report only last direction
+
 * Fri May 20 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.20-2.fmi
 - Wind story corrections:
 - Dont use speed change phrases with varying wind
+
 * Fri May 20 2016 Mika Heiskanen <mika.heiskanen@fmi.fi> - 16.5.20-1.fmi
 - Wind story corrections
+
 * Fri May 20 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.20-1.fmi
 - Wind story corrections:
 - Wind speed interval is not reported if wind speed changes during short time 
 in the end of forecast period
 - Handling of steady period (no significant speed/direction changes) in the end corrected
 - Code cleaned
+
 * Thu May 19 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.19-1.fmi
 - Wind story corrections:
 - Handling situation where wind weakens/strenghtens during long time, but there are short steady periods between
 - Corrected bug in timing of reporting the wind speed and direction changes when they occur at the same time or close to each other
 - Missing time phrase before wind speed interval corrected
 - More log writing added
+
 * Thu May 12 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.12-1.fmi
 - Wind story corrections: corrected error in weak wind period deduction, time phrase placement
 - More log writing
+
 * Wed May 11 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.11-1.fmi
 - Correction in timing of wind direction changes
+
 * Tue May 10 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.10-1.fmi
 - Corrections in period handling, time phrases
+
 * Wed May 04 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.4-1.fmi
 - Handling of weak wind period corrected
 - More log writing added
 - Code cleaned
+
 * Tue May 03 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.5.3-1.fmi
 - Wind forecast bug corrections and improvements:
 - Handling of 'wind_calc_top_share_weak' parameter corrected
 - Handling of wind speed changes corrected
 - Code cleaned
+
 * Thu Apr 28 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.4.28-1.fmi
 - Wind forecast code simplified and cleaned: speed and direction changes are now processed more separately.
 - Wind direction is now determined by most common direction (moodi) in all cases (earlier just for varying wind) 
@@ -174,10 +206,12 @@ than 'wind_direction_min_speed' wind direction is reported as varying.
 - Highcharts graphs (in wind_overview story) improved for better readibility
 - new configuration parameters:
 - code cleaned and refactored
+
 * Wed Mar 02 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.3.2-1.fmi
 - Optional data tables of wind direction distribution and wind speed distribution improved.
 - Data smoothening algorithm modified and default values for related configuration parameters changed
 - New confoguration parameter 'wind_calc_top_share' added, this parameter is used when calculating generic wind speed values
+
 * Tue Feb 16 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.2.16-1.fmi
 - One new phrase added to database
 - Word 'voimakas' not used any more in wind-phrases
