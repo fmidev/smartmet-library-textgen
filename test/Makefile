@@ -34,14 +34,14 @@ INCLUDES = \
 	-I /usr/include/smartmet \
 	-I /usr/include/mysql
 LIBS = \
-	../libsmartmet_textgen.so \
-	-lsmartmet_newbase \
+	../libsmartmet-textgen.so \
+	-lsmartmet-newbase \
 	-L $(libdir)/mysql -lmysqlclient -lmysqlpp
 
 INCLUDES += -I ../include
 
 LIBS += \
-	-lsmartmet_macgyver \
+	-lsmartmet-macgyver \
 	-lboost_date_time \
         -lboost_regex\
         -lboost_filesystem\
@@ -61,11 +61,7 @@ test: $(PROG)
 	@for prog in $(PROG); do \
 	 ./$$prog; \
 	done
-	@echo
-	@for prog in $(PHPPROG); do \
-	 php -q $$prog; \
-	done
 
-$(PROG) : % : %.cpp ../libsmartmet_textgen.so
+$(PROG) : % : %.cpp ../libsmartmet-textgen.so
 	$(CC) $(CFLAGS) -o $@ $@.cpp $(INCLUDES) $(LIBS)
 
