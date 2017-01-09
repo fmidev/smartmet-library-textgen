@@ -20,6 +20,8 @@ Requires: smartmet-library-newbase >= 16.12.19
 Requires: smartmet-library-macgyver >= 16.12.20
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
+Obsoletes: libsmartmet-textgen < 17.1.4
+Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 
 %description
 FMI textgen library
@@ -48,6 +50,7 @@ rm -rf $RPM_BUILD_ROOT
 %package -n %{DEVELNAME}
 Summary: FMI textgen development files
 Provides: %{DEVELNAME}
+Obsoletes: libsmartmet-textgen-devel < 17.1.4
 
 %description -n %{DEVELNAME}
 FMI textgen development files
