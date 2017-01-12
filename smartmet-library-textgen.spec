@@ -64,8 +64,8 @@ FMI textgen development files
 - Wind story corrections:
 - Successive strengthening or weakening periods are reported in one sentence
 - If there are two successive strengthening or weakening period, but a
-long (> 6h) period in between, when wind speed doesen't change, then for
-the latter strengthening/weakening period we use edelleen-phrase ('wind continues to strenghten/weaken')
+long (> 6h) period in between, when wind speed doesn't change, then for
+the latter strengthening/weakening period we start using edelleen-phrase ('wind continues to strenghten/weaken')
 
 * Wed Jan  4 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.1.4-1.fmi
 - Switched to FMI open source naming conventions
