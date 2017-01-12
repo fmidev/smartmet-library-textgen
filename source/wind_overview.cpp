@@ -2388,7 +2388,7 @@ void get_calculated_max_min(const wo_story_params& storyParams,
   if (endSpeed < min) min = endSpeed;
 }
 
-// iterate merged event periods and remove short missing period if it is between
+// iterate merged event periods and remove short (<= 6h) missing period if it is between
 // strenghtening/weakening period
 wind_event_period_data_item_vector remove_short_missing_periods(
     wo_story_params& storyParams, const wind_event_period_data_item_vector& eventPeriodVector)
@@ -2411,27 +2411,34 @@ wind_event_period_data_item_vector remove_short_missing_periods(
     WindEventPeriodDataItem* afterNextDataItem = eventPeriodVector[i + 2];
 
     if (nextDataItem->theWindEvent == MISSING_WIND_SPEED_EVENT &&
-        get_period_length(nextDataItem->thePeriod) < 6 &&
         currentDataItem->theWindEvent == afterNextDataItem->theWindEvent)
     {
-      // merge the three event periods
-      WeatherPeriod newPeriod(currentDataItem->thePeriod.localStartTime(),
-                              afterNextDataItem->thePeriod.localEndTime());
+      if (get_period_length(nextDataItem->thePeriod) <= 6)
+      {
+        // merge the three event periods
+        WeatherPeriod newPeriod(currentDataItem->thePeriod.localStartTime(),
+                                afterNextDataItem->thePeriod.localEndTime());
 
-      float begSpeed =
-          calculate_weighted_wind_speed(storyParams, currentDataItem->thePeriodBeginDataItem);
-      float endSpeed =
-          calculate_weighted_wind_speed(storyParams, afterNextDataItem->thePeriodEndDataItem);
-      WindEventId newWindEvent =
-          get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
+        float begSpeed =
+            calculate_weighted_wind_speed(storyParams, currentDataItem->thePeriodBeginDataItem);
+        float endSpeed =
+            calculate_weighted_wind_speed(storyParams, afterNextDataItem->thePeriodEndDataItem);
+        WindEventId newWindEvent =
+            get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
 
-      WindEventPeriodDataItem* newDataItem =
-          new WindEventPeriodDataItem(newPeriod,
-                                      newWindEvent,
-                                      currentDataItem->thePeriodBeginDataItem,
-                                      afterNextDataItem->thePeriodEndDataItem);
-      cleanedEventPeriods.push_back(newDataItem);
-      i += 2;
+        WindEventPeriodDataItem* newDataItem =
+            new WindEventPeriodDataItem(newPeriod,
+                                        newWindEvent,
+                                        currentDataItem->thePeriodBeginDataItem,
+                                        afterNextDataItem->thePeriodEndDataItem);
+        cleanedEventPeriods.push_back(newDataItem);
+        i += 2;
+      }
+      else
+      {
+        afterNextDataItem->theSuccessiveEventFlag = true;
+        cleanedEventPeriods.push_back(currentDataItem);
+      }
     }
     else
     {
@@ -2651,10 +2658,34 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
 
   cleanedEventPeriods = remove_short_missing_periods(storyParams, mergedEventPeriods);
 
+  // in the end merge successive strenghtening/weakening periods if there are any
+  size_t vectorOriginalSize = cleanedEventPeriods.size();
+  size_t removedElements = 0;
+  for (size_t i = vectorOriginalSize - 1; i > 0; i--)
+  {
+    WindEventPeriodDataItem* prevItem = cleanedEventPeriods[i - 1];
+    WindEventPeriodDataItem* currentItem = cleanedEventPeriods[i];
+    if (currentItem->theWindEvent == prevItem->theWindEvent)
+    {
+      WindEventPeriodDataItem* newWindEventPeriodDataItem =
+          new WindEventPeriodDataItem(WeatherPeriod(prevItem->thePeriod.localStartTime(),
+                                                    currentItem->thePeriod.localEndTime()),
+                                      prevItem->theWindEvent,
+                                      prevItem->thePeriodBeginDataItem,
+                                      currentItem->thePeriodEndDataItem);
+      delete cleanedEventPeriods[i];
+      cleanedEventPeriods[i] = 0;
+      delete cleanedEventPeriods[i - 1];
+      cleanedEventPeriods[i - 1] = newWindEventPeriodDataItem;
+      removedElements++;
+    }
+  }
   storyParams.theWindSpeedEventPeriodVector.clear();
 
-  storyParams.theWindSpeedEventPeriodVector.assign(cleanedEventPeriods.begin(),
-                                                   cleanedEventPeriods.end());
+  BOOST_FOREACH (WindEventPeriodDataItem* eventPeriod, cleanedEventPeriods)
+  {
+    if (eventPeriod) storyParams.theWindSpeedEventPeriodVector.push_back(eventPeriod);
+  }
 
   mergedEventPeriods.clear();
   cleanedEventPeriods.clear();
@@ -3374,7 +3405,7 @@ void read_configuration_params(wo_story_params& storyParams)
 
 Paragraph WindStory::overview() const
 {
-  MessageLogger logger("WeatherStory::overview");
+  MessageLogger logger("WeatherStory::wind_overview");
 
   std::string areaName("");
   if (itsArea.isNamed())
@@ -3495,7 +3526,7 @@ Paragraph WindStory::overview() const
 
   deallocate_data_structures(storyParams);
 
-  //  logger << paragraph;
+  // logger << paragraph;
 
   return paragraph;
 }

@@ -174,11 +174,11 @@ namespace WindForecastPhrases
   "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa heiketa"
 #define POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE \
   "[pohjoistuulta] [m...n] [metria sekunnissa], joka alkaa voimistua"
-#define ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA \
+#define ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA_COMPOSITE_PHRASE \
   "[iltapaivalla] edelleen [heikkenevaa] [pohjoistuulta]"
-#define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_EDELLEEN \
+#define ILTAPAIVALLA_POHJOISTUULI_HEIKKENEE_EDELLEEN_COMPOSITE_PHRASE \
   "[iltapaivalla] [pohjoistuuli] heikkenee edelleen"
-#define ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_EDELLEEN \
+#define ILTAPAIVALLA_POHJOISTUULI_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE \
   "[iltapaivalla] [pohjoistuuli] voimistuu edelleen"
 #define ILTAPAIVALLA_TUULI_KAANTYY_ETELAAN_JA_VOIMISTUU_EDELLEEN_COMPOSITE_PHRASE \
   "[iltapaivalla] tuuli kaantyy [etelaan] ja voimistuu edelleen"
@@ -2050,9 +2050,15 @@ std::vector<Sentence> WindForecast::constructWindSentence(
           }
           else
           {
-            sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE << timePhrase
-                     << changeAttributeStr
-                     << (windSpeedEventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD : VOIMISTUVAA_WORD);
+            if (windSpeedItem->theSuccessiveEventFlag)
+              sentence << ILTAPAIVALLA_EDELLEEN_HEIKKENEVAA_POHJOISTUULTA_COMPOSITE_PHRASE
+                       << timePhrase << (windSpeedEventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD
+                                                                             : VOIMISTUVAA_WORD);
+            else
+              sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE
+                       << timePhrase << changeAttributeStr
+                       << (windSpeedEventId == TUULI_HEIKKENEE ? HEIKKENEVAA_WORD
+                                                               : VOIMISTUVAA_WORD);
             thePreviousTimePhraseInfo = timePhraseInfo;
           }
 

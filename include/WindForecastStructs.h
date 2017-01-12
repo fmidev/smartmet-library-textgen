@@ -278,7 +278,7 @@ struct WindEventPeriodDataItem
         theWindEvent(windEvent),
         thePeriodBeginDataItem(periodBeginDataItem),
         thePeriodEndDataItem(periodEndDataItem),
-        theWeakWindPeriodFlag(false)
+        theSuccessiveEventFlag(false)
   {
   }
 
@@ -287,8 +287,9 @@ struct WindEventPeriodDataItem
   WindEventId theWindEvent;
   const WindDataItemUnit& thePeriodBeginDataItem;
   const WindDataItemUnit& thePeriodEndDataItem;
-  bool theWeakWindPeriodFlag;  // if wind speed is weak, event is MISSING_WIND_EVENT, but we dont
-                               // merge it with faster wind speed periods and report it
+  bool theSuccessiveEventFlag;  // if there is a long MISSING_WIND_EVENT period between two
+  // strenghtening/weakening period, theSuccessiveEventFlag is set true to the latter
+  // strenghtening/weakening period, so that we can use phrase 'voimistuu/heikkenee edelleen'
 };
 
 struct WindDirectionInfo

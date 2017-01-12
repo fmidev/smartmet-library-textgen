@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.1.4
+Version: 17.1.12
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -60,6 +60,13 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu Jan 12 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.1.12-1.fmi
+- Wind story corrections:
+- Successive strengthening or weakening periods are reported in one sentence
+- If there are two successive strengthening or weakening period, but a
+long (> 6h) period in between, when wind speed doesen't change, then for
+the latter strengthening/weakening period we use edelleen-phrase ('wind continues to strenghten/weaken')
+
 * Wed Jan  4 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.1.4-1.fmi
 - Switched to FMI open source naming conventions
 
