@@ -9,19 +9,19 @@
 #include "CloudinessStory.h"
 #include "CloudinessStoryTools.h"
 #include "Delimiter.h"
-#include "GridForecaster.h"
-#include "HourPeriodGenerator.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "PrecipitationPeriodTools.h"
 #include "PrecipitationStoryTools.h"
-#include "RangeAcceptor.h"
+#include <calculator/RangeAcceptor.h>
 #include "Sentence.h"
-#include "Settings.h"
-#include "TextGenError.h"
-#include "TimeTools.h"
-#include "WeatherResult.h"
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
+#include <calculator/TimeTools.h>
+#include <calculator/WeatherResult.h>
 #include "WeekdayTools.h"
 
 #include <boost/lexical_cast.hpp>

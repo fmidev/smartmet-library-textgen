@@ -4,9 +4,9 @@
 #include "Header.h"
 #include "HeaderFactory.h"
 #include "PlainTextFormatter.h"
-#include "WeatherArea.h"
-#include "WeatherPeriod.h"
-#include "Settings.h"
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
+#include <calculator/Settings.h>
 
 #include <newbase/NFmiSettings.h>
 

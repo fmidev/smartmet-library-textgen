@@ -8,11 +8,11 @@
 #ifndef TEXTGEN_WEATHERFACT_H
 #define TEXTGEN_WEATHERFACT_H
 
-#include "WeatherArea.h"
-#include "WeatherFunction.h"
-#include "WeatherParameter.h"
-#include "WeatherPeriod.h"
-#include "WeatherResult.h"
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherFunction.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherResult.h>
 
 namespace TextGen
 {

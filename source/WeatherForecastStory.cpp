@@ -1,13 +1,13 @@
 #include <iostream>
 #include <string>
 
-#include "WeatherPeriod.h"
-#include "WeatherArea.h"
+#include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherArea.h>
 #include "MessageLogger.h"
 #include "Sentence.h"
 #include "Paragraph.h"
 #include "Delimiter.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include "PeriodPhraseFactory.h"
 
 #include "PrecipitationForecast.h"

@@ -13,9 +13,9 @@
 // ----------------------------------------------------------------------
 
 #include "NightAndDayPeriodGenerator.h"
-#include "Settings.h"
-#include "TextGenError.h"
-#include "WeatherPeriodTools.h"
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
+#include <calculator/WeatherPeriodTools.h>
 
 #include <algorithm>
 

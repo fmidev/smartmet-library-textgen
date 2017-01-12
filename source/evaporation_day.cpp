@@ -8,14 +8,14 @@
 #include "ForestStory.h"
 #include "Delimiter.h"
 #include "Real.h"
-#include "GridForecaster.h"
-#include "HourPeriodGenerator.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "Sentence.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 #include "UnitFactory.h"
-#include "WeatherResult.h"
+#include <calculator/WeatherResult.h>
 
 using namespace std;
 using namespace TextGen;

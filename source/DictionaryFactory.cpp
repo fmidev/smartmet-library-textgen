@@ -29,7 +29,7 @@
 #include "FileDictionary.h"
 #include "MySQLDictionary.h"
 #include "MySQLDictionaries.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 
 using namespace boost;
 

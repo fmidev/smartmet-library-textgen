@@ -17,19 +17,19 @@
 // ======================================================================
 
 #include "PrecipitationStoryTools.h"
-#include "AnalysisSources.h"
-#include "GridForecaster.h"
+#include <calculator/AnalysisSources.h>
+#include <calculator/GridForecaster.h>
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "MessageLogger.h"
-#include "RangeAcceptor.h"
-#include "Settings.h"
+#include <calculator/RangeAcceptor.h>
+#include <calculator/Settings.h>
 #include "Sentence.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 #include "UnitFactory.h"
 #include "ValueAcceptor.h"
-#include "WeatherResult.h"
-#include "WeatherPeriod.h"
+#include <calculator/WeatherResult.h>
+#include <calculator/WeatherPeriod.h>
 
 #include <newbase/NFmiGlobals.h>
 #include <boost/lexical_cast.hpp>

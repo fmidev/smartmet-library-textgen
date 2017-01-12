@@ -19,11 +19,11 @@
 // ======================================================================
 
 #include "WeatherPeriodFactory.h"
-#include "WeatherPeriod.h"
-#include "Settings.h"
-#include "TextGenError.h"
+#include <calculator/WeatherPeriod.h>
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
 
-#include "TextGenPosixTime.h"
+#include <calculator/TextGenPosixTime.h>
 
 using namespace TextGen;
 using namespace std;

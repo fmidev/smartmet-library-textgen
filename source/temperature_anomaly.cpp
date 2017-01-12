@@ -10,25 +10,25 @@
 #include "ClimatologyTools.h"
 #include "GridClimatology.h"
 
-#include "DefaultAcceptor.h"
+#include <calculator/DefaultAcceptor.h>
 #include "Delimiter.h"
-#include "GridForecaster.h"
-#include "HourPeriodGenerator.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
 #include "Integer.h"
-#include "MathTools.h"
+#include <calculator/MathTools.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "Sentence.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include "TemperatureStoryTools.h"
 #include "AreaTools.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 #include "UnitFactory.h"
-#include "WeatherPeriodTools.h"
+#include <calculator/WeatherPeriodTools.h>
 #include "SeasonTools.h"
-#include "WeatherResult.h"
+#include <calculator/WeatherResult.h>
 #include "PeriodPhraseFactory.h"
-#include "RangeAcceptor.h"
+#include <calculator/RangeAcceptor.h>
 
 #include <newbase/NFmiStringTools.h>
 #include <newbase/NFmiGrid.h>
@@ -38,9 +38,9 @@
 #include <newbase/NFmiIndexMaskTools.h>
 #include <newbase/NFmiMetMath.h>
 
-#include "TextGenError.h"
-#include "WeatherArea.h"
-#include "WeatherSource.h"
+#include <calculator/TextGenError.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherSource.h>
 #include "WeatherForecast.h"
 #include <map>
 

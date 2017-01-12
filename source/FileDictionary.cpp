@@ -40,8 +40,8 @@
 // ----------------------------------------------------------------------
 
 #include "FileDictionary.h"
-#include "Settings.h"
-#include "TextGenError.h"
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
 #include <newbase/NFmiFileSystem.h>
 #include <newbase/NFmiStringTools.h>
 

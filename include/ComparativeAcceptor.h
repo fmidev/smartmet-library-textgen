@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_COMPARATIVEACCEPTOR_H
 #define TEXTGEN_COMPARATIVEACCEPTOR_H
 
-#include "Acceptor.h"
+#include <calculator/Acceptor.h>
 #include <newbase/NFmiGlobals.h>
 
 namespace TextGen

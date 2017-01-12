@@ -18,7 +18,7 @@
 #include "Integer.h"
 #include "Phrase.h"
 #include "PlainTextFormatter.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 
 using namespace std;
 using namespace boost;

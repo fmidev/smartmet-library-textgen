@@ -8,8 +8,8 @@
 #ifndef TEXTGEN_NIGHTANDDAYPERIODGENERATOR_H
 #define TEXTGEN_NIGHTANDDAYPERIODGENERATOR_H
 
-#include "WeatherPeriodGenerator.h"
-#include "WeatherPeriod.h"
+#include <calculator/WeatherPeriodGenerator.h>
+#include <calculator/WeatherPeriod.h>
 
 #include <string>
 #include <vector>

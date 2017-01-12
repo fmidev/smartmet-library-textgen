@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_EASTERNMASKSOURCE_H
 #define TEXTGEN_EASTERNMASKSOURCE_H
 
-#include "MaskSource.h"
+#include <calculator/MaskSource.h>
 
 namespace TextGen
 {

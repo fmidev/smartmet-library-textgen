@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_TEMPLATEACCEPTOR_H
 #define TEXTGEN_TEMPLATEACCEPTOR_H
 
-#include "Acceptor.h"
+#include <calculator/Acceptor.h>
 
 namespace TextGen
 {

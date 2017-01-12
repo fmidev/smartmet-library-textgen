@@ -5,7 +5,7 @@
 #include "PlainTextFormatter.h"
 #include "RoadStory.h"
 #include "Story.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 
 #include <newbase/NFmiSettings.h>
 

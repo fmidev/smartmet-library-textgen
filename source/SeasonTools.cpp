@@ -14,15 +14,15 @@
 // ======================================================================
 
 #include "SeasonTools.h"
-#include "Settings.h"
-#include "TextGenError.h"
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
 #include "PositiveValueAcceptor.h"
-#include "WeatherPeriod.h"
-#include "WeatherArea.h"
-#include "WeatherResult.h"
-#include "GridForecaster.h"
-#include "RangeAcceptor.h"
-#include "TextGenPosixTime.h"
+#include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherResult.h>
+#include <calculator/GridForecaster.h>
+#include <calculator/RangeAcceptor.h>
+#include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiStringTools.h>
 
 #include <ctime>

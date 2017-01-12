@@ -7,20 +7,20 @@
 
 #include "WeatherStory.h"
 #include "Delimiter.h"
-#include "GridForecaster.h"
-#include "HourPeriodGenerator.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
 #include "Integer.h"
-#include "MathTools.h"
+#include <calculator/MathTools.h>
 #include "MessageLogger.h"
-#include "NullPeriodGenerator.h"
+#include <calculator/NullPeriodGenerator.h>
 #include "Paragraph.h"
-#include "RangeAcceptor.h"
+#include <calculator/RangeAcceptor.h>
 #include "Sentence.h"
-#include "Settings.h"
-#include "TextGenError.h"
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
 #include "UnitFactory.h"
-#include "WeatherPeriodTools.h"
-#include "WeatherResult.h"
+#include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherResult.h>
 #include "WeekdayTools.h"
 
 #include <boost/shared_ptr.hpp>

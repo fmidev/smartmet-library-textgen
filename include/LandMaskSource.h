@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_LANDMASKSOURCE_H
 #define TEXTGEN_LANDMASKSOURCE_H
 
-#include "MaskSource.h"
+#include <calculator/MaskSource.h>
 
 namespace TextGen
 {

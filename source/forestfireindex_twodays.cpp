@@ -6,20 +6,20 @@
 // ======================================================================
 
 #include "ForestStory.h"
-#include "DefaultAcceptor.h"
+#include <calculator/DefaultAcceptor.h>
 #include "Delimiter.h"
-#include "GridForecaster.h"
-#include "HourPeriodGenerator.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
 #include "Real.h"
-#include "MathTools.h"
+#include <calculator/MathTools.h>
 #include "MessageLogger.h"
-#include "NullPeriodGenerator.h"
+#include <calculator/NullPeriodGenerator.h>
 #include "Paragraph.h"
 #include "Sentence.h"
-#include "Settings.h"
-#include "TextGenError.h"
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
 #include "UnitFactory.h"
-#include "WeatherResult.h"
+#include <calculator/WeatherResult.h>
 #include "PeriodPhraseFactory.h"
 
 #include <boost/lexical_cast.hpp>

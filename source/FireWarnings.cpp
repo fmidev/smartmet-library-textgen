@@ -6,7 +6,7 @@
 // ======================================================================
 
 #include "FireWarnings.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 #include <newbase/NFmiFileSystem.h>
 #include <newbase/NFmiStringTools.h>
 #include <newbase/NFmiStaticTime.h>

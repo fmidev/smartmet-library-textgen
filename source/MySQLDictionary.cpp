@@ -41,8 +41,8 @@
 // ----------------------------------------------------------------------
 
 #include "MySQLDictionary.h"
-#include "Settings.h"
-#include "TextGenError.h"
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
 
 #include <boost/lexical_cast.hpp>
 #include <cassert>

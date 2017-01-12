@@ -13,7 +13,7 @@
 #include "Integer.h"
 #include "Dictionary.h"
 #include "TextFormatter.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 
 #include <boost/shared_ptr.hpp>
 

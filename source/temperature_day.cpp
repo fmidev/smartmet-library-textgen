@@ -7,21 +7,21 @@
 
 #include "TemperatureStory.h"
 
-#include "DefaultAcceptor.h"
+#include <calculator/DefaultAcceptor.h>
 #include "Delimiter.h"
-#include "GridForecaster.h"
+#include <calculator/GridForecaster.h>
 #include "NightAndDayPeriodGenerator.h"
 #include "Integer.h"
-#include "MathTools.h"
+#include <calculator/MathTools.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "Sentence.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include "TemperatureStoryTools.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 #include "UnitFactory.h"
-#include "WeatherPeriodTools.h"
-#include "WeatherResult.h"
+#include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherResult.h>
 #include "PeriodPhraseFactory.h"
 
 #include <newbase/NFmiStringTools.h>

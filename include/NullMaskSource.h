@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_NULLMASKSOURCE_H
 #define TEXTGEN_NULLMASKSOURCE_H
 
-#include "MaskSource.h"
+#include <calculator/MaskSource.h>
 
 namespace TextGen
 {

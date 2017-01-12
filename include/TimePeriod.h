@@ -9,7 +9,7 @@
 #define TEXTGEN_TIME_PERIOD_H
 
 #include "Glyph.h"
-#include "WeatherPeriod.h"
+#include <calculator/WeatherPeriod.h>
 #include <string>
 
 namespace TextGen

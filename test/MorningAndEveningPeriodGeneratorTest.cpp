@@ -1,7 +1,7 @@
 #include <regression/tframe.h>
 #include "MorningAndEveningPeriodGenerator.h"
-#include "WeatherPeriod.h"
-#include "TextGenPosixTime.h"
+#include <calculator/WeatherPeriod.h>
+#include <calculator/TextGenPosixTime.h>
 
 using namespace std;
 

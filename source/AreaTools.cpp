@@ -15,10 +15,10 @@
 
 #include "AreaTools.h"
 #include "LandMaskSource.h"
-#include "RegularMaskSource.h"
-#include "ParameterAnalyzer.h"
-#include "Settings.h"
-#include "WeatherDataType.h"
+#include <calculator/RegularMaskSource.h>
+#include <calculator/ParameterAnalyzer.h>
+#include <calculator/Settings.h>
+#include <calculator/WeatherDataType.h>
 #include "SubMaskExtractor.h"
 
 #include <newbase/NFmiSvgTools.h>

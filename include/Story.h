@@ -8,9 +8,9 @@
 #ifndef TEXTGEN_STORY_H
 #define TEXTGEN_STORY_H
 
-#include "AnalysisSources.h"
-#include "WeatherArea.h"
-#include "WeatherPeriod.h"
+#include <calculator/AnalysisSources.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
 
 namespace TextGen
 {

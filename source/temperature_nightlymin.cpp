@@ -7,16 +7,16 @@
 
 #include "TemperatureStory.h"
 #include "Delimiter.h"
-#include "GridForecaster.h"
+#include <calculator/GridForecaster.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "Sentence.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include "TemperatureStoryTools.h"
-#include "TextGenError.h"
-#include "WeatherPeriodTools.h"
-#include "WeatherResult.h"
+#include <calculator/TextGenError.h>
+#include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherResult.h>
 #include "WeekdayTools.h"
 
 #include <boost/lexical_cast.hpp>

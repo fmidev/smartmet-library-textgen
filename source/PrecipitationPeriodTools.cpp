@@ -19,23 +19,23 @@
 
 #include "PrecipitationPeriodTools.h"
 
-#include "AnalysisSources.h"
-#include "MaskSource.h"
-#include "PercentageCalculator.h"
-#include "QueryDataIntegrator.h"
-#include "QueryDataTools.h"
-#include "RangeAcceptor.h"
-#include "Settings.h"
-#include "TimeTools.h"
-#include "TextGenError.h"
-#include "WeatherArea.h"
-#include "WeatherPeriod.h"
-#include "WeatherPeriodTools.h"
-#include "WeatherSource.h"
+#include <calculator/AnalysisSources.h>
+#include <calculator/MaskSource.h>
+#include <calculator/PercentageCalculator.h>
+#include <calculator/QueryDataIntegrator.h>
+#include <calculator/QueryDataTools.h>
+#include <calculator/RangeAcceptor.h>
+#include <calculator/Settings.h>
+#include <calculator/TimeTools.h>
+#include <calculator/TextGenError.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherSource.h>
 
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiQueryData.h>
-#include "TextGenPosixTime.h"
+#include <calculator/TextGenPosixTime.h>
 #include <boost/shared_ptr.hpp>
 
 using namespace std;

@@ -1,14 +1,14 @@
-#include "RegularFunctionAnalyzer.h"
+#include <calculator/RegularFunctionAnalyzer.h>
 
-#include "ParameterAnalyzer.h"
-#include "QueryDataIntegrator.h"
-#include "CalculatorFactory.h"
-#include "MaskSource.h"
-#include "Settings.h"
-#include "TextGenError.h"
-#include "WeatherResult.h"
-#include "WeatherSource.h"
-#include "QueryDataTools.h"
+#include <calculator/ParameterAnalyzer.h>
+#include <calculator/QueryDataIntegrator.h>
+#include <calculator/CalculatorFactory.h>
+#include <calculator/MaskSource.h>
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
+#include <calculator/WeatherResult.h>
+#include <calculator/WeatherSource.h>
+#include <calculator/QueryDataTools.h>
 #include "SubMaskExtractor.h"
 
 #include <newbase/NFmiNearTree.h>
@@ -17,7 +17,7 @@
 #include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiIndexMaskSource.h>
-#include "TextGenPosixTime.h"
+#include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiMetMath.h>
 #include <newbase/NFmiSvgTools.h>
 #include <cassert>

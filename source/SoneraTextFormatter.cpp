@@ -33,9 +33,9 @@
 #include "Phrase.h"
 #include "SectionTag.h"
 #include "Sentence.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include "StoryTag.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 #include "Time.h"
 #include "TimePeriod.h"
 

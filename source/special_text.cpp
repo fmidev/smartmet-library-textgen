@@ -8,7 +8,7 @@
 #include "SpecialStory.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include "Text.h"
 
 #include <boost/filesystem.hpp>

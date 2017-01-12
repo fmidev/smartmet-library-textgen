@@ -7,15 +7,15 @@
 
 #include "WindStory.h"
 #include "Delimiter.h"
-#include "GridForecaster.h"
-#include "HourPeriodGenerator.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "Sentence.h"
-#include "Settings.h"
-#include "WeatherResult.h"
-#include "WeatherResultTools.h"
+#include <calculator/Settings.h>
+#include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 #include "WeekdayTools.h"
 #include "WindStoryTools.h"
 

@@ -6,13 +6,13 @@
 #include "TemperatureStory.h"
 #include "Story.h"
 #include "MessageLogger.h"
-#include "Settings.h"
-#include "AnalysisSources.h"
-#include "UserWeatherSource.h"
-#include "RegularMaskSource.h"
+#include <calculator/Settings.h>
+#include <calculator/AnalysisSources.h>
+#include <calculator/UserWeatherSource.h>
+#include <calculator/RegularMaskSource.h>
 #include "TemperatureStoryTools.h"
 #include "SeasonTools.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 
 #include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiSvgPath.h>

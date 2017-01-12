@@ -18,13 +18,13 @@
 // ======================================================================
 
 #include "GridClimatology.h"
-#include "Acceptor.h"
-#include "AnalysisSources.h"
-#include "ParameterAnalyzerFactory.h"
-#include "WeatherArea.h"
-#include "WeatherPeriod.h"
-#include "WeatherPeriodGenerator.h"
-#include "WeatherResult.h"
+#include <calculator/Acceptor.h>
+#include <calculator/AnalysisSources.h>
+#include <calculator/ParameterAnalyzerFactory.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherPeriodGenerator.h>
+#include <calculator/WeatherResult.h>
 
 #include <boost/shared_ptr.hpp>
 

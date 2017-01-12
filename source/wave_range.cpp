@@ -7,17 +7,17 @@
 
 #include "WaveStory.h"
 #include "Delimiter.h"
-#include "GridForecaster.h"
-#include "MathTools.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/MathTools.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "Sentence.h"
 #include "Real.h"
 #include "RealRange.h"
-#include "Settings.h"
-#include "TextGenError.h"
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
 #include "UnitFactory.h"
-#include "WeatherResult.h"
+#include <calculator/WeatherResult.h>
 
 #include <boost/lexical_cast.hpp>
 

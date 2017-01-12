@@ -12,7 +12,7 @@
 
 #include "TimePeriod.h"
 #include "Dictionary.h"
-#include "WeatherPeriod.h"
+#include <calculator/WeatherPeriod.h>
 #include "TextFormatter.h"
 
 using namespace std;

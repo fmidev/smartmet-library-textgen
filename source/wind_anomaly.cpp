@@ -7,20 +7,20 @@
 
 #include "WindStory.h"
 
-#include "GridForecaster.h"
-#include "HourPeriodGenerator.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
 #include "TemperatureStoryTools.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "Sentence.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include "WindStoryTools.h"
 #include "AreaTools.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 #include "UnitFactory.h"
-#include "WeatherPeriodTools.h"
+#include <calculator/WeatherPeriodTools.h>
 #include "SeasonTools.h"
-#include "WeatherResult.h"
+#include <calculator/WeatherResult.h>
 #include "PeriodPhraseFactory.h"
 #include "Delimiter.h"
 #include "WeatherForecast.h"
@@ -33,9 +33,9 @@
 #include <newbase/NFmiIndexMaskTools.h>
 #include <newbase/NFmiMetMath.h>
 
-#include "TextGenError.h"
-#include "WeatherArea.h"
-#include "WeatherSource.h"
+#include <calculator/TextGenError.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherSource.h>
 
 #include <boost/lexical_cast.hpp>
 

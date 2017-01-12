@@ -2,7 +2,7 @@
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "TemperatureStoryTools.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 
 #include <newbase/NFmiSettings.h>
 

@@ -46,7 +46,7 @@
 
 #include "MySQLDictionaries.h"
 #include "MySQLDictionary.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 #include <boost/shared_ptr.hpp>
 #include <map>
 

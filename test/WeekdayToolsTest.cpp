@@ -1,6 +1,6 @@
 #include <regression/tframe.h>
 #include "WeekdayTools.h"
-#include "TextGenPosixTime.h"
+#include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiSettings.h>
 #include <boost/locale.hpp>
 

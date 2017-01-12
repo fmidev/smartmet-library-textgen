@@ -10,7 +10,7 @@
 
 #include <string>
 
-#include "WeatherHistory.h"
+#include <calculator/WeatherHistory.h>
 
 class TextGenPosixTime;
 

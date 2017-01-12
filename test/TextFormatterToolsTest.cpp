@@ -7,9 +7,9 @@
 #include "UnitFactory.h"
 #include "Time.h"
 #include "TimePeriod.h"
-#include "WeatherPeriod.h"
-#include "TextGenPosixTime.h"
-#include "Settings.h"
+#include <calculator/WeatherPeriod.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/Settings.h>
 
 #include <newbase/NFmiSettings.h>
 

@@ -2,7 +2,7 @@
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "FrostStoryTools.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 
 #include <newbase/NFmiSettings.h>
 

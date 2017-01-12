@@ -8,15 +8,15 @@
 #include "CloudinessStory.h"
 #include "CloudinessStoryTools.h"
 #include "Delimiter.h"
-#include "GridForecaster.h"
-#include "HourPeriodGenerator.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
-#include "RangeAcceptor.h"
+#include <calculator/RangeAcceptor.h>
 #include "Sentence.h"
-#include "Settings.h"
-#include "WeatherResult.h"
+#include <calculator/Settings.h>
+#include <calculator/WeatherResult.h>
 
 #include <boost/lexical_cast.hpp>
 

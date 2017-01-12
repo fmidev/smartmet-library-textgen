@@ -20,7 +20,7 @@
 #include "Dictionary.h"
 #include "PlainTextFormatter.h"
 #include "TextFormatter.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 
 using namespace std;
 using namespace boost;

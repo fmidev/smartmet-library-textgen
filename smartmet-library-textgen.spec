@@ -11,11 +11,13 @@ Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
+BuildRequires: smartmet-library-calculator-devel >= 16.12.19
 BuildRequires: smartmet-library-newbase-devel >= 16.12.19
 BuildRequires: smartmet-library-macgyver-devel >= 16.12.20
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: gdal-devel >= 1.11.4
+Requires: smartmet-library-calculator >= 16.12.19
 Requires: smartmet-library-newbase >= 16.12.19
 Requires: smartmet-library-macgyver >= 16.12.20
 Requires: gdal >= 1.11.4
@@ -61,6 +63,7 @@ FMI textgen development files
 
 %changelog
 * Thu Jan 12 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.1.12-1.fmi
+- Splitted calculator code into a separate smartmet-library-calculator module
 - Wind story corrections:
 - Successive strengthening or weakening periods are reported in one sentence
 - If there are two successive strengthening or weakening period, but a

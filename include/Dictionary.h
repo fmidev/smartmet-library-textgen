@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_DICTIONARY_H
 #define TEXTGEN_DICTIONARY_H
 
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 #include <map>
 #include <string>
 #include <iostream>

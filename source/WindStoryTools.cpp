@@ -16,9 +16,9 @@
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "Sentence.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include "UnitFactory.h"
-#include "WeatherResult.h"
+#include <calculator/WeatherResult.h>
 
 #include <newbase/NFmiGlobals.h>
 

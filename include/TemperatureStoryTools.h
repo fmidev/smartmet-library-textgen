@@ -9,8 +9,8 @@
 #define TEXTGEN_TEMPERATURESTORYTOOLS_H
 
 #include <string>
-#include "AnalysisSources.h"
-#include "TextGenPosixTime.h"
+#include <calculator/AnalysisSources.h>
+#include <calculator/TextGenPosixTime.h>
 
 namespace TextGen
 {

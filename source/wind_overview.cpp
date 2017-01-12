@@ -2,15 +2,15 @@
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "WindStoryTools.h"
-#include "GridForecaster.h"
-#include "ParameterAnalyzer.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/ParameterAnalyzer.h>
 #include "PositiveValueAcceptor.h"
-#include "WeatherResult.h"
+#include <calculator/WeatherResult.h>
 #include "Sentence.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include "WeatherForecast.h"
 #include "WindForecast.h"
-#include "RangeAcceptor.h"
+#include <calculator/RangeAcceptor.h>
 #include "SubMaskExtractor.h"
 
 #include <bitset>

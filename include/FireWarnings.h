@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_FIREWARNINGS_H
 #define TEXTGEN_FIREWARNINGS_H
 
-#include "TextGenPosixTime.h"
+#include <calculator/TextGenPosixTime.h>
 #include <string>
 #include <vector>
 

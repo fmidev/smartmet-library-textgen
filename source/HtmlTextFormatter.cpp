@@ -22,7 +22,7 @@
 #include "Paragraph.h"
 #include "SectionTag.h"
 #include "Sentence.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include "StoryTag.h"
 #include "TextFormatterTools.h"
 #include "Time.h"

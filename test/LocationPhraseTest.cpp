@@ -1,7 +1,7 @@
 #include <regression/tframe.h>
 #include "DictionaryFactory.h"
 #include "LocationPhrase.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 
 #include <newbase/NFmiSettings.h>
 

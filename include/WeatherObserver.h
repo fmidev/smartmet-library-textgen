@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_WEATHEROBSERVER_H
 #define TEXTGEN_WEATHEROBSERVER_H
 
-#include "WeatherAnalyzer.h"
+#include <calculator/WeatherAnalyzer.h>
 
 namespace TextGen
 {

@@ -14,8 +14,8 @@
 // ======================================================================
 
 #include "ClimatologyTools.h"
-#include "WeatherSource.h"
-#include "Settings.h"
+#include <calculator/WeatherSource.h>
+#include <calculator/Settings.h>
 
 #include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiFastQueryInfo.h>

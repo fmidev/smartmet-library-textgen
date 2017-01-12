@@ -7,16 +7,16 @@
 
 #include "PrecipitationStory.h"
 #include "Delimiter.h"
-#include "GridForecaster.h"
+#include <calculator/GridForecaster.h>
 #include "IntegerRange.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
-#include "RangeAcceptor.h"
+#include <calculator/RangeAcceptor.h>
 #include "Sentence.h"
-#include "Settings.h"
-#include "TextGenError.h"
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
 #include "UnitFactory.h"
-#include "WeatherResult.h"
+#include <calculator/WeatherResult.h>
 
 #include <newbase/NFmiStringTools.h>
 #include <boost/lexical_cast.hpp>

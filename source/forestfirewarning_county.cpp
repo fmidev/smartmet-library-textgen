@@ -10,7 +10,7 @@
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "Sentence.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 
 using namespace TextGen;
 using namespace boost;

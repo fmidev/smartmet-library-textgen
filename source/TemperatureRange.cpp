@@ -12,7 +12,7 @@
 
 #include "TemperatureRange.h"
 #include "Dictionary.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 
 #include <boost/shared_ptr.hpp>
 #include <sstream>

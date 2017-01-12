@@ -23,10 +23,10 @@
 #include "IntegerRange.h"
 #include "LocationPhrase.h"
 #include "MessageLogger.h"
-#include "Settings.h"
-#include "TextGenError.h"
-#include "WeatherArea.h"
-#include "WeatherPeriod.h"
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
 #include "WeekdayTools.h"
 
 #include <boost/lexical_cast.hpp>

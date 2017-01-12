@@ -2,7 +2,7 @@
 #define TEXTGEN_WEATHER_FORECAST_H
 
 #include "AreaTools.h"
-#include "WeatherPeriod.h"
+#include <calculator/WeatherPeriod.h>
 #include "MessageLogger.h"
 
 namespace TextGen

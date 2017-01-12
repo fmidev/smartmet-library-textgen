@@ -15,7 +15,7 @@
 
 #include "PressureStory.h"
 #include "Paragraph.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 
 using namespace TextGen;
 using namespace std;

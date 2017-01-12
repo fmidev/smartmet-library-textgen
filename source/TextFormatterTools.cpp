@@ -13,10 +13,10 @@
 // ======================================================================
 
 #include "TextFormatterTools.h"
-#include "WeatherPeriod.h"
-#include "Settings.h"
+#include <calculator/WeatherPeriod.h>
+#include <calculator/Settings.h>
 #include <newbase/NFmiStringTools.h>
-#include "TextGenPosixTime.h"
+#include <calculator/TextGenPosixTime.h>
 #include <boost/locale.hpp>
 #include <boost/algorithm/string/replace.hpp>
 

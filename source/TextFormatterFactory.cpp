@@ -30,7 +30,7 @@
 #include "CssTextFormatter.h"
 #include "WmlTextFormatter.h"
 #include "SoneraTextFormatter.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 
 using namespace boost;
 

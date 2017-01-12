@@ -16,19 +16,19 @@
 #include "Integer.h"
 #include "TemperatureRange.h"
 #include "Sentence.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include "UnitFactory.h"
 #include "ClimatologyTools.h"
 #include "GridClimatology.h"
-#include "WeatherPeriodGenerator.h"
-#include "HourPeriodGenerator.h"
+#include <calculator/WeatherPeriodGenerator.h>
+#include <calculator/HourPeriodGenerator.h>
 #include "PositiveValueAcceptor.h"
 
-#include "GridForecaster.h"
-#include "WeatherResult.h"
-#include "WeatherPeriod.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/WeatherResult.h>
+#include <calculator/WeatherPeriod.h>
 #include "SeasonTools.h"
-#include "WeatherArea.h"
+#include <calculator/WeatherArea.h>
 #include "TextFormatter.h"
 #include <boost/shared_ptr.hpp>
 #include <sstream>

@@ -14,9 +14,9 @@
 // ======================================================================
 
 #include "FrostStory.h"
-#include "AnalysisSources.h"
+#include <calculator/AnalysisSources.h>
 #include "Paragraph.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 
 using namespace std;
 using namespace TextGen;

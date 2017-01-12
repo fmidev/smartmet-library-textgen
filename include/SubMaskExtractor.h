@@ -1,11 +1,11 @@
 #ifndef SUBMASKEXTRACTOR_H
 #define SUBMASKEXTRACTOR_H
 
-#include "AnalysisSources.h"
-#include "WeatherParameter.h"
-#include "WeatherArea.h"
-#include "WeatherPeriod.h"
-#include "Acceptor.h"
+#include <calculator/AnalysisSources.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
+#include <calculator/Acceptor.h>
 #include "AreaTools.h"
 
 #include <vector>

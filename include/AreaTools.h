@@ -8,13 +8,13 @@
 #ifndef TEXTGEN_AREATOOLS_H
 #define TEXTGEN_AREATOOLS_H
 
-#include "Acceptor.h"
-#include "WeatherArea.h"
-#include "WeatherPeriod.h"
-#include "WeatherResult.h"
-#include "AnalysisSources.h"
-#include "WeatherParameter.h"
-#include "UserWeatherSource.h"
+#include <calculator/Acceptor.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherResult.h>
+#include <calculator/AnalysisSources.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/UserWeatherSource.h>
 
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiPoint.h>

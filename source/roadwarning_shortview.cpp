@@ -8,17 +8,17 @@
 #include "RoadStory.h"
 #include "DebugTextFormatter.h"
 #include "Delimiter.h"
-#include "GridForecaster.h"
+#include <calculator/GridForecaster.h>
 #include "MessageLogger.h"
-#include "HourPeriodGenerator.h"
+#include <calculator/HourPeriodGenerator.h>
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "Sentence.h"
-#include "Settings.h"
-#include "TextGenError.h"
-#include "TimeTools.h"
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
+#include <calculator/TimeTools.h>
 #include "ValueAcceptor.h"
-#include "WeatherResult.h"
+#include <calculator/WeatherResult.h>
 
 #include <boost/lexical_cast.hpp>
 

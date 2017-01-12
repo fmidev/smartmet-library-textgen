@@ -6,7 +6,7 @@
 // ======================================================================
 
 #include "BasicDictionary.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 
 namespace TextGen
 {

@@ -12,7 +12,7 @@
 // ======================================================================
 
 #include "StoryFactory.h"
-#include "AnalysisSources.h"
+#include <calculator/AnalysisSources.h>
 #include "CloudinessStory.h"
 #include "Delimiter.h"
 #include "DewPointStory.h"
@@ -26,12 +26,12 @@
 #include "RoadStory.h"
 #include "SpecialStory.h"
 #include "TemperatureStory.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 #include "WaveStory.h"
 #include "WeatherStory.h"
 #include "WindStory.h"
 
-#include "TextGenPosixTime.h"
+#include <calculator/TextGenPosixTime.h>
 
 using namespace TextGen;
 using namespace std;

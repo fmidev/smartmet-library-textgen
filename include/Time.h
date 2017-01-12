@@ -9,7 +9,7 @@
 #define TEXTGEN_TIME_H
 
 #include "Glyph.h"
-#include "TextGenPosixTime.h"
+#include <calculator/TextGenPosixTime.h>
 #include <string>
 
 namespace TextGen

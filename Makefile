@@ -75,10 +75,12 @@ CFLAGS_DEBUG   = $(DEFINES) $(FLAGS) $(FLAGS_DEBUG)   -Werror  -O0 -g
 CFLAGS_PROFILE = $(DEFINES) $(FLAGS) $(FLAGS_PROFILE) -DNDEBUG -O2 -g -pg
 
 LIBS = -L$(libdir) \
+	-lsmartmet-calculator \
+	-lsmartmet-newbase \
+	-lsmartmet-macgyver \
 	-lboost_filesystem \
 	-lboost_regex \
-	-lboost_thread \
-	-lgdal
+	-lboost_thread
 
 # rpm variables
 

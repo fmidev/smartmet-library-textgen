@@ -3,7 +3,7 @@
 #include "DictionaryFactory.h"
 #include "PlainTextFormatter.h"
 #include "Sentence.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include <newbase/NFmiSettings.h>
 
 #include <iostream>

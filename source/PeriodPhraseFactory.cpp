@@ -16,18 +16,18 @@
 #include <boost/lexical_cast.hpp>
 
 #include "PeriodPhraseFactory.h"
-#include "HourPeriodGenerator.h"
+#include <calculator/HourPeriodGenerator.h>
 #include "Sentence.h"
-#include "Settings.h"
-#include "TextGenError.h"
-#include "TimeTools.h"
-#include "WeatherArea.h"
-#include "WeatherHistory.h"
-#include "WeatherPeriod.h"
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
+#include <calculator/TimeTools.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherHistory.h>
+#include <calculator/WeatherPeriod.h>
 #include "WeekdayTools.h"
 
 #include <newbase/NFmiStringTools.h>
-#include "TextGenPosixTime.h"
+#include <calculator/TextGenPosixTime.h>
 
 using TextGen::WeatherPeriod;
 using TextGen::WeatherArea;

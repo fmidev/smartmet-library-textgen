@@ -21,9 +21,9 @@
 
 #include "CoastMaskSource.h"
 
-#include "TextGenError.h"
-#include "WeatherArea.h"
-#include "WeatherSource.h"
+#include <calculator/TextGenError.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherSource.h>
 
 #include <newbase/NFmiGrid.h>
 #include <newbase/NFmiFastQueryInfo.h>

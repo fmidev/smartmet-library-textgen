@@ -35,6 +35,7 @@ INCLUDES = \
 	-I /usr/include/mysql
 LIBS = \
 	../libsmartmet-textgen.so \
+	-lsmartmet-calculator \
 	-lsmartmet-newbase \
 	-L $(libdir)/mysql -lmysqlclient -lmysqlpp
 

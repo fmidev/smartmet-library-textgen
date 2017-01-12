@@ -13,26 +13,26 @@
 // ======================================================================
 
 #include "TextGenerator.h"
-#include "AnalysisSources.h"
+#include <calculator/AnalysisSources.h>
 #include "CoastMaskSource.h"
 #include "Document.h"
 #include "Header.h"
 #include "HeaderFactory.h"
-#include "HourPeriodGenerator.h"
+#include <calculator/HourPeriodGenerator.h>
 #include "InlandMaskSource.h"
 #include "LandMaskSource.h"
-#include "LatestWeatherSource.h"
-#include "MaskSource.h"
+#include <calculator/LatestWeatherSource.h>
+#include <calculator/MaskSource.h>
 #include "MessageLogger.h"
 #include "NullMaskSource.h"
 #include "Paragraph.h"
-#include "RegularMaskSource.h"
+#include <calculator/RegularMaskSource.h>
 #include "SectionTag.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include "StoryFactory.h"
 #include "StoryTag.h"
-#include "WeatherArea.h"
-#include "WeatherPeriod.h"
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
 #include "WeatherPeriodFactory.h"
 #include "NorthernMaskSource.h"
 #include "SouthernMaskSource.h"
@@ -40,7 +40,7 @@
 #include "WesternMaskSource.h"
 
 #include <newbase/NFmiStringTools.h>
-#include "TextGenPosixTime.h"
+#include <calculator/TextGenPosixTime.h>
 
 using namespace TextGen;
 using namespace std;

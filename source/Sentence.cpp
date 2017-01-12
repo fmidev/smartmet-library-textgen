@@ -22,7 +22,7 @@
 #include "Phrase.h"
 #include "PlainTextFormatter.h"
 #include "TextFormatter.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 #include <algorithm>
 
 using namespace std;

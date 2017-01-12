@@ -8,7 +8,7 @@
 #ifndef TEXTGEN_GRIDCLIMATOLOGY_H
 #define TEXTGEN_GRIDCLIMATOLOGY_H
 
-#include "WeatherForecaster.h"
+#include <calculator/WeatherForecaster.h>
 
 namespace TextGen
 {

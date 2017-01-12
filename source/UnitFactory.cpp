@@ -61,9 +61,9 @@
 #include "UnitFactory.h"
 #include "Delimiter.h"
 #include "Sentence.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include "Integer.h"
-#include "TextGenError.h"
+#include <calculator/TextGenError.h>
 
 #include <string>
 #include <boost/lexical_cast.hpp>

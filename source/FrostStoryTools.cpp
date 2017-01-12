@@ -15,9 +15,9 @@
 #include "FrostStoryTools.h"
 #include "Integer.h"
 #include "Sentence.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 #include "UnitFactory.h"
-#include "WeatherPeriod.h"
+#include <calculator/WeatherPeriod.h>
 #include "WeekdayTools.h"
 
 using TextGen::WeatherPeriod;
