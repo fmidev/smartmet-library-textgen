@@ -4,22 +4,22 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.1.12
+Version: 17.1.27
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: smartmet-library-calculator-devel >= 16.12.19
-BuildRequires: smartmet-library-newbase-devel >= 16.12.19
-BuildRequires: smartmet-library-macgyver-devel >= 16.12.20
+BuildRequires: smartmet-library-calculator-devel >= 17.1.12
+BuildRequires: smartmet-library-newbase-devel >= 17.1.26
+BuildRequires: smartmet-library-macgyver-devel >= 17.1.18
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: smartmet-library-calculator >= 16.12.19
-Requires: smartmet-library-newbase >= 16.12.19
-Requires: smartmet-library-macgyver >= 16.12.20
+Requires: smartmet-library-calculator >= 17.1.12
+Requires: smartmet-library-newbase >= 17.1.26
+Requires: smartmet-library-macgyver >= 17.1.18
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
@@ -62,6 +62,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Fri Jan 27 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.1.27-1.fmi
+- Recompiled due to NFmiQueryData object size change
+
 * Thu Jan 12 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.1.12-1.fmi
 - Splitted calculator code into a separate smartmet-library-calculator module
 - Wind story corrections:
