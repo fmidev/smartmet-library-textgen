@@ -6,10 +6,10 @@ set(CMAKE_MFC_FLAG 0)
 add_definitions( -D_UNICODE -DUNICODE )
 
 include_directories( 
-    $ENV{BOOST_INCLUDE_DIR}
-    $ENV{LIBS_FMI}/macgyver/include
-    $ENV{LIBS_FMI}/textgen/include
-    $ENV{LIBS_FMI}/newbase/include
+    ${BOOST_INCLUDE_DIR}
+    ${LIBS_FMI}/macgyver/include
+    ${LIBS_FMI}/textgen/include
+    ${LIBS_FMI}/newbase/include
     )
 
 file( GLOB CPP_FILES source/*.cpp )
