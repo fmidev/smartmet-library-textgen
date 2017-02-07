@@ -39,7 +39,7 @@ LIBS = \
 	-lsmartmet-newbase \
 	-L $(libdir)/mysql -lmysqlclient -lmysqlpp
 
-INCLUDES += -I ../include
+INCLUDES += -I ../textgen
 
 LIBS += \
 	-lsmartmet-macgyver \
