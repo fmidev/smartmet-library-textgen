@@ -321,17 +321,28 @@ struct TimePhraseInfo
   }
 };
 
+struct DirectionSentenceInfo
+{
+  TextGenPosixTime startTime;
+  TextGenPosixTime endTime;
+  Sentence sentence;
+  TimePhraseInfo timePhraseInfo;
+  WindDirectionInfo windDirectionInfo;
+};
+/*
 // in wind_overview.cpp
 WeatherResult mean_wind_direction(const AnalysisSources& theSources,
-                                  const WeatherArea& theArea,
-                                  const WeatherPeriod& thePeriod,
-                                  const WeatherResult& theEqualizedWindSpeedMedian,
-                                  const WeatherResult& theEqualizedWindSpeedTop,
-                                  const std::string& theVar);
+                                const WeatherArea& theArea,
+                                const WeatherPeriod& thePeriod,
+                                const WeatherResult& theEqualizedWindSpeedMedian,
+                                const WeatherResult& theEqualizedWindSpeedTop,
+                                const std::string& theVar);
 // in wind_overview.cpp
 float mean_wind_direction_error(const wind_data_item_vector& theWindDataVector,
-                                const WeatherArea& theArea,
-                                const WeatherPeriod& thePeriod);
+                              const WeatherArea& theArea,
+                              const WeatherPeriod& thePeriod);
+*/
+
 // in WindForecast.cpp
 std::string get_wind_event_string(WindEventId theWindEventId);
 bool wind_speed_differ_enough(const wo_story_params& theParameter, const WeatherPeriod& thePeriod);

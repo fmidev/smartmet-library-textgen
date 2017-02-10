@@ -147,12 +147,13 @@ class Sentence;
 #define ILTAYOHON_ASTI_PHRASE "iltayohon asti"
 #define KESKIYOHON_ASTI_PHRASE "keskiyohon asti"
 #define AAMUYOHON_ASTI_PHRASE "aamuyohon asti"
+
 #define AAMULLA_JA_AAMUPAIVALLA_PHRASE "aamulla ja aamupaivalla"
-#define ILTAPAIVALLA_JA_ILLALLA "iltapaivalla ja illalla"
-#define ILLALLA_JA_ILTAYOLLA "illalla ja iltayolla"
-#define ILTAYOLLA_JA_KESKIYOLLA "iltayolla ja keskiyolla"
-#define KESKIYOLLA_JA_AAMUYIOLLA "keskiyolla ja aamuyolla"
-#define AAMUYOLLA_JA_AAMULLA "aamuyolla ja aamulla"
+#define ILTAPAIVALLA_JA_ILLALLA_PHRASE "iltapaivalla ja illalla"
+#define ILLALLA_JA_ILTAYOLLA_PHRASE "illalla ja iltayolla"
+#define ILTAYOLLA_JA_KESKIYOLLA_PHRASE "iltayolla ja keskiyolla"
+#define KESKIYOLLA_JA_AAMUYOLLA_PHRASE "keskiyolla ja aamuyolla"
+#define AAMUYOLLA_JA_AAMULLA_PHRASE "aamuyolla ja aamulla"
 
 #define POHJOISESTA_ALKAEN_PHRASE "pohjoisesta alkaen"
 #define ETELASTA_ALKAEN_PHRASE "etelasta alkaen"
@@ -559,42 +560,41 @@ struct wf_story_params
 };
 
 Sentence get_large_time_phrase(const WeatherPeriod& theWeatherPeriod,
-                               const bool& theSpecifyDayFlag,
-                               std::string& thePhraseString);
+                               bool theSpecifyDayFlag,
+                               std::string& thePhraseString,
+                               part_of_the_day_id& thePartOfTheDay);
 std::string get_narrow_time_phrase(const WeatherPeriod& theWeatherPeriod,
                                    const std::string& theVar,
+                                   part_of_the_day_id& thePartOfTheDay,
                                    bool theAlkaenPhrase = false);
 void get_precipitation_limit_value(const wf_story_params& theParameters,
-                                   const unsigned int& thePrecipitationForm,
-                                   const precipitation_intesity_id& theIntensityId,
+                                   unsigned int thePrecipitationForm,
+                                   precipitation_intesity_id theIntensityId,
                                    float& theLowerLimit,
                                    float& theUpperLimit);
 void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
-                                          const unsigned int& thePrecipitationForm,
+                                          unsigned int thePrecipitationForm,
                                           float& theDryWeatherLimit,
                                           float& theWeakPrecipitationLimit);
-const char* weather_event_string(const weather_event_id& theWeatherEventId);
-const char* precipitation_form_string(const precipitation_form_id& thePrecipitationForm);
-const char* precipitation_type_string(const precipitation_type& thePrecipitationType);
-const char* precipitation_traverse_string(
-    const precipitation_traverse_id& thePrecipitationTraverseId);
-const char* part_of_the_day_string(const part_of_the_day_id& thePartOfTheDayId);
-const char* story_part_id_string(const story_part_id& theStoryPartId);
+const char* weather_event_string(weather_event_id theWeatherEventId);
+const char* precipitation_form_string(precipitation_form_id thePrecipitationForm);
+const char* precipitation_type_string(precipitation_type thePrecipitationType);
+const char* precipitation_traverse_string(precipitation_traverse_id thePrecipitationTraverseId);
+const char* part_of_the_day_string(part_of_the_day_id thePartOfTheDayId);
+const char* story_part_id_string(story_part_id theStoryPartId);
 
-void get_part_of_the_day(const part_of_the_day_id& thePartOfTheDayId,
-                         int& theStartHour,
-                         int& theEndHour);
-part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod);
+bool is_same_part_of_day(const WeatherPeriod& thePeriod1, const WeatherPeriod& thePeriod2);
+void get_part_of_the_day(part_of_the_day_id thePartOfTheDayId, int& theStartHour, int& theEndHour);
+part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
+                                                 bool ignoreKeskiyo = false);
 part_of_the_day_id get_part_of_the_day_id_large(const WeatherPeriod& thePeriod);
 part_of_the_day_id get_adjusted_part_of_the_day_id(const WeatherPeriod& theWeatherPeriod,
                                                    bool theAlkaenPhrase = false);
-/*  bool get_part_of_the_day(const WeatherPeriod& theSourcePeriod,
-         const part_of_the_day_id& thePartOfTheDayId,
-         WeatherPeriod& theDestinationPeriod);*/
-part_of_the_day_id get_part_of_the_day_id(const TextGenPosixTime& theTimestamp);
+part_of_the_day_id get_part_of_the_day_id(const TextGenPosixTime& theTimestamp,
+                                          bool ignoreKeskiyo = false);
 bool is_inside(const WeatherPeriod& theWeatherPeriod1, const WeatherPeriod& theWeatherPeriod2);
-bool is_inside(const WeatherPeriod& theWeatherPeriod, const part_of_the_day_id& thePartOfTheDayId);
-bool is_inside(const TextGenPosixTime& theTimeStamp, const part_of_the_day_id& thePartOfTheDayId);
+bool is_inside(const WeatherPeriod& theWeatherPeriod, part_of_the_day_id thePartOfTheDayId);
+bool is_inside(const TextGenPosixTime& theTimeStamp, part_of_the_day_id thePartOfTheDayId);
 bool is_inside(const TextGenPosixTime& theTimeStamp, const WeatherPeriod& theWeatherPeriod);
 bool same_period(const WeatherPeriod& theWeatherPeriod1, const WeatherPeriod& theWeatherPeriod2);
 WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
@@ -603,10 +603,11 @@ WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
 Sentence get_direction_phrase(const AreaTools::direction_id& theDirectionId,
                               bool theAlkaenPhrase = false);
 Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
-                               const bool& theSpecifyDayFlag,
+                               bool theSpecifyDayFlag,
                                const std::string& theVar,
                                std::string& thePhraseString,
-                               bool theAlkaenPhrase = false);
+                               bool theAlkaenPhrase,
+                               part_of_the_day_id& thePartOfTheDay);
 std::string get_time_phrase(const TextGenPosixTime& theTimestamp,
                             const std::string& theVar,
                             bool theAlkaenPhrase = false);
@@ -618,88 +619,84 @@ Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
                           const WeatherArea& theArea,
                           const WeatherPeriod thePeriod,
                           const TextGenPosixTime& theForecastTime);
+std::string parse_time_phrase(short theWeekday,
+                              bool theSpecifyDayFlag,
+                              const std::string& theTimePhrase);
 precipitation_form_id get_complete_precipitation_form(const std::string& theVariable,
-                                                      const float thePrecipitationFormWater,
-                                                      const float thePrecipitationFormDrizzle,
-                                                      const float thePrecipitationFormSleet,
-                                                      const float thePrecipitationFormSnow,
-                                                      const float thePrecipitationFormFreezing);
+                                                      float thePrecipitationFormWater,
+                                                      float thePrecipitationFormDrizzle,
+                                                      float thePrecipitationFormSleet,
+                                                      float thePrecipitationFormSnow,
+                                                      float thePrecipitationFormFreezing);
 void get_sub_time_series(const WeatherPeriod& thePeriod,
                          const weather_result_data_item_vector& theSourceVector,
                          weather_result_data_item_vector& theDestinationVector);
-void get_sub_time_series(const part_of_the_day_id& thePartOfTheDay,
+void get_sub_time_series(part_of_the_day_id thePartOfTheDay,
                          const weather_result_data_item_vector& theSourceVector,
                          weather_result_data_item_vector& theDestinationVector);
 float get_mean(const weather_result_data_item_vector& theTimeSeries,
-               const int& theStartIndex = 0,
-               const int& theEndIndex = 0);
+               int theStartIndex = 0,
+               int theEndIndex = 0);
 float get_standard_deviation(const weather_result_data_item_vector& theTimeSeries);
 void get_min_max(const weather_result_data_item_vector& theTimeSeries,
                  float& theMin,
                  float& theMax);
 double get_pearson_coefficient(const weather_result_data_item_vector& theTimeSeries,
-                               const unsigned int& theStartIndex,
-                               const unsigned int& theEndIndex,
-                               const bool& theUseErrorValueFlag = false);
+                               unsigned int theStartIndex,
+                               unsigned int theEndIndex,
+                               bool theUseErrorValueFlag = false);
 void print_out_weather_event_vector(std::ostream& theOutput,
                                     const weather_event_id_vector& theWeatherEventVector);
-Sentence area_specific_sentence(const float& north,
-                                const float& south,
-                                const float& east,
-                                const float& west,
-                                const float& northEast,
-                                const float& southEast,
-                                const float& southWest,
-                                const float& northWest,
-                                const bool& mostlyFlag = true);
+Sentence area_specific_sentence(float north,
+                                float south,
+                                float east,
+                                float west,
+                                float northEast,
+                                float southEast,
+                                float southWest,
+                                float northWest,
+                                bool mostlyFlag = true);
 int get_today_vector(const std::string& theVariable,
                      const WeatherArea& theArea,
                      const WeatherPeriod& thePeriod,
                      const TextGenPosixTime& theForecastTime,
                      std::vector<Sentence*>& theTodayVector);
-area_specific_sentence_id get_area_specific_sentence_id(const float& north,
-                                                        const float& south,
-                                                        const float& east,
-                                                        const float& west,
-                                                        const float& northEast,
-                                                        const float& southEast,
-                                                        const float& southWest,
-                                                        const float& northWest,
-                                                        const bool& mostlyFlag = true);
+area_specific_sentence_id get_area_specific_sentence_id(float north,
+                                                        float south,
+                                                        float east,
+                                                        float west,
+                                                        float northEast,
+                                                        float southEast,
+                                                        float southWest,
+                                                        float northWest,
+                                                        bool mostlyFlag = true);
 int get_period_length(const WeatherPeriod& thePeriod);
 float get_area_percentage(const std::string& theVar,
                           const WeatherArea& theArea,
                           const TextGen::WeatherArea::Type& theType,
                           const AnalysisSources& theSources,
                           const WeatherPeriod& thePeriod);
-std::string parse_weekday_phrase(const short& weekday, std::string part_of_the_day);
-Sentence parse_weekday_phrase(const short& weekday, const Sentence& part_of_the_day);
+std::string parse_weekday_phrase(short weekday, const std::string& part_of_the_day);
+Sentence parse_weekday_phrase(short weekday, const Sentence& part_of_the_day);
 WeatherPeriod get_intersection_period(const WeatherPeriod& thePeriod1,
                                       const WeatherPeriod& thePeriod2,
                                       bool& theIntersectionPeriodFound);
 
-/*
-bool split_the_area(const std::string theVar,
-                                        const TextGen::WeatherArea& theArea,
-                                        const TextGen::WeatherPeriod& thePeriod,
-                                        const TextGen::AnalysisSources& theSources);
-*/
-
-split_method split_the_area(const std::string theVar,
+split_method split_the_area(const std::string& theVar,
                             const TextGen::WeatherArea& theArea,
                             const TextGen::WeatherPeriod& thePeriod,
                             const TextGen::AnalysisSources& theSources,
                             double& theDivisionLine,
                             MessageLogger& theLog);
 
-bool test_temperature_split_criterion(const std::string theVar,
-                                      const bool& morningTemperature,
+bool test_temperature_split_criterion(const std::string& theVar,
+                                      bool morningTemperature,
                                       const TextGen::WeatherArea& theAreaOne,
                                       const TextGen::WeatherArea& theAreaTwo,
                                       const TextGen::WeatherPeriod& thePeriod,
                                       const TextGen::AnalysisSources& theSources,
                                       MessageLogger& theLog);
-split_method check_area_splitting(const std::string theVar,
+split_method check_area_splitting(const std::string& theVar,
                                   const TextGen::WeatherArea& theArea,
                                   const TextGen::WeatherPeriod& thePeriod,
                                   const TextGen::AnalysisSources& theSources,
@@ -713,7 +710,7 @@ struct WeatherResultDataItem
 {
   WeatherResultDataItem(const WeatherPeriod& period,
                         const WeatherResult& result,
-                        const part_of_the_day_id& partOfTheDay)
+                        part_of_the_day_id partOfTheDay)
       : thePeriod(period), theResult(result), thePartOfTheDay(partOfTheDay)
   {
   }
@@ -725,13 +722,13 @@ struct WeatherResultDataItem
 
 struct CloudinessDataItemData
 {
-  CloudinessDataItemData(const cloudiness_id& id,
-                         const float& min,
-                         const float& mean,
-                         const float& max,
-                         const float& standardDeviation,
-                         const weather_event_id& weatherEventId,
-                         const float& pearsonCoefficient)
+  CloudinessDataItemData(cloudiness_id id,
+                         float min,
+                         float mean,
+                         float max,
+                         float standardDeviation,
+                         weather_event_id weatherEventId,
+                         float pearsonCoefficient)
       : theId(id),
         theMin(min),
         theMean(mean),
@@ -774,10 +771,10 @@ struct CloudinessDataItem
 
 struct ThunderDataItem
 {
-  ThunderDataItem(const float& minProbability,
-                  const float& meanProbability,
-                  const float& maxProbability,
-                  const float& standardDeviationProbability)
+  ThunderDataItem(float minProbability,
+                  float meanProbability,
+                  float maxProbability,
+                  float standardDeviationProbability)
       : theMinProbability(minProbability),
         theMeanProbability(meanProbability),
         theMaxProbability(maxProbability),
@@ -793,7 +790,7 @@ struct ThunderDataItem
 
 struct FogIntensityDataItem
 {
-  FogIntensityDataItem(const float& moderateFogExtent, const float& denseFogExtent)
+  FogIntensityDataItem(float moderateFogExtent, float denseFogExtent)
       : theModerateFogExtent(moderateFogExtent), theDenseFogExtent(denseFogExtent)
   {
   }
@@ -805,18 +802,18 @@ struct FogIntensityDataItem
 struct PrecipitationDataItemData
 {
   PrecipitationDataItemData(const wf_story_params& theParameters,
-                            const precipitation_form_id& precipitationForm,
-                            const float& precipitationIntensity,
-                            const float& precipitationMaxIntensity,
-                            const float& precipitationExtent,
-                            const float& precipitationFormWater,
-                            const float& precipitationFormDrizzle,
-                            const float& precipitationFormSleet,
-                            const float& precipitationFormSnow,
-                            const float& precipitationFormFreezing,
-                            const float& precipitationTypeShowers,
-                            const weather_event_id weatherEventId,
-                            const float& pearsonCoefficient,
+                            precipitation_form_id precipitationForm,
+                            float precipitationIntensity,
+                            float precipitationMaxIntensity,
+                            float precipitationExtent,
+                            float precipitationFormWater,
+                            float precipitationFormDrizzle,
+                            float precipitationFormSleet,
+                            float precipitationFormSnow,
+                            float precipitationFormFreezing,
+                            float precipitationTypeShowers,
+                            weather_event_id weatherEventId,
+                            float pearsonCoefficient,
                             const TextGenPosixTime& observationTime)
       : thePrecipitationForm(precipitationForm),
         thePrecipitationIntensity(precipitationIntensity),

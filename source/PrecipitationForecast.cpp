@@ -4062,7 +4062,7 @@ string PrecipitationForecast::getTimePhrase(const part_of_the_day_id& thePartOfT
       else if (theTimePhraseFormat == TILL_FORMAT)
         return ILTAAN_ASTI_PHRASE;
       else
-        return ILTAPAIVALLA_JA_ILLALLA;
+        return ILTAPAIVALLA_JA_ILLALLA_PHRASE;
       break;
     }
     case ILTA_JA_ILTAYO:
@@ -4072,7 +4072,7 @@ string PrecipitationForecast::getTimePhrase(const part_of_the_day_id& thePartOfT
       else if (theTimePhraseFormat == TILL_FORMAT)
         return ILTAYOHON_ASTI_PHRASE;
       else
-        return ILLALLA_JA_ILTAYOLLA;
+        return ILLALLA_JA_ILTAYOLLA_PHRASE;
       break;
     }
     case ILTAYO_JA_KESKIYO:
@@ -4082,7 +4082,7 @@ string PrecipitationForecast::getTimePhrase(const part_of_the_day_id& thePartOfT
       else if (theTimePhraseFormat == TILL_FORMAT)
         return KESKIYOHON_ASTI_PHRASE;
       else
-        return ILTAYOLLA_JA_KESKIYOLLA;
+        return ILTAYOLLA_JA_KESKIYOLLA_PHRASE;
       break;
     }
     case KESKIYO_JA_AAMUYO:
@@ -4092,7 +4092,7 @@ string PrecipitationForecast::getTimePhrase(const part_of_the_day_id& thePartOfT
       else if (theTimePhraseFormat == TILL_FORMAT)
         return AAMUYOHON_ASTI_PHRASE;
       else
-        return KESKIYOLLA_JA_AAMUYIOLLA;
+        return KESKIYOLLA_JA_AAMUYOLLA_PHRASE;
       break;
     }
     case AAMUYO_JA_AAMU:
@@ -4102,7 +4102,7 @@ string PrecipitationForecast::getTimePhrase(const part_of_the_day_id& thePartOfT
       else if (theTimePhraseFormat == TILL_FORMAT)
         return AAMUUN_ASTI_PHRASE;
       else
-        return AAMUYOLLA_JA_AAMULLA;
+        return AAMUYOLLA_JA_AAMULLA_PHRASE;
       break;
     }
     case MISSING_PART_OF_THE_DAY_ID:

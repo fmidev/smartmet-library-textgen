@@ -848,7 +848,9 @@ Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod,
         get_period_length(theParameters.theForecastPeriod) > 24 && todayPhrase.size() > 0;
 
     std::string dayPhasePhrase;
-    get_time_phrase_large(fogPeriod, specifyDay, theParameters.theVariable, dayPhasePhrase, false);
+    part_of_the_day_id id;
+    get_time_phrase_large(
+        fogPeriod, specifyDay, theParameters.theVariable, dayPhasePhrase, false, id);
 
     WeatherHistory& thePhraseHistory = const_cast<WeatherArea&>(theParameters.theArea).history();
 

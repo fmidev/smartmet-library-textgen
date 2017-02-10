@@ -114,7 +114,6 @@ Paragraph WindStory::daily_ranges() const
                            Mean,
                            itsArea,
                            period);
-
     const WeatherResult direction =
         forecaster.analyze(itsVar + "::fake::" + daystr + "::direction::mean",
                            itsSources,
@@ -193,14 +192,27 @@ Paragraph WindStory::daily_ranges() const
         {
           if (opt == "textphrase")
           {
+            Sentence todaySentence;
+            Sentence nextdaySentence;
+            Sentence nextdaySpeedSentence;
             const std::string speed_str(speed_string(meanspeeds[0]));
 
+            if (!speed_str.empty())
+              todaySentence << PeriodPhraseFactory::create(
+                                   "today", itsVar, itsForecastTime, periods[0])
+                            << speed_str;
+            nextdaySpeedSentence << directed_speed_sentence(
+                minspeeds[1], maxspeeds[1], meanspeeds[1], direction12, itsVar);
+            if (!nextdaySpeedSentence.empty())
+              nextdaySentence << PeriodPhraseFactory::create(
+                                     "next_day", itsVar, itsForecastTime, periods[1])
+                              << nextdaySpeedSentence;
+
             // esim. Tänään heikkoa, huomenna kohtalaista etelätuulta
-            sentence << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, periods[0])
-                     << speed_str << Delimiter(",")
-                     << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, periods[1])
-                     << directed_speed_sentence(
-                            minspeeds[1], maxspeeds[1], meanspeeds[1], direction12, itsVar);
+            if (!todaySentence.empty() && !nextdaySentence.empty())
+              sentence << todaySentence << Delimiter(",") << nextdaySentence;
+            else if (todaySentence.empty() && !nextdaySentence.empty())
+              sentence << nextdaySentence;
           }
           else
           {
@@ -215,11 +227,18 @@ Paragraph WindStory::daily_ranges() const
       }
       else
       {
-        sentence << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, periods[0])
-                 << directed_speed_sentence(
-                        minspeeds[0], maxspeeds[0], meanspeeds[0], directions[0], itsVar)
-                 << Delimiter(",")
-                 << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, periods[1]);
+        Sentence todaySpeedSentence;
+        Sentence todaySentence;
+
+        todaySpeedSentence << directed_speed_sentence(
+            minspeeds[0], maxspeeds[0], meanspeeds[0], directions[0], itsVar);
+
+        if (!todaySpeedSentence.empty())
+          sentence << PeriodPhraseFactory::create("today", itsVar, itsForecastTime, periods[0])
+                   << todaySpeedSentence << Delimiter(",")
+                   << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, periods[1]);
+        else
+          sentence << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, periods[1]);
         if (similar_speeds)
         {
           sentence << direction_sentence(directions[1], itsVar);

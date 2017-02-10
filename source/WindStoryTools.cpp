@@ -18,7 +18,8 @@
 #include "Sentence.h"
 #include <calculator/Settings.h>
 #include "UnitFactory.h"
-#include <calculator/WeatherResult.h>
+#include <calculator/GridForecaster.h>
+#include <calculator/RangeAcceptor.h>
 
 #include <newbase/NFmiGlobals.h>
 
@@ -929,152 +930,385 @@ std::string wind_direction_string(const WindDirectionId& theWindDirectionId)
   return retval;
 }
 
-float direction_difference(float direction1, float direction2)
+bool wind_direction_item_sort(pair<float, WeatherResult> firstItem,
+                              pair<float, WeatherResult> secondItem)
 {
-  float difference = direction2 - direction1;
-  if (abs(difference) > 180.0)
-    difference = ((direction2 > direction1 ? direction2 - (direction1 + 360)
-                                           : direction1 - (direction2 + 360)));
-
-  return difference;
+  return firstItem.second.value() > secondItem.second.value();
 }
 
-bool wind_direction_turns(const TextGen::WeatherResult& theDirectionStart,
-                          const TextGen::WeatherResult& theDirectionEnd,
-                          const TextGen::WeatherResult& theMaxSpeedStart,
-                          const TextGen::WeatherResult& theMaxSpeedEnd,
-                          const string& theVariable,
-                          double theWindDirectionMinSpeed)
+pair<float, WeatherResult> get_share_item(
+    const AnalysisSources& theSources,
+    const WeatherArea& theArea,
+    const WeatherPeriod& thePeriod,
+    const string& theVar,
+    const WindDirectionId& theWindDirection,
+    WindStoryTools::CompassType compass_type = sixteen_directions)
 {
-  WindDirectionId windDirectionIdBeg(wind_direction_id(
-      theDirectionStart, theMaxSpeedStart, theVariable, theWindDirectionMinSpeed));
-  WindDirectionId windDirectionIdEnd(
-      wind_direction_id(theDirectionEnd, theMaxSpeedEnd, theVariable, theWindDirectionMinSpeed));
+  GridForecaster forecaster;
+  RangeAcceptor acceptor;
+  float ws_lower_limit(0.0);
+  float ws_upper_limit(360.0);
 
-  float directionDifference(
-      abs(direction_difference(theDirectionEnd.value(), theDirectionStart.value())));
-
-  return (directionDifference > 45.0 && windDirectionIdBeg != windDirectionIdEnd);
-}
-
-bool same_direction(const TextGen::WeatherResult& theDirection1,
-                    const TextGen::WeatherResult& theDirection2,
-                    const TextGen::WeatherResult& theMaxSpeed1,
-                    const TextGen::WeatherResult& theMaxSpeed2,
-                    const string& theVariable,
-                    double theWindDirectionMinSpeed,
-                    bool ignore_suuntainen)
-{
-  WindDirectionId direction1(
-      wind_direction_id(theDirection1, theMaxSpeed1, theVariable, theWindDirectionMinSpeed));
-  WindDirectionId direction2(
-      wind_direction_id(theDirection2, theMaxSpeed2, theVariable, theWindDirectionMinSpeed));
-
-  if (direction1 == direction2) return true;
-
-  WindDirectionId plainDirection1(
-      plain_wind_direction_id(theDirection1, theMaxSpeed1, theVariable, theWindDirectionMinSpeed));
-  WindDirectionId plainDirection2(
-      plain_wind_direction_id(theDirection2, theMaxSpeed2, theVariable, theWindDirectionMinSpeed));
-
-  if (plainDirection1 == plainDirection2 && ignore_suuntainen) return true;
-
-  return false;
-}
-
-bool same_direction(const WindDirectionId& theDirection1,
-                    const WindDirectionId& theDirection2,
-                    bool ignore_suuntainen)
-{
-  if (theDirection1 == theDirection2) return true;
-
-  bool retval = false;
-
-  // e.g. "pohjoinen" and "pohjoisen puoleinen" are considered the same
-  if (ignore_suuntainen)
+  if (compass_type == sixteen_directions)
   {
-    switch (theDirection1)
+    switch (theWindDirection)
     {
       case POHJOINEN:
-        retval = (theDirection2 == POHJOISEN_PUOLEINEN);
-        break;
-      case POHJOISEN_PUOLEINEN:
-        retval = (theDirection2 == POHJOINEN);
-        break;
+      {
+        ws_lower_limit = 0.0;
+        ws_upper_limit = 11.25;
+      }
+      break;
       case POHJOINEN_KOILLINEN:
-        // empty
-        break;
+      {
+        ws_lower_limit = 11.25;
+        ws_upper_limit = 33.75;
+      }
+      break;
       case KOILLINEN:
-        retval = (theDirection2 == KOILLISEN_PUOLEINEN);
-        break;
-      case KOILLISEN_PUOLEINEN:
-        retval = (theDirection2 == KOILLINEN);
-        break;
+      {
+        ws_lower_limit = 33.75;
+        ws_upper_limit = 56.25;
+      }
+      break;
       case ITA_KOILLINEN:
-        // empty
-        break;
+      {
+        ws_lower_limit = 56.25;
+        ws_upper_limit = 78.75;
+      }
+      break;
       case ITA:
-        retval = (theDirection2 == IDAN_PUOLEINEN);
-        break;
-      case IDAN_PUOLEINEN:
-        retval = (theDirection2 == ITA);
-        break;
+      {
+        ws_lower_limit = 78.75;
+        ws_upper_limit = 101.25;
+      }
+      break;
       case ITA_KAAKKO:
-        // empty
-        break;
+      {
+        ws_lower_limit = 101.25;
+        ws_upper_limit = 123.75;
+      }
+      break;
       case KAAKKO:
-        retval = (theDirection2 == KAAKON_PUOLEINEN);
-        break;
-      case KAAKON_PUOLEINEN:
-        retval = (theDirection2 == KAAKKO);
-        break;
+      {
+        ws_lower_limit = 123.75;
+        ws_upper_limit = 146.25;
+      }
+      break;
       case ETELA_KAAKKO:
-        // empty
-        break;
+      {
+        ws_lower_limit = 146.25;
+        ws_upper_limit = 168.75;
+      }
+      break;
       case ETELA:
-        retval = (theDirection2 == ETELAN_PUOLEINEN);
-        break;
-      case ETELAN_PUOLEINEN:
-        retval = (theDirection2 == ETELA);
-        break;
+      {
+        ws_lower_limit = 168.75;
+        ws_upper_limit = 191.25;
+      }
+      break;
       case ETELA_LOUNAS:
-        // empty
-        break;
+      {
+        ws_lower_limit = 191.25;
+        ws_upper_limit = 213.75;
+      }
+      break;
       case LOUNAS:
-        retval = (theDirection2 == LOUNAAN_PUOLEINEN);
-        break;
-      case LOUNAAN_PUOLEINEN:
-        retval = (theDirection2 == LOUNAS);
-        break;
+      {
+        ws_lower_limit = 213.75;
+        ws_upper_limit = 236.25;
+      }
+      break;
       case LANSI_LOUNAS:
-        // empty
-        break;
+      {
+        ws_lower_limit = 236.25;
+        ws_upper_limit = 258.75;
+      }
+      break;
       case LANSI:
-        retval = (theDirection2 == LANNEN_PUOLEINEN);
-        break;
-      case LANNEN_PUOLEINEN:
-        retval = (theDirection2 == LANSI);
-        break;
+      {
+        ws_lower_limit = 258.75;
+        ws_upper_limit = 281.25;
+      }
+      break;
       case LANSI_LUODE:
-        // empty
-        break;
+      {
+        ws_lower_limit = 281.25;
+        ws_upper_limit = 303.75;
+      }
+      break;
       case LUODE:
-        retval = (theDirection2 == LUOTEEN_PUOLEINEN);
-        break;
-      case LUOTEEN_PUOLEINEN:
-        retval = (theDirection2 == LUODE);
-        break;
+      {
+        ws_lower_limit = 303.75;
+        ws_upper_limit = 326.25;
+      }
+      break;
       case POHJOINEN_LUODE:
-        // empty
+      {
+        ws_lower_limit = 326.25;
+        ws_upper_limit = 348.75;
+      }
+      break;
+      default:
         break;
-      case VAIHTELEVA:
-      case MISSING_WIND_DIRECTION_ID:
-        // empty
+    }
+  }
+  else
+  {
+    switch (theWindDirection)
+    {
+      case POHJOINEN:
+      {
+        ws_lower_limit = 0.0;
+        ws_upper_limit = 22.50;
+      }
+      break;
+      case KOILLINEN:
+      {
+        ws_lower_limit = 22.50;
+        ws_upper_limit = 67.50;
+      }
+      break;
+      case ITA:
+      {
+        ws_lower_limit = 67.50;
+        ws_upper_limit = 112.50;
+      }
+      break;
+      case KAAKKO:
+      {
+        ws_lower_limit = 112.50;
+        ws_upper_limit = 157.50;
+      }
+      break;
+      case ETELA:
+      {
+        ws_lower_limit = 157.50;
+        ws_upper_limit = 202.50;
+      }
+      break;
+      case LOUNAS:
+      {
+        ws_lower_limit = 202.50;
+        ws_upper_limit = 247.50;
+      }
+      break;
+      case LANSI:
+      {
+        ws_lower_limit = 247.50;
+        ws_upper_limit = 292.50;
+      }
+      break;
+      case LUODE:
+      {
+        ws_lower_limit = 292.50;
+        ws_upper_limit = 337.50;
+      }
+      break;
+      default:
         break;
     }
   }
 
-  return retval;
+  acceptor.lowerLimit(ws_lower_limit);
+  acceptor.upperLimit(ws_upper_limit - 0.0001);
+  WeatherResult share = forecaster.analyze(theVar + "::fake::tyyni::share",
+                                           theSources,
+                                           WindDirection,
+                                           Mean,
+                                           Percentage,
+                                           theArea,
+                                           thePeriod,
+                                           DefaultAcceptor(),
+                                           DefaultAcceptor(),
+                                           acceptor);
+
+  if (theWindDirection == POHJOINEN)
+  {
+    ws_lower_limit = (compass_type == sixteen_directions ? 348.75 : 337.50);
+    ws_upper_limit = 360.0;
+    acceptor.lowerLimit(ws_lower_limit);
+    acceptor.upperLimit(ws_upper_limit);
+    WeatherResult share2 = forecaster.analyze(theVar + "::fake::tyyni::share",
+                                              theSources,
+                                              WindDirection,
+                                              Mean,
+                                              Percentage,
+                                              theArea,
+                                              thePeriod,
+                                              DefaultAcceptor(),
+                                              DefaultAcceptor(),
+                                              acceptor);
+    share = WeatherResult(share.value() + share2.value(), 0.0);
+  }
+
+  pair<float, WeatherResult> shareItem(
+      ws_lower_limit + (compass_type == sixteen_directions ? 11.25 : 22.50), share);
+
+  return shareItem;
+}
+
+void populate_winddirection_distribution_time_series(
+    const AnalysisSources& theSources,
+    const WeatherArea& theArea,
+    const WeatherPeriod& thePeriod,
+    const string& theVar,
+    vector<pair<float, WeatherResult> >& theWindDirectionDistribution,
+    WindStoryTools::CompassType compass_type = sixteen_directions)
+{
+  theWindDirectionDistribution.push_back(
+      get_share_item(theSources, theArea, thePeriod, theVar, POHJOINEN, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, POHJOINEN_KOILLINEN, compass_type));
+  theWindDirectionDistribution.push_back(
+      get_share_item(theSources, theArea, thePeriod, theVar, KOILLINEN, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, ITA_KOILLINEN, compass_type));
+  theWindDirectionDistribution.push_back(
+      get_share_item(theSources, theArea, thePeriod, theVar, ITA, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, ITA_KAAKKO, compass_type));
+  theWindDirectionDistribution.push_back(
+      get_share_item(theSources, theArea, thePeriod, theVar, KAAKKO, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, ETELA_KAAKKO, compass_type));
+  theWindDirectionDistribution.push_back(
+      get_share_item(theSources, theArea, thePeriod, theVar, ETELA, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, ETELA_LOUNAS, compass_type));
+  theWindDirectionDistribution.push_back(
+      get_share_item(theSources, theArea, thePeriod, theVar, LOUNAS, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, LANSI_LOUNAS, compass_type));
+  theWindDirectionDistribution.push_back(
+      get_share_item(theSources, theArea, thePeriod, theVar, LANSI, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, LANSI_LUODE, compass_type));
+  theWindDirectionDistribution.push_back(
+      get_share_item(theSources, theArea, thePeriod, theVar, LUODE, compass_type));
+  if (compass_type == sixteen_directions)
+    theWindDirectionDistribution.push_back(
+        get_share_item(theSources, theArea, thePeriod, theVar, POHJOINEN_LUODE, compass_type));
+}
+
+float calculate_mean_wind_direction(const float& direction1,
+                                    const float& direction2,
+                                    const float& share1,
+                                    const float& share2)
+{
+  float firstDirection(direction1);
+  float secondDirection(direction2);
+
+  if ((firstDirection > 180.0 && firstDirection <= 360.0) &&
+      (secondDirection >= 0 && secondDirection <= 180))
+  {
+    if (firstDirection == 360.0)
+    {
+      firstDirection = 0;
+    }
+    else if (firstDirection - secondDirection > 180.0)
+    {
+      secondDirection += 360.0;
+    }
+  }
+  else if ((secondDirection > 180.0 && secondDirection <= 360.0) &&
+           (firstDirection >= 0 && firstDirection <= 180))
+  {
+    if (secondDirection == 360.0)
+    {
+      secondDirection = 0;
+    }
+    else if (secondDirection - firstDirection > 180.0)
+    {
+      firstDirection += 360.0;
+    }
+  }
+
+  float totalShare(share1 + share2);
+  float firstWeightedDirection(firstDirection * share1);
+  float secondWeightedDirection(secondDirection * share2);
+  float calculatedWeightedDirection((firstWeightedDirection + secondWeightedDirection) /
+                                    totalShare);
+
+  while (calculatedWeightedDirection > 360.0)
+    calculatedWeightedDirection -= 360.0;
+
+  return calculatedWeightedDirection;
+}
+
+float calculate_wind_direction_from_distribution(
+    const std::vector<std::pair<float, WeatherResult> >& theDirectionDistribution)
+
+{
+  float cumulativeShare(theDirectionDistribution[0].second.value());
+  float cumulativeWeightedDirection(theDirectionDistribution[0].first);
+
+  // calculate mean direction until share is more than 85%
+  if (cumulativeShare < 85.0)
+  {
+    for (unsigned int i = 1; i < theDirectionDistribution.size(); i++)
+    {
+      cumulativeWeightedDirection =
+          calculate_mean_wind_direction(cumulativeWeightedDirection,
+                                        theDirectionDistribution[i].first,
+                                        cumulativeShare,
+                                        theDirectionDistribution[i].second.value());
+      cumulativeShare += theDirectionDistribution[i].second.value();
+
+      if (cumulativeShare >= 85.0) break;
+    }
+  }
+
+  return cumulativeWeightedDirection;
+}
+
+WeatherResult mode_wind_direction(const AnalysisSources& theSources,
+                                  const WeatherArea& theArea,
+                                  const WeatherPeriod& thePeriod,
+                                  const WeatherResult& theMedianWind,
+                                  const WeatherResult& theTopWind,
+                                  const string& theVar)
+{
+  GridForecaster forecaster;
+
+  WeatherResult meanDirection = forecaster.analyze(
+      theVar + "::fake::wind:direction", theSources, WindDirection, Mean, Mean, theArea, thePeriod);
+
+  float error(meanDirection.error());
+  if (direction_accuracy(meanDirection.error(), theVar) == bad_accuracy)
+  {
+    if (theTopWind.value() > WEAK_WIND_SPEED_UPPER_LIMIT)
+    {
+      if (theMedianWind.value() >= WEAK_WIND_SPEED_UPPER_LIMIT)
+      {
+        error = 30.0;
+      }
+      else
+      {
+        float underWeakLimit = abs(theMedianWind.value() - WEAK_WIND_SPEED_UPPER_LIMIT);
+        float overWeakLimit = abs(theTopWind.value() - WEAK_WIND_SPEED_UPPER_LIMIT);
+        // if most of the wind speed range is over WEAK_WIND_SPEED_UPPER_LIMIT, direction must be
+        // mentioned
+        if (overWeakLimit >= underWeakLimit) error = 30;
+      }
+    }
+  }
+
+  std::vector<std::pair<float, WeatherResult> > directionDistribution;
+
+  populate_winddirection_distribution_time_series(
+      theSources, theArea, thePeriod, theVar, directionDistribution);
+
+  std::sort(directionDistribution.begin(), directionDistribution.end(), wind_direction_item_sort);
+
+  return WeatherResult(calculate_wind_direction_from_distribution(directionDistribution), error);
 }
 
 }  // namespace WindStoryTools

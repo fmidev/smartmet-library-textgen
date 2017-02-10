@@ -10,6 +10,10 @@
 
 #include <string>
 #include <vector>
+#include <calculator/AnalysisSources.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherResult.h>
 
 namespace TextGen
 {
@@ -185,30 +189,16 @@ WindDirectionId plain_wind_direction_id(const TextGen::WeatherResult& theWindDir
                                         const std::string& theVariable,
                                         double theWindDirectionMinSpeed);
 
+WindDirectionId direction_between_id(float theWindDirection);
+
 std::string wind_direction_string(const WindDirectionId& theWindDirectionId);
 
-float direction_difference(float direction1, float direction2);
-
-bool wind_direction_turns(const TextGen::WeatherResult& theDirectionStart,
-                          const TextGen::WeatherResult& theDirectionEnd,
-                          const TextGen::WeatherResult& theMaxSpeedStart,
-                          const TextGen::WeatherResult& theMaxSpeedEnd,
-                          const std::string& theVariable,
-                          double theWindDirectionMinSpeed);
-
-bool same_direction(const TextGen::WeatherResult& theDirection1,
-                    const TextGen::WeatherResult& theDirection2,
-                    const TextGen::WeatherResult& theMaxSpeed1,
-                    const TextGen::WeatherResult& theMaxSpeed2,
-                    const std::string& theVariable,
-                    double theWindDirectionMinSpeed,
-                    bool ignore_suuntainen);
-
-bool same_direction(const WindDirectionId& theDirection1,
-                    const WindDirectionId& theDirection2,
-                    bool ignore_suuntainen);
-
-WindDirectionId direction_between_id(float theWindDirection);
+WeatherResult mode_wind_direction(const AnalysisSources& theSources,
+                                  const WeatherArea& theArea,
+                                  const WeatherPeriod& thePeriod,
+                                  const WeatherResult& theMedianWind,
+                                  const WeatherResult& theTopWind,
+                                  const std::string& theVar);
 
 }  // namespace WindStoryTools
 }  // namespace TextGen

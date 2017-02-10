@@ -565,6 +565,10 @@ void clamp_temperature(
   // if both both minimum and maximum are below -15 degrees, dont' clamp
   if ((theMinimum <= -15 && theMaximum <= -15) && temperature_max_interval <= 10)
     temperature_max_interval = 10;
+  // SOL-4856 Annakaisa (20170208): Jos minimi on kylmenpi kuin -20 ja
+  // minimin ja maksimin ero on yli 10 astetta ndytetddn koko haarukka
+  else if (theMinimum <= -20 && abs(theMaximum - theMinimum) > 10)
+    return;
 
   bool clamp_down = optional_bool(thePlainVar + season + period + "::temperature_clamp_down",
                                   isWinter ? false : true);

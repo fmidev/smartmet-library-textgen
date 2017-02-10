@@ -706,11 +706,13 @@ Sentence WeatherForecastStoryItem::getPeriodPhrase(
 
   if (sentence.size() == 0)
   {
+    part_of_the_day_id id;
     get_time_phrase_large(phrasePeriod,
                           specifyDay,
                           theWeatherForecastStory.theVar,
                           day_phase_phrase,
-                          theFromSpecifier);
+                          theFromSpecifier,
+                          id);
 
     if (day_phase_phrase != thePhraseHistory.latestDayPhasePhrase)
     {

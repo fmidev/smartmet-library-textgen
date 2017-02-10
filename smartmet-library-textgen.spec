@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.1.12
+Version: 17.2.10
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -62,6 +62,17 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Fri Feb 10 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.2.10-1.fmi
+- Additional rule added in deduction of temperature interval (max36hours-story): If minimum temperature is less than -20 degrees and diffrece between minimum and maximum temperature is more than 10 degrees, then the whole interval is shown as such, e.g -6...-23
+- Old wind story correction (daily_ranges-story) : Check if any of the sentence elements are empty before constructing the sentence (example of bug: Tänään, huomenna heikkoa luoteenpuoleista tuulta)
+- Wind story corrections:
+- Catching the case of slowly (but not continuously) strenghtening wind in the middle of the forecast period (ref: B5 20170201 15:00)
+- If there is three successive periods with 'alkaen'-phrase, dont use 'alkaen phrase on the second period even if it is longer than 6h (e.g. Aamusta alkaen etelätuulta 5-10m/s, iltapäivällä lounaan puoleista tuulta, illasta alkaen länsituulta) 
+- 'Vomistuvaa'-phrase is not used when wind is varying.
+- 'ylimmillään'-phrase is not used when wind is weakening 
+- When reporting weakening/strenghtening wind speed intervals, the gap between reporting times must be at least three hours (e.g. aluksi 3...5m/s, iltapäivällä 8..13m/s, illasta alkaen 15..19m/s)
+- Code cleaned and refactored 
+
 * Thu Jan 12 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.1.12-1.fmi
 - Splitted calculator code into a separate smartmet-library-calculator module
 - Wind story corrections:
@@ -200,10 +211,15 @@ in the end of forecast period
 * Thu Apr 28 2016 Anssi Reponen <anssi.reponen@fmi.fi> - 16.4.28-1.fmi
 - Wind forecast code simplified and cleaned: speed and direction changes are now processed more separately.
 - Wind direction is now determined by most common direction (moodi) in all cases (earlier just for varying wind) 
-- New configuration parameter 'wind_calc_top_share_weak' added, in order to be able to give different weight to top wind based on top wind speed
+- New configuration parameter 'wind_calc_top_share_weak' added, in order to be able to give 
+different weight to top wind based on top wind speed
 - Time phrase handling modified, for example: Iltayö ja keskiyö / Keskiyö ja aamuyö -> Yö
-- wind_speed_top_coverage (default value 98.0): This parameter tells how many percent the reported top wind speed must cover of the total area. For example if top wind on the area is 11 m/s, but it is predicted only on 1.9 % of total area, the reported top wind is 10 m/s. 
-- wind_direction_min_speed (oletusarvo 6.5): This is limiting value of wind speed for wind direction when standard deviation of wind direction is big (> 45.0). If standard deviation of wind direction is big and top wind speed is smaller or equal than 'wind_direction_min_speed' wind direction is reportedf as varying.
+- wind_speed_top_coverage (default value 98.0): This parameter tells how many percent the reported top wind speed 
+must cover of the total area. For example if top wind on the area is 11 m/s, but it is predicted only on 1.9 % of 
+total area, the reported top wind is 10 m/s. 
+- wind_direction_min_speed (oletusarvo 6.5): This is limiting value of wind speed for wind direction when standard 
+deviation of wind direction is big (> 45.0). If standard deviation of wind direction is big and top wind speed is 
+smaller or equal than 'wind_direction_min_speed' wind direction is reportedf as varying.
 - wind_speed_top_coverage (default value 98.0): This parameter tells how many percent the reported 
 top wind speed must cover of the total area.
 For example if top wind on the area is 11 m/s, but it is predicted only on 1.9 % of total area, the reported top wind is 10 m/s. 

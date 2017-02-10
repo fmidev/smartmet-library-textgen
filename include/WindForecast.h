@@ -61,7 +61,8 @@ class WindForecast
                                                std::vector<WeatherPeriod>& theDirectionPeriods,
                                                WindDirectionInfo& thePreviousWindDirection,
                                                TimePhraseInfo& thePreviousTimePhrase,
-                                               bool lastPeriod) const;
+                                               bool lastPeriod,
+                                               bool voimistuvaa) const;
 };
 
 }  // namespace TextGen
