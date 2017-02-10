@@ -11,15 +11,15 @@ Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: smartmet-library-calculator-devel >= 16.12.19
-BuildRequires: smartmet-library-newbase-devel >= 16.12.19
-BuildRequires: smartmet-library-macgyver-devel >= 16.12.20
+BuildRequires: smartmet-library-calculator-devel >= 17.1.12
+BuildRequires: smartmet-library-newbase-devel >= 17.1.26
+BuildRequires: smartmet-library-macgyver-devel >= 17.1.18
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: smartmet-library-calculator >= 16.12.19
-Requires: smartmet-library-newbase >= 16.12.19
-Requires: smartmet-library-macgyver >= 16.12.20
+Requires: smartmet-library-calculator >= 17.1.12
+Requires: smartmet-library-newbase >= 17.1.26
+Requires: smartmet-library-macgyver >= 17.1.18
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
@@ -31,7 +31,7 @@ FMI textgen library
 %prep
 rm -rf $RPM_BUILD_ROOT
 
-%setup -q -n %{DIRNAME}
+%setup -q -n %{SPECNAME}
  
 %build
 make %{_smp_mflags}
@@ -62,6 +62,7 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+
 * Fri Feb 10 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.2.10-1.fmi
 - Additional rule added in deduction of temperature interval (max36hours-story): If minimum temperature is less than -20 degrees and diffrece between minimum and maximum temperature is more than 10 degrees, then the whole interval is shown as such, e.g -6...-23
 - Old wind story correction (daily_ranges-story) : Check if any of the sentence elements are empty before constructing the sentence (example of bug: Tänään, huomenna heikkoa luoteenpuoleista tuulta)
@@ -72,6 +73,9 @@ FMI textgen development files
 - 'ylimmillään'-phrase is not used when wind is weakening 
 - When reporting weakening/strenghtening wind speed intervals, the gap between reporting times must be at least three hours (e.g. aluksi 3...5m/s, iltapäivällä 8..13m/s, illasta alkaen 15..19m/s)
 - Code cleaned and refactored 
+
+* Fri Jan 27 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.1.27-1.fmi
+- Recompiled due to NFmiQueryData object size change
 
 * Thu Jan 12 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.1.12-1.fmi
 - Splitted calculator code into a separate smartmet-library-calculator module
