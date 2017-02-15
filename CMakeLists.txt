@@ -1,16 +1,9 @@
 cmake_minimum_required(VERSION 3.7.1)
-project(textgen)
+project(Textgen)
 
 set(CMAKE_MFC_FLAG 0)
 
 add_definitions( -D_UNICODE -DUNICODE )
-
-include_directories( 
-    ${BOOST_INCLUDE_DIR}
-    ${LIBS_FMI}/macgyver/include
-    ${LIBS_FMI}/textgen/include
-    ${LIBS_FMI}/newbase/include
-    )
 
 file( GLOB CPP_FILES source/*.cpp )
 file( GLOB H_FILES include/*.h )
@@ -19,4 +12,27 @@ add_library(
     ${PROJECT_NAME} STATIC
     ${CPP_FILES} 
     ${H_FILES} 
+    )
+
+target_link_libraries(
+    ${PROJECT_NAME}
+    MacGyver
+    Newbase
+    )
+
+target_include_directories( 
+    ${PROJECT_NAME}
+    PUBLIC ${PROJECT_SOURCE_DIR}/include
+    PUBLIC ${MacGyver_INCLUDE_DIRS}
+    PUBLIC ${Newbase_INCLUDE_DIRS}
+    PUBLIC ${BOOST_INCLUDE_DIR}
+    )
+
+set(
+    ${PROJECT_NAME}_INCLUDE_DIRS
+    ${PROJECT_SOURCE_DIR}/include
+    ${MacGyver_INCLUDE_DIRS}
+    ${Newbase_INCLUDE_DIRS}
+    ${BOOST_INCLUDE_DIR}
+    CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE
     )
