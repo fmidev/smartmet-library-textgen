@@ -2012,13 +2012,14 @@ std::vector<Sentence> WindForecast::constructWindSentence(
                                           fastChange);
               // report here if wind direction has changed
               TextGenPosixTime directionChangeStartTime(speedChangePeriod.localStartTime());
+
               // report direction changes if they dont happen on the same part of the day as
               // reported speed change
-              if (reportedSpeedChangePeriod.localStartTime().DifferenceInHours(
-                      directionChangeStartTime) > 2 &&
-                  get_part_of_the_day_id_wind(reportedSpeedChangePeriod.localStartTime()) !=
-                      get_part_of_the_day_id_wind(sTime))
+              if (sTime.DifferenceInHours(directionChangeStartTime) > 2 &&
+                  get_part_of_the_day_id_wind(sTime) !=
+                      get_part_of_the_day_id_wind(directionChangeStartTime))
               {
+                sTime.ChangeByHours(-2);
                 // start two hours before start
                 if (!firstSentence) directionChangeStartTime.ChangeByHours(-2);
                 WeatherPeriod prePeriod(directionChangeStartTime, sTime);
@@ -2791,7 +2792,7 @@ std::cout << "period1,period2,is1,id2: " << period1 << ", " << period2 << ", "
           << part_of_the_day_string(id1) << ", " << part_of_the_day_string(id2) << std::endl;
     */
 
-    // if part of the day is the same of difference between reporting points is less than three
+    // if part of the day is the same or difference between reporting points is less than three
     // hours, report only te latter point
     if ((id1 == id2 &&
          abs(period1.localStartTime().DifferenceInHours(period2.localStartTime())) < 8) ||

@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.2.10
+Version: 17.2.16
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -63,6 +63,8 @@ FMI textgen development files
 
 %changelog
 
+* Thu Feb 16 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.2.16-1.fmi
+- Corrected wrong order (in time) of sentences in wind story
 * Fri Feb 10 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.2.10-1.fmi
 - Additional rule added in deduction of temperature interval (max36hours-story): If minimum temperature is less than -20 degrees and diffrece between minimum and maximum temperature is more than 10 degrees, then the whole interval is shown as such, e.g -6...-23
 - Old wind story correction (daily_ranges-story) : Check if any of the sentence elements are empty before constructing the sentence (example of bug: Tänään, huomenna heikkoa luoteenpuoleista tuulta)
