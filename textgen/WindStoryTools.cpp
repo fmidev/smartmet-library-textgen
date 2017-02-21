@@ -1152,9 +1152,9 @@ void populate_winddirection_distribution_time_series(
     const AnalysisSources& theSources,
     const WeatherArea& theArea,
     const WeatherPeriod& thePeriod,
-    const string& theVar,
-    vector<pair<float, WeatherResult> >& theWindDirectionDistribution,
-    WindStoryTools::CompassType compass_type = sixteen_directions)
+    const std::string& theVar,
+    std::vector<std::pair<float, WeatherResult> >& theWindDirectionDistribution,
+    WindStoryTools::CompassType compass_type /* = sixteen_directions*/)
 {
   theWindDirectionDistribution.push_back(
       get_share_item(theSources, theArea, thePeriod, theVar, POHJOINEN, compass_type));

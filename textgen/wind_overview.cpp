@@ -1603,6 +1603,22 @@ bool populate_time_series(wo_story_params& storyParams)
                                                   dataItem.theWindSpeedDistribution,
                                                   dataItem.theWindSpeedDistributionTop);
 
+      populate_winddirection_distribution_time_series(
+          storyParams.theSources,
+          weatherArea,
+          dataItem.thePeriod,
+          storyParams.theVar,
+          dataItem.theWindDirectionDistribution16,
+          WindStoryTools::CompassType::sixteen_directions);
+
+      populate_winddirection_distribution_time_series(
+          storyParams.theSources,
+          weatherArea,
+          dataItem.thePeriod,
+          storyParams.theVar,
+          dataItem.theWindDirectionDistribution8,
+          WindStoryTools::CompassType::eight_directions);
+
       WeatherResult correctedDirection =
           WindStoryTools::mode_wind_direction(storyParams.theSources,
                                               weatherArea,

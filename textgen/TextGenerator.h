@@ -11,7 +11,7 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 
-#define VERSION_STRING "17.2.16-1"
+#define VERSION_STRING "17.2.21-1"
 
 class TextGenPosixTime;
 

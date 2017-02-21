@@ -199,6 +199,13 @@ WeatherResult mode_wind_direction(const AnalysisSources& theSources,
                                   const WeatherResult& theMedianWind,
                                   const WeatherResult& theTopWind,
                                   const std::string& theVar);
+void populate_winddirection_distribution_time_series(
+    const AnalysisSources& theSources,
+    const WeatherArea& theArea,
+    const WeatherPeriod& thePeriod,
+    const std::string& theVar,
+    std::vector<std::pair<float, WeatherResult> >& theWindDirectionDistribution,
+    WindStoryTools::CompassType compass_type = sixteen_directions);
 
 }  // namespace WindStoryTools
 }  // namespace TextGen

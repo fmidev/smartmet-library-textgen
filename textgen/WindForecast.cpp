@@ -1564,13 +1564,14 @@ std::vector<Sentence> WindForecast::reportDirectionChanges(
           timePhrase << getTimePhrase(period, timePhraseInfo, get_period_length(period) >= 6);
 
         negotiateWindDirection(windDirection, thePreviousWindDirection);
-
-        if (thePreviousWindDirection.id == VAIHTELEVA && voimistuvaa)
-          sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE << timePhrase
-                   << EMPTY_STRING << VOIMISTUVAA_WORD << windDirectionSentence(windDirection.id);
-        else
-          sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE << timePhrase
-                   << windDirectionSentence(windDirection.id);
+        /*
+if (thePreviousWindDirection.id == VAIHTELEVA && voimistuvaa)
+  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE << timePhrase
+           << EMPTY_STRING << VOIMISTUVAA_WORD << windDirectionSentence(windDirection.id);
+else
+        */
+        sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE << timePhrase
+                 << windDirectionSentence(windDirection.id);
       }
 
       theParameters.theLog << "Reporting wind direction change on period " << period << std::endl;
@@ -1920,6 +1921,9 @@ std::vector<Sentence> WindForecast::constructWindSentence(
               windSpeedEventPeriod, changeAttributeStr, smallChange, gradualChange, fastChange))
         return ret;
 
+      // if tuuli heikkenee dont use vähän attribute
+      if (!tuuliVoimistuu && changeAttributeStr == VAHAN_WORD) changeAttributeStr = EMPTY_STRING;
+
       Sentence sentence;
 
       // iterate reporting points
@@ -2010,6 +2014,11 @@ std::vector<Sentence> WindForecast::constructWindSentence(
                                           smallChange,
                                           gradualChange,
                                           fastChange);
+
+              // if tuuli heikkenee dont use vähän attribute
+              if (!tuuliVoimistuu && changeAttributeStr == VAHAN_WORD)
+                changeAttributeStr = EMPTY_STRING;
+
               // report here if wind direction has changed
               TextGenPosixTime directionChangeStartTime(speedChangePeriod.localStartTime());
 
@@ -2614,8 +2623,7 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
   /*
   std::cout << "timePhrase: " << thePeriod << " -> " << actualPeriod << " -> " << tps << " --> "
             << timePhraseInfo << std::endl;
-  */
-
+   */
   return sentence;
 }
 

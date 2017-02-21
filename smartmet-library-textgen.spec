@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.2.16
+Version: 17.2.21
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -63,6 +63,10 @@ FMI textgen development files
 
 %changelog
 
+* Tue Feb 21 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.2.21-1.fmi
+- 'Vähän' word is not used with weakening wind
+- Dont repeat 'vomistuvaa/heikkenevää'-phrase when reprting direction change during strenghtening/weakening wind
+- Missing wind direction distributon data added
 * Thu Feb 16 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.2.16-1.fmi
 - Corrected wrong order (in time) of sentences in wind story
 * Fri Feb 10 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.2.10-1.fmi
