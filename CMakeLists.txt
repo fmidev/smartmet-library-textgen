@@ -2,10 +2,6 @@ cmake_minimum_required(VERSION 3.7.1)
 project(Textgen)
 
 set(CMAKE_MFC_FLAG 0)
-add_compile_options($<$<CXX_COMPILER_ID:MSVC>:/MP>)
-
-
-add_definitions( -D_UNICODE -DUNICODE )
 
 file( GLOB CPP_FILES source/*.cpp )
 file( GLOB H_FILES include/*.h )
