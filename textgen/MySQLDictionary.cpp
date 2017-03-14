@@ -302,4 +302,3 @@ bool MySQLDictionary::empty(void) const { return itsPimple->itsData.empty(); }
 }  // namespace TextGen
 
 // ======================================================================
-#endif // UNIX
