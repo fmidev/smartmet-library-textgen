@@ -5,7 +5,7 @@
 #include "PlainTextFormatter.h"
 #include "TextFormatterTools.h"
 #include "UnitFactory.h"
-#include "Time.h"
+#include "WeatherTime.h"
 #include "TimePeriod.h"
 #include <calculator/WeatherPeriod.h>
 #include <calculator/TextGenPosixTime.h>
@@ -149,7 +149,7 @@ void format_time()
     TextGenPosixTime nfmiTime(2012, 8, 9, 14, 39);
 
     Sentence s;
-    s << Time(nfmiTime);
+    s << WeatherTime(nfmiTime);
 
     string tmp = TextFormatterTools::format_time(nfmiTime, "%d.%m.%Y %H:%M");
     if (tmp != "09.08.2012 14:39") TEST_FAILED("format_time-test 1 failed: " + tmp);
@@ -161,7 +161,7 @@ void format_time()
     TextGenPosixTime nfmiTime(2012, 8, 9, 14, 39);
 
     Sentence s;
-    s << Time(nfmiTime);
+    s << WeatherTime(nfmiTime);
 
     Settings::set("textgen::part1::story::test::timeformat", "%d.%m.%Y %H");
 
