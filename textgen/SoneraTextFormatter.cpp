@@ -36,7 +36,7 @@
 #include <calculator/Settings.h>
 #include "StoryTag.h"
 #include <calculator/TextGenError.h>
-#include "Time.h"
+#include "WeatherTime.h"
 #include "TimePeriod.h"
 
 #include <newbase/NFmiStringTools.h>
@@ -392,7 +392,7 @@ string SoneraTextFormatter::visit(const StoryTag& theStory) const
  */
 // ----------------------------------------------------------------------
 
-string SoneraTextFormatter::visit(const Time& theTime) const
+string SoneraTextFormatter::visit(const WeatherTime& theTime) const
 {
   return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "sonera");
 }

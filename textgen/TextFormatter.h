@@ -24,7 +24,7 @@ class IntegerRange;
 class Paragraph;
 class Sentence;
 class TimePeriod;
-class Time;
+class WeatherTime;
 
 class SectionTag;
 class StoryTag;
@@ -50,7 +50,7 @@ class TextFormatter
   virtual std::string visit(const Paragraph& theParagraph) const = 0;
   virtual std::string visit(const Header& theHeader) const = 0;
   virtual std::string visit(const Document& theDocument) const = 0;
-  virtual std::string visit(const Time& theTime) const = 0;
+  virtual std::string visit(const WeatherTime& theTime) const = 0;
   virtual std::string visit(const TimePeriod& thePeriod) const = 0;
 
   virtual std::string visit(const SectionTag& theSectionTag) const = 0;

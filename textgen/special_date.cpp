@@ -10,7 +10,7 @@
 #include "Paragraph.h"
 #include <calculator/Settings.h>
 #include "Text.h"
-#include "Time.h"
+#include "WeatherTime.h"
 #include "TimePeriod.h"
 
 #include <boost/filesystem.hpp>
@@ -19,7 +19,10 @@
 #include <cstdio>
 #include <fstream>
 #include <sstream>
+
+#ifdef UNIX
 #include <unistd.h>
+#endif
 
 using namespace TextGen;
 using namespace std;

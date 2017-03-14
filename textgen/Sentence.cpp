@@ -24,6 +24,7 @@
 #include "TextFormatter.h"
 #include <calculator/TextGenError.h>
 #include <algorithm>
+#include <iterator>
 
 using namespace std;
 using namespace boost;

@@ -39,7 +39,6 @@
  * erases the language initialized earlier.
  */
 // ----------------------------------------------------------------------
-
 #include "MySQLDictionary.h"
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
@@ -50,8 +49,8 @@
 #include <stdexcept>
 
 #include <map>
+
 #include <mysql++/mysql++.h>
-//<mysql.h>
 
 using namespace std;
 
