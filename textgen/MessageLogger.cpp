@@ -36,7 +36,7 @@
 #include "MessageLogger.h"
 
 #include "DebugTextFormatter.h"
-#include "newbase\NFmiTime.h"
+#include <newbase/NFmiTime.h>
 
 #include <fstream>
 #include <iomanip>
@@ -62,8 +62,8 @@ void output_timestamp(bool theFlag, ostream* theOutput)
 {
   if (theOutput != 0 && theFlag)
   {
-      NFmiTime now;
-      *theOutput << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
+    NFmiTime now;
+    *theOutput << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
   }
 }
 }
