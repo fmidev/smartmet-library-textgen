@@ -36,7 +36,7 @@
 #include <calculator/Settings.h>
 #include "StoryTag.h"
 #include <calculator/TextGenError.h>
-#include "Time.h"
+#include "WeatherTime.h"
 #include "TimePeriod.h"
 
 #include <newbase/NFmiStringTools.h>
