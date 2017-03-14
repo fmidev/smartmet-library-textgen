@@ -1,7 +1,7 @@
 #include <regression/tframe.h>
 #include "FileDictionary.h"
-#include "TextGenError.h"
-#include "Settings.h"
+#include <calculator/TextGenError.h>
+#include <calculator/Settings.h>
 #include <newbase/NFmiSettings.h>
 #include <iostream>
 #include <string>

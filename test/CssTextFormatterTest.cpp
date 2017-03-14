@@ -7,7 +7,7 @@
 #include "Story.h"
 #include "StoryTag.h"
 #include "MessageLogger.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 
 #include <newbase/NFmiSettings.h>
 

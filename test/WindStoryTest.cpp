@@ -9,7 +9,7 @@
 #include "PlainTextFormatter.h"
 #include "WindStory.h"
 #include "Story.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 
 #include <newbase/NFmiSettings.h>
 

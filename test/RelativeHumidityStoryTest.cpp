@@ -5,7 +5,7 @@
 #include "PlainTextFormatter.h"
 #include "RelativeHumidityStory.h"
 #include "Story.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 
 #include <newbase/NFmiSettings.h>
 

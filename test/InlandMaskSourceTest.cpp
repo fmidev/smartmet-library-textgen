@@ -1,7 +1,7 @@
 #include <regression/tframe.h>
 #include "InlandMaskSource.h"
-#include "UserWeatherSource.h"
-#include "WeatherArea.h"
+#include <calculator/UserWeatherSource.h>
+#include <calculator/WeatherArea.h>
 
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiStringTools.h>

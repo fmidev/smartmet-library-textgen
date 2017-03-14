@@ -1,5 +1,5 @@
 #include <regression/tframe.h>
-#include "MathTools.h"
+#include <calculator/MathTools.h>
 #include <boost/lexical_cast.hpp>
 
 namespace MathToolsTest

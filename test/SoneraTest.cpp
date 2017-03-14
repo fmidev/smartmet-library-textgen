@@ -2,7 +2,7 @@
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "Phrase.h"
-#include "Settings.h"
+#include <calculator/Settings.h>
 
 #include <boost/lexical_cast.hpp>
 

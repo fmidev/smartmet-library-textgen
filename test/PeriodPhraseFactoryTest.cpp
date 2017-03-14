@@ -3,9 +3,9 @@
 #include "DictionaryFactory.h"
 #include "PlainTextFormatter.h"
 #include "Sentence.h"
-#include "WeatherPeriod.h"
-#include "TextGenPosixTime.h"
-#include "Settings.h"
+#include <calculator/WeatherPeriod.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/Settings.h>
 
 #include <newbase/NFmiSettings.h>
 
