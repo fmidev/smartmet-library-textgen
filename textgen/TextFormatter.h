@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TEXTFORMATTER_H
-#define TEXTGEN_TEXTFORMATTER_H
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 #include <string>
@@ -63,6 +62,5 @@ class TextFormatter
 };  // class TextFormatter
 }  // namespace TextGen
 
-#endif  // TEXTGEN_TEXTFORMATTER_H
 
 // ======================================================================

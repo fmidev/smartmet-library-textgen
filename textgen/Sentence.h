@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_SENTENCE_H
-#define TEXTGEN_SENTENCE_H
+#pragma once
 
 #include "GlyphContainer.h"
 #include <boost/shared_ptr.hpp>
@@ -38,6 +37,5 @@ class Sentence : public GlyphContainer
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_SENTENCE_H
 
 // ======================================================================

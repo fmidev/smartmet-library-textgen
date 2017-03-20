@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_HEADERFACTORY_H
-#define TEXTGEN_HEADERFACTORY_H
+#pragma once
 
 #include <string>
 
@@ -29,6 +28,5 @@ Header create(const TextGen::WeatherArea& theArea,
 }  // namespace HeaderFactory
 }  // namespace TextGen
 
-#endif  // TEXTGEN_HEADERFACTORY_H
 
 // ======================================================================

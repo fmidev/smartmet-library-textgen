@@ -1,5 +1,4 @@
-#ifndef WEATHER_FORECAST_STORY_H
-#define WEATHER_FORECAST_STORY_H
+#pragma once
 
 //#include <vector>
 
@@ -176,4 +175,3 @@ class WeatherForecastStory
 };
 }
 
-#endif

@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_PRECIPITATIONSTORY_H
-#define TEXTGEN_PRECIPITATIONSTORY_H
+#pragma once
 
 #include "Story.h"
 
@@ -60,6 +59,5 @@ class PrecipitationStory : public Story
 };  // class PrecipitationStory
 }
 
-#endif  // TEXTGEN_PRECIPITATIONSTORY_H
 
 // ======================================================================

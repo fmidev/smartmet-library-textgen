@@ -5,8 +5,7 @@
  */
 // ----------------------------------------------------------------------
 
-#ifndef TEXTGEN_FIREWARNINGS_H
-#define TEXTGEN_FIREWARNINGS_H
+#pragma once
 
 #include <calculator/TextGenPosixTime.h>
 #include <string>
@@ -36,6 +35,5 @@ class FireWarnings
 };  // class FireWarnings
 }  // namespace TextGen
 
-#endif  // TEXTGEN_FIREWARNINGS_H
 
 // ======================================================================

@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TIME_H
-#define TEXTGEN_TIME_H
+#pragma once
 
 #include "Glyph.h"
 #include <calculator/TextGenPosixTime.h>
@@ -39,6 +38,5 @@ class WeatherTime : public Glyph
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_TIME_H
 
 // ======================================================================

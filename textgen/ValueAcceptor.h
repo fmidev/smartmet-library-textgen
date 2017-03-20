@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_VALUEACCEPTOR_H
-#define TEXTGEN_VALUEACCEPTOR_H
+#pragma once
 
 #include <calculator/Acceptor.h>
 
@@ -28,6 +27,5 @@ class ValueAcceptor : public Acceptor
 };  // class ValueAcceptor
 }  // namespace TextGen
 
-#endif  // TEXTGEN_VALUEACCEPTOR_H
 
 // ======================================================================

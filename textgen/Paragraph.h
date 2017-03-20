@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_PARAGRAPH_H
-#define TEXTGEN_PARAGRAPH_H
+#pragma once
 
 #include "GlyphContainer.h"
 #include <boost/shared_ptr.hpp>
@@ -36,6 +35,5 @@ class Paragraph : public GlyphContainer
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_PARAGRAPH_H
 
 // ======================================================================

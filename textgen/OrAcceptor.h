@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_ORACCEPTOR_H
-#define TEXTGEN_ORACCEPTOR_H
+#pragma once
 
 #include <calculator/Acceptor.h>
 #include <functional>
@@ -35,6 +34,5 @@ class OrAcceptor : public Acceptor
 };  // class OrAcceptor
 }  // namespace TextGen
 
-#endif  // TEXTGEN_ORACCEPTOR_H
 
 // ======================================================================

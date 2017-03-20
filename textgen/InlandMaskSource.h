@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_INLANDMASKSOURCE_H
-#define TEXTGEN_INLANDMASKSOURCE_H
+#pragma once
 
 #include <calculator/MaskSource.h>
 
@@ -38,6 +37,5 @@ class InlandMaskSource : public MaskSource
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_INLANDMASKSOURCE_H
 
 // ======================================================================

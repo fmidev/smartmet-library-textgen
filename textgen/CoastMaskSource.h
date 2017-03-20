@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_COASTMASKSOURCE_H
-#define TEXTGEN_COASTMASKSOURCE_H
+#pragma once
 
 #include <calculator/MaskSource.h>
 
@@ -38,6 +37,5 @@ class CoastMaskSource : public MaskSource
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_COASTMASKSOURCE_H
 
 // ======================================================================

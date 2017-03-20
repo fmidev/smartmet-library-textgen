@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_WINDSTORY_H
-#define TEXTGEN_WINDSTORY_H
+#pragma once
 
 #include "Story.h"
 #include <string>
@@ -57,6 +56,5 @@ class WindStory : public Story
 };  // class WindStory
 }
 
-#endif  // TEXTGEN_WINDSTORY_H
 
 // ======================================================================

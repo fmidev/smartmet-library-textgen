@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_DEWPOINTSTORY_H
-#define TEXTGEN_DEWPOINTSTORY_H
+#pragma once
 
 #include "Story.h"
 #include <string>
@@ -53,6 +52,5 @@ class DewPointStory : public Story
 };  // class DewPointStory
 }
 
-#endif  // TEXTGEN_DEWPOINTSTORY_H
 
 // ======================================================================

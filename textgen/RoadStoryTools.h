@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_ROADSTORYTOOLS_H
-#define TEXTGEN_ROADSTORYTOOLS_H
+#pragma once
 
 namespace TextGen
 {
@@ -15,6 +14,5 @@ namespace RoadStoryTools
 }  // namespace RoadStoryTools
 }  // namespace TextGen
 
-#endif  // TEXTGEN_ROADSTORYTOOLS_H
 
 // ======================================================================

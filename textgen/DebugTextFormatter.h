@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_DEBUGTEXTFORMATTER_H
-#define TEXTGEN_DEBUGTEXTFORMATTER_H
+#pragma once
 
 #include "TextFormatter.h"
 #include "DebugDictionary.h"
@@ -45,6 +44,5 @@ class DebugTextFormatter : public TextFormatter
 };  // class DebugTextFormatter
 }  // namespace TextGen
 
-#endif  // TEXTGEN_DEBUGTEXTFORMATTER_H
 
 // ======================================================================

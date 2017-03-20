@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_HEADER_H
-#define TEXTGEN_HEADER_H
+#pragma once
 
 #include "GlyphContainer.h"
 #include <boost/shared_ptr.hpp>
@@ -37,6 +36,5 @@ class Header : public GlyphContainer
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_HEADER_H
 
 // ======================================================================

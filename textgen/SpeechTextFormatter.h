@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_SPEECHTEXTFORMATTER_H
-#define TEXTGEN_SPEECHTEXTFORMATTER_H
+#pragma once
 
 #include "TextFormatter.h"
 
@@ -45,6 +44,5 @@ class SpeechTextFormatter : public TextFormatter
 };  // class SpeechTextFormatter
 }  // namespace TextGen
 
-#endif  // TEXTGEN_SPEECHTEXTFORMATTER_H
 
 // ======================================================================

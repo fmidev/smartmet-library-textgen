@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TIME_PERIOD_H
-#define TEXTGEN_TIME_PERIOD_H
+#pragma once
 
 #include "Glyph.h"
 #include <calculator/WeatherPeriod.h>
@@ -41,6 +40,5 @@ class TimePeriod : public Glyph
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_TIME_PERIOD_H
 
 // ======================================================================

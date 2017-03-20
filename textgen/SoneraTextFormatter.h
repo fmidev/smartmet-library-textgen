@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_SONERATEXTFORMATTER_H
-#define TEXTGEN_SONERATEXTFORMATTER_H
+#pragma once
 
 #include "TextFormatter.h"
 
@@ -52,6 +51,5 @@ class SoneraTextFormatter : public TextFormatter
 };  // class SoneraTextFormatter
 }  // namespace TextGen
 
-#endif  // TEXTGEN_SONERATEXTFORMATTER_H
 
 // ======================================================================

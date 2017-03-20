@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_NULLMASKSOURCE_H
-#define TEXTGEN_NULLMASKSOURCE_H
+#pragma once
 
 #include <calculator/MaskSource.h>
 
@@ -35,6 +34,5 @@ class NullMaskSource : public MaskSource
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_NULLMASKSOURCE_H
 
 // ======================================================================

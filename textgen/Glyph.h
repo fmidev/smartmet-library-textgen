@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_GLYPH_H
-#define TEXTGEN_GLYPH_H
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 #include <string>
@@ -30,6 +29,5 @@ class Glyph
 };  // class Glyph
 }  // namespace TextGen
 
-#endif  // TEXTGEN_GLYPH_H
 
 // ======================================================================

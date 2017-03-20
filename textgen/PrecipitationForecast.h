@@ -1,5 +1,4 @@
-#ifndef TEXTGEN_PRECIPITATION_FORECAST_H
-#define TEXTGEN_PRECIPITATION_FORECAST_H
+#pragma once
 
 #include "WeatherForecast.h"
 
@@ -273,4 +272,3 @@ class PrecipitationForecast
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_PRECIPITATION_FORECAST_H

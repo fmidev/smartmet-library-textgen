@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_STORYFACTORY_H
-#define TEXTGEN_STORYFACTORY_H
+#pragma once
 
 #include <string>
 
@@ -35,6 +34,5 @@ Paragraph create(const TextGenPosixTime& theForecastTime,
 }  // namespace StoryFactory
 }  // namespace TextGen
 
-#endif  // TEXTGEN_STORYFACTORY_H
 
 // ======================================================================

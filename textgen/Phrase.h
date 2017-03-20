@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_PHRASE_H
-#define TEXTGEN_PHRASE_H
+#pragma once
 
 #include "Glyph.h"
 #include <string>
@@ -37,6 +36,5 @@ class Phrase : public Glyph
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_PHRASE_H
 
 // ======================================================================

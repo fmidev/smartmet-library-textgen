@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef MESSAGELOGGERSTREAM_H
-#define MESSAGELOGGERSTREAM_H
+#pragma once
 
 #include <ostream>
 #include <sstream>
@@ -182,6 +181,5 @@ class MessageLoggerStream : public std::basic_ostream<char_type, CharTraits>
   handler_streambuf_type itsStreamBuf;
 };
 
-#endif  // MESSAGELOGGERSTREAM_H
 
 // ======================================================================

@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_NORTHERNMASKSOURCE_H
-#define TEXTGEN_NORTHERNMASKSOURCE_H
+#pragma once
 
 #include <calculator/MaskSource.h>
 
@@ -38,6 +37,5 @@ class NorthernMaskSource : public MaskSource
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_NORTHERNMASKSOURCE_H
 
 // ======================================================================

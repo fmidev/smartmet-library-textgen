@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_PLAINTEXTFORMATTER_H
-#define TEXTGEN_PLAINTEXTFORMATTER_H
+#pragma once
 
 #include "TextFormatter.h"
 
@@ -45,6 +44,5 @@ class PlainTextFormatter : public TextFormatter
 };  // class PlainTextFormatter
 }  // namespace TextGen
 
-#endif  // TEXTGEN_PLAINTEXTFORMATTER_H
 
 // ======================================================================

@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_PERIODPHRASEFACTORY_H
-#define TEXTGEN_PERIODPHRASEFACTORY_H
+#pragma once
 
 #include <string>
 class TextGenPosixTime;
@@ -36,6 +35,5 @@ Sentence create(const std::string& theType,
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_PERIODPHRASEFACTORY_H
 
 // ======================================================================

@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEMPERATURETOOLS_H
-#define TEMPERATURETOOLS_H
+#pragma once
 
 using namespace std;
 #include <string>
@@ -81,6 +80,5 @@ void clamp_temperature(const string& theVar,
 }  // namespace TemperatureTools
 }  // namespace TextGen
 
-#endif  // TEMPERATURETOOLS_H
 
 // ======================================================================

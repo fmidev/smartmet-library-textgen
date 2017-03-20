@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_NULLDICTIONARY_H
-#define TEXTGEN_NULLDICTIONARY_H
+#pragma once
 
 #include "Dictionary.h"
 
@@ -41,6 +40,5 @@ class NullDictionary : public Dictionary
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_NULLDICTIONARY_H
 
 // ======================================================================

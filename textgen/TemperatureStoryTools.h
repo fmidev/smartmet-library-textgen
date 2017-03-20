@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TEMPERATURESTORYTOOLS_H
-#define TEXTGEN_TEMPERATURESTORYTOOLS_H
+#pragma once
 
 #include <string>
 #include <calculator/AnalysisSources.h>
@@ -230,6 +229,5 @@ bool sort_out_temperature_interval(int theMinimum,
 }  // namespace TemperatureStoryTools
 }  // namespace TextGen
 
-#endif  // TEXTGEN_TEMPERATURESTORYTOOLS_H
 
 // ======================================================================

@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TEMPLATEACCEPTOR_H
-#define TEXTGEN_TEMPLATEACCEPTOR_H
+#pragma once
 
 #include <calculator/Acceptor.h>
 
@@ -31,6 +30,5 @@ typedef TemplateAcceptor<bool (*)(float)> FunctionAcceptor;
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_TEMPLATEACCEPTOR_H
 
 // ======================================================================

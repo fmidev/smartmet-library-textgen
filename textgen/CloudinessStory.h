@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_CLOUDINESSSTORY_H
-#define TEXTGEN_CLOUDINESSSTORY_H
+#pragma once
 
 #include "Story.h"
 
@@ -52,6 +51,5 @@ class CloudinessStory : public Story
 };  // class CloudinessStory
 }
 
-#endif  // TEXTGEN_CLOUDINESSSTORY_H
 
 // ======================================================================

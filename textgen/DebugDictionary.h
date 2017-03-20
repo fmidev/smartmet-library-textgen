@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_DEBUGDICTIONARY_H
-#define TEXTGEN_DEBUGDICTIONARY_H
+#pragma once
 
 #include "Dictionary.h"
 
@@ -40,6 +39,5 @@ class DebugDictionary : public Dictionary
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_DEBUGDICTIONARY_H
 
 // ======================================================================

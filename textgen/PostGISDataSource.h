@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef POSTGIS_DATA_SOURCE_H
-#define POSTGIS_DATA_SOURCE_H
+#pragma once
 
 #include <list>
 #include <string>
@@ -89,6 +88,5 @@ class PostGISDataSource
 };  // class PostGISDataSource
 }  // namespace BrainStorm
 
-#endif  // POSTGIS_DATA_SOURCE_H
 
 // ======================================================================

@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_STORY_H
-#define TEXTGEN_STORY_H
+#pragma once
 
 #include <calculator/AnalysisSources.h>
 #include <calculator/WeatherArea.h>
@@ -26,6 +25,5 @@ class Story
 };  // class Story
 }
 
-#endif  // TEXTGEN_STORY_H
 
 // ======================================================================

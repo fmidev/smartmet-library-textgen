@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_RELATIVEHUMIDITYSTORY_H
-#define TEXTGEN_RELATIVEHUMIDITYSTORY_H
+#pragma once
 
 #include "Story.h"
 #include <string>
@@ -55,6 +54,5 @@ class RelativeHumidityStory : public Story
 };  // class RelativeHumidityStory
 }
 
-#endif  // TEXTGEN_RELATIVEHUMIDITYSTORY_H
 
 // ======================================================================

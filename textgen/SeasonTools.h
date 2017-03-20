@@ -6,8 +6,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_SEASONTOOLS_H
-#define TEXTGEN_SEASONTOOLS_H
+#pragma once
 
 #include <ctime>
 #include <string>
@@ -57,6 +56,5 @@ forecast_season_id get_forecast_season(const WeatherArea& theArea,
 }  // namespace SeasonTools
 }  // namespace TextGen
 
-#endif  // TEXTGEN_SEASONTOOLS_H
 
 // ======================================================================

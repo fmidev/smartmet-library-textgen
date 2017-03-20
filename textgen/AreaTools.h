@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_AREATOOLS_H
-#define TEXTGEN_AREATOOLS_H
+#pragma once
 
 #include <calculator/Acceptor.h>
 #include <calculator/WeatherArea.h>
@@ -143,6 +142,5 @@ std::string getDirectionString(const direction_id& theDirectionId);
 }  // namespace AreaTools
 }  // namespace TextGen
 
-#endif  // TEXTGEN_AREATOOLS_H
 
 // ======================================================================

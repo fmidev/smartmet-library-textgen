@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_GRIDCLIMATOLOGY_H
-#define TEXTGEN_GRIDCLIMATOLOGY_H
+#pragma once
 
 #include <calculator/WeatherForecaster.h>
 
@@ -38,6 +37,5 @@ class GridClimatology : public WeatherForecaster
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_GRIDCLIMATOLOGY_H
 
 // ======================================================================

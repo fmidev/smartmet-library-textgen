@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_FROSTSTORYTOOLS_H
-#define TEXTGEN_FROSTSTORYTOOLS_H
+#pragma once
 
 namespace TextGen
 {
@@ -28,6 +27,5 @@ Sentence severe_frost_sentence(const TextGen::WeatherPeriod& thePeriod, int theP
 }  // namespace FrostStoryTools
 }  // namespace TextGen
 
-#endif  // TEXTGEN_FROSTSTORYTOOLS_H
 
 // ======================================================================

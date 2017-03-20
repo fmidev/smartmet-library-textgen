@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef MESSAGELOGGER_H
-#define MESSAGELOGGER_H
+#pragma once
 
 #include "MessageLoggerStream.h"
 
@@ -45,6 +44,5 @@ class MessageLogger : public MessageLoggerStream<>
 
 };  // MessageLogger
 
-#endif  // MESSAGELOGGER_H
 
 // ======================================================================

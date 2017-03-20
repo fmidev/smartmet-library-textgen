@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_LOCATIONPHRASE_H
-#define TEXTGEN_LOCATIONPHRASE_H
+#pragma once
 
 #include "Glyph.h"
 #include <string>
@@ -37,6 +36,5 @@ class LocationPhrase : public Glyph
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_LOCATIONPHRASE_H
 
 // ======================================================================

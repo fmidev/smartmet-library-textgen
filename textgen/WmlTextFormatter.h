@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_WMLTEXTFORMATTER_H
-#define TEXTGEN_WMLTEXTFORMATTER_H
+#pragma once
 
 #include "TextFormatter.h"
 
@@ -44,6 +43,5 @@ class WmlTextFormatter : public TextFormatter
 };  // class WmlTextFormatter
 }  // namespace TextGen
 
-#endif  // TEXTGEN_WMLTEXTFORMATTER_H
 
 // ======================================================================

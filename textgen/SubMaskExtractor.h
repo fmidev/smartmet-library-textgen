@@ -1,5 +1,4 @@
-#ifndef SUBMASKEXTRACTOR_H
-#define SUBMASKEXTRACTOR_H
+#pragma once
 
 #include <calculator/AnalysisSources.h>
 #include <calculator/WeatherParameter.h>
@@ -40,4 +39,3 @@ void PrintLatLon(const AnalysisSources& theSources,
                  const NFmiIndexMask& theIndexMask);
 }
 
-#endif

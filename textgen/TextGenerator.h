@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TEXTGENERATOR_H
-#define TEXTGEN_TEXTGENERATOR_H
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 #include <string>
@@ -51,6 +50,5 @@ class TextGenerator
 };  // class TextGenerator
 }  // namespace TextGen
 
-#endif  // TEXTGEN_TEXTGENERATOR_H
 
 // ======================================================================

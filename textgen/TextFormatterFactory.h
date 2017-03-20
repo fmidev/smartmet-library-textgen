@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TEXTFORMATTERFACTORY_H
-#define TEXTGEN_TEXTFORMATTERFACTORY_H
+#pragma once
 
 #include "TextFormatter.h"
 
@@ -19,6 +18,5 @@ TextFormatter* create(const std::string& theType);
 }  // namespace TextFormatterFactory
 }  // namespace TextGen
 
-#endif  // TEXTGEN_TEXTFORMATTERFACTORY_H
 
 // ======================================================================

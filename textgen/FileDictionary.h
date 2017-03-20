@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_FILEDICTIONARY_H
-#define TEXTGEN_FILEDICTIONARY_H
+#pragma once
 
 #include "Dictionary.h"
 
@@ -44,6 +43,5 @@ class FileDictionary : public Dictionary
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_FILEDICTIONARY_H
 
 // ======================================================================

@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TEXT_H
-#define TEXTGEN_TEXT_H
+#pragma once
 
 #include "Glyph.h"
 #include <string>
@@ -41,6 +40,5 @@ class Text : public Glyph
 };  // class Text
 }  // namespace Text
 
-#endif  // TEXTGEN_TEXT_H
 
 // ======================================================================

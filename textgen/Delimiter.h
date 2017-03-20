@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_DELIMITER_H
-#define TEXTGEN_DELIMITER_H
+#pragma once
 
 #include "Glyph.h"
 #include <string>
@@ -39,6 +38,5 @@ class Delimiter : public Glyph
 
 }  // namespace TextGen
 
-#endif  // TEXTGEN_DELIMITER_H
 
 // ======================================================================

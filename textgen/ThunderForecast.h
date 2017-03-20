@@ -1,5 +1,4 @@
-#ifndef TEXTGEN_THUNDER_FORECAST_H
-#define TEXTGEN_THUNDER_FORECAST_H
+#pragma once
 
 #include "WeatherForecast.h"
 #include "PrecipitationForecast.h"
@@ -24,4 +23,3 @@ class ThunderForecast
 };
 }  // namespace TextGen
 
-#endif  // TEXTGEN_THUNDER_FORECAST_H

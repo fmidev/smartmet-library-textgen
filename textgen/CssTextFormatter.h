@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_CSSTEXTFORMATTER_H
-#define TEXTGEN_CSSTEXTFORMATTER_H
+#pragma once
 
 #include "TextFormatter.h"
 
@@ -44,6 +43,5 @@ class CssTextFormatter : public TextFormatter
 };  // class CssTextFormatter
 }  // namespace TextGen
 
-#endif  // TEXTGEN_CSSTEXTFORMATTER_H
 
 // ======================================================================

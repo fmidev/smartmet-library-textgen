@@ -1,5 +1,4 @@
-#ifndef TEXTGEN_WEATHER_FORECAST_H
-#define TEXTGEN_WEATHER_FORECAST_H
+#pragma once
 
 #include "AreaTools.h"
 #include <calculator/WeatherPeriod.h>
@@ -951,4 +950,3 @@ struct PrecipitationDataItem
 };
 }
 
-#endif  // TEXTGEN_WEATHER_FORECAST_H

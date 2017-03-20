@@ -1,5 +1,4 @@
-#ifndef TEXTGEN_FOG_FORECAST_H
-#define TEXTGEN_FOG_FORECAST_H
+#pragma once
 
 #include "WeatherForecast.h"
 #include "PrecipitationForecast.h"
@@ -88,4 +87,3 @@ class FogForecast
 };
 }  // namespace TextGen
 
-#endif  // TEXTGEN_FOG_FORECAST_H

@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_HTMLTEXTFORMATTER_H
-#define TEXTGEN_HTMLTEXTFORMATTER_H
+#pragma once
 
 #include "TextFormatter.h"
 
@@ -44,6 +43,5 @@ class HtmlTextFormatter : public TextFormatter
 };  // class HtmlTextFormatter
 }  // namespace TextGen
 
-#endif  // TEXTGEN_HTMLTEXTFORMATTER_H
 
 // ======================================================================
