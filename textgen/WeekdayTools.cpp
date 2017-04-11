@@ -139,7 +139,7 @@ string until_weekday_time(const TextGenPosixTime& theTime)
     const string msg =
         "WeekdayTools::until_weekday_time: Cannot generate -aamuun, -keskipaivaan or -iltaan "
         "phrase for hour " +
-        lexical_cast<int>(hour);
+        lexical_cast<string>(hour);
     throw TextGenError(msg);
   }
 }
@@ -226,7 +226,7 @@ string from_weekday_time(const TextGenPosixTime& theTime)
     const string msg =
         "WeekdayTools::from_weekday_time: Cannot generate -aamusta, -keskipaivasta or -illasta "
         "phrase for hour " +
-        lexical_cast<int>(hour);
+        lexical_cast<string>(hour);
     throw TextGenError(msg);
   }
 }
@@ -361,7 +361,7 @@ string until_weekday_time(const TextGenPosixTime& theTime, TextGen::WeatherHisto
   {
     const string msg =
         "WeekdayTools::until_weekday_time: Cannot generate -aamuun or -iltaan phrase for hour " +
-        lexical_cast<int>(hour);
+        lexical_cast<string>(hour);
     throw TextGenError(msg);
   }
 }
@@ -395,7 +395,7 @@ string from_weekday_time(const TextGenPosixTime& theTime, TextGen::WeatherHistor
   {
     const string msg =
         "WeekdayTools::from_weekday_time: Cannot generate -aamusta or -illasta phrase for hour " +
-        lexical_cast<int>(hour);
+        lexical_cast<string>(hour);
     throw TextGenError(msg);
   }
 }
