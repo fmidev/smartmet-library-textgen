@@ -13,12 +13,12 @@
 // ======================================================================
 
 #include "TextFormatterTools.h"
-#include <calculator/WeatherPeriod.h>
-#include <calculator/Settings.h>
-#include <newbase/NFmiStringTools.h>
-#include <calculator/TextGenPosixTime.h>
-#include <boost/locale.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/locale.hpp>
+#include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherPeriod.h>
+#include <newbase/NFmiStringTools.h>
 
 using namespace std;
 using namespace boost;

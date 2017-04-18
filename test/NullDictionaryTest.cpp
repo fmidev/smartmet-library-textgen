@@ -1,5 +1,5 @@
-#include <regression/tframe.h>
 #include "NullDictionary.h"
+#include <regression/tframe.h>
 
 #include <iostream>
 #include <string>

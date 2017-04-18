@@ -19,8 +19,8 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <sstream>
 #include <iomanip>
+#include <sstream>
 
 using namespace std;
 using namespace boost;

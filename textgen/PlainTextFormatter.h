@@ -36,6 +36,7 @@ class PlainTextFormatter : public TextFormatter
   virtual std::string visit(const StoryTag& theStoryTag) const;
 
   std::string name() const { return "plain"; }
+
  private:
   boost::shared_ptr<Dictionary> itsDictionary;
   mutable std::string itsSectionVar;
@@ -43,6 +44,5 @@ class PlainTextFormatter : public TextFormatter
 
 };  // class PlainTextFormatter
 }  // namespace TextGen
-
 
 // ======================================================================

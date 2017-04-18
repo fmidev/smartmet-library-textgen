@@ -20,24 +20,24 @@
  */
 // ======================================================================
 
-#include "TextFormatterTools.h"
 #include "SoneraTextFormatter.h"
 #include "Dictionary.h"
 #include "Document.h"
-#include "Real.h"
 #include "Glyph.h"
 #include "Header.h"
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "Paragraph.h"
 #include "Phrase.h"
+#include "Real.h"
 #include "SectionTag.h"
 #include "Sentence.h"
-#include <calculator/Settings.h>
 #include "StoryTag.h"
-#include <calculator/TextGenError.h>
-#include "WeatherTime.h"
+#include "TextFormatterTools.h"
 #include "TimePeriod.h"
+#include "WeatherTime.h"
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
 
 #include <newbase/NFmiStringTools.h>
 

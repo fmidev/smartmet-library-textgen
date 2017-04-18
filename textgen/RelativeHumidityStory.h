@@ -54,5 +54,4 @@ class RelativeHumidityStory : public Story
 };  // class RelativeHumidityStory
 }
 
-
 // ======================================================================

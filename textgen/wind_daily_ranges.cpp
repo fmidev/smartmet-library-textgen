@@ -5,19 +5,19 @@
  */
 // ======================================================================
 
-#include "WindStory.h"
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "Sentence.h"
+#include "WeekdayTools.h"
+#include "WindStory.h"
+#include "WindStoryTools.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
 #include <calculator/Settings.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
-#include "WeekdayTools.h"
-#include "WindStoryTools.h"
 
 #include <boost/lexical_cast.hpp>
 

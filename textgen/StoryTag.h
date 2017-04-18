@@ -40,5 +40,4 @@ class StoryTag : public Glyph
 };  // class StoryTag
 }  // namespace StoryTag
 
-
 // ======================================================================

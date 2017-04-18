@@ -1,11 +1,11 @@
-#include <regression/tframe.h>
-#include "PeriodPhraseFactory.h"
 #include "DictionaryFactory.h"
+#include "PeriodPhraseFactory.h"
 #include "PlainTextFormatter.h"
 #include "Sentence.h"
-#include <calculator/WeatherPeriod.h>
-#include <calculator/TextGenPosixTime.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherPeriod.h>
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 
@@ -20,7 +20,7 @@ using namespace boost;
 
 namespace PeriodPhraseFactoryTest
 {
-shared_ptr<TextGen::Dictionary> dict;
+boost::shared_ptr<TextGen::Dictionary> dict;
 TextGen::PlainTextFormatter formatter;
 
 string require(const string& theMode,

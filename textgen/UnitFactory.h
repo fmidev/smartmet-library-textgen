@@ -32,5 +32,4 @@ boost::shared_ptr<Sentence> create_unit(Units theUnit, int value, bool isInterva
 }  // namespace NumberFactory
 }  // namespace TextGen
 
-
 // ======================================================================

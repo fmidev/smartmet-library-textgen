@@ -5,26 +5,26 @@
  */
 // ======================================================================
 
-#include "WeatherStory.h"
 #include "Delimiter.h"
+#include "Integer.h"
+#include "MessageLogger.h"
+#include "Paragraph.h"
+#include "Sentence.h"
+#include "UnitFactory.h"
+#include "WeatherStory.h"
+#include "WeekdayTools.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
-#include "Integer.h"
 #include <calculator/MathTools.h>
-#include "MessageLogger.h"
 #include <calculator/NullPeriodGenerator.h>
-#include "Paragraph.h"
 #include <calculator/RangeAcceptor.h>
-#include "Sentence.h"
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
-#include "UnitFactory.h"
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
-#include "WeekdayTools.h"
 
-#include <boost/shared_ptr.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <vector>
 

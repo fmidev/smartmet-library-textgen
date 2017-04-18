@@ -32,6 +32,7 @@ class TimePeriod : public Glyph
   inline const TextGenPosixTime& localStartTime() const { return itsPeriod.localStartTime(); }
   inline const TextGenPosixTime& localEndTime() const { return itsPeriod.localEndTime(); }
   inline const WeatherPeriod& weatherPeriod() const { return itsPeriod; }
+
  private:
   TimePeriod();
   WeatherPeriod itsPeriod;
@@ -39,6 +40,5 @@ class TimePeriod : public Glyph
 };  // class TimePeriod
 
 }  // namespace TextGen
-
 
 // ======================================================================

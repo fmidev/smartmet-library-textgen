@@ -1,6 +1,6 @@
-#include <regression/tframe.h>
-#include "NullDictionary.h"
 #include "Integer.h"
+#include "NullDictionary.h"
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 

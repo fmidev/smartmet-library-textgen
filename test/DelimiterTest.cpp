@@ -1,6 +1,6 @@
-#include <regression/tframe.h>
 #include "Delimiter.h"
 #include "NullDictionary.h"
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 #include <iostream>

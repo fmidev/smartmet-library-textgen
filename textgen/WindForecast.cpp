@@ -5,48 +5,48 @@
  */
 // ======================================================================
 
-#include "WeatherStory.h"
+#include "WindForecast.h"
+#include "AreaTools.h"
 #include "CloudinessStory.h"
 #include "CloudinessStoryTools.h"
+#include "DebugTextFormatter.h"
 #include "Delimiter.h"
+#include "IntegerRange.h"
+#include "MessageLogger.h"
+#include "NightAndDayPeriodGenerator.h"
+#include "Paragraph.h"
+#include "PeriodPhraseFactory.h"
+#include "SeasonTools.h"
+#include "Sentence.h"
+#include "SubMaskExtractor.h"
+#include "UnitFactory.h"
+#include "ValueAcceptor.h"
+#include "WeatherStory.h"
+#include "WeekdayTools.h"
+#include "WindStoryTools.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
-#include "MessageLogger.h"
-#include "Paragraph.h"
-#include "NightAndDayPeriodGenerator.h"
-#include "PeriodPhraseFactory.h"
+#include <calculator/MathTools.h>
+#include <calculator/NullPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
-#include "ValueAcceptor.h"
-#include "Sentence.h"
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/TimeTools.h>
-#include <calculator/WeatherResult.h>
-#include "WeekdayTools.h"
-#include <calculator/NullPeriodGenerator.h>
 #include <calculator/WeatherPeriodTools.h>
-#include "AreaTools.h"
-#include <calculator/MathTools.h>
-#include "SeasonTools.h"
-#include "SubMaskExtractor.h"
-#include "IntegerRange.h"
-#include "UnitFactory.h"
-#include "WindForecast.h"
-#include "DebugTextFormatter.h"
-#include "WindStoryTools.h"
+#include <calculator/WeatherResult.h>
 
 #include <newbase/NFmiCombinedParam.h>
 #include <newbase/NFmiMercatorArea.h>
 
-#include <macgyver/StringConversion.h>
-#include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
+#include <boost/lexical_cast.hpp>
+#include <macgyver/StringConversion.h>
 
-#include <vector>
-#include <map>
-#include <iomanip>
 #include <cmath>
+#include <iomanip>
+#include <map>
+#include <vector>
 
 using namespace Settings;
 using namespace TextGen;

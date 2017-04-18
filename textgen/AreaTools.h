@@ -8,18 +8,18 @@
 #pragma once
 
 #include <calculator/Acceptor.h>
+#include <calculator/AnalysisSources.h>
+#include <calculator/UserWeatherSource.h>
 #include <calculator/WeatherArea.h>
+#include <calculator/WeatherParameter.h>
 #include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
-#include <calculator/AnalysisSources.h>
-#include <calculator/WeatherParameter.h>
-#include <calculator/UserWeatherSource.h>
 
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiPoint.h>
 
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
 
 namespace TextGen
@@ -141,6 +141,5 @@ std::string getDirectionString(const direction_id& theDirectionId);
 
 }  // namespace AreaTools
 }  // namespace TextGen
-
 
 // ======================================================================

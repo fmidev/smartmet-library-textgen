@@ -1,7 +1,7 @@
 #pragma once
 
-#include "WeatherForecast.h"
 #include "PrecipitationForecast.h"
+#include "WeatherForecast.h"
 
 namespace TextGen
 {
@@ -86,4 +86,3 @@ class FogForecast
   fog_type_period_vector theFullAreaFogType;
 };
 }  // namespace TextGen
-

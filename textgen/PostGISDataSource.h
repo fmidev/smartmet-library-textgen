@@ -8,8 +8,8 @@
 #pragma once
 
 #include <list>
-#include <string>
 #include <map>
+#include <string>
 
 class OGRDataSource;
 
@@ -87,6 +87,5 @@ class PostGISDataSource
 
 };  // class PostGISDataSource
 }  // namespace BrainStorm
-
 
 // ======================================================================

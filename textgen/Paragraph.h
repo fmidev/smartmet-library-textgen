@@ -35,5 +35,4 @@ class Paragraph : public GlyphContainer
 
 }  // namespace TextGen
 
-
 // ======================================================================

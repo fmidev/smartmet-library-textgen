@@ -34,5 +34,4 @@ class AndAcceptor : public Acceptor
 };  // class AndAcceptor
 }  // namespace TextGen
 
-
 // ======================================================================

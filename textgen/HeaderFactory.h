@@ -28,5 +28,4 @@ Header create(const TextGen::WeatherArea& theArea,
 }  // namespace HeaderFactory
 }  // namespace TextGen
 
-
 // ======================================================================

@@ -35,5 +35,4 @@ class Document : public GlyphContainer
 
 }  // namespace TextGen
 
-
 // ======================================================================

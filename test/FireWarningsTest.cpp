@@ -1,6 +1,6 @@
-#include <regression/tframe.h>
 #include "FireWarnings.h"
 #include <calculator/TextGenPosixTime.h>
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 

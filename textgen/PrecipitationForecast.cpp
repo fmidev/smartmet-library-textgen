@@ -5,35 +5,35 @@
  */
 // ======================================================================
 
-#include "WeatherStory.h"
+#include "PrecipitationForecast.h"
+#include "AreaTools.h"
+#include "CloudinessForecast.h"
 #include "CloudinessStory.h"
 #include "CloudinessStoryTools.h"
+#include "DebugTextFormatter.h"
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
 #include "MessageLogger.h"
-#include "Paragraph.h"
 #include "NightAndDayPeriodGenerator.h"
+#include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "PrecipitationStoryTools.h"
-#include <calculator/RangeAcceptor.h>
-#include "ValueAcceptor.h"
+#include "SeasonTools.h"
 #include "Sentence.h"
+#include "SubMaskExtractor.h"
+#include "ThunderForecast.h"
+#include "ValueAcceptor.h"
+#include "WeatherStory.h"
+#include "WeekdayTools.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/MathTools.h>
+#include <calculator/NullPeriodGenerator.h>
+#include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/TimeTools.h>
-#include <calculator/WeatherResult.h>
-#include "WeekdayTools.h"
-#include <calculator/NullPeriodGenerator.h>
 #include <calculator/WeatherPeriodTools.h>
-#include "AreaTools.h"
-#include <calculator/MathTools.h>
-#include "SeasonTools.h"
-#include "SubMaskExtractor.h"
-#include "PrecipitationForecast.h"
-#include "CloudinessForecast.h"
-#include "ThunderForecast.h"
-#include "DebugTextFormatter.h"
+#include <calculator/WeatherResult.h>
 
 #include <newbase/NFmiMercatorArea.h>
 
@@ -41,9 +41,9 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 
-#include <vector>
-#include <map>
 #include <iomanip>
+#include <map>
+#include <vector>
 
 namespace TextGen
 {

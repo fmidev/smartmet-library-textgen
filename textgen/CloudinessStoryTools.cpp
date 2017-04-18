@@ -17,12 +17,12 @@
 // ======================================================================
 
 #include "CloudinessStoryTools.h"
+#include "MessageLogger.h"
+#include "Sentence.h"
 #include <calculator/AnalysisSources.h>
 #include <calculator/GridForecaster.h>
-#include "MessageLogger.h"
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include "Sentence.h"
 #include <calculator/WeatherResult.h>
 
 #include <boost/lexical_cast.hpp>

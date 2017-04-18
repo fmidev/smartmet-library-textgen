@@ -1,11 +1,11 @@
-#include <regression/tframe.h>
+#include "DewPointStory.h"
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "Paragraph.h"
 #include "PlainTextFormatter.h"
-#include "DewPointStory.h"
 #include "Story.h"
 #include <calculator/Settings.h>
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 
@@ -20,7 +20,7 @@ using namespace boost;
 
 namespace DewPointStoryTest
 {
-shared_ptr<TextGen::Dictionary> dict;
+boost::shared_ptr<TextGen::Dictionary> dict;
 TextGen::PlainTextFormatter formatter;
 
 void require(const TextGen::Story& theStory,

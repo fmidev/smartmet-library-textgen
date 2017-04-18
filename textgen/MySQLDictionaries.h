@@ -44,6 +44,6 @@ class MySQLDictionaries : public Dictionary
 
 }  // namespace TextGen
 
-#endif // UNIX
+#endif  // UNIX
 
 // ======================================================================

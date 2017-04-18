@@ -30,6 +30,7 @@ class WeatherTime : public Glyph
   virtual bool isDelimiter() const;
 
   inline const TextGenPosixTime& nfmiTime() const { return itsTime; }
+
  private:
   WeatherTime();
   TextGenPosixTime itsTime;
@@ -37,6 +38,5 @@ class WeatherTime : public Glyph
 };  // class Time
 
 }  // namespace TextGen
-
 
 // ======================================================================

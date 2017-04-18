@@ -1,5 +1,5 @@
-#include <regression/tframe.h>
 #include "DictionaryFactory.h"
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 

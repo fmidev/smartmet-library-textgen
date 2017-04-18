@@ -43,12 +43,12 @@ class TextGenerator
   Document generate(const TextGen::WeatherArea& theArea) const;
 
   static std::string version() { return VERSION_STRING; }
+
  private:
   class Pimple;
   boost::shared_ptr<Pimple> itsPimple;
 
 };  // class TextGenerator
 }  // namespace TextGen
-
 
 // ======================================================================

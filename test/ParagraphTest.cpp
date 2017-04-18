@@ -1,7 +1,7 @@
-#include <regression/tframe.h>
 #include "DictionaryFactory.h"
 #include "Paragraph.h"
 #include "Sentence.h"
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 

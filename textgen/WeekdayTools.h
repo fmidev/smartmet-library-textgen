@@ -63,5 +63,4 @@ std::string get_time_phrase(const TextGenPosixTime& theTime,
 }  // namespace WeekdayTools
 }  // namespace TextGen
 
-
 // ======================================================================

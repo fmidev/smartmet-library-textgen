@@ -51,5 +51,4 @@ class CloudinessStory : public Story
 };  // class CloudinessStory
 }
 
-
 // ======================================================================

@@ -44,5 +44,4 @@ class BasicDictionary : public Dictionary
 
 }  // namespace TextGen
 
-
 // ======================================================================

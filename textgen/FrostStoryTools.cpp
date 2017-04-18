@@ -15,10 +15,10 @@
 #include "FrostStoryTools.h"
 #include "Integer.h"
 #include "Sentence.h"
-#include <calculator/Settings.h>
 #include "UnitFactory.h"
-#include <calculator/WeatherPeriod.h>
 #include "WeekdayTools.h"
+#include <calculator/Settings.h>
+#include <calculator/WeatherPeriod.h>
 
 using TextGen::WeatherPeriod;
 

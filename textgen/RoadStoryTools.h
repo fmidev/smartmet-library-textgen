@@ -14,5 +14,4 @@ namespace RoadStoryTools
 }  // namespace RoadStoryTools
 }  // namespace TextGen
 
-
 // ======================================================================

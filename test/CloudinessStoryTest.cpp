@@ -1,14 +1,14 @@
-#include <regression/tframe.h>
+#include "CloudinessStory.h"
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "Paragraph.h"
 #include "PlainTextFormatter.h"
-#include "CloudinessStory.h"
 #include "Story.h"
 #include <calculator/Settings.h>
+#include <regression/tframe.h>
 
-#include <newbase/NFmiSettings.h>
 #include <boost/locale.hpp>
+#include <newbase/NFmiSettings.h>
 
 #include <iostream>
 #include <stdexcept>
@@ -19,7 +19,7 @@ using namespace boost;
 
 namespace CloudinessStoryTest
 {
-shared_ptr<TextGen::Dictionary> dict;
+boost::shared_ptr<TextGen::Dictionary> dict;
 TextGen::PlainTextFormatter formatter;
 
 string require(const TextGen::Story& theStory,

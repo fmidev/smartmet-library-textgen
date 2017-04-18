@@ -16,10 +16,10 @@
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "Sentence.h"
-#include <calculator/Settings.h>
 #include "UnitFactory.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/RangeAcceptor.h>
+#include <calculator/Settings.h>
 
 #include <newbase/NFmiGlobals.h>
 

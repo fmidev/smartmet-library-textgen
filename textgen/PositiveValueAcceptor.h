@@ -21,5 +21,4 @@ class PositiveValueAcceptor : public Acceptor
 };  // class PositiveValueAcceptor
 }  // namespace TextGen
 
-
 // ======================================================================

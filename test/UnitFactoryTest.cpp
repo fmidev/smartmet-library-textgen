@@ -1,10 +1,10 @@
-#include <regression/tframe.h>
-#include "UnitFactory.h"
 #include "DictionaryFactory.h"
 #include "PlainTextFormatter.h"
 #include "Sentence.h"
+#include "UnitFactory.h"
 #include <calculator/Settings.h>
 #include <newbase/NFmiSettings.h>
+#include <regression/tframe.h>
 
 #include <iostream>
 #include <stdexcept>
@@ -28,13 +28,13 @@ void celsius()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
   formatter.dictionary(finnish);
 
-  shared_ptr<Sentence> unit;
+  boost::shared_ptr<Sentence> unit;
 
   Settings::set("textgen::units::celsius::format", "SI");
   unit = create(DegreesCelsius);
@@ -63,13 +63,13 @@ void meterspersecond()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
   formatter.dictionary(finnish);
 
-  shared_ptr<Sentence> unit;
+  boost::shared_ptr<Sentence> unit;
 
   Settings::set("textgen::units::meterspersecond::format", "SI");
   unit = create(MetersPerSecond);
@@ -99,13 +99,13 @@ void millimeters()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
   formatter.dictionary(finnish);
 
-  shared_ptr<Sentence> unit;
+  boost::shared_ptr<Sentence> unit;
 
   Settings::set("textgen::units::millimeters::format", "SI");
   unit = create(Millimeters);
@@ -134,13 +134,13 @@ void percent()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
   formatter.dictionary(finnish);
 
-  shared_ptr<Sentence> unit;
+  boost::shared_ptr<Sentence> unit;
 
   Settings::set("textgen::units::percent::format", "SI");
   unit = create(Percent);
@@ -169,13 +169,13 @@ void hectopascal()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
   formatter.dictionary(finnish);
 
-  shared_ptr<Sentence> unit;
+  boost::shared_ptr<Sentence> unit;
 
   Settings::set("textgen::units::hectopascal::format", "SI");
   unit = create(HectoPascal);

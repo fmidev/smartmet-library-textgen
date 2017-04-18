@@ -44,5 +44,4 @@ class MessageLogger : public MessageLoggerStream<>
 
 };  // MessageLogger
 
-
 // ======================================================================

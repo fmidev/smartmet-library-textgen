@@ -23,5 +23,4 @@ class PlainLinesTextFormatter : public PlainTextFormatter
 };  // class PlainLinesTextFormatter
 }  // namespace TextGen
 
-
 // ======================================================================

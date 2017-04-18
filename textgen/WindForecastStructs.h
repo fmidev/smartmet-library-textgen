@@ -359,4 +359,3 @@ std::ostream& operator<<(std::ostream& theOutput,
                          const WindEventPeriodDataItem& theWindEventPeriodDataItem);
 
 }  // namespace TextGen
-

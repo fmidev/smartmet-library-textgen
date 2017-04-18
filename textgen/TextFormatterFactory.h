@@ -18,5 +18,4 @@ TextFormatter* create(const std::string& theType);
 }  // namespace TextFormatterFactory
 }  // namespace TextGen
 
-
 // ======================================================================

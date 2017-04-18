@@ -39,6 +39,7 @@ class SoneraTextFormatter : public TextFormatter
   virtual std::string visit(const StoryTag& theStoryTag) const;
 
   std::string name() const { return "sonera"; }
+
  private:
   typedef std::list<std::string> container_type;
   mutable container_type itsParts;
@@ -50,6 +51,5 @@ class SoneraTextFormatter : public TextFormatter
 
 };  // class SoneraTextFormatter
 }  // namespace TextGen
-
 
 // ======================================================================

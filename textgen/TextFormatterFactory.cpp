@@ -22,15 +22,15 @@
 // ======================================================================
 
 #include "TextFormatterFactory.h"
+#include "CssTextFormatter.h"
 #include "DebugTextFormatter.h"
+#include "HtmlTextFormatter.h"
+#include "PlainLinesTextFormatter.h"
 #include "PlainTextFormatter.h"
 #include "SingleLineTextFormatter.h"
-#include "PlainLinesTextFormatter.h"
-#include "SpeechTextFormatter.h"
-#include "HtmlTextFormatter.h"
-#include "CssTextFormatter.h"
-#include "WmlTextFormatter.h"
 #include "SoneraTextFormatter.h"
+#include "SpeechTextFormatter.h"
+#include "WmlTextFormatter.h"
 #include <calculator/TextGenError.h>
 
 using namespace boost;

@@ -355,4 +355,4 @@ std::list<string> PostGISDataSource::areaNames() const
 }
 
 }  // namespace BrainStorm
-#endif // UNIX
+#endif  // UNIX

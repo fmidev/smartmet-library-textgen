@@ -1,31 +1,30 @@
 #include <calculator/RegularFunctionAnalyzer.h>
 
-#include <calculator/ParameterAnalyzer.h>
-#include <calculator/QueryDataIntegrator.h>
+#include "SubMaskExtractor.h"
 #include <calculator/CalculatorFactory.h>
 #include <calculator/MaskSource.h>
+#include <calculator/ParameterAnalyzer.h>
+#include <calculator/QueryDataIntegrator.h>
+#include <calculator/QueryDataTools.h>
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherSource.h>
-#include <calculator/QueryDataTools.h>
-#include "SubMaskExtractor.h"
 
-#include <newbase/NFmiNearTree.h>
+#include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiEnumConverter.h>
 #include <newbase/NFmiFastQueryInfo.h>
-#include <newbase/NFmiQueryData.h>
-#include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiIndexMaskSource.h>
-#include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiMetMath.h>
+#include <newbase/NFmiNearTree.h>
+#include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiSvgTools.h>
 #include <cassert>
 
-#include <boost/shared_ptr.hpp>
 #include <boost/lexical_cast.hpp>
-#include <string>
+#include <boost/shared_ptr.hpp>
 #include <sstream>
+#include <string>
 
 using namespace std;
 using namespace boost;

@@ -56,11 +56,11 @@ class TextFormatter
   virtual std::string visit(const StoryTag& theStoryTag) const = 0;
 
   void setProductName(const std::string& theProductName) { itsProductName = theProductName; }
+
  protected:
   std::string itsProductName;
 
 };  // class TextFormatter
 }  // namespace TextGen
-
 
 // ======================================================================

@@ -62,5 +62,4 @@ class TemperatureStory : public Story
 };  // class TemperatureStory
 }
 
-
 // ======================================================================

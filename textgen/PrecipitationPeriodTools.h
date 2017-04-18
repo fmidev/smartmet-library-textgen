@@ -52,5 +52,4 @@ RainPeriods mergeLargeRainPeriods(const RainPeriods& thePeriods, const std::stri
 }  // namespace PrecipitationPeriodTools
 }  // namespace TextGen
 
-
 // ======================================================================

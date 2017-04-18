@@ -37,5 +37,4 @@ class InlandMaskSource : public MaskSource
 
 }  // namespace TextGen
 
-
 // ======================================================================

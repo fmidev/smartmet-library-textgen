@@ -5,18 +5,18 @@
  */
 // ======================================================================
 
-#include "TemperatureStory.h"
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
 #include "Integer.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "Sentence.h"
-#include <calculator/Settings.h>
+#include "TemperatureStory.h"
 #include "TemperatureStoryTools.h"
-#include <calculator/TextGenError.h>
 #include "UnitFactory.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
 
 using namespace TextGen::TemperatureStoryTools;

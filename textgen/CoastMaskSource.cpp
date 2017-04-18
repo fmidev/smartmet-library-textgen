@@ -25,12 +25,12 @@
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherSource.h>
 
-#include <newbase/NFmiGrid.h>
 #include <newbase/NFmiFastQueryInfo.h>
-#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiGrid.h>
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiIndexMaskSource.h>
 #include <newbase/NFmiIndexMaskTools.h>
+#include <newbase/NFmiQueryData.h>
 
 #include <map>
 
