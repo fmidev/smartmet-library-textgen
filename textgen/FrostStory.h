@@ -50,5 +50,4 @@ class FrostStory : public Story
 };  // class FrostStory
 }
 
-
 // ======================================================================

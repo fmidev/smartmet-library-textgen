@@ -12,8 +12,8 @@
 
 #include "TimePeriod.h"
 #include "Dictionary.h"
-#include <calculator/WeatherPeriod.h>
 #include "TextFormatter.h"
+#include <calculator/WeatherPeriod.h>
 
 using namespace std;
 using namespace boost;

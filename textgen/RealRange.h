@@ -51,5 +51,4 @@ class RealRange : public Glyph
 };  // class RealRange
 }  // namespace RealRange
 
-
 // ======================================================================

@@ -43,5 +43,4 @@ class FileDictionary : public Dictionary
 
 }  // namespace TextGen
 
-
 // ======================================================================

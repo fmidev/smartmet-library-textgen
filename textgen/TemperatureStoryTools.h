@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include <string>
 #include <calculator/AnalysisSources.h>
 #include <calculator/TextGenPosixTime.h>
+#include <string>
 
 namespace TextGen
 {
@@ -228,6 +228,5 @@ bool sort_out_temperature_interval(int theMinimum,
 
 }  // namespace TemperatureStoryTools
 }  // namespace TextGen
-
 
 // ======================================================================

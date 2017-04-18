@@ -1,15 +1,15 @@
-#include <regression/tframe.h>
 #include "DebugDictionary.h"
-#include "Sentence.h"
 #include "Integer.h"
 #include "PlainTextFormatter.h"
+#include "Sentence.h"
 #include "TextFormatterTools.h"
+#include "TimePeriod.h"
 #include "UnitFactory.h"
 #include "WeatherTime.h"
-#include "TimePeriod.h"
-#include <calculator/WeatherPeriod.h>
-#include <calculator/TextGenPosixTime.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherPeriod.h>
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 
@@ -25,7 +25,7 @@ using namespace TextGen;
 
 namespace TextFormatterToolsTest
 {
-shared_ptr<TextGen::Dictionary> dict;
+boost::shared_ptr<TextGen::Dictionary> dict;
 
 // ----------------------------------------------------------------------
 /*!

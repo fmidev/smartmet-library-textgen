@@ -5,16 +5,16 @@
  */
 // ======================================================================
 
-#include "RoadStory.h"
-#include "NightAndDayPeriodGenerator.h"
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
 #include "MessageLogger.h"
+#include "NightAndDayPeriodGenerator.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
+#include "RoadStory.h"
 #include "Sentence.h"
-#include <calculator/Settings.h>
 #include "TemperatureStoryTools.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/Settings.h>
 #include <calculator/WeatherResult.h>
 
 #include <boost/lexical_cast.hpp>

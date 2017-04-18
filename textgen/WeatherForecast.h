@@ -1,8 +1,8 @@
 #pragma once
 
 #include "AreaTools.h"
-#include <calculator/WeatherPeriod.h>
 #include "MessageLogger.h"
+#include <calculator/WeatherPeriod.h>
 
 namespace TextGen
 {
@@ -949,4 +949,3 @@ struct PrecipitationDataItem
   }
 };
 }
-

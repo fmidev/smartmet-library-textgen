@@ -5,21 +5,21 @@
  */
 // ======================================================================
 
-#include "PrecipitationStory.h"
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
 #include "Integer.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
+#include "PrecipitationStory.h"
 #include "PrecipitationStoryTools.h"
-#include <calculator/RangeAcceptor.h>
 #include "Sentence.h"
+#include "UnitFactory.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/TimeTools.h>
-#include "UnitFactory.h"
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 

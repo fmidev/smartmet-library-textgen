@@ -1,6 +1,6 @@
-#include <regression/tframe.h>
 #include "NullDictionary.h"
 #include "Real.h"
+#include <regression/tframe.h>
 
 #include <cmath>
 #include <iostream>

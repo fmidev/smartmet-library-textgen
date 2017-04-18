@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <calculator/WeatherPeriod.h>
 #include <calculator/AnalysisSources.h>
+#include <calculator/WeatherPeriod.h>
 #include <string>
 
 namespace TextGen
@@ -20,6 +20,5 @@ WeatherPeriod getClimatologyPeriod(const TextGen::WeatherPeriod& thePeriod,
                                    const TextGen::AnalysisSources& theSources);
 }  // namespace ClimatologyTools
 }  // namespace TextGen
-
 
 // ======================================================================

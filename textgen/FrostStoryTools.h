@@ -27,5 +27,4 @@ Sentence severe_frost_sentence(const TextGen::WeatherPeriod& thePeriod, int theP
 }  // namespace FrostStoryTools
 }  // namespace TextGen
 
-
 // ======================================================================

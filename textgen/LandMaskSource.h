@@ -37,5 +37,4 @@ class LandMaskSource : public MaskSource
 
 }  // namespace TextGen
 
-
 // ======================================================================

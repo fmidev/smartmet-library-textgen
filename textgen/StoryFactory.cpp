@@ -12,12 +12,12 @@
 // ======================================================================
 
 #include "StoryFactory.h"
-#include <calculator/AnalysisSources.h>
 #include "CloudinessStory.h"
 #include "Delimiter.h"
 #include "DewPointStory.h"
 #include "ForestStory.h"
 #include "FrostStory.h"
+#include <calculator/AnalysisSources.h>
 // #include "FrostStoryAk.h"
 #include "Paragraph.h"
 #include "PrecipitationStory.h"
@@ -26,10 +26,10 @@
 #include "RoadStory.h"
 #include "SpecialStory.h"
 #include "TemperatureStory.h"
-#include <calculator/TextGenError.h>
 #include "WaveStory.h"
 #include "WeatherStory.h"
 #include "WindStory.h"
+#include <calculator/TextGenError.h>
 
 #include <calculator/TextGenPosixTime.h>
 

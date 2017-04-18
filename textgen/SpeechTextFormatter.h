@@ -36,6 +36,7 @@ class SpeechTextFormatter : public TextFormatter
   virtual std::string visit(const StoryTag& theStoryTag) const;
 
   std::string name() const { return "speech"; }
+
  private:
   boost::shared_ptr<Dictionary> itsDictionary;
   mutable std::string itsSectionVar;
@@ -43,6 +44,5 @@ class SpeechTextFormatter : public TextFormatter
 
 };  // class SpeechTextFormatter
 }  // namespace TextGen
-
 
 // ======================================================================

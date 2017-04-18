@@ -40,5 +40,4 @@ class Text : public Glyph
 };  // class Text
 }  // namespace Text
 
-
 // ======================================================================

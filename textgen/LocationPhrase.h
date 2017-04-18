@@ -36,5 +36,4 @@ class LocationPhrase : public Glyph
 
 }  // namespace TextGen
 
-
 // ======================================================================

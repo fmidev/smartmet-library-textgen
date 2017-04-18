@@ -52,5 +52,4 @@ Sentence sum_phrase(const TextGen::WeatherResult& theMinimum,
 }  // namespace PrecipitationStoryTools
 }  // namespace TextGen
 
-
 // ======================================================================

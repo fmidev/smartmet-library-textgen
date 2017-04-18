@@ -40,5 +40,4 @@ class Integer : public Glyph
 };  // class Integer
 }  // namespace Integer
 
-
 // ======================================================================

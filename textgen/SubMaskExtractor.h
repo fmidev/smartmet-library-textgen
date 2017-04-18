@@ -1,17 +1,17 @@
 #pragma once
 
-#include <calculator/AnalysisSources.h>
-#include <calculator/WeatherParameter.h>
-#include <calculator/WeatherArea.h>
-#include <calculator/WeatherPeriod.h>
-#include <calculator/Acceptor.h>
 #include "AreaTools.h"
+#include <calculator/Acceptor.h>
+#include <calculator/AnalysisSources.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherParameter.h>
+#include <calculator/WeatherPeriod.h>
 
 #include <vector>
 
+#include <newbase/NFmiGrid.h>
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiPoint.h>
-#include <newbase/NFmiGrid.h>
 #include <newbase/NFmiSvgPath.h>
 
 namespace TextGen
@@ -38,4 +38,3 @@ void PrintLatLon(const AnalysisSources& theSources,
                  const WeatherParameter& theParameter,
                  const NFmiIndexMask& theIndexMask);
 }
-

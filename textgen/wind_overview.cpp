@@ -1,28 +1,28 @@
-#include "WindStory.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
+#include "PositiveValueAcceptor.h"
+#include "Sentence.h"
+#include "SubMaskExtractor.h"
+#include "WeatherForecast.h"
+#include "WindForecast.h"
+#include "WindStory.h"
 #include "WindStoryTools.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/ParameterAnalyzer.h>
-#include "PositiveValueAcceptor.h"
-#include <calculator/WeatherResult.h>
-#include "Sentence.h"
-#include <calculator/Settings.h>
-#include "WeatherForecast.h"
-#include "WindForecast.h"
 #include <calculator/RangeAcceptor.h>
-#include "SubMaskExtractor.h"
+#include <calculator/Settings.h>
+#include <calculator/WeatherResult.h>
 
-#include <bitset>
-#include <iomanip>
-#include <fstream>
-#include <cmath>
 #include <algorithm>
+#include <bitset>
+#include <cmath>
+#include <fstream>
+#include <iomanip>
 
-#include <macgyver/StringConversion.h>
 #include <boost/date_time/gregorian/gregorian.hpp>    //include all types plus i/o
 #include <boost/date_time/posix_time/posix_time.hpp>  //include all types plus i/o
 #include <boost/foreach.hpp>
+#include <macgyver/StringConversion.h>
 
 using namespace boost;
 using namespace TextGen;
@@ -1957,8 +1957,11 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
 
     bool firstRound(i == 1);
     WindEventPeriodDataItem* previousEventPeriod =
-        (firstRound ? NULL : storyParams.theWindSpeedEventPeriodVector
-                                 [storyParams.theWindSpeedEventPeriodVector.size() - 1]);
+        (firstRound
+             ? NULL
+             : storyParams
+                   .theWindSpeedEventPeriodVector[storyParams.theWindSpeedEventPeriodVector.size() -
+                                                  1]);
 
     if (firstRound || (previousEventPeriod &&
                        previousEventPeriod->theWindEvent !=
@@ -2490,9 +2493,10 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
           mergedEventPeriods.push_back(newDataItem2);
           missingPeriodSplit = true;
           storyParams.theLog << "Missing wind speed event period " << p->thePeriod
-                             << " split into two:\n" << newPeriod1 << " -> "
-                             << get_wind_event_string(p->theWindEvent) << " and " << newPeriod2
-                             << " -> " << get_wind_event_string(newWindEvent) << std::endl;
+                             << " split into two:\n"
+                             << newPeriod1 << " -> " << get_wind_event_string(p->theWindEvent)
+                             << " and " << newPeriod2 << " -> "
+                             << get_wind_event_string(newWindEvent) << std::endl;
           break;
         }
       }

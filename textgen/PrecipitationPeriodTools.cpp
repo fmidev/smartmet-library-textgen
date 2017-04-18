@@ -26,17 +26,17 @@
 #include <calculator/QueryDataTools.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
-#include <calculator/TimeTools.h>
 #include <calculator/TextGenError.h>
+#include <calculator/TimeTools.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherSource.h>
 
+#include <boost/shared_ptr.hpp>
+#include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiQueryData.h>
-#include <calculator/TextGenPosixTime.h>
-#include <boost/shared_ptr.hpp>
 
 using namespace std;
 using namespace boost;

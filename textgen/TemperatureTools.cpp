@@ -2,10 +2,10 @@
 
 #include "Story.h"
 
+#include "SeasonTools.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/Settings.h>
 #include <calculator/WeatherResult.h>
-#include "SeasonTools.h"
 
 namespace TextGen
 {

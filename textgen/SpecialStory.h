@@ -57,5 +57,4 @@ class SpecialStory : public Story
 };  // class SpecialStory
 }
 
-
 // ======================================================================

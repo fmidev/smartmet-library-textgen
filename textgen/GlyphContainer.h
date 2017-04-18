@@ -55,5 +55,4 @@ class GlyphContainer : public Glyph
 };  // class GlyphContainer
 }  // namespace TextGen
 
-
 // ======================================================================

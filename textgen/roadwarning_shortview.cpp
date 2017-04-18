@@ -5,19 +5,19 @@
  */
 // ======================================================================
 
-#include "RoadStory.h"
 #include "DebugTextFormatter.h"
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
 #include "MessageLogger.h"
-#include <calculator/HourPeriodGenerator.h>
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
+#include "RoadStory.h"
 #include "Sentence.h"
+#include "ValueAcceptor.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/TimeTools.h>
-#include "ValueAcceptor.h"
 #include <calculator/WeatherResult.h>
 
 #include <boost/lexical_cast.hpp>
@@ -149,6 +149,7 @@ class WarningPercentages
   WarningPercentages() : itsPercentages(max_warning - min_warning + 1, 0) {}
   const double& operator[](int i) const { return itsPercentages[i]; }
   double& operator[](int i) { return itsPercentages[i]; }
+
  private:
   std::vector<double> itsPercentages;
 };
@@ -176,8 +177,8 @@ const WarningPercentages calculate_percentages(const WeatherPeriod& thePeriod,
   {
     const RoadWarningType c = RoadWarningType(i);
 
-    const string fake = (theVar + "::fake::period" + lexical_cast<string>(thePeriodIndex) + "::" +
-                         warning_name(c) + "::percentage");
+    const string fake = (theVar + "::fake::period" + lexical_cast<string>(thePeriodIndex) +
+                         "::" + warning_name(c) + "::percentage");
 
     ValueAcceptor warnfilter;
     warnfilter.value(c);

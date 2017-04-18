@@ -38,5 +38,4 @@ class Delimiter : public Glyph
 
 }  // namespace TextGen
 
-
 // ======================================================================

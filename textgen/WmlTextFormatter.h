@@ -35,6 +35,7 @@ class WmlTextFormatter : public TextFormatter
   virtual std::string visit(const StoryTag& theStoryTag) const;
 
   std::string name() const { return "wml"; }
+
  private:
   boost::shared_ptr<Dictionary> itsDictionary;
   mutable std::string itsSectionVar;
@@ -42,6 +43,5 @@ class WmlTextFormatter : public TextFormatter
 
 };  // class WmlTextFormatter
 }  // namespace TextGen
-
 
 // ======================================================================

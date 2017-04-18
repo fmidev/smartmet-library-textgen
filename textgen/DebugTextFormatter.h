@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "TextFormatter.h"
 #include "DebugDictionary.h"
+#include "TextFormatter.h"
 
 namespace TextGen
 {
@@ -36,6 +36,7 @@ class DebugTextFormatter : public TextFormatter
   virtual std::string visit(const StoryTag& theStoryTag) const;
 
   std::string name() const { return "debug"; }
+
  private:
   DebugDictionary itsDictionary;
   mutable std::string itsSectionVar;
@@ -43,6 +44,5 @@ class DebugTextFormatter : public TextFormatter
 
 };  // class DebugTextFormatter
 }  // namespace TextGen
-
 
 // ======================================================================

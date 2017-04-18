@@ -2,7 +2,7 @@ PROG = $(patsubst %.cpp,%,$(wildcard *.cpp))
 PHPPROG = $(wildcard *.php)
 # OBS = $(wildcard ../obj/*.o)
 
-MAINFLAGS = -Wall -W -Wno-unused-parameter
+MAINFLAGS = -std=c++11 -Wall -W -Wno-unused-parameter
 
 EXTRAFLAGS = -Werror -pedantic -Wpointer-arith -Wcast-qual \
 	-Wcast-align -Wwrite-strings -Wconversion -Winline \

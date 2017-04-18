@@ -27,5 +27,4 @@ class ValueAcceptor : public Acceptor
 };  // class ValueAcceptor
 }  // namespace TextGen
 
-
 // ======================================================================

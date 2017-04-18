@@ -35,6 +35,7 @@ class HtmlTextFormatter : public TextFormatter
   virtual std::string visit(const StoryTag& theStoryTag) const;
 
   std::string name() const { return "html"; }
+
  private:
   boost::shared_ptr<Dictionary> itsDictionary;
   mutable std::string itsSectionVar;
@@ -42,6 +43,5 @@ class HtmlTextFormatter : public TextFormatter
 
 };  // class HtmlTextFormatter
 }  // namespace TextGen
-
 
 // ======================================================================

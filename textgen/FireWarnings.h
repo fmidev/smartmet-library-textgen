@@ -35,5 +35,4 @@ class FireWarnings
 };  // class FireWarnings
 }  // namespace TextGen
 
-
 // ======================================================================

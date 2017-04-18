@@ -19,9 +19,9 @@
 // ======================================================================
 
 #include "WeatherPeriodFactory.h"
-#include <calculator/WeatherPeriod.h>
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
+#include <calculator/WeatherPeriod.h>
 
 #include <calculator/TextGenPosixTime.h>
 

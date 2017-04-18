@@ -38,9 +38,9 @@
 #include "DebugTextFormatter.h"
 #include <newbase/NFmiTime.h>
 
+#include <ctime>
 #include <fstream>
 #include <iomanip>
-#include <ctime>
 
 using namespace std;
 

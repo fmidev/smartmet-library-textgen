@@ -1,7 +1,7 @@
-#include <regression/tframe.h>
 #include "DictionaryFactory.h"
 #include "Phrase.h"
 #include <calculator/Settings.h>
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 
@@ -39,10 +39,10 @@ void realize(void)
   using namespace boost;
   using namespace TextGen;
 
-  shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
   finnish->init("fi");
 
-  shared_ptr<Dictionary> english(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> english(DictionaryFactory::create("mysql"));
   english->init("en");
 
   Phrase s1("lampotila");

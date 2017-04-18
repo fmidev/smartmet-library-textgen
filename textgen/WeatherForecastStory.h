@@ -174,4 +174,3 @@ class WeatherForecastStory
   friend class WeatherForecastStoryItem;
 };
 }
-

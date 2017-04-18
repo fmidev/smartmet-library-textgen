@@ -19,6 +19,7 @@ class TemplateAcceptor : public Acceptor
   TemplateAcceptor(const T& theFunctor) : itsFunctor(theFunctor) {}
   virtual bool accept(float theValue) const { return itsFunctor(theValue); }
   virtual Acceptor* clone() const { return new TemplateAcceptor(*this); }
+
  private:
   TemplateAcceptor(void);
 
@@ -29,6 +30,5 @@ class TemplateAcceptor : public Acceptor
 typedef TemplateAcceptor<bool (*)(float)> FunctionAcceptor;
 
 }  // namespace TextGen
-
 
 // ======================================================================

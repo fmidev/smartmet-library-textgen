@@ -1,8 +1,8 @@
-#include <regression/tframe.h>
 #include <calculator/IntervalPeriodGenerator.h>
-#include <calculator/WeatherPeriod.h>
 #include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherPeriod.h>
 #include <newbase/NFmiSettings.h>
+#include <regression/tframe.h>
 
 #include <boost/locale.hpp>
 

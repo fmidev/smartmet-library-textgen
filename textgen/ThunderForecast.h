@@ -1,7 +1,7 @@
 #pragma once
 
-#include "WeatherForecast.h"
 #include "PrecipitationForecast.h"
+#include "WeatherForecast.h"
 
 namespace TextGen
 {
@@ -22,4 +22,3 @@ class ThunderForecast
   wf_story_params& theParameters;
 };
 }  // namespace TextGen
-

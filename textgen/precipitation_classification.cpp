@@ -5,21 +5,21 @@
  */
 // ======================================================================
 
-#include "PrecipitationStory.h"
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
 #include "IntegerRange.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
-#include <calculator/RangeAcceptor.h>
+#include "PrecipitationStory.h"
 #include "Sentence.h"
+#include "UnitFactory.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
-#include "UnitFactory.h"
 #include <calculator/WeatherResult.h>
 
-#include <newbase/NFmiStringTools.h>
 #include <boost/lexical_cast.hpp>
+#include <newbase/NFmiStringTools.h>
 #include <list>
 
 using namespace boost;

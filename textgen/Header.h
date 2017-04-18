@@ -36,5 +36,4 @@ class Header : public GlyphContainer
 
 }  // namespace TextGen
 
-
 // ======================================================================

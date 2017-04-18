@@ -139,4 +139,3 @@ std::ostream& operator<<(std::ostream& theOutput,
                          const CloudinessDataItemData& theCloudinessDataItemData);
 std::ostream& operator<<(std::ostream& theOutput, const CloudinessDataItem& theCloudinessDataItem);
 }  // namespace TextGen
-

@@ -52,5 +52,4 @@ class DewPointStory : public Story
 };  // class DewPointStory
 }
 
-
 // ======================================================================

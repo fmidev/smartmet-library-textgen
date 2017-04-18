@@ -15,16 +15,16 @@
 
 #include "AreaTools.h"
 #include "LandMaskSource.h"
-#include <calculator/RegularMaskSource.h>
+#include "SubMaskExtractor.h"
 #include <calculator/ParameterAnalyzer.h>
+#include <calculator/RegularMaskSource.h>
 #include <calculator/Settings.h>
 #include <calculator/WeatherDataType.h>
-#include "SubMaskExtractor.h"
 
-#include <newbase/NFmiSvgTools.h>
+#include <newbase/NFmiFastQueryInfo.h>
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiSvgPath.h>
-#include <newbase/NFmiFastQueryInfo.h>
+#include <newbase/NFmiSvgTools.h>
 
 typedef TextGen::RegularMaskSource::mask_type mask_type;
 

@@ -1,13 +1,13 @@
-#include <regression/tframe.h>
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
+#include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PlainTextFormatter.h"
 #include "SpecialStory.h"
 #include "Story.h"
 #include "StoryTag.h"
-#include "MessageLogger.h"
 #include <calculator/Settings.h>
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 
@@ -22,7 +22,7 @@ using namespace boost;
 
 namespace SpecialStoryTest
 {
-shared_ptr<TextGen::Dictionary> dict;
+boost::shared_ptr<TextGen::Dictionary> dict;
 TextGen::PlainTextFormatter formatter;
 
 void require(const TextGen::Story& theStory,

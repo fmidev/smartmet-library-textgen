@@ -74,5 +74,4 @@ Sentence cloudiness_phrase(const TextGen::AnalysisSources& theSources,
 }  // namespace CloudinessStoryTools
 }  // namespace TextGen
 
-
 // ======================================================================

@@ -10,38 +10,38 @@
 #include "ClimatologyTools.h"
 #include "GridClimatology.h"
 
-#include <calculator/DefaultAcceptor.h>
+#include "AreaTools.h"
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
 #include "Integer.h"
-#include <calculator/MathTools.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
-#include "Sentence.h"
-#include <calculator/Settings.h>
-#include "TemperatureStoryTools.h"
-#include "AreaTools.h"
-#include <calculator/TextGenError.h>
-#include "UnitFactory.h"
-#include <calculator/WeatherPeriodTools.h>
-#include "SeasonTools.h"
-#include <calculator/WeatherResult.h>
 #include "PeriodPhraseFactory.h"
+#include "SeasonTools.h"
+#include "Sentence.h"
+#include "TemperatureStoryTools.h"
+#include "UnitFactory.h"
+#include <calculator/DefaultAcceptor.h>
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/MathTools.h>
 #include <calculator/RangeAcceptor.h>
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
+#include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherResult.h>
 
-#include <newbase/NFmiStringTools.h>
 #include <newbase/NFmiGrid.h>
-#include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiIndexMaskSource.h>
 #include <newbase/NFmiIndexMaskTools.h>
 #include <newbase/NFmiMetMath.h>
+#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiStringTools.h>
 
+#include "WeatherForecast.h"
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherSource.h>
-#include "WeatherForecast.h"
 #include <map>
 
 #include <boost/lexical_cast.hpp>

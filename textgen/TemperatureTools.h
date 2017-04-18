@@ -80,5 +80,4 @@ void clamp_temperature(const string& theVar,
 }  // namespace TemperatureTools
 }  // namespace TextGen
 
-
 // ======================================================================

@@ -7,10 +7,10 @@
 
 #pragma once
 
+#include <cassert>
+#include <memory>
 #include <ostream>
 #include <sstream>
-#include <memory>
-#include <cassert>
 #include <stdexcept>
 
 #ifndef UNIX
@@ -136,6 +136,7 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
 
  public:
   MessageLoggerStreambuf() : itsStreamBuffer(new StringStream) {}
+
  private:
   typedef std::basic_ostringstream<char_type> StringStream;
 
@@ -173,6 +174,7 @@ class MessageLoggerStream : public std::basic_ostream<char_type, CharTraits>
   }
 
   ~MessageLoggerStream() {}
+
  protected:
   virtual void onNewMessage(const string_type& strNewMessage) = 0;
 
@@ -180,6 +182,5 @@ class MessageLoggerStream : public std::basic_ostream<char_type, CharTraits>
   // our stream buffer
   handler_streambuf_type itsStreamBuf;
 };
-
 
 // ======================================================================

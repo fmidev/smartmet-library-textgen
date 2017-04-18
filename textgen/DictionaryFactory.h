@@ -18,5 +18,4 @@ Dictionary* create(const std::string& theType);
 }  // namespace DictionaryFactory
 }  // namespace TextGen
 
-
 // ======================================================================

@@ -1,12 +1,12 @@
-#include <regression/tframe.h>
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
+#include "FrostStory.h"
+#include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PlainTextFormatter.h"
-#include "FrostStory.h"
 #include "Story.h"
 #include <calculator/Settings.h>
-#include "MessageLogger.h"
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 
@@ -21,7 +21,7 @@ using namespace boost;
 
 namespace FrostStoryTest
 {
-shared_ptr<TextGen::Dictionary> dict;
+boost::shared_ptr<TextGen::Dictionary> dict;
 TextGen::PlainTextFormatter formatter;
 
 void require(const TextGen::Story& theStory,

@@ -7,8 +7,8 @@
 #include "DictionaryFactory.h"
 #include "Paragraph.h"
 #include "PlainTextFormatter.h"
-#include "WaveStory.h"
 #include "Story.h"
+#include "WaveStory.h"
 #include <calculator/Settings.h>
 
 #include <newbase/NFmiSettings.h>
@@ -24,7 +24,7 @@ using namespace boost;
 
 namespace WaveStoryTest
 {
-shared_ptr<TextGen::Dictionary> dict;
+boost::shared_ptr<TextGen::Dictionary> dict;
 TextGen::PlainTextFormatter formatter;
 
 string require(const TextGen::Story& theStory,
