@@ -24,6 +24,7 @@
 #include "TextFormatterFactory.h"
 #include "DebugTextFormatter.h"
 #include "PlainTextFormatter.h"
+#include "SingleLineTextFormatter.h"
 #include "PlainLinesTextFormatter.h"
 #include "SpeechTextFormatter.h"
 #include "HtmlTextFormatter.h"
@@ -54,6 +55,7 @@ namespace TextFormatterFactory
 
 TextFormatter* create(const std::string& theType)
 {
+  if (theType == "singleline") return new SingleLineTextFormatter();
   if (theType == "plain") return new PlainTextFormatter();
   if (theType == "plainlines") return new PlainLinesTextFormatter();
   if (theType == "html") return new HtmlTextFormatter();
