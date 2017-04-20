@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Sentence.h"
 #include "WeatherForecast.h"
 #include "WindStoryTools.h"
 

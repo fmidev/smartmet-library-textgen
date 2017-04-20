@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.4.11
+Version: 17.4.20
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -62,6 +62,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Apr 20 2017  Anssi Reponen <anssi.reponen@fmi.fi> - 17.4.20-1.fmi
+- Temperature anomaly story corrected: basic data types not passed by reference
+
 * Tue Apr 11 2017 Teemu Sirviö <teemu.sirvio@fmi.fi> - 17.4.11-1.fmi
 - Fixed casting of strings in error messages
 
