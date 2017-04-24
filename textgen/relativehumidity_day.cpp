@@ -7,21 +7,21 @@
 
 #include "RelativeHumidityStory.h"
 
-#include <calculator/DefaultAcceptor.h>
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
 #include "Integer.h"
-#include <calculator/MathTools.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
+#include "PeriodPhraseFactory.h"
 #include "Sentence.h"
+#include "UnitFactory.h"
+#include <calculator/DefaultAcceptor.h>
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/MathTools.h>
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
-#include "UnitFactory.h"
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
-#include "PeriodPhraseFactory.h"
 
 #include <boost/lexical_cast.hpp>
 

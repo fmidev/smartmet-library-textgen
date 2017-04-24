@@ -1,4 +1,3 @@
-#include <regression/tframe.h>
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "Paragraph.h"
@@ -6,6 +5,7 @@
 #include "RoadStory.h"
 #include "Story.h"
 #include <calculator/Settings.h>
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 
@@ -20,7 +20,7 @@ using namespace boost;
 
 namespace RoadStoryTest
 {
-shared_ptr<TextGen::Dictionary> dict;
+boost::shared_ptr<TextGen::Dictionary> dict;
 TextGen::PlainTextFormatter formatter;
 
 // ----------------------------------------------------------------------

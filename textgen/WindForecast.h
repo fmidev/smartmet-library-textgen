@@ -1,9 +1,9 @@
 #pragma once
 
-#include "WindStoryTools.h"
-#include "WindForecastStructs.h"
-#include "WeatherForecast.h"
 #include "Paragraph.h"
+#include "WeatherForecast.h"
+#include "WindForecastStructs.h"
+#include "WindStoryTools.h"
 
 namespace TextGen
 {
@@ -65,4 +65,3 @@ class WindForecast
 };
 
 }  // namespace TextGen
-

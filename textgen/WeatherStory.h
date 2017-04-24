@@ -56,5 +56,4 @@ class WeatherStory : public Story
 };  // class WeatherStory
 }
 
-
 // ======================================================================

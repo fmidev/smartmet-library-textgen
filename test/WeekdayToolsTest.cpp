@@ -1,8 +1,8 @@
-#include <regression/tframe.h>
 #include "WeekdayTools.h"
+#include <boost/locale.hpp>
 #include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiSettings.h>
-#include <boost/locale.hpp>
+#include <regression/tframe.h>
 
 using namespace std;
 

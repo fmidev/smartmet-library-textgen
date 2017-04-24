@@ -34,5 +34,4 @@ Paragraph create(const TextGenPosixTime& theForecastTime,
 }  // namespace StoryFactory
 }  // namespace TextGen
 
-
 // ======================================================================

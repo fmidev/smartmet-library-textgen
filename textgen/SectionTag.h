@@ -40,5 +40,4 @@ class SectionTag : public Glyph
 };  // class SectionTag
 }  // namespace SectionTag
 
-
 // ======================================================================

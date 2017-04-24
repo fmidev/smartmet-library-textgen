@@ -271,4 +271,3 @@ class PrecipitationForecast
 };
 
 }  // namespace TextGen
-

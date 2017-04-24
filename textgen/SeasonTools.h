@@ -56,5 +56,4 @@ forecast_season_id get_forecast_season(const WeatherArea& theArea,
 }  // namespace SeasonTools
 }  // namespace TextGen
 
-
 // ======================================================================

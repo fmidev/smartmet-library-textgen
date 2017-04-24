@@ -33,12 +33,12 @@ class NullDictionary : public Dictionary
 
   virtual size_type size(void) const { return 0; }
   virtual bool empty(void) const { return true; }
+
  private:
   std::string itsLanguage;
 
 };  // class NullDictionary
 
 }  // namespace TextGen
-
 
 // ======================================================================

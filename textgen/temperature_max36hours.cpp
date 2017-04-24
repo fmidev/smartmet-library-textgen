@@ -5,17 +5,13 @@
  */
 // ======================================================================
 
-#include "TemperatureStory.h"
 #include "AreaTools.h"
 #include "ClimatologyTools.h"
-#include <calculator/DefaultAcceptor.h>
+#include "DebugTextFormatter.h"
 #include "Delimiter.h"
 #include "FrostStory.h"
 #include "GridClimatology.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
 #include "Integer.h"
-#include <calculator/MathTools.h>
 #include "MessageLogger.h"
 #include "NightAndDayPeriodGenerator.h"
 #include "NorthernMaskSource.h"
@@ -23,28 +19,31 @@
 #include "PeriodPhraseFactory.h"
 #include "SeasonTools.h"
 #include "Sentence.h"
-#include <calculator/Settings.h>
 #include "SouthernMaskSource.h"
+#include "TemperatureStory.h"
 #include "TemperatureStoryTools.h"
-#include <calculator/TextGenError.h>
 #include "UnitFactory.h"
+#include "WeatherForecast.h"
+#include "WeekdayTools.h"
+#include <calculator/DefaultAcceptor.h>
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/MathTools.h>
+#include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherArea.h>
-#include "WeatherForecast.h"
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 #include <calculator/WeatherSource.h>
-#include "WeekdayTools.h"
-#include "DebugTextFormatter.h"
 
-#include <newbase/NFmiStringTools.h>
+#include <newbase/NFmiGlobals.h>
 #include <newbase/NFmiGrid.h>
-#include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiIndexMaskSource.h>
 #include <newbase/NFmiIndexMaskTools.h>
-#include <newbase/NFmiGlobals.h>
+#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiStringTools.h>
 
 #include <boost/lexical_cast.hpp>
 

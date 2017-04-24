@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Sentence.h"
 #include "WeatherForecast.h"
 #include "WindStoryTools.h"
 
@@ -359,4 +360,3 @@ std::ostream& operator<<(std::ostream& theOutput,
                          const WindEventPeriodDataItem& theWindEventPeriodDataItem);
 
 }  // namespace TextGen
-

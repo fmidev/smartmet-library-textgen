@@ -34,5 +34,4 @@ class NullMaskSource : public MaskSource
 
 }  // namespace TextGen
 
-
 // ======================================================================

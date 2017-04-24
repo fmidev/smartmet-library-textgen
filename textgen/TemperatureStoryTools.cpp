@@ -13,24 +13,24 @@
 // ======================================================================
 
 #include "TemperatureStoryTools.h"
-#include "Integer.h"
-#include "TemperatureRange.h"
-#include "Sentence.h"
-#include <calculator/Settings.h>
-#include "UnitFactory.h"
 #include "ClimatologyTools.h"
 #include "GridClimatology.h"
-#include <calculator/WeatherPeriodGenerator.h>
-#include <calculator/HourPeriodGenerator.h>
+#include "Integer.h"
 #include "PositiveValueAcceptor.h"
+#include "Sentence.h"
+#include "TemperatureRange.h"
+#include "UnitFactory.h"
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/Settings.h>
+#include <calculator/WeatherPeriodGenerator.h>
 
-#include <calculator/GridForecaster.h>
-#include <calculator/WeatherResult.h>
-#include <calculator/WeatherPeriod.h>
 #include "SeasonTools.h"
-#include <calculator/WeatherArea.h>
 #include "TextFormatter.h"
 #include <boost/shared_ptr.hpp>
+#include <calculator/GridForecaster.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherResult.h>
 #include <sstream>
 #include <string>
 

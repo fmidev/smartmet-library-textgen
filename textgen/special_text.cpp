@@ -5,11 +5,11 @@
  */
 // ======================================================================
 
-#include "SpecialStory.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
-#include <calculator/Settings.h>
+#include "SpecialStory.h"
 #include "Text.h"
+#include <calculator/Settings.h>
 
 #include <boost/filesystem.hpp>
 
@@ -20,7 +20,7 @@
 #ifdef UNIX
 #include <unistd.h>
 #else
-#define R_OK    4
+#define R_OK 4
 #include <io.h>
 #endif
 
@@ -49,12 +49,12 @@ string read_file(const string& filename)
  */
 // ----------------------------------------------------------------------
 
-bool is_executable(const string& filename) 
+bool is_executable(const string& filename)
 {
 #ifdef UNIX
-    return !access(filename.c_str(), X_OK);
+  return !access(filename.c_str(), X_OK);
 #else
-    return !access(filename.c_str(), R_OK);
+  return !access(filename.c_str(), R_OK);
 #endif
 }
 // ----------------------------------------------------------------------
@@ -68,9 +68,9 @@ bool is_executable(const string& filename)
 string execute(const string& cmd)
 {
 #ifdef UNIX
-    FILE* pipe = popen(cmd.c_str(), "r");
+  FILE* pipe = popen(cmd.c_str(), "r");
 #else
-    FILE* pipe = _popen(cmd.c_str(), "r");
+  FILE* pipe = _popen(cmd.c_str(), "r");
 #endif
   if (!pipe) throw runtime_error("Could not execute command '" + cmd + "'");
 

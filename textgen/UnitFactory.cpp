@@ -60,13 +60,13 @@
 
 #include "UnitFactory.h"
 #include "Delimiter.h"
+#include "Integer.h"
 #include "Sentence.h"
 #include <calculator/Settings.h>
-#include "Integer.h"
 #include <calculator/TextGenError.h>
 
-#include <string>
 #include <boost/lexical_cast.hpp>
+#include <string>
 
 using namespace std;
 using namespace boost;

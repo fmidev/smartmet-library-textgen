@@ -5,17 +5,17 @@
  */
 // ======================================================================
 
-#include "WindStory.h"
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "Sentence.h"
+#include "WindStory.h"
+#include "WindStoryTools.h"
+#include <calculator/GridForecaster.h>
 #include <calculator/Settings.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
-#include "WindStoryTools.h"
 
 using namespace TextGen::WindStoryTools;
 using namespace TextGen;

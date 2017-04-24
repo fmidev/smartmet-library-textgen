@@ -1,24 +1,23 @@
-#include <regression/tframe.h>
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
+#include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PlainTextFormatter.h"
-#include "TemperatureStory.h"
-#include "Story.h"
-#include "MessageLogger.h"
-#include <calculator/Settings.h>
-#include <calculator/AnalysisSources.h>
-#include <calculator/UserWeatherSource.h>
-#include <calculator/RegularMaskSource.h>
-#include "TemperatureStoryTools.h"
 #include "SeasonTools.h"
+#include "Story.h"
+#include "TemperatureStory.h"
+#include "TemperatureStoryTools.h"
+#include <calculator/AnalysisSources.h>
+#include <calculator/RegularMaskSource.h>
 #include <calculator/Settings.h>
+#include <calculator/UserWeatherSource.h>
+#include <regression/tframe.h>
 
-#include <newbase/NFmiQueryData.h>
-#include <newbase/NFmiSvgPath.h>
-#include <newbase/NFmiGrid.h>
-#include <newbase/NFmiSettings.h>
 #include <boost/algorithm/string.hpp>
+#include <newbase/NFmiGrid.h>
+#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiSettings.h>
+#include <newbase/NFmiSvgPath.h>
 
 #include <fstream>
 #include <iostream>
@@ -40,7 +39,7 @@ enum TemperatureTestType
   WIND_ANOMALY
 };
 
-shared_ptr<TextGen::Dictionary> dict;
+boost::shared_ptr<TextGen::Dictionary> dict;
 TextGen::PlainTextFormatter formatter;
 
 void require(const TextGen::Story& theStory,
@@ -12436,7 +12435,7 @@ void temperature_max36hours()
   TEST_PASSED();
 }
 
-shared_ptr<NFmiQueryData> theQD;
+boost::shared_ptr<NFmiQueryData> theQD;
 
 void read_querydata(const std::string& theFilename) { theQD.reset(new NFmiQueryData(theFilename)); }
 void temperature_season_anomaly(const WeatherPeriod& period)

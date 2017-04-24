@@ -14,8 +14,8 @@
 #include "Dictionary.h"
 #include "TextFormatter.h"
 #include "TextFormatterTools.h"
-#include <newbase/NFmiStringTools.h>
 #include <boost/locale.hpp>
+#include <newbase/NFmiStringTools.h>
 
 using namespace std;
 using namespace boost;

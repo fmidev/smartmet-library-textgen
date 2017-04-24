@@ -30,5 +30,4 @@ class TemperatureRange : public IntegerRange
 
 }  // namespace Textgen
 
-
 // ======================================================================

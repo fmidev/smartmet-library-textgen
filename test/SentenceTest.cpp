@@ -1,8 +1,8 @@
-#include <regression/tframe.h>
+#include "Delimiter.h"
 #include "DictionaryFactory.h"
 #include "Integer.h"
-#include "Delimiter.h"
 #include "Sentence.h"
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 

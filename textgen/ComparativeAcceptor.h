@@ -41,5 +41,4 @@ class ComparativeAcceptor : public Acceptor
 };  // class ComparativeAcceptor
 }  // namespace TextGen
 
-
 // ======================================================================

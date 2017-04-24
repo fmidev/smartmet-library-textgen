@@ -46,5 +46,4 @@ class IntegerRange : public Glyph
 };  // class IntegerRange
 }  // namespace IntegerRange
 
-
 // ======================================================================

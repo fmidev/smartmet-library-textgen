@@ -5,13 +5,13 @@
  */
 // ======================================================================
 
-#include "SpecialStory.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
-#include <calculator/Settings.h>
+#include "SpecialStory.h"
 #include "Text.h"
-#include "WeatherTime.h"
 #include "TimePeriod.h"
+#include "WeatherTime.h"
+#include <calculator/Settings.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/locale.hpp>

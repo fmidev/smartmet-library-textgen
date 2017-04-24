@@ -59,5 +59,4 @@ class PrecipitationStory : public Story
 };  // class PrecipitationStory
 }
 
-
 // ======================================================================

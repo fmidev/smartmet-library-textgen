@@ -43,5 +43,4 @@ class Real : public Glyph
 };  // class Real
 }  // namespace Real
 
-
 // ======================================================================

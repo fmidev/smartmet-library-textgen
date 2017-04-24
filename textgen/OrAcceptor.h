@@ -34,5 +34,4 @@ class OrAcceptor : public Acceptor
 };  // class OrAcceptor
 }  // namespace TextGen
 
-
 // ======================================================================

@@ -1,22 +1,21 @@
-#include <regression/tframe.h>
 #include "PrecipitationPeriodTools.h"
 #include <calculator/AnalysisSources.h>
+#include <calculator/MaskSource.h>
 #include <calculator/RegularMaskSource.h>
 #include <calculator/Settings.h>
-#include <calculator/WeatherSource.h>
 #include <calculator/UserWeatherSource.h>
-#include <calculator/MaskSource.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
-#include <calculator/Settings.h>
-#include <newbase/NFmiQueryData.h>
+#include <calculator/WeatherSource.h>
 #include <newbase/NFmiFastQueryInfo.h>
-#include <newbase/NFmiSvgPath.h>
 #include <newbase/NFmiGrid.h>
+#include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiSettings.h>
+#include <newbase/NFmiSvgPath.h>
+#include <regression/tframe.h>
 
-#include <boost/shared_ptr.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <stdexcept>
 
@@ -25,7 +24,7 @@ using namespace boost;
 
 namespace PrecipitationPeriodToolsTest
 {
-shared_ptr<NFmiQueryData> theQD;
+boost::shared_ptr<NFmiQueryData> theQD;
 
 void read_querydata(const std::string& theFilename) { theQD.reset(new NFmiQueryData(theFilename)); }
 // ----------------------------------------------------------------------
@@ -49,12 +48,12 @@ void findRainTimes()
   WeatherPeriod period(time1, time2);
 
   AnalysisSources sources;
-  shared_ptr<UserWeatherSource> weathersource(new UserWeatherSource());
+  boost::shared_ptr<UserWeatherSource> weathersource(new UserWeatherSource());
   weathersource->insert("data", theQD);
 
   Settings::set("textgen::precipitation_forecast", "data");
 
-  shared_ptr<MaskSource> masksource(new RegularMaskSource());
+  boost::shared_ptr<MaskSource> masksource(new RegularMaskSource());
   sources.setWeatherSource(weathersource);
   sources.setMaskSource(masksource);
 
@@ -110,11 +109,11 @@ void findRainPeriods()
   WeatherPeriod period(time1, time2);
 
   AnalysisSources sources;
-  shared_ptr<UserWeatherSource> weathersource(new UserWeatherSource());
+  boost::shared_ptr<UserWeatherSource> weathersource(new UserWeatherSource());
   weathersource->insert("data", theQD);
   Settings::set("textgen::precipitation_forecast", "data");
 
-  shared_ptr<MaskSource> masksource(new RegularMaskSource());
+  boost::shared_ptr<MaskSource> masksource(new RegularMaskSource());
   sources.setWeatherSource(weathersource);
   sources.setMaskSource(masksource);
 

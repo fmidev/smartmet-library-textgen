@@ -5,23 +5,23 @@
  */
 // ======================================================================
 
-#include "PrecipitationStory.h"
-#include <calculator/DefaultAcceptor.h>
 #include "Delimiter.h"
+#include "Integer.h"
+#include "MessageLogger.h"
+#include "Paragraph.h"
+#include "PeriodPhraseFactory.h"
+#include "PrecipitationStory.h"
+#include "Sentence.h"
+#include "UnitFactory.h"
+#include <calculator/DefaultAcceptor.h>
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
-#include "Integer.h"
 #include <calculator/MathTools.h>
-#include "MessageLogger.h"
 #include <calculator/NullPeriodGenerator.h>
-#include "Paragraph.h"
-#include "Sentence.h"
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
-#include "UnitFactory.h"
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
-#include "PeriodPhraseFactory.h"
 
 #include <boost/lexical_cast.hpp>
 

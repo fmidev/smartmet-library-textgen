@@ -14,8 +14,8 @@
 // ======================================================================
 
 #include "FrostStory.h"
-#include <calculator/AnalysisSources.h>
 #include "Paragraph.h"
+#include <calculator/AnalysisSources.h>
 #include <calculator/TextGenError.h>
 
 using namespace std;

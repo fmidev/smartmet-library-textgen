@@ -1,7 +1,7 @@
-#include <regression/tframe.h>
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "PrecipitationStoryTools.h"
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 
@@ -18,7 +18,7 @@ using namespace boost;
 
 namespace PrecipitationStoryToolsTest
 {
-shared_ptr<TextGen::Dictionary> dict;
+boost::shared_ptr<TextGen::Dictionary> dict;
 
 // ----------------------------------------------------------------------
 /*!

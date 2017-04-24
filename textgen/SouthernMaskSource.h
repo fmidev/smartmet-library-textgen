@@ -37,5 +37,4 @@ class SouthernMaskSource : public MaskSource
 
 }  // namespace TextGen
 
-
 // ======================================================================

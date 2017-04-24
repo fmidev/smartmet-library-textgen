@@ -53,5 +53,4 @@ bool operator==(const TextGen::WeatherFact& theLhs, const TextGen::WeatherFact& 
 
 bool operator!=(const TextGen::WeatherFact& theLhs, const TextGen::WeatherFact& theRhs);
 
-
 // ======================================================================

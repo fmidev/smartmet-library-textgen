@@ -1,8 +1,8 @@
-#include <regression/tframe.h>
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "FrostStoryTools.h"
 #include <calculator/Settings.h>
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 
@@ -19,7 +19,7 @@ using namespace boost;
 
 namespace FrostStoryToolsTest
 {
-shared_ptr<TextGen::Dictionary> dict;
+boost::shared_ptr<TextGen::Dictionary> dict;
 
 // ----------------------------------------------------------------------
 /*!

@@ -15,8 +15,8 @@
 #include <calculator/TextGenError.h>
 
 #include <boost/shared_ptr.hpp>
-#include <sstream>
 #include <iomanip>
+#include <sstream>
 
 using namespace boost;
 using namespace std;

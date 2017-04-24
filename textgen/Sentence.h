@@ -37,5 +37,4 @@ class Sentence : public GlyphContainer
 
 }  // namespace TextGen
 
-
 // ======================================================================

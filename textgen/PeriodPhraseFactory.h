@@ -35,5 +35,4 @@ Sentence create(const std::string& theType,
 
 }  // namespace TextGen
 
-
 // ======================================================================

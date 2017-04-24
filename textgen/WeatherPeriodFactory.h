@@ -26,5 +26,4 @@ TextGen::WeatherPeriod create(const TextGenPosixTime& theTime, const std::string
 
 }  // namespace TextGen
 
-
 // ======================================================================

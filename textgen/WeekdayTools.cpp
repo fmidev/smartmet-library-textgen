@@ -14,10 +14,10 @@
 
 #include <boost/lexical_cast.hpp>  // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ssa min max maarittelyt jo tehty
 
-#include <calculator/WeatherHistory.h>
 #include "WeekdayTools.h"
 #include <calculator/TextGenError.h>
 #include <calculator/TextGenPosixTime.h>
+#include <calculator/WeatherHistory.h>
 
 using namespace std;
 using namespace boost;
@@ -129,17 +129,23 @@ string until_weekday_time(const TextGenPosixTime& theTime)
 {
   const int hour = theTime.GetHour();
   if (hour == 6)
+  {
     return until_weekday_morning(theTime);
+  }
   else if (hour == 12)
+  {
     return until_weekday_noon(theTime);
-  else if (hour == 18)
+  }
+  else if (hour >= 18 && hour <= 21)
+  {
     return until_weekday_evening(theTime);
+  }
   else
   {
     const string msg =
         "WeekdayTools::until_weekday_time: Cannot generate -aamuun, -keskipaivaan or -iltaan "
         "phrase for hour " +
-        lexical_cast<int>(hour);
+        lexical_cast<string>(hour);
     throw TextGenError(msg);
   }
 }
@@ -226,7 +232,7 @@ string from_weekday_time(const TextGenPosixTime& theTime)
     const string msg =
         "WeekdayTools::from_weekday_time: Cannot generate -aamusta, -keskipaivasta or -illasta "
         "phrase for hour " +
-        lexical_cast<int>(hour);
+        lexical_cast<string>(hour);
     throw TextGenError(msg);
   }
 }
@@ -361,7 +367,7 @@ string until_weekday_time(const TextGenPosixTime& theTime, TextGen::WeatherHisto
   {
     const string msg =
         "WeekdayTools::until_weekday_time: Cannot generate -aamuun or -iltaan phrase for hour " +
-        lexical_cast<int>(hour);
+        lexical_cast<string>(hour);
     throw TextGenError(msg);
   }
 }
@@ -395,7 +401,7 @@ string from_weekday_time(const TextGenPosixTime& theTime, TextGen::WeatherHistor
   {
     const string msg =
         "WeekdayTools::from_weekday_time: Cannot generate -aamusta or -illasta phrase for hour " +
-        lexical_cast<int>(hour);
+        lexical_cast<string>(hour);
     throw TextGenError(msg);
   }
 }
