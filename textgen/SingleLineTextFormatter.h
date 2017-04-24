@@ -16,8 +16,8 @@ class SingleLineTextFormatter : public PlainTextFormatter
  public:
   SingleLineTextFormatter() {}
   virtual ~SingleLineTextFormatter() {}
-
-  virtual std::string visit(const Document& theDocument) const;
+  using PlainTextFormatter::visit;
+  virtual std::string visit(const Document& theDocument) const override;
 
   std::string name() const { return "singleline"; }
 

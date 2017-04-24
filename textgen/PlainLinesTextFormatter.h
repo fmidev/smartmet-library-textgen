@@ -17,7 +17,7 @@ class PlainLinesTextFormatter : public PlainTextFormatter
   PlainLinesTextFormatter() {}
   virtual ~PlainLinesTextFormatter() {}
   using PlainTextFormatter::visit;
-  virtual std::string visit(const Paragraph& theParagraph) const;
+  virtual std::string visit(const Paragraph& theParagraph) const override;
 
   std::string name() const { return "plainlines"; }
 };  // class PlainLinesTextFormatter

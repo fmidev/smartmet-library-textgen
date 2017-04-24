@@ -28,7 +28,7 @@ else
 endif
 
 CC = g++
-CFLAGS = -DUNIX -O0 -g $(MAINFLAGS)
+CFLAGS = -DUNIX -O0 -g -Wno-inline $(MAINFLAGS)
 
 INCLUDES = \
 	-I /usr/include/smartmet \
