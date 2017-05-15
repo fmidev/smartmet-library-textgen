@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.2.21
+Version: 17.5.15
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -62,6 +62,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+
+* Mon May 15 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.15-1.fmi
+- TBD
 
 * Tue Feb 21 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.2.21-1.fmi
 - 'Vähän' word is not used with weakening wind

@@ -1,8 +1,8 @@
 #ifndef TEXTGEN_WEATHER_FORECAST_H
 #define TEXTGEN_WEATHER_FORECAST_H
 
-#include "AreaTools.h"
 #include <calculator/WeatherPeriod.h>
+#include "AreaTools.h"
 #include "MessageLogger.h"
 
 namespace TextGen
@@ -12,6 +12,7 @@ class CloudinessForecast;
 class FogForecast;
 class ThunderForecast;
 class Sentence;
+class GlyphContainer;
 
 #define EMPTY_STRING "empty_string"
 #define SPACE_STRING " "
@@ -32,12 +33,14 @@ class Sentence;
 #define ILLALLA_WORD "illalla"
 #define ILTAYOLLA_WORD "iltayolla"
 #define KESKIYOLLA_WORD "keskiyolla"
+#define KESKIPAIVALLA_WORD "keskipaivalla"
 #define AAMUYOLLA_WORD "aamuyolla"
 #define YOLLA_WORD "yolla"
 #define TANAAN_WORD "tanaan"
 #define HUOMENNA_WORD "huomenna"
 #define ALUKSI_WORD "aluksi"
 #define MYOHEMMIN_WORD "myohemmin"
+#define TILAPAISESTI_WORD "tilapaisesti"
 
 #define SAA_ON_ENIMMAKSEEN_POUTAISTA_PHRASE "saa on enimmakseen poutaista"
 #define SAA_ON_POUTAINEN_PHRASE "saa on poutainen"
@@ -139,6 +142,7 @@ class Sentence;
 #define ILLASTA_ALKAEN_PHRASE "illasta alkaen"
 #define ILTAYOSTA_ALKAEN_PHRASE "iltayosta alkaen"
 #define KESKIYOSTA_ALKAEN_PHRASE "keskiyosta alkaen"
+#define KESKIPAIVASTA_ALKAEN_PHRASE "keskipaivasta alkaen"
 #define AAMUYOSTA_ALKAEN_PHRASE "aamuyosta alkaen"
 #define AAMUUN_ASTI_PHRASE "aamuun asti"
 #define AAMUPAIVAAN_ASTI_PHRASE "aamupaivaan asti"
@@ -146,6 +150,7 @@ class Sentence;
 #define ILTAAN_ASTI_PHRASE "iltaan asti"
 #define ILTAYOHON_ASTI_PHRASE "iltayohon asti"
 #define KESKIYOHON_ASTI_PHRASE "keskiyohon asti"
+#define KESKIPAIVAAN_ASTI_PHRASE "keskipaivaan asti"
 #define AAMUYOHON_ASTI_PHRASE "aamuyohon asti"
 
 #define AAMULLA_JA_AAMUPAIVALLA_PHRASE "aamulla ja aamupaivalla"
@@ -154,6 +159,10 @@ class Sentence;
 #define ILTAYOLLA_JA_KESKIYOLLA_PHRASE "iltayolla ja keskiyolla"
 #define KESKIYOLLA_JA_AAMUYOLLA_PHRASE "keskiyolla ja aamuyolla"
 #define AAMUYOLLA_JA_AAMULLA_PHRASE "aamuyolla ja aamulla"
+#define YOLLA_JA_AAMULLA_PHRASE "yolla ja aamulla"
+#define AAMULLA_JA_PAIVALLA_PHRASE "aamulla ja paivalla"
+#define PAIVALLA_JA_ILLALLA_PHRASE "paivalla ja illalla"
+#define ILLALLA_JA_YOLLA_PHRASE "illalla ja yolla"
 
 #define POHJOISESTA_ALKAEN_PHRASE "pohjoisesta alkaen"
 #define ETELASTA_ALKAEN_PHRASE "etelasta alkaen"
@@ -163,6 +172,9 @@ class Sentence;
 #define KAAKOSTA_ALKAEN_PHRASE "kaakosta alkaen"
 #define LOUNAASTA_ALKAEN_PHRASE "lounaasta alkaen"
 #define LUOTEESTA_ALKAEN_PHRASE "luoteesta alkaen"
+#define HYVA_NAKYVYYS_PHRASE "hyva nakyvyys"
+#define ENIMMAKSEEN_HYVA_NAKYVYYS_PHRASE "enimmakseen hyva nakyvyys"
+#define MUUTEN_HYVA_NAKYVYYS_PHRASE "muuten hyva nakyvyys"
 
 #define SADEALUE_WORD "sadealue"
 #define SAAPUU_WORD "saapuu"
@@ -385,6 +397,7 @@ enum part_of_the_day_id
 {
   AAMU,               // 06-09
   AAMUPAIVA,          // 09-12
+  KESKIPAIVA,         // 12
   ILTAPAIVA,          // 12-18
   ILTA,               // 17-22
   ILTAYO,             // 21-24
@@ -552,6 +565,12 @@ struct wf_story_params
   float theAlmostClearSkyUpperLimit;
   float thePartlyCloudySkyUpperLimit;
   float theMostlyCloudySkyUpperLimit;
+  float theThuderNormalExtentMin;
+  float theThuderNormalExtentMax;
+  float theThunderSmallProbabilityMin;
+  float theThunderSmallProbabilityMax;
+  float theThunderNormalProbabilityMin;
+  float theThunderNormalProbabilityMax;
   weather_forecast_data_container theCompleteData;
   cloudiness_data_container theCloudinessData;
   precipitation_data_container thePrecipitationData;
@@ -705,6 +724,10 @@ split_method check_area_splitting(const std::string& theVar,
                                   MessageLogger& theLog);
 bool fit_into_narrow_day_part(const WeatherPeriod& thePeriod);
 bool fit_into_large_day_part(const WeatherPeriod& thePeriod);
+// std::ostream& operator<<(std::ostream& theOutput, const WeatherPeriod& period);
+std::string as_string(const WeatherPeriod& period);
+std::string as_string(const GlyphContainer& gc);
+std::string as_string(const WeatherResult& wr);
 
 struct WeatherResultDataItem
 {

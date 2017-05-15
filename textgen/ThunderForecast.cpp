@@ -5,39 +5,39 @@
  */
 // ======================================================================
 
-#include "WeatherStory.h"
-#include "CloudinessStory.h"
-#include "CloudinessStoryTools.h"
-#include "Delimiter.h"
+#include "ThunderForecast.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
-#include "MessageLogger.h"
-#include "Paragraph.h"
-#include "NightAndDayPeriodGenerator.h"
-#include "PeriodPhraseFactory.h"
-#include "PrecipitationPeriodTools.h"
-#include "PrecipitationStoryTools.h"
+#include <calculator/MathTools.h>
+#include <calculator/NullPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
-#include "ValueAcceptor.h"
-#include "Sentence.h"
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/TimeTools.h>
-#include <calculator/WeatherResult.h>
-#include "WeekdayTools.h"
-#include <calculator/NullPeriodGenerator.h>
 #include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherResult.h>
 #include "AreaTools.h"
-#include <calculator/MathTools.h>
+#include "CloudinessStory.h"
+#include "CloudinessStoryTools.h"
+#include "Delimiter.h"
+#include "MessageLogger.h"
+#include "NightAndDayPeriodGenerator.h"
+#include "Paragraph.h"
+#include "PeriodPhraseFactory.h"
+#include "PrecipitationPeriodTools.h"
+#include "PrecipitationStoryTools.h"
 #include "SeasonTools.h"
+#include "Sentence.h"
 #include "SubMaskExtractor.h"
-#include "ThunderForecast.h"
+#include "ValueAcceptor.h"
+#include "WeatherStory.h"
+#include "WeekdayTools.h"
 
 #include <newbase/NFmiCombinedParam.h>
 
 #include <boost/lexical_cast.hpp>
-#include <vector>
 #include <map>
+#include <vector>
 
 namespace TextGen
 {
@@ -124,8 +124,7 @@ Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
     float maxThunderExtent(0.0);
 
     // 5% in summer,10% other seasons
-    float thunderExtentLowerLimit =
-        SeasonTools::isSummer(thePeriod.localStartTime(), theVariable) ? 5.0 : 10.0;
+    //   float thunderExtentLowerLimit = theParameters.theThuderNormalExtentMin;
 
     maxThunderProbability = getMaxValue(thePeriod, *thunderProbabilityData);
     maxThunderExtent = getMaxValue(thePeriod, *thunderExtentData);
@@ -138,37 +137,42 @@ Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
       theParameters.theLog << "Thunder extent (max): " << maxThunderExtent << endl;
     }
 
-    if (maxThunderExtent >= thunderExtentLowerLimit && maxThunderExtent < 30.0)
+    if (maxThunderExtent >= theParameters.theThuderNormalExtentMin &&
+        maxThunderExtent < theParameters.theThuderNormalExtentMax)
     {
-      if (maxThunderProbability >= 5.0 && maxThunderProbability < 25.0)
+      if (maxThunderProbability >= theParameters.theThunderSmallProbabilityMin &&
+          maxThunderProbability < theParameters.theThunderSmallProbabilityMax)
       {
         sentence << Delimiter(",");
         sentence << PAIKOIN_VOI_MYOS_UKKOSTAA_PHRASE;
       }
-      else if (maxThunderProbability >= 25.0 && maxThunderProbability < 55.0)
+      else if (maxThunderProbability >= theParameters.theThunderNormalProbabilityMin &&
+               maxThunderProbability < theParameters.theThunderNormalProbabilityMax)
       {
         sentence << Delimiter(",");
         sentence << PAIKOIN_MYOS_UKKOSTAA_PHRASE;
       }
-      else if (maxThunderProbability >= 55)
+      else if (maxThunderProbability >= theParameters.theThunderNormalProbabilityMax)
       {
         sentence << JA_WORD;
         sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;
       }
     }
-    else if (maxThunderExtent >= 30)
+    else if (maxThunderExtent >= theParameters.theThuderNormalExtentMax)
     {
-      if (maxThunderProbability >= 5.0 && maxThunderProbability < 25.0)
+      if (maxThunderProbability >= theParameters.theThunderSmallProbabilityMin &&
+          maxThunderProbability < theParameters.theThunderSmallProbabilityMax)
       {
         sentence << Delimiter(",");
         sentence << MAHDOLLISESTI_MYOS_UKKOSTAA_PHRASE;
       }
-      else if (maxThunderProbability >= 25.0 && maxThunderProbability < 55.0)
+      else if (maxThunderProbability >= theParameters.theThunderNormalProbabilityMin &&
+               maxThunderProbability < theParameters.theThunderNormalProbabilityMax)
       {
         sentence << Delimiter(",");
         sentence << MYOS_UKKOSTA_ESIINTYY_PHRASE;
       }
-      else if (maxThunderProbability >= 55)
+      else if (maxThunderProbability >= theParameters.theThunderNormalProbabilityMax)
       {
         sentence << JA_WORD;
         sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;

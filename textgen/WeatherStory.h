@@ -8,8 +8,8 @@
 #ifndef TEXTGEN_WEATHERSTORY_H
 #define TEXTGEN_WEATHERSTORY_H
 
-#include "Story.h"
 #include <string>
+#include "Story.h"
 
 namespace TextGen
 {
@@ -40,6 +40,7 @@ class WeatherStory : public Story
  private:
   Paragraph overview() const;
   Paragraph forecast() const;
+  Paragraph forecast_at_sea() const;
   Paragraph shortoverview() const;
   Paragraph thunderprobability() const;
   Paragraph thunderprobability_simplified() const;

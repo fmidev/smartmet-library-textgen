@@ -5,35 +5,35 @@
  */
 // ======================================================================
 
-#include "WeatherStory.h"
-#include "CloudinessStory.h"
-#include "CloudinessStoryTools.h"
-#include "Delimiter.h"
+#include "PrecipitationForecast.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
-#include "MessageLogger.h"
-#include "Paragraph.h"
-#include "NightAndDayPeriodGenerator.h"
-#include "PeriodPhraseFactory.h"
-#include "PrecipitationStoryTools.h"
+#include <calculator/MathTools.h>
+#include <calculator/NullPeriodGenerator.h>
 #include <calculator/RangeAcceptor.h>
-#include "ValueAcceptor.h"
-#include "Sentence.h"
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/TimeTools.h>
-#include <calculator/WeatherResult.h>
-#include "WeekdayTools.h"
-#include <calculator/NullPeriodGenerator.h>
 #include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherResult.h>
 #include "AreaTools.h"
-#include <calculator/MathTools.h>
-#include "SeasonTools.h"
-#include "SubMaskExtractor.h"
-#include "PrecipitationForecast.h"
 #include "CloudinessForecast.h"
-#include "ThunderForecast.h"
+#include "CloudinessStory.h"
+#include "CloudinessStoryTools.h"
 #include "DebugTextFormatter.h"
+#include "Delimiter.h"
+#include "MessageLogger.h"
+#include "NightAndDayPeriodGenerator.h"
+#include "Paragraph.h"
+#include "PeriodPhraseFactory.h"
+#include "PrecipitationStoryTools.h"
+#include "SeasonTools.h"
+#include "Sentence.h"
+#include "SubMaskExtractor.h"
+#include "ThunderForecast.h"
+#include "ValueAcceptor.h"
+#include "WeatherStory.h"
+#include "WeekdayTools.h"
 
 #include <newbase/NFmiMercatorArea.h>
 
@@ -41,9 +41,9 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/thread.hpp>
 
-#include <vector>
-#include <map>
 #include <iomanip>
+#include <map>
+#include <vector>
 
 namespace TextGen
 {
@@ -422,7 +422,7 @@ bool get_period_start_end_index(const WeatherPeriod& thePeriod,
 }
 
 weather_result_data_item_vector* get_data_vector(wf_story_params& theParameters,
-                                                 const weather_result_data_id& theDataId)
+                                                 weather_result_data_id theDataId)
 {
   weather_result_data_item_vector* retval = 0;
 
@@ -465,11 +465,12 @@ bool get_period_start_end_index(const WeatherPeriod& thePeriod,
   return startFound;
 }
 
-void can_be_freezing_phrase(const bool& theCanBeFreezingFlag,
+void can_be_freezing_phrase(bool theUseIcingPhraseFlag,
+                            bool theCanBeFreezingFlag,
                             map<string, Sentence>& theCompositePhraseElements,
                             bool thePluralFlag)
 {
-  if (theCanBeFreezingFlag)
+  if (theUseIcingPhraseFlag && theCanBeFreezingFlag)
   {
     if (thePluralFlag)
     {
@@ -483,9 +484,9 @@ void can_be_freezing_phrase(const bool& theCanBeFreezingFlag,
 }
 
 bool is_dry_weather(const wf_story_params& theParameters,
-                    const precipitation_form_id& thePrecipitationForm,
-                    const float& thePrecipitationIntensity,
-                    const float& thePrecipitationExtent)
+                    precipitation_form_id thePrecipitationForm,
+                    float thePrecipitationIntensity,
+                    float thePrecipitationExtent)
 {
   if (thePrecipitationExtent == 0.0 || thePrecipitationExtent == kFloatMissing ||
       thePrecipitationIntensity == kFloatMissing)
@@ -559,20 +560,25 @@ bool is_dry_weather(const wf_story_params& theParameters,
 }
 
 void PrecipitationForecast::waterAndSnowShowersPhrase(
-    const float& thePrecipitationIntensity,
-    const float thePrecipitationIntensityAbsoluteMax,
-    const float& theWaterDrizzleSleetShare,
-    const bool& theCanBeFreezingFlag,
+    float thePrecipitationIntensity,
+    float thePrecipitationIntensityAbsoluteMax,
+    float theWaterDrizzleSleetShare,
+    bool theCanBeFreezingFlag,
     map<string, Sentence>& theCompositePhraseElements) const
 {
   // when showers, dont use sleet, use water and snow instead (Sari Hartonen)
   // and if there is no heavy rain
+  /*
+        // Annakaisa 8.5.2017: Olisiko mahdollista poistaa kuuro-tyypin kanssa sana heikko? Kuurot
+  ovat usein pienialaisia tai niitä on vähän, mutta jos kohdalle sattuu, niin kastuu varmasti.
   if (thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow &&
       thePrecipitationIntensityAbsoluteMax < theParameters.theHeavyPrecipitationLimitSnow)
   {
     theCompositePhraseElements[INTENSITY_PARAMETER] << HEIKKOJA_WORD;
   }
-  else if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
+  else
+  */
+  if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
   {
     theCompositePhraseElements[INTENSITY_PARAMETER] << RUNSAITA_WORD;
   }
@@ -583,7 +589,8 @@ void PrecipitationForecast::waterAndSnowShowersPhrase(
 
   if (theCanBeFreezingFlag)
   {
-    can_be_freezing_phrase(theCanBeFreezingFlag, theCompositePhraseElements, true);
+    can_be_freezing_phrase(
+        theUseIcingPhraseFlag, theCanBeFreezingFlag, theCompositePhraseElements, true);
 
     theCompositePhraseElements[PRECIPITATION_PARAMETER] << LUMI_TAI_VESIKUUROJA_PHRASE;
   }
@@ -601,7 +608,7 @@ void PrecipitationForecast::waterAndSnowShowersPhrase(
 }
 
 void PrecipitationForecast::mostlyDryWeatherPhrase(
-    const bool& theIsShowersFlag,
+    bool theIsShowersFlag,
     const WeatherPeriod& thePeriod,
     const char* thePhrase,
     map<string, Sentence>& theCompositePhraseElements) const
@@ -652,8 +659,8 @@ void PrecipitationForecast::mostlyDryWeatherPhrase(
 
 void PrecipitationForecast::getTransformationPhraseElements(
     const WeatherPeriod& thePeriod,
-    const float& thePrecipitationExtent,
-    const precipitation_form_transformation_id& theTransformId,
+    float thePrecipitationExtent,
+    precipitation_form_transformation_id theTransformId,
     map<string, Sentence>& theCompositePhraseElements) const
 {
   const bool in_some_places = thePrecipitationExtent > theParameters.theInSomePlacesLowerLimit &&
@@ -745,16 +752,16 @@ void PrecipitationForecast::getTransformationPhraseElements(
 
 void PrecipitationForecast::getPrecipitationPhraseElements(
     const WeatherPeriod& thePeriod,
-    const precipitation_form_id& thePrecipitationForm,
-    const float& thePrecipitationIntensity,
-    const float thePrecipitationIntensityAbsoluteMax,
-    const float& thePrecipitationExtent,
-    const float& thePrecipitationFormWater,
-    const float& thePrecipitationFormDrizzle,
-    const float& thePrecipitationFormSleet,
-    const float& thePrecipitationFormSnow,
-    const float& thePrecipitationFormFreezing,
-    const precipitation_type& thePrecipitationType,
+    precipitation_form_id thePrecipitationForm,
+    float thePrecipitationIntensity,
+    float thePrecipitationIntensityAbsoluteMax,
+    float thePrecipitationExtent,
+    float thePrecipitationFormWater,
+    float thePrecipitationFormDrizzle,
+    float thePrecipitationFormSleet,
+    float thePrecipitationFormSnow,
+    float thePrecipitationFormFreezing,
+    precipitation_type thePrecipitationType,
     const TextGenPosixTime& theTypeChangeTime,
     map<string, Sentence>& theCompositePhraseElements) const
 {
@@ -850,7 +857,8 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
                     << (use_summer_phrase ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
                 theCheckHeavyIntensityFlag = SHOWERS;
               }
-              can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, true);
+              can_be_freezing_phrase(
+                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, true);
             }
             else
             {
@@ -873,7 +881,8 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
                 theCheckHeavyIntensityFlag = CONTINUOUS;
               }
 
-              can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
+              can_be_freezing_phrase(
+                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, false);
             }
             theDryPeriodTautologyFlag = false;
           }
@@ -1029,13 +1038,15 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
                   << (use_summer_phrase ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
               theCheckHeavyIntensityFlag = SHOWERS;
 
-              can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, true);
+              can_be_freezing_phrase(
+                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, true);
             }
             else
             {
               theCompositePhraseElements[PRECIPITATION_PARAMETER] << TIHKUSADETTA_WORD;
 
-              can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
+              can_be_freezing_phrase(
+                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, false);
             }
             theDryPeriodTautologyFlag = false;
           }
@@ -1071,7 +1082,8 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
                   << (use_summer_phrase ? SADEKUUROJA_WORD : VESIKUUROJA_WORD);
               theCheckHeavyIntensityFlag = SHOWERS;
 
-              can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, true);
+              can_be_freezing_phrase(
+                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, true);
             }
             else
             {
@@ -1085,7 +1097,8 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
                 theCompositePhraseElements[PRECIPITATION_PARAMETER] << TIHKUSADETTA_WORD;
               }
               theCheckHeavyIntensityFlag = CONTINUOUS;
-              can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
+              can_be_freezing_phrase(
+                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, false);
             }
             theDryPeriodTautologyFlag = false;
           }
@@ -1132,7 +1145,8 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
               }
 
               theCheckHeavyIntensityFlag = SHOWERS;
-              can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, true);
+              can_be_freezing_phrase(
+                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, true);
             }
             else
             {
@@ -1146,7 +1160,8 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
                 theCompositePhraseElements[PRECIPITATION_PARAMETER] << RANTA_TAI_VESISADETTA_PHRASE;
                 theCheckHeavyIntensityFlag = CONTINUOUS;
               }
-              can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
+              can_be_freezing_phrase(
+                  theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, false);
             }
             theDryPeriodTautologyFlag = false;
           }
@@ -1220,7 +1235,8 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
               {
                 theCompositePhraseElements[PRECIPITATION_PARAMETER] << LUMI_TAI_VESISADETTA_PHRASE;
 
-                can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
+                can_be_freezing_phrase(
+                    theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, false);
               }
             }
             theDryPeriodTautologyFlag = false;
@@ -1281,7 +1297,8 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
               {
                 theCompositePhraseElements[PRECIPITATION_PARAMETER] << LUMI_TAI_RANTASADETTA_PHRASE;
 
-                can_be_freezing_phrase(can_be_freezing, theCompositePhraseElements, false);
+                can_be_freezing_phrase(
+                    theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, false);
               }
               else
               {
@@ -1306,18 +1323,18 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
 
 void PrecipitationForecast::selectPrecipitationSentence(
     const WeatherPeriod& thePeriod,
-    const precipitation_form_id& thePrecipitationForm,
-    const float thePrecipitationIntensity,
-    const float thePrecipitationAbsoluteMax,
-    const float thePrecipitationExtent,
-    const float thePrecipitationFormWater,
-    const float thePrecipitationFormDrizzle,
-    const float thePrecipitationFormSleet,
-    const float thePrecipitationFormSnow,
-    const float thePrecipitationFormFreezing,
-    const precipitation_type& thePrecipitationType,
+    precipitation_form_id thePrecipitationForm,
+    float thePrecipitationIntensity,
+    float thePrecipitationAbsoluteMax,
+    float thePrecipitationExtent,
+    float thePrecipitationFormWater,
+    float thePrecipitationFormDrizzle,
+    float thePrecipitationFormSleet,
+    float thePrecipitationFormSnow,
+    float thePrecipitationFormFreezing,
+    precipitation_type thePrecipitationType,
     const TextGenPosixTime& theTypeChangeTime,
-    const precipitation_form_transformation_id& theTransformationId,
+    precipitation_form_transformation_id theTransformationId,
     map<string, Sentence>& theCompositePhraseElements) const
 {
   if (theTransformationId == NO_FORM_TRANSFORMATION)
@@ -1529,9 +1546,9 @@ bool PrecipitationForecast::isDryPeriod(const WeatherPeriod& theWeatherPeriod,
 }
 
 float PrecipitationForecast::getStat(const precipitation_data_vector& theData,
-                                     const weather_result_data_id& theDataId,
+                                     weather_result_data_id theDataId,
                                      const WeatherPeriod& theWeatherPeriod,
-                                     const stat_func_id& theStatFunc) const
+                                     stat_func_id theStatFunc) const
 {
   float cumulativeSum = 0.0;
   float minValue = 0.0;
@@ -1678,21 +1695,21 @@ float PrecipitationForecast::getStat(const precipitation_data_vector& theData,
 }
 
 float PrecipitationForecast::getMin(const precipitation_data_vector& theData,
-                                    const weather_result_data_id& theDataId,
+                                    weather_result_data_id theDataId,
                                     const WeatherPeriod& theWeatherPeriod) const
 {
   return getStat(theData, theDataId, theWeatherPeriod, MIN);
 }
 
 float PrecipitationForecast::getMax(const precipitation_data_vector& theData,
-                                    const weather_result_data_id& theDataId,
+                                    weather_result_data_id theDataId,
                                     const WeatherPeriod& theWeatherPeriod) const
 {
   return getStat(theData, theDataId, theWeatherPeriod, MAX);
 }
 
 float PrecipitationForecast::getMean(const precipitation_data_vector& theData,
-                                     const weather_result_data_id& theDataId,
+                                     weather_result_data_id theDataId,
                                      const WeatherPeriod& theWeatherPeriod) const
 {
   return getStat(theData, theDataId, theWeatherPeriod, MEAN);
@@ -1797,8 +1814,8 @@ precipitation_form_id PrecipitationForecast::getPrecipitationForm(
                                          precipitationFormFreezing);
 }
 
-unsigned int PrecipitationForecast::getPrecipitationCategory(const float& thePrecipitation,
-                                                             const unsigned int& theType) const
+unsigned int PrecipitationForecast::getPrecipitationCategory(float thePrecipitation,
+                                                             unsigned int theType) const
 {
   unsigned int retval(DRY_WEATHER_CATEGORY);
 
@@ -1866,8 +1883,8 @@ unsigned int PrecipitationForecast::getPrecipitationCategory(const float& thePre
 }
 
 // this should be more detailed
-bool PrecipitationForecast::reportPrecipitationFormsSeparately(
-    const precipitation_form_id& form1, const precipitation_form_id& form2) const
+bool PrecipitationForecast::reportPrecipitationFormsSeparately(precipitation_form_id form1,
+                                                               precipitation_form_id form2) const
 {
   if ((form1 == WATER_FORM &&
        (form2 == SLEET_FORM || form2 == SNOW_FORM || form2 == FREEZING_FORM)) ||
@@ -1976,7 +1993,7 @@ void PrecipitationForecast::gatherPrecipitationData()
     fillInPrecipitationDataVector(FULL_AREA);
 }
 
-void PrecipitationForecast::fillInPrecipitationDataVector(const forecast_area_id& theAreaId)
+void PrecipitationForecast::fillInPrecipitationDataVector(forecast_area_id theAreaId)
 {
   weather_result_data_item_vector* precipitationMaxHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_MAX_DATA];
@@ -2103,7 +2120,7 @@ void PrecipitationForecast::joinPrecipitationPeriods(
   }
 }
 
-void PrecipitationForecast::findOutPrecipitationPeriods(const forecast_area_id& theAreaId)
+void PrecipitationForecast::findOutPrecipitationPeriods(forecast_area_id theAreaId)
 {
   precipitation_data_vector* dataSourceVector = 0;
   vector<WeatherPeriod>* dataDestinationVector = 0;
@@ -2391,7 +2408,7 @@ void PrecipitationForecast::printOutPrecipitationWeatherEvents(std::ostream& the
 }
 
 void PrecipitationForecast::printOutPrecipitationPeriods(std::ostream& theOutput,
-                                                         const bool& isPoint) const
+                                                         bool isPoint) const
 {
   theOutput << "** PRECIPITATION PERIODS **" << endl;
   bool found = false;
@@ -2421,7 +2438,7 @@ bool PrecipitationForecast::printOutPrecipitationPeriods(
     std::ostream& theOutput,
     const vector<WeatherPeriod>& thePrecipitationPeriods,
     const precipitation_data_vector& theDataVector,
-    const bool& isPoint) const
+    bool isPoint) const
 {
   bool retval = false;
 
@@ -2530,7 +2547,7 @@ bool PrecipitationForecast::getPrecipitationPeriod(const TextGenPosixTime& theTi
   return false;
 }
 Sentence PrecipitationForecast::precipitationPoutaantuuAndCloudiness(
-    const Sentence& thePeriodPhrase, const cloudiness_id& theCloudinessId) const
+    const Sentence& thePeriodPhrase, cloudiness_id theCloudinessId) const
 {
   Sentence sentence;
 
@@ -2677,7 +2694,7 @@ Sentence PrecipitationForecast::precipitationPoutaantuuAndCloudiness(
 Sentence PrecipitationForecast::precipitationChangeSentence(
     const WeatherPeriod& thePeriod,
     const Sentence& thePeriodPhrase,
-    const weather_event_id& theWeatherEvent,
+    weather_event_id theWeatherEvent,
     std::vector<Sentence>& theAdditionalSentences) const
 {
   Sentence sentence;
@@ -3715,7 +3732,7 @@ yksittaiset lumi- tai rantakuurot mahdollisia"
 Sentence PrecipitationForecast::constructPrecipitationSentence(
     const WeatherPeriod& thePeriod,
     const Sentence& thePeriodPhrase,
-    const unsigned short& theForecastAreaId,
+    unsigned short theForecastAreaId,
     const std::string& theAreaPhrase,
     std::vector<Sentence>& theAdditionalSentences) const
 {
@@ -3960,8 +3977,8 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
   return sentence;
 }
 
-string PrecipitationForecast::getTimePhrase(const part_of_the_day_id& thePartOfTheDayId,
-                                            const time_phrase_format& theTimePhraseFormat) const
+string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId,
+                                            time_phrase_format theTimePhraseFormat) const
 {
   switch (thePartOfTheDayId)
   {
@@ -3985,6 +4002,7 @@ string PrecipitationForecast::getTimePhrase(const part_of_the_day_id& thePartOfT
         return AAMUPAIVALLA_WORD;
       break;
     }
+    case KESKIPAIVA:
     case ILTAPAIVA:
     {
       if (theTimePhraseFormat == FROM_FORMAT)
@@ -4239,8 +4257,8 @@ void PrecipitationForecast::getWeatherEventIdVector(
 }
 
 Rect PrecipitationForecast::getPrecipitationRect(const TextGenPosixTime& theTimestamp,
-                                                 const float& theLowerLimit,
-                                                 const float& theUpperLimit) const
+                                                 float theLowerLimit,
+                                                 float theUpperLimit) const
 {
   NFmiIndexMask indexMask;
   RangeAcceptor precipitationlimits;
@@ -4534,7 +4552,8 @@ PrecipitationForecast::PrecipitationForecast(wf_story_params& parameters)
       theDryPeriodTautologyFlag(false),
       theSinglePrecipitationFormFlag(true),
       thePrecipitationFormBeforeDryPeriod(MISSING_PRECIPITATION_FORM),
-      theCheckHeavyIntensityFlag(MISSING_PRECIPITATION_TYPE)
+      theCheckHeavyIntensityFlag(MISSING_PRECIPITATION_TYPE),
+      theUseIcingPhraseFlag(true)
 {
   gatherPrecipitationData();
   findOutPrecipitationPeriods();
@@ -4548,7 +4567,7 @@ PrecipitationForecast::~PrecipitationForecast()
   theFullData.clear();
 }
 
-bool PrecipitationForecast::singleForm(const precipitation_form_id& thePrecipitationForm)
+bool PrecipitationForecast::singleForm(precipitation_form_id thePrecipitationForm)
 {
   return thePrecipitationForm == WATER_FORM || thePrecipitationForm == WATER_FREEZING_FORM ||
          thePrecipitationForm == DRIZZLE_FORM || thePrecipitationForm == DRIZZLE_FREEZING_FORM ||
@@ -4607,7 +4626,7 @@ precipitation_form_id PrecipitationForecast::getPoutaantuuPrecipitationForm() co
 }
 
 Sentence PrecipitationForecast::getThunderSentence(const WeatherPeriod& thePeriod,
-                                                   const unsigned short& theForecastAreaId,
+                                                   unsigned short theForecastAreaId,
                                                    const string& theVariable) const
 {
   Sentence thunderSentence;
@@ -4628,7 +4647,7 @@ Sentence PrecipitationForecast::getThunderSentence(const WeatherPeriod& thePerio
 }
 
 bool PrecipitationForecast::thunderExists(const WeatherPeriod& thePeriod,
-                                          const unsigned short& theForecastAreaId,
+                                          unsigned short theForecastAreaId,
                                           const string& theVariable) const
 {
   Sentence thunderSentence;
