@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_GLYPHCONTAINER_H
-#define TEXTGEN_GLYPHCONTAINER_H
+#pragma once
 
 #include "Glyph.h"
 #include <list>
@@ -55,7 +54,5 @@ class GlyphContainer : public Glyph
 
 };  // class GlyphContainer
 }  // namespace TextGen
-
-#endif  // TEXTGEN_GLYPHCONTAINER_H
 
 // ======================================================================

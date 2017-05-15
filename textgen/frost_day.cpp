@@ -5,20 +5,20 @@
  */
 // ======================================================================
 
+#include "Delimiter.h"
 #include "FrostStory.h"
 #include "FrostStoryTools.h"
-#include "Delimiter.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
 #include "Integer.h"
-#include <calculator/MathTools.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "Sentence.h"
+#include "UnitFactory.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/MathTools.h>
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
-#include "UnitFactory.h"
 #include <calculator/WeatherResult.h>
 
 using namespace std;

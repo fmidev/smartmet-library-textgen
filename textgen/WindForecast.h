@@ -1,5 +1,4 @@
-#ifndef TEXTGEN_WIND_FORECAST_H
-#define TEXTGEN_WIND_FORECAST_H
+#pragma once
 
 #include "Paragraph.h"
 #include "WeatherForecast.h"
@@ -207,5 +206,3 @@ class WindForecast
 };
 
 }  // namespace TextGen
-
-#endif  // TEXTGEN_WIND_FORECAST_H

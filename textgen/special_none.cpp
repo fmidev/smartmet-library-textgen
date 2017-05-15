@@ -5,9 +5,9 @@
  */
 // ======================================================================
 
-#include "SpecialStory.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
+#include "SpecialStory.h"
 
 using namespace TextGen;
 using namespace std;

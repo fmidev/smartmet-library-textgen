@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_PRECIPITATIONPERIODTOOLS_H
-#define TEXTGEN_PRECIPITATIONPERIODTOOLS_H
+#pragma once
 
 #include <list>
 #include <string>
@@ -52,7 +51,5 @@ RainPeriods mergeLargeRainPeriods(const RainPeriods& thePeriods, const std::stri
 
 }  // namespace PrecipitationPeriodTools
 }  // namespace TextGen
-
-#endif  // TEXTGEN_PRECIPITATIONPERIODTOOLS_H
 
 // ======================================================================

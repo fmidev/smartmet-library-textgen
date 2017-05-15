@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_ANDACCEPTOR_H
-#define TEXTGEN_ANDACCEPTOR_H
+#pragma once
 
 #include <calculator/Acceptor.h>
 #include <functional>
@@ -34,7 +33,5 @@ class AndAcceptor : public Acceptor
 
 };  // class AndAcceptor
 }  // namespace TextGen
-
-#endif  // TEXTGEN_ANDACCEPTOR_H
 
 // ======================================================================

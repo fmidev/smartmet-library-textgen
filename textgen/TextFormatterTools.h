@@ -5,15 +5,14 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TEXTFORMATTERTOOLS_H
-#define TEXTGEN_TEXTFORMATTERTOOLS_H
+#pragma once
 
 #include "TextFormatter.h"
-#include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/find.hpp>
 #include <boost/algorithm/string/replace.hpp>
-#include <string>
+#include <boost/lexical_cast.hpp>
 #include <iostream>
+#include <string>
 
 class TextGenPosixTime;
 
@@ -115,6 +114,3 @@ const std::string realize(Iterator it,
 }  // namespace TextFormatterTools
 
 }  // namespace TextGen
-
-#endif  // TEXTGEN_TEXTFORMATTERTOOLS_H
-// =====================================================================

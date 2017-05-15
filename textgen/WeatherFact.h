@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_WEATHERFACT_H
-#define TEXTGEN_WEATHERFACT_H
+#pragma once
 
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherFunction.h>
@@ -53,7 +52,5 @@ class WeatherFact
 bool operator==(const TextGen::WeatherFact& theLhs, const TextGen::WeatherFact& theRhs);
 
 bool operator!=(const TextGen::WeatherFact& theLhs, const TextGen::WeatherFact& theRhs);
-
-#endif  // TEXTGEN_WEATHERFACT_H
 
 // ======================================================================

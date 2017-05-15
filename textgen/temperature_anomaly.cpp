@@ -10,38 +10,38 @@
 #include "ClimatologyTools.h"
 #include "GridClimatology.h"
 
-#include <calculator/DefaultAcceptor.h>
+#include "AreaTools.h"
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
 #include "Integer.h"
-#include <calculator/MathTools.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
-#include "Sentence.h"
-#include <calculator/Settings.h>
-#include "TemperatureStoryTools.h"
-#include "AreaTools.h"
-#include <calculator/TextGenError.h>
-#include "UnitFactory.h"
-#include <calculator/WeatherPeriodTools.h>
-#include "SeasonTools.h"
-#include <calculator/WeatherResult.h>
 #include "PeriodPhraseFactory.h"
+#include "SeasonTools.h"
+#include "Sentence.h"
+#include "TemperatureStoryTools.h"
+#include "UnitFactory.h"
+#include <calculator/DefaultAcceptor.h>
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/MathTools.h>
 #include <calculator/RangeAcceptor.h>
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
+#include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherResult.h>
 
-#include <newbase/NFmiStringTools.h>
 #include <newbase/NFmiGrid.h>
-#include <newbase/NFmiQueryData.h>
 #include <newbase/NFmiIndexMask.h>
 #include <newbase/NFmiIndexMaskSource.h>
 #include <newbase/NFmiIndexMaskTools.h>
 #include <newbase/NFmiMetMath.h>
+#include <newbase/NFmiQueryData.h>
+#include <newbase/NFmiStringTools.h>
 
+#include "WeatherForecast.h"
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherSource.h>
-#include "WeatherForecast.h"
 #include <map>
 
 #include <boost/lexical_cast.hpp>
@@ -246,9 +246,9 @@ struct temperature_anomaly_params
                              const WeatherPeriod& day1Period,
                              const WeatherPeriod& day2Period,
                              const WeatherPeriod& dayAfterDay2Period,
-                             const forecast_season_id& season,
+                             forecast_season_id season,
                              const TextGenPosixTime& forecastTime,
-                             const short& periodLength)
+                             short periodLength)
       : theVariable(variable),
         theLog(log),
         theSources(sources),
@@ -289,9 +289,9 @@ struct temperature_anomaly_params
   const WeatherPeriod& theDay1Period;
   const WeatherPeriod& theDay2Period;
   const WeatherPeriod& theDayAfterDay2Period;
-  const forecast_season_id& theSeason;
+  forecast_season_id theSeason;
   const TextGenPosixTime& theForecastTime;
-  const short& thePeriodLength;
+  short thePeriodLength;
   anomaly_phrase_id theAnomalyPhrase;
   shortrun_trend_id theShortrunTrend;
   string theFakeVariable;
@@ -362,7 +362,7 @@ void log_daily_factiles_for_period(MessageLogger& theLog,
                                    const WeatherArea& theArea,
                                    const std::string& theLogMessage,
                                    const WeatherPeriod& thePeriod,
-                                   const fractile_type_id& theFractileType)
+                                   fractile_type_id theFractileType)
 {
   TextGenPosixTime startTime(thePeriod.localStartTime());
   TextGenPosixTime endTime(thePeriod.localStartTime());
@@ -410,10 +410,10 @@ void log_daily_factiles_for_period(MessageLogger& theLog,
 }
 
 const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
-                                            const float& fractile02Share,
-                                            const float& fractile12Share,
-                                            const float& fractile88Share,
-                                            const float& fractile98Share,
+                                            float fractile02Share,
+                                            float fractile12Share,
+                                            float fractile88Share,
+                                            float fractile98Share,
                                             const WeatherPeriod& thePeriod)
 {
   Sentence sentence;

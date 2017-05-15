@@ -1,5 +1,4 @@
-#ifndef TEXTGEN_FOG_FORECAST_H
-#define TEXTGEN_FOG_FORECAST_H
+#pragma once
 
 #include "PrecipitationForecast.h"
 #include "Sentence.h"
@@ -106,5 +105,3 @@ class FogForecast
   fog_type_period_vector theFullAreaFogType;
 };
 }  // namespace TextGen
-
-#endif  // TEXTGEN_FOG_FORECAST_H

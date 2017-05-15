@@ -8,13 +8,13 @@
 #include "CloudinessStory.h"
 #include "CloudinessStoryTools.h"
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
-#include <calculator/RangeAcceptor.h>
 #include "Sentence.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
 #include <calculator/WeatherResult.h>
 

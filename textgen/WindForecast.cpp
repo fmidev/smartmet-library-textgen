@@ -6,16 +6,7 @@
 // ======================================================================
 
 #include "WindForecast.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
-#include <calculator/MathTools.h>
-#include <calculator/NullPeriodGenerator.h>
-#include <calculator/RangeAcceptor.h>
-#include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
-#include <calculator/TimeTools.h>
-#include <calculator/WeatherPeriodTools.h>
-#include <calculator/WeatherResult.h>
+
 #include "AreaTools.h"
 #include "CloudinessStory.h"
 #include "CloudinessStoryTools.h"
@@ -33,14 +24,24 @@
 #include "WeatherStory.h"
 #include "WeekdayTools.h"
 #include "WindStoryTools.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/MathTools.h>
+#include <calculator/NullPeriodGenerator.h>
+#include <calculator/RangeAcceptor.h>
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
+#include <calculator/TimeTools.h>
+#include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherResult.h>
 
 #include <newbase/NFmiCombinedParam.h>
 #include <newbase/NFmiMercatorArea.h>
 
-#include <macgyver/String.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
+#include <macgyver/StringConversion.h>
 
 #include <cmath>
 #include <iomanip>

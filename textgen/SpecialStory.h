@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_SPECIALSTORY_H
-#define TEXTGEN_SPECIALSTORY_H
+#pragma once
 
 #include "Story.h"
 #include <string>
@@ -57,7 +56,5 @@ class SpecialStory : public Story
 
 };  // class SpecialStory
 }
-
-#endif  // TEXTGEN_SPECIALSTORY_H
 
 // ======================================================================

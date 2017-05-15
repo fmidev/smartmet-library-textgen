@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_BASICDICTIONARY_H
-#define TEXTGEN_BASICDICTIONARY_H
+#pragma once
 
 #include "Dictionary.h"
 
@@ -44,7 +43,5 @@ class BasicDictionary : public Dictionary
 };  // class BasicDictionary
 
 }  // namespace TextGen
-
-#endif  // TEXTGEN_BASICDICTIONARY_H
 
 // ======================================================================

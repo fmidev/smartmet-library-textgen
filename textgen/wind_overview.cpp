@@ -1,8 +1,3 @@
-#include <calculator/GridForecaster.h>
-#include <calculator/ParameterAnalyzer.h>
-#include <calculator/RangeAcceptor.h>
-#include <calculator/Settings.h>
-#include <calculator/WeatherResult.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PositiveValueAcceptor.h"
@@ -12,6 +7,11 @@
 #include "WindForecast.h"
 #include "WindStory.h"
 #include "WindStoryTools.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/ParameterAnalyzer.h>
+#include <calculator/RangeAcceptor.h>
+#include <calculator/Settings.h>
+#include <calculator/WeatherResult.h>
 
 #include <algorithm>
 #include <bitset>
@@ -19,10 +19,10 @@
 #include <fstream>
 #include <iomanip>
 
-#include <macgyver/String.h>
 #include <boost/date_time/gregorian/gregorian.hpp>    //include all types plus i/o
 #include <boost/date_time/posix_time/posix_time.hpp>  //include all types plus i/o
 #include <boost/foreach.hpp>
+#include <macgyver/StringConversion.h>
 
 using namespace boost;
 using namespace TextGen;
@@ -2512,6 +2512,7 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
           mergedEventPeriods.push_back(newDataItem1);
           mergedEventPeriods.push_back(newDataItem2);
           missingPeriodSplit = true;
+
           storyParams.theLog << "Missing wind speed event period " << as_string(p->thePeriod)
                              << " split into two:\n"
                              << as_string(newPeriod1) << " -> "

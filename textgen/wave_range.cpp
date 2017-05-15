@@ -5,18 +5,18 @@
  */
 // ======================================================================
 
-#include "WaveStory.h"
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/MathTools.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
-#include "Sentence.h"
 #include "Real.h"
 #include "RealRange.h"
+#include "Sentence.h"
+#include "UnitFactory.h"
+#include "WaveStory.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/MathTools.h>
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
-#include "UnitFactory.h"
 #include <calculator/WeatherResult.h>
 
 #include <boost/lexical_cast.hpp>

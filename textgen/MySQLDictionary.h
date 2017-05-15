@@ -5,8 +5,8 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_MYSQLDICTIONARY_H
-#define TEXTGEN_MYSQLDICTIONARY_H
+#pragma once
+#ifdef UNIX
 
 #include "Dictionary.h"
 #include <boost/shared_ptr.hpp>
@@ -42,7 +42,6 @@ class MySQLDictionary : public Dictionary
 };  // class MySQLDictionary
 
 }  // namespace TextGen
-
-#endif  // TEXTGEN_MYSQLDICTIONARY_H
+#endif  // UNIX
 
 // ======================================================================

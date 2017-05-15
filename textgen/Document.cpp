@@ -18,6 +18,8 @@
 #include "PlainTextFormatter.h"
 #include <calculator/TextGenError.h>
 
+#include <iterator>
+
 using namespace std;
 using namespace boost;
 

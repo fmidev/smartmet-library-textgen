@@ -1,8 +1,8 @@
-#include <regression/tframe.h>
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "Phrase.h"
 #include <calculator/Settings.h>
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 
@@ -17,7 +17,7 @@ using namespace boost;
 
 namespace HeaderPhrasesTest
 {
-shared_ptr<TextGen::Dictionary> dict;
+boost::shared_ptr<TextGen::Dictionary> dict;
 
 void require(const string& theKey, const string& theValue)
 {

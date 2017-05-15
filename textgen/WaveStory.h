@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_WAVESTORY_H
-#define TEXTGEN_WAVESTORY_H
+#pragma once
 
 #include "Story.h"
 #include <string>
@@ -52,7 +51,5 @@ class WaveStory : public Story
 
 };  // class WaveStory
 }
-
-#endif  // TEXTGEN_WAVESTORY_H
 
 // ======================================================================

@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TEMPERATURESTORY_H
-#define TEXTGEN_TEMPERATURESTORY_H
+#pragma once
 
 #include "Story.h"
 #include <string>
@@ -62,7 +61,5 @@ class TemperatureStory : public Story
 
 };  // class TemperatureStory
 }
-
-#endif  // TEXTGEN_TEMPERATURESTORY_H
 
 // ======================================================================

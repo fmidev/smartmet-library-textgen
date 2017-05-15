@@ -1,9 +1,8 @@
-#ifndef TEXTGEN_WEATHER_FORECAST_H
-#define TEXTGEN_WEATHER_FORECAST_H
+#pragma once
 
-#include <calculator/WeatherPeriod.h>
 #include "AreaTools.h"
 #include "MessageLogger.h"
+#include <calculator/WeatherPeriod.h>
 
 namespace TextGen
 {
@@ -973,5 +972,3 @@ struct PrecipitationDataItem
   }
 };
 }
-
-#endif  // TEXTGEN_WEATHER_FORECAST_H

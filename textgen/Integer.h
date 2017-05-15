@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_INTEGER_H
-#define TEXTGEN_INTEGER_H
+#pragma once
 
 #include "Glyph.h"
 #include <string>
@@ -40,7 +39,5 @@ class Integer : public Glyph
 
 };  // class Integer
 }  // namespace Integer
-
-#endif  // TEXTGEN_INTEGER_H
 
 // ======================================================================

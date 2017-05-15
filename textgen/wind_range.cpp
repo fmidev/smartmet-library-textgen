@@ -5,16 +5,16 @@
  */
 // ======================================================================
 
-#include "WindStory.h"
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "Sentence.h"
+#include "WindStory.h"
+#include "WindStoryTools.h"
+#include <calculator/GridForecaster.h>
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
-#include "WindStoryTools.h"
 
 #include <boost/lexical_cast.hpp>
 

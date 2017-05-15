@@ -5,14 +5,13 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_DICTIONARY_H
-#define TEXTGEN_DICTIONARY_H
+#pragma once
 
 #include <calculator/TextGenError.h>
-#include <map>
-#include <string>
 #include <iostream>
+#include <map>
 #include <sstream>
+#include <string>
 
 namespace TextGen
 {
@@ -63,7 +62,5 @@ class Dictionary
 };  // class Dictionary
 
 }  // namespace TextGen
-
-#endif  // TEXTGEN_DICTIONARY_H
 
 // ======================================================================

@@ -1,12 +1,12 @@
-#include <regression/tframe.h>
 #include "Dictionary.h"
 #include "DictionaryFactory.h"
 #include "Header.h"
 #include "HeaderFactory.h"
 #include "PlainTextFormatter.h"
+#include <calculator/Settings.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
-#include <calculator/Settings.h>
+#include <regression/tframe.h>
 
 #include <newbase/NFmiSettings.h>
 
@@ -21,7 +21,7 @@ using namespace boost;
 
 namespace HeaderFactoryTest
 {
-shared_ptr<TextGen::Dictionary> dict;
+boost::shared_ptr<TextGen::Dictionary> dict;
 TextGen::PlainTextFormatter formatter;
 
 string require(const string& theLanguage,

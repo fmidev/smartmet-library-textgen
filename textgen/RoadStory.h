@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_ROADSTORY_H
-#define TEXTGEN_ROADSTORY_H
+#pragma once
 
 #include "Story.h"
 #include <string>
@@ -57,7 +56,5 @@ class RoadStory : public Story
 
 };  // class RoadStory
 }
-
-#endif  // TEXTGEN_ROADSTORY_H
 
 // ======================================================================

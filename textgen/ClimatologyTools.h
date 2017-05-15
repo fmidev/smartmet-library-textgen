@@ -5,11 +5,10 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_CLIMATOLOGYTOOLS_H
-#define TEXTGEN_CLIMATOLOGYTOOLS_H
+#pragma once
 
-#include <calculator/WeatherPeriod.h>
 #include <calculator/AnalysisSources.h>
+#include <calculator/WeatherPeriod.h>
 #include <string>
 
 namespace TextGen
@@ -21,7 +20,5 @@ WeatherPeriod getClimatologyPeriod(const TextGen::WeatherPeriod& thePeriod,
                                    const TextGen::AnalysisSources& theSources);
 }  // namespace ClimatologyTools
 }  // namespace TextGen
-
-#endif  // TEXTGEN_CLIMATOLOGYTOOLS_H
 
 // ======================================================================

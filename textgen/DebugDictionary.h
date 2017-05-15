@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_DEBUGDICTIONARY_H
-#define TEXTGEN_DEBUGDICTIONARY_H
+#pragma once
 
 #include "Dictionary.h"
 
@@ -33,13 +32,12 @@ class DebugDictionary : public Dictionary
   virtual void insert(const std::string& theKey, const std::string& thePhrase) {}
   virtual size_type size(void) const { return 0; }
   virtual bool empty(void) const { return false; }
+
  private:
   std::string itsLanguage;
 
 };  // class DebugDictionary
 
 }  // namespace TextGen
-
-#endif  // TEXTGEN_DEBUGDICTIONARY_H
 
 // ======================================================================

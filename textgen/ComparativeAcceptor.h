@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_COMPARATIVEACCEPTOR_H
-#define TEXTGEN_COMPARATIVEACCEPTOR_H
+#pragma once
 
 #include <calculator/Acceptor.h>
 #include <newbase/NFmiGlobals.h>
@@ -41,7 +40,5 @@ class ComparativeAcceptor : public Acceptor
 
 };  // class ComparativeAcceptor
 }  // namespace TextGen
-
-#endif  // TEXTGEN_COMPARATIVEACCEPTOR_H
 
 // ======================================================================

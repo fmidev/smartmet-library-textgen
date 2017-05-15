@@ -5,11 +5,10 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_NIGHTANDDAYPERIODGENERATOR_H
-#define TEXTGEN_NIGHTANDDAYPERIODGENERATOR_H
+#pragma once
 
-#include <calculator/WeatherPeriodGenerator.h>
 #include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherPeriodGenerator.h>
 
 #include <string>
 #include <vector>
@@ -41,6 +40,7 @@ class NightAndDayPeriodGenerator : public WeatherPeriodGenerator
 
   bool isday(size_type thePeriod) const;
   bool isnight(size_type thePeriod) const { return !isday(thePeriod); }
+
  private:
   NightAndDayPeriodGenerator(void);
   void init();
@@ -60,7 +60,5 @@ class NightAndDayPeriodGenerator : public WeatherPeriodGenerator
 };  // class NightAndDayPeriodGenerator
 
 }  // namespace TextGen
-
-#endif  // TEXTGEN_NIGHTANDDAYPERIODGENERATOR_H
 
 // ======================================================================

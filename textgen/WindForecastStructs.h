@@ -1,5 +1,4 @@
-#ifndef TEXTGEN_WIND_FORECAST_STRUCTS_H
-#define TEXTGEN_WIND_FORECAST_STRUCTS_H
+#pragma once
 
 #include "Sentence.h"
 #include "WeatherForecast.h"
@@ -363,5 +362,3 @@ std::ostream& operator<<(std::ostream& theOutput,
                          const WindEventPeriodDataItem& theWindEventPeriodDataItem);
 
 }  // namespace TextGen
-
-#endif  // TEXTGEN_WIND_FORECAST_STRUCTS_H

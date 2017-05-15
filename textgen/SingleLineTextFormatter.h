@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class TextGen::PlainLinesTextFormatter
+ * \brief Interface of class TextGen::SingleLineTextFormatter
  */
 // ======================================================================
 
@@ -11,16 +11,17 @@
 
 namespace TextGen
 {
-class PlainLinesTextFormatter : public PlainTextFormatter
+class SingleLineTextFormatter : public PlainTextFormatter
 {
  public:
-  PlainLinesTextFormatter() {}
-  virtual ~PlainLinesTextFormatter() {}
+  SingleLineTextFormatter() {}
+  virtual ~SingleLineTextFormatter() {}
   using PlainTextFormatter::visit;
-  virtual std::string visit(const Paragraph& theParagraph) const override;
+  virtual std::string visit(const Document& theDocument) const override;
 
-  std::string name() const { return "plainlines"; }
-};  // class PlainLinesTextFormatter
+  std::string name() const { return "singleline"; }
+
+};  // class SingleLineTextFormatter
 }  // namespace TextGen
 
 // ======================================================================

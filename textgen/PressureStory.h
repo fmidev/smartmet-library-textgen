@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_PRESSURESTORY_H
-#define TEXTGEN_PRESSURESTORY_H
+#pragma once
 
 #include "Story.h"
 #include <string>
@@ -52,7 +51,5 @@ class PressureStory : public Story
 
 };  // class PressureStory
 }
-
-#endif  // TEXTGEN_PRESSURESTORY_H
 
 // ======================================================================

@@ -1,5 +1,4 @@
-#ifndef WEATHER_FORECAST_STORY_H
-#define WEATHER_FORECAST_STORY_H
+#pragma once
 
 class MessageLogger;
 
@@ -176,5 +175,3 @@ class WeatherForecastStory
   friend class WeatherForecastStoryItem;
 };
 }
-
-#endif

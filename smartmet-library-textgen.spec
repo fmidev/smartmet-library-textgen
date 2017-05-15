@@ -11,15 +11,15 @@ Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: smartmet-library-calculator-devel >= 17.1.12
-BuildRequires: smartmet-library-newbase-devel >= 17.1.26
-BuildRequires: smartmet-library-macgyver-devel >= 17.1.18
+BuildRequires: smartmet-library-calculator-devel >= 17.3.16
+BuildRequires: smartmet-library-newbase-devel >= 17.4.4
+BuildRequires: smartmet-library-macgyver-devel >= 17.4.10
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: smartmet-library-calculator >= 17.1.12
-Requires: smartmet-library-newbase >= 17.1.26
-Requires: smartmet-library-macgyver >= 17.1.18
+Requires: smartmet-library-calculator >= 17.3.16
+Requires: smartmet-library-newbase >= 17.4.4
+Requires: smartmet-library-macgyver >= 17.4.10
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
@@ -62,9 +62,21 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
-
 * Mon May 15 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.15-1.fmi
 - TBD
+
+* Mon Apr 24 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.4.24-1.fmi
+- Fixed to use C++1 compiler options
+- Added necessary override declarations
+
+* Tue Apr 20 2017  Anssi Reponen <anssi.reponen@fmi.fi> - 17.4.20-1.fmi
+- Temperature anomaly story corrected: basic data types not passed by reference
+
+* Tue Apr 11 2017 Teemu Sirviö <teemu.sirvio@fmi.fi> - 17.4.11-1.fmi
+- Fixed casting of strings in error messages
+
+* Tue Mar 14 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.3.14-1.fmi
+- Fixed to compile on Windows
 
 * Tue Feb 21 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.2.21-1.fmi
 - 'Vähän' word is not used with weakening wind

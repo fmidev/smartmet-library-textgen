@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_CSSTEXTFORMATTER_H
-#define TEXTGEN_CSSTEXTFORMATTER_H
+#pragma once
 
 #include "TextFormatter.h"
 
@@ -29,13 +28,14 @@ class CssTextFormatter : public TextFormatter
   virtual std::string visit(const Paragraph& theParagraph) const;
   virtual std::string visit(const Header& theHeader) const;
   virtual std::string visit(const Document& theDocument) const;
-  virtual std::string visit(const Time& theTime) const;
+  virtual std::string visit(const WeatherTime& theTime) const;
   virtual std::string visit(const TimePeriod& theTimePeriod) const;
 
   virtual std::string visit(const SectionTag& theSectionTag) const;
   virtual std::string visit(const StoryTag& theStoryTag) const;
 
   std::string name() const { return "css"; }
+
  private:
   boost::shared_ptr<Dictionary> itsDictionary;
   mutable std::string itsSectionVar;
@@ -43,7 +43,5 @@ class CssTextFormatter : public TextFormatter
 
 };  // class CssTextFormatter
 }  // namespace TextGen
-
-#endif  // TEXTGEN_CSSTEXTFORMATTER_H
 
 // ======================================================================

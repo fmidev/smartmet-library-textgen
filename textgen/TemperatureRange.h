@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TEMPERATURERANGE_H
-#define TEXTGEN_TEMPERATURERANGE_H
+#pragma once
 
 #include "IntegerRange.h"
 #include "TextFormatter.h"
@@ -30,7 +29,5 @@ class TemperatureRange : public IntegerRange
 };  // class TemperatureRange
 
 }  // namespace Textgen
-
-#endif  // TEXTGEN_TEMPERATURERANGE_H
 
 // ======================================================================

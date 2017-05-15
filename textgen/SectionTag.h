@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_SECTIONTAG_H
-#define TEXTGEN_SECTIONTAG_H
+#pragma once
 
 #include "Glyph.h"
 #include <string>
@@ -40,7 +39,5 @@ class SectionTag : public Glyph
 
 };  // class SectionTag
 }  // namespace SectionTag
-
-#endif  // TEXTGEN_SECTIONTAG_H
 
 // ======================================================================

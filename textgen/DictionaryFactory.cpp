@@ -24,11 +24,11 @@
 // ======================================================================
 
 #include "DictionaryFactory.h"
-#include "NullDictionary.h"
 #include "BasicDictionary.h"
 #include "FileDictionary.h"
-#include "MySQLDictionary.h"
 #include "MySQLDictionaries.h"
+#include "MySQLDictionary.h"
+#include "NullDictionary.h"
 #include <calculator/TextGenError.h>
 
 using namespace boost;
@@ -49,8 +49,10 @@ Dictionary* DictionaryFactory::create(const std::string& theType)
   if (theType == "null") return new NullDictionary();
   if (theType == "basic") return new BasicDictionary();
   if (theType == "file") return new FileDictionary();
+#ifdef UNIX
   if (theType == "mysql") return new MySQLDictionary();
   if (theType == "multimysql") return new MySQLDictionaries();
+#endif  // UNIX
 
   throw TextGenError("Error: Unknown dictionary type " + theType);
 }

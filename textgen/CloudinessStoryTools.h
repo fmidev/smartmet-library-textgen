@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_CLOUDINESSSTORYTOOLS_H
-#define TEXTGEN_CLOUDINESSSTORYTOOLS_H
+#pragma once
 
 #include <string>
 #include <utility>
@@ -74,7 +73,5 @@ Sentence cloudiness_phrase(const TextGen::AnalysisSources& theSources,
 
 }  // namespace CloudinessStoryTools
 }  // namespace TextGen
-
-#endif  // TEXTGEN_CLOUDINESSSTORYTOOLS_H
 
 // ======================================================================

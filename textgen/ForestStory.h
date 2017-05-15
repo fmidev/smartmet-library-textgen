@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_FORESTSTORY_H
-#define TEXTGEN_FORESTSTORY_H
+#pragma once
 
 #include "Story.h"
 #include <string>
@@ -54,7 +53,5 @@ class ForestStory : public Story
 
 };  // class ForestStory
 }
-
-#endif  // TEXTGEN_FORESTSTORY_H
 
 // ======================================================================

@@ -1,8 +1,7 @@
-#ifndef TEXTGEN_THUNDER_FORECAST_H
-#define TEXTGEN_THUNDER_FORECAST_H
+#pragma once
 
-#include "WeatherForecast.h"
 #include "PrecipitationForecast.h"
+#include "WeatherForecast.h"
 
 namespace TextGen
 {
@@ -23,5 +22,3 @@ class ThunderForecast
   wf_story_params& theParameters;
 };
 }  // namespace TextGen
-
-#endif  // TEXTGEN_THUNDER_FORECAST_H

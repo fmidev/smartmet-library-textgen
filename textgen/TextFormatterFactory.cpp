@@ -22,14 +22,15 @@
 // ======================================================================
 
 #include "TextFormatterFactory.h"
-#include "DebugTextFormatter.h"
-#include "PlainTextFormatter.h"
-#include "PlainLinesTextFormatter.h"
-#include "SpeechTextFormatter.h"
-#include "HtmlTextFormatter.h"
 #include "CssTextFormatter.h"
-#include "WmlTextFormatter.h"
+#include "DebugTextFormatter.h"
+#include "HtmlTextFormatter.h"
+#include "PlainLinesTextFormatter.h"
+#include "PlainTextFormatter.h"
+#include "SingleLineTextFormatter.h"
 #include "SoneraTextFormatter.h"
+#include "SpeechTextFormatter.h"
+#include "WmlTextFormatter.h"
 #include <calculator/TextGenError.h>
 
 using namespace boost;
@@ -54,6 +55,7 @@ namespace TextFormatterFactory
 
 TextFormatter* create(const std::string& theType)
 {
+  if (theType == "singleline") return new SingleLineTextFormatter();
   if (theType == "plain") return new PlainTextFormatter();
   if (theType == "plainlines") return new PlainLinesTextFormatter();
   if (theType == "html") return new HtmlTextFormatter();

@@ -14,12 +14,12 @@
 // ======================================================================
 
 #include "ClimatologyTools.h"
-#include <calculator/WeatherSource.h>
 #include <calculator/Settings.h>
+#include <calculator/WeatherSource.h>
 
-#include <newbase/NFmiQueryData.h>
-#include <newbase/NFmiFastQueryInfo.h>
 #include <boost/shared_ptr.hpp>
+#include <newbase/NFmiFastQueryInfo.h>
+#include <newbase/NFmiQueryData.h>
 
 namespace TextGen
 {

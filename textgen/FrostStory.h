@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_FROSTSTORY_H
-#define TEXTGEN_FROSTSTORY_H
+#pragma once
 
 #include "Story.h"
 #include <string>
@@ -50,7 +49,5 @@ class FrostStory : public Story
 
 };  // class FrostStory
 }
-
-#endif  // TEXTGEN_FROSTSTORY_H
 
 // ======================================================================

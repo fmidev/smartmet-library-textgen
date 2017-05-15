@@ -14,19 +14,19 @@
 #include "CssTextFormatter.h"
 #include "Dictionary.h"
 #include "Document.h"
-#include "Real.h"
 #include "Glyph.h"
 #include "Header.h"
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "Paragraph.h"
+#include "Real.h"
 #include "SectionTag.h"
 #include "Sentence.h"
-#include <calculator/Settings.h>
 #include "StoryTag.h"
 #include "TextFormatterTools.h"
-#include "Time.h"
 #include "TimePeriod.h"
+#include "WeatherTime.h"
+#include <calculator/Settings.h>
 
 #include <boost/lexical_cast.hpp>
 #include <set>
@@ -295,7 +295,7 @@ string CssTextFormatter::visit(const StoryTag& theStory) const
  */
 // ----------------------------------------------------------------------
 
-string CssTextFormatter::visit(const Time& theTime) const
+string CssTextFormatter::visit(const WeatherTime& theTime) const
 {
   return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "css");
 }

@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TIME_H
-#define TEXTGEN_TIME_H
+#pragma once
 
 #include "Glyph.h"
 #include <calculator/TextGenPosixTime.h>
@@ -16,14 +15,14 @@ namespace TextGen
 {
 class Dictionary;
 
-class Time : public Glyph
+class WeatherTime : public Glyph
 {
  public:
-  virtual ~Time();
-  Time(const TextGenPosixTime& theTime);
+  virtual ~WeatherTime();
+  WeatherTime(const TextGenPosixTime& theTime);
 #ifdef NO_COMPILER_GENERATED
-  Time(const Time& theTime);
-  Time& operator=(const Time& theTime);
+  WeatherTime(const WeatherTime& theTime);
+  WeatherTime& operator=(const WeatherTime& theTime);
 #endif
   virtual boost::shared_ptr<Glyph> clone() const;
   virtual std::string realize(const Dictionary& theDictionary) const;
@@ -31,14 +30,13 @@ class Time : public Glyph
   virtual bool isDelimiter() const;
 
   inline const TextGenPosixTime& nfmiTime() const { return itsTime; }
+
  private:
-  Time();
+  WeatherTime();
   TextGenPosixTime itsTime;
 
 };  // class Time
 
 }  // namespace TextGen
-
-#endif  // TEXTGEN_TIME_H
 
 // ======================================================================

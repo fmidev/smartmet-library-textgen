@@ -39,7 +39,6 @@
  * erases the language initialized earlier.
  */
 // ----------------------------------------------------------------------
-
 #include "MySQLDictionary.h"
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
@@ -50,8 +49,8 @@
 #include <stdexcept>
 
 #include <map>
+
 #include <mysql++/mysql++.h>
-//<mysql.h>
 
 using namespace std;
 
@@ -211,9 +210,9 @@ void MySQLDictionary::init(const std::string& theLanguage)
   catch (const mysqlpp::BadConversion& er)
   {
     // Handle bad conversions
-    throw TextGenError("Conversion error: " + string(er.what()) + ";\tretrieved data size: " +
-                       boost::lexical_cast<string>(er.retrieved) + ", actual size: " +
-                       boost::lexical_cast<string>(er.actual_size));
+    throw TextGenError("Conversion error: " + string(er.what()) +
+                       ";\tretrieved data size: " + boost::lexical_cast<string>(er.retrieved) +
+                       ", actual size: " + boost::lexical_cast<string>(er.actual_size));
   }
   catch (const mysqlpp::Exception& er)
   {

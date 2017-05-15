@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TEXTGENERATOR_H
-#define TEXTGEN_TEXTGENERATOR_H
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 #include <string>
@@ -44,13 +43,12 @@ class TextGenerator
   Document generate(const TextGen::WeatherArea& theArea) const;
 
   static std::string version() { return VERSION_STRING; }
+
  private:
   class Pimple;
   boost::shared_ptr<Pimple> itsPimple;
 
 };  // class TextGenerator
 }  // namespace TextGen
-
-#endif  // TEXTGEN_TEXTGENERATOR_H
 
 // ======================================================================

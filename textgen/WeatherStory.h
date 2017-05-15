@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_WEATHERSTORY_H
-#define TEXTGEN_WEATHERSTORY_H
+#pragma once
 
 #include <string>
 #include "Story.h"
@@ -57,7 +56,5 @@ class WeatherStory : public Story
 
 };  // class WeatherStory
 }
-
-#endif  // TEXTGEN_WEATHERSTORY_H
 
 // ======================================================================

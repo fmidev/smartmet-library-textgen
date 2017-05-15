@@ -5,11 +5,10 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_NIGHTANDDAYPERIODGENERATOR_H
-#define TEXTGEN_NIGHTANDDAYPERIODGENERATOR_H
+#pragma once
 
-#include <calculator/WeatherPeriodGenerator.h>
 #include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherPeriodGenerator.h>
 
 #include <string>
 #include <vector>
@@ -61,7 +60,5 @@ class MorningAndEveningPeriodGenerator : public WeatherPeriodGenerator
 };  // class MorningAndEveningPeriodGenerator
 
 }  // namespace TextGen
-
-#endif  // TEXTGEN_NIGHTANDDAYPERIODGENERATOR_H
 
 // ======================================================================

@@ -5,16 +5,16 @@
  */
 // ======================================================================
 
-#include "ForestStory.h"
 #include "Delimiter.h"
-#include "Real.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
+#include "ForestStory.h"
 #include "MessageLogger.h"
 #include "Paragraph.h"
+#include "Real.h"
 #include "Sentence.h"
-#include <calculator/TextGenError.h>
 #include "UnitFactory.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
 
 using namespace std;

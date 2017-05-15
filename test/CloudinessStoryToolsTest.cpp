@@ -1,9 +1,9 @@
-#include <regression/tframe.h>
-#include "DebugDictionary.h"
 #include "CloudinessStoryTools.h"
-#include <newbase/NFmiSettings.h>
+#include "DebugDictionary.h"
 #include "PlainTextFormatter.h"
 #include "Sentence.h"
+#include <newbase/NFmiSettings.h>
+#include <regression/tframe.h>
 
 #include <iostream>
 #include <stdexcept>
@@ -576,7 +576,7 @@ void cloudiness_phrase()
   using namespace TextGen::CloudinessStoryTools;
 
   TextGen::PlainTextFormatter formatter;
-  shared_ptr<Dictionary> dict(new TextGen::DebugDictionary);
+  boost::shared_ptr<Dictionary> dict(new TextGen::DebugDictionary);
   formatter.dictionary(dict);
 
   string result, expected;

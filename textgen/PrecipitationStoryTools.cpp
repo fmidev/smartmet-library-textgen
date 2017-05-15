@@ -17,22 +17,22 @@
 // ======================================================================
 
 #include "PrecipitationStoryTools.h"
-#include <calculator/AnalysisSources.h>
-#include <calculator/GridForecaster.h>
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "MessageLogger.h"
-#include <calculator/RangeAcceptor.h>
-#include <calculator/Settings.h>
 #include "Sentence.h"
-#include <calculator/TextGenError.h>
 #include "UnitFactory.h"
 #include "ValueAcceptor.h"
-#include <calculator/WeatherResult.h>
+#include <calculator/AnalysisSources.h>
+#include <calculator/GridForecaster.h>
+#include <calculator/RangeAcceptor.h>
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
 #include <calculator/WeatherPeriod.h>
+#include <calculator/WeatherResult.h>
 
-#include <newbase/NFmiGlobals.h>
 #include <boost/lexical_cast.hpp>
+#include <newbase/NFmiGlobals.h>
 #include <cmath>
 
 using namespace TextGen;

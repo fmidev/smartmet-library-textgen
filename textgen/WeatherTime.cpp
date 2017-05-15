@@ -10,10 +10,10 @@
  */
 // ======================================================================
 
-#include "Time.h"
+#include "WeatherTime.h"
 #include "Dictionary.h"
-#include <calculator/WeatherPeriod.h>
 #include "TextFormatter.h"
+#include <calculator/WeatherPeriod.h>
 
 using namespace std;
 using namespace boost;
@@ -26,7 +26,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-Time::~Time() {}
+WeatherTime::~WeatherTime() {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -35,16 +35,16 @@ Time::~Time() {}
  */
 // ----------------------------------------------------------------------
 
-Time::Time(const TextGenPosixTime& theTime) : itsTime(theTime) {}
+WeatherTime::WeatherTime(const TextGenPosixTime& theTime) : itsTime(theTime) {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return a clone
  */
 // ----------------------------------------------------------------------
 
-boost::shared_ptr<Glyph> Time::clone() const
+boost::shared_ptr<Glyph> WeatherTime::clone() const
 {
-  boost::shared_ptr<Glyph> ret(new Time(*this));
+  boost::shared_ptr<Glyph> ret(new WeatherTime(*this));
   return ret;
 }
 
@@ -57,7 +57,7 @@ boost::shared_ptr<Glyph> Time::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Time::realize(const Dictionary& theDictionary) const { return ""; }
+std::string WeatherTime::realize(const Dictionary& theDictionary) const { return ""; }
 // ----------------------------------------------------------------------
 /*!
  * \brief Realize using the given text formatter
@@ -67,7 +67,7 @@ std::string Time::realize(const Dictionary& theDictionary) const { return ""; }
  */
 // ----------------------------------------------------------------------
 
-std::string Time::realize(const TextFormatter& theFormatter) const
+std::string WeatherTime::realize(const TextFormatter& theFormatter) const
 {
   return theFormatter.visit(*this);
 }
@@ -78,7 +78,7 @@ std::string Time::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool Time::isDelimiter() const { return false; }
+bool WeatherTime::isDelimiter() const { return false; }
 }  // namespace TextGen
 
 // ======================================================================

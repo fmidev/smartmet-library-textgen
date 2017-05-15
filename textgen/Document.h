@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_DOCUMENT_H
-#define TEXTGEN_DOCUMENT_H
+#pragma once
 
 #include "GlyphContainer.h"
 #include <boost/shared_ptr.hpp>
@@ -35,7 +34,5 @@ class Document : public GlyphContainer
 };  // class Document
 
 }  // namespace TextGen
-
-#endif  // TEXTGEN_DOCUMENT_H
 
 // ======================================================================

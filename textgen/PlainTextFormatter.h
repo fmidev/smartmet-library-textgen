@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_PLAINTEXTFORMATTER_H
-#define TEXTGEN_PLAINTEXTFORMATTER_H
+#pragma once
 
 #include "TextFormatter.h"
 
@@ -30,13 +29,14 @@ class PlainTextFormatter : public TextFormatter
   virtual std::string visit(const Paragraph& theParagraph) const;
   virtual std::string visit(const Header& theHeader) const;
   virtual std::string visit(const Document& theDocument) const;
-  virtual std::string visit(const Time& theTime) const;
+  virtual std::string visit(const WeatherTime& theTime) const;
   virtual std::string visit(const TimePeriod& theTimePeriod) const;
 
   virtual std::string visit(const SectionTag& theSectionTag) const;
   virtual std::string visit(const StoryTag& theStoryTag) const;
 
   std::string name() const { return "plain"; }
+
  private:
   boost::shared_ptr<Dictionary> itsDictionary;
   mutable std::string itsSectionVar;
@@ -44,7 +44,5 @@ class PlainTextFormatter : public TextFormatter
 
 };  // class PlainTextFormatter
 }  // namespace TextGen
-
-#endif  // TEXTGEN_PLAINTEXTFORMATTER_H
 
 // ======================================================================

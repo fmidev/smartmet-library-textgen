@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_TIME_PERIOD_H
-#define TEXTGEN_TIME_PERIOD_H
+#pragma once
 
 #include "Glyph.h"
 #include <calculator/WeatherPeriod.h>
@@ -33,6 +32,7 @@ class TimePeriod : public Glyph
   inline const TextGenPosixTime& localStartTime() const { return itsPeriod.localStartTime(); }
   inline const TextGenPosixTime& localEndTime() const { return itsPeriod.localEndTime(); }
   inline const WeatherPeriod& weatherPeriod() const { return itsPeriod; }
+
  private:
   TimePeriod();
   WeatherPeriod itsPeriod;
@@ -40,7 +40,5 @@ class TimePeriod : public Glyph
 };  // class TimePeriod
 
 }  // namespace TextGen
-
-#endif  // TEXTGEN_TIME_PERIOD_H
 
 // ======================================================================

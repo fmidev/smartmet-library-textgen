@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_PRECIPITATIONSTORYTOOLS_H
-#define TEXTGEN_PRECIPITATIONSTORYTOOLS_H
+#pragma once
 
 #include <string>
 #include <utility>
@@ -52,7 +51,5 @@ Sentence sum_phrase(const TextGen::WeatherResult& theMinimum,
 
 }  // namespace PrecipitationStoryTools
 }  // namespace TextGen
-
-#endif  // TEXTGEN_PRECIPITATIONSTORYTOOLS_H
 
 // ======================================================================

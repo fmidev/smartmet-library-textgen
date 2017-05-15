@@ -5,33 +5,33 @@
  */
 // ======================================================================
 
+#include "AreaTools.h"
+#include "ComparativeAcceptor.h"
+#include "Delimiter.h"
 #include "FrostStory.h"
 #include "FrostStoryTools.h"
-#include "Delimiter.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
 #include "Integer.h"
-#include <calculator/MathTools.h>
 #include "MessageLogger.h"
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
+#include "PositiveValueAcceptor.h"
+#include "SeasonTools.h"
 #include "Sentence.h"
+#include "UnitFactory.h"
+#include "WeatherForecast.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/MathTools.h>
+#include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
-#include "UnitFactory.h"
-#include <calculator/WeatherResult.h>
 #include <calculator/WeatherPeriodTools.h>
-#include "PositiveValueAcceptor.h"
-#include "ComparativeAcceptor.h"
-#include "AreaTools.h"
-#include "SeasonTools.h"
-#include "WeatherForecast.h"
-#include <calculator/RangeAcceptor.h>
+#include <calculator/WeatherResult.h>
 
+#include <boost/lexical_cast.hpp>
+#include <newbase/NFmiStringTools.h>
 #include <iomanip>
 #include <map>
-#include <newbase/NFmiStringTools.h>
-#include <boost/lexical_cast.hpp>
 #define BOOST_FILESYSTEM_VERSION 3
 #include <boost/filesystem.hpp>  // includes all needed Boost.Filesystem declarations
 namespace boostfs = boost::filesystem;

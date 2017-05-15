@@ -5,8 +5,7 @@
  */
 // ----------------------------------------------------------------------
 
-#ifndef TEXTGEN_WEEKDAYTOOLS_H
-#define TEXTGEN_WEEKDAYTOOLS_H
+#pragma once
 
 #include <string>
 
@@ -63,7 +62,5 @@ std::string get_time_phrase(const TextGenPosixTime& theTime,
 
 }  // namespace WeekdayTools
 }  // namespace TextGen
-
-#endif  // TEXTGEN_WEEKDAYTOOLS_H
 
 // ======================================================================

@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_DICTIONARYFACTORY_H
-#define TEXTGEN_DICTIONARYFACTORY_H
+#pragma once
 
 #include "Dictionary.h"
 
@@ -18,7 +17,5 @@ Dictionary* create(const std::string& theType);
 
 }  // namespace DictionaryFactory
 }  // namespace TextGen
-
-#endif  // TEXTGEN_DICTIONARYFACTORY_H
 
 // ======================================================================

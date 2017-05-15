@@ -5,15 +5,14 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_WINDSTORYTOOLS_H
-#define TEXTGEN_WINDSTORYTOOLS_H
+#pragma once
 
-#include <string>
-#include <vector>
 #include <calculator/AnalysisSources.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
+#include <string>
+#include <vector>
 
 namespace TextGen
 {
@@ -209,7 +208,5 @@ void populate_winddirection_distribution_time_series(
 
 }  // namespace WindStoryTools
 }  // namespace TextGen
-
-#endif  // TEXTGEN_WINDSTORYTOOLS_H
 
 // ======================================================================

@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_WEATHERPERIODFACTORY_H
-#define TEXTGEN_WEATHERPERIODFACTORY_H
+#pragma once
 
 #include <string>
 
@@ -26,7 +25,5 @@ TextGen::WeatherPeriod create(const TextGenPosixTime& theTime, const std::string
 }  // namespace WeatherPeriodFactory
 
 }  // namespace TextGen
-
-#endif  // TEXTGEN_WEATHERPERIODFACTORY_H
 
 // ======================================================================

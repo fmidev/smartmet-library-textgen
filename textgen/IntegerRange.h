@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_INTEGERRANGE_H
-#define TEXTGEN_INTEGERRANGE_H
+#pragma once
 
 #include "Glyph.h"
 #include "TextFormatter.h"
@@ -46,7 +45,5 @@ class IntegerRange : public Glyph
 
 };  // class IntegerRange
 }  // namespace IntegerRange
-
-#endif  // TEXTGEN_INTEGER_H
 
 // ======================================================================

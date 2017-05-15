@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_SONERATEXTFORMATTER_H
-#define TEXTGEN_SONERATEXTFORMATTER_H
+#pragma once
 
 #include "TextFormatter.h"
 
@@ -33,13 +32,14 @@ class SoneraTextFormatter : public TextFormatter
   virtual std::string visit(const Paragraph& theParagraph) const;
   virtual std::string visit(const Header& theHeader) const;
   virtual std::string visit(const Document& theDocument) const;
-  virtual std::string visit(const Time& theTime) const;
+  virtual std::string visit(const WeatherTime& theTime) const;
   virtual std::string visit(const TimePeriod& theTimePeriod) const;
 
   virtual std::string visit(const SectionTag& theSectionTag) const;
   virtual std::string visit(const StoryTag& theStoryTag) const;
 
   std::string name() const { return "sonera"; }
+
  private:
   typedef std::list<std::string> container_type;
   mutable container_type itsParts;
@@ -51,7 +51,5 @@ class SoneraTextFormatter : public TextFormatter
 
 };  // class SoneraTextFormatter
 }  // namespace TextGen
-
-#endif  // TEXTGEN_SONERATEXTFORMATTER_H
 
 // ======================================================================

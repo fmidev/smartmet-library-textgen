@@ -5,8 +5,8 @@
 #include <calculator/WeatherArea.h>
 
 #include <newbase/NFmiIndexMask.h>
-#include <newbase/NFmiStringTools.h>
 #include <newbase/NFmiSettings.h>
+#include <newbase/NFmiStringTools.h>
 
 #include <iostream>
 #include <stdexcept>
@@ -39,7 +39,7 @@ void mask()
 
   // Initialize all the data
 
-  shared_ptr<NFmiQueryData> sqd(new NFmiQueryData(datafile));
+  boost::shared_ptr<NFmiQueryData> sqd(new NFmiQueryData(datafile));
 
   UserWeatherSource wsource;
   wsource.insert("data", sqd);

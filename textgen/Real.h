@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_REAL_H
-#define TEXTGEN_REAL_H
+#pragma once
 
 #include "Glyph.h"
 #include <string>
@@ -43,7 +42,5 @@ class Real : public Glyph
 
 };  // class Real
 }  // namespace Real
-
-#endif  // TEXTGEN_REAL_H
 
 // ======================================================================

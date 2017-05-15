@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef MESSAGELOGGER_H
-#define MESSAGELOGGER_H
+#pragma once
 
 #include "MessageLoggerStream.h"
 
@@ -44,7 +43,5 @@ class MessageLogger : public MessageLoggerStream<>
   static bool itsTimeStampOn;
 
 };  // MessageLogger
-
-#endif  // MESSAGELOGGER_H
 
 // ======================================================================

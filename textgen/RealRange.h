@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_REALRANGE_H
-#define TEXTGEN_REALRANGE_H
+#pragma once
 
 #include "Glyph.h"
 #include "TextFormatter.h"
@@ -51,7 +50,5 @@ class RealRange : public Glyph
 
 };  // class RealRange
 }  // namespace RealRange
-
-#endif  // TEXTGEN_REAL_H
 
 // ======================================================================

@@ -5,11 +5,10 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_DEBUGTEXTFORMATTER_H
-#define TEXTGEN_DEBUGTEXTFORMATTER_H
+#pragma once
 
-#include "TextFormatter.h"
 #include "DebugDictionary.h"
+#include "TextFormatter.h"
 
 namespace TextGen
 {
@@ -30,13 +29,14 @@ class DebugTextFormatter : public TextFormatter
   virtual std::string visit(const Paragraph& theParagraph) const;
   virtual std::string visit(const Header& theHeader) const;
   virtual std::string visit(const Document& theDocument) const;
-  virtual std::string visit(const Time& theTime) const;
+  virtual std::string visit(const WeatherTime& theTime) const;
   virtual std::string visit(const TimePeriod& theTimePeriod) const;
 
   virtual std::string visit(const SectionTag& theSectionTag) const;
   virtual std::string visit(const StoryTag& theStoryTag) const;
 
   std::string name() const { return "debug"; }
+
  private:
   DebugDictionary itsDictionary;
   mutable std::string itsSectionVar;
@@ -44,7 +44,5 @@ class DebugTextFormatter : public TextFormatter
 
 };  // class DebugTextFormatter
 }  // namespace TextGen
-
-#endif  // TEXTGEN_DEBUGTEXTFORMATTER_H
 
 // ======================================================================

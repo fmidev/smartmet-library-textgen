@@ -5,18 +5,6 @@
  */
 // ======================================================================
 
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
-#include <calculator/MathTools.h>
-#include <calculator/NullPeriodGenerator.h>
-#include <calculator/ParameterAnalyzer.h>
-#include <calculator/RangeAcceptor.h>
-#include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
-#include <calculator/TimeTools.h>
-#include <calculator/WeatherHistory.h>
-#include <calculator/WeatherPeriodTools.h>
-#include <calculator/WeatherResult.h>
 #include "AreaTools.h"
 #include "CloudinessForecast.h"
 #include "CloudinessStory.h"
@@ -44,6 +32,18 @@
 #include "WeatherForecastStory.h"
 #include "WeatherStory.h"
 #include "WeekdayTools.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/MathTools.h>
+#include <calculator/NullPeriodGenerator.h>
+#include <calculator/ParameterAnalyzer.h>
+#include <calculator/RangeAcceptor.h>
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
+#include <calculator/TimeTools.h>
+#include <calculator/WeatherHistory.h>
+#include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherResult.h>
 
 #include <newbase/NFmiCombinedParam.h>
 

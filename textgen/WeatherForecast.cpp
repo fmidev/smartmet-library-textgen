@@ -1,16 +1,5 @@
 #include "WeatherForecast.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
-#include <calculator/MathTools.h>
-#include <calculator/NullPeriodGenerator.h>
-#include <calculator/RangeAcceptor.h>
-#include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
-#include <calculator/TimeTools.h>
-#include <calculator/WeatherPeriodTools.h>
-#include <calculator/WeatherResult.h>
-#include <macgyver/StringConversion.h>
-#include <macgyver/TimeFormatter.h>
+
 #include "AreaTools.h"
 #include "CloudinessStory.h"
 #include "CloudinessStoryTools.h"
@@ -28,11 +17,25 @@
 #include "ValueAcceptor.h"
 #include "WeatherStory.h"
 #include "WeekdayTools.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/MathTools.h>
+#include <calculator/NullPeriodGenerator.h>
+#include <calculator/RangeAcceptor.h>
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
+#include <calculator/TimeTools.h>
+#include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherResult.h>
+#include <macgyver/StringConversion.h>
+#include <macgyver/TimeFormatter.h>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <map>
 #include <vector>
+
+#include "DebugTextFormatter.h"
 
 namespace TextGen
 {

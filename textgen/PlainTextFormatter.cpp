@@ -14,19 +14,19 @@
 #include "PlainTextFormatter.h"
 #include "Dictionary.h"
 #include "Document.h"
-#include "Real.h"
 #include "Glyph.h"
 #include "Header.h"
 #include "Integer.h"
 #include "IntegerRange.h"
 #include "Paragraph.h"
+#include "Real.h"
 #include "SectionTag.h"
 #include "Sentence.h"
-#include <calculator/Settings.h>
 #include "StoryTag.h"
 #include "TextFormatterTools.h"
-#include "Time.h"
 #include "TimePeriod.h"
+#include "WeatherTime.h"
+#include <calculator/Settings.h>
 
 using namespace std;
 using namespace boost;
@@ -196,7 +196,7 @@ string PlainTextFormatter::visit(const StoryTag& theStory) const
  */
 // ----------------------------------------------------------------------
 
-string PlainTextFormatter::visit(const Time& theTime) const
+string PlainTextFormatter::visit(const WeatherTime& theTime) const
 {
   return TextFormatterTools::format_time(theTime.nfmiTime(), itsStoryVar, "plain");
 }

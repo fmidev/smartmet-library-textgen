@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_STORYTAG_H
-#define TEXTGEN_STORYTAG_H
+#pragma once
 
 #include "Glyph.h"
 #include <string>
@@ -40,7 +39,5 @@ class StoryTag : public Glyph
 
 };  // class StoryTag
 }  // namespace StoryTag
-
-#endif  // TEXTGEN_STORYTAG_H
 
 // ======================================================================

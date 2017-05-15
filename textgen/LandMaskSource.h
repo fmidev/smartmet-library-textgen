@@ -5,8 +5,7 @@
  */
 // ======================================================================
 
-#ifndef TEXTGEN_LANDMASKSOURCE_H
-#define TEXTGEN_LANDMASKSOURCE_H
+#pragma once
 
 #include <calculator/MaskSource.h>
 
@@ -37,7 +36,5 @@ class LandMaskSource : public MaskSource
 };  // class LandMaskSource
 
 }  // namespace TextGen
-
-#endif  // TEXTGEN_LANDMASKSOURCE_H
 
 // ======================================================================

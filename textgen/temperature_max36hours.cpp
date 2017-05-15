@@ -5,17 +5,6 @@
  */
 // ======================================================================
 
-#include <calculator/DefaultAcceptor.h>
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
-#include <calculator/MathTools.h>
-#include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
-#include <calculator/WeatherArea.h>
-#include <calculator/WeatherPeriodTools.h>
-#include <calculator/WeatherResult.h>
-#include <calculator/WeatherResultTools.h>
-#include <calculator/WeatherSource.h>
 #include "AreaTools.h"
 #include "ClimatologyTools.h"
 #include "DebugTextFormatter.h"
@@ -36,6 +25,17 @@
 #include "UnitFactory.h"
 #include "WeatherForecast.h"
 #include "WeekdayTools.h"
+#include <calculator/DefaultAcceptor.h>
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
+#include <calculator/MathTools.h>
+#include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
+#include <calculator/WeatherArea.h>
+#include <calculator/WeatherPeriodTools.h>
+#include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
+#include <calculator/WeatherSource.h>
 
 #include <newbase/NFmiGlobals.h>
 #include <newbase/NFmiGrid.h>

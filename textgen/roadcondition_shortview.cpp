@@ -5,19 +5,19 @@
  */
 // ======================================================================
 
-#include "RoadStory.h"
 #include "DebugTextFormatter.h"
 #include "Delimiter.h"
-#include <calculator/GridForecaster.h>
 #include "MessageLogger.h"
-#include <calculator/HourPeriodGenerator.h>
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
+#include "RoadStory.h"
 #include "Sentence.h"
+#include "ValueAcceptor.h"
+#include <calculator/GridForecaster.h>
+#include <calculator/HourPeriodGenerator.h>
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/TimeTools.h>
-#include "ValueAcceptor.h"
 #include <calculator/WeatherResult.h>
 
 #include <boost/lexical_cast.hpp>
@@ -128,6 +128,7 @@ class ConditionPercentages
   ConditionPercentages() : itsPercentages(max_condition - min_condition + 1, 0) {}
   const double& operator[](int i) const { return itsPercentages[i - 1]; }
   double& operator[](int i) { return itsPercentages[i - 1]; }
+
  private:
   std::vector<double> itsPercentages;
 };
@@ -155,8 +156,8 @@ const ConditionPercentages calculate_percentages(const WeatherPeriod& thePeriod,
   {
     const RoadConditionType c = RoadConditionType(i);
 
-    const string fake = (theVar + "::fake::period" + lexical_cast<string>(thePeriodIndex) + "::" +
-                         condition_name(c) + "::percentage");
+    const string fake = (theVar + "::fake::period" + lexical_cast<string>(thePeriodIndex) +
+                         "::" + condition_name(c) + "::percentage");
 
     ValueAcceptor condfilter;
     condfilter.value(c);
