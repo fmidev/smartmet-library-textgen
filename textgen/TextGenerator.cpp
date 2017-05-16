@@ -361,6 +361,8 @@ void TextGenerator::sources(const AnalysisSources& theSources)
   itsPimple->itsSources = theSources;
 }
 
+std::string TextGenerator::version() { return VERSION_STRING; }
+
 }  // namespace TextGen
 
 // ======================================================================
