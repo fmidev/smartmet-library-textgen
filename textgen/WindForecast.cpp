@@ -3021,10 +3021,8 @@ void WindForecast::injectWindDirections(
 
           for (unsigned int h = directionChangeStartIndex; h < directionChanges; h++)
           {
-            theParameters.theLog << "Processing direction #" << h << " during interval #" << k
-                                 << std::endl;
-
             windDirectionPeriod = windDirectionPeriods[h];
+
             if (get_period_length(windDirectionPeriod) < 3)
             {
               theParameters.theLog << "Direction change #" << h
@@ -3034,17 +3032,28 @@ void WindForecast::injectWindDirections(
             }
 
             windDirectionInfo = get_wind_direction(theParameters, windDirectionPeriod);
+            theParameters.theLog << "Processing direction #" << h << "("
+                                 << as_string(windDirectionPeriod) << ", "
+                                 << wind_direction_string(windDirectionInfo.id)
+                                 << ") during interval #" << k << " ("
+                                 << as_string(intervalSentenceInfo.period) << ", "
+                                 << intervalSentenceInfo.intervalInfo << ")" << std::endl;
+
+            unsigned int differenceInHours =
+                abs(intervalSentenceInfo.period.localStartTime().DifferenceInHours(
+                    windDirectionPeriod.localStartTime()));
 
             if (windDirectionPeriod.localStartTime() <
                     intervalSentenceInfo.period.localStartTime() &&
-                abs(intervalSentenceInfo.period.localStartTime().DifferenceInHours(
-                    windDirectionPeriod.localStartTime())) > 3 &&
-                get_part_of_the_day_id_wind(windDirectionPeriod.localStartTime()) !=
-                    get_part_of_the_day_id_wind(intervalSentenceInfo.period.localStartTime()))
+                ((differenceInHours > 3 &&
+                  get_part_of_the_day_id_wind(windDirectionPeriod.localStartTime()) !=
+                      get_part_of_the_day_id_wind(intervalSentenceInfo.period.localStartTime())) ||
+                 ((differenceInHours > 3 &&
+                   windDirectionPeriod.localStartTime().GetDay() !=
+                       intervalSentenceInfo.period.localStartTime().GetDay()))))
             {
               theParameters.theLog << "Direction changes more than 3 hours before speed reporting "
-                                      "point and different part of day -> report it "
-                                      "in separate sentence: "
+                                      "point -> report it in separate sentence: "
                                    << windDirectionPeriod.localStartTime() << " < "
                                    << intervalSentenceInfo.period.localStartTime() << "("
                                    << intervalSentenceInfo.intervalInfo << ") "
@@ -3052,12 +3061,11 @@ void WindForecast::injectWindDirections(
                                    << as_string(windDirectionInfo.period) << std::endl;
 
               intervalSentenceInfo.directionChangesBefore.push_back(windDirectionInfo);
+
               directionChangeStartIndex = h + 1;
             }
-            else if (abs(intervalSentenceInfo.period.localStartTime().DifferenceInHours(
-                         windDirectionPeriod.localStartTime())) <= 3 ||
-                     (abs(intervalSentenceInfo.period.localStartTime().DifferenceInHours(
-                          windDirectionPeriod.localStartTime())) < 8 &&
+            else if (differenceInHours <= 3 ||
+                     (differenceInHours < 8 &&
                       get_part_of_the_day_id_wind(windDirectionPeriod.localStartTime()) ==
                           get_part_of_the_day_id_wind(intervalSentenceInfo.period)))
             {
@@ -3077,15 +3085,6 @@ void WindForecast::injectWindDirections(
                                    << as_string(windDirectionInfo.period) << std::endl;
               intervalSentenceInfo.directionChange = windDirectionInfo;
               directionChangeStartIndex = h + 1;
-            }
-            else
-            {
-              if (h == sentenceInfo.intervalSentences.size() - 1 &&
-                  i == sentenceInfoVector.size() - 1 &&
-                  k == sentenceInfo.intervalSentences.size() - 1)
-                theParameters.theLog
-                    << "Direction changes after last interval start time are not reported: "
-                    << windDirectionPeriod.localStartTime() << std::endl;
             }
 #ifdef LATER
             else if (h == sentenceInfo.intervalSentences.size() - 1)
@@ -3559,9 +3558,23 @@ void WindForecast::checkWindDirections(WindSpeedSentenceInfo& sentenceInfoVector
         directionChanges.push_back(&dc);
     }
 
+    unsigned int step = 3;
     if (directionChanges.size() >= 3)
-      for (unsigned int i = 0; i < directionChanges.size(); i += 3)
+      for (unsigned int i = 0; i < directionChanges.size(); i += step)
       {
+        // ignore varying wind
+        if (directionChanges[i]->id == VAIHTELEVA || directionChanges[i + 1]->id == VAIHTELEVA ||
+            directionChanges[i + 1]->id == VAIHTELEVA)
+        {
+          if (directionChanges.size() - i <= 3) break;
+          step = 1;
+          continue;
+        }
+        else
+        {
+          step = 3;
+        }
+
         WeatherResult direction1 = directionChanges[i]->direction;
         WeatherResult direction2 = directionChanges[i + 1]->direction;
         WeatherResult direction3 = directionChanges[i + 2]->direction;
@@ -4542,6 +4555,7 @@ Sentence WindForecast::reportWindDirectionChanges(
         directionInfo.period, timePhraseInfo, get_period_length(directionInfo.period) > 6);
     s << windDirectionSentence(directionInfo.id);
   }
+
   return s;
 }
 
