@@ -6,6 +6,7 @@
 // ======================================================================
 
 #include "ThunderForecast.h"
+
 #include "AreaTools.h"
 #include "CloudinessStory.h"
 #include "CloudinessStoryTools.h"
@@ -124,8 +125,7 @@ Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
     float maxThunderExtent(0.0);
 
     // 5% in summer,10% other seasons
-    float thunderExtentLowerLimit =
-        SeasonTools::isSummer(thePeriod.localStartTime(), theVariable) ? 5.0 : 10.0;
+    //   float thunderExtentLowerLimit = theParameters.theThuderNormalExtentMin;
 
     maxThunderProbability = getMaxValue(thePeriod, *thunderProbabilityData);
     maxThunderExtent = getMaxValue(thePeriod, *thunderExtentData);
@@ -138,37 +138,42 @@ Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
       theParameters.theLog << "Thunder extent (max): " << maxThunderExtent << endl;
     }
 
-    if (maxThunderExtent >= thunderExtentLowerLimit && maxThunderExtent < 30.0)
+    if (maxThunderExtent >= theParameters.theThuderNormalExtentMin &&
+        maxThunderExtent < theParameters.theThuderNormalExtentMax)
     {
-      if (maxThunderProbability >= 5.0 && maxThunderProbability < 25.0)
+      if (maxThunderProbability >= theParameters.theThunderSmallProbabilityMin &&
+          maxThunderProbability < theParameters.theThunderSmallProbabilityMax)
       {
         sentence << Delimiter(",");
         sentence << PAIKOIN_VOI_MYOS_UKKOSTAA_PHRASE;
       }
-      else if (maxThunderProbability >= 25.0 && maxThunderProbability < 55.0)
+      else if (maxThunderProbability >= theParameters.theThunderNormalProbabilityMin &&
+               maxThunderProbability < theParameters.theThunderNormalProbabilityMax)
       {
         sentence << Delimiter(",");
         sentence << PAIKOIN_MYOS_UKKOSTAA_PHRASE;
       }
-      else if (maxThunderProbability >= 55)
+      else if (maxThunderProbability >= theParameters.theThunderNormalProbabilityMax)
       {
         sentence << JA_WORD;
         sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;
       }
     }
-    else if (maxThunderExtent >= 30)
+    else if (maxThunderExtent >= theParameters.theThuderNormalExtentMax)
     {
-      if (maxThunderProbability >= 5.0 && maxThunderProbability < 25.0)
+      if (maxThunderProbability >= theParameters.theThunderSmallProbabilityMin &&
+          maxThunderProbability < theParameters.theThunderSmallProbabilityMax)
       {
         sentence << Delimiter(",");
         sentence << MAHDOLLISESTI_MYOS_UKKOSTAA_PHRASE;
       }
-      else if (maxThunderProbability >= 25.0 && maxThunderProbability < 55.0)
+      else if (maxThunderProbability >= theParameters.theThunderNormalProbabilityMin &&
+               maxThunderProbability < theParameters.theThunderNormalProbabilityMax)
       {
         sentence << Delimiter(",");
         sentence << MYOS_UKKOSTA_ESIINTYY_PHRASE;
       }
-      else if (maxThunderProbability >= 55)
+      else if (maxThunderProbability >= theParameters.theThunderNormalProbabilityMax)
       {
         sentence << JA_WORD;
         sentence << TODENNAKOISESTI_MYOS_UKKOSTAA_PHRASE;

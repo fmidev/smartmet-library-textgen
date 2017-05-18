@@ -53,6 +53,8 @@
 
 namespace TextGen
 {
+// std::string as_string(const GlyphContainer& gc);
+
 namespace TemperatureMax36Hours
 {
 using NFmiStringTools::Convert;
@@ -2429,12 +2431,7 @@ Sentence tienoilla_and_tuntumassa_astetta(int degrees, temperature_phrase_id phr
 
   return sentence;
 }
-std::string as_string(const GlyphContainer& gc)
-{
-  DebugTextFormatter dtf;
 
-  return gc.realize(dtf);
-}
 Sentence construct_final_sentence(t36hparams& theParameters,
                                   const Sentence& temperatureSentence,
                                   const Sentence& daySentence,

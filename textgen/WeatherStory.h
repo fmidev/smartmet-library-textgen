@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "Story.h"
 #include <string>
+#include "Story.h"
 
 namespace TextGen
 {
@@ -39,6 +39,7 @@ class WeatherStory : public Story
  private:
   Paragraph overview() const;
   Paragraph forecast() const;
+  Paragraph forecast_at_sea() const;
   Paragraph shortoverview() const;
   Paragraph thunderprobability() const;
   Paragraph thunderprobability_simplified() const;

@@ -438,7 +438,17 @@ Sentence directed_speed_sentence(const WeatherResult& theMinSpeed,
     if (int_value >= 1)
     {
       sentence << *UnitFactory::create(MetersPerSecond, int_value);
-      if (int_value <= 20) sentence << direction_sentence(theDirection, theVariable);
+      if (int_value <= 20)
+      {
+        // Annakaisa 15.5.2017: merituuli-sääntö: suunnaltaan vaihtelevaa fraasia ei saa käyttää
+        // kuin heikon tuulen yhteydessä, ei siis koskaan 'Kohtalaista suunnaltaan vaihtelevaa
+        // tuulta', vaan tällöin sanotaan 'Kohtalaista tuulta'
+        if (int_value > WEAK_WIND_SPEED_UPPER_LIMIT &&
+            direction_accuracy(theDirection.error(), theVariable) == bad_accuracy)
+          sentence << "tuulta";
+        else
+          sentence << direction_sentence(theDirection, theVariable);
+      }
     }
   }
   else

@@ -1,7 +1,5 @@
 #pragma once
 
-//#include <vector>
-
 class MessageLogger;
 
 namespace TextGen
@@ -15,7 +13,7 @@ class WeatherForecastStoryItem
  public:
   WeatherForecastStoryItem(WeatherForecastStory& weatherForecastStory,
                            const WeatherPeriod& period,
-                           const story_part_id& storyPartId);
+                           story_part_id storyPartId);
 
   virtual ~WeatherForecastStoryItem() {}
   Sentence getSentence();
@@ -26,20 +24,21 @@ class WeatherForecastStoryItem
   int forecastPeriodLength() const;
   int storyItemPeriodLength() const;
   Sentence getTodayVectorSentence(const std::vector<Sentence*>& todayVector,
-                                  const unsigned int& theBegIndex,
-                                  const unsigned int& theEndIndex);
-  Sentence getPeriodPhrase(const bool& theFromSpecifier,
+                                  unsigned int theBegIndex,
+                                  unsigned int theEndIndex);
+  Sentence getPeriodPhrase();
+  Sentence getPeriodPhrase(bool theFromSpecifier,
                            const WeatherPeriod* thePhrasePeriod = 0,
-                           const bool& theStoryUnderConstructionEmpty = true);
-  std::string checkForAamuyoAndAamuPhrase(const bool& theFromSpecifier,
+                           bool theStoryUnderConstructionEmpty = true);
+  std::string checkForAamuyoAndAamuPhrase(bool theFromSpecifier,
                                           const WeatherPeriod& thePhrasePeriod);
   Sentence checkForExtendedPeriodPhrase(const WeatherPeriod& thePhrasePeriod);
 
-  const story_part_id& getStoryPartId() const { return theStoryPartId; }
+  story_part_id getStoryPartId() const { return theStoryPartId; }
   const WeatherPeriod& getPeriod() const { return thePeriod; }
   bool isIncluded() const { return theIncludeInTheStoryFlag; }
   unsigned int numberOfAdditionalSentences() { return theAdditionalSentences.size(); }
-  Sentence getAdditionalSentence(const unsigned int& index) const;
+  Sentence getAdditionalSentence(unsigned int index) const;
 
  protected:
   std::vector<Sentence> theAdditionalSentences;
@@ -64,14 +63,15 @@ class PrecipitationForecastStoryItem : public WeatherForecastStoryItem
  public:
   PrecipitationForecastStoryItem(WeatherForecastStory& weatherForecastStory,
                                  const WeatherPeriod& period,
-                                 const story_part_id& storyPartId,
-                                 const float& intensity,
-                                 const float& extent,
-                                 const unsigned int& form,
-                                 const precipitation_type& type,
-                                 const bool& thunder);
+                                 story_part_id storyPartId,
+                                 float intensity,
+                                 float extent,
+                                 unsigned int form,
+                                 precipitation_type type,
+                                 bool thunder);
 
   bool weakPrecipitation() const;
+  bool inManyPlaces() const;
   Sentence getStoryItemSentence();
 
  private:
@@ -99,8 +99,8 @@ class CloudinessForecastStoryItem : public WeatherForecastStoryItem
  public:
   CloudinessForecastStoryItem(WeatherForecastStory& weatherForecastStory,
                               const WeatherPeriod& period,
-                              const story_part_id& storyPartId,
-                              const cloudiness_id& cloudinessId,
+                              story_part_id storyPartId,
+                              cloudiness_id cloudinessId,
                               PrecipitationForecastStoryItem* previousPrecipitationStoryItem,
                               PrecipitationForecastStoryItem* nextPrecipitationStoryItem);
 
@@ -137,6 +137,7 @@ class WeatherForecastStory
   ~WeatherForecastStory();
 
   Paragraph getWeatherForecastStory();
+  Paragraph getWeatherForecastStoryAtSea();
   const WeatherPeriod& getStoryPeriod() const { return theForecastPeriod; }
   const std::vector<WeatherForecastStoryItem*>& getStoryItemVector() const
   {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PrecipitationForecast.h"
+#include "Sentence.h"
 #include "WeatherForecast.h"
 
 namespace TextGen
@@ -21,6 +22,20 @@ typedef std::pair<WeatherPeriod, fog_type_id> weather_period_fog_type_intensity_
 typedef std::vector<weather_period_fog_intensity_pair> fog_period_vector;
 typedef std::vector<weather_period_fog_type_intensity_pair> fog_type_period_vector;
 
+struct FogInfo
+{
+  FogInfo() : id(NO_FOG), period(TextGenPosixTime(), TextGenPosixTime()) {}
+  fog_type_id id;
+  WeatherPeriod period;
+  Sentence sentence;
+  Sentence timePhrase;
+
+  bool inManyPlaces()
+  {
+    return (id == FOG_IN_MANY_PLACES || id == FOG_IN_MANY_PLACES_POSSIBLY_DENSE);
+  }
+};
+
 class FogForecast
 {
  public:
@@ -28,6 +43,7 @@ class FogForecast
 
   ~FogForecast() {}
   Sentence fogSentence(const WeatherPeriod& thePeriod) const;
+  FogInfo fogInfo(const WeatherPeriod& thePeriod) const;
 
   void printOutFogPeriods(std::ostream& theOutput) const;
   void printOutFogTypePeriods(std::ostream& theOutput) const;
@@ -51,6 +67,9 @@ class FogForecast
   Sentence fogSentence(const WeatherPeriod& thePeriod,
                        const fog_type_period_vector& theFogTypePeriods,
                        const std::string& theAreaString) const;
+  FogInfo fogInfo(const WeatherPeriod& thePeriod,
+                  const fog_type_period_vector& theFogTypePeriods,
+                  const std::string& theAreaString) const;
 
   Sentence getFogPhrase(const fog_type_id& theFogTypeId) const;
   Sentence areaSpecificSentence(const WeatherPeriod& thePeriod) const;

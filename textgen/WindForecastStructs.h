@@ -294,14 +294,23 @@ struct WindEventPeriodDataItem
 
 struct WindDirectionInfo
 {
+  WeatherPeriod period;
   WeatherResult direction;
   WindDirectionId id;
 
   WindDirectionInfo()
-      : direction(WeatherResult(kFloatMissing, kFloatMissing)), id(MISSING_WIND_DIRECTION_ID)
+      : period(WeatherPeriod(TextGenPosixTime(), TextGenPosixTime())),
+        direction(WeatherResult(kFloatMissing, kFloatMissing)),
+        id(MISSING_WIND_DIRECTION_ID)
   {
   }
-  WindDirectionInfo(const WeatherResult& d, WindDirectionId i) : direction(d), id(i) {}
+  WindDirectionInfo(const WeatherPeriod& p, const WeatherResult& d, WindDirectionId i)
+      : period(p), direction(d), id(i)
+  {
+  }
+
+  TextGenPosixTime startTime() const { return period.localStartTime(); }
+  TextGenPosixTime endTime() const { return period.localEndTime(); }
 };
 
 struct TimePhraseInfo
@@ -319,6 +328,13 @@ struct TimePhraseInfo
       : starttime(st), endtime(et), day_number(d), part_of_the_day(pd)
   {
   }
+  TimePhraseInfo(const TimePhraseInfo& tpi)
+      : starttime(tpi.starttime),
+        endtime(tpi.endtime),
+        day_number(tpi.day_number),
+        part_of_the_day(tpi.part_of_the_day)
+  {
+  }
 };
 
 struct DirectionSentenceInfo
@@ -329,19 +345,6 @@ struct DirectionSentenceInfo
   TimePhraseInfo timePhraseInfo;
   WindDirectionInfo windDirectionInfo;
 };
-/*
-// in wind_overview.cpp
-WeatherResult mean_wind_direction(const AnalysisSources& theSources,
-                                const WeatherArea& theArea,
-                                const WeatherPeriod& thePeriod,
-                                const WeatherResult& theEqualizedWindSpeedMedian,
-                                const WeatherResult& theEqualizedWindSpeedTop,
-                                const std::string& theVar);
-// in wind_overview.cpp
-float mean_wind_direction_error(const wind_data_item_vector& theWindDataVector,
-                              const WeatherArea& theArea,
-                              const WeatherPeriod& thePeriod);
-*/
 
 // in WindForecast.cpp
 std::string get_wind_event_string(WindEventId theWindEventId);
@@ -355,7 +358,6 @@ bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& t
 unsigned int get_peak_wind(const WeatherPeriod& thePeriod, const wo_story_params& theParameters);
 float get_top_wind(const WeatherPeriod& thePeriod, const wo_story_params& theParameters);
 
-std::ostream& operator<<(std::ostream& theOutput, const WeatherPeriod& period);
 std::ostream& operator<<(std::ostream& theOutput,
                          const WindEventPeriodDataItem& theWindEventPeriodDataItem);
 

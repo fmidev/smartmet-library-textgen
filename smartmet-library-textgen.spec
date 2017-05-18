@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.4.24
+Version: 17.5.16
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -62,6 +62,23 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue May 16 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.16-1.fmi
+- new story weather_forecast_at_sea added, fixed wind_overview, weather_forecast bugs:
+- new weather forecast story 'weather_forecast_at_sea' reports precipitation, thunder, fog and visibility at sea
+- sea breeze: If wind is not weak (> 5m/s) but it is varying (deviation > 45 degrees), we dont report wind direction, for example NOT 'Kohtalaista suunnaltaan vaihtelevaa tuulta', but 'Kohtalaista tuulta'
+- Use wew configuration parameters for thuder forecast (default values below) instead of hard coded values:
+  summertime::thunder::normal_extent_min = 5
+  summertime::thunder::normal_extent_max = 30
+  wintertime::thunder::normal_extent_min = 10
+  wintertime::thunder::normal_extent_max = 30
+  thunder::small_probability_min = 10
+  thunder::small_probability_max = 20
+  thunder::normal_probability_min = 30
+  thunder::normal_probability_max = 50
+- fixed wind_overview bugs for example:
+  - tautology in time phrases in successive sentences
+  - when wind weakens/strenghtens, report maximum two wind speed interval instead of three
+
 * Mon Apr 24 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.4.24-1.fmi
 - Fixed to use C++1 compiler options
 - Added necessary override declarations

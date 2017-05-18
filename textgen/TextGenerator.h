@@ -10,7 +10,7 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 
-#define VERSION_STRING "17.2.21-1"
+#define VERSION_STRING "17.5.16-1"
 
 class TextGenPosixTime;
 
@@ -42,7 +42,7 @@ class TextGenerator
 
   Document generate(const TextGen::WeatherArea& theArea) const;
 
-  static std::string version() { return VERSION_STRING; }
+  static std::string version();
 
  private:
   class Pimple;

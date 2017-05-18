@@ -1,7 +1,9 @@
 #include "WeatherForecast.h"
+
 #include "AreaTools.h"
 #include "CloudinessStory.h"
 #include "CloudinessStoryTools.h"
+#include "DebugTextFormatter.h"
 #include "Delimiter.h"
 #include "MessageLogger.h"
 #include "NightAndDayPeriodGenerator.h"
@@ -25,6 +27,8 @@
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <macgyver/StringConversion.h>
+#include <macgyver/TimeFormatter.h>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
@@ -42,7 +46,36 @@ using namespace AreaTools;
 using namespace boost;
 using namespace std;
 
-std::string as_string(const GlyphContainer& gc);
+std::string as_string(const GlyphContainer& gc)
+{
+  DebugTextFormatter dtf;
+
+  return gc.realize(dtf);
+}
+
+std::string as_string(const WeatherResult& wr)
+{
+  std::string ret;
+
+  ret.append("(");
+  ret.append(Fmi::to_string(wr.value()));
+  ret.append(", ");
+  ret.append(Fmi::to_string(wr.error()));
+  ret.append(")");
+
+  return ret;
+}
+
+std::string as_string(const WeatherPeriod& period)
+{
+  std::string ret;
+
+  ret.append(period.localStartTime().ToStr(kYYYYMMDDHHMMSS));
+  ret.append("...");
+  ret.append(period.localEndTime().ToStr(kYYYYMMDDHHMMSS));
+
+  return ret;
+}
 
 const char* weather_event_string(weather_event_id theWeatherEventId)
 {
@@ -173,6 +206,8 @@ const char* part_of_the_day_string(part_of_the_day_id thePartOfTheDayId)
       return "aamu";
     case AAMUPAIVA:
       return "aamupaiva";
+    case KESKIPAIVA:
+      return "keskipaiva";
     case ILTAPAIVA:
       return "iltapaiva";
     case ILTA:
@@ -561,10 +596,11 @@ WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
       is_inside(theWeatherPeriod2.localEndTime(), theWeatherPeriod1))
     return theWeatherPeriod2;
 
-  TextGenPosixTime startTime(theWeatherPeriod1.localStartTime() > theWeatherPeriod2.localStartTime()
+  TextGenPosixTime startTime(theWeatherPeriod1.localStartTime() >=
+                                     theWeatherPeriod2.localStartTime()
                                  ? theWeatherPeriod1.localStartTime()
                                  : theWeatherPeriod2.localStartTime());
-  TextGenPosixTime endTime(theWeatherPeriod1.localEndTime() < theWeatherPeriod2.localEndTime()
+  TextGenPosixTime endTime(theWeatherPeriod1.localEndTime() <= theWeatherPeriod2.localEndTime()
                                ? theWeatherPeriod1.localEndTime()
                                : theWeatherPeriod2.localEndTime());
 
@@ -679,6 +715,11 @@ std::string get_time_phrase_from_id(part_of_the_day_id thePartOfTheDayId,
     case AAMUPAIVA:
     {
       retval = (theAlkaenPhrase ? AAMUPAIVASTA_ALKAEN_PHRASE : AAMUPAIVALLA_WORD);
+    }
+    break;
+    case KESKIPAIVA:
+    {
+      retval = (theAlkaenPhrase ? KESKIPAIVASTA_ALKAEN_PHRASE : KESKIPAIVALLA_WORD);
     }
     break;
     case ILTA:
@@ -988,7 +1029,11 @@ Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
             std::stringstream sentence_ss;
             if (theSpecifyDayFlag) sentence_ss << weekday << "-";
             sentence_ss << thePhraseString;
-            if (sentence_ss.str().size() > 2) sentence << sentence_ss.str();
+            if (sentence_ss.str().size() > 2)
+            {
+              sentence << sentence_ss.str();
+              thePhraseString = sentence_ss.str();
+            }
           }
           else  // if (sentence.empty())
           {

@@ -1125,6 +1125,29 @@ void init_parameters(wf_story_params& theParameters)
 {
   create_data_structures(theParameters);
 
+  if (SeasonTools::isSummer(theParameters.theForecastTime, theParameters.theVariable))
+  {
+    theParameters.theThuderNormalExtentMin = Settings::optional_double(
+        theParameters.theVariable + "::summertime::thunder::normal_extent_min", 5.0);
+    theParameters.theThuderNormalExtentMax = Settings::optional_double(
+        theParameters.theVariable + "::summertime::thunder::normal_extent_max", 30.0);
+  }
+  else
+  {
+    theParameters.theThuderNormalExtentMin = Settings::optional_double(
+        theParameters.theVariable + "::wintertime::thunder::normal_extent_min", 10.0);
+    theParameters.theThuderNormalExtentMax = Settings::optional_double(
+        theParameters.theVariable + "::wintertime::thunder::normal_extent_max", 30.0);
+  }
+  theParameters.theThunderSmallProbabilityMin = Settings::optional_double(
+      theParameters.theVariable + "::thunder::small_probability_min", 10.0);
+  theParameters.theThunderSmallProbabilityMax = Settings::optional_double(
+      theParameters.theVariable + "::thunder::small_probability_max", 20.0);
+  theParameters.theThunderNormalProbabilityMin = Settings::optional_double(
+      theParameters.theVariable + "::thunder::normal_probability_min", 30.0);
+  theParameters.theThunderNormalProbabilityMax = Settings::optional_double(
+      theParameters.theVariable + "::thunder::normal_probability_max", 50.0);
+
   theParameters.theDryWeatherLimitWater = Settings::optional_double(
       theParameters.theVariable + "::dry_weather_limit_water", DRY_WEATHER_LIMIT_WATER);
   theParameters.theDryWeatherLimitDrizzle = Settings::optional_double(
@@ -1322,6 +1345,96 @@ const Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
   return paragraph;
 }
 
+const Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
+                                        const TextGen::WeatherPeriod& itsPeriod,
+                                        const TextGen::AnalysisSources& itsSources,
+                                        const TextGenPosixTime& itsForecastTime,
+                                        const std::string itsVar,
+                                        MessageLogger& theLog)
+{
+  using namespace PrecipitationPeriodTools;
+
+  Paragraph paragraph;
+
+  // Period generator
+  const HourPeriodGenerator periodgenerator(itsPeriod, itsVar + "::day");
+
+  theLog << "Period " << itsPeriod.localStartTime() << "..." << itsPeriod.localEndTime();
+
+  TextGenPosixTime dataPeriodStartTime(itsPeriod.localStartTime());
+  TextGenPosixTime dataPeriodEndTime(itsPeriod.localEndTime());
+
+  dataPeriodStartTime.ChangeByHours(-12);
+  dataPeriodEndTime.ChangeByHours(12);
+
+  log_start_time_and_end_time(theLog, "the forecast period: ", itsPeriod);
+
+  log_start_time_and_end_time(
+      theLog, "the data gathering period: ", WeatherPeriod(dataPeriodStartTime, dataPeriodEndTime));
+
+  if (itsArea.isNamed())
+  {
+    std::string name(itsArea.name());
+    theLog << "** " << name << " **" << endl;
+  }
+
+  WeatherPeriod theDataGatheringPeriod(dataPeriodStartTime, dataPeriodEndTime);
+
+  wf_story_params theParameters(
+      itsVar, itsArea, theDataGatheringPeriod, itsPeriod, itsForecastTime, itsSources, theLog);
+
+  init_parameters(theParameters);
+
+  if (theParameters.theForecastArea == NO_AREA) return paragraph;
+
+  populate_precipitation_time_series(theParameters);
+  populate_cloudiness_time_series(theParameters);
+  populate_fogintensity_time_series(theParameters);
+  populate_thunderprobability_time_series(theParameters);
+
+  CloudinessForecast cloudinessForecast(theParameters);
+  PrecipitationForecast precipitationForecast(theParameters);
+  FogForecast fogForecast(theParameters);
+  ThunderForecast thunderForecast(theParameters);
+
+  theParameters.thePrecipitationForecast = &precipitationForecast;
+  theParameters.theCloudinessForecast = &cloudinessForecast;
+  theParameters.theFogForecast = &fogForecast;
+  theParameters.theThunderForecast = &thunderForecast;
+  /*
+  precipitationForecast.printOutPrecipitationData(theLog);
+  precipitationForecast.printOutPrecipitationPeriods(theLog, itsArea.isPoint());
+  precipitationForecast.printOutPrecipitationWeatherEvents(theLog);
+  //	cloudinessForecast.printOutCloudinessData(theLog);
+  cloudinessForecast.printOutCloudinessWeatherEvents(theLog);
+  fogForecast.printOutFogData(theLog);
+  fogForecast.printOutFogPeriods(theLog);
+  fogForecast.printOutFogTypePeriods(theLog);
+  */
+
+  // log_weather_result_data(theParameters);
+
+  WeatherForecastStory wfs(itsVar,
+                           itsPeriod,
+                           itsArea,
+                           theParameters.theForecastArea,
+                           itsForecastTime,
+                           precipitationForecast,
+                           cloudinessForecast,
+                           fogForecast,
+                           thunderForecast,
+                           theParameters.theLog);
+
+  //  wfs.logTheStoryItems();
+
+  const_cast<WeatherHistory&>(itsArea.history())
+      .updateTimePhrase("", "", TextGenPosixTime(1970, 1, 1));
+
+  paragraph << wfs.getWeatherForecastStoryAtSea();
+
+  return paragraph;
+}
+
 bool is_same_part_of_the_day(const std::string& phrase1, const std::string& phrase2)
 {
   if ((phrase1 == AAMULLA_WORD && (phrase2 == AAMULLA_WORD || phrase2 == AAMUSTA_ALKAEN_PHRASE)) ||
@@ -1467,6 +1580,41 @@ Paragraph WeatherStory::forecast() const
   }
 
   analyze_sentences(paragraph);
+
+  return paragraph;
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Generate overview on weather at sea
+ *
+ * \return The story
+ *
+ * \see page_weather_forecast_at_sea
+ *
+ * \todo Much missing
+ */
+// ----------------------------------------------------------------------
+
+Paragraph WeatherStory::forecast_at_sea() const
+{
+  MessageLogger log("WeatherStory::forecast_at_sea");
+
+  using namespace PrecipitationPeriodTools;
+
+  Paragraph paragraph;
+
+  std::string areaName("");
+
+  if (itsArea.isNamed())
+  {
+    areaName = itsArea.name();
+  }
+
+  log << areaName << endl;
+
+  paragraph << weather_forecast_at_sea(
+      itsArea, itsPeriod, itsSources, itsForecastTime, itsVar, log);
 
   return paragraph;
 }
