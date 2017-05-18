@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.5.16
+Version: 17.5.18
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -62,6 +62,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu May 18 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.18-1.fmi
+- time phrase handling corrected
+
 * Tue May 16 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.16-1.fmi
 - new story weather_forecast_at_sea added, fixed wind_overview, weather_forecast bugs:
 - new weather forecast story 'weather_forecast_at_sea' reports precipitation, thunder, fog and visibility at sea
