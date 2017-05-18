@@ -807,6 +807,11 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
     theParameters.theLog << "Precipitation form is "
                          << precipitation_form_string(thePrecipitationForm) << endl;
     theParameters.theLog << "Precipitation extent is " << thePrecipitationExtent << endl;
+    theParameters.theLog << "Precipitation type is "
+                         << (thePrecipitationType == 1
+                                 ? "'continuous'"
+                                 : (thePrecipitationType == 2 ? "'showers'" : "'missing'"))
+                         << endl;
 
     if (!(thePrecipitationIntensity >= theParameters.theDryWeatherLimitSnow && mostly_dry_weather))
       theCompositePhraseElements[PAIKOIN_HEIKKOA_SADETTA_COMPOSITE_PHRASE] << SAA_WORD;
@@ -1737,7 +1742,6 @@ precipitation_type PrecipitationForecast::getPrecipitationType(
         continuous_counter++;
     }
   }
-
   return (continuous_counter >= showers_counter ? CONTINUOUS : SHOWERS);
 }
 

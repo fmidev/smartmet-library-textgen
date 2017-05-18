@@ -518,70 +518,6 @@ void get_part_of_the_day(part_of_the_day_id thePartOfTheDayId, int& theStartHour
   }
 }
 
-part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
-                                                               bool theAlkaenPhrase)
-{
-  part_of_the_day_id idLarge = get_part_of_the_day_id_large(thePeriod);
-
-  if (idLarge < PAIVA) return idLarge;
-
-  part_of_the_day_id idBeg = get_part_of_the_day_id_narrow(
-      WeatherPeriod(thePeriod.localStartTime(), thePeriod.localStartTime()));
-  part_of_the_day_id idEnd = get_part_of_the_day_id_narrow(
-      WeatherPeriod(thePeriod.localEndTime(), thePeriod.localEndTime()));
-
-  // if long period return id from start
-  if (get_period_length(thePeriod) > 6)
-  {
-    int firstHour = thePeriod.localStartTime().GetHour();
-    if (firstHour == 12)
-      return ILTAPAIVA;
-    else if (firstHour == 0)
-      return AAMUYO;
-    else if (firstHour == 17 || firstHour == 18)
-      return ILTA;
-    else if (firstHour == 6)
-      return AAMU;
-
-    return idBeg;
-  }
-  int hoursInTheFirstPart(0);
-  int hoursInTheSecondPart(0);
-  int startHour(0);
-  int endHour(0);
-
-  get_part_of_the_day(idBeg, startHour, endHour);
-
-  // change endtime forwards till endHour for the part_of_the_day is reached
-  TextGenPosixTime endTimeFirstPart = thePeriod.localStartTime();
-  while (endTimeFirstPart.GetHour() != endHour)
-    endTimeFirstPart.ChangeByHours(1);
-
-  if (idBeg == YO && thePeriod.localStartTime().GetHour() > 6)
-    hoursInTheFirstPart = (24 - thePeriod.localStartTime().GetHour()) + endHour;
-  else
-    hoursInTheFirstPart = endHour - thePeriod.localStartTime().GetHour();
-
-  get_part_of_the_day(idEnd, startHour, endHour);
-
-  if (idEnd == YO && thePeriod.localEndTime().GetHour() > 6)
-    hoursInTheSecondPart = (24 - thePeriod.localEndTime().GetHour()) + endHour;
-  else
-    hoursInTheSecondPart = endHour - thePeriod.localEndTime().GetHour();
-
-  TextGenPosixTime endTimeSecondPart = thePeriod.localEndTime();
-
-  // change endtime backwards till startHour for the part_of_the_day is reached
-  while (endTimeSecondPart.GetHour() != startHour)
-    endTimeSecondPart.ChangeByHours(-1);
-
-  hoursInTheFirstPart = abs(endTimeFirstPart.DifferenceInHours(thePeriod.localStartTime()));
-
-  hoursInTheSecondPart = abs(endTimeSecondPart.DifferenceInHours(thePeriod.localEndTime()));
-
-  return ((hoursInTheFirstPart >= hoursInTheSecondPart || theAlkaenPhrase) ? idBeg : idEnd);
-}
-
 WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
                                   const WeatherPeriod& theWeatherPeriod2)
 {
@@ -605,6 +541,122 @@ WeatherPeriod intersecting_period(const WeatherPeriod& theWeatherPeriod1,
                                : theWeatherPeriod2.localEndTime());
 
   return WeatherPeriod(startTime, endTime);
+}
+
+WeatherPeriod get_period_for_id(part_of_the_day_id& id, const WeatherPeriod& thePeriod)
+{
+  TextGenPosixTime startTime = thePeriod.localStartTime();
+  TextGenPosixTime endTime = thePeriod.localStartTime();
+
+  switch (id)
+  {
+    case AAMU:
+    {
+      startTime.SetHour(6);
+      endTime.SetHour(9);
+      break;
+    }
+    case AAMUPAIVA:
+    {
+      startTime.SetHour(9);
+      endTime.SetHour(12);
+      break;
+    }
+    case KESKIPAIVA:
+    {
+      startTime.SetHour(11);
+      endTime.SetHour(13);
+      break;
+    }
+    case ILTAPAIVA:
+    {
+      startTime.SetHour(12);
+      endTime.SetHour(18);
+      break;
+    }
+    case ILTA:
+    {
+      startTime.SetHour(17);
+      endTime.SetHour(22);
+      break;
+    }
+    case ILTAYO:
+    {
+      startTime.SetHour(21);
+      endTime.SetHour(23);
+      break;
+    }
+    case AAMUYO:
+    {
+      startTime.SetHour(2);
+      endTime.SetHour(6);
+      break;
+    }
+    case KESKIYO:
+    {
+      startTime.SetHour(23);
+      endTime.ChangeByDays(1);
+      endTime.SetHour(1);
+      break;
+    }
+    default:
+      break;
+  }
+
+  WeatherPeriod comparePeriod(startTime, endTime);
+
+  return intersecting_period(thePeriod, comparePeriod);
+}
+
+part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
+                                                               bool theAlkaenPhrase)
+{
+  part_of_the_day_id idLarge = get_part_of_the_day_id_large(thePeriod);
+
+  if (idLarge < PAIVA) return idLarge;
+
+  // if long period return id from start
+  if (get_period_length(thePeriod) > 6)
+  {
+    int firstHour = thePeriod.localStartTime().GetHour();
+    if (firstHour == 12)
+      return ILTAPAIVA;
+    else if (firstHour == 0)
+      return AAMUYO;
+    else if (firstHour == 17 || firstHour == 18)
+      return ILTA;
+    else if (firstHour == 6)
+      return AAMU;
+
+    return get_part_of_the_day_id_narrow(
+        WeatherPeriod(thePeriod.localStartTime(), thePeriod.localStartTime()));
+  }
+
+  std::vector<int> intersectingHours;
+  for (unsigned int i = 0; i <= AAMUYO; i++)
+  {
+    part_of_the_day_id id = static_cast<part_of_the_day_id>(i);
+    intersectingHours.push_back(get_period_length(get_period_for_id(id, thePeriod)));
+  }
+
+  part_of_the_day_id ret = MISSING_PART_OF_THE_DAY_ID;
+  unsigned int maxHoursIndex = 0;
+  for (unsigned int i = 0; i <= AAMUYO; i++)
+  {
+    if (i == 0)
+    {
+      ret = static_cast<part_of_the_day_id>(i);
+      continue;
+    }
+    part_of_the_day_id id = static_cast<part_of_the_day_id>(i);
+    if (intersectingHours[id] > intersectingHours[maxHoursIndex])
+    {
+      ret = static_cast<part_of_the_day_id>(i);
+      maxHoursIndex = i;
+    }
+  }
+
+  return ret;
 }
 
 bool is_inside(const WeatherPeriod& theWeatherPeriod1, const WeatherPeriod& theWeatherPeriod2)
