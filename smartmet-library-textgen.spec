@@ -5,7 +5,7 @@
 Summary: textgen library
 Name: %{SPECNAME}
 Version: 17.5.18
-Release: 1%{?dist}.fmi
+Release: 2%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -62,6 +62,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu May 18 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.18-2.fmi
+- fixed wind speed reporting in first sentence
+
 * Thu May 18 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.18-1.fmi
 - time phrase handling corrected
 

@@ -1835,6 +1835,7 @@ void WindForecast::constructWindSentence2(const WindEventPeriodDataItem* windSpe
     }
     else if (!windStrenghtens && windSpeedReportingPeriods.size() > 1)
     {
+#ifdef LATER
       // if TUULI_HEIKKENEE on last period and it is longer than 3h,
       // report speed only on only three last hours
       WeatherPeriod& lp = windSpeedReportingPeriods[windSpeedReportingPeriods.size() - 1];
@@ -1849,6 +1850,7 @@ void WindForecast::constructWindSentence2(const WindEventPeriodDataItem* windSpe
                                 "speed only on last 3 hours"
                              << std::endl;
       }
+#endif
     }
 
     bool smallChange = false;
@@ -3132,7 +3134,7 @@ void WindForecast::checkWindSpeedIntervals(
     WindSpeedSentenceInfo& sentenceInfoVector,
     const std::vector<WeatherPeriod>& windDirectionPeriods) const
 {
-  interval_sentence_info* previousIntervalSentenceInfo = 0;
+  //  interval_sentence_info* previousIntervalSentenceInfo = 0;
   for (unsigned int i = 0; i < sentenceInfoVector.size(); i++)
   {
     sentence_info& sentenceInfo = sentenceInfoVector[i];
@@ -3140,7 +3142,10 @@ void WindForecast::checkWindSpeedIntervals(
     for (unsigned int k = 0; k < sentenceInfo.intervalSentences.size(); k++)
     {
       interval_sentence_info& isi = sentenceInfo.intervalSentences[k];
+      if (i == 0 || (i > 0 && get_period_length(sentenceInfo.period) <= 6))
+        isi.useAlkaenPhrase = (get_period_length(isi.period) > 6);
 
+#ifdef LATER
       isi.intervalInfo = windSpeedIntervalInfo(isi.period);
 
       if (previousIntervalSentenceInfo)
@@ -3154,9 +3159,10 @@ void WindForecast::checkWindSpeedIntervals(
       }
       if (k == sentenceInfo.intervalSentences.size() - 1 && i == sentenceInfoVector.size() - 1)
       {
-        isi.useAlkaenPhrase = abs(
-            sentenceInfo.period.localEndTime().DifferenceInHours(isi.period.localStartTime()) > 6);
+        isi.useAlkaenPhrase = (get_period_length(isi.period) > 6);
 
+        isi.useAlkaenPhrase = (abs(sentenceInfo.period.localEndTime().DifferenceInHours(
+                                   isi.period.localStartTime())) > 6);
         if (isi.useAlkaenPhrase)
           isi.period =
               WeatherPeriod(isi.period.localStartTime(), sentenceInfo.period.localEndTime());
@@ -3165,6 +3171,7 @@ void WindForecast::checkWindSpeedIntervals(
         isi.useAlkaenPhrase = (get_period_length(isi.period) > 6);
 
       previousIntervalSentenceInfo = &isi;
+#endif
     }
   }
 }
@@ -4199,7 +4206,9 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
   /*
   std::cout << "timePhrase: " << as_string(thePeriod) << " --> " << tps << " (" << specifyDay
             << " -> " << timePhraseInfo.day_number << ")"
-            << " -> " << as_string(actualPeriod) << " -> " << timePhraseInfo << std::endl;
+            << " -> " << as_string(actualPeriod)
+            << (useAlkaenPhrase ? " use alkaen phrase" : " dont use alkaen phrase") << " -> "
+            << timePhraseInfo << std::endl;
   */
   return sentence;
 }
@@ -4320,6 +4329,11 @@ vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
       }
       else
       {
+        WeatherPeriod lastPeriod(windDataItem.thePeriod.localStartTime(),
+                                 speedEventPeriod.localEndTime());
+        resultVector.push_back(lastPeriod);
+        theParameters.theLog << "Last reporting period " << as_string(lastPeriod) << std::endl;
+#ifdef LATER
         // handle last reporting period when there are many reporting points:
         // last reporting point is at the end of the increasing/decreasing period
         // except when period ends in the evening or in the morning, in that case
@@ -4340,6 +4354,7 @@ vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
         theParameters.theLog << "Last reporting period, special handling "
                              << as_string(windDataItemLast.thePeriod) << ", "
                              << as_string(lastReportingPeriod) << std::endl;
+#endif
       }
     }
   }
@@ -4347,26 +4362,32 @@ vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
   vector<WeatherPeriod> retVector;
   // max two intervals reported
   if (resultVector.size() > 0) retVector.push_back(resultVector.front());
+
   if (resultVector.size() > 1)
   {
     retVector.push_back(resultVector.back());
-    WeatherPeriod firstPeriod = retVector.front();
-    WeatherPeriod lastPeriod = retVector.back();
-    if (lastPeriod.localStartTime().GetDay() == lastPeriod.localStartTime().GetDay())
+    if (!firstSentenceInTheStory)
     {
-      TimePhraseInfo tpiFirst;
-      TimePhraseInfo tpiLast;
-      getTimePhrase(firstPeriod, tpiFirst, false);
-      getTimePhrase(lastPeriod, tpiLast, false);
-      if (tpiFirst == tpiLast)
+      WeatherPeriod firstPeriod = retVector.front();
+      WeatherPeriod lastPeriod = retVector.back();
+      if (lastPeriod.localStartTime().GetDay() == lastPeriod.localStartTime().GetDay())
       {
-        retVector.erase(retVector.begin());
-        theParameters.theLog << "Speed reporting points at the same part of the day -> report only "
-                                "the latter period: "
-                             << as_string(*(retVector.begin())) << std::endl;
+        TimePhraseInfo tpiFirst;
+        TimePhraseInfo tpiLast;
+        getTimePhrase(firstPeriod, tpiFirst, false);
+        getTimePhrase(lastPeriod, tpiLast, false);
+        if (tpiFirst == tpiLast)
+        {
+          retVector.erase(retVector.begin());
+          theParameters.theLog
+              << "Speed reporting points at the same part of the day -> report only "
+                 "the latter period: "
+              << as_string(*(retVector.begin())) << std::endl;
+        }
       }
     }
   }
+
   // check the timePhrase of last reporting period:
   // - if forecast period end in the evening the last phrase can not be 'illalla'
   // - if forecast period end in the morning the last phrase can not be 'aamulla'
