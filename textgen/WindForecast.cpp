@@ -1736,7 +1736,9 @@ void WindForecast::constructWindSentence2(const WindEventPeriodDataItem* windSpe
   if (is_weak_period(theParameters, windSpeedEventPeriod))
   {
     // weak period in the middle is not reported
-    if (firstSentence)
+    if (!firstSentence &&
+        get_period_length(windSpeedEventPeriod) !=
+            get_period_length(theParameters.theForecastPeriod))
     {
       theParameters.theLog << "Wind is weak on period " << as_string(windSpeedEventPeriod)
                            << " -> period is not reported" << std::endl;
@@ -1971,7 +1973,9 @@ std::vector<Sentence> WindForecast::constructWindSentence(
   // we dont report speed and direction changes on weak period
   if (is_weak_period(theParameters, windSpeedEventPeriod))
   {
-    if (!firstSentence)
+    if (!firstSentence &&
+        get_period_length(windSpeedEventPeriod) !=
+            get_period_length(theParameters.theForecastPeriod))
     {
       theParameters.theLog << "Wind is weak on period " << as_string(windSpeedEventPeriod)
                            << " -> period is not reported" << std::endl;

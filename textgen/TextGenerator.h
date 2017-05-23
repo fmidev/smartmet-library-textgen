@@ -10,8 +10,6 @@
 #include <boost/shared_ptr.hpp>
 #include <string>
 
-#define VERSION_STRING "17.5.16-1"
-
 class TextGenPosixTime;
 
 namespace TextGen

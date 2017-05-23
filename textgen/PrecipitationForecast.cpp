@@ -824,7 +824,7 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
       {
         if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitWater)
         {
-          if (mostly_dry_weather)
+          if (mostly_dry_weather && thePrecipitationType == SHOWERS)
           {
             mostlyDryWeatherPhrase(is_showers,
                                    thePeriod,
