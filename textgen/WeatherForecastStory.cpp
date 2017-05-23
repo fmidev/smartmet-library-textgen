@@ -199,12 +199,18 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
       PrecipitationForecastStoryItem* precipitationStoryItem =
           static_cast<PrecipitationForecastStoryItem*>(item);
 
+      bool sleetOrSnow = (precipitationStoryItem->theForm & SLEET_FORM ||
+                          precipitationStoryItem->theForm & SNOW_FORM);
+
+      theLogger << "Precipitation period: " << as_string(item->thePeriod) << ": "
+                << (precipitationStoryItem->weakPrecipitation() ? "weak, " : "")
+                << " extent: " << precipitationStoryItem->theExtent
+                << (sleetOrSnow ? ", sleet or snow" : "") << std::endl;
+
       // if precipitation form is sleet or snow, report it even if it is weak
       // and extent of precipitation area must be over 10 %
-      if (((!precipitationStoryItem->weakPrecipitation() ||
-            (precipitationStoryItem->theForm & SLEET_FORM ||
-             precipitationStoryItem->theForm & SNOW_FORM)) &&
-           precipitationStoryItem->theExtent > 10))
+      if ((sleetOrSnow || !precipitationStoryItem->weakPrecipitation()) &&
+          precipitationStoryItem->theExtent > 10)
       {
         bool mergeDone = false;
         if (storyItems.size() > 0)
@@ -222,13 +228,10 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
                 precipitationStoryItem->thePeriod.localStartTime().DifferenceInHours(
                     previousPrecipitationStoryItem->thePeriod.localEndTime()) <= 2)
             {
-              /*
-  std::cout << "merge periods: " << as_string(previousPrecipitationStoryItem->thePeriod)
-            << " and " << as_string(precipitationStoryItem->thePeriod) << ", "
-            << precipitationStoryItem->thePeriod.localStartTime().DifferenceInHours(
-                   previousPrecipitationStoryItem->thePeriod.localEndTime())
-            << std::endl;
-              */
+              theLogger << "Merging periods  "
+                        << as_string(previousPrecipitationStoryItem->thePeriod) << " and "
+                        << as_string(precipitationStoryItem->thePeriod)
+                        << " because they are close to each other" << std::endl;
               TextGenPosixTime startTime =
                   previousPrecipitationStoryItem->thePeriod.localStartTime();
               TextGenPosixTime endTime = precipitationStoryItem->thePeriod.localEndTime();
@@ -236,13 +239,6 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
               mergeDone = true;
             }
           }
-          /*
-WeatherForecastStoryItem*
-thePeriodToMergeWith;  // if periods are merged this points to the megreable period
-WeatherForecastStoryItem*
-thePeriodToMergeTo;  // if periods are merged this points to the merged period
-
-           */
         }
         if (!mergeDone) storyItems.push_back(std::make_pair(item->theStoryPartId, i));
       }
@@ -253,19 +249,10 @@ thePeriodToMergeTo;  // if periods are merged this points to the merged period
     {
       CloudinessForecastStoryItem* cloudinessStoryItem =
           static_cast<CloudinessForecastStoryItem*>(item);
-      /*
-
-  FogInfo fi = theFogForecast.fogInfo(cloudinessStoryItem->thePeriod);
-  if (get_period_length(fi.period) > 0 && !fi.sentence.empty())
-      */
       if (storyItems.size() > 0)
         storyItems.push_back(make_pair(cloudinessStoryItem->theStoryPartId, i));
-
-      //    storyItems.push_back(make_pair(item->theStoryPartId, i));
     }
   }
-
-  //  std::cout << "   Story Items #" << storyItems.size() << std::endl;
 
   // if precipitation/fog lasts whole period
   if (storyItems.size() > 0)
@@ -279,7 +266,6 @@ thePeriodToMergeTo;  // if periods are merged this points to the merged period
       theStorySize += 1;
   }
 
-  WeatherForecastStoryItem* previousPrecipitationPeriod = nullptr;
   WeatherForecastStoryItem* previousCloudinessPeriod = nullptr;
   int previousStoryItemIndex = -1;
   for (unsigned int i = 0; i < storyItems.size(); i++)
@@ -289,17 +275,9 @@ thePeriodToMergeTo;  // if periods are merged this points to the merged period
 
     if (storyItems[i].first == CLOUDINESS_STORY_PART)
     {
-      // there can be possibly several successive fog sentences -> report them togethermerge them
+      // there can possibly be several successive fog sentences -> report them togethermerge them
       if (i < storyItems.size() - 1 && storyItems[i + 1].first == CLOUDINESS_STORY_PART)
       {
-        // report clearing up after precipitation
-        /*
-if (previousCloudinessPeriod)
-{
-  std::cout << "push cloudine1ss\n ";
-  weatherForecastSentences.push_back(previousCloudinessPeriod->getSentence());
-}
-        */
         FogInfo fogInfo = theFogForecast.fogInfo(item->thePeriod);
         if (fogInfo.id != NO_FOG)
           if (!previousCloudinessPeriod) previousCloudinessPeriod = item;
@@ -329,55 +307,33 @@ std::cout << "fog period " << as_string(previousCloudinessPeriod->thePeriod) << 
         {
           weatherForecastSentences.push_back(fogSentence);
           theStorySize += fogSentence.size();
-          /*
-  theLogger << "Fog periods: " << as_string(firstFI.period) << " and "
-            << as_string(secondFI.period) << std::endl;
-          */
+
+          theLogger << "Fog periods: " << as_string(firstFI.period) << " and "
+                    << as_string(secondFI.period) << " -> " << as_string(fogSentence) << std::endl;
         }
 
         if (firstFI.id == FOG || firstFI.id == FOG_POSSIBLY_DENSE)
           precipitationAndFogPeriodLength += get_period_length(previousCloudinessPeriod->thePeriod);
         if (secondFI.id == FOG || secondFI.id == FOG_POSSIBLY_DENSE)
           precipitationAndFogPeriodLength += get_period_length(item->thePeriod);
-
-        /*
-std::cout << "FogSentence0 " << i << "," << as_string(firstFI.period) << ","
-          << as_string(secondFI.period) << "," << as_string(fogSentence) << std::endl;
-        */
       }
       else
       {
-        // report clearing up after precipitation
-
-        if (previousPrecipitationPeriod &&
-            get_period_length(previousPrecipitationPeriod->getStoryItemPeriod()) >= 6)
-        {
-          ;  // weatherForecastSentences.push_back(item->getSentence());
-        }
-
         FogInfo fi = theFogForecast.fogInfo(item->thePeriod);
         Sentence fogSentence;
         fogSentence << fi.timePhrase << fi.sentence;
         if (!fogSentence.empty())
         {
           weatherForecastSentences.push_back(fogSentence);
-          theLogger << "Fog period: " << as_string(fi.period) << std::endl;
+          theLogger << "Fog period: " << as_string(fi.period) << " -> " << as_string(fogSentence)
+                    << std::endl;
+          theStorySize += fogSentence.size();
+          // only extensive fog counted here
+          if (fi.id == FOG || fi.id == FOG_POSSIBLY_DENSE)
+            precipitationAndFogPeriodLength += get_period_length(item->thePeriod);
         }
-        theStorySize += fogSentence.size();
-        // only extensive fog counted here
-        if (fi.id == FOG || fi.id == FOG_POSSIBLY_DENSE)
-          precipitationAndFogPeriodLength += get_period_length(item->thePeriod);
-        /*
-std::cout << "FogSentence0 " << i << "," << as_string(fi.period) << ","
-          << as_string(fogSentence) << std::endl;
-        */
-        /*
-std::cout << "fog period " << as_string(item->thePeriod) << ", "
-          << get_period_length(item->thePeriod) << "," << forecastPeriodLength << std::endl;
-        */
       }
       previousCloudinessPeriod = nullptr;
-      previousPrecipitationPeriod = nullptr;
     }
     else
     {
@@ -386,6 +342,13 @@ std::cout << "fog period " << as_string(item->thePeriod) << ", "
       Sentence precipitationSentence;
       precipitationSentence << precipitationItem->getSentence();
       theStorySize += precipitationSentence.size();
+      if (precipitationSentence.empty())
+        theLogger << "Precipitation story item: "
+                  << (precipitationSentence.empty() ? "empty sentence" : "not empty sentence")
+                  << ", " << (precipitationItem->thePoutaantuuFlag ? "poutaantuu = true"
+                                                                   : "poutaantuu = false")
+                  << std::endl;
+
       if (!precipitationSentence.empty() || precipitationItem->thePoutaantuuFlag)
       {
         weatherForecastSentences.push_back(precipitationSentence);
@@ -396,22 +359,10 @@ std::cout << "fog period " << as_string(item->thePeriod) << ", "
           if (precipitationItem->theType == CONTINUOUS &&
               precipitationItem->theExtent >= IN_MANY_PLACES_UPPER_LIMIT)
             precipitationAndFogPeriodLength += get_period_length(precipitationItem->thePeriod);
-          theLogger << "Precipitation period: " << as_string(precipitationItem->thePeriod)
-                    << std::endl;
+          theLogger << "Precipitation period: " << as_string(precipitationItem->thePeriod) << " -> "
+                    << as_string(precipitationSentence) << std::endl;
         }
       }
-
-      /*
-  std::cout << "precipitation period " << as_string(precipitationItem->thePeriod) << ", "
-            << get_period_length(precipitationItem->thePeriod) << ","
-            << precipitationSentence.size() << "," << precipitationSentence.empty() << ","
-            << paragraph.empty() << ", " << paragraph.size() << std::endl;
-      */
-      /*
-      std::cout << "PrecipitationSentence " << i << "," << as_string(item->thePeriod) << ","
-                << as_string(precipitationSentence) << std::endl;
-          */
-      previousPrecipitationPeriod = item;
     }
     // reset the today phrase when day changes
     if (previousStoryItemIndex > -1 &&
@@ -423,6 +374,8 @@ std::cout << "fog period " << as_string(item->thePeriod) << ", "
 
     previousStoryItemIndex = currentStoryItemIndex;
   }
+#ifdef LATER
+  // turha?: jos ei yksittäisiä sade/sumuperiodeja, ei reportoida koko ennustejaksoa kerralla
   if (weatherForecastSentences.empty())
   {
     if (!thePrecipitationForecast.isDryPeriod(theForecastPeriod, theForecastArea))
@@ -433,6 +386,7 @@ std::cout << "fog period " << as_string(item->thePeriod) << ", "
       std::vector<Sentence> theAdditionalSentences;
       precipitationSentence << thePrecipitationForecast.precipitationSentence(
           theForecastPeriod, periodPhrase, theAdditionalSentences);
+
       if (!precipitationSentence.empty())
       {
         weatherForecastSentences.push_back(precipitationSentence);
@@ -440,6 +394,7 @@ std::cout << "fog period " << as_string(item->thePeriod) << ", "
       }
     }
   }
+#endif
 
   Sentence visibilitySentence;
   if (weatherForecastSentences.empty())
@@ -1059,7 +1014,6 @@ Sentence WeatherForecastStoryItem::getPeriodPhrase(bool theFromSpecifier,
   sentence << getPeriodPhrase();
   if (!sentence.empty())
   {
-    //    std::cout << "OUJE2: " << as_string(sentence) << std::endl;
     return sentence;
   }
 
@@ -1266,6 +1220,7 @@ Sentence PrecipitationForecastStoryItem::getStoryItemSentence()
 
   return sentence;
 }
+
 CloudinessForecastStoryItem::CloudinessForecastStoryItem(
     WeatherForecastStory& weatherForecastStory,
     const WeatherPeriod& period,

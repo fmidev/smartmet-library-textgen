@@ -4,8 +4,8 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.5.18
-Release: 2%{?dist}.fmi
+Version: 17.5.23
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -62,6 +62,12 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue May 23 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.23-1.fmi
+- temperature anomaly story fixed: repeated sentence removed
+- wind forecast fixed: report wind speed even it is weak during whole forecast period 
+- precipitation forecast fixed: added missing check of type of precipitation when sentence is selected
+- weather forecast at sea fixed: whole forecast period need not to be reported if there is no non-weak precipitation
+
 * Thu May 18 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.18-2.fmi
 - fixed wind speed reporting in first sentence
 

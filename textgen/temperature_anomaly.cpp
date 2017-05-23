@@ -634,16 +634,15 @@ const Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaInclud
 
   if (theSpecifiedDay.size() > 0 && theAreaPhrase.size() > 0)
   {
-    sentence << theDayAndAreaIncludedCompositePhrase << theSpecifiedDay << theAreaPhrase
-             << theTemperatureSentence;
+    sentence << theDayAndAreaIncludedCompositePhrase << theSpecifiedDay << theAreaPhrase;
   }
   else if (theSpecifiedDay.size() > 0)
   {
-    sentence << theDayIncludedCompositePhrase << theSpecifiedDay << theTemperatureSentence;
+    sentence << theDayIncludedCompositePhrase << theSpecifiedDay;
   }
   else if (theAreaPhrase.size() > 0)
   {
-    sentence << theAreaIncludedCompositePhrase << theAreaPhrase << theTemperatureSentence;
+    sentence << theAreaIncludedCompositePhrase << theAreaPhrase;
   }
   else
   {
