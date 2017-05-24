@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.5.23
+Version: 17.5.24
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -62,6 +62,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed May 24 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.24-1.fmi
+- wind forecast fix: handling of events on the same part of the day corrected
+
 * Tue May 23 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.23-1.fmi
 - temperature anomaly story fixed: repeated sentence removed
 - wind forecast fixed: report wind speed even it is weak during whole forecast period 

@@ -3217,12 +3217,13 @@ WeatherPeriod WindForecast::getNewPeriod(part_of_the_day_id& partOfTheDay,
     }
   }
 
-  if (period_len > 6)
+  if (period_len >= 3)
   {
     startTime = period.localStartTime();
     endTime = period.localEndTime();
-    // shrink maximum 30 %
-    unsigned int max_shrink = period_len * 0.3;
+    // shrink maximum 90 %
+    unsigned int max_shrink = max(period_len * 0.9, 1.0);
+
     for (unsigned int i = 0; i < max_shrink; i++)
     {
       if (backwards)
@@ -3239,6 +3240,7 @@ WeatherPeriod WindForecast::getNewPeriod(part_of_the_day_id& partOfTheDay,
       WeatherPeriod phrasePeriod(startTime, endTime);
       TimePhraseInfo tpi;
       getTimePhrase(phrasePeriod, tpi, get_period_length(phrasePeriod) > 6);
+
       if (tpi.part_of_the_day != partOfTheDay)
       {
         shrunkPeriod = WeatherPeriod(startTime, endTime);
@@ -3287,8 +3289,6 @@ bool WindForecast::negotiateNewPeriod2(part_of_the_day_id& partOfTheDay,
                                        const WeatherPeriod& notLaterThanPeriod) const
 {
   // get candidates for new period
-
-  // this has to be tested more
   unsigned int hoursChanged1 = 0;
   unsigned int hoursChanged2 = 0;
   WeatherPeriod period1Candidate =
@@ -3310,16 +3310,6 @@ bool WindForecast::negotiateNewPeriod2(part_of_the_day_id& partOfTheDay,
   else if (hoursChanged2 > 0)
     period2 = period2Candidate;
 
-  // this moves or shrinks second period to the next part of the day
-  /*
-  unsigned int hoursChanged = 0;
-  WeatherPeriod period2Candidate =
-      getNewPeriod(partOfTheDay, period2, notLaterThanPeriod, hoursChanged, false);
-
-  if (hoursChanged == 0) return false;
-
-  period2 = period2Candidate;
-  */
   return true;
 }
 
@@ -3411,7 +3401,7 @@ void WindForecast::checkTimePhrases2(WindSpeedSentenceInfo& sentenceInfoVector) 
 
     if (previousTPI.part_of_the_day != MISSING_PART_OF_THE_DAY_ID && previousTPI == currentTPI)
     {
-      theParameters.theLog << "Tautology found: ";
+      theParameters.theLog << "Tautology found between ";
 
       WeatherPeriod period1 = *previousPeriod;
       WeatherPeriod period2 = *currentPeriod;
@@ -3420,12 +3410,13 @@ void WindForecast::checkTimePhrases2(WindSpeedSentenceInfo& sentenceInfoVector) 
                            << part_of_the_day_string(currentTPI.part_of_the_day) << ")"
                            << std::endl;
 
+      TextGenPosixTime beforeForecastStartTime = theParameters.theForecastPeriod.localStartTime();
+      beforeForecastStartTime.ChangeByHours(-1);
+      TextGenPosixTime afterForecastEndTime = theParameters.theForecastPeriod.localEndTime();
+      afterForecastEndTime.ChangeByHours(1);
       WeatherPeriod beforePreviousPeriod =
-          WeatherPeriod(theParameters.theForecastPeriod.localStartTime(),
-                        theParameters.theForecastPeriod.localStartTime());
-      WeatherPeriod afterCurrentPeriod =
-          WeatherPeriod(theParameters.theForecastPeriod.localEndTime(),
-                        theParameters.theForecastPeriod.localEndTime());
+          WeatherPeriod(beforeForecastStartTime, beforeForecastStartTime);
+      WeatherPeriod afterCurrentPeriod = WeatherPeriod(afterForecastEndTime, afterForecastEndTime);
 
       if (i > 1) beforePreviousPeriod = *(timePhrasePeriods[i - 2]);
       if (i < n - 1) afterCurrentPeriod = *(timePhrasePeriods[i + 1]);
@@ -3439,7 +3430,7 @@ void WindForecast::checkTimePhrases2(WindSpeedSentenceInfo& sentenceInfoVector) 
         if (period1.localStartTime() == previousPeriod->localStartTime() &&
             period1.localEndTime() == previousPeriod->localEndTime())
         {
-          theParameters.theLog << "Tautology1 resolved, period " << as_string(period2) << " ("
+          theParameters.theLog << "Tautology resolved, period " << as_string(period2) << " ("
                                << part_of_the_day_string(currentTPI.part_of_the_day) << ")";
           TimePhraseInfo tpi;
           getTimePhrase(*currentPeriod, tpi, get_period_length(*currentPeriod) > 6);
@@ -3448,7 +3439,7 @@ void WindForecast::checkTimePhrases2(WindSpeedSentenceInfo& sentenceInfoVector) 
         }
         else
         {
-          theParameters.theLog << "Tautology2 resolved, period " << as_string(period1) << " ("
+          theParameters.theLog << "Tautology resolved, period " << as_string(period1) << " ("
                                << part_of_the_day_string(previousTPI.part_of_the_day) << ")";
           TimePhraseInfo tpi;
           getTimePhrase(*previousPeriod, tpi, get_period_length(*previousPeriod) > 6);
@@ -4134,7 +4125,7 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
   }
 
   if (timePhraseInfo.part_of_the_day == ILTA &&
-      get_part_of_the_day_id_wind(theParameters.theForecastPeriod.localEndTime()) == ILTA &&
+      theParameters.theForecastPeriod.localEndTime().GetHour() == 18 &&
       abs(actualPeriod.localStartTime().DifferenceInHours(
           theParameters.theForecastPeriod.localEndTime())) < 6)
   {
@@ -4147,7 +4138,7 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
         timePhraseInfo.part_of_the_day, theParameters.theVar, useAlkaenPhrase);
   }
   else if (timePhraseInfo.part_of_the_day == AAMU &&
-           get_part_of_the_day_id_wind(theParameters.theForecastPeriod.localEndTime()) == AAMU &&
+           theParameters.theForecastPeriod.localEndTime().GetHour() == 6 &&
            abs(actualPeriod.localStartTime().DifferenceInHours(
                theParameters.theForecastPeriod.localEndTime())) < 6)
   {
