@@ -42,7 +42,7 @@
 #include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiStringTools.h>
 
-#define VERSION_STRING "17.5.23-1"
+#define VERSION_STRING "17.5.24-1"
 
 using namespace TextGen;
 using namespace std;
