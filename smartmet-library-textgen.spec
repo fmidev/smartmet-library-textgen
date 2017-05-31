@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.5.24
+Version: 17.5.31
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -62,6 +62,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed May 31 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.31-1.fmi
+- fixed handling of long continuous precipitation periods
+
 * Wed May 24 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.24-1.fmi
 - wind forecast fix: handling of events on the same part of the day corrected
 

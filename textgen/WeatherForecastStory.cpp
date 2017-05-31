@@ -202,8 +202,8 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
       bool sleetOrSnow = (precipitationStoryItem->theForm & SLEET_FORM ||
                           precipitationStoryItem->theForm & SNOW_FORM);
 
-      theLogger << "Precipitation period: " << as_string(item->thePeriod) << ": "
-                << (precipitationStoryItem->weakPrecipitation() ? "weak, " : "")
+      theLogger << "Precipitation period (At Sea): " << as_string(item->thePeriod) << ": "
+                << (precipitationStoryItem->weakPrecipitation() ? "weak!!, " : "")
                 << " extent: " << precipitationStoryItem->theExtent
                 << (sleetOrSnow ? ", sleet or snow" : "") << std::endl;
 
@@ -1114,10 +1114,19 @@ bool PrecipitationForecastStoryItem::inManyPlaces() const
   return (theExtent > IN_MANY_PLACES_LOWER_LIMIT && theExtent <= IN_MANY_PLACES_UPPER_LIMIT);
 }
 
-#ifdef LATER
 Sentence PrecipitationForecastStoryItem::getStoryItemSentence()
 {
   Sentence sentence;
+
+  // thePeriodToMergeWith handles the whole stuff
+  if (thePeriodToMergeTo)
+  {
+    theWeatherForecastStory.theLogger
+        << "Merged the period " << as_string(thePeriodToMergeTo->getPeriod()) << " with period "
+        << as_string(getPeriod()) << " -> " << as_string(thePeriodToMergeTo->getStoryItemPeriod())
+        << std::endl;
+    return sentence;
+  }
 
   const PrecipitationForecast& prForecast = theWeatherForecastStory.thePrecipitationForecast;
   WeatherPeriod forecastPeriod = theWeatherForecastStory.theForecastPeriod;
@@ -1180,8 +1189,8 @@ Sentence PrecipitationForecastStoryItem::getStoryItemSentence()
 
   return sentence;
 }
-#endif
 
+#ifdef LATER
 Sentence PrecipitationForecastStoryItem::getStoryItemSentence()
 {
   Sentence sentence;
@@ -1220,6 +1229,7 @@ Sentence PrecipitationForecastStoryItem::getStoryItemSentence()
 
   return sentence;
 }
+#endif
 
 CloudinessForecastStoryItem::CloudinessForecastStoryItem(
     WeatherForecastStory& weatherForecastStory,
