@@ -12,14 +12,14 @@ URL: https://github.com/fmidev/smartmet-library-textgen
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: smartmet-library-calculator-devel >= 17.3.16
-BuildRequires: smartmet-library-newbase-devel >= 17.4.4
-BuildRequires: smartmet-library-macgyver-devel >= 17.4.10
+BuildRequires: smartmet-library-newbase-devel >= 17.5.26
+BuildRequires: smartmet-library-macgyver-devel >= 17.4.19
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: gdal-devel >= 1.11.4
 Requires: smartmet-library-calculator >= 17.3.16
-Requires: smartmet-library-newbase >= 17.4.4
-Requires: smartmet-library-macgyver >= 17.4.10
+Requires: smartmet-library-newbase >= 17.5.26
+Requires: smartmet-library-macgyver >= 17.4.19
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
