@@ -62,7 +62,7 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
-* Thu June 1 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.6.1-1.fmi
+* Thu Jun 1 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.6.1-1.fmi
 - fog forecast fixed and adapted to visibility forecast
 
 * Wed May 31 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.31-1.fmi
