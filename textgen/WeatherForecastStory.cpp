@@ -105,6 +105,8 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
 WeatherForecastStory::~WeatherForecastStory() { theStoryItemVector.clear(); }
 Paragraph WeatherForecastStory::getWeatherForecastStory()
 {
+  theLogger << "Start processing weather forcast at land" << std::endl;
+
   Paragraph paragraph;
 
   theShortTimePrecipitationReportedFlag = false;
@@ -167,6 +169,8 @@ Paragraph WeatherForecastStory::getWeatherForecastStory()
 
 Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
 {
+  theLogger << "Start processing weather forcast at sea" << std::endl;
+
   thePrecipitationForecast.setUseIcingPhraseFlag(false);
 
   Paragraph paragraph;
@@ -247,10 +251,19 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
     // possible fog sentence after
     if (item->theStoryPartId == CLOUDINESS_STORY_PART)
     {
+      theLogger << "Cloudiness story item: " << as_string(item->getStoryItemPeriod()) << std::endl;
+      FogInfo fogInfo = theFogForecast.fogInfo(item->getStoryItemPeriod());
+
       CloudinessForecastStoryItem* cloudinessStoryItem =
           static_cast<CloudinessForecastStoryItem*>(item);
-      if (storyItems.size() > 0)
+
+      FogInfo fi = theFogForecast.fogInfo(item->getStoryItemPeriod());
+
+      // if (storyItems.size() > 0)
+      if (fi.id != NO_FOG)
+      {
         storyItems.push_back(make_pair(cloudinessStoryItem->theStoryPartId, i));
+      }
     }
   }
 
@@ -279,6 +292,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
       if (i < storyItems.size() - 1 && storyItems[i + 1].first == CLOUDINESS_STORY_PART)
       {
         FogInfo fogInfo = theFogForecast.fogInfo(item->thePeriod);
+
         if (fogInfo.id != NO_FOG)
           if (!previousCloudinessPeriod) previousCloudinessPeriod = item;
         continue;
@@ -289,27 +303,33 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
         Sentence fogSentence;
         FogInfo firstFI = theFogForecast.fogInfo(previousCloudinessPeriod->thePeriod);
         FogInfo secondFI = theFogForecast.fogInfo(item->thePeriod);
-        /*
-std::cout << "fog period " << as_string(previousCloudinessPeriod->thePeriod) << ", "
-          << as_string(item->thePeriod) << ", "
-          << get_period_length(previousCloudinessPeriod->thePeriod) +
-                 get_period_length(item->thePeriod)
-          << "," << forecastPeriodLength << std::endl;
-        */
+
         // take the sentence from longest period
         if (!firstFI.sentence.empty() && !secondFI.sentence.empty())
           fogSentence << firstFI.timePhrase << "ja" << secondFI.timePhrase
                       << (get_period_length(firstFI.period) > get_period_length(secondFI.period)
                               ? firstFI.sentence
                               : secondFI.sentence);
+        else if (!firstFI.sentence.empty())
+          fogSentence << firstFI.timePhrase << firstFI.sentence;
+        else if (!secondFI.sentence.empty())
+          fogSentence << secondFI.timePhrase << secondFI.sentence;
 
         if (!fogSentence.empty())
         {
           weatherForecastSentences.push_back(fogSentence);
           theStorySize += fogSentence.size();
 
-          theLogger << "Fog periods: " << as_string(firstFI.period) << " and "
-                    << as_string(secondFI.period) << " -> " << as_string(fogSentence) << std::endl;
+          if (!firstFI.sentence.empty() && !secondFI.sentence.empty())
+            theLogger << "Fog periods: " << as_string(firstFI.period) << " and "
+                      << as_string(secondFI.period) << " -> " << as_string(fogSentence)
+                      << std::endl;
+          else if (!firstFI.sentence.empty())
+            theLogger << "Fog period (first): " << as_string(firstFI.period) << " -> "
+                      << as_string(fogSentence) << std::endl;
+          else if (!secondFI.sentence.empty())
+            theLogger << "Fog period (second): " << as_string(secondFI.period) << " -> "
+                      << as_string(fogSentence) << std::endl;
         }
 
         if (firstFI.id == FOG || firstFI.id == FOG_POSSIBLY_DENSE)
