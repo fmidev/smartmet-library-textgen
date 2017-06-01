@@ -29,17 +29,12 @@ struct FogInfo
   WeatherPeriod period;
   Sentence sentence;
   Sentence timePhrase;
-
-  bool inManyPlaces()
-  {
-    return (id == FOG_IN_MANY_PLACES || id == FOG_IN_MANY_PLACES_POSSIBLY_DENSE);
-  }
 };
 
 class FogForecast
 {
  public:
-  FogForecast(wf_story_params& parameters);
+  FogForecast(wf_story_params& parameters, bool visibilityForecast = false);
 
   ~FogForecast() {}
   Sentence fogSentence(const WeatherPeriod& thePeriod) const;
@@ -103,5 +98,7 @@ class FogForecast
   fog_type_period_vector theCoastalFogType;
   fog_type_period_vector theInlandFogType;
   fog_type_period_vector theFullAreaFogType;
+
+  bool theVisibityForecastAtSea;
 };
 }  // namespace TextGen

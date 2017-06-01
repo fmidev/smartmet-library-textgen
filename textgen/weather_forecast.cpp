@@ -1394,7 +1394,7 @@ const Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
 
   CloudinessForecast cloudinessForecast(theParameters);
   PrecipitationForecast precipitationForecast(theParameters);
-  FogForecast fogForecast(theParameters);
+  FogForecast fogForecast(theParameters, true);
   ThunderForecast thunderForecast(theParameters);
 
   theParameters.thePrecipitationForecast = &precipitationForecast;

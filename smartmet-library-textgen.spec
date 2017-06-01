@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.5.31
+Version: 17.6.1
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -62,6 +62,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu June 1 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.6.1-1.fmi
+- fog forecast fixed and adapted to visibility forecast
+
 * Wed May 31 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.31-1.fmi
 - fixed handling of long continuous precipitation periods
 

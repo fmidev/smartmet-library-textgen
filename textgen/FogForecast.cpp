@@ -146,7 +146,9 @@ const char* get_fog_type_string(const fog_type_id& theFogTypeId)
   return retval;
 }
 
-fog_type_id get_fog_type(const float& theModerateFog, const float& theDenseFog)
+fog_type_id get_fog_type(const float& theModerateFog,
+                         const float& theDenseFog,
+                         bool theReportInManyPlaces = true)
 {
   float totalFog = theModerateFog + theDenseFog;
 
@@ -165,9 +167,10 @@ fog_type_id get_fog_type(const float& theModerateFog, const float& theDenseFog)
   else if (totalFog > IN_MANY_PLACES_LOWER_LIMIT && totalFog < IN_MANY_PLACES_UPPER_LIMIT)
   {
     if (theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
-      return FOG_IN_MANY_PLACES;
+      return (theReportInManyPlaces ? FOG_IN_MANY_PLACES : FOG_IN_SOME_PLACES);
     else
-      return FOG_IN_MANY_PLACES_POSSIBLY_DENSE;
+      return (theReportInManyPlaces ? FOG_IN_MANY_PLACES_POSSIBLY_DENSE
+                                    : FOG_IN_SOME_PLACES_POSSIBLY_DENSE);
   }
   else
   {
@@ -178,15 +181,15 @@ fog_type_id get_fog_type(const float& theModerateFog, const float& theDenseFog)
   }
 }
 
-FogForecast::FogForecast(wf_story_params& parameters)
+FogForecast::FogForecast(wf_story_params& parameters, bool visibilityForecast /*= false*/)
     : theParameters(parameters),
       theCoastalModerateFogData(0),
       theInlandModerateFogData(0),
       theFullAreaModerateFogData(0),
       theCoastalDenseFogData(0),
       theInlandDenseFogData(0),
-      theFullAreaDenseFogData(0)
-
+      theFullAreaDenseFogData(0),
+      theVisibityForecastAtSea(visibilityForecast)
 {
   if (theParameters.theForecastArea & FULL_AREA)
   {
@@ -212,6 +215,20 @@ FogForecast::FogForecast(wf_story_params& parameters)
 
   findOutFogPeriods();
   findOutFogTypePeriods();
+
+#ifdef MYDEBUG
+  std::cout << "FOG PERIODS: " << std::endl;
+  for (auto a : theFullAreaFog)
+    std::cout << as_string(a.first)
+              << ": moderate ext, dense ext: " << a.second.theModerateFogExtent << ", "
+              << a.second.theDenseFogExtent << std::endl;
+  std::cout << " ----- " << std::endl << std::endl;
+
+  std::cout << "FOG TYPE PERIODS: " << std::endl;
+  for (auto a : theFullAreaFogType)
+    std::cout << as_string(a.first) << " -> " << get_fog_type_string(a.second) << std::endl;
+  std::cout << " ----- " << std::endl;
+#endif
 }
 
 void FogForecast::findOutFogPeriods(const weather_result_data_item_vector* theModerateFogData,
@@ -282,11 +299,13 @@ void FogForecast::findOutFogTypePeriods(const fog_period_vector& theFogPeriods,
 
   TextGenPosixTime fogPeriodStartTime(theFogPeriods.at(0).first.localStartTime());
   fog_type_id previousFogType = get_fog_type(theFogPeriods.at(0).second.theModerateFogExtent,
-                                             theFogPeriods.at(0).second.theDenseFogExtent);
+                                             theFogPeriods.at(0).second.theDenseFogExtent,
+                                             !theVisibityForecastAtSea);
   for (unsigned int i = 1; i < theFogPeriods.size(); i++)
   {
     fog_type_id currentFogType = get_fog_type(theFogPeriods.at(i).second.theModerateFogExtent,
-                                              theFogPeriods.at(i).second.theDenseFogExtent);
+                                              theFogPeriods.at(i).second.theDenseFogExtent,
+                                              !theVisibityForecastAtSea);
 
     if (i == theFogPeriods.size() - 1)
     {
@@ -520,7 +539,6 @@ WeatherPeriod FogForecast::getActualFogPeriod(const WeatherPeriod& theForecastPe
 {
   int start_year(0), start_month(0), start_day(0), start_hour(0);
   int end_year(0), end_month(0), end_day(0), end_hour(0);
-  theParameters.theLog << "getActualFogPeriod ";
   theFogPeriodOkFlag = false;
 
   if (is_inside(theFogPeriod.localStartTime(), theForecastPeriod) &&
@@ -583,6 +601,7 @@ WeatherPeriod FogForecast::getActualFogPeriod(const WeatherPeriod& theForecastPe
 
     WeatherPeriod theResultFogPeriod(startTime, endTime);
 
+    theParameters.theLog << "getActualFogPeriod -> ";
     theParameters.theLog << "result: ";
     theParameters.theLog << startTime;
     theParameters.theLog << "...";
@@ -605,6 +624,7 @@ bool FogForecast::getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
   {
     WeatherPeriod actualFogPeriod(
         getActualFogPeriod(theForecastPeriod, theFogTypePeriods.at(0).first, fogPeriodOk));
+
     if (fogPeriodOk)
     {
       if (!(actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()) ==
@@ -641,11 +661,12 @@ bool FogForecast::getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
 
       int actualPeriodLength(
           actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()));
-
-      if (actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()) == 1 &&
-          (actualFogPeriod.localStartTime() == theForecastPeriod.localStartTime() ||
-           actualFogPeriod.localEndTime() == theForecastPeriod.localEndTime()))
-        continue;
+      /*
+  if (actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()) == 1 &&
+      (actualFogPeriod.localStartTime() == theForecastPeriod.localStartTime() ||
+       actualFogPeriod.localEndTime() == theForecastPeriod.localEndTime()))
+    continue;
+      */
 
       if (longestFogPeriodIndex == -1)
       {
@@ -672,15 +693,16 @@ bool FogForecast::getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
 
     if (longestFogPeriodIndex >= 0)
     {
-      WeatherPeriod longestPeriod(theFogTypePeriods.at(longestFogPeriodIndex).first);
+      //      WeatherPeriod longestPeriod(theFogTypePeriods.at(longestFogPeriodIndex).first);
+      WeatherPeriod longestPeriod(getActualFogPeriod(
+          theForecastPeriod, theFogTypePeriods.at(longestFogPeriodIndex).first, fogPeriodOk));
       float longestPeriodLength(
           longestPeriod.localEndTime().DifferenceInHours(longestPeriod.localStartTime()));
 
       // if the longest period is more than 70% of the forecast period, use it
       if (longestPeriodLength / forecastPeriodLength > 0.70)
       {
-        theResultPeriod = getActualFogPeriod(
-            theForecastPeriod, theFogTypePeriods.at(longestFogPeriodIndex).first, fogPeriodOk);
+        theResultPeriod = longestPeriod;
         theFogTypeId = theFogTypePeriods.at(longestFogPeriodIndex).second;
         return true;
       }
@@ -831,6 +853,8 @@ Sentence FogForecast::fogSentence(const WeatherPeriod& thePeriod,
   {
     Sentence todayPhrase;
 
+    //    if (get_period_length(fogPeriod) == 0) return sentence;
+
     if (thePeriod.localEndTime().DifferenceInHours(thePeriod.localStartTime()) > 24)
     {
       todayPhrase << PeriodPhraseFactory::create("today",
@@ -899,7 +923,7 @@ FogInfo FogForecast::fogInfo(const WeatherPeriod& thePeriod,
 
   if (getFogPeriodAndId(thePeriod, theFogTypePeriods, fogPeriod, fogTypeId))
   {
-    // 1-hour period ignired
+    // 1-hour period ignored
     if (get_period_length(fogPeriod) == 0) return ret;
 
     ret.period = fogPeriod;
@@ -921,11 +945,7 @@ FogInfo FogForecast::fogInfo(const WeatherPeriod& thePeriod,
     get_time_phrase_large(
         fogPeriod, specifyDay, theParameters.theVariable, dayPhasePhrase, false, id);
 
-    /*
-std::cout << "forecastperiod,fogperiod " << as_string(theParameters.theForecastPeriod) << ","
-          << as_string(fogPeriod) << "," << part_of_the_day_string(id) << std::endl;
-    */
-    // TODO: check also 12:00 and also precipitation
+    // TODO: check also 12:00 and also during weak precipitation
     // dont report fog if it appears couple of hours before forecast period end
     if (theParameters.theForecastPeriod.localEndTime().GetHour() == 18 &&
         abs(theParameters.theForecastPeriod.localEndTime().DifferenceInHours(
@@ -933,33 +953,12 @@ std::cout << "forecastperiod,fogperiod " << as_string(theParameters.theForecastP
     /* &&
            id == ILTA)*/
     {
-      /*
-  TextGenPosixTime startTime = fogPeriod.localStartTime();
-  TextGenPosixTime endTime = fogPeriod.localEndTime();
-  startTime.ChangeByHours(-1);
-  //      endTime.ChangeByHours(-2);
-  fogPeriod = WeatherPeriod(startTime, endTime);
-  get_time_phrase_large(
-      fogPeriod, specifyDay, theParameters.theVariable, dayPhasePhrase, false, id);
-      */
       return ret;
     }
 
     theParameters.theLog << todayPhrase;
 
     vector<std::string> theStringVector;
-    /*
-get_time_phrase_large(
-    fogPeriod, specifyDay, theParameters.theVariable, dayPhasePhrase, false, id);
-    */
-    /*
-WeatherHistory& thePhraseHistory = const_cast<WeatherArea&>(theParameters.theArea).history();
-
-if (dayPhasePhrase == thePhraseHistory.latestDayPhasePhrase)
-  dayPhasePhrase = "";
-else
-  thePhraseHistory.updateDayPhasePhrase(dayPhasePhrase);
-    */
 
     ret.timePhrase << dayPhasePhrase;
     dayPhasePhrase.clear();
