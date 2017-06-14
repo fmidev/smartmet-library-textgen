@@ -12,14 +12,14 @@ URL: https://github.com/fmidev/smartmet-library-textgen
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: smartmet-library-calculator-devel >= 17.3.16
-BuildRequires: smartmet-library-newbase-devel >= 17.4.4
-BuildRequires: smartmet-library-macgyver-devel >= 17.4.10
+BuildRequires: smartmet-library-newbase-devel >= 17.5.26
+BuildRequires: smartmet-library-macgyver-devel >= 17.4.19
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: gdal-devel >= 1.11.4
 Requires: smartmet-library-calculator >= 17.3.16
-Requires: smartmet-library-newbase >= 17.4.4
-Requires: smartmet-library-macgyver >= 17.4.10
+Requires: smartmet-library-newbase >= 17.5.26
+Requires: smartmet-library-macgyver >= 17.4.19
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
@@ -62,7 +62,7 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
-* Wed June 14 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.6.14-1.fmi
+* Wed Jun 14 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.6.14-1.fmi
 - bad visibility ('huono näkyvyys') logic added
 - new configuration parameter 'short_text_mode' added for forecast_at_sea-story
 in order to enable shorter texts in press-producs: if short_text_mode is true, 
@@ -71,7 +71,7 @@ in order to enable shorter texts in press-producs: if short_text_mode is true,
 - tautology bug fixed: report only one varying wind period even if there is a short 
 period of directed wind in between
 
-* Thu June 1 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.6.1-1.fmi
+* Thu Jun 1 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.6.1-1.fmi
 - fog forecast fixed and adapted to visibility forecast
 
 * Wed May 31 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.5.31-1.fmi
