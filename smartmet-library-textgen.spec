@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.6.1
+Version: 17.6.14
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -62,6 +62,15 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed June 14 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.6.14-1.fmi
+- bad visibility ('huono näkyvyys') logic added
+- new configuration parameter 'short_text_mode' added for forecast_at_sea-story
+in order to enable shorter texts in press-producs: if short_text_mode is true, 
+'huono näkyvyys', 'enimmäkseen hyvä näkyvyys' and 'muuten hyvä näkyvyys' phrases are not reported
+- 'vähän'-word not used with weakening wind
+- tautology bug fixed: report only one varying wind period even if there is a short 
+period of directed wind in between
+
 * Thu June 1 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.6.1-1.fmi
 - fog forecast fixed and adapted to visibility forecast
 

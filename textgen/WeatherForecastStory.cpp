@@ -6,12 +6,13 @@
 #include "Paragraph.h"
 #include "PeriodPhraseFactory.h"
 #include "Sentence.h"
+#include <boost/algorithm/string/classification.hpp>
+#include <boost/range/algorithm/remove_if.hpp>
 #include <calculator/Settings.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
 
 #include "CloudinessForecast.h"
-#include "DebugTextFormatter.h"
 #include "FogForecast.h"
 #include "PrecipitationForecast.h"
 #include "ThunderForecast.h"
@@ -44,8 +45,8 @@ std::ostream& operator<<(std::ostream& theOutput, const WeatherForecastStoryItem
 WeatherForecastStory::WeatherForecastStory(const std::string& var,
                                            const WeatherPeriod& forecastPeriod,
                                            const WeatherArea& weatherArea,
-                                           const unsigned short& forecastArea,
-                                           const TextGenPosixTime& theForecastTime,
+                                           const wf_story_params& parameters,
+                                           const TextGenPosixTime& forecastTime,
                                            PrecipitationForecast& precipitationForecast,
                                            const CloudinessForecast& cloudinessForecast,
                                            const FogForecast& fogForecast,
@@ -54,8 +55,8 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
     : theVar(var),
       theForecastPeriod(forecastPeriod),
       theWeatherArea(weatherArea),
-      theForecastArea(forecastArea),
-      theForecastTime(theForecastTime),
+      theParameters(parameters),
+      theForecastTime(forecastTime),
       thePrecipitationForecast(precipitationForecast),
       theCloudinessForecast(cloudinessForecast),
       theFogForecast(fogForecast),
@@ -92,7 +93,7 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
         theStoryItemVector[i]->theIncludeInTheStoryFlag == true)
     {
       precipitation_form_id precipitationForm = thePrecipitationForecast.getPrecipitationForm(
-          theStoryItemVector[i]->thePeriod, theForecastArea);
+          theStoryItemVector[i]->thePeriod, theParameters.theForecastArea);
 
       moreThanOnePrecipitationForms = !PrecipitationForecast::singleForm(precipitationForm);
     }
@@ -177,8 +178,12 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
   std::vector<Sentence> weatherForecastSentences;
 
   unsigned int forecastPeriodLength = get_period_length(theForecastPeriod);
+  unsigned int precipitationPeriodLength = 0;
   unsigned int precipitationAndFogPeriodLength = 0;
   bool inManyPlaces = false;
+  bool badVisibility = false;
+  unsigned int badVisibilityPeriodLength = 0;
+  bool snowPrecipitationFormInvolved = false;
 
   thePrecipitationForecast.setDryPeriodTautologyFlag(false);
   theShortTimePrecipitationReportedFlag = false;
@@ -206,15 +211,19 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
       bool sleetOrSnow = (precipitationStoryItem->theForm & SLEET_FORM ||
                           precipitationStoryItem->theForm & SNOW_FORM);
 
+      bool weakPrecipitation =
+          (get_precipitation_intensity_id(precipitationStoryItem->theForm,
+                                          precipitationStoryItem->theIntensity,
+                                          theParameters) == WEAK_PRECIPITATION);
+
       theLogger << "Precipitation period (At Sea): " << as_string(item->thePeriod) << ": "
-                << (precipitationStoryItem->weakPrecipitation() ? "weak!!, " : "")
+                << (weakPrecipitation ? "weak!!, " : "")
                 << " extent: " << precipitationStoryItem->theExtent
                 << (sleetOrSnow ? ", sleet or snow" : "") << std::endl;
 
       // if precipitation form is sleet or snow, report it even if it is weak
       // and extent of precipitation area must be over 10 %
-      if ((sleetOrSnow || !precipitationStoryItem->weakPrecipitation()) &&
-          precipitationStoryItem->theExtent > 10)
+      if ((sleetOrSnow || !weakPrecipitation) && precipitationStoryItem->theExtent > 10)
       {
         bool mergeDone = false;
         if (storyItems.size() > 0)
@@ -272,17 +281,57 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
   {
     WeatherForecastStoryItem* firstItemOfForecast = theStoryItemVector[0];
     WeatherForecastStoryItem* firstItemOfStory = theStoryItemVector[storyItems[0].second];
-    // theStorySize is set to get time phrase for the first sentence
+    // theStorySize is set in order to obtain time phrase for the first sentence
     // even if it does not start from the beginning of forecast period
     if (firstItemOfStory->thePeriod.localStartTime() >
         firstItemOfForecast->thePeriod.localStartTime())
       theStorySize += 1;
   }
 
+  // if the successive periods of precipitation have
+  // same type, form and extent report them together
+  if (storyItems.size() > 1)
+  {
+    unsigned int firstIndex = 0;
+    for (unsigned int i = 1; i < storyItems.size(); i++)
+    {
+      if (storyItems[firstIndex].first != CLOUDINESS_STORY_PART &&
+          storyItems[i].first != CLOUDINESS_STORY_PART)
+      {
+        // successive precipitation periods
+        PrecipitationForecastStoryItem* previousItem = static_cast<PrecipitationForecastStoryItem*>(
+            theStoryItemVector[storyItems[firstIndex].second]);
+        PrecipitationForecastStoryItem* currentItem =
+            static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[storyItems[i].second]);
+        if (previousItem->theType == currentItem->theType &&
+            previousItem->theForm == currentItem->theForm)
+        {
+          // mark as missing
+          storyItems[i].first = MISSING_STORY_PART;
+          // merge periods
+          previousItem->thePeriod = WeatherPeriod(previousItem->thePeriod.localStartTime(),
+                                                  currentItem->thePeriod.localEndTime());
+          // new the extent and intensity is time weighted average of both periods
+          float previousPeriodLength = get_period_length(previousItem->thePeriod);
+          float currentPeriodLength = get_period_length(currentItem->thePeriod);
+          previousItem->theIntensity = (((previousItem->theIntensity * previousPeriodLength) +
+                                         (currentItem->theIntensity * currentPeriodLength)) /
+                                        (previousPeriodLength + currentPeriodLength));
+          previousItem->theExtent = (((previousItem->theExtent * previousPeriodLength) +
+                                      (currentItem->theExtent * currentPeriodLength)) /
+                                     (previousPeriodLength + currentPeriodLength));
+        }
+      }
+      else
+        firstIndex = i;
+    }
+  }
+
   WeatherForecastStoryItem* previousCloudinessPeriod = nullptr;
   int previousStoryItemIndex = -1;
   for (unsigned int i = 0; i < storyItems.size(); i++)
   {
+    if (storyItems[i].first == MISSING_STORY_PART) continue;
     int currentStoryItemIndex = storyItems[i].second;
     WeatherForecastStoryItem* item = theStoryItemVector[currentStoryItemIndex];
 
@@ -359,26 +408,75 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
     {
       PrecipitationForecastStoryItem* precipitationItem =
           static_cast<PrecipitationForecastStoryItem*>(item);
+
+      if (precipitationItem->theExtent <= 10)
+      {
+        theLogger << "Precipitation extent at period " << as_string(precipitationItem->thePeriod)
+                  << " is less than 10% (" << precipitationItem->theExtent << ") -> dont report"
+                  << std::endl;
+        continue;
+      }
+      bool weakPrecipitation =
+          (get_precipitation_intensity_id(precipitationItem->theForm,
+                                          precipitationItem->theIntensity,
+                                          theParameters) == WEAK_PRECIPITATION);
+
+      if (!weakPrecipitation)
+      {
+        unsigned int moderatePrecipitationHours = thePrecipitationForecast.getPrecipitationHours(
+            MODERATE_PRECIPITATION, precipitationItem->thePeriod);
+        unsigned int heavyPrecipitationHours = thePrecipitationForecast.getPrecipitationHours(
+            HEAVY_PRECIPITATION, precipitationItem->thePeriod);
+
+        if (((precipitationItem->theForm & SNOW_FORM) ||
+             (precipitationItem->theForm & SLEET_FORM) ||
+             (precipitationItem->theForm & FREEZING_FORM)) &&
+            precipitationItem->theExtent >= theParameters.theInManyPlacesLowerLimit)
+        {
+          // sateen olomuoto = LUMI, räntä, jäätävä, sateen tyyppi kuuro tai jatkuva (eli kaikki) ja
+          // sateen intensiteetti > heikko ainakin 3 tuntia laajuus > ja monin paikoin
+          badVisibilityPeriodLength += (moderatePrecipitationHours + heavyPrecipitationHours);
+          badVisibility = true;
+        }
+        else if (((precipitationItem->theForm & WATER_FORM) ||
+                  (precipitationItem->theForm & SLEET_FORM) ||
+                  (precipitationItem->theForm & DRIZZLE_FORM)) &&
+                 precipitationItem->theType == SHOWERS &&
+                 precipitationItem->theExtent >= theParameters.theInManyPlacesLowerLimit)
+        {
+          // sateen olomuoto = VESI, räntä, tihku, sateen tyyppi KUURO ja sateen intensiteetti >=
+          // rankka ainakin kolme tuntia ja laajuus > monin paikoin
+          badVisibilityPeriodLength += heavyPrecipitationHours;
+          badVisibility = true;
+        }
+      }
+
       Sentence precipitationSentence;
       precipitationSentence << precipitationItem->getSentence();
       theStorySize += precipitationSentence.size();
-      if (precipitationSentence.empty())
-        theLogger << "Precipitation story item: "
-                  << (precipitationSentence.empty() ? "empty sentence" : "not empty sentence")
-                  << ", " << (precipitationItem->thePoutaantuuFlag ? "poutaantuu = true"
-                                                                   : "poutaantuu = false")
-                  << std::endl;
+      theLogger << "Precipitation story item: " << as_string(precipitationItem->thePeriod)
+                << (precipitationSentence.empty() ? ", empty sentence" : "not empty sentence")
+                << ", " << (precipitationItem->thePoutaantuuFlag ? "poutaantuu = true"
+                                                                 : "poutaantuu = false")
+                << std::endl;
 
       if (!precipitationSentence.empty() || precipitationItem->thePoutaantuuFlag)
       {
         weatherForecastSentences.push_back(precipitationSentence);
-        if (!precipitationItem->thePoutaantuuFlag)
+        //  if (!precipitationItem->thePoutaantuuFlag)
         {
-          if (!inManyPlaces && precipitationItem->inManyPlaces()) inManyPlaces = true;
+          if (!inManyPlaces)
+          {
+            inManyPlaces =
+                (precipitationItem->theExtent > theParameters.theInManyPlacesLowerLimit &&
+                 precipitationItem->theExtent <= theParameters.theInManyPlacesUpperLimit);
+          }
           // only continuous precipitation with large extent is counted here
           if (precipitationItem->theType == CONTINUOUS &&
               precipitationItem->theExtent >= IN_MANY_PLACES_UPPER_LIMIT)
             precipitationAndFogPeriodLength += get_period_length(precipitationItem->thePeriod);
+          precipitationPeriodLength += get_period_length(precipitationItem->thePeriod);
+          snowPrecipitationFormInvolved = (precipitationItem->theForm & SNOW_FORM);
           theLogger << "Precipitation period: " << as_string(precipitationItem->thePeriod) << " -> "
                     << as_string(precipitationSentence) << std::endl;
         }
@@ -398,7 +496,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
   // turha?: jos ei yksittäisiä sade/sumuperiodeja, ei reportoida koko ennustejaksoa kerralla
   if (weatherForecastSentences.empty())
   {
-    if (!thePrecipitationForecast.isDryPeriod(theForecastPeriod, theForecastArea))
+    if (!thePrecipitationForecast.isDryPeriod(theForecastPeriod, theParameters.theForecastArea))
 
     {
       Sentence precipitationSentence;
@@ -421,15 +519,29 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
   {
     visibilitySentence << HYVA_NAKYVYYS_PHRASE;
   }
-  else if ((precipitationAndFogPeriodLength / forecastPeriodLength) <= 0.75 && !inManyPlaces)
+  else if (!theParameters.theShortTextModeFlag && precipitationPeriodLength != 0)
   {
-    weatherForecastSentences.back()
-        << Delimiter(COMMA_PUNCTUATION_MARK) << ENIMMAKSEEN_HYVA_NAKYVYYS_PHRASE;
-  }
-  else if (precipitationAndFogPeriodLength < forecastPeriodLength || inManyPlaces)
-  {
-    weatherForecastSentences.back()
-        << Delimiter(COMMA_PUNCTUATION_MARK) << MUUTEN_HYVA_NAKYVYYS_PHRASE;
+    float precipitationPeriodShare =
+        (static_cast<float>(precipitationPeriodLength) / static_cast<float>(forecastPeriodLength));
+
+    // sateen kesto > 50 % jakson pituudesta, huono näkyvyys vähintään 3h
+    if (badVisibility && badVisibilityPeriodLength >= 3 && precipitationPeriodShare > 0.50)
+    {
+      weatherForecastSentences.back() << JA_HUONO_NAKYVYYS_PHRASE;
+    }
+    else if (precipitationPeriodShare <= 0.50 && !inManyPlaces)
+    {
+      weatherForecastSentences.back()
+          << Delimiter(COMMA_PUNCTUATION_MARK) << ENIMMAKSEEN_HYVA_NAKYVYYS_PHRASE;
+    }
+    else if (!snowPrecipitationFormInvolved &&
+             (static_cast<float>(precipitationAndFogPeriodLength) <
+                  static_cast<float>(forecastPeriodLength) ||
+              inManyPlaces))
+    {
+      weatherForecastSentences.back()
+          << Delimiter(COMMA_PUNCTUATION_MARK) << MUUTEN_HYVA_NAKYVYYS_PHRASE;
+    }
   }
 
   if (!visibilitySentence.empty()) weatherForecastSentences.push_back(visibilitySentence);
@@ -441,7 +553,9 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
             << " length of continuous precipitation or extensive fog: "
             << precipitationAndFogPeriodLength << std::endl
             << " forecats period length: " << forecastPeriodLength << std::endl
-            << " precipitation of fog in many places: " << (inManyPlaces ? "yes" : "no")
+            << " precipitation period length: " << precipitationPeriodLength << std::endl
+            << " bad visibility period length: " << badVisibilityPeriodLength << std::endl
+            << " precipitation or fog in many places: " << (inManyPlaces ? "yes" : "no")
             << std::endl
             << " length of forecast text: " << paragraph.size() << std::endl;
   if (!paragraph.empty()) theLogger << " forecast text: " << as_string(paragraph) << std::endl;
@@ -459,17 +573,17 @@ void WeatherForecastStory::addPrecipitationStoryItems()
   WeatherForecastStoryItem* missingStoryItem = 0;
   for (unsigned int i = 0; i < precipitationPeriods.size(); i++)
   {
-    float intensity(
-        thePrecipitationForecast.getMeanIntensity(precipitationPeriods[i], theForecastArea));
-    float extent(
-        thePrecipitationForecast.getPrecipitationExtent(precipitationPeriods[i], theForecastArea));
-    unsigned int form(
-        thePrecipitationForecast.getPrecipitationForm(precipitationPeriods[i], theForecastArea));
-    precipitation_type type(
-        thePrecipitationForecast.getPrecipitationType(precipitationPeriods[i], theForecastArea));
+    float intensity(thePrecipitationForecast.getMeanIntensity(precipitationPeriods[i],
+                                                              theParameters.theForecastArea));
+    float extent(thePrecipitationForecast.getPrecipitationExtent(precipitationPeriods[i],
+                                                                 theParameters.theForecastArea));
+    unsigned int form(thePrecipitationForecast.getPrecipitationForm(precipitationPeriods[i],
+                                                                    theParameters.theForecastArea));
+    precipitation_type type(thePrecipitationForecast.getPrecipitationType(
+        precipitationPeriods[i], theParameters.theForecastArea));
 
-    bool thunder(
-        thePrecipitationForecast.thunderExists(precipitationPeriods[i], theForecastArea, theVar));
+    bool thunder(thePrecipitationForecast.thunderExists(
+        precipitationPeriods[i], theParameters.theForecastArea, theVar));
 
     if (get_period_length(precipitationPeriods[i]) <= 1 && extent < 10) continue;
 
@@ -631,7 +745,8 @@ void WeatherForecastStory::addCloudinessStoryItems()
     /*
     if(i == 0)
       {
-            if(theStoryItemVector[i]->storyItemPeriodLength() <= 1 && theStoryItemVector.size() > 1)
+            if(theStoryItemVector[i]->storyItemPeriodLength() <= 1 && theStoryItemVector.size() >
+    1)
               {
                     theStoryItemVector[i]->theIncludeInTheStoryFlag = false;
               }
@@ -928,7 +1043,8 @@ Sentence WeatherForecastStoryItem::getTodayVectorSentence(const vector<Sentence*
   return sentence;
 }
 
-// special treatment, because 06:00 can be aamuyö and morning, depends weather the period starts or
+// special treatment, because 06:00 can be aamuyö and morning, depends weather the period starts
+// or
 // ends
 std::string WeatherForecastStoryItem::checkForAamuyoAndAamuPhrase(
     bool theFromSpecifier, const WeatherPeriod& thePhrasePeriod)
@@ -1032,6 +1148,7 @@ Sentence WeatherForecastStoryItem::getPeriodPhrase(bool theFromSpecifier,
   Sentence sentence;
 
   sentence << getPeriodPhrase();
+
   if (!sentence.empty())
   {
     return sentence;
@@ -1046,11 +1163,13 @@ Sentence WeatherForecastStoryItem::getPeriodPhrase(bool theFromSpecifier,
       abs(theWeatherForecastStory.theForecastTime.DifferenceInHours(
           phrasePeriod.localStartTime())) >= 21)
   */
+  /*
   if (forecastPeriodLength() > 24 &&
       theWeatherForecastStory.theForecastTime.GetJulianDay() !=
           phrasePeriod.localStartTime().GetJulianDay() &&
       abs(theWeatherForecastStory.theForecastTime.DifferenceInHours(
           phrasePeriod.localStartTime())) >= 6)
+  */
   {
     Sentence todaySentence;
     todaySentence << PeriodPhraseFactory::create("today",
@@ -1060,6 +1179,7 @@ Sentence WeatherForecastStoryItem::getPeriodPhrase(bool theFromSpecifier,
                                                  theWeatherForecastStory.theWeatherArea);
     if (todaySentence.size() > 0) specifyDay = true;
   }
+  specifyDay = true;
 
   std::string day_phase_phrase("");
 
@@ -1124,16 +1244,6 @@ PrecipitationForecastStoryItem::PrecipitationForecastStoryItem(
 {
 }
 
-bool PrecipitationForecastStoryItem::weakPrecipitation() const
-{
-  return theIntensity <= WEAK_PRECIPITATION_LIMIT_WATER;
-}
-
-bool PrecipitationForecastStoryItem::inManyPlaces() const
-{
-  return (theExtent > IN_MANY_PLACES_LOWER_LIMIT && theExtent <= IN_MANY_PLACES_UPPER_LIMIT);
-}
-
 Sentence PrecipitationForecastStoryItem::getStoryItemSentence()
 {
   Sentence sentence;
@@ -1192,8 +1302,13 @@ Sentence PrecipitationForecastStoryItem::getStoryItemSentence()
   else
   {
     if (thePeriod.localStartTime() > forecastPeriod.localStartTime())
+    {
       thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &storyItemPeriod);
-    if (thePeriodPhrase.size() == 0) thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
+    }
+    if (thePeriodPhrase.size() == 0)
+    {
+      thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
+    }
 
     if (prForecast.shortTermPrecipitationExists(thePeriod))
     {

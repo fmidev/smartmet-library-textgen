@@ -70,8 +70,6 @@ class PrecipitationForecastStoryItem : public WeatherForecastStoryItem
                                  precipitation_type type,
                                  bool thunder);
 
-  bool weakPrecipitation() const;
-  bool inManyPlaces() const;
   Sentence getStoryItemSentence();
 
  private:
@@ -126,8 +124,8 @@ class WeatherForecastStory
   WeatherForecastStory(const std::string& var,
                        const TextGen::WeatherPeriod& forecastPeriod,
                        const TextGen::WeatherArea& weatherArea,
-                       const unsigned short& forecastArea,
-                       const TextGenPosixTime& theForecastTime,
+                       const wf_story_params& parameters,
+                       const TextGenPosixTime& forecastTime,
                        PrecipitationForecast& precipitationForecast,
                        const CloudinessForecast& cloudinessForecast,
                        const FogForecast& fogForecast,
@@ -156,7 +154,7 @@ class WeatherForecastStory
   const std::string theVar;
   const WeatherPeriod& theForecastPeriod;
   const WeatherArea& theWeatherArea;
-  const unsigned short& theForecastArea;
+  const wf_story_params& theParameters;
   const TextGenPosixTime& theForecastTime;
   const PrecipitationForecast& thePrecipitationForecast;
   const CloudinessForecast& theCloudinessForecast;

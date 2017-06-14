@@ -90,6 +90,8 @@ class PrecipitationForecast
                      unsigned short theForecastArea,
                      const std::string& theVariable) const;
   void setUseIcingPhraseFlag(bool theFlag) const { theUseIcingPhraseFlag = theFlag; }
+  unsigned int getPrecipitationHours(precipitation_intesity_id intensityId,
+                                     const WeatherPeriod& period) const;
 
  private:
   std::string getTimePhrase(part_of_the_day_id thePartOfTheDayId,
