@@ -1195,6 +1195,8 @@ void init_parameters(wf_story_params& theParameters)
       theParameters.theVariable + "::partly_cloudy_sky_limit", PUOLIPILVISTA_UPPER_LIMIT);
   theParameters.theMostlyCloudySkyUpperLimit = Settings::optional_double(
       theParameters.theVariable + "::mostly_cloudy_sky_limit", VERRATTAIN_PILVISTA_UPPER_LIMIT);
+  theParameters.theShortTextModeFlag =
+      Settings::optional_bool(theParameters.theVariable + "::short_text_mode", false);
 
   float coastalPercentage =
       get_area_percentage(theParameters.theVariable + "::fake::area_percentage",
@@ -1321,7 +1323,7 @@ const Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
   WeatherForecastStory wfs(itsVar,
                            itsPeriod,
                            itsArea,
-                           theParameters.theForecastArea,
+                           theParameters,
                            itsForecastTime,
                            precipitationForecast,
                            cloudinessForecast,
@@ -1417,7 +1419,7 @@ const Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
   WeatherForecastStory wfs(itsVar,
                            itsPeriod,
                            itsArea,
-                           theParameters.theForecastArea,
+                           theParameters,
                            itsForecastTime,
                            precipitationForecast,
                            cloudinessForecast,

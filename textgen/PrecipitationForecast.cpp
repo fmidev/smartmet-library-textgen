@@ -4662,6 +4662,35 @@ bool PrecipitationForecast::thunderExists(const WeatherPeriod& thePeriod,
   return (thunderSentence.size() > 0);
 }
 
+// return hours of intensityId during forecast period
+unsigned int PrecipitationForecast::getPrecipitationHours(precipitation_intesity_id intensityId,
+                                                          const WeatherPeriod& period) const
+{
+  const precipitation_data_vector& dataVector =
+      getPrecipitationDataVector(theParameters.theForecastArea);
+
+  std::map<precipitation_intesity_id, unsigned int> hours;
+  hours.insert(make_pair(DRY_WEATHER, 0));
+  hours.insert(make_pair(WEAK_PRECIPITATION, 0));
+  hours.insert(make_pair(MODERATE_PRECIPITATION, 0));
+  hours.insert(make_pair(HEAVY_PRECIPITATION, 0));
+  hours.insert(make_pair(MISSING_INTENSITY_ID, 0));
+  for (unsigned int i = 0; i < dataVector.size(); i++)
+  {
+    if (dataVector[i]->theObservationTime >= period.localStartTime() &&
+        dataVector[i]->theObservationTime <= period.localEndTime())
+    {
+      precipitation_intesity_id intensityId =
+          get_precipitation_intensity_id(dataVector[i]->thePrecipitationForm,
+                                         dataVector[i]->thePrecipitationMaxIntensity,
+                                         theParameters);
+      (hours[intensityId])++;
+    }
+  }
+
+  return hours[intensityId];
+}
+
 }  // namespace TextGen
 
 // ======================================================================

@@ -2035,6 +2035,8 @@ wind_event_period_data_item_vector remove_short_missing_periods(
     WindEventPeriodDataItem* nextDataItem = eventPeriodVector[i + 1];
     WindEventPeriodDataItem* afterNextDataItem = eventPeriodVector[i + 2];
 
+    if (currentDataItem == 0 || nextDataItem == 0 || afterNextDataItem == 0) continue;
+
     if (nextDataItem->theWindEvent == MISSING_WIND_SPEED_EVENT &&
         currentDataItem->theWindEvent == afterNextDataItem->theWindEvent)
     {

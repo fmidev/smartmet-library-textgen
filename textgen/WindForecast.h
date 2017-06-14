@@ -68,6 +68,7 @@ struct sentence_info
   std::string changeSpeed;  // e.g. nopeasti, vähitellen
   bool useWindBasicForm;    // basic form: 'tuuli', partitive form: 'tuulta'
   bool firstSentence;
+  interval_info intervalInfo;                          // for first period
   boost::optional<WindDirectionInfo> directionChange;  // wind direction change nearby
                                                        // sentence start time (so that we can
                                                        // report them together)

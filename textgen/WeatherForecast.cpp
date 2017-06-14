@@ -1525,6 +1525,62 @@ void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
   }
 }
 
+precipitation_intesity_id get_precipitation_intensity_id(unsigned int thePrecipitationForm,
+                                                         float thePrecipitationIntensity,
+                                                         const wf_story_params& theParameters)
+{
+  precipitation_intesity_id ret = MISSING_INTENSITY_ID;
+
+  if (thePrecipitationForm & SNOW_FORM)
+  {
+    if (thePrecipitationIntensity < theParameters.theDryWeatherLimitSnow)
+      ret = DRY_WEATHER;
+    else if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitSnow &&
+             thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSnow)
+      ret = WEAK_PRECIPITATION;
+    else if (thePrecipitationIntensity >= theParameters.theWeakPrecipitationLimitSnow &&
+             thePrecipitationIntensity < theParameters.theHeavyPrecipitationLimitSnow)
+      ret = MODERATE_PRECIPITATION;
+    else if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSnow)
+      ret = HEAVY_PRECIPITATION;
+  }
+  else if (thePrecipitationForm & SLEET_FORM)
+  {
+    if (thePrecipitationIntensity < theParameters.theDryWeatherLimitSleet)
+      ret = DRY_WEATHER;
+    else if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitSleet &&
+             thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitSleet)
+      ret = WEAK_PRECIPITATION;
+    else if (thePrecipitationIntensity >= theParameters.theWeakPrecipitationLimitSleet &&
+             thePrecipitationIntensity < theParameters.theHeavyPrecipitationLimitSleet)
+      ret = MODERATE_PRECIPITATION;
+    else if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSleet)
+      ret = HEAVY_PRECIPITATION;
+  }
+  else if (thePrecipitationForm & DRIZZLE_FORM || thePrecipitationForm & FREEZING_FORM)
+  {
+    if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle)
+      ret = DRY_WEATHER;
+    else
+      ret = MODERATE_PRECIPITATION;
+  }
+  else  // water
+  {
+    if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
+      ret = DRY_WEATHER;
+    else if (thePrecipitationIntensity >= theParameters.theDryWeatherLimitWater &&
+             thePrecipitationIntensity < theParameters.theWeakPrecipitationLimitWater)
+      ret = WEAK_PRECIPITATION;
+    else if (thePrecipitationIntensity >= theParameters.theWeakPrecipitationLimitWater &&
+             thePrecipitationIntensity < theParameters.theHeavyPrecipitationLimitWater)
+      ret = MODERATE_PRECIPITATION;
+    else if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitWater)
+      ret = HEAVY_PRECIPITATION;
+  }
+
+  return ret;
+}
+
 precipitation_form_id get_complete_precipitation_form(const string& theVariable,
                                                       float thePrecipitationFormWater,
                                                       float thePrecipitationFormDrizzle,

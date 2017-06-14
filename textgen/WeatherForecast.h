@@ -174,6 +174,7 @@ class GlyphContainer;
 #define HYVA_NAKYVYYS_PHRASE "hyva nakyvyys"
 #define ENIMMAKSEEN_HYVA_NAKYVYYS_PHRASE "enimmakseen hyva nakyvyys"
 #define MUUTEN_HYVA_NAKYVYYS_PHRASE "muuten hyva nakyvyys"
+#define JA_HUONO_NAKYVYYS_PHRASE "ja huono nakyvyys"
 
 #define SADEALUE_WORD "sadealue"
 #define SAAPUU_WORD "saapuu"
@@ -518,6 +519,7 @@ struct wf_story_params
         theSources(analysisSources),
         theLog(log),
         theCoastalAndInlandTogetherFlag(false),
+        theShortTextModeFlag(false),
         thePrecipitationForecast(0),
         theCloudinessForecast(0),
         theFogForecast(0),
@@ -536,6 +538,7 @@ struct wf_story_params
   const AnalysisSources& theSources;
   MessageLogger& theLog;
   bool theCoastalAndInlandTogetherFlag;
+  bool theShortTextModeFlag;
   PrecipitationForecast* thePrecipitationForecast;
   CloudinessForecast* theCloudinessForecast;
   FogForecast* theFogForecast;
@@ -594,6 +597,9 @@ void get_dry_and_weak_precipitation_limit(const wf_story_params& theParameters,
                                           unsigned int thePrecipitationForm,
                                           float& theDryWeatherLimit,
                                           float& theWeakPrecipitationLimit);
+precipitation_intesity_id get_precipitation_intensity_id(unsigned int thePrecipitationForm,
+                                                         float thePrecipitationIntensity,
+                                                         const wf_story_params& theParameters);
 const char* weather_event_string(weather_event_id theWeatherEventId);
 const char* precipitation_form_string(precipitation_form_id thePrecipitationForm);
 const char* precipitation_type_string(precipitation_type thePrecipitationType);
