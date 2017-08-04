@@ -16,6 +16,7 @@ BuildRequires: smartmet-library-newbase-devel >= 17.5.26
 BuildRequires: smartmet-library-macgyver-devel >= 17.4.19
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
+BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
 Requires: smartmet-library-calculator >= 17.3.16
 Requires: smartmet-library-newbase >= 17.5.26
