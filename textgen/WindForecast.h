@@ -114,26 +114,15 @@ class WindForecast
  private:
   wo_story_params& theParameters;
 
-  std::vector<Sentence> constructWindSentence(
-      const WindEventPeriodDataItem* windSpeedItem,
-      const WindEventPeriodDataItem* nextWindSpeedItem,
-      std::vector<WeatherPeriod> windDirectionReportingPoints,
-      WindDirectionInfo& thePreviousWindDirection,
-      TimePhraseInfo& thePreviousTimePhrase,
-      bool firstSentence) const;
-
-  void constructWindSentence2(const WindEventPeriodDataItem* windSpeedItem,
-                              const WindEventPeriodDataItem* nextWindSpeedItem,
-                              const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
-                              WindDirectionInfo& thePreviousWindDirection,
-                              WindSpeedSentenceInfo& sentenceInfoVector) const;
+  void constructWindSentence(const WindEventPeriodDataItem* windSpeedItem,
+                             const WindEventPeriodDataItem* nextWindSpeedItem,
+                             const WindDirectionPeriodInfo& firstDirectionPeriodInfo,
+                             WindDirectionInfo& thePreviousWindDirection,
+                             WindSpeedSentenceInfo& sentenceInfoVector) const;
 
   Sentence windDirectionSentenceWithAttribute(
       WindStoryTools::WindDirectionId theWindDirectionId) const;
   Sentence windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
-                                     bool theUseAtItsStrongestPhrase = true) const;
-  Sentence windSpeedIntervalSentence(const WeatherPeriod& thePeriodLowerLimit,
-                                     const WeatherPeriod& thePeriodUpperLimit,
                                      bool theUseAtItsStrongestPhrase = true) const;
   Sentence speedRangeSentence(const WeatherPeriod& thePeriod,
                               bool theUseAtItsStrongestPhrase) const;
@@ -160,7 +149,9 @@ class WindForecast
                                                const TimePhraseInfo& thePreviousTimePhraseInfo,
                                                bool theTuuliBasicForm) const;
   std::vector<sentence_parameter> reportWindDirectionChanges2(
-      const std::vector<WindDirectionInfo>& directionChanges, TimePhraseInfo& timePhraseInfo) const;
+      const std::vector<WindDirectionInfo>& directionChanges,
+      TimePhraseInfo& timePhraseInfo,
+      bool startWithComma = true) const;
 
   std::vector<Sentence> reportDirectionChanges(const WeatherPeriod& thePeriod,
                                                std::vector<WeatherPeriod>& theDirectionPeriods,
@@ -168,15 +159,10 @@ class WindForecast
                                                TimePhraseInfo& thePreviousTimePhrase,
                                                bool lastPeriod,
                                                bool voimistuvaa) const;
-  void injectWindDirections(const wo_story_params& theParameters,
-                            WindSpeedSentenceInfo& sentenceInfoVector,
-                            const std::vector<WeatherPeriod>& windDirectionPeriods) const;
-  void checkWindSpeedIntervals(WindSpeedSentenceInfo& sentenceInfoVector,
-                               const std::vector<WeatherPeriod>& windDirectionPeriods) const;
-  Paragraph constructParagraph(
-      const WeatherPeriod& thePeriod,
-      const WindSpeedSentenceInfo& sentenceInfoVector,
-      const std::vector<WindDirectionPeriodInfo>& directionInfoVector) const;
+  void injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVector) const;
+  void checkWindSpeedIntervals(WindSpeedSentenceInfo& sentenceInfoVector) const;
+  Paragraph constructParagraph(const WeatherPeriod& thePeriod,
+                               const WindSpeedSentenceInfo& sentenceInfoVector) const;
   interval_info windSpeedIntervalInfo(const WeatherPeriod& thePeriod) const;
   Sentence reportWindDirectionChanges(const std::vector<WindDirectionInfo>& directionChanges,
                                       TimePhraseInfo& timePhraseInfo) const;
@@ -200,10 +186,8 @@ class WindForecast
   Sentence windSpeedIntervalSentence2(const WeatherPeriod& thePeriod,
                                       TimePhraseInfo& tpi,
                                       bool theUseAtItsStrongestPhrase = true) const;
-  ParagraphInfoVector getParagraphInfo(
-      const WeatherPeriod& thePeriod,
-      const WindSpeedSentenceInfo& sentenceInfoVector,
-      const std::vector<WindDirectionPeriodInfo>& directionInfoVector) const;
+  ParagraphInfoVector getParagraphInfo(const WeatherPeriod& thePeriod,
+                                       const WindSpeedSentenceInfo& sentenceInfoVector) const;
 };
 
 }  // namespace TextGen

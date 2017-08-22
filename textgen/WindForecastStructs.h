@@ -102,6 +102,7 @@ struct wo_story_params
   wind_speed_period_data_item_vector theWindSpeedVector;
   wind_direction_period_data_item_vector theWindDirectionVector;
   wind_event_period_data_item_vector theWindSpeedEventPeriodVector;
+  std::vector<WeatherPeriod> theWindDirectionPeriods;
 
   std::map<WeatherArea::Type, index_vectors*> indexes;
 
@@ -352,6 +353,12 @@ bool wind_speed_differ_enough(const wo_story_params& theParameter, const Weather
 bool wind_direction_differ_enough(const WeatherResult theWindDirection1,
                                   const WeatherResult theWindDirection2,
                                   float theWindDirectionThreshold);
+WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
+                                     const TextGenPosixTime& pointOfTime,
+                                     const WindDirectionInfo* thePreviousWindDirection = 0);
+WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
+                                     const WeatherPeriod& period,
+                                     const WindDirectionInfo* thePreviousWindDirection = 0);
 
 bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod);
 

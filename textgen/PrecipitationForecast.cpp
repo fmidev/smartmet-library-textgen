@@ -2700,7 +2700,7 @@ Sentence PrecipitationForecast::precipitationChangeSentence(
     const WeatherPeriod& thePeriod,
     const Sentence& thePeriodPhrase,
     weather_event_id theWeatherEvent,
-    std::vector<Sentence>& theAdditionalSentences) const
+    std::vector<std::pair<WeatherPeriod, Sentence>>& theAdditionalSentences) const
 {
   Sentence sentence;
 
@@ -3739,7 +3739,7 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
     const Sentence& thePeriodPhrase,
     unsigned short theForecastAreaId,
     const std::string& theAreaPhrase,
-    std::vector<Sentence>& theAdditionalSentences) const
+    std::vector<std::pair<WeatherPeriod, Sentence>>& theAdditionalSentences) const
 {
   Sentence sentence;
 
@@ -3881,8 +3881,6 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
 
     if (!dry_weather)
     {
-      // sentence << areaSpecificSentence(thePeriod);
-
       Sentence thunderSentence;
       thunderSentence << getThunderSentence(
           thePeriod, theForecastAreaId, theParameters.theVariable);
@@ -3898,14 +3896,14 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
 
         if (get_period_length(heavyPrecipitationPeriod) >= 2)
         {
-          part_of_the_day_id partOfTheDayIdStart(
-              get_part_of_the_day_id(heavyPrecipitationPeriod.localStartTime()));
-          part_of_the_day_id partOfTheDayIdEnd(
-              get_part_of_the_day_id(heavyPrecipitationPeriod.localEndTime()));
           part_of_the_day_id partOfTheDayId(MISSING_PART_OF_THE_DAY_ID);
           time_phrase_format timePhraseFormat(AT_FORMAT);
 
-          if (heavyPrecipitationPeriod.localStartTime() == thePeriod.localStartTime())
+          partOfTheDayId = get_part_of_the_day_id_large(heavyPrecipitationPeriod);
+
+          if (partOfTheDayId != MISSING_PART_OF_THE_DAY_ID)
+            timePhraseFormat = AT_FORMAT;
+          else if (heavyPrecipitationPeriod.localStartTime() == thePeriod.localStartTime())
           {
             // heavy precipitation in the beginning
             partOfTheDayId = get_part_of_the_day_id(heavyPrecipitationPeriod.localEndTime());
@@ -3917,57 +3915,19 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
             partOfTheDayId = get_part_of_the_day_id(heavyPrecipitationPeriod.localStartTime());
             timePhraseFormat = FROM_FORMAT;
           }
-          else
-          {
-            partOfTheDayId = get_part_of_the_day_id_large(heavyPrecipitationPeriod);
-            timePhraseFormat = AT_FORMAT;
-          }
 
-          if (timePhraseFormat == TILL_FORMAT && partOfTheDayIdStart == partOfTheDayIdEnd)
-          {
-            timePhraseFormat = AT_FORMAT;
-          }
-
-          std::string numberString;
           Sentence heavyPrecipitationSentence;
           if (partOfTheDayId != MISSING_PART_OF_THE_DAY_ID)
           {
-            Sentence todayPhrase;
-            todayPhrase << PeriodPhraseFactory::create("today",
-                                                       theParameters.theVariable,
-                                                       theParameters.theForecastTime,
-                                                       heavyPrecipitationPeriod,
-                                                       theParameters.theArea);
-            bool samedayStart =
-                isSameDay(theParameters.theForecastTime, heavyPrecipitationPeriod.localStartTime());
-            bool samedayEnd =
-                isSameDay(theParameters.theForecastTime, heavyPrecipitationPeriod.localEndTime());
-            bool dontUseTodayPhrase =
-                (get_period_length(theParameters.theForecastPeriod) <= 24 ||
-                 (timePhraseFormat == TILL_FORMAT && samedayEnd) ||
-                 (timePhraseFormat == FROM_FORMAT && samedayStart) ||
-                 (timePhraseFormat == AT_FORMAT && samedayStart && samedayEnd));
-
-            if (!todayPhrase.empty() && !dontUseTodayPhrase)
-            {
-              DebugTextFormatter dtf;
-              boost::shared_ptr<Dictionary> dict(new DebugDictionary());
-              dtf.dictionary(dict);
-              std::string todayString(dtf.format(todayPhrase));
-              if (todayString.find('-') != string::npos)
-                numberString = todayString.substr(0, todayString.find('-') + 1);
-              else
-                heavyPrecipitationSentence << todayPhrase;
-            }
-
             if (theCheckHeavyIntensityFlag == SHOWERS)
               heavyPrecipitationSentence << ILTAPAIVALLA_KUUROT_VOIVAT_OLLA_VOIMAKKAITA;
             else
               heavyPrecipitationSentence << ILTAPAIVALLA_SADE_VOI_OLLA_RUNSASTA;
 
-            heavyPrecipitationSentence
-                << (numberString + getTimePhrase(partOfTheDayId, timePhraseFormat));
-            theAdditionalSentences.push_back(heavyPrecipitationSentence);
+            heavyPrecipitationSentence << getTimePhrase(partOfTheDayId, timePhraseFormat);
+
+            theAdditionalSentences.push_back(
+                make_pair(heavyPrecipitationPeriod, heavyPrecipitationSentence));
 
             theParameters.theLog << "HEAVY PRECIPITATION PERIOD: "
                                  << heavyPrecipitationPeriod.localStartTime() << "..."
@@ -4169,7 +4129,7 @@ Sentence PrecipitationForecast::shortTermPrecipitationSentence(
 {
   Sentence sentence;
 
-  std::vector<Sentence> theAdditionalSentences;
+  std::vector<std::pair<WeatherPeriod, Sentence>> theAdditionalSentences;
 
   sentence << constructPrecipitationSentence(thePeriod,
                                              thePeriodPhrase,
@@ -4186,7 +4146,7 @@ Sentence PrecipitationForecast::shortTermPrecipitationSentence(
 Sentence PrecipitationForecast::precipitationSentence(
     const WeatherPeriod& thePeriod,
     const Sentence& thePeriodPhrase,
-    std::vector<Sentence>& theAdditionalSentences) const
+    std::vector<std::pair<WeatherPeriod, Sentence>>& theAdditionalSentences) const
 {
   Sentence sentence;
 

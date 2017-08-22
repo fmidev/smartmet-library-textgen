@@ -1338,7 +1338,7 @@ const Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
 
   paragraph << wfs.getWeatherForecastStory();
 
-  log_weather_forecast_story(theLog, wfs);
+  //  log_weather_forecast_story(theLog, wfs);
 
   delete_data_structures(theParameters);
 

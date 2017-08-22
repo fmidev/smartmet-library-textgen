@@ -175,6 +175,7 @@ class GlyphContainer;
 #define ENIMMAKSEEN_HYVA_NAKYVYYS_PHRASE "enimmakseen hyva nakyvyys"
 #define MUUTEN_HYVA_NAKYVYYS_PHRASE "muuten hyva nakyvyys"
 #define JA_HUONO_NAKYVYYS_PHRASE "ja huono nakyvyys"
+#define HUONO_NAKYVYYS_PHRASE "huono nakyvyys"
 
 #define SADEALUE_WORD "sadealue"
 #define SAAPUU_WORD "saapuu"
@@ -637,7 +638,7 @@ std::string get_time_phrase(const TextGenPosixTime& theTimestamp,
                             bool theAlkaenPhrase = false);
 std::string get_time_phrase_from_id(part_of_the_day_id thePartOfTheDayId,
                                     const std::string& theVar,
-                                    bool theAlkaenPhrase = false);
+                                    bool theAlkaenPhrase);
 Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
                           const std::string& theVariable,
                           const WeatherArea& theArea,

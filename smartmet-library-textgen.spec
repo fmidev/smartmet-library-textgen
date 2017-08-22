@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.6.14
+Version: 17.8.22
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -62,6 +62,14 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Aug 22 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.8.22-1.fmi
+- fixed reporting of wind direction when wind speed doesn't change 
+- fixed logic how right time phrase is decided: strict period borders are not used, but coverage is inspected instead (at least 80% must be inside the phrase period)
+- dont report bad visibility when precipitation form is water
+- fixed reporting of similar wind speed intervas in successive sentences
+- fixed handling of varying wind (don't report strengthening wind when direction is varying)
+- fixed missing rain in visibility forecast
+
 * Wed Jun 14 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.6.14-1.fmi
 - bad visibility ('huono näkyvyys') logic added
 - new configuration parameter 'short_text_mode' added for forecast_at_sea-story

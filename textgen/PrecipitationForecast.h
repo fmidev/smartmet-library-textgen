@@ -33,16 +33,18 @@ class PrecipitationForecast
   PrecipitationForecast(wf_story_params& parameters);
   ~PrecipitationForecast();
 
-  Sentence precipitationChangeSentence(const WeatherPeriod& thePeriod,
-                                       const Sentence& thePeriodPhrase,
-                                       weather_event_id theWeatherEvent,
-                                       std::vector<Sentence>& theAdditionalSentences) const;
+  Sentence precipitationChangeSentence(
+      const WeatherPeriod& thePeriod,
+      const Sentence& thePeriodPhrase,
+      weather_event_id theWeatherEvent,
+      std::vector<std::pair<WeatherPeriod, Sentence>>& theAdditionalSentences) const;
   Sentence precipitationPoutaantuuAndCloudiness(const Sentence& thePeriodPhrase,
                                                 cloudiness_id theCloudinessId) const;
 
-  Sentence precipitationSentence(const WeatherPeriod& thePeriod,
-                                 const Sentence& thePeriodPhrase,
-                                 std::vector<Sentence>& theAdditionalSentences) const;
+  Sentence precipitationSentence(
+      const WeatherPeriod& thePeriod,
+      const Sentence& thePeriodPhrase,
+      std::vector<std::pair<WeatherPeriod, Sentence>>& theAdditionalSentences) const;
   bool shortTermPrecipitationExists(const WeatherPeriod& thePeriod) const;
   Sentence shortTermPrecipitationSentence(const WeatherPeriod& thePeriod,
                                           const Sentence& thePeriodPhrase) const;
@@ -224,11 +226,12 @@ class PrecipitationForecast
       precipitation_form_transformation_id theTransformationId,
       std::map<std::string, Sentence>& theCompositePhraseElements) const;
 
-  Sentence constructPrecipitationSentence(const WeatherPeriod& thePeriod,
-                                          const Sentence& thePeriodPhrase,
-                                          unsigned short theForecastAreaId,
-                                          const std::string& theAreaPhrase,
-                                          std::vector<Sentence>& theAdditionalSentences) const;
+  Sentence constructPrecipitationSentence(
+      const WeatherPeriod& thePeriod,
+      const Sentence& thePeriodPhrase,
+      unsigned short theForecastAreaId,
+      const std::string& theAreaPhrase,
+      std::vector<std::pair<WeatherPeriod, Sentence>>& theAdditionalSentences) const;
 
   void calculatePrecipitationParameters(const WeatherPeriod& thePeriod,
                                         const precipitation_data_vector& theDataVector,
