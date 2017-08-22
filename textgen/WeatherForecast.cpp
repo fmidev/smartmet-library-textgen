@@ -316,16 +316,21 @@ part_of_the_day_id get_part_of_the_day_id_large(const WeatherPeriod& thePeriod)
             thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay))
     return ILTA_JA_ILTAYO;
   else if (thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
+           thePeriod.localStartTime().GetHour() <= ILTAYO_END &&
+           thePeriod.localEndTime().GetHour() > KESKIYO_START &&
            thePeriod.localEndTime().GetHour() <= KESKIYO_END && successiveDays)
     return YO;  // ILTAYO_JA_KESKIYO;
   else if (thePeriod.localStartTime().GetHour() >= KESKIYO_START &&
+           thePeriod.localStartTime().GetHour() <= KESKIYO_END &&
+           thePeriod.localEndTime().GetHour() >= AAMUYO_START &&
            thePeriod.localEndTime().GetHour() <= AAMUYO_END && insideSameDay)
     return YO;  // KESKIYO_JA_AAMUYO;
   else if (thePeriod.localStartTime().GetHour() >= AAMUYO_START &&
            thePeriod.localEndTime().GetHour() <= AAMU_END && insideSameDay)
     return AAMUYO_JA_AAMU;
   else if (thePeriod.localStartTime().GetHour() >= YO_START &&
-           thePeriod.localEndTime().GetHour() <= YO_END && successiveDays)
+           thePeriod.localEndTime().GetHour() <= YO_END && get_period_length(thePeriod) > 3 &&
+           successiveDays)
     return YO;
   else if (thePeriod.localStartTime().GetHour() >= PAIVA_START - 2 &&
            thePeriod.localEndTime().GetHour() <= PAIVA_END && insideSameDay)
@@ -372,7 +377,8 @@ part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
            thePeriod.localEndTime().GetHour() <= ILTAPAIVA_END && insideSameDay)
     return ILTAPAIVA;
   else if (thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
-           thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay)
+           ((thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay) ||
+            (thePeriod.localEndTime().GetHour() == KESKIYO_START && !insideSameDay)))
     return ILTAYO;
   else if (!ignoreKeskiyo && thePeriod.localStartTime().GetHour() >= KESKIYO_START &&
            thePeriod.localEndTime().GetHour() <= KESKIYO_END && insideSameDay)
@@ -608,8 +614,12 @@ WeatherPeriod get_period_for_id(part_of_the_day_id& id, const WeatherPeriod& the
   return intersecting_period(thePeriod, comparePeriod);
 }
 
-part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
-                                                               bool theAlkaenPhrase)
+bool is_keskiyo_phrase(const std::string& phrase)
+{
+  return (phrase.compare(KESKIYOSTA_ALKAEN_PHRASE) == 0 || phrase.compare(KESKIYOLLA_WORD) == 0);
+}
+
+part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod)
 {
   part_of_the_day_id idLarge = get_part_of_the_day_id_large(thePeriod);
 
@@ -748,7 +758,7 @@ bool is_inside(const WeatherPeriod& theWeatherPeriod, part_of_the_day_id thePart
 
 std::string get_time_phrase_from_id(part_of_the_day_id thePartOfTheDayId,
                                     const std::string& theVar,
-                                    bool theAlkaenPhrase /*= false*/)
+                                    bool theAlkaenPhrase)
 {
   std::string retval("");
 
@@ -993,7 +1003,8 @@ std::string parse_time_phrase(short theWeekday,
 
   if (!theTimePhrase.empty())
   {
-    if (theWeekday > 0 && theSpecifyDayFlag) oss << theWeekday << "-";
+    if (theWeekday > 0 && theSpecifyDayFlag && !is_keskiyo_phrase(theTimePhrase))
+      oss << theWeekday << "-";
     oss << theTimePhrase;
   }
 
@@ -1066,20 +1077,21 @@ Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
               narrowerPeriod.localStartTime().GetWeekday(),
               theSpecifyDayFlag,
               get_narrow_time_phrase(narrowerPeriod, theVar, thePartOfTheDay, theAlkaenPhrase));
+
           sentence << thePhraseString;
         }
 
         if (sentence.size() == 0)
         {
-          thePartOfTheDay =
-              get_most_relevant_part_of_the_day_id_narrow(theWeatherPeriod, theAlkaenPhrase);
+          thePartOfTheDay = get_most_relevant_part_of_the_day_id_narrow(theWeatherPeriod);
 
           thePhraseString = get_time_phrase_from_id(thePartOfTheDay, theVar, theAlkaenPhrase);
 
           if (!thePhraseString.empty())
           {
             std::stringstream sentence_ss;
-            if (theSpecifyDayFlag) sentence_ss << weekday << "-";
+            if (theSpecifyDayFlag && !is_keskiyo_phrase(thePhraseString))
+              sentence_ss << weekday << "-";
             sentence_ss << thePhraseString;
             if (sentence_ss.str().size() > 2)
             {
@@ -1557,7 +1569,8 @@ precipitation_intesity_id get_precipitation_intensity_id(unsigned int thePrecipi
     else if (thePrecipitationIntensity >= theParameters.theHeavyPrecipitationLimitSleet)
       ret = HEAVY_PRECIPITATION;
   }
-  else if (thePrecipitationForm & DRIZZLE_FORM || thePrecipitationForm & FREEZING_FORM)
+  else if (thePrecipitationForm != WATER_DRIZZLE_FORM &&
+           (thePrecipitationForm & DRIZZLE_FORM || thePrecipitationForm & FREEZING_FORM))
   {
     if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle)
       ret = DRY_WEATHER;

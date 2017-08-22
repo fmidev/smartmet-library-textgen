@@ -31,6 +31,180 @@ using namespace std;
 
 namespace TextGen
 {
+void find_out_wind_direction_periods(wo_story_params& storyParams)
+{
+  unsigned int firstIndex(UINT_MAX);
+  unsigned int lastIndex(UINT_MAX);
+
+  // find start and end index
+  bool periodFound = false;
+  for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
+  {
+    const WindDataItemUnit& windDataItem =
+        storyParams.theWindDataVector[i]->getDataItem(storyParams.theArea.type());
+
+    if (is_inside(windDataItem.thePeriod, storyParams.theForecastPeriod))
+    {
+      if (firstIndex == UINT_MAX) firstIndex = i;
+      lastIndex = i;
+      periodFound = true;
+    }
+  }
+
+  if (!periodFound) return;
+
+  WindDataItemUnit previousWindDataItem =
+      storyParams.theWindDataVector[firstIndex]->getDataItem(storyParams.theArea.type());
+
+  WindDirectionInfo previousWD = get_wind_direction(storyParams, previousWindDataItem.thePeriod);
+
+  std::vector<TextGenPosixTime> changeTimes;
+  changeTimes.push_back(previousWindDataItem.thePeriod.localStartTime());
+
+  for (unsigned int index = firstIndex + 1; index < lastIndex; index++)
+  {
+    WindDataItemUnit currentWindDataItem =
+        storyParams.theWindDataVector[index]->getDataItem(storyParams.theArea.type());
+
+    WindDirectionInfo currentWD = get_wind_direction(storyParams, currentWindDataItem.thePeriod);
+
+    if (currentWD.id == previousWD.id) continue;
+    if (currentWD.id != VAIHTELEVA && previousWD.id != VAIHTELEVA &&
+        !wind_direction_differ_enough(
+            previousWD.direction, currentWD.direction, storyParams.theWindDirectionThreshold))
+      continue;
+
+    changeTimes.push_back(currentWindDataItem.thePeriod.localStartTime());
+
+    previousWindDataItem = currentWindDataItem;
+    previousWD = currentWD;
+  }
+
+  if (changeTimes.size() == 0) return;
+
+  std::vector<WeatherPeriod> directionPeriods;
+  WeatherPeriod newPeriod(changeTimes[0], changeTimes[0]);
+  WeatherPeriod previousPeriod(changeTimes[0], changeTimes[0]);
+  for (unsigned int i = 0; i < changeTimes.size(); i++)
+  {
+    if (i < changeTimes.size() - 1)
+    {
+      TextGenPosixTime startTime = changeTimes[i];
+      TextGenPosixTime endTime = changeTimes[i + 1];
+      endTime.ChangeByHours(-1);
+      newPeriod = WeatherPeriod(startTime, endTime);
+    }
+    else
+    {
+      TextGenPosixTime startTime = changeTimes[i];
+      TextGenPosixTime endTime = storyParams.theForecastPeriod.localEndTime();
+      newPeriod = WeatherPeriod(startTime, endTime);
+    }
+
+    // if direction id is the same merge previous and new period
+    if (directionPeriods.size() > 0 &&
+        get_wind_direction(storyParams, newPeriod).id ==
+            get_wind_direction(storyParams, previousPeriod).id)
+    {
+      directionPeriods.back() =
+          WeatherPeriod(previousPeriod.localStartTime(), newPeriod.localEndTime());
+    }
+    else
+    {
+      directionPeriods.push_back(newPeriod);
+    }
+
+    previousPeriod = directionPeriods.back();
+  }
+
+  // short period (< 3h) in the beginning is merged with the next
+  if (directionPeriods.size() > 1 && get_period_length(directionPeriods.front()) < 3)
+  {
+    directionPeriods.front() = WeatherPeriod(directionPeriods.front().localStartTime(),
+                                             directionPeriods[1].localEndTime());
+    directionPeriods.erase(directionPeriods.begin() + 1);
+  }
+
+  storyParams.theLog << "** ORIGINAL DIRECTION PERIODS **" << std::endl;
+
+  BOOST_FOREACH (const WeatherPeriod& p, directionPeriods)
+  {
+    WindDirectionInfo wdi = get_wind_direction(storyParams, p);
+
+    storyParams.theLog << as_string(p) << " -> " << wind_direction_string(wdi.id) << ", "
+                       << as_string(wdi.direction) << std::endl;
+  }
+
+  // remove short periods (max 2 hours) aroud varying wind, except the last period2
+  std::set<unsigned int> indexesToRemove;
+  for (unsigned int i = 1; i < directionPeriods.size() - 1; i++)
+  {
+    WeatherPeriod previousPeriod = directionPeriods[i - 1];
+    WeatherPeriod currentPeriod = directionPeriods[i];
+    WeatherPeriod nextPeriod = directionPeriods[i + 1];
+    WindDirectionId currentId = get_wind_direction(storyParams, currentPeriod.localStartTime()).id;
+    if (currentId == VAIHTELEVA)
+    {
+      if (i != 1 && get_period_length(previousPeriod) <= 2)
+      {
+        indexesToRemove.insert(i - 1);
+      }
+      if (i + 1 != directionPeriods.size() - 1 && get_period_length(nextPeriod) <= 2)
+      {
+        indexesToRemove.insert(i + 1);
+      }
+    }
+  }
+  std::vector<WeatherPeriod> cleanedPeriods;
+  for (unsigned int i = 0; i < directionPeriods.size(); i++)
+  {
+    // short period in the beginning is ignored
+    if (i == 0 && get_period_length(directionPeriods[i]) < 1) continue;
+
+    if (indexesToRemove.find(i) == indexesToRemove.end())
+      cleanedPeriods.push_back(directionPeriods[i]);
+  }
+
+  // merge successive periods with same direction
+  indexesToRemove.clear();
+  for (unsigned int i = 0; i < cleanedPeriods.size() - 1; i++)
+    for (unsigned int j = i + 1; j < cleanedPeriods.size(); j++)
+    {
+      if (indexesToRemove.find(i) != indexesToRemove.end()) continue;
+      WeatherPeriod currentPeriod = cleanedPeriods[i];
+      WeatherPeriod nextPeriod = cleanedPeriods[j];
+      WindDirectionId currentId =
+          get_wind_direction(storyParams, currentPeriod.localStartTime()).id;
+      WindDirectionId nextId = get_wind_direction(storyParams, nextPeriod.localStartTime()).id;
+      if (currentId == nextId)
+      {
+        cleanedPeriods[i] =
+            WeatherPeriod(cleanedPeriods[i].localStartTime(), cleanedPeriods[j].localEndTime());
+        indexesToRemove.insert(j);
+      }
+      else
+      {
+        break;
+      }
+    }
+
+  for (unsigned int i = 0; i < cleanedPeriods.size(); i++)
+  {
+    if (indexesToRemove.find(i) != indexesToRemove.end()) continue;
+
+    WeatherPeriod period = cleanedPeriods[i];
+    WindDirectionId id = get_wind_direction(storyParams, period).id;
+
+    // dont report short varying wind if it is not the first/last one
+    if (i < cleanedPeriods.size() - 1 && id == VAIHTELEVA && get_period_length(period) < 2 &&
+        i != 0)
+    {
+      continue;
+    }
+    storyParams.theWindDirectionPeriods.push_back(period);
+  }
+}
+
 const WindDataItemUnit& get_data_item(const wo_story_params& storyParams,
                                       const TextGenPosixTime& theTime)
 {
@@ -1743,7 +1917,7 @@ void find_out_wind_speed_periods(wo_story_params& storyParams)
       new WindSpeedPeriodDataItem(windSpeedPeriod, previous_wind_speed_id));
 }
 
-void find_out_wind_direction_periods(wo_story_params& storyParams)
+void find_out_raw_wind_direction_periods(wo_story_params& storyParams)
 {
   WeatherArea::Type areaType(storyParams.theArea.type());
 
@@ -2564,11 +2738,71 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
   cleanedEventPeriods.clear();
 }
 
+void check_first_period(wo_story_params& storyParams)
+{
+  WindEventPeriodDataItem* firstSpeedDataItem = storyParams.theWindSpeedEventPeriodVector.at(0);
+  WindEventId firstWindEvent = firstSpeedDataItem->theWindEvent;
+  WeatherPeriod firstDirectionPeriod = storyParams.theWindDirectionPeriods.at(0);
+  WindDirectionId firstDirection = get_wind_direction(storyParams, firstDirectionPeriod).id;
+
+  // if wind is strenghtening at start and it is varying, add missing wind speed event to the
+  // beginning
+  if (get_period_length(firstDirectionPeriod) > 2 && firstWindEvent == TUULI_VOIMISTUU &&
+      firstDirection == VAIHTELEVA)
+  {
+    WeatherArea::Type areaType(storyParams.theArea.type());
+    const WindDataItemUnit* firstDataItem = 0;
+    const WindDataItemUnit* lastDataItem = 0;
+    const WindDataItemUnit* afterLastDataItem = 0;
+    for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
+    {
+      const WindDataItemUnit& dataItem = (*storyParams.theWindDataVector[i])(areaType);
+
+      if (is_inside(dataItem.thePeriod.localStartTime(), firstDirectionPeriod))
+      {
+        if (!firstDataItem) firstDataItem = &dataItem;
+        lastDataItem = &dataItem;
+      }
+      else if (!afterLastDataItem && lastDataItem)
+      {
+        afterLastDataItem = &dataItem;
+      }
+    }
+
+    // split the period into two
+    if (firstDataItem && lastDataItem)
+    {
+      WeatherPeriod newPeriod1(firstDataItem->thePeriod.localStartTime(),
+                               lastDataItem->thePeriod.localStartTime());
+
+      WindEventPeriodDataItem* newDataItem1 = new WindEventPeriodDataItem(
+          newPeriod1, MISSING_WIND_SPEED_EVENT, *firstDataItem, *lastDataItem);
+      WindEventPeriodDataItem* newDataItem2 = 0;
+      if (afterLastDataItem)
+      {
+        WeatherPeriod newPeriod2(afterLastDataItem->thePeriod.localStartTime(),
+                                 firstSpeedDataItem->thePeriod.localEndTime());
+        newDataItem2 = new WindEventPeriodDataItem(newPeriod2,
+                                                   firstSpeedDataItem->theWindEvent,
+                                                   *afterLastDataItem,
+                                                   firstSpeedDataItem->thePeriodEndDataItem);
+      }
+
+      delete firstSpeedDataItem;
+      storyParams.theWindSpeedEventPeriodVector[0] = newDataItem1;
+      if (newDataItem2)
+        storyParams.theWindSpeedEventPeriodVector.insert(
+            storyParams.theWindSpeedEventPeriodVector.begin() + 1, newDataItem2);
+    }
+  }
+}
+
 void find_out_wind_event_periods(wo_story_params& storyParams)
 {
   find_out_wind_speed_event_periods(storyParams);
-
+  find_out_wind_direction_periods(storyParams);
   merge_missing_wind_speed_event_periods2(storyParams);
+  check_first_period(storyParams);
 
   if (storyParams.theWindSpeedEventPeriodVector.size() > 1)
     std::sort(storyParams.theWindSpeedEventPeriodVector.begin(),
@@ -3227,7 +3461,7 @@ float get_wind_direction_share(
   return retval;
 }
 
-float get_wind_direction_share(const wo_story_params& theParameters,
+float get_wind_direction_share(const wo_story_params& storyParams,
                                const WeatherPeriod& period,
                                const WindDirectionId& windDirectionId,
                                WindStoryTools::CompassType compass_type /*= sixteen_directions*/)
@@ -3235,17 +3469,17 @@ float get_wind_direction_share(const wo_story_params& theParameters,
   float sumShare(0.0);
   unsigned int counter(0);
 
-  for (unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
+  for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
   {
     WindDataItemUnit& item =
-        theParameters.theWindDataVector[i]->getDataItem(theParameters.theArea.type());
+        storyParams.theWindDataVector[i]->getDataItem(storyParams.theArea.type());
     if (is_inside(item.thePeriod.localStartTime(), period))
     {
       sumShare += get_wind_direction_share(
           (compass_type == sixteen_directions ? item.theWindDirectionDistribution16
                                               : item.theWindDirectionDistribution8),
           windDirectionId,
-          theParameters.theWindDirectionMinSpeed);
+          storyParams.theWindDirectionMinSpeed);
       counter++;
     }
   }
@@ -3330,7 +3564,7 @@ Paragraph WindStory::overview() const
     // find out the wind speed periods (for logging purposes)
     find_out_wind_speed_periods(storyParams);
     // find out the wind direction periods of 16-direction compass (for logging purposes)
-    find_out_wind_direction_periods(storyParams);
+    find_out_raw_wind_direction_periods(storyParams);
 
     // log functions
     // save_raw_data(storyParams);

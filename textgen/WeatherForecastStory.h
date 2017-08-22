@@ -8,6 +8,22 @@ class Sentence;
 class Paragraph;
 class WeatherForecastStory;
 
+class PeriodPhraseGenerator
+{
+ public:
+  PeriodPhraseGenerator(const std::string& var) : itsVar(var) {}
+
+  bool dayExists(int n) const;
+  bool phraseExists(const WeatherPeriod& period) const;
+  Sentence getPeriodPhrase(const WeatherPeriod& period);
+  void reset();
+
+ private:
+  std::set<int> dayNumbers;
+  std::map<WeatherPeriod, Sentence> periodPhrases;
+  const std::string& itsVar;
+};
+
 class WeatherForecastStoryItem
 {
  public:
@@ -38,10 +54,10 @@ class WeatherForecastStoryItem
   const WeatherPeriod& getPeriod() const { return thePeriod; }
   bool isIncluded() const { return theIncludeInTheStoryFlag; }
   unsigned int numberOfAdditionalSentences() { return theAdditionalSentences.size(); }
-  Sentence getAdditionalSentence(unsigned int index) const;
+  std::pair<WeatherPeriod, Sentence> getAdditionalSentence(unsigned int index) const;
 
- protected:
-  std::vector<Sentence> theAdditionalSentences;
+  // protected:
+  std::vector<std::pair<WeatherPeriod, Sentence>> theAdditionalSentences;
   WeatherForecastStory& theWeatherForecastStory;
   WeatherPeriod thePeriod;
   story_part_id theStoryPartId;
@@ -50,8 +66,6 @@ class WeatherForecastStoryItem
   Sentence theSentence;
   WeatherForecastStoryItem*
       thePeriodToMergeWith;  // if periods are merged this points to the megreable period
-  WeatherForecastStoryItem*
-      thePeriodToMergeTo;  // if periods are merged this points to the merged period
 
   friend class WeatherForecastStory;
 
@@ -71,6 +85,9 @@ class PrecipitationForecastStoryItem : public WeatherForecastStoryItem
                                  bool thunder);
 
   Sentence getStoryItemSentence();
+  bool isWeakPrecipitation(const wf_story_params& theParameters) const;
+  float precipitationExtent() const;
+  unsigned int precipitationForm() const;
 
  private:
   float theIntensity;
@@ -124,7 +141,7 @@ class WeatherForecastStory
   WeatherForecastStory(const std::string& var,
                        const TextGen::WeatherPeriod& forecastPeriod,
                        const TextGen::WeatherArea& weatherArea,
-                       const wf_story_params& parameters,
+                       wf_story_params& parameters,
                        const TextGenPosixTime& forecastTime,
                        PrecipitationForecast& precipitationForecast,
                        const CloudinessForecast& cloudinessForecast,
@@ -141,6 +158,8 @@ class WeatherForecastStory
   {
     return theStoryItemVector;
   }
+  Sentence getPeriodPhrase(const WeatherPeriod& period);
+
   void logTheStoryItems() const;
 
  private:
@@ -154,7 +173,7 @@ class WeatherForecastStory
   const std::string theVar;
   const WeatherPeriod& theForecastPeriod;
   const WeatherArea& theWeatherArea;
-  const wf_story_params& theParameters;
+  wf_story_params& theParameters;
   const TextGenPosixTime& theForecastTime;
   const PrecipitationForecast& thePrecipitationForecast;
   const CloudinessForecast& theCloudinessForecast;
@@ -165,6 +184,7 @@ class WeatherForecastStory
   bool theShortTimePrecipitationReportedFlag;
   bool theReportTimePhraseFlag;
   bool theCloudinessReportedFlag;
+  PeriodPhraseGenerator thePeriodPhraseGenerator;
 
   std::vector<WeatherForecastStoryItem*> theStoryItemVector;
 
