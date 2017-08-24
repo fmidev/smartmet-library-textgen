@@ -11,15 +11,18 @@ Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: smartmet-library-calculator-devel >= 17.3.16
-BuildRequires: smartmet-library-newbase-devel >= 17.5.26
-BuildRequires: smartmet-library-macgyver-devel >= 17.4.19
+BuildRequires: gcc-c++
+BuildRequires: make
+BuildRequires: smartmet-library-calculator-devel >= 17.8.22
+BuildRequires: smartmet-library-newbase-devel >= 17.8.1
+BuildRequires: smartmet-library-macgyver-devel >= 17.7.29
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
+BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: smartmet-library-calculator >= 17.3.16
-Requires: smartmet-library-newbase >= 17.5.26
-Requires: smartmet-library-macgyver >= 17.4.19
+Requires: smartmet-library-calculator >= 17.8.22
+Requires: smartmet-library-newbase >= 17.8.1
+Requires: smartmet-library-macgyver >= 17.7.29
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
@@ -121,7 +124,7 @@ period of directed wind in between
 - Fixed to use C++1 compiler options
 - Added necessary override declarations
 
-* Tue Apr 20 2017  Anssi Reponen <anssi.reponen@fmi.fi> - 17.4.20-1.fmi
+* Thu Apr 20 2017  Anssi Reponen <anssi.reponen@fmi.fi> - 17.4.20-1.fmi
 - Temperature anomaly story corrected: basic data types not passed by reference
 
 * Tue Apr 11 2017 Teemu Sirviö <teemu.sirvio@fmi.fi> - 17.4.11-1.fmi

@@ -12,7 +12,7 @@
 #include <calculator/Settings.h>
 #include <calculator/WeatherArea.h>
 #include <calculator/WeatherPeriod.h>
-#include <macgyver/String.h>
+#include <macgyver/StringConversion.h>
 
 #include "CloudinessForecast.h"
 #include "FogForecast.h"
