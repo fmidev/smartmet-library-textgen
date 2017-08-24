@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.8.22
+Version: 17.8.24
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -65,6 +65,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu Aug 24 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.8.24-1.fmi
+- fixed timePhrase bug
+
 * Tue Aug 22 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.8.22-1.fmi
 - fixed reporting of wind direction when wind speed doesn't change 
 - fixed logic how right time phrase is decided: strict period borders are not used, but coverage is inspected instead (at least 80% must be inside the phrase period)
