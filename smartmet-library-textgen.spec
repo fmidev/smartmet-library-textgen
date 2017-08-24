@@ -124,7 +124,7 @@ period of directed wind in between
 - Fixed to use C++1 compiler options
 - Added necessary override declarations
 
-* Tue Apr 20 2017  Anssi Reponen <anssi.reponen@fmi.fi> - 17.4.20-1.fmi
+* Thu Apr 20 2017  Anssi Reponen <anssi.reponen@fmi.fi> - 17.4.20-1.fmi
 - Temperature anomaly story corrected: basic data types not passed by reference
 
 * Tue Apr 11 2017 Teemu Sirviö <teemu.sirvio@fmi.fi> - 17.4.11-1.fmi
