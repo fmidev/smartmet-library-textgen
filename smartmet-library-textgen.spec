@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.8.22
+Version: 17.8.28
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -13,16 +13,16 @@ Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 17.8.22
-BuildRequires: smartmet-library-newbase-devel >= 17.8.1
-BuildRequires: smartmet-library-macgyver-devel >= 17.7.29
+BuildRequires: smartmet-library-calculator-devel >= 17.8.28
+BuildRequires: smartmet-library-newbase-devel >= 17.8.28
+BuildRequires: smartmet-library-macgyver-devel >= 17.8.28
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: smartmet-library-calculator >= 17.8.22
-Requires: smartmet-library-newbase >= 17.8.1
-Requires: smartmet-library-macgyver >= 17.7.29
+Requires: smartmet-library-calculator >= 17.8.28
+Requires: smartmet-library-newbase >= 17.8.28
+Requires: smartmet-library-macgyver >= 17.8.28
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
@@ -65,6 +65,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Aug 28 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.8.28-1.fmi
+- Upgrade to boost 1.65
+
 * Tue Aug 22 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.8.22-1.fmi
 - fixed reporting of wind direction when wind speed doesn't change 
 - fixed logic how right time phrase is decided: strict period borders are not used, but coverage is inspected instead (at least 80% must be inside the phrase period)
