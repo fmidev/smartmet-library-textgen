@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.8.28
+Version: 17.8.29
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -65,6 +65,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Aug 29 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.8.29-1.fmi
+- fixed bug in reporting increasing/decreasing wind speed (wind speed change in the end of forecast period)
+
 * Mon Aug 28 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.8.28-1.fmi
 - Upgrade to boost 1.65
 

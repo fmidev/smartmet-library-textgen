@@ -1251,8 +1251,10 @@ Sentence PeriodPhraseGenerator::getPeriodPhrase(const WeatherPeriod& period)
       if (id == PAIVA)
         periodPhrase << (dayNumber + PAIVALLA_WORD);
       else
-        periodPhrase << (dayNumber +
-                         get_time_phrase_from_id(id, itsVar, get_period_length(period) >= 6));
+      {
+        std::string phrase = get_time_phrase_from_id(id, itsVar, get_period_length(period) >= 6);
+        if (!phrase.empty()) periodPhrase << (dayNumber + phrase);
+      }
     }
   }
   else
