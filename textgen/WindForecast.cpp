@@ -468,7 +468,7 @@ bool is_gusty_wind(const wo_story_params& theParameters,
 
 // If proposed direction is 'PUOLEINEN' and the previous was in the same direction, change the
 // latter to prevent tautology
-// for example (LOUNAISTUULI, LOUNAAN PUOLEINEN) -> (LOUNAISTUULI, LƒNNEN JA LOUNAAN VƒLINEN)
+// for example (LOUNAISTUULI, LOUNAAN PUOLEINEN) -> (LOUNAISTUULI, L√ÑNNEN JA LOUNAAN V√ÑLINEN)
 WindDirectionInfo negotiateWindDirection(WindDirectionInfo& theProposedWindDirection,
                                          const WindDirectionInfo& thePreviousWindDirection)
 {
@@ -850,7 +850,7 @@ void get_plain_wind_speed_interval(const WeatherPeriod& period,
   // if top wind is smaller than configuration value, use maximum wind as upper limit
   if (topValue < theParameter.theWindSpeedWarningThreshold)
   {
-    // Annakaisa / Punkka 06.06.2016: pienennet‰‰n maksimikoko nelj‰‰n
+    // Annakaisa / Punkka 06.06.2016: pienennet√§√§n maksimikoko nelj√§√§n
     theParameter.theLog << "Top wind speed (" << topValue
                         << ") is smaller than theWindSpeedWarningThreshold ("
                         << theParameter.theWindSpeedWarningThreshold
@@ -1145,7 +1145,7 @@ void compose_wind_speed_range(const wo_story_params& theParameters,
 
   if (actualIntervalSize < theParameters.theMinIntervalSize)
   {
-    // Mikael Frisk 07.03.2013: pelkk‰ 5 m/s on kˆkkˆ => n‰ytet‰‰n minimi-intervalli
+    // Mikael Frisk 07.03.2013: pelkk√§ 5 m/s on k√∂kk√∂ => n√§ytet√§√§n minimi-intervalli
     /*
       sentence << intervalLowerLimit
       << *UnitFactory::create(MetersPerSecond);
@@ -1388,7 +1388,7 @@ void WindForecast::constructWindSentence(const WindEventPeriodDataItem* windSpee
     sentenceInfo.changeSpeed = EMPTY_STRING;
     getWindSpeedChangeAttribute(
         windSpeedEventPeriod, sentenceInfo.changeSpeed, smallChange, gradualChange, fastChange);
-    // Annakaisa 9.6.2017: if weakening wind, dont use word 'v‰h‰n'
+    // Annakaisa 9.6.2017: if weakening wind, dont use word 'v√§h√§n'
     if (windWeakens && sentenceInfo.changeSpeed == VAHAN_WORD)
       sentenceInfo.changeSpeed = EMPTY_STRING;
     sentenceInfo.period = windSpeedEventPeriod;
@@ -2390,7 +2390,7 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
 
             pi.sentenceParameters.insert(pi.sentenceParameters.end(), sps.begin(), sps.end());
 
-            // ylimmill‰‰n must be reported if it is the last interval
+            // ylimmill√§√§n must be reported if it is the last interval
             if (isi.skip && k == sentenceInfo.intervalSentences.size() - 1)
             {
               interval_info intervalInfoIsi = windSpeedIntervalInfo(isi.period);
@@ -2642,7 +2642,7 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
     theParameters.theAlkaenPhraseUsed = (get_period_length(thePeriod) >= 6 && useAlkaenPhrase &&
                                          !fit_into_narrow_day_part(thePeriod));
 
-    // try to prevent tautology, like "iltap‰iv‰ll‰"... "iltap‰iv‰st‰ alkaen"
+    // try to prevent tautology, like "iltap√§iv√§ll√§"... "iltap√§iv√§st√§ alkaen"
     if (timePhraseInfo.part_of_the_day == get_most_relevant_part_of_the_day_id_narrow(thePeriod) &&
         timePhraseInfo.day_number != MISSING_PART_OF_THE_DAY_ID && get_period_length(thePeriod) > 4)
     {
@@ -2656,7 +2656,7 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
       actualPeriod = shortenedPeriod;
     }
 
-    // dont specify day for keskiyˆ
+    // dont specify day for keskiy√∂
     if (get_part_of_the_day_id_wind(thePeriod) == KESKIYO ||
         (theParameters.theAlkaenPhraseUsed &&
          get_part_of_the_day_id_wind(thePeriod.localStartTime()) == KESKIYO))
@@ -2896,7 +2896,7 @@ std::vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
         // last reporting point is at the end of the increasing/decreasing period
         // except when period ends in the evening or in the morning, in that case
         // last reporting period starts three hours before increasing/decreasing period ends
-        // so that last time phrase in e.g 'iltaan asti'-forecast is 'iltap‰iv‰ll‰'
+        // so that last time phrase in e.g 'iltaan asti'-forecast is 'iltap√§iv√§ll√§'
         TextGenPosixTime startTime(windDataItemLast.thePeriod.localStartTime());
         TextGenPosixTime endTime(windDataItemLast.thePeriod.localEndTime());
         if (endTime.GetHour() == 18 || endTime.GetHour() == 17 || endTime.GetHour() == 6)
