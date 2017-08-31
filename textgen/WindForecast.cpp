@@ -6,54 +6,14 @@
 // ======================================================================
 
 #include "WindForecast.h"
-
-#include "AreaTools.h"
-#include "CloudinessStory.h"
-#include "CloudinessStoryTools.h"
 #include "Delimiter.h"
 #include "IntegerRange.h"
-#include "MessageLogger.h"
-#include "NightAndDayPeriodGenerator.h"
-#include "Paragraph.h"
-#include "PeriodPhraseFactory.h"
-#include "SeasonTools.h"
-#include "Sentence.h"
-#include "SubMaskExtractor.h"
 #include "UnitFactory.h"
-#include "ValueAcceptor.h"
-#include "WeatherStory.h"
-#include "WeekdayTools.h"
-#include "WindStoryTools.h"
-#include <calculator/GridForecaster.h>
-#include <calculator/HourPeriodGenerator.h>
-#include <calculator/MathTools.h>
-#include <calculator/NullPeriodGenerator.h>
-#include <calculator/RangeAcceptor.h>
-#include <calculator/Settings.h>
-#include <calculator/TextGenError.h>
-#include <calculator/TimeTools.h>
-#include <calculator/WeatherPeriodTools.h>
-#include <calculator/WeatherResult.h>
-
-#include <newbase/NFmiCombinedParam.h>
-#include <newbase/NFmiMercatorArea.h>
-
-#include <boost/algorithm/string.hpp>
-#include <boost/foreach.hpp>
-#include <boost/lexical_cast.hpp>
 #include <macgyver/StringConversion.h>
 
-#include <cmath>
-#include <iomanip>
-#include <map>
-#include <vector>
+#include <calculator/Settings.h>
 
-using namespace Settings;
-using namespace TextGen;
-using namespace AreaTools;
-using namespace WindStoryTools;
-using namespace boost;
-using namespace std;
+#include <boost/foreach.hpp>
 
 namespace TextGen
 {
@@ -440,7 +400,7 @@ unsigned int get_peak_wind(const WeatherPeriod& thePeriod,
 
 WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
                                            const TextGenPosixTime& pointOfTime,
-                                           const string& var)
+                                           const std::string& var)
 {
   WeatherResult retval(kFloatMissing, 0.0);
 
@@ -460,7 +420,7 @@ WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
 
 bool is_gusty_wind(const wo_story_params& theParameters,
                    const TextGenPosixTime& pointOfTime,
-                   const string& var)
+                   const std::string& var)
 {
   for (unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
   {
@@ -478,7 +438,7 @@ bool is_gusty_wind(const wo_story_params& theParameters,
 
 bool is_gusty_wind(const wo_story_params& theParameters,
                    const WeatherPeriod& period,
-                   const string& var)
+                   const std::string& var)
 {
   float speedSum(0.0);
   float gustSpeedSum(0.0);
@@ -508,7 +468,7 @@ bool is_gusty_wind(const wo_story_params& theParameters,
 
 // If proposed direction is 'PUOLEINEN' and the previous was in the same direction, change the
 // latter to prevent tautology
-// for example (LOUNAISTUULI, LOUNAAN PUOLEINEN) -> (LOUNAISTUULI, LƒNNEN JA LOUNAAN VƒLINEN)
+// for example (LOUNAISTUULI, LOUNAAN PUOLEINEN) -> (LOUNAISTUULI, L√ÑNNEN JA LOUNAAN V√ÑLINEN)
 WindDirectionInfo negotiateWindDirection(WindDirectionInfo& theProposedWindDirection,
                                          const WindDirectionInfo& thePreviousWindDirection)
 {
@@ -739,8 +699,9 @@ Sentence windDirectionSentence(WindDirectionId theWindDirectionId, bool theBasic
       sentence << (theBasicForm ? POHJOINEN_LUODE_TUULI : POHJOINEN_LUODE_TUULI_P);
       break;
     case VAIHTELEVA:
-    case MISSING_WIND_DIRECTION_ID:
       sentence << (theBasicForm ? VAIHTELEVA_TUULI : VAIHTELEVA_TUULI_P);
+      break;
+    case MISSING_WIND_DIRECTION_ID:
       break;
   }
 
@@ -889,7 +850,7 @@ void get_plain_wind_speed_interval(const WeatherPeriod& period,
   // if top wind is smaller than configuration value, use maximum wind as upper limit
   if (topValue < theParameter.theWindSpeedWarningThreshold)
   {
-    // Annakaisa / Punkka 06.06.2016: pienennet‰‰n maksimikoko nelj‰‰n
+    // Annakaisa / Punkka 06.06.2016: pienennet√§√§n maksimikoko nelj√§√§n
     theParameter.theLog << "Top wind speed (" << topValue
                         << ") is smaller than theWindSpeedWarningThreshold ("
                         << theParameter.theWindSpeedWarningThreshold
@@ -1173,45 +1134,6 @@ bool wind_direction_differ_enough(const wo_story_params& theParameter,
       windDirection1, windDirection2, theParameter.theWindDirectionThreshold);
 }
 
-bool ascending_order(float direction1, float direction2)
-{
-  bool retval(false);
-
-  if (direction1 >= 180.0)
-  {
-    if (direction2 > direction1 || direction2 < direction1 - 180.0) retval = true;
-  }
-  else
-  {
-    retval = (direction2 > direction1 && direction2 - direction1 < 180);
-  }
-  return retval;
-}
-
-bool almost_same_direction(WindDirectionId id1, WindDirectionId id2)
-{
-  if (id1 == id2) return true;
-  if ((id1 == POHJOINEN && id2 == POHJOISEN_PUOLEINEN) ||
-      (id2 == POHJOINEN && id1 == POHJOISEN_PUOLEINEN))
-    return true;
-  if ((id1 == KOILLINEN && id2 == KOILLISEN_PUOLEINEN) ||
-      (id2 == KOILLINEN && id1 == KOILLISEN_PUOLEINEN))
-    return true;
-  if ((id1 == ITA && id2 == IDAN_PUOLEINEN) || (id2 == ITA && id1 == IDAN_PUOLEINEN)) return true;
-  if ((id1 == KAAKKO && id2 == KAAKON_PUOLEINEN) || (id2 == KAAKKO && id1 == KAAKON_PUOLEINEN))
-    return true;
-  if ((id1 == ETELA && id2 == ETELAN_PUOLEINEN) || (id2 == ETELA && id1 == ETELAN_PUOLEINEN))
-    return true;
-  if ((id1 == LOUNAS && id2 == LOUNAAN_PUOLEINEN) || (id2 == LOUNAS && id1 == LOUNAAN_PUOLEINEN))
-    return true;
-  if ((id1 == LANSI && id2 == LANNEN_PUOLEINEN) || (id2 == LANSI && id1 == LANNEN_PUOLEINEN))
-    return true;
-  if ((id1 == LUODE && id2 == LUOTEEN_PUOLEINEN) || (id2 == LUODE && id1 == LUOTEEN_PUOLEINEN))
-    return true;
-
-  return false;
-}
-
 void compose_wind_speed_range(const wo_story_params& theParameters,
                               int& intervalLowerLimit,
                               int& intervalUpperLimit,
@@ -1223,7 +1145,7 @@ void compose_wind_speed_range(const wo_story_params& theParameters,
 
   if (actualIntervalSize < theParameters.theMinIntervalSize)
   {
-    // Mikael Frisk 07.03.2013: pelkk‰ 5 m/s on kˆkkˆ => n‰ytet‰‰n minimi-intervalli
+    // Mikael Frisk 07.03.2013: pelkk√§ 5 m/s on k√∂kk√∂ => n√§ytet√§√§n minimi-intervalli
     /*
       sentence << intervalLowerLimit
       << *UnitFactory::create(MetersPerSecond);
@@ -1271,42 +1193,6 @@ void compose_wind_speed_range(const wo_story_params& theParameters,
 }
 
 Sentence compose_wind_speed_sentence(const wo_story_params& theParameters,
-                                     int intervalLowerLimit,
-                                     int intervalUpperLimit,
-                                     int peakWind,
-                                     bool theUseAtItsStrongestPhrase)
-{
-  Sentence sentence;
-
-  if (peakWind > intervalUpperLimit)
-  {
-    if (theUseAtItsStrongestPhrase)
-    {
-      sentence << IntegerRange(
-                      intervalLowerLimit, intervalUpperLimit, theParameters.theRangeSeparator)
-               << *UnitFactory::create(MetersPerSecond);
-      sentence << Delimiter(COMMA_PUNCTUATION_MARK) << KOVIMMILLAAN_PHRASE << peakWind
-               << *UnitFactory::create(MetersPerSecond);
-    }
-    else
-    {
-      sentence << IntegerRange(peakWind - theParameters.theContextualMaxIntervalSize,
-                               peakWind,
-                               theParameters.theRangeSeparator)
-               << *UnitFactory::create(MetersPerSecond);
-    }
-  }
-  else
-  {
-    sentence << IntegerRange(
-                    intervalLowerLimit, intervalUpperLimit, theParameters.theRangeSeparator)
-             << *UnitFactory::create(MetersPerSecond);
-  }
-
-  return sentence;
-}
-
-Sentence compose_wind_speed_sentence(const wo_story_params& theParameters,
                                      const interval_info& intervalInfo,
                                      const Sentence& timePhrase,
                                      bool theUseAtItsStrongestPhrase)
@@ -1344,189 +1230,6 @@ Sentence compose_wind_speed_sentence(const wo_story_params& theParameters,
 }
 
 WindForecast::WindForecast(wo_story_params& parameters) : theParameters(parameters) {}
-// report direction if it is same as thePreviousTimePhraseInfo
-std::vector<Sentence> WindForecast::reportDirectionChanges(
-    std::vector<WeatherPeriod>& theDirectionPeriods,
-    WindDirectionInfo& thePreviousWindDirection,
-    const TimePhraseInfo& thePreviousTimePhraseInfo,
-    bool theTuuliBasicForm) const
-{
-  std::vector<Sentence> sentences;
-  unsigned int lastReportedIndex = UINT_MAX;
-
-  theParameters.theLog << "Find out direction changes that happen nearby "
-                       << thePreviousTimePhraseInfo << std::endl;
-
-  for (unsigned int i = 0; i < theDirectionPeriods.size(); i++)
-  {
-    const WeatherPeriod& period = theDirectionPeriods[i];
-
-    if (get_period_length(period) < 2)
-    {
-      theParameters.theLog << "Short direction period " << as_string(period) << " skipped."
-                           << std::endl;
-      continue;
-    }
-
-    Sentence timePhrase;
-    TimePhraseInfo timePhraseInfo;
-    timePhraseInfo.day_number = thePreviousTimePhraseInfo.day_number;
-    timePhraseInfo.part_of_the_day = thePreviousTimePhraseInfo.part_of_the_day;
-
-    timePhrase << getTimePhrase(
-        period.localStartTime(), timePhraseInfo, get_period_length(period) > 6);
-
-    if (timePhraseInfo == thePreviousTimePhraseInfo)
-    {
-      lastReportedIndex = i;
-      WindDirectionInfo windDirection = get_wind_direction(theParameters, period);
-
-      if (windDirection.id == thePreviousWindDirection.id)
-      {
-        theParameters.theLog << "Same direction as previous "
-                             << wind_direction_string(windDirection.id) << " -> skipped."
-                             << std::endl;
-        continue;
-      }
-
-      theParameters.theLog << "Reporting direction change at " << as_string(period) << " -> "
-                           << wind_direction_string(windDirection.id) << std::endl;
-
-      negotiateWindDirection(windDirection, thePreviousWindDirection);
-      sentences.push_back(windDirectionSentence(windDirection.id, theTuuliBasicForm));
-
-      thePreviousWindDirection = windDirection;
-    }
-  }
-
-  if (lastReportedIndex != UINT_MAX)
-  {
-    if (lastReportedIndex == theDirectionPeriods.size() - 1)
-      theDirectionPeriods.clear();
-    else
-      theDirectionPeriods.assign(theDirectionPeriods.begin() + lastReportedIndex + 1,
-                                 theDirectionPeriods.end());
-  }
-
-  // report only last change
-  if (sentences.size() > 0) sentences.erase(sentences.begin(), sentences.end() - 1);
-
-  theParameters.theLog << "Reporting wind direction changes #" << sentences.size() << std::endl;
-
-  return sentences;
-}
-
-std::vector<Sentence> WindForecast::reportDirectionChanges(
-    const WeatherPeriod& thePeriod,
-    std::vector<WeatherPeriod>& theDirectionPeriods,
-    WindDirectionInfo& thePreviousWindDirection,
-    TimePhraseInfo& thePreviousTimePhraseInfo,
-    bool lastPeriod,
-    bool voimistuvaa) const
-{
-  std::vector<Sentence> sentences;
-
-  unsigned int lastReportedIndex = UINT_MAX;
-  TextGenPosixTime previousPeriodStartTime;
-  TimePhraseInfo timePhraseInfo;
-  timePhraseInfo.day_number = thePreviousTimePhraseInfo.day_number;
-  timePhraseInfo.part_of_the_day = thePreviousTimePhraseInfo.part_of_the_day;
-
-  theParameters.theLog << "Reporting wind direction changes during period " << as_string(thePeriod)
-                       << ", " << theDirectionPeriods.size() << std::endl;
-
-  for (unsigned int i = 0; i < theDirectionPeriods.size(); i++)
-  {
-    const WeatherPeriod& period = theDirectionPeriods[i];
-
-    if (get_period_length(period) < 2)
-    {
-      theParameters.theLog << "Short direction period " << as_string(period) << " skipped."
-                           << std::endl;
-      continue;
-    }
-
-    if (is_inside(period.localStartTime(), thePeriod))
-    {
-      lastReportedIndex = i;
-
-      WindDirectionInfo windDirection = get_wind_direction(theParameters, period);
-
-      if (windDirection.id == thePreviousWindDirection.id)
-      {
-        theParameters.theLog << "Same direction as previous "
-                             << wind_direction_string(windDirection.id) << " -> skipped."
-                             << std::endl;
-        continue;
-      }
-
-      Sentence timePhrase;
-
-      Sentence sentence;
-
-      timePhraseInfo.day_number = thePreviousTimePhraseInfo.day_number;
-      timePhraseInfo.part_of_the_day = thePreviousTimePhraseInfo.part_of_the_day;
-
-      if (windDirection.id == VAIHTELEVA)
-      {
-        timePhrase << getTimePhrase(
-            period.localStartTime(), timePhraseInfo, get_period_length(period) >= 6);
-
-        sentence << timePhrase << VAIHTELEVA_TUULI_P;
-      }
-      else
-      {
-        if (get_period_length(period) >= 6)
-          timePhrase << getTimePhrase(
-              period.localStartTime(), timePhraseInfo, get_period_length(period) >= 6);
-        else
-          timePhrase << getTimePhrase(period, timePhraseInfo, get_period_length(period) >= 6);
-
-        negotiateWindDirection(windDirection, thePreviousWindDirection);
-        /*
-if (thePreviousWindDirection.id == VAIHTELEVA && voimistuvaa)
-  sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE << timePhrase
-           << EMPTY_STRING << VOIMISTUVAA_WORD << windDirectionSentence(windDirection.id);
-else
-        */
-        sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE << timePhrase
-                 << windDirectionSentence(windDirection.id);
-      }
-
-      theParameters.theLog << "Reporting wind direction change on period " << as_string(period)
-                           << std::endl;
-
-      // if wind direction changes rapidly on the period report only the the latest direction
-      if (i > 0 && sentences.size() > 0 &&
-          abs(period.localStartTime().DifferenceInHours(previousPeriodStartTime)) < 8 &&
-          timePhraseInfo == thePreviousTimePhraseInfo)
-        sentences[sentences.size() - 1] = sentence;
-      else
-        sentences.push_back(sentence);
-
-      thePreviousTimePhraseInfo = timePhraseInfo;
-      //      WeatherResult windDirectionValue = get_wind_direction_at(theParameters, period);
-      thePreviousWindDirection = get_wind_direction(theParameters, period);
-      previousPeriodStartTime = period.localStartTime();
-    }
-  }
-
-  if (lastReportedIndex != UINT_MAX)
-  {
-    if (lastReportedIndex == theDirectionPeriods.size() - 1)
-      theDirectionPeriods.clear();
-    else
-      theDirectionPeriods.assign(theDirectionPeriods.begin() + lastReportedIndex + 1,
-                                 theDirectionPeriods.end());
-  }
-
-  // report only last change
-  //  if (sentences.size() > 0) sentences.erase(sentences.begin(), sentences.end() - 1);
-
-  theParameters.theLog << " Number of direction changes " << sentences.size() << std::endl;
-
-  return sentences;
-}
 
 void WindForecast::constructWindSentence(const WindEventPeriodDataItem* windSpeedItem,
                                          const WindEventPeriodDataItem* nextWindSpeedItem,
@@ -1558,14 +1261,20 @@ void WindForecast::constructWindSentence(const WindEventPeriodDataItem* windSpee
 
       sentence_info sentenceInfo;
       sentenceInfo.period = windSpeedEventPeriod;
-      WindDirectionInfo windDirection = get_wind_direction(theParameters, windSpeedEventPeriod);
-      //      negotiateWindDirection(windDirection, thePreviousWindDirection);
-      sentenceInfo.sentence << windDirectionSentence(windDirection.id)
-                            << windSpeedIntervalSentence(windSpeedItem->thePeriod,
-                                                         USE_AT_ITS_STRONGEST_PHRASE);
-
-      //      thePreviousWindDirection = windDirection;
+      sentenceInfo.directionChange = get_wind_direction(
+          theParameters, (firstSentence ? firstDirectionPeriodInfo.period : windSpeedEventPeriod));
+      interval_sentence_info isi;
+      isi.period = windSpeedEventPeriod;
+      isi.intervalInfo = windSpeedIntervalInfo(windSpeedEventPeriod);
+      sentenceInfo.intervalSentences.push_back(isi);
+      sentenceInfo.sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE << EMPTY_STRING;
+      sentenceInfo.sentenceParameterTypes.push_back(SentenceParameterType::WIND_DIRECTION);
+      sentenceInfo.sentenceParameterTypes.push_back(SentenceParameterType::WIND_SPEED_INTERVAL);
       sentenceInfoVector.push_back(sentenceInfo);
+      /*
+  std::cout << "WEAK PERIOD for area: " << theParameters.theArea.name() << ", "
+            << as_string(sentenceInfo.period) << std::endl;
+      */
     }
     return;
   }
@@ -1583,13 +1292,24 @@ void WindForecast::constructWindSentence(const WindEventPeriodDataItem* windSpee
     if (firstSentence && get_period_length(windSpeedEventPeriod) > 3)
     {
       sentence_info sentenceInfo;
-      sentenceInfo.sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE << EMPTY_STRING
-                            << windDirectionSentence(firstDirectionPeriodInfo.info.id)
-                            << windSpeedIntervalSentence(windSpeedEventPeriod,
-                                                         USE_AT_ITS_STRONGEST_PHRASE);
-
       sentenceInfo.period = windSpeedEventPeriod;
+      sentenceInfo.directionChange = get_wind_direction(
+          theParameters, (firstSentence ? firstDirectionPeriodInfo.period : windSpeedEventPeriod));
+      interval_sentence_info isi;
+      isi.period = windSpeedEventPeriod;
+      sentenceInfo.period = windSpeedEventPeriod;
+      isi.intervalInfo = windSpeedIntervalInfo(windSpeedEventPeriod);
+      sentenceInfo.intervalSentences.push_back(isi);
+      sentenceInfo.sentence << ILTAPAIVALLA_ETELATUULTA_COMPOSITE_PHRASE << EMPTY_STRING;
+      sentenceInfo.sentenceParameterTypes.push_back(SentenceParameterType::WIND_DIRECTION);
+      sentenceInfo.sentenceParameterTypes.push_back(SentenceParameterType::WIND_SPEED_INTERVAL);
+
       sentenceInfoVector.push_back(sentenceInfo);
+      /*
+  std::cout << " MISSING_WIND_SPEED_EVENT is in the beginning for area: "
+            << theParameters.theArea.name() << ", " << as_string(sentenceInfo.period)
+            << std::endl;
+      */
     }
   }
   else if (windStrenghtens || windWeakens)
@@ -1668,7 +1388,7 @@ void WindForecast::constructWindSentence(const WindEventPeriodDataItem* windSpee
     sentenceInfo.changeSpeed = EMPTY_STRING;
     getWindSpeedChangeAttribute(
         windSpeedEventPeriod, sentenceInfo.changeSpeed, smallChange, gradualChange, fastChange);
-    // Annakaisa 9.6.2017: if weakening wind, dont use word 'v‰h‰n'
+    // Annakaisa 9.6.2017: if weakening wind, dont use word 'v√§h√§n'
     if (windWeakens && sentenceInfo.changeSpeed == VAHAN_WORD)
       sentenceInfo.changeSpeed = EMPTY_STRING;
     sentenceInfo.period = windSpeedEventPeriod;
@@ -1721,7 +1441,6 @@ void WindForecast::constructWindSentence(const WindEventPeriodDataItem* windSpee
           }
           else
           {
-            // sentenceInfo.sentence << windDirectionSentence(windDirection.id);
             sentenceInfo.sentence << ILTAPAIVALLA_NOPEASTI_HEIKKENEVAA_ETELATUULTA_COMPOSITE_PHRASE;
             sentenceInfo.sentenceParameterTypes.push_back(SentenceParameterType::TIME_PERIOD);
             sentenceInfo.sentenceParameterTypes.push_back(SentenceParameterType::CHANGE_SPEED);
@@ -1819,7 +1538,7 @@ std::ostream& operator<<(std::ostream& theOutput, const sentence_info& sentenceI
                     << "   skip: " << isi.skip << std::endl;
           if (isi.directionChangesBefore.size() > 0)
           {
-            theOutput << "   direction changes changes before interval at: " << std::endl;
+            theOutput << "   direction changes before interval at: " << std::endl;
             for (auto direction : isi.directionChangesBefore)
               theOutput << "   " << direction.startTime() << " ("
                         << wind_direction_string(direction.id) << ")" << std::endl;
@@ -1830,7 +1549,7 @@ std::ostream& operator<<(std::ostream& theOutput, const sentence_info& sentenceI
                       << wind_direction_string(isi.directionChange->id) << ")" << std::endl;
           if (isi.directionChangesAfter.size() > 0)
           {
-            theOutput << "   direction changes changes after interval at: " << std::endl;
+            theOutput << "   direction changes after interval at: " << std::endl;
             for (auto direction : isi.directionChangesAfter)
               theOutput << "   " << direction.startTime() << " ("
                         << wind_direction_string(direction.id) << ")" << std::endl;
@@ -1892,10 +1611,11 @@ void WindForecast::injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVecto
     for (unsigned int j = directionChangeStartIndex; j < directionChanges; j++)
     {
       WeatherPeriod windDirectionPeriod = theParameters.theWindDirectionPeriods[j];
-      if (get_period_length(windDirectionPeriod) < 3)
+      int directionPeriodLen = get_period_length(windDirectionPeriod);
+      if (directionPeriodLen < 3)
       {
         theParameters.theLog << "Direction change #" << j
-                             << " period is short: " << get_period_length(windDirectionPeriod)
+                             << " period is short: " << as_string(windDirectionPeriod)
                              << ", skipping!" << std::endl;
         continue;
       }
@@ -1906,13 +1626,12 @@ void WindForecast::injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVecto
                            << as_string(windDirectionInfo.period) << " ("
                            << wind_direction_string(windDirectionInfo.id) << ")" << std::endl;
 
-      if ((windDirectionInfo.id == VAIHTELEVA && get_period_length(windDirectionPeriod) < 2) ||
-          (windDirectionInfo.id != VAIHTELEVA && get_period_length(windDirectionPeriod) < 3))
+      if ((windDirectionInfo.id == VAIHTELEVA && directionPeriodLen < 2) ||
+          (windDirectionInfo.id != VAIHTELEVA && directionPeriodLen < 3))
       {
         theParameters.theLog << "Period " << as_string(windDirectionPeriod) << "("
                              << wind_direction_string(windDirectionInfo.id) << ") shorter than "
-                             << get_period_length(windDirectionPeriod) << " hours -> skip it."
-                             << std::endl;
+                             << directionPeriodLen << " hours -> skip it." << std::endl;
         continue;
       }
 
@@ -1927,7 +1646,7 @@ void WindForecast::injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVecto
       if (windDirectionPeriod.localStartTime() < windSpeedChangePeriod.localStartTime() &&
           (abs(windSpeedChangePeriod.localStartTime().DifferenceInHours(
                windDirectionPeriod.localStartTime())) > 2 ||
-           (windDirectionInfo.id == VAIHTELEVA && get_period_length(windDirectionPeriod) > 2)))
+           (windDirectionInfo.id == VAIHTELEVA && directionPeriodLen > 2)))
       {
         // direction changes before wind speed change period
         sentence_info si;
@@ -1936,7 +1655,7 @@ void WindForecast::injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVecto
         negotiateWindDirection(windDirectionInfo, previousWindDirectionInfo);
         if (windDirectionInfo.id == VAIHTELEVA)
         {
-          if (get_period_length(windDirectionPeriod) <= 5)
+          if (directionPeriodLen <= 5)
           {
             si.sentence << ILTAPAIVALLA_TUULI_MUUTTUU_TILAPAISESTI_VAIHTELEVAKSI_COMPOSITE_PHRASE;
             si.sentenceParameterTypes.push_back(SentenceParameterType::TIME_PERIOD);
@@ -2034,12 +1753,13 @@ void WindForecast::injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVecto
           for (unsigned int h = directionChangeStartIndex; h < directionChanges; h++)
           {
             windDirectionPeriod = theParameters.theWindDirectionPeriods[h];
+            directionPeriodLen = get_period_length(windDirectionPeriod);
 
-            if (get_period_length(windDirectionPeriod) < 3)
+            if (directionPeriodLen < 3)
             {
               theParameters.theLog << "Direction change #" << h
-                                   << " period is short: " << get_period_length(windDirectionPeriod)
-                                   << ", skipping!" << std::endl;
+                                   << " period is short: " << directionPeriodLen << ", skipping!"
+                                   << std::endl;
               continue;
             }
 
@@ -2080,15 +1800,6 @@ void WindForecast::injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVecto
                       (differenceInHours < 6 && lastInterval && lastSentence)) &&
                      !(firstInterval && firstSentence))
             {
-              /*
-  if (intervalSentenceInfo.directionChange)
-  {
-    theParameters.theLog << "Only one direction change allowed for interval, skipping: "
-                         << wind_direction_string(windDirectionInfo.id) << ", "
-                         << as_string(windDirectionInfo.period) << std::endl;
-    continue;
-  }
-              */
               theParameters.theLog << "Direction changes about same time as speed reporting point "
                                       " -> report direction along with interval: "
                                    << windDirectionPeriod.localStartTime() << " ~ "
@@ -2134,8 +1845,10 @@ void WindForecast::injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVecto
       WeatherPeriod windDirectionPeriodLast =
           theParameters.theWindDirectionPeriods[directionChanges - 1];
 
+      // TOD: check case B7W 201708291230 (part2), when get_period_length(windDirectionPeriodLast) >
+      // 1
       // report last even if it is short
-      if (get_period_length(windDirectionPeriodLast) > 1 &&
+      if (get_period_length(windDirectionPeriodLast) > 2 &&
           get_part_of_the_day_id_wind(windDirectionPeriodPreviousReported) !=
               get_part_of_the_day_id_wind(windDirectionPeriodLast))
       {
@@ -2318,6 +2031,7 @@ WeatherPeriod WindForecast::getNewPeriod(part_of_the_day_id& partOfTheDay,
     TimePhraseInfo tpi;
 
     getTimePhrase(phrasePeriod, tpi, get_period_length(phrasePeriod) > 6);
+
     if (tpi.part_of_the_day != partOfTheDay)
     {
       movedPeriod = WeatherPeriod(startTime, endTime);
@@ -2331,7 +2045,7 @@ WeatherPeriod WindForecast::getNewPeriod(part_of_the_day_id& partOfTheDay,
     startTime = period.localStartTime();
     endTime = period.localEndTime();
     // shrink maximum 90 %
-    unsigned int max_shrink = max(period_len * 0.9, 1.0);
+    unsigned int max_shrink = std::max(period_len * 0.9, 1.0);
 
     for (unsigned int i = 0; i < max_shrink; i++)
     {
@@ -2391,11 +2105,11 @@ WeatherPeriod WindForecast::getNewPeriod(part_of_the_day_id& partOfTheDay,
 // update either period1 (change it to earlier) or period2 (change it to later)
 //
 // TODO: when moving periods check borders
-bool WindForecast::negotiateNewPeriod2(part_of_the_day_id& partOfTheDay,
-                                       WeatherPeriod& period1,
-                                       WeatherPeriod& period2,
-                                       const WeatherPeriod& notEarlierThanPeriod,
-                                       const WeatherPeriod& notLaterThanPeriod) const
+bool WindForecast::negotiateNewPeriod(part_of_the_day_id& partOfTheDay,
+                                      WeatherPeriod& period1,
+                                      WeatherPeriod& period2,
+                                      const WeatherPeriod& notEarlierThanPeriod,
+                                      const WeatherPeriod& notLaterThanPeriod) const
 {
   // get candidates for new period
   unsigned int hoursChanged1 = 0;
@@ -2422,52 +2136,10 @@ bool WindForecast::negotiateNewPeriod2(part_of_the_day_id& partOfTheDay,
   return true;
 }
 
-WeatherPeriod WindForecast::negotiateNewPeriod(part_of_the_day_id& partOfTheDay,
-                                               const WeatherPeriod& period) const
-{
-  WeatherPeriod ret = period;
-
-  TextGenPosixTime newStartTime = period.localStartTime();
-  TextGenPosixTime newEndTime = period.localEndTime();
-  TimePhraseInfo tpi;
-  bool periodUpdated = false;
-
-  for (unsigned int i = 0; i < 6; i++)  // max 6 hours
-  {
-    newStartTime.ChangeByHours(1);  // roll time forwards 1 hour
-    newEndTime.ChangeByHours(1);
-    if (newEndTime > theParameters.theForecastPeriod.localEndTime())
-    {
-      theParameters.theLog << "Can not negotiate new period: forecast period end reached: "
-                           << theParameters.theForecastPeriod.localEndTime() << std::endl;
-      break;
-    }
-    WeatherPeriod newPeriod(newStartTime, newEndTime);
-    Sentence timePhrase;
-    tpi.part_of_the_day = partOfTheDay;
-    timePhrase << getTimePhrase(newPeriod, tpi, get_period_length(newPeriod) > 6);
-    if (tpi.part_of_the_day != partOfTheDay)
-    {
-      partOfTheDay = tpi.part_of_the_day;
-      ret = newPeriod;
-      periodUpdated = true;
-      theParameters.theLog << "New period negotiated: " << as_string(ret) << " -> "
-                           << part_of_the_day_string(tpi.part_of_the_day) << " -> "
-                           << as_string(timePhrase) << std::endl;
-      break;
-    }
-  }
-
-  if (!periodUpdated)
-    theParameters.theLog << "Could not negotiate new period: " << as_string(period) << std::endl;
-
-  return ret;
-}
-
 // check time phrases, so that same phrase is not used in successive sentences
 // if same phrase is in successive sentences -> change either of the phrase to the nearest fitting
 // phrase
-void WindForecast::checkTimePhrases2(WindSpeedSentenceInfo& sentenceInfoVector) const
+void WindForecast::checkTimePhrases(WindSpeedSentenceInfo& sentenceInfoVector) const
 {
   std::vector<WeatherPeriod*> timePhrasePeriods;
 
@@ -2485,6 +2157,7 @@ void WindForecast::checkTimePhrases2(WindSpeedSentenceInfo& sentenceInfoVector) 
     for (unsigned int j = 0; j < si.intervalSentences.size(); j++)
     {
       interval_sentence_info& isi = si.intervalSentences[j];
+
       // direction changes before
       for (auto& isi_dcb : isi.directionChangesBefore)
       {
@@ -2530,11 +2203,11 @@ void WindForecast::checkTimePhrases2(WindSpeedSentenceInfo& sentenceInfoVector) 
       if (i > 1) beforePreviousPeriod = *(timePhrasePeriods[i - 2]);
       if (i < n - 1) afterCurrentPeriod = *(timePhrasePeriods[i + 1]);
 
-      if (negotiateNewPeriod2(currentTPI.part_of_the_day,
-                              *previousPeriod,
-                              *currentPeriod,
-                              beforePreviousPeriod,
-                              afterCurrentPeriod))
+      if (negotiateNewPeriod(currentTPI.part_of_the_day,
+                             *previousPeriod,
+                             *currentPeriod,
+                             beforePreviousPeriod,
+                             afterCurrentPeriod))
       {
         if (period1.localStartTime() == previousPeriod->localStartTime() &&
             period1.localEndTime() == previousPeriod->localEndTime())
@@ -2566,96 +2239,7 @@ void WindForecast::checkTimePhrases2(WindSpeedSentenceInfo& sentenceInfoVector) 
   }
 }
 
-// check time phrases, so that same phrase is not used in successive sentences
-// if same phrase is in successive sentences -> change either of the phrase to the nearest fitting
-// phrase
-void WindForecast::checkTimePhrases(WindSpeedSentenceInfo& sentenceInfoVector) const
-{
-  TimePhraseInfo previousTPI;
-  //  part_of_the_day_id previousPartOfTheDay = MISSING_PART_OF_THE_DAY_ID;
-  //  TextGenPosixTime* previousTime = nullptr;
-  boost::optional<WeatherPeriod> previousPeriod = boost::none;
-
-  theParameters.theLog << "Checking for time phrase tautology" << std::endl;
-
-  for (auto& si : sentenceInfoVector)
-  {
-    TimePhraseInfo currentTPI = previousTPI;
-    getTimePhrase(si.period, currentTPI, get_period_length(si.period) > 6);
-
-    bool periodUpdated = false;
-    if (previousTPI.part_of_the_day != MISSING_PART_OF_THE_DAY_ID && previousTPI == currentTPI)
-    {
-      theParameters.theLog << "Tautology found: ";
-
-      theParameters.theLog << as_string(*(previousPeriod));
-      theParameters.theLog << " and " << as_string(si.period) << " ("
-                           << part_of_the_day_string(previousTPI.part_of_the_day) << ") -> ";
-
-      si.period = negotiateNewPeriod(previousTPI.part_of_the_day, si.period);
-      periodUpdated = true;
-      previousPeriod = si.period;
-
-      previousTPI = currentTPI;
-      theParameters.theLog << "New period: " << as_string(si.period) << " ("
-                           << part_of_the_day_string(previousTPI.part_of_the_day) << ")"
-                           << std::endl;
-    }
-
-    for (auto& isi : si.intervalSentences)
-    {
-      for (auto& isi_dcb : isi.directionChangesBefore)
-      {
-        getTimePhrase(isi_dcb.period.localStartTime(), currentTPI, false);
-        if (previousTPI.part_of_the_day != MISSING_PART_OF_THE_DAY_ID && previousTPI == currentTPI)
-        {
-          theParameters.theLog << "Tautology found: ";
-
-          theParameters.theLog << as_string(*(previousPeriod));
-          theParameters.theLog << " and " << isi_dcb.startTime() << " ("
-                               << part_of_the_day_string(previousTPI.part_of_the_day) << ") -> ";
-
-          isi_dcb.period = negotiateNewPeriod(previousTPI.part_of_the_day, isi_dcb.period);
-
-          previousPeriod = isi_dcb.period;  // nullptr;
-          previousTPI = currentTPI;
-          periodUpdated = true;
-
-          theParameters.theLog << "New time: " << as_string(isi_dcb.period) << " ("
-                               << part_of_the_day_string(previousTPI.part_of_the_day) << ")"
-                               << std::endl;
-        }
-      }
-
-      getTimePhrase(isi.period, currentTPI, get_period_length(isi.period) > 6);
-      if (previousTPI.part_of_the_day != MISSING_PART_OF_THE_DAY_ID && previousTPI == currentTPI)
-      {
-        theParameters.theLog << "Tautology found: ";
-        theParameters.theLog << as_string(*(previousPeriod));
-        theParameters.theLog << " and " << as_string(isi.period) << " ("
-                             << part_of_the_day_string(previousTPI.part_of_the_day) << ") -> ";
-
-        isi.period = negotiateNewPeriod(previousTPI.part_of_the_day, isi.period);
-
-        theParameters.theLog << "New period: " << as_string(isi.period) << " ("
-                             << part_of_the_day_string(previousTPI.part_of_the_day) << ")"
-                             << std::endl;
-      }
-      previousPeriod = isi.period;
-      periodUpdated = true;
-      previousTPI = currentTPI;
-    }
-
-    if (!periodUpdated && !si.firstSentence)
-    {
-      previousPeriod = si.period;
-      periodUpdated = true;
-      previousTPI = currentTPI;
-    }
-  }
-}
-
-// check that wind directionchanges  are not reported too often if direction changes
+// check that wind direction changes  are not reported too often if direction changes
 // a lot at once
 void WindForecast::checkWindDirections(WindSpeedSentenceInfo& sentenceInfoVector) const
 {
@@ -2716,6 +2300,7 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
 
   for (unsigned int i = 0; i < sentenceInfoVector.size(); i++)
   {
+    bool firstSentence = ret.empty();
     paragraph_info pi;
     paragraph_info piAfterLastInterval;
     const sentence_info& sentenceInfo = sentenceInfoVector[i];
@@ -2723,7 +2308,8 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
     if (i == sentenceInfoVector.size() - 1 && get_period_length(sentenceInfo.period) < 3 &&
         !sentenceInfo.changeType.empty())
     {
-      theParameters.theLog << "Skipping last short period" << std::endl;
+      theParameters.theLog << "Skipping last short period: " << as_string(sentenceInfo.period)
+                           << std::endl;
       continue;
     }
 
@@ -2779,6 +2365,20 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
         break;
         case WIND_SPEED_INTERVAL:
         {
+          if (firstSentence && sentenceInfo.intervalSentences.size() == 1)
+          {
+            interval_sentence_info isi = sentenceInfo.intervalSentences[0];
+            sentence_parameter sp;
+            sp.sentence << windSpeedIntervalSentence(
+                isi.period, isi.intervalInfo, timePhraseInfo, USE_AT_ITS_STRONGEST_PHRASE);
+            if (!sp.sentence.empty())
+            {
+              sp.tpi = timePhraseInfo;
+              pi.sentenceParameters.push_back(sp);
+            }
+            break;
+          }
+
           Sentence intervalSentence;
           for (unsigned int k = 0; k < sentenceInfo.intervalSentences.size(); k++)
           {
@@ -2786,11 +2386,11 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
 
             // first report direction changes that happen before interval
             std::vector<sentence_parameter> sps =
-                reportWindDirectionChanges2(isi.directionChangesBefore, timePhraseInfo);
+                reportWindDirectionChanges(isi.directionChangesBefore, timePhraseInfo);
 
             pi.sentenceParameters.insert(pi.sentenceParameters.end(), sps.begin(), sps.end());
 
-            // ylimmill‰‰n must be reported if it is the last interval
+            // ylimmill√§√§n must be reported if it is the last interval
             if (isi.skip && k == sentenceInfo.intervalSentences.size() - 1)
             {
               interval_info intervalInfoIsi = windSpeedIntervalInfo(isi.period);
@@ -2814,6 +2414,7 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
             {
               // then report the interval itself
               WeatherPeriod period = isi.period;
+              bool samePeriod = false;
               if (ret.empty() && k == 0)
               {
                 if (as_string(sentenceInfo.sentence)
@@ -2841,6 +2442,10 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
                   sp.tpi = tpi;
                   pi.sentenceParameters.push_back(sp);
                 }
+                else
+                {
+                  samePeriod = true;
+                }
               }
 
               // direction change may happen same time as interval
@@ -2852,12 +2457,19 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
               }
 
               sentence_parameter sp1;
-              sp1.sentence << windSpeedIntervalSentence2(
-                  period, timePhraseInfo, sentenceInfo.changeType.compare(VOIMISTUVAA_WORD) == 0);
+              sp1.sentence << windSpeedIntervalSentence(
+                  period,
+                  isi.intervalInfo,
+                  timePhraseInfo,
+                  sentenceInfo.changeType.compare(VOIMISTUVAA_WORD) == 0);
+
               if (!sp1.sentence.empty())
               {
                 sp1.tpi = timePhraseInfo;
-                pi.sentenceParameters.push_back(sp1);
+                if (samePeriod)
+                  pi.sentenceParameters.back().sentence = sp1.sentence;
+                else
+                  pi.sentenceParameters.push_back(sp1);
               }
             }
             else
@@ -2881,10 +2493,9 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
                 pi.sentenceParameters.push_back(sp);
               }
             }
-
             // first report direction changes that happen after interval
             std::vector<sentence_parameter> sps2 =
-                reportWindDirectionChanges2(isi.directionChangesAfter, timePhraseInfo, false);
+                reportWindDirectionChanges(isi.directionChangesAfter, timePhraseInfo, false);
 
             piAfterLastInterval.sentenceParameters.insert(
                 piAfterLastInterval.sentenceParameters.end(), sps2.begin(), sps2.end());
@@ -2898,196 +2509,6 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
   }
 
   return ret;
-}
-
-Paragraph WindForecast::constructParagraph(const WeatherPeriod& thePeriod,
-                                           const WindSpeedSentenceInfo& sentenceInfoVector) const
-{
-  Paragraph paragraph;
-
-  TimePhraseInfo timePhraseInfo;
-
-  theParameters.theLog << "CONSTRUCTING SENTENCES" << std::endl;
-
-  for (unsigned int i = 0; i < sentenceInfoVector.size(); i++)
-  {
-    const sentence_info& sentenceInfo = sentenceInfoVector[i];
-    Sentence sentence;
-    sentence << sentenceInfo.sentence;
-
-    theParameters.theLog << " Sentence #" << i << ": " << as_string(sentence) << std::endl;
-
-    for (unsigned int j = 0; j < sentenceInfo.sentenceParameterTypes.size(); j++)
-    {
-      theParameters.theLog << "  sentence parameter #" << j << std::endl;
-
-      SentenceParameterType parameterType = sentenceInfo.sentenceParameterTypes[j];
-
-      switch (parameterType)
-      {
-        case TIME_PERIOD:
-        {
-          theParameters.theLog << "   TIME_PERIOD parameter " << as_string(sentenceInfo.period)
-                               << std::endl;
-          if (i > 0)
-          {
-            WeatherPeriod period = sentenceInfo.period;
-            Sentence timePhrase;
-            timePhrase << getTimePhrase(period, timePhraseInfo, get_period_length(period) > 6);
-            theParameters.theLog << "   TIME_PERIOD parameter value: " << as_string(timePhrase)
-                                 << std::endl;
-            sentence << timePhrase;
-          }
-        }
-        break;
-        case WIND_DIRECTION:
-        {
-          theParameters.theLog << "   WIND_DIRECTION parameter " << as_string(sentenceInfo.period)
-                               << std::endl;
-
-          if (!sentenceInfo.directionChange && sentenceInfo.intervalSentences.size() > 0)
-          {
-            theParameters.theLog << "   Handle WIND_DIRECTION parameter along with first interval"
-                                 << std::endl;
-            continue;
-          }
-
-          Sentence directionSentence;
-          if (sentenceInfo.directionChange)
-          {
-            theParameters.theLog << "    direction changes to "
-                                 << wind_direction_string(sentenceInfo.directionChange->id)
-                                 << " at " << sentenceInfo.directionChange->period.localStartTime()
-                                 << std::endl;
-            directionSentence << windDirectionSentence(sentenceInfo.directionChange->id,
-                                                       sentenceInfo.useWindBasicForm);
-          }
-          else
-          {
-            directionSentence << (sentenceInfo.useWindBasicForm ? TUULI_WORD : TUULTA_WORD);
-            theParameters.theLog << "    direction sentence: " << as_string(directionSentence)
-                                 << std::endl;
-          }
-          sentence << directionSentence;
-        }
-        break;
-        case CHANGE_TYPE:
-        {
-          theParameters.theLog << "   CHANGE_TYPE parameter " << as_string(sentenceInfo.period)
-                               << ": " << sentenceInfo.changeType << std::endl;
-          sentence << sentenceInfo.changeType;
-        }
-        break;
-        case CHANGE_SPEED:
-        {
-          theParameters.theLog << "   CHANGE_SPEED parameter " << as_string(sentenceInfo.period)
-                               << ": " << sentenceInfo.changeSpeed << std::endl;
-          sentence << sentenceInfo.changeSpeed;
-        }
-        break;
-        case WIND_SPEED_INTERVAL:
-        {
-          theParameters.theLog << "   WIND_SPEED_INTERVAL parameter "
-                               << as_string(sentenceInfo.period) << std::endl;
-          Sentence intervalSentence;
-
-          if (!sentenceInfo.directionChange && sentenceInfo.intervalSentences.size() > 0)
-          {
-            sentence << (sentenceInfo.useWindBasicForm ? TUULI_WORD : TUULTA_WORD);
-            theParameters.theLog << "    adding '"
-                                 << (sentenceInfo.useWindBasicForm ? TUULI_WORD : TUULTA_WORD)
-                                 << "'-word to the sentence" << std::endl;
-          }
-
-          for (unsigned int k = 0; k < sentenceInfo.intervalSentences.size(); k++)
-          {
-            interval_sentence_info isi = sentenceInfo.intervalSentences[k];
-
-            // first report direction changes that happen before interval
-            intervalSentence << reportWindDirectionChanges(isi.directionChangesBefore,
-                                                           timePhraseInfo);
-
-            if (!isi.skip)
-            {
-              // then report the interval itself
-              WeatherPeriod period = isi.period;
-              if (paragraph.empty() && k == 0)
-              {
-                if (as_string(sentenceInfo.sentence)
-                        .substr(
-                            0,
-                            strlen(
-                                POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE)) !=
-                    POHJOISTUULTA_INTERVALLI_MS_JOKA_ALKAA_VOIMISTUA_COMPOSITE_PHRASE)
-                {
-                  intervalSentence << Delimiter(COMMA_PUNCTUATION_MARK);
-                  intervalSentence << ALUKSI_WORD;
-                }
-              }
-              else
-              {
-                Sentence timePhraseSentence;
-                TimePhraseInfo tpi = timePhraseInfo;
-                //
-                int endHour = period.localEndTime().GetHour();
-                if (get_period_length(period) == 0 &&
-                    period.localEndTime() == theParameters.theForecastPeriod.localEndTime() &&
-                    (endHour == 6 || endHour == 18))
-                {
-                  TextGenPosixTime startTime = period.localStartTime();
-                  TextGenPosixTime endTime = period.localEndTime();
-                  endTime.ChangeByHours(-1);
-                  if (endTime < startTime) startTime.ChangeByHours(-1);
-                  period = WeatherPeriod(startTime, endTime);
-                }
-                timePhraseSentence << getTimePhrase(period, tpi, isi.useAlkaenPhrase);
-                if (tpi != timePhraseInfo)
-                {
-                  intervalSentence << Delimiter(COMMA_PUNCTUATION_MARK);
-                  intervalSentence << timePhraseSentence;
-                  timePhraseInfo = tpi;
-                }
-                else
-                {
-                  if (k > 0 && k != sentenceInfo.intervalSentences.size() - 1)
-                  {
-                    theParameters.theLog
-                        << "    Time phrase tautology prevented, dont report interval at "
-                        << as_string(period) << std::endl;
-                    continue;
-                  }
-                }
-              }
-
-              // direction change may happen same time as interval is reported
-              if (isi.directionChange && isi.directionChange->id != MISSING_WIND_DIRECTION_ID)
-              {
-                intervalSentence << windDirectionSentence(*(isi.directionChange));
-                theParameters.theLog << "    direction changes at the same time as interval: "
-                                     << as_string(intervalSentence) << std::endl;
-              }
-
-              intervalSentence << windSpeedIntervalSentence2(
-                  period, timePhraseInfo, sentenceInfo.changeType.compare(VOIMISTUVAA_WORD) == 0);
-            }
-
-            // in the end report direction changes that happen after interval
-            intervalSentence << reportWindDirectionChanges(isi.directionChangesAfter,
-                                                           timePhraseInfo);
-            theParameters.theLog << "    interval sentence: " << as_string(intervalSentence)
-                                 << std::endl;
-          }
-          sentence << intervalSentence;
-        }
-        break;
-      }
-    }
-    theParameters.theLog << "   sentence text #" << i << ": " << as_string(sentence) << std::endl;
-
-    paragraph << sentence;
-  }
-
-  return paragraph;
 }
 
 Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
@@ -3157,14 +2578,9 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
   log_sentence_info(
       theParameters.theLog, "SENTENCE INFO AFTER INJECTING DIRECTIONS", sentenceInfoVector);
 
-  checkTimePhrases2(sentenceInfoVector);
-  //  checkTimePhrases(sentenceInfoVector);
+  checkTimePhrases(sentenceInfoVector);
 
   checkWindDirections(sentenceInfoVector);
-  /*
-  Paragraph newParagraph =
-      constructParagraph(thePeriod, sentenceInfoVector);
-  */
 
   Paragraph newParagraph;
   newParagraph << getParagraphInfo(thePeriod, sentenceInfoVector);
@@ -3203,7 +2619,8 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
   if (get_period_length(thePeriod) == 0)
   {
     timePhraseInfo.part_of_the_day = get_part_of_the_day_id_wind(thePeriod);
-    //    timePhraseInfo.part_of_the_day = get_part_of_the_day_id_wind(thePeriod.localStartTime());
+    //    timePhraseInfo.part_of_the_day =
+    //    get_part_of_the_day_id_wind(thePeriod.localStartTime());
     if (timePhraseInfo.part_of_the_day == KESKIYO)
       specifyDay = false;
     else
@@ -3225,7 +2642,7 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
     theParameters.theAlkaenPhraseUsed = (get_period_length(thePeriod) >= 6 && useAlkaenPhrase &&
                                          !fit_into_narrow_day_part(thePeriod));
 
-    // try to prevent tautology, like "iltap‰iv‰ll‰"... "iltap‰iv‰st‰ alkaen"
+    // try to prevent tautology, like "iltap√§iv√§ll√§"... "iltap√§iv√§st√§ alkaen"
     if (timePhraseInfo.part_of_the_day == get_most_relevant_part_of_the_day_id_narrow(thePeriod) &&
         timePhraseInfo.day_number != MISSING_PART_OF_THE_DAY_ID && get_period_length(thePeriod) > 4)
     {
@@ -3239,7 +2656,7 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
       actualPeriod = shortenedPeriod;
     }
 
-    // dont specify day for keskiyˆ
+    // dont specify day for keskiy√∂
     if (get_part_of_the_day_id_wind(thePeriod) == KESKIYO ||
         (theParameters.theAlkaenPhraseUsed &&
          get_part_of_the_day_id_wind(thePeriod.localStartTime()) == KESKIYO))
@@ -3339,13 +2756,14 @@ Sentence WindForecast::getTimePhrase(const WeatherPeriod& thePeriod,
             << (useAlkaenPhrase ? " use alkaen phrase" : " dont use alkaen phrase") << " -> "
             << timePhraseInfo << std::endl;
   */
+
   return sentence;
 }
 
-vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
+std::vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
     const WindEventPeriodDataItem& eventPeriodDataItem, bool firstSentenceInTheStory) const
 {
-  vector<WeatherPeriod> resultVector;
+  std::vector<WeatherPeriod> resultVector;
 
   WeatherPeriod speedEventPeriod(eventPeriodDataItem.theWindSpeedChangePeriod);
 
@@ -3369,7 +2787,7 @@ vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
 
   if (begIndex < theParameters.theWindDataVector.size())
   {
-    vector<unsigned int> reportingIndexes;
+    std::vector<unsigned int> reportingIndexes;
     float previousTopWind(kFloatMissing);
     TextGenPosixTime previousTime;
     for (unsigned int i = begIndex; i < theParameters.theWindDataVector.size(); i++)
@@ -3415,12 +2833,17 @@ vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
         if (windDataItem.theEqualizedTopWind.value() > WEAK_WIND_SPEED_UPPER_LIMIT ||
             previousTopWind > WEAK_WIND_SPEED_UPPER_LIMIT)
         {
-          WeatherPeriod p1(previousTime, previousTime);
-          WeatherPeriod p2(windDataItem.thePeriod.localStartTime(),
-                           windDataItem.thePeriod.localStartTime());
-          interval_info intervalInfoP1 = windSpeedIntervalInfo(p1);
-          interval_info intervalInfoP2 = windSpeedIntervalInfo(p2);
-          if (wind_speed_differ_enough(intervalInfoP1, intervalInfoP2))
+          /*
+  WeatherPeriod p1(previousTime, previousTime);
+  WeatherPeriod p2(windDataItem.thePeriod.localStartTime(),
+                   windDataItem.thePeriod.localStartTime());
+  interval_info intervalInfoP1 = windSpeedIntervalInfo(p1);
+  interval_info intervalInfoP2 = windSpeedIntervalInfo(p2);
+  if (wind_speed_differ_enough(intervalInfoP1, intervalInfoP2))
+          */
+
+          WeatherPeriod p(previousTime, windDataItem.thePeriod.localStartTime());
+          if (wind_speed_differ_enough(theParameters, p))
           {
             reportingIndexes.push_back(i);
             previousTime = windDataItem.thePeriod.localStartTime();
@@ -3473,7 +2896,7 @@ vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
         // last reporting point is at the end of the increasing/decreasing period
         // except when period ends in the evening or in the morning, in that case
         // last reporting period starts three hours before increasing/decreasing period ends
-        // so that last time phrase in e.g 'iltaan asti'-forecast is 'iltap‰iv‰ll‰'
+        // so that last time phrase in e.g 'iltaan asti'-forecast is 'iltap√§iv√§ll√§'
         TextGenPosixTime startTime(windDataItemLast.thePeriod.localStartTime());
         TextGenPosixTime endTime(windDataItemLast.thePeriod.localEndTime());
         if (endTime.GetHour() == 18 || endTime.GetHour() == 17 || endTime.GetHour() == 6)
@@ -3494,7 +2917,7 @@ vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
     }
   }
 
-  vector<WeatherPeriod> retVector;
+  std::vector<WeatherPeriod> retVector;
   // max two intervals reported
   if (resultVector.size() > 0) retVector.push_back(resultVector.front());
 
@@ -3648,20 +3071,6 @@ interval_info WindForecast::windSpeedIntervalInfo(const WeatherPeriod& thePeriod
   return ret;
 }
 
-Sentence WindForecast::speedRangeSentence(const WeatherPeriod& thePeriod,
-                                          bool theUseAtItsStrongestPhrase) const
-{
-  Sentence sentence;
-
-  interval_info intervalInfo = windSpeedIntervalInfo(thePeriod);
-
-  return compose_wind_speed_sentence(theParameters,
-                                     intervalInfo.lowerLimit,
-                                     intervalInfo.upperLimit,
-                                     intervalInfo.peakWind,
-                                     theUseAtItsStrongestPhrase);
-}
-
 // returns true if id1 is later than id2 false otherwise
 bool is_later(part_of_the_day_id id1, part_of_the_day_id id2)
 {
@@ -3704,74 +3113,72 @@ bool is_later(part_of_the_day_id id1, part_of_the_day_id id2)
   return false;
 }
 
-Sentence WindForecast::speedRangeSentence2(const WeatherPeriod& thePeriod,
-                                           TimePhraseInfo& timePhraseInfo,
-                                           bool theUseAtItsStrongestPhrase) const
+Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
+                                                 interval_info intervalInfo,
+                                                 TimePhraseInfo& timePhraseInfo,
+                                                 bool theUseAtItsStrongestPhrase) const
 {
   Sentence sentence;
 
-  interval_info intervalInfo = windSpeedIntervalInfo(thePeriod);
-
   Sentence timePhrase;
-  TimePhraseInfo tpi;
-  tpi.day_number = timePhraseInfo.day_number;
-  tpi.part_of_the_day = timePhraseInfo.part_of_the_day;
-
-  timePhrase << getTimePhrase(intervalInfo.peakWindTime, tpi, false);
-
-  if (tpi != timePhraseInfo && theUseAtItsStrongestPhrase)
+  if (!timePhraseInfo.empty())
   {
-    if (timePhraseInfo.starttime.GetDay() == intervalInfo.peakWindTime.GetDay() &&
-        is_later(tpi.part_of_the_day, timePhraseInfo.part_of_the_day))
-      timePhraseInfo = tpi;
+    TimePhraseInfo tpi;
+    tpi.day_number = timePhraseInfo.day_number;
+    tpi.part_of_the_day = timePhraseInfo.part_of_the_day;
+
+    timePhrase << getTimePhrase(intervalInfo.peakWindTime, tpi, false);
+
+    if (tpi != timePhraseInfo && theUseAtItsStrongestPhrase)
+    {
+      if (timePhraseInfo.starttime.GetDay() == intervalInfo.peakWindTime.GetDay() &&
+          is_later(tpi.part_of_the_day, timePhraseInfo.part_of_the_day))
+        timePhraseInfo = tpi;
+      else
+        timePhrase.clear();
+    }
     else
       timePhrase.clear();
   }
-  else
-    timePhrase.clear();
 
   return compose_wind_speed_sentence(
       theParameters, intervalInfo, timePhrase, theUseAtItsStrongestPhrase);
 }
 
 Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
-                                                 bool theUseAtItsStrongestPhrase /* = true*/) const
+                                                 TimePhraseInfo& timePhraseInfo,
+                                                 bool theUseAtItsStrongestPhrase) const
 {
   Sentence sentence;
 
-  sentence << speedRangeSentence(thePeriod, theUseAtItsStrongestPhrase);
+  interval_info intervalInfo = windSpeedIntervalInfo(thePeriod);
 
-  return sentence;
-}
-
-Sentence WindForecast::windSpeedIntervalSentence2(const WeatherPeriod& thePeriod,
-                                                  TimePhraseInfo& tpi,
-                                                  bool theUseAtItsStrongestPhrase /* = true*/) const
-{
-  Sentence sentence;
-
-  sentence << speedRangeSentence2(thePeriod, tpi, theUseAtItsStrongestPhrase);
-
-  return sentence;
-}
-
-Sentence WindForecast::reportWindDirectionChanges(
-    const std::vector<WindDirectionInfo>& directionChanges, TimePhraseInfo& timePhraseInfo) const
-{
-  Sentence s;
-  for (auto directionInfo : directionChanges)
+  Sentence timePhrase;
+  if (!timePhraseInfo.empty())
   {
-    if (directionInfo.id == MISSING_WIND_DIRECTION_ID) continue;
-    s << Delimiter(COMMA_PUNCTUATION_MARK);
-    s << getTimePhrase(
-        directionInfo.period, timePhraseInfo, get_period_length(directionInfo.period) > 6);
-    s << windDirectionSentence(directionInfo.id);
+    TimePhraseInfo tpi;
+    tpi.day_number = timePhraseInfo.day_number;
+    tpi.part_of_the_day = timePhraseInfo.part_of_the_day;
+
+    timePhrase << getTimePhrase(intervalInfo.peakWindTime, tpi, false);
+
+    if (tpi != timePhraseInfo && theUseAtItsStrongestPhrase)
+    {
+      if (timePhraseInfo.starttime.GetDay() == intervalInfo.peakWindTime.GetDay() &&
+          is_later(tpi.part_of_the_day, timePhraseInfo.part_of_the_day))
+        timePhraseInfo = tpi;
+      else
+        timePhrase.clear();
+    }
+    else
+      timePhrase.clear();
   }
 
-  return s;
+  return compose_wind_speed_sentence(
+      theParameters, intervalInfo, timePhrase, theUseAtItsStrongestPhrase);
 }
 
-std::vector<sentence_parameter> WindForecast::reportWindDirectionChanges2(
+std::vector<sentence_parameter> WindForecast::reportWindDirectionChanges(
     const std::vector<WindDirectionInfo>& directionChanges,
     TimePhraseInfo& timePhraseInfo,
     bool startWithComma /*= true*/) const
@@ -3780,7 +3187,9 @@ std::vector<sentence_parameter> WindForecast::reportWindDirectionChanges2(
 
   for (auto directionInfo : directionChanges)
   {
-    if (ret.empty() && startWithComma)
+    if (directionInfo.empty()) continue;
+
+    if (!ret.empty() || (ret.empty() && startWithComma))
     {
       sentence_parameter sp;
       sp.sentence << Delimiter(COMMA_PUNCTUATION_MARK);
@@ -3790,6 +3199,7 @@ std::vector<sentence_parameter> WindForecast::reportWindDirectionChanges2(
     sentence_parameter sp2;
     sp2.sentence << getTimePhrase(
         directionInfo.period, timePhraseInfo, get_period_length(directionInfo.period) > 6);
+
     sp2.tpi = timePhraseInfo;
     ret.push_back(sp2);
 

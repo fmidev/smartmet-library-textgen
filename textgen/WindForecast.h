@@ -56,7 +56,7 @@ enum SentenceParameterType
 };
 
 // Sentence is constructed by populating the sentence with parameters.
-// Directon changes are checked in between?
+// Directon changes are checked in between
 struct sentence_info
 {
   Sentence sentence;
@@ -124,14 +124,6 @@ class WindForecast
 
   Sentence windDirectionSentenceWithAttribute(
       WindStoryTools::WindDirectionId theWindDirectionId) const;
-  Sentence windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
-                                     bool theUseAtItsStrongestPhrase = true) const;
-  Sentence speedRangeSentence(const WeatherPeriod& thePeriod,
-                              bool theUseAtItsStrongestPhrase) const;
-  Sentence speedRangeSentence2(const WeatherPeriod& thePeriod,
-                               TimePhraseInfo& tpi,
-                               bool theUseAtItsStrongestPhrase) const;
-
   Sentence getTimePhrase(const WeatherPeriod& thePeriod,
                          TimePhraseInfo& timePhraseInfo,
                          bool useAlkaenPhrase) const;
@@ -146,48 +138,35 @@ class WindForecast
                                    bool& smallChange,
                                    bool& gradualChange,
                                    bool& fastChange) const;
-  std::vector<Sentence> reportDirectionChanges(std::vector<WeatherPeriod>& theDirectionPeriods,
-                                               WindDirectionInfo& thePreviousWindDirection,
-                                               const TimePhraseInfo& thePreviousTimePhraseInfo,
-                                               bool theTuuliBasicForm) const;
-  std::vector<sentence_parameter> reportWindDirectionChanges2(
+  std::vector<sentence_parameter> reportWindDirectionChanges(
       const std::vector<WindDirectionInfo>& directionChanges,
       TimePhraseInfo& timePhraseInfo,
       bool startWithComma = true) const;
-
-  std::vector<Sentence> reportDirectionChanges(const WeatherPeriod& thePeriod,
-                                               std::vector<WeatherPeriod>& theDirectionPeriods,
-                                               WindDirectionInfo& thePreviousWindDirection,
-                                               TimePhraseInfo& thePreviousTimePhrase,
-                                               bool lastPeriod,
-                                               bool voimistuvaa) const;
   void injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVector) const;
   void checkWindSpeedIntervals(WindSpeedSentenceInfo& sentenceInfoVector) const;
-  Paragraph constructParagraph(const WeatherPeriod& thePeriod,
-                               const WindSpeedSentenceInfo& sentenceInfoVector) const;
   interval_info windSpeedIntervalInfo(const WeatherPeriod& thePeriod) const;
-  Sentence reportWindDirectionChanges(const std::vector<WindDirectionInfo>& directionChanges,
-                                      TimePhraseInfo& timePhraseInfo) const;
   void checkTimePhrases(WindSpeedSentenceInfo& sentenceInfoVector) const;
-  void checkTimePhrases2(WindSpeedSentenceInfo& sentenceInfoVector) const;
   void checkWindDirections(WindSpeedSentenceInfo& sentenceInfoVector) const;
 
-  WeatherPeriod negotiateNewPeriod(part_of_the_day_id& partOfTheDay,
-                                   const WeatherPeriod& period) const;
-  bool negotiateNewPeriod2(part_of_the_day_id& partOfTheDay,
-                           WeatherPeriod& period1,
-                           WeatherPeriod& period2,
-                           const WeatherPeriod& notEarlierThanPeriod,
-                           const WeatherPeriod& notLaterThanPeriod) const;
+  bool negotiateNewPeriod(part_of_the_day_id& partOfTheDay,
+                          WeatherPeriod& period1,
+                          WeatherPeriod& period2,
+                          const WeatherPeriod& notEarlierThanPeriod,
+                          const WeatherPeriod& notLaterThanPeriod) const;
   WeatherPeriod getNewPeriod(part_of_the_day_id& partOfTheDay,
                              const WeatherPeriod& period,
                              const WeatherPeriod& guardPeriod,
                              unsigned int& hours,
                              bool backwards) const;
 
-  Sentence windSpeedIntervalSentence2(const WeatherPeriod& thePeriod,
-                                      TimePhraseInfo& tpi,
-                                      bool theUseAtItsStrongestPhrase = true) const;
+  Sentence windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
+                                     TimePhraseInfo& tpi,
+                                     bool theUseAtItsStrongestPhrase = true) const;
+  Sentence windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
+                                     interval_info intervalInfo,
+                                     TimePhraseInfo& timePhraseInfo,
+                                     bool theUseAtItsStrongestPhrase) const;
+
   ParagraphInfoVector getParagraphInfo(const WeatherPeriod& thePeriod,
                                        const WindSpeedSentenceInfo& sentenceInfoVector) const;
 };

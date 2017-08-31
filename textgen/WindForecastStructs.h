@@ -312,6 +312,7 @@ struct WindDirectionInfo
 
   TextGenPosixTime startTime() const { return period.localStartTime(); }
   TextGenPosixTime endTime() const { return period.localEndTime(); }
+  bool empty() { return (id == MISSING_WIND_DIRECTION_ID); }
 };
 
 struct TimePhraseInfo
@@ -336,15 +337,7 @@ struct TimePhraseInfo
         part_of_the_day(tpi.part_of_the_day)
   {
   }
-};
-
-struct DirectionSentenceInfo
-{
-  TextGenPosixTime startTime;
-  TextGenPosixTime endTime;
-  Sentence sentence;
-  TimePhraseInfo timePhraseInfo;
-  WindDirectionInfo windDirectionInfo;
+  bool empty() { return part_of_the_day == MISSING_PART_OF_THE_DAY_ID; }
 };
 
 // in WindForecast.cpp

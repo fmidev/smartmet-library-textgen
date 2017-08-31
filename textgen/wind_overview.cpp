@@ -2209,7 +2209,11 @@ wind_event_period_data_item_vector remove_short_missing_periods(
     WindEventPeriodDataItem* nextDataItem = eventPeriodVector[i + 1];
     WindEventPeriodDataItem* afterNextDataItem = eventPeriodVector[i + 2];
 
-    if (currentDataItem == 0 || nextDataItem == 0 || afterNextDataItem == 0) continue;
+    if (currentDataItem == 0 || nextDataItem == 0 || afterNextDataItem == 0)
+    {
+      cleanedEventPeriods.push_back(currentDataItem);
+      continue;
+    }
 
     if (nextDataItem->theWindEvent == MISSING_WIND_SPEED_EVENT &&
         currentDataItem->theWindEvent == afterNextDataItem->theWindEvent)
@@ -2740,6 +2744,13 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
 
 void check_first_period(wo_story_params& storyParams)
 {
+  if (storyParams.theWindSpeedEventPeriodVector.size() == 0)
+  {
+    storyParams.theLog << "Error: size of storyParams.theWindSpeedEventPeriodVector is zero!!"
+                       << std::endl;
+    return;
+  }
+
   WindEventPeriodDataItem* firstSpeedDataItem = storyParams.theWindSpeedEventPeriodVector.at(0);
   WindEventId firstWindEvent = firstSpeedDataItem->theWindEvent;
   WeatherPeriod firstDirectionPeriod = storyParams.theWindDirectionPeriods.at(0);
