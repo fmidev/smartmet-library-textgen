@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.8.29
+Version: 17.8.31
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -65,6 +65,13 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu Aug 31 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.8.31-1.fmi
+- fixed bugs in wind_forecast-story:
+- fixed handling of wind speed change periods (there must be at least one period to report)
+- fixed handling of wind speed intervals (dont report several intervals in the same part of the day)
+- fixed handling wind direction change periods (deleted short period was reported)
+- code cleaned
+
 * Tue Aug 29 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.8.29-1.fmi
 - fixed bug in reporting increasing/decreasing wind speed (wind speed change in the end of forecast period)
 
