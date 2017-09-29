@@ -55,6 +55,7 @@ rm -rf $RPM_BUILD_ROOT
 %package -n %{DEVELNAME}
 Summary: FMI textgen development files
 Provides: %{DEVELNAME}
+Requires: %{SPECNAME}
 Obsoletes: libsmartmet-textgen-devel < 17.1.4
 
 %description -n %{DEVELNAME}
