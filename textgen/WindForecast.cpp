@@ -2376,6 +2376,12 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
               sp.tpi = timePhraseInfo;
               pi.sentenceParameters.push_back(sp);
             }
+            // report direction changes that happen after interval
+            std::vector<sentence_parameter> sps2 =
+                reportWindDirectionChanges(isi.directionChangesAfter, timePhraseInfo, false);
+
+            piAfterLastInterval.sentenceParameters.insert(
+                piAfterLastInterval.sentenceParameters.end(), sps2.begin(), sps2.end());
             break;
           }
 
@@ -2383,7 +2389,6 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
           for (unsigned int k = 0; k < sentenceInfo.intervalSentences.size(); k++)
           {
             interval_sentence_info isi = sentenceInfo.intervalSentences[k];
-
             // first report direction changes that happen before interval
             std::vector<sentence_parameter> sps =
                 reportWindDirectionChanges(isi.directionChangesBefore, timePhraseInfo);
@@ -2493,7 +2498,7 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
                 pi.sentenceParameters.push_back(sp);
               }
             }
-            // first report direction changes that happen after interval
+            // report direction changes that happen after interval
             std::vector<sentence_parameter> sps2 =
                 reportWindDirectionChanges(isi.directionChangesAfter, timePhraseInfo, false);
 
