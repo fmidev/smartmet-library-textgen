@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.9.12
+Version: 17.10.9
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -66,6 +66,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Oct 9 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.10.9-1.fmi
+- Reporting wind direction changes when wind speed speed doesn't change during the whole forecast period
+
 * Tue Sep 12 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.9.12-1.fmi
 - Recompiled since replacing auto_ptr with unique_ptr changed the ABI
 
