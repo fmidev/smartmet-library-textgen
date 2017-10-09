@@ -22,7 +22,7 @@ cout << dict.find("s‰‰");
 \endcode
 Factory-tyyppisess‰ k‰ytˆss‰ koodi on vastaavasti
 \code
-std::auto_ptr<Dictionary> dict = DictionaryFactory::create("mysql");
+std::unique_ptr<Dictionary> dict = DictionaryFactory::create("mysql");
 dict->init("fi");
 cout << dict->find("s‰‰");
 \endcode
