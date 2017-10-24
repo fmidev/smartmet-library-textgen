@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.10.9
+Version: 17.10.24
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -65,6 +65,11 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Oct 24 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.10.24-1.fmi
+- Fixed reporting of wind direction change in the end of forecast period
+- Fixed reporting of wind speed interval when wind speed is decreasing, but in the end increases a bit but not enough to be reported
+- Improved reporting of wind speed interval when there is only small change
+
 * Mon Oct 9 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.10.9-1.fmi
 - Reporting wind direction changes when wind speed speed doesn't change during the whole forecast period
 

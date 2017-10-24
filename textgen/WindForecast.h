@@ -52,7 +52,8 @@ enum SentenceParameterType
   WIND_DIRECTION,
   CHANGE_TYPE,
   CHANGE_SPEED,
-  WIND_SPEED_INTERVAL
+  WIND_SPEED_INTERVAL,
+  VOID_TYPE
 };
 
 // Sentence is constructed by populating the sentence with parameters.
@@ -92,6 +93,8 @@ struct sentence_info
 
 struct sentence_parameter
 {
+  sentence_parameter(SentenceParameterType t = VOID_TYPE) : type(t) {}
+  SentenceParameterType type;
   Sentence sentence;
   TimePhraseInfo tpi;
 };
