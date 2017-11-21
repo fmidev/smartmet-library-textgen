@@ -149,7 +149,7 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
 
  private:
   // holds the Message, until it's flushed
-  std::auto_ptr<StringStream> itsStreamBuffer;
+  std::unique_ptr<StringStream> itsStreamBuffer;
 
   // the Message Handler Stream - where we write into
   ostream_type* itsOwnerStream;

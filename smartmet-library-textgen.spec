@@ -13,16 +13,16 @@ Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 17.8.22
-BuildRequires: smartmet-library-newbase-devel >= 17.8.1
-BuildRequires: smartmet-library-macgyver-devel >= 17.7.29
+BuildRequires: smartmet-library-calculator-devel >= 17.8.28
+BuildRequires: smartmet-library-newbase-devel >= 17.10.17
+BuildRequires: smartmet-library-macgyver-devel >= 17.8.28
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: smartmet-library-calculator >= 17.8.22
-Requires: smartmet-library-newbase >= 17.8.1
-Requires: smartmet-library-macgyver >= 17.7.29
+Requires: smartmet-library-calculator >= 17.8.28
+Requires: smartmet-library-newbase >= 17.10.17
+Requires: smartmet-library-macgyver >= 17.8.28
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
@@ -55,6 +55,7 @@ rm -rf $RPM_BUILD_ROOT
 %package -n %{DEVELNAME}
 Summary: FMI textgen development files
 Provides: %{DEVELNAME}
+Requires: %{SPECNAME}
 Obsoletes: libsmartmet-textgen-devel < 17.1.4
 
 %description -n %{DEVELNAME}
@@ -76,6 +77,9 @@ FMI textgen development files
 * Mon Oct 9 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.10.9-1.fmi
 - Reporting wind direction changes when wind speed speed doesn't change during the whole forecast period
 
+* Tue Sep 12 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.9.12-1.fmi
+- Recompiled since replacing auto_ptr with unique_ptr changed the ABI
+
 * Thu Aug 31 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.8.31-1.fmi
 - fixed bugs in wind_forecast-story:
 - fixed handling of wind speed change periods (there must be at least one period to report)
@@ -86,8 +90,8 @@ FMI textgen development files
 * Tue Aug 29 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.8.29-1.fmi
 - fixed bug in reporting increasing/decreasing wind speed (wind speed change in the end of forecast period)
 
-* Thu Aug 24 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.8.24-1.fmi
-- fixed timePhrase bug
+* Mon Aug 28 2017 Mika Heiskanen <mika.heiskanen@fmi.fi> - 17.8.28-1.fmi
+- Upgrade to boost 1.65
 
 * Tue Aug 22 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.8.22-1.fmi
 - fixed reporting of wind direction when wind speed doesn't change 

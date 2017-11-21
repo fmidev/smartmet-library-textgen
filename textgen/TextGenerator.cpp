@@ -95,7 +95,7 @@ const Paragraph make_contents(const string& theContents,
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Implementation hiding pimple
+ *Â \brief Implementation hiding pimple
  */
 // ----------------------------------------------------------------------
 
@@ -210,7 +210,7 @@ TextGenerator::Pimple::Pimple(const WeatherArea& theLandMaskArea,
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Constructor
+ *Â \brief Constructor
  */
 TextGenerator::TextGenerator(const WeatherArea& theLandMaskArea,
                              const WeatherArea& theCoastMaskArea)
@@ -220,7 +220,7 @@ TextGenerator::TextGenerator(const WeatherArea& theLandMaskArea,
 
 // ----------------------------------------------------------------------
 /*!
- * \brief Constructor
+ *Â \brief Constructor
  */
 // ----------------------------------------------------------------------
 
