@@ -125,25 +125,19 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
     directionPeriods.erase(directionPeriods.begin() + 1);
   }
 
-  storyParams.theLog << "** ORIGINAL DIRECTION PERIODS **" << std::endl;
-
-  BOOST_FOREACH (const WeatherPeriod& p, directionPeriods)
-  {
-    WindDirectionInfo wdi = get_wind_direction(storyParams, p);
-
-    storyParams.theLog << as_string(p) << " -> " << wind_direction_string(wdi.id) << ", "
-                       << as_string(wdi.direction) << std::endl;
-  }
-
   // remove short periods (max 2 hours) aroud varying wind, except the last period2
+  // and remove short period of different direction in the middle
   std::set<unsigned int> indexesToRemove;
   for (unsigned int i = 1; i < directionPeriods.size() - 1; i++)
   {
+    if (indexesToRemove.find(i) != indexesToRemove.end()) continue;
     WeatherPeriod previousPeriod = directionPeriods[i - 1];
     WeatherPeriod currentPeriod = directionPeriods[i];
     WeatherPeriod nextPeriod = directionPeriods[i + 1];
-    WindDirectionId currentId = get_wind_direction(storyParams, currentPeriod.localStartTime()).id;
-    if (currentId == VAIHTELEVA)
+    WindDirectionInfo previousId = get_wind_direction(storyParams, previousPeriod);
+    WindDirectionInfo currentId = get_wind_direction(storyParams, currentPeriod);
+    WindDirectionInfo nextId = get_wind_direction(storyParams, nextPeriod);
+    if (currentId.id == VAIHTELEVA)
     {
       if (i != 1 && get_period_length(previousPeriod) <= 2)
       {
@@ -153,6 +147,15 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
       {
         indexesToRemove.insert(i + 1);
       }
+    }
+    else if (previousId.id == nextId.id)
+    {
+      int previousPeriodLen = get_period_length(previousPeriod);
+      int currentPeriodLen = get_period_length(currentPeriod);
+      int nextPeriodLen = get_period_length(nextPeriod);
+      if (currentPeriodLen < 2 && currentPeriodLen < previousPeriodLen &&
+          currentPeriodLen < nextPeriodLen)
+        indexesToRemove.insert(i);
     }
   }
   std::vector<WeatherPeriod> cleanedPeriods;
@@ -173,10 +176,9 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
       if (indexesToRemove.find(i) != indexesToRemove.end()) continue;
       WeatherPeriod currentPeriod = cleanedPeriods[i];
       WeatherPeriod nextPeriod = cleanedPeriods[j];
-      WindDirectionId currentId =
-          get_wind_direction(storyParams, currentPeriod.localStartTime()).id;
-      WindDirectionId nextId = get_wind_direction(storyParams, nextPeriod.localStartTime()).id;
-      if (currentId == nextId)
+      WindDirectionInfo currentId = get_wind_direction(storyParams, currentPeriod);
+      WindDirectionInfo nextId = get_wind_direction(storyParams, nextPeriod);
+      if (currentId.id == nextId.id)
       {
         cleanedPeriods[i] =
             WeatherPeriod(cleanedPeriods[i].localStartTime(), cleanedPeriods[j].localEndTime());
@@ -202,6 +204,16 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
       continue;
     }
     storyParams.theWindDirectionPeriods.push_back(period);
+  }
+
+  storyParams.theLog << "** ORIGINAL DIRECTION PERIODS **" << std::endl;
+
+  BOOST_FOREACH (const WeatherPeriod& p, storyParams.theWindDirectionPeriods)
+  {
+    WindDirectionInfo wdi = get_wind_direction(storyParams, p);
+
+    storyParams.theLog << as_string(p) << " -> " << wind_direction_string(wdi.id) << ", "
+                       << as_string(wdi.direction) << std::endl;
   }
 }
 

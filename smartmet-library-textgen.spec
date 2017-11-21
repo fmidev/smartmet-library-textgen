@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.10.24
+Version: 17.11.21
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -66,6 +66,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Nov 21 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.11.21-1.fmi
+- Fixed wind direction handling bug: ignore temporal direction change
+
 * Tue Oct 24 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.10.24-1.fmi
 - Fixed reporting of wind direction change in the end of forecast period
 - Fixed reporting of wind speed interval when wind speed is decreasing, but in the end increases a bit but not enough to be reported
