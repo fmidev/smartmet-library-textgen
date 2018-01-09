@@ -2036,8 +2036,8 @@ void temperature_phrase(t36hparams& theParameters,
   }
   else  // day period
   {
-    //		  forecast_period_id period_id(theParameters.theForecastPeriodId);
     forecast_subperiod_id subperiod_id(theParameters.theSubPeriodId);
+
     if (subperiod_id == UNDEFINED_SUBPERIOD)
     {
       if (theParameters.theUseFrostExistsPhrase)
@@ -2053,7 +2053,12 @@ void temperature_phrase(t36hparams& theParameters,
             if (theParameters.theForecastPeriodId == NIGHT_PERIOD)
               theDayPhasePhrase << YOLLA_PHRASE;
             else
-              theDayPhasePhrase << PAIVALLA_PHRASE;
+            {
+              if (theParameters.theForecastPeriodId == DAY2_PERIOD)
+                theDayPhasePhrase << HUOMENNA_WORD;
+              else
+                theDayPhasePhrase << PAIVALLA_PHRASE;
+            }
           }
         }
         else
