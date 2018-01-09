@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 17.11.21
+Version: 18.1.9
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -66,6 +66,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Jan 9 2018 Anssi Reponen <anssi.reponen@fmi.fi> - 18.1.9-1.fmi
+- Fixed time phrase bug: use 'huomenna' phrase when referring to second day (SOL-6128)
+
 * Tue Nov 21 2017 Anssi Reponen <anssi.reponen@fmi.fi> - 17.11.21-1.fmi
 - Fixed wind direction handling bug: ignore temporal direction change
 
