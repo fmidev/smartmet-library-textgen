@@ -86,6 +86,24 @@ void read_date_variable(const std::string& theVariableName,
     throw TextGenError("Variable " + theVariableName + "is not of correct type (mmdd): " + date);
 }
 
+bool isBetweenDates(
+    const TextGenPosixTime& theDate, int startMonth, int startDay, int endMonth, int endDay)
+{
+  int compareDate = theDate.GetMonth() * 100 + theDate.GetDay();
+  int startDate = startMonth * 100 + startDay;
+  int endDate = endMonth * 100 + endDay;
+
+  if (endMonth < startMonth)  // year changes
+  {
+    if (theDate.GetMonth() >= startMonth && theDate.GetMonth() <= 12)
+      return (compareDate >= startDate);
+    else
+      return (compareDate <= endDate);
+  }
+
+  return (compareDate >= startDate && compareDate <= endDate);
+}
+
 // ----------------------------------------------------------------------
 /*!
  * \brief Test if the given date is in wintertime
@@ -103,11 +121,7 @@ bool isWinter(const TextGenPosixTime& theDate, const string& theVar)
   read_date_variable(theVar + "::winter::startdate", "1201", winterStartMonth, winterStartDay);
   read_date_variable(theVar + "::winter::enddate", "0229", winterEndMonth, winterEndDay);
 
-  int compareDate = theDate.GetMonth() * 100 + theDate.GetDay();
-  int winterStartDate = winterStartMonth * 100 + winterStartDay;
-  int winterEndDate = winterEndMonth * 100 + winterEndDay;
-
-  return (compareDate >= winterStartDate && compareDate <= winterEndDate);
+  return isBetweenDates(theDate, winterStartMonth, winterStartDay, winterEndMonth, winterEndDay);
 }
 
 // ----------------------------------------------------------------------
@@ -127,11 +141,7 @@ bool isSpring(const TextGenPosixTime& theDate, const string& theVar)
   read_date_variable(theVar + "::spring::startdate", "0301", springStartMonth, springStartDay);
   read_date_variable(theVar + "::spring::enddate", "0531", springEndMonth, springEndDay);
 
-  int compareDate = theDate.GetMonth() * 100 + theDate.GetDay();
-  int springStartDate = springStartMonth * 100 + springStartDay;
-  int springEndDate = springEndMonth * 100 + springEndDay;
-
-  return (compareDate >= springStartDate && compareDate <= springEndDate);
+  return isBetweenDates(theDate, springStartMonth, springStartDay, springEndMonth, springEndDay);
 }
 
 // ----------------------------------------------------------------------
@@ -151,11 +161,7 @@ bool isSummer(const TextGenPosixTime& theDate, const string& theVar)
   read_date_variable(theVar + "::summer::startdate", "0601", summerStartMonth, summerStartDay);
   read_date_variable(theVar + "::summer::enddate", "0831", summerEndMonth, summerEndDay);
 
-  int compareDate = theDate.GetMonth() * 100 + theDate.GetDay();
-  int summerStartDate = summerStartMonth * 100 + summerStartDay;
-  int summerEndDate = summerEndMonth * 100 + summerEndDay;
-
-  return (compareDate >= summerStartDate && compareDate <= summerEndDate);
+  return isBetweenDates(theDate, summerStartMonth, summerStartDay, summerEndMonth, summerEndDay);
 }
 
 // ----------------------------------------------------------------------
@@ -175,11 +181,7 @@ bool isAutumn(const TextGenPosixTime& theDate, const string& theVar)
   read_date_variable(theVar + "::autumn::startdate", "0901", autumnStartMonth, autumnStartDay);
   read_date_variable(theVar + "::autumn::enddate", "1130", autumnEndMonth, autumnEndDay);
 
-  int compareDate = theDate.GetMonth() * 100 + theDate.GetDay();
-  int autumnStartDate = autumnStartMonth * 100 + autumnStartDay;
-  int autumnEndDate = autumnEndMonth * 100 + autumnEndDay;
-
-  return (compareDate >= autumnStartDate && compareDate <= autumnEndDate);
+  return isBetweenDates(theDate, autumnStartMonth, autumnStartDay, autumnEndMonth, autumnEndDay);
 }
 
 // ----------------------------------------------------------------------
@@ -198,11 +200,7 @@ bool isSummerHalf(const TextGenPosixTime& theDate, const string& theVar)
   read_date_variable(theVar + "::summertime::startdate", "0401", summerStartMonth, summerStartDay);
   read_date_variable(theVar + "::summertime::enddate", "0930", summerEndMonth, summerEndDay);
 
-  int compareDate = theDate.GetMonth() * 100 + theDate.GetDay();
-  int summerStartDate = summerStartMonth * 100 + summerStartDay;
-  int summerEndDate = summerEndMonth * 100 + summerEndDay;
-
-  return (compareDate >= summerStartDate && compareDate <= summerEndDate);
+  return isBetweenDates(theDate, summerStartMonth, summerStartDay, summerEndMonth, summerEndDay);
 }
 
 // ----------------------------------------------------------------------

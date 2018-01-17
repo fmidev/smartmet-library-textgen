@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 18.1.9
+Version: 18.1.17
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -66,6 +66,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Jan 17 2018 Anssi Reponen <anssi.reponen@fmi.fi> - 18.1.17-1.fmi
+- Fixed period handling for seasons: SOL-6065
+
 * Tue Jan 9 2018 Anssi Reponen <anssi.reponen@fmi.fi> - 18.1.9-1.fmi
 - Fixed time phrase bug: use 'huomenna' phrase when referring to second day (SOL-6128)
 
