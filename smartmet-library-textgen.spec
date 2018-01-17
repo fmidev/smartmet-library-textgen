@@ -14,15 +14,15 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: smartmet-library-calculator-devel >= 17.8.28
-BuildRequires: smartmet-library-newbase-devel >= 17.11.16
-BuildRequires: smartmet-library-macgyver-devel >= 17.8.28
+BuildRequires: smartmet-library-newbase-devel >= 18.1.13
+BuildRequires: smartmet-library-macgyver-devel >= 17.11.27
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
 Requires: smartmet-library-calculator >= 17.8.28
-Requires: smartmet-library-newbase >= 17.11.16
-Requires: smartmet-library-macgyver >= 17.8.28
+Requires: smartmet-library-newbase >= 18.1.13
+Requires: smartmet-library-macgyver >= 17.11.27
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
