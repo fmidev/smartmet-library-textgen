@@ -38,7 +38,7 @@ PressureStory::~PressureStory() {}
  * \param theArea The area to be analyzed
  * \param thePeriod The period to be analyzed
  * \param theVariable The associated configuration variable
-*/
+ */
 // ----------------------------------------------------------------------
 
 PressureStory::PressureStory(const TextGenPosixTime& theForecastTime,

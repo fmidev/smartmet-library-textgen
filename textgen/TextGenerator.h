@@ -16,7 +16,7 @@ namespace TextGen
 {
 class WeatherArea;
 class AnalysisSources;
-}
+}  // namespace TextGen
 
 namespace TextGen
 {

@@ -14,8 +14,8 @@
 // ======================================================================
 
 #include "WeatherStory.h"
-#include <calculator/TextGenError.h>
 #include "Paragraph.h"
+#include <calculator/TextGenError.h>
 
 using namespace TextGen;
 using namespace std;
@@ -38,7 +38,7 @@ WeatherStory::~WeatherStory() {}
  * \param theArea The area to be analyzed
  * \param thePeriod The period to be analyzed
  * \param theVariable The associated configuration variable
-*/
+ */
 // ----------------------------------------------------------------------
 
 WeatherStory::WeatherStory(const TextGenPosixTime& theForecastTime,

@@ -13,4 +13,4 @@ string SingleLineTextFormatter::visit(const Document& theDocument) const
   ret += '\n';
   return ret;
 }
-}
+}  // namespace TextGen

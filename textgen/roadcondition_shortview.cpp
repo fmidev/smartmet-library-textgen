@@ -540,7 +540,7 @@ const Sentence condition_sentence(const ConditionPercentages& thePercentages, co
 
   return sentence;
 }
-}
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!

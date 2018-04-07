@@ -1159,4 +1159,4 @@ Sentence FogForecast::areaSpecificSentence(const WeatherPeriod& thePeriod) const
 
   return sentence;
 }
-}
+}  // namespace TextGen

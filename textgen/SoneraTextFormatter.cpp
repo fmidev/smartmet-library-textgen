@@ -143,7 +143,7 @@ void sonera_realize(int theNumber,
   os << abs(theNumber);
   theContainer.push_back(os.str());
 }
-}
+}  // namespace
 
 namespace TextGen
 {

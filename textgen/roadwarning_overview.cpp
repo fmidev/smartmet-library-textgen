@@ -1188,7 +1188,7 @@ const Sentence starting_period_phrase(const WeatherPeriod& thePeriod,
 
   return starting_period_phrase_weekday(thePeriod, theVar);
 }
-}
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!

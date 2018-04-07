@@ -71,7 +71,7 @@ RainType raintype(bool water, bool sleet, bool snow)
 {
   return RainType(snow << 2 | sleet << 1 | water);
 }
-}
+}  // namespace
 
 namespace PrecipitationStoryTools
 {

@@ -125,8 +125,9 @@ Paragraph PrecipitationStory::sums() const
   else
   {
     sentence << "ensimmaisen 12 tunnin sademaara"
-             << "on" << PrecipitationStoryTools::sum_phrase(
-                            minima[0], maxima[0], means[0], mininterval, rangeseparator)
+             << "on"
+             << PrecipitationStoryTools::sum_phrase(
+                    minima[0], maxima[0], means[0], mininterval, rangeseparator)
              << Delimiter(",") << "seuraavan 12 tunnin"
              << PrecipitationStoryTools::sum_phrase(
                     minima[1], maxima[1], means[1], mininterval, rangeseparator);

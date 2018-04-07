@@ -29,8 +29,8 @@
 #include <calculator/TextGenPosixTime.h>
 #include <newbase/NFmiStringTools.h>
 
-using TextGen::WeatherPeriod;
 using TextGen::WeatherArea;
+using TextGen::WeatherPeriod;
 using namespace TextGen::TimeTools;
 using namespace boost;
 using namespace std;
@@ -91,7 +91,7 @@ vector<string> reorder_preferences(const string& thePreference, const string& th
   }
   return output;
 }
-}
+}  // namespace
 
 namespace TextGen
 {
@@ -590,9 +590,9 @@ Sentence days(const string& theVariable,
               const WeatherPeriod& thePeriod,
               TextGen::WeatherHistory* theHistory = 0)
 {
+  using TextGen::HourPeriodGenerator;
   using WeekdayTools::from_weekday;
   using WeekdayTools::on_weekday;
-  using TextGen::HourPeriodGenerator;
 
   Sentence sentence;
 
@@ -779,7 +779,7 @@ Sentence days(const string& theVariable,
   throw TextGenError("PeriodPhrasefactory::days run out of options");
 }
 
-}  // namespace anonymous
+}  // namespace
 
 namespace PeriodPhraseFactory
 {

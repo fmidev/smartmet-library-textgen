@@ -15,7 +15,7 @@ namespace TextGen
 class AnalysisSources;
 class WeatherArea;
 class WeatherPeriod;
-}
+}  // namespace TextGen
 
 class TextGenPosixTime;
 
@@ -54,6 +54,6 @@ class WindStory : public Story
   const std::string itsVar;
 
 };  // class WindStory
-}
+}  // namespace TextGen
 
 // ======================================================================

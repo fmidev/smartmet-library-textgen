@@ -62,8 +62,8 @@ using namespace Settings;
 using namespace SeasonTools;
 using namespace AreaTools;
 using MathTools::to_precision;
-using Settings::optional_int;
 using Settings::optional_bool;
+using Settings::optional_int;
 using Settings::optional_string;
 
 #define MILD_TEMPERATURE_LOWER_LIMIT -3.0
@@ -520,10 +520,11 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
       if (theAreaPhrase.size() > 0)
       {
         sentence << ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE << theAreaPhrase
-                 << POIKKEUKSELLISEN_WORD << ((theParameters.theSeason == SUMMER_SEASON ||
-                                               theParameters.theGrowingSeasonUnderway)
-                                                  ? LAMMINTA_WORD
-                                                  : LEUTOA_WORD);
+                 << POIKKEUKSELLISEN_WORD
+                 << ((theParameters.theSeason == SUMMER_SEASON ||
+                      theParameters.theGrowingSeasonUnderway)
+                         ? LAMMINTA_WORD
+                         : LEUTOA_WORD);
       }
       else
       {
@@ -548,10 +549,11 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
       else
       {
         sentence << MAANANTAINA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE << theSpecifiedDay
-                 << POIKKEUKSELLISEN_WORD << ((theParameters.theSeason == SUMMER_SEASON ||
-                                               theParameters.theGrowingSeasonUnderway)
-                                                  ? LAMMINTA_WORD
-                                                  : LEUTOA_WORD);
+                 << POIKKEUKSELLISEN_WORD
+                 << ((theParameters.theSeason == SUMMER_SEASON ||
+                      theParameters.theGrowingSeasonUnderway)
+                         ? LAMMINTA_WORD
+                         : LEUTOA_WORD);
       }
     }
 

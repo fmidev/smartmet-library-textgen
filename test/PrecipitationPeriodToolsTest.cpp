@@ -97,8 +97,8 @@ void findRainPeriods()
 {
   using namespace TextGen;
   using namespace TextGen::PrecipitationPeriodTools;
-  using TextGen::PrecipitationPeriodTools::findRainTimes;
   using TextGen::PrecipitationPeriodTools::findRainPeriods;
+  using TextGen::PrecipitationPeriodTools::findRainTimes;
 
   NFmiFastQueryInfo q = NFmiFastQueryInfo(theQD.get());
   q.First();

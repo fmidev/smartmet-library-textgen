@@ -7,15 +7,15 @@
 
 #pragma once
 
-#include <string>
 #include "Story.h"
+#include <string>
 
 namespace TextGen
 {
 class AnalysisSources;
 class WeatherArea;
 class WeatherPeriod;
-}
+}  // namespace TextGen
 
 class TextGenPosixTime;
 
@@ -55,6 +55,6 @@ class WeatherStory : public Story
   const std::string itsVar;
 
 };  // class WeatherStory
-}
+}  // namespace TextGen
 
 // ======================================================================

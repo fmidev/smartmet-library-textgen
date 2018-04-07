@@ -397,7 +397,7 @@ TextGen::Header header_clock_range(const WeatherPeriod& thePeriod, const string&
   return header;
 }
 
-}  // namespace anonymous
+}  // namespace
 
 // ======================================================================
 //				PUBLIC INTERFACE

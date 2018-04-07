@@ -944,9 +944,8 @@ void windspeed_distribution_interval(const WeatherPeriod& thePeriod,
     WeatherResult cumulativeShare(windSpeedDistributionVector[i].second);
     windSpeedDistributionVector[i].second = WeatherResult(cumulativeShare.value() / counter, 0.0);
     // store most typical wind speed category
-    if (i > 0 &&
-        windSpeedDistributionVector[mostTypicalWindSpeed].second.value() <
-            windSpeedDistributionVector[i].second.value())
+    if (i > 0 && windSpeedDistributionVector[mostTypicalWindSpeed].second.value() <
+                     windSpeedDistributionVector[i].second.value())
       mostTypicalWindSpeed = i;
   }
 
@@ -1313,9 +1312,8 @@ void WindForecast::constructWindSentence(const WindEventPeriodDataItem* windSpee
   if (is_weak_period(theParameters, windSpeedEventPeriod))
   {
     // weak period in the middle is not reported
-    if (!firstSentence &&
-        get_period_length(windSpeedEventPeriod) !=
-            get_period_length(theParameters.theForecastPeriod))
+    if (!firstSentence && get_period_length(windSpeedEventPeriod) !=
+                              get_period_length(theParameters.theForecastPeriod))
     {
       theParameters.theLog << "Wind is weak on period " << as_string(windSpeedEventPeriod)
                            << " -> period is not reported" << std::endl;
@@ -1578,9 +1576,9 @@ std::ostream& operator<<(std::ostream& theOutput, const sentence_info& sentenceI
                     << " (" << wind_direction_string(sentenceInfo.directionChange->id) << ")"
                     << std::endl;
         else
-          theOutput << "  WIND_DIRECTION: " << (sentenceInfo.useWindBasicForm
-                                                    ? "use basic form: tuuli"
-                                                    : "use partitive form: tuulta")
+          theOutput << "  WIND_DIRECTION: "
+                    << (sentenceInfo.useWindBasicForm ? "use basic form: tuuli"
+                                                      : "use partitive form: tuulta")
                     << std::endl;
 
         break;

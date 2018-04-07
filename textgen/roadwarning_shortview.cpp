@@ -853,7 +853,7 @@ const Sentence warning_sentence(const WarningPercentages& thePercentages, const 
   */
   return sentence;
 }
-}
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!

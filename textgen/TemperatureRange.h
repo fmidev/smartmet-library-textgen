@@ -28,6 +28,6 @@ class TemperatureRange : public IntegerRange
 
 };  // class TemperatureRange
 
-}  // namespace Textgen
+}  // namespace TextGen
 
 // ======================================================================

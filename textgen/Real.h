@@ -41,6 +41,6 @@ class Real : public Glyph
   bool itsComma;
 
 };  // class Real
-}  // namespace Real
+}  // namespace TextGen
 
 // ======================================================================

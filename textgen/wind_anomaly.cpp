@@ -56,8 +56,8 @@ using namespace std;
 using namespace Settings;
 using namespace SeasonTools;
 using namespace AreaTools;
-using Settings::optional_int;
 using Settings::optional_bool;
+using Settings::optional_int;
 using Settings::optional_string;
 
 #define ILTAPAIVALLA_RANNIKOLLA_ON_TUULISTA_COMPOSITE_PHRASE \

@@ -978,4 +978,4 @@ struct PrecipitationDataItem
     if (theFullData) delete theFullData;
   }
 };
-}
+}  // namespace TextGen

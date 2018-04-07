@@ -643,94 +643,94 @@ fractile_id get_fractile(const std::string& theVar,
 
   WeatherResult result(kFloatMissing, 0.0);
 
-  result = gc.analyze(
-      theVar,
-      theSources,
-      (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF02 : (theFractileType == MEAN_FRACTILE
-                                                                        ? NormalMeanTemperatureF02
-                                                                        : NormalMaxTemperatureF02)),
-      Mean,
-      Mean,
-      theArea,
-      climatePeriod);
+  result = gc.analyze(theVar,
+                      theSources,
+                      (theFractileType == MIN_FRACTILE
+                           ? NormalMinTemperatureF02
+                           : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF02
+                                                               : NormalMaxTemperatureF02)),
+                      Mean,
+                      Mean,
+                      theArea,
+                      climatePeriod);
 
   if (result.value() != kFloatMissing && theTemperature <= result.value()) return FRACTILE_02;
 
-  result = gc.analyze(
-      theVar,
-      theSources,
-      (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF12 : (theFractileType == MEAN_FRACTILE
-                                                                        ? NormalMeanTemperatureF12
-                                                                        : NormalMaxTemperatureF12)),
-      Mean,
-      Mean,
-      theArea,
-      climatePeriod);
+  result = gc.analyze(theVar,
+                      theSources,
+                      (theFractileType == MIN_FRACTILE
+                           ? NormalMinTemperatureF12
+                           : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF12
+                                                               : NormalMaxTemperatureF12)),
+                      Mean,
+                      Mean,
+                      theArea,
+                      climatePeriod);
 
   if (result.value() != kFloatMissing && theTemperature <= result.value()) return FRACTILE_12;
 
-  result = gc.analyze(
-      theVar,
-      theSources,
-      (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF37 : (theFractileType == MEAN_FRACTILE
-                                                                        ? NormalMeanTemperatureF37
-                                                                        : NormalMaxTemperatureF37)),
-      Mean,
-      Mean,
-      theArea,
-      climatePeriod);
+  result = gc.analyze(theVar,
+                      theSources,
+                      (theFractileType == MIN_FRACTILE
+                           ? NormalMinTemperatureF37
+                           : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF37
+                                                               : NormalMaxTemperatureF37)),
+                      Mean,
+                      Mean,
+                      theArea,
+                      climatePeriod);
 
   if (result.value() != kFloatMissing && theTemperature <= result.value()) return FRACTILE_37;
 
-  result = gc.analyze(
-      theVar,
-      theSources,
-      (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF50 : (theFractileType == MEAN_FRACTILE
-                                                                        ? NormalMeanTemperatureF50
-                                                                        : NormalMaxTemperatureF50)),
-      Mean,
-      Mean,
-      theArea,
-      climatePeriod);
+  result = gc.analyze(theVar,
+                      theSources,
+                      (theFractileType == MIN_FRACTILE
+                           ? NormalMinTemperatureF50
+                           : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF50
+                                                               : NormalMaxTemperatureF50)),
+                      Mean,
+                      Mean,
+                      theArea,
+                      climatePeriod);
 
   if (result.value() != kFloatMissing && theTemperature <= result.value()) return FRACTILE_50;
 
-  result = gc.analyze(
-      theVar,
-      theSources,
-      (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF63 : (theFractileType == MEAN_FRACTILE
-                                                                        ? NormalMeanTemperatureF63
-                                                                        : NormalMaxTemperatureF63)),
-      Mean,
-      Mean,
-      theArea,
-      climatePeriod);
+  result = gc.analyze(theVar,
+                      theSources,
+                      (theFractileType == MIN_FRACTILE
+                           ? NormalMinTemperatureF63
+                           : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF63
+                                                               : NormalMaxTemperatureF63)),
+                      Mean,
+                      Mean,
+                      theArea,
+                      climatePeriod);
 
   if (result.value() != kFloatMissing && theTemperature <= result.value()) return FRACTILE_63;
 
-  result = gc.analyze(
-      theVar,
-      theSources,
-      (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF88 : (theFractileType == MEAN_FRACTILE
-                                                                        ? NormalMeanTemperatureF88
-                                                                        : NormalMaxTemperatureF88)),
-      Mean,
-      Mean,
-      theArea,
-      climatePeriod);
+  result = gc.analyze(theVar,
+                      theSources,
+                      (theFractileType == MIN_FRACTILE
+                           ? NormalMinTemperatureF88
+                           : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF88
+                                                               : NormalMaxTemperatureF88)),
+                      Mean,
+                      Mean,
+                      theArea,
+                      climatePeriod);
 
   if (result.value() != kFloatMissing && theTemperature <= result.value()) return FRACTILE_88;
 
-  result = gc.analyze(
-      theVar,
-      theSources,
-      (theFractileType == MIN_FRACTILE ? NormalMinTemperatureF98 : (theFractileType == MEAN_FRACTILE
-                                                                        ? NormalMeanTemperatureF98
-                                                                        : NormalMaxTemperatureF98)),
-      Mean,
-      Mean,
-      theArea,
-      climatePeriod);
+  result = gc.analyze(theVar,
+                      theSources,
+                      (theFractileType == MIN_FRACTILE
+                           ? NormalMinTemperatureF98
+                           : (theFractileType == MEAN_FRACTILE ? NormalMeanTemperatureF98
+                                                               : NormalMaxTemperatureF98)),
+                      Mean,
+                      Mean,
+                      theArea,
+                      climatePeriod);
 
   if (result.value() != kFloatMissing && theTemperature <= result.value())
     return FRACTILE_98;

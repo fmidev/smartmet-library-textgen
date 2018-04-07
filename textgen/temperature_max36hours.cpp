@@ -66,8 +66,8 @@ using namespace Settings;
 using namespace AreaTools;
 using namespace SeasonTools;
 using MathTools::to_precision;
-using Settings::optional_int;
 using Settings::optional_bool;
+using Settings::optional_int;
 using Settings::optional_string;
 
 #define HUOMENNA_SISAMAASSA_PAKKASTA_ON_INTERVALLI_ASTETTA_COMPOSITE_PHRASE \

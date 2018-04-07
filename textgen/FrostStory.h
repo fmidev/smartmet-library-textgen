@@ -48,6 +48,6 @@ class FrostStory : public Story
   const std::string itsVar;
 
 };  // class FrostStory
-}
+}  // namespace TextGen
 
 // ======================================================================

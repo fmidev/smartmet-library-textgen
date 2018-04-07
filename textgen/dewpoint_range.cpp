@@ -67,8 +67,9 @@ Paragraph DewPointStory::range() const
   const int tmean = static_cast<int>(round(meanresult.value()));
 
   sentence << "kastepiste"
-           << "on" << TemperatureStoryTools::temperature_sentence(
-                          tmin, tmean, tmax, mininterval, false, rangeseparator);
+           << "on"
+           << TemperatureStoryTools::temperature_sentence(
+                  tmin, tmean, tmax, mininterval, false, rangeseparator);
 
   paragraph << sentence;
   log << paragraph;

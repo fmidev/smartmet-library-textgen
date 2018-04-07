@@ -1,6 +1,6 @@
 /*
-* NOTE: This file is to be edited in "Windows Latin-1" encoding (NOT UTF-8)
-*/
+ * NOTE: This file is to be edited in "Windows Latin-1" encoding (NOT UTF-8)
+ */
 #include <regression/tframe.h>
 
 #include "Dictionary.h"

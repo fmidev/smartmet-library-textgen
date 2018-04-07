@@ -618,7 +618,7 @@ boost::shared_ptr<TextGen::Sentence> hectopascal(int value, bool withoutNumber =
     throw TextGenError("Unknown format " + opt + " in variable " + var);
   return sentence;
 }
-}
+}  // namespace
 
 namespace TextGen
 {

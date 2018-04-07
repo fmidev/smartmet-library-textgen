@@ -66,7 +66,7 @@ void output_timestamp(bool theFlag, ostream* theOutput)
     *theOutput << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
   }
 }
-}
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!

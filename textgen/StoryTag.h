@@ -38,6 +38,6 @@ class StoryTag : public Glyph
   bool itsPrefixTag;
 
 };  // class StoryTag
-}  // namespace StoryTag
+}  // namespace TextGen
 
 // ======================================================================

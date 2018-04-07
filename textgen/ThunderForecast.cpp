@@ -222,4 +222,4 @@ Sentence ThunderForecast::areaSpecificSentence(const WeatherPeriod& thePeriod) c
 
   return sentence;
 }
-}
+}  // namespace TextGen

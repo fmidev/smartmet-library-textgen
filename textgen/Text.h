@@ -38,6 +38,6 @@ class Text : public Glyph
   const std::string itsText;
 
 };  // class Text
-}  // namespace Text
+}  // namespace TextGen
 
 // ======================================================================

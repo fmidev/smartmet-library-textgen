@@ -107,8 +107,9 @@ Paragraph TemperatureStory::weekly_averages() const
   Sentence sentence;
   sentence
       << "paivalampotila"
-      << "on" << temperature_sentence(
-                     daymin, daymean, daymax, daymininterval, day_interval_zero, rangeseparator)
+      << "on"
+      << temperature_sentence(
+             daymin, daymean, daymax, daymininterval, day_interval_zero, rangeseparator)
       << Delimiter(",") << "yolampotila"
       << temperature_sentence(
              nightmin, nightmean, nightmax, nightmininterval, night_interval_zero, rangeseparator);

@@ -79,10 +79,10 @@ Paragraph TemperatureStory::day() const
   MessageLogger log("TemperatureStory::day");
 
   using MathTools::to_precision;
-  using Settings::optional_int;
-  using Settings::optional_bool;
-  using Settings::optional_string;
   using NFmiStringTools::Convert;
+  using Settings::optional_bool;
+  using Settings::optional_int;
+  using Settings::optional_string;
 
   Paragraph paragraph;
 
@@ -290,8 +290,9 @@ Paragraph TemperatureStory::day() const
     {
       Sentence sentence;
       sentence << "lampotila"
-               << "on" << PeriodPhraseFactory::create(
-                              "today", itsVar, itsForecastTime, generator.period(daynum));
+               << "on"
+               << PeriodPhraseFactory::create(
+                      "today", itsVar, itsForecastTime, generator.period(daynum));
       if (!hascoast || ameanday < coast_not_below ||
           (abs(cmeanday - imeanday) < coast_limit && abs(cmeannight - imeannight) < coast_limit))
       {
@@ -327,8 +328,9 @@ Paragraph TemperatureStory::day() const
       Sentence sentence;
 
       sentence << "paivan ylin lampotila"
-               << "on" << PeriodPhraseFactory::create(
-                              "today", itsVar, itsForecastTime, generator.period(daynum));
+               << "on"
+               << PeriodPhraseFactory::create(
+                      "today", itsVar, itsForecastTime, generator.period(daynum));
 
       // Do not report on the coast separately if there's no coast,
       // the mean temperature is very low (atleast freezing), or if the
@@ -361,8 +363,9 @@ Paragraph TemperatureStory::day() const
       Sentence sentence;
 
       sentence << "yon alin lampotila"
-               << "on" << PeriodPhraseFactory::create(
-                              "tonight", itsVar, itsForecastTime, generator.period(nightnum));
+               << "on"
+               << PeriodPhraseFactory::create(
+                      "tonight", itsVar, itsForecastTime, generator.period(nightnum));
 
       // Do not report on the coast separately if there's no coast,
       // the mean temperature is very low (atleast freezing), or if the
