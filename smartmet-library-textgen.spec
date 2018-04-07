@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 18.1.17
+Version: 18.4.7
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -13,16 +13,16 @@ Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 17.8.28
-BuildRequires: smartmet-library-newbase-devel >= 18.1.13
-BuildRequires: smartmet-library-macgyver-devel >= 17.11.27
+BuildRequires: smartmet-library-calculator-devel >= 18.4.7
+BuildRequires: smartmet-library-newbase-devel >= 18.4.7
+BuildRequires: smartmet-library-macgyver-devel >= 18.4.7
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: smartmet-library-calculator >= 17.8.28
-Requires: smartmet-library-newbase >= 18.1.13
-Requires: smartmet-library-macgyver >= 17.11.27
+Requires: smartmet-library-calculator >= 18.4.7
+Requires: smartmet-library-newbase >= 18.4.7
+Requires: smartmet-library-macgyver >= 18.4.7
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
@@ -66,7 +66,10 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
-* Tue Jan 17 2018 Anssi Reponen <anssi.reponen@fmi.fi> - 18.1.17-1.fmi
+* Sat Apr  7 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.4.7-1.fmi
+- Upgrade to boost 1.66
+
+* Wed Jan 17 2018 Anssi Reponen <anssi.reponen@fmi.fi> - 18.1.17-1.fmi
 - Fixed period handling for seasons: SOL-6065
 
 * Tue Jan 9 2018 Anssi Reponen <anssi.reponen@fmi.fi> - 18.1.9-1.fmi
