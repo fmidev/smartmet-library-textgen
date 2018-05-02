@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 18.4.7
+Version: 18.5.2
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -14,15 +14,15 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 18.4.7
-BuildRequires: smartmet-library-newbase-devel >= 18.4.7
+BuildRequires: smartmet-library-calculator-devel >= 18.5.2
+BuildRequires: smartmet-library-newbase-devel >= 18.5.2
 BuildRequires: smartmet-library-macgyver-devel >= 18.4.7
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: smartmet-library-calculator >= 18.4.7
-Requires: smartmet-library-newbase >= 18.4.7
+Requires: smartmet-library-calculator >= 18.5.2
+Requires: smartmet-library-newbase >= 18.5.2
 Requires: smartmet-library-macgyver >= 18.4.7
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
@@ -67,6 +67,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed May  2 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.5.2-1.fmi
+- Recpackaged since newbase NFmiEnumConverter ABI changed
+
 * Sat Apr  7 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.4.7-1.fmi
 - Upgrade to boost 1.66
 
