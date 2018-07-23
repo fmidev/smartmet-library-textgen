@@ -1450,7 +1450,7 @@ bool PrecipitationForecast::getPrecipitationPeriods(
   else if (theParameters.theForecastArea & COASTAL_AREA)
     precipitationPeriods = &thePrecipitationPeriodsCoastal;
 
-  if (precipitationPeriods->size() == 0)
+  if (!precipitationPeriods || precipitationPeriods->size() == 0)
   {
     return false;
   }

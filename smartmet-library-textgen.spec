@@ -68,6 +68,7 @@ FMI textgen development files
 
 %changelog
 * Mon Jul 23 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.7.23-1.fmi
+- Added checks against nullptr
 - Prefer C++11 lround over old style casting
 
 * Wed May  2 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.5.2-1.fmi
