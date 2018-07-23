@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 18.5.2
+Version: 18.7.23
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -67,6 +67,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Jul 23 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.7.23-1.fmi
+- Prefer C++11 lround over old style casting
+
 * Wed May  2 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.5.2-1.fmi
 - Recpackaged since newbase NFmiEnumConverter ABI changed
 

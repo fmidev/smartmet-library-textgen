@@ -65,7 +65,7 @@ WindDirectionAccuracy direction_accuracy(double theError, const string& theVaria
  */
 // ----------------------------------------------------------------------
 
-int direction8th(double theDirection) { return 1 + (int(theDirection / 45.0 + 0.5) % 8); }
+int direction8th(double theDirection) { return 1 + (lround(theDirection / 45.0) % 8); }
 // ----------------------------------------------------------------------
 /*!
  * \brief Calculate the generic wind 16th direction from angle
@@ -75,7 +75,7 @@ int direction8th(double theDirection) { return 1 + (int(theDirection / 45.0 + 0.
  */
 // ----------------------------------------------------------------------
 
-int direction16th(double theDirection) { return 1 + (int(theDirection / 22.5 + 0.5) % 16); }
+int direction16th(double theDirection) { return 1 + (lround(theDirection / 22.5) % 16); }
 // ----------------------------------------------------------------------
 /*!
  * \brief Return a sentence on wind direction
