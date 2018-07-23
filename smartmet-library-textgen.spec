@@ -14,16 +14,16 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 18.5.2
-BuildRequires: smartmet-library-newbase-devel >= 18.5.2
-BuildRequires: smartmet-library-macgyver-devel >= 18.4.7
+BuildRequires: smartmet-library-calculator-devel >= 18.6.20
+BuildRequires: smartmet-library-newbase-devel >= 18.7.23
+BuildRequires: smartmet-library-macgyver-devel >= 18.7.23
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: smartmet-library-calculator >= 18.5.2
-Requires: smartmet-library-newbase >= 18.5.2
-Requires: smartmet-library-macgyver >= 18.4.7
+Requires: smartmet-library-calculator >= 18.6.20
+Requires: smartmet-library-newbase >= 18.7.23
+Requires: smartmet-library-macgyver >= 18.7.23
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
@@ -68,6 +68,7 @@ FMI textgen development files
 
 %changelog
 * Mon Jul 23 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.7.23-1.fmi
+- Removed superfluous destructors
 - Added checks against nullptr
 - Prefer C++11 lround over old style casting
 
