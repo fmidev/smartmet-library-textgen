@@ -436,9 +436,9 @@ void calculate_windspeed_and_chill(wind_anomaly_params& theParameters,
       theStartTime > theEndTime ? theParameters.thePeriod.localStartTime() : theStartTime,
       theStartTime > theEndTime ? theParameters.thePeriod.localEndTime() : theEndTime);
 
-  WeatherResult* theMinimum = 0;
-  WeatherResult* theMean = 0;
-  WeatherResult* theMaximum = 0;
+  WeatherResult* theMinimum = nullptr;
+  WeatherResult* theMean = nullptr;
+  WeatherResult* theMaximum = nullptr;
 
   if (theType == WeatherArea::Inland)
   {
@@ -483,29 +483,32 @@ void calculate_windspeed_and_chill(wind_anomaly_params& theParameters,
     }
   }
 
-  *theMinimum = theForecaster.analyze(theFakeVariable + "::min",
-                                      theParameters.theSources,
-                                      theWindspeed ? WindSpeed : WindChill,
-                                      Minimum,
-                                      Maximum,
-                                      theArea,
-                                      thePeriod);
+  if (theMinimum != nullptr)
+    *theMinimum = theForecaster.analyze(theFakeVariable + "::min",
+                                        theParameters.theSources,
+                                        theWindspeed ? WindSpeed : WindChill,
+                                        Minimum,
+                                        Maximum,
+                                        theArea,
+                                        thePeriod);
 
-  *theMaximum = theForecaster.analyze(theFakeVariable + "::max",
-                                      theParameters.theSources,
-                                      theWindspeed ? WindSpeed : WindChill,
-                                      Maximum,
-                                      Maximum,
-                                      theArea,
-                                      thePeriod);
+  if (theMaximum != nullptr)
+    *theMaximum = theForecaster.analyze(theFakeVariable + "::max",
+                                        theParameters.theSources,
+                                        theWindspeed ? WindSpeed : WindChill,
+                                        Maximum,
+                                        Maximum,
+                                        theArea,
+                                        thePeriod);
 
-  *theMean = theForecaster.analyze(theFakeVariable + "::mean",
-                                   theParameters.theSources,
-                                   theWindspeed ? WindSpeed : WindChill,
-                                   Mean,
-                                   Maximum,
-                                   theArea,
-                                   thePeriod);
+  if (theMean != nullptr)
+    *theMean = theForecaster.analyze(theFakeVariable + "::mean",
+                                     theParameters.theSources,
+                                     theWindspeed ? WindSpeed : WindChill,
+                                     Mean,
+                                     Maximum,
+                                     theArea,
+                                     thePeriod);
 }
 
 void log_start_time_and_end_time(MessageLogger& theLog,
