@@ -144,7 +144,6 @@ const char* warning_name(RoadWarningType theWarning)
 class WarningPercentages
 {
  public:
-  ~WarningPercentages() {}
   WarningPercentages() : itsPercentages(max_warning - min_warning + 1, 0) {}
   const double& operator[](int i) const { return itsPercentages[i]; }
   double& operator[](int i) { return itsPercentages[i]; }
