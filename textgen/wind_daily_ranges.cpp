@@ -42,13 +42,13 @@ Paragraph WindStory::daily_ranges() const
 {
   MessageLogger log("WindStory::daily_ranges");
 
-  using WeekdayTools::on_weekday;
   using WeekdayTools::from_weekday;
+  using WeekdayTools::on_weekday;
 
-  using WeatherResultTools::min;
+  using WeatherResultTools::isSimilarRange;
   using WeatherResultTools::max;
   using WeatherResultTools::mean;
-  using WeatherResultTools::isSimilarRange;
+  using WeatherResultTools::min;
 
   // Establish options
 

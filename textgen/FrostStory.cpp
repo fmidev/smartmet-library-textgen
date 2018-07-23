@@ -39,7 +39,7 @@ FrostStory::~FrostStory() {}
  * \param theArea The area to be analyzed
  * \param thePeriod The period to be analyzed
  * \param theVariable The associated configuration variable
-*/
+ */
 // ----------------------------------------------------------------------
 
 FrostStory::FrostStory(const TextGenPosixTime& theForecastTime,

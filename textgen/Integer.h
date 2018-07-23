@@ -38,6 +38,6 @@ class Integer : public Glyph
   int itsInteger;
 
 };  // class Integer
-}  // namespace Integer
+}  // namespace TextGen
 
 // ======================================================================

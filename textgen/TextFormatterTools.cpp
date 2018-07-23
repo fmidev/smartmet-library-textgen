@@ -212,4 +212,4 @@ std::string get_story_value_param(const std::string& theStoryVar, const std::str
 }
 
 }  // namespace TextFormatterTools
-}  // namespace T
+}  // namespace TextGen

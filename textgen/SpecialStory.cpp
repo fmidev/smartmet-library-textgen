@@ -38,7 +38,7 @@ SpecialStory::~SpecialStory() {}
  * \param theArea The area to be analyzed
  * \param thePeriod The period to be analyzed
  * \param theVariable The associated configuration variable
-*/
+ */
 // ----------------------------------------------------------------------
 
 SpecialStory::SpecialStory(const TextGenPosixTime& theForecastTime,

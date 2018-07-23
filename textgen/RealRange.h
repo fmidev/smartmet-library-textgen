@@ -49,6 +49,6 @@ class RealRange : public Glyph
   RealRange();
 
 };  // class RealRange
-}  // namespace RealRange
+}  // namespace TextGen
 
 // ======================================================================

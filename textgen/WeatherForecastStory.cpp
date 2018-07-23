@@ -66,7 +66,7 @@ std::vector<unsigned int> get_story_item_indexes(
 
   return indexes;
 }
-}
+}  // namespace
 
 WeatherForecastStory::WeatherForecastStory(const std::string& var,
                                            const WeatherPeriod& forecastPeriod,
@@ -510,8 +510,9 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
       theLogger << "Precipitation story item: "
                 << as_string(precipitationItem->getStoryItemPeriod())
                 << (precipitationSentence.empty() ? ", empty sentence" : " not empty sentence")
-                << ", " << (precipitationItem->thePoutaantuuFlag ? "poutaantuu = true"
-                                                                 : "poutaantuu = false")
+                << ", "
+                << (precipitationItem->thePoutaantuuFlag ? "poutaantuu = true"
+                                                         : "poutaantuu = false")
                 << std::endl;
 
       if (!precipitationSentence.empty() || precipitationItem->thePoutaantuuFlag)
@@ -1656,4 +1657,4 @@ Sentence CloudinessForecastStoryItem::getStoryItemSentence()
 
   return sentence;
 }
-}
+}  // namespace TextGen

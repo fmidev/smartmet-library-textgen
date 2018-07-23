@@ -79,8 +79,8 @@ void findRainTimes()
   {
     RainTimes times =
         findRainTimes(sources, WeatherArea(pohjoislappi, "pohjois-lappi"), period, "");
-    if (times.size() != 1)
-      TEST_FAILED("Must get 1 rainy moments out of 100 for Pohjois-Lappi, got " +
+    if (times.size() != 4)
+      TEST_FAILED("Must get 4 rainy moments out of 100 for Pohjois-Lappi, got " +
                   lexical_cast<string>(times.size()));
   }
 
@@ -97,8 +97,8 @@ void findRainPeriods()
 {
   using namespace TextGen;
   using namespace TextGen::PrecipitationPeriodTools;
-  using TextGen::PrecipitationPeriodTools::findRainTimes;
   using TextGen::PrecipitationPeriodTools::findRainPeriods;
+  using TextGen::PrecipitationPeriodTools::findRainTimes;
 
   NFmiFastQueryInfo q = NFmiFastQueryInfo(theQD.get());
   q.First();

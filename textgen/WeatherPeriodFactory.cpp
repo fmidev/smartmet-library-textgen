@@ -166,7 +166,7 @@ WeatherPeriod period_from_until(const TextGenPosixTime& theTime, const string& t
   return period;
 }
 
-}  // namespace anonymous
+}  // namespace
 
 namespace TextGen
 {
@@ -202,5 +202,5 @@ WeatherPeriod create(const TextGenPosixTime& theTime, const std::string& theVari
 
   throw TextGenError("WeatherPeriodFactory does not recognize period name " + type);
 }
-}
+}  // namespace WeatherPeriodFactory
 }  // namespace TextGen

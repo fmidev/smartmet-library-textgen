@@ -1085,4 +1085,4 @@ cloudiness_id CloudinessForecast::getCloudinessId(const float& theCloudiness) co
 
   return id;
 }
-}
+}  // namespace TextGen

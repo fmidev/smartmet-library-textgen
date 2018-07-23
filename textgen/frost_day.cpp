@@ -49,7 +49,7 @@ const Sentence plain_frost_sentence(bool isSevere,
   return sentence;
 }
 
-}  // namespace anonymous
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!

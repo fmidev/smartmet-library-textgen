@@ -23,6 +23,6 @@ class Story
   virtual Paragraph makeStory(const std::string& theName) const = 0;
 
 };  // class Story
-}
+}  // namespace TextGen
 
 // ======================================================================

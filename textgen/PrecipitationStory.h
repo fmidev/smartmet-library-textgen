@@ -16,7 +16,7 @@ namespace TextGen
 class AnalysisSources;
 class WeatherArea;
 class WeatherPeriod;
-}
+}  // namespace TextGen
 
 namespace TextGen
 {
@@ -57,6 +57,6 @@ class PrecipitationStory : public Story
   const std::string itsVar;
 
 };  // class PrecipitationStory
-}
+}  // namespace TextGen
 
 // ======================================================================

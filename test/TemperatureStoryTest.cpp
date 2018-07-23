@@ -5954,7 +5954,7 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
                                   "-3.30,0",
                                   "-0.49,0",
                                   "-1.90,0",  // area day2 afternoon: min, max, mean
-                                  "Päivälämpötila on noin -10 astetta, päivällä on pikkupakkasta. "
+                                  "Päivälämpötila on noin -10 astetta, huomenna on pikkupakkasta. "
                                   "Yölämpötila on noin -15 astetta."  // the story
                                   )));
       // #36
@@ -6789,7 +6789,7 @@ void create_max36hours_testcases(TestCaseContainer& testCases,
                         "-3.40,0",
                         "-0.70,0",
                         "-2.05,0",  // area day2 afternoon: min, max, mean
-                        "Lämpötila on noin -3 astetta, päivällä on pikkupakkasta."  // the story
+                        "Lämpötila on noin -3 astetta, huomenna on pikkupakkasta."  // the story
                         )));
       // #48
       testCases.insert(

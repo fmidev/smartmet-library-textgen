@@ -37,4 +37,4 @@ const NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
 void PrintLatLon(const AnalysisSources& theSources,
                  const WeatherParameter& theParameter,
                  const NFmiIndexMask& theIndexMask);
-}
+}  // namespace TextGen

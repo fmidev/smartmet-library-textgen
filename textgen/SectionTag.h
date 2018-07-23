@@ -38,6 +38,6 @@ class SectionTag : public Glyph
   bool itsPrefixTag;
 
 };  // class SectionTag
-}  // namespace SectionTag
+}  // namespace TextGen
 
 // ======================================================================

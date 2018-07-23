@@ -16,7 +16,7 @@ class WeatherResult;
 class WeatherPeriod;
 class AnalysisSources;
 class WeatherArea;
-}
+}  // namespace TextGen
 
 namespace TextGen
 {

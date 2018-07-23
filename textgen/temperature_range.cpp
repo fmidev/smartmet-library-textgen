@@ -68,8 +68,9 @@ Paragraph TemperatureStory::range() const
   const int tmean = static_cast<int>(round(meanresult.value()));
 
   sentence << "lampotila"
-           << "on" << TemperatureStoryTools::temperature_sentence(
-                          tmin, tmean, tmax, mininterval, interval_zero, rangeseparator);
+           << "on"
+           << TemperatureStoryTools::temperature_sentence(
+                  tmin, tmean, tmax, mininterval, interval_zero, rangeseparator);
 
   paragraph << sentence;
   log << paragraph;

@@ -102,9 +102,8 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
     }
 
     // if direction id is the same merge previous and new period
-    if (directionPeriods.size() > 0 &&
-        get_wind_direction(storyParams, newPeriod).id ==
-            get_wind_direction(storyParams, previousPeriod).id)
+    if (directionPeriods.size() > 0 && get_wind_direction(storyParams, newPeriod).id ==
+                                           get_wind_direction(storyParams, previousPeriod).id)
     {
       directionPeriods.back() =
           WeatherPeriod(previousPeriod.localStartTime(), newPeriod.localEndTime());
@@ -1103,13 +1102,12 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, std::s
     const WindDataItemUnit& theWindDataItem =
         (*theWindDataItemVector[index])(storyParams.theArea.type());
 
-    for (float k = 0; k < numberOfWindSpeedCategories; k++)
+    for (unsigned int k = 0; k < numberOfWindSpeedCategories; k++)
     {
-      if ((type == "mean"
-               ? theWindDataItem.getWindSpeedShare((k == 0 ? 0.0 : k - 0.5),
-                                                   (k == 0 ? 0.5 : k + 0.5)) > 0.0
-               : theWindDataItem.getTopWindSpeedShare((k == 0 ? 0.0 : k - 0.5),
-                                                      (k == 0 ? 0.5 : k + 0.5)) > 0.0))
+      if ((type == "mean" ? theWindDataItem.getWindSpeedShare((k == 0 ? 0.0 : k - 0.5),
+                                                              (k == 0 ? 0.5 : k + 0.5)) > 0.0
+                          : theWindDataItem.getTopWindSpeedShare((k == 0 ? 0.0 : k - 0.5),
+                                                                 (k == 0 ? 0.5 : k + 0.5)) > 0.0))
       {
         if (k < start_index) start_index = k;
         if (k > end_index) end_index = k;
@@ -1142,11 +1140,10 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, std::s
 
     for (unsigned int k = start_index; k < end_index; k++)
     {
-      double share = (type == "mean"
-                          ? theWindDataItem.getWindSpeedShare((k == 0 ? 0.0 : k - 0.5),
-                                                              (k == 0 ? 0.5 : k + 0.5))
-                          : theWindDataItem.getTopWindSpeedShare((k == 0 ? 0.0 : k - 0.5),
-                                                                 (k == 0 ? 0.5 : k + 0.5)));
+      double share = (type == "mean" ? theWindDataItem.getWindSpeedShare((k == 0 ? 0.0 : k - 0.5),
+                                                                         (k == 0 ? 0.5 : k + 0.5))
+                                     : theWindDataItem.getTopWindSpeedShare(
+                                           (k == 0 ? 0.0 : k - 0.5), (k == 0 ? 0.5 : k + 0.5)));
       std::string cell_effect("<td>");
       if (share > 10.0)
         cell_effect = "<td BGCOLOR=\"#FF9A9A\">";
@@ -1186,27 +1183,28 @@ std::string get_js_code(unsigned int js_id, bool addExternalScripts, unsigned in
              "},"
              "data: {"
              "csv: document.getElementById('csv"
-          << js_id << "').innerHTML"
-                      "},"
-                      "plotOptions: {"
-                      "series: {"
-                      "marker: {"
-                      "enabled: false"
-                      "}"
-                      "}"
-                      "},"
-                      "series: [{"
-                      "lineWidth: 1"
-                      "}, {"
-                      "type: 'line',"
-                      "color: '#c4392d',"
-                      "negativeColor: '#5679c4',"
-                      "fillOpacity: 0.5"
-                      "}]"
-                      "});"
-                      "});"
-                      "$(function () {"
-                      "$('#wd_container"
+          << js_id
+          << "').innerHTML"
+             "},"
+             "plotOptions: {"
+             "series: {"
+             "marker: {"
+             "enabled: false"
+             "}"
+             "}"
+             "},"
+             "series: [{"
+             "lineWidth: 1"
+             "}, {"
+             "type: 'line',"
+             "color: '#c4392d',"
+             "negativeColor: '#5679c4',"
+             "fillOpacity: 0.5"
+             "}]"
+             "});"
+             "});"
+             "$(function () {"
+             "$('#wd_container"
           << js_id + 1
           << "').highcharts({yAxis: { title: {text: 'degrees' }, min:0, max:360, tickInterval: 45},"
              "title: {"
@@ -1214,26 +1212,27 @@ std::string get_js_code(unsigned int js_id, bool addExternalScripts, unsigned in
              "},"
              "data: {"
              "csv: document.getElementById('csv"
-          << js_id + 1 << "').innerHTML"
-                          "},"
-                          "plotOptions: {"
-                          "series: {"
-                          "marker: {"
-                          "enabled: false"
-                          "}"
-                          "}"
-                          "},"
-                          "series: [{"
-                          "lineWidth: 1"
-                          "}, {"
-                          "type: 'line',"
-                          "color: '#c4392d',"
-                          "negativeColor: '#5679c4',"
-                          "fillOpacity: 0.5"
-                          "}]"
-                          "});"
-                          "});"
-                          "</script>"
+          << js_id + 1
+          << "').innerHTML"
+             "},"
+             "plotOptions: {"
+             "series: {"
+             "marker: {"
+             "enabled: false"
+             "}"
+             "}"
+             "},"
+             "series: [{"
+             "lineWidth: 1"
+             "}, {"
+             "type: 'line',"
+             "color: '#c4392d',"
+             "negativeColor: '#5679c4',"
+             "fillOpacity: 0.5"
+             "}]"
+             "});"
+             "});"
+             "</script>"
           << std::endl;
 
   return js_code.str();
@@ -2142,9 +2141,9 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
                    .theWindSpeedEventPeriodVector[storyParams.theWindSpeedEventPeriodVector.size() -
                                                   1]);
 
-    if (firstRound || (previousEventPeriod &&
-                       previousEventPeriod->theWindEvent !=
-                           currentPeriodWindEvent))  // first round or different event
+    if (firstRound ||
+        (previousEventPeriod && previousEventPeriod->theWindEvent !=
+                                    currentPeriodWindEvent))  // first round or different event
     {
       // add the original period
       storyParams.theWindSpeedEventPeriodVector.push_back(new WindEventPeriodDataItem(

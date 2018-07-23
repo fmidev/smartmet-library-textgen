@@ -91,7 +91,7 @@ const Paragraph make_contents(const string& theContents,
   return paragraph;
 }
 
-}  // namespace anonymous
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!

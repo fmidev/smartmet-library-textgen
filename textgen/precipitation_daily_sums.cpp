@@ -153,8 +153,9 @@ Paragraph PrecipitationStory::daily_sums() const
           sentence << Delimiter(",");
         sentence << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, periods[i]);
 
-        if (same_enabled && !empty && WeatherResultTools::isSimilarRange(
-                                          minima[last], maxima[last], minima[i], maxima[i], itsVar))
+        if (same_enabled && !empty &&
+            WeatherResultTools::isSimilarRange(
+                minima[last], maxima[last], minima[i], maxima[i], itsVar))
         {
           sentence << "sama";
           same_enabled = false;

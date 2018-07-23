@@ -124,7 +124,6 @@ const char* condition_name(RoadConditionType theCondition)
 class ConditionPercentages
 {
  public:
-  ~ConditionPercentages() {}
   ConditionPercentages() : itsPercentages(max_condition - min_condition + 1, 0) {}
   const double& operator[](int i) const { return itsPercentages[i - 1]; }
   double& operator[](int i) { return itsPercentages[i - 1]; }
@@ -880,7 +879,7 @@ const Sentence starting_period_phrase(const WeatherPeriod& thePeriod,
 
   return starting_period_phrase_weekday(thePeriod, theVar);
 }
-}
+}  // namespace
 
 // ----------------------------------------------------------------------
 /*!

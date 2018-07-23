@@ -93,7 +93,7 @@ int rainlimit(const list<pair<int, int> >& theList)
   return ret;
 }
 
-}  // namespace anonymous
+}  // namespace
 
 namespace TextGen
 {

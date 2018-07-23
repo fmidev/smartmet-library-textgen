@@ -38,7 +38,7 @@ RelativeHumidityStory::~RelativeHumidityStory() {}
  * \param theArea The area to be analyzed
  * \param thePeriod The period to be analyzed
  * \param theVariable The associated configuration variable
-*/
+ */
 // ----------------------------------------------------------------------
 
 RelativeHumidityStory::RelativeHumidityStory(const TextGenPosixTime& theForecastTime,

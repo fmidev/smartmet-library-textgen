@@ -13,7 +13,7 @@ namespace TextGen
 {
 class WeatherPeriod;
 class WeatherArea;
-}
+}  // namespace TextGen
 
 namespace TextGen
 {

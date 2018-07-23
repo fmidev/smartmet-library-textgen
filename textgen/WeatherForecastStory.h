@@ -192,4 +192,4 @@ class WeatherForecastStory
   friend class CloudinessForecastStoryItem;
   friend class WeatherForecastStoryItem;
 };
-}
+}  // namespace TextGen

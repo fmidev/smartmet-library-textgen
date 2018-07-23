@@ -1404,7 +1404,7 @@ int two_day_rain_unique_index(int theStartHour, int theEndHour)
   const int tmp = two_day_rain_index(theStartHour, theEndHour);
   return two_day_forecasts[tmp];
 }
-}
+}  // namespace
 
 namespace TextGen
 {

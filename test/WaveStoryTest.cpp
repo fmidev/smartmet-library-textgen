@@ -1,6 +1,6 @@
 /*
-* NOTE: This file is to be edited in "Windows Latin-1" encoding (NOT UTF-8)
-*/
+ * NOTE: This file is to be edited in "Windows Latin-1" encoding (NOT UTF-8)
+ */
 #include <regression/tframe.h>
 
 #include "Dictionary.h"
@@ -124,7 +124,7 @@ class tests : public tframe::tests
   void test(void) { TEST(wave_range); }
 };  // class tests
 
-}  // namespace WindStoryTest
+}  // namespace WaveStoryTest
 
 int main(void)
 {

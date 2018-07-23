@@ -48,7 +48,7 @@ using namespace boost;
 namespace
 {
 NFmiEnumConverter converter;
-}  // namespace anonymous
+}  // namespace
 
 namespace TextGen
 {
@@ -445,4 +445,4 @@ void PrintLatLon(const AnalysisSources& theSources,
     cout << theQI.LatLon(*it);
   }
 }
-}  // namespace
+}  // namespace TextGen
