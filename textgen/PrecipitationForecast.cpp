@@ -1378,7 +1378,7 @@ bool PrecipitationForecast::getDryPeriods(const WeatherPeriod& theSourcePeriod,
   else if (theParameters.theForecastArea & COASTAL_AREA)
     precipitationPeriods = &thePrecipitationPeriodsCoastal;
 
-  if (precipitationPeriods->size() == 0)
+  if (!precipitationPeriods || precipitationPeriods->size() == 0)
   {
     theDryPeriods.push_back(
         WeatherPeriod(theSourcePeriod.localStartTime(), theSourcePeriod.localEndTime()));
