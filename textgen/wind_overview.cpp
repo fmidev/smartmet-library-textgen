@@ -1102,7 +1102,7 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, std::s
     const WindDataItemUnit& theWindDataItem =
         (*theWindDataItemVector[index])(storyParams.theArea.type());
 
-    for (float k = 0; k < numberOfWindSpeedCategories; k++)
+    for (unsigned int k = 0; k < numberOfWindSpeedCategories; k++)
     {
       if ((type == "mean" ? theWindDataItem.getWindSpeedShare((k == 0 ? 0.0 : k - 0.5),
                                                               (k == 0 ? 0.5 : k + 0.5)) > 0.0
