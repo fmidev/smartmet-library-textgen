@@ -2136,7 +2136,7 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
     bool firstRound(i == 1);
     WindEventPeriodDataItem* previousEventPeriod =
         (firstRound
-             ? NULL
+             ? nullptr
              : storyParams
                    .theWindSpeedEventPeriodVector[storyParams.theWindSpeedEventPeriodVector.size() -
                                                   1]);

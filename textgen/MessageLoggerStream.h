@@ -111,8 +111,8 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
     // before working with this stream buffer
 
     // we don't use a buffer - we forward everything
-    assert(buffer == NULL && n == 0);
-    this->setp(NULL, NULL);
+    assert(buffer == nullptr && n == 0);
+    this->setp(nullptr, nullptr);
 
     return this;
   }
@@ -166,11 +166,11 @@ class MessageLoggerStream : public std::basic_ostream<char_type, CharTraits>
  protected:
   typedef std::basic_string<char_type> string_type;
 
-  MessageLoggerStream() : base_class(NULL), itsStreamBuf()
+  MessageLoggerStream() : base_class(nullptr), itsStreamBuf()
   {
     itsStreamBuf.itsOwnerStream = this;
     this->init(&itsStreamBuf);
-    itsStreamBuf.pubsetbuf(NULL, 0);
+    itsStreamBuf.pubsetbuf(nullptr, 0);
   }
 
   ~MessageLoggerStream() {}

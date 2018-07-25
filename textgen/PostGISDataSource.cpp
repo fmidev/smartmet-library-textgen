@@ -91,7 +91,7 @@ bool PostGISDataSource::readData(const std::string& host,
 
     OGRLayer* pLayer = pDS->GetLayerByName(schema_table_ss.str().c_str());
 
-    if (pLayer == NULL)
+    if (pLayer == nullptr)
     {
       throw std::runtime_error("Error: OGRDataSource::GetLayerByName(" + schema_table_ss.str() +
                                ") failed!");
@@ -125,7 +125,7 @@ bool PostGISDataSource::readData(const std::string& host,
     OGRFeature* pFeature(0);
     pLayer->ResetReading();
 
-    while ((pFeature = pLayer->GetNextFeature()) != NULL)
+    while ((pFeature = pLayer->GetNextFeature()) != nullptr)
     {
       OGRFeatureDefn* pFDefn = pLayer->GetLayerDefn();
 
