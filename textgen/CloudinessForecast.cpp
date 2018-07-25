@@ -76,53 +76,36 @@ using namespace std;
 #define PUOLIPILVISESTA_PILVISEEN_JA_POUTAINEN_PHRASE \
   "saa vaihtelee puolipilvisesta pilviseen ja on poutainen"
 
-std::ostream& operator<<(std::ostream& theOutput,
-                         const CloudinessDataItemData& theCloudinessDataItemData)
+const char* cloudiness_string(const cloudiness_id& theCloudinessId)
 {
-  string cloudinessIdStr(cloudiness_string(theCloudinessDataItemData.theId));
+  const char* retval = "";
 
-  string weatherEventIdStr = weather_event_string(theCloudinessDataItemData.theWeatherEventId);
-
-  theOutput << "    " << cloudinessIdStr << ": ";
-  theOutput << "min=" << theCloudinessDataItemData.theMin << " ";
-  theOutput << "mean=" << theCloudinessDataItemData.theMean << " ";
-  theOutput << "max=" << theCloudinessDataItemData.theMax << " ";
-  theOutput << "std.dev=" << theCloudinessDataItemData.theStandardDeviation << endl;
-  theOutput << "    weather event: " << weatherEventIdStr << endl;
-  theOutput << "    pearson coefficient: " << theCloudinessDataItemData.thePearsonCoefficient
-            << endl;
-
-  return theOutput;
-}
-
-std::ostream& operator<<(std::ostream& theOutput, const CloudinessDataItem& theCloudinessDataItem)
-{
-  if (theCloudinessDataItem.theCoastalData)
+  switch (theCloudinessId)
   {
-    theOutput << "  Coastal" << endl;
-    theOutput << *theCloudinessDataItem.theCoastalData;
+    case SELKEA:
+      retval = SELKEA_WORD;
+      break;
+    case MELKO_SELKEA:
+      retval = MELKO_SELKEA_PHRASE;
+      break;
+    case PUOLIPILVINEN:
+      retval = PUOLIPILVINEN_WORD;
+      break;
+    case VERRATTAIN_PILVINEN:
+      retval = VERRATTAIN_PILVINEN_PHRASE;
+      break;
+    case PILVINEN:
+      retval = PILVINEN_WORD;
+      break;
+    case PUOLIPILVINEN_JA_PILVINEN:
+      retval = VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
+      break;
+    default:
+      retval = "missing cloudiness id";
+      break;
   }
-  if (theCloudinessDataItem.theInlandData)
-  {
-    theOutput << "  Inland" << endl;
-    theOutput << *theCloudinessDataItem.theInlandData;
-  }
-  if (theCloudinessDataItem.theFullData)
-  {
-    theOutput << "  Full area" << endl;
-    theOutput << *theCloudinessDataItem.theFullData;
-  }
-  return theOutput;
-}
 
-bool puolipilvisesta_pilviseen(const cloudiness_id& theCloudinessId1,
-                               const cloudiness_id& theCloudinessId2)
-{
-  if (theCloudinessId1 != MISSING_CLOUDINESS_ID && theCloudinessId1 == PUOLIPILVINEN_JA_PILVINEN &&
-      theCloudinessId2 == PUOLIPILVINEN_JA_PILVINEN)
-    return true;
-
-  return false;
+  return retval;
 }
 
 Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId, const bool& theShortForm)
@@ -279,36 +262,43 @@ Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId,
   return sentence;
 }
 
-const char* cloudiness_string(const cloudiness_id& theCloudinessId)
+std::ostream& operator<<(std::ostream& theOutput,
+                         const CloudinessDataItemData& theCloudinessDataItemData)
 {
-  const char* retval = "";
+  string cloudinessIdStr(cloudiness_string(theCloudinessDataItemData.theId));
 
-  switch (theCloudinessId)
+  string weatherEventIdStr = weather_event_string(theCloudinessDataItemData.theWeatherEventId);
+
+  theOutput << "    " << cloudinessIdStr << ": ";
+  theOutput << "min=" << theCloudinessDataItemData.theMin << " ";
+  theOutput << "mean=" << theCloudinessDataItemData.theMean << " ";
+  theOutput << "max=" << theCloudinessDataItemData.theMax << " ";
+  theOutput << "std.dev=" << theCloudinessDataItemData.theStandardDeviation << endl;
+  theOutput << "    weather event: " << weatherEventIdStr << endl;
+  theOutput << "    pearson coefficient: " << theCloudinessDataItemData.thePearsonCoefficient
+            << endl;
+
+  return theOutput;
+}
+
+std::ostream& operator<<(std::ostream& theOutput, const CloudinessDataItem& theCloudinessDataItem)
+{
+  if (theCloudinessDataItem.theCoastalData)
   {
-    case SELKEA:
-      retval = SELKEA_WORD;
-      break;
-    case MELKO_SELKEA:
-      retval = MELKO_SELKEA_PHRASE;
-      break;
-    case PUOLIPILVINEN:
-      retval = PUOLIPILVINEN_WORD;
-      break;
-    case VERRATTAIN_PILVINEN:
-      retval = VERRATTAIN_PILVINEN_PHRASE;
-      break;
-    case PILVINEN:
-      retval = PILVINEN_WORD;
-      break;
-    case PUOLIPILVINEN_JA_PILVINEN:
-      retval = VAIHTELEE_PUOLIPILVISESTA_PILVISEEN_PHRASE;
-      break;
-    default:
-      retval = "missing cloudiness id";
-      break;
+    theOutput << "  Coastal" << endl;
+    theOutput << *theCloudinessDataItem.theCoastalData;
   }
-
-  return retval;
+  if (theCloudinessDataItem.theInlandData)
+  {
+    theOutput << "  Inland" << endl;
+    theOutput << *theCloudinessDataItem.theInlandData;
+  }
+  if (theCloudinessDataItem.theFullData)
+  {
+    theOutput << "  Full area" << endl;
+    theOutput << *theCloudinessDataItem.theFullData;
+  }
+  return theOutput;
 }
 
 CloudinessForecast::CloudinessForecast(wf_story_params& parameters)

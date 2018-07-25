@@ -129,12 +129,6 @@ class CloudinessForecast
   bool theSeparateMorningAfternoon;  // full area
 };
 
-const char* cloudiness_string(const cloudiness_id& theCloudinessId);
-bool puolipilvisesta_pilviseen(const cloudiness_id& theCloudinessId1,
-                               const cloudiness_id& theCloudinessId2);
-Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId);
-//							   const bool& theShortForm = false);
-
 std::ostream& operator<<(std::ostream& theOutput,
                          const CloudinessDataItemData& theCloudinessDataItemData);
 std::ostream& operator<<(std::ostream& theOutput, const CloudinessDataItem& theCloudinessDataItem);

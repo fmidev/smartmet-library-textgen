@@ -5,7 +5,7 @@
 Summary: textgen library
 Name: %{SPECNAME}
 Version: 18.7.23
-Release: 1%{?dist}.fmi
+Release: 2%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -67,6 +67,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Jul 23 2018 Anssi Reponen <anssi.reponen@fmi.fi> - 18.7.23-2.fmi
+- Removed obsolete and erroneous code (BRAINSTORM-1251)
+
 * Mon Jul 23 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.7.23-1.fmi
 - Removed superfluous destructors
 - Added checks against nullptr
