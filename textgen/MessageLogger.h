@@ -21,14 +21,15 @@ class MessageLogger : public MessageLoggerStream<>
  public:
   ~MessageLogger();
   MessageLogger(const std::string& theFunction);
-
   virtual void onNewMessage(const string_type& theMessage);
+  std::string str() const;
+  MessageLogger& operator<<(const TextGen::Glyph& theGlyph);
 
   static void open(const std::string& theFilename);
-  static void indent(char theChar) { itsIndentChar = theChar; }
-  static void indentstep(unsigned int theStep) { itsIndentStep = theStep; }
-  static void timestamp(bool theFlag) { itsTimeStampOn = theFlag; }
-  MessageLogger& operator<<(const TextGen::Glyph& theGlyph);
+  static void open();
+  static void indent(char theChar);
+  static void indentstep(unsigned int theStep);
+  static void timestamp(bool theFlag);
 
  private:
   MessageLogger();
@@ -36,11 +37,6 @@ class MessageLogger : public MessageLoggerStream<>
   MessageLogger& operator=(const MessageLogger& theLogger);
 
   std::string itsFunction;
-  static unsigned long itsDepth;
-  static std::ostream* itsOutput;
-  static char itsIndentChar;
-  static unsigned int itsIndentStep;
-  static bool itsTimeStampOn;
 
 };  // MessageLogger
 
