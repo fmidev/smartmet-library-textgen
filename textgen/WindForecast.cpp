@@ -9,11 +9,8 @@
 #include "Delimiter.h"
 #include "IntegerRange.h"
 #include "UnitFactory.h"
-#include <macgyver/StringConversion.h>
-
 #include <calculator/Settings.h>
-
-#include <boost/foreach.hpp>
+#include <macgyver/StringConversion.h>
 
 namespace TextGen
 {
@@ -347,7 +344,7 @@ float wind_direction_error(const wind_data_item_vector& theWindDataVector,
 // return true if equalized top wind is weak during whole period
 bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod)
 {
-  BOOST_FOREACH (const WindDataItemsByArea* item, theParameters.theWindDataVector)
+  for (const WindDataItemsByArea* item : theParameters.theWindDataVector)
   {
     WindDataItemUnit& dataitem = item->getDataItem(theParameters.theArea.type());
 
@@ -2603,14 +2600,14 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
 
   theParameters.theLog << "*** WIND DIRECTION REPORTING PERIODS ***" << std::endl;
 
-  BOOST_FOREACH (const WeatherPeriod& period, theParameters.theWindDirectionPeriods)
+  for (const WeatherPeriod& period : theParameters.theWindDirectionPeriods)
     theParameters.theLog << as_string(period) << " - "
                          << wind_direction_string(get_wind_direction(theParameters, period).id)
                          << std::endl;
 
   theParameters.theLog << "*** WIND SPEED REPORTING PERIODS ***" << std::endl;
 
-  BOOST_FOREACH (const WindEventPeriodDataItem* item, theParameters.theWindSpeedEventPeriodVector)
+  for (const WindEventPeriodDataItem* item : theParameters.theWindSpeedEventPeriodVector)
     theParameters.theLog << as_string(item->thePeriod) << " - "
                          << get_wind_event_string(item->theWindEvent) << std::endl;
 
@@ -2669,7 +2666,7 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
   newParagraph << getParagraphInfo(thePeriod, sentenceInfoVector);
 
   /*
-  BOOST_FOREACH(const Sentence & s, sentences)
+  for(const Sentence & s : sentences)
   paragraph << s;
   */
   paragraph << newParagraph;

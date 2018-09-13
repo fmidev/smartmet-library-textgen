@@ -1,11 +1,9 @@
 #include "PostGISDataSource.h"
 
 #ifdef UNIX
-#include <gdal/ogrsf_frmts.h>
 
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/foreach.hpp>
-
+#include <gdal/ogrsf_frmts.h>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -91,7 +89,7 @@ bool PostGISDataSource::readData(const std::string& host,
 
     OGRLayer* pLayer = pDS->GetLayerByName(schema_table_ss.str().c_str());
 
-    if (pLayer == NULL)
+    if (pLayer == nullptr)
     {
       throw std::runtime_error("Error: OGRDataSource::GetLayerByName(" + schema_table_ss.str() +
                                ") failed!");
@@ -125,7 +123,7 @@ bool PostGISDataSource::readData(const std::string& host,
     OGRFeature* pFeature(0);
     pLayer->ResetReading();
 
-    while ((pFeature = pLayer->GetNextFeature()) != NULL)
+    while ((pFeature = pLayer->GetNextFeature()) != nullptr)
     {
       OGRFeatureDefn* pFDefn = pLayer->GetLayerDefn();
 
@@ -342,11 +340,11 @@ std::list<string> PostGISDataSource::areaNames() const
   typedef std::map<std::string, std::string> polygonmap_t;
   typedef std::map<std::string, std::pair<double, double> > pointmap_t;
 
-  BOOST_FOREACH (const polygonmap_t::value_type& vt, polygonmap)
+  for (const polygonmap_t::value_type& vt : polygonmap)
   {
     return_list.push_back(vt.first);
   }
-  BOOST_FOREACH (const pointmap_t::value_type& vt, pointmap)
+  for (const pointmap_t::value_type& vt : pointmap)
   {
     return_list.push_back(vt.first);
   }

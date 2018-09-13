@@ -4,8 +4,8 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 18.7.23
-Release: 2%{?dist}.fmi
+Version: 18.8.1
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -14,16 +14,16 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 18.6.20
+BuildRequires: smartmet-library-calculator-devel >= 18.8.1
 BuildRequires: smartmet-library-newbase-devel >= 18.7.23
-BuildRequires: smartmet-library-macgyver-devel >= 18.7.23
+BuildRequires: smartmet-library-macgyver-devel >= 18.8.1
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: smartmet-library-calculator >= 18.6.20
+Requires: smartmet-library-calculator >= 18.8.1
 Requires: smartmet-library-newbase >= 18.7.23
-Requires: smartmet-library-macgyver >= 18.7.23
+Requires: smartmet-library-macgyver >= 18.8.1
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
@@ -67,6 +67,12 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Aug  1 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.8.1-1.fmi
+- Use C++11 for-loops instead of BOOST_FOREACH
+
+* Wed Jul 25 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.7.25-1.fmi
+- Prefer nullptr over NULL
+
 * Mon Jul 23 2018 Anssi Reponen <anssi.reponen@fmi.fi> - 18.7.23-2.fmi
 - Removed obsolete and erroneous code (BRAINSTORM-1251)
 

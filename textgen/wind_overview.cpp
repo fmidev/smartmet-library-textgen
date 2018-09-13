@@ -7,22 +7,19 @@
 #include "WindForecast.h"
 #include "WindStory.h"
 #include "WindStoryTools.h"
+#include <boost/date_time/gregorian/gregorian.hpp>    //include all types plus i/o
+#include <boost/date_time/posix_time/posix_time.hpp>  //include all types plus i/o
 #include <calculator/GridForecaster.h>
 #include <calculator/ParameterAnalyzer.h>
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
 #include <calculator/WeatherResult.h>
-
+#include <macgyver/StringConversion.h>
 #include <algorithm>
 #include <bitset>
 #include <cmath>
 #include <fstream>
 #include <iomanip>
-
-#include <boost/date_time/gregorian/gregorian.hpp>    //include all types plus i/o
-#include <boost/date_time/posix_time/posix_time.hpp>  //include all types plus i/o
-#include <boost/foreach.hpp>
-#include <macgyver/StringConversion.h>
 
 using namespace boost;
 using namespace TextGen;
@@ -207,7 +204,7 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
 
   storyParams.theLog << "** ORIGINAL DIRECTION PERIODS **" << std::endl;
 
-  BOOST_FOREACH (const WeatherPeriod& p, storyParams.theWindDirectionPeriods)
+  for (const WeatherPeriod& p : storyParams.theWindDirectionPeriods)
   {
     WindDirectionInfo wdi = get_wind_direction(storyParams, p);
 
@@ -2136,7 +2133,7 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
     bool firstRound(i == 1);
     WindEventPeriodDataItem* previousEventPeriod =
         (firstRound
-             ? NULL
+             ? nullptr
              : storyParams
                    .theWindSpeedEventPeriodVector[storyParams.theWindSpeedEventPeriodVector.size() -
                                                   1]);
@@ -2174,8 +2171,7 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
 
   // iterate through and check against actual threshold value that wind speed differ enough
   // if it doesnt, set event as missing
-  BOOST_FOREACH (WindEventPeriodDataItem* windEventPeriodDataItem,
-                 storyParams.theWindSpeedEventPeriodVector)
+  for (WindEventPeriodDataItem* windEventPeriodDataItem : storyParams.theWindSpeedEventPeriodVector)
   {
     if (!wind_speed_differ_enough(storyParams, windEventPeriodDataItem->thePeriod))
     {
@@ -2502,7 +2498,7 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
 
   storyParams.theWindSpeedEventPeriodVector.clear();
 
-  BOOST_FOREACH (WindEventPeriodDataItem* eventPeriod, cleanedEventPeriods)
+  for (WindEventPeriodDataItem* eventPeriod : cleanedEventPeriods)
   {
     if (eventPeriod) storyParams.theWindSpeedEventPeriodVector.push_back(eventPeriod);
   }
@@ -2665,7 +2661,7 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
 
   mergedEventPeriods.clear();
 
-  BOOST_FOREACH (WindEventPeriodDataItem* p, cleanedEventPeriods)
+  for (WindEventPeriodDataItem* p : cleanedEventPeriods)
   {
     if (p->theWindEvent != MISSING_WIND_SPEED_EVENT)
     {
@@ -2744,7 +2740,7 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
   }
   storyParams.theWindSpeedEventPeriodVector.clear();
 
-  BOOST_FOREACH (WindEventPeriodDataItem* eventPeriod, cleanedEventPeriods)
+  for (WindEventPeriodDataItem* eventPeriod : cleanedEventPeriods)
   {
     if (eventPeriod) storyParams.theWindSpeedEventPeriodVector.push_back(eventPeriod);
   }
@@ -3192,10 +3188,10 @@ void calculate_equalized_wind_speed_indexes_for_calc_wind(wo_story_params& story
     //	add equalized indexes of top and median wind first to set to get unique indexes
     std::set<unsigned int> index_set;
 
-    BOOST_FOREACH (unsigned int ind, storyParams.equalizedWSIndexesTopWind(areaType))
+    for (unsigned int ind : storyParams.equalizedWSIndexesTopWind(areaType))
       index_set.insert(ind);
 
-    BOOST_FOREACH (unsigned int ind, storyParams.equalizedWSIndexesMedian(areaType))
+    for (unsigned int ind : storyParams.equalizedWSIndexesMedian(areaType))
       index_set.insert(ind);
 
     // clear equalized calculated wind indexes and then insert indexes from set
@@ -3203,7 +3199,7 @@ void calculate_equalized_wind_speed_indexes_for_calc_wind(wo_story_params& story
         &(storyParams.equalizedWSIndexesCalcWind(areaType));
     eqCalcWindIndexVector->clear();
 
-    BOOST_FOREACH (unsigned int ind, index_set)
+    for (unsigned int ind : index_set)
       eqCalcWindIndexVector->push_back(ind);
 
     // recalculate equalized calculated wind speed
