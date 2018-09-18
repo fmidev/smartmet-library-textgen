@@ -34,21 +34,25 @@
 // ======================================================================
 
 #include "MessageLogger.h"
-
 #include "DebugTextFormatter.h"
 #include <newbase/NFmiTime.h>
-
 #include <ctime>
 #include <fstream>
 #include <iomanip>
 
 using namespace std;
 
-unsigned long MessageLogger::itsDepth = 0;
-ostream* MessageLogger::itsOutput = 0;
-char MessageLogger::itsIndentChar = ' ';
-unsigned int MessageLogger::itsIndentStep = 2;
-bool MessageLogger::itsTimeStampOn = false;
+// TextGen is historical code from about 2002, and was not designed
+// for multithreading. This is one way to avert multithreading issues
+// without massive refactoring of code.
+
+thread_local unsigned long sDepth = 0;
+thread_local ofstream* sOutputFile = nullptr;
+thread_local ostringstream* sOutputStream = nullptr;
+thread_local char sIndentChar = ' ';
+thread_local unsigned int sIndentStep = 2;
+thread_local bool sTimeStampOn = false;
+thread_local TextGen::DebugTextFormatter sFormatter;
 
 namespace
 {
@@ -58,12 +62,14 @@ namespace
  */
 // ----------------------------------------------------------------------
 
-void output_timestamp(bool theFlag, ostream* theOutput)
+void output_timestamp(bool theFlag)
 {
-  if (theOutput != 0 && theFlag)
+  if (theFlag)
   {
     NFmiTime now;
-    *theOutput << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
+
+    if (sOutputFile != nullptr) *sOutputFile << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
+    if (sOutputStream != nullptr) *sOutputFile << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
   }
 }
 }  // namespace
@@ -76,11 +82,16 @@ void output_timestamp(bool theFlag, ostream* theOutput)
 
 MessageLogger::~MessageLogger()
 {
-  --itsDepth;
-  output_timestamp(itsTimeStampOn, itsOutput);
-  if (itsOutput != 0)
-    *itsOutput << string(itsIndentStep * itsDepth, itsIndentChar) << "[Leaving " << itsFunction
-               << ']' << endl;
+  --sDepth;
+  output_timestamp(sTimeStampOn);
+
+  if (sOutputFile != nullptr)
+    *sOutputFile << string(sIndentStep * sDepth, sIndentChar) << "[Leaving " << itsFunction << ']'
+                 << endl;
+
+  if (sOutputStream != nullptr)
+    *sOutputStream << string(sIndentStep * sDepth, sIndentChar) << "[Leaving " << itsFunction << ']'
+                   << endl;
 }
 
 // ----------------------------------------------------------------------
@@ -93,12 +104,15 @@ MessageLogger::~MessageLogger()
 
 MessageLogger::MessageLogger(const string& theFunction) : itsFunction(theFunction)
 {
-  output_timestamp(itsTimeStampOn, itsOutput);
+  output_timestamp(sTimeStampOn);
 
-  if (itsOutput != 0)
-    *itsOutput << string(itsIndentStep * itsDepth, itsIndentChar) << "[Entering " << itsFunction
-               << ']' << endl;
-  ++itsDepth;
+  if (sOutputFile != nullptr)
+    *sOutputFile << string(sIndentStep * sDepth, sIndentChar) << "[Entering " << itsFunction << ']'
+                 << endl;
+  if (sOutputStream != nullptr)
+    *sOutputStream << string(sIndentStep * sDepth, sIndentChar) << "[Entering " << itsFunction
+                   << ']' << endl;
+  ++sDepth;
 }
 
 // ----------------------------------------------------------------------
@@ -111,9 +125,12 @@ MessageLogger::MessageLogger(const string& theFunction) : itsFunction(theFunctio
 
 void MessageLogger::onNewMessage(const string_type& theMessage)
 {
-  output_timestamp(itsTimeStampOn, itsOutput);
+  output_timestamp(sTimeStampOn);
 
-  if (itsOutput != 0) *itsOutput << string(itsIndentStep * itsDepth, itsIndentChar) << theMessage;
+  if (sOutputFile != nullptr)
+    *sOutputFile << string(sIndentStep * sDepth, sIndentChar) << theMessage;
+  if (sOutputStream != nullptr)
+    *sOutputStream << string(sIndentStep * sDepth, sIndentChar) << theMessage;
 }
 
 // ----------------------------------------------------------------------
@@ -126,16 +143,42 @@ void MessageLogger::onNewMessage(const string_type& theMessage)
 
 void MessageLogger::open(const string& theFilename)
 {
-  delete itsOutput;
-  itsOutput = 0;
+  delete sOutputFile;
+  sOutputFile = nullptr;
 
   if (theFilename.empty()) return;
 
-  itsOutput = new ofstream(theFilename.c_str(), ios::out);
-  if (itsOutput == 0)
-    throw std::runtime_error("MessageLogger could not allocate a new output stream");
-  if (!(*itsOutput))
+  sOutputFile = new ofstream(theFilename.c_str(), ios::out);
+  if (!(*sOutputFile))
     throw std::runtime_error("MessageLogger failed to open '" + theFilename + "' for writing");
+}
+
+// ----------------------------------------------------------------------
+/*!
+ * \brief Open a messagelog output stream
+ *
+ * \param theFilename The filename for the log
+ */
+// ----------------------------------------------------------------------
+
+void MessageLogger::open()
+{
+  if (sOutputStream == nullptr)
+    sOutputStream = new ostringstream();
+  else
+    sOutputStream->str("");
+}
+
+void MessageLogger::indent(char theChar) { sIndentChar = theChar; }
+
+void MessageLogger::indentstep(unsigned int theStep) { sIndentStep = theStep; }
+
+void MessageLogger::timestamp(bool theFlag) { sTimeStampOn = theFlag; }
+
+std::string MessageLogger::str() const
+{
+  if (sOutputStream != nullptr) return sOutputStream->str();
+  return {};
 }
 
 // ----------------------------------------------------------------------
@@ -151,8 +194,8 @@ void MessageLogger::open(const string& theFilename)
 
 MessageLogger& MessageLogger::operator<<(const TextGen::Glyph& theGlyph)
 {
-  static TextGen::DebugTextFormatter formatter;
-  if (itsOutput != 0) *this << "Return: " << formatter.format(theGlyph) << endl;
+  if (sOutputFile != nullptr) *sOutputFile << "Return: " << sFormatter.format(theGlyph) << endl;
+  if (sOutputStream != nullptr) *sOutputStream << "Return: " << sFormatter.format(theGlyph) << endl;
   return *this;
 }
 
