@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 18.9.16
+Version: 18.10.1
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -14,16 +14,16 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 18.9.16
-BuildRequires: smartmet-library-newbase-devel >= 18.9.11
-BuildRequires: smartmet-library-macgyver-devel >= 18.9.5
+BuildRequires: smartmet-library-calculator-devel >= 18.10.1
+BuildRequires: smartmet-library-newbase-devel >= 18.9.29
+BuildRequires: smartmet-library-macgyver-devel >= 18.9.29
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: smartmet-library-calculator >= 18.9.16
-Requires: smartmet-library-newbase >= 18.9.11
-Requires: smartmet-library-macgyver >= 18.9.5
+Requires: smartmet-library-calculator >= 18.10.1
+Requires: smartmet-library-newbase >= 18.9.29
+Requires: smartmet-library-macgyver >= 18.9.29
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
@@ -67,6 +67,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Oct  1 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.10.1-1.fmi
+- Added option -g to get a proper debuginfo package
+
 * Sun Sep 16 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.9.16-1.fmi
 - Repackaged since calculator library API changed
 
