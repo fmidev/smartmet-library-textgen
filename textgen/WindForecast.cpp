@@ -1149,8 +1149,8 @@ bool wind_speed_differ_enough(const interval_info& firstInterval,
     secondEndValue = secondInterval.upperLimit;
   }
 
-  unsigned int lowerLimitDifference = abs(firstStartValue - secondStartValue);
-  unsigned int upperLimitDifference = abs(firstEndValue - secondEndValue);
+  auto lowerLimitDifference = std::labs(firstStartValue - secondStartValue);
+  auto upperLimitDifference = std::labs(firstEndValue - secondEndValue);
 
   if (firstTopValue == 0 && secondTopValue == 0)
     return (lowerLimitDifference + upperLimitDifference > 3);
