@@ -1923,7 +1923,7 @@ Sentence parse_weekday_phrase(short weekday, const Sentence& part_of_the_day)
   std::ostringstream oss;
   oss << weekday;
 
-  if (weekday > 0 && !part_of_the_day.size() > 0)
+  if (weekday > 0 && !(part_of_the_day.size() > 0))
     sentence << oss.str() << "-" << partOfTheDay;
   else
   {
