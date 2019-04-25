@@ -22,6 +22,7 @@
 #include "ValueAcceptor.h"
 #include "WeatherStory.h"
 #include "WeekdayTools.h"
+#include <boost/lexical_cast.hpp>
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/MathTools.h>
@@ -32,11 +33,8 @@
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
-
+#include <newbase/NFmiAreaTools.h>
 #include <newbase/NFmiCombinedParam.h>
-#include <newbase/NFmiMercatorArea.h>
-
-#include <boost/lexical_cast.hpp>
 #include <map>
 #include <vector>
 
@@ -1127,9 +1125,11 @@ Sentence FogForecast::areaSpecificSentence(const WeatherPeriod& thePeriod) const
                                                                          false);
 
     Rect areaRect(theParameters.theArea);
-    NFmiMercatorArea mercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight());
+
+    std::unique_ptr<NFmiArea> mercatorArea(
+        NFmiAreaTools::CreateLegacyMercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight()));
     float areaHeightWidthRatio =
-        mercatorArea.WorldRect().Height() / mercatorArea.WorldRect().Width();
+        mercatorArea->WorldRect().Height() / mercatorArea->WorldRect().Width();
 
     Sentence areaSpecificSentence;
     areaSpecificSentence << area_specific_sentence(north,

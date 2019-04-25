@@ -28,7 +28,7 @@ else
 endif
 
 CC = g++
-CFLAGS = -DUNIX -O0 -g -Wno-inline $(MAINFLAGS)
+CFLAGS = -DUNIX -DWGS84 -O0 -g -Wno-inline $(MAINFLAGS)
 
 INCLUDES = \
 	-I /usr/include/smartmet \
@@ -51,6 +51,7 @@ LIBS += \
 	-lboost_thread \
         -lboost_system\
 	`pkg-config --cflags --libs icu-i18n` \
+	-lgdal \
         -lz -lbz2 -lpthread -lrt
 
 all: $(PROG)
