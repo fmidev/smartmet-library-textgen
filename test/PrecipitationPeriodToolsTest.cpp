@@ -1,4 +1,6 @@
 #include "PrecipitationPeriodTools.h"
+#include <boost/lexical_cast.hpp>
+#include <boost/shared_ptr.hpp>
 #include <calculator/AnalysisSources.h>
 #include <calculator/MaskSource.h>
 #include <calculator/RegularMaskSource.h>
@@ -13,10 +15,6 @@
 #include <newbase/NFmiSettings.h>
 #include <newbase/NFmiSvgPath.h>
 #include <regression/tframe.h>
-
-#include <boost/lexical_cast.hpp>
-#include <boost/shared_ptr.hpp>
-
 #include <stdexcept>
 
 using namespace std;
@@ -64,15 +62,15 @@ void findRainTimes()
 
   {
     RainTimes times = findRainTimes(sources, WeatherArea(uusimaa, "uusimaa"), period, "");
-    if (times.size() != 60)
-      TEST_FAILED("Must get 60 rainy moments out of 100 for Uusimaa, got " +
+    if (times.size() != 74)
+      TEST_FAILED("Must get 74 rainy moments out of 100 for Uusimaa, got " +
                   lexical_cast<string>(times.size()));
   }
 
   {
     RainTimes times = findRainTimes(sources, WeatherArea(ahvenanmaa, "ahvenanmaa"), period, "");
-    if (times.size() != 55)
-      TEST_FAILED("Must get 55 rainy moments out of 100 for Ahvenanmaa, got " +
+    if (times.size() != 60)
+      TEST_FAILED("Must get 60 rainy moments out of 100 for Ahvenanmaa, got " +
                   lexical_cast<string>(times.size()));
   }
 
@@ -129,11 +127,13 @@ void findRainPeriods()
     RainTimes times = findRainTimes(sources, WeatherArea(uusimaa, "uusimaa"), period, "");
 
     RainPeriods periods1 = findRainPeriods(times, "a");
-    if (periods1.size() != 2)
-      TEST_FAILED("Must find 2 rainy periods for Uusimaa with max separation 1");
+    if (periods1.size() != 1)
+      TEST_FAILED("Must find 1 rainy periods for Uusimaa with max separation 1, not " +
+                  std::to_string(periods1.size()));
     RainPeriods periods3 = findRainPeriods(times, "b");
     if (periods3.size() != 1)
-      TEST_FAILED("Must find 1 rainy period for Uusimaa with max separation 3");
+      TEST_FAILED("Must find 1 rainy period for Uusimaa with max separation 3, not " +
+                  std::to_string(periods3.size()));
   }
 
   {
