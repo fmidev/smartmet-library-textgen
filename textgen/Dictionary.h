@@ -41,13 +41,11 @@ class Dictionary
   {
     return false;
   }
-  virtual const std::string& geofind(const std::string& theKey) const
+  virtual std::string geofind(const std::string& theKey) const
   {
     throw TextGenError("Error: Dictionary::geofind(" + theKey + ") failed");
   }
-  virtual const std::string& geofind(const double& theLongitude,
-                                     const double& theLatitude,
-                                     const double& theMaxDistance) const
+  virtual std::string geofind(double theLongitude, double theLatitude, double theMaxDistance) const
   {
     std::stringstream ss;
     ss << "Error: Dictionary::geofind(" << theLongitude << ", " << theLatitude << ", "

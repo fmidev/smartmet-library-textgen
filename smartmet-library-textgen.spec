@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 18.10.1
+Version: 19.9.2
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -15,15 +15,15 @@ BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: smartmet-library-calculator-devel >= 18.11.24
-BuildRequires: smartmet-library-newbase-devel >= 18.10.23
-BuildRequires: smartmet-library-macgyver-devel >= 18.11.24
+BuildRequires: smartmet-library-newbase-devel >= 19.8.12
+BuildRequires: smartmet-library-macgyver-devel >= 19.8.2
 BuildRequires: boost-devel
 BuildRequires: mysql-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
 Requires: smartmet-library-calculator >= 18.11.24
-Requires: smartmet-library-newbase >= 18.10.23
-Requires: smartmet-library-macgyver >= 18.11.24
+Requires: smartmet-library-newbase >= 19.8.12
+Requires: smartmet-library-macgyver >= 19.8.2
 Requires: gdal >= 1.11.4
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
@@ -67,6 +67,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Sep  2 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.9.2-1.fmi
+- Fixed geofind API not to return references
+
 * Mon Oct  1 2018 Mika Heiskanen <mika.heiskanen@fmi.fi> - 18.10.1-1.fmi
 - Added option -g to get a proper debuginfo package
 
