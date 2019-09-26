@@ -31,7 +31,7 @@
 #include "NullDictionary.h"
 #include <calculator/TextGenError.h>
 
-using namespace boost;
+
 
 namespace TextGen
 {

@@ -60,7 +60,7 @@ namespace TemperatureMax36Hours
 using NFmiStringTools::Convert;
 using namespace TextGen;
 using namespace TextGen::TemperatureStoryTools;
-using namespace boost;
+
 using namespace std;
 using namespace Settings;
 using namespace AreaTools;

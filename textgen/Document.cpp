@@ -21,7 +21,7 @@
 #include <iterator>
 
 using namespace std;
-using namespace boost;
+
 
 namespace TextGen
 {

@@ -35,7 +35,7 @@
 #include <map>
 
 using namespace std;
-using namespace boost;
+
 using namespace NFmiIndexMaskTools;
 
 namespace TextGen

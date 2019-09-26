@@ -18,7 +18,7 @@
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
 
-using namespace boost;
+
 using namespace std;
 using namespace TextGen;
 

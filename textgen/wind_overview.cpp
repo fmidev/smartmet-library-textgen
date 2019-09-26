@@ -21,7 +21,7 @@
 #include <fstream>
 #include <iomanip>
 
-using namespace boost;
+
 using namespace TextGen;
 using namespace TextGen::WindStoryTools;
 using namespace std;

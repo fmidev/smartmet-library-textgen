@@ -32,7 +32,7 @@
 #include <set>
 
 using namespace std;
-using namespace boost;
+
 
 namespace TextGen
 {

@@ -25,8 +25,8 @@
 #include <map>
 
 using namespace TextGen;
-using namespace boost;
 using namespace std;
+using boost::lexical_cast;
 
 namespace TextGen
 {

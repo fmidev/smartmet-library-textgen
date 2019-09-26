@@ -43,7 +43,7 @@ using namespace Settings;
 using namespace TextGen;
 using namespace TemperatureStoryTools;
 using namespace AreaTools;
-using namespace boost;
+
 using namespace std;
 
 std::string as_string(const GlyphContainer& gc)

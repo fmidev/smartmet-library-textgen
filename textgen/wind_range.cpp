@@ -21,7 +21,7 @@
 #include <vector>
 
 using namespace TextGen;
-using namespace boost;
+
 using namespace std;
 
 namespace TextGen
