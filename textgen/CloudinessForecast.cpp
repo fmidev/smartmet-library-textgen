@@ -42,7 +42,7 @@ namespace TextGen
 using namespace Settings;
 using namespace TextGen;
 using namespace AreaTools;
-using namespace boost;
+
 using namespace std;
 
 #define HUOMENNA_SISAMAASSA_PUOLIPILVISESTA_PILVISEEN_COMPOSITE_PHRASE \

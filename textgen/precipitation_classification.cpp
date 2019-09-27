@@ -22,9 +22,10 @@
 #include <newbase/NFmiStringTools.h>
 #include <list>
 
-using namespace boost;
+
 using namespace std;
 using namespace TextGen;
+using boost::lexical_cast;
 
 namespace
 {

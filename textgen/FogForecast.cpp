@@ -43,7 +43,7 @@ namespace TextGen
 using namespace Settings;
 using namespace TextGen;
 using namespace AreaTools;
-using namespace boost;
+
 using namespace std;
 
 #define TIME_PLACE_INPLACES_FOG_COMPOSITE_PHRASE "[huomenna] [sisamaassa] [paikoin] sumua"

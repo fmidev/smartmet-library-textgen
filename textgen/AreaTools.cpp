@@ -29,7 +29,7 @@
 typedef TextGen::RegularMaskSource::mask_type mask_type;
 
 using namespace std;
-using namespace boost;
+
 
 namespace TextGen
 {

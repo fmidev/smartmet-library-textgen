@@ -28,8 +28,9 @@
 #include <boost/lexical_cast.hpp>
 
 using namespace TextGen;
-using namespace boost;
 using namespace std;
+using boost::lexical_cast;
+
 
 namespace TextGen
 {
@@ -123,6 +124,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case IncreasingCloudiness:
         case VariableCloudiness:
           return notsimilar;
+      default:
+	return notsimilar;
       }
     }
     case IncreasingCloudiness:
@@ -143,6 +146,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case ClearOrPartlyCloudy:
         case DecreasingCloudiness:
           return notsimilar;
+      default:
+	return notsimilar;
       }
     }
     case MostlyCloudy:
@@ -163,6 +168,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case IncreasingCloudiness:
         case VariableCloudiness:
           return notsimilar;
+      default:
+	return notsimilar;
       }
     }
     case CloudyOrPartlyCloudy:
@@ -183,6 +190,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case DecreasingCloudiness:
         case IncreasingCloudiness:
           return notsimilar;
+      default:
+	return notsimilar;
       }
     }
     case MostlyPartlyCloudy:
@@ -205,6 +214,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case DecreasingCloudiness:
         case IncreasingCloudiness:
           return notsimilar;
+      default:
+	return notsimilar;
       }
     }
     case VariableCloudiness:
@@ -224,6 +235,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case MostlyClear:
         case DecreasingCloudiness:
           return notsimilar;
+      default:
+	return notsimilar;
       }
     }
     case PartlyCloudy:
@@ -247,6 +260,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case DecreasingCloudiness:
         case IncreasingCloudiness:
           return notsimilar;
+      default:
+	return notsimilar;
       }
     }
     case ClearOrPartlyCloudy:
@@ -267,6 +282,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case DecreasingCloudiness:
         case IncreasingCloudiness:
           return notsimilar;
+      default:
+	return notsimilar;
       }
     }
     case MostlyClear:
@@ -287,6 +304,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case IncreasingCloudiness:
         case VariableCloudiness:
           return notsimilar;
+      default:
+	return notsimilar;
       }
     }
     case DecreasingCloudiness:
@@ -306,6 +325,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case IncreasingCloudiness:
         case VariableCloudiness:
           return notsimilar;
+      default:
+	return notsimilar;
       }
     }
     case Clear:
@@ -327,6 +348,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case IncreasingCloudiness:
         case VariableCloudiness:
           return notsimilar;
+      default:
+	return notsimilar;
       }
     }
   }

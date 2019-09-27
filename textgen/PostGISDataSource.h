@@ -10,6 +10,8 @@
 #include <list>
 #include <map>
 #include <string>
+#include <gdal/ogrsf_frmts.h>
+#include <gdal/gdal_version.h>
 
 class OGRDataSource;
 
@@ -73,7 +75,14 @@ class PostGISDataSource
   std::list<std::string> areaNames() const;
 
  private:
-  OGRDataSource* connect(const std::string& host,
+
+#if GDAL_VERSION_MAJOR < 2
+  using GDALData = OGRDataSource;
+#else
+  using GDALData = GDALDataset;
+#endif
+  
+  GDALData* connect(const std::string& host,
                          const std::string& port,
                          const std::string& dbname,
                          const std::string& user,

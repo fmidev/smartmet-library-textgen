@@ -23,7 +23,7 @@
 #include <sstream>
 
 using namespace std;
-using namespace boost;
+
 
 namespace TextGen
 {

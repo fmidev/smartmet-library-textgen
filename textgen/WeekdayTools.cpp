@@ -13,14 +13,13 @@
 // ----------------------------------------------------------------------
 
 #include <boost/lexical_cast.hpp>  // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ssa min max maarittelyt jo tehty
-
 #include "WeekdayTools.h"
 #include <calculator/TextGenError.h>
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherHistory.h>
 
 using namespace std;
-using namespace boost;
+using boost::lexical_cast;
 
 namespace TextGen
 {
