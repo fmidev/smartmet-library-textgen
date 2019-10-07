@@ -9,7 +9,7 @@
 #include <stdexcept>
 
 using namespace std;
-using namespace boost;
+
 
 namespace BrainStorm
 {
@@ -72,7 +72,13 @@ bool PostGISDataSource::readData(const std::string& host,
       }
     */
 
+#if GDAL_VERSION_MAJOR < 2  
     OGRDataSource* pDS = OGRSFDriverRegistrar::Open(connection_ss.str().c_str(), FALSE);
+#else
+    auto* pDriver = GetGDALDriverManager()->GetDriverByName("PostgreSQL");
+    GDALOpenInfo info(connection_ss.str().c_str(), GA_ReadOnly);
+    std::unique_ptr<GDALDataset> pDS{pDriver->pfnOpen(&info)};
+#endif  
 
     if (!pDS)
     {
@@ -197,12 +203,12 @@ bool PostGISDataSource::readData(const std::string& host,
             // cout << "RAWPOLYGON: " << svg_string << endl;
           }
 
-          replace_all(svg_string, "MULTIPOLYGON ", "");
-          replace_all(svg_string, "POLYGON ", "");
-          replace_all(svg_string, "),(", " Z M ");
-          replace_all(svg_string, ",", " L ");
-          replace_all(svg_string, "(", "");
-          replace_all(svg_string, ")", "");
+          boost::algorithm::replace_all(svg_string, "MULTIPOLYGON ", "");
+          boost::algorithm::replace_all(svg_string, "POLYGON ", "");
+          boost::algorithm::replace_all(svg_string, "),(", " Z M ");
+          boost::algorithm::replace_all(svg_string, ",", " L ");
+          boost::algorithm::replace_all(svg_string, "(", "");
+          boost::algorithm::replace_all(svg_string, ")", "");
           svg_string.insert(0, "\"M ");
           svg_string.append(" Z\"\n");
 
@@ -235,20 +241,20 @@ bool PostGISDataSource::readData(const std::string& host,
             //	cout << "LINESTRING: " << svg_string << endl;
           }
 
-          replace_all(svg_string, "MULTILINESTRING ", "");
-          replace_all(svg_string, "LINESTRING ", "");
-          replace_all(svg_string, "))((", ",");
-          replace_all(svg_string, ",", " L ");
-          replace_all(svg_string, "(", "");
-          replace_all(svg_string, ")", "");
+          boost::algorithm::replace_all(svg_string, "MULTILINESTRING ", "");
+          boost::algorithm::replace_all(svg_string, "LINESTRING ", "");
+          boost::algorithm::replace_all(svg_string, "))((", ",");
+          boost::algorithm::replace_all(svg_string, ",", " L ");
+          boost::algorithm::replace_all(svg_string, "(", "");
+          boost::algorithm::replace_all(svg_string, ")", "");
           svg_string.append(" \"\n");
 
           if (linemap.find(area_name) != linemap.end())
           {
             string previous_part(linemap[area_name]);
-            replace_all(previous_part, " \"", " ");
-            replace_all(previous_part, " \n", " ");
-            //						replace_all(previous_part, "M", "L");
+            boost::algorithm::replace_all(previous_part, " \"", " ");
+            boost::algorithm::replace_all(previous_part, " \n", " ");
+            //						boost::algorithm::replace_all(previous_part, "M", "L");
             svg_string = (previous_part + "L " + svg_string);
           }
           else
@@ -276,7 +282,9 @@ bool PostGISDataSource::readData(const std::string& host,
     }
 
     // in the end destroy data source
+#if GDAL_VERSION_MAJOR < 2
     OGRDataSource::DestroyDataSource(pDS);
+#endif    
 
     queryparametermap.insert(make_pair(queryparameter, 1));
   }
@@ -306,7 +314,7 @@ std::pair<double, double> PostGISDataSource::getPoint(const std::string& name) c
     return make_pair(32700.0, 32700.0);
 }
 
-OGRDataSource* PostGISDataSource::connect(const std::string& host,
+PostGISDataSource::GDALData* PostGISDataSource::connect(const std::string& host,
                                           const std::string& port,
                                           const std::string& dbname,
                                           const std::string& user,
@@ -314,9 +322,13 @@ OGRDataSource* PostGISDataSource::connect(const std::string& host,
 {
   OGRRegisterAll();
 
-  OGRSFDriver* pOGRDriver(OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("PostgreSQL"));
+#if GDAL_VERSION_MAJOR < 2  
+  auto* pDriver(OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("PostgreSQL"));
+#else
+  auto* pDriver = GetGDALDriverManager()->GetDriverByName("PostgreSQL");
+#endif  
 
-  if (!pOGRDriver)
+  if (!pDriver)
   {
     throw std::runtime_error("Error: PostgreSQL driver not found!");
   }
@@ -326,7 +338,12 @@ OGRDataSource* PostGISDataSource::connect(const std::string& host,
   ss << "PG:host='" << host << "' port='" << port << "' dbname='" << dbname << "' user='" << user
      << "' password='" << password << "'";
 
-  return pOGRDriver->Open(ss.str().c_str());
+#if GDAL_VERSION_MAJOR < 2  
+  return pDriver->Open(ss.str().c_str());
+#else
+  GDALOpenInfo info(ss.str().c_str(), GA_ReadOnly);
+  return pDriver->pfnOpen(&info);
+#endif
 }
 
 bool PostGISDataSource::geoObjectExists(const std::string& name) const

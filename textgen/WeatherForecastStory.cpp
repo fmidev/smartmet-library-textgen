@@ -29,7 +29,7 @@
 
 namespace TextGen
 {
-using namespace boost;
+
 using namespace std;
 using namespace TextGen;
 using namespace Settings;

@@ -57,7 +57,7 @@ namespace TextGen
 using namespace Settings;
 using namespace TextGen;
 using namespace AreaTools;
-using namespace boost;
+
 using namespace std;
 
 void print_out_weather_event_vector(std::ostream& theOutput,

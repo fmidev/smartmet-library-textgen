@@ -51,7 +51,7 @@ using NFmiStringTools::Convert;
 using namespace TextGen;
 using namespace WindStoryTools;
 using namespace TemperatureStoryTools;
-using namespace boost;
+
 using namespace std;
 using namespace Settings;
 using namespace SeasonTools;

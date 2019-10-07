@@ -45,7 +45,7 @@ namespace TextGen
 using namespace Settings;
 using namespace TextGen;
 using namespace AreaTools;
-using namespace boost;
+
 using namespace std;
 
 thunder_probability_id get_thunder_probability_id(const float& theThunderProbability)

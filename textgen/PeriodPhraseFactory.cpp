@@ -32,8 +32,9 @@
 using TextGen::WeatherArea;
 using TextGen::WeatherPeriod;
 using namespace TextGen::TimeTools;
-using namespace boost;
 using namespace std;
+using boost::lexical_cast;
+
 
 namespace
 {

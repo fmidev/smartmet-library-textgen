@@ -13,7 +13,7 @@
 #include <calculator/Settings.h>
 
 using namespace TextGen;
-using namespace boost;
+
 using namespace std;
 
 namespace TextGen

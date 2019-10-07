@@ -21,7 +21,7 @@
 #include <newbase/NFmiStringTools.h>
 
 using namespace std;
-using namespace boost;
+
 using namespace boost::locale::as;
 
 namespace TextGen
@@ -196,11 +196,11 @@ std::string get_story_value_param(const std::string& theStoryVar, const std::str
     retval = Settings::optional_string(theStoryVar + "::value", "");
 
   // line feed
-  replace_all(retval, "\\n", "\n");
+  boost::algorithm::replace_all(retval, "\\n", "\n");
   // carrige return
-  replace_all(retval, "\\r", "\r");
+  boost::algorithm::replace_all(retval, "\\r", "\r");
   // horizontal tabulator
-  replace_all(retval, "\\t", "\t");
+  boost::algorithm::replace_all(retval, "\\t", "\t");
 
   // this is for raw text inclusions
   if (!retval.empty() && retval[0] == '@')

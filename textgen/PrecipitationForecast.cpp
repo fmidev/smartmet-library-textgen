@@ -52,7 +52,7 @@ using namespace Settings;
 using namespace TextGen;
 using namespace AreaTools;
 using namespace TimeTools;
-using namespace boost;
+
 using namespace std;
 
 // pouta

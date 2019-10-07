@@ -29,7 +29,7 @@
 #include <calculator/Settings.h>
 
 using namespace std;
-using namespace boost;
+
 
 namespace TextGen
 {

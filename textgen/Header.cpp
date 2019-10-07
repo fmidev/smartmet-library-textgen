@@ -21,7 +21,7 @@
 #include <calculator/TextGenError.h>
 
 using namespace std;
-using namespace boost;
+
 
 namespace TextGen
 {

@@ -18,7 +18,7 @@
 #include <iomanip>
 #include <sstream>
 
-using namespace boost;
+
 using namespace std;
 
 namespace TextGen

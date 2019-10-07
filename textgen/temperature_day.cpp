@@ -30,7 +30,7 @@
 
 using namespace TextGen;
 using namespace TextGen::TemperatureStoryTools;
-using namespace boost;
+
 using namespace std;
 
 namespace TextGen

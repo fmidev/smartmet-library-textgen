@@ -44,7 +44,8 @@
 #include <boost/lexical_cast.hpp>
 
 using namespace std;
-using namespace boost;
+using boost::lexical_cast;
+
 
 namespace
 {

@@ -28,7 +28,6 @@
 
 #include <boost/shared_ptr.hpp>
 
-using namespace boost;
 
 namespace TextGen
 {
@@ -61,7 +60,7 @@ WeatherResult GridClimatology::analyze(const AnalysisSources& theSources,
                                        const Acceptor& theTimeAcceptor,
                                        const Acceptor& theTester) const
 {
-  shared_ptr<ParameterAnalyzer> analyzer(ParameterAnalyzerFactory::create(theParameter));
+  boost::shared_ptr<ParameterAnalyzer> analyzer(ParameterAnalyzerFactory::create(theParameter));
 
   return analyzer->analyze(theSources,
                            Climatology,
