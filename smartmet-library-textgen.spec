@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 19.9.26
+Version: 19.10.9
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -67,6 +67,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Oct 9 2019 Anssi Reponen <anssi.reponen@fmi.fi> - 19.10.9-1.fmi
+- Corrections in swedish translation, both in database and in the code (BRAINSTORM-1692)
+
 * Thu Sep 26 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.9.26-1.fmi
 - Avoid 'using namespace boost' to avoid lookup issues
 - Added support for GDAL 2

@@ -311,7 +311,7 @@ void header_morning()
   result = require("fi", area, period, var, "Odotettavissa sunnuntaina aamulla");
   if (!result.empty()) TEST_FAILED(result.c_str());
 
-  result = require("sv", area, period, var, "Utsikter på söndag morgonen");
+  result = require("sv", area, period, var, "Utsikter på söndag morgon");
   if (!result.empty()) TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather on Sunday morning");
@@ -353,7 +353,7 @@ void header_forenoon()
   result = require("fi", area, period, var, "Odotettavissa sunnuntaina aamupäivällä");
   if (!result.empty()) TEST_FAILED(result.c_str());
 
-  result = require("sv", area, period, var, "Utsikter på söndag förmiddagen");
+  result = require("sv", area, period, var, "Utsikter på söndag förmiddag");
   if (!result.empty()) TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather on Sunday forenoon");
@@ -395,7 +395,7 @@ void header_afternoon()
   result = require("fi", area, period, var, "Odotettavissa sunnuntaina iltapäivällä");
   if (!result.empty()) TEST_FAILED(result.c_str());
 
-  result = require("sv", area, period, var, "Utsikter på söndag eftermiddagen");
+  result = require("sv", area, period, var, "Utsikter på söndag eftermiddag");
   if (!result.empty()) TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather on Sunday afternoon");
@@ -437,7 +437,7 @@ void header_evening()
   result = require("fi", area, period, var, "Odotettavissa sunnuntaina illalla");
   if (!result.empty()) TEST_FAILED(result.c_str());
 
-  result = require("sv", area, period, var, "Utsikter på söndag kvällen");
+  result = require("sv", area, period, var, "Utsikter på söndag kväll");
   if (!result.empty()) TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather on Sunday evening");
@@ -479,7 +479,7 @@ void header_clock_range()
   result = require("fi", area, period, var, "Odotettavissa sunnuntaina kello 6-12");
   if (!result.empty()) TEST_FAILED(result.c_str());
 
-  result = require("sv", area, period, var, "Utsikter på söndagen klockan 6-12");
+  result = require("sv", area, period, var, "Utsikter på söndag klockan 6-12");
   if (!result.empty()) TEST_FAILED(result.c_str());
 
   result = require("en", area, period, var, "Expected weather on Sunday 6-12 o'clock");

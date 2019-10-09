@@ -76,16 +76,16 @@ void until_tonight()
   REQUIRE(mode, var, ftime, period1, "en", "");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Maanantaina.");
-  REQUIRE(mode, var, ftime, period2, "sv", "På måndagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "På måndag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Monday.");
 
   Settings::set(phrasesvar, "weekday");
   REQUIRE(mode, var, ftime, period1, "fi", "Sunnuntaina.");
-  REQUIRE(mode, var, ftime, period1, "sv", "På söndagen.");
+  REQUIRE(mode, var, ftime, period1, "sv", "På söndag.");
   REQUIRE(mode, var, ftime, period1, "en", "On Sunday.");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Maanantaina.");
-  REQUIRE(mode, var, ftime, period2, "sv", "På måndagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "På måndag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Monday.");
 
   Settings::set(phrasesvar, "today");
@@ -94,7 +94,7 @@ void until_tonight()
   REQUIRE(mode, var, ftime, period1, "en", "Today.");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Maanantaina.");
-  REQUIRE(mode, var, ftime, period2, "sv", "På måndagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "På måndag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Monday.");
 
   Settings::set(phrasesvar, "atday");
@@ -103,7 +103,7 @@ void until_tonight()
   REQUIRE(mode, var, ftime, period1, "en", "During the day.");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Maanantaina.");
-  REQUIRE(mode, var, ftime, period2, "sv", "På måndagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "På måndag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Monday.");
 
   Settings::set(phrasesvar, "none");
@@ -112,7 +112,7 @@ void until_tonight()
   REQUIRE(mode, var, ftime, period1, "en", "");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Maanantaina.");
-  REQUIRE(mode, var, ftime, period2, "sv", "På måndagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "På måndag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Monday.");
 
   TEST_PASSED();
@@ -145,16 +145,16 @@ void until_morning()
   REQUIRE(mode, var, ftime, period1, "en", "");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Tiistain vastaisena yönä.");
-  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Tuesday night.");
 
   Settings::set(phrasesvar, "weekday");
   REQUIRE(mode, var, ftime, period1, "fi", "Maanantain vastaisena yönä.");
-  REQUIRE(mode, var, ftime, period1, "sv", "Natten mot måndagen.");
+  REQUIRE(mode, var, ftime, period1, "sv", "Natten mot måndag.");
   REQUIRE(mode, var, ftime, period1, "en", "On Monday night.");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Tiistain vastaisena yönä.");
-  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Tuesday night.");
 
   Settings::set(phrasesvar, "tonight");
@@ -163,7 +163,7 @@ void until_morning()
   REQUIRE(mode, var, ftime, period1, "en", "At night.");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Tiistain vastaisena yönä.");
-  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Tuesday night.");
 
   Settings::set(phrasesvar, "atnight");
@@ -172,7 +172,7 @@ void until_morning()
   REQUIRE(mode, var, ftime, period1, "en", "At night.");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Tiistain vastaisena yönä.");
-  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Tuesday night.");
 
   Settings::set(phrasesvar, "none");
@@ -181,7 +181,7 @@ void until_morning()
   REQUIRE(mode, var, ftime, period1, "en", "");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Tiistain vastaisena yönä.");
-  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Tuesday night.");
 
   TEST_PASSED();
@@ -233,11 +233,11 @@ void today()
 
   Settings::set(phrasesvar, "weekday");
   REQUIRE(mode, var, ftime, period1, "fi", "Sunnuntaina.");
-  REQUIRE(mode, var, ftime, period1, "sv", "På söndagen.");
+  REQUIRE(mode, var, ftime, period1, "sv", "På söndag.");
   REQUIRE(mode, var, ftime, period1, "en", "On Sunday.");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Maanantaina.");
-  REQUIRE(mode, var, ftime, period2, "sv", "På måndagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "På måndag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Monday.");
 
   Settings::set(phrasesvar, "tomorrow");
@@ -279,7 +279,7 @@ void tonight()
   REQUIRE(mode, var, ftime, period1, "en", "");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Tiistain vastaisena yönä.");
-  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Tuesday night.");
 
   Settings::set(phrasesvar, "tonight");
@@ -288,7 +288,7 @@ void tonight()
   REQUIRE(mode, var, ftime, period1, "en", "At night.");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Tiistain vastaisena yönä.");
-  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Tuesday night.");
 
   Settings::set(phrasesvar, "atnight");
@@ -297,16 +297,16 @@ void tonight()
   REQUIRE(mode, var, ftime, period1, "en", "At night.");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Tiistain vastaisena yönä.");
-  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Tuesday night.");
 
   Settings::set(phrasesvar, "weekday");
   REQUIRE(mode, var, ftime, period1, "fi", "Maanantain vastaisena yönä.");
-  REQUIRE(mode, var, ftime, period1, "sv", "Natten mot måndagen.");
+  REQUIRE(mode, var, ftime, period1, "sv", "Natten mot måndag.");
   REQUIRE(mode, var, ftime, period1, "en", "On Monday night.");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Tiistain vastaisena yönä.");
-  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Tuesday night.");
 
   Settings::set(phrasesvar, "none");
@@ -315,7 +315,7 @@ void tonight()
   REQUIRE(mode, var, ftime, period1, "en", "");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Tiistain vastaisena yönä.");
-  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "Natten mot tisdag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Tuesday night.");
 
   TEST_PASSED();
@@ -347,7 +347,7 @@ void next_night()
 
   Settings::set(phrasesvar, "weekday");
   REQUIRE(mode, var, ftime, period, "fi", "Maanantain vastaisena yönä.");
-  REQUIRE(mode, var, ftime, period, "sv", "Natten mot måndagen.");
+  REQUIRE(mode, var, ftime, period, "sv", "Natten mot måndag.");
   REQUIRE(mode, var, ftime, period, "en", "On Monday night.");
 
   Settings::set(phrasesvar, "followingnight");
@@ -400,11 +400,11 @@ void next_day()
 
   Settings::set(phrasesvar, "weekday");
   REQUIRE(mode, var, ftime, period1, "fi", "Sunnuntaina.");
-  REQUIRE(mode, var, ftime, period1, "sv", "På söndagen.");
+  REQUIRE(mode, var, ftime, period1, "sv", "På söndag.");
   REQUIRE(mode, var, ftime, period1, "en", "On Sunday.");
 
   REQUIRE(mode, var, ftime, period2, "fi", "Maanantaina.");
-  REQUIRE(mode, var, ftime, period2, "sv", "På måndagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "På måndag.");
   REQUIRE(mode, var, ftime, period2, "en", "On Monday.");
 
   Settings::set(phrasesvar, "followingday");
@@ -451,19 +451,19 @@ void next_days()
   string result;
 
   REQUIRE(mode, var, ftime, period1, "fi", "Sunnuntaista alkaen.");
-  REQUIRE(mode, var, ftime, period1, "sv", "Från och med söndagen.");
+  REQUIRE(mode, var, ftime, period1, "sv", "Från och med söndag.");
   REQUIRE(mode, var, ftime, period1, "en", "From Sunday onwards.");
 
   // REQUIRE(mode,var,ftime,period2,"fi","Huomisesta alkaen.");
   // REQUIRE(mode,var,ftime,period2,"sv","Från i morgon.");
   // REQUIRE(mode,var,ftime,period2,"en","Starting tomorrow.");
   REQUIRE(mode, var, ftime, period2, "fi", "Maanantaista alkaen.");
-  REQUIRE(mode, var, ftime, period2, "sv", "Från och med måndagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "Från och med måndag.");
   REQUIRE(mode, var, ftime, period2, "en", "From Monday onwards.");
 
   Settings::set(phrasesvar, "weekday");
   REQUIRE(mode, var, ftime, period2, "fi", "Maanantaista alkaen.");
-  REQUIRE(mode, var, ftime, period2, "sv", "Från och med måndagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "Från och med måndag.");
   REQUIRE(mode, var, ftime, period2, "en", "From Monday onwards.");
 
   Settings::set(phrasesvar, "tomorrow");
@@ -471,7 +471,7 @@ void next_days()
   // REQUIRE(mode,var,ftime,period2,"sv","Från i morgon.");
   // REQUIRE(mode,var,ftime,period2,"en","Starting tomorrow.");
   REQUIRE(mode, var, ftime, period2, "fi", "Maanantaista alkaen.");
-  REQUIRE(mode, var, ftime, period2, "sv", "Från och med måndagen.");
+  REQUIRE(mode, var, ftime, period2, "sv", "Från och med måndag.");
   REQUIRE(mode, var, ftime, period2, "en", "From Monday onwards.");
 
   TEST_PASSED();
@@ -526,7 +526,7 @@ void days()
 
     Settings::set(mode + "::days::phrases", "weekday");
     REQUIRE(mode, var, ftime, period, "fi", "Sunnuntaina.");
-    REQUIRE(mode, var, ftime, period, "sv", "På söndagen.");
+    REQUIRE(mode, var, ftime, period, "sv", "På söndag.");
     REQUIRE(mode, var, ftime, period, "en", "On Sunday.");
   }
 
@@ -556,7 +556,7 @@ void days()
 
     Settings::set(mode + "::days::phrases", "weekday");
     REQUIRE(mode, var, ftime, period, "fi", "Maanantaina.");
-    REQUIRE(mode, var, ftime, period, "sv", "På måndagen.");
+    REQUIRE(mode, var, ftime, period, "sv", "På måndag.");
     REQUIRE(mode, var, ftime, period, "en", "On Monday.");
   }
 
@@ -586,7 +586,7 @@ void days()
 
     Settings::set(mode + "::days::phrases", "weekday");
     REQUIRE(mode, var, ftime, period, "fi", "Sunnuntaina ja maanantaina.");
-    REQUIRE(mode, var, ftime, period, "sv", "På söndagen och på måndagen.");
+    REQUIRE(mode, var, ftime, period, "sv", "På söndag och på måndag.");
     REQUIRE(mode, var, ftime, period, "en", "On Sunday and on Monday.");
   }
 
@@ -616,7 +616,7 @@ void days()
 
     Settings::set(mode + "::days::phrases", "weekday");
     REQUIRE(mode, var, ftime, period, "fi", "Maanantaina ja tiistaina.");
-    REQUIRE(mode, var, ftime, period, "sv", "På måndagen och på tisdagen.");
+    REQUIRE(mode, var, ftime, period, "sv", "På måndag och på tisdag.");
     REQUIRE(mode, var, ftime, period, "en", "On Monday and on Tuesday.");
   }
 
@@ -646,7 +646,7 @@ void days()
 
     Settings::set(mode + "::days::phrases", "weekday");
     REQUIRE(mode, var, ftime, period, "fi", "Sunnuntaista alkaen.");
-    REQUIRE(mode, var, ftime, period, "sv", "Från och med söndagen.");
+    REQUIRE(mode, var, ftime, period, "sv", "Från och med söndag.");
     REQUIRE(mode, var, ftime, period, "en", "From Sunday onwards.");
   }
 
