@@ -148,7 +148,7 @@ void wind_daily_ranges()
     Settings::set("a::today::phrases", "none,today,tomorrow,weekday");
     //
     REQUIRE(story, "fi", fun, "Tiistaina pohjoistuulta 0-2 m/s.");
-    REQUIRE(story, "sv", fun, "På tisdagen nordlig vind 0-2 m/s.");
+    REQUIRE(story, "sv", fun, "På tisdag nordlig vind 0-2 m/s.");
     REQUIRE(story, "en", fun, "On Tuesday northerly wind 0-2 m/s.");
   }
 
@@ -217,7 +217,7 @@ void wind_daily_ranges()
     Settings::set("a::days::phrases", "today,weekday,tomorrow,followingday,none");
     //
     REQUIRE(story, "fi", fun, "Tänään ja maanantaina koillisenpuoleista tuulta 0-2 m/s.");
-    REQUIRE(story, "sv", fun, "I dag och på måndagen vind omkring nordost 0-2 m/s.");
+    REQUIRE(story, "sv", fun, "I dag och på måndag vind omkring nordost 0-2 m/s.");
     REQUIRE(story, "en", fun, "Today and on Monday mainly north-easterly wind 0-2 m/s.");
   }
 
@@ -242,7 +242,7 @@ void wind_daily_ranges()
     Settings::set("a::fake::days1-2::direction::mean", "45,50");
     //
     REQUIRE(story, "fi", fun, "Huomenna pohjoistuulta 0-2 m/s, tiistaina itätuulta 4-5 m/s.");
-    REQUIRE(story, "sv", fun, "I morgon nordlig vind 0-2 m/s, på tisdagen ostlig vind 4-5 m/s.");
+    REQUIRE(story, "sv", fun, "I morgon nordlig vind 0-2 m/s, på tisdag ostlig vind 4-5 m/s.");
     REQUIRE(story, "en", fun, "Tomorrow northerly wind 0-2 m/s, on Tuesday easterly wind 4-5 m/s.");
 
     Settings::set("a::fake::day1::direction::mean", "0,0");
@@ -250,7 +250,7 @@ void wind_daily_ranges()
     Settings::set("a::fake::days1-2::direction::mean", "45,30");
     //
     REQUIRE(story, "fi", fun, "Huomenna koillisenpuoleista tuulta 0-2 m/s, tiistaina 4-5 m/s.");
-    REQUIRE(story, "sv", fun, "I morgon vind omkring nordost 0-2 m/s, på tisdagen 4-5 m/s.");
+    REQUIRE(story, "sv", fun, "I morgon vind omkring nordost 0-2 m/s, på tisdag 4-5 m/s.");
     REQUIRE(story, "en", fun, "Tomorrow mainly north-easterly wind 0-2 m/s, on Tuesday 4-5 m/s.");
 
     Settings::set("a::fake::day1::speed::mean", "1,0");
@@ -265,7 +265,7 @@ void wind_daily_ranges()
     Settings::set("a::fake::days1-2::direction::mean", "45,50");
     //
     REQUIRE(story, "fi", fun, "Huomenna pohjoistuulta 0-2 m/s, tiistaina itätuulta.");
-    REQUIRE(story, "sv", fun, "I morgon nordlig vind 0-2 m/s, på tisdagen ostlig vind.");
+    REQUIRE(story, "sv", fun, "I morgon nordlig vind 0-2 m/s, på tisdag ostlig vind.");
     REQUIRE(story, "en", fun, "Tomorrow northerly wind 0-2 m/s, on Tuesday easterly wind.");
 
     Settings::set("a::days::phrases", "none,today,tomorrow,followingday,weekday");
@@ -286,7 +286,7 @@ void wind_daily_ranges()
     Settings::set("a::days::phrases", "weekday");
     //
     REQUIRE(story, "fi", fun, "Maanantaina ja tiistaina koillisenpuoleista tuulta 0-2 m/s.");
-    REQUIRE(story, "sv", fun, "På måndagen och på tisdagen vind omkring nordost 0-2 m/s.");
+    REQUIRE(story, "sv", fun, "På måndag och på tisdag vind omkring nordost 0-2 m/s.");
     REQUIRE(story, "en", fun, "On Monday and on Tuesday mainly north-easterly wind 0-2 m/s.");
   }
 
@@ -326,7 +326,7 @@ void wind_daily_ranges()
     REQUIRE(story,
             "sv",
             fun,
-            "Nordlig vind 0-2 m/s, i morgon ostlig vind 3-5 m/s, på tisdagen sydlig vind 6-8 m/s.");
+            "Nordlig vind 0-2 m/s, i morgon ostlig vind 3-5 m/s, på tisdag sydlig vind 6-8 m/s.");
     REQUIRE(story,
             "en",
             fun,
@@ -345,7 +345,7 @@ void wind_daily_ranges()
     REQUIRE(story,
             "sv",
             fun,
-            "Vind omkring nordost 0-2 m/s, i morgon 3-5 m/s, på tisdagen sydlig vind 6-8 m/s.");
+            "Vind omkring nordost 0-2 m/s, i morgon 3-5 m/s, på tisdag sydlig vind 6-8 m/s.");
     REQUIRE(
         story,
         "en",
@@ -364,7 +364,7 @@ void wind_daily_ranges()
     REQUIRE(story,
             "sv",
             fun,
-            "Nordlig vind 0-2 m/s, i morgon vind omkring sydost 3-5 m/s, på tisdagen 6-8 m/s.");
+            "Nordlig vind 0-2 m/s, i morgon vind omkring sydost 3-5 m/s, på tisdag 6-8 m/s.");
     REQUIRE(
         story,
         "en",
@@ -377,7 +377,7 @@ void wind_daily_ranges()
     Settings::set("a::fake::days1-3::direction::mean", "90,30");
     //
     REQUIRE(story, "fi", fun, "Idänpuoleista tuulta 0-2 m/s, huomenna 3-5 m/s, tiistaina 6-8 m/s.");
-    REQUIRE(story, "sv", fun, "Vind omkring ost 0-2 m/s, i morgon 3-5 m/s, på tisdagen 6-8 m/s.");
+    REQUIRE(story, "sv", fun, "Vind omkring ost 0-2 m/s, i morgon 3-5 m/s, på tisdag 6-8 m/s.");
     REQUIRE(
         story, "en", fun, "Mainly easterly wind 0-2 m/s, tomorrow 3-5 m/s, on Tuesday 6-8 m/s.");
 
@@ -408,7 +408,7 @@ void wind_daily_ranges()
     REQUIRE(story,
             "sv",
             fun,
-            "Nordlig vind 0-2 m/s, i morgon ostlig vind, på tisdagen sydlig vind 6-8 m/s.");
+            "Nordlig vind 0-2 m/s, i morgon ostlig vind, på tisdag sydlig vind 6-8 m/s.");
     REQUIRE(story,
             "en",
             fun,
@@ -419,7 +419,7 @@ void wind_daily_ranges()
     Settings::set("a::fake::days2-3::direction::mean", "135,50");
     Settings::set("a::fake::days1-3::direction::mean", "90,90");
     REQUIRE(story, "fi", fun, "Koillisenpuoleista tuulta 0-2 m/s, tiistaina etelätuulta 6-8 m/s.");
-    REQUIRE(story, "sv", fun, "Vind omkring nordost 0-2 m/s, på tisdagen sydlig vind 6-8 m/s.");
+    REQUIRE(story, "sv", fun, "Vind omkring nordost 0-2 m/s, på tisdag sydlig vind 6-8 m/s.");
     REQUIRE(
         story, "en", fun, "Mainly north-easterly wind 0-2 m/s, on Tuesday southerly wind 6-8 m/s.");
 
@@ -431,10 +431,8 @@ void wind_daily_ranges()
             "fi",
             fun,
             "Pohjoistuulta 0-2 m/s, huomenna kaakonpuoleista tuulta, tiistaina 6-8 m/s.");
-    REQUIRE(story,
-            "sv",
-            fun,
-            "Nordlig vind 0-2 m/s, i morgon vind omkring sydost, på tisdagen 6-8 m/s.");
+    REQUIRE(
+        story, "sv", fun, "Nordlig vind 0-2 m/s, i morgon vind omkring sydost, på tisdag 6-8 m/s.");
     REQUIRE(story,
             "en",
             fun,
@@ -466,7 +464,7 @@ void wind_daily_ranges()
     REQUIRE(story,
             "sv",
             fun,
-            "Nordlig vind 0-2 m/s, i morgon ostlig vind 3-5 m/s, på tisdagen sydlig vind.");
+            "Nordlig vind 0-2 m/s, i morgon ostlig vind 3-5 m/s, på tisdag sydlig vind.");
     REQUIRE(story,
             "en",
             fun,
@@ -480,10 +478,8 @@ void wind_daily_ranges()
             "fi",
             fun,
             "Koillisenpuoleista tuulta 0-2 m/s, huomenna 3-5 m/s, tiistaina etelätuulta.");
-    REQUIRE(story,
-            "sv",
-            fun,
-            "Vind omkring nordost 0-2 m/s, i morgon 3-5 m/s, på tisdagen sydlig vind.");
+    REQUIRE(
+        story, "sv", fun, "Vind omkring nordost 0-2 m/s, i morgon 3-5 m/s, på tisdag sydlig vind.");
     REQUIRE(story,
             "en",
             fun,
@@ -497,10 +493,8 @@ void wind_daily_ranges()
             "fi",
             fun,
             "Pohjoistuulta 0-2 m/s, maanantaista alkaen kaakonpuoleista tuulta 3-5 m/s.");
-    REQUIRE(story,
-            "sv",
-            fun,
-            "Nordlig vind 0-2 m/s, från och med måndagen vind omkring sydost 3-5 m/s.");
+    REQUIRE(
+        story, "sv", fun, "Nordlig vind 0-2 m/s, från och med måndag vind omkring sydost 3-5 m/s.");
     REQUIRE(story,
             "en",
             fun,
@@ -511,7 +505,7 @@ void wind_daily_ranges()
     Settings::set("a::fake::days2-3::direction::mean", "135,50");
     Settings::set("a::fake::days1-3::direction::mean", "90,30");
     REQUIRE(story, "fi", fun, "Idänpuoleista tuulta 0-2 m/s, maanantaista alkaen 3-5 m/s.");
-    REQUIRE(story, "sv", fun, "Vind omkring ost 0-2 m/s, från och med måndagen 3-5 m/s.");
+    REQUIRE(story, "sv", fun, "Vind omkring ost 0-2 m/s, från och med måndag 3-5 m/s.");
     REQUIRE(story, "en", fun, "Mainly easterly wind 0-2 m/s, from Monday onwards 3-5 m/s.");
 
     // W1==W2==W3
@@ -534,8 +528,7 @@ void wind_daily_ranges()
     Settings::set("a::fake::days2-3::direction::mean", "135,50");
     Settings::set("a::fake::days1-3::direction::mean", "90,90");
     REQUIRE(story, "fi", fun, "Pohjoistuulta 0-2 m/s, huomenna itätuulta, tiistaina etelätuulta.");
-    REQUIRE(
-        story, "sv", fun, "Nordlig vind 0-2 m/s, i morgon ostlig vind, på tisdagen sydlig vind.");
+    REQUIRE(story, "sv", fun, "Nordlig vind 0-2 m/s, i morgon ostlig vind, på tisdag sydlig vind.");
     REQUIRE(story,
             "en",
             fun,
@@ -546,7 +539,7 @@ void wind_daily_ranges()
     Settings::set("a::fake::days2-3::direction::mean", "135,50");
     Settings::set("a::fake::days1-3::direction::mean", "90,90");
     REQUIRE(story, "fi", fun, "Koillisenpuoleista tuulta 0-2 m/s, tiistaina etelätuulta.");
-    REQUIRE(story, "sv", fun, "Vind omkring nordost 0-2 m/s, på tisdagen sydlig vind.");
+    REQUIRE(story, "sv", fun, "Vind omkring nordost 0-2 m/s, på tisdag sydlig vind.");
     REQUIRE(story, "en", fun, "Mainly north-easterly wind 0-2 m/s, on Tuesday southerly wind.");
 
     // D1<>D2==D3
@@ -554,7 +547,7 @@ void wind_daily_ranges()
     Settings::set("a::fake::days2-3::direction::mean", "135,30");
     Settings::set("a::fake::days1-3::direction::mean", "90,90");
     REQUIRE(story, "fi", fun, "Pohjoistuulta 0-2 m/s, maanantaista alkaen kaakonpuoleista tuulta.");
-    REQUIRE(story, "sv", fun, "Nordlig vind 0-2 m/s, från och med måndagen vind omkring sydost.");
+    REQUIRE(story, "sv", fun, "Nordlig vind 0-2 m/s, från och med måndag vind omkring sydost.");
     REQUIRE(story,
             "en",
             fun,
@@ -630,7 +623,7 @@ void wind_daily_ranges()
 
     Settings::set("a::today::phrases", "none,today,tomorrow,weekday");
     REQUIRE(story, "fi", fun, "Tiistaina suunnaltaan vaihtelevaa tuulta 0-2 m/s.");
-    REQUIRE(story, "sv", fun, "På tisdagen varierande vind 0-2 m/s.");
+    REQUIRE(story, "sv", fun, "På tisdag varierande vind 0-2 m/s.");
     REQUIRE(story, "en", fun, "On Tuesday variable wind 0-2 m/s.");
   }
 
@@ -691,7 +684,7 @@ void wind_daily_ranges()
             "fi",
             fun,
             "Suunnaltaan vaihtelevaa tuulta 0-2 m/s, huomenna 3-5 m/s, tiistaina 6-8 m/s.");
-    REQUIRE(story, "sv", fun, "Varierande vind 0-2 m/s, i morgon 3-5 m/s, på tisdagen 6-8 m/s.");
+    REQUIRE(story, "sv", fun, "Varierande vind 0-2 m/s, i morgon 3-5 m/s, på tisdag 6-8 m/s.");
     REQUIRE(story, "en", fun, "Variable wind 0-2 m/s, tomorrow 3-5 m/s, on Tuesday 6-8 m/s.");
 
     // W1==W2<>W3
@@ -713,7 +706,7 @@ void wind_daily_ranges()
     Settings::set("a::fake::days2-3::direction::mean", "135,50");
     Settings::set("a::fake::days1-3::direction::mean", "90,50");
     REQUIRE(story, "fi", fun, "Suunnaltaan vaihtelevaa tuulta 0-2 m/s, tiistaina 6-8 m/s.");
-    REQUIRE(story, "sv", fun, "Varierande vind 0-2 m/s, på tisdagen 6-8 m/s.");
+    REQUIRE(story, "sv", fun, "Varierande vind 0-2 m/s, på tisdag 6-8 m/s.");
     REQUIRE(story, "en", fun, "Variable wind 0-2 m/s, on Tuesday 6-8 m/s.");
 
     // W1<>W2==W3
@@ -737,7 +730,7 @@ void wind_daily_ranges()
 
     REQUIRE(
         story, "fi", fun, "Suunnaltaan vaihtelevaa tuulta 0-2 m/s, maanantaista alkaen 3-5 m/s.");
-    REQUIRE(story, "sv", fun, "Varierande vind 0-2 m/s, från och med måndagen 3-5 m/s.");
+    REQUIRE(story, "sv", fun, "Varierande vind 0-2 m/s, från och med måndag 3-5 m/s.");
     REQUIRE(story, "en", fun, "Variable wind 0-2 m/s, from Monday onwards 3-5 m/s.");
 
     // W1==W2==W3

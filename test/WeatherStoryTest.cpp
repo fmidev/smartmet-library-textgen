@@ -130,21 +130,21 @@ void short_overview()
     Settings::set("a::fake::day2::precipitation", "0,0");
     Settings::set("a::fake::day3::precipitation", "0,0");
     require(story, "fi", fun, "Vaihtelevaa pilvisyyttä, sunnuntaina paikoin sadetta.");
-    require(story, "sv", fun, "Växlande molnighet, på söndagen lokalt regn.");
+    require(story, "sv", fun, "Växlande molnighet, på söndag lokalt regn.");
     require(story, "en", fun, "Variable cloudiness, on Sunday in some places rain.");
 
     Settings::set("a::fake::day1::precipitation", "2,0");
     Settings::set("a::fake::day2::precipitation", "0,0");
     Settings::set("a::fake::day3::precipitation", "0,0");
     require(story, "fi", fun, "Vaihtelevaa pilvisyyttä, sunnuntaina sadetta.");
-    require(story, "sv", fun, "Växlande molnighet, på söndagen regn.");
+    require(story, "sv", fun, "Växlande molnighet, på söndag regn.");
     require(story, "en", fun, "Variable cloudiness, on Sunday rain.");
 
     Settings::set("a::fake::day1::precipitation", "0,0");
     Settings::set("a::fake::day2::precipitation", "2,0");
     Settings::set("a::fake::day3::precipitation", "0,0");
     require(story, "fi", fun, "Vaihtelevaa pilvisyyttä, maanantaina sadetta.");
-    require(story, "sv", fun, "Växlande molnighet, på måndagen regn.");
+    require(story, "sv", fun, "Växlande molnighet, på måndag regn.");
     require(story, "en", fun, "Variable cloudiness, on Monday rain.");
 
     Settings::set("a::fake::day1::precipitation", "0.1,0");

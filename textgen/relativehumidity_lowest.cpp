@@ -115,17 +115,17 @@ Paragraph RelativeHumidityStory::lowest() const
     sentence << Delimiter(",")
              << PeriodPhraseFactory::create("next_day", itsVar, itsForecastTime, secondperiod);
     if (humidity2 - humidity1 >= limit_significantly_greater)
-      sentence << "huomattavasti suurempi";
+      sentence << "huomattavasti korkeampi";
     else if (humidity2 - humidity1 >= limit_greater)
-      sentence << "suurempi";
+      sentence << "korkeampi";
     else if (humidity2 - humidity1 >= limit_somewhat_greater)
-      sentence << "hieman suurempi";
+      sentence << "hieman korkeampi";
     else if (humidity1 - humidity2 >= limit_significantly_smaller)
-      sentence << "huomattavasti pienempi";
+      sentence << "huomattavasti alempi";
     else if (humidity1 - humidity2 >= limit_smaller)
-      sentence << "pienempi";
+      sentence << "alempi";
     else if (humidity1 - humidity2 >= limit_somewhat_smaller)
-      sentence << "hieman pienempi";
+      sentence << "hieman alempi";
     else
       sentence << "sama";
   }
