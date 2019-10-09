@@ -116,41 +116,41 @@ void relativehumidity_lowest()
 
     Settings::set("lowest::fake::day1::minimum", "50,0");
     Settings::set("lowest::fake::day2::minimum", "0,0");
-    REQUIRE(story, "fi", fun, "Alin suhteellinen kosteus on 50%, huomenna huomattavasti pienempi.");
-    REQUIRE(story, "sv", fun, "Den lägsta relativa fuktigheten är 50%, i morgon betydligt mindre.");
-    REQUIRE(
-        story, "en", fun, "The lowest relative humidity is 50%, tomorrow significantly smaller.");
+    REQUIRE(story, "fi", fun, "Alin suhteellinen kosteus on 50%, huomenna huomattavasti alempi.");
+    REQUIRE(story, "sv", fun, "Den lägsta relativa fuktigheten är 50%, i morgon betydligt lägre.");
+    REQUIRE(story, "en", fun, "The lowest relative humidity is 50%, tomorrow significantly lower.");
 
     Settings::set("lowest::fake::day1::minimum", "50,0");
     Settings::set("lowest::fake::day2::minimum", "20,0");
-    REQUIRE(story, "fi", fun, "Alin suhteellinen kosteus on 50%, huomenna pienempi.");
-    REQUIRE(story, "sv", fun, "Den lägsta relativa fuktigheten är 50%, i morgon mindre.");
-    REQUIRE(story, "en", fun, "The lowest relative humidity is 50%, tomorrow smaller.");
+    REQUIRE(story, "fi", fun, "Alin suhteellinen kosteus on 50%, huomenna alempi.");
+    REQUIRE(story, "sv", fun, "Den lägsta relativa fuktigheten är 50%, i morgon lägre.");
+    REQUIRE(story, "en", fun, "The lowest relative humidity is 50%, tomorrow lower.");
 
     Settings::set("lowest::fake::day1::minimum", "50,0");
     Settings::set("lowest::fake::day2::minimum", "40,0");
-    REQUIRE(story, "fi", fun, "Alin suhteellinen kosteus on 50%, huomenna hieman pienempi.");
-    REQUIRE(story, "sv", fun, "Den lägsta relativa fuktigheten är 50%, i morgon något mindre.");
-    REQUIRE(story, "en", fun, "The lowest relative humidity is 50%, tomorrow somewhat smaller.");
+    REQUIRE(story, "fi", fun, "Alin suhteellinen kosteus on 50%, huomenna hieman alempi.");
+    REQUIRE(story, "sv", fun, "Den lägsta relativa fuktigheten är 50%, i morgon något lägre.");
+    REQUIRE(story, "en", fun, "The lowest relative humidity is 50%, tomorrow somewhat lower.");
 
     Settings::set("lowest::fake::day1::minimum", "50,0");
     Settings::set("lowest::fake::day2::minimum", "60,0");
-    REQUIRE(story, "fi", fun, "Alin suhteellinen kosteus on 50%, huomenna hieman suurempi.");
-    REQUIRE(story, "sv", fun, "Den lägsta relativa fuktigheten är 50%, i morgon något större.");
-    REQUIRE(story, "en", fun, "The lowest relative humidity is 50%, tomorrow somewhat greater.");
+    REQUIRE(story, "fi", fun, "Alin suhteellinen kosteus on 50%, huomenna hieman korkeampi.");
+    REQUIRE(story, "sv", fun, "Den lägsta relativa fuktigheten är 50%, i morgon något högre.");
+    REQUIRE(story, "en", fun, "The lowest relative humidity is 50%, tomorrow somewhat higher.");
 
     Settings::set("lowest::fake::day1::minimum", "50,0");
     Settings::set("lowest::fake::day2::minimum", "80,0");
-    REQUIRE(story, "fi", fun, "Alin suhteellinen kosteus on 50%, huomenna suurempi.");
-    REQUIRE(story, "sv", fun, "Den lägsta relativa fuktigheten är 50%, i morgon större.");
-    REQUIRE(story, "en", fun, "The lowest relative humidity is 50%, tomorrow greater.");
+    REQUIRE(story, "fi", fun, "Alin suhteellinen kosteus on 50%, huomenna korkeampi.");
+    REQUIRE(story, "sv", fun, "Den lägsta relativa fuktigheten är 50%, i morgon högre.");
+    REQUIRE(story, "en", fun, "The lowest relative humidity is 50%, tomorrow higher.");
 
     Settings::set("lowest::fake::day1::minimum", "50,0");
     Settings::set("lowest::fake::day2::minimum", "100,0");
-    REQUIRE(story, "fi", fun, "Alin suhteellinen kosteus on 50%, huomenna huomattavasti suurempi.");
-    REQUIRE(story, "sv", fun, "Den lägsta relativa fuktigheten är 50%, i morgon betydligt större.");
     REQUIRE(
-        story, "en", fun, "The lowest relative humidity is 50%, tomorrow significantly greater.");
+        story, "fi", fun, "Alin suhteellinen kosteus on 50%, huomenna huomattavasti korkeampi.");
+    REQUIRE(story, "sv", fun, "Den lägsta relativa fuktigheten är 50%, i morgon betydligt högre.");
+    REQUIRE(
+        story, "en", fun, "The lowest relative humidity is 50%, tomorrow significantly higher.");
   }
 
   TEST_PASSED();

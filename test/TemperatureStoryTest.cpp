@@ -536,49 +536,49 @@ void temperature_dailymax()
     Settings::set("dailymax::fake::day1::mean", "5,0");
     Settings::set("dailymax::fake::day1::maximum", "5,0");
     require(story, "fi", fun, "Päivän ylin lämpötila on sunnuntaina noin 5 astetta.");
-    require(story, "sv", fun, "Dagens högsta temperatur är på söndagen cirka 5 grader.");
+    require(story, "sv", fun, "Dagens högsta temperatur är på söndag cirka 5 grader.");
     require(story, "en", fun, "The maximum day temperature is on Sunday about 5 degrees.");
 
     Settings::set("dailymax::fake::day1::minimum", "5,0");
     Settings::set("dailymax::fake::day1::mean", "6,0");
     Settings::set("dailymax::fake::day1::maximum", "6,0");
     require(story, "fi", fun, "Päivän ylin lämpötila on sunnuntaina noin 6 astetta.");
-    require(story, "sv", fun, "Dagens högsta temperatur är på söndagen cirka 6 grader.");
+    require(story, "sv", fun, "Dagens högsta temperatur är på söndag cirka 6 grader.");
     require(story, "en", fun, "The maximum day temperature is on Sunday about 6 degrees.");
 
     Settings::set("dailymax::fake::day1::minimum", "5,0");
     Settings::set("dailymax::fake::day1::mean", "6,0");
     Settings::set("dailymax::fake::day1::maximum", "7,0");
     require(story, "fi", fun, "Päivän ylin lämpötila on sunnuntaina 5...7 astetta.");
-    require(story, "sv", fun, "Dagens högsta temperatur är på söndagen 5...7 grader.");
+    require(story, "sv", fun, "Dagens högsta temperatur är på söndag 5...7 grader.");
     require(story, "en", fun, "The maximum day temperature is on Sunday 5...7 degrees.");
 
     Settings::set("dailymax::fake::day1::minimum", "0,0");
     Settings::set("dailymax::fake::day1::mean", "0,0");
     Settings::set("dailymax::fake::day1::maximum", "0,0");
     require(story, "fi", fun, "Päivän ylin lämpötila on sunnuntaina noin 0 astetta.");
-    require(story, "sv", fun, "Dagens högsta temperatur är på söndagen cirka 0 grader.");
+    require(story, "sv", fun, "Dagens högsta temperatur är på söndag cirka 0 grader.");
     require(story, "en", fun, "The maximum day temperature is on Sunday about 0 degrees.");
 
     Settings::set("dailymax::fake::day1::minimum", "0,0");
     Settings::set("dailymax::fake::day1::mean", "0,0");
     Settings::set("dailymax::fake::day1::maximum", "1,0");
     require(story, "fi", fun, "Päivän ylin lämpötila on sunnuntaina 0...+1 astetta.");
-    require(story, "sv", fun, "Dagens högsta temperatur är på söndagen 0...+1 grader.");
+    require(story, "sv", fun, "Dagens högsta temperatur är på söndag 0...+1 grader.");
     require(story, "en", fun, "The maximum day temperature is on Sunday 0...+1 degrees.");
 
     Settings::set("dailymax::fake::day1::minimum", "-1,0");
     Settings::set("dailymax::fake::day1::mean", "0,0");
     Settings::set("dailymax::fake::day1::maximum", "0,0");
     require(story, "fi", fun, "Päivän ylin lämpötila on sunnuntaina 0...-1 astetta.");
-    require(story, "sv", fun, "Dagens högsta temperatur är på söndagen 0...-1 grader.");
+    require(story, "sv", fun, "Dagens högsta temperatur är på söndag 0...-1 grader.");
     require(story, "en", fun, "The maximum day temperature is on Sunday 0...-1 degrees.");
 
     Settings::set("dailymax::fake::day1::minimum", "-1,0");
     Settings::set("dailymax::fake::day1::mean", "0,0");
     Settings::set("dailymax::fake::day1::maximum", "1,0");
     require(story, "fi", fun, "Päivän ylin lämpötila on sunnuntaina -1...+1 astetta.");
-    require(story, "sv", fun, "Dagens högsta temperatur är på söndagen -1...+1 grader.");
+    require(story, "sv", fun, "Dagens högsta temperatur är på söndag -1...+1 grader.");
     require(story, "en", fun, "The maximum day temperature is on Sunday -1...+1 degrees.");
   }
 
@@ -605,7 +605,7 @@ void temperature_dailymax()
     require(story,
             "sv",
             fun,
-            "Dagens högsta temperatur är på söndagen 5...7 grader, följande dag ungefär densamma.");
+            "Dagens högsta temperatur är på söndag 5...7 grader, följande dag ungefär densamma.");
     require(story,
             "en",
             fun,
@@ -624,7 +624,7 @@ void temperature_dailymax()
     require(story,
             "sv",
             fun,
-            "Dagens högsta temperatur är på söndagen 5...7 grader, följande dag ungefär densamma.");
+            "Dagens högsta temperatur är på söndag 5...7 grader, följande dag ungefär densamma.");
     require(story,
             "en",
             fun,
@@ -643,7 +643,7 @@ void temperature_dailymax()
     require(story,
             "sv",
             fun,
-            "Dagens högsta temperatur är på söndagen 5...7 grader, följande dag något högre.");
+            "Dagens högsta temperatur är på söndag 5...7 grader, följande dag något högre.");
     require(story,
             "en",
             fun,
@@ -661,7 +661,7 @@ void temperature_dailymax()
     require(story,
             "sv",
             fun,
-            "Dagens högsta temperatur är på söndagen 5...7 grader, följande dag högre.");
+            "Dagens högsta temperatur är på söndag 5...7 grader, följande dag högre.");
     require(story,
             "en",
             fun,
@@ -679,7 +679,7 @@ void temperature_dailymax()
     require(story,
             "sv",
             fun,
-            "Dagens högsta temperatur är på söndagen 5...7 grader, följande dag betydligt högre.");
+            "Dagens högsta temperatur är på söndag 5...7 grader, följande dag betydligt högre.");
     require(story,
             "en",
             fun,
@@ -698,7 +698,7 @@ void temperature_dailymax()
     require(story,
             "sv",
             fun,
-            "Dagens högsta temperatur är på söndagen 5...7 grader, följande dag något lägre.");
+            "Dagens högsta temperatur är på söndag 5...7 grader, följande dag något lägre.");
     require(story,
             "en",
             fun,
@@ -716,7 +716,7 @@ void temperature_dailymax()
     require(story,
             "sv",
             fun,
-            "Dagens högsta temperatur är på söndagen 5...7 grader, följande dag lägre.");
+            "Dagens högsta temperatur är på söndag 5...7 grader, följande dag lägre.");
     require(story,
             "en",
             fun,
@@ -734,7 +734,7 @@ void temperature_dailymax()
     require(story,
             "sv",
             fun,
-            "Dagens högsta temperatur är på söndagen 5...7 grader, följande dag betydligt lägre.");
+            "Dagens högsta temperatur är på söndag 5...7 grader, följande dag betydligt lägre.");
     require(story,
             "en",
             fun,
@@ -773,8 +773,8 @@ void temperature_dailymax()
     require(story,
             "sv",
             fun,
-            "Dagens högsta temperatur är på söndagen 5...7 grader, följande dag ungefär densamma, "
-            "på tisdagen 8...12 grader, på onsdagen cirka 4 grader.");
+            "Dagens högsta temperatur är på söndag 5...7 grader, följande dag ungefär densamma, "
+            "på tisdag 8...12 grader, på onsdag cirka 4 grader.");
     require(story,
             "en",
             fun,
@@ -821,11 +821,10 @@ void temperature_weekly_minmax()
           "fi",
           fun,
           "Päivien ylin lämpötila on 10...15 astetta, öiden alin lämpötila 2...5 astetta.");
-  require(
-      story,
-      "sv",
-      fun,
-      "Dagens maximi temperaturer är 10...15 grader, nattens minimi temperaturer 2...5 grader.");
+  require(story,
+          "sv",
+          fun,
+          "Dagens maximitemperatur är 10...15 grader, nattens minimitemperatur 2...5 grader.");
   require(
       story,
       "en",
@@ -837,11 +836,10 @@ void temperature_weekly_minmax()
           "fi",
           fun,
           "Päivien ylin lämpötila on 10...15 astetta, öiden alin lämpötila noin 4 astetta.");
-  require(
-      story,
-      "sv",
-      fun,
-      "Dagens maximi temperaturer är 10...15 grader, nattens minimi temperaturer cirka 4 grader.");
+  require(story,
+          "sv",
+          fun,
+          "Dagens maximitemperatur är 10...15 grader, nattens minimitemperatur cirka 4 grader.");
   require(
       story,
       "en",
@@ -854,11 +852,10 @@ void temperature_weekly_minmax()
           "fi",
           fun,
           "Päivien ylin lämpötila on noin 12 astetta, öiden alin lämpötila 2...5 astetta.");
-  require(
-      story,
-      "sv",
-      fun,
-      "Dagens maximi temperaturer är cirka 12 grader, nattens minimi temperaturer 2...5 grader.");
+  require(story,
+          "sv",
+          fun,
+          "Dagens maximitemperatur är cirka 12 grader, nattens minimitemperatur 2...5 grader.");
   require(
       story,
       "en",
@@ -870,11 +867,10 @@ void temperature_weekly_minmax()
           "fi",
           fun,
           "Päivien ylin lämpötila on noin 12 astetta, öiden alin lämpötila noin 2 astetta.");
-  require(
-      story,
-      "sv",
-      fun,
-      "Dagens maximi temperaturer är cirka 12 grader, nattens minimi temperaturer cirka 2 grader.");
+  require(story,
+          "sv",
+          fun,
+          "Dagens maximitemperatur är cirka 12 grader, nattens minimitemperatur cirka 2 grader.");
   require(story,
           "en",
           fun,

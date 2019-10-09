@@ -326,7 +326,7 @@ void precipitation_classification()
   Settings::set("classification::fake::maximum", "6,0");
   Settings::set("classification::fake::percentage", "80,0");
   REQUIRE(story, "fi", fun, "Sadesumma 2-5 millimetriä, monin paikoin enemmän.");
-  REQUIRE(story, "sv", fun, "Nederbördssumman 2-5 millimeter, flerstädes mera.");
+  REQUIRE(story, "sv", fun, "Nederbördssumman 2-5 millimeter, på flera ställen mera.");
   REQUIRE(story, "en", fun, "Total precipitation 2-5 millimeters, more in many places.");
 
   Settings::set("classification::fake::minimum", "0,0");
@@ -358,7 +358,7 @@ void precipitation_classification()
   Settings::set("classification::fake::maximum", "25,0");
   Settings::set("classification::fake::percentage", "80,0");
   REQUIRE(story, "fi", fun, "Sadesumma monin paikoin yli 20 millimetriä.");
-  REQUIRE(story, "sv", fun, "Nederbördssumman flerstädes över 20 millimeter.");
+  REQUIRE(story, "sv", fun, "Nederbördssumman på flera ställen över 20 millimeter.");
   REQUIRE(story, "en", fun, "Total precipitation in many places over 20 millimeters.");
 
   TEST_PASSED();

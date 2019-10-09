@@ -215,7 +215,7 @@ void overview()
     Settings::set("cloudiness_overview::fake::day3::clear", "90,0");
     Settings::set("cloudiness_overview::fake::day3::trend", "0,0");
     REQUIRE(story, "fi", fun, "Pilvistä, torstaina selkeää.");
-    REQUIRE(story, "sv", fun, "Mulet, på torsdagen klart.");
+    REQUIRE(story, "sv", fun, "Mulet, på torsdag klart.");
     REQUIRE(story, "en", fun, "Cloudy, on Thursday sunny.");
 
     Settings::set("cloudiness_overview::fake::day1::cloudy", "90,0");

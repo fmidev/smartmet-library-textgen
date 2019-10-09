@@ -254,13 +254,13 @@ void frost_twonights()
     Settings::set("twonights::fake::day1::mean", "20,0");
     Settings::set("twonights::fake::day1::severe_mean", "0,0");
     require(story, "fi", fun, "Hallan todennäköisyys on keskiviikon vastaisena yönä 20%.");
-    require(story, "sv", fun, "Sannolikheten för nattfrost är natten mot onsdagen 20%.");
+    require(story, "sv", fun, "Sannolikheten för nattfrost är natten mot onsdag 20%.");
     require(story, "en", fun, "Probability of frost is on Wednesday night 20%.");
 
     Settings::set("twonights::fake::day1::mean", "80,0");
     Settings::set("twonights::fake::day1::severe_mean", "20,0");
     require(story, "fi", fun, "Ankaran hallan todennäköisyys on keskiviikon vastaisena yönä 20%.");
-    require(story, "sv", fun, "Sannolikheten för sträng nattfrost är natten mot onsdagen 20%.");
+    require(story, "sv", fun, "Sannolikheten för sträng nattfrost är natten mot onsdag 20%.");
     require(story, "en", fun, "Probability of severe frost is on Wednesday night 20%.");
   }
 
@@ -290,7 +290,7 @@ void frost_twonights()
     require(story,
             "sv",
             fun,
-            "Sannolikheten för nattfrost är natten mot onsdagen 30%, följande natt densamma.");
+            "Sannolikheten för nattfrost är natten mot onsdag 30%, följande natt densamma.");
     require(story,
             "en",
             fun,
@@ -307,7 +307,7 @@ void frost_twonights()
     require(story,
             "sv",
             fun,
-            "Sannolikheten för nattfrost är natten mot onsdagen 30%, följande natt 40%.");
+            "Sannolikheten för nattfrost är natten mot onsdag 30%, följande natt 40%.");
     require(story,
             "en",
             fun,
@@ -324,7 +324,7 @@ void frost_twonights()
     require(story,
             "sv",
             fun,
-            "Sannolikheten för nattfrost är natten mot onsdagen 20%, följande natt är varmare.");
+            "Sannolikheten för nattfrost är natten mot onsdag 20%, följande natt är varmare.");
     require(story,
             "en",
             fun,
@@ -342,7 +342,7 @@ void frost_twonights()
     require(story,
             "sv",
             fun,
-            "Sannolikheten för sträng nattfrost är natten mot onsdagen 20%, följande natt är "
+            "Sannolikheten för sträng nattfrost är natten mot onsdag 20%, följande natt är "
             "betydligt varmare.");
     require(story,
             "en",
@@ -370,7 +370,7 @@ void frost_twonights()
     require(story,
             "sv",
             fun,
-            "Sannolikheten för nattfrost är natten mot onsdagen 20%, följande natt är varmare.");
+            "Sannolikheten för nattfrost är natten mot onsdag 20%, följande natt är varmare.");
     require(story,
             "en",
             fun,
@@ -385,7 +385,7 @@ void frost_twonights()
     require(story,
             "sv",
             fun,
-            "Sannolikheten för nattfrost är natten mot onsdagen 20%, följande natt 30%.");
+            "Sannolikheten för nattfrost är natten mot onsdag 20%, följande natt 30%.");
     require(story,
             "en",
             fun,
@@ -401,7 +401,7 @@ void frost_twonights()
     require(story,
             "sv",
             fun,
-            "Sannolikheten för nattfrost är natten mot onsdagen 20%, följande natt sannolikheten "
+            "Sannolikheten för nattfrost är natten mot onsdag 20%, följande natt sannolikheten "
             "för sträng nattfrost är 20%.");
     require(story,
             "en",
