@@ -35,7 +35,7 @@ ifeq ($(ASAN), yes)
 endif
 
 CC = g++
-CFLAGS = -DUNIX -DWGS84 -O0 -g -Wno-inline $(MAINFLAGS)
+CFLAGS = -DUNIX -DWGS84 -O0 -g -Wno-inline $(FLAGS)
 
 
 INCLUDES = \
