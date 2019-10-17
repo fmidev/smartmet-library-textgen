@@ -53,21 +53,21 @@ void mask()
   // Half of uusimaa (4/8) is coastal
   {
     mask_type m = source.mask(uusimaa, "data", wsource);
-    if (m->size() != 4) TEST_FAILED("Size of mask uusimaa should be 4, not " + Convert(m->size()));
+    if (m->size() != 1) TEST_FAILED("Size of mask uusimaa should be 1, not " + Convert(m->size()));
   }
 
   // no points inside, hence no points on coast either
   {
     mask_type m = source.mask(ahvenanmaa, "data", wsource);
-    if (m->size() != 0)
-      TEST_FAILED("Size of mask ahvenanmaa should be 0, not " + Convert(m->size()));
+    if (m->size() != 1)
+      TEST_FAILED("Size of mask ahvenanmaa should be 1, not " + Convert(m->size()));
   }
 
   // expand by 15, hence all 5 points are also coastal
   {
     mask_type m = source.mask(ahvenanmaa15, "data", wsource);
-    if (m->size() != 5)
-      TEST_FAILED("Size of mask ahvenanmaa:15 should be 5, not " + Convert(m->size()));
+    if (m->size() != 4)
+      TEST_FAILED("Size of mask ahvenanmaa:15 should be 4, not " + Convert(m->size()));
   }
 
   // not even near the coast
