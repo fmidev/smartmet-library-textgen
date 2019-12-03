@@ -18,11 +18,11 @@
 #include <calculator/TextGenError.h>
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 #include <boost/lexical_cast.hpp>
 
 #include <vector>
-
 
 using namespace std;
 using namespace TextGen;
@@ -106,9 +106,8 @@ Paragraph PrecipitationStory::sums() const
     log << "Precipitation Maximum(Sum) for period " << i + 1 << " = " << maxresult << endl;
     log << "Precipitation Mean(Sum) for period " << i + 1 << " = " << meanresult << endl;
 
-    if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
-        meanresult.value() == kFloatMissing)
-      throw TextGenError("Total precipitation not available");
+    WeatherResultTools::checkMissingValue(
+        "precipitation_sums", Precipitation, {minresult, maxresult, meanresult});
 
     minima.push_back(minresult);
     maxima.push_back(maxresult);

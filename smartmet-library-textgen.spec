@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 19.10.9
+Version: 19.12.3
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -14,14 +14,14 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 19.9.26
+BuildRequires: smartmet-library-calculator-devel >= 19.12.3
 BuildRequires: smartmet-library-newbase-devel >= 19.9.26
 BuildRequires: smartmet-library-macgyver-devel >= 19.9.26
 BuildRequires: boost-devel
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: smartmet-library-calculator >= 19.9.26
+Requires: smartmet-library-calculator >= 19.12.3
 Requires: smartmet-library-newbase >= 19.9.26
 Requires: smartmet-library-macgyver >= 19.9.26
 Requires: gdal >= 1.11.4
@@ -67,6 +67,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Dec 3 2019 Anssi Reponen <anssi.reponen@fmi.fi> - 19.12.3-1.fmi
+- Checking the parameters for missing value (BRAINSORM-1727)
+
 * Wed Oct 9 2019 Anssi Reponen <anssi.reponen@fmi.fi> - 19.10.9-1.fmi
 - Corrections in swedish translation, both in database and in the code (BRAINSTORM-1692)
 

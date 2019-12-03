@@ -16,6 +16,7 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace TextGen::TemperatureStoryTools;
 using namespace TextGen;
@@ -84,10 +85,10 @@ Paragraph TemperatureStory::weekly_averages() const
   const WeatherResult nightmeanresult = forecaster.analyze(
       itsVar + "::fake::night::mean", itsSources, Temperature, Mean, Mean, Mean, itsArea, nights);
 
-  if (dayminresult.value() == kFloatMissing || daymaxresult.value() == kFloatMissing ||
-      daymeanresult.value() == kFloatMissing || nightminresult.value() == kFloatMissing ||
-      nightmaxresult.value() == kFloatMissing || nightmeanresult.value() == kFloatMissing)
-    throw TextGenError("Daily maximum and nightly minimum not available");
+  WeatherResultTools::checkMissingValue(
+      "temperature_weekly_minmax",
+      Temperature,
+      {dayminresult, daymaxresult, daymeanresult, nightminresult, nightmaxresult, nightmeanresult});
 
   log << "Temperature Minimum(Mean(Maximum)) = " << dayminresult << endl;
   log << "Temperature Mean(Mean(Maximum)) = " << daymeanresult << endl;

@@ -16,6 +16,7 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
 #include <calculator/WeatherResultTools.h>
 
@@ -27,7 +28,6 @@ using namespace TextGen::WindStoryTools;
 using namespace TextGen;
 using namespace std;
 using boost::lexical_cast;
-
 
 namespace TextGen
 {
@@ -128,6 +128,11 @@ Paragraph WindStory::daily_ranges() const
     log << "WindSpeed Maximum(Mean) " << daystr << " = " << maxspeed << endl;
     log << "WindSpeed Mean(Mean) " << daystr << " = " << meanspeed << endl;
 
+    WeatherResultTools::checkMissingValue("wind_daily_ranges", WindSpeed, maxspeed);
+    WeatherResultTools::checkMissingValue("wind_daily_ranges", WindSpeed, minspeed);
+    WeatherResultTools::checkMissingValue("wind_daily_ranges", WindSpeed, meanspeed);
+    WeatherResultTools::checkMissingValue("wind_daily_ranges", WindDirection, direction);
+
     periods.push_back(period);
     minspeeds.push_back(minspeed);
     maxspeeds.push_back(maxspeed);
@@ -160,6 +165,8 @@ Paragraph WindStory::daily_ranges() const
                              Mean,
                              itsArea,
                              periodgenerator);
+
+      WeatherResultTools::checkMissingValue("wind_daily_ranges", WindDirection, direction12);
 
       const WindDirectionAccuracy accuracy12 = direction_accuracy(direction12.error(), itsVar);
 
@@ -292,6 +299,10 @@ Paragraph WindStory::daily_ranges() const
                              Mean,
                              itsArea,
                              HourPeriodGenerator(days23, itsVar + "::day"));
+
+      WeatherResultTools::checkMissingValue("wind_daily_ranges", WindDirection, direction123);
+      WeatherResultTools::checkMissingValue("wind_daily_ranges", WindDirection, direction12);
+      WeatherResultTools::checkMissingValue("wind_daily_ranges", WindDirection, direction23);
 
       const WindDirectionAccuracy accuracy123 = direction_accuracy(direction123.error(), itsVar);
       const WindDirectionAccuracy accuracy12 = direction_accuracy(direction12.error(), itsVar);

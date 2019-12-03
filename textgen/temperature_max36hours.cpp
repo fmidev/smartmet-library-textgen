@@ -1278,6 +1278,10 @@ void calculate_results(MessageLogger& theLog,
                                       theTimeFunction,
                                       theActualArea,
                                       thePeriod);
+
+      if (theActualArea.type() == WeatherArea::Full)
+        WeatherResultTools::checkMissingValue(
+            "temperature_max36hours", Temperature, {minResultFull, maxResultFull, meanResultFull});
     }
     else if (thePeriodId == DAY1_PERIOD || thePeriodId == DAY2_PERIOD)
     {
@@ -1304,6 +1308,10 @@ void calculate_results(MessageLogger& theLog,
                             minResultFull,
                             maxResultFull,
                             meanResultFull);
+
+      if (theActualArea.type() == WeatherArea::Full)
+        WeatherResultTools::checkMissingValue(
+            "temperature_max36hours", Temperature, {minResultFull, maxResultFull, meanResultFull});
     }
   }
   else
@@ -1320,6 +1328,10 @@ void calculate_results(MessageLogger& theLog,
 
       meanResultFull = do_calculation(
           theVar + fakeVarFull + "::mean", theSources, Mean, Mean, theActualArea, thePeriod);
+
+      if (theActualArea.type() == WeatherArea::Full)
+        WeatherResultTools::checkMissingValue(
+            "temperature_max36hours", Temperature, {minResultFull, maxResultFull, meanResultFull});
     }
     else if (thePeriodId == DAY1_PERIOD || thePeriodId == DAY2_PERIOD)
     {
@@ -1346,9 +1358,13 @@ void calculate_results(MessageLogger& theLog,
                             minResultFull,
                             maxResultFull,
                             meanResultFull);
+
+      if (theActualArea.type() == WeatherArea::Full)
+        WeatherResultTools::checkMissingValue(
+            "temperature_max36hours", Temperature, {minResultFull, maxResultFull, meanResultFull});
     }
   }
-}
+}  // namespace TemperatureMax36Hours
 
 void log_start_time_and_end_time(MessageLogger& theLog,
                                  const std::string& theLogMessage,

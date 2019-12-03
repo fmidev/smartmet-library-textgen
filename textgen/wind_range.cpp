@@ -15,6 +15,7 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -67,15 +68,14 @@ Paragraph WindStory::range() const
                                                      itsArea,
                                                      itsPeriod);
 
-  if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
-      meanresult.value() == kFloatMissing || dirresult.value() == kFloatMissing)
-  {
-    throw TextGenError("Wind speed not available for story wind_range");
-  }
-
   log << "WindSpeed Minimum(Mean)  = " << minresult << endl;
   log << "WindSpeed Maximum(Mean)  = " << maxresult << endl;
   log << "WindSpeed Mean(Mean)     = " << meanresult << endl;
+
+  WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, maxresult);
+  WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, minresult);
+  WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, meanresult);
+  WeatherResultTools::checkMissingValue("wind_simple_overview", WindDirection, dirresult);
 
   Sentence sentence;
   sentence << WindStoryTools::directed_speed_sentence(

@@ -30,6 +30,7 @@
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherPeriod.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 #include <boost/lexical_cast.hpp>
 #include <newbase/NFmiGlobals.h>
@@ -158,7 +159,7 @@ Sentence places_phrase(const AnalysisSources& theSources,
 
   log << "Precipitation percentage: " << result.value() << endl;
 
-  if (result.value() == kFloatMissing) throw TextGenError("Precipitation percentage not available");
+  WeatherResultTools::checkMissingValue("PrecipitationStoryTools", Precipitation, result);
 
   Sentence s;
   if (result.value() >= many_places)

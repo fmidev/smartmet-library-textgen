@@ -22,6 +22,7 @@
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -78,7 +79,7 @@ Paragraph RelativeHumidityStory::day() const
                                                 itsArea,
                                                 period);
 
-  if (arearesult.value() == kFloatMissing) throw TextGenError("RelativeHumidity not available");
+  WeatherResultTools::checkMissingValue("relativehumidity_day", RelativeHumidity, arearesult);
 
   log << "RelativeHumidity Mean(Minimum) for area " << arearesult << endl;
 

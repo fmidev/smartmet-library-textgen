@@ -15,6 +15,7 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace TextGen;
 using namespace std;
@@ -54,9 +55,8 @@ Paragraph DewPointStory::range() const
   WeatherResult meanresult = forecaster.analyze(
       itsVar + "::fake::mean", itsSources, DewPoint, Mean, Mean, itsArea, itsPeriod);
 
-  if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
-      meanresult.value() == kFloatMissing)
-    throw TextGenError("DewPoint is not available for dewpoint_range");
+  WeatherResultTools::checkMissingValue(
+      "dewpoint_range", DewPoint, {minresult, maxresult, meanresult});
 
   log << "DewPoint Mean(Min(Maximum())) = " << minresult << endl
       << "DewPoint Mean(Mean(Maximum())) = " << meanresult << endl

@@ -31,7 +31,6 @@ using namespace std;
 using namespace TextGen;
 using boost::lexical_cast;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -113,9 +112,8 @@ Paragraph PrecipitationStory::daily_sums() const
     log << "Precipitation Maximum(Sum) for day " << day << " = " << maxresult << endl;
     log << "Precipitation Mean(Sum) for day " << day << " = " << meanresult << endl;
 
-    if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
-        meanresult.value() == kFloatMissing)
-      throw TextGenError("Total precipitation not available");
+    WeatherResultTools::checkMissingValue(
+        "precipitation_daily_sums", Precipitation, {minresult, maxresult, meanresult});
 
     periods.push_back(period);
     minima.push_back(minresult);

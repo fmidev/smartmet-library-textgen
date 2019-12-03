@@ -17,7 +17,7 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
-
+#include <calculator/WeatherResultTools.h>
 
 using namespace std;
 using namespace TextGen;
@@ -72,8 +72,8 @@ Paragraph PrecipitationStory::range() const
                                                DefaultAcceptor(),
                                                rainlimits);
 
-  if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing)
-    throw TextGenError("Total precipitation not available");
+  WeatherResultTools::checkMissingValue(
+      "precipitation_range", Precipitation, {minresult, maxresult});
 
   log << "Precipitation Minimum(Sum) " << minresult << endl;
   log << "Precipitation Maximum(Sum) " << maxresult << endl;
