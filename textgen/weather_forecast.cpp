@@ -44,8 +44,10 @@
 #include <calculator/WeatherHistory.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 #include <newbase/NFmiCombinedParam.h>
+#include <newbase/NFmiFastQueryInfo.h>
 
 #include <boost/lexical_cast.hpp>
 #include <map>
@@ -349,6 +351,12 @@ void populate_precipitation_time_series(const string& theVariable,
                               (*precipitationMeanHourly)[i]->thePeriod,
                               DefaultAcceptor(),
                               precipitationlimits);
+
+    if (theArea.type() == WeatherArea::Full)
+      WeatherResultTools::checkMissingValue(
+          "weather_forecast",
+          Precipitation,
+          {(*precipitationMaxHourly)[i]->theResult, (*precipitationMeanHourly)[i]->theResult});
 
     (*precipitationExtentHourly)[i]->theResult =
         theForecaster.analyze(theVariable,
@@ -688,6 +696,10 @@ void populate_cloudiness_time_series(const string& theVariable,
     // areal function Maximum changed to Mean (after consulting with Kaisa 25.11.2010)
     cloudinessHourly[i]->theResult = theForecaster.analyze(
         theVariable, theSources, Cloudiness, Mean, Mean, theArea, cloudinessHourly[i]->thePeriod);
+
+    if (theArea.type() == WeatherArea::Full)
+      WeatherResultTools::checkMissingValue(
+          "weather_forecast", Cloudiness, cloudinessHourly[i]->theResult);
 
     RangeAcceptor cloudinesslimits;
     cloudinesslimits.lowerLimit(VERRATTAIN_PILVISTA_LOWER_LIMIT);
@@ -1474,11 +1486,10 @@ void check_sentences(boost::shared_ptr<Glyph>& theSentence1, boost::shared_ptr<G
   iter1++;
   iter2++;
 
-  stringstream ss1;
-  stringstream ss2;
-  ss1 << dtf.format(**iter1);
-  ss2 << dtf.format(**iter2);
-  if (is_same_part_of_the_day(ss1.str(), ss2.str()))
+  std::string str1 = dtf.format(**iter1);
+  std::string str2 = dtf.format(**iter2);
+  if (isdigit(str1[0]) && !isdigit(str2[0])) str1 = str1.substr(2);
+  if (is_same_part_of_the_day(str1, str2))
   {
     gc1.push_front(Phrase("aluksi"));
     gc2.push_front(Phrase("myohemmin"));

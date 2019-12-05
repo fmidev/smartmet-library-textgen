@@ -19,6 +19,7 @@
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace std;
 using namespace TextGen;
@@ -85,8 +86,8 @@ Paragraph FrostStory::twonights() const
                                                  itsArea,
                                                  night1);
 
-  if (frost.value() == kFloatMissing || severefrost.value() == kFloatMissing)
-    throw TextGenError("Frost is not available");
+  WeatherResultTools::checkMissingValue("frost_twonights", Frost, frost);
+  WeatherResultTools::checkMissingValue("frost_twonights", SevereFrost, severefrost);
 
   log << "Frost Mean(Maximum) for day 1 " << frost << endl;
   log << "SevereFrost Mean(Maximum) for day 1 " << severefrost << endl;
@@ -124,8 +125,8 @@ Paragraph FrostStory::twonights() const
                                                     itsArea,
                                                     night2);
 
-    if (frost2.value() == kFloatMissing || severefrost2.value() == kFloatMissing)
-      throw TextGenError("Frost is not available");
+    WeatherResultTools::checkMissingValue("frost_twonights", Frost, frost2);
+    WeatherResultTools::checkMissingValue("frost_twonights", SevereFrost, severefrost2);
 
     log << "Frost Mean(Maximum) for day 2 " << frost2 << endl;
     log << "SevereFrost Mean(Maximum) for day 2 " << severefrost2 << endl;

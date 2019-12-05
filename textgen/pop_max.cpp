@@ -58,8 +58,7 @@ Paragraph PrecipitationStory::pop_max() const
                                                itsArea,
                                                itsPeriod);
 
-  if (maxresult.value() == kFloatMissing)
-    throw TextGenError("PrecipitationProbability not available for pop_max");
+  WeatherResultTools::checkMissingValue("pop_max", PrecipitationProbability, maxresult);
 
   log << "PoP Mean(Max) " << maxresult << endl;
 

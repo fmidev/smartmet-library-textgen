@@ -17,6 +17,7 @@
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace TextGen;
 using namespace std;
@@ -50,7 +51,7 @@ Paragraph WeatherStory::thunderprobability() const
   WeatherResult result = forecaster.analyze(
       itsVar + "::fake::probability", itsSources, Thunder, Maximum, Maximum, itsArea, itsPeriod);
 
-  if (result.value() == kFloatMissing) throw TextGenError("Thunder is not available");
+  WeatherResultTools::checkMissingValue("weather_thunderprobability", Thunder, result);
 
   log << "Thunder Maximum(Maximum) = " << result << endl;
 

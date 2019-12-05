@@ -14,13 +14,13 @@
 #include <calculator/RangeAcceptor.h>
 #include <calculator/Settings.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 #include <macgyver/StringConversion.h>
 #include <algorithm>
 #include <bitset>
 #include <cmath>
 #include <fstream>
 #include <iomanip>
-
 
 using namespace TextGen;
 using namespace TextGen::WindStoryTools;
@@ -1667,11 +1667,8 @@ bool populate_time_series(wo_story_params& storyParams)
                              weatherArea,
                              dataItem.thePeriod);
 
-      if (dataItem.theWindSpeedMin.value() == kFloatMissing)
-      {
-        storyParams.theLog << "Minimum wind speed value missing, cannot continue!" << endl;
-        return false;
-      }
+      if (weatherArea.type() == WeatherArea::Full)
+        WeatherResultTools::checkMissingValue("wind_overview", WindSpeed, dataItem.theWindSpeedMin);
 
       dataItem.theWindSpeedMax =
           forecaster.analyze(storyParams.theVar + "::fake::wind::speed::maximum",
@@ -1682,11 +1679,8 @@ bool populate_time_series(wo_story_params& storyParams)
                              weatherArea,
                              dataItem.thePeriod);
 
-      if (dataItem.theWindSpeedMax.value() == kFloatMissing)
-      {
-        storyParams.theLog << "Maximum wind speed value missing, cannot continue!" << endl;
-        return false;
-      }
+      if (weatherArea.type() == WeatherArea::Full)
+        WeatherResultTools::checkMissingValue("wind_overview", WindSpeed, dataItem.theWindSpeedMax);
 
       dataItem.theEqualizedMaxWind = dataItem.theWindSpeedMax;
 
@@ -1699,11 +1693,9 @@ bool populate_time_series(wo_story_params& storyParams)
                              weatherArea,
                              dataItem.thePeriod);
 
-      if (dataItem.theWindSpeedMean.value() == kFloatMissing)
-      {
-        storyParams.theLog << "Mean wind speed value missing, cannot continue!" << endl;
-        return false;
-      }
+      if (weatherArea.type() == WeatherArea::Full)
+        WeatherResultTools::checkMissingValue(
+            "wind_overview", WindSpeed, dataItem.theWindSpeedMean);
 
       dataItem.theWindSpeedMedian =
           forecaster.analyze(storyParams.theVar + "::fake::wind::medianwind",
@@ -1714,11 +1706,9 @@ bool populate_time_series(wo_story_params& storyParams)
                              weatherArea,
                              dataItem.thePeriod);
 
-      if (dataItem.theWindSpeedMedian.value() == kFloatMissing)
-      {
-        storyParams.theLog << "Median wind speed value missing, cannot continue!" << endl;
-        return false;
-      }
+      if (weatherArea.type() == WeatherArea::Full)
+        WeatherResultTools::checkMissingValue(
+            "wind_overview", WindSpeed, dataItem.theWindSpeedMedian);
 
       dataItem.theEqualizedMedianWind = dataItem.theWindSpeedMedian;
 
@@ -1748,11 +1738,9 @@ bool populate_time_series(wo_story_params& storyParams)
                                                      weatherArea,
                                                      dataItem.thePeriod);
 
-      if (dataItem.theWindDirection.value() == kFloatMissing)
-      {
-        storyParams.theLog << "Wind direction value missing, cannot continue!" << endl;
-        return false;
-      }
+      if (weatherArea.type() == WeatherArea::Full)
+        WeatherResultTools::checkMissingValue(
+            "wind_overview", WindDirection, dataItem.theWindDirection);
 
       dataItem.theCorrectedWindDirection = dataItem.theWindDirection;
       dataItem.theEqualizedWindDirection = dataItem.theWindDirection;
@@ -1765,11 +1753,8 @@ bool populate_time_series(wo_story_params& storyParams)
                                                  weatherArea,
                                                  dataItem.thePeriod);
 
-      if (dataItem.theGustSpeed.value() == kFloatMissing)
-      {
-        storyParams.theLog << "Gust speed value missing, cannot continue!" << endl;
-        return false;
-      }
+      if (weatherArea.type() == WeatherArea::Full)
+        WeatherResultTools::checkMissingValue("wind_overview", GustSpeed, dataItem.theGustSpeed);
 
       populate_windspeed_distribution_time_series(storyParams.theSources,
                                                   weatherArea,

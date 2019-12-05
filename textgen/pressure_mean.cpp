@@ -15,6 +15,7 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace TextGen;
 using namespace std;
@@ -45,8 +46,7 @@ const Paragraph PressureStory::mean() const
   WeatherResult meanresult = forecaster.analyze(
       itsVar + "::fake::mean", itsSources, Pressure, Mean, Mean, itsArea, itsPeriod);
 
-  if (meanresult.value() == kFloatMissing)
-    throw TextGenError("Pressure is not available for pressure_mean");
+  WeatherResultTools::checkMissingValue("pressure_mean", Pressure, meanresult);
 
   log << "Pressure Mean(Mean(Maximum())) = " << meanresult << endl;
 

@@ -17,6 +17,7 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace std;
 using namespace TextGen;
@@ -60,7 +61,7 @@ Paragraph FrostStory::maximum() const
   WeatherResult frost = forecaster.analyze(
       itsVar + "::fake::maximum", itsSources, Frost, Maximum, Maximum, itsArea, itsPeriod);
 
-  if (frost.value() == kFloatMissing) throw TextGenError("Frost is not available");
+  WeatherResultTools::checkMissingValue("frost_maximum", Frost, frost);
 
   log << "Frost Maximum(Maximum) is " << frost << endl;
 
@@ -82,7 +83,7 @@ Paragraph FrostStory::maximum() const
                                                  itsArea,
                                                  itsPeriod);
 
-  if (severefrost.value() == kFloatMissing) throw TextGenError("SevereFrost is not available");
+  WeatherResultTools::checkMissingValue("frost_maximum", SevereFrost, severefrost);
 
   log << "SevereFrost Maximum(Maximum) is " << severefrost << endl;
 

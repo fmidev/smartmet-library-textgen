@@ -3390,26 +3390,6 @@ Sentence PrecipitationForecast::parseFinalSentence(
               << periodPhrase << areaPhrase;
         }
       }
-
-      /*
-#define HUOMENNA_YKSITTAISET_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset
-vesikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_VESI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna]
-yksittaiset vesi- tai rantakuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_VESI_TAI_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna]
-yksittaiset vesi- tai lumikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_SADEKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset
-sadekuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset
-rantakuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_RANTA_TAI_VESIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna]
-yksittaiset ranta- tai vesikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_LUMIKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna] yksittaiset
-lumikuurot mahdollisia"
-#define HUOMENNA_YKSITTAISET_LUMI_TAI_RANTAKUUROT_MAHDOLLISIA_COMPOSITE_PHRASE "[huomenna]
-yksittaiset lumi- tai rantakuurot mahdollisia"
-
-       */
     }
     else
     {
@@ -3780,48 +3760,10 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
   else if (theForecastAreaId & INLAND_AREA)
   {
     dataVector = &theInlandData;
-
-    /*
-    // This block is here to find out, whether more than one precipitation form is included in the
-    sentence
-    // when both coast and inland are included. That information we need to choose
-    // the right phrase for example vesisadetta vs. sadetta:
-    // for example sisamaassa sadetta, rannikolla sadekuuroja vs.
-    // sisamaassa vesisadetta, rannikolla lumi- tai rantakuuroja
-    if(separateCoastInlandPrecipitation(thePeriod))
-      {
-            calculatePrecipitationParameters(thePeriod,
-                                                                             theCoastalData,
-                                                                             precipitationIntensity,
-                                                                             precipitationAbsoluteMaxIntensity,
-                                                                             precipitationExtent,
-                                                                             precipitationFormWater,
-                                                                             precipitationFormDrizzle,
-                                                                             precipitationFormSleet,
-                                                                             precipitationFormSnow,
-                                                                             precipitationFormFreezing);
-      }
-    */
   }
   else if (theForecastAreaId & COASTAL_AREA)
   {
     dataVector = &theCoastalData;
-
-    /*
-    if(separateCoastInlandPrecipitation(thePeriod))
-      {
-            calculatePrecipitationParameters(thePeriod,
-                                                                             theInlandData,
-                                                                             precipitationIntensity,
-                                                                             precipitationAbsoluteMaxIntensity,
-                                                                             precipitationExtent,
-                                                                             precipitationFormWater,
-                                                                             precipitationFormDrizzle,
-                                                                             precipitationFormSleet,
-                                                                             precipitationFormSnow,
-                                                                             precipitationFormFreezing);
-      }
-    */
   }
 
   if (dataVector)

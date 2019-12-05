@@ -15,6 +15,7 @@
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace TextGen;
 using namespace std;
@@ -48,8 +49,7 @@ Paragraph TemperatureStory::meanmin() const
   WeatherResult result = forecaster.analyze(
       itsVar + "::fake::mean", itsSources, Temperature, Mean, Mean, Minimum, itsArea, periods);
 
-  if (result.value() == kFloatMissing)
-    throw TextGenError("Mean daily minimum temperature not available");
+  WeatherResultTools::checkMissingValue("temperature_meanmin", Temperature, result);
 
   log << "Temperature Mean(Mean(Minimum())) = " << result << endl;
 

@@ -17,11 +17,11 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 #include <boost/lexical_cast.hpp>
 #include <newbase/NFmiStringTools.h>
 #include <list>
-
 
 using namespace std;
 using namespace TextGen;
@@ -164,9 +164,8 @@ Paragraph PrecipitationStory::classification() const
                                                rainlimits);
 
   // Check for invalid results
-  if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
-      meanresult.value() == kFloatMissing)
-    throw TextGenError("Total precipitation not available");
+  WeatherResultTools::checkMissingValue(
+      "precipitation_classification", Precipitation, {minresult, maxresult, meanresult});
 
   log << "Precipitation Minimum(Sum) " << minresult << endl;
   log << "Precipitation Mean(Sum) " << meanresult << endl;

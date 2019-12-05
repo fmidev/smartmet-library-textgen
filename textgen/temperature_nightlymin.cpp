@@ -18,6 +18,7 @@
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -88,9 +89,8 @@ Paragraph TemperatureStory::nightlymin() const
                                                itsArea,
                                                period);
 
-  if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
-      meanresult.value() == kFloatMissing)
-    throw TextGenError("TemperatureStory: MinTemperature is not available");
+  WeatherResultTools::checkMissingValue(
+      "temperature_nightlymin", Temperature, {minresult, maxresult, meanresult});
 
   log << "Temperature Minimum(Minimum) night 1 = " << minresult << endl;
   log << "Temperature Mean(Minimum) night 1 = " << meanresult << endl;
@@ -122,10 +122,8 @@ Paragraph TemperatureStory::nightlymin() const
     meanresult =
         forecaster.analyze(var + "::mean", itsSources, Temperature, Mean, Minimum, itsArea, period);
 
-    if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
-        meanresult.value() == kFloatMissing)
-      throw TextGenError("TemperatureStory: MinTemperature is not available for night " +
-                         lexical_cast<string>(p));
+    WeatherResultTools::checkMissingValue(
+        "temperature_nightlymin", Temperature, {minresult, maxresult, meanresult});
 
     log << "Temperature Minimum(Minimum) night " << p << " = " << minresult << endl;
     log << "Temperature Mean(Minimum) night " << p << " = " << meanresult << endl;

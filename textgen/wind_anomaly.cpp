@@ -24,6 +24,7 @@
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 #include <newbase/NFmiGrid.h>
 #include <newbase/NFmiIndexMask.h>
@@ -484,6 +485,7 @@ void calculate_windspeed_and_chill(wind_anomaly_params& theParameters,
   }
 
   if (theMinimum != nullptr)
+  {
     *theMinimum = theForecaster.analyze(theFakeVariable + "::min",
                                         theParameters.theSources,
                                         theWindspeed ? WindSpeed : WindChill,
@@ -492,7 +494,12 @@ void calculate_windspeed_and_chill(wind_anomaly_params& theParameters,
                                         theArea,
                                         thePeriod);
 
+    if (theWindspeed && theArea.type() == WeatherArea::Full)
+      WeatherResultTools::checkMissingValue("wind_anomaly", WindSpeed, *theMinimum);
+  }
+
   if (theMaximum != nullptr)
+  {
     *theMaximum = theForecaster.analyze(theFakeVariable + "::max",
                                         theParameters.theSources,
                                         theWindspeed ? WindSpeed : WindChill,
@@ -501,7 +508,12 @@ void calculate_windspeed_and_chill(wind_anomaly_params& theParameters,
                                         theArea,
                                         thePeriod);
 
+    if (theWindspeed && theArea.type() == WeatherArea::Full)
+      WeatherResultTools::checkMissingValue("wind_anomaly", WindSpeed, *theMaximum);
+  }
+
   if (theMean != nullptr)
+  {
     *theMean = theForecaster.analyze(theFakeVariable + "::mean",
                                      theParameters.theSources,
                                      theWindspeed ? WindSpeed : WindChill,
@@ -509,6 +521,9 @@ void calculate_windspeed_and_chill(wind_anomaly_params& theParameters,
                                      Maximum,
                                      theArea,
                                      thePeriod);
+    if (theWindspeed && theArea.type() == WeatherArea::Full)
+      WeatherResultTools::checkMissingValue("wind_anomaly", WindSpeed, *theMean);
+  }
 }
 
 void log_start_time_and_end_time(MessageLogger& theLog,

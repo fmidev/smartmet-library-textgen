@@ -22,6 +22,7 @@
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 #include <boost/lexical_cast.hpp>
 #include <boost/shared_ptr.hpp>
@@ -31,7 +32,6 @@
 using namespace TextGen;
 using namespace std;
 using boost::lexical_cast;
-
 
 namespace TextGen
 {
@@ -119,9 +119,8 @@ Paragraph WeatherStory::shortoverview() const
                                                       DefaultAcceptor(),
                                                       DefaultAcceptor(),
                                                       n3limits);
-
-    if (n1result.value() == kFloatMissing || n3result.value() == kFloatMissing)
-      throw TextGenError("Cloudiness not available");
+    WeatherResultTools::checkMissingValue(
+        "weather_shortoverview", Cloudiness, {n1result, n3result});
 
     log << "Cloudiness clear  Mean(Mean) = " << n1result << endl;
     log << "Cloudiness cloudy Mean(Mean) = " << n3result << endl;
@@ -180,7 +179,7 @@ Paragraph WeatherStory::shortoverview() const
       const WeatherResult result =
           forecaster.analyze(var, itsSources, Precipitation, Mean, Sum, itsArea, period);
 
-      if (result.value() == kFloatMissing) throw TextGenError("Precipitation not available");
+      WeatherResultTools::checkMissingValue("weather_shortoverview", Precipitation, result);
 
       log << "Precipitation Mean(Sum) day " << i << " = " << result << endl;
 
