@@ -44,7 +44,8 @@ ifeq ($(CXX), clang++)
  INCLUDES = \
 	-isystem $(includedir) \
 	-isystem $(includedir)/smartmet \
-	-isystem $(includedir)/mysql
+	-isystem $(includedir)/mysql \
+	-isystem $(PREFIX)/gdal30/include
 
 else
 
@@ -67,7 +68,8 @@ else
  INCLUDES = \
 	-I$(includedir) \
 	-I$(includedir)/smartmet \
-	-I$(includedir)/mysql
+	-I$(includedir)/mysql \
+        -I$(PREFIX)/gdal30/include
 
 endif
 
@@ -90,6 +92,10 @@ LIBS = -L$(libdir) \
 	-lsmartmet-macgyver \
 	-lboost_filesystem \
 	-lboost_thread
+
+ifneq ($(DISABLED_GDAL),yes)
+  LIBS += -L$(PREFIX)/gdal30/lib `pkg-config --libs gdal30`
+endif
 
 # What to install
 
@@ -173,3 +179,5 @@ obj/%.o: %.cpp
 ifneq ($(wildcard obj/*.d),)
 -include $(wildcard obj/*.d)
 endif
+
+

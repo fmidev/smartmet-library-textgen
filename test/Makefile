@@ -58,8 +58,12 @@ LIBS += \
 	-lboost_thread \
         -lboost_system\
 	`pkg-config --cflags --libs icu-i18n` \
-	-lgdal \
         -lz -lbz2 -lpthread -lrt
+
+ifneq ($(DISABLED_GDAL),yes)
+  LIBS += -L$(PREFIX)/gdal30/lib `pkg-config --libs gdal30`
+endif
+
 
 all: $(PROG)
 clean:
@@ -73,4 +77,3 @@ test: $(PROG)
 
 $(PROG) : % : %.cpp ../libsmartmet-textgen.so
 	$(CC) $(CFLAGS) -o $@ $@.cpp $(INCLUDES) $(LIBS)
-
