@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 19.11.20
+Version: 19.12.4
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -14,17 +14,17 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 19.11.20
-BuildRequires: smartmet-library-newbase-devel >= 19.11.20
-BuildRequires: smartmet-library-macgyver-devel >= 19.9.26
+BuildRequires: smartmet-library-calculator-devel >= 19.12.4
+BuildRequires: smartmet-library-newbase-devel >= 19.12.4
+BuildRequires: smartmet-library-macgyver-devel >= 19.12.4
 BuildRequires: boost-devel
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: smartmet-library-calculator >= 19.11.20
-Requires: smartmet-library-newbase >= 19.11.20
-Requires: smartmet-library-macgyver >= 19.9.26
-Requires: gdal >= 1.11.4
+Requires: smartmet-library-calculator >= 19.12.4
+Requires: smartmet-library-newbase >= 19.12.4
+Requires: smartmet-library-macgyver >= 19.12.4
+Requires: gdal-libs
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
 Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
@@ -67,6 +67,12 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Dec  4 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.12.4-1.fmi
+- Use -fno-omit-frame-pointer for a better profiling and debugging experience                                                                                              
+
+* Tue Dec 3 2019 Anssi Reponen <anssi.reponen@fmi.fi> - 19.12.3-1.fmi
+- Checking the parameters for missing value (BRAINSORM-1727)
+
 * Wed Nov 20 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.11.20-1.fmi
 - Repackaged due to newbase API changes
 

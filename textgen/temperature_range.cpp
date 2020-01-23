@@ -15,6 +15,7 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace TextGen;
 using namespace std;
@@ -55,9 +56,8 @@ Paragraph TemperatureStory::range() const
   WeatherResult meanresult = forecaster.analyze(
       itsVar + "::fake::mean", itsSources, Temperature, Mean, Mean, itsArea, itsPeriod);
 
-  if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
-      meanresult.value() == kFloatMissing)
-    throw TextGenError("Temperature is not available for temperature_range");
+  WeatherResultTools::checkMissingValue(
+      "temperature_range", Temperature, {minresult, maxresult, meanresult});
 
   log << "Temperature Mean(Min(Maximum())) = " << minresult << endl
       << "Temperature Mean(Mean(Maximum())) = " << meanresult << endl

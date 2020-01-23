@@ -14,8 +14,10 @@
 #include "WindStoryTools.h"
 #include <calculator/GridForecaster.h>
 #include <calculator/Settings.h>
+#include <calculator/TextGenError.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace TextGen::WindStoryTools;
 using namespace TextGen;
@@ -57,6 +59,8 @@ Paragraph WindStory::simple_overview() const
   const int starthour = itsPeriod.localStartTime().GetHour();
   WeatherPeriod morning = WeatherPeriodTools::getPeriod(
       itsPeriod, 1, starthour, night_endhour, starthour, night_minendhour);
+
+  std::multimap<WeatherParameter, const WeatherResult&> weather_result_map;
 
   if (itsPeriod.localStartTime().GetHour() > day_maxstarthour)
   {
@@ -102,6 +106,11 @@ Paragraph WindStory::simple_overview() const
     log << "WindSpeed Maximum(Mean) until_morning  = " << maxspeed << endl;
     log << "WindSpeed Mean(Mean) until_morning  = " << meanspeed << endl;
     log << "WindDirection Mean(Mean) until_morning  = " << direction << endl;
+
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, maxspeed);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, minspeed);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, meanspeed);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindDirection, direction);
 
     sentence << directed_speed_sentence(minspeed, maxspeed, meanspeed, direction, itsVar);
     paragraph << sentence;
@@ -152,6 +161,11 @@ Paragraph WindStory::simple_overview() const
     log << "WindSpeed Mean(Mean) until_tonight  = " << meanspeed << endl;
     log << "WindDirection Mean(Mean) until_tonight  = " << direction << endl;
 
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, maxspeed);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, minspeed);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, meanspeed);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindDirection, direction);
+
     sentence << PeriodPhraseFactory::create("until_tonight", itsVar, itsForecastTime, day);
 
     sentence << directed_speed_sentence(minspeed, maxspeed, meanspeed, direction, itsVar);
@@ -193,6 +207,11 @@ Paragraph WindStory::simple_overview() const
     log << "WindSpeed Maximum(Mean) tonight  = " << maxspeed << endl;
     log << "WindSpeed Mean(Mean) tonight  = " << meanspeed << endl;
     log << "WindDirection Mean(Mean) tonight  = " << direction << endl;
+
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, maxspeed);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, minspeed);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, meanspeed);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindDirection, direction);
 
     sentence << PeriodPhraseFactory::create("tonight", itsVar, itsForecastTime, night);
 
@@ -243,6 +262,11 @@ Paragraph WindStory::simple_overview() const
     log << "WindSpeed Maximum(Mean) remaining_days  = " << maxspeed << endl;
     log << "WindSpeed Mean(Mean) remaining_days  = " << meanspeed << endl;
     log << "WindDirection Mean(Mean) remaining_days  = " << direction << endl;
+
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, maxspeed);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, minspeed);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindSpeed, meanspeed);
+    WeatherResultTools::checkMissingValue("wind_simple_overview", WindDirection, direction);
 
     Sentence sentence;
     sentence << PeriodPhraseFactory::create("remaining_days", itsVar, itsForecastTime, remainder);

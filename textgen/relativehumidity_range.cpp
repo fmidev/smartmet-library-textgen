@@ -17,6 +17,7 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace TextGen;
 using namespace std;
@@ -56,9 +57,8 @@ Paragraph RelativeHumidityStory::range() const
   WeatherResult meanresult = forecaster.analyze(
       itsVar + "::fake::mean", itsSources, RelativeHumidity, Mean, Mean, itsArea, itsPeriod);
 
-  if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
-      meanresult.value() == kFloatMissing)
-    throw TextGenError("RelativeHumidity is not available for relativehumidity_range");
+  WeatherResultTools::checkMissingValue(
+      "relativehumidity_range", RelativeHumidity, {minresult, maxresult, meanresult});
 
   log << "RelativeHumidity Mean(Min(Maximum())) = " << minresult << endl
       << "RelativeHumidity Mean(Mean(Maximum())) = " << meanresult << endl

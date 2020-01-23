@@ -93,8 +93,7 @@ Paragraph PrecipitationStory::pop_days() const
                                               itsArea,
                                               firstperiod);
 
-  if (pop1max.value() == kFloatMissing || pop1mean.value() == kFloatMissing)
-    throw TextGenError("PrecipitationProbability not available");
+  WeatherResultTools::checkMissingValue("pop_days", PrecipitationProbability, {pop1max, pop1mean});
 
   WeatherResult result1 = WeatherResultTools::mean(pop1max, pop1mean);
 
@@ -133,8 +132,8 @@ Paragraph PrecipitationStory::pop_days() const
                                                 itsArea,
                                                 secondperiod);
 
-    if (pop2max.value() == kFloatMissing || pop2mean.value() == kFloatMissing)
-      throw TextGenError("PrecipitationProbability not available");
+    WeatherResultTools::checkMissingValue(
+        "pop_days", PrecipitationProbability, {pop2max, pop2mean});
 
     WeatherResult result2 = WeatherResultTools::mean(pop2max, pop2mean);
 

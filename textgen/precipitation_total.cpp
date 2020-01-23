@@ -16,6 +16,7 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace TextGen;
 using namespace std;
@@ -54,7 +55,7 @@ Paragraph PrecipitationStory::total() const
                                             DefaultAcceptor(),
                                             rainlimits);
 
-  if (result.value() == kFloatMissing) throw TextGenError("Total precipitation not available");
+  WeatherResultTools::checkMissingValue("precipitation_totsl", Precipitation, result);
 
   log << "Precipitation Mean(Sum) " << result << endl;
 

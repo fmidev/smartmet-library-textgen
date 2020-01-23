@@ -18,6 +18,7 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -72,11 +73,8 @@ Paragraph WaveStory::range() const
   const WeatherResult meanresult = forecaster.analyze(
       itsVar + "::fake::height::mean", itsSources, WaveHeight, Mean, Maximum, itsArea, itsPeriod);
 
-  if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
-      meanresult.value() == kFloatMissing)
-  {
-    throw TextGenError("Wave height not available for story wave_range");
-  }
+  WeatherResultTools::checkMissingValue(
+      "wave_range", WaveHeight, {minresult, maxresult, meanresult});
 
   log << "WaveHeight Minimum(Mean)  = " << minresult << endl;
   log << "WaveHeight Maximum(Mean)  = " << maxresult << endl;

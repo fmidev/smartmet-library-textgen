@@ -21,6 +21,7 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -82,7 +83,7 @@ Paragraph PrecipitationStory::pop_twodays() const
                                             itsArea,
                                             firstperiod);
 
-  if (result.value() == kFloatMissing) throw TextGenError("PrecipitationProbability not available");
+  WeatherResultTools::checkMissingValue("pop_twodays", PrecipitationProbability, result);
 
   log << "PoP Maximum(Maximum) for day 1 " << result << endl;
 
@@ -109,8 +110,7 @@ Paragraph PrecipitationStory::pop_twodays() const
                                                itsArea,
                                                secondperiod);
 
-    if (result2.value() == kFloatMissing)
-      throw TextGenError("PrecipitationProbability not available");
+    WeatherResultTools::checkMissingValue("pop_twodays", PrecipitationProbability, result2);
 
     log << "PoP Maximum(Maximum) for day 2 " << result2 << endl;
 

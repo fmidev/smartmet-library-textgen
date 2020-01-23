@@ -17,6 +17,7 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace std;
 using namespace TextGen;
@@ -62,7 +63,7 @@ Paragraph FrostStory::range() const
   WeatherResult maxfrost = forecaster.analyze(
       itsVar + "::fake::maximum", itsSources, Frost, Maximum, Maximum, itsArea, itsPeriod);
 
-  if (maxfrost.value() == kFloatMissing) throw TextGenError("Maximum Frost is not available");
+  WeatherResultTools::checkMissingValue("frost_range", Frost, maxfrost);
 
   // Quick exit if maximum frost probability is zero
 
@@ -77,7 +78,7 @@ Paragraph FrostStory::range() const
   WeatherResult minfrost = forecaster.analyze(
       itsVar + "::fake::minimum", itsSources, Frost, Minimum, Maximum, itsArea, itsPeriod);
 
-  if (minfrost.value() == kFloatMissing) throw TextGenError("Minimum Frost is not available");
+  WeatherResultTools::checkMissingValue("frost_range", Frost, minfrost);
 
   log << "Frost Maximum(Maximum) is " << maxfrost << endl;
   log << "Frost Minimum(Maximum) is " << minfrost << endl;
@@ -92,8 +93,7 @@ Paragraph FrostStory::range() const
                                                     itsArea,
                                                     itsPeriod);
 
-  if (maxseverefrost.value() == kFloatMissing)
-    throw TextGenError("Maximum SevereFrost is not available");
+  WeatherResultTools::checkMissingValue("frost_range", SevereFrost, maxseverefrost);
 
   WeatherResult minseverefrost = forecaster.analyze(itsVar + "::fake::severe_minimum",
                                                     itsSources,
@@ -103,8 +103,7 @@ Paragraph FrostStory::range() const
                                                     itsArea,
                                                     itsPeriod);
 
-  if (minseverefrost.value() == kFloatMissing)
-    throw TextGenError("Minimum SevereFrost is not available");
+  WeatherResultTools::checkMissingValue("frost_range", SevereFrost, minseverefrost);
 
   log << "SevereFrost Maximum(Maximum) is " << maxseverefrost << endl;
   log << "SevereFrost Minimum(Maximum) is " << minseverefrost << endl;

@@ -20,6 +20,7 @@
 #include <calculator/Settings.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace std;
 using namespace TextGen;
@@ -106,8 +107,7 @@ Paragraph FrostStory::day() const
   WeatherResult areasevere = forecaster.analyze(
       itsVar + "::fake::area::severe_frost", itsSources, Frost, Mean, Maximum, itsArea, period);
 
-  if (areafrost.value() == kFloatMissing || areasevere.value() == kFloatMissing)
-    throw TextGenError("Frost is not available");
+  WeatherResultTools::checkMissingValue("frost_day", Frost, {areafrost, areasevere});
 
   log << "Frost Mean(Maximum) for area " << areafrost << endl;
   log << "SevereFrost Mean(Maximum) for area " << areasevere << endl;

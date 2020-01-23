@@ -15,6 +15,7 @@
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace TextGen;
 using namespace std;
@@ -45,8 +46,7 @@ Paragraph TemperatureStory::meanmax() const
   WeatherResult result = forecaster.analyze(
       itsVar + "::fake::mean", itsSources, Temperature, Mean, Mean, Maximum, itsArea, periods);
 
-  if (result.value() == kFloatMissing)
-    throw TextGenError("Mean daily maximum temperature not available");
+  WeatherResultTools::checkMissingValue("temperature_meanmax", Temperature, result);
 
   log << "Temperature Mean(Mean(Maximum())) = " << result << endl;
 

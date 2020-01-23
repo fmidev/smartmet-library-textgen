@@ -18,6 +18,7 @@
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 #include <boost/lexical_cast.hpp>
 
@@ -25,7 +26,6 @@ using namespace TextGen::TemperatureStoryTools;
 using namespace TextGen;
 using namespace std;
 using boost::lexical_cast;
-
 
 namespace TextGen
 {
@@ -73,9 +73,8 @@ Paragraph TemperatureStory::dailymax() const
   WeatherResult maxresult = forecaster.analyze(
       itsVar + "::fake::day1::maximum", itsSources, Temperature, Maximum, Maximum, itsArea, period);
 
-  if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
-      meanresult.value() == kFloatMissing)
-    throw TextGenError("TemperatureStory: MaxTemperature is not available");
+  WeatherResultTools::checkMissingValue(
+      "temperature_dailymax", Temperature, {minresult, maxresult, meanresult});
 
   log << "Temperature Minimum(Maximum) day 1 = " << minresult << endl;
   log << "Temperature Mean(Maximum) day 1 = " << meanresult << endl;
@@ -107,10 +106,8 @@ Paragraph TemperatureStory::dailymax() const
     meanresult =
         forecaster.analyze(var + "::mean", itsSources, Temperature, Mean, Maximum, itsArea, period);
 
-    if (minresult.value() == kFloatMissing || maxresult.value() == kFloatMissing ||
-        meanresult.value() == kFloatMissing)
-      throw TextGenError("TemperatureStory: MaxTemperature is not available for day " +
-                         lexical_cast<string>(p));
+    WeatherResultTools::checkMissingValue(
+        "temperature_dailymax", Temperature, {minresult, maxresult, meanresult});
 
     log << "Temperature Minimum(Maximum) day " << p << " = " << minresult << endl;
     log << "Temperature Mean(Maximum) day " << p << " = " << meanresult << endl;

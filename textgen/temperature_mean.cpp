@@ -14,6 +14,7 @@
 #include <calculator/GridForecaster.h>
 #include <calculator/TextGenError.h>
 #include <calculator/WeatherResult.h>
+#include <calculator/WeatherResultTools.h>
 
 using namespace TextGen;
 using namespace std;
@@ -44,7 +45,7 @@ Paragraph TemperatureStory::mean() const
   WeatherResult result = forecaster.analyze(
       itsVar + "::fake::mean", itsSources, Temperature, Mean, Mean, itsArea, itsPeriod);
 
-  if (result.value() == kFloatMissing) throw TextGenError("Mean temperature not available");
+  WeatherResultTools::checkMissingValue("temperature_mean", Temperature, result);
 
   log << "Temperature Mean(Mean) = " << result << endl;
 
