@@ -20,11 +20,11 @@ BuildRequires: smartmet-library-macgyver-devel >= 19.12.4
 BuildRequires: boost-devel
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
-BuildRequires: gdal-devel >= 1.11.4
+BuildRequires: gdal30-devel
 Requires: smartmet-library-calculator >= 19.12.4
 Requires: smartmet-library-newbase >= 19.12.4
 Requires: smartmet-library-macgyver >= 19.12.4
-Requires: gdal-libs
+Requires: gdal30-libs
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
 Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
