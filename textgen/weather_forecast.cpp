@@ -156,8 +156,10 @@ void log_weather_result_data(MessageLogger& theLog,
       theLogMessage = "*** precipitation form sleet ****";
     else if (i == PRECIPITATION_FORM_SNOW_DATA)
       theLogMessage = "*** precipitation form snow ****";
-    else if (i == PRECIPITATION_FORM_FREEZING_DATA)
-      theLogMessage = "*** precipitation form freezing ****";
+    else if (i == PRECIPITATION_FORM_FREEZING_RAIN_DATA)
+      theLogMessage = "*** precipitation form freezing rain ****";
+    else if (i == PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA)
+      theLogMessage = "*** precipitation form freezing drizzle ****";
     else if (i == THUNDER_PROBABILITY_DATA)
       theLogMessage = "*** thunder probability ****";
     else if (i == THUNDER_EXTENT_DATA)
@@ -296,8 +298,10 @@ void populate_precipitation_time_series(const string& theVariable,
       theHourlyDataContainer[PRECIPITATION_FORM_SLEET_DATA];
   weather_result_data_item_vector* precipitationFormSnowHourly =
       theHourlyDataContainer[PRECIPITATION_FORM_SNOW_DATA];
-  weather_result_data_item_vector* precipitationFormFreezingHourly =
-      theHourlyDataContainer[PRECIPITATION_FORM_FREEZING_DATA];
+  weather_result_data_item_vector* precipitationFormFreezingDrizzleHourly =
+      theHourlyDataContainer[PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA];
+  weather_result_data_item_vector* precipitationFormFreezingRainHourly =
+      theHourlyDataContainer[PRECIPITATION_FORM_FREEZING_RAIN_DATA];
   weather_result_data_item_vector* precipitationTypeHourly =
       theHourlyDataContainer[PRECIPITATION_TYPE_DATA];
   weather_result_data_item_vector* precipitationShareNorthEastHourly =
@@ -323,8 +327,10 @@ void populate_precipitation_time_series(const string& theVariable,
   sleetfilter.value(kTSleet);  // 2 = sleet
   ValueAcceptor snowfilter;
   snowfilter.value(kTSnow);  // 3 = snow
-  ValueAcceptor freezingfilter;
-  freezingfilter.value(kTFreezingDrizzle);  // 4 = freezing
+  ValueAcceptor freezingdrizzlefilter;
+  freezingdrizzlefilter.value(kTFreezingDrizzle);  // 4 = freezing drizzle
+  ValueAcceptor freezingrainfilter;
+  freezingrainfilter.value(kTFreezingRain);  // 5 = freezing rain
   ValueAcceptor showerfilter;
   showerfilter.value(kTConvectivePrecipitation);  // 1=large scale, 2=showers
 
@@ -418,7 +424,7 @@ void populate_precipitation_time_series(const string& theVariable,
                               DefaultAcceptor(),
                               snowfilter);
 
-    (*precipitationFormFreezingHourly)[i]->theResult =
+    (*precipitationFormFreezingDrizzleHourly)[i]->theResult =
         theForecaster.analyze(theVariable,
                               theSources,
                               PrecipitationForm,
@@ -428,7 +434,19 @@ void populate_precipitation_time_series(const string& theVariable,
                               (*precipitationMaxHourly)[i]->thePeriod,
                               DefaultAcceptor(),
                               DefaultAcceptor(),
-                              freezingfilter);
+                              freezingdrizzlefilter);
+
+    (*precipitationFormFreezingRainHourly)[i]->theResult =
+        theForecaster.analyze(theVariable,
+                              theSources,
+                              PrecipitationForm,
+                              Mean,
+                              Percentage,
+                              theArea,
+                              (*precipitationMaxHourly)[i]->thePeriod,
+                              DefaultAcceptor(),
+                              DefaultAcceptor(),
+                              freezingrainfilter);
 
     (*precipitationTypeHourly)[i]->theResult =
         theForecaster.analyze(theVariable,
@@ -763,7 +781,9 @@ void allocate_data_structures(wf_story_params& theParameters, const forecast_are
       new weather_result_data_item_vector();
   weather_result_data_item_vector* hourlyPrecipitationFormSnow =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationFormFreezing =
+  weather_result_data_item_vector* hourlyPrecipitationFormFreezingDrizzle =
+      new weather_result_data_item_vector();
+  weather_result_data_item_vector* hourlyPrecipitationFormFreezingRain =
       new weather_result_data_item_vector();
   weather_result_data_item_vector* hourlyCloudiness = new weather_result_data_item_vector();
   weather_result_data_item_vector* hourlyThunderProbability = new weather_result_data_item_vector();
@@ -834,7 +854,9 @@ void allocate_data_structures(wf_story_params& theParameters, const forecast_are
         new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyPrecipitationFormSnow->push_back(
         new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
-    hourlyPrecipitationFormFreezing->push_back(
+    hourlyPrecipitationFormFreezingDrizzle->push_back(
+        new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
+    hourlyPrecipitationFormFreezingRain->push_back(
         new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
     hourlyPrecipitationPoint->push_back(
         new WeatherResultDataItem(theWeatherPeriod, theWeatherResult, partOfTheDayId));
@@ -901,7 +923,9 @@ void allocate_data_structures(wf_story_params& theParameters, const forecast_are
   resultContainer->insert(make_pair(PRECIPITATION_FORM_SLEET_DATA, hourlyPrecipitationFormSleet));
   resultContainer->insert(make_pair(PRECIPITATION_FORM_SNOW_DATA, hourlyPrecipitationFormSnow));
   resultContainer->insert(
-      make_pair(PRECIPITATION_FORM_FREEZING_DATA, hourlyPrecipitationFormFreezing));
+      make_pair(PRECIPITATION_FORM_FREEZING_RAIN_DATA, hourlyPrecipitationFormFreezingRain));
+  resultContainer->insert(
+      make_pair(PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA, hourlyPrecipitationFormFreezingDrizzle));
   resultContainer->insert(make_pair(CLOUDINESS_DATA, hourlyCloudiness));
   resultContainer->insert(make_pair(THUNDER_PROBABILITY_DATA, hourlyThunderProbability));
   resultContainer->insert(make_pair(THUNDER_EXTENT_DATA, hourlyThunderExtent));
@@ -1023,7 +1047,8 @@ void deallocate_data_structure(unsigned int& thePeriodCount,
     delete (*theResultContainer[PRECIPITATION_FORM_DRIZZLE_DATA])[i];
     delete (*theResultContainer[PRECIPITATION_FORM_SLEET_DATA])[i];
     delete (*theResultContainer[PRECIPITATION_FORM_SNOW_DATA])[i];
-    delete (*theResultContainer[PRECIPITATION_FORM_FREEZING_DATA])[i];
+    delete (*theResultContainer[PRECIPITATION_FORM_FREEZING_RAIN_DATA])[i];
+    delete (*theResultContainer[PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA])[i];
     delete (*theResultContainer[THUNDER_PROBABILITY_DATA])[i];
     delete (*theResultContainer[THUNDER_EXTENT_DATA])[i];
     delete (*theResultContainer[FOG_INTENSITY_MODERATE_DATA])[i];
@@ -1037,7 +1062,8 @@ void deallocate_data_structure(unsigned int& thePeriodCount,
   theResultContainer[PRECIPITATION_FORM_DRIZZLE_DATA]->clear();
   theResultContainer[PRECIPITATION_FORM_SLEET_DATA]->clear();
   theResultContainer[PRECIPITATION_FORM_SNOW_DATA]->clear();
-  theResultContainer[PRECIPITATION_FORM_FREEZING_DATA]->clear();
+  theResultContainer[PRECIPITATION_FORM_FREEZING_RAIN_DATA]->clear();
+  theResultContainer[PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA]->clear();
   theResultContainer[THUNDER_PROBABILITY_DATA]->clear();
   theResultContainer[THUNDER_EXTENT_DATA]->clear();
   theResultContainer[FOG_INTENSITY_MODERATE_DATA]->clear();
@@ -1056,7 +1082,8 @@ void deallocate_data_structure(unsigned int& thePeriodCount,
   delete theResultContainer[PRECIPITATION_FORM_DRIZZLE_DATA];
   delete theResultContainer[PRECIPITATION_FORM_SLEET_DATA];
   delete theResultContainer[PRECIPITATION_FORM_SNOW_DATA];
-  delete theResultContainer[PRECIPITATION_FORM_FREEZING_DATA];
+  delete theResultContainer[PRECIPITATION_FORM_FREEZING_RAIN_DATA];
+  delete theResultContainer[PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA];
   delete theResultContainer[PRECIPITATION_NORTHEAST_SHARE_DATA];
   delete theResultContainer[PRECIPITATION_SOUTHEAST_SHARE_DATA];
   delete theResultContainer[PRECIPITATION_SOUTHWEST_SHARE_DATA];

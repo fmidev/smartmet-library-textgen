@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 20.2.6
+Version: 20.2.12
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -14,14 +14,14 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 20.2.6
+BuildRequires: smartmet-library-calculator-devel >= 19.12.4
 BuildRequires: smartmet-library-newbase-devel >= 20.2.6
 BuildRequires: smartmet-library-macgyver-devel >= 20.2.5
 BuildRequires: boost-devel
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal30-devel
-Requires: smartmet-library-calculator >= 20.2.6
+Requires: smartmet-library-calculator >= 19.12.4
 Requires: smartmet-library-newbase >= 20.2.6
 Requires: smartmet-library-macgyver >= 20.2.5
 Requires: gdal30-libs
@@ -67,11 +67,14 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Feb 12 2020 Anssi Reponen <anssi.reponen@fmi.fi> - 20.2.12-1.fmi
+- Freezing drizzle must be reported if it exists in querydata (BRAINSTORM-1754)
+
 * Thu Feb  6 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.2.6-1.fmi
 - NFmiPoint Z-coordinate was removed from the ABI
 
 * Wed Dec  4 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.12.4-1.fmi
-- Use -fno-omit-frame-pointer for a better profiling and debugging experience                                                                                              
+- Use -fno-omit-frame-pointer for a better profiling and debugging experience                                                                                             
 
 * Tue Dec 3 2019 Anssi Reponen <anssi.reponen@fmi.fi> - 19.12.3-1.fmi
 - Checking the parameters for missing value (BRAINSORM-1727)
