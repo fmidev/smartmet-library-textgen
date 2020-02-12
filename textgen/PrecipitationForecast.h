@@ -194,7 +194,8 @@ class PrecipitationForecast
       float thePrecipitationFormDrizzle,
       float thePrecipitationFormSleet,
       float thePrecipitationFormSnow,
-      float thePrecipitationFormFreezing,
+      float thePrecipitationFormFreezingRain,
+      float thePrecipitationFormFreezingDrizzle,
       precipitation_type thePrecipitationType,
       const TextGenPosixTime& theTypeChangeTime,
       std::map<std::string, Sentence>& theCompositePhraseElements) const;
@@ -220,7 +221,8 @@ class PrecipitationForecast
       float thePrecipitationFormDrizzle,
       float thePrecipitationFormSleet,
       float thePrecipitationFormSnow,
-      float thePrecipitationFormFreezing,
+      float thePrecipitationFormFreezingRain,
+      float thePrecipitationFormFreezingDrizzle,
       precipitation_type thePrecipitationType,
       const TextGenPosixTime& theTypeChangeTime,
       precipitation_form_transformation_id theTransformationId,
@@ -242,7 +244,8 @@ class PrecipitationForecast
                                         float& thePrecipitationFormDrizzle,
                                         float& thePrecipitationFormSleet,
                                         float& thePrecipitationFormSnow,
-                                        float& thePrecipitationFormFreezing) const;
+                                        float& thePrecipitationFormFreezingRain,
+                                        float& thePrecipitationFormFreezingDrizzle) const;
 
   float getStat(const precipitation_data_vector& theData,
                 weather_result_data_id theDataId,

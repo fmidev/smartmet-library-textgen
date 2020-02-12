@@ -100,9 +100,13 @@ class GlyphContainer;
 #define VESI_TAI_RANTAKUUROJA_PHRASE "vesi- tai rantakuuroja"
 #define VESI_TAI_LUMIKUUROJA_PHRASE "vesi- tai lumikuuroja"
 #define LUMI_TAI_VESIKUUROJA_PHRASE "lumi- tai vesikuuroja"
+#define LUMI_TAI_TIHKUSADETTA_PHRASE "lumi- tai tihkusadetta"
+#define VESI_TAI_TIHKUSADETTA_PHRASE "vesi- tai tihkusadetta"
+#define RANTA_TAI_TIHKUSADETTA_PHRASE "ranta- tai tihkusadetta"
 
 #define JA_WORD "ja"
 #define JAATAVAA_VESISADETTA_PHRASE "jaatavaa vesisadetta"
+#define JAATAVAA_TIHKUSADETTA_PHRASE "jaatavaa tihkusadetta"
 #define JOKA_VOI_OLLA_JAATAVAA_PHRASE "joka voi olla jaatavaa"
 #define JOTKA_VOIVAT_OLLA_JAATAVIA_PHRASE "jotka voivat olla jaatavia"
 #define YKSITTAISET_SADEKUUROT_MAHDOLLISIA_PHRASE "yksittaiset sadekuurot mahdollisia"
@@ -271,7 +275,8 @@ enum weather_result_data_id
   PRECIPITATION_FORM_DRIZZLE_DATA,
   PRECIPITATION_FORM_SLEET_DATA,
   PRECIPITATION_FORM_SNOW_DATA,
-  PRECIPITATION_FORM_FREEZING_DATA,
+  PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA,
+  PRECIPITATION_FORM_FREEZING_RAIN_DATA,
   PRECIPITATION_NORTHEAST_SHARE_DATA,
   PRECIPITATION_SOUTHEAST_SHARE_DATA,
   PRECIPITATION_SOUTHWEST_SHARE_DATA,
@@ -652,7 +657,8 @@ precipitation_form_id get_complete_precipitation_form(const std::string& theVari
                                                       float thePrecipitationFormDrizzle,
                                                       float thePrecipitationFormSleet,
                                                       float thePrecipitationFormSnow,
-                                                      float thePrecipitationFormFreezing);
+                                                      float thePrecipitationFormFreezingRain,
+                                                      float thePrecipitationFormFreezingDrizzle);
 void get_sub_time_series(const WeatherPeriod& thePeriod,
                          const weather_result_data_item_vector& theSourceVector,
                          weather_result_data_item_vector& theDestinationVector);
@@ -839,7 +845,8 @@ struct PrecipitationDataItemData
                             float precipitationFormDrizzle,
                             float precipitationFormSleet,
                             float precipitationFormSnow,
-                            float precipitationFormFreezing,
+                            float precipitationFormFreezingRain,
+                            float precipitationFormFreezingDrizzle,
                             float precipitationTypeShowers,
                             weather_event_id weatherEventId,
                             float pearsonCoefficient,
@@ -852,7 +859,8 @@ struct PrecipitationDataItemData
         thePrecipitationFormDrizzle(precipitationFormDrizzle),
         thePrecipitationFormSleet(precipitationFormSleet),
         thePrecipitationFormSnow(precipitationFormSnow),
-        thePrecipitationFormFreezing(precipitationFormFreezing),
+        thePrecipitationFormFreezingRain(precipitationFormFreezingRain),
+        thePrecipitationFormFreezingDrizzle(precipitationFormFreezingDrizzle),
         thePrecipitationTypeShowers(precipitationTypeShowers),
         theWeatherEventId(weatherEventId),
         thePearsonCoefficient(pearsonCoefficient),
@@ -904,7 +912,8 @@ struct PrecipitationDataItemData
   float thePrecipitationFormDrizzle;
   float thePrecipitationFormSleet;
   float thePrecipitationFormSnow;
-  float thePrecipitationFormFreezing;
+  float thePrecipitationFormFreezingRain;
+  float thePrecipitationFormFreezingDrizzle;
   float thePrecipitationTypeShowers;
   weather_event_id theWeatherEventId;
   float thePearsonCoefficient;
@@ -947,7 +956,8 @@ struct PrecipitationDataItemData
             thePrecipitationFormDrizzle == theItem.thePrecipitationFormDrizzle &&
             thePrecipitationFormSleet == theItem.thePrecipitationFormSleet &&
             thePrecipitationFormSnow == theItem.thePrecipitationFormSnow &&
-            thePrecipitationFormFreezing == theItem.thePrecipitationFormFreezing &&
+            thePrecipitationFormFreezingRain == theItem.thePrecipitationFormFreezingRain &&
+            thePrecipitationFormFreezingDrizzle == theItem.thePrecipitationFormFreezingDrizzle &&
             thePrecipitationTypeShowers == theItem.thePrecipitationTypeShowers &&
             theWeatherEventId == theItem.theWeatherEventId &&
             thePearsonCoefficient == theItem.thePearsonCoefficient &&

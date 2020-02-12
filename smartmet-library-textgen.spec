@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 19.12.4
+Version: 20.2.12
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -67,6 +67,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Feb 12 2020 Anssi Reponen <anssi.reponen@fmi.fi> - 20.2.12-1.fmi
+- Freezing drizzle must be reported if it exists in querydata (BRAINSTORM-1754)
+
 * Wed Dec  4 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.12.4-1.fmi
 - Use -fno-omit-frame-pointer for a better profiling and debugging experience                                                                                              
 

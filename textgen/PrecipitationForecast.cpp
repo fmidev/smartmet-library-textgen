@@ -309,22 +309,25 @@ std::ostream& operator<<(std::ostream& theOutput,
   {
     theOutput << " ";
     if (thePrecipitationDataItemData.thePrecipitationFormWater > 0.0)
-      theOutput << "   water=" << setw(3) << setfill(' ') << fixed << setprecision(0)
+      theOutput << "    water=" << setw(1) << setfill(' ') << fixed << setprecision(0)
                 << thePrecipitationDataItemData.thePrecipitationFormWater;
     if (thePrecipitationDataItemData.thePrecipitationFormDrizzle > 0.0)
-      theOutput << " drizzle=" << setw(3) << setfill(' ') << fixed << setprecision(0)
+      theOutput << "    drizzle=" << setw(1) << setfill(' ') << fixed << setprecision(0)
                 << thePrecipitationDataItemData.thePrecipitationFormDrizzle;
     if (thePrecipitationDataItemData.thePrecipitationFormSleet > 0.0)
-      theOutput << "   sleet=" << setw(3) << setfill(' ') << fixed << setprecision(0)
+      theOutput << "    sleet=" << setw(1) << setfill(' ') << fixed << setprecision(0)
                 << thePrecipitationDataItemData.thePrecipitationFormSleet;
     if (thePrecipitationDataItemData.thePrecipitationFormSnow > 0.0)
-      theOutput << "    snow=" << setw(3) << setfill(' ') << fixed << setprecision(0)
+      theOutput << "    snow=" << setw(1) << setfill(' ') << fixed << setprecision(0)
                 << thePrecipitationDataItemData.thePrecipitationFormSnow;
-    if (thePrecipitationDataItemData.thePrecipitationFormFreezing > 0.0)
-      theOutput << "freezing=" << setw(3) << setfill(' ') << fixed << setprecision(0)
-                << thePrecipitationDataItemData.thePrecipitationFormFreezing;
+    if (thePrecipitationDataItemData.thePrecipitationFormFreezingRain > 0.0)
+      theOutput << "    freezing rain=" << setw(1) << setfill(' ') << fixed << setprecision(0)
+                << thePrecipitationDataItemData.thePrecipitationFormFreezingRain;
+    if (thePrecipitationDataItemData.thePrecipitationFormFreezingDrizzle > 0.0)
+      theOutput << "    freezing drizzle=" << setw(1) << setfill(' ') << fixed << setprecision(0)
+                << thePrecipitationDataItemData.thePrecipitationFormFreezingDrizzle;
     if (thePrecipitationDataItemData.thePrecipitationTypeShowers > 0.0)
-      theOutput << " showers=" << setw(3) << setfill(' ') << fixed << setprecision(0)
+      theOutput << "    showers=" << setw(1) << setfill(' ') << fixed << setprecision(0)
                 << thePrecipitationDataItemData.thePrecipitationTypeShowers;
     theOutput << endl;
 
@@ -761,7 +764,8 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
     float thePrecipitationFormDrizzle,
     float thePrecipitationFormSleet,
     float thePrecipitationFormSnow,
-    float thePrecipitationFormFreezing,
+    float thePrecipitationFormFreezingRain,
+    float thePrecipitationFormFreezingDrizzle,
     precipitation_type thePrecipitationType,
     const TextGenPosixTime& theTypeChangeTime,
     map<string, Sentence>& theCompositePhraseElements) const
@@ -800,7 +804,20 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
       phraseType = InPlacesPhrase::IN_MANY_PLACES_PHRASE;
 
     bool can_be_freezing =
-        thePrecipitationFormFreezing > theParameters.theFreezingPrecipitationLimit;
+        thePrecipitationFormFreezingRain > theParameters.theFreezingPrecipitationLimit ||
+        thePrecipitationFormFreezingDrizzle > theParameters.theFreezingPrecipitationLimit;
+
+    precipitation_form_id freezing_form = MISSING_PRECIPITATION_FORM;
+
+    if (thePrecipitationFormFreezingRain > theParameters.theFreezingPrecipitationLimit &&
+        thePrecipitationFormFreezingDrizzle > theParameters.theFreezingPrecipitationLimit)
+      freezing_form = (thePrecipitationFormFreezingRain > thePrecipitationFormFreezingDrizzle
+                           ? WATER_FREEZING_FORM
+                           : DRIZZLE_FREEZING_FORM);
+    else if (thePrecipitationFormFreezingRain > theParameters.theFreezingPrecipitationLimit)
+      freezing_form = WATER_FREEZING_FORM;
+    else if (thePrecipitationFormFreezingDrizzle > theParameters.theFreezingPrecipitationLimit)
+      freezing_form = DRIZZLE_FREEZING_FORM;
 
     InPlacesPhrase& inPlacesPhraseMaker = get_in_places_phrase();
 
@@ -929,8 +946,10 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
               theCheckHeavyIntensityFlag = CONTINUOUS;
               if (can_be_freezing)
               {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER] << JA_WORD
-                                                                    << JAATAVAA_VESISADETTA_PHRASE;
+                theCompositePhraseElements[PRECIPITATION_PARAMETER]
+                    << JA_WORD
+                    << (freezing_form == WATER_FREEZING_FORM ? JAATAVAA_VESISADETTA_PHRASE
+                                                             : JAATAVAA_TIHKUSADETTA_PHRASE);
               }
             }
             theDryPeriodTautologyFlag = false;
@@ -1005,8 +1024,10 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
 
               if (can_be_freezing)
               {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER] << JA_WORD
-                                                                    << JAATAVAA_VESISADETTA_PHRASE;
+                theCompositePhraseElements[PRECIPITATION_PARAMETER]
+                    << JA_WORD
+                    << (freezing_form == WATER_FREEZING_FORM ? JAATAVAA_VESISADETTA_PHRASE
+                                                             : JAATAVAA_TIHKUSADETTA_PHRASE);
               }
             }
             theDryPeriodTautologyFlag = false;
@@ -1239,10 +1260,19 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
               }
               else
               {
-                theCompositePhraseElements[PRECIPITATION_PARAMETER] << LUMI_TAI_VESISADETTA_PHRASE;
-
-                can_be_freezing_phrase(
-                    theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, false);
+                if (can_be_freezing)
+                {
+                  theCompositePhraseElements[PRECIPITATION_PARAMETER]
+                      << (freezing_form == WATER_FREEZING_FORM ? LUMI_TAI_VESISADETTA_PHRASE
+                                                               : LUMI_TAI_TIHKUSADETTA_PHRASE);
+                  can_be_freezing_phrase(
+                      theUseIcingPhraseFlag, can_be_freezing, theCompositePhraseElements, false);
+                }
+                else
+                {
+                  theCompositePhraseElements[PRECIPITATION_PARAMETER]
+                      << LUMI_TAI_VESISADETTA_PHRASE;
+                }
               }
             }
             theDryPeriodTautologyFlag = false;
@@ -1337,7 +1367,8 @@ void PrecipitationForecast::selectPrecipitationSentence(
     float thePrecipitationFormDrizzle,
     float thePrecipitationFormSleet,
     float thePrecipitationFormSnow,
-    float thePrecipitationFormFreezing,
+    float thePrecipitationFormFreezingRain,
+    float thePrecipitationFormFreezingDrizzle,
     precipitation_type thePrecipitationType,
     const TextGenPosixTime& theTypeChangeTime,
     precipitation_form_transformation_id theTransformationId,
@@ -1354,7 +1385,8 @@ void PrecipitationForecast::selectPrecipitationSentence(
                                    thePrecipitationFormDrizzle,
                                    thePrecipitationFormSleet,
                                    thePrecipitationFormSnow,
-                                   thePrecipitationFormFreezing,
+                                   thePrecipitationFormFreezingRain,
+                                   thePrecipitationFormFreezingDrizzle,
                                    thePrecipitationType,
                                    theTypeChangeTime,
                                    theCompositePhraseElements);
@@ -1650,15 +1682,28 @@ float PrecipitationForecast::getStat(const precipitation_data_vector& theData,
         }
       }
       break;
-      case PRECIPITATION_FORM_FREEZING_DATA:
+      case PRECIPITATION_FORM_FREEZING_RAIN_DATA:
       {
-        if (theData[i]->thePrecipitationFormFreezing != kFloatMissing)
+        if (theData[i]->thePrecipitationFormFreezingRain != kFloatMissing)
         {
-          if (count == 0 || minValue > theData[i]->thePrecipitationFormFreezing)
-            minValue = theData[i]->thePrecipitationFormFreezing;
-          if (count == 0 || maxValue < theData[i]->thePrecipitationFormFreezing)
-            maxValue = theData[i]->thePrecipitationFormFreezing;
-          cumulativeSum += theData[i]->thePrecipitationFormFreezing;
+          if (count == 0 || minValue > theData[i]->thePrecipitationFormFreezingRain)
+            minValue = theData[i]->thePrecipitationFormFreezingRain;
+          if (count == 0 || maxValue < theData[i]->thePrecipitationFormFreezingRain)
+            maxValue = theData[i]->thePrecipitationFormFreezingRain;
+          cumulativeSum += theData[i]->thePrecipitationFormFreezingRain;
+          count++;
+        }
+      }
+      break;
+      case PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA:
+      {
+        if (theData[i]->thePrecipitationFormFreezingDrizzle != kFloatMissing)
+        {
+          if (count == 0 || minValue > theData[i]->thePrecipitationFormFreezingDrizzle)
+            minValue = theData[i]->thePrecipitationFormFreezingDrizzle;
+          if (count == 0 || maxValue < theData[i]->thePrecipitationFormFreezingDrizzle)
+            maxValue = theData[i]->thePrecipitationFormFreezingDrizzle;
+          cumulativeSum += theData[i]->thePrecipitationFormFreezingDrizzle;
           count++;
         }
       }
@@ -1808,15 +1853,18 @@ precipitation_form_id PrecipitationForecast::getPrecipitationForm(
       getMean(theDataVector, PRECIPITATION_FORM_DRIZZLE_DATA, thePeriod);
   float precipitationFormSleet = getMean(theDataVector, PRECIPITATION_FORM_SLEET_DATA, thePeriod);
   float precipitationFormSnow = getMean(theDataVector, PRECIPITATION_FORM_SNOW_DATA, thePeriod);
-  float precipitationFormFreezing =
-      getMean(theDataVector, PRECIPITATION_FORM_FREEZING_DATA, thePeriod);
+  float precipitationFormFreezingRain =
+      getMean(theDataVector, PRECIPITATION_FORM_FREEZING_RAIN_DATA, thePeriod);
+  float precipitationFormFreezingDrizzle =
+      getMean(theDataVector, PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA, thePeriod);
 
   return get_complete_precipitation_form(theParameters.theVariable,
                                          precipitationFormWater,
                                          precipitationFormDrizzle,
                                          precipitationFormSleet,
                                          precipitationFormSnow,
-                                         precipitationFormFreezing);
+                                         precipitationFormFreezingRain,
+                                         precipitationFormFreezingDrizzle);
 }
 
 unsigned int PrecipitationForecast::getPrecipitationCategory(float thePrecipitation,
@@ -1969,7 +2017,8 @@ void PrecipitationForecast::printOutPrecipitationData(std::ostream& theOutput) c
 {
   theOutput << "** PRECIPITATION DATA **" << endl;
   theOutput << "time:**mean intensity**max "
-               "intensity**extent**water**drizzle**sleet**snow**freezing**showers**northeast**"
+               "intensity**extent**water**drizzle**sleet**snow**freezing rain**freezing "
+               "drizzle**showers**northeast**"
                "southeast**southwest**northwest)"
             << endl;
 
@@ -2014,8 +2063,10 @@ void PrecipitationForecast::fillInPrecipitationDataVector(forecast_area_id theAr
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_SLEET_DATA];
   weather_result_data_item_vector* precipitationFormSnowHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_SNOW_DATA];
-  weather_result_data_item_vector* precipitationFormFreezingHourly =
-      (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_FREEZING_DATA];
+  weather_result_data_item_vector* precipitationFormFreezingRainHourly =
+      (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_FREEZING_RAIN_DATA];
+  weather_result_data_item_vector* precipitationFormFreezingDrizzleHourly =
+      (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA];
   weather_result_data_item_vector* precipitationTypeHourly =
       (*theParameters.theCompleteData[theAreaId])[PRECIPITATION_TYPE_DATA];
   weather_result_data_item_vector* precipitationNorthEastShareHourly =
@@ -2042,7 +2093,10 @@ void PrecipitationForecast::fillInPrecipitationDataVector(forecast_area_id theAr
     float precipitationFormDrizzle = (*precipitationFormDrizzleHourly)[i]->theResult.value();
     float precipitationFormSleet = (*precipitationFormSleetHourly)[i]->theResult.value();
     float precipitationFormSnow = (*precipitationFormSnowHourly)[i]->theResult.value();
-    float precipitationFormFreezing = (*precipitationFormFreezingHourly)[i]->theResult.value();
+    float precipitationFormFreezingDrizzle =
+        (*precipitationFormFreezingDrizzleHourly)[i]->theResult.value();
+    float precipitationFormFreezingRain =
+        (*precipitationFormFreezingRainHourly)[i]->theResult.value();
     float precipitationTypeShowers = (*precipitationTypeHourly)[i]->theResult.value();
 
     const precipitation_form_id precipitationForm =
@@ -2051,7 +2105,8 @@ void PrecipitationForecast::fillInPrecipitationDataVector(forecast_area_id theAr
                                         precipitationFormDrizzle,
                                         precipitationFormSleet,
                                         precipitationFormSnow,
-                                        precipitationFormFreezing);
+                                        precipitationFormFreezingRain,
+                                        precipitationFormFreezingDrizzle);
 
     PrecipitationDataItemData* item =
         new PrecipitationDataItemData(theParameters,
@@ -2063,7 +2118,8 @@ void PrecipitationForecast::fillInPrecipitationDataVector(forecast_area_id theAr
                                       precipitationFormDrizzle,
                                       precipitationFormSleet,
                                       precipitationFormSnow,
-                                      precipitationFormFreezing,
+                                      precipitationFormFreezingRain,
+                                      precipitationFormFreezingDrizzle,
                                       precipitationTypeShowers,
                                       MISSING_WEATHER_EVENT,
                                       0.0,
@@ -2970,7 +3026,8 @@ WeatherPeriod PrecipitationForecast::getHeavyPrecipitationPeriod(
                                         precipitationItem->thePrecipitationFormDrizzle,
                                         precipitationItem->thePrecipitationFormSleet,
                                         precipitationItem->thePrecipitationFormSnow,
-                                        precipitationItem->thePrecipitationFormFreezing));
+                                        precipitationItem->thePrecipitationFormFreezingRain,
+                                        precipitationItem->thePrecipitationFormFreezingDrizzle));
     float lowerLimit(kFloatMissing), upperLimit(kFloatMissing);
     get_precipitation_limit_value(
         theParameters, precipitationForm, HEAVY_PRECIPITATION, lowerLimit, upperLimit);
@@ -3049,7 +3106,8 @@ void PrecipitationForecast::calculatePrecipitationParameters(
     float& thePrecipitationFormDrizzle,
     float& thePrecipitationFormSleet,
     float& thePrecipitationFormSnow,
-    float& thePrecipitationFormFreezing) const
+    float& thePrecipitationFormFreezingRain,
+    float& thePrecipitationFormFreezingDrizzle) const
 {
   // thePrecipitationIntensity contains mean of the maximum and mean precipitation
   thePrecipitationIntensity = getMean(theDataVector, PRECIPITATION_MEAN_DATA, thePeriod);
@@ -3059,8 +3117,10 @@ void PrecipitationForecast::calculatePrecipitationParameters(
   thePrecipitationFormDrizzle = getMean(theDataVector, PRECIPITATION_FORM_DRIZZLE_DATA, thePeriod);
   thePrecipitationFormSleet = getMean(theDataVector, PRECIPITATION_FORM_SLEET_DATA, thePeriod);
   thePrecipitationFormSnow = getMean(theDataVector, PRECIPITATION_FORM_SNOW_DATA, thePeriod);
-  thePrecipitationFormFreezing =
-      getMean(theDataVector, PRECIPITATION_FORM_FREEZING_DATA, thePeriod);
+  thePrecipitationFormFreezingRain =
+      getMean(theDataVector, PRECIPITATION_FORM_FREEZING_RAIN_DATA, thePeriod);
+  thePrecipitationFormFreezingDrizzle =
+      getMean(theDataVector, PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA, thePeriod);
 }
 
 Sentence PrecipitationForecast::parseFinalSentence(
@@ -3732,7 +3792,8 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
   float precipitationFormDrizzle = kFloatMissing;
   float precipitationFormSleet = kFloatMissing;
   float precipitationFormSnow = kFloatMissing;
-  float precipitationFormFreezing = kFloatMissing;
+  float precipitationFormFreezingRain = kFloatMissing;
+  float precipitationFormFreezingDrizzle = kFloatMissing;
 
   if (theForecastAreaId & INLAND_AREA && theForecastAreaId & COASTAL_AREA)
   {
@@ -3777,7 +3838,8 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
                                      precipitationFormDrizzle,
                                      precipitationFormSleet,
                                      precipitationFormSnow,
-                                     precipitationFormFreezing);
+                                     precipitationFormFreezingRain,
+                                     precipitationFormFreezingDrizzle);
 
     theParameters.theLog << "Period: " << thePeriod.localStartTime() << "..."
                          << thePeriod.localEndTime() << endl;
@@ -3795,7 +3857,8 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
                                         precipitationFormDrizzle,
                                         precipitationFormSleet,
                                         precipitationFormSnow,
-                                        precipitationFormFreezing);
+                                        precipitationFormFreezingRain,
+                                        precipitationFormFreezingDrizzle);
 
     thePrecipitationFormBeforeDryPeriod = precipitationForm;
 
@@ -3810,7 +3873,8 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
                                 precipitationFormDrizzle,
                                 precipitationFormSleet,
                                 precipitationFormSnow,
-                                precipitationFormFreezing,
+                                precipitationFormFreezingRain,
+                                precipitationFormFreezingDrizzle,
                                 precipitationType,
                                 dataVector->at(typeChangeIndex)->theObservationTime,
                                 getPrecipitationTransformationId(thePeriod, theForecastAreaId),
