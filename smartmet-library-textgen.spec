@@ -15,15 +15,15 @@ BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: smartmet-library-calculator-devel >= 19.12.4
-BuildRequires: smartmet-library-newbase-devel >= 19.12.4
-BuildRequires: smartmet-library-macgyver-devel >= 19.12.4
+BuildRequires: smartmet-library-newbase-devel >= 20.2.6
+BuildRequires: smartmet-library-macgyver-devel >= 20.2.5
 BuildRequires: boost-devel
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
 Requires: smartmet-library-calculator >= 19.12.4
-Requires: smartmet-library-newbase >= 19.12.4
-Requires: smartmet-library-macgyver >= 19.12.4
+Requires: smartmet-library-newbase >= 20.2.6
+Requires: smartmet-library-macgyver >= 20.2.5
 Requires: gdal-libs
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
