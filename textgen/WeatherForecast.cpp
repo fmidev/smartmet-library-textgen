@@ -1599,7 +1599,8 @@ precipitation_form_id get_complete_precipitation_form(const string& theVariable,
                                                       float thePrecipitationFormDrizzle,
                                                       float thePrecipitationFormSleet,
                                                       float thePrecipitationFormSnow,
-                                                      float thePrecipitationFormFreezing)
+                                                      float thePrecipitationFormFreezingRain,
+                                                      float thePrecipitationFormFreezingDrizzle)
 {
   unsigned int precipitation_form = 0;
 
@@ -1616,9 +1617,16 @@ precipitation_form_id get_complete_precipitation_form(const string& theVariable,
   precipitation_form_type snow(
       thePrecipitationFormSnow,
       (thePrecipitationFormSnow != kFloatMissing ? SNOW_FORM : MISSING_PRECIPITATION_FORM));
-  precipitation_form_type freezing(
-      thePrecipitationFormFreezing,
-      (thePrecipitationFormFreezing != kFloatMissing ? FREEZING_FORM : MISSING_PRECIPITATION_FORM));
+  float freezing_from_value = 0;
+  if (thePrecipitationFormFreezingRain != kFloatMissing)
+    freezing_from_value += thePrecipitationFormFreezingRain;
+  if (thePrecipitationFormFreezingDrizzle != kFloatMissing)
+    freezing_from_value += thePrecipitationFormFreezingDrizzle;
+  precipitation_form_type freezing(freezing_from_value,
+                                   (thePrecipitationFormFreezingRain != kFloatMissing ||
+                                            thePrecipitationFormFreezingDrizzle != kFloatMissing
+                                        ? FREEZING_FORM
+                                        : MISSING_PRECIPITATION_FORM));
 
   vector<precipitation_form_type> precipitation_forms;
   precipitation_forms.push_back(water);
@@ -1627,6 +1635,7 @@ precipitation_form_id get_complete_precipitation_form(const string& theVariable,
   precipitation_forms.push_back(snow);
   precipitation_forms.push_back(freezing);
 
+  // Sort into ascending order
   sort(precipitation_forms.begin(), precipitation_forms.end());
 
   precipitation_form_id primaryPrecipitationForm =
@@ -1645,7 +1654,7 @@ precipitation_form_id get_complete_precipitation_form(const string& theVariable,
           ? precipitation_forms[2].second
           : MISSING_PRECIPITATION_FORM;
 
-  // TODO: merge drizzle and water in some cases, when sleet is involved
+  // TODO: merge drizzle and water in some cases, when sleet is involved ??
 
   precipitation_form |= primaryPrecipitationForm;
   precipitation_form |= secondaryPrecipitationForm;
