@@ -1753,8 +1753,8 @@ bool populate_time_series(wo_story_params& storyParams)
                                                  weatherArea,
                                                  dataItem.thePeriod);
 
-      if (weatherArea.type() == WeatherArea::Full)
-        WeatherResultTools::checkMissingValue("wind_overview", GustSpeed, dataItem.theGustSpeed);
+      if (dataItem.theGustSpeed.value() == kFloatMissing)
+        dataItem.theGustSpeed = dataItem.theWindSpeedMax;
 
       populate_windspeed_distribution_time_series(storyParams.theSources,
                                                   weatherArea,
