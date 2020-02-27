@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 20.2.12
+Version: 20.2.27
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -67,6 +67,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu Feb 27 2020 Anssi Reponen <anssi.reponen@fmi.fi> - 20.2.27-1.fmi
+- If GustSpeed value is missing, use WindSpeed maximum value (BRAINSTORM-1776)
+
 * Wed Feb 12 2020 Anssi Reponen <anssi.reponen@fmi.fi> - 20.2.12-1.fmi
 - Freezing drizzle must be reported if it exists in querydata (BRAINSTORM-1754)
 
