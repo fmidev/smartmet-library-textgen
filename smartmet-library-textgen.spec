@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 20.2.27
+Version: 20.4.18
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -14,16 +14,16 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 19.12.4
-BuildRequires: smartmet-library-newbase-devel >= 20.2.6
-BuildRequires: smartmet-library-macgyver-devel >= 20.2.5
-BuildRequires: boost-devel
+BuildRequires: smartmet-library-calculator-devel >= 20.4.18
+BuildRequires: smartmet-library-newbase-devel >= 20.4.18
+BuildRequires: smartmet-library-macgyver-devel >= 20.4.18
+BuildRequires: boost169-devel
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal-devel >= 1.11.4
-Requires: smartmet-library-calculator >= 19.12.4
-Requires: smartmet-library-newbase >= 20.2.6
-Requires: smartmet-library-macgyver >= 20.2.5
+Requires: smartmet-library-calculator >= 20.4.18
+Requires: smartmet-library-newbase >= 20.4.18
+Requires: smartmet-library-macgyver >= 20.4.18
 Requires: gdal-libs
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
@@ -67,6 +67,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Sat Apr 18 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.4.18-1.fmi
+- Upgrade to Boost 1.69
+
 * Thu Feb 27 2020 Anssi Reponen <anssi.reponen@fmi.fi> - 20.2.27-1.fmi
 - If GustSpeed value is missing, use WindSpeed maximum value (BRAINSTORM-1776)
 

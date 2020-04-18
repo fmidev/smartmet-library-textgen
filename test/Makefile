@@ -37,27 +37,23 @@ endif
 CC = g++
 CFLAGS = -DUNIX -O0 -g -Wno-inline $(FLAGS)
 
-INCLUDES = \
-	-I /usr/include/smartmet \
-	-I /usr/include/mysql
-LIBS = \
+# Boost 1.69
+
+ifneq "$(wildcard /usr/include/boost169)" ""
+  INCLUDES += -I/usr/include/boost169
+  LIBS += -L/usr/lib64/boost169
+endif
+
+INCLUDES += \
+	-I../textgen \
+	-I/usr/include/smartmet \
+	-I/usr/include/mysql
+LIBS += \
 	../libsmartmet-textgen.so \
 	-lsmartmet-calculator \
 	-lsmartmet-newbase \
-	-L $(libdir)/mysql -lmysqlclient -lmysqlpp
-
-INCLUDES += -I ../textgen
-
-LIBS += \
-	-lsmartmet-macgyver \
-	-lboost_date_time \
-        -lboost_filesystem\
-        -lboost_iostreams\
 	-lboost_locale \
-	-lboost_thread \
-        -lboost_system\
-	`pkg-config --cflags --libs icu-i18n` \
-        -lz -lbz2 -lpthread -lrt
+	-L$(libdir)/mysql -lmysqlclient -lmysqlpp
 
 all: $(PROG)
 clean:
