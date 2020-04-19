@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 20.3.26
+Version: 20.4.18
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -17,7 +17,7 @@ BuildRequires: make
 BuildRequires: smartmet-library-calculator-devel >= 20.3.26
 BuildRequires: smartmet-library-newbase-devel >= 20.3.26
 BuildRequires: smartmet-library-macgyver-devel >= 20.3.5
-BuildRequires: boost-devel
+BuildRequires: boost169-devel
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal30-devel
@@ -67,6 +67,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Sat Apr 18 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.4.18-1.fmi
+- Upgrade to Boost 1.69
+
 * Thu Mar 26 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.3.26-1.fmi
 - Repackaged due to NFmiArea API changes
 
