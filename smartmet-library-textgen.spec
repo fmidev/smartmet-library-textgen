@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 20.4.18
+Version: 20.4.26
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -14,16 +14,16 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 20.3.26
-BuildRequires: smartmet-library-newbase-devel >= 20.3.26
-BuildRequires: smartmet-library-macgyver-devel >= 20.3.5
+BuildRequires: smartmet-library-calculator-devel >= 20.4.24
+BuildRequires: smartmet-library-newbase-devel >= 20.4.23
+BuildRequires: smartmet-library-macgyver-devel >= 20.4.18
 BuildRequires: boost169-devel
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal30-devel
-Requires: smartmet-library-calculator >= 20.3.26
-Requires: smartmet-library-newbase >= 20.3.26
-Requires: smartmet-library-macgyver >= 20.3.5
+Requires: smartmet-library-calculator >= 20.4.24
+Requires: smartmet-library-newbase >= 20.4.23
+Requires: smartmet-library-macgyver >= 20.4.18
 Requires: gdal30-libs
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
@@ -67,6 +67,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Sun Apr 26 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.4.26-1.fmi
+- Repackaged
+
 * Sat Apr 18 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.4.18-1.fmi
 - Upgrade to Boost 1.69
 
