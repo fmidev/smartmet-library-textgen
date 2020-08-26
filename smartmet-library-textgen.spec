@@ -14,15 +14,15 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildRequires: rpm-build
 BuildRequires: gcc-c++
 BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 20.8.25
-BuildRequires: smartmet-library-newbase-devel >= 20.8.25
+BuildRequires: smartmet-library-calculator-devel >= 20.8.26
+BuildRequires: smartmet-library-newbase-devel >= 20.8.26
 BuildRequires: smartmet-library-macgyver-devel >= 20.8.21
 BuildRequires: boost169-devel
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: gdal30-devel
-Requires: smartmet-library-calculator >= 20.8.25
-Requires: smartmet-library-newbase >= 20.8.25
+Requires: smartmet-library-calculator >= 20.8.26
+Requires: smartmet-library-newbase >= 20.8.26
 Requires: smartmet-library-macgyver >= 20.8.21
 Requires: gdal30-libs
 Provides: %{SPECNAME}
