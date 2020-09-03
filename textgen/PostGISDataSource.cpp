@@ -3,7 +3,7 @@
 #ifdef UNIX
 
 #include <boost/algorithm/string/replace.hpp>
-#include <gdal/ogrsf_frmts.h>
+#include <ogrsf_frmts.h>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
