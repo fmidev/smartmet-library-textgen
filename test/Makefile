@@ -2,7 +2,9 @@ PROG = $(patsubst %.cpp,%,$(wildcard *.cpp))
 PHPPROG = $(wildcard *.php)
 # OBS = $(wildcard ../obj/*.o)
 
-FLAGS = -std=c++11 -Wall -W -Wno-unused-parameter
+include ../common.mk
+
+FLAGS = -std=$(CXX_STD) -Wall -W -Wno-unused-parameter
 
 EXTRAFLAGS = -Werror -pedantic -Wpointer-arith -Wcast-qual \
 	-Wcast-align -Wwrite-strings -Wconversion -Winline \
@@ -12,20 +14,7 @@ EXTRAFLAGS = -Werror -pedantic -Wpointer-arith -Wcast-qual \
 
 DIFFICULTFLAGS = -Weffc++ -Wunreachable-code -Wredundant-decls
 
-processor := $(shell uname -p)
 UNAME_S := $(shell uname -s)
-
-ifeq ($(origin PREFIX), undefined)
-  PREFIX = /usr
-else
-  PREFIX = $(PREFIX)
-endif
-
-ifeq ($(processor), x86_64)
-  libdir = $(PREFIX)/lib64
-else
-  libdir = $(PREFIX)/lib
-endif
 
 ifeq ($(TSAN), yes)
   FLAGS += -fsanitize=thread
@@ -34,30 +23,25 @@ ifeq ($(ASAN), yes)
   FLAGS += -fsanitize=address -fsanitize=pointer-compare -fsanitize=pointer-subtract -fsanitize=undefined -fsanitize-address-use-after-scope
 endif
 
-CC = g++
 CFLAGS = -DUNIX -O0 -g -Wno-inline $(FLAGS)
 
-INCLUDES = \
-	-I /usr/include/smartmet \
-	-I /usr/include/mysql
-LIBS = \
+# Boost 1.69
+
+ifneq "$(wildcard /usr/include/boost169)" ""
+  INCLUDES += -I/usr/include/boost169
+  LIBS += -L/usr/lib64/boost169
+endif
+
+INCLUDES += \
+	-I../textgen \
+	-I/usr/include/smartmet \
+	-I/usr/include/mysql
+LIBS += \
 	../libsmartmet-textgen.so \
 	-lsmartmet-calculator \
 	-lsmartmet-newbase \
-	-L $(libdir)/mysql -lmysqlclient -lmysqlpp
-
-INCLUDES += -I ../textgen
-
-LIBS += \
-	-lsmartmet-macgyver \
-	-lboost_date_time \
-        -lboost_filesystem\
-        -lboost_iostreams\
 	-lboost_locale \
-	-lboost_thread \
-        -lboost_system\
-	`pkg-config --cflags --libs icu-i18n` \
-        -lz -lbz2 -lpthread -lrt
+	-L$(libdir)/mysql -lmysqlclient -lmysqlpp
 
 all: $(PROG)
 clean:
@@ -70,5 +54,5 @@ test: $(PROG)
 	done
 
 $(PROG) : % : %.cpp ../libsmartmet-textgen.so
-	$(CC) $(CFLAGS) -o $@ $@.cpp $(INCLUDES) $(LIBS)
+	$(CXX) $(CFLAGS) -o $@ $@.cpp $(INCLUDES) $(LIBS)
 
