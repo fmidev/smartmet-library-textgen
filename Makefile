@@ -3,64 +3,13 @@ LIB = smartmet-$(SUBNAME)
 SPEC = smartmet-library-$(SUBNAME)
 INCDIR = smartmet/$(SUBNAME)
 
-include common.mk
+REQUIRES := gdal
 
-# Compiler options
+include $(shell echo $${PREFIX-/usr})/share/smartmet/devel/makefile.inc
 
 DEFINES = -DUNIX -D_REENTRANT
 
-ifeq ($(USE_CLANG), yes)
-
- FLAGS = \
-	-std=$(CXX_STD) -fPIC -MD -fno-omit-frame-pointer \
-	-Wall \
-	-Wextra \
-	-Wno-c++98-compat \
-	-Wno-float-equal \
-	-Wno-padded \
-	-Wno-missing-prototypes
-
- INCLUDES += \
-	-isystem $(includedir) \
-	-isystem $(includedir)/smartmet \
-	-isystem $(includedir)/mysql
-
-else
-
- FLAGS = -std=$(CXX_STD) -fPIC -MD -fno-omit-frame-pointer -Wall -W -Wno-unused-parameter -fdiagnostics-color=$(GCC_DIAG_COLOR)
-
- FLAGS_DEBUG = \
-	-Wcast-align \
-	-Winline \
-	-Wno-multichar \
-	-Wno-pmf-conversions \
-	-Woverloaded-virtual  \
-	-Wpointer-arith \
-	-Wcast-qual \
-	-Wwrite-strings \
-	-Wsign-promo
-
- FLAGS_RELEASE = -Wuninitialized
-
- INCLUDES += \
-	-I$(includedir) \
-	-I$(includedir)/smartmet \
-	-I$(includedir)/mysql
-
-endif
-
-ifeq ($(TSAN), yes)
-  FLAGS += -fsanitize=thread
-endif
-ifeq ($(ASAN), yes)
-  FLAGS += -fsanitize=address -fsanitize=pointer-compare -fsanitize=pointer-subtract -fsanitize=undefined -fsanitize-address-use-after-scope
-endif
-
-# Compile options in detault, debug and profile modes
-
-CFLAGS         = $(DEFINES) $(FLAGS) $(FLAGS_RELEASE) -DNDEBUG -O2 -g
-CFLAGS_DEBUG   = $(DEFINES) $(FLAGS) $(FLAGS_DEBUG)   -Werror  -Og -Wno-inline -g
-CFLAGS_PROFILE = $(DEFINES) $(FLAGS) $(FLAGS_PROFILE) -DNDEBUG -O2 -g -pg
+INCLUDES += -isystem $(includedir)/mysql
 
 LIBS += -L$(libdir) \
 	-lsmartmet-calculator \
@@ -72,21 +21,6 @@ LIBS += -L$(libdir) \
 # What to install
 
 LIBFILE = lib$(LIB).so
-
-# How to install
-
-INSTALL_PROG = install -m 775
-INSTALL_DATA = install -m 664
-
-# Compile option overrides
-
-ifneq (,$(findstring debug,$(MAKECMDGOALS)))
-  CFLAGS = $(CFLAGS_DEBUG)
-endif
-
-ifneq (,$(findstring profile,$(MAKECMDGOALS)))
-  CFLAGS = $(CFLAGS_PROFILE)
-endif
 
 # Compilation directories
 
