@@ -16,7 +16,9 @@ LIBS += -L$(libdir) \
 	-lsmartmet-newbase \
 	-lsmartmet-macgyver \
 	-lboost_filesystem \
-	-lboost_thread
+	-lboost_locale \
+	-lboost_thread \
+	-lmysqlpp
 
 # What to install
 
