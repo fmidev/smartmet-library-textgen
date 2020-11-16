@@ -40,6 +40,7 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: smartmet-library-macgyver-devel >= 20.10.7
 #TestRequires: smartmet-library-newbase-devel >= 20.8.21
 #TestRequires: smartmet-library-regression
+#TestRequires: smartmet-timezones
 
 %description
 FMI textgen library
