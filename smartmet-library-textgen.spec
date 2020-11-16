@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 20.8.21
+Version: 20.10.7
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -16,13 +16,13 @@ BuildRequires: gcc-c++
 BuildRequires: make
 BuildRequires: smartmet-library-calculator-devel >= 20.8.21
 BuildRequires: smartmet-library-newbase-devel >= 20.8.21
-BuildRequires: smartmet-library-macgyver-devel >= 20.8.21
+BuildRequires: smartmet-library-macgyver-devel >= 20.10.7
 BuildRequires: boost169-devel
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 Requires: smartmet-library-calculator >= 20.8.21
 Requires: smartmet-library-newbase >= 20.8.21
-Requires: smartmet-library-macgyver >= 20.8.21
+Requires: smartmet-library-macgyver >= 20.10.7
 %if 0%{rhel} >= 8
 BuildRequires: gdal30-devel
 Requires: gdal30-libs
@@ -72,6 +72,11 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Oct  7 2020 Andris Pavenis <andris.pavenis@fmi.fi> - 20.10.7-1.fmi
+- Build update: use makefile.inc from smartmet-library-macgyver
+- Link libsmartmet_textgen.so with libboost_locale and mysqlpp
+- Fail if unresolved references found in libsmartmet_textgen.so
+
 * Fri Aug 21 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.8.21-1.fmi
 - Upgrade to fmt 6.2
 
@@ -85,7 +90,8 @@ FMI textgen development files
 - Freezing drizzle must be reported if it exists in querydata (BRAINSTORM-1754)
 
 * Wed Dec  4 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.12.4-1.fmi
-- Use -fno-omit-frame-pointer for a better profiling and debugging experience                                                                                              
+- Use -fno-omit-frame-pointer for a better profiling and debugging experience
+
 * Tue Dec 3 2019 Anssi Reponen <anssi.reponen@fmi.fi> - 19.12.3-1.fmi
 - Checking the parameters for missing value (BRAINSORM-1727)
 
