@@ -33,6 +33,13 @@ Requires: gdal-libs
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
 Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
+#TestRequires: boost169-devel
+#TestRequires: gcc-c++
+#TestRequires: mysql++-devel
+#TestRequires: smartmet-library-calculator-devel >= 20.8.21
+#TestRequires: smartmet-library-macgyver-devel >= 20.10.7
+#TestRequires: smartmet-library-newbase-devel >= 20.8.21
+#TestRequires: smartmet-library-regression
 
 %description
 FMI textgen library
