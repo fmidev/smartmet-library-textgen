@@ -41,6 +41,7 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: smartmet-library-newbase-devel >= 20.8.21
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
+#TestRequires: php-cli
 
 %description
 FMI textgen library
