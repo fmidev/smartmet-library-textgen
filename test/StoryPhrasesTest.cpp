@@ -887,7 +887,7 @@ int main(void)
 
   cout << endl << "StoryFactory requirements" << endl << "==========================" << endl;
 
-  StoryPhrasesTest::dict.reset(TextGen::DictionaryFactory::create("mysql"));
+  StoryPhrasesTest::dict.reset(TextGen::DictionaryFactory::create("file"));
   StoryPhrasesTest::dict->init("fi");
 
   StoryPhrasesTest::tests t;

@@ -138,7 +138,7 @@ int main(void)
 
   cout << endl << "DewPointStory tests" << endl << "===================" << endl;
 
-  dict.reset(TextGen::DictionaryFactory::create("multimysql"));
+  dict.reset(TextGen::DictionaryFactory::create("file"));
 
   NFmiSettings::Set("textgen::units::celsius::format", "phrase");
 
