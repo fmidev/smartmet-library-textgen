@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 20.10.7
+Version: 20.12.4
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -81,6 +81,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Fri Dec  4 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.12.4-1.fmi
+- Improved logging of area names and coordinates
+
 * Wed Oct  7 2020 Andris Pavenis <andris.pavenis@fmi.fi> - 20.10.7-1.fmi
 - Build update: use makefile.inc from smartmet-library-macgyver
 - Link libsmartmet_textgen.so with libboost_locale and mysqlpp
