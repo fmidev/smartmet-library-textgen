@@ -24,8 +24,8 @@ Requires: smartmet-library-calculator >= 20.8.21
 Requires: smartmet-library-newbase >= 20.8.21
 Requires: smartmet-library-macgyver >= 20.10.7
 %if 0%{rhel} >= 8
-BuildRequires: gdal30-devel
-Requires: gdal30-libs
+BuildRequires: gdal32-devel
+Requires: gdal32-libs
 %else
 BuildRequires: gdal-devel >= 1.11.4
 Requires: gdal-libs
