@@ -4,41 +4,36 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 20.12.4
+Version: 20.12.15
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: rpm-build
-BuildRequires: gcc-c++
-BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 20.8.21
-BuildRequires: smartmet-library-newbase-devel >= 20.8.21
-BuildRequires: smartmet-library-macgyver-devel >= 20.10.7
 BuildRequires: boost169-devel
+BuildRequires: gcc-c++
+BuildRequires: gdal32-devel
+BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
-Requires: smartmet-library-calculator >= 20.8.21
-Requires: smartmet-library-newbase >= 20.8.21
-Requires: smartmet-library-macgyver >= 20.10.7
-%if 0%{rhel} >= 8
-BuildRequires: gdal32-devel
+BuildRequires: rpm-build
+BuildRequires: smartmet-library-calculator-devel >= 20.10.7
+BuildRequires: smartmet-library-macgyver-devel >= 20.12.15
+BuildRequires: smartmet-library-newbase-devel >= 20.12.15
 Requires: gdal32-libs
-%else
-BuildRequires: gdal-devel >= 1.11.4
-Requires: gdal-libs
-%endif
+Requires: smartmet-library-calculator >= 20.10.7
+Requires: smartmet-library-macgyver >= 20.12.15
+Requires: smartmet-library-newbase >= 20.12.15
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
 Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: boost169-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 20.8.21
-#TestRequires: smartmet-library-macgyver-devel >= 20.10.7
-#TestRequires: smartmet-library-newbase-devel >= 20.8.21
+#TestRequires: smartmet-library-calculator-devel >= 20.10.7
+#TestRequires: smartmet-library-macgyver-devel >= 20.12.15
+#TestRequires: smartmet-library-newbase-devel >= 20.12.15
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -81,6 +76,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Dec 15 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.12.15-1.fmi
+- Upgrade to pgdg12
+
 * Fri Dec  4 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.12.4-1.fmi
 - Improved logging of area names and coordinates
 
