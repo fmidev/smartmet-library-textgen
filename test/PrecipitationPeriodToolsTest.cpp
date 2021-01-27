@@ -56,9 +56,9 @@ void findRainTimes()
   sources.setMaskSource(masksource);
 
   const string mappath = Settings::require_string("textgen::mappath");
-  const string uusimaa = mappath + "/sonera/uusimaa.svg:10";
-  const string ahvenanmaa = mappath + "/sonera/ahvenanmaa.svg:10";
-  const string pohjoislappi = mappath + "/sonera/pohjois-lappi.svg:10";
+  const string uusimaa = mappath + "/uusimaa.svg:10";
+  const string ahvenanmaa = mappath + "/ahvenanmaa.svg:10";
+  const string pohjoislappi = mappath + "/pohjois-lappi.svg:10";
 
   {
     RainTimes times = findRainTimes(sources, WeatherArea(uusimaa, "uusimaa"), period, "");
@@ -119,9 +119,9 @@ void findRainPeriods()
   Settings::set("b::rainyperiod::maximum_interval", "3");
 
   const string mappath = Settings::require_string("textgen::mappath");
-  const string uusimaa = mappath + "/sonera/uusimaa.svg:10";
-  const string ahvenanmaa = mappath + "/sonera/ahvenanmaa.svg:10";
-  const string pohjoislappi = mappath + "/sonera/pohjois-lappi.svg:10";
+  const string uusimaa = mappath + "/uusimaa.svg:10";
+  const string ahvenanmaa = mappath + "/ahvenanmaa.svg:10";
+  const string pohjoislappi = mappath + "/pohjois-lappi.svg:10";
 
   {
     RainTimes times = findRainTimes(sources, WeatherArea(uusimaa, "uusimaa"), period, "");

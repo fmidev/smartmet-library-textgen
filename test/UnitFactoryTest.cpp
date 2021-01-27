@@ -28,7 +28,7 @@ void celsius()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
@@ -63,7 +63,7 @@ void meterspersecond()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
@@ -99,7 +99,7 @@ void millimeters()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
@@ -134,7 +134,7 @@ void percent()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;
@@ -169,7 +169,7 @@ void hectopascal()
   using namespace TextGen;
   using namespace UnitFactory;
 
-  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
   finnish->init("fi");
 
   PlainTextFormatter formatter;

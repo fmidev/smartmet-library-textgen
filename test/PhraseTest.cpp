@@ -39,10 +39,10 @@ void realize(void)
   using namespace boost;
   using namespace TextGen;
 
-  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> finnish(DictionaryFactory::create("file"));
   finnish->init("fi");
 
-  boost::shared_ptr<Dictionary> english(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> english(DictionaryFactory::create("file"));
   english->init("en");
 
   Phrase s1("lampotila");

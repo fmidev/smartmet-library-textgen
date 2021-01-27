@@ -41,7 +41,8 @@ bool PostGISDataSource::readData(const std::string& host,
   try
   {
     std::string queryparameter(host + port + dbname + schema + table + fieldname + client_encoding);
-    if (queryparametermap.find(queryparameter) != queryparametermap.end()) return true;
+    if (queryparametermap.find(queryparameter) != queryparametermap.end())
+      return true;
 
     std::stringstream connection_ss;
 
@@ -253,8 +254,8 @@ bool PostGISDataSource::readData(const std::string& host,
             string previous_part(linemap[area_name]);
             boost::algorithm::replace_all(previous_part, " \"", " ");
             boost::algorithm::replace_all(previous_part, " \n", " ");
-            //						boost::algorithm::replace_all(previous_part, "M",
-            //"L");
+            //						boost::algorithm::replace_all(previous_part,
+            //"M", "L");
             svg_string = (previous_part + "L " + svg_string);
           }
           else
