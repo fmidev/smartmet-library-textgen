@@ -1399,6 +1399,8 @@ struct TemperatureStoryTestParam
   {
   }
 
+  virtual ~TemperatureStoryTestParam() = default;
+
   string temperature_d1_afternoon_inlandmin;
   string temperature_d1_afternoon_inlandmax;
   string temperature_d1_afternoon_inlandmean;
