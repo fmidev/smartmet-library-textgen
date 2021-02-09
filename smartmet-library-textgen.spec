@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 21.1.14
+Version: 21.2.9
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -76,6 +76,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Feb  9 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.2.9-1.fmi
+- Fixed potential nullptr dereference
+
 * Thu Jan 14 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.1.14-1.fmi
 - Repackaged smartmet to resolve debuginfo issues
 
