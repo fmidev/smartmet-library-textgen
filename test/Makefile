@@ -22,11 +22,8 @@ clean:
 	rm -f $(PROG) *~
 
 test: $(PROG)
-	@echo Running tests:
-	@for prog in $(PROG); do \
-	 ./$$prog; \
-	done
+	echo Running tests:
+	total_errs=0; for prog in $(PROG); do errs=0; ./$$prog || errs=$$?; total_errs=$$(($$total_errs + $$errs)); done; echo Total error count: $$total_errs; exit $$total_errs
 
 $(PROG) : % : %.cpp ../libsmartmet-textgen.so
 	$(CXX) $(CFLAGS) -o $@ $@.cpp $(INCLUDES) $(LIBS)
-

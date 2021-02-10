@@ -68,8 +68,10 @@ void output_timestamp(bool theFlag)
   {
     NFmiTime now;
 
-    if (sOutputFile != nullptr) *sOutputFile << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
-    if (sOutputStream != nullptr) *sOutputFile << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
+    if (sOutputFile != nullptr)
+      *sOutputFile << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
+    if (sOutputStream != nullptr)
+      *sOutputStream << now.ToStr(kYYYYMMDDHHMMSS).CharPtr() << ' ';
   }
 }
 }  // namespace
@@ -146,7 +148,8 @@ void MessageLogger::open(const string& theFilename)
   delete sOutputFile;
   sOutputFile = nullptr;
 
-  if (theFilename.empty()) return;
+  if (theFilename.empty())
+    return;
 
   sOutputFile = new ofstream(theFilename.c_str(), ios::out);
   if (!(*sOutputFile))
@@ -169,15 +172,25 @@ void MessageLogger::open()
     sOutputStream->str("");
 }
 
-void MessageLogger::indent(char theChar) { sIndentChar = theChar; }
+void MessageLogger::indent(char theChar)
+{
+  sIndentChar = theChar;
+}
 
-void MessageLogger::indentstep(unsigned int theStep) { sIndentStep = theStep; }
+void MessageLogger::indentstep(unsigned int theStep)
+{
+  sIndentStep = theStep;
+}
 
-void MessageLogger::timestamp(bool theFlag) { sTimeStampOn = theFlag; }
+void MessageLogger::timestamp(bool theFlag)
+{
+  sTimeStampOn = theFlag;
+}
 
 std::string MessageLogger::str() const
 {
-  if (sOutputStream != nullptr) return sOutputStream->str();
+  if (sOutputStream != nullptr)
+    return sOutputStream->str();
   return {};
 }
 
@@ -194,8 +207,10 @@ std::string MessageLogger::str() const
 
 MessageLogger& MessageLogger::operator<<(const TextGen::Glyph& theGlyph)
 {
-  if (sOutputFile != nullptr) *sOutputFile << "Return: " << sFormatter.format(theGlyph) << endl;
-  if (sOutputStream != nullptr) *sOutputStream << "Return: " << sFormatter.format(theGlyph) << endl;
+  if (sOutputFile != nullptr)
+    *sOutputFile << "Return: " << sFormatter.format(theGlyph) << endl;
+  if (sOutputStream != nullptr)
+    *sOutputStream << "Return: " << sFormatter.format(theGlyph) << endl;
   return *this;
 }
 

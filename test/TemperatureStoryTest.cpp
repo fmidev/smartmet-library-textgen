@@ -1399,6 +1399,8 @@ struct TemperatureStoryTestParam
   {
   }
 
+  virtual ~TemperatureStoryTestParam() = default;
+
   string temperature_d1_afternoon_inlandmin;
   string temperature_d1_afternoon_inlandmax;
   string temperature_d1_afternoon_inlandmean;
@@ -12537,10 +12539,8 @@ void temperature_anomaly()
   using namespace TextGen;
   using namespace TextGen;
 
-  Settings::set("textgen::tmax_climatology",
-                "/smartmet/data/climate/suomi/daily/querydata/1970-2001/tmax_textgen.sqd");
-  Settings::set("textgen::fractiles_climatology",
-                "/smartmet/data/climate/suomi/daily/querydata/1970-2001/tmax_textgen.sqd");
+  Settings::set("textgen::tmax_climatology", "data/tmax_textgen.sqd");
+  Settings::set("textgen::fractiles_climatology", "data/tmax_textgen.sqd");
   Settings::set("anomaly::fake::fractile02_limit", "2.0");
   Settings::set("anomaly::day::starthour", "6");
   Settings::set("anomaly::day::maxstarthour", "11");
@@ -12626,7 +12626,7 @@ int main(void)
 
   cout << endl << "TemperatureStory tests" << endl << "======================" << endl;
 
-  dict.reset(TextGen::DictionaryFactory::create("multimysql"));
+  dict.reset(TextGen::DictionaryFactory::create("file"));
 
   dict->init("fi");
   dict->init("sv");

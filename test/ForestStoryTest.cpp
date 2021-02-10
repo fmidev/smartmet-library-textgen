@@ -162,7 +162,7 @@ int main(void)
 
   NFmiSettings::Init();
 
-  dict.reset(TextGen::DictionaryFactory::create("multimysql"));
+  dict.reset(TextGen::DictionaryFactory::create("file"));
 
   dict->init("fi");
   dict->init("sv");

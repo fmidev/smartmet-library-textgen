@@ -22,7 +22,7 @@ void create(void)
   // Should succeed
   boost::shared_ptr<Dictionary> dict1(DictionaryFactory::create("null"));
   boost::shared_ptr<Dictionary> dict2(DictionaryFactory::create("basic"));
-  boost::shared_ptr<Dictionary> dict3(DictionaryFactory::create("mysql"));
+  boost::shared_ptr<Dictionary> dict3(DictionaryFactory::create("file"));
 
   // Should throw
   try

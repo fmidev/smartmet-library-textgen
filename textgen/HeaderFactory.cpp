@@ -35,7 +35,6 @@ using namespace TextGen;
 using namespace std;
 using boost::lexical_cast;
 
-
 // ======================================================================
 //				IMPLEMENTATION HIDING FUNCTIONS
 // ======================================================================
@@ -136,7 +135,8 @@ TextGen::Header header_several_days(const WeatherPeriod& thePeriod, const string
   const long diff = endTime.DifferenceInHours(startTime);
   const long days = diff / 24;
 
-  if (diff % 24 != 0) throw TextGenError("HeaderFactory:: several_days must be N*24 hours long");
+  if (diff % 24 != 0)
+    throw TextGenError("HeaderFactory:: several_days must be N*24 hours long");
   header << WeekdayTools::from_weekday_time(thePeriod.localStartTime()) << "alkavan"
          << lexical_cast<string>(days) + "-vuorokauden saa";
 
@@ -166,6 +166,12 @@ TextGen::Header header_report_area(const WeatherArea& theArea,
 
   if (!theArea.isNamed())
     throw TextGenError("Cannot generate report_area title for an unnamed point");
+
+  if (theArea.isPoint())
+    log << "** area = " << theArea.name() << " at " << theArea.point().X() << ","
+        << theArea.point().Y() << endl;
+  else
+    log << "** area = " << theArea.name() << endl;
 
   const int starthour = thePeriod.localStartTime().GetHour();
 
@@ -199,6 +205,12 @@ TextGen::Header header_report_location(const WeatherArea& theArea,
 
   if (!theArea.isNamed())
     throw TextGenError("Cannot generate report_location title for an unnamed point");
+
+  if (theArea.isPoint())
+    log << "** area = " << theArea.name() << " at " << theArea.point().X() << ","
+        << theArea.point().Y() << endl;
+  else
+    log << "** area = " << theArea.name() << endl;
 
   header << LocationPhrase(theArea.name());
 
@@ -431,18 +443,30 @@ Header create(const WeatherArea& theArea,
 
   const string type = Settings::require_string(theVariable + "::type");
 
-  if (type == "none") return header_none(thePeriod, theVariable);
-  if (type == "until") return header_until(thePeriod, theVariable);
-  if (type == "from_until") return header_from_until(thePeriod, theVariable);
-  if (type == "several_days") return header_several_days(thePeriod, theVariable);
-  if (type == "report_area") return header_report_area(theArea, thePeriod, theVariable);
-  if (type == "report_time") return header_report_time(theArea, thePeriod, theVariable);
-  if (type == "report_location") return header_report_location(theArea, thePeriod, theVariable);
-  if (type == "morning") return header_morning(thePeriod, theVariable);
-  if (type == "forenoon") return header_forenoon(thePeriod, theVariable);
-  if (type == "afternoon") return header_afternoon(thePeriod, theVariable);
-  if (type == "evening") return header_evening(thePeriod, theVariable);
-  if (type == "clock_range") return header_clock_range(thePeriod, theVariable);
+  if (type == "none")
+    return header_none(thePeriod, theVariable);
+  if (type == "until")
+    return header_until(thePeriod, theVariable);
+  if (type == "from_until")
+    return header_from_until(thePeriod, theVariable);
+  if (type == "several_days")
+    return header_several_days(thePeriod, theVariable);
+  if (type == "report_area")
+    return header_report_area(theArea, thePeriod, theVariable);
+  if (type == "report_time")
+    return header_report_time(theArea, thePeriod, theVariable);
+  if (type == "report_location")
+    return header_report_location(theArea, thePeriod, theVariable);
+  if (type == "morning")
+    return header_morning(thePeriod, theVariable);
+  if (type == "forenoon")
+    return header_forenoon(thePeriod, theVariable);
+  if (type == "afternoon")
+    return header_afternoon(thePeriod, theVariable);
+  if (type == "evening")
+    return header_evening(thePeriod, theVariable);
+  if (type == "clock_range")
+    return header_clock_range(thePeriod, theVariable);
 
   throw TextGenError("HeaderFactory does not recognize header type " + type);
 }

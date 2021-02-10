@@ -4,35 +4,39 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 20.10.7
+Version: 21.2.9
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
 Source0: %{name}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
-BuildRequires: rpm-build
-BuildRequires: gcc-c++
-BuildRequires: make
-BuildRequires: smartmet-library-calculator-devel >= 20.8.21
-BuildRequires: smartmet-library-newbase-devel >= 20.8.21
-BuildRequires: smartmet-library-macgyver-devel >= 20.10.7
 BuildRequires: boost169-devel
+BuildRequires: gcc-c++
+BuildRequires: gdal32-devel
+BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
-Requires: smartmet-library-calculator >= 20.8.21
-Requires: smartmet-library-newbase >= 20.8.21
-Requires: smartmet-library-macgyver >= 20.10.7
-%if 0%{rhel} >= 8
-BuildRequires: gdal30-devel
-Requires: gdal30-libs
-%else
-BuildRequires: gdal-devel >= 1.11.4
-Requires: gdal-libs
-%endif
+BuildRequires: rpm-build
+BuildRequires: smartmet-library-calculator-devel >= 21.1.14
+BuildRequires: smartmet-library-macgyver-devel >= 21.1.14
+BuildRequires: smartmet-library-newbase-devel >= 21.1.14
+Requires: gdal32-libs
+Requires: smartmet-library-calculator >= 21.1.14
+Requires: smartmet-library-macgyver >= 21.1.14
+Requires: smartmet-library-newbase >= 21.1.14
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
 Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
+#TestRequires: boost169-devel
+#TestRequires: gcc-c++
+#TestRequires: mysql++-devel
+#TestRequires: smartmet-library-calculator-devel >= 21.1.14
+#TestRequires: smartmet-library-macgyver-devel >= 21.1.14
+#TestRequires: smartmet-library-newbase-devel >= 21.1.14
+#TestRequires: smartmet-library-regression
+#TestRequires: smartmet-timezones
+#TestRequires: php-cli
 
 %description
 FMI textgen library
@@ -72,6 +76,18 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Tue Feb  9 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.2.9-1.fmi
+- Fixed potential nullptr dereference
+
+* Thu Jan 14 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.1.14-1.fmi
+- Repackaged smartmet to resolve debuginfo issues
+
+* Tue Dec 15 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.12.15-1.fmi
+- Upgrade to pgdg12
+
+* Fri Dec  4 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.12.4-1.fmi
+- Improved logging of area names and coordinates
+
 * Wed Oct  7 2020 Andris Pavenis <andris.pavenis@fmi.fi> - 20.10.7-1.fmi
 - Build update: use makefile.inc from smartmet-library-macgyver
 - Link libsmartmet_textgen.so with libboost_locale and mysqlpp

@@ -230,7 +230,7 @@ int main(void)
 
   cout << endl << "RelativeHumidityStory tests" << endl << "===========================" << endl;
 
-  dict.reset(TextGen::DictionaryFactory::create("multimysql"));
+  dict.reset(TextGen::DictionaryFactory::create("file"));
 
   dict->init("fi");
   dict->init("sv");

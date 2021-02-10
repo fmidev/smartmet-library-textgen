@@ -143,6 +143,7 @@ void special_date()
   require(story, "en", fun, "01.01.2000 06:30 - 02.01.2000 09:30", "textgen::part1::story::date");
 
   Settings::clear();
+  Settings::set("textgen::filedictionaries","dictionaries");
   // endformat modified
   Settings::set("textgen::part1::story::date::plain::startformat", "%d.%m.%Y %H - ");
   Settings::set("textgen::part1::story::date::plain::endformat", "%H");
@@ -152,6 +153,7 @@ void special_date()
   require(story, "en", fun, "01.01.2000 06 - 09", "textgen::part1::story::date");
 
   Settings::clear();
+  Settings::set("textgen::filedictionaries","dictionaries");
   // endformat missing
   Settings::set("textgen::part1::story::date::plain::startformat", "%d.%m.%Y %H:%M");
 
@@ -160,6 +162,7 @@ void special_date()
   require(story, "en", fun, "01.01.2000 06:30", "textgen::part1::story::date");
 
   Settings::clear();
+  Settings::set("textgen::filedictionaries","dictionaries");
   // endformat is here NOT formatter specific
   Settings::set("textgen::part1::story::date::plain::startformat", "%d.%m.%Y %H:%M - ");
   Settings::set("textgen::part1::story::date::endformat", "%d.%m.%Y %H:%M");
@@ -209,7 +212,7 @@ int main(void)
 
   cout << endl << "SpecialStory tests" << endl << "=================" << endl;
 
-  dict.reset(TextGen::DictionaryFactory::create("multimysql"));
+  dict.reset(TextGen::DictionaryFactory::create("file"));
 
   dict->init("fi");
   dict->init("sv");
