@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 21.2.9
+Version: 21.2.15
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -18,22 +18,22 @@ BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 21.1.14
-BuildRequires: smartmet-library-macgyver-devel >= 21.1.14
-BuildRequires: smartmet-library-newbase-devel >= 21.1.14
+BuildRequires: smartmet-library-calculator-devel >= 21.2.15
+BuildRequires: smartmet-library-macgyver-devel >= 21.1.25
+BuildRequires: smartmet-library-newbase-devel >= 21.2.15
 Requires: gdal32-libs
-Requires: smartmet-library-calculator >= 21.1.14
-Requires: smartmet-library-macgyver >= 21.1.14
-Requires: smartmet-library-newbase >= 21.1.14
+Requires: smartmet-library-calculator >= 21.2.15
+Requires: smartmet-library-macgyver >= 21.1.25
+Requires: smartmet-library-newbase >= 21.2.15
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
 Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: boost169-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 21.1.14
-#TestRequires: smartmet-library-macgyver-devel >= 21.1.14
-#TestRequires: smartmet-library-newbase-devel >= 21.1.14
+#TestRequires: smartmet-library-calculator-devel >= 21.2.15
+#TestRequires: smartmet-library-macgyver-devel >= 21.1.25
+#TestRequires: smartmet-library-newbase-devel >= 21.2.15
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -76,6 +76,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Mon Feb 15 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.2.15-1.fmi
+- Repackaged due to newbase ABI changes
+
 * Tue Feb  9 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.2.9-1.fmi
 - Fixed potential nullptr dereference
 
