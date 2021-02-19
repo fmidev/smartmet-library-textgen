@@ -35,6 +35,7 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: smartmet-library-calculator-devel >= 21.2.18
 #TestRequires: smartmet-library-macgyver-devel >= 21.1.25
 #TestRequires: smartmet-library-newbase-devel >= 21.2.18
+#TestRequires: smartmet-library-gis-devel >= 21.2.18
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
