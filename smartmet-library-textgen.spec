@@ -21,6 +21,7 @@ BuildRequires: rpm-build
 BuildRequires: smartmet-library-calculator-devel >= 21.2.18
 BuildRequires: smartmet-library-macgyver-devel >= 21.1.25
 BuildRequires: smartmet-library-newbase-devel >= 21.2.18
+BuildRequires: smartmet-library-gis-devel >= 21.2.18
 Requires: gdal32-libs
 Requires: smartmet-library-calculator >= 21.2.18
 Requires: smartmet-library-macgyver >= 21.1.25
