@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 21.2.18
+Version: 21.4.21
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -78,6 +78,10 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Apr 21 2020 Anssi Reponen <anssi.reponen@fmi.fi> - 20.4.21-1.fmi
+- Added two missing precipitation scenarios (SOL-12468)
+- precipitation type changing from snow showers to sleet showers or vice versa
+
 * Thu Feb 18 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.2.18-1.fmi
 - Repackaged due to NFmiArea ABI changes
 
