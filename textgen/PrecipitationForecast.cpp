@@ -664,6 +664,7 @@ void PrecipitationForecast::mostlyDryWeatherPhrase(
 void PrecipitationForecast::getTransformationPhraseElements(
     const WeatherPeriod& thePeriod,
     float thePrecipitationExtent,
+	precipitation_type thePrecipitationType,
     precipitation_form_transformation_id theTransformId,
     map<string, Sentence>& theCompositePhraseElements) const
 {
@@ -708,15 +709,23 @@ void PrecipitationForecast::getTransformationPhraseElements(
     case SNOW_TO_DRIZZLE:
     case SNOW_TO_SLEET:
     {
-      if (theTransformId == SNOW_TO_WATER)
-        jokaMuuttuuString = JOKA_MUUTTUU_VESISATEEKSI_PHRASE;
-      else if (theTransformId == SNOW_TO_DRIZZLE)
-        jokaMuuttuuString = JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE;
-      else
-        jokaMuuttuuString = JOKA_MUUTTUU_RANTASATEEKSI_PHRASE;
-
-      theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
-          << LUMISADETTA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << jokaMuuttuuString;
+	  if(theTransformId == SNOW_TO_SLEET && thePrecipitationType == SHOWERS)
+		{
+		   theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
+			 << LUMIKUUROJA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << JOTKA_MUUTTUVAT_RANTAKUUROIKSI_PHRASE;
+		}
+	  else
+		{
+		  if (theTransformId == SNOW_TO_WATER)
+			jokaMuuttuuString = JOKA_MUUTTUU_VESISATEEKSI_PHRASE;
+		  else if (theTransformId == SNOW_TO_DRIZZLE)
+			jokaMuuttuuString = JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE;
+		  else
+			jokaMuuttuuString = JOKA_MUUTTUU_RANTASATEEKSI_PHRASE;
+		  
+		  theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
+			<< LUMISADETTA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << jokaMuuttuuString;
+		}
     }
     break;
     case DRIZZLE_TO_WATER:
@@ -738,15 +747,23 @@ void PrecipitationForecast::getTransformationPhraseElements(
     case SLEET_TO_DRIZZLE:
     case SLEET_TO_SNOW:
     {
-      if (theTransformId == SLEET_TO_WATER)
-        jokaMuuttuuString = JOKA_MUUTTUU_VESISATEEKSI_PHRASE;
-      else if (theTransformId == SLEET_TO_DRIZZLE)
-        jokaMuuttuuString = JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE;
-      else
-        jokaMuuttuuString = JOKA_MUUTTUU_LUMISATEEKSI_PHRASE;
+	  if(theTransformId == SLEET_TO_SNOW && thePrecipitationType == SHOWERS)
+		{
+		   theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
+			 << RANTAKUUROJA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << JOTKA_MUUTTUVAT_LUMIKUUROIKSI_PHRASE;
+		}
+	  else
+		{
+		  if (theTransformId == SLEET_TO_WATER)
+			jokaMuuttuuString = JOKA_MUUTTUU_VESISATEEKSI_PHRASE;
+		  else if (theTransformId == SLEET_TO_DRIZZLE)
+			jokaMuuttuuString = JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE;
+		  else
+			jokaMuuttuuString = JOKA_MUUTTUU_LUMISATEEKSI_PHRASE;
 
-      theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
+		  theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
           << RANTASADETTA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << jokaMuuttuuString;
+		}
     }
     break;
     default:
@@ -1394,7 +1411,7 @@ void PrecipitationForecast::selectPrecipitationSentence(
   else
   {
     getTransformationPhraseElements(
-        thePeriod, thePrecipitationExtent, theTransformationId, theCompositePhraseElements);
+									thePeriod, thePrecipitationExtent, thePrecipitationType, theTransformationId, theCompositePhraseElements);
   }
 }
 
@@ -1787,6 +1804,7 @@ precipitation_type PrecipitationForecast::getPrecipitationType(
         continuous_counter++;
     }
   }
+
   return (continuous_counter >= showers_counter ? CONTINUOUS : SHOWERS);
 }
 
