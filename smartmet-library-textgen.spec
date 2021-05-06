@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 21.4.21
+Version: 21.5.6
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -20,12 +20,12 @@ BuildRequires: mysql++-devel
 BuildRequires: rpm-build
 BuildRequires: smartmet-library-calculator-devel >= 21.2.18
 BuildRequires: smartmet-library-macgyver-devel >= 21.2.25
-BuildRequires: smartmet-library-newbase-devel >= 21.3.20
-BuildRequires: smartmet-library-gis-devel >= 21.4.13
+BuildRequires: smartmet-library-newbase-devel >= 21.5.6
+BuildRequires: smartmet-library-gis-devel >= 21.5.5
 Requires: gdal32-libs
 Requires: smartmet-library-calculator >= 21.2.18
 Requires: smartmet-library-macgyver >= 21.2.25
-Requires: smartmet-library-newbase >= 21.3.20
+Requires: smartmet-library-newbase >= 21.5.6
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
 Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
@@ -34,8 +34,8 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: mysql++-devel
 #TestRequires: smartmet-library-calculator-devel >= 21.2.18
 #TestRequires: smartmet-library-macgyver-devel >= 21.2.25
-#TestRequires: smartmet-library-newbase-devel >= 21.3.20
-#TestRequires: smartmet-library-gis-devel >= 21.4.13
+#TestRequires: smartmet-library-newbase-devel >= 21.5.6
+#TestRequires: smartmet-library-gis-devel >= 21.5.5
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -78,6 +78,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Thu May  6 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.5.6-1.fmi
+- Repackaged due to NFmiAzimuthalArea ABI changes
+
 * Wed Apr 21 2021 Anssi Reponen <anssi.reponen@fmi.fi> - 21.4.21-1.fmi
 - Added two missing precipitation scenarios (SOL-12468)
 - precipitation type changing from snow showers to sleet showers or vice versa
