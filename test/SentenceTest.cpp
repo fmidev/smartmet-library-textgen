@@ -55,14 +55,17 @@ void empty(void)
   using namespace TextGen;
 
   Sentence s1;
-  if (!s1.empty()) TEST_FAILED("sentence should be empty after void constructor");
+  if (!s1.empty())
+    TEST_FAILED("sentence should be empty after void constructor");
 
   Sentence s2;
   s2 << "foobar";
-  if (s2.empty()) TEST_FAILED("sentence should not be empty after adding phrase");
+  if (s2.empty())
+    TEST_FAILED("sentence should not be empty after adding phrase");
 
   Sentence s3(s2);
-  if (s3.empty()) TEST_FAILED("sentence should not be empty after copy construction");
+  if (s3.empty())
+    TEST_FAILED("sentence should not be empty after copy construction");
 
   TEST_PASSED();
 }
@@ -73,14 +76,17 @@ void size(void)
   using namespace TextGen;
 
   Sentence s1;
-  if (s1.size() != 0) TEST_FAILED("sentence size should be 0 after void constructor");
+  if (s1.size() != 0)
+    TEST_FAILED("sentence size should be 0 after void constructor");
 
   Sentence s2;
   s2 << "foobar";
-  if (s2.size() != 1) TEST_FAILED("sentence size should be 1 after adding a phrase");
+  if (s2.size() != 1)
+    TEST_FAILED("sentence size should be 1 after adding a phrase");
 
   Sentence s3(s2);
-  if (s3.size() != 1) TEST_FAILED("sentence size should be 1 after copy constructor");
+  if (s3.size() != 1)
+    TEST_FAILED("sentence size should be 1 after copy constructor");
 
   TEST_PASSED();
 }
@@ -97,16 +103,20 @@ void appending(void)
     s2 << "b";
 
     s1 << s2;
-    if (s1.size() != 2) TEST_FAILED("size after a << b is not 2");
+    if (s1.size() != 2)
+      TEST_FAILED("size after a << b is not 2");
 
     s1 << string("c");
-    if (s1.size() != 3) TEST_FAILED("size after ab << c is not 3");
+    if (s1.size() != 3)
+      TEST_FAILED("size after ab << c is not 3");
 
     s1 << "d";
-    if (s1.size() != 4) TEST_FAILED("size after abc << d is not 4");
+    if (s1.size() != 4)
+      TEST_FAILED("size after abc << d is not 4");
 
     s1 << s1;
-    if (s1.size() != 8) TEST_FAILED("size after abcd << abcd is not 8");
+    if (s1.size() != 8)
+      TEST_FAILED("size after abcd << abcd is not 8");
 
     Sentence s;
     s << "a";
@@ -114,28 +124,33 @@ void appending(void)
       << "c"
       << "d"
       << "e";
-    if (s.size() != 5) TEST_FAILED("size after a << b << c << d << e is not 5");
+    if (s.size() != 5)
+      TEST_FAILED("size after a << b << c << d << e is not 5");
   }
 
   {
-    Integer num(1);
+    TextGen::Integer num(1);
     Sentence s1;
     Sentence s2;
     s1 << num;
     s2 << 2;
 
     s1 << s2;
-    if (s1.size() != 2) TEST_FAILED("size after 1 << 2 is not 2");
+    if (s1.size() != 2)
+      TEST_FAILED("size after 1 << 2 is not 2");
 
     s1 << 3;
-    if (s1.size() != 3) TEST_FAILED("size after 12 << 3 is not 3");
+    if (s1.size() != 3)
+      TEST_FAILED("size after 12 << 3 is not 3");
 
     s1 << s1;
-    if (s1.size() != 6) TEST_FAILED("size after 123 << 123 is not 6");
+    if (s1.size() != 6)
+      TEST_FAILED("size after 123 << 123 is not 6");
 
     Sentence s;
     s << 1 << 2 << 3 << 4 << 5;
-    if (s.size() != 5) TEST_FAILED("size after << 1 << 2 << 3 << 4 << 5 is not 5");
+    if (s.size() != 5)
+      TEST_FAILED("size after << 1 << 2 << 3 << 4 << 5 is not 5");
   }
 
   TEST_PASSED();
