@@ -125,6 +125,8 @@ class GlyphContainer;
 #define JOKA_MUUTTUU_VESISATEEKSI_PHRASE "joka muuttuu vesisateeksi"
 #define JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE "joka muuttuu tihkusateeksi"
 #define JOKA_MUUTTUU_RANTASATEEKSI_PHRASE "joka muuttuu rantasateeksi"
+#define JOTKA_MUUTTUVAT_RANTAKUUROIKSI_PHRASE "jotka muuttuvat rantakuuroiksi"
+#define JOTKA_MUUTTUVAT_LUMIKUUROIKSI_PHRASE "jotka muuttuvat lumikuuroiksi"
 
 #define PIKKUPAKKASTA_PHRASE "pikkupakkasta"
 #define SUMUA_WORD "sumua"
