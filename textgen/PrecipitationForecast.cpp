@@ -25,6 +25,9 @@
 #include "ValueAcceptor.h"
 #include "WeatherStory.h"
 #include "WeekdayTools.h"
+#include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/thread.hpp>
 #include <calculator/GridForecaster.h>
 #include <calculator/HourPeriodGenerator.h>
 #include <calculator/MathTools.h>
@@ -35,16 +38,16 @@
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
-
-#include <newbase/NFmiMercatorArea.h>
-
-#include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/thread.hpp>
-
 #include <iomanip>
 #include <map>
 #include <vector>
+
+#ifdef WGS84
+#include <newbase/NFmiAreaTools.h>
+#else
+#include <newbase/NFmiMercatorArea.h>
+#endif
+
 
 namespace TextGen
 {
@@ -4206,8 +4209,14 @@ Sentence PrecipitationForecast::areaSpecificSentence(const WeatherPeriod& thePer
       north, south, east, west, northEast, southEast, southWest, northWest);
 
   Rect areaRect(theParameters.theArea);
-  NFmiMercatorArea mercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight());
-  float areaHeightWidthRatio = mercatorArea.WorldRect().Height() / mercatorArea.WorldRect().Width();
+#ifdef WGS84
+  std::unique_ptr<NFmiArea> mercatorArea(
+      NFmiAreaTools::CreateLegacyMercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight()));
+#else
+  std::unique_ptr<NFmiMercatorArea> mercatorArea(new NFmiMercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight()));
+#endif  
+  float areaHeightWidthRatio =
+      mercatorArea->WorldRect().Height() / mercatorArea->WorldRect().Width();
 
   Sentence areaSpecificSentence;
   areaSpecificSentence << area_specific_sentence(

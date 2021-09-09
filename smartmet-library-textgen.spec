@@ -111,11 +111,29 @@ FMI textgen development files
 - Link libsmartmet_textgen.so with libboost_locale and mysqlpp
 - Fail if unresolved references found in libsmartmet_textgen.so
 
+* Thu Aug 27 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.8.27-1.fmi
+- NFmiGrid API changed
+
+* Wed Aug 26 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.8.26-1.fmi
+- Repackaged due to NFmiGrid API changes
+
 * Fri Aug 21 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.8.21-1.fmi
 - Upgrade to fmt 6.2
 
+* Fri Jul 31 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.7.31-1.fmi
+- Repackaged due to libpqxx upgrade
+
+* Wed Jul  1 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.7.1-1.fmi
+- Repackaged
+
+* Sun Apr 26 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.4.26-1.fmi
+- Repackaged
+
 * Sat Apr 18 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.4.18-1.fmi
 - Upgrade to Boost 1.69
+
+* Thu Mar 26 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.3.26-1.fmi
+- Repackaged due to NFmiArea API changes
 
 * Thu Feb 27 2020 Anssi Reponen <anssi.reponen@fmi.fi> - 20.2.27-1.fmi
 - If GustSpeed value is missing, use WindSpeed maximum value (BRAINSTORM-1776)
@@ -123,8 +141,11 @@ FMI textgen development files
 * Wed Feb 12 2020 Anssi Reponen <anssi.reponen@fmi.fi> - 20.2.12-1.fmi
 - Freezing drizzle must be reported if it exists in querydata (BRAINSTORM-1754)
 
+* Thu Feb  6 2020 Mika Heiskanen <mika.heiskanen@fmi.fi> - 20.2.6-1.fmi
+- NFmiPoint Z-coordinate was removed from the ABI
+
 * Wed Dec  4 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.12.4-1.fmi
-- Use -fno-omit-frame-pointer for a better profiling and debugging experience
+- Use -fno-omit-frame-pointer for a better profiling and debugging experience                                                                                           
 
 * Tue Dec 3 2019 Anssi Reponen <anssi.reponen@fmi.fi> - 19.12.3-1.fmi
 - Checking the parameters for missing value (BRAINSORM-1727)
