@@ -1,6 +1,4 @@
 #include "PrecipitationPeriodTools.h"
-#include <boost/lexical_cast.hpp>
-#include <boost/shared_ptr.hpp>
 #include <calculator/AnalysisSources.h>
 #include <calculator/MaskSource.h>
 #include <calculator/RegularMaskSource.h>
@@ -24,7 +22,10 @@ namespace PrecipitationPeriodToolsTest
 {
 boost::shared_ptr<NFmiQueryData> theQD;
 
-void read_querydata(const std::string& theFilename) { theQD.reset(new NFmiQueryData(theFilename)); }
+void read_querydata(const std::string& theFilename)
+{
+  theQD.reset(new NFmiQueryData(theFilename));
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test PrecipitationPeriodTools::findRainTimes
@@ -272,7 +273,10 @@ void inclusivePeriods()
  */
 // ----------------------------------------------------------------------
 
-void mergeNightlyRainPeriods() { TEST_NOT_IMPLEMENTED(); }
+void mergeNightlyRainPeriods()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 //! The actual test driver
 class tests : public tframe::tests
 {

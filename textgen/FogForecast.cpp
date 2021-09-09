@@ -33,10 +33,15 @@
 #include <calculator/TimeTools.h>
 #include <calculator/WeatherPeriodTools.h>
 #include <calculator/WeatherResult.h>
-#include <newbase/NFmiAreaTools.h>
 #include <newbase/NFmiCombinedParam.h>
 #include <map>
 #include <vector>
+
+#ifdef WGS84
+#include <newbase/NFmiAreaTools.h>
+#else
+#include <newbase/NFmiMercatorArea.h>
+#endif
 
 namespace TextGen
 {
@@ -1126,8 +1131,12 @@ Sentence FogForecast::areaSpecificSentence(const WeatherPeriod& thePeriod) const
 
     Rect areaRect(theParameters.theArea);
 
+#ifdef WGS84
     std::unique_ptr<NFmiArea> mercatorArea(
         NFmiAreaTools::CreateLegacyMercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight()));
+#else
+    std::unique_ptr<NFmiMercatorArea> mercatorArea(new NFmiMercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight()));
+#endif    
     float areaHeightWidthRatio =
         mercatorArea->WorldRect().Height() / mercatorArea->WorldRect().Width();
 
