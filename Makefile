@@ -7,7 +7,7 @@ REQUIRES := gdal
 
 include $(shell echo $${PREFIX-/usr})/share/smartmet/devel/makefile.inc
 
-DEFINES = -DUNIX -D_REENTRANT -DWGS84
+DEFINES = -DUNIX -D_REENTRANT
 
 INCLUDES += -isystem $(includedir)/mysql
 
