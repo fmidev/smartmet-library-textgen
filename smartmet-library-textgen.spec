@@ -145,11 +145,7 @@ FMI textgen development files
 - NFmiPoint Z-coordinate was removed from the ABI
 
 * Wed Dec  4 2019 Mika Heiskanen <mika.heiskanen@fmi.fi> - 19.12.4-1.fmi
-<<<<<<< HEAD
-- Use -fno-omit-frame-pointer for a better profiling and debugging experience                                                                                             
-=======
-- Use -fno-omit-frame-pointer for a better profiling and debugging experience
->>>>>>> master
+- Use -fno-omit-frame-pointer for a better profiling and debugging experience                                                                                           
 
 * Tue Dec 3 2019 Anssi Reponen <anssi.reponen@fmi.fi> - 19.12.3-1.fmi
 - Checking the parameters for missing value (BRAINSORM-1727)
