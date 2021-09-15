@@ -61,6 +61,9 @@ void PostgreSQLDictionary::getDataFromDB(const std::string& theLanguage,  std::m
     connectionOptions.password = Settings::require_string("textgen::passwd");
     connectionOptions.encoding = Settings::require_string("textgen::encoding");
     connectionOptions.connect_timeout = Settings::require_int("textgen::connect_timeout");
+	std::string schema_name = Settings::optional_string("textgen::schema", "textgen");
+	if(!schema_name.empty())
+	  schema_name += ".";
 
 	Fmi::Database::PostgreSQLConnection dbConnection;
 	try
@@ -79,7 +82,7 @@ void PostgreSQLDictionary::getDataFromDB(const std::string& theLanguage,  std::m
 	  }
 	
     // select the right translation table
-    std::string sqlStmt = "select translationtable, active from textgen.languages";
+    std::string sqlStmt = ("select translationtable, active from " + schema_name + "languages");
     sqlStmt += " where isocode = '";
     sqlStmt += theLanguage;
     sqlStmt += "'";
@@ -103,7 +106,7 @@ void PostgreSQLDictionary::getDataFromDB(const std::string& theLanguage,  std::m
     if (translationtable.empty())
       throw TextGenError("Error: Language " + theLanguage + " has no translationtable");
 
-    sqlStmt = ("select keyword, translation from textgen." + translationtable);
+    sqlStmt = ("select keyword, translation from " + schema_name + translationtable);
 
     result_set = dbConnection.executeNonTransaction(sqlStmt);
 
