@@ -1,35 +1,32 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::MySQLDictionaries
+ * \brief Implementation of class TextGen::DatabaseDictionary
  */
 // ======================================================================
 /*!
- * \class TextGen::MySQLDictionaries
+ * \class TextGen::DatabaseDictionary
  *
  * \brief Provides dictionary services
  *
- * The responsibility of the MySQLDictionaries class is to provide natural
- * language text for the given keyword.
+ * The responsibility of the DatabaseDictionary class is to provide natural
+ * language text for the given keyword. Inserting new keyword-text pairs.
  *
  * The dictionary has an initialization method, which fetches the specified
- * language from the MySQL server, unless it has been fetched already.
- * In a sence this class is a version of MySQLDictionary which remembers
- * all used languages. The language in use is changed by using the init command.
+ * language from the database server.
  *
  * Sample usage:
  * \code
  * using namespace TextGen;
  *
- * MySQLDictionaries dict;
- * dict.init("fi");
- * dict.init("en");
+ * DatabaseDictionary finnish;
+ * finnish.init("fi");
  *
- * cout << dict.find("good morning") << endl;
- * cout << dict.find("good night") << endl;
+ * cout << finnish.find("good morning") << endl;
+ * cout << finnish.find("good night") << endl;
  *
- * if(dict.contains("good night"))
- *    cout << dict.find("good night") << endl;
+ * if(finnish.contains("good night"))
+ *    cout << finnish.find("good night") << endl;
  * \endcode
  *
  * Note that find throws if the given keyword does not exist.
@@ -38,21 +35,16 @@
  * are all specified externally in fmi.conf used by newbase
  * NFmiSettings class.
  *
- * The dictionary can be initialized multiple times. All
- * initializations are effectively cached for best possible
- * speed.
+ * The dictionary can be initialized multiple times. Each init
+ * erases the language initialized earlier.
  */
 // ----------------------------------------------------------------------
-
-#include "MySQLDictionaries.h"
-#ifdef UNIX
-#include "MySQLDictionary.h"
-#include <boost/shared_ptr.hpp>
+#include "DatabaseDictionary.h"
 #include <calculator/TextGenError.h>
+
 #include <map>
 
 using namespace std;
-
 
 namespace TextGen
 {
@@ -63,16 +55,17 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-class MySQLDictionaries::Pimple
+class DatabaseDictionary::Pimple
 {
  public:
-  typedef map<string, boost::shared_ptr<MySQLDictionary> > storage_type;
+  Pimple() : itsInitialized(false), itsLanguage(), itsData() {}
+  typedef std::map<std::string, std::string> StorageType;
+  typedef StorageType::value_type value_type;
+  
 
-  storage_type itsData;
-  string itsLanguage;
   bool itsInitialized;
-
-  storage_type::const_iterator itsCurrentDictionary;
+  std::string itsLanguage;
+  StorageType itsData;
 
 };  // class Pimple
 
@@ -84,7 +77,7 @@ class MySQLDictionaries::Pimple
  */
 // ----------------------------------------------------------------------
 
-MySQLDictionaries::~MySQLDictionaries() {}
+DatabaseDictionary::~DatabaseDictionary() {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -93,7 +86,7 @@ MySQLDictionaries::~MySQLDictionaries() {}
  */
 // ----------------------------------------------------------------------
 
-MySQLDictionaries::MySQLDictionaries() : Dictionary(), itsPimple(new Pimple()) {}
+DatabaseDictionary::DatabaseDictionary() : Dictionary(), itsPimple(new Pimple()) {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the language
@@ -104,49 +97,42 @@ MySQLDictionaries::MySQLDictionaries() : Dictionary(), itsPimple(new Pimple()) {
  */
 // ----------------------------------------------------------------------
 
-const std::string& MySQLDictionaries::language(void) const { return itsPimple->itsLanguage; }
+const std::string& DatabaseDictionary::language(void) const { return itsPimple->itsLanguage; }
 // ----------------------------------------------------------------------
 /*!
  * \brief Initialize with given language
  *
- * Initializing the MySQLDictionaries involves connecting to the MySQL
+ * Initializing the DatabaseDictionary involves connecting to the MySQL
  * database containing the dictionary for the given language, and
  * reading all words defined in the dictionary to the internal containers.
  *
  * If any errors occur during the initialization, a TextGenError is thrown.
  *
- * Any language initialized earlier will be remembered for later use.
- * Initializing the same language twice merely reactives the dictionary
- * initialized earlier.
+ * Any language initialized earlier will be erased. Initializing the
+ * same language twice is essentially a reload from the MySQL database.
  *
  * \param theLanguage The ISO-code of the language to initialize
  */
 // ----------------------------------------------------------------------
 
-void MySQLDictionaries::init(const std::string& theLanguage)
+void DatabaseDictionary::init(const std::string& theLanguage)
 {
-  // Done if language is already active
+  try
+  {
+    // clear possible earlier language
+    itsPimple->itsLanguage = theLanguage;
+    itsPimple->itsInitialized = false;
+    itsPimple->itsData.clear();
 
-  if (theLanguage == itsPimple->itsLanguage) return;
+	getDataFromDB(theLanguage, itsPimple->itsData);
 
-  itsPimple->itsLanguage = theLanguage;
+	itsPimple->itsInitialized = true;
+  }
+  catch(...)
+	{
+	  throw TextGenError("Error: DatabaseDictionary::init() failed for database " + itsDictionaryId);
+	}
 
-  // Activate old language if possible
-
-  itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
-  if (itsPimple->itsCurrentDictionary != itsPimple->itsData.end()) return;
-
-  // Load new language
-
-  boost::shared_ptr<MySQLDictionary> dict(new MySQLDictionary);
-  if (dict.get() == 0) throw TextGenError("Failed to allocate a new MySQLDictionary");
-
-  dict->init(theLanguage);
-
-  itsPimple->itsData.insert(Pimple::storage_type::value_type(theLanguage, dict));
-  itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
-
-  itsPimple->itsInitialized = true;
 }
 
 // ----------------------------------------------------------------------
@@ -158,12 +144,9 @@ void MySQLDictionaries::init(const std::string& theLanguage)
  */
 // ----------------------------------------------------------------------
 
-bool MySQLDictionaries::contains(const std::string& theKey) const
+bool DatabaseDictionary::contains(const std::string& theKey) const
 {
-  if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: MySQLDictionaries::contains() called before init()");
-
-  return (itsPimple->itsCurrentDictionary->second->contains(theKey));
+  return (itsPimple->itsData.find(theKey) != itsPimple->itsData.end());
 }
 
 // ----------------------------------------------------------------------
@@ -178,12 +161,16 @@ bool MySQLDictionaries::contains(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-const std::string& MySQLDictionaries::find(const std::string& theKey) const
+const std::string& DatabaseDictionary::find(const std::string& theKey) const
 {
   if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: MySQLDictionaries::find() called before init()");
+    throw TextGenError("Error: DatabaseDictionary::find() called before init()");
 
-  return itsPimple->itsCurrentDictionary->second->find(theKey);
+  Pimple::StorageType::const_iterator it = itsPimple->itsData.find(theKey);
+
+  if (it != itsPimple->itsData.end()) return it->second;
+  throw TextGenError("Error: DatabaseDictionary::find(" + theKey + ") failed in language " +
+                     itsPimple->itsLanguage);
 }
 
 // ----------------------------------------------------------------------
@@ -198,9 +185,9 @@ const std::string& MySQLDictionaries::find(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-void MySQLDictionaries::insert(const std::string& theKey, const std::string& thePhrase)
+void DatabaseDictionary::insert(const std::string& theKey, const std::string& thePhrase)
 {
-  throw TextGenError("Error: MySQLDictionaries::insert() is not allowed");
+  throw TextGenError("Error: DatabaseDictionary::insert() is not allowed");
 }
 
 // ----------------------------------------------------------------------
@@ -211,13 +198,7 @@ void MySQLDictionaries::insert(const std::string& theKey, const std::string& the
  */
 // ----------------------------------------------------------------------
 
-MySQLDictionaries::size_type MySQLDictionaries::size(void) const
-{
-  if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: MySQLDictionaries::size() called before init()");
-  return itsPimple->itsCurrentDictionary->second->size();
-}
-
+DatabaseDictionary::size_type DatabaseDictionary::size(void) const { return itsPimple->itsData.size(); }
 // ----------------------------------------------------------------------
 /*!
  * Test if the dictionary is empty
@@ -226,15 +207,22 @@ MySQLDictionaries::size_type MySQLDictionaries::size(void) const
  */
 // ----------------------------------------------------------------------
 
-bool MySQLDictionaries::empty(void) const
-{
-  if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: MySQLDictionaries::empty() called before init()");
+bool DatabaseDictionary::empty(void) const { return itsPimple->itsData.empty(); }
 
-  return itsPimple->itsCurrentDictionary->second->empty();
+
+// ----------------------------------------------------------------------
+/*!
+ * Change dictonary language
+ *
+ */
+// ----------------------------------------------------------------------
+
+void DatabaseDictionary::changeLanguage(const std::string& theLanguage)
+{
+  init(theLanguage);
 }
+
 
 }  // namespace TextGen
 
 // ======================================================================
-#endif  // UNIX

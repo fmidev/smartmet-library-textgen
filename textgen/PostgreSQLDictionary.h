@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class TextGen::MySQLDictionary
+ * \brief Interface of class TextGen::PostgreSQLDictionary
  */
 // ======================================================================
 
@@ -12,13 +12,15 @@
 
 namespace TextGen
 {
-class MySQLDictionary : public DatabaseDictionary
+class PostgreSQLDictionary : public DatabaseDictionary
 {
 public:
-  MySQLDictionary() { itsDictionaryId = "mysql"; }
-private:
-  void getDataFromDB(const std::string& theLanguage,  std::map<std::string, std::string>& theDataStorage) override;  
-};  // class MySQLDictionary
+  PostgreSQLDictionary() { itsDictionaryId = "postgresql"; }
+
+ private:
+  void getDataFromDB(const std::string& theLanguage,  std::map<std::string, std::string>& theDataStorage) override;
+
+};  // class PostgreSQLDictionary
 
 }  // namespace TextGen
 #endif  // UNIX
