@@ -66,8 +66,13 @@ void mask()
   // expand by 15, hence all 5 points are also coastal
   {
     mask_type m = source.mask(ahvenanmaa15, "data", wsource);
+#ifdef WGS84
+    if (m->size() != 4)
+      TEST_FAILED("Size of mask ahvenanmaa:15 should be 4, not " + Convert(m->size()));
+#else    
     if (m->size() != 5)
       TEST_FAILED("Size of mask ahvenanmaa:15 should be 5, not " + Convert(m->size()));
+#endif    
   }
 
   // not even near the coast

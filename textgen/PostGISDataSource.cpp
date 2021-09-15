@@ -3,13 +3,12 @@
 #ifdef UNIX
 
 #include <boost/algorithm/string/replace.hpp>
-#include <ogrsf_frmts.h>
 #include <iostream>
+#include <ogrsf_frmts.h>
 #include <sstream>
 #include <stdexcept>
 
 using namespace std;
-
 
 namespace BrainStorm
 {
@@ -42,7 +41,8 @@ bool PostGISDataSource::readData(const std::string& host,
   try
   {
     std::string queryparameter(host + port + dbname + schema + table + fieldname + client_encoding);
-    if (queryparametermap.find(queryparameter) != queryparametermap.end()) return true;
+    if (queryparametermap.find(queryparameter) != queryparametermap.end())
+      return true;
 
     std::stringstream connection_ss;
 
@@ -72,13 +72,13 @@ bool PostGISDataSource::readData(const std::string& host,
       }
     */
 
-#if GDAL_VERSION_MAJOR < 2  
+#if GDAL_VERSION_MAJOR < 2
     OGRDataSource* pDS = OGRSFDriverRegistrar::Open(connection_ss.str().c_str(), FALSE);
 #else
     auto* pDriver = GetGDALDriverManager()->GetDriverByName("PostgreSQL");
     GDALOpenInfo info(connection_ss.str().c_str(), GA_ReadOnly);
     std::unique_ptr<GDALDataset> pDS{pDriver->pfnOpen(&info)};
-#endif  
+#endif
 
     if (!pDS)
     {
@@ -254,7 +254,8 @@ bool PostGISDataSource::readData(const std::string& host,
             string previous_part(linemap[area_name]);
             boost::algorithm::replace_all(previous_part, " \"", " ");
             boost::algorithm::replace_all(previous_part, " \n", " ");
-            //						boost::algorithm::replace_all(previous_part, "M", "L");
+            //						boost::algorithm::replace_all(previous_part,
+            //"M", "L");
             svg_string = (previous_part + "L " + svg_string);
           }
           else
@@ -284,7 +285,7 @@ bool PostGISDataSource::readData(const std::string& host,
     // in the end destroy data source
 #if GDAL_VERSION_MAJOR < 2
     OGRDataSource::DestroyDataSource(pDS);
-#endif    
+#endif
 
     queryparametermap.insert(make_pair(queryparameter, 1));
   }
@@ -315,18 +316,18 @@ std::pair<double, double> PostGISDataSource::getPoint(const std::string& name) c
 }
 
 PostGISDataSource::GDALData* PostGISDataSource::connect(const std::string& host,
-                                          const std::string& port,
-                                          const std::string& dbname,
-                                          const std::string& user,
-                                          const std::string& password)
+                                                        const std::string& port,
+                                                        const std::string& dbname,
+                                                        const std::string& user,
+                                                        const std::string& password)
 {
   OGRRegisterAll();
 
-#if GDAL_VERSION_MAJOR < 2  
+#if GDAL_VERSION_MAJOR < 2
   auto* pDriver(OGRSFDriverRegistrar::GetRegistrar()->GetDriverByName("PostgreSQL"));
 #else
   auto* pDriver = GetGDALDriverManager()->GetDriverByName("PostgreSQL");
-#endif  
+#endif
 
   if (!pDriver)
   {
@@ -338,7 +339,7 @@ PostGISDataSource::GDALData* PostGISDataSource::connect(const std::string& host,
   ss << "PG:host='" << host << "' port='" << port << "' dbname='" << dbname << "' user='" << user
      << "' password='" << password << "'";
 
-#if GDAL_VERSION_MAJOR < 2  
+#if GDAL_VERSION_MAJOR < 2
   return pDriver->Open(ss.str().c_str());
 #else
   GDALOpenInfo info(ss.str().c_str(), GA_ReadOnly);

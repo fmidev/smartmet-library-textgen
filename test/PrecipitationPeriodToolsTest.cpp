@@ -13,10 +13,6 @@
 #include <newbase/NFmiSettings.h>
 #include <newbase/NFmiSvgPath.h>
 #include <regression/tframe.h>
-
-#include <boost/lexical_cast.hpp>
-#include <boost/shared_ptr.hpp>
-
 #include <stdexcept>
 
 using namespace std;
@@ -26,7 +22,10 @@ namespace PrecipitationPeriodToolsTest
 {
 boost::shared_ptr<NFmiQueryData> theQD;
 
-void read_querydata(const std::string& theFilename) { theQD.reset(new NFmiQueryData(theFilename)); }
+void read_querydata(const std::string& theFilename)
+{
+  theQD.reset(new NFmiQueryData(theFilename));
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test PrecipitationPeriodTools::findRainTimes
@@ -130,10 +129,12 @@ void findRainPeriods()
 
     RainPeriods periods1 = findRainPeriods(times, "a");
     if (periods1.size() != 2)
-      TEST_FAILED("Must find 2 rainy periods for Uusimaa with max separation 1");
+      TEST_FAILED("Must find 2 rainy periods for Uusimaa with max separation 1, not " +
+                  std::to_string(periods1.size()));
     RainPeriods periods3 = findRainPeriods(times, "b");
     if (periods3.size() != 1)
-      TEST_FAILED("Must find 1 rainy period for Uusimaa with max separation 3");
+      TEST_FAILED("Must find 1 rainy period for Uusimaa with max separation 3, not " +
+                  std::to_string(periods3.size()));
   }
 
   {
@@ -272,7 +273,10 @@ void inclusivePeriods()
  */
 // ----------------------------------------------------------------------
 
-void mergeNightlyRainPeriods() { TEST_NOT_IMPLEMENTED(); }
+void mergeNightlyRainPeriods()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 //! The actual test driver
 class tests : public tframe::tests
 {
