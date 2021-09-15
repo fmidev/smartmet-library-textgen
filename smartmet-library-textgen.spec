@@ -5,7 +5,7 @@
 Summary: textgen library
 Name: %{SPECNAME}
 Version: 21.9.15
-Release: 1%{?dist}.fmi
+Release: 2%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -78,6 +78,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Sep 15 2021 Anssi Reponen <anssi.reponen@fmi.fi> - 21.9.15-2.fmi
+- Added support for textgen::schema option in PostgreSQL dictionary ('textgen' is default)
+
 * Wed Sep 15 2021 Anssi Reponen <anssi.reponen@fmi.fi> - 21.9.15-1.fmi
 - Support for PostgreSQL dictionary database added (BRAINSTORM-1707)
 
