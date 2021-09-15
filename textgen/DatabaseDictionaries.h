@@ -1,11 +1,12 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class TextGen::FileDictionary
+ * \brief Interface of class TextGen::DatabaseDictionaries
  */
 // ======================================================================
 
 #pragma once
+#ifdef UNIX
 
 #include "Dictionary.h"
 
@@ -14,19 +15,19 @@
 
 namespace TextGen
 {
-class FileDictionary : public Dictionary
+class DatabaseDictionaries : public Dictionary
 {
  public:
   typedef Dictionary::size_type size_type;
 
-  virtual ~FileDictionary();
-  FileDictionary();
+  virtual ~DatabaseDictionaries();
+  DatabaseDictionaries(const std::string& theDictionaryId);
 #ifdef NO_COMPILER_OPTIMIZE
-  FileDictionary(const FileDictionary& theDict);
-  FileDictionary& operator=(const FileDictionary& theDict);
+  DatabaseDictionaries(const DatabaseDictionaries& theDict);
+  DatabaseDictionaries& operator=(const DatabaseDictionaries& theDict);
 #endif
 
-  virtual void init(const std::string& theLanguage);
+  void init(const std::string& theLanguage);
   virtual const std::string& language(void) const;
   virtual bool contains(const std::string& theKey) const;
   virtual const std::string& find(const std::string& theKey) const;
@@ -36,12 +37,14 @@ class FileDictionary : public Dictionary
   virtual bool empty(void) const;
   void  changeLanguage(const std::string& theLanguage) override;
 
- private:
+private:
   class Pimple;
   boost::shared_ptr<Pimple> itsPimple;
 
-};  // class FileDictionary
+};  // class DatabaseDictionaries
 
 }  // namespace TextGen
+
+#endif  // UNIX
 
 // ======================================================================

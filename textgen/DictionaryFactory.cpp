@@ -26,8 +26,10 @@
 #include "DictionaryFactory.h"
 #include "BasicDictionary.h"
 #include "FileDictionary.h"
-#include "MySQLDictionaries.h"
+#include "FileDictionaries.h"
+#include "DatabaseDictionaries.h"
 #include "MySQLDictionary.h"
+#include "PostgreSQLDictionary.h"
 #include "NullDictionary.h"
 #include <calculator/TextGenError.h>
 
@@ -49,9 +51,12 @@ Dictionary* DictionaryFactory::create(const std::string& theType)
   if (theType == "null") return new NullDictionary();
   if (theType == "basic") return new BasicDictionary();
   if (theType == "file") return new FileDictionary();
+  if (theType == "multifile") return new FileDictionaries();
 #ifdef UNIX
   if (theType == "mysql") return new MySQLDictionary();
-  if (theType == "multimysql") return new MySQLDictionaries();
+  if (theType == "multimysql") return new DatabaseDictionaries("mysql");
+  if (theType == "postgresql") return new PostgreSQLDictionary();
+  if (theType == "multipostgresql") return new DatabaseDictionaries("postgresql");
 #endif  // UNIX
 
   throw TextGenError("Error: Unknown dictionary type " + theType);

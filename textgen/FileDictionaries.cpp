@@ -1,52 +1,58 @@
 // ======================================================================
 /*!
  * \file
- * \brief Implementation of class TextGen::FileDictionary
+ * \brief Implementation of class TextGen::FileDictionaries
  */
 // ======================================================================
 /*!
- * \class TextGen::FileDictionary
+ * \class TextGen::FileDictionaries
  *
  * \brief Provides dictionary services
  *
- * The responsibility of the FileDictionary class is to provide natural
- * language text for the given keyword. Inserting new keyword-text pairs.
+ * The responsibility of the FileDictionaries class is to provide natural
+ * language text for the given keyword.
  *
  * The dictionary has an initialization method, which fetches the specified
- * language from the flatfile databases.
+ * language from the Database server, unless it has been fetched already.
+ * In a sence this class is a version of FileDictionary which remembers
+ * all used languages. The language in use is changed by using the changeLanguage command.
  *
  * Sample usage:
  * \code
  * using namespace TextGen;
  *
- * FileDictionary english;
- * english.init("en");
+ * FileDictionaries dict;
+ * dict.init("fi");
+ * dict.init("en");
  *
- * cout << english.find("1-aamusta") << endl;
- * cout << english.find("paivan ylin lampotila") << endl;
+ * cout << dict.find("good morning") << endl;
+ * cout << dict.find("good night") << endl;
  *
- * if(english.contains("1-aamusta"))
- *    cout << english.find("1-aamusta") << endl;
+ * if(dict.contains("good night"))
+ *    cout << dict.find("good night") << endl;
  * \endcode
  *
  * Note that find throws if the given keyword does not exist.
  *
- * The flatfile database location is stored externally in fmi.conf
- * used by newbase NFmiSettings class.
+ * The database address, table name, user name and password
+ * are all specified externally in fmi.conf used by newbase
+ * NFmiSettings class.
  *
- * The dictionary can be initialized multiple times. Each init
- * erases the language initialized earlier.
+ * The dictionary can be initialized multiple times. All
+ * initializations are effectively cached for best possible
+ * speed.
  */
 // ----------------------------------------------------------------------
 
+#include "FileDictionaries.h"
+#ifdef UNIX
 #include "FileDictionary.h"
-#include <calculator/Settings.h>
+#include <boost/shared_ptr.hpp>
 #include <calculator/TextGenError.h>
-#include <newbase/NFmiFileSystem.h>
-#include <newbase/NFmiStringTools.h>
-
-#include <fstream>
 #include <map>
+
+using namespace std;
+
 
 namespace TextGen
 {
@@ -57,16 +63,16 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-class FileDictionary::Pimple
+class FileDictionaries::Pimple
 {
  public:
-  Pimple() : itsInitialized(false), itsLanguage(), itsData() {}
-  typedef std::map<std::string, std::string> StorageType;
-  typedef StorageType::value_type value_type;
+  typedef map<string, boost::shared_ptr<FileDictionary> > storage_type;
 
+  storage_type itsData;
+  string itsLanguage;
   bool itsInitialized;
-  std::string itsLanguage;
-  StorageType itsData;
+
+  storage_type::const_iterator itsCurrentDictionary;
 
 };  // class Pimple
 
@@ -78,7 +84,7 @@ class FileDictionary::Pimple
  */
 // ----------------------------------------------------------------------
 
-FileDictionary::~FileDictionary() {}
+FileDictionaries::~FileDictionaries() {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Constructor
@@ -87,7 +93,7 @@ FileDictionary::~FileDictionary() {}
  */
 // ----------------------------------------------------------------------
 
-FileDictionary::FileDictionary() : Dictionary(), itsPimple(new Pimple()) { itsDictionaryId = "file"; }
+FileDictionaries::FileDictionaries() : Dictionary(), itsPimple(new Pimple()) { itsDictionaryId = "multifile"; }
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the language
@@ -98,53 +104,48 @@ FileDictionary::FileDictionary() : Dictionary(), itsPimple(new Pimple()) { itsDi
  */
 // ----------------------------------------------------------------------
 
-const std::string& FileDictionary::language(void) const { return itsPimple->itsLanguage; }
+const std::string& FileDictionaries::language(void) const { return itsPimple->itsLanguage; }
 // ----------------------------------------------------------------------
 /*!
  * \brief Initialize with given language
  *
- * Initializing the FileDictionary involves connecting to the File
+ * Initializing the FileDictionaries involves connecting to the Database
  * database containing the dictionary for the given language, and
  * reading all words defined in the dictionary to the internal containers.
  *
  * If any errors occur during the initialization, a TextGenError is thrown.
  *
- * Any language initialized earlier will be erased. Initializing the
- * same language twice is essentially a reload from the File database.
+ * Any language initialized earlier will be remembered for later use.
+ * Initializing the same language twice merely reactives the dictionary
+ * initialized earlier.
  *
  * \param theLanguage The ISO-code of the language to initialize
  */
 // ----------------------------------------------------------------------
 
-void FileDictionary::init(const std::string& theLanguage)
+void FileDictionaries::init(const std::string& theLanguage)
 {
-  // clear possible earlier language
+  // Done if language is already active
+
+  if (theLanguage == itsPimple->itsLanguage) return;
+
   itsPimple->itsLanguage = theLanguage;
-  itsPimple->itsInitialized = false;
-  itsPimple->itsData.clear();
 
-  // Establish the settings for TextGen
+  // Activate old language if possible
 
-  std::string database = Settings::require_string("textgen::filedictionaries");
-  // Read the file one line at a time
+  itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
 
-  std::string filename = database + '/' + theLanguage + ".txt";
+  if (itsPimple->itsCurrentDictionary != itsPimple->itsData.end()) return;
 
-  if (!NFmiFileSystem::FileExists(filename))
-    throw TextGenError("Error: Could not find dictionary '" + filename + "'");
+  // Load new language
 
-  std::ifstream in(filename.c_str());
-  if (!in) throw TextGenError("Error: Could not open dictionary '" + filename + "' for reading");
+  boost::shared_ptr<FileDictionary> dict(new FileDictionary);
+  if (dict.get() == 0) throw TextGenError("Failed to allocate a new FileDictionary");
 
-  std::string line;
-  while (getline(in, line))
-  {
-    std::vector<std::string> parts = NFmiStringTools::Split(line, "|");
-    if (parts.size() != 2)
-      throw TextGenError("Error: Dictionary '" + filename + "' contains invalid line '" + line +
-                         "'");
-    if (!parts[0].empty()) itsPimple->itsData.insert(Pimple::value_type(parts[0], parts[1]));
-  }
+  dict->init(theLanguage);
+
+  itsPimple->itsData.insert(Pimple::storage_type::value_type(theLanguage, dict));
+  itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
 
   itsPimple->itsInitialized = true;
 }
@@ -158,9 +159,12 @@ void FileDictionary::init(const std::string& theLanguage)
  */
 // ----------------------------------------------------------------------
 
-bool FileDictionary::contains(const std::string& theKey) const
+bool FileDictionaries::contains(const std::string& theKey) const
 {
-  return (itsPimple->itsData.find(theKey) != itsPimple->itsData.end());
+  if (!itsPimple->itsInitialized)
+    throw TextGenError("Error: FileDictionaries::contains() called before init()");
+
+  return (itsPimple->itsCurrentDictionary->second->contains(theKey));
 }
 
 // ----------------------------------------------------------------------
@@ -175,15 +179,12 @@ bool FileDictionary::contains(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-const std::string& FileDictionary::find(const std::string& theKey) const
+const std::string& FileDictionaries::find(const std::string& theKey) const
 {
   if (!itsPimple->itsInitialized)
-    throw TextGenError("Error: FileDictionary::find() called before init()");
-  Pimple::StorageType::const_iterator it = itsPimple->itsData.find(theKey);
+    throw TextGenError("Error: FileDictionaries::find() called before init()");
 
-  if (it != itsPimple->itsData.end()) return it->second;
-  throw TextGenError("Error: FileDictionary::find(" + theKey + ") failed in language " +
-                     itsPimple->itsLanguage);
+  return itsPimple->itsCurrentDictionary->second->find(theKey);
 }
 
 // ----------------------------------------------------------------------
@@ -198,9 +199,9 @@ const std::string& FileDictionary::find(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-void FileDictionary::insert(const std::string& theKey, const std::string& thePhrase)
+void FileDictionaries::insert(const std::string& theKey, const std::string& thePhrase)
 {
-  throw TextGenError("Error: FileDictionary::insert() is not allowed");
+  throw TextGenError("Error: FileDictionaries::insert() is not allowed");
 }
 
 // ----------------------------------------------------------------------
@@ -211,7 +212,13 @@ void FileDictionary::insert(const std::string& theKey, const std::string& thePhr
  */
 // ----------------------------------------------------------------------
 
-FileDictionary::size_type FileDictionary::size(void) const { return itsPimple->itsData.size(); }
+FileDictionaries::size_type FileDictionaries::size(void) const
+{
+  if (!itsPimple->itsInitialized)
+    throw TextGenError("Error: FileDictionaries::size() called before init()");
+  return itsPimple->itsCurrentDictionary->second->size();
+}
+
 // ----------------------------------------------------------------------
 /*!
  * Test if the dictionary is empty
@@ -220,7 +227,13 @@ FileDictionary::size_type FileDictionary::size(void) const { return itsPimple->i
  */
 // ----------------------------------------------------------------------
 
-bool FileDictionary::empty(void) const { return itsPimple->itsData.empty(); }
+bool FileDictionaries::empty(void) const
+{
+  if (!itsPimple->itsInitialized)
+    throw TextGenError("Error: FileDictionaries::empty() called before init()");
+
+  return itsPimple->itsCurrentDictionary->second->empty();
+}
 
 // ----------------------------------------------------------------------
 /*!
@@ -229,11 +242,17 @@ bool FileDictionary::empty(void) const { return itsPimple->itsData.empty(); }
  */
 // ----------------------------------------------------------------------
 
-void FileDictionary::changeLanguage(const std::string& theLanguage)
+void  FileDictionaries::changeLanguage(const std::string& theLanguage)
 {
-  init(theLanguage);
+  if (itsPimple->itsData.find(theLanguage) == itsPimple->itsData.end())
+    throw TextGenError("Error: The requested language not supported: " + theLanguage);
+
+  itsPimple->itsLanguage = theLanguage;
+  itsPimple->itsCurrentDictionary = itsPimple->itsData.find(theLanguage);
 }
+
 
 }  // namespace TextGen
 
 // ======================================================================
+#endif  // UNIX

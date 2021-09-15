@@ -1,7 +1,7 @@
 // ======================================================================
 /*!
  * \file
- * \brief Interface of class TextGen::MySQLDictionaries
+ * \brief Interface of class TextGen::FileDictionaries
  */
 // ======================================================================
 
@@ -15,19 +15,19 @@
 
 namespace TextGen
 {
-class MySQLDictionaries : public Dictionary
+class FileDictionaries : public Dictionary
 {
  public:
   typedef Dictionary::size_type size_type;
 
-  virtual ~MySQLDictionaries();
-  MySQLDictionaries();
+  virtual ~FileDictionaries();
+  FileDictionaries();
 #ifdef NO_COMPILER_OPTIMIZE
-  MySQLDictionaries(const MySQLDictionaries& theDict);
-  MySQLDictionaries& operator=(const MySQLDictionaries& theDict);
+  FileDictionaries(const FileDictionaries& theDict);
+  FileDictionaries& operator=(const FileDictionaries& theDict);
 #endif
 
-  virtual void init(const std::string& theLanguage);
+  void init(const std::string& theLanguage);
   virtual const std::string& language(void) const;
   virtual bool contains(const std::string& theKey) const;
   virtual const std::string& find(const std::string& theKey) const;
@@ -35,12 +35,13 @@ class MySQLDictionaries : public Dictionary
 
   virtual size_type size(void) const;
   virtual bool empty(void) const;
+  void  changeLanguage(const std::string& theLanguage) override;
 
  private:
   class Pimple;
   boost::shared_ptr<Pimple> itsPimple;
 
-};  // class MySQLDictionaries
+};  // class FileDictionaries
 
 }  // namespace TextGen
 
