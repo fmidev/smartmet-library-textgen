@@ -4,8 +4,8 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 21.9.15
-Release: 2%{?dist}.fmi
+Version: 21.9.17
+Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
 URL: https://github.com/fmidev/smartmet-library-textgen
@@ -26,6 +26,23 @@ Requires: gdal32-libs
 Requires: smartmet-library-calculator >= 21.5.6
 Requires: smartmet-library-macgyver >= 21.9.13
 Requires: smartmet-library-newbase >= 21.6.16
+
+%if %{defined el7}
+Requires: libpqxx < 1:7.0
+BuildRequires: libpqxx-devel < 1:7.0
+#TestRequires: libpqxx-devel < 1:7.0
+%else
+%if %{defined el8}
+Requires: libpqxx >= 5.0.1
+BuildRequires: libpqxx-devel >= 5.0.1
+#TestRequires: libpqxx-devel >= 5.0.1
+%else
+Requires: libpqxx
+BuildRequires: libpqxx-devel
+#TestRequires: libpqxx-devel
+%endif
+%endif
+
 Provides: %{SPECNAME}
 Obsoletes: libsmartmet-textgen < 17.1.4
 Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
@@ -78,6 +95,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Fri Sep 17 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.9.17-1.fmi
+- Added libpqxx requirements
+
 * Wed Sep 15 2021 Anssi Reponen <anssi.reponen@fmi.fi> - 21.9.15-2.fmi
 - Added support for textgen::schema option in PostgreSQL dictionary ('textgen' is default)
 

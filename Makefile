@@ -3,7 +3,7 @@ LIB = smartmet-$(SUBNAME)
 SPEC = smartmet-library-$(SUBNAME)
 INCDIR = smartmet/$(SUBNAME)
 
-REQUIRES := gdal
+REQUIRES := libpqxx gdal
 
 include $(shell echo $${PREFIX-/usr})/share/smartmet/devel/makefile.inc
 
