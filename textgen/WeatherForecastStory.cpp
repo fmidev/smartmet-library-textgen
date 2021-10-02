@@ -258,7 +258,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
       theLogger << "Precipitation story item: " << as_string(item->getStoryItemPeriod())
                 << std::endl;
 
-      PrecipitationForecastStoryItem* precipitationStoryItem =
+      auto* precipitationStoryItem =
           static_cast<PrecipitationForecastStoryItem*>(item);
 
       bool sleetOrSnow = (precipitationStoryItem->theForm & SLEET_FORM ||
@@ -284,7 +284,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
           if (previousItem->theStoryPartId == PRECIPITATION_STORY_PART &&
               precipitationStoryItem->theStoryPartId == PRECIPITATION_STORY_PART)
           {
-            PrecipitationForecastStoryItem* previousPrecipitationStoryItem =
+            auto* previousPrecipitationStoryItem =
                 static_cast<PrecipitationForecastStoryItem*>(previousItem);
             if (previousPrecipitationStoryItem->precipitationExtent() >=
                     IN_SOME_PLACES_LOWER_LIMIT &&
@@ -318,7 +318,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
       theLogger << "Cloudiness story item: " << as_string(item->getStoryItemPeriod()) << std::endl;
       FogInfo fogInfo = theFogForecast.fogInfo(item->getStoryItemPeriod());
 
-      CloudinessForecastStoryItem* cloudinessStoryItem =
+      auto* cloudinessStoryItem =
           static_cast<CloudinessForecastStoryItem*>(item);
 
       FogInfo fi = theFogForecast.fogInfo(item->getStoryItemPeriod());
@@ -354,9 +354,9 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
           storyItems[i].first != CLOUDINESS_STORY_PART)
       {
         // successive precipitation periods
-        PrecipitationForecastStoryItem* previousItem = static_cast<PrecipitationForecastStoryItem*>(
+        auto* previousItem = static_cast<PrecipitationForecastStoryItem*>(
             theStoryItemVector[storyItems[firstIndex].second]);
-        PrecipitationForecastStoryItem* currentItem =
+        auto* currentItem =
             static_cast<PrecipitationForecastStoryItem*>(theStoryItemVector[storyItems[i].second]);
         if (previousItem->theType == currentItem->theType &&
             previousItem->theForm == currentItem->theForm)
@@ -464,7 +464,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
     }
     else
     {
-      PrecipitationForecastStoryItem* precipitationItem =
+      auto* precipitationItem =
           static_cast<PrecipitationForecastStoryItem*>(item);
 
       float precipitationExtent = precipitationItem->precipitationExtent();
@@ -659,7 +659,7 @@ void WeatherForecastStory::addPrecipitationStoryItems()
     if (get_period_length(precipitationPeriods[i]) <= 1 && extent < 10)
       continue;
 
-    PrecipitationForecastStoryItem* item =
+    auto* item =
         new PrecipitationForecastStoryItem(*this,
                                            precipitationPeriods[i],
                                            PRECIPITATION_STORY_PART,
@@ -703,7 +703,7 @@ void WeatherForecastStory::addPrecipitationStoryItems()
   if (theStoryItemVector.size() == 0)
   {
     WeatherPeriod cloudinessPeriod(theForecastPeriod);
-    CloudinessForecastStoryItem* item =
+    auto* item =
         new CloudinessForecastStoryItem(*this,
                                         cloudinessPeriod,
                                         CLOUDINESS_STORY_PART,
@@ -783,7 +783,7 @@ void WeatherForecastStory::addCloudinessStoryItems()
     {
       WeatherForecastStoryItem* placeholder = theStoryItemVector[i];
 
-      CloudinessForecastStoryItem* cloudinessStoryItem = new CloudinessForecastStoryItem(
+      auto* cloudinessStoryItem = new CloudinessForecastStoryItem(
           *this,
           placeholder->thePeriod,
           CLOUDINESS_STORY_PART,
@@ -1382,7 +1382,7 @@ float PrecipitationForecastStoryItem::precipitationExtent() const
 {
   if (thePeriodToMergeWith)
   {
-    PrecipitationForecastStoryItem* mergeWith =
+    auto* mergeWith =
         static_cast<PrecipitationForecastStoryItem*>(thePeriodToMergeWith);
 
     float periodLen = get_period_length(thePeriod);
@@ -1401,7 +1401,7 @@ unsigned int PrecipitationForecastStoryItem::precipitationForm() const
 {
   if (thePeriodToMergeWith)
   {
-    PrecipitationForecastStoryItem* mergeWith =
+    auto* mergeWith =
         static_cast<PrecipitationForecastStoryItem*>(thePeriodToMergeWith);
 
     float periodLen = get_period_length(thePeriod);
@@ -1419,7 +1419,7 @@ bool PrecipitationForecastStoryItem::isWeakPrecipitation(const wf_story_params& 
 {
   if (thePeriodToMergeWith)
   {
-    PrecipitationForecastStoryItem* mergeWith =
+    auto* mergeWith =
         static_cast<PrecipitationForecastStoryItem*>(thePeriodToMergeWith);
 
     float periodLen = get_period_length(thePeriod);

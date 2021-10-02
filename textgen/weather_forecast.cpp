@@ -767,63 +767,63 @@ void populate_cloudiness_time_series(wf_story_params& theParameters)
 
 void allocate_data_structures(wf_story_params& theParameters, const forecast_area_id& theAreaId)
 {
-  weather_result_data_item_vector* hourlyMaxPrecipitation = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyMeanPrecipitation = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationExtent =
+  auto* hourlyMaxPrecipitation = new weather_result_data_item_vector();
+  auto* hourlyMeanPrecipitation = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationExtent =
       new weather_result_data_item_vector();
 
-  weather_result_data_item_vector* hourlyPrecipitationType = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationFormWater =
+  auto* hourlyPrecipitationType = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationFormWater =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationFormDrizzle =
+  auto* hourlyPrecipitationFormDrizzle =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationFormSleet =
+  auto* hourlyPrecipitationFormSleet =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationFormSnow =
+  auto* hourlyPrecipitationFormSnow =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationFormFreezingDrizzle =
+  auto* hourlyPrecipitationFormFreezingDrizzle =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationFormFreezingRain =
+  auto* hourlyPrecipitationFormFreezingRain =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyCloudiness = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyThunderProbability = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyThunderExtent = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyFogIntensityModerate =
+  auto* hourlyCloudiness = new weather_result_data_item_vector();
+  auto* hourlyThunderProbability = new weather_result_data_item_vector();
+  auto* hourlyThunderExtent = new weather_result_data_item_vector();
+  auto* hourlyFogIntensityModerate =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyFogIntensityDense = new weather_result_data_item_vector();
+  auto* hourlyFogIntensityDense = new weather_result_data_item_vector();
 
-  weather_result_data_item_vector* hourlyPrecipitationShareNortEast =
+  auto* hourlyPrecipitationShareNortEast =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationShareSouthEast =
+  auto* hourlyPrecipitationShareSouthEast =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationShareSouthWest =
+  auto* hourlyPrecipitationShareSouthWest =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationShareNorthWest =
+  auto* hourlyPrecipitationShareNorthWest =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyPrecipitationPoint = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationPoint = new weather_result_data_item_vector();
 
-  weather_result_data_item_vector* hourlyCloudinessShareNortEast =
+  auto* hourlyCloudinessShareNortEast =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyCloudinessShareSouthEast =
+  auto* hourlyCloudinessShareSouthEast =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyCloudinessShareSouthWest =
+  auto* hourlyCloudinessShareSouthWest =
       new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyCloudinessShareNorthWest =
-      new weather_result_data_item_vector();
-
-  weather_result_data_item_vector* hourlyThunderProbabilityShareNortEast =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyThunderProbabilityShareSouthEast =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyThunderProbabilityShareSouthWest =
-      new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyThunderProbabilityShareNorthWest =
+  auto* hourlyCloudinessShareNorthWest =
       new weather_result_data_item_vector();
 
-  weather_result_data_item_vector* hourlyFogShareNortEast = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyFogShareSouthEast = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyFogShareSouthWest = new weather_result_data_item_vector();
-  weather_result_data_item_vector* hourlyFogShareNorthWest = new weather_result_data_item_vector();
+  auto* hourlyThunderProbabilityShareNortEast =
+      new weather_result_data_item_vector();
+  auto* hourlyThunderProbabilityShareSouthEast =
+      new weather_result_data_item_vector();
+  auto* hourlyThunderProbabilityShareSouthWest =
+      new weather_result_data_item_vector();
+  auto* hourlyThunderProbabilityShareNorthWest =
+      new weather_result_data_item_vector();
+
+  auto* hourlyFogShareNortEast = new weather_result_data_item_vector();
+  auto* hourlyFogShareSouthEast = new weather_result_data_item_vector();
+  auto* hourlyFogShareSouthWest = new weather_result_data_item_vector();
+  auto* hourlyFogShareNorthWest = new weather_result_data_item_vector();
 
   // first split the whole period to one-hour subperiods
   TextGenPosixTime periodStartTime = theParameters.theDataPeriod.localStartTime();
@@ -911,7 +911,7 @@ void allocate_data_structures(wf_story_params& theParameters, const forecast_are
     theParameters.theHourPeriodCount++;
   }
 
-  weather_forecast_result_container* resultContainer = new weather_forecast_result_container();
+  auto* resultContainer = new weather_forecast_result_container();
 
   resultContainer->insert(make_pair(PRECIPITATION_MAX_DATA, hourlyMaxPrecipitation));
   resultContainer->insert(make_pair(PRECIPITATION_MEAN_DATA, hourlyMeanPrecipitation));
@@ -1504,16 +1504,16 @@ bool is_same_part_of_the_day(const std::string& phrase1, const std::string& phra
 // aluksi, myohemmin to the beginning of the sentence
 void check_sentences(boost::shared_ptr<Glyph>& theSentence1, boost::shared_ptr<Glyph>& theSentence2)
 {
-  GlyphContainer& gc1 = static_cast<GlyphContainer&>(*theSentence1);
-  GlyphContainer& gc2 = static_cast<GlyphContainer&>(*theSentence2);
+  auto& gc1 = static_cast<GlyphContainer&>(*theSentence1);
+  auto& gc2 = static_cast<GlyphContainer&>(*theSentence2);
 
   DebugTextFormatter dtf;
 
   if (gc1.size() < 2 || gc2.size() < 2)
     return;
 
-  GlyphContainer::iterator iter1(gc1.begin());
-  GlyphContainer::iterator iter2(gc2.begin());
+  auto iter1(gc1.begin());
+  auto iter2(gc2.begin());
   iter1++;
   iter2++;
 
@@ -1532,14 +1532,14 @@ void get_sentences(const Glyph& glyphi, vector<boost::shared_ptr<Glyph> >& sente
 {
   if (typeid(glyphi) == typeid(Sentence))
   {
-    const GlyphContainer& gc = static_cast<const GlyphContainer&>(glyphi);
+    const auto& gc = static_cast<const GlyphContainer&>(glyphi);
     if (gc.size() > 0)
       sentences.push_back(glyphi.clone());
   }
   else
   {
-    const GlyphContainer& containeri = static_cast<const GlyphContainer&>(glyphi);
-    for (GlyphContainer::const_iterator iter = containeri.begin(); iter != containeri.end(); ++iter)
+    const auto& containeri = static_cast<const GlyphContainer&>(glyphi);
+    for (auto iter = containeri.begin(); iter != containeri.end(); ++iter)
       get_sentences(**iter, sentences);
   }
 }
@@ -1557,7 +1557,7 @@ void analyze_sentences(Paragraph& paragraph)
   {
     if (i < sentences.size() - 1)
       check_sentences(sentences[i], sentences[i + 1]);
-    Sentence& sen = static_cast<Sentence&>(*(sentences[i]));
+    auto& sen = static_cast<Sentence&>(*(sentences[i]));
     paragraph << sen;
   }
 }

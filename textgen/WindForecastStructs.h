@@ -221,7 +221,7 @@ struct WindDataItemsByArea
                const WeatherResult& gustSpeed,
                const WeatherArea::Type& type)
   {
-    WindDataItemUnit* dataItem = new WindDataItemUnit(period,
+    auto* dataItem = new WindDataItemUnit(period,
                                                       windSpeedMin,
                                                       windSpeedMax,
                                                       windSpeedMean,

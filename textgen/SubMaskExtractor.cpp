@@ -74,7 +74,7 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
   boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
-  FmiParameterName param = FmiParameterName(converter.ToEnum(parameterName));
+  auto param = FmiParameterName(converter.ToEnum(parameterName));
   if (param == kFmiBadParameter)
     throw TextGenError("Parameter " + parameterName + " is not defined in newbase");
 
@@ -124,7 +124,7 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
       return 0;
     }
 
-    for (NFmiIndexMask::const_iterator it = theIndexMask->begin(); it != theIndexMask->end(); ++it)
+    for (auto it = theIndexMask->begin(); it != theIndexMask->end(); ++it)
     {
       theQI.TimeIndex(startindex);
 
@@ -170,7 +170,7 @@ double ExtractMask(const AnalysisSources& theSources,
   boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
-  FmiParameterName param = FmiParameterName(converter.ToEnum(parameterName));
+  auto param = FmiParameterName(converter.ToEnum(parameterName));
   if (param == kFmiBadParameter)
     throw TextGenError("Parameter " + parameterName + " is not defined in newbase");
 
@@ -218,7 +218,7 @@ double ExtractMask(const AnalysisSources& theSources,
             theQI, thePeriod.utcStartTime(), thePeriod.utcEndTime(), startindex, endindex))
       return 0;
 
-    for (NFmiIndexMask::const_iterator it = theIndexMask->begin(); it != theIndexMask->end(); ++it)
+    for (auto it = theIndexMask->begin(); it != theIndexMask->end(); ++it)
     {
       theQI.TimeIndex(startindex);
 
@@ -309,7 +309,7 @@ void Insert(NFmiNearTree<NFmiPoint>& theTree, const NFmiSvgPath& thePath, double
 
   NFmiPoint lastPoint(0, 0);
 
-  for (NFmiSvgPath::const_iterator it = thePath.begin(); it != thePath.end(); ++it)
+  for (auto it = thePath.begin(); it != thePath.end(); ++it)
   {
     switch (it->itsType)
     {
@@ -445,7 +445,7 @@ void PrintLatLon(const AnalysisSources& theSources,
   boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
-  for (NFmiIndexMask::const_iterator it = theIndexMask.begin(); it != theIndexMask.end(); ++it)
+  for (auto it = theIndexMask.begin(); it != theIndexMask.end(); ++it)
   {
     cout << theQI.LatLon(*it);
   }

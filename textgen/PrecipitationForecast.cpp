@@ -2162,7 +2162,7 @@ void PrecipitationForecast::fillInPrecipitationDataVector(forecast_area_id theAr
                                         precipitationFormFreezingRain,
                                         precipitationFormFreezingDrizzle);
 
-    PrecipitationDataItemData* item =
+    auto* item =
         new PrecipitationDataItemData(theParameters,
                                       precipitationForm,
                                       (precipitationMaxIntesity + precipitationMeanIntesity) / 2.0,

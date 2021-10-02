@@ -75,19 +75,17 @@ vector<string> reorder_preferences(const string& thePreference, const string& th
   if (preferences.empty())
     return defaults;
 
-  typedef vector<string>::const_iterator const_iterator;
-
   vector<string> output;
 
   // first the allowed ones from preferences in correct order
-  for (const_iterator it = preferences.begin(); it != preferences.end(); ++it)
+  for (auto it = preferences.begin(); it != preferences.end(); ++it)
   {
     if (find(defaults.begin(), defaults.end(), *it) != defaults.end())
       if (find(output.begin(), output.end(), *it) == output.end())
         output.push_back(*it);
   }
   // then the remaining defaults
-  for (const_iterator jt = defaults.begin(); jt != defaults.end(); ++jt)
+  for (auto jt = defaults.begin(); jt != defaults.end(); ++jt)
   {
     if (find(output.begin(), output.end(), *jt) == output.end())
       output.push_back(*jt);
@@ -905,7 +903,7 @@ Sentence create(const string& theType,
                 const WeatherPeriod& thePeriod,
                 const WeatherArea& theArea)
 {
-  TextGen::WeatherHistory* theHistory = const_cast<TextGen::WeatherHistory*>(&(theArea.history()));
+  auto* theHistory = const_cast<TextGen::WeatherHistory*>(&(theArea.history()));
 
   return create_sentence(theType, theVariable, theForecastTime, thePeriod, theHistory);
 

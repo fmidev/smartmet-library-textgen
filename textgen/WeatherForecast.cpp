@@ -649,7 +649,7 @@ part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeri
   std::vector<int> intersectingHours;
   for (unsigned int i = 0; i <= AAMUYO; i++)
   {
-    part_of_the_day_id id = static_cast<part_of_the_day_id>(i);
+    auto id = static_cast<part_of_the_day_id>(i);
     intersectingHours.push_back(get_period_length(get_period_for_id(id, thePeriod)));
   }
 
@@ -662,7 +662,7 @@ part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeri
       ret = static_cast<part_of_the_day_id>(i);
       continue;
     }
-    part_of_the_day_id id = static_cast<part_of_the_day_id>(i);
+    auto id = static_cast<part_of_the_day_id>(i);
     if (intersectingHours[id] > intersectingHours[maxHoursIndex])
     {
       ret = static_cast<part_of_the_day_id>(i);
@@ -1260,7 +1260,7 @@ int get_today_vector(const string& theVariable,
     if (i == 0 ||
         generator.period(i).localStartTime().GetJulianDay() != wp.localStartTime().GetJulianDay())
     {
-      Sentence* sentence = new Sentence();
+      auto* sentence = new Sentence();
       *sentence << PeriodPhraseFactory::create(
           "today", theVariable, theForecastTime, generator.period(i + 1), theArea);
       theTodayVector.push_back(sentence);

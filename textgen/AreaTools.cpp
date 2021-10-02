@@ -109,7 +109,7 @@ bool isPartOfArea(const WeatherArea& theWeatherArea,
   boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
-  for (NFmiIndexMask::const_iterator it = theIndexMask.begin(); it != theIndexMask.end(); ++it)
+  for (auto it = theIndexMask.begin(); it != theIndexMask.end(); ++it)
   {
     NFmiPoint point(theQI.LatLon(*it).X(), theQI.LatLon(*it).Y());
     if (!theWeatherArea.path().IsInside(point))
@@ -150,7 +150,7 @@ NFmiPoint getArealDistribution(const AnalysisSources& theSources,
   ExtractMask(theSources, theParameter, theArea, thePeriod, theAcceptor, indexMask);
 
   vector<NFmiPoint*> latitudeLongitudeCoordinates;
-  for (NFmiIndexMask::const_iterator it = indexMask.begin(); it != indexMask.end(); ++it)
+  for (auto it = indexMask.begin(); it != indexMask.end(); ++it)
   {
     lonSum += theQI.LatLon(*it).X();
     latSum += theQI.LatLon(*it).Y();
@@ -387,7 +387,7 @@ Rect::Rect(const AnalysisSources& theSources,
   double lon_max = 0.0;
   double lat_max = 0.0;
 
-  for (NFmiIndexMask::const_iterator it = theIndexMask.begin(); it != theIndexMask.end(); ++it)
+  for (auto it = theIndexMask.begin(); it != theIndexMask.end(); ++it)
   {
     NFmiPoint point(theQI.LatLon(*it));
     if (lon_min > point.X())

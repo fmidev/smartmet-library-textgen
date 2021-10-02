@@ -76,7 +76,7 @@ const Paragraph make_contents(const string& theContents,
 
   Paragraph paragraph;
 
-  for (vector<string>::const_iterator iter = contents.begin(); iter != contents.end(); ++iter)
+  for (auto iter = contents.begin(); iter != contents.end(); ++iter)
   {
     const string storyvar = theVar + "::story::" + *iter;
 
@@ -290,7 +290,7 @@ Document TextGenerator::generate(const WeatherArea& theArea) const
       NFmiStringTools::Split(Settings::require_string("textgen::sections"));
 
   Document doc;
-  for (vector<string>::const_iterator it = paragraphs.begin(); it != paragraphs.end(); ++it)
+  for (auto it = paragraphs.begin(); it != paragraphs.end(); ++it)
   {
     doc << SectionTag("textgen::" + *it, true);
 

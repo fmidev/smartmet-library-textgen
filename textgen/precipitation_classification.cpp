@@ -87,7 +87,7 @@ int rainlimit(const list<pair<int, int> >& theList)
     throw TextGenError("Internal error, trying to extract maximum rain from empty list");
 
   int ret = theList.front().first;
-  for (list<pair<int, int> >::const_iterator it = theList.begin(); it != theList.end(); ++it)
+  for (auto it = theList.begin(); it != theList.end(); ++it)
   {
     ret = std::max(ret, it->first);
     ret = std::max(ret, it->second);

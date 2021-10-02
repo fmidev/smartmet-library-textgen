@@ -81,7 +81,7 @@ RainPeriods analyze(const AnalysisSources& theSources,
 RainPeriods overlappingPeriods(const RainPeriods& thePeriods, const WeatherPeriod& thePeriod)
 {
   RainPeriods out;
-  for (RainPeriods::const_iterator it = thePeriods.begin(); it != thePeriods.end(); ++it)
+  for (auto it = thePeriods.begin(); it != thePeriods.end(); ++it)
   {
     if (it->localStartTime() < thePeriod.localEndTime() &&
         it->localEndTime() > thePeriod.localStartTime())
@@ -105,7 +105,7 @@ RainPeriods overlappingPeriods(const RainPeriods& thePeriods, const WeatherPerio
 RainPeriods inclusivePeriods(const RainPeriods& thePeriods, const WeatherPeriod& thePeriod)
 {
   RainPeriods out;
-  for (RainPeriods::const_iterator it = thePeriods.begin(); it != thePeriods.end(); ++it)
+  for (auto it = thePeriods.begin(); it != thePeriods.end(); ++it)
   {
     if (it->localStartTime() >= thePeriod.localStartTime() &&
         it->localEndTime() <= thePeriod.localEndTime())
@@ -264,7 +264,7 @@ RainPeriods findRainPeriods(const RainTimes& theTimes, const std::string& theVar
     return periods;
 
   // Initialize current period to consist of first time only
-  RainTimes::const_iterator it = theTimes.begin();
+  auto it = theTimes.begin();
   TextGenPosixTime first_time = *it;
   TextGenPosixTime last_time = first_time;
 
@@ -340,7 +340,7 @@ RainPeriods mergeNightlyRainPeriods(const RainPeriods& thePeriods, const std::st
   // to it if possible. When it is no longer possible to merge,
   // we move on to the next period and continue.
 
-  RainPeriods::const_iterator it = thePeriods.begin();
+  auto it = thePeriods.begin();
   WeatherPeriod lastperiod = *it;
 
   for (++it; it != thePeriods.end(); ++it)

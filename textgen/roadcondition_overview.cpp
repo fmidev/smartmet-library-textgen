@@ -153,7 +153,7 @@ const ConditionPercentages calculate_percentages(const WeatherPeriod& thePeriod,
   ConditionPercentages percentages;
   for (int i = min_condition; i <= max_condition; i++)
   {
-    const RoadConditionType c = RoadConditionType(i);
+    const auto c = RoadConditionType(i);
 
     const string fake = (theVar + "::fake::period" + lexical_cast<string>(thePeriodIndex) +
                          "::" + condition_name(c) + "::percentage");
@@ -476,7 +476,7 @@ const Sentence condition_sentence(const ConditionPercentages& thePercentages, co
 
   for (int i = min_condition; i <= max_condition; i++)
   {
-    const RoadConditionType condition = RoadConditionType(i);
+    const auto condition = RoadConditionType(i);
 
     if (thePercentages[condition] >= someplaces_limit &&
         thePercentages[condition] < manyplaces_limit)

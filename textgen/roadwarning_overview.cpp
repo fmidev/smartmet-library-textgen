@@ -173,7 +173,7 @@ const WarningPercentages calculate_percentages(const WeatherPeriod& thePeriod,
   WarningPercentages percentages;
   for (int i = min_warning; i <= max_warning; i++)
   {
-    const RoadWarningType c = RoadWarningType(i);
+    const auto c = RoadWarningType(i);
 
     const string fake = (theVar + "::fake::period" + lexical_cast<string>(thePeriodIndex) +
                          "::" + warning_name(c) + "::percentage");
@@ -790,7 +790,7 @@ const Sentence warning_sentence(const WarningPercentages& thePercentages, const 
 
   for (int i = min_warning; i <= max_warning; i++)
   {
-    const RoadWarningType warning = RoadWarningType(i);
+    const auto warning = RoadWarningType(i);
 
     if (thePercentages[warning] >= someplaces_limit && thePercentages[warning] < manyplaces_limit)
     {

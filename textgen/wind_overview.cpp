@@ -1543,7 +1543,7 @@ void allocate_data_structures(wo_story_params& storyParams)
     WeatherResult windDirection(kFloatMissing, kFloatMissing);
     WeatherResult gustSpeed(kFloatMissing, kFloatMissing);
 
-    WindDataItemsByArea* dataItemsByArea = new WindDataItemsByArea();
+    auto* dataItemsByArea = new WindDataItemsByArea();
 
     for (unsigned int k = 0; k < storyParams.theWeatherAreas.size(); k++)
     {
@@ -2154,7 +2154,7 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
       WeatherPeriod mergedPeriod(previousEventPeriod->thePeriod.localStartTime(),
                                  windEventPeriod.localEndTime());
 
-      WindEventPeriodDataItem* newEventPeriod =
+      auto* newEventPeriod =
           new WindEventPeriodDataItem(mergedPeriod,
                                       currentPeriodWindEvent,
                                       previousEventPeriod->thePeriodBeginDataItem,
@@ -2244,7 +2244,7 @@ wind_event_period_data_item_vector remove_short_missing_periods(
         WindEventId newWindEvent =
             get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
 
-        WindEventPeriodDataItem* newDataItem =
+        auto* newDataItem =
             new WindEventPeriodDataItem(newPeriod,
                                         newWindEvent,
                                         currentDataItem->thePeriodBeginDataItem,
@@ -2336,7 +2336,7 @@ wind_event_period_data_item_vector examine_merged_missing_event_period(
     const WindDataItemUnit& endDataItem = get_data_item(storyParams, item.second.localEndTime());
     float begSpeed = calculate_weighted_wind_speed(storyParams, begDataItem);
     float endSpeed = calculate_weighted_wind_speed(storyParams, endDataItem);
-    WindEventPeriodDataItem* newDataItem = new WindEventPeriodDataItem(
+    auto* newDataItem = new WindEventPeriodDataItem(
         WeatherPeriod(item.second.localStartTime(), item.second.localEndTime()),
         get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold),
         begDataItem,
@@ -2371,7 +2371,7 @@ wind_event_period_data_item_vector examine_merged_missing_event_period(
         const WindDataItemUnit& endDataItem = get_data_item(storyParams, missingEndTime);
         float begSpeed = calculate_weighted_wind_speed(storyParams, begDataItem);
         float endSpeed = calculate_weighted_wind_speed(storyParams, endDataItem);
-        WindEventPeriodDataItem* newDataItem = new WindEventPeriodDataItem(
+        auto* newDataItem = new WindEventPeriodDataItem(
             WeatherPeriod(missingStartTime, missingEndTime),
             get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold),
             begDataItem,
@@ -2385,7 +2385,7 @@ wind_event_period_data_item_vector examine_merged_missing_event_period(
       const WindDataItemUnit& endDataItem = get_data_item(storyParams, missingEndTime);
       float begSpeed = calculate_weighted_wind_speed(storyParams, begDataItem);
       float endSpeed = calculate_weighted_wind_speed(storyParams, endDataItem);
-      WindEventPeriodDataItem* newDataItem = new WindEventPeriodDataItem(
+      auto* newDataItem = new WindEventPeriodDataItem(
           WeatherPeriod(missingStartTime, missingEndTime),
           get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold),
           begDataItem,
@@ -2439,7 +2439,7 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
     // merge periods
     WeatherPeriod newPeriod(currentDataItem->thePeriod.localStartTime(),
                             nextDataItem->thePeriod.localEndTime());
-    WindEventPeriodDataItem* newDataItem =
+    auto* newDataItem =
         new WindEventPeriodDataItem(newPeriod,
                                     MISSING_WIND_SPEED_EVENT,
                                     currentDataItem->thePeriodBeginDataItem,
@@ -2486,7 +2486,7 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
     WindEventPeriodDataItem* currentItem = cleanedEventPeriods[i];
     if (currentItem->theWindEvent == prevItem->theWindEvent)
     {
-      WindEventPeriodDataItem* newWindEventPeriodDataItem =
+      auto* newWindEventPeriodDataItem =
           new WindEventPeriodDataItem(WeatherPeriod(prevItem->thePeriod.localStartTime(),
                                                     currentItem->thePeriod.localEndTime()),
                                       prevItem->theWindEvent,
@@ -2619,7 +2619,7 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
 
       newWindEvent = get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
 
-      WindEventPeriodDataItem* newDataItem =
+      auto* newDataItem =
           new WindEventPeriodDataItem(newPeriod,
                                       newWindEvent,
                                       currentDataItem->thePeriodBeginDataItem,
@@ -2645,7 +2645,7 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
             calculate_weighted_wind_speed(storyParams, currentDataItem->thePeriodBeginDataItem);
         endSpeed = calculate_weighted_wind_speed(storyParams, nextDataItem->thePeriodEndDataItem);
         newWindEvent = get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
-        WindEventPeriodDataItem* newDataItem =
+        auto* newDataItem =
             new WindEventPeriodDataItem(newPeriod,
                                         newWindEvent,
                                         currentDataItem->thePeriodBeginDataItem,
@@ -2655,7 +2655,7 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
     }
     else
     {
-      WindEventPeriodDataItem* newDataItem =
+      auto* newDataItem =
           new WindEventPeriodDataItem(newPeriod,
                                       newWindEvent,
                                       currentDataItem->thePeriodBeginDataItem,
@@ -2700,9 +2700,9 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
                                    dataItem.thePeriod.localStartTime());
           WeatherPeriod newPeriod2(dataItem.thePeriod.localStartTime(),
                                    p->thePeriod.localEndTime());
-          WindEventPeriodDataItem* newDataItem1 = new WindEventPeriodDataItem(
+          auto* newDataItem1 = new WindEventPeriodDataItem(
               newPeriod1, p->theWindEvent, p->thePeriodBeginDataItem, dataItem);
-          WindEventPeriodDataItem* newDataItem2 = new WindEventPeriodDataItem(
+          auto* newDataItem2 = new WindEventPeriodDataItem(
               newPeriod2, newWindEvent, dataItem, p->thePeriodEndDataItem);
           mergedEventPeriods.push_back(newDataItem1);
           mergedEventPeriods.push_back(newDataItem2);
@@ -2734,7 +2734,7 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
     WindEventPeriodDataItem* currentItem = cleanedEventPeriods[i];
     if (currentItem->theWindEvent == prevItem->theWindEvent)
     {
-      WindEventPeriodDataItem* newWindEventPeriodDataItem =
+      auto* newWindEventPeriodDataItem =
           new WindEventPeriodDataItem(WeatherPeriod(prevItem->thePeriod.localStartTime(),
                                                     currentItem->thePeriod.localEndTime()),
                                       prevItem->theWindEvent,
@@ -2804,7 +2804,7 @@ void check_first_period(wo_story_params& storyParams)
       WeatherPeriod newPeriod1(firstDataItem->thePeriod.localStartTime(),
                                lastDataItem->thePeriod.localStartTime());
 
-      WindEventPeriodDataItem* newDataItem1 = new WindEventPeriodDataItem(
+      auto* newDataItem1 = new WindEventPeriodDataItem(
           newPeriod1, MISSING_WIND_SPEED_EVENT, *firstDataItem, *lastDataItem);
       WindEventPeriodDataItem* newDataItem2 = 0;
       if (afterLastDataItem)

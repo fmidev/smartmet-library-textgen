@@ -168,12 +168,12 @@ bool PostGISDataSource::readData(const std::string& host,
         // wkbFlatten-macro uses old-style cast
         //				OGRwkbGeometryType
         // geometryType(wkbFlatten(pGeometry->getGeometryType()));
-        OGRwkbGeometryType geometryType =
+        auto geometryType =
             static_cast<OGRwkbGeometryType>(pGeometry->getGeometryType() & (~wkb25DBit));
 
         if (geometryType == wkbPoint)
         {
-          OGRPoint* pPoint = reinterpret_cast<OGRPoint*>(pGeometry);
+          auto* pPoint = reinterpret_cast<OGRPoint*>(pGeometry);
           if (pointmap.find(area_name) != pointmap.end())
             pointmap[area_name] = make_pair(pPoint->getX(), pPoint->getY());
           else
@@ -184,7 +184,7 @@ bool PostGISDataSource::readData(const std::string& host,
           string svg_string("");
           if (geometryType == wkbMultiPolygon)
           {
-            OGRMultiPolygon* pMultiPolygon = reinterpret_cast<OGRMultiPolygon*>(pGeometry);
+            auto* pMultiPolygon = reinterpret_cast<OGRMultiPolygon*>(pGeometry);
             char* wkt_buffer(0);
             pMultiPolygon->exportToWkt(&wkt_buffer);
             svg_string.append(wkt_buffer);
@@ -194,7 +194,7 @@ bool PostGISDataSource::readData(const std::string& host,
           }
           else
           {
-            OGRPolygon* pPolygon = reinterpret_cast<OGRPolygon*>(pGeometry);
+            auto* pPolygon = reinterpret_cast<OGRPolygon*>(pGeometry);
 
             char* wkt_buffer(0);
             pPolygon->exportToWkt(&wkt_buffer);
@@ -223,7 +223,7 @@ bool PostGISDataSource::readData(const std::string& host,
           string svg_string("");
           if (geometryType == wkbMultiLineString)
           {
-            OGRMultiLineString* pMultiLine = reinterpret_cast<OGRMultiLineString*>(pGeometry);
+            auto* pMultiLine = reinterpret_cast<OGRMultiLineString*>(pGeometry);
 
             char* wkt_buffer(0);
             pMultiLine->exportToWkt(&wkt_buffer);
@@ -232,7 +232,7 @@ bool PostGISDataSource::readData(const std::string& host,
           }
           else
           {
-            OGRLineString* pLine = reinterpret_cast<OGRLineString*>(pGeometry);
+            auto* pLine = reinterpret_cast<OGRLineString*>(pGeometry);
 
             char* wkt_buffer(0);
             pLine->exportToWkt(&wkt_buffer);

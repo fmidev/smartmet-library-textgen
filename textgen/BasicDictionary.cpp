@@ -79,7 +79,7 @@ bool BasicDictionary::contains(const std::string& theKey) const
 
 const std::string& BasicDictionary::find(const std::string& theKey) const
 {
-  StorageType::const_iterator it = itsData.find(theKey);
+  auto it = itsData.find(theKey);
   if (it != itsData.end())
     return it->second;
   throw TextGenError("Dictionary does not contain phrase '" + theKey + "'");
