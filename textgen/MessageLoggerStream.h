@@ -44,52 +44,52 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
 
  protected:
   // only for output, not for input
-  virtual int_type pbackfail(int_type = CharTraits::eof())
+  int_type pbackfail(int_type = CharTraits::eof()) override
   {
     throw std::runtime_error("MessageLoggerStream::pbackfail not available");
     return 0;
   }
 
   // only for output, not for input
-  virtual std::streamsize showmanyc()
+  std::streamsize showmanyc() override
   {
     throw std::runtime_error("MessageLoggerStream::showmanyc not available");
     return 0;
   }
 
   // only for output, not for input
-  virtual int_type underflow()
+  int_type underflow() override
   {
     throw std::runtime_error("MessageLoggerStream::underflow not available");
     return 0;
   }
 
   // only for output, not for input
-  virtual int_type uflow()
+  int_type uflow() override
   {
     throw std::runtime_error("MessageLoggerStream::uflow not available");
     return 0;
   }
 
   // only for output, not for input
-  virtual std::streamsize xsgetn(char_type* /* _S */, std::streamsize /* _N */)
+  std::streamsize xsgetn(char_type* /* _S */, std::streamsize /* _N */) override
   {
     throw std::runtime_error("MessageLoggerStream::xsgetn not available");
     return 0;
   }
 
   // we don't allow positioning
-  virtual pos_type seekoff(off_type,
-                           std::ios_base::seekdir,
-                           std::ios_base::openmode = std::ios_base::in | std::ios_base::out)
+  pos_type seekoff(off_type,
+                   std::ios_base::seekdir,
+                   std::ios_base::openmode = std::ios_base::in | std::ios_base::out) override
   {
     throw std::runtime_error("MessageLoggerStream::seekoff not available");
     return 0;
   }
 
   // we don't allow positioning
-  virtual pos_type seekpos(pos_type,
-                           std::ios_base::openmode = std::ios_base::in | std::ios_base::out)
+  pos_type seekpos(pos_type,
+                   std::ios_base::openmode = std::ios_base::in | std::ios_base::out) override
   {
     throw std::runtime_error("MessageLoggerStream::seekpos not available");
     return 0;
@@ -98,14 +98,14 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
   // output functions
 
   // called to write out from the internal buffer, into the external buffer
-  virtual int sync()
+  int sync() override
   {
     itsOwnerStream->onNewMessage(GetStreamBuffer().str());
     itsStreamBuffer.reset(new StringStream);
     return 0;
   }
 
-  virtual streambuf_type* setbuf(char_type* buffer, std::streamsize n)
+  streambuf_type* setbuf(char_type* buffer, std::streamsize n) override
   {
     // note: this function MUST be called
     // before working with this stream buffer
@@ -119,7 +119,7 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
 
   // write the characters from the buffer
   // to their real destination
-  virtual int_type overflow(int_type nChar = CharTraits::eof())
+  int_type overflow(int_type nChar = CharTraits::eof()) override
   {
     if (CharTraits::not_eof(nChar))
     {
@@ -128,7 +128,7 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
     return CharTraits::not_eof(nChar);
   }
 
-  virtual std::streamsize xsputn(const char_type* S, std::streamsize N)
+  std::streamsize xsputn(const char_type* S, std::streamsize N) override
   {
     GetStreamBuffer().write(S, N);
     return N;
@@ -173,7 +173,7 @@ class MessageLoggerStream : public std::basic_ostream<char_type, CharTraits>
     itsStreamBuf.pubsetbuf(nullptr, 0);
   }
 
-  ~MessageLoggerStream() {}
+  ~MessageLoggerStream() override {}
 
  protected:
   virtual void onNewMessage(const string_type& strNewMessage) = 0;

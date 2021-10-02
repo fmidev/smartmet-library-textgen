@@ -26,7 +26,7 @@ class Paragraph;
 class SpecialStory : public Story
 {
  public:
-  virtual ~SpecialStory();
+  ~SpecialStory() override;
   SpecialStory(const TextGenPosixTime& theForecastTime,
                const TextGen::AnalysisSources& theSources,
                const TextGen::WeatherArea& theArea,
@@ -34,7 +34,7 @@ class SpecialStory : public Story
                const std::string& theVariable);
 
   static bool hasStory(const std::string& theName);
-  virtual Paragraph makeStory(const std::string& theName) const;
+  Paragraph makeStory(const std::string& theName) const override;
 
  private:
   Paragraph none() const;

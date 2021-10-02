@@ -84,7 +84,7 @@ class PrecipitationForecastStoryItem : public WeatherForecastStoryItem
                                  precipitation_type type,
                                  bool thunder);
 
-  Sentence getStoryItemSentence();
+  Sentence getStoryItemSentence() override;
   bool isWeakPrecipitation(const wf_story_params& theParameters) const;
   float precipitationExtent() const;
   unsigned int precipitationForm() const;
@@ -119,7 +119,7 @@ class CloudinessForecastStoryItem : public WeatherForecastStoryItem
                               PrecipitationForecastStoryItem* previousPrecipitationStoryItem,
                               PrecipitationForecastStoryItem* nextPrecipitationStoryItem);
 
-  Sentence getStoryItemSentence();
+  Sentence getStoryItemSentence() override;
   Sentence cloudinessChangeSentence();
 
  private:

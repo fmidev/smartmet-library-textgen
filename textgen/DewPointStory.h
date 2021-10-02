@@ -26,7 +26,7 @@ class Paragraph;
 class DewPointStory : public Story
 {
  public:
-  virtual ~DewPointStory();
+  ~DewPointStory() override;
   DewPointStory(const TextGenPosixTime& theForecastTime,
                 const TextGen::AnalysisSources& theSources,
                 const TextGen::WeatherArea& theArea,
@@ -34,7 +34,7 @@ class DewPointStory : public Story
                 const std::string& theVariable);
 
   static bool hasStory(const std::string& theName);
-  virtual Paragraph makeStory(const std::string& theName) const;
+  Paragraph makeStory(const std::string& theName) const override;
 
  private:
   Paragraph range() const;

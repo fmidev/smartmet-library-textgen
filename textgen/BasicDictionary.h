@@ -25,15 +25,15 @@ class BasicDictionary : public Dictionary
   // BasicDictionary(const BasicDictionary & theDict);
   // BasicDictionary & operator=(const BasicDictionary & theDict);
 
-  virtual ~BasicDictionary();
-  virtual void init(const std::string& theLanguage);
-  virtual const std::string& language(void) const;
-  virtual bool contains(const std::string& theKey) const;
-  virtual const std::string& find(const std::string& theKey) const;
-  virtual void insert(const std::string& theKey, const std::string& thePhrase);
+  ~BasicDictionary() override;
+  void init(const std::string& theLanguage) override;
+  const std::string& language(void) const override;
+  bool contains(const std::string& theKey) const override;
+  const std::string& find(const std::string& theKey) const override;
+  void insert(const std::string& theKey, const std::string& thePhrase) override;
 
-  virtual size_type size(void) const;
-  virtual bool empty(void) const;
+  size_type size(void) const override;
+  bool empty(void) const override;
 
  private:
   typedef std::map<std::string, std::string> StorageType;

@@ -19,13 +19,13 @@ class SouthernMaskSource : public MaskSource
 
   SouthernMaskSource(const WeatherArea& theArea);
 
-  virtual mask_type mask(const WeatherArea& theArea,
-                         const std::string& theData,
-                         const WeatherSource& theWeatherSource) const;
+  mask_type mask(const WeatherArea& theArea,
+                 const std::string& theData,
+                 const WeatherSource& theWeatherSource) const override;
 
-  virtual masks_type masks(const WeatherArea& theArea,
-                           const std::string& theData,
-                           const WeatherSource& theWeatherSource) const;
+  masks_type masks(const WeatherArea& theArea,
+                   const std::string& theData,
+                   const WeatherSource& theWeatherSource) const override;
 
  private:
   SouthernMaskSource();

@@ -24,15 +24,15 @@ class NullDictionary : public Dictionary
   // NullDictionary(const NullDictionary & theDict);
   // NullDictionary & operator=(const NullDictionary & theDict);
 
-  virtual ~NullDictionary() {}
-  virtual void init(const std::string& theLanguage) { itsLanguage = theLanguage; }
-  virtual const std::string& language(void) const { return itsLanguage; }
-  virtual bool contains(const std::string& theKey) const { return false; }
-  virtual const std::string& find(const std::string& theKey) const;
-  virtual void insert(const std::string& theKey, const std::string& thePhrase);
+  ~NullDictionary() override {}
+  void init(const std::string& theLanguage) override { itsLanguage = theLanguage; }
+  const std::string& language(void) const override { return itsLanguage; }
+  bool contains(const std::string& theKey) const override { return false; }
+  const std::string& find(const std::string& theKey) const override;
+  void insert(const std::string& theKey, const std::string& thePhrase) override;
 
-  virtual size_type size(void) const { return 0; }
-  virtual bool empty(void) const { return true; }
+  size_type size(void) const override { return 0; }
+  bool empty(void) const override { return true; }
 
  private:
   std::string itsLanguage;

@@ -32,11 +32,11 @@ class NightAndDayPeriodGenerator : public WeatherPeriodGenerator
 
   NightAndDayPeriodGenerator(const WeatherPeriod& theMainPeriod, const std::string& theVariable);
 
-  virtual ~NightAndDayPeriodGenerator() {}
-  virtual bool undivided() const;
-  virtual size_type size() const;
-  virtual WeatherPeriod period() const;
-  virtual WeatherPeriod period(size_type thePeriod) const;
+  ~NightAndDayPeriodGenerator() override {}
+  bool undivided() const override;
+  size_type size() const override;
+  WeatherPeriod period() const override;
+  WeatherPeriod period(size_type thePeriod) const override;
 
   bool isday(size_type thePeriod) const;
   bool isnight(size_type thePeriod) const { return !isday(thePeriod); }

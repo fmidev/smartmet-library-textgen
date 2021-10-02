@@ -18,7 +18,7 @@ class TextFormatter;
 class Integer : public Glyph
 {
  public:
-  virtual ~Integer();
+  ~Integer() override;
   explicit Integer(int theInteger);
 
 #ifdef NO_COMPILER_GENERATED
@@ -26,11 +26,11 @@ class Integer : public Glyph
   Integer& operator=(const Integer& theInteger);
 #endif
 
-  virtual boost::shared_ptr<Glyph> clone() const;
-  virtual std::string realize(const Dictionary& theDictionary) const;
-  virtual std::string realize(const TextFormatter& theFormatter) const;
+  boost::shared_ptr<Glyph> clone() const override;
+  std::string realize(const Dictionary& theDictionary) const override;
+  std::string realize(const TextFormatter& theFormatter) const override;
 
-  virtual bool isDelimiter() const;
+  bool isDelimiter() const override;
   int value() const;
 
  private:

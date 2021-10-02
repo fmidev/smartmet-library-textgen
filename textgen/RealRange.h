@@ -18,7 +18,7 @@ class Dictionary;
 class RealRange : public Glyph
 {
  public:
-  virtual ~RealRange();
+  ~RealRange() override;
   explicit RealRange(float theStartValue,
                      float theEndValue,
                      int thePrecision = 1,
@@ -28,11 +28,11 @@ class RealRange : public Glyph
   RealRange& operator=(const RealRange& theRealRange);
 #endif
 
-  virtual boost::shared_ptr<Glyph> clone() const;
-  virtual std::string realize(const Dictionary& theDictionary) const;
-  virtual std::string realize(const TextFormatter& theFormatter) const;
+  boost::shared_ptr<Glyph> clone() const override;
+  std::string realize(const Dictionary& theDictionary) const override;
+  std::string realize(const TextFormatter& theFormatter) const override;
 
-  virtual bool isDelimiter() const;
+  bool isDelimiter() const override;
 
   const std::string& rangeSeparator() const;
   float startValue() const;

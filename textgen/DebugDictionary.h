@@ -24,14 +24,14 @@ class DebugDictionary : public Dictionary
   // DebugDictionary(const DebugDictionary & theDict);
   // DebugDictionary & operator=(const DebugDictionary & theDict);
 
-  virtual ~DebugDictionary() {}
-  virtual void init(const std::string& theLanguage) { itsLanguage = theLanguage; }
-  virtual const std::string& language(void) const { return itsLanguage; }
-  virtual bool contains(const std::string& theKey) const { return true; }
-  virtual const std::string& find(const std::string& theKey) const { return theKey; }
-  virtual void insert(const std::string& theKey, const std::string& thePhrase) {}
-  virtual size_type size(void) const { return 0; }
-  virtual bool empty(void) const { return false; }
+  ~DebugDictionary() override {}
+  void init(const std::string& theLanguage) override { itsLanguage = theLanguage; }
+  const std::string& language(void) const override { return itsLanguage; }
+  bool contains(const std::string& theKey) const override { return true; }
+  const std::string& find(const std::string& theKey) const override { return theKey; }
+  void insert(const std::string& theKey, const std::string& thePhrase) override {}
+  size_type size(void) const override { return 0; }
+  bool empty(void) const override { return false; }
 
  private:
   std::string itsLanguage;

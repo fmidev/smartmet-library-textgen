@@ -15,12 +15,12 @@ namespace TextGen
 class GlyphContainer : public Glyph
 {
  public:
-  virtual ~GlyphContainer() {}
+  ~GlyphContainer() override {}
   GlyphContainer() {}
-  virtual boost::shared_ptr<Glyph> clone() const = 0;
-  virtual std::string realize(const Dictionary& theDictionary) const = 0;
-  virtual std::string realize(const TextFormatter& theFormatter) const = 0;
-  virtual bool isDelimiter() const = 0;
+  boost::shared_ptr<Glyph> clone() const override = 0;
+  std::string realize(const Dictionary& theDictionary) const override = 0;
+  std::string realize(const TextFormatter& theFormatter) const override = 0;
+  bool isDelimiter() const override = 0;
 
   typedef boost::shared_ptr<Glyph> value_type;
   typedef const value_type& const_reference;

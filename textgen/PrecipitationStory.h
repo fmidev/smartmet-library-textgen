@@ -25,7 +25,7 @@ class Paragraph;
 class PrecipitationStory : public Story
 {
  public:
-  virtual ~PrecipitationStory();
+  ~PrecipitationStory() override;
   PrecipitationStory(const TextGenPosixTime& theForecastTime,
                      const TextGen::AnalysisSources& theSources,
                      const TextGen::WeatherArea& theArea,
@@ -33,7 +33,7 @@ class PrecipitationStory : public Story
                      const std::string& theVariable);
 
   static bool hasStory(const std::string& theName);
-  virtual Paragraph makeStory(const std::string& theName) const;
+  Paragraph makeStory(const std::string& theName) const override;
 
  private:
   Paragraph total() const;

@@ -16,17 +16,17 @@ namespace TextGen
 class Document : public GlyphContainer
 {
  public:
-  virtual ~Document() {}
+  ~Document() override {}
 #ifdef NO_COMPILER_GENERATED
   Document();
   Document(const Document& theDocument);
   Document& operator=(const Document& theDocument);
 #endif
 
-  virtual boost::shared_ptr<Glyph> clone() const;
-  virtual std::string realize(const Dictionary& theDictionary) const;
-  virtual std::string realize(const TextFormatter& theFormatter) const;
-  virtual bool isDelimiter() const;
+  boost::shared_ptr<Glyph> clone() const override;
+  std::string realize(const Dictionary& theDictionary) const override;
+  std::string realize(const TextFormatter& theFormatter) const override;
+  bool isDelimiter() const override;
 
   Document& operator<<(const Document& theDocument);
   Document& operator<<(const Glyph& theGlyph);

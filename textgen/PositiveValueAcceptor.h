@@ -14,9 +14,9 @@ namespace TextGen
 class PositiveValueAcceptor : public Acceptor
 {
  public:
-  virtual ~PositiveValueAcceptor() {}
-  virtual bool accept(float theValue) const;
-  virtual Acceptor* clone() const;
+  ~PositiveValueAcceptor() override {}
+  bool accept(float theValue) const override;
+  Acceptor* clone() const override;
 
 };  // class PositiveValueAcceptor
 }  // namespace TextGen

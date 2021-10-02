@@ -26,7 +26,7 @@ class Paragraph;
 class RelativeHumidityStory : public Story
 {
  public:
-  virtual ~RelativeHumidityStory();
+  ~RelativeHumidityStory() override;
   RelativeHumidityStory(const TextGenPosixTime& theForecastTime,
                         const TextGen::AnalysisSources& theSources,
                         const TextGen::WeatherArea& theArea,
@@ -34,7 +34,7 @@ class RelativeHumidityStory : public Story
                         const std::string& theVariable);
 
   static bool hasStory(const std::string& theName);
-  virtual Paragraph makeStory(const std::string& theName) const;
+  Paragraph makeStory(const std::string& theName) const override;
 
  private:
   Paragraph lowest() const;

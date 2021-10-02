@@ -18,18 +18,18 @@ class TextFormatter;
 class StoryTag : public Glyph
 {
  public:
-  virtual ~StoryTag();
+  ~StoryTag() override;
   StoryTag(const std::string& theName, const bool& prefixTag = true);
 #ifdef NO_COMPILER_GENERATED
   StoryTag(const StoryTag& theStoryTag);
   StoryTag& operator=(const StoryTag& theStoryTag);
 #endif
 
-  virtual boost::shared_ptr<Glyph> clone() const;
-  virtual std::string realize(const Dictionary& theDictionary) const;
-  virtual std::string realize(const TextFormatter& theFormatter) const;
+  boost::shared_ptr<Glyph> clone() const override;
+  std::string realize(const Dictionary& theDictionary) const override;
+  std::string realize(const TextFormatter& theFormatter) const override;
 
-  virtual bool isDelimiter() const;
+  bool isDelimiter() const override;
   virtual bool isPrefixTag() const;
 
  private:

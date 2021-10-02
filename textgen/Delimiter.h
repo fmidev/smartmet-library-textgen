@@ -15,17 +15,17 @@ namespace TextGen
 class Delimiter : public Glyph
 {
  public:
-  virtual ~Delimiter();
+  ~Delimiter() override;
   Delimiter(const std::string& theSeparator);
 #ifdef NO_COMPILER_GENERATED
   Delimiter(const Delimiter& thePhrase);
   Delimiter& operator=(const Delimiter& thePhrase);
 #endif
 
-  virtual boost::shared_ptr<Glyph> clone() const;
-  virtual std::string realize(const Dictionary& theDictionary) const;
-  virtual std::string realize(const TextFormatter& theFormatter) const;
-  virtual bool isDelimiter() const;
+  boost::shared_ptr<Glyph> clone() const override;
+  std::string realize(const Dictionary& theDictionary) const override;
+  std::string realize(const TextFormatter& theFormatter) const override;
+  bool isDelimiter() const override;
 
   const std::string& value() const;
 

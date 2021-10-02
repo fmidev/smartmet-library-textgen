@@ -16,17 +16,17 @@ namespace TextGen
 class Sentence : public GlyphContainer
 {
  public:
-  virtual ~Sentence() {}
+  ~Sentence() override {}
 #ifdef NO_COMPILER_GENERATED
   Sentence();
   Sentence(const Sentence& theSentence);
   Sentence& operator=(const Sentence& theSentence);
 #endif
 
-  virtual boost::shared_ptr<Glyph> clone() const;
-  virtual std::string realize(const Dictionary& theDictionary) const;
-  virtual std::string realize(const TextFormatter& theFormatter) const;
-  virtual bool isDelimiter() const;
+  boost::shared_ptr<Glyph> clone() const override;
+  std::string realize(const Dictionary& theDictionary) const override;
+  std::string realize(const TextFormatter& theFormatter) const override;
+  bool isDelimiter() const override;
 
   Sentence& operator<<(const Sentence& theSentence);
   Sentence& operator<<(const Glyph& theGlyph);

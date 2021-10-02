@@ -8,11 +8,11 @@ namespace TextGen
 {
 using namespace WindStoryTools;
 
-class WindDataItemUnit;
-class WindDataItemsByArea;
-class WindSpeedPeriodDataItem;
-class WindDirectionPeriodDataItem;
-class WindEventPeriodDataItem;
+struct WindDataItemUnit;
+struct WindDataItemsByArea;
+struct WindSpeedPeriodDataItem;
+struct WindDirectionPeriodDataItem;
+struct WindEventPeriodDataItem;
 
 typedef std::vector<std::pair<float, WeatherResult> > value_distribution_data_vector;
 typedef std::vector<WindDataItemsByArea*> wind_data_item_vector;

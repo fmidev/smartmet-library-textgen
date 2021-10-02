@@ -19,9 +19,9 @@ class Glyph;
 class MessageLogger : public MessageLoggerStream<>
 {
  public:
-  ~MessageLogger();
+  ~MessageLogger() override;
   MessageLogger(const std::string& theFunction);
-  virtual void onNewMessage(const string_type& theMessage);
+  void onNewMessage(const string_type& theMessage) override;
   std::string str() const;
   MessageLogger& operator<<(const TextGen::Glyph& theGlyph);
 

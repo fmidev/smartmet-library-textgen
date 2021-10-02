@@ -484,12 +484,12 @@ enum time_phrase_format
   AT_FORMAT
 };
 
-class WeatherResultDataItem;
-class PrecipitationDataItemData;
-class FogIntensityDataItem;
-class PrecipitationDataItem;
-class CloudinessDataItem;
-class ThunderDataItem;
+struct WeatherResultDataItem;
+struct PrecipitationDataItemData;
+struct FogIntensityDataItem;
+struct PrecipitationDataItem;
+struct CloudinessDataItem;
+struct ThunderDataItem;
 
 typedef std::vector<WeatherResultDataItem*> weather_result_data_item_vector;
 typedef std::pair<TextGenPosixTime, weather_event_id> timestamp_weather_event_id_pair;

@@ -16,17 +16,17 @@ namespace TextGen
 class Header : public GlyphContainer
 {
  public:
-  virtual ~Header() {}
+  ~Header() override {}
 #ifdef NO_COMPILER_GENERATED
   Header();
   Header(const Header& theHeader);
   Header& operator=(const Header& theHeader);
 #endif
 
-  virtual boost::shared_ptr<Glyph> clone() const;
-  virtual std::string realize(const Dictionary& theDictionary) const;
-  virtual std::string realize(const TextFormatter& theFormatter) const;
-  virtual bool isDelimiter() const;
+  boost::shared_ptr<Glyph> clone() const override;
+  std::string realize(const Dictionary& theDictionary) const override;
+  std::string realize(const TextFormatter& theFormatter) const override;
+  bool isDelimiter() const override;
 
   Header& operator<<(const Glyph& theGlyph);
   Header& operator<<(const std::string& thePhrase);
