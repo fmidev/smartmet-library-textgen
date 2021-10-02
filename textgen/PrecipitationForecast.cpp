@@ -432,7 +432,7 @@ bool get_period_start_end_index(const WeatherPeriod& thePeriod,
 weather_result_data_item_vector* get_data_vector(wf_story_params& theParameters,
                                                  weather_result_data_id theDataId)
 {
-  weather_result_data_item_vector* retval = 0;
+  weather_result_data_item_vector* retval = nullptr;
 
   forecast_area_id areaId(NO_AREA);
   if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
@@ -1443,7 +1443,7 @@ void PrecipitationForecast::selectPrecipitationSentence(
 bool PrecipitationForecast::getDryPeriods(const WeatherPeriod& theSourcePeriod,
                                           vector<WeatherPeriod>& theDryPeriods) const
 {
-  const vector<WeatherPeriod>* precipitationPeriods = 0;
+  const vector<WeatherPeriod>* precipitationPeriods = nullptr;
 
   if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
     precipitationPeriods = &thePrecipitationPeriodsFull;
@@ -1516,7 +1516,7 @@ bool PrecipitationForecast::getDryPeriods(const WeatherPeriod& theSourcePeriod,
 bool PrecipitationForecast::getPrecipitationPeriods(
     const WeatherPeriod& theSourcePeriod, vector<WeatherPeriod>& thePrecipitationPeriods) const
 {
-  const vector<WeatherPeriod>* precipitationPeriods = 0;
+  const vector<WeatherPeriod>* precipitationPeriods = nullptr;
 
   if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
     precipitationPeriods = &thePrecipitationPeriodsFull;
@@ -2241,8 +2241,8 @@ void PrecipitationForecast::joinPrecipitationPeriods(
 
 void PrecipitationForecast::findOutPrecipitationPeriods(forecast_area_id theAreaId)
 {
-  precipitation_data_vector* dataSourceVector = 0;
-  vector<WeatherPeriod>* dataDestinationVector = 0;
+  precipitation_data_vector* dataSourceVector = nullptr;
+  vector<WeatherPeriod>* dataDestinationVector = nullptr;
 
   if (theAreaId & FULL_AREA)
   {
@@ -2646,7 +2646,7 @@ bool PrecipitationForecast::getPrecipitationPeriod(const TextGenPosixTime& theTi
                                                    TextGenPosixTime& theStartTime,
                                                    TextGenPosixTime& theEndTime) const
 {
-  const vector<WeatherPeriod>* precipitationPeriodVector = 0;
+  const vector<WeatherPeriod>* precipitationPeriodVector = nullptr;
 
   if (theParameters.theForecastArea & FULL_AREA)
     precipitationPeriodVector = &thePrecipitationPeriodsFull;
@@ -3851,7 +3851,7 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
 {
   Sentence sentence;
 
-  const precipitation_data_vector* dataVector = 0;
+  const precipitation_data_vector* dataVector = nullptr;
 
   float precipitationIntensity = kFloatMissing;
   float precipitationAbsoluteMaxIntensity = kFloatMissing;
@@ -4173,7 +4173,7 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
 
 bool PrecipitationForecast::shortTermPrecipitationExists(const WeatherPeriod& thePeriod) const
 {
-  const vector<WeatherPeriod>* precipitationPeriodVector = 0;
+  const vector<WeatherPeriod>* precipitationPeriodVector = nullptr;
 
   if (theParameters.theForecastArea & FULL_AREA)
     precipitationPeriodVector = &thePrecipitationPeriodsFull;
@@ -4293,7 +4293,7 @@ Sentence PrecipitationForecast::areaSpecificSentence(const WeatherPeriod& thePer
 void PrecipitationForecast::getWeatherEventIdVector(
     weather_event_id_vector& thePrecipitationWeatherEvents) const
 {
-  const weather_event_id_vector* vectorToRefer = 0;
+  const weather_event_id_vector* vectorToRefer = nullptr;
 
   if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
     vectorToRefer = &thePrecipitationWeatherEventsFull;

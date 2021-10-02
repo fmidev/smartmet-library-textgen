@@ -2222,7 +2222,7 @@ wind_event_period_data_item_vector remove_short_missing_periods(
     WindEventPeriodDataItem* nextDataItem = eventPeriodVector[i + 1];
     WindEventPeriodDataItem* afterNextDataItem = eventPeriodVector[i + 2];
 
-    if (currentDataItem == 0 || nextDataItem == 0 || afterNextDataItem == 0)
+    if (currentDataItem == nullptr || nextDataItem == nullptr || afterNextDataItem == nullptr)
     {
       cleanedEventPeriods.push_back(currentDataItem);
       continue;
@@ -2491,7 +2491,7 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
                                       prevItem->thePeriodBeginDataItem,
                                       currentItem->thePeriodEndDataItem);
       delete cleanedEventPeriods[i];
-      cleanedEventPeriods[i] = 0;
+      cleanedEventPeriods[i] = nullptr;
       delete cleanedEventPeriods[i - 1];
       cleanedEventPeriods[i - 1] = newWindEventPeriodDataItem;
     }
@@ -2512,7 +2512,7 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
 
 void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
 {
-  WindEventPeriodDataItem* currentDataItem = 0;
+  WindEventPeriodDataItem* currentDataItem = nullptr;
 
   wind_event_period_data_item_vector mergedEventPeriods;
 
@@ -2525,10 +2525,10 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
 
     WindEventPeriodDataItem* maxSpeedDataItem = currentDataItem;
     WindEventPeriodDataItem* nextDataItemAfterMax =
-        i < eventPeriodVectorSize - 1 ? storyParams.theWindSpeedEventPeriodVector[i + 1] : 0;
+        i < eventPeriodVectorSize - 1 ? storyParams.theWindSpeedEventPeriodVector[i + 1] : nullptr;
     WindEventPeriodDataItem* minSpeedDataItem = currentDataItem;
     WindEventPeriodDataItem* nextDataItemAfterMin =
-        i < eventPeriodVectorSize - 1 ? storyParams.theWindSpeedEventPeriodVector[i + 1] : 0;
+        i < eventPeriodVectorSize - 1 ? storyParams.theWindSpeedEventPeriodVector[i + 1] : nullptr;
     // handle only successive missing wind speed events
     if (currentDataItem->theWindEvent != MISSING_WIND_SPEED_EVENT)
     {
@@ -2541,7 +2541,7 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
 
     get_calculated_max_min(storyParams, *currentDataItem, previousMax, previousMin);
 
-    WindEventPeriodDataItem* nextDataItem = 0;
+    WindEventPeriodDataItem* nextDataItem = nullptr;
     for (unsigned int k = i + 1; k < eventPeriodVectorSize; k++)
     {
       if (storyParams.theWindSpeedEventPeriodVector[k]->theWindEvent == MISSING_WIND_SPEED_EVENT)
@@ -2567,8 +2567,9 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
         {
           previousMin = min;
           minSpeedDataItem = nextDataItem;
-          nextDataItemAfterMin =
-              k < eventPeriodVectorSize - 1 ? storyParams.theWindSpeedEventPeriodVector[k + 1] : 0;
+          nextDataItemAfterMin = k < eventPeriodVectorSize - 1
+                                     ? storyParams.theWindSpeedEventPeriodVector[k + 1]
+                                     : nullptr;
         }
       }
       else
@@ -2626,10 +2627,10 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
 
       if (nextDataItemAfterMin &&
           nextDataItemAfterMin->thePeriod.localStartTime() < newPeriod.localEndTime())
-        nextDataItemAfterMin = 0;
+        nextDataItemAfterMin = nullptr;
       if (nextDataItemAfterMax &&
           nextDataItemAfterMax->thePeriod.localStartTime() < newPeriod.localEndTime())
-        nextDataItemAfterMax = 0;
+        nextDataItemAfterMax = nullptr;
 
       currentDataItem = (tuuliHeikkenee ? nextDataItemAfterMin : nextDataItemAfterMax);
 
@@ -2736,7 +2737,7 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
                                       prevItem->thePeriodBeginDataItem,
                                       currentItem->thePeriodEndDataItem);
       delete cleanedEventPeriods[i];
-      cleanedEventPeriods[i] = 0;
+      cleanedEventPeriods[i] = nullptr;
       delete cleanedEventPeriods[i - 1];
       cleanedEventPeriods[i - 1] = newWindEventPeriodDataItem;
       removedElements++;
@@ -2774,9 +2775,9 @@ void check_first_period(wo_story_params& storyParams)
       firstDirection == VAIHTELEVA)
   {
     WeatherArea::Type areaType(storyParams.theArea.type());
-    const WindDataItemUnit* firstDataItem = 0;
-    const WindDataItemUnit* lastDataItem = 0;
-    const WindDataItemUnit* afterLastDataItem = 0;
+    const WindDataItemUnit* firstDataItem = nullptr;
+    const WindDataItemUnit* lastDataItem = nullptr;
+    const WindDataItemUnit* afterLastDataItem = nullptr;
     for (unsigned int i = 0; i < storyParams.theWindDataVector.size(); i++)
     {
       const WindDataItemUnit& dataItem = (*storyParams.theWindDataVector[i])(areaType);
@@ -2801,7 +2802,7 @@ void check_first_period(wo_story_params& storyParams)
 
       auto* newDataItem1 = new WindEventPeriodDataItem(
           newPeriod1, MISSING_WIND_SPEED_EVENT, *firstDataItem, *lastDataItem);
-      WindEventPeriodDataItem* newDataItem2 = 0;
+      WindEventPeriodDataItem* newDataItem2 = nullptr;
       if (afterLastDataItem)
       {
         WeatherPeriod newPeriod2(afterLastDataItem->thePeriod.localStartTime(),

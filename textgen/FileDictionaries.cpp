@@ -147,7 +147,7 @@ void FileDictionaries::init(const std::string& theLanguage)
   // Load new language
 
   boost::shared_ptr<FileDictionary> dict(new FileDictionary);
-  if (dict.get() == 0)
+  if (dict.get() == nullptr)
     throw TextGenError("Failed to allocate a new FileDictionary");
 
   dict->init(theLanguage);

@@ -111,7 +111,7 @@ namespace
 Sentence until_tonight(const string& theVariable,
                        const TextGenPosixTime& theForecastTime,
                        const WeatherPeriod& thePeriod,
-                       TextGen::WeatherHistory* theHistory = 0)
+                       TextGen::WeatherHistory* theHistory = nullptr)
 {
   using WeekdayTools::on_weekday;
   Sentence sentence;
@@ -171,7 +171,7 @@ Sentence until_tonight(const string& theVariable,
 Sentence until_morning(const string& theVariable,
                        const TextGenPosixTime& theForecastTime,
                        const WeatherPeriod& thePeriod,
-                       TextGen::WeatherHistory* theHistory = 0)
+                       TextGen::WeatherHistory* theHistory = nullptr)
 {
   using WeekdayTools::night_against_weekday;
   Sentence sentence;
@@ -231,7 +231,7 @@ Sentence until_morning(const string& theVariable,
 Sentence today(const string& theVariable,
                const TextGenPosixTime& theForecastTime,
                const WeatherPeriod& thePeriod,
-               TextGen::WeatherHistory* theHistory = 0)
+               TextGen::WeatherHistory* theHistory = nullptr)
 {
   using WeekdayTools::on_weekday;
   Sentence sentence;
@@ -306,7 +306,7 @@ Sentence today(const string& theVariable,
 Sentence tonight(const string& theVariable,
                  const TextGenPosixTime& theForecastTime,
                  const WeatherPeriod& thePeriod,
-                 TextGen::WeatherHistory* theHistory = 0)
+                 TextGen::WeatherHistory* theHistory = nullptr)
 {
   using WeekdayTools::night_against_weekday;
   Sentence sentence;
@@ -366,7 +366,7 @@ Sentence tonight(const string& theVariable,
 Sentence next_night(const string& theVariable,
                     const TextGenPosixTime& theForecastTime,
                     const WeatherPeriod& thePeriod,
-                    TextGen::WeatherHistory* theHistory = 0)
+                    TextGen::WeatherHistory* theHistory = nullptr)
 {
   using WeekdayTools::night_against_weekday;
   Sentence sentence;
@@ -423,7 +423,7 @@ Sentence next_night(const string& theVariable,
 Sentence next_day(const string& theVariable,
                   const TextGenPosixTime& theForecastTime,
                   const WeatherPeriod& thePeriod,
-                  TextGen::WeatherHistory* theHistory = 0)
+                  TextGen::WeatherHistory* theHistory = nullptr)
 {
   using WeekdayTools::on_weekday;
   Sentence sentence;
@@ -485,7 +485,7 @@ Sentence next_day(const string& theVariable,
 Sentence next_days(const string& theVariable,
                    const TextGenPosixTime& theForecastTime,
                    const WeatherPeriod& thePeriod,
-                   TextGen::WeatherHistory* theHistory = 0)
+                   TextGen::WeatherHistory* theHistory = nullptr)
 {
   using WeekdayTools::from_weekday;
   Sentence sentence;
@@ -536,7 +536,7 @@ Sentence next_days(const string& theVariable,
 Sentence remaining_days(const string& theVariable,
                         const TextGenPosixTime& theForecastTime,
                         const WeatherPeriod& thePeriod,
-                        TextGen::WeatherHistory* theHistory = 0)
+                        TextGen::WeatherHistory* theHistory = nullptr)
 {
   if (isSeveralDays(thePeriod.localStartTime(), thePeriod.localEndTime()))
     return next_days(theVariable, theForecastTime, thePeriod, theHistory);
@@ -603,7 +603,7 @@ Sentence remaining_day(const WeatherPeriod& thePeriod)
 Sentence days(const string& theVariable,
               const TextGenPosixTime& theForecastTime,
               const WeatherPeriod& thePeriod,
-              TextGen::WeatherHistory* theHistory = 0)
+              TextGen::WeatherHistory* theHistory = nullptr)
 {
   using TextGen::HourPeriodGenerator;
   using WeekdayTools::from_weekday;
@@ -809,7 +809,7 @@ Sentence create_sentence(const string& theType,
                          const string& theVariable,
                          const TextGenPosixTime& theForecastTime,
                          const WeatherPeriod& thePeriod,
-                         TextGen::WeatherHistory* theHistory = 0)
+                         TextGen::WeatherHistory* theHistory = nullptr)
 {
   if (theType == "until_tonight")
     return until_tonight(theVariable, theForecastTime, thePeriod, theHistory);

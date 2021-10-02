@@ -87,7 +87,7 @@ bool PostGISDataSource::readData(const std::string& host,
     }
 
     std::string sqlstmt("SET CLIENT_ENCODING TO '" + client_encoding + "'");
-    pDS->ExecuteSQL(sqlstmt.c_str(), 0, 0);
+    pDS->ExecuteSQL(sqlstmt.c_str(), nullptr, nullptr);
 
     std::stringstream schema_table_ss;
 
@@ -103,7 +103,7 @@ bool PostGISDataSource::readData(const std::string& host,
 
     // get spatial reference
     OGRSpatialReference* pLayerSRS = pLayer->GetSpatialRef();
-    OGRCoordinateTransformation* pCoordinateTransform(0);
+    OGRCoordinateTransformation* pCoordinateTransform(nullptr);
     OGRSpatialReference targetTransformSRS;
     if (pLayerSRS)
     {
@@ -126,7 +126,7 @@ bool PostGISDataSource::readData(const std::string& host,
       pCoordinateTransform = OGRCreateCoordinateTransformation(pLayerSRS, &targetTransformSRS);
     }
 
-    OGRFeature* pFeature(0);
+    OGRFeature* pFeature(nullptr);
     pLayer->ResetReading();
 
     while ((pFeature = pLayer->GetNextFeature()) != nullptr)
@@ -185,7 +185,7 @@ bool PostGISDataSource::readData(const std::string& host,
           if (geometryType == wkbMultiPolygon)
           {
             auto* pMultiPolygon = reinterpret_cast<OGRMultiPolygon*>(pGeometry);
-            char* wkt_buffer(0);
+            char* wkt_buffer(nullptr);
             pMultiPolygon->exportToWkt(&wkt_buffer);
             svg_string.append(wkt_buffer);
             CPLFree(wkt_buffer);
@@ -196,7 +196,7 @@ bool PostGISDataSource::readData(const std::string& host,
           {
             auto* pPolygon = reinterpret_cast<OGRPolygon*>(pGeometry);
 
-            char* wkt_buffer(0);
+            char* wkt_buffer(nullptr);
             pPolygon->exportToWkt(&wkt_buffer);
             svg_string.append(wkt_buffer);
             CPLFree(wkt_buffer);
@@ -225,7 +225,7 @@ bool PostGISDataSource::readData(const std::string& host,
           {
             auto* pMultiLine = reinterpret_cast<OGRMultiLineString*>(pGeometry);
 
-            char* wkt_buffer(0);
+            char* wkt_buffer(nullptr);
             pMultiLine->exportToWkt(&wkt_buffer);
             svg_string.append(wkt_buffer);
             CPLFree(wkt_buffer);
@@ -234,7 +234,7 @@ bool PostGISDataSource::readData(const std::string& host,
           {
             auto* pLine = reinterpret_cast<OGRLineString*>(pGeometry);
 
-            char* wkt_buffer(0);
+            char* wkt_buffer(nullptr);
             pLine->exportToWkt(&wkt_buffer);
             svg_string.append(wkt_buffer);
             CPLFree(wkt_buffer);

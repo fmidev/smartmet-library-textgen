@@ -302,7 +302,10 @@ std::ostream& operator<<(std::ostream& theOutput, const CloudinessDataItem& theC
 }
 
 CloudinessForecast::CloudinessForecast(wf_story_params& parameters)
-    : theParameters(parameters), theCoastalData(0), theInlandData(0), theFullData(0)
+    : theParameters(parameters),
+      theCoastalData(nullptr),
+      theInlandData(nullptr),
+      theFullData(nullptr)
 
 {
   if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
@@ -929,7 +932,7 @@ cloudiness_id CloudinessForecast::getCloudinessPeriodId(
 
 cloudiness_id CloudinessForecast::getCloudinessId(const WeatherPeriod& thePeriod) const
 {
-  const weather_result_data_item_vector* theCloudinessDataVector = 0;
+  const weather_result_data_item_vector* theCloudinessDataVector = nullptr;
 
   if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
     theCloudinessDataVector = theFullData;
@@ -963,7 +966,7 @@ cloudiness_id CloudinessForecast::getCloudinessId(
 void CloudinessForecast::getWeatherEventIdVector(
     weather_event_id_vector& theCloudinessWeatherEvents) const
 {
-  const weather_event_id_vector* vectorToClone = 0;
+  const weather_event_id_vector* vectorToClone = nullptr;
 
   if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
     vectorToClone = &theCloudinessWeatherEventsFull;

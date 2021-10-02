@@ -93,8 +93,8 @@ Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
 {
   Sentence sentence;
 
-  const weather_result_data_item_vector* thunderProbabilityData = 0;
-  const weather_result_data_item_vector* thunderExtentData = 0;
+  const weather_result_data_item_vector* thunderProbabilityData = nullptr;
+  const weather_result_data_item_vector* thunderExtentData = nullptr;
 
   std::string areaString("");
 

@@ -152,7 +152,7 @@ void DatabaseDictionaries::init(const std::string& theLanguage)
     dict.reset(new MySQLDictionary);
   else if (itsDictionaryId == "postgresql")
     dict.reset(new PostgreSQLDictionary);
-  if (dict.get() == 0)
+  if (dict.get() == nullptr)
     throw TextGenError("Failed to allocate a new DatabaseDictionary");
 
   dict->init(theLanguage);

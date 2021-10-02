@@ -186,12 +186,12 @@ fog_type_id get_fog_type(const float& theModerateFog,
 
 FogForecast::FogForecast(wf_story_params& parameters, bool visibilityForecast /*= false*/)
     : theParameters(parameters),
-      theCoastalModerateFogData(0),
-      theInlandModerateFogData(0),
-      theFullAreaModerateFogData(0),
-      theCoastalDenseFogData(0),
-      theInlandDenseFogData(0),
-      theFullAreaDenseFogData(0),
+      theCoastalModerateFogData(nullptr),
+      theInlandModerateFogData(nullptr),
+      theFullAreaModerateFogData(nullptr),
+      theCoastalDenseFogData(nullptr),
+      theInlandDenseFogData(nullptr),
+      theFullAreaDenseFogData(nullptr),
       theVisibityForecastAtSea(visibilityForecast)
 {
   if (theParameters.theForecastArea & FULL_AREA)

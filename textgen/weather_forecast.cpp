@@ -134,7 +134,7 @@ void log_weather_result_data(MessageLogger& theLog,
                              weather_forecast_result_container& theDataContainer)
 {
   std::string theLogMessage;
-  weather_result_data_item_vector* timeSeries = 0;
+  weather_result_data_item_vector* timeSeries = nullptr;
   for (unsigned int i = CLOUDINESS_DATA; i < UNDEFINED_DATA_ID; i++)
   {
     timeSeries = theDataContainer[i];

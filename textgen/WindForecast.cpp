@@ -2645,7 +2645,7 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
     const WindEventPeriodDataItem* nextWindSpeedEventPeriodDataItem =
         (i < theParameters.theWindSpeedEventPeriodVector.size() - 1
              ? theParameters.theWindSpeedEventPeriodVector[i + 1]
-             : 0);
+             : nullptr);
 
     constructWindSentence(windSpeedEventPeriodDataItem,
                           nextWindSpeedEventPeriodDataItem,

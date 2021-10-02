@@ -190,7 +190,7 @@ InlandMaskSource::mask_type InlandMaskSource::Pimple::create_mask(
 
   WeatherId id = theWeatherSource.id(theData);
   mask_type coastmask = find(id, itsCoast);
-  if (coastmask.get() == 0)
+  if (coastmask.get() == nullptr)
   {
     const NFmiSvgPath& csvg = itsCoast.path();
     const float cdistance = itsCoast.radius();
@@ -237,7 +237,7 @@ InlandMaskSource::mask_type InlandMaskSource::mask(const WeatherArea& theArea,
 
   mask_type areamask = itsPimple->find(id, theArea);
 
-  if (areamask.get() != 0)
+  if (areamask.get() != nullptr)
     return areamask;
 
   // Calculate new mask and cache it

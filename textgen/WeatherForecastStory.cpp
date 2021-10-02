@@ -637,8 +637,8 @@ void WeatherForecastStory::addPrecipitationStoryItems()
 
   thePrecipitationForecast.getPrecipitationPeriods(theForecastPeriod, precipitationPeriods);
 
-  PrecipitationForecastStoryItem* previousPrItem = 0;
-  WeatherForecastStoryItem* missingStoryItem = 0;
+  PrecipitationForecastStoryItem* previousPrItem = nullptr;
+  WeatherForecastStoryItem* missingStoryItem = nullptr;
   for (unsigned int i = 0; i < precipitationPeriods.size(); i++)
   {
     float intensity(thePrecipitationForecast.getMeanIntensity(precipitationPeriods[i],
@@ -674,7 +674,7 @@ void WeatherForecastStory::addPrecipitationStoryItems()
     int precipitationFullDuration = endTimeFull.DifferenceInHours(startTimeFull);
     item->theFullDuration = precipitationFullDuration;
 
-    if (previousPrItem != 0)
+    if (previousPrItem != nullptr)
     {
       TextGenPosixTime startTime(previousPrItem->thePeriod.localEndTime());
       TextGenPosixTime endTime(precipitationPeriods[i].localStartTime());
@@ -704,8 +704,8 @@ void WeatherForecastStory::addPrecipitationStoryItems()
                                         cloudinessPeriod,
                                         CLOUDINESS_STORY_PART,
                                         theCloudinessForecast.getCloudinessId(cloudinessPeriod),
-                                        0,
-                                        0);
+                                        nullptr,
+                                        nullptr);
 
     item->theReportAboutDryWeatherFlag = true;
 
@@ -772,7 +772,7 @@ void WeatherForecastStory::addPrecipitationStoryItems()
 
 void WeatherForecastStory::addCloudinessStoryItems()
 {  // replace the missing story items with the cloudiness story part
-  PrecipitationForecastStoryItem* previousPrecipitationStoryItem = 0;
+  PrecipitationForecastStoryItem* previousPrecipitationStoryItem = nullptr;
   for (unsigned int i = 0; i < theStoryItemVector.size(); i++)
   {
     if (theStoryItemVector[i]->theStoryPartId == MISSING_STORY_PART)
@@ -785,7 +785,7 @@ void WeatherForecastStory::addCloudinessStoryItems()
           CLOUDINESS_STORY_PART,
           theCloudinessForecast.getCloudinessId(placeholder->thePeriod),
           previousPrecipitationStoryItem,
-          0);
+          nullptr);
 
       if (!previousPrecipitationStoryItem)
       {
@@ -813,14 +813,15 @@ void WeatherForecastStory::addCloudinessStoryItems()
 
 void WeatherForecastStory::mergePrecipitationPeriodsWhenFeasible()
 {
-  PrecipitationForecastStoryItem* previousPrecipitationStoryItem = 0;
-  PrecipitationForecastStoryItem* currentPrecipitationStoryItem = 0;
+  PrecipitationForecastStoryItem* previousPrecipitationStoryItem = nullptr;
+  PrecipitationForecastStoryItem* currentPrecipitationStoryItem = nullptr;
   std::vector<unsigned int> indexes = get_story_item_indexes(theStoryItemVector);
 
   for (unsigned int i = 0; i < indexes.size(); i++)
   {
     WeatherForecastStoryItem* currentStoryItem = theStoryItemVector[indexes[i]];
-    WeatherForecastStoryItem* previousStoryItem = (i > 0 ? theStoryItemVector[indexes[i - 1]] : 0);
+    WeatherForecastStoryItem* previousStoryItem =
+        (i > 0 ? theStoryItemVector[indexes[i - 1]] : nullptr);
     if (currentStoryItem->theIncludeInTheStoryFlag == false)
       continue;
 
@@ -883,7 +884,7 @@ void WeatherForecastStory::mergePrecipitationPeriodsWhenFeasible()
     if (theStoryItemVector[firstIndex]->theStoryPartId == PRECIPITATION_STORY_PART &&
         theStoryItemVector[secondIndex]->theStoryPartId == CLOUDINESS_STORY_PART &&
         theStoryItemVector[firstIndex]->getPeriodLength() <= 1 &&
-        theStoryItemVector[firstIndex]->thePeriodToMergeWith == 0)
+        theStoryItemVector[firstIndex]->thePeriodToMergeWith == nullptr)
       theStoryItemVector[firstIndex]->theIncludeInTheStoryFlag = false;
 
     unsigned int lastIndex = indexes[storyItemCount - 1];
@@ -899,8 +900,8 @@ void WeatherForecastStory::mergePrecipitationPeriodsWhenFeasible()
 
 void WeatherForecastStory::mergeCloudinessPeriodsWhenFeasible()
 {
-  CloudinessForecastStoryItem* previousCloudinessStoryItem = 0;
-  CloudinessForecastStoryItem* currentCloudinessStoryItem = 0;
+  CloudinessForecastStoryItem* previousCloudinessStoryItem = nullptr;
+  CloudinessForecastStoryItem* currentCloudinessStoryItem = nullptr;
   std::vector<unsigned int> indexes = get_story_item_indexes(theStoryItemVector);
 
   for (unsigned int i = 0; i < indexes.size(); i++)
@@ -946,7 +947,7 @@ void WeatherForecastStory::mergeCloudinessPeriodsWhenFeasible()
     if (theStoryItemVector[firstIndex]->theStoryPartId == CLOUDINESS_STORY_PART &&
         theStoryItemVector[secondIndex]->theStoryPartId == PRECIPITATION_STORY_PART &&
         theStoryItemVector[firstIndex]->getPeriodLength() <= 1 &&
-        theStoryItemVector[firstIndex]->thePeriodToMergeWith == 0)
+        theStoryItemVector[firstIndex]->thePeriodToMergeWith == nullptr)
       theStoryItemVector[firstIndex]->theIncludeInTheStoryFlag = false;
 
     unsigned int lastIndex = indexes[storyItemCount - 1];
@@ -1015,7 +1016,7 @@ WeatherForecastStoryItem::WeatherForecastStoryItem(WeatherForecastStory& weather
       thePeriod(period),
       theStoryPartId(storyPartId),
       theIncludeInTheStoryFlag(true),
-      thePeriodToMergeWith(0)
+      thePeriodToMergeWith(nullptr)
 {
 }
 
@@ -1316,7 +1317,7 @@ Sentence WeatherForecastStoryItem::getPeriodPhrase(bool theFromSpecifier,
 
   sentence << getPeriodPhrase();
 
-  WeatherPeriod phrasePeriod(thePhrasePeriod == 0 ? getStoryItemPeriod() : *thePhrasePeriod);
+  WeatherPeriod phrasePeriod(thePhrasePeriod == nullptr ? getStoryItemPeriod() : *thePhrasePeriod);
   if (!sentence.empty())
     return sentence;
 

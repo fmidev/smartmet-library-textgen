@@ -233,7 +233,7 @@ LandMaskSource::mask_type LandMaskSource::mask(const WeatherArea& theArea,
 
   mask_type areamask = itsPimple->find(id, theArea);
 
-  if (areamask.get() != 0)
+  if (areamask.get() != nullptr)
     return areamask;
 
   // Calculate new mask and cache it

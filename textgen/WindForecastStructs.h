@@ -348,10 +348,10 @@ bool wind_direction_differ_enough(const WeatherResult theWindDirection1,
                                   float theWindDirectionThreshold);
 WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
                                      const TextGenPosixTime& pointOfTime,
-                                     const WindDirectionInfo* thePreviousWindDirection = 0);
+                                     const WindDirectionInfo* thePreviousWindDirection = nullptr);
 WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
                                      const WeatherPeriod& period,
-                                     const WindDirectionInfo* thePreviousWindDirection = 0);
+                                     const WindDirectionInfo* thePreviousWindDirection = nullptr);
 
 bool is_weak_period(const wo_story_params& theParameters, const WeatherPeriod& thePeriod);
 

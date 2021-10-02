@@ -44,7 +44,7 @@ class WeatherForecastStoryItem
                                   unsigned int theEndIndex);
   Sentence getPeriodPhrase();
   Sentence getPeriodPhrase(bool theFromSpecifier,
-                           const WeatherPeriod* thePhrasePeriod = 0,
+                           const WeatherPeriod* thePhrasePeriod = nullptr,
                            bool theStoryUnderConstructionEmpty = true);
   std::string checkForAamuyoAndAamuPhrase(bool theFromSpecifier,
                                           const WeatherPeriod& thePhrasePeriod);
