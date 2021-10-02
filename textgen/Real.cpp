@@ -24,7 +24,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -71,7 +70,8 @@ std::string Real::realize(const Dictionary& theDictionary) const
   ostringstream os;
   os << fixed << setprecision(itsPrecision) << itsReal;
   string result = os.str();
-  if (!itsComma) NFmiStringTools::ReplaceChars(result, '.', ',');
+  if (!itsComma)
+    NFmiStringTools::ReplaceChars(result, '.', ',');
   return result;
 }
 
@@ -95,7 +95,10 @@ std::string Real::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool Real::isDelimiter() const { return false; }
+bool Real::isDelimiter() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the value of the integer
@@ -104,7 +107,10 @@ bool Real::isDelimiter() const { return false; }
  */
 // ----------------------------------------------------------------------
 
-float Real::value() const { return itsReal; }
+float Real::value() const
+{
+  return itsReal;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the precision of the real
@@ -113,7 +119,10 @@ float Real::value() const { return itsReal; }
  */
 // ----------------------------------------------------------------------
 
-int Real::precision() const { return itsPrecision; }
+int Real::precision() const
+{
+  return itsPrecision;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return true if comma is in use
@@ -122,7 +131,10 @@ int Real::precision() const { return itsPrecision; }
  */
 // ----------------------------------------------------------------------
 
-bool Real::comma() const { return itsComma; }
+bool Real::comma() const
+{
+  return itsComma;
+}
 }  // namespace TextGen
 
 // ======================================================================

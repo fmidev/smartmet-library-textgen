@@ -1471,7 +1471,8 @@ const Sentence windiness_sentence(const wind_anomaly_params& theParameters)
 
     if (inlandIncluded || coastIncluded)
     {
-      if (areaString.empty()) areaString = EMPTY_STRING;
+      if (areaString.empty())
+        areaString = EMPTY_STRING;
       std::string timePhrase(parse_weekday_phrase(dayNumber, part_of_the_day));
 
       if (temperature > TUULI_KYLMENTAA_SAATA_LOWER_LIMIT &&

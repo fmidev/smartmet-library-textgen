@@ -12,8 +12,8 @@
  */
 // ----------------------------------------------------------------------
 
-#include <boost/lexical_cast.hpp>  // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ssa min max maarittelyt jo tehty
 #include "WeekdayTools.h"
+#include <boost/lexical_cast.hpp>  // boost included laitettava ennen newbase:n NFmiGlobals-includea, muuten MSVC:ssa min max maarittelyt jo tehty
 #include <calculator/TextGenError.h>
 #include <calculator/TextGenPosixTime.h>
 #include <calculator/WeatherHistory.h>
@@ -221,7 +221,8 @@ string from_weekday_evening(const TextGenPosixTime& theTime)
 string from_weekday_time(const TextGenPosixTime& theTime)
 {
   const int hour = theTime.GetHour();
-  if (hour == 6) return from_weekday_morning(theTime);
+  if (hour == 6)
+    return from_weekday_morning(theTime);
   if (hour == 12)
     return from_weekday_noon(theTime);
   else if (hour == 18)

@@ -50,7 +50,8 @@ using namespace std;
 
 thunder_probability_id get_thunder_probability_id(const float& theThunderProbability)
 {
-  if (theThunderProbability == 0) return NO_THUNDER;
+  if (theThunderProbability == 0)
+    return NO_THUNDER;
 
   if (theThunderProbability < SMALL_PROBABILITY_FOR_THUNDER_UPPER_LIMIT)
   {

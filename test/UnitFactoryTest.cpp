@@ -39,15 +39,18 @@ void celsius()
   Settings::set("textgen::units::celsius::format", "SI");
   unit = create(DegreesCelsius);
   string celsius = string("\xc2\xb0") + "C.";
-  if (unit->realize(formatter) != celsius) TEST_FAILED("create() failed to realize " + celsius);
+  if (unit->realize(formatter) != celsius)
+    TEST_FAILED("create() failed to realize " + celsius);
 
   Settings::set("textgen::units::celsius::format", "phrase");
   unit = create(DegreesCelsius);
-  if (unit->realize(formatter) != "Astetta.") TEST_FAILED("create() failed to realize Astetta.");
+  if (unit->realize(formatter) != "Astetta.")
+    TEST_FAILED("create() failed to realize Astetta.");
 
   Settings::set("textgen::units::celsius::format", "none");
   unit = create(DegreesCelsius);
-  if (unit->realize(formatter) != "") TEST_FAILED("create() failed to realize empty celsius.");
+  if (unit->realize(formatter) != "")
+    TEST_FAILED("create() failed to realize empty celsius.");
 
   TEST_PASSED();
 }
@@ -73,7 +76,8 @@ void meterspersecond()
 
   Settings::set("textgen::units::meterspersecond::format", "SI");
   unit = create(MetersPerSecond);
-  if (unit->realize(formatter) != "M/s.") TEST_FAILED("create() failed to realize M/s.");
+  if (unit->realize(formatter) != "M/s.")
+    TEST_FAILED("create() failed to realize M/s.");
 
   Settings::set("textgen::units::meterspersecond::format", "phrase");
   unit = create(MetersPerSecond);
@@ -109,7 +113,8 @@ void millimeters()
 
   Settings::set("textgen::units::millimeters::format", "SI");
   unit = create(Millimeters);
-  if (unit->realize(formatter) != "Mm.") TEST_FAILED("create() failed to realize Mm.");
+  if (unit->realize(formatter) != "Mm.")
+    TEST_FAILED("create() failed to realize Mm.");
 
   Settings::set("textgen::units::millimeters::format", "phrase");
   unit = create(Millimeters);
@@ -118,7 +123,8 @@ void millimeters()
 
   Settings::set("textgen::units::millimeters::format", "none");
   unit = create(Millimeters);
-  if (unit->realize(formatter) != "") TEST_FAILED("create() failed to realize empty millimeters.");
+  if (unit->realize(formatter) != "")
+    TEST_FAILED("create() failed to realize empty millimeters.");
 
   TEST_PASSED();
 }
@@ -144,7 +150,8 @@ void percent()
 
   Settings::set("textgen::units::percent::format", "SI");
   unit = create(Percent);
-  if (unit->realize(formatter) != "%.") TEST_FAILED("create() failed to realize %.");
+  if (unit->realize(formatter) != "%.")
+    TEST_FAILED("create() failed to realize %.");
 
   Settings::set("textgen::units::percent::format", "phrase");
   unit = create(Percent);
@@ -153,7 +160,8 @@ void percent()
 
   Settings::set("textgen::units::percent::format", "none");
   unit = create(Percent);
-  if (unit->realize(formatter) != "") TEST_FAILED("create() failed to realize empty percent.");
+  if (unit->realize(formatter) != "")
+    TEST_FAILED("create() failed to realize empty percent.");
 
   TEST_PASSED();
 }

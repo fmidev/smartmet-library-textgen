@@ -46,7 +46,8 @@ namespace
 TextGenPosixTime round_up(const TextGenPosixTime& theTime)
 {
   TextGenPosixTime ret(theTime);
-  if (ret.GetMin() > 0 || ret.GetSec() > 0) ret.ChangeByHours(1);
+  if (ret.GetMin() > 0 || ret.GetSec() > 0)
+    ret.ChangeByHours(1);
   ret.SetMin(0);
   ret.SetSec(0);
   return ret;
@@ -107,7 +108,8 @@ WeatherPeriod period_until(const TextGenPosixTime& theTime, const string& theVar
   TextGenPosixTime end(start);
   end.ChangeByDays(days);
   end.SetHour(endhour);
-  if (switchhour > 0 && start.GetHour() >= switchhour) end.ChangeByDays(1);
+  if (switchhour > 0 && start.GetHour() >= switchhour)
+    end.ChangeByDays(1);
 
   WeatherPeriod period(start, end);
   return period;
@@ -155,7 +157,8 @@ WeatherPeriod period_from_until(const TextGenPosixTime& theTime, const string& t
 
   TextGenPosixTime start(round_up(theTime));
   start.ChangeByDays(startday);
-  if (switchhour > 0 && start.GetHour() >= switchhour) start.ChangeByDays(1);
+  if (switchhour > 0 && start.GetHour() >= switchhour)
+    start.ChangeByDays(1);
   start.SetHour(starthour);
 
   TextGenPosixTime end(start);
@@ -196,9 +199,12 @@ WeatherPeriod create(const TextGenPosixTime& theTime, const std::string& theVari
 {
   const string var = theVariable + "::type";
   const string type = Settings::require_string(var);
-  if (type == "now") return period_now(theTime, theVariable);
-  if (type == "until") return period_until(theTime, theVariable);
-  if (type == "from_until") return period_from_until(theTime, theVariable);
+  if (type == "now")
+    return period_now(theTime, theVariable);
+  if (type == "until")
+    return period_until(theTime, theVariable);
+  if (type == "from_until")
+    return period_from_until(theTime, theVariable);
 
   throw TextGenError("WeatherPeriodFactory does not recognize period name " + type);
 }

@@ -1039,7 +1039,8 @@ proximity_id get_proximity_id(float theMinimum,
         retval = TIENOILLA_ASTETTA;
       }
     }
-    if (retval != NO_PROXIMITY) theProximityNumber = theNumberDivisibleByFive;
+    if (retval != NO_PROXIMITY)
+      theProximityNumber = theNumberDivisibleByFive;
   }
   else if (theCase == ABOVE)
   {
@@ -1055,7 +1056,8 @@ proximity_id get_proximity_id(float theMinimum,
     if (theMinDiff < vahanYliAstettaLimit && theMaxDiff < vahanYliAstettaLimit)
       retval = VAHAN_YLI_ASTETTA;
 
-    if (retval != NO_PROXIMITY) theProximityNumber = theNumberDivisibleByFive;
+    if (retval != NO_PROXIMITY)
+      theProximityNumber = theNumberDivisibleByFive;
   }
   else if (theCase == BELOW)
   {
@@ -1074,10 +1076,12 @@ proximity_id get_proximity_id(float theMinimum,
     else if (theMinDiff < VAJAAT_ASTETTA_LIMIT && theMaxDiff < VAJAAT_ASTETTA_LIMIT)
       retval = VAJAAT_ASTETTA;
 
-    if (retval != NO_PROXIMITY) theProximityNumber = theNumberDivisibleByFive;
+    if (retval != NO_PROXIMITY)
+      theProximityNumber = theNumberDivisibleByFive;
   }
 
-  if (bBelowZeroDegrees && retval != NO_PROXIMITY) theProximityNumber = theProximityNumber * -1;
+  if (bBelowZeroDegrees && retval != NO_PROXIMITY)
+    theProximityNumber = theProximityNumber * -1;
 
   return retval;
 }
@@ -1220,21 +1224,24 @@ void calculate_results(MessageLogger& theLog,
 
   if (theAreaId == INLAND_AREA)
   {
-    if (theArea.type() == WeatherArea::Full) theActualArea.type(WeatherArea::Inland);
+    if (theArea.type() == WeatherArea::Full)
+      theActualArea.type(WeatherArea::Inland);
     fakeVarFull += "::inland";
     fakeVarMorning += "::inland";
     fakeVarAfternoon += "::inland";
   }
   else if (theAreaId == COASTAL_AREA)
   {
-    if (theArea.type() == WeatherArea::Full) theActualArea.type(WeatherArea::Coast);
+    if (theArea.type() == WeatherArea::Full)
+      theActualArea.type(WeatherArea::Coast);
     fakeVarFull += "::coast";
     fakeVarMorning += "::coast";
     fakeVarAfternoon += "::coast";
   }
   else
   {
-    if (theArea.type() == WeatherArea::Full) theActualArea.type(WeatherArea::Full);
+    if (theArea.type() == WeatherArea::Full)
+      theActualArea.type(WeatherArea::Full);
     fakeVarFull += "::area";
     fakeVarMorning += "::area";
     fakeVarAfternoon += "::area";
@@ -1872,7 +1879,8 @@ Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int
                      << *UnitFactory::create_unit(DegreesCelsius, theProximityNumber);
             theParameters.theTemperaturePhraseId = VAJAAT_ASTETTA_PHRASE_ID;
             intervalStart = theProximityNumber;
-            if (theParameters.theMaximum < 0) theParameters.theUseFrostExistsPhrase = true;
+            if (theParameters.theMaximum < 0)
+              theParameters.theUseFrostExistsPhrase = true;
 
             theParameters.theLog << "PROXIMITY: Vajaat " << proximityNumberBuff
                                  << " astetta :: " << tempBuff << endl;
@@ -1888,7 +1896,8 @@ Sentence temperature_sentence(t36hparams& theParameters, int& intervalStart, int
 
           theParameters.theLog << "PROXIMITY: Vahan yli " << proximityNumberBuff
                                << " astetta :: " << tempBuff << endl;
-          if (theParameters.theMaximum < 0) theParameters.theUseFrostExistsPhrase = true;
+          if (theParameters.theMaximum < 0)
+            theParameters.theUseFrostExistsPhrase = true;
         }
         break;
         case NO_PROXIMITY:
@@ -2324,7 +2333,8 @@ Sentence temperature_phrase(t36hparams& theParameters)
     }
   }
 
-  if (dayPhaseString.empty()) dayPhaseString = EMPTY_STRING;
+  if (dayPhaseString.empty())
+    dayPhaseString = EMPTY_STRING;
 
   if (theParameters.theForecastAreaId == COASTAL_AREA && theParameters.inlandAndCoastSeparated() &&
       !theParameters.theOnCoastalAreaTautologyFlag)
@@ -3338,7 +3348,8 @@ Sentence day2_sentence(t36hparams& theParameters)
                                                    theParameters.theWeatherArea);
   }
 
-  if (!nextDaySentence.empty()) theParameters.theTomorrowTautologyFlag = true;
+  if (!nextDaySentence.empty())
+    theParameters.theTomorrowTautologyFlag = true;
 
   sentence << construct_final_sentence(
       theParameters, temperatureSentence, nextDaySentence, intervalStart, intervalEnd);
@@ -3818,7 +3829,8 @@ Paragraph temperature_max36hours_sentence(t36hparams& theParameters)
 {
   Paragraph paragraph;
 
-  if (theParameters.theForecastArea == NO_AREA) return paragraph;
+  if (theParameters.theForecastArea == NO_AREA)
+    return paragraph;
 
   const int temperature_limit_coast_inland =
       optional_int(theParameters.theVariable + "::temperature_limit_coast_inland", 3);
@@ -4343,7 +4355,8 @@ bool valid_value_period_check(float value, unsigned short& forecast_period, unsi
   bool retval = (value != kFloatMissing);
 
   // clear the bit
-  if (!retval) forecast_period &= (~mask);
+  if (!retval)
+    forecast_period &= (~mask);
 
   return retval;
 }

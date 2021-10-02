@@ -23,12 +23,14 @@ void size(void)
 
     {
       NightAndDayPeriodGenerator generator(period, 06, 18, 12, 18, 18, 06);
-      if (generator.size() != 0) TEST_FAILED("Size should be zero - 12-18 does not fit into 12-17");
+      if (generator.size() != 0)
+        TEST_FAILED("Size should be zero - 12-18 does not fit into 12-17");
     }
 
     {
       NightAndDayPeriodGenerator generator(period, 06, 18, 12, 17, 18, 06);
-      if (generator.size() != 1) TEST_FAILED("Size should be one - 12-17 does fit into 12-18(17)");
+      if (generator.size() != 1)
+        TEST_FAILED("Size should be one - 12-17 does fit into 12-18(17)");
     }
   }
 
@@ -38,12 +40,14 @@ void size(void)
 
     {
       NightAndDayPeriodGenerator generator(period, 06, 18, 12, 18, 18, 06);
-      if (generator.size() != 2) TEST_FAILED("Size should be 2, 12-18 + 18-06");
+      if (generator.size() != 2)
+        TEST_FAILED("Size should be 2, 12-18 + 18-06");
     }
 
     {
       NightAndDayPeriodGenerator generator(period, 06, 18, 12, 17, 18, 06);
-      if (generator.size() != 3) TEST_FAILED("Size should be 3, 12-18 + 18-06 + 06-17");
+      if (generator.size() != 3)
+        TEST_FAILED("Size should be 3, 12-18 + 18-06 + 06-17");
     }
   }
 
@@ -53,7 +57,8 @@ void size(void)
 
     {
       NightAndDayPeriodGenerator generator(period, 06, 18, 12, 18, 18, 06);
-      if (generator.size() != 4) TEST_FAILED("Size should be 4, 12-18 + 18-06 + 06-18 + 18-06");
+      if (generator.size() != 4)
+        TEST_FAILED("Size should be 4, 12-18 + 18-06 + 06-18 + 18-06");
     }
 
     {

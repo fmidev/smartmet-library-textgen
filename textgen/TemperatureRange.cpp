@@ -17,7 +17,6 @@
 #include <boost/shared_ptr.hpp>
 #include <sstream>
 
-
 using namespace std;
 
 namespace TextGen

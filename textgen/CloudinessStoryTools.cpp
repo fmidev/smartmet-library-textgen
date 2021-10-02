@@ -31,7 +31,6 @@ using namespace TextGen;
 using namespace std;
 using boost::lexical_cast;
 
-
 namespace TextGen
 {
 namespace CloudinessStoryTools
@@ -65,19 +64,29 @@ CloudinessType cloudiness_type(const std::string& theVar,
 
   const double partlycloudy = 100 - theCloudyPercentage - theClearPercentage;
 
-  if (theCloudyPercentage >= single_class_limit) return Cloudy;
-  if (theClearPercentage >= single_class_limit) return Clear;
-  if (partlycloudy >= single_class_limit) return PartlyCloudy;
+  if (theCloudyPercentage >= single_class_limit)
+    return Cloudy;
+  if (theClearPercentage >= single_class_limit)
+    return Clear;
+  if (partlycloudy >= single_class_limit)
+    return PartlyCloudy;
 
-  if (theCloudyPercentage >= mostly_class_limit) return MostlyCloudy;
-  if (theClearPercentage >= mostly_class_limit) return MostlyClear;
-  if (partlycloudy >= mostly_class_limit) return MostlyPartlyCloudy;
+  if (theCloudyPercentage >= mostly_class_limit)
+    return MostlyCloudy;
+  if (theClearPercentage >= mostly_class_limit)
+    return MostlyClear;
+  if (partlycloudy >= mostly_class_limit)
+    return MostlyPartlyCloudy;
 
-  if (theClearPercentage < no_class_limit) return CloudyOrPartlyCloudy;
-  if (theCloudyPercentage < no_class_limit) return ClearOrPartlyCloudy;
+  if (theClearPercentage < no_class_limit)
+    return CloudyOrPartlyCloudy;
+  if (theCloudyPercentage < no_class_limit)
+    return ClearOrPartlyCloudy;
 
-  if (theTrend >= trend_limit) return IncreasingCloudiness;
-  if (-theTrend >= trend_limit) return DecreasingCloudiness;
+  if (theTrend >= trend_limit)
+    return IncreasingCloudiness;
+  if (-theTrend >= trend_limit)
+    return DecreasingCloudiness;
 
   return VariableCloudiness;
 }
@@ -124,8 +133,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case IncreasingCloudiness:
         case VariableCloudiness:
           return notsimilar;
-      default:
-	return notsimilar;
+        default:
+          return notsimilar;
       }
     }
     case IncreasingCloudiness:
@@ -146,8 +155,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case ClearOrPartlyCloudy:
         case DecreasingCloudiness:
           return notsimilar;
-      default:
-	return notsimilar;
+        default:
+          return notsimilar;
       }
     }
     case MostlyCloudy:
@@ -168,8 +177,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case IncreasingCloudiness:
         case VariableCloudiness:
           return notsimilar;
-      default:
-	return notsimilar;
+        default:
+          return notsimilar;
       }
     }
     case CloudyOrPartlyCloudy:
@@ -190,8 +199,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case DecreasingCloudiness:
         case IncreasingCloudiness:
           return notsimilar;
-      default:
-	return notsimilar;
+        default:
+          return notsimilar;
       }
     }
     case MostlyPartlyCloudy:
@@ -214,8 +223,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case DecreasingCloudiness:
         case IncreasingCloudiness:
           return notsimilar;
-      default:
-	return notsimilar;
+        default:
+          return notsimilar;
       }
     }
     case VariableCloudiness:
@@ -235,8 +244,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case MostlyClear:
         case DecreasingCloudiness:
           return notsimilar;
-      default:
-	return notsimilar;
+        default:
+          return notsimilar;
       }
     }
     case PartlyCloudy:
@@ -260,8 +269,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case DecreasingCloudiness:
         case IncreasingCloudiness:
           return notsimilar;
-      default:
-	return notsimilar;
+        default:
+          return notsimilar;
       }
     }
     case ClearOrPartlyCloudy:
@@ -282,8 +291,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case DecreasingCloudiness:
         case IncreasingCloudiness:
           return notsimilar;
-      default:
-	return notsimilar;
+        default:
+          return notsimilar;
       }
     }
     case MostlyClear:
@@ -304,8 +313,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case IncreasingCloudiness:
         case VariableCloudiness:
           return notsimilar;
-      default:
-	return notsimilar;
+        default:
+          return notsimilar;
       }
     }
     case DecreasingCloudiness:
@@ -325,8 +334,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case IncreasingCloudiness:
         case VariableCloudiness:
           return notsimilar;
-      default:
-	return notsimilar;
+        default:
+          return notsimilar;
       }
     }
     case Clear:
@@ -348,8 +357,8 @@ CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2)
         case IncreasingCloudiness:
         case VariableCloudiness:
           return notsimilar;
-      default:
-	return notsimilar;
+        default:
+          return notsimilar;
       }
     }
   }
@@ -398,13 +407,16 @@ CommonCloudiness similar_type(const std::vector<CloudinessType>& theTypes,
                               unsigned int theEnd)
 {
   // handle zero types case
-  if (theTypes.empty() || theEnd < theStart) return CommonCloudiness(VariableCloudiness, false);
+  if (theTypes.empty() || theEnd < theStart)
+    return CommonCloudiness(VariableCloudiness, false);
 
   // handle a single type case
-  if (theStart == theEnd) return CommonCloudiness(theTypes[theStart], true);
+  if (theStart == theEnd)
+    return CommonCloudiness(theTypes[theStart], true);
 
   // handle two type case
-  if (theEnd == theStart + 1) return similar_type(theTypes[theStart], theTypes[theEnd]);
+  if (theEnd == theStart + 1)
+    return similar_type(theTypes[theStart], theTypes[theEnd]);
 
   // merge adjacent pairs, if any merge fails, so does the
   // entire merge and we abort
@@ -413,7 +425,8 @@ CommonCloudiness similar_type(const std::vector<CloudinessType>& theTypes,
   for (unsigned int i = theStart; i < theEnd; i++)
   {
     CommonCloudiness tmp = similar_type(theTypes[i], theTypes[i + 1]);
-    if (!tmp.second) return CommonCloudiness(VariableCloudiness, false);
+    if (!tmp.second)
+      return CommonCloudiness(VariableCloudiness, false);
     similar_types.push_back(tmp.first);
   }
 

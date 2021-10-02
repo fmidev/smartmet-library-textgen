@@ -27,8 +27,8 @@ class Dictionary
   // Dictionary & operator=(const Dictionary & theDict);
 
   virtual ~Dictionary() {}
-  virtual void init(const std::string& theLanguage) = 0;  
-  virtual void changeLanguage(const std::string& theLanguage) {};  
+  virtual void init(const std::string& theLanguage) = 0;
+  virtual void changeLanguage(const std::string& theLanguage){};
   virtual const std::string& language(void) const = 0;
   virtual bool contains(const std::string& theKey) const = 0;
   virtual const std::string& find(const std::string& theKey) const = 0;
@@ -46,9 +46,7 @@ class Dictionary
   {
     throw TextGenError("Error: Dictionary::geofind(" + theKey + ") failed");
   }
-  virtual std::string geofind(double theLongitude,
-							  double theLatitude,
-							  double theMaxDistance) const
+  virtual std::string geofind(double theLongitude, double theLatitude, double theMaxDistance) const
   {
     std::stringstream ss;
     ss << "Error: Dictionary::geofind(" << theLongitude << ", " << theLatitude << ", "
@@ -62,7 +60,7 @@ class Dictionary
 
   const std::string getDictionaryId() const { return itsDictionaryId; }
 
-protected:
+ protected:
   std::string itsDictionaryId;
 
 };  // class Dictionary

@@ -182,7 +182,7 @@ class PrecipitationForecast
   void getTransformationPhraseElements(
       const WeatherPeriod& thePeriod,
       float thePrecipitationExtent,
-	  precipitation_type thePrecipitationType,
+      precipitation_type thePrecipitationType,
       precipitation_form_transformation_id theTransformId,
       std::map<std::string, Sentence>& theCompositePhraseElements) const;
   void getPrecipitationPhraseElements(

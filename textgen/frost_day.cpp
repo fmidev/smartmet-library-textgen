@@ -78,7 +78,8 @@ Paragraph FrostStory::day() const
 
   // Too late for this night? Return empty story then
 
-  if (generator.size() == 0) return paragraph;
+  if (generator.size() == 0)
+    return paragraph;
 
   // Too many days is an error
 

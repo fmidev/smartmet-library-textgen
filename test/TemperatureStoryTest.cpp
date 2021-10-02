@@ -1822,8 +1822,14 @@ struct WindAnomalyTestParam : public TemperatureStoryTestParam
 
 typedef std::map<int, TemperatureStoryTestParam*> TestCaseContainer;
 
-double random_d() { return ((double)rand() / ((double)(RAND_MAX) + (double)(1))); }
-int random_i(unsigned int scale) { return rand() % scale; }
+double random_d()
+{
+  return ((double)rand() / ((double)(RAND_MAX) + (double)(1)));
+}
+int random_i(unsigned int scale)
+{
+  return rand() % scale;
+}
 int random_i(unsigned int min_scale, unsigned int max_scale)
 {
   return rand() % (max_scale - min_scale) + min_scale;
@@ -1995,8 +2001,10 @@ void read_testcasefile(TestCaseContainer& testCases, const string& fileName, con
       {
         input_stream.getline(buffer, 1023);
         data = buffer;
-        if (data == "test_case_end") break;
-        if (data.empty() || data.compare(0, 2, "//") == 0) continue;
+        if (data == "test_case_end")
+          break;
+        if (data.empty() || data.compare(0, 2, "//") == 0)
+          continue;
         tokens.clear();
         tokenize(data, tokens, ";");
         // int tokens_size = tokens.size();
@@ -3039,7 +3047,8 @@ void create_wind_anomaly_testcasefile(TestCaseContainer& testCases, const string
 
 int get_windchill(const float& theTemperature, const float& theWindSpeed)
 {
-  if (theTemperature >= 0.0) return 0;
+  if (theTemperature >= 0.0)
+    return 0;
 
   if (theWindSpeed < 6 && theTemperature < -15.0)
   {
@@ -12435,7 +12444,10 @@ void temperature_max36hours()
 
 boost::shared_ptr<NFmiQueryData> theQD;
 
-void read_querydata(const std::string& theFilename) { theQD.reset(new NFmiQueryData(theFilename)); }
+void read_querydata(const std::string& theFilename)
+{
+  theQD.reset(new NFmiQueryData(theFilename));
+}
 void temperature_season_anomaly(const WeatherPeriod& period)
 {
   const string fun = "temperature_anomaly";

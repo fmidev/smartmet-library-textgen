@@ -14,10 +14,12 @@ namespace TextGen
 {
 class MySQLDictionary : public DatabaseDictionary
 {
-public:
+ public:
   MySQLDictionary() { itsDictionaryId = "mysql"; }
-private:
-  void getDataFromDB(const std::string& theLanguage,  std::map<std::string, std::string>& theDataStorage) override;  
+
+ private:
+  void getDataFromDB(const std::string& theLanguage,
+                     std::map<std::string, std::string>& theDataStorage) override;
 };  // class MySQLDictionary
 
 }  // namespace TextGen

@@ -38,11 +38,13 @@ void realize(void)
 
   Delimiter s1(",");
   ;
-  if (s1.realize(NullDictionary()) != ",") TEST_FAILED("realization of , failed");
+  if (s1.realize(NullDictionary()) != ",")
+    TEST_FAILED("realization of , failed");
 
   Delimiter s2("??");
   ;
-  if (s2.realize(NullDictionary()) != "??") TEST_FAILED("realization of ?? failed");
+  if (s2.realize(NullDictionary()) != "??")
+    TEST_FAILED("realization of ?? failed");
 
   TEST_PASSED();
 }

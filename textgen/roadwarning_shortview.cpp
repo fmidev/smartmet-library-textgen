@@ -818,7 +818,8 @@ const Sentence warning_sentence(const WarningPercentages& thePercentages, const 
     if (!someplacestypes.empty())
     {
       Sentence s = second_places_sentence(firsttype, someplacestypes.begin()->second);
-      if (!s.empty()) sentence << Delimiter(",") << s;
+      if (!s.empty())
+        sentence << Delimiter(",") << s;
     }
     return sentence;
   }
@@ -877,7 +878,8 @@ Paragraph RoadStory::warning_shortview() const
 
   const TextGenPosixTime time1(itsPeriod.localStartTime());
   TextGenPosixTime time2 = TimeTools::addHours(time1, maxhours);
-  if (itsPeriod.localEndTime().IsLessThan(time2)) time2 = itsPeriod.localEndTime();
+  if (itsPeriod.localEndTime().IsLessThan(time2))
+    time2 = itsPeriod.localEndTime();
 
   const WeatherPeriod fullperiod(time1, time2);
 

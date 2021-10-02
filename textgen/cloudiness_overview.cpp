@@ -22,7 +22,6 @@
 
 #include <vector>
 
-
 using namespace std;
 using namespace TextGen;
 using boost::lexical_cast;
@@ -163,7 +162,8 @@ const Paragraph CloudinessStory::overview() const
 
     WeatherPeriod fullperiod(periods[startday].localStartTime(), periods[endday].localEndTime());
 
-    if (!sentence.empty()) sentence << Delimiter(",");
+    if (!sentence.empty())
+      sentence << Delimiter(",");
 
     sentence << PeriodPhraseFactory::create("days", itsVar, itsForecastTime, fullperiod)
              << cloudiness_phrase(cloudiness);

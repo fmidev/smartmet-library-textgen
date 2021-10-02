@@ -21,13 +21,12 @@ using namespace std;
 
 namespace TextGen
 {
-
-
-void MySQLDictionary::getDataFromDB(const std::string& theLanguage,  std::map<std::string, std::string>& theDataStorage)
+void MySQLDictionary::getDataFromDB(const std::string& theLanguage,
+                                    std::map<std::string, std::string>& theDataStorage)
 {
   try
   {
-	// Establish the settings for TextGen
+    // Establish the settings for TextGen
 
     std::string host = Settings::require_string("textgen::host");
     std::string user = Settings::require_string("textgen::user");
@@ -75,7 +74,8 @@ void MySQLDictionary::getDataFromDB(const std::string& theLanguage,  std::map<st
     std::string translationtable = result1.at(0).at(0).c_str();
     std::string active = result1.at(0).at(1).c_str();
 
-    if (active != "1") throw TextGenError("Error: Language " + theLanguage + " is not active");
+    if (active != "1")
+      throw TextGenError("Error: Language " + theLanguage + " is not active");
     if (translationtable.empty())
       throw TextGenError("Error: Language " + theLanguage + " has no translationtable");
 
@@ -94,7 +94,8 @@ void MySQLDictionary::getDataFromDB(const std::string& theLanguage,  std::map<st
       std::string keyword = result2.at(i).at(0).c_str();
       std::string translation = result2.at(i).at(1).c_str();
 
-      if (!keyword.empty()) theDataStorage.insert(std::make_pair(keyword, translation));
+      if (!keyword.empty())
+        theDataStorage.insert(std::make_pair(keyword, translation));
     }
   }
   catch (const mysqlpp::BadQuery& er)

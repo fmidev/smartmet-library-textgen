@@ -28,7 +28,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -77,7 +76,10 @@ std::string Sentence::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool Sentence::isDelimiter() const { return false; }
+bool Sentence::isDelimiter() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Add a sentence to the end of this sentence

@@ -17,7 +17,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -57,7 +56,10 @@ boost::shared_ptr<Glyph> TimePeriod::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string TimePeriod::realize(const Dictionary& theDictionary) const { return ""; }
+std::string TimePeriod::realize(const Dictionary& theDictionary) const
+{
+  return "";
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Realize using the given text formatter
@@ -78,7 +80,10 @@ std::string TimePeriod::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool TimePeriod::isDelimiter() const { return false; }
+bool TimePeriod::isDelimiter() const
+{
+  return false;
+}
 }  // namespace TextGen
 
 // ======================================================================

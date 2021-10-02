@@ -14,11 +14,12 @@ namespace TextGen
 {
 class PostgreSQLDictionary : public DatabaseDictionary
 {
-public:
+ public:
   PostgreSQLDictionary() { itsDictionaryId = "postgresql"; }
 
  private:
-  void getDataFromDB(const std::string& theLanguage,  std::map<std::string, std::string>& theDataStorage) override;
+  void getDataFromDB(const std::string& theLanguage,
+                     std::map<std::string, std::string>& theDataStorage) override;
 
 };  // class PostgreSQLDictionary
 

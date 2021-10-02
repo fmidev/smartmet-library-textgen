@@ -65,7 +65,8 @@ PressureStory::PressureStory(const TextGenPosixTime& theForecastTime,
 
 bool PressureStory::hasStory(const string& theName)
 {
-  if (theName == "pressure_mean") return true;
+  if (theName == "pressure_mean")
+    return true;
   return false;
 }
 
@@ -82,7 +83,8 @@ bool PressureStory::hasStory(const string& theName)
 
 Paragraph PressureStory::makeStory(const string& theName) const
 {
-  if (theName == "pressure_mean") return mean();
+  if (theName == "pressure_mean")
+    return mean();
 
   throw TextGenError("PressureStory cannot make story " + theName);
 }

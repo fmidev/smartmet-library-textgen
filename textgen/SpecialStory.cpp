@@ -65,10 +65,12 @@ SpecialStory::SpecialStory(const TextGenPosixTime& theForecastTime,
 
 bool SpecialStory::hasStory(const string& theName)
 {
-  if (theName == "none") return true;
+  if (theName == "none")
+    return true;
   if (theName.substr(0, 4) == "text")  // Allows more flexible definitions
     return true;
-  if (theName == "date") return true;
+  if (theName == "date")
+    return true;
 #if 0
 	if(theName == "table")
 	  return true;
@@ -89,10 +91,12 @@ bool SpecialStory::hasStory(const string& theName)
 
 Paragraph SpecialStory::makeStory(const string& theName) const
 {
-  if (theName == "none") return none();
+  if (theName == "none")
+    return none();
   if (theName.substr(0, 4) == "text")  // Allows more flexible definitions
     return text();
-  if (theName == "date") return date();
+  if (theName == "date")
+    return date();
 #if 0
 	if(theName == "table")
 	  return table();

@@ -1273,7 +1273,8 @@ void log_weather_forecast_story(MessageLogger& theLog,
   {
     WeatherForecastStoryItem& storyItem = *(storyItemVector[i]);
 
-    if (!storyItem.isIncluded()) continue;
+    if (!storyItem.isIncluded())
+      continue;
 
     if (storyItem.getStoryPartId() == PRECIPITATION_STORY_PART)
       theLog << "PRECIPITATION STORY PART";
@@ -1331,7 +1332,8 @@ const Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
 
   init_parameters(theParameters);
 
-  if (theParameters.theForecastArea == NO_AREA) return paragraph;
+  if (theParameters.theForecastArea == NO_AREA)
+    return paragraph;
 
   populate_precipitation_time_series(theParameters);
   populate_cloudiness_time_series(theParameters);
@@ -1426,7 +1428,8 @@ const Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
 
   init_parameters(theParameters);
 
-  if (theParameters.theForecastArea == NO_AREA) return paragraph;
+  if (theParameters.theForecastArea == NO_AREA)
+    return paragraph;
 
   populate_precipitation_time_series(theParameters);
   populate_cloudiness_time_series(theParameters);
@@ -1506,7 +1509,8 @@ void check_sentences(boost::shared_ptr<Glyph>& theSentence1, boost::shared_ptr<G
 
   DebugTextFormatter dtf;
 
-  if (gc1.size() < 2 || gc2.size() < 2) return;
+  if (gc1.size() < 2 || gc2.size() < 2)
+    return;
 
   GlyphContainer::iterator iter1(gc1.begin());
   GlyphContainer::iterator iter2(gc2.begin());
@@ -1515,7 +1519,8 @@ void check_sentences(boost::shared_ptr<Glyph>& theSentence1, boost::shared_ptr<G
 
   std::string str1 = dtf.format(**iter1);
   std::string str2 = dtf.format(**iter2);
-  if (isdigit(str1[0]) && !isdigit(str2[0])) str1 = str1.substr(2);
+  if (isdigit(str1[0]) && !isdigit(str2[0]))
+    str1 = str1.substr(2);
   if (is_same_part_of_the_day(str1, str2))
   {
     gc1.push_front(Phrase("aluksi"));
@@ -1528,7 +1533,8 @@ void get_sentences(const Glyph& glyphi, vector<boost::shared_ptr<Glyph> >& sente
   if (typeid(glyphi) == typeid(Sentence))
   {
     const GlyphContainer& gc = static_cast<const GlyphContainer&>(glyphi);
-    if (gc.size() > 0) sentences.push_back(glyphi.clone());
+    if (gc.size() > 0)
+      sentences.push_back(glyphi.clone());
   }
   else
   {
@@ -1549,7 +1555,8 @@ void analyze_sentences(Paragraph& paragraph)
 
   for (unsigned int i = 0; i < sentences.size(); i++)
   {
-    if (i < sentences.size() - 1) check_sentences(sentences[i], sentences[i + 1]);
+    if (i < sentences.size() - 1)
+      check_sentences(sentences[i], sentences[i + 1]);
     Sentence& sen = static_cast<Sentence&>(*(sentences[i]));
     paragraph << sen;
   }

@@ -35,7 +35,10 @@ ComparativeAcceptor::ComparativeAcceptor(
  */
 // ----------------------------------------------------------------------
 
-Acceptor* ComparativeAcceptor::clone() const { return new ComparativeAcceptor(*this); }
+Acceptor* ComparativeAcceptor::clone() const
+{
+  return new ComparativeAcceptor(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Accept or reject a value
@@ -49,7 +52,8 @@ Acceptor* ComparativeAcceptor::clone() const { return new ComparativeAcceptor(*t
 
 bool ComparativeAcceptor::accept(float theValue) const
 {
-  if (itsLimit == kFloatMissing) return false;
+  if (itsLimit == kFloatMissing)
+    return false;
 
   bool retval = false;
 
@@ -86,7 +90,10 @@ bool ComparativeAcceptor::accept(float theValue) const
  */
 // ----------------------------------------------------------------------
 
-void ComparativeAcceptor::setLimit(float theLimit) { itsLimit = theLimit; }
+void ComparativeAcceptor::setLimit(float theLimit)
+{
+  itsLimit = theLimit;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Set the operator to be applied in comparison

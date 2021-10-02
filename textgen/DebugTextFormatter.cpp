@@ -33,7 +33,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -44,7 +43,10 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-string DebugTextFormatter::format(const Glyph& theGlyph) const { return theGlyph.realize(*this); }
+string DebugTextFormatter::format(const Glyph& theGlyph) const
+{
+  return theGlyph.realize(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Visit a glyph
@@ -129,7 +131,8 @@ string DebugTextFormatter::visit(const Header& theHeader) const
 {
   string ret = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, "", "\n");
   ret = TextFormatterTools::capitalize(ret);
-  if (!ret.empty()) ret += ':';
+  if (!ret.empty())
+    ret += ':';
 
   return ret;
 }

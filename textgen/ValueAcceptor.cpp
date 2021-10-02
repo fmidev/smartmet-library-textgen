@@ -32,7 +32,10 @@ ValueAcceptor::ValueAcceptor() : itsValue(kFloatMissing) {}
  */
 // ----------------------------------------------------------------------
 
-Acceptor* ValueAcceptor::clone() const { return new ValueAcceptor(*this); }
+Acceptor* ValueAcceptor::clone() const
+{
+  return new ValueAcceptor(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Accept or reject a value
@@ -46,7 +49,8 @@ Acceptor* ValueAcceptor::clone() const { return new ValueAcceptor(*this); }
 
 bool ValueAcceptor::accept(float theValue) const
 {
-  if (theValue == kFloatMissing) return false;
+  if (theValue == kFloatMissing)
+    return false;
   return (theValue == itsValue);
 }
 
@@ -58,7 +62,10 @@ bool ValueAcceptor::accept(float theValue) const
  */
 // ----------------------------------------------------------------------
 
-void ValueAcceptor::value(float theValue) { itsValue = theValue; }
+void ValueAcceptor::value(float theValue)
+{
+  itsValue = theValue;
+}
 }  // namespace TextGen
 
 // ======================================================================

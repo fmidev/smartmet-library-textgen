@@ -64,7 +64,8 @@ CloudinessStory::CloudinessStory(const TextGenPosixTime& theForecastTime,
 
 bool CloudinessStory::hasStory(const string& theName)
 {
-  if (theName == "cloudiness_overview") return true;
+  if (theName == "cloudiness_overview")
+    return true;
   return false;
 }
 
@@ -81,7 +82,8 @@ bool CloudinessStory::hasStory(const string& theName)
 
 Paragraph CloudinessStory::makeStory(const string& theName) const
 {
-  if (theName == "cloudiness_overview") return overview();
+  if (theName == "cloudiness_overview")
+    return overview();
 
   throw TextGenError("CloudinessStory cannot make story " + theName);
 }

@@ -61,7 +61,6 @@ class DatabaseDictionary::Pimple
   Pimple() : itsInitialized(false), itsLanguage(), itsData() {}
   typedef std::map<std::string, std::string> StorageType;
   typedef StorageType::value_type value_type;
-  
 
   bool itsInitialized;
   std::string itsLanguage;
@@ -97,7 +96,10 @@ DatabaseDictionary::DatabaseDictionary() : Dictionary(), itsPimple(new Pimple())
  */
 // ----------------------------------------------------------------------
 
-const std::string& DatabaseDictionary::language(void) const { return itsPimple->itsLanguage; }
+const std::string& DatabaseDictionary::language(void) const
+{
+  return itsPimple->itsLanguage;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Initialize with given language
@@ -124,15 +126,14 @@ void DatabaseDictionary::init(const std::string& theLanguage)
     itsPimple->itsInitialized = false;
     itsPimple->itsData.clear();
 
-	getDataFromDB(theLanguage, itsPimple->itsData);
+    getDataFromDB(theLanguage, itsPimple->itsData);
 
-	itsPimple->itsInitialized = true;
+    itsPimple->itsInitialized = true;
   }
-  catch(...)
-	{
-	  throw TextGenError("Error: DatabaseDictionary::init() failed for database " + itsDictionaryId);
-	}
-
+  catch (...)
+  {
+    throw TextGenError("Error: DatabaseDictionary::init() failed for database " + itsDictionaryId);
+  }
 }
 
 // ----------------------------------------------------------------------
@@ -168,7 +169,8 @@ const std::string& DatabaseDictionary::find(const std::string& theKey) const
 
   Pimple::StorageType::const_iterator it = itsPimple->itsData.find(theKey);
 
-  if (it != itsPimple->itsData.end()) return it->second;
+  if (it != itsPimple->itsData.end())
+    return it->second;
   throw TextGenError("Error: DatabaseDictionary::find(" + theKey + ") failed in language " +
                      itsPimple->itsLanguage);
 }
@@ -198,7 +200,10 @@ void DatabaseDictionary::insert(const std::string& theKey, const std::string& th
  */
 // ----------------------------------------------------------------------
 
-DatabaseDictionary::size_type DatabaseDictionary::size(void) const { return itsPimple->itsData.size(); }
+DatabaseDictionary::size_type DatabaseDictionary::size(void) const
+{
+  return itsPimple->itsData.size();
+}
 // ----------------------------------------------------------------------
 /*!
  * Test if the dictionary is empty
@@ -207,8 +212,10 @@ DatabaseDictionary::size_type DatabaseDictionary::size(void) const { return itsP
  */
 // ----------------------------------------------------------------------
 
-bool DatabaseDictionary::empty(void) const { return itsPimple->itsData.empty(); }
-
+bool DatabaseDictionary::empty(void) const
+{
+  return itsPimple->itsData.empty();
+}
 
 // ----------------------------------------------------------------------
 /*!
@@ -221,7 +228,6 @@ void DatabaseDictionary::changeLanguage(const std::string& theLanguage)
 {
   init(theLanguage);
 }
-
 
 }  // namespace TextGen
 

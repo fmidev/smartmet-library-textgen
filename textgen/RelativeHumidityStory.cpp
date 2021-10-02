@@ -65,9 +65,12 @@ RelativeHumidityStory::RelativeHumidityStory(const TextGenPosixTime& theForecast
 
 bool RelativeHumidityStory::hasStory(const string& theName)
 {
-  if (theName == "relativehumidity_lowest") return true;
-  if (theName == "relativehumidity_day") return true;
-  if (theName == "relativehumidity_range") return true;
+  if (theName == "relativehumidity_lowest")
+    return true;
+  if (theName == "relativehumidity_day")
+    return true;
+  if (theName == "relativehumidity_range")
+    return true;
   return false;
 }
 
@@ -84,9 +87,12 @@ bool RelativeHumidityStory::hasStory(const string& theName)
 
 Paragraph RelativeHumidityStory::makeStory(const string& theName) const
 {
-  if (theName == "relativehumidity_lowest") return lowest();
-  if (theName == "relativehumidity_day") return day();
-  if (theName == "relativehumidity_range") return range();
+  if (theName == "relativehumidity_lowest")
+    return lowest();
+  if (theName == "relativehumidity_day")
+    return day();
+  if (theName == "relativehumidity_range")
+    return range();
 
   throw TextGenError("RelativeHumidityStory cannot make story " + theName);
 }

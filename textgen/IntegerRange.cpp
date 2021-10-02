@@ -17,7 +17,6 @@
 #include <boost/shared_ptr.hpp>
 #include <sstream>
 
-
 using namespace std;
 
 namespace TextGen
@@ -99,7 +98,10 @@ std::string IntegerRange::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool IntegerRange::isDelimiter() const { return false; }
+bool IntegerRange::isDelimiter() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the range separator string
@@ -108,7 +110,10 @@ bool IntegerRange::isDelimiter() const { return false; }
  */
 // ----------------------------------------------------------------------
 
-const std::string& IntegerRange::rangeSeparator() const { return itsRangeSeparator; }
+const std::string& IntegerRange::rangeSeparator() const
+{
+  return itsRangeSeparator;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the start value of the range
@@ -117,7 +122,10 @@ const std::string& IntegerRange::rangeSeparator() const { return itsRangeSeparat
  */
 // ----------------------------------------------------------------------
 
-int IntegerRange::startValue() const { return itsStartValue; }
+int IntegerRange::startValue() const
+{
+  return itsStartValue;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the end value of the range
@@ -126,7 +134,10 @@ int IntegerRange::startValue() const { return itsStartValue; }
  */
 // ----------------------------------------------------------------------
 
-int IntegerRange::endValue() const { return itsEndValue; }
+int IntegerRange::endValue() const
+{
+  return itsEndValue;
+}
 }  // namespace TextGen
 
 // ======================================================================

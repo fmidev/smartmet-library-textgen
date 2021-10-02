@@ -44,7 +44,8 @@ bool from_string(T& t, const std::string& s, std::ios_base& (*f)(std::ios_base&)
 
 bool is_parameter_valid(int theMonth, int theDay)
 {
-  if (theMonth < 1 || theMonth > 12) return false;
+  if (theMonth < 1 || theMonth > 12)
+    return false;
 
   bool retval = true;
 
@@ -248,10 +249,13 @@ float get_OverFiveDegrees_percentage(const WeatherArea& theArea,
                                      const std::string& theVariable)
 {
   string fake_var("onenight::fake::growing_season_percentange");
-  if (theArea.type() == WeatherArea::Inland) fake_var += "::inland";
-  if (theArea.type() == WeatherArea::Coast) fake_var += "::coastal";
+  if (theArea.type() == WeatherArea::Inland)
+    fake_var += "::inland";
+  if (theArea.type() == WeatherArea::Coast)
+    fake_var += "::coastal";
 
-  if (Settings::isset(fake_var)) return Settings::optional_double(fake_var, 0.0);
+  if (Settings::isset(fake_var))
+    return Settings::optional_double(fake_var, 0.0);
 
   GridForecaster forecaster;
   // 5 days average temperature
@@ -284,7 +288,8 @@ float growing_season_percentage(const WeatherArea& theArea,
   float growthPeriodOnOffPercentage =
       get_GrowthPeriodOnOff_percentage(theArea, theSources, thePeriod, theVariable);
 
-  if (growthPeriodOnOffPercentage != -1.0) return growthPeriodOnOffPercentage;
+  if (growthPeriodOnOffPercentage != -1.0)
+    return growthPeriodOnOffPercentage;
 
   float overFiveDegreesPercentage =
       get_OverFiveDegrees_percentage(theArea, theSources, thePeriod, theVariable);

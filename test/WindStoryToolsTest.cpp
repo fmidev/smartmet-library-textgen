@@ -26,35 +26,50 @@ boost::shared_ptr<TextGen::Dictionary> dict;
  */
 // ----------------------------------------------------------------------
 
-void direction_accuracy() { TEST_NOT_IMPLEMENTED(); }
+void direction_accuracy()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test WindStoryTools::direction8th
  */
 // ----------------------------------------------------------------------
 
-void direction8th() { TEST_NOT_IMPLEMENTED(); }
+void direction8th()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test WindStoryTools::direction_sentence
  */
 // ----------------------------------------------------------------------
 
-void direction_sentence() { TEST_NOT_IMPLEMENTED(); }
+void direction_sentence()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test WindStoryTools::speed_range_sentence
  */
 // ----------------------------------------------------------------------
 
-void speed_range_sentence() { TEST_NOT_IMPLEMENTED(); }
+void speed_range_sentence()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test WindStoryTools::directed_speed_sentence
  */
 // ----------------------------------------------------------------------
 
-void directed_speed_sentence() { TEST_NOT_IMPLEMENTED(); }
+void directed_speed_sentence()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief The actual test driver

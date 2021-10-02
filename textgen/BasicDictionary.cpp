@@ -33,7 +33,10 @@ BasicDictionary::~BasicDictionary() {}
  */
 // ----------------------------------------------------------------------
 
-void BasicDictionary::init(const std::string& theLanguage) { itsLanguage = theLanguage; }
+void BasicDictionary::init(const std::string& theLanguage)
+{
+  itsLanguage = theLanguage;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the language
@@ -44,7 +47,10 @@ void BasicDictionary::init(const std::string& theLanguage) { itsLanguage = theLa
  */
 // ----------------------------------------------------------------------
 
-const std::string& BasicDictionary::language(void) const { return itsLanguage; }
+const std::string& BasicDictionary::language(void) const
+{
+  return itsLanguage;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test if the given phrase is in the dictionary
@@ -74,7 +80,8 @@ bool BasicDictionary::contains(const std::string& theKey) const
 const std::string& BasicDictionary::find(const std::string& theKey) const
 {
   StorageType::const_iterator it = itsData.find(theKey);
-  if (it != itsData.end()) return it->second;
+  if (it != itsData.end())
+    return it->second;
   throw TextGenError("Dictionary does not contain phrase '" + theKey + "'");
 }
 
@@ -104,7 +111,10 @@ void BasicDictionary::insert(const std::string& theKey, const std::string& thePh
  */
 // ----------------------------------------------------------------------
 
-BasicDictionary::size_type BasicDictionary::size(void) const { return itsData.size(); }
+BasicDictionary::size_type BasicDictionary::size(void) const
+{
+  return itsData.size();
+}
 // ----------------------------------------------------------------------
 /*!
  * Test if the dictionary is empty
@@ -113,7 +123,10 @@ BasicDictionary::size_type BasicDictionary::size(void) const { return itsData.si
  */
 // ----------------------------------------------------------------------
 
-bool BasicDictionary::empty(void) const { return itsData.empty(); }
+bool BasicDictionary::empty(void) const
+{
+  return itsData.empty();
+}
 }  // namespace TextGen
 
 // ======================================================================

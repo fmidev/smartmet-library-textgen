@@ -16,7 +16,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -59,7 +58,10 @@ boost::shared_ptr<Glyph> Delimiter::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Delimiter::realize(const Dictionary& theDictionary) const { return itsSeparator; }
+std::string Delimiter::realize(const Dictionary& theDictionary) const
+{
+  return itsSeparator;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Realize using the given text formatter
@@ -80,7 +82,10 @@ std::string Delimiter::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool Delimiter::isDelimiter() const { return true; }
+bool Delimiter::isDelimiter() const
+{
+  return true;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the delimiter as is without realization
@@ -89,7 +94,10 @@ bool Delimiter::isDelimiter() const { return true; }
  */
 // ----------------------------------------------------------------------
 
-const string& Delimiter::value() const { return itsSeparator; }
+const string& Delimiter::value() const
+{
+  return itsSeparator;
+}
 }  // namespace TextGen
 
 // ======================================================================

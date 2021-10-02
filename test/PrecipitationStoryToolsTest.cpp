@@ -26,35 +26,50 @@ boost::shared_ptr<TextGen::Dictionary> dict;
  */
 // ----------------------------------------------------------------------
 
-void rain_phrase() { TEST_NOT_IMPLEMENTED(); }
+void rain_phrase()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test PrecipitationStoryTools::places_phrase
  */
 // ----------------------------------------------------------------------
 
-void places_phrase() { TEST_NOT_IMPLEMENTED(); }
+void places_phrase()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test PrecipitationStoryTools::type_phrase
  */
 // ----------------------------------------------------------------------
 
-void type_phrase() { TEST_NOT_IMPLEMENTED(); }
+void type_phrase()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test PrecipitationStoryTools::strength_phrase
  */
 // ----------------------------------------------------------------------
 
-void strength_phrase() { TEST_NOT_IMPLEMENTED(); }
+void strength_phrase()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Test PrecipitationStoryTools::sum_phrase
  */
 // ----------------------------------------------------------------------
 
-void sum_phrase() { TEST_NOT_IMPLEMENTED(); }
+void sum_phrase()
+{
+  TEST_NOT_IMPLEMENTED();
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief The actual test driver

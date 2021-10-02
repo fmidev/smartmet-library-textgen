@@ -65,12 +65,18 @@ const char* temperature_comparison_phrase(int theMean1, int theMean2, const stri
   const int somewhat_higher = require_percentage(theVariable + "::comparison::somewhat_higher");
   const int somewhat_lower = require_percentage(theVariable + "::comparison::somewhat_lower");
 
-  if (theMean2 - theMean1 >= significantly_higher) return "huomattavasti korkeampi";
-  if (theMean2 - theMean1 >= higher) return "korkeampi";
-  if (theMean2 - theMean1 >= somewhat_higher) return "hieman korkeampi";
-  if (theMean1 - theMean2 >= significantly_lower) return "huomattavasti alempi";
-  if (theMean1 - theMean2 >= lower) return "alempi";
-  if (theMean1 - theMean2 >= somewhat_lower) return "hieman alempi";
+  if (theMean2 - theMean1 >= significantly_higher)
+    return "huomattavasti korkeampi";
+  if (theMean2 - theMean1 >= higher)
+    return "korkeampi";
+  if (theMean2 - theMean1 >= somewhat_higher)
+    return "hieman korkeampi";
+  if (theMean1 - theMean2 >= significantly_lower)
+    return "huomattavasti alempi";
+  if (theMean1 - theMean2 >= lower)
+    return "alempi";
+  if (theMean1 - theMean2 >= somewhat_lower)
+    return "hieman alempi";
   return "suunnilleen sama";
 }
 
@@ -143,7 +149,8 @@ int round_temperature(const int& theTemperatureToRound)
 
   if (theModuloOfValue != 0)
   {
-    if (theModuloOfValue < 0) theModuloOfValue += 5;
+    if (theModuloOfValue < 0)
+      theModuloOfValue += 5;
 
     if (theModuloOfValue <= theRoundingLimit)
       theRoundedValue -= theModuloOfValue;
@@ -560,7 +567,8 @@ void clamp_temperature(
       optional_int(thePlainVar + season + period + "::temperature_max_interval", 5);
 
   // if minimum is below zero and maximum above, we allow bigger ranges and do no clamping
-  if ((theMinimum <= 0 && theMaximum > 0) || (theMinimum < 0 && theMaximum >= 0)) return;
+  if ((theMinimum <= 0 && theMaximum > 0) || (theMinimum < 0 && theMaximum >= 0))
+    return;
 
   // if both both minimum and maximum are below -15 degrees, dont' clamp
   if ((theMinimum <= -15 && theMaximum <= -15) && temperature_max_interval <= 10)
@@ -601,7 +609,8 @@ fractile_id get_fractile(const std::string& theVar,
                          const WeatherPeriod& thePeriod,
                          const fractile_type_id& theFractileType)
 {
-  if (theTemperature == kFloatMissing) return FRACTILE_UNDEFINED;
+  if (theTemperature == kFloatMissing)
+    return FRACTILE_UNDEFINED;
 
   string seasonStr =
       SeasonTools::isSummerHalf(thePeriod.localStartTime(), theVar) ? "summer" : "winter";
@@ -654,7 +663,8 @@ fractile_id get_fractile(const std::string& theVar,
                       theArea,
                       climatePeriod);
 
-  if (result.value() != kFloatMissing && theTemperature <= result.value()) return FRACTILE_02;
+  if (result.value() != kFloatMissing && theTemperature <= result.value())
+    return FRACTILE_02;
 
   result = gc.analyze(theVar,
                       theSources,
@@ -667,7 +677,8 @@ fractile_id get_fractile(const std::string& theVar,
                       theArea,
                       climatePeriod);
 
-  if (result.value() != kFloatMissing && theTemperature <= result.value()) return FRACTILE_12;
+  if (result.value() != kFloatMissing && theTemperature <= result.value())
+    return FRACTILE_12;
 
   result = gc.analyze(theVar,
                       theSources,
@@ -680,7 +691,8 @@ fractile_id get_fractile(const std::string& theVar,
                       theArea,
                       climatePeriod);
 
-  if (result.value() != kFloatMissing && theTemperature <= result.value()) return FRACTILE_37;
+  if (result.value() != kFloatMissing && theTemperature <= result.value())
+    return FRACTILE_37;
 
   result = gc.analyze(theVar,
                       theSources,
@@ -693,7 +705,8 @@ fractile_id get_fractile(const std::string& theVar,
                       theArea,
                       climatePeriod);
 
-  if (result.value() != kFloatMissing && theTemperature <= result.value()) return FRACTILE_50;
+  if (result.value() != kFloatMissing && theTemperature <= result.value())
+    return FRACTILE_50;
 
   result = gc.analyze(theVar,
                       theSources,
@@ -706,7 +719,8 @@ fractile_id get_fractile(const std::string& theVar,
                       theArea,
                       climatePeriod);
 
-  if (result.value() != kFloatMissing && theTemperature <= result.value()) return FRACTILE_63;
+  if (result.value() != kFloatMissing && theTemperature <= result.value())
+    return FRACTILE_63;
 
   result = gc.analyze(theVar,
                       theSources,
@@ -719,7 +733,8 @@ fractile_id get_fractile(const std::string& theVar,
                       theArea,
                       climatePeriod);
 
-  if (result.value() != kFloatMissing && theTemperature <= result.value()) return FRACTILE_88;
+  if (result.value() != kFloatMissing && theTemperature <= result.value())
+    return FRACTILE_88;
 
   result = gc.analyze(theVar,
                       theSources,

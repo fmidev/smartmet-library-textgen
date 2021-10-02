@@ -127,7 +127,8 @@ CoastMaskSource::mask_type CoastMaskSource::Pimple::find(const WeatherId& theID,
   WeatherAreaAndID key(theID, theArea);
 
   mask_storage::const_iterator it = itsMaskStorage.find(key);
-  if (it == itsMaskStorage.end()) return dummy;
+  if (it == itsMaskStorage.end())
+    return dummy;
 
   return it->second;
 }
@@ -225,7 +226,8 @@ CoastMaskSource::mask_type CoastMaskSource::mask(const WeatherArea& theArea,
                                                  const std::string& theData,
                                                  const WeatherSource& theWeatherSource) const
 {
-  if (theArea.isPoint()) throw TextGenError("Trying to generate mask for point");
+  if (theArea.isPoint())
+    throw TextGenError("Trying to generate mask for point");
 
   // Establish the ID for the data
 
@@ -235,7 +237,8 @@ CoastMaskSource::mask_type CoastMaskSource::mask(const WeatherArea& theArea,
 
   mask_type areamask = itsPimple->find(id, theArea);
 
-  if (areamask.get() != 0) return areamask;
+  if (areamask.get() != 0)
+    return areamask;
 
   // Calculate new mask and cache it
 

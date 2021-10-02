@@ -48,7 +48,8 @@ const list<pair<int, int> > parse_classes(const std::string& theVariable)
 
   const string value = Settings::require(theVariable);
 
-  if (value.empty()) throw TextGenError(theVariable + " value must not be empty");
+  if (value.empty())
+    throw TextGenError(theVariable + " value must not be empty");
 
   list<pair<int, int> > output;
 
@@ -248,7 +249,8 @@ Paragraph PrecipitationStory::classification() const
     // here we forge result to be back within the largest
     // available rain class
 
-    if (meanresult.value() > maxrainlimit) meanresult = WeatherResult(maxrainlimit, 1);
+    if (meanresult.value() > maxrainlimit)
+      meanresult = WeatherResult(maxrainlimit, 1);
   }
 
   // Find the first class with the correct mean rain amount
@@ -256,10 +258,12 @@ Paragraph PrecipitationStory::classification() const
   list<pair<int, int> >::const_iterator it;
   for (it = classes.begin(); it != classes.end(); ++it)
   {
-    if (meanresult.value() >= it->first && meanresult.value() <= it->second) break;
+    if (meanresult.value() >= it->first && meanresult.value() <= it->second)
+      break;
   }
 
-  if (it == classes.end()) throw TextGenError(itsVar + " has gaps in the ranges");
+  if (it == classes.end())
+    throw TextGenError(itsVar + " has gaps in the ranges");
 
   const int lolimit = it->first;
   const int hilimit = it->second;

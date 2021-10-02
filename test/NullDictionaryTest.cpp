@@ -50,7 +50,8 @@ void init(void)
 
   // Should do nothing
   dict.init("foobar");
-  if (!dict.empty()) TEST_FAILED("dict should be empty after init");
+  if (!dict.empty())
+    TEST_FAILED("dict should be empty after init");
 
   TEST_PASSED();
 }
@@ -61,10 +62,12 @@ void language(void)
   using namespace TextGen;
   NullDictionary dict;
 
-  if (!dict.language().empty()) TEST_FAILED("dict.language() should be empty before init");
+  if (!dict.language().empty())
+    TEST_FAILED("dict.language() should be empty before init");
 
   dict.init("fi");
-  if (dict.language() != "fi") TEST_FAILED("dict.language() did not return init argument");
+  if (dict.language() != "fi")
+    TEST_FAILED("dict.language() did not return init argument");
 
   TEST_PASSED();
 }
@@ -93,7 +96,8 @@ void empty(void)
   using namespace TextGen;
   NullDictionary dict;
 
-  if (!dict.empty()) TEST_FAILED("empty() should return true after construction");
+  if (!dict.empty())
+    TEST_FAILED("empty() should return true after construction");
 
   TEST_PASSED();
 }
@@ -104,7 +108,8 @@ void size(void)
   using namespace TextGen;
   NullDictionary dict;
 
-  if (dict.size() != 0) TEST_FAILED("size() should return 0 after construction");
+  if (dict.size() != 0)
+    TEST_FAILED("size() should return 0 after construction");
 
   TEST_PASSED();
 }
@@ -115,7 +120,8 @@ void contains(void)
   using namespace TextGen;
   NullDictionary dict;
 
-  if (dict.contains("foo")) TEST_FAILED("contains() should return false for empty dictionary");
+  if (dict.contains("foo"))
+    TEST_FAILED("contains() should return false for empty dictionary");
 
   TEST_PASSED();
 }

@@ -35,7 +35,6 @@ using namespace TextGen::TimeTools;
 using namespace std;
 using boost::lexical_cast;
 
-
 namespace
 {
 // ----------------------------------------------------------------------
@@ -73,7 +72,8 @@ vector<string> reorder_preferences(const string& thePreference, const string& th
   const vector<string> defaults = NFmiStringTools::Split(theDefault);
 
   // fast special case
-  if (preferences.empty()) return defaults;
+  if (preferences.empty())
+    return defaults;
 
   typedef vector<string>::const_iterator const_iterator;
 
@@ -83,12 +83,14 @@ vector<string> reorder_preferences(const string& thePreference, const string& th
   for (const_iterator it = preferences.begin(); it != preferences.end(); ++it)
   {
     if (find(defaults.begin(), defaults.end(), *it) != defaults.end())
-      if (find(output.begin(), output.end(), *it) == output.end()) output.push_back(*it);
+      if (find(output.begin(), output.end(), *it) == output.end())
+        output.push_back(*it);
   }
   // then the remaining defaults
   for (const_iterator jt = defaults.begin(); jt != defaults.end(); ++jt)
   {
-    if (find(output.begin(), output.end(), *jt) == output.end()) output.push_back(*jt);
+    if (find(output.begin(), output.end(), *jt) == output.end())
+      output.push_back(*jt);
   }
   return output;
 }
@@ -125,15 +127,18 @@ Sentence until_tonight(const string& theVariable,
   {
     if (*it == "none")
     {
-      if (isSameDay(theForecastTime, thePeriod.localStartTime())) return sentence;
+      if (isSameDay(theForecastTime, thePeriod.localStartTime()))
+        return sentence;
     }
     else if (*it == "atday")
     {
-      if (isSameDay(theForecastTime, thePeriod.localStartTime())) return (sentence << "paivalla");
+      if (isSameDay(theForecastTime, thePeriod.localStartTime()))
+        return (sentence << "paivalla");
     }
     else if (*it == "today")
     {
-      if (isSameDay(theForecastTime, thePeriod.localStartTime())) return (sentence << "tanaan");
+      if (isSameDay(theForecastTime, thePeriod.localStartTime()))
+        return (sentence << "tanaan");
     }
     else if (*it == "weekday")
     {
@@ -182,15 +187,18 @@ Sentence until_morning(const string& theVariable,
   {
     if (*it == "none")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return sentence;
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return sentence;
     }
     else if (*it == "atnight")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return (sentence << "yolla");
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return (sentence << "yolla");
     }
     else if (*it == "tonight")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return (sentence << "ensi yona");
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return (sentence << "ensi yona");
     }
     else if (*it == "weekday")
     {
@@ -250,15 +258,18 @@ Sentence today(const string& theVariable,
     }
     else if (*it == "atday")
     {
-      if (isSameDay(theForecastTime, thePeriod.localStartTime())) return (sentence << "paivalla");
+      if (isSameDay(theForecastTime, thePeriod.localStartTime()))
+        return (sentence << "paivalla");
     }
     else if (*it == "none")
     {
-      if (isSameDay(theForecastTime, thePeriod.localStartTime())) return sentence;
+      if (isSameDay(theForecastTime, thePeriod.localStartTime()))
+        return sentence;
     }
     else if (*it == "today")
     {
-      if (isSameDay(theForecastTime, thePeriod.localStartTime())) return (sentence << "tanaan");
+      if (isSameDay(theForecastTime, thePeriod.localStartTime()))
+        return (sentence << "tanaan");
     }
     else if (*it == "tomorrow")
     {
@@ -322,15 +333,18 @@ Sentence tonight(const string& theVariable,
     }
     else if (*it == "atnight")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return (sentence << "yolla");
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return (sentence << "yolla");
     }
     else if (*it == "none")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return sentence;
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return sentence;
     }
     else if (*it == "tonight")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return (sentence << "ensi yona");
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return (sentence << "ensi yona");
     }
     else if (*it == "none!")
       return sentence;
@@ -381,11 +395,13 @@ Sentence next_night(const string& theVariable,
       return (sentence << "seuraavana yona");
     else if (*it == "atnight")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return (sentence << "yolla");
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return (sentence << "yolla");
     }
     else if (*it == "tonight")
     {
-      if (isNextDay(theForecastTime, thePeriod.localEndTime())) return (sentence << "ensi yona");
+      if (isNextDay(theForecastTime, thePeriod.localEndTime()))
+        return (sentence << "ensi yona");
     }
     else if (*it == "none!")
       return sentence;
@@ -605,7 +621,8 @@ Sentence days(const string& theVariable,
   HourPeriodGenerator hours(thePeriod, theVariable + "::day");
   const int ndays = hours.size();
 
-  if (ndays == 0) return sentence;
+  if (ndays == 0)
+    return sentence;
 
   const string nvar = var + "::days" + lexical_cast<string>(ndays);
   preferences = Settings::optional_string(nvar, preferences);
@@ -622,11 +639,13 @@ Sentence days(const string& theVariable,
     {
       if (*it == "none")
       {
-        if (isSameDay(theForecastTime, starttime)) return sentence;
+        if (isSameDay(theForecastTime, starttime))
+          return sentence;
       }
       else if (*it == "today")
       {
-        if (isSameDay(theForecastTime, starttime)) return (sentence << "tanaan");
+        if (isSameDay(theForecastTime, starttime))
+          return (sentence << "tanaan");
       }
       else if (*it == "tomorrow")
       {
@@ -669,7 +688,8 @@ Sentence days(const string& theVariable,
     {
       if (*it == "none")
       {
-        if (isSameDay(theForecastTime, starttime)) return sentence;
+        if (isSameDay(theForecastTime, starttime))
+          return sentence;
       }
       else if (*it == "today")
       {
@@ -679,8 +699,10 @@ Sentence days(const string& theVariable,
                    << "ja";
           for (vector<string>::const_iterator jt = order.begin(); jt != order.end(); ++jt)
           {
-            if (*jt == "tomorrow") return (sentence << "huomenna");
-            if (*jt == "followingday") return (sentence << "seuraavana paivana");
+            if (*jt == "tomorrow")
+              return (sentence << "huomenna");
+            if (*jt == "followingday")
+              return (sentence << "seuraavana paivana");
             if (*jt == "weekday")
             {
               if (theHistory)
@@ -703,7 +725,8 @@ Sentence days(const string& theVariable,
                    << "ja";
           for (vector<string>::const_iterator jt = order.begin(); jt != order.end(); ++jt)
           {
-            if (*jt == "followingday") return (sentence << "seuraavana paivana");
+            if (*jt == "followingday")
+              return (sentence << "seuraavana paivana");
             if (*jt == "weekday")
             {
               if (theHistory)
@@ -796,23 +819,29 @@ Sentence create_sentence(const string& theType,
   if (theType == "until_morning")
     return until_morning(theVariable, theForecastTime, thePeriod, theHistory);
 
-  if (theType == "today") return today(theVariable, theForecastTime, thePeriod, theHistory);
+  if (theType == "today")
+    return today(theVariable, theForecastTime, thePeriod, theHistory);
 
-  if (theType == "tonight") return tonight(theVariable, theForecastTime, thePeriod, theHistory);
+  if (theType == "tonight")
+    return tonight(theVariable, theForecastTime, thePeriod, theHistory);
 
   if (theType == "next_night")
     return next_night(theVariable, theForecastTime, thePeriod, theHistory);
 
-  if (theType == "next_day") return next_day(theVariable, theForecastTime, thePeriod, theHistory);
+  if (theType == "next_day")
+    return next_day(theVariable, theForecastTime, thePeriod, theHistory);
 
-  if (theType == "next_days") return next_days(theVariable, theForecastTime, thePeriod, theHistory);
+  if (theType == "next_days")
+    return next_days(theVariable, theForecastTime, thePeriod, theHistory);
 
   if (theType == "remaining_days")
     return remaining_days(theVariable, theForecastTime, thePeriod, theHistory);
 
-  if (theType == "days") return days(theVariable, theForecastTime, thePeriod, theHistory);
+  if (theType == "days")
+    return days(theVariable, theForecastTime, thePeriod, theHistory);
 
-  if (theType == "remaining_day") return remaining_day(thePeriod);
+  if (theType == "remaining_day")
+    return remaining_day(thePeriod);
 
   throw TextGenError("PeriodPhraseFactory::create does not recognize type " + theType);
 }

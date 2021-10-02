@@ -128,14 +128,16 @@ NorthernMaskSource::mask_type NorthernMaskSource::Pimple::find(const WeatherId& 
   for (it = itsMaskStorage.begin(); it != itsMaskStorage.end(); ++it)
   {
     // identicalArea-function compares more than operator ==
-    if (it->first.itsArea.identicalArea(theArea)) return it->second;
+    if (it->first.itsArea.identicalArea(theArea))
+      return it->second;
   }
 
   mask_storage::iterator iter;
 
   WeatherAreaAndID key(theID, theArea);
   iter = itsMaskStorage.find(key);
-  if (iter != itsMaskStorage.end()) itsMaskStorage.erase(iter);
+  if (iter != itsMaskStorage.end())
+    itsMaskStorage.erase(iter);
 
   return dummy;
 
@@ -228,7 +230,8 @@ NorthernMaskSource::mask_type NorthernMaskSource::mask(const WeatherArea& theAre
                                                        const std::string& theData,
                                                        const WeatherSource& theWeatherSource) const
 {
-  if (theArea.isPoint()) throw TextGenError("Trying to generate mask for point");
+  if (theArea.isPoint())
+    throw TextGenError("Trying to generate mask for point");
 
   // Establish the ID for the data
 
@@ -238,7 +241,8 @@ NorthernMaskSource::mask_type NorthernMaskSource::mask(const WeatherArea& theAre
 
   mask_type areamask = itsPimple->find(id, theArea);
 
-  if (areamask.get() != 0) return areamask;
+  if (areamask.get() != 0)
+    return areamask;
 
   // Calculate new mask and cache it
 

@@ -52,7 +52,8 @@ void init(void)
 
   // Should do nothing
   dict.init("foobar");
-  if (!dict.empty()) TEST_FAILED("dict should be empty after init");
+  if (!dict.empty())
+    TEST_FAILED("dict should be empty after init");
 
   TEST_PASSED();
 }
@@ -63,10 +64,12 @@ void language()
   using namespace TextGen;
   BasicDictionary dict;
 
-  if (!dict.language().empty()) TEST_FAILED("language should be empty before init");
+  if (!dict.language().empty())
+    TEST_FAILED("language should be empty before init");
 
   dict.init("fi");
-  if (dict.language() != "fi") TEST_FAILED("language should match init argument");
+  if (dict.language() != "fi")
+    TEST_FAILED("language should match init argument");
 
   TEST_PASSED();
 }
@@ -78,12 +81,16 @@ void insert(void)
   BasicDictionary dict;
 
   dict.insert("foo", "bar");
-  if (dict.empty()) TEST_FAILED("dict should not be empty after insert");
-  if (dict.size() != 1) TEST_FAILED("dict size should be 1 after 1 insert");
+  if (dict.empty())
+    TEST_FAILED("dict should not be empty after insert");
+  if (dict.size() != 1)
+    TEST_FAILED("dict size should be 1 after 1 insert");
   dict.insert("bar", "foo");
-  if (dict.size() != 2) TEST_FAILED("dict size should be 2 after2 inserts");
+  if (dict.size() != 2)
+    TEST_FAILED("dict size should be 2 after2 inserts");
   dict.insert("foo", "foo");
-  if (dict.size() != 2) TEST_FAILED("dict size should not change after duplicate insert");
+  if (dict.size() != 2)
+    TEST_FAILED("dict size should not change after duplicate insert");
 
   TEST_PASSED();
 }
@@ -94,9 +101,11 @@ void empty(void)
   using namespace TextGen;
   BasicDictionary dict;
 
-  if (!dict.empty()) TEST_FAILED("empty() should return true after construction");
+  if (!dict.empty())
+    TEST_FAILED("empty() should return true after construction");
   dict.insert("foo", "bar");
-  if (dict.empty()) TEST_FAILED("empty() should return false after insert");
+  if (dict.empty())
+    TEST_FAILED("empty() should return false after insert");
 
   TEST_PASSED();
 }
@@ -107,11 +116,14 @@ void size(void)
   using namespace TextGen;
   BasicDictionary dict;
 
-  if (dict.size() != 0) TEST_FAILED("size() should return 0 after construction");
+  if (dict.size() != 0)
+    TEST_FAILED("size() should return 0 after construction");
   dict.insert("foo", "bar");
-  if (dict.size() != 1) TEST_FAILED("size() should return 1 after 1 insert");
+  if (dict.size() != 1)
+    TEST_FAILED("size() should return 1 after 1 insert");
   dict.insert("bar", "foo");
-  if (dict.size() != 2) TEST_FAILED("size() should return 2 after 2 inserts");
+  if (dict.size() != 2)
+    TEST_FAILED("size() should return 2 after 2 inserts");
 
   TEST_PASSED();
 }
@@ -122,10 +134,13 @@ void contains(void)
   using namespace TextGen;
   BasicDictionary dict;
 
-  if (dict.contains("foo")) TEST_FAILED("contains() should return false for empty dictionary");
+  if (dict.contains("foo"))
+    TEST_FAILED("contains() should return false for empty dictionary");
   dict.insert("foo", "bar");
-  if (!dict.contains("foo")) TEST_FAILED("contains(foo) returned false after insert(foo,bar)");
-  if (dict.contains("bar")) TEST_FAILED("contains(bar) returned true after insert(foo,bar)");
+  if (!dict.contains("foo"))
+    TEST_FAILED("contains(foo) returned false after insert(foo,bar)");
+  if (dict.contains("bar"))
+    TEST_FAILED("contains(bar) returned true after insert(foo,bar)");
 
   TEST_PASSED();
 }
@@ -146,7 +161,8 @@ void find(void)
   }
 
   dict.insert("foo", "bar");
-  if (dict.find("foo") != "bar") TEST_FAILED("find(foo) should return bar after insert(foo,bar)");
+  if (dict.find("foo") != "bar")
+    TEST_FAILED("find(foo) should return bar after insert(foo,bar)");
 
   try
   {

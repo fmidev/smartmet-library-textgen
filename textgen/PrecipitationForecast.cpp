@@ -48,7 +48,6 @@
 #include <newbase/NFmiMercatorArea.h>
 #endif
 
-
 namespace TextGen
 {
 using namespace Settings;
@@ -293,7 +292,8 @@ InPlacesPhrase& get_in_places_phrase()
 {
   static boost::thread_specific_ptr<InPlacesPhrase> tls;
 
-  if (!tls.get()) tls.reset(new InPlacesPhrase);
+  if (!tls.get())
+    tls.reset(new InPlacesPhrase);
 
   return *tls;
 }
@@ -422,7 +422,8 @@ bool get_period_start_end_index(const WeatherPeriod& thePeriod,
         startFound = true;
         theStartIndex = i;
       }
-      if (startFound) theEndIndex = i;
+      if (startFound)
+        theEndIndex = i;
     }
   }
   return startFound;
@@ -441,7 +442,8 @@ weather_result_data_item_vector* get_data_vector(wf_story_params& theParameters,
   else if (theParameters.theForecastArea & INLAND_AREA)
     areaId = INLAND_AREA;
 
-  if (areaId != NO_AREA) retval = (*theParameters.theCompleteData[areaId])[theDataId];
+  if (areaId != NO_AREA)
+    retval = (*theParameters.theCompleteData[areaId])[theDataId];
 
   return retval;
 }
@@ -466,7 +468,8 @@ bool get_period_start_end_index(const WeatherPeriod& thePeriod,
         startFound = true;
         theStartIndex = i;
       }
-      if (startFound) theEndIndex = i;
+      if (startFound)
+        theEndIndex = i;
     }
   }
   return startFound;
@@ -506,23 +509,28 @@ bool is_dry_weather(const wf_story_params& theParameters,
     case WATER_FREEZING_FORM:
     case FREEZING_FORM:
     case WATER_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater) dry_weather = true;
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
+        dry_weather = true;
       break;
     case SLEET_FREEZING_FORM:
     case SLEET_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitSleet) dry_weather = true;
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitSleet)
+        dry_weather = true;
       break;
     case SNOW_FORM:
     case SNOW_FREEZING_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitSnow) dry_weather = true;
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitSnow)
+        dry_weather = true;
       break;
     case DRIZZLE_FORM:
     case DRIZZLE_FREEZING_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle) dry_weather = true;
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle)
+        dry_weather = true;
       break;
     case WATER_DRIZZLE_FREEZING_FORM:
     case WATER_DRIZZLE_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater) dry_weather = true;
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
+        dry_weather = true;
       break;
     case DRIZZLE_SLEET_FORM:
     case DRIZZLE_SLEET_FREEZING_FORM:
@@ -531,32 +539,40 @@ bool is_dry_weather(const wf_story_params& theParameters,
         dry_weather = true;
       break;
     case WATER_DRIZZLE_SLEET_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater) dry_weather = true;
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
+        dry_weather = true;
       break;
     case WATER_SLEET_FREEZING_FORM:
     case WATER_SLEET_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater) dry_weather = true;
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
+        dry_weather = true;
       break;
     case WATER_SNOW_FREEZING_FORM:
     case WATER_SNOW_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater) dry_weather = true;
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
+        dry_weather = true;
       break;
     case DRIZZLE_SNOW_FREEZING_FORM:
     case DRIZZLE_SNOW_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle) dry_weather = true;
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle)
+        dry_weather = true;
       break;
     case WATER_DRIZZLE_SNOW_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater) dry_weather = true;
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
+        dry_weather = true;
       break;
     case WATER_SLEET_SNOW_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater) dry_weather = true;
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitWater)
+        dry_weather = true;
       break;
     case DRIZZLE_SLEET_SNOW_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle) dry_weather = true;
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitDrizzle)
+        dry_weather = true;
       break;
     case SLEET_SNOW_FREEZING_FORM:
     case SLEET_SNOW_FORM:
-      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitSleet) dry_weather = true;
+      if (thePrecipitationIntensity < theParameters.theDryWeatherLimitSleet)
+        dry_weather = true;
       break;
     case MISSING_PRECIPITATION_FORM:
       dry_weather = true;
@@ -667,7 +683,7 @@ void PrecipitationForecast::mostlyDryWeatherPhrase(
 void PrecipitationForecast::getTransformationPhraseElements(
     const WeatherPeriod& thePeriod,
     float thePrecipitationExtent,
-	precipitation_type thePrecipitationType,
+    precipitation_type thePrecipitationType,
     precipitation_form_transformation_id theTransformId,
     map<string, Sentence>& theCompositePhraseElements) const
 {
@@ -712,23 +728,24 @@ void PrecipitationForecast::getTransformationPhraseElements(
     case SNOW_TO_DRIZZLE:
     case SNOW_TO_SLEET:
     {
-	  if(theTransformId == SNOW_TO_SLEET && thePrecipitationType == SHOWERS)
-		{
-		   theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
-			 << LUMIKUUROJA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << JOTKA_MUUTTUVAT_RANTAKUUROIKSI_PHRASE;
-		}
-	  else
-		{
-		  if (theTransformId == SNOW_TO_WATER)
-			jokaMuuttuuString = JOKA_MUUTTUU_VESISATEEKSI_PHRASE;
-		  else if (theTransformId == SNOW_TO_DRIZZLE)
-			jokaMuuttuuString = JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE;
-		  else
-			jokaMuuttuuString = JOKA_MUUTTUU_RANTASATEEKSI_PHRASE;
-		  
-		  theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
-			<< LUMISADETTA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << jokaMuuttuuString;
-		}
+      if (theTransformId == SNOW_TO_SLEET && thePrecipitationType == SHOWERS)
+      {
+        theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
+            << LUMIKUUROJA_WORD << Delimiter(COMMA_PUNCTUATION_MARK)
+            << JOTKA_MUUTTUVAT_RANTAKUUROIKSI_PHRASE;
+      }
+      else
+      {
+        if (theTransformId == SNOW_TO_WATER)
+          jokaMuuttuuString = JOKA_MUUTTUU_VESISATEEKSI_PHRASE;
+        else if (theTransformId == SNOW_TO_DRIZZLE)
+          jokaMuuttuuString = JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE;
+        else
+          jokaMuuttuuString = JOKA_MUUTTUU_RANTASATEEKSI_PHRASE;
+
+        theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
+            << LUMISADETTA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << jokaMuuttuuString;
+      }
     }
     break;
     case DRIZZLE_TO_WATER:
@@ -750,23 +767,24 @@ void PrecipitationForecast::getTransformationPhraseElements(
     case SLEET_TO_DRIZZLE:
     case SLEET_TO_SNOW:
     {
-	  if(theTransformId == SLEET_TO_SNOW && thePrecipitationType == SHOWERS)
-		{
-		   theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
-			 << RANTAKUUROJA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << JOTKA_MUUTTUVAT_LUMIKUUROIKSI_PHRASE;
-		}
-	  else
-		{
-		  if (theTransformId == SLEET_TO_WATER)
-			jokaMuuttuuString = JOKA_MUUTTUU_VESISATEEKSI_PHRASE;
-		  else if (theTransformId == SLEET_TO_DRIZZLE)
-			jokaMuuttuuString = JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE;
-		  else
-			jokaMuuttuuString = JOKA_MUUTTUU_LUMISATEEKSI_PHRASE;
+      if (theTransformId == SLEET_TO_SNOW && thePrecipitationType == SHOWERS)
+      {
+        theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
+            << RANTAKUUROJA_WORD << Delimiter(COMMA_PUNCTUATION_MARK)
+            << JOTKA_MUUTTUVAT_LUMIKUUROIKSI_PHRASE;
+      }
+      else
+      {
+        if (theTransformId == SLEET_TO_WATER)
+          jokaMuuttuuString = JOKA_MUUTTUU_VESISATEEKSI_PHRASE;
+        else if (theTransformId == SLEET_TO_DRIZZLE)
+          jokaMuuttuuString = JOKA_MUUTTUU_TIHKUSATEEKSI_PHRASE;
+        else
+          jokaMuuttuuString = JOKA_MUUTTUU_LUMISATEEKSI_PHRASE;
 
-		  theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
-          << RANTASADETTA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << jokaMuuttuuString;
-		}
+        theCompositePhraseElements[PLAIN_PRECIPITATION_PHRASE]
+            << RANTASADETTA_WORD << Delimiter(COMMA_PUNCTUATION_MARK) << jokaMuuttuuString;
+      }
     }
     break;
     default:
@@ -803,7 +821,8 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
   }
   else
   {
-    if (thePrecipitationForm == MISSING_PRECIPITATION_FORM) return;
+    if (thePrecipitationForm == MISSING_PRECIPITATION_FORM)
+      return;
 
     // use the summer phrase if it is summertime and no more than one precipitation form is involved
     bool use_summer_phrase =
@@ -1413,8 +1432,11 @@ void PrecipitationForecast::selectPrecipitationSentence(
   }
   else
   {
-    getTransformationPhraseElements(
-									thePeriod, thePrecipitationExtent, thePrecipitationType, theTransformationId, theCompositePhraseElements);
+    getTransformationPhraseElements(thePeriod,
+                                    thePrecipitationExtent,
+                                    thePrecipitationType,
+                                    theTransformationId,
+                                    theCompositePhraseElements);
   }
 }
 
@@ -1485,7 +1507,8 @@ bool PrecipitationForecast::getDryPeriods(const WeatherPeriod& theSourcePeriod,
     }
   }
 
-  if (!overlappingPeriods) theDryPeriods.push_back(theSourcePeriod);
+  if (!overlappingPeriods)
+    theDryPeriods.push_back(theSourcePeriod);
 
   return theDryPeriods.size() > 0;
 }
@@ -1615,8 +1638,10 @@ float PrecipitationForecast::getStat(const precipitation_data_vector& theData,
 
   for (unsigned int i = 0; i < theData.size(); i++)
   {
-    if (theData[i]->theObservationTime < theWeatherPeriod.localStartTime()) continue;
-    if (theData[i]->theObservationTime > theWeatherPeriod.localEndTime()) break;
+    if (theData[i]->theObservationTime < theWeatherPeriod.localStartTime())
+      continue;
+    if (theData[i]->theObservationTime > theWeatherPeriod.localEndTime())
+      break;
 
     switch (theDataId)
     {
@@ -1757,7 +1782,8 @@ float PrecipitationForecast::getStat(const precipitation_data_vector& theData,
       break;
     case MEAN:
     {
-      if (count > 0) retval = (cumulativeSum / count);
+      if (count > 0)
+        retval = (cumulativeSum / count);
     }
     break;
   }
@@ -1796,8 +1822,10 @@ precipitation_type PrecipitationForecast::getPrecipitationType(
 
   for (unsigned int i = 0; i < theData.size(); i++)
   {
-    if (theData[i]->theObservationTime < thePeriod.localStartTime()) continue;
-    if (theData[i]->theObservationTime > thePeriod.localEndTime()) break;
+    if (theData[i]->theObservationTime < thePeriod.localStartTime())
+      continue;
+    if (theData[i]->theObservationTime > thePeriod.localEndTime())
+      break;
 
     if (theData[i]->thePrecipitationType != MISSING_PRECIPITATION_TYPE)
     {
@@ -1830,8 +1858,10 @@ unsigned int PrecipitationForecast::getPrecipitationTypeChange(
   precipitation_type originalPrecipitationType(MISSING_PRECIPITATION_TYPE);
   for (unsigned int i = 0; i < theData.size(); i++)
   {
-    if (theData[i]->theObservationTime < periodToCheck.localStartTime()) continue;
-    if (theData[i]->theObservationTime > periodToCheck.localEndTime()) break;
+    if (theData[i]->theObservationTime < periodToCheck.localStartTime())
+      continue;
+    if (theData[i]->theObservationTime > periodToCheck.localEndTime())
+      break;
 
     if (firstValue)
     {
@@ -1848,7 +1878,8 @@ unsigned int PrecipitationForecast::getPrecipitationTypeChange(
         for (unsigned int k = i; k < theData.size(); k++)
         {
           // the type changes again
-          if (theData[k]->thePrecipitationType != theData[i]->thePrecipitationType) return 0;
+          if (theData[k]->thePrecipitationType != theData[i]->thePrecipitationType)
+            return 0;
         }
         // if type changes in the beginning or in the end ignore it
         if (abs(theData[i]->theObservationTime.DifferenceInHours(periodToCheck.localStartTime())) <
@@ -2062,8 +2093,10 @@ void PrecipitationForecast::printOutPrecipitationData(std::ostream& theOutput) c
 
 void PrecipitationForecast::gatherPrecipitationData()
 {
-  if (theParameters.theForecastArea & COASTAL_AREA) fillInPrecipitationDataVector(COASTAL_AREA);
-  if (theParameters.theForecastArea & INLAND_AREA) fillInPrecipitationDataVector(INLAND_AREA);
+  if (theParameters.theForecastArea & COASTAL_AREA)
+    fillInPrecipitationDataVector(COASTAL_AREA);
+  if (theParameters.theForecastArea & INLAND_AREA)
+    fillInPrecipitationDataVector(INLAND_AREA);
   if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
     fillInPrecipitationDataVector(FULL_AREA);
 }
@@ -2163,8 +2196,10 @@ void PrecipitationForecast::fillInPrecipitationDataVector(forecast_area_id theAr
 
 void PrecipitationForecast::findOutPrecipitationPeriods()
 {
-  if (theParameters.theForecastArea & COASTAL_AREA) findOutPrecipitationPeriods(COASTAL_AREA);
-  if (theParameters.theForecastArea & INLAND_AREA) findOutPrecipitationPeriods(INLAND_AREA);
+  if (theParameters.theForecastArea & COASTAL_AREA)
+    findOutPrecipitationPeriods(COASTAL_AREA);
+  if (theParameters.theForecastArea & INLAND_AREA)
+    findOutPrecipitationPeriods(INLAND_AREA);
   if (theParameters.theForecastArea & INLAND_AREA && theParameters.theForecastArea & COASTAL_AREA)
     findOutPrecipitationPeriods(FULL_AREA);
 }
@@ -2174,7 +2209,8 @@ void PrecipitationForecast::findOutPrecipitationPeriods()
 void PrecipitationForecast::joinPrecipitationPeriods(
     vector<WeatherPeriod>& thePrecipitationPeriodVector)
 {
-  if (thePrecipitationPeriodVector.size() < 2) return;
+  if (thePrecipitationPeriodVector.size() < 2)
+    return;
 
   for (unsigned int i = thePrecipitationPeriodVector.size() - 1; i > 0; i--)
   {
@@ -2186,7 +2222,8 @@ void PrecipitationForecast::joinPrecipitationPeriods(
       WeatherPeriod joinedPeriod(thePrecipitationPeriodVector.at(i - 1).localStartTime(),
                                  thePrecipitationPeriodVector.at(i).localEndTime());
 
-      if (isDryPeriod(joinedPeriod, theParameters.theForecastArea)) continue;
+      if (isDryPeriod(joinedPeriod, theParameters.theForecastArea))
+        continue;
 
       theParameters.theLog << "Joining precipitation periods: "
                            << thePrecipitationPeriodVector.at(i - 1).localStartTime() << "..."
@@ -2223,7 +2260,8 @@ void PrecipitationForecast::findOutPrecipitationPeriods(forecast_area_id theArea
     dataDestinationVector = &thePrecipitationPeriodsCoastal;
   }
 
-  if (!dataSourceVector) return;
+  if (!dataSourceVector)
+    return;
 
   bool isDryPrevious = true;
   bool isDryCurrent = true;
@@ -2399,7 +2437,8 @@ void PrecipitationForecast::removeDuplicatePrecipitationWeatherEvents(
   {
     weather_event_id previousPeriodWeatherEventId(thePrecipitationWeatherEvents[i - 1].second);
     weather_event_id currentPeriodWeatherEventId(thePrecipitationWeatherEvents[i].second);
-    if (previousPeriodWeatherEventId == currentPeriodWeatherEventId) removeIndexes.push_back(i);
+    if (previousPeriodWeatherEventId == currentPeriodWeatherEventId)
+      removeIndexes.push_back(i);
   }
   removeRedundantWeatherEvents(thePrecipitationWeatherEvents, removeIndexes);
 }
@@ -2486,7 +2525,8 @@ void PrecipitationForecast::printOutPrecipitationWeatherEvents(std::ostream& the
     isWeatherEvents = true;
   }
 
-  if (!isWeatherEvents) theOutput << "No weather events!" << endl;
+  if (!isWeatherEvents)
+    theOutput << "No weather events!" << endl;
 }
 
 void PrecipitationForecast::printOutPrecipitationPeriods(std::ostream& theOutput,
@@ -2513,7 +2553,8 @@ void PrecipitationForecast::printOutPrecipitationPeriods(std::ostream& theOutput
         printOutPrecipitationPeriods(theOutput, thePrecipitationPeriodsFull, theFullData, isPoint);
   }
 
-  if (!found) theOutput << "No precipitation periods!" << endl;
+  if (!found)
+    theOutput << "No precipitation periods!" << endl;
 }
 
 bool PrecipitationForecast::printOutPrecipitationPeriods(
@@ -2614,7 +2655,8 @@ bool PrecipitationForecast::getPrecipitationPeriod(const TextGenPosixTime& theTi
   else if (theParameters.theForecastArea & INLAND_AREA)
     precipitationPeriodVector = &thePrecipitationPeriodsInland;
 
-  if (!precipitationPeriodVector) return false;
+  if (!precipitationPeriodVector)
+    return false;
 
   for (unsigned int i = 0; i < precipitationPeriodVector->size(); i++)
   {
@@ -2865,12 +2907,14 @@ precipitation_form_transformation_id PrecipitationForecast::getPrecipitationTran
     return NO_FORM_TRANSFORMATION;
 
   TextGenPosixTime atStartBeg(thePeriod.localStartTime());
-  if (atStartBeg.GetYear() == 1970) atStartBeg = theParameters.theForecastPeriod.localStartTime();
+  if (atStartBeg.GetYear() == 1970)
+    atStartBeg = theParameters.theForecastPeriod.localStartTime();
   TextGenPosixTime atStartEnd(atStartBeg);
   atStartEnd.ChangeByHours(2);
   WeatherPeriod atStartPeriod(atStartBeg, atStartEnd);
   TextGenPosixTime atEndBeg(thePeriod.localEndTime());
-  if (atEndBeg.GetYear() == 2037) atEndBeg = theParameters.theForecastPeriod.localEndTime();
+  if (atEndBeg.GetYear() == 2037)
+    atEndBeg = theParameters.theForecastPeriod.localEndTime();
   TextGenPosixTime atEndEnd(atEndBeg);
   atEndBeg.ChangeByHours(-2);
   WeatherPeriod atEndPeriod(atEndBeg, atEndEnd);
@@ -2915,7 +2959,8 @@ precipitation_form_transformation_id PrecipitationForecast::getPrecipitationTran
   else if (precipitationFormSnowEnd >= 90)
     precipitationFormEnd = SNOW_FORM;
 
-  if (precipitationFormBeg == precipitationFormEnd) return NO_FORM_TRANSFORMATION;
+  if (precipitationFormBeg == precipitationFormEnd)
+    return NO_FORM_TRANSFORMATION;
 
   const weather_result_data_item_vector* precipitationFormWaterHourly =
       get_data_vector(theParameters, PRECIPITATION_FORM_WATER_DATA);
@@ -3038,8 +3083,10 @@ WeatherPeriod PrecipitationForecast::getHeavyPrecipitationPeriod(
   {
     const PrecipitationDataItemData* precipitationItem(theDataVector[i]);
 
-    if (precipitationItem->theObservationTime < thePeriod.localStartTime()) continue;
-    if (precipitationItem->theObservationTime > thePeriod.localEndTime()) break;
+    if (precipitationItem->theObservationTime < thePeriod.localStartTime())
+      continue;
+    if (precipitationItem->theObservationTime > thePeriod.localEndTime())
+      break;
 
     precipitation_form_id precipitationForm(
         get_complete_precipitation_form(theParameters.theVariable,
@@ -4047,12 +4094,14 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
     }
     case PAIVA:
     {
-      if (theTimePhraseFormat == AT_FORMAT) return PAIVALLA_WORD;
+      if (theTimePhraseFormat == AT_FORMAT)
+        return PAIVALLA_WORD;
       break;
     }
     case YO:
     {
-      if (theTimePhraseFormat == AT_FORMAT) return YOLLA_WORD;
+      if (theTimePhraseFormat == AT_FORMAT)
+        return YOLLA_WORD;
       break;
     }
     case AAMU_JA_AAMUPAIVA:
@@ -4191,7 +4240,8 @@ Sentence PrecipitationForecast::areaSpecificSentence(const WeatherPeriod& thePer
   Sentence sentence;
 
   // If the area contains both coast and inland, we don't use area specific sentence
-  if (theParameters.theForecastArea & FULL_AREA) return sentence;
+  if (theParameters.theForecastArea & FULL_AREA)
+    return sentence;
 
   float north(0.0);
   float south(0.0);
@@ -4213,8 +4263,9 @@ Sentence PrecipitationForecast::areaSpecificSentence(const WeatherPeriod& thePer
   std::unique_ptr<NFmiArea> mercatorArea(
       NFmiAreaTools::CreateLegacyMercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight()));
 #else
-  std::unique_ptr<NFmiMercatorArea> mercatorArea(new NFmiMercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight()));
-#endif  
+  std::unique_ptr<NFmiMercatorArea> mercatorArea(
+      new NFmiMercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight()));
+#endif
   float areaHeightWidthRatio =
       mercatorArea->WorldRect().Height() / mercatorArea->WorldRect().Width();
 
@@ -4251,7 +4302,8 @@ void PrecipitationForecast::getWeatherEventIdVector(
   else if (theParameters.theForecastArea & INLAND_AREA)
     vectorToRefer = &thePrecipitationWeatherEventsInland;
 
-  if (vectorToRefer) thePrecipitationWeatherEvents = *vectorToRefer;
+  if (vectorToRefer)
+    thePrecipitationWeatherEvents = *vectorToRefer;
 }
 
 Rect PrecipitationForecast::getPrecipitationRect(const TextGenPosixTime& theTimestamp,
@@ -4414,7 +4466,8 @@ NFmiPoint PrecipitationForecast::getPrecipitationRepresentativePoint(
   unsigned int startIndex, endIndex;
   weather_result_data_item_vector* coordinates =
       get_data_vector(theParameters, PRECIPITATION_POINT_DATA);
-  if (!get_period_start_end_index(thePeriod, *coordinates, startIndex, endIndex)) return retval;
+  if (!get_period_start_end_index(thePeriod, *coordinates, startIndex, endIndex))
+    return retval;
 
   float lon = 0.0;
   float lat = 0.0;
@@ -4448,7 +4501,8 @@ precipitation_traverse_id PrecipitationForecast::getPrecipitationTraverseId(
 
   unsigned int startIndex, endIndex;
 
-  if (!get_period_start_end_index(thePeriod, *dataVector, startIndex, endIndex)) return retval;
+  if (!get_period_start_end_index(thePeriod, *dataVector, startIndex, endIndex))
+    return retval;
 
   NFmiIndexMask begIndexMask;
   NFmiIndexMask endIndexMask;

@@ -23,7 +23,10 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-Acceptor* PositiveValueAcceptor::clone() const { return new PositiveValueAcceptor(*this); }
+Acceptor* PositiveValueAcceptor::clone() const
+{
+  return new PositiveValueAcceptor(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Accept or reject a value

@@ -47,7 +47,6 @@
 using namespace TextGen;
 using namespace std;
 
-
 namespace TextGen
 {
 namespace
@@ -233,7 +232,10 @@ TextGenerator::TextGenerator() : itsPimple(new Pimple()) {}
  */
 // ----------------------------------------------------------------------
 
-const TextGenPosixTime& TextGenerator::time() const { return itsPimple->itsForecastTime; }
+const TextGenPosixTime& TextGenerator::time() const
+{
+  return itsPimple->itsForecastTime;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Set a new forecast time
@@ -304,7 +306,8 @@ Document TextGenerator::generate(const WeatherArea& theArea) const
         << " -  " << period.localEndTime() << endl;
 
     Header header = HeaderFactory::create(theArea, period, headervar);
-    if (!header.empty()) doc << header;
+    if (!header.empty())
+      doc << header;
 
     const bool subs = Settings::optional_bool("textgen::" + *it + "::subperiods", false);
 
@@ -363,7 +366,10 @@ void TextGenerator::sources(const AnalysisSources& theSources)
   itsPimple->itsSources = theSources;
 }
 
-std::string TextGenerator::version() { return VERSION_STRING; }
+std::string TextGenerator::version()
+{
+  return VERSION_STRING;
+}
 
 }  // namespace TextGen
 

@@ -16,7 +16,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -81,7 +80,10 @@ std::string Phrase::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool Phrase::isDelimiter() const { return false; }
+bool Phrase::isDelimiter() const
+{
+  return false;
+}
 }  // namespace TextGen
 
 // ======================================================================

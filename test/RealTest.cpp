@@ -37,10 +37,12 @@ void realize_real(void)
   using namespace TextGen;
 
   Real n1(0.0);
-  if (n1.realize(NullDictionary()) != "0.0") TEST_FAILED("realization of real(0.0) failed");
+  if (n1.realize(NullDictionary()) != "0.0")
+    TEST_FAILED("realization of real(0.0) failed");
 
   Real n2(123.4321);
-  if (n2.realize(NullDictionary()) != "123.4") TEST_FAILED("realization of real(123.4321) failed");
+  if (n2.realize(NullDictionary()) != "123.4")
+    TEST_FAILED("realization of real(123.4321) failed");
 
   Real n3(123.4321, 2);
   if (n3.realize(NullDictionary()) != "123.43")

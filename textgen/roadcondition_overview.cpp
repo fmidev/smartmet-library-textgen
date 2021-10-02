@@ -28,7 +28,6 @@ using namespace TextGen;
 using namespace std;
 using boost::lexical_cast;
 
-
 namespace TextGen
 {
 namespace
@@ -213,9 +212,12 @@ const char* condition_places_phrase(RoadConditionType theType,
                                     int theManyPlacesLimit,
                                     int theSomePlacesLimit)
 {
-  if (thePercentage < theSomePlacesLimit) return "";
-  if (thePercentage < theManyPlacesLimit) return "paikoin";
-  if (thePercentage < theGenerallyLimit) return "monin paikoin";
+  if (thePercentage < theSomePlacesLimit)
+    return "";
+  if (thePercentage < theManyPlacesLimit)
+    return "paikoin";
+  if (thePercentage < theGenerallyLimit)
+    return "monin paikoin";
 
   switch (theType)
   {
@@ -498,7 +500,8 @@ const Sentence condition_sentence(const ConditionPercentages& thePercentages, co
     if (!someplacestypes.empty())
     {
       Sentence s = second_places_sentence(firsttype, someplacestypes.begin()->second);
-      if (!s.empty()) sentence << Delimiter(",") << s;
+      if (!s.empty())
+        sentence << Delimiter(",") << s;
     }
     return sentence;
   }
@@ -559,11 +562,14 @@ bool is_morning(const WeatherPeriod& thePeriod, const string& theVar)
   const TextGenPosixTime& starttime = thePeriod.localStartTime();
   const TextGenPosixTime& endtime = thePeriod.localEndTime();
 
-  if (!TimeTools::isSameDay(starttime, endtime)) return false;
+  if (!TimeTools::isSameDay(starttime, endtime))
+    return false;
 
-  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour) return false;
+  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour)
+    return false;
 
-  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour) return false;
+  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour)
+    return false;
 
   return true;
 }
@@ -586,11 +592,14 @@ bool is_day(const WeatherPeriod& thePeriod, const string& theVar)
   const TextGenPosixTime& starttime = thePeriod.localStartTime();
   const TextGenPosixTime& endtime = thePeriod.localEndTime();
 
-  if (!TimeTools::isSameDay(starttime, endtime)) return false;
+  if (!TimeTools::isSameDay(starttime, endtime))
+    return false;
 
-  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour) return false;
+  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour)
+    return false;
 
-  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour) return false;
+  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour)
+    return false;
 
   return true;
 }
@@ -613,11 +622,14 @@ bool is_evening(const WeatherPeriod& thePeriod, const string& theVar)
   const TextGenPosixTime& starttime = thePeriod.localStartTime();
   const TextGenPosixTime& endtime = thePeriod.localEndTime();
 
-  if (!TimeTools::isSameDay(starttime, endtime)) return false;
+  if (!TimeTools::isSameDay(starttime, endtime))
+    return false;
 
-  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour) return false;
+  if (starttime.GetHour() < starthour || starttime.GetHour() > endhour)
+    return false;
 
-  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour) return false;
+  if (endtime.GetHour() < starthour || endtime.GetHour() > endhour)
+    return false;
 
   return true;
 }
@@ -640,11 +652,14 @@ bool is_night(const WeatherPeriod& thePeriod, const string& theVar)
   const TextGenPosixTime& starttime = thePeriod.localStartTime();
   const TextGenPosixTime& endtime = thePeriod.localEndTime();
 
-  if (!TimeTools::isNextDay(starttime, endtime)) return false;
+  if (!TimeTools::isNextDay(starttime, endtime))
+    return false;
 
-  if (starttime.GetHour() < starthour && starttime.GetHour() > endhour) return false;
+  if (starttime.GetHour() < starthour && starttime.GetHour() > endhour)
+    return false;
 
-  if (endtime.GetHour() < starthour && endtime.GetHour() > endhour) return false;
+  if (endtime.GetHour() < starthour && endtime.GetHour() > endhour)
+    return false;
 
   return true;
 }
@@ -905,7 +920,8 @@ Paragraph RoadStory::condition_overview() const
 
   const TextGenPosixTime time1(itsPeriod.localStartTime());
   TextGenPosixTime time2 = TimeTools::addHours(time1, maxhours);
-  if (itsPeriod.localEndTime().IsLessThan(time2)) time2 = itsPeriod.localEndTime();
+  if (itsPeriod.localEndTime().IsLessThan(time2))
+    time2 = itsPeriod.localEndTime();
 
   const WeatherPeriod fullperiod(time1, time2);
 
@@ -973,7 +989,8 @@ Paragraph RoadStory::condition_overview() const
 
     unsigned int j;
     for (j = i; j < periods.size() - 1; j++)
-      if (realizations[i] != realizations[j + 1]) break;
+      if (realizations[i] != realizations[j + 1])
+        break;
 
     // Generate the text
 

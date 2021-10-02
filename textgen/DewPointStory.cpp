@@ -65,7 +65,8 @@ DewPointStory::DewPointStory(const TextGenPosixTime& theForecastTime,
 
 bool DewPointStory::hasStory(const string& theName)
 {
-  if (theName == "dewpoint_range") return true;
+  if (theName == "dewpoint_range")
+    return true;
   return false;
 }
 
@@ -82,7 +83,8 @@ bool DewPointStory::hasStory(const string& theName)
 
 Paragraph DewPointStory::makeStory(const string& theName) const
 {
-  if (theName == "dewpoint_range") return range();
+  if (theName == "dewpoint_range")
+    return range();
 
   throw TextGenError("DewPointStory cannot make story " + theName);
 }

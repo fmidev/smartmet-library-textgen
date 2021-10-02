@@ -28,7 +28,6 @@ using namespace TextGen;
 using namespace std;
 using boost::lexical_cast;
 
-
 namespace TextGen
 {
 namespace
@@ -213,9 +212,12 @@ const char* condition_places_phrase(RoadConditionType theType,
                                     int theManyPlacesLimit,
                                     int theSomePlacesLimit)
 {
-  if (thePercentage < theSomePlacesLimit) return "";
-  if (thePercentage < theManyPlacesLimit) return "paikoin";
-  if (thePercentage < theGenerallyLimit) return "monin paikoin";
+  if (thePercentage < theSomePlacesLimit)
+    return "";
+  if (thePercentage < theManyPlacesLimit)
+    return "paikoin";
+  if (thePercentage < theGenerallyLimit)
+    return "monin paikoin";
 
   switch (theType)
   {
@@ -498,7 +500,8 @@ const Sentence condition_sentence(const ConditionPercentages& thePercentages, co
     if (!someplacestypes.empty())
     {
       Sentence s = second_places_sentence(firsttype, someplacestypes.begin()->second);
-      if (!s.empty()) sentence << Delimiter(",") << s;
+      if (!s.empty())
+        sentence << Delimiter(",") << s;
     }
     return sentence;
   }
@@ -565,7 +568,8 @@ Paragraph RoadStory::condition_shortview() const
 
   const TextGenPosixTime time1(itsPeriod.localStartTime());
   TextGenPosixTime time2 = TimeTools::addHours(time1, maxhours);
-  if (itsPeriod.localEndTime().IsLessThan(time2)) time2 = itsPeriod.localEndTime();
+  if (itsPeriod.localEndTime().IsLessThan(time2))
+    time2 = itsPeriod.localEndTime();
 
   const WeatherPeriod fullperiod(time1, time2);
 

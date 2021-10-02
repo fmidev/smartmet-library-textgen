@@ -33,8 +33,6 @@
 #include "WmlTextFormatter.h"
 #include <calculator/TextGenError.h>
 
-
-
 namespace TextGen
 {
 namespace TextFormatterFactory
@@ -55,15 +53,24 @@ namespace TextFormatterFactory
 
 TextFormatter* create(const std::string& theType)
 {
-  if (theType == "singleline") return new SingleLineTextFormatter();
-  if (theType == "plain") return new PlainTextFormatter();
-  if (theType == "plainlines") return new PlainLinesTextFormatter();
-  if (theType == "html") return new HtmlTextFormatter();
-  if (theType == "css") return new CssTextFormatter();
-  if (theType == "speechtext") return new SpeechTextFormatter();
-  if (theType == "wml") return new WmlTextFormatter();
-  if (theType == "sonera") return new SoneraTextFormatter();
-  if (theType == "debug") return new DebugTextFormatter();
+  if (theType == "singleline")
+    return new SingleLineTextFormatter();
+  if (theType == "plain")
+    return new PlainTextFormatter();
+  if (theType == "plainlines")
+    return new PlainLinesTextFormatter();
+  if (theType == "html")
+    return new HtmlTextFormatter();
+  if (theType == "css")
+    return new CssTextFormatter();
+  if (theType == "speechtext")
+    return new SpeechTextFormatter();
+  if (theType == "wml")
+    return new WmlTextFormatter();
+  if (theType == "sonera")
+    return new SoneraTextFormatter();
+  if (theType == "debug")
+    return new DebugTextFormatter();
   throw TextGenError("Error: Unknown text formatter type " + theType);
 }
 

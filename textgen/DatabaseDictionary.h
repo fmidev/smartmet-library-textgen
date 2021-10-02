@@ -27,7 +27,8 @@ class DatabaseDictionary : public Dictionary
 #endif
 
   virtual void init(const std::string& theLanguage);
-  virtual void getDataFromDB(const std::string& theLanguage,  std::map<std::string, std::string>& theDataStorage) = 0;
+  virtual void getDataFromDB(const std::string& theLanguage,
+                             std::map<std::string, std::string>& theDataStorage) = 0;
   virtual const std::string& language(void) const;
   virtual bool contains(const std::string& theKey) const;
   virtual const std::string& find(const std::string& theKey) const;
@@ -35,7 +36,7 @@ class DatabaseDictionary : public Dictionary
 
   virtual size_type size(void) const;
   virtual bool empty(void) const;
-  void  changeLanguage(const std::string& theLanguage) override;
+  void changeLanguage(const std::string& theLanguage) override;
 
  private:
   class Pimple;

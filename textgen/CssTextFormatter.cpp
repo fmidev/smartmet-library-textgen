@@ -33,7 +33,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 std::set<string> css_class_set;
@@ -59,7 +58,10 @@ void CssTextFormatter::dictionary(const boost::shared_ptr<Dictionary>& theDict)
  */
 // ----------------------------------------------------------------------
 
-string CssTextFormatter::format(const Glyph& theGlyph) const { return theGlyph.realize(*this); }
+string CssTextFormatter::format(const Glyph& theGlyph) const
+{
+  return theGlyph.realize(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Visit a glyph
@@ -131,7 +133,8 @@ string CssTextFormatter::visit(const Paragraph& theParagraph) const
 {
   const string content = Settings::optional_string(itsSectionVar + "::content", "");
 
-  if (content.compare("none") == 0) return "";
+  if (content.compare("none") == 0)
+    return "";
 
   string text =
       TextFormatterTools::realize(theParagraph.begin(), theParagraph.end(), *this, "", "\n");
@@ -178,7 +181,8 @@ string CssTextFormatter::visit(const Header& theHeader) const
   string text = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, " ", "");
   text = TextFormatterTools::capitalize(text);
 
-  if (text.empty()) return "";
+  if (text.empty())
+    return "";
 
   ostringstream out;
   const string css_tag = Settings::optional_string(itsSectionVar + "::header::css::tag", "div");
@@ -189,7 +193,8 @@ string CssTextFormatter::visit(const Header& theHeader) const
 
   out << text << (colon ? ":" : "") << "\n";
 
-  if (!css_tag.empty()) out << "</" << css_tag << ">\n";
+  if (!css_tag.empty())
+    out << "</" << css_tag << ">\n";
 
   return out.str();
 }
@@ -276,14 +281,16 @@ string CssTextFormatter::visit(const StoryTag& theStory) const
     if (!css_tag.empty())
     {
       out << '<' << css_tag;
-      if (!css_class.empty()) out << " class=\"" << css_class << "\"";
+      if (!css_class.empty())
+        out << " class=\"" << css_class << "\"";
       out << ">\n";
     }
     out << TextFormatterTools::get_story_value_param(itsStoryVar, itsProductName);
   }
   else
   {
-    if (!css_tag.empty()) out << "</" << css_tag << ">";
+    if (!css_tag.empty())
+      out << "</" << css_tag << ">";
   }
 
   return out.str();

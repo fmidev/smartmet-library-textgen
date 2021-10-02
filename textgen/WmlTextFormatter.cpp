@@ -32,7 +32,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -56,7 +55,10 @@ void WmlTextFormatter::dictionary(const boost::shared_ptr<Dictionary>& theDict)
  */
 // ----------------------------------------------------------------------
 
-string WmlTextFormatter::format(const Glyph& theGlyph) const { return theGlyph.realize(*this); }
+string WmlTextFormatter::format(const Glyph& theGlyph) const
+{
+  return theGlyph.realize(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Visit a glyph
@@ -134,7 +136,8 @@ string WmlTextFormatter::visit(const Paragraph& theParagraph) const
   if (!tmp.empty())
   {
     out << "<p";
-    if (!tags.empty()) out << ' ' << tags;
+    if (!tags.empty())
+      out << ' ' << tags;
     out << '>' << tmp << "<br/></p>";
   }
   return out.str();
@@ -154,7 +157,8 @@ string WmlTextFormatter::visit(const Header& theHeader) const
   string text = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, " ", "");
   text = TextFormatterTools::capitalize(text);
 
-  if (text.empty()) return "";
+  if (text.empty())
+    return "";
 
   ostringstream out;
 

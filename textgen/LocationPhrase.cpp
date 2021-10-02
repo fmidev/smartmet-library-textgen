@@ -19,7 +19,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -76,10 +75,12 @@ std::string LocationPhrase::realize(const Dictionary& theDictionary) const
     if (location.size() > 4)
     {
       string ending = location.substr(location.size() - 4);
-      if (ending.compare(":lle") == 0) location = location.substr(0, location.size() - 4);
+      if (ending.compare(":lle") == 0)
+        location = location.substr(0, location.size() - 4);
     }
     std::transform(location.begin(), location.begin() + 1, location.begin(), ::toupper);
-    if (theDictionary.geocontains(location)) return theDictionary.geofind(location);
+    if (theDictionary.geocontains(location))
+      return theDictionary.geofind(location);
   }
 
   generator gen;
@@ -121,7 +122,10 @@ std::string LocationPhrase::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool LocationPhrase::isDelimiter() const { return false; }
+bool LocationPhrase::isDelimiter() const
+{
+  return false;
+}
 }  // namespace TextGen
 
 // ======================================================================

@@ -40,7 +40,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 namespace PrecipitationPeriodTools
@@ -203,7 +202,8 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
       ostringstream msg;
       msg << "Could not set desired coordinate (" << theArea.point().X() << ','
           << theArea.point().Y() << ')';
-      if (theArea.isNamed()) msg << " named " << theArea.name();
+      if (theArea.isNamed())
+        msg << " named " << theArea.name();
       msg << " in " << dataname;
       throw TextGenError(msg.str());
     }
@@ -260,7 +260,8 @@ RainPeriods findRainPeriods(const RainTimes& theTimes, const std::string& theVar
 
   // Handle special cases
 
-  if (theTimes.empty()) return periods;
+  if (theTimes.empty())
+    return periods;
 
   // Initialize current period to consist of first time only
   RainTimes::const_iterator it = theTimes.begin();
@@ -324,7 +325,8 @@ RainPeriods findRainPeriods(const RainTimes& theTimes, const std::string& theVar
 RainPeriods mergeNightlyRainPeriods(const RainPeriods& thePeriods, const std::string& theVar)
 {
   // Quick exit if there are no no-rain periods between rain periods
-  if (thePeriods.size() <= 1) return thePeriods;
+  if (thePeriods.size() <= 1)
+    return thePeriods;
 
   // Establish the settings
 

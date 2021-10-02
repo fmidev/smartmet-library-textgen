@@ -102,9 +102,11 @@ const std::string realize(Iterator it,
     {
       patterns = count_patterns(tmp);
 
-      if (!ret.empty() && !isdelim) ret += thePrefix;
+      if (!ret.empty() && !isdelim)
+        ret += thePrefix;
       ret += tmp;
-      if (!isdelim) ret += theSuffix;
+      if (!isdelim)
+        ret += theSuffix;
     }
   }
 

@@ -42,7 +42,8 @@ string require(const TextGen::Story& theStory,
 
 #define REQUIRE(story, lan, name, expected)     \
   result = require(story, lan, name, expected); \
-  if (!result.empty()) TEST_FAILED(result.c_str());
+  if (!result.empty())                          \
+    TEST_FAILED(result.c_str());
 
 // ----------------------------------------------------------------------
 /*!

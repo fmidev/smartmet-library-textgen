@@ -21,7 +21,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -63,7 +62,10 @@ boost::shared_ptr<Glyph> StoryTag::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string StoryTag::realize(const Dictionary& theDictionary) const { return itsName; }
+std::string StoryTag::realize(const Dictionary& theDictionary) const
+{
+  return itsName;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the text for the number
@@ -84,14 +86,20 @@ std::string StoryTag::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool StoryTag::isDelimiter() const { return false; }
+bool StoryTag::isDelimiter() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Returns true if tag is locatated before the story, false if after the story
  */
 // ----------------------------------------------------------------------
 
-bool StoryTag::isPrefixTag() const { return itsPrefixTag; }
+bool StoryTag::isPrefixTag() const
+{
+  return itsPrefixTag;
+}
 }  // namespace TextGen
 
 // ======================================================================

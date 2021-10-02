@@ -28,7 +28,6 @@
 
 using namespace std;
 
-
 // ----------------------------------------------------------------------
 /*!
  * \brief Integrate over space
@@ -79,7 +78,8 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
   if (param == kFmiBadParameter)
     throw TextGenError("Parameter " + parameterName + " is not defined in newbase");
 
-  if (!theQI.Param(param)) throw TextGenError(parameterName + " is not available in " + dataname);
+  if (!theQI.Param(param))
+    throw TextGenError(parameterName + " is not available in " + dataname);
 
   if (!theArea.isPoint())
   {
@@ -113,7 +113,8 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
         break;
     }
 
-    if (theIndexMask->empty()) return 0;
+    if (theIndexMask->empty())
+      return 0;
 
     unsigned long startindex, endindex;
 
@@ -173,7 +174,8 @@ double ExtractMask(const AnalysisSources& theSources,
   if (param == kFmiBadParameter)
     throw TextGenError("Parameter " + parameterName + " is not defined in newbase");
 
-  if (!theQI.Param(param)) throw TextGenError(parameterName + " is not available in " + dataname);
+  if (!theQI.Param(param))
+    throw TextGenError(parameterName + " is not available in " + dataname);
 
   if (!theArea.isPoint())
   {
@@ -207,7 +209,8 @@ double ExtractMask(const AnalysisSources& theSources,
         break;
     }
 
-    if (theIndexMask->empty()) return 0;
+    if (theIndexMask->empty())
+      return 0;
 
     unsigned long startindex, endindex;
 
@@ -299,7 +302,8 @@ void Insert(NFmiNearTree<NFmiPoint>& theTree,
 
 void Insert(NFmiNearTree<NFmiPoint>& theTree, const NFmiSvgPath& thePath, double theResolution)
 {
-  if (thePath.empty()) return;
+  if (thePath.empty())
+    return;
 
   NFmiPoint firstPoint(thePath.front().itsX, thePath.front().itsY);
 
@@ -416,7 +420,8 @@ const NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
               break;
           }
 
-          if (insert) mask.insert(idx);
+          if (insert)
+            mask.insert(idx);
         }
       }
   }

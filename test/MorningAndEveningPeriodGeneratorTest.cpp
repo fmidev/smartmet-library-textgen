@@ -23,12 +23,14 @@ void size(void)
 
     {
       MorningAndEveningPeriodGenerator generator(period, 6, 9, 18, 22, 6, 9, 18, 22);
-      if (generator.size() != 0) TEST_FAILED("Size should be zero - 12-18 does not fit into 9-18");
+      if (generator.size() != 0)
+        TEST_FAILED("Size should be zero - 12-18 does not fit into 9-18");
     }
 
     {
       MorningAndEveningPeriodGenerator generator(period, 6, 9, 18, 22, 6, 12, 18, 22);
-      if (generator.size() != 1) TEST_FAILED("Size should be one - 12-18 fits into 12-18");
+      if (generator.size() != 1)
+        TEST_FAILED("Size should be one - 12-18 fits into 12-18");
     }
   }
 
@@ -38,12 +40,14 @@ void size(void)
 
     {
       MorningAndEveningPeriodGenerator generator(period, 6, 9, 18, 22, 6, 9, 18, 22);
-      if (generator.size() != 4) TEST_FAILED("Size should be 4, 18-22,22-6,6-9,9-18");
+      if (generator.size() != 4)
+        TEST_FAILED("Size should be 4, 18-22,22-6,6-9,9-18");
     }
 
     {
       MorningAndEveningPeriodGenerator generator(period, 6, 9, 18, 22, 6, 12, 18, 22);
-      if (generator.size() != 5) TEST_FAILED("Size should be 5, 12-18,18-22,22-6,6-9,9-18");
+      if (generator.size() != 5)
+        TEST_FAILED("Size should be 5, 12-18,18-22,22-6,6-9,9-18");
     }
   }
 

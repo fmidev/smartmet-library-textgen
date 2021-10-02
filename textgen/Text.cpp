@@ -21,7 +21,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -59,7 +58,10 @@ boost::shared_ptr<Glyph> Text::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Text::realize(const Dictionary& theDictionary) const { return itsText; }
+std::string Text::realize(const Dictionary& theDictionary) const
+{
+  return itsText;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the text for the number
@@ -69,14 +71,20 @@ std::string Text::realize(const Dictionary& theDictionary) const { return itsTex
  */
 // ----------------------------------------------------------------------
 
-std::string Text::realize(const TextFormatter& theFormatter) const { return itsText; }
+std::string Text::realize(const TextFormatter& theFormatter) const
+{
+  return itsText;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Returns false since Text is not a separator
  */
 // ----------------------------------------------------------------------
 
-bool Text::isDelimiter() const { return false; }
+bool Text::isDelimiter() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the value of the text
@@ -85,7 +93,10 @@ bool Text::isDelimiter() const { return false; }
  */
 // ----------------------------------------------------------------------
 
-const std::string& Text::value() const { return itsText; }
+const std::string& Text::value() const
+{
+  return itsText;
+}
 }  // namespace TextGen
 
 // ======================================================================

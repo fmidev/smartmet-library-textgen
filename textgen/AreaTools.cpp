@@ -30,7 +30,6 @@ typedef TextGen::RegularMaskSource::mask_type mask_type;
 
 using namespace std;
 
-
 namespace TextGen
 {
 namespace AreaTools
@@ -113,7 +112,8 @@ bool isPartOfArea(const WeatherArea& theWeatherArea,
   for (NFmiIndexMask::const_iterator it = theIndexMask.begin(); it != theIndexMask.end(); ++it)
   {
     NFmiPoint point(theQI.LatLon(*it).X(), theQI.LatLon(*it).Y());
-    if (!theWeatherArea.path().IsInside(point)) return false;
+    if (!theWeatherArea.path().IsInside(point))
+      return false;
   }
 
   return true;
@@ -223,7 +223,8 @@ void getArealDistribution(const vector<NFmiPoint*>& thePointVector,
 // if theSecondaryRect is outside, even if only partly, thePrimaryRect NO_DIRECTION is returned
 direction_id getDirection(const Rect& thePrimaryRect, const Rect& theSecondaryRect)
 {
-  if (!thePrimaryRect.contains(theSecondaryRect)) return NO_DIRECTION;
+  if (!thePrimaryRect.contains(theSecondaryRect))
+    return NO_DIRECTION;
 
   NFmiPoint topLeftPrimary = thePrimaryRect.getTopLeft();
   NFmiPoint bottomRightPrimary = thePrimaryRect.getBottomRight();
@@ -317,10 +318,14 @@ Rect::Rect(const vector<NFmiPoint*>& thePointVector)
       yMin = yMax = thePointVector.at(i)->Y();
       continue;
     }
-    if (xMin > thePointVector.at(i)->X()) xMin = thePointVector.at(i)->X();
-    if (xMax < thePointVector.at(i)->X()) xMax = thePointVector.at(i)->X();
-    if (yMin > thePointVector.at(i)->Y()) yMin = thePointVector.at(i)->Y();
-    if (yMax < thePointVector.at(i)->Y()) yMax = thePointVector.at(i)->Y();
+    if (xMin > thePointVector.at(i)->X())
+      xMin = thePointVector.at(i)->X();
+    if (xMax < thePointVector.at(i)->X())
+      xMax = thePointVector.at(i)->X();
+    if (yMin > thePointVector.at(i)->Y())
+      yMin = thePointVector.at(i)->Y();
+    if (yMax < thePointVector.at(i)->Y())
+      yMax = thePointVector.at(i)->Y();
   }
   m_topLeft.X(xMin);
   m_topLeft.Y(yMax);
@@ -385,10 +390,14 @@ Rect::Rect(const AnalysisSources& theSources,
   for (NFmiIndexMask::const_iterator it = theIndexMask.begin(); it != theIndexMask.end(); ++it)
   {
     NFmiPoint point(theQI.LatLon(*it));
-    if (lon_min > point.X()) lon_min = point.X();
-    if (lon_max < point.X()) lon_max = point.X();
-    if (lat_min > point.Y()) lat_min = point.Y();
-    if (lat_max < point.Y()) lat_max = point.Y();
+    if (lon_min > point.X())
+      lon_min = point.X();
+    if (lon_max < point.X())
+      lon_max = point.X();
+    if (lat_min > point.Y())
+      lat_min = point.Y();
+    if (lat_max < point.Y())
+      lat_max = point.Y();
   }
   m_topLeft.X(lon_min);
   m_topLeft.Y(lat_max);
@@ -541,7 +550,8 @@ Rect Rect::subRect(const direction_id& theDirectionId) const
 
 bool Rect::contains(const Rect& theRect) const
 {
-  if (size() == 0 || theRect.size() == 0) return false;
+  if (size() == 0 || theRect.size() == 0)
+    return false;
 
   return (m_topLeft.X() <= theRect.m_topLeft.X() &&
           m_bottomRight.X() >= theRect.m_bottomRight.X() &&
@@ -556,7 +566,8 @@ bool Rect::contains(const NFmiPoint& thePoint) const
 
 direction_id Rect::getHalfDirection(const NFmiPoint& thePoint) const
 {
-  if (!contains(thePoint)) return NO_DIRECTION;
+  if (!contains(thePoint))
+    return NO_DIRECTION;
 
   direction_id retval = NO_DIRECTION;
 

@@ -32,7 +32,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -56,7 +55,10 @@ void HtmlTextFormatter::dictionary(const boost::shared_ptr<Dictionary>& theDict)
  */
 // ----------------------------------------------------------------------
 
-string HtmlTextFormatter::format(const Glyph& theGlyph) const { return theGlyph.realize(*this); }
+string HtmlTextFormatter::format(const Glyph& theGlyph) const
+{
+  return theGlyph.realize(*this);
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Visit a glyph
@@ -135,7 +137,8 @@ string HtmlTextFormatter::visit(const Paragraph& theParagraph) const
   if (!tmp.empty())
   {
     out << "<p";
-    if (!tags.empty()) out << ' ' << tags;
+    if (!tags.empty())
+      out << ' ' << tags;
     out << '>' << tmp << "</p>";
   }
   return out.str();
@@ -156,11 +159,13 @@ string HtmlTextFormatter::visit(const Header& theHeader) const
   string text = TextFormatterTools::realize(theHeader.begin(), theHeader.end(), *this, " ", "");
   text = TextFormatterTools::capitalize(text);
 
-  if (text.empty()) return "";
+  if (text.empty())
+    return "";
 
   ostringstream out;
   out << "<h" << level;
-  if (!tags.empty()) out << ' ' << tags;
+  if (!tags.empty())
+    out << ' ' << tags;
   out << '>' << text << (colon ? ":" : "") << "</h" << level << '>';
   return out.str();
 }

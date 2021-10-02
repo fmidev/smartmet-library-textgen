@@ -139,7 +139,10 @@ void NightAndDayPeriodGenerator::init()
  */
 // ----------------------------------------------------------------------
 
-bool NightAndDayPeriodGenerator::undivided() const { return false; }
+bool NightAndDayPeriodGenerator::undivided() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the number of subperiods

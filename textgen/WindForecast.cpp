@@ -903,7 +903,8 @@ void windspeed_distribution_interval(const WeatherPeriod& thePeriod,
                                      float& upperLimit,
                                      unsigned int& mostTypicalWindSpeed)
 {
-  if (lowerLimit == kFloatMissing || upperLimit == kFloatMissing) return;
+  if (lowerLimit == kFloatMissing || upperLimit == kFloatMissing)
+    return;
 
   value_distribution_data_vector windSpeedDistributionVector;
 
@@ -1034,7 +1035,8 @@ ss_log << " distribution interval 50: " << distributionLowerLimit50 << "..."
          << " peak: " << peakWind << std::endl;
   */
 
-  if (peakWind < upperLimit) upperLimit = peakWind;
+  if (peakWind < upperLimit)
+    upperLimit = peakWind;
 
   /*
   ss_log << " interval after peak check: " << lowerLimit << "..." << upperLimit << std::endl;
@@ -1190,7 +1192,8 @@ bool wind_direction_differ_enough(const wo_story_params& theParameter,
   WindDirectionId directionIdEnd = wind_direction_id(
       windDirection2, maximumWind2, theParameter.theVar, theParameter.theWindDirectionMinSpeed);
 
-  if (directionIdBeg == directionIdEnd) return false;
+  if (directionIdBeg == directionIdEnd)
+    return false;
 
   return wind_direction_differ_enough(
       windDirection1, windDirection2, theParameter.theWindDirectionThreshold);
@@ -1251,7 +1254,8 @@ void compose_wind_speed_range(const wo_story_params& theParameters,
            << intervalLowerLimit << "..." << intervalUpperLimit << std::endl;
   }
 
-  if (ss_log.str().size() > 1) theParameters.theLog << ss_log.str();
+  if (ss_log.str().size() > 1)
+    theParameters.theLog << ss_log.str();
 }
 
 Sentence compose_wind_speed_sentence(const wo_story_params& theParameters,
@@ -1758,7 +1762,8 @@ void WindForecast::injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVecto
               << windSpeedChangePeriod.localStartTime() << ", "
               << wind_direction_string(windDirectionInfo.id) << std::endl;
 
-        if (sentenceInfo.intervalSentences.size() == 0) continue;
+        if (sentenceInfo.intervalSentences.size() == 0)
+          continue;
         if (windDirectionInfo.id != VAIHTELEVA)
         {
           sentenceInfo.directionChange = windDirectionInfo;
@@ -2119,12 +2124,14 @@ WeatherPeriod WindForecast::getNewPeriod(part_of_the_day_id& partOfTheDay,
       if (backwards)
       {
         endTime.ChangeByHours(-1);
-        if (endTime <= guardPeriod.localEndTime()) break;
+        if (endTime <= guardPeriod.localEndTime())
+          break;
       }
       else
       {
         startTime.ChangeByHours(1);
-        if (startTime >= guardPeriod.localStartTime()) break;
+        if (startTime >= guardPeriod.localStartTime())
+          break;
       }
 
       WeatherPeriod phrasePeriod(startTime, endTime);
@@ -2186,7 +2193,8 @@ bool WindForecast::negotiateNewPeriod(part_of_the_day_id& partOfTheDay,
   WeatherPeriod period2Candidate =
       getNewPeriod(partOfTheDay, period2, notLaterThanPeriod, hoursChanged2, false);
 
-  if (hoursChanged1 == 0 && hoursChanged2 == 0) return false;
+  if (hoursChanged1 == 0 && hoursChanged2 == 0)
+    return false;
 
   if (hoursChanged1 > 0 && hoursChanged2 > 0)
   {
@@ -2230,10 +2238,12 @@ void WindForecast::checkTimePhrases(WindSpeedSentenceInfo& sentenceInfoVector) c
       {
         timePhrasePeriods.push_back(&(isi_dcb.period));
       }
-      if (i == 0 && j == 0) continue;
+      if (i == 0 && j == 0)
+        continue;
 
       // interval period
-      if (j > 0) timePhrasePeriods.push_back(&(isi.period));
+      if (j > 0)
+        timePhrasePeriods.push_back(&(isi.period));
     }
   }
 
@@ -2267,8 +2277,10 @@ void WindForecast::checkTimePhrases(WindSpeedSentenceInfo& sentenceInfoVector) c
           WeatherPeriod(beforeForecastStartTime, beforeForecastStartTime);
       WeatherPeriod afterCurrentPeriod = WeatherPeriod(afterForecastEndTime, afterForecastEndTime);
 
-      if (i > 1) beforePreviousPeriod = *(timePhrasePeriods[i - 2]);
-      if (i < n - 1) afterCurrentPeriod = *(timePhrasePeriods[i + 1]);
+      if (i > 1)
+        beforePreviousPeriod = *(timePhrasePeriods[i - 2]);
+      if (i < n - 1)
+        afterCurrentPeriod = *(timePhrasePeriods[i + 1]);
 
       if (negotiateNewPeriod(currentTPI.part_of_the_day,
                              *previousPeriod,
@@ -2313,13 +2325,15 @@ void WindForecast::checkWindDirections(WindSpeedSentenceInfo& sentenceInfoVector
   for (auto& si : sentenceInfoVector)
   {
     std::vector<WindDirectionInfo*> directionChanges;
-    if (si.directionChange) directionChanges.push_back(&(*(si.directionChange)));
+    if (si.directionChange)
+      directionChanges.push_back(&(*(si.directionChange)));
 
     for (auto& isi : si.intervalSentences)
     {
       for (auto& dc : isi.directionChangesBefore)
         directionChanges.push_back(&dc);
-      if (isi.directionChange) directionChanges.push_back(&(*(isi.directionChange)));
+      if (isi.directionChange)
+        directionChanges.push_back(&(*(isi.directionChange)));
       for (auto& dc : isi.directionChangesAfter)
         directionChanges.push_back(&dc);
     }
@@ -2328,7 +2342,8 @@ void WindForecast::checkWindDirections(WindSpeedSentenceInfo& sentenceInfoVector
     if (directionChanges.size() >= 3)
       for (unsigned int i = 0; i < directionChanges.size(); i += step)
       {
-        if (directionChanges.size() - i <= 3) break;
+        if (directionChanges.size() - i <= 3)
+          break;
         // ignore varying wind
         if (directionChanges[i]->id == VAIHTELEVA || directionChanges[i + 1]->id == VAIHTELEVA ||
             directionChanges[i + 2]->id == VAIHTELEVA)
@@ -2372,7 +2387,8 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
     paragraph_info pi;
     paragraph_info piAfterLastInterval;
     const sentence_info& sentenceInfo = sentenceInfoVector[i];
-    if (sentenceInfo.skip) continue;
+    if (sentenceInfo.skip)
+      continue;
     if (i == sentenceInfoVector.size() - 1 && get_period_length(sentenceInfo.period) < 3 &&
         !sentenceInfo.changeType.empty())
     {
@@ -2585,7 +2601,8 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
       }
     }
     ret.push_back(pi);
-    if (!piAfterLastInterval.sentenceParameters.empty()) ret.push_back(piAfterLastInterval);
+    if (!piAfterLastInterval.sentenceParameters.empty())
+      ret.push_back(piAfterLastInterval);
   }
 
   return ret;
@@ -2646,7 +2663,8 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
       i++;
   }
 
-  if (sentenceInfoVector.size() > 0) sentenceInfoVector[0].firstSentence = true;
+  if (sentenceInfoVector.size() > 0)
+    sentenceInfoVector[0].firstSentence = true;
 
   checkWindSpeedIntervals(sentenceInfoVector);
 
@@ -3032,7 +3050,8 @@ std::vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
 
   std::vector<WeatherPeriod> retVector;
   // max two intervals reported
-  if (resultVector.size() > 0) retVector.push_back(resultVector.front());
+  if (resultVector.size() > 0)
+    retVector.push_back(resultVector.front());
 
   if (resultVector.size() == 2)
   {
@@ -3189,23 +3208,28 @@ bool is_later(part_of_the_day_id id1, part_of_the_day_id id2)
 {
   if (id1 == YO)
   {
-    if (id1 != YO) return true;
+    if (id1 != YO)
+      return true;
   }
   else if (id1 == AAMUYO)
   {
-    if (id2 == KESKIYO) return true;
+    if (id2 == KESKIYO)
+      return true;
   }
   else if (id1 == AAMU)
   {
-    if (id2 == KESKIYO || id2 == AAMUYO) return true;
+    if (id2 == KESKIYO || id2 == AAMUYO)
+      return true;
   }
   else if (id1 == AAMUPAIVA)
   {
-    if (id2 == KESKIYO || id2 == AAMUYO || id2 == AAMU) return true;
+    if (id2 == KESKIYO || id2 == AAMUYO || id2 == AAMU)
+      return true;
   }
   else if (id1 == KESKIPAIVA)
   {
-    if (id2 == KESKIYO || id2 == AAMUYO || id2 == AAMU || id2 == AAMUPAIVA) return true;
+    if (id2 == KESKIYO || id2 == AAMUYO || id2 == AAMU || id2 == AAMUPAIVA)
+      return true;
   }
   else if (id1 == ILTAPAIVA)
   {
@@ -3220,7 +3244,8 @@ bool is_later(part_of_the_day_id id1, part_of_the_day_id id2)
   }
   else if (id1 == PAIVA)
   {
-    if (id2 == KESKIYO || id2 == AAMUYO || id2 == AAMU) return true;
+    if (id2 == KESKIYO || id2 == AAMUYO || id2 == AAMU)
+      return true;
   }
 
   return false;
@@ -3300,7 +3325,8 @@ std::vector<sentence_parameter> WindForecast::reportWindDirectionChanges(
 
   for (auto directionInfo : directionChanges)
   {
-    if (directionInfo.empty()) continue;
+    if (directionInfo.empty())
+      continue;
 
     if (!ret.empty() || (ret.empty() && startWithComma))
     {

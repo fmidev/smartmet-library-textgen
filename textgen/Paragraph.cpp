@@ -26,7 +26,6 @@
 
 using namespace std;
 
-
 namespace TextGen
 {
 // ----------------------------------------------------------------------
@@ -75,7 +74,10 @@ std::string Paragraph::realize(const TextFormatter& theFormatter) const
  */
 // ----------------------------------------------------------------------
 
-bool Paragraph::isDelimiter() const { return false; }
+bool Paragraph::isDelimiter() const
+{
+  return false;
+}
 // ----------------------------------------------------------------------
 /*!
  * \brief Add a paragraph to the end of this paragraph

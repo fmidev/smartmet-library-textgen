@@ -65,7 +65,8 @@ WaveStory::WaveStory(const TextGenPosixTime& theForecastTime,
 
 bool WaveStory::hasStory(const string& theName)
 {
-  if (theName == "wave_range") return true;
+  if (theName == "wave_range")
+    return true;
   return false;
 }
 
@@ -82,7 +83,8 @@ bool WaveStory::hasStory(const string& theName)
 
 Paragraph WaveStory::makeStory(const string& theName) const
 {
-  if (theName == "wave_range") return range();
+  if (theName == "wave_range")
+    return range();
 
   throw TextGenError("WaveStory cannot make story " + theName);
 }

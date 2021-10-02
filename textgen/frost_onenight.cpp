@@ -125,8 +125,10 @@ int get_frost_onenight_phrase_id(const double& coastalFrostProbability,
       inlandFrostProbability, forecast_areas, growing_season_started, night_frost, INLAND_AREA);
 
   // if coastal or inland area is missing, read story from story selection table diagonal
-  if (!(forecast_areas & COASTAL_AREA)) categoryCoastal = categoryInland;
-  if (!(forecast_areas & INLAND_AREA)) categoryInland = categoryCoastal;
+  if (!(forecast_areas & COASTAL_AREA))
+    categoryCoastal = categoryInland;
+  if (!(forecast_areas & INLAND_AREA))
+    categoryInland = categoryCoastal;
 
   if (categoryCoastal == CAT_NA)
   {
@@ -718,7 +720,8 @@ Paragraph FrostStory::onenight() const
   if (forecast_areas & COASTAL_AREA && ignoreCoastalArea)
   {
     forecast_areas ^= COASTAL_AREA;
-    if (growing_season_started & COASTAL_AREA) growing_season_started ^= COASTAL_AREA;
+    if (growing_season_started & COASTAL_AREA)
+      growing_season_started ^= COASTAL_AREA;
   }
 
   if (!(forecast_areas & (COASTAL_AREA | INLAND_AREA)))

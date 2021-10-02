@@ -35,9 +35,9 @@ class DatabaseDictionaries : public Dictionary
 
   virtual size_type size(void) const;
   virtual bool empty(void) const;
-  void  changeLanguage(const std::string& theLanguage) override;
+  void changeLanguage(const std::string& theLanguage) override;
 
-private:
+ private:
   class Pimple;
   boost::shared_ptr<Pimple> itsPimple;
 

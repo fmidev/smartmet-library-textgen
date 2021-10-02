@@ -298,7 +298,8 @@ void FogForecast::findOutFogPeriods()
 void FogForecast::findOutFogTypePeriods(const fog_period_vector& theFogPeriods,
                                         fog_type_period_vector& theFogTypePeriods)
 {
-  if (theFogPeriods.size() == 0) return;
+  if (theFogPeriods.size() == 0)
+    return;
 
   TextGenPosixTime fogPeriodStartTime(theFogPeriods.at(0).first.localStartTime());
   fog_type_id previousFogType = get_fog_type(theFogPeriods.at(0).second.theModerateFogExtent,
@@ -425,7 +426,8 @@ void FogForecast::printOutFogData(std::ostream& theOutput) const
     fogDataExists = true;
   }
 
-  if (!fogDataExists) theOutput << "No Fog on this forecast period!" << endl;
+  if (!fogDataExists)
+    theOutput << "No Fog on this forecast period!" << endl;
 }
 
 void FogForecast::printOutFogPeriods(std::ostream& theOutput) const
@@ -660,7 +662,8 @@ bool FogForecast::getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
       WeatherPeriod actualFogPeriod(
           getActualFogPeriod(theForecastPeriod, theFogTypePeriods.at(i).first, fogPeriodOk));
 
-      if (!fogPeriodOk) continue;
+      if (!fogPeriodOk)
+        continue;
 
       int actualPeriodLength(
           actualFogPeriod.localEndTime().DifferenceInHours(actualFogPeriod.localStartTime()));
@@ -836,7 +839,8 @@ Sentence FogForecast::constructFogSentence(const std::string& theDayPhasePhrase,
       else
       {
         sentence << SUMUA_WORD;
-        if (thePossiblyDenseFlag) sentence << Delimiter(",") << JOKA_VOI_OLLA_SAKEAA_PHRASE;
+        if (thePossiblyDenseFlag)
+          sentence << Delimiter(",") << JOKA_VOI_OLLA_SAKEAA_PHRASE;
       }
     }
   }
@@ -927,7 +931,8 @@ FogInfo FogForecast::fogInfo(const WeatherPeriod& thePeriod,
   if (getFogPeriodAndId(thePeriod, theFogTypePeriods, fogPeriod, fogTypeId))
   {
     // 1-hour period ignored
-    if (get_period_length(fogPeriod) == 0) return ret;
+    if (get_period_length(fogPeriod) == 0)
+      return ret;
 
     ret.period = fogPeriod;
     Sentence todayPhrase;
@@ -1135,8 +1140,9 @@ Sentence FogForecast::areaSpecificSentence(const WeatherPeriod& thePeriod) const
     std::unique_ptr<NFmiArea> mercatorArea(
         NFmiAreaTools::CreateLegacyMercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight()));
 #else
-    std::unique_ptr<NFmiMercatorArea> mercatorArea(new NFmiMercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight()));
-#endif    
+    std::unique_ptr<NFmiMercatorArea> mercatorArea(
+        new NFmiMercatorArea(areaRect.getBottomLeft(), areaRect.getTopRight()));
+#endif
     float areaHeightWidthRatio =
         mercatorArea->WorldRect().Height() / mercatorArea->WorldRect().Width();
 
