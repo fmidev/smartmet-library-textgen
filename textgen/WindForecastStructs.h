@@ -222,13 +222,13 @@ struct WindDataItemsByArea
                const WeatherArea::Type& type)
   {
     auto* dataItem = new WindDataItemUnit(period,
-                                                      windSpeedMin,
-                                                      windSpeedMax,
-                                                      windSpeedMean,
-                                                      windSpeedMedian,
-                                                      windSpeedTop,
-                                                      windDirection,
-                                                      gustSpeed);
+                                          windSpeedMin,
+                                          windSpeedMax,
+                                          windSpeedMean,
+                                          windSpeedMedian,
+                                          windSpeedTop,
+                                          windDirection,
+                                          gustSpeed);
     theDataItems.insert(std::make_pair(type, dataItem));
   }
 

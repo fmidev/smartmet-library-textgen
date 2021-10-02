@@ -769,56 +769,36 @@ void allocate_data_structures(wf_story_params& theParameters, const forecast_are
 {
   auto* hourlyMaxPrecipitation = new weather_result_data_item_vector();
   auto* hourlyMeanPrecipitation = new weather_result_data_item_vector();
-  auto* hourlyPrecipitationExtent =
-      new weather_result_data_item_vector();
+  auto* hourlyPrecipitationExtent = new weather_result_data_item_vector();
 
   auto* hourlyPrecipitationType = new weather_result_data_item_vector();
-  auto* hourlyPrecipitationFormWater =
-      new weather_result_data_item_vector();
-  auto* hourlyPrecipitationFormDrizzle =
-      new weather_result_data_item_vector();
-  auto* hourlyPrecipitationFormSleet =
-      new weather_result_data_item_vector();
-  auto* hourlyPrecipitationFormSnow =
-      new weather_result_data_item_vector();
-  auto* hourlyPrecipitationFormFreezingDrizzle =
-      new weather_result_data_item_vector();
-  auto* hourlyPrecipitationFormFreezingRain =
-      new weather_result_data_item_vector();
+  auto* hourlyPrecipitationFormWater = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationFormDrizzle = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationFormSleet = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationFormSnow = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationFormFreezingDrizzle = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationFormFreezingRain = new weather_result_data_item_vector();
   auto* hourlyCloudiness = new weather_result_data_item_vector();
   auto* hourlyThunderProbability = new weather_result_data_item_vector();
   auto* hourlyThunderExtent = new weather_result_data_item_vector();
-  auto* hourlyFogIntensityModerate =
-      new weather_result_data_item_vector();
+  auto* hourlyFogIntensityModerate = new weather_result_data_item_vector();
   auto* hourlyFogIntensityDense = new weather_result_data_item_vector();
 
-  auto* hourlyPrecipitationShareNortEast =
-      new weather_result_data_item_vector();
-  auto* hourlyPrecipitationShareSouthEast =
-      new weather_result_data_item_vector();
-  auto* hourlyPrecipitationShareSouthWest =
-      new weather_result_data_item_vector();
-  auto* hourlyPrecipitationShareNorthWest =
-      new weather_result_data_item_vector();
+  auto* hourlyPrecipitationShareNortEast = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationShareSouthEast = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationShareSouthWest = new weather_result_data_item_vector();
+  auto* hourlyPrecipitationShareNorthWest = new weather_result_data_item_vector();
   auto* hourlyPrecipitationPoint = new weather_result_data_item_vector();
 
-  auto* hourlyCloudinessShareNortEast =
-      new weather_result_data_item_vector();
-  auto* hourlyCloudinessShareSouthEast =
-      new weather_result_data_item_vector();
-  auto* hourlyCloudinessShareSouthWest =
-      new weather_result_data_item_vector();
-  auto* hourlyCloudinessShareNorthWest =
-      new weather_result_data_item_vector();
+  auto* hourlyCloudinessShareNortEast = new weather_result_data_item_vector();
+  auto* hourlyCloudinessShareSouthEast = new weather_result_data_item_vector();
+  auto* hourlyCloudinessShareSouthWest = new weather_result_data_item_vector();
+  auto* hourlyCloudinessShareNorthWest = new weather_result_data_item_vector();
 
-  auto* hourlyThunderProbabilityShareNortEast =
-      new weather_result_data_item_vector();
-  auto* hourlyThunderProbabilityShareSouthEast =
-      new weather_result_data_item_vector();
-  auto* hourlyThunderProbabilityShareSouthWest =
-      new weather_result_data_item_vector();
-  auto* hourlyThunderProbabilityShareNorthWest =
-      new weather_result_data_item_vector();
+  auto* hourlyThunderProbabilityShareNortEast = new weather_result_data_item_vector();
+  auto* hourlyThunderProbabilityShareSouthEast = new weather_result_data_item_vector();
+  auto* hourlyThunderProbabilityShareSouthWest = new weather_result_data_item_vector();
+  auto* hourlyThunderProbabilityShareNorthWest = new weather_result_data_item_vector();
 
   auto* hourlyFogShareNortEast = new weather_result_data_item_vector();
   auto* hourlyFogShareSouthEast = new weather_result_data_item_vector();

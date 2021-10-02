@@ -2244,11 +2244,10 @@ wind_event_period_data_item_vector remove_short_missing_periods(
         WindEventId newWindEvent =
             get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
 
-        auto* newDataItem =
-            new WindEventPeriodDataItem(newPeriod,
-                                        newWindEvent,
-                                        currentDataItem->thePeriodBeginDataItem,
-                                        afterNextDataItem->thePeriodEndDataItem);
+        auto* newDataItem = new WindEventPeriodDataItem(newPeriod,
+                                                        newWindEvent,
+                                                        currentDataItem->thePeriodBeginDataItem,
+                                                        afterNextDataItem->thePeriodEndDataItem);
         cleanedEventPeriods.push_back(newDataItem);
         i += 2;
       }
@@ -2439,11 +2438,10 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
     // merge periods
     WeatherPeriod newPeriod(currentDataItem->thePeriod.localStartTime(),
                             nextDataItem->thePeriod.localEndTime());
-    auto* newDataItem =
-        new WindEventPeriodDataItem(newPeriod,
-                                    MISSING_WIND_SPEED_EVENT,
-                                    currentDataItem->thePeriodBeginDataItem,
-                                    nextDataItem->thePeriodEndDataItem);
+    auto* newDataItem = new WindEventPeriodDataItem(newPeriod,
+                                                    MISSING_WIND_SPEED_EVENT,
+                                                    currentDataItem->thePeriodBeginDataItem,
+                                                    nextDataItem->thePeriodEndDataItem);
     mergedEventPeriods.push_back(newDataItem);
 
     i = lastMissingIndex;
@@ -2619,11 +2617,10 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
 
       newWindEvent = get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
 
-      auto* newDataItem =
-          new WindEventPeriodDataItem(newPeriod,
-                                      newWindEvent,
-                                      currentDataItem->thePeriodBeginDataItem,
-                                      dataItem->thePeriodEndDataItem);
+      auto* newDataItem = new WindEventPeriodDataItem(newPeriod,
+                                                      newWindEvent,
+                                                      currentDataItem->thePeriodBeginDataItem,
+                                                      dataItem->thePeriodEndDataItem);
 
       mergedEventPeriods.push_back(newDataItem);
 
@@ -2645,21 +2642,19 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
             calculate_weighted_wind_speed(storyParams, currentDataItem->thePeriodBeginDataItem);
         endSpeed = calculate_weighted_wind_speed(storyParams, nextDataItem->thePeriodEndDataItem);
         newWindEvent = get_wind_speed_event(begSpeed, endSpeed, storyParams.theWindSpeedThreshold);
-        auto* newDataItem =
-            new WindEventPeriodDataItem(newPeriod,
-                                        newWindEvent,
-                                        currentDataItem->thePeriodBeginDataItem,
-                                        nextDataItem->thePeriodEndDataItem);
+        auto* newDataItem = new WindEventPeriodDataItem(newPeriod,
+                                                        newWindEvent,
+                                                        currentDataItem->thePeriodBeginDataItem,
+                                                        nextDataItem->thePeriodEndDataItem);
         mergedEventPeriods.push_back(newDataItem);
       }
     }
     else
     {
-      auto* newDataItem =
-          new WindEventPeriodDataItem(newPeriod,
-                                      newWindEvent,
-                                      currentDataItem->thePeriodBeginDataItem,
-                                      nextDataItem->thePeriodEndDataItem);
+      auto* newDataItem = new WindEventPeriodDataItem(newPeriod,
+                                                      newWindEvent,
+                                                      currentDataItem->thePeriodBeginDataItem,
+                                                      nextDataItem->thePeriodEndDataItem);
       mergedEventPeriods.push_back(newDataItem);
     }
   }

@@ -258,8 +258,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
       theLogger << "Precipitation story item: " << as_string(item->getStoryItemPeriod())
                 << std::endl;
 
-      auto* precipitationStoryItem =
-          static_cast<PrecipitationForecastStoryItem*>(item);
+      auto* precipitationStoryItem = static_cast<PrecipitationForecastStoryItem*>(item);
 
       bool sleetOrSnow = (precipitationStoryItem->theForm & SLEET_FORM ||
                           precipitationStoryItem->theForm & SNOW_FORM);
@@ -318,8 +317,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
       theLogger << "Cloudiness story item: " << as_string(item->getStoryItemPeriod()) << std::endl;
       FogInfo fogInfo = theFogForecast.fogInfo(item->getStoryItemPeriod());
 
-      auto* cloudinessStoryItem =
-          static_cast<CloudinessForecastStoryItem*>(item);
+      auto* cloudinessStoryItem = static_cast<CloudinessForecastStoryItem*>(item);
 
       FogInfo fi = theFogForecast.fogInfo(item->getStoryItemPeriod());
 
@@ -464,8 +462,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
     }
     else
     {
-      auto* precipitationItem =
-          static_cast<PrecipitationForecastStoryItem*>(item);
+      auto* precipitationItem = static_cast<PrecipitationForecastStoryItem*>(item);
 
       float precipitationExtent = precipitationItem->precipitationExtent();
 
@@ -659,15 +656,14 @@ void WeatherForecastStory::addPrecipitationStoryItems()
     if (get_period_length(precipitationPeriods[i]) <= 1 && extent < 10)
       continue;
 
-    auto* item =
-        new PrecipitationForecastStoryItem(*this,
-                                           precipitationPeriods[i],
-                                           PRECIPITATION_STORY_PART,
-                                           intensity,
-                                           extent,
-                                           form,
-                                           type,
-                                           thunder);
+    auto* item = new PrecipitationForecastStoryItem(*this,
+                                                    precipitationPeriods[i],
+                                                    PRECIPITATION_STORY_PART,
+                                                    intensity,
+                                                    extent,
+                                                    form,
+                                                    type,
+                                                    thunder);
 
     TextGenPosixTime startTimeFull;
     TextGenPosixTime endTimeFull;
@@ -1382,8 +1378,7 @@ float PrecipitationForecastStoryItem::precipitationExtent() const
 {
   if (thePeriodToMergeWith)
   {
-    auto* mergeWith =
-        static_cast<PrecipitationForecastStoryItem*>(thePeriodToMergeWith);
+    auto* mergeWith = static_cast<PrecipitationForecastStoryItem*>(thePeriodToMergeWith);
 
     float periodLen = get_period_length(thePeriod);
     float mergeWithPeriodLen = get_period_length(mergeWith->thePeriod);
@@ -1401,8 +1396,7 @@ unsigned int PrecipitationForecastStoryItem::precipitationForm() const
 {
   if (thePeriodToMergeWith)
   {
-    auto* mergeWith =
-        static_cast<PrecipitationForecastStoryItem*>(thePeriodToMergeWith);
+    auto* mergeWith = static_cast<PrecipitationForecastStoryItem*>(thePeriodToMergeWith);
 
     float periodLen = get_period_length(thePeriod);
     float mergeWithPeriodLen = get_period_length(mergeWith->thePeriod);
@@ -1419,8 +1413,7 @@ bool PrecipitationForecastStoryItem::isWeakPrecipitation(const wf_story_params& 
 {
   if (thePeriodToMergeWith)
   {
-    auto* mergeWith =
-        static_cast<PrecipitationForecastStoryItem*>(thePeriodToMergeWith);
+    auto* mergeWith = static_cast<PrecipitationForecastStoryItem*>(thePeriodToMergeWith);
 
     float periodLen = get_period_length(thePeriod);
     float mergeWithPeriodLen = get_period_length(mergeWith->thePeriod);
