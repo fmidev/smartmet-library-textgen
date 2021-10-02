@@ -96,7 +96,7 @@ DatabaseDictionary::DatabaseDictionary() : Dictionary(), itsPimple(new Pimple())
  */
 // ----------------------------------------------------------------------
 
-const std::string& DatabaseDictionary::language(void) const
+const std::string& DatabaseDictionary::language() const
 {
   return itsPimple->itsLanguage;
 }
@@ -200,7 +200,7 @@ void DatabaseDictionary::insert(const std::string& theKey, const std::string& th
  */
 // ----------------------------------------------------------------------
 
-DatabaseDictionary::size_type DatabaseDictionary::size(void) const
+DatabaseDictionary::size_type DatabaseDictionary::size() const
 {
   return itsPimple->itsData.size();
 }
@@ -212,7 +212,7 @@ DatabaseDictionary::size_type DatabaseDictionary::size(void) const
  */
 // ----------------------------------------------------------------------
 
-bool DatabaseDictionary::empty(void) const
+bool DatabaseDictionary::empty() const
 {
   return itsPimple->itsData.empty();
 }

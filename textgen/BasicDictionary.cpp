@@ -47,7 +47,7 @@ void BasicDictionary::init(const std::string& theLanguage)
  */
 // ----------------------------------------------------------------------
 
-const std::string& BasicDictionary::language(void) const
+const std::string& BasicDictionary::language() const
 {
   return itsLanguage;
 }
@@ -111,7 +111,7 @@ void BasicDictionary::insert(const std::string& theKey, const std::string& thePh
  */
 // ----------------------------------------------------------------------
 
-BasicDictionary::size_type BasicDictionary::size(void) const
+BasicDictionary::size_type BasicDictionary::size() const
 {
   return itsData.size();
 }
@@ -123,7 +123,7 @@ BasicDictionary::size_type BasicDictionary::size(void) const
  */
 // ----------------------------------------------------------------------
 
-bool BasicDictionary::empty(void) const
+bool BasicDictionary::empty() const
 {
   return itsData.empty();
 }

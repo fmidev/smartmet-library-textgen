@@ -101,7 +101,7 @@ FileDictionary::FileDictionary() : Dictionary(), itsPimple(new Pimple())
  */
 // ----------------------------------------------------------------------
 
-const std::string& FileDictionary::language(void) const
+const std::string& FileDictionary::language() const
 {
   return itsPimple->itsLanguage;
 }
@@ -220,7 +220,7 @@ void FileDictionary::insert(const std::string& theKey, const std::string& thePhr
  */
 // ----------------------------------------------------------------------
 
-FileDictionary::size_type FileDictionary::size(void) const
+FileDictionary::size_type FileDictionary::size() const
 {
   return itsPimple->itsData.size();
 }
@@ -232,7 +232,7 @@ FileDictionary::size_type FileDictionary::size(void) const
  */
 // ----------------------------------------------------------------------
 
-bool FileDictionary::empty(void) const
+bool FileDictionary::empty() const
 {
   return itsPimple->itsData.empty();
 }

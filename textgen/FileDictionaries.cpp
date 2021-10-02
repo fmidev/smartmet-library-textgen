@@ -106,7 +106,7 @@ FileDictionaries::FileDictionaries() : Dictionary(), itsPimple(new Pimple())
  */
 // ----------------------------------------------------------------------
 
-const std::string& FileDictionaries::language(void) const
+const std::string& FileDictionaries::language() const
 {
   return itsPimple->itsLanguage;
 }
@@ -220,7 +220,7 @@ void FileDictionaries::insert(const std::string& theKey, const std::string& theP
  */
 // ----------------------------------------------------------------------
 
-FileDictionaries::size_type FileDictionaries::size(void) const
+FileDictionaries::size_type FileDictionaries::size() const
 {
   if (!itsPimple->itsInitialized)
     throw TextGenError("Error: FileDictionaries::size() called before init()");
@@ -235,7 +235,7 @@ FileDictionaries::size_type FileDictionaries::size(void) const
  */
 // ----------------------------------------------------------------------
 
-bool FileDictionaries::empty(void) const
+bool FileDictionaries::empty() const
 {
   if (!itsPimple->itsInitialized)
     throw TextGenError("Error: FileDictionaries::empty() called before init()");

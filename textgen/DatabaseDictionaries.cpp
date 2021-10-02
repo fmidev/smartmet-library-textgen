@@ -108,7 +108,7 @@ DatabaseDictionaries::DatabaseDictionaries(const std::string& theDictionaryId)
  */
 // ----------------------------------------------------------------------
 
-const std::string& DatabaseDictionaries::language(void) const
+const std::string& DatabaseDictionaries::language() const
 {
   return itsPimple->itsLanguage;
 }
@@ -225,7 +225,7 @@ void DatabaseDictionaries::insert(const std::string& theKey, const std::string& 
  */
 // ----------------------------------------------------------------------
 
-DatabaseDictionaries::size_type DatabaseDictionaries::size(void) const
+DatabaseDictionaries::size_type DatabaseDictionaries::size() const
 {
   if (!itsPimple->itsInitialized)
     throw TextGenError("Error: DatabaseDictionaries::size() called before init()");
@@ -240,7 +240,7 @@ DatabaseDictionaries::size_type DatabaseDictionaries::size(void) const
  */
 // ----------------------------------------------------------------------
 
-bool DatabaseDictionaries::empty(void) const
+bool DatabaseDictionaries::empty() const
 {
   if (!itsPimple->itsInitialized)
     throw TextGenError("Error: DatabaseDictionaries::empty() called before init()");

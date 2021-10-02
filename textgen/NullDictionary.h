@@ -26,13 +26,13 @@ class NullDictionary : public Dictionary
 
   ~NullDictionary() override {}
   void init(const std::string& theLanguage) override { itsLanguage = theLanguage; }
-  const std::string& language(void) const override { return itsLanguage; }
+  const std::string& language() const override { return itsLanguage; }
   bool contains(const std::string& theKey) const override { return false; }
   const std::string& find(const std::string& theKey) const override;
   void insert(const std::string& theKey, const std::string& thePhrase) override;
 
-  size_type size(void) const override { return 0; }
-  bool empty(void) const override { return true; }
+  size_type size() const override { return 0; }
+  bool empty() const override { return true; }
 
  private:
   std::string itsLanguage;

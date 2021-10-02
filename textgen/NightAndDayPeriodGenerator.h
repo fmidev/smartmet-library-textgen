@@ -42,7 +42,7 @@ class NightAndDayPeriodGenerator : public WeatherPeriodGenerator
   bool isnight(size_type thePeriod) const { return !isday(thePeriod); }
 
  private:
-  NightAndDayPeriodGenerator(void);
+  NightAndDayPeriodGenerator();
   void init();
 
   const WeatherPeriod itsMainPeriod;

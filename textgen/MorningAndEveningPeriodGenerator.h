@@ -42,7 +42,7 @@ class MorningAndEveningPeriodGenerator : public WeatherPeriodGenerator
   WeatherPeriod period(size_type thePeriod) const override;
 
  private:
-  MorningAndEveningPeriodGenerator(void);
+  MorningAndEveningPeriodGenerator();
   void init();
 
   const WeatherPeriod itsMainPeriod;

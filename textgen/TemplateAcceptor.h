@@ -21,7 +21,7 @@ class TemplateAcceptor : public Acceptor
   Acceptor* clone() const override { return new TemplateAcceptor(*this); }
 
  private:
-  TemplateAcceptor(void);
+  TemplateAcceptor();
 
   T itsFunctor;
 
