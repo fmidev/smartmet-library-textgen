@@ -41,7 +41,7 @@ class SoneraTextFormatter : public TextFormatter
   std::string name() const { return "sonera"; }
 
  private:
-  typedef std::list<std::string> container_type;
+  using container_type = std::list<std::string>;
   mutable container_type itsParts;
   mutable int itsDepth;
 

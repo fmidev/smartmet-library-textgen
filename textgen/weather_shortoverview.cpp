@@ -158,7 +158,7 @@ Paragraph WeatherStory::shortoverview() const
   bool unstable_weather = false;
 
   {
-    typedef vector<WeatherResult> container;
+    using container = vector<WeatherResult>;
     container results;
     HourPeriodGenerator generator(itsPeriod, r_starthour, r_endhour, r_maxstarthour, r_minendhour);
 

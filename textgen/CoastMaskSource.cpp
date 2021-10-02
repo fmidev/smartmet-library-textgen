@@ -78,8 +78,8 @@ class CoastMaskSource::Pimple
  public:
   Pimple(const WeatherArea& theCoast);
 
-  typedef map<WeatherAreaAndID, mask_type> mask_storage;
-  typedef map<WeatherAreaAndID, masks_type> masks_storage;
+  using mask_storage = map<WeatherAreaAndID, mask_type>;
+  using masks_storage = map<WeatherAreaAndID, masks_type>;
 
   const WeatherArea itsCoast;
 
@@ -147,7 +147,7 @@ void CoastMaskSource::Pimple::insert(const WeatherId& theID,
                                      const WeatherArea& theArea,
                                      const mask_type& theMask) const
 {
-  typedef mask_storage::value_type value_type;
+  using value_type = mask_storage::value_type;
 
   WeatherAreaAndID key(theID, theArea);
 

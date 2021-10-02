@@ -17,10 +17,10 @@ enum fog_type_id
   NO_FOG
 };
 
-typedef std::pair<WeatherPeriod, FogIntensityDataItem> weather_period_fog_intensity_pair;
-typedef std::pair<WeatherPeriod, fog_type_id> weather_period_fog_type_intensity_pair;
-typedef std::vector<weather_period_fog_intensity_pair> fog_period_vector;
-typedef std::vector<weather_period_fog_type_intensity_pair> fog_type_period_vector;
+using weather_period_fog_intensity_pair = std::pair<WeatherPeriod, FogIntensityDataItem>;
+using weather_period_fog_type_intensity_pair = std::pair<WeatherPeriod, fog_type_id>;
+using fog_period_vector = std::vector<weather_period_fog_intensity_pair>;
+using fog_type_period_vector = std::vector<weather_period_fog_type_intensity_pair>;
 
 struct FogInfo
 {

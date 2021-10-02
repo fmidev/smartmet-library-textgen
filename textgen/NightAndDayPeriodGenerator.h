@@ -20,7 +20,7 @@ class WeatherPeriod;
 class NightAndDayPeriodGenerator : public WeatherPeriodGenerator
 {
  public:
-  typedef WeatherPeriodGenerator::size_type size_type;
+  using size_type = WeatherPeriodGenerator::size_type;
 
   NightAndDayPeriodGenerator(const WeatherPeriod& theMainPeriod,
                              int theDayStartHour,

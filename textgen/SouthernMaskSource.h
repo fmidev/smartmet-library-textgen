@@ -14,8 +14,8 @@ namespace TextGen
 class SouthernMaskSource : public MaskSource
 {
  public:
-  typedef MaskSource::mask_type mask_type;
-  typedef MaskSource::masks_type masks_type;
+  using mask_type = MaskSource::mask_type;
+  using masks_type = MaskSource::masks_type;
 
   SouthernMaskSource(const WeatherArea& theArea);
 

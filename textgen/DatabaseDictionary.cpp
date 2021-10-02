@@ -59,8 +59,8 @@ class DatabaseDictionary::Pimple
 {
  public:
   Pimple() : itsInitialized(false), itsLanguage(), itsData() {}
-  typedef std::map<std::string, std::string> StorageType;
-  typedef StorageType::value_type value_type;
+  using StorageType = std::map<std::string, std::string>;
+  using value_type = StorageType::value_type;
 
   bool itsInitialized;
   std::string itsLanguage;

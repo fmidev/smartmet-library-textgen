@@ -53,7 +53,7 @@ CloudinessType cloudiness_type(const std::string& theVar,
                                double theClearPercentage,
                                double theTrend);
 
-typedef std::pair<CloudinessType, bool> CommonCloudiness;
+using CommonCloudiness = std::pair<CloudinessType, bool>;
 
 CommonCloudiness similar_type(CloudinessType theType1, CloudinessType theType2);
 

@@ -355,8 +355,8 @@ bool PostGISDataSource::geoObjectExists(const std::string& name) const
 std::list<string> PostGISDataSource::areaNames() const
 {
   std::list<string> return_list;
-  typedef std::map<std::string, std::string> polygonmap_t;
-  typedef std::map<std::string, std::pair<double, double> > pointmap_t;
+  using polygonmap_t = std::map<std::string, std::string>;
+  using pointmap_t = std::map<std::string, std::pair<double, double>>;
 
   for (const polygonmap_t::value_type& vt : polygonmap)
   {

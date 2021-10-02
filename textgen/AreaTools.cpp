@@ -26,7 +26,7 @@
 #include <newbase/NFmiSvgPath.h>
 #include <newbase/NFmiSvgTools.h>
 
-typedef TextGen::RegularMaskSource::mask_type mask_type;
+using mask_type = TextGen::RegularMaskSource::mask_type;
 
 using namespace std;
 

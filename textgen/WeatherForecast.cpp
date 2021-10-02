@@ -1615,7 +1615,7 @@ precipitation_form_id get_complete_precipitation_form(const string& theVariable,
 {
   unsigned int precipitation_form = 0;
 
-  typedef std::pair<float, precipitation_form_id> precipitation_form_type;
+  using precipitation_form_type = std::pair<float, precipitation_form_id>;
   precipitation_form_type water(
       thePrecipitationFormWater,
       (thePrecipitationFormWater != kFloatMissing ? WATER_FORM : MISSING_PRECIPITATION_FORM));

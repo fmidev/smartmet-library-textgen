@@ -474,8 +474,8 @@ enum weather_result_id
   UNDEFINED_WEATHER_RESULT_ID
 };
 
-typedef map<int, WeatherResult*> weather_result_container_type;
-typedef weather_result_container_type::value_type value_type;
+using weather_result_container_type = map<int, WeatherResult*>;
+using value_type = weather_result_container_type::value_type;
 
 struct t36hparams
 {

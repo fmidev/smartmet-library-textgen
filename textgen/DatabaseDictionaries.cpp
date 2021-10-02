@@ -66,7 +66,7 @@ namespace TextGen
 class DatabaseDictionaries::Pimple
 {
  public:
-  typedef map<string, boost::shared_ptr<DatabaseDictionary> > storage_type;
+  using storage_type = map<string, boost::shared_ptr<DatabaseDictionary>>;
 
   storage_type itsData;
   string itsLanguage;

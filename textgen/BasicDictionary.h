@@ -17,7 +17,7 @@ namespace TextGen
 class BasicDictionary : public Dictionary
 {
  public:
-  typedef Dictionary::size_type size_type;
+  using size_type = Dictionary::size_type;
 
   // Compiler generated:
   //
@@ -36,7 +36,7 @@ class BasicDictionary : public Dictionary
   bool empty() const override;
 
  private:
-  typedef std::map<std::string, std::string> StorageType;
+  using StorageType = std::map<std::string, std::string>;
   StorageType itsData;
   std::string itsLanguage;
 

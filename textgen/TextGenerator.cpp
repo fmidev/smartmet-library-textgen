@@ -123,7 +123,7 @@ TextGenerator::Pimple::Pimple()
   boost::shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
   itsSources.setWeatherSource(weathersource);
 
-  typedef boost::shared_ptr<MaskSource> mask_source;
+  using mask_source = boost::shared_ptr<MaskSource>;
 
   mask_source masksource(new RegularMaskSource());
   itsSources.setMaskSource(masksource);
@@ -175,7 +175,7 @@ TextGenerator::Pimple::Pimple(const WeatherArea& theLandMaskArea,
   boost::shared_ptr<WeatherSource> weathersource(new LatestWeatherSource());
   itsSources.setWeatherSource(weathersource);
 
-  typedef boost::shared_ptr<MaskSource> mask_source;
+  using mask_source = boost::shared_ptr<MaskSource>;
 
   mask_source masksource(new RegularMaskSource());
   itsSources.setMaskSource(masksource);

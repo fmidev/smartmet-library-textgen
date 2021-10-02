@@ -17,7 +17,7 @@ namespace TextGen
 class FileDictionary : public Dictionary
 {
  public:
-  typedef Dictionary::size_type size_type;
+  using size_type = Dictionary::size_type;
 
   ~FileDictionary() override;
   FileDictionary();

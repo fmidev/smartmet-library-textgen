@@ -14,13 +14,13 @@ struct WindSpeedPeriodDataItem;
 struct WindDirectionPeriodDataItem;
 struct WindEventPeriodDataItem;
 
-typedef std::vector<std::pair<float, WeatherResult> > value_distribution_data_vector;
-typedef std::vector<WindDataItemsByArea*> wind_data_item_vector;
-typedef std::vector<WindSpeedPeriodDataItem*> wind_speed_period_data_item_vector;
-typedef std::vector<WindDirectionPeriodDataItem*> wind_direction_period_data_item_vector;
-typedef std::vector<WindEventPeriodDataItem*> wind_event_period_data_item_vector;
-typedef std::pair<WindEventId, WeatherPeriod> wind_event_period;
-typedef std::vector<wind_event_period> wind_event_period_vector;
+using value_distribution_data_vector = std::vector<std::pair<float, WeatherResult>>;
+using wind_data_item_vector = std::vector<WindDataItemsByArea*>;
+using wind_speed_period_data_item_vector = std::vector<WindSpeedPeriodDataItem*>;
+using wind_direction_period_data_item_vector = std::vector<WindDirectionPeriodDataItem*>;
+using wind_event_period_data_item_vector = std::vector<WindEventPeriodDataItem*>;
+using wind_event_period = std::pair<WindEventId, WeatherPeriod>;
+using wind_event_period_vector = std::vector<wind_event_period>;
 
 struct index_vectors
 {

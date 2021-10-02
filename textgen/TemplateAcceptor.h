@@ -27,7 +27,7 @@ class TemplateAcceptor : public Acceptor
 
 };  // class TemplateAcceptor
 
-typedef TemplateAcceptor<bool (*)(float)> FunctionAcceptor;
+using FunctionAcceptor = TemplateAcceptor<bool (*)(float)>;
 
 }  // namespace TextGen
 

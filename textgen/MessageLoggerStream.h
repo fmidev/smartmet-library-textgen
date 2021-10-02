@@ -29,13 +29,13 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
  private:
   friend class MessageLoggerStream<char, CharTraits>;
 
-  typedef std::basic_streambuf<char_type, CharTraits> streambuf_type;
-  typedef MessageLoggerStream<char_type, CharTraits> ostream_type;
-  typedef std::basic_streambuf<char_type, CharTraits> base_class;
+  using streambuf_type = std::basic_streambuf<char_type, CharTraits>;
+  using ostream_type = MessageLoggerStream<char_type, CharTraits>;
+  using base_class = std::basic_streambuf<char_type, CharTraits>;
 
-  typedef typename CharTraits::int_type int_type;
-  typedef typename CharTraits::pos_type pos_type;
-  typedef typename CharTraits::off_type off_type;
+  using int_type = typename CharTraits::int_type;
+  using pos_type = typename CharTraits::pos_type;
+  using off_type = typename CharTraits::off_type;
 
   enum
   {
@@ -138,7 +138,7 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
   MessageLoggerStreambuf() : itsStreamBuffer(new StringStream) {}
 
  private:
-  typedef std::basic_ostringstream<char_type> StringStream;
+  using StringStream = std::basic_ostringstream<char_type>;
 
   StringStream& GetStreamBuffer()
   {
@@ -158,13 +158,13 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
 template <class char_type, class CharTraits>
 class MessageLoggerStream : public std::basic_ostream<char_type, CharTraits>
 {
-  typedef MessageLoggerStreambuf<char_type, CharTraits> handler_streambuf_type;
+  using handler_streambuf_type = MessageLoggerStreambuf<char_type, CharTraits>;
   friend class MessageLoggerStreambuf<char_type, CharTraits>;
 
-  typedef std::basic_ostream<char_type, CharTraits> base_class;
+  using base_class = std::basic_ostream<char_type, CharTraits>;
 
  protected:
-  typedef std::basic_string<char_type> string_type;
+  using string_type = std::basic_string<char_type>;
 
   MessageLoggerStream() : base_class(nullptr), itsStreamBuf()
   {

@@ -4,8 +4,8 @@
 
 namespace TextGen
 {
-typedef std::pair<WeatherPeriod, cloudiness_id> weather_period_cloudiness_id_pair;
-typedef std::vector<weather_period_cloudiness_id_pair> cloudiness_period_vector;
+using weather_period_cloudiness_id_pair = std::pair<WeatherPeriod, cloudiness_id>;
+using cloudiness_period_vector = std::vector<weather_period_cloudiness_id_pair>;
 
 class CloudinessForecast
 {

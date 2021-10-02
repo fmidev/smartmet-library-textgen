@@ -18,7 +18,7 @@ namespace TextGen
 class Dictionary
 {
  public:
-  typedef unsigned long size_type;
+  using size_type = unsigned long;
 
   // Compiler generated:
   //

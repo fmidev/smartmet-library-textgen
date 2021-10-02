@@ -105,8 +105,8 @@ struct paragraph_info
   std::vector<sentence_parameter> sentenceParameters;
 };
 
-typedef std::vector<sentence_info> WindSpeedSentenceInfo;
-typedef std::vector<paragraph_info> ParagraphInfoVector;
+using WindSpeedSentenceInfo = std::vector<sentence_info>;
+using ParagraphInfoVector = std::vector<paragraph_info>;
 
 class WindForecast
 {

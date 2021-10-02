@@ -18,7 +18,7 @@ namespace TextGen
 class DatabaseDictionaries : public Dictionary
 {
  public:
-  typedef Dictionary::size_type size_type;
+  using size_type = Dictionary::size_type;
 
   ~DatabaseDictionaries() override;
   DatabaseDictionaries(const std::string& theDictionaryId);

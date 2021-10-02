@@ -2266,7 +2266,7 @@ wind_event_period_data_item_vector remove_short_missing_periods(
   return cleanedEventPeriods;
 }
 
-typedef std::pair<float, WeatherPeriod> SpeedDifferencePeriod;
+using SpeedDifferencePeriod = std::pair<float, WeatherPeriod>;
 bool comp_sdp(const SpeedDifferencePeriod& sdp1, const SpeedDifferencePeriod& sdp2)
 {
   return sdp1.first > sdp2.first;
