@@ -147,7 +147,7 @@ class MessageLoggerStreambuf : public std::basic_streambuf<char_type, CharTraits
     return *itsStreamBuffer;
   }
 
- private:
+ 
   // holds the Message, until it's flushed
   std::unique_ptr<StringStream> itsStreamBuffer;
 
@@ -175,7 +175,7 @@ class MessageLoggerStream : public std::basic_ostream<char_type, CharTraits>
 
   ~MessageLoggerStream() override {}
 
- protected:
+ 
   virtual void onNewMessage(const string_type& strNewMessage) = 0;
 
  public:
