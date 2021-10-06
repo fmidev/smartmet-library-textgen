@@ -344,7 +344,7 @@ NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
 {
   NFmiIndexMask mask;
 
-  const NFmiSvgPath svgPath = theArea.path();
+  const NFmiSvgPath& svgPath = theArea.path();
 
   const double resolution_factor = 1.0 / 4;
 

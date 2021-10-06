@@ -1901,7 +1901,7 @@ float get_area_percentage(const std::string& theVar,
 
   WeatherArea maskArea = theArea;
   maskArea.type(theType);
-  WeatherArea comparisonArea = theArea;
+  const WeatherArea& comparisonArea = theArea;
 
   NFmiIndexMask indexMask;
   NFmiIndexMask comparisonIndexMask;
@@ -2119,7 +2119,7 @@ bool test_temperature_split_criterion(const std::string& theVar,
   WeatherResult meanAreaTwo(kFloatMissing, 0.0);
 
   // both have same name
-  std::string nimi(theAreaOne.name());
+  const std::string& nimi(theAreaOne.name());
 
   std::string split_section_name("textgen::split_the_area::" + nimi);
 

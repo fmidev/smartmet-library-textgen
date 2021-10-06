@@ -181,7 +181,7 @@ LandMaskSource::mask_type LandMaskSource::Pimple::create_mask(const WeatherArea&
 
   // First build the area mask
 
-  const NFmiSvgPath svg = theArea.path();
+  const NFmiSvgPath& svg = theArea.path();
   const float radius = theArea.radius();
 
   mask_type areamask(new NFmiIndexMask(MaskExpand(*(qi.Grid()), svg, radius)));

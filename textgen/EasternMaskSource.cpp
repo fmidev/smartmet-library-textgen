@@ -101,10 +101,7 @@ class EasternMaskSource::Pimple
  */
 // ----------------------------------------------------------------------
 
-EasternMaskSource::Pimple::Pimple(const WeatherArea& theArea)
-    : itsArea(theArea) 
-{
-}
+EasternMaskSource::Pimple::Pimple(const WeatherArea& theArea) : itsArea(theArea) {}
 
 // ----------------------------------------------------------------------
 /*!
@@ -203,7 +200,7 @@ EasternMaskSource::mask_type EasternMaskSource::Pimple::create_mask(
 
   // First build the area mask
 
-  const NFmiSvgPath svg = theArea.path();
+  theArea.path();
 
   mask_type return_mask(new NFmiIndexMask(MaskDirection(*(qi.Grid()), theArea, AreaTools::EAST)));
 

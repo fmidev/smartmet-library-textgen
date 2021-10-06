@@ -184,7 +184,7 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
       const float tmp = QueryDataIntegrator::Integrate(qi, *mask, calculator);
       if (tmp != kFloatMissing && tmp >= minimum_area)
       {
-        NFmiMetTime metTime(qi.Time());
+        const NFmiMetTime& metTime(qi.Time());
         TextGenPosixTime textgenTime(metTime.GetYear(),
                                      metTime.GetMonth(),
                                      metTime.GetDay(),
@@ -213,7 +213,7 @@ RainTimes findRainTimes(const AnalysisSources& theSources,
       const float tmp = qi.FloatValue();
       if (tmp != kFloatMissing && tmp >= minimum_rain)
       {
-        NFmiMetTime metTime(qi.Time());
+        const NFmiMetTime& metTime(qi.Time());
         TextGenPosixTime textgenTime(metTime.GetYear(),
                                      metTime.GetMonth(),
                                      metTime.GetDay(),

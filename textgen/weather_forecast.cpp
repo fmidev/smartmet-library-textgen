@@ -1301,7 +1301,7 @@ Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
 
   if (itsArea.isNamed())
   {
-    std::string name(itsArea.name());
+    const std::string& name(itsArea.name());
     theLog << "** " << name << " **" << endl;
   }
 
@@ -1397,7 +1397,7 @@ Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
 
   if (itsArea.isNamed())
   {
-    std::string name(itsArea.name());
+    const std::string& name(itsArea.name());
     theLog << "** " << name << " **" << endl;
   }
 
