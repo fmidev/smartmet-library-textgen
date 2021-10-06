@@ -1771,7 +1771,7 @@ Paragraph WeatherStory::overview() const
     }
   }
 
-  if (rainperiods.size() == 0)
+  if (rainperiods.empty())
   {
     CloudinessStory story(itsForecastTime, itsSources, itsArea, itsPeriod, itsVar);
     paragraph << story.makeStory("cloudiness_overview");
@@ -1814,7 +1814,7 @@ Paragraph WeatherStory::overview() const
       int day2 = day;
       for (; day2 < n; day2++)
       {
-        if (overlaps[day2 + 1].size() != 0 || inclusives[day2 + 1].size() != 0)
+        if (!overlaps[day2 + 1].empty() || !inclusives[day2 + 1].empty())
           break;
       }
 
@@ -1848,7 +1848,7 @@ Paragraph WeatherStory::overview() const
           itsForecastTime, itsSources, itsArea, generator.period(day), itsVar, inclusives[day]);
     }
     else if (ninclusive == 0 && noverlap == 1 && day + 1 <= n && overlaps[day + 1].size() == 1 &&
-             inclusives[day + 1].size() == 0)
+             inclusives[day + 1].empty())
     {
       WeatherPeriod period(generator.period(day).localStartTime(),
                            generator.period(day + 1).localEndTime());
@@ -1864,7 +1864,7 @@ Paragraph WeatherStory::overview() const
       for (; day2 < n; day2++)
       {
         // found end if there is a non-rainy day
-        if (overlaps[day2 + 1].size() == 0)
+        if (overlaps[day2 + 1].empty())
           break;
         // found end if there is a 1-rain inclusive day
         if (overlaps[day2 + 1].size() == 1 && inclusives[day2 + 1].size() == 1)

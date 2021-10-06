@@ -1067,7 +1067,7 @@ Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
     sentence << thePhraseString;
 
     // if period does not fit into narrow part of the day
-    if (sentence.size() == 0)
+    if (sentence.empty())
     {
       // try to adjust it to fit into narrow part of the day
       if (theWeatherPeriod.localEndTime().DifferenceInHours(theWeatherPeriod.localStartTime()) > 2)
@@ -1089,7 +1089,7 @@ Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
           sentence << thePhraseString;
         }
 
-        if (sentence.size() == 0)
+        if (sentence.empty())
         {
           thePartOfTheDay = get_most_relevant_part_of_the_day_id_narrow(theWeatherPeriod);
 
@@ -1126,7 +1126,7 @@ Sentence get_time_phrase_large(const WeatherPeriod& theWeatherPeriod,
             theWeatherPeriod, theSpecifyDayFlag, thePhraseString, thePartOfTheDay);
       }
 
-      if (sentence.size() == 0 && theAlkaenPhrase)
+      if (sentence.empty() && theAlkaenPhrase)
       {
         thePhraseString = parse_time_phrase(
             weekday,
@@ -1717,7 +1717,7 @@ float get_mean(const weather_result_data_item_vector& theTimeSeries,
     counter++;
   }
 
-  if ((counter == 0 && theTimeSeries.size() > 0) || theTimeSeries.size() == 0)
+  if ((counter == 0 && !theTimeSeries.empty()) || theTimeSeries.empty())
     return kFloatMissing;
       return precipitation_sum / counter;
 }
@@ -1916,7 +1916,7 @@ float get_area_percentage(const std::string& theVar,
               precipitationlimits,
               comparisonIndexMask);
 
-  if (comparisonIndexMask.size() == 0)
+  if (comparisonIndexMask.empty())
     return 0.0;
 
   // ARE 2.9.2011: take the intersection before comparing, because the comparison area can be
@@ -1934,7 +1934,7 @@ std::string parse_weekday_phrase(short weekday, const std::string& part_of_the_d
   if (weekday > 0 && part_of_the_day != EMPTY_STRING && !part_of_the_day.empty())
     oss << weekday << "-" << part_of_the_day;
   else
-    oss << (part_of_the_day.size() > 0 ? part_of_the_day : EMPTY_STRING);
+    oss << (!part_of_the_day.empty() ? part_of_the_day : EMPTY_STRING);
 
   return oss.str();
 }
@@ -1946,11 +1946,11 @@ Sentence parse_weekday_phrase(short weekday, const Sentence& part_of_the_day)
   std::ostringstream oss;
   oss << weekday;
 
-  if (weekday > 0 && !(part_of_the_day.size() > 0))
+  if (weekday > 0 && !(!part_of_the_day.empty()))
     sentence << oss.str() << "-" << partOfTheDay;
   else
   {
-    if (part_of_the_day.size() == 0)
+    if (part_of_the_day.empty())
       partOfTheDay << EMPTY_STRING;
     sentence << partOfTheDay;
   }

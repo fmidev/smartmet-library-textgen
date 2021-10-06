@@ -80,7 +80,7 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
     previousWD = currentWD;
   }
 
-  if (changeTimes.size() == 0)
+  if (changeTimes.empty())
     return;
 
   std::vector<WeatherPeriod> directionPeriods;
@@ -103,7 +103,7 @@ void find_out_wind_direction_periods(wo_story_params& storyParams)
     }
 
     // if direction id is the same merge previous and new period
-    if (directionPeriods.size() > 0 && get_wind_direction(storyParams, newPeriod).id ==
+    if (!directionPeriods.empty() && get_wind_direction(storyParams, newPeriod).id ==
                                            get_wind_direction(storyParams, previousPeriod).id)
     {
       directionPeriods.back() =
@@ -1084,7 +1084,7 @@ std::string get_html_winddirection_distribution(
 
 std::string get_html_windspeed_distribution(wo_story_params& storyParams, std::string type)
 {
-  if (storyParams.theWindDataVector.size() == 0)
+  if (storyParams.theWindDataVector.empty())
     return "";
 
   std::stringstream html_data;
@@ -1872,7 +1872,7 @@ void find_out_wind_speed_periods(wo_story_params& storyParams)
 
   vector<unsigned int>& equalizedWSIndexesMedian = storyParams.equalizedWSIndexesMedian(areaType);
 
-  if (equalizedWSIndexesMedian.size() == 0)
+  if (equalizedWSIndexesMedian.empty())
     return;
   if (equalizedWSIndexesMedian.size() == 1)
   {
@@ -1933,7 +1933,7 @@ void find_out_raw_wind_direction_periods(wo_story_params& storyParams)
 
   const wind_data_item_vector& dataVector = storyParams.theWindDataVector;
 
-  if (dataVector.size() == 0)
+  if (dataVector.empty())
     return;
   if (dataVector.size() == 1)
   {
@@ -2094,7 +2094,7 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
   const vector<unsigned int>& theEqualizedIndexes =
       storyParams.equalizedWSIndexesCalcWind(areaType);
 
-  if (theEqualizedIndexes.size() == 0)
+  if (theEqualizedIndexes.empty())
   {
     return;
   }
@@ -2468,7 +2468,7 @@ void merge_missing_wind_speed_event_periods2(wo_story_params& storyParams)
     wind_event_period_data_item_vector retVector =
         examine_merged_missing_event_period(storyParams, *(mergedEventPeriods[i]));
 
-    if (retVector.size() > 0)
+    if (!retVector.empty())
       cleanedEventPeriods.insert(cleanedEventPeriods.end(), retVector.begin(), retVector.end());
     else
       cleanedEventPeriods.push_back(mergedEventPeriods[i]);
@@ -2757,7 +2757,7 @@ void merge_missing_wind_speed_event_periods(wo_story_params& storyParams)
 
 void check_first_period(wo_story_params& storyParams)
 {
-  if (storyParams.theWindSpeedEventPeriodVector.size() == 0)
+  if (storyParams.theWindSpeedEventPeriodVector.empty())
   {
     storyParams.theLog << "Error: size of storyParams.theWindSpeedEventPeriodVector is zero!!"
                        << std::endl;
@@ -2998,7 +2998,7 @@ bool add_local_min_max_values(vector<unsigned int>& eqIndexVector,
   eqIndexVector.insert(eqIndexVector.begin(), indexesToAdd.begin(), indexesToAdd.end());
   sort(eqIndexVector.begin(), eqIndexVector.end());
 
-  return indexesToAdd.size() > 0;
+  return !indexesToAdd.empty();
 }
 
 void calculate_equalized_wind_speed_indexes_for_median_wind(wo_story_params& storyParams)

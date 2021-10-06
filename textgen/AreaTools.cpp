@@ -365,7 +365,7 @@ Rect::Rect(const AnalysisSources& theSources,
            const WeatherParameter& theParameter,
            const NFmiIndexMask& theIndexMask)
 {
-  if (theIndexMask.size() == 0)
+  if (theIndexMask.empty())
   {
     m_topLeft.X(0);
     m_topLeft.Y(0);

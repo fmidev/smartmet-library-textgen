@@ -591,7 +591,7 @@ const Sentence construct_windiness_sentence_for_area(const float& windspeedMorni
   bool afternoonIncluded = windspeedAfternoon != kFloatMissing;
 
   Sentence specifiedDay;
-  if (specifiedDaySentence.size() == 0)
+  if (specifiedDaySentence.empty())
     specifiedDay << EMPTY_STRING;
   else
     specifiedDay << specifiedDaySentence;
@@ -599,7 +599,7 @@ const Sentence construct_windiness_sentence_for_area(const float& windspeedMorni
   std::string weekdayMorningString(parse_weekday_phrase(dayNumber, morningWord));
   std::string weekdayAfternoonString(parse_weekday_phrase(dayNumber, afternoonWord));
   bool areaStringEmpty(areaString == EMPTY_STRING);
-  bool specifiedDayEmpty(specifiedDaySentence.size() == 0);
+  bool specifiedDayEmpty(specifiedDaySentence.empty());
   bool weekdayMorningStringEmpty(weekdayMorningString == EMPTY_STRING);
   bool weekdayAfternoonStringEmpty(weekdayAfternoonString == EMPTY_STRING);
 
@@ -839,9 +839,9 @@ const Sentence construct_windiness_sentence(const wind_anomaly_params& theParame
   int windspeedAfternoonCoastal =
       static_cast<int>(round(theParameters.theWindspeedCoastalAfternoonMean.value()));
 
-  bool specifiedDayEmpty(theSpecifiedDay.size() == 0);
+  bool specifiedDayEmpty(theSpecifiedDay.empty());
   Sentence specifiedDay;
-  if (theSpecifiedDay.size() == 0)
+  if (theSpecifiedDay.empty())
     specifiedDay << EMPTY_STRING;
   else
     specifiedDay << theSpecifiedDay;

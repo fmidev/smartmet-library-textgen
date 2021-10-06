@@ -1452,7 +1452,7 @@ bool PrecipitationForecast::getDryPeriods(const WeatherPeriod& theSourcePeriod,
   else if (theParameters.theForecastArea & COASTAL_AREA)
     precipitationPeriods = &thePrecipitationPeriodsCoastal;
 
-  if (!precipitationPeriods || precipitationPeriods->size() == 0)
+  if (!precipitationPeriods || precipitationPeriods->empty())
   {
     theDryPeriods.push_back(
         WeatherPeriod(theSourcePeriod.localStartTime(), theSourcePeriod.localEndTime()));
@@ -1510,7 +1510,7 @@ bool PrecipitationForecast::getDryPeriods(const WeatherPeriod& theSourcePeriod,
   if (!overlappingPeriods)
     theDryPeriods.push_back(theSourcePeriod);
 
-  return theDryPeriods.size() > 0;
+  return !theDryPeriods.empty();
 }
 
 bool PrecipitationForecast::getPrecipitationPeriods(
@@ -1525,7 +1525,7 @@ bool PrecipitationForecast::getPrecipitationPeriods(
   else if (theParameters.theForecastArea & COASTAL_AREA)
     precipitationPeriods = &thePrecipitationPeriodsCoastal;
 
-  if (!precipitationPeriods || precipitationPeriods->size() == 0)
+  if (!precipitationPeriods || precipitationPeriods->empty())
   {
     return false;
   }
@@ -1564,7 +1564,7 @@ bool PrecipitationForecast::getPrecipitationPeriods(
     }
   }
 
-  return thePrecipitationPeriods.size() > 0;
+  return !thePrecipitationPeriods.empty();
 }
 
 bool PrecipitationForecast::getIntensityFormExtent(const WeatherPeriod& theWeatherPeriod,
@@ -2418,7 +2418,7 @@ float PrecipitationForecast::getMeanIntensity(const WeatherPeriod& thePeriod,
 void PrecipitationForecast::removeRedundantWeatherEvents(
     weather_event_id_vector& thePrecipitationWeatherEvents, const vector<int>& theRemoveIndexes)
 {
-  if (theRemoveIndexes.size() > 0)
+  if (!theRemoveIndexes.empty())
   {
     for (unsigned int i = theRemoveIndexes.size(); i > 0; i--)
     {
@@ -2468,17 +2468,17 @@ void PrecipitationForecast::cleanUpPrecipitationWeatherEvents(
 void PrecipitationForecast::printOutPrecipitationDistribution(std::ostream& theOutput) const
 {
   theOutput << "** PRECIPITATION DISTRIBUTION **" << endl;
-  if (theCoastalData.size() > 0)
+  if (!theCoastalData.empty())
   {
     theOutput << "Coastal distribution: " << endl;
     printOutPrecipitationDistribution(theOutput, theCoastalData);
   }
-  if (theInlandData.size() > 0)
+  if (!theInlandData.empty())
   {
     theOutput << "Inland distribution: " << endl;
     printOutPrecipitationDistribution(theOutput, theInlandData);
   }
-  if (theFullData.size() > 0)
+  if (!theFullData.empty())
   {
     theOutput << "Full area distribution: " << endl;
     printOutPrecipitationDistribution(theOutput, theFullData);
@@ -2506,19 +2506,19 @@ void PrecipitationForecast::printOutPrecipitationWeatherEvents(std::ostream& the
 {
   theOutput << "** PRECIPITATION WEATHER EVENTS **" << endl;
   bool isWeatherEvents = false;
-  if (thePrecipitationWeatherEventsCoastal.size() > 0)
+  if (!thePrecipitationWeatherEventsCoastal.empty())
   {
     theOutput << "Coastal precipitation weather events: " << endl;
     print_out_weather_event_vector(theOutput, thePrecipitationWeatherEventsCoastal);
     isWeatherEvents = true;
   }
-  if (thePrecipitationWeatherEventsInland.size() > 0)
+  if (!thePrecipitationWeatherEventsInland.empty())
   {
     theOutput << "Inland precipitation weather events: " << endl;
     print_out_weather_event_vector(theOutput, thePrecipitationWeatherEventsInland);
     isWeatherEvents = true;
   }
-  if (thePrecipitationWeatherEventsFull.size() > 0)
+  if (!thePrecipitationWeatherEventsFull.empty())
   {
     theOutput << "Full area precipitation weather events: " << endl;
     print_out_weather_event_vector(theOutput, thePrecipitationWeatherEventsFull);
@@ -2534,19 +2534,19 @@ void PrecipitationForecast::printOutPrecipitationPeriods(std::ostream& theOutput
 {
   theOutput << "** PRECIPITATION PERIODS **" << endl;
   bool found = false;
-  if (thePrecipitationPeriodsCoastal.size() > 0)
+  if (!thePrecipitationPeriodsCoastal.empty())
   {
     theOutput << "Coastal precipitation periods: " << endl;
     found = printOutPrecipitationPeriods(
         theOutput, thePrecipitationPeriodsCoastal, theCoastalData, isPoint);
   }
-  if (thePrecipitationPeriodsInland.size() > 0)
+  if (!thePrecipitationPeriodsInland.empty())
   {
     theOutput << "Inland precipitation periods: " << endl;
     found = printOutPrecipitationPeriods(
         theOutput, thePrecipitationPeriodsInland, theInlandData, isPoint);
   }
-  if (thePrecipitationPeriodsFull.size() > 0)
+  if (!thePrecipitationPeriodsFull.empty())
   {
     theOutput << "Full precipitation periods: " << endl;
     found =
@@ -3118,7 +3118,7 @@ WeatherPeriod PrecipitationForecast::getHeavyPrecipitationPeriod(
       heavyPrecipitationEndIndex = -1;
     }
   }
-  if (heavyPrecipitationStartIndex != -1 && heavyPrecipitationPeriods.size() == 0)
+  if (heavyPrecipitationStartIndex != -1 && heavyPrecipitationPeriods.empty())
   {
     WeatherPeriod heavyPeriod(theDataVector[heavyPrecipitationStartIndex]->theObservationTime,
                               theDataVector[heavyPrecipitationEndIndex]->theObservationTime);
@@ -3127,7 +3127,7 @@ WeatherPeriod PrecipitationForecast::getHeavyPrecipitationPeriod(
 
   // then find out if you can merge periods (if there is a smaall gap between them)
   vector<WeatherPeriod> mergedHeavyPrecipitationPeriods;
-  if (heavyPrecipitationPeriods.size() > 0)
+  if (!heavyPrecipitationPeriods.empty())
   {
     for (int i = heavyPrecipitationPeriods.size() - 2; i >= 0; i--)
     {
@@ -3152,7 +3152,7 @@ WeatherPeriod PrecipitationForecast::getHeavyPrecipitationPeriod(
   }
 
   // find out the longest heavy precipitation period and return it
-  int heavyIndex = mergedHeavyPrecipitationPeriods.size() > 0 ? 0 : -1;
+  int heavyIndex = !mergedHeavyPrecipitationPeriods.empty() ? 0 : -1;
   for (unsigned int i = 1; i < mergedHeavyPrecipitationPeriods.size(); i++)
   {
     if (get_period_length(mergedHeavyPrecipitationPeriods[i]) >
@@ -3203,14 +3203,14 @@ Sentence PrecipitationForecast::parseFinalSentence(
   Sentence inPlacesPhrase;
   Sentence intensity;
   Sentence precipitation;
-  bool periodPhraseEmpty(thePeriodPhrase.size() == 0);
-  bool areaPhraseEmpty(theAreaPhrase.size() == 0 || theAreaPhrase == EMPTY_STRING);
+  bool periodPhraseEmpty(thePeriodPhrase.empty());
+  bool areaPhraseEmpty(theAreaPhrase.empty() || theAreaPhrase == EMPTY_STRING);
   bool inPlacesPhraseEmpty(theCompositePhraseElements.find(IN_PLACES_PARAMETER) ==
                            theCompositePhraseElements.end());
   bool intensityEmpty(theCompositePhraseElements.find(INTENSITY_PARAMETER) ==
                       theCompositePhraseElements.end());
 
-  if (theAreaPhrase.size() == 0)
+  if (theAreaPhrase.empty())
   {
     areaPhrase << EMPTY_STRING;
   }
@@ -3219,7 +3219,7 @@ Sentence PrecipitationForecast::parseFinalSentence(
     areaPhrase << theAreaPhrase;
   }
 
-  if (thePeriodPhrase.size() == 0)
+  if (thePeriodPhrase.empty())
   {
     periodPhrase << EMPTY_STRING;
   }
@@ -3960,7 +3960,7 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
       thunderSentence << getThunderSentence(
           thePeriod, theForecastAreaId, theParameters.theVariable);
 
-      if (thunderSentence.size() > 0)
+      if (!thunderSentence.empty())
       {
         sentence << thunderSentence;
       }
@@ -4711,7 +4711,7 @@ bool PrecipitationForecast::thunderExists(const WeatherPeriod& thePeriod,
 
   thunderSentence << getThunderSentence(thePeriod, theForecastAreaId, theVariable);
 
-  return (thunderSentence.size() > 0);
+  return (!thunderSentence.empty());
 }
 
 // return hours of intensityId during forecast period

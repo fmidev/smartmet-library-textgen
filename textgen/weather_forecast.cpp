@@ -1510,7 +1510,7 @@ void get_sentences(const Glyph& glyphi, vector<boost::shared_ptr<Glyph> >& sente
   if (typeid(glyphi) == typeid(Sentence))
   {
     const auto& gc = static_cast<const GlyphContainer&>(glyphi);
-    if (gc.size() > 0)
+    if (!gc.empty())
       sentences.push_back(glyphi.clone());
   }
   else

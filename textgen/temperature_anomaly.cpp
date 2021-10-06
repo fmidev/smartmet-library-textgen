@@ -444,9 +444,9 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
 
   if (fractile02Share >= adequateShare)
   {
-    if (theSpecifiedDay.size() == 0)
+    if (theSpecifiedDay.empty())
     {
-      if (theAreaPhrase.size() > 0)
+      if (!theAreaPhrase.empty())
       {
         sentence << ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE << theAreaPhrase
                  << POIKKEUKSELLISEN_WORD
@@ -460,7 +460,7 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
     }
     else
     {
-      if (theAreaPhrase.size() > 0)
+      if (!theAreaPhrase.empty())
       {
         sentence << MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
                  << theSpecifiedDay << theAreaPhrase << POIKKEUKSELLISEN_WORD
@@ -480,9 +480,9 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
   }
   else if (fractile12Share >= adequateShare)
   {
-    if (theSpecifiedDay.size() == 0)
+    if (theSpecifiedDay.empty())
     {
-      if (theAreaPhrase.size() > 0)
+      if (!theAreaPhrase.empty())
       {
         sentence << ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE << theAreaPhrase
                  << EMPTY_STRING
@@ -496,7 +496,7 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
     }
     else
     {
-      if (theAreaPhrase.size() > 0)
+      if (!theAreaPhrase.empty())
       {
         sentence << MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
                  << theSpecifiedDay << theAreaPhrase << EMPTY_STRING
@@ -515,9 +515,9 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
   }
   else if (fractile98Share >= adequateShare)
   {
-    if (theSpecifiedDay.size() == 0)
+    if (theSpecifiedDay.empty())
     {
-      if (theAreaPhrase.size() > 0)
+      if (!theAreaPhrase.empty())
       {
         sentence << ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE << theAreaPhrase
                  << POIKKEUKSELLISEN_WORD
@@ -537,7 +537,7 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
     }
     else
     {
-      if (theAreaPhrase.size() > 0)
+      if (!theAreaPhrase.empty())
       {
         sentence << MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
                  << theSpecifiedDay << theAreaPhrase << POIKKEUKSELLISEN_WORD
@@ -564,11 +564,11 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
   }
   else if (fractile88Share >= adequateShare)
   {
-    if (theSpecifiedDay.size() == 0)
+    if (theSpecifiedDay.empty())
     {
       if (theParameters.theSeason == SUMMER_SEASON || theParameters.theGrowingSeasonUnderway)
       {
-        if (theAreaPhrase.size() > 0)
+        if (!theAreaPhrase.empty())
           sentence << ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE
                    << theAreaPhrase;
         else
@@ -576,7 +576,7 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
       }
       else
       {
-        if (theAreaPhrase.size() > 0)
+        if (!theAreaPhrase.empty())
         {
           sentence << ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE << theAreaPhrase
                    << HYVIN_WORD << LEUTOA_WORD;
@@ -591,7 +591,7 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
     {
       if (theParameters.theSeason == SUMMER_SEASON || theParameters.theGrowingSeasonUnderway)
       {
-        if (theAreaPhrase.size() > 0)
+        if (!theAreaPhrase.empty())
         {
           sentence << MAANANTAINA_ALUEELLA_SAA_ON_AJANKOHTAAN_NAHDEN_TAVANOMAISTA_LAMPIMAMPAA_PHRASE
                    << theSpecifiedDay << theAreaPhrase;
@@ -604,7 +604,7 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
       }
       else
       {
-        if (theAreaPhrase.size() > 0)
+        if (!theAreaPhrase.empty())
         {
           sentence << MAANANTAINA_ALUEELLA_SAA_ON_POIKKEUKSELLISEN_KYLMAA_COMPOSITE_PHRASE
                    << theSpecifiedDay << theAreaPhrase << HYVIN_WORD << LEUTOA_WORD;
@@ -634,15 +634,15 @@ const Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaInclud
 {
   Sentence sentence;
 
-  if (theSpecifiedDay.size() > 0 && theAreaPhrase.size() > 0)
+  if (!theSpecifiedDay.empty() && !theAreaPhrase.empty())
   {
     sentence << theDayAndAreaIncludedCompositePhrase << theSpecifiedDay << theAreaPhrase;
   }
-  else if (theSpecifiedDay.size() > 0)
+  else if (!theSpecifiedDay.empty())
   {
     sentence << theDayIncludedCompositePhrase << theSpecifiedDay;
   }
-  else if (theAreaPhrase.size() > 0)
+  else if (!theAreaPhrase.empty())
   {
     sentence << theAreaIncludedCompositePhrase << theAreaPhrase;
   }

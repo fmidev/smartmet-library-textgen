@@ -110,7 +110,7 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
     {
       // ARE 14.4.2011: checking theIncludeInTheStoryFlag
       if (theStoryItemVector[i]->theIncludeInTheStoryFlag &&
-          theStoryItemVector[i]->getSentence().size() > 0)
+          !theStoryItemVector[i]->getSentence().empty())
         storyItemCounter++;
     }
 
@@ -160,7 +160,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStory()
     Sentence storyItemSentence;
     storyItemSentence << item.getSentence();
 
-    if (storyItemSentence.size() > 0)
+    if (!storyItemSentence.empty())
     {
       theStorySize += storyItemSentence.size();
 
@@ -277,7 +277,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
       if ((sleetOrSnow || !weakPrecipitation) && precipitationExtent > 10)
       {
         bool mergeDone = false;
-        if (storyItems.size() > 0)
+        if (!storyItems.empty())
         {
           WeatherForecastStoryItem* previousItem = theStoryItemVector[storyItems.back().second];
           if (previousItem->theStoryPartId == PRECIPITATION_STORY_PART &&
@@ -330,7 +330,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
   }
 
   // if precipitation/fog lasts whole period
-  if (storyItems.size() > 0)
+  if (!storyItems.empty())
   {
     WeatherForecastStoryItem* firstItemOfForecast = theStoryItemVector[0];
     WeatherForecastStoryItem* firstItemOfStory = theStoryItemVector[storyItems[0].second];
@@ -696,7 +696,7 @@ void WeatherForecastStory::addPrecipitationStoryItems()
     previousPrItem = item;
   }
 
-  if (theStoryItemVector.size() == 0)
+  if (theStoryItemVector.empty())
   {
     WeatherPeriod cloudinessPeriod(theForecastPeriod);
     auto* item =
@@ -1078,7 +1078,7 @@ Sentence WeatherForecastStoryItem::getTodayVectorSentence(const vector<Sentence*
 
   for (unsigned int i = theBegIndex; i <= theEndIndex; i++)
   {
-    if (sentence.size() > 0)
+    if (!sentence.empty())
       sentence << JA_WORD;
     sentence << *(todayVector[i]);
   }
@@ -1330,7 +1330,7 @@ Sentence WeatherForecastStoryItem::getPeriodPhrase(bool theFromSpecifier,
     sentence << day_phase_phrase;
   }
 
-  if (sentence.size() == 0)
+  if (sentence.empty())
   {
     part_of_the_day_id id;
     get_time_phrase_large(phrasePeriod,
@@ -1449,7 +1449,7 @@ Sentence PrecipitationForecastStoryItem::getStoryItemSentence()
     {
       if (storyItemPeriod.localStartTime() > forecastPeriod.localStartTime())
         thePeriodPhrase << getPeriodPhrase(USE_FROM_SPECIFIER);
-      if (thePeriodPhrase.size() == 0)
+      if (thePeriodPhrase.empty())
         thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
 
       sentence << prForecast.precipitationChangeSentence(
@@ -1459,7 +1459,7 @@ Sentence PrecipitationForecastStoryItem::getStoryItemSentence()
     {
       if (storyItemPeriod.localStartTime() > forecastPeriod.localStartTime())
         thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &storyItemPeriod);
-      if (thePeriodPhrase.size() == 0)
+      if (thePeriodPhrase.empty())
         thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
 
       sentence << prForecast.precipitationSentence(
@@ -1471,12 +1471,12 @@ Sentence PrecipitationForecastStoryItem::getStoryItemSentence()
       WeatherPeriod poutaantuuPeriod(storyItemPeriod.localEndTime(),
                                      storyItemPeriod.localEndTime());
       thePeriodPhrase << getPeriodPhrase(
-          DONT_USE_FROM_SPECIFIER, &poutaantuuPeriod, sentence.size() == 0);
+          DONT_USE_FROM_SPECIFIER, &poutaantuuPeriod, sentence.empty());
       theWeatherForecastStory.theLogger << thePeriodPhrase;
-      if (thePeriodPhrase.size() == 0)
+      if (thePeriodPhrase.empty())
         thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
 
-      if (sentence.size() > 0)
+      if (!sentence.empty())
         sentence << Delimiter(",");
       sentence << prForecast.precipitationChangeSentence(
           storyItemPeriod, thePeriodPhrase, POUTAANTUU, theAdditionalSentences);
@@ -1489,7 +1489,7 @@ Sentence PrecipitationForecastStoryItem::getStoryItemSentence()
     {
       thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &storyItemPeriod);
     }
-    if (thePeriodPhrase.size() == 0)
+    if (thePeriodPhrase.empty())
     {
       thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
     }
@@ -1606,7 +1606,7 @@ Sentence CloudinessForecastStoryItem::getStoryItemSentence()
 
       // ARE 22.02.2011: The missing period-phrase added
       Sentence thePeriodPhrase(getPeriodPhrase(USE_FROM_SPECIFIER, &poutaantuuPeriod));
-      if (thePeriodPhrase.size() == 0)
+      if (thePeriodPhrase.empty())
         thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
       thePoutaantuuSentence << prForecast.precipitationPoutaantuuAndCloudiness(thePeriodPhrase,
                                                                                cloudinessId);
@@ -1620,7 +1620,7 @@ Sentence CloudinessForecastStoryItem::getStoryItemSentence()
     sentence << thePoutaantuuSentence;
 
     // ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
-    if (theChangeSentence.size() > 0 && clForecast.getCloudinessId(storyItemPeriod) > MELKO_SELKEA)
+    if (!theChangeSentence.empty() && clForecast.getCloudinessId(storyItemPeriod) > MELKO_SELKEA)
     {
       sentence << Delimiter(COMMA_PUNCTUATION_MARK);
       sentence << theChangeSentence;
@@ -1642,10 +1642,10 @@ Sentence CloudinessForecastStoryItem::getStoryItemSentence()
         thePeriodPhrase << getPeriodPhrase(DONT_USE_FROM_SPECIFIER, &storyItemPeriod);
       }
     }
-    if (thePeriodPhrase.size() == 0)
+    if (thePeriodPhrase.empty())
       thePeriodPhrase << theWeatherForecastStory.getTimePhrase();
 
-    if (theChangeSentence.size() > 0)
+    if (!theChangeSentence.empty())
     {
       WeatherPeriod clPeriod(storyItemPeriod.localStartTime(), theCloudinessChangeTimestamp);
       sentence << clForecast.cloudinessSentence(
@@ -1665,7 +1665,7 @@ Sentence CloudinessForecastStoryItem::getStoryItemSentence()
     prForecast.setDryPeriodTautologyFlag(theReportAboutDryWeatherFlag);
 
     // ARE 10.03.2011: Jos sää on melko selkeä ei enää sanota selkenevää
-    if (theChangeSentence.size() > 0 &&
+    if (!theChangeSentence.empty() &&
         clForecast.getCloudinessId(getStoryItemPeriod()) > MELKO_SELKEA)
     {
       sentence << Delimiter(COMMA_PUNCTUATION_MARK);

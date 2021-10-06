@@ -917,7 +917,7 @@ void windspeed_distribution_interval(const WeatherPeriod& thePeriod,
 
     if (is_inside(windDataItem.thePeriod, thePeriod))
     {
-      if (windSpeedDistributionVector.size() == 0)
+      if (windSpeedDistributionVector.empty())
       {
         windSpeedDistributionVector = windDataItem.theWindSpeedDistribution;
       }
@@ -1409,7 +1409,7 @@ void WindForecast::constructWindSentence(const WindEventPeriodDataItem* windSpee
       windSpeedReportingPeriods = getWindSpeedReportingPeriods(*windSpeedItem, firstSentence);
     }
 
-    if (windSpeedReportingPeriods.size() == 0)
+    if (windSpeedReportingPeriods.empty())
     {
       // we shouldnt never be here, but just in case
       TextGenPosixTime sTime = windSpeedEventPeriod.localStartTime();
@@ -1600,7 +1600,7 @@ std::ostream& operator<<(std::ostream& theOutput, const sentence_info& sentenceI
                     << "   interval_info: " << isi.intervalInfo << std::endl
                     << "   alkaen: " << isi.useAlkaenPhrase << std::endl
                     << "   skip: " << isi.skip << std::endl;
-          if (isi.directionChangesBefore.size() > 0)
+          if (!isi.directionChangesBefore.empty())
           {
             theOutput << "   direction changes before interval at: " << std::endl;
             for (auto direction : isi.directionChangesBefore)
@@ -1611,7 +1611,7 @@ std::ostream& operator<<(std::ostream& theOutput, const sentence_info& sentenceI
             theOutput << "   direction changes same time as interval at: "
                       << isi.directionChange->startTime() << " ("
                       << wind_direction_string(isi.directionChange->id) << ")" << std::endl;
-          if (isi.directionChangesAfter.size() > 0)
+          if (!isi.directionChangesAfter.empty())
           {
             theOutput << "   direction changes after interval at: " << std::endl;
             for (auto direction : isi.directionChangesAfter)
@@ -1662,7 +1662,7 @@ void WindForecast::injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVecto
     bool firstSentence = (i == 0);
     bool lastSentence = (i == sentenceInfoVector.size() - 1);
 
-    if (sentenceInfo.intervalSentences.size() > 0)
+    if (!sentenceInfo.intervalSentences.empty())
       if (sentenceInfo.intervalSentences.back().period.localEndTime() >
           windSpeedChangePeriod.localEndTime())
       {
@@ -1761,7 +1761,7 @@ void WindForecast::injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVecto
               << windSpeedChangePeriod.localStartTime() << ", "
               << wind_direction_string(windDirectionInfo.id) << std::endl;
 
-        if (sentenceInfo.intervalSentences.size() == 0)
+        if (sentenceInfo.intervalSentences.empty())
           continue;
         if (windDirectionInfo.id != VAIHTELEVA)
         {
@@ -1772,7 +1772,7 @@ void WindForecast::injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVecto
       else if (is_inside(windDirectionPeriod.localStartTime(), windSpeedChangePeriod))
       {
         // if no interval sentences,
-        if (sentenceInfo.intervalSentences.size() == 0)
+        if (sentenceInfo.intervalSentences.empty())
         {
           if (lastSentence)
           {
@@ -1947,7 +1947,7 @@ void WindForecast::injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVecto
   }
 
   sentenceInfoVector = resultVector;
-  if (separateDirectionSentences.size() > 0)
+  if (!separateDirectionSentences.empty())
   {
     sentenceInfoVector.insert(sentenceInfoVector.end(),
                               separateDirectionSentences.begin(),
@@ -1965,7 +1965,7 @@ void WindForecast::checkWindSpeedIntervals(WindSpeedSentenceInfo& sentenceInfoVe
 
     // if wind doesn't change during first period, but changes on the second period, check the
     // difference (testcase: Ahvenanmeri B4W 20170601135000)
-    if (sentenceInfoFirst.intervalSentences.size() == 0 &&
+    if (sentenceInfoFirst.intervalSentences.empty() &&
         sentenceInfoSecond.intervalSentences.size() == 1)
     {
       interval_info intervalInfoFirst = windSpeedIntervalInfo(sentenceInfoFirst.period);
@@ -1989,7 +1989,7 @@ void WindForecast::checkWindSpeedIntervals(WindSpeedSentenceInfo& sentenceInfoVe
   {
     sentence_info& sentenceInfo = sentenceInfoVector[i];
 
-    if (i == 0 && sentenceInfo.intervalSentences.size() == 0)
+    if (i == 0 && sentenceInfo.intervalSentences.empty())
     {
       intervalInfo = windSpeedIntervalInfo(sentenceInfo.period);
       intervalInfoPrevious = intervalInfo;
@@ -2053,7 +2053,7 @@ void WindForecast::checkWindSpeedIntervals(WindSpeedSentenceInfo& sentenceInfoVe
       intervalInfoPrevious = intervalInfoIsi;
     }
 
-    if (sentenceInfo.intervalSentences.size() > 0)
+    if (!sentenceInfo.intervalSentences.empty())
     {
       sentenceInfo.skip = true;
       for (auto isi : sentenceInfo.intervalSentences)
@@ -2541,7 +2541,7 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
                 // if previous parameter was of type WIND_DIRECTION, replace it
                 sentence_parameter sp(WIND_DIRECTION);
                 sp.sentence << windDirectionSentence(*(isi.directionChange));
-                if (pi.sentenceParameters.size() > 0 &&
+                if (!pi.sentenceParameters.empty() &&
                     pi.sentenceParameters.back().type == WIND_DIRECTION)
                   pi.sentenceParameters.back() = sp;
                 else
@@ -2661,7 +2661,7 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
       i++;
   }
 
-  if (sentenceInfoVector.size() > 0)
+  if (!sentenceInfoVector.empty())
     sentenceInfoVector[0].firstSentence = true;
 
   checkWindSpeedIntervals(sentenceInfoVector);
@@ -2896,7 +2896,7 @@ std::vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
       {
         // we must have at least one reporting point
         if ((firstSentenceInTheStory && reportingIndexes.size() == 1) ||
-            reportingIndexes.size() == 0)
+            reportingIndexes.empty())
         {
           const WindDataItemUnit& previousWindDataItem =
               (*theParameters.theWindDataVector[i - 1])(theParameters.theArea.type());
@@ -3048,7 +3048,7 @@ std::vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
 
   std::vector<WeatherPeriod> retVector;
   // max two intervals reported
-  if (resultVector.size() > 0)
+  if (!resultVector.empty())
     retVector.push_back(resultVector.front());
 
   if (resultVector.size() == 2)
@@ -3095,7 +3095,7 @@ std::vector<WeatherPeriod> WindForecast::getWindSpeedReportingPeriods(
   // check the timePhrase of last reporting period:
   // - if forecast period end in the evening the last phrase can not be 'illalla'
   // - if forecast period end in the morning the last phrase can not be 'aamulla'
-  if (retVector.size() > 0)
+  if (!retVector.empty())
   {
     WeatherPeriod& lastPeriod = retVector.back();
     if (theParameters.theForecastPeriod.localEndTime() == lastPeriod.localEndTime() &&

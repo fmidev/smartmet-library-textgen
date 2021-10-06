@@ -1964,7 +1964,7 @@ void pakkasta_on(t36hparams& theParameters,
     theParameters.theUseFrostExistsPhrase = false;
   }
 
-  if (theTemperaturePhrase.size() == 0)
+  if (theTemperaturePhrase.empty())
   {
     if (theParameters.theFullDayFlag && theParameters.numberOfPeriods() > 1)
     {
@@ -2502,9 +2502,9 @@ Sentence construct_final_sentence(t36hparams& theParameters,
 
   bool pakkastaOn = (as_string(theTemperaturePhrase).compare(0, 8, "Pakkasta") == 0);
 
-  if (theDayPhasePhrase.size() == 0)
+  if (theDayPhasePhrase.empty())
   {
-    if (daySentence.size() > 0)
+    if (!daySentence.empty())
     {
       theDayPhasePhrase << daySentence;
     }
@@ -2515,12 +2515,12 @@ Sentence construct_final_sentence(t36hparams& theParameters,
     }
   }
 
-  if (theTemperaturePhrase.size() == 0)
+  if (theTemperaturePhrase.empty())
   {
     theTemperaturePhrase << EMPTY_STRING;
   }
 
-  if (theAreaPhrase.size() == 0)
+  if (theAreaPhrase.empty())
   {
     theAreaPhrase << EMPTY_STRING;
     areaPhraseEmpty = true;
@@ -3104,7 +3104,7 @@ Sentence construct_final_sentence(t36hparams& theParameters,
     break;
   };
 
-  if (theParameters.theAddCommaDelimiterFlag && sentence.size() > 0)
+  if (theParameters.theAddCommaDelimiterFlag && !sentence.empty())
     theParameters.theSentenceUnderConstruction << Delimiter(COMMA_PUNCTUATION_MARK) << sentence;
   else
     theParameters.theSentenceUnderConstruction << sentence;

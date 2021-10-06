@@ -137,7 +137,7 @@ Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId, const bool& t
       break;
   }
 
-  if (cloudinessSentence.size() > 0 && !theShortForm)
+  if (!cloudinessSentence.empty() && !theShortForm)
   {
     if (theCloudinessId == PUOLIPILVINEN_JA_PILVINEN)
     {
@@ -162,10 +162,10 @@ Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId,
 {
   Sentence sentence;
   Sentence cloudinessSentence;
-  bool periodPhraseEmpty(thePeriodPhrase.size() == 0);
-  bool areaPhraseEmpty(theAreaString.size() == 0 || theAreaString == EMPTY_STRING);
+  bool periodPhraseEmpty(thePeriodPhrase.empty());
+  bool areaPhraseEmpty(theAreaString.empty() || theAreaString == EMPTY_STRING);
 
-  if (thePeriodPhrase.size() == 0 && theAreaString == EMPTY_STRING)
+  if (thePeriodPhrase.empty() && theAreaString == EMPTY_STRING)
   {
     if (thePoutainenFlag)
     {
@@ -841,7 +841,7 @@ Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
     cloudinessSentence << cloudiness_sentence(coastalCloudinessId, theShortForm);
   }
 
-  if (cloudinessSentence.size() > 0)
+  if (!cloudinessSentence.empty())
   {
     sentence << cloudinessSentence;
   }
@@ -901,7 +901,7 @@ Sentence CloudinessForecast::cloudinessSentence(const WeatherPeriod& thePeriod,
         coastalCloudinessId, thePoutainenFlag, thePeriodPhrase, EMPTY_STRING, theShortForm);
   }
 
-  if (cloudinessSentence.size() > 0)
+  if (!cloudinessSentence.empty())
   {
     sentence << cloudinessSentence;
   }

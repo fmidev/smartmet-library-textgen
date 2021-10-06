@@ -180,12 +180,12 @@ TextGenerator::Pimple::Pimple(const WeatherArea& theLandMaskArea,
   mask_source masksource(new RegularMaskSource());
   itsSources.setMaskSource(masksource);
 
-  if (!theLandMaskArea.isPoint() && theLandMaskArea.path().size() > 0)
+  if (!theLandMaskArea.isPoint() && !theLandMaskArea.path().empty())
     itsSources.setLandMaskSource(mask_source(new LandMaskSource(theLandMaskArea)));
   else
     itsSources.setLandMaskSource(masksource);
 
-  if (!theCoastMaskArea.isPoint() && theCoastMaskArea.path().size() > 0)
+  if (!theCoastMaskArea.isPoint() && !theCoastMaskArea.path().empty())
   {
     itsSources.setCoastMaskSource(mask_source(new CoastMaskSource(theCoastMaskArea)));
     itsSources.setInlandMaskSource(mask_source(new InlandMaskSource(theCoastMaskArea)));
