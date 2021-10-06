@@ -368,7 +368,7 @@ std::string operator<<(std::string& theDestinationString, const std::string& the
 }
 
 InPlacesPhrase::InPlacesPhrase()
-    : thePreviousPhrase(NONEXISTENT_PHRASE), thePreventTautologyFlag(false)
+     
 {
 }
 

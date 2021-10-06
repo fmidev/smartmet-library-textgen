@@ -23,8 +23,8 @@ class InPlacesPhrase
   Sentence getInPlacesPhrase(PhraseType thePhraseType, bool useOllaVerbFlag);
 
  private:
-  PhraseType thePreviousPhrase;
-  bool thePreventTautologyFlag;
+  PhraseType thePreviousPhrase{NONEXISTENT_PHRASE};
+  bool thePreventTautologyFlag{false};
 };
 
 class PrecipitationForecast

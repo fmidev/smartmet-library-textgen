@@ -60,11 +60,11 @@ namespace TextGen
 class FileDictionary::Pimple
 {
  public:
-  Pimple() : itsInitialized(false) {}
+  Pimple()  {}
   using StorageType = std::map<std::string, std::string>;
   using value_type = StorageType::value_type;
 
-  bool itsInitialized;
+  bool itsInitialized{false};
   std::string itsLanguage;
   StorageType itsData;
 

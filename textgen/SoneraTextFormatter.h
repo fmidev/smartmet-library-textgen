@@ -43,7 +43,7 @@ class SoneraTextFormatter : public TextFormatter
  private:
   using container_type = std::list<std::string>;
   mutable container_type itsParts;
-  mutable int itsDepth;
+  mutable int itsDepth{0};
 
   boost::shared_ptr<Dictionary> itsDictionary;
   mutable std::string itsSectionVar;

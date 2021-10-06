@@ -297,12 +297,12 @@ struct WindDirectionInfo
 {
   WeatherPeriod period;
   WeatherResult direction;
-  WindDirectionId id;
+  WindDirectionId id{MISSING_WIND_DIRECTION_ID};
 
   WindDirectionInfo()
       : period(WeatherPeriod(TextGenPosixTime(), TextGenPosixTime())),
-        direction(WeatherResult(kFloatMissing, kFloatMissing)),
-        id(MISSING_WIND_DIRECTION_ID)
+        direction(WeatherResult(kFloatMissing, kFloatMissing))
+        
   {
   }
   WindDirectionInfo(const WeatherPeriod& p, const WeatherResult& d, WindDirectionId i)
@@ -319,10 +319,10 @@ struct TimePhraseInfo
 {
   TextGenPosixTime starttime;
   TextGenPosixTime endtime;
-  short day_number;
-  part_of_the_day_id part_of_the_day;
+  short day_number{-1};
+  part_of_the_day_id part_of_the_day{MISSING_PART_OF_THE_DAY_ID};
 
-  TimePhraseInfo() : day_number(-1), part_of_the_day(MISSING_PART_OF_THE_DAY_ID) {}
+  TimePhraseInfo()  {}
   TimePhraseInfo(const TextGenPosixTime& st,
                  const TextGenPosixTime& et,
                  short d,

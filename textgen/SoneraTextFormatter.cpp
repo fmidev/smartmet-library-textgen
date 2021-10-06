@@ -156,7 +156,7 @@ namespace TextGen
 // ----------------------------------------------------------------------
 
 SoneraTextFormatter::SoneraTextFormatter()
-    :  itsDepth(0) 
+      
 {
 }
 
