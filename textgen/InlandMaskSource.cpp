@@ -103,7 +103,7 @@ class InlandMaskSource::Pimple
 // ----------------------------------------------------------------------
 
 InlandMaskSource::Pimple::Pimple(const WeatherArea& theInland)
-    : itsCoast(theInland), itsMaskStorage(), itsMasksStorage()
+    : itsCoast(theInland) 
 {
 }
 

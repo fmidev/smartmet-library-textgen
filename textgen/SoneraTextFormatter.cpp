@@ -156,7 +156,7 @@ namespace TextGen
 // ----------------------------------------------------------------------
 
 SoneraTextFormatter::SoneraTextFormatter()
-    : TextFormatter(), itsParts(), itsDepth(0), itsDictionary(), itsSectionVar()
+    :  itsDepth(0) 
 {
 }
 

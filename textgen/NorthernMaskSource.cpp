@@ -102,7 +102,7 @@ class NorthernMaskSource::Pimple
 // ----------------------------------------------------------------------
 
 NorthernMaskSource::Pimple::Pimple(const WeatherArea& theArea)
-    : itsArea(theArea), itsMaskStorage(), itsMasksStorage()
+    : itsArea(theArea) 
 {
 }
 

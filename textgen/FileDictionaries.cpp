@@ -92,7 +92,7 @@ FileDictionaries::~FileDictionaries() {}
  */
 // ----------------------------------------------------------------------
 
-FileDictionaries::FileDictionaries() : Dictionary(), itsPimple(new Pimple())
+FileDictionaries::FileDictionaries() :  itsPimple(new Pimple())
 {
   itsDictionaryId = "multifile";
 }

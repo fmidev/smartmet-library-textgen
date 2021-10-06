@@ -60,7 +60,7 @@ namespace TextGen
 class FileDictionary::Pimple
 {
  public:
-  Pimple() : itsInitialized(false), itsLanguage(), itsData() {}
+  Pimple() : itsInitialized(false) {}
   using StorageType = std::map<std::string, std::string>;
   using value_type = StorageType::value_type;
 
@@ -87,7 +87,7 @@ FileDictionary::~FileDictionary() {}
  */
 // ----------------------------------------------------------------------
 
-FileDictionary::FileDictionary() : Dictionary(), itsPimple(new Pimple())
+FileDictionary::FileDictionary() :  itsPimple(new Pimple())
 {
   itsDictionaryId = "file";
 }

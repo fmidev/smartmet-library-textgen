@@ -94,7 +94,7 @@ DatabaseDictionaries::~DatabaseDictionaries() {}
 // ----------------------------------------------------------------------
 
 DatabaseDictionaries::DatabaseDictionaries(const std::string& theDictionaryId)
-    : Dictionary(), itsPimple(new Pimple())
+    :  itsPimple(new Pimple())
 {
   itsDictionaryId = theDictionaryId;
 }

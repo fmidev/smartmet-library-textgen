@@ -58,7 +58,7 @@ namespace TextGen
 class DatabaseDictionary::Pimple
 {
  public:
-  Pimple() : itsInitialized(false), itsLanguage(), itsData() {}
+  Pimple() : itsInitialized(false) {}
   using StorageType = std::map<std::string, std::string>;
   using value_type = StorageType::value_type;
 
@@ -85,7 +85,7 @@ DatabaseDictionary::~DatabaseDictionary() {}
  */
 // ----------------------------------------------------------------------
 
-DatabaseDictionary::DatabaseDictionary() : Dictionary(), itsPimple(new Pimple()) {}
+DatabaseDictionary::DatabaseDictionary() :  itsPimple(new Pimple()) {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return the language
