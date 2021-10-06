@@ -4,7 +4,7 @@
 %define DEVELNAME %{SPECNAME}-devel
 Summary: textgen library
 Name: %{SPECNAME}
-Version: 21.9.17
+Version: 21.10.6
 Release: 1%{?dist}.fmi
 License: FMI
 Group: Development/Libraries
@@ -18,14 +18,14 @@ BuildRequires: make
 BuildRequires: mariadb-devel
 BuildRequires: mysql++-devel
 BuildRequires: rpm-build
-BuildRequires: smartmet-library-calculator-devel >= 21.5.6
-BuildRequires: smartmet-library-macgyver-devel >= 21.9.13
-BuildRequires: smartmet-library-newbase-devel >= 21.6.16
-BuildRequires: smartmet-library-gis-devel >= 21.9.13
+BuildRequires: smartmet-library-calculator-devel >= 21.10.6
+BuildRequires: smartmet-library-macgyver-devel >= 21.10.4
+BuildRequires: smartmet-library-newbase-devel >= 21.9.22
+BuildRequires: smartmet-library-gis-devel >= 21.9.24
 Requires: gdal32-libs
-Requires: smartmet-library-calculator >= 21.5.6
-Requires: smartmet-library-macgyver >= 21.9.13
-Requires: smartmet-library-newbase >= 21.6.16
+Requires: smartmet-library-calculator >= 21.10.6
+Requires: smartmet-library-macgyver >= 21.10.4
+Requires: smartmet-library-newbase >= 21.9.22
 
 %if %{defined el7}
 Requires: libpqxx < 1:7.0
@@ -49,10 +49,10 @@ Obsoletes: libsmartmet-textgen-debuginfo < 17.1.4
 #TestRequires: boost169-devel
 #TestRequires: gcc-c++
 #TestRequires: mysql++-devel
-#TestRequires: smartmet-library-calculator-devel >= 21.5.6
-#TestRequires: smartmet-library-macgyver-devel >= 21.9.13
-#TestRequires: smartmet-library-newbase-devel >= 21.6.16
-#TestRequires: smartmet-library-gis-devel >= 21.9.13
+#TestRequires: smartmet-library-calculator-devel >= 21.10.6
+#TestRequires: smartmet-library-macgyver-devel >= 21.10.4
+#TestRequires: smartmet-library-newbase-devel >= 21.9.22
+#TestRequires: smartmet-library-gis-devel >= 21.9.24
 #TestRequires: smartmet-library-regression
 #TestRequires: smartmet-timezones
 #TestRequires: php-cli
@@ -95,6 +95,9 @@ FMI textgen development files
 %{_includedir}/smartmet/%{DIRNAME}
 
 %changelog
+* Wed Oct  6 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.10.6-1.fmi
+- Used clang-tidy to modernize code
+
 * Fri Sep 17 2021 Mika Heiskanen <mika.heiskanen@fmi.fi> - 21.9.17-1.fmi
 - Added libpqxx requirements
 
