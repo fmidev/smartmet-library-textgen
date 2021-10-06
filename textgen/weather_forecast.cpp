@@ -97,7 +97,7 @@ bool same_content(const Sentence& sentence1, const Sentence& sentence2)
   std::string string1(sentence1.realize(formatter));
   std::string string2(sentence2.realize(formatter));
 
-  return (string1.compare(string2) == 0);
+  return (string1 == string2);
 }
 
 void get_part_of_the_day_time_series(wf_story_params& theParameters,

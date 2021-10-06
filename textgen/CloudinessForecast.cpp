@@ -163,9 +163,9 @@ Sentence cloudiness_sentence(const cloudiness_id& theCloudinessId,
   Sentence sentence;
   Sentence cloudinessSentence;
   bool periodPhraseEmpty(thePeriodPhrase.size() == 0);
-  bool areaPhraseEmpty(theAreaString.size() == 0 || theAreaString.compare(EMPTY_STRING) == 0);
+  bool areaPhraseEmpty(theAreaString.size() == 0 || theAreaString == EMPTY_STRING);
 
-  if (thePeriodPhrase.size() == 0 && theAreaString.compare(EMPTY_STRING) == 0)
+  if (thePeriodPhrase.size() == 0 && theAreaString == EMPTY_STRING)
   {
     if (thePoutainenFlag)
     {

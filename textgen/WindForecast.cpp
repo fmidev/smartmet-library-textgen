@@ -2040,7 +2040,7 @@ void WindForecast::checkWindSpeedIntervals(WindSpeedSentenceInfo& sentenceInfoVe
             wind_speed_differ_enough(intervalInfoIsi,
                                      intervalInfoIsiNext,
                                      theParameters.theContextualMaxIntervalSize,
-                                     sentenceInfo.changeType.compare(VOIMISTUVAA_WORD) == 0);
+                                     sentenceInfo.changeType == VOIMISTUVAA_WORD);
         if (!differEnough)
         {
           isi.skip = true;
@@ -2555,7 +2555,7 @@ ParagraphInfoVector WindForecast::getParagraphInfo(
                   period,
                   isi.intervalInfo,
                   timePhraseInfo,
-                  sentenceInfo.changeType.compare(VOIMISTUVAA_WORD) == 0);
+                  sentenceInfo.changeType == VOIMISTUVAA_WORD);
 
               if (!sp1.sentence.empty())
               {

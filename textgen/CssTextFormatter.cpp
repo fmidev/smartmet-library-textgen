@@ -133,7 +133,7 @@ string CssTextFormatter::visit(const Paragraph& theParagraph) const
 {
   const string content = Settings::optional_string(itsSectionVar + "::content", "");
 
-  if (content.compare("none") == 0)
+  if (content == "none")
     return "";
 
   string text =

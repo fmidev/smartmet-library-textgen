@@ -306,7 +306,7 @@ std::string get_time_phrase(const TextGenPosixTime& theTime,
 
   if (theTime.GetJulianDay() == oldTime.GetJulianDay())
   {
-    if (oldWeekdayPhrase.compare(theNewWeekdayPhrase) != 0)
+    if (oldWeekdayPhrase != theNewWeekdayPhrase)
     {
       theHistory.updateWeekdayPhrase(theNewWeekdayPhrase, theTime);
       return theNewWeekdayPhrase;

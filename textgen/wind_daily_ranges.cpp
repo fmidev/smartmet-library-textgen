@@ -180,7 +180,7 @@ Paragraph WindStory::daily_ranges() const
         string speed_string0(speed_string(meanspeeds[0]));
         string speed_string1(speed_string(meanspeeds[1]));
 
-        similar_speeds = (speed_string0.compare(speed_string1) == 0);
+        similar_speeds = (speed_string0 == speed_string1);
       }
 
       if (accuracy12 != bad_accuracy ||

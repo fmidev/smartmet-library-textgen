@@ -599,10 +599,10 @@ const Sentence construct_windiness_sentence_for_area(const float& windspeedMorni
 
   std::string weekdayMorningString(parse_weekday_phrase(dayNumber, morningWord));
   std::string weekdayAfternoonString(parse_weekday_phrase(dayNumber, afternoonWord));
-  bool areaStringEmpty(areaString.compare(EMPTY_STRING) == 0);
+  bool areaStringEmpty(areaString == EMPTY_STRING);
   bool specifiedDayEmpty(specifiedDaySentence.size() == 0);
-  bool weekdayMorningStringEmpty(weekdayMorningString.compare(EMPTY_STRING) == 0);
-  bool weekdayAfternoonStringEmpty(weekdayAfternoonString.compare(EMPTY_STRING) == 0);
+  bool weekdayMorningStringEmpty(weekdayMorningString == EMPTY_STRING);
+  bool weekdayAfternoonStringEmpty(weekdayAfternoonString == EMPTY_STRING);
 
   if (morningIncluded && afternoonIncluded)
   {
@@ -1478,12 +1478,12 @@ const Sentence windiness_sentence(const wind_anomaly_params& theParameters)
       if (temperature > TUULI_KYLMENTAA_SAATA_LOWER_LIMIT &&
           temperature <= TUULI_KYLMENTAA_SAATA_UPPER_LIMIT)
       {
-        if (areaString.compare(EMPTY_STRING) == 0 && timePhrase.compare(EMPTY_STRING) == 0)
+        if (areaString == EMPTY_STRING && timePhrase == EMPTY_STRING)
           sentence << TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_PHRASE;
-        else if (areaString.compare(EMPTY_STRING) != 0 && timePhrase.compare(EMPTY_STRING) == 0)
+        else if (areaString != EMPTY_STRING && timePhrase == EMPTY_STRING)
           sentence << RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE
                    << areaString;
-        else if (areaString.compare(EMPTY_STRING) == 0 && timePhrase.compare(EMPTY_STRING) != 0)
+        else if (areaString == EMPTY_STRING && timePhrase != EMPTY_STRING)
           sentence << ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_KYLMEMMALTA_COMPOSITE_PHRASE
                    << timePhrase;
         else
@@ -1493,12 +1493,12 @@ const Sentence windiness_sentence(const wind_anomaly_params& theParameters)
       else if (temperature > TUULI_VIILENTAA_SAATA_LOWER_LIMIT &&
                temperature <= TUULI_VIILENTAA_SAATA_UPPER_LIMIT)
       {
-        if (areaString.compare(EMPTY_STRING) == 0 && timePhrase.compare(EMPTY_STRING) == 0)
+        if (areaString == EMPTY_STRING && timePhrase == EMPTY_STRING)
           sentence << TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_PHRASE;
-        else if (areaString.compare(EMPTY_STRING) != 0 && timePhrase.compare(EMPTY_STRING) == 0)
+        else if (areaString != EMPTY_STRING && timePhrase == EMPTY_STRING)
           sentence << RANNIKOLLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE
                    << areaString;
-        else if (areaString.compare(EMPTY_STRING) == 0 && timePhrase.compare(EMPTY_STRING) != 0)
+        else if (areaString == EMPTY_STRING && timePhrase != EMPTY_STRING)
           sentence << ILTAPAIVALLA_TUULI_SAA_SAAN_TUNTUMAAN_VIILEAMMALTA_COMPOSITE_PHRASE
                    << timePhrase;
         else

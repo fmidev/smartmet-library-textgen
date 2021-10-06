@@ -140,7 +140,7 @@ bool PostGISDataSource::readData(const std::string& host,
       {
         OGRFieldDefn* pFieldDefn = pFDefn->GetFieldDefn(iField);
 
-        if (fieldname.compare(pFieldDefn->GetNameRef()) == 0)
+        if (fieldname == pFieldDefn->GetNameRef())
         {
           area_name = pFeature->GetFieldAsString(iField);
           break;

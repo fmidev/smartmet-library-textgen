@@ -619,7 +619,7 @@ WeatherPeriod get_period_for_id(part_of_the_day_id& id, const WeatherPeriod& the
 
 bool is_keskiyo_phrase(const std::string& phrase)
 {
-  return (phrase.compare(KESKIYOSTA_ALKAEN_PHRASE) == 0 || phrase.compare(KESKIYOLLA_WORD) == 0);
+  return (phrase == KESKIYOSTA_ALKAEN_PHRASE || phrase == KESKIYOLLA_WORD);
 }
 
 part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod)
@@ -1934,7 +1934,7 @@ std::string parse_weekday_phrase(short weekday, const std::string& part_of_the_d
 {
   std::ostringstream oss;
 
-  if (weekday > 0 && part_of_the_day.compare(EMPTY_STRING) != 0 && !part_of_the_day.empty())
+  if (weekday > 0 && part_of_the_day != EMPTY_STRING && !part_of_the_day.empty())
     oss << weekday << "-" << part_of_the_day;
   else
     oss << (part_of_the_day.size() > 0 ? part_of_the_day : EMPTY_STRING);
@@ -2049,7 +2049,7 @@ split_method split_the_area(const std::string& theVar,
     vector<string> areas = NFmiStringTools::Split(areasToSplit, ",");
     for (unsigned int i = 0; i < areas.size(); i++)
     {
-      if (theArea.name().compare(areas[i]) == 0)
+      if (theArea.name() == areas[i])
       {
         std::string split_method(optional_string(
             "textgen::split_the_area::" + theArea.name() + "::method", EMPTY_STRING));

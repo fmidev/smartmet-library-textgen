@@ -3456,13 +3456,13 @@ void read_configuration_params(wo_story_params& storyParams)
     westernArea.type(WeatherArea::Western);
 
     std::string split_method = Settings::require_string(split_method_name);
-    if (split_method.compare("vertical") == 0)
+    if (split_method == "vertical")
     {
       storyParams.theWeatherAreas.push_back(easternArea);
       storyParams.theWeatherAreas.push_back(westernArea);
       storyParams.theSplitMethod = VERTICAL;
     }
-    else if (split_method.compare("horizontal") == 0)
+    else if (split_method == "horizontal")
     {
       storyParams.theWeatherAreas.push_back(southernArea);
       storyParams.theWeatherAreas.push_back(northernArea);

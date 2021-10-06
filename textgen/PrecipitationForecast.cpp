@@ -3203,7 +3203,7 @@ Sentence PrecipitationForecast::parseFinalSentence(
   Sentence intensity;
   Sentence precipitation;
   bool periodPhraseEmpty(thePeriodPhrase.size() == 0);
-  bool areaPhraseEmpty(theAreaPhrase.size() == 0 || theAreaPhrase.compare(EMPTY_STRING) == 0);
+  bool areaPhraseEmpty(theAreaPhrase.size() == 0 || theAreaPhrase == EMPTY_STRING);
   bool inPlacesPhraseEmpty(theCompositePhraseElements.find(IN_PLACES_PARAMETER) ==
                            theCompositePhraseElements.end());
   bool intensityEmpty(theCompositePhraseElements.find(INTENSITY_PARAMETER) ==

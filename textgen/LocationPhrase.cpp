@@ -75,7 +75,7 @@ std::string LocationPhrase::realize(const Dictionary& theDictionary) const
     if (location.size() > 4)
     {
       string ending = location.substr(location.size() - 4);
-      if (ending.compare(":lle") == 0)
+      if (ending == ":lle")
         location = location.substr(0, location.size() - 4);
     }
     std::transform(location.begin(), location.begin() + 1, location.begin(), ::toupper);
