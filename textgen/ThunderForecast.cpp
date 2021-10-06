@@ -73,15 +73,15 @@ float ThunderForecast::getMaxValue(const WeatherPeriod& theWeatherPeriod,
                                    const weather_result_data_item_vector& theDataVector) const
 {
   float maxValue(0.0);
-  for (unsigned int i = 0; i < theDataVector.size(); i++)
+  for (auto i : theDataVector)
   {
-    if (theDataVector[i]->thePeriod.localStartTime() >= theWeatherPeriod.localStartTime() &&
-        theDataVector[i]->thePeriod.localStartTime() <= theWeatherPeriod.localEndTime() &&
-        theDataVector[i]->thePeriod.localEndTime() >= theWeatherPeriod.localStartTime() &&
-        theDataVector[i]->thePeriod.localEndTime() <= theWeatherPeriod.localEndTime())
+    if (i->thePeriod.localStartTime() >= theWeatherPeriod.localStartTime() &&
+        i->thePeriod.localStartTime() <= theWeatherPeriod.localEndTime() &&
+        i->thePeriod.localEndTime() >= theWeatherPeriod.localStartTime() &&
+        i->thePeriod.localEndTime() <= theWeatherPeriod.localEndTime())
     {
-      if (theDataVector[i]->theResult.value() > maxValue)
-        maxValue = theDataVector[i]->theResult.value();
+      if (i->theResult.value() > maxValue)
+        maxValue = i->theResult.value();
     }
   }
   return maxValue;

@@ -54,15 +54,15 @@ list<pair<int, int> > parse_classes(const std::string& theVariable)
   list<pair<int, int> > output;
 
   vector<string> clist = NFmiStringTools::Split(value);
-  for (vector<string>::const_iterator it = clist.begin(); it != clist.end(); ++it)
+  for (const auto & it : clist)
   {
-    vector<string> rlist = NFmiStringTools::Split(*it, "...");
+    vector<string> rlist = NFmiStringTools::Split(it, "...");
     if (rlist.size() != 2)
-      throw TextGenError(*it + " is not of form A...B in variable " + theVariable);
+      throw TextGenError(it + " is not of form A...B in variable " + theVariable);
     int lolimit = lexical_cast<int>(rlist[0]);
     int hilimit = lexical_cast<int>(rlist[1]);
     if (hilimit <= lolimit)
-      throw TextGenError(*it + " has upper limit <= lower limit in variable " + theVariable);
+      throw TextGenError(it + " has upper limit <= lower limit in variable " + theVariable);
 
     output.emplace_back(lolimit, hilimit);
   }
@@ -87,10 +87,10 @@ int rainlimit(const list<pair<int, int> >& theList)
     throw TextGenError("Internal error, trying to extract maximum rain from empty list");
 
   int ret = theList.front().first;
-  for (auto it = theList.begin(); it != theList.end(); ++it)
+  for (const auto & it : theList)
   {
-    ret = std::max(ret, it->first);
-    ret = std::max(ret, it->second);
+    ret = std::max(ret, it.first);
+    ret = std::max(ret, it.second);
   }
   return ret;
 }

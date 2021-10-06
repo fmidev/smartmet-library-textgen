@@ -328,9 +328,9 @@ float wind_direction_error(const wind_data_item_vector& theWindDataVector,
   unsigned int counter(0);
   float cumulativeWindDirectionError(0.0);
 
-  for (unsigned int i = 0; i < theWindDataVector.size(); i++)
+  for (auto i : theWindDataVector)
   {
-    WindDataItemUnit& item = theWindDataVector[i]->getDataItem(theArea.type());
+    WindDataItemUnit& item = i->getDataItem(theArea.type());
     if (is_inside(item.thePeriod.localStartTime(), thePeriod))
     {
       cumulativeWindDirectionError += item.theEqualizedWindDirection.error();

@@ -102,25 +102,25 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
       Settings::optional_bool(theVar + "::specify_part_of_the_day", true);
   int storyItemCounter(0);
   bool moreThanOnePrecipitationForms(false);
-  for (unsigned int i = 0; i < theStoryItemVector.size(); i++)
+  for (auto & i : theStoryItemVector)
   {
     // when specifyPartOfTheDayFlag is false it means
     // that the period is short and part of the day should not be expressed
     if (!specifyPartOfTheDayFlag)
     {
       // ARE 14.4.2011: checking theIncludeInTheStoryFlag
-      if (theStoryItemVector[i]->theIncludeInTheStoryFlag &&
-          !theStoryItemVector[i]->getSentence().empty())
+      if (i->theIncludeInTheStoryFlag &&
+          !i->getSentence().empty())
         storyItemCounter++;
     }
 
     // check wheather more than one precipitation form exists during the forecast period
     if (!moreThanOnePrecipitationForms &&
-        theStoryItemVector[i]->theStoryPartId == PRECIPITATION_STORY_PART &&
-        theStoryItemVector[i]->theIncludeInTheStoryFlag)
+        i->theStoryPartId == PRECIPITATION_STORY_PART &&
+        i->theIncludeInTheStoryFlag)
     {
       precipitation_form_id precipitationForm = thePrecipitationForecast.getPrecipitationForm(
-          theStoryItemVector[i]->thePeriod, theParameters.theForecastArea);
+          i->thePeriod, theParameters.theForecastArea);
 
       moreThanOnePrecipitationForms = !PrecipitationForecast::singleForm(precipitationForm);
     }
@@ -153,9 +153,9 @@ Paragraph WeatherForecastStory::getWeatherForecastStory()
 
   thePrecipitationForecast.setDryPeriodTautologyFlag(false);
 
-  for (unsigned int i = 0; i < theStoryItemVector.size(); i++)
+  for (auto & i : theStoryItemVector)
   {
-    WeatherForecastStoryItem& item = *(theStoryItemVector[i]);
+    WeatherForecastStoryItem& item = *i;
 
     Sentence storyItemSentence;
     storyItemSentence << item.getSentence();
@@ -168,18 +168,18 @@ Paragraph WeatherForecastStory::getWeatherForecastStory()
 
       // additional sentences: currently only in precipitation story: like "iltapäivästä alkaen sade
       // voi olla runsasta"
-      for (unsigned int k = 0; k < theStoryItemVector[i]->numberOfAdditionalSentences(); k++)
+      for (unsigned int k = 0; k < i->numberOfAdditionalSentences(); k++)
       {
         std::pair<WeatherPeriod, Sentence> additionalSentence(
-            theStoryItemVector[i]->getAdditionalSentence(k));
+            i->getAdditionalSentence(k));
         paragraph << additionalSentence.second;
       }
 
       // possible fog sentence after
-      if (theStoryItemVector[i]->theStoryPartId == CLOUDINESS_STORY_PART)
+      if (i->theStoryPartId == CLOUDINESS_STORY_PART)
       {
         Sentence fogSentence;
-        fogSentence << theFogForecast.fogSentence(theStoryItemVector[i]->thePeriod);
+        fogSentence << theFogForecast.fogSentence(i->thePeriod);
 
         theStorySize += fogSentence.size();
         paragraph << fogSentence;
@@ -204,9 +204,9 @@ if (i > 0 &&
     std::vector<std::pair<WeatherPeriod, Sentence>> theAdditionalSentences;
     paragraph << thePrecipitationForecast.precipitationSentence(
         theForecastPeriod, periodPhrase, theAdditionalSentences);
-    for (unsigned int i = 0; i < theAdditionalSentences.size(); i++)
+    for (auto & theAdditionalSentence : theAdditionalSentences)
     {
-      paragraph << theAdditionalSentences[i].second;
+      paragraph << theAdditionalSentence.second;
     }
   }
 
@@ -639,25 +639,25 @@ void WeatherForecastStory::addPrecipitationStoryItems()
 
   PrecipitationForecastStoryItem* previousPrItem = nullptr;
   WeatherForecastStoryItem* missingStoryItem = nullptr;
-  for (unsigned int i = 0; i < precipitationPeriods.size(); i++)
+  for (auto & precipitationPeriod : precipitationPeriods)
   {
-    float intensity(thePrecipitationForecast.getMeanIntensity(precipitationPeriods[i],
+    float intensity(thePrecipitationForecast.getMeanIntensity(precipitationPeriod,
                                                               theParameters.theForecastArea));
-    float extent(thePrecipitationForecast.getPrecipitationExtent(precipitationPeriods[i],
+    float extent(thePrecipitationForecast.getPrecipitationExtent(precipitationPeriod,
                                                                  theParameters.theForecastArea));
-    unsigned int form(thePrecipitationForecast.getPrecipitationForm(precipitationPeriods[i],
+    unsigned int form(thePrecipitationForecast.getPrecipitationForm(precipitationPeriod,
                                                                     theParameters.theForecastArea));
     precipitation_type type(thePrecipitationForecast.getPrecipitationType(
-        precipitationPeriods[i], theParameters.theForecastArea));
+        precipitationPeriod, theParameters.theForecastArea));
 
     bool thunder(thePrecipitationForecast.thunderExists(
-        precipitationPeriods[i], theParameters.theForecastArea, theVar));
+        precipitationPeriod, theParameters.theForecastArea, theVar));
 
-    if (get_period_length(precipitationPeriods[i]) <= 1 && extent < 10)
+    if (get_period_length(precipitationPeriod) <= 1 && extent < 10)
       continue;
 
     auto* item = new PrecipitationForecastStoryItem(*this,
-                                                    precipitationPeriods[i],
+                                                    precipitationPeriod,
                                                     PRECIPITATION_STORY_PART,
                                                     intensity,
                                                     extent,
@@ -668,7 +668,7 @@ void WeatherForecastStory::addPrecipitationStoryItems()
     TextGenPosixTime startTimeFull;
     TextGenPosixTime endTimeFull;
     thePrecipitationForecast.getPrecipitationPeriod(
-        precipitationPeriods[i].localStartTime(), startTimeFull, endTimeFull);
+        precipitationPeriod.localStartTime(), startTimeFull, endTimeFull);
     // This parameter shows if the precipitation starts
     // before forecast period or continues after
     int precipitationFullDuration = endTimeFull.DifferenceInHours(startTimeFull);
@@ -677,7 +677,7 @@ void WeatherForecastStory::addPrecipitationStoryItems()
     if (previousPrItem != nullptr)
     {
       TextGenPosixTime startTime(previousPrItem->thePeriod.localEndTime());
-      TextGenPosixTime endTime(precipitationPeriods[i].localStartTime());
+      TextGenPosixTime endTime(precipitationPeriod.localStartTime());
       if (endTime.DifferenceInHours(startTime) > 1)
       {
         startTime.ChangeByHours(1);
@@ -904,9 +904,9 @@ void WeatherForecastStory::mergeCloudinessPeriodsWhenFeasible()
   CloudinessForecastStoryItem* currentCloudinessStoryItem = nullptr;
   std::vector<unsigned int> indexes = get_story_item_indexes(theStoryItemVector);
 
-  for (unsigned int i = 0; i < indexes.size(); i++)
+  for (unsigned int indexe : indexes)
   {
-    WeatherForecastStoryItem* currentStoryItem = theStoryItemVector[indexes[i]];
+    WeatherForecastStoryItem* currentStoryItem = theStoryItemVector[indexe];
     if (currentStoryItem->theStoryPartId == CLOUDINESS_STORY_PART &&
         currentStoryItem->theIncludeInTheStoryFlag)
     {
@@ -964,24 +964,24 @@ void WeatherForecastStory::mergeCloudinessPeriodsWhenFeasible()
 void WeatherForecastStory::mergePeriodsWhenFeasible()
 {
   theLogger << "******** STORY ITEMS BEFORE MERGE ********" << endl;
-  for (unsigned int i = 0; i < theStoryItemVector.size(); i++)
-    theLogger << as_string(theStoryItemVector[i]->getStoryItemPeriod()) << std::endl;
+  for (auto & i : theStoryItemVector)
+    theLogger << as_string(i->getStoryItemPeriod()) << std::endl;
 
   mergeCloudinessPeriodsWhenFeasible();
   mergePrecipitationPeriodsWhenFeasible();
 
   theLogger << "******** STORY ITEMS AFTER MERGE ********" << endl;
-  for (unsigned int i = 0; i < theStoryItemVector.size(); i++)
+  for (auto & i : theStoryItemVector)
   {
-    if (!theStoryItemVector[i]->theIncludeInTheStoryFlag)
+    if (!i->theIncludeInTheStoryFlag)
       continue;
 
-    if (theStoryItemVector[i]->thePeriodToMergeWith)
-      theLogger << as_string(theStoryItemVector[i]->getStoryItemPeriod())
-                << "  merged periods: " << as_string(theStoryItemVector[i]->thePeriod) << " and "
-                << as_string(theStoryItemVector[i]->thePeriodToMergeWith->thePeriod) << std::endl;
+    if (i->thePeriodToMergeWith)
+      theLogger << as_string(i->getStoryItemPeriod())
+                << "  merged periods: " << as_string(i->thePeriod) << " and "
+                << as_string(i->thePeriodToMergeWith->thePeriod) << std::endl;
     else
-      theLogger << as_string(theStoryItemVector[i]->getStoryItemPeriod()) << std::endl;
+      theLogger << as_string(i->getStoryItemPeriod()) << std::endl;
   }
 }
 
@@ -1003,9 +1003,9 @@ Sentence WeatherForecastStory::getTimePhrase() const
 void WeatherForecastStory::logTheStoryItems() const
 {
   theLogger << "******** STORY ITEMS ********" << endl;
-  for (unsigned int i = 0; i < theStoryItemVector.size(); i++)
+  for (auto i : theStoryItemVector)
   {
-    theLogger << *theStoryItemVector[i];
+    theLogger << *i;
   }
 }
 
@@ -1541,9 +1541,9 @@ Sentence CloudinessForecastStoryItem::cloudinessChangeSentence()
 
   theWeatherForecastStory.theCloudinessForecast.getWeatherEventIdVector(cloudinessEvents);
 
-  for (unsigned int i = 0; i < cloudinessEvents.size(); i++)
+  for (auto & cloudinessEvent : cloudinessEvents)
   {
-    TextGenPosixTime cloudinessEventTimestamp(cloudinessEvents.at(i).first);
+    TextGenPosixTime cloudinessEventTimestamp(cloudinessEvent.first);
     if (cloudinessEventTimestamp >= thePeriod.localStartTime() &&
         cloudinessEventTimestamp <= thePeriod.localEndTime())
     {

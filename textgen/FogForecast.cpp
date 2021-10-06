@@ -354,13 +354,13 @@ void FogForecast::findOutFogTypePeriods()
 void FogForecast::printOutFogPeriods(std::ostream& theOutput,
                                      const fog_period_vector& theFogPeriods) const
 {
-  for (unsigned int i = 0; i < theFogPeriods.size(); i++)
+  for (const auto & theFogPeriod : theFogPeriods)
   {
-    WeatherPeriod period(theFogPeriods.at(i).first.localStartTime(),
-                         theFogPeriods.at(i).first.localEndTime());
+    WeatherPeriod period(theFogPeriod.first.localStartTime(),
+                         theFogPeriod.first.localEndTime());
 
-    float moderateFog(theFogPeriods.at(i).second.theModerateFogExtent);
-    float denseFog(theFogPeriods.at(i).second.theDenseFogExtent);
+    float moderateFog(theFogPeriod.second.theModerateFogExtent);
+    float denseFog(theFogPeriod.second.theDenseFogExtent);
 
     theOutput << period.localStartTime() << "..." << period.localEndTime()
               << ": moderate=" << moderateFog << " dense=" << denseFog << endl;
@@ -371,14 +371,14 @@ void FogForecast::printOutFogData(std::ostream& theOutput,
                                   const std::string& theLinePrefix,
                                   const weather_result_data_item_vector& theFogData) const
 {
-  for (unsigned int i = 0; i < theFogData.size(); i++)
+  for (auto i : theFogData)
   {
-    WeatherPeriod period(theFogData.at(i)->thePeriod.localStartTime(),
-                         theFogData.at(i)->thePeriod.localEndTime());
+    WeatherPeriod period(i->thePeriod.localStartTime(),
+                         i->thePeriod.localEndTime());
 
-    theOutput << theFogData.at(i)->thePeriod.localStartTime() << "..."
-              << theFogData.at(i)->thePeriod.localEndTime() << ": " << theLinePrefix << "="
-              << theFogData.at(i)->theResult.value() << endl;
+    theOutput << i->thePeriod.localStartTime() << "..."
+              << i->thePeriod.localEndTime() << ": " << theLinePrefix << "="
+              << i->theResult.value() << endl;
   }
 }
 
@@ -454,13 +454,13 @@ void FogForecast::printOutFogPeriods(std::ostream& theOutput) const
 void FogForecast::printOutFogTypePeriods(std::ostream& theOutput,
                                          const fog_type_period_vector& theFogTypePeriods) const
 {
-  for (unsigned int i = 0; i < theFogTypePeriods.size(); i++)
+  for (const auto & theFogTypePeriod : theFogTypePeriods)
   {
-    WeatherPeriod period(theFogTypePeriods.at(i).first.localStartTime(),
-                         theFogTypePeriods.at(i).first.localEndTime());
+    WeatherPeriod period(theFogTypePeriod.first.localStartTime(),
+                         theFogTypePeriod.first.localEndTime());
 
     theOutput << period.localStartTime() << "..." << period.localEndTime() << ": "
-              << get_fog_type_string(theFogTypePeriods.at(i).second) << endl;
+              << get_fog_type_string(theFogTypePeriod.second) << endl;
   }
 }
 
@@ -491,14 +491,14 @@ float FogForecast::getMean(const fog_period_vector& theFogPeriods,
   float sum(0.0);
   unsigned int count(0);
 
-  for (unsigned int i = 0; i < theFogPeriods.size(); i++)
+  for (const auto & theFogPeriod : theFogPeriods)
   {
-    float totalFog = theFogPeriods.at(i).second.theModerateFogExtent +
-                     theFogPeriods.at(i).second.theDenseFogExtent;
-    if (theFogPeriods.at(i).first.localStartTime() >= theWeatherPeriod.localStartTime() &&
-        theFogPeriods.at(i).first.localStartTime() <= theWeatherPeriod.localEndTime() &&
-        theFogPeriods.at(i).first.localEndTime() >= theWeatherPeriod.localStartTime() &&
-        theFogPeriods.at(i).first.localEndTime() <= theWeatherPeriod.localEndTime() && totalFog > 0)
+    float totalFog = theFogPeriod.second.theModerateFogExtent +
+                     theFogPeriod.second.theDenseFogExtent;
+    if (theFogPeriod.first.localStartTime() >= theWeatherPeriod.localStartTime() &&
+        theFogPeriod.first.localStartTime() <= theWeatherPeriod.localEndTime() &&
+        theFogPeriod.first.localEndTime() >= theWeatherPeriod.localStartTime() &&
+        theFogPeriod.first.localEndTime() <= theWeatherPeriod.localEndTime() && totalFog > 0)
     {
       sum += totalFog;
       count++;

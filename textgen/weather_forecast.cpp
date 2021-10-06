@@ -65,11 +65,11 @@ using namespace std;
 void print_out_weather_event_vector(std::ostream& theOutput,
                                     const weather_event_id_vector& theWeatherEventVector)
 {
-  for (unsigned int i = 0; i < theWeatherEventVector.size(); i++)
+  for (const auto& i : theWeatherEventVector)
   {
-    weather_event_id trid(theWeatherEventVector.at(i).second);
+    weather_event_id trid(i.second);
 
-    theOutput << theWeatherEventVector.at(i).first << ": " << weather_event_string(trid) << endl;
+    theOutput << i.first << ": " << weather_event_string(trid) << endl;
   }
 }
 
@@ -122,11 +122,11 @@ void log_weather_result_time_series(MessageLogger& theLog,
 {
   theLog << NFmiStringTools::Convert(theLogMessage) << endl;
 
-  for (unsigned int i = 0; i < theTimeSeries.size(); i++)
+  for (auto theTimeSerie : theTimeSeries)
   {
     //		const WeatherResultDataItem& theWeatherResultDataItem = *theTimeSeries[i];
     // log_weather_result_data_item(theLog, *theTimeSeries[i]);
-    theLog << *theTimeSeries[i];
+    theLog << *theTimeSerie;
   }
 }
 
@@ -1103,38 +1103,32 @@ void delete_data_structures(wf_story_params& theParameters)
                               *theParameters.theCompleteData[FULL_AREA]);
   }
 
-  for (unsigned int i = 0; i < theParameters.theCloudinessData.size(); i++)
+  for (auto cloudinessDataItemContainer : theParameters.theCloudinessData)
   {
-    cloudiness_data_item_container* cloudinessDataItemContainer =
-        theParameters.theCloudinessData[i];
-    for (unsigned int k = 0; k < cloudinessDataItemContainer->size(); k++)
-      delete (*cloudinessDataItemContainer)[k];
+    for (auto& item : *cloudinessDataItemContainer)
+      delete item.second;
     cloudinessDataItemContainer->clear();
   }
   theParameters.theCloudinessData.clear();
-  for (unsigned int i = 0; i < theParameters.thePrecipitationData.size(); i++)
+  for (auto precipitationDataItemContainer : theParameters.thePrecipitationData)
   {
-    precipitation_data_item_container* precipitationDataItemContainer =
-        theParameters.thePrecipitationData[i];
-    for (unsigned int k = 0; k < precipitationDataItemContainer->size(); k++)
-      delete (*precipitationDataItemContainer)[k];
+    for (auto& item : *precipitationDataItemContainer)
+      delete item.second;
     precipitationDataItemContainer->clear();
   }
   theParameters.thePrecipitationData.clear();
 
-  for (unsigned int i = 0; i < theParameters.theThunderData.size(); i++)
+  for (auto thunderDataItemContainer : theParameters.theThunderData)
   {
-    thunder_data_item_container* thunderDataItemContainer = theParameters.theThunderData[i];
-    for (unsigned int k = 0; k < thunderDataItemContainer->size(); k++)
-      delete (*thunderDataItemContainer)[k];
+    for (auto& item : *thunderDataItemContainer)
+      delete item.second;
     thunderDataItemContainer->clear();
   }
   theParameters.theFogData.clear();
-  for (unsigned int i = 0; i < theParameters.theFogData.size(); i++)
+  for (auto fogIntensityDataItemContainer : theParameters.theFogData)
   {
-    fog_data_item_container* fogIntensityDataItemContainer = theParameters.theFogData[i];
-    for (unsigned int k = 0; k < fogIntensityDataItemContainer->size(); k++)
-      delete (*fogIntensityDataItemContainer)[k];
+    for (auto& item : *fogIntensityDataItemContainer)
+      delete item.second;
     fogIntensityDataItemContainer->clear();
   }
   theParameters.theFogData.clear();
@@ -1249,9 +1243,9 @@ void log_weather_forecast_story(MessageLogger& theLog,
   const vector<WeatherForecastStoryItem*> storyItemVector(
       theWeatherForecastStory.getStoryItemVector());
 
-  for (unsigned int i = 0; i < storyItemVector.size(); i++)
+  for (auto i : storyItemVector)
   {
-    WeatherForecastStoryItem& storyItem = *(storyItemVector[i]);
+    WeatherForecastStoryItem& storyItem = *i;
 
     if (!storyItem.isIncluded())
       continue;
@@ -1273,11 +1267,11 @@ void log_weather_forecast_story(MessageLogger& theLog,
 }
 
 Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
-                                 const TextGen::WeatherPeriod& itsPeriod,
-                                 const TextGen::AnalysisSources& itsSources,
-                                 const TextGenPosixTime& itsForecastTime,
-                                 const std::string itsVar,
-                                 MessageLogger& theLog)
+                           const TextGen::WeatherPeriod& itsPeriod,
+                           const TextGen::AnalysisSources& itsSources,
+                           const TextGenPosixTime& itsForecastTime,
+                           const std::string itsVar,
+                           MessageLogger& theLog)
 {
   using namespace PrecipitationPeriodTools;
 
@@ -1369,11 +1363,11 @@ Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
 }
 
 Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
-                                        const TextGen::WeatherPeriod& itsPeriod,
-                                        const TextGen::AnalysisSources& itsSources,
-                                        const TextGenPosixTime& itsForecastTime,
-                                        const std::string itsVar,
-                                        MessageLogger& theLog)
+                                  const TextGen::WeatherPeriod& itsPeriod,
+                                  const TextGen::AnalysisSources& itsSources,
+                                  const TextGenPosixTime& itsForecastTime,
+                                  const std::string itsVar,
+                                  MessageLogger& theLog)
 {
   using namespace PrecipitationPeriodTools;
 
@@ -1461,20 +1455,22 @@ Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
 
 bool is_same_part_of_the_day(const std::string& phrase1, const std::string& phrase2)
 {
-  return (phrase1 == AAMULLA_WORD && (phrase2 == AAMULLA_WORD || phrase2 == AAMUSTA_ALKAEN_PHRASE)) ||
-      (phrase1 == AAMUPAIVALLA_WORD &&
-       (phrase2 == AAMUPAIVALLA_WORD || phrase2 == AAMUPAIVASTA_ALKAEN_PHRASE)) ||
-      (phrase1 == ILTAPAIVALLA_WORD &&
-       (phrase2 == ILTAPAIVALLA_WORD || phrase2 == ILTAPAIVASTA_ALKAEN_PHRASE)) ||
-      (phrase1 == ILLALLA_WORD && (phrase2 == ILLALLA_WORD || phrase2 == ILLASTA_ALKAEN_PHRASE)) ||
-      (phrase1 == ILTAYOLLA_WORD &&
-       (phrase2 == ILTAYOLLA_WORD || phrase2 == ILTAYOSTA_ALKAEN_PHRASE)) ||
-      (phrase1 == KESKIYOLLA_WORD &&
-       (phrase2 == KESKIYOLLA_WORD || phrase2 == KESKIYOSTA_ALKAEN_PHRASE)) ||
-      (phrase1 == AAMUYOLLA_WORD &&
-       (phrase2 == AAMUYOLLA_WORD || phrase2 == AAMUYOSTA_ALKAEN_PHRASE)) ||
-      (phrase1 == YOLLA_WORD && phrase2 == YOLLA_WORD) ||
-      (phrase1 == PAIVALLA_WORD && phrase2 == PAIVALLA_WORD);
+  return (phrase1 == AAMULLA_WORD &&
+          (phrase2 == AAMULLA_WORD || phrase2 == AAMUSTA_ALKAEN_PHRASE)) ||
+         (phrase1 == AAMUPAIVALLA_WORD &&
+          (phrase2 == AAMUPAIVALLA_WORD || phrase2 == AAMUPAIVASTA_ALKAEN_PHRASE)) ||
+         (phrase1 == ILTAPAIVALLA_WORD &&
+          (phrase2 == ILTAPAIVALLA_WORD || phrase2 == ILTAPAIVASTA_ALKAEN_PHRASE)) ||
+         (phrase1 == ILLALLA_WORD &&
+          (phrase2 == ILLALLA_WORD || phrase2 == ILLASTA_ALKAEN_PHRASE)) ||
+         (phrase1 == ILTAYOLLA_WORD &&
+          (phrase2 == ILTAYOLLA_WORD || phrase2 == ILTAYOSTA_ALKAEN_PHRASE)) ||
+         (phrase1 == KESKIYOLLA_WORD &&
+          (phrase2 == KESKIYOLLA_WORD || phrase2 == KESKIYOSTA_ALKAEN_PHRASE)) ||
+         (phrase1 == AAMUYOLLA_WORD &&
+          (phrase2 == AAMUYOLLA_WORD || phrase2 == AAMUYOSTA_ALKAEN_PHRASE)) ||
+         (phrase1 == YOLLA_WORD && phrase2 == YOLLA_WORD) ||
+         (phrase1 == PAIVALLA_WORD && phrase2 == PAIVALLA_WORD);
 }
 
 // if the successive sentences contains the same time phrase, insert
@@ -1516,8 +1512,8 @@ void get_sentences(const Glyph& glyphi, vector<boost::shared_ptr<Glyph> >& sente
   else
   {
     const auto& containeri = static_cast<const GlyphContainer&>(glyphi);
-    for (auto iter = containeri.begin(); iter != containeri.end(); ++iter)
-      get_sentences(**iter, sentences);
+    for (const auto& iter : containeri)
+      get_sentences(*iter, sentences);
   }
 }
 

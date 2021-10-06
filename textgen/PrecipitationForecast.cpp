@@ -1528,10 +1528,10 @@ bool PrecipitationForecast::getPrecipitationPeriods(
     return false;
   }
 
-  for (unsigned i = 0; i < precipitationPeriods->size(); i++)
+  for (const auto & precipitationPeriod : *precipitationPeriods)
   {
-    WeatherPeriod notDryPeriod(precipitationPeriods->at(i).localStartTime(),
-                               precipitationPeriods->at(i).localEndTime());
+    WeatherPeriod notDryPeriod(precipitationPeriod.localStartTime(),
+                               precipitationPeriod.localEndTime());
 
     if (notDryPeriod.localStartTime() >= theSourcePeriod.localStartTime() &&
         notDryPeriod.localStartTime() <= theSourcePeriod.localEndTime())
@@ -1574,15 +1574,15 @@ bool PrecipitationForecast::getIntensityFormExtent(const WeatherPeriod& theWeath
   precipitation_form_id precipitationForm = MISSING_PRECIPITATION_FORM;
   theIntensity = getMean(dataVector, PRECIPITATION_MEAN_DATA, theWeatherPeriod);
 
-  for (unsigned int i = 0; i < dataVector.size(); i++)
-    if (dataVector.at(i)->theObservationTime >= theWeatherPeriod.localStartTime() &&
-        dataVector.at(i)->theObservationTime <= theWeatherPeriod.localEndTime() &&
-        dataVector.at(i)->thePrecipitationForm != MISSING_PRECIPITATION_FORM)
+  for (auto i : dataVector)
+    if (i->theObservationTime >= theWeatherPeriod.localStartTime() &&
+        i->theObservationTime <= theWeatherPeriod.localEndTime() &&
+        i->thePrecipitationForm != MISSING_PRECIPITATION_FORM)
     {
       if (precipitationForm == MISSING_PRECIPITATION_FORM)
-        precipitationForm = dataVector.at(i)->thePrecipitationForm;
-      else if (dataVector.at(i)->thePrecipitationForm < precipitationForm)
-        precipitationForm = dataVector.at(i)->thePrecipitationForm;
+        precipitationForm = i->thePrecipitationForm;
+      else if (i->thePrecipitationForm < precipitationForm)
+        precipitationForm = i->thePrecipitationForm;
     }
 
   theForm = precipitationForm;
@@ -1632,132 +1632,132 @@ float PrecipitationForecast::getStat(const precipitation_data_vector& theData,
   float maxValue = 0.0;
   int count = 0;
 
-  for (unsigned int i = 0; i < theData.size(); i++)
+  for (auto i : theData)
   {
-    if (theData[i]->theObservationTime < theWeatherPeriod.localStartTime())
+    if (i->theObservationTime < theWeatherPeriod.localStartTime())
       continue;
-    if (theData[i]->theObservationTime > theWeatherPeriod.localEndTime())
+    if (i->theObservationTime > theWeatherPeriod.localEndTime())
       break;
 
     switch (theDataId)
     {
       case PRECIPITATION_MAX_DATA:
       {
-        if (count == 0 || minValue > theData[i]->thePrecipitationMaxIntensity)
-          minValue = theData[i]->thePrecipitationIntensity;
-        if (count == 0 || maxValue < theData[i]->thePrecipitationMaxIntensity)
-          maxValue = theData[i]->thePrecipitationMaxIntensity;
-        cumulativeSum += theData[i]->thePrecipitationMaxIntensity;
+        if (count == 0 || minValue > i->thePrecipitationMaxIntensity)
+          minValue = i->thePrecipitationIntensity;
+        if (count == 0 || maxValue < i->thePrecipitationMaxIntensity)
+          maxValue = i->thePrecipitationMaxIntensity;
+        cumulativeSum += i->thePrecipitationMaxIntensity;
         count++;
       }
       break;
       case PRECIPITATION_MEAN_DATA:
       {
-        if (count == 0 || minValue > theData[i]->thePrecipitationIntensity)
-          minValue = theData[i]->thePrecipitationIntensity;
-        if (count == 0 || maxValue < theData[i]->thePrecipitationIntensity)
-          maxValue = theData[i]->thePrecipitationIntensity;
-        cumulativeSum += theData[i]->thePrecipitationIntensity;
+        if (count == 0 || minValue > i->thePrecipitationIntensity)
+          minValue = i->thePrecipitationIntensity;
+        if (count == 0 || maxValue < i->thePrecipitationIntensity)
+          maxValue = i->thePrecipitationIntensity;
+        cumulativeSum += i->thePrecipitationIntensity;
         count++;
       }
       break;
       case PRECIPITATION_EXTENT_DATA:
       {
-        if (count == 0 || minValue > theData[i]->thePrecipitationExtent)
-          minValue = theData[i]->thePrecipitationExtent;
-        if (count == 0 || maxValue < theData[i]->thePrecipitationExtent)
-          maxValue = theData[i]->thePrecipitationExtent;
-        cumulativeSum += theData[i]->thePrecipitationExtent;
+        if (count == 0 || minValue > i->thePrecipitationExtent)
+          minValue = i->thePrecipitationExtent;
+        if (count == 0 || maxValue < i->thePrecipitationExtent)
+          maxValue = i->thePrecipitationExtent;
+        cumulativeSum += i->thePrecipitationExtent;
         count++;
       }
       break;
       case PRECIPITATION_FORM_WATER_DATA:
       {
-        if (theData[i]->thePrecipitationFormWater != kFloatMissing)
+        if (i->thePrecipitationFormWater != kFloatMissing)
         {
-          if (count == 0 || minValue > theData[i]->thePrecipitationFormWater)
-            minValue = theData[i]->thePrecipitationFormWater;
-          if (count == 0 || maxValue < theData[i]->thePrecipitationFormWater)
-            maxValue = theData[i]->thePrecipitationFormWater;
-          cumulativeSum += theData[i]->thePrecipitationFormWater;
+          if (count == 0 || minValue > i->thePrecipitationFormWater)
+            minValue = i->thePrecipitationFormWater;
+          if (count == 0 || maxValue < i->thePrecipitationFormWater)
+            maxValue = i->thePrecipitationFormWater;
+          cumulativeSum += i->thePrecipitationFormWater;
           count++;
         }
       }
       break;
       case PRECIPITATION_FORM_DRIZZLE_DATA:
       {
-        if (theData[i]->thePrecipitationFormDrizzle != kFloatMissing)
+        if (i->thePrecipitationFormDrizzle != kFloatMissing)
         {
-          if (count == 0 || minValue > theData[i]->thePrecipitationFormDrizzle)
-            minValue = theData[i]->thePrecipitationFormDrizzle;
-          if (count == 0 || maxValue < theData[i]->thePrecipitationFormDrizzle)
-            maxValue = theData[i]->thePrecipitationFormDrizzle;
-          cumulativeSum += theData[i]->thePrecipitationFormDrizzle;
+          if (count == 0 || minValue > i->thePrecipitationFormDrizzle)
+            minValue = i->thePrecipitationFormDrizzle;
+          if (count == 0 || maxValue < i->thePrecipitationFormDrizzle)
+            maxValue = i->thePrecipitationFormDrizzle;
+          cumulativeSum += i->thePrecipitationFormDrizzle;
           count++;
         }
       }
       break;
       case PRECIPITATION_FORM_SLEET_DATA:
       {
-        if (theData[i]->thePrecipitationFormSleet != kFloatMissing)
+        if (i->thePrecipitationFormSleet != kFloatMissing)
         {
-          if (count == 0 || minValue > theData[i]->thePrecipitationFormSleet)
-            minValue = theData[i]->thePrecipitationFormSleet;
-          if (count == 0 || maxValue < theData[i]->thePrecipitationFormSleet)
-            maxValue = theData[i]->thePrecipitationFormSleet;
-          cumulativeSum += theData[i]->thePrecipitationFormSleet;
+          if (count == 0 || minValue > i->thePrecipitationFormSleet)
+            minValue = i->thePrecipitationFormSleet;
+          if (count == 0 || maxValue < i->thePrecipitationFormSleet)
+            maxValue = i->thePrecipitationFormSleet;
+          cumulativeSum += i->thePrecipitationFormSleet;
           count++;
         }
       }
       break;
       case PRECIPITATION_FORM_SNOW_DATA:
       {
-        if (theData[i]->thePrecipitationFormSnow != kFloatMissing)
+        if (i->thePrecipitationFormSnow != kFloatMissing)
         {
-          if (count == 0 || minValue > theData[i]->thePrecipitationFormSnow)
-            minValue = theData[i]->thePrecipitationFormSnow;
-          if (count == 0 || maxValue < theData[i]->thePrecipitationFormSnow)
-            maxValue = theData[i]->thePrecipitationFormSnow;
-          cumulativeSum += theData[i]->thePrecipitationFormSnow;
+          if (count == 0 || minValue > i->thePrecipitationFormSnow)
+            minValue = i->thePrecipitationFormSnow;
+          if (count == 0 || maxValue < i->thePrecipitationFormSnow)
+            maxValue = i->thePrecipitationFormSnow;
+          cumulativeSum += i->thePrecipitationFormSnow;
           count++;
         }
       }
       break;
       case PRECIPITATION_FORM_FREEZING_RAIN_DATA:
       {
-        if (theData[i]->thePrecipitationFormFreezingRain != kFloatMissing)
+        if (i->thePrecipitationFormFreezingRain != kFloatMissing)
         {
-          if (count == 0 || minValue > theData[i]->thePrecipitationFormFreezingRain)
-            minValue = theData[i]->thePrecipitationFormFreezingRain;
-          if (count == 0 || maxValue < theData[i]->thePrecipitationFormFreezingRain)
-            maxValue = theData[i]->thePrecipitationFormFreezingRain;
-          cumulativeSum += theData[i]->thePrecipitationFormFreezingRain;
+          if (count == 0 || minValue > i->thePrecipitationFormFreezingRain)
+            minValue = i->thePrecipitationFormFreezingRain;
+          if (count == 0 || maxValue < i->thePrecipitationFormFreezingRain)
+            maxValue = i->thePrecipitationFormFreezingRain;
+          cumulativeSum += i->thePrecipitationFormFreezingRain;
           count++;
         }
       }
       break;
       case PRECIPITATION_FORM_FREEZING_DRIZZLE_DATA:
       {
-        if (theData[i]->thePrecipitationFormFreezingDrizzle != kFloatMissing)
+        if (i->thePrecipitationFormFreezingDrizzle != kFloatMissing)
         {
-          if (count == 0 || minValue > theData[i]->thePrecipitationFormFreezingDrizzle)
-            minValue = theData[i]->thePrecipitationFormFreezingDrizzle;
-          if (count == 0 || maxValue < theData[i]->thePrecipitationFormFreezingDrizzle)
-            maxValue = theData[i]->thePrecipitationFormFreezingDrizzle;
-          cumulativeSum += theData[i]->thePrecipitationFormFreezingDrizzle;
+          if (count == 0 || minValue > i->thePrecipitationFormFreezingDrizzle)
+            minValue = i->thePrecipitationFormFreezingDrizzle;
+          if (count == 0 || maxValue < i->thePrecipitationFormFreezingDrizzle)
+            maxValue = i->thePrecipitationFormFreezingDrizzle;
+          cumulativeSum += i->thePrecipitationFormFreezingDrizzle;
           count++;
         }
       }
       break;
       case PRECIPITATION_TYPE_DATA:
       {
-        if (theData[i]->thePrecipitationTypeShowers != kFloatMissing)
+        if (i->thePrecipitationTypeShowers != kFloatMissing)
         {
-          if (count == 0 || minValue > theData[i]->thePrecipitationTypeShowers)
-            minValue = theData[i]->thePrecipitationTypeShowers;
-          if (count == 0 || maxValue < theData[i]->thePrecipitationTypeShowers)
-            maxValue = theData[i]->thePrecipitationTypeShowers;
-          cumulativeSum += theData[i]->thePrecipitationTypeShowers;
+          if (count == 0 || minValue > i->thePrecipitationTypeShowers)
+            minValue = i->thePrecipitationTypeShowers;
+          if (count == 0 || maxValue < i->thePrecipitationTypeShowers)
+            maxValue = i->thePrecipitationTypeShowers;
+          cumulativeSum += i->thePrecipitationTypeShowers;
           count++;
         }
       }
@@ -1816,16 +1816,16 @@ precipitation_type PrecipitationForecast::getPrecipitationType(
   unsigned int showers_counter(0);
   unsigned int continuous_counter(0);
 
-  for (unsigned int i = 0; i < theData.size(); i++)
+  for (auto i : theData)
   {
-    if (theData[i]->theObservationTime < thePeriod.localStartTime())
+    if (i->theObservationTime < thePeriod.localStartTime())
       continue;
-    if (theData[i]->theObservationTime > thePeriod.localEndTime())
+    if (i->theObservationTime > thePeriod.localEndTime())
       break;
 
-    if (theData[i]->thePrecipitationType != MISSING_PRECIPITATION_TYPE)
+    if (i->thePrecipitationType != MISSING_PRECIPITATION_TYPE)
     {
-      if (theData[i]->thePrecipitationType == SHOWERS)
+      if (i->thePrecipitationType == SHOWERS)
         showers_counter++;
       else
         continuous_counter++;
@@ -2055,9 +2055,9 @@ bool PrecipitationForecast::separateCoastInlandPrecipitation(
 void PrecipitationForecast::printOutPrecipitationVector(
     std::ostream& theOutput, const precipitation_data_vector& thePrecipitationDataVector) const
 {
-  for (unsigned int i = 0; i < thePrecipitationDataVector.size(); i++)
+  for (auto i : thePrecipitationDataVector)
   {
-    theOutput << *(thePrecipitationDataVector[i]);
+    theOutput << *i;
   }
 }
 
@@ -2484,17 +2484,17 @@ void PrecipitationForecast::printOutPrecipitationDistribution(std::ostream& theO
 void PrecipitationForecast::printOutPrecipitationDistribution(
     std::ostream& theOutput, const precipitation_data_vector& theDataVector) const
 {
-  for (unsigned int i = 0; i < theDataVector.size(); i++)
+  for (auto i : theDataVector)
   {
-    theOutput << "distribution(ne,se,sw,nw,n,s,e,w): " << theDataVector[i]->theObservationTime
-              << ", " << theDataVector[i]->thePrecipitationPercentageNorthEast << ", "
-              << theDataVector[i]->thePrecipitationPercentageSouthEast << ", "
-              << theDataVector[i]->thePrecipitationPercentageSouthWest << ", "
-              << theDataVector[i]->thePrecipitationPercentageNorthWest << ", "
-              << theDataVector[i]->precipitationPercentageNorth() << ", "
-              << theDataVector[i]->precipitationPercentageSouth() << ", "
-              << theDataVector[i]->precipitationPercentageEast() << ", "
-              << theDataVector[i]->precipitationPercentageWest() << endl;
+    theOutput << "distribution(ne,se,sw,nw,n,s,e,w): " << i->theObservationTime
+              << ", " << i->thePrecipitationPercentageNorthEast << ", "
+              << i->thePrecipitationPercentageSouthEast << ", "
+              << i->thePrecipitationPercentageSouthWest << ", "
+              << i->thePrecipitationPercentageNorthWest << ", "
+              << i->precipitationPercentageNorth() << ", "
+              << i->precipitationPercentageSouth() << ", "
+              << i->precipitationPercentageEast() << ", "
+              << i->precipitationPercentageWest() << endl;
   }
 }
 
@@ -2561,11 +2561,11 @@ bool PrecipitationForecast::printOutPrecipitationPeriods(
 {
   bool retval = false;
 
-  for (unsigned int i = 0; i < thePrecipitationPeriods.size(); i++)
+  for (const auto & thePrecipitationPeriod : thePrecipitationPeriods)
   {
     bool intersectionPeriodFound(false);
     WeatherPeriod period = get_intersection_period(
-        thePrecipitationPeriods.at(i), theParameters.theForecastPeriod, intersectionPeriodFound);
+        thePrecipitationPeriod, theParameters.theForecastPeriod, intersectionPeriodFound);
 
     if (!intersectionPeriodFound)
     {
@@ -2654,12 +2654,12 @@ bool PrecipitationForecast::getPrecipitationPeriod(const TextGenPosixTime& theTi
   if (!precipitationPeriodVector)
     return false;
 
-  for (unsigned int i = 0; i < precipitationPeriodVector->size(); i++)
+  for (const auto & i : *precipitationPeriodVector)
   {
-    if (is_inside(theTimestamp, precipitationPeriodVector->at(i)))
+    if (is_inside(theTimestamp, i))
     {
-      theStartTime = precipitationPeriodVector->at(i).localStartTime();
-      theEndTime = precipitationPeriodVector->at(i).localEndTime();
+      theStartTime = i.localStartTime();
+      theEndTime = i.localEndTime();
       //			theWeatherPeriod = precipitationPeriodVector->at(i);
       return true;
     }
@@ -2872,14 +2872,14 @@ void PrecipitationForecast::getPrecipitationDistribution(const WeatherPeriod& th
   theNorthWestPercentage = 0.0;
 
   unsigned int count = 0;
-  for (unsigned int i = 0; i < precipitationDataVector->size(); i++)
+  for (auto i : *precipitationDataVector)
   {
-    if (precipitationDataVector->at(i)->thePrecipitationIntensity > 0)
+    if (i->thePrecipitationIntensity > 0)
     {
-      theNorthEastPercentage += precipitationDataVector->at(i)->thePrecipitationPercentageNorthEast;
-      theSouthEastPercentage += precipitationDataVector->at(i)->thePrecipitationPercentageSouthEast;
-      theSouthWestPercentage += precipitationDataVector->at(i)->thePrecipitationPercentageSouthWest;
-      theNorthWestPercentage += precipitationDataVector->at(i)->thePrecipitationPercentageNorthWest;
+      theNorthEastPercentage += i->thePrecipitationPercentageNorthEast;
+      theSouthEastPercentage += i->thePrecipitationPercentageSouthEast;
+      theSouthWestPercentage += i->thePrecipitationPercentageSouthWest;
+      theNorthWestPercentage += i->thePrecipitationPercentageNorthWest;
       count++;
     }
   }
@@ -4180,10 +4180,10 @@ bool PrecipitationForecast::shortTermPrecipitationExists(const WeatherPeriod& th
 
   if (precipitationPeriodVector)
   {
-    for (unsigned int i = 0; i < precipitationPeriodVector->size(); i++)
+    for (const auto & i : *precipitationPeriodVector)
     {
-      TextGenPosixTime startTime(precipitationPeriodVector->at(i).localStartTime());
-      TextGenPosixTime endTime(precipitationPeriodVector->at(i).localEndTime());
+      TextGenPosixTime startTime(i.localStartTime());
+      TextGenPosixTime endTime(i.localEndTime());
 
       if (endTime.DifferenceInHours(startTime) < 6 && is_inside(startTime, thePeriod) &&
           is_inside(endTime, thePeriod))
@@ -4722,14 +4722,14 @@ unsigned int PrecipitationForecast::getPrecipitationHours(precipitation_intesity
   hours.insert(make_pair(MODERATE_PRECIPITATION, 0));
   hours.insert(make_pair(HEAVY_PRECIPITATION, 0));
   hours.insert(make_pair(MISSING_INTENSITY_ID, 0));
-  for (unsigned int i = 0; i < dataVector.size(); i++)
+  for (auto i : dataVector)
   {
-    if (dataVector[i]->theObservationTime >= period.localStartTime() &&
-        dataVector[i]->theObservationTime <= period.localEndTime())
+    if (i->theObservationTime >= period.localStartTime() &&
+        i->theObservationTime <= period.localEndTime())
     {
       precipitation_intesity_id intensityId =
-          get_precipitation_intensity_id(dataVector[i]->thePrecipitationForm,
-                                         dataVector[i]->thePrecipitationMaxIntensity,
+          get_precipitation_intensity_id(i->thePrecipitationForm,
+                                         i->thePrecipitationMaxIntensity,
                                          theParameters);
       (hours[intensityId])++;
     }

@@ -125,7 +125,7 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
       return 0;
     }
 
-    for (auto it = theIndexMask->begin(); it != theIndexMask->end(); ++it)
+    for (unsigned long it : *theIndexMask)
     {
       theQI.TimeIndex(startindex);
 
@@ -133,12 +133,12 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
       {
         // possible -1 is handled by IndexFloatValue
         const unsigned long idx =
-            theQI.Index(theQI.ParamIndex(), *it, theQI.LevelIndex(), theQI.TimeIndex());
+            theQI.Index(theQI.ParamIndex(), it, theQI.LevelIndex(), theQI.TimeIndex());
         const float tmp = theQI.GetFloatValue(idx);
 
         if (theAcceptor.accept(tmp))
         {
-          theResultData.push_back(new NFmiPoint(theQI.LatLon(*it)));
+          theResultData.push_back(new NFmiPoint(theQI.LatLon(it)));
           retval += tmp;
         }
       } while (theQI.NextTime() && theQI.TimeIndex() < endindex);
@@ -220,7 +220,7 @@ double ExtractMask(const AnalysisSources& theSources,
             theQI, thePeriod.utcStartTime(), thePeriod.utcEndTime(), startindex, endindex))
       return 0;
 
-    for (auto it = theIndexMask->begin(); it != theIndexMask->end(); ++it)
+    for (unsigned long it : *theIndexMask)
     {
       theQI.TimeIndex(startindex);
 
@@ -228,12 +228,12 @@ double ExtractMask(const AnalysisSources& theSources,
       {
         // possible -1 is handled by IndexFloatValue
         const unsigned long idx =
-            theQI.Index(theQI.ParamIndex(), *it, theQI.LevelIndex(), theQI.TimeIndex());
+            theQI.Index(theQI.ParamIndex(), it, theQI.LevelIndex(), theQI.TimeIndex());
         const float tmp = theQI.GetFloatValue(idx);
 
         if (theAcceptor.accept(tmp))
         {
-          theResultIndexMask.insert(*it);
+          theResultIndexMask.insert(it);
           retval += tmp;
         }
       } while (theQI.NextTime() && theQI.TimeIndex() < endindex);
@@ -311,12 +311,12 @@ void Insert(NFmiNearTree<NFmiPoint>& theTree, const NFmiSvgPath& thePath, double
 
   NFmiPoint lastPoint(0, 0);
 
-  for (auto it = thePath.begin(); it != thePath.end(); ++it)
+  for (const auto & it : thePath)
   {
-    switch (it->itsType)
+    switch (it.itsType)
     {
       case NFmiSvgPath::kElementMoveto:
-        lastPoint.Set(it->itsX, it->itsY);
+        lastPoint.Set(it.itsX, it.itsY);
         firstPoint = lastPoint;
         break;
       case NFmiSvgPath::kElementClosePath:
@@ -327,7 +327,7 @@ void Insert(NFmiNearTree<NFmiPoint>& theTree, const NFmiSvgPath& thePath, double
       }
       case NFmiSvgPath::kElementLineto:
       {
-        NFmiPoint nextPoint(it->itsX, it->itsY);
+        NFmiPoint nextPoint(it.itsX, it.itsY);
         Insert(theTree, lastPoint, nextPoint, theResolution);
         lastPoint = nextPoint;
         break;
@@ -450,9 +450,9 @@ void PrintLatLon(const AnalysisSources& theSources,
   boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
-  for (auto it = theIndexMask.begin(); it != theIndexMask.end(); ++it)
+  for (unsigned long it : theIndexMask)
   {
-    cout << theQI.LatLon(*it);
+    cout << theQI.LatLon(it);
   }
 }
 }  // namespace TextGen

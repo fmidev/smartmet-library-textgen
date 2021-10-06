@@ -108,9 +108,9 @@ bool isPartOfArea(const WeatherArea& theWeatherArea,
   boost::shared_ptr<NFmiQueryData> qd = wsource->data(dataname);
   NFmiFastQueryInfo theQI = NFmiFastQueryInfo(qd.get());
 
-  for (auto it = theIndexMask.begin(); it != theIndexMask.end(); ++it)
+  for (unsigned long it : theIndexMask)
   {
-    NFmiPoint point(theQI.LatLon(*it).X(), theQI.LatLon(*it).Y());
+    NFmiPoint point(theQI.LatLon(it).X(), theQI.LatLon(it).Y());
     if (!theWeatherArea.path().IsInside(point))
       return false;
   }
@@ -149,11 +149,11 @@ NFmiPoint getArealDistribution(const AnalysisSources& theSources,
   ExtractMask(theSources, theParameter, theArea, thePeriod, theAcceptor, indexMask);
 
   vector<NFmiPoint*> latitudeLongitudeCoordinates;
-  for (auto it = indexMask.begin(); it != indexMask.end(); ++it)
+  for (unsigned long it : indexMask)
   {
-    lonSum += theQI.LatLon(*it).X();
-    latSum += theQI.LatLon(*it).Y();
-    latitudeLongitudeCoordinates.push_back(new NFmiPoint(theQI.LatLon(*it)));
+    lonSum += theQI.LatLon(it).X();
+    latSum += theQI.LatLon(it).Y();
+    latitudeLongitudeCoordinates.push_back(new NFmiPoint(theQI.LatLon(it)));
   }
 
   if (!latitudeLongitudeCoordinates.empty())
@@ -392,9 +392,9 @@ Rect::Rect(const AnalysisSources& theSources,
   double lon_max = 0.0;
   double lat_max = 0.0;
 
-  for (auto it = theIndexMask.begin(); it != theIndexMask.end(); ++it)
+  for (unsigned long it : theIndexMask)
   {
-    NFmiPoint point(theQI.LatLon(*it));
+    NFmiPoint point(theQI.LatLon(it));
     if (lon_min > point.X())
       lon_min = point.X();
     if (lon_max < point.X())

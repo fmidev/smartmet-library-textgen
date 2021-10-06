@@ -1676,9 +1676,8 @@ void get_sub_time_series(const WeatherPeriod& thePeriod,
                          const weather_result_data_item_vector& theSourceVector,
                          weather_result_data_item_vector& theDestinationVector)
 {
-  for (unsigned int i = 0; i < theSourceVector.size(); i++)
+  for (auto item : theSourceVector)
   {
-    WeatherResultDataItem* item = theSourceVector[i];
     if (item->thePeriod.localStartTime() >= thePeriod.localStartTime() &&
         item->thePeriod.localEndTime() <= thePeriod.localEndTime())
       theDestinationVector.push_back(item);
@@ -1689,9 +1688,8 @@ void get_sub_time_series(const part_of_the_day_id& thePartOfTheDay,
                          const weather_result_data_item_vector& theSourceVector,
                          weather_result_data_item_vector& theDestinationVector)
 {
-  for (unsigned int i = 0; i < theSourceVector.size(); i++)
+  for (auto item : theSourceVector)
   {
-    WeatherResultDataItem* item = theSourceVector[i];
     if (item->thePartOfTheDay == thePartOfTheDay)
       theDestinationVector.push_back(item);
   }
@@ -1727,11 +1725,11 @@ float get_standard_deviation(const weather_result_data_item_vector& theTimeSerie
   float deviation_sum_pow2 = 0.0;
   float mean = get_mean(theTimeSeries);
   int counter = 0;
-  for (unsigned int i = 0; i < theTimeSeries.size(); i++)
+  for (auto theTimeSerie : theTimeSeries)
   {
-    if (theTimeSeries[i]->theResult.value() == kFloatMissing)
+    if (theTimeSerie->theResult.value() == kFloatMissing)
       continue;
-    deviation_sum_pow2 += std::pow(mean - theTimeSeries[i]->theResult.value(), 2);
+    deviation_sum_pow2 += std::pow(mean - theTimeSerie->theResult.value(), 2);
     counter++;
   }
 
@@ -2050,9 +2048,9 @@ split_method split_the_area(const std::string& theVar,
   {
     std::string areasToSplit(require_string(theVar + "::areas_to_split"));
     vector<string> areas = NFmiStringTools::Split(areasToSplit, ",");
-    for (unsigned int i = 0; i < areas.size(); i++)
+    for (auto & area : areas)
     {
-      if (theArea.name() == areas[i])
+      if (theArea.name() == area)
       {
         std::string split_method(optional_string(
             "textgen::split_the_area::" + theArea.name() + "::method", EMPTY_STRING));

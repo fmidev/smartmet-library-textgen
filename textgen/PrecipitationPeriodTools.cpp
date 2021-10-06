@@ -81,12 +81,12 @@ RainPeriods analyze(const AnalysisSources& theSources,
 RainPeriods overlappingPeriods(const RainPeriods& thePeriods, const WeatherPeriod& thePeriod)
 {
   RainPeriods out;
-  for (auto it = thePeriods.begin(); it != thePeriods.end(); ++it)
+  for (const auto & it : thePeriods)
   {
-    if (it->localStartTime() < thePeriod.localEndTime() &&
-        it->localEndTime() > thePeriod.localStartTime())
+    if (it.localStartTime() < thePeriod.localEndTime() &&
+        it.localEndTime() > thePeriod.localStartTime())
     {
-      out.push_back(*it);
+      out.push_back(it);
     }
   }
   return out;
@@ -105,12 +105,12 @@ RainPeriods overlappingPeriods(const RainPeriods& thePeriods, const WeatherPerio
 RainPeriods inclusivePeriods(const RainPeriods& thePeriods, const WeatherPeriod& thePeriod)
 {
   RainPeriods out;
-  for (auto it = thePeriods.begin(); it != thePeriods.end(); ++it)
+  for (const auto & it : thePeriods)
   {
-    if (it->localStartTime() >= thePeriod.localStartTime() &&
-        it->localEndTime() <= thePeriod.localEndTime())
+    if (it.localStartTime() >= thePeriod.localStartTime() &&
+        it.localEndTime() <= thePeriod.localEndTime())
     {
-      out.push_back(*it);
+      out.push_back(it);
     }
   }
   return out;
