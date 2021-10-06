@@ -277,10 +277,10 @@ bool PostGISDataSource::readData(const std::string& host,
       // destroy feature
       OGRFeature::DestroyFeature(pFeature);
     }
-    if (pCoordinateTransform)
-    {
+    
+    
       delete pCoordinateTransform;
-    }
+    
 
     // in the end destroy data source
 #if GDAL_VERSION_MAJOR < 2

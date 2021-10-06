@@ -800,11 +800,11 @@ struct CloudinessDataItem
 
   ~CloudinessDataItem()
   {
-    if (theCoastalData)
+    
       delete theCoastalData;
-    if (theInlandData)
+    
       delete theInlandData;
-    if (theFullData)
+    
       delete theFullData;
   }
 };
@@ -988,11 +988,11 @@ struct PrecipitationDataItem
 
   ~PrecipitationDataItem()
   {
-    if (theCoastalData)
+    
       delete theCoastalData;
-    if (theInlandData)
+    
       delete theInlandData;
-    if (theFullData)
+    
       delete theFullData;
   }
 };
