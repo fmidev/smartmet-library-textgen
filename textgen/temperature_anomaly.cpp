@@ -901,7 +901,7 @@ const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& th
     // kirea pakkanen jatkuu
     // pakkanen kiristyy
 
-    if (temperatureGettingLower == false)  // day2Temperature >= day1Temperature)
+    if (!temperatureGettingLower)  // day2Temperature >= day1Temperature)
     {
       if (day1Temperature > MILD_TEMPERATURE_LOWER_LIMIT &&
           day1Temperature < MILD_TEMPERATURE_UPPER_LIMIT &&
@@ -1015,7 +1015,7 @@ const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& th
         theParameters.theShortrunTrend = KIREA_PAKKANEN_JATKUU;
       }
     }
-    else if (temperatureGettingLower == true)  // day2Temperature <= day1Temperature)
+    else if (temperatureGettingLower)  // day2Temperature <= day1Temperature)
     {
       if (temperatureDifferenceDay1Day2 >= SIGNIFIGANT_CHANGE_LOWER_LIMIT &&
           temperatureDifferenceDay1DayAfterDay2 >= SIGNIFIGANT_CHANGE_LOWER_LIMIT &&
@@ -1067,7 +1067,7 @@ const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& th
     // saa viilenee
     // saa viilenee huomattavasti
 
-    if (temperatureGettingLower == false)  // day2Temperature >= day1Temperature)
+    if (!temperatureGettingLower)  // day2Temperature >= day1Temperature)
     {
       if (dayBeforeDay1Temperature >= hot_weather_limit && day1Temperature >= hot_weather_limit &&
           day2Temperature >= hot_weather_limit && dayAfterDay2Temperature >= hot_weather_limit)
@@ -1172,7 +1172,7 @@ const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& th
         theParameters.theShortrunTrend = SAA_LAMPENEE_VAHAN;
       }
     }
-    else if (temperatureGettingLower == true &&
+    else if (temperatureGettingLower &&
              day2Temperature > ZERO_DEGREES)  // day2Temperature <= day1Temperature &&
                                               // day2Temperature > ZERO_DEGREES)
     {

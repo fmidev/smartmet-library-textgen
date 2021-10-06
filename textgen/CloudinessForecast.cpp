@@ -374,7 +374,7 @@ float CloudinessForecast::getMeanCloudiness(
 
 bool CloudinessForecast::separateCoastInlandCloudiness(const WeatherPeriod& theWeatherPeriod) const
 {
-  if (theParameters.theCoastalAndInlandTogetherFlag == true)
+  if (theParameters.theCoastalAndInlandTogetherFlag)
     return false;
 
   weather_result_data_item_vector theInterestingDataCoastal;

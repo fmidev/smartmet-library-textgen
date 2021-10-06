@@ -579,7 +579,7 @@ void clamp_temperature(
     return;
 
   bool clamp_down = optional_bool(thePlainVar + season + period + "::temperature_clamp_down",
-                                  isWinter ? false : true);
+                                  !isWinter);
 
   if (theMaximum - theMinimum > temperature_max_interval)
   {

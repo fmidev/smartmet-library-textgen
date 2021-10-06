@@ -64,9 +64,7 @@ CloudinessStory::CloudinessStory(const TextGenPosixTime& theForecastTime,
 
 bool CloudinessStory::hasStory(const string& theName)
 {
-  if (theName == "cloudiness_overview")
-    return true;
-  return false;
+  return theName == "cloudiness_overview";
 }
 
 // ----------------------------------------------------------------------

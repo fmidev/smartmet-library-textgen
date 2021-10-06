@@ -1234,7 +1234,7 @@ void init_parameters(wf_story_params& theParameters)
 
   if (theParameters.theCoastalAndInlandTogetherFlag)
   {
-    if (theParameters.theArea.isMarine() == false && theParameters.theArea.isIsland() == false)
+    if (!theParameters.theArea.isMarine() && !theParameters.theArea.isIsland())
       theParameters.theLog << "Inland and coastal area(" << coastalPercentage << ") not separated!"
                            << endl;
   }
@@ -1461,7 +1461,7 @@ const Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
 
 bool is_same_part_of_the_day(const std::string& phrase1, const std::string& phrase2)
 {
-  if ((phrase1 == AAMULLA_WORD && (phrase2 == AAMULLA_WORD || phrase2 == AAMUSTA_ALKAEN_PHRASE)) ||
+  return (phrase1 == AAMULLA_WORD && (phrase2 == AAMULLA_WORD || phrase2 == AAMUSTA_ALKAEN_PHRASE)) ||
       (phrase1 == AAMUPAIVALLA_WORD &&
        (phrase2 == AAMUPAIVALLA_WORD || phrase2 == AAMUPAIVASTA_ALKAEN_PHRASE)) ||
       (phrase1 == ILTAPAIVALLA_WORD &&
@@ -1474,10 +1474,7 @@ bool is_same_part_of_the_day(const std::string& phrase1, const std::string& phra
       (phrase1 == AAMUYOLLA_WORD &&
        (phrase2 == AAMUYOLLA_WORD || phrase2 == AAMUYOSTA_ALKAEN_PHRASE)) ||
       (phrase1 == YOLLA_WORD && phrase2 == YOLLA_WORD) ||
-      (phrase1 == PAIVALLA_WORD && phrase2 == PAIVALLA_WORD))
-    return true;
-
-  return false;
+      (phrase1 == PAIVALLA_WORD && phrase2 == PAIVALLA_WORD);
 }
 
 // if the successive sentences contains the same time phrase, insert

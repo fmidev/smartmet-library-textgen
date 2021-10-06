@@ -65,9 +65,7 @@ WaveStory::WaveStory(const TextGenPosixTime& theForecastTime,
 
 bool WaveStory::hasStory(const string& theName)
 {
-  if (theName == "wave_range")
-    return true;
-  return false;
+  return theName == "wave_range";
 }
 
 // ----------------------------------------------------------------------

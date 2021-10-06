@@ -65,9 +65,7 @@ DewPointStory::DewPointStory(const TextGenPosixTime& theForecastTime,
 
 bool DewPointStory::hasStory(const string& theName)
 {
-  if (theName == "dewpoint_range")
-    return true;
-  return false;
+  return theName == "dewpoint_range";
 }
 
 // ----------------------------------------------------------------------

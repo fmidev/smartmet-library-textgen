@@ -1569,7 +1569,7 @@ bool separate_day_and_night(const t36hparams& theParameters, forecast_area_id th
         }
       }
 
-      if (separateDayAndNight == false && theParameters.theForecastArea & COASTAL_AREA)
+      if (!separateDayAndNight && theParameters.theForecastArea & COASTAL_AREA)
       {
         if (theParameters.theForecastPeriod & DAY1_PERIOD &&
             theParameters.theForecastPeriod & NIGHT_PERIOD)
@@ -1660,7 +1660,7 @@ bool separate_day_and_night(const t36hparams& theParameters, forecast_area_id th
         }
       }
 
-      if (separateDayAndNight == false && theParameters.theForecastArea & INLAND_AREA)
+      if (!separateDayAndNight && theParameters.theForecastArea & INLAND_AREA)
       {
         if (theParameters.theForecastPeriod & DAY1_PERIOD &&
             theParameters.theForecastPeriod & NIGHT_PERIOD)

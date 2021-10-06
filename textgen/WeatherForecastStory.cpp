@@ -109,7 +109,7 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
     if (!specifyPartOfTheDayFlag)
     {
       // ARE 14.4.2011: checking theIncludeInTheStoryFlag
-      if (theStoryItemVector[i]->theIncludeInTheStoryFlag == true &&
+      if (theStoryItemVector[i]->theIncludeInTheStoryFlag &&
           theStoryItemVector[i]->getSentence().size() > 0)
         storyItemCounter++;
     }
@@ -117,7 +117,7 @@ WeatherForecastStory::WeatherForecastStory(const std::string& var,
     // check wheather more than one precipitation form exists during the forecast period
     if (!moreThanOnePrecipitationForms &&
         theStoryItemVector[i]->theStoryPartId == PRECIPITATION_STORY_PART &&
-        theStoryItemVector[i]->theIncludeInTheStoryFlag == true)
+        theStoryItemVector[i]->theIncludeInTheStoryFlag)
     {
       precipitation_form_id precipitationForm = thePrecipitationForecast.getPrecipitationForm(
           theStoryItemVector[i]->thePeriod, theParameters.theForecastArea);
@@ -822,7 +822,7 @@ void WeatherForecastStory::mergePrecipitationPeriodsWhenFeasible()
     WeatherForecastStoryItem* currentStoryItem = theStoryItemVector[indexes[i]];
     WeatherForecastStoryItem* previousStoryItem =
         (i > 0 ? theStoryItemVector[indexes[i - 1]] : nullptr);
-    if (currentStoryItem->theIncludeInTheStoryFlag == false)
+    if (!currentStoryItem->theIncludeInTheStoryFlag)
       continue;
 
     if (currentStoryItem->theStoryPartId == PRECIPITATION_STORY_PART)
@@ -893,7 +893,7 @@ void WeatherForecastStory::mergePrecipitationPeriodsWhenFeasible()
     if (theStoryItemVector[lastIndex]->theStoryPartId == PRECIPITATION_STORY_PART &&
         theStoryItemVector[lastIndex]->getPeriodLength() <= 1 &&
         theStoryItemVector[beforeLastIndex]->theStoryPartId == CLOUDINESS_STORY_PART &&
-        theStoryItemVector[beforeLastIndex]->theIncludeInTheStoryFlag == true)
+        theStoryItemVector[beforeLastIndex]->theIncludeInTheStoryFlag)
       theStoryItemVector[lastIndex]->theIncludeInTheStoryFlag = false;
   }
 }
@@ -908,7 +908,7 @@ void WeatherForecastStory::mergeCloudinessPeriodsWhenFeasible()
   {
     WeatherForecastStoryItem* currentStoryItem = theStoryItemVector[indexes[i]];
     if (currentStoryItem->theStoryPartId == CLOUDINESS_STORY_PART &&
-        currentStoryItem->theIncludeInTheStoryFlag == true)
+        currentStoryItem->theIncludeInTheStoryFlag)
     {
       currentCloudinessStoryItem = static_cast<CloudinessForecastStoryItem*>(currentStoryItem);
       if (previousCloudinessStoryItem)
@@ -956,7 +956,7 @@ void WeatherForecastStory::mergeCloudinessPeriodsWhenFeasible()
     if (theStoryItemVector[lastIndex]->theStoryPartId == CLOUDINESS_STORY_PART &&
         theStoryItemVector[lastIndex]->getPeriodLength() <= 1 &&
         theStoryItemVector[beforeLastIndex]->theStoryPartId == PRECIPITATION_STORY_PART &&
-        theStoryItemVector[beforeLastIndex]->theIncludeInTheStoryFlag == true)
+        theStoryItemVector[beforeLastIndex]->theIncludeInTheStoryFlag)
       theStoryItemVector[lastIndex]->theIncludeInTheStoryFlag = false;
   }
 }

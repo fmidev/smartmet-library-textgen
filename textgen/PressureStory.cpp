@@ -65,9 +65,7 @@ PressureStory::PressureStory(const TextGenPosixTime& theForecastTime,
 
 bool PressureStory::hasStory(const string& theName)
 {
-  if (theName == "pressure_mean")
-    return true;
-  return false;
+  return theName == "pressure_mean";
 }
 
 // ----------------------------------------------------------------------

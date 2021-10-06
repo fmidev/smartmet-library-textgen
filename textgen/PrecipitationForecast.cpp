@@ -2020,7 +2020,7 @@ bool PrecipitationForecast::separateCoastInlandPrecipitation(
 {
   if (!(theParameters.theForecastArea & INLAND_AREA &&
         theParameters.theForecastArea & COASTAL_AREA) ||
-      theParameters.theCoastalAndInlandTogetherFlag == true)
+      theParameters.theCoastalAndInlandTogetherFlag)
     return false;
 
   float coastalPrecipitation = getMean(theCoastalData, PRECIPITATION_MEAN_DATA, theWeatherPeriod);
