@@ -2067,7 +2067,7 @@ split_method split_the_area(const std::string& theVar,
         {
           Rect areaRect(theArea);
           NFmiPoint centerPoint = areaRect.getCenter();
-          size_t valuePos = split_method.find(COLON_PUNCTUATION_MARK);
+          size_t valuePos = split_method.find(':');
           std::string valueStr(valuePos != string::npos ? split_method.substr(valuePos + 1) : "");
           boost::trim(valueStr);
           if (!valueStr.empty())
@@ -2129,7 +2129,7 @@ bool test_temperature_split_criterion(const std::string& theVar,
   const std::string criterion =
       optional_string(split_section_name + "::criterion", "temperature_difference");
   float difference = 5.0;
-  size_t index = criterion.find(":");
+  size_t index = criterion.find(':');
   if (index != string::npos)
     difference = atof(criterion.substr(index + 1).c_str());
 
