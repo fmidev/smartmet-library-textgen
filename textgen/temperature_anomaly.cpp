@@ -1337,7 +1337,7 @@ const Paragraph anomaly(const TextGen::WeatherArea& itsArea,
     theLog << paragraph;
     return paragraph;
   }
-  else if (ndays == 1)
+  if (ndays == 1)
   {
     periodStartTime.ChangeByDays(-1);
   }

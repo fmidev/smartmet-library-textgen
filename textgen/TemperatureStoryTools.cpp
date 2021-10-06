@@ -627,7 +627,7 @@ fractile_id get_fractile(const std::string& theVar,
     float f98 = require_double(theVar + "::fake::fractile::" + seasonStr + "::F98");
     if (theTemperature <= f02)
       return FRACTILE_02;
-    else if (theTemperature <= f12)
+    if (theTemperature <= f12)
       return FRACTILE_12;
     else if (theTemperature <= f37)
       return FRACTILE_37;
@@ -749,7 +749,7 @@ fractile_id get_fractile(const std::string& theVar,
 
   if (result.value() != kFloatMissing && theTemperature <= result.value())
     return FRACTILE_98;
-  else if (result.value() != kFloatMissing)
+  if (result.value() != kFloatMissing)
     return FRACTILE_100;
   else
     return FRACTILE_UNDEFINED;
@@ -783,7 +783,7 @@ WeatherResult get_fractile_temperature(const std::string& theVar,
   {
     if (theFractileId == FRACTILE_02)
       return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F02"), 0);
-    else if (theFractileId == FRACTILE_12)
+    if (theFractileId == FRACTILE_12)
       return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F12"), 0);
     else if (theFractileId == FRACTILE_37)
       return WeatherResult(require_double(theVar + "::fake::fractile::" + seasonStr + "::F37"), 0);

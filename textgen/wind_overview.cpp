@@ -331,7 +331,7 @@ std::string get_direction_abbreviation(
   {
     if (direction >= 348.75 || direction < 11.25)
       return "N";
-    else if (direction >= 11.25 && direction < 33.75)
+    if (direction >= 11.25 && direction < 33.75)
       return "n-ne";
     else if (direction >= 33.75 && direction < 56.25)
       return "NE";
@@ -366,7 +366,7 @@ std::string get_direction_abbreviation(
   {
     if (direction >= 337.50 || direction < 22.50)
       return "N";
-    else if (direction >= 22.50 && direction < 67.50)
+    if (direction >= 22.50 && direction < 67.50)
       return "NE";
     else if (direction >= 67.50 && direction < 112.50)
       return "E";
@@ -1874,7 +1874,7 @@ void find_out_wind_speed_periods(wo_story_params& storyParams)
 
   if (equalizedWSIndexesMedian.size() == 0)
     return;
-  else if (equalizedWSIndexesMedian.size() == 1)
+  if (equalizedWSIndexesMedian.size() == 1)
   {
     equalizedDataIndex = equalizedWSIndexesMedian[0];
     const WindDataItemUnit& dataItem =
@@ -1935,7 +1935,7 @@ void find_out_raw_wind_direction_periods(wo_story_params& storyParams)
 
   if (dataVector.size() == 0)
     return;
-  else if (dataVector.size() == 1)
+  if (dataVector.size() == 1)
   {
     const WindDataItemUnit& dataItem = (*dataVector[0])(areaType);
 
@@ -2023,7 +2023,7 @@ WindEventId get_wind_speed_event(float windSpeedAtStart,
 
   if (abs(difference) <= windSpeedThreshold)
     return MISSING_WIND_SPEED_EVENT;
-  else if (difference < 0.0 && windSpeedAtEnd >= 0.0 && windSpeedAtEnd < 0.5)
+  if (difference < 0.0 && windSpeedAtEnd >= 0.0 && windSpeedAtEnd < 0.5)
     return TUULI_TYYNTYY;
   else if (difference < 0.0)
     return TUULI_HEIKKENEE;
@@ -2046,7 +2046,7 @@ WindEventId get_wind_direction_event(const WeatherResult& windDirection1,
 
   if (directionId1 != VAIHTELEVA && directionId2 == VAIHTELEVA)
     return TUULI_MUUTTUU_VAIHTELEVAKSI;
-  else if (directionId1 == directionId2)
+  if (directionId1 == directionId2)
     return MISSING_WIND_DIRECTION_EVENT;
   else if (directionId1 == VAIHTELEVA)
   {
@@ -2098,7 +2098,7 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
   {
     return;
   }
-  else if (theEqualizedIndexes.size() == 1)
+  if (theEqualizedIndexes.size() == 1)
   {
     unsigned int dataIndex = theEqualizedIndexes[0];
     const WindDataItemUnit& dataItem = (*storyParams.theWindDataVector[dataIndex])(areaType);
@@ -2150,9 +2150,8 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
 
       continue;
     }
-    else
-    {
-      WeatherPeriod mergedPeriod(previousEventPeriod->thePeriod.localStartTime(),
+    
+          WeatherPeriod mergedPeriod(previousEventPeriod->thePeriod.localStartTime(),
                                  windEventPeriod.localEndTime());
 
       auto* newEventPeriod =
@@ -2168,7 +2167,7 @@ void find_out_wind_speed_event_periods(wo_story_params& storyParams)
           storyParams.theWindSpeedEventPeriodVector.size() - 1);
 
       storyParams.theWindSpeedEventPeriodVector.push_back(newEventPeriod);
-    }
+   
   }
 
   // iterate through and check against actual threshold value that wind speed differ enough

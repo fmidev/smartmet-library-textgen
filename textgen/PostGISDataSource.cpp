@@ -301,7 +301,7 @@ std::string PostGISDataSource::getSVGPath(const std::string& name) const
 {
   if (polygonmap.find(name) != polygonmap.end())
     return polygonmap.at(name);
-  else if (linemap.find(name) != linemap.end())
+  if (linemap.find(name) != linemap.end())
     return linemap.at(name);
   else
     return "";
@@ -311,8 +311,7 @@ std::pair<double, double> PostGISDataSource::getPoint(const std::string& name) c
 {
   if (pointmap.find(name) != pointmap.end())
     return pointmap.at(name);
-  else
-    return make_pair(32700.0, 32700.0);
+      return make_pair(32700.0, 32700.0);
 }
 
 PostGISDataSource::GDALData* PostGISDataSource::connect(const std::string& host,

@@ -1996,7 +1996,7 @@ bool PrecipitationForecast::reportPrecipitationFormsSeparately(precipitation_for
       (form2 == WATER_FORM &&
        (form1 == SLEET_FORM || form1 == SNOW_FORM || form1 == FREEZING_FORM)))
     return true;
-  else if ((form1 == SLEET_FORM &&
+  if ((form1 == SLEET_FORM &&
             (form2 == WATER_FORM || form2 == SNOW_FORM || form2 == FREEZING_FORM)) ||
            (form2 == SLEET_FORM &&
             (form1 == WATER_FORM || form1 == SNOW_FORM || form1 == FREEZING_FORM)))
@@ -3162,8 +3162,7 @@ WeatherPeriod PrecipitationForecast::getHeavyPrecipitationPeriod(
 
   if (heavyIndex >= 0)
     return mergedHeavyPrecipitationPeriods[heavyIndex];
-  else
-    return WeatherPeriod(thePeriod.localStartTime(), thePeriod.localStartTime());
+      return WeatherPeriod(thePeriod.localStartTime(), thePeriod.localStartTime());
 }
 
 void PrecipitationForecast::calculatePrecipitationParameters(
@@ -4027,7 +4026,7 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
     {
       if (theTimePhraseFormat == FROM_FORMAT)
         return AAMUSTA_ALKAEN_PHRASE;
-      else if (theTimePhraseFormat == TILL_FORMAT)
+      if (theTimePhraseFormat == TILL_FORMAT)
         return AAMUUN_ASTI_PHRASE;
       else
         return AAMULLA_WORD;
@@ -4037,7 +4036,7 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
     {
       if (theTimePhraseFormat == FROM_FORMAT)
         return AAMUPAIVASTA_ALKAEN_PHRASE;
-      else if (theTimePhraseFormat == TILL_FORMAT)
+      if (theTimePhraseFormat == TILL_FORMAT)
         return AAMUPAIVAAN_ASTI_PHRASE;
       else
         return AAMUPAIVALLA_WORD;
@@ -4048,7 +4047,7 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
     {
       if (theTimePhraseFormat == FROM_FORMAT)
         return ILTAPAIVASTA_ALKAEN_PHRASE;
-      else if (theTimePhraseFormat == TILL_FORMAT)
+      if (theTimePhraseFormat == TILL_FORMAT)
         return ILTAPAIVAAN_ASTI_PHRASE;
       else
         return ILTAPAIVALLA_WORD;
@@ -4058,7 +4057,7 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
     {
       if (theTimePhraseFormat == FROM_FORMAT)
         return ILLASTA_ALKAEN_PHRASE;
-      else if (theTimePhraseFormat == TILL_FORMAT)
+      if (theTimePhraseFormat == TILL_FORMAT)
         return ILTAAN_ASTI_PHRASE;
       else
         return ILLALLA_WORD;
@@ -4068,7 +4067,7 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
     {
       if (theTimePhraseFormat == FROM_FORMAT)
         return ILTAYOSTA_ALKAEN_PHRASE;
-      else if (theTimePhraseFormat == TILL_FORMAT)
+      if (theTimePhraseFormat == TILL_FORMAT)
         return ILTAYOHON_ASTI_PHRASE;
       else
         return ILTAYOLLA_WORD;
@@ -4078,7 +4077,7 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
     {
       if (theTimePhraseFormat == FROM_FORMAT)
         return KESKIYOSTA_ALKAEN_PHRASE;
-      else if (theTimePhraseFormat == TILL_FORMAT)
+      if (theTimePhraseFormat == TILL_FORMAT)
         return KESKIYOHON_ASTI_PHRASE;
       else
         return KESKIYOLLA_WORD;
@@ -4088,7 +4087,7 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
     {
       if (theTimePhraseFormat == FROM_FORMAT)
         return AAMUYOSTA_ALKAEN_PHRASE;
-      else if (theTimePhraseFormat == TILL_FORMAT)
+      if (theTimePhraseFormat == TILL_FORMAT)
         return AAMUYOHON_ASTI_PHRASE;
       else
         return AAMUYOLLA_WORD;
@@ -4110,7 +4109,7 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
     {
       if (theTimePhraseFormat == FROM_FORMAT)
         return AAMUSTA_ALKAEN_PHRASE;
-      else if (theTimePhraseFormat == TILL_FORMAT)
+      if (theTimePhraseFormat == TILL_FORMAT)
         return AAMUPAIVAAN_ASTI_PHRASE;
       else
         return AAMULLA_JA_AAMUPAIVALLA_PHRASE;
@@ -4120,7 +4119,7 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
     {
       if (theTimePhraseFormat == FROM_FORMAT)
         return ILTAPAIVASTA_ALKAEN_PHRASE;
-      else if (theTimePhraseFormat == TILL_FORMAT)
+      if (theTimePhraseFormat == TILL_FORMAT)
         return ILTAAN_ASTI_PHRASE;
       else
         return ILTAPAIVALLA_JA_ILLALLA_PHRASE;
@@ -4130,7 +4129,7 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
     {
       if (theTimePhraseFormat == FROM_FORMAT)
         return ILLASTA_ALKAEN_PHRASE;
-      else if (theTimePhraseFormat == TILL_FORMAT)
+      if (theTimePhraseFormat == TILL_FORMAT)
         return ILTAYOHON_ASTI_PHRASE;
       else
         return ILLALLA_JA_ILTAYOLLA_PHRASE;
@@ -4140,7 +4139,7 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
     {
       if (theTimePhraseFormat == FROM_FORMAT)
         return ILTAYOSTA_ALKAEN_PHRASE;
-      else if (theTimePhraseFormat == TILL_FORMAT)
+      if (theTimePhraseFormat == TILL_FORMAT)
         return KESKIYOHON_ASTI_PHRASE;
       else
         return ILTAYOLLA_JA_KESKIYOLLA_PHRASE;
@@ -4150,7 +4149,7 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
     {
       if (theTimePhraseFormat == FROM_FORMAT)
         return KESKIYOSTA_ALKAEN_PHRASE;
-      else if (theTimePhraseFormat == TILL_FORMAT)
+      if (theTimePhraseFormat == TILL_FORMAT)
         return AAMUYOHON_ASTI_PHRASE;
       else
         return KESKIYOLLA_JA_AAMUYOLLA_PHRASE;
@@ -4160,7 +4159,7 @@ string PrecipitationForecast::getTimePhrase(part_of_the_day_id thePartOfTheDayId
     {
       if (theTimePhraseFormat == FROM_FORMAT)
         return AAMUYOSTA_ALKAEN_PHRASE;
-      else if (theTimePhraseFormat == TILL_FORMAT)
+      if (theTimePhraseFormat == TILL_FORMAT)
         return AAMUUN_ASTI_PHRASE;
       else
         return AAMUYOLLA_JA_AAMULLA_PHRASE;
@@ -4594,7 +4593,7 @@ const precipitation_data_vector& PrecipitationForecast::getPrecipitationDataVect
   {
     return theFullData;
   }
-  else if (theForecastArea & COASTAL_AREA)
+  if (theForecastArea & COASTAL_AREA)
   {
     return theCoastalData;
   }

@@ -583,7 +583,7 @@ struct t36hparams
     {
       if (theForecastPeriodId == DAY1_PERIOD)
         return theForecastSubPeriod & DAY1_MORNING_PERIOD;
-      else if (theForecastPeriodId == NIGHT_PERIOD)
+      if (theForecastPeriodId == NIGHT_PERIOD)
         return false;
       else if (theForecastPeriodId == DAY2_PERIOD)
         return theForecastSubPeriod & DAY2_MORNING_PERIOD;
@@ -610,7 +610,7 @@ struct t36hparams
     {
       if (theForecastPeriodId == DAY1_PERIOD)
         return (theForecastAreaDay1 & COASTAL_AREA) && (theForecastAreaDay1 & INLAND_AREA);
-      else if (theForecastPeriodId == NIGHT_PERIOD)
+      if (theForecastPeriodId == NIGHT_PERIOD)
         return (theForecastAreaNight & COASTAL_AREA) && (theForecastAreaNight & INLAND_AREA);
       else if (theForecastPeriodId == DAY2_PERIOD)
         return (theForecastAreaDay2 & COASTAL_AREA) && (theForecastAreaDay2 & INLAND_AREA);
@@ -4198,7 +4198,7 @@ Paragraph temperature_max36hours_sentence(t36hparams& theParameters)
       }
       continue;
     }
-    else if (periodArea == DELIMITER_COMMA)
+    if (periodArea == DELIMITER_COMMA)
     {
       if (!theParameters.theSentenceUnderConstruction.empty())
       {

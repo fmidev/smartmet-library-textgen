@@ -160,7 +160,7 @@ fog_type_id get_fog_type(const float& theModerateFog,
   {
     return NO_FOG;
   }
-  else if (totalFog >= IN_SOME_PLACES_LOWER_LIMIT_FOG && totalFog <= IN_SOME_PLACES_UPPER_LIMIT)
+  if (totalFog >= IN_SOME_PLACES_LOWER_LIMIT_FOG && totalFog <= IN_SOME_PLACES_UPPER_LIMIT)
   {
     if (theDenseFog < IN_SOME_PLACES_LOWER_LIMIT_FOG)
       return FOG_IN_SOME_PLACES;
@@ -718,9 +718,8 @@ bool FogForecast::getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
         theFogTypeId = theFogTypePeriods.at(longestFogPeriodIndex).second;
         return true;
       }
-      else
-      {
-        WeatherPeriod firstPeriod(getActualFogPeriod(
+      
+              WeatherPeriod firstPeriod(getActualFogPeriod(
             theForecastPeriod, theFogTypePeriods.at(firstPeriodIndex).first, fogPeriodOk));
         WeatherPeriod lastPeriod(getActualFogPeriod(
             theForecastPeriod, theFogTypePeriods.at(lastPeriodIndex).first, fogPeriodOk));
@@ -751,7 +750,7 @@ bool FogForecast::getFogPeriodAndId(const WeatherPeriod& theForecastPeriod,
         }
         theFogTypeId = finalFogType;
         return (theFogTypeId != NO_FOG);
-      }
+     
     }
   }
   return false;

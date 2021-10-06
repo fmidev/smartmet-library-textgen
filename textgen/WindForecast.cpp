@@ -219,7 +219,7 @@ part_of_the_day_id get_part_of_the_day_id_wind(const TextGenPosixTime& theTime)
 
   if (hour >= 0 && hour <= 6)
     return AAMUYO;
-  else if (hour > 6 && hour <= 9)
+  if (hour > 6 && hour <= 9)
     return AAMU;
   else if (hour > 9 && hour < 12)
     return AAMUPAIVA;
@@ -1156,8 +1156,7 @@ bool wind_speed_differ_enough(const interval_info& firstInterval,
 
   if (firstTopValue == 0 && secondTopValue == 0)
     return (lowerLimitDifference + upperLimitDifference > 3);
-  else
-    return (firstStartValue + firstEndValue + firstTopValue !=
+      return (firstStartValue + firstEndValue + firstTopValue !=
             secondStartValue + secondEndValue + secondTopValue);
 }
 
@@ -1750,7 +1749,7 @@ void WindForecast::injectWindDirections(WindSpeedSentenceInfo& sentenceInfoVecto
 
         continue;
       }
-      else if (abs(windSpeedChangePeriod.localStartTime().DifferenceInHours(
+      if (abs(windSpeedChangePeriod.localStartTime().DifferenceInHours(
                    windDirectionPeriod.localStartTime())) < 4)
       {
         // direction changes about same time as wind speed starts to increase / decrease
@@ -2096,7 +2095,7 @@ WeatherPeriod WindForecast::getNewPeriod(part_of_the_day_id& partOfTheDay,
     endTime.ChangeByHours(backwards ? -1 : 1);
     if (backwards && startTime <= guardPeriod.localEndTime())
       break;
-    else if (!backwards && endTime >= guardPeriod.localStartTime())
+    if (!backwards && endTime >= guardPeriod.localStartTime())
       break;
 
     WeatherPeriod phrasePeriod(startTime, endTime);
@@ -2154,7 +2153,7 @@ WeatherPeriod WindForecast::getNewPeriod(part_of_the_day_id& partOfTheDay,
     {
       return period;
     }
-    else if (hours_moved == hours_shrunk || hours_moved == 0)
+    if (hours_moved == hours_shrunk || hours_moved == 0)
     {
       hours = hours_shrunk;
       return shrunkPeriod;
@@ -2351,10 +2350,9 @@ void WindForecast::checkWindDirections(WindSpeedSentenceInfo& sentenceInfoVector
           step = 1;
           continue;
         }
-        else
-        {
-          step = 3;
-        }
+        
+                  step = 3;
+       
 
         WeatherResult direction1 = directionChanges[i]->direction;
         WeatherResult direction2 = directionChanges[i + 1]->direction;

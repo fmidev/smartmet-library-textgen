@@ -54,16 +54,15 @@ bool isPartOfArea(const UserWeatherSource& theWeatherSource,
   {
     return theWeatherArea2.path().IsInside(theWeatherArea1.point());
   }
-  else
-  {
-    LandMaskSource area1LandMaskSource(theWeatherArea1);
+  
+      LandMaskSource area1LandMaskSource(theWeatherArea1);
 
     mask_type mask = area1LandMaskSource.mask(theWeatherArea2, "data", theWeatherSource);
 
     int size_of_mask = mask->size();
 
     return size_of_mask > 0;
-  }
+ 
 }
 
 // ----------------------------------------------------------------------
@@ -243,7 +242,7 @@ direction_id getDirection(const Rect& thePrimaryRect, const Rect& theSecondaryRe
   {
     if (eastRect.contains(theSecondaryRect))
       return NORTHEAST;
-    else if (westRect.contains(theSecondaryRect))
+    if (westRect.contains(theSecondaryRect))
       return NORTHWEST;
     else
       return NORTH;
@@ -252,7 +251,7 @@ direction_id getDirection(const Rect& thePrimaryRect, const Rect& theSecondaryRe
   {
     if (eastRect.contains(theSecondaryRect))
       return SOUTHEAST;
-    else if (westRect.contains(theSecondaryRect))
+    if (westRect.contains(theSecondaryRect))
       return SOUTHWEST;
     else
       return SOUTH;

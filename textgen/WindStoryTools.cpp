@@ -599,7 +599,7 @@ WindSpeedId wind_speed_id(float theWindSpeed)
 {
   if (theWindSpeed < HEIKKO_LOWER_LIMIT)
     return TYYNI;
-  else if (theWindSpeed >= HEIKKO_LOWER_LIMIT && theWindSpeed < HEIKKO_UPPER_LIMIT)
+  if (theWindSpeed >= HEIKKO_LOWER_LIMIT && theWindSpeed < HEIKKO_UPPER_LIMIT)
     return HEIKKO;
   else if (theWindSpeed >= KOHTALAINEN_LOWER_LIMIT && theWindSpeed < KOHTALAINEN_UPPER_LIMIT)
     return KOHTALAINEN;

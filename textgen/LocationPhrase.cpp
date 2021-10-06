@@ -70,9 +70,8 @@ std::string LocationPhrase::realize(const Dictionary& theDictionary) const
   std::string location(itsLocation);
   if (theDictionary.contains(location))
     return theDictionary.find(location);
-  else
-  {
-    if (location.size() > 4)
+  
+      if (location.size() > 4)
     {
       string ending = location.substr(location.size() - 4);
       if (ending == ":lle")
@@ -81,7 +80,7 @@ std::string LocationPhrase::realize(const Dictionary& theDictionary) const
     std::transform(location.begin(), location.begin() + 1, location.begin(), ::toupper);
     if (theDictionary.geocontains(location))
       return theDictionary.geofind(location);
-  }
+ 
 
   generator gen;
   std::locale loc(gen("fi_FI.UTF-8"));

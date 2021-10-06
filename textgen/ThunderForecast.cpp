@@ -57,7 +57,7 @@ thunder_probability_id get_thunder_probability_id(const float& theThunderProbabi
   {
     return SMALL_PROBABILITY_FOR_THUNDER;
   }
-  else if (theThunderProbability >= POSSIBLY_THUNDER_LOWER_LIMIT &&
+  if (theThunderProbability >= POSSIBLY_THUNDER_LOWER_LIMIT &&
            theThunderProbability < POSSIBLY_THUNDER_UPPER_LIMIT)
   {
     return POSSIBLY_THUNDER;

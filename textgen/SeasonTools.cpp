@@ -98,8 +98,7 @@ bool isBetweenDates(
   {
     if (theDate.GetMonth() >= startMonth && theDate.GetMonth() <= 12)
       return (compareDate >= startDate);
-    else
-      return (compareDate <= endDate);
+          return (compareDate <= endDate);
   }
 
   return (compareDate >= startDate && compareDate <= endDate);
@@ -376,7 +375,7 @@ bool growing_season_going_on(const WeatherArea& theArea,
             overFiveDegreesPercentage != kFloatMissing &&
             overFiveDegreesPercentage >= required_growing_season_percentage);
   }
-  else if (growthPeriodOnOffPercentage == -1.0)  // indicates that GrowthPeriodOnOff can not be used
+  if (growthPeriodOnOffPercentage == -1.0)  // indicates that GrowthPeriodOnOff can not be used
   {
     return (overFiveDegreesPercentage != kFloatMissing &&
             overFiveDegreesPercentage >= required_growing_season_percentage);

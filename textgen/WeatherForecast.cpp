@@ -266,7 +266,7 @@ part_of_the_day_id get_part_of_the_day_id(const TextGenPosixTime& theTimestamp,
 
   if (theTimestamp.GetHour() >= AAMU_START && theTimestamp.GetHour() <= AAMU_END)
     return AAMU;
-  else if (theTimestamp.GetHour() >= AAMUPAIVA_START && theTimestamp.GetHour() <= AAMUPAIVA_END)
+  if (theTimestamp.GetHour() >= AAMUPAIVA_START && theTimestamp.GetHour() <= AAMUPAIVA_END)
     return AAMUPAIVA;
   else if (theTimestamp.GetHour() >= ILTA_START && theTimestamp.GetHour() <= ILTA_END)
     return ILTA;
@@ -306,7 +306,7 @@ part_of_the_day_id get_part_of_the_day_id_large(const WeatherPeriod& thePeriod)
 
   if (narrow_id != MISSING_PART_OF_THE_DAY_ID)
     return narrow_id;
-  else if (thePeriod.localStartTime().GetHour() >= AAMU_START &&
+  if (thePeriod.localStartTime().GetHour() >= AAMU_START &&
            thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
     return AAMU_JA_AAMUPAIVA;
   else if (thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START &&
@@ -356,8 +356,7 @@ part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
     if (thePeriod.localStartTime().GetHour() >= AAMUPAIVA_START &&
         thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
       return AAMUPAIVA;
-    else
-      return AAMU;
+          return AAMU;
   }
   else if (thePeriod.localStartTime().GetHour() >= AAMUPAIVA_START &&
            thePeriod.localEndTime().GetHour() <= AAMUPAIVA_END && insideSameDay)
@@ -370,8 +369,7 @@ part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
     if (thePeriod.localStartTime().GetHour() >= ILTAYO_START &&
         thePeriod.localEndTime().GetHour() <= ILTAYO_END && insideSameDay)
       return ILTAYO;
-    else
-      return ILTA;
+          return ILTA;
   }
   else if (thePeriod.localStartTime().GetHour() >= ILTAPAIVA_START &&
            thePeriod.localEndTime().GetHour() <= ILTAPAIVA_END && insideSameDay)
@@ -386,8 +384,7 @@ part_of_the_day_id get_part_of_the_day_id_narrow(const WeatherPeriod& thePeriod,
     if (thePeriod.localStartTime().GetHour() >= AAMUYO_START &&
         thePeriod.localEndTime().GetHour() <= AAMUYO_END && insideSameDay)
       return AAMUYO;
-    else
-      return KESKIYO;
+          return KESKIYO;
   }
   else if (thePeriod.localStartTime().GetHour() >= aamuyoStart &&
            thePeriod.localEndTime().GetHour() <= AAMUYO_END && insideSameDay)
@@ -635,7 +632,7 @@ part_of_the_day_id get_most_relevant_part_of_the_day_id_narrow(const WeatherPeri
     int firstHour = thePeriod.localStartTime().GetHour();
     if (firstHour == 12)
       return ILTAPAIVA;
-    else if (firstHour == 0)
+    if (firstHour == 0)
       return AAMUYO;
     else if (firstHour == 17 || firstHour == 18)
       return ILTA;
@@ -700,7 +697,7 @@ bool is_inside(const TextGenPosixTime& theTimeStamp, part_of_the_day_id thePartO
 
   if (endHour == 0)
     return timestampHour >= startHour || endHour == timestampHour;
-  else if (startHour == 0)
+  if (startHour == 0)
     return timestampHour <= endHour;
   else
   {
@@ -723,7 +720,7 @@ bool is_inside(const WeatherPeriod& theWeatherPeriod, part_of_the_day_id thePart
   {
     return false;
   }
-  else if (numberOfDays == 1)
+  if (numberOfDays == 1)
   {
     if (thePartOfTheDayId != ILTAYO && thePartOfTheDayId != YO &&
         thePartOfTheDayId != ILTAYO_JA_KESKIYO && thePartOfTheDayId != ILTA_JA_ILTAYO)
@@ -733,7 +730,7 @@ bool is_inside(const WeatherPeriod& theWeatherPeriod, part_of_the_day_id thePart
   if (thePartOfTheDayId == YO && is_inside(theWeatherPeriod.localStartTime(), YO) &&
       is_inside(theWeatherPeriod.localEndTime(), YO))
     return true;
-  else if (thePartOfTheDayId == ILTAYO_JA_KESKIYO &&
+  if (thePartOfTheDayId == ILTAYO_JA_KESKIYO &&
            is_inside(theWeatherPeriod.localStartTime(), ILTAYO_JA_KESKIYO) &&
            is_inside(theWeatherPeriod.localEndTime(), ILTAYO_JA_KESKIYO))
     return true;
@@ -1288,9 +1285,8 @@ Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
   {
     return sentence;
   }
-  else
-  {
-    if (partOfTheDayId == KESKIYO || partOfTheDayId == AAMUYO)
+  
+      if (partOfTheDayId == KESKIYO || partOfTheDayId == AAMUYO)
     {
       const char* which_day = "";
       if (theEventTimestamp.GetJulianDay() == theForecastTime.GetJulianDay())
@@ -1312,7 +1308,7 @@ Sentence get_today_phrase(const TextGenPosixTime& theEventTimestamp,
       sentence << PeriodPhraseFactory::create(
           which_day, theVariable, theForecastTime, thePeriod, theArea);
     }
-  }
+ 
 
   return sentence;
 }
@@ -1723,8 +1719,7 @@ float get_mean(const weather_result_data_item_vector& theTimeSeries,
 
   if ((counter == 0 && theTimeSeries.size() > 0) || theTimeSeries.size() == 0)
     return kFloatMissing;
-  else
-    return precipitation_sum / counter;
+      return precipitation_sum / counter;
 }
 
 float get_standard_deviation(const weather_result_data_item_vector& theTimeSeries)

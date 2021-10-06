@@ -1039,8 +1039,7 @@ std::pair<WeatherPeriod, Sentence> WeatherForecastStoryItem::getAdditionalSenten
 {
   if (index >= theAdditionalSentences.size())
     return make_pair(WeatherPeriod(TextGenPosixTime(), TextGenPosixTime()), Sentence());
-  else
-    return theAdditionalSentences[index];
+      return theAdditionalSentences[index];
 }
 
 WeatherPeriod WeatherForecastStoryItem::getStoryItemPeriod() const
@@ -1051,10 +1050,9 @@ WeatherPeriod WeatherForecastStoryItem::getStoryItemPeriod() const
                          thePeriodToMergeWith->getStoryItemPeriod().localEndTime());
     return period;
   }
-  else
-  {
-    return thePeriod;
-  }
+  
+      return thePeriod;
+ 
 }
 
 unsigned int WeatherForecastStoryItem::getPeriodLength() const

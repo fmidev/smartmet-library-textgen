@@ -131,7 +131,7 @@ string until_weekday_time(const TextGenPosixTime& theTime)
   {
     return until_weekday_morning(theTime);
   }
-  else if (hour == 12)
+  if (hour == 12)
   {
     return until_weekday_noon(theTime);
   }
@@ -225,7 +225,7 @@ string from_weekday_time(const TextGenPosixTime& theTime)
     return from_weekday_morning(theTime);
   if (hour == 12)
     return from_weekday_noon(theTime);
-  else if (hour == 18)
+  if (hour == 18)
     return from_weekday_evening(theTime);
   else
   {
@@ -311,10 +311,9 @@ std::string get_time_phrase(const TextGenPosixTime& theTime,
       theHistory.updateWeekdayPhrase(theNewWeekdayPhrase, theTime);
       return theNewWeekdayPhrase;
     }
-    else
-    {
-      return "";
-    }
+    
+          return "";
+   
   }
   else
   {
@@ -361,7 +360,7 @@ string until_weekday_time(const TextGenPosixTime& theTime, TextGen::WeatherHisto
   const int hour = theTime.GetHour();
   if (hour == 6)
     return until_weekday_morning(theTime, theHistory);
-  else if (hour == 18)
+  if (hour == 18)
     return until_weekday_evening(theTime, theHistory);
   else
   {
@@ -395,7 +394,7 @@ string from_weekday_time(const TextGenPosixTime& theTime, TextGen::WeatherHistor
   const int hour = theTime.GetHour();
   if (hour == 6)
     return from_weekday_morning(theTime, theHistory);
-  else if (hour == 18)
+  if (hour == 18)
     return from_weekday_evening(theTime, theHistory);
   else
   {

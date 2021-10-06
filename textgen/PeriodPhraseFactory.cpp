@@ -144,10 +144,9 @@ Sentence until_tonight(const string& theVariable,
       {
         return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
       }
-      else
-      {
-        return (sentence << on_weekday(thePeriod.localStartTime()));
-      }
+      
+              return (sentence << on_weekday(thePeriod.localStartTime()));
+     
     }
     else if (*it == "none!")
       return sentence;
@@ -204,10 +203,9 @@ Sentence until_morning(const string& theVariable,
       {
         return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
       }
-      else
-      {
-        return (sentence << night_against_weekday(thePeriod.localEndTime()));
-      }
+      
+              return (sentence << night_against_weekday(thePeriod.localEndTime()));
+     
     }
     else if (*it == "none!")
       return sentence;
@@ -249,10 +247,9 @@ Sentence today(const string& theVariable,
       {
         return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
       }
-      else
-      {
-        return (sentence << on_weekday(thePeriod.localStartTime()));
-      }
+      
+              return (sentence << on_weekday(thePeriod.localStartTime()));
+     
     }
     else if (*it == "atday")
     {
@@ -278,10 +275,9 @@ Sentence today(const string& theVariable,
           return (sentence << WeekdayTools::get_time_phrase(
                       thePeriod.localStartTime(), "huomenna", *theHistory));
         }
-        else
-        {
-          return (sentence << "huomenna");
-        }
+        
+                  return (sentence << "huomenna");
+       
       }
     }
     else if (*it == "none!")
@@ -324,10 +320,9 @@ Sentence tonight(const string& theVariable,
       {
         return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
       }
-      else
-      {
-        return (sentence << night_against_weekday(thePeriod.localEndTime()));
-      }
+      
+              return (sentence << night_against_weekday(thePeriod.localEndTime()));
+     
     }
     else if (*it == "atnight")
     {
@@ -384,10 +379,9 @@ Sentence next_night(const string& theVariable,
       {
         return (sentence << night_against_weekday(thePeriod.localEndTime(), *theHistory));
       }
-      else
-      {
-        return (sentence << night_against_weekday(thePeriod.localEndTime()));
-      }
+      
+              return (sentence << night_against_weekday(thePeriod.localEndTime()));
+     
     }
     else if (*it == "followingnight")
       return (sentence << "seuraavana yona");
@@ -441,10 +435,9 @@ Sentence next_day(const string& theVariable,
       {
         return (sentence << on_weekday(thePeriod.localStartTime(), *theHistory));
       }
-      else
-      {
-        return (sentence << on_weekday(thePeriod.localStartTime()));
-      }
+      
+              return (sentence << on_weekday(thePeriod.localStartTime()));
+     
     }
     else if (*it == "followingday")
       return (sentence << "seuraavana paivana");
@@ -457,10 +450,9 @@ Sentence next_day(const string& theVariable,
           return (sentence << WeekdayTools::get_time_phrase(
                       thePeriod.localStartTime(), "huomenna", *theHistory));
         }
-        else
-        {
-          return (sentence << "huomenna");
-        }
+        
+                  return (sentence << "huomenna");
+       
       }
     }
     else if (*it == "none!")
@@ -503,10 +495,9 @@ Sentence next_days(const string& theVariable,
       {
         return (sentence << from_weekday(thePeriod.localStartTime(), *theHistory));
       }
-      else
-      {
-        return (sentence << from_weekday(thePeriod.localStartTime()));
-      }
+      
+              return (sentence << from_weekday(thePeriod.localStartTime()));
+     
     }
     else if (*it == "tomorrow")
     {
@@ -540,8 +531,7 @@ Sentence remaining_days(const string& theVariable,
 {
   if (isSeveralDays(thePeriod.localStartTime(), thePeriod.localEndTime()))
     return next_days(theVariable, theForecastTime, thePeriod, theHistory);
-  else
-    return next_day(theVariable, theForecastTime, thePeriod, theHistory);
+      return next_day(theVariable, theForecastTime, thePeriod, theHistory);
 }
 
 // ----------------------------------------------------------------------
@@ -653,10 +643,9 @@ Sentence days(const string& theVariable,
           {
             return (sentence << WeekdayTools::get_time_phrase(starttime, "huomenna", *theHistory));
           }
-          else
-          {
-            return (sentence << "huomenna");
-          }
+          
+                      return (sentence << "huomenna");
+         
         }
       }
       else if (*it == "followingday")
@@ -667,10 +656,9 @@ Sentence days(const string& theVariable,
         {
           return (sentence << on_weekday(starttime, *theHistory));
         }
-        else
-        {
-          return (sentence << on_weekday(starttime));
-        }
+        
+                  return (sentence << on_weekday(starttime));
+       
       }
       else if (*it == "none!")
         return sentence;
@@ -707,10 +695,9 @@ Sentence days(const string& theVariable,
               {
                 return (sentence << on_weekday(nextday, *theHistory));
               }
-              else
-              {
-                return (sentence << on_weekday(nextday));
-              }
+              
+                              return (sentence << on_weekday(nextday));
+             
             }
           }
         }
@@ -731,10 +718,9 @@ Sentence days(const string& theVariable,
               {
                 return (sentence << on_weekday(nextday, *theHistory));
               }
-              else
-              {
-                return (sentence << on_weekday(nextday));
-              }
+              
+                              return (sentence << on_weekday(nextday));
+             
             }
           }
         }
@@ -766,7 +752,7 @@ Sentence days(const string& theVariable,
     {
       if (*it == "none")
         return sentence;
-      else if (*it == "today")
+      if (*it == "today")
         ;
       else if (*it == "tomorrow")
       {

@@ -234,7 +234,7 @@ const char* warning_places_phrase(RoadWarningType theType,
 {
   if (thePercentage < theSomePlacesLimit)
     return "";
-  else if (thePercentage < theManyPlacesLimit)
+  if (thePercentage < theManyPlacesLimit)
     return "paikoin";
   else if (thePercentage < theGenerallyLimit)
     return "monin paikoin";
