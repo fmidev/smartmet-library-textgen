@@ -216,7 +216,7 @@ class PrecipitationForecast
       const WeatherPeriod& thePeriod,
       precipitation_form_id thePrecipitationForm,
       float thePrecipitationIntensity,
-      float thePrecipitationIntensityAbsoluteMax,
+      float thePrecipitationAbsoluteMax,
       float thePrecipitationExtent,
       float thePrecipitationFormWater,
       float thePrecipitationFormDrizzle,

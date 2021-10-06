@@ -30,7 +30,7 @@ class DebugTextFormatter : public TextFormatter
   std::string visit(const Header& theHeader) const override;
   std::string visit(const Document& theDocument) const override;
   std::string visit(const WeatherTime& theTime) const override;
-  std::string visit(const TimePeriod& theTimePeriod) const override;
+  std::string visit(const TimePeriod& thePeriod) const override;
 
   std::string visit(const SectionTag& theSectionTag) const override;
   std::string visit(const StoryTag& theStoryTag) const override;

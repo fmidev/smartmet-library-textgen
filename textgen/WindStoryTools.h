@@ -135,7 +135,7 @@ enum WindEventType
 // contains wind speed interval minimum and maximum values
 using wind_speed_vector = std::vector<std::pair<float, float>>;
 
-WindDirectionAccuracy direction_accuracy(double theAccuracy, const std::string& theVariable);
+WindDirectionAccuracy direction_accuracy(double theError, const std::string& theVariable);
 int direction8th(double theDirection);
 
 int direction16th(double theDirection);

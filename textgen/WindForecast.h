@@ -162,7 +162,7 @@ class WindForecast
                              bool backwards) const;
 
   Sentence windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
-                                     TimePhraseInfo& tpi,
+                                     TimePhraseInfo& timePhraseInfo,
                                      bool theUseAtItsStrongestPhrase = true) const;
   Sentence windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
                                      interval_info intervalInfo,

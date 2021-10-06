@@ -91,7 +91,7 @@ class CloudinessForecast
                                       weather_event_id_vector& theCloudinessWeatherEvents);
   void findOutCloudinessWeatherEvents();
 
-  void joinPeriods(const weather_result_data_item_vector* theDataSource,
+  void joinPeriods(const weather_result_data_item_vector* theCloudinessDataSource,
                    const cloudiness_period_vector& theCloudinessPeriodsSource,
                    cloudiness_period_vector& theCloudinessPeriodsDestination);
   void joinPeriods();
