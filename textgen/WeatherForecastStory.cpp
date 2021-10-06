@@ -307,7 +307,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
           }
         }
         if (!mergeDone)
-          storyItems.push_back(std::make_pair(item->theStoryPartId, i));
+          storyItems.emplace_back(item->theStoryPartId, i);
       }
     }
 
@@ -324,7 +324,7 @@ Paragraph WeatherForecastStory::getWeatherForecastStoryAtSea()
       // if (storyItems.size() > 0)
       if (fi.id != NO_FOG)
       {
-        storyItems.push_back(make_pair(cloudinessStoryItem->theStoryPartId, i));
+        storyItems.emplace_back(cloudinessStoryItem->theStoryPartId, i);
       }
     }
   }

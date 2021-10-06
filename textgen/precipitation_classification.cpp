@@ -64,7 +64,7 @@ list<pair<int, int> > parse_classes(const std::string& theVariable)
     if (hilimit <= lolimit)
       throw TextGenError(*it + " has upper limit <= lower limit in variable " + theVariable);
 
-    output.push_back(make_pair(lolimit, hilimit));
+    output.emplace_back(lolimit, hilimit);
   }
 
   return output;

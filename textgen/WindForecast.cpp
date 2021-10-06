@@ -2629,8 +2629,7 @@ Paragraph WindForecast::getWindStory(const WeatherPeriod& thePeriod) const
   std::vector<WindDirectionPeriodInfo> windDirectionPeriodInfo;
 
   for (auto p : theParameters.theWindDirectionPeriods)
-    windDirectionPeriodInfo.push_back(
-        WindDirectionPeriodInfo(p, get_wind_direction(theParameters, p)));
+    windDirectionPeriodInfo.emplace_back(p, get_wind_direction(theParameters, p));
 
   WindSpeedSentenceInfo sentenceInfoVector;
   WindDirectionInfo previousWindDirection;

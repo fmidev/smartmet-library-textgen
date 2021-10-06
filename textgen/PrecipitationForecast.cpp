@@ -1454,8 +1454,7 @@ bool PrecipitationForecast::getDryPeriods(const WeatherPeriod& theSourcePeriod,
 
   if (!precipitationPeriods || precipitationPeriods->empty())
   {
-    theDryPeriods.push_back(
-        WeatherPeriod(theSourcePeriod.localStartTime(), theSourcePeriod.localEndTime()));
+    theDryPeriods.emplace_back(theSourcePeriod.localStartTime(), theSourcePeriod.localEndTime());
     return true;
   }
 
@@ -1482,8 +1481,8 @@ bool PrecipitationForecast::getDryPeriods(const WeatherPeriod& theSourcePeriod,
       if (precipitationPeriods->at(i).localStartTime() >= theSourcePeriod.localStartTime() &&
           (precipitationPeriods->at(i).localStartTime() <= theSourcePeriod.localEndTime()))
       {
-        theDryPeriods.push_back(WeatherPeriod(theSourcePeriod.localStartTime(),
-                                              precipitationPeriods->at(i).localStartTime()));
+        theDryPeriods.emplace_back(theSourcePeriod.localStartTime(),
+                                              precipitationPeriods->at(i).localStartTime());
       }
     }
     else
@@ -1500,8 +1499,7 @@ bool PrecipitationForecast::getDryPeriods(const WeatherPeriod& theSourcePeriod,
         }
         else
         {
-          theDryPeriods.push_back(
-              WeatherPeriod(dryPeriod.localStartTime(), theSourcePeriod.localEndTime()));
+          theDryPeriods.emplace_back(dryPeriod.localStartTime(), theSourcePeriod.localEndTime());
         }
       }
     }
@@ -1545,8 +1543,7 @@ bool PrecipitationForecast::getPrecipitationPeriods(
       }
       else
       {
-        thePrecipitationPeriods.push_back(
-            WeatherPeriod(notDryPeriod.localStartTime(), theSourcePeriod.localEndTime()));
+        thePrecipitationPeriods.emplace_back(notDryPeriod.localStartTime(), theSourcePeriod.localEndTime());
       }
     }
     else if (notDryPeriod.localStartTime() < theSourcePeriod.localStartTime() &&
@@ -1554,8 +1551,7 @@ bool PrecipitationForecast::getPrecipitationPeriods(
     {
       if (notDryPeriod.localEndTime() <= theSourcePeriod.localEndTime())
       {
-        thePrecipitationPeriods.push_back(
-            WeatherPeriod(theSourcePeriod.localStartTime(), notDryPeriod.localEndTime()));
+        thePrecipitationPeriods.emplace_back(theSourcePeriod.localStartTime(), notDryPeriod.localEndTime());
       }
       else
       {
@@ -4001,8 +3997,7 @@ Sentence PrecipitationForecast::constructPrecipitationSentence(
 
             heavyPrecipitationSentence << getTimePhrase(partOfTheDayId, timePhraseFormat);
 
-            theAdditionalSentences.push_back(
-                make_pair(heavyPrecipitationPeriod, heavyPrecipitationSentence));
+            theAdditionalSentences.emplace_back(heavyPrecipitationPeriod, heavyPrecipitationSentence);
 
             theParameters.theLog << "HEAVY PRECIPITATION PERIOD: "
                                  << heavyPrecipitationPeriod.localStartTime() << "..."

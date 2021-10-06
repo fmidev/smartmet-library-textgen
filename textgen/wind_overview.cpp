@@ -2294,8 +2294,8 @@ wind_event_period_data_item_vector examine_merged_missing_event_period(
       float begSpeed = calculate_weighted_wind_speed(storyParams, begDataItem);
       float endSpeed = calculate_weighted_wind_speed(storyParams, endDataItem);
 
-      speedDifferenceVector.push_back(std::pair<float, WeatherPeriod>(
-          fabs(begSpeed - endSpeed), WeatherPeriod(startTime, endTime)));
+      speedDifferenceVector.emplace_back(
+          fabs(begSpeed - endSpeed), WeatherPeriod(startTime, endTime));
     }
   }
 

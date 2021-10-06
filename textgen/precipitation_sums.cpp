@@ -58,8 +58,8 @@ Paragraph PrecipitationStory::sums() const
   log << "Period 2 = " << time2 << " ... " << time3 << endl;
 
   vector<WeatherPeriod> periods;
-  periods.push_back(WeatherPeriod(time1, time2));
-  periods.push_back(WeatherPeriod(time2, time3));
+  periods.emplace_back(time1, time2);
+  periods.emplace_back(time2, time3);
 
   RangeAcceptor rainlimits;
   rainlimits.lowerLimit(minrain);
