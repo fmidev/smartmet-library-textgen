@@ -264,7 +264,7 @@ using Settings::optional_string;
 #define SISAMAASSA_SUUNNILLEEN_SAMA_COMPOSITE_PHRASE "[sisamaassa] [suunnilleen sama]"
 #define SISAMAASSA_ON_HIEMAN_LAUHEMPAA_COMPOSITE_PHRASE "[sisamaassa] on [hieman lauhempaa]"
 
-#define COASTAL_AREA_IGNORE_LIMIT -15.0
+#define COASTAL_AREA_IGNORE_LIMIT (-15.0)
 #define DAY_NIGHT_SEPARATION_LIMIT 3.0
 #define MORNING_AFTERNOON_SEPARATION_LIMIT 3.0
 #define ABOUT_THE_SAME_UPPER_LIMIT 2.0
@@ -282,7 +282,7 @@ using Settings::optional_string;
 #define VAJAAT_ASTETTA_LIMIT 2.0
 #define VAHAN_YLI_ASTETTA_LOW_TEMP_LIMIT 3.0
 #define VAHAN_YLI_ASTETTA_HIGH_TEMP_LIMIT 2.0
-#define PAKKASRAJA_TEMPERATURE -20.0
+#define PAKKASRAJA_TEMPERATURE (-20.0)
 
 #define SUUNNILLEEN_SAMA_PHRASE "suunnilleen sama"
 #define HIEMAN_KORKEAMPI_PHRASE "hieman korkeampi"
