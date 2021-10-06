@@ -3014,7 +3014,7 @@ void calculate_equalized_wind_speed_indexes_for_median_wind(wo_story_params& sto
 
     vector<unsigned int>& eqIndexVector = storyParams.equalizedWSIndexesMedian(areaType);
 
-    while (1)
+    while (true)
     {
       double minError = UINT_MAX;
       unsigned int minErrorIndex = UINT_MAX;
@@ -3106,7 +3106,7 @@ void calculate_equalized_wind_speed_indexes_for_maximum_wind(wo_story_params& st
         (topWind ? storyParams.equalizedWSIndexesTopWind(areaType)
                  : storyParams.equalizedWSIndexesMaxWind(areaType));
 
-    while (1)
+    while (true)
     {
       double minError = UINT_MAX;
       unsigned int minErrorIndex = UINT_MAX;
@@ -3242,7 +3242,7 @@ void calculate_equalized_wind_direction_indexes(wo_story_params& storyParams)
 
     vector<unsigned int>& eqIndexVector = storyParams.equalizedWDIndexes(areaType);
 
-    while (1)
+    while (true)
     {
       double minError(UINT_MAX);
       unsigned int minErrorIndex(UINT_MAX);

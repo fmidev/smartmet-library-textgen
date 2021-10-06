@@ -2089,7 +2089,7 @@ WeatherPeriod WindForecast::getNewPeriod(part_of_the_day_id& partOfTheDay,
 
   TextGenPosixTime startTime = period.localStartTime();
   TextGenPosixTime endTime = period.localEndTime();
-  while (1)
+  while (true)
   {
     startTime.ChangeByHours(backwards ? -1 : 1);
     endTime.ChangeByHours(backwards ? -1 : 1);
