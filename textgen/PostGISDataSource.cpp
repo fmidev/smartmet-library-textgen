@@ -134,7 +134,7 @@ bool PostGISDataSource::readData(const std::string& host,
       OGRFeatureDefn* pFDefn = pLayer->GetLayerDefn();
 
       // find name for the area
-      std::string area_name("");
+      std::string area_name;
       int iField;
       for (iField = 0; iField < pFDefn->GetFieldCount(); iField++)
       {
@@ -181,7 +181,7 @@ bool PostGISDataSource::readData(const std::string& host,
         }
         else if (geometryType == wkbMultiPolygon || geometryType == wkbPolygon)
         {
-          string svg_string("");
+          string svg_string;
           if (geometryType == wkbMultiPolygon)
           {
             auto* pMultiPolygon = reinterpret_cast<OGRMultiPolygon*>(pGeometry);
@@ -220,7 +220,7 @@ bool PostGISDataSource::readData(const std::string& host,
         }
         else if (geometryType == wkbMultiLineString || geometryType == wkbLineString)
         {
-          string svg_string("");
+          string svg_string;
           if (geometryType == wkbMultiLineString)
           {
             auto* pMultiLine = reinterpret_cast<OGRMultiLineString*>(pGeometry);

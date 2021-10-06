@@ -2431,7 +2431,7 @@ Sentence tienoilla_and_tuntumassa_astetta(int degrees, temperature_phrase_id phr
     bool tienoilla(phrase_id == TIENOILLA_ASTETTA_PHRASE_ID);
 
     sentence << Integer(degrees);
-    string degrees_string("");
+    string degrees_string;
     if (abs(degrees) % 10 == 1 && abs(degrees) != 11)
     {
       if (phrase_id == TIENOILLA_ASTETTA_PHRASE_ID || phrase_id == TUNTUMASSA_ASTETTA_PHRASE_ID)
@@ -4801,7 +4801,7 @@ Paragraph TemperatureStory::max36hours() const
 
   Paragraph paragraph;
 
-  std::string areaName("");
+  std::string areaName;
 
   if (itsArea.isNamed())
   {

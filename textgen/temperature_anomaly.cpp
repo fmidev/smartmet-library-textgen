@@ -263,7 +263,7 @@ struct temperature_anomaly_params
         thePeriodLength(periodLength),
         theAnomalyPhrase(UNDEFINED_ANOMALY_PHRASE_ID),
         theShortrunTrend(UNDEFINED_SHORTRUN_TREND_ID),
-        theFakeVariable(""),
+        
         theGrowingSeasonUnderway(false),
         theDayBeforeDay1TemperatureAreaAfternoonMinimum(kFloatMissing, 0),
         theDayBeforeDay1TemperatureAreaAfternoonMean(kFloatMissing, 0),
@@ -1629,7 +1629,7 @@ const Paragraph TemperatureStory::anomaly() const
   Paragraph paragraph;
   MessageLogger log("TemperatureStory::anomaly");
 
-  std::string areaName("");
+  std::string areaName;
 
   if (itsArea.isNamed())
   {

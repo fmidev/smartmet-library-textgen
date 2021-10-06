@@ -3561,7 +3561,7 @@ Paragraph WindStory::overview() const
 {
   MessageLogger logger("WeatherStory::wind_overview");
 
-  std::string areaName("");
+  std::string areaName;
   if (itsArea.isNamed())
   {
     areaName = itsArea.name();

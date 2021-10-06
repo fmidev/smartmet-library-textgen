@@ -1093,7 +1093,7 @@ Sentence WeatherForecastStoryItem::getTodayVectorSentence(const vector<Sentence*
 std::string WeatherForecastStoryItem::checkForAamuyoAndAamuPhrase(
     bool theFromSpecifier, const WeatherPeriod& thePhrasePeriod)
 {
-  std::string retValue("");
+  std::string retValue;
 
   // 6:00 in the morning or in the evening
   if (is_inside(thePhrasePeriod.localStartTime(), AAMU) &&
@@ -1255,7 +1255,7 @@ Sentence PeriodPhraseGenerator::getPeriodPhrase(const WeatherPeriod& period)
       periodPhrase << YOLLA_WORD;
     else
     {
-      std::string dayNumber = "";
+      std::string dayNumber;
       int dayNum = get_day_number(id, period, dayNumber);
       if (dayNum == -1 || dayExists(dayNum))
         dayNumber = "";
@@ -1323,7 +1323,7 @@ Sentence WeatherForecastStoryItem::getPeriodPhrase(bool theFromSpecifier,
 
   bool specifyDay = false;
 
-  std::string day_phase_phrase("");
+  std::string day_phase_phrase;
 
   day_phase_phrase = checkForAamuyoAndAamuPhrase(theFromSpecifier, phrasePeriod);
 

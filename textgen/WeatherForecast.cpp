@@ -764,7 +764,7 @@ std::string get_time_phrase_from_id(part_of_the_day_id thePartOfTheDayId,
                                     const std::string& theVar,
                                     bool theAlkaenPhrase)
 {
-  std::string retval("");
+  std::string retval;
 
   bool specify_part_of_the_day =
       Settings::optional_bool(theVar + "::specify_part_of_the_day", true);
@@ -1145,7 +1145,7 @@ std::string get_time_phrase(const TextGenPosixTime& theTimestamp,
                             const std::string& theVar,
                             bool theAlkaenPhrase /*= false*/)
 {
-  std::string retval("");
+  std::string retval;
 
   bool specify_part_of_the_day =
       Settings::optional_bool(theVar + "::specify_part_of_the_day", true);

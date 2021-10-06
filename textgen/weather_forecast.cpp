@@ -1559,7 +1559,7 @@ Paragraph WeatherStory::forecast() const
 
   Paragraph paragraph;
 
-  std::string areaName("");
+  std::string areaName;
 
   if (itsArea.isNamed())
   {
@@ -1628,7 +1628,7 @@ Paragraph WeatherStory::forecast_at_sea() const
 
   Paragraph paragraph;
 
-  std::string areaName("");
+  std::string areaName;
 
   if (itsArea.isNamed())
   {

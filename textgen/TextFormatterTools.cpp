@@ -196,7 +196,7 @@ std::string format_time(const WeatherPeriod& thePeriod,
 // ----------------------------------------------------------------------
 std::string get_story_value_param(const std::string& theStoryVar, const std::string& theProductName)
 {
-  std::string retval("");
+  std::string retval;
 
   if (Settings::isset(theStoryVar + "::value::" + theProductName))
     retval = Settings::require_string(theStoryVar + "::value::" + theProductName);

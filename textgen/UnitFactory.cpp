@@ -125,7 +125,7 @@ boost::shared_ptr<TextGen::Sentence> degrees_celsius(int value, bool isInterval 
   }
   else if (opt == "phrase")
   {
-    string degrees_string("");
+    string degrees_string;
 
     if (abs(value) <= 4)
     {

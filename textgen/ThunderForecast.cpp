@@ -96,7 +96,7 @@ Sentence ThunderForecast::thunderSentence(const WeatherPeriod& thePeriod,
   const weather_result_data_item_vector* thunderProbabilityData = nullptr;
   const weather_result_data_item_vector* thunderExtentData = nullptr;
 
-  std::string areaString("");
+  std::string areaString;
 
   if (theForecastAreaId == FULL_AREA)
   {

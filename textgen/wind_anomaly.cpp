@@ -142,7 +142,7 @@ struct wind_anomaly_params
         theForecastTime(forecastTime),
         thePeriodLength(periodLength),
         theSpecifyPartOfTheDayFlag(specifyPartOfTheDayFlag),
-        theFakeVariable(""),
+        
         theCoastalAndInlandTogetherFlag(false),
         theTemperatureAreaMorningMinimum(kFloatMissing, 0),
         theTemperatureAreaMorningMean(kFloatMissing, 0),
@@ -185,9 +185,8 @@ struct wind_anomaly_params
         theWindchillCoastalMorningMaximum(kFloatMissing, 0),
         theWindchillCoastalAfternoonMinimum(kFloatMissing, 0),
         theWindchillCoastalAfternoonMean(kFloatMissing, 0),
-        theWindchillCoastalAfternoonMaximum(kFloatMissing, 0),
-        theMorningWord(""),
-        theAfternoonWord("")
+        theWindchillCoastalAfternoonMaximum(kFloatMissing, 0)
+        
   {
   }
 
@@ -400,7 +399,7 @@ void calculate_windspeed_and_chill(wind_anomaly_params& theParameters,
   WeatherArea theArea(theParameters.theArea);
   theArea.type(theParameters.theCoastalAndInlandTogetherFlag ? WeatherArea::Full : theType);
 
-  std::string theFakeVariable("");
+  std::string theFakeVariable;
   std::string postfix_string(theWindspeed ? "::fake::windspeed" : "::fake::windchill");
   postfix_string += (theMorningPeriod ? "::morning" : "::afternoon");
   if (theType == WeatherArea::Inland)
@@ -1297,8 +1296,8 @@ const Sentence windiness_sentence(const wind_anomaly_params& theParameters)
   */
   std::string aamupaivalla(theParameters.theMorningWord);
   std::string iltapaivalla(theParameters.theAfternoonWord);
-  std::string part_of_the_day("");
-  std::string areaString("");
+  std::string part_of_the_day;
+  std::string areaString;
 
   Sentence theSpecifiedDay;
   short dayNumber = 0;

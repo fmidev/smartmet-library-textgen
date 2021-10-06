@@ -82,8 +82,7 @@ struct sentence_info
 
   sentence_info()
       : period(TextGenPosixTime(), TextGenPosixTime()),
-        changeType(""),
-        changeSpeed(""),
+        
         useWindBasicForm(false),
         firstSentence(false),
         skip(false)

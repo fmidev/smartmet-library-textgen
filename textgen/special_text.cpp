@@ -75,7 +75,7 @@ string execute(const string& cmd)
     throw runtime_error("Could not execute command '" + cmd + "'");
 
   char buffer[128];
-  std::string result = "";
+  std::string result;
   while (!feof(pipe))
   {
     if (fgets(buffer, 128, pipe) != nullptr)
