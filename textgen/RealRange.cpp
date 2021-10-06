@@ -17,6 +17,7 @@
 #include <boost/shared_ptr.hpp>
 #include <iomanip>
 #include <sstream>
+#include <utility>
 
 using namespace std;
 
@@ -38,8 +39,8 @@ RealRange::~RealRange() = default;
 RealRange::RealRange(float theStartValue,
                      float theEndValue,
                      int thePrecision,
-                     const std::string& theSeparator)
-    : itsRangeSeparator(theSeparator),
+                     std::string  theSeparator)
+    : itsRangeSeparator(std::move(theSeparator)),
       itsStartValue(theStartValue),
       itsEndValue(theEndValue),
       itsPrecision(thePrecision)

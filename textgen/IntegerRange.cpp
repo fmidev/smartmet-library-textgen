@@ -16,6 +16,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <sstream>
+#include <utility>
 
 using namespace std;
 
@@ -34,8 +35,8 @@ IntegerRange::~IntegerRange() = default;
  */
 // ----------------------------------------------------------------------
 
-IntegerRange::IntegerRange(int theStartValue, int theEndValue, const std::string& theSeparator)
-    : itsRangeSeparator(theSeparator), itsStartValue(theStartValue), itsEndValue(theEndValue)
+IntegerRange::IntegerRange(int theStartValue, int theEndValue, std::string  theSeparator)
+    : itsRangeSeparator(std::move(theSeparator)), itsStartValue(theStartValue), itsEndValue(theEndValue)
 {
 }
 

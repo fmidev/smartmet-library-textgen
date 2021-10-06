@@ -11,8 +11,10 @@
 // ======================================================================
 
 #include "Phrase.h"
+
 #include "Dictionary.h"
 #include "TextFormatter.h"
+#include <utility>
 
 using namespace std;
 
@@ -33,7 +35,7 @@ Phrase::~Phrase() = default;
  */
 // ----------------------------------------------------------------------
 
-Phrase::Phrase(const std::string& theWord) : itsWord(theWord) {}
+Phrase::Phrase(std::string  theWord) : itsWord(std::move(theWord)) {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return a clone

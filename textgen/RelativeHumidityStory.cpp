@@ -17,6 +17,8 @@
 #include "Paragraph.h"
 #include <calculator/TextGenError.h>
 
+#include <utility>
+
 using namespace TextGen;
 using namespace std;
 
@@ -45,12 +47,12 @@ RelativeHumidityStory::RelativeHumidityStory(const TextGenPosixTime& theForecast
                                              const AnalysisSources& theSources,
                                              const WeatherArea& theArea,
                                              const WeatherPeriod& thePeriod,
-                                             const string& theVariable)
+                                             string  theVariable)
     : itsForecastTime(theForecastTime),
       itsSources(theSources),
       itsArea(theArea),
       itsPeriod(thePeriod),
-      itsVar(theVariable)
+      itsVar(std::move(theVariable))
 {
 }
 

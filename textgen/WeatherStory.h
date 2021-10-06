@@ -31,7 +31,7 @@ class WeatherStory : public Story
                const TextGen::AnalysisSources& theSources,
                const TextGen::WeatherArea& theArea,
                const TextGen::WeatherPeriod& thePeriod,
-               const std::string& theVariable);
+               std::string  theVariable);
 
   static bool hasStory(const std::string& theName);
   Paragraph makeStory(const std::string& theName) const override;

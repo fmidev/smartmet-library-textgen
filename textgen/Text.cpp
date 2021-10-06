@@ -18,6 +18,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include <sstream>
+#include <utility>
 
 using namespace std;
 
@@ -36,7 +37,7 @@ Text::~Text() = default;
  */
 // ----------------------------------------------------------------------
 
-Text::Text(const std::string& theText) : itsText(theText) {}
+Text::Text(std::string  theText) : itsText(std::move(theText)) {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return a clone

@@ -12,7 +12,9 @@
 // ======================================================================
 
 #include "Delimiter.h"
+
 #include "TextFormatter.h"
+#include <utility>
 
 using namespace std;
 
@@ -33,7 +35,7 @@ Delimiter::~Delimiter() = default;
  */
 // ----------------------------------------------------------------------
 
-Delimiter::Delimiter(const std::string& theSeparator) : itsSeparator(theSeparator) {}
+Delimiter::Delimiter(std::string  theSeparator) : itsSeparator(std::move(theSeparator)) {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return a clone

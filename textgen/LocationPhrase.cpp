@@ -16,6 +16,7 @@
 #include "TextFormatterTools.h"
 #include <boost/locale.hpp>
 #include <newbase/NFmiStringTools.h>
+#include <utility>
 
 using namespace std;
 
@@ -36,7 +37,7 @@ LocationPhrase::~LocationPhrase() = default;
  */
 // ----------------------------------------------------------------------
 
-LocationPhrase::LocationPhrase(const std::string& theLocation) : itsLocation(theLocation) {}
+LocationPhrase::LocationPhrase(std::string  theLocation) : itsLocation(std::move(theLocation)) {}
 // ----------------------------------------------------------------------
 /*!
  * \brief Return a clone

@@ -20,7 +20,7 @@ class MessageLogger : public MessageLoggerStream<>
 {
  public:
   ~MessageLogger() override;
-  MessageLogger(const std::string& theFunction);
+  MessageLogger(std::string  theFunction);
   void onNewMessage(const string_type& theMessage) override;
   std::string str() const;
   MessageLogger& operator<<(const TextGen::Glyph& theGlyph);

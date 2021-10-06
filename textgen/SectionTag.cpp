@@ -18,6 +18,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include <sstream>
+#include <utility>
 
 using namespace std;
 
@@ -36,8 +37,8 @@ SectionTag::~SectionTag() = default;
  */
 // ----------------------------------------------------------------------
 
-SectionTag::SectionTag(const std::string& theName, const bool& prefixTag /*= true*/)
-    : itsName(theName), itsPrefixTag(prefixTag)
+SectionTag::SectionTag(std::string  theName, const bool& prefixTag /*= true*/)
+    : itsName(std::move(theName)), itsPrefixTag(prefixTag)
 {
 }
 

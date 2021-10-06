@@ -18,7 +18,7 @@ class LocationPhrase : public Glyph
 {
  public:
   ~LocationPhrase() override;
-  LocationPhrase(const std::string& theLocation);
+  LocationPhrase(std::string  theLocation);
 #ifdef NO_COMPILER_GENERATED
   LocationPhrase(const LocationPhrase& theLocationPhrase);
   LocationPhrase& operator=(const LocationPhrase& theLocationPhrase);

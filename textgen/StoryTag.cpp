@@ -18,6 +18,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include <sstream>
+#include <utility>
 
 using namespace std;
 
@@ -36,8 +37,8 @@ StoryTag::~StoryTag() = default;
  */
 // ----------------------------------------------------------------------
 
-StoryTag::StoryTag(const std::string& theName, const bool& prefixTag /*= true*/)
-    : itsName(theName), itsPrefixTag(prefixTag)
+StoryTag::StoryTag(std::string  theName, const bool& prefixTag /*= true*/)
+    : itsName(std::move(theName)), itsPrefixTag(prefixTag)
 {
 }
 
