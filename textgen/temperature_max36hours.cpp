@@ -2453,7 +2453,7 @@ Sentence tienoilla_and_tuntumassa_astetta(int degrees, temperature_phrase_id phr
           degrees_string = "astetta(noin n)";
         else
           degrees_string =
-              string("astetta(noin " + boost::lexical_cast<std::string>(abs(degrees)) + ")");
+              string("astetta(noin " + std::to_string(abs(degrees)) + ")");
       }
     }
     sentence << degrees_string;

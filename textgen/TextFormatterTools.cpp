@@ -86,7 +86,7 @@ void punctuate(std::string& theString)
 
 std::string make_needle(int n)
 {
-  return "[" + boost::lexical_cast<std::string>(n) + "]";
+  return "[" + std::to_string(n) + "]";
 }
 // ----------------------------------------------------------------------
 /*!

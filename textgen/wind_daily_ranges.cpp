@@ -87,7 +87,7 @@ Paragraph WindStory::daily_ranges() const
   {
     const WeatherPeriod period(periodgenerator.period(day));
 
-    const string daystr = "day" + lexical_cast<string>(day);
+    const string daystr = "day" + std::to_string(day);
 
     const WeatherResult minspeed =
         forecaster.analyze(itsVar + "::fake::" + daystr + "::speed::minimum",

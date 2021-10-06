@@ -611,7 +611,7 @@ Sentence days(const string& theVariable,
   if (ndays == 0)
     return sentence;
 
-  const string nvar = var + "::days" + lexical_cast<string>(ndays);
+  const string nvar = var + "::days" + std::to_string(ndays);
   preferences = Settings::optional_string(nvar, preferences);
   vector<string> order = reorder_preferences(preferences, defaults);
 

@@ -97,7 +97,7 @@ void addpause(const std::string& theVar, list<string>& theList)
   if (Settings::isset(theVar))
   {
     const int num = Settings::require_int(theVar);
-    theList.push_back(lexical_cast<string>(num));
+    theList.push_back(std::to_string(num));
   }
 }
 
@@ -208,7 +208,7 @@ string SoneraTextFormatter::format(const Glyph& theGlyph) const
         words_on_line = 0;
       }
       if (words_on_line == 0)
-        ret += 'r' + lexical_cast<string>(lines) + ',';
+        ret += 'r' + std::to_string(lines) + ',';
       ret += padzeros(*it, 3);
       ret += ',';
       ++words_on_line;

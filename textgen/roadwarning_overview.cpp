@@ -175,7 +175,7 @@ WarningPercentages calculate_percentages(const WeatherPeriod& thePeriod,
   {
     const auto c = RoadWarningType(i);
 
-    const string fake = (theVar + "::fake::period" + lexical_cast<string>(thePeriodIndex) +
+    const string fake = (theVar + "::fake::period" + std::to_string(thePeriodIndex) +
                          "::" + warning_name(c) + "::percentage");
 
     ValueAcceptor warnfilter;
@@ -979,8 +979,8 @@ Sentence during_period_phrase_weekday(const WeatherPeriod& thePeriod, const stri
   const int startdaynumber = thePeriod.localStartTime().GetWeekday();
   const int enddaynumber = thePeriod.localEndTime().GetWeekday();
 
-  const string startday = lexical_cast<string>(startdaynumber);
-  const string endday = lexical_cast<string>(enddaynumber);
+  const string startday = std::to_string(startdaynumber);
+  const string endday = std::to_string(enddaynumber);
 
   Sentence sentence;
   if (is_morning(thePeriod, theVar))
@@ -1095,8 +1095,8 @@ Sentence starting_period_phrase_weekday(const WeatherPeriod& thePeriod, const st
   const int startdaynumber = thePeriod.localStartTime().GetWeekday();
   const int enddaynumber = thePeriod.localEndTime().GetWeekday();
 
-  const string startday = lexical_cast<string>(startdaynumber);
-  const string endday = lexical_cast<string>(enddaynumber);
+  const string startday = std::to_string(startdaynumber);
+  const string endday = std::to_string(enddaynumber);
 
   Sentence sentence;
   if (is_morning(thePeriod, theVar))

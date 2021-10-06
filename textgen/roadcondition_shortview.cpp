@@ -155,7 +155,7 @@ ConditionPercentages calculate_percentages(const WeatherPeriod& thePeriod,
   {
     const auto c = RoadConditionType(i);
 
-    const string fake = (theVar + "::fake::period" + lexical_cast<string>(thePeriodIndex) +
+    const string fake = (theVar + "::fake::period" + std::to_string(thePeriodIndex) +
                          "::" + condition_name(c) + "::percentage");
 
     ValueAcceptor condfilter;

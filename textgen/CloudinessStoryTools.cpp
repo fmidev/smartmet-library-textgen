@@ -523,7 +523,7 @@ Sentence cloudiness_phrase(const AnalysisSources& theSources,
 
   GridForecaster forecaster;
 
-  const string daystr = "day" + lexical_cast<string>(theDay);
+  const string daystr = "day" + std::to_string(theDay);
 
   const WeatherResult cloudy_percentage =
       forecaster.analyze(theVar + "::fake::" + daystr + "::cloudy",

@@ -107,8 +107,8 @@ void MySQLDictionary::getDataFromDB(const std::string& theLanguage,
   {
     // Handle bad conversions
     throw TextGenError("Conversion error: " + string(er.what()) +
-                       ";\tretrieved data size: " + boost::lexical_cast<string>(er.retrieved) +
-                       ", actual size: " + boost::lexical_cast<string>(er.actual_size));
+                       ";\tretrieved data size: " + std::to_string(er.retrieved) +
+                       ", actual size: " + std::to_string(er.actual_size));
   }
   catch (const mysqlpp::Exception& er)
   {

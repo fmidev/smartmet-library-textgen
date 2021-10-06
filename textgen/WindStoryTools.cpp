@@ -102,10 +102,10 @@ Sentence direction_sentence(const WeatherResult& theDirection, const string& the
   switch (direction_accuracy(theDirection.error(), theVariable))
   {
     case good_accuracy:
-      sentence << lexical_cast<string>(n) + "-tuulta";
+      sentence << std::to_string(n) + "-tuulta";
       break;
     case moderate_accuracy:
-      sentence << lexical_cast<string>(n) + "-puoleista tuulta";
+      sentence << std::to_string(n) + "-puoleista tuulta";
       break;
     case bad_accuracy:
       sentence << "suunnaltaan vaihtelevaa"

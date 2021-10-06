@@ -138,7 +138,7 @@ TextGen::Header header_several_days(const WeatherPeriod& thePeriod)
   if (diff % 24 != 0)
     throw TextGenError("HeaderFactory:: several_days must be N*24 hours long");
   header << WeekdayTools::from_weekday_time(thePeriod.localStartTime()) << "alkavan"
-         << lexical_cast<string>(days) + "-vuorokauden saa";
+         << std::to_string(days) + "-vuorokauden saa";
 
   log << header;
   return header;

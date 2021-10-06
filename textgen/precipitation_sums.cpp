@@ -70,7 +70,7 @@ Paragraph PrecipitationStory::sums() const
 
   for (vector<int>::size_type i = 0; i < periods.size(); i++)
   {
-    const string fake = itsVar + "::fake::period" + lexical_cast<string>(i + 1);
+    const string fake = itsVar + "::fake::period" + std::to_string(i + 1);
 
     WeatherResult minresult = forecaster.analyze(fake + "::minimum",
                                                  itsSources,

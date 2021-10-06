@@ -64,7 +64,7 @@ Paragraph RoadStory::shortrange() const
     const bool isday = (period.localEndTime().GetHour() >= period.localStartTime().GetHour());
 
     const string periodstr =
-        (isday ? "day" + lexical_cast<string>(day) : "night" + lexical_cast<string>(night));
+        (isday ? "day" + std::to_string(day) : "night" + std::to_string(night));
 
     const string fake = itsVar + "::fake::" + periodstr;
 

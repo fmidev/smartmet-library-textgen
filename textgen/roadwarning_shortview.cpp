@@ -176,7 +176,7 @@ WarningPercentages calculate_percentages(const WeatherPeriod& thePeriod,
   {
     const auto c = RoadWarningType(i);
 
-    const string fake = (theVar + "::fake::period" + lexical_cast<string>(thePeriodIndex) +
+    const string fake = (theVar + "::fake::period" + std::to_string(thePeriodIndex) +
                          "::" + warning_name(c) + "::percentage");
 
     ValueAcceptor warnfilter;

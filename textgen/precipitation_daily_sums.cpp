@@ -76,7 +76,7 @@ Paragraph PrecipitationStory::daily_sums() const
   {
     WeatherPeriod period = generator.period(day);
 
-    const string fake = itsVar + "::fake::day" + lexical_cast<string>(day);
+    const string fake = itsVar + "::fake::day" + std::to_string(day);
 
     WeatherResult minresult = forecaster.analyze(fake + "::minimum",
                                                  itsSources,

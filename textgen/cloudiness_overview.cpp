@@ -76,7 +76,7 @@ Paragraph CloudinessStory::overview() const
   for (int day = 1; day <= ndays; day++)
   {
     const WeatherPeriod period(periodgenerator.period(day));
-    const string daystr = "day" + lexical_cast<string>(day);
+    const string daystr = "day" + std::to_string(day);
 
     RangeAcceptor cloudylimits;
     cloudylimits.lowerLimit(cloudy);

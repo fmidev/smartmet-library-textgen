@@ -174,7 +174,7 @@ Paragraph WeatherStory::shortoverview() const
     {
       WeatherPeriod period = generator.period(i);
 
-      const string day = "day" + lexical_cast<string>(i);
+      const string day = "day" + std::to_string(i);
       const string var = itsVar + "::fake::" + day + "::precipitation";
 
       const WeatherResult result =
