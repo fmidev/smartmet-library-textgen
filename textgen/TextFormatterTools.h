@@ -56,7 +56,8 @@ const std::string realize(Iterator it,
                           const std::string& thePrefix,
                           const std::string& theSuffix)
 {
-  std::string ret, tmp;
+  std::string ret;
+  std::string tmp;
 
   // Number of patterns to replace
   int patterns = 0;

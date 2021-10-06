@@ -85,7 +85,8 @@ Paragraph WeatherStory::shortoverview() const
   // Generate cloudiness story first
 
   {
-    RangeAcceptor n1limits, n3limits;
+    RangeAcceptor n1limits;
+    RangeAcceptor n3limits;
     n1limits.upperLimit(c_clear);
     n3limits.lowerLimit(c_cloudy);
 

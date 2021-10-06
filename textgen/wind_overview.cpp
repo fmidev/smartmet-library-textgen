@@ -1103,7 +1103,8 @@ std::string get_html_windspeed_distribution(wo_story_params& storyParams, std::s
                       : firstWindDataItem.theWindSpeedDistributionTop.size());
 
   // show only categories where wind exists plus couple of additional columns beyond
-  unsigned int start_index(33), end_index(0);
+  unsigned int start_index(33);
+  unsigned int end_index(0);
   for (unsigned int i = 0; i < theIndexVector.size(); i++)
   {
     const unsigned int& index = theIndexVector[i];
@@ -3007,7 +3008,9 @@ void calculate_equalized_wind_speed_indexes_for_median_wind(wo_story_params& sto
   {
     const WeatherArea& weatherArea = storyParams.theWeatherAreas[j];
 
-    unsigned int index1, index2, index3;
+    unsigned int index1;
+    unsigned int index2;
+    unsigned int index3;
     WeatherArea::Type areaType(weatherArea.type());  // storyParams.theArea.type());
 
     vector<unsigned int>& eqIndexVector = storyParams.equalizedWSIndexesMedian(areaType);
@@ -3095,7 +3098,9 @@ void calculate_equalized_wind_speed_indexes_for_maximum_wind(wo_story_params& st
   {
     const WeatherArea& weatherArea = storyParams.theWeatherAreas[j];
 
-    unsigned int index1, index2, index3;
+    unsigned int index1;
+    unsigned int index2;
+    unsigned int index3;
     WeatherArea::Type areaType(weatherArea.type());
 
     vector<unsigned int>& eqIndexVector =
@@ -3231,7 +3236,9 @@ void calculate_equalized_wind_direction_indexes(wo_story_params& storyParams)
   {
     const WeatherArea& weatherArea = storyParams.theWeatherAreas[j];
 
-    unsigned int index1, index2, index3;
+    unsigned int index1;
+    unsigned int index2;
+    unsigned int index3;
     WeatherArea::Type areaType(weatherArea.type());
 
     vector<unsigned int>& eqIndexVector = storyParams.equalizedWDIndexes(areaType);

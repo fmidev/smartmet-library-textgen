@@ -693,7 +693,8 @@ bool same_period(const WeatherPeriod& theWeatherPeriod1, const WeatherPeriod& th
 
 bool is_inside(const TextGenPosixTime& theTimeStamp, part_of_the_day_id thePartOfTheDayId)
 {
-  int startHour, endHour;
+  int startHour;
+  int endHour;
   int timestampHour(theTimeStamp.GetHour());
   get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
 
@@ -737,7 +738,8 @@ bool is_inside(const WeatherPeriod& theWeatherPeriod, part_of_the_day_id thePart
            is_inside(theWeatherPeriod.localEndTime(), ILTAYO_JA_KESKIYO))
     return true;
 
-  int startHour, endHour;
+  int startHour;
+  int endHour;
   get_part_of_the_day(thePartOfTheDayId, startHour, endHour);
   TextGenPosixTime startTimeCompare(theWeatherPeriod.localStartTime());
   TextGenPosixTime endTimeCompare(theWeatherPeriod.localStartTime());
@@ -1965,8 +1967,14 @@ WeatherPeriod get_intersection_period(const WeatherPeriod& thePeriod1,
                                       const WeatherPeriod& thePeriod2,
                                       bool& theIntersectionPeriodFound)
 {
-  int start_year(0), start_month(0), start_day(0), start_hour(0);
-  int end_year(0), end_month(0), end_day(0), end_hour(0);
+  int start_year(0);
+  int start_month(0);
+  int start_day(0);
+  int start_hour(0);
+  int end_year(0);
+  int end_month(0);
+  int end_day(0);
+  int end_hour(0);
   theIntersectionPeriodFound = false;
 
   if (is_inside(thePeriod1.localStartTime(), thePeriod2) &&

@@ -2971,7 +2971,8 @@ precipitation_form_transformation_id PrecipitationForecast::getPrecipitationTran
   const weather_result_data_item_vector* precipitationFormSleetHourly =
       get_data_vector(theParameters, PRECIPITATION_FORM_SLEET_DATA);
 
-  unsigned int startIndex, endIndex;
+  unsigned int startIndex;
+  unsigned int endIndex;
   get_period_start_end_index(thePeriod, *precipitationFormWaterHourly, startIndex, endIndex);
 
   double pearson_co_water =
@@ -3096,7 +3097,8 @@ WeatherPeriod PrecipitationForecast::getHeavyPrecipitationPeriod(
                                         precipitationItem->thePrecipitationFormSnow,
                                         precipitationItem->thePrecipitationFormFreezingRain,
                                         precipitationItem->thePrecipitationFormFreezingDrizzle));
-    float lowerLimit(kFloatMissing), upperLimit(kFloatMissing);
+    float lowerLimit(kFloatMissing);
+    float upperLimit(kFloatMissing);
     get_precipitation_limit_value(
         theParameters, precipitationForm, HEAVY_PRECIPITATION, lowerLimit, upperLimit);
 
@@ -4337,7 +4339,8 @@ direction_id PrecipitationForecast::getPrecipitationLeavingDirection(
   startTime.ChangeByHours(1);
   WeatherPeriod checkPeriod(startTime, endTime);
 
-  unsigned int startIndex, endIndex;
+  unsigned int startIndex;
+  unsigned int endIndex;
   weather_result_data_item_vector* northeast_data =
       get_data_vector(theParameters, PRECIPITATION_NORTHEAST_SHARE_DATA);
   weather_result_data_item_vector* southeast_data =
@@ -4389,7 +4392,8 @@ direction_id PrecipitationForecast::getPrecipitationArrivalDirection(
   TextGenPosixTime endTime(thePeriod.localStartTime());
   WeatherPeriod checkPeriod(startTime, endTime);
 
-  unsigned int startIndex, endIndex;
+  unsigned int startIndex;
+  unsigned int endIndex;
   weather_result_data_item_vector* northeast_data =
       get_data_vector(theParameters, PRECIPITATION_NORTHEAST_SHARE_DATA);
   weather_result_data_item_vector* southeast_data =
@@ -4463,7 +4467,8 @@ NFmiPoint PrecipitationForecast::getPrecipitationRepresentativePoint(
 {
   NFmiPoint retval(kFloatMissing, kFloatMissing);
 
-  unsigned int startIndex, endIndex;
+  unsigned int startIndex;
+  unsigned int endIndex;
   weather_result_data_item_vector* coordinates =
       get_data_vector(theParameters, PRECIPITATION_POINT_DATA);
   if (!get_period_start_end_index(thePeriod, *coordinates, startIndex, endIndex))
@@ -4499,7 +4504,8 @@ precipitation_traverse_id PrecipitationForecast::getPrecipitationTraverseId(
   const weather_result_data_item_vector* dataVector =
       get_data_vector(theParameters, PRECIPITATION_MEAN_DATA);
 
-  unsigned int startIndex, endIndex;
+  unsigned int startIndex;
+  unsigned int endIndex;
 
   if (!get_period_start_end_index(thePeriod, *dataVector, startIndex, endIndex))
     return retval;

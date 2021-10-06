@@ -1109,12 +1109,15 @@ void calculate_results(MessageLogger& theLog,
                        forecast_area_id theAreaId,
                        weather_result_container_type& theWeatherResults)
 {
-  weather_result_id min_id_full(UNDEFINED_WEATHER_RESULT_ID),
-      max_id_full(UNDEFINED_WEATHER_RESULT_ID), mean_id_full(UNDEFINED_WEATHER_RESULT_ID);
-  weather_result_id min_id_morning(UNDEFINED_WEATHER_RESULT_ID),
-      max_id_morning(UNDEFINED_WEATHER_RESULT_ID), mean_id_morning(UNDEFINED_WEATHER_RESULT_ID);
-  weather_result_id min_id_afternoon(UNDEFINED_WEATHER_RESULT_ID),
-      max_id_afternoon(UNDEFINED_WEATHER_RESULT_ID), mean_id_afternoon(UNDEFINED_WEATHER_RESULT_ID);
+  weather_result_id min_id_full(UNDEFINED_WEATHER_RESULT_ID);
+  weather_result_id max_id_full(UNDEFINED_WEATHER_RESULT_ID);
+  weather_result_id mean_id_full(UNDEFINED_WEATHER_RESULT_ID);
+  weather_result_id min_id_morning(UNDEFINED_WEATHER_RESULT_ID);
+  weather_result_id max_id_morning(UNDEFINED_WEATHER_RESULT_ID);
+  weather_result_id mean_id_morning(UNDEFINED_WEATHER_RESULT_ID);
+  weather_result_id min_id_afternoon(UNDEFINED_WEATHER_RESULT_ID);
+  weather_result_id max_id_afternoon(UNDEFINED_WEATHER_RESULT_ID);
+  weather_result_id mean_id_afternoon(UNDEFINED_WEATHER_RESULT_ID);
 
   std::string fakeVarFull("::fake");
   std::string fakeVarMorning("::fake");
@@ -1477,7 +1480,8 @@ bool separate_day_and_night(const t36hparams& theParameters, forecast_area_id th
 
   if (theParameters.theSeasonId == WINTER_SEASON)
   {
-    float dayTemperature, nightTemperature;
+    float dayTemperature;
+    float nightTemperature;
 
     if (theForecastAreaId == FULL_AREA)
     {

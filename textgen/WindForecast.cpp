@@ -3122,8 +3122,10 @@ bool WindForecast::getWindSpeedChangeAttribute(const WeatherPeriod& changePeriod
                                                bool& gradualChange,
                                                bool& fastChange) const
 {
-  float begLowerLimit(kFloatMissing), begUpperLimit(kFloatMissing), endLowerLimit(kFloatMissing),
-      endUpperLimit(kFloatMissing);
+  float begLowerLimit(kFloatMissing);
+  float begUpperLimit(kFloatMissing);
+  float endLowerLimit(kFloatMissing);
+  float endUpperLimit(kFloatMissing);
 
   smallChange = gradualChange = fastChange = false;
 

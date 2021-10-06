@@ -542,8 +542,14 @@ WeatherPeriod FogForecast::getActualFogPeriod(const WeatherPeriod& theForecastPe
                                               const WeatherPeriod& theFogPeriod,
                                               bool& theFogPeriodOkFlag) const
 {
-  int start_year(0), start_month(0), start_day(0), start_hour(0);
-  int end_year(0), end_month(0), end_day(0), end_hour(0);
+  int start_year(0);
+  int start_month(0);
+  int start_day(0);
+  int start_hour(0);
+  int end_year(0);
+  int end_month(0);
+  int end_day(0);
+  int end_hour(0);
   theFogPeriodOkFlag = false;
 
   if (is_inside(theFogPeriod.localStartTime(), theForecastPeriod) &&

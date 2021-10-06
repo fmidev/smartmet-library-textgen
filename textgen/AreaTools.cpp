@@ -309,7 +309,10 @@ std::string getDirectionString(const direction_id& theDirectionId)
 
 Rect::Rect(const vector<NFmiPoint*>& thePointVector)
 {
-  double xMin = 0.0, yMin = 0.0, xMax = 0.0, yMax = 0.0;
+  double xMin = 0.0;
+  double yMin = 0.0;
+  double xMax = 0.0;
+  double yMax = 0.0;
   for (unsigned int i = 0; i < thePointVector.size(); i++)
   {
     if (i == 0)
@@ -346,7 +349,10 @@ Rect::Rect(const double& topLeftX,
 
 Rect::Rect(const WeatherArea& theWeatherArea)
 {
-  double xMin = 0, yMin = 0, xMax = 0, yMax = 0;
+  double xMin = 0;
+  double yMin = 0;
+  double xMax = 0;
+  double yMax = 0;
 
   NFmiSvgTools::BoundingBox(theWeatherArea.path(), xMin, yMin, xMax, yMax);
 

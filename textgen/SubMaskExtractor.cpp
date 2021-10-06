@@ -116,7 +116,8 @@ double GetLocationCoordinates(const AnalysisSources& theSources,
     if (theIndexMask->empty())
       return 0;
 
-    unsigned long startindex, endindex;
+    unsigned long startindex;
+    unsigned long endindex;
 
     if (!QueryDataTools::findIndices(
             theQI, thePeriod.utcStartTime(), thePeriod.utcEndTime(), startindex, endindex))
@@ -212,7 +213,8 @@ double ExtractMask(const AnalysisSources& theSources,
     if (theIndexMask->empty())
       return 0;
 
-    unsigned long startindex, endindex;
+    unsigned long startindex;
+    unsigned long endindex;
 
     if (!QueryDataTools::findIndices(
             theQI, thePeriod.utcStartTime(), thePeriod.utcEndTime(), startindex, endindex))
@@ -359,7 +361,10 @@ const NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
   Insert(tree, projectedPath, FmiMin(dx, dy) * resolution_factor);
 
   //
-  double theXmin, theYmin, theXmax, theYmax;
+  double theXmin;
+  double theYmin;
+  double theXmax;
+  double theYmax;
 
   NFmiSvgTools::BoundingBox(svgPath, theXmin, theYmin, theXmax, theYmax);
 

@@ -624,7 +624,10 @@ void CloudinessForecast::joinPeriods(const weather_result_data_item_vector* theC
       get_sub_time_series(
           WeatherPeriod(startTime, endTime), *theCloudinessDataSource, thePeriodCloudiness);
 
-      float min, max, mean, stddev;
+      float min;
+      float max;
+      float mean;
+      float stddev;
 
       get_min_max(thePeriodCloudiness, min, max);
       mean = get_mean(thePeriodCloudiness);
@@ -954,7 +957,10 @@ cloudiness_id CloudinessForecast::getCloudinessId(
 
   get_sub_time_series(thePeriod, *theCloudinessData, thePeriodCloudiness);
 
-  float min, max, mean, stddev;
+  float min;
+  float max;
+  float mean;
+  float stddev;
   get_min_max(thePeriodCloudiness, min, max);
   mean = get_mean(thePeriodCloudiness);
   stddev = get_standard_deviation(thePeriodCloudiness);
