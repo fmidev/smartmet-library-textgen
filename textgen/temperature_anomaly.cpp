@@ -61,9 +61,6 @@ using namespace std;
 using namespace Settings;
 using namespace SeasonTools;
 using namespace AreaTools;
-using MathTools::to_precision;
-using Settings::optional_bool;
-using Settings::optional_int;
 using Settings::optional_string;
 
 #define MILD_TEMPERATURE_LOWER_LIMIT -3.0

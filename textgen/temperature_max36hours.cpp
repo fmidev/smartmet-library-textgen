@@ -65,7 +65,6 @@ using namespace std;
 using namespace Settings;
 using namespace AreaTools;
 using namespace SeasonTools;
-using MathTools::to_precision;
 using Settings::optional_bool;
 using Settings::optional_int;
 using Settings::optional_string;
