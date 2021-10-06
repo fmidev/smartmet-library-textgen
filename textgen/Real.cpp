@@ -65,7 +65,7 @@ boost::shared_ptr<Glyph> Real::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Real::realize(const Dictionary& theDictionary) const
+std::string Real::realize(const Dictionary&  /*theDictionary*/) const
 {
   ostringstream os;
   os << fixed << setprecision(itsPrecision) << itsReal;

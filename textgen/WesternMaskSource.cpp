@@ -248,9 +248,9 @@ WesternMaskSource::mask_type WesternMaskSource::mask(const WeatherArea& theArea,
  */
 // ----------------------------------------------------------------------
 
-WesternMaskSource::masks_type WesternMaskSource::masks(const WeatherArea& theArea,
-                                                       const std::string& theData,
-                                                       const WeatherSource& theWeatherSource) const
+WesternMaskSource::masks_type WesternMaskSource::masks(const WeatherArea&  /*theArea*/,
+                                                       const std::string&  /*theData*/,
+                                                       const WeatherSource&  /*theWeatherSource*/) const
 {
   throw TextGenError("WesternMaskSource::masks not implemented");
 }

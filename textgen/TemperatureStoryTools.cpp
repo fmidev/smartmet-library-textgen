@@ -103,7 +103,7 @@ TextGen::Sentence temperature_sentence(int theMinimum,
                                        int theMean,
                                        int theMaximum,
                                        int theMinInterval,
-                                       bool theZeroFlag,
+                                       bool  /*theZeroFlag*/,
                                        const std::string& theRangeSeparator)
 {
   Sentence sentence;
@@ -208,7 +208,7 @@ bool sort_out_temperature_interval(int theMinimum,
                                    int theMean,
                                    int theMaximum,
                                    int theMinInterval,
-                                   bool theZeroFlag,
+                                   bool  /*theZeroFlag*/,
                                    int& intervalStart,
                                    int& intervalEnd,
                                    const bool& theRoundTheNumber)

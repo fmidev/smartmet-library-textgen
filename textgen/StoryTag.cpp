@@ -63,7 +63,7 @@ boost::shared_ptr<Glyph> StoryTag::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string StoryTag::realize(const Dictionary& theDictionary) const
+std::string StoryTag::realize(const Dictionary&  /*theDictionary*/) const
 {
   return itsName;
 }

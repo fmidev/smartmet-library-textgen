@@ -260,9 +260,9 @@ EasternMaskSource::mask_type EasternMaskSource::mask(const WeatherArea& theArea,
  */
 // ----------------------------------------------------------------------
 
-EasternMaskSource::masks_type EasternMaskSource::masks(const WeatherArea& theArea,
-                                                       const std::string& theData,
-                                                       const WeatherSource& theWeatherSource) const
+EasternMaskSource::masks_type EasternMaskSource::masks(const WeatherArea&  /*theArea*/,
+                                                       const std::string&  /*theData*/,
+                                                       const WeatherSource&  /*theWeatherSource*/) const
 {
   throw TextGenError("EasternMaskSource::masks not implemented");
 }

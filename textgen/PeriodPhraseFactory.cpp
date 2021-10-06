@@ -475,7 +475,6 @@ Sentence next_day(const string& theVariable,
 // ----------------------------------------------------------------------
 
 Sentence next_days(const string& theVariable,
-                   const TextGenPosixTime& theForecastTime,
                    const WeatherPeriod& thePeriod,
                    TextGen::WeatherHistory* theHistory = nullptr)
 {
@@ -530,7 +529,7 @@ Sentence remaining_days(const string& theVariable,
                         TextGen::WeatherHistory* theHistory = nullptr)
 {
   if (isSeveralDays(thePeriod.localStartTime(), thePeriod.localEndTime()))
-    return next_days(theVariable, theForecastTime, thePeriod, theHistory);
+    return next_days(theVariable, thePeriod, theHistory);
       return next_day(theVariable, theForecastTime, thePeriod, theHistory);
 }
 
@@ -816,7 +815,7 @@ Sentence create_sentence(const string& theType,
     return next_day(theVariable, theForecastTime, thePeriod, theHistory);
 
   if (theType == "next_days")
-    return next_days(theVariable, theForecastTime, thePeriod, theHistory);
+    return next_days(theVariable, thePeriod, theHistory);
 
   if (theType == "remaining_days")
     return remaining_days(theVariable, theForecastTime, thePeriod, theHistory);

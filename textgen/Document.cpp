@@ -45,7 +45,7 @@ boost::shared_ptr<Glyph> Document::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Document::realize(const Dictionary& theDictionary) const
+std::string Document::realize(const Dictionary&  /*theDictionary*/) const
 {
   throw TextGenError("Document::realize(Dictionary) should not be called");
 }

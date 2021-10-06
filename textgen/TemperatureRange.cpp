@@ -55,7 +55,7 @@ boost::shared_ptr<Glyph> TemperatureRange::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string TemperatureRange::realize(const Dictionary& theDictionary) const
+std::string TemperatureRange::realize(const Dictionary&  /*theDictionary*/) const
 {
   std::ostringstream os;
   if (itsStartValue == itsEndValue)

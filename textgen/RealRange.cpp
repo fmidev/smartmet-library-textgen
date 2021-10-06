@@ -68,7 +68,7 @@ boost::shared_ptr<Glyph> RealRange::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string RealRange::realize(const Dictionary& theDictionary) const
+std::string RealRange::realize(const Dictionary&  /*theDictionary*/) const
 {
   std::ostringstream os;
   if (itsStartValue == itsEndValue)

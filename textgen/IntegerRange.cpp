@@ -61,7 +61,7 @@ boost::shared_ptr<Glyph> IntegerRange::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string IntegerRange::realize(const Dictionary& theDictionary) const
+std::string IntegerRange::realize(const Dictionary&  /*theDictionary*/) const
 {
   std::ostringstream os;
   if (itsStartValue == itsEndValue)

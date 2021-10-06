@@ -212,7 +212,7 @@ const std::string& DatabaseDictionaries::find(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-void DatabaseDictionaries::insert(const std::string& theKey, const std::string& thePhrase)
+void DatabaseDictionaries::insert(const std::string&  /*theKey*/, const std::string&  /*thePhrase*/)
 {
   throw TextGenError("Error: DatabaseDictionaries::insert() is not allowed");
 }

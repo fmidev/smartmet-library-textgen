@@ -73,7 +73,7 @@ TextGen::Header header_none(const WeatherPeriod& thePeriod, const string& theVar
  */
 // ----------------------------------------------------------------------
 
-TextGen::Header header_until(const WeatherPeriod& thePeriod, const string& theVariable)
+TextGen::Header header_until(const WeatherPeriod& thePeriod)
 {
   MessageLogger log("header_until");
   using namespace TextGen;
@@ -98,7 +98,7 @@ TextGen::Header header_until(const WeatherPeriod& thePeriod, const string& theVa
  */
 // ----------------------------------------------------------------------
 
-TextGen::Header header_from_until(const WeatherPeriod& thePeriod, const string& theVariable)
+TextGen::Header header_from_until(const WeatherPeriod& thePeriod)
 {
   MessageLogger log("header_from_until");
   using namespace TextGen;
@@ -124,7 +124,7 @@ TextGen::Header header_from_until(const WeatherPeriod& thePeriod, const string& 
  */
 // ----------------------------------------------------------------------
 
-TextGen::Header header_several_days(const WeatherPeriod& thePeriod, const string& theVariable)
+TextGen::Header header_several_days(const WeatherPeriod& thePeriod)
 {
   MessageLogger log("header_several_days");
   using namespace TextGen;
@@ -156,8 +156,7 @@ TextGen::Header header_several_days(const WeatherPeriod& thePeriod, const string
 // ----------------------------------------------------------------------
 
 TextGen::Header header_report_area(const WeatherArea& theArea,
-                                   const WeatherPeriod& thePeriod,
-                                   const string& theVariable)
+                                   const WeatherPeriod& thePeriod)
 {
   MessageLogger log("header_report_area");
   using namespace TextGen;
@@ -229,9 +228,7 @@ TextGen::Header header_report_location(const WeatherArea& theArea,
  */
 // ----------------------------------------------------------------------
 
-TextGen::Header header_report_time(const WeatherArea& theArea,
-                                   const WeatherPeriod& thePeriod,
-                                   const string& theVariable)
+TextGen::Header header_report_time(const WeatherPeriod& thePeriod)
 {
   MessageLogger log("header_report_area");
   using namespace TextGen;
@@ -446,15 +443,15 @@ Header create(const WeatherArea& theArea,
   if (type == "none")
     return header_none(thePeriod, theVariable);
   if (type == "until")
-    return header_until(thePeriod, theVariable);
+    return header_until(thePeriod);
   if (type == "from_until")
-    return header_from_until(thePeriod, theVariable);
+    return header_from_until(thePeriod);
   if (type == "several_days")
-    return header_several_days(thePeriod, theVariable);
+    return header_several_days(thePeriod);
   if (type == "report_area")
-    return header_report_area(theArea, thePeriod, theVariable);
+    return header_report_area(theArea, thePeriod);
   if (type == "report_time")
-    return header_report_time(theArea, thePeriod, theVariable);
+    return header_report_time(thePeriod);
   if (type == "report_location")
     return header_report_location(theArea, thePeriod, theVariable);
   if (type == "morning")

@@ -372,7 +372,7 @@ InPlacesPhrase::InPlacesPhrase()
 {
 }
 
-Sentence InPlacesPhrase::getInPlacesPhrase(PhraseType thePhraseType, bool useOllaVerbFlag)
+Sentence InPlacesPhrase::getInPlacesPhrase(PhraseType thePhraseType, bool  /*useOllaVerbFlag*/)
 {
   Sentence sentence;
 
@@ -584,7 +584,7 @@ bool is_dry_weather(const wf_story_params& theParameters,
 
 void PrecipitationForecast::waterAndSnowShowersPhrase(
     float thePrecipitationIntensity,
-    float thePrecipitationIntensityAbsoluteMax,
+    float  /*thePrecipitationIntensityAbsoluteMax*/,
     float theWaterDrizzleSleetShare,
     bool theCanBeFreezingFlag,
     map<string, Sentence>& theCompositePhraseElements) const
@@ -631,8 +631,8 @@ void PrecipitationForecast::waterAndSnowShowersPhrase(
 }
 
 void PrecipitationForecast::mostlyDryWeatherPhrase(
-    bool theIsShowersFlag,
-    const WeatherPeriod& thePeriod,
+    bool  /*theIsShowersFlag*/,
+    const WeatherPeriod&  /*thePeriod*/,
     const char* thePhrase,
     map<string, Sentence>& theCompositePhraseElements) const
 {
@@ -681,7 +681,7 @@ void PrecipitationForecast::mostlyDryWeatherPhrase(
 }
 
 void PrecipitationForecast::getTransformationPhraseElements(
-    const WeatherPeriod& thePeriod,
+    const WeatherPeriod&  /*thePeriod*/,
     float thePrecipitationExtent,
     precipitation_type thePrecipitationType,
     precipitation_form_transformation_id theTransformId,
@@ -805,7 +805,7 @@ void PrecipitationForecast::getPrecipitationPhraseElements(
     float thePrecipitationFormFreezingRain,
     float thePrecipitationFormFreezingDrizzle,
     precipitation_type thePrecipitationType,
-    const TextGenPosixTime& theTypeChangeTime,
+    const TextGenPosixTime&  /*theTypeChangeTime*/,
     map<string, Sentence>& theCompositePhraseElements) const
 {
   theCheckHeavyIntensityFlag = MISSING_PRECIPITATION_TYPE;
@@ -2847,7 +2847,7 @@ Sentence PrecipitationForecast::precipitationChangeSentence(
   return sentence;
 }
 
-void PrecipitationForecast::getPrecipitationDistribution(const WeatherPeriod& thePeriod,
+void PrecipitationForecast::getPrecipitationDistribution(const WeatherPeriod&  /*thePeriod*/,
                                                          float& theNorthPercentage,
                                                          float& theSouthPercentage,
                                                          float& theEastPercentage,

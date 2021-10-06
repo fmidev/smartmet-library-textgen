@@ -49,7 +49,7 @@ boost::shared_ptr<Glyph> Paragraph::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Paragraph::realize(const Dictionary& theDictionary) const
+std::string Paragraph::realize(const Dictionary&  /*theDictionary*/) const
 {
   throw TextGenError("Paragraph::realize(Dictionary) should not be called");
 }

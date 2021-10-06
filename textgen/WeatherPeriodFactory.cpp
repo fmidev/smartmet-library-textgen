@@ -65,7 +65,7 @@ TextGenPosixTime round_up(const TextGenPosixTime& theTime)
  */
 // ----------------------------------------------------------------------
 
-WeatherPeriod period_now(const TextGenPosixTime& theTime, const string& theVariable)
+WeatherPeriod period_now(const TextGenPosixTime& theTime)
 {
   WeatherPeriod period(theTime, theTime);
   return period;
@@ -200,7 +200,7 @@ WeatherPeriod create(const TextGenPosixTime& theTime, const std::string& theVari
   const string var = theVariable + "::type";
   const string type = Settings::require_string(var);
   if (type == "now")
-    return period_now(theTime, theVariable);
+    return period_now(theTime);
   if (type == "until")
     return period_until(theTime, theVariable);
   if (type == "from_until")

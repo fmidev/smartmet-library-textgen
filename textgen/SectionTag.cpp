@@ -63,7 +63,7 @@ boost::shared_ptr<Glyph> SectionTag::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string SectionTag::realize(const Dictionary& theDictionary) const
+std::string SectionTag::realize(const Dictionary&  /*theDictionary*/) const
 {
   return itsName;
 }

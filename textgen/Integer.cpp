@@ -58,7 +58,7 @@ boost::shared_ptr<Glyph> Integer::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Integer::realize(const Dictionary& theDictionary) const
+std::string Integer::realize(const Dictionary&  /*theDictionary*/) const
 {
   ostringstream os;
   os << itsInteger;

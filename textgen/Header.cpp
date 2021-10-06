@@ -45,7 +45,7 @@ boost::shared_ptr<Glyph> Header::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Header::realize(const Dictionary& theDictionary) const
+std::string Header::realize(const Dictionary&  /*theDictionary*/) const
 {
   throw TextGenError("Header::realize(Dictionary) should not be called");
 }

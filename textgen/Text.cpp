@@ -59,7 +59,7 @@ boost::shared_ptr<Glyph> Text::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Text::realize(const Dictionary& theDictionary) const
+std::string Text::realize(const Dictionary&  /*theDictionary*/) const
 {
   return itsText;
 }
@@ -72,7 +72,7 @@ std::string Text::realize(const Dictionary& theDictionary) const
  */
 // ----------------------------------------------------------------------
 
-std::string Text::realize(const TextFormatter& theFormatter) const
+std::string Text::realize(const TextFormatter&  /*theFormatter*/) const
 {
   return itsText;
 }

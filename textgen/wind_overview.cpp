@@ -600,7 +600,7 @@ void print_csv_table(const WeatherArea& theArea,
 
 void print_windspeed_distribution(const WeatherArea& theArea,
                                   const std::string& fileIdentifierString,
-                                  const std::string& theVar,
+                                  const std::string&  /*theVar*/,
                                   const wind_data_item_vector& theWindDataItemVector,
                                   const vector<unsigned int>& theIndexVector)
 {

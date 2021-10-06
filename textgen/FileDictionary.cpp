@@ -207,7 +207,7 @@ const std::string& FileDictionary::find(const std::string& theKey) const
  */
 // ----------------------------------------------------------------------
 
-void FileDictionary::insert(const std::string& theKey, const std::string& thePhrase)
+void FileDictionary::insert(const std::string&  /*theKey*/, const std::string&  /*thePhrase*/)
 {
   throw TextGenError("Error: FileDictionary::insert() is not allowed");
 }

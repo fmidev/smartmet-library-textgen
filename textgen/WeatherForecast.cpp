@@ -1603,7 +1603,7 @@ precipitation_intesity_id get_precipitation_intensity_id(unsigned int thePrecipi
   return ret;
 }
 
-precipitation_form_id get_complete_precipitation_form(const string& theVariable,
+precipitation_form_id get_complete_precipitation_form(const string&  /*theVariable*/,
                                                       float thePrecipitationFormWater,
                                                       float thePrecipitationFormDrizzle,
                                                       float thePrecipitationFormSleet,
@@ -1845,10 +1845,10 @@ area_specific_sentence_id get_area_specific_sentence_id(float north,
                                                         float south,
                                                         float east,
                                                         float west,
-                                                        float northEast,
-                                                        float southEast,
-                                                        float southWest,
-                                                        float northWest,
+                                                        float  /*northEast*/,
+                                                        float  /*southEast*/,
+                                                        float  /*southWest*/,
+                                                        float  /*northWest*/,
                                                         bool mostlyFlag /*= true*/)
 {
   area_specific_sentence_id retval(MISSING_AREA_SPECIFIC_SENTENCE_ID);
@@ -2037,8 +2037,8 @@ WeatherPeriod get_intersection_period(const WeatherPeriod& thePeriod1,
 
 split_method split_the_area(const std::string& theVar,
                             const TextGen::WeatherArea& theArea,
-                            const TextGen::WeatherPeriod& thePeriod,
-                            const TextGen::AnalysisSources& theSources,
+                            const TextGen::WeatherPeriod&  /*thePeriod*/,
+                            const TextGen::AnalysisSources&  /*theSources*/,
                             double& theDivisionLine,
                             MessageLogger& theLog)
 {

@@ -259,7 +259,7 @@ string SoneraTextFormatter::visit(const Integer& theInteger) const
  */
 // ----------------------------------------------------------------------
 
-string SoneraTextFormatter::visit(const Real& theReal) const
+string SoneraTextFormatter::visit(const Real&  /*theReal*/) const
 {
   throw TextGen::TextGenError("Cannot use Reals in Sonera phone service");
 }

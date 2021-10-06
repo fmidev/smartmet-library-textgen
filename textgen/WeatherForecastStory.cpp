@@ -1208,7 +1208,7 @@ int get_day_number(part_of_the_day_id id, const WeatherPeriod& period, std::stri
 
 void check_percentage(const WeatherPeriod& period,
                       const std::string& part_of_day,
-                      part_of_the_day_id id,
+                      part_of_the_day_id  /*id*/,
                       float& topPercentage,
                       std::string& phrase)
 {
@@ -1309,7 +1309,7 @@ Sentence WeatherForecastStoryItem::getPeriodPhrase()
 
 Sentence WeatherForecastStoryItem::getPeriodPhrase(bool theFromSpecifier,
                                                    const WeatherPeriod* thePhrasePeriod /*= 0*/,
-                                                   bool theStoryUnderConstructionEmpty /*= true*/)
+                                                   bool  /*theStoryUnderConstructionEmpty*/ /*= true*/)
 {
   Sentence sentence;
 

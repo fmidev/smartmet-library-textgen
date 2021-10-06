@@ -35,10 +35,10 @@ class Dictionary
   virtual void insert(const std::string& theKey, const std::string& thePhrase) = 0;
 
   virtual void geoinit(void* theReactor) {}
-  virtual bool geocontains(const std::string& theKey) const { return false; }
-  virtual bool geocontains(const double& theLongitude,
-                           const double& theLatitude,
-                           const double& theMaxDistance) const
+  virtual bool geocontains(const std::string&  /*theKey*/) const { return false; }
+  virtual bool geocontains(const double&  /*theLongitude*/,
+                           const double&  /*theLatitude*/,
+                           const double&  /*theMaxDistance*/) const
   {
     return false;
   }

@@ -397,7 +397,7 @@ unsigned int get_peak_wind(const WeatherPeriod& thePeriod,
 
 WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
                                            const TextGenPosixTime& pointOfTime,
-                                           const std::string& var)
+                                           const std::string&  /*var*/)
 {
   WeatherResult retval(kFloatMissing, 0.0);
 
@@ -417,7 +417,7 @@ WeatherResult get_wind_direction_result_at(const wo_story_params& theParameters,
 
 bool is_gusty_wind(const wo_story_params& theParameters,
                    const TextGenPosixTime& pointOfTime,
-                   const std::string& var)
+                   const std::string&  /*var*/)
 {
   for (unsigned int i = 0; i < theParameters.theWindDataVector.size(); i++)
   {
@@ -435,7 +435,7 @@ bool is_gusty_wind(const wo_story_params& theParameters,
 
 bool is_gusty_wind(const wo_story_params& theParameters,
                    const WeatherPeriod& period,
-                   const std::string& var)
+                   const std::string&  /*var*/)
 {
   float speedSum(0.0);
   float gustSpeedSum(0.0);
@@ -486,7 +486,7 @@ WindDirectionInfo negotiateWindDirection(WindDirectionInfo& theProposedWindDirec
 
 WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
                                      const TextGenPosixTime& pointOfTime,
-                                     const WindDirectionInfo* thePreviousWindDirection /*= 0*/)
+                                     const WindDirectionInfo*  /*thePreviousWindDirection*/ /*= 0*/)
 {
   WeatherResult directionValue(kFloatMissing, 0.0);
   WindDirectionId directionId(MISSING_WIND_DIRECTION_ID);
@@ -514,7 +514,7 @@ WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
 
 WindDirectionInfo get_wind_direction(const wo_story_params& theParameters,
                                      const WeatherPeriod& period,
-                                     const WindDirectionInfo* thePreviousWindDirection /*= 0*/)
+                                     const WindDirectionInfo*  /*thePreviousWindDirection*/ /*= 0*/)
 {
   float topSpeedSum(0.0);
   float topSpeedStdDevSum(0.0);
@@ -2374,7 +2374,7 @@ void WindForecast::checkWindDirections(WindSpeedSentenceInfo& sentenceInfoVector
 
 // get paragraph info
 ParagraphInfoVector WindForecast::getParagraphInfo(
-    const WeatherPeriod& thePeriod, const WindSpeedSentenceInfo& sentenceInfoVector) const
+    const WeatherPeriod&  /*thePeriod*/, const WindSpeedSentenceInfo& sentenceInfoVector) const
 {
   ParagraphInfoVector ret;
   TimePhraseInfo timePhraseInfo;
@@ -3250,7 +3250,7 @@ bool is_later(part_of_the_day_id id1, part_of_the_day_id id2)
   return false;
 }
 
-Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod& thePeriod,
+Sentence WindForecast::windSpeedIntervalSentence(const WeatherPeriod&  /*thePeriod*/,
                                                  interval_info intervalInfo,
                                                  TimePhraseInfo& timePhraseInfo,
                                                  bool theUseAtItsStrongestPhrase) const

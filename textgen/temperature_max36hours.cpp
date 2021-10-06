@@ -1098,7 +1098,7 @@ WeatherResult do_calculation(const string& theVar,
       theVar, theSources, Temperature, theAreaFunction, theTimeFunction, theArea, thePeriod);
 }
 
-void calculate_results(MessageLogger& theLog,
+void calculate_results(MessageLogger&  /*theLog*/,
                        const string& theVar,
                        const AnalysisSources& theSources,
                        const WeatherArea& theArea,
@@ -1404,7 +1404,7 @@ void log_weather_results(const t36hparams& theParameters)
 }
 
 temperature_phrase_id around_zero_phrase(float theMinimum,
-                                         float theMean,
+                                         float  /*theMean*/,
                                          float theMaximum,
                                          bool theZeroIntervalFlag)
 {

@@ -396,7 +396,7 @@ RainPeriods mergeNightlyRainPeriods(const RainPeriods& thePeriods, const std::st
  */
 // ----------------------------------------------------------------------
 
-RainPeriods mergeLargeRainPeriods(const RainPeriods& thePeriods, const std::string& theVar)
+RainPeriods mergeLargeRainPeriods(const RainPeriods& thePeriods, const std::string&  /*theVar*/)
 {
   return thePeriods;
 }

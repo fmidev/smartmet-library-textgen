@@ -60,7 +60,7 @@ boost::shared_ptr<Glyph> Delimiter::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string Delimiter::realize(const Dictionary& theDictionary) const
+std::string Delimiter::realize(const Dictionary&  /*theDictionary*/) const
 {
   return itsSeparator;
 }

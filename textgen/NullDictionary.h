@@ -27,7 +27,7 @@ class NullDictionary : public Dictionary
   ~NullDictionary() override = default;
   void init(const std::string& theLanguage) override { itsLanguage = theLanguage; }
   const std::string& language() const override { return itsLanguage; }
-  bool contains(const std::string& theKey) const override { return false; }
+  bool contains(const std::string&  /*theKey*/) const override { return false; }
   const std::string& find(const std::string& theKey) const override;
   void insert(const std::string& theKey, const std::string& thePhrase) override;
 

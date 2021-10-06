@@ -56,7 +56,7 @@ boost::shared_ptr<Glyph> WeatherTime::clone() const
  */
 // ----------------------------------------------------------------------
 
-std::string WeatherTime::realize(const Dictionary& theDictionary) const
+std::string WeatherTime::realize(const Dictionary&  /*theDictionary*/) const
 {
   return "";
 }

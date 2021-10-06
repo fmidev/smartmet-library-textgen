@@ -227,8 +227,7 @@ RoadWarningType find_most_general_warning(const WarningPercentages& thePercentag
  */
 // ----------------------------------------------------------------------
 
-const char* warning_places_phrase(RoadWarningType theType,
-                                  double thePercentage,
+const char* warning_places_phrase(double thePercentage,
                                   int theGenerallyLimit,
                                   int theManyPlacesLimit,
                                   int theSomePlacesLimit)
@@ -255,8 +254,7 @@ Sentence warning_phrase(RoadWarningType theType,
                               int theManyPlacesLimit,
                               int theSomePlacesLimit)
 {
-  const char* places_phrase = warning_places_phrase(theType,
-                                                    thePercentage,
+  const char* places_phrase = warning_places_phrase(thePercentage,
                                                     theGenerallyLimit,
                                                     theManyPlacesLimit,
 

@@ -985,7 +985,7 @@ void CloudinessForecast::getWeatherEventIdVector(
     theCloudinessWeatherEvents = *vectorToClone;
 }
 
-Sentence CloudinessForecast::areaSpecificSentence(const WeatherPeriod& thePeriod) const
+Sentence CloudinessForecast::areaSpecificSentence(const WeatherPeriod&  /*thePeriod*/) const
 {
   Sentence sentence;
 
@@ -1030,7 +1030,7 @@ Sentence CloudinessForecast::areaSpecificSentence(const WeatherPeriod& thePeriod
 cloudiness_id CloudinessForecast::getCloudinessId(const float& theMin,
                                                   const float& theMean,
                                                   const float& theMax,
-                                                  const float& theStandardDeviation) const
+                                                  const float&  /*theStandardDeviation*/) const
 {
   cloudiness_id id(MISSING_CLOUDINESS_ID);
 

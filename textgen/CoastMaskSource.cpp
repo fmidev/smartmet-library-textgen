@@ -258,9 +258,9 @@ CoastMaskSource::mask_type CoastMaskSource::mask(const WeatherArea& theArea,
  */
 // ----------------------------------------------------------------------
 
-CoastMaskSource::masks_type CoastMaskSource::masks(const WeatherArea& theArea,
-                                                   const std::string& theData,
-                                                   const WeatherSource& theWeatherSource) const
+CoastMaskSource::masks_type CoastMaskSource::masks(const WeatherArea&  /*theArea*/,
+                                                   const std::string&  /*theData*/,
+                                                   const WeatherSource&  /*theWeatherSource*/) const
 {
   throw TextGenError("CoastMaskSource::masks not implemented");
 }
