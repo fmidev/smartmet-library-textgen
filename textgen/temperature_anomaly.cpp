@@ -409,7 +409,7 @@ void log_daily_factiles_for_period(MessageLogger& theLog,
   }
 }
 
-const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
+Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParameters,
                                             float fractile02Share,
                                             float fractile12Share,
                                             float fractile88Share,
@@ -625,7 +625,7 @@ const Sentence temperature_anomaly_sentence(temperature_anomaly_params& theParam
   return sentence;
 }
 
-const Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaIncludedCompositePhrase,
+Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaIncludedCompositePhrase,
                                           const std::string& theDayIncludedCompositePhrase,
                                           const std::string& theAreaIncludedCompositePhrase,
                                           const std::string& theTemperatureSentence,
@@ -654,7 +654,7 @@ const Sentence get_shortruntrend_sentence(const std::string& theDayAndAreaInclud
   return sentence;
 }
 
-const Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& theParameters,
+Sentence temperature_shortruntrend_sentence(temperature_anomaly_params& theParameters,
                                                   fractile_type_id theFractileType)
 {
   Sentence sentence;
@@ -1303,7 +1303,7 @@ Sentence handle_anomaly_and_shortrun_trend_sentences(
   return sentence;
 }
 
-const Paragraph anomaly(const TextGen::WeatherArea& itsArea,
+Paragraph anomaly(const TextGen::WeatherArea& itsArea,
                         const TextGen::WeatherPeriod& itsPeriod,
                         const TextGen::AnalysisSources& itsSources,
                         const TextGenPosixTime& itsForecastTime,
@@ -1622,7 +1622,7 @@ const Paragraph anomaly(const TextGen::WeatherArea& itsArea,
  */
 // ----------------------------------------------------------------------
 
-const Paragraph TemperatureStory::anomaly() const
+Paragraph TemperatureStory::anomaly() const
 {
   using namespace TemperatureAnomaly;
 

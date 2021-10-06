@@ -32,7 +32,7 @@ namespace TextGen
  */
 // ----------------------------------------------------------------------
 
-const Paragraph PressureStory::mean() const
+Paragraph PressureStory::mean() const
 {
   MessageLogger log("PressureStory::range");
 

@@ -58,7 +58,7 @@ class Dictionary
   virtual size_type size() const = 0;
   virtual bool empty() const = 0;
 
-  const std::string getDictionaryId() const { return itsDictionaryId; }
+  std::string getDictionaryId() const { return itsDictionaryId; }
 
  protected:
   std::string itsDictionaryId;

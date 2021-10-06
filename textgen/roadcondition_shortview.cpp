@@ -142,7 +142,7 @@ class ConditionPercentages
  */
 // ----------------------------------------------------------------------
 
-const ConditionPercentages calculate_percentages(const WeatherPeriod& thePeriod,
+ConditionPercentages calculate_percentages(const WeatherPeriod& thePeriod,
                                                  int thePeriodIndex,
                                                  const TextGen::AnalysisSources& theSources,
                                                  const TextGen::WeatherArea& theArea,
@@ -243,7 +243,7 @@ const char* condition_places_phrase(RoadConditionType theType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence condition_phrase(RoadConditionType theType,
+Sentence condition_phrase(RoadConditionType theType,
                                 double thePercentage,
                                 int theGenerallyLimit,
                                 int theManyPlacesLimit,
@@ -288,7 +288,7 @@ const Sentence condition_phrase(RoadConditionType theType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence second_places_sentence(RoadConditionType thePrimaryType,
+Sentence second_places_sentence(RoadConditionType thePrimaryType,
                                       RoadConditionType theSecondaryType)
 {
   Sentence sentence;
@@ -445,7 +445,7 @@ const Sentence second_places_sentence(RoadConditionType thePrimaryType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence condition_sentence(const ConditionPercentages& thePercentages, const string& theVar)
+Sentence condition_sentence(const ConditionPercentages& thePercentages, const string& theVar)
 {
   Sentence sentence;
 

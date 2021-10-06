@@ -50,7 +50,7 @@ std::string get_story_value_param(const std::string& theStoryVar,
 // ----------------------------------------------------------------------
 
 template <typename Iterator>
-const std::string realize(Iterator it,
+std::string realize(Iterator it,
                           Iterator end,
                           const TextFormatter& theFormatter,
                           const std::string& thePrefix,

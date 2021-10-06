@@ -37,7 +37,7 @@ class PressureStory : public Story
   Paragraph makeStory(const std::string& theName) const override;
 
  private:
-  const Paragraph mean() const;
+  Paragraph mean() const;
 
   PressureStory();
   PressureStory(const PressureStory& theStory);

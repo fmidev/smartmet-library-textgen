@@ -37,7 +37,7 @@ namespace
  */
 // ----------------------------------------------------------------------
 
-const Sentence plain_frost_sentence(bool isSevere,
+Sentence plain_frost_sentence(bool isSevere,
                                     int theValue,
                                     const string& theVar,
                                     const TextGenPosixTime& theForecastTime,

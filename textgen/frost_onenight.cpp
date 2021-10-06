@@ -473,7 +473,7 @@ Sentence get_frost_onenight_phrase(const int& phraseId, const bool& tellSevereFr
   return sentence;
 }
 
-const Sentence frost_onenight_sentence(const double& coastalFrostProbability,
+Sentence frost_onenight_sentence(const double& coastalFrostProbability,
                                        const double& inlandFrostProbability,
                                        const bool& severeFrostCoastal,
                                        const bool& severeFrostInland,

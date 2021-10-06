@@ -1272,7 +1272,7 @@ void log_weather_forecast_story(MessageLogger& theLog,
   theLog << "THE COMPLETE SENTENCE END" << endl;
 }
 
-const Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
+Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
                                  const TextGen::WeatherPeriod& itsPeriod,
                                  const TextGen::AnalysisSources& itsSources,
                                  const TextGenPosixTime& itsForecastTime,
@@ -1368,7 +1368,7 @@ const Paragraph weather_forecast(const TextGen::WeatherArea& itsArea,
   return paragraph;
 }
 
-const Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
+Paragraph weather_forecast_at_sea(const TextGen::WeatherArea& itsArea,
                                         const TextGen::WeatherPeriod& itsPeriod,
                                         const TextGen::AnalysisSources& itsSources,
                                         const TextGenPosixTime& itsForecastTime,

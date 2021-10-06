@@ -142,7 +142,7 @@ class ConditionPercentages
  */
 // ----------------------------------------------------------------------
 
-const ConditionPercentages calculate_percentages(const WeatherPeriod& thePeriod,
+ConditionPercentages calculate_percentages(const WeatherPeriod& thePeriod,
                                                  int thePeriodIndex,
                                                  const TextGen::AnalysisSources& theSources,
                                                  const TextGen::WeatherArea& theArea,
@@ -243,7 +243,7 @@ const char* condition_places_phrase(RoadConditionType theType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence condition_phrase(RoadConditionType theType,
+Sentence condition_phrase(RoadConditionType theType,
                                 double thePercentage,
                                 int theGenerallyLimit,
                                 int theManyPlacesLimit,
@@ -288,7 +288,7 @@ const Sentence condition_phrase(RoadConditionType theType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence second_places_sentence(RoadConditionType thePrimaryType,
+Sentence second_places_sentence(RoadConditionType thePrimaryType,
                                       RoadConditionType theSecondaryType)
 {
   Sentence sentence;
@@ -445,7 +445,7 @@ const Sentence second_places_sentence(RoadConditionType thePrimaryType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence condition_sentence(const ConditionPercentages& thePercentages, const string& theVar)
+Sentence condition_sentence(const ConditionPercentages& thePercentages, const string& theVar)
 {
   Sentence sentence;
 
@@ -670,7 +670,7 @@ bool is_night(const WeatherPeriod& thePeriod, const string& theVar)
  */
 // ----------------------------------------------------------------------
 
-const Sentence during_period_phrase_weekday(const WeatherPeriod& thePeriod, const string& theVar)
+Sentence during_period_phrase_weekday(const WeatherPeriod& thePeriod, const string& theVar)
 {
   const int startdaynumber = thePeriod.localStartTime().GetWeekday();
   const int enddaynumber = thePeriod.localEndTime().GetWeekday();
@@ -705,7 +705,7 @@ const Sentence during_period_phrase_weekday(const WeatherPeriod& thePeriod, cons
  */
 // ----------------------------------------------------------------------
 
-const Sentence during_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const string& theVar)
+Sentence during_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const string& theVar)
 {
   Sentence sentence;
   if (is_morning(thePeriod, theVar))
@@ -734,7 +734,7 @@ const Sentence during_period_phrase_tomorrow(const WeatherPeriod& thePeriod, con
  */
 // ----------------------------------------------------------------------
 
-const Sentence during_period_phrase_today(const WeatherPeriod& thePeriod, const string& theVar)
+Sentence during_period_phrase_today(const WeatherPeriod& thePeriod, const string& theVar)
 {
   Sentence sentence;
   if (is_morning(thePeriod, theVar))
@@ -763,7 +763,7 @@ const Sentence during_period_phrase_today(const WeatherPeriod& thePeriod, const 
  */
 // ----------------------------------------------------------------------
 
-const Sentence during_period_phrase(const WeatherPeriod& thePeriod,
+Sentence during_period_phrase(const WeatherPeriod& thePeriod,
                                     const TextGenPosixTime& theLastTime,
                                     const TextGenPosixTime& theForecastTime,
                                     const string& theVar)
@@ -786,7 +786,7 @@ const Sentence during_period_phrase(const WeatherPeriod& thePeriod,
  */
 // ----------------------------------------------------------------------
 
-const Sentence starting_period_phrase_weekday(const WeatherPeriod& thePeriod, const string& theVar)
+Sentence starting_period_phrase_weekday(const WeatherPeriod& thePeriod, const string& theVar)
 {
   const int startdaynumber = thePeriod.localStartTime().GetWeekday();
   const int enddaynumber = thePeriod.localEndTime().GetWeekday();
@@ -821,7 +821,7 @@ const Sentence starting_period_phrase_weekday(const WeatherPeriod& thePeriod, co
  */
 // ----------------------------------------------------------------------
 
-const Sentence starting_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const string& theVar)
+Sentence starting_period_phrase_tomorrow(const WeatherPeriod& thePeriod, const string& theVar)
 {
   Sentence sentence;
   if (is_morning(thePeriod, theVar))
@@ -850,7 +850,7 @@ const Sentence starting_period_phrase_tomorrow(const WeatherPeriod& thePeriod, c
  */
 // ----------------------------------------------------------------------
 
-const Sentence starting_period_phrase_today(const WeatherPeriod& thePeriod, const string& theVar)
+Sentence starting_period_phrase_today(const WeatherPeriod& thePeriod, const string& theVar)
 {
   Sentence sentence;
   if (is_morning(thePeriod, theVar))
@@ -879,7 +879,7 @@ const Sentence starting_period_phrase_today(const WeatherPeriod& thePeriod, cons
  */
 // ----------------------------------------------------------------------
 
-const Sentence starting_period_phrase(const WeatherPeriod& thePeriod,
+Sentence starting_period_phrase(const WeatherPeriod& thePeriod,
                                       const TextGenPosixTime& theLastTime,
                                       const TextGenPosixTime& theForecastTime,
                                       const string& theVar)

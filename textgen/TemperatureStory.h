@@ -47,7 +47,7 @@ class TemperatureStory : public Story
   Paragraph day() const;
   Paragraph range() const;
   Paragraph max36hours() const;
-  const Paragraph anomaly() const;
+  Paragraph anomaly() const;
 
   TemperatureStory();
   TemperatureStory(const TemperatureStory& theStory);

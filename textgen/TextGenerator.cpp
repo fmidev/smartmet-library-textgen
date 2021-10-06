@@ -65,7 +65,7 @@ namespace
  */
 // ----------------------------------------------------------------------
 
-const Paragraph make_contents(const string& theContents,
+Paragraph make_contents(const string& theContents,
                               const string& theVar,
                               const TextGenPosixTime& theForecastTime,
                               const AnalysisSources& theSources,

@@ -575,7 +575,7 @@ Sentence get_windiness_sentence(const std::string& timeSpecifier,
   return sentence;
 }
 
-const Sentence construct_windiness_sentence_for_area(const float& windspeedMorning,
+Sentence construct_windiness_sentence_for_area(const float& windspeedMorning,
                                                      const float& windspeedAfternoon,
                                                      const float& windyWeatherLimit,
                                                      const float& extremelyWindyWeatherLimit,
@@ -811,7 +811,7 @@ else
   return sentence;
 }
 
-const Sentence construct_windiness_sentence(const wind_anomaly_params& theParameters,
+Sentence construct_windiness_sentence(const wind_anomaly_params& theParameters,
                                             const Sentence& theSpecifiedDay,
                                             const short& dayNumber)
 {
@@ -1279,7 +1279,7 @@ const Sentence construct_windiness_sentence(const wind_anomaly_params& theParame
   return sentence;
 }
 
-const Sentence windiness_sentence(const wind_anomaly_params& theParameters)
+Sentence windiness_sentence(const wind_anomaly_params& theParameters)
 {
   Sentence sentence;
 
@@ -1510,7 +1510,7 @@ const Sentence windiness_sentence(const wind_anomaly_params& theParameters)
   return sentence;
 }
 
-const Sentence windchill_sentence(const wind_anomaly_params& theParameters)
+Sentence windchill_sentence(const wind_anomaly_params& theParameters)
 {
   Sentence sentence;
 

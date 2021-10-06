@@ -36,7 +36,7 @@ class CloudinessStory : public Story
   Paragraph makeStory(const std::string& theName) const override;
 
  private:
-  const Paragraph overview() const;
+  Paragraph overview() const;
 
   CloudinessStory();
   CloudinessStory(const CloudinessStory& theStory);

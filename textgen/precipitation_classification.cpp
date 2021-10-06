@@ -42,7 +42,7 @@ namespace
  */
 // ----------------------------------------------------------------------
 
-const list<pair<int, int> > parse_classes(const std::string& theVariable)
+list<pair<int, int> > parse_classes(const std::string& theVariable)
 {
   using namespace TextGen;
 

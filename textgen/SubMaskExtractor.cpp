@@ -338,7 +338,7 @@ void Insert(NFmiNearTree<NFmiPoint>& theTree, const NFmiSvgPath& thePath, double
   }
 }
 
-const NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
+NFmiIndexMask MaskDirection(const NFmiGrid& theGrid,
                                   const WeatherArea& theArea,
                                   const AreaTools::direction_id& theDirectionId)
 {

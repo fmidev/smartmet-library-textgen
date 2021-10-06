@@ -163,7 +163,7 @@ class WarningPercentages
  */
 // ----------------------------------------------------------------------
 
-const WarningPercentages calculate_percentages(const WeatherPeriod& thePeriod,
+WarningPercentages calculate_percentages(const WeatherPeriod& thePeriod,
                                                int thePeriodIndex,
                                                const TextGen::AnalysisSources& theSources,
                                                const TextGen::WeatherArea& theArea,
@@ -249,7 +249,7 @@ const char* warning_places_phrase(RoadWarningType theType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence warning_phrase(RoadWarningType theType,
+Sentence warning_phrase(RoadWarningType theType,
                               double thePercentage,
                               int theGenerallyLimit,
                               int theManyPlacesLimit,
@@ -328,7 +328,7 @@ const Sentence warning_phrase(RoadWarningType theType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence second_places_sentence(RoadWarningType thePrimaryType,
+Sentence second_places_sentence(RoadWarningType thePrimaryType,
                                       RoadWarningType theSecondaryType)
 {
   Sentence sentence;
@@ -764,7 +764,7 @@ const Sentence second_places_sentence(RoadWarningType thePrimaryType,
  */
 // ----------------------------------------------------------------------
 
-const Sentence warning_sentence(const WarningPercentages& thePercentages, const string& theVar)
+Sentence warning_sentence(const WarningPercentages& thePercentages, const string& theVar)
 {
   Sentence sentence;
 
