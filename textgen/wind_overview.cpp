@@ -994,7 +994,7 @@ std::string get_html_winddirection_distribution(
 
   html_data << "<h5>Wind direction distribution - "
             << (compass_type == sixteen_directions ? "16-compass" : "8-compass") << "</h5>" << endl;
-  html_data << "<font face=\"Serif\" size=\"2\" color=\"darkblue\">" << endl;
+  html_data << R"(<font face="Serif" size="2" color="darkblue">)" << endl;
   html_data << "<p>" << endl;
   if (compass_type == sixteen_directions)
   {
@@ -1255,10 +1255,10 @@ std::string get_js_data(wo_story_params& storyParams, const std::string& param, 
 
   js_data << "<div id=\""
           << std::string(param.empty() || param == "windspeed" ? "ws_container" : "wd_container")
-          << js_id << "\" style=\"min-width: 310px; height: 400px; margin: 0 auto\"></div>"
+          << js_id << R"(" style="min-width: 310px; height: 400px; margin: 0 auto"></div>)"
           << std::endl
           << std::endl
-          << "<pre id=\"csv" << js_id << "\" style=\"display:none\">" << std::endl
+          << "<pre id=\"csv" << js_id << R"(" style="display:none">)" << std::endl
           << get_csv_data(storyParams, param) << std::endl
           << "</pre>" << std::endl;
 
